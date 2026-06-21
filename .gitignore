@@ -1,0 +1,13 @@
+# Dependências / build (quando o app existir)
+node_modules/
+dist/
+build/
+.next/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
