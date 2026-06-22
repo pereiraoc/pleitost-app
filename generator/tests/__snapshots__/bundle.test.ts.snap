@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`design-system bundle (integração end-to-end) > resumo estrutural (counts) — snapshot estável 1`] = `
+{
+  "colorGroups": 16,
+  "diamonds": 29,
+  "docKeys": 10,
+  "emojiNamespaces": 34,
+  "enums": 4,
+  "gapSections": [
+    "goldens",
+    "supercharged",
+    "tooltips",
+  ],
+  "groups": 17,
+  "heroiTabs": 6,
+  "interativaClusters": 4,
+  "interfaces": 23,
+  "leituraSections": 16,
+  "resumoSections": 14,
+  "superchargedEntries": 66,
+  "widgets": 19,
+}
+`;

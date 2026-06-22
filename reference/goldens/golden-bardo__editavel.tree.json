@@ -1,0 +1,3048 @@
+{
+  "tag": "div",
+  "role": null,
+  "classes": [],
+  "attrs": {},
+  "text": null,
+  "children": [
+    {
+      "tag": "div",
+      "role": null,
+      "classes": [
+        "block-language-autosheet-ref"
+      ],
+      "attrs": {},
+      "text": null,
+      "children": [
+        {
+          "tag": "div",
+          "role": null,
+          "classes": [
+            "as-family-heroi",
+            "as-mode-editavel",
+            "as-sheet",
+            "pleitost-autosheet"
+          ],
+          "attrs": {
+            "data-family": "Heroi",
+            "data-mode": "Editavel"
+          },
+          "text": null,
+          "children": [
+            {
+              "tag": "h1",
+              "role": null,
+              "classes": [
+                "as-sheet-name"
+              ],
+              "attrs": {},
+              "text": "GOLDEN Bardo",
+              "children": []
+            },
+            {
+              "tag": "header",
+              "role": null,
+              "classes": [
+                "as-shell-header"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "div",
+                  "role": null,
+                  "classes": [
+                    "as-header",
+                    "as-header-heroi"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-avatar-wrap"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-header-img"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "img",
+                              "role": null,
+                              "classes": [
+                                "as-header-img-el"
+                              ],
+                              "attrs": {
+                                "src": "app://2f0173aed24ea923a55bbdcf14b5d1986f8c/data/vaults/pleitost/Recursos%20e%20M%C3%ADdia/Imagens/Retratos/Carlos%20Fac%C3%A3o%20de%20Andrade.png?1778469487637"
+                              },
+                              "text": null,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-info-grid"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Classe",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "p",
+                              "role": null,
+                              "classes": [],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "a",
+                                  "role": null,
+                                  "classes": [
+                                    "data-link-icon",
+                                    "data-link-icon-after",
+                                    "data-link-text",
+                                    "internal-link"
+                                  ],
+                                  "attrs": {
+                                    "data-tooltip-position": "top",
+                                    "data-href": "Bardo",
+                                    "href": "Bardo",
+                                    "data-link-tags": "",
+                                    "data-link-categoria": "Classe",
+                                    "data-link-subcategoria": "Híbrido",
+                                    "data-link-path": "Sistema/Criação de Personagem/Classes/Bardo.md"
+                                  },
+                                  "text": "Trovador Inspirador de Luta Artística",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Sintonia",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "p",
+                              "role": null,
+                              "classes": [],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "a",
+                                  "role": null,
+                                  "classes": [
+                                    "data-link-icon",
+                                    "data-link-icon-after",
+                                    "data-link-text",
+                                    "internal-link"
+                                  ],
+                                  "attrs": {
+                                    "data-tooltip-position": "top",
+                                    "data-href": "Traço Elemental do Vento",
+                                    "href": "Traço Elemental do Vento",
+                                    "data-link-tags": "",
+                                    "data-link-categoria": "Sintonia",
+                                    "data-link-subcategoria": "null",
+                                    "data-link-sintonia": "Vento",
+                                    "data-link-path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Traço Elemental do Vento.md"
+                                  },
+                                  "text": "Vento",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Passado",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": "Artista de Rua",
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-meta"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": []
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-diamond",
+                        "as-level-badge"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-level-badge-num"
+                          ],
+                          "attrs": {},
+                          "text": "5",
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-level-badge-label"
+                          ],
+                          "attrs": {},
+                          "text": "NVL",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "nav",
+              "role": null,
+              "classes": [
+                "as-mode-switcher"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "div",
+                  "role": null,
+                  "classes": [
+                    "as-mode-switcher-layout"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-left"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Leitura"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "📖",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Leitura",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-center"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Resumo"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🪪",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Resumo",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Interativa"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🎲",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Interativa",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn",
+                            "is-selected"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Editavel"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "📝",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Editável",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-right"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Manual"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🎨",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Manual",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "div",
+              "role": null,
+              "classes": [
+                "as-content-card"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "nav",
+                  "role": null,
+                  "classes": [
+                    "as-tab-bar"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-tab-bar-group"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-tab-bar-row"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn",
+                                "is-selected"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "perfil"
+                              },
+                              "text": "👤",
+                              "children": []
+                            },
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "proficiencias"
+                              },
+                              "text": "🎓",
+                              "children": []
+                            },
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "habilidades"
+                              },
+                              "text": "📕",
+                              "children": []
+                            },
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "magias"
+                              },
+                              "text": "🪄",
+                              "children": []
+                            },
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "inventario"
+                              },
+                              "text": "🎒",
+                              "children": []
+                            },
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "anotacoes"
+                              },
+                              "text": "🪶",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-tab-status"
+                              ],
+                              "attrs": {},
+                              "text": "✍️ não salvo",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "main",
+                  "role": null,
+                  "classes": [
+                    "as-body"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-tab-title"
+                      ],
+                      "attrs": {},
+                      "text": "👤 Perfil",
+                      "children": []
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-tab-content",
+                        "as-tab-perfil"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-group",
+                            "as-perfil-card"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-perfil-grid"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-perfil-classe-section"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-classe-main"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": "👑 Classe",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-subcell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-linked-dd"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "p",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": null,
+                                                      "children": [
+                                                        {
+                                                          "tag": "a",
+                                                          "role": null,
+                                                          "classes": [
+                                                            "data-link-icon",
+                                                            "data-link-icon-after",
+                                                            "data-link-text",
+                                                            "internal-link"
+                                                          ],
+                                                          "attrs": {
+                                                            "data-tooltip-position": "top",
+                                                            "data-href": "Bardo",
+                                                            "href": "Bardo",
+                                                            "data-link-tags": "",
+                                                            "data-link-categoria": "Classe",
+                                                            "data-link-subcategoria": "Híbrido",
+                                                            "data-link-path": "Sistema/Criação de Personagem/Classes/Bardo.md"
+                                                          },
+                                                          "text": "Trovador Inspirador de Luta Artística",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-arrow"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": "▾",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "select",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-select"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "—",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Animista",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Arcanista",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Bardo",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Caçador",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Comandante",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Druida",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Guerreiro",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Ladino",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Mago",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Monge",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-classlabels"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-label",
+                                            "as-perfil-label-link"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "p",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "data-link-icon",
+                                                    "data-link-icon-after",
+                                                    "data-link-text",
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Método Artístico",
+                                                    "href": "Método Artístico",
+                                                    "data-link-tags": "",
+                                                    "data-link-categoria": "Habilidade",
+                                                    "data-link-subcategoria": "Subclasse",
+                                                    "data-link-path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico.md"
+                                                  },
+                                                  "text": "Método Artístico",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-label",
+                                            "as-perfil-label-link"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "p",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "data-link-icon",
+                                                    "data-link-icon-after",
+                                                    "data-link-text",
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Estilo de Combate",
+                                                    "href": "Estilo de Combate",
+                                                    "data-link-tags": "",
+                                                    "data-link-categoria": "Habilidade",
+                                                    "data-link-subcategoria": "Subclasse",
+                                                    "data-link-path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate.md"
+                                                  },
+                                                  "text": "Estilo de Combate",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-classrow"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-subcell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-linked-dd"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "p",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": null,
+                                                      "children": [
+                                                        {
+                                                          "tag": "a",
+                                                          "role": null,
+                                                          "classes": [
+                                                            "data-link-icon",
+                                                            "data-link-icon-after",
+                                                            "data-link-text",
+                                                            "internal-link"
+                                                          ],
+                                                          "attrs": {
+                                                            "data-tooltip-position": "top",
+                                                            "data-href": "Método Artístico (Inspirador)",
+                                                            "href": "Método Artístico (Inspirador)",
+                                                            "data-link-tags": "",
+                                                            "data-link-categoria": "Habilidade",
+                                                            "data-link-subcategoria": "null",
+                                                            "data-link-path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico (Inspirador).md"
+                                                          },
+                                                          "text": "Inspirador",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-arrow"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": "▾",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "select",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-select"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Manipulador",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Inspirador",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-subcell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-linked-dd"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "p",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": null,
+                                                      "children": [
+                                                        {
+                                                          "tag": "a",
+                                                          "role": null,
+                                                          "classes": [
+                                                            "data-link-icon",
+                                                            "data-link-icon-after",
+                                                            "data-link-text",
+                                                            "internal-link"
+                                                          ],
+                                                          "attrs": {
+                                                            "data-tooltip-position": "top",
+                                                            "data-href": "Estilo de Combate (Luta Artística)",
+                                                            "href": "Estilo de Combate (Luta Artística)",
+                                                            "data-link-tags": "",
+                                                            "data-link-categoria": "Habilidade",
+                                                            "data-link-subcategoria": "null",
+                                                            "data-link-path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate (Luta Artística).md"
+                                                          },
+                                                          "text": "Luta Artística",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-arrow"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": "▾",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "select",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-linked-dd-select"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Luta Artística",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "option",
+                                                      "role": null,
+                                                      "classes": [],
+                                                      "attrs": {},
+                                                      "text": "Arte Mágica",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-perfil-field",
+                                    "as-perfil-sintonia"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": "☄️ Sintonia",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-linked-dd"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-linked-dd-link"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "p",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "data-link-icon",
+                                                    "data-link-icon-after",
+                                                    "data-link-text",
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Traço Elemental do Vento",
+                                                    "href": "Traço Elemental do Vento",
+                                                    "data-link-tags": "",
+                                                    "data-link-categoria": "Sintonia",
+                                                    "data-link-subcategoria": "null",
+                                                    "data-link-sintonia": "Vento",
+                                                    "data-link-path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Traço Elemental do Vento.md"
+                                                  },
+                                                  "text": "Traço Elemental do Vento",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-linked-dd-arrow"
+                                          ],
+                                          "attrs": {},
+                                          "text": "▾",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "select",
+                                          "role": null,
+                                          "classes": [
+                                            "as-linked-dd-select"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "—",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Água",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Terra",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Fogo",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Vento",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-perfil-level-section"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-level-row"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-diamond-box"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-level-label"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-perfil-level-label-star"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": "⭐",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "Nível",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-diamond",
+                                                "tier-silver"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "div",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-perfil-diamond-content"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "div",
+                                                      "role": null,
+                                                      "classes": [
+                                                        "as-perfil-level-num"
+                                                      ],
+                                                      "attrs": {},
+                                                      "text": "5",
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "tag": "div",
+                                                      "role": null,
+                                                      "classes": [
+                                                        "as-perfil-level-medal"
+                                                      ],
+                                                      "attrs": {},
+                                                      "text": "🥈",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-level-arrows"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "button",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-level-btn",
+                                                "as-up"
+                                              ],
+                                              "attrs": {},
+                                              "text": "▲",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "button",
+                                              "role": null,
+                                              "classes": [
+                                                "as-down",
+                                                "as-perfil-level-btn"
+                                              ],
+                                              "attrs": {},
+                                              "text": "▼",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "hr",
+                                  "role": null,
+                                  "classes": [
+                                    "as-perfil-divider"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-perfil-attrbox"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-attrbox-title"
+                                      ],
+                                      "attrs": {},
+                                      "text": "⚖️ Atributos",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-perfil-attrrow"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-attr-cell",
+                                            "dv-breakdown-hover",
+                                            "has-breakdown",
+                                            "is-principal"
+                                          ],
+                                          "attrs": {
+                                            "data-breakdown-html": "<div class=\"dv-tooltip-head-row\"><span class=\"dv-tooltip-emoji\">🔍</span><span class=\"dv-tooltip-head-title\"><strong>Fonte</strong></span></div><div class=\"dv-tooltip-head-rule\"></div><div class=\"dv-breakdown-line\">Regra · Regra.[[Bardo]]</div>"
+                                          },
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-label"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-dot",
+                                                    "gold"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "3",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-display"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "🗣️ PRE",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-attr-cell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-label"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-dot",
+                                                    "silver"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "2",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "select",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-select",
+                                                "is-interactive"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "option",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "💪 FOR",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "option",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "💨 AGI",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "option",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "🧠 INT",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-attr-cell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-label"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-dot",
+                                                    "bronze"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "1",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "select",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-select",
+                                                "is-interactive"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "option",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "💪 FOR",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "option",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "🧠 INT",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-perfil-attr-cell"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-label"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-dot",
+                                                    "black"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "0",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-perfil-attr-display",
+                                                "is-rank-0"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": "💪 FOR",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "hr",
+                          "role": null,
+                          "classes": [
+                            "as-separator"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-biografia-card",
+                            "as-group"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-bio-passado-box"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-passado-box-title"
+                                  ],
+                                  "attrs": {},
+                                  "text": "📖 Passado",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-passado-row"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-cell",
+                                        "as-bio-pass-pass"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "📝",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Passado",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "input",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-input"
+                                          ],
+                                          "attrs": {
+                                            "type": "text"
+                                          },
+                                          "text": null,
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-cell",
+                                        "as-bio-pass-per"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "🎓",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Perícia",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "select",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-select"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "—",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💪 Atletismo",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💨 Acrobacia",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💨 Furtividade",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💨 Ladinagem",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Arcana",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Sociedades",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Guerra",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Medicina",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Sobrevivência",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🗣️ Anima",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🗣️ Enganação",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🗣️ Intimidação",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-cell",
+                                        "as-bio-pass-of"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "⚒️",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Ofício",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "select",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-select"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "—",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠 Ofício",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "option",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🗣️ Atuação",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-cell",
+                                        "as-bio-pass-texto"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "📋",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Texto do Ofício",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "input",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-input"
+                                          ],
+                                          "attrs": {
+                                            "type": "text"
+                                          },
+                                          "text": null,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "hr",
+                              "role": null,
+                              "classes": [
+                                "as-bio-divider"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": []
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-bio-row",
+                                "as-bio-row-2"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "🧭",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Motivação de Aventureiro",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "🏞️",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Naturalidade",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-bio-row",
+                                "as-bio-row-4"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "⚧️",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Gênero",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "🎂",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Idade",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "📏",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Altura",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-cell"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-label"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label-emoji"
+                                          ],
+                                          "attrs": {},
+                                          "text": "⚖️",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "span",
+                                          "role": null,
+                                          "classes": [],
+                                          "attrs": {},
+                                          "text": "Peso",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "input",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-input"
+                                      ],
+                                      "attrs": {
+                                        "type": "text"
+                                      },
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-bio-row",
+                                "as-bio-row-1"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-par"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-par-head"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label",
+                                            "is-positive"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "🔱",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Ideais",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label",
+                                            "is-negative"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "🚫",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Desprezos",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "button",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-add-btn"
+                                      ],
+                                      "attrs": {
+                                        "type": "button"
+                                      },
+                                      "text": "+ Ideais / Desprezos",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-bio-row",
+                                "as-bio-row-1"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-bio-par"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-par-head"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label",
+                                            "is-positive"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "🏆",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Qualidades",
+                                              "children": []
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-bio-label",
+                                            "is-negative"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-bio-label-emoji"
+                                              ],
+                                              "attrs": {},
+                                              "text": "⚓",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "Defeitos",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "button",
+                                      "role": null,
+                                      "classes": [
+                                        "as-bio-add-btn"
+                                      ],
+                                      "attrs": {
+                                        "type": "button"
+                                      },
+                                      "text": "+ Qualidades / Defeitos",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "hr",
+                          "role": null,
+                          "classes": [
+                            "as-separator"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-group",
+                            "as-vida",
+                            "is-readonly"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-vida-vit"
+                              ],
+                              "attrs": {
+                                "data-slot": "vitalidade"
+                              },
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "span",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-label"
+                                  ],
+                                  "attrs": {},
+                                  "text": "❤️ Vitalidade",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "span",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-value"
+                                  ],
+                                  "attrs": {},
+                                  "text": "18",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-bar"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-vida-progress",
+                                        "is-vitalidade"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-vida-moral"
+                              ],
+                              "attrs": {
+                                "data-slot": "moral"
+                              },
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "span",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-label"
+                                  ],
+                                  "attrs": {},
+                                  "text": "💙 Moral",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "span",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-value"
+                                  ],
+                                  "attrs": {},
+                                  "text": "36",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-vida-bar"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-vida-progress",
+                                        "is-moral"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "footer",
+                  "role": null,
+                  "classes": [
+                    "as-save-footer"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-save-footer-inner"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-save-btn",
+                            "mod-cta"
+                          ],
+                          "attrs": {
+                            "type": "button"
+                          },
+                          "text": "💾 Salvar",
+                          "children": []
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-details-toggle",
+                            "as-save-btn"
+                          ],
+                          "attrs": {
+                            "type": "button"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-toggle-icon"
+                              ],
+                              "attrs": {},
+                              "text": "ℹ️",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-toggle-label"
+                              ],
+                              "attrs": {},
+                              "text": "Detalhes de Alteração",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-count"
+                              ],
+                              "attrs": {},
+                              "text": "0",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "aside",
+                  "role": null,
+                  "classes": [
+                    "as-details-panel"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-details-panel-inner"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-blockers"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-warnings"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-summary"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-icon"
+                              ],
+                              "attrs": {},
+                              "text": "ℹ️",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-title"
+                              ],
+                              "attrs": {},
+                              "text": "Detalhes de Alteração",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-count"
+                              ],
+                              "attrs": {},
+                              "text": "0 alterações pendentes",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-groups"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

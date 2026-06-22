@@ -1,0 +1,2858 @@
+{
+  "tag": "div",
+  "role": null,
+  "classes": [],
+  "attrs": {},
+  "text": null,
+  "children": [
+    {
+      "tag": "div",
+      "role": null,
+      "classes": [
+        "block-language-autosheet-ref"
+      ],
+      "attrs": {},
+      "text": null,
+      "children": [
+        {
+          "tag": "div",
+          "role": null,
+          "classes": [
+            "as-family-monstro",
+            "as-mode-resumo",
+            "as-sheet",
+            "pleitost-autosheet"
+          ],
+          "attrs": {
+            "data-family": "Monstro",
+            "data-mode": "Resumo"
+          },
+          "text": null,
+          "children": [
+            {
+              "tag": "h1",
+              "role": null,
+              "classes": [
+                "as-sheet-name"
+              ],
+              "attrs": {},
+              "text": "GOLDEN Goblin",
+              "children": []
+            },
+            {
+              "tag": "header",
+              "role": null,
+              "classes": [
+                "as-shell-header"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "div",
+                  "role": null,
+                  "classes": [
+                    "as-header",
+                    "as-header-monstro"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-avatar-wrap"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-header-img"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "img",
+                              "role": null,
+                              "classes": [
+                                "as-header-img-el"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": []
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-header-img-placeholder"
+                              ],
+                              "attrs": {},
+                              "text": "👹",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-info-grid"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Classe",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "p",
+                              "role": null,
+                              "classes": [],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "a",
+                                  "role": null,
+                                  "classes": [
+                                    "data-link-icon",
+                                    "data-link-icon-after",
+                                    "data-link-text",
+                                    "internal-link"
+                                  ],
+                                  "attrs": {
+                                    "data-tooltip-position": "top",
+                                    "data-href": "Artilharia",
+                                    "href": "Artilharia",
+                                    "data-link-tags": "",
+                                    "data-link-categoria": "Classe",
+                                    "data-link-subcategoria": "null",
+                                    "data-link-path": "Sistema/Regras/Bestiário/Classes de Bestiário/Artilharia.md"
+                                  },
+                                  "text": "Artilharia",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Raça",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "p",
+                              "role": null,
+                              "classes": [],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "a",
+                                  "role": null,
+                                  "classes": [
+                                    "data-link-icon",
+                                    "data-link-icon-after",
+                                    "data-link-text",
+                                    "internal-link"
+                                  ],
+                                  "attrs": {
+                                    "data-tooltip-position": "top",
+                                    "data-href": "Goblin",
+                                    "href": "Goblin",
+                                    "data-link-tags": "",
+                                    "data-link-categoria": "Habilidade",
+                                    "data-link-subcategoria": "Raça",
+                                    "data-link-path": "Sistema/Regras/Bestiário/Raças/Goblin.md"
+                                  },
+                                  "text": "Goblin (Pequeno)",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-label"
+                          ],
+                          "attrs": {},
+                          "text": "Sintonia",
+                          "children": []
+                        },
+                        {
+                          "tag": "span",
+                          "role": null,
+                          "classes": [
+                            "as-info-value"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "p",
+                              "role": null,
+                              "classes": [],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "a",
+                                  "role": null,
+                                  "classes": [
+                                    "data-link-icon",
+                                    "data-link-icon-after",
+                                    "data-link-text",
+                                    "internal-link"
+                                  ],
+                                  "attrs": {
+                                    "data-tooltip-position": "top",
+                                    "data-href": "Traço Elemental do Fogo",
+                                    "href": "Traço Elemental do Fogo",
+                                    "data-link-tags": "",
+                                    "data-link-categoria": "Sintonia",
+                                    "data-link-subcategoria": "null",
+                                    "data-link-sintonia": "Fogo",
+                                    "data-link-path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Traço Elemental do Fogo.md"
+                                  },
+                                  "text": "Fogo",
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-meta"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": []
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-header-diamond",
+                        "as-tier-badge"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-level-badge-num"
+                          ],
+                          "attrs": {},
+                          "text": "1",
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-level-badge-label"
+                          ],
+                          "attrs": {},
+                          "text": "TIER",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "nav",
+              "role": null,
+              "classes": [
+                "as-mode-switcher"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "div",
+                  "role": null,
+                  "classes": [
+                    "as-mode-switcher-layout"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-left"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Leitura"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "📖",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Leitura",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-center"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn",
+                            "is-selected"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Resumo"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🪪",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Resumo",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Interativa"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🎲",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Interativa",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Editavel"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "📝",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Editável",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-mode-switcher-group",
+                        "mode-right"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-mode-btn"
+                          ],
+                          "attrs": {
+                            "type": "button",
+                            "data-mode": "Manual"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-icon"
+                              ],
+                              "attrs": {},
+                              "text": "🎨",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-mode-label"
+                              ],
+                              "attrs": {},
+                              "text": "Manual",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "div",
+              "role": null,
+              "classes": [
+                "as-content-card"
+              ],
+              "attrs": {},
+              "text": null,
+              "children": [
+                {
+                  "tag": "nav",
+                  "role": null,
+                  "classes": [
+                    "as-tab-bar"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-tab-bar-group"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-tab-bar-row"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "button",
+                              "role": null,
+                              "classes": [
+                                "as-tab-btn",
+                                "is-selected"
+                              ],
+                              "attrs": {
+                                "type": "button",
+                                "data-tab": "completa"
+                              },
+                              "text": "👹",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-tab-status"
+                              ],
+                              "attrs": {},
+                              "text": "✍️ não salvo",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "main",
+                  "role": null,
+                  "classes": [
+                    "as-body"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-resumo"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-resumo-accent"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-resumo-body"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-top-layout"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-top-main"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "section",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-section"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-summary-text"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-name-row",
+                                                "as-resumo-row"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "strong",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-resumo-name"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": "GOLDEN Goblin",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "div",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-meta-row",
+                                                "as-resumo-row"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-resumo-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "a",
+                                                      "role": null,
+                                                      "classes": [
+                                                        "data-link-icon",
+                                                        "data-link-icon-after",
+                                                        "data-link-text",
+                                                        "internal-link"
+                                                      ],
+                                                      "attrs": {
+                                                        "data-href": "Artilharia",
+                                                        "href": "Artilharia",
+                                                        "data-link-tags": "",
+                                                        "data-link-categoria": "Classe",
+                                                        "data-link-subcategoria": "null",
+                                                        "data-link-path": "Sistema/Regras/Bestiário/Classes de Bestiário/Artilharia.md"
+                                                      },
+                                                      "text": "Artilharia",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": ",",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-resumo-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "a",
+                                                      "role": null,
+                                                      "classes": [
+                                                        "data-link-icon",
+                                                        "data-link-icon-after",
+                                                        "data-link-text",
+                                                        "internal-link"
+                                                      ],
+                                                      "attrs": {
+                                                        "data-tooltip-position": "top",
+                                                        "data-href": "Goblin",
+                                                        "href": "Goblin",
+                                                        "data-link-tags": "",
+                                                        "data-link-categoria": "Habilidade",
+                                                        "data-link-subcategoria": "Raça",
+                                                        "data-link-path": "Sistema/Regras/Bestiário/Raças/Goblin.md"
+                                                      },
+                                                      "text": "Goblin (Pequeno)",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [],
+                                                  "attrs": {},
+                                                  "text": ",",
+                                                  "children": []
+                                                },
+                                                {
+                                                  "tag": "span",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "as-resumo-link"
+                                                  ],
+                                                  "attrs": {},
+                                                  "text": null,
+                                                  "children": [
+                                                    {
+                                                      "tag": "a",
+                                                      "role": null,
+                                                      "classes": [
+                                                        "data-link-icon",
+                                                        "data-link-icon-after",
+                                                        "data-link-text",
+                                                        "internal-link"
+                                                      ],
+                                                      "attrs": {
+                                                        "data-tooltip-position": "top",
+                                                        "data-href": "Traço Elemental do Fogo",
+                                                        "href": "Traço Elemental do Fogo",
+                                                        "data-link-tags": "",
+                                                        "data-link-categoria": "Sintonia",
+                                                        "data-link-subcategoria": "null",
+                                                        "data-link-sintonia": "Fogo",
+                                                        "data-link-path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Traço Elemental do Fogo.md"
+                                                      },
+                                                      "text": "Fogo",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-divider"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "section",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-section"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-title"
+                                          ],
+                                          "attrs": {},
+                                          "text": "ATRIBUTOS",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-row"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🗣️",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Presença",
+                                                    "href": "Presença"
+                                                  },
+                                                  "text": "PRE",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-attr-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "3",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💨",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Agilidade",
+                                                    "href": "Agilidade"
+                                                  },
+                                                  "text": "AGI",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-attr-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "2",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "💪",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Força",
+                                                    "href": "Força"
+                                                  },
+                                                  "text": "FOR",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-attr-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "1",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🧠",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Inteligência",
+                                                    "href": "Inteligência"
+                                                  },
+                                                  "text": "INT",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-attr-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "0",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-divider",
+                                        "soft"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "section",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-section"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-title"
+                                          ],
+                                          "attrs": {},
+                                          "text": "VITALIDADE E DEFESA",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-row"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "❤️",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Vitalidade",
+                                                    "href": "Vitalidade"
+                                                  },
+                                                  "text": "Vitalidade",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-stat-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "30",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🛡️",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Defesa",
+                                                    "href": "Defesa"
+                                                  },
+                                                  "text": "Defesa",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-stat-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "12",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "section",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-section"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-title"
+                                          ],
+                                          "attrs": {},
+                                          "text": "RESISTÊNCIAS",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-row"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "❤️",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Vigor",
+                                                    "href": "Vigor"
+                                                  },
+                                                  "text": "Vigor",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-stat-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "13",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "⚡",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Evasão",
+                                                    "href": "Evasão"
+                                                  },
+                                                  "text": "Evasão",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-stat-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "12",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "🔥",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Ímpeto",
+                                                    "href": "Ímpeto"
+                                                  },
+                                                  "text": "Ímpeto",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-stat-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "15",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-divider",
+                                        "soft"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "section",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-section"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-title"
+                                          ],
+                                          "attrs": {},
+                                          "text": "SENTIDOS E MOVIMENTAÇÃO",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-row"
+                                          ],
+                                          "attrs": {},
+                                          "text": null,
+                                          "children": [
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "data-link-icon",
+                                                    "data-link-icon-after",
+                                                    "data-link-text",
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Percepção",
+                                                    "href": "Percepção",
+                                                    "data-link-tags": "",
+                                                    "data-link-categoria": "Regra",
+                                                    "data-link-subcategoria": "Sentido",
+                                                    "data-link-path": "Sistema/Regras/Sentidos/Percepção.md"
+                                                  },
+                                                  "text": "Percepção",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-mod-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "+0",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "data-link-icon",
+                                                    "data-link-icon-after",
+                                                    "data-link-text",
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Intuição",
+                                                    "href": "Intuição",
+                                                    "data-link-tags": "",
+                                                    "data-link-categoria": "Regra",
+                                                    "data-link-subcategoria": "Sentido",
+                                                    "data-link-path": "Sistema/Regras/Sentidos/Intuição.md"
+                                                  },
+                                                  "text": "Intuição",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-mod-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "+3",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": ",",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": "👣",
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-link",
+                                                "as-resumo-no-decor"
+                                              ],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": [
+                                                {
+                                                  "tag": "a",
+                                                  "role": null,
+                                                  "classes": [
+                                                    "internal-link"
+                                                  ],
+                                                  "attrs": {
+                                                    "data-href": "Movimentação",
+                                                    "href": "Movimentação"
+                                                  },
+                                                  "text": "Movimentação",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [],
+                                              "attrs": {},
+                                              "text": null,
+                                              "children": []
+                                            },
+                                            {
+                                              "tag": "span",
+                                              "role": null,
+                                              "classes": [
+                                                "as-resumo-mod-num"
+                                              ],
+                                              "attrs": {},
+                                              "text": "6",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-top-aside"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-avatar-wrap"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-avatar-fallback"
+                                          ],
+                                          "attrs": {},
+                                          "text": "👹",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "div",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-badge"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-badge-num"
+                                          ],
+                                          "attrs": {},
+                                          "text": "1",
+                                          "children": []
+                                        },
+                                        {
+                                          "tag": "div",
+                                          "role": null,
+                                          "classes": [
+                                            "as-resumo-badge-label"
+                                          ],
+                                          "attrs": {},
+                                          "text": "TIER",
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "section",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-section"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-title"
+                                  ],
+                                  "attrs": {},
+                                  "text": "PERÍCIAS",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": "💨",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link",
+                                        "as-resumo-no-decor"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Acrobacia",
+                                            "href": "Acrobacia"
+                                          },
+                                          "text": "Acrobacia",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+4",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link",
+                                        "as-resumo-no-decor"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Furtividade",
+                                            "href": "Furtividade"
+                                          },
+                                          "text": "Furtividade",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+4",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": "🧠",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link",
+                                        "as-resumo-no-decor"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Sobrevivência",
+                                            "href": "Sobrevivência"
+                                          },
+                                          "text": "Sobrevivência",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+2",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": "🗣️",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link",
+                                        "as-resumo-no-decor"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Anima",
+                                            "href": "Anima"
+                                          },
+                                          "text": "Anima",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+5",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "section",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-section"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-title"
+                                  ],
+                                  "attrs": {},
+                                  "text": "MAGIAS",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Magia Anima",
+                                            "href": "Magia Anima",
+                                            "data-link-tags": "",
+                                            "data-link-path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima.md"
+                                          },
+                                          "text": "Magia Anima",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "strong",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+5/CD15",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "EM",
+                                            "href": "EM",
+                                            "data-link-path": "EM"
+                                          },
+                                          "text": "EM",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "strong",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-attr-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "4",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "strong",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": "Básicas:",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Estouro",
+                                            "href": "Estouro",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Magia",
+                                            "data-link-subcategoria": "Anima",
+                                            "data-link-custo": "2A",
+                                            "data-link-elemento": "Fogo",
+                                            "data-link-path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Estouro.md"
+                                          },
+                                          "text": "Estouro",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Raio Flamejante",
+                                            "href": "Raio Flamejante",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Magia",
+                                            "data-link-subcategoria": "Anima",
+                                            "data-link-custo": "2A",
+                                            "data-link-elemento": "Fogo",
+                                            "data-link-path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Raio Flamejante.md"
+                                          },
+                                          "text": "Raio Flamejante",
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "strong",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": "Adeptas:",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Coluna de Fogo",
+                                            "href": "Coluna de Fogo",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Magia",
+                                            "data-link-subcategoria": "Anima",
+                                            "data-link-custo": "2A",
+                                            "data-link-elemento": "Fogo",
+                                            "data-link-path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Coluna de Fogo.md"
+                                          },
+                                          "text": "Coluna de Fogo",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Cone de Fogo",
+                                            "href": "Cone de Fogo",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Magia",
+                                            "data-link-subcategoria": "Anima",
+                                            "data-link-custo": "2A",
+                                            "data-link-elemento": "Fogo",
+                                            "data-link-path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Cone de Fogo.md"
+                                          },
+                                          "text": "Cone de Fogo",
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-divider",
+                                "soft"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": []
+                            },
+                            {
+                              "tag": "section",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-section"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-title"
+                                  ],
+                                  "attrs": {},
+                                  "text": "ATAQUES",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-attack",
+                                    "as-resumo-row"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Adaga",
+                                            "href": "Adaga",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Item",
+                                            "data-link-subcategoria": "Arma",
+                                            "data-link-grupo": "cac-simples",
+                                            "data-link-path": "Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Adaga.md"
+                                          },
+                                          "text": "Adaga",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-mod-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "+2",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-dmg-num"
+                                      ],
+                                      "attrs": {},
+                                      "text": "1d4+2",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-attack-props",
+                                    "as-resumo-row"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Precisa",
+                                            "href": "Precisa",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Regra",
+                                            "data-link-subcategoria": "Propriedade",
+                                            "data-link-path": "Sistema/Regras/Propriedades/Precisa.md"
+                                          },
+                                          "text": "Precisa",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-tooltip-position": "top",
+                                            "data-href": "Arremesso",
+                                            "href": "Arremesso",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Regra",
+                                            "data-link-subcategoria": "Propriedade",
+                                            "data-link-path": "Sistema/Regras/Propriedades/Arremesso.md"
+                                          },
+                                          "text": "Arremesso 3",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Ágil",
+                                            "href": "Ágil",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Regra",
+                                            "data-link-subcategoria": "Propriedade",
+                                            "data-link-path": "Sistema/Regras/Propriedades/Ágil.md"
+                                          },
+                                          "text": "Ágil",
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-divider",
+                                "soft"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": []
+                            },
+                            {
+                              "tag": "section",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-section"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": [
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-title"
+                                  ],
+                                  "attrs": {},
+                                  "text": "HABILIDADES",
+                                  "children": []
+                                },
+                                {
+                                  "tag": "div",
+                                  "role": null,
+                                  "classes": [
+                                    "as-resumo-row",
+                                    "as-resumo-wrap"
+                                  ],
+                                  "attrs": {},
+                                  "text": null,
+                                  "children": [
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-href": "Evolução Básica de Monstro",
+                                            "href": "Evolução Básica de Monstro",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Habilidade",
+                                            "data-link-subcategoria": "null",
+                                            "data-link-path": "Sistema/Regras/Bestiário/Modificadores/Evolução Básica de Monstro.md"
+                                          },
+                                          "text": "Evolução Básica de Monstro",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [],
+                                      "attrs": {},
+                                      "text": ",",
+                                      "children": []
+                                    },
+                                    {
+                                      "tag": "span",
+                                      "role": null,
+                                      "classes": [
+                                        "as-resumo-link"
+                                      ],
+                                      "attrs": {},
+                                      "text": null,
+                                      "children": [
+                                        {
+                                          "tag": "a",
+                                          "role": null,
+                                          "classes": [
+                                            "data-link-icon",
+                                            "data-link-icon-after",
+                                            "data-link-text",
+                                            "internal-link"
+                                          ],
+                                          "attrs": {
+                                            "data-tooltip-position": "top",
+                                            "data-href": "Escaramuça Goblin (R)",
+                                            "href": "Escaramuça Goblin (R)",
+                                            "data-link-tags": "",
+                                            "data-link-categoria": "Habilidade",
+                                            "data-link-subcategoria": "null",
+                                            "data-link-path": "Sistema/Regras/Bestiário/Habilidades/Escaramuça Goblin (R).md"
+                                          },
+                                          "text": "Escaramuça Goblin",
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "tag": "div",
+                              "role": null,
+                              "classes": [
+                                "as-resumo-divider",
+                                "soft"
+                              ],
+                              "attrs": {},
+                              "text": null,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "footer",
+                  "role": null,
+                  "classes": [
+                    "as-save-footer"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-save-footer-inner"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-save-btn",
+                            "mod-cta"
+                          ],
+                          "attrs": {
+                            "type": "button"
+                          },
+                          "text": "💾 Salvar",
+                          "children": []
+                        },
+                        {
+                          "tag": "button",
+                          "role": null,
+                          "classes": [
+                            "as-details-toggle",
+                            "as-save-btn"
+                          ],
+                          "attrs": {
+                            "type": "button"
+                          },
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-toggle-icon"
+                              ],
+                              "attrs": {},
+                              "text": "ℹ️",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-toggle-label"
+                              ],
+                              "attrs": {},
+                              "text": "Detalhes de Alteração",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-count"
+                              ],
+                              "attrs": {},
+                              "text": "0",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "aside",
+                  "role": null,
+                  "classes": [
+                    "as-details-panel"
+                  ],
+                  "attrs": {},
+                  "text": null,
+                  "children": [
+                    {
+                      "tag": "div",
+                      "role": null,
+                      "classes": [
+                        "as-details-panel-inner"
+                      ],
+                      "attrs": {},
+                      "text": null,
+                      "children": [
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-blockers"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-warnings"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-summary"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": [
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-icon"
+                              ],
+                              "attrs": {},
+                              "text": "ℹ️",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-title"
+                              ],
+                              "attrs": {},
+                              "text": "Detalhes de Alteração",
+                              "children": []
+                            },
+                            {
+                              "tag": "span",
+                              "role": null,
+                              "classes": [
+                                "as-details-summary-count"
+                              ],
+                              "attrs": {},
+                              "text": "0 alterações pendentes",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "tag": "div",
+                          "role": null,
+                          "classes": [
+                            "as-details-groups"
+                          ],
+                          "attrs": {},
+                          "text": null,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

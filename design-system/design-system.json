@@ -13,7 +13,7 @@
   },
   "$generatedBy": "scripts/gen-design-spec.mjs",
   "$schema": "pleitost-autosheet/design-system@1",
-  "$sourceCommit": "555bcfb0f228ed53b27f63642fa50dcd6a147c66",
+  "$sourceCommit": "86b4899392885b7b9160ea53486ab87249af7a9d",
   "combatTracker": {
     "_refs": {
       "colorPaths": [],
