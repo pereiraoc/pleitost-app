@@ -14,7 +14,7 @@ código-fonte do plugin `pleitost-autosheet`. Feito pra alimentar geração de U
 ## Conteúdo do `design-system.json`
 
 Camada L1 — contrato estático do código:
-- `tokens` — emojis (34 namespaces), cores (16 grupos), emojiCostExtra, tipografia.
+- `tokens` — emojis (35 namespaces), cores (16 grupos), emojiCostExtra, tipografia.
 - `dataModel` — modelo interno (23 interfaces, enums, jsdoc verbatim).
 - `modes` — Resumo/Leitura (seções ordenadas + hideWhenEmpty/noop) e Editável (abas por família).
 - `interativa` — grafo completo: 4 clusters, 29 diamantes, estados, clique→painel, pills EM, fórmula da Vida, abas v2 ocultas.
@@ -28,6 +28,7 @@ Camada L3 — ícones externos:
 Camada L2 — render real:
 - `goldens` — fatos destilados do DOM realmente renderizado das fixtures (emojis renderizados, roles ocultos).
 - `goldens.interactive` — estados pós-interação da Interativa: tooltips (texto real destilado, ex.: linhas do breakdown com valores) e painéis pós-clique por losango. DOM cru em `reference/goldens/` (estáticos) e `reference/goldens/interactive/` (interativos, referenciados por `artifact`).
+- `screens` — captura RICA por TELA da ficha VIVA (largura real do pane, ~117 telas em 5 fixtures: Carlos real c/ retrato + goldens). Cada modo + cada aba da Editável + cada painel de losango da Interativa, com `landmarks` (rect [x,y,w,h] por região/card/painel) + refs pra screenshot/geometry/html/css completos em `reference/goldens/screens/` (gitignored, regenerável via `scripts/capture-screens.sh`).
 
 Narrativa:
 - `docs` — trechos verbatim da documentação, indexados por heading.

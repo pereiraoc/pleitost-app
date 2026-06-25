@@ -82,6 +82,7 @@ function renderReadme(bundle) {
     "Camada L2 — render real:",
     "- `goldens` — fatos destilados do DOM realmente renderizado das fixtures (emojis renderizados, roles ocultos).",
     "- `goldens.interactive` — estados pós-interação da Interativa: tooltips (texto real destilado, ex.: linhas do breakdown com valores) e painéis pós-clique por losango. DOM cru em `reference/goldens/` (estáticos) e `reference/goldens/interactive/` (interativos, referenciados por `artifact`).",
+    "- `screens` — captura RICA por TELA da ficha VIVA (largura real do pane, ~" + (bundle.screens?.totals?.screens ?? 0) + " telas em " + (bundle.screens?.totals?.fixtures ?? 0) + " fixtures: Carlos real c/ retrato + goldens). Cada modo + cada aba da Editável + cada painel de losango da Interativa, com `landmarks` (rect [x,y,w,h] por região/card/painel) + refs pra screenshot/geometry/html/css completos em `reference/goldens/screens/` (gitignored, regenerável via `scripts/capture-screens.sh`).",
     "",
     "Narrativa:",
     "- `docs` — trechos verbatim da documentação, indexados por heading.",
@@ -129,7 +130,8 @@ function main() {
     " | interativa=" + (bundle.interativa?.clusters?.length ?? 0) + " clusters/" + diamonds + " diamantes" +
     " | components=" + (count(bundle.components?.groups) + count(bundle.components?.widgets)) +
     " | supercharged=" + (bundle.icons?.supercharged?.entries?.length ?? 0) + " entries" +
-    " | docs=" + count(bundle.docs),
+    " | docs=" + count(bundle.docs) +
+    " | screens=" + (bundle.screens?.totals?.screens ?? 0) + "telas/" + (bundle.screens?.totals?.fixtures ?? 0) + "fix",
   );
   console.log(gapKeys.length ? "  $gaps: " + gapKeys.join(", ") : "  $gaps: (nenhum)");
 }

@@ -17,6 +17,7 @@ import { foldDocs } from "./fold-docs.mjs";
 import { extractGrupo } from "./extract-grupo.mjs";
 import { extractCombatTracker } from "./extract-combat-tracker.mjs";
 import { ingestGoldens } from "./ingest-goldens.mjs";
+import { ingestScreens } from "./ingest-screens.mjs";
 
 export function collectDesignSystem({ pluginRoot, vaultRoot, goldensDir, sourceCommit = "unknown" }) {
   const SRC = (p) => join(pluginRoot, "src", p);
@@ -70,6 +71,12 @@ export function collectDesignSystem({ pluginRoot, vaultRoot, goldensDir, sourceC
     fixtures,
   });
 
+  // L2+ — captura RICA por tela (screenshot + geometria/coords + html + css),
+  // distilada e referenciada (não embute os ~487MB). Ver ingest-screens.mjs.
+  const screens = ingestScreens({
+    screensDir: join(goldensDir ?? join(pluginRoot, "tests", "visual-capture", "captures"), "screens"),
+  });
+
   // Agrega gaps de cada extrator num único $gaps (transparência — sem buracos
   // silenciosos). Remove o `gaps` de dentro de cada seção pra não duplicar.
   const gaps = {};
@@ -89,6 +96,7 @@ export function collectDesignSystem({ pluginRoot, vaultRoot, goldensDir, sourceC
   take("grupo", grupo);
   take("combatTracker", combatTracker);
   take("goldens", goldens);
+  take("screens", screens);
 
   return assembleDesignSystem({
     sourceCommit,
@@ -103,6 +111,7 @@ export function collectDesignSystem({ pluginRoot, vaultRoot, goldensDir, sourceC
     icons: { supercharged },
     docs: folded.docs,
     goldens,
+    screens,
     gaps,
   });
 }

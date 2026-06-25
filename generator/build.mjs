@@ -20,6 +20,7 @@ export function assembleDesignSystem(parts) {
     icons,
     docs,
     goldens,
+    screens,
     gaps,
   } = parts;
 
@@ -40,6 +41,7 @@ export function assembleDesignSystem(parts) {
   if (icons) bundle.icons = icons;
   if (docs) bundle.docs = docs;
   if (goldens) bundle.goldens = goldens;
+  if (screens) bundle.screens = screens;
   return bundle;
 }
 
