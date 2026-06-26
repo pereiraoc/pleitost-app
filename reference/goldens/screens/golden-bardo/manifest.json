@@ -14,11 +14,11 @@
       "screen": "base",
       "label": null,
       "png": "resumo__base.png",
-      "w": 700,
-      "h": 1264,
+      "w": 1050,
+      "h": 1896,
       "cssW": 700,
       "cssH": 1264,
-      "scale": 1,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -27,12 +27,12 @@
       "screen": "base",
       "label": null,
       "png": "interativa__base.png",
-      "w": 700,
-      "h": 1063,
+      "w": 1050,
+      "h": 1592,
       "cssW": 700,
-      "cssH": 1063,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1061,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__tab-inventario",
@@ -40,12 +40,12 @@
       "screen": "tab:inventario",
       "label": "👤",
       "png": "interativa__tab-inventario.png",
-      "w": 700,
-      "h": 1063,
+      "w": 1050,
+      "h": 1592,
       "cssW": 700,
-      "cssH": 1063,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1061,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-extras-experiencia",
@@ -53,11 +53,11 @@
       "screen": "panel:extras-experiencia",
       "label": null,
       "png": "interativa__panel-extras-experiencia.png",
-      "w": 700,
-      "h": 1519,
+      "w": 1050,
+      "h": 2276,
       "cssW": 700,
-      "cssH": 1519,
-      "scale": 1,
+      "cssH": 1517,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -66,12 +66,12 @@
       "screen": "panel:recuperacao",
       "label": null,
       "png": "interativa__panel-recuperacao.png",
-      "w": 700,
-      "h": 1048,
+      "w": 1050,
+      "h": 1571,
       "cssW": 700,
-      "cssH": 1048,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1047,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-extras-anotacoes",
@@ -79,12 +79,12 @@
       "screen": "panel:extras-anotacoes",
       "label": null,
       "png": "interativa__panel-extras-anotacoes.png",
-      "w": 700,
-      "h": 1068,
+      "w": 1050,
+      "h": 1601,
       "cssW": 700,
-      "cssH": 1068,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1067,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-extras-moedas",
@@ -92,11 +92,11 @@
       "screen": "panel:extras-moedas",
       "label": null,
       "png": "interativa__panel-extras-moedas.png",
-      "w": 700,
-      "h": 1123,
+      "w": 1050,
+      "h": 1683,
       "cssW": 700,
-      "cssH": 1123,
-      "scale": 1,
+      "cssH": 1122,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -105,11 +105,11 @@
       "screen": "panel:condicoes",
       "label": null,
       "png": "interativa__panel-condicoes.png",
-      "w": 700,
-      "h": 1675,
+      "w": 1050,
+      "h": 2507,
       "cssW": 700,
-      "cssH": 1675,
-      "scale": 1,
+      "cssH": 1671,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -118,12 +118,12 @@
       "screen": "panel:extras-consumiveis",
       "label": null,
       "png": "interativa__panel-extras-consumiveis.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-res-defesa",
@@ -131,12 +131,12 @@
       "screen": "panel:res-defesa",
       "label": null,
       "png": "interativa__panel-res-defesa.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-attr-for",
@@ -144,12 +144,12 @@
       "screen": "panel:attr-FOR",
       "label": null,
       "png": "interativa__panel-attr-for.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-attr-agi",
@@ -157,12 +157,12 @@
       "screen": "panel:attr-AGI",
       "label": null,
       "png": "interativa__panel-attr-agi.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-attr-pre",
@@ -170,12 +170,12 @@
       "screen": "panel:attr-PRE",
       "label": null,
       "png": "interativa__panel-attr-pre.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-attr-int",
@@ -183,11 +183,11 @@
       "screen": "panel:attr-INT",
       "label": null,
       "png": "interativa__panel-attr-int.png",
-      "w": 700,
-      "h": 1080,
+      "w": 1050,
+      "h": 1617,
       "cssW": 700,
-      "cssH": 1080,
-      "scale": 1,
+      "cssH": 1078,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -196,11 +196,11 @@
       "screen": "panel:mid-ataques",
       "label": null,
       "png": "interativa__panel-mid-ataques.png",
-      "w": 700,
-      "h": 1102,
+      "w": 1050,
+      "h": 1652,
       "cssW": 700,
-      "cssH": 1102,
-      "scale": 1,
+      "cssH": 1101,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -209,12 +209,12 @@
       "screen": "panel:mid-oficios",
       "label": null,
       "png": "interativa__panel-mid-oficios.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-mid-tecnicas",
@@ -222,12 +222,12 @@
       "screen": "panel:mid-tecnicas",
       "label": null,
       "png": "interativa__panel-mid-tecnicas.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-mid-habilidades",
@@ -235,12 +235,12 @@
       "screen": "panel:mid-habilidades",
       "label": null,
       "png": "interativa__panel-mid-habilidades.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-movimento",
@@ -248,12 +248,12 @@
       "screen": "panel:movimento",
       "label": null,
       "png": "interativa__panel-movimento.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "interativa__panel-magic-tesouros",
@@ -261,11 +261,11 @@
       "screen": "panel:magic-tesouros",
       "label": null,
       "png": "interativa__panel-magic-tesouros.png",
-      "w": 700,
-      "h": 1145,
+      "w": 1050,
+      "h": 1715,
       "cssW": 700,
-      "cssH": 1145,
-      "scale": 1,
+      "cssH": 1143,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -274,12 +274,12 @@
       "screen": "panel:magic-arcana",
       "label": null,
       "png": "interativa__panel-magic-arcana.png",
-      "w": 700,
-      "h": 1053,
+      "w": 1050,
+      "h": 1578,
       "cssW": 700,
-      "cssH": 1053,
-      "scale": 1,
-      "slices": 1
+      "cssH": 1052,
+      "scale": 1.5,
+      "slices": 2
     },
     {
       "basename": "editavel__base",
@@ -287,11 +287,11 @@
       "screen": "base",
       "label": null,
       "png": "editavel__base.png",
-      "w": 700,
-      "h": 1300,
+      "w": 1050,
+      "h": 1947,
       "cssW": 700,
-      "cssH": 1300,
-      "scale": 1,
+      "cssH": 1298,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -300,11 +300,11 @@
       "screen": "tab:perfil",
       "label": "👤",
       "png": "editavel__tab-perfil.png",
-      "w": 700,
-      "h": 1220,
+      "w": 1050,
+      "h": 1827,
       "cssW": 700,
-      "cssH": 1220,
-      "scale": 1,
+      "cssH": 1218,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -313,12 +313,12 @@
       "screen": "tab:proficiencias",
       "label": "🎓",
       "png": "editavel__tab-proficiencias.png",
-      "w": 700,
-      "h": 2079,
+      "w": 1050,
+      "h": 3108,
       "cssW": 700,
-      "cssH": 2079,
-      "scale": 1,
-      "slices": 2
+      "cssH": 2072,
+      "scale": 1.5,
+      "slices": 3
     },
     {
       "basename": "editavel__tab-habilidades",
@@ -326,11 +326,11 @@
       "screen": "tab:habilidades",
       "label": "📕",
       "png": "editavel__tab-habilidades.png",
-      "w": 700,
-      "h": 1567,
+      "w": 1050,
+      "h": 2349,
       "cssW": 700,
-      "cssH": 1567,
-      "scale": 1,
+      "cssH": 1566,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -339,11 +339,11 @@
       "screen": "tab:magias",
       "label": "🪄",
       "png": "editavel__tab-magias.png",
-      "w": 700,
-      "h": 899,
+      "w": 1050,
+      "h": 1347,
       "cssW": 700,
-      "cssH": 899,
-      "scale": 1,
+      "cssH": 898,
+      "scale": 1.5,
       "slices": 1
     },
     {
@@ -352,11 +352,11 @@
       "screen": "tab:inventario",
       "label": "🎒",
       "png": "editavel__tab-inventario.png",
-      "w": 700,
-      "h": 1583,
+      "w": 1050,
+      "h": 2370,
       "cssW": 700,
-      "cssH": 1583,
-      "scale": 1,
+      "cssH": 1580,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -365,11 +365,11 @@
       "screen": "tab:anotacoes",
       "label": "🪶",
       "png": "editavel__tab-anotacoes.png",
-      "w": 700,
-      "h": 1300,
+      "w": 1050,
+      "h": 1947,
       "cssW": 700,
-      "cssH": 1300,
-      "scale": 1,
+      "cssH": 1298,
+      "scale": 1.5,
       "slices": 2
     },
     {
@@ -378,12 +378,12 @@
       "screen": "base",
       "label": null,
       "png": "leitura__base.png",
-      "w": 700,
-      "h": 4133,
+      "w": 1050,
+      "h": 6195,
       "cssW": 700,
-      "cssH": 4133,
-      "scale": 1,
-      "slices": 4
+      "cssH": 4130,
+      "scale": 1.5,
+      "slices": 5
     }
   ],
   "noteDirtied": false

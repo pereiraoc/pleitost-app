@@ -175,8 +175,16 @@ async function captureScreenshot(target, outPath) {
   const bandTopVp = Math.round(scR0.top) + INSET;
   const bandH = Math.max(60, Math.floor(scR0.bottom) - bandTopVp);
 
-  const slices = []; // {dataUrl, contentY, h}
-  let probeScale = null;
+  // DPR REAL medido do próprio framebuffer: capturePage() SEM rect pega a JANELA
+  // INTEIRA de forma confiável (1:1). O sub-rect capturePage(rect) desalinha sob
+  // fractional scaling do Wayland (dpr ~1.31): capturava deslocado ~left*(dpr-1)
+  // px, deixando faixa vazia à esquerda e cortando o conteúdo à direita. Por isso
+  // pegamos a janela toda e RECORTAMOS a banda no canvas, com mapeamento DIP→
+  // físico exato (left/top/cssW/h × realDpr) — imune ao bug seja qual for o dpr.
+  const probe = await win.webContents.capturePage();
+  const realDpr = probe.getSize().width / window.innerWidth || 1;
+
+  const slices = []; // {dataUrl, contentY, srcTop, h}
   let contentY = 0;
   let guard = 0;
   while (contentY < cssH - 1 && guard++ < 120) {
@@ -193,16 +201,14 @@ async function captureScreenshot(target, outPath) {
     }
     const h = Math.min(bandH, Math.ceil(cssH - offsetAtBand));
     if (h <= 0) break;
-    const rect = { x: left, y: Math.round(capTopVp), width: cssW, height: h };
-    const img = await win.webContents.capturePage(rect);
-    const sz = img.getSize();
-    if (probeScale == null) probeScale = sz.width / rect.width || 1;
-    slices.push({ dataUrl: img.toDataURL(), contentY: offsetAtBand, h });
+    // janela inteira; o recorte da banda [left, capTopVp, cssW, h] vem no composite
+    const img = await win.webContents.capturePage();
+    slices.push({ dataUrl: img.toDataURL(), contentY: offsetAtBand, srcTop: capTopVp, h });
     contentY = offsetAtBand + h;
   }
   restoreSticky();
 
-  const scale = probeScale || window.devicePixelRatio || 1;
+  const scale = realDpr;
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(cssW * scale);
   canvas.height = Math.round(cssH * scale);
@@ -210,13 +216,18 @@ async function captureScreenshot(target, outPath) {
   for (const s of slices) {
     const im = new Image();
     await new Promise((res, rej) => { im.onload = res; im.onerror = rej; im.src = s.dataUrl; });
-    ctx.drawImage(im, 0, Math.round(s.contentY * scale));
+    // recorte físico da banda dentro da janela cheia → topo-esquerda do alvo em (0,*)
+    const sx = Math.round(left * scale);
+    const sy = Math.round(s.srcTop * scale);
+    const sw = Math.min(Math.round(cssW * scale), im.width - sx);
+    const sh = Math.min(Math.round(s.h * scale), im.height - sy);
+    ctx.drawImage(im, sx, sy, sw, sh, 0, Math.round(s.contentY * scale), sw, sh);
   }
   const png = Buffer.from(canvas.toDataURL("image/png").split(",")[1], "base64");
   fs.writeFileSync(outPath, png);
   // restaura scroll
   sc.scrollTop = 0;
-  return { w: canvas.width, h: canvas.height, cssW, cssH, scale: Number(scale.toFixed(3)), slices: slices.length };
+  return { w: canvas.width, h: canvas.height, cssW, cssH, scale: Number(scale.toFixed(3)), slices: slices.length, dpr: Number(realDpr.toFixed(3)) };
 }
 
 // ── Geometria: árvore com rect{x,y,w,h} relativo à RAIZ + visível, POR NÓ. ──
