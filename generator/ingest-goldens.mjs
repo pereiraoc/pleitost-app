@@ -45,6 +45,20 @@ const MODE_TO_SLUG = {
   Leitura: "leitura",
   Interativa: "interativa",
   Resumo: "resumo",
+  // Ficha de grupo (fence autosheet-grupo) — fixture app-side, capturada por
+  // generator/capture-grupo.cjs (o plugin não conhece esse "modo").
+  Grupo: "grupo",
+};
+
+/** Triggers de tooltip da ficha de grupo — espelha tooltip-bind.ts do plugin
+ *  (STAT_TIP_SELECTOR desmembrado por classe + ROLE_TOKEN_SELECTOR). O payload
+ *  LOSSLESS de cada tooltip vive no atributo `data-tooltip-html` do golden
+ *  estático — este inventário prova cobertura, não re-inventa conteúdo. */
+const GRUPO_TOOLTIP_TRIGGERS = {
+  "stat-tip": ".pleitost-party-stat-tip[data-tooltip-html]",
+  "warn-tip": ".pleitost-party-warn-tip[data-tooltip-html]",
+  "col-hdr": ".pleitost-party-col-hdr[data-tooltip-html]",
+  "role-token": ".pleitost-role-token[data-tooltip-html]",
 };
 
 function modeToSlug(mode) {
@@ -225,6 +239,26 @@ export function ingestGoldens({ capturesDir, fixtures }) {
         renderedEmojis,
       };
 
+      // Ficha de grupo: inventário dos triggers de tooltip do golden estático
+      // (payload lossless no atributo data-tooltip-html). Contagem por tipo +
+      // payloads únicos — o conteúdo em si fica no artefato (não infla o bundle).
+      if (mode === "Grupo") {
+        const tooltipTriggers = {};
+        const uniquePayloads = new Set();
+        let total = 0;
+        for (const [kind, selector] of Object.entries(GRUPO_TOOLTIP_TRIGGERS)) {
+          const els = Array.from(root.querySelectorAll(selector));
+          for (const el of els) uniquePayloads.add((el.getAttribute("data-tooltip-html") || "").trim());
+          tooltipTriggers[kind] = els.length;
+          total += els.length;
+        }
+        out.fixtures[slug][modeSlug].tooltipTriggers = {
+          bySelectorKind: tooltipTriggers,
+          total,
+          uniquePayloads: uniquePayloads.size,
+        };
+      }
+
       t.fixturesPresent++;
       t.rolesTotal += roleEls.length;
       for (const e of renderedEmojis) t._emojiUnion.add(e);
@@ -296,6 +330,52 @@ export function ingestGoldens({ capturesDir, fixtures }) {
       tooltips,
       panels,
       counts: { tooltips: Object.keys(tooltips).length, panels: Object.keys(panels).length },
+    };
+  }
+
+  // ── L2 interativo da FICHA DE GRUPO ─────────────────────────────────────────
+  // Artefato de capture-grupo.cjs: amostras HOVERADAS reais por tipo de trigger
+  // (com check payload==rendered — prova de que o data-tooltip-html do golden
+  // estático é EXATAMENTE o que o tooltip exibe) + estilos da moldura
+  // (PARTY_TIP_BASE_STYLES aplicado + larguras observadas por contexto).
+  for (const fixture of fixtures) {
+    if (!fixture.modes.includes("Grupo")) continue;
+    const slug = fixture.slug;
+    const rel = `reference/goldens/interactive/${slug}__grupo.interactive.json`;
+    const artPath = `${capturesDir}/interactive/${slug}__grupo.interactive.json`;
+    let art;
+    try {
+      art = JSON.parse(readFileSync(artPath, "utf8"));
+    } catch (err) {
+      gaps.push(
+        `captura interativa da ficha de grupo ausente p/ ${slug} (${describeErr(err)}) — rode scripts/capture-grupo.sh`,
+      );
+      continue;
+    }
+    const samples = art.tooltips?.samples ?? [];
+    const distilled = {};
+    const widthsObserved = {};
+    for (const s of samples) {
+      const key = `${s.kind}:${s.context}`;
+      const html = s.renderedHash ? art.tooltips.html?.[s.renderedHash] : null;
+      if (html && !distilled[key]) distilled[key] = distillTip(html);
+      if (s.frame && !widthsObserved[key]) {
+        widthsObserved[key] = { minWidth: s.frame["min-width"] ?? null, maxWidth: s.frame["max-width"] ?? null };
+      }
+    }
+    out.interactive[slug] = {
+      artifact: rel,
+      tooltips: distilled,
+      tooltipFidelity: {
+        samplesTotal: samples.length,
+        samplesRendered: samples.filter((s) => s.rendered).length,
+        payloadEqualsRenderedAll: samples.length > 0 && samples.every((s) => s.payloadEqualsRendered === true),
+        widthsObserved,
+        inventory: art.tooltips?.inventory ?? {},
+        uniquePayloadsTotal: art.tooltips?.uniquePayloadsTotal ?? null,
+      },
+      panels: {},
+      counts: { tooltips: Object.keys(distilled).length, panels: 0 },
     };
   }
 

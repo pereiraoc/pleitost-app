@@ -28,7 +28,7 @@ Camada L3 — ícones externos:
 Camada L2 — render real:
 - `goldens` — fatos destilados do DOM realmente renderizado das fixtures (emojis renderizados, roles ocultos).
 - `goldens.interactive` — estados pós-interação da Interativa: tooltips (texto real destilado, ex.: linhas do breakdown com valores) e painéis pós-clique por losango. DOM cru em `reference/goldens/` (estáticos) e `reference/goldens/interactive/` (interativos, referenciados por `artifact`).
-- `screens` — captura RICA por TELA da ficha VIVA (largura real do pane, ~117 telas em 5 fixtures: Carlos real c/ retrato + goldens). Cada modo + cada aba da Editável + cada painel de losango da Interativa, com `landmarks` (rect [x,y,w,h] por região/card/painel) + refs pra screenshot/geometry/html/css completos em `reference/goldens/screens/` (gitignored, regenerável via `scripts/capture-screens.sh`).
+- `screens` — captura RICA por TELA da ficha VIVA (largura real do pane, ~118 telas em 6 fixtures: Carlos real c/ retrato + goldens). Cada modo + cada aba da Editável + cada painel de losango da Interativa, com `landmarks` (rect [x,y,w,h] por região/card/painel) + refs pra screenshot/geometry/html/css completos em `reference/goldens/screens/` (gitignored, regenerável via `scripts/capture-screens.sh`).
 
 Narrativa:
 - `docs` — trechos verbatim da documentação, indexados por heading.

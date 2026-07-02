@@ -13,7 +13,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const LANDMARK_CLASS_RE =
-  /^(as-shell-header|as-sheet-name|as-mode-switcher|as-tab-bar|as-tab-content|as-shell|interativa-shell|dv-panel|dv-vida|.*-card$|.*-cluster$|.*-panel$|.*-box$|.*-diamond.*|.*-section$)/;
+  /^(as-shell-header|as-sheet-name|as-mode-switcher|as-tab-bar|as-tab-content|as-shell|interativa-shell|dv-panel|dv-vida|pleitost-party__(accent|body|header|section|wealth-table|wealth-hero)$|.*-card$|.*-cluster$|.*-panel$|.*-box$|.*-diamond.*|.*-section$)/;
 const LANDMARK_TAGS = new Set(["h1", "h2", "header", "nav", "table"]);
 const LANDMARK_CAP = 140; // teto por tela (evita explodir o bundle)
 

@@ -65,7 +65,17 @@ export function collectDesignSystem({ pluginRoot, vaultRoot, goldensDir, sourceC
   if (folded.typography) tokens.typography = folded.typography;
 
   // L2 — golden de render real (DOM serializado das fixtures).
+  // Fixtures das fichas individuais vêm da registry do PLUGIN
+  // (capture/fixtures.ts, comando "Capturar goldens"). A ficha de GRUPO é
+  // fixture DESTE repo (o plugin fica pristine — o fence `autosheet-grupo`
+  // não passa pelo capture-command): capturada por generator/capture-grupo.cjs
+  // via scripts/capture-grupo.sh sobre a nota REAL do grupo ativo da mesa.
   const fixtures = evalExportedConst(SRC("capture/fixtures.ts"), "FIXTURES");
+  fixtures.push({
+    slug: "golden-grupo",
+    vaultPath: "Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren.md",
+    modes: ["Grupo"],
+  });
   const goldens = ingestGoldens({
     capturesDir: goldensDir ?? join(pluginRoot, "tests", "visual-capture", "captures"),
     fixtures,
