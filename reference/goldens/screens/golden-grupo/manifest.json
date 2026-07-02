@@ -1,0 +1,23 @@
+{
+  "slug": "golden-grupo",
+  "file": "Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren.md",
+  "capturedModes": [
+    "Grupo"
+  ],
+  "screens": [
+    {
+      "basename": "grupo__base",
+      "mode": "Grupo",
+      "screen": "base",
+      "label": null,
+      "png": "grupo__base.png",
+      "w": 604,
+      "h": 2725,
+      "cssW": 503,
+      "cssH": 2270,
+      "scale": 1.2,
+      "slices": 3
+    }
+  ],
+  "noteDirtied": false
+}

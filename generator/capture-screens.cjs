@@ -35,6 +35,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // `@electron/remote` só resolve no module-path do Obsidian (não no deste arquivo
 // staged). O eval que nos chama o resolve e injeta via opts.remote. Guardamos
 // em escopo de módulo p/ o captureScreenshot usar.
+// Raiz da captura: ficha individual por default; a ficha de GRUPO (fence
+// autosheet-grupo, sem mode-switcher/abas) passa rootSelector=".pleitost-party"
+// + singleScreen=true via opts (ver scripts/capture-screens.sh).
+let ROOT_SELECTOR = ".as-sheet";
 let REMOTE = null;
 
 // ── Propriedades computadas capturadas por nó saliente (espelha src/capture/
@@ -109,14 +113,14 @@ async function ensureRendered(app) {
   for (let i = 0; i < 14; i++) {
     const v = activeRoot().querySelector(".markdown-preview-view, .markdown-reading-view");
     if (v) v.scrollTop = v.scrollHeight;
-    if (activeRoot().querySelector(".as-sheet")) break;
+    if (activeRoot().querySelector(ROOT_SELECTOR)) break;
     await sleep(600);
   }
   // volta ao topo p/ a captura começar previsível
   const v = activeRoot().querySelector(".markdown-preview-view, .markdown-reading-view");
   if (v) v.scrollTop = 0;
   await sleep(200);
-  return !!activeRoot().querySelector(".as-sheet");
+  return !!activeRoot().querySelector(ROOT_SELECTOR);
 }
 
 /** A ficha VISÍVEL: dentro do preview/reading view do leaf ativo e com caixa
@@ -124,7 +128,7 @@ async function ensureRendered(app) {
 function sheetEl() {
   const cands = [
     ...activeRoot().querySelectorAll(
-      ".markdown-preview-view .as-sheet, .markdown-reading-view .as-sheet",
+      `.markdown-preview-view ${ROOT_SELECTOR}, .markdown-reading-view ${ROOT_SELECTOR}`,
     ),
   ];
   let best = null, bestH = 0;
@@ -132,7 +136,7 @@ function sheetEl() {
     const r = s.getBoundingClientRect();
     if (r.width > 0 && r.height > bestH) { best = s; bestH = r.height; }
   }
-  return best || activeRoot().querySelector(".as-sheet");
+  return best || activeRoot().querySelector(ROOT_SELECTOR);
 }
 function scrollContainer() {
   const s = sheetEl();
@@ -329,7 +333,7 @@ function faithfulHtml(el) {
 /** Captura o bundle completo de UMA tela (sheet no estado atual). */
 async function captureScreen(outDir, slug, basename, meta) {
   const root = sheetEl();
-  if (!root) throw new Error("sem .as-sheet p/ " + basename);
+  if (!root) throw new Error(`sem ${ROOT_SELECTOR} p/ ` + basename);
   const dir = path.join(outDir, slug);
   fs.mkdirSync(dir, { recursive: true });
   const shot = await captureScreenshot(root, path.join(dir, `${basename}.png`));
@@ -382,14 +386,42 @@ async function captureCurrent(app, opts) {
   if (!slug || !outDir) return { error: "missing slug/outDir" };
   REMOTE = (opts && opts.remote) || null;
   if (!REMOTE) { try { REMOTE = require("@electron/remote"); } catch (e) { return { error: "sem @electron/remote (injete via opts.remote)" }; } }
+  ROOT_SELECTOR = (opts && opts.rootSelector) || ".as-sheet";
 
   const activeFile = app.workspace.getActiveFile && app.workspace.getActiveFile();
   const fileBefore = activeFile ? await app.vault.read(activeFile) : null;
 
   const ok = await ensureRendered(app);
-  if (!ok) return { error: "sem .as-sheet (a nota está aberta e tem bloco autosheet?)" };
+  if (!ok) return { error: `sem ${ROOT_SELECTOR} (a nota está aberta e tem bloco autosheet?)` };
 
   const screens = [];
+
+  // Tela única (ficha de grupo: read-only, sem mode-switcher/abas/painéis).
+  if (opts && opts.singleScreen) {
+    const label = (opts && opts.modeLabel) || "Grupo";
+    const mslug = slugify(label);
+    screens.push(await captureScreen(outDir, slug, `${mslug}__base`, { mode: label, screen: "base" }));
+    const activeFile2 = app.workspace.getActiveFile && app.workspace.getActiveFile();
+    let dirtied2 = false;
+    if (activeFile2 && fileBefore != null) {
+      dirtied2 = (await app.vault.read(activeFile2)) !== fileBefore;
+    }
+    const manifest2 = {
+      slug,
+      file: activeFile2 ? activeFile2.path : null,
+      capturedModes: [label],
+      screens: screens.map((s) => ({
+        basename: s.basename, mode: s.mode, screen: s.screen, label: s.label || null,
+        png: `${s.basename}.png`, w: s.screenshot.w, h: s.screenshot.h,
+        cssW: s.screenshot.cssW, cssH: s.screenshot.cssH, scale: s.screenshot.scale, slices: s.screenshot.slices,
+      })),
+      noteDirtied: dirtied2,
+    };
+    fs.mkdirSync(path.join(outDir, slug), { recursive: true });
+    fs.writeFileSync(path.join(outDir, slug, "manifest.json"), JSON.stringify(manifest2, null, 2));
+    return { slug, screensCount: screens.length, modes: [label], noteDirtied: dirtied2, out: path.join(outDir, slug) };
+  }
+
   const modeList = modeButtons().map((b) => b.dataset.mode);
 
   for (let mi = 0; mi < modeList.length; mi++) {

@@ -32,8 +32,14 @@ declare -A FIXTURES=(
   [golden-goblin]="GOLDEN Goblin"
   [golden-canino]="GOLDEN Canino"
   [golden-frankenstein]="GOLDEN Frankenstein"
+  [golden-grupo]="Carlos, Dante, Mera, Pind, Thoren"
 )
-ORDER=(carlos golden-bardo golden-goblin golden-canino golden-frankenstein)
+# Opts extra por slug (JS injetado no captureCurrent). Ficha de grupo: raiz
+# .pleitost-party (fence autosheet-grupo), tela unica (read-only, sem modos).
+declare -A EXTRA_OPTS=(
+  [golden-grupo]=',rootSelector:".pleitost-party",singleScreen:true,modeLabel:"Grupo"'
+)
+ORDER=(carlos golden-bardo golden-goblin golden-canino golden-frankenstein golden-grupo)
 
 FILTER="${1:-}"
 
@@ -42,12 +48,13 @@ cp "$REPO/generator/capture-screens.cjs" "$STAGING/capture-screens.cjs"
 
 run_one() {
   local slug="$1" name="$2"
+  local extra="${EXTRA_OPTS[$slug]:-}"
   echo "──────────── $slug ($name) ────────────"
   "$OBS" open file="$name" >/dev/null 2>&1 || { echo "  ⚠ open falhou"; return 1; }
   sleep 3
   local code
   code=$(cat <<JS
-(async()=>{const P="$STAGING/capture-screens.cjs";delete require.cache[require.resolve(P)];const remote=require("@electron/remote");return await require(P).captureCurrent(app,{slug:"$slug",outDir:"$OUT",remote})})()
+(async()=>{const P="$STAGING/capture-screens.cjs";delete require.cache[require.resolve(P)];const remote=require("@electron/remote");return await require(P).captureCurrent(app,{slug:"$slug",outDir:"$OUT",remote$extra})})()
 JS
 )
   "$OBS" eval code="$code" 2>&1 | tail -6
