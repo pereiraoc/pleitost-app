@@ -4,10 +4,13 @@
   "private": true,
   "description": "App do sistema Pleitost (UI das fichas). Atualmente: documentação de design (design-system) gerada do plugin pleitost-autosheet.",
   "scripts": {
-    "gen": "node generator/gen-design-spec.mjs"
+    "gen": "node generator/gen-design-spec.mjs",
+    "extract": "node extractor/extract-vault.mjs",
+    "test:extractor": "node --test extractor/tests/*.test.mjs"
   },
   "devDependencies": {
     "jsdom": "^24.0.0",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "yaml": "^2.9.0"
   }
 }

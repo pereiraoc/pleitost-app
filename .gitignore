@@ -11,3 +11,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Dados extraídos da vault (regenerável: npm run extract)
+vault-data/
