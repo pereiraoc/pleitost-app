@@ -468,8 +468,8 @@ function extractGrupoTooltips(modeDir, PALETTE, gaps) {
     notes:
       "Conteúdo dos tooltips é LOSSLESS no golden estático (atributo data-tooltip-html em cada trigger); " +
       "amostras hoveradas + prova payload==rendered em goldens.interactive.golden-grupo.tooltipFidelity. " +
-      "DIVERGÊNCIA CONHECIDA (issue sfynz/pleitost#260): as larguras por contexto (statTip.widths) são a INTENÇÃO da fonte — " +
-      "no render vivo o show() reaplica os defaults (ensureFloatingTipEl) e sobrescreve o setWidth, então o observado é " +
-      "sempre defaultMinWidth/defaultMaxWidth (ver widthsObserved no golden interativo).",
+      "Larguras por contexto (statTip.widths) CONFEREM com o observado no golden interativo desde " +
+      "pleitost-autosheet v2.0.32 (issue sfynz/pleitost#260: até v2.0.31 o show() reaplicava os defaults " +
+      "via ensureFloatingTipEl e sobrescrevia o setWidth — wealth media 200/300).",
   };
 }

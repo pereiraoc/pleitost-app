@@ -13,7 +13,7 @@
   },
   "$generatedBy": "scripts/gen-design-spec.mjs",
   "$schema": "pleitost-autosheet/design-system@1",
-  "$sourceCommit": "c8f7f7df7ba342564e2c85625b00f36a84525759",
+  "$sourceCommit": "339a0e77eb9c8d5a954bcbb54740d3f06a787741",
   "combatTracker": {
     "_refs": {
       "colorPaths": [],
@@ -4490,8 +4490,8 @@
               "minWidth": "200px"
             },
             "stat-tip:wealth": {
-              "maxWidth": "300px",
-              "minWidth": "200px"
+              "maxWidth": "400px",
+              "minWidth": "220px"
             },
             "warn-tip:default": {
               "maxWidth": "300px",
@@ -4719,7 +4719,7 @@
       },
       "contentAttribute": "data-tooltip-html",
       "factory": "src/render/shared/floating-tooltip.ts (createFloatingTooltip — singletons cross-render em document.body)",
-      "notes": "Conteúdo dos tooltips é LOSSLESS no golden estático (atributo data-tooltip-html em cada trigger); amostras hoveradas + prova payload==rendered em goldens.interactive.golden-grupo.tooltipFidelity. DIVERGÊNCIA CONHECIDA (issue sfynz/pleitost#260): as larguras por contexto (statTip.widths) são a INTENÇÃO da fonte — no render vivo o show() reaplica os defaults (ensureFloatingTipEl) e sobrescreve o setWidth, então o observado é sempre defaultMinWidth/defaultMaxWidth (ver widthsObserved no golden interativo).",
+      "notes": "Conteúdo dos tooltips é LOSSLESS no golden estático (atributo data-tooltip-html em cada trigger); amostras hoveradas + prova payload==rendered em goldens.interactive.golden-grupo.tooltipFidelity. Larguras por contexto (statTip.widths) CONFEREM com o observado no golden interativo desde pleitost-autosheet v2.0.32 (issue sfynz/pleitost#260: até v2.0.31 o show() reaplicava os defaults via ensureFloatingTipEl e sobrescrevia o setWidth — wealth media 200/300).",
       "roleTip": {
         "behavior": "hover + touch-toggle (pointerdown/up com threshold de tap)",
         "config": {

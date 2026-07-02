@@ -33,7 +33,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "hfb733496",
-        "renderedHash": "h961becc3",
+        "renderedHash": "h9a6fbb2c",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -71,7 +71,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "h17f4a572",
-        "renderedHash": "hd4aa0f82",
+        "renderedHash": "h57cc2688",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -109,7 +109,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "h17f4a572",
-        "renderedHash": "ha27e8553",
+        "renderedHash": "hc45e54a4",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -128,12 +128,12 @@
           "line-height": "16.2px",
           "box-shadow": "rgba(0, 0, 0, 0.3) 0px 12px 28px 0px",
           "opacity": "1",
-          "transform": "matrix(1, 0, 0, 1, -150, 0)",
+          "transform": "matrix(1, 0, 0, 1, -200, 0)",
           "transition": "opacity 0.12s, transform 0.12s",
           "z-index": "10000",
           "position": "fixed",
-          "min-width": "200px",
-          "max-width": "300px"
+          "min-width": "220px",
+          "max-width": "400px"
         }
       },
       {
@@ -147,7 +147,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "hcb0505bd",
-        "renderedHash": "hb7c88b69",
+        "renderedHash": "h57970a6f",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -166,12 +166,12 @@
           "line-height": "16.2px",
           "box-shadow": "rgba(0, 0, 0, 0.3) 0px 12px 28px 0px",
           "opacity": "1",
-          "transform": "matrix(1, 0, 0, 1, -150, 0)",
+          "transform": "matrix(1, 0, 0, 1, -185.293, 0)",
           "transition": "opacity 0.12s, transform 0.12s",
           "z-index": "10000",
           "position": "fixed",
-          "min-width": "200px",
-          "max-width": "300px"
+          "min-width": "220px",
+          "max-width": "400px"
         }
       },
       {
@@ -185,7 +185,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "he43aa67c",
-        "renderedHash": "h7fbf821a",
+        "renderedHash": "h246d2292",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -223,7 +223,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "h859397f5",
-        "renderedHash": "h3bc231a1",
+        "renderedHash": "h65afebcb",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -261,7 +261,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "ha5a5358",
-        "renderedHash": "he7157146",
+        "renderedHash": "h1dee1eae",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -299,7 +299,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "h8f5e1a39",
-        "renderedHash": "h8bc7d09e",
+        "renderedHash": "h30ad6326",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -337,7 +337,7 @@
         "rendered": true,
         "payloadEqualsRendered": true,
         "payloadHash": "hedbf97c4",
-        "renderedHash": "h83c45e8f",
+        "renderedHash": "he80f6471",
         "frame": {
           "padding-top": "10px",
           "padding-right": "12px",
@@ -367,22 +367,22 @@
     ],
     "html": {
       "hfb733496": "<div style=\"display:grid;gap:6px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">⚖️ Balanceamento de papéis</div><div style=\"font-weight:600;color:var(--text-muted);\">Uma linha por integrante: estrelas em cada <strong>papel</strong> (Líder, Controlador, Abatedor, Vanguarda), coluna de tier e linha <strong style=\"color:#ca8a04;\">Grupo</strong> com a soma das estrelas por papel. As <strong>estrelas</strong> e os <strong>cabeçalhos</strong> explicam cada papel e o tier ao passar o cursor.</div><div style=\"font-weight:600;color:var(--text-muted);\">Abaixo da tabela, nota sobre a linha tracejada e o mínimo recomendado na soma do grupo.</div></div>",
-      "h961becc3": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 292px; top: 24px;\"><div style=\"display:grid;gap:6px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">⚖️ Balanceamento de papéis</div><div style=\"font-weight:600;color:var(--text-muted);\">Uma linha por integrante: estrelas em cada <strong>papel</strong> (Líder, Controlador, Abatedor, Vanguarda), coluna de tier e linha <strong style=\"color:#ca8a04;\">Grupo</strong> com a soma das estrelas por papel. As <strong>estrelas</strong> e os <strong>cabeçalhos</strong> explicam cada papel e o tier ao passar o cursor.</div><div style=\"font-weight:600;color:var(--text-muted);\">Abaixo da tabela, nota sobre a linha tracejada e o mínimo recomendado na soma do grupo.</div></div></div>",
+      "h9a6fbb2c": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:6px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">⚖️ Balanceamento de papéis</div><div style=\"font-weight:600;color:var(--text-muted);\">Uma linha por integrante: estrelas em cada <strong>papel</strong> (Líder, Controlador, Abatedor, Vanguarda), coluna de tier e linha <strong style=\"color:#ca8a04;\">Grupo</strong> com a soma das estrelas por papel. As <strong>estrelas</strong> e os <strong>cabeçalhos</strong> explicam cada papel e o tier ao passar o cursor.</div><div style=\"font-weight:600;color:var(--text-muted);\">Abaixo da tabela, nota sobre a linha tracejada e o mínimo recomendado na soma do grupo.</div></div></div>",
       "h17f4a572": "<div style=\"display:grid;gap:4px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">👤 Personagem</div><div style=\"font-weight:600;color:var(--text-muted);\">Nome de cada integrante do grupo (mesma ordem das linhas abaixo).</div></div>",
-      "hd4aa0f82": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 367px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">👤 Personagem</div><div style=\"font-weight:600;color:var(--text-muted);\">Nome de cada integrante do grupo (mesma ordem das linhas abaixo).</div></div></div>",
-      "ha27e8553": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 333px; top: 752px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">👤 Personagem</div><div style=\"font-weight:600;color:var(--text-muted);\">Nome de cada integrante do grupo (mesma ordem das linhas abaixo).</div></div></div>",
+      "h57cc2688": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">👤 Personagem</div><div style=\"font-weight:600;color:var(--text-muted);\">Nome de cada integrante do grupo (mesma ordem das linhas abaixo).</div></div></div>",
+      "hc45e54a4": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 220px; max-width: min(92vw, 400px); left: 24px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.35;\"><div style=\"font-weight:800;\">👤 Personagem</div><div style=\"font-weight:600;color:var(--text-muted);\">Nome de cada integrante do grupo (mesma ordem das linhas abaixo).</div></div></div>",
       "hcb0505bd": "<div style=\"font-weight:600;line-height:1.4;\">Valor da ficha, usado para cálculo da riqueza esperada (△).</div>",
-      "hb7c88b69": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 488px; top: 752px;\"><div style=\"font-weight:600;line-height:1.4;\">Valor da ficha, usado para cálculo da riqueza esperada (△).</div></div>",
+      "h57970a6f": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 220px; max-width: min(92vw, 400px); left: 24px; top: 24px;\"><div style=\"font-weight:600;line-height:1.4;\">Valor da ficha, usado para cálculo da riqueza esperada (△).</div></div>",
       "he43aa67c": "<div style=\"display:grid;gap:4px;font-weight:600;line-height:1.4;\"><div style=\"font-weight:800;\">⚠️ Ninguém com Adepto ou melhor</div><div style=\"color:var(--text-muted);\">A escola está na ficha de alguém, mas só com <strong>N</strong>. Subindo a proficiência para <strong>A</strong> (ou E/M), o personagem entra na lista.</div></div>",
-      "h7fbf821a": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 613px; top: 109px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.4;\"><div style=\"font-weight:800;\">⚠️ Ninguém com Adepto ou melhor</div><div style=\"color:var(--text-muted);\">A escola está na ficha de alguém, mas só com <strong>N</strong>. Subindo a proficiência para <strong>A</strong> (ou E/M), o personagem entra na lista.</div></div></div>",
+      "h246d2292": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:600;line-height:1.4;\"><div style=\"font-weight:800;\">⚠️ Ninguém com Adepto ou melhor</div><div style=\"color:var(--text-muted);\">A escola está na ficha de alguém, mas só com <strong>N</strong>. Subindo a proficiência para <strong>A</strong> (ou E/M), o personagem entra na lista.</div></div></div>",
       "h859397f5": "<div style=\"display:grid;gap:4px;font-weight:700;line-height:1.35;\"><div>🎖️ <strong>Tier</strong></div><div style=\"font-weight:600;color:var(--text-muted);\">Tier 1: níveis 1–3 · Tier 2: níveis 4–6 · Tier 3: níveis 7–9 · Tier 4: nível 10 ou mais.</div></div>",
-      "h3bc231a1": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 552px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:700;line-height:1.35;\"><div>🎖️ <strong>Tier</strong></div><div style=\"font-weight:600;color:var(--text-muted);\">Tier 1: níveis 1–3 · Tier 2: níveis 4–6 · Tier 3: níveis 7–9 · Tier 4: nível 10 ou mais.</div></div></div>",
+      "h65afebcb": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:4px;font-weight:700;line-height:1.35;\"><div>🎖️ <strong>Tier</strong></div><div style=\"font-weight:600;color:var(--text-muted);\">Tier 1: níveis 1–3 · Tier 2: níveis 4–6 · Tier 3: níveis 7–9 · Tier 4: nível 10 ou mais.</div></div></div>",
       "ha5a5358": "<div style=\"display:grid;gap:5px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span style=\"color:#4ade80;letter-spacing:1px;\">★</span><span>Líder</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div>",
-      "he7157146": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 617px; top: 24px;\"><div style=\"display:grid;gap:5px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span style=\"color:#4ade80;letter-spacing:1px;\">★</span><span>Líder</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div></div>",
+      "h1dee1eae": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 10000; min-width: 200px; max-width: 300px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:5px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span style=\"color:#4ade80;letter-spacing:1px;\">★</span><span>Líder</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div></div>",
       "h8f5e1a39": "<div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Líder</span><span style=\"color:#4ade80;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div>",
-      "h8bc7d09e": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 9999; min-width: 220px; max-width: 320px; left: 617px; top: 24px;\"><div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Líder</span><span style=\"color:#4ade80;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div></div>",
+      "h30ad6326": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 9999; min-width: 220px; max-width: 320px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Líder</span><span style=\"color:#4ade80;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">fortalece aliados, sustenta o grupo e mantém o time eficiente com cura, bônus e/ou coordenação.</div></div></div>",
       "hedbf97c4": "<div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Controlador</span><span style=\"color:#c084fc;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">enfraquece inimigos e dita o ritmo da batalha com debuffs, restrições e dano em área.</div></div>",
-      "h83c45e8f": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 9999; min-width: 220px; max-width: 320px; left: 686px; top: 24px;\"><div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Controlador</span><span style=\"color:#c084fc;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">enfraquece inimigos e dita o ritmo da batalha com debuffs, restrições e dano em área.</div></div></div>"
+      "he80f6471": "<div style=\"position: fixed; pointer-events: none; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--background-modifier-border); background: color-mix(in srgb, var(--background-primary) 92%, black 8%); color: var(--text-normal); white-space: normal; text-align: left; font-size: 12px; line-height: 1.35; box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px; opacity: 1; transition: opacity 0.12s, transform 0.12s; transform: translate(-50%, 0px); z-index: 9999; min-width: 220px; max-width: 320px; left: 24px; top: 24px;\"><div style=\"display:grid;gap:6px;\"><div style=\"display:flex;align-items:center;gap:6px;font-weight:800;\"><span>Controlador</span><span style=\"color:#c084fc;letter-spacing:1px;\">★</span></div><div style=\"font-weight:600;line-height:1.35;\">enfraquece inimigos e dita o ritmo da batalha com debuffs, restrições e dano em área.</div></div></div>"
     }
   },
   "panels": {}
