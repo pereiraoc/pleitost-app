@@ -92,6 +92,77 @@ body {
   opacity: 0.85;
 }
 
+.doc-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.doc-type {
+  font-size: var(--pleitost-type-tier-sh-size);
+  font-weight: var(--pleitost-type-tier-sh-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+
+.inline-fields {
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.inline-fields th {
+  text-align: left;
+  font-size: var(--pleitost-type-tier-f-size);
+  font-weight: var(--pleitost-type-tier-f-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+  padding-right: 1rem;
+}
+
+.inline-fields td,
+.inline-fields th {
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+
+.doc-page table:not(.inline-fields) {
+  border-collapse: collapse;
+}
+
+.doc-page table:not(.inline-fields) th,
+.doc-page table:not(.inline-fields) td {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+
+.callout {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 3px solid color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.fence-dataview summary {
+  cursor: pointer;
+  font-size: var(--pleitost-type-tier-f-size);
+  font-weight: var(--pleitost-type-tier-f-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.6;
+}
+
+.fence-dataview pre,
+.fence-autosheet-rules,
+[class^='fence-'] {
+  overflow-x: auto;
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
 .doc-body-raw {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

@@ -1,5 +1,35 @@
 import { useParams } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
+import type { VaultDoc } from '../../data/types'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
+import { InlineFieldValue } from './InlineFieldValue'
+import { InlineFieldsTable } from './InlineFieldsTable'
+
+/** Renderiza um doc já carregado (separado do fetch pra ser testável). */
+export function DocView({ doc }: { doc: VaultDoc }) {
+  const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
+
+  return (
+    <article className="doc-page">
+      <header className="doc-header">
+        <h1>{doc.basename}</h1>
+        {doc.type ? (
+          <span className="doc-type">
+            {doc.type}
+            {doc.subtype ? ` · ${doc.subtype}` : ''}
+          </span>
+        ) : null}
+        {grupos.map((grupo) => (
+          <span key={grupo} className="grupo-chip">
+            <InlineFieldValue value={grupo} />
+          </span>
+        ))}
+      </header>
+      <InlineFieldsTable fields={doc.inlineFields} />
+      <MarkdownBody doc={doc} />
+    </article>
+  )
+}
 
 export function DocPage() {
   const id = useParams()['*'] ?? ''
@@ -7,12 +37,5 @@ export function DocPage() {
 
   if (error) return <p role="alert">Falha ao carregar o doc: {error.message}</p>
   if (!doc) return <p className="loading">Carregando…</p>
-
-  return (
-    <article className="doc-page">
-      <h1>{doc.basename}</h1>
-      {/* render markdown completo entra no próximo commit */}
-      <pre className="doc-body-raw">{doc.body}</pre>
-    </article>
-  )
+  return <DocView doc={doc} />
 }

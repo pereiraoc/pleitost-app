@@ -3,15 +3,9 @@ import { Link } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { docPath } from '../../paths'
 
-const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
+import { unquote } from '../../markdown/dataview-value'
 
-/** String literal dataview (`"d4+2"`) → conteúdo sem aspas. */
-function unquote(value: string): string {
-  const trimmed = value.trim()
-  return trimmed.length >= 2 && trimmed.startsWith('"') && trimmed.endsWith('"')
-    ? trimmed.slice(1, -1)
-    : trimmed
-}
+const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
 
 /**
  * Valor de inline field com a sintaxe dataview renderizada: wikilinks viram
