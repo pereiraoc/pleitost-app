@@ -1,20 +1,11 @@
 import type { ComponentType } from 'react'
 import type { VaultDoc } from '../data/types'
+import { DataviewBlock } from '../dataview/DataviewBlock'
 
 export interface FenceProps {
   lang: string
   code: string
   doc: VaultDoc
-}
-
-/** M1: query crua colapsada (rótulo = a própria lang do fence). Avaliador em M2. */
-function DataviewFence({ lang, code }: FenceProps) {
-  return (
-    <details className="fence-dataview">
-      <summary>{lang}</summary>
-      <pre>{code}</pre>
-    </details>
-  )
 }
 
 /** M1: linhas cruas da DSL; a AST (doc.ruleElements) vira UI em milestone futuro. */
@@ -32,6 +23,6 @@ export function FenceFallback({ lang, code }: FenceProps) {
  * (carta-item, button, ...) entram AQUI, nunca com if/else no call-site.
  */
 export const FENCES: Record<string, ComponentType<FenceProps>> = {
-  dataview: DataviewFence,
+  dataview: DataviewBlock, // avaliada de verdade; fallback interno pro colapsado
   'autosheet-rules': AutosheetRulesFence,
 }

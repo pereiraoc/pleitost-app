@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // TDD do render de doc: escrito ANTES do pipeline de markdown, sobre o doc
 // REAL da Adaga (%%-block, `= this.x`, tabela GFM, wikilinks, fences).
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
@@ -29,6 +29,21 @@ const adaga = JSON.parse(
     'utf8',
   ),
 ) as VaultDoc
+
+beforeAll(() => {
+  // serve /vault-data/** do disco (a fence dataview agora avalia de verdade)
+  globalThis.fetch = (async (input: unknown) => {
+    const url = String(input)
+    const rel = decodeURIComponent(url.replace(/^\/vault-data\//, ''))
+    const file = path.join(vaultDataDir, rel)
+    const ok = fs.existsSync(file)
+    return {
+      ok,
+      status: ok ? 200 : 404,
+      json: async () => JSON.parse(fs.readFileSync(file, 'utf8')),
+    }
+  }) as typeof fetch
+})
 
 function renderDoc(doc: VaultDoc) {
   return render(
@@ -74,11 +89,13 @@ describe('DocView (Adaga real)', () => {
     expect(screen.getAllByRole('link', { name: 'Arremesso 3' }).length).toBeGreaterThan(0)
   })
 
-  it('fence dataview vira bloco colapsado com a query crua', () => {
+  it('fence dataview avalia a query real (Local Típico → Canto Alto)', async () => {
     renderDoc(adaga)
-    const details = document.querySelector('details.fence-dataview')
-    expect(details, 'details.fence-dataview').toBeTruthy()
-    expect(details!.textContent).toContain('TABLE WITHOUT ID')
+    // a query da Adaga busca localizações do Atlas com [[Adaga]] em Recursos
+    expect(await screen.findByRole('columnheader', { name: 'Local Típico' })).toBeTruthy()
+    expect(await screen.findByRole('link', { name: 'Canto Alto' })).toBeTruthy()
+    // nada de fallback colapsado quando a query é suportada
+    expect(document.querySelector('details.fence-dataview')).toBeNull()
   })
 
   it('fence sem renderer registrado cai no <pre> com o conteúdo cru', () => {

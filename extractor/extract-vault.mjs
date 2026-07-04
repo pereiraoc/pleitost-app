@@ -36,6 +36,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   // 3. Extrai docs de conteúdo; lista scaffolding sem extrair.
   const index = [];
   const assetRefs = new Map(); // target → Set(ids)
+  const docLinks = new Map(); // id → targets crus dos wikilinks
 
   for (const doc of docs) {
     if (doc.kind === "scaffolding") {
@@ -60,6 +61,8 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       if (!assetRefs.has(img.target)) assetRefs.set(img.target, new Set());
       assetRefs.get(img.target).add(record.id);
     }
+
+    docLinks.set(record.id, record.links.map((l) => l.target));
   }
 
   // 4. Copia TODOS os binários de imagem da vault (referenciados E órfãos) e monta
@@ -118,6 +121,44 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     counts: { total: assets.length, referenced, orphan, missing: missing.length },
     assets,
     missing,
+  });
+
+  // 6. Grafo de wikilinks resolvidos (edges id → ids). Resolução estrita:
+  //    path exato, senão basename único; ambíguo/inexistente fica de fora.
+  //    Consumido pelo app pra backlinks (dataview `FROM [[]]` / `outgoing()`).
+  const idSet = new Set(contentDocs.map((d) => d.id));
+  const idsByBasename = new Map();
+  for (const d of contentDocs) {
+    if (!idsByBasename.has(d.basename)) idsByBasename.set(d.basename, []);
+    idsByBasename.get(d.basename).push(d.id);
+  }
+  const resolveTarget = (target) => {
+    const clean = target.split("#")[0].trim();
+    if (!clean) return null;
+    if (clean.includes("/")) {
+      const id = clean.replace(/\.md$/i, "");
+      if (idSet.has(id)) return id;
+      const suffix = "/" + id;
+      const matches = contentDocs.filter((d) => d.id.endsWith(suffix));
+      return matches.length === 1 ? matches[0].id : null;
+    }
+    const ids = idsByBasename.get(clean) || [];
+    return ids.length === 1 ? ids[0] : null;
+  };
+  const edges = {};
+  let edgeCount = 0;
+  for (const id of [...docLinks.keys()].sort((a, b) => a.localeCompare(b))) {
+    const out = [...new Set(docLinks.get(id).map(resolveTarget).filter(Boolean))].sort((a, b) =>
+      a.localeCompare(b),
+    );
+    if (out.length) {
+      edges[id] = out;
+      edgeCount += out.length;
+    }
+  }
+  await writeJson(join(outDir, "links.json"), {
+    counts: { docs: Object.keys(edges).length, edges: edgeCount },
+    edges,
   });
 
   return {
