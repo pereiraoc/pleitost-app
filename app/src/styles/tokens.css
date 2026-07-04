@@ -1,0 +1,136 @@
+/* GERADO por app/scripts/gen-tokens.mjs a partir de design-system/design-system.json — NÃO EDITAR À MÃO.
+   Fonte: plugin pleitost-autosheet @ 339a0e77eb9c8d5a954bcbb54740d3f06a787741 */
+:root {
+  /* colors.aventureiro */
+  --pleitost-color-aventureiro-marca-preenchida: #ffd35a;
+  --pleitost-color-aventureiro-marca-vazia: var(--background-secondary);
+  --pleitost-color-aventureiro-maximo: #4ade80;
+  --pleitost-color-aventureiro-reconhec-fill: #ffb300;
+  /* colors.biografia */
+  --pleitost-color-biografia-negativa-border-dark: rgba(220,80,80,0.30);
+  --pleitost-color-biografia-negativa-border-fcs-dark: rgba(220,80,80,0.55);
+  --pleitost-color-biografia-negativa-border-fcs-light: rgba(180,40,40,0.85);
+  --pleitost-color-biografia-negativa-border-light: rgba(180,40,40,0.55);
+  --pleitost-color-biografia-negativa-label-dark: rgba(220,80,80,0.70);
+  --pleitost-color-biografia-negativa-label-light: rgba(180,40,40,0.95);
+  --pleitost-color-biografia-positiva-border-dark: rgba(255,211,90,0.30);
+  --pleitost-color-biografia-positiva-border-fcs-dark: rgba(255,211,90,0.55);
+  --pleitost-color-biografia-positiva-border-fcs-light: rgba(150,110,0,0.85);
+  --pleitost-color-biografia-positiva-border-light: rgba(150,110,0,0.55);
+  --pleitost-color-biografia-positiva-label-dark: rgba(255,211,90,0.70);
+  --pleitost-color-biografia-positiva-label-light: rgba(150,110,0,0.95);
+  /* colors.diff */
+  --pleitost-color-diff-auto-bg: rgba(255,211,90,0.12);
+  --pleitost-color-diff-conflict-bg: rgba(255,77,77,0.15);
+  --pleitost-color-diff-invalidated-bg: rgba(168,85,247,0.12);
+  --pleitost-color-diff-manual-bg: rgba(59,130,246,0.12);
+  /* colors.feedback */
+  --pleitost-color-feedback-aviso: #ffd35a;
+  --pleitost-color-feedback-down: #ff4d4d;
+  --pleitost-color-feedback-erro: #ff4d4d;
+  --pleitost-color-feedback-info: #3b82f6;
+  --pleitost-color-feedback-sucesso: #4ade80;
+  --pleitost-color-feedback-up: #ffd35a;
+  /* colors.interativaBtn */
+  --pleitost-color-interativa-btn-dmg-bg: #313334;
+  --pleitost-color-interativa-btn-dmg-bg-active: #202121;
+  --pleitost-color-interativa-btn-dmg-bg-hover: #434748;
+  --pleitost-color-interativa-btn-em-dec: rgba(6, 182, 212, 0.30);
+  --pleitost-color-interativa-btn-em-inc: rgba(6, 182, 212, 0.95);
+  --pleitost-color-interativa-btn-moral-dec: rgba(59, 130, 246, 0.30);
+  --pleitost-color-interativa-btn-moral-inc: rgba(59, 130, 246, 0.95);
+  --pleitost-color-interativa-btn-temp-dec: rgba(34, 197, 94, 0.30);
+  --pleitost-color-interativa-btn-temp-inc: rgba(34, 197, 94, 0.95);
+  --pleitost-color-interativa-btn-vit-dec: rgba(239, 68, 68, 0.30);
+  --pleitost-color-interativa-btn-vit-inc: rgba(239, 68, 68, 0.95);
+  /* colors.interativaCond */
+  --pleitost-color-interativa-cond-bonus: #22c55e;
+  --pleitost-color-interativa-cond-penalty: #ef4444;
+  /* colors.interativaResource */
+  --pleitost-color-interativa-resource-moral: #4488ff;
+  --pleitost-color-interativa-resource-moral-temporaria: #44cc44;
+  --pleitost-color-interativa-resource-vitalidade: #ff4444;
+  /* colors.interativaTone */
+  --pleitost-color-interativa-tone-attr-accent: #c23b3b;
+  --pleitost-color-interativa-tone-dim-accent: #d6d6d6;
+  --pleitost-color-interativa-tone-job-accent: #d6d6d6;
+  --pleitost-color-interativa-tone-magic-accent: #7a3cff;
+  --pleitost-color-interativa-tone-mid-accent: #2f7df6;
+  --pleitost-color-interativa-tone-pot-accent: #60748c;
+  --pleitost-color-interativa-tone-res-accent: #c8a93a;
+  --pleitost-color-interativa-tone-sense-accent: #2f9e6a;
+  /* colors.partyBountyRank */
+  --pleitost-color-party-bounty-rank-abg: rgba(212,175,55,0.14);
+  --pleitost-color-party-bounty-rank-acolor: #d4af37;
+  --pleitost-color-party-bounty-rank-aglow: rgba(212,175,55,0.28);
+  --pleitost-color-party-bounty-rank-bbg: rgba(148,163,184,0.16);
+  --pleitost-color-party-bounty-rank-bcolor: #94a3b8;
+  --pleitost-color-party-bounty-rank-bglow: rgba(148,163,184,0.24);
+  --pleitost-color-party-bounty-rank-cbg: rgba(205,127,50,0.14);
+  --pleitost-color-party-bounty-rank-ccolor: #cd7f32;
+  --pleitost-color-party-bounty-rank-cglow: rgba(205,127,50,0.22);
+  --pleitost-color-party-bounty-rank-dbg: rgba(107,114,128,0.12);
+  --pleitost-color-party-bounty-rank-dcolor: #6b7280;
+  --pleitost-color-party-bounty-rank-dglow: rgba(107,114,128,0.15);
+  --pleitost-color-party-bounty-rank-sbg: rgba(143,211,255,0.14);
+  --pleitost-color-party-bounty-rank-scolor: #8fd3ff;
+  --pleitost-color-party-bounty-rank-sglow: rgba(143,211,255,0.30);
+  /* colors.partyRoles */
+  --pleitost-color-party-roles-abatedor: #f87171;
+  --pleitost-color-party-roles-controlador: #c084fc;
+  --pleitost-color-party-roles-lider: #4ade80;
+  --pleitost-color-party-roles-vanguarda: #60a5fa;
+  /* colors.partyTierBar */
+  --pleitost-color-party-tier-bar-tier1: #cd7f32;
+  --pleitost-color-party-tier-bar-tier2: #94a3b8;
+  --pleitost-color-party-tier-bar-tier3: #d4af37;
+  --pleitost-color-party-tier-bar-tier4: #8fd3ff;
+  /* colors.rank */
+  --pleitost-color-rank-a: #4ade80;
+  --pleitost-color-rank-e: #3b82f6;
+  --pleitost-color-rank-m: #a855f7;
+  --pleitost-color-rank-n: #6b7280;
+  /* colors.selecao */
+  --pleitost-color-selecao-bin-p: rgb(34,197,94);
+  --pleitost-color-selecao-bin-pbg: rgba(34,197,94,0.16);
+  --pleitost-color-selecao-bin-pline: rgba(34,197,94,0.55);
+  --pleitost-color-selecao-neutro-bg: rgba(120,120,120,0.18);
+  --pleitost-color-selecao-neutro-line: rgba(160,160,160,0.55);
+  --pleitost-color-selecao-regra: #d4a520;
+  --pleitost-color-selecao-regra-bg: rgba(255,211,90,0.22);
+  --pleitost-color-selecao-regra-dim: rgba(255,211,90,0.35);
+  --pleitost-color-selecao-regra-line: rgba(255,211,90,0.65);
+  --pleitost-color-selecao-slot-bg: rgba(0,0,0,0.4);
+  --pleitost-color-selecao-slot-line: rgba(220,38,38,0.6);
+  --pleitost-color-selecao-user-sel: rgb(220,38,38);
+  --pleitost-color-selecao-user-sel-bg: rgba(220,38,38,0.18);
+  --pleitost-color-selecao-user-sel-line: rgba(220,38,38,0.50);
+  --pleitost-color-selecao-usuario: #ffd35a;
+  /* colors.shadow */
+  --pleitost-color-shadow-tooltip: 0 12px 28px rgba(0,0,0,0.30);
+  /* colors.theme */
+  --pleitost-color-theme-bg-mod-hover: var(--background-modifier-hover);
+  --pleitost-color-theme-bg-primary: var(--background-primary);
+  --pleitost-color-theme-bg-secondary: var(--background-secondary);
+  --pleitost-color-theme-border-normal: var(--background-modifier-border);
+  --pleitost-color-theme-text-faint: var(--text-faint);
+  --pleitost-color-theme-text-muted: var(--text-muted);
+  --pleitost-color-theme-text-normal: var(--text-normal);
+  /* colors.tier */
+  --pleitost-color-tier-bg-diamond: #1c1f24;
+  --pleitost-color-tier-bronze: #b87333;
+  --pleitost-color-tier-gold: #d4af37;
+  --pleitost-color-tier-num: #ffffff;
+  --pleitost-color-tier-platina: #8fd3ff;
+  --pleitost-color-tier-silver: #bfc6cf;
+  --pleitost-color-tier-zero: #111111;
+  /* typography Tier H — primeiro nível de container (caps muted) */
+  --pleitost-type-tier-h-size: 13px;
+  --pleitost-type-tier-h-weight: 500;
+  /* typography Tier SH — sub-painel dentro de container (caps muted) */
+  --pleitost-type-tier-sh-size: 12px;
+  --pleitost-type-tier-sh-weight: 600;
+  /* typography Tier F — field/coluna inline (caps muted) */
+  --pleitost-type-tier-f-size: 11px;
+  --pleitost-type-tier-f-weight: 700;
+}

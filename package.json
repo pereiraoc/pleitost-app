@@ -13,7 +13,9 @@
     "dev": "npm run dev -w app",
     "dev:lan": "npm run dev:lan -w app",
     "build": "npm run build -w app",
-    "preview": "npm run preview -w app"
+    "preview": "npm run preview -w app",
+    "tokens": "npm run tokens -w app",
+    "test:app": "npm run test -w app"
   },
   "devDependencies": {
     "jsdom": "^24.0.0",
