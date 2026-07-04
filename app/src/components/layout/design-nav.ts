@@ -42,3 +42,10 @@ export const TITLES: Record<string, string> = {
 
 /** Kicker da tela do compêndio, como desenhado. */
 export const COMPENDIO_KICKER = '// COMPÊNDIO DO SISTEMA'
+
+/** Rotas implementadas por item de nav; itens fora daqui renderizam disabled. */
+export const NAV_ROUTES: Record<string, string> = {
+  compendio: '/compendio',
+  herois: '/herois',
+  npcs: '/npcs',
+}

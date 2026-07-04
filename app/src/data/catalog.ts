@@ -12,6 +12,17 @@ export type WikiResolution =
   | { kind: 'ambiguous'; candidates: string[] }
   | { kind: 'missing' }
 
+/** Nó da árvore de pastas da vault (derivada dos ids dos docs content). */
+export interface FolderNode {
+  path: string
+  name: string
+  folders: FolderNode[]
+  /** Docs diretamente nesta pasta, na ordem do índice. */
+  docs: IndexDocEntry[]
+  /** Total de docs na subárvore. */
+  count: number
+}
+
 export interface Catalog {
   manifest: IndexManifest
   /** Só docs kind=content, na ordem do índice. */
@@ -19,6 +30,9 @@ export interface Catalog {
   /** Agrupamento por type (null → SEM_CATEGORIA), espelhando manifest.byType. */
   docsByType: Map<string, IndexDocEntry[]>
   entryById: Map<string, IndexDocEntry>
+  /** Raiz da árvore de pastas + acesso direto por path. */
+  folderTree: FolderNode
+  folderByPath: Map<string, FolderNode>
   /** Resolve um alvo de wikilink para um doc do catálogo. */
   resolve: (target: string) => WikiResolution
 }
@@ -37,6 +51,25 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
     else map.set(key, [id])
   }
 
+  const folderTree: FolderNode = { path: '', name: '', folders: [], docs: [], count: 0 }
+  const folderByPath = new Map<string, FolderNode>([['', folderTree]])
+  const ensureFolder = (path: string): FolderNode => {
+    const existing = folderByPath.get(path)
+    if (existing) return existing
+    const cut = path.lastIndexOf('/')
+    const parent = ensureFolder(cut === -1 ? '' : path.slice(0, cut))
+    const node: FolderNode = {
+      path,
+      name: path.slice(cut + 1),
+      folders: [],
+      docs: [],
+      count: 0,
+    }
+    parent.folders.push(node)
+    folderByPath.set(path, node)
+    return node
+  }
+
   for (const doc of content) {
     const typeKey = doc.type ?? SEM_CATEGORIA
     const group = docsByType.get(typeKey)
@@ -48,7 +81,14 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
       push(idsByBasename, doc.basename, doc.id)
       push(idsByBasenameLower, doc.basename.toLowerCase(), doc.id)
     }
+
+    const cut = doc.id.lastIndexOf('/')
+    ensureFolder(cut === -1 ? '' : doc.id.slice(0, cut)).docs.push(doc)
   }
+
+  const tally = (node: FolderNode): number =>
+    (node.count = node.docs.length + node.folders.reduce((sum, f) => sum + tally(f), 0))
+  tally(folderTree)
 
   function resolve(target: string): WikiResolution {
     // Âncoras (#heading, #^bloco) não são navegadas no M1 — resolvem pro doc.
@@ -73,7 +113,7 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
     return { kind: 'missing' }
   }
 
-  return { manifest, content, docsByType, entryById, resolve }
+  return { manifest, content, docsByType, entryById, folderTree, folderByPath, resolve }
 }
 
 let catalogPromise: Promise<Catalog> | undefined

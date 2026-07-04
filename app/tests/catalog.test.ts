@@ -23,6 +23,15 @@ describe('catalog sobre vault-data real', () => {
     expect(catalog.content).toHaveLength(manifest.counts.content)
   })
 
+  it('árvore de pastas cobre todos os docs content', () => {
+    expect(catalog.folderTree.count).toBe(manifest.counts.content)
+    const herois = catalog.folderByPath.get('Sistema/Criaturas/Heróis')
+    expect(herois).toBeDefined()
+    expect(herois!.docs.length).toBe(
+      catalog.content.filter((d) => d.id.startsWith('Sistema/Criaturas/Heróis/')).length,
+    )
+  })
+
   it('agrupamento por tipo reproduz manifest.byType exatamente', () => {
     const counts = Object.fromEntries(
       [...catalog.docsByType].map(([type, docs]) => [type, docs.length]),

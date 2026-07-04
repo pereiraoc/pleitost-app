@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useTheme } from '../../theme'
-import { APP_NAV, CHAR_TABS, TITLES, type NavItem } from './design-nav'
+import { APP_NAV, CHAR_TABS, NAV_ROUTES, TITLES, type NavItem } from './design-nav'
 
 function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  // M1: só o compêndio tem tela; o resto fica desenhado porém disabled
-  if (item.id === 'compendio') {
+  const route = NAV_ROUTES[item.id]
+  // itens sem tela implementada ficam desenhados porém disabled
+  if (route) {
     return (
       <NavLink
-        to="/compendio"
+        to={route}
         onClick={onNavigate}
         className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
       >
@@ -34,8 +35,13 @@ export function AppShell() {
   const { mode, toggleMode } = useTheme()
   const { pathname } = useLocation()
 
-  const section =
-    pathname.startsWith('/compendio') || pathname.startsWith('/doc') ? 'compendio' : null
+  const section = pathname.startsWith('/herois')
+    ? 'herois'
+    : pathname.startsWith('/npcs')
+      ? 'npcs'
+      : pathname.startsWith('/compendio') || pathname.startsWith('/doc')
+        ? 'compendio'
+        : null
   const title = section ? TITLES[section] : ''
   const closeDrawer = () => setDrawerOpen(false)
 
