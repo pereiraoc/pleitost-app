@@ -1,7 +1,33 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useTheme } from '../../theme'
-import { APP_NAV, CHAR_TABS, NAV_ROUTES, TITLES, type NavItem } from './design-nav'
+import {
+  APP_NAV,
+  CHAR_TABS,
+  NAV_ICON_PATHS,
+  NAV_ROUTES,
+  TITLES,
+  type NavItem,
+} from './design-nav'
+
+/** Espelho do ICON_WRAP do design: mesmo wrapper <svg>, miolo verbatim do pull. */
+function NavIcon({ id }: { id: string }) {
+  const paths = NAV_ICON_PATHS[id]
+  if (!paths) return null
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      dangerouslySetInnerHTML={{ __html: paths }}
+    />
+  )
+}
 
 function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
   const route = NAV_ROUTES[item.id]
@@ -14,7 +40,7 @@ function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void
         className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
       >
         <span className="nav-ic" aria-hidden>
-          {item.ic}
+          <NavIcon id={item.id} />
         </span>
         <span className="nav-label">{item.label}</span>
       </NavLink>
@@ -23,7 +49,7 @@ function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void
   return (
     <button className="nav-item" disabled>
       <span className="nav-ic" aria-hidden>
-        {item.ic}
+        <NavIcon id={item.id} />
       </span>
       <span className="nav-label">{item.label}</span>
     </button>
