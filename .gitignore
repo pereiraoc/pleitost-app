@@ -1,8 +1,9 @@
-# Dependências / build (quando o app existir)
+# Dependências / build
 node_modules/
 dist/
 build/
 .next/
+*.tsbuildinfo
 *.log
 
 # OS / editor

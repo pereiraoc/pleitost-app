@@ -2,11 +2,18 @@
   "name": "pleitost-app",
   "version": "0.1.0",
   "private": true,
-  "description": "App do sistema Pleitost (UI das fichas). Atualmente: documentação de design (design-system) gerada do plugin pleitost-autosheet.",
+  "description": "App do sistema Pleitost (UI das fichas). Contém: o companion app (app/), a documentação de design (design-system) gerada do plugin pleitost-autosheet e o extractor da vault.",
+  "workspaces": [
+    "app"
+  ],
   "scripts": {
     "gen": "node generator/gen-design-spec.mjs",
     "extract": "node extractor/extract-vault.mjs",
-    "test:extractor": "node --test extractor/tests/*.test.mjs"
+    "test:extractor": "node --test extractor/tests/*.test.mjs",
+    "dev": "npm run dev -w app",
+    "dev:lan": "npm run dev:lan -w app",
+    "build": "npm run build -w app",
+    "preview": "npm run preview -w app"
   },
   "devDependencies": {
     "jsdom": "^24.0.0",
