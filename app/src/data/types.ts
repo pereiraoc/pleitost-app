@@ -12,7 +12,8 @@ export interface IndexDocEntry {
   basename?: string
   type?: string | null
   subtype?: string | null
-  grupo?: string[] | null
+  /** Frontmatter `grupo`: string ("cac-simples") ou lista de wikilinks. */
+  grupo?: string | string[] | null
 }
 
 export interface IndexManifest {
@@ -58,7 +59,7 @@ export interface VaultDoc {
   basename: string
   type: string | null
   subtype: string | null
-  grupo: string[] | null
+  grupo: string | string[] | null
   frontmatter: Record<string, unknown>
   inlineFields: Record<string, string>
   ruleElements: RuleElement[]
