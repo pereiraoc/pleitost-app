@@ -94,24 +94,34 @@ describe('FolderView', () => {
   })
 })
 
-describe('Heróis e NPCs', () => {
-  it('HERÓIS lista todos os docs de Sistema/Criaturas/Heróis', async () => {
+describe('Heróis e NPCs (telas do design com dados reais)', () => {
+  it('HERÓIS: um card desenhado por herói, com Classe do frontmatter', async () => {
     renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
-    const herois = catalog.folderByPath.get('Sistema/Criaturas/Heróis')!
-    for (const entry of herois.docs) {
-      expect(screen.getAllByRole('link', { name: entry.basename }).length).toBeGreaterThan(0)
+    const herois = catalog.folderByPath
+      .get('Sistema/Criaturas/Heróis')!
+      .docs.filter((d) => d.basename !== 'Heróis')
+    for (const entry of herois) {
+      // card do design é um button com nome + classe + NVL
+      expect(
+        screen.getAllByRole('button', { name: new RegExp(entry.basename!.slice(0, 6)) }).length,
+        entry.id,
+      ).toBeGreaterThan(0)
     }
-    expect(screen.getByRole('columnheader', { name: 'Nível' })).toBeTruthy()
+    // classe alias do FM real (Adriann → Mago) aparece após o load
+    expect(await screen.findAllByText('Mago')).toBeTruthy()
+    expect(screen.getAllByText('NVL').length).toBe(herois.length)
   })
 
-  it('NPCS agrupa as demais subpastas de Criaturas (Bestiário etc.)', () => {
+  it('NPCS: abas do design; bestiário com cards; PESSOAS vazio com o texto desenhado', async () => {
     renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
-    const criaturas = catalog.folderByPath.get('Sistema/Criaturas')!
-    const groups = criaturas.folders.filter((f) => f.name !== 'Heróis')
-    expect(groups.length).toBeGreaterThan(0)
-    for (const group of groups) {
-      expect(screen.getByRole('heading', { name: group.name })).toBeTruthy()
+    for (const label of ['PESSOAS', 'COMPANHEIROS ANIMAIS', 'BESTIÁRIO']) {
+      expect(screen.getByRole('button', { name: label })).toBeTruthy()
     }
-    expect(screen.queryByRole('heading', { name: 'Heróis' })).toBeNull()
+    // cards do bestiário (subtítulo composto de Raça/Classe reais)
+    expect(await screen.findAllByText(/Goblin \(Pequeno\)/)).toBeTruthy()
+    // aba sem pasta na vault mostra o empty state verbatim do design
+    expect(screen.getByText('// NENHUM REGISTRO NESTA CATEGORIA')).toBeTruthy()
+    // heróis não aparecem em NPCS
+    expect(screen.queryByText('Adriann')).toBeNull()
   })
 })

@@ -4,5 +4,4 @@
 // dado, nunca inventado aqui).
 export const LIST_COLUMNS: Record<string, readonly string[]> = {
   Item: ['dano', 'tipo', 'mãos', 'propriedades'],
-  Criatura: ['Nível', 'Classe'],
 }

@@ -26,6 +26,28 @@ export interface DocState {
   error?: Error
 }
 
+/** Carrega um lote de docs (cache compartilhado); undefined enquanto carrega. */
+export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
+  const [docs, setDocs] = useState<Map<string, VaultDoc>>()
+  const key = ids.join('\n')
+
+  useEffect(() => {
+    let alive = true
+    const wanted = key ? key.split('\n') : []
+    Promise.all(wanted.map((id) => loadDoc(id).catch(() => null))).then((loaded) => {
+      if (!alive) return
+      const byId = new Map<string, VaultDoc>()
+      for (const doc of loaded) if (doc) byId.set(doc.id, doc)
+      setDocs(byId)
+    })
+    return () => {
+      alive = false
+    }
+  }, [key])
+
+  return docs
+}
+
 export function useDoc(id: string): DocState {
   const [state, setState] = useState<DocState>({})
 
