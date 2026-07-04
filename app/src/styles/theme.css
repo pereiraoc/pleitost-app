@@ -1,0 +1,106 @@
+/* DERIVADO do pull do Claude Design "Companion App"
+   (design/pulled/Companion App.dc.html → THEME_TOKENS/THEME_FONTS do script).
+   Defaults do design: aesthetic=medieval, mode=light.
+   Regenerar à mão a partir de um novo pull quando o design mudar. */
+
+/* ---- medieval light (default) ---- */
+:root {
+  --bg: #e7dabd;
+  --side: #dccfac;
+  --panel: #f1e8d2;
+  --panel2: #e6dabb;
+  --card: #f8f2e3;
+  --line: rgba(74, 52, 20, 0.14);
+  --line2: rgba(74, 52, 20, 0.26);
+  --text: #352815;
+  --muted: #776242;
+  --accent: #8f611b;
+  --accent2: #3d7355;
+  --red: #a8392a;
+  --blue: #3c5c95;
+  --gold: #876722;
+  --golddot: #dcb55f;
+  --ink: #fbf4e2;
+  --sb: rgba(143, 97, 27, 0.32);
+  --mono: 'Cinzel', serif;
+  --body: 'Spectral', Georgia, serif;
+  --display: 'Cinzel', serif;
+}
+
+:root[data-aesthetic='medieval'][data-mode='dark'] {
+  --bg: #17120c;
+  --side: #120e08;
+  --panel: #211a12;
+  --panel2: #2a2117;
+  --card: #33281a;
+  --line: rgba(200, 164, 104, 0.1);
+  --line2: rgba(200, 164, 104, 0.24);
+  --text: #ece1c9;
+  --muted: #a28c6a;
+  --accent: #ca9b3c;
+  --accent2: #7aa08f;
+  --red: #c6543f;
+  --blue: #7d97c4;
+  --gold: #dcb55f;
+  --golddot: #dcb55f;
+  --ink: #231a0b;
+  --sb: rgba(202, 155, 60, 0.26);
+}
+
+:root[data-aesthetic='cyberpunk'] {
+  --mono: 'Share Tech Mono', monospace;
+  --body: 'Chakra Petch', system-ui, sans-serif;
+  --display: 'Chakra Petch', system-ui, sans-serif;
+}
+
+:root[data-aesthetic='cyberpunk'][data-mode='dark'] {
+  --bg: #080a0e;
+  --side: #0b0f14;
+  --panel: #0f141a;
+  --panel2: #141a21;
+  --card: #1a212a;
+  --line: rgba(255, 255, 255, 0.07);
+  --line2: rgba(255, 255, 255, 0.15);
+  --text: #e7ebf0;
+  --muted: #7f8a99;
+  --accent: #f5e90a;
+  --accent2: #0bd3e0;
+  --red: #ff4438;
+  --blue: #6c9ce8;
+  --gold: #e0bd55;
+  --golddot: #e0bd55;
+  --ink: #0a0e13;
+  --sb: rgba(245, 233, 10, 0.22);
+}
+
+:root[data-aesthetic='cyberpunk'][data-mode='light'] {
+  --bg: #e7eaf0;
+  --side: #dce0e8;
+  --panel: #f4f6f9;
+  --panel2: #ecf0f5;
+  --card: #ffffff;
+  --line: rgba(12, 22, 40, 0.1);
+  --line2: rgba(12, 22, 40, 0.2);
+  --text: #101722;
+  --muted: #586473;
+  --accent: #9c7a00;
+  --accent2: #0a7d88;
+  --red: #d12f1f;
+  --blue: #2f63b0;
+  --gold: #8a6f24;
+  --golddot: #e0bd55;
+  --ink: #fff8df;
+  --sb: rgba(156, 122, 0, 0.32);
+}
+
+/* ---- vars Obsidian referenciadas por tokens.css (gerado do plugin) ----
+   Mapeamento documentado design→Obsidian; ajustar aqui se ficar estranho: */
+:root {
+  --background-primary: var(--panel);
+  --background-secondary: var(--panel2);
+  --background-modifier-border: var(--line2);
+  --background-modifier-hover: var(--line);
+  --text-normal: var(--text);
+  --text-muted: var(--muted);
+  --text-faint: color-mix(in srgb, var(--muted) 65%, transparent);
+}

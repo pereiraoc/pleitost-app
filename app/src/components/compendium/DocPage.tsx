@@ -5,6 +5,7 @@ import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
+import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável). */
 export function DocView({ doc }: { doc: VaultDoc }) {
@@ -12,7 +13,8 @@ export function DocView({ doc }: { doc: VaultDoc }) {
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
 
   return (
-    <article className="doc-page">
+    <article className="doc-page page">
+      <div className="kicker">{COMPENDIO_KICKER}</div>
       {hero ? <VaultImage target={hero.target} className="doc-hero" /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>

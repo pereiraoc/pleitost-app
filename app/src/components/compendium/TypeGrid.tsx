@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { emojis } from '../../generated/tokens'
 import { compendiumTypePath } from '../../paths'
+import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 export function TypeGrid() {
   const { manifest } = useCatalog()
@@ -9,7 +10,9 @@ export function TypeGrid() {
   const types = Object.entries(manifest.byType).sort((a, b) => b[1] - a[1])
 
   return (
-    <section className="type-grid">
+    <section className="page">
+      <div className="kicker">{COMPENDIO_KICKER}</div>
+      <div className="type-grid">
       {types.map(([type, count]) => {
         // emoji só quando o tipo existe no registro central (match exato)
         const emoji = (emojis.categoria as Record<string, string>)[type]
@@ -25,6 +28,7 @@ export function TypeGrid() {
           </Link>
         )
       })}
+      </div>
     </section>
   )
 }

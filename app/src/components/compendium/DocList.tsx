@@ -6,6 +6,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath } from '../../paths'
 import { InlineFieldValue } from './InlineFieldValue'
 import { LIST_COLUMNS } from './list-columns'
+import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 /** Agrupa por subtype na ordem do índice; docs sem subtype ficam na seção sem título. */
 function groupBySubtype(entries: IndexDocEntry[]): Map<string | null, IndexDocEntry[]> {
@@ -67,7 +68,8 @@ export function DocList() {
   }
 
   return (
-    <section className="doc-list">
+    <section className="doc-list page">
+      <div className="kicker">{COMPENDIO_KICKER}</div>
       <h1>
         {type} <small>({entries.length})</small>
       </h1>

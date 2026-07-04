@@ -44,6 +44,16 @@ export default defineConfig({
               expiration: { maxEntries: 2000 },
             },
           },
+          {
+            urlPattern: ({ url }) =>
+              url.origin === 'https://fonts.googleapis.com' ||
+              url.origin === 'https://fonts.gstatic.com',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts',
+              expiration: { maxEntries: 24 },
+            },
+          },
         ],
       },
     }),
