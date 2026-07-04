@@ -4,13 +4,16 @@ import type { VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
+import { VaultImage } from './VaultImage'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável). */
 export function DocView({ doc }: { doc: VaultDoc }) {
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
+  const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
 
   return (
     <article className="doc-page">
+      {hero ? <VaultImage target={hero.target} className="doc-hero" /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
         {doc.type ? (

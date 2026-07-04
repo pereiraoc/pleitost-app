@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import type { VaultDoc } from '../data/types'
+import { VaultImage } from '../components/compendium/VaultImage'
 import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
 import { remarkInlineDataview } from './remark-inline-dataview'
@@ -35,6 +36,15 @@ export function MarkdownBody({ doc }: { doc: VaultDoc }) {
             {children}
           </a>
         )
+      },
+      img({ src, alt, ...rest }) {
+        // embeds ![[...]] chegam com URL vault: do remark-wikilinks
+        if (typeof src === 'string' && src.startsWith('vault:')) {
+          const target = decodeURIComponent(src.slice('vault:'.length))
+          const width = alt && /^\d+$/.test(alt) ? Number(alt) : undefined
+          return <VaultImage target={target} width={width} />
+        }
+        return <img src={src} alt={alt} {...rest} />
       },
       // fences renderizam via registro; o <pre> padrão sai do caminho
       pre({ children }) {
