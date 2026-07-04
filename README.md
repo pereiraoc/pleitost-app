@@ -12,7 +12,11 @@ sem perder nada do que existe hoje, e **regenerável** a qualquer momento.
 
 ```
 pleitost-app/
-  package.json                 # deps do motor (typescript, jsdom) + script `gen`
+  package.json                 # workspaces (app) + scripts: gen, extract, dev, build, ...
+  app/                         # O APP: PWA Vite+React (compêndio navegável — ver app/README.md)
+  design/                      # round-trip com o Claude Design "Companion App" (ver design/README.md)
+  extractor/                   # extração lossless da vault → vault-data/ (1 JSON por .md)
+  vault-data/                  # saída do extractor (gitignored; regenerável: npm run extract)
   generator/                   # O MOTOR: gera a spec lendo o código do plugin
     gen-design-spec.mjs        #   entry
     collect.mjs, build.mjs, ast-helpers.mjs
@@ -57,4 +61,8 @@ ver [`generator/README.md`](generator/README.md).
 ## Status
 
 - ✅ Design system: spec completa e validada; motor runnable aqui.
-- ⏳ App: a construir, a partir desta spec.
+- ✅ Extractor: vault inteira em JSON lossless (`npm run extract`).
+- 🚧 App (`app/`): PWA com compêndio navegável sobre os dados reais
+  (tipos, listas, docs com wikilinks/inline fields/imagens). Próximo:
+  pull do design ("Companion App" no Claude Design) → home + theme.css,
+  push de previews, e fichas nos milestones seguintes.
