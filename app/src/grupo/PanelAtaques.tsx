@@ -4,7 +4,10 @@
 // ordenação orderMembersMaxAttackDesc (render-party-sheet.ts). Ícone da
 // arma via registro EMOJI.grupoArma (mapa de equipamentos-section.ts);
 // cor da letra de proficiência via tokens.colors.rank.
+// Tooltips (build recuperado): contador af sequencial — cada chip de arma
+// consome 'atq:f<af++>' na ordem membro→armas.
 import type { IndexDocEntry, VaultDoc } from '../data/types'
+import type { GrupoTip } from './gtip'
 import { useCatalog } from '../data/CatalogContext'
 import { tokens } from '../generated/tokens'
 import { groupAttacks } from './ataques'
@@ -20,17 +23,23 @@ const rankColor = (prof: string): string =>
 export function PanelAtaques({
   members,
   docs,
+  tip,
 }: {
   members: IndexDocEntry[]
   docs: Map<string, VaultDoc> | undefined
+  tip?: GrupoTip
 }) {
   const catalog = useCatalog()
   const groups = groupAttacks(catalog, orderByMaxAttackDesc(members, docs), docs)
 
+  // Contador af do build recuperado ('atq:f1', 'atq:f2', ... na ordem).
+  let af = 1
+  const tipKeys = groups.map((g) => g.list.map(() => `atq:f${af++}`))
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={sectionTitleStyle}>{'// ATAQUES DO GRUPO'}</div>
-      {groups.map((g) => (
+      {groups.map((g, gIdx) => (
         <div key={g.id} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ fontSize: 12 }}>👤</span>
@@ -42,11 +51,15 @@ export function PanelAtaques({
               return (
                 <span
                   key={`${w.label}-${i}`}
+                  onMouseEnter={tip?.tipE(tipKeys[gIdx][i])}
+                  onMouseMove={tip?.move}
+                  onMouseLeave={tip?.hide}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 8,
                     padding: '8px 13px',
+                    cursor: 'help',
                     background: 'var(--panel)',
                     border: '1px solid var(--line2)',
                     clipPath: CHIP_CLIP,

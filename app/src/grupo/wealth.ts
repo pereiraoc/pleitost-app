@@ -8,8 +8,7 @@
 //    priceAtaquesPropriedades e computeMemberWealthParts.
 //  - render/modes/grupo/render-party-sheet.ts (appendWealthSection):
 //    delta = (ouro + tesouros s/ consumíveis) − esperado(nível), ordenação
-//    por delta desc, linha Grupo (somas + nível máx) e deltaClass
-//    (≤0.2 ok · ≤0.5 warn · senão bad).
+//    por delta desc e linha Grupo (somas + nível máx).
 // O plugin lê APENAS Inventario.* (Ouro/Tesouros/Consumiveis/Armadura/
 // Escudo/Armas) — os campos top-level Ouro/Tesouros_Especiais/Consumíveis
 // do FM são legados e NÃO entram no cálculo (paridade com o plugin).
@@ -207,19 +206,5 @@ export function priceTargets(fm: Fm | undefined): string[] {
   return out
 }
 
-/** Espelha deltaClass (render-party-sheet.ts appendWealthSection). */
-export function deltaTone(delta: number, expected: number): 'ok' | 'warn' | 'bad' {
-  const ex = Math.max(Math.abs(Number(expected)) || 0, 1)
-  const ratio = Math.abs(Number(delta)) / ex
-  if (ratio <= 0.2) return 'ok'
-  if (ratio <= 0.5) return 'warn'
-  return 'bad'
-}
-
-/** Cores do delta — espelham styles.css do plugin
- *  (.pleitost-party__delta-ok/-warn/-bad). */
-export const DELTA_COLORS: Record<'ok' | 'warn' | 'bad', string> = {
-  ok: '#16a34a',
-  warn: '#ea580c',
-  bad: '#dc2626',
-}
+// (A cor do delta na UI é a dltCor do design — sinal +/− — em panel-ui.tsx;
+// o deltaClass ok/warn/bad do plugin não aparece na tela do design.)

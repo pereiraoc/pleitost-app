@@ -2,7 +2,7 @@
 // Ficha de grupo: lógica espelhada do plugin validada sobre os dados REAIS
 // da vault + render da tela desenhada (§GRUPOS) com um grupo real.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -27,6 +27,7 @@ import {
   precoPO,
   tierMultFromName,
 } from '../src/grupo/wealth'
+import { cycleSort, gnum } from '../src/grupo/sort'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -300,5 +301,133 @@ describe('GrupoView: abas, painéis e imagem do grupo (dados reais)', () => {
     await waitFor(() => expect(container.querySelector('img')).toBeTruthy())
     const src = container.querySelector('img')!.getAttribute('src') ?? ''
     expect(decodeURIComponent(src)).toContain('Retratos/Carlos, Dante, Mera, Pind, Thoren.png')
+  })
+})
+
+describe('sort por clique nos cabeçalhos (grpCycleSort/applySort do design)', () => {
+  it('cycleSort: sem sort → ▼ desc; ▼ → ▲ asc; ▲ → null (padrão)', () => {
+    expect(cycleSort(null, 2)).toEqual({ col: 2, dir: -1 })
+    expect(cycleSort({ col: 2, dir: -1 }, 2)).toEqual({ col: 2, dir: 1 })
+    expect(cycleSort({ col: 2, dir: 1 }, 2)).toBeNull()
+    // clicar noutra coluna reinicia o ciclo
+    expect(cycleSort({ col: 2, dir: -1 }, 0)).toEqual({ col: 0, dir: -1 })
+  })
+
+  it('gnum do design: "Tier 3"→3, "+9"→9, "—"→0, "350 PO"→350', () => {
+    expect(gnum('Tier 3')).toBe(3)
+    expect(gnum('+9')).toBe(9)
+    expect(gnum('—')).toBe(0)
+    expect(gnum('350 PO')).toBe(350)
+    expect(gnum('-120 PO')).toBe(-120)
+  })
+
+  it('clicar em VIT reordena as linhas (desc → asc → padrão alfabético)', async () => {
+    const { container } = render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <GrupoView groupId={GROUP5_ID} />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    const docs = readMemberDocs(GROUP5_ID)
+    const members = groupMembers(catalog, GROUP5_ID)
+    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    // espera os docs carregarem (VIT real do primeiro membro visível)
+    const anyVit = String((docs.get(members[0].id)!.frontmatter as AnyFm).Vida.Vitalidade)
+    await waitFor(() => expect(vidaPanel.textContent).toContain(anyVit))
+
+    // expectativa independente: lista base = nível desc + nome (ordem do
+    // plugin); sort estável do applySort preserva empates da base
+    const base = members
+      .map((m) => {
+        const fm = docs.get(m.id)!.frontmatter as AnyFm
+        return { nome: m.basename ?? m.id, nivel: Number(fm['Nível']) || 1, vit: Number(fm.Vida.Vitalidade) }
+      })
+      .sort((a, b) => b.nivel - a.nivel || a.nome.localeCompare(b.nome, 'pt'))
+    const stable = <T,>(arr: T[], cmp: (a: T, b: T) => number): T[] =>
+      arr
+        .map((v, i) => [v, i] as const)
+        .sort((a, b) => cmp(a[0], b[0]) || a[1] - b[1])
+        .map(([v]) => v)
+    const namesInOrder = (expected: string[]) => {
+      const txt = vidaPanel.textContent ?? ''
+      const idx = expected.map((n) => txt.indexOf(n))
+      for (const i of idx) expect(i).toBeGreaterThanOrEqual(0)
+      for (let i = 1; i < idx.length; i++) expect(idx[i]).toBeGreaterThan(idx[i - 1])
+    }
+
+    // padrão (sem sort): alfabético pt por nome
+    namesInOrder([...base.map((r) => r.nome)].sort((a, b) => a.localeCompare(b, 'pt')))
+
+    const vitHead = within(vidaPanel).getByText('VIT')
+    // 1º clique: desc + seta ▼
+    fireEvent.click(vitHead)
+    expect(vitHead.textContent).toContain('▼')
+    namesInOrder(stable(base, (a, b) => b.vit - a.vit).map((r) => r.nome))
+    // 2º clique: asc + seta ▲
+    fireEvent.click(vitHead)
+    expect(vitHead.textContent).toContain('▲')
+    namesInOrder(stable(base, (a, b) => a.vit - b.vit).map((r) => r.nome))
+    // 3º clique: volta ao padrão, sem seta
+    fireEvent.click(vitHead)
+    expect(vitHead.textContent).not.toMatch(/[▼▲]/)
+    namesInOrder([...base.map((r) => r.nome)].sort((a, b) => a.localeCompare(b, 'pt')))
+    // linha Grupo sempre por último
+    const txt = vidaPanel.textContent ?? ''
+    expect(txt.lastIndexOf('Grupo')).toBeGreaterThan(txt.indexOf(base[0].nome))
+  })
+})
+
+describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
+  const renderGroup5 = () =>
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <GrupoView groupId={GROUP5_ID} />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+
+  it('grupo-tips.js foi carregado no window (registro central)', () => {
+    renderGroup5()
+    const gt = (window as unknown as { __GTIPS?: { store: unknown[]; map: Record<string, number> } })
+      .__GTIPS
+    expect(gt).toBeTruthy()
+    expect(gt!.store.length).toBeGreaterThan(0)
+    expect(gt!.map['vida:h1']).toBeDefined()
+    expect(gt!.map['riq:f1']).toBeDefined()
+  })
+
+  it('hover no cabeçalho VIT mostra o conteúdo real do grupo-tips e some no leave', async () => {
+    const { container } = renderGroup5()
+    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const vitHead = within(vidaPanel).getByText('VIT')
+    fireEvent.mouseOver(vitHead, { clientX: 200, clientY: 200 })
+    // conteúdo verbatim do store ('vida:h1')
+    expect(await screen.findByText(/pontos de vida físicos/)).toBeTruthy()
+    fireEvent.mouseOut(vitHead)
+    expect(screen.queryByText(/pontos de vida físicos/)).toBeNull()
+  })
+
+  it('hero RIQUEZA TOTAL usa a chave riq:f1; trocar de aba limpa o tooltip', async () => {
+    const { container } = renderGroup5()
+    const riqPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    const hero = within(riqPanel).getByText('RIQUEZA TOTAL').parentElement as HTMLElement
+    fireEvent.mouseOver(hero, { clientX: 300, clientY: 300 })
+    expect(await screen.findByText(/inclui consumíveis/)).toBeTruthy()
+    // grupoTabs do design: onClick seta {grupoTab, gtip:null}
+    fireEvent.click(screen.getByText('PAPÉIS'))
+    expect(screen.queryByText(/inclui consumíveis/)).toBeNull()
+  })
+
+  it('rótulo da linha Grupo usa a chave fixa vida:r5c0', async () => {
+    const { container } = renderGroup5()
+    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const label = within(vidaPanel).getByText('Grupo').parentElement as HTMLElement
+    fireEvent.mouseOver(label, { clientX: 150, clientY: 150 })
+    // conteúdo do store em 'vida:r5c0' (Linha Grupo)
+    expect(await screen.findByText(/Resumo do conjunto/)).toBeTruthy()
+    fireEvent.mouseOut(label)
+    expect(screen.queryByText(/Resumo do conjunto/)).toBeNull()
   })
 })

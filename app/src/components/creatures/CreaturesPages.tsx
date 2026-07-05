@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { assetUrl, resolveAsset, useAssetIndex, type AssetIndex } from '../../data/assets'
+import { useAssetIndex } from '../../data/assets'
+import { creatureImageUrl } from '../../data/creature-image'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
-import { docPath } from '../../paths'
+import { docPath, heroPath } from '../../paths'
 import { GrupoView } from '../../grupo/GrupoView'
 import { GRUPOS_FOLDER, groupMembers, rankLetter, tierFromLevel } from '../../grupo/party'
 
@@ -77,26 +78,17 @@ function useFolderDocs(folder: string) {
   return { entries, docs }
 }
 
-function portraitOf(
-  doc: VaultDoc | undefined,
-  assets: AssetIndex | undefined,
-): string | null {
-  const imagem = plainLabel(doc?.frontmatter['Imagem'])
-  if (!imagem || !assets) return null
-  const asset = resolveAsset(assets, imagem)
-  return asset ? assetUrl(asset) : null
-}
-
 function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
   const nome = entry.basename ?? entry.id
   const classe = plainLabel(doc?.frontmatter['Classe'])
   const nivel = plainLabel(doc?.frontmatter['Nível'])
-  const portrait = portraitOf(doc, assets)
+  // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>)
+  const portrait = creatureImageUrl(doc, assets)
 
   return (
-    <button className="hero-card" onClick={() => navigate(docPath(entry.id))}>
+    <button className="hero-card" onClick={() => navigate(heroPath(entry.id))}>
       <span className="hero-card-stripe" aria-hidden />
       {portrait ? (
         <div className="hero-portrait" style={{ backgroundImage: `url("${portrait}")` }} />
@@ -274,7 +266,7 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
     entry.subtype ||
     ''
   const nivel = plainLabel(doc?.frontmatter['Nível'])
-  const portrait = portraitOf(doc, assets)
+  const portrait = creatureImageUrl(doc, assets)
 
   return (
     <button className="npc-card" onClick={() => navigate(docPath(entry.id))}>

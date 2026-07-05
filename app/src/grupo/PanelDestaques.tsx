@@ -4,8 +4,12 @@
 // (section-pericia / section-equip-prof / section-magias); emojis e cores
 // de proficiência vêm do registro central (tokens.emojis.* /
 // tokens.colors.rank — espelho do EMOJI/PALETTE do plugin).
-import type { ReactNode } from 'react'
+// Tooltips (build recuperado): contador df sequencial — cada top de perícia
+// consome 'dest:f<df++>' na ordem grupos→skills→tops, e DEPOIS cada magia
+// consome o próximo (o mesmo tipE vale pro ⚠️ e pro top da magia).
+import type { MouseEventHandler, ReactNode } from 'react'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
+import type { GrupoTip } from './gtip'
 import { tokens } from '../generated/tokens'
 import { equipCards, magiaHighlights, skillHighlights, type SkillTop } from './destaques'
 import { fmtSigned } from './stats'
@@ -17,9 +21,22 @@ const CARD_CLIP = 'polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 
 const rankColor = (prof: string): string =>
   (tokens.colors.rank as Record<string, string>)[prof] ?? tokens.colors.rank.N
 
-function TopSpan({ top }: { top: SkillTop }) {
+function TopSpan({
+  top,
+  onTipEnter,
+  tip,
+}: {
+  top: SkillTop
+  onTipEnter?: MouseEventHandler
+  tip?: GrupoTip
+}) {
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12 }}>
+    <span
+      onMouseEnter={onTipEnter}
+      onMouseMove={tip?.move}
+      onMouseLeave={tip?.hide}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, cursor: 'help' }}
+    >
       <span style={{ fontFamily: 'var(--mono)', fontWeight: 700, color: rankColor(top.prof) }}>
         {fmtSigned(top.mod)} ({top.prof})
       </span>
@@ -76,15 +93,24 @@ function LineCard({ ic, nome, right }: { ic: string; nome: string; right: ReactN
 export function PanelDestaques({
   members,
   docs,
+  tip,
 }: {
   members: IndexDocEntry[]
   docs: Map<string, VaultDoc> | undefined
+  tip?: GrupoTip
 }) {
   const groups = skillHighlights(members, docs)
   const equips = equipCards(members, docs, tokens.emojis.glyph.Star)
   const magias = magiaHighlights(members, docs)
   const attrEmoji = (attr: string) =>
     (tokens.emojis.atributo as Record<string, string>)[attr] ?? tokens.emojis.glyph.Bolt
+
+  // Contador df do build recuperado: tops das perícias primeiro, magias depois.
+  let df = 1
+  const skillTipKeys = groups.map((grp) =>
+    grp.skills.map((sk) => sk.tops.map(() => `dest:f${df++}`)),
+  )
+  const magiaTipKeys = magias.map(() => `dest:f${df++}`)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -101,7 +127,7 @@ export function PanelDestaques({
       >
         {/* LEFT: perícias por atributo */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-          {groups.map((grp) => (
+          {groups.map((grp, gIdx) => (
             <div key={grp.attr} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
               <div
                 style={{
@@ -117,13 +143,18 @@ export function PanelDestaques({
                 <span style={{ fontSize: 12 }}>{attrEmoji(grp.attr)}</span>
                 {grp.attr}
               </div>
-              {grp.skills.map((sk) => (
+              {grp.skills.map((sk, sIdx) => (
                 <LineCard
                   key={sk.key}
                   ic={attrEmoji(grp.attr)}
                   nome={sk.key}
                   right={sk.tops.map((top, i) => (
-                    <TopSpan key={`${top.who}-${i}`} top={top} />
+                    <TopSpan
+                      key={`${top.who}-${i}`}
+                      top={top}
+                      onTipEnter={tip?.tipE(skillTipKeys[gIdx][sIdx][i])}
+                      tip={tip}
+                    />
                   ))}
                 />
               ))}
@@ -173,7 +204,7 @@ export function PanelDestaques({
             >
               MAGIAS
             </div>
-            {magias.map((mg) => (
+            {magias.map((mg, mIdx) => (
               <div
                 key={mg.nome}
                 style={{
@@ -189,10 +220,19 @@ export function PanelDestaques({
                 <span style={{ fontSize: 11, flex: 'none' }}>{tokens.emojis.escola[mg.emojiKey]}</span>
                 <span style={{ fontWeight: 700, fontSize: 12.5, flex: 'none' }}>{mg.nome}</span>
                 {mg.warn ? (
-                  <span style={{ flex: 'none', fontSize: 11 }}>{tokens.emojis.glyph.Warning}</span>
+                  <span
+                    onMouseEnter={tip?.tipE(magiaTipKeys[mIdx])}
+                    onMouseMove={tip?.move}
+                    onMouseLeave={tip?.hide}
+                    style={{ flex: 'none', fontSize: 11, cursor: 'help' }}
+                  >
+                    {tokens.emojis.glyph.Warning}
+                  </span>
                 ) : null}
                 <span style={{ flex: 1 }} />
-                {mg.top ? <TopSpan top={mg.top} /> : null}
+                {mg.top ? (
+                  <TopSpan top={mg.top} onTipEnter={tip?.tipE(magiaTipKeys[mIdx])} tip={tip} />
+                ) : null}
               </div>
             ))}
           </div>

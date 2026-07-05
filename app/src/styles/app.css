@@ -89,7 +89,7 @@ body {
 }
 
 .sidebar {
-  width: 232px;
+  width: 240px; /* navW desktop do design (renderVals) */
   flex: none;
   display: flex;
   flex-direction: column;
@@ -97,6 +97,22 @@ body {
   border-right: 1px solid var(--line);
   padding: 16px 0;
   overflow: hidden;
+  transition: width 0.18s ease;
+}
+
+/* colapso desktop (navCollapsed do design: 64px, só ícones, centrado) */
+@media (min-width: 820px) {
+  .sidebar.collapsed {
+    width: 64px;
+  }
+
+  .sidebar.collapsed .nav-label {
+    display: none;
+  }
+
+  .sidebar.collapsed .nav-item {
+    justify-content: center;
+  }
 }
 
 .sidebar-spacer {
@@ -159,12 +175,13 @@ body {
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 819px) {
   .sidebar {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
+    width: 250px; /* navW mobile do design */
     z-index: 60;
     transform: translateX(-100%);
     transition: transform 0.22s ease;
@@ -776,4 +793,14 @@ a {
 
 .grupo-voltar:hover {
   color: var(--accent);
+}
+
+/* Cabeçalho ordenável das tabelas da ficha de grupo — verbatim do design
+   (§GRUPOS, headMap): color com fator --a e style-hover="color:var(--text)". */
+.grupo-sort-head {
+  color: color-mix(in srgb, var(--accent) calc(var(--a, 0) * 100%), var(--muted));
+}
+
+.grupo-sort-head:hover {
+  color: var(--text);
 }

@@ -1,0 +1,1400 @@
+// Aba COMBATE da ficha — markup/estilos verbatim do design puxado
+// (design/pulled/Companion App.dc.html §COMBATE, linhas 297-511; lógica da
+// barra de vida portada do vidaModel() do script do design). Dados: modelo
+// salvo LOCAL (useHeroModel = FM extraído + overlay) — Vida/Defesas/Sentidos/
+// Ataques/Inventario/Magias + correntes da Interativa (Recursos_Restantes/
+// Usos_Recursos/Condicoes_Ativas/Imunidades). Interações são AUTOCONTIDAS
+// nesta aba e persistem em `Interativa.*` com autosave (setVolatile —
+// semântica do autoSaveInterativa do plugin); toggles do design sem home no
+// FM (Vantagem/Acerto, escudo erguido) persistem em session.
+import { useMemo, useState, type CSSProperties } from 'react'
+import type { VaultDoc } from '../../data/types'
+import { linkLabel, unquote } from '../../markdown/dataview-value'
+import { useCatalog } from '../../data/CatalogContext'
+import { useDocs } from '../../data/useDoc'
+import { useHeroModel } from '../../data/useHeroModel'
+import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots } from './bits'
+import { useVidaLocal, VidaAdjustRows } from './pop-panels'
+import type { HeroRefs } from './useHeroRefs'
+import {
+  ADO_GRUPOS,
+  ATTR_EMOJI,
+  COMB_CHIPS,
+  COND_GRUPOS,
+  MAGIA_GRUPO_TITULO,
+  MANOBRAS,
+  RANK_GROUP_ORDER,
+  custoEmoji,
+  defesaEmoji,
+  displayName,
+  grupoArmaEmoji,
+  magiaEmoji,
+  rankGroupLabel,
+  slugify,
+  tipoDanoEmoji,
+  tokens,
+} from './registry'
+import {
+  adoBase,
+  cargasPorTier,
+  danoArmaDisplay,
+  fmOf,
+  fmPath,
+  heroAtributos,
+  interativa,
+  listaEntries,
+  num,
+  parseItemAlias,
+  profLetter,
+  rowMod,
+  signed,
+  str,
+  tierLetter,
+  usosPorTier,
+  type ProfRow,
+} from './hero-model'
+
+const COMB_TABS = [
+  { id: 'ataques', label: 'ATAQUES' },
+  { id: 'pericias', label: 'PERÍCIAS' },
+  { id: 'tesouros', label: 'TESOUROS' },
+  { id: 'magias', label: 'MAGIAS' },
+]
+
+/** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]). */
+function wikiLabels(value: unknown): string[] {
+  const s = str(value)
+  const out: string[] = []
+  const re = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(s)) !== null) out.push((m[2] ?? m[1].split('/').pop() ?? '').trim())
+  return out
+}
+
+const popStyle: CSSProperties = {
+  position: 'absolute',
+  top: 'calc(100% + 8px)',
+  zIndex: 60,
+  background: 'var(--panel2)',
+  border: '1px solid var(--line2)',
+  clipPath: clip(12),
+  boxShadow: '0 14px 44px rgba(0,0,0,.5)',
+}
+
+function Scrim({ onClick }: { onClick: () => void }) {
+  return <div onClick={onClick} style={{ position: 'fixed', inset: 0, zIndex: 55 }} />
+}
+
+/* ===================== escudo ===================== */
+
+function EscudoRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
+  const nome = linkLabel(str(escudo['Nome']))
+  // Erguido = postura de combate do design (sem home no FM) — session.
+  const up = model.session('combate.escudoErguido') === true
+  const setUp = (fn: (v: boolean) => boolean) => model.setSession('combate.escudoErguido', fn(up))
+  const [open, setOpen] = useState(false)
+  const escudoDoc = refs.refDoc(escudo['Nome'])
+  // Integridade máx = danos:: do doc do escudo; dano corrente da Interativa.
+  const intMax = num((escudoDoc?.inlineFields as Record<string, unknown>)?.['danos'])
+  const dano = num(interativa(fm).restantes['Escudo_Dano'] ?? escudo['Dano'])
+  const setDano = (fn: (d: number) => number) =>
+    model.setVolatile('Interativa.Recursos_Restantes.Escudo_Dano', fn(dano))
+  if (!nome) return null
+  const dureza = num(escudo['Dureza'])
+  const intCur = Math.max(0, intMax - dano)
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 11,
+          padding: '9px 14px 9px 9px',
+          background: 'linear-gradient(135deg,var(--panel2),var(--panel))',
+          border: '1px solid var(--line2)',
+          clipPath: clip(14),
+        }}
+      >
+        <button
+          onClick={() => setUp((v) => !v)}
+          title={up ? 'Abaixar escudo' : 'Erguer escudo'}
+          style={{
+            flex: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '0 11px',
+            height: 40,
+            background: `color-mix(in srgb,var(--accent) ${up ? 20 : 0}%,var(--card))`,
+            border: `1px solid color-mix(in srgb,var(--accent) ${18 + (up ? 58 : 0)}%,var(--line2))`,
+            cursor: 'pointer',
+            borderRadius: 6,
+            boxShadow: up ? '0 0 12px color-mix(in srgb,var(--accent) 45%,transparent)' : 'none',
+            transition: 'background .15s,box-shadow .15s,border-color .15s',
+          }}
+        >
+          <span style={{ fontSize: 19, lineHeight: 1 }}>{tokens.emojis.equipProf.Escudo}</span>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 8,
+              fontWeight: 700,
+              letterSpacing: '.06em',
+              lineHeight: 1,
+              color: `color-mix(in srgb,var(--accent) ${38 + (up ? 62 : 0)}%,var(--muted))`,
+            }}
+          >
+            {up ? 'ERGUIDO' : 'ERGUER'}
+          </span>
+        </button>
+        <div
+          onClick={() => setOpen((v) => !v)}
+          title="Ajustar integridade"
+          style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 11, cursor: 'pointer' }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 9.5,
+              letterSpacing: '.12em',
+              color: 'var(--muted)',
+              flex: 'none',
+            }}
+          >
+            ESCUDO
+          </span>
+          <span
+            style={{
+              fontWeight: 700,
+              fontSize: 14,
+              color: 'var(--text)',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {nome}
+          </span>
+          <span style={{ flex: 1 }} />
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, flex: 'none' }} title="Dureza">
+            <span style={{ fontSize: 12 }}>{tokens.emojis.inv.Dureza}</span>
+            <span
+              style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}
+            >
+              DUREZA
+            </span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+              {dureza}
+            </span>
+          </span>
+          <span style={{ width: 1, height: 16, background: 'var(--line2)', flex: 'none' }} />
+          <span
+            style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', flex: 'none' }}
+          >
+            INTEGRIDADE
+          </span>
+          <span style={{ display: 'flex', gap: 5, flex: 'none' }}>
+            {Array.from({ length: intMax }, (_, i) => (
+              <span
+                key={i}
+                style={{
+                  width: 10,
+                  height: 10,
+                  transform: 'rotate(45deg)',
+                  background: i < intCur ? '#9a8f5a' : 'transparent',
+                  border: `1px solid ${i < intCur ? '#c9b56a' : 'var(--line2)'}`,
+                }}
+              />
+            ))}
+          </span>
+          <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
+        </div>
+      </div>
+      {open ? (
+        <>
+          <Scrim onClick={() => setOpen(false)} />
+          <div style={{ ...popStyle, right: 0, width: 'min(340px,92vw)', padding: 15 }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontFamily: 'var(--mono)',
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '.12em',
+                color: 'var(--muted)',
+                marginBottom: 13,
+              }}
+            >
+              <span style={{ fontSize: 14 }}>🛡️</span>INTEGRIDADE<span style={{ flex: 1 }} />
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+                {intCur} / {intMax}
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: 9 }}>
+              <button
+                onClick={() => setDano((d) => Math.min(intMax, d + 1))}
+                style={{
+                  flex: 1,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '10px 0',
+                  background: 'color-mix(in srgb,var(--red) 16%,var(--panel))',
+                  border: '1px solid color-mix(in srgb,var(--red) 45%,var(--line2))',
+                  color: 'var(--text)',
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: 'pointer',
+                  clipPath: clip(8),
+                }}
+              >
+                <span>💢</span> Danificar
+              </button>
+              <button
+                onClick={() => setDano((d) => Math.max(0, d - 1))}
+                style={{
+                  flex: 1,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '10px 0',
+                  background: 'color-mix(in srgb,#43a06a 16%,var(--panel))',
+                  border: '1px solid color-mix(in srgb,#43a06a 45%,var(--line2))',
+                  color: 'var(--text)',
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: 'pointer',
+                  clipPath: clip(8),
+                }}
+              >
+                <span>🔧</span> Reparar
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+/* ===================== vida ===================== */
+
+function VidaBar({ doc }: { doc: VaultDoc }) {
+  // Porta fiel do vidaModel() do script do design (estado em pop-panels).
+  const vida = useVidaLocal(doc)
+  const [open, setOpen] = useState(false)
+
+  const { vit, moral, temp, vitMax, moralMax } = vida
+  const T = vitMax + moralMax
+  const pct = (x: number) => (T > 0 ? (x / T) * 100 : 0)
+  const cssP = (x: number) => pct(x).toFixed(3) + '%'
+  const negTot = vit < 0 ? Math.min(-vit, vitMax) : 0
+  const neg1 = Math.min(negTot, vitMax / 2)
+  const neg2 = Math.max(0, negTot - vitMax / 2)
+  // hasOver do vidaModel: excedente (moral temporária acima do teto) brilha.
+  const over = Math.max(0, Math.max(0, vit) + moral + temp - T)
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <div
+        onClick={() => setOpen((o) => !o)}
+        title="Clique para ajustar a vida"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 16,
+          padding: 18,
+          background: 'linear-gradient(135deg,var(--panel2),var(--panel))',
+          border: '1px solid var(--line2)',
+          clipPath: clip(16),
+          cursor: 'pointer',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ fontSize: 13 }}>❤️</span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
+              VITALIDADE
+            </span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 600, color: 'var(--text)' }}>
+              {vit} / {vitMax}
+            </span>
+          </span>
+          <span style={{ width: 1, height: 14, background: 'var(--line2)' }} />
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ fontSize: 13 }}>💙</span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
+              MORAL
+            </span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 600, color: 'var(--text)' }}>
+              {moral} / {moralMax}
+            </span>
+          </span>
+          {temp > 0 ? (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <span style={{ fontSize: 13 }}>💚</span>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 600, color: '#43c07f' }}>
+                +{temp}
+              </span>
+            </span>
+          ) : null}
+          <span style={{ flex: 1 }} />
+          {vit <= 0 ? (
+            <span style={{ fontSize: 16 }} title="Caído">
+              💀
+            </span>
+          ) : null}
+        </div>
+        <div
+          style={{
+            position: 'relative',
+            height: 13,
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            clipPath: 'polygon(0 0,100% 0,100% 100%,4px 100%,0 60%)',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: cssP(Math.max(0, vit)),
+              background: 'linear-gradient(90deg,#c0392b,#ff5547)',
+              transition: 'width .4s cubic-bezier(.34,1.12,.4,1)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: cssP(neg1),
+              background: 'repeating-linear-gradient(45deg,#d63a2a,#d63a2a 6px,#b93122 6px,#b93122 12px)',
+              transition: 'width .4s ease',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: cssP(vitMax / 2),
+              height: '100%',
+              width: cssP(neg2),
+              background: 'repeating-linear-gradient(45deg,#6e3a24,#6e3a24 6px,#512a1a 6px,#512a1a 12px)',
+              transition: 'width .4s ease,left .4s ease',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: cssP(Math.max(0, vit)),
+              height: '100%',
+              width: cssP(moral),
+              background: 'linear-gradient(90deg,#2f6fd0,#4f9bff)',
+              transition: 'width .4s cubic-bezier(.34,1.08,.4,1),left .4s cubic-bezier(.34,1.08,.4,1)',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: cssP(Math.max(0, vit) + moral),
+              height: '100%',
+              width: cssP(temp),
+              background: 'linear-gradient(90deg,#33a869,#46cf86)',
+              zIndex: 2,
+              transition: 'width .4s cubic-bezier(.34,1.08,.4,1),left .4s cubic-bezier(.34,1.08,.4,1)',
+            }}
+          />
+          {over > 0 ? (
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: `${(100 - pct(Math.min(over, T))).toFixed(3)}%`,
+                height: '100%',
+                width: cssP(Math.min(over, T)),
+                background: 'linear-gradient(90deg,#4fe39a,#7dffbe)',
+                zIndex: 2,
+                boxShadow: '0 0 11px rgba(110,245,180,.75)',
+                transition: 'width .4s ease,left .4s ease',
+              }}
+            />
+          ) : null}
+          <div
+            style={{
+              position: 'absolute',
+              top: -1,
+              left: cssP(vitMax),
+              height: 'calc(100% + 2px)',
+              width: 0,
+              borderLeft: '1.5px dashed rgba(255,255,255,.5)',
+              zIndex: 3,
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+      </div>
+      {open ? (
+        <>
+          <Scrim onClick={() => setOpen(false)} />
+          <div style={{ ...popStyle, top: 'calc(100% + 10px)', left: 0, width: 'min(440px,94%)', padding: 16 }}>
+            <VidaAdjustRows vida={vida} />
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+/* ===================== defesas / condições / recuperação ===================== */
+
+interface CondChip {
+  nome: string
+  grupo: string
+  ic: string
+  cor: string
+}
+
+function DefesasRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const { values: attrs } = heroAtributos(fm)
+  const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
+  const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
+  const inter = interativa(fm)
+  const [pop, setPop] = useState<null | 'cond' | 'recup'>(null)
+
+  // Condições do modelo salvo; grupo/ícone vêm do doc da regra (FM
+  // Efeitos_Interativos: grupo Positiva/Negativa + visual.iconeLigado).
+  // A lista exibida é a UNIÃO extraído ∪ overlay (chip desligado continua
+  // visível, como no design); on/off = presença em Condicoes_Ativas mergeado.
+  const condicoesExtraidas = interativa(fmOf(doc)).condicoes
+  const nomesCond = useMemo(
+    () => [...new Set([...Object.keys(condicoesExtraidas), ...Object.keys(inter.condicoes)])],
+    [condicoesExtraidas, inter.condicoes],
+  )
+  const chips: CondChip[] = useMemo(() => {
+    return nomesCond.map((nome) => {
+      const rDoc = refs.refDoc(nome)
+      const efeitos = (fmOf(rDoc)['Efeitos_Interativos'] ?? []) as Record<string, unknown>[]
+      const ef =
+        (Array.isArray(efeitos) ? efeitos : []).find((e) => str(e['label']) === nome) ??
+        (Array.isArray(efeitos) ? efeitos[0] : undefined)
+      const grupo = str(ef?.['grupo']) || 'Positiva'
+      const visual = (ef?.['visual'] ?? {}) as Record<string, unknown>
+      const grupoDef = COND_GRUPOS.find((g) => g.id === grupo) ?? COND_GRUPOS[0]
+      return {
+        nome,
+        grupo,
+        ic: str(visual['iconeLigado']) || tokens.emojis.bonusType.Condicao,
+        cor: grupoDef.cor,
+      }
+    })
+  }, [nomesCond, refs])
+  const condOn: Record<string, boolean> = Object.fromEntries(
+    chips.map((c) => [c.nome, c.nome in inter.condicoes]),
+  )
+  // Toggle persiste o CONTAINER (write-through do plugin grava o snapshot
+  // inteiro de `interativa.<container>`): off remove a key; on restaura o
+  // valor extraído da condição (senão {value: 1}, shape do FM salvo).
+  const toggleCond = (nome: string) => {
+    const next = { ...inter.condicoes }
+    if (nome in next) delete next[nome]
+    else next[nome] = condicoesExtraidas[nome] ?? { value: 1 }
+    model.setVolatile('Interativa.Condicoes_Ativas', next)
+  }
+  const nAtivas = chips.filter((c) => condOn[c.nome]).length
+  const condLabel = nAtivas ? `${nAtivas}${nAtivas > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma'
+
+  // RECUPERAÇÃO: chips espelham Interativa.Imunidades (imune → chip desligado).
+  const feridTrat = !inter.imunidades['Medicina']
+  const encoraj = !inter.imunidades['Encorajar']
+  const recupChips = [
+    {
+      n: 'Ferimentos Tratáveis',
+      ic: '➕',
+      on: feridTrat,
+      toggle: () => model.setVolatile('Interativa.Imunidades.Medicina', feridTrat),
+    },
+    {
+      n: 'Encorajável',
+      ic: '💙',
+      on: encoraj,
+      toggle: () => model.setVolatile('Interativa.Imunidades.Encorajar', encoraj),
+    },
+  ]
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12 }}>
+        {defesas.map((d) => (
+          <div
+            key={d.Nome}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '14px 16px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line)',
+              clipPath: clip(12),
+            }}
+          >
+            <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
+            <div style={{ lineHeight: 1.1 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
+                {displayName(slugify(str(d.Nome))).toUpperCase()}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)' }}>{10 + rowMod(d, attrs)}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
+        <button
+          onClick={() => setPop((p) => (p === 'cond' ? null : 'cond'))}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '10px 14px',
+            background: `color-mix(in srgb,var(--accent) ${8 + (pop === 'cond' ? 12 : 0)}%,var(--panel))`,
+            border: `1px solid color-mix(in srgb,var(--accent) ${30 + (pop === 'cond' ? 50 : 0)}%,var(--line2))`,
+            color: 'var(--text)',
+            cursor: 'pointer',
+            textAlign: 'left',
+            clipPath: clip(10),
+          }}
+        >
+          <span style={{ fontSize: 16, flex: 'none' }}>⚠️</span>
+          <div style={{ lineHeight: 1.1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+              CONDIÇÕES
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{condLabel}</div>
+          </div>
+        </button>
+        {sentidos.map((s) => (
+          <div
+            key={s.Nome}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '10px 14px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line)',
+              clipPath: clip(10),
+            }}
+          >
+            <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
+            <div style={{ lineHeight: 1.1 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+                {displayName(slugify(str(s.Nome))).toUpperCase()}
+              </div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>{signed(rowMod(s, attrs))}</div>
+            </div>
+          </div>
+        ))}
+        <button
+          onClick={() => setPop((p) => (p === 'recup' ? null : 'recup'))}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '10px 14px',
+            background: `color-mix(in srgb,#43a06a ${8 + (pop === 'recup' ? 14 : 0)}%,var(--panel))`,
+            border: `1px solid color-mix(in srgb,#43a06a ${30 + (pop === 'recup' ? 50 : 0)}%,var(--line2))`,
+            color: 'var(--text)',
+            cursor: 'pointer',
+            textAlign: 'left',
+            clipPath: clip(10),
+          }}
+        >
+          <span style={{ fontSize: 16, flex: 'none' }}>💤</span>
+          <div style={{ lineHeight: 1.1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+              RECUPERAÇÃO
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>Descanso</div>
+          </div>
+        </button>
+      </div>
+
+      {pop === 'cond' ? (
+        <>
+          <Scrim onClick={() => setPop(null)} />
+          <div
+            style={{
+              ...popStyle,
+              left: 0,
+              right: 'auto',
+              width: 'calc(50% - 6px)',
+              padding: '16px 18px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 14,
+            }}
+          >
+            {COND_GRUPOS.map((g) => {
+              const doGrupo = chips.filter((c) => c.grupo === g.id)
+              if (!doGrupo.length) return null
+              return (
+                <div key={g.id}>
+                  <div
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: 9.5,
+                      letterSpacing: '.14em',
+                      color: g.cor,
+                      marginBottom: 9,
+                    }}
+                  >
+                    {g.titulo}
+                  </div>
+                  <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
+                    {doGrupo.map((c) => {
+                      const on = condOn[c.nome] ? 1 : 0
+                      return (
+                        <span
+                          key={c.nome}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            padding: '6px 6px 6px 13px',
+                            background: `color-mix(in srgb,${c.cor} ${10 + on * 14}%,var(--panel))`,
+                            border: `1px solid color-mix(in srgb,${c.cor} ${35 + on * 45}%,var(--line2))`,
+                            clipPath: 'polygon(0 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px))',
+                          }}
+                        >
+                          <span style={{ fontSize: 13 }}>{c.ic}</span>
+                          <span
+                            style={{
+                              fontWeight: 600,
+                              fontSize: 13,
+                              color: on ? c.cor : 'var(--text)',
+                            }}
+                          >
+                            {c.nome}
+                          </span>
+                          <button
+                            onClick={() => toggleCond(c.nome)}
+                            style={{
+                              width: 24,
+                              height: 24,
+                              flex: 'none',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              background: `color-mix(in srgb,${c.cor} ${20 + on * 60}%,var(--card))`,
+                              border: `1px solid color-mix(in srgb,${c.cor} 45%,var(--line2))`,
+                              color: on ? '#fff' : c.cor,
+                              fontFamily: 'var(--mono)',
+                              fontWeight: 700,
+                              fontSize: 14,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {on ? '−' : '+'}
+                          </button>
+                        </span>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </>
+      ) : null}
+
+      {pop === 'recup' ? (
+        <>
+          <Scrim onClick={() => setPop(null)} />
+          <div
+            style={{
+              ...popStyle,
+              left: 'auto',
+              right: 0,
+              width: 'calc(50% - 6px)',
+              padding: '16px 18px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 14,
+            }}
+          >
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              {recupChips.map((c) => (
+                <span
+                  key={c.n}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 9,
+                    padding: '7px 7px 7px 14px',
+                    background: `color-mix(in srgb,#43a06a ${c.on ? 16 : 0}%,var(--panel))`,
+                    border: `1px solid color-mix(in srgb,#43a06a ${30 + (c.on ? 45 : 0)}%,var(--line2))`,
+                    clipPath: 'polygon(0 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px))',
+                  }}
+                >
+                  <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--text)' }}>{c.n}</span>
+                  <button
+                    onClick={c.toggle}
+                    style={{
+                      width: 26,
+                      height: 26,
+                      flex: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      fontSize: 14,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {c.ic}
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 9.5,
+                  letterSpacing: '.14em',
+                  color: 'var(--muted)',
+                  marginBottom: 9,
+                }}
+              >
+                DESCANSO
+              </div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {[
+                  { ic: '⌛', l: 'Descansar' },
+                  { ic: '💤', l: 'Dormir' },
+                ].map((b) => (
+                  <button
+                    key={b.l}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 9,
+                      padding: '9px 16px',
+                      background: 'var(--panel2)',
+                      border: '1px solid var(--line2)',
+                      color: 'var(--text)',
+                      fontWeight: 600,
+                      fontSize: 13,
+                      cursor: 'pointer',
+                      clipPath: clip(8),
+                    }}
+                  >
+                    <span style={{ fontSize: 15 }}>{b.ic}</span> {b.l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+/* ===================== sub-aba ATAQUES ===================== */
+
+function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const { values: attrs } = heroAtributos(fm)
+  const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
+  const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  const inter = interativa(fm)
+  // Chips do design (COMB_CHIPS) não têm home no FM — session persistida.
+  const chipOn = (id: string) => model.session(`combate.chip.${id}`) === true
+  const setUso = (key: string, next: number) =>
+    model.setVolatile('Interativa.Usos_Recursos', { ...inter.usos, [key]: next })
+
+  // Manobras: linha padrão de Ataques.Lista (mod usa a proficiência de ataque).
+  const manobraRow = ((fmPath(fm, 'Ataques', 'Lista') ?? []) as ProfRow[]).find(
+    (r) => str(r.Nome) === 'Manobras',
+  )
+  const manobraMod = manobraRow
+    ? rowMod({ ...manobraRow, Proficiencia: profAtaque }, attrs)
+    : null
+
+  const rowStyle: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 15,
+    padding: '13px 16px',
+    background: 'var(--panel)',
+    border: '1px solid var(--line)',
+    clipPath: clip(13),
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 2 }}>
+        {COMB_CHIPS.map((c) => {
+          const on = chipOn(c.id) ? 1 : 0
+          return (
+            <button
+              key={c.id}
+              onClick={() => model.setSession(`combate.chip.${c.id}`, !chipOn(c.id))}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 9,
+                padding: '8px 15px',
+                background: `color-mix(in srgb,${c.cor} ${8 + on * 16}%,var(--panel))`,
+                border: `1px solid color-mix(in srgb,${c.cor} ${32 + on * 48}%,var(--line2))`,
+                color: on ? c.cor : 'var(--text)',
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: 'pointer',
+                clipPath: 'polygon(0 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px))',
+              }}
+            >
+              <span style={{ fontSize: 15 }}>{c.ic}</span>
+              {c.n}
+            </button>
+          )
+        })}
+      </div>
+
+      {armas.map((arma, i) => {
+        const nome = linkLabel(str(arma['Nome']))
+        const prop = linkLabel(str(arma['Propriedade']))
+        const armaDoc = refs.refDoc(arma['Nome'])
+        const inline = (armaDoc?.inlineFields ?? {}) as Record<string, unknown>
+        const danoRaw = unquote(str(inline['dano']))
+        // dano exibido = calcDanoArma do plugin: dados base + dados de prof.
+        const dano = danoArmaDisplay(danoRaw, profAtaque)
+        const props = wikiLabels(inline['propriedades'])
+        const tipo = props.length ? props.join(' · ') : str(inline['tipo'])
+        // AdO base (a.ado do design): arma corpo-a-corpo/especial + prof>=A.
+        const grupoArma = str(fmOf(armaDoc)['grupo']).toLowerCase().trim()
+        const ado =
+          ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profAtaque)
+            ? adoBase(danoRaw, profAtaque)
+            : null
+        const tipoIco = tipoDanoEmoji(unquote(str(inline['tipo'])))
+        const mod = rowMod(
+          {
+            Atributo: str(arma['Atributo']),
+            Proficiencia: profAtaque,
+            Bonus_Item: num(arma['Bonus_Item']),
+            Bonus_Especial: num(arma['Bonus_Especial']),
+          },
+          attrs,
+        )
+        const tier = tierLetter(arma['Categoria'])
+        const propDoc = refs.refDoc(arma['Propriedade'])
+        const usosMaxN = tier ? usosPorTier(propDoc, tier) : null
+        const usoKey = `arma:${nome}|prop:${prop}`
+        const usoCur = inter.usos[usoKey] !== undefined ? num(inter.usos[usoKey]) : (usosMaxN ?? 0)
+
+        return (
+          <div key={`${nome}-${i}`} style={rowStyle}>
+            <span style={{ fontSize: 19, flex: 'none' }}>{grupoArmaEmoji(fmOf(armaDoc)['grupo'])}</span>
+            <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
+              {prop ? `${nome} ${prop}` : nome}
+            </span>
+            {dano ? (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '5px 12px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 13,
+                  color: 'var(--accent)',
+                }}
+              >
+                ⚔️ {dano}
+              </span>
+            ) : null}
+            {ado !== null ? (
+              <span
+                title="Ataque de Oportunidade"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '5px 11px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 12,
+                  color: 'var(--muted)',
+                }}
+              >
+                {tipoIco ? `${tipoIco} ` : ''}AdO {ado}
+              </span>
+            ) : null}
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.06em', color: 'var(--muted)' }}>
+              {tipo}
+            </span>
+            <span style={{ flex: 1 }} />
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{signed(mod)}</span>
+            {usosMaxN ? (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+                <span
+                  style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}
+                >
+                  USOS
+                </span>
+                <UsoDots cur={usoCur} max={usosMaxN} onToggle={(next) => setUso(usoKey, next)} />
+              </span>
+            ) : null}
+          </div>
+        )
+      })}
+
+      {manobraMod !== null ? (
+        <div style={{ ...rowStyle, gap: 12 }}>
+          <span style={{ fontSize: 19, flex: 'none' }}>{tokens.emojis.combate.Ataque}</span>
+          <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
+            Manobras{' '}
+            <span style={{ color: 'var(--accent)', fontFamily: 'var(--mono)' }}>{signed(manobraMod)}</span>
+          </span>
+          <span style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
+            {MANOBRAS.map((m) => (
+              <span
+                key={m}
+                style={{
+                  padding: '5px 11px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  fontSize: 12.5,
+                  color: 'var(--text)',
+                  clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                }}
+              >
+                {m}
+              </span>
+            ))}
+          </span>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+/* ===================== sub-aba PERÍCIAS ===================== */
+
+const ACOES_PERICIA_FOLDER = 'Sistema/Regras/Ações/Ações de Perícia/'
+
+/** AÇÕES por perícia (p.acts do design) — catálogo real da vault: docs de
+ *  Ação de Perícia apontam a(s) perícia(s) no inline `perícia::`. */
+function useAcoesPorPericia(): Map<string, string[]> {
+  const catalog = useCatalog()
+  const ids = useMemo(
+    () =>
+      catalog.content
+        .filter((e) => e.id.startsWith(ACOES_PERICIA_FOLDER) && e.basename !== 'Ações de Perícia')
+        .map((e) => e.id),
+    [catalog],
+  )
+  const docs = useDocs(ids)
+  return useMemo(() => {
+    const map = new Map<string, string[]>()
+    if (docs) {
+      for (const acaoDoc of docs.values()) {
+        const alvo = (acaoDoc.inlineFields as Record<string, unknown>)['perícia']
+        for (const label of wikiLabels(alvo)) {
+          const key = slugify(label)
+          const list = map.get(key) ?? []
+          list.push(acaoDoc.basename ?? acaoDoc.id)
+          map.set(key, list)
+        }
+      }
+      for (const list of map.values()) list.sort((a, b) => a.localeCompare(b, 'pt'))
+    }
+    return map
+  }, [docs])
+}
+
+function PericiasPanel({ doc }: { doc: VaultDoc }) {
+  const fm = fmOf(doc)
+  const { values: attrs } = heroAtributos(fm)
+  const actsByPericia = useAcoesPorPericia()
+  const pericias = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[])
+    .map((p) => ({ row: p, mod: rowMod(p, attrs) }))
+    .sort((a, b) => b.mod - a.mod)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {pericias.map(({ row, mod }) => {
+        const acts = actsByPericia.get(slugify(str(row.Nome))) ?? []
+        return (
+          <div
+            key={row.Nome}
+            style={{
+              padding: '8px 12px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line)',
+              clipPath: clip(12),
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '3px 8px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: 'var(--muted)',
+                  flex: 'none',
+                }}
+              >
+                <span>{ATTR_EMOJI[str(row.Atributo)] ?? ''}</span>
+                <span>{str(row.Atributo)}</span>
+              </span>
+              <span
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  fontWeight: 600,
+                  fontSize: 14,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {displayName(slugify(str(row.Nome)))}
+              </span>
+              <ModBox
+                modStr={signed(mod)}
+                rank={profLetter(row)}
+                star={num(row.Bonus_Especial) > 0}
+                dots={num(row.Bonus_Item)}
+                width={40}
+              />
+            </div>
+            {acts.length ? (
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 6,
+                  flexWrap: 'wrap',
+                  marginTop: 7,
+                  paddingTop: 7,
+                  borderTop: '1px solid var(--line)',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: 8.5,
+                    letterSpacing: '.1em',
+                    color: 'var(--muted)',
+                    alignSelf: 'center',
+                    marginRight: 2,
+                  }}
+                >
+                  AÇÕES
+                </span>
+                {acts.map((ac) => (
+                  <span
+                    key={ac}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 5,
+                      padding: '4px 10px',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      fontSize: 11.5,
+                      color: 'var(--text)',
+                      clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                    }}
+                  >
+                    <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
+                    {ac}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/* ===================== sub-aba TESOUROS ===================== */
+
+function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const inter = interativa(fm)
+  const setUso = (key: string, next: number) =>
+    model.setVolatile('Interativa.Usos_Recursos', { ...inter.usos, [key]: next })
+  const tesouros = ((fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[])
+    .map((raw) => {
+      const { nome, tier } = parseItemAlias(raw)
+      if (!tier) return null
+      const tDoc = refs.refDoc(raw)
+      const cargas = cargasPorTier(tDoc, tier)
+      const usosN = usosPorTier(tDoc, tier)
+      const max = cargas ?? usosN
+      if (!max) return null
+      const key = `tes:${nome}|tier:${tier}`
+      const salvo = inter.usos[key] !== undefined ? num(inter.usos[key]) : null
+      // Usos iniciam cheios; Cargas iniciam descarregadas (plugin, usos.ts).
+      const cur = salvo ?? (cargas ? 0 : max)
+      return { nome: `${nome} (${tier})`, key, cur, max }
+    })
+    .filter((t): t is NonNullable<typeof t> => t !== null)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {tesouros.map((t) => (
+        <div
+          key={t.key}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 13,
+            padding: '12px 15px',
+            background: 'var(--panel)',
+            border: '1px solid var(--line)',
+            clipPath: clip(12),
+          }}
+        >
+          <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
+          <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
+            USOS
+          </span>
+          <UsoDots cur={t.cur} max={t.max} onToggle={(next) => setUso(t.key, next)} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ===================== sub-aba MAGIAS ===================== */
+
+interface MagiaRow {
+  n: string
+  ic: string
+  acao: string
+}
+
+/** Agrupa as magias aprendidas por rank (Slot.X → rank do doc; Tesouro.* → Tesouros). */
+export function magiaGroups(
+  fm: Record<string, unknown>,
+  refDoc: HeroRefs['refDoc'],
+): { titulo: string; cor: string; magias: MagiaRow[] }[] {
+  const porGrupo = new Map<string, MagiaRow[]>()
+  const escolas = (fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+  for (const escola of Array.isArray(escolas) ? escolas : []) {
+    for (const entry of listaEntries(escola['Lista'])) {
+      const spellDoc = refDoc(entry.raw)
+      const spellFm = fmOf(spellDoc)
+      const grupo =
+        entry.fonte.kind === 'Tesouro'
+          ? 'Tesouro'
+          : rankGroupLabel(str(spellFm['rank']) || SLOTS_RANK[entry.fonte.target] || '')
+      const row: MagiaRow = {
+        n: entry.label,
+        ic: magiaEmoji(spellFm),
+        acao: custoEmoji(spellFm['custo']),
+      }
+      const list = porGrupo.get(grupo) ?? []
+      list.push(row)
+      porGrupo.set(grupo, list)
+    }
+  }
+  return [...RANK_GROUP_ORDER, 'Tesouro']
+    .filter((g) => porGrupo.has(g))
+    .map((g) => ({
+      titulo: MAGIA_GRUPO_TITULO[g] ?? g.toUpperCase(),
+      cor: g === 'Tesouro' ? 'var(--gold)' : 'var(--blue)',
+      magias: porGrupo.get(g)!,
+    }))
+}
+const SLOTS_RANK: Record<string, string> = { B: 'Básica', A: 'Adepta', E: 'Experiente', M: 'Mestre' }
+
+function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const emMax = num(fmPath(fm, 'Magias', 'EM'))
+  const rest = interativa(fm).restantes
+  const em = rest['EM'] !== undefined ? num(rest['EM']) : emMax
+  const setEm = (fn: (cur: number) => number) =>
+    model.setVolatile('Interativa.Recursos_Restantes.EM', fn(em))
+  const groups = useMemo(() => magiaGroups(fm, refs.refDoc), [fm, refs])
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 14,
+          padding: '13px 16px',
+          background: 'var(--card)',
+          border: '1px solid var(--line2)',
+          clipPath: clip(12),
+        }}
+      >
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.14em', color: 'var(--muted)' }}>
+          ENERGIA MÁGICA
+        </span>
+        <span style={{ flex: 1 }} />
+        <span style={{ display: 'flex', gap: 9 }}>
+          {Array.from({ length: emMax }, (_, i) => {
+            const on = i < em ? 1 : 0
+            return (
+              <span
+                key={i}
+                onClick={() => setEm((cur) => (cur === i + 1 ? i : i + 1))}
+                title="Alternar EM"
+                style={{
+                  width: 24,
+                  height: 24,
+                  transform: 'rotate(45deg)',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  background: `color-mix(in srgb,#3b82d6 ${8 + on * 92}%,transparent)`,
+                  border: `2px solid color-mix(in srgb,#3b82d6 ${55 + on * 45}%,transparent)`,
+                  boxShadow: on ? '0 0 12px rgba(59,130,214,.45)' : 'none',
+                  transition: 'background .12s,box-shadow .12s,border-color .12s',
+                }}
+              />
+            )
+          })}
+        </span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--blue)' }}>
+          {em} / {emMax}
+        </span>
+      </div>
+
+      {groups.map((grp) => (
+        <div key={grp.titulo} style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: 10,
+                letterSpacing: '.16em',
+                color: grp.cor,
+                fontWeight: 700,
+              }}
+            >
+              {grp.titulo}
+            </span>
+            <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
+          </div>
+          {grp.magias.map((m) => (
+            <div
+              key={m.n}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 13,
+                padding: '11px 15px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line)',
+                clipPath: clip(12),
+              }}
+            >
+              <span style={{ fontSize: 17, flex: 'none' }}>{m.ic}</span>
+              <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{m.n}</span>
+              <span
+                title="Custo de ação"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontFamily: 'var(--mono)',
+                  fontSize: 11,
+                  color: 'var(--muted)',
+                }}
+              >
+                <span style={{ fontSize: 15 }}>{m.acao}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ===================== aba ===================== */
+
+export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  const [tab, setTab] = useState('ataques')
+  const index = Math.max(
+    0,
+    COMB_TABS.findIndex((t) => t.id === tab),
+  )
+
+  return (
+    <div
+      style={{
+        maxWidth: 1180,
+        margin: '0 auto',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+      }}
+    >
+      <EscudoRow doc={doc} refs={refs} />
+      <VidaBar doc={doc} />
+      <DefesasRow doc={doc} refs={refs} />
+      <div>
+        <div style={{ marginBottom: 16 }}>
+          <TabStrip tabs={COMB_TABS} active={tab} onSelect={setTab} pad="11px 18px" />
+        </div>
+        <PanelTrack index={index}>
+          <TrackPanel>
+            <AtaquesPanel doc={doc} refs={refs} />
+          </TrackPanel>
+          <TrackPanel>
+            <PericiasPanel doc={doc} />
+          </TrackPanel>
+          <TrackPanel>
+            <TesourosPanel doc={doc} refs={refs} />
+          </TrackPanel>
+          <TrackPanel>
+            <MagiasPanel doc={doc} refs={refs} />
+          </TrackPanel>
+        </PanelTrack>
+      </div>
+    </div>
+  )
+}

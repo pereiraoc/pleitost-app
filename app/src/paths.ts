@@ -8,3 +8,9 @@ export function compendiumFolderPath(path: string): string {
 export function docPath(id: string): string {
   return '/doc/' + id.split('/').map(encodeURIComponent).join('/')
 }
+
+/** Ficha do herói (rota /heroi/<id do doc>, aba via ?tab=). */
+export function heroPath(id: string, tab?: string): string {
+  const base = '/heroi/' + id.split('/').map(encodeURIComponent).join('/')
+  return tab ? `${base}?tab=${tab}` : base
+}

@@ -1,16 +1,23 @@
 // Peças compartilhadas das tabelas da ficha de grupo — markup/estilos
 // VERBATIM da seção ===== GRUPOS ===== do design puxado
-// (design/pulled/Companion App.dc.html, linhas ~1133-1201): linha recortada
-// com fator --g (linha "Grupo"), célula de cabeçalho com emoji + sigla e
-// célula de nome com 👤.
-import type { CSSProperties } from 'react'
+// (design/pulled/Companion App.dc.html): linha recortada com fator --g
+// (linha "Grupo"), cabeçalho-botão ordenável (headMap do build recuperado),
+// célula de nome com 👤 (sempre — o markup não condiciona) e célula de valor.
+// Cores/pesos vêm do build do grupo no renderVals recuperado:
+//   nameCor: grupo → var(--accent); membro → var(--text) (papéis) ou
+//     var(--blue) (competências/riqueza)
+//   weight: grupo 800; membro 600 (papéis) ou 500 (competências/riqueza)
+//   cor das células: grupo → var(--accent); membro → var(--text), com a
+//     coluna Δ da riqueza via dltCor (sinal: + verde, − vermelho)
+import type { CSSProperties, MouseEvent, MouseEventHandler } from 'react'
+import type { GrupoTip } from './gtip'
 
 export const ROW_CLIP = 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))'
 
-/** Cor do rótulo da linha "Grupo" — mesma convenção já validada no BalRow. */
-export const GROUP_NAME_COLOR = '#ca8a04'
-/** Valor das células da linha "Grupo" (mesmo mix do tier no BalRow). */
-export const GROUP_VALUE_COLOR = 'color-mix(in srgb,var(--accent) 55%,var(--text))'
+/** dltCor do design: delta '+' → verde, '-' → vermelho, senão texto. */
+export function dltCor(v: string): string {
+  return /^\+/.test(v) ? '#3fbf6a' : /^-/.test(v) ? '#d8695c' : 'var(--text)'
+}
 
 /** Título "// SEÇÃO" (mono, .16em) — verbatim do design. */
 export const sectionTitleStyle: CSSProperties = {
@@ -35,55 +42,93 @@ export function rowShellStyle(isGroup: boolean): CSSProperties {
   }
 }
 
-/** Cabeçalho de coluna (emoji em cima, sigla embaixo) — verbatim do design. */
-export function HeadCell({
+/**
+ * Cabeçalho de coluna ordenável — botão verbatim do design (headMap):
+ * emoji em cima, sigla, seta ▼/▲ em accent quando a coluna está ativa;
+ * cor via --a (classe .grupo-sort-head em app.css, com o hover do design).
+ */
+export function SortHead({
   ic,
   label,
+  active,
+  arr,
+  onClick,
   fontSize = 8.5,
   letterSpacing = '.02em',
   icColor,
+  onTipEnter,
+  tip,
 }: {
   ic: string
   label: string
+  active: boolean
+  arr: string
+  onClick: () => void
   fontSize?: number
   letterSpacing?: string
   icColor?: string
+  onTipEnter?: MouseEventHandler
+  tip?: GrupoTip
 }) {
   return (
-    <div
-      style={{
-        textAlign: 'center',
-        fontFamily: 'var(--mono)',
-        fontSize,
-        letterSpacing,
-        color: 'var(--muted)',
-        lineHeight: 1.3,
-      }}
+    <button
+      onClick={onClick}
+      onMouseEnter={onTipEnter}
+      onMouseMove={tip?.move}
+      onMouseLeave={tip?.hide}
+      className="grupo-sort-head"
+      style={
+        {
+          '--a': active ? 1 : 0,
+          textAlign: 'center',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          fontFamily: 'var(--mono)',
+          fontSize,
+          letterSpacing,
+          lineHeight: 1.3,
+        } as CSSProperties
+      }
     >
       <div style={{ fontSize: 12, ...(icColor ? { color: icColor } : {}) }}>{ic}</div>
       {label}
-    </div>
+      <span style={{ color: 'var(--accent)' }}>{arr}</span>
+    </button>
   )
 }
 
-/** Célula de nome com 👤 (vazio na linha Grupo) — verbatim do design. */
+/** Célula de nome com 👤 (sempre, como no markup) — verbatim do design. */
 export function NameCell({
   name,
   em,
-  isGroup,
+  weight,
+  cor,
+  onTipEnter,
+  tip,
 }: {
   name: string
   em?: string | null
-  isGroup?: boolean
+  weight: number
+  cor: string
+  /** labelTipE do design (só a linha Grupo tem). */
+  onTipEnter?: MouseEventHandler
+  tip?: GrupoTip
 }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
-      <span style={{ fontSize: 12, flex: 'none' }}>{isGroup ? '' : '👤'}</span>
+    <div
+      onMouseEnter={onTipEnter}
+      onMouseMove={tip?.move}
+      onMouseLeave={tip?.hide}
+      style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}
+    >
+      <span style={{ fontSize: 12, flex: 'none' }}>👤</span>
       <span
         style={{
-          fontWeight: isGroup ? 800 : 600,
+          fontWeight: weight,
           fontSize: 13,
-          color: isGroup ? GROUP_NAME_COLOR : 'var(--text)',
+          color: cor,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -96,24 +141,32 @@ export function NameCell({
   )
 }
 
-/** Célula de valor mono (fontSize 14) — verbatim do design. */
+/** Célula de valor mono (fontSize 14, cursor:help) — verbatim do design. */
 export function ValueCell({
   value,
-  isGroup,
-  color,
+  weight,
+  cor,
+  onTipEnter,
+  tip,
 }: {
   value: string
-  isGroup?: boolean
-  color?: string
+  weight: number
+  cor: string
+  onTipEnter?: (e: MouseEvent) => void
+  tip?: GrupoTip
 }) {
   return (
     <div
+      onMouseEnter={onTipEnter}
+      onMouseMove={tip?.move}
+      onMouseLeave={tip?.hide}
       style={{
         textAlign: 'center',
         fontFamily: 'var(--mono)',
         fontSize: 14,
-        fontWeight: isGroup ? 800 : 600,
-        color: color ?? (isGroup ? GROUP_VALUE_COLOR : 'var(--text)'),
+        fontWeight: weight,
+        cursor: 'help',
+        color: cor,
       }}
     >
       {value}
