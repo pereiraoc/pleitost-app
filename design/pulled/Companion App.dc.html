@@ -2261,4 +2261,105 @@ class Component extends DCLogic {
         p.pericias=p.pericias.map(enrich);
         p.oficios=p.oficios.map(o=>{const e=enrich(o);e.nmView=o.val?(o.nm+' ('+o.val+')'):o.nm;e.nmDisp=this.state.editOfi?o.nm:e.nmView;return e;});
         const editStk=!!this.state.editStk;
-        const enrichStk=(row,kind)=>{const c=row._code||{};const cur=curRank(c);const av=attrVal[row._at]||0;const sb=(row.ranks||[]).find(b=>b.l===cur)||null;let modStr='',showMod=false;if(kind==='std10'){modStr=String(10+av+(PB[cur]||0)+(row._don||0)+(row._starN||0));showMod=true;}else if(kind==='move'){modStr=String(4+av+(row._don||0)+(row._starN||0));showMod=true;}const M2=MEDAL[cur]||MEDAL.N;return {...row,cur,modStr,showMod,showMedal:!editStk&&!!sb,modBg:'var(--card)',modFg:M2.solid,modBd:'color-mix(in srgb,'+M2.solid+' 34%,var(--line2))',hasStarBonus:(row._starN||0)>0,hasItemDots:(row._don||0)>0,modDots:Array.from({length:row._don||0},()=>({})),selBadge:sb?{l:cur,bg:'color-mix(in srgb,'+M2.solid+' 12%,transparent)',fg:M2.solid,bd:M2.s
+        const enrichStk=(row,kind)=>{const c=row._code||{};const cur=curRank(c);const av=attrVal[row._at]||0;const sb=(row.ranks||[]).find(b=>b.l===cur)||null;let modStr='',showMod=false;if(kind==='std10'){modStr=String(10+av+(PB[cur]||0)+(row._don||0)+(row._starN||0));showMod=true;}else if(kind==='move'){modStr=String(4+av+(row._don||0)+(row._starN||0));showMod=true;}const M2=MEDAL[cur]||MEDAL.N;return {...row,cur,modStr,showMod,showMedal:!editStk&&!!sb,modBg:'var(--card)',modFg:M2.solid,modBd:'color-mix(in srgb,'+M2.solid+' 34%,var(--line2))',hasStarBonus:(row._starN||0)>0,hasItemDots:(row._don||0)>0,modDots:Array.from({length:row._don||0},()=>({})),selBadge:sb?{l:cur,bg:'color-mix(in srgb,'+M2.solid+' 12%,transparent)',fg:M2.solid,bd:M2.solid}:{l:'',bg:'transparent',fg:'var(--muted)',bd:'var(--line2)'}};};
+        p.stacks=p.stacks.map(sec=>({...sec,modLabel:(sec.modKind!=='none')?'VALOR':'',rows:sec.rows.map(r=>enrichStk(r,sec.modKind))}));
+        return p;})(), mag:this.magData(), habTree:this.habData(),
+      editPer:!!this.state.editPer, toggleEditPer:()=>this.setState(s=>({editPer:!s.editPer})), perBtnLabel:this.state.editPer?'✓ Concluir':'✎ Alterar', perView:!this.state.editPer, perEdit:!!this.state.editPer, perCols:this.state.editPer?'1.25fr 0.75fr 1fr 1fr':'1.25fr 0.6fr 0.7fr',
+      editOfi:!!this.state.editOfi, toggleEditOfi:()=>this.setState(s=>({editOfi:!s.editOfi})), ofiBtnLabel:this.state.editOfi?'✓ Concluir':'✎ Alterar', ofiView:!this.state.editOfi, ofiEdit:!!this.state.editOfi, ofiCols:this.state.editOfi?'1.25fr 0.75fr 1fr 1fr':'1.25fr 0.6fr 0.7fr',
+      editStk:!!this.state.editStk, toggleEditStk:()=>this.setState(s=>({editStk:!s.editStk})), stkBtnLabel:this.state.editStk?'✓ Concluir':'✎ Alterar', stkView:!this.state.editStk, stkEdit:!!this.state.editStk, stkCols:this.state.editStk?'1.25fr 0.75fr 1fr 1fr':'1.25fr 0.6fr 0.7fr',
+      editEsp:!!this.state.editEsp, toggleEditEsp:()=>this.setState(s=>({editEsp:!s.editEsp})), espBtnLabel:this.state.editEsp?'✓ Concluir':'✎ Alterar',
+      especs:(()=>{const tog=this.state.espTog||{};const list=(this.habData().especializacoes||[]).map(g=>({skill:g.skill,items:g.items.map(it=>({txt:it.txt,on:(it.txt in tog)?(tog[it.txt]?1:0):it.on,toggle:()=>this.setState(s=>{const m={...(s.espTog||{})};const cur=(it.txt in m)?m[it.txt]:!!it.on;m[it.txt]=!cur;return{espTog:m};})}))}));if(this.state.editEsp)return list;return list.map(g=>({skill:g.skill,items:g.items.filter(i=>i.on)})).filter(g=>g.items.length);})(),
+      pfNivel:this.state.pf_nivel, pfTier:(this.state.pf_nivel<=3?'🥉':this.state.pf_nivel<=6?'🥈':this.state.pf_nivel<=9?'🥇':'🏅'),
+      pfTierColor:(this.state.pf_nivel<=3?'#cd7f32':this.state.pf_nivel<=6?'#94a3b8':this.state.pf_nivel<=9?'#d4af37':'#8fd3ff'), levelUp:()=>this.setState(s=>({pf_nivel:Math.min(10,s.pf_nivel+1)})), levelDown:()=>this.setState(s=>({pf_nivel:Math.max(1,s.pf_nivel-1)})),
+      perfilSel:(()=>{const o=(a)=>a.map(x=>({v:x,label:x}));const set=(k)=>(e)=>this.setState({['pf_'+k]:e.target.value});return [
+        {ic:'👑',label:'CLASSE',value:this.state.pf_classe,options:o(this.PF_OPTS.classe),onChange:set('classe')},
+        {ic:'📕',label:'MÉTODO ARTÍSTICO',value:this.state.pf_metodo,options:o(this.PF_OPTS.metodo),onChange:set('metodo')},
+        {ic:'📕',label:'ESTILO DE COMBATE',value:this.state.pf_estilo,options:o(this.PF_OPTS.estilo),onChange:set('estilo')},
+      ];})(),
+      sintoniaSel:{value:this.state.pf_sintonia,options:this.PF_OPTS.sintonia.map(x=>({v:x,label:x})),onChange:(e)=>this.setState({pf_sintonia:e.target.value})},
+      passadoFields:(()=>{const o=(a)=>a.map(x=>({v:x,label:x}));const set=(k)=>(e)=>this.setState({['pf_'+k]:e.target.value});return [
+        {ic:'📝',label:'PASSADO',value:this.state.pf_passado,onInput:set('passado'),isText:1,isSelect:0},
+        {ic:'🎓',label:'PERÍCIA',value:this.state.pf_pericia,options:o(this.PF_OPTS.pericia),onChange:set('pericia'),isText:0,isSelect:1},
+        {ic:'⚒️',label:'OFÍCIO',value:this.state.pf_oficio,options:o(this.PF_OPTS.oficio),onChange:set('oficio'),isText:0,isSelect:1},
+        {ic:'📋',label:'TEXTO DO OFÍCIO',value:this.state.pf_oficioTxt,onInput:set('oficioTxt'),isText:1,isSelect:0},
+      ];})(),
+      isGrupos:r==='grupos',
+      grupo:(()=>{
+        const G=this.GRUPO;
+        const profCor=(p)=>({N:'var(--muted)',A:'#a4692f',E:'#6c7885',M:'#ac861f'}[p]||'var(--text)');
+        const dltCor=(v)=>/^\+/.test(v)?'#3fbf6a':(/^-/.test(v)?'#d8695c':'var(--text)');
+        const roleCols=['#4ade80','#c084fc','#f87171','#60a5fa'];
+        const sortMap=this.state.grpSort||{};
+        const num=(v)=>{ const m=String(v).replace(/[^0-9.\-]/g,''); return m===''?0:parseFloat(m); };
+        const applySort=(rows,tab,getVal,labelKey)=>{ const mem=rows.filter(r=>!r.grupo),grp=rows.filter(r=>r.grupo),s=sortMap[tab]; if(s){mem.sort((a,b)=>(getVal(a,s.col)-getVal(b,s.col))*s.dir);} else {mem.sort((a,b)=>String(a[labelKey]).localeCompare(String(b[labelKey]),'pt'));} return [...mem,...grp]; };
+        const headMap=(heads,tab)=>heads.map((h,i)=>{ const s=sortMap[tab],active=!!(s&&s.col===i); return {...h,col:i,active:active?1:0,arr:active?(s.dir===-1?'▼':'▲'):'',onClick:()=>this.grpCycleSort(tab,i)}; });
+        const tipE=(key)=>(e)=>this.gtipShow(key,e);
+        const gidx=(rows)=>rows.map((r,i)=>({...r,gi:i}));
+        const balHeads=headMap(G.balHeads,'papeis').map((h,i)=>({...h,tipE:tipE('bal:h'+(i+1))}));
+        const vidaHeads=headMap(G.vidaHeads,'competencias').map((h,i)=>({...h,tipE:tipE('vida:h'+(i+1))}));
+        const riqHeads=headMap(G.riqHeads,'riqueza').map((h,i)=>({...h,tipE:tipE('riq:h'+(i+1))}));
+        const balRows=applySort(gidx(G.balRows),'papeis',(r,c)=>c===0?num(r.tier):(r.stars[c-1]||0),'classe').map(r=>({...r,grupo:r.grupo?1:0,weight:r.grupo?800:600,nameCor:r.grupo?'var(--accent)':'var(--text)',hasEm:!!r.em,tierTipE:tipE('bal:r'+r.gi+'c1'),labelTipE:r.grupo?tipE('bal:r5c0'):null,cells:r.stars.map((n,i)=>({cor:roleCols[i]||'var(--accent)',plus:(r.plus&&r.plus[i])?1:0,tipE:tipE('bal:r'+r.gi+'c'+(i+2)),slots:[0,1,2].map(k=>({on:k<n?1:0}))}))}));
+        const vidaRows=applySort(gidx(G.vidaRows),'competencias',(r,c)=>num(r.cells[c]),'nome').map(r=>({...r,grupo:r.grupo?1:0,weight:r.grupo?800:500,nameCor:r.grupo?'var(--accent)':'var(--blue)',labelTipE:r.grupo?tipE('vida:r5c0'):null,cells:r.cells.map((v,i)=>({v,cor:r.grupo?'var(--accent)':'var(--text)',tipE:tipE('vida:r'+r.gi+'c'+(i+1))}))}));
+        let df=1;
+        const destLeft=G.destLeft.map(grp=>({...grp,skills:grp.skills.map(sk=>({...sk,tops:sk.tops.map(t=>({...t,cor:profCor(t.prof),tipE:tipE('dest:f'+(df++))}))}))}));
+        const destMagias=G.destMagias.map(m=>({...m,warn:m.warn?1:0,hasTop:!!m.mod,cor:profCor(m.prof),tipE:tipE('dest:f'+(df++))}));
+        let af=1;
+        const ataques=G.ataques.map(a=>({...a,list:a.list.map(w=>({...w,hasProf:!!w.prof,cor:profCor(w.prof),tipE:tipE('atq:f'+(af++))}))}));
+        const riqRows=applySort(gidx(G.riqRows),'riqueza',(r,c)=>num(r.cells[c]),'nome').map(r=>({...r,grupo:r.grupo?1:0,weight:r.grupo?800:500,nameCor:r.grupo?'var(--accent)':'var(--blue)',labelTipE:r.grupo?tipE('riq:r5c0'):null,cells:r.cells.map((v,i)=>({v,cor:r.grupo?'var(--accent)':(i===4?dltCor(v):'var(--text)'),tipE:tipE('riq:r'+r.gi+'c'+(i+1))}))}));
+        const gt=this.state.grupoTab;
+        return {names:G.names,count:G.count,rank:G.rank,balHeads,balRows,balCaption:G.balCaption,vidaHeads,vidaRows,destLeft,destEquip:G.destEquip,destMagias,ataques,riqHeads,riqRows,riqTotal:G.riqTotal,
+          gtip:this.buildGtip(),tipMove:(e)=>this.gtipMove(e),tipHide:()=>this.gtipHide(),heroTipE:tipE('riq:f1'),
+          grupoTabs:this.GRUPO_TABS.map(t=>({...t,on:gt===t.id?1:0,onClick:()=>this.setState({grupoTab:t.id,gtip:null})})),
+          isPapeis:gt==='papeis',isComp:gt==='competencias',isRiq:gt==='riqueza',isPer:gt==='pericias',isAtq:gt==='ataques'};
+      })(),
+      isSessao:r==='sessao',
+      sessTabs:(this.state.inSession?this.SESS_TABS:this.SESS_SEL_TABS).map(t=>({...t,on:this.state.sessTab===t.id?1:0,onClick:()=>this.setState({sessTab:t.id})})),
+      sessIniciativa:this.state.sessTab==='iniciativa', sessDetalhes:this.state.sessTab==='detalhes',
+      goToGrupo:()=>this.go('grupos'),
+      sess:(()=>{
+        const inS=this.state.inSession;
+        const act=this.state.joinInfo||this.SESSAO.sessoes[this.state.activeIdx]||this.SESSAO.sessoes[0];
+        const nome=act.nome||act.jogador;
+        const port=(nm)=>/Carlos/i.test(nm)?'carlos-retrato.png':'';
+        const ini=(nm)=>nm.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+        const membros=this.parseMembros(act.jogadores).map(mm=>({
+          jogador:mm.jogador, you:/Carlos/i.test(mm.chars.join(' '))?1:0,
+          pcCount:(mm.chars.length>1?mm.chars.length+' personagens':'1 personagem'),
+          personagens:mm.chars.map(nm=>{const p=port(nm);const car=/Carlos/i.test(nm);const met=/Metis/i.test(nm);return {nome:nm,ini:ini(nm),hasPortrait:!!p,noPortrait:!p,portraitBg:p?('url("'+p+'")'):'none',hasSub:car||met,sub:car?'Trovador · NVL 6':(met?'Companheiro · NVL 6':'')};})
+        }));
+        return {
+          inSession:inS, notInSession:!inS,
+          nome:nome, codigo:act.codigo, mestre:act.mestre, hasMestre:!!act.mestre,
+          membros, membroCount:(membros.length+(act.mestre?1:0))+' MEMBROS',
+          sessoes:this.SESSAO.sessoes.map((s,i)=>({...s,nome:s.jogador,hasMestre:!!s.mestre,enter:()=>this.enterSess(i)})),
+          joinCode:this.state.joinCode, setJoin:(e)=>this.setState({joinCode:(e&&e.target?e.target.value:'').toUpperCase()}),
+          enter:(i)=>this.enterSess(i), leave:()=>this.leaveSess(), join:()=>this.joinSess(), create:()=>this.createSess(),
+        };
+      })(),
+      sessao:{...this.SESSAO,
+        nome:(this.state.joinInfo?(this.state.joinInfo.nome||this.state.joinInfo.jogador):((this.SESSAO.sessoes[this.state.activeIdx]||this.SESSAO.sessoes[0]).jogador)),
+        codigo:(this.state.joinInfo||this.SESSAO.sessoes[this.state.activeIdx]||this.SESSAO.sessoes[0]).codigo,
+        combate:this.SESSAO.combate.map(m=>({...m,hasPortrait:!!m.portrait,noPortrait:!m.portrait,portraitBg:m.portrait?('url("'+m.portrait+'")'):'none',hasTags:m.tags.length>0})),
+        sessoes:this.SESSAO.sessoes.map(s=>({...s,hasMestre:!!s.mestre})),
+      },
+      aesthetic:this.state.aesthetic, mode:this.state.mode, isDark:this.state.mode==='dark',
+      modeIcon:this.state.mode==='dark'?'🌙':'☀️', toggleMode:()=>this.setState(s=>({mode:s.mode==='dark'?'light':'dark'})),
+      themeOpts:[{id:'cyberpunk',label:'CYBERPUNK RED',ic:'🌃'},{id:'medieval',label:'MEDIEVAL',ic:'🏰'}].map(o=>({...o,on:this.state.aesthetic===o.id?1:0,onClick:()=>this.setState({aesthetic:o.id})})),
+      modeOpts:[{id:'dark',label:'ESCURO',ic:'🌙'},{id:'light',label:'CLARO',ic:'☀️'}].map(o=>({...o,on:this.state.mode===o.id?1:0,onClick:()=>this.setState({mode:o.id})})),
+      isConfig:r==='config', config:this.CONFIG,
+      isStub:false,
+      stubIcon:this.STUB_ICONS[r]||'•',
+      perfilFields:[
+        {label:'NOME',value:c.nome,color:'var(--text)'},
+        {label:'APELIDO',value:c.apelido,color:'var(--text)'},
+        {label:'SINTONIA',value:'🌪️ '+c.sintonia,color:'var(--blue)'},
+        {label:'PASSADO',value:c.passado,color:'var(--text)'},
+        {label:'MÉTODO ARTÍSTICO',value:'📕 '+c.metodo,color:'var(--blue)'},
+        {label:'ESTILO DE COMBATE',value:'📕 '+c.estilo,color:'var(--blue)'},
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
