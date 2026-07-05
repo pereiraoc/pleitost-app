@@ -1,10 +1,14 @@
 // Página do grupo — markup/estilos VERBATIM da seção ===== GRUPOS ===== do
-// design puxado (design/pulled/Companion App.dc.html, linhas ~1106-1160),
+// design puxado (design/pulled/Companion App.dc.html, linhas ~1106-1290),
 // sem personagem claimed: recebe o doc do grupo e liga os dados reais.
-// Nesta leva só a aba PAPÉIS é funcional; as demais ficam disabled (mesma
-// convenção da sidebar pra telas ainda não implementadas).
-import { useMemo, useState } from 'react'
+// Abas (GRUPO_TABS) navegam um track deslizante ([data-track data-track-auto]
+// do design: translateX(-idx*100%) + altura do painel ativo); o mapeamento
+// aba→painel segue a ordem dos data-panel no template: PAPÉIS→Balanceamento,
+// COMPETÊNCIAS→Vida/Defesas/Sentidos/Movimento, RIQUEZA→Riqueza da mesa,
+// PERÍCIAS→Destaques, ATAQUES→Ataques do grupo.
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useCatalog } from '../data/CatalogContext'
+import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
 import { linkLabel } from '../markdown/dataview-value'
 import {
@@ -18,6 +22,13 @@ import {
   tierFromLevel,
   type PapelValues,
 } from './party'
+import { orderAlphabetical } from './order'
+import { GROUP_VALUE_COLOR, NameCell, rowShellStyle } from './panel-ui'
+import { resolveGroupImageUrl } from './group-image'
+import { PanelVida } from './PanelVida'
+import { PanelRiqueza } from './PanelRiqueza'
+import { PanelDestaques } from './PanelDestaques'
+import { PanelAtaques } from './PanelAtaques'
 
 // Verbatim do script do design (GRUPO_TABS / GRUPO.balHeads).
 const GRUPO_TABS = [
@@ -78,43 +89,16 @@ interface RowProps {
 }
 
 function BalRow({ label, em, tier, values, isGroup }: RowProps) {
-  const g = isGroup ? 1 : 0
   return (
-    <div
-      style={{
-        ...rowGrid,
-        boxSizing: 'border-box',
-        minHeight: 42,
-        padding: '9px 4px',
-        background: `color-mix(in srgb,var(--accent) ${g * 13}%,color-mix(in srgb,var(--accent) 3%,var(--panel)))`,
-        border: `1px solid color-mix(in srgb,var(--accent) ${g * 45}%,var(--line))`,
-        borderTop: `${1 + g * 1.5}px solid color-mix(in srgb,var(--accent) ${g * 85}%,var(--line))`,
-        clipPath: 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
-        <span style={{ fontSize: 12, flex: 'none' }}>{isGroup ? '' : '👤'}</span>
-        <span
-          style={{
-            fontWeight: isGroup ? 800 : 600,
-            fontSize: 13,
-            color: isGroup ? '#ca8a04' : 'var(--text)',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {label}
-        </span>
-        {em ? <span style={{ flex: 'none', fontSize: 12 }}>{em}</span> : null}
-      </div>
+    <div style={{ ...rowGrid, ...rowShellStyle(!!isGroup) }}>
+      <NameCell name={label} em={em} isGroup={isGroup} />
       <div
         style={{
           textAlign: 'center',
           fontFamily: 'var(--mono)',
           fontSize: 13,
           fontWeight: 700,
-          color: isGroup ? 'color-mix(in srgb,var(--accent) 55%,var(--text))' : 'var(--text)',
+          color: isGroup ? GROUP_VALUE_COLOR : 'var(--text)',
         }}
       >
         {tier}
@@ -126,10 +110,69 @@ function BalRow({ label, em, tier, values, isGroup }: RowProps) {
   )
 }
 
+/** Painel "BALANCEAMENTO DE PAPÉIS" (aba PAPÉIS) — dados espelham
+ *  section-papel.ts; ordem alfabética (orderMembersAlphabetical). */
+function PanelBalanceamento({
+  rows,
+  maxTier,
+  totals,
+}: {
+  rows: Array<{ id: string; label: string; em: string | null; tier: number; values: PapelValues }>
+  maxTier: number
+  totals: PapelValues
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)' }}>
+        {'// BALANCEAMENTO DE PAPÉIS'}
+      </div>
+      <div style={{ overflowX: 'auto' }}>
+        <div style={{ minWidth: 640, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ ...rowGrid, padding: '0 4px 6px', borderBottom: '1px solid var(--line)' }}>
+            <div />
+            {BAL_HEADS.map((head) => (
+              <div
+                key={head.l}
+                style={{
+                  textAlign: 'center',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 9,
+                  letterSpacing: '.06em',
+                  color: 'var(--muted)',
+                  lineHeight: 1.3,
+                }}
+              >
+                <div style={{ fontSize: 12, color: head.cor }}>{head.ic}</div>
+                {head.l}
+              </div>
+            ))}
+          </div>
+          {rows.map((row) => (
+            <BalRow
+              key={row.id}
+              label={row.label}
+              em={row.em}
+              tier={`Tier ${row.tier}`}
+              values={row.values}
+            />
+          ))}
+          <BalRow label="Grupo" tier={`Tier ${maxTier}`} values={totals} isGroup />
+        </div>
+      </div>
+      <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, textWrap: 'pretty' }}>
+        {BAL_CAPTION}
+      </div>
+    </div>
+  )
+}
+
 export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()
+  const assets = useAssetIndex()
   const { doc: groupDoc } = useDoc(groupId)
-  const [tab] = useState('papeis')
+  const [tab, setTab] = useState('papeis')
+  const tabIdx = Math.max(0, GRUPO_TABS.findIndex((t) => t.id === tab))
+  const trackRef = useRef<HTMLDivElement>(null)
 
   const members = useMemo(() => groupMembers(catalog, groupId), [catalog, groupId])
   const memberDocs = useDocs(useMemo(() => members.map((m) => m.id), [members]))
@@ -140,8 +183,10 @@ export function GrupoView({ groupId }: { groupId: string }) {
     typeof groupDoc?.frontmatter['subcategoria'] === 'string'
       ? (groupDoc.frontmatter['subcategoria'] as string)
       : ''
+  const imageUrl = resolveGroupImageUrl(groupDoc, entry?.basename, assets)
 
-  const rows = members.map((member) => {
+  // Balanceamento: ordem alfabética (espelha orderMembersAlphabetical).
+  const balRows = orderAlphabetical(members).map((member) => {
     const doc = memberDocs?.get(member.id)
     return {
       id: member.id,
@@ -151,9 +196,27 @@ export function GrupoView({ groupId }: { groupId: string }) {
       values: papelValues(doc),
     }
   })
-  const maxTier = rows.length ? Math.max(...rows.map((r) => r.tier)) : 1
-  const totals = groupTotals(rows.map((r) => r.values))
+  const maxTier = balRows.length ? Math.max(...balRows.map((r) => r.tier)) : 1
+  const totals = groupTotals(balRows.map((r) => r.values))
   const rank = rankLetter(groupDoc?.frontmatter ?? {}, maxTier)
+
+  // data-track-auto do design: altura do track segue o painel ativo.
+  useLayoutEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const child = track.children[tabIdx] as HTMLElement | undefined
+    if (!child) return
+    const apply = () => {
+      const h = child.offsetHeight
+      if (h > 0) track.style.height = `${h}px`
+    }
+    apply()
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(apply)
+      ro.observe(child)
+      return () => ro.disconnect()
+    }
+  }, [tabIdx])
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -197,6 +260,8 @@ export function GrupoView({ groupId }: { groupId: string }) {
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {/* Slot 60×60: imagem do grupo (espelha resolveGroupImage do plugin);
+              fallback ⚔️ verbatim do design. */}
           <span
             style={{
               width: 60,
@@ -206,13 +271,22 @@ export function GrupoView({ groupId }: { groupId: string }) {
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 26,
+              overflow: 'hidden',
               background:
                 'linear-gradient(135deg,color-mix(in srgb,var(--accent) 18%,var(--card)),var(--panel2))',
               border: '1px solid color-mix(in srgb,var(--accent) 35%,var(--line2))',
               clipPath: 'polygon(0 0,calc(100% - 11px) 0,100% 11px,100% 100%,11px 100%,0 calc(100% - 11px))',
             }}
           >
-            ⚔️
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            ) : (
+              '⚔️'
+            )}
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
@@ -242,14 +316,14 @@ export function GrupoView({ groupId }: { groupId: string }) {
         <div style={{ position: 'absolute', left: -24, top: 0, bottom: 0, width: 3, background: 'var(--accent)', opacity: 0.7 }} />
       </div>
 
-      {/* TABS (só PAPÉIS funcional nesta leva) */}
+      {/* TABS (navegação real — espelha o grupoTab do design) */}
       <div style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', overflowX: 'auto', marginTop: 2 }}>
         {GRUPO_TABS.map((t) => {
           const on = t.id === tab
           return (
             <button
               key={t.id}
-              disabled={!on}
+              onClick={() => setTab(t.id)}
               style={{
                 flex: 'none',
                 padding: '11px 16px',
@@ -261,9 +335,8 @@ export function GrupoView({ groupId }: { groupId: string }) {
                 fontWeight: 700,
                 letterSpacing: '.1em',
                 color: on ? 'var(--accent)' : 'var(--muted)',
-                cursor: on ? 'pointer' : 'default',
+                cursor: 'pointer',
                 whiteSpace: 'nowrap',
-                opacity: on ? 1 : 0.45,
               }}
             >
               {t.label}
@@ -272,46 +345,36 @@ export function GrupoView({ groupId }: { groupId: string }) {
         })}
       </div>
 
-      {/* BALANCEAMENTO */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)' }}>
-          {'// BALANCEAMENTO DE PAPÉIS'}
-        </div>
-        <div style={{ overflowX: 'auto' }}>
-          <div style={{ minWidth: 640, display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div style={{ ...rowGrid, padding: '0 4px 6px', borderBottom: '1px solid var(--line)' }}>
-              <div />
-              {BAL_HEADS.map((head) => (
-                <div
-                  key={head.l}
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: 'var(--mono)',
-                    fontSize: 9,
-                    letterSpacing: '.06em',
-                    color: 'var(--muted)',
-                    lineHeight: 1.3,
-                  }}
-                >
-                  <div style={{ fontSize: 12, color: head.cor }}>{head.ic}</div>
-                  {head.l}
-                </div>
-              ))}
-            </div>
-            {rows.map((row) => (
-              <BalRow
-                key={row.id}
-                label={row.label}
-                em={row.em}
-                tier={`Tier ${row.tier}`}
-                values={row.values}
-              />
-            ))}
-            <BalRow label="Grupo" tier={`Tier ${maxTier}`} values={totals} isGroup />
+      {/* TRACK deslizante (data-track data-track-auto do design) */}
+      <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+        <div
+          ref={trackRef}
+          data-track=""
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'flex-start',
+            width: '100%',
+            transform: `translateX(-${tabIdx * 100}%)`,
+            transition:
+              'transform .32s cubic-bezier(.2,.85,.32,1), height .34s cubic-bezier(.2,.85,.32,1)',
+          }}
+        >
+          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
+            <PanelBalanceamento rows={balRows} maxTier={maxTier} totals={totals} />
           </div>
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, textWrap: 'pretty' }}>
-          {BAL_CAPTION}
+          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
+            <PanelVida members={members} docs={memberDocs} />
+          </div>
+          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
+            <PanelRiqueza members={members} docs={memberDocs} />
+          </div>
+          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
+            <PanelDestaques members={members} docs={memberDocs} />
+          </div>
+          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
+            <PanelAtaques members={members} docs={memberDocs} />
+          </div>
         </div>
       </div>
     </div>

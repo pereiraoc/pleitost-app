@@ -2,7 +2,7 @@
 // Ficha de grupo: lógica espelhada do plugin validada sobre os dados REAIS
 // da vault + render da tela desenhada (§GRUPOS) com um grupo real.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -18,6 +18,15 @@ import {
   rankLetter,
   tierFromLevel,
 } from '../src/grupo/party'
+import { computeGrupoAggregates, memberStats } from '../src/grupo/stats'
+import { maxAttackModifier } from '../src/grupo/ataques'
+import { topTwoForSkill } from '../src/grupo/destaques'
+import {
+  computeMemberWealthParts,
+  expectedWealthForLevel,
+  precoPO,
+  tierMultFromName,
+} from '../src/grupo/wealth'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -28,9 +37,18 @@ const manifest = JSON.parse(
 const catalog = buildCatalog(manifest)
 
 const GROUP_ID = 'Sistema/Criaturas/Grupos de Criaturas/Adriann, Carlos, Kenji, Zuko'
+const GROUP5_ID = 'Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren'
 
 const readDoc = (id: string): VaultDoc =>
   JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
+
+/** Docs reais dos membros de um grupo, indexados por id. */
+const readMemberDocs = (groupId: string): Map<string, VaultDoc> =>
+  new Map(groupMembers(catalog, groupId).map((m) => [m.id, readDoc(m.id)]))
+
+// Bônus de proficiência recomputado NO TESTE (expectativa independente).
+const PB: Record<string, number> = { N: 0, A: 2, E: 4, M: 6 }
+type AnyFm = Record<string, any>
 
 beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
@@ -101,12 +119,186 @@ describe('GrupoView (tela do design com dados reais)', () => {
     expect(screen.getByText(`${members.length} integrantes`)).toBeTruthy()
     // linha do Adriann usa a classe real (Mago) após o load
     expect(await screen.findByText('Mago')).toBeTruthy()
-    // linha Grupo + nota do plugin
-    expect(screen.getByText('Grupo')).toBeTruthy()
+    // linha Grupo + nota do plugin ("Grupo" também aparece nas linhas
+    // agregadas dos painéis Vida/Riqueza, montados no track deslizante)
+    expect(screen.getAllByText('Grupo').length).toBeGreaterThan(0)
     expect(screen.getByText(BAL_CAPTION)).toBeTruthy()
     // colunas dos papéis
     for (const col of ['LID', 'CON', 'ABT', 'VAN', 'TIR']) {
       expect(screen.getByText(col)).toBeTruthy()
     }
+  })
+})
+
+describe('stats.ts (espelho de aggregates.ts) sobre o grupo do Thoren', () => {
+  it('defesas/sentidos/movimento do Thoren batem com o cálculo manual do FM', () => {
+    const fm = readDoc('Sistema/Criaturas/Heróis/Thoren').frontmatter as AnyFm
+    const stats = memberStats(fm)
+    expect(stats.v).toBe(fm.Vida.Vitalidade)
+    expect(stats.m).toBe(fm.Vida.Moral)
+    for (const row of fm.Defesas_Resistencias.Lista) {
+      const manual =
+        10 + fm.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
+      expect(stats.defs[row.Nome]).toBe(manual)
+    }
+    for (const row of fm.Sentidos.Lista) {
+      const manual =
+        fm.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
+      expect(stats.sns[row.Nome]).toBe(manual)
+    }
+    const mov = fm.Movimento.Lista.find((r: AnyFm) => r.Nome === 'Terrestre')
+    expect(stats.sp).toBe(4 + fm.Atributos[mov.Atributo] + mov.Bonus_Item + mov.Bonus_Especial)
+  })
+
+  it('linha Grupo: soma VIT/MOR, média floor de Defesa, mínimo de MOV', () => {
+    const docs = readMemberDocs(GROUP5_ID)
+    const members = groupMembers(catalog, GROUP5_ID)
+    expect(members.length).toBeGreaterThan(0)
+    const agg = computeGrupoAggregates(
+      members.map((m) => memberStats(docs.get(m.id)!.frontmatter)),
+    )!
+    const fms = members.map((m) => docs.get(m.id)!.frontmatter as AnyFm)
+    expect(agg.sumVit).toBe(fms.reduce((s, f) => s + f.Vida.Vitalidade, 0))
+    expect(agg.sumMor).toBe(fms.reduce((s, f) => s + f.Vida.Moral, 0))
+    const manualDef = fms.map((f) => {
+      const row = f.Defesas_Resistencias.Lista.find((r: AnyFm) => r.Nome === 'Defesa')
+      return 10 + f.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
+    })
+    expect(agg.defsAvg['Defesa']).toBe(
+      Math.floor(manualDef.reduce((a, b) => a + b, 0) / manualDef.length),
+    )
+    const manualSp = fms.map((f) => {
+      const row =
+        f.Movimento.Lista.find((r: AnyFm) => r.Nome === 'Terrestre') ?? f.Movimento.Lista[0]
+      return 4 + f.Atributos[row.Atributo] + row.Bonus_Item + row.Bonus_Especial
+    })
+    expect(agg.minSp).toBe(Math.min(...manualSp))
+  })
+})
+
+describe('ataques.ts e destaques.ts (espelho do plugin) sobre dados reais', () => {
+  it('maxAttackModifier = prof de ataque + atributo + bônus (maior linha)', () => {
+    const fm = readDoc('Sistema/Criaturas/Heróis/Thoren').frontmatter as AnyFm
+    const rows = [
+      ...(fm.Inventario?.Armas?.Lista ?? []),
+      ...fm.Ataques.Lista.filter((r: AnyFm) => r.Nome !== 'Manobras'),
+    ].filter((r: AnyFm) => String(r.Nome ?? '').trim())
+    const manual = Math.max(
+      ...rows.map(
+        (r: AnyFm) =>
+          PB[fm.Ataques.Proficiencia] +
+          (fm.Atributos[String(r.Atributo).toUpperCase()] || 0) +
+          (Number(r.Bonus_Item) || 0) +
+          (Number(r.Bonus_Especial) || 0),
+      ),
+    )
+    expect(maxAttackModifier(fm)).toBe(manual)
+  })
+
+  it('topTwoForSkill ordena por mod desc (Atletismo no grupo do Thoren)', () => {
+    const members = groupMembers(catalog, GROUP5_ID)
+    const docs = readMemberDocs(GROUP5_ID)
+    const tops = topTwoForSkill(members, docs, 'Atletismo')
+    expect(tops.length).toBe(2)
+    const manual = members
+      .map((m) => {
+        const f = docs.get(m.id)!.frontmatter as AnyFm
+        const row = f.Pericias.Lista.find((r: AnyFm) => r.Nome === 'Atletismo')
+        return f.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
+      })
+      .sort((a, b) => b - a)
+    expect(tops[0].mod).toBe(manual[0])
+    expect(tops[1].mod).toBe(manual[1])
+  })
+})
+
+describe('wealth.ts (espelho de runtime/wealth) sobre dados reais', () => {
+  it('tabela de riqueza esperada e multiplicadores de tier', () => {
+    expect(expectedWealthForLevel(7)).toBe(1000)
+    expect(expectedWealthForLevel(10)).toBe(4800)
+    expect(expectedWealthForLevel(12)).toBe(5700)
+    expect(
+      [tierMultFromName('Adepto'), tierMultFromName('Experiente'), tierMultFromName('Mestre')],
+    ).toEqual([1, 5, 25])
+  })
+
+  it('partes de riqueza do Thoren batem com o cálculo manual (preços reais)', () => {
+    const fm = readDoc('Sistema/Criaturas/Heróis/Thoren').frontmatter as AnyFm
+    const priceOf = (target: string): number => {
+      const res = catalog.resolve(target)
+      return res.kind === 'doc' ? precoPO(readDoc(res.id)) : 0
+    }
+    const parts = computeMemberWealthParts(fm, priceOf)
+    expect(parts.ouro).toBe(Number(fm.Inventario.Ouro) || 0)
+    // Tesouros: preço do item × mult do "(Tier)" no display do wikilink.
+    const MULT: Record<string, number> = { Adepto: 1, Experiente: 5, Mestre: 25 }
+    const manualTesouros = (fm.Inventario.Tesouros as string[]).reduce((sum, wl) => {
+      const target = /\[\[([^\]|]+)/.exec(wl)![1]
+      const tier = /\((Adepto|Experiente|Mestre)\)/.exec(wl)?.[1] ?? 'Adepto'
+      return sum + priceOf(target) * MULT[tier]
+    }, 0)
+    expect(parts.tesouros).toBe(manualTesouros)
+    expect(manualTesouros).toBeGreaterThan(0)
+    // Consumíveis: idem, × quantidade "(xN)".
+    const manualConsum = (fm.Inventario.Consumiveis as string[]).reduce((sum, wl) => {
+      const target = /\[\[([^\]|]+)/.exec(wl)![1]
+      const tier = /\((Adepto|Experiente|Mestre)\)/.exec(wl)?.[1] ?? 'Adepto'
+      const qty = /\(x(\d+)\)/.exec(wl)?.[1] ?? '1'
+      return sum + priceOf(target) * MULT[tier] * Number(qty)
+    }, 0)
+    expect(parts.consumiveis).toBe(manualConsum)
+    expect(parts.itensSemConsumiveis).toBe(parts.tesouros + parts.armaduraEscudo + parts.armasProp)
+    expect(parts.totalComTudo).toBe(parts.ouro + parts.itensSemConsumiveis + parts.consumiveis)
+  })
+})
+
+describe('GrupoView: abas, painéis e imagem do grupo (dados reais)', () => {
+  const renderGroup5 = () =>
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <GrupoView groupId={GROUP5_ID} />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+
+  it('abas trocam o painel: track desliza pro índice da aba', () => {
+    const { container } = renderGroup5()
+    const track = container.querySelector('[data-track]') as HTMLElement
+    expect(track).toBeTruthy()
+    expect(track.style.transform).toBe('translateX(-0%)')
+    fireEvent.click(screen.getByText('RIQUEZA'))
+    expect(track.style.transform).toBe('translateX(-200%)')
+    fireEvent.click(screen.getByText('ATAQUES'))
+    expect(track.style.transform).toBe('translateX(-400%)')
+    fireEvent.click(screen.getByText('PAPÉIS'))
+    expect(track.style.transform).toBe('translateX(-0%)')
+  })
+
+  it('painel COMPETÊNCIAS mostra os agregados de vida do grupo', async () => {
+    const { container } = renderGroup5()
+    const docs = readMemberDocs(GROUP5_ID)
+    const members = groupMembers(catalog, GROUP5_ID)
+    const agg = computeGrupoAggregates(
+      members.map((m) => memberStats(docs.get(m.id)!.frontmatter)),
+    )!
+    fireEvent.click(screen.getByText('COMPETÊNCIAS'))
+    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    // soma de VIT do grupo aparece na linha Grupo do painel
+    await waitFor(() => {
+      expect(vidaPanel.textContent).toContain(String(agg.sumVit))
+      expect(vidaPanel.textContent).toContain(String(agg.sumMor))
+    })
+    // colunas verbatim do design
+    for (const col of ['VIT', 'MOR', 'DEF', 'VIG', 'IMP', 'REF', 'PER', 'ITU', 'MOV']) {
+      expect(vidaPanel.textContent).toContain(col)
+    }
+  })
+
+  it('header resolve a imagem do grupo (Retratos/<basename do grupo>)', async () => {
+    const { container } = renderGroup5()
+    await waitFor(() => expect(container.querySelector('img')).toBeTruthy())
+    const src = container.querySelector('img')!.getAttribute('src') ?? ''
+    expect(decodeURIComponent(src)).toContain('Retratos/Carlos, Dante, Mera, Pind, Thoren.png')
   })
 })

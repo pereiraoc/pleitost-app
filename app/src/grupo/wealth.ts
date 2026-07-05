@@ -1,0 +1,225 @@
+// Riqueza da mesa — ESPELHA o plugin pleitost-autosheet (READ-ONLY):
+//  - runtime/wealth/economy-table-data.ts + economy-table.ts:
+//    ECONOMY_WEALTH_DATA (riqueza esperada por nível; >10 → post10).
+//  - runtime/wealth/tier-multipliers.ts: tierMultFromName (Adepto=1,
+//    Experiente=5, Mestre=25), parseTierFromDisplay, parseConsumableQty.
+//  - runtime/wealth/pricing.ts: readItemPrice (`preço:: N PO` do item),
+//    sumInventarioTesouros, sumConsumiveis, priceArmaduraEscudo,
+//    priceAtaquesPropriedades e computeMemberWealthParts.
+//  - render/modes/grupo/render-party-sheet.ts (appendWealthSection):
+//    delta = (ouro + tesouros s/ consumíveis) − esperado(nível), ordenação
+//    por delta desc, linha Grupo (somas + nível máx) e deltaClass
+//    (≤0.2 ok · ≤0.5 warn · senão bad).
+// O plugin lê APENAS Inventario.* (Ouro/Tesouros/Consumiveis/Armadura/
+// Escudo/Armas) — os campos top-level Ouro/Tesouros_Especiais/Consumíveis
+// do FM são legados e NÃO entram no cálculo (paridade com o plugin).
+import type { VaultDoc } from '../data/types'
+import type { Fm } from './stats'
+import { toArray } from './stats'
+
+/** Espelha ECONOMY_WEALTH_DATA (economy-table-data.ts). */
+export const ECONOMY_WEALTH_DATA: Record<string, number> = {
+  1: 10,
+  2: 50,
+  3: 90,
+  4: 175,
+  5: 400,
+  6: 600,
+  7: 1000,
+  8: 2000,
+  9: 3000,
+  10: 4800,
+  post10: 5700,
+}
+
+/** Espelha expectedWealthForLevel (economy-table.ts). */
+export function expectedWealthForLevel(nivel: unknown): number {
+  const n = Number(nivel) || 1
+  if (n > 10) return ECONOMY_WEALTH_DATA.post10 ?? ECONOMY_WEALTH_DATA[10] ?? 0
+  return ECONOMY_WEALTH_DATA[n] ?? 0
+}
+
+/** Espelha tierMultFromName (tier-multipliers.ts). */
+export function tierMultFromName(name: unknown): number {
+  const n = String(name || '').toLowerCase()
+  if (n.includes('mestre')) return 25
+  if (n.includes('experiente')) return 5
+  if (n.includes('adepto')) return 1
+  return 1
+}
+
+/** Espelha parseTierFromDisplay (tier-multipliers.ts). */
+export function parseTierFromDisplay(displayPart: unknown): string | null {
+  const m = String(displayPart).match(/\((Adepto|Experiente|Mestre)\)/i)
+  return m ? m[1] : null
+}
+
+/** Espelha parseConsumableQty (tier-multipliers.ts): `(xN)` no fim, default 1. */
+export function parseConsumableQty(displayPart: unknown): number {
+  const m = String(displayPart).match(/\(x(\d+)\)\s*$/i)
+  return m ? Math.max(1, Number(m[1])) : 1
+}
+
+/** Espelha wikilinkTargetFlexible (util/wikilink.ts). */
+export function wikilinkTargetFlexible(s: unknown): string {
+  if (s == null) return ''
+  const str = String(s).trim()
+  const m = str.match(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/)
+  if (m) return m[1].trim()
+  return str.replace(/^\[\[|\]\]$/g, '').split('|')[0].trim()
+}
+
+/** Espelha tierMultFromCategoriaLink (pricing.ts): basename do link → mult. */
+export function tierMultFromCategoriaLink(linkStr: unknown): number {
+  const p = wikilinkTargetFlexible(linkStr)
+  if (!p) return 1
+  const base = (p.split('/').pop() ?? p).replace(/\.md$/i, '')
+  return tierMultFromName(base)
+}
+
+/** Espelha readItemPrice (pricing.ts): inline `preço:: N PO` do doc do item.
+ *  No vault-data o extractor já expõe o inline field; fallback pro body. */
+export function precoPO(doc: VaultDoc | undefined | null): number {
+  if (!doc) return 0
+  const inline = doc.inlineFields['preço']
+  if (typeof inline === 'string') {
+    const m = inline.match(/(\d+)\s*PO/i)
+    if (m) return Number(m[1])
+  }
+  const m = doc.body.match(/preço::\s*(\d+)\s*PO/i)
+  return m ? Number(m[1]) : 0
+}
+
+interface InvFm {
+  Inventario?: {
+    Tesouros?: unknown
+    Consumiveis?: unknown
+    Ouro?: unknown
+    Armadura?: { Propriedade?: unknown; Categoria?: unknown }
+    Escudo?: { Propriedade?: unknown; Categoria?: unknown }
+    Armas?: { Lista?: unknown }
+  }
+}
+
+export type PriceOf = (linkTarget: string) => number
+
+/** Espelha sumInventarioTesouros (pricing.ts): display = parte após `|`
+ *  ('' sem alias) → tier (default Adepto) × preço base. */
+export function sumInventarioTesouros(fm: InvFm, priceOf: PriceOf): number {
+  let sum = 0
+  for (const entry of toArray(fm?.Inventario?.Tesouros)) {
+    const p = wikilinkTargetFlexible(entry)
+    if (!p) continue
+    const display = String(entry).includes('|')
+      ? String(entry).split('|').pop()!.replace(/\]\]$/, '')
+      : ''
+    const tier = parseTierFromDisplay(display) || 'Adepto'
+    sum += priceOf(p) * tierMultFromName(tier)
+  }
+  return sum
+}
+
+/** Espelha sumConsumiveis (pricing.ts): tier + quantidade `(xN)` do display. */
+export function sumConsumiveis(fm: InvFm, priceOf: PriceOf): number {
+  let sum = 0
+  for (const entry of toArray(fm?.Inventario?.Consumiveis)) {
+    const p = wikilinkTargetFlexible(entry)
+    if (!p) continue
+    const inner = String(entry)
+    const display = inner.includes('|') ? inner.split('|').pop()!.replace(/\]\]$/, '') : inner
+    const tier = parseTierFromDisplay(display) || 'Adepto'
+    const qty = parseConsumableQty(display)
+    sum += priceOf(p) * tierMultFromName(tier) * qty
+  }
+  return sum
+}
+
+/** Espelha priceArmaduraEscudo (pricing.ts): preço da Propriedade × tier da Categoria. */
+export function priceArmaduraEscudo(fm: InvFm, priceOf: PriceOf): number {
+  let sum = 0
+  const arm = fm?.Inventario?.Armadura
+  if (arm?.Propriedade) {
+    sum += priceOf(wikilinkTargetFlexible(arm.Propriedade)) * tierMultFromCategoriaLink(arm.Categoria)
+  }
+  const escudo = fm?.Inventario?.Escudo
+  if (escudo?.Propriedade && String(escudo.Propriedade).trim()) {
+    sum +=
+      priceOf(wikilinkTargetFlexible(escudo.Propriedade)) * tierMultFromCategoriaLink(escudo.Categoria)
+  }
+  return sum
+}
+
+/** Espelha priceAtaquesPropriedades (pricing.ts): só Inventario.Armas.Lista. */
+export function priceAtaquesPropriedades(fm: InvFm, priceOf: PriceOf): number {
+  let sum = 0
+  for (const row of toArray(fm?.Inventario?.Armas?.Lista) as Array<{
+    Propriedade?: unknown
+    Categoria?: unknown
+  }>) {
+    if (!row?.Propriedade) continue
+    const p = wikilinkTargetFlexible(row.Propriedade)
+    if (!p) continue
+    sum += priceOf(p) * tierMultFromCategoriaLink(row.Categoria)
+  }
+  return sum
+}
+
+export interface MemberWealthParts {
+  ouro: number
+  tesouros: number
+  consumiveis: number
+  armaduraEscudo: number
+  armasProp: number
+  itensSemConsumiveis: number
+  totalComTudo: number
+}
+
+/** Espelha computeMemberWealthParts (pricing.ts). */
+export function computeMemberWealthParts(fm: Fm | undefined, priceOf: PriceOf): MemberWealthParts {
+  const f = (fm ?? {}) as InvFm
+  const ouro = Number(f?.Inventario?.Ouro) || 0
+  const tesouros = sumInventarioTesouros(f, priceOf)
+  const consumiveis = sumConsumiveis(f, priceOf)
+  const armaduraEscudo = priceArmaduraEscudo(f, priceOf)
+  const armasProp = priceAtaquesPropriedades(f, priceOf)
+  const itensSemConsumiveis = tesouros + armaduraEscudo + armasProp
+  const totalComTudo = ouro + itensSemConsumiveis + consumiveis
+  return { ouro, tesouros, consumiveis, armaduraEscudo, armasProp, itensSemConsumiveis, totalComTudo }
+}
+
+/** Todos os alvos de link que entram na precificação de um membro —
+ *  união dos campos que pricing.ts lê (pra pré-carregar os docs). */
+export function priceTargets(fm: Fm | undefined): string[] {
+  const f = (fm ?? {}) as InvFm
+  const out: string[] = []
+  const push = (v: unknown) => {
+    const p = wikilinkTargetFlexible(v)
+    if (p) out.push(p)
+  }
+  for (const entry of toArray(f?.Inventario?.Tesouros)) push(entry)
+  for (const entry of toArray(f?.Inventario?.Consumiveis)) push(entry)
+  if (f?.Inventario?.Armadura?.Propriedade) push(f.Inventario.Armadura.Propriedade)
+  const escudo = f?.Inventario?.Escudo
+  if (escudo?.Propriedade && String(escudo.Propriedade).trim()) push(escudo.Propriedade)
+  for (const row of toArray(f?.Inventario?.Armas?.Lista) as Array<{ Propriedade?: unknown }>) {
+    if (row?.Propriedade) push(row.Propriedade)
+  }
+  return out
+}
+
+/** Espelha deltaClass (render-party-sheet.ts appendWealthSection). */
+export function deltaTone(delta: number, expected: number): 'ok' | 'warn' | 'bad' {
+  const ex = Math.max(Math.abs(Number(expected)) || 0, 1)
+  const ratio = Math.abs(Number(delta)) / ex
+  if (ratio <= 0.2) return 'ok'
+  if (ratio <= 0.5) return 'warn'
+  return 'bad'
+}
+
+/** Cores do delta — espelham styles.css do plugin
+ *  (.pleitost-party__delta-ok/-warn/-bad). */
+export const DELTA_COLORS: Record<'ok' | 'warn' | 'bad', string> = {
+  ok: '#16a34a',
+  warn: '#ea580c',
+  bad: '#dc2626',
+}
