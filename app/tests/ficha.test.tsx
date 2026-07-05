@@ -100,11 +100,14 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     expect(screen.getByText('VITALIDADE')).toBeTruthy()
     // arma real equipada na sub-aba ATAQUES
     expect(await screen.findByText(/Punhal Relampejante/)).toBeTruthy()
-    // chip de AdO (design): dano base da arma; Mestre soma 1 dado (d4+2 → 1d4+2)
+    // chip de AdO (design): dano base da arma + modelo da Interativa (#15) —
+    // Mestre soma 1 dado (d4+2 → 1d4+2) e o FM salvo do Carlos tem Encantar
+    // Arma ATIVO no Punhal (Potência Mágica 7 → OportunidadeFixo +4): 1d4+6.
     const adoChip = await screen.findByTitle('Ataque de Oportunidade')
-    expect(adoChip.textContent).toContain('AdO 1d4+2')
-    // dano exibido segue calcDanoArma do plugin (prof M = +2 dados: 3d4+2)
-    expect(screen.getByText(/3d4\+2/)).toBeTruthy()
+    expect(adoChip.textContent).toContain('AdO 1d4+6')
+    // dano exibido = calcDanoArma (prof M = +2 dados: 3d4+2) + dado extra do
+    // Encantar Arma (tabela potência 7 → d12+1): 3d4+2+1d12+1.
+    expect(screen.getByText(/3d4\+2\+1d12\+1/)).toBeTruthy()
     // AÇÕES por perícia (catálogo real: Cambalhota → Acrobacia)
     expect((await screen.findAllByText('AÇÕES')).length).toBeGreaterThan(0)
     expect(screen.getByText('Cambalhota')).toBeTruthy()

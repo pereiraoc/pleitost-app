@@ -1,0 +1,575 @@
+{
+ "id": "tests/fixtures/GOLDEN Bardo",
+ "path": "Recursos e Mídia/Notas de Teste/Heróis/GOLDEN Bardo.md",
+ "basename": "GOLDEN Bardo",
+ "type": "Criatura",
+ "subtype": "Heroi",
+ "frontmatter": {
+  "aliases": [],
+  "categoria": "Criatura",
+  "subcategoria": "Heroi",
+  "grupo": [
+   null
+  ],
+  "Imagem": "[[Carlos Facão de Andrade.png]]",
+  "Nível": 5,
+  "Classe": "[[Bardo|Trovador Inspirador de Luta Artística]]",
+  "Sintonia": "[[Traço Elemental do Vento]]",
+  "Tamanho": "Médio",
+  "Vida": {
+   "Vitalidade": 18,
+   "Moral": 36
+  },
+  "Atributos": {
+   "Principal": "PRE",
+   "FOR": 0,
+   "AGI": 2,
+   "INT": 1,
+   "PRE": 3
+  },
+  "Defesas_Resistencias": {
+   "Lista": [
+    {
+     "Nome": "Defesa",
+     "Atributo": "AGI",
+     "Proficiencia": "E",
+     "Bonus_Item": 2,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Vigor",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Ímpeto",
+     "Atributo": "PRE",
+     "Proficiencia": "E",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Reflexo",
+     "Atributo": "AGI",
+     "Proficiencia": "E",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Sentidos": {
+   "Lista": [
+    {
+     "Nome": "Percepção",
+     "Atributo": "INT",
+     "Proficiencia": "E",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0
+    },
+    {
+     "Nome": "Intuição",
+     "Atributo": "PRE",
+     "Proficiencia": "E",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Movimento": {
+   "Lista": [
+    {
+     "Nome": "Terrestre",
+     "Atributo": "AGI",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0
+    }
+   ]
+  },
+  "Pericias": {
+   "Slots": {
+    "A": 4,
+    "E": 2,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "Nome": "Atletismo",
+     "Atributo": "FOR",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Acrobacia",
+     "Atributo": "AGI",
+     "Proficiencia": "E",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "[[Estabilidade]]",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      },
+      {
+       "E": "Slot.E"
+      }
+     ]
+    },
+    {
+     "Nome": "Furtividade",
+     "Atributo": "AGI",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    },
+    {
+     "Nome": "Ladinagem",
+     "Atributo": "AGI",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Arcana",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Sociedades",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Guerra",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Medicina",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Sobrevivência",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": []
+    },
+    {
+     "Nome": "Anima",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    },
+    {
+     "Nome": "Diplomacia",
+     "Atributo": "PRE",
+     "Proficiencia": "E",
+     "Bonus_Item": 1,
+     "Bonus_Especial": 0,
+     "Especializacao": "[[Negociação]]",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Regra.[[Método Artístico (Inspirador)]]"
+      },
+      {
+       "E": "Slot.E"
+      }
+     ]
+    },
+    {
+     "Nome": "Enganação",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Passado"
+      }
+     ]
+    },
+    {
+     "Nome": "Intimidação",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Especializacao": "",
+     "Maestria": "",
+     "Incrementos": [
+      {
+       "A": "Slot.A"
+      }
+     ]
+    }
+   ]
+  },
+  "Oficios": {
+   "Lista": [
+    {
+     "Nome": "Oficio",
+     "Complemento": "Poeta",
+     "Atributo": "INT",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": [
+      {
+       "A": "Passado"
+      }
+     ]
+    },
+    {
+     "Nome": "Atuacao",
+     "Complemento": "Chula",
+     "Atributo": "PRE",
+     "Proficiencia": "E",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": [
+      {
+       "A": "Regra.[[Trovador]]"
+      },
+      {
+       "E": "Regra.[[Trovador]]"
+      }
+     ]
+    },
+    {
+     "Nome": "Conhecimento",
+     "Complemento": "",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Incrementos": []
+    }
+   ]
+  },
+  "Habilidades": {
+   "Lista": [
+    {
+     "[[Evolução Básica]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Método Artístico]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Performance Bárdica]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Estilo de Combate]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Auto-Confiança]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Conhecimento Arcano Adepto]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Trovador]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Estilo Refinado]]": "Regra.[[Bardo]]"
+    },
+    {
+     "[[Método Artístico (Inspirador)|Inspirador]]": "Escolha.[[Método Artístico]]"
+    },
+    {
+     "[[Estilo de Combate (Luta Artística)|Luta Artística]]": "Escolha.[[Estilo de Combate]]"
+    },
+    {
+     "[[Estilo Refinado (Luta Artística)|Luta Artística]]": "Regra.[[Estilo Refinado]]"
+    }
+   ],
+   "Especiais": []
+  },
+  "Tecnicas": {
+   "Slots": {
+    "A": 2,
+    "E": 1,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "[[Entrada Dramática]]": "Slot.A"
+    },
+    {
+     "[[Triunfo!]]": "Slot.A"
+    },
+    {
+     "[[Oportunidade Artística]]": "Slot.E"
+    }
+   ]
+  },
+  "Magias": {
+   "Potencia": 6,
+   "EM": 3,
+   "Slots": {
+    "B": 2,
+    "A": 4,
+    "E": 0,
+    "M": 0
+   },
+   "Lista": [
+    {
+     "Nome": "Arcana Negra",
+     "Atributo": "INT",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    },
+    {
+     "Nome": "Arcana Branca",
+     "Atributo": "PRE",
+     "Proficiencia": "A",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": [
+      {
+       "[[Estabilizar]]": "Slot.B"
+      },
+      {
+       "[[Avivar]]": "Slot.B"
+      },
+      {
+       "[[Encantar Arma]]": "Slot.A"
+      },
+      {
+       "[[Fluxo de Vida]]": "Slot.A"
+      },
+      {
+       "[[Passos Rápidos]]": "Slot.A"
+      },
+      {
+       "[[Celeridade]]": "Slot.A"
+      }
+     ]
+    },
+    {
+     "Nome": "Anima",
+     "Atributo": "PRE",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": []
+    },
+    {
+     "Nome": "Tesouros",
+     "Atributo": "",
+     "Proficiencia": "N",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Lista": [
+      {
+       "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+      },
+      {
+       "[[Vento Mensageiro]]": "Tesouro.[[Anel Mensageiro]]"
+      }
+     ]
+    }
+   ]
+  },
+  "Acoes": {
+   "Lista": [
+    {
+     "[[Inspiração]]": "Regra.[[Performance Bárdica]]"
+    },
+    {
+     "[[Ato Inspirador]]": "Regra.[[Inspiração]]"
+    }
+   ]
+  },
+  "Ataques": {
+   "Proficiencia": "E",
+   "Lista": [
+    {
+     "Nome": "Manobras",
+     "Atributo": "FOR",
+     "Bonus_Item": 0,
+     "Bonus_Especial": 0,
+     "Propriedade": null,
+     "Categoria": null,
+     "Fonte": "Padrao"
+    }
+   ]
+  },
+  "Inventario": {
+   "Ouro": 0,
+   "Armadura": {
+    "Nome": "[[Armadura Leve]]",
+    "Categoria": "[[Experiente]]",
+    "Propriedade": "[[Armadura Obra-prima|Obra-prima]]",
+    "Proficiencia": {
+     "Sem": "P",
+     "Leve": "P",
+     "Pesada": "N"
+    }
+   },
+   "Escudo": {
+    "Nome": "",
+    "Dano": 0,
+    "Dureza": 0,
+    "Categoria": "",
+    "Propriedade": "",
+    "Proficiencia": "N"
+   },
+   "Tesouros": [
+    "[[Anel da Resistência|Anel da Resistência (Adepto)]]",
+    "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+    "[[Anel Mensageiro|Anel Mensageiro (Adepto)]]",
+    "[[Diapasão Elemental|Diapasão Elemental (Adepto)]]",
+    "[[Foco da Intensificação|Foco da Intensificação (Adepto)]]"
+   ],
+   "Tesouros_Especiais": "",
+   "Consumiveis": [
+    "[[Poção da Nutrição|Poção da Nutrição (Adepto) (x2)]]",
+    "[[Poção da Nutrição|Poção da Nutrição (Experiente) (x1)]]",
+    "[[Poção de Cura|Poção de Cura (Adepto) (x1)]]"
+   ],
+   "Armas": {
+    "Proficiencia": {
+     "Simples": "P",
+     "Marciais": "N",
+     "Especificas": [
+      "[[Adaga de Duelo]]",
+      "[[Espada Curta]]",
+      "[[Espada Curva]]",
+      "[[Punhal]]",
+      "[[Rapieira]]",
+      "[[Arco Curto]]"
+     ]
+    },
+    "Lista": [
+     {
+      "Nome": "[[Punhal]]",
+      "Atributo": "AGI",
+      "Bonus_Item": 2,
+      "Bonus_Especial": 0,
+      "Propriedade": "[[Imbuição Relampejante|Relampejante]]",
+      "Categoria": "[[Experiente]]",
+      "Fonte": "Manual"
+     }
+    ]
+   }
+  },
+  "Experiencia": {
+   "Marcas": [
+    {
+     "qtd": 4,
+     "texto": "Ordem Solar: Energia Negativa em Construção de Estrada (Redenção > Manilha)"
+    },
+    {
+     "qtd": 3,
+     "texto": "Proteção de Carregamento de Esmeraldas (Lilá > Safira)"
+    },
+    {
+     "qtd": 3,
+     "texto": "Limpeza de Zumbis (Perto de Pencas)"
+    },
+    {
+     "qtd": 14,
+     "texto": "Expedição e Limpeza de Tumba Selada com Magia do Vazio"
+    },
+    {
+     "qtd": 24,
+     "texto": "Neutralização da Fenda Negra"
+    }
+   ],
+   "Reconhecimentos": [
+    {
+     "entidade": "Ordem Solar",
+     "texto": "Luz do Ápice de Canto Alto"
+    }
+   ]
+  },
+  "Biografia": {
+   "Passado": "Artista de Rua",
+   "Motivacao": "",
+   "Genero": "",
+   "Idade": "",
+   "Naturalidade": "",
+   "Altura": "",
+   "Peso": "",
+   "Ideais": [],
+   "Desprezos": [],
+   "Qualidades": [],
+   "Defeitos": [],
+   "Anotacoes": ""
+  },
+  "Papel": {
+   "Lider": 2,
+   "Controlador": 0,
+   "Abatedor": 1,
+   "Vanguarda": 0
+  },
+  "Interativa": {
+   "Imunidades": {
+    "Medicina": false,
+    "Encorajar": false
+   },
+   "Recursos_Restantes": {
+    "Vitalidade": 18,
+    "Moral": 31,
+    "Moral_Temporaria": 0,
+    "EM": 3,
+    "Escudo_Dano": 0
+   }
+  }
+ },
+ "inlineFields": {}
+}

@@ -188,12 +188,16 @@ export function ModBox({
   star,
   dots,
   width = 38,
+  modColor,
 }: {
   modStr: string
   rank: RankLetter
   star?: boolean
   dots?: number
   width?: number
+  /** Cor do NÚMERO quando buff/debuff da Interativa altera o mod
+   *  (cond-bonus/cond-penalty do plugin); default = cor da medalha. */
+  modColor?: string
 }) {
   const solid = MEDAL[rank].solid
   return (
@@ -227,7 +231,15 @@ export function ModBox({
           ★
         </span>
       ) : null}
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 800, lineHeight: 1 }}>
+      <span
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: 13,
+          fontWeight: 800,
+          lineHeight: 1,
+          ...(modColor ? { color: modColor } : {}),
+        }}
+      >
         {modStr}
       </span>
       {dots && dots > 0 ? (

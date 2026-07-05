@@ -5,8 +5,16 @@
 // Ataques/Inventario/Magias + correntes da Interativa (Recursos_Restantes/
 // Usos_Recursos/Condicoes_Ativas/Imunidades). Interações são AUTOCONTIDAS
 // nesta aba e persistem em `Interativa.*` com autosave (setVolatile —
-// semântica do autoSaveInterativa do plugin); toggles do design sem home no
-// FM (Vantagem/Acerto, escudo erguido) persistem em session.
+// semântica do autoSaveInterativa do plugin).
+//
+// MODELO DA INTERATIVA (issue #15): os valores exibidos passam pelo
+// ConditionContext espelhado do plugin (src/interativa/ ≡ runtime/condicoes
+// do pleitost-autosheet) — condições ativas + efeitos ligados alteram
+// defesas/sentidos/ataques/dano/AdO/manobras/perícias, pintados nas cores
+// canônicas do plugin (cond-bonus verde / cond-penalty vermelho) com o
+// breakdown das fontes no title. Toggles do design agora escrevem o estado
+// REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
+// ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
@@ -35,7 +43,6 @@ import {
   tokens,
 } from './registry'
 import {
-  adoBase,
   cargasPorTier,
   danoArmaDisplay,
   fmOf,
@@ -44,15 +51,34 @@ import {
   interativa,
   listaEntries,
   num,
+  parseDanoArma,
   parseItemAlias,
   profLetter,
+  PROF_DICE,
   rowMod,
   signed,
   str,
   tierLetter,
   usosPorTier,
+  wikiTarget,
   type ProfRow,
 } from './hero-model'
+import {
+  applyTarget,
+  entriesTitle,
+  toneColor,
+  valueTone,
+  type AppliedDelta,
+} from '../../interativa/apply'
+import { applyDanoCtx, computeDanoAdO } from '../../interativa/dano'
+import { propagateAutoStates } from '../../interativa/hero-context'
+import { isCondicaoOn, isEfeitoOn } from '../../interativa/state'
+import type { AtributoId, ConditionNumberKey } from '../../interativa/condition-context'
+import {
+  condChipDefs,
+  useInterativaCtx,
+  type InterativaCtxState,
+} from '../../interativa/useInterativaCtx'
 
 const COMB_TABS = [
   { id: 'ataques', label: 'ATAQUES' },
@@ -92,9 +118,16 @@ function EscudoRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const fm = model.fm
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
   const nome = linkLabel(str(escudo['Nome']))
-  // Erguido = postura de combate do design (sem home no FM) — session.
-  const up = model.session('combate.escudoErguido') === true
-  const setUp = (fn: (v: boolean) => boolean) => model.setSession('combate.escudoErguido', fn(up))
+  // Erguido = Estado "Escudo Erguido" (Erguer Escudo, Ações Especiais) —
+  // Efeitos_Ativos, como no plugin; o modifier BonusEscudo entra na Defesa.
+  const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
+  const up = isEfeitoOn(efeitos['Escudo Erguido'])
+  const setUp = (fn: (v: boolean) => boolean) => {
+    const next = { ...efeitos }
+    if (fn(up)) next['Escudo Erguido'] = { on: true }
+    else delete next['Escudo Erguido']
+    model.setVolatile('Interativa.Efeitos_Ativos', next)
+  }
   const [open, setOpen] = useState(false)
   const escudoDoc = refs.refDoc(escudo['Nome'])
   // Integridade máx = danos:: do doc do escudo; dano corrente da Interativa.
@@ -469,60 +502,75 @@ interface CondChip {
   cor: string
 }
 
-function DefesasRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+/** Nome da linha do FM → key numérica do ConditionContext. */
+const RES_KEY: Record<string, ConditionNumberKey> = {
+  defesa: 'defesa',
+  vigor: 'vigor',
+  impeto: 'impeto',
+  reflexo: 'reflexo',
+  percepcao: 'percepcao',
+  intuicao: 'intuicao',
+}
+
+function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const fm = model.fm
   const { values: attrs } = heroAtributos(fm)
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
   const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
-  const inter = interativa(fm)
+  const interState = interativa(fm)
   const [pop, setPop] = useState<null | 'cond' | 'recup'>(null)
 
-  // Condições do modelo salvo; grupo/ícone vêm do doc da regra (FM
-  // Efeitos_Interativos: grupo Positiva/Negativa + visual.iconeLigado).
-  // A lista exibida é a UNIÃO extraído ∪ overlay (chip desligado continua
-  // visível, como no design); on/off = presença em Condicoes_Ativas mergeado.
+  // Delta da Interativa por key numérica (defesas/sentidos) — mesmas
+  // entries/cor do plugin (applyConditionToBreakdown + valueClass).
+  const deltaFor = (nome: string): AppliedDelta => {
+    const key = RES_KEY[slugify(str(nome)).toLowerCase()]
+    if (!key) return { entries: [], delta: 0, hasPenalty: false }
+    return applyTarget(inter.ctx, { kind: 'number', key })
+  }
+
+  // Lista de Condições COMPLETA como no plugin (tab-recursos): condições do
+  // sistema (Sistema/Regras/Condições, grupo do FM) ∪ efeitos tipo Condição
+  // visíveis pro herói (Inspiração, Encantar Arma, …) ∪ chaves já salvas.
   const condicoesExtraidas = interativa(fmOf(doc)).condicoes
-  const nomesCond = useMemo(
-    () => [...new Set([...Object.keys(condicoesExtraidas), ...Object.keys(inter.condicoes)])],
-    [condicoesExtraidas, inter.condicoes],
-  )
   const chips: CondChip[] = useMemo(() => {
-    return nomesCond.map((nome) => {
-      const rDoc = refs.refDoc(nome)
-      const efeitos = (fmOf(rDoc)['Efeitos_Interativos'] ?? []) as Record<string, unknown>[]
-      const ef =
-        (Array.isArray(efeitos) ? efeitos : []).find((e) => str(e['label']) === nome) ??
-        (Array.isArray(efeitos) ? efeitos[0] : undefined)
-      const grupo = str(ef?.['grupo']) || 'Positiva'
-      const visual = (ef?.['visual'] ?? {}) as Record<string, unknown>
-      const grupoDef = COND_GRUPOS.find((g) => g.id === grupo) ?? COND_GRUPOS[0]
-      return {
-        nome,
-        grupo,
-        ic: str(visual['iconeLigado']) || tokens.emojis.bonusType.Condicao,
-        cor: grupoDef.cor,
-      }
+    const defs = condChipDefs(inter.condicaoDocs, inter.descriptors, tokens.emojis.bonusType.Condicao)
+    const byNome = new Map(defs.map((d) => [d.nome, d]))
+    for (const nome of [...Object.keys(condicoesExtraidas), ...Object.keys(interState.condicoes)]) {
+      if (!byNome.has(nome)) byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.bonusType.Condicao })
+    }
+    return [...byNome.values()].map((d) => {
+      const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]
+      return { nome: d.nome, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor }
     })
-  }, [nomesCond, refs])
+  }, [inter, condicoesExtraidas, interState.condicoes])
   const condOn: Record<string, boolean> = Object.fromEntries(
-    chips.map((c) => [c.nome, c.nome in inter.condicoes]),
+    chips.map((c) => [c.nome, isCondicaoOn(interState.condicoes[c.nome])]),
   )
   // Toggle persiste o CONTAINER (write-through do plugin grava o snapshot
   // inteiro de `interativa.<container>`): off remove a key; on restaura o
   // valor extraído da condição (senão {value: 1}, shape do FM salvo).
+  // Cadeia de ativação (AtivaEstado — Inspiração liga Performance Bárdica
+  // Ativa) propagada como no plugin (propagateAutoStates).
   const toggleCond = (nome: string) => {
-    const next = { ...inter.condicoes }
-    if (nome in next) delete next[nome]
+    const next = { ...interState.condicoes }
+    const removendo = nome in next
+    if (removendo) delete next[nome]
     else next[nome] = condicoesExtraidas[nome] ?? { value: 1 }
     model.setVolatile('Interativa.Condicoes_Ativas', next)
+    const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
+    // Pro cleanup de estados auto (plugin: condição desativada permanece no
+    // mapa com value 0), a condição recém-removida ainda conta como LOCAL.
+    const paraPropagacao = removendo ? { ...next, [nome]: { value: 0 } } : next
+    const nextEfeitos = propagateAutoStates(paraPropagacao, efeitos, inter.descriptors)
+    if (nextEfeitos !== efeitos) model.setVolatile('Interativa.Efeitos_Ativos', nextEfeitos)
   }
   const nAtivas = chips.filter((c) => condOn[c.nome]).length
   const condLabel = nAtivas ? `${nAtivas}${nAtivas > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma'
 
   // RECUPERAÇÃO: chips espelham Interativa.Imunidades (imune → chip desligado).
-  const feridTrat = !inter.imunidades['Medicina']
-  const encoraj = !inter.imunidades['Encorajar']
+  const feridTrat = !interState.imunidades['Medicina']
+  const encoraj = !interState.imunidades['Encorajar']
   const recupChips = [
     {
       n: 'Ferimentos Tratáveis',
@@ -541,28 +589,40 @@ function DefesasRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   return (
     <div style={{ position: 'relative' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12 }}>
-        {defesas.map((d) => (
-          <div
-            key={d.Nome}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              padding: '14px 16px',
-              background: 'var(--panel)',
-              border: '1px solid var(--line)',
-              clipPath: clip(12),
-            }}
-          >
-            <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
-            <div style={{ lineHeight: 1.1 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
-                {displayName(slugify(str(d.Nome))).toUpperCase()}
+        {defesas.map((d) => {
+          const applied = deltaFor(str(d.Nome))
+          return (
+            <div
+              key={d.Nome}
+              title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '14px 16px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line)',
+                clipPath: clip(12),
+              }}
+            >
+              <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
+              <div style={{ lineHeight: 1.1 }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
+                  {displayName(slugify(str(d.Nome))).toUpperCase()}
+                </div>
+                <div
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 700,
+                    color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
+                  }}
+                >
+                  {10 + rowMod(d, attrs) + applied.delta}
+                </div>
               </div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)' }}>{10 + rowMod(d, attrs)}</div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
         <button
@@ -588,28 +648,40 @@ function DefesasRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{condLabel}</div>
           </div>
         </button>
-        {sentidos.map((s) => (
-          <div
-            key={s.Nome}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              padding: '10px 14px',
-              background: 'var(--panel)',
-              border: '1px solid var(--line)',
-              clipPath: clip(10),
-            }}
-          >
-            <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
-            <div style={{ lineHeight: 1.1 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
-                {displayName(slugify(str(s.Nome))).toUpperCase()}
+        {sentidos.map((s) => {
+          const applied = deltaFor(str(s.Nome))
+          return (
+            <div
+              key={s.Nome}
+              title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '10px 14px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line)',
+                clipPath: clip(10),
+              }}
+            >
+              <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
+              <div style={{ lineHeight: 1.1 }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+                  {displayName(slugify(str(s.Nome))).toUpperCase()}
+                </div>
+                <div
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
+                  }}
+                >
+                  {signed(rowMod(s, attrs) + applied.delta)}
+                </div>
               </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>{signed(rowMod(s, attrs))}</div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         <button
           onClick={() => setPop((p) => (p === 'recup' ? null : 'recup'))}
           style={{
@@ -820,25 +892,50 @@ function DefesasRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
 /* ===================== sub-aba ATAQUES ===================== */
 
-function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const fm = model.fm
   const { values: attrs } = heroAtributos(fm)
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
   const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
-  const inter = interativa(fm)
-  // Chips do design (COMB_CHIPS) não têm home no FM — session persistida.
-  const chipOn = (id: string) => model.session(`combate.chip.${id}`) === true
+  const interState = interativa(fm)
+  const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
+  // Chips do design = toggles REAIS da engine (ancoragem AtaquesEAcoes do
+  // plugin): Vantagem de Combate → Condicoes_Ativas (catálogo "Somar
+  // Condicao.Ataque 2" + Apunhalante via guard); Acerto Decisivo →
+  // Efeitos_Ativos (builtin DadoDecisivo/DadoOportunidade).
+  const chipOn = (n: string) =>
+    isCondicaoOn(interState.condicoes[n]) || isEfeitoOn(efeitos[n])
+  const toggleChip = (nome: string) => {
+    // Condições do catálogo (VC) → Condicoes_Ativas, como o chip da Lista
+    // de Condições do plugin (Estados aceitam esse mapa via fallback);
+    // efeitos builtin/Estado fora do catálogo (Acerto Decisivo) →
+    // Efeitos_Ativos.
+    if (inter.catalog.has(nome)) {
+      const next = { ...interState.condicoes }
+      if (nome in next) delete next[nome]
+      else next[nome] = { value: 1 }
+      model.setVolatile('Interativa.Condicoes_Ativas', next)
+      return
+    }
+    const next = { ...efeitos }
+    if (isEfeitoOn(next[nome])) delete next[nome]
+    else next[nome] = { on: true }
+    model.setVolatile('Interativa.Efeitos_Ativos', next)
+  }
   const setUso = (key: string, next: number) =>
-    model.setVolatile('Interativa.Usos_Recursos', { ...inter.usos, [key]: next })
+    model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
 
-  // Manobras: linha padrão de Ataques.Lista (mod usa a proficiência de ataque).
+  // Manobras: linha padrão de Ataques.Lista (mod usa a proficiência de ataque)
+  // + delta da Interativa (key `manobra` — inclui ManobrasPorItemDaArma).
   const manobraRow = ((fmPath(fm, 'Ataques', 'Lista') ?? []) as ProfRow[]).find(
     (r) => str(r.Nome) === 'Manobras',
   )
-  const manobraMod = manobraRow
+  const manobraBase = manobraRow
     ? rowMod({ ...manobraRow, Proficiencia: profAtaque }, attrs)
     : null
+  const manobraApplied = applyTarget(inter.ctx, { kind: 'number', key: 'manobra' })
+  const manobraMod = manobraBase !== null ? manobraBase + manobraApplied.delta : null
 
   const rowStyle: CSSProperties = {
     display: 'flex',
@@ -854,11 +951,11 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 2 }}>
         {COMB_CHIPS.map((c) => {
-          const on = chipOn(c.id) ? 1 : 0
+          const on = chipOn(c.n) ? 1 : 0
           return (
             <button
               key={c.id}
-              onClick={() => model.setSession(`combate.chip.${c.id}`, !chipOn(c.id))}
+              onClick={() => toggleChip(c.n)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -883,21 +980,34 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       {armas.map((arma, i) => {
         const nome = linkLabel(str(arma['Nome']))
         const prop = linkLabel(str(arma['Propriedade']))
+        const basename = wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome
         const armaDoc = refs.refDoc(arma['Nome'])
         const inline = (armaDoc?.inlineFields ?? {}) as Record<string, unknown>
         const danoRaw = unquote(str(inline['dano']))
-        // dano exibido = calcDanoArma do plugin: dados base + dados de prof.
-        const dano = danoArmaDisplay(danoRaw, profAtaque)
+        // dano exibido = calcDanoArma do plugin (dados base + prof) COM o
+        // contexto de dano aplicado (applyDanoCtx: fixo/por-dado/passo de
+        // dado/dados extras — Encantar Arma, Apunhalante, Ato Inspirador…).
+        const calc = parseDanoArma(danoRaw)
+        const danoRes = calc.die
+          ? applyDanoCtx(
+              { baseDice: calc.dice, profDice: PROF_DICE[profAtaque] ?? 0, dieSize: calc.die, offset: calc.offset },
+              inter.ctx,
+              basename,
+            )
+          : null
+        const dano = danoRes ? danoRes.display : danoArmaDisplay(danoRaw, profAtaque)
         const props = wikiLabels(inline['propriedades'])
         const tipo = props.length ? props.join(' · ') : str(inline['tipo'])
-        // AdO base (a.ado do design): arma corpo-a-corpo/especial + prof>=A.
+        // AdO (a.ado do design): arma corpo-a-corpo/especial + prof>=A —
+        // computeDanoAdO do plugin (Mestre +1 dado; canais ado/adoFixo;
+        // técnicas não acumulam entre si).
         const grupoArma = str(fmOf(armaDoc)['grupo']).toLowerCase().trim()
-        const ado =
-          ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profAtaque)
-            ? adoBase(danoRaw, profAtaque)
+        const adoRes =
+          danoRes && ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profAtaque)
+            ? computeDanoAdO({ ...danoRes.adoInput, prof: profAtaque as 'A' | 'E' | 'M' })
             : null
         const tipoIco = tipoDanoEmoji(unquote(str(inline['tipo'])))
-        const mod = rowMod(
+        const modBase = rowMod(
           {
             Atributo: str(arma['Atributo']),
             Proficiencia: profAtaque,
@@ -906,11 +1016,17 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           },
           attrs,
         )
+        const modApplied = applyTarget(inter.ctx, {
+          kind: 'attack',
+          attr: str(arma['Atributo']) as AtributoId,
+          sourceId: basename,
+        })
+        const mod = modBase + modApplied.delta
         const tier = tierLetter(arma['Categoria'])
         const propDoc = refs.refDoc(arma['Propriedade'])
         const usosMaxN = tier ? usosPorTier(propDoc, tier) : null
         const usoKey = `arma:${nome}|prop:${prop}`
-        const usoCur = inter.usos[usoKey] !== undefined ? num(inter.usos[usoKey]) : (usosMaxN ?? 0)
+        const usoCur = interState.usos[usoKey] !== undefined ? num(interState.usos[usoKey]) : (usosMaxN ?? 0)
 
         return (
           <div key={`${nome}-${i}`} style={rowStyle}>
@@ -920,6 +1036,7 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             </span>
             {dano ? (
               <span
+                title={danoRes?.entries.length ? entriesTitle(danoRes.entries) : undefined}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -930,13 +1047,15 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
                   fontFamily: 'var(--mono)',
                   fontSize: 13,
-                  color: 'var(--accent)',
+                  color: danoRes?.hasDelta
+                    ? toneColor(danoRes.hasPenalty ? 'penalty' : 'bonus')
+                    : 'var(--accent)',
                 }}
               >
                 ⚔️ {dano}
               </span>
             ) : null}
-            {ado !== null ? (
+            {adoRes !== null ? (
               <span
                 title="Ataque de Oportunidade"
                 style={{
@@ -949,17 +1068,28 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
                   fontFamily: 'var(--mono)',
                   fontSize: 12,
-                  color: 'var(--muted)',
+                  color: adoRes.hasDelta
+                    ? toneColor(adoRes.hasPenalty ? 'penalty' : 'bonus')
+                    : 'var(--muted)',
                 }}
               >
-                {tipoIco ? `${tipoIco} ` : ''}AdO {ado}
+                {tipoIco ? `${tipoIco} ` : ''}AdO {adoRes.display}
               </span>
             ) : null}
             <span style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.06em', color: 'var(--muted)' }}>
               {tipo}
             </span>
             <span style={{ flex: 1 }} />
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{signed(mod)}</span>
+            <span
+              title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: 11,
+                color: toneColor(valueTone(modApplied.entries)) ?? 'var(--muted)',
+              }}
+            >
+              {signed(mod)}
+            </span>
             {usosMaxN ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
                 <span
@@ -979,7 +1109,15 @@ function AtaquesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           <span style={{ fontSize: 19, flex: 'none' }}>{tokens.emojis.combate.Ataque}</span>
           <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
             Manobras{' '}
-            <span style={{ color: 'var(--accent)', fontFamily: 'var(--mono)' }}>{signed(manobraMod)}</span>
+            <span
+              title={manobraApplied.entries.length ? entriesTitle(manobraApplied.entries) : undefined}
+              style={{
+                color: toneColor(valueTone(manobraApplied.entries)) ?? 'var(--accent)',
+                fontFamily: 'var(--mono)',
+              }}
+            >
+              {signed(manobraMod)}
+            </span>
           </span>
           <span style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
             {MANOBRAS.map((m) => (
@@ -1038,17 +1176,27 @@ function useAcoesPorPericia(): Map<string, string[]> {
   }, [docs])
 }
 
-function PericiasPanel({ doc }: { doc: VaultDoc }) {
+function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
   const fm = fmOf(doc)
   const { values: attrs } = heroAtributos(fm)
   const actsByPericia = useAcoesPorPericia()
+  // mod = projeção do FM + delta da Interativa (Pericias/PericiasDeAtributo/
+  // Pericia(X) — untyped + typed vencedoras, como o painel de atributo do
+  // plugin).
   const pericias = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[])
-    .map((p) => ({ row: p, mod: rowMod(p, attrs) }))
+    .map((p) => {
+      const applied = applyTarget(inter.ctx, {
+        kind: 'skill',
+        pericia: slugify(str(p.Nome)),
+        attr: str(p.Atributo) as AtributoId,
+      })
+      return { row: p, mod: rowMod(p, attrs) + applied.delta, applied }
+    })
     .sort((a, b) => b.mod - a.mod)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      {pericias.map(({ row, mod }) => {
+      {pericias.map(({ row, mod, applied }) => {
         const acts = actsByPericia.get(slugify(str(row.Nome))) ?? []
         return (
           <div
@@ -1092,13 +1240,16 @@ function PericiasPanel({ doc }: { doc: VaultDoc }) {
               >
                 {displayName(slugify(str(row.Nome)))}
               </span>
-              <ModBox
-                modStr={signed(mod)}
-                rank={profLetter(row)}
-                star={num(row.Bonus_Especial) > 0}
-                dots={num(row.Bonus_Item)}
-                width={40}
-              />
+              <span title={applied.entries.length ? entriesTitle(applied.entries) : undefined}>
+                <ModBox
+                  modStr={signed(mod)}
+                  rank={profLetter(row)}
+                  star={num(row.Bonus_Especial) > 0}
+                  dots={num(row.Bonus_Item)}
+                  width={40}
+                  modColor={toneColor(valueTone(applied.entries))}
+                />
+              </span>
             </div>
             {acts.length ? (
               <div
@@ -1357,10 +1508,20 @@ function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
 export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const [tab, setTab] = useState('ataques')
+  // ConditionContext da Interativa — computado UMA vez sobre o FM overlaid
+  // e compartilhado por todos os campos afetados (defesas/sentidos/ataques/
+  // perícias/manobras), como o contexto único por render do plugin
+  // (mount-interativa-context.ts:computeCtx).
+  const inter = useInterativaCtx(doc, refs)
   const index = Math.max(
     0,
     COMB_TABS.findIndex((t) => t.id === tab),
   )
+
+  // Sem flash de valores crus: espera as fontes do contexto (docs das
+  // condições + refs) antes de renderizar — os campos já nascem com os
+  // deltas de buff/debuff aplicados, como na Interativa do plugin.
+  if (!inter.loaded) return null
 
   return (
     <div
@@ -1375,17 +1536,17 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     >
       <EscudoRow doc={doc} refs={refs} />
       <VidaBar doc={doc} />
-      <DefesasRow doc={doc} refs={refs} />
+      <DefesasRow doc={doc} inter={inter} />
       <div>
         <div style={{ marginBottom: 16 }}>
           <TabStrip tabs={COMB_TABS} active={tab} onSelect={setTab} pad="11px 18px" />
         </div>
         <PanelTrack index={index}>
           <TrackPanel>
-            <AtaquesPanel doc={doc} refs={refs} />
+            <AtaquesPanel doc={doc} refs={refs} inter={inter} />
           </TrackPanel>
           <TrackPanel>
-            <PericiasPanel doc={doc} />
+            <PericiasPanel doc={doc} inter={inter} />
           </TrackPanel>
           <TrackPanel>
             <TesourosPanel doc={doc} refs={refs} />
