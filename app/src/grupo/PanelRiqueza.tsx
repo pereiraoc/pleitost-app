@@ -5,9 +5,11 @@
 //   - tooltips: heads 'riq:h1..h5', células 'riq:r<gi>c<i+1>' com gi = índice
 //     na lista ORIGINAL (delta desc, a ordem de G.riqRows do design), rótulo
 //     Grupo 'riq:r5c0', hero RIQUEZA TOTAL 'riq:f1';
-//   - cores: membro var(--blue)/var(--text) com a coluna Δ via dltCor
-//     (sinal + → #3fbf6a, − → #d8695c); linha Grupo toda var(--accent);
-//     weight 500/800.
+//   - cores: membro var(--blue)/var(--text); a coluna Δ dos membros usa a
+//     classificação do PLUGIN (issue #9): deltaKind/DELTA_COLORS espelham
+//     deltaClass (render-party-sheet.ts:385) + .pleitost-party__delta-*
+//     (styles.css:13037-13039); linha Grupo toda var(--accent), sem classe
+//     de delta (como no plugin, ts:455); weight 500/800.
 // Dados espelham o plugin: computeMemberWealthParts (runtime/wealth/
 // pricing.ts), tabela de riqueza esperada (economy-table*.ts) e
 // appendWealthSection (render-party-sheet.ts): delta = pers − esperado(nível),
@@ -18,11 +20,13 @@ import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
 import type { GrupoTip } from './gtip'
-import { NameCell, SortHead, ValueCell, dltCor, rowShellStyle, sectionTitleStyle } from './panel-ui'
+import { NameCell, SortHead, ValueCell, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
 import { fmtPlain, nivelOf } from './stats'
 import {
+  DELTA_COLORS,
   computeMemberWealthParts,
+  deltaKind,
   expectedWealthForLevel,
   precoPO,
   priceTargets,
@@ -55,6 +59,8 @@ interface Row {
   grupo: boolean
   /** gi do design: índice na lista original (gidx antes do applySort). */
   gi: number
+  /** Cor da coluna Δ (deltaKind do plugin) — só membros; Grupo fica accent. */
+  dltCor?: string
 }
 
 export function PanelRiqueza({
@@ -98,8 +104,9 @@ export function PanelRiqueza({
         const doc = docs.get(member.id)
         const nivel = nivelOf(doc)
         const parts = computeMemberWealthParts(doc?.frontmatter, priceOf)
-        const delta = parts.ouro + parts.itensSemConsumiveis - expectedWealthForLevel(nivel)
-        return { id: member.id, name: member.basename ?? member.id, nivel, parts, delta }
+        const expected = expectedWealthForLevel(nivel)
+        const delta = parts.ouro + parts.itensSemConsumiveis - expected
+        return { id: member.id, name: member.basename ?? member.id, nivel, parts, expected, delta }
       })
     : []
   computed.sort((a, b) => b.delta - a.delta || a.name.localeCompare(b.name, 'pt'))
@@ -116,6 +123,8 @@ export function PanelRiqueza({
     ],
     grupo: false,
     gi: i,
+    // Aviso do plugin (issue #9): Δ do membro classificado por deltaKind.
+    dltCor: DELTA_COLORS[deltaKind(r.delta, r.expected)],
   }))
   const maxNivel = computed.length ? Math.max(...computed.map((r) => r.nivel)) : 1
   const sumTotal = computed.reduce((a, r) => a + r.parts.totalComTudo, 0)
@@ -171,7 +180,13 @@ export function PanelRiqueza({
                   key={RIQ_HEADS[i].l}
                   value={v}
                   weight={row.grupo ? 800 : 500}
-                  cor={row.grupo ? 'var(--accent)' : i === 4 ? dltCor(v) : 'var(--text)'}
+                  cor={
+                    row.grupo
+                      ? 'var(--accent)'
+                      : i === 4
+                        ? (row.dltCor ?? 'var(--text)')
+                        : 'var(--text)'
+                  }
                   onTipEnter={tip?.tipE(`riq:r${row.gi}c${i + 1}`)}
                   tip={tip}
                 />

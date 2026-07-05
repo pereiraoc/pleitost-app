@@ -7,8 +7,9 @@
 //   nameCor: grupo → var(--accent); membro → var(--text) (papéis) ou
 //     var(--blue) (competências/riqueza)
 //   weight: grupo 800; membro 600 (papéis) ou 500 (competências/riqueza)
-//   cor das células: grupo → var(--accent); membro → var(--text), com a
-//     coluna Δ da riqueza via dltCor (sinal: + verde, − vermelho)
+//   cor das células: grupo → var(--accent); membro → var(--text); a coluna Δ
+//     da riqueza usa a classificação do PLUGIN (deltaKind em wealth.ts,
+//     issue #9) — o dltCor do design (sinal +/−) fica aqui como referência
 import type { CSSProperties, MouseEvent, MouseEventHandler } from 'react'
 import type { GrupoTip } from './gtip'
 
@@ -25,6 +26,21 @@ export const sectionTitleStyle: CSSProperties = {
   fontSize: 11,
   letterSpacing: '.16em',
   color: 'var(--muted)',
+}
+
+/** Célula problemática da tabela de papéis — VERBATIM do plugin
+ *  `.pleitost-party__papel-td--warn` (styles.css:12794): coluna com <1 estrela
+ *  na soma do Grupo (section-papel.ts:138/163) e tier de membro divergente
+ *  (section-papel.ts:127). O theme.css do app aliasa --background-primary. */
+export const papelTdWarnStyle: CSSProperties = {
+  background: 'color-mix(in srgb, #ff3333 24%, var(--background-primary) 76%)',
+  boxShadow: 'inset 0 0 0 1px color-mix(in srgb, #ff3333 45%, transparent)',
+}
+
+/** Cabeçalho TIR com tiers divergentes — VERBATIM do plugin
+ *  `.pleitost-party__wealth-th--warn` (styles.css:13034; section-papel.ts:71). */
+export const thWarnStyle: CSSProperties = {
+  background: 'color-mix(in srgb, #ff3333 22%, var(--background-primary) 78%)',
 }
 
 /** Casca da linha (bg/borda/clip com fator --g do design), sem o grid. */
@@ -56,6 +72,7 @@ export function SortHead({
   fontSize = 8.5,
   letterSpacing = '.02em',
   icColor,
+  warn,
   onTipEnter,
   tip,
 }: {
@@ -67,6 +84,8 @@ export function SortHead({
   fontSize?: number
   letterSpacing?: string
   icColor?: string
+  /** Tier divergente no grupo → fundo de aviso do plugin (thWarnStyle). */
+  warn?: boolean
   onTipEnter?: MouseEventHandler
   tip?: GrupoTip
 }) {
@@ -89,6 +108,7 @@ export function SortHead({
           fontSize,
           letterSpacing,
           lineHeight: 1.3,
+          ...(warn ? thWarnStyle : null),
         } as CSSProperties
       }
     >

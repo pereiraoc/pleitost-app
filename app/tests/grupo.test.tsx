@@ -15,19 +15,23 @@ import {
   groupMembers,
   groupTotals,
   papelValues,
+  rankColors,
   rankLetter,
+  tierBarColor,
   tierFromLevel,
 } from '../src/grupo/party'
 import { computeGrupoAggregates, memberStats } from '../src/grupo/stats'
 import { maxAttackModifier } from '../src/grupo/ataques'
-import { topTwoForSkill } from '../src/grupo/destaques'
+import { magiaHighlights, skillHighlights, topTwoForSkill } from '../src/grupo/destaques'
 import {
   computeMemberWealthParts,
+  deltaKind,
   expectedWealthForLevel,
   precoPO,
   tierMultFromName,
 } from '../src/grupo/wealth'
 import { cycleSort, gnum } from '../src/grupo/sort'
+import { tokens } from '../src/generated/tokens'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -39,6 +43,13 @@ const catalog = buildCatalog(manifest)
 
 const GROUP_ID = 'Sistema/Criaturas/Grupos de Criaturas/Adriann, Carlos, Kenji, Zuko'
 const GROUP5_ID = 'Sistema/Criaturas/Grupos de Criaturas/Carlos, Dante, Mera, Pind, Thoren'
+// Grupo real que dispara TODOS os avisos do plugin: Controlador soma 0,
+// tiers divergentes (1/3/1), perícias e magias sem ninguém ≥ Adepto.
+const GROUP3_ID = 'Sistema/Criaturas/Grupos de Criaturas/Baitaca, Carlos, Drauzio'
+
+// '#d4af37' → 'rgb(212, 175, 55)' (forma normalizada do jsdom).
+const hexRgb = (hex: string) =>
+  `rgb(${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)})`
 
 const readDoc = (id: string): VaultDoc =>
   JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
@@ -429,5 +440,226 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
     expect(await screen.findByText(/Resumo do conjunto/)).toBeTruthy()
     fireEvent.mouseOut(label)
     expect(screen.queryByText(/Resumo do conjunto/)).toBeNull()
+  })
+})
+
+// ── Issues #10 e #9: cores do registro + avisos do plugin ────────────────
+
+const renderGroup = (id: string) =>
+  render(
+    <CatalogProvider catalog={catalog}>
+      <MemoryRouter>
+        <GrupoView groupId={id} />
+      </MemoryRouter>
+    </CatalogProvider>,
+  )
+
+// Marcador do plugin: anel inset de .pleitost-party__papel-td--warn
+// (styles.css:12794) — presença no atributo style identifica a célula warn.
+const WARN_RING = 'inset 0 0 0 1px color-mix(in srgb, #ff3333 45%, transparent)'
+const warnCellsOf = (panel: HTMLElement) =>
+  [...panel.querySelectorAll<HTMLElement>('[style]')].filter((el) =>
+    (el.getAttribute('style') ?? '').includes(WARN_RING),
+  )
+
+describe('registro de cores do grupo (espelho de tiers-display.ts)', () => {
+  it('rankColors/tierBarColor leem tokens; fallbacks D e Tier1 como o plugin', () => {
+    expect(rankColors('A')).toEqual({
+      color: tokens.colors.partyBountyRank.AColor,
+      bg: tokens.colors.partyBountyRank.ABg,
+      glow: tokens.colors.partyBountyRank.AGlow,
+    })
+    // letra fora do registro cai em D (render-party-sheet.ts:196)
+    expect(rankColors('X').color).toBe(tokens.colors.partyBountyRank.DColor)
+    expect(tierBarColor(2)).toBe(tokens.colors.partyTierBar.Tier2)
+    // tier fora de 1-4 cai em Tier1 (render-party-sheet.ts:194)
+    expect(tierBarColor(7)).toBe(tokens.colors.partyTierBar.Tier1)
+  })
+
+  it('#10: letra do rank e barrinha lateral com as cores do registro', async () => {
+    const { container } = renderGroup(GROUP5_ID)
+    // expectativa independente: tier máximo dos FMs reais → letra do rank
+    const docs = readMemberDocs(GROUP5_ID)
+    const tiers = groupMembers(catalog, GROUP5_ID).map((m) =>
+      tierFromLevel(docs.get(m.id)!.frontmatter['Nível']),
+    )
+    const maxTier = Math.max(...tiers)
+    const letter = maxTier >= 4 ? 'S' : maxTier === 3 ? 'A' : maxTier === 2 ? 'B' : 'C'
+    const box = await screen.findByText(letter)
+    expect(box.style.color).toBe(hexRgb('#d4af37')) // AColor (ouro)
+    expect(box.style.boxShadow).toContain(tokens.colors.partyBountyRank.AGlow)
+    expect(box.style.background).toBe(tokens.colors.partyBountyRank.ABg.replace(/,/g, ', '))
+    expect(box.getAttribute('style')).toContain('border: 1.5px solid')
+    // barrinha lateral: gradiente do plugin (render-party-sheet.ts:208) com Tier3
+    const bar = container.querySelector('div[style*="linear-gradient(180deg"]')!
+    expect(bar).toBeTruthy()
+    expect(bar.getAttribute('style')).toContain(tokens.colors.partyTierBar[`Tier${maxTier}` as 'Tier3'])
+  })
+})
+
+describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
+  it('papel com soma do grupo <1 estrela marca a coluna inteira (membros + Grupo)', async () => {
+    // expectativa independente: totais por papel dos FMs crus
+    const members = groupMembers(catalog, GROUP_ID)
+    const fms = members.map((m) => readDoc(m.id).frontmatter as AnyFm)
+    const totals: Record<string, number> = { Lider: 0, Controlador: 0, Abatedor: 0, Vanguarda: 0 }
+    for (const fm of fms)
+      for (const p of Object.keys(totals)) totals[p] += Number(fm.Papel?.[p]) || 0
+    const warnPapeis = Object.keys(totals).filter((p) => totals[p] < 1)
+    expect(warnPapeis).toEqual(['Lider']) // guarda do cenário real
+    const tiersEqual = new Set(fms.map((fm) => tierFromLevel(fm['Nível']))).size === 1
+    expect(tiersEqual).toBe(true)
+
+    const { container } = renderGroup(GROUP_ID)
+    const papelPanel = container.querySelectorAll('[data-panel]')[0] as HTMLElement
+    // após o load: só a coluna Lider (4 membros + linha Grupo = 5 células)
+    await waitFor(() => expect(warnCellsOf(papelPanel).length).toBe(members.length + 1))
+    // todas as células marcadas são da coluna Lider (estrela verde #4ade80)
+    for (const cell of warnCellsOf(papelPanel)) {
+      const star = cell.querySelector('span')!
+      expect(star.style.color).toBe(hexRgb('#4ade80'))
+    }
+    // tiers iguais → cabeçalho TIR sem o fundo de aviso (styles.css:13034)
+    const tirHead = within(papelPanel).getByText('TIR')
+    expect(tirHead.getAttribute('style') ?? '').not.toContain('#ff3333')
+  })
+
+  it('tier divergente marca células de tier dos membros + cabeçalho TIR (não a linha Grupo)', async () => {
+    // expectativa independente dos FMs crus
+    const members = groupMembers(catalog, GROUP3_ID)
+    const fms = members.map((m) => readDoc(m.id).frontmatter as AnyFm)
+    const tiers = fms.map((fm) => tierFromLevel(fm['Nível']))
+    expect(new Set(tiers).size > 1).toBe(true) // guarda do cenário real (1/3/1)
+    const totals: Record<string, number> = { Lider: 0, Controlador: 0, Abatedor: 0, Vanguarda: 0 }
+    for (const fm of fms)
+      for (const p of Object.keys(totals)) totals[p] += Number(fm.Papel?.[p]) || 0
+    expect(Object.keys(totals).filter((p) => totals[p] < 1)).toEqual(['Controlador'])
+
+    const { container } = renderGroup(GROUP3_ID)
+    const papelPanel = container.querySelectorAll('[data-panel]')[0] as HTMLElement
+    // espera o load: células de tier dos 3 membros (warn) + coluna Controlador
+    // (3 membros + Grupo) = 7 marcadores
+    await waitFor(() => expect(warnCellsOf(papelPanel).length).toBe(tiers.length + members.length + 1))
+    const tierWarnCells = warnCellsOf(papelPanel).filter((el) => /^Tier \d$/.test(el.textContent ?? ''))
+    expect(tierWarnCells.length).toBe(members.length)
+    // a célula de tier da linha Grupo NÃO é marcada (section-papel.ts:154-159)
+    const grupoRow = within(papelPanel).getByText('Grupo').parentElement!.parentElement!
+    const grupoTierCell = grupoRow.children[1] as HTMLElement
+    expect(/^Tier \d$/.test(grupoTierCell.textContent ?? '')).toBe(true)
+    expect(grupoTierCell.getAttribute('style') ?? '').not.toContain('#ff3333')
+    // cabeçalho TIR com o fundo de aviso (section-papel.ts:71 + styles.css:13034)
+    const tirHead = within(papelPanel).getByText('TIR')
+    expect(tirHead.getAttribute('style')).toContain(
+      'color-mix(in srgb, #ff3333 22%, var(--background-primary) 78%)',
+    )
+  })
+
+  it('deltaKind espelha deltaClass: |Δ|/max(|esperado|,1) ≤0.2 ok · ≤0.5 warn · senão bad', () => {
+    expect(deltaKind(20, 100)).toBe('ok')
+    expect(deltaKind(-20, 100)).toBe('ok')
+    expect(deltaKind(21, 100)).toBe('warn')
+    expect(deltaKind(50, 100)).toBe('warn')
+    expect(deltaKind(51, 100)).toBe('bad')
+    // esperado 0 → divisor clampado em 1 (render-party-sheet.ts:386)
+    expect(deltaKind(1, 0)).toBe('bad')
+    expect(deltaKind(0, 0)).toBe('ok')
+  })
+
+  it('coluna Δ da riqueza usa as cores do plugin por membro; linha Grupo fica accent', async () => {
+    const { container } = renderGroup(GROUP5_ID)
+    const members = groupMembers(catalog, GROUP5_ID)
+    const docs = readMemberDocs(GROUP5_ID)
+    const priceOf = (target: string): number => {
+      const res = catalog.resolve(target)
+      return res.kind === 'doc' ? precoPO(readDoc(res.id)) : 0
+    }
+    // expectativa independente: razão + limiares recomputados no teste
+    const KIND_COLOR: Record<string, string> = { ok: '#16a34a', warn: '#ea580c', bad: '#dc2626' }
+    const expected = members.map((m) => {
+      const fm = docs.get(m.id)!.frontmatter as AnyFm
+      const parts = computeMemberWealthParts(fm, priceOf)
+      const esperado = expectedWealthForLevel(Number(fm['Nível']) || 1)
+      const delta = parts.ouro + parts.itensSemConsumiveis - esperado
+      const ratio = Math.abs(delta) / Math.max(Math.abs(esperado), 1)
+      const kind = ratio <= 0.2 ? 'ok' : ratio <= 0.5 ? 'warn' : 'bad'
+      return { nome: m.basename ?? m.id, delta, cor: KIND_COLOR[kind] }
+    })
+    const riqPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    // espera os PREÇOS carregarem (delta certo), não só o nome — senão lê o
+    // render intermediário com preços 0
+    const firstDelta = `${expected[0].delta >= 0 ? '+' : ''}${Math.round(expected[0].delta)} PO`
+    await waitFor(() => {
+      const row = within(riqPanel).queryByText(expected[0].nome)?.parentElement?.parentElement
+      expect(row && (row.children[5] as HTMLElement).textContent).toBe(firstDelta)
+    })
+    for (const exp of expected) {
+      const row = within(riqPanel).getByText(exp.nome).parentElement!.parentElement!
+      const deltaCell = row.children[5] as HTMLElement
+      expect(deltaCell.textContent).toBe(`${exp.delta >= 0 ? '+' : ''}${Math.round(exp.delta)} PO`)
+      expect(deltaCell.style.color).toBe(hexRgb(exp.cor))
+    }
+    // linha Grupo sem classe de delta (render-party-sheet.ts:455) → accent
+    const grupoRow = within(riqPanel).getByText('Grupo').parentElement!.parentElement!
+    expect((grupoRow.children[5] as HTMLElement).style.color).toBe('var(--accent)')
+  })
+
+  it('⚠️ de perícia/magia quando há linha mas ninguém ≥ Adepto (warnAdeptoHtml)', async () => {
+    const members = groupMembers(catalog, GROUP3_ID)
+    const docs = readMemberDocs(GROUP3_ID)
+    // expectativa independente: varredura crua dos FMs (hasAny && !anyNonN)
+    const RANK: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
+    const OFICIO = new Set(['Ofício', 'Atuação', 'Conhecimento'])
+    const fms = members.map((m) => docs.get(m.id)!.frontmatter as AnyFm)
+    const keys = new Set<string>()
+    for (const fm of fms)
+      for (const r of fm.Pericias?.Lista ?? [])
+        if (r?.Nome && !OFICIO.has(String(r.Nome))) keys.add(String(r.Nome))
+    const warnOf = (lista: (fm: AnyFm) => AnyFm[], match: (r: AnyFm) => boolean) => {
+      let hasAny = false
+      let anyNonN = false
+      for (const fm of fms) {
+        const row = lista(fm).find(match)
+        if (row) {
+          hasAny = true
+          if ((RANK[String(row.Proficiencia ?? 'N').toUpperCase()] ?? 0) > 0) anyNonN = true
+        }
+      }
+      return hasAny && !anyNonN
+    }
+    const periciaWarns = [...keys].filter((k) =>
+      warnOf((fm) => fm.Pericias?.Lista ?? [], (r) => String(r?.Nome) === k),
+    )
+    expect(periciaWarns.sort()).toEqual(['Arcana', 'Guerra', 'Ladinagem']) // guarda real
+    const magiaWarns = ['Anima', 'Arcana Branca', 'Arcana Negra'].filter((nome) =>
+      warnOf(
+        (fm) => fm.Magias?.Lista ?? [],
+        (r) => String(r?.Nome ?? '').toLowerCase() === nome.toLowerCase(),
+      ),
+    )
+    expect(magiaWarns).toEqual(['Anima', 'Arcana Negra']) // guarda real
+
+    // espelho: skillHighlights/magiaHighlights reproduzem a condição
+    const skills = skillHighlights(members, docs).flatMap((g) => g.skills)
+    for (const sk of skills) expect(sk.warn).toBe(periciaWarns.includes(sk.key))
+    for (const mg of magiaHighlights(members, docs))
+      expect(mg.warn).toBe(magiaWarns.includes(mg.nome))
+
+    // render: ⚠️ ao lado do nome (mesmo markup do warn de magias do design)
+    const { container } = renderGroup(GROUP3_ID)
+    const destPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
+    await waitFor(() => expect(within(destPanel).queryByText('Ladinagem')).toBeTruthy())
+    // perícias ficam na coluna esquerda da grelha (nomes podem repetir nas magias)
+    const grid = within(destPanel).getByText(/DESTAQUES DE PROFICIÊNCIAS/)
+      .nextElementSibling as HTMLElement
+    const leftCol = grid.children[0] as HTMLElement
+    for (const sk of skills) {
+      const label = within(leftCol).getByText(sk.key).parentElement as HTMLElement
+      expect((label.textContent ?? '').includes('⚠️')).toBe(sk.warn)
+    }
+    const magiasCol = within(destPanel).getByText('MAGIAS').parentElement as HTMLElement
+    for (const mg of magiaHighlights(members, docs)) {
+      const card = within(magiasCol).getByText(mg.nome).parentElement as HTMLElement
+      expect((card.textContent ?? '').includes('⚠️')).toBe(mg.warn)
+    }
   })
 })

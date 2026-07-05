@@ -55,8 +55,20 @@ function TopSpan({
   )
 }
 
-/** Cartão de linha (perícia/equipamento) — verbatim do design. */
-function LineCard({ ic, nome, right }: { ic: string; nome: string; right: ReactNode }) {
+/** Cartão de linha (perícia/equipamento) — verbatim do design; `warn` renderiza
+ *  o ⚠️ do plugin (warnAdeptoHtml, section-pericia.ts:82) ao lado do nome,
+ *  com o mesmo markup do warn das magias no design (mg.warn). */
+function LineCard({
+  ic,
+  nome,
+  warn,
+  right,
+}: {
+  ic: string
+  nome: string
+  warn?: boolean
+  right: ReactNode
+}) {
   return (
     <div
       style={{
@@ -73,6 +85,11 @@ function LineCard({ ic, nome, right }: { ic: string; nome: string; right: ReactN
       <span style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 'none', minWidth: 108 }}>
         <span style={{ fontSize: 11, flex: 'none' }}>{ic}</span>
         <span style={{ fontWeight: 700, fontSize: 12.5 }}>{nome}</span>
+        {warn ? (
+          <span style={{ flex: 'none', fontSize: 11, cursor: 'help' }}>
+            {tokens.emojis.glyph.Warning}
+          </span>
+        ) : null}
       </span>
       <span
         style={{
@@ -148,6 +165,7 @@ export function PanelDestaques({
                   key={sk.key}
                   ic={attrEmoji(grp.attr)}
                   nome={sk.key}
+                  warn={sk.warn}
                   right={sk.tops.map((top, i) => (
                     <TopSpan
                       key={`${top.who}-${i}`}

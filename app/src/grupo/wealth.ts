@@ -206,5 +206,25 @@ export function priceTargets(fm: Fm | undefined): string[] {
   return out
 }
 
-// (A cor do delta na UI é a dltCor do design — sinal +/− — em panel-ui.tsx;
-// o deltaClass ok/warn/bad do plugin não aparece na tela do design.)
+// ── Classificação do delta (issue #9: avisos do plugin na party sheet) ────
+
+export type DeltaKind = 'ok' | 'warn' | 'bad'
+
+/** Cores das classes .pleitost-party__delta-ok/-warn/-bad — VERBATIM do
+ *  plugin (styles.css:13037-13039). */
+export const DELTA_COLORS: Record<DeltaKind, string> = {
+  ok: '#16a34a',
+  warn: '#ea580c',
+  bad: '#dc2626',
+}
+
+/** Espelha deltaClass (render-party-sheet.ts:385-391): razão |delta| /
+ *  max(|esperado|, 1) → ok ≤ 0.2 · warn ≤ 0.5 · bad acima. Aplicado por
+ *  membro na coluna Δ (a linha Grupo não recebe classe — ts:455). */
+export function deltaKind(delta: number, expected: number): DeltaKind {
+  const ex = Math.max(Math.abs(Number(expected)) || 0, 1)
+  const ratio = Math.abs(Number(delta)) / ex
+  if (ratio <= 0.2) return 'ok'
+  if (ratio <= 0.5) return 'warn'
+  return 'bad'
+}

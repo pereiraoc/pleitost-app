@@ -2,7 +2,7 @@
 // Navegação por pastas + heróis/NPCs renderizando sobre o índice REAL da
 // vault; fetch stubado lê os JSONs do disco (mesma fonte do dev server).
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -13,7 +13,8 @@ import { FolderView } from '../src/components/compendium/FolderView'
 import { HeroisPage, NpcsPage } from '../src/components/creatures/CreaturesPages'
 import { COMPENDIUM_SECTIONS, visibleCount } from '../src/components/compendium/sections'
 import { compendiumFolderPath } from '../src/paths'
-import type { IndexManifest } from '../src/data/types'
+import { groupMembers } from '../src/grupo/party'
+import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
@@ -21,6 +22,17 @@ const manifest = JSON.parse(
   fs.readFileSync(path.join(vaultDataDir, 'index.json'), 'utf8'),
 ) as IndexManifest
 const catalog = buildCatalog(manifest)
+
+const readDoc = (id: string): VaultDoc =>
+  JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
+
+// Cores por tier — registro partyTierBar dos tokens gerados (expectativa
+// escrita por extenso: 1-3 bronze, 4-6 prata, 7-9 ouro, 10+ cristal).
+const TIER_COLOR = ['', '#cd7f32', '#94a3b8', '#d4af37', '#8fd3ff']
+const tierOfLevel = (n: number) => (n <= 3 ? 1 : n <= 6 ? 2 : n <= 9 ? 3 : 4)
+// '#d4af37' → 'rgb(212, 175, 55)' (forma normalizada do jsdom).
+const hexRgb = (hex: string) =>
+  `rgb(${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)})`
 
 beforeAll(() => {
   // serve /vault-data/** do disco, como o dev server faz (objeto plain em vez
@@ -123,5 +135,131 @@ describe('Heróis e NPCs (telas do design com dados reais)', () => {
     expect(screen.getByText('// NENHUM REGISTRO NESTA CATEGORIA')).toBeTruthy()
     // heróis não aparecem em NPCS
     expect(screen.queryByText('Adriann')).toBeNull()
+  })
+})
+
+// ── Issues #16-#19: cores por tier/rank nos cards (registros dos tokens) ──
+
+// Cores do rank — registro partyBountyRank (expectativa por extenso:
+// C/T1 bronze, B/T2 prata, A/T3 ouro, S/T4 cristal, D cinza).
+const RANK_COLOR: Record<string, string> = {
+  S: '#8fd3ff',
+  A: '#d4af37',
+  B: '#94a3b8',
+  C: '#cd7f32',
+  D: '#6b7280',
+}
+
+const docsOfFolder = (folder: string) => {
+  const node = catalog.folderByPath.get(folder)!
+  return node.docs.filter((d) => d.basename !== node.name)
+}
+
+describe('cores por tier/rank nos cards (dados reais)', () => {
+  it('#17: badge NVL do herói colorida pelo tier do nível', async () => {
+    const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
+    await screen.findAllByText('Mago') // docs carregados
+    for (const entry of docsOfFolder('Sistema/Criaturas/Heróis')) {
+      const nivel = Number(readDoc(entry.id).frontmatter['Nível'])
+      if (!Number.isFinite(nivel)) continue
+      const card = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
+        within(c).queryByText(entry.basename!),
+      )!
+      expect(card, entry.id).toBeTruthy()
+      const cor = hexRgb(TIER_COLOR[tierOfLevel(nivel)])
+      const badge = card.querySelector<HTMLElement>('.hero-nvl')!
+      const num = card.querySelector<HTMLElement>('.hero-nvl-num')!
+      await waitFor(() => expect(num.textContent).toBe(String(nivel)))
+      expect(num.style.color, entry.id).toBe(cor)
+      expect(badge.style.borderColor, entry.id).toBe(cor)
+    }
+  })
+
+  it('#16: card de grupo com imagem (Retratos/<grupo>) e rank box do registro', async () => {
+    const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
+    fireEvent.click(screen.getByRole('button', { name: 'GRUPOS' }))
+    const groups = docsOfFolder('Sistema/Criaturas/Grupos de Criaturas')
+    expect(groups.length).toBeGreaterThan(0)
+    for (const group of groups) {
+      // expectativa independente: rank do FM cru, senão do tier máximo
+      const gfm = readDoc(group.id).frontmatter as Record<string, unknown>
+      const tiers = groupMembers(catalog, group.id).map((m) => {
+        const n = Number(readDoc(m.id).frontmatter['Nível']) || 1
+        return tierOfLevel(n)
+      })
+      const maxTier = tiers.length ? Math.max(...tiers) : 1
+      const raw = gfm['rank'] ?? gfm['Rank'] ?? gfm['classe'] ?? gfm['Classe']
+      const m = raw != null && raw !== '' ? /[SABCD]/.exec(String(raw).trim().toUpperCase()) : null
+      const letter = m
+        ? m[0]
+        : maxTier >= 4
+          ? 'S'
+          : maxTier === 3
+            ? 'A'
+            : maxTier === 2
+              ? 'B'
+              : 'C'
+      const card = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
+        within(c).queryByText(group.basename!),
+      )!
+      expect(card, group.id).toBeTruthy()
+      const rankBox = card.querySelector<HTMLElement>('.grupo-rank')!
+      await waitFor(() => expect(rankBox.textContent).toBe(letter))
+      expect(rankBox.style.color, group.id).toBe(hexRgb(RANK_COLOR[letter]))
+      expect(rankBox.style.borderColor, group.id).toBe(hexRgb(RANK_COLOR[letter]))
+      expect(rankBox.getAttribute('style'), group.id).toContain('box-shadow: 0 2px 8px')
+      // imagem: Retratos/<basename do grupo> quando existe; senão ⚔️
+      const portrait = card.querySelector<HTMLElement>('.hero-portrait')
+      if (group.basename === 'Carlos, Dante, Mera, Pind, Thoren') {
+        await waitFor(() => expect(card.querySelector('.hero-portrait')).toBeTruthy())
+        expect(
+          decodeURIComponent(card.querySelector<HTMLElement>('.hero-portrait')!.style.backgroundImage),
+        ).toContain(`Retratos/${group.basename}.png`)
+      } else if (group.basename === 'Baitaca, Carlos, Drauzio') {
+        expect(portrait).toBeNull()
+        expect(within(card).getByText('⚔️')).toBeTruthy()
+      }
+    }
+  })
+
+  it('#19: bestiário mostra TIER do FM (não nível) com a cor do registro', async () => {
+    const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
+    await screen.findAllByText(/Goblin \(Pequeno\)/)
+    const bestPanel = container.querySelectorAll<HTMLElement>('.npc-panel')[2]
+    // nenhum losango NVL na aba — todos viram TIER
+    expect(within(bestPanel).queryByText('NVL')).toBeNull()
+    for (const entry of docsOfFolder('Sistema/Criaturas/Bestiário')) {
+      const tier = Number(readDoc(entry.id).frontmatter['Tier'])
+      const card = [...bestPanel.querySelectorAll<HTMLElement>('.npc-card')].find((c) =>
+        within(c).queryByText(entry.basename!),
+      )!
+      expect(card, entry.id).toBeTruthy()
+      expect(within(card).getByText('TIER')).toBeTruthy()
+      const num = card.querySelector<HTMLElement>('.npc-nvl-num')!
+      expect(num.textContent, entry.id).toBe(String(tier))
+      // Tier 0 usa o registro tier.Zero do plugin; 1+ segue partyTierBar
+      const cor = hexRgb(tier <= 0 ? '#111111' : TIER_COLOR[tier])
+      expect(num.style.color, entry.id).toBe(cor)
+      expect(card.querySelector<HTMLElement>('.npc-nvl-diamond')!.style.borderColor).toBe(cor)
+    }
+  })
+
+  it('#18: companheiro animal usa NVL com a cor do tier (como heróis)', async () => {
+    const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
+    await screen.findAllByText(/Goblin \(Pequeno\)/)
+    const caPanel = container.querySelectorAll<HTMLElement>('.npc-panel')[1]
+    for (const entry of docsOfFolder('Sistema/Criaturas/Companheiros Animais')) {
+      const nivel = Number(readDoc(entry.id).frontmatter['Nível'])
+      const card = [...caPanel.querySelectorAll<HTMLElement>('.npc-card')].find((c) =>
+        within(c).queryByText(entry.basename!),
+      )!
+      expect(card, entry.id).toBeTruthy()
+      expect(within(card).getByText('NVL')).toBeTruthy()
+      const num = card.querySelector<HTMLElement>('.npc-nvl-num')!
+      await waitFor(() => expect(num.textContent).toBe(String(nivel)))
+      const cor = hexRgb(TIER_COLOR[tierOfLevel(nivel)])
+      expect(num.style.color, entry.id).toBe(cor)
+      expect(card.querySelector<HTMLElement>('.npc-nvl-diamond')!.style.borderColor).toBe(cor)
+    }
   })
 })

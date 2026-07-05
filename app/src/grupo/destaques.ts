@@ -5,7 +5,8 @@
 //    (sort mod desc, tie basename pt) e topTwoForSkill.
 //  - render/modes/grupo/section-pericia.ts: chaves de perícia agrupadas
 //    pelo Atributo do 1º membro que tem a linha, ATTR_ORDER FOR/AGI/INT/PRE,
-//    chaves ordenadas pt dentro do atributo.
+//    chaves ordenadas pt dentro do atributo; warn ⚠️ quando há linha mas
+//    ninguém ≥ Adepto (warnAdeptoHtml — mesma regra das magias).
 //  - render/modes/grupo/section-magias.ts: escolas Anima/Arcana Branca/
 //    Arcana Negra, integrantes ≥ Adepto por mod (calcMagia), warn ⚠️ quando
 //    há linha mas ninguém ≥ Adepto.
@@ -40,6 +41,9 @@ export interface SkillTop {
 export interface SkillHighlight {
   key: string
   tops: SkillTop[]
+  /** ⚠️ quando algum membro tem a linha mas ninguém ≥ Adepto — espelha
+   *  section-pericia.ts:73-82 (hasAny && !anyNonN → warnAdeptoHtml). */
+  warn: boolean
 }
 
 export interface AttrGroup {
@@ -111,13 +115,31 @@ export function skillHighlights(
     if (list) list.push(key)
     else byAttr.set(attr, [key])
   }
+  // Espelha section-pericia.ts:73-82: hasAny = algum membro tem a linha;
+  // anyNonN = algum deles com Proficiencia > N; warn = hasAny && !anyNonN.
+  const warnFor = (key: string): boolean => {
+    let hasAny = false
+    let anyNonN = false
+    for (const member of members) {
+      const row = findNamedRowExact(periciasLista(docs?.get(member.id)?.frontmatter), key)
+      if (row) {
+        hasAny = true
+        if (profRank(row.Proficiencia) > 0) anyNonN = true
+      }
+    }
+    return hasAny && !anyNonN
+  }
   const groups: AttrGroup[] = []
   for (const attr of ATTR_ORDER) {
     const list = (byAttr.get(attr) ?? []).sort((a, b) => a.localeCompare(b, 'pt'))
     if (!list.length) continue
     groups.push({
       attr,
-      skills: list.map((key) => ({ key, tops: topTwoForSkill(members, docs, key) })),
+      skills: list.map((key) => ({
+        key,
+        tops: topTwoForSkill(members, docs, key),
+        warn: warnFor(key),
+      })),
     })
   }
   return groups

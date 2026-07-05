@@ -1,13 +1,21 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAssetIndex } from '../../data/assets'
-import { creatureImageUrl } from '../../data/creature-image'
+import { creatureImageUrl, groupImageUrl } from '../../data/creature-image'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath, heroPath } from '../../paths'
+import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
-import { GRUPOS_FOLDER, groupMembers, rankLetter, tierFromLevel } from '../../grupo/party'
+import {
+  GRUPOS_FOLDER,
+  groupMembers,
+  rankColors,
+  rankLetter,
+  tierBarColor,
+  tierFromLevel,
+} from '../../grupo/party'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -86,6 +94,10 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>)
   const portrait = creatureImageUrl(doc, assets)
+  // Badge NVL com a cor do tier do herói (issue #17): tierFromLevel (espelho
+  // de tier-from-level.ts) + registro partyTierBar (1-3 bronze, 4-6 prata,
+  // 7-9 ouro, 10+ cristal). Sem Nível carregado, fica nas cores do design.
+  const tierCor = nivel ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível'])) : null
 
   return (
     <button className="hero-card" onClick={() => navigate(heroPath(entry.id))}>
@@ -99,8 +111,10 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
         <div className="hero-nome">{nome}</div>
         <div className="hero-classe">{classe}</div>
       </div>
-      <div className="hero-nvl">
-        <span className="hero-nvl-num">{nivel || '—'}</span>
+      <div className="hero-nvl" style={tierCor ? { borderColor: tierCor } : undefined}>
+        <span className="hero-nvl-num" style={tierCor ? { color: tierCor } : undefined}>
+          {nivel || '—'}
+        </span>
         <span className="hero-nvl-label">NVL</span>
       </div>
       <span className="card-dots" aria-hidden>
@@ -129,17 +143,38 @@ function GroupCard({
   rank: string
   onOpen: () => void
 }) {
+  const assets = useAssetIndex()
+  // Imagem do grupo (issue #16): Retratos/<basename do grupo> via
+  // groupImageUrl; sem retrato mantém o fallback ⚔️.
+  const portrait = groupImageUrl(entry.basename, assets)
+  // Rank box com as cores do registro partyBountyRank (issue #16) — espelha
+  // o rankBadge do plugin (render-party-sheet.ts:215-219) com o glow de
+  // .pleitost-party__rank (styles.css:12420: 0 2px 8px var(--party-glow)).
+  const rk = rankColors(rank)
   return (
     <button className="hero-card" onClick={onOpen}>
       <span className="hero-card-stripe" aria-hidden />
-      <span className="hero-ini" aria-hidden>
-        ⚔️
-      </span>
+      {portrait ? (
+        <div className="hero-portrait" style={{ backgroundImage: `url("${portrait}")` }} />
+      ) : (
+        <span className="hero-ini" aria-hidden>
+          ⚔️
+        </span>
+      )}
       <div className="hero-main">
         <div className="hero-nome">{entry.basename ?? entry.id}</div>
         <div className="hero-classe">{memberCount} integrantes</div>
       </div>
-      <div className="grupo-rank" aria-hidden>
+      <div
+        className="grupo-rank"
+        aria-hidden
+        style={{
+          color: rk.color,
+          background: rk.bg,
+          borderColor: rk.color,
+          boxShadow: `0 2px 8px ${rk.glow}`,
+        }}
+      >
         {rank}
       </div>
       <span className="card-dots" aria-hidden>
@@ -255,6 +290,15 @@ export function HeroisPage() {
   )
 }
 
+/** Cor do TIER de monstro — espelha tierColorForMonstro (header-monstro.ts:32):
+ *  Tier 0 usa o registro tokens.colors.tier.Zero (palette-registry.ts:13,
+ *  "Tier 0 do Monstro (sem tier) — usado como --badge-tier-color"); tiers 1+
+ *  seguem o registro partyTierBar (issue #19), com teto em Tier4. */
+function monsterTierColor(t: number): string {
+  if (t <= 0) return tokens.colors.tier.Zero
+  return tierBarColor(Math.min(Math.floor(t), 4))
+}
+
 function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
@@ -268,6 +312,30 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   const portrait = creatureImageUrl(doc, assets)
 
+  // Badge do losango por subtipo:
+  //  - Monstro (issue #19): a divisão é por FM `Tier` (não têm Nível) — o
+  //    losango NVL do design vira TIER, rótulo verbatim do badge do plugin
+  //    (header-monstro.ts:107) e número = FM Tier, cor via monsterTierColor.
+  //  - Companheiro Animal (issue #18): NVL colorido pelo tier do nível,
+  //    mesma lógica/registro dos heróis (tierFromLevel + partyTierBar).
+  //  - Demais (Pessoas): losango NVL do design, sem cor de tier.
+  const subtype = doc?.subtype ?? entry.subtype
+  const isMonstro = subtype === 'Monstro'
+  const tierFm = doc?.frontmatter['Tier']
+  const tierNum =
+    isMonstro && tierFm != null && tierFm !== '' && Number.isFinite(Number(tierFm))
+      ? Number(tierFm)
+      : null
+  const badgeLabel = isMonstro ? 'TIER' : 'NVL'
+  const badgeNum = isMonstro ? (tierNum != null ? String(tierNum) : '—') : nivel || '—'
+  const badgeCor = isMonstro
+    ? tierNum != null
+      ? monsterTierColor(tierNum)
+      : null
+    : subtype === 'Companheiro Animal' && nivel
+      ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível']))
+      : null
+
   return (
     <button className="npc-card" onClick={() => navigate(docPath(entry.id))}>
       {portrait ? (
@@ -280,10 +348,16 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
         <div className="npc-tipo">{tipo}</div>
       </div>
       <div className="npc-nvl">
-        <span className="npc-nvl-diamond" aria-hidden />
+        <span
+          className="npc-nvl-diamond"
+          aria-hidden
+          style={badgeCor ? { borderColor: badgeCor } : undefined}
+        />
         <div className="npc-nvl-inner">
-          <span className="npc-nvl-label">NVL</span>
-          <span className="npc-nvl-num">{nivel || '—'}</span>
+          <span className="npc-nvl-label">{badgeLabel}</span>
+          <span className="npc-nvl-num" style={badgeCor ? { color: badgeCor } : undefined}>
+            {badgeNum}
+          </span>
         </div>
       </div>
       <span className="card-dots" aria-hidden>

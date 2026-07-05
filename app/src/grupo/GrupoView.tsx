@@ -19,13 +19,16 @@ import {
   groupMembers,
   groupTotals,
   papelValues,
+  rankColors,
   rankLetter,
   sintoniaEmoji,
+  tierBarColor,
   tierFromLevel,
+  type Papel,
   type PapelValues,
 } from './party'
 import { orderAlphabetical } from './order'
-import { NameCell, SortHead, rowShellStyle, sectionTitleStyle } from './panel-ui'
+import { NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, sortArrow, type GrpSort } from './sort'
 import { useGrupoTip, type GrupoTip } from './gtip'
 import { resolveGroupImageUrl } from './group-image'
@@ -68,11 +71,14 @@ const rowGrid: CSSProperties = {
 function StarCell({
   value,
   cor,
+  warn,
   onTipEnter,
   tip,
 }: {
   value: number
   cor: string
+  /** Coluna com soma do Grupo <1 estrela → aviso do plugin (papelTdWarnStyle). */
+  warn?: boolean
   onTipEnter?: (e: React.MouseEvent) => void
   tip?: GrupoTip
 }) {
@@ -87,7 +93,14 @@ function StarCell({
       onMouseEnter={onTipEnter}
       onMouseMove={tip?.move}
       onMouseLeave={tip?.hide}
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3, cursor: 'help' }}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 3,
+        cursor: 'help',
+        ...(warn ? papelTdWarnStyle : null),
+      }}
     >
       {star(slots[0], 0)}
       <span
@@ -118,7 +131,19 @@ interface BalRowData {
   gi: number
 }
 
-function BalRow({ row, tip }: { row: BalRowData; tip?: GrupoTip }) {
+function BalRow({
+  row,
+  tierUnbalanced,
+  warnCols,
+  tip,
+}: {
+  row: BalRowData
+  /** Tier divergente entre membros (section-papel.ts:50) — só células de membro. */
+  tierUnbalanced: boolean
+  /** Papéis com soma do Grupo <1 (section-papel.ts:136/161) — membros E linha Grupo. */
+  warnCols: Record<Papel, boolean>
+  tip?: GrupoTip
+}) {
   const g = row.grupo ? 1 : 0
   return (
     <div style={{ ...rowGrid, ...rowShellStyle(row.grupo) }}>
@@ -141,6 +166,9 @@ function BalRow({ row, tip }: { row: BalRowData; tip?: GrupoTip }) {
           fontWeight: 700,
           cursor: 'help',
           color: `color-mix(in srgb,var(--accent) ${g * 55}%,var(--text))`,
+          // Plugin: célula de tier de MEMBRO recebe o warn quando os tiers
+          // divergem (section-papel.ts:127); a linha Grupo não (ts:154-159).
+          ...(tierUnbalanced && !row.grupo ? papelTdWarnStyle : null),
         }}
       >
         Tier {row.tier}
@@ -150,6 +178,7 @@ function BalRow({ row, tip }: { row: BalRowData; tip?: GrupoTip }) {
           key={head.l}
           value={row.values[head.papel!]}
           cor={ROLE_COLS[i] || 'var(--accent)'}
+          warn={warnCols[head.papel!]}
           onTipEnter={tip?.tipE(`bal:r${row.gi}c${i + 2}`)}
           tip={tip}
         />
@@ -163,9 +192,13 @@ function BalRow({ row, tip }: { row: BalRowData; tip?: GrupoTip }) {
  *  ordem de G.balRows do design); applySort: coluna clicada ou classe pt. */
 function PanelBalanceamento({
   rows,
+  tierUnbalanced,
+  warnCols,
   tip,
 }: {
   rows: BalRowData[]
+  tierUnbalanced: boolean
+  warnCols: Record<Papel, boolean>
   tip?: GrupoTip
 }) {
   const [sort, setSort] = useState<GrpSort | null>(null)
@@ -192,6 +225,7 @@ function PanelBalanceamento({
                 icColor={head.cor}
                 active={sort?.col === i}
                 arr={sortArrow(sort, i)}
+                warn={i === 0 && tierUnbalanced}
                 onClick={() => setSort((s) => cycleSort(s, i))}
                 onTipEnter={tip?.tipE(`bal:h${i + 1}`)}
                 tip={tip}
@@ -199,7 +233,13 @@ function PanelBalanceamento({
             ))}
           </div>
           {sorted.map((row) => (
-            <BalRow key={row.id} row={row} tip={tip} />
+            <BalRow
+              key={row.id}
+              row={row}
+              tierUnbalanced={tierUnbalanced}
+              warnCols={warnCols}
+              tip={tip}
+            />
           ))}
         </div>
       </div>
@@ -246,6 +286,16 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const maxTier = balRows.length ? Math.max(...balRows.map((r) => r.tier)) : 1
   const totals = groupTotals(balRows.map((r) => r.values))
   const rank = rankLetter(groupDoc?.frontmatter ?? {}, maxTier)
+  // Cores do rank/barrinha via registro (tiers-display.ts espelhado em party.ts).
+  const rk = rankColors(rank)
+  const barColor = tierBarColor(maxTier)
+  // Avisos do plugin (section-papel.ts): tiers de MEMBRO divergentes (ts:50)
+  // e papéis com soma do Grupo <1 estrela (ts:136/161).
+  const tierUnbalanced = new Set(balRows.map((r) => r.tier)).size > 1
+  const warnCols = Object.fromEntries(PAPEIS.map((p) => [p, totals[p] < 1])) as Record<
+    Papel,
+    boolean
+  >
   const balAll: BalRowData[] = [
     ...balRows,
     { id: '::grupo', label: 'Grupo', em: null, tier: maxTier, values: totals, grupo: true, gi: balRows.length },
@@ -289,6 +339,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
             GRUPO{subcategoria ? ` · ${subcategoria.toUpperCase()}` : ''}
           </span>
           <span style={{ flex: 1 }} />
+          {/* Rank box do design com as cores do registro partyBountyRank —
+              espelha o rankBadge do plugin (render-party-sheet.ts:215-219:
+              color/bg/border = rk.*) e o glow via --party-glow (styles.css:12420). */}
           <span
             style={{
               width: 44,
@@ -300,11 +353,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
               fontFamily: 'var(--display)',
               fontSize: 22,
               fontWeight: 800,
-              color: 'var(--accent)',
-              background: 'color-mix(in srgb,var(--accent) 12%,var(--card))',
-              border: '1.5px solid var(--accent)',
+              color: rk.color,
+              background: rk.bg,
+              border: `1.5px solid ${rk.color}`,
               clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))',
-              boxShadow: '0 0 18px color-mix(in srgb,var(--accent) 28%,transparent)',
+              boxShadow: `0 0 18px ${rk.glow}`,
             }}
           >
             {rank}
@@ -364,7 +417,19 @@ export function GrupoView({ groupId }: { groupId: string }) {
             </div>
           </div>
         </div>
-        <div style={{ position: 'absolute', left: -24, top: 0, bottom: 0, width: 3, background: 'var(--accent)', opacity: 0.7 }} />
+        {/* Barrinha lateral = tier máximo do grupo — gradiente verbatim do
+            plugin (render-party-sheet.ts:208) com a cor do registro partyTierBar. */}
+        <div
+          style={{
+            position: 'absolute',
+            left: -24,
+            top: 0,
+            bottom: 0,
+            width: 3,
+            background: `linear-gradient(180deg,${barColor},color-mix(in srgb,${barColor} 60%,black))`,
+            opacity: 0.7,
+          }}
+        />
       </div>
 
       {/* TABS (navegação real — grupoTabs do design limpa o gtip ao trocar) */}
@@ -415,7 +480,12 @@ export function GrupoView({ groupId }: { groupId: string }) {
           }}
         >
           <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelBalanceamento rows={balAll} tip={tip} />
+            <PanelBalanceamento
+              rows={balAll}
+              tierUnbalanced={tierUnbalanced}
+              warnCols={warnCols}
+              tip={tip}
+            />
           </div>
           <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
             <PanelVida members={members} docs={memberDocs} tip={tip} />
