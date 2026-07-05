@@ -17,7 +17,10 @@ import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { clip, AttrBadge, EditToggle, GoldDots, ModBox, RankBtns, RankMedal, TabStrip } from './bits'
 import type { HeroRefs } from './useHeroRefs'
-import { PassadoBox } from './PerfilTab'
+import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
+import { useHeroRules } from '../../rules/useHeroRules'
+import { swapAtributo } from '../../rules/projection'
+import type { AtributoId } from '../../rules/rules-model'
 import {
   ATTR_DOT_COLORS,
   ATTR_EMOJI,
@@ -145,15 +148,18 @@ function SelectBox({
   value,
   options,
   onChange,
+  ariaLabel,
 }: {
   value: string
-  options: string[]
+  options: SelectOption[]
   onChange?: (v: string) => void
+  ariaLabel?: string
 }) {
-  const opts = options.includes(value) || !value ? options : [value, ...options]
+  const opts = withCurrent(options, value)
   return (
     <div style={{ position: 'relative', minWidth: 0 }}>
       <select
+        aria-label={ariaLabel}
         value={value}
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         style={{
@@ -171,9 +177,9 @@ function SelectBox({
           clipPath: clip(8),
         }}
       >
-        {(opts.length ? opts : ['']).map((o) => (
-          <option key={o} value={o}>
-            {o || '—'}
+        {(opts.length ? opts : [{ value: '', label: '—' }]).map((o, i) => (
+          <option key={`${o.value}-${i}`} value={o.value}>
+            {o.label || '—'}
           </option>
         ))}
       </select>
@@ -196,25 +202,14 @@ function SelectBox({
 
 /* ===================== sub-aba PERFIL ===================== */
 
-/** Seletores CLASSE/[Escolha…] — opções reais dos Elementos_de_Regra "Selecionar (…)". */
-function escolhaOptions(parentDoc: VaultDoc | undefined): string[] {
-  if (!parentDoc) return []
-  for (const el of parentDoc.ruleElements ?? []) {
-    const m = /Selecionar \(([^)]*)\)/.exec(el.raw)
-    if (m) {
-      return m[1]
-        .split(',')
-        .map((s) => shortSubclass(s.trim()))
-        .filter(Boolean)
-    }
-  }
-  return []
-}
-
-function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
-  const catalog = useCatalog()
+function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'habilidades')
   const fm = model.fm
+  // Projeção de regras (app/src/rules): opções de Classe/Sintonia (vault
+  // scans) + escolhas de subclasse (Selecionar avaliado com picks inferidos
+  // do FM) — espelho do vm.derived + choices do Editável do plugin
+  // (render/view-model.ts + render/groups/perfil-card.ts).
+  const rules = useHeroRules(fm)
   // Nível persiste NA HORA no overlay (topbar NVL e PERFIL leem o mergeado).
   const nivel = num(fm['Nível'])
   const setNivel = (fn: (n: number) => number) => model.set('Nível', fn(nivel))
@@ -222,51 +217,95 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // pfTierColor do design (renderVals recuperado) — registro PF_TIER_COLORS.
   const tierColor = PF_TIER_COLORS[ci.classe as keyof typeof PF_TIER_COLORS] ?? ci.color
 
-  // Escolhas de subclasse do modelo (fonte Escolha.[[X]]) viram seletores.
-  const escolhas = listaEntries(fmPath(fm, 'Habilidades', 'Lista')).filter(
-    (e) => e.fonte.kind === 'Escolha',
-  )
-  const selects: { ic: string; label: string; value: string; options: string[] }[] = [
+  // CLASSE — valor do FM casado com a opção por target (FM guarda alias
+  // composto por regra: "[[Bardo|Trovador ...]]"); troca persiste o wikilink
+  // da opção, como o onMetaChange("meta.classe") do plugin (perfil-card.ts:406).
+  const classeFmValue =
+    rules?.classes.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Classe'])))?.value ??
+    str(fm['Classe'])
+  const setClasse = (v: string) => model.set('Classe', v)
+
+  // SUBCLASSES — troca de pick persiste o ESTADO no FM: regrava a linha
+  // `Escolha.[[pai]]` de Habilidades.Lista com a nova opção (pick = estado,
+  // espelho do resolve-choices/serialize do plugin — o item picado vive na
+  // lista com source `Escolha.[[<parent>]]`).
+  const habRows = (fmPath(fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]
+  const setSubclassPick = (parent: string, pickValue: string) => {
+    if (!pickValue) return
+    const esc = parent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
+    const newKey = `[[${wikiTarget(pickValue)}]]`
+    let replaced = false
+    const next = habRows.map((row) => {
+      const entries = Object.entries(row)
+      if (entries.length !== 1) return row
+      const source = entries[0][1]
+      if (typeof source === 'string' && tagRx.test(source)) {
+        replaced = true
+        return { [newKey]: source }
+      }
+      return row
+    })
+    if (!replaced) next.push({ [newKey]: `Escolha.[[${parent}]]` })
+    model.set('Habilidades.Lista', next)
+  }
+
+  // Fallback enquanto a projeção resolve: escolhas do FM (fonte Escolha.[[X]]),
+  // sem opções — slot renderiza o valor salvo.
+  const escolhasFallback = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
+    .filter((e) => e.fonte.kind === 'Escolha')
+    .map((e) => ({
+      ic: tokens.emojis.perfil.Subclasse,
+      label: e.fonte.target.toUpperCase(),
+      value: e.raw,
+      options: [{ value: e.raw, label: shortSubclass(e.raw) || e.label }],
+      onChange: undefined as ((v: string) => void) | undefined,
+    }))
+
+  const selects: {
+    ic: string
+    label: string
+    value: string
+    options: SelectOption[]
+    onChange?: (v: string) => void
+  }[] = [
     {
       ic: tokens.emojis.perfil.Classe,
       label: 'CLASSE',
-      value: linkLabel(str(fm['Classe'])),
-      options: [],
+      value: classeFmValue,
+      options: withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
+      onChange: setClasse,
     },
-    ...escolhas.map((e) => ({
-      ic: tokens.emojis.perfil.Subclasse,
-      label: e.fonte.target.toUpperCase(),
-      value: shortSubclass(e.raw) || e.label,
-      options: escolhaOptions(refs.refDoc(e.fonte.target)),
-    })),
+    ...(rules
+      ? rules.subclassChoices.map((c) => ({
+          ic: tokens.emojis.perfil.Subclasse,
+          label: c.parent.toUpperCase(),
+          value: c.pick ?? '',
+          options: c.options,
+          onChange: (v: string) => setSubclassPick(c.parent, v),
+        }))
+      : escolhasFallback),
   ]
 
-  const sintonias = catalog.content
-    .filter((e) => (e.basename ?? '').startsWith('Traço Elemental'))
-    .map((e) => e.basename!)
-  // Sintonia persiste como wikilink pro doc REAL do catálogo (formato do FM).
-  const sintonia = linkLabel(str(fm['Sintonia']))
-  const setSintonia = (v: string) => model.set('Sintonia', `[[${v}]]`)
-  // Escolhas de subclasse: rematerializar picks é maquinaria de Escolha do
-  // plugin (fora da projeção do app) — seletor segue efêmero por enquanto.
-  const [selVals, setSelVals] = useState<Record<number, string>>({})
+  // SINTONIA — opções reais (Traços Elementais raiz, alias curto) da
+  // projeção; persiste o valor da opção (withAlias, perfil-card.ts:520).
+  const sintoniaFmValue =
+    rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Sintonia'])))?.value ??
+    str(fm['Sintonia'])
+  const setSintonia = (v: string) => model.set('Sintonia', v)
 
   return (
     <div style={{ ...panel, display: 'flex', gap: 14, alignItems: 'stretch', flexWrap: 'wrap' }}>
       <div style={{ flex: 1, minWidth: 300, display: 'flex', flexDirection: 'column', gap: 13 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 11 }}>
-          {selects.map((s, i) => (
+          {selects.map((s) => (
             <div key={s.label} style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
               <span
                 style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
               >
                 {s.ic} {s.label}
               </span>
-              <SelectBox
-                value={selVals[i] ?? s.value}
-                options={s.options}
-                onChange={(v) => setSelVals((m) => ({ ...m, [i]: v }))}
-              />
+              <SelectBox ariaLabel={s.label} value={s.value} options={s.options} onChange={s.onChange} />
             </div>
           ))}
         </div>
@@ -276,7 +315,16 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           >
             🌀 SINTONIA
           </span>
-          <SelectBox value={sintonia} options={sintonias} onChange={setSintonia} />
+          <SelectBox
+            ariaLabel="SINTONIA"
+            value={sintoniaFmValue}
+            options={withCurrent(
+              [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+              sintoniaFmValue,
+              linkLabel(str(fm['Sintonia'])),
+            )}
+            onChange={setSintonia}
+          />
         </div>
       </div>
       <div
@@ -387,10 +435,42 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 }
 
 function AtributosPanel({ doc }: { doc: VaultDoc }) {
-  const { values, principal } = heroAtributos(fmOf(doc))
-  const cells = Object.entries(values)
-    .map(([n, v]) => ({ n, v }))
-    .sort((a, b) => b.v - a.v)
+  const model = useHeroModel(doc, 'habilidades')
+  const fm = model.fm
+  const rules = useHeroRules(fm)
+  const { values, principal } = heroAtributos(fm)
+  // Células por rank (3→0) da projeção de regras: cascata (rank N só
+  // escolhe entre atributos não usados em ranks > N) + restrição de
+  // principal (`Escolher Atributos.Principal ...`) — espelho de
+  // renderAttrBox do plugin (perfil-card.ts:598-700). Fallback enquanto a
+  // projeção resolve: leitura fixa ordenada por valor (sem opções).
+  const cells = rules
+    ? rules.atributos.map((c) => ({
+        n: c.current ?? '',
+        v: c.rank as number,
+        options: c.options as string[],
+        isPrincipal: c.isPrincipal,
+      }))
+    : Object.entries(values)
+        .map(([n, v]) => ({ n, v, options: [] as string[], isPrincipal: n === principal }))
+        .sort((a, b) => b.v - a.v)
+  // Troca com SWAP determinístico — espelho de applyChange do plugin
+  // (perfil-card.ts:621-634); persiste os 4 valores + Principal num write.
+  const onSwap = (rank: number, attr: string) => {
+    if (rank !== 1 && rank !== 2 && rank !== 3) return
+    const next = swapAtributo(
+      values as Record<AtributoId, number>,
+      rank,
+      attr as AtributoId,
+    )
+    model.set('Atributos', {
+      Principal: next.principal,
+      FOR: next.atributos.FOR,
+      AGI: next.atributos.AGI,
+      INT: next.atributos.INT,
+      PRE: next.atributos.PRE,
+    })
+  }
 
   return (
     <div style={panel}>
@@ -408,41 +488,59 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12 }}>
         {cells.map((a, i) => {
-          const key = a.n === principal
+          const box = (
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 7,
+                padding: 12,
+                background: 'var(--card)',
+                border: `1px solid ${a.isPrincipal ? 'color-mix(in srgb,var(--accent) 75%,var(--line2))' : 'var(--line2)'}`,
+                clipPath: clip(9),
+              }}
+            >
+              <span style={{ fontSize: 15 }}>{ATTR_EMOJI[a.n] ?? ''}</span>
+              <span
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: '.06em',
+                  color: 'var(--text)',
+                }}
+              >
+                {a.n}
+              </span>
+            </div>
+          )
+          // Editável só com 2+ opções elegíveis (canChoose do plugin,
+          // perfil-card.ts:664) — senão a célula fica fixa (display).
+          const editable = a.options.length >= 2
           return (
-            <div key={a.n} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 9 }}>
+            <div
+              key={`${a.n}-${i}`}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 9 }}
+            >
               <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                 <span
                   style={{ width: 11, height: 11, borderRadius: '50%', background: ATTR_DOT_COLORS[i] }}
                 />
                 <span style={{ fontWeight: 800, fontSize: 15, color: 'var(--text)' }}>{a.v}</span>
               </div>
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 7,
-                  padding: 12,
-                  background: 'var(--card)',
-                  border: `1px solid ${key ? 'color-mix(in srgb,var(--accent) 75%,var(--line2))' : 'var(--line2)'}`,
-                  clipPath: clip(9),
-                }}
-              >
-                <span style={{ fontSize: 15 }}>{ATTR_EMOJI[a.n] ?? ''}</span>
-                <span
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    letterSpacing: '.06em',
-                    color: 'var(--text)',
-                  }}
-                >
-                  {a.n}
-                </span>
-              </div>
+              {editable ? (
+                <BoxSelect
+                  ariaLabel={`Atributo rank ${a.v}`}
+                  display={box}
+                  options={a.options.map((o) => ({ value: o, label: `${ATTR_EMOJI[o] ?? ''} ${o}` }))}
+                  value={a.n}
+                  onChange={(v) => onSwap(a.v, v)}
+                />
+              ) : (
+                box
+              )}
             </div>
           )
         })}
@@ -1869,7 +1967,7 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
           }}
         >
           <Col>
-            <ClasseNivelPanel doc={doc} refs={refs} />
+            <ClasseNivelPanel doc={doc} />
             <AtributosPanel doc={doc} />
             <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
             <StacksPanel doc={doc} />

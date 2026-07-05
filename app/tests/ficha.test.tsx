@@ -73,8 +73,11 @@ describe('heroPath', () => {
 describe('FichaPage (Carlos, modelo salvo real)', () => {
   it('PERFIL: nome, Classe e Nível reais do frontmatter — sem header inventado', async () => {
     const { container } = renderFicha()
-    // campo NOME do PERFIL (nome real = basename; FM não tem `nome`)
-    expect((await screen.findAllByText('Carlos Facão de Andradas')).length).toBeGreaterThan(0)
+    // campo NOME do PERFIL, agora input editável (#7): valor real = basename
+    // (FM não tem `nome`)
+    expect(
+      (await screen.findAllByDisplayValue('Carlos Facão de Andradas')).length,
+    ).toBeGreaterThan(0)
     expect((await screen.findAllByText(classeReal)).length).toBeGreaterThan(0)
     // selo NVL do retrato (PERFIL)
     expect(screen.getByText(`NVL ${nivelReal}`)).toBeTruthy()

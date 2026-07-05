@@ -12,21 +12,25 @@ import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useViewportWidth } from '../../viewport'
 import { sintoniaEmoji } from '../../grupo/party'
+import { useHeroRules } from '../../rules/useHeroRules'
+import { applyPassadoPickToRows } from '../../rules/passado-options'
+import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
 import { clip, TabStrip, PanelTrack } from './bits'
 import {
   classeAventureiro,
   displayName,
   periciaEmoji,
+  slugify,
   tokens,
 } from './registry'
 import {
-  fmOf,
   fmPath,
   heroNome,
   num,
   parseFonte,
   shortSintonia,
   str,
+  wikiTarget,
 } from './hero-model'
 
 const BIO_TABS = [
@@ -156,6 +160,65 @@ const inputStyle: CSSProperties = {
   clipPath: clip(8),
 }
 
+export interface SelectOption {
+  value: string
+  label: string
+  disabled?: boolean
+}
+
+/** Garante que o valor atual apareça nas opções (registro ainda carregando
+ *  ou valor órfão) — mesmo guard do SelectBox de COMPETÊNCIAS. */
+export function withCurrent(options: SelectOption[], value: string, label?: string): SelectOption[] {
+  if (!value || options.some((o) => o.value === value)) return options
+  return [...options, { value, label: label ?? value }]
+}
+
+/** Caixa do design com <select> nativo invisível por cima — mesmo padrão do
+ *  linked-dropdown do plugin (render/shared/linked-dropdown.ts: display
+ *  decorado + select transparente). O visual fica verbatim do design; as
+ *  OPÇÕES vêm da projeção de regras (app/src/rules). */
+export function BoxSelect({
+  display,
+  options,
+  value,
+  onChange,
+  ariaLabel,
+  disabled,
+}: {
+  display: ReactNode
+  options: SelectOption[]
+  value: string
+  onChange: (v: string) => void
+  ariaLabel: string
+  disabled?: boolean
+}) {
+  return (
+    <div style={{ position: 'relative', minWidth: 0 }}>
+      {display}
+      <select
+        aria-label={ariaLabel}
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          opacity: 0,
+          cursor: disabled ? 'default' : 'pointer',
+        }}
+      >
+        {options.map((o, i) => (
+          <option key={`${o.value}-${i}`} value={o.value} disabled={o.disabled}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
 // Grid do cluster PASSADO: no PERFIL/bio o design usa auto-fit (linha 176);
 // na sub-aba PERFIL de COMPETÊNCIAS, 4 colunas fixas (linha 804).
 export function PassadoBox({
@@ -180,9 +243,13 @@ export function PassadoBox({
     )
   const daFonte = (lista: unknown) =>
     ((Array.isArray(lista) ? lista : []) as Record<string, unknown>[]).find(ehDoPassado)
-  const pericia = daFonte(fmPath(fm, 'Pericias', 'Lista'))
+  const periciasRows = (fmPath(fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
+  const pericia = daFonte(periciasRows)
   const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as Record<string, unknown>[]
   const oficio = daFonte(oficios)
+  // Opções elegíveis dos selects — projeção de regras do plugin
+  // (periciasPassadoOptions/oficiosPassadoOptions, util/passado-options.ts).
+  const rules = useHeroRules(fm)
   // Edição persiste NA HORA: texto do passado e complemento do ofício
   // (a linha do ofício é regravada dentro da lista — write de container).
   const setPassado = (v: string) => model.set('Biografia.Passado', v)
@@ -193,16 +260,53 @@ export function PassadoBox({
       oficios.map((row) => (row === oficio ? { ...row, Complemento: v } : row)),
     )
   }
-  const perNome = pericia ? displayName(str(pericia['Nome'])) : ''
+  // Troca de pick = ESTADO no FM (pick do Passado vira incremento
+  // `{A: "Passado"}` na linha escolhida) — espelho de applyPassadoToModel
+  // do plugin (extract/apply-passado-to-model.ts).
+  const setPericiaPick = (slug: string) =>
+    model.set(
+      'Pericias.Lista',
+      applyPassadoPickToRows(periciasRows, (row) => !!slug && slugify(str(row['Nome'])) === slug),
+    )
+  const setOficioPick = (v: string) =>
+    model.set(
+      'Oficios.Lista',
+      applyPassadoPickToRows(
+        oficios,
+        (row) =>
+          !!v && (v === 'Atuacao' ? str(row['Nome']) === 'Atuacao' : str(row['Nome']) === 'Oficio'),
+      ),
+    )
+  const perPick = pericia ? slugify(str(pericia['Nome'])) : ''
+  const perNome = pericia ? displayName(perPick) : ''
   const perIc = pericia ? periciaEmoji(str(pericia['Nome'])) : ''
   const ofNome = oficio ? str(oficio['Nome']) : ''
-  const ofLabel =
-    ofNome === 'Atuacao'
+  // Rótulo do ofício — espelho de labelOf (plugin biografia-card.ts:358-359).
+  const oficioLabel = (v: string) =>
+    v === 'Atuacao'
       ? `${tokens.emojis.perfil.Atuacao} Atuação`
-      : ofNome
-        ? `${tokens.emojis.perfil.OficioPassado} Ofício`
-        : ''
+      : `${tokens.emojis.perfil.OficioPassado} Ofício`
   const ofTexto = oficio ? str(oficio['Complemento']) : ''
+
+  const periciaOptions = withCurrent(
+    [
+      { value: '', label: '—' },
+      ...(rules?.periciasPassado ?? []).map((o) => ({
+        value: o.id,
+        label: `${periciaEmoji(o.id)} ${displayName(o.id)}`.trim(),
+      })),
+    ],
+    perPick,
+    perNome ? `${perIc} ${perNome}`.trim() : undefined,
+  )
+  const oficioOptions = withCurrent(
+    [
+      { value: '', label: '—' },
+      ...(rules?.oficiosPassado ?? []).map((o) => ({ value: o.value, label: oficioLabel(o.value) })),
+    ],
+    ofNome,
+    ofNome ? oficioLabel(ofNome) : undefined,
+  )
 
   const P = tokens.emojis.perfil
   const fields: {
@@ -210,11 +314,26 @@ export function PassadoBox({
     label: string
     value: string
     select?: boolean
+    options?: SelectOption[]
     onChange?: (v: string) => void
   }[] = [
     { ic: P.Passado, label: 'PASSADO', value: passado, onChange: setPassado },
-    { ic: P.PericiaPassado, label: 'PERÍCIA', value: perNome ? `${perIc} ${perNome}` : '', select: true },
-    { ic: P.OficioPassadoCampo, label: 'OFÍCIO', value: ofLabel, select: true },
+    {
+      ic: P.PericiaPassado,
+      label: 'PERÍCIA',
+      value: perPick,
+      select: true,
+      options: periciaOptions,
+      onChange: setPericiaPick,
+    },
+    {
+      ic: P.OficioPassadoCampo,
+      label: 'OFÍCIO',
+      value: ofNome,
+      select: true,
+      options: oficioOptions,
+      onChange: setOficioPick,
+    },
     { ic: P.TextoOficio, label: 'TEXTO DO OFÍCIO', value: ofTexto, onChange: setOficioTexto },
   ]
 
@@ -264,7 +383,9 @@ export function PassadoBox({
             {f.select ? (
               <div style={{ position: 'relative', minWidth: 0 }}>
                 <select
-                  defaultValue={f.value}
+                  aria-label={f.label}
+                  value={f.value}
+                  onChange={f.onChange ? (e) => f.onChange!(e.target.value) : undefined}
                   style={{
                     appearance: 'none',
                     WebkitAppearance: 'none',
@@ -279,7 +400,11 @@ export function PassadoBox({
                     clipPath: clip(8),
                   }}
                 >
-                  <option value={f.value}>{f.value || '—'}</option>
+                  {(f.options ?? [{ value: f.value, label: f.value || '—' }]).map((o, i) => (
+                    <option key={`${o.value}-${i}`} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
                 </select>
                 <span
                   style={{
@@ -311,11 +436,38 @@ export function PassadoBox({
 }
 
 function IdentidadePanel({ doc }: { doc: VaultDoc }) {
-  const fm = fmOf(doc)
+  // Modelo salvo LOCAL (FM extraído + overlay) — edição da Naturalidade
+  // persiste NA HORA (canal imediato).
+  const model = useHeroModel(doc, 'perfil')
+  const fm = model.fm
+  const rules = useHeroRules(fm)
   const bio = (fm['Biografia'] ?? {}) as Record<string, unknown>
   const listOf = (key: string) =>
     (Array.isArray(bio[key]) ? (bio[key] as unknown[]) : []).map((s) => str(s).trim()).filter(Boolean)
-  const naturalidade = linkLabel(str(bio['Naturalidade']))
+  // Naturalidade: wikilink → dropdown do Atlas; texto livre → modo "Outro";
+  // vazio → "—". Espelho dos modos do naturalidadePicker do plugin
+  // (render/groups/naturalidade-picker.ts:273-293).
+  const naturalidadeRaw = str(bio['Naturalidade'])
+  const naturalidadeIsLink = /^\[\[[^\]]+\]\]$/.test(naturalidadeRaw.trim())
+  const naturalidadeIsOutro = !naturalidadeIsLink && naturalidadeRaw.trim().length > 0
+  const [outroMode, setOutroMode] = useState(false)
+  const naturalidade = linkLabel(naturalidadeRaw)
+  const setNaturalidade = (v: string) => model.set('Biografia.Naturalidade', v)
+  const naturalidadeLines = (rules?.naturalidadeLines ?? []).map((l, i) => ({
+    value: l.value === null ? `__header_${i}` : l.value,
+    label: l.label,
+    disabled: l.disabled,
+  }))
+  const naturalidadeValue = outroMode || naturalidadeIsOutro ? NATURALIDADE_OUTRO : naturalidadeRaw.trim()
+  const onNaturalidadeSelect = (v: string) => {
+    if (v === NATURALIDADE_OUTRO) {
+      // Entra em modo Outro — commit só no blur do input (picker do plugin:322-336).
+      setOutroMode(true)
+      return
+    }
+    setOutroMode(false)
+    setNaturalidade(v)
+  }
 
   const smallField = (label: string, value: string) => (
     <div style={{ flex: 1, minWidth: 120, display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -345,17 +497,42 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
           </div>
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
             <span style={{ ...mono10, letterSpacing: '.14em' }}>🖼️ NATURALIDADE</span>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-                ...boxStyle('12px 14px', 14, 'var(--blue)'),
-              }}
-            >
-              <span style={{ flex: 1 }}>🏛️ {naturalidade || '—'}</span>
-              <span style={{ color: 'var(--muted)' }}>▾</span>
-            </div>
+            <BoxSelect
+              ariaLabel="Naturalidade"
+              display={
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    ...boxStyle('12px 14px', 14, 'var(--blue)'),
+                  }}
+                >
+                  <span style={{ flex: 1 }}>
+                    {outroMode || naturalidadeIsOutro
+                      ? `${tokens.emojis.ui.Outro} ${naturalidadeIsOutro ? naturalidadeRaw : 'Outro'}`
+                      : `🏛️ ${naturalidade || '—'}`}
+                  </span>
+                  <span style={{ color: 'var(--muted)' }}>▾</span>
+                </div>
+              }
+              options={naturalidadeLines}
+              value={naturalidadeValue}
+              onChange={onNaturalidadeSelect}
+            />
+            {outroMode || naturalidadeIsOutro ? (
+              <input
+                aria-label="Naturalidade (texto livre)"
+                type="text"
+                placeholder="Digite o nome…"
+                defaultValue={naturalidadeIsOutro ? naturalidadeRaw : ''}
+                onBlur={(e) => {
+                  const txt = e.target.value.trim()
+                  if (txt !== naturalidadeRaw) setNaturalidade(txt)
+                }}
+                style={inputStyle}
+              />
+            ) : null}
           </div>
         </div>
 
@@ -669,14 +846,24 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const vw = useViewportWidth()
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
-  const nome = heroNome(doc)
-  // APELIDO — slot do design (linhas 145-148); fonte FM Biografia.Apelido.
+  const rules = useHeroRules(fm)
+  // NOME editável (#7): FM `nome` (overlay), senão basename — regra do plugin.
+  const nome = str(fm['nome']) || heroNome(doc)
+  const setNome = (v: string) => model.set('nome', v)
+  // APELIDO — slot do design (linhas 145-148); fonte FM Biografia.Apelido,
+  // editável com persistência no overlay (#2).
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
+  const setApelido = (v: string) => model.set('Biografia.Apelido', v)
   const nivel = num(fm['Nível'])
   const ci = classeAventureiro(nivel)
   const classe = linkLabel(str(fm['Classe']))
   const sintonia = shortSintonia(fm['Sintonia'])
   const sintoniaIc = sintoniaEmoji(doc) ?? ''
+  // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
+  // match por target do wikilink, como o linkedDropdown do plugin).
+  const sintoniaFmValue =
+    rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Sintonia'])))?.value ??
+    str(fm['Sintonia'])
   const portrait = creatureImageUrl(doc, assets)
   // portW do renderVals (2133): 200 abaixo de 560, senão 262.
   const portW = vw < 560 ? 200 : 262
@@ -778,15 +965,41 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
 
         <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
           <Field label="NOME">
-            <div style={boxStyle('13px 15px', 16)}>{nome}</div>
+            <input
+              aria-label="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
+            />
           </Field>
+          {/* #2: mesma largura/estilo do NOME, editável e persistido. */}
           <Field label="APELIDO">
-            <div style={boxStyle('13px 15px', 15)}>{apelido}</div>
+            <input
+              aria-label="Apelido"
+              value={apelido}
+              onChange={(e) => setApelido(e.target.value)}
+              style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
+            />
           </Field>
+          {/* #7: SINTONIA como dropdown dos Traços Elementais reais —
+              opções da projeção de regras (mesmas do Editável do plugin). */}
           <Field label="SINTONIA">
-            <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
-              {sintoniaIc} {sintonia || '—'}
-            </div>
+            <BoxSelect
+              ariaLabel="Sintonia"
+              display={
+                <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
+                  {sintoniaIc} {sintonia || '—'}
+                </div>
+              }
+              options={withCurrent(
+                [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+                sintoniaFmValue,
+                sintonia,
+              )}
+              value={sintoniaFmValue}
+              onChange={(v) => model.set('Sintonia', v)}
+              disabled={rules?.sintoniaRuleLocked}
+            />
           </Field>
         </div>
       </div>
