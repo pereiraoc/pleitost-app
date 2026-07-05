@@ -1,7 +1,7 @@
 // Fragmentos visuais compartilhados da ficha — estilos VERBATIM do design
 // puxado (design/pulled/Companion App.dc.html). Cada componente replica um
 // pedaço repetido do markup do design; dados chegam prontos por props.
-import type { CSSProperties, ReactNode } from 'react'
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
 
 /** clip-path de canto cortado usado em todo o design. */
@@ -108,18 +108,46 @@ export function TabStrip({
   )
 }
 
-/** Trilho horizontal de painéis (data-track do design, transição idem). */
+/** Trilho horizontal de painéis — O componente de track compartilhado de
+ *  TODOS os carrosséis do app (issue #6). Markup verbatim do design puxado
+ *  (Companion App.dc.html:166-167/424/1130: clip `position:relative;width:
+ *  100%;overflow:hidden` > `div[data-track][data-track-auto]`), transição de
+ *  _animateViewChange (dc.html:1533: transform+height .32s/.34s
+ *  cubic-bezier(.2,.85,.32,1)) e altura do data-track-auto (dc.html:1534:
+ *  track.height = children[idx].offsetHeight; ResizeObserver cobre conteúdo
+ *  que muda de altura depois do slide). */
 export function PanelTrack({ index, children }: { index: number; children: ReactNode }) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const child = track.children[index] as HTMLElement | undefined
+    if (!child) return
+    const apply = () => {
+      const h = child.offsetHeight
+      if (h > 0) track.style.height = `${h}px`
+    }
+    apply()
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(apply)
+      ro.observe(child)
+      return () => ro.disconnect()
+    }
+  }, [index])
   return (
     <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
       <div
+        ref={trackRef}
+        data-track=""
+        data-track-auto=""
         style={{
           position: 'relative',
           display: 'flex',
           alignItems: 'flex-start',
           width: '100%',
           transform: `translateX(-${index * 100}%)`,
-          transition: 'transform .32s cubic-bezier(.2,.85,.32,1)',
+          transition:
+            'transform .32s cubic-bezier(.2,.85,.32,1), height .34s cubic-bezier(.2,.85,.32,1)',
         }}
       >
         {children}
@@ -128,8 +156,29 @@ export function PanelTrack({ index, children }: { index: number; children: React
   )
 }
 
-export function TrackPanel({ children }: { children: ReactNode }) {
-  return <div style={{ flex: '0 0 100%', minWidth: 0, padding: '2px 1px' }}>{children}</div>
+/** Painel do track ([data-panel] do design). `pad` segue o design por tela
+ *  (dc.html:425 '2px 1px' inventário/habilidades · dc.html:170 '4px 1px 2px'
+ *  perfil · dc.html:1131 sem padding no grupo). boxSizing:border-box espelha
+ *  o `*{box-sizing:border-box}` global do design (dc.html:15) — sem ele o
+ *  padding lateral soma à flex-basis de 100% e o painel vizinho vaza no clip
+ *  (bug #6). */
+export function TrackPanel({
+  pad = '2px 1px',
+  style,
+  children,
+}: {
+  pad?: string
+  style?: CSSProperties
+  children?: ReactNode
+}) {
+  return (
+    <div
+      data-panel=""
+      style={{ flex: '0 0 100%', minWidth: 0, boxSizing: 'border-box', padding: pad, ...style }}
+    >
+      {children}
+    </div>
+  )
 }
 
 /** Caixinha do modificador (38×34, star/dots) — verbatim das linhas de perícia. */

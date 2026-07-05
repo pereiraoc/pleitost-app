@@ -8,6 +8,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath, heroPath } from '../../paths'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
+import { PanelTrack, TrackPanel } from '../ficha/bits'
 import {
   GRUPOS_FOLDER,
   groupMembers,
@@ -272,20 +273,18 @@ export function HeroisPage() {
           </button>
         ))}
       </div>
-      <div className="npc-track-clip">
-        <div className="npc-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-          <div className="npc-panel">
-            <div className="herois-page">
-              {entries.map((entry) => (
-                <HeroCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
-              ))}
-            </div>
+      <PanelTrack index={index}>
+        <TrackPanel pad="0">
+          <div className="herois-page">
+            {entries.map((entry) => (
+              <HeroCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
+            ))}
           </div>
-          <div className="npc-panel">
-            <GruposPanel selected={selectedGroup} onSelect={selectGroup} />
-          </div>
-        </div>
-      </div>
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <GruposPanel selected={selectedGroup} onSelect={selectGroup} />
+        </TrackPanel>
+      </PanelTrack>
     </div>
   )
 }
@@ -370,7 +369,7 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
 function NpcPanel({ folder }: { folder: string }) {
   const { entries, docs } = useFolderDocs(folder)
   return (
-    <div className="npc-panel">
+    <TrackPanel pad="0">
       <div className="npc-panel-inner">
         {entries.map((entry) => (
           <NpcCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
@@ -379,7 +378,7 @@ function NpcPanel({ folder }: { folder: string }) {
           <div className="npc-empty">// NENHUM REGISTRO NESTA CATEGORIA</div>
         ) : null}
       </div>
-    </div>
+    </TrackPanel>
   )
 }
 
@@ -400,13 +399,11 @@ export function NpcsPage() {
           </button>
         ))}
       </div>
-      <div className="npc-track-clip">
-        <div className="npc-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-          {NPC_TABS.map((t) => (
-            <NpcPanel key={t.id} folder={t.folder} />
-          ))}
-        </div>
-      </div>
+      <PanelTrack index={index}>
+        {NPC_TABS.map((t) => (
+          <NpcPanel key={t.id} folder={t.folder} />
+        ))}
+      </PanelTrack>
     </div>
   )
 }

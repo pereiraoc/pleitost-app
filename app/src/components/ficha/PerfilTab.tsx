@@ -15,7 +15,7 @@ import { sintoniaEmoji } from '../../grupo/party'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
 import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
-import { clip, TabStrip, PanelTrack } from './bits'
+import { clip, TabStrip, PanelTrack, TrackPanel } from './bits'
 import {
   classeAventureiro,
   displayName,
@@ -1024,12 +1024,12 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
 
       <TabStrip tabs={BIO_TABS} active={bioTab} onSelect={setBioTab} pad="12px 20px" />
       <PanelTrack index={index}>
-        <div style={{ flex: '0 0 100%', minWidth: 0, padding: '4px 1px 2px' }}>
+        <TrackPanel pad="4px 1px 2px">
           <IdentidadePanel doc={doc} />
-        </div>
-        <div style={{ flex: '0 0 100%', minWidth: 0, padding: '4px 1px 2px' }}>
+        </TrackPanel>
+        <TrackPanel pad="4px 1px 2px">
           <ExperienciaPanel doc={doc} />
-        </div>
+        </TrackPanel>
       </PanelTrack>
     </div>
   )

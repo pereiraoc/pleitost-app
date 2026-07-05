@@ -8,7 +8,8 @@
 //   - grpCycleSort/grpSort + applySort/headMap → sort.ts;
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
-import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
+import { PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
@@ -256,7 +257,6 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const { doc: groupDoc } = useDoc(groupId)
   const [tab, setTab] = useState('papeis')
   const tabIdx = Math.max(0, GRUPO_TABS.findIndex((t) => t.id === tab))
-  const trackRef = useRef<HTMLDivElement>(null)
   const tip = useGrupoTip()
 
   const members = useMemo(() => groupMembers(catalog, groupId), [catalog, groupId])
@@ -300,24 +300,6 @@ export function GrupoView({ groupId }: { groupId: string }) {
     ...balRows,
     { id: '::grupo', label: 'Grupo', em: null, tier: maxTier, values: totals, grupo: true, gi: balRows.length },
   ]
-
-  // data-track-auto do design: altura do track segue o painel ativo.
-  useLayoutEffect(() => {
-    const track = trackRef.current
-    if (!track) return
-    const child = track.children[tabIdx] as HTMLElement | undefined
-    if (!child) return
-    const apply = () => {
-      const h = child.offsetHeight
-      if (h > 0) track.style.height = `${h}px`
-    }
-    apply()
-    if (typeof ResizeObserver !== 'undefined') {
-      const ro = new ResizeObserver(apply)
-      ro.observe(child)
-      return () => ro.disconnect()
-    }
-  }, [tabIdx])
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -465,42 +447,28 @@ export function GrupoView({ groupId }: { groupId: string }) {
       </div>
 
       {/* TRACK deslizante (data-track data-track-auto do design) */}
-      <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-        <div
-          ref={trackRef}
-          data-track=""
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'flex-start',
-            width: '100%',
-            transform: `translateX(-${tabIdx * 100}%)`,
-            transition:
-              'transform .32s cubic-bezier(.2,.85,.32,1), height .34s cubic-bezier(.2,.85,.32,1)',
-          }}
-        >
-          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelBalanceamento
-              rows={balAll}
-              tierUnbalanced={tierUnbalanced}
-              warnCols={warnCols}
-              tip={tip}
-            />
-          </div>
-          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelVida members={members} docs={memberDocs} tip={tip} />
-          </div>
-          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelRiqueza members={members} docs={memberDocs} tip={tip} />
-          </div>
-          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelDestaques members={members} docs={memberDocs} tip={tip} />
-          </div>
-          <div data-panel="" style={{ flex: '0 0 100%', minWidth: 0 }}>
-            <PanelAtaques members={members} docs={memberDocs} tip={tip} />
-          </div>
-        </div>
-      </div>
+      <PanelTrack index={tabIdx}>
+        <TrackPanel pad="0">
+          <PanelBalanceamento
+            rows={balAll}
+            tierUnbalanced={tierUnbalanced}
+            warnCols={warnCols}
+            tip={tip}
+          />
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <PanelVida members={members} docs={memberDocs} tip={tip} />
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <PanelRiqueza members={members} docs={memberDocs} tip={tip} />
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <PanelDestaques members={members} docs={memberDocs} tip={tip} />
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <PanelAtaques members={members} docs={memberDocs} tip={tip} />
+        </TrackPanel>
+      </PanelTrack>
 
       {/* Tooltip flutuante (sc-if grupo.gtip do design) */}
       {tip.overlay}

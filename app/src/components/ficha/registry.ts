@@ -133,6 +133,18 @@ export function grupoArmaEmoji(grupo: unknown): string {
   return key ? tokens.emojis.grupoArma[key] : ''
 }
 
+/** Ordem/rótulos dos grupos de arma no dropdown — VERBATIM do GRUPO_ORDER do
+ *  plugin (render/groups/inventario/equipamentos-section.ts:74-81); o emoji
+ *  do label vem do registro grupoArma via grupoArmaEmoji. */
+export const GRUPO_ARMA_ORDER: { key: string; label: string }[] = [
+  { key: 'cac-simples', label: 'Corpo-a-Corpo Simples' },
+  { key: 'cac-marcial', label: 'Corpo-a-Corpo Marcial' },
+  { key: 'd-simples', label: 'Distância Simples' },
+  { key: 'd-marcial', label: 'Distância Marcial' },
+  { key: 'especial', label: 'Armas Especiais' },
+  { key: 'natural', label: 'Armas Naturais' },
+]
+
 /** Emoji de imbuição/propriedade via inline `propriedades::` do doc do tesouro
  *  ("[[Traço Elemental do Vento|Vento]]" → registro propriedadeImbuicao.Vento). */
 export function imbuicaoEmoji(propriedades: unknown): string {

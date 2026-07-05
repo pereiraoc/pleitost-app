@@ -1,36 +1,51 @@
 // Aba INVENTÁRIO da ficha — markup/estilos verbatim do design puxado
 // (design/pulled/Companion App.dc.html §INVENTÁRIO, linhas 550-719; semântica
 // dos slots do invData() do script). Dados do modelo salvo LOCAL (useHeroModel
-// = FM extraído + overlay); toda interação (moedas, qualidade, remover,
-// consumíveis) grava o overlay NA HORA nos paths de Inventario.*; adições
-// sem linha de FM (painéis ADICIONADAS) persistem em extras.
+// = FM extraído + overlay); toda interação (moedas, arma/propriedade,
+// qualidade, adicionar/remover, consumíveis) grava o overlay NA HORA nos
+// paths de Inventario.*, espelhando os setters do Editável do plugin
+// (extract/apply-armas-edit.ts, apply-equipamentos-edit.ts,
+// apply-tesouros-edit.ts). Adições entram na LISTA real do FM, como no
+// design (invData: allArmas = I.armas+extraArmas; tesouros ganham o grupo
+// ADICIONADOS) e no plugin (addArma/addTesouro).
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
-import { resolveAsset, assetUrl, useAssetIndex } from '../../data/assets'
+import { useAssetIndex } from '../../data/assets'
+import { weaponImageUrl } from '../../data/creature-image'
+import { loadDoc } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
-import { clip, GoldDots, TabStrip } from './bits'
+import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { CoinsDropdown } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
 import {
   ARMADURA_BASES,
   ATTR_EMOJI,
   ESCUDO_BASES,
+  GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
   grupoArmaEmoji,
   imbuicaoEmoji,
   tokens,
 } from './registry'
 import {
+  ARMA_OBRA_PRIMA,
+  ARMADURA_OBRA_PRIMA,
+  RANK_BONUS_ITEM,
   bonusPorTier,
   buildItemAlias,
+  buildTesouroAlias,
+  deriveArmaAtributo,
+  escudoObraPrima,
   fmPath,
+  heroAtributos,
   num,
   parseItemAlias,
   str,
   tierCategoriaFm,
   tierLetter,
+  wikiTarget,
 } from './hero-model'
 
 const INV_TABS = [
@@ -42,10 +57,33 @@ const INV_TABS = [
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas/'
 const TESOUROS_FOLDER = 'Sistema/Equipamento/Tesouros/'
 const CONSUMIVEIS_FOLDER = 'Sistema/Equipamento/Tesouros/Consumíveis/'
-const TESOUROS_EXCLUIR = [
-  CONSUMIVEIS_FOLDER,
-  'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/',
-]
+// Pasta das opções do dropdown de PROPRIEDADE da arma — "Imbuições +
+// qualidade" do Editável do plugin (equipamentos-section.ts:214-216).
+const IMBUICOES_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/'
+const TESOUROS_EXCLUIR = [CONSUMIVEIS_FOLDER, IMBUICOES_FOLDER]
+
+/** Select transparente dentro do pill desenhado — estilos verbatim do select
+ *  do design (Companion App.dc.html:636, armadura/escudo); peso/tamanho
+ *  seguem o texto que o pill mostrava (nome 700/15, propriedade 500/13.5). */
+function pillSelectStyle(weight: number, size: number): CSSProperties {
+  return {
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    color: 'var(--blue)',
+    fontSize: size,
+    fontWeight: weight,
+    fontFamily: 'inherit',
+    cursor: 'pointer',
+    outline: 'none',
+    flex: '1 1 auto',
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  }
+}
 
 const mono9: CSSProperties = {
   fontFamily: 'var(--mono)',
@@ -198,15 +236,94 @@ function armaRowsFromFm(fm: Record<string, unknown>): ArmaRow[] {
 
 function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const assets = useAssetIndex()
+  const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
   const lista = (fmPath(model.fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
   const rows = useMemo(() => armaRowsFromFm(model.fm), [model.fm])
+  const atributos = heroAtributos(model.fm).values
+
   // Overlay grava a LISTA inteira (write-through de container, como o plugin).
-  const setTier = (i: number, tier: '' | 'A' | 'E' | 'M') =>
+  const patchArma = (i: number, patch: Record<string, unknown>) =>
     model.set(
       'Inventario.Armas.Lista',
-      lista.map((arma, j) => (j === i ? { ...arma, Categoria: tierCategoriaFm(tier) } : arma)),
+      lista.map((arma, j) => (j === i ? { ...arma, ...patch } : arma)),
     )
+
+  // Dropdown de ARMA agrupado por grupo — espelha buildArmaOptionGroups do
+  // Editável (equipamentos-section.ts:284-308: ordem GRUPO_ORDER, armas em
+  // ordem alfabética pt-BR dentro do grupo).
+  const armaGroups = useMemo(() => {
+    const byGrupo = new Map<string, IndexDocEntry[]>()
+    for (const e of catalog.content) {
+      if (!e.id.startsWith(ARMAS_FOLDER) || e.subtype !== 'Arma') continue
+      const g = (typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()
+      const list = byGrupo.get(g) ?? []
+      list.push(e)
+      byGrupo.set(g, list)
+    }
+    return GRUPO_ARMA_ORDER.filter((g) => byGrupo.has(g.key)).map((g) => ({
+      ...g,
+      entries: byGrupo
+        .get(g.key)!
+        .sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR')),
+    }))
+  }, [catalog])
+
+  // Dropdown de PROPRIEDADE — imbuições + qualidade (equipamentos-section.ts:214-226).
+  const imbuicoes = useMemo(
+    () =>
+      catalog.content
+        .filter((e: IndexDocEntry) => e.id.startsWith(IMBUICOES_FOLDER))
+        .map((e) => e.basename ?? e.id)
+        .sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    [catalog],
+  )
+
+  // Qualidade A/E/M — espelha setArmaRank do plugin (apply-armas-edit.ts:139-160):
+  // desselecionar zera categoria+bônus e some com a Obra-prima automática;
+  // selecionar exige arma com nome, seta categoria + bônus do tier e completa
+  // propriedade vazia com Arma Obra-prima.
+  const setTier = (i: number, tier: '' | 'A' | 'E' | 'M') => {
+    const arma = lista[i]
+    if (!arma) return
+    if (tier === '') {
+      patchArma(i, {
+        Categoria: '',
+        Bonus_Item: 0,
+        ...(/Arma Obra-prima/.test(str(arma['Propriedade'])) ? { Propriedade: '' } : {}),
+      })
+      return
+    }
+    if (!str(arma['Nome'])) return
+    patchArma(i, {
+      Categoria: tierCategoriaFm(tier),
+      Bonus_Item: RANK_BONUS_ITEM[tier],
+      ...(str(arma['Propriedade']) ? {} : { Propriedade: ARMA_OBRA_PRIMA }),
+    })
+  }
+
+  // Trocar a arma — espelha o onChange do dropdown do Editável
+  // (equipamentos-section.ts:141-160): grava nome (wikilink basename,
+  // setArmaNome/apply-armas-edit.ts:89-97) + atributo derivado do grupo e da
+  // propriedade Precisa num ÚNICO write (batch do plugin).
+  const setNome = (i: number, id: string) => {
+    const entry = catalog.entryById.get(id)
+    if (!entry) return
+    const nome = entry.basename ?? id
+    void loadDoc(id)
+      .catch(() => undefined)
+      .then((armaDoc) =>
+        patchArma(i, {
+          Nome: `[[${nome}]]`,
+          Atributo: deriveArmaAtributo(entry.grupo, armaDoc?.inlineFields['propriedades'], atributos),
+        }),
+      )
+  }
+
+  // Propriedade — espelha setArmaPropriedade (apply-armas-edit.ts:121-131):
+  // wikilink basename; vazio limpa o campo.
+  const setProp = (i: number, base: string) => patchArma(i, { Propriedade: base ? `[[${base}]]` : '' })
+
   const removeArma = (i: number) =>
     model.set(
       'Inventario.Armas.Lista',
@@ -223,9 +340,16 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             const propDoc = refs.refDoc(arma.propriedadeRaw)
             const ench = linkLabel(str(arma.propriedadeRaw))
             const enchIc = imbuicaoEmoji((propDoc?.inlineFields ?? {})['propriedades'])
-            const imgTarget = armaDoc?.images?.[0]?.target
-            const img =
-              imgTarget && assets ? resolveAsset(assets, imgTarget.split('/').pop() ?? imgTarget) : null
+            // Imagem real da arma (issue #12): embed do doc → figura da carta
+            // (hierarquia em weaponImageUrl); sem imagem → slot vazio do design.
+            const img = weaponImageUrl(armaDoc, assets)
+            // Valor do dropdown de arma: id do doc no catálogo; arma fora do
+            // catálogo mantém o rótulo atual como opção extra (nunca some).
+            const armaTarget = wikiTarget(arma.nomeRaw)
+            const armaRes = armaTarget ? catalog.resolve(armaTarget) : null
+            const armaId = armaRes?.kind === 'doc' ? armaRes.id : armaTarget
+            const armaNoCatalogo = armaGroups.some((g) => g.entries.some((e) => e.id === armaId))
+            const propBase = (wikiTarget(arma.propriedadeRaw).split('/').pop() ?? '').trim()
             return (
               <div
                 key={`${arma.nome}-${i}`}
@@ -246,7 +370,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     background: 'var(--panel2)',
                     border: '1px solid var(--line2)',
                     clipPath: clip(9),
-                    backgroundImage: img ? `url("${assetUrl(img)}")` : undefined,
+                    backgroundImage: img ? `url("${img}")` : undefined,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
@@ -314,20 +438,29 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         }}
                       >
                         <span style={{ fontSize: 15, flex: 'none' }}>🗡️</span>
-                        <span
-                          style={{
-                            flex: 1,
-                            minWidth: 0,
-                            fontWeight: 700,
-                            color: 'var(--blue)',
-                            fontSize: 15,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                          }}
+                        <select
+                          value={armaId}
+                          onChange={(e) => setNome(i, e.target.value)}
+                          aria-label="Arma"
+                          style={pillSelectStyle(700, 15)}
                         >
-                          {arma.nome}
-                        </span>
+                          {!armaId ? (
+                            /* emptyLabel do dropdown do Editável (equipamentos-section.ts:146) */
+                            <option value="">Selecionar arma</option>
+                          ) : null}
+                          {armaId && !armaNoCatalogo ? (
+                            <option value={armaId}>{arma.nome}</option>
+                          ) : null}
+                          {armaGroups.map((g) => (
+                            <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
+                              {g.entries.map((e) => (
+                                <option key={e.id} value={e.id}>
+                                  {e.basename}
+                                </option>
+                              ))}
+                            </optgroup>
+                          ))}
+                        </select>
                         <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
                       </span>
                     </span>
@@ -374,20 +507,23 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         }}
                       >
                         <span style={{ fontSize: 14, flex: 'none' }}>{enchIc}</span>
-                        <span
-                          style={{
-                            flex: 1,
-                            minWidth: 0,
-                            fontWeight: 500,
-                            color: 'var(--blue)',
-                            fontSize: 13.5,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                          }}
+                        <select
+                          value={propBase}
+                          onChange={(e) => setProp(i, e.target.value)}
+                          aria-label="Propriedade da arma"
+                          style={pillSelectStyle(500, 13.5)}
                         >
-                          {ench}
-                        </span>
+                          {/* vazio do design: ench '—' das armas adicionadas (pickArma) */}
+                          <option value="">—</option>
+                          {propBase && !imbuicoes.includes(propBase) ? (
+                            <option value={propBase}>{ench}</option>
+                          ) : null}
+                          {imbuicoes.map((nome) => (
+                            <option key={nome} value={nome}>
+                              {nome === propBase ? ench : nome}
+                            </option>
+                          ))}
+                        </select>
                         <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
                       </span>
                     </span>
@@ -555,13 +691,32 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   }
   const writeGear = (path: string, gear: Record<string, unknown>, patch: Record<string, unknown>) =>
     model.set(path, { ...gear, ...patch })
-  const gearHandlers = (path: string, gear: Record<string, unknown>) => ({
+  // Espelha os setters do Editável (apply-equipamentos-edit.ts):
+  //  - trocar a base limpa categoria+propriedade (setArmaduraNome:50-55 /
+  //    setEscudoNome:87-110; escudo "Sem" grava nome vazio como o plugin);
+  //  - A/E/M desselecionado zera categoria+propriedade (:73-77/:114-121);
+  //  - A/E/M sem peça ("Sem …"/nome vazio) é no-op (:78/:122);
+  //  - A/E/M seleciona categoria + Obra-prima automática (armadura :79-81;
+  //    escudo :123-125 via resolveObraPrimaTarget).
+  const gearHandlers = (path: string, gear: Record<string, unknown>, kind: 'armadura' | 'escudo') => ({
     onBase: (base: string) =>
       writeGear(path, gear, {
-        Nome: nomeFm(base),
-        ...(/^Sem\b/.test(base) ? { Categoria: '' } : {}),
+        Nome: kind === 'escudo' && /^Sem\b/.test(base) ? '' : nomeFm(base),
+        Categoria: '',
+        Propriedade: '',
       }),
-    onTier: (tier: '' | 'A' | 'E' | 'M') => writeGear(path, gear, { Categoria: tierCategoriaFm(tier) }),
+    onTier: (tier: '' | 'A' | 'E' | 'M') => {
+      if (!tier) {
+        writeGear(path, gear, { Categoria: '', Propriedade: '' })
+        return
+      }
+      const base = linkLabel(str(gear['Nome']))
+      if (!base || /^Sem\b/.test(base)) return
+      writeGear(path, gear, {
+        Categoria: tierCategoriaFm(tier),
+        Propriedade: kind === 'armadura' ? ARMADURA_OBRA_PRIMA : escudoObraPrima(gear['Nome']),
+      })
+    },
   })
 
   const tesourosRaw = (fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
@@ -588,6 +743,18 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       'Inventario.Tesouros',
       tesourosRaw.filter((_, j) => j !== index),
     )
+  // Qualidade do tesouro — espelha setTesouroTier do plugin
+  // (apply-tesouros-edit.ts:60-78): reescreve o alias com o novo tier;
+  // "null não desseleciona — tesouro sem tier não faz sentido. UI trata
+  // click no rank ATIVO como NO-OP".
+  const setTierTesouro = (index: number, tier: '' | 'A' | 'E' | 'M') => {
+    if (!tier) return
+    const { nome } = parseItemAlias(tesourosRaw[index])
+    model.set(
+      'Inventario.Tesouros',
+      tesourosRaw.map((raw, j) => (j === index ? buildTesouroAlias(nome, tier) : raw)),
+    )
+  }
 
   const groups = useMemo(() => {
     const byGroup = new Map<string, TesouroRow[]>()
@@ -611,14 +778,14 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           badge={tokens.emojis.equipProf.Armadura}
           bases={ARMADURA_BASES}
           gear={armadura}
-          {...gearHandlers('Inventario.Armadura', armadura)}
+          {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
         />
         <GearCard
           titulo="ESCUDO"
           badge={tokens.emojis.equipProf.Escudo}
           bases={ESCUDO_BASES}
           gear={escudo}
-          {...gearHandlers('Inventario.Escudo', escudo)}
+          {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
         />
       </div>
 
@@ -681,7 +848,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   </span>
                 </span>
                 <span style={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
-                  <TierBtns sel={r.tier} size={22} />
+                  <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r.index, next)} />
                 </span>
                 <span style={{ display: 'flex', gap: 5, justifyContent: 'center', opacity: g.dois }}>
                   <GoldDots on={r.bonus} />
@@ -1021,13 +1188,50 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
   // Moedas: MESMO estado persistido do chip da topbar (overlay Inventario.Ouro).
   const coins = num(fmPath(model.fm, 'Inventario', 'Ouro'))
   const setCoins = (n: number) => model.set('Inventario.Ouro', n)
-  // Adições sem linha de FM: persistidas em extras (painéis ADICIONADAS).
-  const extraArmas = model.extras.armas
-  const extraTesouros = model.extras.tesouros
-  const setExtraArmas = (fn: (list: string[]) => string[]) =>
-    model.setExtras('armas', fn(extraArmas))
-  const setExtraTesouros = (fn: (list: string[]) => string[]) =>
-    model.setExtras('tesouros', fn(extraTesouros))
+
+  // Adicionar ARMA (issue #14) — vira linha REAL de Inventario.Armas.Lista no
+  // overlay, como no plugin (addArma/emptyArma, apply-armas-edit.ts:64-82 —
+  // fonte "Manual") e no design (pickArma: a arma escolhida entra na lista de
+  // cards). Nome/atributo seguem o batch do dropdown do Editável
+  // (equipamentos-section.ts:141-160: wikilink basename + deriveArmaAtributo).
+  const addArma = (id: string) => {
+    const entry = catalog.entryById.get(id)
+    if (!entry) return
+    const nome = entry.basename ?? id
+    void loadDoc(id)
+      .catch(() => undefined)
+      .then((armaDoc) => {
+        const lista = (fmPath(model.fm, 'Inventario', 'Armas', 'Lista') ?? []) as unknown[]
+        model.set('Inventario.Armas.Lista', [
+          ...lista,
+          {
+            Nome: `[[${nome}]]`,
+            Atributo: deriveArmaAtributo(
+              entry.grupo,
+              armaDoc?.inlineFields['propriedades'],
+              heroAtributos(model.fm).values,
+            ),
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Categoria: '',
+            Propriedade: '',
+            Fonte: 'Manual',
+          },
+        ])
+      })
+  }
+
+  // Adicionar TESOURO (issue #14) — espelha addTesouro do plugin
+  // (apply-tesouros-edit.ts:38-51): alias `[[X|X (Adepto)]]` (tier A default);
+  // tesouro repetido é no-op ("já tem").
+  const addTesouro = (id: string) => {
+    const entry = catalog.entryById.get(id)
+    if (!entry) return
+    const nome = entry.basename ?? id
+    const tesouros = (fmPath(model.fm, 'Inventario', 'Tesouros') ?? []) as unknown[]
+    if (tesouros.some((raw) => parseItemAlias(raw).nome === nome)) return
+    model.set('Inventario.Tesouros', [...tesouros, buildTesouroAlias(nome, 'A')])
+  }
 
   const armaCatalog = useMemo(
     () =>
@@ -1076,92 +1280,29 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         pad="12px 20px"
         right={<CoinsButton coins={coins} onChange={setCoins} />}
       />
-      <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'flex-start',
-            width: '100%',
-            transform: `translateX(-${index * 100}%)`,
-            transition: 'transform .32s cubic-bezier(.2,.85,.32,1)',
-          }}
-        >
-          <div style={{ flex: '0 0 100%', minWidth: 0, padding: '2px 1px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <PanelTrack index={index}>
+          <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <ArmasPanel doc={doc} refs={refs} />
-            {extraArmas.length ? (
-              <div style={panelStyle()}>
-                <PanelLabel>ADICIONADAS</PanelLabel>
-                {extraArmas.map((id, i) => (
-                  <div
-                    key={`${id}-${i}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '7px 2px',
-                      borderBottom: '1px solid var(--line)',
-                    }}
-                  >
-                    <span style={{ fontSize: 15, flex: 'none' }}>
-                      {armaCatalog.find((w) => w.key === id)?.ic ?? ''}
-                    </span>
-                    <span style={{ flex: 1, fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>
-                      {catalog.entryById.get(id)?.basename ?? id}
-                    </span>
-                    <TrashBtn
-                      onClick={() => setExtraArmas((list) => list.filter((_, j) => j !== i))}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : null}
             <AddFab
               label="+ Adicionar Arma"
               title="ESCOLHER ARMA"
               items={armaCatalog}
-              onPick={(id) => setExtraArmas((list) => [...list, id])}
+              onPick={addArma}
             />
-          </div>
-          <div style={{ flex: '0 0 100%', minWidth: 0, padding: '2px 1px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+          </TrackPanel>
+          <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <EquipamentosPanel doc={doc} refs={refs} />
-            {extraTesouros.length ? (
-              <div style={panelStyle()}>
-                <PanelLabel>ADICIONADOS</PanelLabel>
-                {extraTesouros.map((id, i) => (
-                  <div
-                    key={`${id}-${i}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '7px 2px',
-                      borderBottom: '1px solid var(--line)',
-                    }}
-                  >
-                    <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
-                    <span style={{ flex: 1, fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>
-                      {catalog.entryById.get(id)?.basename ?? id}
-                    </span>
-                    <TrashBtn
-                      onClick={() => setExtraTesouros((list) => list.filter((_, j) => j !== i))}
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : null}
             <AddFab
               label="+ Adicionar Tesouro"
               title="ESCOLHER TESOURO"
               items={tesouroCatalog}
-              onPick={(id) => setExtraTesouros((list) => [...list, id])}
+              onPick={addTesouro}
             />
-          </div>
-          <div style={{ flex: '0 0 100%', minWidth: 0, padding: '2px 1px' }}>
+          </TrackPanel>
+          <TrackPanel>
             <ConsumiveisPanel doc={doc} />
-          </div>
-        </div>
-      </div>
+          </TrackPanel>
+      </PanelTrack>
     </div>
   )
 }

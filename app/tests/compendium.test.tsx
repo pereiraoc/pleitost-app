@@ -225,7 +225,7 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
   it('#19: bestiário mostra TIER do FM (não nível) com a cor do registro', async () => {
     const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
     await screen.findAllByText(/Goblin \(Pequeno\)/)
-    const bestPanel = container.querySelectorAll<HTMLElement>('.npc-panel')[2]
+    const bestPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[2]
     // nenhum losango NVL na aba — todos viram TIER
     expect(within(bestPanel).queryByText('NVL')).toBeNull()
     for (const entry of docsOfFolder('Sistema/Criaturas/Bestiário')) {
@@ -247,7 +247,7 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
   it('#18: companheiro animal usa NVL com a cor do tier (como heróis)', async () => {
     const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
     await screen.findAllByText(/Goblin \(Pequeno\)/)
-    const caPanel = container.querySelectorAll<HTMLElement>('.npc-panel')[1]
+    const caPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[1]
     for (const entry of docsOfFolder('Sistema/Criaturas/Companheiros Animais')) {
       const nivel = Number(readDoc(entry.id).frontmatter['Nível'])
       const card = [...caPanel.querySelectorAll<HTMLElement>('.npc-card')].find((c) =>

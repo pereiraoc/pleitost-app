@@ -189,6 +189,49 @@ export function tierCategoriaFm(tier: '' | 'A' | 'E' | 'M'): string {
   return tier ? `[[${TIER_NOME[tier]}]]` : ''
 }
 
+/** Bônus de item por tier de QUALIDADE da arma — VERBATIM do RANK_BONUS_ITEM
+ *  do plugin (extract/apply-armas-edit.ts:31): "Adepto +1, Experiente +2,
+ *  Mestre +3, null (sem tier) = 0". */
+export const RANK_BONUS_ITEM: Record<'A' | 'E' | 'M', number> = { A: 1, E: 2, M: 3 }
+
+/** Propriedade Obra-prima automática ao ranquear item sem propriedade —
+ *  arma: plugin apply-armas-edit.ts:157; armadura: apply-equipamentos-edit.ts:80. */
+export const ARMA_OBRA_PRIMA = '[[Arma Obra-prima|Obra-prima]]'
+export const ARMADURA_OBRA_PRIMA = '[[Armadura Obra-prima|Obra-prima]]'
+
+/** Obra-prima do escudo pelo nome — espelha resolveObraPrimaTarget do plugin
+ *  (apply-equipamentos-edit.ts:31-36: label contém "broquel" → Broquel). */
+export function escudoObraPrima(nome: unknown): string {
+  const label = linkLabel(str(nome)) || str(nome)
+  return label.toLowerCase().includes('broquel')
+    ? '[[Broquel Obra-prima|Obra-prima]]'
+    : '[[Escudo Obra-prima|Obra-prima]]'
+}
+
+/** Atributo derivado da arma — espelha deriveArmaAtributo do plugin
+ *  (extract/apply-armas-edit.ts:44-58): d-marcial/d-simples → AGI; c-a-c com
+ *  propriedade Precisa → max(FOR, AGI) com empate em FOR; senão FOR.
+ *  `propriedades` aceita a string inline `propriedades::` do doc da arma. */
+export function deriveArmaAtributo(
+  grupo: unknown,
+  propriedades: unknown,
+  atributos: Record<string, number>,
+): string {
+  const g = str(grupo).toLowerCase()
+  if (g === 'd-marcial' || g === 'd-simples') return 'AGI'
+  if (str(propriedades).toLowerCase().includes('precisa')) {
+    return num(atributos['AGI']) > num(atributos['FOR']) ? 'AGI' : 'FOR'
+  }
+  return 'FOR'
+}
+
+/** Alias de tesouro no formato do FM salvo — espelha addTesouro/setTesouroTier
+ *  do plugin (apply-tesouros-edit.ts:44-46 e :73-77): `[[X|X (Adepto)]]`,
+ *  sempre basename, sem sufixo de quantidade. */
+export function buildTesouroAlias(nome: string, tier: 'A' | 'E' | 'M'): string {
+  return `[[${nome}|${nome} (${TIER_NOME[tier]})]]`
+}
+
 /** Inverso de parseItemAlias pro overlay: alias de consumível/tesouro no
  *  formato do FM salvo ("[[Poção de Cura|Poção de Cura (Adepto) (x2)]]"). */
 export function buildItemAlias(nome: string, tier: 'A' | 'E' | 'M', qtd: number): string {

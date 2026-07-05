@@ -15,7 +15,7 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
-import { clip, AttrBadge, EditToggle, GoldDots, ModBox, RankBtns, RankMedal, TabStrip } from './bits'
+import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -1921,18 +1921,7 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
 function Col({ children }: { children: ReactNode }) {
   return (
-    <div
-      style={{
-        flex: '0 0 100%',
-        minWidth: 0,
-        padding: '2px 1px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 18,
-      }}
-    >
-      {children}
-    </div>
+    <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>{children}</TrackPanel>
   )
 }
 
@@ -1955,39 +1944,28 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
       }}
     >
       <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />
-      <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'flex-start',
-            width: '100%',
-            transform: `translateX(-${index * 100}%)`,
-            transition: 'transform .32s cubic-bezier(.2,.85,.32,1)',
-          }}
-        >
-          <Col>
-            <ClasseNivelPanel doc={doc} />
-            <AtributosPanel doc={doc} />
-            <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
-            <StacksPanel doc={doc} />
-            <EquipamentosProfPanel doc={doc} />
-          </Col>
-          <Col>
-            <PericiasProfPanel doc={doc} />
-            <EspecializacoesPanel doc={doc} />
-            <OficiosPanel doc={doc} />
-          </Col>
-          <Col>
-            <HabilidadesArvorePanel doc={doc} refs={refs} />
-            <AcoesPanel doc={doc} refs={refs} />
-            <TecnicasPanel doc={doc} refs={refs} />
-          </Col>
-          <Col>
-            <MagiasHabPanel doc={doc} refs={refs} />
-          </Col>
-        </div>
-      </div>
+      <PanelTrack index={index}>
+        <Col>
+          <ClasseNivelPanel doc={doc} />
+          <AtributosPanel doc={doc} />
+          <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
+          <StacksPanel doc={doc} />
+          <EquipamentosProfPanel doc={doc} />
+        </Col>
+        <Col>
+          <PericiasProfPanel doc={doc} />
+          <EspecializacoesPanel doc={doc} />
+          <OficiosPanel doc={doc} />
+        </Col>
+        <Col>
+          <HabilidadesArvorePanel doc={doc} refs={refs} />
+          <AcoesPanel doc={doc} refs={refs} />
+          <TecnicasPanel doc={doc} refs={refs} />
+        </Col>
+        <Col>
+          <MagiasHabPanel doc={doc} refs={refs} />
+        </Col>
+      </PanelTrack>
     </div>
   )
 }
