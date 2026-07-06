@@ -278,13 +278,14 @@ describe('GrupoView: abas, painéis e imagem do grupo (dados reais)', () => {
     const { container } = renderGroup5()
     const track = container.querySelector('[data-track]') as HTMLElement
     expect(track).toBeTruthy()
+    // EXPLORAÇÃO (issue #36) é a primeira aba e a padrão
     expect(track.style.transform).toBe('translateX(-0%)')
     fireEvent.click(screen.getByText('RIQUEZA'))
-    expect(track.style.transform).toBe('translateX(-200%)')
+    expect(track.style.transform).toBe('translateX(-300%)')
     fireEvent.click(screen.getByText('ATAQUES'))
-    expect(track.style.transform).toBe('translateX(-400%)')
+    expect(track.style.transform).toBe('translateX(-500%)')
     fireEvent.click(screen.getByText('PAPÉIS'))
-    expect(track.style.transform).toBe('translateX(-0%)')
+    expect(track.style.transform).toBe('translateX(-100%)')
   })
 
   it('painel COMPETÊNCIAS mostra os agregados de vida do grupo', async () => {
@@ -295,7 +296,7 @@ describe('GrupoView: abas, painéis e imagem do grupo (dados reais)', () => {
       members.map((m) => memberStats(docs.get(m.id)!.frontmatter)),
     )!
     fireEvent.click(screen.getByText('COMPETÊNCIAS'))
-    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
     // soma de VIT do grupo aparece na linha Grupo do painel
     await waitFor(() => {
       expect(vidaPanel.textContent).toContain(String(agg.sumVit))
@@ -342,7 +343,7 @@ describe('sort por clique nos cabeçalhos (grpCycleSort/applySort do design)', (
     )
     const docs = readMemberDocs(GROUP5_ID)
     const members = groupMembers(catalog, GROUP5_ID)
-    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
     // espera os docs carregarem (VIT real do primeiro membro visível)
     const anyVit = String((docs.get(members[0].id)!.frontmatter as AnyFm).Vida.Vitalidade)
     await waitFor(() => expect(vidaPanel.textContent).toContain(anyVit))
@@ -411,7 +412,7 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
 
   it('hover no cabeçalho VIT mostra o conteúdo real do grupo-tips e some no leave', async () => {
     const { container } = renderGroup5()
-    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
     const vitHead = within(vidaPanel).getByText('VIT')
     fireEvent.mouseOver(vitHead, { clientX: 200, clientY: 200 })
     // conteúdo verbatim do store ('vida:h1')
@@ -422,7 +423,7 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
 
   it('hero RIQUEZA TOTAL usa a chave riq:f1; trocar de aba limpa o tooltip', async () => {
     const { container } = renderGroup5()
-    const riqPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    const riqPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
     const hero = within(riqPanel).getByText('RIQUEZA TOTAL').parentElement as HTMLElement
     fireEvent.mouseOver(hero, { clientX: 300, clientY: 300 })
     expect(await screen.findByText(/inclui consumíveis/)).toBeTruthy()
@@ -433,7 +434,7 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
 
   it('rótulo da linha Grupo usa a chave fixa vida:r5c0', async () => {
     const { container } = renderGroup5()
-    const vidaPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
     const label = within(vidaPanel).getByText('Grupo').parentElement as HTMLElement
     fireEvent.mouseOver(label, { clientX: 150, clientY: 150 })
     // conteúdo do store em 'vida:r5c0' (Linha Grupo)
@@ -511,7 +512,7 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
     expect(tiersEqual).toBe(true)
 
     const { container } = renderGroup(GROUP_ID)
-    const papelPanel = container.querySelectorAll('[data-panel]')[0] as HTMLElement
+    const papelPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
     // após o load: só a coluna Lider (4 membros + linha Grupo = 5 células)
     await waitFor(() => expect(warnCellsOf(papelPanel).length).toBe(members.length + 1))
     // todas as células marcadas são da coluna Lider (estrela verde #4ade80)
@@ -536,7 +537,7 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
     expect(Object.keys(totals).filter((p) => totals[p] < 1)).toEqual(['Controlador'])
 
     const { container } = renderGroup(GROUP3_ID)
-    const papelPanel = container.querySelectorAll('[data-panel]')[0] as HTMLElement
+    const papelPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
     // espera o load: células de tier dos 3 membros (warn) + coluna Controlador
     // (3 membros + Grupo) = 7 marcadores
     await waitFor(() => expect(warnCellsOf(papelPanel).length).toBe(tiers.length + members.length + 1))
@@ -584,7 +585,7 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
       const kind = ratio <= 0.2 ? 'ok' : ratio <= 0.5 ? 'warn' : 'bad'
       return { nome: m.basename ?? m.id, delta, cor: KIND_COLOR[kind] }
     })
-    const riqPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    const riqPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
     // espera os PREÇOS carregarem (delta certo), não só o nome — senão lê o
     // render intermediário com preços 0
     const firstDelta = `${expected[0].delta >= 0 ? '+' : ''}${Math.round(expected[0].delta)} PO`
@@ -646,7 +647,7 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
 
     // render: ⚠️ ao lado do nome (mesmo markup do warn de magias do design)
     const { container } = renderGroup(GROUP3_ID)
-    const destPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
+    const destPanel = container.querySelectorAll('[data-panel]')[4] as HTMLElement
     await waitFor(() => expect(within(destPanel).queryByText('Ladinagem')).toBeTruthy())
     // perícias ficam na coluna esquerda da grelha (nomes podem repetir nas magias)
     const grid = within(destPanel).getByText(/DESTAQUES DE PROFICIÊNCIAS/)

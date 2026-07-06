@@ -33,13 +33,17 @@ import { NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle 
 import { applySort, cycleSort, sortArrow, type GrpSort } from './sort'
 import { useGrupoTip, type GrupoTip } from './gtip'
 import { resolveGroupImageUrl } from './group-image'
+import { PanelExploracao } from './PanelExploracao'
 import { PanelVida } from './PanelVida'
 import { PanelRiqueza } from './PanelRiqueza'
 import { PanelDestaques } from './PanelDestaques'
 import { PanelAtaques } from './PanelAtaques'
 
 // Verbatim do script do design (GRUPO_TABS / GRUPO.balHeads / roleCols).
+// EXPLORAÇÃO (issue #36) é extensão sancionada: nova PRIMEIRA aba, sem
+// design dedicado — as demais mantêm a ordem do design.
 const GRUPO_TABS = [
+  { id: 'exploracao', label: 'EXPLORAÇÃO' },
   { id: 'papeis', label: 'PAPÉIS' },
   { id: 'competencias', label: 'COMPETÊNCIAS' },
   { id: 'riqueza', label: 'RIQUEZA' },
@@ -255,7 +259,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const { doc: groupDoc } = useDoc(groupId)
-  const [tab, setTab] = useState('papeis')
+  const [tab, setTab] = useState('exploracao')
   const tabIdx = Math.max(0, GRUPO_TABS.findIndex((t) => t.id === tab))
   const tip = useGrupoTip()
 
@@ -448,6 +452,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
 
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
+        <TrackPanel pad="0">
+          <PanelExploracao groupId={groupId} />
+        </TrackPanel>
         <TrackPanel pad="0">
           <PanelBalanceamento
             rows={balAll}
