@@ -657,6 +657,31 @@ a {
   color: var(--accent);
 }
 
+/* Aba bloqueada (BESTIÁRIO sem Modo Mestre, issue #35) — mesma convenção
+   visual de disabled do .nav-item:disabled. */
+.npc-tab:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+/* Lista do seletor rápido da topbar (issue #34): 3 itens visíveis, resto com
+   scroll — scrollbar fina na cor do design (thumb var(--sb), como a global). */
+.switcher-list {
+  scrollbar-width: thin;
+}
+
+.switcher-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.switcher-list::-webkit-scrollbar-thumb {
+  background: var(--sb);
+}
+
+.switcher-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 /* Track deslizante das telas HERÓIS/NPCS: agora o PanelTrack/TrackPanel
    compartilhado (components/ficha/bits.tsx, issue #6). */
 

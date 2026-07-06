@@ -69,4 +69,5 @@ export const NAV_ROUTES: Record<string, string> = {
   compendio: '/compendio',
   herois: '/herois',
   npcs: '/npcs',
+  config: '/config',
 }

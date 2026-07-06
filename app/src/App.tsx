@@ -4,6 +4,7 @@ import { AppShell } from './components/layout/AppShell'
 import { FolderView } from './components/compendium/FolderView'
 import { DocPage } from './components/compendium/DocPage'
 import { HeroisPage, NpcsPage } from './components/creatures/CreaturesPages'
+import { ConfigPage } from './components/config/ConfigPage'
 import { FichaPage } from './components/ficha/FichaPage'
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: '/herois', element: <HeroisPage /> },
       { path: '/npcs', element: <NpcsPage /> },
       { path: '/heroi/*', element: <FichaPage /> },
+      { path: '/config', element: <ConfigPage /> },
       { path: '/doc/*', element: <DocPage /> },
     ],
   },

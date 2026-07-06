@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSettings } from '../../settings'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl, groupImageUrl } from '../../data/creature-image'
 import { useCatalog } from '../../data/CatalogContext'
@@ -112,8 +113,9 @@ function plainLabel(value: unknown): string {
   return match ? (match[2] ?? match[1]) : value
 }
 
-/** Iniciais pro slot sem retrato (h.ini do design: "Carlos Facão…" → "CF"). */
-function initials(name: string): string {
+/** Iniciais pro slot sem retrato (h.ini do design: "Carlos Facão…" → "CF").
+ *  Exportada pro avatar da topbar (issue #34) usar o MESMO fallback dos cards. */
+export function initials(name: string): string {
   const words = name.split(/[\s,]+/).filter((w) => w.length > 2)
   const two = words
     .slice(0, 2)
@@ -468,7 +470,13 @@ function NpcPanel({ folder, tierOf }: { folder: string; tierOf?: (doc?: VaultDoc
 
 export function NpcsPage() {
   const [tab, setTab] = useState(NPC_TABS[0].id)
-  const index = NPC_TABS.findIndex((t) => t.id === tab)
+  // Modo Mestre (issue #35): com Mestre OFF a aba BESTIÁRIO fica bloqueada
+  // pra clique (convenção :disabled existente — opacity/cursor, sem mensagem
+  // nova); reativo via useSettings — se o modo desligar com a aba ativa, a
+  // seleção recua pra primeira aba.
+  const { mestre } = useSettings()
+  const activeTab = !mestre && tab === 'bestiario' ? NPC_TABS[0].id : tab
+  const index = NPC_TABS.findIndex((t) => t.id === activeTab)
 
   return (
     <div className="npcs-page">
@@ -476,7 +484,8 @@ export function NpcsPage() {
         {NPC_TABS.map((t) => (
           <button
             key={t.id}
-            className={tab === t.id ? 'npc-tab on' : 'npc-tab'}
+            className={activeTab === t.id ? 'npc-tab on' : 'npc-tab'}
+            disabled={t.id === 'bestiario' && !mestre}
             onClick={() => setTab(t.id)}
           >
             {t.label}

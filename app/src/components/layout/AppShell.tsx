@@ -98,9 +98,11 @@ export function AppShell() {
       ? 'herois'
       : pathname.startsWith('/npcs')
         ? 'npcs'
-        : pathname.startsWith('/compendio') || pathname.startsWith('/doc')
-          ? 'compendio'
-          : null
+        : pathname.startsWith('/config')
+          ? 'config'
+          : pathname.startsWith('/compendio') || pathname.startsWith('/doc')
+            ? 'compendio'
+            : null
   const title = section ? TITLES[section] : ''
   const closeDrawer = () => setDrawerOpen(false)
 

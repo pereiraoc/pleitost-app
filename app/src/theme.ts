@@ -1,6 +1,13 @@
-import { useEffect, useState } from 'react'
+// Tema do app (aesthetic + mode) — defaults do design (data-props do
+// Companion App.dc.html): medieval + light.
+//
+// Estado de MÓDULO compartilhado via useSyncExternalStore (mesmo padrão do
+// hero-store): o toggle da topbar (AppShell) e a tela CONFIG leem/escrevem a
+// MESMA fonte — mudar numa reflete na outra sem reload (issue #35). O estado
+// aplicado ao DOM (data-mode/data-aesthetic no <html>) e persistido
+// (localStorage) acompanha toda escrita.
+import { useSyncExternalStore } from 'react'
 
-// Defaults do design (data-props do Companion App.dc.html): medieval + light.
 export type Mode = 'dark' | 'light'
 export type Aesthetic = 'cyberpunk' | 'medieval'
 
@@ -21,23 +28,49 @@ function loadTheme(): ThemeState {
   return { mode: 'light', aesthetic: 'medieval' }
 }
 
-export function useTheme() {
-  const [theme, setTheme] = useState<ThemeState>(loadTheme)
+let state: ThemeState | null = null
+const listeners = new Set<() => void>()
 
-  useEffect(() => {
-    document.documentElement.dataset.mode = theme.mode
-    document.documentElement.dataset.aesthetic = theme.aesthetic
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
-    } catch {
-      /* storage indisponível */
-    }
-  }, [theme])
+function applyDom(theme: ThemeState) {
+  if (typeof document === 'undefined') return
+  document.documentElement.dataset.mode = theme.mode
+  document.documentElement.dataset.aesthetic = theme.aesthetic
+}
+
+function getTheme(): ThemeState {
+  if (!state) {
+    state = loadTheme()
+    applyDom(state)
+  }
+  return state
+}
+
+function writeTheme(update: (t: ThemeState) => ThemeState) {
+  state = update(getTheme())
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  } catch {
+    /* storage indisponível */
+  }
+  applyDom(state)
+  for (const cb of listeners) cb()
+}
+
+function subscribe(cb: () => void): () => void {
+  listeners.add(cb)
+  return () => {
+    listeners.delete(cb)
+  }
+}
+
+export function useTheme() {
+  const theme = useSyncExternalStore(subscribe, getTheme)
 
   return {
     ...theme,
     toggleMode: () =>
-      setTheme((t) => ({ ...t, mode: t.mode === 'dark' ? 'light' : 'dark' })),
-    setAesthetic: (aesthetic: Aesthetic) => setTheme((t) => ({ ...t, aesthetic })),
+      writeTheme((t) => ({ ...t, mode: t.mode === 'dark' ? 'light' : 'dark' })),
+    setMode: (mode: Mode) => writeTheme((t) => ({ ...t, mode })),
+    setAesthetic: (aesthetic: Aesthetic) => writeTheme((t) => ({ ...t, aesthetic })),
   }
 }
