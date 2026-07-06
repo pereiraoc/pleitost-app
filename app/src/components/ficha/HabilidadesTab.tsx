@@ -22,11 +22,27 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import { swapAtributo } from '../../rules/projection'
 import type { AtributoId } from '../../rules/rules-model'
 import {
+  TipHover,
+  TipProvider,
+  enrichRuleTooltips,
+  movimentoBreakdown,
+  oficioBreakdown,
+  periciaBreakdown,
+  rankSourceTips,
+  renderBreakdownHtml,
+  resistenciaBreakdown,
+  sentidoBreakdown,
+  sourceTipHtml,
+  type BreakdownResult,
+} from './tooltips'
+import {
   ATTR_DOT_COLORS,
   ATTR_EMOJI,
+  EQUIP_ARMA_ESPECIFICA_SRC_PATH,
   EQUIP_TYPES,
   PF_TIER_COLORS,
   RANK_GROUP_ORDER,
+  RANK_ORDER,
   SLOT_GROUP,
   classeAventureiro,
   displayName,
@@ -255,7 +271,7 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
   const escolhasFallback = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
     .filter((e) => e.fonte.kind === 'Escolha')
     .map((e) => ({
-      ic: tokens.emojis.perfil.Subclasse,
+      ic: tokens.emojis.categoria.Habilidade,
       label: e.fonte.target.toUpperCase(),
       value: e.raw,
       options: [{ value: e.raw, label: shortSubclass(e.raw) || e.label }],
@@ -271,14 +287,20 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
   }[] = [
     {
       ic: tokens.emojis.perfil.Classe,
-      label: 'CLASSE',
+      // #23: diretriz do usuário — o seletor é da classe INICIAL (nível 1);
+      // rótulo "Classe Inicial" (o golden editavel__tab-perfil ainda mostra
+      // "Classe"; o design será atualizado pelo usuário).
+      label: 'CLASSE INICIAL',
       value: classeFmValue,
       options: withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
       onChange: setClasse,
     },
     ...(rules
       ? rules.subclassChoices.map((c) => ({
-          ic: tokens.emojis.perfil.Subclasse,
+          // #24: subclasses são docs de categoria Habilidade (golden:
+          // data-link-categoria="Habilidade") — o livrinho vermelho vem do
+          // registro categoria.Habilidade (📕), não do perfil.Subclasse (📘).
+          ic: tokens.emojis.categoria.Habilidade,
           label: c.parent.toUpperCase(),
           value: c.pick ?? '',
           options: c.options,
@@ -472,6 +494,16 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
     })
   }
 
+  // Fonte da restrição de Atributo Principal (#22) — espelho VERBATIM do
+  // único tooltip do perfil-card do plugin (perfil-card.ts:636,649-651):
+  // attachSourceTooltip(cell, principalSources.map((n) => `Regra.${n}`)),
+  // com principalSources = ruleSourcesByPath["atributoPrincipal"]. O duplo
+  // prefixo ("Regra · Regra.[[Bardo]]") é o formato REAL — confirmado no
+  // golden editavel__tab-perfil do Carlos.
+  const principalTip = sourceTipHtml(
+    (rules?.ruleSourcesByPath['atributoPrincipal'] ?? []).map((n) => `Regra.${n}`),
+  )
+
   return (
     <div style={panel}>
       <div
@@ -548,23 +580,36 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
                 />
                 <span style={{ fontWeight: 800, fontSize: 15, color: 'var(--text)' }}>{a.v}</span>
               </div>
-              {editable ? (
-                <BoxSelect
-                  ariaLabel={`Atributo rank ${a.v}`}
-                  display={box}
-                  options={a.options.map((o) => ({ value: o, label: `${ATTR_EMOJI[o] ?? ''} ${o}` }))}
-                  value={a.n}
-                  onChange={(v) => onSwap(a.v, v)}
-                />
-              ) : (
-                box
-              )}
+              {/* Tooltip só na célula do PRINCIPAL — como o `rank === 3 &&
+                  principalSources` do plugin (perfil-card.ts:649). */}
+              <TipHover html={a.isPrincipal ? principalTip : null} style={{ width: '100%' }}>
+                {editable ? (
+                  <BoxSelect
+                    ariaLabel={`Atributo rank ${a.v}`}
+                    display={box}
+                    options={a.options.map((o) => ({ value: o, label: `${ATTR_EMOJI[o] ?? ''} ${o}` }))}
+                    value={a.n}
+                    onChange={(v) => onSwap(a.v, v)}
+                  />
+                ) : (
+                  box
+                )}
+              </TipHover>
             </div>
           )
         })}
       </div>
     </div>
   )
+}
+
+/** Chaves do ruleSourcesByPath/sourcesPerRank de uma linha de proficiência
+ *  das listas — espelho do `base` de tab-proficiencias do plugin
+ *  (tab-proficiencias.ts:226/246: `defesasResistencias.<Nome>` /
+ *  `sentidos.<Nome>`; nomes do model são slugs, FM guarda com acento). */
+function stackPaths(ns: string, row: ProfRow): { prof: string; item?: string; star?: string } {
+  const base = `${ns}.${slugify(str(row.Nome))}`
+  return { prof: `${base}.proficiencia`, item: `${base}.bonusItem`, star: `${base}.bonusEspecial` }
 }
 
 interface StackSection {
@@ -575,6 +620,9 @@ interface StackSection {
   showProf: 0 | 1
   showDots: 0 | 1
   showStar: 0 | 1
+  /** Builder do tooltip de breakdown do VALOR (#21) — conteúdo do plugin
+   *  (util/modificadores.ts) sobre o modelo salvo; Combate não tem caixa. */
+  breakdown?: (row: ProfRow, attrs: Record<string, number>) => BreakdownResult
   rows: {
     lead: string
     row: ProfRow
@@ -582,12 +630,16 @@ interface StackSection {
     hasDots: boolean
     starOp: 0 | 1
     showMedal: boolean
+    /** Chaves de fonte (rank/dots/star) — ausente = sem tooltip, como as
+     *  linhas de Movimento do plugin (prof-section.ts:245-270, sem attach). */
+    paths?: { prof: string; item?: string; star?: string }
   }[]
 }
 
 function StacksPanel({ doc }: { doc: VaultDoc }) {
   const fm = fmOf(doc)
   const { values: attrs } = heroAtributos(fm)
+  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
 
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
@@ -603,12 +655,14 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
       showProf: 1,
       showDots: 1,
       showStar: 1,
+      breakdown: resistenciaBreakdown,
       rows: defesas.map((row) => ({
         lead: (tokens.emojis.defesa as Record<string, string>)[slugify(str(row.Nome))] ?? '',
         row,
         hasDots: true,
         starOp: 1 as const,
         showMedal: true,
+        paths: stackPaths('defesasResistencias', row),
       })),
     },
     {
@@ -617,12 +671,14 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
       showProf: 1,
       showDots: 1,
       showStar: 1,
+      breakdown: sentidoBreakdown,
       rows: sentidos.map((row) => ({
         lead: (tokens.emojis.categoria as Record<string, string>)[slugify(str(row.Nome))] ?? '',
         row,
         hasDots: true,
         starOp: 1 as const,
         showMedal: true,
+        paths: stackPaths('sentidos', row),
       })),
     },
     {
@@ -638,6 +694,9 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
           hasDots: false,
           starOp: 0 as const,
           showMedal: true,
+          // Escalar `ataques.proficiencia` — espelho de tab-proficiencias.ts:
+          // 269-276 (Combate/Ataque, sem dots/star).
+          paths: { prof: 'ataques.proficiencia' },
         },
       ],
     },
@@ -647,6 +706,7 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
       showProf: 0,
       showDots: 1,
       showStar: 1,
+      breakdown: movimentoBreakdown,
       rows: movimentos.map((row) => ({
         lead: '',
         row,
@@ -687,7 +747,7 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
             {edit ? <span style={{ ...colHead, opacity: sec.showDots }}>ITEM BÔNUS</span> : null}
             {edit ? <span style={{ ...colHead, opacity: sec.showStar }}>ESPECIALIZAÇÃO</span> : null}
           </div>
-          {sec.rows.map(({ lead, row, hasDots, starOp, showMedal }) => {
+          {sec.rows.map(({ lead, row, hasDots, starOp, showMedal, paths }) => {
             // enrichStk recuperado: std10 = 10+attr+PB+item+especial;
             // move = 4+attr+item+especial (sem PB); none não mostra caixa.
             const modStr =
@@ -701,6 +761,20 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
                         num(row.Bonus_Especial),
                     )
                   : ''
+            // Fontes por rank (#21) — mesmo pipeline do renderProfRow do
+            // plugin (prof-section.ts:126-135): deriveNaemStates com
+            // allRuleDriven (defesas/sentidos/ataque são rule-driven, sem
+            // incrementos no FM) + sourcesPerRank granular + enrich.
+            const tips = paths
+              ? enrichRuleTooltips(
+                  rankSourceTips({
+                    row,
+                    allRuleDriven: true,
+                    sourcesPerRank: rules?.sourcesPerRank[paths.prof],
+                  }),
+                  rules?.ruleSourcesByPath[paths.prof],
+                )
+              : undefined
             return (
               <div
                 key={str(row.Nome)}
@@ -733,27 +807,44 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
                 {!edit ? (
                   <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
                     {modStr ? (
-                      <ModBox
-                        modStr={modStr}
-                        rank={profLetter(row)}
-                        star={num(row.Bonus_Especial) > 0}
-                        dots={num(row.Bonus_Item)}
-                      />
+                      <TipHover
+                        html={sec.breakdown ? renderBreakdownHtml(sec.breakdown(row, attrs)) : null}
+                      >
+                        <ModBox
+                          modStr={modStr}
+                          rank={profLetter(row)}
+                          star={num(row.Bonus_Especial) > 0}
+                          dots={num(row.Bonus_Item)}
+                        />
+                      </TipHover>
                     ) : null}
                   </span>
                 ) : null}
                 <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-                  {!edit && showMedal ? <RankMedal rank={profLetter(row)} /> : null}
-                  {edit && showMedal ? <RankBtns states={rankStates(row)} /> : null}
+                  {!edit && showMedal ? (
+                    <RankMedal rank={profLetter(row)} tipSources={tips?.[profLetter(row)]} />
+                  ) : null}
+                  {edit && showMedal ? <RankBtns states={rankStates(row)} tips={tips} /> : null}
                 </span>
                 {edit ? (
                   <span style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-                    {hasDots ? <GoldDots on={num(row.Bonus_Item)} /> : null}
+                    {hasDots ? (
+                      <GoldDots
+                        on={num(row.Bonus_Item)}
+                        tipSources={paths?.item ? rules?.ruleSourcesByPath[paths.item] : undefined}
+                      />
+                    ) : null}
                   </span>
                 ) : null}
                 {edit ? (
                   <span style={{ display: 'flex', justifyContent: 'center', opacity: starOp }}>
-                    <StarChip n={num(row.Bonus_Especial)} />
+                    {/* Fonte no valor de Especialização — espelho do attach
+                        do star (prof-section.ts:168-170). */}
+                    <TipHover
+                      html={paths?.star ? sourceTipHtml(rules?.ruleSourcesByPath[paths.star]) : null}
+                    >
+                      <StarChip n={num(row.Bonus_Especial)} />
+                    </TipHover>
                   </span>
                 ) : null}
               </div>
@@ -801,6 +892,7 @@ function PnBtns({ cur }: { cur: 'P' | 'N' }) {
 function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
   const fm = fmOf(doc)
+  const rules = useHeroRules(fm)
   const inventario = (fm['Inventario'] ?? {}) as Record<string, unknown>
   const especificas = (fmPath(fm, 'Inventario', 'Armas', 'Proficiencia', 'Especificas') ?? []) as unknown[]
 
@@ -808,6 +900,9 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
     ic: t.ic,
     nm: t.nm,
     cur: (str(fmPath(inventario, ...t.path)) === 'P' ? 'P' : 'N') as 'P' | 'N',
+    // Fonte no grid de toggles (#22) — espelho de renderBinariaToggle
+    // (prof-equipamentos-card.ts:123-126); chave srcPath do registro.
+    tip: sourceTipHtml(rules?.ruleSourcesByPath[t.srcPath]),
   }))
   const armas = (Array.isArray(especificas) ? especificas : []).map((raw) => {
     const target = wikiTarget(raw)
@@ -863,7 +958,11 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
               ) : null}
             </span>
             <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-              {r.t ? <PnBtns cur={r.t.cur} /> : null}
+              {r.t ? (
+                <TipHover html={r.t.tip} style={{ gap: 4 }}>
+                  <PnBtns cur={r.t.cur} />
+                </TipHover>
+              ) : null}
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, padding: '6px 2px' }}>
               {r.w ? (
@@ -884,7 +983,16 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
               ) : null}
             </span>
             <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-              {r.w ? <PnBtns cur="P" /> : null}
+              {/* Arma específica: sempre P; fonte da chave armasEspecificas —
+                  espelho de prof-equipamentos-card.ts:98-102. */}
+              {r.w ? (
+                <TipHover
+                  html={sourceTipHtml(rules?.ruleSourcesByPath[EQUIP_ARMA_ESPECIFICA_SRC_PATH])}
+                  style={{ gap: 4 }}
+                >
+                  <PnBtns cur="P" />
+                </TipHover>
+              ) : null}
             </span>
           </div>
         ))}
@@ -898,6 +1006,7 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
 function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
   const fm = fmOf(doc)
   const { values: attrs } = heroAtributos(fm)
+  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
 
@@ -934,57 +1043,81 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
         {edit ? <span style={colHeadPlain}>ITEM BÔNUS</span> : null}
         {edit ? <span style={colHeadPlain}>ESPECIALIZAÇÃO</span> : null}
       </div>
-      {pericias.map((row) => (
-        <div
-          key={str(row.Nome)}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: cols,
-            alignItems: 'center',
-            gap: 8,
-            padding: '6px 2px',
-            borderBottom: '1px solid var(--line)',
-          }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-            <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
-            <span
-              style={{
-                fontWeight: 600,
-                color: 'var(--text)',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {displayName(slugify(str(row.Nome)))}
+      {pericias.map((row) => {
+        const slug = slugify(str(row.Nome))
+        // Fontes por rank (#25) — pipeline da pericias-card do plugin
+        // (pericias-card.ts:103-110): deriveNaemStates SÓ com incrementos
+        // (sem allRuleDriven nem sourcesPerRank) + enrich pelo
+        // ruleSourcesByPath do path da proficiência.
+        const tips = enrichRuleTooltips(
+          rankSourceTips({ row, allRuleDriven: false }),
+          rules?.ruleSourcesByPath[`pericias.${slug}.proficiencia`],
+        )
+        return (
+          <div
+            key={str(row.Nome)}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: cols,
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 2px',
+              borderBottom: '1px solid var(--line)',
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+              <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: 'var(--text)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {displayName(slugify(str(row.Nome)))}
+              </span>
             </span>
-          </span>
-          {!edit ? (
-            <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <ModBox
-                modStr={signed(rowMod(row, attrs))}
-                rank={profLetter(row)}
-                star={num(row.Bonus_Especial) > 0}
-                dots={num(row.Bonus_Item)}
-              />
+            {!edit ? (
+              <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                {/* Breakdown do MODIFICADOR (#21/#25) — buildPericiaBreakdown
+                    do plugin (modificadores.ts:309-314) sobre o modelo salvo. */}
+                <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
+                  <ModBox
+                    modStr={signed(rowMod(row, attrs))}
+                    rank={profLetter(row)}
+                    star={num(row.Bonus_Especial) > 0}
+                    dots={num(row.Bonus_Item)}
+                  />
+                </TipHover>
+              </span>
+            ) : null}
+            <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
+              {!edit ? (
+                <RankMedal rank={profLetter(row)} tipSources={tips[profLetter(row)]} />
+              ) : (
+                <RankBtns states={rankStates(row)} tips={tips} />
+              )}
             </span>
-          ) : null}
-          <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-            {!edit ? <RankMedal rank={profLetter(row)} /> : <RankBtns states={rankStates(row)} />}
-          </span>
-          {edit ? (
-            <span style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-              <GoldDots on={num(row.Bonus_Item)} />
-            </span>
-          ) : null}
-          {edit ? (
-            <span style={{ display: 'flex', justifyContent: 'center' }}>
-              <StarChip n={num(row.Bonus_Especial)} />
-            </span>
-          ) : null}
-        </div>
-      ))}
+            {edit ? (
+              <span style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
+                <GoldDots
+                  on={num(row.Bonus_Item)}
+                  tipSources={rules?.ruleSourcesByPath[`pericias.${slug}.bonusItem`]}
+                />
+              </span>
+            ) : null}
+            {edit ? (
+              <span style={{ display: 'flex', justifyContent: 'center' }}>
+                <TipHover html={sourceTipHtml(rules?.ruleSourcesByPath[`pericias.${slug}.bonusEspecial`])}>
+                  <StarChip n={num(row.Bonus_Especial)} />
+                </TipHover>
+              </span>
+            ) : null}
+          </div>
+        )
+      })}
       {edit ? (
         <div
           style={{
@@ -1025,14 +1158,56 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
 }
 
 function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const fm = model.fm
+  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
-  const grupos = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[])
-    .filter((p) => str(p.Especializacao))
-    .map((p) => ({
-      skill: `${displayName(slugify(str(p.Nome)))} (${profLetter(p)})`,
-      items: [{ on: true, txt: linkLabel(str(p.Especializacao)) }],
-    }))
+  const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+
+  // Elegibilidade do plugin (especializacoes-card.ts:69-70): rank ≥ E dá
+  // direito a 1 Especialização; NENHUMA regra envolvida, só o rank salvo.
+  const eligivel = (p: ProfRow) => RANK_ORDER.indexOf(profLetter(p)) >= RANK_ORDER.indexOf('E')
+
+  // Escolha persiste NO MODELO: regrava Especializacao ('' desmarca — o
+  // plugin serializa null → "", serialize-to-fm.ts:229-245) na linha da
+  // perícia dentro de Pericias.Lista.
+  const setEspecializacao = (slug: string, value: string) => {
+    const next = pericias.map((r) =>
+      slugify(str(r.Nome)) === slug ? { ...r, Especializacao: value } : r,
+    )
+    model.set('Pericias.Lista', next)
+  }
+
+  // Modo edição (#26): grupos "<Perícia> (E)" pra TODAS as elegíveis, com
+  // TODAS as opções da vault (projeção especializacaoOptions) — oráculo:
+  // golden editavel__tab-habilidades (radios as-ht-especializacao-<pid>).
+  // Modo visualização: só os picks salvos (comportamento do design).
+  const grupos =
+    edit && rules
+      ? pericias.filter(eligivel).map((p) => {
+          const slug = slugify(str(p.Nome))
+          const pick = str(p.Especializacao)
+          return {
+            skill: `${displayName(slug)} (E)`,
+            items: (rules.especializacaoOptions[slug] ?? []).map((opt) => ({
+              on: pick === opt,
+              txt: linkLabel(opt),
+              toggle: () => setEspecializacao(slug, pick === opt ? '' : opt),
+            })),
+          }
+        })
+      : pericias
+          .filter((p) => str(p.Especializacao))
+          .map((p) => ({
+            skill: `${displayName(slugify(str(p.Nome)))} (${profLetter(p)})`,
+            items: [
+              {
+                on: true,
+                txt: linkLabel(str(p.Especializacao)),
+                toggle: undefined as (() => void) | undefined,
+              },
+            ],
+          }))
 
   return (
     <div style={panel}>
@@ -1048,26 +1223,56 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
               {grp.skill}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {grp.items.length === 0 ? (
+                // String do plugin (especializacoes-card.ts:111-113).
+                <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)' }}>
+                  Nenhuma Especialização cadastrada
+                </div>
+              ) : null}
               {grp.items.map((sp) => (
-                <div key={sp.txt} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                <div
+                  key={sp.txt}
+                  style={{
+                    // --on do design (dc.html:917): radio pinta borda/miolo
+                    // via color-mix com a var — 1 marcado, 0 desmarcado.
+                    ['--on' as string]: sp.on ? 1 : 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 9,
+                  }}
+                >
                   <Losango />
                   {edit ? (
-                    <span
+                    // Radio-toggle verbatim do design (dc.html:918-920);
+                    // clicar no marcado desmarca — contrato do plugin
+                    // (especializacoes-card.ts:132-140).
+                    <button
+                      onClick={sp.toggle}
+                      aria-label={`${grp.skill}: ${sp.txt}`}
+                      aria-pressed={sp.on}
                       style={{
                         width: 15,
                         height: 15,
                         borderRadius: '50%',
-                        border: '2px solid color-mix(in srgb,var(--red) 100%,var(--line2))',
+                        border: '2px solid color-mix(in srgb,var(--red) calc(40% + var(--on,0)*60%),var(--line2))',
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flex: 'none',
+                        cursor: 'pointer',
+                        background: 'transparent',
+                        padding: 0,
                       }}
                     >
                       <span
-                        style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--red)' }}
+                        style={{
+                          width: 7,
+                          height: 7,
+                          borderRadius: '50%',
+                          background: 'color-mix(in srgb,var(--red) calc(var(--on,0)*100%),transparent)',
+                        }}
                       />
-                    </span>
+                    </button>
                   ) : null}
                   <span style={{ fontSize: 13, flex: 'none' }}>
                     {tokens.emojis.subcategoria.Especializacao}
@@ -1086,6 +1291,7 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
 function OficiosPanel({ doc }: { doc: VaultDoc }) {
   const fm = fmOf(doc)
   const { values: attrs } = heroAtributos(fm)
+  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
   const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]
   const cols = edit ? PROF_COLS_EDIT : PROF_COLS_VIEW
@@ -1119,6 +1325,14 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
       {oficios.map((row) => {
         const nm = displayName(slugify(str(row.Nome)))
         const complemento = str(row.Complemento)
+        const slug = slugify(str(row.Nome))
+        // Fontes por rank — espelho do bloco de Ofícios do plugin
+        // (tab-proficiencias.ts:181-189): allRuleDriven quando não há
+        // incrementos, SEM sourcesPerRank, enrich pelo path do ofício.
+        const tips = enrichRuleTooltips(
+          rankSourceTips({ row, allRuleDriven: (row.Incrementos?.length ?? 0) === 0 }),
+          rules?.ruleSourcesByPath[`oficios.${slug}.proficiencia`],
+        )
         return (
           <div
             key={str(row.Nome)}
@@ -1139,12 +1353,17 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
             </span>
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', minWidth: 0 }}>
               {!edit ? (
-                <ModBox
-                  modStr={signed(rowMod(row, attrs))}
-                  rank={profLetter(row)}
-                  star={num(row.Bonus_Especial) > 0}
-                  dots={num(row.Bonus_Item)}
-                />
+                // Breakdown do MODIFICADOR — buildOficioBreakdown do plugin
+                // (modificadores.ts:577-594): atributo só conta com prof ≥ A,
+                // linhas zeradas omitidas, total sem sinal no popup.
+                <TipHover html={renderBreakdownHtml(oficioBreakdown(row, attrs))}>
+                  <ModBox
+                    modStr={signed(rowMod(row, attrs))}
+                    rank={profLetter(row)}
+                    star={num(row.Bonus_Especial) > 0}
+                    dots={num(row.Bonus_Item)}
+                  />
+                </TipHover>
               ) : (
                 <input
                   defaultValue={complemento}
@@ -1163,11 +1382,18 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
               )}
             </span>
             <span style={{ display: 'flex', gap: 4, justifyContent: 'center' }}>
-              {!edit ? <RankMedal rank={profLetter(row)} /> : <RankBtns states={rankStates(row)} />}
+              {!edit ? (
+                <RankMedal rank={profLetter(row)} tipSources={tips[profLetter(row)]} />
+              ) : (
+                <RankBtns states={rankStates(row)} tips={tips} />
+              )}
             </span>
             {edit ? (
               <span style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
-                <GoldDots on={num(row.Bonus_Item)} />
+                <GoldDots
+                  on={num(row.Bonus_Item)}
+                  tipSources={rules?.ruleSourcesByPath[`oficios.${slug}.bonusItem`]}
+                />
               </span>
             ) : null}
           </div>
@@ -1955,40 +2181,44 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
   )
 
   return (
-    <div
-      style={{
-        maxWidth: 1180,
-        margin: '0 auto',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        // strip→painel = contentPad vertical do design (dc.html:748)
-        gap: 24,
-      }}
-    >
-      <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />
-      <PanelTrack index={index}>
-        <Col>
-          <ClasseNivelPanel doc={doc} />
-          <AtributosPanel doc={doc} />
-          <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
-          <StacksPanel doc={doc} />
-          <EquipamentosProfPanel doc={doc} />
-        </Col>
-        <Col>
-          <PericiasProfPanel doc={doc} />
-          <EspecializacoesPanel doc={doc} />
-          <OficiosPanel doc={doc} />
-        </Col>
-        <Col>
-          <HabilidadesArvorePanel doc={doc} refs={refs} />
-          <AcoesPanel doc={doc} refs={refs} />
-          <TecnicasPanel doc={doc} refs={refs} />
-        </Col>
-        <Col>
-          <MagiasHabPanel doc={doc} refs={refs} />
-        </Col>
-      </PanelTrack>
-    </div>
+    // TipProvider: overlay singleton dos tooltips da aba (#21 #22 #25) —
+    // espelho do popup único do plugin (breakdown-tooltip.ts:18-39).
+    <TipProvider>
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: '0 auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          // strip→painel = contentPad vertical do design (dc.html:748)
+          gap: 24,
+        }}
+      >
+        <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />
+        <PanelTrack index={index}>
+          <Col>
+            <ClasseNivelPanel doc={doc} />
+            <AtributosPanel doc={doc} />
+            <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
+            <StacksPanel doc={doc} />
+            <EquipamentosProfPanel doc={doc} />
+          </Col>
+          <Col>
+            <PericiasProfPanel doc={doc} />
+            <EspecializacoesPanel doc={doc} />
+            <OficiosPanel doc={doc} />
+          </Col>
+          <Col>
+            <HabilidadesArvorePanel doc={doc} refs={refs} />
+            <AcoesPanel doc={doc} refs={refs} />
+            <TecnicasPanel doc={doc} refs={refs} />
+          </Col>
+          <Col>
+            <MagiasHabPanel doc={doc} refs={refs} />
+          </Col>
+        </PanelTrack>
+      </div>
+    </TipProvider>
   )
 }

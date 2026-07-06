@@ -3,6 +3,7 @@
 // pedaço repetido do markup do design; dados chegam prontos por props.
 import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
+import { TipHover, sourceTipHtml } from './tooltips'
 
 /** clip-path de canto cortado usado em todo o design. */
 export function clip(n: number): string {
@@ -266,10 +267,14 @@ export function ModBox({
   )
 }
 
-/** Medalha do rank atual (coluna PROFICIÊNCIA no modo visualização). */
-export function RankMedal({ rank }: { rank: RankLetter }) {
+/** Medalha do rank atual (coluna PROFICIÊNCIA no modo visualização).
+ *  `tipSources` = fontes cruas do rank (tooltip de Fonte do plugin —
+ *  naem-buttons.ts:84-86 attach por rank; no modo visualização só o rank
+ *  atual é renderizado). */
+export function RankMedal({ rank, tipSources }: { rank: RankLetter; tipSources?: string[] }) {
   const solid = MEDAL[rank].solid
   return (
+    <TipHover html={sourceTipHtml(tipSources)}>
     <span
       style={{
         background: `color-mix(in srgb,${solid} 12%,transparent)`,
@@ -288,45 +293,65 @@ export function RankMedal({ rank }: { rank: RankLetter }) {
     >
       {rank}
     </span>
+    </TipHover>
   )
 }
 
-/** Fileira N/A/E/M do modo edição, pintada pelos estados do registro. */
-export function RankBtns({ states }: { states: Record<RankLetter, RankStateKey> }) {
+/** Fileira N/A/E/M do modo edição, pintada pelos estados do registro.
+ *  `tips` = fontes cruas POR RANK (contrato do naemButtons({tooltips}) do
+ *  plugin, naem-buttons.ts:84-86: attachSourceTooltip por botão). */
+export function RankBtns({
+  states,
+  tips,
+}: {
+  states: Record<RankLetter, RankStateKey>
+  tips?: Partial<Record<RankLetter, string[]>>
+}) {
   return (
     <>
       {RANK_ORDER.map((letter) => {
         const s = RANK_STATES[states[letter]]
         return (
-          <span
-            key={letter}
-            style={{
-              background: s.bg,
-              color: s.fg,
-              border: `1px solid ${s.bd}`,
-              width: 25,
-              height: 22,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'var(--mono)',
-              fontSize: 11,
-              fontWeight: 700,
-              borderRadius: 5,
-            }}
-          >
-            {letter}
-          </span>
+          <TipHover key={letter} html={sourceTipHtml(tips?.[letter])}>
+            <span
+              style={{
+                background: s.bg,
+                color: s.fg,
+                border: `1px solid ${s.bd}`,
+                width: 25,
+                height: 22,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontFamily: 'var(--mono)',
+                fontSize: 11,
+                fontWeight: 700,
+                borderRadius: 5,
+              }}
+            >
+              {letter}
+            </span>
+          </TipHover>
         )
       })}
     </>
   )
 }
 
-/** Bolinhas douradas de ITEM BÔNUS (11px). */
-export function GoldDots({ on, max = 3 }: { on: number; max?: number }) {
+/** Bolinhas douradas de ITEM BÔNUS (11px). `tipSources` = fontes cruas do
+ *  bônus de item (tooltip de Fonte no CONTAINER dos dots — contrato do
+ *  bonusDots({tooltip}) do plugin, bonus-dots.ts:62-63). */
+export function GoldDots({
+  on,
+  max = 3,
+  tipSources,
+}: {
+  on: number
+  max?: number
+  tipSources?: string[]
+}) {
   return (
-    <>
+    <TipHover html={sourceTipHtml(tipSources)} style={{ gap: 5 }}>
       {Array.from({ length: max }, (_, i) => (
         <span
           key={i}
@@ -339,7 +364,7 @@ export function GoldDots({ on, max = 3 }: { on: number; max?: number }) {
           }}
         />
       ))}
-    </>
+    </TipHover>
   )
 }
 

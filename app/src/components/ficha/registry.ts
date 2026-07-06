@@ -276,14 +276,21 @@ export const COND_GRUPOS = [
  *  documenta como ideal (data/condicoes-catalog.ts:17). */
 export const COND_ACUMULAVEIS: ReadonlySet<string> = new Set(['Lento', 'Acelerado'])
 
-/** Equipamentos com proficiência (aba COMPETÊNCIAS) — nomes do design, emojis do registro. */
-export const EQUIP_TYPES: { nm: string; ic: string; path: string[] }[] = [
-  { nm: 'Armas Simples', ic: tokens.emojis.equipProf.ArmasSimples, path: ['Armas', 'Proficiencia', 'Simples'] },
-  { nm: 'Armas Marciais', ic: tokens.emojis.equipProf.ArmasMarciais, path: ['Armas', 'Proficiencia', 'Marciais'] },
-  { nm: 'Escudos', ic: tokens.emojis.equipProf.Escudo, path: ['Escudo', 'Proficiencia'] },
-  { nm: 'Sem Armadura', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Sem'] },
-  { nm: 'Armadura Leve', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Leve'] },
-  { nm: 'Armadura Pesada', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Pesada'] },
+/** Equipamentos com proficiência (aba COMPETÊNCIAS) — nomes do design, emojis
+ *  do registro. `srcPath` = chave do ruleSourcesByPath pro tooltip de Fonte
+ *  dos toggles N/P — VERBATIM dos equipRows do plugin
+ *  (render/groups/prof-equipamentos-card.ts:77-82). */
+export const EQUIP_TYPES: { nm: string; ic: string; path: string[]; srcPath: string }[] = [
+  { nm: 'Armas Simples', ic: tokens.emojis.equipProf.ArmasSimples, path: ['Armas', 'Proficiencia', 'Simples'], srcPath: 'ataques.proficiencia.armasSimples' },
+  { nm: 'Armas Marciais', ic: tokens.emojis.equipProf.ArmasMarciais, path: ['Armas', 'Proficiencia', 'Marciais'], srcPath: 'ataques.proficiencia.armasMarciais' },
+  { nm: 'Escudos', ic: tokens.emojis.equipProf.Escudo, path: ['Escudo', 'Proficiencia'], srcPath: 'inventario.escudo.proficiencia' },
+  { nm: 'Sem Armadura', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Sem'], srcPath: 'inventario.armadura.proficiencias.Sem' },
+  { nm: 'Armadura Leve', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Leve'], srcPath: 'inventario.armadura.proficiencias.Leve' },
+  { nm: 'Armadura Pesada', ic: tokens.emojis.equipProf.Armadura, path: ['Armadura', 'Proficiencia', 'Pesada'], srcPath: 'inventario.armadura.proficiencias.Pesada' },
 ]
+
+/** Chave de fonte da proficiência das armas ESPECÍFICAS (coluna direita do
+ *  card Equipamentos) — espelho de prof-equipamentos-card.ts:101. */
+export const EQUIP_ARMA_ESPECIFICA_SRC_PATH = 'ataques.proficiencia.armasEspecificas'
 
 export { tokens }

@@ -1,0 +1,310 @@
+// Fidelidade dos tooltips da ficha (#21 #22 #25 #26) contra os goldens REAIS
+// do plugin (reference/goldens/screens/carlos/**). Duas famílias de oráculo:
+//
+//   A) BYTE-EXACT do render: os `data-breakdown-html` dos panels da
+//      Interativa do Carlos são a saída real de renderBreakdownHtml+builders
+//      do plugin. Os goldens foram capturados numa época ANTERIOR do FM
+//      (Enganação ainda E, Vigor A…), então os builders são alimentados com
+//      os NÚMEROS DO PRÓPRIO GOLDEN — o que se valida é o formato/markup
+//      exatos (título slugado, linhas sempre/omitidas, sinal do total, emoji).
+//
+//   B) FONTES via projeção REAL (extract sobre vault-data): ruleSourcesByPath/
+//      sourcesPerRank/especializacaoOptions do app comparados com os tooltips
+//      e radios dos goldens do Editável que continuam válidos pro FM atual.
+import { beforeAll, describe, expect, it } from 'vitest'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { buildCatalog } from '../src/data/catalog'
+import type { IndexManifest, VaultDoc } from '../src/data/types'
+import { projectHeroRules } from '../src/rules/useHeroRules'
+import type { HeroProjection } from '../src/rules/projection'
+import {
+  enrichRuleTooltips,
+  movimentoBreakdown,
+  oficioBreakdown,
+  periciaBreakdown,
+  rankSourceTips,
+  renderBreakdownHtml,
+  resistenciaBreakdown,
+  sentidoBreakdown,
+  sourceTipHtml,
+} from '../src/components/ficha/tooltips'
+import type { ProfRow } from '../src/components/ficha/hero-model'
+
+const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
+const repoDir = path.dirname(appDir)
+const vaultDataDir = path.join(repoDir, 'vault-data')
+const goldenDir = path.join(repoDir, 'reference/goldens/screens/carlos')
+
+const manifest = JSON.parse(
+  fs.readFileSync(path.join(vaultDataDir, 'index.json'), 'utf8'),
+) as IndexManifest
+const catalog = buildCatalog(manifest)
+
+const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
+const carlos = JSON.parse(
+  fs.readFileSync(path.join(vaultDataDir, `${CARLOS_ID}.json`), 'utf8'),
+) as VaultDoc
+const fm = carlos.frontmatter as Record<string, unknown>
+
+const loadFromDisk = async (id: string): Promise<VaultDoc> =>
+  JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
+
+// ─────────────────── extração dos goldens ───────────────────
+
+/** Inverso do escapeForAttr do plugin (breakdown-tooltip.ts:273-279). */
+function unescapeAttr(s: string): string {
+  return s
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+}
+
+function goldenTips(file: string): string[] {
+  const txt = fs.readFileSync(path.join(goldenDir, file), 'utf8')
+  const out: string[] = []
+  for (const m of txt.matchAll(/data-breakdown-html="([^"]*)"/g)) out.push(unescapeAttr(m[1]))
+  return out
+}
+
+/** Tooltip do golden cujo cabeçalho é `<strong>title</strong>`. */
+function byTitle(tips: string[], title: string): string {
+  const hit = tips.find((t) => t.includes(`<strong>${title}</strong>`))
+  expect(hit, `golden tip "${title}"`).toBeTruthy()
+  return hit!
+}
+
+/** Linha de proficiência do FM salvo do Carlos, por Nome. */
+function fmRow(section: string, nome: string): ProfRow {
+  const lista = ((fm[section] as Record<string, unknown>)['Lista'] ?? []) as ProfRow[]
+  const row = lista.find((r) => r.Nome === nome)
+  expect(row, `${section}.Lista.${nome}`).toBeTruthy()
+  return row!
+}
+
+let projection: HeroProjection
+
+beforeAll(async () => {
+  const out = await projectHeroRules(fm, catalog, loadFromDisk)
+  projection = out.projection
+})
+
+// ─────────────────── A) breakdown byte-exact vs Interativa ───────────────────
+
+describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa (Carlos)', () => {
+  const resTips = goldenTips('interativa__panel-res-defesa.html')
+
+  it('resistência (Vigor/Reflexo/Impeto): Base 10 crua + 4 linhas sempre + total sem sinal', () => {
+    expect(
+      renderBreakdownHtml(
+        resistenciaBreakdown(
+          { Nome: 'Vigor', Atributo: 'PRE', Proficiencia: 'A', Bonus_Item: 1, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(resTips, 'Vigor'))
+    expect(
+      renderBreakdownHtml(
+        resistenciaBreakdown(
+          { Nome: 'Reflexo', Atributo: 'AGI', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { AGI: 2 },
+        ),
+      ),
+    ).toBe(byTitle(resTips, 'Reflexo'))
+    // FM grava "Ímpeto" com acento; o título do popup é o slug "Impeto"
+    expect(
+      renderBreakdownHtml(
+        resistenciaBreakdown(
+          { Nome: 'Ímpeto', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(resTips, 'Impeto'))
+  })
+
+  it('sentidos (Percepção/Intuição): título acentuado + total assinado', () => {
+    expect(
+      renderBreakdownHtml(
+        sentidoBreakdown(
+          { Nome: 'Percepção', Atributo: 'INT', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { INT: 1 },
+        ),
+      ),
+    ).toBe(byTitle(resTips, 'Percepção'))
+    expect(
+      renderBreakdownHtml(
+        sentidoBreakdown(
+          { Nome: 'Intuição', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(resTips, 'Intuição'))
+  })
+
+  it('movimento (Terrestre): Base 4 + AGI + Item + Especialização, total sem sinal', () => {
+    const movTips = goldenTips('interativa__panel-movimento.html')
+    expect(
+      renderBreakdownHtml(
+        movimentoBreakdown({ Nome: 'Terrestre', Bonus_Item: 0, Bonus_Especial: 0 }, { AGI: 2 }),
+      ),
+    ).toBe(byTitle(movTips, 'Terrestre'))
+  })
+
+  it('ofício (Oficio/Atuacao): atributo só com prof ≥ A e linhas zeradas OMITIDAS', () => {
+    const ofiTips = goldenTips('interativa__panel-mid-oficios.html')
+    expect(
+      renderBreakdownHtml(
+        oficioBreakdown(
+          { Nome: 'Oficio', Atributo: 'INT', Proficiencia: 'A', Bonus_Item: 0, Bonus_Especial: 0 },
+          { INT: 1 },
+        ),
+      ),
+    ).toBe(byTitle(ofiTips, 'Oficio (INT)'))
+    expect(
+      renderBreakdownHtml(
+        oficioBreakdown(
+          { Nome: 'Atuacao', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(ofiTips, 'Atuacao (PRE)'))
+  })
+
+  it('perícia (Enganacao/Diplomacia): título slugado com atributo + total assinado', () => {
+    const preTips = goldenTips('interativa__panel-attr-pre.html')
+    expect(
+      renderBreakdownHtml(
+        periciaBreakdown(
+          { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 2, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(preTips, 'Enganacao (PRE)'))
+    expect(
+      renderBreakdownHtml(
+        periciaBreakdown(
+          { Nome: 'Diplomacia', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { PRE: 3 },
+        ),
+      ),
+    ).toBe(byTitle(preTips, 'Diplomacia (PRE)'))
+  })
+})
+
+// ─────────────────── B) fontes — sourceTipHtml/rankSourceTips vs Editável ───────────────────
+
+describe('tooltips de Fonte vs goldens do Editável (Carlos)', () => {
+  const profTips = goldenTips('editavel__tab-proficiencias.html')
+
+  it('sourceTipHtml de slot/regra/tesouro bate byte-a-byte com o golden', () => {
+    const slotA = profTips.find((t) => t.includes('>Slot.A<'))!
+    expect(sourceTipHtml(['Slot.A'])).toBe(slotA)
+
+    const metodo = profTips.find((t) => t.includes('Método Artístico (Inspirador)'))!
+    expect(sourceTipHtml(['Regra.[[Método Artístico (Inspirador)]]'])).toBe(metodo)
+
+    const diapasao = profTips.find((t) => t.includes('Diapasão Elemental'))!
+    expect(sourceTipHtml(['Tesouro.[[Diapasão Elemental]]'])).toBe(diapasao)
+  })
+
+  it('célula do Atributo Principal (#22): duplo prefixo Regra.Regra.[[Bardo]] como no golden', () => {
+    const perfilTips = goldenTips('editavel__tab-perfil.html')
+    expect(perfilTips).toHaveLength(1)
+    // espelho do attach do perfil-card (perfil-card.ts:649-651)
+    const html = sourceTipHtml(
+      (projection.ruleSourcesByPath['atributoPrincipal'] ?? []).map((n) => `Regra.${n}`),
+    )
+    expect(html).toBe(perfilTips[0])
+  })
+
+  it('rankSourceTips sobre o FM REAL: incrementos → fontes por rank', () => {
+    // Enganação M: A veio do Passado, E/M de slots
+    expect(rankSourceTips({ row: fmRow('Pericias', 'Enganação'), allRuleDriven: false })).toEqual({
+      A: ['Passado'],
+      E: ['Slot.E'],
+      M: ['Slot.M'],
+    })
+    // Diplomacia E: A granular por regra (golden: "Regra · Método Artístico
+    // (Inspirador)"), E de slot; incremento field-based (Bonus_Item) ignorado
+    expect(rankSourceTips({ row: fmRow('Pericias', 'Diplomacia'), allRuleDriven: false })).toEqual({
+      A: ['Regra.[[Método Artístico (Inspirador)]]'],
+      E: ['Slot.E'],
+    })
+    // Acrobacia E: escada toda de slots
+    expect(rankSourceTips({ row: fmRow('Pericias', 'Acrobacia'), allRuleDriven: false })).toEqual({
+      A: ['Slot.A'],
+      E: ['Slot.E'],
+    })
+  })
+
+  it('seções rule-driven: sourcesPerRank granular + fallback "Regra" enriquecido', () => {
+    // Defesa: rank A concedido pelo Bardo (golden: ruleBase "Regra · Bardo")
+    expect(projection.sourcesPerRank['defesasResistencias.Defesa.proficiencia']?.A).toEqual([
+      '[[Bardo]]',
+    ])
+    // fallback: rank atual sem source granular numa seção all-rule-driven
+    // vira "Regra" e o enrich troca pelas notas reais do path
+    const tips = rankSourceTips({
+      row: { Nome: 'Defesa', Proficiencia: 'E' },
+      allRuleDriven: true,
+      sourcesPerRank: { A: ['[[Bardo]]'] },
+    })
+    expect(tips).toEqual({ A: ['Regra.[[Bardo]]'], E: ['Regra'] })
+    expect(enrichRuleTooltips(tips, ['Regra.[[Trovador]]'])).toEqual({
+      A: ['Regra.[[Bardo]]'],
+      E: ['Regra.Regra.[[Trovador]]'],
+    })
+  })
+
+  it('fontes de bônus por path da projeção real (dots/equipamentos)', () => {
+    // dots do plugin: "Tesouro · <item>" (typeForPath: .bonusItem → Tesouro)
+    expect(projection.ruleSourcesByPath['pericias.Anima.bonusItem']).toEqual([
+      'Tesouro.[[Diapasão Elemental]]',
+    ])
+    expect(projection.ruleSourcesByPath['pericias.Diplomacia.bonusItem']).toEqual([
+      'Tesouro.[[Anel Mensageiro]]',
+    ])
+    // toggle N/P de Armadura Leve (golden pn-grid: "Regra · Bardo") — regra
+    // `Definir Inventario.Armadura.Proficiencia.Leve P` do Bardo
+    expect(projection.ruleSourcesByPath['inventario.armadura.proficiencias.Leve']).toEqual([
+      'Regra.[[Bardo]]',
+    ])
+  })
+})
+
+// ─────────────────── #26 — opções de especialização vs golden ───────────────────
+
+describe('especializacaoOptions vs golden editavel__tab-habilidades (Carlos)', () => {
+  const goldenHtml = fs.readFileSync(path.join(goldenDir, 'editavel__tab-habilidades.html'), 'utf8')
+
+  /** Radios do golden por perícia: name="as-ht-especializacao-<pid>" value="[[X]]". */
+  function goldenRadios(pid: string): string[] {
+    const out: string[] = []
+    const rx = new RegExp(`name="as-ht-especializacao-${pid}" value="([^"]*)"`, 'g')
+    for (const m of goldenHtml.matchAll(rx)) out.push(unescapeAttr(m[1]))
+    return out
+  }
+
+  it('opções (valores e ordem pt-BR) idênticas às do card real do plugin', () => {
+    expect(goldenRadios('Acrobacia')).toEqual(['[[Estabilidade]]', '[[Mobilidade]]'])
+    expect(projection.especializacaoOptions['Acrobacia']).toEqual(goldenRadios('Acrobacia'))
+    expect(projection.especializacaoOptions['Diplomacia']).toEqual(goldenRadios('Diplomacia'))
+    expect(projection.especializacaoOptions['Enganacao']).toEqual(goldenRadios('Enganacao'))
+  })
+
+  it('grupos do golden = perícias com rank ≥ E no FM (elegibilidade do plugin)', () => {
+    const groups = [...goldenHtml.matchAll(/name="as-ht-especializacao-([^"]+)"/g)].map((m) => m[1])
+    const uniq = [...new Set(groups)]
+    const elegiveis = ((fm['Pericias'] as Record<string, unknown>)['Lista'] as ProfRow[])
+      .filter((r) => r.Proficiencia === 'E' || r.Proficiencia === 'M')
+      .map((r) =>
+        String(r.Nome)
+          .normalize('NFD')
+          .replace(/[̀-ͯ]/g, ''),
+      )
+    expect(uniq.sort()).toEqual(elegiveis.sort())
+  })
+})

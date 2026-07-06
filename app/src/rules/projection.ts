@@ -8,6 +8,7 @@ import type { VaultDoc } from '../data/types'
 import type { RulesModel, AtributoId } from './rules-model'
 import { ATRIBUTOS } from './rules-model'
 import type { Deltas } from './rule-applier'
+import type { ParsedRule } from './rule-types'
 import type { ChoiceDescriptor } from './resolve-choices'
 import type { HeroRulesResult } from './extract'
 import {
@@ -72,6 +73,194 @@ function listNotesByCategoria(
     if (base) out.push(`[[${base}]]`)
   }
   out.sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  return out
+}
+
+/** Slug NFD-strip — mesmo toSlug do plugin (util/display-names.ts), usado
+ *  pra converter o display da pasta de especialização ("Sobrevivência") no
+ *  PericiaId ("Sobrevivencia") como o bySlug do view-model (plugin
+ *  view-model.ts:368). */
+function slugifyNome(s: string): string {
+  return String(s)
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/\s+/g, '')
+}
+
+/** Pasta-fonte das especializações/maestrias — espelho do prefixo de
+ *  listEspecializacoesByPericia (plugin cola/yaml-block-deps-factory.ts:
+ *  222-253). */
+const ESPECIALIZACOES_PATH_PREFIX =
+  'Sistema/Regras/Perícias e Especializações/Especialização e Maestria/'
+
+/** Scan das notas de Especialização/Maestria agrupadas por perícia —
+ *  espelho de listEspecializacoesByPericia: notas `categoria: Regra` sob o
+ *  prefixo, agrupadas por `subcategoria` e pela PRIMEIRA pasta após o
+ *  prefixo (= display da perícia, convertido pra slug PericiaId); valores
+ *  `[[Basename]]` ordenados pt-BR. */
+export function listEspecializacoesByPericia(catalog: Catalog): {
+  especializacoes: Record<string, string[]>
+  maestrias: Record<string, string[]>
+} {
+  const especializacoes: Record<string, string[]> = {}
+  const maestrias: Record<string, string[]> = {}
+  for (const entry of catalog.docsByType.get('Regra') ?? []) {
+    if (!entry.path.startsWith(ESPECIALIZACOES_PATH_PREFIX)) continue
+    const sub = String(entry.subtype ?? '').trim()
+    const bucket =
+      sub === 'Especialização' ? especializacoes : sub === 'Maestria' ? maestrias : null
+    if (!bucket) continue
+    const rest = entry.path.slice(ESPECIALIZACOES_PATH_PREFIX.length)
+    const periciaDisplay = rest.split('/')[0] ?? ''
+    if (!periciaDisplay || !rest.includes('/')) continue
+    const base = entry.basename ?? entry.id.split('/').pop() ?? ''
+    if (!base) continue
+    const slug = slugifyNome(periciaDisplay)
+    ;(bucket[slug] ??= []).push(`[[${base}]]`)
+  }
+  for (const map of [especializacoes, maestrias]) {
+    for (const key of Object.keys(map)) map[key].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  }
+  return { especializacoes, maestrias }
+}
+
+// ───────────────── fontes de regra por path (tooltips de Fonte) ─────────────────
+
+/** Espelho de computeSources (plugin extract/rule-elements-extractor.ts:
+ *  756-767): targetRaw → sourceNotes das rules APLICADAS cujo target chegou
+ *  aos deltas. Constraints (`escolher`) escrevem em `__constraint__<target>`
+ *  — registradas sob essa chave, como o applier do plugin. */
+export function computeRuleSources(
+  appliedRules: ParsedRule[],
+  deltas: Deltas,
+): Map<string, string[]> {
+  const out = new Map<string, string[]>()
+  for (const r of appliedRules) {
+    const a = r.action
+    let targetKey = 'targetRaw' in a ? (a as { targetRaw?: string }).targetRaw ?? null : null
+    if (!targetKey) continue
+    if (!(targetKey in deltas)) {
+      const constraintKey = `__constraint__${targetKey}`
+      if (!(constraintKey in deltas)) continue
+      targetKey = constraintKey
+    }
+    const cur = out.get(targetKey) ?? []
+    if (!cur.includes(r.sourceNote)) cur.push(r.sourceNote)
+    out.set(targetKey, cur)
+  }
+  return out
+}
+
+/** Mapeia campo capitalizado do target → campo camelCase do model — espelho
+ *  de PERICIA_FIELD/SIMPLE_FIELD (plugin diff/target-to-model-path.ts). */
+const TARGET_FIELD: Record<string, string> = {
+  Proficiencia: 'proficiencia',
+  Atributo: 'atributo',
+  Bonus_Item: 'bonusItem',
+  Bonus_Especial: 'bonusEspecial',
+  Especializacao: 'especializacao',
+  Maestria: 'maestria',
+  Complemento: 'complemento',
+}
+
+const LISTA_TARGET_RX =
+  /^(Pericias|Oficios|Defesas_Resistencias|Sentidos|Movimento)\.Lista\.([^.*[\]]+)\.([^.]+)$/
+
+const LISTA_NAMESPACE: Record<string, string> = {
+  Pericias: 'pericias',
+  Oficios: 'oficios',
+  Defesas_Resistencias: 'defesasResistencias',
+  Sentidos: 'sentidos',
+  Movimento: 'movimento',
+}
+
+/** Espelho (subset usado pelos tooltips da ficha) de targetToModelPath
+ *  (plugin diff/target-to-model-path.ts): targets das 5 listas de
+ *  proficiência + Ataques.Proficiencia + proficiências de equipamento. */
+export function targetToModelPath(targetRaw: string): string | null {
+  const lista = LISTA_TARGET_RX.exec(targetRaw)
+  if (lista) {
+    const [, ns, nome, field] = lista
+    return `${LISTA_NAMESPACE[ns]}.${nome}.${TARGET_FIELD[field] ?? field}`
+  }
+  if (targetRaw === 'Ataques.Proficiencia') return 'ataques.proficiencia'
+  // Espelho do case "atributo" do plugin (target-to-model-path.ts:92-95):
+  // `Definir Atributos.Principal X` também alimenta o path do tooltip.
+  if (targetRaw === 'Atributos.Principal') return 'atributoPrincipal'
+  const armadura = /^Inventario\.Armadura\.Proficiencia\.([^.]+)$/.exec(targetRaw)
+  if (armadura) return `inventario.armadura.proficiencias.${armadura[1]}`
+  if (targetRaw === 'Inventario.Escudo.Proficiencia') return 'inventario.escudo.proficiencia'
+  // Segmento MINÚSCULO (simples/marciais/especificas) — espelho de
+  // resolveInventario (plugin rule-target-registry.ts:246-252:
+  // `armasProf[1].toLowerCase()`).
+  const armas = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais|Especificas)$/.exec(targetRaw)
+  if (armas) return `inventario.armas.proficiencia.${armas[1].toLowerCase()}`
+  return null
+}
+
+/** Espelho de typeForPath (plugin view-model.ts:400-408): `.bonusItem` vem
+ *  SEMPRE de equipamento/tesouro; o resto é Regra. */
+function typeForPath(modelPath: string): 'Tesouro' | 'Regra' {
+  return modelPath.endsWith('.bonusItem') ? 'Tesouro' : 'Regra'
+}
+
+/** Espelho de deriveRuleSourcesByPath (plugin view-model.ts:410-455):
+ *  source canônico `Tipo.[[<basename>]]` por path do model; a restrição de
+ *  Atributo Principal sai sob `atributoPrincipal`. */
+export function deriveRuleSourcesByPath(sources: Map<string, string[]>): Record<string, string[]> {
+  const out: Record<string, string[]> = {}
+  const append = (path: string, sourceNotes: string[]): void => {
+    const type = typeForPath(path)
+    const builds = sourceNotes.map((n) => {
+      const last = n.split('/').pop() ?? n
+      const base = last.replace(/\.md$/i, '')
+      return `${type}.[[${base}]]`
+    })
+    const seen = new Set<string>(out[path] ?? [])
+    const merged = [...(out[path] ?? [])]
+    for (const b of builds) {
+      if (seen.has(b)) continue
+      seen.add(b)
+      merged.push(b)
+    }
+    out[path] = merged
+  }
+  for (const [targetRaw, sourceNotes] of sources) {
+    if (targetRaw === '__constraint__Atributos.Principal') {
+      append('atributoPrincipal', sourceNotes)
+      continue
+    }
+    const path = targetToModelPath(targetRaw)
+    if (!path) continue
+    append(path, sourceNotes)
+  }
+  return out
+}
+
+const NAEM = new Set(['N', 'A', 'E', 'M'])
+
+/** Espelho de deriveSourcesPerRank (plugin view-model.ts:461-495) com o
+ *  byRank derivado das rules aplicadas: pra cada `Definir <X>.Proficiencia
+ *  <rank>` aplicado, registra `[[basename]]` no rank — inclui TODAS as
+ *  tentativas (mesmo perdedoras do max-merge), como o deltaSources.byRank
+ *  do plugin. */
+export function deriveSourcesPerRank(
+  appliedRules: ParsedRule[],
+): Record<string, Partial<Record<'N' | 'A' | 'E' | 'M', string[]>>> {
+  const out: Record<string, Partial<Record<'N' | 'A' | 'E' | 'M', string[]>>> = {}
+  for (const r of appliedRules) {
+    const a = r.action
+    if (a.kind !== 'definir') continue
+    if (!a.targetRaw.endsWith('.Proficiencia') && a.targetRaw !== 'Ataques.Proficiencia') continue
+    const rank = a.valueRaw.trim().toUpperCase()
+    if (!NAEM.has(rank)) continue
+    const path = targetToModelPath(a.targetRaw)
+    if (!path) continue
+    const base = `[[${(r.sourceNote.split('/').pop() ?? r.sourceNote).replace(/\.md$/i, '')}]]`
+    const entry = (out[path] ??= {})
+    const list = (entry[rank as 'N' | 'A' | 'E' | 'M'] ??= [])
+    if (!list.includes(base)) list.push(base)
+  }
   return out
 }
 
@@ -200,6 +389,17 @@ export interface HeroProjection {
   passadoOficioPick: OficioPassadoValue | null
   /** Linhas do dropdown de Naturalidade (árvore do Atlas). */
   naturalidadeLines: NaturalidadeLine[]
+  /** Fontes canônicas `Tipo.[[base]]` por path do model (tooltips de Fonte)
+   *  — espelho de vm.derived.ruleSourcesByPath do plugin. */
+  ruleSourcesByPath: Record<string, string[]>
+  /** Fontes `[[base]]` por rank pros NAEM rule-driven (defesas/sentidos/
+   *  ataque) — espelho de vm.derived.sourcesPerRank do plugin. */
+  sourcesPerRank: Record<string, Partial<Record<'N' | 'A' | 'E' | 'M', string[]>>>
+  /** Opções de Especialização por PericiaId (`[[Nome]]`) — espelho de
+   *  vm.derived.especializacaoOptions (scan da vault). */
+  especializacaoOptions: Record<string, string[]>
+  /** Opções de Maestria por PericiaId — espelho de maestriaOptions. */
+  maestriaOptions: Record<string, string[]>
   /** Deltas convergidos (debug/testes). */
   calculated: Deltas
 }
@@ -220,6 +420,9 @@ export function buildHeroProjection(
   const linked = (wl: string): LinkedOption => ({ value: wl, label: linkLabel(wl) })
 
   const passadoOficioPick = (model.meta.passadoOficio ?? null) as OficioPassadoValue | null
+
+  const ruleSources = computeRuleSources(result.appliedRules, calculated)
+  const espMaes = listEspecializacoesByPericia(catalog)
 
   return {
     classes: listNotesByCategoria(catalog, 'Classe', { pathPrefix: CLASSES_PATH_PREFIX }).map(linked),
@@ -244,6 +447,10 @@ export function buildHeroProjection(
     oficiosPassado: oficiosPassadoOptions(passadoOficioPick, oficiosCov),
     passadoOficioPick,
     naturalidadeLines: naturalidadeSelectLines(listLocalizacoes(catalog)),
+    ruleSourcesByPath: deriveRuleSourcesByPath(ruleSources),
+    sourcesPerRank: deriveSourcesPerRank(result.appliedRules),
+    especializacaoOptions: espMaes.especializacoes,
+    maestriaOptions: espMaes.maestrias,
     calculated,
   }
 }

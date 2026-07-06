@@ -6,7 +6,7 @@
 // JSON do herói e as das OPÇÕES vêm da MESMA projeção validada contra o
 // golden em rules-golden.test.ts.
 import { beforeAll, beforeEach, afterEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -93,7 +93,9 @@ describe('PERFIL — NOME/APELIDO/SINTONIA (#2, #7)', () => {
   it('NOME é input editável com o valor real e persiste em FM nome', async () => {
     renderFicha()
     const nome = (await screen.findByLabelText('Nome')) as HTMLInputElement
-    expect(nome.value).toBe('Carlos Facão de Andradas')
+    // espera o DADO renderizado (o input pode montar antes do doc/overlay
+    // hidratarem) — sem isso o teste flakeia ~1/5
+    await waitFor(() => expect(nome.value).toBe('Carlos Facão de Andradas'))
     fireEvent.change(nome, { target: { value: 'Carlão' } })
     expect(overlaySalvo().fm['nome']).toBe('Carlão')
     expect(nome.value).toBe('Carlão')
@@ -162,6 +164,55 @@ describe('PERFIL — cluster Passado (#3, #4)', () => {
   })
 })
 
+describe('COMPETÊNCIAS/PERÍCIAS — escolhas de ESPECIALIZAÇÕES (#26)', () => {
+  /** Abre o modo edição do painel Especializações (escopo pelo cabeçalho). */
+  async function abrirEdicao() {
+    renderFicha('habilidades')
+    const heading = await screen.findByText('Especializações')
+    const header = heading.parentElement!
+    fireEvent.click(within(header).getByText('✎ Alterar'))
+  }
+
+  it('modo edição lista os grupos elegíveis (rank ≥ E) com as opções reais da vault', async () => {
+    await abrirEdicao()
+    // grupos e opções do golden editavel__tab-habilidades (Carlos):
+    // Acrobacia/Diplomacia/Enganação (E), 2 opções cada, ordem pt-BR
+    const radio = await screen.findByLabelText('Acrobacia (E): Estabilidade')
+    expect(radio).toBeTruthy()
+    expect(screen.getByLabelText('Acrobacia (E): Mobilidade')).toBeTruthy()
+    expect(screen.getByLabelText('Diplomacia (E): Encorajamento')).toBeTruthy()
+    expect(screen.getByLabelText('Enganação (E): Influência')).toBeTruthy()
+    // Atletismo (N) e Furtividade (A) não são elegíveis
+    expect(screen.queryByText('Atletismo (E)')).toBeNull()
+    expect(screen.queryByText('Furtividade (E)')).toBeNull()
+    // pick salvo marcado ([[Estabilidade]] na Acrobacia)
+    expect(radio.getAttribute('aria-pressed')).toBe('true')
+    expect(screen.getByLabelText('Acrobacia (E): Mobilidade').getAttribute('aria-pressed')).toBe(
+      'false',
+    )
+  })
+
+  it('escolher persiste na linha da perícia e re-clicar desmarca (toggle do plugin)', async () => {
+    await abrirEdicao()
+    const mobilidade = await screen.findByLabelText('Acrobacia (E): Mobilidade')
+    fireEvent.click(mobilidade)
+    let lista = overlaySalvo().fm['Pericias.Lista'] as Record<string, any>[]
+    expect(lista.find((r) => r.Nome === 'Acrobacia')!.Especializacao).toBe('[[Mobilidade]]')
+    // as outras linhas ficam intactas
+    expect(lista.find((r) => r.Nome === 'Diplomacia')!.Especializacao).toBe('[[Negociação]]')
+
+    // re-clicar no marcado desmarca (null → '' como o plugin serializa)
+    await waitFor(() =>
+      expect(
+        screen.getByLabelText('Acrobacia (E): Mobilidade').getAttribute('aria-pressed'),
+      ).toBe('true'),
+    )
+    fireEvent.click(screen.getByLabelText('Acrobacia (E): Mobilidade'))
+    lista = overlaySalvo().fm['Pericias.Lista'] as Record<string, any>[]
+    expect(lista.find((r) => r.Nome === 'Acrobacia')!.Especializacao).toBe('')
+  })
+})
+
 describe('PERFIL — Naturalidade (#5)', () => {
   it('dropdown traz as localidades do Atlas e salva wikilink no overlay', async () => {
     renderFicha()
@@ -190,15 +241,24 @@ describe('PERFIL — Naturalidade (#5)', () => {
 })
 
 describe('COMPETÊNCIAS/PERFIL — classe, subclasses, atributos (#11)', () => {
-  it('CLASSE lista as 10 classes reais e persiste o wikilink escolhido', async () => {
+  it('CLASSE INICIAL (#23) lista as 10 classes reais e persiste o wikilink escolhido', async () => {
     renderFicha('habilidades')
-    const sel = (await screen.findByLabelText('CLASSE')) as HTMLSelectElement
+    // #23: diretriz do usuário — o rótulo do seletor é "Classe Inicial"
+    const sel = (await screen.findByLabelText('CLASSE INICIAL')) as HTMLSelectElement
     await waitFor(() => expect(sel.options.length).toBeGreaterThan(1))
     expect(optionValues(sel)).toContain('[[Animista]]')
     expect(optionValues(sel)).toContain('[[Monge]]')
     expect(sel.value).toBe('[[Bardo]]')
     fireEvent.change(sel, { target: { value: '[[Mago]]' } })
     expect(overlaySalvo().fm['Classe']).toBe('[[Mago]]')
+  })
+
+  it('subclasse usa o ícone 📕 do registro categoria.Habilidade (#24)', async () => {
+    renderFicha('habilidades')
+    // o doc da subclasse é categoria Habilidade (golden: data-link-categoria=
+    // "Habilidade") → 📕 do registro central, não o 📘 de perfil.Subclasse
+    await screen.findByLabelText('MÉTODO ARTÍSTICO')
+    await waitFor(() => expect(screen.getByText(/MÉTODO ARTÍSTICO/).textContent).toContain('📕'))
   })
 
   it('subclasses aparecem como escolhas reais e a troca regrava o pick na lista', async () => {
@@ -223,6 +283,38 @@ describe('COMPETÊNCIAS/PERFIL — classe, subclasses, atributos (#11)', () => {
           Object.values(row)[0] === 'Escolha.[[Estilo de Combate]]',
       ),
     ).toBe(true)
+  })
+
+  it('tooltips do PERFIL (#21/#22): Fonte no Atributo Principal e breakdown nas Defesas', async () => {
+    renderFicha('habilidades')
+    // célula do PRINCIPAL: "Regra · Regra.[[Bardo]]" (duplo prefixo REAL do
+    // plugin, golden editavel__tab-perfil) chega no atributo data-breakdown-html
+    await waitFor(() => {
+      const tips = [...document.querySelectorAll('[data-breakdown-html]')].map(
+        (el) => el.getAttribute('data-breakdown-html') ?? '',
+      )
+      expect(tips.some((t) => t.includes('Regra · Regra.[[Bardo]]'))).toBe(true)
+      // VALOR das Defesas: breakdown do modelo salvo (Base 10 + linhas)
+      expect(tips.some((t) => t.includes('Base (10)'))).toBe(true)
+      // medalha de rank com fonte granular por regra (defesas rule-driven)
+      expect(tips.some((t) => t.includes('Fonte'))).toBe(true)
+    })
+  })
+
+  it('tooltips de PERÍCIAS/OFÍCIOS (#25): breakdown do modificador e fontes por rank', async () => {
+    renderFicha('habilidades')
+    // o PanelTrack monta todas as colunas; a sub-aba PERÍCIAS já está no DOM
+    await waitFor(() => {
+      const tips = [...document.querySelectorAll('[data-breakdown-html]')].map(
+        (el) => el.getAttribute('data-breakdown-html') ?? '',
+      )
+      // breakdown de perícia: título slugado com atributo (modelo salvo)
+      expect(tips.some((t) => t.includes('Enganacao (PRE)'))).toBe(true)
+      // breakdown de ofício: Atuacao (PRE)
+      expect(tips.some((t) => t.includes('Atuacao (PRE)'))).toBe(true)
+      // medalha da Enganação (M): fonte do rank atual = Slot.M
+      expect(tips.some((t) => t.includes('Slot.M'))).toBe(true)
+    })
   })
 
   it('ATRIBUTOS: rank 3 fica travado em PRE (Escolher do Bardo); rank 2 troca com swap', async () => {
