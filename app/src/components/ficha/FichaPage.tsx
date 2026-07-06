@@ -60,7 +60,8 @@ function GruposTab({ doc }: { doc: VaultDoc }) {
     )
   }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    // .grupo-screen = segundo contentPad da tela GRUPO desenhada (dc.html:1108).
+    <div className="grupo-screen" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div
         style={{
           maxWidth: 1180,

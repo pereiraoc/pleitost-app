@@ -456,6 +456,8 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     const alvo = tesouroEntries.find((d) => !nomesFm.has(d.basename!))!
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
+    // fab existe só na aba ativa, como o invAdd do design (dc.html:2219-2223)
+    fireEvent.click(screen.getByRole('button', { name: 'EQUIPAMENTOS' }))
     fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar Tesouro/ }))
     fireEvent.click(await fabItem(alvo.basename!))
     // alias tier A default — apply-tesouros-edit.ts:44-46

@@ -488,15 +488,20 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12 }}>
         {cells.map((a, i) => {
+          // Editável só com 2+ opções elegíveis (canChoose do plugin,
+          // perfil-card.ts:664) — senão a célula fica fixa (display).
+          const editable = a.options.length >= 2
           const box = (
             <div
               style={{
+                position: 'relative',
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 7,
-                padding: 12,
+                // padding do select desenhado (dc.html:795: 12px 22px 12px 12px)
+                padding: editable ? '12px 22px 12px 12px' : 12,
                 background: 'var(--card)',
                 border: `1px solid ${a.isPrincipal ? 'color-mix(in srgb,var(--accent) 75%,var(--line2))' : 'var(--line2)'}`,
                 clipPath: clip(9),
@@ -514,11 +519,24 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
               >
                 {a.n}
               </span>
+              {editable ? (
+                // ▾ do select desenhado (dc.html:795, right:9px)
+                <span
+                  style={{
+                    position: 'absolute',
+                    right: 9,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'var(--muted)',
+                    fontSize: 10,
+                    pointerEvents: 'none',
+                  }}
+                >
+                  ▾
+                </span>
+              ) : null}
             </div>
           )
-          // Editável só com 2+ opções elegíveis (canChoose do plugin,
-          // perfil-card.ts:664) — senão a célula fica fixa (display).
-          const editable = a.options.length >= 2
           return (
             <div
               key={`${a.n}-${i}`}
@@ -1920,8 +1938,12 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 /* ===================== aba ===================== */
 
 function Col({ children }: { children: ReactNode }) {
+  // pad 0: no design os painéis desta tela recebem contentPad (dc.html:748),
+  // que aqui já vem do .app-main — padding extra dobraria a margem.
   return (
-    <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>{children}</TrackPanel>
+    <TrackPanel pad="0" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      {children}
+    </TrackPanel>
   )
 }
 
@@ -1940,7 +1962,8 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        gap: 18,
+        // strip→painel = contentPad vertical do design (dc.html:748)
+        gap: 24,
       }}
     >
       <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />

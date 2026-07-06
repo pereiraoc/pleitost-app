@@ -2,6 +2,12 @@
    topbar 56px + sidebar 232px, painéis com canto cortado (clip-path),
    kicker mono. Cores/fontes vêm de theme.css (pull do design). */
 
+/* Global do design (dc.html:15) — sem ele todo width:100% com padding
+   estoura o container (inputs/textareas cortados na borda direita). */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -207,7 +213,39 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
-  padding: 18px 16px 40px;
+  /* secPad/contentPad do design (renderVals, dc.html:2143/2146):
+     24px 26px desktop · 18px 18px <820 · 16px 14px <560. */
+  padding: 24px 26px;
+}
+
+@media (max-width: 819px) {
+  .app-main {
+    padding: 18px 18px;
+  }
+}
+
+@media (max-width: 559px) {
+  .app-main {
+    padding: 16px 14px;
+  }
+}
+
+/* Tela GRUPO: o design soma um segundo contentPad dentro da section
+   (dc.html:1108 — div de scroll própria com padding:contentPad). */
+.grupo-screen {
+  padding: 24px 26px;
+}
+
+@media (max-width: 819px) {
+  .grupo-screen {
+    padding: 18px 18px;
+  }
+}
+
+@media (max-width: 559px) {
+  .grupo-screen {
+    padding: 16px 14px;
+  }
 }
 
 .page {
@@ -628,7 +666,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding-top: 18px;
+  /* topo do painel = contentPad do design (dc.html:524: padding:contentPad) */
+  padding-top: 24px;
 }
 
 .npc-card {

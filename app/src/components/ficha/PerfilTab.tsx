@@ -193,7 +193,9 @@ export function BoxSelect({
   disabled?: boolean
 }) {
   return (
-    <div style={{ position: 'relative', minWidth: 0 }}>
+    // width:100% do wrapper de select do design (dc.html:795) — sem ele a
+    // célula encolhe pro conteúdo em colunas com align-items:center.
+    <div style={{ position: 'relative', minWidth: 0, width: '100%' }}>
       {display}
       <select
         aria-label={ariaLabel}

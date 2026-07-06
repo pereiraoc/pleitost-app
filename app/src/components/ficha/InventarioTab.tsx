@@ -1079,16 +1079,19 @@ function AddFab({
 }) {
   const [open, setOpen] = useState(false)
   return (
+    // Posição do design (dc.html:707: right:26 bottom:22 z40, absolute no
+    // container full-height da tela) — fixed porque aqui quem rola é o
+    // .app-main; as bordas visíveis da section coincidem com o viewport.
     <div
       style={{
-        position: 'sticky',
+        position: 'fixed',
+        right: 26,
         bottom: 22,
         zIndex: 40,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
         gap: 10,
-        alignSelf: 'flex-end',
       }}
     >
       {open ? (
@@ -1270,7 +1273,8 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        gap: 18,
+        // strip→painel = contentPad vertical do design (dc.html:524)
+        gap: 24,
       }}
     >
       <TabStrip
@@ -1281,28 +1285,30 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         right={<CoinsButton coins={coins} onChange={setCoins} />}
       />
       <PanelTrack index={index}>
-          <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {/* pad 0: contentPad dos painéis do design já vem do .app-main */}
+          <TrackPanel pad="0" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <ArmasPanel doc={doc} refs={refs} />
-            <AddFab
-              label="+ Adicionar Arma"
-              title="ESCOLHER ARMA"
-              items={armaCatalog}
-              onPick={addArma}
-            />
           </TrackPanel>
-          <TrackPanel style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <TrackPanel pad="0" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <EquipamentosPanel doc={doc} refs={refs} />
-            <AddFab
-              label="+ Adicionar Tesouro"
-              title="ESCOLHER TESOURO"
-              items={tesouroCatalog}
-              onPick={addTesouro}
-            />
           </TrackPanel>
-          <TrackPanel>
+          <TrackPanel pad="0">
             <ConsumiveisPanel doc={doc} />
           </TrackPanel>
       </PanelTrack>
+      {/* Fab da aba ativa no nível da TELA, como o invAdd do design
+          (dc.html:707: absolute right:26 bottom:22 no container da tela;
+          consumíveis não tem fab). */}
+      {tab === 'armas' ? (
+        <AddFab label="+ Adicionar Arma" title="ESCOLHER ARMA" items={armaCatalog} onPick={addArma} />
+      ) : tab === 'equipamentos' ? (
+        <AddFab
+          label="+ Adicionar Tesouro"
+          title="ESCOLHER TESOURO"
+          items={tesouroCatalog}
+          onPick={addTesouro}
+        />
+      ) : null}
     </div>
   )
 }
