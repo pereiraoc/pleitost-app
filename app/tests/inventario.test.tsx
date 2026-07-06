@@ -15,11 +15,13 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FichaPage } from '../src/components/ficha/FichaPage'
+import { deriveArmaAtributo } from '../src/components/ficha/hero-model'
 import { heroPath } from '../src/paths'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
+const repoDir = path.dirname(appDir)
 const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
 const manifest = JSON.parse(
   fs.readFileSync(path.join(vaultDataDir, 'index.json'), 'utf8'),
@@ -491,5 +493,164 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     const tesouros = overlaySalvo().fm['Inventario.Tesouros']
     expect(tesouros.length).toBe(tesourosFm.length - 1)
     expect(tesouros.map(parseAlias)).not.toContain(alvo)
+  })
+})
+
+describe('#27: figura da arma INTEIRA no slot (fit do render das cartas)', () => {
+  it('slot 96px usa contain + no-repeat: imagem toda, reduzida, sem esticar/cortar', async () => {
+    // fit-alvo = o das cartas do pleitost-views (armas-render.ts:162-164:
+    // <img> com max-width/max-height → aspecto preservado, imagem inteira)
+    const { container } = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    await waitFor(() => {
+      const slot = [...container.querySelectorAll<HTMLElement>('span')].find(
+        (s) => s.style.width === '96px' && s.style.backgroundImage,
+      )
+      expect(slot, 'slot da arma com imagem').toBeTruthy()
+      expect(slot!.style.backgroundSize).toBe('contain')
+      expect(slot!.style.backgroundRepeat).toBe('no-repeat')
+      expect(slot!.style.backgroundPosition).toContain('center')
+    })
+  })
+})
+
+describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () => {
+  // docs REAIS de arma (grupo do manifest + propriedades:: do doc), como o
+  // scan listArmas do plugin (yaml-block-deps-factory.ts:403-484)
+  const armaReal = (nome: string) => {
+    const entry = armaEntries.find((d) => d.basename === nome)
+    expect(entry, `arma real "${nome}" no catálogo`).toBeTruthy()
+    const doc = readJson(entry!.id)
+    return { entry: entry!, doc, props: String(doc.inlineFields['propriedades'] ?? '') }
+  }
+  const derive = (nome: string, attrs: Record<string, number>) => {
+    const { entry, doc } = armaReal(nome)
+    return deriveArmaAtributo(entry.grupo, doc.inlineFields['propriedades'], attrs)
+  }
+
+  it('oráculo golden (Carlos): badge do Editável = Atributo salvo no FM = derive dos docs reais', () => {
+    // golden = render REAL do Editável do plugin pro Carlos
+    const goldenInv = fs.readFileSync(
+      path.join(repoDir, 'reference/goldens/screens/carlos/editavel__tab-inventario.html'),
+      'utf8',
+    )
+    const badges = [...goldenInv.matchAll(/title="Atributo: (\w+)"/g)].map((m) => m[1])
+    expect(badges.length).toBe(fm.Inventario.Armas.Lista.length)
+    // badge do plugin mostra o Atributo SALVO (equipamentos-section.ts:167)
+    expect(badges[0]).toBe(String(armaFm.Atributo))
+    // e o salvo bate com a derivação sobre os docs reais + Atributos do Carlos
+    // (Punhal cac-marcial com Precisa; Carlos AGI 2 > FOR 0 → AGI)
+    const { entry, doc, props } = armaReal(armaBase)
+    expect(props).toContain('Precisa')
+    expect(
+      deriveArmaAtributo(entry.grupo, doc.inlineFields['propriedades'], fm.Atributos),
+    ).toBe(badges[0])
+    // o golden também mantém a opção vazia com a arma selecionada
+    // (linkedDropdown includeEmpty — linked-dropdown.ts:69-71)
+    expect(goldenInv).toContain('<option value="">Selecionar arma</option>')
+  })
+
+  it('caso a caso sobre docs reais: só Precisa influencia; d-* força AGI; empate → FOR', () => {
+    // sanity dos fixtures (dados reais da vault)
+    expect(armaReal('Funda').entry.grupo).toBe('d-simples')
+    expect(armaReal('Arco Longo').entry.grupo).toBe('d-marcial')
+    expect(armaReal('Maça').props).not.toContain('Precisa')
+    expect(armaReal('Azagaia').props).toContain('Arremesso')
+    expect(armaReal('Azagaia').props).not.toContain('Precisa')
+    expect(armaReal('Punhal').props).toContain('Precisa')
+    expect(armaReal('Garra de Tigre').entry.grupo).toBe('especial')
+    expect(armaReal('Garra de Tigre').props).toContain('Precisa')
+    expect(armaReal('Cauda').entry.grupo).toBe('natural')
+    expect(armaReal('Cauda').props).not.toContain('Precisa')
+
+    // distância → AGI SEMPRE, mesmo com FOR maior (apply-armas-edit.ts:49-50)
+    expect(derive('Funda', { FOR: 5, AGI: 0 })).toBe('AGI')
+    expect(derive('Arco Longo', { FOR: 5, AGI: 0 })).toBe('AGI')
+    // c-a-c sem Precisa → FOR, mesmo com AGI maior (:57)
+    expect(derive('Maça', { FOR: 0, AGI: 5 })).toBe('FOR')
+    // Arremesso NÃO influencia — só "precisa" é testado (:51)
+    expect(derive('Azagaia', { FOR: 0, AGI: 5 })).toBe('FOR')
+    // Precisa → AGI se AGI > FOR (:51-55)
+    expect(derive('Punhal', { FOR: 0, AGI: 2 })).toBe('AGI')
+    // Precisa com FOR maior → FOR
+    expect(derive('Punhal', { FOR: 3, AGI: 2 })).toBe('FOR')
+    // EMPATE → FOR (tie-break :55: `agi > forc ? AGI : FOR`)
+    expect(derive('Punhal', { FOR: 2, AGI: 2 })).toBe('FOR')
+    // especial/natural NÃO são distância — seguem o ramo Precisa/FOR
+    expect(derive('Garra de Tigre', { FOR: 0, AGI: 1 })).toBe('AGI')
+    expect(derive('Garra de Tigre', { FOR: 1, AGI: 1 })).toBe('FOR')
+    expect(derive('Cauda', { FOR: 0, AGI: 2 })).toBe('FOR')
+  })
+
+  it('trocar de arma re-deriva: c-a-c sem Precisa → FOR; com Precisa → AGI (Carlos AGI>FOR)', async () => {
+    // fixtures data-driven: uma c-a-c SEM Precisa e uma COM Precisa
+    const cac = (comPrecisa: boolean) =>
+      armaEntries.find((d) => {
+        const g = String(d.grupo ?? '')
+        if (g !== 'cac-simples' && g !== 'cac-marcial') return false
+        const props = String(readJson(d.id).inlineFields['propriedades'] ?? '')
+        return props.includes('Precisa') === comPrecisa
+      })!
+    const semPrecisa = cac(false)
+    const comPrecisa = cac(true)
+    expect(Number(fm.Atributos.AGI)).toBeGreaterThan(Number(fm.Atributos.FOR))
+
+    renderFicha('inventario')
+    const select = (await screen.findByLabelText('Arma')) as HTMLSelectElement
+    fireEvent.change(select, { target: { value: semPrecisa.id } })
+    await waitFor(() => {
+      const lista = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(lista[0].Nome).toBe(`[[${semPrecisa.basename}]]`)
+      expect(lista[0].Atributo).toBe('FOR')
+    })
+    // o card é re-keyed pelo nome da arma → o <select> é REMONTADO;
+    // espera o dado renderizado e re-consulta antes da 2ª troca
+    const select2 = await waitFor(() => {
+      const s = screen.getByLabelText('Arma') as HTMLSelectElement
+      expect(s.value).toBe(semPrecisa.id)
+      return s
+    })
+    fireEvent.change(select2, { target: { value: comPrecisa.id } })
+    await waitFor(() => {
+      const lista = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(lista[0].Nome).toBe(`[[${comPrecisa.basename}]]`)
+      expect(lista[0].Atributo).toBe('AGI')
+    })
+  })
+
+  it('opção vazia SEMPRE presente; selecionar limpa a arma e volta FOR (batch nome+atributo)', async () => {
+    renderFicha('inventario')
+    const select = (await screen.findByLabelText('Arma')) as HTMLSelectElement
+    // como no golden: opção vazia presente MESMO com arma selecionada
+    expect(select.value).not.toBe('')
+    const vazia = [...select.options].find((o) => o.value === '')
+    expect(vazia?.textContent).toBe('Selecionar arma')
+    // selecionar a vazia = onChange(null) do Editável: setArmaNome grava ""
+    // (apply-armas-edit.ts:96) e atributo sem info → FOR (:48)
+    fireEvent.change(select, { target: { value: '' } })
+    await waitFor(() => {
+      const lista = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(lista[0].Nome).toBe('')
+      expect(lista[0].Atributo).toBe('FOR')
+      // batch toca SÓ nome+atributo — resto da linha intacto
+      expect(lista[0].Bonus_Item).toBe(Number(armaFm.Bonus_Item))
+      expect(lista[0].Propriedade).toBe(String(armaFm.Propriedade))
+      expect(lista[0].Categoria).toBe(String(armaFm.Categoria))
+    })
+  })
+
+  it('badge mostra o Atributo SALVO, nunca re-derivado (contrato do golden-frankenstein)', async () => {
+    // GOLDEN Frankenstein (FOR 2 == AGI 2) tem Punhal com Atributo AGI salvo —
+    // um re-derive daria FOR (empate); o badge do plugin mostra AGI porque lê
+    // o modelo salvo (equipamentos-section.ts:167). Reproduz: overlay com
+    // Atributo FOR salvo pro Punhal do Carlos (derive daria AGI) → UI mostra FOR.
+    window.localStorage.setItem(
+      STORE_KEY,
+      JSON.stringify({ fm: { 'Inventario.Armas.Lista': [{ ...armaFm, Atributo: 'FOR' }] }, session: {} }),
+    )
+    renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    expect(screen.getByText('FOR')).toBeTruthy()
+    expect(screen.queryByText('AGI')).toBeNull()
   })
 })

@@ -303,10 +303,17 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   }
 
   // Trocar a arma — espelha o onChange do dropdown do Editável
-  // (equipamentos-section.ts:141-160): grava nome (wikilink basename,
+  // (equipamentos-section.ts:186-203): grava nome (wikilink basename,
   // setArmaNome/apply-armas-edit.ts:89-97) + atributo derivado do grupo e da
   // propriedade Precisa num ÚNICO write (batch do plugin).
   const setNome = (i: number, id: string) => {
+    // Opção vazia ("Selecionar arma") — onChange(null) do linkedDropdown:
+    // setArmaNome grava nome vazio (apply-armas-edit.ts:96) e o atributo do
+    // batch vem de deriveArmaAtributo SEM info → FOR (apply-armas-edit.ts:48).
+    if (!id) {
+      patchArma(i, { Nome: '', Atributo: deriveArmaAtributo('', '', atributos) })
+      return
+    }
     const entry = catalog.entryById.get(id)
     if (!entry) return
     const nome = entry.basename ?? id
@@ -371,7 +378,12 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     border: '1px solid var(--line2)',
                     clipPath: clip(9),
                     backgroundImage: img ? `url("${img}")` : undefined,
-                    backgroundSize: 'cover',
+                    // figura INTEIRA reduzida no quadrado, sem esticar nem
+                    // cortar (issue #27) — mesmo fit do render das cartas do
+                    // pleitost-views (armas-render.ts:162-164: <img> com
+                    // max-width/max-height preserva o aspecto e mostra tudo)
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',
                   }}
                 />
@@ -444,10 +456,13 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           aria-label="Arma"
                           style={pillSelectStyle(700, 15)}
                         >
-                          {!armaId ? (
-                            /* emptyLabel do dropdown do Editável (equipamentos-section.ts:146) */
-                            <option value="">Selecionar arma</option>
-                          ) : null}
+                          {/* opção vazia SEMPRE presente, como o linkedDropdown
+                              do Editável (linked-dropdown.ts:69-71, emptyLabel
+                              "Selecionar arma" — equipamentos-section.ts:184;
+                              golden carlos/editavel__tab-inventario.html tem a
+                              opção mesmo com o Punhal selecionado). Selecionar
+                              limpa a arma e volta o atributo pra FOR. */}
+                          <option value="">Selecionar arma</option>
                           {armaId && !armaNoCatalogo ? (
                             <option value={armaId}>{arma.nome}</option>
                           ) : null}

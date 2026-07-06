@@ -209,8 +209,16 @@ export function escudoObraPrima(nome: unknown): string {
 }
 
 /** Atributo derivado da arma — espelha deriveArmaAtributo do plugin
- *  (extract/apply-armas-edit.ts:44-58): d-marcial/d-simples → AGI; c-a-c com
- *  propriedade Precisa → max(FOR, AGI) com empate em FOR; senão FOR.
+ *  (extract/apply-armas-edit.ts:44-58): d-marcial/d-simples → AGI; qualquer
+ *  outro grupo (cac-simples/cac-marcial/especial/natural) com Precisa →
+ *  AGI se AGI > FOR, senão FOR (empate → FOR, :55); senão FOR. Só "Precisa"
+ *  influencia — Arremesso/Força X/Ágil/etc. não entram (:51). Sem arma
+ *  (grupo/propriedades vazios) → FOR, como o `if (!info) return "FOR"` do
+ *  plugin (:48). Derivação acontece SÓ ao escolher a arma no dropdown
+ *  (equipamentos-section.ts:186-203, batch nome+atributo); o render mostra
+ *  sempre o Atributo SALVO no modelo (equipamentos-section.ts:167), nunca
+ *  re-deriva. Não há escolha manual de FOR/AGI na UI do plugin
+ *  (setArmaAtributo só é alcançável pelo path do batch do dropdown).
  *  `propriedades` aceita a string inline `propriedades::` do doc da arma. */
 export function deriveArmaAtributo(
   grupo: unknown,
