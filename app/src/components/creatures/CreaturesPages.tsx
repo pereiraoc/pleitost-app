@@ -25,16 +25,81 @@ import {
 
 const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
 
+// ── Agrupamento por tier (issue #31) ──────────────────────────────────────
+// HERÓIS, COMPANHEIROS ANIMAIS e BESTIÁRIO agrupados por tier decrescente
+// (S → C) e alfabéticos (pt) dentro do grupo. A letra vem do registro
+// espelhado em party.ts: rankLetter({}, tier) ≡ fallbackRankLetterFromTier
+// do plugin (tiers-display.ts:44); nada de mapa novo aqui.
+
+/** Tier de herói/CA — tierFromLevel do FM Nível (mesma fonte do badge NVL). */
+function tierOfNivel(doc?: VaultDoc): number {
+  return tierFromLevel(doc?.frontmatter['Nível'])
+}
+
+/** Tier de monstro — FM `Tier` direto (mesma fonte do badge TIER do design);
+ *  sem Tier vira NaN e cai no C do fallback, como tier fora de faixa. */
+function tierOfFmTier(doc?: VaultDoc): number {
+  return Number(doc?.frontmatter['Tier'])
+}
+
+const TIER_GROUP_LETTERS = ['S', 'A', 'B', 'C'] as const
+const ptAlpha = new Intl.Collator('pt')
+
+/** Grupos ordenados S→C, alfabéticos dentro; grupo vazio não aparece. */
+function tierGroups(
+  entries: IndexDocEntry[],
+  docs: Map<string, VaultDoc>,
+  tierOf: (doc?: VaultDoc) => number,
+): { letter: string; entries: IndexDocEntry[] }[] {
+  const byLetter = new Map<string, IndexDocEntry[]>()
+  for (const entry of entries) {
+    const letter = rankLetter({}, tierOf(docs.get(entry.id)))
+    const bucket = byLetter.get(letter)
+    if (bucket) bucket.push(entry)
+    else byLetter.set(letter, [entry])
+  }
+  return TIER_GROUP_LETTERS.filter((letter) => byLetter.has(letter)).map((letter) => ({
+    letter,
+    entries: byLetter
+      .get(letter)!
+      .sort((a, b) => ptAlpha.compare(a.basename ?? a.id, b.basename ?? b.id)),
+  }))
+}
+
+/** Cabeçalho do grupo — kicker mono já usado no app (`// ...`), com a letra
+ *  na cor do registro partyBountyRank (rankColors). Extensão sancionada pelo
+ *  usuário na issue #31; nenhum chrome novo além do kicker existente. */
+function TierKicker({ letter }: { letter: string }) {
+  return (
+    <div className="kicker">
+      {'// TIER '}
+      <span style={{ color: rankColors(letter).color }}>{letter}</span>
+    </div>
+  )
+}
+
 // Abas verbatim do NPC_TABS do design; a pasta da vault é a fonte real de
 // cada uma (aba sem pasta correspondente rende o empty state desenhado).
-const NPC_TABS = [
+// `tierOf` liga o agrupamento da issue #31 (PESSOAS fica sem agrupamento).
+const NPC_TABS: {
+  id: string
+  label: string
+  folder: string
+  tierOf?: (doc?: VaultDoc) => number
+}[] = [
   { id: 'pessoas', label: 'PESSOAS', folder: 'Sistema/Criaturas/Pessoas' },
   {
     id: 'companheiros',
     label: 'COMPANHEIROS ANIMAIS',
     folder: 'Sistema/Criaturas/Companheiros Animais',
+    tierOf: tierOfNivel,
   },
-  { id: 'bestiario', label: 'BESTIÁRIO', folder: 'Sistema/Criaturas/Bestiário' },
+  {
+    id: 'bestiario',
+    label: 'BESTIÁRIO',
+    folder: 'Sistema/Criaturas/Bestiário',
+    tierOf: tierOfFmTier,
+  },
 ]
 
 const WIKI = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/
@@ -276,9 +341,18 @@ export function HeroisPage() {
       <PanelTrack index={index}>
         <TrackPanel pad="0">
           <div className="herois-page">
-            {entries.map((entry) => (
-              <HeroCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
-            ))}
+            {docs
+              ? // docs carregados: grupos por tier decrescente (issue #31);
+                // lista achatada com key estável por card, pros nós do DOM
+                // sobreviverem à transição plano → agrupado
+                tierGroups(entries, docs, tierOfNivel).flatMap((group) => [
+                  <TierKicker key={`tier-${group.letter}`} letter={group.letter} />,
+                  ...group.entries.map((entry) => (
+                    <HeroCard key={entry.id} entry={entry} doc={docs.get(entry.id)} />
+                  )),
+                ])
+              : // carregando: lista plana de antes (estado de loading intacto)
+                entries.map((entry) => <HeroCard key={entry.id} entry={entry} />)}
           </div>
         </TrackPanel>
         <TrackPanel pad="0">
@@ -366,14 +440,24 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   )
 }
 
-function NpcPanel({ folder }: { folder: string }) {
+function NpcPanel({ folder, tierOf }: { folder: string; tierOf?: (doc?: VaultDoc) => number }) {
   const { entries, docs } = useFolderDocs(folder)
   return (
     <TrackPanel pad="0">
       <div className="npc-panel-inner">
-        {entries.map((entry) => (
-          <NpcCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
-        ))}
+        {docs && tierOf
+          ? // docs carregados: grupos por tier decrescente (issue #31);
+            // lista achatada com key estável por card (vide HeroisPage)
+            tierGroups(entries, docs, tierOf).flatMap((group) => [
+              <TierKicker key={`tier-${group.letter}`} letter={group.letter} />,
+              ...group.entries.map((entry) => (
+                <NpcCard key={entry.id} entry={entry} doc={docs.get(entry.id)} />
+              )),
+            ])
+          : // carregando (ou aba sem agrupamento): lista plana de antes
+            entries.map((entry) => (
+              <NpcCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
+            ))}
         {entries.length === 0 ? (
           <div className="npc-empty">// NENHUM REGISTRO NESTA CATEGORIA</div>
         ) : null}
@@ -401,7 +485,7 @@ export function NpcsPage() {
       </div>
       <PanelTrack index={index}>
         {NPC_TABS.map((t) => (
-          <NpcPanel key={t.id} folder={t.folder} />
+          <NpcPanel key={t.id} folder={t.folder} tierOf={t.tierOf} />
         ))}
       </PanelTrack>
     </div>

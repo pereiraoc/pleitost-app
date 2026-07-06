@@ -263,3 +263,88 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
     }
   })
 })
+
+// ── Issue #31: listas agrupadas por tier decrescente (S→C), alfabético dentro ──
+
+// Letra do grupo escrita por extenso (fallbackRankLetterFromTier do plugin,
+// tiers-display.ts: 4+ → S, 3 → A, 2 → B, resto → C).
+const letterOfTier = (t: number) => (t >= 4 ? 'S' : t === 3 ? 'A' : t === 2 ? 'B' : 'C')
+const GROUP_ORDER = ['S', 'A', 'B', 'C']
+const ptAlpha = new Intl.Collator('pt')
+
+/** Expectativa independente varrendo os FMs crus da pasta: grupos em ordem
+ *  decrescente, nomes alfabéticos (pt) dentro, sem grupo vazio. */
+function expectedGroups(folder: string, tierOfFm: (fm: Record<string, unknown>) => number) {
+  const byLetter = new Map<string, string[]>()
+  for (const entry of docsOfFolder(folder)) {
+    const letter = letterOfTier(tierOfFm(readDoc(entry.id).frontmatter))
+    byLetter.set(letter, [...(byLetter.get(letter) ?? []), entry.basename!])
+  }
+  return GROUP_ORDER.filter((l) => byLetter.has(l)).map((letter) => ({
+    letter,
+    names: byLetter.get(letter)!.sort((a, b) => ptAlpha.compare(a, b)),
+  }))
+}
+
+/** Lê os grupos renderizados em ordem de documento: cada kicker `// TIER X`
+ *  abre um grupo; os cards seguintes pertencem a ele. */
+function renderedGroups(panel: HTMLElement, cardSel: string, nameSel: string) {
+  const groups: { letter: string; names: string[] }[] = []
+  for (const el of panel.querySelectorAll<HTMLElement>(`.kicker, ${cardSel}`)) {
+    if (el.classList.contains('kicker')) {
+      const m = /^\/\/ TIER ([SABC])$/.exec(el.textContent ?? '')
+      expect(m, `kicker fora do formato: "${el.textContent}"`).toBeTruthy()
+      // letra do kicker colorida pelo registro partyBountyRank
+      const span = el.querySelector<HTMLElement>('span')!
+      expect(span.style.color).toBe(hexRgb(RANK_COLOR[m![1]]))
+      groups.push({ letter: m![1], names: [] })
+    } else {
+      expect(groups.length, 'card antes do primeiro kicker').toBeGreaterThan(0)
+      groups[groups.length - 1].names.push(el.querySelector<HTMLElement>(nameSel)!.textContent!)
+    }
+  }
+  return groups
+}
+
+describe('#31: agrupamento por tier decrescente nas listas', () => {
+  it('HERÓIS: grupos S→C do Nível (tierFromLevel), alfabético pt dentro', async () => {
+    const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
+    await screen.findAllByText('Mago') // docs carregados → agrupamento ligado
+    const expected = expectedGroups('Sistema/Criaturas/Heróis', (fm) =>
+      tierOfLevel(Number(fm['Nível']) || 1),
+    )
+    // sanidade da fixture: mais de um grupo e nenhum vazio
+    expect(expected.length).toBeGreaterThan(1)
+    for (const g of expected) expect(g.names.length).toBeGreaterThan(0)
+    const panel = container.querySelector<HTMLElement>('.herois-page')!
+    expect(renderedGroups(panel, '.hero-card', '.hero-nome')).toEqual(expected)
+  })
+
+  it('COMPANHEIROS ANIMAIS: grupos pelo tier do Nível, como heróis', async () => {
+    const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
+    const caPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[1]
+    await waitFor(() => expect(caPanel.querySelector('.kicker')).toBeTruthy())
+    const expected = expectedGroups('Sistema/Criaturas/Companheiros Animais', (fm) =>
+      tierOfLevel(Number(fm['Nível']) || 1),
+    )
+    expect(renderedGroups(caPanel, '.npc-card', '.npc-nome')).toEqual(expected)
+  })
+
+  it('BESTIÁRIO: grupos pelo FM Tier direto (não nível), decrescente', async () => {
+    const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
+    await screen.findAllByText(/Goblin \(Pequeno\)/)
+    const bestPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[2]
+    const expected = expectedGroups('Sistema/Criaturas/Bestiário', (fm) => Number(fm['Tier']))
+    // sanidade da fixture: mais de um grupo (Tier 2 → B; Tier 0/1 → C)
+    expect(expected.length).toBeGreaterThan(1)
+    expect(renderedGroups(bestPanel, '.npc-card', '.npc-nome')).toEqual(expected)
+  })
+
+  it('PESSOAS (fora da issue) segue sem kicker, com o empty state desenhado', async () => {
+    const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
+    await screen.findAllByText(/Goblin \(Pequeno\)/)
+    const pessoasPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[0]
+    expect(pessoasPanel.querySelector('.kicker')).toBeNull()
+    expect(within(pessoasPanel).getByText('// NENHUM REGISTRO NESTA CATEGORIA')).toBeTruthy()
+  })
+})
