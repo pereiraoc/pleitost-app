@@ -268,6 +268,14 @@ export const COND_GRUPOS = [
   { id: 'Negativa', titulo: 'NEGATIVAS', cor: '#c85a4a' },
 ]
 
+/** Condições ACUMULÁVEIS por contagem (Lento/Acelerado X) — VERBATIM do
+ *  catálogo hardcoded do plugin (data/condicoes-catalog.ts:77 e :86,
+ *  `acumulavel: true`); a UI mostra `− N +`. Condições ESCALÁVEIS
+ *  (Escalavel N nas Elementos_de_Regra) ganham o mesmo stepper via
+ *  `scaleMax > 1` do catálogo runtime — a fonte que o próprio plugin
+ *  documenta como ideal (data/condicoes-catalog.ts:17). */
+export const COND_ACUMULAVEIS: ReadonlySet<string> = new Set(['Lento', 'Acelerado'])
+
 /** Equipamentos com proficiência (aba COMPETÊNCIAS) — nomes do design, emojis do registro. */
 export const EQUIP_TYPES: { nm: string; ic: string; path: string[] }[] = [
   { nm: 'Armas Simples', ic: tokens.emojis.equipProf.ArmasSimples, path: ['Armas', 'Proficiencia', 'Simples'] },

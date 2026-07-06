@@ -216,7 +216,8 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
     const btnCond = await screen.findByText('CONDIÇÕES')
     expect(screen.getByText(`${ativas.length} Ativas`)).toBeTruthy()
     fireEvent.click(btnCond.closest('button')!)
-    // desliga a primeira condição real (botão − dentro do chip dela; o nome
+    // desliga a primeira condição real (botão de remover é o ÚLTIMO do chip —
+    // chips com seletor numérico têm o counter −/+ antes dele, #29; o nome
     // também aparece como magia no trilho de painéis → escopa pelo chip)
     const acharChip = () =>
       screen
@@ -224,7 +225,7 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
         .map((el) => el.parentElement as HTMLElement)
         .find((p) => p?.querySelector('button'))
     await waitFor(() => expect(acharChip()).toBeTruthy())
-    fireEvent.click(acharChip()!.querySelector('button')!)
+    fireEvent.click([...acharChip()!.querySelectorAll('button')].pop()!)
     expect(screen.getByText(`${ativas.length - 1} Ativa`)).toBeTruthy()
     // chip continua visível (união extraído ∪ overlay), só desligado
     expect(acharChip()).toBeTruthy()

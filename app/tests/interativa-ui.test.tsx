@@ -77,16 +77,20 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-function renderCombate() {
+function renderHeroCombate(id: string) {
   return render(
     <CatalogProvider catalog={catalog}>
-      <MemoryRouter initialEntries={[heroPath(CARLOS_ID, 'combate')]}>
+      <MemoryRouter initialEntries={[heroPath(id, 'combate')]}>
         <Routes>
           <Route path="/heroi/*" element={<FichaPage />} />
         </Routes>
       </MemoryRouter>
     </CatalogProvider>,
   )
+}
+
+function renderCombate() {
+  return renderHeroCombate(CARLOS_ID)
 }
 
 /** Valor exibido no box de defesa/sentido pelo rótulo (DEFESA, VIGOR…). */
@@ -184,5 +188,194 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     // (BonusEscudo coberto no teste puro; aqui garantimos que a ausência de
     // escudo não quebra a aba.)
     expect(screen.queryByText('ERGUER')).toBeNull()
+  })
+})
+
+// ──────────────────────────────────────────────────────────────────────────
+// #29 — potência/seletores nos chips do popover CONDIÇÕES
+// Espelho do plugin (sem golden do interior do popover do app): counter do
+// chip ativo = condicoes-selectors.ts:20-93 (`− 🌟 N +`, titles
+// "Diminuir/Aumentar <label>", clamp+disabled nos extremos, storage duplo);
+// stepper de contagem = condicoes-ativas.ts:131-166; expectativas de efeito
+// derivadas das notas reais (Encantar Arma.md, Desajeitado.md).
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟7 salvo no FM)', () => {
+  // "Encantar Arma" também é magia no trilho de painéis → escopa pelo chip
+  // (o que tem botões), mesmo padrão do persistencia.test.
+  const acharChipEncantar = async () =>
+    (await screen.findAllByText('Encantar Arma'))
+      .map((el) => el.parentElement as HTMLElement)
+      .find((p) => p?.querySelector('button'))!
+
+  it('chip ativo mostra o counter da potência salva e clampa nos extremos', async () => {
+    renderCombate()
+    await screen.findByText('DEFESA')
+    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    const chip = await acharChipEncantar()
+    // FM salvo do Carlos: Condicoes_Ativas["Encantar Arma"].numericSelector = 7
+    expect(fm.Interativa.Condicoes_Ativas['Encantar Arma'].numericSelector).toBe(7)
+    expect(within(chip).getByText('🌟 7')).toBeTruthy()
+    const menos = within(chip).getByTitle('Diminuir Potência Mágica') as HTMLButtonElement
+    const mais = within(chip).getByTitle('Aumentar Potência Mágica') as HTMLButtonElement
+    // range da nota (Encantar Arma.md: min 0, max 11) → 7 não encosta em nada
+    expect(menos.disabled).toBe(false)
+    expect(mais.disabled).toBe(false)
+    // botão de remover vira × (padrão do chip do plugin com controles)
+    expect(within(chip).getByText('×')).toBeTruthy()
+  })
+
+  it('mudar a potência recalcula o dado extra do dano na hora (tabela da nota)', async () => {
+    renderCombate()
+    await screen.findByText('DEFESA')
+    // dano do Punhal com potência 7: 3d4+2 (M) + 1d12+1 (tabela {7: d12+1})
+    expect(screen.getByText(/3d4\+2\+1d12\+1/)).toBeTruthy()
+    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    await acharChipEncantar()
+    fireEvent.click(screen.getByTitle('Aumentar Potência Mágica'))
+    // potência 8 → tabela {8: d12+2}
+    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12\+2/)).toBeTruthy())
+    expect(screen.getByText('🌟 8')).toBeTruthy()
+    // desce 2 → potência 6 → tabela {6: d12} (sem offset)
+    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
+    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
+    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12(?!\+)/)).toBeTruthy())
+    expect(screen.getByText('🌟 6')).toBeTruthy()
+  })
+
+  it('condição Escalável ganha stepper: Desajeitado ×2 dobra o -2 na Defesa e trava no scaleMax 3', async () => {
+    renderCombate()
+    await screen.findByText('DEFESA')
+    const defesaBase = defBase('Defesa') + 1 // Auto-Confiança do FM salvo
+    expect(boxValue('DEFESA').textContent).toBe(String(defesaBase))
+    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    const chip = (await screen.findByText('Desajeitado')).parentElement as HTMLElement
+    fireEvent.click(within(chip).getByText('+'))
+    // Desajeitado.md: Escalavel 3, Somar Condicao.Defesa -2
+    await waitFor(() => expect(boxValue('DEFESA').textContent).toBe(String(defesaBase - 2)))
+    const aumentar = () => screen.getByTitle('Aumentar Desajeitado') as HTMLButtonElement
+    fireEvent.click(aumentar())
+    await waitFor(() => expect(boxValue('DEFESA').textContent).toBe(String(defesaBase - 4)))
+    fireEvent.click(aumentar())
+    await waitFor(() => expect(boxValue('DEFESA').textContent).toBe(String(defesaBase - 6)))
+    // clamp no scaleMax da nota: botão desabilita no 3
+    expect(aumentar().disabled).toBe(true)
+    fireEvent.click(screen.getByTitle('Diminuir Desajeitado'))
+    await waitFor(() => expect(boxValue('DEFESA').textContent).toBe(String(defesaBase - 4)))
+    // remover zera
+    fireEvent.click(screen.getByTitle('Remover Desajeitado'))
+    await waitFor(() => expect(boxValue('DEFESA').textContent).toBe(String(defesaBase)))
+  })
+
+  it('Carlos (sem magia de invocação) NÃO ganha a aba INVOCAÇÕES no painel de magias', async () => {
+    renderCombate()
+    // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
+    // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
+    await screen.findByText('CONDIÇÕES')
+    fireEvent.click(screen.getAllByText('MAGIAS')[0])
+    expect(screen.queryByText('INVOCAÇÕES')).toBeNull()
+    expect(screen.getByText('ENERGIA MÁGICA')).toBeTruthy()
+  })
+})
+
+// ──────────────────────────────────────────────────────────────────────────
+// #30 — aba INVOCAÇÕES no painel de magias (Pind Bund real: Servo das
+// Sombras + Amálgama das Sombras, com instância PERSISTIDA pelo plugin no
+// FM). Espelho da tab-companheiros do plugin (creator slot + cards);
+// expectativas derivadas dos docs reais + FM salvo do Pind.
+// ──────────────────────────────────────────────────────────────────────────
+
+const PIND_ID = 'Sistema/Criaturas/Heróis/Pind Bund'
+
+describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
+  it('painel de magias ganha a strip MAGIAS/INVOCAÇÕES mantendo a EM visível', async () => {
+    renderHeroCombate(PIND_ID)
+    // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
+    // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
+    await screen.findByText('CONDIÇÕES')
+    fireEvent.click(screen.getAllByText('MAGIAS')[0])
+    expect(await screen.findByText('INVOCAÇÕES')).toBeTruthy()
+    // EM fica ACIMA da strip — visível nas duas sub-abas (Pind: EM máx 7)
+    expect(screen.getByText('ENERGIA MÁGICA')).toBeTruthy()
+    fireEvent.click(screen.getByText('INVOCAÇÕES'))
+    expect(screen.getByText('ENERGIA MÁGICA')).toBeTruthy()
+  })
+
+  it('instância PERSISTIDA no FM (Amálgama 🌟6 do plugin) renderiza card com Vitalidade 16/30', async () => {
+    const r = renderHeroCombate(PIND_ID)
+    // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
+    // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
+    await screen.findByText('CONDIÇÕES')
+    fireEvent.click(screen.getAllByText('MAGIAS')[0])
+    fireEvent.click(await screen.findByText('INVOCAÇÕES'))
+    // Pind Bund.md → Invocacoes_Ativas["Amálgama das Sombras"][0]:
+    // {potencia: 6, vitalidade: 16}; EV máx = 5×6 = 30.
+    expect(await screen.findByText('Vitalidade: 16/30')).toBeTruthy()
+    expect(screen.getByText('🌟 6')).toBeTruthy()
+    const card = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-card]')].find((c) =>
+      c.textContent?.includes('Amálgama das Sombras'),
+    )!
+    // Amálgama das Sombras.md, colunas M (Pind é M em Arcana Negra):
+    expect(within(card).getByText('DEFESA').nextElementSibling?.textContent).toBe('18')
+    expect(within(card).getAllByText('16').length).toBe(3) // Vigor/Evasão/Ímpeto
+    expect(within(card).getByText(/3d6\+3/)).toBeTruthy()
+    expect(within(card).getByText('Pseudópode Sombrio.')).toBeTruthy()
+  })
+
+  it('creator slot do Servo: PM default = potência do herói (8); Invocar cria card com stats resolvidos', async () => {
+    const r = renderHeroCombate(PIND_ID)
+    // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
+    // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
+    await screen.findByText('CONDIÇÕES')
+    fireEvent.click(screen.getAllByText('MAGIAS')[0])
+    fireEvent.click(await screen.findByText('INVOCAÇÕES'))
+    await screen.findByText('Vitalidade: 16/30')
+    const creator = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-creator]')].find(
+      (c) => c.textContent?.includes('Servo das Sombras'),
+    )!
+    // Pind Bund.md: Magias.Potencia = 8 (default do PM — plugin defaultPM)
+    expect(within(creator).getByText('🌟 8')).toBeTruthy()
+    fireEvent.click(within(creator).getByText('Invocar'))
+    // EV máx = 5×8 = 40 (Servo das Sombras.md: EV "5×potência")
+    const vida = await screen.findByText('Vitalidade: 40/40')
+    const card = vida.closest('[data-invoc-card]') as HTMLElement
+    // stats da coluna M + Movimento literal (Servo das Sombras.md)
+    expect(within(card).getByText('DEFESA').nextElementSibling?.textContent).toBe('18')
+    expect(within(card).getByText('MOVIMENTO').nextElementSibling?.textContent).toBe('5')
+    expect(within(card).getByText('PERCEPÇÃO').nextElementSibling?.textContent).toBe('+4')
+    // Ataque Mental: bonus {doInvocador: MagiaAtaque} = PB(M)6 + INT3 + item2
+    expect(within(card).getByText('Ataque Mental')).toBeTruthy()
+    expect(within(card).getByText('(corpo-a-corpo)')).toBeTruthy()
+    const bonus = within(card).getByText('+11')
+    expect(bonus.getAttribute('title')).toContain('Ataque Mágico +11')
+    expect(within(card).getByText(/3d4\+2/)).toBeTruthy()
+    expect(within(card).getByText('Toque Aterrorizante.')).toBeTruthy()
+  })
+
+  it('dano consome Moral Temporária primeiro; Dissipar remove só a instância', async () => {
+    const r = renderHeroCombate(PIND_ID)
+    // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
+    // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
+    await screen.findByText('CONDIÇÕES')
+    fireEvent.click(screen.getAllByText('MAGIAS')[0])
+    fireEvent.click(await screen.findByText('INVOCAÇÕES'))
+    await screen.findByText('Vitalidade: 16/30')
+    const creator = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-creator]')].find(
+      (c) => c.textContent?.includes('Servo das Sombras'),
+    )!
+    fireEvent.click(within(creator).getByText('Invocar'))
+    const vida = await screen.findByText('Vitalidade: 40/40')
+    const card = vida.closest('[data-invoc-card]') as HTMLElement
+    // +2 de Moral Temporária → 🩸-5 consome os 2 e só 3 de Vitalidade
+    fireEvent.click(within(card).getByTitle('Aumentar Moral Temporária'))
+    fireEvent.click(within(card).getByTitle('Aumentar Moral Temporária'))
+    await waitFor(() => expect(within(card).getByText(/\(\+2/)).toBeTruthy())
+    fireEvent.click(within(card).getByTitle('Aplicar 5 de dano'))
+    await waitFor(() => expect(screen.getByText('Vitalidade: 37/40')).toBeTruthy())
+    expect(within(card).queryByText(/\(\+/)).toBeNull()
+    // Dissipar remove a instância nova; a Amálgama persistida continua
+    fireEvent.click(within(card).getByText('Dissipar'))
+    await waitFor(() => expect(screen.queryByText('Vitalidade: 37/40')).toBeNull())
+    expect(screen.getByText('Vitalidade: 16/30')).toBeTruthy()
   })
 })

@@ -32,7 +32,24 @@ import {
 import { buildEffectContext } from '../src/interativa/build-effect-context'
 import { applyTarget, entriesTitle, sumEntries, valueTone } from '../src/interativa/apply'
 import { applyDanoCtx, computeDanoAdO } from '../src/interativa/dano'
-import { condChipDefs } from '../src/interativa/useInterativaCtx'
+import { blocoParaDescritor } from '../src/interativa/descriptor'
+import {
+  computeEvMax,
+  computeMagiaAtaque,
+  buildDanoTitle,
+  invocacoesAtivas,
+  isInvocacaoDisponivel,
+  listInvocacoesDisponiveis,
+  lookupRota,
+  resolveAttackBonus,
+  resolveInvocacao,
+} from '../src/interativa/invocacao'
+import {
+  condChipDefs,
+  defaultCondState,
+  defaultNumericSelector,
+  seedSelectores,
+} from '../src/interativa/useInterativaCtx'
 import { fmPath, heroAtributos, parseDanoArma, PROF_DICE, rowMod, signed, str, wikiTarget, type ProfRow } from '../src/components/ficha/hero-model'
 import { slugify, tokens } from '../src/components/ficha/registry'
 
@@ -453,5 +470,180 @@ describe('efeitos interativos (blocos Efeitos_Interativos das notas)', () => {
     }
     const c2 = compute(f2)
     expect(applyTarget(c2.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(0)
+  })
+})
+
+// ──────────────────────────────────────────────────────────────────────────
+// #29 — potência/seletores: defaults de ativação (defaultStateFor espelhado)
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('#29 seletores: defaults de ativação (plugin condicoes-catalog.ts:104-141)', () => {
+  const descriptorsCarlos = collectDescriptors({ fm: goldenFm(), refDoc, condicaoDocs, extraDocs })
+  const encantar = descriptorsCarlos.find((d) => d.label === 'Encantar Arma')!
+
+  it('Encantar Arma ativada do zero: numericSelector = potência do herói (clampada 0..11) + weaponSelector = 1ª arma', () => {
+    // Encantar Arma.md: selector numérico "Potência Mágica" min 0 max 11.
+    expect(encantar.numericSelector).toMatchObject({ label: 'Potência Mágica', min: 0, max: 11, step: 1 })
+    expect(defaultCondState(encantar, 8, ['[[Punhal]]'])).toEqual({
+      value: 1,
+      numericSelector: 8,
+      weaponSelector: '[[Punhal]]',
+    })
+    // clamp no teto do selector
+    expect(defaultNumericSelector(encantar, 15)).toBe(11)
+    expect(defaultNumericSelector(encantar, 0)).toBe(0)
+  })
+
+  it('selector numérico que NÃO é Potência Mágica defaulta pro min (Aspecto Ágil, EM Investido 1..4)', () => {
+    const aspectoDoc = loadSync('Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Ágil')
+    const bloco = (aspectoDoc.frontmatter as Record<string, any>)['Efeitos_Interativos'][0]
+    const desc = blocoParaDescritor(bloco, aspectoDoc.id)!
+    expect(desc.numericSelector).toMatchObject({ label: 'EM Investido', min: 1, max: 4 })
+    expect(defaultNumericSelector(desc, 8)).toBe(1)
+  })
+
+  it('seedSelectores semeia selectores discretos (incluindo ocultos) e o modifier porSeletor dispara', () => {
+    // Passos Rápidos.md: selector discreto oculto "Graduação" ["2q","3q"];
+    // Somar Movimento porSeletor {2q:2, 3q:3}.
+    const doc = loadSync(
+      'Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Passos Rápidos',
+    )
+    const bloco = (doc.frontmatter as Record<string, any>)['Efeitos_Interativos'][0]
+    const desc = blocoParaDescritor(bloco, doc.id)!
+    const seeded = seedSelectores(desc, 'Passos Rápidos', {})
+    expect(seeded).toEqual({ 'Passos Rápidos::Graduação': '2q' })
+    // já semeado → retorna o MESMO objeto (nada a escrever)
+    expect(seedSelectores(desc, 'Passos Rápidos', seeded)).toBe(seeded)
+    // engine: com a condição ativa + seletor semeado, Movimento ganha +2
+    const model = buildEngineModel(goldenFm(), [desc])
+    model.interativa.condicoesAtivas = { 'Passos Rápidos': { value: 1 } }
+    model.interativa.seletores = { ...seeded }
+    const ctx = buildEffectContext(model, [desc])
+    expect(applyTarget(ctx, { kind: 'number', key: 'movimento' }).delta).toBe(2)
+  })
+
+  it('mudar a potência do Encantar Arma muda o dado extra e o AdO fixo (tabelas da nota)', () => {
+    // Encantar Arma.md: DadoExtra {6: d12, 7: d12+1, 8: d12+2};
+    // OportunidadeFixo {6: 3, 7: 4, 8: 4}.
+    const withPot = (pot: number) => {
+      const f = goldenFm() as Record<string, any>
+      f.Interativa = {
+        ...f.Interativa,
+        Condicoes_Ativas: {
+          'Encantar Arma': { value: 1, weaponSelector: '[[Punhal]]', numericSelector: pot },
+        },
+        Efeitos_Ativos: {},
+        Seletores: { 'Encantar Arma::Potência Mágica': pot },
+      }
+      return compute(f)
+    }
+    const dano = (c: InterativaComputed) =>
+      applyDanoCtx({ baseDice: 1, profDice: 1, dieSize: 4, offset: 2 }, c.ctx, 'Punhal')
+    expect(dano(withPot(6)).display).toBe('2d4+2+1d12')
+    expect(dano(withPot(7)).display).toBe('2d4+2+1d12+1')
+    expect(dano(withPot(8)).display).toBe('2d4+2+1d12+2')
+    const ado6 = computeDanoAdO({ ...dano(withPot(6)).adoInput, prof: 'E' })
+    const ado7 = computeDanoAdO({ ...dano(withPot(7)).adoInput, prof: 'E' })
+    expect(ado6.display).toBe('5') // offset 2 + fixo 3
+    expect(ado7.display).toBe('6') // offset 2 + fixo 4
+  })
+})
+
+// ──────────────────────────────────────────────────────────────────────────
+// #30 — invocações: resolvers espelhados sobre docs/herói REAIS
+// (Servo das Sombras.md, Amálgama das Sombras.md, Pind Bund.md)
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('#30 invocações: resolvers (plugin resolve-invocacao.ts + tab-companheiros.ts)', () => {
+  const pind = loadSync('Sistema/Criaturas/Heróis/Pind Bund')
+  const pindFm = pind.frontmatter as Record<string, any>
+  const descriptorsPind = collectDescriptors({ fm: pindFm, refDoc, condicaoDocs, extraDocs })
+  const servo = descriptorsPind.find((d) => d.label === 'Servo das Sombras')!
+  const amalgama = descriptorsPind.find((d) => d.label === 'Amálgama das Sombras')!
+
+  it('lookupRota: rank do Pind por rota (Arcana Negra M; Anima N → null; "Magia Arcana" = maior rank)', () => {
+    // Pind Bund.md: Magias.Lista → Arcana Negra M / Arcana Branca N / Anima N.
+    expect(lookupRota(pindFm, 'Magia Arcana Negra')).toBe('M')
+    expect(lookupRota(pindFm, 'Magia Anima')).toBeNull()
+    expect(lookupRota(pindFm, 'Magia Arcana Branca')).toBeNull()
+    expect(lookupRota(pindFm, 'Magia Arcana')).toBe('M')
+  })
+
+  it('disponibilidade: rank ≥ proficienciaMinima (Servo min A, Amálgama min E)', () => {
+    expect(servo.tipoEfeito).toBe('Invocação')
+    expect(listInvocacoesDisponiveis(descriptorsPind, pindFm).map((d) => d.label)).toEqual([
+      'Amálgama das Sombras',
+      'Servo das Sombras',
+    ])
+    expect(isInvocacaoDisponivel(servo, { proficiencia: 'A' })).toBe(true)
+    expect(isInvocacaoDisponivel(amalgama, { proficiencia: 'A' })).toBe(false)
+    expect(isInvocacaoDisponivel(servo, { proficiencia: 'N' })).toBe(false)
+    expect(isInvocacaoDisponivel(servo, { proficiencia: null })).toBe(false)
+  })
+
+  it('resolveInvocacao do Servo (Pind: rank M, PM 8): stats/ataque da tabela porProficiencia', () => {
+    const resolved = resolveInvocacao(servo, {
+      nivelInvocador: 7,
+      proficiencia: lookupRota(pindFm, servo.invocacao!.porProficienciaEm),
+      selectores: { 'Potência Mágica': 8, 'Potencia Magica': 8 },
+    })!
+    // Servo das Sombras.md — colunas M das tabelas porProficiencia:
+    expect(resolved.stats).toMatchObject({
+      Defesa: 18,
+      Vigor: 16,
+      'Evasão': 16,
+      Impeto: 16,
+      'Percepção': 4,
+      Movimento: 5,
+      EV: '5×potência', // porNivel {1: ...} — threshold ≤ nível 7
+    })
+    expect(resolved.ataques).toEqual([
+      { nome: 'Ataque Mental', tipo: 'corpo-a-corpo', bonus: 'MagiaAtaque', dano: '3d4+2' },
+    ])
+  })
+
+  it('computeEvMax: "5×potência" × PM (Servo PM 8 → 40; Amálgama PM 6 → 30)', () => {
+    expect(computeEvMax(servo, 8)).toBe(40)
+    expect(computeEvMax(amalgama, 6)).toBe(30)
+  })
+
+  it('MagiaAtaque do Pind na rota Arcana Negra: PB(M) 6 + INT 3 + item 2 = +11 (breakdown nas linhas)', () => {
+    const info = computeMagiaAtaque(pindFm, 'Magia Arcana Negra')!
+    expect(info.total).toBe(11)
+    expect(info.title).toContain('INT +3')
+    expect(info.title).toContain('Mestre (Magia Arcana Negra) +6')
+    expect(info.title).toContain('Item +2')
+    // bonus {doInvocador: MagiaAtaque} resolvido no card
+    expect(resolveAttackBonus('MagiaAtaque', pindFm, servo)?.total).toBe(11)
+    expect(resolveAttackBonus(3, pindFm, servo)?.total).toBe(3)
+    expect(resolveAttackBonus('OutraCoisa', pindFm, servo)).toBeNull()
+  })
+
+  it('instância PERSISTIDA no FM real do Pind (round-trip do plugin) é lida com o shape exato', () => {
+    // Pind Bund.md → Interativa.Invocacoes_Ativas (gravado pelo plugin).
+    const ativas = invocacoesAtivas(pindFm)
+    expect(ativas['Amálgama das Sombras']).toEqual([
+      {
+        id: 'Amálgama das Sombras#1782950692143-1',
+        potencia: 6,
+        vitalidade: 16,
+        moralTemporaria: 0,
+      },
+    ])
+    // card exibiria Vitalidade 16/30 (EV máx = 5×6)
+    expect(computeEvMax(amalgama, 6)).toBe(30)
+  })
+
+  it('tooltip do dano: base = coluna A da tabela + delta em dados extras pro rank atual', () => {
+    // Amálgama: dano {A: 1d6+3, E: 2d6+3, M: 3d6+3}; Pind é M → 3d6+3.
+    const resolved = resolveInvocacao(amalgama, {
+      nivelInvocador: 7,
+      proficiencia: 'M',
+      selectores: { 'Potência Mágica': 6, 'Potencia Magica': 6 },
+    })!
+    expect(resolved.ataques[0].dano).toBe('3d6+3')
+    const title = buildDanoTitle(resolved.ataques[0], amalgama, pindFm)!
+    expect(title).toContain('Base 1d6+3')
+    expect(title).toContain('Mestre +2d6')
   })
 })

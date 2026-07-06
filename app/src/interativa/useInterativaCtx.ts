@@ -152,3 +152,70 @@ export function condChipDefs(
   }
   return [...out.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
 }
+
+// ──────────────────────────────────────────────────────────────────────────
+// Ativação de condição com selectores (#29)
+// ──────────────────────────────────────────────────────────────────────────
+
+/** True quando o label é o seletor de Potência Mágica (plugin
+ *  condicoes-selectors.ts:29-30 — aceita com e sem acento). */
+export function isPotenciaLabel(label: string): boolean {
+  const l = label.trim().toLowerCase()
+  return l === 'potência mágica' || l === 'potencia magica'
+}
+
+/** Default do numericSelector de um descritor: Potência Mágica → potência do
+ *  herói clampada em [min,max]; outros labels → min (plugin
+ *  condicoes-catalog.ts:104-120 defaultStateFor; sharedFrom fora do escopo —
+ *  app é single-hero). */
+export function defaultNumericSelector(
+  desc: EffectDescriptor,
+  magiasPotencia: number,
+): number | undefined {
+  const sel = desc.numericSelector
+  if (!sel) return undefined
+  if (!isPotenciaLabel(sel.label)) return sel.min
+  return Math.max(sel.min, Math.min(sel.max, magiasPotencia))
+}
+
+/** Estado inicial ao ATIVAR uma condição do popover — espelha defaultStateFor
+ *  do plugin (tab-recursos/sections/condicoes-catalog.ts:104-123): `{value:1}`
+ *  + numericSelector default + weaponSelector = primeira arma
+ *  (armasOptions[0].id = Nome raw da arma, internal-helpers.ts:89-96). */
+export function defaultCondState(
+  desc: EffectDescriptor | undefined,
+  magiasPotencia: number,
+  armas: readonly string[],
+): Record<string, unknown> {
+  const out: Record<string, unknown> = { value: 1 }
+  if (desc) {
+    const ns = defaultNumericSelector(desc, magiasPotencia)
+    if (ns !== undefined) out['numericSelector'] = ns
+    if (desc.selectsWeapon && armas.length > 0) out['weaponSelector'] = armas[0]
+  }
+  return out
+}
+
+/** Semeia os selectores DISCRETOS (incluindo `oculto:true`) no container
+ *  `Interativa.Seletores` ao ativar — sem isso, modifiers `porSeletor`
+ *  expandidos ficam silenciosos (guard Seletor lê undefined). Espelho do
+ *  plugin condicoes-catalog.ts:124-141; opção normalizada como na Expansão B
+ *  do tradutor (wikilink → alias/basename). Retorna o MESMO objeto quando
+ *  nada muda. */
+export function seedSelectores(
+  desc: EffectDescriptor | undefined,
+  id: string,
+  seletores: Record<string, unknown>,
+): Record<string, unknown> {
+  if (!desc || desc.selectors.length === 0) return seletores
+  let next: Record<string, unknown> | null = null
+  for (const sel of desc.selectors) {
+    if (sel.options.length === 0) continue
+    const key = `${id}::${sel.label}`
+    if (seletores[key] != null) continue
+    const optClean = String(sel.options[0]).replace(/^\[\[|\]\]$/g, '').split('|').pop()!.trim()
+    next = next ?? { ...seletores }
+    next[key] = optClean
+  }
+  return next ?? seletores
+}

@@ -44,6 +44,46 @@ export interface EffectModifier {
   tipoBonus?: BonusType
 }
 
+// ── Invocação (plugin extract/interativa/types.ts:253-302) ──
+
+/** Rank de proficiência com Perito (plugin types.ts ProficienciaRank). */
+export type ProficienciaRank = 'N' | 'A' | 'E' | 'M' | 'P'
+
+/** Valor que escala com nível/seletor/proficiência (plugin ValorEscalonado). */
+export type ValorEscalonado =
+  | number
+  | string
+  | { porNivel: Record<string, number | string> }
+  | { porSeletor: string; tabela?: Record<string, number | string>; multiplicador?: number }
+  | { porProficiencia: Partial<Record<ProficienciaRank, number | string>>; porProficienciaEm?: string }
+
+/** Ataque declarado da criatura invocada (plugin AtaqueInvocado :292-297). */
+export interface AtaqueInvocado {
+  nome: string
+  tipo: string
+  /** number literal | {doInvocador: "MagiaAtaque"} — resolvido no render. */
+  bonus?: number | { doInvocador: string }
+  dano?: ValorEscalonado
+}
+
+/** Habilidade especial da invocação (plugin HabilidadeEspecial :299-302). */
+export interface HabilidadeEspecial {
+  label: string
+  descricao: string
+}
+
+/** Sub-bloco `invocacao:` de um efeito `tipo: Invocação` (plugin
+ *  InvocacaoEfeito :277-290, parseado em parse-bloco.ts:719-832). */
+export interface InvocacaoEfeito {
+  criaturaRef?: string
+  porProficienciaEm?: string
+  proficienciaMinima?: ProficienciaRank
+  stats: Record<string, ValorEscalonado>
+  ataques: AtaqueInvocado[]
+  habilidadesEspeciais: HabilidadeEspecial[]
+  notas: string[]
+}
+
 // ── Descriptor (plugin extract/interativa/descriptor-types.ts) ──
 
 export type TipoKind = 'Passivo' | 'Estado' | 'Condição' | 'Forma' | 'AçãoLocal' | 'AtaqueLocal'
@@ -80,6 +120,9 @@ export interface EffectDescriptor {
   parameters: Record<string, string>
   modifiers: EffectModifier[]
   grupoArma?: { armas: string[] }
+  /** Sub-bloco `invocacao:` quando `tipoEfeito === "Invocação"` (plugin
+   *  parse-bloco.ts:231 — só é lido nesse tipo). */
+  invocacao?: InvocacaoEfeito
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -327,6 +370,53 @@ function buildParameters(efeito: Dict): Record<string, string> {
   return params
 }
 
+const RANKS: readonly ProficienciaRank[] = ['N', 'A', 'E', 'M', 'P']
+
+/** `invocacao:` do bloco → InvocacaoEfeito (plugin parse-bloco.ts:719-832 —
+ *  parseInvocacao + parseInvocacaoAtaques + parseHabilidadesEspeciais; a
+ *  vault-data já entrega o YAML estruturado, então só tipamos/normalizamos). */
+function parseInvocacao(raw: unknown): InvocacaoEfeito | null {
+  if (!raw || typeof raw !== 'object') return null
+  const inv = raw as Dict
+  const out: InvocacaoEfeito = { stats: {}, ataques: [], habilidadesEspeciais: [], notas: [] }
+  if (str(inv['criaturaRef'])) out.criaturaRef = str(inv['criaturaRef'])
+  if (str(inv['porProficienciaEm'])) out.porProficienciaEm = str(inv['porProficienciaEm'])
+  const minima = str(inv['proficienciaMinima'])
+  if ((RANKS as readonly string[]).includes(minima)) {
+    out.proficienciaMinima = minima as ProficienciaRank
+  }
+  const stats = inv['stats']
+  if (stats && typeof stats === 'object') {
+    for (const [k, v] of Object.entries(stats as Dict)) {
+      if (v != null) out.stats[k] = v as ValorEscalonado
+    }
+  }
+  for (const rawAt of asArray(inv['ataques'])) {
+    if (!rawAt || typeof rawAt !== 'object') continue
+    const at = rawAt as Dict
+    const nome = str(at['nome'])
+    if (!nome) continue
+    const ataque: AtaqueInvocado = { nome, tipo: str(at['tipo']) }
+    const bonus = at['bonus']
+    if (typeof bonus === 'number') ataque.bonus = bonus
+    else if (bonus && typeof bonus === 'object' && 'doInvocador' in (bonus as Dict)) {
+      ataque.bonus = { doInvocador: String((bonus as Dict)['doInvocador']) }
+    }
+    if (at['dano'] != null) ataque.dano = at['dano'] as ValorEscalonado
+    out.ataques.push(ataque)
+  }
+  for (const rawHab of asArray(inv['habilidadesEspeciais'])) {
+    if (!rawHab || typeof rawHab !== 'object') continue
+    const hab = rawHab as Dict
+    if (!str(hab['label'])) continue
+    out.habilidadesEspeciais.push({ label: str(hab['label']), descricao: str(hab['descricao']) })
+  }
+  for (const nota of asArray(inv['notas'])) {
+    if (typeof nota === 'string' && nota.trim()) out.notas.push(nota)
+  }
+  return out
+}
+
 /** UM item do bloco `Efeitos_Interativos` → EffectDescriptor
  *  (plugin paraDescritorLegado :26-101). */
 export function blocoParaDescritor(raw: unknown, sourceNote: string): EffectDescriptor | null {
@@ -346,6 +436,12 @@ export function blocoParaDescritor(raw: unknown, sourceNote: string): EffectDesc
   const tipo = str(efeito['tipo'])
   if (tipo && tipo !== 'Invocação') desc.tipo = tipo as TipoKind
   if (tipo) desc.tipoEfeito = tipo
+  // Sub-bloco invocacao só vale em `tipo: Invocação` (plugin
+  // parse-bloco.ts:231-240 — em outro tipo gera warning e é ignorado).
+  if (tipo === 'Invocação' || tipo === 'Invocacao') {
+    const inv = parseInvocacao(efeito['invocacao'])
+    if (inv) desc.invocacao = inv
+  }
   const grupo = str(efeito['grupo'])
   if (grupo === 'Positiva' || grupo === 'Negativa') desc.grupo = grupo
   const origem = str(efeito['origem'])

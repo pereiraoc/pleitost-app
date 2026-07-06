@@ -28,6 +28,7 @@ import {
   ADO_GRUPOS,
   ATTR_EMOJI,
   COMB_CHIPS,
+  COND_ACUMULAVEIS,
   COND_GRUPOS,
   MAGIA_GRUPO_TITULO,
   MANOBRAS,
@@ -72,10 +73,33 @@ import {
 } from '../../interativa/apply'
 import { applyDanoCtx, computeDanoAdO } from '../../interativa/dano'
 import { propagateAutoStates } from '../../interativa/hero-context'
-import { isCondicaoOn, isEfeitoOn } from '../../interativa/state'
+import { isCondicaoOn, isEfeitoOn, toMultiplier } from '../../interativa/state'
 import type { AtributoId, ConditionNumberKey } from '../../interativa/condition-context'
+import type { EffectDescriptor } from '../../interativa/descriptor'
+import {
+  buildDanoTitle,
+  computeEvMax,
+  genId,
+  invocacoesAtivas,
+  invocStatEmoji,
+  isEvKey,
+  listInvocacoesDisponiveis,
+  lookupRota,
+  matchStatKey,
+  resolveAttackBonus,
+  resolveInvocacao,
+  formatStatValue,
+  INVOC_STATS_ROWS,
+  type InvocacaoCtx,
+  type InvocacaoInstance,
+  type InvocacoesAtivasMap,
+} from '../../interativa/invocacao'
 import {
   condChipDefs,
+  defaultCondState,
+  defaultNumericSelector,
+  isPotenciaLabel,
+  seedSelectores,
   useInterativaCtx,
   type InterativaCtxState,
 } from '../../interativa/useInterativaCtx'
@@ -547,16 +571,38 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
   const condOn: Record<string, boolean> = Object.fromEntries(
     chips.map((c) => [c.nome, isCondicaoOn(interState.condicoes[c.nome])]),
   )
+  // Descritor por label (primeiro vence — plugin buildInteractiveDescriptorIndex)
+  // pros controles de seletor numérico e defaults de ativação.
+  const descByLabel = useMemo(() => {
+    const map = new Map<string, EffectDescriptor>()
+    for (const d of inter.descriptors) {
+      if (d.sharedFrom) continue
+      if (!map.has(d.label)) map.set(d.label, d)
+    }
+    return map
+  }, [inter])
+  const seletores = (fmPath(fm, 'Interativa', 'Seletores') ?? {}) as Record<string, unknown>
+  const magiasPotencia = num(fmPath(fm, 'Magias', 'Potencia'))
+  const armaNames = ((fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[])
+    .map((a) => str(a['Nome']))
+    .filter(Boolean)
   // Toggle persiste o CONTAINER (write-through do plugin grava o snapshot
   // inteiro de `interativa.<container>`): off remove a key; on restaura o
-  // valor extraído da condição (senão {value: 1}, shape do FM salvo).
+  // valor extraído da condição (senão o default do plugin — defaultStateFor,
+  // condicoes-catalog.ts:104-141: {value:1} + numericSelector default +
+  // weaponSelector = 1ª arma + seed dos selectores discretos em Seletores).
   // Cadeia de ativação (AtivaEstado — Inspiração liga Performance Bárdica
   // Ativa) propagada como no plugin (propagateAutoStates).
   const toggleCond = (nome: string) => {
     const next = { ...interState.condicoes }
     const removendo = nome in next
     if (removendo) delete next[nome]
-    else next[nome] = condicoesExtraidas[nome] ?? { value: 1 }
+    else {
+      const desc = descByLabel.get(nome)
+      next[nome] = condicoesExtraidas[nome] ?? defaultCondState(desc, magiasPotencia, armaNames)
+      const seeded = seedSelectores(desc, nome, seletores)
+      if (seeded !== seletores) model.setVolatile('Interativa.Seletores', seeded)
+    }
     model.setVolatile('Interativa.Condicoes_Ativas', next)
     const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
     // Pro cleanup de estados auto (plugin: condição desativada permanece no
@@ -564,6 +610,39 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
     const paraPropagacao = removendo ? { ...next, [nome]: { value: 0 } } : next
     const nextEfeitos = propagateAutoStates(paraPropagacao, efeitos, inter.descriptors)
     if (nextEfeitos !== efeitos) model.setVolatile('Interativa.Efeitos_Ativos', nextEfeitos)
+  }
+  // ── #29: potência/steppers do chip ativo ──
+  // Storage DUPLO do plugin (condicoes-selectors.ts:75-82 writeBoth):
+  // Condicoes_Ativas[nome].numericSelector (chip + fallback do
+  // DadoExtraPorSeletor) E Seletores["nome::label"] (guard Seletor dos
+  // modifiers porSeletor expandidos).
+  const writeNumericSelector = (nome: string, desc: EffectDescriptor, nextVal: number) => {
+    const state = interState.condicoes[nome]
+    const base = state && typeof state === 'object' ? (state as Record<string, unknown>) : { value: 1 }
+    model.setVolatile('Interativa.Condicoes_Ativas', {
+      ...interState.condicoes,
+      [nome]: { ...base, numericSelector: nextVal },
+    })
+    model.setVolatile('Interativa.Seletores', {
+      ...seletores,
+      [`${nome}::${desc.numericSelector!.label}`]: nextVal,
+    })
+  }
+  // Contagem de condição acumulável/escalável (plugin condicoes-ativas.ts:
+  // 141-166; next<=0 remove a entry).
+  const writeCondValue = (nome: string, nextVal: number) => {
+    if (nextVal <= 0) {
+      const next = { ...interState.condicoes }
+      delete next[nome]
+      model.setVolatile('Interativa.Condicoes_Ativas', next)
+      return
+    }
+    const state = interState.condicoes[nome]
+    const base = state && typeof state === 'object' ? (state as Record<string, unknown>) : {}
+    model.setVolatile('Interativa.Condicoes_Ativas', {
+      ...interState.condicoes,
+      [nome]: { ...base, value: nextVal },
+    })
   }
   const nAtivas = chips.filter((c) => condOn[c.nome]).length
   const condLabel = nAtivas ? `${nAtivas}${nAtivas > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma'
@@ -741,6 +820,36 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                   <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
                     {doGrupo.map((c) => {
                       const on = condOn[c.nome] ? 1 : 0
+                      const desc = descByLabel.get(c.nome)
+                      const sel = desc?.numericSelector
+                      // Escalável (Escalavel N nas Elementos_de_Regra) ou
+                      // acumulável do catálogo do plugin (Lento/Acelerado).
+                      const scaleMax = inter.catalog.get(c.nome)?.scaleMax ?? 1
+                      const acumulavel = !sel && (scaleMax > 1 || COND_ACUMULAVEIS.has(c.nome))
+                      const state = interState.condicoes[c.nome]
+                      const savedNs =
+                        state && typeof state === 'object'
+                          ? (state as { numericSelector?: number }).numericSelector
+                          : undefined
+                      const cur = savedNs ?? (desc ? defaultNumericSelector(desc, magiasPotencia) ?? 0 : 0)
+                      const value = Math.max(1, toMultiplier(state))
+                      const hasControls = on === 1 && (Boolean(sel) || acumulavel)
+                      const miniBtn = (enabled: boolean): CSSProperties => ({
+                        width: 22,
+                        height: 22,
+                        flex: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'var(--card)',
+                        border: `1px solid color-mix(in srgb,${c.cor} 45%,var(--line2))`,
+                        color: enabled ? c.cor : 'var(--muted)',
+                        fontFamily: 'var(--mono)',
+                        fontWeight: 700,
+                        fontSize: 13,
+                        cursor: enabled ? 'pointer' : 'default',
+                        opacity: enabled ? 1 : 0.45,
+                      })
                       return (
                         <span
                           key={c.nome}
@@ -764,8 +873,86 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                           >
                             {c.nome}
                           </span>
+                          {on === 1 && sel && desc ? (
+                            // Counter `− 🌟 N +` do plugin (condicoes-selectors
+                            // .ts:20-93): 🌟 só no label Potência Mágica;
+                            // clamp por step; disabled nos extremos.
+                            <span
+                              title={sel.label}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                            >
+                              <button
+                                title={`Diminuir ${sel.label}`}
+                                disabled={cur <= sel.min}
+                                onClick={() =>
+                                  writeNumericSelector(c.nome, desc, Math.max(sel.min, cur - sel.step))
+                                }
+                                style={miniBtn(cur > sel.min)}
+                              >
+                                {tokens.emojis.ui.Decrement}
+                              </button>
+                              <span
+                                style={{
+                                  fontFamily: 'var(--mono)',
+                                  fontSize: 12,
+                                  fontWeight: 700,
+                                  color: 'var(--text)',
+                                }}
+                              >
+                                {isPotenciaLabel(sel.label)
+                                  ? `${tokens.emojis.subcategoria.PotenciaMagica} ${cur}`
+                                  : String(cur)}
+                              </span>
+                              <button
+                                title={`Aumentar ${sel.label}`}
+                                disabled={cur >= sel.max}
+                                onClick={() =>
+                                  writeNumericSelector(c.nome, desc, Math.min(sel.max, cur + sel.step))
+                                }
+                                style={miniBtn(cur < sel.max)}
+                              >
+                                {tokens.emojis.ui.Increment}
+                              </button>
+                            </span>
+                          ) : null}
+                          {on === 1 && acumulavel ? (
+                            // Contagem `[N] − +` do plugin (condicoes-ativas
+                            // .ts:131-166): qty visível quando >1; escaláveis
+                            // clampam no scaleMax da nota (engine idem).
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                              {value > 1 ? (
+                                <span
+                                  style={{
+                                    fontFamily: 'var(--mono)',
+                                    fontSize: 12,
+                                    fontWeight: 700,
+                                    color: 'var(--text)',
+                                  }}
+                                >
+                                  {value}
+                                </span>
+                              ) : null}
+                              <button
+                                title={`Diminuir ${c.nome}`}
+                                disabled={value <= 1}
+                                onClick={() => writeCondValue(c.nome, value - 1)}
+                                style={miniBtn(value > 1)}
+                              >
+                                {tokens.emojis.ui.Decrement}
+                              </button>
+                              <button
+                                title={`Aumentar ${c.nome}`}
+                                disabled={scaleMax > 1 && value >= scaleMax}
+                                onClick={() => writeCondValue(c.nome, value + 1)}
+                                style={miniBtn(!(scaleMax > 1 && value >= scaleMax))}
+                              >
+                                {tokens.emojis.ui.Increment}
+                              </button>
+                            </span>
+                          ) : null}
                           <button
                             onClick={() => toggleCond(c.nome)}
+                            title={hasControls ? `Remover ${c.nome}` : undefined}
                             style={{
                               width: 24,
                               height: 24,
@@ -782,7 +969,7 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                               cursor: 'pointer',
                             }}
                           >
-                            {on ? '−' : '+'}
+                            {on ? (hasControls ? '×' : '−') : '+'}
                           </button>
                         </span>
                       )
@@ -1397,7 +1584,14 @@ export function magiaGroups(
 }
 const SLOTS_RANK: Record<string, string> = { B: 'Básica', A: 'Adepta', E: 'Experiente', M: 'Mestre' }
 
-function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+/** Abas internas do painel de magias — só aparecem quando o herói tem magia
+ *  de invocação disponível (#30); a EM continua visível acima das duas. */
+const MAGIA_SUB_TABS = [
+  { id: 'magias', label: 'MAGIAS' },
+  { id: 'invocacoes', label: 'INVOCAÇÕES' },
+]
+
+function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const fm = model.fm
   const emMax = num(fmPath(fm, 'Magias', 'EM'))
@@ -1406,6 +1600,12 @@ function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const setEm = (fn: (cur: number) => number) =>
     model.setVolatile('Interativa.Recursos_Restantes.EM', fn(em))
   const groups = useMemo(() => magiaGroups(fm, refs.refDoc), [fm, refs])
+  // Invocações disponíveis (rank na rota ≥ mínima — plugin
+  // listInvocacoesDisponiveis); sem nenhuma, o painel fica como era (sem
+  // strip de abas).
+  const invocacoes = useMemo(() => listInvocacoesDisponiveis(inter.descriptors, fm), [inter, fm])
+  const [sub, setSub] = useState('magias')
+  const subIndex = invocacoes.length > 0 && sub === 'invocacoes' ? 1 : 0
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -1452,6 +1652,35 @@ function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         </span>
       </div>
 
+      {invocacoes.length === 0 ? (
+        <MagiasLista groups={groups} />
+      ) : (
+        <div>
+          <div style={{ marginBottom: 16 }}>
+            <TabStrip
+              tabs={MAGIA_SUB_TABS}
+              active={subIndex === 1 ? 'invocacoes' : 'magias'}
+              onSelect={setSub}
+              pad="9px 16px"
+            />
+          </div>
+          <PanelTrack index={subIndex}>
+            <TrackPanel>
+              <MagiasLista groups={groups} />
+            </TrackPanel>
+            <TrackPanel>
+              <InvocacoesPanel doc={doc} invocacoes={invocacoes} />
+            </TrackPanel>
+          </PanelTrack>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {groups.map((grp) => (
         <div key={grp.titulo} style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -1504,6 +1733,458 @@ function MagiasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   )
 }
 
+/* ===================== aba INVOCAÇÕES (#30) ===================== */
+
+const invocMiniBtn = (enabled: boolean): CSSProperties => ({
+  width: 22,
+  height: 22,
+  flex: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'var(--card)',
+  border: '1px solid var(--line2)',
+  color: enabled ? 'var(--text)' : 'var(--muted)',
+  fontFamily: 'var(--mono)',
+  fontWeight: 700,
+  fontSize: 13,
+  cursor: enabled ? 'pointer' : 'default',
+  opacity: enabled ? 1 : 0.45,
+})
+
+/** Aba de invocações — espelha o modelo do plugin (tab-companheiros.ts):
+ *  pra cada invocação DISPONÍVEL, 1 creator slot no topo (título + PM ± +
+ *  Invocar) e N cards de instância ativa (vida Vit+Temp+dano, stats em 2
+ *  linhas, ataques, habilidades especiais, notas), mais recentes em cima.
+ *  Estado no volátil `Interativa.Invocacoes_Ativas[label]` (autosave),
+ *  shape idêntico ao FM que o plugin persiste. */
+function InvocacoesPanel({ doc, invocacoes }: { doc: VaultDoc; invocacoes: EffectDescriptor[] }) {
+  const model = useHeroModel(doc, 'combate')
+  const fm = model.fm
+  const ativas = invocacoesAtivas(fm)
+  // Default PM = potência do herói invocador (plugin defaultPM :122-124).
+  const potenciaRaw = fmPath(fm, 'Magias', 'Potencia')
+  const pmDefault = potenciaRaw === undefined ? 1 : num(potenciaRaw)
+  const [creatorPM, setCreatorPM] = useState<Record<string, number>>({})
+  const writeAtivas = (next: InvocacoesAtivasMap) =>
+    model.setVolatile('Interativa.Invocacoes_Ativas', next)
+
+  const pmOf = (label: string) => creatorPM[label] ?? pmDefault
+  const invocar = (desc: EffectDescriptor) => {
+    const label = desc.label
+    const pm = pmOf(label)
+    const evMax = computeEvMax(desc, pm)
+    writeAtivas({
+      ...ativas,
+      [label]: [
+        ...(ativas[label] ?? []),
+        { id: genId(label), potencia: pm, vitalidade: evMax, moralTemporaria: 0 },
+      ],
+    })
+    setCreatorPM((p) => {
+      const rest = { ...p }
+      delete rest[label]
+      return rest
+    })
+  }
+  const dissipar = (label: string, id: string) => {
+    const lista = (ativas[label] ?? []).filter((x) => x.id !== id)
+    const next = { ...ativas }
+    if (lista.length === 0) delete next[label]
+    else next[label] = lista
+    writeAtivas(next)
+  }
+  const updateInst = (label: string, id: string, patch: Partial<InvocacaoInstance>) =>
+    writeAtivas({
+      ...ativas,
+      [label]: (ativas[label] ?? []).map((x) => (x.id === id ? { ...x, ...patch } : x)),
+    })
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {invocacoes.map((desc) => {
+        const pm = pmOf(desc.label)
+        const lista = ativas[desc.label] ?? []
+        return (
+          <div key={desc.label} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div
+              data-invoc-creator=""
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 13,
+                padding: '11px 15px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line)',
+                clipPath: clip(12),
+              }}
+            >
+              <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.tabInterativa.Companheiros}</span>
+              <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{desc.label}</span>
+              <span title="Potência Mágica" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <button
+                  title="Diminuir PM"
+                  disabled={pm <= 1}
+                  onClick={() => setCreatorPM((p) => ({ ...p, [desc.label]: pm - 1 }))}
+                  style={invocMiniBtn(pm > 1)}
+                >
+                  {tokens.emojis.ui.Decrement}
+                </button>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+                  {tokens.emojis.subcategoria.PotenciaMagica} {pm}
+                </span>
+                <button
+                  title="Aumentar PM"
+                  onClick={() => setCreatorPM((p) => ({ ...p, [desc.label]: pm + 1 }))}
+                  style={invocMiniBtn(true)}
+                >
+                  {tokens.emojis.ui.Increment}
+                </button>
+              </span>
+              <button
+                title="Invocar nova instância"
+                onClick={() => invocar(desc)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '7px 15px',
+                  background: 'color-mix(in srgb,var(--accent) 16%,var(--panel))',
+                  border: '1px solid color-mix(in srgb,var(--accent) 55%,var(--line2))',
+                  color: 'var(--text)',
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: 'pointer',
+                  clipPath: clip(8),
+                }}
+              >
+                Invocar
+              </button>
+            </div>
+            {[...lista].reverse().map((inst) => (
+              <InvocacaoCard
+                key={inst.id}
+                desc={desc}
+                inst={inst}
+                fm={fm}
+                onDissipar={() => dissipar(desc.label, inst.id)}
+                onUpdate={(patch) => updateInst(desc.label, inst.id, patch)}
+              />
+            ))}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function InvocacaoCard({
+  desc,
+  inst,
+  fm,
+  onDissipar,
+  onUpdate,
+}: {
+  desc: EffectDescriptor
+  inst: InvocacaoInstance
+  fm: Record<string, unknown>
+  onDissipar: () => void
+  onUpdate: (patch: Partial<InvocacaoInstance>) => void
+}) {
+  // Contexto desta instância (PM próprio) — plugin renderInstanciaCard
+  // :300-304: rank vem da rota do bloco; PM entra como selector.
+  const ctx: InvocacaoCtx = {
+    nivelInvocador: num(fm['Nível']) || 1,
+    proficiencia: lookupRota(fm, desc.invocacao?.porProficienciaEm),
+    selectores: { 'Potência Mágica': inst.potencia, 'Potencia Magica': inst.potencia },
+  }
+  const resolved = resolveInvocacao(desc, ctx)
+  const evMax = computeEvMax(desc, inst.potencia)
+  // Dano consome Moral Temporária primeiro (plugin :498-507).
+  const aplicarDano = (n: number) => {
+    const useTemp = Math.min(inst.moralTemporaria, n)
+    onUpdate({
+      moralTemporaria: inst.moralTemporaria - useTemp,
+      vitalidade: Math.max(0, inst.vitalidade - (n - useTemp)),
+    })
+  }
+  const setVit = (d: number) => onUpdate({ vitalidade: Math.max(0, Math.min(evMax, inst.vitalidade + d)) })
+  const setTemp = (d: number) => onUpdate({ moralTemporaria: Math.max(0, inst.moralTemporaria + d) })
+  const pct = (x: number) => (evMax > 0 ? Math.min(100, (x / evMax) * 100).toFixed(3) + '%' : '0%')
+
+  const sectionTitle: CSSProperties = {
+    fontFamily: 'var(--mono)',
+    fontSize: 9,
+    letterSpacing: '.12em',
+    color: 'var(--muted)',
+    marginBottom: 6,
+  }
+  const used = new Set<string>()
+  const statRows: string[][] = INVOC_STATS_ROWS.map((row) =>
+    row.filter((wanted) => {
+      const k = resolved ? matchStatKey(resolved.stats, wanted) : null
+      if (k) used.add(k)
+      return Boolean(k)
+    }),
+  )
+  const resto = resolved
+    ? Object.keys(resolved.stats).filter((k) => !used.has(k) && !isEvKey(k))
+    : []
+  if (resto.length > 0) statRows.push(resto)
+
+  return (
+    <div
+      data-invoc-card=""
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 11,
+        padding: '13px 16px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line)',
+        clipPath: clip(13),
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ flex: 1, minWidth: 0, fontWeight: 700, fontSize: 15 }}>{desc.label}</span>
+        <span
+          title="Potência Mágica"
+          style={{ fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: 'var(--muted)' }}
+        >
+          {tokens.emojis.subcategoria.PotenciaMagica} {inst.potencia}
+        </span>
+        <button
+          title="Dissipar essa instância"
+          onClick={onDissipar}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '6px 13px',
+            background: 'color-mix(in srgb,var(--red) 14%,var(--panel))',
+            border: '1px solid color-mix(in srgb,var(--red) 45%,var(--line2))',
+            color: 'var(--text)',
+            fontWeight: 600,
+            fontSize: 12,
+            cursor: 'pointer',
+            clipPath: clip(7),
+          }}
+        >
+          Dissipar
+        </button>
+      </div>
+
+      {evMax > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 12 }}>{tokens.emojis.subcategoria.Vitalidade}</span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: 'var(--text)' }}>
+              Vitalidade: {inst.vitalidade}/{evMax}
+            </span>
+            {inst.moralTemporaria > 0 ? (
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 12, fontWeight: 700, color: '#43c07f' }}>
+                (+{inst.moralTemporaria} {tokens.emojis.subcategoria.MoralTemporaria})
+              </span>
+            ) : null}
+            <span style={{ flex: 1 }} />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <button title="Diminuir Vitalidade" onClick={() => setVit(-1)} style={invocMiniBtn(inst.vitalidade > 0)}>
+                {tokens.emojis.ui.Decrement}
+              </button>
+              <button title="Aumentar Vitalidade" onClick={() => setVit(1)} style={invocMiniBtn(inst.vitalidade < evMax)}>
+                {tokens.emojis.ui.Increment}
+              </button>
+              <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.MoralTemporaria}</span>
+              <button title="Diminuir Moral Temporária" onClick={() => setTemp(-1)} style={invocMiniBtn(inst.moralTemporaria > 0)}>
+                {tokens.emojis.ui.Decrement}
+              </button>
+              <button title="Aumentar Moral Temporária" onClick={() => setTemp(1)} style={invocMiniBtn(true)}>
+                {tokens.emojis.ui.Increment}
+              </button>
+              {[1, 5, 10].map((n) => (
+                <button
+                  key={n}
+                  title={`Aplicar ${n} de dano`}
+                  onClick={() => aplicarDano(n)}
+                  style={{
+                    padding: '3px 8px',
+                    background: 'color-mix(in srgb,#000 44%,var(--red))',
+                    border: '1px solid color-mix(in srgb,#000 22%,var(--red))',
+                    color: '#ffe9e4',
+                    fontFamily: 'var(--mono)',
+                    fontWeight: 700,
+                    fontSize: 11,
+                    cursor: 'pointer',
+                    borderRadius: 3,
+                  }}
+                >
+                  {tokens.emojis.subcategoria.Sangue}-{n}
+                </button>
+              ))}
+            </span>
+          </div>
+          <div
+            style={{
+              position: 'relative',
+              height: 9,
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: '100%',
+                width: pct(inst.vitalidade),
+                background: 'linear-gradient(90deg,#c0392b,#ff5547)',
+                transition: 'width .3s ease',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: pct(inst.vitalidade),
+                height: '100%',
+                width: pct(inst.moralTemporaria),
+                background: 'linear-gradient(90deg,#33a869,#46cf86)',
+                transition: 'width .3s ease,left .3s ease',
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
+
+      {resolved ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {statRows.map((row, i) =>
+            row.length > 0 ? (
+              <div key={i} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {row.map((wanted) => {
+                  const k = matchStatKey(resolved.stats, wanted)!
+                  return (
+                    <span
+                      key={wanted}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '5px 10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--line2)',
+                        clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                      }}
+                    >
+                      {invocStatEmoji(wanted) ? (
+                        <span style={{ fontSize: 12 }}>{invocStatEmoji(wanted)}</span>
+                      ) : null}
+                      <span
+                        style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}
+                      >
+                        {wanted.toUpperCase()}
+                      </span>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+                        {formatStatValue(wanted, resolved.stats[k])}
+                      </span>
+                    </span>
+                  )
+                })}
+              </div>
+            ) : null,
+          )}
+        </div>
+      ) : (
+        <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+          — Stats não resolvidos —
+        </div>
+      )}
+
+      {resolved && resolved.ataques.length > 0 ? (
+        <div>
+          <div style={sectionTitle}>
+            {tokens.emojis.combate.Ataque} ATAQUES
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {resolved.ataques.map((at) => {
+              const bonusInfo = resolveAttackBonus(at.bonus, fm, desc)
+              const danoTitle = buildDanoTitle(at, desc, fm)
+              return (
+                <div key={at.nome} style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
+                  <span style={{ fontWeight: 600, fontSize: 13.5 }}>{at.nome}</span>
+                  {at.tipo ? (
+                    <span style={{ fontSize: 11.5, fontStyle: 'italic', color: 'var(--muted)' }}>({at.tipo})</span>
+                  ) : null}
+                  {bonusInfo ? (
+                    <span
+                      title={bonusInfo.title}
+                      style={{ fontFamily: 'var(--mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--accent)' }}
+                    >
+                      {signed(bonusInfo.total)}
+                    </span>
+                  ) : typeof at.bonus === 'string' ? (
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 11.5, color: 'var(--muted)' }}>({at.bonus})</span>
+                  ) : null}
+                  {at.dano != null ? (
+                    <span
+                      title={danoTitle ?? undefined}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '3px 10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--line2)',
+                        clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                        fontFamily: 'var(--mono)',
+                        fontSize: 12.5,
+                        color: 'var(--accent)',
+                      }}
+                    >
+                      ⚔️ {at.dano}
+                    </span>
+                  ) : null}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {(desc.invocacao?.habilidadesEspeciais.length ?? 0) > 0 ? (
+        <div>
+          <div style={sectionTitle}>
+            {tokens.emojis.categoria.Habilidade} HABILIDADES
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            {desc.invocacao!.habilidadesEspeciais.map((hab) => (
+              <div key={hab.label} style={{ fontSize: 12.5, lineHeight: 1.4 }}>
+                <span style={{ fontWeight: 700 }}>{hab.label}.</span>{' '}
+                <span style={{ color: 'var(--muted)' }}>{hab.descricao}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {(desc.invocacao?.notas.length ?? 0) > 0 ? (
+        <div>
+          <div style={sectionTitle}>
+            {tokens.emojis.subcategoria.Passado} NOTAS
+          </div>
+          <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {desc.invocacao!.notas.map((nota) => (
+              <li key={nota} style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.45 }}>
+                {nota}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 /* ===================== aba ===================== */
 
 export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1552,7 +2233,7 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <TesourosPanel doc={doc} refs={refs} />
           </TrackPanel>
           <TrackPanel>
-            <MagiasPanel doc={doc} refs={refs} />
+            <MagiasPanel doc={doc} refs={refs} inter={inter} />
           </TrackPanel>
         </PanelTrack>
       </div>
