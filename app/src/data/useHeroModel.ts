@@ -13,6 +13,16 @@ import {
   writeHeroEdit,
   type HeroEdits,
 } from './hero-store'
+import {
+  getLocalDoc,
+  getLocalEntityExtras,
+  getLocalEntitySession,
+  isLocalId,
+  setLocalEntityExtras,
+  setLocalEntityFm,
+  setLocalEntitySession,
+  useLocalStoreVersion,
+} from './local-entities'
 
 export interface HeroModel {
   /** FM salvo local = FM extraído + overlay (projeção pura, sem regra). */
@@ -39,19 +49,46 @@ function extrasList(edits: HeroEdits, key: 'armas' | 'tesouros'): string[] {
   return Array.isArray(raw) ? (raw as string[]) : []
 }
 
+/** Modelo de uma entidade LOCAL (issues #42–#47): o FM local É a fonte de
+ *  verdade — não há doc extraído imutável embaixo, então as edições gravam o
+ *  path direto no store local (sem overlay). session/extras vivem no próprio
+ *  registro da entidade. */
+function useLocalHeroModel(heroId: string, localVersion: number): HeroModel {
+  return useMemo<HeroModel>(() => {
+    const fm = (getLocalDoc(heroId)?.frontmatter ?? {}) as Record<string, unknown>
+    const session = getLocalEntitySession(heroId)
+    const extras = getLocalEntityExtras(heroId)
+    return {
+      fm,
+      edits: { fm: {}, session, extras: extras as unknown as Record<string, unknown> },
+      extras,
+      set: (path, value) => setLocalEntityFm(heroId, path, value),
+      setVolatile: (path, value) => setLocalEntityFm(heroId, path, value),
+      setSession: (path, value) => setLocalEntitySession(heroId, path, value),
+      session: (path) => session[path],
+      setExtras: (key, list) => setLocalEntityExtras(heroId, key, list),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [heroId, localVersion])
+}
+
 export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
   const heroId = doc.id
+  const local = isLocalId(heroId)
+  const localVersion = useLocalStoreVersion()
+  // Store de overlay da vault (sempre assinado; vazio pra ids locais).
   const edits = useSyncExternalStore(
     (cb) => subscribeHero(heroId, cb),
     () => getHeroEdits(heroId),
   )
+  const localModel = useLocalHeroModel(heroId, localVersion)
 
   const fm = useMemo(
     () => applyFmEdits((doc.frontmatter ?? {}) as Record<string, unknown>, edits.fm),
     [doc, edits],
   )
 
-  return useMemo<HeroModel>(
+  const vaultModel = useMemo<HeroModel>(
     () => ({
       fm,
       edits,
@@ -84,4 +121,6 @@ export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
     }),
     [heroId, origem, fm, edits],
   )
+
+  return local ? localModel : vaultModel
 }

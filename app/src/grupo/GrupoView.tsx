@@ -9,15 +9,25 @@
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
 import { useMemo, useState, type CSSProperties } from 'react'
-import { PanelTrack, TrackPanel } from '../components/ficha/bits'
+import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
+import {
+  availableMemberEntries,
+  getLocalEntity,
+  groupBaseMemberIds,
+  isLocalId,
+  setGroupMember,
+  setLocalEntityBasename,
+  useGroupMembers,
+  useLocalStoreVersion,
+} from '../data/local-entities'
+import type { IndexDocEntry } from '../data/types'
 import { linkLabel } from '../markdown/dataview-value'
 import {
   BAL_CAPTION,
   PAPEIS,
-  groupMembers,
   groupTotals,
   papelValues,
   rankColors,
@@ -255,19 +265,208 @@ function PanelBalanceamento({
   )
 }
 
+/** Modal "Editar Integrantes" (issue #44): adiciona/remove membros do grupo a
+ *  partir das criaturas disponíveis (catálogo + locais). A edição vive no store
+ *  local (membershipOverride) sem tocar a vault; balanceamento/agregados
+ *  recomputam na hora porque o GrupoView observa a versão do store. Linguagem
+ *  visual existente (painel panel2/line2 com clip, rótulos mono sóbrios). */
+function EditMembersModal({
+  groupId,
+  memberIds,
+  onClose,
+}: {
+  groupId: string
+  memberIds: Set<string>
+  onClose: () => void
+}) {
+  const catalog = useCatalog()
+  const version = useLocalStoreVersion()
+  const [q, setQ] = useState('')
+  const baseIds = useMemo(() => groupBaseMemberIds(catalog, groupId), [catalog, groupId])
+  const disponiveis = useMemo(() => {
+    const list = availableMemberEntries(catalog)
+    return list.sort((a, b) =>
+      (a.basename ?? a.id).localeCompare(b.basename ?? b.id, 'pt'),
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalog, version])
+  const termo = q.trim().toLowerCase()
+  const filtrados = termo
+    ? disponiveis.filter((e) => (e.basename ?? e.id).toLowerCase().includes(termo))
+    : disponiveis
+
+  const toggle = (entry: IndexDocEntry) => {
+    setGroupMember(groupId, entry.id, !memberIds.has(entry.id), baseIds)
+  }
+
+  return (
+    <>
+      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 55, background: 'rgba(0,0,0,.5)' }} />
+      <div
+        role="dialog"
+        aria-label="Editar Integrantes"
+        style={{
+          position: 'fixed',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%,-50%)',
+          zIndex: 60,
+          width: 'min(460px,92vw)',
+          maxHeight: '86vh',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          background: 'var(--panel2)',
+          border: '1px solid var(--line2)',
+          clipPath: clip(14),
+          padding: 18,
+          boxShadow: '0 18px 46px rgba(0,0,0,.5)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 10,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: '.12em',
+              color: 'var(--muted)',
+            }}
+          >
+            {'// EDITAR INTEGRANTES'}
+          </span>
+          <button
+            onClick={onClose}
+            aria-label="Fechar"
+            style={{
+              border: 'none',
+              background: 'none',
+              color: 'var(--muted)',
+              fontSize: 18,
+              cursor: 'pointer',
+              lineHeight: 1,
+            }}
+          >
+            ×
+          </button>
+        </div>
+        <input
+          aria-label="Buscar criatura"
+          placeholder="Buscar…"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          style={{
+            width: '100%',
+            boxSizing: 'border-box',
+            padding: '8px 12px',
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            color: 'var(--text)',
+            fontFamily: 'inherit',
+            fontSize: 13,
+            outline: 'none',
+            clipPath: clip(7),
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            overflowY: 'auto',
+            maxHeight: '52vh',
+          }}
+        >
+          {filtrados.map((entry) => {
+            const on = memberIds.has(entry.id)
+            const nome = entry.basename ?? entry.id
+            return (
+              <button
+                key={entry.id}
+                onClick={() => toggle(entry)}
+                aria-pressed={on}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '8px 10px',
+                  background: on ? 'color-mix(in srgb,var(--accent) 12%,var(--card))' : 'var(--card)',
+                  border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
+                  color: 'var(--text)',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  fontSize: 13,
+                  textAlign: 'left',
+                  clipPath: clip(6),
+                }}
+              >
+                <span
+                  aria-hidden
+                  style={{
+                    flex: 'none',
+                    width: 18,
+                    height: 18,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
+                    background: on ? 'var(--accent)' : 'transparent',
+                    color: 'var(--ink)',
+                    fontSize: 12,
+                    fontWeight: 800,
+                  }}
+                >
+                  {on ? '✓' : ''}
+                </span>
+                <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {nome}
+                </span>
+                <span
+                  style={{
+                    flex: 'none',
+                    fontFamily: 'var(--mono)',
+                    fontSize: 9,
+                    letterSpacing: '.06em',
+                    color: 'var(--muted)',
+                  }}
+                >
+                  {entry.subtype ?? ''}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </>
+  )
+}
+
 export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const { doc: groupDoc } = useDoc(groupId)
   const [tab, setTab] = useState('exploracao')
+  const [editMembers, setEditMembers] = useState(false)
   const tabIdx = Math.max(0, GRUPO_TABS.findIndex((t) => t.id === tab))
   const tip = useGrupoTip()
 
-  const members = useMemo(() => groupMembers(catalog, groupId), [catalog, groupId])
+  // Integrantes reativos ao override local (issue #44); grupo local (issue #43)
+  // resolve os membros do próprio registro.
+  const members = useGroupMembers(catalog, groupId)
   const memberDocs = useDocs(useMemo(() => members.map((m) => m.id), [members]))
+  const memberIds = useMemo(() => new Set(members.map((m) => m.id)), [members])
 
+  const isLocalGroup = isLocalId(groupId)
+  const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
-  const names = entry?.basename ?? groupId
+  const names = localGroup?.basename ?? entry?.basename ?? groupId
   const subcategoria =
     typeof groupDoc?.frontmatter['subcategoria'] === 'string'
       ? (groupDoc.frontmatter['subcategoria'] as string)
@@ -379,19 +578,45 @@ export function GrupoView({ groupId }: { groupId: string }) {
             )}
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
+            {isLocalGroup ? (
+              // #43: nome do grupo local é editável no header (persiste no store)
+              <input
+                aria-label="Nome do grupo"
+                value={names}
+                onChange={(e) => setLocalEntityBasename(groupId, e.target.value)}
+                style={{
+                  width: '100%',
+                  boxSizing: 'border-box',
+                  fontSize: 24,
+                  fontWeight: 800,
+                  fontFamily: 'var(--display)',
+                  lineHeight: 1.1,
+                  color: 'var(--text)',
+                  background: 'transparent',
+                  border: '1px solid transparent',
+                  borderBottom: '1px solid var(--line2)',
+                  outline: 'none',
+                  padding: '2px 0',
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                  fontFamily: 'var(--display)',
+                  lineHeight: 1.1,
+                  color: 'var(--text)',
+                }}
+              >
+                {names}
+              </div>
+            )}
             <div
               style={{
-                fontSize: 24,
-                fontWeight: 800,
-                fontFamily: 'var(--display)',
-                lineHeight: 1.1,
-                color: 'var(--text)',
-              }}
-            >
-              {names}
-            </div>
-            <div
-              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
                 fontFamily: 'var(--mono)',
                 fontSize: 11,
                 letterSpacing: '.1em',
@@ -399,7 +624,25 @@ export function GrupoView({ groupId }: { groupId: string }) {
                 marginTop: 4,
               }}
             >
-              {members.length} integrantes
+              <span>{members.length} integrantes</span>
+              {/* #44: editar integrantes (add/remove) — override local */}
+              <button
+                onClick={() => setEditMembers(true)}
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: '.08em',
+                  color: 'var(--accent)',
+                  background: 'transparent',
+                  border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                  padding: '3px 9px',
+                  cursor: 'pointer',
+                  clipPath: clip(6),
+                }}
+              >
+                ✎ Editar
+              </button>
             </div>
           </div>
         </div>
@@ -479,6 +722,15 @@ export function GrupoView({ groupId }: { groupId: string }) {
 
       {/* Tooltip flutuante (sc-if grupo.gtip do design) */}
       {tip.overlay}
+
+      {/* Editar Integrantes (issue #44) */}
+      {editMembers ? (
+        <EditMembersModal
+          groupId={groupId}
+          memberIds={memberIds}
+          onClose={() => setEditMembers(false)}
+        />
+      ) : null}
     </div>
   )
 }
