@@ -11,7 +11,6 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useViewportWidth } from '../../viewport'
-import { sintoniaEmoji } from '../../grupo/party'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
 import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
@@ -75,32 +74,36 @@ function initials(name: string): string {
   return (two || name.slice(0, 2)).toUpperCase()
 }
 
+const stripAccents = (s: string) =>
+  s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+
+/** Emoji da sintonia derivado do VALOR selecionado (overlay, live — #37):
+ *  registro tokens.emojis.sintonia por basename do wikilink sem acentos. */
+function sintoniaEmojiFromValue(value: string): string {
+  const target = wikiTarget(value) || value
+  if (!target) return ''
+  const norm = stripAccents(target)
+  for (const [key, emoji] of Object.entries(tokens.emojis.sintonia)) {
+    if (norm.includes(stripAccents(key))) return emoji as string
+  }
+  return ''
+}
+
+/** Lista editável do design (Ideais/Desprezos/Qualidades/Defeitos): cada item
+ *  é input inline com lixeira; edição persiste na hora (#39). */
 function ListaBio({
   titulo,
   cor,
   items,
-  deletavel,
+  onChange,
+  onDelete,
 }: {
   titulo: string
   cor: string
   items: string[]
-  deletavel?: boolean
+  onChange: (i: number, v: string) => void
+  onDelete: (i: number) => void
 }) {
-  const item = (texto: string) => (
-    <span
-      style={{
-        flex: 1,
-        padding: '11px 14px',
-        background: 'var(--card)',
-        border: `1px solid color-mix(in srgb,${cor} 30%,var(--line2))`,
-        clipPath: clip(9),
-        fontSize: 13.5,
-        color: 'var(--text)',
-      }}
-    >
-      {texto}
-    </span>
-  )
   return (
     <div style={{ flex: 1, minWidth: 260, display: 'flex', flexDirection: 'column', gap: 9 }}>
       <span
@@ -114,25 +117,40 @@ function ListaBio({
       >
         {titulo}
       </span>
-      {items.map((texto, i) =>
-        deletavel ? (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {item(texto)}
-            <span style={{ color: 'var(--muted)', fontSize: 15, cursor: 'pointer' }}>🗑️</span>
-          </div>
-        ) : (
-          <div key={i} style={{ display: 'contents' }}>
-            {item(texto)}
-          </div>
-        ),
-      )}
+      {items.map((texto, i) => (
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <input
+            aria-label={`${titulo} ${i + 1}`}
+            value={texto}
+            onChange={(e) => onChange(i, e.target.value)}
+            style={{
+              flex: 1,
+              minWidth: 0,
+              padding: '11px 14px',
+              background: 'var(--card)',
+              border: `1px solid color-mix(in srgb,${cor} 30%,var(--line2))`,
+              clipPath: clip(9),
+              fontSize: 13.5,
+              color: 'var(--text)',
+              fontFamily: 'var(--body)',
+            }}
+          />
+          <span
+            onClick={() => onDelete(i)}
+            style={{ color: 'var(--muted)', fontSize: 15, cursor: 'pointer' }}
+          >
+            🗑️
+          </span>
+        </div>
+      ))}
     </div>
   )
 }
 
-function AddButton({ label }: { label: string }) {
+function AddButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button
+      onClick={onClick}
       style={{
         padding: 11,
         background: 'transparent',
@@ -444,8 +462,33 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
   const fm = model.fm
   const rules = useHeroRules(fm)
   const bio = (fm['Biografia'] ?? {}) as Record<string, unknown>
+  // Sem filtrar vazios: em edição um item recém-adicionado (string vazia)
+  // precisa sobreviver pro usuário digitar (#39).
   const listOf = (key: string) =>
-    (Array.isArray(bio[key]) ? (bio[key] as unknown[]) : []).map((s) => str(s).trim()).filter(Boolean)
+    (Array.isArray(bio[key]) ? (bio[key] as unknown[]) : []).map((s) => str(s))
+  const setBio = (key: string, v: unknown) => model.set(`Biografia.${key}`, v)
+  const setList = (key: string, list: string[]) => setBio(key, list)
+  // "+ A / B": adiciona uma linha em branco a cada uma das duas listas.
+  const addPair = (k1: string, k2: string) => {
+    setList(k1, [...listOf(k1), ''])
+    setList(k2, [...listOf(k2), ''])
+  }
+  const editItem = (key: string, i: number, v: string) =>
+    setList(key, listOf(key).map((x, j) => (j === i ? v : x)))
+  const delItem = (key: string, i: number) =>
+    setList(key, listOf(key).filter((_, j) => j !== i))
+  // Campo de identidade editável, persistido na hora (#38).
+  const editField = (label: string, key: string) => (
+    <div style={{ flex: 1, minWidth: 120, display: 'flex', flexDirection: 'column', gap: 7 }}>
+      <span style={{ ...mono10, letterSpacing: '.14em' }}>{label}</span>
+      <input
+        aria-label={label}
+        value={str(bio[key])}
+        onChange={(e) => setBio(key, e.target.value)}
+        style={{ ...boxStyle('12px 14px', 14), width: '100%', fontFamily: 'var(--body)' }}
+      />
+    </div>
+  )
   // Naturalidade: wikilink → dropdown do Atlas; texto livre → modo "Outro";
   // vazio → "—". Espelho dos modos do naturalidadePicker do plugin
   // (render/groups/naturalidade-picker.ts:273-293).
@@ -471,13 +514,6 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
     setNaturalidade(v)
   }
 
-  const smallField = (label: string, value: string) => (
-    <div style={{ flex: 1, minWidth: 120, display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <span style={{ ...mono10, letterSpacing: '.14em' }}>{label}</span>
-      <div style={boxStyle('12px 14px', 14)}>{value || '—'}</div>
-    </div>
-  )
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <PassadoBox doc={doc} />
@@ -495,7 +531,12 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
             <span style={{ ...mono10, letterSpacing: '.14em' }}>🧭 MOTIVAÇÃO DE AVENTUREIRO</span>
-            <div style={boxStyle('12px 14px', 14)}>{str(bio['Motivacao']) || '—'}</div>
+            <input
+              aria-label="Motivação de aventureiro"
+              value={str(bio['Motivacao'])}
+              onChange={(e) => setBio('Motivacao', e.target.value)}
+              style={{ ...boxStyle('12px 14px', 14), width: '100%', fontFamily: 'var(--body)' }}
+            />
           </div>
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
             <span style={{ ...mono10, letterSpacing: '.14em' }}>🖼️ NATURALIDADE</span>
@@ -539,23 +580,47 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
         </div>
 
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          {smallField('⚧ GÊNERO', str(bio['Genero']))}
-          {smallField('🎂 IDADE', str(bio['Idade']))}
-          {smallField('📏 ALTURA', str(bio['Altura']))}
-          {smallField('⚖️ PESO', str(bio['Peso']))}
+          {editField('⚧ GÊNERO', 'Genero')}
+          {editField('🎂 IDADE', 'Idade')}
+          {editField('📏 ALTURA', 'Altura')}
+          {editField('⚖️ PESO', 'Peso')}
         </div>
 
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-          <ListaBio titulo="🔱 IDEAIS" cor="var(--gold)" items={listOf('Ideais')} />
-          <ListaBio titulo="🚫 DESPREZOS" cor="var(--red)" items={listOf('Desprezos')} deletavel />
+          <ListaBio
+            titulo="🔱 IDEAIS"
+            cor="var(--gold)"
+            items={listOf('Ideais')}
+            onChange={(i, v) => editItem('Ideais', i, v)}
+            onDelete={(i) => delItem('Ideais', i)}
+          />
+          <ListaBio
+            titulo="🚫 DESPREZOS"
+            cor="var(--red)"
+            items={listOf('Desprezos')}
+            onChange={(i, v) => editItem('Desprezos', i, v)}
+            onDelete={(i) => delItem('Desprezos', i)}
+          />
         </div>
-        <AddButton label="+ Ideais / Desprezos" />
+        <AddButton label="+ Ideais / Desprezos" onClick={() => addPair('Ideais', 'Desprezos')} />
 
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-          <ListaBio titulo="🏆 QUALIDADES" cor="var(--gold)" items={listOf('Qualidades')} />
-          <ListaBio titulo="⚓ DEFEITOS" cor="var(--red)" items={listOf('Defeitos')} deletavel />
+          <ListaBio
+            titulo="🏆 QUALIDADES"
+            cor="var(--gold)"
+            items={listOf('Qualidades')}
+            onChange={(i, v) => editItem('Qualidades', i, v)}
+            onDelete={(i) => delItem('Qualidades', i)}
+          />
+          <ListaBio
+            titulo="⚓ DEFEITOS"
+            cor="var(--red)"
+            items={listOf('Defeitos')}
+            onChange={(i, v) => editItem('Defeitos', i, v)}
+            onDelete={(i) => delItem('Defeitos', i)}
+          />
         </div>
-        <AddButton label="+ Qualidades / Defeitos" />
+        <AddButton label="+ Qualidades / Defeitos" onClick={() => addPair('Qualidades', 'Defeitos')} />
       </div>
     </div>
   )
@@ -606,9 +671,47 @@ function DeleteBtn({ onClick }: { onClick: () => void }) {
   )
 }
 
+/** Cabeçalho de seção com botão Alterar/Concluir (padrão de edição das
+ *  competências) — modo leitura por padrão, edição ao clicar (#40). */
+function SectionHead({
+  title,
+  editing,
+  onToggle,
+}: {
+  title: string
+  editing: boolean
+  onToggle: () => void
+}) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '4px 0 11px' }}>
+      <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)' }}>{title}</span>
+      <span style={{ flex: 1 }} />
+      <button
+        onClick={onToggle}
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: 10,
+          letterSpacing: '.1em',
+          fontWeight: 700,
+          padding: '6px 12px',
+          cursor: 'pointer',
+          background: editing ? 'var(--accent)' : 'transparent',
+          color: editing ? 'var(--ink)' : 'var(--accent)',
+          border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+          clipPath: clip(6),
+        }}
+      >
+        {editing ? 'Concluir' : 'Alterar'}
+      </button>
+    </div>
+  )
+}
+
 function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
+  const [editRec, setEditRec] = useState(false)
+  const [editMarcas, setEditMarcas] = useState(false)
   const nivel = num(fm['Nível'])
   const ci = classeAventureiro(nivel)
   const exp = (fm['Experiencia'] ?? {}) as Record<string, unknown>
@@ -724,9 +827,11 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
       </div>
 
       <div>
-        <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)', margin: '4px 0 11px' }}>
-          Registros de Reconhecimentos
-        </div>
+        <SectionHead
+          title="Registros de Reconhecimentos"
+          editing={editRec}
+          onToggle={() => setEditRec((v) => !v)}
+        />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
           {recs.map((r, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
@@ -735,55 +840,74 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
               >
                 {tokens.emojis.aventureiro.Reconhecimento}
               </span>
-              <input
-                value={r.entidade}
-                onChange={(e) =>
-                  setRecs((list) =>
-                    list.map((x, j) => (j === i ? { ...x, entidade: e.target.value } : x)),
-                  )
-                }
-                style={{ ...regInput, color: 'var(--blue)', fontWeight: 600 }}
-              />
-              <input
-                value={r.texto}
-                onChange={(e) =>
-                  setRecs((list) =>
-                    list.map((x, j) => (j === i ? { ...x, texto: e.target.value } : x)),
-                  )
-                }
-                style={{ ...regInput, flex: 1.35 }}
-              />
-              <DeleteBtn onClick={() => setRecs((list) => list.filter((_, j) => j !== i))} />
+              {editRec ? (
+                <>
+                  <input
+                    aria-label={`Reconhecimento ${i + 1} entidade`}
+                    value={r.entidade}
+                    onChange={(e) =>
+                      setRecs((list) =>
+                        list.map((x, j) => (j === i ? { ...x, entidade: e.target.value } : x)),
+                      )
+                    }
+                    style={{ ...regInput, color: 'var(--blue)', fontWeight: 600 }}
+                  />
+                  <input
+                    aria-label={`Reconhecimento ${i + 1} texto`}
+                    value={r.texto}
+                    onChange={(e) =>
+                      setRecs((list) =>
+                        list.map((x, j) => (j === i ? { ...x, texto: e.target.value } : x)),
+                      )
+                    }
+                    style={{ ...regInput, flex: 1.35 }}
+                  />
+                  <DeleteBtn onClick={() => setRecs((list) => list.filter((_, j) => j !== i))} />
+                </>
+              ) : (
+                <>
+                  <span style={{ flex: 1, color: 'var(--blue)', fontWeight: 600, fontSize: 13.5 }}>
+                    {r.entidade || '—'}
+                  </span>
+                  <span style={{ flex: 1.35, color: 'var(--text)', fontSize: 13.5 }}>{r.texto}</span>
+                </>
+              )}
             </div>
           ))}
-          <button
-            onClick={() => setRecs((list) => [...list, { entidade: '', texto: '' }])}
-            style={{
-              width: '100%',
-              padding: 11,
-              background: 'transparent',
-              border: '1px dashed var(--line2)',
-              color: 'var(--gold)',
-              cursor: 'pointer',
-              fontSize: 13,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 9,
-            }}
-          >
-            <span style={{ fontSize: 15, lineHeight: 1 }}>+</span>
-            <span style={{ fontSize: 16, lineHeight: 1 }}>
-              {tokens.emojis.aventureiro.Reconhecimento}
-            </span>
-          </button>
+          {editRec ? (
+            <button
+              onClick={() => setRecs((list) => [...list, { entidade: '', texto: '' }])}
+              style={{
+                width: '100%',
+                padding: 11,
+                background: 'transparent',
+                border: '1px dashed var(--line2)',
+                color: 'var(--gold)',
+                cursor: 'pointer',
+                fontSize: 13,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 9,
+              }}
+            >
+              <span style={{ fontSize: 15, lineHeight: 1 }}>+</span>
+              <span style={{ fontSize: 16, lineHeight: 1 }}>
+                {tokens.emojis.aventureiro.Reconhecimento}
+              </span>
+            </button>
+          ) : recs.length === 0 ? (
+            <span style={{ color: 'var(--muted)', fontSize: 13 }}>Nenhum reconhecimento.</span>
+          ) : null}
         </div>
       </div>
 
       <div>
-        <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)', margin: '4px 0 11px' }}>
-          Registros de Marcas
-        </div>
+        <SectionHead
+          title="Registros de Marcas"
+          editing={editMarcas}
+          onToggle={() => setEditMarcas((v) => !v)}
+        />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
           {marcas.map((m, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
@@ -792,50 +916,86 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
               >
                 {tokens.emojis.aventureiro.Marca}
               </span>
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: 'var(--blue)',
-                  width: 26,
-                  textAlign: 'center',
-                  flex: 'none',
-                }}
-              >
-                {m.qtd}
-              </span>
-              <input
-                value={m.texto}
-                onChange={(e) =>
-                  setMarcas((list) =>
-                    list.map((x, j) => (j === i ? { ...x, texto: e.target.value } : x)),
-                  )
-                }
-                style={regInput}
-              />
-              <DeleteBtn onClick={() => setMarcas((list) => list.filter((_, j) => j !== i))} />
+              {editMarcas ? (
+                <input
+                  aria-label={`Marca ${i + 1} quantidade`}
+                  type="number"
+                  min={0}
+                  value={m.qtd}
+                  onChange={(e) =>
+                    setMarcas((list) =>
+                      list.map((x, j) =>
+                        j === i ? { ...x, qtd: Math.max(0, Number(e.target.value) || 0) } : x,
+                      ),
+                    )
+                  }
+                  style={{
+                    ...regInput,
+                    width: 60,
+                    flex: 'none',
+                    textAlign: 'center',
+                    fontFamily: 'var(--mono)',
+                    fontWeight: 700,
+                    color: 'var(--blue)',
+                  }}
+                />
+              ) : (
+                <span
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: 'var(--blue)',
+                    width: 26,
+                    textAlign: 'center',
+                    flex: 'none',
+                  }}
+                >
+                  {m.qtd}
+                </span>
+              )}
+              {editMarcas ? (
+                <>
+                  <input
+                    aria-label={`Marca ${i + 1} texto`}
+                    value={m.texto}
+                    onChange={(e) =>
+                      setMarcas((list) =>
+                        list.map((x, j) => (j === i ? { ...x, texto: e.target.value } : x)),
+                      )
+                    }
+                    style={regInput}
+                  />
+                  <DeleteBtn onClick={() => setMarcas((list) => list.filter((_, j) => j !== i))} />
+                </>
+              ) : (
+                <span style={{ flex: 1, color: 'var(--text)', fontSize: 13.5 }}>{m.texto}</span>
+              )}
             </div>
           ))}
-          <button
-            onClick={() => setMarcas((list) => [...list, { qtd: 0, texto: '' }])}
-            style={{
-              width: '100%',
-              padding: 11,
-              background: 'transparent',
-              border: '1px dashed var(--line2)',
-              color: 'var(--blue)',
-              cursor: 'pointer',
-              fontSize: 13,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 9,
-            }}
-          >
-            <span style={{ fontSize: 15, lineHeight: 1 }}>+</span>
-            <span style={{ fontSize: 16, lineHeight: 1 }}>{tokens.emojis.aventureiro.Marca}</span>
-          </button>
+          {editMarcas ? (
+            <button
+              onClick={() => setMarcas((list) => [...list, { qtd: 0, texto: '' }])}
+              style={{
+                width: '100%',
+                padding: 11,
+                background: 'transparent',
+                border: '1px dashed var(--line2)',
+                color: 'var(--blue)',
+                cursor: 'pointer',
+                fontSize: 13,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 9,
+              }}
+            >
+              <span style={{ fontSize: 15, lineHeight: 1 }}>+</span>
+              <span style={{ fontSize: 16, lineHeight: 1 }}>{tokens.emojis.aventureiro.Marca}</span>
+            </button>
+          ) : marcas.length === 0 ? (
+            <span style={{ color: 'var(--muted)', fontSize: 13 }}>Nenhuma marca.</span>
+          ) : null}
         </div>
       </div>
     </div>
@@ -860,7 +1020,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const ci = classeAventureiro(nivel)
   const classe = linkLabel(str(fm['Classe']))
   const sintonia = shortSintonia(fm['Sintonia'])
-  const sintoniaIc = sintoniaEmoji(doc) ?? ''
+  const sintoniaIc = sintoniaEmojiFromValue(str(fm['Sintonia']))
   // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
   // match por target do wikilink, como o linkedDropdown do plugin).
   const sintoniaFmValue =

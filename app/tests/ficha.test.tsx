@@ -88,8 +88,8 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     // classe de aventureiro recomputada aqui: nível 7-9 → A
     const classeAvent = nivelReal <= 3 ? 'C' : nivelReal <= 6 ? 'B' : nivelReal <= 9 ? 'A' : 'S'
     expect(screen.getByText(`AVENTUREIRO CLASSE ${classeAvent}`)).toBeTruthy()
-    // biografia real na aba IDENTIDADE
-    expect(screen.getByText(String(fm.Biografia.Motivacao))).toBeTruthy()
+    // biografia real na aba IDENTIDADE — Motivação é input editável (#38)
+    expect(screen.getByDisplayValue(String(fm.Biografia.Motivacao))).toBeTruthy()
   })
 
   it('COMBATE: vida corrente da Interativa sobre o máximo do modelo', async () => {
@@ -208,7 +208,7 @@ describe('navegação da ficha', () => {
     expect(screen.getAllByText('COMBATE').length).toBeGreaterThan(0)
     fireEvent.click(screen.getByRole('button', { name: 'BIOGRAFIA' }))
     await waitFor(() =>
-      expect(screen.getByText(String(fm.Biografia.Motivacao))).toBeTruthy(),
+      expect(screen.getByDisplayValue(String(fm.Biografia.Motivacao))).toBeTruthy(),
     )
   })
 
