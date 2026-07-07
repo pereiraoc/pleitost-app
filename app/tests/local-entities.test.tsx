@@ -24,8 +24,10 @@ import {
   emptyHeroFrontmatter,
   getLocalDoc,
   resolveGroupMembers,
+  setLocalEntityFm,
 } from '../src/data/local-entities'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
+import { heroPath } from '../src/paths'
 import type { IndexManifest } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -110,16 +112,58 @@ function simulaReload(r: ReturnType<typeof render>) {
 
 // ── #42: criar herói ──────────────────────────────────────────────────────
 describe('#42 herói local', () => {
-  it('skeleton tem a forma de um herói real (listas vazias, atributos 0)', () => {
+  // #52: o skeleton NÃO nasce vazio — porta o `defaultModelFor` do plugin no
+  // shape do FM (template base cheio). É o que destrava #54/#55/#56.
+  it('skeleton nasce com o template base do plugin (defaultModelFor)', () => {
     const id = createLocalEntity('Heroi', 'Zé Local', emptyHeroFrontmatter())
     const doc = getLocalDoc(id)!
     expect(doc.type).toBe('Criatura')
     expect(doc.subtype).toBe('Heroi')
     const fm = doc.frontmatter as Record<string, any>
-    // mesma forma do herói real (Carlos): containers presentes, vazios
-    expect(fm.Atributos).toEqual({ Principal: '', FOR: 0, AGI: 0, INT: 0, PRE: 0 })
+    // Atributos: permutação {3,2,1,0} + Principal — não "tudo 0" (#54).
+    expect(fm.Atributos).toEqual({ Principal: 'FOR', FOR: 3, AGI: 2, INT: 1, PRE: 0 })
+    // 13 perícias base em rank N, nomes ACENTUADOS como o FM real (#55).
+    const perNomes = fm.Pericias.Lista.map((p: any) => p.Nome)
+    expect(fm.Pericias.Lista).toHaveLength(13)
+    expect(fm.Pericias.Lista.every((p: any) => p.Proficiencia === 'N')).toBe(true)
+    expect(perNomes).toContain('Sobrevivência')
+    expect(perNomes).toContain('Intimidação')
+    expect(fm.Pericias.Lista.find((p: any) => p.Nome === 'Atletismo')).toMatchObject({
+      Atributo: 'FOR',
+      Proficiencia: 'N',
+      Bonus_Item: 0,
+      Bonus_Especial: 0,
+      Especializacao: '',
+      Maestria: '',
+      Incrementos: [],
+    })
+    // Defesas (4) / Sentidos (2) / Movimento (1) / Ofícios (3).
+    expect(fm.Defesas_Resistencias.Lista.map((d: any) => d.Nome)).toEqual([
+      'Defesa',
+      'Vigor',
+      'Reflexo',
+      'Ímpeto',
+    ])
+    expect(fm.Sentidos.Lista.map((s: any) => s.Nome)).toEqual(['Percepção', 'Intuição'])
+    expect(fm.Movimento.Lista).toEqual([
+      { Nome: 'Terrestre', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0 },
+    ])
+    expect(fm.Oficios.Lista.map((o: any) => o.Nome)).toEqual(['Oficio', 'Atuacao', 'Conhecimento'])
+    // Estrutura de Magias: 4 escolas (primária) + 3 (secundária, sem Tesouros).
+    expect(fm.Magias.Lista.map((e: any) => e.Nome)).toEqual([
+      'Arcana Negra',
+      'Arcana Branca',
+      'Anima',
+      'Tesouros',
+    ])
+    expect(fm.Magias.Lista.every((e: any) => e.Proficiencia === 'N')).toBe(true)
+    expect(fm.Magias.Secundaria.Lista.map((e: any) => e.Nome)).toEqual([
+      'Arcana Negra',
+      'Arcana Branca',
+      'Anima',
+    ])
+    // Identidade da família Heroi + containers preservados.
     expect(fm.Inventario.Armas.Lista).toEqual([])
-    expect(fm.Pericias.Lista).toEqual([])
     expect(fm.Papel).toEqual({ Lider: 0, Controlador: 0, Abatedor: 0, Vanguarda: 0 })
     expect(fm.Vida).toEqual({ Vitalidade: 0, Moral: 0 })
     expect(fm['Nível']).toBe(1)
@@ -265,5 +309,82 @@ describe('#46/#47 companheiro animal + monstro', () => {
     expect(fm.Tier).toBe(0)
     expect(fm).toHaveProperty('Raça')
     expect(fm).not.toHaveProperty('Nível')
+  })
+})
+
+// ── #52–#56: ficha NOVA nasce bem inicializada (template base do skeleton) ──
+// Render da COMPETÊNCIAS de um herói local recém-criado: perícias/atributos/
+// defesas/sentidos/passado/magias vêm do template base, não mais vazios.
+describe('#52–#56 ficha nova renderiza bem inicializada', () => {
+  it('#55: aba de perícias mostra as 13 perícias base', async () => {
+    const id = createLocalEntity('Heroi', 'Novato', emptyHeroFrontmatter())
+    renderApp(heroPath(id, 'habilidades'))
+    for (const nome of [
+      'Atletismo', 'Acrobacia', 'Furtividade', 'Ladinagem', 'Arcana', 'Sociedades',
+      'Guerra', 'Medicina', 'Sobrevivência', 'Anima', 'Diplomacia', 'Enganação', 'Intimidação',
+    ]) {
+      expect((await screen.findAllByText(nome)).length).toBeGreaterThan(0)
+    }
+  })
+
+  it('#54: atributos {3,2,1,0}+Principal, sem repetir (FOR/AGI/INT/PRE distintos)', async () => {
+    const id = createLocalEntity('Heroi', 'Distinto', emptyHeroFrontmatter())
+    renderApp(heroPath(id, 'habilidades'))
+    const attrPanel = (await screen.findByText('⚖️ ATRIBUTOS')).parentElement as HTMLElement
+    // Com o bug (tudo 0) as células repetiam FOR (FOR/FOR/FOR/AGI) e INT/PRE
+    // sumiam; agora cada atributo aparece EXATAMENTE uma vez como rótulo.
+    for (const a of ['FOR', 'AGI', 'INT', 'PRE']) {
+      expect(within(attrPanel).getAllByText(a).length).toBe(1)
+    }
+  })
+
+  it('defesas e sentidos vêm preenchidos', async () => {
+    const id = createLocalEntity('Heroi', 'Defendido', emptyHeroFrontmatter())
+    renderApp(heroPath(id, 'habilidades'))
+    for (const nome of ['Defesa', 'Vigor', 'Reflexo', 'Ímpeto', 'Percepção', 'Intuição']) {
+      expect((await screen.findAllByText(nome)).length).toBeGreaterThan(0)
+    }
+  })
+
+  it('#53: escolher perícia do Passado marca a linha e grava o incremento, live', async () => {
+    const id = createLocalEntity('Heroi', 'Passadista', emptyHeroFrontmatter())
+    renderApp(heroPath(id, 'habilidades'))
+    const select = (await screen.findByLabelText('PERÍCIA')) as HTMLSelectElement
+    // Espera a opção Guerra (vem da projeção de regras) antes de escolher.
+    await waitFor(() =>
+      expect(within(select).getByRole('option', { name: /Guerra/ })).toBeTruthy(),
+    )
+    fireEvent.change(select, { target: { value: 'Guerra' } })
+    // A linha Guerra ganha o incremento {A:"Passado"} + proficiência A, no FM salvo.
+    await waitFor(() => {
+      const guerra = (getLocalDoc(id)!.frontmatter as any).Pericias.Lista.find(
+        (p: any) => p.Nome === 'Guerra',
+      )
+      expect(guerra.Incrementos).toContainEqual({ A: 'Passado' })
+      expect(guerra.Proficiencia).toBe('A')
+    })
+  })
+
+  it('#56: com slot livre + escola proficiente, a aba MAGIAS oferece o catálogo', async () => {
+    const id = createLocalEntity('Heroi', 'Conjurador', emptyHeroFrontmatter())
+    // O que uma classe conjuradora faria por regra: um slot Básico + proficiência
+    // numa escola. Gravamos direto no FM pra isolar o comportamento da aba.
+    setLocalEntityFm(id, 'Magias.Slots.B', 1)
+    const lista = (getLocalDoc(id)!.frontmatter as any).Magias.Lista.map((e: any) =>
+      e.Nome === 'Arcana Branca' ? { ...e, Proficiencia: 'A' } : e,
+    )
+    setLocalEntityFm(id, 'Magias.Lista', lista)
+    renderApp(heroPath(id, 'habilidades'))
+    // Entra em modo edição no painel de Magias (sobe do rótulo "Magias
+    // Aprendidas" até o painel que contém o toggle "✎ Alterar").
+    const learned = await screen.findByText('📖 Magias Aprendidas')
+    let magiasPanel: HTMLElement | null = learned.parentElement
+    while (magiasPanel && !within(magiasPanel).queryByRole('button', { name: /Alterar/ })) {
+      magiasPanel = magiasPanel.parentElement
+    }
+    fireEvent.click(within(magiasPanel!).getByRole('button', { name: /Alterar/ }))
+    // O seletor de não-aprendidas aparece com magias Básicas de Arcana Branca.
+    expect(await screen.findByText('📚 Magias Não Aprendidas')).toBeTruthy()
+    expect((await screen.findAllByText('Estabilizar')).length).toBeGreaterThan(0)
   })
 })

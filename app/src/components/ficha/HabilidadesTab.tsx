@@ -1783,6 +1783,7 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
 interface EscolaFm {
   Nome?: string
+  Proficiencia?: string
   Lista?: unknown
 }
 
@@ -1792,19 +1793,28 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
   const [edit, setEdit] = useState(false)
-  const escolas = ((fmPath(fm, 'Magias', 'Lista') ?? []) as EscolaFm[]).filter(
-    (e) => listaEntries(e.Lista).length > 0,
+  const escolasAll = (fmPath(fm, 'Magias', 'Lista') ?? []) as EscolaFm[]
+  // Painel ESQUERDO (Aprendidas): só escolas que já têm magia na lista.
+  const escolas = escolasAll.filter((e) => listaEntries(e.Lista).length > 0)
+  // Painel DIREITO (Não Aprendidas): escolas em que o herói PODE lançar
+  // (proficiência ≠ N), mesmo sem magia aprendida ainda. Sem isto, uma ficha
+  // NOVA com slot concedido por regra não oferecia o catálogo — os slots eram
+  // computados mas o seletor nunca aparecia (issue #56). Espelha a regra do
+  // plugin (magias-card.ts: renderiza a escola quando prof ≠ N). Tesouros é
+  // exclusivo (não se aprende por slot), fica de fora.
+  const escolasProficiente = escolasAll.filter(
+    (e) => str(e.Nome) !== 'Tesouros' && str(e.Proficiencia) !== 'N',
   )
   const slotsFm = fmPath(fm, 'Magias', 'Slots') as Record<string, unknown> | undefined
 
   const h2Of = (nome: string) => (nome === 'Tesouros' ? 'Magias de Tesouros' : `Magias ${nome}`)
 
-  // Docs de magia da vault por escola (pasta "Magia <Escola>") pro painel edit.
+  // Docs de magia da vault por escola (pasta "Magia <Escola>") pro painel edit —
+  // pelas escolas PROFICIENTES (fonte das não-aprendidas), não pelas aprendidas.
   const spellIdsByEscola = useMemo(() => {
     const map = new Map<string, string[]>()
-    for (const escola of escolas) {
+    for (const escola of escolasProficiente) {
       const nome = str(escola.Nome)
-      if (nome === 'Tesouros') continue
       map.set(
         nome,
         catalog.content
@@ -1813,7 +1823,8 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       )
     }
     return map
-  }, [catalog, escolas])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalog, fm])
   const allSpellIds = useMemo(() => [...spellIdsByEscola.values()].flat(), [spellIdsByEscola])
   const spellDocs = useDocs(edit ? allSpellIds : [])
 
@@ -2032,9 +2043,7 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
                 📚 Magias Não Aprendidas
               </div>
-              {escolas
-                .filter((e) => str(e.Nome) !== 'Tesouros')
-                .map((escola) => {
+              {escolasProficiente.map((escola) => {
                   const nome = str(escola.Nome)
                   const learned = new Set(listaEntries(escola.Lista).map((e) => e.target))
                   const byRank = new Map<string, VaultDoc[]>()

@@ -208,12 +208,109 @@ function deepSet(
   return out
 }
 
-/* ===================== skeletons (herói real esvaziado) ===================== */
+/* ===================== skeletons (template base do plugin) ===================== */
 
-/** Base comum das criaturas — mesma forma dos FMs reais da vault, mas com
- *  listas vazias e atributos 0. Modelado a partir do FM do Carlos (herói real).
- *  Os campos de identidade (Nível/Tier/Raça/Tutor/subcategoria) são ajustados
- *  por família. */
+// O skeleton NÃO nasce vazio: espelha o `defaultModelFor` (+ pericia-defaults)
+// do plugin pleitost-autosheet (src/data/family-defaults.ts) serializado no
+// SHAPE do FM (nomes ACENTUADOS como serialize-to-fm.ts grava, confirmados no
+// FM real do Thoren). Assim a ficha nova nasce com atributos {3,2,1,0}+Principal,
+// 13 perícias / 4 defesas / 2 sentidos / 3 ofícios / movimento base em rank N e
+// a estrutura de Magias com as 4 escolas. Sem isso as abas renderizavam listas
+// vazias e atributos "repetidos" (issues #52–#56). Regras/slots sobem POR CIMA
+// disto (merge-calculated); os campos de identidade (Nível/Tier/Raça/Tutor/
+// subcategoria) são ajustados por família.
+
+/** 13 perícias base em rank N — nome ACENTUADO (FM) + atributo default do
+ *  plugin (PERICIA_ATRIBUTO_DEFAULT), na ordem canônica de PERICIAS. */
+const PERICIA_BASE: ReadonlyArray<readonly [string, string]> = [
+  ['Atletismo', 'FOR'],
+  ['Acrobacia', 'AGI'],
+  ['Furtividade', 'AGI'],
+  ['Ladinagem', 'AGI'],
+  ['Arcana', 'INT'],
+  ['Sociedades', 'INT'],
+  ['Guerra', 'INT'],
+  ['Medicina', 'INT'],
+  ['Sobrevivência', 'INT'],
+  ['Anima', 'PRE'],
+  ['Diplomacia', 'PRE'],
+  ['Enganação', 'PRE'],
+  ['Intimidação', 'PRE'],
+]
+
+function defaultPericiasLista(): Record<string, unknown>[] {
+  return PERICIA_BASE.map(([Nome, Atributo]) => ({
+    Nome,
+    Atributo,
+    Proficiencia: 'N',
+    Bonus_Item: 0,
+    Bonus_Especial: 0,
+    Especializacao: '',
+    Maestria: '',
+    Incrementos: [],
+  }))
+}
+
+/** 4 defesas + 2 sentidos base (defaultDefesas/defaultSentidos do plugin;
+ *  nomes acentuados como o FM grava: Ímpeto/Percepção/Intuição). */
+function defaultDefesasLista(): Record<string, unknown>[] {
+  return [
+    { Nome: 'Defesa', Atributo: 'AGI', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+    { Nome: 'Vigor', Atributo: 'FOR', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+    { Nome: 'Reflexo', Atributo: 'AGI', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+    { Nome: 'Ímpeto', Atributo: 'PRE', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+  ]
+}
+function defaultSentidosLista(): Record<string, unknown>[] {
+  return [
+    { Nome: 'Percepção', Atributo: 'INT', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+    { Nome: 'Intuição', Atributo: 'PRE', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0 },
+  ]
+}
+/** 3 ofícios base (defaultOficios do plugin — nomes SEM acento, com Complemento). */
+function defaultOficiosLista(): Record<string, unknown>[] {
+  return [
+    { Nome: 'Oficio', Complemento: '', Atributo: 'INT', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] },
+    { Nome: 'Atuacao', Complemento: '', Atributo: 'PRE', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] },
+    { Nome: 'Conhecimento', Complemento: '', Atributo: 'INT', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] },
+  ]
+}
+/** Estrutura de Magias: 4 escolas na primária, 3 na secundária (sem Tesouros),
+ *  cada uma em rank N com Lista vazia — shape de serialize-to-fm.ts. Assim a aba
+ *  MAGIAS computa Potência/EM/slots e oferece o catálogo de não-aprendidas
+ *  quando uma regra concede slot (issue #56). */
+function defaultMagias(): Record<string, unknown> {
+  const escola = (Nome: string, Atributo: string) => ({
+    Nome,
+    Atributo,
+    Proficiencia: 'N',
+    Bonus_Item: 0,
+    Bonus_Especial: 0,
+    Lista: [],
+  })
+  return {
+    Potencia: 0,
+    EM: 0,
+    Slots: { B: 0, A: 0, E: 0, M: 0 },
+    Lista: [
+      escola('Arcana Negra', 'INT'),
+      escola('Arcana Branca', 'INT'),
+      escola('Anima', 'PRE'),
+      escola('Tesouros', ''),
+    ],
+    Secundaria: {
+      Potencia: 0,
+      EM: 0,
+      Slots: { B: 0, A: 0, E: 0, M: 0 },
+      Lista: [
+        escola('Arcana Negra', 'INT'),
+        escola('Arcana Branca', 'INT'),
+        escola('Anima', 'PRE'),
+      ],
+    },
+  }
+}
+
 function baseCreatureFm(): Record<string, unknown> {
   return {
     aliases: [],
@@ -225,23 +322,22 @@ function baseCreatureFm(): Record<string, unknown> {
     Sintonia: '',
     Tamanho: 'Médio',
     Vida: { Vitalidade: 0, Moral: 0 },
-    Atributos: { Principal: '', FOR: 0, AGI: 0, INT: 0, PRE: 0 },
-    Defesas_Resistencias: { Lista: [] },
-    Sentidos: { Lista: [] },
-    Movimento: { Lista: [] },
-    Pericias: { Slots: { A: 0, E: 0, M: 0 }, Lista: [] },
-    Oficios: { Lista: [] },
+    Atributos: { Principal: 'FOR', FOR: 3, AGI: 2, INT: 1, PRE: 0 },
+    Defesas_Resistencias: { Lista: defaultDefesasLista() },
+    Sentidos: { Lista: defaultSentidosLista() },
+    Movimento: { Lista: [{ Nome: 'Terrestre', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0 }] },
+    Pericias: { Slots: { A: 0, E: 0, M: 0 }, Lista: defaultPericiasLista() },
+    Oficios: { Lista: defaultOficiosLista() },
     Habilidades: { Lista: [], Especiais: [] },
     Tecnicas: { Slots: { A: 0, E: 0, M: 0 }, Lista: [] },
-    Magias: {
-      Potencia: 0,
-      EM: 0,
-      Slots: { B: 0, A: 0, E: 0, M: 0 },
-      Lista: [],
-      Secundaria: { Potencia: 0, EM: 0, Slots: { B: 0, A: 0, E: 0, M: 0 }, Lista: [] },
-    },
+    Magias: defaultMagias(),
     Acoes: { Lista: [] },
-    Ataques: { Proficiencia: 'N', Lista: [] },
+    Ataques: {
+      Proficiencia: 'N',
+      Lista: [
+        { Nome: 'Manobras', Atributo: 'FOR', Bonus_Item: 0, Bonus_Especial: 0, Categoria: null, Propriedade: null, Fonte: 'Padrao' },
+      ],
+    },
     Inventario: {
       Ouro: 0,
       Armadura: {
