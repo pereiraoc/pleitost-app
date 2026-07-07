@@ -6,6 +6,7 @@ import type { VaultDoc } from '../data/types'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
 import { useHeroModel } from '../data/useHeroModel'
+import { useHeroRules } from '../rules/useHeroRules'
 import type { HeroRefs } from '../components/ficha/useHeroRefs'
 import { fmOf, fmPath, str } from '../components/ficha/hero-model'
 import {
@@ -48,7 +49,12 @@ export interface InterativaCtxState extends InterativaComputed {
  *  FM overlaid. `refs` deve ser o HeroRefs da ficha (mesmos docs). */
 export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxState {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // BASE da engine da Interativa = FM DERIVADO (atributos/armas/defesas já
+  // cascateados pelas regras). O merge preserva TODO o estado volátil
+  // (Recursos_Restantes/Condicoes_Ativas/Efeitos_Ativos/Seletores) intacto, então
+  // as condições/toggles seguem lidas do salvo; só a base reflete a cascata.
+  const fm = rules?.derivedFm ?? model.fm
   const catalog = useCatalog()
   const { docs: allExtra, loaded } = useCondicaoDocs()
 

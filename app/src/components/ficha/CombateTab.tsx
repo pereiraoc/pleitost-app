@@ -21,6 +21,7 @@ import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots } from './bits'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
@@ -139,7 +140,11 @@ function Scrim({ onClick }: { onClick: () => void }) {
 
 function EscudoRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base = FM DERIVADO (FM salvo ⊕ cascata de regras); o estado volátil da
+  // Interativa (Recursos_Restantes/Efeitos_Ativos) é preservado intacto pelo
+  // merge, então só a BASE reflete a cascata. Fallback no salvo enquanto resolve.
+  const fm = rules?.derivedFm ?? model.fm
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
   const nome = linkLabel(str(escudo['Nome']))
   // Erguido = Estado "Escudo Erguido" (Erguer Escudo, Ações Especiais) —
@@ -538,7 +543,10 @@ const RES_KEY: Record<string, ConditionNumberKey> = {
 
 function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base derivada (atributos/defesas já cascateados); os deltas dos Efeitos
+  // Interativos entram POR CIMA via applyTarget(inter.ctx,…). Volátil intacto.
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
   const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
@@ -1081,7 +1089,10 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
 
 function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base derivada (atributos/proficiência de ataque cascateados); Efeitos
+  // Interativos (Vantagem de Combate, Apunhalante…) somam por cima via inter.ctx.
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
   const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
@@ -1364,7 +1375,10 @@ function useAcoesPorPericia(): Map<string, string[]> {
 }
 
 function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'combate')
+  const rules = useHeroRules(model.fm)
+  // Base derivada (atributos/perícias cascateados) + delta da Interativa por cima.
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
   const actsByPericia = useAcoesPorPericia()
   // mod = projeção do FM + delta da Interativa (Pericias/PericiasDeAtributo/
@@ -1493,7 +1507,9 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
 
 function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base derivada; o volátil (Usos_Recursos) é preservado pelo merge.
+  const fm = rules?.derivedFm ?? model.fm
   const inter = interativa(fm)
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...inter.usos, [key]: next })
@@ -1593,7 +1609,9 @@ const MAGIA_SUB_TABS = [
 
 function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base derivada (EM/Potência/escolas cascateados); EM restante (volátil) intacto.
+  const fm = rules?.derivedFm ?? model.fm
   const emMax = num(fmPath(fm, 'Magias', 'EM'))
   const rest = interativa(fm).restantes
   const em = rest['EM'] !== undefined ? num(rest['EM']) : emMax
@@ -1760,7 +1778,9 @@ const invocMiniBtn = (enabled: boolean): CSSProperties => ({
  *  shape idêntico ao FM que o plugin persiste. */
 function InvocacoesPanel({ doc, invocacoes }: { doc: VaultDoc; invocacoes: EffectDescriptor[] }) {
   const model = useHeroModel(doc, 'combate')
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Base derivada (Potência do invocador cascateada); Invocacoes_Ativas (volátil) intacto.
+  const fm = rules?.derivedFm ?? model.fm
   const ativas = invocacoesAtivas(fm)
   // Default PM = potência do herói invocador (plugin defaultPM :122-124).
   const potenciaRaw = fmPath(fm, 'Magias', 'Potencia')

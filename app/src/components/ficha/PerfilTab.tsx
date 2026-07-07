@@ -251,7 +251,11 @@ export function PassadoBox({
   origem?: string
 }) {
   const model = useHeroModel(doc, origem)
-  const fm = model.fm
+  const rules = useHeroRules(model.fm)
+  // Display do PASSADO lê o FM DERIVADO (perícia/ofício concedidos por regra já
+  // aparecem); a ESCRITA dos picks regrava só a lista SALVA (não materializa
+  // saídas de regra). SEM camada interativa aqui (só leitura estática).
+  const fm = rules?.derivedFm ?? model.fm
   const passado = str(fmPath(fm, 'Biografia', 'Passado'))
   // Perícia/Ofício concedidos pelo Passado = linhas com incremento "Passado".
   const ehDoPassado = (row: Record<string, unknown>) =>
@@ -267,17 +271,19 @@ export function PassadoBox({
   const pericia = daFonte(periciasRows)
   const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as Record<string, unknown>[]
   const oficio = daFonte(oficios)
-  // Opções elegíveis dos selects — projeção de regras do plugin
-  // (periciasPassadoOptions/oficiosPassadoOptions, util/passado-options.ts).
-  const rules = useHeroRules(fm)
+  // Listas SALVAS (base de ESCRITA dos picks — não o derivado, pra não gravar
+  // saídas de regra no FM salvo).
+  const savedPericias = (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
+  const savedOficios = (fmPath(model.fm, 'Oficios', 'Lista') ?? []) as Record<string, unknown>[]
   // Edição persiste NA HORA: texto do passado e complemento do ofício
-  // (a linha do ofício é regravada dentro da lista — write de container).
+  // (a linha do ofício é regravada dentro da lista SALVA — write de container).
   const setPassado = (v: string) => model.set('Biografia.Passado', v)
   const setOficioTexto = (v: string) => {
     if (!oficio) return
+    const nome = str(oficio['Nome'])
     model.set(
       'Oficios.Lista',
-      oficios.map((row) => (row === oficio ? { ...row, Complemento: v } : row)),
+      savedOficios.map((row) => (str(row['Nome']) === nome ? { ...row, Complemento: v } : row)),
     )
   }
   // Troca de pick = ESTADO no FM (pick do Passado vira incremento
@@ -286,13 +292,13 @@ export function PassadoBox({
   const setPericiaPick = (slug: string) =>
     model.set(
       'Pericias.Lista',
-      applyPassadoPickToRows(periciasRows, (row) => !!slug && slugify(str(row['Nome'])) === slug),
+      applyPassadoPickToRows(savedPericias, (row) => !!slug && slugify(str(row['Nome'])) === slug),
     )
   const setOficioPick = (v: string) =>
     model.set(
       'Oficios.Lista',
       applyPassadoPickToRows(
-        oficios,
+        savedOficios,
         (row) =>
           !!v && (v === 'Atuacao' ? str(row['Nome']) === 'Atuacao' : str(row['Nome']) === 'Oficio'),
       ),

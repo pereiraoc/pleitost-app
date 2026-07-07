@@ -16,6 +16,7 @@ import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
 import { loadDoc } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { CoinsDropdown } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
@@ -238,9 +239,14 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const assets = useAssetIndex()
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
+  const rules = useHeroRules(model.fm)
+  // Base de LEITURA = FM DERIVADO (atributos cascateados ⇒ bônus de arma vindos
+  // de regra aparecem); a ESCRITA (patchArma) regrava a lista SALVA. SEM camada
+  // interativa aqui (leitura estática do derivado).
+  const fm = rules?.derivedFm ?? model.fm
   const lista = (fmPath(model.fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
-  const rows = useMemo(() => armaRowsFromFm(model.fm), [model.fm])
-  const atributos = heroAtributos(model.fm).values
+  const rows = useMemo(() => armaRowsFromFm(fm), [fm])
+  const atributos = heroAtributos(fm).values
 
   // Overlay grava a LISTA inteira (write-through de container, como o plugin).
   const patchArma = (i: number, patch: Record<string, unknown>) =>
