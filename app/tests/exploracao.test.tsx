@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
-// Aba EXPLORAÇÃO do grupo (issue #36): mapa real do Mundo Livre + trilha do
-// grupo persistida por grupo (`pleitost.groupState.<id>`). Integração no
-// padrão do repo — fetch stubado lê os JSONs REAIS do disco, grupo real e
-// doc de Localização real (Krasnogor); expectativas recomputadas AQUI a
-// partir do manifest. Cliques no mapa simulados com getBoundingClientRect
-// mockado (jsdom não faz layout); "reload" = zerar a memória do store
-// mantendo o window.localStorage.
+// Aba EXPLORAÇÃO do grupo (issue #36; grade hexagonal issue #48): mapa real
+// do Mundo Livre + trilha do grupo persistida por grupo
+// (`pleitost.groupState.<id>`), agora como HEXES {col,row} de uma grade
+// sobreposta e alinhada aos hexágonos da arte. Integração no padrão do repo —
+// fetch stubado lê os JSONs REAIS do disco, grupo real e doc de Localização
+// real (Krasnogor); expectativas recomputadas AQUI a partir do manifest.
+// Cliques no mapa simulados com getBoundingClientRect mockado (jsdom não faz
+// layout); "reload" = zerar a memória do store mantendo o window.localStorage.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -16,17 +17,34 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { GrupoView } from '../src/grupo/GrupoView'
 import { MAPA_MUNDO_LIVRE } from '../src/grupo/PanelExploracao'
-import { locaisSelectLines } from '../src/grupo/exploracao'
+import {
+  fracToHex,
+  hexCenter,
+  hexGridCells,
+  hexGridPath,
+  hexPolygonPoints,
+  hexVertices,
+  locaisSelectLines,
+  pixelToHex,
+  HEX_HSTEP,
+  HEX_OFFSET_X,
+  HEX_OFFSET_Y,
+  HEX_SIZE,
+  HEX_VSTEP,
+  MAP_H,
+  MAP_W,
+} from '../src/grupo/exploracao'
 import { listLocalizacoes } from '../src/rules/naturalidade'
 import {
   __resetGroupStoreMemoryForTests,
-  addGroupPoint,
+  addGroupHex,
   getGroupState,
-  ordenarPontos,
-  pontoAtual,
-  removeGroupPoint,
+  hexAt,
+  hexAtual,
+  ordenarHexes,
+  removeGroupHex,
   todayISO,
-  updateGroupPoint,
+  updateGroupHex,
 } from '../src/data/group-store'
 import { docPath } from '../src/paths'
 import type { IndexManifest } from '../src/data/types'
@@ -110,49 +128,168 @@ const esperaMapa = async (container: HTMLElement) => {
   await waitFor(() => expect(container.querySelector('[data-mapa]')).toBeTruthy())
 }
 
-describe('group-store (namespace pleitost.groupState.<groupId>)', () => {
+/** O overlay SVG é pointer-events:none: o hit-test é MATEMÁTICO no div do mapa.
+ *  Pra "clicar num hex" o clique precisa cair no centro da célula (com o rect
+ *  mockado). Reproduz o que um clique real do browser faz atravessando o SVG. */
+function clickHex(
+  mapa: HTMLElement,
+  cell: { col: number; row: number },
+  width = 400,
+  height = 540,
+) {
+  const c = hexCenter(cell.col, cell.row)
+  fireEvent.click(mapa, { clientX: (c.x / MAP_W) * width, clientY: (c.y / MAP_H) * height })
+}
+
+// ── Geometria da grade hexagonal (issue #48) — puro e determinístico ──────
+describe('grade hexagonal (geometria calibrada flat-top)', () => {
+  it('constantes casam com a calibração: size 74, offset (39,122), passos 111/128', () => {
+    expect([MAP_W, MAP_H]).toEqual([4352, 5888])
+    expect(HEX_SIZE).toBe(74)
+    expect([HEX_OFFSET_X, HEX_OFFSET_Y]).toEqual([39, 122])
+    expect(HEX_HSTEP).toBe(1.5 * HEX_SIZE) // 111
+    expect(HEX_HSTEP).toBeCloseTo(111)
+    expect(HEX_VSTEP).toBe(Math.sqrt(3) * HEX_SIZE) // √3·size = altura do hex
+    expect(HEX_VSTEP).toBeCloseTo(128, 0) // ≈128
+  })
+
+  it('hexCenter: (0,0) na origem; passo horiz 1.5·size; coluna ímpar +meio-hex', () => {
+    expect(hexCenter(0, 0)).toEqual({ x: HEX_OFFSET_X, y: HEX_OFFSET_Y })
+    // mesma coluna: passo vertical = √3·size
+    expect(hexCenter(0, 1).y - hexCenter(0, 0).y).toBeCloseTo(HEX_VSTEP)
+    expect(hexCenter(1, 0).x - hexCenter(0, 0).x).toBeCloseTo(HEX_HSTEP)
+    // coluna ímpar deslocada meio-hex (≈64) pra baixo (odd-q)
+    expect(hexCenter(1, 0).y - hexCenter(0, 0).y).toBeCloseTo(HEX_VSTEP / 2)
+  })
+
+  it('hexVertices: flat-top (ponta à direita/esquerda, topo/base planos)', () => {
+    const v = hexVertices(3, 5)
+    const c = hexCenter(3, 5)
+    expect(v.length).toBe(6)
+    // vértice 0 = ponta direita (cx+size, cy); vértice 3 = ponta esquerda
+    expect(v[0].x).toBeCloseTo(c.x + HEX_SIZE)
+    expect(v[0].y).toBeCloseTo(c.y)
+    expect(v[3].x).toBeCloseTo(c.x - HEX_SIZE)
+    // topo plano: v4 e v5 na mesma altura (aresta horizontal)
+    expect(v[4].y).toBeCloseTo(v[5].y)
+    expect(v[4].y).toBeCloseTo(c.y - HEX_VSTEP / 2)
+  })
+
+  it('pixelToHex é o inverso EXATO de hexCenter (round-trip em várias células)', () => {
+    for (const col of [0, 1, 2, 7, 18, 38]) {
+      for (const row of [0, 1, 3, 12, 25, 45]) {
+        const c = hexCenter(col, row)
+        expect(pixelToHex(c.x, c.y)).toEqual({ col, row })
+        // um ponto qualquer DENTRO do hex (perto do centro) cai na mesma célula
+        expect(pixelToHex(c.x + 20, c.y - 15)).toEqual({ col, row })
+        expect(pixelToHex(c.x - 25, c.y + 18)).toEqual({ col, row })
+      }
+    }
+  })
+
+  it('fracToHex compõe fração→pixel→hex', () => {
+    expect(fracToHex(0.25, 0.5)).toEqual(pixelToHex(0.25 * MAP_W, 0.5 * MAP_H))
+    expect(fracToHex(0, 0)).toEqual(pixelToHex(0, 0))
+  })
+
+  it('hexPolygonPoints: 6 pares "x,y" arredondados a 1 casa', () => {
+    const pts = hexPolygonPoints(2, 3).split(' ')
+    expect(pts.length).toBe(6)
+    for (const p of pts) expect(p).toMatch(/^-?\d+(\.\d)?,-?\d+(\.\d)?$/)
+  })
+
+  it('hexGridCells cobre a imagem inteira (~40×47) com margem nas bordas', () => {
+    const cells = hexGridCells()
+    // ~40 colunas × ~47 linhas, com margem (-1) → milhares de células
+    expect(cells.length).toBeGreaterThan(1600)
+    expect(cells.length).toBeLessThan(2200)
+    // toda célula tem centro dentro da imagem OU a até 1 hex da borda
+    for (const { col, row } of cells) {
+      const c = hexCenter(col, row)
+      expect(c.x).toBeGreaterThan(-HEX_SIZE)
+      expect(c.x).toBeLessThan(MAP_W + HEX_SIZE)
+      expect(c.y).toBeGreaterThan(-HEX_SIZE)
+      expect(c.y).toBeLessThan(MAP_H + HEX_SIZE)
+    }
+    // cobre os 4 cantos: existe célula cujo centro está a <1 hex de cada canto
+    const near = (px: number, py: number) =>
+      cells.some((c) => {
+        const p = hexCenter(c.col, c.row)
+        return Math.abs(p.x - px) < HEX_HSTEP && Math.abs(p.y - py) < HEX_VSTEP
+      })
+    expect(near(0, 0)).toBe(true)
+    expect(near(MAP_W, MAP_H)).toBe(true)
+  })
+
+  it('hexGridPath: um único path com uma cadeia (M…L…L…L) por célula', () => {
+    const d = hexGridPath()
+    expect(d.startsWith('M')).toBe(true)
+    // uma cadeia contígua de 3 arestas (v2→v3→v4→v5) por célula
+    expect(d.split('M').length - 1).toBe(hexGridCells().length)
+    expect((d.match(/L/g) ?? []).length).toBe(hexGridCells().length * 3)
+  })
+})
+
+describe('group-store (namespace pleitost.groupState.<groupId>) — hexes', () => {
   it('add/update/remove gravam NA HORA na chave do grupo; remount relê', () => {
-    const p = addGroupPoint(GROUP_ID, { x: 0.25, y: 0.5, data: '2026-07-01' })
-    expect(getGroupState(GROUP_ID).pontos).toEqual([p])
+    const h = addGroupHex(GROUP_ID, { col: 5, row: 12, data: '2026-07-01' })
+    expect(getGroupState(GROUP_ID).hexes).toEqual([h])
     // gravação imediata (canal 'imediato' do padrão hero-store)
     const salvo = JSON.parse(window.localStorage.getItem(STORE_KEY)!)
-    expect(salvo.pontos).toEqual([p])
+    expect(salvo.hexes).toEqual([h])
 
-    updateGroupPoint(GROUP_ID, p.id, { data: '2026-07-02', localId: KRASNOGOR_ID })
-    expect(getGroupState(GROUP_ID).pontos[0]).toEqual({
-      ...p,
+    updateGroupHex(GROUP_ID, h.id, { data: '2026-07-02', localId: KRASNOGOR_ID })
+    expect(getGroupState(GROUP_ID).hexes[0]).toEqual({
+      ...h,
       data: '2026-07-02',
       localId: KRASNOGOR_ID,
     })
     // localId vazio remove a associação
-    updateGroupPoint(GROUP_ID, p.id, { localId: undefined })
-    expect(getGroupState(GROUP_ID).pontos[0].localId).toBeUndefined()
+    updateGroupHex(GROUP_ID, h.id, { localId: undefined })
+    expect(getGroupState(GROUP_ID).hexes[0].localId).toBeUndefined()
 
     // "reload": zera a memória, o localStorage rehidrata
     __resetGroupStoreMemoryForTests()
-    expect(getGroupState(GROUP_ID).pontos[0].data).toBe('2026-07-02')
+    expect(getGroupState(GROUP_ID).hexes[0].data).toBe('2026-07-02')
 
-    removeGroupPoint(GROUP_ID, p.id)
-    expect(getGroupState(GROUP_ID).pontos).toEqual([])
-    // sem pontos → chave removida (espelha o hasEdits do hero-store)
+    removeGroupHex(GROUP_ID, h.id)
+    expect(getGroupState(GROUP_ID).hexes).toEqual([])
+    // sem hexes → chave removida (espelha o hasEdits do hero-store)
     expect(window.localStorage.getItem(STORE_KEY)).toBeNull()
   })
 
+  it('addGroupHex não duplica a mesma célula (col,row); hexAt localiza', () => {
+    const a = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-01' })
+    const b = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-09' })
+    expect(b.id).toBe(a.id) // mesma célula → devolve o existente
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
+    expect(hexAt(getGroupState(GROUP_ID).hexes, 3, 3)!.id).toBe(a.id)
+    expect(hexAt(getGroupState(GROUP_ID).hexes, 9, 9)).toBeNull()
+  })
+
+  it('descarta a forma antiga {pontos:[{x,y}]} do localStorage (issue #48)', () => {
+    window.localStorage.setItem(
+      STORE_KEY,
+      JSON.stringify({ pontos: [{ id: 'p1', x: 0.5, y: 0.5, data: '2026-01-01' }] }),
+    )
+    expect(getGroupState(GROUP_ID).hexes).toEqual([])
+  })
+
   it('namespaces por grupo são independentes', () => {
-    addGroupPoint('grupo-a', { x: 0.1, y: 0.1, data: '2026-01-01' })
-    expect(getGroupState('grupo-b').pontos).toEqual([])
+    addGroupHex('grupo-a', { col: 1, row: 1, data: '2026-01-01' })
+    expect(getGroupState('grupo-b').hexes).toEqual([])
     expect(window.localStorage.getItem('pleitost.groupState.grupo-a')).toBeTruthy()
     expect(window.localStorage.getItem('pleitost.groupState.grupo-b')).toBeNull()
   })
 
-  it('ordenarPontos: data ASC com empate estável; pontoAtual = último', () => {
-    const b = addGroupPoint(GROUP_ID, { x: 0.2, y: 0.2, data: '2026-07-03' })
-    const a = addGroupPoint(GROUP_ID, { x: 0.1, y: 0.1, data: '2026-07-01' })
-    const c = addGroupPoint(GROUP_ID, { x: 0.3, y: 0.3, data: '2026-07-03' })
-    const ordenados = ordenarPontos(getGroupState(GROUP_ID).pontos)
+  it('ordenarHexes: data ASC com empate estável; hexAtual = último', () => {
+    const b = addGroupHex(GROUP_ID, { col: 2, row: 2, data: '2026-07-03' })
+    const a = addGroupHex(GROUP_ID, { col: 1, row: 1, data: '2026-07-01' })
+    const c = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-03' })
+    const ordenados = ordenarHexes(getGroupState(GROUP_ID).hexes)
     // 01 primeiro; empate 03/03 preserva inserção (b antes de c)
-    expect(ordenados.map((p) => p.id)).toEqual([a.id, b.id, c.id])
-    expect(pontoAtual(getGroupState(GROUP_ID).pontos)!.id).toBe(c.id)
+    expect(ordenados.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    expect(hexAtual(getGroupState(GROUP_ID).hexes)!.id).toBe(c.id)
   })
 })
 
@@ -186,13 +323,14 @@ describe('locaisSelectLines (árvore real do Atlas)', () => {
     expect(pedraFina.disabled).toBe(false)
     // folha mais funda indenta mais que a nota-índice da pasta
     const krasnogor = lines.find((l) => l.value === KRASNOGOR_ID)!
-    const indent = (s: string) => /^ */.exec(s)![0].length
+    // a indentação da árvore usa NBSP por nível → \s (casa NBSP também)
+    const indent = (s: string) => /^\s*/.exec(s)![0].length
     expect(indent(krasnogor.label)).toBeGreaterThan(indent(pedraFina.label))
   })
 })
 
-describe('aba EXPLORAÇÃO (GrupoView, grupo real)', () => {
-  it('é a PRIMEIRA aba, ativa por padrão, e mostra o mapa real', async () => {
+describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
+  it('é a PRIMEIRA aba, ativa por padrão, mostra o mapa real e a grade', async () => {
     const { container } = renderGroup()
     const tabExp = screen.getByText('EXPLORAÇÃO')
     // primeira aba da fila e ativa por padrão (accent + track em -0%)
@@ -209,36 +347,46 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real)', () => {
     expect(decodeURIComponent(img.getAttribute('src') ?? '')).toBe(
       `/vault-data/assets/${MAPA_MUNDO_LIVRE}`,
     )
+    // overlay SVG em px da fonte + a malha hexagonal (1 path)
+    const svg = container.querySelector('[data-mapa] svg') as SVGSVGElement
+    expect(svg.getAttribute('viewBox')).toBe(`0 0 ${MAP_W} ${MAP_H}`)
+    const grid = container.querySelector('[data-hexgrid]') as SVGPathElement
+    expect(grid.getAttribute('d')).toBe(hexGridPath())
+    expect(grid.getAttribute('vector-effect')).toBe('non-scaling-stroke')
   })
 
-  it('ADICIONAR PONTO: clique cria ponto {x,y,data hoje}; popover edita data e associa doc real', async () => {
+  it('MARCAR HEX: clique destaca o HEX certo (col,row de pixelToHex) e abre o popover', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
     const mapa = mockMapaRect(container)
 
-    fireEvent.click(screen.getByText('ADICIONAR PONTO'))
+    fireEvent.click(screen.getByText('MARCAR HEX'))
     fireEvent.click(mapa, { clientX: 100, clientY: 270 })
 
-    // ponto criado com frações relativas à imagem e data de hoje
-    const pontos = getGroupState(GROUP_ID).pontos
-    expect(pontos.length).toBe(1)
-    expect(pontos[0].x).toBeCloseTo(0.25)
-    expect(pontos[0].y).toBeCloseTo(0.5)
-    expect(pontos[0].data).toBe(todayISO())
-    expect(pontos[0].localId).toBeUndefined()
+    // célula esperada = pixelToHex da fração clicada (0.25, 0.5)
+    const cell = fracToHex(0.25, 0.5)
+    const hexes = getGroupState(GROUP_ID).hexes
+    expect(hexes.length).toBe(1)
+    expect({ col: hexes[0].col, row: hexes[0].row }).toEqual(cell)
+    expect(hexes[0].data).toBe(todayISO())
+    expect(hexes[0].localId).toBeUndefined()
 
-    // popover abre já no ponto criado (único ponto = ATUAL)
-    const info = container.querySelector('[data-ponto-info]') as HTMLElement
+    // polígono do hex desenhado nos vértices da célula (data-hex = id)
+    const poly = container.querySelector(`[data-hex="${hexes[0].id}"]`) as SVGPolygonElement
+    expect(poly.getAttribute('points')).toBe(hexPolygonPoints(cell.col, cell.row))
+
+    // popover abre já no hex criado (único = ATUAL)
+    const info = container.querySelector('[data-hex-info]') as HTMLElement
     expect(info).toBeTruthy()
     expect(within(info).getByText('ATUAL')).toBeTruthy()
     const dataInput = within(info).getByLabelText('DATA') as HTMLInputElement
     expect(dataInput.value).toBe(todayISO())
     fireEvent.change(dataInput, { target: { value: '2026-07-01' } })
-    expect(getGroupState(GROUP_ID).pontos[0].data).toBe('2026-07-01')
+    expect(getGroupState(GROUP_ID).hexes[0].data).toBe('2026-07-01')
 
     // dropdown com a árvore real do Atlas → associa o Krasnogor
     fireEvent.change(within(info).getByLabelText('LOCAL'), { target: { value: KRASNOGOR_ID } })
-    expect(getGroupState(GROUP_ID).pontos[0].localId).toBe(KRASNOGOR_ID)
+    expect(getGroupState(GROUP_ID).hexes[0].localId).toBe(KRASNOGOR_ID)
     expect(within(info).getByText('Krasnogor')).toBeTruthy()
     // link pro doc via docPath
     const link = within(info).getByText('ABRIR DOC') as HTMLAnchorElement
@@ -253,72 +401,124 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real)', () => {
     expect(within(info).getByText('Pedra Fina')).toBeTruthy()
   })
 
-  it('trilha liga os pontos em ordem de data; ATUAL destacado em accent; editar data reordena', async () => {
-    const a = addGroupPoint(GROUP_ID, { x: 0.2, y: 0.2, data: '2026-07-01' })
-    const b = addGroupPoint(GROUP_ID, { x: 0.6, y: 0.4, data: '2026-07-03' })
+  it('modo marcar: clicar de novo no MESMO hex o remove (toggle)', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
-
-    // dois losangos; o ATUAL (data maior) marcado e com glow accent
-    expect(container.querySelectorAll('[data-ponto]').length).toBe(2)
-    const atual = container.querySelector('[data-atual]') as HTMLElement
-    expect(atual.getAttribute('data-ponto')).toBe(b.id)
-    expect(atual.style.background).toBe('var(--accent)')
-    expect(atual.style.boxShadow).toContain('var(--accent)')
-    const outro = container.querySelector(`[data-ponto="${a.id}"]`) as HTMLElement
-    expect(outro.style.background).toBe('var(--panel)')
-
-    // trilha tracejada na ordem cronológica (a → b)
-    const trilha = container.querySelector('[data-trilha]') as SVGPolylineElement
-    expect(trilha.getAttribute('points')).toBe('20,20 60,40')
-    expect(trilha.getAttribute('stroke-dasharray')).toBeTruthy()
-
-    // clicar no ponto antigo abre o popover; mudar a data pra frente REORDENA
-    fireEvent.click(outro)
-    const info = container.querySelector('[data-ponto-info]') as HTMLElement
-    fireEvent.change(within(info).getByLabelText('DATA'), { target: { value: '2026-07-05' } })
-    expect(
-      (container.querySelector('[data-atual]') as HTMLElement).getAttribute('data-ponto'),
-    ).toBe(a.id)
-    expect(
-      (container.querySelector('[data-trilha]') as SVGPolylineElement).getAttribute('points'),
-    ).toBe('60,40 20,20')
+    const mapa = mockMapaRect(container)
+    fireEvent.click(screen.getByText('MARCAR HEX'))
+    fireEvent.click(mapa, { clientX: 100, clientY: 108 }) // cria
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
+    // clicar de novo na MESMA fração cai na mesma célula → remove
+    fireEvent.click(mapa, { clientX: 100, clientY: 108 })
+    expect(getGroupState(GROUP_ID).hexes).toEqual([])
+    expect(container.querySelector('[data-hex]')).toBeNull()
+    expect(container.querySelector('[data-hex-info]')).toBeNull()
   })
 
-  it('remover ponto pelo × do popover limpa o store e o mapa', async () => {
-    const p = addGroupPoint(GROUP_ID, { x: 0.5, y: 0.5, data: '2026-07-01' })
+  it('trilha liga os centros dos hexes em ordem de data; ATUAL com glow; editar data reordena', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 4, row: 6, data: '2026-07-01' })
+    const b = addGroupHex(GROUP_ID, { col: 12, row: 20, data: '2026-07-03' })
     const { container } = renderGroup()
     await esperaMapa(container)
-    fireEvent.click(container.querySelector(`[data-ponto="${p.id}"]`) as HTMLElement)
-    fireEvent.click(screen.getByLabelText('Remover ponto'))
-    expect(getGroupState(GROUP_ID).pontos).toEqual([])
-    expect(container.querySelector('[data-ponto]')).toBeNull()
-    expect(container.querySelector('[data-ponto-info]')).toBeNull()
+    const mapa = mockMapaRect(container)
+
+    // dois hexes; o ATUAL (data maior) com fill forte (46%) e glow accent
+    expect(container.querySelectorAll('[data-hex]').length).toBe(2)
+    const atual = container.querySelector('[data-atual]') as SVGPolygonElement
+    expect(atual.getAttribute('data-hex')).toBe(b.id)
+    expect(atual.getAttribute('fill')).toContain('46%')
+    expect((atual.getAttribute('style') ?? '')).toContain('drop-shadow')
+    const outro = container.querySelector(`[data-hex="${a.id}"]`) as SVGPolygonElement
+    expect(outro.getAttribute('fill')).toContain('20%')
+    expect((outro.getAttribute('style') ?? '')).not.toContain('drop-shadow')
+
+    // trilha tracejada ligando os CENTROS na ordem cronológica (a → b)
+    const centro = (h: { col: number; row: number }) => {
+      const c = hexCenter(h.col, h.row)
+      return `${c.x},${c.y}`
+    }
+    const trilha = container.querySelector('[data-trilha]') as SVGPolylineElement
+    expect(trilha.getAttribute('points')).toBe(`${centro(a)} ${centro(b)}`)
+    expect(trilha.getAttribute('stroke-dasharray')).toBeTruthy()
+
+    // clicar (fora do modo) no hex antigo abre o popover; mudar a data REORDENA
+    clickHex(mapa, a)
+    const info = container.querySelector('[data-hex-info]') as HTMLElement
+    fireEvent.change(within(info).getByLabelText('DATA'), { target: { value: '2026-07-05' } })
+    expect((container.querySelector('[data-atual]') as SVGPolygonElement).getAttribute('data-hex')).toBe(
+      a.id,
+    )
+    expect((container.querySelector('[data-trilha]') as SVGPolylineElement).getAttribute('points')).toBe(
+      `${centro(b)} ${centro(a)}`,
+    )
+  })
+
+  it('fora do modo marcar, clicar num hex marcado abre o popover (não cria)', async () => {
+    const h = addGroupHex(GROUP_ID, { col: 8, row: 8, data: '2026-07-01' })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    // clica na fração cujo pixelToHex cai exatamente na célula do hex marcado
+    const c = hexCenter(h.col, h.row)
+    fireEvent.click(mapa, { clientX: (c.x / MAP_W) * 400, clientY: (c.y / MAP_H) * 540 })
+    // NÃO cria outro (fora do modo) e abre o popover do hex existente
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
+    const info = container.querySelector('[data-hex-info]') as HTMLElement
+    expect(info).toBeTruthy()
+    // hex fica marcado como selecionado (borda de texto)
+    expect(container.querySelector(`[data-hex="${h.id}"][data-sel]`)).toBeTruthy()
+  })
+
+  it('remover hex pelo × do popover limpa o store e o mapa', async () => {
+    const h = addGroupHex(GROUP_ID, { col: 7, row: 7, data: '2026-07-01' })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    clickHex(mapa, h) // abre o popover do hex marcado
+    fireEvent.click(screen.getByLabelText('Remover hex'))
+    expect(getGroupState(GROUP_ID).hexes).toEqual([])
+    expect(container.querySelector('[data-hex]')).toBeNull()
+    expect(container.querySelector('[data-hex-info]')).toBeNull()
     expect(window.localStorage.getItem(STORE_KEY)).toBeNull()
   })
 
-  it('persistência com remount: ponto criado no clique sobrevive ao "reload"', async () => {
+  it('persistência com remount: hex criado no clique sobrevive ao "reload"', async () => {
     const r = renderGroup()
     await esperaMapa(r.container)
     const mapa = mockMapaRect(r.container)
-    fireEvent.click(screen.getByText('ADICIONAR PONTO'))
+    fireEvent.click(screen.getByText('MARCAR HEX'))
     fireEvent.click(mapa, { clientX: 200, clientY: 135 })
-    const salvo = getGroupState(GROUP_ID).pontos[0]
-    expect(salvo.x).toBeCloseTo(0.5)
-    expect(salvo.y).toBeCloseTo(0.25)
+    const cell = fracToHex(0.5, 0.25)
+    const salvo = getGroupState(GROUP_ID).hexes[0]
+    expect({ col: salvo.col, row: salvo.row }).toEqual(cell)
 
     // "reload da página": desmonta, zera a memória, MANTÉM o localStorage
     r.unmount()
     __resetGroupStoreMemoryForTests()
     const r2 = renderGroup()
     await esperaMapa(r2.container)
-    const marker = r2.container.querySelector('[data-ponto]') as HTMLElement
-    expect(marker.getAttribute('data-ponto')).toBe(salvo.id)
-    expect(marker.style.left).toBe('50%')
-    expect(marker.style.top).toBe('25%')
+    const poly = r2.container.querySelector('[data-hex]') as SVGPolygonElement
+    expect(poly.getAttribute('data-hex')).toBe(salvo.id)
+    expect(poly.getAttribute('points')).toBe(hexPolygonPoints(cell.col, cell.row))
   })
 
-  it('wheel dá zoom com clamp [1,8]; drag faz pan e NÃO cria ponto', async () => {
+  it('hover realça a célula livre sob o cursor (data-hex-hover)', async () => {
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
+    mockMapaRect(container)
+    // move o cursor sobre uma fração livre → aparece o realce
+    fireEvent.pointerMove(viewport, { clientX: 150, clientY: 200 })
+    const cell = fracToHex(150 / 400, 200 / 540)
+    const hover = container.querySelector('[data-hex-hover]') as SVGPolygonElement
+    expect(hover).toBeTruthy()
+    expect(hover.getAttribute('points')).toBe(hexPolygonPoints(cell.col, cell.row))
+    // sair do viewport limpa o realce
+    fireEvent.pointerLeave(viewport)
+    expect(container.querySelector('[data-hex-hover]')).toBeNull()
+  })
+
+  it('wheel dá zoom com clamp [1,8]; drag faz pan e NÃO marca hex', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
     const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
@@ -334,16 +534,16 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real)', () => {
     for (let i = 0; i < 40; i++) fireEvent.wheel(viewport, { deltaY: 100 })
     expect(mapa.style.transform).toBe('translate(0px, 0px) scale(1)')
 
-    // drag = pan (translate muda) e o clique resultante não vira ponto
-    fireEvent.click(screen.getByText('ADICIONAR PONTO'))
+    // drag = pan (translate muda) e o clique resultante não marca hex
+    fireEvent.click(screen.getByText('MARCAR HEX'))
     fireEvent.pointerDown(viewport, { clientX: 100, clientY: 100 })
     fireEvent.pointerMove(viewport, { clientX: 140, clientY: 130 })
     fireEvent.pointerUp(viewport)
     expect(mapa.style.transform).toContain('translate(40px, 30px)')
     fireEvent.click(mapa, { clientX: 140, clientY: 130 })
-    expect(getGroupState(GROUP_ID).pontos).toEqual([])
-    // clique limpo (sem drag) cria normalmente
+    expect(getGroupState(GROUP_ID).hexes).toEqual([])
+    // clique limpo (sem drag) marca normalmente
     fireEvent.click(mapa, { clientX: 100, clientY: 108 })
-    expect(getGroupState(GROUP_ID).pontos.length).toBe(1)
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
   })
 })

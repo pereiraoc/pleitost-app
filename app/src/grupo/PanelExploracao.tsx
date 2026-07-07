@@ -1,17 +1,24 @@
-// Aba EXPLORAÇÃO do grupo (issue #36) — tela SEM design dedicado; extensão
-// sancionada na LINGUAGEM VISUAL do design puxado: painel de canto cortado
-// (clip do bits.tsx), kicker mono "// EXPLORAÇÃO" (sectionTitleStyle) e pill
-// accent (mesmo skin do badge GRUPO do header, dc.html:1114).
+// Aba EXPLORAÇÃO do grupo (issue #36; grade hexagonal issue #48) — tela SEM
+// design dedicado; extensão sancionada na LINGUAGEM VISUAL do design puxado:
+// painel de canto cortado (clip do bits.tsx), kicker mono "// EXPLORAÇÃO"
+// (sectionTitleStyle) e pill accent (mesmo skin do badge GRUPO do header,
+// dc.html:1114).
 //
 // Mapa: asset real `Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png`
 // (assets/byPath + assetUrl), com pan/zoom simples via CSS transform — drag
 // arrasta (pointer events), wheel dá zoom com clamp [1,8] ancorado no cursor
 // (listener nativo non-passive: o onWheel do React é passivo na raiz).
 //
-// Trilha: pontos {x,y} relativos à imagem persistidos por grupo no
-// group-store (`pleitost.groupState.<groupId>`), ligados em ordem de data
-// por linha tracejada sutil; o ATUAL (último por data) é destacado em accent
-// com glow. Losangos contra-escalam (scale(1/zoom)) pra manter o tamanho.
+// Grade hexagonal (issue #48): o mapa é hex-based; um overlay SVG desenha a
+// malha flat-top CALIBRADA (exploracao.ts) em coordenadas de pixel da fonte
+// (viewBox 0..MAP_W × 0..MAP_H) DENTRO do mesmo transform do mapa, então ela
+// escala/desloca junto no zoom/pan (os traços usam non-scaling-stroke pra
+// manter a espessura). Marcar um lugar destaca um HEX inteiro: VISITADO =
+// preenchimento accent translúcido + borda; ATUAL (último por data) = accent
+// forte + glow; hover realça a célula sob o cursor. Trilha tracejada liga os
+// centros dos hexes visitados em ordem de data. O hit-test é MATEMÁTICO
+// (pixelToHex) — o SVG é pointer-events:none e o clique no mapa resolve a
+// célula, sem precisar de ~1.9k polígonos clicáveis.
 import {
   useCallback,
   useEffect,
@@ -29,17 +36,27 @@ import { assetUrl, resolveAsset, useAssetIndex } from '../data/assets'
 import { useDoc } from '../data/useDoc'
 import { docPath } from '../paths'
 import {
-  addGroupPoint,
+  addGroupHex,
   getGroupState,
-  ordenarPontos,
-  pontoAtual,
-  removeGroupPoint,
+  hexAt,
+  hexAtual,
+  ordenarHexes,
+  removeGroupHex,
   subscribeGroup,
   todayISO,
-  updateGroupPoint,
-  type GroupPoint,
+  updateGroupHex,
+  type GroupHex,
 } from '../data/group-store'
-import { locaisSelectLines } from './exploracao'
+import {
+  fracToHex,
+  hexCenter,
+  hexGridPath,
+  hexPolygonPoints,
+  locaisSelectLines,
+  MAP_H,
+  MAP_W,
+  type HexCell,
+} from './exploracao'
 import { sectionTitleStyle } from './panel-ui'
 
 /** Asset real do mapa (path exato no manifest de assets). */
@@ -81,9 +98,7 @@ const inputStyle: CSSProperties = {
   padding: '6px 8px',
 }
 
-const clamp01 = (n: number) => Math.min(1, Math.max(0, n))
-
-/** Resumo maior do ponto ATUAL: imagem do doc (se houver) + FM básico. */
+/** Resumo maior do hex ATUAL: imagem do doc (se houver) + FM básico. */
 function LocalResumo({ localId }: { localId: string }) {
   const { doc } = useDoc(localId)
   const assets = useAssetIndex()
@@ -143,24 +158,26 @@ function LocalResumo({ localId }: { localId: string }) {
   )
 }
 
-/** Painel/popover do ponto selecionado: nome + data + local + link pro doc. */
-function PontoInfo({
+/** Popover do hex selecionado: nome + data + local + link pro doc + resumo do
+ *  ATUAL. Reusa o painel de info; a única troca da issue #48 é a fonte da
+ *  posição (centro do hex, não x/y solto) — mas a info em si independe disso. */
+function HexInfo({
   groupId,
-  ponto,
+  hex,
   atual,
   onRemove,
 }: {
   groupId: string
-  ponto: GroupPoint
+  hex: GroupHex
   atual: boolean
   onRemove: () => void
 }) {
   const catalog = useCatalog()
   const lines = useMemo(() => locaisSelectLines(catalog), [catalog])
-  const nome = ponto.localId ? (catalog.entryById.get(ponto.localId)?.basename ?? '—') : '—'
+  const nome = hex.localId ? (catalog.entryById.get(hex.localId)?.basename ?? '—') : '—'
   return (
     <div
-      data-ponto-info=""
+      data-hex-info=""
       style={{
         padding: '14px 16px',
         background: 'var(--panel)',
@@ -177,9 +194,9 @@ function PontoInfo({
           <span style={{ ...pillStyle(false), cursor: 'default', padding: '3px 9px' }}>ATUAL</span>
         ) : null}
         <span style={{ flex: 1 }} />
-        {ponto.localId ? (
+        {hex.localId ? (
           <Link
-            to={docPath(ponto.localId)}
+            to={docPath(hex.localId)}
             style={{
               fontFamily: 'var(--mono)',
               fontSize: 10,
@@ -193,7 +210,7 @@ function PontoInfo({
         ) : null}
         <button
           onClick={onRemove}
-          aria-label="Remover ponto"
+          aria-label="Remover hex"
           style={{
             background: 'none',
             border: '1px solid var(--line2)',
@@ -213,9 +230,9 @@ function PontoInfo({
           <span style={fieldLabelStyle}>DATA</span>
           <input
             type="date"
-            value={ponto.data}
+            value={hex.data}
             onChange={(e) => {
-              if (e.target.value) updateGroupPoint(groupId, ponto.id, { data: e.target.value })
+              if (e.target.value) updateGroupHex(groupId, hex.id, { data: e.target.value })
             }}
             style={inputStyle}
           />
@@ -223,8 +240,8 @@ function PontoInfo({
         <label style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
           <span style={fieldLabelStyle}>LOCAL</span>
           <select
-            value={ponto.localId ?? ''}
-            onChange={(e) => updateGroupPoint(groupId, ponto.id, { localId: e.target.value || undefined })}
+            value={hex.localId ?? ''}
+            onChange={(e) => updateGroupHex(groupId, hex.id, { localId: e.target.value || undefined })}
             style={inputStyle}
           >
             {lines.map((line, i) => (
@@ -235,9 +252,16 @@ function PontoInfo({
           </select>
         </label>
       </div>
-      {atual && ponto.localId ? <LocalResumo localId={ponto.localId} /> : null}
+      {atual && hex.localId ? <LocalResumo localId={hex.localId} /> : null}
     </div>
   )
+}
+
+/** Preenchimento do hex por estado (fill translúcido do design). */
+function hexFill(isAtual: boolean): string {
+  return isAtual
+    ? 'color-mix(in srgb,var(--accent) 46%,transparent)'
+    : 'color-mix(in srgb,var(--accent) 20%,transparent)'
 }
 
 export function PanelExploracao({ groupId }: { groupId: string }) {
@@ -248,6 +272,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   )
   const [addMode, setAddMode] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [hoverHex, setHoverHex] = useState<HexCell | null>(null)
   const [view, setView] = useState({ scale: 1, tx: 0, ty: 0 })
   const [dragging, setDragging] = useState(false)
 
@@ -256,9 +281,12 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const dragRef = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null)
   const movedRef = useRef(false)
 
-  const ordenados = ordenarPontos(state.pontos)
-  const atual = pontoAtual(state.pontos)
-  const selecionado = selectedId ? (state.pontos.find((p) => p.id === selectedId) ?? null) : null
+  const ordenados = ordenarHexes(state.hexes)
+  const atual = hexAtual(state.hexes)
+  const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
+
+  // A malha inteira é 1 <path> constante (barato; não depende do estado).
+  const gridPath = useMemo(() => hexGridPath(), [])
 
   const mapEntry = assets?.byPath.get(MAPA_MUNDO_LIVRE) ?? null
   useEffect(() => {
@@ -298,6 +326,18 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     // o viewport só monta quando o asset do mapa resolve — reata o listener
   }, [mapEntry])
 
+  /** Célula da grade sob o cursor (ou null fora da imagem) — o rect do mapa
+   *  já vem pós-transform, então converter pra fração e daí pra hex casa com
+   *  a grade em qualquer zoom/pan. */
+  const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
+    const rect = mapRef.current?.getBoundingClientRect()
+    if (!rect || !rect.width || !rect.height) return null
+    const fx = (clientX - rect.left) / rect.width
+    const fy = (clientY - rect.top) / rect.height
+    if (fx < 0 || fx > 1 || fy < 0 || fy > 1) return null
+    return fracToHex(fx, fy)
+  }
+
   const onPointerDown = (e: React.PointerEvent) => {
     dragRef.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty }
     movedRef.current = false
@@ -306,16 +346,28 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   }
   const onPointerMove = (e: React.PointerEvent) => {
     const start = dragRef.current
-    if (!start) return
-    const dx = e.clientX - start.x
-    const dy = e.clientY - start.y
-    if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
-    if (!movedRef.current) return
-    setView((v) => ({ ...v, tx: start.tx + dx, ty: start.ty + dy }))
+    if (start) {
+      const dx = e.clientX - start.x
+      const dy = e.clientY - start.y
+      if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
+      if (movedRef.current) {
+        setView((v) => ({ ...v, tx: start.tx + dx, ty: start.ty + dy }))
+        if (hoverHex) setHoverHex(null)
+        return
+      }
+    }
+    // hover: realça a célula sob o cursor (só re-renderiza ao trocar de hex)
+    const h = hexAtClient(e.clientX, e.clientY)
+    setHoverHex((prev) =>
+      (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
+    )
   }
   const onPointerUp = () => {
     dragRef.current = null
     setDragging(false)
+  }
+  const onPointerLeave = () => {
+    if (hoverHex) setHoverHex(null)
   }
 
   const onMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -324,17 +376,28 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       movedRef.current = false
       return
     }
-    if (!addMode) {
-      setSelectedId(null)
+    const cell = hexAtClient(e.clientX, e.clientY)
+    if (!cell) {
+      if (!addMode) setSelectedId(null)
       return
     }
-    const rect = e.currentTarget.getBoundingClientRect()
-    if (!rect.width || !rect.height) return
-    const x = clamp01((e.clientX - rect.left) / rect.width)
-    const y = clamp01((e.clientY - rect.top) / rect.height)
-    const criado = addGroupPoint(groupId, { x, y, data: todayISO() })
-    setSelectedId(criado.id)
+    const existente = hexAt(state.hexes, cell.col, cell.row)
+    if (addMode) {
+      if (existente) {
+        // toggle: clicar de novo num hex marcado o remove
+        removeGroupHex(groupId, existente.id)
+        if (selectedId === existente.id) setSelectedId(null)
+      } else {
+        const criado = addGroupHex(groupId, { col: cell.col, row: cell.row, data: todayISO() })
+        setSelectedId(criado.id)
+      }
+    } else {
+      // fora do modo marcar: hex marcado abre o popover; vazio deseleciona
+      setSelectedId(existente ? existente.id : null)
+    }
   }
+
+  const hoverLivre = hoverHex && !hexAt(state.hexes, hoverHex.col, hoverHex.row)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -342,7 +405,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
         <div style={sectionTitleStyle}>{'// EXPLORAÇÃO'}</div>
         <span style={{ flex: 1 }} />
         <button aria-pressed={addMode} onClick={() => setAddMode((a) => !a)} style={pillStyle(addMode)}>
-          ADICIONAR PONTO
+          MARCAR HEX
         </button>
       </div>
 
@@ -363,6 +426,12 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
+            onPointerLeave={onPointerLeave}
+            // o clique fica no VIEWPORT (não no [data-mapa]): setPointerCapture
+            // redireciona o alvo do click pro elemento que capturou o ponteiro,
+            // então um handler no filho não recebe o clique. O hit-test usa o
+            // rect do [data-mapa] (mapRef), independente do alvo do evento.
+            onClick={onMapClick}
             style={{
               height: 'min(68vh, 620px)',
               display: 'flex',
@@ -376,7 +445,6 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
             <div
               ref={mapRef}
               data-mapa=""
-              onClick={onMapClick}
               style={{
                 position: 'relative',
                 height: '100%',
@@ -391,57 +459,88 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                 draggable={false}
                 style={{ height: '100%', width: 'auto', display: 'block' }}
               />
-              {/* Trilha em ordem de data (tracejado sutil) */}
-              {ordenados.length >= 2 ? (
-                <svg
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="none"
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-                >
+              {/* Overlay em px da FONTE (escala junto com o transform do mapa) */}
+              <svg
+                viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+                preserveAspectRatio="none"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  pointerEvents: 'none',
+                  overflow: 'visible',
+                }}
+              >
+                {/* Grade hexagonal (mais visível no modo marcar) */}
+                <path
+                  data-hexgrid=""
+                  d={gridPath}
+                  fill="none"
+                  stroke={
+                    addMode
+                      ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
+                      : 'color-mix(in srgb,var(--accent) 15%,transparent)'
+                  }
+                  strokeWidth={1}
+                  vectorEffect="non-scaling-stroke"
+                />
+                {/* Hover: célula livre sob o cursor */}
+                {hoverLivre ? (
+                  <polygon
+                    data-hex-hover=""
+                    points={hexPolygonPoints(hoverHex!.col, hoverHex!.row)}
+                    fill="color-mix(in srgb,var(--accent) 12%,transparent)"
+                    stroke="color-mix(in srgb,var(--accent) 55%,transparent)"
+                    strokeWidth={1.5}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                ) : null}
+                {/* Trilha em ordem de data ligando os centros dos hexes */}
+                {ordenados.length >= 2 ? (
                   <polyline
                     data-trilha=""
-                    points={ordenados.map((p) => `${p.x * 100},${p.y * 100}`).join(' ')}
+                    points={ordenados
+                      .map((h) => {
+                        const c = hexCenter(h.col, h.row)
+                        return `${c.x},${c.y}`
+                      })
+                      .join(' ')}
                     fill="none"
                     stroke="var(--accent)"
                     strokeOpacity={0.55}
-                    strokeWidth={1.4}
-                    strokeDasharray="3 3"
+                    strokeWidth={1.6}
+                    strokeDasharray="6 5"
                     vectorEffect="non-scaling-stroke"
                   />
-                </svg>
-              ) : null}
-              {/* Losangos da trilha; o ATUAL em accent com glow */}
-              {ordenados.map((p) => {
-                const isAtual = p.id === atual?.id
-                const isSel = p.id === selectedId
-                return (
-                  <button
-                    key={p.id}
-                    data-ponto={p.id}
-                    {...(isAtual ? { 'data-atual': '' } : {})}
-                    aria-label={`Ponto ${p.data}`}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedId(p.id)
-                    }}
-                    style={{
-                      position: 'absolute',
-                      left: `${p.x * 100}%`,
-                      top: `${p.y * 100}%`,
-                      width: 13,
-                      height: 13,
-                      padding: 0,
-                      transform: `translate(-50%,-50%) scale(${1 / view.scale}) rotate(45deg)`,
-                      background: isAtual ? 'var(--accent)' : 'var(--panel)',
-                      border: `1.5px solid ${isSel ? 'var(--text)' : isAtual ? 'var(--accent)' : 'color-mix(in srgb,var(--accent) 60%,var(--line2))'}`,
-                      boxShadow: isAtual
-                        ? '0 0 12px color-mix(in srgb,var(--accent) 75%,transparent)'
-                        : 'none',
-                      cursor: 'pointer',
-                    }}
-                  />
-                )
-              })}
+                ) : null}
+                {/* Hexes marcados; o ATUAL (último por data) por cima com glow */}
+                {ordenados.map((h) => {
+                  const isAtual = h.id === atual?.id
+                  const isSel = h.id === selectedId
+                  return (
+                    <polygon
+                      key={h.id}
+                      data-hex={h.id}
+                      data-col={h.col}
+                      data-row={h.row}
+                      {...(isAtual ? { 'data-atual': '' } : {})}
+                      {...(isSel ? { 'data-sel': '' } : {})}
+                      points={hexPolygonPoints(h.col, h.row)}
+                      fill={hexFill(isAtual)}
+                      stroke={isSel ? 'var(--text)' : 'var(--accent)'}
+                      strokeWidth={isAtual || isSel ? 2 : 1.5}
+                      strokeOpacity={isAtual ? 1 : 0.75}
+                      vectorEffect="non-scaling-stroke"
+                      style={
+                        isAtual
+                          ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
+                          : undefined
+                      }
+                    />
+                  )
+                })}
+              </svg>
             </div>
           </div>
         ) : assets ? (
@@ -450,13 +549,13 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       </div>
 
       {selecionado ? (
-        <PontoInfo
+        <HexInfo
           key={selecionado.id}
           groupId={groupId}
-          ponto={selecionado}
+          hex={selecionado}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
-            removeGroupPoint(groupId, selecionado.id)
+            removeGroupHex(groupId, selecionado.id)
             setSelectedId(null)
           }}
         />
