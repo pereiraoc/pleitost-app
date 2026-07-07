@@ -37,7 +37,7 @@ export async function projectHeroRules(
 ): Promise<{ model: RulesModel; projection: HeroProjection }> {
   const model = rulesModelFromFm(fm)
   const result = await extractHeroRules(model, catalogDocResolver(catalog, load))
-  return { model, projection: buildHeroProjection(model, result, catalog) }
+  return { model, projection: buildHeroProjection(model, result, catalog, fm) }
 }
 
 /** Projeção reativa ao FM mesclado (useHeroModel.fm): recalcula quando o

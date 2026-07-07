@@ -9,6 +9,7 @@ import type { RulesModel, AtributoId } from './rules-model'
 import { ATRIBUTOS } from './rules-model'
 import type { Deltas } from './rule-applier'
 import type { ParsedRule } from './rule-types'
+import { mergeCalculatedIntoFm } from './merge-calculated'
 import type { ChoiceDescriptor } from './resolve-choices'
 import type { HeroRulesResult } from './extract'
 import {
@@ -402,6 +403,10 @@ export interface HeroProjection {
   maestriaOptions: Record<string, string[]>
   /** Deltas convergidos (debug/testes). */
   calculated: Deltas
+  /** FM DERIVADO = FM salvo + calculated mesclado (mesmo shape do FM). As abas
+   *  leem daqui pra render LIVE com cascata — espelho de vm.model do Editável
+   *  (finalVolatile.sheetVolatile = propMem ⊕ calculated ⊕ userEdits). */
+  derivedFm: Record<string, unknown>
 }
 
 /** Monta a projeção a partir do resultado do extract + catálogo — espelho
@@ -410,6 +415,7 @@ export function buildHeroProjection(
   model: RulesModel,
   result: HeroRulesResult,
   catalog: Catalog,
+  savedFm: Record<string, unknown>,
 ): HeroProjection {
   const calculated = result.calculated
   const periciasCov = coveredPericias(calculated)
@@ -452,5 +458,6 @@ export function buildHeroProjection(
     especializacaoOptions: espMaes.especializacoes,
     maestriaOptions: espMaes.maestrias,
     calculated,
+    derivedFm: mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules),
   }
 }

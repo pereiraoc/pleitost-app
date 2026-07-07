@@ -637,9 +637,10 @@ interface StackSection {
 }
 
 function StacksPanel({ doc }: { doc: VaultDoc }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
-  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
 
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
@@ -891,8 +892,9 @@ function PnBtns({ cur }: { cur: 'P' | 'N' }) {
 
 function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
-  const fm = fmOf(doc)
-  const rules = useHeroRules(fm)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const inventario = (fm['Inventario'] ?? {}) as Record<string, unknown>
   const especificas = (fmPath(fm, 'Inventario', 'Armas', 'Proficiencia', 'Especificas') ?? []) as unknown[]
 
@@ -1004,9 +1006,12 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
 /* ===================== sub-aba PERÍCIAS ===================== */
 
 function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  // FM DERIVADO (FM salvo + cascata de regras) pro render LIVE; fallback no
+  // salvo enquanto a projeção resolve — espelho de vm.model do Editável.
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
-  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
 
@@ -1159,8 +1164,10 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
 
 function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'habilidades')
-  const fm = model.fm
-  const rules = useHeroRules(fm)
+  const rules = useHeroRules(model.fm)
+  // Display usa o FM DERIVADO (perícia elevada por regra já vira elegível);
+  // a ESCRITA regrava só a lista SALVA (não materializa saídas de regra).
+  const fm = rules?.derivedFm ?? model.fm
   const [edit, setEdit] = useState(false)
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
 
@@ -1172,7 +1179,8 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
   // plugin serializa null → "", serialize-to-fm.ts:229-245) na linha da
   // perícia dentro de Pericias.Lista.
   const setEspecializacao = (slug: string, value: string) => {
-    const next = pericias.map((r) =>
+    const saved = (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+    const next = saved.map((r) =>
       slugify(str(r.Nome)) === slug ? { ...r, Especializacao: value } : r,
     )
     model.set('Pericias.Lista', next)
@@ -1289,9 +1297,10 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
 }
 
 function OficiosPanel({ doc }: { doc: VaultDoc }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
-  const rules = useHeroRules(fm)
   const [edit, setEdit] = useState(false)
   const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]
   const cols = edit ? PROF_COLS_EDIT : PROF_COLS_VIEW
@@ -1446,7 +1455,9 @@ function habTree(entries: ListaEntry[], refDoc: HeroRefs['refDoc']): Map<string,
 }
 
 function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const entries = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
   const groups = habTree(entries, refs.refDoc)
   const ordered = RANK_GROUP_ORDER.filter((g) => groups.has(g))
@@ -1486,7 +1497,10 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
 }
 
 function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
-  const entries = listaEntries(fmPath(fmOf(doc), 'Acoes', 'Lista'))
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
+  const entries = listaEntries(fmPath(fm, 'Acoes', 'Lista'))
   return (
     <div style={panel}>
       <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>Ações de Habilidade</div>
@@ -1534,7 +1548,9 @@ const cardBox: CSSProperties = {
 
 function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const [edit, setEdit] = useState(false)
   const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
 
@@ -1772,7 +1788,9 @@ interface EscolaFm {
 
 function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
-  const fm = fmOf(doc)
+  const model = useHeroModel(doc, 'habilidades')
+  const rules = useHeroRules(model.fm)
+  const fm = rules?.derivedFm ?? model.fm
   const [edit, setEdit] = useState(false)
   const escolas = ((fmPath(fm, 'Magias', 'Lista') ?? []) as EscolaFm[]).filter(
     (e) => listaEntries(e.Lista).length > 0,
