@@ -8,6 +8,10 @@ import { vaultData } from './vite/vault-data'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  // Aceita o Host de túneis Cloudflare (acesso pelo celular via
+  // cloudflared tunnel --url) tanto no dev quanto no preview do build.
+  server: { host: true, allowedHosts: ['.trycloudflare.com'] },
+  preview: { host: true, allowedHosts: ['.trycloudflare.com'] },
   plugins: [
     react(),
     vaultData(path.resolve(dirname, '..', 'vault-data')),
