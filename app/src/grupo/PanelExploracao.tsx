@@ -29,7 +29,6 @@
 // O hit-test é MATEMÁTICO (pixelToHex) — o SVG é pointer-events:none.
 import {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -44,12 +43,10 @@ import { assetUrl, resolveAsset, useAssetIndex } from '../data/assets'
 import { useDoc } from '../data/useDoc'
 import { docPath } from '../paths'
 import { REGION_MAPS, regionMapById } from '../data/region-maps'
-import {
-  cellAt,
-  getHexMapState,
-  subscribeHexMap,
-  type HexMapCell,
-} from '../data/hexmap-store'
+import { useHexMap } from '../data/useHexMap'
+import { cellAt, type HexMapCell } from '../data/hexmap-store'
+import { useMapView } from '../map/useMapView'
+import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import {
   addGroupHex,
   getGroupState,
@@ -86,9 +83,6 @@ export const MAPA_MUNDO_LIVRE = 'Recursos e Mídia/Imagens/Mapas/Mapa do Mundo L
 export function activeRegionId(state: GroupState): string {
   return state.regiaoAtiva ?? REGION_MAPS[0]?.regionId ?? ''
 }
-
-const ZOOM_MIN = 1
-const ZOOM_MAX = 8
 
 /** Pill mono do design (skin do badge GRUPO do header, clip 6). */
 function pillStyle(active: boolean): CSSProperties {
@@ -522,10 +516,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     () => getGroupState(groupId),
   )
   const regionId = activeRegionId(state)
-  const hexMapState = useSyncExternalStore(
-    useCallback((cb: () => void) => subscribeHexMap(regionId, cb), [regionId]),
-    () => getHexMapState(regionId),
-  )
+  const hexMapState = useHexMap(regionId)
   const hexMap = hexMapState.cells
 
   const [addMode, setAddMode] = useState(false)
@@ -537,16 +528,13 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const [leftCollapsed, setLeftCollapsed] = useState(false)
   const [rightCollapsed, setRightCollapsed] = useState(false)
   const [hoverHex, setHoverHex] = useState<HexCell | null>(null)
-  const [view, setView] = useState({ scale: 1, tx: 0, ty: 0 })
-  const [dragging, setDragging] = useState(false)
   /** Token sendo arrastado: célula atual sob o cursor (mostra "Adicionar parada"). */
   const [tokenDropCell, setTokenDropCell] = useState<HexCell | null>(null)
   const tokenDragRef = useRef(false)
+  const pressedRef = useRef(false)
 
-  const viewportRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<HTMLDivElement>(null)
-  const dragRef = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null)
-  const movedRef = useRef(false)
+  // Pan / PINÇA / roda / TELA CHEIA compartilhados (#80).
+  const map = useMapView()
 
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
@@ -556,59 +544,20 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
 
   const mapAsset = regionMapById(regionId)?.mapAsset ?? MAPA_MUNDO_LIVRE
   const mapEntry = assets?.byPath.get(mapAsset) ?? null
-  useEffect(() => {
-    if (assets && !mapEntry) console.warn(`[assets] mapa não encontrado: ${mapAsset}`)
-  }, [assets, mapEntry, mapAsset])
-
-  // Wheel zoom com clamp, ancorado no cursor — listener NATIVO non-passive
-  // (React registra wheel como passivo na raiz; preventDefault lá é no-op).
-  useEffect(() => {
-    const el = viewportRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      setView((v) => {
-        const factor = e.deltaY < 0 ? 1.2 : 1 / 1.2
-        const scale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, v.scale * factor))
-        if (scale === v.scale) return v
-        if (scale === ZOOM_MIN) return { scale: 1, tx: 0, ty: 0 }
-        const rect = mapRef.current?.getBoundingClientRect()
-        if (!rect || rect.width <= 0) return { ...v, scale }
-        const u = (e.clientX - rect.left) / rect.width
-        const w = (e.clientY - rect.top) / rect.height
-        const nextW = (rect.width / v.scale) * scale
-        const nextH = (rect.height / v.scale) * scale
-        const baseLeft = rect.left - v.tx
-        const baseTop = rect.top - v.ty
-        return {
-          scale,
-          tx: e.clientX - u * nextW - baseLeft,
-          ty: e.clientY - w * nextH - baseTop,
-        }
-      })
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [mapEntry])
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
-    const rect = mapRef.current?.getBoundingClientRect()
-    if (!rect || !rect.width || !rect.height) return null
-    const fx = (clientX - rect.left) / rect.width
-    const fy = (clientY - rect.top) / rect.height
-    if (fx < 0 || fx > 1 || fy < 0 || fy > 1) return null
-    return fracToHex(fx, fy)
+    const f = map.fracAtClient(clientX, clientY)
+    return f ? fracToHex(f.fx, f.fy) : null
   }
 
   const onPointerDown = (e: React.PointerEvent) => {
-    dragRef.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty }
-    movedRef.current = false
-    setDragging(true)
-    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+    pressedRef.current = true
+    if (hoverHex) setHoverHex(null)
+    map.onPointerDown(e)
   }
   const onPointerMove = (e: React.PointerEvent) => {
-    // Arrasto do token (#71): não faz pan, marca a célula-alvo.
+    // Arrasto do token (#71): não faz pan/pinça, marca a célula-alvo.
     if (tokenDragRef.current) {
       const cell = hexAtClient(e.clientX, e.clientY)
       setTokenDropCell((prev) =>
@@ -618,25 +567,18 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       )
       return
     }
-    const start = dragRef.current
-    if (start) {
-      const dx = e.clientX - start.x
-      const dy = e.clientY - start.y
-      if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
-      if (movedRef.current) {
-        setView((v) => ({ ...v, tx: start.tx + dx, ty: start.ty + dy }))
-        if (hoverHex) setHoverHex(null)
-        return
-      }
+    map.onPointerMove(e)
+    // Hover só quando NÃO está pressionado (mouse pairando no desktop).
+    if (!pressedRef.current) {
+      const h = hexAtClient(e.clientX, e.clientY)
+      setHoverHex((prev) =>
+        (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
+      )
     }
-    const h = hexAtClient(e.clientX, e.clientY)
-    setHoverHex((prev) =>
-      (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
-    )
   }
-  const onPointerUp = () => {
-    dragRef.current = null
-    setDragging(false)
+  const onPointerUp = (e: React.PointerEvent) => {
+    pressedRef.current = false
+    map.onPointerUp(e)
   }
   const onPointerLeave = () => {
     if (hoverHex) setHoverHex(null)
@@ -645,7 +587,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   /** Abre/atualiza a barra direita se o hex tiver localização mapeada (#70). */
   const openInfoForCell = (col: number, row: number, withImage: boolean): boolean => {
     const cell = cellAt(hexMap, col, row)
-    if (!cell) return false
+    if (!cell?.localId) return false
     setInfoLocalId(cell.localId)
     setInfoWithImage(withImage)
     setRightCollapsed(false)
@@ -653,10 +595,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   }
 
   const onMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (movedRef.current) {
-      movedRef.current = false
-      return
-    }
+    if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
       if (!addMode) setSelectedId(null)
@@ -766,21 +705,25 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           }}
         />
 
-        {/* Painel do mapa (canto cortado do design) */}
+        {/* Painel do mapa (canto cortado do design; vira overlay em tela cheia) */}
         <div
-          style={{
-            flex: 1,
-            minWidth: 0,
-            position: 'relative',
-            background: 'var(--panel)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(14),
-            overflow: 'hidden',
-          }}
+          ref={map.containerRef}
+          style={fullscreenContainerStyle(
+            {
+              flex: 1,
+              minWidth: 0,
+              position: 'relative',
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(14),
+              overflow: 'hidden',
+            },
+            map.fullscreen,
+          )}
         >
           {mapEntry ? (
             <div
-              ref={viewportRef}
+              ref={map.viewportRef}
               data-mapa-viewport=""
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
@@ -789,23 +732,23 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
               onPointerLeave={onPointerLeave}
               onClick={onMapClick}
               style={{
-                height: 'min(68vh, 620px)',
+                height: map.fullscreen ? '100%' : 'min(68vh, 620px)',
                 display: 'flex',
                 justifyContent: 'center',
                 overflow: 'hidden',
                 touchAction: 'none',
-                cursor: addMode ? 'crosshair' : dragging ? 'grabbing' : 'grab',
+                cursor: addMode ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
                 userSelect: 'none',
               }}
             >
               <div
-                ref={mapRef}
+                ref={map.mapRef}
                 data-mapa=""
                 style={{
                   position: 'relative',
                   height: '100%',
                   flex: 'none',
-                  transform: `translate(${view.tx}px, ${view.ty}px) scale(${view.scale})`,
+                  transform: map.transform,
                   transformOrigin: '0 0',
                 }}
               >
@@ -952,6 +895,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           ) : assets ? (
             <div style={{ ...sectionTitleStyle, padding: '16px 18px' }}>MAPA INDISPONÍVEL</div>
           ) : null}
+
+          {/* #80 Controles de tela cheia + zoom sobrepostos */}
+          {mapEntry ? <MapControls map={map} /> : null}
 
           {/* #71 Botão "Adicionar parada" (após soltar o token numa célula nova) */}
           {podeAdicionar ? (

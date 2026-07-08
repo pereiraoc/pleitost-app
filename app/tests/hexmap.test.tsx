@@ -19,14 +19,30 @@ import { locationHasHexMap } from '../src/components/compendium/LocationSheet'
 import { REGION_MAPS, regionMapById, regionMapForDoc } from '../src/data/region-maps'
 import {
   __resetHexMapStoreMemoryForTests,
+  areaAt,
+  areaIdsInMap,
   cellAt,
   cellsByLocal,
+  cellsOfArea,
   getHexMapState,
+  removeArea,
   removeHex,
+  removeHexArea,
+  setHexArea,
+  setHexAreaBulk,
   setHexLocal,
 } from '../src/data/hexmap-store'
 import { listLocalizacoes } from '../src/rules/naturalidade'
-import { fracToHex, hexCenter, MAP_H, MAP_W, pixelToHex } from '../src/grupo/exploracao'
+import {
+  fracToHex,
+  hexCenter,
+  hexesInPolygon,
+  hexUnionPath,
+  MAP_H,
+  MAP_W,
+  pixelToHex,
+  pointInPolygon,
+} from '../src/grupo/exploracao'
 import { docPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -46,6 +62,8 @@ const mundoLivre = readDoc(REGION_ID)
 const cantoAlto = readDoc('Atlas/Mundo Livre/Principado das Flores/Canto Alto')
 const KRASNOGOR_ID = 'Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor'
 const LICIAE_ID = 'Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Líciae'
+const NACAO_ID = 'Atlas/Mundo Livre/Principado das Flores/Principado das Flores'
+const POI_ID = 'Atlas/Mundo Livre/Pátria Aurora/Magna Vigilia'
 
 function makeStorage(): Storage {
   const data = new Map<string, string>()
@@ -382,5 +400,163 @@ describe('REGION_MAPS', () => {
   it('só o Mundo Livre por ora; toda entrada aponta um doc real', () => {
     expect(REGION_MAPS.map((m) => m.regionId)).toEqual([REGION_ID])
     for (const m of REGION_MAPS) expect(catalog.entryById.has(m.regionId)).toBe(true)
+  })
+})
+
+// ── ÁREAS: marcação em massa ORTOGONAL ao lugar (#79) ──────────────────────
+describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => {
+  it('dados ANTIGOS {col,row,localId} carregam intactos (retrocompat)', () => {
+    window.localStorage.setItem(STORE_KEY, JSON.stringify({ cells: [{ col: 2, row: 3, localId: KRASNOGOR_ID }] }))
+    expect(getHexMapState(REGION_ID).cells).toEqual([{ col: 2, row: 3, localId: KRASNOGOR_ID }])
+  })
+
+  it('marcar ÁREA num hex NÃO apaga o LUGAR já marcado (e vice-versa)', () => {
+    setHexLocal(REGION_ID, 5, 5, KRASNOGOR_ID)
+    setHexArea(REGION_ID, 5, 5, NACAO_ID)
+    const cell = cellAt(getHexMapState(REGION_ID).cells, 5, 5)!
+    expect(cell.localId).toBe(KRASNOGOR_ID)
+    expect(cell.areaId).toBe(NACAO_ID)
+    // remover o LUGAR mantém a ÁREA (célula sobrevive só com área)
+    removeHex(REGION_ID, 5, 5)
+    const c2 = cellAt(getHexMapState(REGION_ID).cells, 5, 5)!
+    expect(c2.localId).toBeUndefined()
+    expect(c2.areaId).toBe(NACAO_ID)
+    // remover a ÁREA agora esvazia a célula
+    removeHexArea(REGION_ID, 5, 5)
+    expect(getHexMapState(REGION_ID).cells).toEqual([])
+  })
+
+  it('setHexAreaBulk marca vários hexes num commit e reassocia de outra área', () => {
+    const targets = [
+      { col: 1, row: 1 },
+      { col: 2, row: 2 },
+      { col: 3, row: 3 },
+    ]
+    setHexAreaBulk(REGION_ID, targets, NACAO_ID)
+    expect(cellsOfArea(getHexMapState(REGION_ID).cells, NACAO_ID).length).toBe(3)
+    expect(areaAt(getHexMapState(REGION_ID).cells, 2, 2)).toBe(NACAO_ID)
+    // reassociar 1 hex a OUTRA área move-o (não duplica)
+    setHexArea(REGION_ID, 2, 2, POI_ID)
+    expect(cellsOfArea(getHexMapState(REGION_ID).cells, NACAO_ID).length).toBe(2)
+    expect(cellsOfArea(getHexMapState(REGION_ID).cells, POI_ID).length).toBe(1)
+    expect(areaIdsInMap(getHexMapState(REGION_ID).cells).sort()).toEqual([NACAO_ID, POI_ID].sort())
+  })
+
+  it('removeArea apaga a área inteira mas PRESERVA os lugares dos hexes dela', () => {
+    setHexAreaBulk(REGION_ID, [{ col: 7, row: 7 }, { col: 8, row: 8 }], NACAO_ID)
+    setHexLocal(REGION_ID, 7, 7, KRASNOGOR_ID) // este hex tem lugar + área
+    removeArea(REGION_ID, NACAO_ID)
+    const cells = getHexMapState(REGION_ID).cells
+    // 8,8 (só área) some; 7,7 (tinha lugar) sobra só com o lugar
+    expect(cellsOfArea(cells, NACAO_ID)).toEqual([])
+    expect(cellAt(cells, 8, 8)).toBeNull()
+    expect(cellAt(cells, 7, 7)).toEqual({ col: 7, row: 7, localId: KRASNOGOR_ID })
+  })
+
+  it('célula só-de-área persiste e rehidrata após reload', () => {
+    setHexArea(REGION_ID, 4, 9, POI_ID)
+    __resetHexMapStoreMemoryForTests()
+    const cell = cellAt(getHexMapState(REGION_ID).cells, 4, 9)!
+    expect(cell.areaId).toBe(POI_ID)
+    expect(cell.localId).toBeUndefined()
+  })
+})
+
+// ── Geometria de polígono/laço (#79) ───────────────────────────────────────
+describe('geometria: pointInPolygon / hexesInPolygon / hexUnionPath', () => {
+  it('pointInPolygon acerta dentro/fora de um quadrado', () => {
+    const sq = [
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+      { x: 10, y: 10 },
+      { x: 0, y: 10 },
+    ]
+    expect(pointInPolygon({ x: 5, y: 5 }, sq)).toBe(true)
+    expect(pointInPolygon({ x: 15, y: 5 }, sq)).toBe(false)
+    expect(pointInPolygon({ x: -1, y: 5 }, sq)).toBe(false)
+  })
+
+  it('hexesInPolygon seleciona SÓ as células cujo centro cai dentro', () => {
+    const c = pixelToHex(1000, 1000)
+    const ct = hexCenter(c.col, c.row)
+    // quadradinho de ±20px em torno do centro: só ESSA célula (vizinhos ≥64px)
+    const poly = [
+      { x: ct.x - 20, y: ct.y - 20 },
+      { x: ct.x + 20, y: ct.y - 20 },
+      { x: ct.x + 20, y: ct.y + 20 },
+      { x: ct.x - 20, y: ct.y + 20 },
+    ]
+    expect(hexesInPolygon(poly)).toEqual([c])
+    // polígono degenerado (< 3 pontos) → vazio
+    expect(hexesInPolygon([{ x: 0, y: 0 }])).toEqual([])
+  })
+
+  it('hexUnionPath compõe um subpath fechado por hex', () => {
+    const d = hexUnionPath([{ col: 0, row: 0 }, { col: 1, row: 0 }])
+    expect((d.match(/Z/g) ?? []).length).toBe(2)
+    expect(d.startsWith('M')).toBe(true)
+  })
+})
+
+// ── Editor: MODO Regiões (marcar áreas por toque; #79) ──────────────────────
+describe('editor: modo Lugares × Regiões', () => {
+  it('o seletor de modo troca a lista e o rótulo do filtro', () => {
+    renderDoc(mundoLivre)
+    fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
+    fireEvent.click(screen.getByText('ADICIONAR HEXPLORAÇÃO'))
+    const lista = document.querySelector('[data-hex-lista]') as HTMLElement
+    // default = Lugares: as 47 Localizações; filtro "Localização"
+    expect(lista.querySelectorAll('[data-local-item]').length).toBe(47)
+    expect(within(lista).getByLabelText('Filtrar Localização')).toBeTruthy()
+    // troca pra Regiões → só Região/Nação/POI (5+4+19 = 28); filtro "Área"
+    fireEvent.click(document.querySelector('[data-modo-regioes]') as HTMLElement)
+    expect(lista.querySelectorAll('[data-area-item]').length).toBe(28)
+    expect(within(lista).getByLabelText('Filtrar Área')).toBeTruthy()
+    expect(lista.querySelector(`[data-area-item="${NACAO_ID}"]`)).toBeTruthy()
+  })
+
+  it('modo Regiões: selecionar a Nação e tocar hexes marca a ÁREA (um por um)', async () => {
+    const { container } = renderDoc(mundoLivre)
+    fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
+    fireEvent.click(screen.getByText('ADICIONAR HEXPLORAÇÃO'))
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    fireEvent.click(document.querySelector('[data-modo-regioes]') as HTMLElement)
+    fireEvent.click(container.querySelector(`[data-area-item="${NACAO_ID}"]`) as HTMLElement)
+    // toca dois hexes → ambos entram na área, UM único doc de área desenhado
+    const a = fracToHex(0.3, 0.4)
+    const b = fracToHex(0.35, 0.45)
+    fireEvent.click(mapa, clientOfCell(a))
+    fireEvent.click(mapa, clientOfCell(b))
+    const cells = getHexMapState(REGION_ID).cells
+    expect(areaAt(cells, a.col, a.row)).toBe(NACAO_ID)
+    expect(areaAt(cells, b.col, b.row)).toBe(NACAO_ID)
+    expect(container.querySelector(`[data-area="${NACAO_ID}"]`)).toBeTruthy()
+    // tocar de novo o mesmo hex DESMARCA (toggle)
+    fireEvent.click(mapa, clientOfCell(a))
+    expect(areaAt(getHexMapState(REGION_ID).cells, a.col, a.row)).toBeNull()
+  })
+
+  it('marcar área num hex que JÁ tem lugar preserva o lugar (ortogonal)', async () => {
+    setHexLocal(REGION_ID, 10, 10, KRASNOGOR_ID)
+    const { container } = renderDoc(mundoLivre)
+    fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    fireEvent.click(document.querySelector('[data-modo-regioes]') as HTMLElement)
+    fireEvent.click(container.querySelector(`[data-area-item="${POI_ID}"]`) as HTMLElement)
+    fireEvent.click(mapa, clientOfCell({ col: 10, row: 10 }))
+    const cell = cellAt(getHexMapState(REGION_ID).cells, 10, 10)!
+    expect(cell.localId).toBe(KRASNOGOR_ID)
+    expect(cell.areaId).toBe(POI_ID)
+  })
+
+  it('o mapa tem o botão de TELA CHEIA (#80)', async () => {
+    const { container } = renderDoc(mundoLivre)
+    fireEvent.click(screen.getByRole('tab', { name: 'Hexploração' }))
+    fireEvent.click(screen.getByText('ADICIONAR HEXPLORAÇÃO'))
+    await esperaMapa(container)
+    expect(container.querySelector('[data-fullscreen-toggle]')).toBeTruthy()
+    expect(container.querySelector('[data-zoom-in]')).toBeTruthy()
   })
 })

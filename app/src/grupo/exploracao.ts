@@ -87,6 +87,23 @@ function round1(n: number): number {
   return Math.round(n * 10) / 10
 }
 
+/** Subpath fechado de UM hex (px da fonte) — pra compor a união de uma área. */
+function hexSubpath(col: number, row: number): string {
+  const v = hexVertices(col, row)
+  let d = `M${round1(v[0].x)},${round1(v[0].y)}`
+  for (let k = 1; k < 6; k++) d += `L${round1(v[k].x)},${round1(v[k].y)}`
+  return d + 'Z'
+}
+
+/** `d` de um <path> ÚNICO cobrindo TODOS os hexes de `cells` — uma ÁREA
+ *  desenhada como um só nó DOM (barato mesmo com centenas de hexes). Preenchida
+ *  com nonzero, hexes adjacentes fundem numa zona sólida (#79). */
+export function hexUnionPath(cells: { col: number; row: number }[]): string {
+  let d = ''
+  for (const c of cells) d += hexSubpath(c.col, c.row)
+  return d
+}
+
 /** Arredondamento em coordenadas cubo (Red Blob) pra achar o hex mais próximo. */
 function axialRound(q: number, r: number): HexCell {
   let x = q
@@ -150,6 +167,31 @@ export function hexGridPath(): string {
     d += `M${round1(v[2].x)},${round1(v[2].y)}L${round1(v[3].x)},${round1(v[3].y)}L${round1(v[4].x)},${round1(v[4].y)}L${round1(v[5].x)},${round1(v[5].y)}`
   }
   return d
+}
+
+/** Ponto dentro do polígono? (ray casting — ímpar de cruzamentos). `poly` em
+ *  px da fonte, mesma base de hexCenter. Fronteira conta como dentro o
+ *  suficiente pro uso (seleção por laço). */
+export function pointInPolygon(pt: Pt, poly: Pt[]): boolean {
+  let inside = false
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const a = poly[i]
+    const b = poly[j]
+    const straddles = a.y > pt.y !== b.y > pt.y
+    if (straddles) {
+      const xCross = ((b.x - a.x) * (pt.y - a.y)) / (b.y - a.y) + a.x
+      if (pt.x < xCross) inside = !inside
+    }
+  }
+  return inside
+}
+
+/** Todas as células cujo CENTRO cai dentro do polígono `poly` (px da fonte) —
+ *  a seleção do laço/polígono do editor de regiões (#79). Varre só a caixa
+ *  envolvente do polígono na grade (barato mesmo com toda a malha). */
+export function hexesInPolygon(poly: Pt[]): HexCell[] {
+  if (poly.length < 3) return []
+  return hexGridCells().filter((c) => pointInPolygon(hexCenter(c.col, c.row), poly))
 }
 
 /** Ícones por subcategoria — mesmo espelho de SUBCATEGORIA_ICON do plugin

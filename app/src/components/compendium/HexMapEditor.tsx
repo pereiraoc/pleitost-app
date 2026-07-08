@@ -1,60 +1,60 @@
-// EDITOR DO MAPA DE HEXCRAWL (issue #67) — dentro da aba Hexploração da ficha
-// de Localização. O GM associa cada HEX da grade sobreposta ao mapa da região
-// a uma Localização do Atlas. Duas formas de marcar:
-//   1) clicar num hex → selecionar uma Localização na lista filtrável (ou
-//      clicar na Localização e depois no hex);
-//   2) ARRASTAR uma Localização da lista pra cima de um hex.
-// Hexes já mapeados ficam destacados com o nome do lugar; re-associar
-// sobrescreve, o × remove.
+// EDITOR DO MAPA DE HEXCRAWL (issue #67; áreas + tela cheia em #79/#80) — dentro
+// da aba Hexploração da ficha de Localização. O GM associa hexes da grade a
+// Localizações, em DOIS MODOS ortogonais (o eixo de cada célula é independente:
+// marcar região nunca apaga o lugar já marcado, e vice-versa):
+//   • LUGARES — um LUGAR pontual por hex (Capital/Cidade/POI): clicar num hex e
+//     escolher a Localização na lista filtrável, ou ARRASTAR a Localização da
+//     lista pro hex (#67, inalterado);
+//   • REGIÕES — uma ÁREA grande (Região/Nação/Ponto de Interesse) cobrindo
+//     MUITOS hexes: escolher a área na lista e marcar UM POR UM (toque) OU com o
+//     LAÇO (arrastar um polígono que seleciona todos os hexes por dentro, #79).
 //
-// TERRITÓRIO: recria um viewer LEVE de mapa+grade AQUI (não reusa o
-// PanelExploracao, que é do grupo), mas REUSA a geometria pura de exploracao.ts
-// (hexGridPath/hexPolygonPoints/hexCenter/fracToHex) — a mesma grade calibrada,
-// path único (barato mesmo com ~1.9k hexes), overlay em px da fonte dentro do
-// transform do mapa (pan/zoom simples). O hit-test é matemático (fracToHex),
-// o SVG é pointer-events:none.
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-  type CSSProperties,
-} from 'react'
+// Interação do mapa (pan/PINÇA/roda/TELA CHEIA) vem do hook compartilhado
+// useMapView (#80); a geometria pura (grade/união/polígono) de exploracao.ts.
+import { useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { assetUrl, useAssetIndex } from '../../data/assets'
 import { docPath } from '../../paths'
 import { listLocalizacoes } from '../../rules/naturalidade'
 import type { RegionMap } from '../../data/region-maps'
+import { useHexMap } from '../../data/useHexMap'
 import {
+  areaAt,
   cellAt,
   cellsByLocal,
-  getHexMapState,
+  cellsOfArea,
+  removeArea,
   removeHex,
+  removeHexArea,
+  setHexArea,
+  setHexAreaBulk,
   setHexLocal,
-  subscribeHexMap,
 } from '../../data/hexmap-store'
 import {
   fracToHex,
   hexCenter,
+  hexesInPolygon,
   hexGridPath,
   hexPolygonPoints,
+  hexUnionPath,
   MAP_H,
   MAP_W,
   type HexCell,
+  type Pt,
 } from '../../grupo/exploracao'
+import { useMapView } from '../../map/useMapView'
+import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 
-const ZOOM_MIN = 1
-const ZOOM_MAX = 8
+/** Subcategorias que contam como ÁREA (marcação em massa no modo Regiões). */
+const AREA_SUBCATS = new Set(['Região', 'Nação', 'Ponto de Interesse'])
 
 /** clip-path de canto cortado (mesmo polígono do design). */
 function clip(n: number): NonNullable<CSSProperties['clipPath']> {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
 }
 
-/** Kicker mono do design (mesma família de // EXPLORAÇÃO / rótulos NOME). */
+/** Kicker mono do design. */
 const kickerStyle: CSSProperties = {
   fontFamily: 'var(--mono)',
   fontSize: 11,
@@ -71,15 +71,37 @@ const inputStyle: CSSProperties = {
   padding: '7px 9px',
 }
 
-/** Linha da lista filtrável: uma Localização real do catálogo. */
+/** Pill mono (skin do badge do design). */
+function pillStyle(active: boolean): CSSProperties {
+  return {
+    fontFamily: 'var(--mono)',
+    fontSize: 10,
+    letterSpacing: '.16em',
+    color: active ? 'var(--panel)' : 'var(--accent)',
+    background: active ? 'var(--accent)' : 'color-mix(in srgb,var(--accent) 12%,transparent)',
+    border: '1px solid color-mix(in srgb,var(--accent) 40%,transparent)',
+    padding: '5px 12px',
+    clipPath: clip(6),
+    cursor: 'pointer',
+  }
+}
+
+/** Hue determinística por área (tint decorativo de zona, não rótulo). */
+function areaHue(id: string): number {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0
+  return h % 360
+}
+function areaColor(id: string, alpha: number): string {
+  return `hsl(${areaHue(id)} 68% 55% / ${alpha})`
+}
+
 interface LocalOption {
   id: string
   nome: string
   subcategoria: string
 }
 
-/** As 47 Localizações reais (scan das regras) como opções planas ordenadas por
- *  nome — a lista de origem do arrastar/selecionar. */
 function useLocalOptions(): LocalOption[] {
   const catalog = useCatalog()
   return useMemo(
@@ -91,168 +113,215 @@ function useLocalOptions(): LocalOption[] {
   )
 }
 
+type Mode = 'lugares' | 'regioes'
+
 export function HexMapEditor({ region }: { region: RegionMap }) {
   const regionId = region.regionId
   const assets = useAssetIndex()
   const catalog = useCatalog()
   const options = useLocalOptions()
+  const state = useHexMap(regionId)
 
-  const state = useSyncExternalStore(
-    useCallback((cb: () => void) => subscribeHexMap(regionId, cb), [regionId]),
-    () => getHexMapState(regionId),
-  )
   const byLocal = useMemo(() => cellsByLocal(state.cells), [state.cells])
+  const placeCells = useMemo(() => state.cells.filter((c) => c.localId), [state.cells])
+  const areaIds = useMemo(() => {
+    const out: string[] = []
+    for (const c of state.cells) if (c.areaId && !out.includes(c.areaId)) out.push(c.areaId)
+    return out
+  }, [state.cells])
 
+  const [mode, setMode] = useState<Mode>('lugares')
   const [filtro, setFiltro] = useState('')
+  // LUGARES
   const [pendingLocal, setPendingLocal] = useState<string | null>(null)
   const [dragLocal, setDragLocal] = useState<string | null>(null)
   const [selectedCell, setSelectedCell] = useState<HexCell | null>(null)
+  // REGIÕES
+  const [pendingArea, setPendingArea] = useState<string | null>(null)
+  const [lasso, setLasso] = useState(false)
+  const [lassoPts, setLassoPts] = useState<Pt[]>([])
+  const lassoActiveRef = useRef(false)
+
   const [hoverHex, setHoverHex] = useState<HexCell | null>(null)
-  const [view, setView] = useState({ scale: 1, tx: 0, ty: 0 })
-  const [dragging, setDragging] = useState(false)
+  const pressedRef = useRef(false)
 
-  const viewportRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<HTMLDivElement>(null)
-  const dragRef = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null)
-  const movedRef = useRef(false)
-
+  const map = useMapView()
   const gridPath = useMemo(() => hexGridPath(), [])
   const mapEntry = assets?.byPath.get(region.mapAsset) ?? null
-  useEffect(() => {
-    if (assets && !mapEntry) console.warn(`[assets] mapa não encontrado: ${region.mapAsset}`)
-  }, [assets, mapEntry, region.mapAsset])
+
+  const drawingLasso = mode === 'regioes' && lasso && !!pendingArea
 
   const filtradas = useMemo(() => {
+    const base = mode === 'regioes' ? options.filter((o) => AREA_SUBCATS.has(o.subcategoria)) : options
     const q = filtro.trim().toLocaleLowerCase('pt-BR')
-    if (!q) return options
-    return options.filter((o) => o.nome.toLocaleLowerCase('pt-BR').includes(q))
-  }, [options, filtro])
+    if (!q) return base
+    return base.filter((o) => o.nome.toLocaleLowerCase('pt-BR').includes(q))
+  }, [options, filtro, mode])
 
   const nomeDe = (id: string): string => catalog.entryById.get(id)?.basename ?? id
   const selCell = selectedCell ? cellAt(state.cells, selectedCell.col, selectedCell.row) : null
 
-  // Wheel zoom com clamp, ancorado no cursor — listener NATIVO non-passive
-  // (React registra wheel como passivo na raiz; preventDefault lá é no-op).
-  useEffect(() => {
-    const el = viewportRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      setView((v) => {
-        const factor = e.deltaY < 0 ? 1.2 : 1 / 1.2
-        const scale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, v.scale * factor))
-        if (scale === v.scale) return v
-        if (scale === ZOOM_MIN) return { scale: 1, tx: 0, ty: 0 }
-        const rect = mapRef.current?.getBoundingClientRect()
-        if (!rect || rect.width <= 0) return { ...v, scale }
-        const u = (e.clientX - rect.left) / rect.width
-        const w = (e.clientY - rect.top) / rect.height
-        const nextW = (rect.width / v.scale) * scale
-        const nextH = (rect.height / v.scale) * scale
-        const baseLeft = rect.left - v.tx
-        const baseTop = rect.top - v.ty
-        return {
-          scale,
-          tx: e.clientX - u * nextW - baseLeft,
-          ty: e.clientY - w * nextH - baseTop,
-        }
-      })
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [mapEntry])
-
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
-    const rect = mapRef.current?.getBoundingClientRect()
+    const f = map.fracAtClient(clientX, clientY)
+    return f ? fracToHex(f.fx, f.fy) : null
+  }
+  /** Ponto da imagem em px da FONTE sob o cursor (clamp nas bordas p/ o laço). */
+  const srcPtAtClient = (clientX: number, clientY: number): Pt | null => {
+    const rect = map.mapRef.current?.getBoundingClientRect()
     if (!rect || !rect.width || !rect.height) return null
-    const fx = (clientX - rect.left) / rect.width
-    const fy = (clientY - rect.top) / rect.height
-    if (fx < 0 || fx > 1 || fy < 0 || fy > 1) return null
-    return fracToHex(fx, fy)
+    const fx = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width))
+    const fy = Math.min(1, Math.max(0, (clientY - rect.top) / rect.height))
+    return { x: fx * MAP_W, y: fy * MAP_H }
   }
 
-  /** Associa a célula ao local (usado por clique e por drop). */
-  const associar = (cell: HexCell, localId: string) => {
+  const associarLocal = (cell: HexCell, localId: string) => {
     setHexLocal(regionId, cell.col, cell.row, localId)
     setSelectedCell(cell)
     setPendingLocal(null)
   }
 
+  const toggleAreaHex = (cell: HexCell) => {
+    if (!pendingArea) return
+    if (areaAt(state.cells, cell.col, cell.row) === pendingArea) {
+      removeHexArea(regionId, cell.col, cell.row)
+    } else {
+      setHexArea(regionId, cell.col, cell.row, pendingArea)
+    }
+  }
+
+  // ── Ponteiros: laço (regiões) OU pan/pinça (hook) ─────────────────────────
   const onPointerDown = (e: React.PointerEvent) => {
-    dragRef.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty }
-    movedRef.current = false
-    setDragging(true)
-    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+    pressedRef.current = true
+    setHoverHex(null)
+    if (drawingLasso) {
+      lassoActiveRef.current = true
+      const p = srcPtAtClient(e.clientX, e.clientY)
+      setLassoPts(p ? [p] : [])
+      ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+      return
+    }
+    map.onPointerDown(e)
   }
   const onPointerMove = (e: React.PointerEvent) => {
-    const start = dragRef.current
-    if (start) {
-      const dx = e.clientX - start.x
-      const dy = e.clientY - start.y
-      if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
-      if (movedRef.current) {
-        setView((v) => ({ ...v, tx: start.tx + dx, ty: start.ty + dy }))
-        if (hoverHex) setHoverHex(null)
-        return
-      }
+    if (lassoActiveRef.current) {
+      const p = srcPtAtClient(e.clientX, e.clientY)
+      if (p) setLassoPts((prev) => [...prev, p])
+      return
     }
-    const h = hexAtClient(e.clientX, e.clientY)
-    setHoverHex((prev) =>
-      (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
-    )
+    map.onPointerMove(e)
+    if (!pressedRef.current) {
+      const h = hexAtClient(e.clientX, e.clientY)
+      setHoverHex((prev) =>
+        (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
+      )
+    }
   }
-  const onPointerUp = () => {
-    dragRef.current = null
-    setDragging(false)
+  const finishLasso = () => {
+    lassoActiveRef.current = false
+    const pts = lassoPts
+    setLassoPts([])
+    if (pendingArea && pts.length >= 3) {
+      const cells = hexesInPolygon(pts)
+      if (cells.length) setHexAreaBulk(regionId, cells, pendingArea)
+    }
+  }
+  const onPointerUp = (e: React.PointerEvent) => {
+    pressedRef.current = false
+    if (lassoActiveRef.current) {
+      finishLasso()
+      return
+    }
+    map.onPointerUp(e)
   }
   const onPointerLeave = () => {
     if (hoverHex) setHoverHex(null)
   }
 
   const onMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (movedRef.current) {
-      movedRef.current = false
-      return
-    }
+    if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
       setSelectedCell(null)
       return
     }
-    // Com uma Localização pendente selecionada, o clique no hex associa.
-    if (pendingLocal) {
-      associar(cell, pendingLocal)
+    if (mode === 'regioes') {
+      if (pendingArea && !lasso) toggleAreaHex(cell)
+      setSelectedCell(cell)
       return
     }
-    // Senão, seleciona a célula (mostra o painel de detalhe: mapeada ou vazia).
+    if (pendingLocal) {
+      associarLocal(cell, pendingLocal)
+      return
+    }
     setSelectedCell(cell)
   }
 
-  /** Drop de uma Localização arrastada da lista sobre o mapa → associa ao hex. */
   const onMapDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     const localId = e.dataTransfer.getData('text/plain') || dragLocal
     setDragLocal(null)
     if (!localId) return
     const cell = hexAtClient(e.clientX, e.clientY)
-    if (cell) associar(cell, localId)
+    if (cell) associarLocal(cell, localId)
   }
 
   const hoverMapeado = hoverHex ? cellAt(state.cells, hoverHex.col, hoverHex.row) : null
+  const selArea = selCell?.areaId ?? (selectedCell ? areaAt(state.cells, selectedCell.col, selectedCell.row) : null)
+
+  const panelStyle: CSSProperties = {
+    flex: '2 1 420px',
+    minWidth: 300,
+    position: 'relative',
+    background: 'var(--panel)',
+    border: '1px solid var(--line2)',
+    clipPath: clip(14),
+    overflow: 'hidden',
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <div style={kickerStyle}>{'// MAPA DE HEXCRAWL'}</div>
+        {/* #79: seletor de MODO — marcar LUGARES ou marcar REGIÕES */}
+        <div data-modo="" role="group" aria-label="Modo de marcação" style={{ display: 'flex', gap: 6 }}>
+          <button
+            type="button"
+            data-modo-lugares=""
+            aria-pressed={mode === 'lugares'}
+            onClick={() => {
+              setMode('lugares')
+              setPendingArea(null)
+              setLasso(false)
+            }}
+            style={pillStyle(mode === 'lugares')}
+          >
+            LUGARES
+          </button>
+          <button
+            type="button"
+            data-modo-regioes=""
+            aria-pressed={mode === 'regioes'}
+            onClick={() => {
+              setMode('regioes')
+              setPendingLocal(null)
+              setFiltro('')
+            }}
+            style={pillStyle(mode === 'regioes')}
+          >
+            REGIÕES
+          </button>
+        </div>
         <span style={{ flex: 1 }} />
         <span style={{ ...kickerStyle, fontSize: 10 }}>
-          {state.cells.length}/{options.length} MAPEADOS
+          {mode === 'regioes'
+            ? `${areaIds.length} ÁREAS`
+            : `${placeCells.length}/${options.length} MAPEADOS`}
         </span>
       </div>
 
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'stretch' }}>
-        {/* Lista filtrável das Localizações reais (origem do arrastar/selecionar) */}
+        {/* Lista filtrável (Localizações no modo Lugares · Áreas no modo Regiões) */}
         <div
           data-hex-lista=""
           style={{
@@ -270,8 +339,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
         >
           <input
             type="search"
-            placeholder="Filtrar Localização…"
-            aria-label="Filtrar Localização"
+            placeholder={mode === 'regioes' ? 'Filtrar Área…' : 'Filtrar Localização…'}
+            aria-label={mode === 'regioes' ? 'Filtrar Área' : 'Filtrar Localização'}
             value={filtro}
             onChange={(e) => setFiltro(e.target.value)}
             style={inputStyle}
@@ -286,22 +355,39 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
             }}
           >
             {filtradas.map((o) => {
-              const mapeado = byLocal.has(o.id)
-              const pend = pendingLocal === o.id
+              const isArea = mode === 'regioes'
+              const mapeado = isArea ? areaIds.includes(o.id) : byLocal.has(o.id)
+              const pend = isArea ? pendingArea === o.id : pendingLocal === o.id
+              const count = isArea ? cellsOfArea(state.cells, o.id).length : 0
               return (
                 <button
                   key={o.id}
                   data-local-item={o.id}
+                  {...(isArea ? { 'data-area-item': o.id } : {})}
                   aria-pressed={pend}
-                  draggable
-                  onDragStart={(e) => {
-                    e.dataTransfer.setData('text/plain', o.id)
-                    e.dataTransfer.effectAllowed = 'copy'
-                    setDragLocal(o.id)
-                  }}
-                  onDragEnd={() => setDragLocal(null)}
-                  onClick={() => setPendingLocal((cur) => (cur === o.id ? null : o.id))}
-                  title={mapeado ? 'Já mapeado — clique num hex pra re-associar' : 'Clique e depois num hex, ou arraste'}
+                  draggable={!isArea}
+                  onDragStart={
+                    isArea
+                      ? undefined
+                      : (e) => {
+                          e.dataTransfer.setData('text/plain', o.id)
+                          e.dataTransfer.effectAllowed = 'copy'
+                          setDragLocal(o.id)
+                        }
+                  }
+                  onDragEnd={isArea ? undefined : () => setDragLocal(null)}
+                  onClick={() =>
+                    isArea
+                      ? setPendingArea((cur) => (cur === o.id ? null : o.id))
+                      : setPendingLocal((cur) => (cur === o.id ? null : o.id))
+                  }
+                  title={
+                    isArea
+                      ? 'Selecione e toque nos hexes, ou use o LAÇO'
+                      : mapeado
+                        ? 'Já mapeado — clique num hex pra re-associar'
+                        : 'Clique e depois num hex, ou arraste'
+                  }
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -315,24 +401,32 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                     color: 'var(--text)',
                     fontFamily: 'var(--body)',
                     fontSize: 12.5,
-                    cursor: 'grab',
+                    cursor: isArea ? 'pointer' : 'grab',
                     clipPath: clip(5),
                   }}
                 >
                   <span
                     aria-hidden
                     style={{
-                      width: 7,
-                      height: 7,
+                      width: 9,
+                      height: 9,
                       flex: 'none',
-                      borderRadius: '50%',
-                      background: mapeado ? 'var(--accent)' : 'var(--line2)',
+                      borderRadius: isArea ? 2 : '50%',
+                      background: isArea
+                        ? areaColor(o.id, mapeado ? 0.95 : 0.4)
+                        : mapeado
+                          ? 'var(--accent)'
+                          : 'var(--line2)',
                     }}
                   />
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {o.nome}
                   </span>
-                  <span style={{ ...kickerStyle, fontSize: 9 }}>{o.subcategoria}</span>
+                  {isArea && count ? (
+                    <span style={{ ...kickerStyle, fontSize: 9 }}>{count} HEX</span>
+                  ) : (
+                    <span style={{ ...kickerStyle, fontSize: 9 }}>{o.subcategoria}</span>
+                  )}
                 </button>
               )
             })}
@@ -340,153 +434,237 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
               <div style={{ ...kickerStyle, padding: '10px 4px' }}>SEM RESULTADOS</div>
             ) : null}
           </div>
-          {pendingLocal ? (
+          {mode === 'regioes' && pendingArea ? (
+            <div style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)' }}>
+              {lasso ? 'ARRASTE UM LAÇO PELOS HEXES' : 'TOQUE NOS HEXES PRA MARCAR/DESMARCAR'}
+            </div>
+          ) : mode === 'lugares' && pendingLocal ? (
             <div style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)' }}>
               CLIQUE NUM HEX PRA ASSOCIAR
             </div>
           ) : null}
         </div>
 
-        {/* Mapa + grade (canto cortado do design) */}
-        <div
-          style={{
-            flex: '2 1 420px',
-            minWidth: 300,
-            background: 'var(--panel)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(14),
-            overflow: 'hidden',
-          }}
-        >
+        {/* Mapa + grade (canto cortado do design; vira overlay em tela cheia) */}
+        <div ref={map.containerRef} style={fullscreenContainerStyle(panelStyle, map.fullscreen)}>
           {mapEntry ? (
-            <div
-              ref={viewportRef}
-              data-mapa-viewport=""
-              onPointerDown={onPointerDown}
-              onPointerMove={onPointerMove}
-              onPointerUp={onPointerUp}
-              onPointerCancel={onPointerUp}
-              onPointerLeave={onPointerLeave}
-              onClick={onMapClick}
-              onDragOver={(e) => {
-                e.preventDefault()
-                e.dataTransfer.dropEffect = 'copy'
-              }}
-              onDrop={onMapDrop}
-              style={{
-                height: 'min(64vh, 580px)',
-                display: 'flex',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                touchAction: 'none',
-                cursor: pendingLocal ? 'crosshair' : dragging ? 'grabbing' : 'grab',
-                userSelect: 'none',
-              }}
-            >
+            <>
               <div
-                ref={mapRef}
-                data-mapa=""
+                ref={map.viewportRef}
+                data-mapa-viewport=""
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onPointerLeave={onPointerLeave}
+                onClick={onMapClick}
+                onDragOver={(e) => {
+                  e.preventDefault()
+                  e.dataTransfer.dropEffect = 'copy'
+                }}
+                onDrop={onMapDrop}
                 style={{
-                  position: 'relative',
-                  height: '100%',
-                  flex: 'none',
-                  transform: `translate(${view.tx}px, ${view.ty}px) scale(${view.scale})`,
-                  transformOrigin: '0 0',
+                  height: map.fullscreen ? '100%' : 'min(64vh, 580px)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  touchAction: 'none',
+                  cursor: drawingLasso
+                    ? 'crosshair'
+                    : pendingLocal || (mode === 'regioes' && pendingArea)
+                      ? 'crosshair'
+                      : map.dragging
+                        ? 'grabbing'
+                        : 'grab',
+                  userSelect: 'none',
                 }}
               >
-                <img
-                  src={assetUrl(mapEntry)}
-                  alt={mapEntry.basename}
-                  draggable={false}
-                  style={{ height: '100%', width: 'auto', display: 'block' }}
-                />
-                <svg
-                  viewBox={`0 0 ${MAP_W} ${MAP_H}`}
-                  preserveAspectRatio="none"
+                <div
+                  ref={map.mapRef}
+                  data-mapa=""
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
+                    position: 'relative',
                     height: '100%',
-                    pointerEvents: 'none',
-                    overflow: 'visible',
+                    flex: 'none',
+                    transform: map.transform,
+                    transformOrigin: '0 0',
                   }}
                 >
-                  {/* Grade hexagonal — 1 único path (barato) */}
-                  <path
-                    data-hexgrid=""
-                    d={gridPath}
-                    fill="none"
-                    stroke={
-                      pendingLocal
-                        ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
-                        : 'color-mix(in srgb,var(--accent) 18%,transparent)'
-                    }
-                    strokeWidth={1}
-                    vectorEffect="non-scaling-stroke"
+                  <img
+                    src={assetUrl(mapEntry)}
+                    alt={mapEntry.basename}
+                    draggable={false}
+                    style={{ height: '100%', width: 'auto', display: 'block' }}
                   />
-                  {/* Hover: célula sob o cursor */}
-                  {hoverHex ? (
-                    <polygon
-                      data-hex-hover=""
-                      points={hexPolygonPoints(hoverHex.col, hoverHex.row)}
-                      fill={
-                        hoverMapeado
-                          ? 'color-mix(in srgb,var(--accent) 8%,transparent)'
-                          : 'color-mix(in srgb,var(--accent) 12%,transparent)'
-                      }
-                      stroke="color-mix(in srgb,var(--accent) 55%,transparent)"
-                      strokeWidth={1.5}
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  ) : null}
-                  {/* Hexes mapeados: preenchimento accent + nome do lugar */}
-                  {state.cells.map((c) => {
-                    const isSel =
-                      selCell != null && c.col === selCell.col && c.row === selCell.row
-                    const center = hexCenter(c.col, c.row)
-                    return (
-                      <g key={`${c.col},${c.row}`}>
-                        <polygon
-                          data-hex={`${c.col},${c.row}`}
-                          data-col={c.col}
-                          data-row={c.row}
-                          data-local={c.localId}
-                          {...(isSel ? { 'data-sel': '' } : {})}
-                          points={hexPolygonPoints(c.col, c.row)}
-                          fill="color-mix(in srgb,var(--accent) 32%,transparent)"
-                          stroke={isSel ? 'var(--text)' : 'var(--accent)'}
-                          strokeWidth={isSel ? 2.2 : 1.6}
-                          strokeOpacity={isSel ? 1 : 0.85}
+                  <svg
+                    viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+                    preserveAspectRatio="none"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      pointerEvents: 'none',
+                      overflow: 'visible',
+                    }}
+                  >
+                    {/* Áreas (união de hexes por zona) — um path por área (#79) */}
+                    {areaIds.map((aid) => {
+                      const cells = cellsOfArea(state.cells, aid)
+                      const isPend = aid === pendingArea
+                      return (
+                        <path
+                          key={`area-${aid}`}
+                          data-area={aid}
+                          {...(isPend ? { 'data-area-pend': '' } : {})}
+                          d={hexUnionPath(cells)}
+                          fill={areaColor(aid, isPend ? 0.42 : 0.24)}
+                          stroke={areaColor(aid, isPend ? 1 : 0.7)}
+                          strokeWidth={isPend ? 2.4 : 1.4}
                           vectorEffect="non-scaling-stroke"
                         />
+                      )
+                    })}
+                    {/* Rótulo da área no centroide dos seus hexes */}
+                    {areaIds.map((aid) => {
+                      const cells = cellsOfArea(state.cells, aid)
+                      if (!cells.length) return null
+                      let sx = 0
+                      let sy = 0
+                      for (const c of cells) {
+                        const ct = hexCenter(c.col, c.row)
+                        sx += ct.x
+                        sy += ct.y
+                      }
+                      return (
                         <text
-                          x={center.x}
-                          y={center.y}
+                          key={`area-lbl-${aid}`}
+                          x={sx / cells.length}
+                          y={sy / cells.length}
                           textAnchor="middle"
                           dominantBaseline="central"
                           fill="var(--text)"
-                          fontSize={30}
+                          fontSize={40}
                           fontFamily="var(--mono)"
                           style={{ paintOrder: 'stroke' }}
                           stroke="var(--panel)"
-                          strokeWidth={5}
+                          strokeWidth={7}
                         >
-                          {nomeDe(c.localId)}
+                          {nomeDe(aid)}
                         </text>
-                      </g>
-                    )
-                  })}
-                </svg>
+                      )
+                    })}
+
+                    {/* Grade hexagonal — 1 único path (barato) */}
+                    <path
+                      data-hexgrid=""
+                      d={gridPath}
+                      fill="none"
+                      stroke={
+                        pendingLocal || (mode === 'regioes' && pendingArea)
+                          ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
+                          : 'color-mix(in srgb,var(--accent) 18%,transparent)'
+                      }
+                      strokeWidth={1}
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    {/* Laço em desenho (#79) */}
+                    {lassoPts.length >= 2 ? (
+                      <polyline
+                        data-lasso=""
+                        points={lassoPts.map((p) => `${p.x},${p.y}`).join(' ')}
+                        fill={pendingArea ? areaColor(pendingArea, 0.16) : 'none'}
+                        stroke={pendingArea ? areaColor(pendingArea, 1) : 'var(--accent)'}
+                        strokeWidth={2}
+                        strokeDasharray="6 5"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    ) : null}
+                    {/* Hover: célula sob o cursor */}
+                    {hoverHex ? (
+                      <polygon
+                        data-hex-hover=""
+                        points={hexPolygonPoints(hoverHex.col, hoverHex.row)}
+                        fill={
+                          hoverMapeado
+                            ? 'color-mix(in srgb,var(--accent) 8%,transparent)'
+                            : 'color-mix(in srgb,var(--accent) 12%,transparent)'
+                        }
+                        stroke="color-mix(in srgb,var(--accent) 55%,transparent)"
+                        strokeWidth={1.5}
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    ) : null}
+                    {/* Hexes com LUGAR: preenchimento accent + nome do lugar */}
+                    {placeCells.map((c) => {
+                      const isSel = selCell != null && c.col === selCell.col && c.row === selCell.row
+                      const center = hexCenter(c.col, c.row)
+                      return (
+                        <g key={`${c.col},${c.row}`}>
+                          <polygon
+                            data-hex={`${c.col},${c.row}`}
+                            data-col={c.col}
+                            data-row={c.row}
+                            data-local={c.localId}
+                            {...(isSel ? { 'data-sel': '' } : {})}
+                            points={hexPolygonPoints(c.col, c.row)}
+                            fill="color-mix(in srgb,var(--accent) 32%,transparent)"
+                            stroke={isSel ? 'var(--text)' : 'var(--accent)'}
+                            strokeWidth={isSel ? 2.2 : 1.6}
+                            strokeOpacity={isSel ? 1 : 0.85}
+                            vectorEffect="non-scaling-stroke"
+                          />
+                          <text
+                            x={center.x}
+                            y={center.y}
+                            textAnchor="middle"
+                            dominantBaseline="central"
+                            fill="var(--text)"
+                            fontSize={30}
+                            fontFamily="var(--mono)"
+                            style={{ paintOrder: 'stroke' }}
+                            stroke="var(--panel)"
+                            strokeWidth={5}
+                          >
+                            {nomeDe(c.localId!)}
+                          </text>
+                        </g>
+                      )
+                    })}
+                  </svg>
+                </div>
               </div>
-            </div>
+              <MapControls
+                map={map}
+                extra={
+                  mode === 'regioes' ? (
+                    <button
+                      type="button"
+                      data-lasso-toggle=""
+                      aria-pressed={lasso}
+                      disabled={!pendingArea}
+                      title={pendingArea ? 'Laço: arraste um polígono' : 'Selecione uma área primeiro'}
+                      onClick={() => setLasso((l) => !l)}
+                      style={{
+                        ...pillStyle(lasso),
+                        height: 36,
+                        opacity: pendingArea ? 1 : 0.5,
+                        cursor: pendingArea ? 'pointer' : 'not-allowed',
+                      }}
+                    >
+                      LAÇO
+                    </button>
+                  ) : null
+                }
+              />
+            </>
           ) : assets ? (
             <div style={{ ...kickerStyle, padding: '18px 20px' }}>MAPA INDISPONÍVEL</div>
           ) : null}
         </div>
       </div>
 
-      {/* Detalhe da célula selecionada: associada (nome + trocar/remover) ou vazia */}
+      {/* Detalhe da célula selecionada */}
       {selectedCell ? (
         <div
           data-hex-detalhe=""
@@ -504,7 +682,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
           <span style={{ ...kickerStyle, fontSize: 10 }}>
             HEX {selectedCell.col},{selectedCell.row}
           </span>
-          {selCell ? (
+          {selCell?.localId ? (
             <>
               <span style={{ fontFamily: 'var(--display)', fontSize: 17, fontWeight: 800 }}>
                 {nomeDe(selCell.localId)}
@@ -537,9 +715,46 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                 ×
               </button>
             </>
+          ) : selArea ? (
+            <>
+              <span
+                aria-hidden
+                style={{ width: 12, height: 12, flex: 'none', borderRadius: 2, background: areaColor(selArea, 0.95) }}
+              />
+              <span style={{ fontFamily: 'var(--display)', fontSize: 17, fontWeight: 800 }}>
+                {nomeDe(selArea)}
+              </span>
+              <span style={{ ...kickerStyle, fontSize: 10 }}>
+                ÁREA · {cellsOfArea(state.cells, selArea).length} HEX
+              </span>
+              <span style={{ flex: 1 }} />
+              <Link
+                to={docPath(selArea)}
+                style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)', textDecoration: 'none' }}
+              >
+                ABRIR DOC
+              </Link>
+              <button
+                data-area-remover=""
+                onClick={() => {
+                  removeArea(regionId, selArea)
+                  setSelectedCell(null)
+                }}
+                style={{ ...pillStyle(false), color: 'var(--muted)', border: '1px solid var(--line2)', background: 'none' }}
+              >
+                APAGAR ÁREA
+              </button>
+            </>
           ) : (
             <span style={{ ...kickerStyle, fontSize: 11, color: 'var(--muted)' }}>
-              VAZIO — {pendingLocal ? 'clique de novo no hex pra associar' : 'selecione uma Localização e clique aqui, ou arraste'}
+              VAZIO —{' '}
+              {mode === 'regioes'
+                ? pendingArea
+                  ? 'toque de novo pra marcar nesta área'
+                  : 'selecione uma Área na lista'
+                : pendingLocal
+                  ? 'clique de novo no hex pra associar'
+                  : 'selecione uma Localização e clique aqui, ou arraste'}
             </span>
           )}
         </div>
