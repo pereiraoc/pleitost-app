@@ -24,6 +24,8 @@ import {
   cellAt,
   cellsByLocal,
   cellsOfArea,
+  exportAllHexMaps,
+  importAllHexMaps,
   removeArea,
   removeHex,
   removeHexArea,
@@ -144,6 +146,39 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
 
   const [hoverHex, setHoverHex] = useState<HexCell | null>(null)
   const pressedRef = useRef(false)
+  const [backupMsg, setBackupMsg] = useState('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // ── Backup (#81): exportar/importar todos os mapas salvos ────────────────
+  const onExport = () => {
+    try {
+      const json = exportAllHexMaps()
+      const blob = new Blob([json], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'pleitost-mapas.json'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+      setBackupMsg('Backup baixado')
+    } catch {
+      setBackupMsg('Falha ao exportar')
+    }
+  }
+  const onImportFile = (file: File) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const n = importAllHexMaps(String(reader.result ?? ''))
+        setBackupMsg(`${n} região(ões) restaurada(s)`)
+      } catch {
+        setBackupMsg('Arquivo inválido')
+      }
+    }
+    reader.readAsText(file)
+  }
 
   const map = useMapView()
   const gridPath = useMemo(() => hexGridPath(), [])
@@ -313,10 +348,35 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
           </button>
         </div>
         <span style={{ flex: 1 }} />
+        {/* Backup (#81): segurança + diagnóstico do que está salvo */}
+        <button type="button" data-export="" onClick={onExport} title="Baixar backup dos mapas" style={pillStyle(false)}>
+          EXPORTAR
+        </button>
+        <button
+          type="button"
+          data-import=""
+          onClick={() => fileInputRef.current?.click()}
+          title="Restaurar de um backup"
+          style={pillStyle(false)}
+        >
+          IMPORTAR
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/json,.json"
+          style={{ display: 'none' }}
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) onImportFile(f)
+            e.target.value = ''
+          }}
+        />
+        {backupMsg ? <span style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)' }}>{backupMsg}</span> : null}
         <span style={{ ...kickerStyle, fontSize: 10 }}>
           {mode === 'regioes'
             ? `${areaIds.length} ÁREAS`
-            : `${placeCells.length}/${options.length} MAPEADOS`}
+            : `${placeCells.length}/${options.length} MAPEADOS · ${state.cells.length} HEX`}
         </span>
       </div>
 

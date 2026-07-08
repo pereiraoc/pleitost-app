@@ -24,7 +24,9 @@ import {
   cellAt,
   cellsByLocal,
   cellsOfArea,
+  exportAllHexMaps,
   getHexMapState,
+  importAllHexMaps,
   removeArea,
   removeHex,
   removeHexArea,
@@ -459,6 +461,25 @@ describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => 
     const cell = cellAt(getHexMapState(REGION_ID).cells, 4, 9)!
     expect(cell.areaId).toBe(POI_ID)
     expect(cell.localId).toBeUndefined()
+  })
+
+  it('backup: exportar → limpar → importar recupera os mapas (#81)', () => {
+    setHexLocal(REGION_ID, 5, 5, KRASNOGOR_ID)
+    setHexArea(REGION_ID, 6, 6, NACAO_ID)
+    const json = exportAllHexMaps()
+    expect(JSON.parse(json).kind).toBe('pleitost.hexmap.backup')
+    // apaga tudo (localStorage + memória) como se fosse outro dispositivo/origem
+    window.localStorage.clear()
+    __resetHexMapStoreMemoryForTests()
+    expect(getHexMapState(REGION_ID).cells).toEqual([])
+    // importa de volta
+    const n = importAllHexMaps(json)
+    expect(n).toBe(1)
+    const cells = getHexMapState(REGION_ID).cells
+    expect(cellAt(cells, 5, 5)!.localId).toBe(KRASNOGOR_ID)
+    expect(cellAt(cells, 6, 6)!.areaId).toBe(NACAO_ID)
+    // arquivo inválido é rejeitado
+    expect(() => importAllHexMaps('{"foo":1}')).toThrow()
   })
 })
 

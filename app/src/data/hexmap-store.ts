@@ -287,6 +287,53 @@ export function removeArea(regionId: string, areaId: string): void {
   removeHexAreaBulk(regionId, cellsOfArea(cur.cells, areaId).map((c) => ({ col: c.col, row: c.row })), areaId)
 }
 
+// ─────────────────────── BACKUP (export/import) #81 ─────────────────────────
+// O localStorage é por-origem/dispositivo; num túnel efêmero o mapa pode "sumir"
+// se o endereço muda. Export/import dá um arquivo portátil de segurança e serve
+// de diagnóstico (mostra exatamente o que está salvo).
+
+const BACKUP_KIND = 'pleitost.hexmap.backup'
+
+/** Serializa TODOS os mapas salvos (todas as regiões) num JSON portátil. */
+export function exportAllHexMaps(): string {
+  const data: Record<string, string> = {}
+  const s = storage()
+  if (s) {
+    for (let i = 0; i < s.length; i++) {
+      const k = s.key(i)
+      if (k && k.startsWith(STORE_PREFIX)) {
+        const v = s.getItem(k)
+        if (v != null) data[k] = v
+      }
+    }
+  }
+  // inclui regiões só em memória (sem storage) pra não perder a sessão
+  for (const [regionId, state] of memory) {
+    const k = storageKey(regionId)
+    if (!(k in data) && state.cells.length) data[k] = JSON.stringify(state)
+  }
+  return JSON.stringify({ kind: BACKUP_KIND, v: 1, data }, null, 2)
+}
+
+/** Restaura mapas de um JSON de backup. Devolve quantas regiões entraram.
+ *  Lança se o arquivo não for um backup válido. */
+export function importAllHexMaps(json: string): number {
+  const parsed = JSON.parse(json) as { kind?: string; data?: Record<string, unknown> }
+  if (parsed?.kind !== BACKUP_KIND || !parsed.data || typeof parsed.data !== 'object') {
+    throw new Error('Arquivo de backup inválido')
+  }
+  let n = 0
+  for (const [k, v] of Object.entries(parsed.data)) {
+    if (!k.startsWith(STORE_PREFIX) || typeof v !== 'string') continue
+    safeSet(k, v)
+    const regionId = k.slice(STORE_PREFIX.length)
+    memory.delete(regionId) // força rehidratar do valor importado
+    notify(regionId) // re-render de quem estiver assinando
+    n++
+  }
+  return n
+}
+
 /** SÓ testes: zera a memória (não o localStorage) — simula reload da página. */
 export function __resetHexMapStoreMemoryForTests(): void {
   memory.clear()
