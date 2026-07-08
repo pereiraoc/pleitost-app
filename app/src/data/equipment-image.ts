@@ -17,6 +17,14 @@ import type { VaultDoc } from './types'
 
 const FIGURA_IMBUICOES = 'Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas'
 const FIGURA_EQUIPAMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos'
+const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
+
+/** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
+function wikiBasename(nome: string): string {
+  const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(nome)
+  const target = (m ? m[1] : nome).trim()
+  return target.split('/').pop() ?? target
+}
 
 /** Sufixo de tier no nome do arquivo — FEMININO nas imbuições/têmperas
  *  (CARTAS_TIER_LABEL_FEMININO do pleitost-views: A→Adepta …). */
@@ -70,6 +78,18 @@ export function escudoImageUrl(
   assets: AssetIndex | undefined,
 ): string | null {
   return weaponImageUrl(doc, assets)
+}
+
+/** Figura do ESCUDO pelo NOME (Inventario.Escudo.Nome) — Figura/Armas/<basename>.png,
+ *  SEM depender do doc carregado: escudo escolhido no app (overlay) não tem doc
+ *  em refs, então escudoImageUrl(doc) caía no emoji (Broquel sumia). */
+export function escudoImageUrlByName(
+  nome: string,
+  assets: AssetIndex | undefined,
+): string | null {
+  const base = wikiBasename(nome)
+  if (!base || base === 'Sem Escudo' || !assets) return null
+  return byPath(assets, `${FIGURA_ARMAS}/${base}.png`)
 }
 
 /** Figura do TESOURO — Figura/Equipamentos/<Nome>[ <TierMasc>].png. Tenta COM

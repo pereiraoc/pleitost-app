@@ -332,10 +332,10 @@ describe('#78: a figura da imbuição aparece (quadrado não colapsa)', () => {
           ),
       )
       expect(box, 'quadrado da imbuição').toBeTruthy()
-      // #78: largura/altura FIXAS em px — aspect-ratio + alignSelf stretch num
-      // flex-row colapsava a largura a 0 e a figura sumia
+      // Largura FIXA em px (não colapsa — #78) + altura por alignSelf:stretch,
+      // pra o quadrado ir do topo do A/E/M à base do dropdown; sem aspect-ratio.
       expect(box!.style.width).toMatch(/^\d+px$/)
-      expect(box!.style.height).toMatch(/^\d+px$/)
+      expect(box!.style.alignSelf).toBe('stretch')
       expect(box!.style.aspectRatio).toBe('')
     })
   })

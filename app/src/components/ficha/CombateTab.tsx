@@ -21,7 +21,7 @@ import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
-import { propriedadeImageUrl } from '../../data/equipment-image'
+import { propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -1576,6 +1576,7 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
 function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'combate')
   const rules = useHeroRules(model.fm)
+  const assets = useAssetIndex()
   // Base derivada; o volátil (Usos_Recursos) é preservado pelo merge.
   const fm = rules?.derivedFm ?? model.fm
   const inter = interativa(fm)
@@ -1594,7 +1595,9 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       const salvo = inter.usos[key] !== undefined ? num(inter.usos[key]) : null
       // Usos iniciam cheios; Cargas iniciam descarregadas (plugin, usos.ts).
       const cur = salvo ?? (cargas ? 0 : max)
-      return { nome: `${nome} (${tier})`, key, cur, max }
+      // Figura do tesouro (issue #65) — igual ao inventário.
+      const img = tesouroImageUrl(nome, tier, assets)
+      return { nome: `${nome} (${tier})`, key, cur, max, img }
     })
     .filter((t): t is NonNullable<typeof t> => t !== null)
 
@@ -1613,7 +1616,21 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             clipPath: clip(12),
           }}
         >
-          <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
+          {t.img ? (
+            <span
+              style={{
+                width: 34,
+                height: 34,
+                flex: 'none',
+                backgroundImage: `url("${t.img}")`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+              }}
+            />
+          ) : (
+            <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
+          )}
           <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
             USOS

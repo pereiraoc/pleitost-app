@@ -15,7 +15,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
 import {
-  escudoImageUrl,
+  escudoImageUrlByName,
   obraPrimaSeloUrl,
   propriedadeImageUrl,
   tesouroImageUrl,
@@ -550,7 +550,9 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         flex: '1 1 260px',
                         minWidth: 0,
                         display: 'flex',
-                        alignItems: 'center',
+                        // stretch: o quadrado da imbuição vai do topo do A/E/M à
+                        // base do dropdown de propriedade (pedido do usuário).
+                        alignItems: 'stretch',
                         gap: 12,
                       }}
                     >
@@ -563,9 +565,13 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                       <span
                         style={{
                           flex: 'none',
-                          alignSelf: 'center',
+                          // estica na altura mas começa no TOPO do A/E/M (não no
+                          // rótulo QUALIDADE acima): marginTop = altura do rótulo
+                          // mono8.5 (~12) + o gap 5 entre rótulo e A/E/M; base no
+                          // dropdown de propriedade. Largura fixa < quadrado 96 da arma.
+                          alignSelf: 'stretch',
+                          marginTop: 17,
                           width: 76,
-                          height: 76,
                           background: 'var(--panel2)',
                           border: '1px solid var(--line2)',
                           clipPath: clip(7),
@@ -962,7 +968,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           badge={tokens.emojis.equipProf.Escudo}
           bases={escudoOpts}
           gear={escudo}
-          img={escudoImageUrl(refs.refDoc(escudo['Nome']), assets)}
+          img={escudoImageUrlByName(String(escudo['Nome'] ?? ''), assets)}
           selo={gearSelo(escudo)}
           {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
         />
