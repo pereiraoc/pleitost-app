@@ -14,6 +14,12 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
+import {
+  escudoImageUrl,
+  obraPrimaSeloUrl,
+  propriedadeImageUrl,
+  tesouroImageUrl,
+} from '../../data/equipment-image'
 import { loadDoc } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -176,6 +182,30 @@ function TrashBtn({ onClick }: { onClick: () => void }) {
     >
       🗑️
     </button>
+  )
+}
+
+/** Selo de OBRA-PRIMA (issue #65): overlay POR CIMA da imagem do item
+ *  (arma/armadura/escudo), canto inferior DIREITO, DENTRO do quadrado, menor
+ *  pra não cobrir o item. `url` já é o selo real da vault (figura
+ *  "<X> Obra-prima <tier>.png" — que É um selo de cera). */
+function SeloObraPrima({ url, size }: { url: string; size: number }) {
+  return (
+    <span
+      aria-label="Obra-prima"
+      style={{
+        position: 'absolute',
+        right: 4,
+        bottom: 4,
+        width: size,
+        height: size,
+        backgroundImage: `url("${url}")`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        pointerEvents: 'none',
+      }}
+    />
   )
 }
 
@@ -362,6 +392,11 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             const armaId = armaRes?.kind === 'doc' ? armaRes.id : armaTarget
             const armaNoCatalogo = armaGroups.some((g) => g.entries.some((e) => e.id === armaId))
             const propBase = (wikiTarget(arma.propriedadeRaw).split('/').pop() ?? '').trim()
+            // Figura da PROPRIEDADE/imbuição (issue #65) e o selo de OBRA-PRIMA
+            // (overlay POR CIMA da figura da arma quando a propriedade é a
+            // Obra-prima automática): mesma resolução das cartas do pleitost-views.
+            const propImg = propriedadeImageUrl(propBase, arma.tier, assets)
+            const weaponSelo = obraPrimaSeloUrl(propBase, arma.tier, assets)
             return (
               <div
                 key={`${arma.nome}-${i}`}
@@ -376,6 +411,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               >
                 <span
                   style={{
+                    position: 'relative',
                     width: 96,
                     height: 96,
                     flex: 'none',
@@ -391,7 +427,11 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',
                   }}
-                />
+                >
+                  {/* Selo de obra-prima (issue #65): canto inferior DIREITO,
+                      DENTRO do quadrado, menor pra não cobrir a arma. */}
+                  {weaponSelo ? <SeloObraPrima url={weaponSelo} size={34} /> : null}
+                </span>
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end', flexWrap: 'wrap' }}>
                     <span
@@ -489,10 +529,40 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         flex: '1 1 260px',
                         minWidth: 0,
                         display: 'flex',
-                        flexDirection: 'column',
-                        gap: 7,
+                        alignItems: 'stretch',
+                        gap: 12,
                       }}
                     >
+                      {/* Quadrado da figura da PROPRIEDADE/imbuição (issue #65):
+                          LOGO ANTES da seleção de propriedade, empurrando pro
+                          lado a qualidade (A/E/M) e a propriedade. ALTURA = do
+                          topo do A/E/M até a base do dropdown de propriedade
+                          (= altura desta coluna interna, via alignSelf stretch
+                          + aspectRatio 1), um pouco menor que o quadrado 96 da
+                          arma. */}
+                      <span
+                        style={{
+                          flex: 'none',
+                          alignSelf: 'stretch',
+                          aspectRatio: '1',
+                          background: 'var(--panel2)',
+                          border: '1px solid var(--line2)',
+                          clipPath: clip(7),
+                          backgroundImage: propImg ? `url("${propImg}")` : undefined,
+                          backgroundSize: 'contain',
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'center',
+                        }}
+                      />
+                      <span
+                        style={{
+                          flex: 1,
+                          minWidth: 0,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 7,
+                        }}
+                      >
                       <span style={{ display: 'flex', alignItems: 'flex-end', gap: 18 }}>
                         <span
                           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}
@@ -546,6 +616,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         </select>
                         <span style={{ color: 'var(--muted)', fontSize: 11, flex: 'none' }}>▾</span>
                       </span>
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -565,6 +636,8 @@ function GearCard({
   badge,
   bases,
   gear,
+  img,
+  selo,
   onBase,
   onTier,
 }: {
@@ -572,6 +645,8 @@ function GearCard({
   badge: string
   bases: string[]
   gear: Record<string, unknown>
+  img?: string | null
+  selo?: string | null
   onBase: (base: string) => void
   onTier: (tier: '' | 'A' | 'E' | 'M') => void
 }) {
@@ -613,6 +688,7 @@ function GearCard({
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <span
           style={{
+            position: 'relative',
             flex: 'none',
             width: 60,
             height: 60,
@@ -623,9 +699,20 @@ function GearCard({
             background: 'var(--card)',
             border: '1px solid var(--line2)',
             clipPath: clip(10),
+            ...(img
+              ? {
+                  backgroundImage: `url("${img}")`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                }
+              : {}),
           }}
         >
-          {badge}
+          {/* Figura real do item (issue #65: escudo → Figura/Armas); sem figura
+              → emoji placeholder (armadura não tem mapeamento base→imagem). */}
+          {img ? null : badge}
+          {selo ? <SeloObraPrima url={selo} size={24} /> : null}
         </span>
         <span
           style={{
@@ -694,14 +781,24 @@ interface TesouroRow {
   bonus: number
   grupo: string
   index: number
+  img: string | null
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
+  const assets = useAssetIndex()
   const model = useHeroModel(doc, 'inventario')
   const fm = model.fm
   const armadura = (fmPath(fm, 'Inventario', 'Armadura') ?? {}) as Record<string, unknown>
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
+  // Selo de obra-prima (issue #65) a partir da Propriedade (Obra-prima
+  // automática) + qualidade do item; imbuição real ou item comum → sem selo.
+  const gearSelo = (gear: Record<string, unknown>) =>
+    obraPrimaSeloUrl(
+      (wikiTarget(gear['Propriedade']).split('/').pop() ?? '').trim(),
+      tierLetter(gear['Categoria']) ?? '',
+      assets,
+    )
   // Bases dos dropdowns = docs REAIS das pastas Armaduras/Escudos (issue #63),
   // como as armas listam de Armas/ — nunca strings hardcodadas.
   const armaduraOpts = useMemo(() => armaduraBases(catalog), [catalog])
@@ -787,9 +884,11 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           bonus: tier ? bonusPorTier(tDoc, tier) : 0,
           grupo: grupo.toUpperCase(),
           index,
+          // Figura do tesouro (issue #65): Figura/Equipamentos/<Nome>[ <Tier>].png.
+          img: tesouroImageUrl(nome, tier ?? '', assets),
         }
       }),
-    [tesourosRaw, refs],
+    [tesourosRaw, refs, assets],
   )
   const removeTesouro = (index: number) =>
     model.set(
@@ -831,6 +930,10 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           badge={tokens.emojis.equipProf.Armadura}
           bases={armaduraOpts}
           gear={armadura}
+          // Armadura sem mapeamento base→imagem confiável → placeholder (emoji);
+          // selo de obra-prima ainda aparece quando ranqueada.
+          img={null}
+          selo={gearSelo(armadura)}
           {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
         />
         <GearCard
@@ -838,6 +941,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           badge={tokens.emojis.equipProf.Escudo}
           bases={escudoOpts}
           gear={escudo}
+          img={escudoImageUrl(refs.refDoc(escudo['Nome']), assets)}
+          selo={gearSelo(escudo)}
           {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
         />
       </div>
@@ -886,6 +991,24 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                  {/* Figura do tesouro AO LADO do nome (issue #65); sem figura
+                      → só o emoji, como antes. */}
+                  {r.img ? (
+                    <span
+                      style={{
+                        flex: 'none',
+                        width: 30,
+                        height: 30,
+                        background: 'var(--panel2)',
+                        border: '1px solid var(--line2)',
+                        clipPath: clip(6),
+                        backgroundImage: `url("${r.img}")`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  ) : null}
                   <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                   <span
                     style={{

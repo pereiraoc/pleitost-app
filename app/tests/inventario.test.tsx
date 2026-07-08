@@ -237,6 +237,52 @@ describe('#12: imagem real da arma no slot do inventário', () => {
   })
 })
 
+/** Algum <span> com backgroundImage (decodificado) contendo `needle`. */
+function bgIncludes(container: HTMLElement, needle: string): boolean {
+  return [...container.querySelectorAll<HTMLElement>('span')].some(
+    (s) => s.style.backgroundImage && decodeURIComponent(s.style.backgroundImage).includes(needle),
+  )
+}
+
+describe('#65: imagens de propriedade/escudo/tesouro e selo de obra-prima', () => {
+  it('propriedade da arma: quadrado mostra a figura da imbuição (Relampejante Experiente)', async () => {
+    // FM real: Punhal Experiente com Imbuição Relampejante → Imbuições e Têmperas
+    // (sufixo FEMININO, como imbuicoes-render.ts:81 do pleitost-views)
+    expect(String(armaFm.Propriedade)).toContain('Imbuição Relampejante')
+    const { container } = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    await waitFor(() =>
+      expect(
+        bgIncludes(container, 'Imbuições e Têmperas/Imbuição Relampejante Experiente.png'),
+      ).toBe(true),
+    )
+  })
+
+  it('selo de obra-prima aparece na armadura obra-prima do FM (Armadura Obra-prima Experiente)', async () => {
+    // FM real do Carlos: Armadura Leve, Experiente, Propriedade Armadura Obra-prima
+    expect(String(fm.Inventario.Armadura.Propriedade)).toContain('Armadura Obra-prima')
+    const { container } = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    await waitFor(() => {
+      const selo = container.querySelector<HTMLElement>('[aria-label="Obra-prima"]')
+      expect(selo, 'selo de obra-prima').toBeTruthy()
+      expect(decodeURIComponent(selo!.style.backgroundImage)).toContain(
+        'Imbuições e Têmperas/Armadura Obra-prima Experiente.png',
+      )
+    })
+  })
+
+  it('tesouros: figura COM tier (Anel da Resistência Adepto) e fallback SEM tier (Anel Canário)', async () => {
+    const { container } = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    await waitFor(() => {
+      expect(bgIncludes(container, 'Figura/Equipamentos/Anel da Resistência Adepto.png')).toBe(true)
+      // "Anel Canário Adepto.png" não existe → cai pro nome puro
+      expect(bgIncludes(container, 'Figura/Equipamentos/Anel Canário.png')).toBe(true)
+    })
+  })
+})
+
 describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
   it('arma: tier novo seta Categoria + Bonus_Item do tier (setArmaRank), mantendo a imbuição', async () => {
     // FM real: Punhal Experiente (+2) com Imbuição Relampejante
