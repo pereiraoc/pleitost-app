@@ -41,13 +41,23 @@ import {
   getGroupState,
   hexAt,
   hexAtual,
-  ordenarHexes,
+  insertGroupHex,
+  moveGroupHex,
+  setAtualHex,
+  setRegiaoAtiva,
   removeGroupHex,
   todayISO,
   updateGroupHex,
 } from '../src/data/group-store'
+import { activeRegionId } from '../src/grupo/PanelExploracao'
+import { REGION_MAPS } from '../src/data/region-maps'
+import {
+  __resetHexMapStoreMemoryForTests,
+  getHexMapState,
+  setHexLocal,
+} from '../src/data/hexmap-store'
 import { docPath } from '../src/paths'
-import type { IndexManifest } from '../src/data/types'
+import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
@@ -102,6 +112,7 @@ beforeAll(() => {
 beforeEach(() => {
   window.localStorage.clear()
   __resetGroupStoreMemoryForTests()
+  __resetHexMapStoreMemoryForTests()
 })
 afterEach(cleanup)
 
@@ -137,9 +148,18 @@ function clickHex(
   width = 400,
   height = 540,
 ) {
-  const c = hexCenter(cell.col, cell.row)
-  fireEvent.click(mapa, { clientX: (c.x / MAP_W) * width, clientY: (c.y / MAP_H) * height })
+  fireEvent.click(mapa, clickCoords(cell, width, height))
 }
+
+/** Coordenadas de cliente que caem no CENTRO da célula com o rect mockado. */
+function clickCoords(cell: { col: number; row: number }, width = 400, height = 540) {
+  const c = hexCenter(cell.col, cell.row)
+  return { clientX: (c.x / MAP_W) * width, clientY: (c.y / MAP_H) * height }
+}
+
+/** Doc real do disco (mesmos JSONs do dev server) — pra expectativas do FM. */
+const readDoc = (id: string): VaultDoc =>
+  JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
 
 // ── Geometria da grade hexagonal (issue #48) — puro e determinístico ──────
 describe('grade hexagonal (geometria calibrada flat-top)', () => {
@@ -282,14 +302,62 @@ describe('group-store (namespace pleitost.groupState.<groupId>) — hexes', () =
     expect(window.localStorage.getItem('pleitost.groupState.grupo-b')).toBeNull()
   })
 
-  it('ordenarHexes: data ASC com empate estável; hexAtual = último', () => {
-    const b = addGroupHex(GROUP_ID, { col: 2, row: 2, data: '2026-07-03' })
-    const a = addGroupHex(GROUP_ID, { col: 1, row: 1, data: '2026-07-01' })
-    const c = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-03' })
-    const ordenados = ordenarHexes(getGroupState(GROUP_ID).hexes)
-    // 01 primeiro; empate 03/03 preserva inserção (b antes de c)
-    expect(ordenados.map((h) => h.id)).toEqual([a.id, b.id, c.id])
-    expect(hexAtual(getGroupState(GROUP_ID).hexes)!.id).toBe(c.id)
+  it('#69 caminho: ordem é a do array; hexAtual default = última parada', () => {
+    const a = addGroupHex(GROUP_ID, { col: 1, row: 1 })
+    const b = addGroupHex(GROUP_ID, { col: 2, row: 2 })
+    const c = addGroupHex(GROUP_ID, { col: 3, row: 3 })
+    // addGroupHex acrescenta ao FIM (não por data) → ordem de inserção
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // sem atualId setado, o ATUAL é a última parada do caminho
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(c.id)
+  })
+
+  it('#69 insertGroupHex INSERE no meio; moveGroupHex REORDENA por drag', () => {
+    const a = addGroupHex(GROUP_ID, { col: 1, row: 1 })
+    const c = addGroupHex(GROUP_ID, { col: 3, row: 3 })
+    // insere no MEIO (índice 1) entre a e c
+    const b = insertGroupHex(GROUP_ID, { col: 2, row: 2 }, 1)
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // arrasta c pro início (índice 0)
+    moveGroupHex(GROUP_ID, c.id, 0)
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([c.id, a.id, b.id])
+    // arrasta c pro fim
+    moveGroupHex(GROUP_ID, c.id, 2)
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([a.id, b.id, c.id])
+    // célula já existente não duplica ao inserir
+    expect(insertGroupHex(GROUP_ID, { col: 1, row: 1 }, 0).id).toBe(a.id)
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(3)
+  })
+
+  it('#71 token: setAtualHex fixa o ATUAL; remover o atual cai no default', () => {
+    const a = addGroupHex(GROUP_ID, { col: 1, row: 1 })
+    const b = addGroupHex(GROUP_ID, { col: 2, row: 2 })
+    // default = última (b)
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(b.id)
+    // fixa a primeira como ATUAL → persiste no localStorage
+    setAtualHex(GROUP_ID, a.id)
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(a.id)
+    expect(JSON.parse(window.localStorage.getItem(STORE_KEY)!).atualId).toBe(a.id)
+    // reload preserva o atualId
+    __resetGroupStoreMemoryForTests()
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(a.id)
+    // remover a parada ATUAL → volta ao default (última = b)
+    removeGroupHex(GROUP_ID, a.id)
+    expect(getGroupState(GROUP_ID).atualId).toBeUndefined()
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(b.id)
+  })
+
+  it('#68 região ativa: default = 1ª com mapa; setRegiaoAtiva persiste', () => {
+    // sem escolha → região ativa efetiva é a primeira de REGION_MAPS
+    expect(activeRegionId(getGroupState(GROUP_ID))).toBe(REGION_MAPS[0].regionId)
+    setRegiaoAtiva(GROUP_ID, REGION_MAPS[0].regionId)
+    expect(getGroupState(GROUP_ID).regiaoAtiva).toBe(REGION_MAPS[0].regionId)
+    // grava mesmo sem paradas (a região é estado do grupo)
+    expect(JSON.parse(window.localStorage.getItem(STORE_KEY)!).regiaoAtiva).toBe(
+      REGION_MAPS[0].regionId,
+    )
+    __resetGroupStoreMemoryForTests()
+    expect(getGroupState(GROUP_ID).regiaoAtiva).toBe(REGION_MAPS[0].regionId)
   })
 })
 
@@ -384,21 +452,14 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     fireEvent.change(dataInput, { target: { value: '2026-07-01' } })
     expect(getGroupState(GROUP_ID).hexes[0].data).toBe('2026-07-01')
 
-    // dropdown com a árvore real do Atlas → associa o Krasnogor
+    // dropdown com a árvore real do Atlas → associa o Krasnogor à parada
     fireEvent.change(within(info).getByLabelText('LOCAL'), { target: { value: KRASNOGOR_ID } })
     expect(getGroupState(GROUP_ID).hexes[0].localId).toBe(KRASNOGOR_ID)
     expect(within(info).getByText('Krasnogor')).toBeTruthy()
-    // link pro doc via docPath
+    // link pro doc via docPath (a info rica — Tipo/Descrição/Recursos + imagem
+    // — mora na barra DIREITA do #70, alimentada pelo hexmap-store da região)
     const link = within(info).getByText('ABRIR DOC') as HTMLAnchorElement
     expect(link.getAttribute('href')).toBe(docPath(KRASNOGOR_ID))
-
-    // resumo maior do ATUAL: imagem do doc + FM básico (Geolocalização real)
-    await waitFor(() => {
-      const resumo = within(info).getByAltText('Krasnogor') as HTMLImageElement
-      expect(decodeURIComponent(resumo.getAttribute('src') ?? '')).toContain('Krasnogor.png')
-    })
-    expect(within(info).getByText('GEOLOCALIZAÇÃO')).toBeTruthy()
-    expect(within(info).getByText('Pedra Fina')).toBeTruthy()
   })
 
   it('modo marcar: clicar de novo no MESMO hex o remove (toggle)', async () => {
@@ -415,14 +476,13 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(container.querySelector('[data-hex-info]')).toBeNull()
   })
 
-  it('trilha liga os centros dos hexes em ordem de data; ATUAL com glow; editar data reordena', async () => {
-    const a = addGroupHex(GROUP_ID, { col: 4, row: 6, data: '2026-07-01' })
-    const b = addGroupHex(GROUP_ID, { col: 12, row: 20, data: '2026-07-03' })
+  it('#69 trilha liga os centros na ORDEM do caminho; ATUAL (último) com glow; reordenar reflete', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 4, row: 6 })
+    const b = addGroupHex(GROUP_ID, { col: 12, row: 20 })
     const { container } = renderGroup()
     await esperaMapa(container)
-    const mapa = mockMapaRect(container)
 
-    // dois hexes; o ATUAL (data maior) com fill forte (46%) e glow accent
+    // dois hexes; o ATUAL (última parada = b) com fill forte (46%) e glow accent
     expect(container.querySelectorAll('[data-hex]').length).toBe(2)
     const atual = container.querySelector('[data-atual]') as SVGPolygonElement
     expect(atual.getAttribute('data-hex')).toBe(b.id)
@@ -432,7 +492,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(outro.getAttribute('fill')).toContain('20%')
     expect((outro.getAttribute('style') ?? '')).not.toContain('drop-shadow')
 
-    // trilha tracejada ligando os CENTROS na ordem cronológica (a → b)
+    // trilha tracejada ligando os CENTROS na ordem do array (a → b)
     const centro = (h: { col: number; row: number }) => {
       const c = hexCenter(h.col, h.row)
       return `${c.x},${c.y}`
@@ -441,12 +501,12 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(trilha.getAttribute('points')).toBe(`${centro(a)} ${centro(b)}`)
     expect(trilha.getAttribute('stroke-dasharray')).toBeTruthy()
 
-    // clicar (fora do modo) no hex antigo abre o popover; mudar a data REORDENA
-    clickHex(mapa, a)
-    const info = container.querySelector('[data-hex-info]') as HTMLElement
-    fireEvent.change(within(info).getByLabelText('DATA'), { target: { value: '2026-07-05' } })
-    expect((container.querySelector('[data-atual]') as SVGPolygonElement).getAttribute('data-hex')).toBe(
-      a.id,
+    // reordenar (drag): mover a pro fim → a vira o ATUAL e a trilha inverte
+    moveGroupHex(GROUP_ID, a.id, 2)
+    await waitFor(() =>
+      expect(
+        (container.querySelector('[data-atual]') as SVGPolygonElement).getAttribute('data-hex'),
+      ).toBe(a.id),
     )
     expect((container.querySelector('[data-trilha]') as SVGPolylineElement).getAttribute('points')).toBe(
       `${centro(b)} ${centro(a)}`,
@@ -545,5 +605,181 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     // clique limpo (sem drag) marca normalmente
     fireEvent.click(mapa, { clientX: 100, clientY: 108 })
     expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
+  })
+})
+
+// ── #68 seletor de região troca mapa + mapeamento hex→localização ───────────
+describe('#68 GM define a região do grupo → mapa e mapeamento trocam', () => {
+  it('o seletor lista as regiões com mapa; a ativa usa o asset e o hexmap DELA', async () => {
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    // seletor de região (só as com mapa — REGION_MAPS)
+    const sel = screen.getByLabelText('Região do grupo') as HTMLSelectElement
+    const opts = [...sel.options].map((o) => o.value)
+    expect(opts).toEqual(REGION_MAPS.map((m) => m.regionId))
+    // ativa por default = 1ª com mapa; asset do mapa vem de region-maps
+    const rm = REGION_MAPS[0]
+    expect(sel.value).toBe(rm.regionId)
+    const img = container.querySelector('[data-mapa] img') as HTMLImageElement
+    expect(decodeURIComponent(img.getAttribute('src') ?? '')).toBe(`/vault-data/assets/${rm.mapAsset}`)
+
+    // configura o mapeamento hex→local NA REGIÃO ativa (autoria do #67) →
+    // o hex ganha o realce "tem localização" no mapa do grupo
+    const cell = fracToHex(0.3, 0.3)
+    setHexLocal(rm.regionId, cell.col, cell.row, KRASNOGOR_ID)
+    await waitFor(() =>
+      expect(container.querySelector(`[data-hex-local="${cell.col},${cell.row}"]`)).toBeTruthy(),
+    )
+    // escolher a região persiste no group-store
+    fireEvent.change(sel, { target: { value: rm.regionId } })
+    expect(getGroupState(GROUP_ID).regiaoAtiva).toBe(rm.regionId)
+    // e o mapeamento exibido é o da região ativa (getHexMapState dela)
+    expect(getHexMapState(rm.regionId).cells.some((c) => c.localId === KRASNOGOR_ID)).toBe(true)
+  })
+})
+
+// ── #69 barra esquerda: lista/caminho, add e reorder ────────────────────────
+describe('#69 barra esquerda colapsável = caminho (add + reorder)', () => {
+  it('lista as paradas na ordem; ＋ colapsa/expande; drag reordena', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 2, row: 2 })
+    const b = addGroupHex(GROUP_ID, { col: 5, row: 5 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+
+    // paradas listadas NA ORDEM do caminho (data-order = índice)
+    const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
+    const paradas = () =>
+      [...bar.querySelectorAll('[data-parada]')].map((el) => el.getAttribute('data-parada'))
+    expect(paradas()).toEqual([a.id, b.id])
+
+    // colapsar esconde a lista; expandir volta
+    fireEvent.click(within(bar).getByLabelText('Recolher caminho'))
+    expect(bar.querySelector('[data-parada]')).toBeNull()
+    expect(bar.getAttribute('data-collapsed')).toBe('')
+    fireEvent.click(within(bar).getByLabelText('Expandir caminho'))
+    expect(paradas()).toEqual([a.id, b.id])
+
+    // drag-reorder: arrasta b pra ANTES de a (drop na zona index 0)
+    const itemB = bar.querySelector(`[data-parada="${b.id}"]`) as HTMLElement
+    const dropAntes0 = bar.querySelector('[data-drop-antes="0"]') as HTMLElement
+    fireEvent.dragStart(itemB)
+    fireEvent.dragOver(dropAntes0)
+    fireEvent.drop(dropAntes0)
+    expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([b.id, a.id])
+    // a UI reflete a nova ordem
+    expect(paradas()).toEqual([b.id, a.id])
+  })
+})
+
+// ── #70 barra direita: info do local ao clicar num hex configurado ──────────
+describe('#70 barra direita colapsável = info do local (Tipo/Descrição/Recursos)', () => {
+  it('clicar num hex COM localização na região abre a info real; colapsa', async () => {
+    // autoria (#67): mapeia um hex da região ativa ao Krasnogor
+    const regionId = REGION_MAPS[0].regionId
+    const cell = fracToHex(0.4, 0.5)
+    setHexLocal(regionId, cell.col, cell.row, KRASNOGOR_ID)
+    const krasno = readDoc(KRASNOGOR_ID)
+
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+
+    // sem clique → sem barra direita
+    expect(container.querySelector('[data-info-bar]')).toBeNull()
+    // clica no hex configurado → abre a barra direita com a info REAL do doc
+    fireEvent.click(mapa, clickCoords(cell))
+    const bar = await waitFor(() => {
+      const b = container.querySelector('[data-info-bar]') as HTMLElement
+      expect(b).toBeTruthy()
+      return b
+    })
+    // nome + Tipo (subcategoria) reais (fonte de verdade = catálogo/FM)
+    expect(within(bar).getByText('Krasnogor')).toBeTruthy()
+    expect(within(bar).getByText('TIPO')).toBeTruthy()
+    expect(within(bar).getByText(krasno.subtype as string)).toBeTruthy()
+    // Recursos reais do FM, se houver
+    const recursos = (krasno.frontmatter['Recursos'] as unknown[] | undefined)?.filter(
+      (r) => typeof r === 'string' && r.trim(),
+    )
+    if (recursos?.length) expect(within(bar).getByText('RECURSOS')).toBeTruthy()
+    // ABRIR DOC via docPath
+    expect((within(bar).getByText('ABRIR DOC') as HTMLAnchorElement).getAttribute('href')).toBe(
+      docPath(KRASNOGOR_ID),
+    )
+    // colapsar recolhe a barra
+    fireEvent.click(within(bar).getByLabelText('Recolher info'))
+    expect(bar.getAttribute('data-collapsed')).toBe('')
+    expect(within(bar).queryByText('ABRIR DOC')).toBeNull()
+  })
+
+  it('clicar num hex SEM localização não abre a barra direita', async () => {
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    fireEvent.click(mapa, clickCoords(fracToHex(0.7, 0.7)))
+    expect(container.querySelector('[data-info-bar]')).toBeNull()
+  })
+})
+
+// ── #71 token (moeda): arrastar → adicionar parada; clicar → info + imagem ──
+describe('#71 token de grupo (moeda)', () => {
+  it('a moeda fica no hex ATUAL; arrastar e soltar mostra "Adicionar parada" → adiciona', async () => {
+    const a = addGroupHex(GROUP_ID, { col: 4, row: 4 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
+    mockMapaRect(container)
+
+    // token renderizado no centro do hex ATUAL (última parada = a)
+    const token = container.querySelector('[data-token]') as SVGGElement
+    expect(token).toBeTruthy()
+    const ca = hexCenter(a.col, a.row)
+    expect(token.getAttribute('transform')).toBe(`translate(${ca.x},${ca.y})`)
+
+    // arrasta o token pra uma célula NOVA → alvo destacado + botão aparece
+    const alvo = fracToHex(0.6, 0.3)
+    const { clientX, clientY } = clickCoords(alvo)
+    fireEvent.pointerDown(token, { clientX: ca.x, clientY: ca.y })
+    fireEvent.pointerMove(viewport, { clientX, clientY })
+    fireEvent.pointerUp(token, { clientX, clientY })
+    await waitFor(() => expect(container.querySelector('[data-token-alvo]')).toBeTruthy())
+    const addBtn = await screen.findByText('＋ ADICIONAR PARADA')
+    // confirma → adiciona a parada e a fixa como ATUAL
+    fireEvent.click(addBtn)
+    const hexes = getGroupState(GROUP_ID).hexes
+    expect(hexes.length).toBe(2)
+    expect({ col: hexes[1].col, row: hexes[1].row }).toEqual(alvo)
+    expect(hexAtual(getGroupState(GROUP_ID))!.id).toBe(hexes[1].id)
+  })
+
+  it('clicar na moeda, se o hex atual tem localização, abre a info + a IMAGEM da região que linka o doc', async () => {
+    const regionId = REGION_MAPS[0].regionId
+    const cell = fracToHex(0.35, 0.45)
+    setHexLocal(regionId, cell.col, cell.row, KRASNOGOR_ID)
+    // parada ATUAL no hex configurado
+    addGroupHex(GROUP_ID, { col: cell.col, row: cell.row })
+
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    mockMapaRect(container)
+
+    const token = container.querySelector('[data-token]') as SVGGElement
+    // clique simples na moeda (sem arraste) → abre a info do local ATUAL
+    fireEvent.click(token)
+    const bar = await waitFor(() => {
+      const b = container.querySelector('[data-info-bar]') as HTMLElement
+      expect(b).toBeTruthy()
+      return b
+    })
+    expect(within(bar).getByText('Krasnogor')).toBeTruthy()
+    // a IMAGEM da região aparece e linka a página da localização (docPath)
+    const imgLink = await waitFor(() => {
+      const l = bar.querySelector('[data-local-img]') as HTMLAnchorElement
+      expect(l).toBeTruthy()
+      return l
+    })
+    expect(imgLink.getAttribute('href')).toBe(docPath(KRASNOGOR_ID))
+    const img = imgLink.querySelector('img') as HTMLImageElement
+    expect(decodeURIComponent(img.getAttribute('src') ?? '')).toContain('Krasnogor.png')
   })
 })

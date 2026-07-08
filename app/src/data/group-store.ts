@@ -1,5 +1,5 @@
 // PERSISTÊNCIA local-first do estado de GRUPO (issue #36 — aba EXPLORAÇÃO):
-// trilha do grupo no Mapa do Mundo Livre, um namespace por grupo em
+// região ativa + trilha do grupo no mapa da região, um namespace por grupo em
 // `pleitost.groupState.<groupId>`. Segue o padrão do hero-store (leitura
 // SÍNCRONA pra hidratar no primeiro render, cache em memória + notify pra
 // useSyncExternalStore); só existe o canal 'imediato' — cada mutação grava
@@ -8,12 +8,26 @@
 // Issue #48: a trilha deixou de ser pontos {x,y} soltos e passou a ser HEXES
 // de uma grade sobreposta ao mapa hex-based (ver exploracao.ts). Cada hex é
 // identificado por {col,row} da grade; o centro em pixels da fonte é derivado
-// da geometria (hexCenter), nunca guardado. A forma antiga {x,y} foi trocada
-// (sancionado pela issue: sem dados reais migráveis) — dados legados no
-// localStorage são simplesmente ignorados na hidratação (isHex os filtra).
+// da geometria (hexCenter), nunca guardado.
 //
-// Formato por grupo: { hexes: GroupHex[] } — hexes na ordem de INSERÇÃO
-// (a ordem cronológica é derivada na leitura, ordenarHexes).
+// Issue #68 (região ativa): o GM escolhe, por grupo, em qual REGIÃO o grupo
+// está (dentre as com mapa — region-maps.ts). O id do doc de Localização raiz
+// da região é gravado em `regiaoAtiva`; o mapa e o mapeamento hex→localização
+// (hexmap-store) exibidos são os DESSA região.
+//
+// Issue #69 (caminho ordenado): a ordem dos hexes deixou de ser derivada de
+// data e passou a ser a ORDEM EXPLÍCITA do array `hexes[]` (o caminho). O
+// jogador insere paradas (inclusive no meio) e reordena por drag — a trilha
+// traçada no mapa segue essa ordem. O campo `data` virou metadado opcional da
+// parada (sem papel na ordenação).
+//
+// Issue #71 (token de grupo): `atualId` guarda qual hex é o ATUAL (a "moeda"
+// no mapa); default = última parada do caminho quando não setado.
+//
+// Migração das formas antigas: a forma {pontos:[{x,y}]} (pré-#48) e a ausência
+// de regiaoAtiva/atualId simplesmente não hidratam (isHex filtra pontos; os
+// campos novos são opcionais). Sem dados reais migráveis, sancionado trocar a
+// forma.
 
 export interface GroupHex {
   id: string
@@ -21,14 +35,19 @@ export interface GroupHex {
   col: number
   /** Linha da grade hexagonal (offset odd-q; centro derivado por hexCenter). */
   row: number
-  /** Data ISO (YYYY-MM-DD) — default hoje na criação, editável. */
-  data: string
+  /** Data ISO (YYYY-MM-DD) — metadado opcional da parada; não ordena (#69). */
+  data?: string
   /** Doc de Localização do Atlas associado (id do catálogo), opcional. */
   localId?: string
 }
 
 export interface GroupState {
+  /** Id do doc de Localização raiz da região ativa (region-maps.ts), #68. */
+  regiaoAtiva?: string
+  /** Paradas do caminho na ORDEM explícita do array (#69). */
   hexes: GroupHex[]
+  /** Hex ATUAL — a "moeda" do grupo no mapa (#71); default = última parada. */
+  atualId?: string
 }
 
 const STORE_PREFIX = 'pleitost.groupState.'
@@ -80,7 +99,7 @@ function isHex(raw: unknown): raw is GroupHex {
     Number.isFinite(h.col) &&
     typeof h.row === 'number' &&
     Number.isFinite(h.row) &&
-    typeof h.data === 'string' &&
+    (h.data === undefined || typeof h.data === 'string') &&
     (h.localId === undefined || typeof h.localId === 'string')
   )
 }
@@ -93,8 +112,18 @@ function hydrate(groupId: string): GroupState {
   if (raw) {
     try {
       const parsed = JSON.parse(raw) as Partial<GroupState>
-      // Forma antiga {pontos:[{x,y}]} não passa em isHex → vira lista vazia.
-      if (Array.isArray(parsed.hexes)) state = { hexes: parsed.hexes.filter(isHex) }
+      if (Array.isArray(parsed.hexes)) {
+        const hexes = parsed.hexes.filter(isHex)
+        state = {
+          hexes,
+          // regiaoAtiva/atualId só hidratam se forem strings válidas; atualId
+          // aponta um hex existente (senão cai no default = última parada).
+          ...(typeof parsed.regiaoAtiva === 'string' ? { regiaoAtiva: parsed.regiaoAtiva } : {}),
+          ...(typeof parsed.atualId === 'string' && hexes.some((h) => h.id === parsed.atualId)
+            ? { atualId: parsed.atualId }
+            : {}),
+        }
+      }
     } catch {
       state = emptyState()
     }
@@ -124,11 +153,16 @@ function notify(groupId: string): void {
   for (const cb of listeners.get(groupId) ?? []) cb()
 }
 
+/** Estado vazio (nenhuma parada, nenhuma região) → chave removida. */
+function isEmpty(s: GroupState): boolean {
+  return s.hexes.length === 0 && !s.regiaoAtiva
+}
+
 /** Canal 'imediato': memória (UI na hora) + notify + localStorage. */
 function commit(groupId: string, next: GroupState): void {
   memory.set(groupId, next)
   notify(groupId)
-  if (next.hexes.length === 0) safeRemove(storageKey(groupId))
+  if (isEmpty(next)) safeRemove(storageKey(groupId))
   else
     safeSet(
       storageKey(groupId),
@@ -151,26 +185,64 @@ export function todayISO(): string {
   return `${d.getFullYear()}-${mm}-${dd}`
 }
 
+// ── Região ativa (#68) ─────────────────────────────────────────────────────
+
+/** Define a REGIÃO ativa do grupo (id do doc raiz da região com mapa). Ao
+ *  trocar de região a trilha some do mapa (hexes são coordenadas relativas à
+ *  grade da região); mantemos a trilha guardada mas o atualId volta ao default. */
+export function setRegiaoAtiva(groupId: string, regionId: string): void {
+  const cur = hydrate(groupId)
+  if (cur.regiaoAtiva === regionId) return
+  commit(groupId, { ...cur, regiaoAtiva: regionId })
+}
+
+// ── Trilha / caminho (#69) ──────────────────────────────────────────────────
+
 /** Hex já marcado numa dada célula (col,row), ou null — pra toggle/lookup. */
 export function hexAt(hexes: GroupHex[], col: number, row: number): GroupHex | null {
   return hexes.find((h) => h.col === col && h.row === row) ?? null
 }
 
-/** Marca um hex da trilha (id gerado aqui) e devolve o hex criado. Se a célula
- *  (col,row) já estiver marcada, devolve o hex existente (sem duplicar). */
-export function addGroupHex(
+/** Acrescenta uma parada AO FINAL do caminho (id gerado aqui) e devolve o hex
+ *  criado. Se a célula (col,row) já for parada, devolve a existente. */
+export function addGroupHex(groupId: string, hex: Omit<GroupHex, 'id'>): GroupHex {
+  return insertGroupHex(groupId, hex, Infinity)
+}
+
+/** Insere uma parada no caminho na posição `index` (0 = início; ≥ length =
+ *  fim). Se a célula já for parada, devolve a existente sem mover (#69: "add
+ *  no meio" só cria; reordenar é por moveGroupHex). */
+export function insertGroupHex(
   groupId: string,
   hex: Omit<GroupHex, 'id'>,
+  index: number,
 ): GroupHex {
   const cur = hydrate(groupId)
   const existente = hexAt(cur.hexes, hex.col, hex.row)
   if (existente) return existente
   const created: GroupHex = { ...hex, id: newHexId() }
-  commit(groupId, { ...cur, hexes: [...cur.hexes, created] })
+  const at = Math.max(0, Math.min(cur.hexes.length, Math.floor(index)))
+  const hexes = cur.hexes.slice()
+  hexes.splice(at, 0, created)
+  commit(groupId, { ...cur, hexes })
   return created
 }
 
-/** Atualiza data/local de um hex existente. */
+/** Move a parada `hexId` pra posição `toIndex` (drag-reorder do caminho, #69). */
+export function moveGroupHex(groupId: string, hexId: string, toIndex: number): void {
+  const cur = hydrate(groupId)
+  const from = cur.hexes.findIndex((h) => h.id === hexId)
+  if (from === -1) return
+  const hexes = cur.hexes.slice()
+  const [moved] = hexes.splice(from, 1)
+  const to = Math.max(0, Math.min(hexes.length, Math.floor(toIndex)))
+  hexes.splice(to, 0, moved)
+  // no-op se a ordem não mudou (evita render/gravação inútil)
+  if (hexes.every((h, i) => h.id === cur.hexes[i].id)) return
+  commit(groupId, { ...cur, hexes })
+}
+
+/** Atualiza data/local de uma parada existente. */
 export function updateGroupHex(
   groupId: string,
   hexId: string,
@@ -181,33 +253,47 @@ export function updateGroupHex(
   if (idx === -1) return
   const next = cur.hexes.slice()
   const merged = { ...next[idx], ...patch }
-  // localId vazio remove a associação (o JSON não guarda undefined).
+  // localId/data vazios removem o campo (o JSON não guarda undefined).
   if (!merged.localId) delete merged.localId
+  if (!merged.data) delete merged.data
   next[idx] = merged
   commit(groupId, { ...cur, hexes: next })
 }
 
-/** Remove um hex da trilha (× do popover ou toggle no modo marcar). */
+/** Remove uma parada do caminho (× do popover / da lista). Se era o ATUAL,
+ *  o atualId cai no default (última parada). */
 export function removeGroupHex(groupId: string, hexId: string): void {
   const cur = hydrate(groupId)
   const next = cur.hexes.filter((h) => h.id !== hexId)
   if (next.length === cur.hexes.length) return
-  commit(groupId, { ...cur, hexes: next })
+  const nextState: GroupState = { ...cur, hexes: next }
+  // era o ATUAL → volta ao default (última parada); o ...cur carrega o antigo
+  // atualId, então apago explicitamente.
+  if (cur.atualId === hexId) delete nextState.atualId
+  commit(groupId, nextState)
 }
 
-/** Trilha em ordem cronológica: data ASC (ISO ordena lexicográfico), empate
- *  preserva a ordem de inserção (sort estável). NÃO muta a lista do store. */
-export function ordenarHexes(hexes: GroupHex[]): GroupHex[] {
-  return hexes
-    .map((h, i) => [h, i] as const)
-    .sort((a, b) => a[0].data.localeCompare(b[0].data) || a[1] - b[1])
-    .map(([h]) => h)
+// ── Token / hex atual (#71) ─────────────────────────────────────────────────
+
+/** Define o hex ATUAL (a moeda). null volta ao default (última parada). */
+export function setAtualHex(groupId: string, hexId: string | null): void {
+  const cur = hydrate(groupId)
+  if (hexId && !cur.hexes.some((h) => h.id === hexId)) return
+  const next: GroupState = { ...cur }
+  if (hexId) next.atualId = hexId
+  else delete next.atualId
+  if (next.atualId === cur.atualId) return
+  commit(groupId, next)
 }
 
-/** Hex ATUAL = último da trilha em ordem cronológica. */
-export function hexAtual(hexes: GroupHex[]): GroupHex | null {
-  const ordenados = ordenarHexes(hexes)
-  return ordenados.length ? ordenados[ordenados.length - 1] : null
+/** Hex ATUAL = o setado explicitamente (#71) ou, no default, a última parada
+ *  do caminho (ordem explícita, #69). NÃO muta a lista. */
+export function hexAtual(state: GroupState): GroupHex | null {
+  if (state.atualId) {
+    const t = state.hexes.find((h) => h.id === state.atualId)
+    if (t) return t
+  }
+  return state.hexes.length ? state.hexes[state.hexes.length - 1] : null
 }
 
 /** SÓ testes: zera a memória (não o localStorage) — simula reload da página. */
