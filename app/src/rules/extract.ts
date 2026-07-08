@@ -146,7 +146,17 @@ export interface BfsResult {
 }
 
 /** BFS assíncrono — espelho de bfs (plugin rule-elements-extractor.ts:252-330);
- *  o parse é substituído pela AST pronta (parsedRulesOf). */
+ *  o parse é substituído pela AST pronta (parsedRulesOf).
+ *
+ *  PARALELIZAÇÃO POR NÍVEL (#57): a versão serial do plugin aguarda UM doc por
+ *  vez (`await resolver` dentro do `while (queue.shift())`), até `maxNodes`
+ *  round-trips sequenciais. Aqui a FRONTEIRA de cada nível é resolvida DE UMA
+ *  VEZ (`Promise.all`) — docs são locais + cache do loadDoc, idempotentes e sem
+ *  efeito colateral no model. Como uma fila FIFO já processa a BFS nível a
+ *  nível (todo depth-d entra antes de qualquer depth-(d+1)), a ORDEM de visita
+ *  aqui é IDÊNTICA à serial: mesmo "vencedor" por doc (1º a marcar `visited`),
+ *  mesma provenance herdada, mesmo `parsedRules` — só as chamadas de rede/disco
+ *  do mesmo nível passam a ser concorrentes. */
 export async function bfsRules(
   seeds: string[],
   resolver: DocResolver,
@@ -156,40 +166,53 @@ export async function bfsRules(
   const visited = new Set<string>()
   const visitedDocs = new Map<string, VaultDoc>()
   type QueueItem = { wikilinkOrPath: string; depth: number; inheritedConstraints: InheritedConstraint[] }
-  const queue: QueueItem[] = seeds.map((s) => ({ wikilinkOrPath: s, depth: 1, inheritedConstraints: [] }))
+  let frontier: QueueItem[] = seeds.map((s) => ({ wikilinkOrPath: s, depth: 1, inheritedConstraints: [] }))
 
-  while (queue.length > 0) {
-    if (visited.size >= opts.maxNodes) break
-    const item = queue.shift()!
-    if (item.depth > opts.maxDepth) continue
+  while (frontier.length > 0) {
+    // Todo item da fronteira compartilha a MESMA profundidade (BFS por nível).
+    // Nível além de maxDepth → o serial daria `continue` em todos (sem resolver
+    // nem gerar regra); não resolve para não carregar docs que nunca contribuem.
+    if (frontier[0].depth > opts.maxDepth) break
 
-    const doc = await resolver(item.wikilinkOrPath)
-    if (!doc) continue
-    if (visited.has(doc.id)) continue
-    visited.add(doc.id)
-    visitedDocs.set(doc.basename, doc)
+    // Resolve a fronteira inteira em paralelo, preservando o índice.
+    const docs = await Promise.all(frontier.map((it) => resolver(it.wikilinkOrPath)))
 
-    for (const parsed of parsedRulesOf(doc)) {
-      // Herda constraints acumuladas no caminho BFS até esta nota
-      // (plugin rule-elements-extractor.ts:299-323).
-      parsed.provenance = [...item.inheritedConstraints]
-      parsedRules.push(parsed)
-      for (const next of extractRuleSeeds(parsed)) {
-        const newConstraint: InheritedConstraint = {
-          scope: parsed.scope,
-          ...(next.addProvenance ? { fromChoice: next.addProvenance } : {}),
-          ...(parsed.condition.kind !== 'none' ? { condition: parsed.condition } : {}),
+    const nextFrontier: QueueItem[] = []
+    for (let i = 0; i < frontier.length; i++) {
+      // maxNodes por-item, na MESMA ordem/ponto da fila serial (checado antes de
+      // consumir o item). Resolver a fronteira toda pode carregar alguns docs a
+      // mais que a serial pararia antes — cacheados/inócuos, sem mudar o result.
+      if (visited.size >= opts.maxNodes) return { parsedRules, visitedDocs }
+      const item = frontier[i]
+      const doc = docs[i]
+      if (!doc) continue
+      if (visited.has(doc.id)) continue
+      visited.add(doc.id)
+      visitedDocs.set(doc.basename, doc)
+
+      for (const parsed of parsedRulesOf(doc)) {
+        // Herda constraints acumuladas no caminho BFS até esta nota
+        // (plugin rule-elements-extractor.ts:299-323).
+        parsed.provenance = [...item.inheritedConstraints]
+        parsedRules.push(parsed)
+        for (const next of extractRuleSeeds(parsed)) {
+          const newConstraint: InheritedConstraint = {
+            scope: parsed.scope,
+            ...(next.addProvenance ? { fromChoice: next.addProvenance } : {}),
+            ...(parsed.condition.kind !== 'none' ? { condition: parsed.condition } : {}),
+          }
+          const childConstraints = constraintIsTrivial(newConstraint)
+            ? item.inheritedConstraints
+            : [...item.inheritedConstraints, newConstraint]
+          nextFrontier.push({
+            wikilinkOrPath: next.link,
+            depth: item.depth + 1,
+            inheritedConstraints: childConstraints,
+          })
         }
-        const childConstraints = constraintIsTrivial(newConstraint)
-          ? item.inheritedConstraints
-          : [...item.inheritedConstraints, newConstraint]
-        queue.push({
-          wikilinkOrPath: next.link,
-          depth: item.depth + 1,
-          inheritedConstraints: childConstraints,
-        })
       }
     }
+    frontier = nextFrontier
   }
 
   return { parsedRules, visitedDocs }
@@ -355,6 +378,19 @@ function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
     }
   }
   return model
+}
+
+/** Assinatura ESTÁVEL de tudo que a extração LÊ do herói (#57). Duas fichas com
+ *  a mesma key produzem o MESMO `calculated`/`choices` — logo o BFS + fixed-point
+ *  (caros, async) podem ser pulados quando só mudam campos que a regra IGNORA
+ *  (nome/motivação/idade). Como o RulesModel já É a projeção rule-relevant do FM
+ *  (rulesModelFromFm espelha o frontmatter-extractor: seeds de collectSeeds,
+ *  metas de scope/condition, listas/incrementos que inferem picks, inventário),
+ *  serializá-lo é a key COMPLETA e MÍNIMA — impossível esquecer um seed/condition
+ *  ou re-extrair à toa. Determinística: rulesModelFromFm monta os objetos em
+ *  ordem de chave fixa. */
+export function ruleModelKey(model: RulesModel): string {
+  return JSON.stringify(model)
 }
 
 export interface HeroRulesResult {
