@@ -18,6 +18,7 @@ import type { VaultDoc } from './types'
 const FIGURA_IMBUICOES = 'Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas'
 const FIGURA_EQUIPAMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos'
 const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
+const FIGURA_IMPLEMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Implementos'
 
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
@@ -107,5 +108,9 @@ export function tesouroImageUrl(
     const tiered = byPath(assets, `${FIGURA_EQUIPAMENTOS}/${base} ${TIER_MASC[tier]}.png`)
     if (tiered) return tiered
   }
-  return byPath(assets, `${FIGURA_EQUIPAMENTOS}/${base}.png`)
+  const eq = byPath(assets, `${FIGURA_EQUIPAMENTOS}/${base}.png`)
+  if (eq) return eq
+  // Implementos vivem em Figura/Implementos (sem sufixo de tier) —
+  // implementos-render.ts:80 do pleitost-views. Ex.: Foco da Consistência.png.
+  return byPath(assets, `${FIGURA_IMPLEMENTOS}/${base}.png`)
 }

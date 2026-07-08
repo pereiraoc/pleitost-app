@@ -1018,8 +1018,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                  {/* Figura do tesouro AO LADO do nome (issue #65); sem figura
-                      → só o emoji, como antes. */}
+                  {/* Figura do tesouro AO LADO do nome (issue #65). Com figura,
+                      só a imagem (sem o emoji redundante); sem figura → emoji. */}
                   {r.img ? (
                     <span
                       style={{
@@ -1035,8 +1035,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         backgroundPosition: 'center',
                       }}
                     />
-                  ) : null}
-                  <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
+                  ) : (
+                    <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
+                  )}
                   <span
                     style={{
                       fontWeight: 600,

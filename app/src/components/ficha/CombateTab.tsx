@@ -1298,7 +1298,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               emoji={grupoArmaEmoji(fmOf(armaDoc)['grupo'])}
             />
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
-              {prop ? `${nome} ${prop}` : nome}
+              {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
             {dano ? (
               <span
@@ -1622,6 +1622,10 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 width: 34,
                 height: 34,
                 flex: 'none',
+                // mesmo quadrado com borda do inventário/tesouros
+                background: 'var(--panel2)',
+                border: '1px solid var(--line2)',
+                clipPath: clip(6),
                 backgroundImage: `url("${t.img}")`,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
