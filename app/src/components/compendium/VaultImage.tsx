@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { assetUrl, resolveAsset, useAssetIndex } from '../../data/assets'
 
 interface Props {
@@ -5,9 +6,10 @@ interface Props {
   /** Modificador de largura do embed (![[img.png|300]]). */
   width?: number
   className?: string
+  style?: CSSProperties
 }
 
-export function VaultImage({ target, width, className }: Props) {
+export function VaultImage({ target, width, className, style }: Props) {
   const index = useAssetIndex()
   if (!index) return null
 
@@ -22,6 +24,7 @@ export function VaultImage({ target, width, className }: Props) {
       src={assetUrl(entry)}
       alt={entry.basename}
       width={width}
+      style={style}
       loading="lazy"
     />
   )

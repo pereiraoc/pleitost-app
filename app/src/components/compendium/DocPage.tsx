@@ -5,10 +5,15 @@ import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
+import { LocationSheet, isLocation } from './LocationSheet'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável). */
 export function DocView({ doc }: { doc: VaultDoc }) {
+  // Localização (categoria=Localização) vira ficha com abas (issue #66); os
+  // demais docs seguem no markdown genérico.
+  if (isLocation(doc)) return <LocationSheet doc={doc} />
+
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
 
