@@ -320,7 +320,13 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
         </span>
       </div>
 
-      <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'stretch' }}>
+      <div
+        ref={map.containerRef}
+        style={fullscreenContainerStyle(
+          { display: 'flex', gap: 14, flexWrap: map.fullscreen ? 'nowrap' : 'wrap', alignItems: 'stretch' },
+          map.fullscreen,
+        )}
+      >
         {/* Lista filtrável (Localizações no modo Lugares · Áreas no modo Regiões) */}
         <div
           data-hex-lista=""
@@ -445,8 +451,8 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
           ) : null}
         </div>
 
-        {/* Mapa + grade (canto cortado do design; vira overlay em tela cheia) */}
-        <div ref={map.containerRef} style={fullscreenContainerStyle(panelStyle, map.fullscreen)}>
+        {/* Mapa + grade (canto cortado do design) */}
+        <div style={{ ...panelStyle, clipPath: map.fullscreen ? 'none' : clip(14) }}>
           {mapEntry ? (
             <>
               <div

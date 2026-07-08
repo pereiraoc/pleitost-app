@@ -78,26 +78,66 @@ export function useMapView(): UseMapView {
   const pinchBase = useRef<{ d: number; mx: number; my: number; view: MapView } | null>(null)
   const movedRef = useRef(false)
 
+  /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
+   *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
+   *  viewport, centraliza. Deriva o tamanho-base do rect ATUAL (mr/cur.scale) —
+   *  independe do aspecto específico do mapa. `cur` = view pintada (o rect
+   *  bate com ela); `next` = view proposta. */
+  const clampView = useCallback((cur: MapView, next: MapView): MapView => {
+    const vpEl = viewportElRef.current
+    const mapEl = mapRef.current
+    if (!vpEl || !mapEl) return next
+    const vp = vpEl.getBoundingClientRect()
+    const mr = mapEl.getBoundingClientRect()
+    if (!vp.width || !mr.width || !cur.scale) return next
+    const baseW = mr.width / cur.scale
+    const baseH = mr.height / cur.scale
+    const layoutLeft = mr.left - vp.left - cur.tx // posição centrada do div (invariante ao pan)
+    const layoutTop = mr.top - vp.top - cur.ty
+    const sw = next.scale * baseW
+    const sh = next.scale * baseH
+    let tx = next.tx
+    let ty = next.ty
+    if (sw >= vp.width) {
+      const maxTx = -layoutLeft
+      const minTx = vp.width - sw - layoutLeft
+      tx = Math.min(maxTx, Math.max(minTx, tx))
+    } else {
+      tx = (vp.width - sw) / 2 - layoutLeft
+    }
+    if (sh >= vp.height) {
+      const maxTy = -layoutTop
+      const minTy = vp.height - sh - layoutTop
+      ty = Math.min(maxTy, Math.max(minTy, ty))
+    } else {
+      ty = (vp.height - sh) / 2 - layoutTop
+    }
+    return { scale: next.scale, tx, ty }
+  }, [])
+
   /** Zoom ancorado num ponto de cliente (roda/pinça/botões) — mesma conta de
    *  antes: leva a fração sob o âncora a permanecer sob ela. */
-  const zoomBy = useCallback((factor: number, cx?: number, cy?: number) => {
-    setView((v) => {
-      const scale = clampScale(v.scale * factor)
-      if (scale === v.scale) return v
-      if (scale === ZOOM_MIN) return IDENTITY
-      const rect = mapRef.current?.getBoundingClientRect()
-      if (!rect || rect.width <= 0) return { ...v, scale }
-      const ax = cx ?? rect.left + rect.width / 2
-      const ay = cy ?? rect.top + rect.height / 2
-      const u = (ax - rect.left) / rect.width
-      const w = (ay - rect.top) / rect.height
-      const nextW = (rect.width / v.scale) * scale
-      const nextH = (rect.height / v.scale) * scale
-      const baseLeft = rect.left - v.tx
-      const baseTop = rect.top - v.ty
-      return { scale, tx: ax - u * nextW - baseLeft, ty: ay - w * nextH - baseTop }
-    })
-  }, [])
+  const zoomBy = useCallback(
+    (factor: number, cx?: number, cy?: number) => {
+      setView((v) => {
+        const scale = clampScale(v.scale * factor)
+        if (scale === v.scale) return v
+        if (scale === ZOOM_MIN) return IDENTITY
+        const rect = mapRef.current?.getBoundingClientRect()
+        if (!rect || rect.width <= 0) return { ...v, scale }
+        const ax = cx ?? rect.left + rect.width / 2
+        const ay = cy ?? rect.top + rect.height / 2
+        const u = (ax - rect.left) / rect.width
+        const w = (ay - rect.top) / rect.height
+        const nextW = (rect.width / v.scale) * scale
+        const nextH = (rect.height / v.scale) * scale
+        const baseLeft = rect.left - v.tx
+        const baseTop = rect.top - v.ty
+        return clampView(v, { scale, tx: ax - u * nextW - baseLeft, ty: ay - w * nextH - baseTop })
+      })
+    },
+    [clampView],
+  )
 
   const resetView = useCallback(() => setView(IDENTITY), [])
 
@@ -177,9 +217,9 @@ export function useMapView(): UseMapView {
           const nextH = (rect.height / view.scale) * scale
           const baseLeft = rect.left - view.tx
           const baseTop = rect.top - view.ty
-          setView({ scale, tx: mx - u * nextW - baseLeft, ty: my - w * nextH - baseTop })
+          setView(clampView(view, { scale, tx: mx - u * nextW - baseLeft, ty: my - w * nextH - baseTop }))
         } else {
-          setView((v) => ({ ...v, scale }))
+          setView((v) => clampView(v, { ...v, scale }))
         }
       }
       return
@@ -191,8 +231,8 @@ export function useMapView(): UseMapView {
     const dx = e.clientX - start.x
     const dy = e.clientY - start.y
     if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
-    if (movedRef.current) setView((v) => ({ ...v, tx: start.tx + dx, ty: start.ty + dy }))
-  }, [view])
+    if (movedRef.current) setView((v) => clampView(v, { ...v, tx: start.tx + dx, ty: start.ty + dy }))
+  }, [view, clampView])
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
     pointers.current.delete(e.pointerId)

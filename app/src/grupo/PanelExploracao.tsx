@@ -689,8 +689,13 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
         </button>
       </div>
 
-      {/* Layout: barra esquerda (caminho) · mapa · barra direita (info) */}
-      <div style={{ display: 'flex', gap: 10, alignItems: 'stretch' }}>
+      {/* Layout: barra esquerda (caminho) · mapa · barra direita (info).
+          Em tela cheia (#80) a LINHA inteira vira overlay — as barras vão
+          junto (a de caminhos fica acessível na tela cheia). */}
+      <div
+        ref={map.containerRef}
+        style={fullscreenContainerStyle({ display: 'flex', gap: 10, alignItems: 'stretch' }, map.fullscreen)}
+      >
         <LeftBar
           groupId={groupId}
           state={state}
@@ -705,21 +710,17 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           }}
         />
 
-        {/* Painel do mapa (canto cortado do design; vira overlay em tela cheia) */}
+        {/* Painel do mapa (canto cortado do design) */}
         <div
-          ref={map.containerRef}
-          style={fullscreenContainerStyle(
-            {
-              flex: 1,
-              minWidth: 0,
-              position: 'relative',
-              background: 'var(--panel)',
-              border: '1px solid var(--line2)',
-              clipPath: clip(14),
-              overflow: 'hidden',
-            },
-            map.fullscreen,
-          )}
+          style={{
+            flex: 1,
+            minWidth: 0,
+            position: 'relative',
+            background: 'var(--panel)',
+            border: '1px solid var(--line2)',
+            clipPath: map.fullscreen ? 'none' : clip(14),
+            overflow: 'hidden',
+          }}
         >
           {mapEntry ? (
             <div
