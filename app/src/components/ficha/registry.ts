@@ -261,8 +261,8 @@ export const COMB_CHIPS = [
   { id: 'acerto', n: 'Acerto Decisivo', ic: '🎯', cor: '#c98b3a' },
 ]
 export const MANOBRAS = ['Derrubar', 'Agarrar', 'Desarmar']
-export const ARMADURA_BASES = ['Sem Armadura', 'Armadura Leve', 'Armadura Pesada']
-export const ESCUDO_BASES = ['Sem Escudo', 'Escudo Leve', 'Escudo Pesado']
+// Bases de armadura/escudo NÃO ficam aqui: são derivadas dos docs reais das
+// pastas Sistema/Equipamento/{Armaduras,Escudos} (equipment-bases.ts, issue #63).
 export const COND_GRUPOS = [
   { id: 'Positiva', titulo: 'POSITIVAS', cor: '#5aa563' },
   { id: 'Negativa', titulo: 'NEGATIVAS', cor: '#c85a4a' },

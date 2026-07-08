@@ -346,15 +346,21 @@ describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
         (s) => s.textContent === 'A' && s.style.width === '24px',
       ),
     ).toBe(false)
-    // escolher uma base habilita o tier; tier → Escudo Obra-prima (:123-125)
+    // escolher uma base REAL (doc da pasta Escudos) habilita o tier; tier →
+    // Escudo Obra-prima (:123-125). Issue #63: as bases são Broquel/Escudo,
+    // não 'Escudo Leve'/'Escudo Pesado'.
     fireEvent.change(within(cardEscudo).getByRole('combobox'), {
-      target: { value: 'Escudo Leve' },
+      target: { value: 'Escudo' },
     })
-    let escudo = overlaySalvo().fm['Inventario.Escudo']
-    expect(escudo.Categoria).toBe('')
-    expect(escudo.Propriedade).toBe('')
+    // onBase do escudo carrega o doc (dureza base) — write é assíncrono
+    await waitFor(() => {
+      const escudo = overlaySalvo().fm['Inventario.Escudo']
+      expect(escudo?.Nome).toBe('[[Escudo]]')
+      expect(escudo.Categoria).toBe('')
+      expect(escudo.Propriedade).toBe('')
+    })
     fireEvent.click(tierBtn(cardEscudo, 'E', 24))
-    escudo = overlaySalvo().fm['Inventario.Escudo']
+    const escudo = overlaySalvo().fm['Inventario.Escudo']
     expect(escudo.Categoria).toBe('[[Experiente]]')
     expect(escudo.Propriedade).toBe('[[Escudo Obra-prima|Obra-prima]]')
   })
@@ -652,5 +658,104 @@ describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () =>
     await screen.findByLabelText('Arma')
     expect(screen.getByText('FOR')).toBeTruthy()
     expect(screen.queryByText('AGI')).toBeNull()
+  })
+})
+
+describe('#63: escudo/armadura listam os DOCS reais da vault (não Leve/Pesado)', () => {
+  const cardDe = (titulo: string) =>
+    screen.getByText(titulo).closest('div')!.parentElement! as HTMLElement
+  const escudoDocs = manifest.docs
+    .filter((d) => d.id.startsWith('Sistema/Equipamento/Escudos/') && d.subtype === 'Escudo')
+    .map((d) => d.basename!)
+    .sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  const broquel = readJson('Sistema/Equipamento/Escudos/Broquel')
+
+  it('dropdown de ESCUDO oferece Sem Escudo + Broquel + Escudo; nada de Leve/Pesado', async () => {
+    renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    const select = within(cardDe('ESCUDO')).getByRole('combobox') as HTMLSelectElement
+    const opts = [...select.options].map((o) => o.value)
+    expect(opts).toEqual(['Sem Escudo', ...escudoDocs])
+    expect(opts).toContain('Broquel')
+    expect(opts).toContain('Escudo')
+    expect(opts).not.toContain('Escudo Leve')
+    expect(opts).not.toContain('Escudo Pesado')
+  })
+
+  it('dropdown de ARMADURA oferece os docs reais (Sem/Leve/Pesada), todos resolvíveis', async () => {
+    renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    const select = within(cardDe('ARMADURA')).getByRole('combobox') as HTMLSelectElement
+    const opts = [...select.options].map((o) => o.value)
+    expect(opts).toEqual(['Sem Armadura', 'Armadura Leve', 'Armadura Pesada'])
+    for (const o of opts) expect(catalog.resolve(o).kind).toBe('doc')
+  })
+
+  it('escolher Broquel grava o wikilink do doc + materializa a dureza base (dureza::)', async () => {
+    const durezaBase = Number(broquel.inlineFields['dureza']) // 2
+    renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    fireEvent.change(within(cardDe('ESCUDO')).getByRole('combobox'), { target: { value: 'Broquel' } })
+    await waitFor(() => {
+      const esc = overlaySalvo().fm['Inventario.Escudo']
+      // Nome curto (basename) como o setEscudoNome do plugin, resolve pro doc
+      expect(esc.Nome).toBe('[[Broquel]]')
+      expect(catalog.resolve('Broquel').kind).toBe('doc')
+      // dureza base do doc real (não tocada por hardcode)
+      expect(esc.Dureza).toBe(durezaBase)
+    })
+    // "Sem Escudo" volta ao estado sem peça (nome vazio, dureza 0)
+    fireEvent.change(within(cardDe('ESCUDO')).getByRole('combobox'), { target: { value: 'Sem Escudo' } })
+    await waitFor(() => {
+      const esc = overlaySalvo().fm['Inventario.Escudo']
+      expect(esc.Nome).toBe('')
+      expect(esc.Dureza).toBe(0)
+    })
+  })
+
+  it('Broquel escolhido reflete a DUREZA base real (2) no COMBATE', async () => {
+    const durezaBase = Number(broquel.inlineFields['dureza']) // 2
+    const r = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    fireEvent.change(within(cardDe('ESCUDO')).getByRole('combobox'), { target: { value: 'Broquel' } })
+    await waitFor(() => expect(overlaySalvo().fm['Inventario.Escudo'].Dureza).toBe(durezaBase))
+    simulaReload(r)
+
+    renderFicha('combate')
+    // EscudoRow lê Nome + Dureza do FM (materializados ao escolher a base).
+    const escRow = (await screen.findByText('ESCUDO')).closest('div')! as HTMLElement
+    expect(within(escRow).getByText('Broquel')).toBeTruthy()
+    expect(within(escRow).getByText(String(durezaBase))).toBeTruthy()
+  })
+
+  it('herói real com escudo no FM (Thoren/Broquel): COMBATE mostra dureza (FM) + integridade (danos:: do doc)', async () => {
+    const thoren = readJson('Sistema/Criaturas/Heróis/Thoren')
+    const escFm = (thoren.frontmatter as any).Inventario.Escudo as Record<string, any>
+    const nome = wikiTargetOf(String(escFm.Nome)) // Broquel
+    const durezaFm = Number(escFm.Dureza) // 3 (base + Obra-prima materializados no FM)
+    const danos = Number(broquel.inlineFields['danos']) // 4
+    expect(durezaFm).not.toBe(danos) // distingue dureza (FM) de danos (doc)
+
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath('Sistema/Criaturas/Heróis/Thoren', 'combate')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    const escRow = (await screen.findByText('ESCUDO')).closest('div')! as HTMLElement
+    // nome do escudo real + dureza do FM (real, com Obra-prima)
+    expect(within(escRow).getByText(nome)).toBeTruthy()
+    expect(within(escRow).getByText(String(durezaFm))).toBeTruthy()
+    // integridade = danos:: do doc REAL do escudo (refs carrega async pq o
+    // escudo está no FM base do herói)
+    await waitFor(() => {
+      const losangos = [...escRow.querySelectorAll<HTMLElement>('span')].filter(
+        (s) => s.style.width === '10px' && s.style.transform.includes('rotate(45deg)'),
+      )
+      expect(losangos.length).toBe(danos)
+    })
   })
 })

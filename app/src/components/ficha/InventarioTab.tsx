@@ -21,15 +21,14 @@ import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { CoinsDropdown } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
 import {
-  ARMADURA_BASES,
   ATTR_EMOJI,
-  ESCUDO_BASES,
   GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
   grupoArmaEmoji,
   imbuicaoEmoji,
   tokens,
 } from './registry'
+import { armaduraBases, escudoBases } from './equipment-bases'
 import {
   ARMA_OBRA_PRIMA,
   ARMADURA_OBRA_PRIMA,
@@ -703,6 +702,10 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const fm = model.fm
   const armadura = (fmPath(fm, 'Inventario', 'Armadura') ?? {}) as Record<string, unknown>
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
+  // Bases dos dropdowns = docs REAIS das pastas Armaduras/Escudos (issue #63),
+  // como as armas listam de Armas/ — nunca strings hardcodadas.
+  const armaduraOpts = useMemo(() => armaduraBases(catalog), [catalog])
+  const escudoOpts = useMemo(() => escudoBases(catalog), [catalog])
 
   // Base escolhida vira o Nome do container: wikilink quando o doc existe na
   // vault (formato do FM salvo), senão o rótulo plano do design.
@@ -712,6 +715,37 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   }
   const writeGear = (path: string, gear: Record<string, unknown>, patch: Record<string, unknown>) =>
     model.set(path, { ...gear, ...patch })
+  // Materializa a DUREZA BASE do escudo a partir do doc real (dureza::) ao
+  // trocar a base. No plugin, `Definir Inventario.Escudo.Dureza N` (rule
+  // editável do doc do escudo) é aplicada pelo BFS ao SALVAR — o setter NÃO
+  // toca dureza (apply-equipamentos-edit.ts:94-98). O app não roda esse BFS
+  // sobre o FM salvo (modelForMode é projeção pura, sem extract), então o
+  // COMBATE lê `Inventario.Escudo.Dureza` direto do FM; para o escudo recém-
+  // escolhido carregar o valor real (Broquel 2 / Escudo 4) materializamos a
+  // dureza base aqui. O bônus de Dureza por Obra-prima (tier) vem das regras e
+  // NÃO é recomputado no setter — heróis da vault já trazem esse valor no FM.
+  const writeEscudoBase = (path: string, gear: Record<string, unknown>, base: string) => {
+    if (/^Sem\b/.test(base)) {
+      writeGear(path, gear, { Nome: '', Categoria: '', Propriedade: '', Dureza: 0 })
+      return
+    }
+    const res = catalog.resolve(base)
+    const nome = res.kind === 'doc' ? `[[${base}]]` : base
+    if (res.kind !== 'doc') {
+      writeGear(path, gear, { Nome: nome, Categoria: '', Propriedade: '' })
+      return
+    }
+    void loadDoc(res.id)
+      .catch(() => undefined)
+      .then((escDoc) =>
+        writeGear(path, gear, {
+          Nome: nome,
+          Categoria: '',
+          Propriedade: '',
+          Dureza: num((escDoc?.inlineFields as Record<string, unknown> | undefined)?.['dureza']),
+        }),
+      )
+  }
   // Espelha os setters do Editável (apply-equipamentos-edit.ts):
   //  - trocar a base limpa categoria+propriedade (setArmaduraNome:50-55 /
   //    setEscudoNome:87-110; escudo "Sem" grava nome vazio como o plugin);
@@ -721,11 +755,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   //    escudo :123-125 via resolveObraPrimaTarget).
   const gearHandlers = (path: string, gear: Record<string, unknown>, kind: 'armadura' | 'escudo') => ({
     onBase: (base: string) =>
-      writeGear(path, gear, {
-        Nome: kind === 'escudo' && /^Sem\b/.test(base) ? '' : nomeFm(base),
-        Categoria: '',
-        Propriedade: '',
-      }),
+      kind === 'escudo'
+        ? writeEscudoBase(path, gear, base)
+        : writeGear(path, gear, { Nome: nomeFm(base), Categoria: '', Propriedade: '' }),
     onTier: (tier: '' | 'A' | 'E' | 'M') => {
       if (!tier) {
         writeGear(path, gear, { Categoria: '', Propriedade: '' })
@@ -797,14 +829,14 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         <GearCard
           titulo="ARMADURA"
           badge={tokens.emojis.equipProf.Armadura}
-          bases={ARMADURA_BASES}
+          bases={armaduraOpts}
           gear={armadura}
           {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
         />
         <GearCard
           titulo="ESCUDO"
           badge={tokens.emojis.equipProf.Escudo}
-          bases={ESCUDO_BASES}
+          bases={escudoOpts}
           gear={escudo}
           {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
         />
