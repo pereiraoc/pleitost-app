@@ -20,8 +20,21 @@ import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { swapAtributo } from '../../rules/projection'
-import { applyPericiaRankEdit } from '../../rules/apply-pericia-rank-edit'
+import {
+  applyPericiaRankEdit,
+  computePericiaMaxReachable,
+  pisoLetterFromIncrementos,
+  ranksOutsideRange,
+} from '../../rules/apply-pericia-rank-edit'
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
+import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
+import {
+  canAddOne,
+  computeMagiaSlotsView,
+  computeSlotsView,
+  magiaCanAddOne,
+  type MagiaRank,
+} from '../../rules/slot-accounting'
 import type { AtributoId } from '../../rules/rules-model'
 import {
   TipHover,
@@ -1028,6 +1041,17 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
     ).length
   const slots = slotsInfo(fmPath(fm, 'Pericias', 'Slots'), usedBy, ['A', 'E', 'M'])
 
+  // Economia de slot (#73): o rank-up só gasta os slots que existem. `used` =
+  // perícias com Slot.X por rank; `total` = Pericias.Slots do derivedFm. O teto
+  // alcançável por perícia (com fungibilidade) trava o NAEM acima do orçamento —
+  // espelho de computePericasSlots + computePericiaMaxReachable do plugin
+  // (view-model.ts:530+; pericias-card.ts:192/204 ranksOutsideRange(piso, teto)).
+  const slotsFmPer = fmPath(fm, 'Pericias', 'Slots') as Record<string, unknown> | undefined
+  const slotsView = computeSlotsView({
+    total: { A: num(slotsFmPer?.['A']), E: num(slotsFmPer?.['E']), M: num(slotsFmPer?.['M']) },
+    used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+
   // Clique num rank → gasta/rebaixa Slot.<rank> respeitando o piso de regra
   // (#61). O PISO vem dos incrementos da linha DERIVADA (regra ao vivo); os
   // Slot.<rank> são gravados na lista SALVA (o merge reaplica a regra por cima).
@@ -1120,7 +1144,19 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
               {!edit ? (
                 <RankMedal rank={profLetter(row)} tipSources={tips[profLetter(row)]} />
               ) : (
-                <RankBtns states={rankStates(row)} tips={tips} onPick={(letter) => onRankPick(row, letter)} />
+                <RankBtns
+                  states={rankStates(row)}
+                  tips={tips}
+                  onPick={(letter) => onRankPick(row, letter)}
+                  disabledRanks={ranksOutsideRange(
+                    pisoLetterFromIncrementos((row.Incrementos ?? []) as Record<string, unknown>[]),
+                    computePericiaMaxReachable(
+                      profLetter(row),
+                      (row.Incrementos ?? []) as Record<string, unknown>[],
+                      slotsView,
+                    ),
+                  )}
+                />
               )}
             </span>
             {edit ? (
@@ -1564,6 +1600,38 @@ const cardBox: CSSProperties = {
   padding: 14,
 }
 
+/** Grupo de rank de técnica → letra do slot (Tecnicas.Slots só tem A/E/M). */
+const TEC_GROUP_LETTER: Record<string, 'A' | 'E' | 'M'> = { Adepta: 'A', Experiente: 'E', Mestre: 'M' }
+
+/** Linha de SLOT VAZIO — espelho de renderEmptySlot do plugin (magias-card.ts:
+ *  520-525 / tecnicas-card.ts:293-301): marcador ● passivo + rótulo "Vazio"
+ *  itálico apagado. Mostra quantos slots do rank ainda estão por preencher. */
+function EmptySlot() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 23 }}>
+      <span
+        style={{
+          width: 23,
+          height: 23,
+          borderRadius: '50%',
+          border: '1px dashed color-mix(in srgb,var(--muted) 55%,transparent)',
+          background: 'color-mix(in srgb,var(--muted) 12%,transparent)',
+          flex: 'none',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--muted)',
+          fontSize: 11,
+          lineHeight: 1,
+        }}
+      >
+        ●
+      </span>
+      <span style={{ fontStyle: 'italic', color: 'var(--muted)', fontSize: 12.5 }}>Vazio</span>
+    </div>
+  )
+}
+
 function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
@@ -1572,17 +1640,38 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const [edit, setEdit] = useState(false)
   const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
 
-  const aprendidas = useMemo(() => {
-    const byRank = new Map<string, string[]>()
+  const slotsFmTec = fmPath(fm, 'Tecnicas', 'Slots') as Record<string, unknown> | undefined
+  const usedBy = (letter: string) =>
+    entries.filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length
+  const slots = slotsInfo(slotsFmTec, usedBy, ['A', 'E', 'M'])
+  // Economia de slot (#74): fungível (M cobre E cobre A) como no plugin
+  // (computeTecnicasDerived → computeSlotsView/canAddOne, view-model.ts:534-546).
+  const slotsViewTec = computeSlotsView({
+    total: { A: num(slotsFmTec?.['A']), E: num(slotsFmTec?.['E']), M: num(slotsFmTec?.['M']) },
+    used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+
+  // Técnicas aprendidas agrupadas por rank (Slot.target senão rank do doc).
+  const learnedByGroup = useMemo(() => {
+    const byRank = new Map<string, ListaEntry[]>()
     for (const e of entries) {
       const rank =
         (e.fonte.kind === 'Slot' && SLOT_GROUP[e.fonte.target]) || docRankGroup(refs.refDoc(e.target))
       const list = byRank.get(rank) ?? []
-      list.push(e.label)
+      list.push(e)
       byRank.set(rank, list)
     }
-    return RANK_GROUP_ORDER.filter((g) => byRank.has(g)).map((g) => ({ rank: g, rows: byRank.get(g)! }))
+    return byRank
   }, [entries, refs])
+  // Grupos a exibir em "Aprendidas": rank com técnica aprendida OU (em edição)
+  // com slot livre — espelho do gate `slotN<=0 && !rule && !learned` do plugin
+  // (tecnicas-card.ts:95).
+  const aprGroups = RANK_GROUP_ORDER.filter((g) => {
+    const letter = TEC_GROUP_LETTER[g]
+    const learned = learnedByGroup.get(g)?.length ?? 0
+    const slotN = letter ? num(slotsFmTec?.[letter]) : 0
+    return learned > 0 || (edit && slotN > 0)
+  })
 
   // Técnicas da classe do herói (docs reais) pro painel "Não Aprendidas".
   const classeTarget = wikiTarget(fm['Classe'])
@@ -1601,6 +1690,9 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     for (const d of tecnicaDocs.values()) {
       if (learned.has(d.basename)) continue
       const rank = docRankGroup(d)
+      // Só ranks com slot na ficha (plugin tecnicas-card.ts:153 pula slots[rk]<=0).
+      const letter = TEC_GROUP_LETTER[rank]
+      if (!letter || num(slotsFmTec?.[letter]) <= 0) continue
       const list = byRank.get(rank) ?? []
       list.push({
         custo: tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']),
@@ -1612,11 +1704,20 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       rank: g,
       rows: byRank.get(g)!.sort((a, b) => a.txt.localeCompare(b.txt)),
     }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edit, tecnicaDocs, entries])
 
-  const usedBy = (letter: string) =>
-    entries.filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length
-  const slots = slotsInfo(fmPath(fm, 'Tecnicas', 'Slots'), usedBy, ['A', 'E', 'M'])
+  // Aprender/remover técnica por slot (#74): grava na lista SALVA (Tecnicas.Lista);
+  // o merge reaplica as concessões de regra. Espelho de addTecnica/removeTecnica.
+  const onAddTecnica = (basename: string, rankGroup: string) => {
+    const saved = (fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Record<string, unknown>[]
+    const letter = TEC_GROUP_LETTER[rankGroup] ?? 'A'
+    model.set('Tecnicas.Lista', addTecnicaToLista(saved, `[[${basename}]]`, letter))
+  }
+  const onRemoveTecnica = (target: string) => {
+    const saved = (fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Record<string, unknown>[]
+    model.set('Tecnicas.Lista', removeTecnicaFromLista(saved, target))
+  }
 
   return (
     <div style={panel}>
@@ -1636,68 +1737,80 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
             📖 Técnicas Aprendidas
           </div>
-          {aprendidas.map((grp) => (
-            <div key={grp.rank} style={{ marginBottom: 12 }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontSize: 13,
-                  fontStyle: 'italic',
-                  color: 'var(--muted)',
-                  marginBottom: 8,
-                }}
-              >
-                {grp.rank}
-                <Lupa />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {grp.rows.map((txt) => (
-                  <div key={txt} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    {edit ? (
-                      <button
+          {aprGroups.map((g) => {
+            const rows = learnedByGroup.get(g) ?? []
+            const letter = TEC_GROUP_LETTER[g]
+            // Slots vazios (#75): livres = slots do rank − consumidos por Slot.<L>.
+            const realEmpty = edit && letter ? Math.max(0, num(slotsFmTec?.[letter]) - usedBy(letter)) : 0
+            return (
+              <div key={g} style={{ marginBottom: 12 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 13,
+                    fontStyle: 'italic',
+                    color: 'var(--muted)',
+                    marginBottom: 8,
+                  }}
+                >
+                  {g}
+                  <Lupa />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {rows.map((e) => (
+                    <div key={e.target} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {/* − só nas slot-learned (rule-granted é readonly, plugin). */}
+                      {edit && e.fonte.kind === 'Slot' ? (
+                        <button
+                          aria-label={`Remover ${e.label}`}
+                          onClick={() => onRemoveTecnica(e.target)}
+                          style={{
+                            width: 24,
+                            height: 24,
+                            borderRadius: '50%',
+                            border: '1px solid color-mix(in srgb,var(--red) 55%,transparent)',
+                            background: 'color-mix(in srgb,var(--red) 16%,transparent)',
+                            color: '#e06a5c',
+                            fontSize: 15,
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            flex: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: 0,
+                            lineHeight: 1,
+                          }}
+                        >
+                          −
+                        </button>
+                      ) : null}
+                      <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
+                      <span
                         style={{
-                          width: 24,
-                          height: 24,
-                          borderRadius: '50%',
-                          border: '1px solid color-mix(in srgb,var(--red) 55%,transparent)',
-                          background: 'color-mix(in srgb,var(--red) 16%,transparent)',
-                          color: '#e06a5c',
-                          fontSize: 15,
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          flex: 'none',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          padding: 0,
-                          lineHeight: 1,
+                          fontWeight: 600,
+                          color: 'var(--blue)',
+                          fontSize: 13.5,
+                          minWidth: 0,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        −
-                      </button>
-                    ) : null}
-                    <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
-                    <span
-                      style={{
-                        fontWeight: 600,
-                        color: 'var(--blue)',
-                        fontSize: 13.5,
-                        minWidth: 0,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {txt}
-                    </span>
-                    <Lupa />
-                  </div>
-                ))}
+                        {e.label}
+                      </span>
+                      <Lupa />
+                    </div>
+                  ))}
+                  {Array.from({ length: realEmpty }, (_, i) => (
+                    <EmptySlot key={`empty-${i}`} />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
         {edit ? (
           <div style={cardBox}>
@@ -1710,9 +1823,17 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   {grp.rank}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {grp.rows.map((row) => (
+                  {grp.rows.map((row) => {
+                    // Gate por slot livre (#74): canAddOne fungível — sem slot,
+                    // o + fica desabilitado (plugin tecnicas-card.ts:281).
+                    const canAdd = canAddOne(slotsViewTec, TEC_GROUP_LETTER[grp.rank] ?? 'A')
+                    return (
                     <div key={row.txt} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <button
+                        aria-label={`Aprender ${row.txt}`}
+                        disabled={!canAdd}
+                        title={canAdd ? undefined : 'Sem slot disponível'}
+                        onClick={() => canAdd && onAddTecnica(row.txt, grp.rank)}
                         style={{
                           width: 24,
                           height: 24,
@@ -1722,7 +1843,8 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           color: '#4cc585',
                           fontSize: 15,
                           fontWeight: 700,
-                          cursor: 'pointer',
+                          cursor: canAdd ? 'pointer' : 'not-allowed',
+                          opacity: canAdd ? 1 : 0.4,
                           flex: 'none',
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -1751,7 +1873,8 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         {row.txt}
                       </span>
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             ))}
@@ -1829,8 +1952,15 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const fm = rules?.derivedFm ?? model.fm
   const [edit, setEdit] = useState(false)
   const escolasAll = (fmPath(fm, 'Magias', 'Lista') ?? []) as EscolaFm[]
-  // Painel ESQUERDO (Aprendidas): só escolas que já têm magia na lista.
-  const escolas = escolasAll.filter((e) => listaEntries(e.Lista).length > 0)
+  // Painel ESQUERDO (Aprendidas): escolas com magia aprendida SEMPRE; em edição,
+  // também as PROFICIENTES sem magia — pra exibir seus slots VAZIOS por rank
+  // (#75, espelho do gate `hasProf` do plugin, magias-card.ts:249-252). Tesouros
+  // é exclusivo (não se aprende por slot), só aparece quando tem tesouro.
+  const escolas = escolasAll.filter((e) => {
+    const learned = listaEntries(e.Lista).length > 0
+    if (str(e.Nome) === 'Tesouros') return learned
+    return learned || (edit && str(e.Proficiencia) !== 'N')
+  })
   // Painel DIREITO (Não Aprendidas): escolas em que o herói PODE lançar
   // (proficiência ≠ N), mesmo sem magia aprendida ainda. Sem isto, uma ficha
   // NOVA com slot concedido por regra não oferecia o catálogo — os slots eram
@@ -1868,11 +1998,22 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     return letter ? num(slotsFm?.[letter]) > 0 : false
   })
 
+  // Consumo GLOBAL por rank: o orçamento Magias.Slots é único pra TODAS as
+  // escolas/categorias (view-model.ts:641-648 conta todas as aprendidas).
   const usedBy = (letter: string) =>
-    escolas
+    escolasAll
       .flatMap((e) => listaEntries(e.Lista))
       .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length
   const slots = slotsInfo(slotsFm, usedBy, ['B', 'A', 'E', 'M'])
+  // Economia SEM fungibilidade (#75/#62): cada rank com seu orçamento — espelho
+  // de computeMagiaSlotsView/magiaCanAddOne (magia-slot-accounting.ts).
+  const magiaSlotsView = computeMagiaSlotsView({
+    total: { B: num(slotsFm?.['B']), A: num(slotsFm?.['A']), E: num(slotsFm?.['E']), M: num(slotsFm?.['M']) },
+    used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+  /** Slots VAZIOS de um rank = livres do orçamento global (em edição). */
+  const emptyOfRank = (g: string): number =>
+    edit ? Math.max(0, num(slotsFm?.[RANK_GROUP_SLOT[g]]) - usedBy(RANK_GROUP_SLOT[g])) : 0
 
   // Aprender/remover magia por slot (#62): grava na lista SALVA (o merge
   // reaplica as concessões de regra por cima). Espelho de addMagia/removeMagia
@@ -1956,9 +2097,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 list.push(e)
                 byRank.set(rank, list)
               }
+              // Grupos: ranks com magia aprendida, mais (em edição) os ranks com
+              // slot livre — pra mostrar seus slots VAZIOS (#75).
               const groupKeys = isTesouro
                 ? ['']
-                : RANK_GROUP_ORDER.filter((g) => byRank.has(g))
+                : RANK_GROUP_ORDER.filter((g) => byRank.has(g) || emptyOfRank(g) > 0)
               return (
                 <div key={nome} style={{ marginBottom: 13 }}>
                   <div
@@ -2082,6 +2225,12 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             </div>
                           )
                         })}
+                        {/* Slots VAZIOS do rank (#75) — só magias (Tesouros não usa slot). */}
+                        {!isTesouro
+                          ? Array.from({ length: emptyOfRank(g) }, (_, i) => (
+                              <EmptySlot key={`empty-${i}`} />
+                            ))
+                          : null}
                       </div>
                     </div>
                   ))}
@@ -2135,11 +2284,17 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             {g}
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                            {byRank.get(g)!.map((d) => (
+                            {byRank.get(g)!.map((d) => {
+                              // Gate por slot livre (#75/#62): sem fungibilidade —
+                              // magiaCanAddOne(rank). Sem slot, o + desabilita.
+                              const canAdd = magiaCanAddOne(magiaSlotsView, RANK_GROUP_SLOT[g] as MagiaRank)
+                              return (
                               <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <button
                                   aria-label={`Aprender ${d.basename}`}
-                                  onClick={() => onAddMagia(nome, d.basename, g)}
+                                  disabled={!canAdd}
+                                  title={canAdd ? undefined : 'Sem slot disponível'}
+                                  onClick={() => canAdd && onAddMagia(nome, d.basename, g)}
                                   style={{
                                     width: 23,
                                     height: 23,
@@ -2149,7 +2304,8 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                                     color: '#4cc585',
                                     fontSize: 15,
                                     fontWeight: 700,
-                                    cursor: 'pointer',
+                                    cursor: canAdd ? 'pointer' : 'not-allowed',
+                                    opacity: canAdd ? 1 : 0.4,
                                     flex: 'none',
                                     display: 'inline-flex',
                                     alignItems: 'center',
@@ -2195,7 +2351,8 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                                   {d.basename}
                                 </span>
                               </div>
-                            ))}
+                              )
+                            })}
                           </div>
                         </div>
                       ))}

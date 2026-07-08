@@ -297,35 +297,53 @@ export function RankMedal({ rank, tipSources }: { rank: RankLetter; tipSources?:
   )
 }
 
+// Estados "não selecionados" (rank acima do atual / N já passado): quando
+// DESABILITADOS por falta de slot (fora do teto alcançável) ficam apagados —
+// espelho do `.as-naem-btn:disabled:not(.sel)...` do plugin (styles.css:
+// 1745-1750: fundo/borda transparentes, cor faint, opacity .45). Estados
+// selecionados preservam o visual próprio mesmo desabilitados (rank atual).
+const RANK_PLAIN_STATES: ReadonlySet<RankStateKey> = new Set(['off', 'passN'])
+
 /** Fileira N/A/E/M do modo edição, pintada pelos estados do registro.
  *  `tips` = fontes cruas POR RANK (contrato do naemButtons({tooltips}) do
  *  plugin, naem-buttons.ts:84-86: attachSourceTooltip por botão).
  *  `onPick` = clique num rank (naem-buttons.ts onClick): gasta/rebaixa slot
  *  respeitando o piso. Sem `onPick` os degraus ficam só display (defesas/
- *  sentidos/ataque são rule-driven, não editáveis por slot). */
+ *  sentidos/ataque são rule-driven, não editáveis por slot).
+ *  `disabledRanks` = ranks fora do intervalo [piso, teto] (economia de slot):
+ *  não clicáveis. Espelho de naemButtons({disabledRanks}) do plugin
+ *  (naem-buttons.ts:67-70; teto = computePericiaMaxReachable). */
 export function RankBtns({
   states,
   tips,
   onPick,
+  disabledRanks,
 }: {
   states: Record<RankLetter, RankStateKey>
   tips?: Partial<Record<RankLetter, string[]>>
   onPick?: (letter: RankLetter) => void
+  disabledRanks?: RankLetter[]
 }) {
+  const disabledSet = new Set(disabledRanks ?? [])
   return (
     <>
       {RANK_ORDER.map((letter) => {
         const s = RANK_STATES[states[letter]]
+        const disabled = !!onPick && disabledSet.has(letter)
+        // Desabilitado + estado "plano" (off/passN) → apagado (não clicável).
+        const faint = disabled && RANK_PLAIN_STATES.has(states[letter])
+        const clickable = !!onPick && !disabled
         return (
-          <TipHover key={letter} html={sourceTipHtml(tips?.[letter])}>
+          <TipHover key={letter} html={disabled ? '' : sourceTipHtml(tips?.[letter])}>
             <span
               role={onPick ? 'button' : undefined}
               aria-label={onPick ? `Rank ${letter}` : undefined}
-              onClick={onPick ? () => onPick(letter) : undefined}
+              aria-disabled={disabled ? 'true' : undefined}
+              onClick={clickable ? () => onPick!(letter) : undefined}
               style={{
-                background: s.bg,
-                color: s.fg,
-                border: `1px solid ${s.bd}`,
+                background: faint ? 'transparent' : s.bg,
+                color: faint ? 'color-mix(in srgb,var(--muted) 70%,transparent)' : s.fg,
+                border: `1px solid ${faint ? 'transparent' : s.bd}`,
                 width: 25,
                 height: 22,
                 display: 'inline-flex',
@@ -335,7 +353,8 @@ export function RankBtns({
                 fontSize: 11,
                 fontWeight: 700,
                 borderRadius: 5,
-                cursor: onPick ? 'pointer' : undefined,
+                opacity: faint ? 0.45 : 1,
+                cursor: clickable ? 'pointer' : 'default',
               }}
             >
               {letter}

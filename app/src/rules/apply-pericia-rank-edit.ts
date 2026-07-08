@@ -11,6 +11,8 @@
 // salvo), enquanto os Slot.<rank> são gravados na linha SALVA (o merge
 // reaplica a regra por cima — merge-calculated.ts).
 
+import { slotsFeasible, type SlotsView } from './slot-accounting'
+
 type Row = Record<string, unknown>
 type Inc = Record<string, unknown>
 
@@ -39,6 +41,11 @@ export function pisoFromIncrementos(incs: Inc[]): number {
     if (k && !isSlotSource(inc[k])) max = Math.max(max, RANK_ORDER[k])
   }
   return max
+}
+
+/** Piso como LETRA (N/A/E/M) — conveniência pro gate do NAEM na UI. */
+export function pisoLetterFromIncrementos(incs: Inc[]): 'N' | 'A' | 'E' | 'M' {
+  return RANK_FROM[pisoFromIncrementos(incs)]
 }
 
 /** Recomputa Proficiencia = max rank dos incrementos rank-based (A/E/M). */
@@ -91,5 +98,61 @@ export function applyPericiaRankEdit(
 
   row.Incrementos = incs
   row.Proficiencia = maxRank(incs)
+  return out
+}
+
+/** Maior rank que o user PODE atingir clicando NAEM desta perícia, dado o
+ *  orçamento GLOBAL de slots (com fungibilidade) e os incrementos já presentes
+ *  na linha DERIVADA. Ranks ≤ atual são sempre alcançáveis (rebaixar remove
+ *  Slot.*). Pra SUBIR, precisa de slot livre pros ranks intermediários sem
+ *  incremento. Espelho de computePericiaMaxReachable do plugin
+ *  (util/pericia-slot-accounting.ts:81-113).
+ *
+ *  `derivedIncs` são os incrementos da linha DERIVADA (regra + slot ao vivo);
+ *  `currentRank` é a proficiência derivada; `slots` é o SlotsView global. */
+export function computePericiaMaxReachable(
+  currentRank: 'N' | 'A' | 'E' | 'M',
+  derivedIncs: Inc[],
+  slots: SlotsView,
+): 'N' | 'A' | 'E' | 'M' {
+  const curIdx = RANK_ORDER[currentRank] ?? 0
+  for (const cand of ['M', 'E', 'A', 'N'] as const) {
+    if (RANK_ORDER[cand] <= curIdx) return cand // rebaixar/manter — sempre alcançável
+    let needA = 0
+    let needE = 0
+    let needM = 0
+    for (let r = curIdx + 1; r <= RANK_ORDER[cand]; r++) {
+      const rankStr = RANK_FROM[r] as 'A' | 'E' | 'M'
+      if (derivedIncs.some((inc) => rankKey(inc) === rankStr)) continue
+      if (rankStr === 'A') needA++
+      else if (rankStr === 'E') needE++
+      else needM++
+    }
+    if (
+      slotsFeasible(
+        slots.used.A + needA,
+        slots.used.E + needE,
+        slots.used.M + needM,
+        slots.total.A,
+        slots.total.E,
+        slots.total.M,
+      )
+    ) {
+      return cand
+    }
+  }
+  return 'N'
+}
+
+/** Ranks FORA do intervalo [piso, teto] — devem ficar desabilitados no NAEM.
+ *  Espelho de ranksOutsideRange do plugin (pericias-card.ts:73-79). */
+export function ranksOutsideRange(
+  piso: 'N' | 'A' | 'E' | 'M',
+  ceiling: 'N' | 'A' | 'E' | 'M',
+): Array<'N' | 'A' | 'E' | 'M'> {
+  const out: Array<'N' | 'A' | 'E' | 'M'> = []
+  for (const r of ['N', 'A', 'E', 'M'] as const) {
+    if (RANK_ORDER[r] < RANK_ORDER[piso] || RANK_ORDER[r] > RANK_ORDER[ceiling]) out.push(r)
+  }
   return out
 }
