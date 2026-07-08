@@ -299,13 +299,18 @@ export function RankMedal({ rank, tipSources }: { rank: RankLetter; tipSources?:
 
 /** Fileira N/A/E/M do modo edição, pintada pelos estados do registro.
  *  `tips` = fontes cruas POR RANK (contrato do naemButtons({tooltips}) do
- *  plugin, naem-buttons.ts:84-86: attachSourceTooltip por botão). */
+ *  plugin, naem-buttons.ts:84-86: attachSourceTooltip por botão).
+ *  `onPick` = clique num rank (naem-buttons.ts onClick): gasta/rebaixa slot
+ *  respeitando o piso. Sem `onPick` os degraus ficam só display (defesas/
+ *  sentidos/ataque são rule-driven, não editáveis por slot). */
 export function RankBtns({
   states,
   tips,
+  onPick,
 }: {
   states: Record<RankLetter, RankStateKey>
   tips?: Partial<Record<RankLetter, string[]>>
+  onPick?: (letter: RankLetter) => void
 }) {
   return (
     <>
@@ -314,6 +319,9 @@ export function RankBtns({
         return (
           <TipHover key={letter} html={sourceTipHtml(tips?.[letter])}>
             <span
+              role={onPick ? 'button' : undefined}
+              aria-label={onPick ? `Rank ${letter}` : undefined}
+              onClick={onPick ? () => onPick(letter) : undefined}
               style={{
                 background: s.bg,
                 color: s.fg,
@@ -327,6 +335,7 @@ export function RankBtns({
                 fontSize: 11,
                 fontWeight: 700,
                 borderRadius: 5,
+                cursor: onPick ? 'pointer' : undefined,
               }}
             >
               {letter}

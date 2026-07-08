@@ -20,6 +20,8 @@ import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { swapAtributo } from '../../rules/projection'
+import { applyPericiaRankEdit } from '../../rules/apply-pericia-rank-edit'
+import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
 import type { AtributoId } from '../../rules/rules-model'
 import {
   TipHover,
@@ -44,6 +46,7 @@ import {
   RANK_GROUP_ORDER,
   RANK_ORDER,
   SLOT_GROUP,
+  type RankLetter,
   classeAventureiro,
   displayName,
   grupoArmaEmoji,
@@ -458,8 +461,12 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
 
 function AtributosPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'habilidades')
-  const fm = model.fm
-  const rules = useHeroRules(fm)
+  const rules = useHeroRules(model.fm)
+  // Lê o FM DERIVADO: `Definir/Escolher Atributos.Principal` da classe já
+  // rodou o swap (PRE no rank 3, Principal=PRE) AO VIVO — o painel reflete a
+  // classe sem esperar um save materializar (#58). O SWAP manual também opera
+  // sobre os valores derivados, mantendo display e edição consistentes.
+  const fm = rules?.derivedFm ?? model.fm
   const { values, principal } = heroAtributos(fm)
   // Células por rank (3→0) da projeção de regras: cascata (rank N só
   // escolhe entre atributos não usados em ranks > N) + restrição de
@@ -1021,6 +1028,17 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
     ).length
   const slots = slotsInfo(fmPath(fm, 'Pericias', 'Slots'), usedBy, ['A', 'E', 'M'])
 
+  // Clique num rank → gasta/rebaixa Slot.<rank> respeitando o piso de regra
+  // (#61). O PISO vem dos incrementos da linha DERIVADA (regra ao vivo); os
+  // Slot.<rank> são gravados na lista SALVA (o merge reaplica a regra por cima).
+  const savedPericias = (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
+  const onRankPick = (row: ProfRow, letter: RankLetter) => {
+    model.set(
+      'Pericias.Lista',
+      applyPericiaRankEdit(savedPericias, (row.Incrementos ?? []) as Record<string, unknown>[], str(row.Nome), letter),
+    )
+  }
+
   const cols = edit ? PROF_COLS_EDIT : PROF_COLS_VIEW
 
   return (
@@ -1102,7 +1120,7 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
               {!edit ? (
                 <RankMedal rank={profLetter(row)} tipSources={tips[profLetter(row)]} />
               ) : (
-                <RankBtns states={rankStates(row)} tips={tips} />
+                <RankBtns states={rankStates(row)} tips={tips} onPick={(letter) => onRankPick(row, letter)} />
               )}
             </span>
             {edit ? (
@@ -1787,6 +1805,23 @@ interface EscolaFm {
   Lista?: unknown
 }
 
+// Gate per-escola×rank do painel de não-aprendidas — espelho de
+// computeMagiasDerived do plugin (view-model.ts:593-626): a proficiência da
+// escola precisa cobrir o rank da magia (profNum >= rankIdx). PROF sem A não
+// existe (o rank mínimo A já cobre Básica). RANK_GROUP_SLOT = grupo → letra do
+// slot (inverso de SLOT_GROUP) pro source `Slot.<letra>` ao aprender.
+const MAGIA_PROF_NUM: Record<string, number> = { N: 0, A: 2, E: 3, M: 4 }
+const MAGIA_RANK_IDX: Record<string, number> = { Básica: 1, Adepta: 2, Experiente: 3, Mestre: 4 }
+const RANK_GROUP_SLOT: Record<string, 'B' | 'A' | 'E' | 'M'> = {
+  Básica: 'B',
+  Adepta: 'A',
+  Experiente: 'E',
+  Mestre: 'M',
+}
+function escolaCobreRank(prof: string, rankGroup: string): boolean {
+  return (MAGIA_PROF_NUM[prof] ?? 0) >= (MAGIA_RANK_IDX[rankGroup] ?? 99)
+}
+
 function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
@@ -1838,6 +1873,19 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       .flatMap((e) => listaEntries(e.Lista))
       .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === letter).length
   const slots = slotsInfo(slotsFm, usedBy, ['B', 'A', 'E', 'M'])
+
+  // Aprender/remover magia por slot (#62): grava na lista SALVA (o merge
+  // reaplica as concessões de regra por cima). Espelho de addMagia/removeMagia
+  // do plugin — `Slot.<letra>` ao aprender; − só nas slot-learned.
+  const onAddMagia = (escolaNome: string, basename: string, rankGroup: string) => {
+    const savedEscolas = (fmPath(model.fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+    const letter = RANK_GROUP_SLOT[rankGroup] ?? 'A'
+    model.set('Magias.Lista', addMagiaToEscola(savedEscolas, escolaNome, `[[${basename}]]`, letter))
+  }
+  const onRemoveMagia = (escolaNome: string, target: string) => {
+    const savedEscolas = (fmPath(model.fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+    model.set('Magias.Lista', removeMagiaFromEscola(savedEscolas, escolaNome, target))
+  }
 
   return (
     <>
@@ -1949,8 +1997,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           const spellFm = fmOf(refs.refDoc(e.target))
                           return (
                             <div key={e.target} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                              {edit && !isTesouro ? (
+                              {/* − só nas slot-learned (rule-granted é readonly, plugin). */}
+                              {edit && !isTesouro && e.fonte.kind === 'Slot' ? (
                                 <button
+                                  aria-label={`Remover ${e.label}`}
+                                  onClick={() => onRemoveMagia(nome, e.target)}
                                   style={{
                                     width: 23,
                                     height: 23,
@@ -2045,12 +2096,16 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               </div>
               {escolasProficiente.map((escola) => {
                   const nome = str(escola.Nome)
+                  const escolaProf = str(escola.Proficiencia)
                   const learned = new Set(listaEntries(escola.Lista).map((e) => e.target))
                   const byRank = new Map<string, VaultDoc[]>()
                   for (const id of spellIdsByEscola.get(nome) ?? []) {
                     const d = spellDocs?.get(id)
                     if (!d || learned.has(d.basename)) continue
                     const rank = rankGroupLabel(str(d.frontmatter['rank']))
+                    // Gate per-escola×rank (#62): a proficiência da escola cobre
+                    // o rank da magia E existe slot daquele rank (slot livre).
+                    if (!escolaCobreRank(escolaProf, rank)) continue
                     if (!ranksComSlot.includes(rank)) continue
                     const list = byRank.get(rank) ?? []
                     list.push(d)
@@ -2083,6 +2138,8 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             {byRank.get(g)!.map((d) => (
                               <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <button
+                                  aria-label={`Aprender ${d.basename}`}
+                                  onClick={() => onAddMagia(nome, d.basename, g)}
                                   style={{
                                     width: 23,
                                     height: 23,

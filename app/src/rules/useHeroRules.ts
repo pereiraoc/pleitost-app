@@ -71,19 +71,28 @@ export function useHeroRules(fm: Record<string, unknown>): HeroProjection | unde
       (result) => {
         if (alive) setExtract({ key: ruleKey, result })
       },
-      () => {
-        if (alive) setExtract(undefined)
-      },
+      // Falha do resolver: NÃO zera a extração — mantém a anterior (a projeção
+      // segue viva pela última boa, evitando o flicker/undefined do #59).
+      () => {},
     )
     return () => {
       alive = false
     }
   }, [model, catalog, ruleKey])
 
-  // Projeção reconstruída SÍNCRONA a cada fm (barata): reaproveita a extração
-  // cacheada e refunde `calculated` no fm corrente — derivedFm sempre fresco.
+  // Projeção reconstruída SÍNCRONA a cada fm (barata). Enquanto uma re-extração
+  // está pendente (mudou um seed/condition → ruleKey novo, extract ainda com a
+  // key velha), reusamos a ÚLTIMA extração em vez de devolver `undefined` — as
+  // abas não voltam ao FM cru por um frame (issue #59: subclasses/atributos
+  // piscando). CRUCIAL: reconstruímos com o `model`/`fm` ATUAIS, não uma
+  // projeção congelada — o `derivedFm` reflete o FM salvo fresco (merge sobre o
+  // fm corrente), então toggles que leem derivedFm (ex.: tier de arma) veem a
+  // última edição na hora; só as ADIÇÕES de regra (calculated) ficam um ciclo
+  // atrás, corrigidas quando a nova extração aterrissa. Preserva o gate do #57:
+  // com o ruleKey inalterado (bio/nome) o extract já casa e a bio reflete na
+  // hora sem re-extrair. Só devolve `undefined` no 1º load (nenhuma extração).
   return useMemo(() => {
-    if (!extract || extract.key !== ruleKey) return undefined
+    if (!extract) return undefined
     return buildHeroProjection(model, extract.result, catalog, fm)
-  }, [extract, ruleKey, model, catalog, fm])
+  }, [extract, model, catalog, fm])
 }

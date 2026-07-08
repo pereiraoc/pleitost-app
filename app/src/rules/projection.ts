@@ -23,6 +23,7 @@ import {
 } from './passado-options'
 import { listLocalizacoes, naturalidadeSelectLines, type NaturalidadeLine } from './naturalidade'
 import { linkLabel } from '../markdown/dataview-value'
+import { num } from '../components/ficha/hero-model'
 
 /** Espelho de withAlias (plugin util/wikilink.ts:129-137). */
 export function withAlias(wl: string, shortFn: (target: string) => string): string {
@@ -430,6 +431,24 @@ export function buildHeroProjection(
   const ruleSources = computeRuleSources(result.appliedRules, calculated)
   const espMaes = listEspecializacoesByPericia(catalog)
 
+  // FM DERIVADO (FM salvo + cascata) — base de leitura LIVE das abas. Os
+  // Atributos vêm DAQUI (não do model salvo): `Definir/Escolher Atributos.
+  // Principal` já rodou o swap em mergeCalculatedIntoFm, então o rank 3 e o
+  // Principal refletem a classe AO VIVO — espelho de renderAttrBox lendo
+  // vm.model (derivado), não o FM salvo (issue #58).
+  const derivedFm = mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules)
+  const dAt = (derivedFm.Atributos ?? {}) as Record<string, unknown>
+  const derivedAtributos: Record<AtributoId, number> = {
+    FOR: num(dAt.FOR),
+    AGI: num(dAt.AGI),
+    INT: num(dAt.INT),
+    PRE: num(dAt.PRE),
+  }
+  const dPrincipal = String(dAt.Principal ?? '').toUpperCase()
+  const derivedPrincipal = (ATRIBUTOS as readonly string[]).includes(dPrincipal)
+    ? (dPrincipal as AtributoId)
+    : null
+
   return {
     classes: listNotesByCategoria(catalog, 'Classe', { pathPrefix: CLASSES_PATH_PREFIX }).map(linked),
     sintonias: listNotesByCategoria(catalog, 'Sintonia', { subcategoria: null })
@@ -447,7 +466,7 @@ export function buildHeroProjection(
       })),
     habilidadeChoices: annotated.filter((c) => !c.isSubclass),
     principalAllowed,
-    atributos: atributoCells(model.atributos, model.atributoPrincipal, principalAllowed),
+    atributos: atributoCells(derivedAtributos, derivedPrincipal, principalAllowed),
     periciasPassado: periciasPassadoOptions(model.meta.passadoPericia, periciasCov),
     passadoPericiaPick: model.meta.passadoPericia,
     oficiosPassado: oficiosPassadoOptions(passadoOficioPick, oficiosCov),
@@ -458,6 +477,6 @@ export function buildHeroProjection(
     especializacaoOptions: espMaes.especializacoes,
     maestriaOptions: espMaes.maestrias,
     calculated,
-    derivedFm: mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules),
+    derivedFm,
   }
 }

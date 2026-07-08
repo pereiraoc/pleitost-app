@@ -11,6 +11,7 @@
 // COMBATE leem/escrevem a mesma fonte (diretriz 2026-07-05).
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRules } from '../../rules/useHeroRules'
 import { clip } from './bits'
 import { tokens } from './registry'
 import { fmPath, interativa, num } from './hero-model'
@@ -41,8 +42,18 @@ export interface VidaLocal {
 export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
   const model = useHeroModel(doc, origem)
   const fm = model.fm
-  const vitMax = num(fmPath(fm, 'Vida', 'Vitalidade'))
-  const moralMax = num(fmPath(fm, 'Vida', 'Moral'))
+  // O MÁXIMO da Vida vem do FM DERIVADO: numa ficha nova as regras da classe
+  // (`Definir Vida.Vitalidade/Moral`) só existem no calculated → derivedFm, e o
+  // FM salvo (skeleton) traz 0 (issue #64). Só a BASE (max) sai do derivedFm —
+  // o corrente/volátil continua da Interativa.Recursos_Restantes (buffs
+  // interativos NÃO entram aqui; o #49 manteve o volátil fora do derivedFm de
+  // propósito). Como o merge só reaplica alvos de regra, o derivedFm não mexe em
+  // Recursos_Restantes; heróis materializados têm derivedFm.Vida === FM.Vida
+  // (rule-driven), logo o max não regride.
+  const rules = useHeroRules(fm)
+  const baseFm = rules?.derivedFm ?? fm
+  const vitMax = num(fmPath(baseFm, 'Vida', 'Vitalidade'))
+  const moralMax = num(fmPath(baseFm, 'Vida', 'Moral'))
   const rest = interativa(fm).restantes
   const vit = rest['Vitalidade'] !== undefined ? num(rest['Vitalidade']) : vitMax
   const moral = rest['Moral'] !== undefined ? num(rest['Moral']) : moralMax
