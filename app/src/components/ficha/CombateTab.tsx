@@ -19,6 +19,9 @@ import { useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
+import { useAssetIndex } from '../../data/assets'
+import { weaponImageUrl } from '../../data/creature-image'
+import { propriedadeImageUrl } from '../../data/equipment-image'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -1087,8 +1090,60 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
 
 /* ===================== sub-aba ATAQUES ===================== */
 
+/** Figura da arma no ATAQUE (issue #77): a IMAGEM DA ARMA (weaponImageUrl) com
+ *  a imagem da imbuição/propriedade PEQUENA no canto inferior direito — mesmo
+ *  padrão do selo de obra-prima da armadura (#65: overlay absoluto). Sem imagem
+ *  da arma → o emoji do grupo, como o design (Companion App.dc.html:429). */
+function AtaqueArmaFigura({
+  img,
+  propImg,
+  emoji,
+}: {
+  img: string | null
+  propImg: string | null
+  emoji: string
+}) {
+  if (!img) return <span style={{ fontSize: 19, flex: 'none' }}>{emoji}</span>
+  return (
+    <span
+      style={{
+        position: 'relative',
+        flex: 'none',
+        width: 42,
+        height: 42,
+        background: 'var(--card)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(8),
+        backgroundImage: `url("${img}")`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}
+    >
+      {propImg ? (
+        <span
+          aria-label="Propriedade"
+          style={{
+            position: 'absolute',
+            right: -4,
+            bottom: -4,
+            width: 20,
+            height: 20,
+            backgroundImage: `url("${propImg}")`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            pointerEvents: 'none',
+          }}
+        />
+      ) : null}
+    </span>
+  )
+}
+
 function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
+  const assets = useAssetIndex()
   const rules = useHeroRules(model.fm)
   // Base derivada (atributos/proficiência de ataque cascateados); Efeitos
   // Interativos (Vantagem de Combate, Apunhalante…) somam por cima via inter.ctx.
@@ -1226,9 +1281,22 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         const usoKey = `arma:${nome}|prop:${prop}`
         const usoCur = interState.usos[usoKey] !== undefined ? num(interState.usos[usoKey]) : (usosMaxN ?? 0)
 
+        // Figura da arma + imbuição no canto (issue #77): imagem da carta da
+        // arma (weaponImageUrl) com a propriedade (imbuição OU obra-prima)
+        // sobreposta no canto; sem imagem → o emoji do grupo (fallback).
+        const armaImg = weaponImageUrl(armaDoc, assets)
+        const propImg = propriedadeImageUrl(
+          (wikiTarget(str(arma['Propriedade'])).split('/').pop() ?? '').trim(),
+          tier ?? '',
+          assets,
+        )
         return (
           <div key={`${nome}-${i}`} style={rowStyle}>
-            <span style={{ fontSize: 19, flex: 'none' }}>{grupoArmaEmoji(fmOf(armaDoc)['grupo'])}</span>
+            <AtaqueArmaFigura
+              img={armaImg}
+              propImg={propImg}
+              emoji={grupoArmaEmoji(fmOf(armaDoc)['grupo'])}
+            />
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
               {prop ? `${nome} ${prop}` : nome}
             </span>

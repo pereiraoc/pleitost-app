@@ -63,9 +63,18 @@ const INV_TABS = [
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas/'
 const TESOUROS_FOLDER = 'Sistema/Equipamento/Tesouros/'
 const CONSUMIVEIS_FOLDER = 'Sistema/Equipamento/Tesouros/Consumíveis/'
-// Pasta das opções do dropdown de PROPRIEDADE da arma — "Imbuições +
-// qualidade" do Editável do plugin (equipamentos-section.ts:214-216).
+// Toda a pasta Imbuições e Qualidade — excluída do catálogo de Tesouros
+// (imbuições/qualidade não entram no "Adicionar Tesouro").
 const IMBUICOES_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/'
+// Só as IMBUIÇÕES reais aplicáveis a ARMA (subpasta Imbuições/) — as
+// Obra-primas de armadura/escudo/broquel/ferramenta (subpasta Qualidade/) NÃO
+// são propriedade de arma (issue #76); a de ARMA entra à parte, abaixo.
+// Espelha o listImbuicoes do plugin, que exclui as obra-primas não-arma
+// (cola/yaml-block-deps-factory.ts:686-692).
+const IMBUICOES_ARMA_FOLDER = `${IMBUICOES_FOLDER}Imbuições/`
+// Base do wikilink da Obra-prima automática da arma ("Arma Obra-prima"),
+// derivada da constante do modelo — nunca string inventada.
+const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 const TESOUROS_EXCLUIR = [CONSUMIVEIS_FOLDER, IMBUICOES_FOLDER]
 
 /** Select transparente dentro do pill desenhado — estilos verbatim do select
@@ -304,13 +313,19 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     }))
   }, [catalog])
 
-  // Dropdown de PROPRIEDADE — imbuições + qualidade (equipamentos-section.ts:214-226).
+  // Dropdown de PROPRIEDADE da ARMA (issue #76) — só o que aplica a ARMA:
+  // imbuições reais (Imbuições e Qualidade/Imbuições) + 'Arma Obra-prima' (a
+  // qualidade da arma). As obra-primas de armadura/escudo/broquel/ferramenta
+  // ficam de fora. Espelha o listImbuicoes do plugin (equipamentos-section.ts:
+  // 214-226 sobre yaml-block-deps-factory.ts:686-692).
   const imbuicoes = useMemo(
-    () =>
-      catalog.content
-        .filter((e: IndexDocEntry) => e.id.startsWith(IMBUICOES_FOLDER))
+    () => [
+      ...catalog.content
+        .filter((e: IndexDocEntry) => e.id.startsWith(IMBUICOES_ARMA_FOLDER))
         .map((e) => e.basename ?? e.id)
         .sort((a, b) => a.localeCompare(b, 'pt-BR')),
+      ARMA_OBRA_PRIMA_BASE,
+    ],
     [catalog],
   )
 
@@ -363,8 +378,14 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   }
 
   // Propriedade — espelha setArmaPropriedade (apply-armas-edit.ts:121-131):
-  // wikilink basename; vazio limpa o campo.
-  const setProp = (i: number, base: string) => patchArma(i, { Propriedade: base ? `[[${base}]]` : '' })
+  // wikilink basename; vazio limpa o campo. 'Arma Obra-prima' NÃO é imbuição,
+  // é a qualidade sem imbuição: grava a MESMA string canônica do ramo
+  // auto-Obra-prima do A/E/M (setArmaRank:157), pra que o dropdown e o clique
+  // no tier convirjam (issue #76).
+  const setProp = (i: number, base: string) =>
+    patchArma(i, {
+      Propriedade: !base ? '' : base === ARMA_OBRA_PRIMA_BASE ? ARMA_OBRA_PRIMA : `[[${base}]]`,
+    })
 
   const removeArma = (i: number) =>
     model.set(
@@ -529,22 +550,22 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         flex: '1 1 260px',
                         minWidth: 0,
                         display: 'flex',
-                        alignItems: 'stretch',
+                        alignItems: 'center',
                         gap: 12,
                       }}
                     >
                       {/* Quadrado da figura da PROPRIEDADE/imbuição (issue #65):
                           LOGO ANTES da seleção de propriedade, empurrando pro
-                          lado a qualidade (A/E/M) e a propriedade. ALTURA = do
-                          topo do A/E/M até a base do dropdown de propriedade
-                          (= altura desta coluna interna, via alignSelf stretch
-                          + aspectRatio 1), um pouco menor que o quadrado 96 da
-                          arma. */}
+                          lado a qualidade (A/E/M) e a propriedade. Tamanho FIXO
+                          (76px, um pouco menor que o quadrado 96 da arma) e
+                          centrado: aspect-ratio + alignSelf stretch num flex-row
+                          colapsa a largura a 0 e a imbuição sumia (issue #78). */}
                       <span
                         style={{
                           flex: 'none',
-                          alignSelf: 'stretch',
-                          aspectRatio: '1',
+                          alignSelf: 'center',
+                          width: 76,
+                          height: 76,
                           background: 'var(--panel2)',
                           border: '1px solid var(--line2)',
                           clipPath: clip(7),

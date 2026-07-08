@@ -283,6 +283,64 @@ describe('#65: imagens de propriedade/escudo/tesouro e selo de obra-prima', () =
   })
 })
 
+describe('#76: propriedade da arma só lista o que aplica a ARMA', () => {
+  // fonte real: docs sob Imbuições e Qualidade/Imbuições (imbuições de verdade)
+  const imbuicoesReais = manifest.docs
+    .filter((d) =>
+      d.id.startsWith('Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/'),
+    )
+    .map((d) => d.basename!)
+
+  it('dropdown = imbuições reais + Arma Obra-prima; sem Armadura/Escudo/Broquel/Ferramenta Obra-prima', async () => {
+    expect(imbuicoesReais.length).toBeGreaterThan(0)
+    renderFicha('inventario')
+    const select = (await screen.findByLabelText('Propriedade da arma')) as HTMLSelectElement
+    const opts = [...select.options].map((o) => o.value).filter((v) => v !== '')
+    for (const nome of imbuicoesReais) expect(opts).toContain(nome)
+    // a qualidade da ARMA entra; as obra-primas de outras peças NÃO (issue #76)
+    expect(opts).toContain('Arma Obra-prima')
+    expect(opts).not.toContain('Armadura Obra-prima')
+    expect(opts).not.toContain('Escudo Obra-prima')
+    expect(opts).not.toContain('Broquel Obra-prima')
+    expect(opts).not.toContain('Ferramenta Obra-prima')
+  })
+
+  it('marcar "Arma Obra-prima" grava a MESMA string canônica do auto-Obra-prima do tier', async () => {
+    renderFicha('inventario')
+    const select = (await screen.findByLabelText('Propriedade da arma')) as HTMLSelectElement
+    fireEvent.change(select, { target: { value: 'Arma Obra-prima' } })
+    // idêntico ao ramo auto do setArmaRank (apply-armas-edit.ts:157) — a MESMA
+    // string que o clique em A/E/M com propriedade vazia grava (testado no #13)
+    expect(overlaySalvo().fm['Inventario.Armas.Lista'][0].Propriedade).toBe(
+      '[[Arma Obra-prima|Obra-prima]]',
+    )
+  })
+})
+
+describe('#78: a figura da imbuição aparece (quadrado não colapsa)', () => {
+  it('quadrado da imbuição tem tamanho FIXO em px, sem aspect-ratio', async () => {
+    // FM real: Punhal Experiente + Imbuição Relampejante
+    expect(String(armaFm.Propriedade)).toContain('Imbuição Relampejante')
+    const { container } = renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    await waitFor(() => {
+      const box = [...container.querySelectorAll<HTMLElement>('span')].find(
+        (s) =>
+          s.style.backgroundImage &&
+          decodeURIComponent(s.style.backgroundImage).includes(
+            'Imbuições e Têmperas/Imbuição Relampejante Experiente.png',
+          ),
+      )
+      expect(box, 'quadrado da imbuição').toBeTruthy()
+      // #78: largura/altura FIXAS em px — aspect-ratio + alignSelf stretch num
+      // flex-row colapsava a largura a 0 e a figura sumia
+      expect(box!.style.width).toMatch(/^\d+px$/)
+      expect(box!.style.height).toMatch(/^\d+px$/)
+      expect(box!.style.aspectRatio).toBe('')
+    })
+  })
+})
+
 describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
   it('arma: tier novo seta Categoria + Bonus_Item do tier (setArmaRank), mantendo a imbuição', async () => {
     // FM real: Punhal Experiente (+2) com Imbuição Relampejante
