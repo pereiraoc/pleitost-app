@@ -1,11 +1,36 @@
-import { useState, type CSSProperties, type ReactNode } from 'react'
-import type { VaultDoc } from '../../data/types'
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { useCatalog } from '../../data/CatalogContext'
+import { loadDoc } from '../../data/useDoc'
+import {
+  getLocalDoc,
+  localEntriesOfKind,
+  useLocalStoreVersion,
+} from '../../data/local-entities'
+import { useSettings } from '../../settings'
+import {
+  TIER_COLUNA,
+  localTypeFromSubtype,
+  resolveResourceItems,
+  rollShop,
+  type LocalType,
+  type ShopEntry,
+  type Tier,
+} from '../../data/commerce'
+import {
+  decrementShopEntry,
+  setShopRoll,
+  setShopTravada,
+  useShopState,
+} from '../../data/commerce-store'
+import { buyTreasure, heroOuro } from '../../data/purchase'
+import { tokens } from '../ficha/registry'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
 // (DocView) por uma ficha com abas Detalhes/Comércio/Hexploração na linguagem
@@ -158,9 +183,352 @@ function EmptyPanel({ children, note }: { children: ReactNode; note?: ReactNode 
   )
 }
 
-function ComercioTab() {
-  // Scaffold: a lógica de loja é a issue #72. Placeholder sóbrio por ora.
-  return <EmptyPanel note="Loja em breve.">{'// COMÉRCIO'}</EmptyPanel>
+// ─────────────────────────── Aba Comércio (loja) ───────────────────────────
+
+const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
+
+/** Herói disponível pro seletor de compra: entry (vault/local) + doc carregado
+ *  (para ler/escrever o Inventario). */
+interface HeroOption {
+  entry: IndexDocEntry
+  doc: VaultDoc | undefined
+}
+
+/** Carrega os heróis disponíveis (pasta de Heróis da vault + heróis locais)
+ *  para o seletor de compra. Espelha o useFolderDocs das telas de criatura,
+ *  reduzido ao que a loja precisa (id/nome/doc). */
+function useHeroOptions(): HeroOption[] {
+  const catalog = useCatalog()
+  const version = useLocalStoreVersion()
+  const node = catalog.folderByPath.get(HEROIS_FOLDER)
+  const vaultEntries = useMemo(
+    () => (node ? node.docs.filter((d) => d.basename !== node.name) : []),
+    [node],
+  )
+  const localEntries = useMemo(() => localEntriesOfKind('Heroi'), [version])
+  const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
+
+  useEffect(() => {
+    if (!vaultEntries.length) return
+    let alive = true
+    Promise.all(vaultEntries.map((e) => loadDoc(e.id).catch(() => null))).then((loaded) => {
+      if (!alive) return
+      const byId = new Map<string, VaultDoc>()
+      for (const d of loaded) if (d) byId.set(d.id, d)
+      setVaultDocs(byId)
+    })
+    return () => {
+      alive = false
+    }
+  }, [vaultEntries])
+
+  return useMemo(() => {
+    const out: HeroOption[] = []
+    for (const e of vaultEntries) out.push({ entry: e, doc: vaultDocs?.get(e.id) })
+    for (const e of localEntries) out.push({ entry: e, doc: getLocalDoc(e.id) })
+    return out
+    // vaultDocs muda quando os docs chegam; version cobre os locais.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vaultEntries, vaultDocs, localEntries, version])
+}
+
+/** Botão mono no estilo accent (mesmo padrão do CTA "ADICIONAR HEXPLORAÇÃO"). */
+function ActionBtn({
+  children,
+  onClick,
+  disabled,
+  title,
+}: {
+  children: ReactNode
+  onClick: () => void
+  disabled?: boolean
+  title?: string
+}) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      style={{
+        fontFamily: 'var(--mono)',
+        fontSize: 11,
+        letterSpacing: '.14em',
+        color: disabled ? 'var(--muted)' : 'var(--accent)',
+        background: disabled
+          ? 'transparent'
+          : 'color-mix(in srgb,var(--accent) 12%,transparent)',
+        border: `1px solid ${disabled ? 'var(--line2)' : 'color-mix(in srgb,var(--accent) 40%,transparent)'}`,
+        padding: '8px 15px',
+        clipPath: clip(6),
+        cursor: disabled ? 'default' : 'pointer',
+        opacity: disabled ? 0.5 : 1,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+const TIER_MEDAL: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
+
+/** Linha de um item disponível na loja. */
+function ShopRow({
+  entry,
+  canBuy,
+  onBuy,
+}: {
+  entry: ShopEntry
+  canBuy: boolean
+  onBuy: () => void
+}) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1.5fr auto auto auto auto',
+        alignItems: 'center',
+        gap: 10,
+        padding: '10px 4px',
+        borderBottom: '1px solid var(--line)',
+      }}
+    >
+      <span style={{ fontWeight: 600, fontSize: 13.5 }}>{entry.label}</span>
+      <span
+        style={{
+          fontFamily: 'var(--mono)',
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: '.06em',
+          color: 'var(--muted)',
+          border: '1px solid var(--line2)',
+          padding: '2px 6px',
+          clipPath: clip(4),
+        }}
+        title={TIER_COLUNA[entry.tier]}
+      >
+        {TIER_MEDAL[entry.tier]}
+      </span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+        ×{entry.quantidade}
+      </span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 12, whiteSpace: 'nowrap' }}>
+        {entry.preco} PO
+      </span>
+      <ActionBtn onClick={onBuy} disabled={!canBuy} title={!canBuy ? 'Ouro insuficiente ou sem herói' : undefined}>
+        COMPRAR
+      </ActionBtn>
+    </div>
+  )
+}
+
+function ComercioTab({ doc }: { doc: VaultDoc }) {
+  const catalog = useCatalog()
+  const { mestre, disponibilidade } = useSettings()
+  const shop = useShopState(doc.id)
+  const heroes = useHeroOptions()
+  const [heroId, setHeroId] = useState<string>('')
+  const [aviso, setAviso] = useState<string | null>(null)
+
+  // Tipo de local efetivo: o guardado na rolagem (permite override "Iluminada"
+  // do GM persistido) ou a projeção da subcategoria.
+  const subtypeLocalType = localTypeFromSubtype(doc.subtype)
+  const localType: LocalType | null = shop?.localType ?? subtypeLocalType
+
+  // Itens de Recurso (tesouros) resolvidos no catálogo.
+  const recursos = useMemo(() => locationRecursos(doc), [doc])
+  const [refDocs, setRefDocs] = useState<Map<string, VaultDoc>>()
+  useEffect(() => {
+    const ids = new Set<string>()
+    for (const raw of recursos) {
+      const res = catalog.resolve(raw.replace(/^\[\[|\]\]$/g, '').split('|')[0].trim())
+      if (res.kind === 'doc') ids.add(res.id)
+    }
+    let alive = true
+    Promise.all([...ids].map((id) => loadDoc(id).catch(() => null))).then((loaded) => {
+      if (!alive) return
+      const byBase = new Map<string, VaultDoc>()
+      for (const d of loaded) if (d) byBase.set(d.basename, d)
+      setRefDocs(byBase)
+    })
+    return () => {
+      alive = false
+    }
+  }, [recursos, catalog])
+
+  const resolveDoc = (target: string): VaultDoc | undefined => {
+    const res = catalog.resolve(target)
+    if (res.kind !== 'doc') return undefined
+    return refDocs?.get(target) ?? refDocs?.get(catalog.entryById.get(res.id)?.basename ?? target)
+  }
+
+  const items = useMemo(
+    () => resolveResourceItems(recursos, resolveDoc),
+    // refDocs muda quando os docs chegam.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [recursos, refDocs, catalog],
+  )
+
+  const selectedHero = heroes.find((h) => h.entry.id === heroId)
+  const ouro = selectedHero ? heroOuro(selectedHero.entry.id, selectedHero.doc) : null
+
+  // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não
+  // têm loja de tesouros — mostra o empty state honesto.
+  if (!localType) {
+    return (
+      <EmptyPanel note="Só cidades (Pequena Cidade, Grande Cidade, Capital) têm disponibilidade de tesouros na nota de regras.">
+        {'// SEM COMÉRCIO DE TESOUROS'}
+      </EmptyPanel>
+    )
+  }
+
+  const doRoll = () => {
+    if (!refDocs) return
+    setShopRoll(doc.id, rollShop(items, localType, disponibilidade, Math.random), localType)
+    setAviso(null)
+  }
+
+  const comprar = (entry: ShopEntry) => {
+    if (!selectedHero) {
+      setAviso('Escolha um herói para comprar.')
+      return
+    }
+    const r = buyTreasure(selectedHero.entry.id, selectedHero.doc, entry.nome, entry.tier, entry.preco)
+    if (!r.ok) {
+      setAviso('Ouro insuficiente.')
+      return
+    }
+    decrementShopEntry(doc.id, entry.target, entry.tier)
+    setAviso(`Comprado: ${entry.label} (${TIER_COLUNA[entry.tier]}). Ouro restante: ${r.ouroRestante} PO.`)
+  }
+
+  const entries = shop?.entries ?? []
+  const travada = shop?.travada ?? false
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Cabeçalho: seletor de herói + saldo. */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 12,
+          padding: '12px 14px',
+          background: 'var(--panel)',
+          border: '1px solid var(--line2)',
+          clipPath: clip(12),
+        }}
+      >
+        <span style={{ fontSize: 18 }}>{tokens.emojis.subcategoria.Tesouro}</span>
+        <span
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 11,
+            letterSpacing: '.1em',
+            color: 'var(--muted)',
+            flex: 1,
+          }}
+        >
+          LOJA · {localType.toUpperCase()}
+        </span>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--muted)' }}>HERÓI</span>
+          <select
+            aria-label="Herói comprador"
+            value={heroId}
+            onChange={(e) => setHeroId(e.target.value)}
+            style={{
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              color: 'var(--text)',
+              fontFamily: 'var(--body)',
+              fontSize: 13,
+              padding: '6px 8px',
+              clipPath: clip(5),
+            }}
+          >
+            <option value="">— selecionar —</option>
+            {heroes.map((h) => (
+              <option key={h.entry.id} value={h.entry.id}>
+                {h.entry.basename}
+              </option>
+            ))}
+          </select>
+        </label>
+        {ouro != null ? (
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 12, whiteSpace: 'nowrap' }}>
+            {ouro} PO
+          </span>
+        ) : null}
+      </div>
+
+      {/* Controles do GM (Modo Mestre): re-rolar / travar. */}
+      {mestre ? (
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <ActionBtn
+            onClick={doRoll}
+            disabled={travada || !refDocs}
+            title={travada ? 'Rolagem travada — destrave para re-rolar' : undefined}
+          >
+            {entries.length || shop ? 'RE-ROLAR' : 'ROLAR'}
+          </ActionBtn>
+          <ActionBtn onClick={() => setShopTravada(doc.id, !travada)} disabled={!shop}>
+            {travada ? 'DESTRAVAR' : 'TRAVAR'}
+          </ActionBtn>
+        </div>
+      ) : null}
+
+      {/* Estoque rolado. */}
+      {!shop ? (
+        <EmptyPanel
+          note={
+            mestre
+              ? 'Role a disponibilidade para montar a loja.'
+              : 'O mestre ainda não abriu a loja deste lugar.'
+          }
+        >
+          {'// LOJA FECHADA'}
+        </EmptyPanel>
+      ) : entries.length === 0 ? (
+        <EmptyPanel note="A rolagem não trouxe nenhum tesouro pronto desta vez.">
+          {'// SEM ESTOQUE'}
+        </EmptyPanel>
+      ) : (
+        <div
+          style={{
+            padding: '10px 16px',
+            background: 'var(--panel)',
+            border: '1px solid var(--line2)',
+            clipPath: clip(14),
+          }}
+        >
+          {entries.map((e) => (
+            <ShopRow
+              key={e.target + e.tier}
+              entry={e}
+              canBuy={!!selectedHero && (ouro ?? 0) >= e.preco}
+              onBuy={() => comprar(e)}
+            />
+          ))}
+        </div>
+      )}
+
+      {aviso ? (
+        <div
+          role="status"
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 11,
+            letterSpacing: '.04em',
+            color: 'var(--muted)',
+          }}
+        >
+          {aviso}
+        </div>
+      ) : null}
+    </div>
+  )
 }
 
 /** Aba HEXPLORAÇÃO (issue #67) — autoria do mapa de hexcrawl da região. Quando
@@ -281,7 +649,7 @@ export function LocationSheet({ doc }: { doc: VaultDoc }) {
 
       <div style={{ marginTop: 4 }}>
         {tab === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
-        {tab === 'comercio' ? <ComercioTab /> : null}
+        {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
         {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>
     </article>

@@ -125,12 +125,15 @@ describe('LocationSheet (Localização real)', () => {
     expect(within(table).getByRole('link', { name: 'Campos do Provento' })).toBeTruthy()
   })
 
-  it('aba Comércio: placeholder sóbrio (scaffold da issue #72)', () => {
+  it('aba Comércio: loja da localização (issue #72) — fechada sem rolagem', () => {
     renderDoc(cantoAlto)
     // Detalhes é o default
     expect(document.querySelector('table.inline-fields')).toBeTruthy()
     fireEvent.click(screen.getByRole('tab', { name: 'Comércio' }))
-    expect(screen.getByText('// COMÉRCIO')).toBeTruthy()
+    // Modo Mestre OFF (default) + sem rolagem persistida → loja fechada
+    expect(screen.getByText('// LOJA FECHADA')).toBeTruthy()
+    // seletor de herói presente (cabeçalho da loja)
+    expect(screen.getByRole('combobox', { name: 'Herói comprador' })).toBeTruthy()
     // troca de aba desmonta o painel de Detalhes
     expect(document.querySelector('table.inline-fields')).toBeNull()
   })
