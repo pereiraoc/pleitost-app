@@ -1,7 +1,10 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
+import { regionMapForDoc } from '../../data/region-maps'
+import { getHexMapState } from '../../data/hexmap-store'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
+import { HexMapEditor } from './HexMapEditor'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
@@ -160,6 +163,46 @@ function ComercioTab() {
   return <EmptyPanel note="Loja em breve.">{'// COMÉRCIO'}</EmptyPanel>
 }
 
+/** Aba HEXPLORAÇÃO (issue #67) — autoria do mapa de hexcrawl da região. Quando
+ *  a região tem um mapa configurado (region-maps.ts) mas ainda não há hex
+ *  mapeado, mostra o CTA "Adicionar Hexploração" (que abre o editor); com
+ *  mapeamentos, abre o editor direto. O editor gere o próprio estado
+ *  (hexmap-store) — aqui só o gate do onboarding. */
+function HexploracaoTab({ doc }: { doc: VaultDoc }) {
+  const region = regionMapForDoc(doc)
+  const [aberto, setAberto] = useState(false)
+  // region é garantido não-nulo (a aba só habilita se locationHasHexMap(doc)),
+  // mas o guard mantém o componente honesto sobre a fonte de verdade.
+  if (!region) return <EmptyPanel>{'// SEM MAPA DE HEXCRAWL'}</EmptyPanel>
+
+  const jaTemMapa = getHexMapState(region.regionId).cells.length > 0
+  if (jaTemMapa || aberto) return <HexMapEditor region={region} />
+
+  return (
+    <EmptyPanel note="Marque os hexes do mapa desta região com as Localizações do Atlas.">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
+        <div>{'// HEXPLORAÇÃO'}</div>
+        <button
+          onClick={() => setAberto(true)}
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 11,
+            letterSpacing: '.16em',
+            color: 'var(--accent)',
+            background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
+            border: '1px solid color-mix(in srgb,var(--accent) 40%,transparent)',
+            padding: '9px 18px',
+            clipPath: clip(6),
+            cursor: 'pointer',
+          }}
+        >
+          ADICIONAR HEXPLORAÇÃO
+        </button>
+      </div>
+    </EmptyPanel>
+  )
+}
+
 // ───────────────────────────── Abas ─────────────────────────────
 
 interface LocTab {
@@ -169,16 +212,17 @@ interface LocTab {
   enabled?: (doc: VaultDoc) => boolean
 }
 
-/** Stub da issue #67: a fonte do mapa de hexcrawl ainda não existe no FM, então
- *  nenhuma localização tem mapa configurado e a aba Hexploração fica
- *  desabilitada. Quando #67 definir o mapa, esta função passa a lê-lo (fonte de
- *  verdade única) e a aba habilita sozinha. */
-export function locationHasHexMap(_doc: VaultDoc): boolean {
-  return false
+/** Issue #67: a Hexploração habilita numa Localização que ANCORA um mapa de
+ *  hexcrawl — a nota-raiz de uma região com mapa configurado (region-maps.ts).
+ *  Por ora só o Mundo Livre (a nota `Atlas/Mundo Livre/Mundo Livre` embute o
+ *  asset real do mapa e a grade de exploracao.ts é calibrada sobre ele). A
+ *  detecção é por id do doc (fonte de verdade única), sem heurística de string. */
+export function locationHasHexMap(doc: VaultDoc): boolean {
+  return regionMapForDoc(doc) != null
 }
 
 const HEX_DISABLED_NOTE =
-  'Hexploração será habilitada quando esta localização tiver um mapa de hexcrawl configurado (issue #67).'
+  'Hexploração só é habilitada na nota-raiz de uma região com mapa de hexcrawl configurado (por ora, Mundo Livre).'
 
 const LOCATION_TABS: LocTab[] = [
   { id: 'detalhes', label: 'Detalhes' },
@@ -238,6 +282,7 @@ export function LocationSheet({ doc }: { doc: VaultDoc }) {
       <div style={{ marginTop: 4 }}>
         {tab === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
         {tab === 'comercio' ? <ComercioTab /> : null}
+        {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>
     </article>
   )
