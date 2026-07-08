@@ -167,6 +167,11 @@ describe('#42 herói local', () => {
     expect(fm.Papel).toEqual({ Lider: 0, Controlador: 0, Abatedor: 0, Vanguarda: 0 })
     expect(fm.Vida).toEqual({ Vitalidade: 0, Moral: 0 })
     expect(fm['Nível']).toBe(1)
+    // Vida corrente AUSENTE de propósito → ficha nova nasce cheia (useVidaLocal
+    // usa o máximo do derivedFm quando o corrente não está definido).
+    const rest = (fm.Interativa as any).Recursos_Restantes
+    expect(rest.Vitalidade).toBeUndefined()
+    expect(rest.Moral).toBeUndefined()
   })
 
   it('"+ Criar Herói" cria e navega pra ficha, que renderiza sem erro', async () => {

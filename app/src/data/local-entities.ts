@@ -371,8 +371,10 @@ function baseCreatureFm(): Record<string, unknown> {
     Interativa: {
       Imunidades: {},
       Recursos_Restantes: {
-        Vitalidade: 0,
-        Moral: 0,
+        // Vitalidade/Moral AUSENTES de propósito: ficha nova nasce com vida
+        // cheia — useVidaLocal usa o máximo (Vida.* do derivedFm, definido
+        // pela classe) quando o corrente não está definido. Ao tomar dano,
+        // passam a ser gravados e a barra passa a rastrear o valor real.
         Moral_Temporaria: 0,
         EM: 0,
         EM_Secundaria: 0,
@@ -408,7 +410,8 @@ export function emptyCompanheiroFrontmatter(nome: string): Record<string, unknow
 export function emptyMonstroFrontmatter(): Record<string, unknown> {
   const fm: Record<string, unknown> = { ...baseCreatureFm(), subcategoria: 'Monstro', Tier: 0, Raça: '' }
   fm.Vida = { Vitalidade: 0 }
-  fm.Interativa = { Imunidades: {}, Recursos_Restantes: { Vitalidade: 0 } }
+  // Vitalidade corrente ausente → nasce cheia (default = máximo do derivedFm).
+  fm.Interativa = { Imunidades: {}, Recursos_Restantes: {} }
   return fm
 }
 
