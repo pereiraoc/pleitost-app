@@ -52,6 +52,7 @@ import {
   getGroupState,
   hexAt,
   hexAtual,
+  insertGroupHex,
   moveGroupHex,
   removeGroupHex,
   setAtualHex,
@@ -70,6 +71,7 @@ import {
   locaisSelectLines,
   MAP_H,
   MAP_W,
+  subcategoriaEmoji,
   type HexCell,
 } from './exploracao'
 import { sectionTitleStyle } from './panel-ui'
@@ -316,8 +318,37 @@ function RightBar({
 
 // ─────────────────────────── #69 Barra ESQUERDA ─────────────────────────────
 
-/** Painel colapsável esquerdo: lista das paradas na ordem do caminho, com
- *  inserir-no-meio e drag-reorder. */
+/** Uma parada é PRINCIPAL quando o hex referencia um LUGAR nomeado (no mapa da
+ *  região ou no próprio hex); senão é só um HEX (parada intermediária). */
+function paradaLocalId(h: GroupHex, hexMap: HexMapCell[]): string | undefined {
+  return cellAt(hexMap, h.col, h.row)?.localId ?? h.localId
+}
+
+interface PathSeg {
+  principal: GroupHex | null
+  principalIdx: number
+  children: { h: GroupHex; idx: number }[]
+}
+
+/** Agrupa o caminho: cada PRINCIPAL abre um segmento; os HEX-only seguintes
+ *  ficam como filhos (indentados sob o último principal por onde passou). Uma
+ *  corrida de HEX-only antes do 1º principal vira um segmento sem cabeçalho. */
+function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean): PathSeg[] {
+  const segs: PathSeg[] = []
+  hexes.forEach((h, idx) => {
+    if (isPrincipal(h)) {
+      segs.push({ principal: h, principalIdx: idx, children: [] })
+    } else {
+      if (segs.length === 0) segs.push({ principal: null, principalIdx: -1, children: [] })
+      segs[segs.length - 1].children.push({ h, idx })
+    }
+  })
+  return segs
+}
+
+/** Painel colapsável esquerdo: caminho HIERÁRQUICO (#82) — principais
+ *  proeminentes, HEX-only colapsados sob eles (3 pontinhos → expande no clique),
+ *  reorder por ponteiro (toque) e inserir-entre-partes. */
 function LeftBar({
   groupId,
   state,
@@ -326,6 +357,10 @@ function LeftBar({
   onToggle,
   selectedId,
   onSelect,
+  insertAt,
+  onInsertAt,
+  addMode,
+  onToggleAdd,
 }: {
   groupId: string
   state: GroupState
@@ -334,10 +369,232 @@ function LeftBar({
   onToggle: () => void
   selectedId: string | null
   onSelect: (id: string) => void
+  insertAt: number | null
+  onInsertAt: (index: number) => void
+  addMode: boolean
+  onToggleAdd: () => void
 }) {
   const catalog = useCatalog()
   const [dragId, setDragId] = useState<string | null>(null)
+  const [dropIndex, setDropIndex] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
+  const dragIdRef = useRef<string | null>(null)
+  const listRef = useRef<HTMLDivElement | null>(null)
   const atual = hexAtual(state)
+
+  const isPrincipal = (h: GroupHex): boolean => {
+    const id = paradaLocalId(h, hexMap)
+    return !!id && catalog.entryById.has(id)
+  }
+  const segs = buildSegments(state.hexes, isPrincipal)
+
+  /** Emoji da marca (subcategoria do local mapeado); '⠿' (grip) se não houver. */
+  const paradaEmoji = (h: GroupHex): string => {
+    const localId = paradaLocalId(h, hexMap)
+    const emoji = localId ? subcategoriaEmoji(catalog.entryById.get(localId)?.subtype) : ''
+    return emoji || '⠿'
+  }
+
+  // Reordenação por PONTEIRO (funciona no TOQUE): arrasta pelo handle; o alvo é
+  // o ÍNDICE (data-order) do primeiro item visível cujo meio o dedo cruzou.
+  const dropIndexAt = (clientY: number): number => {
+    const items = listRef.current ? [...listRef.current.querySelectorAll('[data-parada]')] : []
+    for (const el of items) {
+      const r = el.getBoundingClientRect()
+      if (clientY < r.top + r.height / 2) return Number((el as HTMLElement).getAttribute('data-order'))
+    }
+    return state.hexes.length
+  }
+  const onHandleDown = (h: GroupHex) => (e: React.PointerEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dragIdRef.current = h.id
+    setDragId(h.id)
+    setDropIndex(null)
+    ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
+  }
+  const onHandleMove = (e: React.PointerEvent) => {
+    if (!dragIdRef.current) return
+    setDropIndex(dropIndexAt(e.clientY))
+  }
+  const onHandleUp = (e: React.PointerEvent) => {
+    const id = dragIdRef.current
+    if (!id) return
+    const target = dropIndex ?? dropIndexAt(e.clientY)
+    const from = state.hexes.findIndex((x) => x.id === id)
+    if (from !== -1) moveGroupHex(groupId, id, target > from ? target - 1 : target)
+    dragIdRef.current = null
+    setDragId(null)
+    setDropIndex(null)
+  }
+
+  /** Uma linha de parada (principal proeminente OU filho hex-only pequeno). */
+  const paradaRow = (h: GroupHex, idx: number, variant: 'principal' | 'child') => {
+    const sel = h.id === selectedId
+    const isAtual = h.id === atual?.id
+    const dragging = dragId === h.id
+    const child = variant === 'child'
+    return (
+      <div key={h.id} style={{ display: 'flex', flexDirection: 'column', gap: 0, marginLeft: child ? 22 : 0 }}>
+        <div
+          style={{
+            height: dragId && dropIndex === idx ? 3 : 0,
+            margin: dragId && dropIndex === idx ? '2px 0' : 0,
+            background: 'var(--accent)',
+            borderRadius: 2,
+            transition: 'height .08s',
+          }}
+        />
+        <div
+          data-parada={h.id}
+          data-order={idx}
+          {...(sel ? { 'data-sel': '' } : {})}
+          onClick={() => onSelect(h.id)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: child ? '3px 8px' : '7px 9px',
+            cursor: 'pointer',
+            opacity: dragging ? 0.5 : 1,
+            background: sel
+              ? 'color-mix(in srgb,var(--accent) 14%,var(--card))'
+              : child
+                ? 'transparent'
+                : 'var(--card)',
+            border: `1px solid ${sel ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : child ? 'transparent' : 'var(--line2)'}`,
+            clipPath: child ? undefined : clip(6),
+          }}
+        >
+          <span
+            data-drag-handle={h.id}
+            role="button"
+            aria-label={`Reordenar ${hexLabel(h, hexMap, catalog)} (parada ${idx + 1})`}
+            title={`Arraste pra reordenar (parada ${idx + 1})`}
+            onPointerDown={onHandleDown(h)}
+            onPointerMove={onHandleMove}
+            onPointerUp={onHandleUp}
+            onPointerCancel={onHandleUp}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              flex: 'none',
+              width: child ? 18 : 24,
+              height: child ? 18 : 24,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: child ? 11 : 14,
+              color: child ? 'var(--muted)' : undefined,
+              cursor: 'grab',
+              touchAction: 'none',
+              userSelect: 'none',
+              borderRadius: 4,
+              background: isAtual ? 'color-mix(in srgb,var(--accent) 22%,transparent)' : 'transparent',
+              border: isAtual ? '1px solid color-mix(in srgb,var(--accent) 45%,transparent)' : '1px solid transparent',
+            }}
+          >
+            {paradaEmoji(h)}
+          </span>
+          <span
+            style={{
+              flex: 1,
+              minWidth: 0,
+              fontSize: child ? 11 : 12.5,
+              fontWeight: child ? 400 : 600,
+              color: child ? 'var(--muted)' : 'var(--text)',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {hexLabel(h, hexMap, catalog)}
+          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              removeGroupHex(groupId, h.id)
+            }}
+            aria-label="Remover parada"
+            style={{
+              flex: 'none',
+              background: 'none',
+              border: 'none',
+              color: 'var(--muted)',
+              cursor: 'pointer',
+              fontSize: child ? 12 : 14,
+              lineHeight: 1,
+              padding: 0,
+            }}
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  /** Botão fininho de INSERIR parada na posição `index` (#82). Ativo mostra a
+   *  dica; some durante um arraste. */
+  const insertRow = (index: number) => (
+    <button
+      key={`ins-${index}`}
+      data-insert-at={index}
+      aria-label={`Inserir parada na posição ${index + 1}`}
+      onClick={() => onInsertAt(index)}
+      style={{
+        alignSelf: 'stretch',
+        display: dragId ? 'none' : 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: insertAt === index ? 22 : 12,
+        padding: 0,
+        cursor: 'pointer',
+        background: insertAt === index ? 'color-mix(in srgb,var(--accent) 16%,transparent)' : 'transparent',
+        border: 'none',
+        borderRadius: 4,
+        color: insertAt === index ? 'var(--accent)' : 'color-mix(in srgb,var(--muted) 70%,transparent)',
+        fontFamily: 'var(--mono)',
+        fontSize: insertAt === index ? 10 : 12,
+        letterSpacing: '.06em',
+      }}
+    >
+      {insertAt === index ? '+ TOQUE UM HEX' : '+'}
+    </button>
+  )
+
+  /** Corrida de HEX-only COLAPSADA: 3 pontinhos verticais + contagem; clique
+   *  expande pra mostrar o caminho completo (#82). */
+  const collapsedRow = (key: string, children: { h: GroupHex; idx: number }[]) => (
+    <button
+      key={`col-${key}`}
+      data-collapsed-run={key}
+      title={`${children.length} parada(s) de hex — clique pra expandir o caminho`}
+      onClick={() => setExpanded((s) => new Set(s).add(key))}
+      style={{
+        marginLeft: 22,
+        alignSelf: 'flex-start',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '3px 9px',
+        cursor: 'pointer',
+        background: 'transparent',
+        border: '1px dashed var(--line2)',
+        borderRadius: 6,
+        color: 'var(--muted)',
+      }}
+    >
+      <span aria-hidden style={{ display: 'inline-flex', flexDirection: 'column', gap: 2 }}>
+        {Array.from({ length: Math.min(3, children.length) }, (_, k) => (
+          <span
+            key={k}
+            style={{ width: 4, height: 4, borderRadius: '50%', background: 'color-mix(in srgb,var(--accent) 65%,transparent)' }}
+          />
+        ))}
+      </span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{children.length} HEX</span>
+    </button>
+  )
 
   return (
     <aside
@@ -384,117 +641,76 @@ function LeftBar({
         {collapsed ? null : <span style={{ ...sectionTitleStyle, flex: 1 }}>{'// CAMINHO'}</span>}
       </div>
       {collapsed ? null : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: 12, overflowY: 'auto' }}>
+        <div
+          ref={listRef}
+          style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4, padding: 12, overflowY: 'auto' }}
+        >
           {state.hexes.length === 0 ? (
             <span style={{ ...fieldLabelStyle, padding: '4px 0' }}>SEM PARADAS</span>
           ) : (
-            state.hexes.map((h, i) => {
-              const sel = h.id === selectedId
-              const isAtual = h.id === atual?.id
-              return (
-                <div key={h.id} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {/* Zona de drop pra INSERIR acima desta parada (#69). */}
-                  <div
-                    data-drop-antes={i}
-                    onDragOver={(e) => {
-                      if (dragId) e.preventDefault()
-                    }}
-                    onDrop={(e) => {
-                      e.preventDefault()
-                      if (dragId) moveGroupHex(groupId, dragId, i)
-                      setDragId(null)
-                    }}
-                    style={{ height: dragId ? 8 : 2 }}
-                  />
-                  <div
-                    data-parada={h.id}
-                    data-order={i}
-                    {...(sel ? { 'data-sel': '' } : {})}
-                    draggable
-                    onDragStart={() => setDragId(h.id)}
-                    onDragEnd={() => setDragId(null)}
-                    onClick={() => onSelect(h.id)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '7px 9px',
-                      cursor: 'grab',
-                      background: sel
-                        ? 'color-mix(in srgb,var(--accent) 14%,var(--card))'
-                        : 'var(--card)',
-                      border: `1px solid ${sel ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
-                      clipPath: clip(6),
-                    }}
-                  >
-                    <span
-                      aria-hidden
-                      style={{
-                        flex: 'none',
-                        width: 18,
-                        height: 18,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: 'var(--mono)',
-                        fontSize: 10,
-                        color: isAtual ? 'var(--panel)' : 'var(--accent)',
-                        background: isAtual ? 'var(--accent)' : 'color-mix(in srgb,var(--accent) 12%,transparent)',
-                        border: '1px solid color-mix(in srgb,var(--accent) 40%,transparent)',
-                        clipPath: clip(4),
-                      }}
-                    >
-                      {i + 1}
-                    </span>
-                    <span
-                      style={{
-                        flex: 1,
-                        minWidth: 0,
-                        fontSize: 12,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {hexLabel(h, hexMap, catalog)}
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        removeGroupHex(groupId, h.id)
-                      }}
-                      aria-label="Remover parada"
-                      style={{
-                        flex: 'none',
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--muted)',
-                        cursor: 'pointer',
-                        fontSize: 14,
-                        lineHeight: 1,
-                        padding: 0,
-                      }}
-                    >
-                      ×
-                    </button>
+            <>
+              {insertRow(0)}
+              {segs.map((seg) => {
+                const key = seg.principal?.id ?? 'lead'
+                const isExp = expanded.has(key)
+                const after =
+                  (seg.children.length ? seg.children[seg.children.length - 1].idx : seg.principalIdx) + 1
+                return (
+                  <div key={key} style={{ display: 'contents' }}>
+                    {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
+                    {seg.children.length
+                      ? isExp
+                        ? seg.children.map((c) => paradaRow(c.h, c.idx, 'child'))
+                        : collapsedRow(key, seg.children)
+                      : null}
+                    {insertRow(after)}
                   </div>
-                </div>
-              )
-            })
+                )
+              })}
+              <div
+                style={{
+                  height: dragId && dropIndex === state.hexes.length ? 3 : 0,
+                  margin: dragId && dropIndex === state.hexes.length ? '2px 0' : 0,
+                  background: 'var(--accent)',
+                  borderRadius: 2,
+                }}
+              />
+            </>
           )}
-          {/* Zona de drop no FIM + inserção manual de parada no fim (#69). */}
-          <div
-            data-drop-fim=""
-            onDragOver={(e) => {
-              if (dragId) e.preventDefault()
+        </div>
+      )}
+      {/* RODAPÉ: MARCAR HEX vive AQUI (dentro da barra) pra ficar acessível
+          também em TELA CHEIA, onde o cabeçalho some (#82). */}
+      {collapsed ? null : (
+        <div
+          style={{
+            flex: 'none',
+            padding: 10,
+            borderTop: '1px solid var(--line)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 6,
+          }}
+        >
+          <button
+            data-marcar-hex=""
+            aria-pressed={addMode}
+            onClick={onToggleAdd}
+            style={{
+              ...pillStyle(addMode),
+              width: '100%',
+              justifyContent: 'center',
+              padding: '8px 12px',
+              fontSize: 11,
             }}
-            onDrop={(e) => {
-              e.preventDefault()
-              if (dragId) moveGroupHex(groupId, dragId, state.hexes.length)
-              setDragId(null)
-            }}
-            style={{ height: dragId ? 10 : 0 }}
-          />
+          >
+            {addMode ? '✓ MARCANDO — TOQUE HEXES' : '+ MARCAR HEX'}
+          </button>
+          {addMode ? (
+            <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center' }}>
+              toque hexes pra adicionar (pode repetir) · × remove
+            </span>
+          ) : null}
         </div>
       )}
     </aside>
@@ -520,6 +736,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const hexMap = hexMapState.cells
 
   const [addMode, setAddMode] = useState(false)
+  /** Posição do caminho onde a próxima parada marcada será INSERIDA (#82); null
+   *  = anexa no fim. */
+  const [insertAt, setInsertAt] = useState<number | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   /** Hex clicado que tem localização mapeada → barra direita (#70). */
   const [infoLocalId, setInfoLocalId] = useState<string | null>(null)
@@ -603,13 +822,16 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     }
     const existente = hexAt(state.hexes, cell.col, cell.row)
     if (addMode) {
-      if (existente) {
-        removeGroupHex(groupId, existente.id)
-        if (selectedId === existente.id) setSelectedId(null)
-      } else {
-        const criado = addGroupHex(groupId, { col: cell.col, row: cell.row, data: todayISO() })
-        setSelectedId(criado.id)
-      }
+      // #82: SEMPRE adiciona (revisitar o mesmo lugar é permitido — allowDup).
+      // Remover uma parada é pelo × na lista de caminho. Se há posição de
+      // inserção escolhida, insere lá; senão anexa.
+      const nova = { col: cell.col, row: cell.row, data: todayISO() }
+      const criado =
+        insertAt !== null
+          ? insertGroupHex(groupId, nova, insertAt, true)
+          : addGroupHex(groupId, nova, true)
+      setInsertAt(null)
+      setSelectedId(criado.id)
     } else {
       // fora do modo marcar: parada abre o popover; qualquer hex com
       // localização mapeada abre a barra direita (#70).
@@ -645,23 +867,27 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   }
   const confirmarParada = () => {
     if (!tokenDropCell) return
-    const criado = addGroupHex(groupId, {
-      col: tokenDropCell.col,
-      row: tokenDropCell.row,
-      data: todayISO(),
-    })
+    const nova = { col: tokenDropCell.col, row: tokenDropCell.row, data: todayISO() }
+    // allowDup: revisitar o mesmo lugar é permitido (#82).
+    const criado =
+      insertAt !== null
+        ? insertGroupHex(groupId, nova, insertAt, true)
+        : addGroupHex(groupId, nova, true)
+    setInsertAt(null)
     setAtualHex(groupId, criado.id)
     setSelectedId(criado.id)
     setTokenDropCell(null)
   }
 
-  const hoverLivre = hoverHex && !hexAt(state.hexes, hoverHex.col, hoverHex.row)
+  // hover realça QUALQUER hex (todos podem virar parada, inclusive revisita #82).
+  const hoverLivre = hoverHex
   const tokenCell = tokenDropCell ?? (atual ? { col: atual.col, row: atual.row } : null)
   const tokenCenter = tokenCell ? hexCenter(tokenCell.col, tokenCell.row) : null
-  // "Adicionar parada" aparece quando o token pousou numa célula que ainda não
-  // é parada (#71).
+  // "Adicionar parada" aparece quando o token foi arrastado pra uma célula
+  // DIFERENTE do hex atual (#82: pode ser um lugar já visitado = revisita).
   const podeAdicionar =
-    tokenDropCell && !hexAt(state.hexes, tokenDropCell.col, tokenDropCell.row)
+    !!tokenDropCell &&
+    (!atual || tokenDropCell.col !== atual.col || tokenDropCell.row !== atual.row)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -684,7 +910,16 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           </select>
         </label>
         <span style={{ flex: 1 }} />
-        <button aria-pressed={addMode} onClick={() => setAddMode((a) => !a)} style={pillStyle(addMode)}>
+        <button
+          aria-pressed={addMode}
+          onClick={() =>
+            setAddMode((a) => {
+              if (a) setInsertAt(null) // desligar marcar cancela a inserção
+              return !a
+            })
+          }
+          style={pillStyle(addMode)}
+        >
           MARCAR HEX
         </button>
       </div>
@@ -708,6 +943,20 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
             const h = state.hexes.find((x) => x.id === id)
             if (h) openInfoForCell(h.col, h.row, false)
           }}
+          insertAt={insertAt}
+          onInsertAt={(i) => {
+            // escolhe a posição e liga o modo marcar: o próximo hex tocado no
+            // mapa entra AÍ (#82).
+            setInsertAt((cur) => (cur === i ? null : i))
+            setAddMode(true)
+          }}
+          addMode={addMode}
+          onToggleAdd={() =>
+            setAddMode((a) => {
+              if (a) setInsertAt(null)
+              return !a
+            })
+          }
         />
 
         {/* Painel do mapa (canto cortado do design) */}
@@ -916,7 +1165,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                 fontSize: 11,
               }}
             >
-              ＋ ADICIONAR PARADA
+              + ADICIONAR PARADA
             </button>
           ) : null}
         </div>

@@ -204,22 +204,31 @@ export function hexAt(hexes: GroupHex[], col: number, row: number): GroupHex | n
 }
 
 /** Acrescenta uma parada AO FINAL do caminho (id gerado aqui) e devolve o hex
- *  criado. Se a célula (col,row) já for parada, devolve a existente. */
-export function addGroupHex(groupId: string, hex: Omit<GroupHex, 'id'>): GroupHex {
-  return insertGroupHex(groupId, hex, Infinity)
+ *  criado. Por padrão dedup (célula já parada → devolve a existente);
+ *  `allowDuplicate` permite REVISITAR o mesmo lugar (#82). */
+export function addGroupHex(
+  groupId: string,
+  hex: Omit<GroupHex, 'id'>,
+  allowDuplicate = false,
+): GroupHex {
+  return insertGroupHex(groupId, hex, Infinity, allowDuplicate)
 }
 
 /** Insere uma parada no caminho na posição `index` (0 = início; ≥ length =
- *  fim). Se a célula já for parada, devolve a existente sem mover (#69: "add
- *  no meio" só cria; reordenar é por moveGroupHex). */
+ *  fim). Por padrão, se a célula já for parada devolve a existente sem mover;
+ *  `allowDuplicate=true` cria uma NOVA parada mesmo no mesmo hex (revisitar o
+ *  mesmo lugar no caminho, #82). */
 export function insertGroupHex(
   groupId: string,
   hex: Omit<GroupHex, 'id'>,
   index: number,
+  allowDuplicate = false,
 ): GroupHex {
   const cur = hydrate(groupId)
-  const existente = hexAt(cur.hexes, hex.col, hex.row)
-  if (existente) return existente
+  if (!allowDuplicate) {
+    const existente = hexAt(cur.hexes, hex.col, hex.row)
+    if (existente) return existente
+  }
   const created: GroupHex = { ...hex, id: newHexId() }
   const at = Math.max(0, Math.min(cur.hexes.length, Math.floor(index)))
   const hexes = cur.hexes.slice()

@@ -19,8 +19,9 @@ import { locationHasHexMap } from '../src/components/compendium/LocationSheet'
 import { REGION_MAPS, regionMapById, regionMapForDoc } from '../src/data/region-maps'
 import {
   __resetHexMapStoreMemoryForTests,
-  areaAt,
   areaIdsInMap,
+  areasAt,
+  hexHasArea,
   cellAt,
   cellsByLocal,
   cellsOfArea,
@@ -349,7 +350,9 @@ describe('aba Hexploração na nota-raiz da região (Mundo Livre)', () => {
     fireEvent.click(mapa, clientOfCell({ col: 6, row: 6 }))
     const detalhe = container.querySelector('[data-hex-detalhe]') as HTMLElement
     expect(within(detalhe).getByText('Krasnogor')).toBeTruthy()
-    expect((within(detalhe).getByText('ABRIR DOC') as HTMLAnchorElement).getAttribute('href')).toBe(
+    // chip do lugar com link pro doc (label compacta "DOC")
+    const lugarChip = detalhe.querySelector(`[data-detalhe-lugar="${KRASNOGOR_ID}"]`) as HTMLElement
+    expect((within(lugarChip).getByText('DOC') as HTMLAnchorElement).getAttribute('href')).toBe(
       docPath(KRASNOGOR_ID),
     )
     // × remove a associação e limpa o store
@@ -417,18 +420,38 @@ describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => 
     setHexArea(REGION_ID, 5, 5, NACAO_ID)
     const cell = cellAt(getHexMapState(REGION_ID).cells, 5, 5)!
     expect(cell.localId).toBe(KRASNOGOR_ID)
-    expect(cell.areaId).toBe(NACAO_ID)
+    expect(cell.areaIds).toEqual([NACAO_ID])
     // remover o LUGAR mantém a ÁREA (célula sobrevive só com área)
     removeHex(REGION_ID, 5, 5)
     const c2 = cellAt(getHexMapState(REGION_ID).cells, 5, 5)!
     expect(c2.localId).toBeUndefined()
-    expect(c2.areaId).toBe(NACAO_ID)
+    expect(c2.areaIds).toEqual([NACAO_ID])
     // remover a ÁREA agora esvazia a célula
     removeHexArea(REGION_ID, 5, 5)
     expect(getHexMapState(REGION_ID).cells).toEqual([])
   })
 
-  it('setHexAreaBulk marca vários hexes num commit e reassocia de outra área', () => {
+  it('MULTI-ÁREA (#82): um hex acumula VÁRIAS áreas (rio+muro+região+nação)', () => {
+    // o mesmo hex entra em 3 áreas diferentes + tem um lugar
+    setHexLocal(REGION_ID, 9, 9, KRASNOGOR_ID)
+    setHexArea(REGION_ID, 9, 9, NACAO_ID)
+    setHexArea(REGION_ID, 9, 9, POI_ID)
+    setHexArea(REGION_ID, 9, 9, REGION_ID) // usa a própria Região como 3ª área
+    const cells = getHexMapState(REGION_ID).cells
+    expect(areasAt(cells, 9, 9).sort()).toEqual([NACAO_ID, POI_ID, REGION_ID].sort())
+    expect(cellAt(cells, 9, 9)!.localId).toBe(KRASNOGOR_ID)
+    expect(hexHasArea(cells, 9, 9, POI_ID)).toBe(true)
+    // re-marcar a MESMA área é idempotente (não duplica)
+    setHexArea(REGION_ID, 9, 9, NACAO_ID)
+    expect(areasAt(getHexMapState(REGION_ID).cells, 9, 9).length).toBe(3)
+    // remover UMA área não mexe nas outras nem no lugar
+    removeHexArea(REGION_ID, 9, 9, POI_ID)
+    const c2 = getHexMapState(REGION_ID).cells
+    expect(areasAt(c2, 9, 9).sort()).toEqual([NACAO_ID, REGION_ID].sort())
+    expect(cellAt(c2, 9, 9)!.localId).toBe(KRASNOGOR_ID)
+  })
+
+  it('setHexAreaBulk marca vários hexes num commit; adicionar OUTRA área ACUMULA', () => {
     const targets = [
       { col: 1, row: 1 },
       { col: 2, row: 2 },
@@ -436,12 +459,25 @@ describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => 
     ]
     setHexAreaBulk(REGION_ID, targets, NACAO_ID)
     expect(cellsOfArea(getHexMapState(REGION_ID).cells, NACAO_ID).length).toBe(3)
-    expect(areaAt(getHexMapState(REGION_ID).cells, 2, 2)).toBe(NACAO_ID)
-    // reassociar 1 hex a OUTRA área move-o (não duplica)
+    expect(hexHasArea(getHexMapState(REGION_ID).cells, 2, 2, NACAO_ID)).toBe(true)
+    // adicionar OUTRA área ao hex 2,2 ACUMULA (não remove a NACAO) — #82
     setHexArea(REGION_ID, 2, 2, POI_ID)
-    expect(cellsOfArea(getHexMapState(REGION_ID).cells, NACAO_ID).length).toBe(2)
+    expect(cellsOfArea(getHexMapState(REGION_ID).cells, NACAO_ID).length).toBe(3)
     expect(cellsOfArea(getHexMapState(REGION_ID).cells, POI_ID).length).toBe(1)
+    expect(areasAt(getHexMapState(REGION_ID).cells, 2, 2).sort()).toEqual([NACAO_ID, POI_ID].sort())
     expect(areaIdsInMap(getHexMapState(REGION_ID).cells).sort()).toEqual([NACAO_ID, POI_ID].sort())
+  })
+
+  it('migra o formato ANTIGO de área única (areaId) → areaIds', () => {
+    window.localStorage.setItem(
+      STORE_KEY,
+      JSON.stringify({ cells: [{ col: 4, row: 4, localId: KRASNOGOR_ID, areaId: NACAO_ID }] }),
+    )
+    const cell = cellAt(getHexMapState(REGION_ID).cells, 4, 4)!
+    expect(cell.localId).toBe(KRASNOGOR_ID)
+    expect(cell.areaIds).toEqual([NACAO_ID])
+    // não deve sobrar a chave antiga
+    expect((cell as Record<string, unknown>).areaId).toBeUndefined()
   })
 
   it('removeArea apaga a área inteira mas PRESERVA os lugares dos hexes dela', () => {
@@ -459,7 +495,7 @@ describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => 
     setHexArea(REGION_ID, 4, 9, POI_ID)
     __resetHexMapStoreMemoryForTests()
     const cell = cellAt(getHexMapState(REGION_ID).cells, 4, 9)!
-    expect(cell.areaId).toBe(POI_ID)
+    expect(cell.areaIds).toEqual([POI_ID])
     expect(cell.localId).toBeUndefined()
   })
 
@@ -477,7 +513,7 @@ describe('hexmap-store: áreas (Região/Nação/POI) sem apagar lugares', () => 
     expect(n).toBe(1)
     const cells = getHexMapState(REGION_ID).cells
     expect(cellAt(cells, 5, 5)!.localId).toBe(KRASNOGOR_ID)
-    expect(cellAt(cells, 6, 6)!.areaId).toBe(NACAO_ID)
+    expect(cellAt(cells, 6, 6)!.areaIds).toEqual([NACAO_ID])
     // arquivo inválido é rejeitado
     expect(() => importAllHexMaps('{"foo":1}')).toThrow()
   })
@@ -550,12 +586,12 @@ describe('editor: modo Lugares × Regiões', () => {
     fireEvent.click(mapa, clientOfCell(a))
     fireEvent.click(mapa, clientOfCell(b))
     const cells = getHexMapState(REGION_ID).cells
-    expect(areaAt(cells, a.col, a.row)).toBe(NACAO_ID)
-    expect(areaAt(cells, b.col, b.row)).toBe(NACAO_ID)
+    expect(hexHasArea(cells, a.col, a.row, NACAO_ID)).toBe(true)
+    expect(hexHasArea(cells, b.col, b.row, NACAO_ID)).toBe(true)
     expect(container.querySelector(`[data-area="${NACAO_ID}"]`)).toBeTruthy()
     // tocar de novo o mesmo hex DESMARCA (toggle)
     fireEvent.click(mapa, clientOfCell(a))
-    expect(areaAt(getHexMapState(REGION_ID).cells, a.col, a.row)).toBeNull()
+    expect(areasAt(getHexMapState(REGION_ID).cells, a.col, a.row)).toEqual([])
   })
 
   it('marcar área num hex que JÁ tem lugar preserva o lugar (ortogonal)', async () => {
@@ -569,7 +605,7 @@ describe('editor: modo Lugares × Regiões', () => {
     fireEvent.click(mapa, clientOfCell({ col: 10, row: 10 }))
     const cell = cellAt(getHexMapState(REGION_ID).cells, 10, 10)!
     expect(cell.localId).toBe(KRASNOGOR_ID)
-    expect(cell.areaId).toBe(POI_ID)
+    expect(cell.areaIds).toEqual([POI_ID])
   })
 
   it('o mapa tem o botão de TELA CHEIA (#80)', async () => {

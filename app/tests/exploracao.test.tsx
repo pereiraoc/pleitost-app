@@ -278,13 +278,23 @@ describe('group-store (namespace pleitost.groupState.<groupId>) — hexes', () =
     expect(window.localStorage.getItem(STORE_KEY)).toBeNull()
   })
 
-  it('addGroupHex não duplica a mesma célula (col,row); hexAt localiza', () => {
+  it('addGroupHex não duplica a mesma célula (col,row) por padrão; hexAt localiza', () => {
     const a = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-01' })
     const b = addGroupHex(GROUP_ID, { col: 3, row: 3, data: '2026-07-09' })
     expect(b.id).toBe(a.id) // mesma célula → devolve o existente
     expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
     expect(hexAt(getGroupState(GROUP_ID).hexes, 3, 3)!.id).toBe(a.id)
     expect(hexAt(getGroupState(GROUP_ID).hexes, 9, 9)).toBeNull()
+  })
+
+  it('#82 allowDuplicate=true cria NOVA parada no mesmo hex (revisitar o lugar)', () => {
+    const a = addGroupHex(GROUP_ID, { col: 3, row: 3 }, true)
+    const b = addGroupHex(GROUP_ID, { col: 3, row: 3 }, true)
+    expect(b.id).not.toBe(a.id) // parada distinta no MESMO hex
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(2)
+    // insertGroupHex com allowDuplicate insere no meio, também duplicando
+    insertGroupHex(GROUP_ID, { col: 3, row: 3 }, 1, true)
+    expect(getGroupState(GROUP_ID).hexes.map((h) => `${h.col},${h.row}`)).toEqual(['3,3', '3,3', '3,3'])
   })
 
   it('descarta a forma antiga {pontos:[{x,y}]} do localStorage (issue #48)', () => {
@@ -462,18 +472,28 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(link.getAttribute('href')).toBe(docPath(KRASNOGOR_ID))
   })
 
-  it('modo marcar: clicar de novo no MESMO hex o remove (toggle)', async () => {
+  it('#82 modo marcar: clicar de novo no MESMO hex REVISITA (2 paradas, não remove)', async () => {
     const { container } = renderGroup()
     await esperaMapa(container)
     const mapa = mockMapaRect(container)
     fireEvent.click(screen.getByText('MARCAR HEX'))
-    fireEvent.click(mapa, { clientX: 100, clientY: 108 }) // cria
+    fireEvent.click(mapa, { clientX: 100, clientY: 108 }) // cria 1ª
     expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
-    // clicar de novo na MESMA fração cai na mesma célula → remove
+    // clicar de novo na MESMA célula ADICIONA outra parada (revisitar o lugar)
     fireEvent.click(mapa, { clientX: 100, clientY: 108 })
-    expect(getGroupState(GROUP_ID).hexes).toEqual([])
-    expect(container.querySelector('[data-hex]')).toBeNull()
-    expect(container.querySelector('[data-hex-info]')).toBeNull()
+    const hexes = getGroupState(GROUP_ID).hexes
+    expect(hexes.length).toBe(2)
+    // ambas no MESMO hex (mesma col,row) — caminho que passa 2× pelo lugar
+    expect(hexes[0].col).toBe(hexes[1].col)
+    expect(hexes[0].row).toBe(hexes[1].row)
+  })
+
+  it('#82 MARCAR HEX vive DENTRO da barra de caminho (acessível em tela cheia)', async () => {
+    addGroupHex(GROUP_ID, { col: 2, row: 2 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
+    expect(bar.querySelector('[data-marcar-hex]')).toBeTruthy()
   })
 
   it('#69 trilha liga os centros na ORDEM do caminho; ATUAL (último) com glow; reordenar reflete', async () => {
@@ -511,6 +531,65 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect((container.querySelector('[data-trilha]') as SVGPolylineElement).getAttribute('points')).toBe(
       `${centro(b)} ${centro(a)}`,
     )
+  })
+
+  it('#82 reordena o caminho arrastando o HANDLE de emoji por PONTEIRO (toque)', async () => {
+    // marca os 3 hexes como LUGARES → viram paradas PRINCIPAIS (visíveis)
+    const regionId = REGION_MAPS[0].regionId
+    setHexLocal(regionId, 3, 3, KRASNOGOR_ID)
+    setHexLocal(regionId, 6, 6, KRASNOGOR_ID)
+    setHexLocal(regionId, 9, 9, KRASNOGOR_ID)
+    const a = addGroupHex(GROUP_ID, { col: 3, row: 3 })
+    const b = addGroupHex(GROUP_ID, { col: 6, row: 6 })
+    const c = addGroupHex(GROUP_ID, { col: 9, row: 9 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+
+    // handles de arraste (um por parada), na ordem a,b,c
+    expect(container.querySelectorAll('[data-drag-handle]').length).toBe(3)
+    const handleA = container.querySelector(`[data-drag-handle="${a.id}"]`) as HTMLElement
+
+    // jsdom não faz layout: fixa o rect de cada parada (a:0-30, b:30-60, c:60-90)
+    const paradas = [...container.querySelectorAll('[data-parada]')] as HTMLElement[]
+    paradas.forEach((el, i) => {
+      el.getBoundingClientRect = () =>
+        ({ top: i * 30, bottom: i * 30 + 30, left: 0, right: 240, width: 240, height: 30, x: 0, y: i * 30 }) as DOMRect
+    })
+
+    // arrasta o handle de A pra BAIXO de C (y=100 → cai no fim) → ordem b,c,a
+    fireEvent.pointerDown(handleA, { pointerId: 1, clientY: 5 })
+    fireEvent.pointerMove(handleA, { pointerId: 1, clientY: 100 })
+    fireEvent.pointerUp(handleA, { pointerId: 1, clientY: 100 })
+
+    await waitFor(() =>
+      expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([b.id, c.id, a.id]),
+    )
+  })
+
+  it('#82 caminho HIERÁRQUICO: principais visíveis, hex-only COLAPSADOS (expande no clique)', async () => {
+    const regionId = REGION_MAPS[0].regionId
+    setHexLocal(regionId, 2, 2, KRASNOGOR_ID) // (2,2) = LUGAR → principal
+    const p = addGroupHex(GROUP_ID, { col: 2, row: 2 })
+    const h1 = addGroupHex(GROUP_ID, { col: 3, row: 3 }) // hex-only (filhos)
+    const h2 = addGroupHex(GROUP_ID, { col: 4, row: 4 })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
+
+    // principal visível; hex-only colapsados (não renderizados como parada)
+    expect(bar.querySelector(`[data-parada="${p.id}"]`)).toBeTruthy()
+    expect(bar.querySelector(`[data-parada="${h1.id}"]`)).toBeNull()
+    const run = bar.querySelector('[data-collapsed-run]') as HTMLElement
+    expect(run).toBeTruthy()
+    expect(run.textContent).toContain('2 HEX')
+
+    // clicar no colapsado EXPANDE → os hex-only aparecem
+    fireEvent.click(run)
+    expect(bar.querySelector(`[data-parada="${h1.id}"]`)).toBeTruthy()
+    expect(bar.querySelector(`[data-parada="${h2.id}"]`)).toBeTruthy()
+
+    // inserir-entre-partes disponível (botões +)
+    expect(bar.querySelector('[data-insert-at]')).toBeTruthy()
   })
 
   it('fora do modo marcar, clicar num hex marcado abre o popover (não cria)', async () => {
@@ -641,6 +720,10 @@ describe('#68 GM define a região do grupo → mapa e mapeamento trocam', () => 
 // ── #69 barra esquerda: lista/caminho, add e reorder ────────────────────────
 describe('#69 barra esquerda colapsável = caminho (add + reorder)', () => {
   it('lista as paradas na ordem; ＋ colapsa/expande; drag reordena', async () => {
+    // paradas PRINCIPAIS (lugares mapeados) pra aparecerem na lista
+    const regionId = REGION_MAPS[0].regionId
+    setHexLocal(regionId, 2, 2, KRASNOGOR_ID)
+    setHexLocal(regionId, 5, 5, KRASNOGOR_ID)
     const a = addGroupHex(GROUP_ID, { col: 2, row: 2 })
     const b = addGroupHex(GROUP_ID, { col: 5, row: 5 })
     const { container } = renderGroup()
@@ -659,12 +742,16 @@ describe('#69 barra esquerda colapsável = caminho (add + reorder)', () => {
     fireEvent.click(within(bar).getByLabelText('Expandir caminho'))
     expect(paradas()).toEqual([a.id, b.id])
 
-    // drag-reorder: arrasta b pra ANTES de a (drop na zona index 0)
-    const itemB = bar.querySelector(`[data-parada="${b.id}"]`) as HTMLElement
-    const dropAntes0 = bar.querySelector('[data-drop-antes="0"]') as HTMLElement
-    fireEvent.dragStart(itemB)
-    fireEvent.dragOver(dropAntes0)
-    fireEvent.drop(dropAntes0)
+    // reorder por PONTEIRO (handle de emoji, funciona no toque): arrasta o
+    // handle de b pra o TOPO (antes de a). jsdom não faz layout → mocka rects.
+    ;[...bar.querySelectorAll('[data-parada]')].forEach((el, i) => {
+      ;(el as HTMLElement).getBoundingClientRect = () =>
+        ({ top: i * 30, bottom: i * 30 + 30, left: 0, right: 240, width: 240, height: 30, x: 0, y: i * 30 }) as DOMRect
+    })
+    const handleB = bar.querySelector(`[data-drag-handle="${b.id}"]`) as HTMLElement
+    fireEvent.pointerDown(handleB, { pointerId: 1, clientY: 35 })
+    fireEvent.pointerMove(handleB, { pointerId: 1, clientY: 3 })
+    fireEvent.pointerUp(handleB, { pointerId: 1, clientY: 3 })
     expect(getGroupState(GROUP_ID).hexes.map((h) => h.id)).toEqual([b.id, a.id])
     // a UI reflete a nova ordem
     expect(paradas()).toEqual([b.id, a.id])
@@ -743,7 +830,7 @@ describe('#71 token de grupo (moeda)', () => {
     fireEvent.pointerMove(viewport, { clientX, clientY })
     fireEvent.pointerUp(token, { clientX, clientY })
     await waitFor(() => expect(container.querySelector('[data-token-alvo]')).toBeTruthy())
-    const addBtn = await screen.findByText('＋ ADICIONAR PARADA')
+    const addBtn = await screen.findByText('+ ADICIONAR PARADA')
     // confirma → adiciona a parada e a fixa como ATUAL
     fireEvent.click(addBtn)
     const hexes = getGroupState(GROUP_ID).hexes

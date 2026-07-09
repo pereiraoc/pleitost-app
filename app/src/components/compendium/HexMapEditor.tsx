@@ -20,13 +20,14 @@ import { listLocalizacoes } from '../../rules/naturalidade'
 import type { RegionMap } from '../../data/region-maps'
 import { useHexMap } from '../../data/useHexMap'
 import {
-  areaAt,
+  areaIdsInMap,
+  areasAt,
   cellAt,
   cellsByLocal,
   cellsOfArea,
   exportAllHexMaps,
+  hexHasArea,
   importAllHexMaps,
-  removeArea,
   removeHex,
   removeHexArea,
   setHexArea,
@@ -126,11 +127,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
 
   const byLocal = useMemo(() => cellsByLocal(state.cells), [state.cells])
   const placeCells = useMemo(() => state.cells.filter((c) => c.localId), [state.cells])
-  const areaIds = useMemo(() => {
-    const out: string[] = []
-    for (const c of state.cells) if (c.areaId && !out.includes(c.areaId)) out.push(c.areaId)
-    return out
-  }, [state.cells])
+  const areaIds = useMemo(() => areaIdsInMap(state.cells), [state.cells])
 
   const [mode, setMode] = useState<Mode>('lugares')
   const [filtro, setFiltro] = useState('')
@@ -218,8 +215,10 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
 
   const toggleAreaHex = (cell: HexCell) => {
     if (!pendingArea) return
-    if (areaAt(state.cells, cell.col, cell.row) === pendingArea) {
-      removeHexArea(regionId, cell.col, cell.row)
+    // Toggle SÓ da área pendente — as outras áreas (e o lugar) do hex ficam
+    // intactas: um hex pode acumular rio + muro + região + nação (#82).
+    if (hexHasArea(state.cells, cell.col, cell.row, pendingArea)) {
+      removeHexArea(regionId, cell.col, cell.row, pendingArea)
     } else {
       setHexArea(regionId, cell.col, cell.row, pendingArea)
     }
@@ -302,7 +301,7 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
   }
 
   const hoverMapeado = hoverHex ? cellAt(state.cells, hoverHex.col, hoverHex.row) : null
-  const selArea = selCell?.areaId ?? (selectedCell ? areaAt(state.cells, selectedCell.col, selectedCell.row) : null)
+  const selAreas = selectedCell ? areasAt(state.cells, selectedCell.col, selectedCell.row) : []
 
   const panelStyle: CSSProperties = {
     flex: '2 1 420px',
@@ -748,70 +747,72 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
           <span style={{ ...kickerStyle, fontSize: 10 }}>
             HEX {selectedCell.col},{selectedCell.row}
           </span>
+          {/* LUGAR pontual (se houver) */}
           {selCell?.localId ? (
-            <>
-              <span style={{ fontFamily: 'var(--display)', fontSize: 17, fontWeight: 800 }}>
+            <span
+              data-detalhe-lugar={selCell.localId}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '4px 8px 4px 10px',
+                background: 'color-mix(in srgb,var(--accent) 14%,transparent)',
+                border: '1px solid color-mix(in srgb,var(--accent) 40%,transparent)',
+                clipPath: clip(6),
+              }}
+            >
+              <span style={{ fontFamily: 'var(--display)', fontSize: 15, fontWeight: 800 }}>
                 {nomeDe(selCell.localId)}
               </span>
-              <span style={{ flex: 1 }} />
               <Link
                 to={docPath(selCell.localId)}
-                style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)', textDecoration: 'none' }}
+                style={{ ...kickerStyle, fontSize: 9, color: 'var(--accent)', textDecoration: 'none' }}
               >
-                ABRIR DOC
+                DOC
               </Link>
               <button
                 data-hex-remover=""
-                onClick={() => {
-                  removeHex(regionId, selCell.col, selCell.row)
-                  setSelectedCell(null)
-                }}
+                onClick={() => removeHex(regionId, selCell.col, selCell.row)}
                 aria-label="Remover associação"
-                style={{
-                  background: 'none',
-                  border: '1px solid var(--line2)',
-                  color: 'var(--muted)',
-                  width: 26,
-                  height: 26,
-                  lineHeight: 1,
-                  cursor: 'pointer',
-                  clipPath: clip(5),
-                }}
+                style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: 15, lineHeight: 1, padding: 0 }}
               >
                 ×
               </button>
-            </>
-          ) : selArea ? (
-            <>
-              <span
-                aria-hidden
-                style={{ width: 12, height: 12, flex: 'none', borderRadius: 2, background: areaColor(selArea, 0.95) }}
-              />
-              <span style={{ fontFamily: 'var(--display)', fontSize: 17, fontWeight: 800 }}>
-                {nomeDe(selArea)}
-              </span>
-              <span style={{ ...kickerStyle, fontSize: 10 }}>
-                ÁREA · {cellsOfArea(state.cells, selArea).length} HEX
-              </span>
-              <span style={{ flex: 1 }} />
-              <Link
-                to={docPath(selArea)}
-                style={{ ...kickerStyle, fontSize: 10, color: 'var(--accent)', textDecoration: 'none' }}
-              >
-                ABRIR DOC
+            </span>
+          ) : null}
+          {/* TODAS as áreas do hex (rio, muro, região, nação…) — cada uma com
+              × que remove SÓ deste hex (#82) */}
+          {selAreas.map((aid) => (
+            <span
+              key={aid}
+              data-detalhe-area={aid}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 7,
+                padding: '4px 8px 4px 8px',
+                background: areaColor(aid, 0.18),
+                border: `1px solid ${areaColor(aid, 0.55)}`,
+                clipPath: clip(6),
+              }}
+            >
+              <span aria-hidden style={{ width: 10, height: 10, flex: 'none', borderRadius: 2, background: areaColor(aid, 0.95) }} />
+              <span style={{ fontFamily: 'var(--display)', fontSize: 14, fontWeight: 700 }}>{nomeDe(aid)}</span>
+              <Link to={docPath(aid)} style={{ ...kickerStyle, fontSize: 9, color: 'var(--accent)', textDecoration: 'none' }}>
+                DOC
               </Link>
               <button
-                data-area-remover=""
-                onClick={() => {
-                  removeArea(regionId, selArea)
-                  setSelectedCell(null)
-                }}
-                style={{ ...pillStyle(false), color: 'var(--muted)', border: '1px solid var(--line2)', background: 'none' }}
+                data-area-remover={aid}
+                onClick={() => removeHexArea(regionId, selectedCell.col, selectedCell.row, aid)}
+                aria-label={`Tirar ${nomeDe(aid)} deste hex`}
+                style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: 0 }}
               >
-                APAGAR ÁREA
+                ×
               </button>
-            </>
-          ) : (
+            </span>
+          ))}
+          <span style={{ flex: 1 }} />
+          {!selCell?.localId && selAreas.length === 0 ? (
             <span style={{ ...kickerStyle, fontSize: 11, color: 'var(--muted)' }}>
               VAZIO —{' '}
               {mode === 'regioes'
@@ -822,7 +823,15 @@ export function HexMapEditor({ region }: { region: RegionMap }) {
                   ? 'clique de novo no hex pra associar'
                   : 'selecione uma Localização e clique aqui, ou arraste'}
             </span>
-          )}
+          ) : mode === 'regioes' && pendingArea && !hexHasArea(state.cells, selectedCell.col, selectedCell.row, pendingArea) ? (
+            <button
+              data-add-area-hex=""
+              onClick={() => setHexArea(regionId, selectedCell.col, selectedCell.row, pendingArea)}
+              style={{ ...pillStyle(true), fontSize: 10 }}
+            >
+              + {nomeDe(pendingArea)}
+            </button>
+          ) : null}
         </div>
       ) : null}
     </div>

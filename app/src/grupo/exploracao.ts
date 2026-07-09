@@ -205,6 +205,12 @@ const SUBCATEGORIA_ICON: Record<string, string> = {
   Nação: tokens.emojis.subcategoria.Nacao,
 }
 
+/** Emoji da subcategoria (registro central; subcategoria fora do registro —
+ *  ex.: Ponto de Interesse — devolve ''). Sem inventar fallback. */
+export function subcategoriaEmoji(sub: string | null | undefined): string {
+  return sub ? (SUBCATEGORIA_ICON[sub] ?? '') : ''
+}
+
 /** Espelho de SUBCATEGORIA_ORDER do naturalidade-picker. */
 const SUBCATEGORIA_ORDER: Record<string, number> = {
   Capital: 0,
