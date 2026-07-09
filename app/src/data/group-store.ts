@@ -39,10 +39,12 @@ export interface GroupHex {
   data?: string
   /** Doc de Localização do Atlas associado (id do catálogo), opcional. */
   localId?: string
-  /** Rótulo livre da PARADA pro log do grupo (#85) — ex.: "acampamos aqui".
-   *  Um hex COM label é uma parada (proeminente); sem label nem local é só um
-   *  ponto de CAMINHO (rota). */
+  /** Rótulo livre da PARADA pro log do grupo (#85) — ex.: "acampamos aqui". */
   label?: string
+  /** Tipo do ponto (#85): 'parada' (marco proeminente, criado pelo "Adicionar
+   *  Parada") x 'caminho' (ponto de rota discreto, "Adicionar Caminho"). Manda
+   *  na hierarquia da lista/mapa; um lugar nomeado ou rótulo também é parada. */
+  kind?: 'parada' | 'caminho'
 }
 
 export interface GroupState {
@@ -105,7 +107,8 @@ function isHex(raw: unknown): raw is GroupHex {
     Number.isFinite(h.row) &&
     (h.data === undefined || typeof h.data === 'string') &&
     (h.localId === undefined || typeof h.localId === 'string') &&
-    (h.label === undefined || typeof h.label === 'string')
+    (h.label === undefined || typeof h.label === 'string') &&
+    (h.kind === undefined || h.kind === 'parada' || h.kind === 'caminho')
   )
 }
 

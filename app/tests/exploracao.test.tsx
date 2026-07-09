@@ -520,6 +520,31 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(container.querySelector('[data-parada-label]')?.textContent).toBe('acampamos aqui')
   })
 
+  it('#85 parada SEM rótulo (pelo kind) já é relevante; caminho colapsa indentado abaixo', async () => {
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    // 1 PARADA (sem rotular) e depois 2 pontos de CAMINHO
+    fireEvent.click(container.querySelector('[data-add-parada]') as HTMLElement)
+    fireEvent.click(mapa, { clientX: 80, clientY: 90 })
+    fireEvent.click(container.querySelector('[data-add-caminho]') as HTMLElement)
+    fireEvent.click(mapa, { clientX: 150, clientY: 170 })
+    fireEvent.click(mapa, { clientX: 220, clientY: 250 })
+
+    const hexes = getGroupState(GROUP_ID).hexes
+    expect(hexes[0].kind).toBe('parada')
+    expect(hexes[1].kind).toBe('caminho')
+
+    const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
+    // a parada (mesmo SEM rótulo) é linha proeminente na lista
+    expect(bar.querySelector(`[data-parada="${hexes[0].id}"]`)).toBeTruthy()
+    // e os 2 caminhos colapsam identados abaixo (3 pontinhos = N HEX), sem virar linha
+    const run = bar.querySelector('[data-collapsed-run]') as HTMLElement
+    expect(run).toBeTruthy()
+    expect(run.textContent).toContain('2 HEX')
+    expect(bar.querySelector(`[data-parada="${hexes[1].id}"]`)).toBeNull()
+  })
+
   it('#82 MARCAR HEX vive DENTRO da barra de caminho (acessível em tela cheia)', async () => {
     addGroupHex(GROUP_ID, { col: 2, row: 2 })
     const { container } = renderGroup()

@@ -323,6 +323,21 @@ function RightBar({
  *  'caminho' (rota: vários hexes seguidos) · 'off'. */
 type AddMode = 'off' | 'parada' | 'caminho'
 
+/** Um ponto é PARADA (proeminente) quando: tem rótulo, foi criado como parada,
+ *  ou (dados antigos, sem kind) aponta um lugar nomeado. `kind: 'caminho'` é
+ *  rota pura (discreto) a menos que tenha rótulo. Fonte única p/ mapa e lista. */
+function hexIsParada(
+  h: GroupHex,
+  hexMap: HexMapCell[],
+  catalog: ReturnType<typeof useCatalog>,
+): boolean {
+  if (h.label && h.label.trim()) return true
+  if (h.kind === 'parada') return true
+  if (h.kind === 'caminho') return false
+  const id = paradaLocalId(h, hexMap)
+  return !!id && catalog.entryById.has(id)
+}
+
 /** Uma parada é PRINCIPAL quando o hex referencia um LUGAR nomeado (no mapa da
  *  região ou no próprio hex); senão é só um HEX (parada intermediária). */
 function paradaLocalId(h: GroupHex, hexMap: HexMapCell[]): string | undefined {
@@ -387,13 +402,7 @@ function LeftBar({
   const listRef = useRef<HTMLDivElement | null>(null)
   const atual = hexAtual(state)
 
-  const isPrincipal = (h: GroupHex): boolean => {
-    // PARADA (proeminente) = tem lugar nomeado OU um rótulo do log (#85);
-    // sem nenhum dos dois é só ponto de CAMINHO (colapsa).
-    if (h.label && h.label.trim()) return true
-    const id = paradaLocalId(h, hexMap)
-    return !!id && catalog.entryById.has(id)
-  }
+  const isPrincipal = (h: GroupHex): boolean => hexIsParada(h, hexMap, catalog)
   const segs = buildSegments(state.hexes, isPrincipal)
 
   /** Emoji da marca (subcategoria do local mapeado); '⠿' (grip) se não houver. */
@@ -761,13 +770,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const hexMapState = useHexMap(regionId)
   const hexMap = hexMapState.cells
 
-  /** PARADA (proeminente + rótulo na trilha) = tem lugar nomeado OU rótulo;
-   *  sem nenhum é ponto de CAMINHO (rota, discreto) — #85. */
-  const isParada = (h: GroupHex): boolean => {
-    if (h.label && h.label.trim()) return true
-    const id = paradaLocalId(h, hexMap)
-    return !!id && catalog.entryById.has(id)
-  }
+  /** PARADA (proeminente + rótulo na trilha) = criada como parada OU tem lugar
+   *  nomeado OU rótulo; senão é ponto de CAMINHO (rota, discreto) — #85. */
+  const isParada = (h: GroupHex): boolean => hexIsParada(h, hexMap, catalog)
 
   // #85: dois modos de marcação — 'parada' (ponto importante, rotulável) e
   // 'caminho' (rota: toca vários hexes seguidos, mesmo sem ponto de interesse).
@@ -859,8 +864,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     const existente = hexAt(state.hexes, cell.col, cell.row)
     if (addMode !== 'off') {
       // #82/#85: SEMPRE adiciona (revisitar é permitido — allowDup). Remover é
-      // pelo × na lista. Com posição de inserção escolhida, insere lá.
-      const nova = { col: cell.col, row: cell.row, data: todayISO() }
+      // pelo × na lista. Com posição de inserção escolhida, insere lá. O `kind`
+      // vem do MODO (parada = marco; caminho = rota).
+      const nova = { col: cell.col, row: cell.row, data: todayISO(), kind: addMode }
       const criado =
         insertAt !== null
           ? insertGroupHex(groupId, nova, insertAt, true)
@@ -904,7 +910,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   }
   const confirmarParada = () => {
     if (!tokenDropCell) return
-    const nova = { col: tokenDropCell.col, row: tokenDropCell.row, data: todayISO() }
+    const nova = { col: tokenDropCell.col, row: tokenDropCell.row, data: todayISO(), kind: 'parada' as const }
     // allowDup: revisitar o mesmo lugar é permitido (#82).
     const criado =
       insertAt !== null
@@ -1149,21 +1155,33 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                           vectorEffect="non-scaling-stroke"
                           style={glow}
                         />
-                        <text
-                          data-parada-label={h.id}
-                          x={center.x}
-                          y={center.y - 84}
-                          textAnchor="middle"
-                          dominantBaseline="ideographic"
-                          fill="var(--text)"
-                          fontSize={26}
-                          fontFamily="var(--mono)"
-                          style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
-                          stroke="var(--panel)"
-                          strokeWidth={5}
-                        >
-                          {hexLabel(h, hexMap, catalog)}
-                        </text>
+                        {/* rótulo/nome só quando há nome REAL (rótulo ou lugar);
+                            parada "nua" fica só com o marcador (sem "Hex c,r"). */}
+                        {(() => {
+                          const localId = paradaLocalId(h, hexMap)
+                          const nome =
+                            (h.label && h.label.trim()) ||
+                            (localId && catalog.entryById.has(localId)
+                              ? (catalog.entryById.get(localId)?.basename ?? '')
+                              : '')
+                          return nome ? (
+                            <text
+                              data-parada-label={h.id}
+                              x={center.x}
+                              y={center.y - 84}
+                              textAnchor="middle"
+                              dominantBaseline="ideographic"
+                              fill="var(--text)"
+                              fontSize={26}
+                              fontFamily="var(--mono)"
+                              style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
+                              stroke="var(--panel)"
+                              strokeWidth={5}
+                            >
+                              {nome}
+                            </text>
+                          ) : null
+                        })()}
                       </g>
                     )
                   })}
