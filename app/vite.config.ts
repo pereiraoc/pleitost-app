@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { vaultData } from './vite/vault-data'
+import { appState } from './vite/app-state'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -15,6 +16,8 @@ export default defineConfig({
   plugins: [
     react(),
     vaultData(path.resolve(dirname, '..', 'vault-data')),
+    // Persistência server-side (#84): caminhos/fichas/personagens no disco.
+    appState(path.resolve(dirname, '..', 'app-state.json')),
     VitePWA({
       registerType: 'autoUpdate',
       // SW só em build: dev roda sem secure context na LAN (http) sem perder nada
@@ -38,8 +41,14 @@ export default defineConfig({
         // doc a doc, conforme navegado
         globIgnores: ['vault-data/**'],
         navigateFallback: 'index.html',
-        navigateFallbackDenylist: [/^\/vault-data\//],
+        // /app-state e /vault-data NUNCA caem no fallback SPA nem em cache.
+        navigateFallbackDenylist: [/^\/vault-data\//, /^\/app-state/],
         runtimeCaching: [
+          {
+            // Estado do usuário: SEMPRE rede (nunca cachear — é a fonte durável).
+            urlPattern: ({ url }) => url.pathname.startsWith('/app-state'),
+            handler: 'NetworkOnly',
+          },
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/vault-data/'),
             handler: 'StaleWhileRevalidate',

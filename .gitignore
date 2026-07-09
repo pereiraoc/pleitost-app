@@ -15,3 +15,9 @@ Thumbs.db
 
 # Dados extraídos da vault (regenerável: npm run extract)
 vault-data/
+
+# Estado durável do usuário (caminhos/fichas/personagens) — #84
+app-state.json
+
+# Backup de mapas exportado pelo app
+pleitost-mapas.json
