@@ -125,6 +125,7 @@ function hexLabel(
   hexMap: HexMapCell[],
   catalog: ReturnType<typeof useCatalog>,
 ): string {
+  if (hex.label && hex.label.trim()) return hex.label.trim() // #85: rótulo do log
   const cell = cellAt(hexMap, hex.col, hex.row)
   const localId = cell?.localId ?? hex.localId
   if (localId) return catalog.entryById.get(localId)?.basename ?? '—'
@@ -318,6 +319,10 @@ function RightBar({
 
 // ─────────────────────────── #69 Barra ESQUERDA ─────────────────────────────
 
+/** Modo de marcação no mapa (#85): 'parada' (ponto importante/rotulável) ·
+ *  'caminho' (rota: vários hexes seguidos) · 'off'. */
+type AddMode = 'off' | 'parada' | 'caminho'
+
 /** Uma parada é PRINCIPAL quando o hex referencia um LUGAR nomeado (no mapa da
  *  região ou no próprio hex); senão é só um HEX (parada intermediária). */
 function paradaLocalId(h: GroupHex, hexMap: HexMapCell[]): string | undefined {
@@ -360,7 +365,7 @@ function LeftBar({
   insertAt,
   onInsertAt,
   addMode,
-  onToggleAdd,
+  onSetMode,
 }: {
   groupId: string
   state: GroupState
@@ -371,8 +376,8 @@ function LeftBar({
   onSelect: (id: string) => void
   insertAt: number | null
   onInsertAt: (index: number) => void
-  addMode: boolean
-  onToggleAdd: () => void
+  addMode: AddMode
+  onSetMode: (m: AddMode) => void
 }) {
   const catalog = useCatalog()
   const [dragId, setDragId] = useState<string | null>(null)
@@ -383,6 +388,9 @@ function LeftBar({
   const atual = hexAtual(state)
 
   const isPrincipal = (h: GroupHex): boolean => {
+    // PARADA (proeminente) = tem lugar nomeado OU um rótulo do log (#85);
+    // sem nenhum dos dois é só ponto de CAMINHO (colapsa).
+    if (h.label && h.label.trim()) return true
     const id = paradaLocalId(h, hexMap)
     return !!id && catalog.entryById.has(id)
   }
@@ -679,8 +687,8 @@ function LeftBar({
           )}
         </div>
       )}
-      {/* RODAPÉ: MARCAR HEX vive AQUI (dentro da barra) pra ficar acessível
-          também em TELA CHEIA, onde o cabeçalho some (#82). */}
+      {/* RODAPÉ: os botões de marcação vivem AQUI (dentro da barra) pra ficarem
+          acessíveis também em TELA CHEIA, onde o cabeçalho some (#82/#85). */}
       {collapsed ? null : (
         <div
           style={{
@@ -694,21 +702,38 @@ function LeftBar({
         >
           <button
             data-marcar-hex=""
-            aria-pressed={addMode}
-            onClick={onToggleAdd}
+            data-add-parada=""
+            aria-pressed={addMode === 'parada'}
+            onClick={() => onSetMode('parada')}
             style={{
-              ...pillStyle(addMode),
+              ...pillStyle(addMode === 'parada'),
               width: '100%',
               justifyContent: 'center',
               padding: '8px 12px',
               fontSize: 11,
             }}
           >
-            {addMode ? '✓ MARCANDO — TOQUE HEXES' : '+ MARCAR HEX'}
+            {addMode === 'parada' ? '✓ PARADA — TOQUE UM HEX' : '+ Adicionar Parada'}
           </button>
-          {addMode ? (
+          <button
+            data-add-caminho=""
+            aria-pressed={addMode === 'caminho'}
+            onClick={() => onSetMode('caminho')}
+            style={{
+              ...pillStyle(addMode === 'caminho'),
+              width: '100%',
+              justifyContent: 'center',
+              padding: '8px 12px',
+              fontSize: 11,
+            }}
+          >
+            {addMode === 'caminho' ? '✓ CAMINHO — TOQUE OS HEXES' : '+ Adicionar Caminho'}
+          </button>
+          {addMode !== 'off' ? (
             <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center' }}>
-              toque hexes pra adicionar (pode repetir) · × remove
+              {addMode === 'parada'
+                ? 'toque um hex e rotule a parada no popover · × remove'
+                : 'toque os hexes da rota em sequência (pode repetir) · × remove'}
             </span>
           ) : null}
         </div>
@@ -735,7 +760,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const hexMapState = useHexMap(regionId)
   const hexMap = hexMapState.cells
 
-  const [addMode, setAddMode] = useState(false)
+  // #85: dois modos de marcação — 'parada' (ponto importante, rotulável) e
+  // 'caminho' (rota: toca vários hexes seguidos, mesmo sem ponto de interesse).
+  const [addMode, setAddMode] = useState<AddMode>('off')
   /** Posição do caminho onde a próxima parada marcada será INSERIDA (#82); null
    *  = anexa no fim. */
   const [insertAt, setInsertAt] = useState<number | null>(null)
@@ -817,21 +844,22 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
-      if (!addMode) setSelectedId(null)
+      if (addMode === 'off') setSelectedId(null)
       return
     }
     const existente = hexAt(state.hexes, cell.col, cell.row)
-    if (addMode) {
-      // #82: SEMPRE adiciona (revisitar o mesmo lugar é permitido — allowDup).
-      // Remover uma parada é pelo × na lista de caminho. Se há posição de
-      // inserção escolhida, insere lá; senão anexa.
+    if (addMode !== 'off') {
+      // #82/#85: SEMPRE adiciona (revisitar é permitido — allowDup). Remover é
+      // pelo × na lista. Com posição de inserção escolhida, insere lá.
       const nova = { col: cell.col, row: cell.row, data: todayISO() }
       const criado =
         insertAt !== null
           ? insertGroupHex(groupId, nova, insertAt, true)
           : addGroupHex(groupId, nova, true)
       setInsertAt(null)
-      setSelectedId(criado.id)
+      // 'parada': seleciona pra abrir o popover e ROTULAR; 'caminho': segue
+      // tocando os hexes da rota sem abrir nada.
+      setSelectedId(addMode === 'parada' ? criado.id : null)
     } else {
       // fora do modo marcar: parada abre o popover; qualquer hex com
       // localização mapeada abre a barra direita (#70).
@@ -909,19 +937,8 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
             ))}
           </select>
         </label>
-        <span style={{ flex: 1 }} />
-        <button
-          aria-pressed={addMode}
-          onClick={() =>
-            setAddMode((a) => {
-              if (a) setInsertAt(null) // desligar marcar cancela a inserção
-              return !a
-            })
-          }
-          style={pillStyle(addMode)}
-        >
-          MARCAR HEX
-        </button>
+        {/* O botão de adicionar parada vive no RODAPÉ da barra de CAMINHO
+            (visível em tela cheia) — não mais aqui no cabeçalho (#82). */}
       </div>
 
       {/* Layout: barra esquerda (caminho) · mapa · barra direita (info).
@@ -945,16 +962,17 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           }}
           insertAt={insertAt}
           onInsertAt={(i) => {
-            // escolhe a posição e liga o modo marcar: o próximo hex tocado no
+            // escolhe a posição e liga o modo PARADA: o próximo hex tocado no
             // mapa entra AÍ (#82).
             setInsertAt((cur) => (cur === i ? null : i))
-            setAddMode(true)
+            setAddMode('parada')
           }}
           addMode={addMode}
-          onToggleAdd={() =>
-            setAddMode((a) => {
-              if (a) setInsertAt(null)
-              return !a
+          onSetMode={(m) =>
+            setAddMode((cur) => {
+              const next = cur === m ? 'off' : m // toca de novo no mesmo botão desliga
+              if (next === 'off') setInsertAt(null)
+              return next
             })
           }
         />
@@ -987,7 +1005,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                 justifyContent: 'center',
                 overflow: 'hidden',
                 touchAction: 'none',
-                cursor: addMode ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
+                cursor: addMode !== 'off' ? 'crosshair' : map.dragging ? 'grabbing' : 'grab',
                 userSelect: 'none',
               }}
             >
@@ -1026,7 +1044,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                     d={gridPath}
                     fill="none"
                     stroke={
-                      addMode
+                      addMode !== 'off'
                         ? 'color-mix(in srgb,var(--accent) 34%,transparent)'
                         : 'color-mix(in srgb,var(--accent) 15%,transparent)'
                     }
@@ -1214,7 +1232,9 @@ function HexInfo({
 }) {
   const catalog = useCatalog()
   const lines = useMemo(() => locaisSelectLines(catalog), [catalog])
-  const nome = hex.localId ? (catalog.entryById.get(hex.localId)?.basename ?? '—') : '—'
+  const nome =
+    (hex.label && hex.label.trim()) ||
+    (hex.localId ? (catalog.entryById.get(hex.localId)?.basename ?? '—') : `Hex ${hex.col},${hex.row}`)
   return (
     <div
       data-hex-info=""
@@ -1266,6 +1286,18 @@ function HexInfo({
         </button>
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+        {/* #85: rótulo livre da parada pro LOG do grupo (o que fizeram ali). */}
+        <label style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '1 1 100%', minWidth: 220 }}>
+          <span style={fieldLabelStyle}>RÓTULO (LOG DO GRUPO)</span>
+          <input
+            data-hex-label=""
+            type="text"
+            placeholder="ex.: acampamos aqui · emboscada · encontramos o mercador"
+            value={hex.label ?? ''}
+            onChange={(e) => updateGroupHex(groupId, hex.id, { label: e.target.value || undefined })}
+            style={inputStyle}
+          />
+        </label>
         <label style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           <span style={fieldLabelStyle}>DATA</span>
           <input

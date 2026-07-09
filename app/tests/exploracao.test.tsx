@@ -438,7 +438,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     await esperaMapa(container)
     const mapa = mockMapaRect(container)
 
-    fireEvent.click(screen.getByText('MARCAR HEX'))
+    fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.click(mapa, { clientX: 100, clientY: 270 })
 
     // célula esperada = pixelToHex da fração clicada (0.25, 0.5)
@@ -476,7 +476,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const { container } = renderGroup()
     await esperaMapa(container)
     const mapa = mockMapaRect(container)
-    fireEvent.click(screen.getByText('MARCAR HEX'))
+    fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.click(mapa, { clientX: 100, clientY: 108 }) // cria 1ª
     expect(getGroupState(GROUP_ID).hexes.length).toBe(1)
     // clicar de novo na MESMA célula ADICIONA outra parada (revisitar o lugar)
@@ -486,6 +486,32 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     // ambas no MESMO hex (mesma col,row) — caminho que passa 2× pelo lugar
     expect(hexes[0].col).toBe(hexes[1].col)
     expect(hexes[0].row).toBe(hexes[1].row)
+  })
+
+  it('#85 dois modos: CAMINHO adiciona vários hexes de rota; PARADA rotula pro log', async () => {
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    // os dois botões existem na barra
+    expect(container.querySelector('[data-add-parada]')).toBeTruthy()
+    expect(container.querySelector('[data-add-caminho]')).toBeTruthy()
+
+    // CAMINHO: toca 3 hexes → 3 pontos de rota, SEM abrir o popover
+    fireEvent.click(container.querySelector('[data-add-caminho]') as HTMLElement)
+    fireEvent.click(mapa, { clientX: 60, clientY: 60 })
+    fireEvent.click(mapa, { clientX: 130, clientY: 150 })
+    fireEvent.click(mapa, { clientX: 200, clientY: 240 })
+    expect(getGroupState(GROUP_ID).hexes.length).toBe(3)
+    expect(container.querySelector('[data-hex-info]')).toBeNull()
+
+    // PARADA: toca 1 hex → abre o popover; rotula → persiste no grupo
+    fireEvent.click(container.querySelector('[data-add-parada]') as HTMLElement)
+    fireEvent.click(mapa, { clientX: 300, clientY: 330 })
+    const info = container.querySelector('[data-hex-info]') as HTMLElement
+    expect(info).toBeTruthy()
+    const labelInput = info.querySelector('[data-hex-label]') as HTMLInputElement
+    fireEvent.change(labelInput, { target: { value: 'acampamos aqui' } })
+    expect(getGroupState(GROUP_ID).hexes.at(-1)?.label).toBe('acampamos aqui')
   })
 
   it('#82 MARCAR HEX vive DENTRO da barra de caminho (acessível em tela cheia)', async () => {
@@ -625,7 +651,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const r = renderGroup()
     await esperaMapa(r.container)
     const mapa = mockMapaRect(r.container)
-    fireEvent.click(screen.getByText('MARCAR HEX'))
+    fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.click(mapa, { clientX: 200, clientY: 135 })
     const cell = fracToHex(0.5, 0.25)
     const salvo = getGroupState(GROUP_ID).hexes[0]
@@ -674,7 +700,7 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(mapa.style.transform).toBe('translate(0px, 0px) scale(1)')
 
     // drag = pan (translate muda) e o clique resultante não marca hex
-    fireEvent.click(screen.getByText('MARCAR HEX'))
+    fireEvent.click(document.querySelector('[data-marcar-hex]') as HTMLElement)
     fireEvent.pointerDown(viewport, { clientX: 100, clientY: 100 })
     fireEvent.pointerMove(viewport, { clientX: 140, clientY: 130 })
     fireEvent.pointerUp(viewport)

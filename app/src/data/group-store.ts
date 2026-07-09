@@ -39,6 +39,10 @@ export interface GroupHex {
   data?: string
   /** Doc de Localização do Atlas associado (id do catálogo), opcional. */
   localId?: string
+  /** Rótulo livre da PARADA pro log do grupo (#85) — ex.: "acampamos aqui".
+   *  Um hex COM label é uma parada (proeminente); sem label nem local é só um
+   *  ponto de CAMINHO (rota). */
+  label?: string
 }
 
 export interface GroupState {
@@ -100,7 +104,8 @@ function isHex(raw: unknown): raw is GroupHex {
     typeof h.row === 'number' &&
     Number.isFinite(h.row) &&
     (h.data === undefined || typeof h.data === 'string') &&
-    (h.localId === undefined || typeof h.localId === 'string')
+    (h.localId === undefined || typeof h.localId === 'string') &&
+    (h.label === undefined || typeof h.label === 'string')
   )
 }
 
@@ -262,9 +267,10 @@ export function updateGroupHex(
   if (idx === -1) return
   const next = cur.hexes.slice()
   const merged = { ...next[idx], ...patch }
-  // localId/data vazios removem o campo (o JSON não guarda undefined).
+  // localId/data/label vazios removem o campo (o JSON não guarda undefined).
   if (!merged.localId) delete merged.localId
   if (!merged.data) delete merged.data
+  if (!merged.label || !merged.label.trim()) delete merged.label
   next[idx] = merged
   commit(groupId, { ...cur, hexes: next })
 }
