@@ -449,9 +449,10 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     expect(hexes[0].data).toBe(todayISO())
     expect(hexes[0].localId).toBeUndefined()
 
-    // polígono do hex desenhado nos vértices da célula (data-hex = id)
-    const poly = container.querySelector(`[data-hex="${hexes[0].id}"]`) as SVGPolygonElement
-    expect(poly.getAttribute('points')).toBe(hexPolygonPoints(cell.col, cell.row))
+    // ponto de caminho (hex nu) desenhado na célula certa (data-col/row)
+    const mark = container.querySelector(`[data-hex="${hexes[0].id}"]`) as SVGElement
+    expect(Number(mark.getAttribute('data-col'))).toBe(cell.col)
+    expect(Number(mark.getAttribute('data-row'))).toBe(cell.row)
 
     // popover abre já no hex criado (único = ATUAL)
     const info = container.querySelector('[data-hex-info]') as HTMLElement
@@ -533,15 +534,15 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const { container } = renderGroup()
     await esperaMapa(container)
 
-    // dois hexes; o ATUAL (última parada = b) com fill forte (46%) e glow accent
+    // dois pontos de CAMINHO (hexes nus = bolinhas); o ATUAL (b) com glow accent
     expect(container.querySelectorAll('[data-hex]').length).toBe(2)
-    const atual = container.querySelector('[data-atual]') as SVGPolygonElement
+    const atual = container.querySelector('[data-atual]') as SVGElement
     expect(atual.getAttribute('data-hex')).toBe(b.id)
-    expect(atual.getAttribute('fill')).toContain('46%')
-    expect((atual.getAttribute('style') ?? '')).toContain('drop-shadow')
-    const outro = container.querySelector(`[data-hex="${a.id}"]`) as SVGPolygonElement
-    expect(outro.getAttribute('fill')).toContain('20%')
+    expect((atual.getAttribute('style') ?? '')).toContain('drop-shadow') // glow do atual
+    const outro = container.querySelector(`[data-hex="${a.id}"]`) as SVGElement
     expect((outro.getAttribute('style') ?? '')).not.toContain('drop-shadow')
+    // o atual é mais forte que o outro (bolinha cheia vs translúcida)
+    expect(atual.getAttribute('fill')).not.toBe(outro.getAttribute('fill'))
 
     // trilha tracejada ligando os CENTROS na ordem do array (a → b)
     const centro = (h: { col: number; row: number }) => {
@@ -667,9 +668,10 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     __resetGroupStoreMemoryForTests()
     const r2 = renderGroup()
     await esperaMapa(r2.container)
-    const poly = r2.container.querySelector('[data-hex]') as SVGPolygonElement
-    expect(poly.getAttribute('data-hex')).toBe(salvo.id)
-    expect(poly.getAttribute('points')).toBe(hexPolygonPoints(cell.col, cell.row))
+    const mark = r2.container.querySelector('[data-hex]') as SVGElement
+    expect(mark.getAttribute('data-hex')).toBe(salvo.id)
+    expect(Number(mark.getAttribute('data-col'))).toBe(cell.col)
+    expect(Number(mark.getAttribute('data-row'))).toBe(cell.row)
   })
 
   it('hover realça a célula livre sob o cursor (data-hex-hover)', async () => {

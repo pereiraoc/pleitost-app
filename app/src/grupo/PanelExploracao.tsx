@@ -1101,13 +1101,38 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
-                  {/* Pontos do caminho: PARADA (forte) x CAMINHO (discreto); o
-                      ATUAL por cima com glow. Só a PARADA leva rótulo (#85). */}
+                  {/* PARADA = marcador hex forte + rótulo; CAMINHO = bolinha
+                      pequena discreta na rota; ATUAL com glow (#85). */}
                   {state.hexes.map((h) => {
                     const isAtual = h.id === atual?.id
                     const isSel = h.id === selectedId
                     const parada = isParada(h)
                     const center = hexCenter(h.col, h.row)
+                    const glow = isAtual
+                      ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
+                      : undefined
+                    // ponto de CAMINHO (rota): bolinha pequena, sem rótulo
+                    if (!parada) {
+                      return (
+                        <circle
+                          key={h.id}
+                          data-hex={h.id}
+                          data-col={h.col}
+                          data-row={h.row}
+                          {...(isAtual ? { 'data-atual': '' } : {})}
+                          {...(isSel ? { 'data-sel': '' } : {})}
+                          cx={center.x}
+                          cy={center.y}
+                          r={isAtual ? 16 : 10}
+                          fill={isAtual ? 'var(--accent)' : 'color-mix(in srgb,var(--accent) 45%,transparent)'}
+                          stroke={isSel ? 'var(--text)' : 'var(--accent)'}
+                          strokeWidth={isAtual || isSel ? 2.5 : 1.5}
+                          vectorEffect="non-scaling-stroke"
+                          style={glow}
+                        />
+                      )
+                    }
+                    // PARADA: hex marcador proeminente + rótulo/nome acima
                     return (
                       <g key={h.id}>
                         <polygon
@@ -1116,37 +1141,29 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                           data-row={h.row}
                           {...(isAtual ? { 'data-atual': '' } : {})}
                           {...(isSel ? { 'data-sel': '' } : {})}
-                          {...(parada ? { 'data-parada-mapa': '' } : {})}
+                          data-parada-mapa=""
                           points={hexPolygonPoints(h.col, h.row)}
-                          fill={hexFill(isAtual, parada)}
+                          fill={hexFill(isAtual, true)}
                           stroke={isSel ? 'var(--text)' : 'var(--accent)'}
-                          strokeWidth={isAtual || isSel || parada ? 2 : 1}
-                          strokeOpacity={isAtual || parada ? 1 : 0.5}
-                          strokeDasharray={parada || isAtual ? undefined : '5 5'}
+                          strokeWidth={isAtual || isSel ? 2.5 : 2}
                           vectorEffect="non-scaling-stroke"
-                          style={
-                            isAtual
-                              ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
-                              : undefined
-                          }
+                          style={glow}
                         />
-                        {parada ? (
-                          <text
-                            data-parada-label={h.id}
-                            x={center.x}
-                            y={center.y - 84}
-                            textAnchor="middle"
-                            dominantBaseline="ideographic"
-                            fill="var(--text)"
-                            fontSize={26}
-                            fontFamily="var(--mono)"
-                            style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
-                            stroke="var(--panel)"
-                            strokeWidth={5}
-                          >
-                            {hexLabel(h, hexMap, catalog)}
-                          </text>
-                        ) : null}
+                        <text
+                          data-parada-label={h.id}
+                          x={center.x}
+                          y={center.y - 84}
+                          textAnchor="middle"
+                          dominantBaseline="ideographic"
+                          fill="var(--text)"
+                          fontSize={26}
+                          fontFamily="var(--mono)"
+                          style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
+                          stroke="var(--panel)"
+                          strokeWidth={5}
+                        >
+                          {hexLabel(h, hexMap, catalog)}
+                        </text>
                       </g>
                     )
                   })}
