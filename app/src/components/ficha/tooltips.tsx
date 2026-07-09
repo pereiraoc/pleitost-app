@@ -272,6 +272,104 @@ export function oficioBreakdown(row: ProfRow, attrs: Record<string, number>): Br
   return { headerEmoji: E.HeaderOficio, title, parts, total }
 }
 
+/** Dados extras de dano por proficiência — VERBATIM do PROF_DICE do plugin
+ *  (modificadores.ts:35): N/A = 0, E = 1, M = 2 dados ADICIONAIS. */
+const PROF_DICE: Record<RankLetter, number> = { N: 0, A: 0, E: 1, M: 2 }
+
+/** Espelho do baseAtaqueBreakdown de renderOneArma (ataques-markdown.ts:
+ *  307-318): header 🥊 + "<Arma> — Ataque", total assinado, 4 linhas SEMPRE
+ *  (Atributo/Proficiência/Item/Especialização, inclusive quando 0). O emoji
+ *  do atributo é ⚖️ (atributoEmoji do plugin); a proficiência é a de ATAQUE
+ *  (mesma pra todas as armas), com PROF_BONUS resolvido pelo caller.
+ *  `armaNome` é o LABEL da arma (sem propriedade/tier). */
+export function ataqueBreakdown(
+  armaNome: string,
+  attr: string,
+  prof: RankLetter,
+  item: number,
+  especial: number,
+  attrValue: number,
+): BreakdownResult {
+  const total = attrValue + PROF_BONUS[prof] + item + especial
+  const parts: BreakdownPart[] = []
+  pushPart(parts, E.Atributo, attr || 'Atributo', attrValue, true)
+  pushPart(parts, E.Proficiencia, PROF_LABEL[prof], PROF_BONUS[prof], true)
+  pushPart(parts, E.Item, 'Item', item, true)
+  pushPart(parts, E.Especializacao, 'Especialização', especial, true)
+  return {
+    headerEmoji: tokens.emojis.combate.Ataque,
+    title: `${armaNome} — Ataque`,
+    total,
+    parts,
+    headerSigned: true,
+  }
+}
+
+/** Espelho de buildDanoArmaBreakdown (modificadores.ts:458-487): header SEM
+ *  emoji + SEM total ("<Arma> — Dano"), body em modo texto. Linha "● Base
+ *  (NdX+Y)" com a notação de dados CRUA no `extra` (value 0), e — quando a
+ *  proficiência ADICIONA dados (E/M) — "🎓 <Rank> (+Nd<die>)". Especialização
+ *  NÃO entra (não é componente do dano da arma). Dano sem dado → "Sem dano".
+ *  `danoRaw` é o inline `dano::` da arma ("d4+2", "2d6", "3"). */
+export function danoArmaBreakdown(
+  armaNome: string,
+  danoRaw: string | undefined,
+  prof: RankLetter,
+): BreakdownResult {
+  const parts: BreakdownPart[] = []
+  const m = String(danoRaw ?? '')
+    .trim()
+    .replace(/\s+/g, '')
+    .match(/^(\d+)?d(\d+)([+-]\d+)?$/i)
+  if (m) {
+    const baseDice = m[1] ? parseInt(m[1], 10) : 1
+    const dieSize = parseInt(m[2], 10)
+    const offset = m[3] ?? ''
+    const profDice = PROF_DICE[prof]
+    parts.push({ emoji: E.Base, label: 'Base', value: 0, extra: `${baseDice}d${dieSize}${offset}` })
+    if (profDice > 0) {
+      parts.push({
+        emoji: E.Proficiencia,
+        label: PROF_LABEL[prof],
+        value: 0,
+        extra: `+${profDice}d${dieSize}`,
+      })
+    }
+  } else {
+    parts.push({ emoji: E.Base, label: 'Dano', value: 0, extra: 'Sem dano' })
+  }
+  return {
+    headerEmoji: '',
+    title: `${armaNome} — Dano`,
+    total: 0,
+    headerSigned: false,
+    hideTotal: true,
+    parts,
+  }
+}
+
+/** Breakdown a partir de entries JÁ aplicadas (condições/itens/AdO) — uma
+ *  linha "Fonte ±N" por entry, como o entriesTitle nativo, mas no overlay
+ *  tap-able. `base` (opcional) vira a 1ª linha "● Base (…)"; `headerEmoji`
+ *  opcional no cabeçalho. Usado pra surfaceár os BÔNUS de dano/AdO no toque. */
+export function entriesBreakdown(
+  title: string,
+  entries: readonly { label: string; value: number }[],
+  opts?: { headerEmoji?: string; base?: string },
+): BreakdownResult {
+  const parts: BreakdownPart[] = []
+  if (opts?.base) parts.push({ emoji: E.Base, label: 'Base', value: 0, extra: opts.base })
+  for (const e of entries) pushPart(parts, '', e.label, e.value, true)
+  return {
+    headerEmoji: opts?.headerEmoji ?? '',
+    title,
+    total: entries.reduce((s, e) => s + e.value, 0),
+    parts,
+    headerSigned: true,
+    hideTotal: !opts?.base && entries.length === 0,
+  }
+}
+
 // ─────────────────────── fonte (espelho de render/shared/source-tooltip.ts) ───────────────────────
 
 interface ParsedSource {
@@ -432,9 +530,17 @@ interface TipCtl {
   show: (html: string) => (e: ReactMouseEvent) => void
   move: (e: ReactMouseEvent) => void
   hide: () => void
+  toggle: (html: string) => (e: ReactMouseEvent) => void
 }
 
 const TipCtx = createContext<TipCtl | null>(null)
+
+/** Dispositivo com hover real (mouse) — no toque (celular) o hover não dispara,
+ *  então o tooltip abre por TAP. */
+const CAN_HOVER =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(hover: hover)').matches
 
 // Estilos estruturais do popup — porta das regras .dv-breakdown-tip do
 // plugin (styles.css:7936-7986), com as vars do Obsidian trocadas pelas
@@ -510,7 +616,18 @@ export function TipProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const onScroll = () => setTip((cur) => (cur ? null : cur))
     window.addEventListener('scroll', onScroll, true)
-    return () => window.removeEventListener('scroll', onScroll, true)
+    // No TOQUE, tocar FORA de um alvo com breakdown fecha o tooltip aberto
+    // (capture: roda antes do onClick do alvo, que é ignorado se for o alvo).
+    const onDown = (e: Event) => {
+      const t = e.target as Element | null
+      if (t && typeof t.closest === 'function' && t.closest('.has-breakdown')) return
+      setTip((cur) => (cur ? null : cur))
+    }
+    document.addEventListener('pointerdown', onDown, true)
+    return () => {
+      window.removeEventListener('scroll', onScroll, true)
+      document.removeEventListener('pointerdown', onDown, true)
+    }
   }, [])
 
   const show = useCallback(
@@ -522,7 +639,13 @@ export function TipProvider({ children }: { children: ReactNode }) {
     [],
   )
   const hide = useCallback(() => setTip((cur) => (cur ? null : cur)), [])
-  const ctl = useMemo<TipCtl>(() => ({ show, move, hide }), [show, move, hide])
+  // Tap (toque): abre/fecha o tooltip no ponto tocado.
+  const toggle = useCallback(
+    (html: string) => (e: ReactMouseEvent) =>
+      setTip((cur) => (cur && cur.html === html ? null : { html, x: e.clientX, y: e.clientY })),
+    [],
+  )
+  const ctl = useMemo<TipCtl>(() => ({ show, move, hide, toggle }), [show, move, hide, toggle])
 
   const built = buildTip(tip)
   return (
@@ -553,8 +676,10 @@ export function TipHover({
     <span
       data-breakdown-html={html}
       className="dv-breakdown-hover has-breakdown"
-      style={{ display: 'inline-flex', ...style }}
+      style={{ display: 'inline-flex', cursor: CAN_HOVER ? 'help' : 'pointer', ...style }}
       tabIndex={-1}
+      // No toque (sem hover), TAP abre/fecha; no desktop o hover cuida.
+      onClick={ctl && !CAN_HOVER ? ctl.toggle(html) : undefined}
       onMouseEnter={ctl ? ctl.show(html) : undefined}
       onMouseMove={ctl ? ctl.move : undefined}
       onMouseLeave={ctl ? ctl.hide : undefined}

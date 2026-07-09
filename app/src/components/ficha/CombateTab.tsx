@@ -25,7 +25,19 @@ import { propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots } from './bits'
+import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots, GoldDots } from './bits'
+import {
+  TipProvider,
+  TipHover,
+  renderBreakdownHtml,
+  resistenciaBreakdown,
+  sentidoBreakdown,
+  periciaBreakdown,
+  ataqueBreakdown,
+  danoArmaBreakdown,
+  entriesBreakdown,
+} from './tooltips'
+import { StarChip } from './HabilidadesTab'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
 import {
@@ -71,6 +83,7 @@ import {
 import {
   applyTarget,
   entriesTitle,
+  stripSharedFrom,
   toneColor,
   valueTone,
   type AppliedDelta,
@@ -687,8 +700,10 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: 12,
+                justifyContent: 'center',
+                gap: 8,
                 padding: '14px 16px',
                 background: 'var(--panel)',
                 border: '1px solid var(--line)',
@@ -696,19 +711,28 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               }}
             >
               <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
-              <div style={{ lineHeight: 1.1 }}>
+              <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
                   {displayName(slugify(str(d.Nome))).toUpperCase()}
                 </div>
-                <div
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 700,
-                    color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
-                  }}
+                <TipHover
+                  html={renderBreakdownHtml(resistenciaBreakdown(d, attrs))}
+                  style={{ justifyContent: 'center' }}
                 >
-                  {10 + rowMod(d, attrs) + applied.delta}
-                </div>
+                  <div
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 700,
+                      color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
+                    }}
+                  >
+                    {10 + rowMod(d, attrs) + applied.delta}
+                  </div>
+                </TipHover>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <GoldDots on={num(d.Bonus_Item)} compact />
+                {num(d.Bonus_Especial) > 0 ? <StarChip n={num(d.Bonus_Especial)} compact /> : null}
               </div>
             </div>
           )
@@ -746,8 +770,10 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: 10,
+                justifyContent: 'center',
+                gap: 6,
                 padding: '10px 14px',
                 background: 'var(--panel)',
                 border: '1px solid var(--line)',
@@ -755,19 +781,28 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               }}
             >
               <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
-              <div style={{ lineHeight: 1.1 }}>
+              <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
                   {displayName(slugify(str(s.Nome))).toUpperCase()}
                 </div>
-                <div
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 700,
-                    color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
-                  }}
+                <TipHover
+                  html={renderBreakdownHtml(sentidoBreakdown(s, attrs))}
+                  style={{ justifyContent: 'center' }}
                 >
-                  {signed(rowMod(s, attrs) + applied.delta)}
-                </div>
+                  <div
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
+                    }}
+                  >
+                    {signed(rowMod(s, attrs) + applied.delta)}
+                  </div>
+                </TipHover>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <GoldDots on={num(s.Bonus_Item)} compact />
+                {num(s.Bonus_Especial) > 0 ? <StarChip n={num(s.Bonus_Especial)} compact /> : null}
               </div>
             </div>
           )
@@ -1301,61 +1336,99 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
             {dano ? (
-              <span
-                title={danoRes?.entries.length ? entriesTitle(danoRes.entries) : undefined}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  padding: '5px 12px',
-                  background: 'var(--card)',
-                  border: '1px solid var(--line2)',
-                  clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
-                  fontFamily: 'var(--mono)',
-                  fontSize: 13,
-                  color: danoRes?.hasDelta
-                    ? toneColor(danoRes.hasPenalty ? 'penalty' : 'bonus')
-                    : 'var(--accent)',
-                }}
+              <TipHover
+                html={
+                  renderBreakdownHtml(
+                    danoArmaBreakdown(nome, danoRaw, profLetter({ Proficiencia: profAtaque })),
+                  ) +
+                  // + bônus/condições APLICADOS ao dano (o que estava só no title
+                  // nativo, agora tap-able no celular).
+                  (danoRes?.entries.length
+                    ? renderBreakdownHtml(
+                        entriesBreakdown(
+                          `${nome} — Modificadores de dano`,
+                          danoRes.entries.map((e) => ({ label: stripSharedFrom(e.label), value: e.value })),
+                        ),
+                      )
+                    : '')
+                }
               >
-                ⚔️ {dano}
-              </span>
+                <span
+                  title={danoRes?.entries.length ? entriesTitle(danoRes.entries) : undefined}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '5px 12px',
+                    background: 'var(--card)',
+                    border: '1px solid var(--line2)',
+                    clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                    fontFamily: 'var(--mono)',
+                    fontSize: 13,
+                    color: danoRes?.hasDelta
+                      ? toneColor(danoRes.hasPenalty ? 'penalty' : 'bonus')
+                      : 'var(--accent)',
+                  }}
+                >
+                  ⚔️ {dano}
+                </span>
+              </TipHover>
             ) : null}
             {adoRes !== null ? (
-              <span
-                title="Ataque de Oportunidade"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '5px 11px',
-                  background: 'var(--card)',
-                  border: '1px solid var(--line2)',
-                  clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
-                  fontFamily: 'var(--mono)',
-                  fontSize: 12,
-                  color: adoRes.hasDelta
-                    ? toneColor(adoRes.hasPenalty ? 'penalty' : 'bonus')
-                    : 'var(--muted)',
-                }}
+              <TipHover
+                html={renderBreakdownHtml(
+                  // AdO: o display já reflete os canais/condições (computeDanoAdO);
+                  // o tooltip nomeia o valor. Sem entries expostas pra listar.
+                  entriesBreakdown('Ataque de Oportunidade', [], { base: adoRes.display }),
+                )}
               >
-                {tipoIco ? `${tipoIco} ` : ''}AdO {adoRes.display}
-              </span>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    padding: '5px 11px',
+                    background: 'var(--card)',
+                    border: '1px solid var(--line2)',
+                    clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                    fontFamily: 'var(--mono)',
+                    fontSize: 12,
+                    color: adoRes.hasDelta
+                      ? toneColor(adoRes.hasPenalty ? 'penalty' : 'bonus')
+                      : 'var(--muted)',
+                  }}
+                >
+                  {tipoIco ? `${tipoIco} ` : ''}AdO {adoRes.display}
+                </span>
+              </TipHover>
             ) : null}
             <span style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.06em', color: 'var(--muted)' }}>
               {tipo}
             </span>
             <span style={{ flex: 1 }} />
-            <span
-              title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: 11,
-                color: toneColor(valueTone(modApplied.entries)) ?? 'var(--muted)',
-              }}
+            <TipHover
+              html={renderBreakdownHtml(
+                ataqueBreakdown(
+                  nome,
+                  str(arma['Atributo']),
+                  profLetter({ Proficiencia: profAtaque }),
+                  num(arma['Bonus_Item']),
+                  num(arma['Bonus_Especial']),
+                  attrs[str(arma['Atributo'])] ?? 0,
+                ),
+              )}
             >
-              {signed(mod)}
-            </span>
+              <span
+                title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 11,
+                  color: toneColor(valueTone(modApplied.entries)) ?? 'var(--muted)',
+                }}
+              >
+                {signed(mod)}
+              </span>
+            </TipHover>
             {usosMaxN ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
                 <span
@@ -1510,14 +1583,16 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                 {displayName(slugify(str(row.Nome)))}
               </span>
               <span title={applied.entries.length ? entriesTitle(applied.entries) : undefined}>
-                <ModBox
-                  modStr={signed(mod)}
-                  rank={profLetter(row)}
-                  star={num(row.Bonus_Especial) > 0}
-                  dots={num(row.Bonus_Item)}
-                  width={40}
-                  modColor={toneColor(valueTone(applied.entries))}
-                />
+                <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
+                  <ModBox
+                    modStr={signed(mod)}
+                    rank={profLetter(row)}
+                    star={num(row.Bonus_Especial) > 0}
+                    dots={num(row.Bonus_Item)}
+                    width={40}
+                    modColor={toneColor(valueTone(applied.entries))}
+                  />
+                </TipHover>
               </span>
             </div>
             {acts.length ? (
@@ -2314,38 +2389,43 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   if (!inter.loaded) return null
 
   return (
-    <div
-      style={{
-        maxWidth: 1180,
-        margin: '0 auto',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-      }}
-    >
-      <EscudoRow doc={doc} refs={refs} />
-      <VidaBar doc={doc} />
-      <DefesasRow doc={doc} inter={inter} />
-      <div>
-        <div style={{ marginBottom: 16 }}>
-          <TabStrip tabs={COMB_TABS} active={tab} onSelect={setTab} pad="11px 18px" />
+    // TipProvider: overlay singleton dos tooltips de breakdown desta aba
+    // (defesas/sentidos/perícias/ataques/danos — #21/#22/#25), mesmo padrão
+    // da HabilidadesTab. 1 provider por render de aba.
+    <TipProvider>
+      <div
+        style={{
+          maxWidth: 1180,
+          margin: '0 auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 16,
+        }}
+      >
+        <EscudoRow doc={doc} refs={refs} />
+        <VidaBar doc={doc} />
+        <DefesasRow doc={doc} inter={inter} />
+        <div>
+          <div style={{ marginBottom: 16 }}>
+            <TabStrip tabs={COMB_TABS} active={tab} onSelect={setTab} pad="11px 18px" />
+          </div>
+          <PanelTrack index={index}>
+            <TrackPanel>
+              <AtaquesPanel doc={doc} refs={refs} inter={inter} />
+            </TrackPanel>
+            <TrackPanel>
+              <PericiasPanel doc={doc} inter={inter} />
+            </TrackPanel>
+            <TrackPanel>
+              <TesourosPanel doc={doc} refs={refs} />
+            </TrackPanel>
+            <TrackPanel>
+              <MagiasPanel doc={doc} refs={refs} inter={inter} />
+            </TrackPanel>
+          </PanelTrack>
         </div>
-        <PanelTrack index={index}>
-          <TrackPanel>
-            <AtaquesPanel doc={doc} refs={refs} inter={inter} />
-          </TrackPanel>
-          <TrackPanel>
-            <PericiasPanel doc={doc} inter={inter} />
-          </TrackPanel>
-          <TrackPanel>
-            <TesourosPanel doc={doc} refs={refs} />
-          </TrackPanel>
-          <TrackPanel>
-            <MagiasPanel doc={doc} refs={refs} inter={inter} />
-          </TrackPanel>
-        </PanelTrack>
       </div>
-    </div>
+    </TipProvider>
   )
 }

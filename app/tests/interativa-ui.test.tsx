@@ -96,7 +96,13 @@ function renderCombate() {
 /** Valor exibido no box de defesa/sentido pelo rótulo (DEFESA, VIGOR…). */
 function boxValue(label: string): HTMLElement {
   const lab = screen.getByText(label)
-  return lab.nextElementSibling as HTMLElement
+  // Item 4 embrulhou o VALOR num TipHover (<span> com o breakdown) entre o
+  // label e o número; desce até o <div> que carrega texto+cor do valor.
+  let el = lab.nextElementSibling as HTMLElement
+  while (el && el.children.length === 1 && !el.style.color && el.firstElementChild) {
+    el = el.firstElementChild as HTMLElement
+  }
+  return el
 }
 
 // Bases recomputadas do FM salvo do Carlos (mod = attr + PB + item + especial;
@@ -155,8 +161,13 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     // mod do ataque antes: base 10 (AGI2+M6+item2) + 1 (Auto-Confiança) = +11
     const nomeRow = await screen.findByText(/^Punhal( |$)/)
     const row = nomeRow.parentElement as HTMLElement
+    // Item 4 embrulhou o mod do ataque num TipHover (<span> externo) — o
+    // wrapper e o valor têm o MESMO textContent; pega o mais interno (sem
+    // filhos), que carrega a cor do buff/debuff.
     const modSpan = () =>
-      [...row.querySelectorAll<HTMLElement>('span')].find((s) => /^[+-]\d+$/.test(s.textContent ?? ''))!
+      [...row.querySelectorAll<HTMLElement>('span')]
+        .filter((s) => /^[+-]\d+$/.test(s.textContent ?? '') && s.children.length === 0)
+        .pop()!
     expect(modSpan().textContent).toBe('+11')
     fireEvent.click(chipVc)
     // +2 do catálogo (Somar Condicao.Ataque 2) → +13 verde

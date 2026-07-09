@@ -144,18 +144,18 @@ function docRankGroup(doc: VaultDoc | undefined): string {
   return rankGroupLabel(inline || str(doc.subtype ?? ''))
 }
 
-function StarChip({ n }: { n: number }) {
+export function StarChip({ n, compact = false }: { n: number; compact?: boolean }) {
   return (
     <span
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 3,
-        padding: '4px 11px',
+        gap: compact ? 2 : 3,
+        padding: compact ? '1px 6px' : '4px 11px',
         background: 'var(--card)',
         border: '1px solid var(--line2)',
         fontFamily: 'var(--mono)',
-        fontSize: 11,
+        fontSize: compact ? 9 : 11,
         fontWeight: 700,
         color: 'var(--muted)',
       }}
@@ -1468,14 +1468,45 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
 
 /* ===================== sub-aba HABILIDADES ===================== */
 
+/** Escolha (`Escolha_Habilidades`) pedida POR uma habilidade — projeção
+ *  `rules.habilidadeChoices` (espelho do ChoiceDescriptor do plugin). Só o
+ *  necessário pra renderizar o dropdown indentado. */
+interface HabChoice {
+  choiceKey: string
+  label: string
+  /** Opções em wikilink (`[[X]]`) ou display (prop-map/perícia-especial). */
+  options: string[]
+  /** Pick atual (wikilink ou display); null = nenhum. */
+  pick: string | null
+  kind: 'complementar-sel' | 'escolha-prop-map' | 'escolha-pericia-especial'
+  /** targetRaw (`Complementar Tecnicas.Lista …`) — qual lista o pick alimenta. */
+  targetRaw?: string
+}
+
 interface TreeItem {
   txt: string
   ic: string
   child: boolean
+  /** Basename-alvo do wikilink — casa com `sourceNote` das choices (plugin
+   *  habilidades-card.ts:376-380: match por TARGET, não label). */
+  target: string
+  /** Escolhas indentadas sob esta habilidade (Item 1). */
+  choices: HabChoice[]
 }
 
-/** Árvore por rank: pais na ordem do modelo, filhos (fonte → pai na lista) logo abaixo. */
-function habTree(entries: ListaEntry[], refDoc: HeroRefs['refDoc']): Map<string, TreeItem[]> {
+/** Árvore por rank: pais na ordem do modelo, filhos (fonte → pai na lista) logo
+ *  abaixo. `loaded=false` (refs ainda carregando) devolve árvore VAZIA — sem os
+ *  docs alvos não dá pra saber o rank, e classificar tudo como 'Adepta' jogaria
+ *  Experientes/Mestres na coluna errada (bug do Trovador). Espelho do
+ *  bucketize-por-rank do plugin (habilidades-card.ts:119-139), onde o rank vem
+ *  do `rank::` inline do body da nota alvo — indisponível até o doc resolver. */
+function habTree(
+  entries: ListaEntry[],
+  refDoc: HeroRefs['refDoc'],
+  loaded: boolean,
+  choicesByTarget: Map<string, HabChoice[]>,
+): Map<string, TreeItem[]> {
+  if (!loaded) return new Map()
   const targets = new Set(entries.map((e) => e.target))
   const byParent = new Map<string, ListaEntry[]>()
   const roots: ListaEntry[] = []
@@ -1498,11 +1529,21 @@ function habTree(entries: ListaEntry[], refDoc: HeroRefs['refDoc']): Map<string,
     const d = refDoc(target)
     return (tokens.emojis.categoria as Record<string, string>)[slugify(str(d?.type ?? ''))] ?? ''
   }
+  const itemOf = (e: ListaEntry, child: boolean): TreeItem => ({
+    txt: e.label,
+    ic: icOf(e.target),
+    child,
+    target: e.target,
+    choices: choicesByTarget.get(e.target) ?? [],
+  })
   for (const root of roots) {
+    // Rank do doc alvo (inline `rank::`); default SEM rank explícito → 'Adepta',
+    // como o plugin (habilidades-card.ts:123). Só chega aqui com `loaded`, então
+    // o doc do root já resolveu e o Experiente/Mestre é confiável.
     const group = docRankGroup(refDoc(root.target)) || RANK_GROUP_ORDER[1]
-    push(group, { txt: root.label, ic: icOf(root.target), child: false })
+    push(group, itemOf(root, false))
     for (const child of byParent.get(root.target) ?? []) {
-      push(group, { txt: child.label, ic: icOf(child.target), child: true })
+      push(group, itemOf(child, true))
     }
   }
   return groups
@@ -1513,8 +1554,56 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
   const entries = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
-  const groups = habTree(entries, refs.refDoc)
+
+  // Escolhas de habilidade (não-subclasse) por basename do sourceNote — casa
+  // com a habilidade-pai na árvore (plugin habilidades-card.ts:377-380).
+  const choicesByTarget = useMemo(() => {
+    const map = new Map<string, HabChoice[]>()
+    for (const c of rules?.habilidadeChoices ?? []) {
+      const base = c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? ''
+      if (!base) continue
+      const list = map.get(base) ?? []
+      list.push({
+        choiceKey: c.choiceKey,
+        label: c.label,
+        options: c.options,
+        pick: c.pick,
+        kind: c.kind,
+        targetRaw: c.targetRaw,
+      })
+      map.set(base, list)
+    }
+    return map
+  }, [rules])
+
+  const groups = habTree(entries, refs.refDoc, refs.loaded, choicesByTarget)
   const ordered = RANK_GROUP_ORDER.filter((g) => groups.has(g))
+
+  // Persiste o pick de uma `Escolha_Habilidades` (não-subclasse) como ESTADO no
+  // FM salvo: regrava a linha `Escolha.[[<parent>]]` na LISTA-ALVO da choice
+  // (Tecnicas/Magias/Acoes/Habilidades conforme targetRaw). O merge de regra
+  // reaplica por cima e `resolveChoice/inferByOriginTag` re-infere o pick da
+  // tag — mesmo mecanismo do subclassChoices (setSubclassPick acima) e da
+  // persistência-como-estado do app (extract.ts:12). O plugin grava um
+  // transient (`__choice__<key>`); aqui a fonte de verdade é o próprio FM.
+  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) => {
+    if (!newWl) return
+    const target = choiceTargetList(choice.targetRaw)
+    const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
+    const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
+    const newKey = `[[${wikiTarget(newWl)}]]`
+    // Remove a linha antiga desta MESMA escolha (mesma tag) e injeta a nova —
+    // o pick é 1-para-1 com a tag `Escolha.[[parent]]`.
+    const kept = savedList.filter((row) => {
+      const entriesRow = Object.entries(row)
+      if (entriesRow.length !== 1) return true
+      const src = entriesRow[0][1]
+      return !(typeof src === 'string' && tagRx.test(src))
+    })
+    kept.push({ [newKey]: `Escolha.[[${parentTarget}]]` })
+    model.set(target.fmKey, kept)
+  }
 
   return (
     <div style={panel}>
@@ -1527,19 +1616,56 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {groups.get(g)!.map((it, i) => (
-                <div
-                  key={`${it.txt}-${i}`}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 7,
-                    paddingLeft: it.child ? 26 : 0,
-                  }}
-                >
-                  <Losango />
-                  {it.ic ? <span style={{ fontSize: 13, flex: 'none' }}>{it.ic}</span> : null}
-                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
-                  <Lupa />
+                <div key={`${it.txt}-${i}`} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 7,
+                      paddingLeft: it.child ? 26 : 0,
+                    }}
+                  >
+                    <Losango />
+                    {it.ic ? <span style={{ fontSize: 13, flex: 'none' }}>{it.ic}</span> : null}
+                    <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
+                    <Lupa />
+                  </div>
+                  {/* Escolhas pedidas POR esta habilidade, indentadas como
+                      children — mesmo SelectBox da subclasse (plugin
+                      habilidades-card.ts renderChoiceLi:389-447). */}
+                  {it.choices.map((c) => (
+                    <div
+                      key={c.choiceKey}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 4,
+                        paddingLeft: (it.child ? 26 : 0) + 26,
+                      }}
+                    >
+                      {/* Label vem da rule (`Escolha_Habilidades "Label"`); sem
+                          label a rule não deu um — não inventar (plugin
+                          choiceLabel:485-487). */}
+                      {c.label ? (
+                        <span
+                          style={{
+                            fontFamily: 'var(--mono)',
+                            fontSize: 9.5,
+                            letterSpacing: '.1em',
+                            color: 'var(--muted)',
+                          }}
+                        >
+                          {c.label}
+                        </span>
+                      ) : null}
+                      <SelectBox
+                        ariaLabel={c.label || `Escolha de ${it.txt}`}
+                        value={choicePickValue(c)}
+                        options={choiceOptions(c)}
+                        onChange={(v) => onChoiceChange(it.target, c, v)}
+                      />
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
@@ -1548,6 +1674,40 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
       </div>
     </div>
   )
+}
+
+/** Lista-alvo de uma `Escolha_Habilidades` a partir do `targetRaw` da rule
+ *  (`Complementar Tecnicas.Lista …`) — espelho de pickListForComplementarSel
+ *  do plugin (resolve-choices.ts:382-419), mas devolvendo o PATH do FM onde o
+ *  pick vira estado. Default (sem targetRaw reconhecível): Habilidades. */
+function choiceTargetList(targetRaw: string | undefined): { path: string[]; fmKey: string } {
+  const t = (targetRaw ?? '').toLowerCase()
+  if (t.startsWith('tecnicas') || t.startsWith('técnicas'))
+    return { path: ['Tecnicas', 'Lista'], fmKey: 'Tecnicas.Lista' }
+  if (t.startsWith('acoes') || t.startsWith('ações'))
+    return { path: ['Acoes', 'Lista'], fmKey: 'Acoes.Lista' }
+  if (t.startsWith('habilidades'))
+    return { path: ['Habilidades', 'Lista'], fmKey: 'Habilidades.Lista' }
+  // Magias vivem em Magias.Lista[].Lista (por escola) — não há um único path
+  // plano; o pick por escola não é editável aqui (só complementar-sel de
+  // Tecnicas/Acoes/Habilidades tem home plana). Cai em Habilidades como no
+  // fallback do plugin (que também não escreve magia via este widget).
+  return { path: ['Habilidades', 'Lista'], fmKey: 'Habilidades.Lista' }
+}
+
+/** Valor atual do dropdown de uma choice, no MESMO formato das options
+ *  (wikilink pra complementar-sel; display cru pros demais kinds). */
+function choicePickValue(c: HabChoice): string {
+  if (!c.pick) return ''
+  return c.kind === 'complementar-sel' ? c.pick : `[[${c.pick}]]`
+}
+
+/** Options do SelectBox: complementar-sel já vem em wikilink; prop-map e
+ *  perícia-especial vêm em display, envolvidos em `[[]]` (plugin
+ *  habilidades-card.ts:428). */
+function choiceOptions(c: HabChoice): SelectOption[] {
+  const wl = c.kind === 'complementar-sel' ? c.options : c.options.map((o) => `[[${o}]]`)
+  return wl.map((o) => ({ value: o, label: linkLabel(o) }))
 }
 
 function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {

@@ -373,19 +373,22 @@ export function GoldDots({
   on,
   max = 3,
   tipSources,
+  compact = false,
 }: {
   on: number
   max?: number
   tipSources?: string[]
+  compact?: boolean
 }) {
+  const d = compact ? 7 : 11
   return (
-    <TipHover html={sourceTipHtml(tipSources)} style={{ gap: 5 }}>
+    <TipHover html={sourceTipHtml(tipSources)} style={{ gap: compact ? 3 : 5 }}>
       {Array.from({ length: max }, (_, i) => (
         <span
           key={i}
           style={{
-            width: 11,
-            height: 11,
+            width: d,
+            height: d,
             borderRadius: '50%',
             background: i < on ? 'var(--gold)' : 'transparent',
             border: `1px solid ${i < on ? 'var(--gold)' : 'color-mix(in srgb,var(--muted) 60%,transparent)'}`,

@@ -1015,6 +1015,12 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
   const rules = useHeroRules(fm)
+  // Metas com ALIAS (Classe/Sintonia/Raça/Tamanho) vivem MATERIALIZADAS no FM
+  // DERIVADO (rule-applier + merge-calculated compõem o `[[Base|Display]]`); o
+  // display do Perfil lê o MODELO PROJETADO pra que o alias apareça na hora, sem
+  // depender de salvar — espelho do modo Editável do plugin. Fallback pro FM cru
+  // enquanto a projeção resolve.
+  const dfm = rules?.derivedFm ?? fm
   // NOME editável (#7): FM `nome` (overlay), senão basename — regra do plugin.
   const nome = str(fm['nome']) || heroNome(doc)
   const setNome = (v: string) => model.set('nome', v)
@@ -1024,14 +1030,14 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const setApelido = (v: string) => model.set('Biografia.Apelido', v)
   const nivel = num(fm['Nível'])
   const ci = classeAventureiro(nivel)
-  const classe = linkLabel(str(fm['Classe']))
-  const sintonia = shortSintonia(fm['Sintonia'])
-  const sintoniaIc = sintoniaEmojiFromValue(str(fm['Sintonia']))
+  const classe = linkLabel(str(dfm['Classe']))
+  const sintonia = shortSintonia(dfm['Sintonia'])
+  const sintoniaIc = sintoniaEmojiFromValue(str(dfm['Sintonia']))
   // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
   // match por target do wikilink, como o linkedDropdown do plugin).
   const sintoniaFmValue =
-    rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Sintonia'])))?.value ??
-    str(fm['Sintonia'])
+    rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(dfm['Sintonia'])))?.value ??
+    str(dfm['Sintonia'])
   const portrait = creatureImageUrl(doc, assets)
   // portW do renderVals (2133): 200 abaixo de 560, senão 262.
   const portW = vw < 560 ? 200 : 262

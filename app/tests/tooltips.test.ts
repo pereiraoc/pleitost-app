@@ -20,6 +20,8 @@ import type { IndexManifest, VaultDoc } from '../src/data/types'
 import { projectHeroRules } from '../src/rules/useHeroRules'
 import type { HeroProjection } from '../src/rules/projection'
 import {
+  ataqueBreakdown,
+  danoArmaBreakdown,
   enrichRuleTooltips,
   movimentoBreakdown,
   oficioBreakdown,
@@ -171,6 +173,77 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
         ),
       ),
     ).toBe(byTitle(ofiTips, 'Atuacao (PRE)'))
+  })
+
+  it('ataque (Punhal — Ataque): header 🥊 assinado + 4 linhas SEMPRE (Esp 0 inclusa)', () => {
+    const atkTips = goldenTips('interativa__panel-mid-ataques.html')
+    // Golden do Punhal: AGI +2, Experiente +4, Item +2, Especialização 0.
+    // O golden aplica a condição Auto-Confiança (+1) POR CIMA (header +9 +
+    // linha pos extra); a BASE que buildo é a porção antes da condição.
+    const golden = byTitle(atkTips, 'Punhal — Ataque')
+    // 1) as 4 linhas de base são byte-exact (mesmo emoji/label/sinal do plugin)
+    expect(golden).toContain(
+      '<div class="dv-breakdown-line">⚖️ AGI (+2)</div>' +
+        '<div class="dv-breakdown-line">🎓 Experiente (+4)</div>' +
+        '<div class="dv-breakdown-line">💍 Item (+2)</div>' +
+        '<div class="dv-breakdown-line">⭐ Especialização (0)</div>',
+    )
+    // 2) o breakdown de base (sem condição) — header 🥊, total assinado da base
+    expect(
+      renderBreakdownHtml(ataqueBreakdown('Punhal', 'AGI', 'E', 2, 0, 2)),
+    ).toBe(
+      '<div class="dv-tooltip-head-row"><span class="dv-tooltip-emoji">🥊</span>' +
+        '<span class="dv-tooltip-head-title"><strong>Punhal — Ataque</strong> ' +
+        '<span class="dv-tooltip-mod">+8</span></span></div>' +
+        '<div class="dv-tooltip-head-rule"></div>' +
+        '<div class="dv-breakdown-line">⚖️ AGI (+2)</div>' +
+        '<div class="dv-breakdown-line">🎓 Experiente (+4)</div>' +
+        '<div class="dv-breakdown-line">💍 Item (+2)</div>' +
+        '<div class="dv-breakdown-line">⭐ Especialização (0)</div>',
+    )
+  })
+
+  it('dano (Punhal — Dano): header sem emoji/total, Base (1d4+2) + dado extra de prof', () => {
+    const atkTips = goldenTips('interativa__panel-mid-ataques.html')
+    const golden = byTitle(atkTips, 'Punhal — Dano')
+    // Base "1d4+2" (dano::) + Experiente adiciona +1d4 (PROF_DICE[E]=1)
+    expect(golden).toContain(
+      '<div class="dv-breakdown-line">● Base (1d4+2)</div>' +
+        '<div class="dv-breakdown-line">🎓 Experiente (+1d4)</div>',
+    )
+    // header sem emoji + sem total (hideTotal): "Punhal — Dano"
+    expect(renderBreakdownHtml(danoArmaBreakdown('Punhal', 'd4+2', 'E'))).toBe(
+      '<div class="dv-tooltip-head-row">' +
+        '<span class="dv-tooltip-head-title"><strong>Punhal — Dano</strong></span></div>' +
+        '<div class="dv-tooltip-head-rule"></div>' +
+        '<div class="dv-breakdown-line">● Base (1d4+2)</div>' +
+        '<div class="dv-breakdown-line">🎓 Experiente (+1d4)</div>',
+    )
+  })
+
+  it('dano: Mestre soma +2 dados; Adepto sem extra; sem dado → "Sem dano"', () => {
+    // Mestre com "1d8+1" → base 1d8+1 + Mestre +2d8
+    expect(renderBreakdownHtml(danoArmaBreakdown('Espada', '1d8+1', 'M'))).toBe(
+      '<div class="dv-tooltip-head-row">' +
+        '<span class="dv-tooltip-head-title"><strong>Espada — Dano</strong></span></div>' +
+        '<div class="dv-tooltip-head-rule"></div>' +
+        '<div class="dv-breakdown-line">● Base (1d8+1)</div>' +
+        '<div class="dv-breakdown-line">🎓 Mestre (+2d8)</div>',
+    )
+    // Adepto: nenhum dado extra (PROF_DICE[A]=0) — só a linha de Base
+    expect(renderBreakdownHtml(danoArmaBreakdown('Adaga', 'd4', 'A'))).toBe(
+      '<div class="dv-tooltip-head-row">' +
+        '<span class="dv-tooltip-head-title"><strong>Adaga — Dano</strong></span></div>' +
+        '<div class="dv-tooltip-head-rule"></div>' +
+        '<div class="dv-breakdown-line">● Base (1d4)</div>',
+    )
+    // Sem dado → "Sem dano"
+    expect(renderBreakdownHtml(danoArmaBreakdown('Punho', undefined, 'A'))).toBe(
+      '<div class="dv-tooltip-head-row">' +
+        '<span class="dv-tooltip-head-title"><strong>Punho — Dano</strong></span></div>' +
+        '<div class="dv-tooltip-head-rule"></div>' +
+        '<div class="dv-breakdown-line">● Dano (Sem dano)</div>',
+    )
   })
 
   it('perícia (Enganacao/Diplomacia): título slugado com atributo + total assinado', () => {

@@ -19,6 +19,7 @@ import { creatureImageUrl } from '../../data/creature-image'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDoc, useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRules } from '../../rules/useHeroRules'
 import { heroPath } from '../../paths'
 import { tierFromLevel } from '../../grupo/party'
 import { useViewportWidth } from '../../viewport'
@@ -366,14 +367,21 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
  *  marcas) sincronizados com edições feitas nas abas. */
 function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
   const model = useHeroModel(doc, 'topbar')
+  const rules = useHeroRules(model.fm)
   const vw = useViewportWidth()
   const fm = model.fm
+  // Chip de EM (aba combate) lê Magias.EM, que vem da CLASSE via rule element
+  // (vive no derivedFm, não no FM salvo de uma ficha nova). Alimentar chipsFor
+  // com o MODELO PROJETADO — igual ao MagiasPanel do Combate — pra a topbar ver
+  // o EM máximo calculado pela classe e não "0/0". Nível/marcas/apelido também
+  // acompanham a cascata; o Interativa (EM corrente) é preservado no derivedFm.
+  const projected = rules?.derivedFm ?? fm
 
   const showChips = vw >= 620
   const showVidaChip = tab === 'combate'
   const showCoinChip = tab === 'inventario' && vw >= 620
   const showApelido = vw >= 720
-  const chips = chipsFor(tab, fm)
+  const chips = chipsFor(tab, projected)
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
 
   return (

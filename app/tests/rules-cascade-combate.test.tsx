@@ -117,7 +117,13 @@ function renderCombate() {
 
 function boxValue(label: string): HTMLElement {
   const lab = screen.getByText(label)
-  return lab.nextElementSibling as HTMLElement
+  // Item 4 embrulhou o VALOR num TipHover (<span> com o breakdown) entre o
+  // label e o número; desce até o <div> que carrega texto+cor do valor.
+  let el = lab.nextElementSibling as HTMLElement
+  while (el && el.children.length === 1 && !el.style.color && el.firstElementChild) {
+    el = el.firstElementChild as HTMLElement
+  }
+  return el
 }
 
 describe('cascata de regras alcança o COMBATE (issue #49)', () => {

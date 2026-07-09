@@ -371,13 +371,15 @@ function baseCreatureFm(): Record<string, unknown> {
     Interativa: {
       Imunidades: {},
       Recursos_Restantes: {
-        // Vitalidade/Moral AUSENTES de propósito: ficha nova nasce com vida
-        // cheia — useVidaLocal usa o máximo (Vida.* do derivedFm, definido
-        // pela classe) quando o corrente não está definido. Ao tomar dano,
-        // passam a ser gravados e a barra passa a rastrear o valor real.
+        // Vitalidade/Moral/EM/EM_Secundaria AUSENTES de propósito: ficha nova
+        // nasce CHEIA — o corrente cai no máximo (Vida.*/Magias.EM do derivedFm,
+        // definidos pela classe) quando não está definido. Espelha o plugin
+        // (frontmatter-extract-interativa.ts:36-66: `num(rec.EM) ?? model.magias.em`)
+        // e a política já aplicada a Vitalidade/Moral. Gravar `EM: 0` fazia o
+        // Combate/topbar lerem 0 explícito (fallback `?? emMax` só semeia o máximo
+        // quando AUSENTE), mostrando "0/3" em vez de "3/3". Ao gastar EM/tomar
+        // dano, o corrente passa a ser gravado e a barra rastreia o valor real.
         Moral_Temporaria: 0,
-        EM: 0,
-        EM_Secundaria: 0,
         Escudo_Dano: 0,
       },
       Condicoes_Ativas: {},

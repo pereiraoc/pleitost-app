@@ -167,11 +167,15 @@ describe('#42 herói local', () => {
     expect(fm.Papel).toEqual({ Lider: 0, Controlador: 0, Abatedor: 0, Vanguarda: 0 })
     expect(fm.Vida).toEqual({ Vitalidade: 0, Moral: 0 })
     expect(fm['Nível']).toBe(1)
-    // Vida corrente AUSENTE de propósito → ficha nova nasce cheia (useVidaLocal
-    // usa o máximo do derivedFm quando o corrente não está definido).
+    // Vida/EM correntes AUSENTES de propósito → ficha nova nasce cheia (o
+    // corrente cai no máximo do derivedFm quando não está definido; espelha o
+    // plugin frontmatter-extract-interativa.ts). Gravar `EM: 0` fazia o
+    // Combate/topbar mostrarem "0/3" em vez de "3/3".
     const rest = (fm.Interativa as any).Recursos_Restantes
     expect(rest.Vitalidade).toBeUndefined()
     expect(rest.Moral).toBeUndefined()
+    expect(rest).not.toHaveProperty('EM')
+    expect(rest).not.toHaveProperty('EM_Secundaria')
   })
 
   it('"+ Criar Herói" cria e navega pra ficha, que renderiza sem erro', async () => {
