@@ -512,6 +512,11 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const labelInput = info.querySelector('[data-hex-label]') as HTMLInputElement
     fireEvent.change(labelInput, { target: { value: 'acampamos aqui' } })
     expect(getGroupState(GROUP_ID).hexes.at(-1)?.label).toBe('acampamos aqui')
+
+    // no MAPA a distinção aparece: só a parada rotulada ganha marcador+rótulo;
+    // os 3 pontos de caminho (sem rótulo/local) não.
+    expect(container.querySelectorAll('[data-parada-mapa]').length).toBe(1)
+    expect(container.querySelector('[data-parada-label]')?.textContent).toBe('acampamos aqui')
   })
 
   it('#82 MARCAR HEX vive DENTRO da barra de caminho (acessível em tela cheia)', async () => {

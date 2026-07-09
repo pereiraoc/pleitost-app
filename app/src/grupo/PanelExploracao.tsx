@@ -742,11 +742,12 @@ function LeftBar({
   )
 }
 
-/** Preenchimento do hex por estado (fill translúcido do design). */
-function hexFill(isAtual: boolean): string {
-  return isAtual
-    ? 'color-mix(in srgb,var(--accent) 46%,transparent)'
-    : 'color-mix(in srgb,var(--accent) 20%,transparent)'
+/** Preenchimento do hex por estado (#85): ATUAL forte, PARADA média, ponto de
+ *  CAMINHO discreto — pra distinguir na trilha o que é parada do que é rota. */
+function hexFill(isAtual: boolean, isParada = false): string {
+  if (isAtual) return 'color-mix(in srgb,var(--accent) 46%,transparent)'
+  if (isParada) return 'color-mix(in srgb,var(--accent) 32%,transparent)'
+  return 'color-mix(in srgb,var(--accent) 20%,transparent)'
 }
 
 export function PanelExploracao({ groupId }: { groupId: string }) {
@@ -759,6 +760,14 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const regionId = activeRegionId(state)
   const hexMapState = useHexMap(regionId)
   const hexMap = hexMapState.cells
+
+  /** PARADA (proeminente + rótulo na trilha) = tem lugar nomeado OU rótulo;
+   *  sem nenhum é ponto de CAMINHO (rota, discreto) — #85. */
+  const isParada = (h: GroupHex): boolean => {
+    if (h.label && h.label.trim()) return true
+    const id = paradaLocalId(h, hexMap)
+    return !!id && catalog.entryById.has(id)
+  }
 
   // #85: dois modos de marcação — 'parada' (ponto importante, rotulável) e
   // 'caminho' (rota: toca vários hexes seguidos, mesmo sem ponto de interesse).
@@ -1092,30 +1101,53 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
-                  {/* Paradas marcadas; o ATUAL por cima com glow */}
+                  {/* Pontos do caminho: PARADA (forte) x CAMINHO (discreto); o
+                      ATUAL por cima com glow. Só a PARADA leva rótulo (#85). */}
                   {state.hexes.map((h) => {
                     const isAtual = h.id === atual?.id
                     const isSel = h.id === selectedId
+                    const parada = isParada(h)
+                    const center = hexCenter(h.col, h.row)
                     return (
-                      <polygon
-                        key={h.id}
-                        data-hex={h.id}
-                        data-col={h.col}
-                        data-row={h.row}
-                        {...(isAtual ? { 'data-atual': '' } : {})}
-                        {...(isSel ? { 'data-sel': '' } : {})}
-                        points={hexPolygonPoints(h.col, h.row)}
-                        fill={hexFill(isAtual)}
-                        stroke={isSel ? 'var(--text)' : 'var(--accent)'}
-                        strokeWidth={isAtual || isSel ? 2 : 1.5}
-                        strokeOpacity={isAtual ? 1 : 0.75}
-                        vectorEffect="non-scaling-stroke"
-                        style={
-                          isAtual
-                            ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
-                            : undefined
-                        }
-                      />
+                      <g key={h.id}>
+                        <polygon
+                          data-hex={h.id}
+                          data-col={h.col}
+                          data-row={h.row}
+                          {...(isAtual ? { 'data-atual': '' } : {})}
+                          {...(isSel ? { 'data-sel': '' } : {})}
+                          {...(parada ? { 'data-parada-mapa': '' } : {})}
+                          points={hexPolygonPoints(h.col, h.row)}
+                          fill={hexFill(isAtual, parada)}
+                          stroke={isSel ? 'var(--text)' : 'var(--accent)'}
+                          strokeWidth={isAtual || isSel || parada ? 2 : 1}
+                          strokeOpacity={isAtual || parada ? 1 : 0.5}
+                          strokeDasharray={parada || isAtual ? undefined : '5 5'}
+                          vectorEffect="non-scaling-stroke"
+                          style={
+                            isAtual
+                              ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
+                              : undefined
+                          }
+                        />
+                        {parada ? (
+                          <text
+                            data-parada-label={h.id}
+                            x={center.x}
+                            y={center.y - 84}
+                            textAnchor="middle"
+                            dominantBaseline="ideographic"
+                            fill="var(--text)"
+                            fontSize={26}
+                            fontFamily="var(--mono)"
+                            style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
+                            stroke="var(--panel)"
+                            strokeWidth={5}
+                          >
+                            {hexLabel(h, hexMap, catalog)}
+                          </text>
+                        ) : null}
+                      </g>
                     )
                   })}
                   {/* Célula-alvo do token durante o arraste (#71) */}
