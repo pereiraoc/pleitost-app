@@ -18,6 +18,41 @@ const MIME: Record<string, string> = {
  * repo, gerada por `npm run extract`) sob /vault-data; no build copia o
  * diretório inteiro para dentro de outDir.
  */
+/** Middleware que serve `root` sob /vault-data DECODIFICANDO a URL e lendo o
+ *  arquivo literal — funciona pra nomes com vírgula/acentos/espaços. O estático
+ *  do `vite preview` (sirv) NÃO serve `%2C`, então o retrato de grupo
+ *  "Carlos, Dante, …" caía no fallback SPA. Usado no DEV e no PREVIEW. */
+function serveVaultData(root: string) {
+  return (
+    req: import('node:http').IncomingMessage,
+    res: import('node:http').ServerResponse,
+    next: () => void,
+  ) => {
+    let urlPath: string
+    try {
+      urlPath = decodeURIComponent((req.url ?? '/').split('?')[0])
+    } catch {
+      res.statusCode = 400
+      res.end()
+      return
+    }
+    const filePath = path.normalize(path.join(root, urlPath))
+    if (!filePath.startsWith(root + path.sep)) {
+      res.statusCode = 403
+      res.end()
+      return
+    }
+    fs.stat(filePath, (err, stat) => {
+      if (err || !stat.isFile()) return next()
+      res.setHeader(
+        'Content-Type',
+        MIME[path.extname(filePath).toLowerCase()] ?? 'application/octet-stream',
+      )
+      fs.createReadStream(filePath).pipe(res)
+    })
+  }
+}
+
 export function vaultData(root: string): Plugin {
   let outDir = ''
   let isBuild = false
@@ -37,30 +72,13 @@ export function vaultData(root: string): Plugin {
           `[vault-data] ${root} não existe — rode \`npm run extract\` na raiz do repo`,
         )
       }
-      server.middlewares.use('/vault-data', (req, res, next) => {
-        let urlPath: string
-        try {
-          urlPath = decodeURIComponent((req.url ?? '/').split('?')[0])
-        } catch {
-          res.statusCode = 400
-          res.end()
-          return
-        }
-        const filePath = path.normalize(path.join(root, urlPath))
-        if (!filePath.startsWith(root + path.sep)) {
-          res.statusCode = 403
-          res.end()
-          return
-        }
-        fs.stat(filePath, (err, stat) => {
-          if (err || !stat.isFile()) return next()
-          res.setHeader(
-            'Content-Type',
-            MIME[path.extname(filePath).toLowerCase()] ?? 'application/octet-stream',
-          )
-          fs.createReadStream(filePath).pipe(res)
-        })
-      })
+      server.middlewares.use('/vault-data', serveVaultData(root))
+    },
+
+    // PREVIEW (build servido): o estático do sirv NÃO serve nomes com vírgula
+    // (%2C) — usa o mesmo middleware do dev, que decodifica e lê o arquivo.
+    configurePreviewServer(server) {
+      server.middlewares.use('/vault-data', serveVaultData(root))
     },
 
     closeBundle() {
