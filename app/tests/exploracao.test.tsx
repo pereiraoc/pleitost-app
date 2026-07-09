@@ -514,10 +514,10 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     fireEvent.change(labelInput, { target: { value: 'acampamos aqui' } })
     expect(getGroupState(GROUP_ID).hexes.at(-1)?.label).toBe('acampamos aqui')
 
-    // no MAPA a distinção aparece: só a parada rotulada ganha marcador+rótulo;
-    // os 3 pontos de caminho (sem rótulo/local) não.
+    // no MAPA a parada rotulada vira MARCADOR (hex); os 3 de caminho não.
+    // (o NOME não é desenhado — o mapa já tem o texto na própria arte.)
     expect(container.querySelectorAll('[data-parada-mapa]').length).toBe(1)
-    expect(container.querySelector('[data-parada-label]')?.textContent).toBe('acampamos aqui')
+    expect(container.querySelector('[data-parada-label]')).toBeNull()
   })
 
   it('#85 parada SEM rótulo (pelo kind) já é relevante; caminho colapsa indentado abaixo', async () => {

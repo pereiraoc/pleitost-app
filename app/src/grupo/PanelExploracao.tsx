@@ -82,6 +82,9 @@ import { sectionTitleStyle } from './panel-ui'
 export const MAPA_MUNDO_LIVRE = 'Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png'
 
 /** Região ativa efetiva: a escolhida pelo GM ou a primeira com mapa (default). */
+/** Cor do ponto/token ATUAL do grupo — AZUL (destaca de tudo que é accent). */
+const ATUAL_BLUE = '#3b82f6'
+
 export function activeRegionId(state: GroupState): string {
   return state.regiaoAtiva ?? REGION_MAPS[0]?.regionId ?? ''
 }
@@ -1107,17 +1110,18 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
-                  {/* PARADA = marcador hex forte + rótulo; CAMINHO = bolinha
-                      pequena discreta na rota; ATUAL com glow (#85). */}
+                  {/* PARADA = marcador hex forte; CAMINHO = bolinha discreta na
+                      rota; ATUAL em AZUL com glow. SEM rótulo no mapa — o nome
+                      já está escrito na própria arte do mapa (#85). */}
                   {state.hexes.map((h) => {
                     const isAtual = h.id === atual?.id
                     const isSel = h.id === selectedId
                     const parada = isParada(h)
                     const center = hexCenter(h.col, h.row)
                     const glow = isAtual
-                      ? { filter: 'drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 75%,transparent))' }
+                      ? { filter: `drop-shadow(0 0 8px color-mix(in srgb,${ATUAL_BLUE} 80%,transparent))` }
                       : undefined
-                    // ponto de CAMINHO (rota): bolinha pequena, sem rótulo
+                    // ponto de CAMINHO (rota): bolinha pequena
                     if (!parada) {
                       return (
                         <circle
@@ -1130,59 +1134,31 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                           cx={center.x}
                           cy={center.y}
                           r={isAtual ? 16 : 10}
-                          fill={isAtual ? 'var(--accent)' : 'color-mix(in srgb,var(--accent) 45%,transparent)'}
-                          stroke={isSel ? 'var(--text)' : 'var(--accent)'}
+                          fill={isAtual ? ATUAL_BLUE : 'color-mix(in srgb,var(--accent) 45%,transparent)'}
+                          stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
                           strokeWidth={isAtual || isSel ? 2.5 : 1.5}
                           vectorEffect="non-scaling-stroke"
                           style={glow}
                         />
                       )
                     }
-                    // PARADA: hex marcador proeminente + rótulo/nome acima
+                    // PARADA: hex marcador proeminente (sem rótulo)
                     return (
-                      <g key={h.id}>
-                        <polygon
-                          data-hex={h.id}
-                          data-col={h.col}
-                          data-row={h.row}
-                          {...(isAtual ? { 'data-atual': '' } : {})}
-                          {...(isSel ? { 'data-sel': '' } : {})}
-                          data-parada-mapa=""
-                          points={hexPolygonPoints(h.col, h.row)}
-                          fill={hexFill(isAtual, true)}
-                          stroke={isSel ? 'var(--text)' : 'var(--accent)'}
-                          strokeWidth={isAtual || isSel ? 2.5 : 2}
-                          vectorEffect="non-scaling-stroke"
-                          style={glow}
-                        />
-                        {/* rótulo/nome só quando há nome REAL (rótulo ou lugar);
-                            parada "nua" fica só com o marcador (sem "Hex c,r"). */}
-                        {(() => {
-                          const localId = paradaLocalId(h, hexMap)
-                          const nome =
-                            (h.label && h.label.trim()) ||
-                            (localId && catalog.entryById.has(localId)
-                              ? (catalog.entryById.get(localId)?.basename ?? '')
-                              : '')
-                          return nome ? (
-                            <text
-                              data-parada-label={h.id}
-                              x={center.x}
-                              y={center.y - 84}
-                              textAnchor="middle"
-                              dominantBaseline="ideographic"
-                              fill="var(--text)"
-                              fontSize={26}
-                              fontFamily="var(--mono)"
-                              style={{ paintOrder: 'stroke', pointerEvents: 'none' }}
-                              stroke="var(--panel)"
-                              strokeWidth={5}
-                            >
-                              {nome}
-                            </text>
-                          ) : null
-                        })()}
-                      </g>
+                      <polygon
+                        key={h.id}
+                        data-hex={h.id}
+                        data-col={h.col}
+                        data-row={h.row}
+                        {...(isAtual ? { 'data-atual': '' } : {})}
+                        {...(isSel ? { 'data-sel': '' } : {})}
+                        data-parada-mapa=""
+                        points={hexPolygonPoints(h.col, h.row)}
+                        fill={isAtual ? `color-mix(in srgb,${ATUAL_BLUE} 55%,transparent)` : hexFill(false, true)}
+                        stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
+                        strokeWidth={isAtual || isSel ? 2.5 : 2}
+                        vectorEffect="non-scaling-stroke"
+                        style={glow}
+                      />
                     )
                   })}
                   {/* Célula-alvo do token durante o arraste (#71) */}
@@ -1209,7 +1185,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                     >
                       <circle
                         r={30}
-                        fill="var(--accent)"
+                        fill={ATUAL_BLUE}
                         stroke="var(--panel)"
                         strokeWidth={5}
                         style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,.5))' }}
