@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTheme } from '../../theme'
+import { heroPath } from '../../paths'
+import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
 import { TopbarFicha } from './TopbarFicha'
 import {
   APP_NAV,
@@ -90,7 +92,15 @@ export function AppShell() {
   // Ficha aberta (/heroi/...): CHAR_TABS ficam ativas e trocam a ?tab=.
   const fichaOpen = pathname.startsWith('/heroi/')
   const fichaTab = fichaOpen ? (searchParams.get('tab') ?? 'perfil') : null
-  const heroId = fichaOpen ? decodeURIComponent(pathname.slice('/heroi/'.length)) : null
+  const routeHeroId = fichaOpen ? decodeURIComponent(pathname.slice('/heroi/'.length)) : null
+  // #86: seleção PERSISTIDA — o personagem "selecionado" continua ativo mesmo
+  // fora da ficha (na tela de seleção etc.), até escolher outro. heroId efetivo
+  // = o da rota OU o selecionado.
+  const selectedId = useSelectedCreature()
+  const heroId = routeHeroId ?? selectedId
+  useEffect(() => {
+    if (routeHeroId) setSelectedCreature(routeHeroId) // abrir uma ficha memoriza a seleção
+  }, [routeHeroId])
 
   const section = fichaOpen
     ? fichaTab
@@ -107,7 +117,9 @@ export function AppShell() {
   const closeDrawer = () => setDrawerOpen(false)
 
   const selectFichaTab = (id: string) => {
-    navigate({ pathname, search: id === 'perfil' ? '' : `?tab=${id}` })
+    // navega pra ficha do personagem selecionado, na aba pedida (#86: funciona
+    // mesmo estando na tela de seleção — não fica "não clicável").
+    if (heroId) navigate(heroPath(heroId, id === 'perfil' ? undefined : id))
     closeDrawer()
   }
 
@@ -148,11 +160,14 @@ export function AppShell() {
         >
           <nav className="nav-group">
             {CHAR_TABS.map((item) =>
-              fichaOpen ? (
+              // #86: clicáveis sempre que HÁ personagem (rota OU selecionado) —
+              // não ficam mortas na tela de seleção. Só destacam a aba ativa
+              // quando de fato na ficha.
+              heroId ? (
                 <CharTabButton
                   key={item.id}
                   item={item}
-                  active={fichaTab === item.id}
+                  active={fichaOpen && fichaTab === item.id}
                   onSelect={() => selectFichaTab(item.id)}
                 />
               ) : (

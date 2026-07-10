@@ -7,6 +7,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath, heroPath } from '../../paths'
+import { useSelectedCreature } from '../../data/selected-creature-store'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
 import { clip, PanelTrack, TrackPanel } from '../ficha/bits'
@@ -416,6 +417,7 @@ function PessoaForm({
 function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
+  const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
   const classe = plainLabel(doc?.frontmatter['Classe'])
   const nivel = plainLabel(doc?.frontmatter['Nível'])
@@ -427,7 +429,11 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const tierCor = nivel ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível'])) : null
 
   return (
-    <button className="hero-card" onClick={() => navigate(heroPath(entry.id))}>
+    <button
+      className={selected ? 'hero-card selected' : 'hero-card'}
+      aria-current={selected ? 'true' : undefined}
+      onClick={() => navigate(heroPath(entry.id))}
+    >
       <span className="hero-card-stripe" aria-hidden />
       {portrait ? (
         <div className="hero-portrait" style={{ backgroundImage: `url("${portrait}")` }} />
@@ -657,6 +663,7 @@ function monsterTierColor(t: number): string {
 function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
+  const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
   // subtítulo accent2 do design (n.tipo): Raça, senão Classe, senão subtipo
   const tipo =
@@ -696,7 +703,11 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
       : null
 
   return (
-    <button className="npc-card" onClick={() => navigate(target)}>
+    <button
+      className={selected ? 'npc-card selected' : 'npc-card'}
+      aria-current={selected ? 'true' : undefined}
+      onClick={() => navigate(target)}
+    >
       {portrait ? (
         <span className="npc-ic" style={{ backgroundImage: `url("${portrait}")` }} />
       ) : (
