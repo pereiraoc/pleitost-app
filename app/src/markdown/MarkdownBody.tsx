@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import type { VaultDoc } from '../data/types'
 import { VaultImage } from '../components/compendium/VaultImage'
+import { DetailLink } from '../components/DetailLink'
 import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
 import { remarkInlineDataview } from './remark-inline-dataview'
@@ -29,7 +30,9 @@ export function MarkdownBody({ doc }: { doc: VaultDoc }) {
   const components = useMemo<Components>(
     () => ({
       a({ href, children }) {
-        // links internos (gerados pelo remark-wikilinks) roteiam pela SPA
+        // #88: links de doc abrem nos DETALHES da sidebar (se houver); demais
+        // internos roteiam pela SPA; externos abrem em nova aba.
+        if (href?.startsWith('/doc/')) return <DetailLink to={href}>{children}</DetailLink>
         if (href?.startsWith('/')) return <Link to={href}>{children}</Link>
         return (
           <a href={href} target="_blank" rel="noreferrer">

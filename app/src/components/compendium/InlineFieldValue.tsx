@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
-import { docPath } from '../../paths'
+import { DetailLink } from '../DetailLink'
 
 import { unquote } from '../../markdown/dataview-value'
 
@@ -26,9 +25,10 @@ export function InlineFieldValue({ value }: { value: string }) {
     const res = catalog.resolve(target)
     parts.push(
       res.kind === 'doc' ? (
-        <Link key={parts.length} to={docPath(res.id)}>
+        // #88: abre nos DETALHES da sidebar quando há uma; senão navega
+        <DetailLink key={parts.length} id={res.id}>
           {label}
-        </Link>
+        </DetailLink>
       ) : (
         <span key={parts.length}>{label}</span>
       ),
