@@ -322,12 +322,15 @@ function ShopRow({
   )
 }
 
-function ComercioTab({ doc }: { doc: VaultDoc }) {
+export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHeroId?: string }) {
   const catalog = useCatalog()
   const { mestre, disponibilidade } = useSettings()
   const shop = useShopState(doc.id)
   const heroes = useHeroOptions()
+  // #89: na sidebar, o comprador default = herói selecionado (se for opção).
   const [heroId, setHeroId] = useState<string>('')
+  const effHeroId =
+    heroId || (defaultHeroId && heroes.some((h) => h.entry.id === defaultHeroId) ? defaultHeroId : '')
   const [aviso, setAviso] = useState<string | null>(null)
 
   // Tipo de local efetivo: o guardado na rolagem (permite override "Iluminada"
@@ -369,7 +372,7 @@ function ComercioTab({ doc }: { doc: VaultDoc }) {
     [recursos, refDocs, catalog],
   )
 
-  const selectedHero = heroes.find((h) => h.entry.id === heroId)
+  const selectedHero = heroes.find((h) => h.entry.id === effHeroId)
   const ouro = selectedHero ? heroOuro(selectedHero.entry.id, selectedHero.doc) : null
 
   // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não
@@ -436,7 +439,7 @@ function ComercioTab({ doc }: { doc: VaultDoc }) {
           <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--muted)' }}>HERÓI</span>
           <select
             aria-label="Herói comprador"
-            value={heroId}
+            value={effHeroId}
             onChange={(e) => setHeroId(e.target.value)}
             style={{
               background: 'var(--panel)',

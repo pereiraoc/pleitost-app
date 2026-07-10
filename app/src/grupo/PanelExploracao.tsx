@@ -44,6 +44,7 @@ import { useDoc } from '../data/useDoc'
 import { docPath } from '../paths'
 import { REGION_MAPS, regionMapById } from '../data/region-maps'
 import { useHexMap } from '../data/useHexMap'
+import { useDetail } from '../data/detail-context'
 import { cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
@@ -772,6 +773,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const regionId = activeRegionId(state)
   const hexMapState = useHexMap(regionId)
   const hexMap = hexMapState.cells
+  // #89: havendo sidebar de detalhes, a info do local abre NELA (não no bloco
+  // lateral do mapa); sem ela (testes) cai no RightBar #70.
+  const detail = useDetail()
 
   /** PARADA (proeminente + rótulo na trilha) = criada como parada OU tem lugar
    *  nomeado OU rótulo; senão é ponto de CAMINHO (rota, discreto) — #85. */
@@ -847,13 +851,18 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     if (hoverHex) setHoverHex(null)
   }
 
-  /** Abre/atualiza a barra direita se o hex tiver localização mapeada (#70). */
+  /** Info do local do hex mapeado: na sidebar DIREITA global (#89) quando há
+   *  DetailContext; senão cai na barra lateral do mapa (#70, fallback). */
   const openInfoForCell = (col: number, row: number, withImage: boolean): boolean => {
     const cell = cellAt(hexMap, col, row)
     if (!cell?.localId) return false
-    setInfoLocalId(cell.localId)
-    setInfoWithImage(withImage)
-    setRightCollapsed(false)
+    if (detail) {
+      detail.open({ kind: 'local', id: cell.localId })
+    } else {
+      setInfoLocalId(cell.localId)
+      setInfoWithImage(withImage)
+      setRightCollapsed(false)
+    }
     return true
   }
 

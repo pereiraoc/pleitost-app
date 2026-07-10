@@ -12,6 +12,8 @@ import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
 import { heroPath } from '../../paths'
 import { DocView } from '../compendium/DocPage'
+import { LocalDetail } from '../detail/LocalDetail'
+import { CommerceDetail } from '../detail/CommerceDetail'
 
 /** Face SESSÃO: quem está selecionado + atalho pra ficha. */
 function SessionPanel({ onNavigate }: { onNavigate: () => void }) {
@@ -85,8 +87,10 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
       </div>
       {target.kind === 'doc' ? (
         <DocDetail id={target.id} />
+      ) : target.kind === 'local' ? (
+        <LocalDetail id={target.id} />
       ) : (
-        <div className="detail-empty">(local/comércio: chega nesta sidebar no #89)</div>
+        <CommerceDetail id={target.id} />
       )}
     </div>
   )
