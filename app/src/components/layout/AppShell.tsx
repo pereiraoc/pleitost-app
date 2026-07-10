@@ -3,7 +3,9 @@ import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'reac
 import { useTheme } from '../../theme'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
+import { DetailProvider } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
+import { RightSidebar } from './RightSidebar'
 import {
   APP_NAV,
   CHAR_TABS,
@@ -81,6 +83,8 @@ function CharTabButton({
 
 export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false)
+  // #87: drawer da sidebar DIREITA (Sessão/Detalhes) — no mobile.
+  const [rightOpen, setRightOpen] = useState(false)
   // Colapso da sidebar em desktop (navCollapsed do design; toggleNav do
   // renderVals: <820 abre o drawer, >=820 colapsa pra 64px só-ícones).
   const [collapsed, setCollapsed] = useState(false)
@@ -124,7 +128,8 @@ export function AppShell() {
   }
 
   return (
-    <div className="app-root">
+    <DetailProvider>
+      <div className="app-root">
       <header className="topbar">
         <button
           className="topbar-menu"
@@ -147,6 +152,15 @@ export function AppShell() {
           {mode === 'dark' ? '🌙' : '☀️'}
         </button>
         {heroId ? <TopbarFicha key={heroId} id={heroId} tab={fichaTab ?? 'perfil'} /> : null}
+        {/* #87: toggle da sidebar direita (Sessão/Detalhes) — no mobile */}
+        <button
+          className="right-toggle"
+          onClick={() => setRightOpen((o) => !o)}
+          aria-pressed={rightOpen}
+          title="Sessão / Detalhes"
+        >
+          ⧉
+        </button>
       </header>
       <div className="body-row">
         <aside
@@ -186,7 +200,12 @@ export function AppShell() {
         <main className="app-main">
           <Outlet />
         </main>
+        {rightOpen ? (
+          <div className="drawer-scrim right" onClick={() => setRightOpen(false)} />
+        ) : null}
+        <RightSidebar drawerOpen={rightOpen} onCloseDrawer={() => setRightOpen(false)} />
       </div>
-    </div>
+      </div>
+    </DetailProvider>
   )
 }
