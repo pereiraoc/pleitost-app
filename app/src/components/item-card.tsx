@@ -509,7 +509,7 @@ export const ITEM_CARD_CSS = `
 .shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
 .shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
 .shc-card--wide{width:284px;max-height:60vh;overflow:hidden}
-.shc-card--table{width:320px;max-height:none;overflow:visible}
+.shc-card--table{width:max-content;max-width:min(92vw,600px);max-height:70vh;overflow:auto}
 .shc-body-img{float:right;width:88px;margin:0 0 5px 9px;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.4)}
 .shc-body{opacity:.95}
 .shc-body::after{content:"";display:block;clear:both}
