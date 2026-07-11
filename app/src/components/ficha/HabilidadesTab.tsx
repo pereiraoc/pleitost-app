@@ -27,6 +27,7 @@ import {
   ranksOutsideRange,
 } from '../../rules/apply-pericia-rank-edit'
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
+import { computeMagiaAtaque, lookupRota } from '../../interativa/invocacao'
 import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
 import {
   canAddOne,
@@ -2549,18 +2550,34 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               return (
                 <div key={nome} style={{ marginBottom: 13 }}>
                   {showH2 ? (
-                    <div
-                      style={{
-                        fontFamily: 'var(--mono)',
-                        fontSize: 10,
-                        fontWeight: 700,
-                        letterSpacing: '.05em',
-                        textTransform: 'uppercase',
-                        color: 'var(--muted)',
-                        marginBottom: 9,
-                      }}
-                    >
-                      {h2Of(nome)}
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 9 }}>
+                      <span
+                        style={{
+                          fontFamily: 'var(--mono)',
+                          fontSize: 10,
+                          fontWeight: 700,
+                          letterSpacing: '.05em',
+                          textTransform: 'uppercase',
+                          color: 'var(--muted)',
+                        }}
+                      >
+                        {h2Of(nome)}
+                      </span>
+                      {/* Modificador de ataque mágico da escola + prof (#143) —
+                          title traz o cálculo (PB + atributo + item). */}
+                      {(() => {
+                        const rota = `Magia ${nome}`
+                        const info = computeMagiaAtaque(fm, rota)
+                        const prof = lookupRota(fm, rota)
+                        return info ? (
+                          <span
+                            title={info.title}
+                            style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--blue)', cursor: 'help' }}
+                          >
+                            {`${signed(info.total)}${prof ? ` (${prof})` : ''}`}
+                          </span>
+                        ) : null
+                      })()}
                     </div>
                   ) : null}
                   {groupKeys.map((g) => (

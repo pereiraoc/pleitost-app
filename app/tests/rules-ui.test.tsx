@@ -179,6 +179,14 @@ describe('#165 magias agrupadas por subcategoria (Arcana/Anima), não por escola
     expect(screen.queryByText('Magias Arcana Branca')).toBeNull()
     expect(screen.queryByText('Magias Arcana Negra')).toBeNull()
   })
+
+  it('#143: a escola de magia mostra o modificador de ataque mágico (mod + prof)', async () => {
+    renderFicha('habilidades')
+    await screen.findByText('Magias Arcana')
+    // Arcana Branca do Carlos é prof E → modificador assinado seguido de "(E)"
+    const mod = await screen.findByText(/^[+-]\d+ \(E\)$/)
+    expect(mod).toBeTruthy()
+  })
 })
 
 describe('COMPETÊNCIAS/PERÍCIAS — escolhas de ESPECIALIZAÇÕES (#26)', () => {
