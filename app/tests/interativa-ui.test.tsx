@@ -178,6 +178,25 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     expect(screen.getByText(/3d6\+3\+1d12\+3/)).toBeTruthy()
   })
 
+  it('#153/#154: dano buffado fica negrito e o tooltip de dano/AdO lista o Encantar Arma (não zero)', async () => {
+    renderCombate()
+    // Carlos salvo tem Encantar Arma ATIVO no Punhal (potência 9) → dano
+    // 3d4+2+1d12+3 e AdO 1d4+7.
+    const danoEl = await screen.findByText(/3d4\+2\+1d12\+3/)
+    // #153: dano em negrito quando buffado
+    expect(danoEl.style.fontWeight).toBe('800')
+    // #153: tooltip de dano lista o Encantar Arma COM o dado (não "(0)")
+    const danoTip = danoEl.closest('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
+    expect(danoTip).toContain('Encantar Arma')
+    expect(danoTip).toContain('1d12')
+    expect(danoTip).not.toContain('Encantar Arma (0)')
+    // #154: tooltip do AdO traz o valor correto (1d4+7), não zero
+    const adoEl = await screen.findByText(/AdO 1d4\+7/)
+    const adoTip = adoEl.closest('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
+    expect(adoTip).toContain('1d4+7')
+    expect(adoTip).not.toMatch(/Ataque de Oportunidade<\/strong>\s*<span[^>]*>0</)
+  })
+
   it('desligar Inspiração desativa Performance Bárdica Ativa (auto) e a Defesa volta ao cru', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
