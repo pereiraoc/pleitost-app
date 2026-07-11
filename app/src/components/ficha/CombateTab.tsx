@@ -1404,16 +1404,34 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 breakdown (#155). */}
             <span title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}>
               <TipHover
-                html={renderBreakdownHtml(
-                  ataqueBreakdown(
-                    nome,
-                    str(arma['Atributo']),
-                    profLetter({ Proficiencia: profAtaque }),
-                    num(arma['Bonus_Item']),
-                    num(arma['Bonus_Especial']),
-                    attrs[str(arma['Atributo'])] ?? 0,
-                  ),
-                )}
+                html={
+                  renderBreakdownHtml(
+                    ataqueBreakdown(
+                      nome,
+                      str(arma['Atributo']),
+                      profLetter({ Proficiencia: profAtaque }),
+                      num(arma['Bonus_Item']),
+                      num(arma['Bonus_Especial']),
+                      attrs[str(arma['Atributo'])] ?? 0,
+                    ),
+                  ) +
+                  // + condições/efeitos APLICADOS ao acerto (Auto-Confiança,
+                  // Vantagem de Combate etc.) — antes só no title nativo (#162).
+                  (modApplied.entries.length
+                    ? renderBreakdownHtml({
+                        headerEmoji: '',
+                        title: `${nome} — Modificadores de acerto`,
+                        total: 0,
+                        hideTotal: true,
+                        headerSigned: true,
+                        parts: modApplied.entries.map((e) =>
+                          e.value === 0
+                            ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true }
+                            : { emoji: '', label: stripSharedFrom(e.label), value: e.value },
+                        ),
+                      })
+                    : '')
+                }
               >
                 <ModBox
                   modStr={signed(mod)}
@@ -1477,9 +1495,9 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             {adoRes !== null ? (
               <TipHover
                 html={renderBreakdownHtml(
-                  // AdO: o display já reflete os canais/condições (computeDanoAdO);
-                  // o tooltip nomeia o valor. Sem entries expostas pra listar.
-                  entriesBreakdown('Ataque de Oportunidade', [], { base: adoRes.display }),
+                  // AdO: base = display final; entries = fontes que contribuíram
+                  // (Encantar Arma/OportunidadeFixo etc.) — antes ficavam ocultas (#162).
+                  entriesBreakdown('Ataque de Oportunidade', adoRes.entries, { base: adoRes.display }),
                 )}
               >
                 <span

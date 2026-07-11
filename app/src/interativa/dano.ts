@@ -248,6 +248,8 @@ export interface DanoAdOResult {
   /** True quando alguma contribuição de efeito entrou (delta visual). */
   hasDelta: boolean
   hasPenalty: boolean
+  /** Fontes que contribuíram (offset/dados) — pra listar no tooltip do AdO. */
+  entries: ConditionEntry[]
 }
 
 /** Entries do canal AdO que contribuem: não-Técnica somam; entre Técnicas
@@ -297,6 +299,14 @@ export function computeDanoAdO(input: DanoAdOInput): DanoAdOResult {
     contributors.filter((e) => !e.passivo).reduce((s, e) => s + e.value, 0) +
     (input.finalDieSize !== input.baseDieSize ? 1 : 0)
 
+  // Fontes que contribuíram pro AdO (pra listar no tooltip, #162): offset fixo,
+  // por-dado (×diceCount), oportunidade-fixo e os dados de oportunidade.
+  const entries: ConditionEntry[] = []
+  for (const e of fixed) if (e.value !== 0) entries.push({ label: e.label, value: e.value })
+  for (const e of perDie) if (e.value !== 0) entries.push({ label: e.label, value: e.value * diceCount })
+  for (const e of adoFixo) if (e.value !== 0) entries.push({ label: e.label, value: e.value })
+  for (const e of contributors) if (e.value !== 0) entries.push({ label: `${e.label} (dado)`, value: e.value })
+
   return {
     diceCount,
     dieSize: finalDieSize,
@@ -304,5 +314,6 @@ export function computeDanoAdO(input: DanoAdOInput): DanoAdOResult {
     display,
     hasDelta: effectDelta !== 0,
     hasPenalty: fixedSum + perDieSum * diceCount + adoFixoSum < 0 || input.finalDieSize < input.baseDieSize,
+    entries,
   }
 }
