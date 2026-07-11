@@ -164,6 +164,14 @@ describe('PERFIL — cluster Passado (#3, #4)', () => {
   })
 })
 
+describe('criação: classe nasce SEM nada selecionado', () => {
+  it('o dropdown de Classe Inicial tem opção em branco (— Nenhuma —) com value ""', async () => {
+    renderFicha('habilidades')
+    const blank = (await screen.findByRole('option', { name: '— Nenhuma —' })) as HTMLOptionElement
+    expect(blank.value).toBe('')
+  })
+})
+
 describe('#165 magias agrupadas por subcategoria (Arcana/Anima), não por escola', () => {
   it('cabeçalho é "Magias Arcana" (Negra+Branca juntas), não "Magias Arcana Branca"', async () => {
     renderFicha('habilidades')

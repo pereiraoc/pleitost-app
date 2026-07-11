@@ -330,7 +330,12 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       // "Classe"; o design será atualizado pelo usuário).
       label: 'CLASSE INICIAL',
       value: classeFmValue,
-      options: withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
+      // Opção em branco no topo — herói novo nasce SEM classe (Classe=''); sem
+      // isso o <select> mostrava a 1ª opção (Animista) como se estivesse escolhida (#nc).
+      options: [
+        { value: '', label: '— Nenhuma —' },
+        ...withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
+      ],
       onChange: setClasse,
       boxTarget: classeFmValue,
     },
@@ -2005,10 +2010,19 @@ export function TecnicasPanel({
 
   // Técnicas da classe do herói (docs reais) pro painel "Não Aprendidas".
   const classeTarget = wikiTarget(fm['Classe'])
+  // Técnicas disponíveis: as da CLASSE + as Genéricas (todas as classes) + as
+  // Multidisciplinares (multiclasse) — antes só as da classe apareciam (#tec).
+  // O gate por slot de rank (naoAprendidas) continua limitando o que dá pra pegar.
   const tecnicaIds = useMemo(
     () =>
       catalog.content
-        .filter((e) => e.type === 'Técnica' && e.id.includes(`/Técnicas/${classeTarget}/`))
+        .filter(
+          (e) =>
+            e.type === 'Técnica' &&
+            (e.id.includes(`/Técnicas/${classeTarget}/`) ||
+              e.id.includes('/Técnicas/Genéricas/') ||
+              e.id.includes('/Técnicas/Multidisciplinar/')),
+        )
         .map((e) => e.id),
     [catalog, classeTarget],
   )
