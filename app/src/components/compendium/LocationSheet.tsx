@@ -22,7 +22,6 @@ import {
   type LocalType,
   type ProntaEntry,
   type EncomendaEntry,
-  type EntryMeta,
   type Tier,
 } from '../../data/commerce'
 import { buildShopCandidates } from '../../data/commerce-candidates'
@@ -33,16 +32,8 @@ import {
 } from '../../data/commerce-store'
 import { buyTreasure, heroOuro } from '../../data/purchase'
 import { useSelectedCreature } from '../../data/selected-creature-store'
-import { tokens } from '../ficha/registry'
 import { TipProvider, TipHover } from '../ficha/tooltips'
-import { useAssetIndex } from '../../data/assets'
-import { weaponImageUrl } from '../../data/creature-image'
-import {
-  tesouroImageUrl,
-  propriedadeImageUrl,
-  consumivelImageUrl,
-  escudoImageUrlByName,
-} from '../../data/equipment-image'
+import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc } from '../item-card'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
 // (DocView) por uma ficha com abas Detalhes/Comércio/Hexploração na linguagem
@@ -242,198 +233,10 @@ function useHeroOptions(): HeroOption[] {
   }, [vaultEntries, vaultDocs, localEntries, version])
 }
 
-/** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
- *  do fundo. Adepto = aço escuro; Experiente = prata; Mestre = ouro. Usado na
- *  miniatura da lista e na carta do tooltip. */
-const TIER_STYLE: Record<Tier, { grad: string; glow: string; tint: string }> = {
-  A: {
-    grad: 'linear-gradient(135deg,#8b929c,#2b2f36 48%,#9aa1ab)',
-    glow: '0 2px 6px rgba(0,0,0,.5)',
-    tint: 'color-mix(in srgb,#8b929c 12%,var(--card))',
-  },
-  E: {
-    grad: 'linear-gradient(135deg,#f2f6fa,#98a2ad 48%,#fbfdff)',
-    glow: '0 0 9px rgba(203,213,225,.45)',
-    tint: 'color-mix(in srgb,#cbd5e1 14%,var(--card))',
-  },
-  M: {
-    grad: 'linear-gradient(135deg,#ffe6a3,#b8860b 48%,#ffedb8)',
-    glow: '0 0 11px rgba(224,183,60,.55)',
-    tint: 'color-mix(in srgb,#e0b73c 16%,var(--card))',
-  },
-}
 /** Sufixo do tier no nome do item — "(A)"/"(E)"/"(M)". */
 const tierLabel = (tier: Tier): string => `(${TIER_MEDAL_LETTER[tier]})`
 const TIER_MEDAL_LETTER: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
 
-/** Miniatura do item numa MOLDURA metálica do tier (gradiente na borda + glow +
- *  fundo tingido) + selo de imbuição/obra-prima no canto. */
-function ShopFigura({ img, seloImg, tier }: { img: string | null; seloImg: string | null; tier: Tier }) {
-  const t = TIER_STYLE[tier]
-  return (
-    <span
-      style={{
-        position: 'relative',
-        flex: 'none',
-        width: 44,
-        height: 44,
-        borderRadius: 9,
-        padding: 2,
-        background: t.grad,
-        boxShadow: t.glow,
-      }}
-    >
-      <span
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '100%',
-          borderRadius: 7,
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 16,
-          backgroundColor: t.tint,
-          backgroundImage: img ? `url("${img}")` : undefined,
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-      >
-        {img ? null : tokens.emojis.subcategoria.Tesouro}
-      </span>
-      {seloImg ? (
-        <span
-          aria-label="Propriedade"
-          style={{
-            position: 'absolute',
-            right: -7,
-            bottom: -7,
-            width: 24,
-            height: 24,
-            backgroundImage: `url("${seloImg}")`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.6))',
-            pointerEvents: 'none',
-          }}
-        />
-      ) : null}
-    </span>
-  )
-}
-
-/** Alvo de figura/carta de uma entrada (pronta ou encomenda). */
-type FiguraTarget = EntryMeta & { key: string; label: string; tier: Tier; nome?: string }
-
-/** URL da miniatura: combo usa a imagem da ARMA; poção → Consumíveis (por tier);
- *  tesouro → Equipamentos/Implementos; escudo/armadura obra-prima → Armas pelo
- *  basename base. */
-function figuraUrl(
-  e: FiguraTarget,
-  docsById: Map<string, VaultDoc>,
-  assets: ReturnType<typeof useAssetIndex>,
-): string | null {
-  const nome = e.nome ?? e.label
-  if (e.armaTarget) {
-    const w = weaponImageUrl(docsById.get(e.armaTarget), assets)
-    if (w) return w
-  }
-  return (
-    consumivelImageUrl(nome, e.tier, assets) ??
-    tesouroImageUrl(nome, e.tier, assets) ??
-    (e.thumbBasename ? escudoImageUrlByName(e.thumbBasename, assets) : null)
-  )
-}
-
-const esc = (s: string): string =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-
-/** "[[A/B|C]]"→"C", "[[A]]"→"A"; tira aspas de string-literal dataview. */
-const stripWiki = (s: string): string =>
-  s
-    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_m, a: string, b?: string) =>
-      (b ?? a).split('/').pop() ?? a,
-    )
-    .replace(/^"|"$/g, '')
-    .trim()
-
-const CARD_FIELDS: [string, string][] = [
-  ['dano', 'Dano'],
-  ['tipo', 'Tipo'],
-  ['mãos', 'Mãos'],
-  ['alcance', 'Alcance'],
-  ['propriedades', 'Propriedades'],
-  ['preço', 'Preço'],
-]
-const TIER_ADJ: Record<Tier, string> = { A: 'adepto', E: 'experiente', M: 'mestre' }
-
-/** Descrição em PROSA do body — armas guardam a descrição como texto do body
- *  (não em inline field como as imbuições/tesouros). Tira meta %%, fences,
- *  tabela, headings, hr e dataview inline; resolve wikilinks. Vazio se a arma
- *  não tiver prosa (ex.: Azagaia). */
-function bodyDesc(doc: VaultDoc): string {
-  let b = doc.body ?? ''
-  b = b.replace(/%%[\s\S]*?%%/g, '') // bloco meta
-  b = b.replace(/```[\s\S]*?```/g, '') // fences (dataview/rules/carta-item)
-  b = b.replace(/^\s*\|.*$/gm, '') // linhas de tabela
-  b = b.replace(/^\s*#{1,6}\s.*$/gm, '') // headings
-  b = b.replace(/`=[^`]*`/g, '') // dataview inline `= this.x`
-  b = b.replace(/^\s*-{2,}\s*$/gm, '') // hr
-  const txt = stripWiki(b).replace(/\s+/g, ' ').trim()
-  return txt.length > 240 ? txt.slice(0, 238).trimEnd() + '…' : txt
-}
-
-/** HTML da CARTA de um doc (figura + nome + stats do inline + descrição do tier)
- *  — reusa o tooltip do app (TipHover). `showTier`: mostra "(Qualidade)" no nome
- *  — só a PROPRIEDADE (imbuição/obra-prima/material) ou o item avulso têm
- *  qualidade; a ARMA base não (a qualidade vem da propriedade). O FUNDO do tier
- *  fica em ambos (classe tier-*). */
-function docCardHtml(doc: VaultDoc, tier: Tier, imgUrl: string | null, showTier: boolean): string {
-  const f = (doc.inlineFields ?? {}) as Record<string, unknown>
-  const val = (k: string) => (typeof f[k] === 'string' ? stripWiki(f[k] as string) : '')
-  const rows = CARD_FIELDS.map(([k, label]) => {
-    const v = val(k)
-    return v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : ''
-  }).join('')
-  const desc = val(`descrição_${TIER_ADJ[tier]}`) || val('descrição') || val('resumo') || bodyDesc(doc)
-  // "(Qualidade)" numa LINHA própria (shc-tier é block) — homogeneíza os cards
-  // independente do tamanho do nome.
-  const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
-  return `<div class="shc-card tier-${tier}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${desc ? `<div class="shc-desc">${esc(desc)}</div>` : ''}</div>`
-}
-
-/** HTML do hover de uma entrada: combo = carta da ARMA + carta da IMBUIÇÃO lado a
- *  lado; tesouro/poção = 1 carta do próprio doc. Vazio se não houver doc. */
-function entryCardHtml(
-  e: FiguraTarget,
-  docsById: Map<string, VaultDoc>,
-  assets: ReturnType<typeof useAssetIndex>,
-): string {
-  const cards: string[] = []
-  const w = e.armaTarget ? docsById.get(e.armaTarget) : undefined
-  // Arma base: SEM "(Qualidade)" no nome (a qualidade vem da propriedade).
-  if (w) cards.push(docCardHtml(w, e.tier, weaponImageUrl(w, assets), false))
-  const imb = e.imbTarget ? docsById.get(e.imbTarget) : undefined
-  // Propriedade (imbuição/obra-prima/material): COM a qualidade no nome.
-  if (imb) cards.push(docCardHtml(imb, e.tier, propriedadeImageUrl(imb.basename, e.tier, assets), true))
-  if (cards.length === 0) {
-    const d = docsById.get(e.key)
-    // Item avulso (tesouro/poção): a qualidade é dele mesmo.
-    if (d) cards.push(docCardHtml(d, e.tier, figuraUrl({ ...e, nome: d.basename }, docsById, assets), true))
-  }
-  return cards.length ? `<div class="shc-wrap">${cards.join('')}</div>` : ''
-}
-
-/** Miniatura+selo+carta-no-hover de uma entrada. */
-function useItemFigura(e: FiguraTarget, docsById: Map<string, VaultDoc>) {
-  const assets = useAssetIndex()
-  return {
-    img: figuraUrl(e, docsById, assets),
-    seloImg: e.propriedadeBase ? propriedadeImageUrl(e.propriedadeBase, e.tier, assets) : null,
-    cardHtml: entryCardHtml(e, docsById, assets),
-  }
-}
 
 /** Ícone de COMPRAR com tooltip (formato do app). */
 function BuyButton({ label, preco, canBuy, onBuy }: { label: string; preco: number; canBuy: boolean; onBuy: () => void }) {
@@ -485,7 +288,7 @@ function ProntaRow({
   return (
     <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 4px', borderBottom: '1px solid var(--line)' }}>
       <TipHover html={cardHtml}>
-        <ShopFigura img={img} seloImg={seloImg} tier={entry.tier} />
+        <ItemFigura img={img} seloImg={seloImg} tier={entry.tier} />
       </TipHover>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
         <span style={{ fontWeight: 600, fontSize: 13.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -507,7 +310,7 @@ function EncomendaRow({ entry, docsById }: { entry: EncomendaEntry; docsById: Ma
   return (
     <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '6px 4px', borderBottom: '1px solid var(--line)' }}>
       <TipHover html={cardHtml}>
-        <ShopFigura img={img} seloImg={seloImg} tier={entry.tier} />
+        <ItemFigura img={img} seloImg={seloImg} tier={entry.tier} />
       </TipHover>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
         <span style={{ fontSize: 12.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -519,20 +322,6 @@ function EncomendaRow({ entry, docsById }: { entry: EncomendaEntry; docsById: Ma
   )
 }
 
-/** Estilos da carta que aparece no hover da miniatura (dentro do tooltip). */
-const SHC_CSS = `
-.shc-wrap{display:flex;gap:8px;align-items:stretch}
-.shc-card{width:174px;flex:none;display:flex;flex-direction:column;gap:2px;border:3px solid var(--line2);border-radius:11px;padding:7px}
-.shc-card.tier-A{border-color:#6b727c;box-shadow:0 0 0 1px #3a3f47,0 2px 12px rgba(0,0,0,.45);background:linear-gradient(160deg,color-mix(in srgb,#8b929c 12%,var(--card)),var(--card))}
-.shc-card.tier-E{border-color:#dbe3ec;box-shadow:0 0 0 1px #aeb8c4,0 0 14px rgba(203,213,225,.34);background:linear-gradient(160deg,color-mix(in srgb,#cbd5e1 12%,var(--card)),var(--card))}
-.shc-card.tier-M{border-color:#e8c14a;box-shadow:0 0 0 1px #b8860b,0 0 16px rgba(224,183,60,.4);background:linear-gradient(160deg,color-mix(in srgb,#e0b73c 14%,var(--card)),var(--card))}
-.shc-img{width:100%;max-height:140px;object-fit:contain;border-radius:6px;background:var(--panel);margin-bottom:3px}
-.shc-name{font-weight:800;font-size:12.5px}
-.shc-tier{display:block;margin-top:1px;opacity:.7;font-weight:600;font-size:11px}
-.shc-row{font-size:11.5px;overflow-wrap:anywhere}
-.shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
-.shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
-`
 
 /** Caixa (painel cortado) que envolve uma lista da loja. */
 const LIST_BOX: CSSProperties = {
@@ -723,7 +512,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
 
   return (
     <TipProvider>
-      <style>{SHC_CSS}</style>
+      <style>{ITEM_CARD_CSS}</style>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {/* Controles do GM (Modo Mestre) em UMA linha acima das abas: RE-ROLAR à
           esquerda; PRONTA/ENCOMENDA à direita. Sem cabeçalho de loja/herói/saldo
