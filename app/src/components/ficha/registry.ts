@@ -77,6 +77,13 @@ export const ATTR_DOT_COLORS = ['#e0bd55', '#cfd3d8', '#b07a3a', '#5a5a5a']
 /** Emojis de atributo (💪💨🧠🗣️) — registro do plugin. */
 export const ATTR_EMOJI: Record<string, string> = tokens.emojis.atributo
 
+/** Emoji da Especialidade (🎖️ medalha, igual ao autosheet) e da Maestria (🏆
+ *  troféu). Centralizado aqui (não hardcodar no call-site) — usado em
+ *  Competências/Perícias e Combate/Perícias (#163). */
+export const ESPECIALIDADE_EMOJI: string =
+  (tokens.emojis.subcategoria as Record<string, string>).Especializacao
+export const MAESTRIA_EMOJI = '🏆'
+
 /** Slug NFD-strip do plugin (util/display-names.ts) — chave dos registros. */
 export function slugify(s: string): string {
   return String(s)

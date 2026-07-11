@@ -55,7 +55,9 @@ import {
   custoEmoji,
   defesaEmoji,
   displayName,
+  ESPECIALIDADE_EMOJI,
   grupoArmaEmoji,
+  MAESTRIA_EMOJI,
   magiaEmoji,
   rankGroupLabel,
   slugify,
@@ -1770,7 +1772,7 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                       <span style={labelStyle}>ESPECIALIDADE</span>
                       <ItemHover doc={espMaestriaDoc(esp)} tier="E" fullBody>
                         <span style={chipStyle('#cbd5e1')}>
-                          <span style={{ fontSize: 11 }}>🎯</span>
+                          <span style={{ fontSize: 11 }}>{ESPECIALIDADE_EMOJI}</span>
                           {esp}
                         </span>
                       </ItemHover>
@@ -1782,7 +1784,7 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                       <span style={labelStyle}>MAESTRIA</span>
                       <ItemHover doc={espMaestriaDoc(mae)} tier="M" fullBody>
                         <span style={chipStyle('var(--gold)')}>
-                          <span style={{ fontSize: 11 }}>👑</span>
+                          <span style={{ fontSize: 11 }}>{MAESTRIA_EMOJI}</span>
                           {mae}
                         </span>
                       </ItemHover>
