@@ -2369,7 +2369,12 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   )
   const slotsFm = fmPath(fm, 'Magias', 'Slots') as Record<string, unknown> | undefined
 
-  const h2Of = (nome: string) => (nome === 'Tesouros' ? 'Magias de Tesouros' : `Magias ${nome}`)
+  // O design agrupa magias por SUBCATEGORIA ("Magias Arcana" — Negra+Branca
+  // juntas — "Magias Anima"), não por escola (#165). Escola "Arcana Negra"/
+  // "Arcana Branca" → Arcana; "Anima" → Anima.
+  const escolaSubcat = (nome: string): string => (nome === 'Tesouros' ? 'Tesouros' : nome.split(' ')[0])
+  const h2Of = (nome: string) =>
+    nome === 'Tesouros' ? 'Magias de Tesouros' : `Magias ${escolaSubcat(nome)}`
 
   // Docs de magia da vault por escola (pasta "Magia <Escola>") pro painel edit —
   // pelas escolas PROFICIENTES (fonte das não-aprendidas), não pelas aprendidas.
@@ -2494,10 +2499,14 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
               📖 Magias Aprendidas
             </div>
-            {escolas.map((escola) => {
+            {escolas.map((escola, escolaIdx) => {
               const nome = str(escola.Nome)
               const entries = listaEntries(escola.Lista)
               const isTesouro = nome === 'Tesouros'
+              // Cabeçalho da subcategoria só quando muda (Arcana Negra + Branca
+              // ficam sob um único "Magias Arcana", como no design — #165).
+              const showH2 =
+                escolaIdx === 0 || escolaSubcat(str(escolas[escolaIdx - 1].Nome)) !== escolaSubcat(nome)
               const byRank = new Map<string, ListaEntry[]>()
               for (const e of entries) {
                 const rank = isTesouro
@@ -2515,19 +2524,21 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 : RANK_GROUP_ORDER.filter((g) => byRank.has(g) || emptyOfRank(g) > 0)
               return (
                 <div key={nome} style={{ marginBottom: 13 }}>
-                  <div
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: 10,
-                      fontWeight: 700,
-                      letterSpacing: '.05em',
-                      textTransform: 'uppercase',
-                      color: 'var(--muted)',
-                      marginBottom: 9,
-                    }}
-                  >
-                    {h2Of(nome)}
-                  </div>
+                  {showH2 ? (
+                    <div
+                      style={{
+                        fontFamily: 'var(--mono)',
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: '.05em',
+                        textTransform: 'uppercase',
+                        color: 'var(--muted)',
+                        marginBottom: 9,
+                      }}
+                    >
+                      {h2Of(nome)}
+                    </div>
+                  ) : null}
                   {groupKeys.map((g) => (
                     <div key={g || 'tesouro'} style={{ marginBottom: 9 }}>
                       {g ? (

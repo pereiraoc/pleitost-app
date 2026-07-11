@@ -164,6 +164,15 @@ describe('PERFIL — cluster Passado (#3, #4)', () => {
   })
 })
 
+describe('#165 magias agrupadas por subcategoria (Arcana/Anima), não por escola', () => {
+  it('cabeçalho é "Magias Arcana" (Negra+Branca juntas), não "Magias Arcana Branca"', async () => {
+    renderFicha('habilidades')
+    expect(await screen.findByText('Magias Arcana')).toBeTruthy()
+    expect(screen.queryByText('Magias Arcana Branca')).toBeNull()
+    expect(screen.queryByText('Magias Arcana Negra')).toBeNull()
+  })
+})
+
 describe('COMPETÊNCIAS/PERÍCIAS — escolhas de ESPECIALIZAÇÕES (#26)', () => {
   /** Abre o modo edição do painel Especialidades e Maestrias (pelo cabeçalho). */
   async function abrirEdicao() {
