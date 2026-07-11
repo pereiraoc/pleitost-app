@@ -197,6 +197,10 @@ export function targetToModelPath(targetRaw: string): string | null {
   // `armasProf[1].toLowerCase()`).
   const armas = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais|Especificas)$/.exec(targetRaw)
   if (armas) return `inventario.armas.proficiencia.${armas[1].toLowerCase()}`
+  // Potência Mágica e EM Máximo (Definir Magias.Potencia/EM) — pro tooltip das
+  // FONTES de elementos de regra no número (#145).
+  if (targetRaw === 'Magias.Potencia') return 'magias.potencia'
+  if (targetRaw === 'Magias.EM') return 'magias.em'
   return null
 }
 

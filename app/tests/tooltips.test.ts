@@ -94,6 +94,15 @@ beforeAll(async () => {
   projection = out.projection
 })
 
+describe('#145 fontes de Potência Mágica / EM Máximo (elementos de regra)', () => {
+  it('ruleSourcesByPath tem as fontes de magias.potencia e magias.em (Definir)', () => {
+    // Carlos (Bardo) recebe Potência/EM por Definir Magias.Potencia/EM na cadeia
+    // de regras — o tooltip do NÚMERO lista essas fontes.
+    expect(projection.ruleSourcesByPath['magias.potencia']?.length ?? 0).toBeGreaterThan(0)
+    expect(projection.ruleSourcesByPath['magias.em']?.length ?? 0).toBeGreaterThan(0)
+  })
+})
+
 // ─────────────────── A) breakdown byte-exact vs Interativa ───────────────────
 
 describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa (Carlos)', () => {

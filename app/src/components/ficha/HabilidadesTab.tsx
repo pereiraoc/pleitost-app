@@ -2442,9 +2442,12 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               </span>
             </ItemHover>
             <span style={{ flex: 1 }} />
-            <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
-              {num(fmPath(fm, 'Magias', 'Potencia'))}
-            </span>
+            {/* Fontes (elementos de regra) que somam a Potência, no NÚMERO (#145). */}
+            <TipHover html={sourceTipHtml(rules?.ruleSourcesByPath['magias.potencia'])}>
+              <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
+                {num(fmPath(fm, 'Magias', 'Potencia'))}
+              </span>
+            </TipHover>
           </div>
           <div style={{ width: 1, alignSelf: 'stretch', background: 'var(--line)', margin: '0 22px' }} />
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 9 }}>
@@ -2464,9 +2467,12 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               </span>
             </ItemHover>
             <span style={{ flex: 1 }} />
-            <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
-              {num(fmPath(fm, 'Magias', 'EM'))}
-            </span>
+            {/* Fontes (elementos de regra) que somam o EM Máximo, no NÚMERO (#145). */}
+            <TipHover html={sourceTipHtml(rules?.ruleSourcesByPath['magias.em'])}>
+              <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
+                {num(fmPath(fm, 'Magias', 'EM'))}
+              </span>
+            </TipHover>
           </div>
         </div>
       </div>
