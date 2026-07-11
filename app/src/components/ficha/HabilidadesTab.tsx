@@ -167,9 +167,6 @@ export function StarChip({ n, compact = false }: { n: number; compact?: boolean 
   )
 }
 
-function Lupa() {
-  return <span style={{ fontSize: 11, opacity: 0.5, flex: 'none' }}>🔍</span>
-}
 
 function Losango() {
   return (
@@ -1550,6 +1547,15 @@ function habTree(
   return groups
 }
 
+/** Cor da borda por RANK (aço escuro / prata / ouro) — mesma linguagem metálica
+ *  dos tiers do item-card, aplicada às habilidades/técnicas. */
+const RANK_BORDER: Record<string, string> = {
+  Básica: '#6b727c',
+  Adepta: '#6b727c',
+  Experiente: '#dbe3ec',
+  Mestre: '#e8c14a',
+}
+
 function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
@@ -1579,6 +1585,10 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
 
   const groups = habTree(entries, refs.refDoc, refs.loaded, choicesByTarget)
   const ordered = RANK_GROUP_ORDER.filter((g) => groups.has(g))
+  // 2 colunas: esquerda = Básica/Adepta; direita = Experiente/Mestre (Mestre
+  // ABAIXO de Experiente, não na coluna da esquerda).
+  const leftGroups = ordered.filter((g) => g === 'Básica' || g === 'Adepta')
+  const rightGroups = ordered.filter((g) => g === 'Experiente' || g === 'Mestre')
 
   // Persiste o pick de uma `Escolha_Habilidades` (não-subclasse) como ESTADO no
   // FM salvo: regrava a linha `Escolha.[[<parent>]]` na LISTA-ALVO da choice
@@ -1609,8 +1619,10 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
   return (
     <div style={panel}>
       <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>Habilidades</div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: '10px 26px' }}>
-        {ordered.map((g) => (
+      <div style={{ display: 'flex', gap: 26, alignItems: 'flex-start' }}>
+        {[leftGroups, rightGroups].map((col, ci) => (
+          <div key={ci} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {col.map((g) => (
           <div key={g}>
             <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)', marginBottom: 8 }}>
               {g}
@@ -1623,7 +1635,8 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                       display: 'flex',
                       alignItems: 'center',
                       gap: 7,
-                      paddingLeft: it.child ? 26 : 0,
+                      paddingLeft: it.child ? 30 : 8,
+                      borderLeft: `3px solid ${RANK_BORDER[g] ?? 'var(--line2)'}`,
                     }}
                   >
                     <Losango />
@@ -1631,7 +1644,6 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                     <ItemHover doc={refs.refDoc(it.target)}>
                       <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
                     </ItemHover>
-                    <Lupa />
                   </div>
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
                       children — mesmo SelectBox da subclasse (plugin
@@ -1672,6 +1684,8 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                 </div>
               ))}
             </div>
+          </div>
+            ))}
           </div>
         ))}
       </div>
@@ -1747,7 +1761,6 @@ function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 {badge}
               </span>
               <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{e.label}</span>
-              <Lupa />
             </div>
           )
         })}
@@ -1919,11 +1932,19 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   }}
                 >
                   {g}
-                  <Lupa />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {rows.map((e) => (
-                    <div key={e.target} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div
+                      key={e.target}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        paddingLeft: 8,
+                        borderLeft: `3px solid ${RANK_BORDER[g] ?? 'var(--line2)'}`,
+                      }}
+                    >
                       {/* − só nas slot-learned (rule-granted é readonly, plugin). */}
                       {edit && e.fonte.kind === 'Slot' ? (
                         <button
@@ -1966,7 +1987,6 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           {e.label}
                         </span>
                       </ItemHover>
-                      <Lupa />
                     </div>
                   ))}
                   {Array.from({ length: realEmpty }, (_, i) => (
@@ -2297,7 +2317,6 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           }}
                         >
                           {g}
-                          <Lupa />
                         </div>
                       ) : null}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
@@ -2386,7 +2405,7 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                               >
                                 {e.label}
                               </span>
-                              {!isTesouro ? <Lupa /> : null}
+                              
                             </div>
                           )
                         })}
