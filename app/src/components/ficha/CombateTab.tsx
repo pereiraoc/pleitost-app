@@ -1831,7 +1831,16 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                         clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
                       }}
                     >
-                      <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
+                      {(() => {
+                        // Ícone do CUSTO de ações (1️⃣/2️⃣/3️⃣/↩️…) em vez do
+                        // pontinho — fonte: `custo` do doc da ação (#164).
+                        const ico = custoEmoji(docField(ac, 'custo'))
+                        return ico ? (
+                          <span style={{ fontSize: 11 }}>{ico}</span>
+                        ) : (
+                          <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
+                        )
+                      })()}
                       {ac.basename}
                     </span>
                   </ItemHover>
