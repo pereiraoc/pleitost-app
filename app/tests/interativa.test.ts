@@ -50,7 +50,7 @@ import {
   defaultNumericSelector,
   seedSelectores,
 } from '../src/interativa/useInterativaCtx'
-import { fmPath, heroAtributos, parseDanoArma, PROF_DICE, rowMod, signed, str, wikiTarget, type ProfRow } from '../src/components/ficha/hero-model'
+import { fmPath, heroAtributos, oficioMod, parseDanoArma, profLetter, PROF_DICE, rowMod, signed, str, wikiTarget, type ProfRow } from '../src/components/ficha/hero-model'
 import { slugify, tokens } from '../src/components/ficha/registry'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -275,6 +275,18 @@ describe('oráculo: painéis pós-clique', () => {
     )
     const chips = condChipDefs(condicaoDocs, computed.descriptors, tokens.emojis.bonusType.Condicao)
     expect(new Set(chips.map((c) => c.nome))).toEqual(goldenLista)
+  })
+})
+
+describe('#33 ofício prof N: atributo não conta no mod', () => {
+  it('oficioMod omite o atributo com prof N (rowMod antigo somava e divergia)', () => {
+    const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]
+    const profN = oficios.find((o) => profLetter(o) === 'N' && (attrs[str(o.Atributo)] ?? 0) !== 0)
+    expect(profN, 'esperava um ofício prof N com atributo ≠ 0 (Conhecimento INT)').toBeTruthy()
+    const atr = attrs[str(profN!.Atributo)] ?? 0
+    expect(atr).toBeGreaterThan(0)
+    // a diferença rowMod−oficioMod é exatamente o atributo (que o plugin não conta)
+    expect(rowMod(profN!, attrs) - oficioMod(profN!, attrs)).toBe(atr)
   })
 })
 

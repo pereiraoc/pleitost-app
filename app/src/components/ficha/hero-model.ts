@@ -88,6 +88,20 @@ export function rowMod(row: ProfRow, attrs: Record<string, number>): number {
   )
 }
 
+/** Mod de OFÍCIO (#33): como rowMod, mas o atributo SÓ conta com prof ≥ A —
+ *  espelho do buildOficioBreakdown do plugin (modificadores.ts:577-594). Ofício
+ *  N com atributo ≠ 0 não soma o atributo (caixa = breakdown). */
+export function oficioMod(row: ProfRow, attrs: Record<string, number>): number {
+  const prof = profLetter(row)
+  const attrApplies = prof === 'A' || prof === 'E' || prof === 'M'
+  return (
+    (attrApplies ? (attrs[row.Atributo ?? ''] ?? 0) : 0) +
+    PROF_BONUS[prof] +
+    num(row.Bonus_Item) +
+    num(row.Bonus_Especial)
+  )
+}
+
 /** Fonte de um incremento do modelo ("Slot.A" | "Regra.[[X]]" | "Passado" | "Escolha.[[X]]" | "Tesouro.[[X]]"). */
 export interface IncrementoFonte {
   kind: 'Slot' | 'Regra' | 'Passado' | 'Escolha' | 'Tesouro' | 'Outro'

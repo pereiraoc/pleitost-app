@@ -81,6 +81,7 @@ import {
   num,
   profLetter,
   rankStates,
+  oficioMod,
   rowMod,
   shortSubclass,
   signed,
@@ -1506,7 +1507,7 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
                 // linhas zeradas omitidas, total sem sinal no popup.
                 <TipHover html={renderBreakdownHtml(oficioBreakdown(row, attrs))}>
                   <ModBox
-                    modStr={signed(rowMod(row, attrs))}
+                    modStr={signed(oficioMod(row, attrs))}
                     rank={profLetter(row)}
                     star={num(row.Bonus_Especial) > 0}
                     dots={num(row.Bonus_Item)}
