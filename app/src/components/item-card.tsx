@@ -15,6 +15,8 @@ import {
 import { tokens } from './ficha/registry'
 import { TIER_COLUNA, type Tier, type EntryMeta } from '../data/commerce'
 import type { VaultDoc } from '../data/types'
+import { TipHover } from './ficha/tooltips'
+import type { ReactNode } from 'react'
 
 /** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
  *  do fundo. Adepto = aço escuro; Experiente = prata; Mestre = ouro. Usado na
@@ -316,3 +318,32 @@ export const ITEM_CARD_CSS = `
 .shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
 .shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
 `
+
+/** Envolve `children` mostrando a CARTA do item no hover (desktop) / tap (mobile),
+ *  reusando o tooltip do app (TipHover). Precisa de um `<TipProvider>` ancestral
+ *  e do `ITEM_CARD_CSS` na tela. `propDoc` = 2ª carta (imbuição/obra-prima da
+ *  arma). Sem doc → renderiza os filhos sem hover. */
+export function ItemHover({
+  doc,
+  propDoc,
+  tier = 'A',
+  children,
+}: {
+  doc?: VaultDoc
+  propDoc?: VaultDoc
+  tier?: Tier
+  children: ReactNode
+}) {
+  const assets = useAssetIndex()
+  if (!doc) return <>{children}</>
+  const cards: string[] = []
+  if (propDoc) {
+    // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade).
+    cards.push(itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), false))
+    cards.push(itemCardHtml(propDoc, tier, docImageUrl(propDoc, tier, assets), true))
+  } else {
+    // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier).
+    cards.push(itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), docKind(doc) === 'tesouro'))
+  }
+  return <TipHover html={`<div class="shc-wrap">${cards.join('')}</div>`}>{children}</TipHover>
+}

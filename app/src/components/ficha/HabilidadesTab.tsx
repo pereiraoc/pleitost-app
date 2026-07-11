@@ -50,6 +50,7 @@ import {
   sourceTipHtml,
   type BreakdownResult,
 } from './tooltips'
+import { ItemHover, ITEM_CARD_CSS } from '../item-card'
 import {
   ATTR_DOT_COLORS,
   ATTR_EMOJI,
@@ -1627,7 +1628,9 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                   >
                     <Losango />
                     {it.ic ? <span style={{ fontSize: 13, flex: 'none' }}>{it.ic}</span> : null}
-                    <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
+                    <ItemHover doc={refs.refDoc(it.target)}>
+                      <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
+                    </ItemHover>
                     <Lupa />
                   </div>
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
@@ -1948,19 +1951,21 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         </button>
                       ) : null}
                       <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
-                      <span
-                        style={{
-                          fontWeight: 600,
-                          color: 'var(--blue)',
-                          fontSize: 13.5,
-                          minWidth: 0,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {e.label}
-                      </span>
+                      <ItemHover doc={refs.refDoc(e.target)}>
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: 'var(--blue)',
+                            fontSize: 13.5,
+                            minWidth: 0,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {e.label}
+                        </span>
+                      </ItemHover>
                       <Lupa />
                     </div>
                   ))}
@@ -2585,6 +2590,7 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
     // TipProvider: overlay singleton dos tooltips da aba (#21 #22 #25) —
     // espelho do popup único do plugin (breakdown-tooltip.ts:18-39).
     <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
       <div
         style={{
           maxWidth: 1180,

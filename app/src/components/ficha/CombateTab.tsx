@@ -22,6 +22,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
 import { propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image'
+import { ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -1327,11 +1328,13 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         )
         return (
           <div key={`${nome}-${i}`} style={rowStyle}>
-            <AtaqueArmaFigura
-              img={armaImg}
-              propImg={propImg}
-              emoji={grupoArmaEmoji(fmOf(armaDoc)['grupo'])}
-            />
+            <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier || 'A'}>
+              <AtaqueArmaFigura
+                img={armaImg}
+                propImg={propImg}
+                emoji={grupoArmaEmoji(fmOf(armaDoc)['grupo'])}
+              />
+            </ItemHover>
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
               {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
@@ -2393,6 +2396,7 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     // (defesas/sentidos/perícias/ataques/danos — #21/#22/#25), mesmo padrão
     // da HabilidadesTab. 1 provider por render de aba.
     <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
       <div
         style={{
           maxWidth: 1180,

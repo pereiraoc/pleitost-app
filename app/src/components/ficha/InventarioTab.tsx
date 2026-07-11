@@ -13,6 +13,8 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
+import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { TipProvider } from './tooltips'
 import { weaponImageUrl } from '../../data/creature-image'
 import {
   escudoImageUrlByName,
@@ -430,29 +432,31 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   clipPath: clip(12),
                 }}
               >
-                <span
-                  style={{
-                    position: 'relative',
-                    width: 96,
-                    height: 96,
-                    flex: 'none',
-                    background: 'var(--panel2)',
-                    border: '1px solid var(--line2)',
-                    clipPath: clip(9),
-                    backgroundImage: img ? `url("${img}")` : undefined,
-                    // figura INTEIRA reduzida no quadrado, sem esticar nem
-                    // cortar (issue #27) — mesmo fit do render das cartas do
-                    // pleitost-views (armas-render.ts:162-164: <img> com
-                    // max-width/max-height preserva o aspecto e mostra tudo)
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                  }}
-                >
-                  {/* Selo de obra-prima (issue #65): canto inferior DIREITO,
-                      DENTRO do quadrado, menor pra não cobrir a arma. */}
-                  {weaponSelo ? <SeloObraPrima url={weaponSelo} size={34} /> : null}
-                </span>
+                <ItemHover doc={armaDoc} propDoc={propDoc} tier={arma.tier || 'A'}>
+                  <span
+                    style={{
+                      position: 'relative',
+                      width: 96,
+                      height: 96,
+                      flex: 'none',
+                      background: 'var(--panel2)',
+                      border: '1px solid var(--line2)',
+                      clipPath: clip(9),
+                      backgroundImage: img ? `url("${img}")` : undefined,
+                      // figura INTEIRA reduzida no quadrado, sem esticar nem
+                      // cortar (issue #27) — mesmo fit do render das cartas do
+                      // pleitost-views (armas-render.ts:162-164: <img> com
+                      // max-width/max-height preserva o aspecto e mostra tudo)
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                    }}
+                  >
+                    {/* Selo de obra-prima (issue #65): canto inferior DIREITO,
+                        DENTRO do quadrado, menor pra não cobrir a arma. */}
+                    {weaponSelo ? <SeloObraPrima url={weaponSelo} size={34} /> : null}
+                  </span>
+                </ItemHover>
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end', flexWrap: 'wrap' }}>
                     <span
@@ -1470,6 +1474,8 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
   )
 
   return (
+    <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
     <div
       style={{
         maxWidth: 1180,
@@ -1514,5 +1520,6 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         />
       ) : null}
     </div>
+    </TipProvider>
   )
 }
