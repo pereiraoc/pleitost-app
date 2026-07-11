@@ -1567,6 +1567,9 @@ interface HabChoice {
   kind: 'complementar-sel' | 'escolha-prop-map' | 'escolha-pericia-especial'
   /** targetRaw (`Complementar Tecnicas.Lista …`) — qual lista o pick alimenta. */
   targetRaw?: string
+  /** Ocorrência 1-based da escolha dentro do MESMO pai (Escolha.NN.[[pai]]) —
+   *  sem isso várias escolhas do mesmo pai (5 essências) colidiam num só pick. */
+  occ?: number
 }
 
 interface TreeItem {
@@ -1673,6 +1676,7 @@ export function HabilidadesArvorePanel({
         pick: c.pick,
         kind: c.kind,
         targetRaw: c.targetRaw,
+        occ: c.occurrenceWithinParent,
       })
       map.set(base, list)
     }
@@ -1703,17 +1707,23 @@ export function HabilidadesArvorePanel({
     const target = choiceTargetList(choice.targetRaw)
     const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
     const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
     const newKey = `[[${wikiTarget(newWl)}]]`
-    // Remove a linha antiga desta MESMA escolha (mesma tag) e injeta a nova —
-    // o pick é 1-para-1 com a tag `Escolha.[[parent]]`.
+    // Tag INDEXADA pela ocorrência (Escolha.NN.[[pai]]) — o resolveChoice do
+    // plugin lê exatamente essa. Sem o índice, várias escolhas do mesmo pai
+    // (5 essências) escreviam a MESMA tag e mudar uma mudava todas.
+    const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
+    const newSource = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
+    // Remove SÓ a linha desta MESMA ocorrência (tag exata) — as irmãs ficam.
+    const thisTagRx = nn
+      ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
+      : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
     const kept = savedList.filter((row) => {
       const entriesRow = Object.entries(row)
       if (entriesRow.length !== 1) return true
       const src = entriesRow[0][1]
-      return !(typeof src === 'string' && tagRx.test(src))
+      return !(typeof src === 'string' && thisTagRx.test(src))
     })
-    kept.push({ [newKey]: `Escolha.[[${parentTarget}]]` })
+    kept.push({ [newKey]: newSource })
     model.set(target.fmKey, kept)
   }
 
