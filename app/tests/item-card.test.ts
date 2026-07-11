@@ -6,7 +6,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
-import { bodyDesc, itemCardHtml, composedCardHtml } from '../src/components/item-card'
+import { bodyDesc, itemCardHtml, composedCardHtml, docKind } from '../src/components/item-card'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -74,5 +74,38 @@ describe('composedCardHtml — combo arma × imbuição', () => {
     expect(html).toContain('Relampejante')
     // exatamente 1 selo de qualidade "(Adepto)" — o da imbuição (arma não tem)
     expect((html.match(/shc-tier/g) ?? []).length).toBe(1)
+  })
+})
+
+describe('#96 — schema de campos por tipo', () => {
+  const habilidade = byName('Ataque Furtivo')
+  const tecnica = byName('Ambidestria')
+  const magia = byName('Bola de Fogo')
+
+  it('docKind classifica pelo caminho do doc', () => {
+    expect(docKind(adaga)).toBe('arma')
+    expect(docKind(anel)).toBe('tesouro')
+    expect(docKind(habilidade)).toBe('habilidade')
+    expect(docKind(tecnica)).toBe('tecnica')
+    expect(docKind(magia)).toBe('magia')
+  })
+
+  it('habilidade: Classe + Rank + efeito, SEM campos de arma', () => {
+    const html = itemCardHtml(habilidade, 'A', null, false)
+    expect(html).toContain('Classe')
+    expect(html).toContain('Rank')
+    expect(html).not.toContain('>Dano<')
+    expect(html).toContain('shc-desc') // o efeito (resumo/prosa)
+  })
+
+  it('técnica: mostra Custo', () => {
+    expect(itemCardHtml(tecnica, 'A', null, false)).toContain('Custo')
+  })
+
+  it('tesouro: Usos + Bônus do tier (Anel Canário Adepto)', () => {
+    const html = itemCardHtml(anel, 'A', null, true)
+    expect(html).toContain('Usos')
+    expect(html).toContain('Bônus')
+    expect(html).toContain('pericia') // bonus_tipo
   })
 })

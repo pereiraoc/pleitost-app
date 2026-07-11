@@ -131,15 +131,105 @@ const stripWiki = (s: string): string =>
     .replace(/^"|"$/g, '')
     .trim()
 
-const CARD_FIELDS: [string, string][] = [
-  ['dano', 'Dano'],
-  ['tipo', 'Tipo'],
-  ['mãos', 'Mãos'],
-  ['alcance', 'Alcance'],
-  ['propriedades', 'Propriedades'],
-  ['preço', 'Preço'],
-]
+/** Tipo do card, derivado do CAMINHO do doc (fonte de verdade da vault). */
+export type CardKind =
+  | 'arma'
+  | 'armadura'
+  | 'escudo'
+  | 'tesouro'
+  | 'habilidade'
+  | 'tecnica'
+  | 'magia'
+  | 'acao'
+  | 'propriedade'
+  | 'pericia'
+  | 'generic'
+
+export function docKind(doc: VaultDoc): CardKind {
+  const id = doc.id
+  if (id.includes('/Equipamento/Armas/')) return 'arma'
+  if (id.includes('/Equipamento/Armaduras/')) return 'armadura'
+  if (id.includes('/Equipamento/Escudos/')) return 'escudo'
+  if (id.includes('/Equipamento/Tesouros/')) return 'tesouro'
+  if (id.includes('/Criação de Personagem/Habilidades/')) return 'habilidade'
+  if (id.includes('/Criação de Personagem/Técnicas/')) return 'tecnica'
+  if (id.includes('/Criação de Personagem/Magia/')) return 'magia'
+  if (id.includes('/Regras/Ações/')) return 'acao'
+  if (id.includes('/Regras/Propriedades/')) return 'propriedade'
+  if (id.includes('/Regras/Perícias e Especializações/')) return 'pericia'
+  return 'generic'
+}
+
+/** Campos (inline field → rótulo) que cada tipo mostra no card, na ordem. Os
+ *  rótulos/origem vêm dos próprios dados — nada inventado. Só campos que EXISTEM
+ *  renderizam. Tesouro ganha ainda Usos/Bônus do tier (tratados à parte na
+ *  itemCardHtml). A descrição vem do inline (por tier) ou da prosa do body. */
+const CARD_SCHEMA: Record<CardKind, [string, string][]> = {
+  arma: [
+    ['dano', 'Dano'],
+    ['tipo', 'Tipo'],
+    ['mãos', 'Mãos'],
+    ['alcance', 'Alcance'],
+    ['propriedades', 'Propriedades'],
+    ['preço', 'Preço'],
+  ],
+  armadura: [
+    ['bonus-defesa', 'Defesa'],
+    ['força-necessaria', 'Força'],
+    ['propriedades', 'Propriedades'],
+    ['preço', 'Preço'],
+  ],
+  escudo: [
+    ['bonus-defesa', 'Defesa'],
+    ['dureza', 'Dureza'],
+    ['danos', 'Dano'],
+    ['propriedades', 'Propriedades'],
+    ['preço', 'Preço'],
+  ],
+  tesouro: [
+    ['propriedades', 'Propriedades'],
+    ['preço', 'Preço'],
+  ],
+  habilidade: [
+    ['classe', 'Classe'],
+    ['rank', 'Rank'],
+  ],
+  tecnica: [
+    ['classe', 'Classe'],
+    ['rank', 'Rank'],
+    ['custo', 'Custo'],
+  ],
+  magia: [
+    ['classe', 'Classe'],
+    ['habilidade', 'Habilidade'],
+  ],
+  acao: [
+    ['perícia', 'Perícia'],
+    ['propriedades', 'Propriedades'],
+  ],
+  propriedade: [],
+  pericia: [],
+  generic: [],
+}
 const TIER_ADJ: Record<Tier, string> = { A: 'adepto', E: 'experiente', M: 'mestre' }
+
+/** Figura de um DOC pelo seu tipo (arma/escudo → Armas; imbuição/obra-prima →
+ *  Imbuições; poção → Consumíveis; demais tesouros → Equipamentos/Implementos).
+ *  Habilidade/magia/etc não têm figura → null. */
+export function docImageUrl(
+  doc: VaultDoc,
+  tier: Tier,
+  assets: ReturnType<typeof useAssetIndex>,
+): string | null {
+  const id = doc.id
+  if (id.includes('/Equipamento/Armas/') || id.includes('/Equipamento/Escudos/')) {
+    return weaponImageUrl(doc, assets)
+  }
+  if (id.includes('/Imbuições e Qualidade/')) return propriedadeImageUrl(doc.basename, tier, assets)
+  if (id.includes('/Consumíveis/')) return consumivelImageUrl(doc.basename, tier, assets)
+  if (id.includes('/Equipamento/Tesouros/')) return tesouroImageUrl(doc.basename, tier, assets)
+  return null
+}
 
 /** Descrição em PROSA do body — armas guardam a descrição como texto do body
  *  (não em inline field como as imbuições/tesouros). Tira meta %%, fences,
@@ -164,10 +254,17 @@ export function bodyDesc(doc: VaultDoc): string {
 export function itemCardHtml(doc: VaultDoc, tier: Tier, imgUrl: string | null, showTier: boolean): string {
   const f = (doc.inlineFields ?? {}) as Record<string, unknown>
   const val = (k: string) => (typeof f[k] === 'string' ? stripWiki(f[k] as string) : '')
-  const rows = CARD_FIELDS.map(([k, label]) => {
-    const v = val(k)
-    return v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : ''
-  }).join('')
+  const row = (label: string, v: string) => (v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : '')
+  const kind = docKind(doc)
+  const parts: string[] = CARD_SCHEMA[kind].map(([k, label]) => row(label, val(k)))
+  // Tesouro (imbuição/obra-prima/equipamento/implemento/poção): Usos + Bônus do tier.
+  if (kind === 'tesouro') {
+    parts.push(row('Usos', val(`usos_${TIER_ADJ[tier]}`)))
+    const bonus = val(`bonus_${TIER_ADJ[tier]}`)
+    const btipo = val('bonus_tipo')
+    parts.push(row('Bônus', bonus ? (btipo ? `${bonus} ${btipo}` : bonus) : ''))
+  }
+  const rows = parts.join('')
   const desc = val(`descrição_${TIER_ADJ[tier]}`) || val('descrição') || val('resumo') || bodyDesc(doc)
   const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
   return `<div class="shc-card tier-${tier}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${desc ? `<div class="shc-desc">${esc(desc)}</div>` : ''}</div>`
@@ -183,14 +280,14 @@ export function composedCardHtml(
   const cards: string[] = []
   const w = e.armaTarget ? docsById.get(e.armaTarget) : undefined
   // Arma base: SEM "(Qualidade)" no nome (a qualidade vem da propriedade).
-  if (w) cards.push(itemCardHtml(w, e.tier, weaponImageUrl(w, assets), false))
+  if (w) cards.push(itemCardHtml(w, e.tier, docImageUrl(w, e.tier, assets), false))
   const imb = e.imbTarget ? docsById.get(e.imbTarget) : undefined
   // Propriedade (imbuição/obra-prima/material): COM a qualidade no nome.
-  if (imb) cards.push(itemCardHtml(imb, e.tier, propriedadeImageUrl(imb.basename, e.tier, assets), true))
+  if (imb) cards.push(itemCardHtml(imb, e.tier, docImageUrl(imb, e.tier, assets), true))
   if (cards.length === 0) {
     const d = docsById.get(e.key)
     // Item avulso (tesouro/poção): a qualidade é dele mesmo.
-    if (d) cards.push(itemCardHtml(d, e.tier, figuraUrl({ ...e, nome: d.basename }, docsById, assets), true))
+    if (d) cards.push(itemCardHtml(d, e.tier, docImageUrl(d, e.tier, assets), true))
   }
   return cards.length ? `<div class="shc-wrap">${cards.join('')}</div>` : ''
 }
