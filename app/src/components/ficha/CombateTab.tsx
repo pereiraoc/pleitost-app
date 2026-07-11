@@ -29,6 +29,7 @@ import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots, GoldDots } from './bits'
+import { wikiStrip } from './local-tip'
 import {
   TipProvider,
   TipHover,
@@ -1380,6 +1381,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         const usosMaxN = tier ? usosPorTier(propDoc, tier) : null
         const usoKey = `arma:${nome}|prop:${prop}`
         const usoCur = interState.usos[usoKey] !== undefined ? num(interState.usos[usoKey]) : (usosMaxN ?? 0)
+        const propResumo = wikiStrip(str(docField(propDoc, 'resumo')).replace(/^"|"$/g, ''))
 
         // Figura da arma + imbuição no canto (issue #77): imagem da carta da
         // arma (weaponImageUrl) com a propriedade (imbuição OU obra-prima)
@@ -1391,7 +1393,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
           assets,
         )
         return (
-          <div key={`${nome}-${i}`} style={rowStyle}>
+          <div key={`${nome}-${i}`} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={rowStyle}>
             <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier || 'A'}>
               <AtaqueArmaFigura
                 img={armaImg}
@@ -1548,15 +1551,29 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 : tipo}
             </span>
             <span style={{ flex: 1 }} />
-            {usosMaxN ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
-                <span
-                  style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}
-                >
-                  USOS
-                </span>
-                <UsoDots cur={usoCur} max={usosMaxN} onToggle={(next) => setUso(usoKey, next)} />
-              </span>
+            </div>
+            {/* Imbuição (#166): usos IDENTADO abaixo da arma + resumo do efeito. */}
+            {usosMaxN || propResumo ? (
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', paddingLeft: 60 }}
+              >
+                {usosMaxN ? (
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+                    <span
+                      style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}
+                    >
+                      USOS
+                    </span>
+                    <UsoDots cur={usoCur} max={usosMaxN} onToggle={(next) => setUso(usoKey, next)} />
+                  </span>
+                ) : null}
+                {propResumo ? (
+                  <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
+                    {prop ? `${prop}: ` : ''}
+                    {propResumo}
+                  </span>
+                ) : null}
+              </div>
             ) : null}
           </div>
         )
@@ -1881,7 +1898,8 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       const cur = salvo ?? (cargas ? 0 : max)
       // Figura do tesouro (issue #65) — igual ao inventário.
       const img = tesouroImageUrl(nome, tier, assets)
-      return { nome: `${nome} (${tier})`, key, cur, max, img, doc: tDoc, tier }
+      const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
+      return { nome: `${nome} (${tier})`, key, cur, max, img, doc: tDoc, tier, resumo }
     })
     .filter((t): t is NonNullable<typeof t> => t !== null)
 
@@ -1892,7 +1910,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           key={t.key}
           style={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             gap: 13,
             padding: '12px 15px',
             background: 'var(--panel)',
@@ -1921,11 +1939,21 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
             )}
           </ItemHover>
-          <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
-            USOS
-          </span>
-          <UsoDots cur={t.cur} max={t.max} onToggle={(next) => setUso(t.key, next)} />
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
+            <span style={{ fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
+            {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166). */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
+                USOS
+              </span>
+              <UsoDots cur={t.cur} max={t.max} onToggle={(next) => setUso(t.key, next)} />
+              {t.resumo ? (
+                <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
+                  {t.resumo}
+                </span>
+              ) : null}
+            </div>
+          </div>
         </div>
       ))}
     </div>
