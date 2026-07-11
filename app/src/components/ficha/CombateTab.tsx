@@ -51,6 +51,7 @@ import {
   COND_GRUPOS,
   MAGIA_GRUPO_TITULO,
   MANOBRAS,
+  RANK_EM_CUSTO,
   RANK_GROUP_ORDER,
   custoEmoji,
   defesaEmoji,
@@ -1944,7 +1945,7 @@ interface MagiaRow {
 export function magiaGroups(
   fm: Record<string, unknown>,
   refDoc: HeroRefs['refDoc'],
-): { titulo: string; cor: string; magias: MagiaRow[] }[] {
+): { titulo: string; cor: string; emCusto: number | null; magias: MagiaRow[] }[] {
   const porGrupo = new Map<string, MagiaRow[]>()
   const escolas = (fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
   for (const escola of Array.isArray(escolas) ? escolas : []) {
@@ -1971,6 +1972,8 @@ export function magiaGroups(
     .map((g) => ({
       titulo: MAGIA_GRUPO_TITULO[g] ?? g.toUpperCase(),
       cor: g === 'Tesouro' ? 'var(--gold)' : 'var(--blue)',
+      // Custo de EM do rank (#149) — Tesouros não consomem EM.
+      emCusto: g === 'Tesouro' ? null : (RANK_EM_CUSTO[g] ?? 0),
       magias: porGrupo.get(g)!,
     }))
 }
@@ -2089,6 +2092,20 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
             >
               {grp.titulo}
             </span>
+            {/* Custo de EM do rank ao lado do nome do grupo (#149). */}
+            {grp.emCusto != null ? (
+              <span
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 10,
+                  letterSpacing: '.04em',
+                  color: 'var(--muted)',
+                  fontWeight: 600,
+                }}
+              >
+                {grp.emCusto === 0 ? `grátis` : `${grp.emCusto}×${tokens.emojis.subcategoria.EnergiaMagica}`}
+              </span>
+            ) : null}
             <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
           </div>
           {grp.magias.map((m) => (

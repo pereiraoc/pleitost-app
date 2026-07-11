@@ -267,6 +267,16 @@ export const MAGIA_GRUPO_TITULO: Record<string, string> = {
   Tesouro: 'TESOUROS',
 }
 
+/** EM consumido por rank de magia — fonte: nota Conjuração Mágica ("Adepta custa
+ *  2, Experiente 3, Mestre 5"; Básica é grátis). Tesouros não consomem EM (#149). */
+export const RANK_EM_CUSTO: Record<string, number> = {
+  Básica: 0,
+  Adepta: 2,
+  Experiente: 3,
+  Mestre: 5,
+  Tesouro: 0,
+}
+
 /** Chrome do design (strings verbatim do script do Companion App). */
 export const COMB_CHIPS = [
   { id: 'vant', n: 'Vantagem de Combate', ic: '🗡️', cor: '#5aa563' },

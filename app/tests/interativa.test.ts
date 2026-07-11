@@ -278,6 +278,17 @@ describe('oráculo: painéis pós-clique', () => {
   })
 })
 
+describe('#149 custo de EM por rank no grupo de magias', () => {
+  it('magiaGroups traz o emCusto do rank (Básica grátis, Adepta 2)', async () => {
+    const { magiaGroups } = await import('../src/components/ficha/CombateTab')
+    const groups = magiaGroups(fm, refDoc)
+    const byTitulo = new Map(groups.map((g) => [g.titulo, g.emCusto]))
+    // GOLDEN Bardo tem magias Básicas e Adeptas (Estabilizar B, Encantar Arma A)
+    expect(byTitulo.get('BÁSICAS')).toBe(0)
+    expect(byTitulo.get('ADEPTAS')).toBe(2)
+  })
+})
+
 describe('#33 ofício prof N: atributo não conta no mod', () => {
   it('oficioMod omite o atributo com prof N (rowMod antigo somava e divergia)', () => {
     const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]
