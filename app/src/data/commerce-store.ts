@@ -1,25 +1,24 @@
-// PERSISTÊNCIA da loja por Localização (issue #72) — espelha o padrão dos
-// demais stores do app (leitura síncrona pra hidratar no 1º render, cache em
-// memória + notify pra useSyncExternalStore, canal imediato). A rolagem da
-// disponibilidade é PERSISTIDA por local: abrir a ficha do lugar NÃO re-rola —
-// mostra a última rolagem. O GM pode RE-ROLAR (nova rolagem) ou TRAVAR (marca
-// a rolagem como fixa; enquanto travada, o botão de re-rolar fica bloqueado).
+// PERSISTÊNCIA da loja por Localização (issues #72/#93) — espelha o padrão dos
+// demais stores (leitura síncrona pra hidratar no 1º render, cache em memória +
+// notify pra useSyncExternalStore). A rolagem é PERSISTIDA por local: reabrir a
+// ficha NÃO re-rola — mostra a última. O GM RE-ROLA (nova) ou TRAVA (fixa).
 //
-// A compra decrementa a quantidade disponível de uma entrada da rolagem
-// guardada aqui (o débito de ouro / adição ao herói é do hero-store).
+// v2 (#93): o estado guarda PRONTA ENTREGA (estoque, decrementa na compra) e
+// ENCOMENDA (só referência do GM). A compra decrementa a quantidade de uma
+// entrada da pronta (o débito de ouro / adição ao herói é do hero-store).
 //
-// Chave: `pleitost.commerce.<locationId>` → { entries, travada, localType }.
+// Chave: `pleitost.commerce.<locationId>` → { pronta, encomenda, travada, localType }.
 import { useSyncExternalStore } from 'react'
-import type { ShopEntry, LocalType, Tier } from './commerce'
+import type { ProntaEntry, EncomendaEntry, LocalType, Tier } from './commerce'
 
 export interface ShopState {
-  /** Itens rolados como disponíveis (com quantidade corrente, decrementada por
-   *  compra). */
-  entries: ShopEntry[]
+  /** Estoque atual (pronta entrega) — quantidade decrementa na compra. */
+  pronta: ProntaEntry[]
+  /** Disponível por encomenda (referência do GM, sem quantidade). */
+  encomenda: EncomendaEntry[]
   /** Rolagem travada pelo GM (re-rolar bloqueado). */
   travada: boolean
-  /** Tipo de local efetivo usado na rolagem (subcategoria ou "Iluminada" por
-   *  override do GM) — permite re-rolar sem re-derivar. */
+  /** Tipo de local efetivo usado na rolagem (subcategoria ou "Iluminada"). */
   localType: LocalType | null
 }
 
@@ -66,15 +65,19 @@ export function commerceVersion(): number {
   return version
 }
 
-/** Estado da loja guardado, ou null se o local ainda não foi rolado. */
+/** Estado da loja guardado, ou null se o local ainda não foi rolado (ou se o
+ *  dado persistido é do formato antigo v1 → re-rola no novo formato). */
 export function getShopState(locationId: string): ShopState | null {
   if (memory.has(locationId)) return memory.get(locationId)!
   const raw = safeGet(key(locationId))
   if (!raw) return null
   try {
     const parsed = JSON.parse(raw) as Partial<ShopState>
+    // Migração: sem `pronta` array = formato v1 (entries) → trata como não-rolado.
+    if (!Array.isArray(parsed.pronta)) return null
     const state: ShopState = {
-      entries: Array.isArray(parsed.entries) ? (parsed.entries as ShopEntry[]) : [],
+      pronta: parsed.pronta as ProntaEntry[],
+      encomenda: Array.isArray(parsed.encomenda) ? (parsed.encomenda as EncomendaEntry[]) : [],
       travada: parsed.travada === true,
       localType: (parsed.localType ?? null) as LocalType | null,
     }
@@ -92,8 +95,12 @@ function persist(locationId: string, state: ShopState): void {
 }
 
 /** Grava uma rolagem nova (RE-ROLAR / primeira rolagem). Destrava. */
-export function setShopRoll(locationId: string, entries: ShopEntry[], localType: LocalType): void {
-  persist(locationId, { entries, travada: false, localType })
+export function setShopRoll(
+  locationId: string,
+  rolled: { pronta: ProntaEntry[]; encomenda: EncomendaEntry[] },
+  localType: LocalType,
+): void {
+  persist(locationId, { pronta: rolled.pronta, encomenda: rolled.encomenda, travada: false, localType })
 }
 
 /** Trava/destrava a rolagem atual (mantém as entradas). */
@@ -103,29 +110,28 @@ export function setShopTravada(locationId: string, travada: boolean): void {
   persist(locationId, { ...cur, travada })
 }
 
-/** Decrementa a quantidade disponível de uma entrada (compra). Remove a
- *  entrada quando chega a 0. Idempotente contra entradas ausentes. */
-export function decrementShopEntry(locationId: string, target: string, tier: Tier, by = 1): void {
+/** Decrementa a quantidade de uma entrada da PRONTA (compra). Remove quando
+ *  chega a 0. Idempotente contra entradas ausentes. Chave = ProntaEntry.key. */
+export function decrementProntaEntry(locationId: string, entryKey: string, tier: Tier, by = 1): void {
   const cur = getShopState(locationId)
   if (!cur) return
-  const entries: ShopEntry[] = []
-  for (const e of cur.entries) {
-    if (e.target === target && e.tier === tier) {
+  const pronta: ProntaEntry[] = []
+  for (const e of cur.pronta) {
+    if (e.key === entryKey && e.tier === tier) {
       const q = e.quantidade - by
-      if (q > 0) entries.push({ ...e, quantidade: q })
-      // q <= 0 → entrada esgotada, some da loja
+      if (q > 0) pronta.push({ ...e, quantidade: q })
+      // q <= 0 → esgotado, some da loja
     } else {
-      entries.push(e)
+      pronta.push(e)
     }
   }
-  persist(locationId, { ...cur, entries })
+  persist(locationId, { ...cur, pronta })
 }
 
 /** Hook reativo do estado da loja de um local. */
 export function useShopState(locationId: string): ShopState | null {
   const v = useSyncExternalStore(subscribeCommerce, commerceVersion, commerceVersion)
-  // v participa das deps implicitamente (re-render ao bump); leitura sempre fresca.
-  void v
+  void v // participa das deps (re-render ao bump); leitura sempre fresca.
   return getShopState(locationId)
 }
 

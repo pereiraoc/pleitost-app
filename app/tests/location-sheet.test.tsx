@@ -4,7 +4,7 @@
 // Recurso string simples). Fetch stubado lê os JSONs do disco, como o dev
 // server. Um doc não-Localização (Adaga) segue no markdown — sem regressão.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -30,6 +30,9 @@ const liciae = readDoc('Atlas/Mundo Livre/Federação Áurea/Campos do Provento/
 const adaga = readDoc(
   'Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples/Adaga',
 )
+// Nota-raiz do Mundo Livre: única Localização que ANCORA um mapa de hexcrawl →
+// a aba Hexploração fica HABILITADA (fora da sidebar).
+const mundoLivre = readDoc('Atlas/Mundo Livre/Mundo Livre')
 
 beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
@@ -80,6 +83,24 @@ describe('LocationSheet (Localização real)', () => {
     expect(hex.getAttribute('title')).toMatch(/mapa de hexcrawl/i)
   })
 
+  it('sidebar de Detalhes esconde a aba Hexploração (já estamos na exploração)', () => {
+    // fora da sidebar: Mundo Livre TEM a aba (habilitada, ancora mapa)
+    renderDoc(mundoLivre)
+    expect(screen.getByRole('tab', { name: 'Hexploração' })).toBeTruthy()
+    cleanup()
+    // na sidebar: a aba some
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <DocView doc={mundoLivre} sidebar />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    expect(screen.queryByRole('tab', { name: 'Hexploração' })).toBeNull()
+    expect(screen.getByRole('tab', { name: 'Detalhes' })).toBeTruthy()
+    expect(screen.getByRole('tab', { name: 'Comércio' })).toBeTruthy()
+  })
+
   it('Detalhes: Tipo (subcategoria), Recursos wikilink e Geolocalização navegáveis', async () => {
     renderDoc(cantoAlto)
     // Tipo = subcategoria "Capital" (rótulo declarado no schema da ficha)
@@ -125,17 +146,17 @@ describe('LocationSheet (Localização real)', () => {
     expect(within(table).getByRole('link', { name: 'Campos do Provento' })).toBeTruthy()
   })
 
-  it('aba Comércio: loja da localização (issue #72) — fechada sem rolagem', () => {
+  it('aba Comércio: loja da localização (issue #72) — AUTO-ABRE ao entrar, sem Modo Mestre', async () => {
     renderDoc(cantoAlto)
     // Detalhes é o default
     expect(document.querySelector('table.inline-fields')).toBeTruthy()
     fireEvent.click(screen.getByRole('tab', { name: 'Comércio' }))
-    // Modo Mestre OFF (default) + sem rolagem persistida → loja fechada
-    expect(screen.getByText('// LOJA FECHADA')).toBeTruthy()
-    // seletor de herói presente (cabeçalho da loja)
-    expect(screen.getByRole('combobox', { name: 'Herói comprador' })).toBeTruthy()
-    // troca de aba desmonta o painel de Detalhes
+    // troca de aba desmonta o painel de Detalhes (não há mais seletor de herói —
+    // o comprador é o herói selecionado globalmente)
     expect(document.querySelector('table.inline-fields')).toBeNull()
+    // Sem Modo Mestre a loja NÃO fica "fechada": ao carregar os Recursos a
+    // rolagem roda sozinha (o comércio "que deveria aparecer" aparece).
+    await waitFor(() => expect(screen.queryByText('// LOJA FECHADA')).toBeNull())
   })
 })
 

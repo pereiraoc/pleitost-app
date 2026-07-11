@@ -379,7 +379,9 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
 
   const showChips = vw >= 620
   const showVidaChip = tab === 'combate'
-  const showCoinChip = tab === 'inventario' && vw >= 620
+  // Moedas (🪙) na topbar: aba Inventário e também na visão de GRUPO (compras da
+  // loja usam o herói selecionado — o saldo fica visível no topo, não na loja).
+  const showCoinChip = (tab === 'inventario' || tab === 'grupos') && vw >= 620
   const showApelido = vw >= 720
   const chips = chipsFor(tab, projected)
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))

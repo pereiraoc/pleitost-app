@@ -9,7 +9,7 @@
 // Dados REAIS da vault (Carlos = Trovador Experiente; Drauzio = Explorador Nato
 // com escolha de Técnica). Espelho de src/render/groups/habilidades-card.ts.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -75,17 +75,20 @@ describe('HABILIDADES — bucketização por rank (Item 2)', () => {
   it('Trovador (rank:: Experiente) cai na coluna Experiente, NÃO Adepta', async () => {
     renderHabilidades(CARLOS_ID)
     fireEvent.click(await screen.findByText('HABILIDADES'))
-    const trovador = await screen.findByText('Trovador')
+    await screen.findByText('Trovador')
     // Regressão do bug: com refs indefinidas o fallback classificava tudo como
-    // 'Adepta' (coluna esquerda). O rank real do doc é Experiente.
-    expect(rankGroupOf(trovador)).toBe('Experiente')
+    // 'Adepta' (coluna esquerda). O rank real do doc é Experiente. A classificação
+    // depende do ref doc (async) — espera ela assentar (evita corrida sob carga).
+    await waitFor(() => expect(rankGroupOf(screen.getByText('Trovador'))).toBe('Experiente'))
   })
 
   it('Conhecimento Arcano Adepto (rank Adepto→Adepta) fica na coluna Adepta', async () => {
     renderHabilidades(CARLOS_ID)
     fireEvent.click(await screen.findByText('HABILIDADES'))
-    const adepta = await screen.findByText('Conhecimento Arcano Adepto')
-    expect(rankGroupOf(adepta)).toBe('Adepta')
+    await screen.findByText('Conhecimento Arcano Adepto')
+    await waitFor(() =>
+      expect(rankGroupOf(screen.getByText('Conhecimento Arcano Adepto'))).toBe('Adepta'),
+    )
   })
 })
 

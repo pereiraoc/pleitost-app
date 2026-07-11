@@ -19,6 +19,7 @@ const FIGURA_IMBUICOES = 'Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e 
 const FIGURA_EQUIPAMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos'
 const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
 const FIGURA_IMPLEMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Implementos'
+const FIGURA_CONSUMIVEIS = 'Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis'
 
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
@@ -113,4 +114,16 @@ export function tesouroImageUrl(
   // Implementos vivem em Figura/Implementos (sem sufixo de tier) —
   // implementos-render.ts:80 do pleitost-views. Ex.: Foco da Consistência.png.
   return byPath(assets, `${FIGURA_IMPLEMENTOS}/${base}.png`)
+}
+
+/** Figura de CONSUMÍVEL (poção) — Figura/Consumíveis/<Nome> <TierFem>.png; VARIA
+ *  por tier ("Poção de Cura Adepta.png"). Sem figura/tier → null. */
+export function consumivelImageUrl(
+  nome: string,
+  tier: '' | 'A' | 'E' | 'M',
+  assets: AssetIndex | undefined,
+): string | null {
+  const base = nome.trim()
+  if (!base || !tier || !assets) return null
+  return byPath(assets, `${FIGURA_CONSUMIVEIS}/${base} ${TIER_FEM[tier]}.png`)
 }

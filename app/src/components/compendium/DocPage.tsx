@@ -8,11 +8,12 @@ import { VaultImage } from './VaultImage'
 import { LocationSheet, isLocation } from './LocationSheet'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 
-/** Renderiza um doc já carregado (separado do fetch pra ser testável). */
-export function DocView({ doc }: { doc: VaultDoc }) {
+/** Renderiza um doc já carregado (separado do fetch pra ser testável).
+ *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
+export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
   // Localização (categoria=Localização) vira ficha com abas (issue #66); os
   // demais docs seguem no markdown genérico.
-  if (isLocation(doc)) return <LocationSheet doc={doc} />
+  if (isLocation(doc)) return <LocationSheet doc={doc} sidebar={sidebar} />
 
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
@@ -20,7 +21,7 @@ export function DocView({ doc }: { doc: VaultDoc }) {
   return (
     <article className="doc-page page">
       <div className="kicker">{COMPENDIO_KICKER}</div>
-      {hero ? <VaultImage target={hero.target} className="doc-hero" /> : null}
+      {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
         {doc.type ? (

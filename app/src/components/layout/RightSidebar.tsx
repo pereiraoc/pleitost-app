@@ -56,7 +56,7 @@ function SessionPanel({ onNavigate }: { onNavigate: () => void }) {
 function DocDetail({ id }: { id: string }) {
   const { doc } = useDoc(id)
   if (!doc) return <div className="loading">Carregando…</div>
-  return <DocView doc={doc} />
+  return <DocView doc={doc} sidebar />
 }
 
 /** Face DETALHES: renderiza o alvo atual do DetailContext. */

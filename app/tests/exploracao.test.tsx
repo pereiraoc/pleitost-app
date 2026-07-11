@@ -627,8 +627,9 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
     const regionId = REGION_MAPS[0].regionId
     setHexLocal(regionId, 2, 2, KRASNOGOR_ID) // (2,2) = LUGAR → principal
     const p = addGroupHex(GROUP_ID, { col: 2, row: 2 })
-    const h1 = addGroupHex(GROUP_ID, { col: 3, row: 3 }) // hex-only (filhos)
-    const h2 = addGroupHex(GROUP_ID, { col: 4, row: 4 })
+    // Só o kind:'caminho' colapsa (hex legado sem kind = parada visível).
+    const h1 = addGroupHex(GROUP_ID, { col: 3, row: 3, kind: 'caminho' })
+    const h2 = addGroupHex(GROUP_ID, { col: 4, row: 4, kind: 'caminho' })
     const { container } = renderGroup()
     await esperaMapa(container)
     const bar = container.querySelector('[data-caminho-bar]') as HTMLElement

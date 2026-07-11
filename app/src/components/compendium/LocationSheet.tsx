@@ -16,21 +16,33 @@ import {
 import { useSettings } from '../../settings'
 import {
   TIER_COLUNA,
+  DEFAULT_ENCOMENDA_MATRIX,
   localTypeFromSubtype,
-  resolveResourceItems,
-  rollShop,
+  rollShop2,
   type LocalType,
-  type ShopEntry,
+  type ProntaEntry,
+  type EncomendaEntry,
+  type EntryMeta,
   type Tier,
 } from '../../data/commerce'
+import { buildShopCandidates } from '../../data/commerce-candidates'
 import {
-  decrementShopEntry,
+  decrementProntaEntry,
   setShopRoll,
-  setShopTravada,
   useShopState,
 } from '../../data/commerce-store'
 import { buyTreasure, heroOuro } from '../../data/purchase'
+import { useSelectedCreature } from '../../data/selected-creature-store'
 import { tokens } from '../ficha/registry'
+import { TipProvider, TipHover } from '../ficha/tooltips'
+import { useAssetIndex } from '../../data/assets'
+import { weaponImageUrl } from '../../data/creature-image'
+import {
+  tesouroImageUrl,
+  propriedadeImageUrl,
+  consumivelImageUrl,
+  escudoImageUrlByName,
+} from '../../data/equipment-image'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
 // (DocView) por uma ficha com abas Detalhes/Comércio/Hexploração na linguagem
@@ -108,7 +120,6 @@ function DetailRow({ label, children }: { label: string; children: ReactNode }) 
 }
 
 function DetalhesTab({ doc }: { doc: VaultDoc }) {
-  const img = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
   const recursos = locationRecursos(doc)
 
   const rows: ReactNode[] = []
@@ -144,7 +155,6 @@ function DetalhesTab({ doc }: { doc: VaultDoc }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      {img ? <VaultImage target={img.target} style={HERO_STYLE} /> : null}
       {rows.length ? (
         <table className="inline-fields">
           <tbody>{rows}</tbody>
@@ -232,37 +242,332 @@ function useHeroOptions(): HeroOption[] {
   }, [vaultEntries, vaultDocs, localEntries, version])
 }
 
-/** Botão mono no estilo accent (mesmo padrão do CTA "ADICIONAR HEXPLORAÇÃO"). */
-function ActionBtn({
-  children,
-  onClick,
-  disabled,
-  title,
+/** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
+ *  do fundo. Adepto = aço escuro; Experiente = prata; Mestre = ouro. Usado na
+ *  miniatura da lista e na carta do tooltip. */
+const TIER_STYLE: Record<Tier, { grad: string; glow: string; tint: string }> = {
+  A: {
+    grad: 'linear-gradient(135deg,#8b929c,#2b2f36 48%,#9aa1ab)',
+    glow: '0 2px 6px rgba(0,0,0,.5)',
+    tint: 'color-mix(in srgb,#8b929c 12%,var(--card))',
+  },
+  E: {
+    grad: 'linear-gradient(135deg,#f2f6fa,#98a2ad 48%,#fbfdff)',
+    glow: '0 0 9px rgba(203,213,225,.45)',
+    tint: 'color-mix(in srgb,#cbd5e1 14%,var(--card))',
+  },
+  M: {
+    grad: 'linear-gradient(135deg,#ffe6a3,#b8860b 48%,#ffedb8)',
+    glow: '0 0 11px rgba(224,183,60,.55)',
+    tint: 'color-mix(in srgb,#e0b73c 16%,var(--card))',
+  },
+}
+/** Sufixo do tier no nome do item — "(A)"/"(E)"/"(M)". */
+const tierLabel = (tier: Tier): string => `(${TIER_MEDAL_LETTER[tier]})`
+const TIER_MEDAL_LETTER: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
+
+/** Miniatura do item numa MOLDURA metálica do tier (gradiente na borda + glow +
+ *  fundo tingido) + selo de imbuição/obra-prima no canto. */
+function ShopFigura({ img, seloImg, tier }: { img: string | null; seloImg: string | null; tier: Tier }) {
+  const t = TIER_STYLE[tier]
+  return (
+    <span
+      style={{
+        position: 'relative',
+        flex: 'none',
+        width: 44,
+        height: 44,
+        borderRadius: 9,
+        padding: 2,
+        background: t.grad,
+        boxShadow: t.glow,
+      }}
+    >
+      <span
+        style={{
+          display: 'flex',
+          width: '100%',
+          height: '100%',
+          borderRadius: 7,
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 16,
+          backgroundColor: t.tint,
+          backgroundImage: img ? `url("${img}")` : undefined,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
+      >
+        {img ? null : tokens.emojis.subcategoria.Tesouro}
+      </span>
+      {seloImg ? (
+        <span
+          aria-label="Propriedade"
+          style={{
+            position: 'absolute',
+            right: -7,
+            bottom: -7,
+            width: 24,
+            height: 24,
+            backgroundImage: `url("${seloImg}")`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.6))',
+            pointerEvents: 'none',
+          }}
+        />
+      ) : null}
+    </span>
+  )
+}
+
+/** Alvo de figura/carta de uma entrada (pronta ou encomenda). */
+type FiguraTarget = EntryMeta & { key: string; label: string; tier: Tier; nome?: string }
+
+/** URL da miniatura: combo usa a imagem da ARMA; poção → Consumíveis (por tier);
+ *  tesouro → Equipamentos/Implementos; escudo/armadura obra-prima → Armas pelo
+ *  basename base. */
+function figuraUrl(
+  e: FiguraTarget,
+  docsById: Map<string, VaultDoc>,
+  assets: ReturnType<typeof useAssetIndex>,
+): string | null {
+  const nome = e.nome ?? e.label
+  if (e.armaTarget) {
+    const w = weaponImageUrl(docsById.get(e.armaTarget), assets)
+    if (w) return w
+  }
+  return (
+    consumivelImageUrl(nome, e.tier, assets) ??
+    tesouroImageUrl(nome, e.tier, assets) ??
+    (e.thumbBasename ? escudoImageUrlByName(e.thumbBasename, assets) : null)
+  )
+}
+
+const esc = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+/** "[[A/B|C]]"→"C", "[[A]]"→"A"; tira aspas de string-literal dataview. */
+const stripWiki = (s: string): string =>
+  s
+    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_m, a: string, b?: string) =>
+      (b ?? a).split('/').pop() ?? a,
+    )
+    .replace(/^"|"$/g, '')
+    .trim()
+
+const CARD_FIELDS: [string, string][] = [
+  ['dano', 'Dano'],
+  ['tipo', 'Tipo'],
+  ['mãos', 'Mãos'],
+  ['alcance', 'Alcance'],
+  ['propriedades', 'Propriedades'],
+  ['preço', 'Preço'],
+]
+const TIER_ADJ: Record<Tier, string> = { A: 'adepto', E: 'experiente', M: 'mestre' }
+
+/** Descrição em PROSA do body — armas guardam a descrição como texto do body
+ *  (não em inline field como as imbuições/tesouros). Tira meta %%, fences,
+ *  tabela, headings, hr e dataview inline; resolve wikilinks. Vazio se a arma
+ *  não tiver prosa (ex.: Azagaia). */
+function bodyDesc(doc: VaultDoc): string {
+  let b = doc.body ?? ''
+  b = b.replace(/%%[\s\S]*?%%/g, '') // bloco meta
+  b = b.replace(/```[\s\S]*?```/g, '') // fences (dataview/rules/carta-item)
+  b = b.replace(/^\s*\|.*$/gm, '') // linhas de tabela
+  b = b.replace(/^\s*#{1,6}\s.*$/gm, '') // headings
+  b = b.replace(/`=[^`]*`/g, '') // dataview inline `= this.x`
+  b = b.replace(/^\s*-{2,}\s*$/gm, '') // hr
+  const txt = stripWiki(b).replace(/\s+/g, ' ').trim()
+  return txt.length > 240 ? txt.slice(0, 238).trimEnd() + '…' : txt
+}
+
+/** HTML da CARTA de um doc (figura + nome + stats do inline + descrição do tier)
+ *  — reusa o tooltip do app (TipHover). `showTier`: mostra "(Qualidade)" no nome
+ *  — só a PROPRIEDADE (imbuição/obra-prima/material) ou o item avulso têm
+ *  qualidade; a ARMA base não (a qualidade vem da propriedade). O FUNDO do tier
+ *  fica em ambos (classe tier-*). */
+function docCardHtml(doc: VaultDoc, tier: Tier, imgUrl: string | null, showTier: boolean): string {
+  const f = (doc.inlineFields ?? {}) as Record<string, unknown>
+  const val = (k: string) => (typeof f[k] === 'string' ? stripWiki(f[k] as string) : '')
+  const rows = CARD_FIELDS.map(([k, label]) => {
+    const v = val(k)
+    return v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : ''
+  }).join('')
+  const desc = val(`descrição_${TIER_ADJ[tier]}`) || val('descrição') || val('resumo') || bodyDesc(doc)
+  // "(Qualidade)" numa LINHA própria (shc-tier é block) — homogeneíza os cards
+  // independente do tamanho do nome.
+  const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
+  return `<div class="shc-card tier-${tier}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${desc ? `<div class="shc-desc">${esc(desc)}</div>` : ''}</div>`
+}
+
+/** HTML do hover de uma entrada: combo = carta da ARMA + carta da IMBUIÇÃO lado a
+ *  lado; tesouro/poção = 1 carta do próprio doc. Vazio se não houver doc. */
+function entryCardHtml(
+  e: FiguraTarget,
+  docsById: Map<string, VaultDoc>,
+  assets: ReturnType<typeof useAssetIndex>,
+): string {
+  const cards: string[] = []
+  const w = e.armaTarget ? docsById.get(e.armaTarget) : undefined
+  // Arma base: SEM "(Qualidade)" no nome (a qualidade vem da propriedade).
+  if (w) cards.push(docCardHtml(w, e.tier, weaponImageUrl(w, assets), false))
+  const imb = e.imbTarget ? docsById.get(e.imbTarget) : undefined
+  // Propriedade (imbuição/obra-prima/material): COM a qualidade no nome.
+  if (imb) cards.push(docCardHtml(imb, e.tier, propriedadeImageUrl(imb.basename, e.tier, assets), true))
+  if (cards.length === 0) {
+    const d = docsById.get(e.key)
+    // Item avulso (tesouro/poção): a qualidade é dele mesmo.
+    if (d) cards.push(docCardHtml(d, e.tier, figuraUrl({ ...e, nome: d.basename }, docsById, assets), true))
+  }
+  return cards.length ? `<div class="shc-wrap">${cards.join('')}</div>` : ''
+}
+
+/** Miniatura+selo+carta-no-hover de uma entrada. */
+function useItemFigura(e: FiguraTarget, docsById: Map<string, VaultDoc>) {
+  const assets = useAssetIndex()
+  return {
+    img: figuraUrl(e, docsById, assets),
+    seloImg: e.propriedadeBase ? propriedadeImageUrl(e.propriedadeBase, e.tier, assets) : null,
+    cardHtml: entryCardHtml(e, docsById, assets),
+  }
+}
+
+/** Ícone de COMPRAR com tooltip (formato do app). */
+function BuyButton({ label, preco, canBuy, onBuy }: { label: string; preco: number; canBuy: boolean; onBuy: () => void }) {
+  const html = canBuy
+    ? `<div class="dv-tooltip-head-row">Comprar</div>${esc(label)} · ${preco} PO`
+    : 'Ouro insuficiente ou nenhum herói selecionado'
+  return (
+    <TipHover html={html}>
+      <button
+        onClick={canBuy ? onBuy : undefined}
+        disabled={!canBuy}
+        aria-label={`Comprar ${label}`}
+        style={{
+          flex: 'none',
+          width: 34,
+          height: 30,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 15,
+          background: canBuy ? 'color-mix(in srgb,var(--accent) 14%,transparent)' : 'transparent',
+          border: `1px solid ${canBuy ? 'color-mix(in srgb,var(--accent) 45%,transparent)' : 'var(--line2)'}`,
+          color: canBuy ? 'var(--accent)' : 'var(--muted)',
+          clipPath: clip(5),
+          cursor: canBuy ? 'pointer' : 'not-allowed',
+          opacity: canBuy ? 1 : 0.5,
+        }}
+      >
+        🛒
+      </button>
+    </TipHover>
+  )
+}
+
+/** Linha da PRONTA ENTREGA em 2 linhas: figura à esquerda; linha 1 nome+categoria,
+ *  linha 2 qtd/preço + comprar. Hover na figura mostra a(s) carta(s) do item. */
+function ProntaRow({
+  entry,
+  docsById,
+  canBuy,
+  onBuy,
 }: {
-  children: ReactNode
-  onClick: () => void
-  disabled?: boolean
-  title?: string
+  entry: ProntaEntry
+  docsById: Map<string, VaultDoc>
+  canBuy: boolean
+  onBuy: () => void
 }) {
+  const { img, seloImg, cardHtml } = useItemFigura(entry, docsById)
+  return (
+    <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 4px', borderBottom: '1px solid var(--line)' }}>
+      <TipHover html={cardHtml}>
+        <ShopFigura img={img} seloImg={seloImg} tier={entry.tier} />
+      </TipHover>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={{ fontWeight: 600, fontSize: 13.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {entry.label} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
+        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>×{entry.quantidade}</span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{entry.preco} PO</span>
+        </div>
+      </div>
+      <BuyButton label={entry.label} preco={entry.preco} canBuy={canBuy} onBuy={onBuy} />
+    </div>
+  )
+}
+
+/** Linha da ENCOMENDA (GM), 2 linhas sem comprar; hover mostra a carta. */
+function EncomendaRow({ entry, docsById }: { entry: EncomendaEntry; docsById: Map<string, VaultDoc> }) {
+  const { img, seloImg, cardHtml } = useItemFigura(entry, docsById)
+  return (
+    <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '6px 4px', borderBottom: '1px solid var(--line)' }}>
+      <TipHover html={cardHtml}>
+        <ShopFigura img={img} seloImg={seloImg} tier={entry.tier} />
+      </TipHover>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <span style={{ fontSize: 12.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {entry.label} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
+        </span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{entry.preco} PO</span>
+      </div>
+    </div>
+  )
+}
+
+/** Estilos da carta que aparece no hover da miniatura (dentro do tooltip). */
+const SHC_CSS = `
+.shc-wrap{display:flex;gap:8px;align-items:stretch}
+.shc-card{width:174px;flex:none;display:flex;flex-direction:column;gap:2px;border:3px solid var(--line2);border-radius:11px;padding:7px}
+.shc-card.tier-A{border-color:#6b727c;box-shadow:0 0 0 1px #3a3f47,0 2px 12px rgba(0,0,0,.45);background:linear-gradient(160deg,color-mix(in srgb,#8b929c 12%,var(--card)),var(--card))}
+.shc-card.tier-E{border-color:#dbe3ec;box-shadow:0 0 0 1px #aeb8c4,0 0 14px rgba(203,213,225,.34);background:linear-gradient(160deg,color-mix(in srgb,#cbd5e1 12%,var(--card)),var(--card))}
+.shc-card.tier-M{border-color:#e8c14a;box-shadow:0 0 0 1px #b8860b,0 0 16px rgba(224,183,60,.4);background:linear-gradient(160deg,color-mix(in srgb,#e0b73c 14%,var(--card)),var(--card))}
+.shc-img{width:100%;max-height:140px;object-fit:contain;border-radius:6px;background:var(--panel);margin-bottom:3px}
+.shc-name{font-weight:800;font-size:12.5px}
+.shc-tier{display:block;margin-top:1px;opacity:.7;font-weight:600;font-size:11px}
+.shc-row{font-size:11.5px;overflow-wrap:anywhere}
+.shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
+.shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
+`
+
+/** Caixa (painel cortado) que envolve uma lista da loja. */
+const LIST_BOX: CSSProperties = {
+  padding: '10px 16px',
+  background: 'var(--panel)',
+  border: '1px solid var(--line2)',
+  clipPath: clip(14),
+}
+
+/** Categoria da entrada p/ as abas: poção (consumível), arma (combo/obra-prima de
+ *  arma) ou equipamento (o resto). Usa `isPocao` OU o path /Consumíveis/ (robusto
+ *  contra rolagens antigas sem a flag). */
+type ShopCat = 'armas' | 'equip' | 'pocoes'
+function entryCat(e: { key: string; armaTarget?: string; isPocao?: boolean }): ShopCat {
+  if (e.isPocao || e.key.includes('/Consumíveis/')) return 'pocoes'
+  if (e.armaTarget) return 'armas'
+  return 'equip'
+}
+
+/** Toggle pequeno do modo (Pronta / Encomenda) — SÓ o GM vê/alterna. */
+function ModeBtn({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
   return (
     <button
       onClick={onClick}
-      disabled={disabled}
-      title={title}
+      aria-pressed={active}
       style={{
         fontFamily: 'var(--mono)',
-        fontSize: 11,
-        letterSpacing: '.14em',
-        color: disabled ? 'var(--muted)' : 'var(--accent)',
-        background: disabled
-          ? 'transparent'
-          : 'color-mix(in srgb,var(--accent) 12%,transparent)',
-        border: `1px solid ${disabled ? 'var(--line2)' : 'color-mix(in srgb,var(--accent) 40%,transparent)'}`,
-        padding: '8px 15px',
-        clipPath: clip(6),
-        cursor: disabled ? 'default' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        whiteSpace: 'nowrap',
+        fontSize: 8.5,
+        letterSpacing: '.04em',
+        padding: '3px 7px',
+        borderRadius: 4,
+        cursor: 'pointer',
+        color: active ? 'var(--panel)' : 'var(--muted)',
+        background: active ? 'var(--accent)' : 'transparent',
+        border: `1px solid ${active ? 'var(--accent)' : 'var(--line2)'}`,
       }}
     >
       {children}
@@ -270,55 +575,28 @@ function ActionBtn({
   )
 }
 
-const TIER_MEDAL: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
-
-/** Linha de um item disponível na loja. */
-function ShopRow({
-  entry,
-  canBuy,
-  onBuy,
-}: {
-  entry: ShopEntry
-  canBuy: boolean
-  onBuy: () => void
-}) {
+/** Botão de sub-aba da loja (EQUIPAMENTOS / POÇÕES). */
+function SubTabBtn({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
   return (
-    <div
+    <button
+      role="tab"
+      aria-selected={active}
+      onClick={onClick}
       style={{
-        display: 'grid',
-        gridTemplateColumns: '1.5fr auto auto auto auto',
-        alignItems: 'center',
-        gap: 10,
-        padding: '10px 4px',
-        borderBottom: '1px solid var(--line)',
+        padding: '8px 10px',
+        background: active ? 'color-mix(in srgb,var(--accent) 7%,transparent)' : 'transparent',
+        border: 'none',
+        borderBottom: `2px solid ${active ? 'var(--accent)' : 'transparent'}`,
+        fontFamily: 'var(--mono)',
+        fontSize: 10.5,
+        letterSpacing: '.04em',
+        color: active ? 'var(--accent)' : 'var(--muted)',
+        cursor: 'pointer',
+        whiteSpace: 'nowrap',
       }}
     >
-      <span style={{ fontWeight: 600, fontSize: 13.5 }}>{entry.label}</span>
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: '.06em',
-          color: 'var(--muted)',
-          border: '1px solid var(--line2)',
-          padding: '2px 6px',
-          clipPath: clip(4),
-        }}
-        title={TIER_COLUNA[entry.tier]}
-      >
-        {TIER_MEDAL[entry.tier]}
-      </span>
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
-        ×{entry.quantidade}
-      </span>
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 12, whiteSpace: 'nowrap' }}>
-        {entry.preco} PO
-      </span>
-      <ActionBtn onClick={onBuy} disabled={!canBuy} title={!canBuy ? 'Ouro insuficiente ou sem herói' : undefined}>
-        COMPRAR
-      </ActionBtn>
-    </div>
+      {children}
+    </button>
   )
 }
 
@@ -328,52 +606,75 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   const shop = useShopState(doc.id)
   const heroes = useHeroOptions()
   // #89: na sidebar, o comprador default = herói selecionado (se for opção).
-  const [heroId, setHeroId] = useState<string>('')
-  const effHeroId =
-    heroId || (defaultHeroId && heroes.some((h) => h.entry.id === defaultHeroId) ? defaultHeroId : '')
+  const selectedCreatureId = useSelectedCreature()
+  // Comprador = herói selecionado globalmente (topo direito). Sem seletor aqui.
+  const buyerId = selectedCreatureId ?? defaultHeroId ?? ''
   const [aviso, setAviso] = useState<string | null>(null)
+  const [subTab, setSubTab] = useState<ShopCat>('armas')
+  const [mode, setMode] = useState<'pronta' | 'encomenda'>('pronta')
 
   // Tipo de local efetivo: o guardado na rolagem (permite override "Iluminada"
   // do GM persistido) ou a projeção da subcategoria.
   const subtypeLocalType = localTypeFromSubtype(doc.subtype)
   const localType: LocalType | null = shop?.localType ?? subtypeLocalType
 
-  // Itens de Recurso (tesouros) resolvidos no catálogo.
+  // Candidatos da loja (#93): TODOS os tesouros simples + combos das ARMAS
+  // TÍPICAS × imbuições + obra-primas + poções, montados do catálogo. Carrega os
+  // docs necessários uma vez; guarda os das armas p/ a miniatura.
   const recursos = useMemo(() => locationRecursos(doc), [doc])
-  const [refDocs, setRefDocs] = useState<Map<string, VaultDoc>>()
+  const [built, setBuilt] = useState<ReturnType<typeof buildShopCandidates> | null>(null)
+  const [docsById, setDocsById] = useState<Map<string, VaultDoc>>(new Map())
   useEffect(() => {
-    const ids = new Set<string>()
+    const tesIds: string[] = []
+    const imbIds: string[] = []
+    const qualIds: string[] = []
+    const pocIds: string[] = []
+    for (const e of catalog.content) {
+      const id = e.id
+      if (id.includes('/Tesouros/Equipamentos/') || id.includes('/Tesouros/Implementos/')) tesIds.push(id)
+      else if (id.includes('/Imbuições e Qualidade/Imbuições/')) imbIds.push(id)
+      else if (id.includes('/Imbuições e Qualidade/Qualidade/')) qualIds.push(id)
+      else if (id.includes('/Tesouros/Consumíveis/')) pocIds.push(id)
+    }
+    const armaIds: string[] = []
     for (const raw of recursos) {
       const res = catalog.resolve(raw.replace(/^\[\[|\]\]$/g, '').split('|')[0].trim())
-      if (res.kind === 'doc') ids.add(res.id)
+      if (res.kind === 'doc' && res.id.includes('/Equipamento/Armas/')) armaIds.push(res.id)
     }
+    const load = (arr: string[]) =>
+      Promise.all(arr.map((id) => loadDoc(id).catch(() => null))).then((ds) =>
+        ds.filter((d): d is VaultDoc => d != null),
+      )
     let alive = true
-    Promise.all([...ids].map((id) => loadDoc(id).catch(() => null))).then((loaded) => {
-      if (!alive) return
-      const byBase = new Map<string, VaultDoc>()
-      for (const d of loaded) if (d) byBase.set(d.basename, d)
-      setRefDocs(byBase)
-    })
+    Promise.all([load(tesIds), load(imbIds), load(qualIds), load(pocIds), load(armaIds)]).then(
+      ([tesourosSimples, imbuicoes, qualidades, pocoes, armasTipicas]) => {
+        if (!alive) return
+        const all = [...tesourosSimples, ...imbuicoes, ...qualidades, ...pocoes, ...armasTipicas]
+        setDocsById(new Map(all.map((d) => [d.id, d])))
+        setBuilt(
+          buildShopCandidates({ recursos, tesourosSimples, imbuicoes, qualidades, pocoes, armasTipicas }),
+        )
+      },
+    )
     return () => {
       alive = false
     }
   }, [recursos, catalog])
 
-  const resolveDoc = (target: string): VaultDoc | undefined => {
-    const res = catalog.resolve(target)
-    if (res.kind !== 'doc') return undefined
-    return refDocs?.get(target) ?? refDocs?.get(catalog.entryById.get(res.id)?.basename ?? target)
-  }
-
-  const items = useMemo(
-    () => resolveResourceItems(recursos, resolveDoc),
-    // refDocs muda quando os docs chegam.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [recursos, refDocs, catalog],
-  )
-
-  const selectedHero = heroes.find((h) => h.entry.id === effHeroId)
+  const selectedHero = heroes.find((h) => h.entry.id === buyerId)
   const ouro = selectedHero ? heroOuro(selectedHero.entry.id, selectedHero.doc) : null
+
+  // AUTO-ABRE a loja na 1ª visita (sem depender do Modo Mestre). Roda uma vez:
+  // quando `shop` passa a existir o efeito vira no-op. O GM re-rola/trava.
+  useEffect(() => {
+    if (shop || !localType || !built) return
+    setShopRoll(
+      doc.id,
+      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random),
+      localType,
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shop, localType, built, disponibilidade, doc.id])
 
   // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não
   // têm loja de tesouros — mostra o empty state honesto.
@@ -386,12 +687,16 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   }
 
   const doRoll = () => {
-    if (!refDocs) return
-    setShopRoll(doc.id, rollShop(items, localType, disponibilidade, Math.random), localType)
+    if (!built) return
+    setShopRoll(
+      doc.id,
+      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random),
+      localType,
+    )
     setAviso(null)
   }
 
-  const comprar = (entry: ShopEntry) => {
+  const comprar = (entry: ProntaEntry) => {
     if (!selectedHero) {
       setAviso('Escolha um herói para comprar.')
       return
@@ -401,88 +706,67 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       setAviso('Ouro insuficiente.')
       return
     }
-    decrementShopEntry(doc.id, entry.target, entry.tier)
+    decrementProntaEntry(doc.id, entry.key, entry.tier)
     setAviso(`Comprado: ${entry.label} (${TIER_COLUNA[entry.tier]}). Ouro restante: ${r.ouroRestante} PO.`)
   }
 
-  const entries = shop?.entries ?? []
-  const travada = shop?.travada ?? false
+  const pronta = shop?.pronta ?? []
+  const encomenda = shop?.encomenda ?? []
+  // Jogador fica travado em pronta entrega; só o GM alterna p/ encomenda. Poção
+  // é sempre pronta entrega (sem encomenda).
+  const effMode: 'pronta' | 'encomenda' = mestre && subTab !== 'pocoes' ? mode : 'pronta'
+  const byPreco = (a: { preco: number }, b: { preco: number }) => a.preco - b.preco
+  const prontaDe = (cat: ShopCat) => pronta.filter((e) => entryCat(e) === cat).sort(byPreco)
+  const encomendaDe = (cat: ShopCat) => encomenda.filter((e) => entryCat(e) === cat).sort(byPreco)
+  const prontaTab = prontaDe(subTab)
+  const encomendaTab = encomendaDe(subTab)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      {/* Cabeçalho: seletor de herói + saldo. */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: 12,
-          padding: '12px 14px',
-          background: 'var(--panel)',
-          border: '1px solid var(--line2)',
-          clipPath: clip(12),
-        }}
-      >
-        <span style={{ fontSize: 18 }}>{tokens.emojis.subcategoria.Tesouro}</span>
-        <span
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: 11,
-            letterSpacing: '.1em',
-            color: 'var(--muted)',
-            flex: 1,
-          }}
-        >
-          LOJA · {localType.toUpperCase()}
-        </span>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--muted)' }}>HERÓI</span>
-          <select
-            aria-label="Herói comprador"
-            value={effHeroId}
-            onChange={(e) => setHeroId(e.target.value)}
+    <TipProvider>
+      <style>{SHC_CSS}</style>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Controles do GM (Modo Mestre) em UMA linha acima das abas: RE-ROLAR à
+          esquerda; PRONTA/ENCOMENDA à direita. Sem cabeçalho de loja/herói/saldo
+          (o tipo já está no topo; as moedas ficam na topbar). Jogador não vê nada. */}
+      {mestre ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <button
+            onClick={doRoll}
+            disabled={!built}
             style={{
-              background: 'var(--panel)',
-              border: '1px solid var(--line2)',
-              color: 'var(--text)',
-              fontFamily: 'var(--body)',
-              fontSize: 13,
-              padding: '6px 8px',
-              clipPath: clip(5),
+              fontFamily: 'var(--mono)',
+              fontSize: 8.5,
+              letterSpacing: '.04em',
+              padding: '3px 8px',
+              borderRadius: 4,
+              cursor: built ? 'pointer' : 'not-allowed',
+              color: 'var(--accent)',
+              background: 'color-mix(in srgb,var(--accent) 14%,transparent)',
+              border: '1px solid color-mix(in srgb,var(--accent) 45%,transparent)',
+              opacity: built ? 1 : 0.5,
             }}
           >
-            <option value="">— selecionar —</option>
-            {heroes.map((h) => (
-              <option key={h.entry.id} value={h.entry.id}>
-                {h.entry.basename}
-              </option>
-            ))}
-          </select>
-        </label>
-        {ouro != null ? (
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 12, whiteSpace: 'nowrap' }}>
-            {ouro} PO
-          </span>
-        ) : null}
-      </div>
-
-      {/* Controles do GM (Modo Mestre): re-rolar / travar. */}
-      {mestre ? (
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <ActionBtn
-            onClick={doRoll}
-            disabled={travada || !refDocs}
-            title={travada ? 'Rolagem travada — destrave para re-rolar' : undefined}
-          >
-            {entries.length || shop ? 'RE-ROLAR' : 'ROLAR'}
-          </ActionBtn>
-          <ActionBtn onClick={() => setShopTravada(doc.id, !travada)} disabled={!shop}>
-            {travada ? 'DESTRAVAR' : 'TRAVAR'}
-          </ActionBtn>
+            {shop ? 'RE-ROLAR' : 'ROLAR'}
+          </button>
+          <span style={{ flex: 1 }} />
+          {shop && subTab !== 'pocoes' ? (
+            <>
+              <ModeBtn active={effMode === 'pronta'} onClick={() => setMode('pronta')}>PRONTA</ModeBtn>
+              <ModeBtn active={effMode === 'encomenda'} onClick={() => setMode('encomenda')}>ENCOMENDA</ModeBtn>
+            </>
+          ) : null}
         </div>
       ) : null}
 
-      {/* Estoque rolado. */}
+      {/* Sub-abas ARMAS | EQUIPAMENTOS | POÇÕES. */}
+      {shop ? (
+        <div role="tablist" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
+          <SubTabBtn active={subTab === 'armas'} onClick={() => setSubTab('armas')}>ARMAS</SubTabBtn>
+          <SubTabBtn active={subTab === 'equip'} onClick={() => setSubTab('equip')}>EQUIPAMENTOS</SubTabBtn>
+          <SubTabBtn active={subTab === 'pocoes'} onClick={() => setSubTab('pocoes')}>POÇÕES</SubTabBtn>
+        </div>
+      ) : null}
+
       {!shop ? (
         <EmptyPanel
           note={
@@ -493,23 +777,42 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
         >
           {'// LOJA FECHADA'}
         </EmptyPanel>
-      ) : entries.length === 0 ? (
-        <EmptyPanel note="A rolagem não trouxe nenhum tesouro pronto desta vez.">
-          {'// SEM ESTOQUE'}
-        </EmptyPanel>
+      ) : effMode === 'encomenda' ? (
+        // ENCOMENDA (GM): disponível sob pedido — só referência, sem compra.
+        <div style={{ ...LIST_BOX, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 10,
+              letterSpacing: '.1em',
+              color: 'var(--muted)',
+              paddingBottom: 4,
+            }}
+          >
+            DISPONÍVEL POR ENCOMENDA · {encomendaTab.length}
+          </span>
+          {encomendaTab.length === 0 ? (
+            <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+              Nada disponível por encomenda desta vez.
+            </span>
+          ) : (
+            encomendaTab.map((e) => <EncomendaRow key={e.key + e.tier} entry={e} docsById={docsById} />)
+          )}
+          {subTab === 'armas' ? (
+            <span style={{ fontSize: 11, color: 'var(--muted)', paddingTop: 6, lineHeight: 1.4 }}>
+              Armas fora da região podem ser encomendadas sob consulta (não listadas).
+            </span>
+          ) : null}
+        </div>
+      ) : prontaTab.length === 0 ? (
+        <EmptyPanel note="A rolagem não trouxe nada pronto desta vez.">{'// SEM ESTOQUE'}</EmptyPanel>
       ) : (
-        <div
-          style={{
-            padding: '10px 16px',
-            background: 'var(--panel)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(14),
-          }}
-        >
-          {entries.map((e) => (
-            <ShopRow
-              key={e.target + e.tier}
+        <div style={LIST_BOX}>
+          {prontaTab.map((e) => (
+            <ProntaRow
+              key={e.key + e.tier}
               entry={e}
+              docsById={docsById}
               canBuy={!!selectedHero && (ouro ?? 0) >= e.preco}
               onBuy={() => comprar(e)}
             />
@@ -530,7 +833,8 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
           {aviso}
         </div>
       ) : null}
-    </div>
+      </div>
+    </TipProvider>
   )
 }
 
@@ -601,12 +905,17 @@ const LOCATION_TABS: LocTab[] = [
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
 
-export function LocationSheet({ doc }: { doc: VaultDoc }) {
+export function LocationSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
   const [tab, setTab] = useState<LocTab['id']>('detalhes')
+  // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
+  // faz sentido — já estamos na hexploração e o editor não cabe ali.
+  const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
+  const img = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
 
   return (
     <article className="doc-page page">
-      <div className="kicker">{COMPENDIO_KICKER}</div>
+      {/* Na sidebar de DETALHES o kicker "Compêndio do Sistema" só polui — some. */}
+      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
         <span className="doc-type">
@@ -615,10 +924,14 @@ export function LocationSheet({ doc }: { doc: VaultDoc }) {
         </span>
       </header>
 
+      {/* Imagem do local FIXA — abaixo do tipo e acima das abas, visível em
+          qualquer aba (fica muito melhor de ver). Clicar amplia (lightbox). */}
+      {img ? <VaultImage target={img.target} style={HERO_STYLE} zoom /> : null}
+
       {/* Fila de abas — mesmo padrão dos grupoTabs (mono/underline accent) com a
           convenção :disabled existente (opacity .38, cursor default). */}
       <div role="tablist" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
-        {LOCATION_TABS.map((t) => {
+        {tabs.map((t) => {
           const enabled = t.enabled ? t.enabled(doc) : true
           const on = t.id === tab
           return (

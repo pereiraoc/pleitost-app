@@ -29,6 +29,7 @@
 // O hit-test é MATEMÁTICO (pixelToHex) — o SVG é pointer-events:none.
 import {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -134,6 +135,25 @@ function hexLabel(
   const localId = cell?.localId ?? hex.localId
   if (localId) return catalog.entryById.get(localId)?.basename ?? '—'
   return `Hex ${hex.col},${hex.row}`
+}
+
+/** Local ATUAL do grupo (p/ o padrão da sidebar de DETALHES): a localização do
+ *  hex atual; se ele não for um lugar nomeado, a última parada nomeada andando
+ *  pra trás no caminho; senão a própria região. */
+function currentLocalId(
+  state: GroupState,
+  hexMap: HexMapCell[],
+  regionId: string,
+): string | undefined {
+  const atual = hexAtual(state)
+  const hexes = state.hexes
+  const start = atual ? hexes.findIndex((h) => h.id === atual.id) : hexes.length - 1
+  for (let i = start; i >= 0; i--) {
+    const h = hexes[i]
+    const id = cellAt(hexMap, h.col, h.row)?.localId ?? h.localId
+    if (id) return id
+  }
+  return regionId || undefined
 }
 
 // ─────────────────────────── #70 Barra DIREITA ──────────────────────────────
@@ -327,19 +347,12 @@ function RightBar({
  *  'caminho' (rota: vários hexes seguidos) · 'off'. */
 type AddMode = 'off' | 'parada' | 'caminho'
 
-/** Um ponto é PARADA (proeminente) quando: tem rótulo, foi criado como parada,
- *  ou (dados antigos, sem kind) aponta um lugar nomeado. `kind: 'caminho'` é
- *  rota pura (discreto) a menos que tenha rótulo. Fonte única p/ mapa e lista. */
-function hexIsParada(
-  h: GroupHex,
-  hexMap: HexMapCell[],
-  catalog: ReturnType<typeof useCatalog>,
-): boolean {
-  if (h.label && h.label.trim()) return true
-  if (h.kind === 'parada') return true
-  if (h.kind === 'caminho') return false
-  const id = paradaLocalId(h, hexMap)
-  return !!id && catalog.entryById.has(id)
+/** Um ponto é PARADA (proeminente) por PADRÃO — só é rota colapsável quando foi
+ *  criado explicitamente como `kind: 'caminho'`. Assim, hexes LEGADOS (sem
+ *  `kind`, de antes do sistema parada/caminho) permanecem visíveis um a um: cada
+ *  hex marcado à mão é um ponto do histórico do grupo. Fonte única p/ mapa e lista. */
+function hexIsParada(h: GroupHex): boolean {
+  return h.kind !== 'caminho'
 }
 
 /** Uma parada é PRINCIPAL quando o hex referencia um LUGAR nomeado (no mapa da
@@ -406,7 +419,7 @@ function LeftBar({
   const listRef = useRef<HTMLDivElement | null>(null)
   const atual = hexAtual(state)
 
-  const isPrincipal = (h: GroupHex): boolean => hexIsParada(h, hexMap, catalog)
+  const isPrincipal = (h: GroupHex): boolean => hexIsParada(h)
   const segs = buildSegments(state.hexes, isPrincipal)
 
   /** Emoji da marca (subcategoria do local mapeado); '⠿' (grip) se não houver. */
@@ -475,7 +488,7 @@ function LeftBar({
             display: 'flex',
             alignItems: 'center',
             gap: 8,
-            padding: child ? '3px 8px' : '7px 9px',
+            padding: child ? '2px 8px' : '4px 9px',
             cursor: 'pointer',
             opacity: dragging ? 0.5 : 1,
             background: sel
@@ -499,8 +512,8 @@ function LeftBar({
             onClick={(e) => e.stopPropagation()}
             style={{
               flex: 'none',
-              width: child ? 18 : 24,
-              height: child ? 18 : 24,
+              width: child ? 18 : 22,
+              height: child ? 18 : 22,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -555,8 +568,9 @@ function LeftBar({
   }
 
   /** Botão fininho de INSERIR parada na posição `index` (#82). Ativo mostra a
-   *  dica; some durante um arraste. */
-  const insertRow = (index: number) => (
+   *  dica; some durante um arraste. Só aparece DENTRO de um caminho expandido
+   *  (`indent`), pra inserir uma parada num ponto específico da rota. */
+  const insertRow = (index: number, indent = false) => (
     <button
       key={`ins-${index}`}
       data-insert-at={index}
@@ -564,10 +578,11 @@ function LeftBar({
       onClick={() => onInsertAt(index)}
       style={{
         alignSelf: 'stretch',
+        marginLeft: indent ? 22 : 0,
         display: dragId ? 'none' : 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: insertAt === index ? 22 : 12,
+        height: insertAt === index ? 20 : 10,
         padding: 0,
         cursor: 'pointer',
         background: insertAt === index ? 'color-mix(in srgb,var(--accent) 16%,transparent)' : 'transparent',
@@ -584,12 +599,12 @@ function LeftBar({
   )
 
   /** Corrida de HEX-only COLAPSADA: 3 pontinhos verticais + contagem; clique
-   *  expande pra mostrar o caminho completo (#82). */
+   *  EXPANDE pra mostrar o caminho completo (e só então os "+" de inserir). */
   const collapsedRow = (key: string, children: { h: GroupHex; idx: number }[]) => (
     <button
       key={`col-${key}`}
       data-collapsed-run={key}
-      title={`${children.length} parada(s) de hex — clique pra expandir o caminho`}
+      title={`${children.length} hex(es) de caminho — clique pra abrir a rota`}
       onClick={() => setExpanded((s) => new Set(s).add(key))}
       style={{
         marginLeft: 22,
@@ -597,7 +612,7 @@ function LeftBar({
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        padding: '3px 9px',
+        padding: '2px 9px',
         cursor: 'pointer',
         background: 'transparent',
         border: '1px dashed var(--line2)',
@@ -614,6 +629,37 @@ function LeftBar({
         ))}
       </span>
       <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{children.length} HEX</span>
+    </button>
+  )
+
+  /** Cabeçalho da rota EXPANDIDA: botão pra RECOLHER de volta (#: pedido do
+   *  usuário — expandir tem que ter como fechar). */
+  const runCollapseBtn = (key: string, count: number) => (
+    <button
+      key={`recolher-${key}`}
+      data-collapse-run={key}
+      title="Recolher a rota"
+      onClick={() => setExpanded((s) => {
+        const n = new Set(s)
+        n.delete(key)
+        return n
+      })}
+      style={{
+        marginLeft: 22,
+        alignSelf: 'flex-start',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '2px 9px',
+        cursor: 'pointer',
+        background: 'color-mix(in srgb,var(--accent) 10%,transparent)',
+        border: '1px solid color-mix(in srgb,var(--accent) 30%,transparent)',
+        borderRadius: 6,
+        color: 'var(--accent)',
+      }}
+    >
+      <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>▴</span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em' }}>{count} HEX · RECOLHER</span>
     </button>
   )
 
@@ -664,27 +710,37 @@ function LeftBar({
       {collapsed ? null : (
         <div
           ref={listRef}
-          style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 4, padding: 12, overflowY: 'auto' }}
+          style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', gap: 2, padding: 12, overflowY: 'auto' }}
         >
           {state.hexes.length === 0 ? (
             <span style={{ ...fieldLabelStyle, padding: '4px 0' }}>SEM PARADAS</span>
           ) : (
             <>
-              {insertRow(0)}
               {segs.map((seg) => {
                 const key = seg.principal?.id ?? 'lead'
                 const isExp = expanded.has(key)
-                const after =
-                  (seg.children.length ? seg.children[seg.children.length - 1].idx : seg.principalIdx) + 1
+                const kids = seg.children
                 return (
                   <div key={key} style={{ display: 'contents' }}>
                     {seg.principal ? paradaRow(seg.principal, seg.principalIdx, 'principal') : null}
-                    {seg.children.length
+                    {kids.length
                       ? isExp
-                        ? seg.children.map((c) => paradaRow(c.h, c.idx, 'child'))
-                        : collapsedRow(key, seg.children)
+                        ? (
+                            // Rota ABERTA: botão de recolher + os hexes, com o "+"
+                            // de inserir parada SÓ aqui, entre os pontos da rota.
+                            <>
+                              {runCollapseBtn(key, kids.length)}
+                              {kids.map((c) => (
+                                <div key={c.h.id} style={{ display: 'contents' }}>
+                                  {insertRow(c.idx, true)}
+                                  {paradaRow(c.h, c.idx, 'child')}
+                                </div>
+                              ))}
+                              {insertRow(kids[kids.length - 1].idx + 1, true)}
+                            </>
+                          )
+                        : collapsedRow(key, kids)
                       : null}
-                    {insertRow(after)}
                   </div>
                 )
               })}
@@ -777,9 +833,22 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   // lateral do mapa); sem ela (testes) cai no RightBar #70.
   const detail = useDetail()
 
+  // Ao ENTRAR na Exploração, a sidebar de DETALHES mostra por PADRÃO onde o grupo
+  // está AGORA (a localização atual). Roda uma vez por montagem; depois o usuário
+  // navega livre (clicar em outro hex, ou voltar pra Sessão).
+  const didDefaultDetail = useRef(false)
+  useEffect(() => {
+    if (didDefaultDetail.current || !detail) return
+    const id = currentLocalId(state, hexMap, regionId)
+    if (id) {
+      detail.open({ kind: 'doc', id })
+      didDefaultDetail.current = true
+    }
+  }, [detail, state, hexMap, regionId])
+
   /** PARADA (proeminente + rótulo na trilha) = criada como parada OU tem lugar
    *  nomeado OU rótulo; senão é ponto de CAMINHO (rota, discreto) — #85. */
-  const isParada = (h: GroupHex): boolean => hexIsParada(h, hexMap, catalog)
+  const isParada = (h: GroupHex): boolean => hexIsParada(h)
 
   // #85: dois modos de marcação — 'parada' (ponto importante, rotulável) e
   // 'caminho' (rota: toca vários hexes seguidos, mesmo sem ponto de interesse).
@@ -857,7 +926,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     const cell = cellAt(hexMap, col, row)
     if (!cell?.localId) return false
     if (detail) {
-      detail.open({ kind: 'local', id: cell.localId })
+      // Abre DIRETO o doc completo do local (nome + imagem + abas), sem o passo
+      // intermediário do LocalDetail. A sidebar esconde a aba Hexploração.
+      detail.open({ kind: 'doc', id: cell.localId })
     } else {
       setInfoLocalId(cell.localId)
       setInfoWithImage(withImage)
@@ -973,7 +1044,14 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           junto (a de caminhos fica acessível na tela cheia). */}
       <div
         ref={map.containerRef}
-        style={fullscreenContainerStyle({ display: 'flex', gap: 10, alignItems: 'stretch' }, map.fullscreen)}
+        style={fullscreenContainerStyle(
+          // Em tela normal a LINHA tem a MESMA altura do mapa (min(68vh,620px)):
+          // assim a barra de caminho não estica além do mapa — a lista rola por
+          // dentro e o rodapé (Adicionar parada/caminho) fica fixo embaixo. Em
+          // tela cheia, fullscreenContainerStyle sobrescreve com 100dvh.
+          { display: 'flex', gap: 10, alignItems: 'stretch', height: 'min(68vh, 620px)' },
+          map.fullscreen,
+        )}
       >
         <LeftBar
           groupId={groupId}

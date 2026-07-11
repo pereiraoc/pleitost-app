@@ -5,7 +5,7 @@
 // estáveis. Cobre: config de GM (matriz), rolar/re-rolar/travar, comprar
 // (debita ouro + adiciona ao herói + decrementa disponibilidade).
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -17,6 +17,10 @@ import { ConfigPage } from '../src/components/config/ConfigPage'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 import { __resetHeroStoreMemoryForTests, getHeroEdits, writeHeroEdit } from '../src/data/hero-store'
 import { __resetCommerceStoreForTests } from '../src/data/commerce-store'
+import {
+  setSelectedCreature,
+  __resetSelectedCreatureForTests,
+} from '../src/data/selected-creature-store'
 import { __resetSettingsForTests } from '../src/settings'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -68,6 +72,7 @@ beforeEach(() => {
   __resetCommerceStoreForTests()
   __resetHeroStoreMemoryForTests()
   __resetSettingsForTests()
+  __resetSelectedCreatureForTests()
   // limpa só o estado de comércio/heróis, preserva a flag do Mestre
   for (const k of Object.keys({ ...localStorage })) {
     if (k.startsWith('pleitost.commerce.') || k.startsWith('pleitost.heroEdits.')) {
@@ -75,6 +80,7 @@ beforeEach(() => {
     }
   }
   localStorage.removeItem('pleitost.settings.disponibilidade')
+  localStorage.removeItem('pleitost.selectedCreature')
 })
 afterEach(() => {
   cleanup()
@@ -129,27 +135,23 @@ describe('loja: rolar, travar, re-rolar', () => {
     renderLoja()
     const rolar = await abrirComercio()
     fireEvent.click(rolar)
+    // Anel Canário é EQUIPAMENTO → aba Equipamentos (o default é Armas)
+    fireEvent.click(await screen.findByRole('tab', { name: 'EQUIPAMENTOS' }))
 
     // Anel Canário é Recurso Tesouro de Canto Alto (preço 40 PO base, Adepto ×1)
-    const comprarBtns = await screen.findAllByRole('button', { name: 'COMPRAR' })
+    const comprarBtns = await screen.findAllByRole('button', { name: /^Comprar / })
     expect(comprarBtns.length).toBeGreaterThan(0)
     expect(screen.getAllByText('Anel Canário').length).toBeGreaterThan(0)
     // preço Adepto do Anel Canário = 40 PO
     expect(screen.getAllByText('40 PO').length).toBeGreaterThan(0)
     // nenhum item Mestre (rng alto reprovou os 2%)
-    const nRolagem1 = screen.getAllByRole('button', { name: 'COMPRAR' }).length
+    const nRolagem1 = screen.getAllByRole('button', { name: /^Comprar / }).length
 
-    // travar bloqueia o re-rolar
-    fireEvent.click(screen.getByRole('button', { name: 'TRAVAR' }))
-    expect((screen.getByRole('button', { name: /RE-ROLAR/ }) as HTMLButtonElement).disabled).toBe(
-      true,
-    )
-    // destravar + re-rolar com rng baixo → mais itens (Experiente entra)
-    fireEvent.click(screen.getByRole('button', { name: 'DESTRAVAR' }))
+    // re-rolar com rng baixo → mais itens (Experiente/Mestre entram)
     vi.spyOn(Math, 'random').mockReturnValue(0.01)
     fireEvent.click(screen.getByRole('button', { name: /RE-ROLAR/ }))
     await waitFor(() =>
-      expect(screen.getAllByRole('button', { name: 'COMPRAR' }).length).toBeGreaterThan(nRolagem1),
+      expect(screen.getAllByRole('button', { name: /^Comprar / }).length).toBeGreaterThan(nRolagem1),
     )
   })
 })
@@ -158,22 +160,20 @@ describe('loja: comprar debita ouro, adiciona ao herói e decrementa disponibili
   it('fluxo de compra completo com herói da vault (Zuko)', async () => {
     // dá ouro ao Zuko via overlay (vault hero nasce com Ouro 0)
     writeHeroEdit(ZUKO_ID, 'fm', 'Inventario.Ouro', 500, { channel: 'imediato', origem: 'teste' })
+    // o comprador é o herói SELECIONADO globalmente (sem seletor na loja)
+    setSelectedCreature(ZUKO_ID)
     // rng: Adepto garantido 1 de cada, sem E/M
     vi.spyOn(Math, 'random').mockReturnValue(0.99)
     renderLoja()
     const rolar = await abrirComercio()
     fireEvent.click(rolar)
-    await screen.findAllByRole('button', { name: 'COMPRAR' })
+    fireEvent.click(await screen.findByRole('tab', { name: 'EQUIPAMENTOS' }))
+    await screen.findAllByRole('button', { name: /^Comprar / })
+    // (o saldo agora fica na topbar, fora da loja — o débito é conferido no fim)
 
-    // seleciona o herói Zuko no seletor
-    const select = screen.getByRole('combobox', { name: 'Herói comprador' }) as HTMLSelectElement
-    fireEvent.change(select, { target: { value: ZUKO_ID } })
-    // saldo aparece
-    expect(screen.getByText('500 PO')).toBeTruthy()
-
-    // localiza a linha (grid row) do Anel Canário (Adepto, 40 PO) e compra
-    const anelRow = screen.getAllByText('Anel Canário')[0].closest('div')!
-    const comprar = within(anelRow).getByRole('button', { name: 'COMPRAR' })
+    // compra o Anel Canário (Adepto, 40 PO — único com rng alto). O botão de
+    // compra tem aria-label "Comprar <nome>".
+    const comprar = screen.getByRole('button', { name: 'Comprar Anel Canário' })
     fireEvent.click(comprar)
 
     // ouro debitado no overlay do herói (500 - 40 = 460)
