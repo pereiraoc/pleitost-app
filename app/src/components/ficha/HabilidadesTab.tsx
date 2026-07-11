@@ -64,7 +64,9 @@ import {
   type RankLetter,
   classeAventureiro,
   displayName,
+  ESPECIALIDADE_EMOJI,
   grupoArmaEmoji,
+  MAESTRIA_EMOJI,
   magiaEmoji,
   rankGroupLabel,
   slugify,
@@ -1281,77 +1283,79 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
   const [edit, setEdit] = useState(false)
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
 
-  // Elegibilidade do plugin (especializacoes-card.ts:69-70): rank ≥ E dá
-  // direito a 1 Especialização; NENHUMA regra envolvida, só o rank salvo.
-  const eligivel = (p: ProfRow) => RANK_ORDER.indexOf(profLetter(p)) >= RANK_ORDER.indexOf('E')
+  // Elegibilidade do plugin (especializacoes-card.ts:69-70): rank ≥ E dá direito
+  // a 1 Especialidade; rank ≥ M a 1 Maestria. NENHUMA regra — só o rank salvo.
+  const eligivel = (p: ProfRow, minRank: 'E' | 'M') =>
+    RANK_ORDER.indexOf(profLetter(p)) >= RANK_ORDER.indexOf(minRank)
 
-  // Escolha persiste NO MODELO: regrava Especializacao ('' desmarca — o
-  // plugin serializa null → "", serialize-to-fm.ts:229-245) na linha da
-  // perícia dentro de Pericias.Lista.
-  const setEspecializacao = (slug: string, value: string) => {
+  // Escolha persiste NO MODELO: regrava o campo (Especializacao|Maestria; ''
+  // desmarca — plugin serializa null → "") na linha da perícia em Pericias.Lista.
+  const setPick = (field: 'Especializacao' | 'Maestria', slug: string, value: string) => {
     const saved = (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
     const next = saved.map((r) =>
-      slugify(str(r.Nome)) === slug ? { ...r, Especializacao: value } : r,
+      slugify(str(r.Nome)) === slug ? { ...r, [field]: value } : r,
     )
     model.set('Pericias.Lista', next)
   }
 
-  // Modo edição (#26): grupos "<Perícia> (E)" pra TODAS as elegíveis, com
-  // TODAS as opções da vault (projeção especializacaoOptions) — oráculo:
-  // golden editavel__tab-habilidades (radios as-ht-especializacao-<pid>).
-  // Modo visualização: só os picks salvos (comportamento do design).
-  const grupos =
+  // Grupos por coluna. Modo edição (#26/#136): "<Perícia> (E|M)" pra TODAS as
+  // elegíveis, com TODAS as opções da vault (especializacaoOptions/maestriaOptions);
+  // modo visualização: só os picks salvos (comportamento do design).
+  const buildGrupos = (
+    field: 'Especializacao' | 'Maestria',
+    minRank: 'E' | 'M',
+    options: Record<string, string[]>,
+  ) =>
     edit && rules
-      ? pericias.filter(eligivel).map((p) => {
+      ? pericias.filter((p) => eligivel(p, minRank)).map((p) => {
           const slug = slugify(str(p.Nome))
-          const pick = str(p.Especializacao)
+          const pick = str((p as Record<string, unknown>)[field])
           return {
-            skill: `${displayName(slug)} (E)`,
-            items: (rules.especializacaoOptions[slug] ?? []).map((opt) => ({
+            skill: `${displayName(slug)} (${minRank})`,
+            items: (options[slug] ?? []).map((opt) => ({
               on: pick === opt,
               txt: linkLabel(opt),
               target: opt,
-              toggle: () => setEspecializacao(slug, pick === opt ? '' : opt),
+              toggle: () => setPick(field, slug, pick === opt ? '' : opt),
             })),
           }
         })
       : pericias
-          .filter((p) => str(p.Especializacao))
-          .map((p) => ({
-            skill: `${displayName(slugify(str(p.Nome)))} (${profLetter(p)})`,
-            items: [
-              {
-                on: true,
-                txt: linkLabel(str(p.Especializacao)),
-                target: str(p.Especializacao),
-                toggle: undefined as (() => void) | undefined,
-              },
-            ],
-          }))
+          .filter((p) => str((p as Record<string, unknown>)[field]))
+          .map((p) => {
+            const val = str((p as Record<string, unknown>)[field])
+            return {
+              skill: `${displayName(slugify(str(p.Nome)))} (${profLetter(p)})`,
+              items: [{ on: true, txt: linkLabel(val), target: val, toggle: undefined as (() => void) | undefined }],
+            }
+          })
+
+  const gruposEsp = buildGrupos('Especializacao', 'E', rules?.especializacaoOptions ?? {})
+  const gruposMae = buildGrupos('Maestria', 'M', rules?.maestriaOptions ?? {})
 
   // Docs de TODAS as opções (selecionadas E não) pro card no hover (#107) — as
   // não selecionadas não estão nas refs do herói, então carrega aqui.
   const optIds = useMemo(() => {
     const s = new Set<string>()
-    for (const g of grupos) for (const it of g.items) {
+    for (const g of [...gruposEsp, ...gruposMae]) for (const it of g.items) {
       const r = catalog.resolve(wikiTarget(it.target))
       if (r.kind === 'doc') s.add(r.id)
     }
     return [...s]
-  }, [grupos, catalog])
+  }, [gruposEsp, gruposMae, catalog])
   const optDocs = useDocs(optIds)
   const optDoc = (t: string): VaultDoc | undefined => {
     const r = catalog.resolve(wikiTarget(t))
     return r.kind === 'doc' ? optDocs?.get(r.id) : undefined
   }
 
-  return (
-    <div style={panel}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 13 }}>
-        <div style={{ ...monoTitle, letterSpacing: '.08em' }}>Especializações</div>
-        <span style={{ flex: 1 }} />
-        <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
-      </div>
+  // Uma coluna (Especialidades | Maestrias) — mesma seleção radial do design.
+  const renderColuna = (titulo: string, emoji: string, grupos: typeof gruposEsp, vazio: string) => (
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 11 }}>{titulo}</div>
+      {grupos.length === 0 ? (
+        <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)' }}>{vazio}</div>
+      ) : null}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {grupos.map((grp) => (
           <div key={grp.skill}>
@@ -1359,29 +1363,17 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
               {grp.skill}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-              {grp.items.length === 0 ? (
-                // String do plugin (especializacoes-card.ts:111-113).
-                <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)' }}>
-                  Nenhuma Especialização cadastrada
-                </div>
-              ) : null}
               {grp.items.map((sp) => (
                 <div
                   key={sp.txt}
-                  style={{
-                    // --on do design (dc.html:917): radio pinta borda/miolo
-                    // via color-mix com a var — 1 marcado, 0 desmarcado.
-                    ['--on' as string]: sp.on ? 1 : 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 9,
-                  }}
+                  // --on do design (dc.html:917): radio pinta borda/miolo via
+                  // color-mix — 1 marcado, 0 desmarcado.
+                  style={{ ['--on' as string]: sp.on ? 1 : 0, display: 'flex', alignItems: 'center', gap: 9 }}
                 >
                   <Losango />
-                  {edit ? (
-                    // Radio-toggle verbatim do design (dc.html:918-920);
-                    // clicar no marcado desmarca — contrato do plugin
-                    // (especializacoes-card.ts:132-140).
+                  {edit && sp.toggle ? (
+                    // Radio-toggle verbatim do design (dc.html:918-920); clicar no
+                    // marcado desmarca (especializacoes-card.ts:132-140).
                     <button
                       onClick={sp.toggle}
                       aria-label={`${grp.skill}: ${sp.txt}`}
@@ -1410,9 +1402,7 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
                       />
                     </button>
                   ) : null}
-                  <span style={{ fontSize: 13, flex: 'none' }}>
-                    {tokens.emojis.subcategoria.Especializacao}
-                  </span>
+                  <span style={{ fontSize: 13, flex: 'none' }}>{emoji}</span>
                   <ItemHover doc={optDoc(sp.target)} fullBody>
                     <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{sp.txt}</span>
                   </ItemHover>
@@ -1421,6 +1411,20 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  )
+
+  return (
+    <div style={panel}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 13 }}>
+        <div style={{ ...monoTitle, letterSpacing: '.08em' }}>Especialidades e Maestrias</div>
+        <span style={{ flex: 1 }} />
+        <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
+      </div>
+      <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
+        {renderColuna('Especialidades', ESPECIALIDADE_EMOJI, gruposEsp, 'Nenhuma Especialidade cadastrada')}
+        {renderColuna('Maestrias', MAESTRIA_EMOJI, gruposMae, 'Nenhuma Maestria cadastrada')}
       </div>
     </div>
   )

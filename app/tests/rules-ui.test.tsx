@@ -165,13 +165,20 @@ describe('PERFIL — cluster Passado (#3, #4)', () => {
 })
 
 describe('COMPETÊNCIAS/PERÍCIAS — escolhas de ESPECIALIZAÇÕES (#26)', () => {
-  /** Abre o modo edição do painel Especializações (escopo pelo cabeçalho). */
+  /** Abre o modo edição do painel Especialidades e Maestrias (pelo cabeçalho). */
   async function abrirEdicao() {
     renderFicha('habilidades')
-    const heading = await screen.findByText('Especializações')
+    const heading = await screen.findByText('Especialidades e Maestrias')
     const header = heading.parentElement!
     fireEvent.click(within(header).getByText('✎ Alterar'))
   }
+
+  it('painel tem as duas colunas: Especialidades e Maestrias (#136/#163)', async () => {
+    renderFicha('habilidades')
+    expect(await screen.findByText('Especialidades e Maestrias')).toBeTruthy()
+    expect(screen.getByText('Especialidades')).toBeTruthy()
+    expect(screen.getByText('Maestrias')).toBeTruthy()
+  })
 
   it('modo edição lista os grupos elegíveis (rank ≥ E) com as opções reais da vault', async () => {
     await abrirEdicao()
