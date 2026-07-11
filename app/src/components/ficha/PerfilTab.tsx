@@ -16,8 +16,9 @@ import { applyPassadoPickToRows } from '../../rules/passado-options'
 import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
 import { clip, TabStrip, PanelTrack, TrackPanel } from './bits'
 import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { localTipHtml, LOC_TIP_CSS } from './local-tip'
 import { useNamedDocs } from './useNamedDocs'
-import { TipProvider } from './tooltips'
+import { TipHover, TipProvider } from './tooltips'
 import {
   classeAventureiro,
   displayName,
@@ -373,7 +374,7 @@ export function PassadoBox({
 
   return (
     <TipProvider>
-      <style>{ITEM_CARD_CSS}</style>
+      <style>{ITEM_CARD_CSS + LOC_TIP_CSS}</style>
     <div
       style={{
         padding: '16px 18px',
@@ -537,7 +538,7 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
 
   return (
     <TipProvider>
-      <style>{ITEM_CARD_CSS}</style>
+      <style>{ITEM_CARD_CSS + LOC_TIP_CSS}</style>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <PassadoBox doc={doc} />
       <div
@@ -574,13 +575,18 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
                     ...boxStyle('12px 14px', 14, 'var(--blue)'),
                   }}
                 >
-                  <ItemHover doc={naturalidade ? natDoc(naturalidade) : undefined} fullBody style={{ flex: 1 }}>
+                  {/* Tooltip do local (Atlas): Tipo/Descrição/Recursos do FM —
+                      NÃO o corpo (callouts/dataview) que não renderiza bem (#140). */}
+                  <TipHover
+                    html={naturalidadeIsLink && naturalidade ? localTipHtml(natDoc(naturalidade)) : null}
+                    style={{ flex: 1 }}
+                  >
                     <span style={{ flex: 1 }}>
                       {outroMode || naturalidadeIsOutro
                         ? `${tokens.emojis.ui.Outro} ${naturalidadeIsOutro ? naturalidadeRaw : 'Outro'}`
                         : `🏛️ ${naturalidade || '—'}`}
                     </span>
-                  </ItemHover>
+                  </TipHover>
                   <span style={{ color: 'var(--muted)' }}>▾</span>
                 </div>
               }

@@ -45,6 +45,7 @@ import { assetUrl, resolveAsset, useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
 import { TipProvider, TipHover } from '../components/ficha/tooltips'
 import { esc } from '../components/item-card'
+import { localTipHtml, LOC_TIP_CSS, wikiStrip } from '../components/ficha/local-tip'
 import type { VaultDoc } from '../data/types'
 import { docPath } from '../paths'
 import { REGION_MAPS, regionMapById } from '../data/region-maps'
@@ -129,39 +130,8 @@ const inputStyle: CSSProperties = {
 }
 
 /** "[[A/B|C]]"→"C" — rótulo do wikilink, sem o path. */
-function wikiStrip(s: string): string {
-  return s
-    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_m, a: string, b?: string) => (b ?? a).split('/').pop() ?? a)
-    .trim()
-}
-
-/** Tooltip do LOCAL (#124): descrição (campo) + recursos, fonte de verdade no
- *  frontmatter — igual ao LocalInfo. Null quando o doc não tem nada útil. */
-function localTipHtml(doc: VaultDoc | undefined): string | null {
-  if (!doc) return null
-  const tipo = typeof doc.subtype === 'string' ? doc.subtype.trim() : ''
-  const desc = typeof doc.frontmatter['Descrição'] === 'string' ? (doc.frontmatter['Descrição'] as string) : ''
-  const recursos = Array.isArray(doc.frontmatter['Recursos'])
-    ? (doc.frontmatter['Recursos'] as unknown[]).filter((r): r is string => typeof r === 'string' && !!r.trim())
-    : []
-  const parts = [`<div class="loc-tip-name">${esc(doc.basename)}</div>`]
-  if (tipo) parts.push(`<div class="loc-tip-tipo">${esc(tipo)}</div>`)
-  if (desc) parts.push(`<div class="loc-tip-desc">${esc(wikiStrip(desc))}</div>`)
-  if (recursos.length)
-    parts.push(
-      `<div class="loc-tip-rec"><b>Recursos:</b> ${recursos.map((r) => esc(wikiStrip(r))).join(', ')}</div>`,
-    )
-  return `<div class="loc-tip">${parts.join('')}</div>`
-}
-
-const LOC_TIP_CSS = `
-.loc-tip{min-width:150px;max-width:280px}
-.loc-tip-name{font-weight:800;font-size:12.5px;margin-bottom:2px}
-.loc-tip-tipo{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.loc-tip-desc{font-size:11.5px;line-height:1.4;opacity:.92}
-.loc-tip-rec{font-size:11px;opacity:.85;margin-top:5px}
-.loc-tip-rec b{color:var(--muted)}
-`
+// localTipHtml / LOC_TIP_CSS / wikiStrip extraídos p/ components/ficha/local-tip
+// (reuso na Naturalidade do Perfil, #140).
 
 /** Nome exibível de um hex (localização mapeada na região, ou "hex col,row"). */
 function hexLabel(
