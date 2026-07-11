@@ -15,6 +15,7 @@
 // efeitos compartilhados de aliados (sharedFrom — app é single-hero).
 import type { VaultDoc } from '../data/types'
 import {
+  docField,
   fmOf,
   fmPath,
   heroAtributos,
@@ -237,11 +238,12 @@ export function collectDescriptors(sources: DescriptorSources): EffectDescriptor
   const pushDoc = (doc: VaultDoc | undefined) => {
     if (!doc || seenDocs.has(doc.id)) return
     seenDocs.add(doc.id)
-    // Propriedades intrínsecas das armas (inline `propriedades::` do doc da
-    // arma — Apunhalante etc.) também declaram efeitos; o BFS do plugin as
-    // alcança via links da nota da arma.
+    // Propriedades intrínsecas das armas (`propriedades` do doc da arma —
+    // Apunhalante etc.) também declaram efeitos; o BFS do plugin as alcança via
+    // links da nota da arma. Base v2: ARRAY de wikilinks no FM; v1 era inline.
     if (str(fmOf(doc)['categoria']) === 'Equipamento' || doc.id.includes('/Armas/')) {
-      const propsRaw = str((doc.inlineFields as Record<string, unknown> | undefined)?.['propriedades'])
+      const propsVal = docField(doc, 'propriedades')
+      const propsRaw = Array.isArray(propsVal) ? propsVal.map(str).join(' ') : str(propsVal)
       const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g
       let m: RegExpExecArray | null
       while ((m = re.exec(propsRaw)) !== null) pushDoc(refDoc(`[[${m[1]}]]`))
@@ -282,9 +284,10 @@ export function collectDescriptors(sources: DescriptorSources): EffectDescriptor
 // ArmaPropsLookup a partir dos docs das armas
 // ──────────────────────────────────────────────────────────────────────────
 
-/** Labels de wikilink de um inline field ("[[A|B]], [[C]]" → raws). */
+/** Labels de wikilink de `propriedades` ("[[A|B]], [[C]]" → raws). Base v2:
+ *  `propriedades` é ARRAY no FM; v1 era string inline — normaliza os dois. */
 function wikiRaws(value: unknown): string[] {
-  const s = str(value)
+  const s = Array.isArray(value) ? value.map(str).join(' ') : str(value)
   const out: string[] = []
   const re = /\[\[[^\]]+\]\]/g
   let m: RegExpExecArray | null
@@ -299,11 +302,12 @@ export function armaPropsLookupFromFm(fm: Record<string, unknown>, refDoc: RefDo
     const basename = wikilinkBasename(str(arma['Nome']))
     if (!basename) continue
     const doc = refDoc(arma['Nome'])
-    const inline = (doc?.inlineFields ?? {}) as Record<string, unknown>
-    const maosRaw = parseInt(str(inline['mãos']) || str(inline['maos']), 10)
+    // Base v2: mãos é NÚMERO no FM; v1 era string inline. propriedades é ARRAY.
+    const maosVal = docField(doc, 'mãos') ?? docField(doc, 'maos')
+    const maosRaw = typeof maosVal === 'number' ? maosVal : parseInt(str(maosVal), 10)
     options.push({
       nome: basename,
-      propriedades: wikiRaws(inline['propriedades']),
+      propriedades: wikiRaws(docField(doc, 'propriedades')),
       grupo: str(fmOf(doc)['grupo']) || undefined,
       maos: Number.isFinite(maosRaw) ? maosRaw : undefined,
     })

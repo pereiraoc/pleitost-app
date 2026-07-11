@@ -146,8 +146,8 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
       expect(vigor.style.color).toBe(RED)
     })
     // dano do Punhal também sofre (DanoArmaFixo -1, DanoArmaPorDado -1×3 dados)
-    // base M: 3d4+2 → 3d4-2, mantendo o dado extra do Encantar Arma (d12+1)
-    expect(screen.getByText(/3d4-2\+1d12\+1/)).toBeTruthy()
+    // base M: 3d4+2 → 3d4-2, mantendo o dado extra do Encantar Arma (d12+3, pot 9)
+    expect(screen.getByText(/3d4-2\+1d12\+3/)).toBeTruthy()
     // destoggle
     fireEvent.click(within(screen.getByText('Enfraquecido').parentElement as HTMLElement).getByText('−'))
     await waitFor(() => {
@@ -174,17 +174,33 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     await waitFor(() => expect(modSpan().textContent).toBe('+13'))
     expect(modSpan().style.color).toBe(GREEN)
     // Apunhalante (Passivo requer VC, propriedade do Punhal): passo de dado
-    // d4→d6 e +1 fixo → 3d6+3, com o dado extra do Encantar Arma preservado
-    expect(screen.getByText(/3d6\+3\+1d12\+1/)).toBeTruthy()
+    // d4→d6 e +1 fixo → 3d6+3, com o dado extra do Encantar Arma preservado (pot 9)
+    expect(screen.getByText(/3d6\+3\+1d12\+3/)).toBeTruthy()
   })
 
   it('desligar Inspiração desativa Performance Bárdica Ativa (auto) e a Defesa volta ao cru', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
+    // Carlos salvo: Performance Bárdica ON (autoFrom Inspiração) → +1 na Defesa
+    // (Auto-Confiança). Inspiração não persistiu no Condicoes_Ativas (só o efeito
+    // auto ficou), então ativamos o chip pra torná-la a fonte LOCAL do cascade.
     expect(boxValue('DEFESA').textContent).toBe(String(defBase('Defesa') + 1))
     fireEvent.click(screen.getByText('CONDIÇÕES'))
-    const chip = await screen.findByText('Inspiração')
-    fireEvent.click(within(chip.parentElement as HTMLElement).getByText('−'))
+    // "Inspiração" também aparece como AÇÃO na sub-aba Habilidades → escopa o CHIP
+    // (o que tem botões de toggle).
+    const acharChipInsp = () =>
+      screen
+        .getAllByText('Inspiração')
+        .map((c) => c.parentElement as HTMLElement)
+        .find((p) => p?.querySelector('button'))
+    await waitFor(() => expect(acharChipInsp()).toBeTruthy())
+    fireEvent.click(within(acharChipInsp()!).getByText('+'))
+    // com Inspiração ativa, Performance Bárdica segue on → Defesa continua +1
+    await waitFor(() =>
+      expect(boxValue('DEFESA').textContent).toBe(String(defBase('Defesa') + 1)),
+    )
+    // desliga Inspiração → cascade desativa Performance Bárdica → Defesa volta ao cru
+    fireEvent.click(within(acharChipInsp()!).getByText('−'))
     await waitFor(() => {
       const defesa = boxValue('DEFESA')
       expect(defesa.textContent).toBe(String(defBase('Defesa')))
@@ -211,7 +227,7 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
 // derivadas das notas reais (Encantar Arma.md, Desajeitado.md).
 // ──────────────────────────────────────────────────────────────────────────
 
-describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟7 salvo no FM)', () => {
+describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟9 salvo no FM)', () => {
   // "Encantar Arma" também é magia no trilho de painéis → escopa pelo chip
   // (o que tem botões), mesmo padrão do persistencia.test.
   const acharChipEncantar = async () =>
@@ -224,9 +240,9 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟7 salvo no F
     await screen.findByText('DEFESA')
     fireEvent.click(screen.getByText('CONDIÇÕES'))
     const chip = await acharChipEncantar()
-    // FM salvo do Carlos: Condicoes_Ativas["Encantar Arma"].numericSelector = 7
-    expect(fm.Interativa.Condicoes_Ativas['Encantar Arma'].numericSelector).toBe(7)
-    expect(within(chip).getByText('🌟 7')).toBeTruthy()
+    // FM salvo do Carlos: Condicoes_Ativas["Encantar Arma"].numericSelector = 9
+    expect(fm.Interativa.Condicoes_Ativas['Encantar Arma'].numericSelector).toBe(9)
+    expect(within(chip).getByText('🌟 9')).toBeTruthy()
     const menos = within(chip).getByTitle('Diminuir Potência Mágica') as HTMLButtonElement
     const mais = within(chip).getByTitle('Aumentar Potência Mágica') as HTMLButtonElement
     // range da nota (Encantar Arma.md: min 0, max 11) → 7 não encosta em nada
@@ -239,19 +255,19 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟7 salvo no F
   it('mudar a potência recalcula o dado extra do dano na hora (tabela da nota)', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
-    // dano do Punhal com potência 7: 3d4+2 (M) + 1d12+1 (tabela {7: d12+1})
-    expect(screen.getByText(/3d4\+2\+1d12\+1/)).toBeTruthy()
+    // dano do Punhal com potência 9: 3d4+2 (M) + 1d12+3 (tabela {9: d12+3})
+    expect(screen.getByText(/3d4\+2\+1d12\+3/)).toBeTruthy()
     fireEvent.click(screen.getByText('CONDIÇÕES'))
     await acharChipEncantar()
     fireEvent.click(screen.getByTitle('Aumentar Potência Mágica'))
-    // potência 8 → tabela {8: d12+2}
+    // potência 10 → tabela {10: d12+4}
+    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12\+4/)).toBeTruthy())
+    expect(screen.getByText('🌟 10')).toBeTruthy()
+    // desce 2 → potência 8 → tabela {8: d12+2}
+    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
+    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
     await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12\+2/)).toBeTruthy())
     expect(screen.getByText('🌟 8')).toBeTruthy()
-    // desce 2 → potência 6 → tabela {6: d12} (sem offset)
-    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
-    fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
-    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12(?!\+)/)).toBeTruthy())
-    expect(screen.getByText('🌟 6')).toBeTruthy()
   })
 
   it('condição Escalável ganha stepper: Desajeitado ×2 dobra o -2 na Defesa e trava no scaleMax 3', async () => {
@@ -312,7 +328,7 @@ describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
     expect(screen.getByText('ENERGIA MÁGICA')).toBeTruthy()
   })
 
-  it('instância PERSISTIDA no FM (Amálgama 🌟6 do plugin) renderiza card com Vitalidade 16/30', async () => {
+  it('instância PERSISTIDA no FM (Amálgama 🌟6 do plugin) renderiza card com Vitalidade 30/30', async () => {
     const r = renderHeroCombate(PIND_ID)
     // sentinela de load: botão CONDIÇÕES (o card de invocação persistida
     // também contém "DEFESA"); "MAGIAS" repete na sub-strip → [0] é a aba.
@@ -320,8 +336,8 @@ describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
     fireEvent.click(screen.getAllByText('MAGIAS')[0])
     fireEvent.click(await screen.findByText('INVOCAÇÕES'))
     // Pind Bund.md → Invocacoes_Ativas["Amálgama das Sombras"][0]:
-    // {potencia: 6, vitalidade: 16}; EV máx = 5×6 = 30.
-    expect(await screen.findByText('Vitalidade: 16/30')).toBeTruthy()
+    // {potencia: 6, vitalidade: 30}; EV máx = 5×6 = 30.
+    expect(await screen.findByText('Vitalidade: 30/30')).toBeTruthy()
     expect(screen.getByText('🌟 6')).toBeTruthy()
     const card = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-card]')].find((c) =>
       c.textContent?.includes('Amálgama das Sombras'),
@@ -340,7 +356,7 @@ describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
     await screen.findByText('CONDIÇÕES')
     fireEvent.click(screen.getAllByText('MAGIAS')[0])
     fireEvent.click(await screen.findByText('INVOCAÇÕES'))
-    await screen.findByText('Vitalidade: 16/30')
+    await screen.findByText('Vitalidade: 30/30')
     const creator = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-creator]')].find(
       (c) => c.textContent?.includes('Servo das Sombras'),
     )!
@@ -370,7 +386,7 @@ describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
     await screen.findByText('CONDIÇÕES')
     fireEvent.click(screen.getAllByText('MAGIAS')[0])
     fireEvent.click(await screen.findByText('INVOCAÇÕES'))
-    await screen.findByText('Vitalidade: 16/30')
+    await screen.findByText('Vitalidade: 30/30')
     const creator = [...r.container.querySelectorAll<HTMLElement>('[data-invoc-creator]')].find(
       (c) => c.textContent?.includes('Servo das Sombras'),
     )!
@@ -387,6 +403,6 @@ describe('#30 aba INVOCAÇÕES (Pind Bund real)', () => {
     // Dissipar remove a instância nova; a Amálgama persistida continua
     fireEvent.click(within(card).getByText('Dissipar'))
     await waitFor(() => expect(screen.queryByText('Vitalidade: 37/40')).toBeNull())
-    expect(screen.getByText('Vitalidade: 16/30')).toBeTruthy()
+    expect(screen.getByText('Vitalidade: 30/30')).toBeTruthy()
   })
 })

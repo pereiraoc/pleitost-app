@@ -22,6 +22,7 @@ import {
   type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
 import { num, profLetter, str, type ProfRow } from './hero-model'
 
@@ -652,7 +653,13 @@ export function TipProvider({ children }: { children: ReactNode }) {
     <TipCtx.Provider value={ctl}>
       <style>{TIP_CSS}</style>
       {children}
-      {built ? <TipOverlay tip={built} /> : null}
+      {/* PORTAL pro body: o overlay é position:fixed, mas um ancestral com
+          `transform` (ex.: PanelTrack das abas) faz o fixed virar relativo a ELE,
+          jogando o tooltip pro canto. No body, o fixed volta a ser relativo à
+          viewport e o tooltip aparece no mouse. */}
+      {built && typeof document !== 'undefined'
+        ? createPortal(<TipOverlay tip={built} />, document.body)
+        : null}
     </TipCtx.Provider>
   )
 }
@@ -665,13 +672,22 @@ export function TipHover({
   html,
   children,
   style,
+  always,
 }: {
   html: string | null | undefined
   children: ReactNode
   style?: React.CSSProperties
+  /** Renderiza o `<span>` wrapper MESMO sem html — assim, quando o html chega
+   *  de forma assíncrona (ex.: doc carregado depois), o elemento é o mesmo
+   *  `<span>` e o React reconcilia no lugar em vez de remontar os filhos
+   *  (crítico pra `<select>`/inputs que não podem perder o nó). */
+  always?: boolean
 }) {
   const ctl = useContext(TipCtx)
-  if (!html) return <>{children}</>
+  if (!html) {
+    if (!always) return <>{children}</>
+    return <span style={{ display: 'inline-flex', ...style }}>{children}</span>
+  }
   return (
     <span
       data-breakdown-html={html}

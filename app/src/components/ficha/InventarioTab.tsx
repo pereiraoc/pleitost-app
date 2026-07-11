@@ -13,7 +13,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
-import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { ConsumivelHover, ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { TipProvider } from './tooltips'
 import { weaponImageUrl } from '../../data/creature-image'
 import {
@@ -22,7 +22,9 @@ import {
   propriedadeImageUrl,
   tesouroImageUrl,
 } from '../../data/equipment-image'
-import { loadDoc } from '../../data/useDoc'
+import { loadDoc, useDocs } from '../../data/useDoc'
+import { TIER_PRICE_MULT } from '../../data/commerce'
+import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
@@ -45,6 +47,7 @@ import {
   buildItemAlias,
   buildTesouroAlias,
   deriveArmaAtributo,
+  docField,
   escudoObraPrima,
   fmPath,
   heroAtributos,
@@ -374,7 +377,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       .then((armaDoc) =>
         patchArma(i, {
           Nome: `[[${nome}]]`,
-          Atributo: deriveArmaAtributo(entry.grupo, armaDoc?.inlineFields['propriedades'], atributos),
+          Atributo: deriveArmaAtributo(entry.grupo, docField(armaDoc, 'propriedades'), atributos),
         }),
       )
   }
@@ -404,7 +407,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             const armaDoc = refs.refDoc(arma.nomeRaw)
             const propDoc = refs.refDoc(arma.propriedadeRaw)
             const ench = linkLabel(str(arma.propriedadeRaw))
-            const enchIc = imbuicaoEmoji((propDoc?.inlineFields ?? {})['propriedades'])
+            const enchIc = imbuicaoEmoji(docField(propDoc, 'propriedades'))
             // Imagem real da arma (issue #12): embed do doc → figura da carta
             // (hierarquia em weaponImageUrl); sem imagem → slot vazio do design.
             const img = weaponImageUrl(armaDoc, assets)
@@ -566,25 +569,24 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           (76px, um pouco menor que o quadrado 96 da arma) e
                           centrado: aspect-ratio + alignSelf stretch num flex-row
                           colapsa a largura a 0 e a imbuição sumia (issue #78). */}
-                      <span
-                        style={{
-                          flex: 'none',
-                          // estica na altura mas começa no TOPO do A/E/M (não no
-                          // rótulo QUALIDADE acima): marginTop = altura do rótulo
-                          // mono8.5 (~12) + o gap 5 entre rótulo e A/E/M; base no
-                          // dropdown de propriedade. Largura fixa < quadrado 96 da arma.
-                          alignSelf: 'stretch',
-                          marginTop: 17,
-                          width: 76,
-                          background: 'var(--panel2)',
-                          border: '1px solid var(--line2)',
-                          clipPath: clip(7),
-                          backgroundImage: propImg ? `url("${propImg}")` : undefined,
-                          backgroundSize: 'contain',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center',
-                        }}
-                      />
+                      {/* Hover na IMAGEM da propriedade → SÓ o card da propriedade
+                          (conforme o tier selecionado), não a arma (#118). */}
+                      <ItemHover doc={propDoc} tier={arma.tier || undefined} style={{ alignSelf: 'stretch', marginTop: 17 }}>
+                        <span
+                          style={{
+                            flex: 'none',
+                            width: 76,
+                            alignSelf: 'stretch',
+                            background: 'var(--panel2)',
+                            border: '1px solid var(--line2)',
+                            clipPath: clip(7),
+                            backgroundImage: propImg ? `url("${propImg}")` : undefined,
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                          }}
+                        />
+                      </ItemHover>
                       <span
                         style={{
                           flex: 1,
@@ -671,6 +673,8 @@ function GearCard({
   selo,
   onBase,
   onTier,
+  doc,
+  propDoc,
 }: {
   titulo: string
   badge: string
@@ -680,6 +684,8 @@ function GearCard({
   selo?: string | null
   onBase: (base: string) => void
   onTier: (tier: '' | 'A' | 'E' | 'M') => void
+  doc?: VaultDoc
+  propDoc?: VaultDoc
 }) {
   const base = linkLabel(str(gear['Nome'])) || bases[0]
   const tier = tierLetter(gear['Categoria']) ?? ''
@@ -717,34 +723,36 @@ function GearCard({
         ) : null}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <span
-          style={{
-            position: 'relative',
-            flex: 'none',
-            width: 60,
-            height: 60,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 32,
-            background: 'var(--card)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(10),
-            ...(img
-              ? {
-                  backgroundImage: `url("${img}")`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
-                }
-              : {}),
-          }}
-        >
-          {/* Figura real do item (issue #65: escudo → Figura/Armas); sem figura
-              → emoji placeholder (armadura não tem mapeamento base→imagem). */}
-          {img ? null : badge}
-          {selo ? <SeloObraPrima url={selo} size={24} /> : null}
-        </span>
+        <ItemHover doc={doc} propDoc={propDoc} tier={tierLetter(gear['Categoria']) || undefined}>
+          <span
+            style={{
+              position: 'relative',
+              flex: 'none',
+              width: 60,
+              height: 60,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 32,
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(10),
+              ...(img
+                ? {
+                    backgroundImage: `url("${img}")`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                  }
+                : {}),
+            }}
+          >
+            {/* Figura real do item (issue #65: escudo → Figura/Armas); sem figura
+                → emoji placeholder (armadura não tem mapeamento base→imagem). */}
+            {img ? null : badge}
+            {selo ? <SeloObraPrima url={selo} size={24} /> : null}
+          </span>
+        </ItemHover>
         <span
           style={{
             flex: 1,
@@ -813,6 +821,7 @@ interface TesouroRow {
   grupo: string
   index: number
   img: string | null
+  doc?: VaultDoc
 }
 
 function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -822,6 +831,24 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const fm = model.fm
   const armadura = (fmPath(fm, 'Inventario', 'Armadura') ?? {}) as Record<string, unknown>
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
+  // Docs de armadura/escudo + suas propriedades pro card no hover (#119). As
+  // refs do herói só têm o SALVO; aqui resolvo pelo FM DERIVADO (pega a peça
+  // recém-escolhida no overlay também).
+  const gearIds = useMemo(() => {
+    const s = new Set<string>()
+    for (const g of [armadura, escudo]) {
+      for (const k of ['Nome', 'Propriedade']) {
+        const r = catalog.resolve(wikiTarget(g[k]))
+        if (r.kind === 'doc') s.add(r.id)
+      }
+    }
+    return [...s]
+  }, [armadura, escudo, catalog])
+  const gearDocs = useDocs(gearIds)
+  const gearDoc = (v: unknown): VaultDoc | undefined => {
+    const r = catalog.resolve(wikiTarget(v))
+    return r.kind === 'doc' ? gearDocs?.get(r.id) : undefined
+  }
   // Selo de obra-prima (issue #65) a partir da Propriedade (Obra-prima
   // automática) + qualidade do item; imbuição real ou item comum → sem selo.
   const gearSelo = (gear: Record<string, unknown>) =>
@@ -870,7 +897,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           Nome: nome,
           Categoria: '',
           Propriedade: '',
-          Dureza: num((escDoc?.inlineFields as Record<string, unknown> | undefined)?.['dureza']),
+          Dureza: num(docField(escDoc, 'dureza')),
         }),
       )
   }
@@ -917,6 +944,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           index,
           // Figura do tesouro (issue #65): Figura/Equipamentos/<Nome>[ <Tier>].png.
           img: tesouroImageUrl(nome, tier ?? '', assets),
+          doc: tDoc ?? undefined,
         }
       }),
     [tesourosRaw, refs, assets],
@@ -946,10 +974,13 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       list.push(row)
       byGroup.set(row.grupo, list)
     }
+    // Ordena cada grupo por CUSTO efetivo (base × mult do tier), mais caros no
+    // topo (#121).
+    const custo = (r: TesouroRow) => precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A']
     return [...byGroup.entries()].map(([title, groupRows]) => ({
       title,
       dois: groupRows.some((r) => r.bonus > 0) ? 1 : 0,
-      rows: groupRows,
+      rows: [...groupRows].sort((a, b) => custo(b) - custo(a)),
     }))
   }, [rows])
 
@@ -965,6 +996,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           // selo de obra-prima ainda aparece quando ranqueada.
           img={null}
           selo={gearSelo(armadura)}
+          doc={gearDoc(armadura['Nome'])}
+          propDoc={gearDoc(armadura['Propriedade'])}
           {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
         />
         <GearCard
@@ -974,6 +1007,8 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           gear={escudo}
           img={escudoImageUrlByName(String(escudo['Nome'] ?? ''), assets)}
           selo={gearSelo(escudo)}
+          doc={gearDoc(escudo['Nome'])}
+          propDoc={gearDoc(escudo['Propriedade'])}
           {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
         />
       </div>
@@ -1023,37 +1058,42 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
                   {/* Figura do tesouro AO LADO do nome (issue #65). Com figura,
-                      só a imagem (sem o emoji redundante); sem figura → emoji. */}
-                  {r.img ? (
+                      só a imagem (sem o emoji redundante); sem figura → emoji.
+                      Card no hover da IMAGEM também (#120). */}
+                  <ItemHover doc={r.doc} tier={r.tier || undefined}>
+                    {r.img ? (
+                      <span
+                        style={{
+                          flex: 'none',
+                          width: 30,
+                          height: 30,
+                          background: 'var(--panel2)',
+                          border: '1px solid var(--line2)',
+                          clipPath: clip(6),
+                          backgroundImage: `url("${r.img}")`,
+                          backgroundSize: 'contain',
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'center',
+                        }}
+                      />
+                    ) : (
+                      <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
+                    )}
+                  </ItemHover>
+                  <ItemHover doc={r.doc} tier={r.tier || undefined}>
                     <span
                       style={{
-                        flex: 'none',
-                        width: 30,
-                        height: 30,
-                        background: 'var(--panel2)',
-                        border: '1px solid var(--line2)',
-                        clipPath: clip(6),
-                        backgroundImage: `url("${r.img}")`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
+                        fontWeight: 600,
+                        color: 'var(--blue)',
+                        fontSize: 13.5,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                       }}
-                    />
-                  ) : (
-                    <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
-                  )}
-                  <span
-                    style={{
-                      fontWeight: 600,
-                      color: 'var(--blue)',
-                      fontSize: 13.5,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {r.nome}
-                  </span>
+                    >
+                      {r.nome}
+                    </span>
+                  </ItemHover>
                 </span>
                 <span style={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
                   <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r.index, next)} />
@@ -1104,7 +1144,7 @@ function consRows(fm: Record<string, unknown>, catalogo: IndexDocEntry[]): ConsR
   return [...byNome.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt'))
 }
 
-function ConsumiveisPanel({ doc }: { doc: VaultDoc }) {
+function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
   const rawList = (fmPath(model.fm, 'Inventario', 'Consumiveis') ?? []) as unknown[]
@@ -1155,18 +1195,20 @@ function ConsumiveisPanel({ doc }: { doc: VaultDoc }) {
         >
           −
         </span>
-        <span
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: 12.5,
-            minWidth: 24,
-            textAlign: 'center',
-            opacity: zero ? 0.45 : 1,
-          }}
-        >
-          <span style={{ color: 'var(--text)', fontWeight: 700 }}>{value}</span>
-          <span style={{ color: 'var(--muted)', fontSize: 9 }}>{tier}</span>
-        </span>
+        <ConsumivelHover doc={refs.refDoc(nome)} tier={tier}>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 12.5,
+              minWidth: 24,
+              textAlign: 'center',
+              opacity: zero ? 0.45 : 1,
+            }}
+          >
+            <span style={{ color: 'var(--text)', fontWeight: 700 }}>{value}</span>
+            <span style={{ color: 'var(--muted)', fontSize: 9 }}>{tier}</span>
+          </span>
+        </ConsumivelHover>
         <span
           onClick={() => setCount(nome, tier, value + 1)}
           style={{
@@ -1249,19 +1291,21 @@ function ConsumiveisPanel({ doc }: { doc: VaultDoc }) {
               {c.used ? tokens.emojis.pocao.Cooldown : tokens.emojis.pocao.Pronto}
             </button>
             <span style={{ fontSize: 15, flex: 'none' }}>{tokens.emojis.categoria.Consumivel}</span>
-            <span
-              style={{
-                fontWeight: 600,
-                color: c.used ? 'var(--muted)' : 'var(--blue)',
-                fontSize: 14,
-                textDecoration: c.used ? 'line-through' : 'none',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {c.nome}
-            </span>
+            <ConsumivelHover doc={refs.refDoc(c.nome)}>
+              <span
+                style={{
+                  fontWeight: 600,
+                  color: c.used ? 'var(--muted)' : 'var(--blue)',
+                  fontSize: 14,
+                  textDecoration: c.used ? 'line-through' : 'none',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {c.nome}
+              </span>
+            </ConsumivelHover>
           </span>
           {counter(c.nome, 'A', c.counts.A)}
           {counter(c.nome, 'E', c.counts.E)}
@@ -1419,7 +1463,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
             Nome: `[[${nome}]]`,
             Atributo: deriveArmaAtributo(
               entry.grupo,
-              armaDoc?.inlineFields['propriedades'],
+              docField(armaDoc, 'propriedades'),
               heroAtributos(model.fm).values,
             ),
             Bonus_Item: 0,
@@ -1503,7 +1547,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
             <EquipamentosPanel doc={doc} refs={refs} />
           </TrackPanel>
           <TrackPanel pad="0">
-            <ConsumiveisPanel doc={doc} />
+            <ConsumiveisPanel doc={doc} refs={refs} />
           </TrackPanel>
       </PanelTrack>
       {/* Fab da aba ativa no nível da TELA, como o invAdd do design

@@ -22,10 +22,14 @@ export function buildAssetIndex(manifest: AssetsManifest): AssetIndex {
   const byPath = new Map<string, AssetEntry>()
   const byBasename = new Map<string, AssetEntry[]>()
   for (const entry of manifest.assets) {
-    byPath.set(entry.path, entry)
-    const list = byBasename.get(entry.basename)
+    // Normaliza (NFC) a chave — nomes com acento (ç/ã) do filesystem podem vir
+    // decompostos (NFD) e não casar com o basename do doc (NFC); normalizar os
+    // dois lados garante o match (#123, ex.: Poção da Velocidade).
+    byPath.set(entry.path.normalize('NFC'), entry)
+    const bkey = entry.basename.normalize('NFC')
+    const list = byBasename.get(bkey)
     if (list) list.push(entry)
-    else byBasename.set(entry.basename, [entry])
+    else byBasename.set(bkey, [entry])
   }
   return { byPath, byBasename }
 }
@@ -41,7 +45,7 @@ export function assetUrl(entry: AssetEntry): string {
  * loga; nunca chutar).
  */
 export function resolveAsset(index: AssetIndex, target: string): AssetEntry | null {
-  const clean = target.trim()
+  const clean = target.trim().normalize('NFC')
   const exact = index.byPath.get(clean)
   if (exact) return exact
   const candidates = index.byBasename.get(clean) ?? []

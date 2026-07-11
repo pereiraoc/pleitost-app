@@ -350,7 +350,9 @@ describe('#52–#56 ficha nova renderiza bem inicializada', () => {
   it('defesas e sentidos vêm preenchidos', async () => {
     const id = createLocalEntity('Heroi', 'Defendido', emptyHeroFrontmatter())
     renderApp(heroPath(id, 'habilidades'))
-    for (const nome of ['Defesa', 'Vigor', 'Reflexo', 'Ímpeto', 'Percepção', 'Intuição']) {
+    // A defesa de AGI é exibida como "Evasão" (fonte de verdade; slug interno
+    // segue "Reflexo").
+    for (const nome of ['Defesa', 'Vigor', 'Evasão', 'Ímpeto', 'Percepção', 'Intuição']) {
       expect((await screen.findAllByText(nome)).length).toBeGreaterThan(0)
     }
   })

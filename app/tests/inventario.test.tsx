@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FichaPage } from '../src/components/ficha/FichaPage'
-import { deriveArmaAtributo } from '../src/components/ficha/hero-model'
+import { deriveArmaAtributo, docField, bonusPorTier } from '../src/components/ficha/hero-model'
 import { heroPath } from '../src/paths'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
@@ -473,7 +473,7 @@ describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
     // tesouro real com bonus_<tier> (Anel da Resistência, 1º do FM)
     const alvo = parseAlias(tesourosFm[0])
     const tDoc = readJson(tesouroEntries.find((d) => d.basename === alvo)!.id)
-    const bonusM = parseInt(String(tDoc.inlineFields['bonus_mestre']).replace('+', ''), 10)
+    const bonusM = bonusPorTier(tDoc, 'M') // base v2: bonus.mestre (aninhado)
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
     const nomeEl = [...container.querySelectorAll<HTMLElement>('span')].find(
@@ -631,11 +631,11 @@ describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () =>
     const entry = armaEntries.find((d) => d.basename === nome)
     expect(entry, `arma real "${nome}" no catálogo`).toBeTruthy()
     const doc = readJson(entry!.id)
-    return { entry: entry!, doc, props: String(doc.inlineFields['propriedades'] ?? '') }
+    return { entry: entry!, doc, props: String(docField(doc, 'propriedades') ?? '') }
   }
   const derive = (nome: string, attrs: Record<string, number>) => {
     const { entry, doc } = armaReal(nome)
-    return deriveArmaAtributo(entry.grupo, doc.inlineFields['propriedades'], attrs)
+    return deriveArmaAtributo(entry.grupo, docField(doc, 'propriedades'), attrs)
   }
 
   it('oráculo golden (Carlos): badge do Editável = Atributo salvo no FM = derive dos docs reais', () => {
@@ -653,7 +653,7 @@ describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () =>
     const { entry, doc, props } = armaReal(armaBase)
     expect(props).toContain('Precisa')
     expect(
-      deriveArmaAtributo(entry.grupo, doc.inlineFields['propriedades'], fm.Atributos),
+      deriveArmaAtributo(entry.grupo, docField(doc, 'propriedades'), fm.Atributos),
     ).toBe(badges[0])
     // o golden também mantém a opção vazia com a arma selecionada
     // (linkedDropdown includeEmpty — linked-dropdown.ts:69-71)
@@ -698,7 +698,7 @@ describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () =>
       armaEntries.find((d) => {
         const g = String(d.grupo ?? '')
         if (g !== 'cac-simples' && g !== 'cac-marcial') return false
-        const props = String(readJson(d.id).inlineFields['propriedades'] ?? '')
+        const props = String(docField(readJson(d.id), 'propriedades') ?? '')
         return props.includes('Precisa') === comPrecisa
       })!
     const semPrecisa = cac(false)
@@ -796,7 +796,7 @@ describe('#63: escudo/armadura listam os DOCS reais da vault (não Leve/Pesado)'
   })
 
   it('escolher Broquel grava o wikilink do doc + materializa a dureza base (dureza::)', async () => {
-    const durezaBase = Number(broquel.inlineFields['dureza']) // 2
+    const durezaBase = Number(docField(broquel, 'dureza')) // 2
     renderFicha('inventario')
     await screen.findByLabelText('Arma')
     fireEvent.change(within(cardDe('ESCUDO')).getByRole('combobox'), { target: { value: 'Broquel' } })
@@ -818,7 +818,7 @@ describe('#63: escudo/armadura listam os DOCS reais da vault (não Leve/Pesado)'
   })
 
   it('Broquel escolhido reflete a DUREZA base real (2) no COMBATE', async () => {
-    const durezaBase = Number(broquel.inlineFields['dureza']) // 2
+    const durezaBase = Number(docField(broquel, 'dureza')) // 2
     const r = renderFicha('inventario')
     await screen.findByLabelText('Arma')
     fireEvent.change(within(cardDe('ESCUDO')).getByRole('combobox'), { target: { value: 'Broquel' } })
@@ -837,7 +837,7 @@ describe('#63: escudo/armadura listam os DOCS reais da vault (não Leve/Pesado)'
     const escFm = (thoren.frontmatter as any).Inventario.Escudo as Record<string, any>
     const nome = wikiTargetOf(String(escFm.Nome)) // Broquel
     const durezaFm = Number(escFm.Dureza) // 3 (base + Obra-prima materializados no FM)
-    const danos = Number(broquel.inlineFields['danos']) // 4
+    const danos = Number(docField(broquel, 'danos')) // 4
     expect(durezaFm).not.toBe(danos) // distingue dureza (FM) de danos (doc)
 
     render(

@@ -211,10 +211,12 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
   })
 
   it('condições: toggle persiste o container Condicoes_Ativas (chip segue visível)', async () => {
-    const ativas = Object.keys(fm.Interativa.Condicoes_Ativas) // 2 no Carlos
+    const ativas = Object.keys(fm.Interativa.Condicoes_Ativas) // Carlos: 1 (Encantar Arma)
+    // mesma pluralização do CombateTab (nAtivas>1 → "Ativas"; 1 → "Ativa"; 0 → "Nenhuma")
+    const condLabelFor = (n: number) => (n ? `${n}${n > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma')
     const r = renderFicha('combate')
     const btnCond = await screen.findByText('CONDIÇÕES')
-    expect(screen.getByText(`${ativas.length} Ativas`)).toBeTruthy()
+    expect(screen.getByText(condLabelFor(ativas.length))).toBeTruthy()
     fireEvent.click(btnCond.closest('button')!)
     // desliga a primeira condição real (botão de remover é o ÚLTIMO do chip —
     // chips com seletor numérico têm o counter −/+ antes dele, #29; o nome
@@ -226,17 +228,18 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
         .find((p) => p?.querySelector('button'))
     await waitFor(() => expect(acharChip()).toBeTruthy())
     fireEvent.click([...acharChip()!.querySelectorAll('button')].pop()!)
-    expect(screen.getByText(`${ativas.length - 1} Ativa`)).toBeTruthy()
+    expect(screen.getByText(condLabelFor(ativas.length - 1))).toBeTruthy()
     // chip continua visível (união extraído ∪ overlay), só desligado
     expect(acharChip()).toBeTruthy()
     flushHeroEdits()
     const salvo = overlaySalvo().fm['Interativa.Condicoes_Ativas']
     expect(Object.keys(salvo)).not.toContain(ativas[0])
-    expect(Object.keys(salvo)).toContain(ativas[1])
+    // demais condições (se houver) seguem no container salvo
+    for (const outra of ativas.slice(1)) expect(Object.keys(salvo)).toContain(outra)
 
     simulaReload(r)
     renderFicha('combate')
-    expect(await screen.findByText(`${ativas.length - 1} Ativa`)).toBeTruthy()
+    expect(await screen.findByText(condLabelFor(ativas.length - 1))).toBeTruthy()
   })
 })
 

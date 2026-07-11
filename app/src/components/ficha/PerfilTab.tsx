@@ -15,6 +15,9 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
 import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
 import { clip, TabStrip, PanelTrack, TrackPanel } from './bits'
+import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { useNamedDocs } from './useNamedDocs'
+import { TipProvider } from './tooltips'
 import {
   classeAventureiro,
   displayName,
@@ -342,6 +345,7 @@ export function PassadoBox({
     select?: boolean
     options?: SelectOption[]
     onChange?: (v: string) => void
+    ruleName?: string
   }[] = [
     { ic: P.Passado, label: 'PASSADO', value: passado, onChange: setPassado },
     {
@@ -351,6 +355,7 @@ export function PassadoBox({
       select: true,
       options: periciaOptions,
       onChange: setPericiaPick,
+      ruleName: perNome,
     },
     {
       ic: P.OficioPassadoCampo,
@@ -359,11 +364,16 @@ export function PassadoBox({
       select: true,
       options: oficioOptions,
       onChange: setOficioPick,
+      ruleName: ofNome === 'Atuacao' ? 'Atuação' : ofNome ? 'Ofício' : undefined,
     },
     { ic: P.TextoOficio, label: 'TEXTO DO OFÍCIO', value: ofTexto, onChange: setOficioTexto },
   ]
+  // Regra do compêndio (perícia/ofício do Passado) pro tooltip do campo (#104).
+  const ruleDoc = useNamedDocs([perNome, ofNome === 'Atuacao' ? 'Atuação' : 'Ofício'].filter(Boolean))
 
   return (
+    <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
     <div
       style={{
         padding: '16px 18px',
@@ -407,6 +417,7 @@ export function PassadoBox({
               {f.ic} {f.label}
             </span>
             {f.select ? (
+              <ItemHover doc={f.ruleName ? ruleDoc(f.ruleName) : undefined} fullBody style={{ display: 'block', width: '100%' }}>
               <div style={{ position: 'relative', minWidth: 0 }}>
                 <select
                   aria-label={f.label}
@@ -446,6 +457,7 @@ export function PassadoBox({
                   ▾
                 </span>
               </div>
+              </ItemHover>
             ) : (
               <input
                 value={f.value}
@@ -458,6 +470,7 @@ export function PassadoBox({
         ))}
       </div>
     </div>
+    </TipProvider>
   )
 }
 
@@ -504,6 +517,8 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
   const [outroMode, setOutroMode] = useState(false)
   const naturalidade = linkLabel(naturalidadeRaw)
   const setNaturalidade = (v: string) => model.set('Biografia.Naturalidade', v)
+  // Doc do local da naturalidade (Atlas) pro tooltip (#140).
+  const natDoc = useNamedDocs(naturalidade ? [naturalidade] : [])
   const naturalidadeLines = (rules?.naturalidadeLines ?? []).map((l, i) => ({
     value: l.value === null ? `__header_${i}` : l.value,
     label: l.label,
@@ -521,6 +536,8 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
   }
 
   return (
+    <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <PassadoBox doc={doc} />
       <div
@@ -557,11 +574,13 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
                     ...boxStyle('12px 14px', 14, 'var(--blue)'),
                   }}
                 >
-                  <span style={{ flex: 1 }}>
-                    {outroMode || naturalidadeIsOutro
-                      ? `${tokens.emojis.ui.Outro} ${naturalidadeIsOutro ? naturalidadeRaw : 'Outro'}`
-                      : `🏛️ ${naturalidade || '—'}`}
-                  </span>
+                  <ItemHover doc={naturalidade ? natDoc(naturalidade) : undefined} fullBody style={{ flex: 1 }}>
+                    <span style={{ flex: 1 }}>
+                      {outroMode || naturalidadeIsOutro
+                        ? `${tokens.emojis.ui.Outro} ${naturalidadeIsOutro ? naturalidadeRaw : 'Outro'}`
+                        : `🏛️ ${naturalidade || '—'}`}
+                    </span>
+                  </ItemHover>
                   <span style={{ color: 'var(--muted)' }}>▾</span>
                 </div>
               }
@@ -629,6 +648,7 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
         <AddButton label="+ Qualidades / Defeitos" onClick={() => addPair('Qualidades', 'Defeitos')} />
       </div>
     </div>
+    </TipProvider>
   )
 }
 

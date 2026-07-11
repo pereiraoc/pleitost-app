@@ -93,6 +93,11 @@ const SLUG_TO_DISPLAY: Record<string, string> = {
   Oficio: 'Ofício',
   Atuacao: 'Atuação',
   Impeto: 'Ímpeto',
+  // A defesa de AGI é "Evasão" na fonte de verdade (vault: Evasão.json); o
+  // modelo interno ainda usa o slug legado "Reflexo" (emoji/condições). O NOME
+  // exibido — e o que resolve a regra do compêndio — é Evasão.
+  Reflexo: 'Evasão',
+  Evasao: 'Evasão',
   Percepcao: 'Percepção',
   Intuicao: 'Intuição',
   Aereo: 'Aéreo',

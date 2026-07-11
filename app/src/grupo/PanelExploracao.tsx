@@ -36,12 +36,16 @@ import {
   useSyncExternalStore,
   type CSSProperties,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { clip } from '../components/ficha/bits'
 import { InlineFieldValue } from '../components/compendium/InlineFieldValue'
 import { useCatalog } from '../data/CatalogContext'
 import { assetUrl, resolveAsset, useAssetIndex } from '../data/assets'
-import { useDoc } from '../data/useDoc'
+import { useDoc, useDocs } from '../data/useDoc'
+import { TipProvider, TipHover } from '../components/ficha/tooltips'
+import { esc } from '../components/item-card'
+import type { VaultDoc } from '../data/types'
 import { docPath } from '../paths'
 import { REGION_MAPS, regionMapById } from '../data/region-maps'
 import { useHexMap } from '../data/useHexMap'
@@ -123,6 +127,41 @@ const inputStyle: CSSProperties = {
   fontSize: 12,
   padding: '6px 8px',
 }
+
+/** "[[A/B|C]]"→"C" — rótulo do wikilink, sem o path. */
+function wikiStrip(s: string): string {
+  return s
+    .replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_m, a: string, b?: string) => (b ?? a).split('/').pop() ?? a)
+    .trim()
+}
+
+/** Tooltip do LOCAL (#124): descrição (campo) + recursos, fonte de verdade no
+ *  frontmatter — igual ao LocalInfo. Null quando o doc não tem nada útil. */
+function localTipHtml(doc: VaultDoc | undefined): string | null {
+  if (!doc) return null
+  const tipo = typeof doc.subtype === 'string' ? doc.subtype.trim() : ''
+  const desc = typeof doc.frontmatter['Descrição'] === 'string' ? (doc.frontmatter['Descrição'] as string) : ''
+  const recursos = Array.isArray(doc.frontmatter['Recursos'])
+    ? (doc.frontmatter['Recursos'] as unknown[]).filter((r): r is string => typeof r === 'string' && !!r.trim())
+    : []
+  const parts = [`<div class="loc-tip-name">${esc(doc.basename)}</div>`]
+  if (tipo) parts.push(`<div class="loc-tip-tipo">${esc(tipo)}</div>`)
+  if (desc) parts.push(`<div class="loc-tip-desc">${esc(wikiStrip(desc))}</div>`)
+  if (recursos.length)
+    parts.push(
+      `<div class="loc-tip-rec"><b>Recursos:</b> ${recursos.map((r) => esc(wikiStrip(r))).join(', ')}</div>`,
+    )
+  return `<div class="loc-tip">${parts.join('')}</div>`
+}
+
+const LOC_TIP_CSS = `
+.loc-tip{min-width:150px;max-width:280px}
+.loc-tip-name{font-weight:800;font-size:12.5px;margin-bottom:2px}
+.loc-tip-tipo{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.loc-tip-desc{font-size:11.5px;line-height:1.4;opacity:.92}
+.loc-tip-rec{font-size:11px;opacity:.85;margin-top:5px}
+.loc-tip-rec b{color:var(--muted)}
+`
 
 /** Nome exibível de um hex (localização mapeada na região, ou "hex col,row"). */
 function hexLabel(
@@ -418,6 +457,12 @@ function LeftBar({
   const dragIdRef = useRef<string | null>(null)
   const listRef = useRef<HTMLDivElement | null>(null)
   const atual = hexAtual(state)
+  // Docs dos locais das paradas pro tooltip de descrição/recursos (#124).
+  const localIds = useMemo(
+    () => [...new Set(state.hexes.map((h) => paradaLocalId(h, hexMap)).filter((x): x is string => !!x))],
+    [state.hexes, hexMap],
+  )
+  const localDocs = useDocs(localIds)
 
   const isPrincipal = (h: GroupHex): boolean => hexIsParada(h)
   const segs = buildSegments(state.hexes, isPrincipal)
@@ -529,20 +574,25 @@ function LeftBar({
           >
             {paradaEmoji(h)}
           </span>
-          <span
-            style={{
-              flex: 1,
-              minWidth: 0,
-              fontSize: child ? 11 : 12.5,
-              fontWeight: child ? 400 : 600,
-              color: child ? 'var(--muted)' : 'var(--text)',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
+          <TipHover
+            html={localTipHtml(paradaLocalId(h, hexMap) ? localDocs?.get(paradaLocalId(h, hexMap)!) : undefined)}
+            style={{ flex: 1, minWidth: 0 }}
           >
-            {hexLabel(h, hexMap, catalog)}
-          </span>
+            <span
+              style={{
+                flex: 1,
+                minWidth: 0,
+                fontSize: child ? 11 : 12.5,
+                fontWeight: child ? 400 : 600,
+                color: child ? 'var(--muted)' : 'var(--text)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {hexLabel(h, hexMap, catalog)}
+            </span>
+          </TipHover>
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -864,6 +914,10 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const [leftCollapsed, setLeftCollapsed] = useState(false)
   const [rightCollapsed, setRightCollapsed] = useState(false)
   const [hoverHex, setHoverHex] = useState<HexCell | null>(null)
+  // Tooltip do LOCAL no MAPA (#141): o <svg> tem pointer-events:none, então o
+  // hover é rastreado no div-pai; mostramos o mesmo card da parada num overlay
+  // portado pro body (fixed, no mouse).
+  const [mapTip, setMapTip] = useState<{ html: string; x: number; y: number } | null>(null)
   /** Token sendo arrastado: célula atual sob o cursor (mostra "Adicionar parada"). */
   const [tokenDropCell, setTokenDropCell] = useState<HexCell | null>(null)
   const tokenDragRef = useRef(false)
@@ -878,6 +932,31 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   // A malha inteira é 1 <path> constante (barato; não depende do estado).
   const gridPath = useMemo(() => hexGridPath(), [])
 
+  // Docs dos locais pro TOOLTIP no mapa (#124) — nativo (<title>) já que os
+  // hexes são SVG. Descrição (campo) + recursos, fonte de verdade no frontmatter.
+  const mapLocalIds = useMemo(
+    () => [...new Set(state.hexes.map((h) => paradaLocalId(h, hexMap)).filter((x): x is string => !!x))],
+    [state.hexes, hexMap],
+  )
+  const mapLocalDocs = useDocs(mapLocalIds)
+  const localTitleText = (h: GroupHex): string => {
+    const lid = paradaLocalId(h, hexMap)
+    if (!lid) return ''
+    const doc = mapLocalDocs?.get(lid)
+    if (!doc) return catalog.entryById.get(lid)?.basename ?? ''
+    const parts = [doc.basename]
+    const desc =
+      typeof doc.frontmatter['Descrição'] === 'string' ? wikiStrip(doc.frontmatter['Descrição'] as string) : ''
+    if (desc) parts.push(desc)
+    const rec = Array.isArray(doc.frontmatter['Recursos'])
+      ? (doc.frontmatter['Recursos'] as unknown[])
+          .filter((r): r is string => typeof r === 'string' && !!r.trim())
+          .map(wikiStrip)
+      : []
+    if (rec.length) parts.push('Recursos: ' + rec.join(', '))
+    return parts.join('\n')
+  }
+
   const mapAsset = regionMapById(regionId)?.mapAsset ?? MAPA_MUNDO_LIVRE
   const mapEntry = assets?.byPath.get(mapAsset) ?? null
 
@@ -890,6 +969,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   const onPointerDown = (e: React.PointerEvent) => {
     pressedRef.current = true
     if (hoverHex) setHoverHex(null)
+    setMapTip(null)
     map.onPointerDown(e)
   }
   const onPointerMove = (e: React.PointerEvent) => {
@@ -910,6 +990,10 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       setHoverHex((prev) =>
         (prev && h && prev.col === h.col && prev.row === h.row) || (!prev && !h) ? prev : h,
       )
+      // Tooltip do lugar sob o cursor (mesmo card da parada), no mouse.
+      const lid = h ? (cellAt(hexMap, h.col, h.row)?.localId ?? undefined) : undefined
+      const html = lid ? localTipHtml(mapLocalDocs?.get(lid)) : null
+      setMapTip(html ? { html, x: e.clientX, y: e.clientY } : null)
     }
   }
   const onPointerUp = (e: React.PointerEvent) => {
@@ -918,6 +1002,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   }
   const onPointerLeave = () => {
     if (hoverHex) setHoverHex(null)
+    setMapTip(null)
   }
 
   /** Info do local do hex mapeado: na sidebar DIREITA global (#89) quando há
@@ -1016,7 +1101,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     (!atual || tokenDropCell.col !== atual.col || tokenDropCell.row !== atual.row)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <TipProvider>
+      <style>{LOC_TIP_CSS}</style>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <div style={sectionTitleStyle}>{'// EXPLORAÇÃO'}</div>
         {/* #68: seletor de REGIÃO (dentre as com mapa). */}
@@ -1209,6 +1296,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                       ? { filter: `drop-shadow(0 0 8px color-mix(in srgb,${ATUAL_BLUE} 80%,transparent))` }
                       : undefined
                     // ponto de CAMINHO (rota): bolinha pequena
+                    const titleText = localTitleText(h)
                     if (!parada) {
                       return (
                         <circle
@@ -1226,7 +1314,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                           strokeWidth={isAtual || isSel ? 2.5 : 1.5}
                           vectorEffect="non-scaling-stroke"
                           style={glow}
-                        />
+                        >
+                          {titleText ? <title>{titleText}</title> : null}
+                        </circle>
                       )
                     }
                     // PARADA: hex marcador proeminente (sem rótulo)
@@ -1245,7 +1335,9 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
                         strokeWidth={isAtual || isSel ? 2.5 : 2}
                         vectorEffect="non-scaling-stroke"
                         style={glow}
-                      />
+                      >
+                        {titleText ? <title>{titleText}</title> : null}
+                      </polygon>
                     )
                   })}
                   {/* Célula-alvo do token durante o arraste (#71) */}
@@ -1343,7 +1435,18 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           }}
         />
       ) : null}
-    </div>
+      </div>
+      {mapTip
+        ? createPortal(
+            <div
+              className="dv-breakdown-tip floating"
+              style={{ left: mapTip.x + 16, top: mapTip.y + 18, maxWidth: 300, position: 'fixed', zIndex: 80 }}
+              dangerouslySetInnerHTML={{ __html: mapTip.html }}
+            />,
+            document.body,
+          )
+        : null}
+    </TipProvider>
   )
 }
 

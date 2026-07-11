@@ -68,8 +68,8 @@ const nivelReal = Number(fm['Nível']) // 7
 describe('FichaPage aceita Companheiro Animal (Metis, modelo salvo real)', () => {
   it('PERFIL: nome, Classe e Nível reais do FM de CA', async () => {
     renderFicha()
-    // FM nome existe no Metis (diferente do Carlos, que usa basename)
-    expect((await screen.findAllByDisplayValue(String(fm.nome))).length).toBeGreaterThan(0)
+    // Metis não tem `nome` no FM (nem aliases) → exibe o basename (heroNome)
+    expect((await screen.findAllByDisplayValue(metis.basename!)).length).toBeGreaterThan(0)
     expect((await screen.findAllByText(classeReal)).length).toBeGreaterThan(0)
     expect(screen.getByText(`NVL ${nivelReal}`)).toBeTruthy()
   })

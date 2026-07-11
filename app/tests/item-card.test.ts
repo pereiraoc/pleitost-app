@@ -6,7 +6,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
-import { bodyDesc, itemCardHtml, composedCardHtml, docKind } from '../src/components/item-card'
+import { bodyDesc, bodyHtml, itemCardHtml, composedCardHtml, docKind } from '../src/components/item-card'
+import { precoPO } from '../src/grupo/wealth'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -107,5 +108,73 @@ describe('#96 — schema de campos por tipo', () => {
     expect(html).toContain('Usos')
     expect(html).toContain('Bônus')
     expect(html).toContain('pericia') // bonus_tipo
+  })
+})
+
+describe('#122/#127 — preço com multiplicador de qualidade', () => {
+  const base = precoPO(anel) // 40 PO
+  it('tier E = preço_base × 5', () => {
+    expect(base).toBeGreaterThan(0)
+    expect(itemCardHtml(anel, 'E', null, true)).toContain(`${base * 5} PO`)
+  })
+  it('tier M = preço_base × 25', () => {
+    expect(itemCardHtml(anel, 'M', null, true)).toContain(`${base * 25} PO`)
+  })
+  it('tier A = preço base cru', () => {
+    expect(itemCardHtml(anel, 'A', null, true)).toContain(`${base} PO`)
+  })
+})
+
+describe('#109 — campos da magia vêm do frontmatter', () => {
+  const bola = byName('Bola de Fogo')
+  it('mostra Tipo (Anima), Rank e Custo — não campos de arma', () => {
+    const html = itemCardHtml(bola, 'A', null, false)
+    expect(html).toContain('Anima') // subcategoria (arcana/anima)
+    expect(html).toContain('Rank')
+    expect(html).toContain('Custo')
+    expect(html).not.toContain('>Dano<')
+  })
+})
+
+describe('#110/#117 — fullBody rende a prosa completa, não o resumo', () => {
+  const bola = byName('Bola de Fogo')
+  it('fullBody usa o corpo da regra (classe shc-body) e é mais rico que o resumo', () => {
+    const resumo = itemCardHtml(bola, 'A', null, false)
+    const full = itemCardHtml(bola, 'A', null, false, true)
+    expect(resumo).not.toContain('shc-body')
+    expect(full).toContain('shc-body')
+    expect(full.length).toBeGreaterThan(resumo.length)
+  })
+  it('bodyHtml tira meta %% e fences, mantendo a prosa', () => {
+    const html = bodyHtml(bola)
+    expect(html).not.toContain('%%')
+    expect(html).not.toContain('autosheet-rules')
+    expect(html).not.toContain('resumo::')
+    expect(html.length).toBeGreaterThan(0)
+  })
+})
+
+describe('#103 — classe (Bardo): corpo limpo + tabela, sem embed cru', () => {
+  const bardo = byName('Bardo')
+  const html = bodyHtml(bardo, undefined, { cutAfterTable: true })
+  it('renderiza a tabela de nível', () => {
+    expect(html).toContain('shc-tbl')
+    expect(html).toContain('Nível')
+  })
+  it('não deixa embed cru (![[...]]), params de imagem, nem = this.x', () => {
+    expect(html).not.toContain('![[')
+    expect(html).not.toContain('right|profile')
+    expect(html).not.toContain('this.file.name')
+  })
+})
+
+describe('bodyHtml — linhas consecutivas quebram (Sucesso/Falha em linhas próprias)', () => {
+  const magia = byName('Lufada de Vento')
+  it('separa os desfechos com <br> em vez de colar tudo numa linha', () => {
+    const html = bodyHtml(magia)
+    expect(html).toContain('<br>')
+    // "Sucesso:" e "Falha:" não ficam grudados no mesmo texto corrido
+    expect(html).toContain('Sucesso')
+    expect(html).toContain('Falha')
   })
 })

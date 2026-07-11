@@ -227,7 +227,9 @@ export function deriveArmaAtributo(
 ): string {
   const g = str(grupo).toLowerCase()
   if (g === 'd-marcial' || g === 'd-simples') return 'AGI'
-  if (str(propriedades).toLowerCase().includes('precisa')) {
+  // Base v2: `propriedades` é ARRAY no frontmatter; v1 era string inline.
+  const propStr = (Array.isArray(propriedades) ? propriedades.map(str).join(' ') : str(propriedades)).toLowerCase()
+  if (propStr.includes('precisa')) {
     return num(atributos['AGI']) > num(atributos['FOR']) ? 'AGI' : 'FOR'
   }
   return 'FOR'
@@ -270,25 +272,44 @@ export function usosMax(freq: unknown): number | null {
 
 const TIER_FIELD: Record<'A' | 'E' | 'M', string> = { A: 'adepto', E: 'experiente', M: 'mestre' }
 
-/** usos_<tier>:: do doc do tesouro/imbuição (fm-helpers do plugin). */
-export function usosPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
-  if (!doc) return null
-  return usosMax((doc.inlineFields as Record<string, unknown>)[`usos_${TIER_FIELD[tier]}`])
+/** Lê um campo do doc: FRONTMATTER primeiro (base v2), fallback pro inline (v1). */
+export function docField(doc: VaultDoc | undefined, key: string): unknown {
+  if (!doc) return undefined
+  const fm = doc.frontmatter as Record<string, unknown> | undefined
+  const inl = doc.inlineFields as Record<string, unknown> | undefined
+  const fv = fm?.[key]
+  return fv !== undefined && fv !== null ? fv : inl?.[key]
 }
 
-/** cargas_<tier>:: N do doc (Focos/Implementos) — contador iniciado em 0. */
+/** Campo POR TIER: v2 = objeto aninhado no frontmatter (`bonus: {adepto,…}`);
+ *  v1 = inline `bonus_adepto` flat. */
+function docTierField(doc: VaultDoc, field: string, tier: 'A' | 'E' | 'M'): unknown {
+  const word = TIER_FIELD[tier]
+  const obj = (doc.frontmatter as Record<string, unknown> | undefined)?.[field]
+  if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+    const v = (obj as Record<string, unknown>)[word]
+    if (v !== undefined && v !== null) return v
+  }
+  return (doc.inlineFields as Record<string, unknown> | undefined)?.[`${field}_${word}`]
+}
+
+/** usos_<tier> do doc do tesouro/imbuição (v2 aninhado / v1 flat). */
+export function usosPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
+  if (!doc) return null
+  return usosMax(docTierField(doc, 'usos', tier))
+}
+
+/** cargas_<tier> N do doc (Focos/Implementos) — contador iniciado em 0. */
 export function cargasPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
   if (!doc) return null
-  const raw = (doc.inlineFields as Record<string, unknown>)[`cargas_${TIER_FIELD[tier]}`]
-  const n = parseInt(str(raw), 10)
+  const n = parseInt(str(docTierField(doc, 'cargas', tier)), 10)
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
-/** bonus_<tier>:: "+2" do doc do tesouro → 2 (coluna ITEM BÔNUS do design). */
+/** bonus_<tier> "+2" do doc do tesouro → 2 (coluna ITEM BÔNUS do design). */
 export function bonusPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number {
   if (!doc) return 0
-  const raw = str((doc.inlineFields as Record<string, unknown>)[`bonus_${TIER_FIELD[tier]}`])
-  const n = parseInt(raw.replace('+', ''), 10)
+  const n = parseInt(str(docTierField(doc, 'bonus', tier)).replace('+', ''), 10)
   return Number.isFinite(n) ? n : 0
 }
 

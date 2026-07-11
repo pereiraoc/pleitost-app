@@ -80,9 +80,10 @@ export function tierMultFromCategoriaLink(linkStr: unknown): number {
  *  No vault-data o extractor já expõe o inline field; fallback pro body. */
 export function precoPO(doc: VaultDoc | undefined | null): number {
   if (!doc) return 0
-  const inline = doc.inlineFields['preço']
-  if (typeof inline === 'string') {
-    const m = inline.match(/(\d+)\s*PO/i)
+  // Base v2: `preço` está no FRONTMATTER; fallback pro inline/body (formato antigo).
+  const raw = doc.frontmatter?.['preço'] ?? doc.inlineFields['preço']
+  if (typeof raw === 'string') {
+    const m = raw.match(/(\d+)\s*PO/i)
     if (m) return Number(m[1])
   }
   const m = doc.body.match(/preço::\s*(\d+)\s*PO/i)

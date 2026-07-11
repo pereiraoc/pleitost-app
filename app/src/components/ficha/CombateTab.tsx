@@ -23,6 +23,8 @@ import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
 import { propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image'
 import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { useNamedDocs } from './useNamedDocs'
+import { HabilidadesArvorePanel, TecnicasPanel, AcoesPanel } from './HabilidadesTab'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -79,6 +81,7 @@ import {
   tierLetter,
   usosPorTier,
   wikiTarget,
+  docField,
   type ProfRow,
 } from './hero-model'
 import {
@@ -124,6 +127,7 @@ import {
 
 const COMB_TABS = [
   { id: 'ataques', label: 'ATAQUES' },
+  { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'tesouros', label: 'TESOUROS' },
   { id: 'magias', label: 'MAGIAS' },
@@ -131,7 +135,8 @@ const COMB_TABS = [
 
 /** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]). */
 function wikiLabels(value: unknown): string[] {
-  const s = str(value)
+  // Base v2: `propriedades` é ARRAY de wikilinks no frontmatter; v1 era string.
+  const s = Array.isArray(value) ? value.map(str).join(' ') : str(value)
   const out: string[] = []
   const re = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
   let m: RegExpExecArray | null
@@ -175,14 +180,45 @@ function EscudoRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     model.setVolatile('Interativa.Efeitos_Ativos', next)
   }
   const [open, setOpen] = useState(false)
-  const escudoDoc = refs.refDoc(escudo['Nome'])
+  // Docs do escudo + da obra-prima carregados LOCALMENTE (refs do herói só têm o
+  // SALVO; um escudo recém-equipado vive no overlay) — corrige integridade 0/0 e
+  // a dureza da obra-prima (a regra "Definir Escudo.Dureza N" do doc não roda no
+  // overlay do app).
+  const catalog = useCatalog()
+  const escNome = str(escudo['Nome'])
+  const escProp = str(escudo['Propriedade'])
+  const escIds = useMemo(() => {
+    const s = new Set<string>()
+    for (const v of [escNome, escProp]) {
+      const r = v ? catalog.resolve(wikiTarget(v)) : null
+      if (r && r.kind === 'doc') s.add(r.id)
+    }
+    return [...s]
+  }, [escNome, escProp, catalog])
+  const escDocs = useDocs(escIds)
+  const localDoc = (v: string): VaultDoc | undefined => {
+    const r = v ? catalog.resolve(wikiTarget(v)) : null
+    return r && r.kind === 'doc' ? escDocs?.get(r.id) : undefined
+  }
+  const escudoDoc = refs.refDoc(escudo['Nome']) ?? localDoc(escNome)
+  const propDoc = refs.refDoc(escudo['Propriedade']) ?? localDoc(escProp)
   // Integridade máx = danos:: do doc do escudo; dano corrente da Interativa.
-  const intMax = num((escudoDoc?.inlineFields as Record<string, unknown>)?.['danos'])
+  const intMax = num(docField(escudoDoc, 'danos'))
   const dano = num(interativa(fm).restantes['Escudo_Dano'] ?? escudo['Dano'])
   const setDano = (fn: (d: number) => number) =>
     model.setVolatile('Interativa.Recursos_Restantes.Escudo_Dano', fn(dano))
   if (!nome) return null
-  const dureza = num(escudo['Dureza'])
+  // Dureza: a obra-prima SUBSTITUI a dureza base (regra "Categoria <tier> Definir
+  // Inventario.Escudo.Dureza N" do doc da obra-prima); senão a base do escudo.
+  const tierWord = ({ A: 'Adepto', E: 'Experiente', M: 'Mestre' } as Record<string, string>)[
+    tierLetter(escudo['Categoria']) || ''
+  ]
+  let obraDureza = 0
+  for (const re of (propDoc?.ruleElements ?? []) as { raw?: string }[]) {
+    const m = String(re.raw ?? '').match(/Categoria (\S+) Definir Inventario\.Escudo\.Dureza (\d+)/)
+    if (m && m[1] === tierWord) obraDureza = Number(m[2])
+  }
+  const dureza = obraDureza || num(escudo['Dureza'])
   const intCur = Math.max(0, intMax - dano)
 
   return (
@@ -701,25 +737,31 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                padding: '14px 16px',
+                minWidth: 0,
                 background: 'var(--panel)',
                 border: '1px solid var(--line)',
                 clipPath: clip(12),
               }}
             >
-              <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
-              <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
-                  {displayName(slugify(str(d.Nome))).toUpperCase()}
-                </div>
-                <TipHover
-                  html={renderBreakdownHtml(resistenciaBreakdown(d, attrs))}
-                  style={{ justifyContent: 'center' }}
-                >
+              {/* Breakdown no CONTAINER inteiro (não só no número); o `title`
+                  das condições fica no wrapper externo. */}
+              <TipHover
+                html={renderBreakdownHtml(resistenciaBreakdown(d, attrs))}
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '14px 16px',
+                  width: '100%',
+                  minWidth: 0,
+                }}
+              >
+                <span style={{ fontSize: 20, flex: 'none' }}>{defesaEmoji(str(d.Nome))}</span>
+                <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' }}>
+                    {displayName(slugify(str(d.Nome))).toUpperCase()}
+                  </div>
                   <div
                     style={{
                       fontSize: 22,
@@ -729,12 +771,12 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                   >
                     {10 + rowMod(d, attrs) + applied.delta}
                   </div>
-                </TipHover>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <GoldDots on={num(d.Bonus_Item)} compact />
-                {num(d.Bonus_Especial) > 0 ? <StarChip n={num(d.Bonus_Especial)} compact /> : null}
-              </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <GoldDots on={num(d.Bonus_Item)} compact />
+                  {num(d.Bonus_Especial) > 0 ? <StarChip n={num(d.Bonus_Especial)} compact /> : null}
+                </div>
+              </TipHover>
             </div>
           )
         })}
@@ -771,25 +813,30 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
               title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 6,
-                padding: '10px 14px',
+                minWidth: 0,
                 background: 'var(--panel)',
                 border: '1px solid var(--line)',
                 clipPath: clip(10),
               }}
             >
-              <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
-              <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
-                  {displayName(slugify(str(s.Nome))).toUpperCase()}
-                </div>
-                <TipHover
-                  html={renderBreakdownHtml(sentidoBreakdown(s, attrs))}
-                  style={{ justifyContent: 'center' }}
-                >
+              {/* Breakdown no CONTAINER inteiro; `title` das condições no wrapper. */}
+              <TipHover
+                html={renderBreakdownHtml(sentidoBreakdown(s, attrs))}
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  padding: '10px 14px',
+                  width: '100%',
+                  minWidth: 0,
+                }}
+              >
+                <span style={{ fontSize: 16, flex: 'none' }}>{defesaEmoji(str(s.Nome))}</span>
+                <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+                    {displayName(slugify(str(s.Nome))).toUpperCase()}
+                  </div>
                   <div
                     style={{
                       fontSize: 16,
@@ -799,12 +846,12 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                   >
                     {signed(rowMod(s, attrs) + applied.delta)}
                   </div>
-                </TipHover>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <GoldDots on={num(s.Bonus_Item)} compact />
-                {num(s.Bonus_Especial) > 0 ? <StarChip n={num(s.Bonus_Especial)} compact /> : null}
-              </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <GoldDots on={num(s.Bonus_Item)} compact />
+                  {num(s.Bonus_Especial) > 0 ? <StarChip n={num(s.Bonus_Especial)} compact /> : null}
+                </div>
+              </TipHover>
             </div>
           )
         })}
@@ -1187,6 +1234,13 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const { values: attrs } = heroAtributos(fm)
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
   const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  // Regra do compêndio de cada PROPRIEDADE de arma (Precisa/Arremesso/…) pro
+  // tooltip. Propriedade parametrizada ("Arremesso 3", "Recarga 2") → resolve o
+  // doc-base ("Arremesso") tirando o número; o texto exibido mantém o parâmetro.
+  const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
+  const propRuleDoc = useNamedDocs(
+    armas.flatMap((a) => wikiLabels(docField(refs.refDoc(a['Nome']), 'propriedades')).map(propBase)),
+  )
   const interState = interativa(fm)
   const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
   // Chips do design = toggles REAIS da engine (ancoragem AtaquesEAcoes do
@@ -1225,6 +1279,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     : null
   const manobraApplied = applyTarget(inter.ctx, { kind: 'number', key: 'manobra' })
   const manobraMod = manobraBase !== null ? manobraBase + manobraApplied.delta : null
+  // Regra do compêndio de cada manobra (Derrubar/Agarrar/Desarmar) pro tooltip.
+  const manobraRuleDoc = useNamedDocs([...MANOBRAS])
 
   const rowStyle: CSSProperties = {
     display: 'flex',
@@ -1271,7 +1327,12 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         const prop = linkLabel(str(arma['Propriedade']))
         const basename = wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome
         const armaDoc = refs.refDoc(arma['Nome'])
-        const inline = (armaDoc?.inlineFields ?? {}) as Record<string, unknown>
+        // Base v2: stats da arma (dano/tipo/propriedades) estão no FRONTMATTER;
+        // merge (inline vence em up/prev/next) pra ler nos dois formatos.
+        const inline = {
+          ...((armaDoc?.frontmatter ?? {}) as Record<string, unknown>),
+          ...((armaDoc?.inlineFields ?? {}) as Record<string, unknown>),
+        }
         const danoRaw = unquote(str(inline['dano']))
         // dano exibido = calcDanoArma do plugin (dados base + prof) COM o
         // contexto de dano aplicado (applyDanoCtx: fixo/por-dado/passo de
@@ -1335,8 +1396,34 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 emoji={grupoArmaEmoji(fmOf(armaDoc)['grupo'])}
               />
             </ItemHover>
-            <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
+            <span style={{ fontWeight: 600, fontSize: 15, minWidth: 130 }}>
               {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
+            </span>
+            {/* Modificador de ACERTO logo após o nome (estilo Perícias): ModBox
+                com bolinhas (item bônus) + estrela (especialização) e tooltip do
+                breakdown (#155). */}
+            <span title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}>
+              <TipHover
+                html={renderBreakdownHtml(
+                  ataqueBreakdown(
+                    nome,
+                    str(arma['Atributo']),
+                    profLetter({ Proficiencia: profAtaque }),
+                    num(arma['Bonus_Item']),
+                    num(arma['Bonus_Especial']),
+                    attrs[str(arma['Atributo'])] ?? 0,
+                  ),
+                )}
+              >
+                <ModBox
+                  modStr={signed(mod)}
+                  rank={profLetter({ Proficiencia: profAtaque })}
+                  star={num(arma['Bonus_Especial']) > 0}
+                  dots={num(arma['Bonus_Item'])}
+                  width={46}
+                  modColor={toneColor(valueTone(modApplied.entries))}
+                />
+              </TipHover>
             </span>
             {dano ? (
               <TipHover
@@ -1347,12 +1434,20 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                   // + bônus/condições APLICADOS ao dano (o que estava só no title
                   // nativo, agora tap-able no celular).
                   (danoRes?.entries.length
-                    ? renderBreakdownHtml(
-                        entriesBreakdown(
-                          `${nome} — Modificadores de dano`,
-                          danoRes.entries.map((e) => ({ label: stripSharedFrom(e.label), value: e.value })),
+                    ? renderBreakdownHtml({
+                        headerEmoji: '',
+                        title: `${nome} — Modificadores de dano`,
+                        total: 0,
+                        hideTotal: true,
+                        headerSigned: true,
+                        // Dado extra (Encantar Arma etc.): value 0 → só o rótulo
+                        // (que já traz "(+1d12)"), sem o "(0)" enganoso.
+                        parts: danoRes.entries.map((e) =>
+                          e.value === 0
+                            ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true }
+                            : { emoji: '', label: stripSharedFrom(e.label), value: e.value },
                         ),
-                      )
+                      })
                     : '')
                 }
               >
@@ -1368,6 +1463,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                     clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
                     fontFamily: 'var(--mono)',
                     fontSize: 13,
+                    // Negrito quando o dano está buffado (#153).
+                    fontWeight: danoRes?.hasDelta ? 800 : 500,
                     color: danoRes?.hasDelta
                       ? toneColor(danoRes.hasPenalty ? 'penalty' : 'bonus')
                       : 'var(--accent)',
@@ -1405,33 +1502,31 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 </span>
               </TipHover>
             ) : null}
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.06em', color: 'var(--muted)' }}>
-              {tipo}
+            <span
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: 11,
+                letterSpacing: '.06em',
+                color: 'var(--muted)',
+                display: 'inline-flex',
+                gap: 4,
+                flexWrap: 'wrap',
+              }}
+            >
+              {props.length
+                ? props.map((p, pi) => (
+                    <span key={p} style={{ display: 'inline-flex', gap: 4 }}>
+                      {/* Cada propriedade → a REGRA do compêndio (Precisa/Arremesso/…);
+                          "Arremesso 3" resolve o doc "Arremesso". */}
+                      <ItemHover doc={propRuleDoc(propBase(p))} fullBody>
+                        <span>{p}</span>
+                      </ItemHover>
+                      {pi < props.length - 1 ? <span>·</span> : null}
+                    </span>
+                  ))
+                : tipo}
             </span>
             <span style={{ flex: 1 }} />
-            <TipHover
-              html={renderBreakdownHtml(
-                ataqueBreakdown(
-                  nome,
-                  str(arma['Atributo']),
-                  profLetter({ Proficiencia: profAtaque }),
-                  num(arma['Bonus_Item']),
-                  num(arma['Bonus_Especial']),
-                  attrs[str(arma['Atributo'])] ?? 0,
-                ),
-              )}
-            >
-              <span
-                title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 11,
-                  color: toneColor(valueTone(modApplied.entries)) ?? 'var(--muted)',
-                }}
-              >
-                {signed(mod)}
-              </span>
-            </TipHover>
             {usosMaxN ? (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
                 <span
@@ -1463,19 +1558,20 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
           </span>
           <span style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
             {MANOBRAS.map((m) => (
-              <span
-                key={m}
-                style={{
-                  padding: '5px 11px',
-                  background: 'var(--card)',
-                  border: '1px solid var(--line2)',
-                  fontSize: 12.5,
-                  color: 'var(--text)',
-                  clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
-                }}
-              >
-                {m}
-              </span>
+              <ItemHover key={m} doc={manobraRuleDoc(m)} fullBody>
+                <span
+                  style={{
+                    padding: '5px 11px',
+                    background: 'var(--card)',
+                    border: '1px solid var(--line2)',
+                    fontSize: 12.5,
+                    color: 'var(--text)',
+                    clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                  }}
+                >
+                  {m}
+                </span>
+              </ItemHover>
             ))}
           </span>
         </div>
@@ -1490,7 +1586,7 @@ const ACOES_PERICIA_FOLDER = 'Sistema/Regras/Ações/Ações de Perícia/'
 
 /** AÇÕES por perícia (p.acts do design) — catálogo real da vault: docs de
  *  Ação de Perícia apontam a(s) perícia(s) no inline `perícia::`. */
-function useAcoesPorPericia(): Map<string, string[]> {
+function useAcoesPorPericia(): Map<string, VaultDoc[]> {
   const catalog = useCatalog()
   const ids = useMemo(
     () =>
@@ -1501,18 +1597,19 @@ function useAcoesPorPericia(): Map<string, string[]> {
   )
   const docs = useDocs(ids)
   return useMemo(() => {
-    const map = new Map<string, string[]>()
+    const map = new Map<string, VaultDoc[]>()
     if (docs) {
       for (const acaoDoc of docs.values()) {
         const alvo = (acaoDoc.inlineFields as Record<string, unknown>)['perícia']
         for (const label of wikiLabels(alvo)) {
           const key = slugify(label)
           const list = map.get(key) ?? []
-          list.push(acaoDoc.basename ?? acaoDoc.id)
+          list.push(acaoDoc)
           map.set(key, list)
         }
       }
-      for (const list of map.values()) list.sort((a, b) => a.localeCompare(b, 'pt'))
+      for (const list of map.values())
+        list.sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt'))
     }
     return map
   }, [docs])
@@ -1538,6 +1635,16 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
       return { row: p, mod: rowMod(p, attrs) + applied.delta, applied }
     })
     .sort((a, b) => b.mod - a.mod)
+  // Regra do compêndio de cada perícia (pelo nome) pro tooltip do NOME (#106
+  // também no Combate) — o breakdown do modificador fica na caixa do valor.
+  const ruleDoc = useNamedDocs(pericias.map(({ row }) => displayName(slugify(str(row.Nome)))))
+  // Especialização/Maestria de cada perícia (docs do compêndio) pro tooltip
+  // com o corpo inteiro — mostradas acima das ações (só quando existem).
+  const espMaestriaDoc = useNamedDocs(
+    pericias
+      .flatMap(({ row }) => [linkLabel(str(row.Especializacao)), linkLabel(str(row.Maestria))])
+      .filter(Boolean),
+  )
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1572,19 +1679,26 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                 <span>{ATTR_EMOJI[str(row.Atributo)] ?? ''}</span>
                 <span>{str(row.Atributo)}</span>
               </span>
-              <span
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  fontWeight: 600,
-                  fontSize: 14,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
+              {/* NOME da perícia → a REGRA do compêndio (corpo do doc); o
+                  breakdown do modificador fica na caixa do valor (#106/combate). */}
+              <ItemHover
+                doc={ruleDoc(displayName(slugify(str(row.Nome))))}
+                fullBody
+                style={{ flex: 1, minWidth: 0 }}
               >
-                {displayName(slugify(str(row.Nome)))}
-              </span>
+                <span
+                  style={{
+                    minWidth: 0,
+                    fontWeight: 600,
+                    fontSize: 14,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {displayName(slugify(str(row.Nome)))}
+                </span>
+              </ItemHover>
               <span title={applied.entries.length ? entriesTitle(applied.entries) : undefined}>
                 <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
                   <ModBox
@@ -1598,6 +1712,67 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                 </TipHover>
               </span>
             </div>
+            {(() => {
+              // Especialização + Maestria (compêndio) acima das ações (#combate/
+              // perícias) — corpo inteiro no hover; some quando a perícia não tem.
+              const esp = linkLabel(str(row.Especializacao))
+              const mae = linkLabel(str(row.Maestria))
+              const secStyle: React.CSSProperties = {
+                display: 'flex',
+                gap: 6,
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                marginTop: 7,
+                paddingTop: 7,
+                borderTop: '1px solid var(--line)',
+              }
+              const labelStyle: React.CSSProperties = {
+                fontFamily: 'var(--mono)',
+                fontSize: 8.5,
+                letterSpacing: '.1em',
+                color: 'var(--muted)',
+                marginRight: 2,
+              }
+              const chipStyle = (color: string): React.CSSProperties => ({
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                padding: '4px 10px',
+                background: `color-mix(in srgb,${color} 12%,var(--card))`,
+                border: `1px solid color-mix(in srgb,${color} 45%,var(--line2))`,
+                fontSize: 11.5,
+                color: 'var(--text)',
+                clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+              })
+              return (
+                <>
+                  {esp ? (
+                    // Especialidade → borda de item EXPERIENTE (E) no tooltip.
+                    <div style={secStyle}>
+                      <span style={labelStyle}>ESPECIALIDADE</span>
+                      <ItemHover doc={espMaestriaDoc(esp)} tier="E" fullBody>
+                        <span style={chipStyle('#cbd5e1')}>
+                          <span style={{ fontSize: 11 }}>🎯</span>
+                          {esp}
+                        </span>
+                      </ItemHover>
+                    </div>
+                  ) : null}
+                  {mae ? (
+                    // Maestria → borda de item MESTRE (M) no tooltip.
+                    <div style={secStyle}>
+                      <span style={labelStyle}>MAESTRIA</span>
+                      <ItemHover doc={espMaestriaDoc(mae)} tier="M" fullBody>
+                        <span style={chipStyle('var(--gold)')}>
+                          <span style={{ fontSize: 11 }}>👑</span>
+                          {mae}
+                        </span>
+                      </ItemHover>
+                    </div>
+                  ) : null}
+                </>
+              )
+            })()}
             {acts.length ? (
               <div
                 style={{
@@ -1622,23 +1797,24 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                   AÇÕES
                 </span>
                 {acts.map((ac) => (
-                  <span
-                    key={ac}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 5,
-                      padding: '4px 10px',
-                      background: 'var(--card)',
-                      border: '1px solid var(--line2)',
-                      fontSize: 11.5,
-                      color: 'var(--text)',
-                      clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
-                    }}
-                  >
-                    <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
-                    {ac}
-                  </span>
+                  <ItemHover key={ac.id} doc={ac} fullBody>
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 5,
+                        padding: '4px 10px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--line2)',
+                        fontSize: 11.5,
+                        color: 'var(--text)',
+                        clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                      }}
+                    >
+                      <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
+                      {ac.basename}
+                    </span>
+                  </ItemHover>
                 ))}
               </div>
             ) : null}
@@ -1675,7 +1851,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       const cur = salvo ?? (cargas ? 0 : max)
       // Figura do tesouro (issue #65) — igual ao inventário.
       const img = tesouroImageUrl(nome, tier, assets)
-      return { nome: `${nome} (${tier})`, key, cur, max, img }
+      return { nome: `${nome} (${tier})`, key, cur, max, img, doc: tDoc, tier }
     })
     .filter((t): t is NonNullable<typeof t> => t !== null)
 
@@ -1694,25 +1870,27 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             clipPath: clip(12),
           }}
         >
-          {t.img ? (
-            <span
-              style={{
-                width: 34,
-                height: 34,
-                flex: 'none',
-                // mesmo quadrado com borda do inventário/tesouros
-                background: 'var(--panel2)',
-                border: '1px solid var(--line2)',
-                clipPath: clip(6),
-                backgroundImage: `url("${t.img}")`,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-              }}
-            />
-          ) : (
-            <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
-          )}
+          <ItemHover doc={t.doc} tier={t.tier}>
+            {t.img ? (
+              <span
+                style={{
+                  width: 34,
+                  height: 34,
+                  flex: 'none',
+                  // mesmo quadrado com borda do inventário/tesouros
+                  background: 'var(--panel2)',
+                  border: '1px solid var(--line2)',
+                  clipPath: clip(6),
+                  backgroundImage: `url("${t.img}")`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                }}
+              />
+            ) : (
+              <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.subcategoria.Tesouro}</span>
+            )}
+          </ItemHover>
           <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
             USOS
@@ -1730,6 +1908,7 @@ interface MagiaRow {
   n: string
   ic: string
   acao: string
+  doc?: VaultDoc
 }
 
 /** Agrupa as magias aprendidas por rank (Slot.X → rank do doc; Tesouro.* → Tesouros). */
@@ -1751,6 +1930,7 @@ export function magiaGroups(
         n: entry.label,
         ic: magiaEmoji(spellFm),
         acao: custoEmoji(spellFm['custo']),
+        doc: spellDoc ?? undefined,
       }
       const list = porGrupo.get(grupo) ?? []
       list.push(row)
@@ -1896,7 +2076,9 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
               }}
             >
               <span style={{ fontSize: 17, flex: 'none' }}>{m.ic}</span>
-              <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{m.n}</span>
+              <ItemHover doc={m.doc} fullBody>
+                <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{m.n}</span>
+              </ItemHover>
               <span
                 title="Custo de ação"
                 style={{
@@ -2372,6 +2554,33 @@ function InvocacaoCard({
   )
 }
 
+/* ===================== sub-aba HABILIDADES (read-only) ===================== */
+
+/** Habilidades + técnicas + ações de habilidade em COMBATE — SOMENTE LEITURA
+ *  (sem alterar), reusando os MESMOS painéis de Competências (agrupados por rank,
+ *  com indentação nas habilidades) em modo readOnly. Esquerda: técnicas + ações;
+ *  direita: habilidades. */
+function HabilidadesCombatePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))',
+        gap: 16,
+        alignItems: 'start',
+      }}
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <TecnicasPanel doc={doc} refs={refs} readOnly />
+        <AcoesPanel doc={doc} refs={refs} />
+      </div>
+      <div>
+        <HabilidadesArvorePanel doc={doc} refs={refs} readOnly />
+      </div>
+    </div>
+  )
+}
+
 /* ===================== aba ===================== */
 
 export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -2417,6 +2626,9 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           <PanelTrack index={index}>
             <TrackPanel>
               <AtaquesPanel doc={doc} refs={refs} inter={inter} />
+            </TrackPanel>
+            <TrackPanel>
+              <HabilidadesCombatePanel doc={doc} refs={refs} />
             </TrackPanel>
             <TrackPanel>
               <PericiasPanel doc={doc} inter={inter} />

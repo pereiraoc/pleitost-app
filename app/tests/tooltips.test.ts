@@ -103,7 +103,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         resistenciaBreakdown(
-          { Nome: 'Vigor', Atributo: 'PRE', Proficiencia: 'A', Bonus_Item: 1, Bonus_Especial: 0 },
+          { Nome: 'Vigor', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
           { PRE: 3 },
         ),
       ),
@@ -111,7 +111,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         resistenciaBreakdown(
-          { Nome: 'Reflexo', Atributo: 'AGI', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { Nome: 'Reflexo', Atributo: 'AGI', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
           { AGI: 2 },
         ),
       ),
@@ -120,7 +120,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         resistenciaBreakdown(
-          { Nome: 'Ímpeto', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { Nome: 'Ímpeto', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
           { PRE: 3 },
         ),
       ),
@@ -131,7 +131,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         sentidoBreakdown(
-          { Nome: 'Percepção', Atributo: 'INT', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+          { Nome: 'Percepção', Atributo: 'INT', Proficiencia: 'M', Bonus_Item: 2, Bonus_Especial: 0 },
           { INT: 1 },
         ),
       ),
@@ -139,7 +139,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         sentidoBreakdown(
-          { Nome: 'Intuição', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0 },
+          { Nome: 'Intuição', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 0, Bonus_Especial: 0 },
           { PRE: 3 },
         ),
       ),
@@ -168,7 +168,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         oficioBreakdown(
-          { Nome: 'Atuacao', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 0, Bonus_Especial: 0 },
+          { Nome: 'Atuacao', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 0, Bonus_Especial: 0 },
           { PRE: 3 },
         ),
       ),
@@ -177,27 +177,27 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
 
   it('ataque (Punhal — Ataque): header 🥊 assinado + 4 linhas SEMPRE (Esp 0 inclusa)', () => {
     const atkTips = goldenTips('interativa__panel-mid-ataques.html')
-    // Golden do Punhal: AGI +2, Experiente +4, Item +2, Especialização 0.
-    // O golden aplica a condição Auto-Confiança (+1) POR CIMA (header +9 +
+    // Golden do Punhal: AGI +2, Mestre +6, Item +2, Especialização 0.
+    // O golden aplica a condição Auto-Confiança (+1) POR CIMA (header +11 +
     // linha pos extra); a BASE que buildo é a porção antes da condição.
     const golden = byTitle(atkTips, 'Punhal — Ataque')
     // 1) as 4 linhas de base são byte-exact (mesmo emoji/label/sinal do plugin)
     expect(golden).toContain(
       '<div class="dv-breakdown-line">⚖️ AGI (+2)</div>' +
-        '<div class="dv-breakdown-line">🎓 Experiente (+4)</div>' +
+        '<div class="dv-breakdown-line">🎓 Mestre (+6)</div>' +
         '<div class="dv-breakdown-line">💍 Item (+2)</div>' +
         '<div class="dv-breakdown-line">⭐ Especialização (0)</div>',
     )
     // 2) o breakdown de base (sem condição) — header 🥊, total assinado da base
     expect(
-      renderBreakdownHtml(ataqueBreakdown('Punhal', 'AGI', 'E', 2, 0, 2)),
+      renderBreakdownHtml(ataqueBreakdown('Punhal', 'AGI', 'M', 2, 0, 2)),
     ).toBe(
       '<div class="dv-tooltip-head-row"><span class="dv-tooltip-emoji">🥊</span>' +
         '<span class="dv-tooltip-head-title"><strong>Punhal — Ataque</strong> ' +
-        '<span class="dv-tooltip-mod">+8</span></span></div>' +
+        '<span class="dv-tooltip-mod">+10</span></span></div>' +
         '<div class="dv-tooltip-head-rule"></div>' +
         '<div class="dv-breakdown-line">⚖️ AGI (+2)</div>' +
-        '<div class="dv-breakdown-line">🎓 Experiente (+4)</div>' +
+        '<div class="dv-breakdown-line">🎓 Mestre (+6)</div>' +
         '<div class="dv-breakdown-line">💍 Item (+2)</div>' +
         '<div class="dv-breakdown-line">⭐ Especialização (0)</div>',
     )
@@ -206,18 +206,19 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
   it('dano (Punhal — Dano): header sem emoji/total, Base (1d4+2) + dado extra de prof', () => {
     const atkTips = goldenTips('interativa__panel-mid-ataques.html')
     const golden = byTitle(atkTips, 'Punhal — Dano')
-    // Base "1d4+2" (dano::) + Experiente adiciona +1d4 (PROF_DICE[E]=1)
+    // Base "1d4+2" (dano::) + Mestre adiciona +2d4 (PROF_DICE[M]=2). O golden
+    // soma o Encantar Arma (+1d12+3) POR CIMA; a base é a porção antes dele.
     expect(golden).toContain(
       '<div class="dv-breakdown-line">● Base (1d4+2)</div>' +
-        '<div class="dv-breakdown-line">🎓 Experiente (+1d4)</div>',
+        '<div class="dv-breakdown-line">🎓 Mestre (+2d4)</div>',
     )
     // header sem emoji + sem total (hideTotal): "Punhal — Dano"
-    expect(renderBreakdownHtml(danoArmaBreakdown('Punhal', 'd4+2', 'E'))).toBe(
+    expect(renderBreakdownHtml(danoArmaBreakdown('Punhal', 'd4+2', 'M'))).toBe(
       '<div class="dv-tooltip-head-row">' +
         '<span class="dv-tooltip-head-title"><strong>Punhal — Dano</strong></span></div>' +
         '<div class="dv-tooltip-head-rule"></div>' +
         '<div class="dv-breakdown-line">● Base (1d4+2)</div>' +
-        '<div class="dv-breakdown-line">🎓 Experiente (+1d4)</div>',
+        '<div class="dv-breakdown-line">🎓 Mestre (+2d4)</div>',
     )
   })
 
@@ -251,7 +252,7 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
     expect(
       renderBreakdownHtml(
         periciaBreakdown(
-          { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 2, Bonus_Especial: 0 },
+          { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
           { PRE: 3 },
         ),
       ),

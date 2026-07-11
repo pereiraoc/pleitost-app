@@ -9,7 +9,7 @@
 // Dados REAIS da vault (Carlos = Trovador Experiente; Drauzio = Explorador Nato
 // com escolha de Técnica). Espelho de src/render/groups/habilidades-card.ts.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -93,12 +93,16 @@ describe('HABILIDADES — bucketização por rank (Item 2)', () => {
 })
 
 describe('HABILIDADES — dropdown de Escolha_Habilidades (Item 1)', () => {
-  it('Explorador Nato renderiza um dropdown com as opções da escolha e o pick atual', async () => {
+  it('Explorador Nato: pick read-only por padrão; dropdown só ao Alterar', async () => {
     renderHabilidades(DRAUZIO_ID)
     fireEvent.click(await screen.findByText('HABILIDADES'))
     // A habilidade-pai aparece na árvore...
     await screen.findByText('Explorador Nato')
-    // ...com um dropdown "Técnica" (label da rule `Escolha_Habilidades "Técnica"`).
+    // ...e FORA do modo Alterar a escolha aparece SUTIL (o pick, não um dropdown).
+    expect((await screen.findAllByText('Especialista em Caçada')).length).toBeGreaterThan(0)
+    // Ao Alterar (toggle no cabeçalho da árvore de Habilidades) → vira dropdown.
+    const habHeader = (await screen.findByText('Habilidades')).parentElement as HTMLElement
+    fireEvent.click(within(habHeader).getByText('✎ Alterar'))
     const select = (await screen.findByLabelText('Técnica')) as HTMLSelectElement
     const opts = Array.from(select.options).map((o) => o.textContent)
     // Opções da rule (Selecionar([[Ambidestria]], [[Treinamento com Escudo]],

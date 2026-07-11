@@ -71,7 +71,8 @@ describe('catalog sobre vault-data real', () => {
     expect(doc.id).toBe(ADAGA_ID)
     expect(doc.type).toBe('Item')
     expect(doc.subtype).toBe('Arma')
-    expect(doc.inlineFields['dano']).toBe('"d4+2"')
+    // Base v2: stats da arma agora no frontmatter (dano string sem aspas).
+    expect(doc.frontmatter['dano']).toBe('d4+2')
     expect(doc.links.some((l) => l.target === 'Precisa')).toBe(true)
     expect(typeof doc.body).toBe('string')
     expect(Array.isArray(doc.ruleElements)).toBe(true)

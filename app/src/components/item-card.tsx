@@ -4,7 +4,7 @@
 // do inline + descrição do inline OU da prosa do body), e a composição de duas
 // cartas lado a lado (arma + propriedade). Reusa o tooltip do app (TipHover) e as
 // resoluções de imagem existentes. Fonte de verdade sempre no doc — nada inventado.
-import { useAssetIndex } from '../data/assets'
+import { useAssetIndex, resolveAsset, assetUrl } from '../data/assets'
 import { weaponImageUrl } from '../data/creature-image'
 import {
   tesouroImageUrl,
@@ -13,10 +13,11 @@ import {
   escudoImageUrlByName,
 } from '../data/equipment-image'
 import { tokens } from './ficha/registry'
-import { TIER_COLUNA, type Tier, type EntryMeta } from '../data/commerce'
+import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data/commerce'
+import { precoPO } from '../grupo/wealth'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 /** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
  *  do fundo. Adepto = aço escuro; Experiente = prata; Mestre = ouro. Usado na
@@ -202,8 +203,10 @@ const CARD_SCHEMA: Record<CardKind, [string, string][]> = {
     ['custo', 'Custo'],
   ],
   magia: [
-    ['classe', 'Classe'],
-    ['habilidade', 'Habilidade'],
+    ['subcategoria', 'Tipo'],
+    ['elemento', 'Elemento'],
+    ['rank', 'Rank'],
+    ['custo', 'Custo'],
   ],
   acao: [
     ['perícia', 'Perícia'],
@@ -228,7 +231,11 @@ export function docImageUrl(
     return weaponImageUrl(doc, assets)
   }
   if (id.includes('/Imbuições e Qualidade/')) return propriedadeImageUrl(doc.basename, tier, assets)
-  if (id.includes('/Consumíveis/')) return consumivelImageUrl(doc.basename, tier, assets)
+  if (id.includes('/Consumíveis/'))
+    // Mesma resolução do comércio (figuraUrl): Consumíveis primeiro, com fallback
+    // pra Tesouros/Cartas — assim a Poção da Velocidade aparece no tooltip como
+    // já aparecia na loja (#123).
+    return consumivelImageUrl(doc.basename, tier, assets) ?? tesouroImageUrl(doc.basename, tier, assets)
   if (id.includes('/Equipamento/Tesouros/')) return tesouroImageUrl(doc.basename, tier, assets)
   return null
 }
@@ -249,27 +256,210 @@ export function bodyDesc(doc: VaultDoc): string {
   return txt.length > 240 ? txt.slice(0, 238).trimEnd() + '…' : txt
 }
 
+/** Resolve `= this.x` (inline dataview) no corpo: nome do arquivo + campos. */
+function resolveInlineDv(doc: VaultDoc, s: string): string {
+  const f = { ...(doc.frontmatter ?? {}), ...(doc.inlineFields ?? {}) } as Record<string, unknown>
+  return s.replace(/`=\s*this\.([a-zA-Z0-9_.]+)`/g, (_m, path: string) => {
+    if (path === 'file.name') return doc.basename
+    const key = path.split('.').pop() ?? path
+    const v = f[key]
+    return typeof v === 'string' ? stripWiki(v) : ''
+  })
+}
+
+/** Inline markdown → HTML seguro: escapa, **negrito**, *itálico*, wikilink→rótulo. */
+function inlineMd(s: string): string {
+  return esc(stripWiki(s))
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<i>$2</i>')
+}
+
+/** CORPO da regra → HTML pro tooltip (#110/#117/#125): a prosa COMPLETA (não o
+ *  resumo). Tira meta %% e fences, resolve `= this.x`, e mantém a estrutura
+ *  (headings/listas/tabelas/parágrafos). A 1ª imagem embed (`![[img|...]]`) vira
+ *  figura flutuante no canto (ex.: retrato da classe, #103); demais embeds/
+ *  transclusões (`![[Outro Doc]]`) somem (nada de "!right|profile" cru).
+ *  `cutAfterTable` (classe): para depois da 1ª tabela (nível + habilidades).
+ *  Fonte de verdade = o body do doc. */
+export function bodyHtml(
+  doc: VaultDoc,
+  assets?: ReturnType<typeof useAssetIndex>,
+  opts?: { cutAfterTable?: boolean },
+): string {
+  let b = doc.body ?? ''
+  b = b.replace(/%%[\s\S]*?%%/g, '') // meta
+  // Embeds `![[X|...]]`: 1ª imagem resolvível → figura flutuante; resto some.
+  let floatImg = ''
+  b = b.replace(/!\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g, (_m, target: string) => {
+    const t = target.trim()
+    if (!floatImg && assets && /\.(png|jpe?g|webp|gif|svg)$/i.test(t)) {
+      const ent = resolveAsset(assets, t)
+      if (ent) {
+        floatImg = `<img class="shc-body-img" src="${esc(assetUrl(ent))}" alt=""/>`
+      }
+    }
+    return ''
+  })
+  b = b.replace(/```[\s\S]*?```/g, '') // fences (dataview/rules/carta-item)
+  b = resolveInlineDv(doc, b)
+  const out: string[] = []
+  let inList = false
+  let para: string[] = []
+  let table: string[][] = []
+  let emittedTable = false
+  const nameKey = doc.basename.replace(/[\s-]/g, '').toLowerCase()
+  const flushPara = () => {
+    // Cada linha-fonte do parágrafo vira uma LINHA (br) — os docs escrevem uma
+    // afirmação por linha (ex.: "**Sucesso:** …", "**Falha:** …"); juntar com
+    // espaço colava tudo numa linha só.
+    if (para.length) out.push(`<p>${para.map((l) => inlineMd(l)).join('<br>')}</p>`)
+    para = []
+  }
+  const flushList = () => {
+    if (inList) out.push('</ul>')
+    inList = false
+  }
+  const flushTable = () => {
+    if (table.length) {
+      const rows = table.filter((r) => !r.every((c) => /^:?-+:?$/.test(c.trim()) || !c.trim()))
+      const body = rows
+        .map((r) => `<tr>${r.map((c) => `<td>${inlineMd(c.trim())}</td>`).join('')}</tr>`)
+        .join('')
+      if (body) {
+        out.push(`<table class="shc-tbl">${body}</table>`)
+        emittedTable = true
+      }
+    }
+    table = []
+  }
+  for (const raw of b.split('\n')) {
+    const line = raw.trimEnd()
+    if (!line.trim()) {
+      flushPara()
+      flushList()
+      flushTable()
+      if (opts?.cutAfterTable && emittedTable) break // classe: para após a tabela
+      continue
+    }
+    if (/^\s*\|.*\|\s*$/.test(line)) {
+      flushPara()
+      flushList()
+      table.push(
+        line
+          .replace(/^\s*\|/, '')
+          .replace(/\|\s*$/, '')
+          // Só separa em pipes NÃO escapados — `\|` dentro de `[[A\|B]]` é 1 célula.
+          .split(/(?<!\\)\|/)
+          .map((c) => c.replace(/\\\|/g, '|')),
+      )
+      continue
+    }
+    flushTable()
+    if (opts?.cutAfterTable && emittedTable) break // classe: para após a tabela
+    const h = line.match(/^(#{1,6})\s+(.*)$/)
+    if (h) {
+      flushPara()
+      flushList()
+      const txt = inlineMd(h[2]).trim()
+      // Pula o heading do próprio doc — o card já mostra o nome no topo. Casa por
+      // PREFIXO: "Anima (PRE)" / "Anima - PRE" também são o título, não conteúdo.
+      const stripped = txt.replace(/<[^>]+>/g, '').replace(/[\s-]/g, '').toLowerCase()
+      if (txt && !stripped.startsWith(nameKey)) out.push(`<div class="shc-h">${txt}</div>`)
+      continue
+    }
+    if (/^\s*-{3,}\s*$/.test(line)) {
+      flushPara()
+      flushList()
+      continue
+    }
+    const li = line.match(/^\s*[-*]\s+(.*)$/)
+    if (li) {
+      flushPara()
+      if (!inList) {
+        out.push('<ul class="shc-ul">')
+        inList = true
+      }
+      out.push(`<li>${inlineMd(li[1])}</li>`)
+      continue
+    }
+    flushList()
+    para.push(line.trim())
+  }
+  flushPara()
+  flushList()
+  flushTable()
+  return floatImg + out.join('')
+}
+
 /** HTML da CARTA de um doc (figura + nome + stats do inline + descrição do tier).
  *  `showTier`: mostra "(Qualidade)" no nome — só a PROPRIEDADE (imbuição/obra-prima
  *  /material) ou o item avulso têm qualidade; a ARMA base não (a qualidade vem da
  *  propriedade). O FUNDO do tier fica em ambos (classe tier-*). */
-export function itemCardHtml(doc: VaultDoc, tier: Tier, imgUrl: string | null, showTier: boolean): string {
+export function itemCardHtml(
+  doc: VaultDoc,
+  tier: Tier,
+  imgUrl: string | null,
+  showTier: boolean,
+  fullBody = false,
+  assets?: ReturnType<typeof useAssetIndex>,
+  cutAfterTable = false,
+): string {
   const f = (doc.inlineFields ?? {}) as Record<string, unknown>
-  const val = (k: string) => (typeof f[k] === 'string' ? stripWiki(f[k] as string) : '')
+  // Alguns tipos (magia) guardam os campos no FRONTMATTER, não no inline —
+  // busca no inline primeiro, cai no frontmatter (fonte de verdade do doc).
+  const fmv = (doc.frontmatter ?? {}) as Record<string, unknown>
+  const val = (k: string) => {
+    const raw = typeof f[k] === 'string' ? f[k] : typeof fmv[k] === 'string' ? fmv[k] : ''
+    return raw ? stripWiki(raw as string) : ''
+  }
+  // Base v2: campos por tier viraram OBJETOS aninhados no frontmatter
+  // (descrição: {adepto, experiente, mestre}); fallback pro flat antigo
+  // (descrição_adepto no inline).
+  const tierVal = (field: string): string => {
+    const word = TIER_ADJ[tier]
+    const obj = fmv[field]
+    if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+      const v = (obj as Record<string, unknown>)[word]
+      if (typeof v === 'string') return stripWiki(v)
+    }
+    return val(`${field}_${word}`)
+  }
   const row = (label: string, v: string) => (v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : '')
   const kind = docKind(doc)
-  const parts: string[] = CARD_SCHEMA[kind].map(([k, label]) => row(label, val(k)))
+  // Preço com o MULTIPLICADOR de qualidade (#122/#127): itens cuja qualidade é
+  // própria (tesouro/imbuição/poção — showTier) custam preço_base × TIER_PRICE_MULT
+  // do tier (A=1, E=5, M=25), como o comércio e o wealth.ts. A ARMA base (showTier
+  // false) mantém o preço cru. Sem preço numérico → cai no inline cru.
+  const precoStr = (): string => {
+    const base = precoPO(doc)
+    if (base <= 0) return val('preço')
+    return `${base * (showTier ? TIER_PRICE_MULT[tier] : 1)} PO`
+  }
+  const parts: string[] = CARD_SCHEMA[kind].map(([k, label]) =>
+    k === 'preço' ? row(label, precoStr()) : row(label, val(k)),
+  )
   // Tesouro (imbuição/obra-prima/equipamento/implemento/poção): Usos + Bônus do tier.
   if (kind === 'tesouro') {
-    parts.push(row('Usos', val(`usos_${TIER_ADJ[tier]}`)))
-    const bonus = val(`bonus_${TIER_ADJ[tier]}`)
+    parts.push(row('Usos', tierVal('usos')))
+    const bonus = tierVal('bonus')
     const btipo = val('bonus_tipo')
     parts.push(row('Bônus', bonus ? (btipo ? `${bonus} ${btipo}` : bonus) : ''))
   }
   const rows = parts.join('')
-  const desc = val(`descrição_${TIER_ADJ[tier]}`) || val('descrição') || val('resumo') || bodyDesc(doc)
+  // fullBody (#110/#117/#125): a PROSA completa da regra (HTML) em vez do resumo.
+  const descHtml = fullBody
+    ? bodyHtml(doc, assets, { cutAfterTable })
+    : esc(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc))
   const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
-  return `<div class="shc-card tier-${tier}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${desc ? `<div class="shc-desc">${esc(desc)}</div>` : ''}</div>`
+  // Borda: itens de rank (magia/hab/téc/ação) básicos → azul (tier-B); os demais
+  // seguem a qualidade/tier (aço/prata/ouro).
+  const borderTier = RANK_KINDS.has(kind) && docIsBasica(doc) ? 'B' : tier
+  // Card com TABELA cresce (sem teto de altura, um pouco mais largo) pra não
+  // cortar a tabela (ex.: Tratar Ferimentos, #138).
+  const hasTable = fullBody && descHtml.includes('shc-tbl')
+  const cardCls = `shc-card tier-${borderTier}${fullBody ? ' shc-card--wide' : ''}${hasTable ? ' shc-card--table' : ''}`
+  const descCls = `shc-desc${fullBody ? ' shc-body' : ''}`
+  return `<div class="${cardCls}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${descHtml ? `<div class="${descCls}">${descHtml}</div>` : ''}</div>`
 }
 
 /** HTML do hover de uma entrada: combo = carta da ARMA + carta da PROPRIEDADE lado
@@ -308,6 +498,7 @@ export function useItemFigura(e: FiguraTarget, docsById: Map<string, VaultDoc>) 
 export const ITEM_CARD_CSS = `
 .shc-wrap{display:flex;gap:8px;align-items:stretch}
 .shc-card{width:174px;flex:none;display:flex;flex-direction:column;gap:2px;border:3px solid var(--line2);border-radius:11px;padding:7px}
+.shc-card.tier-B{border-color:#4a90d9;box-shadow:0 0 0 1px #2f5f92,0 2px 12px rgba(0,0,0,.4);background:linear-gradient(160deg,color-mix(in srgb,#4a90d9 12%,var(--card)),var(--card))}
 .shc-card.tier-A{border-color:#6b727c;box-shadow:0 0 0 1px #3a3f47,0 2px 12px rgba(0,0,0,.45);background:linear-gradient(160deg,color-mix(in srgb,#8b929c 12%,var(--card)),var(--card))}
 .shc-card.tier-E{border-color:#dbe3ec;box-shadow:0 0 0 1px #aeb8c4,0 0 14px rgba(203,213,225,.34);background:linear-gradient(160deg,color-mix(in srgb,#cbd5e1 12%,var(--card)),var(--card))}
 .shc-card.tier-M{border-color:#e8c14a;box-shadow:0 0 0 1px #b8860b,0 0 16px rgba(224,183,60,.4);background:linear-gradient(160deg,color-mix(in srgb,#e0b73c 14%,var(--card)),var(--card))}
@@ -317,33 +508,127 @@ export const ITEM_CARD_CSS = `
 .shc-row{font-size:11.5px;overflow-wrap:anywhere}
 .shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
 .shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
+.shc-card--wide{width:284px;max-height:60vh;overflow:hidden}
+.shc-card--table{width:320px;max-height:none;overflow:visible}
+.shc-body-img{float:right;width:88px;margin:0 0 5px 9px;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.4)}
+.shc-body{opacity:.95}
+.shc-body::after{content:"";display:block;clear:both}
+.shc-body p{margin:0 0 5px 0}
+.shc-body p:last-child{margin-bottom:0}
+.shc-body .shc-h{font-weight:800;margin:6px 0 3px 0;font-size:11.5px}
+.shc-body .shc-ul{margin:2px 0 5px 0;padding-left:15px}
+.shc-body .shc-ul li{margin:1px 0}
+.shc-body .shc-tbl{border-collapse:collapse;margin:4px 0;width:100%;font-size:10.5px}
+.shc-body .shc-tbl td{border:1px solid var(--line2);padding:2px 5px;vertical-align:top}
 `
 
 /** Envolve `children` mostrando a CARTA do item no hover (desktop) / tap (mobile),
  *  reusando o tooltip do app (TipHover). Precisa de um `<TipProvider>` ancestral
  *  e do `ITEM_CARD_CSS` na tela. `propDoc` = 2ª carta (imbuição/obra-prima da
  *  arma). Sem doc → renderiza os filhos sem hover. */
+/** Tier (A/E/M) de um doc pelo RANK/qualidade dele (inline `rank::` ou
+ *  subcategoria) — Adepto/Adepta/Básica→A, Experiente→E, Mestre→M. Pros itens da
+ *  ficha (habilidade/técnica/magia) o RANK é a qualidade → dá a cor da borda. */
+/** Rank cru do doc (inline `rank::` OU frontmatter `rank:` OU subcategoria). */
+function docRankRaw(doc: VaultDoc): string {
+  const f = (doc.inlineFields ?? {}) as Record<string, unknown>
+  const fmv = (doc.frontmatter ?? {}) as Record<string, unknown>
+  const raw = typeof f['rank'] === 'string' ? f['rank'] : typeof fmv['rank'] === 'string' ? fmv['rank'] : ''
+  return (raw || String(doc.subtype ?? '')).toLowerCase()
+}
+
+export function docTier(doc: VaultDoc): Tier {
+  const s = docRankRaw(doc)
+  if (s.includes('mestre')) return 'M'
+  if (s.includes('experiente')) return 'E'
+  return 'A'
+}
+
+/** Rank Básica (magia/habilidade/técnica de rank básico) → borda azul simples. */
+function docIsBasica(doc: VaultDoc): boolean {
+  const s = docRankRaw(doc)
+  return s.includes('básica') || s.includes('basica') || s.includes('básico') || s.includes('basico')
+}
+
+/** Tipos cuja borda reflete o RANK do doc (não a qualidade comprada). */
+const RANK_KINDS = new Set<CardKind>(['habilidade', 'tecnica', 'magia', 'acao'])
+
 export function ItemHover({
   doc,
   propDoc,
-  tier = 'A',
+  tier,
   children,
+  style,
+  fullBody,
 }: {
   doc?: VaultDoc
   propDoc?: VaultDoc
   tier?: Tier
   children: ReactNode
+  style?: CSSProperties
+  /** Mostra a PROSA COMPLETA da regra (não o resumo) — ficha em edição. */
+  fullBody?: boolean
 }) {
   const assets = useAssetIndex()
-  if (!doc) return <>{children}</>
-  const cards: string[] = []
-  if (propDoc) {
-    // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade).
-    cards.push(itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), false))
-    cards.push(itemCardHtml(propDoc, tier, docImageUrl(propDoc, tier, assets), true))
-  } else {
-    // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier).
-    cards.push(itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), docKind(doc) === 'tesouro'))
+  let html: string | null = null
+  if (doc) {
+    // Sem tier explícito (ex.: habilidade/técnica/magia), deriva do RANK do doc —
+    // assim a borda metálica do card reflete Adepto/Experiente/Mestre.
+    const t = tier ?? docTier(doc)
+    // Classe: corta o corpo depois da tabela de nível + habilidades (#103).
+    const cut = doc.id.includes('/Classes/')
+    const cards: string[] = []
+    if (propDoc) {
+      // combo: item base (SEM qualidade no nome) + propriedade (COM qualidade).
+      cards.push(itemCardHtml(doc, t, docImageUrl(doc, t, assets), false, fullBody, assets, cut))
+      cards.push(itemCardHtml(propDoc, t, docImageUrl(propDoc, t, assets), true, fullBody, assets))
+    } else {
+      // avulso: "(Qualidade)" só na família tesouro (a que é comprada por tier).
+      cards.push(
+        itemCardHtml(doc, t, docImageUrl(doc, t, assets), docKind(doc) === 'tesouro', fullBody, assets, cut),
+      )
+    }
+    html = `<div class="shc-wrap">${cards.join('')}</div>`
   }
-  return <TipHover html={`<div class="shc-wrap">${cards.join('')}</div>`}>{children}</TipHover>
+  // `always`: o doc pode chegar async (refs) — manter o mesmo wrapper evita
+  // remontar os filhos (ex.: <select> do Perfil) quando o card aparece.
+  return (
+    <TipHover html={html} style={style} always>
+      {children}
+    </TipHover>
+  )
+}
+
+/** HTML das 3 cartas (A/E/M) de um consumível/poção — cada tier com a sua figura
+ *  e a descrição CONCISA daquele tier (`descrição_adepto/experiente/mestre` já é o
+ *  que itemCardHtml escolhe pra desc). */
+export function allTiersCardHtml(doc: VaultDoc, assets: ReturnType<typeof useAssetIndex>): string {
+  const cards = (['A', 'E', 'M'] as Tier[]).map((t) => itemCardHtml(doc, t, docImageUrl(doc, t, assets), true))
+  return `<div class="shc-wrap">${cards.join('')}</div>`
+}
+
+/** Hover de consumível (poção): sem `tier` (mouse no NOME) → as 3 qualidades lado a
+ *  lado; com `tier` (mouse no número 1A/1E/1M) → só aquela qualidade. */
+export function ConsumivelHover({
+  doc,
+  tier,
+  children,
+  style,
+}: {
+  doc?: VaultDoc
+  tier?: Tier
+  children: ReactNode
+  style?: CSSProperties
+}) {
+  const assets = useAssetIndex()
+  const html = !doc
+    ? null
+    : tier
+      ? `<div class="shc-wrap">${itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), true)}</div>`
+      : allTiersCardHtml(doc, assets)
+  return (
+    <TipHover html={html} style={style} always>
+      {children}
+    </TipHover>
+  )
 }

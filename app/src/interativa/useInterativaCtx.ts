@@ -8,7 +8,7 @@ import { useDocs } from '../data/useDoc'
 import { useHeroModel } from '../data/useHeroModel'
 import { useHeroRules } from '../rules/useHeroRules'
 import type { HeroRefs } from '../components/ficha/useHeroRefs'
-import { fmOf, fmPath, str } from '../components/ficha/hero-model'
+import { docField, fmOf, fmPath, str } from '../components/ficha/hero-model'
 import {
   CONDICOES_FOLDER,
   ERGUER_ESCUDO_ID,
@@ -68,7 +68,8 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
     if (Array.isArray(armas)) {
       for (const arma of armas as Record<string, unknown>[]) {
         const armaDoc = refs.refDoc(arma['Nome'])
-        const raw = str((armaDoc?.inlineFields as Record<string, unknown> | undefined)?.['propriedades'])
+        const rawVal = docField(armaDoc, 'propriedades')
+        const raw = Array.isArray(rawVal) ? rawVal.map(str).join(' ') : str(rawVal)
         const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g
         let m: RegExpExecArray | null
         while ((m = re.exec(raw)) !== null) {

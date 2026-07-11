@@ -38,14 +38,15 @@ describe('#63: bases de escudo derivadas da pasta Escudos', () => {
 
   it('os docs reais carregam os inline fields de bonus-defesa/dureza/danos', () => {
     // valores REAIS da vault (fonte de verdade da mecânica do escudo)
+    // Base v2: stats do escudo no frontmatter, como NÚMEROS.
     const broquel = readJson('Sistema/Equipamento/Escudos/Broquel')
-    expect(broquel.inlineFields['bonus-defesa']).toBe('1')
-    expect(broquel.inlineFields['dureza']).toBe('2')
-    expect(broquel.inlineFields['danos']).toBe('4')
+    expect(broquel.frontmatter['bonus-defesa']).toBe(1)
+    expect(broquel.frontmatter['dureza']).toBe(2)
+    expect(broquel.frontmatter['danos']).toBe(4)
     const escudo = readJson('Sistema/Equipamento/Escudos/Escudo')
-    expect(escudo.inlineFields['bonus-defesa']).toBe('2')
-    expect(escudo.inlineFields['dureza']).toBe('4')
-    expect(escudo.inlineFields['danos']).toBe('4')
+    expect(escudo.frontmatter['bonus-defesa']).toBe(2)
+    expect(escudo.frontmatter['dureza']).toBe(4)
+    expect(escudo.frontmatter['danos']).toBe(4)
   })
 })
 

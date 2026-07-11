@@ -24,6 +24,11 @@ function collectTargets(hero: VaultDoc | undefined): string[] {
       pushTarget(out, arma['Propriedade'])
     }
   }
+  // Perfil: classe inicial + sintonia (docs reais pro card no hover do Perfil).
+  pushTarget(out, fm['Classe'])
+  pushTarget(out, fm['Sintonia'])
+  pushTarget(out, fmPath(fm, 'Inventario', 'Armadura', 'Propriedade'))
+  pushTarget(out, fmPath(fm, 'Inventario', 'Escudo', 'Propriedade'))
   pushTarget(out, fmPath(fm, 'Inventario', 'Armadura', 'Nome'))
   pushTarget(out, fmPath(fm, 'Inventario', 'Escudo', 'Nome'))
   for (const t of (fmPath(fm, 'Inventario', 'Tesouros') as unknown[]) ?? []) pushTarget(out, t)

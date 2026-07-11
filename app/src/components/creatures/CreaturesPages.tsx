@@ -20,6 +20,7 @@ import {
   getLocalDoc,
   isLocalId,
   localEntriesOfKind,
+  removeLocalEntity,
   PESSOA_RELACOES,
   pessoaFrontmatter,
   resolveGroupMembers,
@@ -427,12 +428,26 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   // de tier-from-level.ts) + registro partyTierBar (1-3 bronze, 4-6 prata,
   // 7-9 ouro, 10+ cristal). Sem Nível carregado, fica nas cores do design.
   const tierCor = nivel ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível'])) : null
+  const [menuOpen, setMenuOpen] = useState(false)
+  // Só herói LOCAL pode ser deletado (os da vault são fonte de verdade).
+  const canDelete = isLocalId(entry.id)
+  const abrir = () => navigate(heroPath(entry.id))
 
+  // `div role=button` (não `<button>`) pra permitir o menu (interativo) aninhado.
   return (
-    <button
+    <div
       className={selected ? 'hero-card selected' : 'hero-card'}
+      role="button"
+      tabIndex={0}
       aria-current={selected ? 'true' : undefined}
-      onClick={() => navigate(heroPath(entry.id))}
+      onClick={abrir}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          abrir()
+        }
+      }}
+      style={{ position: 'relative' }}
     >
       <span className="hero-card-stripe" aria-hidden />
       {portrait ? (
@@ -450,11 +465,100 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
         </span>
         <span className="hero-nvl-label">NVL</span>
       </div>
-      <span className="card-dots" aria-hidden>
+      <span
+        className="card-dots"
+        role="button"
+        tabIndex={0}
+        aria-label="Ações do herói"
+        onClick={(e) => {
+          e.stopPropagation()
+          setMenuOpen((o) => !o)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            e.stopPropagation()
+            setMenuOpen((o) => !o)
+          }
+        }}
+        style={{ cursor: 'pointer' }}
+      >
         ⋮
       </span>
-    </button>
+      {menuOpen ? (
+        <>
+          {/* clique fora fecha */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+              setMenuOpen(false)
+            }}
+            style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+          />
+          <div
+            role="menu"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              zIndex: 41,
+              minWidth: 150,
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              borderRadius: 8,
+              boxShadow: '0 12px 32px rgba(0,0,0,.5)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                setMenuOpen(false)
+                abrir()
+              }}
+              style={heroMenuItemStyle}
+            >
+              Abrir
+            </button>
+            {canDelete ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setMenuOpen(false)
+                  if (window.confirm(`Deletar o herói "${nome}"? Essa ação não pode ser desfeita.`))
+                    removeLocalEntity(entry.id)
+                }}
+                style={{ ...heroMenuItemStyle, color: 'var(--red)' }}
+              >
+                {tokens.emojis.aventureiro.Deletar} Deletar herói
+              </button>
+            ) : null}
+          </div>
+        </>
+      ) : null}
+    </div>
   )
+}
+
+const heroMenuItemStyle: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  padding: '10px 13px',
+  background: 'transparent',
+  border: 'none',
+  color: 'var(--text)',
+  fontSize: 13,
+  fontWeight: 600,
+  fontFamily: 'inherit',
+  cursor: 'pointer',
+  textAlign: 'left',
+  width: '100%',
 }
 
 // Abas da tela de heróis (pedido do usuário 2026-07-04): HERÓIS | GRUPOS,

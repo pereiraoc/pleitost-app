@@ -30,7 +30,7 @@ import {
   type InterativaComputed,
 } from '../src/interativa/hero-context'
 import { buildEffectContext } from '../src/interativa/build-effect-context'
-import { applyTarget, entriesTitle, sumEntries, valueTone } from '../src/interativa/apply'
+import { applyTarget, sumEntries, valueTone } from '../src/interativa/apply'
 import { applyDanoCtx, computeDanoAdO } from '../src/interativa/dano'
 import { blocoParaDescritor } from '../src/interativa/descriptor'
 import {
@@ -56,7 +56,7 @@ import { slugify, tokens } from '../src/components/ficha/registry'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const repoDir = path.dirname(appDir)
 const vaultDataDir = path.join(repoDir, 'vault-data')
-const goldenDir = path.join(repoDir, 'reference/goldens/screens/carlos')
+const goldenDir = path.join(repoDir, 'reference/goldens/screens/golden-bardo')
 
 const manifest = JSON.parse(
   fs.readFileSync(path.join(vaultDataDir, 'index.json'), 'utf8'),
@@ -85,31 +85,12 @@ const goldenBardo = JSON.parse(
   fs.readFileSync(path.join(appDir, 'tests/fixtures/golden-bardo.json'), 'utf8'),
 ) as VaultDoc
 
-/** Estado da captura, como aparece nos goldens (painel Condições/Recursos):
- *  chips ativos "Encantar Arma − 🌟 6 + × Punhal Relampejante (E)" e
- *  "Inspiração ×"; Efeitos Interativos "Performance Bárdica Ativa" ON;
- *  ❤️ 18/18, 💙 26/36, 💚 6; 🔷 EM: 0 / 3. */
+/** Estado salvo da nota GOLDEN Bardo (baseline LIMPO pós-reorg da vault, como
+ *  aparece nos goldens golden-bardo/): ❤️ 18/18, 💙 31/36, 💚 0; 🔷 EM: 3 / 3;
+ *  sem condições/efeitos ativos. O fixture golden-bardo.json já espelha 1:1 o
+ *  FM da nota (Atributos/Defesas/Sentidos/Vida/Magias/Interativa) — usa direto. */
 function goldenFm(): Record<string, unknown> {
-  const fm = structuredClone(goldenBardo.frontmatter) as Record<string, any>
-  fm.Interativa = {
-    ...fm.Interativa,
-    Recursos_Restantes: {
-      Vitalidade: 18,
-      Moral: 26,
-      Moral_Temporaria: 6,
-      EM: 0,
-      Escudo_Dano: 0,
-    },
-    Condicoes_Ativas: {
-      'Encantar Arma': { value: 1, weaponSelector: '[[Punhal]]', numericSelector: 6 },
-      'Inspiração': { value: 1 },
-    },
-    Efeitos_Ativos: {
-      'Performance Bárdica Ativa': { on: true, auto: true, autoFrom: 'Inspiração' },
-    },
-    Seletores: { 'Encantar Arma::Potência Mágica': 6 },
-  }
-  return fm
+  return structuredClone(goldenBardo.frontmatter) as Record<string, unknown>
 }
 
 function compute(fm: Record<string, unknown>): InterativaComputed {
@@ -171,13 +152,12 @@ describe('oráculo: interativa__base (defesas/sentidos com buffs ativos)', () =>
     else expect(tone).toBe('neutral')
   })
 
-  it('só a DEFESA está buffada (Auto-Confiança via Performance Bárdica Ativa)', () => {
-    expect(diamondValue(base, 'res-defesa').classes).toContain('cond-bonus')
+  it('baseline LIMPO: nenhuma defesa buffada (sem condições ativas salvas)', () => {
+    expect(diamondValue(base, 'res-defesa').classes).not.toContain('cond-bonus')
     expect(diamondValue(base, 'res-vigor').classes).not.toContain('cond-bonus')
-    // A fonte do +1 aparece no breakdown do golden como
-    // "Condição: Auto-Confiança" — mesmo label composto da computação.
     const applied = applyTarget(computed.ctx, { kind: 'number', key: 'defesa' })
-    expect(entriesTitle(applied.entries)).toBe('Condição: Auto-Confiança +1')
+    expect(applied.delta).toBe(0)
+    expect(valueTone(applied.entries)).toBe('neutral')
   })
 
   it.each([
@@ -192,62 +172,59 @@ describe('oráculo: interativa__base (defesas/sentidos com buffs ativos)', () =>
   })
 
   it('fórmula da Vida: total exibido = vitalidade + moral + moral temporária', () => {
-    // Barra do golden: ❤️ Vitalidade: 18/18 · 💙 Moral: 26/36 · (+6);
-    // painel mid-ataques mostra o total 50 (dv-vida-num--total).
+    // Barra do golden (baseline limpo): ❤️ Vitalidade: 18/18 · 💙 Moral: 31/36 ·
+    // sem temporária; painel mid-ataques mostra o total 49 (dv-vida-num--total).
     const labels = [...base.querySelectorAll('.dv-rc-bar-label')].map((e) => e.textContent?.trim() ?? '')
     expect(labels.some((l) => l.startsWith('❤️ Vitalidade: 18/18'))).toBe(true)
-    expect(labels.some((l) => l.startsWith('💙 Moral: 26/36'))).toBe(true)
+    expect(labels.some((l) => l.startsWith('💙 Moral: 31/36'))).toBe(true)
     const tempLabels = [...base.querySelectorAll('.dv-rc-bar-temp-label')].map((e) => e.textContent?.trim())
-    expect(tempLabels).toContain('(+6)')
+    expect(tempLabels.join('')).toBe('') // sem temporária → sem "(+N)"
     const rec = computed.model.interativa.recursosRestantes
     const vidaMax = (fm['Vida'] ?? {}) as Record<string, unknown>
     expect(`❤️ Vitalidade: ${rec.vitalidade}/${vidaMax['Vitalidade']}`).toBe('❤️ Vitalidade: 18/18')
-    expect(`💙 Moral: ${rec.moral}/${vidaMax['Moral']}`).toBe('💙 Moral: 26/36')
+    expect(`💙 Moral: ${rec.moral}/${vidaMax['Moral']}`).toBe('💙 Moral: 31/36')
     const painel = goldenRoot('interativa__panel-mid-ataques.html')
     const total = painel.querySelector('.dv-vida-num--total')?.textContent?.trim()
     expect(String(rec.vitalidade + rec.moral + rec.moralTemporaria)).toBe(total)
   })
 
-  it('pills de EM: corrente/máximo do estado salvo (0 / 3, todas apagadas)', () => {
+  it('pills de EM: corrente/máximo do estado salvo (3 / 3, todas acesas)', () => {
     const label = base.querySelector('.dv-mag-label')?.textContent?.trim()
-    expect(label).toBe('🔷 EM: 0 / 3')
+    expect(label).toBe('🔷 EM: 3 / 3')
     const rec = computed.model.interativa.recursosRestantes
     const emMax = Number(fmPath(fm, 'Magias', 'EM'))
     expect(`🔷 EM: ${rec.em} / ${emMax}`).toBe(label)
-    // pills renderizadas: nenhuma acesa (is-on), 3 apagadas (is-off).
-    expect(base.querySelectorAll('.dv-em-pill.is-on').length).toBe(0)
-    expect(base.querySelectorAll('.dv-em-pill.is-off').length).toBe(emMax)
+    // pills renderizadas: todas acesas (is-on), nenhuma apagada (is-off).
+    expect(base.querySelectorAll('.dv-em-pill.is-on').length).toBe(emMax)
+    expect(base.querySelectorAll('.dv-em-pill.is-off').length).toBe(0)
   })
 
-  it('seletor numérico do Encantar Arma ancorado: 🌟 6 (potência da captura)', () => {
-    expect(base.querySelector('.dv-panel-anchored-numeric-value')?.textContent?.trim()).toBe('🌟 6')
-    expect(computed.model.interativa.seletores['Encantar Arma::Potência Mágica']).toBe(6)
+  it('sem Encantar Arma ativo (baseline): nenhum seletor numérico ancorado', () => {
+    expect(base.querySelector('.dv-panel-anchored-numeric-value')).toBeNull()
+    expect(computed.model.interativa.seletores['Encantar Arma::Potência Mágica']).toBeUndefined()
   })
 })
 
 describe('oráculo: painéis pós-clique', () => {
-  it('painel Defesa (res-defesa clicado): header 19, mesmo total do diamante', () => {
+  it('painel Defesa (res-defesa clicado): header 18, mesmo total do diamante', () => {
     const painel = goldenRoot('interativa__panel-res-defesa.html')
-    // header do painel da direita: "🛡️ Defesa 19"
+    // header do painel da direita: "🛡️ Defesa 18" (baseline sem buff)
     const header = [...painel.querySelectorAll('.dv-panel-title')]
       .map((e) => e.textContent?.replace(/\s+/g, ' ').trim() ?? '')
       .find((t) => t.includes('Defesa'))
     expect(header, 'painel Defesa no golden').toBeTruthy()
-    expect(header).toContain('19')
+    expect(header).toContain('18')
     const applied = applyTarget(computed.ctx, { kind: 'number', key: 'defesa' })
-    expect(10 + rowMod(defesaRow('defesa'), attrs) + applied.delta).toBe(19)
+    expect(10 + rowMod(defesaRow('defesa'), attrs) + applied.delta).toBe(18)
   })
 
-  it('painel Ataques (mid-ataques clicado): Punhal +9 / 2d4+2+1d12 / AdO 5', () => {
+  it('painel Ataques (mid-ataques clicado): Punhal +8 / 2d4+2 (baseline sem buffs)', () => {
     const painel = goldenRoot('interativa__panel-mid-ataques.html')
     const html = painel.innerHTML
 
-    // ataque: +9 com cond-bonus (Auto-Confiança +1, típado — Inspiração é
-    // ApenasAliados e NÃO conta pra fonte)
-    const rollEl = [...painel.querySelectorAll<HTMLElement>('.cond-bonus')].find(
-      (e) => e.textContent?.trim() === '+9',
-    )
-    expect(rollEl, 'roll +9 cond-bonus no golden').toBeTruthy()
+    // sem condições ativas: nenhum destaque de buff/penalidade no painel
+    expect(painel.querySelector('.cond-bonus')).toBeNull()
+    expect(painel.querySelector('.cond-penalty')).toBeNull()
     const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
     const punhal = armas[0]
     const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
@@ -260,41 +237,32 @@ describe('oráculo: painéis pós-clique', () => {
       },
       attrs,
     )
+    // ataque base: AGI(+2) + Experiente(+4) + Item(+2) = +8, delta 0 (neutro)
     const applied = applyTarget(computed.ctx, { kind: 'attack', attr: 'AGI', sourceId: 'Punhal' })
-    expect(signed(base + applied.delta)).toBe('+9')
-    expect(valueTone(applied.entries)).toBe('bonus')
+    expect(signed(base + applied.delta)).toBe('+8')
+    expect(valueTone(applied.entries)).toBe('neutral')
 
-    // dano: 2d4+2 (E = +1 dado) + 1d12 do Encantar Arma (potência 6 → d12)
+    // dano: 2d4+2 (E = +1 dado); sem o 1d12 do Encantar Arma (inativo)
     const punhalDoc = refDoc('[[Punhal]]')!
-    const danoRaw = str((punhalDoc.inlineFields as Record<string, unknown>)['dano']).replace(/^"|"$/g, '')
+    const danoRaw = str((punhalDoc.frontmatter as Record<string, unknown>)['dano']).replace(/^"|"$/g, '')
     const calc = parseDanoArma(danoRaw)
     const danoRes = applyDanoCtx(
       { baseDice: calc.dice, profDice: PROF_DICE[profAtaque] ?? 0, dieSize: calc.die, offset: calc.offset },
       computed.ctx,
       'Punhal',
     )
-    expect(html).toContain('>2d4+2+1d12<')
-    expect(danoRes.display).toBe('2d4+2+1d12')
-    expect(danoRes.hasDelta).toBe(true)
+    expect(html).toContain('>2d4+2<')
+    expect(danoRes.display).toBe('2d4+2')
+    expect(danoRes.hasDelta).toBe(false)
     expect(danoRes.hasPenalty).toBe(false)
-
-    // AdO: 5 = offset base 2 + OportunidadeFixo 3 (Encantar Arma potência 6);
-    // prof E → sem dado de Mestre.
-    const ado = computeDanoAdO({ ...danoRes.adoInput, prof: 'E' })
-    const adoEl = [...painel.querySelectorAll<HTMLElement>('.atk-roll-pos')].find(
-      (e) => e.textContent?.trim() === '5',
-    )
-    expect(adoEl, 'AdO 5 atk-roll-pos no golden').toBeTruthy()
-    expect(ado.display).toBe('5')
-    expect(ado.hasDelta).toBe(true)
   })
 
-  it('painel Condições: chips ativos e Lista de Condições completa', () => {
+  it('painel Condições: sem chips ativos (baseline) e Lista de Condições completa', () => {
     const painel = goldenRoot('interativa__panel-condicoes.html')
-    // ativos do golden (colunas Ativas): Encantar Arma + Inspiração
+    // baseline limpo: nenhuma condição ativa salva
     const ativos = [...painel.querySelectorAll('.dv-rc-cond-active-chip .dv-rc-cond-active-chip-link')]
       .map((e) => e.textContent?.trim())
-    expect(new Set(ativos)).toEqual(new Set(['Encantar Arma', 'Inspiração']))
+    expect(new Set(ativos)).toEqual(new Set([]))
     const condAtivas = (fmPath(fm, 'Interativa', 'Condicoes_Ativas') ?? {}) as Record<string, unknown>
     expect(new Set(Object.keys(condAtivas))).toEqual(new Set(ativos))
 
@@ -624,13 +592,13 @@ describe('#30 invocações: resolvers (plugin resolve-invocacao.ts + tab-companh
     const ativas = invocacoesAtivas(pindFm)
     expect(ativas['Amálgama das Sombras']).toEqual([
       {
-        id: 'Amálgama das Sombras#1782950692143-1',
+        id: 'Amálgama das Sombras#1782167100900-1',
         potencia: 6,
-        vitalidade: 16,
+        vitalidade: 30,
         moralTemporaria: 0,
       },
     ])
-    // card exibiria Vitalidade 16/30 (EV máx = 5×6)
+    // card exibiria Vitalidade 30/30 (EV máx = 5×6)
     expect(computeEvMax(amalgama, 6)).toBe(30)
   })
 

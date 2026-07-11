@@ -122,7 +122,9 @@ export function applyDanoCtx(
       value: w.entry.value * perDieDice,
       tipoBonus: w.type,
     })),
-    ...extraDice.map((e) => ({ label: stripSharedFrom(e.label), value: 0 })),
+    // Dado EXTRA (ex.: Encantar Arma +1d12): valor 0 (não é fixo), mas o rótulo
+    // carrega a notação do dado pra não parecer "0" no tooltip.
+    ...extraDice.map((e) => ({ label: `${stripSharedFrom(e.label)} (+${e.dice})`, value: 0 })),
     ...baseDiceCountEntries.map((e) => ({ ...e, label: stripSharedFrom(e.label), value: 0 })),
   ]
   const hasDelta =

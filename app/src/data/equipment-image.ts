@@ -35,7 +35,7 @@ const TIER_FEM: Record<'A' | 'E' | 'M', string> = { A: 'Adepta', E: 'Experiente'
 const TIER_MASC: Record<'A' | 'E' | 'M', string> = { A: 'Adepto', E: 'Experiente', M: 'Mestre' }
 
 function byPath(assets: AssetIndex, path: string): string | null {
-  const entry = assets.byPath.get(path)
+  const entry = assets.byPath.get(path.normalize('NFC'))
   return entry ? assetUrl(entry) : null
 }
 

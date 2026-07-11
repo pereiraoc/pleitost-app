@@ -6,7 +6,8 @@ import { unquote } from './dataview-value'
 /**
  * Avalia inline dataview (`= this.x`) contra o próprio doc — fonte de verdade:
  * `this.file.name` → basename; demais chaves → inlineFields, depois frontmatter
- * escalar. Sem valor → vazio (nunca inventar fallback). Precisa rodar ANTES do
+ * escalar ou ARRAY (v2: propriedades etc. viraram lista de wikilinks — junta com
+ * ", "). Sem valor → vazio (nunca inventar fallback). Precisa rodar ANTES do
  * remark-wikilinks pra que valores com [[...]] virem links.
  */
 export function remarkInlineDataview(doc: VaultDoc) {
@@ -30,6 +31,11 @@ function evaluate(path: string, doc: VaultDoc): string {
   const fm = doc.frontmatter[path]
   if (typeof fm === 'string' || typeof fm === 'number' || typeof fm === 'boolean') {
     return String(fm)
+  }
+  // Base v2: campos como `propriedades` viraram array de wikilinks — junta com
+  // ", " pra que o remark-wikilinks transforme cada [[...]] num link.
+  if (Array.isArray(fm)) {
+    return fm.map((el) => (typeof el === 'string' ? el : String(el ?? ''))).join(', ')
   }
   return ''
 }

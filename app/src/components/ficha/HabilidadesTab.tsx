@@ -50,7 +50,8 @@ import {
   sourceTipHtml,
   type BreakdownResult,
 } from './tooltips'
-import { ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { ItemHover, ITEM_CARD_CSS, esc } from '../item-card'
+import { useNamedDocs } from './useNamedDocs'
 import {
   ATTR_DOT_COLORS,
   ATTR_EMOJI,
@@ -232,7 +233,22 @@ function SelectBox({
 
 /* ===================== sub-aba PERFIL ===================== */
 
-function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
+/** Escolha de BENEFÍCIO descrita em prosa no corpo da técnica/habilidade
+ *  (ex.: Instrumentos de Guerra: "Escolha um dos benefícios: **X:** … **Y:** …").
+ *  A vault define isso como texto (fence de regra vazia), então as opções vêm do
+ *  próprio corpo (fonte de verdade). Retorna { nome, texto } por bullet, ou []. */
+function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto: string }[] {
+  if (!doc) return []
+  const body = doc.body ?? ''
+  if (!/Escolha\s+um\s+d[oa]s?\s+benef/i.test(body)) return []
+  const out: { nome: string; texto: string }[] = []
+  const re = /^\s*[-*]\s+\*\*([^:*]+):\*\*\s*(.*)$/gm
+  let m: RegExpExecArray | null
+  while ((m = re.exec(body))) out.push({ nome: m[1].trim(), texto: m[2].trim() })
+  return out
+}
+
+function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'habilidades')
   const fm = model.fm
   // Projeção de regras (app/src/rules): opções de Classe/Sintonia (vault
@@ -290,6 +306,9 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
       value: e.raw,
       options: [{ value: e.raw, label: shortSubclass(e.raw) || e.label }],
       onChange: undefined as ((v: string) => void) | undefined,
+      // Card no hover: caixa = subclasse escolhida; label = habilidade-pai.
+      boxTarget: e.raw,
+      labelTarget: e.fonte.target,
     }))
 
   const selects: {
@@ -298,6 +317,8 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
     value: string
     options: SelectOption[]
     onChange?: (v: string) => void
+    boxTarget: string
+    labelTarget?: string
   }[] = [
     {
       ic: tokens.emojis.perfil.Classe,
@@ -308,6 +329,7 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
       value: classeFmValue,
       options: withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
       onChange: setClasse,
+      boxTarget: classeFmValue,
     },
     ...(rules
       ? rules.subclassChoices.map((c) => ({
@@ -319,6 +341,9 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
           value: c.pick ?? '',
           options: c.options,
           onChange: (v: string) => setSubclassPick(c.parent, v),
+          // Card no hover: caixa = subclasse escolhida; label = habilidade-pai.
+          boxTarget: c.pick ?? '',
+          labelTarget: c.parent,
         }))
       : escolhasFallback),
   ]
@@ -336,12 +361,18 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 11 }}>
           {selects.map((s) => (
             <div key={s.label} style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
-              <span
-                style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
-              >
-                {s.ic} {s.label}
-              </span>
-              <SelectBox ariaLabel={s.label} value={s.value} options={s.options} onChange={s.onChange} />
+              {/* Label acima da subclasse = habilidade-pai → card no hover. */}
+              <ItemHover doc={refs.refDoc(s.labelTarget)} fullBody>
+                <span
+                  style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
+                >
+                  {s.ic} {s.label}
+                </span>
+              </ItemHover>
+              {/* Caixa (classe inicial / subclasse) → card do doc selecionado. */}
+              <ItemHover doc={refs.refDoc(s.boxTarget)} fullBody style={{ display: 'block', width: '100%' }}>
+                <SelectBox ariaLabel={s.label} value={s.value} options={s.options} onChange={s.onChange} />
+              </ItemHover>
             </div>
           ))}
         </div>
@@ -351,16 +382,19 @@ function ClasseNivelPanel({ doc }: { doc: VaultDoc }) {
           >
             🌀 SINTONIA
           </span>
-          <SelectBox
-            ariaLabel="SINTONIA"
-            value={sintoniaFmValue}
-            options={withCurrent(
-              [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
-              sintoniaFmValue,
-              linkLabel(str(fm['Sintonia'])),
-            )}
-            onChange={setSintonia}
-          />
+          {/* Caixa de sintonia → card do Traço Elemental no hover. */}
+          <ItemHover doc={refs.refDoc(sintoniaFmValue)} fullBody style={{ display: 'block', width: '100%' }}>
+            <SelectBox
+              ariaLabel="SINTONIA"
+              value={sintoniaFmValue}
+              options={withCurrent(
+                [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+                sintoniaFmValue,
+                linkLabel(str(fm['Sintonia'])),
+              )}
+              onChange={setSintonia}
+            />
+          </ItemHover>
         </div>
       </div>
       <div
@@ -665,11 +699,15 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
   const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
   const movimentos = (fmPath(fm, 'Movimento', 'Lista') ?? []) as ProfRow[]
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
+  // Regra do compêndio de cada defesa/resistência/sentido/movimento (#105).
+  const ruleDoc = useNamedDocs(
+    [...defesas, ...sentidos, ...movimentos].map((r) => displayName(slugify(str(r.Nome)))),
+  )
 
   // Seções verbatim do profData recuperado (title/modKind/showProf/Dots/Star).
   const sections: StackSection[] = [
     {
-      title: 'Defesas',
+      title: 'Defesas e Resistências',
       modKind: 'std10',
       showProf: 1,
       showDots: 1,
@@ -811,17 +849,21 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
                   {row.Atributo ? (
                     <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
                   ) : null}
-                  <span
-                    style={{
-                      fontWeight: 600,
-                      color: 'var(--text)',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {displayName(slugify(str(row.Nome)))}
-                  </span>
+                  {/* NOME da defesa/resistência/sentido → a REGRA do compêndio
+                      (corpo do doc), não a fonte nem o breakdown (#105). */}
+                  <ItemHover doc={ruleDoc(displayName(slugify(str(row.Nome))))} fullBody style={{ minWidth: 0 }}>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        color: 'var(--text)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {displayName(slugify(str(row.Nome)))}
+                    </span>
+                  </ItemHover>
                 </span>
                 {!edit ? (
                   <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -908,7 +950,7 @@ function PnBtns({ cur }: { cur: 'P' | 'N' }) {
   )
 }
 
-function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
+function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
@@ -924,6 +966,8 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
     // (prof-equipamentos-card.ts:123-126); chave srcPath do registro.
     tip: sourceTipHtml(rules?.ruleSourcesByPath[t.srcPath]),
   }))
+  // Regra do compêndio de cada categoria de equipamento (pelo nome) — #105.
+  const ruleDoc = useNamedDocs(EQUIP_TYPES.map((t) => t.nm))
   const armas = (Array.isArray(especificas) ? especificas : []).map((raw) => {
     const target = wikiTarget(raw)
     const res = catalog.resolve(target)
@@ -931,6 +975,7 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
     return {
       ic: grupoArmaEmoji(typeof entry?.grupo === 'string' ? entry.grupo : ''),
       nm: linkLabel(str(raw)),
+      doc: refs.refDoc(raw),
     }
   })
 
@@ -963,17 +1008,20 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
               {r.t ? (
                 <>
                   <span style={{ fontSize: 14, flex: 'none' }}>{r.t.ic}</span>
-                  <span
-                    style={{
-                      fontWeight: 600,
-                      color: 'var(--text)',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {r.t.nm}
-                  </span>
+                  {/* NOME da categoria → a REGRA do compêndio (corpo do doc), #105. */}
+                  <ItemHover doc={ruleDoc(r.t.nm)} fullBody style={{ minWidth: 0 }}>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        color: 'var(--text)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {r.t.nm}
+                    </span>
+                  </ItemHover>
                 </>
               ) : null}
             </span>
@@ -988,17 +1036,20 @@ function EquipamentosProfPanel({ doc }: { doc: VaultDoc }) {
               {r.w ? (
                 <>
                   <span style={{ fontSize: 14, flex: 'none' }}>{r.w.ic}</span>
-                  <span
-                    style={{
-                      fontWeight: 500,
-                      color: 'var(--blue)',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {r.w.nm}
-                  </span>
+                  {/* Arma específica: card do doc real no hover. */}
+                  <ItemHover doc={r.w.doc}>
+                    <span
+                      style={{
+                        fontWeight: 500,
+                        color: 'var(--blue)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {r.w.nm}
+                    </span>
+                  </ItemHover>
                 </>
               ) : null}
             </span>
@@ -1032,6 +1083,8 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
   const { values: attrs } = heroAtributos(fm)
   const [edit, setEdit] = useState(false)
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+  // Regra do compêndio de cada perícia (pelo nome) pro tooltip (#106).
+  const ruleDoc = useNamedDocs(pericias.map((p) => displayName(slugify(str(p.Nome)))))
 
   const usedBy = (letter: string) =>
     pericias.filter((p) =>
@@ -1112,17 +1165,21 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
               <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
-              <span
-                style={{
-                  fontWeight: 600,
-                  color: 'var(--text)',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {displayName(slugify(str(row.Nome)))}
-              </span>
+              {/* NOME da perícia → a REGRA do compêndio (corpo do doc), não a
+                  fonte nem o breakdown (#106). O breakdown fica no MODIFICADOR. */}
+              <ItemHover doc={ruleDoc(displayName(slugify(str(row.Nome))))} fullBody style={{ minWidth: 0 }}>
+                <span
+                  style={{
+                    fontWeight: 600,
+                    color: 'var(--text)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {displayName(slugify(str(row.Nome)))}
+                </span>
+              </ItemHover>
             </span>
             {!edit ? (
               <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -1215,6 +1272,7 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
 }
 
 function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
+  const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   // Display usa o FM DERIVADO (perícia elevada por regra já vira elegível);
@@ -1252,6 +1310,7 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
             items: (rules.especializacaoOptions[slug] ?? []).map((opt) => ({
               on: pick === opt,
               txt: linkLabel(opt),
+              target: opt,
               toggle: () => setEspecializacao(slug, pick === opt ? '' : opt),
             })),
           }
@@ -1264,10 +1323,27 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
               {
                 on: true,
                 txt: linkLabel(str(p.Especializacao)),
+                target: str(p.Especializacao),
                 toggle: undefined as (() => void) | undefined,
               },
             ],
           }))
+
+  // Docs de TODAS as opções (selecionadas E não) pro card no hover (#107) — as
+  // não selecionadas não estão nas refs do herói, então carrega aqui.
+  const optIds = useMemo(() => {
+    const s = new Set<string>()
+    for (const g of grupos) for (const it of g.items) {
+      const r = catalog.resolve(wikiTarget(it.target))
+      if (r.kind === 'doc') s.add(r.id)
+    }
+    return [...s]
+  }, [grupos, catalog])
+  const optDocs = useDocs(optIds)
+  const optDoc = (t: string): VaultDoc | undefined => {
+    const r = catalog.resolve(wikiTarget(t))
+    return r.kind === 'doc' ? optDocs?.get(r.id) : undefined
+  }
 
   return (
     <div style={panel}>
@@ -1337,7 +1413,9 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
                   <span style={{ fontSize: 13, flex: 'none' }}>
                     {tokens.emojis.subcategoria.Especializacao}
                   </span>
-                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{sp.txt}</span>
+                  <ItemHover doc={optDoc(sp.target)} fullBody>
+                    <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{sp.txt}</span>
+                  </ItemHover>
                 </div>
               ))}
             </div>
@@ -1355,6 +1433,8 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
   const { values: attrs } = heroAtributos(fm)
   const [edit, setEdit] = useState(false)
   const oficios = (fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]
+  // Regra do compêndio de cada ofício (pelo nome) pro tooltip (#106).
+  const ruleDoc = useNamedDocs(oficios.map((o) => displayName(slugify(str(o.Nome)))))
   const cols = edit ? PROF_COLS_EDIT : PROF_COLS_VIEW
 
   return (
@@ -1408,9 +1488,12 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
           >
             <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
               <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
-              <span style={{ fontWeight: 600, color: 'var(--text)' }}>
-                {edit ? nm : complemento ? `${nm} (${complemento})` : nm}
-              </span>
+              {/* NOME do ofício → a REGRA do compêndio (corpo do doc), #106. */}
+              <ItemHover doc={ruleDoc(nm)} fullBody style={{ minWidth: 0 }}>
+                <span style={{ fontWeight: 600, color: 'var(--text)' }}>
+                  {edit ? nm : complemento ? `${nm} (${complemento})` : nm}
+                </span>
+              </ItemHover>
             </span>
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', minWidth: 0 }}>
               {!edit ? (
@@ -1556,7 +1639,15 @@ const RANK_BORDER: Record<string, string> = {
   Mestre: '#e8c14a',
 }
 
-function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function HabilidadesArvorePanel({
+  doc,
+  refs,
+  readOnly,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  readOnly?: boolean
+}) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
@@ -1589,6 +1680,11 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
   // ABAIXO de Experiente, não na coluna da esquerda).
   const leftGroups = ordered.filter((g) => g === 'Básica' || g === 'Adepta')
   const rightGroups = ordered.filter((g) => g === 'Experiente' || g === 'Mestre')
+  // Alterar/Concluir (#148): fora do modo alterar as escolhas de habilidade
+  // (Escolha_Habilidades de elementos de regra) ficam read-only; ao Alterar,
+  // viram dropdown editável. Em Combate (readOnly) nunca edita.
+  const [editState, setEdit] = useState(false)
+  const edit = readOnly ? false : editState
 
   // Persiste o pick de uma `Escolha_Habilidades` (não-subclasse) como ESTADO no
   // FM salvo: regrava a linha `Escolha.[[<parent>]]` na LISTA-ALVO da choice
@@ -1618,7 +1714,11 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
 
   return (
     <div style={panel}>
-      <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>Habilidades</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
+        <div style={{ ...monoTitle, letterSpacing: '.08em' }}>Habilidades</div>
+        <span style={{ flex: 1 }} />
+        {readOnly ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
+      </div>
       <div style={{ display: 'flex', gap: 26, alignItems: 'flex-start' }}>
         {[leftGroups, rightGroups].map((col, ci) => (
           <div key={ci} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -1639,10 +1739,18 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                       borderLeft: `3px solid ${RANK_BORDER[g] ?? 'var(--line2)'}`,
                     }}
                   >
-                    <Losango />
+                    {it.child ? (
+                      <span style={{ fontSize: 14, color: 'var(--muted)', flex: 'none', lineHeight: 1 }}>↳</span>
+                    ) : null}
                     {it.ic ? <span style={{ fontSize: 13, flex: 'none' }}>{it.ic}</span> : null}
-                    <ItemHover doc={refs.refDoc(it.target)}>
-                      <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{it.txt}</span>
+                    <ItemHover doc={refs.refDoc(it.target)} fullBody>
+                      {/* Filho identado: mostra só o que está entre parênteses
+                          (ex.: "Estilo de Combate (Luta Artística)" → "Luta
+                          Artística") — o contexto do pai acima já deixa claro; o
+                          tooltip continua apontando pro doc certo (it.target). */}
+                      <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>
+                        {it.child ? (it.txt.match(/\(([^)]+)\)\s*$/)?.[1] ?? it.txt) : it.txt}
+                      </span>
                     </ItemHover>
                   </div>
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
@@ -1673,12 +1781,28 @@ function HabilidadesArvorePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }
                           {c.label}
                         </span>
                       ) : null}
-                      <SelectBox
-                        ariaLabel={c.label || `Escolha de ${it.txt}`}
-                        value={choicePickValue(c)}
-                        options={choiceOptions(c)}
-                        onChange={(v) => onChoiceChange(it.target, c, v)}
-                      />
+                      {edit ? (
+                        <SelectBox
+                          ariaLabel={c.label || `Escolha de ${it.txt}`}
+                          value={choicePickValue(c)}
+                          options={choiceOptions(c)}
+                          onChange={(v) => onChoiceChange(it.target, c, v)}
+                        />
+                      ) : (
+                        // Fora do Alterar: pick sutil (texto + tooltip), não dropdown.
+                        <ItemHover doc={refs.refDoc(choicePickValue(c))} fullBody>
+                          <span
+                            style={{
+                              fontWeight: 600,
+                              color: choicePickValue(c) ? 'var(--blue)' : 'var(--muted)',
+                              fontSize: 13,
+                              fontStyle: choicePickValue(c) ? 'normal' : 'italic',
+                            }}
+                          >
+                            {linkLabel(choicePickValue(c)) || '(não definido)'}
+                          </span>
+                        </ItemHover>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -1727,7 +1851,7 @@ function choiceOptions(c: HabChoice): SelectOption[] {
   return wl.map((o) => ({ value: o, label: linkLabel(o) }))
 }
 
-function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
@@ -1760,7 +1884,9 @@ function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               >
                 {badge}
               </span>
-              <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{e.label}</span>
+              <ItemHover doc={refs.refDoc(e.target)} fullBody>
+                <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{e.label}</span>
+              </ItemHover>
             </div>
           )
         })}
@@ -1808,13 +1934,26 @@ function EmptySlot() {
   )
 }
 
-function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function TecnicasPanel({
+  doc,
+  refs,
+  readOnly,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  readOnly?: boolean
+}) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
-  const [edit, setEdit] = useState(false)
+  const [editState, setEdit] = useState(false)
+  const edit = readOnly ? false : editState
   const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
+  // Escolha de benefício (prosa) por técnica — pick persistido no FM (#135/#148).
+  const beneficios = (fmPath(model.fm, 'Tecnicas', 'Beneficios') ?? {}) as Record<string, string>
+  const setBeneficio = (tecnica: string, valor: string) =>
+    model.set('Tecnicas.Beneficios', { ...beneficios, [tecnica]: valor })
 
   const slotsFmTec = fmPath(fm, 'Tecnicas', 'Slots') as Record<string, unknown> | undefined
   const usedBy = (letter: string) =>
@@ -1862,7 +2001,7 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const naoAprendidas = useMemo(() => {
     if (!edit || !tecnicaDocs) return []
     const learned = new Set(entries.map((e) => e.target))
-    const byRank = new Map<string, { custo: string; txt: string }[]>()
+    const byRank = new Map<string, { custo: string; txt: string; doc: VaultDoc }[]>()
     for (const d of tecnicaDocs.values()) {
       if (learned.has(d.basename)) continue
       const rank = docRankGroup(d)
@@ -1873,6 +2012,7 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       list.push({
         custo: tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']),
         txt: d.basename,
+        doc: d,
       })
       byRank.set(rank, list)
     }
@@ -1900,7 +2040,7 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
         <span style={{ ...monoTitle, letterSpacing: '.08em' }}>Técnicas</span>
         <span style={{ flex: 1 }} />
-        <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
+        {readOnly ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
       <div
         style={{
@@ -1909,10 +2049,14 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           gap: 14,
         }}
       >
-        <div style={cardBox}>
-          <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
-            📖 Técnicas Aprendidas
-          </div>
+        <div style={readOnly ? undefined : cardBox}>
+          {/* Em read-only (Combate) o container "Técnicas Aprendidas" é redundante
+              — o painel já se chama "Técnicas"; mostra o conteúdo direto. */}
+          {readOnly ? null : (
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
+              📖 Técnicas Aprendidas
+            </div>
+          )}
           {aprGroups.map((g) => {
             const rows = learnedByGroup.get(g) ?? []
             const letter = TEC_GROUP_LETTER[g]
@@ -1934,9 +2078,13 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   {g}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {rows.map((e) => (
+                  {rows.map((e) => {
+                    const beneOpts = benefitChoiceOptions(refs.refDoc(e.target))
+                    const bene = beneficios[e.target] ?? beneficios[e.label] ?? ''
+                    const beneTxt = beneOpts.find((o) => o.nome === bene)?.texto ?? ''
+                    return (
+                    <div key={e.target} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     <div
-                      key={e.target}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -1972,7 +2120,7 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         </button>
                       ) : null}
                       <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
-                      <ItemHover doc={refs.refDoc(e.target)}>
+                      <ItemHover doc={refs.refDoc(e.target)} fullBody>
                         <span
                           style={{
                             fontWeight: 600,
@@ -1988,7 +2136,64 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         </span>
                       </ItemHover>
                     </div>
-                  ))}
+                    {beneOpts.length ? (
+                      // Escolha de benefício (prosa) — dropdown ao Alterar, senão o
+                      // pick read-only; tooltip com o texto do benefício escolhido.
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          marginLeft: 30,
+                        }}
+                      >
+                        <span style={{ fontSize: 14, color: 'var(--muted)', flex: 'none', lineHeight: 1 }}>↳</span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--mono)',
+                            fontSize: 9,
+                            letterSpacing: '.1em',
+                            color: 'var(--muted)',
+                            flex: 'none',
+                          }}
+                        >
+                          BENEFÍCIO
+                        </span>
+                        {edit ? (
+                          <SelectBox
+                            ariaLabel={`Benefício de ${e.label}`}
+                            value={bene}
+                            options={[
+                              { value: '', label: '—' },
+                              ...beneOpts.map((o) => ({ value: o.nome, label: o.nome })),
+                            ]}
+                            onChange={(v) => setBeneficio(e.target, v)}
+                          />
+                        ) : (
+                          <TipHover
+                            html={
+                              beneTxt
+                                ? `<div style="max-width:280px">${esc(beneTxt.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_m, a, b) => b ?? a))}</div>`
+                                : null
+                            }
+                          >
+                            <span
+                              style={{
+                                fontWeight: 600,
+                                color: bene ? 'var(--blue)' : 'var(--muted)',
+                                fontSize: 13,
+                                fontStyle: bene ? 'normal' : 'italic',
+                              }}
+                            >
+                              {bene || '(não definido)'}
+                            </span>
+                          </TipHover>
+                        )}
+                      </div>
+                    ) : null}
+                    </div>
+                    )
+                  })}
                   {Array.from({ length: realEmpty }, (_, i) => (
                     <EmptySlot key={`empty-${i}`} />
                   ))}
@@ -2044,19 +2249,21 @@ function TecnicasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         {row.custo}
                       </span>
                       <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
-                      <span
-                        style={{
-                          fontWeight: 600,
-                          color: 'var(--blue)',
-                          fontSize: 13.5,
-                          minWidth: 0,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {row.txt}
-                      </span>
+                      <ItemHover doc={row.doc} fullBody>
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: 'var(--blue)',
+                            fontSize: 13.5,
+                            minWidth: 0,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {row.txt}
+                        </span>
+                      </ItemHover>
                     </div>
                     )
                   })}
@@ -2213,6 +2420,10 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     model.set('Magias.Lista', removeMagiaFromEscola(savedEscolas, escolaNome, target))
   }
 
+  // Regra do compêndio de Potência Mágica e EM (Energia Heroica) — tooltip do
+  // corpo no hover do rótulo (#112).
+  const emPotenciaDoc = useNamedDocs(['Potência Mágica', 'Energia Heroica'])
+
   return (
     <>
       <div style={panel}>
@@ -2220,9 +2431,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 9 }}>
             <span style={{ fontSize: 15 }}>{tokens.emojis.subcategoria.PotenciaMagica}</span>
-            <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
-              Potência Mágica
-            </span>
+            <ItemHover doc={emPotenciaDoc('Potência Mágica')} fullBody>
+              <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
+                Potência Mágica
+              </span>
+            </ItemHover>
             <span style={{ flex: 1 }} />
             <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
               {num(fmPath(fm, 'Magias', 'Potencia'))}
@@ -2240,9 +2453,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 flex: 'none',
               }}
             />
-            <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
-              EM Máximo
-            </span>
+            <ItemHover doc={emPotenciaDoc('Energia Heroica')} fullBody>
+              <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
+                EM Máximo
+              </span>
+            </ItemHover>
             <span style={{ flex: 1 }} />
             <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
               {num(fmPath(fm, 'Magias', 'EM'))}
@@ -2351,27 +2566,31 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                                 </button>
                               ) : null}
                               {isTesouro ? (
-                                <span
-                                  style={{
-                                    width: 23,
-                                    height: 23,
-                                    borderRadius: '50%',
-                                    border: '2px solid #b9962f',
-                                    flex: 'none',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                  }}
-                                >
+                                // Bolinha da magia de tesouro → card do TESOURO
+                                // (a fonte) no hover (#111).
+                                <ItemHover doc={refs.refDoc(e.fonte.target)}>
                                   <span
                                     style={{
-                                      width: 9,
-                                      height: 9,
+                                      width: 23,
+                                      height: 23,
                                       borderRadius: '50%',
-                                      background: '#d9b441',
+                                      border: '2px solid #b9962f',
+                                      flex: 'none',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
                                     }}
-                                  />
-                                </span>
+                                  >
+                                    <span
+                                      style={{
+                                        width: 9,
+                                        height: 9,
+                                        borderRadius: '50%',
+                                        background: '#d9b441',
+                                      }}
+                                    />
+                                  </span>
+                                </ItemHover>
                               ) : null}
                               <span
                                 style={{
@@ -2392,19 +2611,21 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                                 {custoDigits(spellFm['custo'])}
                               </span>
                               <span style={{ fontSize: 13, flex: 'none' }}>{magiaEmoji(spellFm)}</span>
-                              <span
-                                style={{
-                                  fontWeight: 600,
-                                  color: 'var(--blue)',
-                                  fontSize: 13.5,
-                                  minWidth: 0,
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                }}
-                              >
-                                {e.label}
-                              </span>
+                              <ItemHover doc={refs.refDoc(e.target)} fullBody>
+                                <span
+                                  style={{
+                                    fontWeight: 600,
+                                    color: 'var(--blue)',
+                                    fontSize: 13.5,
+                                    minWidth: 0,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                  }}
+                                >
+                                  {e.label}
+                                </span>
+                              </ItemHover>
                               
                             </div>
                           )
@@ -2521,19 +2742,21 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                                 <span style={{ fontSize: 13, flex: 'none' }}>
                                   {magiaEmoji(d.frontmatter as Record<string, unknown>)}
                                 </span>
-                                <span
-                                  style={{
-                                    fontWeight: 600,
-                                    color: 'var(--blue)',
-                                    fontSize: 13.5,
-                                    minWidth: 0,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
-                                >
-                                  {d.basename}
-                                </span>
+                                <ItemHover doc={d} fullBody>
+                                  <span
+                                    style={{
+                                      fontWeight: 600,
+                                      color: 'var(--blue)',
+                                      fontSize: 13.5,
+                                      minWidth: 0,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                    }}
+                                  >
+                                    {d.basename}
+                                  </span>
+                                </ItemHover>
                               </div>
                               )
                             })}
@@ -2624,11 +2847,11 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
         <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />
         <PanelTrack index={index}>
           <Col>
-            <ClasseNivelPanel doc={doc} />
+            <ClasseNivelPanel doc={doc} refs={refs} />
             <AtributosPanel doc={doc} />
             <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
             <StacksPanel doc={doc} />
-            <EquipamentosProfPanel doc={doc} />
+            <EquipamentosProfPanel doc={doc} refs={refs} />
           </Col>
           <Col>
             <PericiasProfPanel doc={doc} />

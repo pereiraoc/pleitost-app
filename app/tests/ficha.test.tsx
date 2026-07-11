@@ -102,14 +102,14 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     expect(await screen.findByText(/Punhal Relampejante/)).toBeTruthy()
     // chip de AdO (design): dano base da arma + modelo da Interativa (#15) —
     // Mestre soma 1 dado (d4+2 → 1d4+2) e o FM salvo do Carlos tem Encantar
-    // Arma ATIVO no Punhal (Potência Mágica 7 → OportunidadeFixo +4): 1d4+6.
+    // Arma ATIVO no Punhal (Potência Mágica 9 → OportunidadeFixo +5): 1d4+7.
     // AdO agora abre tooltip por hover/tap (TipHover), sem title nativo:
     // localiza o chip pelo próprio texto.
-    const adoChip = await screen.findByText(/AdO 1d4\+6/)
-    expect(adoChip.textContent).toContain('AdO 1d4+6')
+    const adoChip = await screen.findByText(/AdO 1d4\+7/)
+    expect(adoChip.textContent).toContain('AdO 1d4+7')
     // dano exibido = calcDanoArma (prof M = +2 dados: 3d4+2) + dado extra do
-    // Encantar Arma (tabela potência 7 → d12+1): 3d4+2+1d12+1.
-    expect(screen.getByText(/3d4\+2\+1d12\+1/)).toBeTruthy()
+    // Encantar Arma (tabela potência 9 → 1d12+3): 3d4+2+1d12+3.
+    expect(screen.getByText(/3d4\+2\+1d12\+3/)).toBeTruthy()
     // AÇÕES por perícia (catálogo real: Cambalhota → Acrobacia)
     expect((await screen.findAllByText('AÇÕES')).length).toBeGreaterThan(0)
     expect(screen.getByText('Cambalhota')).toBeTruthy()
@@ -141,7 +141,7 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     // fim do profData recuperado: coluna VALOR nos stacks com modKind
     // (Defesas/Sentidos/Movimentos; Combate fica vazio) e larguras verbatim
     expect(screen.getAllByText('VALOR').length).toBe(3)
-    const defHead = screen.getAllByText('Defesas')[0].parentElement as HTMLElement
+    const defHead = screen.getAllByText('Defesas e Resistências')[0].parentElement as HTMLElement
     expect(defHead.style.gridTemplateColumns).toBe('1.25fr 0.6fr 0.7fr')
     // enrichStk: Sentidos são std10 (10 + attr + PB + item + especial)
     const percep = (fm.Sentidos.Lista as any[]).find((r) => r.Nome === 'Percepcao' || r.Nome === 'Percepção')

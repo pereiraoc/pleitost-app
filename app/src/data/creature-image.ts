@@ -17,7 +17,7 @@ const EXTS = ['.png', '.jpg', '.jpeg', '.webp']
 function tryFolder(assets: AssetIndex, folder: string, base: string | null): string | null {
   if (!base) return null
   for (const ext of EXTS) {
-    const entry = assets.byPath.get(`${folder}/${base}${ext}`)
+    const entry = assets.byPath.get(`${folder}/${base}${ext}`.normalize('NFC'))
     if (entry) return assetUrl(entry)
   }
   return null
@@ -113,6 +113,6 @@ export function weaponImageUrl(
   } else if (typeof imageRaw === 'string' && imageRaw.trim()) {
     fileName = imageRaw
   }
-  const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`)
+  const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`.normalize('NFC'))
   return figura ? assetUrl(figura) : null
 }
