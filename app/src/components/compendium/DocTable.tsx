@@ -10,8 +10,9 @@ function grupoValues(entry: IndexDocEntry): string[] {
   return Array.isArray(entry.grupo) ? entry.grupo : [entry.grupo]
 }
 
-/** Valor de coluna: inline field primeiro, senão escalar do frontmatter. */
-function columnValue(doc: VaultDoc | undefined, key: string): string | null {
+/** Valor de coluna: inline field primeiro, senão escalar do frontmatter.
+ *  (exportado: a visão TABELA do Mestre lê os campos pela MESMA regra) */
+export function columnValue(doc: VaultDoc | undefined, key: string): string | null {
   if (!doc) return null
   const inline = doc.inlineFields[key]
   if (inline !== undefined && inline.trim() !== '') return inline
