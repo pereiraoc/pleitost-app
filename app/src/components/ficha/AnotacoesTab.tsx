@@ -3,10 +3,12 @@
 // blocos de texto do modelo salvo LOCAL (Inventario.Tesouros_Especiais e
 // Biografia.Anotacoes). Cada tecla grava o overlay NA HORA (useHeroModel,
 // canal imediato) — sem botão salvar, sem estado pendente.
+import { useState } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
-import { clip } from './bits'
+import { clip, TabStrip } from './bits'
 import { fmPath, str } from './hero-model'
+import { PessoasPanel } from './PessoasPanel'
 
 function SectionHead({ label }: { label: string }) {
   return (
@@ -26,11 +28,19 @@ function SectionHead({ label }: { label: string }) {
   )
 }
 
+// Abas CAMPANHA (conteúdo original: tesouros especiais + anotações) e
+// PESSOAS (lista pessoal por personagem — reqs 1/3, issues #178/#179).
+const ANOT_TABS = [
+  { id: 'campanha', label: 'CAMPANHA' },
+  { id: 'pessoas', label: 'PESSOAS' },
+]
+
 export function AnotacoesTab({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'anotacoes')
   const fm = model.fm
   const tesourosEspeciais = str(fmPath(fm, 'Inventario', 'Tesouros_Especiais'))
   const anotacoes = str(fmPath(fm, 'Biografia', 'Anotacoes'))
+  const [tab, setTab] = useState('campanha')
 
   return (
     <div
@@ -42,6 +52,11 @@ export function AnotacoesTab({ doc }: { doc: VaultDoc }) {
         gap: 18,
       }}
     >
+      <TabStrip tabs={ANOT_TABS} active={tab} onSelect={setTab} pad="10px 16px" />
+      {tab === 'pessoas' ? (
+        <PessoasPanel doc={doc} />
+      ) : (
+        <>
       <div>
         <SectionHead label="// TESOUROS ESPECIAIS" />
         <textarea
@@ -84,6 +99,8 @@ export function AnotacoesTab({ doc }: { doc: VaultDoc }) {
           }}
         />
       </div>
+        </>
+      )}
     </div>
   )
 }

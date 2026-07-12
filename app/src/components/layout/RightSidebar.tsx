@@ -8,6 +8,7 @@ import { useDetail } from '../../data/detail-context'
 import { DocView } from '../compendium/DocPage'
 import { SessaoPage } from '../sessao/SessaoPage'
 import { LocalDetail } from '../detail/LocalDetail'
+import { ResumoDetail } from '../detail/ResumoDetail'
 import { CommerceDetail } from '../detail/CommerceDetail'
 
 function DocDetail({ id }: { id: string }) {
@@ -46,6 +47,8 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
         <DocDetail id={target.id} />
       ) : target.kind === 'local' ? (
         <LocalDetail id={target.id} />
+      ) : target.kind === 'resumo' ? (
+        <ResumoDetail id={target.id} />
       ) : (
         <CommerceDetail id={target.id} />
       )}

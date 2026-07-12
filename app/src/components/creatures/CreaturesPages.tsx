@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties , type ReactNode } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSettings } from '../../settings'
 import { useAssetIndex } from '../../data/assets'
@@ -259,24 +259,31 @@ const fieldInputStyle: CSSProperties = {
 /** Modal "+ Adicionar Pessoa": campos do #45 (Nome, Relação, Organização,
  *  Posição, Detalhes) na linguagem visual existente (pills/selects do design,
  *  strings sóbrias — não há tela desenhada pra este form). */
-function PessoaForm({
+export interface PessoaFields2 {
+  Nome: string
+  Relação: string
+  Organização: string
+  Posição: string
+  Detalhes: string
+}
+
+export function PessoaForm({
   onSubmit,
   onClose,
+  initial,
+  lockNome,
 }: {
-  onSubmit: (fields: {
-    Nome: string
-    Relação: string
-    Organização: string
-    Posição: string
-    Detalhes: string
-  }) => void
+  onSubmit: (fields: PessoaFields2) => void
   onClose: () => void
+  /** Pré-preenche (edição / alvo existente com Nome travado). */
+  initial?: Partial<PessoaFields2>
+  lockNome?: boolean
 }) {
-  const [nome, setNome] = useState('')
-  const [relacao, setRelacao] = useState<string>(PESSOA_RELACOES[0])
-  const [organizacao, setOrganizacao] = useState('')
-  const [posicao, setPosicao] = useState('')
-  const [detalhes, setDetalhes] = useState('')
+  const [nome, setNome] = useState(initial?.Nome ?? '')
+  const [relacao, setRelacao] = useState<string>(initial?.['Relação'] ?? PESSOA_RELACOES[0])
+  const [organizacao, setOrganizacao] = useState(initial?.['Organização'] ?? '')
+  const [posicao, setPosicao] = useState(initial?.['Posição'] ?? '')
+  const [detalhes, setDetalhes] = useState(initial?.Detalhes ?? '')
 
   const submit = () => {
     const Nome = nome.trim()
@@ -332,6 +339,7 @@ function PessoaForm({
             aria-label="Nome"
             autoFocus
             value={nome}
+          disabled={lockNome}
             onChange={(e) => setNome(e.target.value)}
             style={fieldInputStyle}
           />
@@ -880,6 +888,7 @@ function NpcPanel({
   localKind,
   includeVault,
   vaultReadonly,
+  prepend,
 }: {
   folder: string
   tierOf?: (doc?: VaultDoc) => number
@@ -889,11 +898,14 @@ function NpcPanel({
   /** true = entradas da vault ganham o selo SOMENTE LEITURA (companheiros
    *  conhecidos vs próprios — req 4.1, #182). */
   vaultReadonly?: boolean
+  /** Cards extras ANTES da lista (Pessoas das anotações dos heróis — req 5). */
+  prepend?: ReactNode
 }) {
   const { entries, docs } = useFolderDocs(folder, localKind, { includeVault })
   return (
     <TrackPanel pad="0">
       <div className="npc-panel-inner">
+        {prepend}
         {docs && tierOf
           ? // docs carregados: grupos por tier decrescente (issue #31);
             // lista achatada com key estável por card (vide HeroisPage)
@@ -922,6 +934,47 @@ function NpcPanel({
         ) : null}
       </div>
     </TrackPanel>
+  )
+}
+
+/** Pessoas cadastradas nas ANOTAÇÕES dos heróis do usuário (req 5, #183):
+ *  aparecem em Criaturas/Pessoas com o herói de origem; clicar abre a aba
+ *  ANOTAÇÕES do herói (onde a edição vive — os campos são pessoais dele). */
+function PessoasDeAnotacoes() {
+  const version = useLocalStoreVersion()
+  const navigate = useNavigate()
+  const rows = useMemo(() => {
+    const out: Array<{ heroId: string; heroNome: string; Nome: string; rel: string }> = []
+    for (const h of localEntriesOfKind('Heroi')) {
+      const fmp = getLocalDoc(h.id)?.frontmatter as Record<string, unknown> | undefined
+      const pessoas = Array.isArray(fmp?.['Pessoas']) ? (fmp!['Pessoas'] as Record<string, string>[]) : []
+      for (const p of pessoas) {
+        out.push({ heroId: h.id, heroNome: h.basename ?? h.id, Nome: p['Nome'] ?? '', rel: p['Relação'] ?? '' })
+      }
+    }
+    return out
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version])
+  if (!rows.length) return null
+  return (
+    <>
+      {rows.map((r, i) => (
+        <button
+          key={`${r.heroId}-${r.Nome}-${i}`}
+          className="npc-card"
+          onClick={() => navigate(heroPath(r.heroId, 'anotacoes'))}
+          title={`Anotações de ${r.heroNome}`}
+        >
+          <span className="npc-ic npc-ini">{initials(r.Nome)}</span>
+          <div className="npc-main">
+            <div className="npc-nome">{r.Nome}</div>
+            <div className="npc-tipo">
+              {r.rel ? `${r.rel} · ` : ''}conhecido de {r.heroNome}
+            </div>
+          </div>
+        </button>
+      ))}
+    </>
   )
 }
 
@@ -986,6 +1039,7 @@ export function NpcsPage() {
             localKind={t.localKind}
             includeVault={t.id !== 'pessoas'}
             vaultReadonly={t.id === 'companheiros'}
+            prepend={t.id === 'pessoas' ? <PessoasDeAnotacoes /> : undefined}
           />
         ))}
       </PanelTrack>

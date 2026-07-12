@@ -4,9 +4,10 @@
 // TipCtx (contexto local via Provider), não um store global.
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 
-/** Alvo de detalhe: um doc do compêndio, um LOCAL do mapa, ou o COMÉRCIO dele. */
+/** Alvo de detalhe: um doc do compêndio, um LOCAL do mapa, o COMÉRCIO dele,
+ *  ou a ficha RESUMO de um personagem (#180 — modo Resumo do autosheet). */
 export interface DetailTarget {
-  kind: 'doc' | 'local' | 'comercio'
+  kind: 'doc' | 'local' | 'comercio' | 'resumo'
   id: string
 }
 
