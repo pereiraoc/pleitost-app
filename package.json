@@ -17,6 +17,7 @@
     "preview": "npm run preview -w app",
     "tokens": "npm run tokens -w app",
     "test:app": "npm run test -w app",
+    "e2e": "npm run e2e -w app",
     "server": "npm start -w server",
     "test:server": "npm test -w server"
   },
