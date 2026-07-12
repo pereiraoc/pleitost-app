@@ -114,6 +114,24 @@ describe('#50 concessão de regra ao vivo aninha (source per-item)', () => {
   })
 })
 
+describe('#51 poda de saída de regra órfã (unpick ao vivo)', () => {
+  it('entrada rule-derived que nenhuma regra produz é podada; o resto fica intacto', async () => {
+    const withOrphan = structuredClone(fm) as Record<string, any>
+    const savedHab = ((fm.Habilidades as any)?.Lista ?? []) as Record<string, string>[]
+    withOrphan.Habilidades = {
+      Lista: [...savedHab, { '[[Habilidade Fantasma]]': 'Regra.[[Regra Inexistente]]' }],
+    }
+    const out = await projectHeroRules(withOrphan, catalog, loadFromDisk)
+    const hab = ((out.projection.derivedFm.Habilidades as any)?.Lista ?? []) as Record<string, string>[]
+    // a órfã (fonte de regra que não fira) foi podada
+    expect(hab.some((h) => '[[Habilidade Fantasma]]' in h)).toBe(false)
+    // e NADA além dela mudou: mesma contagem da derivação normal (sem over-prune)
+    const normal = await projectHeroRules(fm, catalog, loadFromDisk)
+    const normalHab = ((normal.projection.derivedFm.Habilidades as any)?.Lista ?? []) as unknown[]
+    expect(hab.length).toBe(normalHab.length)
+  })
+})
+
 describe('#145 fontes de Potência Mágica / EM Máximo (elementos de regra)', () => {
   it('ruleSourcesByPath tem as fontes de magias.potencia e magias.em (Definir)', () => {
     // Carlos (Bardo) recebe Potência/EM por Definir Magias.Potencia/EM na cadeia

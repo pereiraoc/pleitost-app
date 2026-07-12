@@ -188,6 +188,28 @@ function appendMergeFmList(rows: Row[], items: unknown[]): void {
   }
 }
 
+/** #51 (espelho de pruneOrphanedChoices): remove das linhas SALVAS as entradas
+ *  rule-derived (fonte `Regra…`/`Escolha…`) cujo alvo NÃO está mais no
+ *  `calculated` — ou seja, a regra/escolha que as concedeu não fira mais
+ *  (unpick, ou condição deixou de valer). Preserva Slot/Passado/Manual/Tesouro
+ *  (usuário/base) e tudo que segue valendo. Seguro só nas listas FONTEADAS
+ *  (Habilidades/Técnicas/Ações/Magias), onde toda adição de regra reaparece no
+ *  `calculated` — proficiências-base não passam por aqui. */
+function pruneOrphanedRuleEntries(rows: Row[], calculatedItems: unknown[]): void {
+  const alive = new Set<string>()
+  for (const it of calculatedItems) {
+    const link = typeof it === 'string' ? it : (it as { link?: unknown })?.link
+    if (typeof link === 'string') alive.add(wikiTarget(link))
+  }
+  for (let i = rows.length - 1; i >= 0; i--) {
+    const entry = Object.entries(rows[i])[0]
+    if (!entry) continue
+    const [link, source] = entry
+    const ruleDerived = typeof source === 'string' && /^(Regra|Escolha)(\.|$)/.test(source)
+    if (ruleDerived && !alive.has(wikiTarget(link))) rows.splice(i, 1)
+  }
+}
+
 // ─── proficiência das listas (perícias/ofícios) ──────────────────────────
 
 const PROF_FIELD_SCALAR: Record<string, string> = {
@@ -374,7 +396,11 @@ export function mergeCalculatedIntoFm(
 
     // Listas fonteadas (Habilidades/Tecnicas/Acoes).
     if (key in LIST_TARGETS && Array.isArray(value)) {
-      appendMergeFmList(ensureListaRows(out, ...LIST_TARGETS[key]), value)
+      const rows = ensureListaRows(out, ...LIST_TARGETS[key])
+      // #51: poda entradas rule-derived (Regra./Escolha.) que a regra NÃO produz
+      // mais (unpick / condição deixou de valer) — antes ficavam até re-salvar.
+      pruneOrphanedRuleEntries(rows, value)
+      appendMergeFmList(rows, value)
       continue
     }
 
