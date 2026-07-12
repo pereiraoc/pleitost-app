@@ -115,8 +115,17 @@ describe('config de GM: matriz de Disponibilidade de Tesouros', () => {
         </MemoryRouter>
       </CatalogProvider>,
     )
+    // configs de tesouro vivem na aba SISTEMA agora (req 10)
+    fireEvent.click(await screen.findByText('SISTEMA'))
     // seção só aparece com Modo Mestre ligado (flag setada no beforeAll)
     expect(await screen.findByText('Disponibilidade de Tesouros')).toBeTruthy()
+    // req 10.1: seções informativas na aba SISTEMA
+    expect(screen.getByText('Modificadores por Região')).toBeTruthy()
+    expect(screen.getByText('Tesouro básico típico')).toBeTruthy()
+    expect(screen.getByText('×1/8')).toBeTruthy()
+    expect(screen.getByText('Tesouros em Vilarejos')).toBeTruthy()
+    expect(screen.getByText(/1.5 × Obter Informação/)).toBeTruthy()
+    expect(screen.getByText('Quantidade de Poções')).toBeTruthy()
     // célula Capital × Adepto vale 100 (default da nota)
     const inputs = screen.getAllByLabelText('disponibilidade') as HTMLInputElement[]
     const capitalAdepto = inputs.find((i) => i.value === '100')!

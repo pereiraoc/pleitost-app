@@ -176,6 +176,17 @@ export function comboMult(armaTipica: boolean, imbTipica: boolean): number {
   return imbTipica ? 0.5 : 0.125
 }
 
+/** Tabela "Tesouros em Vilarejos" — VERBATIM da nota (Disponibilidade de
+ *  Tesouros): chances por Obter Informação num vilarejo, 1×/semana por tesouro
+ *  específico. Informativa (a rolagem é do mestre na mesa). */
+export const VILAREJO_CHANCES: ReadonlyArray<{ caso: string; chance: string }> = [
+  { caso: 'Arma, Armadura ou Ferramenta típica pronta', chance: '25%' },
+  { caso: 'Arma, Armadura ou Ferramenta típica por encomenda', chance: '100%' },
+  { caso: 'Tesouro típico Adepto', chance: '1.5 × Obter Informação% (max 33%)' },
+  { caso: 'Tesouro fundamental Adepto', chance: '3/4 × Obter Informação% (max 17%)' },
+  { caso: 'Tesouro atípico Adepto', chance: '2/5 × Obter Informação% (max 8%)' },
+]
+
 // ─────────────────────── Quantidade / dados ─────────────────────────────────
 
 /** Quantidade em ESTOQUE (pronta entrega) dada uma % efetiva: cada unidade

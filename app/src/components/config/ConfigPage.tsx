@@ -10,19 +10,24 @@
 // As linhas mock do CONFIG do design (Idioma/Animações/Sincronização/
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
-import type { CSSProperties, ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useTheme, type Aesthetic, type Mode } from '../../theme'
 import { useSettings } from '../../settings'
 import { tokens } from '../ficha/registry'
 import {
   LOCAL_TYPES,
   POCAO_DICE,
+  RARIDADE_MULT,
+  TESOUROS_BASICOS,
   TIERS,
   TIER_COLUNA,
   TIER_PRICE_MULT,
+  VILAREJO_CHANCES,
+  comboMult,
   type LocalType,
   type Tier,
 } from '../../data/commerce'
+import { TabStrip } from '../ficha/bits'
 
 /** Linha de configuração desenhada (template 1433/1444). */
 const rowStyle: CSSProperties = {
@@ -329,9 +334,136 @@ function PocoesSection() {
   )
 }
 
+
+/** ×N legível como na nota (×1/2, ×1/4, ×1/8). */
+function multLabel(v: number): string {
+  if (v === 0.5) return '×1/2'
+  if (v === 0.25) return '×1/4'
+  if (v === 0.125) return '×1/8'
+  return `×${v}`
+}
+
+/** "Modificadores por Região" — VERBATIM da nota Disponibilidade de Tesouros:
+ *  raridade (RARIDADE_MULT) + combos arma×imbuição (comboMult) + a lista de
+ *  tesouros BÁSICOS. Informativo: é a regra que a loja aplica. */
+function RegiaoSection() {
+  const linhas: Array<{ caso: string; mult: string }> = [
+    { caso: 'Tesouro típico', mult: multLabel(RARIDADE_MULT['tipico']) },
+    { caso: 'Tesouro básico típico', mult: multLabel(RARIDADE_MULT['basico-tipico']) },
+    { caso: 'Tesouro básico incomum', mult: multLabel(RARIDADE_MULT['basico-incomum']) },
+    { caso: 'Tesouro incomum', mult: multLabel(RARIDADE_MULT['incomum']) },
+    { caso: 'Arma típica + imbuição típica', mult: multLabel(comboMult(true, true)) },
+    { caso: 'Arma incomum + imbuição típica', mult: multLabel(comboMult(false, true)) },
+    { caso: 'Arma típica + imbuição incomum', mult: multLabel(comboMult(true, false)) },
+    { caso: 'Arma incomum + imbuição incomum', mult: multLabel(comboMult(false, false)) },
+  ]
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>🗺️</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Modificadores por Região</span>
+      </div>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <tbody>
+          {linhas.map((l) => (
+            <tr key={l.caso}>
+              <td style={{ fontSize: 12.5, padding: '3px 8px' }}>{l.caso}</td>
+              <td
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  textAlign: 'center',
+                  color: 'var(--text)',
+                }}
+              >
+                {l.mult}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+        <span
+          style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' }}
+        >
+          BÁSICOS:
+        </span>
+        {TESOUROS_BASICOS.map((t) => (
+          <span
+            key={t}
+            style={{
+              padding: '3px 9px',
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              fontSize: 11,
+              color: 'var(--text)',
+              clipPath: 'polygon(0 0,100% 0,100% 100%,4px 100%,0 calc(100% - 4px))',
+            }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
+      >
+        Aplicado sobre a disponibilidade quando o tesouro não é típico da região; básicos são mais
+        comuns.
+      </div>
+    </div>
+  )
+}
+
+/** "Tesouros em Vilarejos" — VERBATIM da nota: chances por Obter Informação,
+ *  1×/semana por tesouro específico (vários testes na semana se forem itens
+ *  diferentes). */
+function VilarejoSection() {
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>🛖</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Tesouros em Vilarejos</span>
+      </div>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <tbody>
+          {VILAREJO_CHANCES.map((l) => (
+            <tr key={l.caso}>
+              <td style={{ fontSize: 12.5, padding: '3px 8px' }}>{l.caso}</td>
+              <td
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  padding: '3px 8px',
+                  textAlign: 'center',
+                  color: 'var(--text)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {l.chance}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
+      >
+        Teste de Obter Informação 1×/semana POR tesouro específico; vários testes na mesma semana só
+        para itens diferentes.
+      </div>
+    </div>
+  )
+}
+
 export function ConfigPage() {
   const { aesthetic, mode, setAesthetic, setMode } = useTheme()
   const { mestre, setMestre } = useSettings()
+  // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
+  // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
+  const [tab, setTab] = useState('geral')
 
   return (
     <div
@@ -355,44 +487,63 @@ export function ConfigPage() {
       >
         {'// CONFIGURAÇÕES DO SISTEMA'}
       </div>
-      <ConfigRow ic="🎨" label="Tema da Interface">
-        {THEME_OPTS.map((o) => (
-          <OptPill
-            key={o.id}
-            ic={o.ic}
-            label={o.label}
-            on={aesthetic === o.id}
-            onClick={() => setAesthetic(o.id)}
-          />
-        ))}
-      </ConfigRow>
-      <ConfigRow ic="🌓" label="Modo de Exibição">
-        {MODE_OPTS.map((o) => (
-          <OptPill
-            key={o.id}
-            ic={o.ic}
-            label={o.label}
-            on={mode === o.id}
-            onClick={() => setMode(o.id)}
-          />
-        ))}
-      </ConfigRow>
-      <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
-        {MESTRE_OPTS.map((o) => (
-          <OptPill
-            key={String(o.id)}
-            ic={o.ic}
-            label={o.label}
-            on={mestre === o.id}
-            onClick={() => setMestre(o.id)}
-          />
-        ))}
-      </ConfigRow>
-      {/* Config de GM (issue #72): a matriz de disponibilidade da loja só é
-          editável com o Modo Mestre ligado. */}
-      {mestre ? <DisponibilidadeSection /> : null}
-      {mestre ? <MultiplicadoresSection /> : null}
-      {mestre ? <PocoesSection /> : null}
+      <TabStrip
+        tabs={[
+          { id: 'geral', label: 'GERAL' },
+          { id: 'sistema', label: 'SISTEMA' },
+        ]}
+        active={tab}
+        onSelect={setTab}
+        pad="10px 16px"
+      />
+      {tab === 'geral' ? (
+        <>
+          <ConfigRow ic="🎨" label="Tema da Interface">
+            {THEME_OPTS.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={aesthetic === o.id} onClick={() => setAesthetic(o.id)} />
+            ))}
+          </ConfigRow>
+          <ConfigRow ic="🌓" label="Modo de Exibição">
+            {MODE_OPTS.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
+            ))}
+          </ConfigRow>
+          <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
+            {MESTRE_OPTS.map((o) => (
+              <OptPill
+                key={String(o.id)}
+                ic={o.ic}
+                label={o.label}
+                on={mestre === o.id}
+                onClick={() => setMestre(o.id)}
+              />
+            ))}
+          </ConfigRow>
+        </>
+      ) : mestre ? (
+        <>
+          {/* Configs de tesouro — valem pras sessões que o usuário criar como
+              mestre. Disponibilidade é editável (RESTAURAR PADRÃO volta aos
+              defaults; os padrões em si nunca mudam — DEFAULT_MATRIX). */}
+          <DisponibilidadeSection />
+          <MultiplicadoresSection />
+          <RegiaoSection />
+          <PocoesSection />
+          <VilarejoSection />
+        </>
+      ) : (
+        <div
+          style={{
+            ...rowStyle,
+            fontFamily: 'var(--mono)',
+            fontSize: 11,
+            letterSpacing: '.06em',
+            color: 'var(--muted)',
+          }}
+        >
+          Ative o Modo Mestre (aba GERAL) para ver e ajustar as configurações de tesouro do sistema.
+        </div>
+      )}
       <div
         style={{
           marginTop: 12,
