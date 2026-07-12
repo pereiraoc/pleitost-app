@@ -150,11 +150,15 @@ describe('card Magias Secundárias', () => {
     // Zuko: escola Anima proficiente (A) → "Magia Anima" com mod assinado
     const tipo = await screen.findByText('Magia Anima', undefined, { timeout: 8000 })
     expect(tipo).toBeTruthy()
-    // modificador assinado com a prof, e title com o somatório (Ataque Mágico)
-    const mod = tipo.parentElement!.querySelector('span:last-child')!
-    expect(mod.textContent).toMatch(/^[+-]\d+ \(A\)$/)
-    expect(tipo.parentElement!.getAttribute('title')).toContain('Ataque Mágico')
-    // Potência Mágica com o valor derivado (Zuko: 4)
+    // modificador assinado com a prof + breakdown do plugin no hover
+    // (TipHover grava data-breakdown-html — consultável sem hover)
+    const mods = screen.getAllByText(/^[+-]\d+ \(A\)$/)
+    const comBreakdown = mods
+      .map((m) => m.closest('[data-breakdown-html]'))
+      .filter(Boolean) as Element[]
+    expect(comBreakdown.length).toBeGreaterThan(0)
+    expect(comBreakdown[0].getAttribute('data-breakdown-html')).toContain('Ataque')
+    // Potência Mágica com fonte no valor
     expect(screen.getByText('POTÊNCIA MÁGICA')).toBeTruthy()
   })
 })

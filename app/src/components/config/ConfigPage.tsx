@@ -14,7 +14,15 @@ import type { CSSProperties, ReactNode } from 'react'
 import { useTheme, type Aesthetic, type Mode } from '../../theme'
 import { useSettings } from '../../settings'
 import { tokens } from '../ficha/registry'
-import { LOCAL_TYPES, TIERS, TIER_COLUNA, type LocalType, type Tier } from '../../data/commerce'
+import {
+  LOCAL_TYPES,
+  POCAO_DICE,
+  TIERS,
+  TIER_COLUNA,
+  TIER_PRICE_MULT,
+  type LocalType,
+  type Tier,
+} from '../../data/commerce'
 
 /** Linha de configuração desenhada (template 1433/1444). */
 const rowStyle: CSSProperties = {
@@ -213,6 +221,114 @@ function DisponibilidadeSection() {
   )
 }
 
+/** Multiplicadores de preço por tier (TIER_PRICE_MULT, espelho de
+ *  tierMultFromName do plugin: Adepto ×1, Experiente ×5, Mestre ×25) —
+ *  informativo, é a regra que a loja aplica no preço base. */
+function MultiplicadoresSection() {
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>💰</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Multiplicadores de Preço por Tier</span>
+      </div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {TIERS.map((t: Tier) => (
+          <span
+            key={t}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'baseline',
+              gap: 7,
+              padding: '7px 13px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+            }}
+          >
+            <span
+              style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}
+            >
+              {TIER_COLUNA[t].toUpperCase()}
+            </span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+              ×{TIER_PRICE_MULT[t]}
+            </span>
+          </span>
+        ))}
+      </div>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
+      >
+        Preço final na loja = preço base do tesouro × multiplicador do tier.
+      </div>
+    </div>
+  )
+}
+
+/** Quantidade de Poções (consumíveis) — a regra PRÓPRIA de dados por
+ *  local × tier (POCAO_DICE, rolada pra cada poção; "0dX−C" = nunca
+ *  disponível). Informativo: é a lógica que a loja usa. */
+function PocoesSection() {
+  const th: CSSProperties = {
+    fontFamily: 'var(--mono)',
+    fontSize: 10,
+    letterSpacing: '.06em',
+    color: 'var(--muted)',
+    fontWeight: 700,
+    padding: '4px 8px',
+    textTransform: 'uppercase',
+  }
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>{tokens.emojis.categoria.Consumivel}</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Quantidade de Poções</span>
+      </div>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ ...th, textAlign: 'left' }}>Local</th>
+            {TIERS.map((t: Tier) => (
+              <th key={t} style={{ ...th, textAlign: 'center' }}>
+                {TIER_COLUNA[t]}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {LOCAL_TYPES.map((lt: LocalType) => (
+            <tr key={lt}>
+              <td style={{ fontSize: 12.5, fontWeight: 600, padding: '4px 8px', whiteSpace: 'nowrap' }}>
+                {lt}
+              </td>
+              {TIERS.map((t: Tier) => (
+                <td
+                  key={t}
+                  style={{
+                    padding: '4px 8px',
+                    textAlign: 'center',
+                    fontFamily: 'var(--mono)',
+                    fontSize: 12,
+                    color: 'var(--text)',
+                  }}
+                >
+                  {POCAO_DICE[lt][t]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
+      >
+        Dados rolados POR poção (pronta entrega) em cada local × tier; resultado ≤ 0 ou dado 0dX =
+        indisponível.
+      </div>
+    </div>
+  )
+}
+
 export function ConfigPage() {
   const { aesthetic, mode, setAesthetic, setMode } = useTheme()
   const { mestre, setMestre } = useSettings()
@@ -275,6 +391,8 @@ export function ConfigPage() {
       {/* Config de GM (issue #72): a matriz de disponibilidade da loja só é
           editável com o Modo Mestre ligado. */}
       {mestre ? <DisponibilidadeSection /> : null}
+      {mestre ? <MultiplicadoresSection /> : null}
+      {mestre ? <PocoesSection /> : null}
       <div
         style={{
           marginTop: 12,

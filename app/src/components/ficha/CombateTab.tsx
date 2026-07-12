@@ -2061,7 +2061,11 @@ function MagiaInfoBar({
       const prof = lookupRota(mfm, rota)
       return info ? { rota, info, prof } : null
     })
-    .filter(Boolean) as { rota: string; info: { total: number; title: string }; prof: string | null }[]
+    .filter(Boolean) as {
+    rota: string
+    info: { total: number; title: string; entries?: Array<{ label: string; value: number }> }
+    prof: string | null
+  }[]
   const potencia = num(fmPath(mfm, 'Magias', 'Potencia'))
 
   return (
@@ -2078,21 +2082,32 @@ function MagiaInfoBar({
       }}
     >
       {tipos.map((t) => (
-        <span
-          key={t.rota}
-          title={t.info.title}
-          style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7, cursor: 'help' }}
-        >
-          <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', whiteSpace: 'nowrap' }}>
-            {t.rota}
-          </span>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--blue)' }}>
-            {signed(t.info.total)}
-            {t.prof ? ` (${t.prof})` : ''}
-          </span>
+        <span key={t.rota} style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7 }}>
+          {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover. */}
+          <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
+            <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', whiteSpace: 'nowrap' }}>
+              {t.rota}
+            </span>
+          </ItemHover>
+          {/* Modificador → breakdown do plugin (entriesBreakdown, como o
+              pleitost-autosheet mostra os somatórios). */}
+          <TipHover
+            html={
+              t.info.entries
+                ? renderBreakdownHtml(entriesBreakdown('Ataque Mágico', t.info.entries))
+                : null
+            }
+          >
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--blue)' }}>
+              {signed(t.info.total)}
+              {t.prof ? ` (${t.prof})` : ''}
+            </span>
+          </TipHover>
         </span>
       ))}
-      {tipos.length ? <span style={magiaBarSep} /> : null}
+      {/* Potência + Energia empurradas pra DIREITA — Energia colada nos
+          losangos de EM (pedido do usuário). */}
+      <span style={{ flex: 1 }} />
       <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7 }}>
         <ItemHover doc={namedDoc('Potência Mágica')} fullBody>
           <span style={magiaBarLabel}>POTÊNCIA MÁGICA</span>
@@ -2107,7 +2122,6 @@ function MagiaInfoBar({
       <ItemHover doc={namedDoc('Energia Mágica')} fullBody>
         <span style={magiaBarLabel}>{label}</span>
       </ItemHover>
-      <span style={{ flex: 1 }} />
       <span style={{ display: 'flex', gap: 9 }}>
         {Array.from({ length: emMax }, (_, i) => {
           const on = i < em ? 1 : 0
@@ -2161,8 +2175,9 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
     () => magiaGroups({ ...fm, Magias: secFm }, refs.refDoc),
     [fm, secFm, refs],
   )
-  // Notas do compêndio pros tooltips dos rótulos da barra (#112-style).
-  const namedDoc = useNamedDocs(['Potência Mágica', 'Energia Mágica'])
+  // Notas do compêndio pros tooltips da barra (#112-style): rótulos de
+  // Potência/Energia + tipo de magia (Magia Arcana/Magia Anima).
+  const namedDoc = useNamedDocs(['Potência Mágica', 'Energia Mágica', 'Magia Arcana', 'Magia Anima'])
   const secBloco =
     emSecMax > 0 || secGroups.length > 0 ? (
       <>

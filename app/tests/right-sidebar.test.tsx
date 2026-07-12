@@ -61,14 +61,16 @@ function renderSidebar() {
 }
 
 describe('#87 sidebar direita (Sessão / Detalhes)', () => {
-  it('SESSÃO mostra o herói selecionado; abrir um doc renderiza nos DETALHES', async () => {
+  it('face SESSÃO agora é a Sessão inteira; abrir um doc renderiza nos DETALHES', async () => {
     setSelectedCreature(CARLOS_ID)
     const { container } = renderSidebar()
     const bar = container.querySelector('[data-right-sidebar]') as HTMLElement
     expect(bar).toBeTruthy()
 
-    // face SESSÃO (padrão) mostra o Carlos selecionado
-    await waitFor(() => expect(within(bar).getByText(/Carlos/)).toBeTruthy())
+    // face SESSÃO (padrão): a tela de sessões (decisão do usuário 2026-07-12 —
+    // a Sessão saiu do nav esquerdo e vive toda aqui)
+    await waitFor(() => expect(within(bar).getByText('// LISTA DE SESSÕES')).toBeTruthy())
+    expect(within(bar).getByText('+ Criar nova sessão')).toBeTruthy()
 
     // empurrar um doc → foca DETALHES e renderiza o doc (sem navegar)
     fireEvent.click(screen.getByText('abrir doc'))
@@ -77,11 +79,5 @@ describe('#87 sidebar direita (Sessão / Detalhes)', () => {
       expect(panel).toBeTruthy()
       expect(within(panel).getByText('Krasnogor')).toBeTruthy()
     })
-  })
-
-  it('sem seleção, a SESSÃO mostra o vazio', () => {
-    const { container } = renderSidebar()
-    const bar = container.querySelector('[data-right-sidebar]') as HTMLElement
-    expect(within(bar).getByText(/Nenhum personagem selecionado/)).toBeTruthy()
   })
 })

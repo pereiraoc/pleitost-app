@@ -322,6 +322,9 @@ export interface BonusInfo {
   total: number
   /** Breakdown como tooltip do app (uma linha por fonte, padrão entriesTitle). */
   title: string
+  /** Parcelas estruturadas (label+valor) pro tooltip rico no padrão do plugin
+   *  (entriesBreakdown → renderBreakdownHtml) — mesmo conteúdo do title. */
+  entries?: Array<{ label: string; value: number }>
 }
 
 /** Ataque Mágico do herói na escola da rota = PB(rank) + atributo + item +
@@ -333,13 +336,14 @@ export function computeMagiaAtaque(fm: Record<string, unknown>, rota: string | u
   const profBonus = PROF_BONUS[escola.proficiencia] ?? 0
   const attr = num(fmPath(fm, 'Atributos', escola.atributo))
   const total = profBonus + attr + escola.bonusItem + escola.bonusEspecial
-  const lines = [
-    `${escola.atributo} ${signed(attr)}`,
-    `${PROF_LABEL[escola.proficiencia]} (${rota}) ${signed(profBonus)}`,
+  const entries: Array<{ label: string; value: number }> = [
+    { label: escola.atributo, value: attr },
+    { label: `${PROF_LABEL[escola.proficiencia]} (${rota})`, value: profBonus },
   ]
-  if (escola.bonusItem !== 0) lines.push(`Item ${signed(escola.bonusItem)}`)
-  if (escola.bonusEspecial !== 0) lines.push(`Especialização ${signed(escola.bonusEspecial)}`)
-  return { total, title: `Ataque Mágico ${signed(total)}\n${lines.join('\n')}` }
+  if (escola.bonusItem !== 0) entries.push({ label: 'Item', value: escola.bonusItem })
+  if (escola.bonusEspecial !== 0) entries.push({ label: 'Especialização', value: escola.bonusEspecial })
+  const lines = entries.map((e) => `${e.label} ${signed(e.value)}`)
+  return { total, title: `Ataque Mágico ${signed(total)}\n${lines.join('\n')}`, entries }
 }
 
 /** number literal → breakdown simples; "MagiaAtaque"/"AtaqueMagico" →

@@ -39,10 +39,11 @@ export const CHAR_TABS: NavItem[] = [
   { id: 'combate', ic: '🥊', label: 'COMBATE' },
 ]
 
+// SESSÃO saiu da sidebar ESQUERDA (decisão do usuário, 2026-07-12): a Sessão
+// vive inteira no PAINEL DIREITO (face SESSÃO do RightSidebar).
 export const APP_NAV: NavItem[] = [
   { id: 'herois', ic: '👤', label: 'HERÓIS' },
   { id: 'npcs', ic: '👤', label: 'NPCS' },
-  { id: 'sessao', ic: '🌐', label: 'SESSÃO' },
   { id: 'compendio', ic: '📖', label: 'COMPÊNDIO' },
   { id: 'config', ic: '⚙️', label: 'CONFIG' },
 ]
@@ -69,6 +70,5 @@ export const NAV_ROUTES: Record<string, string> = {
   compendio: '/compendio',
   herois: '/herois',
   npcs: '/npcs',
-  sessao: '/sessao',
   config: '/config',
 }
