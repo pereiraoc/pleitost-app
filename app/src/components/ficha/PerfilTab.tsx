@@ -8,8 +8,13 @@ import { useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
 import { linkLabel } from '../../markdown/dataview-value'
-import { useAssetIndex } from '../../data/assets'
-import { creatureImageUrl } from '../../data/creature-image'
+import {
+  deleteEntityImage,
+  saveEntityImage,
+  useCreaturePortrait,
+  useEntityImageUrl,
+} from '../../data/images'
+import { isLocalId } from '../../data/local-entities'
 import { useViewportWidth } from '../../viewport'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
@@ -1034,9 +1039,64 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
   )
 }
 
+// Botão discreto no molde do "✎ Editar" do grupo (mono, accent, clip) — não
+// compete com o retrato.
+const uploadBtnStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  fontFamily: 'var(--mono)',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '.08em',
+  color: 'var(--accent)',
+  background: 'transparent',
+  border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+  padding: '4px 10px',
+  cursor: 'pointer',
+  clipPath: clip(6),
+}
+
+/** Upload de retrato (issue #197) — SÓ entidades locais: a vault é read-only e
+ *  o retrato dela já vem do assets.json; pra doc da vault não renderiza nada.
+ *  O input file vive escondido dentro do label (acessível pelo texto do botão);
+ *  "remover" só aparece quando EXISTE imagem subida (useEntityImageUrl ≠ null),
+ *  porque só aí há o que apagar — sem imagem local o retrato já é o fallback.
+ *  Usado também pelo GrupoView (mesmo controle, outro slot de retrato). */
+export function LocalImageUpload({ id }: { id: string }) {
+  const current = useEntityImageUrl(id)
+  if (!isLocalId(id)) return null
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <label style={uploadBtnStyle}>
+        🖼 Imagem
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={(e) => {
+            const file = e.currentTarget.files?.[0]
+            // Zera o value ANTES do save async: senão re-subir o MESMO arquivo
+            // (após remover) não dispara change.
+            e.currentTarget.value = ''
+            if (file) void saveEntityImage(id, file)
+          }}
+        />
+      </label>
+      {current ? (
+        <button
+          onClick={() => void deleteEntityImage(id)}
+          style={{ ...uploadBtnStyle, color: 'var(--muted)' }}
+        >
+          ✕ Remover
+        </button>
+      ) : null}
+    </div>
+  )
+}
+
 export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const [bioTab, setBioTab] = useState('identidade')
-  const assets = useAssetIndex()
   const vw = useViewportWidth()
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
@@ -1064,7 +1124,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const sintoniaFmValue =
     rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(dfm['Sintonia'])))?.value ??
     str(dfm['Sintonia'])
-  const portrait = creatureImageUrl(doc, assets)
+  // Retrato local-first (issue #197): imagem subida no app tem precedência,
+  // senão hierarquia da vault — combinação centralizada em images.ts.
+  const portrait = useCreaturePortrait(doc)
   // portW do renderVals (2133): 200 abaixo de 560, senão 262.
   const portW = vw < 560 ? 200 : 262
   const index = Math.max(
@@ -1100,7 +1162,10 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
       </div>
 
       <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ position: 'relative', width: portW, height: portW, flex: 'none' }}>
+        {/* Coluna do retrato: o quadro portW×portW do design + os controles de
+            upload LOCAL logo abaixo (vazio pra doc da vault — layout intacto). */}
+        <div style={{ width: portW, flex: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ position: 'relative', width: '100%', height: portW }}>
           {portrait ? (
             <img
               src={portrait}
@@ -1161,6 +1226,8 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           >
             NVL {nivel || '—'}
           </span>
+        </div>
+        <LocalImageUpload id={doc.id} />
         </div>
 
         <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
