@@ -10,7 +10,7 @@
 // As linhas mock do CONFIG do design (Idioma/Animações/Sincronização/
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { useTheme, type Aesthetic, type Mode } from '../../theme'
 import { useSettings } from '../../settings'
 import { tokens } from '../ficha/registry'
@@ -458,6 +458,41 @@ function VilarejoSection() {
   )
 }
 
+/** Linha "Database" do rodapé (#190): stamp da extração embutida no build —
+ *  vault-data/db-version.json, gravado ao final de todo `npm run extract`
+ *  (extractor/extract-vault.mjs). Fetch LAZY ao montar o CONFIG (não pesa nas
+ *  outras telas); build sem stamp (extract antigo) → não renderiza nada, não
+ *  inventa valor. */
+function DatabaseLine() {
+  const [stamp, setStamp] = useState<{ extractedAt: string; docCount: number } | null>(null)
+  useEffect(() => {
+    let alive = true
+    // BASE_URL: funciona também com deploy em subcaminho (VITE_BASE, #189).
+    fetch(`${import.meta.env.BASE_URL}vault-data/db-version.json`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((v: { extractedAt?: string; docCount?: number } | null) => {
+        if (alive && v && typeof v.extractedAt === 'string' && typeof v.docCount === 'number')
+          setStamp({ extractedAt: v.extractedAt, docCount: v.docCount })
+      })
+      .catch(() => {
+        /* stamp ausente/offline: rodapé fica sem a linha */
+      })
+    return () => {
+      alive = false
+    }
+  }, [])
+  if (!stamp) return null
+  const quando = new Date(stamp.extractedAt).toLocaleString('pt-BR', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  })
+  return (
+    <div>
+      DATABASE · {quando} · {stamp.docCount} DOCS
+    </div>
+  )
+}
+
 export function ConfigPage() {
   const { aesthetic, mode, setAesthetic, setMode } = useTheme()
   const { mestre, setMestre } = useSettings()
@@ -552,9 +587,13 @@ export function ConfigPage() {
           letterSpacing: '.16em',
           color: 'var(--muted)',
           textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 4,
         }}
       >
-        PLEITOST COMPANION//OS · v0.1
+        <div>PLEITOST COMPANION//OS · v0.1</div>
+        <DatabaseLine />
       </div>
     </div>
   )
