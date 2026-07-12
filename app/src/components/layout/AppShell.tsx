@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTheme } from '../../theme'
+import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
 import { DetailProvider } from '../../data/detail-context'
@@ -81,6 +82,56 @@ function CharTabButton({
   )
 }
 
+/** Toast fixo de update do PWA (issue #191): aparece quando um deploy novo
+ *  está em espera (onNeedRefresh, ver src/pwa-update.ts); "Recarregar" ativa
+ *  o SW novo e recarrega. Inline styles no vocabulário do design (panel/line/
+ *  mono + canto chanfrado), como as linhas do CONFIG. */
+function PwaUpdateToast() {
+  const needRefresh = usePwaNeedRefresh()
+  if (!needRefresh) return null
+  return (
+    <div
+      role="status"
+      style={{
+        position: 'fixed',
+        bottom: 18,
+        right: 18,
+        zIndex: 1000,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        padding: '12px 15px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line)',
+        clipPath:
+          'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))',
+        fontFamily: 'var(--mono)',
+        fontSize: 12,
+        letterSpacing: '.05em',
+        color: 'var(--text)',
+      }}
+    >
+      <span>Atualização disponível</span>
+      <button
+        onClick={applyPwaUpdate}
+        style={{
+          padding: '7px 12px',
+          cursor: 'pointer',
+          border: '1px solid var(--accent)',
+          background: 'var(--accent)',
+          color: 'var(--ink)',
+          fontFamily: 'var(--mono)',
+          fontSize: 11,
+          letterSpacing: '.08em',
+          clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+        }}
+      >
+        Recarregar
+      </button>
+    </div>
+  )
+}
+
 export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   // #87: drawer da sidebar DIREITA (Sessão/Detalhes) — no mobile.
@@ -105,6 +156,10 @@ export function AppShell() {
   useEffect(() => {
     if (routeHeroId) setSelectedCreature(routeHeroId) // abrir uma ficha memoriza a seleção
   }, [routeHeroId])
+  // #191: registra o SW e liga o fluxo de update (idempotente)
+  useEffect(() => {
+    void initPwaUpdate()
+  }, [])
 
   const section = fichaOpen
     ? fichaTab
@@ -205,6 +260,7 @@ export function AppShell() {
         ) : null}
         <RightSidebar drawerOpen={rightOpen} onCloseDrawer={() => setRightOpen(false)} />
       </div>
+      <PwaUpdateToast />
       </div>
     </DetailProvider>
   )

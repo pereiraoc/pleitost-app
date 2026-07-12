@@ -17,6 +17,12 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`
 // base escapada pra uso em RegExp (workbox denylist abaixo).
 const baseRe = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+// #191: versão do app injetada no bundle (o CONFIG mostra); vem do
+// package.json do app — fonte de verdade única, sem literal duplicado.
+const appVersion: string = JSON.parse(
+  fs.readFileSync(path.resolve(dirname, 'package.json'), 'utf8'),
+).version
+
 /** #189: SPA fallback pro GitHub Pages — Pages responde 404.html em rota
  *  desconhecida; uma CÓPIA do index.html faz deep-links (/heroi/..., /doc/...)
  *  caírem no router do app em vez do 404 do Pages. */
@@ -39,6 +45,9 @@ function spaFallback404(): Plugin {
 
 export default defineConfig({
   base,
+  define: {
+    __APP_VERSION__: JSON.stringify(appVersion),
+  },
   // Aceita o Host de túneis Cloudflare (acesso pelo celular via
   // cloudflared tunnel --url) tanto no dev quanto no preview do build.
   server: { host: true, allowedHosts: ['.trycloudflare.com'] },
@@ -50,7 +59,10 @@ export default defineConfig({
     appState(path.resolve(dirname, '..', 'app-state.json')),
     spaFallback404(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // #191: update controlado pelo usuário — onNeedRefresh sinaliza o
+      // estado global (src/pwa-update.ts), o AppShell mostra o toast
+      // "Atualização disponível — Recarregar" e aplicar = updateSW(true).
+      registerType: 'prompt',
       // SW só em build: dev roda sem secure context na LAN (http) sem perder nada
       devOptions: { enabled: false },
       manifest: {

@@ -12,6 +12,7 @@
 // sem configuração real por trás — nada de settings fake.
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { useTheme, type Aesthetic, type Mode } from '../../theme'
+import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { tokens } from '../ficha/registry'
 import {
@@ -592,7 +593,8 @@ export function ConfigPage() {
           gap: 4,
         }}
       >
-        <div>PLEITOST COMPANION//OS · v0.1</div>
+        {/* versão REAL do app (#191): package.json via define do vite.config */}
+        <div>PLEITOST COMPANION//OS · v{APP_VERSION}</div>
         <DatabaseLine />
       </div>
     </div>
