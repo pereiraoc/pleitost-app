@@ -367,7 +367,16 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   return (
     <div style={{ ...panel, display: 'flex', gap: 14, alignItems: 'stretch', flexWrap: 'wrap' }}>
       <div style={{ flex: 1, minWidth: 300, display: 'flex', flexDirection: 'column', gap: 13 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 11 }}>
+        {/* Sem subclasse (ex.: Animista) o select de classe ocupa a linha
+            INTEIRA (mesma largura da Sintonia abaixo); com subclasses, grade
+            de 3 como antes (pedido do usuário). */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: selects.length === 1 ? 'minmax(0,1fr)' : 'repeat(3,minmax(0,1fr))',
+            gap: 11,
+          }}
+        >
           {selects.map((s) => (
             <div key={s.label} style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
               {/* Label acima da subclasse = habilidade-pai → card no hover. */}
@@ -1608,8 +1617,16 @@ function habTree(
   for (const e of entries) {
     // Pick de Escolha_Habilidades cujo pai TEM dropdown de escolha
     // (choicesByTarget) já é mostrado pela própria escolha — não duplicar como
-    // filho na árvore (era isso que repetia as essências do Animista).
-    if (e.fonte.kind === 'Escolha' && choicesByTarget.has(e.fonte.target)) continue
+    // filho na árvore (era isso que repetia as essências do Animista). EXCETO
+    // quando o pick tem escolhas PRÓPRIAS (ex.: Treinamento de Animista, pick
+    // da técnica de Classe Secundária, que abre as essências Menores): aí o
+    // entry PRECISA estar na árvore pra pendurar os dropdowns dele.
+    if (
+      e.fonte.kind === 'Escolha' &&
+      choicesByTarget.has(e.fonte.target) &&
+      !choicesByTarget.has(e.target)
+    )
+      continue
     if (e.fonte.target && targets.has(e.fonte.target) && e.fonte.target !== e.target) {
       const list = byParent.get(e.fonte.target) ?? []
       list.push(e)
@@ -1810,7 +1827,7 @@ export function HabilidadesArvorePanel({
                         <SelectBox
                           ariaLabel={c.label || `Escolha de ${it.txt}`}
                           value={choicePickValue(c)}
-                          options={choiceOptions(c)}
+                          options={choiceOptionsSiblingAware(c, it.choices)}
                           onChange={(v) => onChoiceChange(it.target, c, v)}
                         />
                       ) : (
@@ -1874,6 +1891,22 @@ function choicePickValue(c: HabChoice): string {
 function choiceOptions(c: HabChoice): SelectOption[] {
   const wl = c.kind === 'complementar-sel' ? c.options : c.options.map((o) => `[[${o}]]`)
   return wl.map((o) => ({ value: o, label: linkLabel(o) }))
+}
+
+/** Options do dropdown considerando as escolhas IRMÃS (mesmo pai): remove as
+ *  opções já escolhidas pelas outras ocorrências ("se pegou uma em um, no
+ *  outro não pode") e abre com a opção vazia — irmã sem pick mostra vazio
+ *  (o resolve não defaulta mais irmãs, resolve-choices.ts). */
+function choiceOptionsSiblingAware(c: HabChoice, siblings: HabChoice[]): SelectOption[] {
+  const taken = new Set(
+    siblings
+      .filter((s) => s.choiceKey !== c.choiceKey && s.pick)
+      .map((s) => wikiTarget(String(s.pick))),
+  )
+  return [
+    { value: '', label: '—' },
+    ...choiceOptions(c).filter((o) => !taken.has(wikiTarget(o.value))),
+  ]
 }
 
 export function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
@@ -1991,6 +2024,49 @@ export function TecnicasPanel({
     used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
 
+  // Escolhas de Escolha_Habilidades cujo PAI é uma técnica (ex.: Treinamento de
+  // Classe Secundária → escolher a classe) — antes só o painel de Habilidades
+  // renderizava escolhas, então essa ficava órfã. Mesma lógica/handler.
+  const choicesByTarget = useMemo(() => {
+    const map = new Map<string, HabChoice[]>()
+    for (const c of rules?.habilidadeChoices ?? []) {
+      const base = c.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? ''
+      if (!base) continue
+      const list = map.get(base) ?? []
+      list.push({
+        choiceKey: c.choiceKey,
+        label: c.label,
+        options: c.options,
+        pick: c.pick,
+        kind: c.kind,
+        targetRaw: c.targetRaw,
+        occ: c.occurrenceWithinParent,
+      })
+      map.set(base, list)
+    }
+    return map
+  }, [rules])
+  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) => {
+    if (!newWl) return
+    const target = choiceTargetList(choice.targetRaw)
+    const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
+    const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const newKey = `[[${wikiTarget(newWl)}]]`
+    const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
+    const newSource = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
+    const thisTagRx = nn
+      ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
+      : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
+    const kept = savedList.filter((row) => {
+      const entriesRow = Object.entries(row)
+      if (entriesRow.length !== 1) return true
+      const src = entriesRow[0][1]
+      return !(typeof src === 'string' && thisTagRx.test(src))
+    })
+    kept.push({ [newKey]: newSource })
+    model.set(target.fmKey, kept)
+  }
+
   // Técnicas aprendidas agrupadas por rank (Slot.target senão rank do doc).
   const learnedByGroup = useMemo(() => {
     const byRank = new Map<string, ListaEntry[]>()
@@ -2006,11 +2082,14 @@ export function TecnicasPanel({
   // Grupos a exibir em "Aprendidas": rank com técnica aprendida OU (em edição)
   // com slot livre — espelho do gate `slotN<=0 && !rule && !learned` do plugin
   // (tecnicas-card.ts:95).
+  // Slots livres visíveis TAMBÉM no modo leitura (pedido do usuário: "mostre
+  // os slots livres também no modo leitura, fica melhor pra ver o que tem pra
+  // selecionar ainda") — só o Combate (readOnly) fica compacto.
   const aprGroups = RANK_GROUP_ORDER.filter((g) => {
     const letter = TEC_GROUP_LETTER[g]
     const learned = learnedByGroup.get(g)?.length ?? 0
     const slotN = letter ? num(slotsFmTec?.[letter]) : 0
-    return learned > 0 || (edit && slotN > 0)
+    return learned > 0 || (!readOnly && slotN > 0)
   })
 
   // Técnicas da classe do herói (docs reais) pro painel "Não Aprendidas".
@@ -2095,7 +2174,8 @@ export function TecnicasPanel({
             const rows = learnedByGroup.get(g) ?? []
             const letter = TEC_GROUP_LETTER[g]
             // Slots vazios (#75): livres = slots do rank − consumidos por Slot.<L>.
-            const realEmpty = edit && letter ? Math.max(0, num(slotsFmTec?.[letter]) - usedBy(letter)) : 0
+            const realEmpty =
+              !readOnly && letter ? Math.max(0, num(slotsFmTec?.[letter]) - usedBy(letter)) : 0
             return (
               <div key={g} style={{ marginBottom: 12 }}>
                 <div
@@ -2225,6 +2305,44 @@ export function TecnicasPanel({
                         )}
                       </div>
                     ) : null}
+                    {/* Escolha_Habilidades cujo pai é ESTA técnica (Treinamento de
+                        Classe Secundária → escolher a classe) — mesmo dropdown/pick
+                        do painel de Habilidades, agora sob a técnica. */}
+                    {(choicesByTarget.get(e.target) ?? []).map((c) => (
+                      <div
+                        key={c.choiceKey}
+                        style={{ display: 'flex', flexDirection: 'column', gap: 4, marginLeft: 30 }}
+                      >
+                        {c.label ? (
+                          <span
+                            style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
+                          >
+                            {c.label}
+                          </span>
+                        ) : null}
+                        {edit ? (
+                          <SelectBox
+                            ariaLabel={c.label || `Escolha de ${e.label}`}
+                            value={choicePickValue(c)}
+                            options={choiceOptionsSiblingAware(c, choicesByTarget.get(e.target) ?? [])}
+                            onChange={(v) => onChoiceChange(e.target, c, v)}
+                          />
+                        ) : (
+                          <ItemHover doc={refs.refDoc(choicePickValue(c))} fullBody>
+                            <span
+                              style={{
+                                fontWeight: 600,
+                                color: choicePickValue(c) ? 'var(--blue)' : 'var(--muted)',
+                                fontSize: 13,
+                                fontStyle: choicePickValue(c) ? 'normal' : 'italic',
+                              }}
+                            >
+                              {linkLabel(choicePickValue(c)) || '(não definido)'}
+                            </span>
+                          </ItemHover>
+                        )}
+                      </div>
+                    ))}
                     </div>
                     )
                   })}
@@ -2371,21 +2489,33 @@ function escolaCobreRank(prof: string, rankGroup: string): boolean {
   return (MAGIA_PROF_NUM[prof] ?? 0) >= (MAGIA_RANK_IDX[rankGroup] ?? 99)
 }
 
-function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec?: boolean }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
+  // Secundária (#150): o MESMO card re-escopado — `Magias` ← `Magias.Secundaria`
+  // — espelho do plugin (tab-magias.ts:104-126), que reusa magiasCard com
+  // m.magias.secundaria.* e o título "Magias Secundárias". O scopedFm mantém
+  // Atributos/nível na raiz (computeMagiaAtaque continua correto).
+  const mfm = sec ? { ...fm, Magias: (fmPath(fm, 'Magias', 'Secundaria') ?? {}) as unknown } : fm
+  const LISTA_KEY = sec ? 'Magias.Secundaria.Lista' : 'Magias.Lista'
+  const savedEscolasOf = () =>
+    (sec
+      ? (fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? [])
+      : (fmPath(model.fm, 'Magias', 'Lista') ?? [])) as Record<string, unknown>[]
   const [edit, setEdit] = useState(false)
-  const escolasAll = (fmPath(fm, 'Magias', 'Lista') ?? []) as EscolaFm[]
-  // Painel ESQUERDO (Aprendidas): escolas com magia aprendida SEMPRE; em edição,
-  // também as PROFICIENTES sem magia — pra exibir seus slots VAZIOS por rank
-  // (#75, espelho do gate `hasProf` do plugin, magias-card.ts:249-252). Tesouros
-  // é exclusivo (não se aprende por slot), só aparece quando tem tesouro.
+  const escolasAll = (fmPath(mfm, 'Magias', 'Lista') ?? []) as EscolaFm[]
+  // Painel ESQUERDO (Aprendidas): escolas com magia aprendida SEMPRE; também
+  // as PROFICIENTES sem magia — pra exibir seus slots VAZIOS por rank (#75,
+  // espelho do gate `hasProf` do plugin, magias-card.ts:249-252) TAMBÉM no
+  // modo leitura (pedido do usuário: ver o que ainda tem pra selecionar sem
+  // precisar do Alterar). Tesouros é exclusivo (não se aprende por slot), só
+  // aparece quando tem tesouro.
   const escolas = escolasAll.filter((e) => {
     const learned = listaEntries(e.Lista).length > 0
     if (str(e.Nome) === 'Tesouros') return learned
-    return learned || (edit && str(e.Proficiencia) !== 'N')
+    return learned || str(e.Proficiencia) !== 'N'
   })
   // Painel DIREITO (Não Aprendidas): escolas em que o herói PODE lançar
   // (proficiência ≠ N), mesmo sem magia aprendida ainda. Sem isto, uma ficha
@@ -2396,7 +2526,7 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const escolasProficiente = escolasAll.filter(
     (e) => str(e.Nome) !== 'Tesouros' && str(e.Proficiencia) !== 'N',
   )
-  const slotsFm = fmPath(fm, 'Magias', 'Slots') as Record<string, unknown> | undefined
+  const slotsFm = fmPath(mfm, 'Magias', 'Slots') as Record<string, unknown> | undefined
 
   // O design agrupa magias por SUBCATEGORIA ("Magias Arcana" — Negra+Branca
   // juntas — "Magias Anima"), não por escola (#165). Escola "Arcana Negra"/
@@ -2442,26 +2572,35 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     total: { B: num(slotsFm?.['B']), A: num(slotsFm?.['A']), E: num(slotsFm?.['E']), M: num(slotsFm?.['M']) },
     used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
-  /** Slots VAZIOS de um rank = livres do orçamento global (em edição). */
+  /** Slots VAZIOS de um rank = livres do orçamento global (leitura + edição). */
   const emptyOfRank = (g: string): number =>
-    edit ? Math.max(0, num(slotsFm?.[RANK_GROUP_SLOT[g]]) - usedBy(RANK_GROUP_SLOT[g])) : 0
+    Math.max(0, num(slotsFm?.[RANK_GROUP_SLOT[g]]) - usedBy(RANK_GROUP_SLOT[g]))
 
   // Aprender/remover magia por slot (#62): grava na lista SALVA (o merge
   // reaplica as concessões de regra por cima). Espelho de addMagia/removeMagia
   // do plugin — `Slot.<letra>` ao aprender; − só nas slot-learned.
   const onAddMagia = (escolaNome: string, basename: string, rankGroup: string) => {
-    const savedEscolas = (fmPath(model.fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
     const letter = RANK_GROUP_SLOT[rankGroup] ?? 'A'
-    model.set('Magias.Lista', addMagiaToEscola(savedEscolas, escolaNome, `[[${basename}]]`, letter))
+    model.set(LISTA_KEY, addMagiaToEscola(savedEscolasOf(), escolaNome, `[[${basename}]]`, letter))
   }
   const onRemoveMagia = (escolaNome: string, target: string) => {
-    const savedEscolas = (fmPath(model.fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
-    model.set('Magias.Lista', removeMagiaFromEscola(savedEscolas, escolaNome, target))
+    model.set(LISTA_KEY, removeMagiaFromEscola(savedEscolasOf(), escolaNome, target))
   }
 
   // Regra do compêndio de Potência Mágica e EM (Energia Heroica) — tooltip do
   // corpo no hover do rótulo (#112).
   const emPotenciaDoc = useNamedDocs(['Potência Mágica', 'Energia Heroica'])
+
+  // Gate de conteúdo da Secundária — espelho de hasMagiasContent do plugin
+  // (tab-magias.ts:83-88): prof ≠ N, magia aprendida, slot ou EM ≥ 1; Potência
+  // sozinha NÃO conta. Sem conteúdo, o card Secundária some (DEPOIS dos hooks).
+  if (sec) {
+    const hasContent =
+      escolasAll.some((e) => str(e.Proficiencia) !== 'N' || listaEntries(e.Lista).length > 0) ||
+      num(fmPath(mfm, 'Magias', 'EM')) >= 1 ||
+      ['B', 'A', 'E', 'M'].some((l) => num(slotsFm?.[l]) > 0)
+    if (!hasContent) return null
+  }
 
   return (
     <>
@@ -2477,9 +2616,13 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             </ItemHover>
             <span style={{ flex: 1 }} />
             {/* Fontes (elementos de regra) que somam a Potência, no NÚMERO (#145). */}
-            <TipHover html={sourceTipHtml(rules?.ruleSourcesByPath['magias.potencia'])}>
+            <TipHover
+              html={sourceTipHtml(
+                rules?.ruleSourcesByPath[sec ? 'magias.secundaria.potencia' : 'magias.potencia'],
+              )}
+            >
               <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
-                {num(fmPath(fm, 'Magias', 'Potencia'))}
+                {num(fmPath(mfm, 'Magias', 'Potencia'))}
               </span>
             </TipHover>
           </div>
@@ -2502,9 +2645,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             </ItemHover>
             <span style={{ flex: 1 }} />
             {/* Fontes (elementos de regra) que somam o EM Máximo, no NÚMERO (#145). */}
-            <TipHover html={sourceTipHtml(rules?.ruleSourcesByPath['magias.em'])}>
+            <TipHover
+              html={sourceTipHtml(rules?.ruleSourcesByPath[sec ? 'magias.secundaria.em' : 'magias.em'])}
+            >
               <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--text)' }}>
-                {num(fmPath(fm, 'Magias', 'EM'))}
+                {num(fmPath(mfm, 'Magias', 'EM'))}
               </span>
             </TipHover>
           </div>
@@ -2513,7 +2658,11 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
       <div style={panel}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
-          <span style={{ ...monoTitle, letterSpacing: '.08em' }}>Magias</span>
+          {/* Título do card Secundária = proficienciasTitle do plugin
+              ("Magias Secundárias", tab-magias.ts:123). */}
+          <span style={{ ...monoTitle, letterSpacing: '.08em' }}>
+            {sec ? 'Magias Secundárias' : 'Magias'}
+          </span>
           <span style={{ flex: 1 }} />
           <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
         </div>
@@ -2571,8 +2720,8 @@ function MagiasHabPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           title traz o cálculo (PB + atributo + item). */}
                       {(() => {
                         const rota = `Magia ${nome}`
-                        const info = computeMagiaAtaque(fm, rota)
-                        const prof = lookupRota(fm, rota)
+                        const info = computeMagiaAtaque(mfm, rota)
+                        const prof = lookupRota(mfm, rota)
                         return info ? (
                           <span
                             title={info.title}
@@ -2932,6 +3081,9 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
           </Col>
           <Col>
             <MagiasHabPanel doc={doc} refs={refs} />
+            {/* Card "Magias Secundárias" abaixo do principal (#150) — espelho
+                de tab-magias.ts:77-129; some sem conteúdo (gate interno). */}
+            <MagiasHabPanel doc={doc} refs={refs} sec />
           </Col>
         </PanelTrack>
       </div>

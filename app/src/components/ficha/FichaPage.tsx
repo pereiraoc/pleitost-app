@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import { useDoc } from '../../data/useDoc'
 import { useCatalog } from '../../data/CatalogContext'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRules } from '../../rules/useHeroRules'
 import type { VaultDoc } from '../../data/types'
 import { GrupoView } from '../../grupo/GrupoView'
 import { clip } from './bits'
@@ -136,13 +137,33 @@ function GruposTab({ doc }: { doc: VaultDoc }) {
   )
 }
 
+/** Doc vazio pros hooks rodarem incondicionais enquanto o doc real carrega
+ *  (regra dos hooks); nunca renderiza — o guard abaixo segura a árvore. */
+const STUB_DOC: VaultDoc = {
+  id: '',
+  path: '',
+  basename: '',
+  type: null,
+  subtype: null,
+  grupo: null,
+  kind: 'content',
+  frontmatter: {},
+  body: '',
+  inlineFields: {},
+  ruleElements: [],
+} as unknown as VaultDoc
+
 export function FichaPage() {
   const params = useParams()
   const id = params['*'] ?? ''
   const [searchParams] = useSearchParams()
   const tab = searchParams.get('tab') ?? 'perfil'
   const { doc, error } = useDoc(id)
-  const refs = useHeroRefs(doc)
+  // refs coletam do FM DERIVADO (projeção): itens concedidos por regra
+  // (magias de essência, habilidades de classe) também carregam (bug #4c).
+  const model = useHeroModel(doc ?? STUB_DOC, 'refs')
+  const rules = useHeroRules(model.fm)
+  const refs = useHeroRefs(doc, rules?.derivedFm ?? model.fm)
 
   if (error) return <p role="alert">Herói não encontrado: {id}</p>
   if (!doc) return <p className="loading">Carregando ficha…</p>

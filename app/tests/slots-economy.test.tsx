@@ -254,8 +254,22 @@ describe('#74/#75 render — adicionar técnica no nível 2 e slots vazios', () 
       const rest = screen.queryAllByLabelText(/^Aprender /) as HTMLButtonElement[]
       expect(rest.length > 0 && rest.every((b) => b.disabled)).toBe(true)
     })
-    // E o slot deixou de estar "Vazio".
-    expect(screen.queryByText('Vazio')).toBeNull()
+    // E o slot de TÉCNICA deixou de estar "Vazio" — escopado ao painel de
+    // Técnicas: os slots livres de MAGIA agora aparecem também em leitura
+    // (pedido do usuário), então o doc pode ter outros "Vazio".
+    expect(within(heading.parentElement!.parentElement!).queryByText('Vazio')).toBeNull()
+  })
+})
+
+// ══════════════════ RENDER — slots livres no modo LEITURA ══════════════════
+
+describe('slots livres visíveis SEM Alterar (pedido do usuário)', () => {
+  it('nível 2 com slot Adepta livre: "Vazio" aparece já no modo leitura', async () => {
+    const id = makeBardo(2)
+    renderFicha(id, 'habilidades')
+    await screen.findByText('Técnicas')
+    // SEM clicar em ✎ Alterar: os slots livres (técnicas e magias) já aparecem.
+    await waitFor(() => expect(screen.getAllByText('Vazio').length).toBeGreaterThanOrEqual(1))
   })
 })
 

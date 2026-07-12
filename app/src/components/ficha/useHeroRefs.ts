@@ -12,9 +12,14 @@ function pushTarget(out: Set<string>, value: unknown) {
   if (target) out.add(target)
 }
 
-function collectTargets(hero: VaultDoc | undefined): string[] {
+function collectTargets(hero: VaultDoc | undefined, fmEffective?: Record<string, unknown>): string[] {
   if (!hero) return []
-  const fm = fmOf(hero)
+  // fm EFETIVO (derivado da projeção, com overlay + concessões de regra) quando
+  // fornecido — sem ele, itens concedidos por regra (magias de essência,
+  // habilidades de classe…) nunca eram carregados e os painéis não conseguiam
+  // resolver rank/custo/emoji deles (bug #4c: ficha criada no app ficava sem
+  // as magias no card, porque nada estava assado no FM salvo).
+  const fm = fmEffective ?? fmOf(hero)
   const out = new Set<string>()
 
   const armas = fmPath(fm, 'Inventario', 'Armas', 'Lista')
@@ -43,9 +48,12 @@ function collectTargets(hero: VaultDoc | undefined): string[] {
   for (const entry of listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))) out.add(entry.target)
   for (const entry of listaEntries(fmPath(fm, 'Acoes', 'Lista'))) out.add(entry.target)
 
-  const escolas = fmPath(fm, 'Magias', 'Lista')
-  if (Array.isArray(escolas)) {
-    for (const escola of escolas as Record<string, unknown>[]) {
+  for (const escolasPath of [
+    fmPath(fm, 'Magias', 'Lista'),
+    fmPath(fm, 'Magias', 'Secundaria', 'Lista'),
+  ]) {
+    if (!Array.isArray(escolasPath)) continue
+    for (const escola of escolasPath as Record<string, unknown>[]) {
       for (const entry of listaEntries(escola['Lista'])) {
         out.add(entry.target)
         if (entry.fonte.target) out.add(entry.fonte.target)
@@ -74,9 +82,12 @@ export interface HeroRefs {
   loaded: boolean
 }
 
-export function useHeroRefs(hero: VaultDoc | undefined): HeroRefs {
+export function useHeroRefs(
+  hero: VaultDoc | undefined,
+  fmEffective?: Record<string, unknown>,
+): HeroRefs {
   const catalog = useCatalog()
-  const targets = useMemo(() => collectTargets(hero), [hero])
+  const targets = useMemo(() => collectTargets(hero, fmEffective), [hero, fmEffective])
   const idByTarget = useMemo(() => {
     const map = new Map<string, string>()
     for (const target of targets) {

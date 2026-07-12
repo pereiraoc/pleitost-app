@@ -40,6 +40,7 @@ import {
   ataqueBreakdown,
   danoArmaBreakdown,
   entriesBreakdown,
+  sourceTipHtml,
 } from './tooltips'
 import { StarChip } from './HabilidadesTab'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
@@ -108,6 +109,7 @@ import {
   invocacoesAtivas,
   invocStatEmoji,
   isEvKey,
+  computeMagiaAtaque,
   listInvocacoesDisponiveis,
   lookupRota,
   matchStatKey,
@@ -2014,6 +2016,128 @@ const MAGIA_SUB_TABS = [
   { id: 'invocacoes', label: 'INVOCAÇÕES' },
 ]
 
+const magiaBarLabel: CSSProperties = {
+  fontFamily: 'var(--mono)',
+  fontSize: 10,
+  letterSpacing: '.14em',
+  color: 'var(--muted)',
+  whiteSpace: 'nowrap',
+}
+const magiaBarSep: CSSProperties = { width: 1, alignSelf: 'stretch', background: 'var(--line2)' }
+
+/** Barra de magias do Combate — "Magia <Escola> +N | Potência Mágica X |
+ *  Energia Mágica ◆◆ Y/Z" (pedido do usuário). Usada pela primária e pela
+ *  SECUNDÁRIA re-escopada (labels do plugin: "Energia Mágica"/"Energia Mágica
+ *  Secundária", recursos-magicos.ts:63; volátil separado EM/EM_Secundaria).
+ *  Tooltips: mod = somatório do ataque mágico (#143); Potência Mágica/Energia
+ *  Mágica = nota do compêndio no texto (#112) + fontes de regra no valor da
+ *  Potência (#145). */
+function MagiaInfoBar({
+  mfm,
+  label,
+  em,
+  emMax,
+  setEm,
+  potenciaSources,
+  namedDoc,
+}: {
+  mfm: Record<string, unknown>
+  label: string
+  em: number
+  emMax: number
+  setEm: (fn: (cur: number) => number) => void
+  potenciaSources: string[] | undefined
+  namedDoc: (nome: string) => VaultDoc | undefined
+}) {
+  // Tipo(s) de magia do escopo: escolas PROFICIENTES (≠ N, sem Tesouros) com
+  // o modificador de ataque mágico — computeMagiaAtaque devolve null pra
+  // prof N, então o filtro é implícito.
+  const escolas = (fmPath(mfm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+  const tipos = escolas
+    .filter((e) => str(e['Nome']) && str(e['Nome']) !== 'Tesouros')
+    .map((e) => {
+      const rota = `Magia ${str(e['Nome'])}`
+      const info = computeMagiaAtaque(mfm, rota)
+      const prof = lookupRota(mfm, rota)
+      return info ? { rota, info, prof } : null
+    })
+    .filter(Boolean) as { rota: string; info: { total: number; title: string }; prof: string | null }[]
+  const potencia = num(fmPath(mfm, 'Magias', 'Potencia'))
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 14,
+        padding: '13px 16px',
+        background: 'var(--card)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(12),
+        flexWrap: 'wrap',
+      }}
+    >
+      {tipos.map((t) => (
+        <span
+          key={t.rota}
+          title={t.info.title}
+          style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7, cursor: 'help' }}
+        >
+          <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', whiteSpace: 'nowrap' }}>
+            {t.rota}
+          </span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--blue)' }}>
+            {signed(t.info.total)}
+            {t.prof ? ` (${t.prof})` : ''}
+          </span>
+        </span>
+      ))}
+      {tipos.length ? <span style={magiaBarSep} /> : null}
+      <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7 }}>
+        <ItemHover doc={namedDoc('Potência Mágica')} fullBody>
+          <span style={magiaBarLabel}>POTÊNCIA MÁGICA</span>
+        </ItemHover>
+        <TipHover html={sourceTipHtml(potenciaSources)}>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+            {potencia}
+          </span>
+        </TipHover>
+      </span>
+      <span style={magiaBarSep} />
+      <ItemHover doc={namedDoc('Energia Mágica')} fullBody>
+        <span style={magiaBarLabel}>{label}</span>
+      </ItemHover>
+      <span style={{ flex: 1 }} />
+      <span style={{ display: 'flex', gap: 9 }}>
+        {Array.from({ length: emMax }, (_, i) => {
+          const on = i < em ? 1 : 0
+          return (
+            <span
+              key={i}
+              onClick={() => setEm((cur) => (cur === i + 1 ? i : i + 1))}
+              title="Alternar EM"
+              style={{
+                width: 24,
+                height: 24,
+                transform: 'rotate(45deg)',
+                borderRadius: 4,
+                cursor: 'pointer',
+                background: `color-mix(in srgb,#3b82d6 ${8 + on * 92}%,transparent)`,
+                border: `2px solid color-mix(in srgb,#3b82d6 ${55 + on * 45}%,transparent)`,
+                boxShadow: on ? '0 0 12px rgba(59,130,214,.45)' : 'none',
+                transition: 'background .12s,box-shadow .12s,border-color .12s',
+              }}
+            />
+          )
+        })}
+      </span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--blue)' }}>
+        {em} / {emMax}
+      </span>
+    </div>
+  )
+}
+
 function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const rules = useHeroRules(model.fm)
@@ -2025,6 +2149,35 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
   const setEm = (fn: (cur: number) => number) =>
     model.setVolatile('Interativa.Recursos_Restantes.EM', fn(em))
   const groups = useMemo(() => magiaGroups(fm, refs.refDoc), [fm, refs])
+  // Magias SECUNDÁRIAS (multiclass): EM próprio (volátil EM_Secundaria,
+  // NUNCA mistura com o primário — plugin serialize-to-fm.ts:453) + lista
+  // própria, re-escopando o mesmo magiaGroups (Magias ← Magias.Secundaria).
+  const secFm = (fmPath(fm, 'Magias', 'Secundaria') ?? {}) as Record<string, unknown>
+  const emSecMax = num(secFm['EM'])
+  const emSec = rest['EM_Secundaria'] !== undefined ? num(rest['EM_Secundaria']) : emSecMax
+  const setEmSec = (fn: (cur: number) => number) =>
+    model.setVolatile('Interativa.Recursos_Restantes.EM_Secundaria', fn(emSec))
+  const secGroups = useMemo(
+    () => magiaGroups({ ...fm, Magias: secFm }, refs.refDoc),
+    [fm, secFm, refs],
+  )
+  // Notas do compêndio pros tooltips dos rótulos da barra (#112-style).
+  const namedDoc = useNamedDocs(['Potência Mágica', 'Energia Mágica'])
+  const secBloco =
+    emSecMax > 0 || secGroups.length > 0 ? (
+      <>
+        <MagiaInfoBar
+          mfm={{ ...fm, Magias: secFm }}
+          label="ENERGIA MÁGICA SECUNDÁRIA"
+          em={emSec}
+          emMax={emSecMax}
+          setEm={setEmSec}
+          potenciaSources={rules?.ruleSourcesByPath['magias.secundaria.potencia']}
+          namedDoc={namedDoc}
+        />
+        <MagiasLista groups={secGroups} />
+      </>
+    ) : null
   // Invocações disponíveis (rank na rota ≥ mínima — plugin
   // listInvocacoesDisponiveis); sem nenhuma, o painel fica como era (sem
   // strip de abas).
@@ -2034,51 +2187,21 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 14,
-          padding: '13px 16px',
-          background: 'var(--card)',
-          border: '1px solid var(--line2)',
-          clipPath: clip(12),
-        }}
-      >
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.14em', color: 'var(--muted)' }}>
-          ENERGIA MÁGICA
-        </span>
-        <span style={{ flex: 1 }} />
-        <span style={{ display: 'flex', gap: 9 }}>
-          {Array.from({ length: emMax }, (_, i) => {
-            const on = i < em ? 1 : 0
-            return (
-              <span
-                key={i}
-                onClick={() => setEm((cur) => (cur === i + 1 ? i : i + 1))}
-                title="Alternar EM"
-                style={{
-                  width: 24,
-                  height: 24,
-                  transform: 'rotate(45deg)',
-                  borderRadius: 4,
-                  cursor: 'pointer',
-                  background: `color-mix(in srgb,#3b82d6 ${8 + on * 92}%,transparent)`,
-                  border: `2px solid color-mix(in srgb,#3b82d6 ${55 + on * 45}%,transparent)`,
-                  boxShadow: on ? '0 0 12px rgba(59,130,214,.45)' : 'none',
-                  transition: 'background .12s,box-shadow .12s,border-color .12s',
-                }}
-              />
-            )
-          })}
-        </span>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 15, fontWeight: 700, color: 'var(--blue)' }}>
-          {em} / {emMax}
-        </span>
-      </div>
+      <MagiaInfoBar
+        mfm={fm}
+        label="ENERGIA MÁGICA"
+        em={em}
+        emMax={emMax}
+        setEm={setEm}
+        potenciaSources={rules?.ruleSourcesByPath['magias.potencia']}
+        namedDoc={namedDoc}
+      />
 
       {invocacoes.length === 0 ? (
-        <MagiasLista groups={groups} />
+        <>
+          <MagiasLista groups={groups} />
+          {secBloco}
+        </>
       ) : (
         <div>
           <div style={{ marginBottom: 16 }}>
@@ -2091,7 +2214,10 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
           </div>
           <PanelTrack index={subIndex}>
             <TrackPanel>
-              <MagiasLista groups={groups} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <MagiasLista groups={groups} />
+                {secBloco}
+              </div>
             </TrackPanel>
             <TrackPanel>
               <InvocacoesPanel doc={doc} invocacoes={invocacoes} />
@@ -2131,7 +2257,7 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
                   fontWeight: 600,
                 }}
               >
-                {grp.emCusto === 0 ? `grátis` : `${grp.emCusto}×${tokens.emojis.subcategoria.EnergiaMagica}`}
+                {`${grp.emCusto}×${tokens.emojis.subcategoria.EnergiaMagica}`}
               </span>
             ) : null}
             <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
