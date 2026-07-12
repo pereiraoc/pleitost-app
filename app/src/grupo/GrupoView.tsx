@@ -42,6 +42,8 @@ import { orderAlphabetical } from './order'
 import { NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, sortArrow, type GrpSort } from './sort'
 import { useGrupoTip, type GrupoTip } from './gtip'
+import { useEntityImageUrl } from '../data/images'
+import { LocalImageUpload } from '../components/ficha/PerfilTab'
 import { resolveGroupImageUrl } from './group-image'
 import { PanelExploracao } from './PanelExploracao'
 import { PanelVida } from './PanelVida'
@@ -471,7 +473,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
     typeof groupDoc?.frontmatter['subcategoria'] === 'string'
       ? (groupDoc.frontmatter['subcategoria'] as string)
       : ''
-  const imageUrl = resolveGroupImageUrl(groupDoc, entry?.basename, assets)
+  // Retrato local-first (issue #197): imagem subida pro grupo LOCAL tem
+  // precedência; senão a hierarquia da vault (resolveGroupImageUrl). Só grupos
+  // locais têm upload, então pra grupo da vault o hook resolve null e nada muda.
+  const localImage = useEntityImageUrl(groupId)
+  const imageUrl = localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets)
 
   // Lista original alfabética (espelha orderMembersAlphabetical / G.balRows).
   const balRows: BalRowData[] = orderAlphabetical(members).map((member, i) => {
@@ -643,6 +649,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
               >
                 ✎ Editar
               </button>
+              {/* #197: retrato do grupo LOCAL — subir/remover imagem no slot
+                  60×60 do header (mesmo controle do Perfil). */}
+              {isLocalGroup ? <LocalImageUpload id={groupId} /> : null}
             </div>
           </div>
         </div>
