@@ -12,6 +12,9 @@
 //   - Sem transientPicks: no app o pick persiste direto como ESTADO do FM
 //     (overlay), a mesma consolidação que o save do plugin faz.
 import type { VaultDoc } from '../data/types'
+import { linkLabel } from '../markdown/dataview-value'
+import { rankGroupLabel } from '../components/ficha/registry'
+import { str } from '../components/ficha/hero-model'
 import type { ParsedRule, InheritedConstraint, ChoiceProvenance } from './rule-types'
 import { parsedRulesOf } from './rule-types'
 import type { RulesModel, FontedLink } from './rules-model'
@@ -469,6 +472,24 @@ export async function extractHeroRules(model: RulesModel, resolver: DocResolver)
     if (sig === lastSig) break
     lastSig = sig
     workingModel = projectWorkingModel(model, deltas)
+  }
+
+  // App-side (bug #5): anota cada option dos Selecionar com a PASTA da nota
+  // (linha da essência — convenção estrutural da vault) e o rank (`rank::`
+  // inline, senão subtype). A projeção usa isso pro filtro de elegibilidade
+  // por linhagem (Experiente exige a Adepta da mesma pasta). Docs saem do
+  // resolver (mesmo cache do BFS).
+  for (const desc of resolvedChoices.values()) {
+    if (desc.kind !== 'complementar-sel') continue
+    desc.optionsMeta = await Promise.all(
+      desc.options.map(async (opt) => {
+        const doc = await resolver(wikilinkBasename(opt))
+        if (!doc) return { option: opt, folder: '', rank: '' }
+        const folder = doc.id.includes('/') ? doc.id.slice(0, doc.id.lastIndexOf('/')) : ''
+        const inline = linkLabel(str((doc.inlineFields ?? {})['rank']))
+        return { option: opt, folder, rank: rankGroupLabel(inline || str(doc.subtype ?? '')) }
+      }),
+    )
   }
 
   return {

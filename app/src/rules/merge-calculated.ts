@@ -257,6 +257,10 @@ const PROF_TARGET_RX =
   /^(Pericias|Oficios|Defesas_Resistencias|Sentidos|Movimento)\.Lista\.([^.]+)\.([^.]+)$/
 const LISTA_ARRAY_RX = /^(Pericias|Oficios|Defesas_Resistencias|Sentidos|Movimento)\.Lista$/
 const MAGIA_ESCOLA_FIELD_RX = /^Magias\.Lista\.([^.]+)\.([^.]+)$/
+// Secundária — mesmo shape de escolas sob Magias.Secundaria.Lista (espelho de
+// resolveMagiasSecundaria, plugin rule-target-registry.ts:125+).
+const MAGIA_SEC_ESCOLA_FIELD_RX = /^Magias\.Secundaria\.Lista\.([^.]+)\.([^.]+)$/
+const MAGIA_SEC_SLOT_RX = /^Magias\.Secundaria\.Slots\.([BAEM])$/
 const SLOT_RX = /^(Pericias|Tecnicas|Magias)\.Slots\.([BAEM])$/
 const EQUIP_ARMAS_RX = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais)$/
 const EQUIP_ARMADURA_RX = /^Inventario\.Armadura\.Proficiencia\.(Sem|Leve|Pesada)$/
@@ -416,10 +420,17 @@ export function mergeCalculatedIntoFm(
       appendMergeFmList(esc.Lista as Row[], value)
       continue
     }
-    const magEsc = MAGIA_ESCOLA_FIELD_RX.exec(key)
+    // Secundária ANTES da primária: `Magias.Secundaria.Lista.…` não casa com
+    // MAGIA_ESCOLA_FIELD_RX (que exige `Magias.Lista.`), mas a ordem explícita
+    // documenta o despacho (espelho do plugin, resolveMagiasSecundaria antes
+    // de resolveMagias).
+    const magSecEsc = MAGIA_SEC_ESCOLA_FIELD_RX.exec(key)
+    const magEsc = magSecEsc ?? MAGIA_ESCOLA_FIELD_RX.exec(key)
     if (magEsc) {
       const [, escola, field] = magEsc
-      const escolas = ensureListaRows(out, 'Magias', 'Lista')
+      const escolas = magSecEsc
+        ? ensureListaRows(out, 'Magias', 'Secundaria', 'Lista')
+        : ensureListaRows(out, 'Magias', 'Lista')
       let esc = escolas.find((e) => String(e.Nome) === escola || slugify(String(e.Nome)) === escola)
       if (!esc && field === 'Lista') {
         esc = { Nome: escola, Lista: [] }
@@ -446,6 +457,21 @@ export function mergeCalculatedIntoFm(
     }
     if (key === 'Magias.Potencia') { setNested(out, ['Magias', 'Potencia'], num(value)); continue }
     if (key === 'Magias.EM') { setNested(out, ['Magias', 'EM'], num(value)); continue }
+    // Secundária: escalares + slots próprios (Magias.Secundaria.{Potencia,EM,
+    // Slots.*}) — espelho de resolveMagiasSecundaria (scalar paths).
+    const secSlot = MAGIA_SEC_SLOT_RX.exec(key)
+    if (secSlot) {
+      setNested(out, ['Magias', 'Secundaria', 'Slots', secSlot[1]], num(value))
+      continue
+    }
+    if (key === 'Magias.Secundaria.Potencia') {
+      setNested(out, ['Magias', 'Secundaria', 'Potencia'], num(value))
+      continue
+    }
+    if (key === 'Magias.Secundaria.EM') {
+      setNested(out, ['Magias', 'Secundaria', 'EM'], num(value))
+      continue
+    }
 
     // Ataque (escalar N/A/E/M, upgrade).
     if (key === 'Ataques.Proficiencia') {

@@ -22,6 +22,10 @@ export interface ChoiceDescriptor {
   isSubclass?: boolean
   occurrenceWithinParent?: number
   targetRaw?: string
+  /** App-side (bug #5): metadados de cada option (pasta da linha + rank da
+   *  nota, lidos do doc via resolver no extract) pro filtro de elegibilidade
+   *  por linhagem na projeção. Ausente = sem filtro. */
+  optionsMeta?: Array<{ option: string; folder: string; rank: string }>
 }
 
 /** Espelho de discoverChoices (plugin resolve-choices.ts:70-144). */
@@ -118,6 +122,15 @@ export function resolveChoice(
       const matched = desc.options.find((opt) => wikilinkTarget(opt) === wikilinkTarget(tagged))
       if (matched) return { ...desc, pick: matched, source: 'inferred' }
     }
+    // DIVERGÊNCIA CONSCIENTE do plugin (pedido do usuário, app): escolha IRMÃ
+    // (occurrenceWithinParent definido = ≥2 no mesmo pai) sem tag da PRÓPRIA
+    // ocorrência fica VAZIA — nada de fallback 2b nem default options[0].
+    // No plugin o default é transitório (o save consolida cada pick com tag
+    // indexada); o app não salva defaults, então o fallback fazia 1 pick
+    // "vazar" pra todos os dropdowns irmãos ("aparece todos os dropdowns com
+    // a mesma coisa"). Choices ÚNICAS mantêm 2b + default (fidelidade ao
+    // plugin — dados legados sem tag dependem disso).
+    if (desc.occurrenceWithinParent !== undefined) return desc
     const linkTargets = new Set(lista.map((it) => wikilinkTarget(it.link)))
     const matches = desc.options.filter((opt) => linkTargets.has(wikilinkTarget(opt)))
     if (matches.length === 1) return { ...desc, pick: matches[0], source: 'inferred' }

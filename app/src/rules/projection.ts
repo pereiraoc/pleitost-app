@@ -24,6 +24,7 @@ import {
 import { listLocalizacoes, naturalidadeSelectLines, type NaturalidadeLine } from './naturalidade'
 import { linkLabel } from '../markdown/dataview-value'
 import { num } from '../components/ficha/hero-model'
+import { rankGroupLabel } from '../components/ficha/registry'
 
 /** Espelho de withAlias (plugin util/wikilink.ts:129-137). */
 export function withAlias(wl: string, shortFn: (target: string) => string): string {
@@ -201,6 +202,8 @@ export function targetToModelPath(targetRaw: string): string | null {
   // FONTES de elementos de regra no número (#145).
   if (targetRaw === 'Magias.Potencia') return 'magias.potencia'
   if (targetRaw === 'Magias.EM') return 'magias.em'
+  if (targetRaw === 'Magias.Secundaria.Potencia') return 'magias.secundaria.potencia'
+  if (targetRaw === 'Magias.Secundaria.EM') return 'magias.secundaria.em'
   return null
 }
 
@@ -414,6 +417,165 @@ export interface HeroProjection {
   derivedFm: Record<string, unknown>
 }
 
+/** Nome do grupo de escola no FM (com espaços, como o save do plugin) por
+ *  destino resolvido — espelho do escolaId→label do serialize-to-fm. */
+const MAGIA_ESCOLA_NOME: Record<string, string> = {
+  Anima: 'Anima',
+  Tesouros: 'Tesouros',
+  ArcanaNegra: 'Arcana Negra',
+  ArcanaBranca: 'Arcana Branca',
+}
+
+const WIKI_BASE_RX = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
+function wikiBase(s: string): string {
+  const m = s.match(WIKI_BASE_RX)
+  return (m ? m[1] : s).trim()
+}
+
+/** Arcana genérica (Especial/Essencial ou nota sem `escola`): roteia pra escola
+ *  Arcana onde o herói tem proficiência (≥A). Espelho de pickArcanaEspecial
+ *  (enrichments.ts:438-443); sem prof → Branca (caso degenerado). `grupos` =
+ *  escolas do escopo (Magias.Lista OU Magias.Secundaria.Lista). */
+function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): string {
+  const negra = grupos.find((g) => String(g?.Nome) === 'Arcana Negra')
+  const prof = String(negra?.Proficiencia ?? 'N').trim().toUpperCase()
+  return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra : MAGIA_ESCOLA_NOME.ArcanaBranca
+}
+
+/** Escola-destino (Nome do grupo no FM) de uma magia concedida por regra —
+ *  espelho de enrichMagias (cola/enrichments.ts:417-488). subcategoria da nota
+ *  decide (FM visitado senão subtype do índice); Arcana usa `escola` (Negra/
+ *  Branca) senão roteia por proficiência. `null` = escola não resolvível. */
+function escolaDestinoDaMagia(
+  base: string,
+  catalog: Catalog,
+  visited: Map<string, VaultDoc>,
+  grupos: Array<Record<string, unknown>>,
+): string | null {
+  const fm = visited.get(base)?.frontmatter as Record<string, unknown> | undefined
+  let subcat = fm ? String(fm.subcategoria ?? '').trim() : ''
+  if (!subcat) {
+    const r = catalog.resolve(base)
+    if (r.kind === 'doc') subcat = String(catalog.entryById.get(r.id)?.subtype ?? '').trim()
+  }
+  if (subcat === 'Anima') return MAGIA_ESCOLA_NOME.Anima
+  if (subcat === 'Tesouros') return MAGIA_ESCOLA_NOME.Tesouros
+  if (subcat === 'Arcana') {
+    const esc = fm ? String(fm.escola ?? fm.Escola ?? '').trim() : ''
+    if (esc === 'Negra') return MAGIA_ESCOLA_NOME.ArcanaNegra
+    if (esc === 'Branca') return MAGIA_ESCOLA_NOME.ArcanaBranca
+    return pickArcanaEspecial(grupos)
+  }
+  return null
+}
+
+/** Distribui os deltas PLANOS `Magias.Lista` e `Magias.Secundaria.Lista`
+ *  (magias concedidas por `Complementar Magias[.Secundaria].Lista [[X]]`,
+ *  ex.: essências plenas/Menores) nos deltas POR ESCOLA
+ *  `Magias[.Secundaria].Lista.<Escola>.Lista`, que o merge já sabe aninhar sob
+ *  o grupo certo preservando a fonte por item. Sem isto, o delta plano não
+ *  tinha handler no merge e as magias sumiam em chars criados no app (#bug4).
+ *  Mirror do enrichMagias(escola) + serialize-to-fm (distribuição por escola).
+ *  Na Secundária não existe Tesouros (plugin: lista nem existe) — cai no warn. */
+function distributeMagiasCalculated(
+  calculated: Deltas,
+  catalog: Catalog,
+  visited: Map<string, VaultDoc>,
+  savedFm: Record<string, unknown>,
+): Deltas {
+  const magiasFm = (savedFm.Magias ?? {}) as Record<string, unknown>
+  const scopes = [
+    {
+      flatKey: 'Magias.Lista',
+      keyOf: (escola: string) => `Magias.Lista.${escola}.Lista`,
+      grupos: (magiasFm.Lista ?? []) as Array<Record<string, unknown>>,
+      temTesouros: true,
+    },
+    {
+      flatKey: 'Magias.Secundaria.Lista',
+      keyOf: (escola: string) => `Magias.Secundaria.Lista.${escola}.Lista`,
+      grupos: ((magiasFm.Secundaria as Record<string, unknown> | undefined)?.Lista ?? []) as Array<
+        Record<string, unknown>
+      >,
+      temTesouros: false,
+    },
+  ]
+  let out: Deltas | null = null
+  for (const scope of scopes) {
+    const flat = (calculated as Record<string, unknown>)[scope.flatKey]
+    if (!Array.isArray(flat)) continue
+    out ??= { ...calculated }
+    delete (out as Record<string, unknown>)[scope.flatKey]
+    for (const item of flat) {
+      const link =
+        typeof item === 'string'
+          ? item
+          : item && typeof item === 'object' && 'link' in item
+            ? String((item as { link: unknown }).link)
+            : null
+      if (!link) continue
+      const escola = escolaDestinoDaMagia(wikiBase(link), catalog, visited, scope.grupos)
+      if (!escola || (!scope.temTesouros && escola === MAGIA_ESCOLA_NOME.Tesouros)) {
+        console.warn(`[pleitost-app] projeção: magia sem escola resolvível dropada — ${link}`)
+        continue
+      }
+      const key = scope.keyOf(escola)
+      const arr = ((out as Record<string, unknown>)[key] as unknown[]) ?? []
+      arr.push(item)
+      ;(out as Record<string, unknown>)[key] = arr
+    }
+  }
+  return out ?? calculated
+}
+
+const LINEAGE_PREV_RANK: Record<string, string> = {
+  // Só estes ranks têm PRÉ-REQUISITO de linha (pedido do usuário, bug #5):
+  // Experiente exige a Adepta da mesma pasta; Mestre exige a Experiente.
+  // Adepta/Básica/sem rank ficam livres (Treinamentos etc. não têm rank).
+  Experiente: 'Adepta',
+  Mestre: 'Experiente',
+}
+
+/** Filtro de elegibilidade por LINHAGEM nas options dos Selecionar (app-side,
+ *  bug #5): cada linha de essência é uma PASTA da vault (Essência Flamejante/
+ *  {base, Adepta, Experiente}); opção Experiente/Mestre só aparece se o herói
+ *  POSSUI a irmã da mesma pasta com o rank anterior. Tudo data-driven: pasta
+ *  do id + `rank::` da nota (optionsMeta, anotado no extract) — nada de parse
+ *  de nome. O pick atual sempre permanece (o select precisa exibi-lo). */
+function filterChoiceOptionsByLineage(
+  choices: ChoiceDescriptor[],
+  visited: Map<string, VaultDoc>,
+  ownedTargets: Set<string>,
+): ChoiceDescriptor[] {
+  // pasta+rank de cada habilidade POSSUÍDA (docs já visitados pelo BFS —
+  // itens de lista salvos são seeds).
+  const ownedByFolder = new Map<string, Set<string>>()
+  for (const t of ownedTargets) {
+    const doc = visited.get(t)
+    if (!doc) continue
+    const folder = doc.id.includes('/') ? doc.id.slice(0, doc.id.lastIndexOf('/')) : ''
+    const inline = linkLabel(String((doc.inlineFields ?? {})['rank'] ?? ''))
+    const rank = rankGroupLabel(inline || String(doc.subtype ?? ''))
+    if (!folder || !rank) continue
+    const set = ownedByFolder.get(folder) ?? new Set<string>()
+    set.add(rank)
+    ownedByFolder.set(folder, set)
+  }
+  return choices.map((c) => {
+    if (c.kind !== 'complementar-sel' || !c.optionsMeta) return c
+    const eligible = (opt: string): boolean => {
+      if (opt === c.pick) return true
+      const meta = c.optionsMeta!.find((m) => m.option === opt)
+      const prev = meta ? LINEAGE_PREV_RANK[meta.rank] : undefined
+      if (!meta || !prev) return true
+      return ownedByFolder.get(meta.folder)?.has(prev) ?? false
+    }
+    const options = c.options.filter(eligible)
+    if (options.length === c.options.length) return c
+    return { ...c, options, optionsMeta: c.optionsMeta.filter((m) => eligible(m.option)) }
+  })
+}
+
 /** Monta a projeção a partir do resultado do extract + catálogo — espelho
  *  do miolo de buildViewModel (plugin view-model.ts:342-390). */
 export function buildHeroProjection(
@@ -422,11 +584,29 @@ export function buildHeroProjection(
   catalog: Catalog,
   savedFm: Record<string, unknown>,
 ): HeroProjection {
-  const calculated = result.calculated
+  const calculated = distributeMagiasCalculated(result.calculated, catalog, result.visitedDocs, savedFm)
+  // Habilidades POSSUÍDAS (salvas + concedidas por regra) pro filtro de
+  // linhagem das options (bug #5).
+  const ownedHabTargets = new Set<string>()
+  const savedHab = ((savedFm.Habilidades as Record<string, unknown> | undefined)?.Lista ?? []) as Array<
+    Record<string, unknown>
+  >
+  for (const row of savedHab) {
+    const k = Object.keys(row)[0]
+    if (k) ownedHabTargets.add(wikiBase(k))
+  }
+  const calcHab = (calculated as Record<string, unknown>)['Habilidades.Lista']
+  if (Array.isArray(calcHab)) {
+    for (const it of calcHab) {
+      const link = typeof it === 'string' ? it : (it as { link?: unknown })?.link
+      if (typeof link === 'string') ownedHabTargets.add(wikiBase(link))
+    }
+  }
+  const choicesFiltered = filterChoiceOptionsByLineage(result.choices, result.visitedDocs, ownedHabTargets)
   const periciasCov = coveredPericias(calculated)
   const oficiosCov = coveredOficios(calculated)
   const principalAllowed = derivePrincipalAllowed(calculated)
-  const annotated = annotateSubclassChoices(result.choices, result.visitedDocs)
+  const annotated = annotateSubclassChoices(choicesFiltered, result.visitedDocs)
 
   const linked = (wl: string): LinkedOption => ({ value: wl, label: linkLabel(wl) })
 
