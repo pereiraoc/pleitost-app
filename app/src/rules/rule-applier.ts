@@ -380,8 +380,23 @@ function applyAction(rule: ParsedRule, deltas: Deltas, ctx: ApplyContext, model:
       return { applied: true }
     }
 
-    case 'complementar':
-      deltaListAppend(deltas, action.targetRaw, action.valueRaw)
+    case 'complementar': {
+      // Fonte POR ITEM nas listas fonteadas (Habilidades/Técnicas/Ações): a
+      // concessão vai com `Regra.[[nota-pai]]` pra ANINHAR sob quem concedeu.
+      // Sem isso ia com a fonte genérica 'Regra' e o item virava raiz ao vivo
+      // (só o FM salvo materializava o pai) — #50, espelho de deltaSources.byListItem.
+      if (/^(Habilidades|Tecnicas|Acoes)(\.Lista)?$/.test(action.targetRaw)) {
+        const base = rule.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? ''
+        deltaListAppend(
+          deltas,
+          action.targetRaw,
+          base ? { link: String(action.valueRaw), source: `Regra.[[${base}]]` } : action.valueRaw,
+        )
+      } else {
+        deltaListAppend(deltas, action.targetRaw, action.valueRaw)
+      }
+      return { applied: true }
+    }
       return { applied: true }
 
     case 'escolher':

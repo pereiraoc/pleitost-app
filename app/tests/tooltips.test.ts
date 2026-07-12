@@ -94,6 +94,26 @@ beforeAll(async () => {
   projection = out.projection
 })
 
+describe('#50 concessão de regra ao vivo aninha (source per-item)', () => {
+  it('ação concedida por regra ganha Regra.[[pai]] (não Regra genérico) ao derivar', async () => {
+    // Carlos: Inspiração (ação) concede Ato Inspirador. Removo a materialização
+    // salva do Ato Inspirador → ele passa a vir SÓ da regra (cenário "ao vivo").
+    const stripped = structuredClone(fm) as Record<string, any>
+    stripped.Acoes = {
+      Lista: ((fm.Acoes as any)?.Lista ?? []).filter((a: any) => !('[[Ato Inspirador]]' in a)),
+    }
+    const out = await projectHeroRules(stripped, catalog, loadFromDisk)
+    const acoes = ((out.projection.derivedFm.Acoes as any)?.Lista ?? []) as Record<string, string>[]
+    const ato = acoes.find((a) => '[[Ato Inspirador]]' in a)
+    expect(ato, 'Ato Inspirador reaparece pela regra').toBeTruthy()
+    // #50: fonte é Regra.[[<pai>]] — item ANINHA sob quem concedeu, em vez do
+    // genérico 'Regra' que virava raiz. (Multi-concessor: fica o 1º aplicado —
+    // Performance Bárdica; o importante é ter um pai, não ser raiz.)
+    expect(ato!['[[Ato Inspirador]]']).toMatch(/^Regra\.\[\[.+\]\]$/)
+    expect(ato!['[[Ato Inspirador]]']).not.toBe('Regra')
+  })
+})
+
 describe('#145 fontes de Potência Mágica / EM Máximo (elementos de regra)', () => {
   it('ruleSourcesByPath tem as fontes de magias.potencia e magias.em (Definir)', () => {
     // Carlos (Bardo) recebe Potência/EM por Definir Magias.Potencia/EM na cadeia
