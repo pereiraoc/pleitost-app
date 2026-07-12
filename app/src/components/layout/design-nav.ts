@@ -43,7 +43,7 @@ export const CHAR_TABS: NavItem[] = [
 // vive inteira no PAINEL DIREITO (face SESSÃO do RightSidebar).
 export const APP_NAV: NavItem[] = [
   { id: 'herois', ic: '👤', label: 'HERÓIS' },
-  { id: 'npcs', ic: '👤', label: 'NPCS' },
+  { id: 'npcs', ic: '👤', label: 'CRIATURAS' },
   { id: 'compendio', ic: '📖', label: 'COMPÊNDIO' },
   { id: 'config', ic: '⚙️', label: 'CONFIG' },
 ]
@@ -56,7 +56,7 @@ export const TITLES: Record<string, string> = {
   combate: 'COMBATE',
   grupos: 'GRUPO',
   herois: 'HERÓIS',
-  npcs: 'NPCS',
+  npcs: 'CRIATURAS',
   sessao: 'SESSÃO',
   compendio: 'COMPÊNDIO',
   config: 'CONFIG',

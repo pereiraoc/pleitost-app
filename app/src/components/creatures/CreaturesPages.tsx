@@ -146,13 +146,16 @@ export function initials(name: string): string {
 /** Docs de uma pasta (sem a folder note), com os JSONs carregados em lote.
  *  `localKind` mescla as entidades LOCAIS da família na lista (issues #42/#45–
  *  #47): entries locais aparecem junto das da vault e seus docs entram no mapa. */
-function useFolderDocs(folder: string, localKind?: LocalKind) {
+function useFolderDocs(folder: string, localKind?: LocalKind, opts?: { includeVault?: boolean }) {
   const catalog = useCatalog()
   const version = useLocalStoreVersion()
   const node = catalog.folderByPath.get(folder)
+  // includeVault=false: painel lista SÓ o que o USUÁRIO criou (escrita) —
+  // Heróis/Heróis e Criaturas/Pessoas (reqs 4/5, issues #181/#183).
+  const includeVault = opts?.includeVault !== false
   const vaultEntries = useMemo(
-    () => (node ? node.docs.filter((d) => d.basename !== node.name) : []),
-    [node],
+    () => (includeVault && node ? node.docs.filter((d) => d.basename !== node.name) : []),
+    [node, includeVault],
   )
   const localEntries = useMemo(
     () => (localKind ? localEntriesOfKind(localKind) : []),
@@ -685,7 +688,10 @@ function GruposPanel({
 }
 
 export function HeroisPage() {
-  const { entries, docs } = useFolderDocs(HEROIS_FOLDER, 'Heroi')
+  // req 4 (#181): o painel Heróis lista APENAS os personagens do usuário
+  // (criados por ele — escrita); os da vault seguem acessíveis via grupos/
+  // compêndio, mas não são "dele" pra jogar.
+  const { entries, docs } = useFolderDocs(HEROIS_FOLDER, 'Heroi', { includeVault: false })
   const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
   const selectedGroup = searchParams.get('grupo')
@@ -764,7 +770,16 @@ function monsterTierColor(t: number): string {
   return tierBarColor(Math.min(Math.floor(t), 4))
 }
 
-function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
+function NpcCard({
+  entry,
+  doc,
+  readonly,
+}: {
+  entry: IndexDocEntry
+  doc?: VaultDoc
+  /** Selo de companheiro CONHECIDO (sem escrita) vs próprio — req 4.1. */
+  readonly?: boolean
+}) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
   const selected = useSelectedCreature() === entry.id // #86
@@ -819,6 +834,24 @@ function NpcCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
       )}
       <div className="npc-main">
         <div className="npc-nome">{nome}</div>
+        {/* Selo FORA do .npc-nome — testes/design leem o nome puro ali. */}
+        {readonly ? (
+          <span
+            title="Companheiro conhecido (sem direito de escrita)"
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: 8.5,
+              letterSpacing: '.08em',
+              color: 'var(--muted)',
+              border: '1px solid var(--line2)',
+              padding: '2px 6px',
+              alignSelf: 'flex-start',
+              margin: '2px 0',
+            }}
+          >
+            🔒 CONHECIDO
+          </span>
+        ) : null}
         <div className="npc-tipo">{tipo}</div>
       </div>
       <div className="npc-nvl">
@@ -845,12 +878,19 @@ function NpcPanel({
   folder,
   tierOf,
   localKind,
+  includeVault,
+  vaultReadonly,
 }: {
   folder: string
   tierOf?: (doc?: VaultDoc) => number
   localKind: LocalKind
+  /** false = só entidades do usuário (Criaturas/Pessoas, req 5). */
+  includeVault?: boolean
+  /** true = entradas da vault ganham o selo SOMENTE LEITURA (companheiros
+   *  conhecidos vs próprios — req 4.1, #182). */
+  vaultReadonly?: boolean
 }) {
-  const { entries, docs } = useFolderDocs(folder, localKind)
+  const { entries, docs } = useFolderDocs(folder, localKind, { includeVault })
   return (
     <TrackPanel pad="0">
       <div className="npc-panel-inner">
@@ -860,12 +900,22 @@ function NpcPanel({
             tierGroups(entries, docs, tierOf).flatMap((group) => [
               <TierKicker key={`tier-${group.letter}`} letter={group.letter} />,
               ...group.entries.map((entry) => (
-                <NpcCard key={entry.id} entry={entry} doc={docs.get(entry.id)} />
+                <NpcCard
+                  key={entry.id}
+                  entry={entry}
+                  doc={docs.get(entry.id)}
+                  readonly={vaultReadonly && !isLocalId(entry.id)}
+                />
               )),
             ])
           : // carregando (ou aba sem agrupamento): lista plana de antes
             entries.map((entry) => (
-              <NpcCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
+              <NpcCard
+                key={entry.id}
+                entry={entry}
+                doc={docs?.get(entry.id)}
+                readonly={vaultReadonly && !isLocalId(entry.id)}
+              />
             ))}
         {entries.length === 0 ? (
           <div className="npc-empty">// NENHUM REGISTRO NESTA CATEGORIA</div>
@@ -929,7 +979,14 @@ export function NpcsPage() {
       </div>
       <PanelTrack index={index}>
         {NPC_TABS.map((t) => (
-          <NpcPanel key={t.id} folder={t.folder} tierOf={t.tierOf} localKind={t.localKind} />
+          <NpcPanel
+            key={t.id}
+            folder={t.folder}
+            tierOf={t.tierOf}
+            localKind={t.localKind}
+            includeVault={t.id !== 'pessoas'}
+            vaultReadonly={t.id === 'companheiros'}
+          />
         ))}
       </PanelTrack>
       {activeTab === 'pessoas' ? (

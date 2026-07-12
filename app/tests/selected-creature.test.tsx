@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { AppShell } from '../src/components/layout/AppShell'
+import { createLocalEntity, emptyHeroFrontmatter } from '../src/data/local-entities'
 import { HeroisPage } from '../src/components/creatures/CreaturesPages'
 import { FichaPage } from '../src/components/ficha/FichaPage'
 import {
@@ -66,7 +67,12 @@ function charTabButtons(container: HTMLElement): HTMLButtonElement[] {
 
 describe('#86 seleção persistida na tela de seleção', () => {
   it('COM herói selecionado: topbar aparece, abas de personagem CLICÁVEIS, card destacado', async () => {
-    setSelectedCreature(CARLOS_ID)
+    // req 4: a lista de heróis é LOCAL-only — seleciona um herói local
+    const localId = createLocalEntity('Heroi', 'Selecionado Local', {
+      ...emptyHeroFrontmatter(),
+      Classe: '[[Bardo]]',
+    })
+    setSelectedCreature(localId)
     const { container } = renderAt('/herois')
 
     // topbar da ficha renderiza mesmo FORA da ficha (herói selecionado)
@@ -77,17 +83,17 @@ describe('#86 seleção persistida na tela de seleção', () => {
     expect(tabs.length).toBeGreaterThan(0)
     expect(tabs.every((b) => !b.disabled)).toBe(true)
 
-    // o card do Carlos aparece destacado
+    // o card do herói local aparece destacado
     await waitFor(() => {
       const sel = container.querySelector('.hero-card.selected') as HTMLElement
       expect(sel).toBeTruthy()
-      expect(within(sel).getByText(/Carlos/)).toBeTruthy()
+      expect(within(sel).getByText(/Selecionado Local/)).toBeTruthy()
     })
   })
 
   it('SEM seleção: as abas de personagem ficam DESABILITADAS (comportamento antigo)', async () => {
     const { container } = renderAt('/herois')
-    await screen.findAllByText(/Carlos/) // espera a lista carregar
+    await screen.findByRole('button', { name: 'GRUPOS' }) // tela montada (lista local pode ser vazia)
     const tabs = charTabButtons(container)
     expect(tabs.length).toBeGreaterThan(0)
     expect(tabs.every((b) => b.disabled)).toBe(true)

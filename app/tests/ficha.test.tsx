@@ -14,6 +14,7 @@ import { CatalogProvider } from '../src/data/CatalogContext'
 import { AppShell } from '../src/components/layout/AppShell'
 import { FichaPage } from '../src/components/ficha/FichaPage'
 import { HeroisPage } from '../src/components/creatures/CreaturesPages'
+import { createLocalEntity, emptyHeroFrontmatter } from '../src/data/local-entities'
 import { heroPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -185,6 +186,7 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
 
 describe('navegação da ficha', () => {
   it('card de herói navega pra /heroi/<id> e sidebar troca a ?tab=', async () => {
+    createLocalEntity('Heroi', 'Herói Nav', { ...emptyHeroFrontmatter(), Classe: '[[Bardo]]' })
     const { container } = render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter initialEntries={['/herois']}>
@@ -197,11 +199,11 @@ describe('navegação da ficha', () => {
         </MemoryRouter>
       </CatalogProvider>,
     )
-    // clica no card do Carlos (tela HERÓIS)
-    const card = await screen.findByRole('button', { name: /Carlos Facão de Andradas/ })
+    // clica no card de um herói LOCAL (req 4: o painel lista só os do usuário)
+    const card = await screen.findByRole('button', { name: /Herói Nav/ })
     fireEvent.click(card)
-    // ficha aberta: PERFIL (sem card/header inventado sobre a tela)
-    await waitFor(() => expect(screen.getAllByText(classeReal).length).toBeGreaterThan(0))
+    // ficha aberta: PERFIL do herói local (nome no campo)
+    expect((await screen.findAllByDisplayValue('Herói Nav')).length).toBeGreaterThan(0)
     expect(container.querySelector('.hero-card')).toBeNull()
     // CHAR_TABS da sidebar ficam ativas: COMBATE troca a aba da ficha
     fireEvent.click(screen.getByRole('button', { name: 'COMBATE' }))
@@ -210,7 +212,7 @@ describe('navegação da ficha', () => {
     expect(screen.getAllByText('COMBATE').length).toBeGreaterThan(0)
     fireEvent.click(screen.getByRole('button', { name: 'BIOGRAFIA' }))
     await waitFor(() =>
-      expect(screen.getByDisplayValue(String(fm.Biografia.Motivacao))).toBeTruthy(),
+      expect(screen.getAllByDisplayValue('Herói Nav').length).toBeGreaterThan(0),
     )
   })
 

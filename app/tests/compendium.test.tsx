@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 // Navegação por pastas + heróis/NPCs renderizando sobre o índice REAL da
 // vault; fetch stubado lê os JSONs do disco (mesma fonte do dev server).
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
@@ -14,6 +14,11 @@ import { HeroisPage, NpcsPage } from '../src/components/creatures/CreaturesPages
 import { COMPENDIUM_SECTIONS, visibleCount } from '../src/components/compendium/sections'
 import { compendiumFolderPath } from '../src/paths'
 import { groupMembers } from '../src/grupo/party'
+import {
+  __resetLocalStoreForTests,
+  createLocalEntity,
+  emptyHeroFrontmatter,
+} from '../src/data/local-entities'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -30,6 +35,26 @@ const readDoc = (id: string): VaultDoc =>
 // escrita por extenso: 1-3 bronze, 4-6 prata, 7-9 ouro, 10+ cristal).
 const TIER_COLOR = ['', '#cd7f32', '#94a3b8', '#d4af37', '#8fd3ff']
 const tierOfLevel = (n: number) => (n <= 3 ? 1 : n <= 6 ? 2 : n <= 9 ? 3 : 4)
+
+beforeEach(() => __resetLocalStoreForTests())
+
+// req 4 (#181): o painel Heróis lista SÓ personagens DO USUÁRIO (locais).
+// Semeia um elenco local com níveis cobrindo os 4 tiers (S/A/B/C).
+const ELENCO = [
+  { nome: 'Alda', nivel: 10, classe: 'Mago' },
+  { nome: 'Bento', nivel: 8, classe: 'Bardo' },
+  { nome: 'Cora', nivel: 5, classe: 'Guerreiro' },
+  { nome: 'Davi', nivel: 2, classe: 'Animista' },
+]
+function seedHeroisLocais() {
+  for (const h of ELENCO) {
+    createLocalEntity('Heroi', h.nome, {
+      ...emptyHeroFrontmatter(),
+      'Nível': h.nivel,
+      Classe: `[[${h.classe}]]`,
+    })
+  }
+}
 // '#d4af37' → 'rgb(212, 175, 55)' (forma normalizada do jsdom).
 const hexRgb = (hex: string) =>
   `rgb(${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)})`
@@ -107,21 +132,17 @@ describe('FolderView', () => {
 })
 
 describe('Heróis e NPCs (telas do design com dados reais)', () => {
-  it('HERÓIS: um card desenhado por herói, com Classe do frontmatter', async () => {
+  it('HERÓIS: um card por herói DO USUÁRIO (locais); vault fica de fora (req 4)', async () => {
+    seedHeroisLocais()
     renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
-    const herois = catalog.folderByPath
-      .get('Sistema/Criaturas/Heróis')!
-      .docs.filter((d) => d.basename !== 'Heróis')
-    for (const entry of herois) {
-      // card do design é um button com nome + classe + NVL
-      expect(
-        screen.getAllByRole('button', { name: new RegExp(entry.basename!.slice(0, 6)) }).length,
-        entry.id,
-      ).toBeGreaterThan(0)
+    for (const h of ELENCO) {
+      expect(screen.getAllByRole('button', { name: new RegExp(h.nome) }).length, h.nome).toBeGreaterThan(0)
     }
-    // classe alias do FM real (Adriann → Mago) aparece após o load
+    // classe do FM local renderiza
     expect(await screen.findAllByText('Mago')).toBeTruthy()
-    expect(screen.getAllByText('NVL').length).toBe(herois.length)
+    // 1 badge NVL por herói local — e NENHUM herói da vault na lista
+    expect(screen.getAllByText('NVL').length).toBe(ELENCO.length)
+    expect(screen.queryByText(/Carlos Facão/)).toBeNull()
   })
 
   it('NPCS: abas do design; bestiário com cards; PESSOAS vazio com o texto desenhado', async () => {
@@ -157,21 +178,20 @@ const docsOfFolder = (folder: string) => {
 
 describe('cores por tier/rank nos cards (dados reais)', () => {
   it('#17: badge NVL do herói colorida pelo tier do nível', async () => {
+    seedHeroisLocais()
     const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
     await screen.findAllByText('Mago') // docs carregados
-    for (const entry of docsOfFolder('Sistema/Criaturas/Heróis')) {
-      const nivel = Number(readDoc(entry.id).frontmatter['Nível'])
-      if (!Number.isFinite(nivel)) continue
+    for (const h of ELENCO) {
       const card = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
-        within(c).queryByText(entry.basename!),
+        within(c).queryByText(h.nome),
       )!
-      expect(card, entry.id).toBeTruthy()
-      const cor = hexRgb(TIER_COLOR[tierOfLevel(nivel)])
+      expect(card, h.nome).toBeTruthy()
+      const cor = hexRgb(TIER_COLOR[tierOfLevel(h.nivel)])
       const badge = card.querySelector<HTMLElement>('.hero-nvl')!
       const num = card.querySelector<HTMLElement>('.hero-nvl-num')!
-      await waitFor(() => expect(num.textContent).toBe(String(nivel)))
-      expect(num.style.color, entry.id).toBe(cor)
-      expect(badge.style.borderColor, entry.id).toBe(cor)
+      await waitFor(() => expect(num.textContent).toBe(String(h.nivel)))
+      expect(num.style.color, h.nome).toBe(cor)
+      expect(badge.style.borderColor, h.nome).toBe(cor)
     }
   })
 
@@ -308,14 +328,14 @@ function renderedGroups(panel: HTMLElement, cardSel: string, nameSel: string) {
 
 describe('#31: agrupamento por tier decrescente nas listas', () => {
   it('HERÓIS: grupos S→C do Nível (tierFromLevel), alfabético pt dentro', async () => {
+    seedHeroisLocais()
     const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
     await screen.findAllByText('Mago') // docs carregados → agrupamento ligado
-    const expected = expectedGroups('Sistema/Criaturas/Heróis', (fm) =>
-      tierOfLevel(Number(fm['Nível']) || 1),
-    )
-    // sanidade da fixture: mais de um grupo e nenhum vazio
-    expect(expected.length).toBeGreaterThan(1)
-    for (const g of expected) expect(g.names.length).toBeGreaterThan(0)
+    // elenco local cobre os 4 tiers: 10→S, 8→A, 5→B, 2→C (1 nome cada)
+    const LETTER: Record<number, string> = { 4: 'S', 3: 'A', 2: 'B', 1: 'C' }
+    const expected = [...ELENCO]
+      .sort((a, b) => tierOfLevel(b.nivel) - tierOfLevel(a.nivel))
+      .map((h) => ({ letter: LETTER[tierOfLevel(h.nivel)], names: [h.nome] }))
     const panel = container.querySelector<HTMLElement>('.herois-page')!
     expect(renderedGroups(panel, '.hero-card', '.hero-nome')).toEqual(expected)
   })

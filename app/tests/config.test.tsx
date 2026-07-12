@@ -147,7 +147,7 @@ describe('gating do BESTIÁRIO pelo Modo Mestre (issue #35)', () => {
     fireEvent.click(await screen.findByRole('button', { name: /\bATIVADO$/ }))
 
     // volta pros NPCS: aba disponível e clicável
-    fireEvent.click(screen.getByRole('link', { name: 'NPCS' }))
+    fireEvent.click(screen.getByRole('link', { name: 'CRIATURAS' }))
     await waitFor(() => expect(bestiarioBtn().disabled).toBe(false))
     fireEvent.click(bestiarioBtn())
     expect(bestiarioBtn().className).toContain('on')
@@ -164,7 +164,7 @@ describe('gating do BESTIÁRIO pelo Modo Mestre (issue #35)', () => {
 
     fireEvent.click(screen.getByRole('link', { name: 'CONFIG' }))
     fireEvent.click(await screen.findByRole('button', { name: /DESATIVADO/ }))
-    fireEvent.click(screen.getByRole('link', { name: 'NPCS' }))
+    fireEvent.click(screen.getByRole('link', { name: 'CRIATURAS' }))
     await waitFor(() => expect(bestiarioBtn().disabled).toBe(true))
     // seleção recuou pra primeira aba (PESSOAS)
     expect(screen.getByRole('button', { name: 'PESSOAS' }).className).toContain('on')
