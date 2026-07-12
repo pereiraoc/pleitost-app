@@ -6,6 +6,7 @@ import { DocPage } from './components/compendium/DocPage'
 import { HeroisPage, NpcsPage } from './components/creatures/CreaturesPages'
 import { ConfigPage } from './components/config/ConfigPage'
 import { FichaPage } from './components/ficha/FichaPage'
+import { SessaoPage } from './components/sessao/SessaoPage'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: '/compendio/*', element: <FolderView /> },
       { path: '/herois', element: <HeroisPage /> },
       { path: '/npcs', element: <NpcsPage /> },
+      { path: '/sessao', element: <SessaoPage /> },
       { path: '/heroi/*', element: <FichaPage /> },
       { path: '/config', element: <ConfigPage /> },
       { path: '/doc/*', element: <DocPage /> },
