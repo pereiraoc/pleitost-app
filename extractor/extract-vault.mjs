@@ -4,7 +4,8 @@
 //   npm run extract
 //
 // Determinístico e re-executável: limpa OUT_DIR e reconstrói do zero, então
-// deleções/renomeações na vault se refletem sem resíduo. Sem timestamps no output.
+// deleções/renomeações na vault se refletem sem resíduo. Sem timestamps no
+// output — EXCETO db-version.json, o stamp de versão da database (#190).
 
 import { rm, mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -159,6 +160,14 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   await writeJson(join(outDir, "links.json"), {
     counts: { docs: Object.keys(edges).length, edges: edgeCount },
     edges,
+  });
+
+  // 7. Stamp de versão da database (#190) — o ÚNICO arquivo com timestamp do
+  //    output. O app lê em /vault-data/db-version.json e mostra no CONFIG
+  //    (rodapé): de quando é a database publicada e quantos docs ela tem.
+  await writeJson(join(outDir, "db-version.json"), {
+    extractedAt: new Date().toISOString(),
+    docCount: contentDocs.length,
   });
 
   return {

@@ -15,6 +15,9 @@
     "dev:lan": "npm run dev:lan -w app",
     "build": "npm run build -w app",
     "preview": "npm run preview -w app",
+    "deploy": "npm run build && npx gh-pages -d app/dist --dotfiles",
+    "publish-db": "npm run extract && npm run deploy",
+    "test:infra": "node --test scripts/tests/*.test.mjs",
     "tokens": "npm run tokens -w app",
     "test:app": "npm run test -w app",
     "e2e": "npm run e2e -w app",
@@ -22,6 +25,7 @@
     "test:server": "npm test -w server"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "jsdom": "^24.0.0",
     "typescript": "^5.3.0",
     "yaml": "^2.9.0"
