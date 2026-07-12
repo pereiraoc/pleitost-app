@@ -502,7 +502,7 @@ export const ITEM_CARD_CSS = `
 .shc-card.tier-A{border-color:#6b727c;box-shadow:0 0 0 1px #3a3f47,0 2px 12px rgba(0,0,0,.45);background:linear-gradient(160deg,color-mix(in srgb,#8b929c 12%,var(--card)),var(--card))}
 .shc-card.tier-E{border-color:#dbe3ec;box-shadow:0 0 0 1px #aeb8c4,0 0 14px rgba(203,213,225,.34);background:linear-gradient(160deg,color-mix(in srgb,#cbd5e1 12%,var(--card)),var(--card))}
 .shc-card.tier-M{border-color:#e8c14a;box-shadow:0 0 0 1px #b8860b,0 0 16px rgba(224,183,60,.4);background:linear-gradient(160deg,color-mix(in srgb,#e0b73c 14%,var(--card)),var(--card))}
-.shc-img{width:100%;max-height:140px;object-fit:contain;border-radius:6px;background:var(--panel);margin-bottom:3px}
+.shc-img{width:100%;max-height:140px;object-fit:contain;border-radius:9px;margin-bottom:3px}
 .shc-name{font-weight:800;font-size:12.5px}
 .shc-tier{display:block;margin-top:1px;opacity:.7;font-weight:600;font-size:11px}
 .shc-row{font-size:11.5px;overflow-wrap:anywhere}
