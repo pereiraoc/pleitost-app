@@ -21,3 +21,5 @@ app-state.json
 
 # Backup de mapas exportado pelo app
 pleitost-mapas.json
+server/data/
+server/node_modules/

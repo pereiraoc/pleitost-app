@@ -203,6 +203,16 @@ export interface WriteOptions {
   valorAntigo?: unknown
 }
 
+/** Listener GLOBAL de writes (sync de sessão #101b): recebe todo writeHeroEdit
+ *  de fm com origem — o adapter encaminha `Interativa.*` pra sala e usa a
+ *  origem 'sync' como guarda de eco (writes aplicados do remoto não voltam). */
+export type HeroWriteListener = (heroId: string, path: string, value: unknown, origem: string) => void
+const writeListeners = new Set<HeroWriteListener>()
+export function onHeroWrite(cb: HeroWriteListener): () => void {
+  writeListeners.add(cb)
+  return () => writeListeners.delete(cb)
+}
+
 /** Gravação central: atualiza memória (UI na hora), notifica, persiste pelo
  *  canal e loga em modo debug. O valor é clonado — "structuredClone é
  *  obrigatório" no write-through do plugin (docs/architecture/modes.md). */
@@ -223,6 +233,7 @@ export function writeHeroEdit(
   notify(heroId)
   if (opts.channel === 'autosave') schedulePersist(heroId)
   else persist(heroId)
+  if (section === 'fm') for (const l of writeListeners) l(heroId, path, cloned, opts.origem)
   logChange({
     timestamp: new Date().toISOString(),
     heroId,

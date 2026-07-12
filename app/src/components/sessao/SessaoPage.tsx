@@ -8,7 +8,7 @@
 // Lógica de turno/ordem espelha o combat-tracker do plugin: ordem init DESC
 // (nome desempata), "Turno ${max(1,round)}" (action-bar.ts:144). Vida vem do
 // volátil das FICHAS (useVidaLocal) — a sessão nunca inventa valores (#101).
-import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
@@ -31,6 +31,15 @@ import {
   useSessions,
   type SessionRec,
 } from '../../data/session-store'
+import {
+  connectSessionSync,
+  logoutServer,
+  pushSessionPatch,
+  serverCreateSession,
+  serverJoinSession,
+  startDeviceLogin,
+  useServerAuth,
+} from '../../data/session-sync'
 
 // SESS_TABS / SESS_SEL_TABS — verbatim do script do design.
 const SESS_TABS = [
@@ -253,12 +262,17 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const vez = ordered.length ? Math.min(sess.vezIdx, ordered.length - 1) : 0
   const grupoNomes = members.map((m) => (m.basename ?? '').split(/\s+/)[0]).join(', ')
 
-  // Próximo do tracker: avança a vez; deu a volta → round+1.
+  // Próximo do tracker: avança a vez; deu a volta → round+1. Patch local +
+  // sala (pushSessionPatch é no-op sem servidor conectado).
+  const patch = (p: Partial<SessionRec>) => {
+    updateSession(sess.codigo, p)
+    pushSessionPatch(p)
+  }
   const proximo = () => {
     if (!ordered.length) return
     const next = vez + 1
-    if (next >= ordered.length) updateSession(sess.codigo, { vezIdx: 0, round: sess.round + 1 })
-    else updateSession(sess.codigo, { vezIdx: next })
+    if (next >= ordered.length) patch({ vezIdx: 0, round: sess.round + 1 })
+    else patch({ vezIdx: next })
   }
 
   return (
@@ -375,7 +389,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
                 init={sess.init[m.id] ?? 0}
                 ativo={i === vez}
                 defsOn={defsOn}
-                onInit={(v) => updateSession(sess.codigo, { init: { ...sess.init, [m.id]: v } })}
+                onInit={(v) => patch({ init: { ...sess.init, [m.id]: v } })}
               />
             )
           })}
@@ -576,27 +590,144 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
   )
 }
 
+/* ═══════════════ servidor (login GitHub + status) ═══════════════ */
+
+function ServerBox() {
+  const { url, auth } = useServerAuth()
+  const [device, setDevice] = useState<{ userCode: string; verificationUri: string } | null>(null)
+  const [erro, setErro] = useState('')
+  if (!url) return null
+  const login = async () => {
+    setErro('')
+    try {
+      const d = await startDeviceLogin()
+      setDevice({ userCode: d.userCode, verificationUri: d.verificationUri })
+      await d.finish
+      setDevice(null)
+    } catch (e) {
+      setDevice(null)
+      setErro(String((e as Error).message ?? e))
+    }
+  }
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        flexWrap: 'wrap',
+        padding: '12px 16px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(10),
+      }}
+    >
+      <span style={mono({ fontSize: 10, letterSpacing: '.14em', color: 'var(--muted)' })}>🌐 SERVIDOR</span>
+      <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{url}</span>
+      <span style={{ flex: 1 }} />
+      {auth ? (
+        <>
+          <span style={{ fontSize: 12.5, fontWeight: 600 }}>{auth.user.name || auth.user.login}</span>
+          <button
+            onClick={logoutServer}
+            style={mono({
+              padding: '5px 10px',
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              color: 'var(--muted)',
+              cursor: 'pointer',
+              fontSize: 10,
+              clipPath: clip(5),
+            })}
+          >
+            SAIR
+          </button>
+        </>
+      ) : device ? (
+        <span style={mono({ fontSize: 11.5, color: 'var(--text)' })}>
+          Autorize em{' '}
+          <a href={device.verificationUri} target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>
+            {device.verificationUri}
+          </a>{' '}
+          com o código <b style={{ letterSpacing: '.14em' }}>{device.userCode}</b>
+        </span>
+      ) : (
+        <button
+          onClick={login}
+          style={{
+            padding: '7px 14px',
+            background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
+            border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+            color: 'var(--accent)',
+            cursor: 'pointer',
+            fontWeight: 600,
+            fontSize: 12,
+            clipPath: clip(7),
+          }}
+        >
+           Entrar com GitHub
+        </button>
+      )}
+      {erro ? <span style={mono({ fontSize: 10.5, color: 'var(--red)' })}>{erro}</span> : null}
+    </div>
+  )
+}
+
 /* ═══════════════ LISTA DE SESSÕES (fora de sessão) ═══════════════ */
 
 function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const catalog = useCatalog()
+  const { auth } = useServerAuth()
   const [joinCode, setJoinCode] = useState('')
   const [novoGrupo, setNovoGrupo] = useState('')
   // Grupos da vault (categoria Grupo) pro vínculo da nova sessão — o roster
   // da mesa vem do grupo (integrantes), fonte de verdade real.
   const grupos = useMemo(() => catalog.docsByType.get('Grupo') ?? [], [catalog])
 
-  const join = () => {
+  // Com login no servidor, criar/entrar passam pelo servidor (o código vem de
+  // lá; o registro local vira o espelho da sala). Sem servidor, local puro.
+  const join = async () => {
     const code = joinCode.trim()
     if (!code) return
+    if (auth) {
+      try {
+        const sess = await serverJoinSession(code)
+        const local = joinSessionByCode(sess.codigo)
+        updateSession(local.codigo, {
+          nome: sess.nome,
+          grupoId: sess.grupoId,
+          mestre: sess.mestre,
+          init: sess.init,
+          round: sess.round,
+          vezIdx: sess.vezIdx,
+          claims: sess.claims,
+        })
+        setActiveSessionCode(sess.codigo)
+        setJoinCode('')
+        return
+      } catch {
+        // sessão não existe no servidor — cai no fluxo local
+      }
+    }
     const rec = joinSessionByCode(code)
     setActiveSessionCode(rec.codigo)
     setJoinCode('')
   }
-  const criar = () => {
+  const criar = async () => {
     const grupoId = novoGrupo || (grupos[0]?.id ?? null)
     const nome = grupoId ? (catalog.entryById.get(grupoId)?.basename ?? 'Nova Sessão') : 'Nova Sessão'
-    const rec = createSession(nome, grupoId, 'Você')
+    if (auth) {
+      try {
+        const sess = await serverCreateSession(nome, grupoId)
+        const local = joinSessionByCode(sess.codigo)
+        updateSession(local.codigo, { nome: sess.nome, grupoId: sess.grupoId, mestre: sess.mestre })
+        setActiveSessionCode(sess.codigo)
+        return
+      } catch {
+        // servidor fora — cai no fluxo local
+      }
+    }
+    const rec = createSession(nome, grupoId, auth?.user.name || 'Você')
     setActiveSessionCode(rec.codigo)
   }
 
@@ -605,6 +736,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
       <div style={mono({ fontSize: 12, letterSpacing: '.16em', color: 'var(--accent)', fontWeight: 700 })}>
         {'// LISTA DE SESSÕES'}
       </div>
+      <ServerBox />
       {sessions.map((s) => (
         <div
           key={s.codigo}
@@ -812,9 +944,18 @@ function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: (
 
 export function SessaoPage(): ReactNode {
   const { sessions, active } = useSessions()
+  const { auth } = useServerAuth()
   const [tab, setTab] = useState('iniciativa')
   const tabs = active ? SESS_TABS : SESS_SEL_TABS
   const tabIdx = active ? Math.max(0, SESS_TABS.findIndex((t) => t.id === tab)) : 0
+
+  // Sala viva (#101b): com servidor + login, a sessão ativa conecta no WS —
+  // patches da sessão e vida volátil dos heróis fluem nas duas direções.
+  const activeCodigo = active?.codigo ?? null
+  useEffect(() => {
+    if (!activeCodigo || !auth) return
+    return connectSessionSync(activeCodigo)
+  }, [activeCodigo, auth])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
