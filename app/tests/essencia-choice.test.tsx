@@ -86,6 +86,16 @@ describe('escolhas por ocorrência: essências do Animista (Zuko)', () => {
     expect(hab).toContain('Escolha.02.[[Magias Anima]]')
   })
 
+  it('o pick de essência NÃO duplica (aparece 1×, não como escolha + filho na árvore)', async () => {
+    renderZuko() // modo leitura (sem Alterar): a escolha mostra o pick sutil
+    // Essência Incendiária Adepta é um dos picks do Zuko (Escolha.01). Antes
+    // aparecia 2× (pick da escolha + filho ↳ na árvore); agora só 1×.
+    await screen.findAllByText('Essência Incendiária Adepta')
+    await waitFor(() =>
+      expect(screen.getAllByText('Essência Incendiária Adepta').length).toBe(1),
+    )
+  })
+
   it('os dropdowns de essência mostram valores DISTINTOS (resolução por Escolha.NN)', async () => {
     renderZuko()
     await abrirHabilidades()

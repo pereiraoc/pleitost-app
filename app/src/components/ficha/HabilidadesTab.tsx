@@ -1606,6 +1606,10 @@ function habTree(
   const byParent = new Map<string, ListaEntry[]>()
   const roots: ListaEntry[] = []
   for (const e of entries) {
+    // Pick de Escolha_Habilidades cujo pai TEM dropdown de escolha
+    // (choicesByTarget) já é mostrado pela própria escolha — não duplicar como
+    // filho na árvore (era isso que repetia as essências do Animista).
+    if (e.fonte.kind === 'Escolha' && choicesByTarget.has(e.fonte.target)) continue
     if (e.fonte.target && targets.has(e.fonte.target) && e.fonte.target !== e.target) {
       const list = byParent.get(e.fonte.target) ?? []
       list.push(e)
