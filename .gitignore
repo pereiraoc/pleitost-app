@@ -23,3 +23,4 @@ app-state.json
 pleitost-mapas.json
 server/data/
 server/node_modules/
+app/test-results/
