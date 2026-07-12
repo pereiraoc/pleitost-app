@@ -173,3 +173,36 @@ describe.skipIf(!process.env.PLEITOST_SUPABASE_TEST)('contrato SessionRepo — S
     await repo.endSession(sess.id)
   })
 })
+
+// ── publish: summary/state/fmBlob a partir do doc real ──────────────────
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { buildCharacterState, buildCharacterSummary, extractFmBlob } from '../src/data/session-repo/publish'
+import type { VaultDoc } from '../src/data/types'
+
+describe('publish: snapshot do personagem pro session_characters', () => {
+  const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
+  const zuko = JSON.parse(
+    fs.readFileSync(path.join(path.dirname(appDir), 'vault-data', 'Sistema/Criaturas/Heróis/Zuko.json'), 'utf8'),
+  ) as VaultDoc
+
+  it('summary do Zuko: família/nível/atributos/stats (evasao = Reflexo)', () => {
+    const s = buildCharacterSummary(zuko)
+    expect(s.nome).toBe('Zuko')
+    expect(s.family).toBe('Heroi')
+    expect(s.nivel).toBeGreaterThan(0)
+    expect(s.vitalidadeMax).toBeGreaterThan(0)
+    expect(s.stats.defesa).toBeGreaterThan(0)
+    expect(s.stats.evasao).toBeGreaterThan(0)
+  })
+
+  it('state: volátil ausente = recursos cheios; fmBlob exclui Interativa/aliases', () => {
+    const st = buildCharacterState(zuko)
+    expect(st.recursosRestantes.vitalidade).toBeGreaterThan(0)
+    const blob = extractFmBlob(zuko.frontmatter as Record<string, unknown>)
+    expect(blob['Interativa']).toBeUndefined()
+    expect(blob['aliases']).toBeUndefined()
+    expect(blob['Atributos']).toBeTruthy()
+  })
+})
