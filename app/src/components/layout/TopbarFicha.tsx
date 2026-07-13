@@ -16,8 +16,8 @@ import { useMemo, useState, type CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
-import { useCatalog } from '../../data/CatalogContext'
 import { useDoc, useDocs } from '../../data/useDoc'
+import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -149,32 +149,23 @@ function CoinsChip({ doc }: { doc: VaultDoc }) {
 
 /* ===================== seletor rápido (issue #34) ===================== */
 
-// Pastas reais da vault das listas do seletor — as mesmas das telas
-// HERÓIS (CreaturesPages HEROIS_FOLDER) e NPCS › COMPANHEIROS ANIMAIS.
-const SWITCHER_FOLDERS = [
-  'Sistema/Criaturas/Heróis',
-  'Sistema/Criaturas/Companheiros Animais',
-]
-
 const ptAlpha = new Intl.Collator('pt')
 
-/** Heróis + Companheiros Animais ordenados como as listas das telas
- *  (tierGroups de CreaturesPages, issue #31): tier decrescente (S→C, via
- *  tierFromLevel do FM Nível) e alfabético pt dentro do tier — tierGroups
- *  não é exportado, então a MESMA ordenação é aplicada aqui, achatada. */
+/** Personagens DO USUÁRIO no seletor (#211): só entidades LOCAIS (criadas ou
+ *  importadas) — heróis e companheiros animais, o mesmo universo da tela
+ *  HERÓIS (#181) e dos companheiros "próprios". Os da vault são EXEMPLOS do
+ *  compêndio e não entram aqui. Ordenação da issue #31 preservada: tier
+ *  decrescente (S→C via tierFromLevel do FM Nível) e alfabético pt. */
 function useSwitcherEntries(): {
   entries: IndexDocEntry[]
   docs: Map<string, VaultDoc> | undefined
 } {
-  const catalog = useCatalog()
-  const entries = useMemo(() => {
-    const list: IndexDocEntry[] = []
-    for (const folder of SWITCHER_FOLDERS) {
-      const node = catalog.folderByPath.get(folder)
-      if (node) list.push(...node.docs.filter((d) => d.basename !== node.name))
-    }
-    return list
-  }, [catalog])
+  const version = useLocalStoreVersion()
+  const entries = useMemo(
+    () => [...localEntriesOfKind('Heroi'), ...localEntriesOfKind('CompanheiroAnimal')],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [version],
+  )
   const ids = useMemo(() => entries.map((e) => e.id), [entries])
   const docs = useDocs(ids)
   const sorted = useMemo(() => {
