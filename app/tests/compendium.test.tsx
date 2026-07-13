@@ -18,6 +18,7 @@ import {
   __resetLocalStoreForTests,
   createLocalEntity,
   emptyHeroFrontmatter,
+  setGroupMember,
 } from '../src/data/local-entities'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -195,51 +196,47 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
     }
   })
 
-  it('#16: card de grupo com imagem (Retratos/<grupo>) e rank box do registro', async () => {
+  it('#16/#213: GRUPOS lista só grupos do usuário; card local com rank/imagem do registro', async () => {
+    // #213: grupos da vault são EXEMPLOS do compêndio e NÃO entram na aba
+    // GRUPOS; o card (rank box + imagem por Retratos/<nome>) é validado num
+    // grupo LOCAL — o grupo homônimo herda o retrato real da vault.
+    const gid = createLocalEntity('Grupo', 'Carlos, Dante, Mera, Pind, Thoren', {
+      categoria: 'Grupo',
+      subcategoria: 'Aventureiros',
+    })
+    // integrantes reais da vault via membership (mesma API do editor do grupo)
+    setGroupMember(gid, 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas', true, [])
+    setGroupMember(gid, 'Sistema/Criaturas/Heróis/Mera', true, [])
+    createLocalEntity('Grupo', 'Sem Retrato', { categoria: 'Grupo', subcategoria: 'Aventureiros' })
+
     const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
     fireEvent.click(screen.getByRole('button', { name: 'GRUPOS' }))
-    const groups = docsOfFolder('Sistema/Criaturas/Grupos de Criaturas')
-    expect(groups.length).toBeGreaterThan(0)
-    for (const group of groups) {
-      // expectativa independente: rank do FM cru, senão do tier máximo
-      const gfm = readDoc(group.id).frontmatter as Record<string, unknown>
-      const tiers = groupMembers(catalog, group.id).map((m) => {
-        const n = Number(readDoc(m.id).frontmatter['Nível']) || 1
-        return tierOfLevel(n)
-      })
-      const maxTier = tiers.length ? Math.max(...tiers) : 1
-      const raw = gfm['rank'] ?? gfm['Rank'] ?? gfm['classe'] ?? gfm['Classe']
-      const m = raw != null && raw !== '' ? /[SABCD]/.exec(String(raw).trim().toUpperCase()) : null
-      const letter = m
-        ? m[0]
-        : maxTier >= 4
-          ? 'S'
-          : maxTier === 3
-            ? 'A'
-            : maxTier === 2
-              ? 'B'
-              : 'C'
-      const card = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
-        within(c).queryByText(group.basename!),
-      )!
-      expect(card, group.id).toBeTruthy()
-      const rankBox = card.querySelector<HTMLElement>('.grupo-rank')!
-      await waitFor(() => expect(rankBox.textContent).toBe(letter))
-      expect(rankBox.style.color, group.id).toBe(hexRgb(RANK_COLOR[letter]))
-      expect(rankBox.style.borderColor, group.id).toBe(hexRgb(RANK_COLOR[letter]))
-      expect(rankBox.getAttribute('style'), group.id).toContain('box-shadow: 0 2px 8px')
-      // imagem: Retratos/<basename do grupo> quando existe; senão ⚔️
-      const portrait = card.querySelector<HTMLElement>('.hero-portrait')
-      if (group.basename === 'Carlos, Dante, Mera, Pind, Thoren') {
-        await waitFor(() => expect(card.querySelector('.hero-portrait')).toBeTruthy())
-        expect(
-          decodeURIComponent(card.querySelector<HTMLElement>('.hero-portrait')!.style.backgroundImage),
-        ).toContain(`Retratos/${group.basename}.png`)
-      } else if (group.basename === 'Baitaca, Carlos, Drauzio') {
-        expect(portrait).toBeNull()
-        expect(within(card).getByText('⚔️')).toBeTruthy()
-      }
+
+    // nenhum grupo da vault na lista
+    for (const group of docsOfFolder('Sistema/Criaturas/Grupos de Criaturas')) {
+      if (group.basename === 'Carlos, Dante, Mera, Pind, Thoren') continue // homônimo local
+      expect(screen.queryByText(group.basename!), group.id).toBeNull()
     }
+
+    // card do grupo local: rank pelo tier máximo dos integrantes (Mera nv 7 → A)
+    const card = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
+      within(c).queryByText('Carlos, Dante, Mera, Pind, Thoren'),
+    )!
+    expect(card).toBeTruthy()
+    const rankBox = card.querySelector<HTMLElement>('.grupo-rank')!
+    await waitFor(() => expect(rankBox.textContent).toBe('A'))
+    expect(rankBox.style.color).toBe(hexRgb(RANK_COLOR['A']))
+    expect(rankBox.getAttribute('style')).toContain('box-shadow: 0 2px 8px')
+    // imagem por Retratos/<basename> (asset real da vault, mesmo p/ grupo local)
+    await waitFor(() => expect(card.querySelector('.hero-portrait')).toBeTruthy())
+    expect(
+      decodeURIComponent(card.querySelector<HTMLElement>('.hero-portrait')!.style.backgroundImage),
+    ).toContain('Retratos/Carlos, Dante, Mera, Pind, Thoren.png')
+    // sem retrato → fallback ⚔️
+    const semRetrato = [...container.querySelectorAll<HTMLElement>('.hero-card')].find((c) =>
+      within(c).queryByText('Sem Retrato'),
+    )!
+    expect(within(semRetrato).getByText('⚔️')).toBeTruthy()
   })
 
   it('#19: bestiário mostra TIER do FM (não nível) com a cor do registro', async () => {

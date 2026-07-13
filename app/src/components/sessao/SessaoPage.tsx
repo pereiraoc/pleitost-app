@@ -946,7 +946,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
  *  publicados (summaries) — cresce conforme jogadores entram e nunca perde o
  *  estado (vive em session_characters, edição incremental). Colunas da tabela
  *  de VIDA do GRUPO (PanelVida / plugin aggregates). */
-function GrupoDaSala() {
+export function GrupoDaSala() {
   const live = useLiveSession()
   const chars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
   if (!chars.length) return null

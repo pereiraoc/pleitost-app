@@ -37,12 +37,13 @@ import {
   type LocalKind,
 } from '../../data/local-entities'
 import {
-  GRUPOS_FOLDER,
   rankColors,
   rankLetter,
   tierBarColor,
   tierFromLevel,
 } from '../../grupo/party'
+import { useLiveSession } from '../../data/session-repo/live-session'
+import { GrupoDaSala } from '../sessao/SessaoPage'
 import { CriadorAventura } from '../mestre/CriadorAventura'
 import { CriadorCombate } from '../mestre/CriadorCombate'
 import { ImportarModal } from './ImportarModal'
@@ -54,6 +55,9 @@ import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-t
 // nunca nasce neste repo, vem do Claude Design.
 
 const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
+
+// id sintético da mesa da sessão ativa na lista de GRUPOS (#213)
+const MESA_ID = 'sessao:mesa'
 
 // ── Agrupamento por tier (issue #31) ──────────────────────────────────────
 // HERÓIS, COMPANHEIROS ANIMAIS e BESTIÁRIO agrupados por tier decrescente
@@ -829,12 +833,16 @@ function GruposPanel({
 }) {
   const catalog = useCatalog()
   const version = useLocalStoreVersion()
-  const groups = useMemo(() => {
-    const node = catalog.folderByPath.get(GRUPOS_FOLDER)
-    const vault = node ? node.docs.filter((d) => d.basename !== node.name) : []
-    // grupos locais (issue #43) entram na lista de GRUPOS junto dos da vault
-    return [...vault, ...localEntriesOfKind('Grupo')]
-  }, [catalog, version])
+  // #213: a lista de GRUPOS tem só os grupos DO USUÁRIO (locais — montados
+  // com os personagens da lista de heróis) e a MESA da sessão ativa (abaixo).
+  // Os grupos puxados do Obsidian são EXEMPLOS e vivem no compêndio
+  // (Sistema/Criaturas/Grupos de Criaturas), fora desta lista.
+  const groups = useMemo(
+    () => localEntriesOfKind('Grupo'),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [version],
+  )
+  const live = useLiveSession()
   const membersByGroup = useMemo(
     () => new Map(groups.map((g) => [g.id, resolveGroupMembers(catalog, g.id)])),
     [catalog, groups, version],
@@ -848,6 +856,16 @@ function GruposPanel({
   )
   const docs = useDocs(allIds)
 
+  if (selected === MESA_ID) {
+    return (
+      <div>
+        <button className="grupo-voltar" onClick={() => onSelect(null)}>
+          ← GRUPOS
+        </button>
+        <GrupoDaSala />
+      </div>
+    )
+  }
   if (selected) {
     return (
       <div>
@@ -861,6 +879,20 @@ function GruposPanel({
 
   return (
     <div className="herois-page">
+      {/* #213: mesa da sessão ativa como grupo — o grupo "existe a partir da
+          sessão" (#203); abre a mesma tabela do DETALHES (GrupoDaSala). */}
+      {live && live.members.length ? (
+        <button className="hero-card" onClick={() => onSelect(MESA_ID)}>
+          <span className="hero-card-stripe" aria-hidden />
+          <span className="hero-ini">⚔️</span>
+          <div className="hero-main">
+            <div className="hero-nome">Grupo da Sessão</div>
+            <div className="hero-classe">
+              {live.members.length} jogador{live.members.length === 1 ? '' : 'es'} na mesa
+            </div>
+          </div>
+        </button>
+      ) : null}
       {groups.map((group) => {
         const members = membersByGroup.get(group.id)!
         const maxTier = members.length
