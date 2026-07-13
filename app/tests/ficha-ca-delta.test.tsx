@@ -12,7 +12,7 @@
 //   INVENTÁRIO   → some CONSUMÍVEIS, Moedas e os pickers de armadura/escudo.
 //   ANOTAÇÕES    → aba não existe pro CA (rota cai no PERFIL).
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -161,5 +161,42 @@ describe('COMBATE do CA (mount-interativa.ts:785 showMagias = Heroi)', () => {
   it('controle Heroi: sub-aba MAGIAS presente no combate', async () => {
     renderFicha(MERA_ID, 'combate')
     expect(await screen.findByText('MAGIAS')).toBeTruthy()
+  })
+})
+
+describe('INVENTÁRIO do CA (plugin tab-inventario.ts:126-128 + tab-completa.ts:33-43)', () => {
+  it('sem CONSUMÍVEIS, sem Moedas e sem pickers de armadura/escudo; tesouros reais ficam', async () => {
+    renderFicha(METIS_ID, 'inventario')
+    // Arma natural real (corpo comum preservado).
+    expect(await screen.findByText('Mandíbula')).toBeTruthy()
+    expect(screen.queryByText('CONSUMÍVEIS')).toBeNull()
+    expect(screen.queryByTitle('Moedas')).toBeNull()
+    expect(screen.queryByText('ARMADURA')).toBeNull()
+    expect(screen.queryByText('ESCUDO')).toBeNull()
+    // Tesouros equipados reais do FM (Anel do Equilíbrio é permitido pro CA).
+    expect(screen.getAllByText(/Anel do Equilíbrio/).length).toBeGreaterThan(0)
+  })
+
+  it('catálogo de tesouros do CA = só os 3 permitidos (filterCaTesouros)', async () => {
+    renderFicha(METIS_ID, 'inventario')
+    await screen.findByText('Mandíbula')
+    // Abre o picker da aba EQUIPAMENTOS (fab "+ Adicionar Tesouro").
+    fireEvent.click(screen.getByText('EQUIPAMENTOS'))
+    fireEvent.click(await screen.findByText(/\+ Adicionar Tesouro/))
+    expect(await screen.findByText('ESCOLHER TESOURO')).toBeTruthy()
+    expect(screen.getAllByText('Pulseira da Potência').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Anel da Resistência').length).toBeGreaterThan(0)
+    // Tesouro fora da whitelist não é opção pro CA (existe na vault:
+    // Equipamentos de Perícia/Luvas do Ladrão).
+    expect(screen.queryByText('Luvas do Ladrão')).toBeNull()
+  })
+
+  it('controle Heroi: CONSUMÍVEIS, Moedas e ARMADURA/ESCUDO presentes', async () => {
+    renderFicha(MERA_ID, 'inventario')
+    // Strip + PanelLabel — pro herói a sub-aba existe e o painel monta.
+    expect((await screen.findAllByText('CONSUMÍVEIS')).length).toBeGreaterThan(0)
+    expect(screen.getByTitle('Moedas')).toBeTruthy()
+    expect(screen.getByText('ARMADURA')).toBeTruthy()
+    expect(screen.getByText('ESCUDO')).toBeTruthy()
   })
 })

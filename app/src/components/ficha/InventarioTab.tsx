@@ -26,6 +26,7 @@ import { loadDoc, useDocs } from '../../data/useDoc'
 import { TIER_PRICE_MULT } from '../../data/commerce'
 import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
+import { fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { CoinsDropdown } from './pop-panels'
@@ -828,6 +829,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const model = useHeroModel(doc, 'inventario')
+  const caps = fichaFamiliaOf(doc)
   const fm = model.fm
   const armadura = (fmPath(fm, 'Inventario', 'Armadura') ?? {}) as Record<string, unknown>
   const escudo = (fmPath(fm, 'Inventario', 'Escudo') ?? {}) as Record<string, unknown>
@@ -986,32 +988,37 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
   return (
     <>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))', gap: 16 }}>
-        <GearCard
-          titulo="ARMADURA"
-          badge={tokens.emojis.equipProf.Armadura}
-          bases={armaduraOpts}
-          gear={armadura}
-          // Armadura sem mapeamento base→imagem confiável → placeholder (emoji);
-          // selo de obra-prima ainda aparece quando ranqueada.
-          img={null}
-          selo={gearSelo(armadura)}
-          doc={gearDoc(armadura['Nome'])}
-          propDoc={gearDoc(armadura['Propriedade'])}
-          {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
-        />
-        <GearCard
-          titulo="ESCUDO"
-          badge={tokens.emojis.equipProf.Escudo}
-          bases={escudoOpts}
-          gear={escudo}
-          img={escudoImageUrlByName(String(escudo['Nome'] ?? ''), assets)}
-          selo={gearSelo(escudo)}
-          doc={gearDoc(escudo['Nome'])}
-          propDoc={gearDoc(escudo['Propriedade'])}
-          {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
-        />
-      </div>
+      {/* Armadura/escudo por família (#201): o CA não equipa nenhum — usa
+          Armadura Natural (plugin defesa.ts:58-64; tab-completa do CA só tem
+          Tesouros). Gate central FICHA_FAMILIA. */}
+      {caps.equipamentos ? (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(250px,1fr))', gap: 16 }}>
+          <GearCard
+            titulo="ARMADURA"
+            badge={tokens.emojis.equipProf.Armadura}
+            bases={armaduraOpts}
+            gear={armadura}
+            // Armadura sem mapeamento base→imagem confiável → placeholder (emoji);
+            // selo de obra-prima ainda aparece quando ranqueada.
+            img={null}
+            selo={gearSelo(armadura)}
+            doc={gearDoc(armadura['Nome'])}
+            propDoc={gearDoc(armadura['Propriedade'])}
+            {...gearHandlers('Inventario.Armadura', armadura, 'armadura')}
+          />
+          <GearCard
+            titulo="ESCUDO"
+            badge={tokens.emojis.equipProf.Escudo}
+            bases={escudoOpts}
+            gear={escudo}
+            img={escudoImageUrlByName(String(escudo['Nome'] ?? ''), assets)}
+            selo={gearSelo(escudo)}
+            doc={gearDoc(escudo['Nome'])}
+            propDoc={gearDoc(escudo['Propriedade'])}
+            {...gearHandlers('Inventario.Escudo', escudo, 'escudo')}
+          />
+        </div>
+      ) : null}
 
       <div style={panelStyle()}>
         <PanelLabel>TESOUROS</PanelLabel>
@@ -1439,6 +1446,11 @@ function AddFab({
 export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
+  // Delta por FAMÍLIA (#201): CA sem CONSUMÍVEIS nem Moedas (plugin
+  // tab-inventario.ts:126-128, só Heroi) e com tesouros restritos aos 3
+  // permitidos (tabs/ca/tab-completa.ts:33-43).
+  const caps = fichaFamiliaOf(doc)
+  const invTabs = INV_TABS.filter((t) => t.id !== 'consumiveis' || caps.consumiveis)
   const [tab, setTab] = useState('armas')
   // Moedas: MESMO estado persistido do chip da topbar (overlay Inventario.Ouro).
   const coins = num(fmPath(model.fm, 'Inventario', 'Ouro'))
@@ -1506,15 +1518,18 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
           (e: IndexDocEntry) =>
             e.id.startsWith(TESOUROS_FOLDER) &&
             e.subtype === 'Tesouro' &&
-            !TESOUROS_EXCLUIR.some((prefix) => e.id.startsWith(prefix)),
+            !TESOUROS_EXCLUIR.some((prefix) => e.id.startsWith(prefix)) &&
+            // CA só equipa os 3 tesouros permitidos — filtro VERBATIM de
+            // filterCaTesouros do plugin (tabs/ca/tab-completa.ts:39-41).
+            (!caps.tesourosPermitidos || caps.tesourosPermitidos.has(e.basename ?? e.id)),
         )
         .map((e) => ({ ic: tokens.emojis.bonusType.Item, nm: e.basename ?? e.id, key: e.id })),
-    [catalog],
+    [catalog, caps],
   )
 
   const index = Math.max(
     0,
-    INV_TABS.findIndex((t) => t.id === tab),
+    invTabs.findIndex((t) => t.id === tab),
   )
 
   return (
@@ -1532,11 +1547,12 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
       }}
     >
       <TabStrip
-        tabs={INV_TABS}
+        tabs={invTabs}
         active={tab}
         onSelect={setTab}
         pad="12px 20px"
-        right={<CoinsButton coins={coins} onChange={setCoins} />}
+        // Moedas por família (#201): CA não tem (tab-inventario.ts:126-128).
+        right={caps.moedas ? <CoinsButton coins={coins} onChange={setCoins} /> : null}
       />
       <PanelTrack index={index}>
           {/* pad 0: contentPad dos painéis do design já vem do .app-main */}
@@ -1546,9 +1562,11 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
           <TrackPanel pad="0" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <EquipamentosPanel doc={doc} refs={refs} />
           </TrackPanel>
-          <TrackPanel pad="0">
-            <ConsumiveisPanel doc={doc} refs={refs} />
-          </TrackPanel>
+          {caps.consumiveis ? (
+            <TrackPanel pad="0">
+              <ConsumiveisPanel doc={doc} refs={refs} />
+            </TrackPanel>
+          ) : null}
       </PanelTrack>
       {/* Fab da aba ativa no nível da TELA, como o invAdd do design
           (dc.html:707: absolute right:26 bottom:22 no container da tela;
