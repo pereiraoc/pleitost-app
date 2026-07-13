@@ -450,6 +450,13 @@ export function supabaseSessionRepo(): SupabaseSessionRepo | null {
   return sb ? new SupabaseSessionRepo(sb) : null
 }
 
+/** URL de retorno do OAuth (#208): origin + BASE do Vite — em GitHub Pages
+ *  de projeto o app vive sob /pleitost-app/, e `origin` sozinho aterrissa
+ *  num 404 fora do app. BASE_URL é '/' em dev/raiz (comportamento igual). */
+export function oauthRedirectUrl(base: string = import.meta.env.BASE_URL): string {
+  return window.location.origin + (base.endsWith('/') ? base : `${base}/`)
+}
+
 /** Login GitHub via OAuth redirect (PKCE) — requisito de auth do usuário;
  *  provider habilitado no painel do Supabase. */
 export async function signInWithGitHub(): Promise<void> {
@@ -457,7 +464,7 @@ export async function signInWithGitHub(): Promise<void> {
   if (!sb) throw new Error('Supabase não configurado')
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'github',
-    options: { redirectTo: window.location.origin },
+    options: { redirectTo: oauthRedirectUrl() },
   })
   if (error) throw error
 }
