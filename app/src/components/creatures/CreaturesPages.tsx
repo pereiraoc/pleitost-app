@@ -34,6 +34,7 @@ import {
   tierBarColor,
   tierFromLevel,
 } from '../../grupo/party'
+import { CriadorAventura } from '../mestre/CriadorAventura'
 import { CriadorCombate } from '../mestre/CriadorCombate'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
@@ -130,6 +131,7 @@ const NPC_TABS: {
 // :disabled com Mestre OFF, seleção recua pra primeira aba se o modo desligar.
 const MESTRE_TABS = [
   { id: 'combate', label: 'COMBATE' },
+  { id: 'aventura', label: 'AVENTURA' },
 ] as const
 
 /** Abas que só existem com Modo Mestre ligado (BESTIÁRIO + Criadores). */
@@ -1061,6 +1063,9 @@ export function NpcsPage() {
             (gate interno dos componentes cobre o painel fora de foco) */}
         <TrackPanel>
           <CriadorCombate />
+        </TrackPanel>
+        <TrackPanel>
+          <CriadorAventura />
         </TrackPanel>
       </PanelTrack>
       {activeTab === 'pessoas' ? (

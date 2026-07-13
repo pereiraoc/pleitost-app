@@ -1,11 +1,14 @@
 // @vitest-environment jsdom
-// Trilha C do plano-mestre (#195) — Criador de Combate NA TELA real (página
-// CRIATURAS, aba COMBATE mestre-gated), sobre dados REAIS do vault-data
-// (fetch stubado lê os JSONs do disco): montar roster com monstro real do
-// bestiário → dificuldade AO VIVO lida da tela; "Adicionar à sessão" chama
-// insertEncounter num InMemorySessionRepo injetado com sessão fake ativa.
+// Trilha C do plano-mestre (#194/#195) — os Criadores do Modo Mestre NA TELA
+// real (página CRIATURAS, abas COMBATE/AVENTURA mestre-gated), sobre dados
+// REAIS do vault-data (fetch stubado lê os JSONs do disco):
+//   #195 — montar roster com monstro real do bestiário → dificuldade AO VIVO
+//          lida da tela; "Adicionar à sessão" chama insertEncounter num
+//          InMemorySessionRepo injetado com sessão fake ativa;
+//   #194 — nível do grupo → recompensa esperada na tela; nota de aventura
+//          real (bloco combat-marker) → tabela de dificuldade por nível.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -95,10 +98,11 @@ async function addMonstro(id: string, qty: string) {
   fireEvent.click(btn)
 }
 
-describe('gate do Modo Mestre na aba COMBATE', () => {
+describe('gate do Modo Mestre nas abas COMBATE/AVENTURA', () => {
   it('Mestre OFF → abas desabilitadas (mesma convenção do BESTIÁRIO)', () => {
     renderCriaturas()
     expect((screen.getByRole('button', { name: 'COMBATE' }) as HTMLButtonElement).disabled).toBe(true)
+    expect((screen.getByRole('button', { name: 'AVENTURA' }) as HTMLButtonElement).disabled).toBe(true)
     expect((screen.getByRole('button', { name: 'BESTIÁRIO' }) as HTMLButtonElement).disabled).toBe(true)
   })
 })
@@ -183,5 +187,44 @@ describe('#195 Criador de Combate', () => {
     })
     // feedback na tela
     expect(await screen.findByText('Combate "Emboscada" adicionado à sessão.')).toBeTruthy()
+  })
+})
+
+describe('#194 Criador de Aventura', () => {
+  it('nível do grupo → recompensa esperada; nota real → dificuldade por nível', async () => {
+    mestreOn()
+    renderCriaturas()
+    fireEvent.click(screen.getByRole('button', { name: 'AVENTURA' }))
+
+    // recompensa: nível 5 → 400 PO (ECONOMY_WEALTH_DATA via wealth.ts)
+    fireEvent.change(screen.getByLabelText('Nível do grupo'), { target: { value: '5' } })
+    expect(screen.getAllByText('400 PO').length).toBeGreaterThanOrEqual(2) // resumo + tabela
+    expect(screen.getByText('+225 PO')).toBeTruthy() // Δ do 4→5
+
+    // nota de aventura real da vault com bloco combat-marker
+    const notas = (await screen.findByLabelText('Nota de aventura')) as HTMLSelectElement
+    await waitFor(() =>
+      expect(
+        within(notas).getAllByRole('option').some((o) => o.textContent?.includes('Emboscada de Goblins')),
+      ).toBe(true),
+    )
+    fireEvent.change(notas, {
+      target: { value: 'Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync)' },
+    })
+
+    // roster parseado na tela (3× Soldado + 1× Piromante = 40 pts)
+    expect(await screen.findByText('3× Goblin Soldado')).toBeTruthy()
+    expect(screen.getByText('1× Goblin Piromante')).toBeTruthy()
+
+    // tabela por nível: 40 pts → DIFICIL nos níveis 1-3, TRIVIAL nos 4-10
+    // (thresholds do classify: 100%/90.9%/83.3% e depois ≤40%)
+    const tabela = document.querySelector('[data-mestre-dificuldade]') as HTMLElement
+    await waitFor(() => {
+      expect(within(tabela).getAllByText('DIFICIL')).toHaveLength(3)
+      expect(within(tabela).getAllByText('TRIVIAL')).toHaveLength(7)
+    })
+    // linha do nível selecionado (5) marcada
+    const linhaNivel5 = within(tabela).getAllByRole('row').find((r) => r.getAttribute('aria-current'))
+    expect(linhaNivel5?.textContent).toContain('T2')
   })
 })
