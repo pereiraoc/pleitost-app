@@ -169,11 +169,21 @@ export function raridadeTesouro(nome: string, tipico: boolean): Raridade {
   return tipico ? 'tipico' : 'incomum'
 }
 
-/** Modificador de um combo ARMA×IMBUIÇÃO (tabela "Modificadores por Região"):
- *  típica+típica ×1 · incomum+típica ×½ · típica+incomum ×¼ · incomum+incomum ×⅛. */
+/** Combos ARMA×IMBUIÇÃO como DADO editável (tabela "Modificadores por
+ *  Região"): tt=típica+típica ×1 · it=incomum+típica ×½ · ti=típica+incomum
+ *  ×¼ · ii=incomum+incomum ×⅛. Vira tabela viva pro override do CONFIG
+ *  (#202) — comboMult lê daqui. */
+export const COMBO_MULT: Record<'tt' | 'it' | 'ti' | 'ii', number> = {
+  tt: 1,
+  it: 0.5,
+  ti: 0.25,
+  ii: 0.125,
+}
+
+/** Modificador de um combo ARMA×IMBUIÇÃO — lê a tabela viva COMBO_MULT. */
 export function comboMult(armaTipica: boolean, imbTipica: boolean): number {
-  if (armaTipica) return imbTipica ? 1 : 0.25
-  return imbTipica ? 0.5 : 0.125
+  if (armaTipica) return imbTipica ? COMBO_MULT.tt : COMBO_MULT.ti
+  return imbTipica ? COMBO_MULT.it : COMBO_MULT.ii
 }
 
 /** Tabela "Tesouros em Vilarejos" — VERBATIM da nota (Disponibilidade de

@@ -15,7 +15,9 @@ import { useTheme, type Aesthetic, type Mode } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { tokens } from '../ficha/registry'
+import { useSyncExternalStore } from 'react'
 import {
+  COMBO_MULT,
   LOCAL_TYPES,
   POCAO_DICE,
   RARIDADE_MULT,
@@ -24,10 +26,64 @@ import {
   TIER_COLUNA,
   TIER_PRICE_MULT,
   VILAREJO_CHANCES,
-  comboMult,
   type LocalType,
   type Tier,
 } from '../../data/commerce'
+import { sistemaConfig } from '../../data/system-config'
+
+/** Re-render quando qualquer tabela de sistema muda (#202). */
+function useSistemaVersion(): number {
+  return useSyncExternalStore(sistemaConfig.subscribe, sistemaConfig.getVersion)
+}
+
+/** Botão RESTAURAR PADRÃO (mesmo estilo do da disponibilidade). */
+function ResetBtn({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        fontFamily: 'var(--mono)',
+        fontSize: 10,
+        letterSpacing: '.1em',
+        color: 'var(--muted)',
+        background: 'transparent',
+        border: '1px solid var(--line2)',
+        padding: '6px 11px',
+        cursor: 'pointer',
+        clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+      }}
+    >
+      RESTAURAR PADRÃO
+    </button>
+  )
+}
+
+/** Input numérico pequeno (aceita decimais: 0.5, 0.25…). */
+function NumCell({ value, label, onChange }: { value: number; label: string; onChange: (v: number) => void }) {
+  return (
+    <input
+      type="text"
+      inputMode="decimal"
+      aria-label={label}
+      value={String(value)}
+      onChange={(e) => {
+        const n = Number(e.target.value.replace(',', '.'))
+        if (Number.isFinite(n) && n >= 0) onChange(n)
+      }}
+      style={{
+        width: 58,
+        textAlign: 'center',
+        padding: '5px 4px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line2)',
+        color: 'var(--text)',
+        fontFamily: 'var(--mono)',
+        fontSize: 12,
+        clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+      }}
+    />
+  )
+}
 import { TabStrip } from '../ficha/bits'
 
 /** Linha de configuração desenhada (template 1433/1444). */
@@ -231,11 +287,13 @@ function DisponibilidadeSection() {
  *  tierMultFromName do plugin: Adepto ×1, Experiente ×5, Mestre ×25) —
  *  informativo, é a regra que a loja aplica no preço base. */
 function MultiplicadoresSection() {
+  useSistemaVersion()
   return (
     <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ fontSize: 19, flex: 'none' }}>💰</span>
         <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Multiplicadores de Preço por Tier</span>
+        <ResetBtn onClick={() => sistemaConfig.resetMultiplicadores()} />
       </div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {TIERS.map((t: Tier) => (
@@ -243,7 +301,7 @@ function MultiplicadoresSection() {
             key={t}
             style={{
               display: 'inline-flex',
-              alignItems: 'baseline',
+              alignItems: 'center',
               gap: 7,
               padding: '7px 13px',
               background: 'var(--panel)',
@@ -254,18 +312,21 @@ function MultiplicadoresSection() {
             <span
               style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}
             >
-              {TIER_COLUNA[t].toUpperCase()}
+              {TIER_COLUNA[t].toUpperCase()} ×
             </span>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
-              ×{TIER_PRICE_MULT[t]}
-            </span>
+            <NumCell
+              value={TIER_PRICE_MULT[t]}
+              label={`multiplicador ${TIER_COLUNA[t]}`}
+              onChange={(v) => sistemaConfig.setTierMult(t, v)}
+            />
           </span>
         ))}
       </div>
       <div
         style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
       >
-        Preço final na loja = preço base do tesouro × multiplicador do tier.
+        Preço final na loja = preço base do tesouro × multiplicador do tier. Vale pras sessões que
+        você criar como mestre.
       </div>
     </div>
   )
@@ -275,6 +336,7 @@ function MultiplicadoresSection() {
  *  local × tier (POCAO_DICE, rolada pra cada poção; "0dX−C" = nunca
  *  disponível). Informativo: é a lógica que a loja usa. */
 function PocoesSection() {
+  useSistemaVersion()
   const th: CSSProperties = {
     fontFamily: 'var(--mono)',
     fontSize: 10,
@@ -289,6 +351,7 @@ function PocoesSection() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ fontSize: 19, flex: 'none' }}>{tokens.emojis.categoria.Consumivel}</span>
         <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Quantidade de Poções</span>
+        <ResetBtn onClick={() => sistemaConfig.resetPocao()} />
       </div>
       <table style={{ borderCollapse: 'collapse' }}>
         <thead>
@@ -308,17 +371,24 @@ function PocoesSection() {
                 {lt}
               </td>
               {TIERS.map((t: Tier) => (
-                <td
-                  key={t}
-                  style={{
-                    padding: '4px 8px',
-                    textAlign: 'center',
-                    fontFamily: 'var(--mono)',
-                    fontSize: 12,
-                    color: 'var(--text)',
-                  }}
-                >
-                  {POCAO_DICE[lt][t]}
+                <td key={t} style={{ padding: '3px 4px', textAlign: 'center' }}>
+                  <input
+                    type="text"
+                    aria-label={`poções ${lt} ${TIER_COLUNA[t]}`}
+                    value={POCAO_DICE[lt][t]}
+                    onChange={(e) => sistemaConfig.setPocao(lt, t, e.target.value)}
+                    style={{
+                      width: 74,
+                      textAlign: 'center',
+                      padding: '5px 4px',
+                      background: 'var(--panel)',
+                      border: '1px solid var(--line2)',
+                      color: 'var(--text)',
+                      fontFamily: 'var(--mono)',
+                      fontSize: 12,
+                      clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
+                    }}
+                  />
                 </td>
               ))}
             </tr>
@@ -334,52 +404,35 @@ function PocoesSection() {
     </div>
   )
 }
-
-
-/** ×N legível como na nota (×1/2, ×1/4, ×1/8). */
-function multLabel(v: number): string {
-  if (v === 0.5) return '×1/2'
-  if (v === 0.25) return '×1/4'
-  if (v === 0.125) return '×1/8'
-  return `×${v}`
-}
-
 /** "Modificadores por Região" — VERBATIM da nota Disponibilidade de Tesouros:
  *  raridade (RARIDADE_MULT) + combos arma×imbuição (comboMult) + a lista de
  *  tesouros BÁSICOS. Informativo: é a regra que a loja aplica. */
 function RegiaoSection() {
-  const linhas: Array<{ caso: string; mult: string }> = [
-    { caso: 'Tesouro típico', mult: multLabel(RARIDADE_MULT['tipico']) },
-    { caso: 'Tesouro básico típico', mult: multLabel(RARIDADE_MULT['basico-tipico']) },
-    { caso: 'Tesouro básico incomum', mult: multLabel(RARIDADE_MULT['basico-incomum']) },
-    { caso: 'Tesouro incomum', mult: multLabel(RARIDADE_MULT['incomum']) },
-    { caso: 'Arma típica + imbuição típica', mult: multLabel(comboMult(true, true)) },
-    { caso: 'Arma incomum + imbuição típica', mult: multLabel(comboMult(false, true)) },
-    { caso: 'Arma típica + imbuição incomum', mult: multLabel(comboMult(true, false)) },
-    { caso: 'Arma incomum + imbuição incomum', mult: multLabel(comboMult(false, false)) },
+  useSistemaVersion()
+  const linhas: Array<{ caso: string; get: () => number; set: (v: number) => void }> = [
+    { caso: 'Tesouro típico', get: () => RARIDADE_MULT['tipico'], set: (v) => sistemaConfig.setRaridade('tipico', v) },
+    { caso: 'Tesouro básico típico', get: () => RARIDADE_MULT['basico-tipico'], set: (v) => sistemaConfig.setRaridade('basico-tipico', v) },
+    { caso: 'Tesouro básico incomum', get: () => RARIDADE_MULT['basico-incomum'], set: (v) => sistemaConfig.setRaridade('basico-incomum', v) },
+    { caso: 'Tesouro incomum', get: () => RARIDADE_MULT['incomum'], set: (v) => sistemaConfig.setRaridade('incomum', v) },
+    { caso: 'Arma típica + imbuição típica', get: () => COMBO_MULT.tt, set: (v) => sistemaConfig.setCombo('tt', v) },
+    { caso: 'Arma incomum + imbuição típica', get: () => COMBO_MULT.it, set: (v) => sistemaConfig.setCombo('it', v) },
+    { caso: 'Arma típica + imbuição incomum', get: () => COMBO_MULT.ti, set: (v) => sistemaConfig.setCombo('ti', v) },
+    { caso: 'Arma incomum + imbuição incomum', get: () => COMBO_MULT.ii, set: (v) => sistemaConfig.setCombo('ii', v) },
   ]
   return (
     <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ fontSize: 19, flex: 'none' }}>🗺️</span>
         <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Modificadores por Região</span>
+        <ResetBtn onClick={() => sistemaConfig.resetRegiao()} />
       </div>
       <table style={{ borderCollapse: 'collapse' }}>
         <tbody>
           {linhas.map((l) => (
             <tr key={l.caso}>
               <td style={{ fontSize: 12.5, padding: '3px 8px' }}>{l.caso}</td>
-              <td
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: '3px 8px',
-                  textAlign: 'center',
-                  color: 'var(--text)',
-                }}
-              >
-                {l.mult}
+              <td style={{ padding: '3px 8px', textAlign: 'center' }}>
+                <NumCell value={l.get()} label={`modificador ${l.caso}`} onChange={l.set} />
               </td>
             </tr>
           ))}
@@ -410,8 +463,7 @@ function RegiaoSection() {
       <div
         style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
       >
-        Aplicado sobre a disponibilidade quando o tesouro não é típico da região; básicos são mais
-        comuns.
+        Aplicado sobre a disponibilidade quando o tesouro não é típico da região (fração: 0.5 = ×1/2).
       </div>
     </div>
   )

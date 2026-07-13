@@ -119,10 +119,13 @@ describe('config de GM: matriz de Disponibilidade de Tesouros', () => {
     fireEvent.click(await screen.findByText('SISTEMA'))
     // seção só aparece com Modo Mestre ligado (flag setada no beforeAll)
     expect(await screen.findByText('Disponibilidade de Tesouros')).toBeTruthy()
-    // req 10.1: seções informativas na aba SISTEMA
+    // req 10.1 + #202: seções da aba SISTEMA agora EDITÁVEIS (input por célula)
     expect(screen.getByText('Modificadores por Região')).toBeTruthy()
     expect(screen.getByText('Tesouro básico típico')).toBeTruthy()
-    expect(screen.getByText('×1/8')).toBeTruthy()
+    const comboII = screen.getByLabelText(
+      'modificador Arma incomum + imbuição incomum',
+    ) as HTMLInputElement
+    expect(comboII.value).toBe('0.125')
     expect(screen.getByText('Tesouros em Vilarejos')).toBeTruthy()
     expect(screen.getByText(/1.5 × Obter Informação/)).toBeTruthy()
     expect(screen.getByText('Quantidade de Poções')).toBeTruthy()
