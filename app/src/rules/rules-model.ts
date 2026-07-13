@@ -5,6 +5,7 @@
 // frontmatter-extractor.ts) campo a campo — só os campos que a avaliação usa.
 import { slugify } from '../components/ficha/registry'
 import { parseItemAlias, str, num, fmPath } from '../components/ficha/hero-model'
+import { resolveFamilyFromFrontmatter, type SheetFamily } from '../data/familia'
 
 export type AtributoId = 'FOR' | 'AGI' | 'INT' | 'PRE'
 /** Ordem canônica dos atributos — espelho de ATRIBUTOS (plugin types/model.ts). */
@@ -50,6 +51,9 @@ export interface ProfState {
 
 export interface RulesModel {
   meta: {
+    /** Família da ficha (subcategoria do FM) — o extract usa pra sincronizar
+     *  o nível do CA com o tutor (plugin extract/sync-ca-tutor-nivel.ts). */
+    familia: SheetFamily
     nivel: number
     tier: number | null
     classe: string | null
@@ -220,6 +224,9 @@ export function rulesModelFromFm(fm: Record<string, unknown>): RulesModel {
 
   return {
     meta: {
+      // FM-first como o resolveFamily do plugin; sem path aqui (o FM do
+      // vault-data/entidades locais sempre traz subcategoria) → default Heroi.
+      familia: resolveFamilyFromFrontmatter(fm) ?? 'Heroi',
       nivel: num(fm['Nível']) || 1,
       tier: fm['Tier'] !== undefined ? num(fm['Tier']) : null,
       classe: str(fm['Classe']) || null,

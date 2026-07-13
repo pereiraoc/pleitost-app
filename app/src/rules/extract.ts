@@ -407,10 +407,36 @@ export interface HeroRulesResult {
   rejectedRules: Array<{ rule: ParsedRule; result: ApplyResult }>
 }
 
+/** CA satélite do tutor (#201) — espelho de extract/sync-ca-tutor-nivel.ts +
+ *  cola/process-yaml-extract-phase.ts:86-113 do plugin: resolve o FM do tutor
+ *  UMA vez e devolve o nível dele. A extração então roda com `meta.nivel` do
+ *  TUTOR (a escala/`ctx.level` computa no nível dele) e o chamador injeta
+ *  `calculated["Nível"]` pro derivedFm materializar o nível sincronizado
+ *  (NVL do perfil/topbar). No-op fora da família CompanheiroAnimal, sem
+ *  tutor resolvível ou sem `Nível` válido no FM do tutor. */
+async function resolveTutorNivel(model: RulesModel, resolver: DocResolver): Promise<number | null> {
+  if (model.meta.familia !== 'CompanheiroAnimal' || !model.meta.tutor) return null
+  const tutorDoc = await resolver(wikilinkBasename(model.meta.tutor))
+  if (!tutorDoc) return null
+  const fm = (tutorDoc.frontmatter ?? {}) as Record<string, unknown>
+  const raw = fm['Nível'] ?? fm['Nivel']
+  if (raw == null) return null
+  const nivel = typeof raw === 'number' ? raw : Number(raw)
+  return Number.isFinite(nivel) ? nivel : null
+}
+
 /** Loop principal — espelho de extractAndApplyRules (plugin
  *  rule-elements-extractor.ts:414-694): seeds → BFS → [discover(gate) →
  *  resolve → injectPicks → apply → constraints → signature] até convergir. */
-export async function extractHeroRules(model: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+export async function extractHeroRules(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+  // Nível do CA vem do tutor ANTES de tudo (como o plugin injeta o Nível no
+  // volatile antes do extractAndApplyRules): seeds/scopes/escala veem o
+  // nível sincronizado.
+  const tutorNivel = await resolveTutorNivel(baseModel, resolver)
+  const model =
+    tutorNivel !== null && tutorNivel !== baseModel.meta.nivel
+      ? { ...baseModel, meta: { ...baseModel.meta, nivel: tutorNivel } }
+      : baseModel
   const seeds = collectSeeds(model)
   const { parsedRules, visitedDocs } = await bfsRules(seeds, resolver)
 
@@ -490,6 +516,13 @@ export async function extractHeroRules(model: RulesModel, resolver: DocResolver)
         return { option: opt, folder, rank: rankGroupLabel(inline || str(doc.subtype ?? '')) }
       }),
     )
+  }
+
+  // CA satélite: materializa o nível do tutor no calculated — mirror do
+  // `calculated["Nível"] = tutorNivel` do plugin (sync-ca-tutor-nivel.ts:60);
+  // o merge-calculated leva pro derivedFm (NVL do perfil/topbar).
+  if (tutorNivel !== null && tutorNivel !== baseModel.meta.nivel) {
+    deltas['Nível'] = tutorNivel
   }
 
   return {

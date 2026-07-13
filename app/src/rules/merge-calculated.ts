@@ -529,6 +529,14 @@ export function mergeCalculatedIntoFm(
       out[key === 'Raca' ? 'Raça' : key] = value
       continue
     }
+
+    // Nível calculado — hoje só o sync CA↔tutor produz (#201, espelho do
+    // `calculated["Nível"]` do plugin, extract/sync-ca-tutor-nivel.ts:60):
+    // materializa no derivedFm pro NVL do perfil/topbar mostrar o do tutor.
+    if (key === 'Nível' || key === 'Nivel') {
+      out['Nível'] = num(value)
+      continue
+    }
   }
 
   // Restrição de Atributo Principal (pós-apply, com swap).

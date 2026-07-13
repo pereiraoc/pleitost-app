@@ -1114,7 +1114,10 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   // editável com persistência no overlay (#2).
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
   const setApelido = (v: string) => model.set('Biografia.Apelido', v)
-  const nivel = num(fm['Nível'])
+  // NVL do FM DERIVADO: pro CA o nível é satélite do tutor e chega via
+  // calculated["Nível"] (#201, plugin sync-ca-tutor-nivel.ts); pro herói o
+  // merge só repassa o FM salvo — mesmo valor.
+  const nivel = num(dfm['Nível'])
   const ci = classeAventureiro(nivel)
   const classe = linkLabel(str(dfm['Classe']))
   const sintonia = shortSintonia(dfm['Sintonia'])
