@@ -53,6 +53,7 @@ import { activeRegionId } from '../src/grupo/PanelExploracao'
 import { REGION_MAPS } from '../src/data/region-maps'
 import {
   __resetHexMapStoreMemoryForTests,
+  __setSeedsForTests,
   getHexMapState,
   setHexLocal,
 } from '../src/data/hexmap-store'
@@ -112,6 +113,9 @@ beforeAll(() => {
 beforeEach(() => {
   window.localStorage.clear()
   __resetGroupStoreMemoryForTests()
+  // #214: autoria parte do canvas VAZIO — o seed canônico é coberto em
+  // tests/hexmap-seed.test.tsx
+  __setSeedsForTests({})
   __resetHexMapStoreMemoryForTests()
 })
 afterEach(cleanup)

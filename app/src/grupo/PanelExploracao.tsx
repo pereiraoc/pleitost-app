@@ -1396,6 +1396,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
           key={selecionado.id}
           groupId={groupId}
           hex={selecionado}
+          hexMap={hexMap}
           atual={selecionado.id === atual?.id}
           onRemove={() => {
             removeGroupHex(groupId, selecionado.id)
@@ -1423,19 +1424,21 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
 function HexInfo({
   groupId,
   hex,
+  hexMap,
   atual,
   onRemove,
 }: {
   groupId: string
   hex: GroupHex
+  hexMap: HexMapCell[]
   atual: boolean
   onRemove: () => void
 }) {
   const catalog = useCatalog()
   const lines = useMemo(() => locaisSelectLines(catalog), [catalog])
-  const nome =
-    (hex.label && hex.label.trim()) ||
-    (hex.localId ? (catalog.entryById.get(hex.localId)?.basename ?? '—') : `Hex ${hex.col},${hex.row}`)
+  // #214: MESMA resolução da lista (hexLabel) — a célula mapeada do mapa
+  // (Safira etc.) dá o nome mesmo quando o GroupHex não carimbou localId.
+  const nome = hexLabel(hex, hexMap, catalog)
   return (
     <div
       data-hex-info=""

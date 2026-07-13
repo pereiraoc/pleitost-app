@@ -19,6 +19,7 @@ import { locationHasHexMap } from '../src/components/compendium/LocationSheet'
 import { REGION_MAPS, regionMapById, regionMapForDoc } from '../src/data/region-maps'
 import {
   __resetHexMapStoreMemoryForTests,
+  __setSeedsForTests,
   areaIdsInMap,
   areasAt,
   hexHasArea,
@@ -104,6 +105,9 @@ beforeAll(() => {
 
 beforeEach(() => {
   window.localStorage.clear()
+  // #214: autoria parte do canvas VAZIO — o seed canônico é coberto em
+  // tests/hexmap-seed.test.tsx
+  __setSeedsForTests({})
   __resetHexMapStoreMemoryForTests()
 })
 afterEach(cleanup)

@@ -17,6 +17,7 @@
 // A célula é identificada por {col,row}. No máximo UMA célula por (col,row).
 // Uma célula sem localId E sem áreas é descartada (não referencia nada).
 
+import { SEED_HEXMAPS } from './seed-hexmaps'
 export interface HexMapCell {
   /** Coluna da grade hexagonal sobreposta ao mapa (ver exploracao.ts). */
   col: number
@@ -100,6 +101,13 @@ function normalizeCell(raw: unknown): HexMapCell | null {
   return makeCell(c.col, c.row, localId, areaIds)
 }
 
+// #214: seeds mutável só pra teste isolar a autoria do zero (__setSeedsForTests);
+// em produção é sempre o registro versionado de seed-hexmaps.ts.
+let seeds: Record<string, unknown[]> = SEED_HEXMAPS
+export function __setSeedsForTests(next: Record<string, unknown[]>): void {
+  seeds = next
+}
+
 function hydrate(regionId: string): HexMapState {
   const cached = memory.get(regionId)
   if (cached) return cached
@@ -114,6 +122,12 @@ function hydrate(regionId: string): HexMapState {
     } catch {
       state = emptyState()
     }
+  } else if (seeds[regionId]) {
+    // #214: sem estado salvo NESTE navegador, o mapa nasce do mapeamento
+    // canônico versionado — hexes nomeados (Safira etc.) resolvem em qualquer
+    // dispositivo. A primeira edição do usuário persiste o estado inteiro
+    // (seed + edição) e daí em diante o salvo manda.
+    state = { cells: seeds[regionId].map(normalizeCell).filter((c): c is HexMapCell => c !== null) }
   }
   memory.set(regionId, state)
   return state
