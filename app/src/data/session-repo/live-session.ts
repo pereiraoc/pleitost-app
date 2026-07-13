@@ -4,7 +4,7 @@
 // têm doc local). Um único slot: só existe UMA sala ativa por vez.
 import { useSyncExternalStore } from 'react'
 import type { VaultDoc } from '../types'
-import type { SessionCharacter, SessionMember } from './contract'
+import type { Encounter, SessionCharacter, SessionMember } from './contract'
 
 export interface LiveSession {
   sessionId: string
@@ -13,6 +13,7 @@ export interface LiveSession {
   gmUserId: string | null
   characters: SessionCharacter[]
   members: SessionMember[]
+  encounters: Encounter[]
 }
 
 let live: LiveSession | null = null

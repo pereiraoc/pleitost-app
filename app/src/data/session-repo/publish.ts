@@ -47,6 +47,8 @@ export function buildCharacterSummary(
   if (classe) summary.classe = classe
   const sintonia = linkLabel(str(fm['Sintonia']))
   if (sintonia) summary.sintonia = sintonia
+  const raca = linkLabel(str(fm['Raça'] ?? fm['Raca']))
+  if (raca) summary.raca = raca
   const tutor = str(fm['Tutor'])
   if (summary.family === 'CompanheiroAnimal' && tutor) summary.tutorRef = tutor
   return summary

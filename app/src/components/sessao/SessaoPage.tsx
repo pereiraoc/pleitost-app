@@ -41,6 +41,7 @@ import {
   extractFmBlob,
 } from '../../data/session-repo/publish'
 import { setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
+import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
 import { useDetail } from '../../data/detail-context'
@@ -257,13 +258,20 @@ export function LiveSessionBridge() {
     let alive = true
     const refetch = async () => {
       try {
-        const [characters, members, sess] = await Promise.all([
+        const [characters, members, sess, encounters] = await Promise.all([
           repo.findCharactersBySession(remoteId),
           repo.listMembers(remoteId),
           repo.findSessionById(remoteId),
+          repo.listEncountersBySession(remoteId),
         ])
         if (alive)
-          setLiveSession({ sessionId: remoteId, gmUserId: sess?.gmUserId ?? null, characters, members })
+          setLiveSession({
+            sessionId: remoteId,
+            gmUserId: sess?.gmUserId ?? null,
+            characters,
+            members,
+            encounters,
+          })
       } catch {
         // servidor fora — mantém o último snapshot
       }
@@ -539,6 +547,232 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   )
 }
 
+/* ═══════════════ combate da sala (#196): encounters ═══════════════ */
+
+/** Iniciativa REMOTA da sessão — port do combat-tracker sobre encounters do
+ *  SessionRepo: INICIAR move heróis/companheiros pro combate e cria os NPCs
+ *  do roster (prepared → active, turnState round 1); PRÓXIMO/ANTERIOR mudam
+ *  o turno (wrap → round±1); ENCERRAR arquiva (heróis voltam pra Mesa).
+ *  JOGADOR vê NPC não-revelado com nome MASCARADO (maskedNames) e a
+ *  ESTIMATIVA de saúde por faixa (classifyVita) em vez de números; o GM vê
+ *  tudo + toggles ❓/❗ (toggleRevealCharacter). */
+function CombateDaSala({ sess }: { sess: SessionRec }) {
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const catalog = useCatalog()
+  const live = useLiveSession()
+  if (!repo || !user || !sess.remoteId || !live) return null
+  const isGm = live.gmUserId === user.id
+  const ativo = live.encounters.find((e) => e.status === 'active') ?? null
+  const preparados = live.encounters.filter((e) => e.status === 'prepared')
+
+  const iniciar = async (encounterId: string) => {
+    // NPCs do roster: resolve cada sourcePath no catálogo → summary/state do
+    // doc real do bestiário; genéricos (sourcePath null) entram "crus".
+    const enc = live.encounters.find((e) => e.id === encounterId)
+    if (!enc) return
+    const npcs: Array<{
+      memberId: string
+      kind: 'npc'
+      characterPath: string
+      summary: ReturnType<typeof buildCharacterSummary>
+      state: ReturnType<typeof buildCharacterState>
+    }> = []
+    for (const entry of enc.roster.entries) {
+      for (let i = 0; i < Math.max(1, entry.qty); i++) {
+        if (entry.sourcePath) {
+          const res = catalog.resolve(entry.sourcePath.replace(/\.md$/i, ''))
+          if (res.kind === 'doc') {
+            try {
+              const doc = await (await fetch(`/vault-data/${res.id.split('/').map(encodeURIComponent).join('/')}.json`)).json()
+              npcs.push({
+                memberId: user.id,
+                kind: 'npc',
+                characterPath: res.id,
+                summary: buildCharacterSummary(doc),
+                state: buildCharacterState(doc),
+              })
+              continue
+            } catch {
+              // doc indisponível — cai no genérico
+            }
+          }
+        }
+        npcs.push({
+          memberId: user.id,
+          kind: 'npc',
+          characterPath: entry.sourcePath ?? `generico:${entry.label}`,
+          summary: {
+            nome: entry.label,
+            family: 'Monstro',
+            nivel: 0,
+            atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0 },
+            vitalidadeMax: 0,
+            stats: { defesa: 0, vigor: 0, evasao: 0, impeto: 0, movimento: 0, percepcao: 0, intuicao: 0 },
+          },
+          state: {
+            recursosRestantes: { vitalidade: 0, moral: 0, em: 0, moralTemp: 0 },
+            condicoesAtivas: {},
+            efeitosAtivos: {},
+            invocacoesAtivas: {},
+          },
+        })
+      }
+    }
+    await repo.startEncounter(encounterId, npcs)
+    // turnState inicial (plugin: heróis primeiro, NPCs depois; round 1)
+    const chars = await repo.findCharactersBySession(sess.remoteId!)
+    const dentro = chars.filter((c) => c.encounterId === encounterId)
+    const order = [
+      ...dentro.filter((c) => c.kind !== 'npc').map((c) => c.id),
+      ...dentro.filter((c) => c.kind === 'npc').map((c) => c.id),
+    ]
+    await repo.updateEncounterTurnState(encounterId, { order, currentIndex: 0, round: 1, started: true })
+  }
+
+  const mover = async (delta: number) => {
+    if (!ativo?.turnState) return
+    const ts = ativo.turnState
+    let idx = ts.currentIndex + delta
+    let round = ts.round
+    if (idx >= ts.order.length) {
+      idx = 0
+      round++
+    } else if (idx < 0) {
+      idx = Math.max(0, ts.order.length - 1)
+      round = Math.max(1, round - 1)
+    }
+    await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex: idx, round })
+  }
+
+  const nomes = ativo
+    ? maskedNames(
+        live.characters.filter((c) => c.encounterId === ativo.id && c.kind === 'npc'),
+        ativo.revealedCharacterIds,
+      )
+    : new Map<string, string>()
+  const noCombate = ativo
+    ? (ativo.turnState?.order ?? [])
+        .map((id) => live.characters.find((c) => c.id === id))
+        .filter((c): c is SessionCharacter => Boolean(c))
+    : []
+
+  const chip = (label: string, onClick: () => void, tone: 'accent' | 'red' = 'accent') => (
+    <button
+      onClick={onClick}
+      style={mono({
+        padding: '6px 12px',
+        background: `color-mix(in srgb,var(--${tone}) 12%,transparent)`,
+        border: `1px solid color-mix(in srgb,var(--${tone}) 45%,var(--line2))`,
+        color: `var(--${tone})`,
+        cursor: 'pointer',
+        fontSize: 10,
+        letterSpacing: '.1em',
+        clipPath: clip(5),
+      })}
+    >
+      {label}
+    </button>
+  )
+
+  if (!ativo && (!isGm || preparados.length === 0)) return null
+
+  return (
+    <div
+      style={{
+        border: '1px solid color-mix(in srgb,var(--red) 40%,var(--line2))',
+        background: 'color-mix(in srgb,var(--red) 5%,var(--panel))',
+        clipPath: clip(15),
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          padding: '12px 18px',
+          borderBottom: '1px solid color-mix(in srgb,var(--red) 30%,var(--line))',
+          flexWrap: 'wrap',
+        }}
+      >
+        <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--red)', fontWeight: 700 })}>
+          ⚔ COMBATE DA SESSÃO
+        </span>
+        <span style={{ flex: 1 }} />
+        {ativo?.turnState ? (
+          <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>Turno {Math.max(1, ativo.turnState.round)}</span>
+        ) : null}
+        {isGm && ativo ? chip('◀ ANTERIOR', () => void mover(-1)) : null}
+        {isGm && ativo ? chip('PRÓXIMO ▶', () => void mover(1)) : null}
+        {isGm && ativo ? chip('■ ENCERRAR', () => void repo.endEncounter(ativo.id), 'red') : null}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 16px' }}>
+        {!ativo && isGm
+          ? preparados.map((e) => (
+              <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 13.5, fontWeight: 600 }}>{e.name}</span>
+                <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>
+                  {e.roster.entries.map((r) => `${r.qty}× ${r.label}`).join(' · ')}
+                </span>
+                <span style={{ flex: 1 }} />
+                {chip('▶ INICIAR', () => void iniciar(e.id))}
+              </div>
+            ))
+          : null}
+        {ativo
+          ? noCombate.map((c, i) => {
+              const vezAtual = ativo.turnState?.currentIndex === i
+              const npc = c.kind === 'npc'
+              const revelado = ativo.revealedCharacterIds.includes(c.id)
+              const status = vitaStatusOf(c)
+              const rr = c.state.recursosRestantes
+              return (
+                <div
+                  key={c.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '9px 12px',
+                    background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
+                    border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    clipPath: clip(9),
+                  }}
+                >
+                  <span style={{ fontSize: 13.5, fontWeight: 700 }}>
+                    {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
+                  </span>
+                  {npc ? (
+                    // NPC: jogador vê a FAIXA (estimativa); GM vê os números
+                    <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
+                      {isGm
+                        ? `❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax} · ${status.label}`
+                        : status.label}
+                    </span>
+                  ) : (
+                    <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>
+                      {`❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax}`}
+                    </span>
+                  )}
+                  <span style={{ flex: 1 }} />
+                  {isGm && npc ? (
+                    <button
+                      onClick={() => void repo.toggleRevealCharacter(ativo.id, c.id)}
+                      title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+                    >
+                      {revelado ? '❗' : '❓'}
+                    </button>
+                  ) : null}
+                </div>
+              )
+            })
+          : null}
+      </div>
+    </div>
+  )
+}
+
 /* ═══════════════ painel INICIATIVA ═══════════════ */
 
 function IniciativaPanel({ sess }: { sess: SessionRec }) {
@@ -578,6 +812,8 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* Sala remota (#186): jogadores/vida ao vivo quando a sessão tem servidor. */}
       <SalaRemota sess={sess} />
+      {/* Combate remoto (#196): encounters da sala (iniciar/turno/máscara). */}
+      <CombateDaSala sess={sess} />
       <button
         onClick={() => members[0] && navigate(heroPath(members[0].id, 'grupos'))}
         title="Abrir ficha do grupo"

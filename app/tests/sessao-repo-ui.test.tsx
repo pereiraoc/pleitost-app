@@ -168,6 +168,7 @@ describe('#188 ficha completa readonly (GM)', () => {
       sessionId: 'sess_x',
       gmUserId: 'gm-1',
       members: [],
+      encounters: [],
       characters: [
         {
           id: 'char_ro',
@@ -207,5 +208,75 @@ describe('#188 ficha completa readonly (GM)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'COMBATE' }))
     expect(await screen.findByText('VITALIDADE')).toBeTruthy()
     setLive(null)
+  })
+})
+
+// ── #196: combate da sala — máscara, estimativa, turnos ───────────────────
+describe('#196 iniciativa remota (encounters)', () => {
+  it('GM inicia combate com roster → player vê nome MASCARADO + faixa; reveal mostra o nome; turnos avançam', async () => {
+    const repo = new InMemorySessionRepo()
+    // GM cria a sessão e um encounter PREPARADO com 2 goblins genéricos +
+    // 1 monstro real do bestiário
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    await screen.findByText('🌐 JOGADORES NA SESSÃO')
+    const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
+    await act(async () => {
+      await repo.insertEncounter({
+        sessionId: remoteId,
+        sourceNotePath: 'Campanhas/Combates/Teste',
+        name: 'Emboscada',
+        roster: {
+          entries: [{ sourcePath: 'Sistema/Criaturas/Bestiário/Goblin Batedor', label: 'Goblin Batedor', qty: 2 }],
+        },
+        difficulty: null,
+      })
+    })
+    // GM vê o preparado e INICIA
+    fireEvent.click(await screen.findByText('▶ INICIAR'))
+    await waitFor(() => expect(screen.getByText(/Turno 1/)).toBeTruthy())
+    // GM vê nome real + números + faixa
+    expect(screen.getAllByText('Goblin Batedor').length).toBeGreaterThan(0)
+    // PRÓXIMO avança e dá a volta → Turno 2 (2 NPCs na ordem)
+    fireEvent.click(screen.getByText('PRÓXIMO ▶'))
+    fireEvent.click(screen.getByText('PRÓXIMO ▶'))
+    await waitFor(() => expect(screen.getByText(/Turno 2/)).toBeTruthy())
+    cleanup()
+
+    // ── PLAYER entra: nomes MASCARADOS pela Raça ("Goblin 1/2"), faixa sem números
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+      target: { value: (await repo.findSessionById(remoteId))!.code },
+    })
+    fireEvent.click(screen.getByText('Entrar →'))
+    await waitFor(() => expect(screen.getByText(/⚔ COMBATE DA SESSÃO/)).toBeTruthy())
+    expect(screen.queryByText('Goblin Batedor')).toBeNull() // nome real oculto
+    // rótulo genérico numerado pela RAÇA do FM real ("Goblin (Pequeno) 1/2")
+    expect(screen.getByText(/Goblin \(Pequeno\) 1/)).toBeTruthy()
+    expect(screen.getByText(/Goblin \(Pequeno\) 2/)).toBeTruthy()
+    // estimativa por faixa, sem números de vida do NPC
+    expect(screen.getAllByText(/Impecável|Saudável|Ferido/).length).toBeGreaterThan(0)
+    // player NÃO tem controles de GM
+    expect(screen.queryByText('PRÓXIMO ▶')).toBeNull()
+    cleanup()
+
+    // ── GM revela o primeiro NPC → player passa a ver o nome real
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+      target: { value: (await repo.findSessionById(remoteId))!.code },
+    })
+    fireEvent.click(screen.getByText('Entrar →'))
+    await waitFor(() => expect(screen.getAllByTitle('Revelar identidade aos players').length).toBeGreaterThan(0))
+    fireEvent.click(screen.getAllByTitle('Revelar identidade aos players')[0])
+    cleanup()
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+      target: { value: (await repo.findSessionById(remoteId))!.code },
+    })
+    fireEvent.click(screen.getByText('Entrar →'))
+    await waitFor(() => expect(screen.getAllByText('Goblin Batedor').length).toBe(1)) // 1 revelado, 1 mascarado
   })
 })
