@@ -140,7 +140,7 @@ const COMB_TABS = [
 ]
 
 /** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]). */
-function wikiLabels(value: unknown): string[] {
+export function wikiLabels(value: unknown): string[] {
   // Base v2: `propriedades` é ARRAY de wikilinks no frontmatter; v1 era string.
   const s = Array.isArray(value) ? value.map(str).join(' ') : str(value)
   const out: string[] = []
