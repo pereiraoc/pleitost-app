@@ -3,6 +3,7 @@
 // nome 'REPORTAR BUG'. Quero que qualquer um consiga fazer." Abre um modal
 // com textarea; o envio vai pro canal aberto de bug-report.ts (sem login).
 import { useState, type CSSProperties } from 'react'
+import { createPortal } from 'react-dom'
 import { enviarBugReport } from '../../data/bug-report'
 import { clip } from '../ficha/bits'
 
@@ -62,7 +63,11 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
         </span>
         <span className="nav-label">REPORTAR BUG</span>
       </button>
+      {/* #221: o modal renderiza num PORTAL no body — dentro da sidebar o
+          overflow:hidden + transform do drawer prendem o position:fixed e a
+          caixa aparecia DENTRO do painel esquerdo. */}
       {open ? (
+        createPortal(
         <div style={overlayStyle} onClick={fechar}>
           <div
             role="dialog"
@@ -145,7 +150,9 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
               </>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
+        )
       ) : null}
     </>
   )

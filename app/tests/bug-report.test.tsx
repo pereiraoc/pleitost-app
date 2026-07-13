@@ -94,6 +94,10 @@ describe('botão REPORTAR BUG (#220)', () => {
     renderApp()
     fireEvent.click(screen.getByRole('button', { name: /REPORTAR BUG/ }))
     const dialog = screen.getByRole('dialog', { name: 'Reportar bug' })
+    // #221: o modal fica POR CIMA da tela (portal no body), nunca preso
+    // dentro do painel esquerdo (overflow/transform da sidebar)
+    expect(dialog.closest('.sidebar')).toBeNull()
+    expect(document.body.contains(dialog)).toBe(true)
     // vazio: enviar desabilitado
     const enviar = within(dialog).getByRole('button', { name: 'ENVIAR REPORTE' })
     expect((enviar as HTMLButtonElement).disabled).toBe(true)
