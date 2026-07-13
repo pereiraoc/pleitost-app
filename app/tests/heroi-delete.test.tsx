@@ -102,8 +102,9 @@ describe('deletar herói pelo menu ⋮ (#215)', () => {
     fireEvent.click(await screen.findByLabelText('Ações do herói'))
     fireEvent.click(screen.getByText(/Deletar herói/))
     expect(screen.getByText(/Confirmar\?/)).toBeTruthy()
-    // clicar fora fecha (overlay) e DESARMA
-    fireEvent.click(document.querySelector('[style*="position: fixed"]')!)
+    // clicar fora fecha (overlay) e DESARMA — o overlay é o irmão anterior do
+    // menu no portal (selector genérico de position:fixed pegava o FAB)
+    fireEvent.click(screen.getByRole('menu').previousElementSibling!)
     fireEvent.click(screen.getByLabelText('Ações do herói'))
     expect(screen.getByText(/Deletar herói/)).toBeTruthy()
     expect(screen.queryByText(/Confirmar\?/)).toBeNull()
