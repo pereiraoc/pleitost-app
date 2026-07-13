@@ -8,6 +8,7 @@ import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useDoc } from '../../data/useDoc'
 import { DetailProvider } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
+import { BugReportButton } from './BugReportButton'
 import { RightSidebar } from './RightSidebar'
 import {
   APP_NAV,
@@ -256,6 +257,8 @@ export function AppShell() {
           </nav>
           <div className="sidebar-spacer" />
           <nav className="nav-group">
+            {/* #220: acima do HERÓIS, fundo vermelho — qualquer um reporta */}
+            <BugReportButton onOpenChange={closeDrawer} />
             {APP_NAV.map((item) => (
               <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
             ))}
