@@ -44,6 +44,8 @@ import {
   tierFromLevel,
 } from '../../grupo/party'
 import { MESA_GRUPO_ID, useLiveSession } from '../../data/session-repo/live-session'
+import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
+import { addMonsterToInitiative } from '../../data/session-repo/encounter-actions'
 import { useSessions } from '../../data/session-store'
 import { GrupoDaSala } from '../sessao/SessaoPage'
 import { CriadorAventura } from '../mestre/CriadorAventura'
@@ -1096,9 +1098,14 @@ function NpcCard({
   //    mesma lógica/registro dos heróis (tierFromLevel + partyTierBar).
   //  - Demais (Pessoas): losango NVL do design, sem cor de tier.
   const subtype = doc?.subtype ?? entry.subtype
-  // Local CA/Monstro abrem a ficha formato herói (issues #46/#47); demais
-  // (vault e Pessoa local) mantêm a rota de doc do compêndio.
-  const abreFicha = isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
+  // Local CA/Monstro abrem a ficha formato herói (issues #46/#47). #229:
+  // monstro da VAULT abre a MESMA ficha — a rota de doc do compêndio só
+  // mostrava o fence autosheet-yaml cru (nenhum stat), e Sistema/Criaturas
+  // está fora do compêndio (#213). A FichaPage já carrega qualquer id via
+  // useDoc (o Carlos da vault abre assim); edições vão pro overlay local,
+  // a vault nunca é escrita. Demais (CA da vault e Pessoa) mantêm o doc.
+  const abreFicha =
+    subtype === 'Monstro' || (isLocalId(entry.id) && subtype === 'Companheiro Animal')
   const target = abreFicha ? heroPath(entry.id) : docPath(entry.id)
   const isMonstro = subtype === 'Monstro'
   const tierFm = doc?.frontmatter['Tier']
@@ -1120,8 +1127,19 @@ function NpcCard({
   // div role=button (vide HeroCard) porque menu interativo não pode aninhar
   // em <button>.
   const [menuOpen, setMenuOpen] = useState(false)
-  const temMenu =
+  // #229 (b): caminho DIRETO do mestre — monstro (vault OU local) entra na
+  // iniciativa da sessão remota ativa pelo menu do card. Gate espelha o
+  // Criador de Combate (repo + sala viva) + Modo Mestre; sem sala o item
+  // não existe (nada de item morto).
+  const { mestre } = useSettings()
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const live = useLiveSession()
+  const catalog = useCatalog()
+  const podeExportar =
     isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
+  const podeIniciativa = isMonstro && mestre && !!repo && !!user && !!live
+  const temMenu = podeExportar || podeIniciativa
   const abrir = () => navigate(target)
 
   return (
@@ -1186,13 +1204,35 @@ function NpcCard({
           setOpen={setMenuOpen}
           items={[
             { label: 'Abrir', onClick: abrir },
-            {
-              label: subtype === 'Monstro' ? '📤 Exportar criatura' : '📤 Exportar companheiro',
-              onClick: () => {
-                const rec = getLocalEntity(entry.id)
-                if (rec) downloadPortable(toPortable(rec))
-              },
-            },
+            ...(podeExportar
+              ? [
+                  {
+                    label:
+                      subtype === 'Monstro' ? '📤 Exportar criatura' : '📤 Exportar companheiro',
+                    onClick: () => {
+                      const rec = getLocalEntity(entry.id)
+                      if (rec) downloadPortable(toPortable(rec))
+                    },
+                  },
+                ]
+              : []),
+            ...(isMonstro && mestre && repo && user && live
+              ? [
+                  {
+                    label: '⚔️ Adicionar à iniciativa',
+                    onClick: () =>
+                      void addMonsterToInitiative({
+                        repo,
+                        catalog,
+                        live,
+                        memberId: user.id,
+                        // vault: path da nota (.md); local: o id é o path
+                        sourcePath: entry.path,
+                        label: nome,
+                      }),
+                  },
+                ]
+              : []),
           ]}
         />
       ) : (

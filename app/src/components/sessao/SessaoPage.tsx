@@ -11,7 +11,6 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
-import { vaultUrl } from '../../data/base-url'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { useDocs } from '../../data/useDoc'
@@ -40,6 +39,7 @@ import {
   buildCharacterSummary,
   extractFmBlob,
 } from '../../data/session-repo/publish'
+import { startEncounterFromRoster } from '../../data/session-repo/encounter-actions'
 import { MESA_GRUPO_ID, setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
@@ -598,67 +598,11 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const preparados = live.encounters.filter((e) => e.status === 'prepared')
 
   const iniciar = async (encounterId: string) => {
-    // NPCs do roster: resolve cada sourcePath no catálogo → summary/state do
-    // doc real do bestiário; genéricos (sourcePath null) entram "crus".
+    // NPCs do roster + turnState inicial: código compartilhado com o caminho
+    // direto do bestiário (#229) — encounter-actions.startEncounterFromRoster.
     const enc = live.encounters.find((e) => e.id === encounterId)
     if (!enc) return
-    const npcs: Array<{
-      memberId: string
-      kind: 'npc'
-      characterPath: string
-      summary: ReturnType<typeof buildCharacterSummary>
-      state: ReturnType<typeof buildCharacterState>
-    }> = []
-    for (const entry of enc.roster.entries) {
-      for (let i = 0; i < Math.max(1, entry.qty); i++) {
-        if (entry.sourcePath) {
-          const res = catalog.resolve(entry.sourcePath.replace(/\.md$/i, ''))
-          if (res.kind === 'doc') {
-            try {
-              const doc = await (await fetch(vaultUrl(`${res.id.split('/').map(encodeURIComponent).join('/')}.json`))).json()
-              npcs.push({
-                memberId: user.id,
-                kind: 'npc',
-                characterPath: res.id,
-                summary: buildCharacterSummary(doc),
-                state: buildCharacterState(doc),
-              })
-              continue
-            } catch {
-              // doc indisponível — cai no genérico
-            }
-          }
-        }
-        npcs.push({
-          memberId: user.id,
-          kind: 'npc',
-          characterPath: entry.sourcePath ?? `generico:${entry.label}`,
-          summary: {
-            nome: entry.label,
-            family: 'Monstro',
-            nivel: 0,
-            atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0 },
-            vitalidadeMax: 0,
-            stats: { defesa: 0, vigor: 0, evasao: 0, impeto: 0, movimento: 0, percepcao: 0, intuicao: 0 },
-          },
-          state: {
-            recursosRestantes: { vitalidade: 0, moral: 0, em: 0, moralTemp: 0 },
-            condicoesAtivas: {},
-            efeitosAtivos: {},
-            invocacoesAtivas: {},
-          },
-        })
-      }
-    }
-    await repo.startEncounter(encounterId, npcs)
-    // turnState inicial (plugin: heróis primeiro, NPCs depois; round 1)
-    const chars = await repo.findCharactersBySession(sess.remoteId!)
-    const dentro = chars.filter((c) => c.encounterId === encounterId)
-    const order = [
-      ...dentro.filter((c) => c.kind !== 'npc').map((c) => c.id),
-      ...dentro.filter((c) => c.kind === 'npc').map((c) => c.id),
-    ]
-    await repo.updateEncounterTurnState(encounterId, { order, currentIndex: 0, round: 1, started: true })
+    await startEncounterFromRoster(repo, catalog, enc, user.id)
   }
 
   const mover = async (delta: number) => {
