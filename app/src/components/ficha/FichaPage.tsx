@@ -6,6 +6,7 @@
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useMemo } from 'react'
 import { useDoc } from '../../data/useDoc'
+import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useCatalog } from '../../data/CatalogContext'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -157,8 +158,12 @@ export function FichaPage() {
   const params = useParams()
   const id = params['*'] ?? ''
   const [searchParams] = useSearchParams()
-  const tab = searchParams.get('tab') ?? 'perfil'
+  const tabPedida = searchParams.get('tab') ?? 'perfil'
   const { doc, error } = useDoc(id)
+  // Abas por FAMÍLIA (#201): o CA não tem ANOTAÇÕES (plugin mount-
+  // interativa.ts:897 — CA fica só com Recursos). Mesmo predicado central do
+  // sidebar (abaFichaVisivel); rota direta numa aba invisível cai no PERFIL.
+  const tab = doc && !abaFichaVisivel(familiaOf(doc), tabPedida) ? 'perfil' : tabPedida
   // refs coletam do FM DERIVADO (projeção): itens concedidos por regra
   // (magias de essência, habilidades de classe) também carregam (bug #4c).
   const model = useHeroModel(doc ?? STUB_DOC, 'refs')

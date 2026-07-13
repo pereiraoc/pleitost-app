@@ -20,6 +20,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FichaPage } from '../src/components/ficha/FichaPage'
+import { AppShell } from '../src/components/layout/AppShell'
 import { heroPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -198,5 +199,45 @@ describe('INVENTÁRIO do CA (plugin tab-inventario.ts:126-128 + tab-completa.ts:
     expect(screen.getByTitle('Moedas')).toBeTruthy()
     expect(screen.getByText('ARMADURA')).toBeTruthy()
     expect(screen.getByText('ESCUDO')).toBeTruthy()
+  })
+})
+
+describe('ABAS por família (plugin mount-interativa.ts:897 — CA sem Anotações)', () => {
+  function renderShell(id: string) {
+    return render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(id)]}>
+          <Routes>
+            <Route element={<AppShell />}>
+              <Route path="/heroi/*" element={<FichaPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+  }
+  const sidebarLabels = (container: HTMLElement) => {
+    const group = container.querySelector('.sidebar .nav-group') as HTMLElement
+    return [...group.querySelectorAll('button')].map((b) => b.textContent ?? '')
+  }
+
+  it('sidebar do CA sem ANOTAÇÕES; a do herói com', async () => {
+    const ca = renderShell(METIS_ID)
+    await screen.findByText('TUTOR')
+    const caLabels = sidebarLabels(ca.container).join('|')
+    expect(caLabels).toContain('BIOGRAFIA')
+    expect(caLabels).toContain('COMBATE')
+    expect(caLabels).not.toContain('ANOTAÇÕES')
+    cleanup()
+
+    const heroi = renderShell(MERA_ID)
+    await screen.findByText(/AVENTUREIRO CLASSE/)
+    expect(sidebarLabels(heroi.container).join('|')).toContain('ANOTAÇÕES')
+  })
+
+  it('rota direta ?tab=anotacoes no CA cai no PERFIL', async () => {
+    renderFicha(METIS_ID, 'anotacoes')
+    expect(await screen.findByText('TUTOR')).toBeTruthy()
+    expect(screen.queryByText('// ANOTAÇÕES DE CAMPANHA')).toBeNull()
   })
 })
