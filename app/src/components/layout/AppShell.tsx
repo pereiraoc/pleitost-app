@@ -4,6 +4,8 @@ import { useTheme } from '../../theme'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
+import { abaFichaVisivel, familiaOf } from '../../data/familia'
+import { useDoc } from '../../data/useDoc'
 import { DetailProvider } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
 import { RightSidebar } from './RightSidebar'
@@ -156,6 +158,14 @@ export function AppShell() {
   useEffect(() => {
     if (routeHeroId) setSelectedCreature(routeHeroId) // abrir uma ficha memoriza a seleção
   }, [routeHeroId])
+  // Abas da ficha por FAMÍLIA (#201): CA não tem ANOTAÇÕES (plugin
+  // mount-interativa.ts:897 — CA fica só com Recursos). Mesmo predicado
+  // central da FichaPage (abaFichaVisivel); enquanto o doc carrega, mostra
+  // tudo (o gate da rota segura o conteúdo).
+  const { doc: heroDoc } = useDoc(heroId ?? '')
+  const charTabs = heroDoc
+    ? CHAR_TABS.filter((t) => abaFichaVisivel(familiaOf(heroDoc), t.id))
+    : CHAR_TABS
   // #191: registra o SW e liga o fluxo de update (idempotente)
   useEffect(() => {
     void initPwaUpdate()
@@ -228,7 +238,7 @@ export function AppShell() {
             .join(' ')}
         >
           <nav className="nav-group">
-            {CHAR_TABS.map((item) =>
+            {charTabs.map((item) =>
               // #86: clicáveis sempre que HÁ personagem (rota OU selecionado) —
               // não ficam mortas na tela de seleção. Só destacam a aba ativa
               // quando de fato na ficha.

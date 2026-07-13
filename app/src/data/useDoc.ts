@@ -76,7 +76,9 @@ export function useDoc(id: string): DocState {
   const [state, setState] = useState<DocState>({})
 
   useEffect(() => {
-    if (local) return
+    // id vazio = "sem doc" (ex.: AppShell sem personagem selecionado) — não
+    // dispara fetch de /vault-data/.json à toa.
+    if (local || !id) return
     let alive = true
     setState({})
     loadDoc(id).then(
@@ -88,6 +90,7 @@ export function useDoc(id: string): DocState {
     }
   }, [id, local])
 
+  if (!id) return {}
   if (local) {
     void localVersion // re-render quando a entidade local muda
     const doc = getLocalDoc(id)

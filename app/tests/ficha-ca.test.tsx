@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
-// FICHA DE COMPANHEIRO ANIMAL (issue #34): o plugin trata a família
-// CompanheiroAnimal com a MESMA ficha (types/family.ts do pleitost-autosheet:
-// Heroi | Monstro | CompanheiroAnimal; o FM do Metis espelha o de herói —
-// mesmas seções Vida/Atributos/Pericias/Magias/Acoes/Ataques/Inventario/
-// Experiencia/Biografia/Interativa). Este teste é a EVIDÊNCIA do veredito:
-// /heroi/<id> renderiza o modelo salvo REAL do Metis em todas as abas, então
-// o seletor rápido da topbar navega CA pra ficha, como os heróis.
+// FICHA DE COMPANHEIRO ANIMAL (issues #34 + #201): /heroi/<id> renderiza o
+// modelo salvo REAL do Metis — o CORPO COMUM da ficha (Vida/Atributos/
+// Perícias da família/Ações/Ataques/Grupo) é o mesmo do herói. O DELTA da
+// família CompanheiroAnimal (Tutor, nível do tutor, seções escondidas —
+// FICHA_FAMILIA de src/data/familia.ts, porta do plugin) é coberto em
+// ficha-ca-delta.test.tsx e ficha-ca-tutor-nivel.test.tsx; aqui só entra o
+// que o CA MANTÉM (ex.: rota ?tab=anotacoes cai no PERFIL, sem aba própria).
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -88,17 +88,19 @@ describe('FichaPage aceita Companheiro Animal (Metis, modelo salvo real)', () =>
     expect(screen.getAllByText(String(fm.Atributos.Principal)).length).toBeGreaterThan(0)
   })
 
-  it('INVENTÁRIO: arma natural e ouro reais do FM', async () => {
+  it('INVENTÁRIO: arma natural real do FM (sem Moedas — delta #201)', async () => {
     renderFicha('inventario')
     // arma da lista real ("[[Mandíbula]]")
     expect(await screen.findByText('Mandíbula')).toBeTruthy()
-    const coinsBtn = screen.getByTitle('Moedas')
-    expect(coinsBtn.textContent).toContain(String(fm.Inventario.Ouro))
+    // CA não tem Moedas (plugin tab-inventario.ts:126-128).
+    expect(screen.queryByTitle('Moedas')).toBeNull()
   })
 
-  it('ANOTAÇÕES: blocos do design renderizam com Experiencia vazia', async () => {
+  it('ANOTAÇÕES: aba não existe pro CA — rota cai no PERFIL (#201)', async () => {
     renderFicha('anotacoes')
-    expect(await screen.findByText('// ANOTAÇÕES DE CAMPANHA')).toBeTruthy()
+    // Conteúdo do PERFIL (campo TUTOR da família CA) no lugar das anotações.
+    expect(await screen.findByText('TUTOR')).toBeTruthy()
+    expect(screen.queryByText('// ANOTAÇÕES DE CAMPANHA')).toBeNull()
   })
 
   it('GRUPO: FM grupo vazio cai no empty state desenhado (seção vazia controlada)', async () => {

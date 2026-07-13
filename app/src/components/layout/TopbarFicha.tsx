@@ -18,6 +18,7 @@ import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDoc, useDocs } from '../../data/useDoc'
+import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { heroPath } from '../../paths'
@@ -52,13 +53,20 @@ const chipStyle: CSSProperties = {
   clipPath: 'polygon(0 0,100% 0,100% 100%,7px 100%,0 calc(100% - 7px))',
 }
 
-/** chipsFor(r) do design com dados do modelo salvo (emojis do registro). */
-function chipsFor(tab: string, fm: Record<string, unknown>): { ic: string; txt: string }[] {
+/** chipsFor(r) do design com dados do modelo salvo (emojis do registro).
+ *  `caps` = FICHA_FAMILIA do doc (#201): CA não tem Magias/EM → sem chip
+ *  de EM no combate (mount-interativa.ts:785 showMagias = Heroi). */
+function chipsFor(
+  tab: string,
+  fm: Record<string, unknown>,
+  caps: FichaFamilia,
+): { ic: string; txt: string }[] {
   if (tab === 'perfil' || tab === 'habilidades') {
     const nvl = num(fm['Nível'])
     return [{ ic: '', txt: `NVL ${nvl || ''}`.trim() }]
   }
   if (tab === 'combate') {
+    if (!caps.magias) return []
     const emMax = num(fmPath(fm, 'Magias', 'EM'))
     const rest = interativa(fm).restantes
     const emCur = rest['EM'] !== undefined ? num(rest['EM']) : emMax
@@ -376,14 +384,17 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
   // o EM máximo calculado pela classe e não "0/0". Nível/marcas/apelido também
   // acompanham a cascata; o Interativa (EM corrente) é preservado no derivedFm.
   const projected = rules?.derivedFm ?? fm
+  // Delta por FAMÍLIA (#201): CA sem chip de EM (sem magias) e sem Moedas
+  // (tab-inventario.ts:126-128 do plugin) — flags centrais de FICHA_FAMILIA.
+  const caps = fichaFamiliaOf(doc)
 
   const showChips = vw >= 620
   const showVidaChip = tab === 'combate'
   // Moedas (🪙) na topbar: aba Inventário e também na visão de GRUPO (compras da
   // loja usam o herói selecionado — o saldo fica visível no topo, não na loja).
-  const showCoinChip = (tab === 'inventario' || tab === 'grupos') && vw >= 620
+  const showCoinChip = caps.moedas && (tab === 'inventario' || tab === 'grupos') && vw >= 620
   const showApelido = vw >= 720
-  const chips = chipsFor(tab, projected)
+  const chips = chipsFor(tab, projected, caps)
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
 
   return (

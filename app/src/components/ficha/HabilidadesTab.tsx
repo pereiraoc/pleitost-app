@@ -15,6 +15,7 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
@@ -260,9 +261,16 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // do FM) — espelho do vm.derived + choices do Editável do plugin
   // (render/view-model.ts + render/groups/perfil-card.ts).
   const rules = useHeroRules(fm)
+  // Delta por família (#201): CA mostra "Tipo" estático (perfil-card.ts:
+  // 322-331) e o nível satélite do tutor (sync-ca-tutor-nivel.ts) — sem
+  // stepper. Flags centrais de FICHA_FAMILIA.
+  const caps = fichaFamiliaOf(doc)
   // Nível persiste NA HORA no overlay (topbar NVL e PERFIL leem o mergeado).
-  const nivel = num(fm['Nível'])
-  const setNivel = (fn: (n: number) => number) => model.set('Nível', fn(nivel))
+  // O EXIBIDO vem do FM DERIVADO: pro CA é o nível do tutor (calculated
+  // ["Nível"]); pro herói o merge repassa o salvo — mesmo valor.
+  const nivelSalvo = num(fm['Nível'])
+  const nivel = num((rules?.derivedFm ?? fm)['Nível'])
+  const setNivel = (fn: (n: number) => number) => model.set('Nível', fn(nivelSalvo))
   const ci = classeAventureiro(nivel)
   // pfTierColor do design (renderVals recuperado) — registro PF_TIER_COLORS.
   const tierColor = PF_TIER_COLORS[ci.classe as keyof typeof PF_TIER_COLORS] ?? ci.color
@@ -325,19 +333,26 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     labelTarget?: string
   }[] = [
     {
-      ic: tokens.emojis.perfil.Classe,
+      // Rótulo/emoji do registro central por família (#201): Heroi "Classe"
+      // (perfil-card.ts:398+), CA "Tipo" (perfil-card.ts:322-331) — chave de
+      // tokens.emojis.perfil.
+      ic: tokens.emojis.perfil[caps.classe.rotulo],
       // #23: diretriz do usuário — o seletor é da classe INICIAL (nível 1);
       // rótulo "Classe Inicial" (o golden editavel__tab-perfil ainda mostra
-      // "Classe"; o design será atualizado pelo usuário).
-      label: 'CLASSE INICIAL',
+      // "Classe"; o design será atualizado pelo usuário). CA: "Tipo", display
+      // estático (as classes do dropdown são de HERÓI; o Tipo do CA não é
+      // editável no plugin).
+      label: caps.classe.editavel ? 'CLASSE INICIAL' : caps.classe.rotulo.toUpperCase(),
       value: classeFmValue,
       // Opção em branco no topo — herói novo nasce SEM classe (Classe=''); sem
       // isso o <select> mostrava a 1ª opção (Animista) como se estivesse escolhida (#nc).
-      options: [
-        { value: '', label: '— Nenhuma —' },
-        ...withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
-      ],
-      onChange: setClasse,
+      options: caps.classe.editavel
+        ? [
+            { value: '', label: '— Nenhuma —' },
+            ...withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
+          ]
+        : [{ value: classeFmValue, label: linkLabel(str(fm['Classe'])) || '—' }],
+      onChange: caps.classe.editavel ? setClasse : undefined,
       boxTarget: classeFmValue,
     },
     ...(rules
@@ -481,6 +496,10 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <span style={{ fontSize: 15, lineHeight: 1 }}>{ci.emoji}</span>
           </div>
         </div>
+        {/* Stepper de nível: nunca pro CA — o nível é satélite do tutor
+            (plugin sync-ca-tutor-nivel.ts; o perfil do CA mostra o diamond
+            estático, perfil-card.ts:345-357). */}
+        {caps.nivelDoTutor ? null : (
         <div style={{ gridRow: 2, gridColumn: 2, display: 'flex', flexDirection: 'column', gap: 6, flex: 'none' }}>
           <button
             onClick={() => setNivel((n) => Math.min(10, n + 1))}
@@ -517,6 +536,7 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             ▼
           </button>
         </div>
+        )}
       </div>
     </div>
   )
@@ -1100,7 +1120,14 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
   const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
   const [edit, setEdit] = useState(false)
-  const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+  // Perícias POR FAMÍLIA (#201): o CA só possui a whitelist de 6 (plugin
+  // data/family-pericias.ts; tab-completa do CA passa filter: CA_PERICIAS) —
+  // o FM lista as 13, mas as fora da família não renderizam nem contam slot
+  // (buildPericiaSlotsText do plugin soma só as CA_PERICIAS).
+  const familia = familiaOf(doc)
+  const pericias = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]).filter((p) =>
+    familiaTemPericia(familia, slugify(str(p.Nome))),
+  )
   // Regra do compêndio de cada perícia (pelo nome) pro tooltip (#106).
   const ruleDoc = useNamedDocs(pericias.map((p) => displayName(slugify(str(p.Nome)))))
 
@@ -3039,9 +3066,14 @@ function Col({ children }: { children: ReactNode }) {
 
 export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const [tab, setTab] = useState('perfil')
+  // Delta por FAMÍLIA (#201) — flags centrais de FICHA_FAMILIA: o CA não tem
+  // MAGIAS (mount-interativa.ts:785 showMagias = Heroi), nem Passado/
+  // Equipamentos/Ofícios/Especializações/Técnicas (tabs/ca/tab-completa.ts).
+  const caps = fichaFamiliaOf(doc)
+  const habTabs = HAB_TABS.filter((t) => t.id !== 'magias' || caps.magias)
   const index = Math.max(
     0,
-    HAB_TABS.findIndex((t) => t.id === tab),
+    habTabs.findIndex((t) => t.id === tab),
   )
 
   return (
@@ -3060,31 +3092,38 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
           gap: 24,
         }}
       >
-        <TabStrip tabs={HAB_TABS} active={tab} onSelect={setTab} pad="12px 18px" />
+        <TabStrip tabs={habTabs} active={tab} onSelect={setTab} pad="12px 18px" />
         <PanelTrack index={index}>
           <Col>
             <ClasseNivelPanel doc={doc} refs={refs} />
             <AtributosPanel doc={doc} />
-            <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
+            {/* Passado = biografia, só Heroi (plugin biografia-card.ts:20). */}
+            {caps.biografia ? (
+              <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
+            ) : null}
             <StacksPanel doc={doc} />
-            <EquipamentosProfPanel doc={doc} refs={refs} />
+            {/* Proficiências de equipamento: CA não tem o card (tab-completa
+                do CA; defesa do CA = Armadura Natural, defesa.ts:58-64). */}
+            {caps.equipamentos ? <EquipamentosProfPanel doc={doc} refs={refs} /> : null}
           </Col>
           <Col>
             <PericiasProfPanel doc={doc} />
-            <EspecializacoesPanel doc={doc} />
-            <OficiosPanel doc={doc} />
+            {caps.especializacoes ? <EspecializacoesPanel doc={doc} /> : null}
+            {caps.oficios ? <OficiosPanel doc={doc} /> : null}
           </Col>
           <Col>
             <HabilidadesArvorePanel doc={doc} refs={refs} />
             <AcoesPanel doc={doc} refs={refs} />
-            <TecnicasPanel doc={doc} refs={refs} />
+            {caps.tecnicas ? <TecnicasPanel doc={doc} refs={refs} /> : null}
           </Col>
-          <Col>
-            <MagiasHabPanel doc={doc} refs={refs} />
-            {/* Card "Magias Secundárias" abaixo do principal (#150) — espelho
-                de tab-magias.ts:77-129; some sem conteúdo (gate interno). */}
-            <MagiasHabPanel doc={doc} refs={refs} sec />
-          </Col>
+          {caps.magias ? (
+            <Col>
+              <MagiasHabPanel doc={doc} refs={refs} />
+              {/* Card "Magias Secundárias" abaixo do principal (#150) — espelho
+                  de tab-magias.ts:77-129; some sem conteúdo (gate interno). */}
+              <MagiasHabPanel doc={doc} refs={refs} sec />
+            </Col>
+          ) : null}
         </PanelTrack>
       </div>
     </TipProvider>
