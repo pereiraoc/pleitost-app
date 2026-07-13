@@ -536,16 +536,50 @@ const LINEAGE_PREV_RANK: Record<string, string> = {
   Mestre: 'Experiente',
 }
 
+const RANK_GROUPS = new Set(['Básica', 'Adepta', 'Experiente', 'Mestre'])
+
+/** Predicado "a pasta é uma LINHA?" pro filtro de linhagem (bug #5/#216).
+ *  A convenção estrutural da vault é uma pasta POR linha de essência —
+ *  Essência Flamejante/{base, Adepta, Experiente} (variantes Menores idem,
+ *  sem a nota-base) — onde "a irmã da mesma pasta com o rank anterior"
+ *  identifica uma progressão: no máximo UMA nota por estágio de rank.
+ *  Pastas de CLASSE (Técnicas/Mago etc.) têm VÁRIAS notas por rank
+ *  (subcategoria do índice), então não são linhas e o pré-requisito de
+ *  linhagem NÃO se aplica — a lista do Selecionar da regra é a fonte de
+ *  verdade, como no plugin (que não filtra essas options). Era esse filtro
+ *  aplicado a Técnicas/Mago que reduzia a escolha da Maestria em Classe
+ *  Secundária a uma só técnica (#216). */
+function lineageFolderPredicate(catalog: Catalog): (folder: string) => boolean {
+  const countsByFolder = new Map<string, Map<string, number>>()
+  for (const e of catalog.content) {
+    const folder = e.id.includes('/') ? e.id.slice(0, e.id.lastIndexOf('/')) : ''
+    const rank = rankGroupLabel(String(e.subtype ?? '').trim())
+    if (!folder || !RANK_GROUPS.has(rank)) continue
+    const counts = countsByFolder.get(folder) ?? new Map<string, number>()
+    counts.set(rank, (counts.get(rank) ?? 0) + 1)
+    countsByFolder.set(folder, counts)
+  }
+  return (folder: string): boolean => {
+    const counts = countsByFolder.get(folder)
+    if (!counts) return true
+    for (const n of counts.values()) if (n >= 2) return false
+    return true
+  }
+}
+
 /** Filtro de elegibilidade por LINHAGEM nas options dos Selecionar (app-side,
  *  bug #5): cada linha de essência é uma PASTA da vault (Essência Flamejante/
  *  {base, Adepta, Experiente}); opção Experiente/Mestre só aparece se o herói
  *  POSSUI a irmã da mesma pasta com o rank anterior. Tudo data-driven: pasta
  *  do id + `rank::` da nota (optionsMeta, anotado no extract) — nada de parse
- *  de nome. O pick atual sempre permanece (o select precisa exibi-lo). */
+ *  de nome. Só constrange options cuja pasta É uma linha (isLineageFolder);
+ *  nas demais a lista do Selecionar vale inteira (#216). O pick atual sempre
+ *  permanece (o select precisa exibi-lo). */
 function filterChoiceOptionsByLineage(
   choices: ChoiceDescriptor[],
   visited: Map<string, VaultDoc>,
   ownedTargets: Set<string>,
+  isLineageFolder: (folder: string) => boolean,
 ): ChoiceDescriptor[] {
   // pasta+rank de cada habilidade POSSUÍDA (docs já visitados pelo BFS —
   // itens de lista salvos são seeds).
@@ -568,6 +602,7 @@ function filterChoiceOptionsByLineage(
       const meta = c.optionsMeta!.find((m) => m.option === opt)
       const prev = meta ? LINEAGE_PREV_RANK[meta.rank] : undefined
       if (!meta || !prev) return true
+      if (!isLineageFolder(meta.folder)) return true
       return ownedByFolder.get(meta.folder)?.has(prev) ?? false
     }
     const options = c.options.filter(eligible)
@@ -602,7 +637,12 @@ export function buildHeroProjection(
       if (typeof link === 'string') ownedHabTargets.add(wikiBase(link))
     }
   }
-  const choicesFiltered = filterChoiceOptionsByLineage(result.choices, result.visitedDocs, ownedHabTargets)
+  const choicesFiltered = filterChoiceOptionsByLineage(
+    result.choices,
+    result.visitedDocs,
+    ownedHabTargets,
+    lineageFolderPredicate(catalog),
+  )
   const periciasCov = coveredPericias(calculated)
   const oficiosCov = coveredOficios(calculated)
   const principalAllowed = derivePrincipalAllowed(calculated)

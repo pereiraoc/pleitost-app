@@ -1990,6 +1990,37 @@ const cardBox: CSSProperties = {
 /** Grupo de rank de técnica → letra do slot (Tecnicas.Slots só tem A/E/M). */
 const TEC_GROUP_LETTER: Record<string, 'A' | 'E' | 'M'> = { Adepta: 'A', Experiente: 'E', Mestre: 'M' }
 
+/** Pasta-fonte das técnicas — espelho do PREFIX de listTecnicas (plugin
+ *  cola/yaml-block-deps-factory.ts:255). A pasta NÃO decide elegibilidade
+ *  por classe; isso é o `classe::` de cada nota (tecnicaClasses). */
+const TECNICAS_PATH_PREFIX = 'Sistema/Criação de Personagem/Técnicas/'
+
+const CLASSE_WIKILINK_RX = /\[\[([^\]|]+?)(?:\|[^\]]+)?\]\]/g
+
+/** Classes elegíveis de uma técnica, do `classe::` da nota (frontmatter senão
+ *  inline) — espelho de collectClasses (plugin yaml-block-deps-factory.ts:
+ *  263-279): basenames dos wikilinks numa string/array CSV; fallback texto
+ *  cru. Vazio = qualquer classe. */
+function tecnicaClasses(d: VaultDoc): string[] {
+  const raw =
+    (d.frontmatter as Record<string, unknown>)?.['classe'] ??
+    (d.inlineFields as Record<string, unknown>)?.['classe']
+  const s = Array.isArray(raw) ? raw.map(String).join(',') : String(raw ?? '')
+  if (!s.trim()) return []
+  const out: string[] = []
+  CLASSE_WIKILINK_RX.lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = CLASSE_WIKILINK_RX.exec(s)) !== null) {
+    const target = m[1].trim()
+    out.push(target.split('/').pop() ?? target)
+  }
+  if (out.length === 0) {
+    const txt = s.trim()
+    if (txt && !txt.startsWith('[[')) out.push(txt)
+  }
+  return out
+}
+
 /** Linha de SLOT VAZIO — espelho de renderEmptySlot do plugin (magias-card.ts:
  *  520-525 / tecnicas-card.ts:293-301): marcador ● passivo + rótulo "Vazio"
  *  itálico apagado. Mostra quantos slots do rank ainda estão por preencher. */
@@ -2119,23 +2150,20 @@ export function TecnicasPanel({
     return learned > 0 || (!readOnly && slotN > 0)
   })
 
-  // Técnicas da classe do herói (docs reais) pro painel "Não Aprendidas".
+  // Técnicas da vault pro painel "Não Aprendidas" — espelho de listTecnicas
+  // (plugin cola/yaml-block-deps-factory.ts:254-325): TODAS as notas
+  // `categoria: Técnica` sob a pasta-fonte; a elegibilidade por classe vem do
+  // `classe::` de CADA nota (filtro abaixo), não da pasta. O filtro por pasta
+  // (Classe + Genéricas + Multidisciplinar) era heurística inventada e
+  // oferecia Magia Distante (classe:: Animista/Arcanista, pasta
+  // Multidisciplinar) pra Guerreiro (#216).
   const classeTarget = wikiTarget(fm['Classe'])
-  // Técnicas disponíveis: as da CLASSE + as Genéricas (todas as classes) + as
-  // Multidisciplinares (multiclasse) — antes só as da classe apareciam (#tec).
-  // O gate por slot de rank (naoAprendidas) continua limitando o que dá pra pegar.
   const tecnicaIds = useMemo(
     () =>
       catalog.content
-        .filter(
-          (e) =>
-            e.type === 'Técnica' &&
-            (e.id.includes(`/Técnicas/${classeTarget}/`) ||
-              e.id.includes('/Técnicas/Genéricas/') ||
-              e.id.includes('/Técnicas/Multidisciplinar/')),
-        )
+        .filter((e) => e.type === 'Técnica' && e.path.startsWith(TECNICAS_PATH_PREFIX))
         .map((e) => e.id),
-    [catalog, classeTarget],
+    [catalog],
   )
   const tecnicaDocs = useDocs(edit ? tecnicaIds : [])
   const naoAprendidas = useMemo(() => {
@@ -2144,6 +2172,11 @@ export function TecnicasPanel({
     const byRank = new Map<string, { custo: string; txt: string; doc: VaultDoc }[]>()
     for (const d of tecnicaDocs.values()) {
       if (learned.has(d.basename)) continue
+      // Filtro de classe pelo `classe::` da nota — espelho de
+      // computeTecnicasDerived (plugin view-model.ts:527-531): vazio = todas;
+      // senão precisa conter a classe atual.
+      const classes = tecnicaClasses(d)
+      if (classes.length > 0 && (!classeTarget || !classes.includes(classeTarget))) continue
       const rank = docRankGroup(d)
       // Só ranks com slot na ficha (plugin tecnicas-card.ts:153 pula slots[rk]<=0).
       const letter = TEC_GROUP_LETTER[rank]
@@ -2161,7 +2194,7 @@ export function TecnicasPanel({
       rows: byRank.get(g)!.sort((a, b) => a.txt.localeCompare(b.txt)),
     }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [edit, tecnicaDocs, entries])
+  }, [edit, tecnicaDocs, entries, classeTarget])
 
   // Aprender/remover técnica por slot (#74): grava na lista SALVA (Tecnicas.Lista);
   // o merge reaplica as concessões de regra. Espelho de addTecnica/removeTecnica.
