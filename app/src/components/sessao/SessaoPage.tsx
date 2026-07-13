@@ -949,7 +949,26 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
 export function GrupoDaSala() {
   const live = useLiveSession()
   const chars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
-  if (!chars.length) return null
+  // #222/#223: a ficha do grupo NUNCA fica em branco — sem conexão viva
+  // orienta; conectada mostra o roster (Mestre/jogadores/personagens) mesmo
+  // antes de alguém publicar personagem.
+  if (!live) {
+    return (
+      <div style={{ border: '1px dashed var(--line2)', background: 'var(--panel)', clipPath: clip(14), padding: '16px 18px' }}>
+        <div style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)', marginBottom: 8 })}>
+          {'// FICHA DO GRUPO DA SESSÃO'}
+        </div>
+        <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
+          Sem conexão com a mesa — abre a aba SESSÃO (painel direito), entra com GitHub e a ficha
+          do grupo monta aqui ao vivo.
+        </div>
+      </div>
+    )
+  }
+  const gm = live.members.find((m) => m.role === 'gm' || m.userId === live.gmUserId) ?? null
+  const jogadores = live.members.filter((m) => m !== gm)
+  const personagensDe = (userId: string) =>
+    chars.filter((c) => c.memberId === userId).map((c) => c.summary.nome)
   const th: CSSProperties = mono({
     fontSize: 9,
     letterSpacing: '.08em',
@@ -975,6 +994,34 @@ export function GrupoDaSala() {
       <div style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)', marginBottom: 8 })}>
         {'// FICHA DO GRUPO DA SESSÃO'}
       </div>
+      {/* #223: "Deveria mostrar quem é o Mestre, quem são os jogadores e os
+          personagens" — roster da mesa, GM primeiro, personagens por jogador */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
+          <span style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--accent)' })}>👁️ MESTRE</span>
+          <span style={{ fontSize: 13.5, fontWeight: 700 }}>{gm?.displayName ?? '—'}</span>
+        </div>
+        <div style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' })}>
+          {`JOGADORES · ${jogadores.length} · PERSONAGENS · ${chars.length}`}
+        </div>
+        {jogadores.map((j) => {
+          const ps = personagensDe(j.userId)
+          return (
+            <div key={j.userId} style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{j.displayName}</span>
+              <span style={mono({ fontSize: 10.5, color: ps.length ? 'var(--blue)' : 'var(--muted)' })}>
+                {ps.length ? ps.join(' · ') : 'sem personagem na mesa'}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+      {chars.length === 0 ? (
+        <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
+          Nenhum personagem publicado ainda — cada jogador entra na mesa pela aba SESSÃO
+          (selecionar personagem → Entrar na mesa).
+        </div>
+      ) : (
       <div style={{ overflowX: 'auto' }}>
         <table style={{ borderCollapse: 'collapse', minWidth: 560 }}>
           <thead>
@@ -1003,6 +1050,7 @@ export function GrupoDaSala() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   )
 }
@@ -1076,10 +1124,12 @@ function PcRow({ heroId }: { heroId: string }) {
 }
 
 function DetalhesPanel({ sess }: { sess: SessionRec }) {
+  // #223: conectado, a fonte é a SALA (membros com papel + personagens
+  // publicados) — o modelo local (claims de heróis) é só o fallback offline.
+  const live = useLiveSession()
   const membros = Object.entries(sess.claims)
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <GrupoDaSala />
       <div
         style={{
           padding: '16px 20px',
@@ -1097,7 +1147,12 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </span>
         </div>
       </div>
-      {sess.mestre ? (
+      {live ? (
+        <>
+          <GrupoDaSala />
+        </>
+      ) : null}
+      {!live && sess.mestre ? (
         <div
           style={{
             display: 'flex',
@@ -1133,10 +1188,12 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </div>
         </div>
       ) : null}
-      <div style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)', marginTop: 4 })}>
-        {`// MEMBROS NA SESSÃO · ${membros.length}`}
-      </div>
-      {membros.map(([jogador, heroIds]) => (
+      {live ? null : (
+        <div style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)', marginTop: 4 })}>
+          {`// MEMBROS NA SESSÃO · ${membros.length}`}
+        </div>
+      )}
+      {(live ? [] : membros).map(([jogador, heroIds]) => (
         <div
           key={jogador}
           style={{

@@ -84,7 +84,7 @@ function fakeChar(nome: string, vit: number, vitMax: number): SessionCharacter {
   return {
     id: `c-${nome}`,
     sessionId: 's1',
-    memberId: `m-${nome}`,
+    memberId: `c-${nome}`,
     kind: 'hero',
     tutorCharacterId: null,
     characterPath: `local/${nome}.md`,
@@ -96,8 +96,8 @@ function fakeChar(nome: string, vit: number, vitMax: number): SessionCharacter {
   } as unknown as SessionCharacter
 }
 
-const fakeMember = (id: string, nome: string): SessionMember =>
-  ({ id, sessionId: 's1', userId: id, nome, role: 'player', joinedAt: '' }) as unknown as SessionMember
+const fakeMember = (id: string, nome: string, role: 'gm' | 'player' = 'player'): SessionMember =>
+  ({ sessionId: 's1', userId: id, displayName: nome, role, joinedAt: '' }) as unknown as SessionMember
 
 describe('lista de GRUPOS (#213)', () => {
   it('sem sessão: só grupos LOCAIS — nenhum grupo da vault na lista', () => {
@@ -117,16 +117,24 @@ describe('lista de GRUPOS (#213)', () => {
         sessionId: 's1',
         gmUserId: 'gm',
         characters: [fakeChar('Aline', 12, 20), fakeChar('Beto', 20, 20)],
-        members: [fakeMember('u1', 'Aline'), fakeMember('u2', 'Beto')],
+        members: [
+          fakeMember('gm', 'Mestre Zé', 'gm'),
+          fakeMember('c-Aline', 'Jogadora Ana'),
+          fakeMember('c-Beto', 'Jogador Bento'),
+        ],
         encounters: [],
       })
     })
     const card = await screen.findByText('Grupo da Sessão')
-    expect(screen.getByText('2 jogadores na mesa')).toBeTruthy()
+    // #223: contagem certa — mestre à parte dos jogadores, personagens contados
+    expect(screen.getByText('MESTRE + 2 jogadores · 2 personagens')).toBeTruthy()
     fireEvent.click(card)
-    // ficha da mesa = mesma tabela do DETALHES (GrupoDaSala)
+    // ficha da mesa (#223): MESTRE, jogadores com seus personagens, tabela
     expect(await screen.findByText('// FICHA DO GRUPO DA SESSÃO')).toBeTruthy()
-    expect(screen.getByText('Aline')).toBeTruthy()
+    expect(screen.getByText('Mestre Zé')).toBeTruthy()
+    expect(screen.getByText('Jogadora Ana')).toBeTruthy()
+    // Aline aparece no roster (personagem da jogadora) E na tabela de stats
+    expect(screen.getAllByText('Aline').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByText('12/20')).toBeTruthy()
     // voltar retorna pra lista
     fireEvent.click(screen.getByText('← GRUPOS'))

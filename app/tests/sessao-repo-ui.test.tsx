@@ -139,7 +139,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getByText('Aventureira Nia')).toBeTruthy())
     expect(screen.getByText(/❤️ 7\/12/)).toBeTruthy()
-    expect(screen.getByText('Jogadora Ana')).toBeTruthy()
+    expect(screen.getAllByText('Jogadora Ana').length).toBeGreaterThan(0)
 
     // #187: a FICHA DO GRUPO da sessão montou sozinha (tabela nos DETALHES)
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))

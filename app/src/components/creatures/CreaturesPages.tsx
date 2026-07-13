@@ -44,6 +44,7 @@ import {
   tierFromLevel,
 } from '../../grupo/party'
 import { useLiveSession } from '../../data/session-repo/live-session'
+import { useSessions } from '../../data/session-store'
 import { GrupoDaSala } from '../sessao/SessaoPage'
 import { CriadorAventura } from '../mestre/CriadorAventura'
 import { CriadorCombate } from '../mestre/CriadorCombate'
@@ -59,6 +60,15 @@ const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
 
 // id sintético da mesa da sessão ativa na lista de GRUPOS (#213)
 const MESA_ID = 'sessao:mesa'
+
+/** Subtítulo do card da mesa (#223): mestre à parte, plurais corretos. */
+function mesaResumo(live: { members: unknown[]; characters: { kind: string }[] }): string {
+  const jogadores = Math.max(0, live.members.length - 1)
+  const personagens = live.characters.filter((c) => c.kind !== 'npc').length
+  return `MESTRE + ${jogadores} ${jogadores === 1 ? 'jogador' : 'jogadores'} · ${personagens} ${
+    personagens === 1 ? 'personagem' : 'personagens'
+  }`
+}
 
 // ── Agrupamento por tier (issue #31) ──────────────────────────────────────
 // HERÓIS, COMPANHEIROS ANIMAIS e BESTIÁRIO agrupados por tier decrescente
@@ -871,6 +881,10 @@ function GruposPanel({
     [version],
   )
   const live = useLiveSession()
+  // #222: "a ficha do grupo não tá aparecendo automaticamente quando a sessão
+  // existe" — o card da mesa aparece com a sessão local ATIVA mesmo sem a
+  // conexão viva (o GrupoDaSala orienta a conectar); conectado, mostra contagem.
+  const { active: sessaoAtiva } = useSessions()
   const membersByGroup = useMemo(
     () => new Map(groups.map((g) => [g.id, resolveGroupMembers(catalog, g.id)])),
     [catalog, groups, version],
@@ -909,14 +923,16 @@ function GruposPanel({
     <div className="herois-page">
       {/* #213: mesa da sessão ativa como grupo — o grupo "existe a partir da
           sessão" (#203); abre a mesma tabela do DETALHES (GrupoDaSala). */}
-      {live && live.members.length ? (
+      {live || sessaoAtiva ? (
         <button className="hero-card" onClick={() => onSelect(MESA_ID)}>
           <span className="hero-card-stripe" aria-hidden />
           <span className="hero-ini">⚔️</span>
           <div className="hero-main">
             <div className="hero-nome">Grupo da Sessão</div>
             <div className="hero-classe">
-              {live.members.length} jogador{live.members.length === 1 ? '' : 'es'} na mesa
+              {live
+                ? mesaResumo(live)
+                : `sessão ${sessaoAtiva!.codigo} — conectar pela aba SESSÃO`}
             </div>
           </div>
         </button>
