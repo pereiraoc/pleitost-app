@@ -647,13 +647,11 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
             ? [
                 {
                   label: `${tokens.emojis.aventureiro.Deletar} Deletar herói`,
+                  // #215: só a CÓPIA LOCAL sai — os exemplos da database
+                  // (compêndio) nunca são afetados (a vault é read-only).
+                  confirmLabel: '⚠️ Confirmar? Remove só a cópia local',
                   color: 'var(--red)',
-                  onClick: () => {
-                    if (
-                      window.confirm(`Deletar o herói "${nome}"? Essa ação não pode ser desfeita.`)
-                    )
-                      removeLocalEntity(entry.id)
-                  },
+                  onClick: () => removeLocalEntity(entry.id),
                 },
               ]
             : []),
@@ -675,8 +673,15 @@ function CardDotsMenu({
   ariaLabel: string
   open: boolean
   setOpen: (fn: (o: boolean) => boolean) => void
-  items: { label: string; color?: string; onClick: () => void }[]
+  items: { label: string; color?: string; confirmLabel?: string; onClick: () => void }[]
 }) {
+  // #215: confirmação IN-APP em dois cliques — window.confirm é suprimido em
+  // PWA standalone (iOS) e o item de deletar parecia morto. 1º clique ARMA
+  // (troca o rótulo), 2º executa; fechar o menu desarma.
+  const [armado, setArmado] = useState<string | null>(null)
+  useEffect(() => {
+    if (!open) setArmado(null)
+  }, [open])
   return (
     <>
       <span
@@ -733,12 +738,16 @@ function CardDotsMenu({
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation()
+                  if (item.confirmLabel && armado !== item.label) {
+                    setArmado(item.label)
+                    return
+                  }
                   setOpen(() => false)
                   item.onClick()
                 }}
                 style={item.color ? { ...heroMenuItemStyle, color: item.color } : heroMenuItemStyle}
               >
-                {item.label}
+                {item.confirmLabel && armado === item.label ? item.confirmLabel : item.label}
               </button>
             ))}
           </div>
