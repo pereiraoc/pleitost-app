@@ -34,6 +34,7 @@ import {
   tierBarColor,
   tierFromLevel,
 } from '../../grupo/party'
+import { CriadorCombate } from '../mestre/CriadorCombate'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -121,6 +122,18 @@ const NPC_TABS: {
     localKind: 'Monstro',
   },
 ]
+
+// Abas do Modo Mestre na página CRIATURAS (#194/#195) — decisão de menor
+// atrito documentada: nada de rota /mestre (App.tsx e a nav do design são
+// contrato congelado das trilhas F1/I), os Criadores entram como abas
+// mestre-gated AQUI, reusando a convenção do BESTIÁRIO (issue #35): aba
+// :disabled com Mestre OFF, seleção recua pra primeira aba se o modo desligar.
+const MESTRE_TABS = [
+  { id: 'combate', label: 'COMBATE' },
+] as const
+
+/** Abas que só existem com Modo Mestre ligado (BESTIÁRIO + Criadores). */
+const MESTRE_GATED_IDS = new Set<string>(['bestiario', ...MESTRE_TABS.map((t) => t.id)])
 
 const WIKI = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/
 
@@ -982,13 +995,15 @@ export function NpcsPage() {
   const [tab, setTab] = useState(NPC_TABS[0].id)
   const [pessoaOpen, setPessoaOpen] = useState(false)
   const navigate = useNavigate()
-  // Modo Mestre (issue #35): com Mestre OFF a aba BESTIÁRIO fica bloqueada
-  // pra clique (convenção :disabled existente — opacity/cursor, sem mensagem
-  // nova); reativo via useSettings — se o modo desligar com a aba ativa, a
+  // Modo Mestre (issue #35): com Mestre OFF as abas gated (BESTIÁRIO +
+  // COMBATE/AVENTURA dos Criadores, #194/#195) ficam bloqueadas pra clique
+  // (convenção :disabled existente — opacity/cursor, sem mensagem nova);
+  // reativo via useSettings — se o modo desligar com a aba ativa, a
   // seleção recua pra primeira aba.
   const { mestre } = useSettings()
-  const activeTab = !mestre && tab === 'bestiario' ? NPC_TABS[0].id : tab
-  const index = NPC_TABS.findIndex((t) => t.id === activeTab)
+  const allTabs = [...NPC_TABS.map(({ id, label }) => ({ id, label })), ...MESTRE_TABS]
+  const activeTab = !mestre && MESTRE_GATED_IDS.has(tab) ? NPC_TABS[0].id : tab
+  const index = allTabs.findIndex((t) => t.id === activeTab)
 
   // #46: Companheiro Animal local → ficha (família CA: Tutor). #47: Monstro
   // local → ficha formato herói (família Monstro: Tier/Raça).
@@ -1019,11 +1034,11 @@ export function NpcsPage() {
   return (
     <div className="npcs-page">
       <div className="npc-tabs">
-        {NPC_TABS.map((t) => (
+        {allTabs.map((t) => (
           <button
             key={t.id}
             className={activeTab === t.id ? 'npc-tab on' : 'npc-tab'}
-            disabled={t.id === 'bestiario' && !mestre}
+            disabled={MESTRE_GATED_IDS.has(t.id) && !mestre}
             onClick={() => setTab(t.id)}
           >
             {t.label}
@@ -1042,6 +1057,11 @@ export function NpcsPage() {
             prepend={t.id === 'pessoas' ? <PessoasDeAnotacoes /> : undefined}
           />
         ))}
+        {/* Criadores do Modo Mestre (#195/#194) — só montam com Mestre ON
+            (gate interno dos componentes cobre o painel fora de foco) */}
+        <TrackPanel>
+          <CriadorCombate />
+        </TrackPanel>
       </PanelTrack>
       {activeTab === 'pessoas' ? (
         <CreateFab label="+ Adicionar Pessoa" onClick={() => setPessoaOpen(true)} />
