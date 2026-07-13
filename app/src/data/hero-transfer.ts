@@ -12,6 +12,7 @@ import {
   type LocalKind,
   type StoredEntity,
 } from './local-entities'
+import { extractFmBlob } from './session-repo/publish'
 import type { VaultDoc } from './types'
 
 export const PORTABLE_MARK = 'pleitost-personagem'
@@ -40,14 +41,22 @@ export function toPortable(rec: StoredEntity): PortableEntity {
 }
 
 /** Exemplo do compêndio (doc da vault) → portátil. O FM da vault é a fonte
- *  de verdade da ficha (migração inline→FM); copiar é lossless. */
+ *  de verdade da ficha (migração inline→FM); copiar é lossless.
+ *
+ *  A cópia leva a FICHA, não o ESTADO: extractFmBlob (mesma exclusão do
+ *  publish de sessão, espelho do plugin) tira `Interativa` — o volátil salvo
+ *  pelo plugin na vault (condições/efeitos/recursos congelados) travava os
+ *  toggles de VC/Acerto Decisivo da cópia importada (#219) — e os metadados
+ *  de publicação do Obsidian (aliases/dg-publish). A cópia nasce como um
+ *  herói criado do zero: estado limpo, recursos cheios. O export→import de
+ *  entidade LOCAL (toPortable) segue lossless — lá o FM com Interativa É o
+ *  canal volátil do app. */
 export function portableFromDoc(doc: VaultDoc, basename: string): PortableEntity {
   const kind = (Object.keys(KIND_INFO) as LocalKind[]).find(
     (k) => KIND_INFO[k].subtype === doc.subtype,
   )
   if (!kind) throw new Error(`Subtipo sem família local: ${doc.subtype}`)
-  // aliases/dg-publish são metadados de publicação do Obsidian, não da ficha
-  const { aliases: _a, 'dg-publish': _dg, ...frontmatter } = doc.frontmatter
+  const frontmatter = extractFmBlob(doc.frontmatter as Record<string, unknown>)
   return { pleitost: PORTABLE_MARK, version: 1, kind, basename, frontmatter }
 }
 
