@@ -45,6 +45,12 @@ import {
 } from './tooltips'
 import { StarChip } from './HabilidadesTab'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
+import {
+  buildDescansoUsoItems,
+  descansarWrites,
+  dormirWrites,
+  type DescansoState,
+} from './descanso'
 import type { HeroRefs } from './useHeroRefs'
 import {
   ADO_GRUPOS,
@@ -601,7 +607,7 @@ const RES_KEY: Record<string, ConditionNumberKey> = {
   intuicao: 'intuicao',
 }
 
-function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }) {
+function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const rules = useHeroRules(model.fm)
   // Base derivada (atributos/defesas já cascateados); os deltas dos Efeitos
@@ -714,6 +720,27 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
   }
   const nAtivas = chips.filter((c) => condOn[c.nome]).length
   const condLabel = nAtivas ? `${nAtivas}${nAtivas > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma'
+
+  // DESCANSO (#227): Descansar/Dormir do plugin (acoes-descanso.ts:
+  // renderDescansoCol) sobre o canal volátil — bases (max) do FM DERIVADO
+  // (fm = derivedFm, como o vida-panel v2 usa model.vida/magias), correntes
+  // e usos da Interativa. As regras puras vivem em descanso.ts.
+  const descansar = (modo: 'descansar' | 'dormir') => {
+    const rest = interState.restantes
+    const vitMax = num(fmPath(fm, 'Vida', 'Vitalidade'))
+    const s: DescansoState = {
+      vit: rest['Vitalidade'] !== undefined ? num(rest['Vitalidade']) : vitMax,
+      vitMax,
+      moralMax: num(fmPath(fm, 'Vida', 'Moral')),
+      emMax: num(fmPath(fm, 'Magias', 'EM')),
+      emSecMax: num(fmPath(fm, 'Magias', 'Secundaria', 'EM')),
+      nivel: num(fm['Nível']),
+      usos: interState.usos,
+      usoItems: buildDescansoUsoItems(fm, refs.refDoc),
+    }
+    const writes = modo === 'descansar' ? descansarWrites(s) : dormirWrites(s)
+    for (const [path, value] of writes) model.setVolatile(path, value)
+  }
 
   // RECUPERAÇÃO: chips espelham Interativa.Imunidades (imune → chip desligado).
   const feridTrat = !interState.imunidades['Medicina']
@@ -1146,12 +1173,15 @@ function DefesasRow({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxState }
                 DESCANSO
               </div>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                {/* #227: mecânica do plugin (Descansar restaura Moral+EM+usos
+                    por minuto; Dormir restaura tudo — EV por nível). */}
                 {[
-                  { ic: '⌛', l: 'Descansar' },
-                  { ic: '💤', l: 'Dormir' },
+                  { ic: tokens.emojis.subcategoria.Descansar, l: 'Descansar', modo: 'descansar' as const },
+                  { ic: tokens.emojis.subcategoria.Dormir, l: 'Dormir', modo: 'dormir' as const },
                 ].map((b) => (
                   <button
                     key={b.l}
+                    onClick={() => descansar(b.modo)}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
@@ -2859,7 +2889,7 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       >
         <EscudoRow doc={doc} refs={refs} />
         <VidaBar doc={doc} />
-        <DefesasRow doc={doc} inter={inter} />
+        <DefesasRow doc={doc} refs={refs} inter={inter} />
         <div>
           <div style={{ marginBottom: 16 }}>
             <TabStrip tabs={combTabs} active={tab} onSelect={setTab} pad="11px 18px" />
