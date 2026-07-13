@@ -11,9 +11,10 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useDetail } from '../../data/detail-context'
 import { useGroupMembers, localEntriesOfKind } from '../../data/local-entities'
+import { usePessoaPortrait } from '../../data/images'
 import { clip } from './bits'
 import { fmPath, wikiTarget } from './hero-model'
-import { PessoaForm, type PessoaFields2 } from '../creatures/CreaturesPages'
+import { initials, PessoaForm, type PessoaFields2 } from '../creatures/CreaturesPages'
 
 export interface PessoaRow extends PessoaFields2 {
   /** Doc id de um personagem EXISTENTE (herói/companheiro/monstro) — habilita
@@ -48,6 +49,38 @@ function Chip({ label, value }: { label: string; value: string }) {
   )
 }
 
+/** Retrato do card (#200): linha com Alvo → retrato do personagem alvo
+ *  (local-first, como todo retrato); avulsa → imagem própria (ImgId); sem
+ *  imagem → iniciais (mesmo fallback dos cards de criatura). */
+function PessoaAvatar({ row }: { row: PessoaRow }) {
+  const portrait = usePessoaPortrait(row.Alvo, row.ImgId)
+  const frame: CSSProperties = {
+    width: 46,
+    height: 46,
+    flex: 'none',
+    border: '1px solid var(--line2)',
+    clipPath: clip(8),
+  }
+  return portrait ? (
+    <img src={portrait} alt="" style={{ ...frame, objectFit: 'cover' }} />
+  ) : (
+    <span
+      style={{
+        ...frame,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'var(--card)',
+        fontFamily: 'var(--mono)',
+        fontSize: 15,
+        color: 'var(--muted)',
+      }}
+    >
+      {initials(row.Nome)}
+    </span>
+  )
+}
+
 function PessoaCard({
   row,
   badge,
@@ -65,14 +98,15 @@ function PessoaCard({
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
+        gap: 12,
         padding: '12px 15px',
         background: 'var(--panel)',
         border: '1px solid var(--line2)',
         clipPath: clip(10),
       }}
     >
+      <PessoaAvatar row={row} />
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
         {onResumo ? (
           <button
@@ -148,6 +182,7 @@ function PessoaCard({
       {row.Detalhes ? (
         <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.55 }}>{row.Detalhes}</div>
       ) : null}
+      </div>
     </div>
   )
 }
@@ -327,7 +362,16 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
       {autoMembros.map((m) => (
         <PessoaCard
           key={`auto-${m.id}`}
-          row={{ Nome: m.basename ?? m.id, Relação: '', Organização: '', Posição: '', Detalhes: '' }}
+          // Alvo: m.id — linha derivada aponta pro membro real, então o card
+          // mostra o retrato DELE (#200), como as linhas de CONHECIDO.
+          row={{
+            Nome: m.basename ?? m.id,
+            Relação: '',
+            Organização: '',
+            Posição: '',
+            Detalhes: '',
+            Alvo: m.id,
+          }}
           badge="GRUPO"
           onResumo={() => abrirResumo(m.id)}
         />
@@ -350,6 +394,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
 
       {modal?.t === 'nova' ? (
         <PessoaForm
+          withImage
           onClose={() => setModal(null)}
           onSubmit={(f) => {
             save([...rows, f])
@@ -378,6 +423,9 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
         <PessoaForm
           initial={rows[modal.idx]}
           lockNome={Boolean(rows[modal.idx]?.Alvo)}
+          // Imagem própria só pra pessoa AVULSA (#200): linha com Alvo usa o
+          // retrato do personagem alvo — sem upload/remover aqui.
+          withImage={!rows[modal.idx]?.Alvo}
           onClose={() => setModal(null)}
           onSubmit={(f) => {
             save(rows.map((r, i) => (i === modal.idx ? { ...r, ...f } : r)))

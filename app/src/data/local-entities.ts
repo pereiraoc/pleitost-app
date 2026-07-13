@@ -434,6 +434,9 @@ export interface PessoaFields {
   Organização: string
   Posição: string
   Detalhes: string
+  /** Imagem própria (#200): referência pro store de imagens (images.ts) —
+   *  o retrato do card resolve por ela (useCreaturePortrait lê FM ImgId). */
+  ImgId?: string
 }
 
 /** Pessoa (NPC) — não é ficha de herói: guarda os campos do formulário do #45. */
@@ -446,6 +449,7 @@ export function pessoaFrontmatter(fields: Omit<PessoaFields, 'Nome'>): Record<st
     Organização: fields.Organização,
     Posição: fields.Posição,
     Detalhes: fields.Detalhes,
+    ...(fields.ImgId ? { ImgId: fields.ImgId } : {}),
   }
 }
 
