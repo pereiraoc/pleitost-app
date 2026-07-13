@@ -1,4 +1,5 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { routerBasename } from './data/base-url'
 import { CatalogProvider } from './data/CatalogContext'
 import { SessionRepoProvider } from './data/session-repo/provider'
 import { AppShell } from './components/layout/AppShell'
@@ -25,7 +26,9 @@ const router = createBrowserRouter([
       { path: '/doc/*', element: <DocPage /> },
     ],
   },
-])
+  // #210: sob GitHub Pages de projeto o app vive em /pleitost-app/ — sem o
+  // basename o router 404-eia a própria home.
+], { basename: routerBasename() })
 
 export default function App() {
   return (

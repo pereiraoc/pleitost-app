@@ -2,7 +2,7 @@
 // vive em /pleitost-app/ e caminho absoluto 404-eia fora da base; o registro
 // central base-url.ts é a única fonte de prefixo dos fetches de dados.
 import { describe, expect, it } from 'vitest'
-import { appStateUrl, vaultUrl, withBase } from '../src/data/base-url'
+import { appStateUrl, routerBasename, vaultUrl, withBase } from '../src/data/base-url'
 
 describe('base-url (#209)', () => {
   it('base de projeto (Pages): prefixa /pleitost-app/', () => {
@@ -23,5 +23,14 @@ describe('base-url (#209)', () => {
       '/vault-data/Sistema/Criaturas/Her%C3%B3is/Adriann.json',
     )
     expect(appStateUrl()).toBe('/app-state')
+  })
+})
+
+describe('routerBasename (#210)', () => {
+  it('Pages de projeto: sem barra final', () => {
+    expect(routerBasename('/pleitost-app/')).toBe('/pleitost-app')
+  })
+  it('base raiz continua /', () => {
+    expect(routerBasename('/')).toBe('/')
   })
 })

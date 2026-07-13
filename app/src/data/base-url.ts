@@ -18,3 +18,9 @@ export function vaultUrl(rel: string): string {
 export function appStateUrl(): string {
   return withBase('app-state')
 }
+
+/** basename do react-router (#210): BASE do Vite sem a barra final (o router
+ *  não casa rotas com basename terminado em '/'); base raiz vira '/'. */
+export function routerBasename(base: string = import.meta.env.BASE_URL): string {
+  return base.replace(/\/+$/, '') || '/'
+}
