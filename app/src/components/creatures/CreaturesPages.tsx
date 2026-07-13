@@ -3,6 +3,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSettings } from '../../settings'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl, groupImageUrl } from '../../data/creature-image'
+import {
+  deleteEntityImage,
+  newImageId,
+  saveEntityImage,
+  useCreaturePortrait,
+  useEntityImageUrl,
+  usePessoaPortrait,
+} from '../../data/images'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
@@ -285,6 +293,23 @@ const fieldInputStyle: CSSProperties = {
   outline: 'none',
   clipPath: clip(7),
 }
+// Botão de imagem do form de Pessoa (#200) — mesmo molde do uploadBtnStyle do
+// retrato da ficha (PerfilTab.tsx): mono, accent, clip discreto.
+const pessoaImgBtnStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  fontFamily: 'var(--mono)',
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: '.08em',
+  color: 'var(--accent)',
+  background: 'transparent',
+  border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+  padding: '4px 10px',
+  cursor: 'pointer',
+  clipPath: clip(6),
+}
 
 /** Modal "+ Adicionar Pessoa": campos do #45 (Nome, Relação, Organização,
  *  Posição, Detalhes) na linguagem visual existente (pills/selects do design,
@@ -295,6 +320,10 @@ export interface PessoaFields2 {
   Organização: string
   Posição: string
   Detalhes: string
+  /** Imagem própria da pessoa AVULSA (#200): referência pro store de imagens
+   *  (IndexedDB, images.ts) — o blob nunca entra no FM. Ausente quando a
+   *  pessoa não tem imagem ou quando a linha tem Alvo (usa o retrato do alvo). */
+  ImgId?: string
 }
 
 export function PessoaForm({
@@ -302,29 +331,64 @@ export function PessoaForm({
   onClose,
   initial,
   lockNome,
+  withImage,
 }: {
   onSubmit: (fields: PessoaFields2) => void
   onClose: () => void
   /** Pré-preenche (edição / alvo existente com Nome travado). */
   initial?: Partial<PessoaFields2>
   lockNome?: boolean
+  /** Campo de imagem própria (#200) — SÓ pessoa nova/avulsa; linha com Alvo
+   *  usa o retrato do personagem alvo e não oferece upload. */
+  withImage?: boolean
 }) {
   const [nome, setNome] = useState(initial?.Nome ?? '')
   const [relacao, setRelacao] = useState<string>(initial?.['Relação'] ?? PESSOA_RELACOES[0])
   const [organizacao, setOrganizacao] = useState(initial?.['Organização'] ?? '')
   const [posicao, setPosicao] = useState(initial?.['Posição'] ?? '')
   const [detalhes, setDetalhes] = useState(initial?.Detalhes ?? '')
+  // Imagem (#200): arquivo escolhido agora (preview local) OU a já salva do
+  // ImgId (edição); "remover" zera ambos e apaga do store no submit.
+  const [imgFile, setImgFile] = useState<File | null>(null)
+  const [imgRemoved, setImgRemoved] = useState(false)
+  const savedImgUrl = useEntityImageUrl(withImage ? (initial?.ImgId ?? null) : null)
+  const [fileUrl, setFileUrl] = useState<string | null>(null)
+  useEffect(() => {
+    if (!imgFile) {
+      setFileUrl(null)
+      return
+    }
+    const url = URL.createObjectURL(imgFile)
+    setFileUrl(url)
+    return () => URL.revokeObjectURL(url)
+  }, [imgFile])
+  const imgPreview = fileUrl ?? (imgRemoved ? null : savedImgUrl)
 
   const submit = () => {
     const Nome = nome.trim()
     if (!Nome) return
-    onSubmit({
+    const fields: PessoaFields2 = {
       Nome,
       Relação: relacao,
       Organização: organizacao.trim(),
       Posição: posicao.trim(),
       Detalhes: detalhes.trim(),
-    })
+    }
+    if (withImage) {
+      // A imagem vai pro store (IndexedDB) sob um ImgId estável; a linha da
+      // pessoa carrega só a REFERÊNCIA. `ImgId: undefined` explícito limpa a
+      // referência antiga no editar ({ ...linha, ...fields } sobrescreve).
+      let imgId = initial?.ImgId
+      if (imgFile) {
+        imgId ??= newImageId()
+        void saveEntityImage(imgId, imgFile)
+      } else if (imgRemoved && imgId) {
+        void deleteEntityImage(imgId)
+        imgId = undefined
+      }
+      fields.ImgId = imgId
+    }
+    onSubmit(fields)
   }
 
   return (
@@ -417,6 +481,59 @@ export function PessoaForm({
             style={{ ...fieldInputStyle, resize: 'vertical' }}
           />
         </label>
+        {withImage ? (
+          // Imagem própria da pessoa (#200) — mesmos rótulos do upload de
+          // retrato da ficha (LocalImageUpload, PerfilTab.tsx): 🖼 Imagem /
+          // ✕ Remover; preview pequeno ao lado quando existe imagem.
+          <div>
+            <span style={fieldLabelStyle}>IMAGEM</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              {imgPreview ? (
+                <img
+                  src={imgPreview}
+                  alt="Imagem da pessoa"
+                  style={{
+                    width: 46,
+                    height: 46,
+                    objectFit: 'cover',
+                    border: '1px solid var(--line2)',
+                    clipPath: clip(8),
+                    flex: 'none',
+                  }}
+                />
+              ) : null}
+              <label style={pessoaImgBtnStyle}>
+                🖼 Imagem
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.currentTarget.files?.[0]
+                    // Zera o value antes do setState: re-escolher o MESMO
+                    // arquivo (após remover) precisa disparar change de novo.
+                    e.currentTarget.value = ''
+                    if (file) {
+                      setImgFile(file)
+                      setImgRemoved(false)
+                    }
+                  }}
+                />
+              </label>
+              {imgPreview ? (
+                <button
+                  onClick={() => {
+                    setImgFile(null)
+                    setImgRemoved(true)
+                  }}
+                  style={{ ...pessoaImgBtnStyle, color: 'var(--muted)' }}
+                >
+                  ✕ Remover
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 4 }}>
           <button
             onClick={onClose}
@@ -882,7 +999,6 @@ function NpcCard({
   readonly?: boolean
 }) {
   const navigate = useNavigate()
-  const assets = useAssetIndex()
   const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
   // subtítulo accent2 do design (n.tipo): Raça, senão Classe, senão subtipo
@@ -892,7 +1008,9 @@ function NpcCard({
     entry.subtype ||
     ''
   const nivel = plainLabel(doc?.frontmatter['Nível'])
-  const portrait = creatureImageUrl(doc, assets)
+  // Retrato local-first (#200): imagem subida pelo jogador (inclui a de Pessoa
+  // avulsa via FM ImgId) tem precedência; senão hierarquia da vault.
+  const portrait = useCreaturePortrait(doc)
 
   // Badge do losango por subtipo:
   //  - Monstro (issue #19): a divisão é por FM `Tier` (não têm Nível) — o
@@ -1069,14 +1187,27 @@ function NpcPanel({
  *  ANOTAÇÕES do herói (onde a edição vive — os campos são pessoais dele). */
 function PessoasDeAnotacoes() {
   const version = useLocalStoreVersion()
-  const navigate = useNavigate()
   const rows = useMemo(() => {
-    const out: Array<{ heroId: string; heroNome: string; Nome: string; rel: string }> = []
+    const out: Array<{
+      heroId: string
+      heroNome: string
+      Nome: string
+      rel: string
+      alvo?: string
+      imgId?: string
+    }> = []
     for (const h of localEntriesOfKind('Heroi')) {
       const fmp = getLocalDoc(h.id)?.frontmatter as Record<string, unknown> | undefined
       const pessoas = Array.isArray(fmp?.['Pessoas']) ? (fmp!['Pessoas'] as Record<string, string>[]) : []
       for (const p of pessoas) {
-        out.push({ heroId: h.id, heroNome: h.basename ?? h.id, Nome: p['Nome'] ?? '', rel: p['Relação'] ?? '' })
+        out.push({
+          heroId: h.id,
+          heroNome: h.basename ?? h.id,
+          Nome: p['Nome'] ?? '',
+          rel: p['Relação'] ?? '',
+          alvo: p['Alvo'],
+          imgId: p['ImgId'],
+        })
       }
     }
     return out
@@ -1086,22 +1217,39 @@ function PessoasDeAnotacoes() {
   return (
     <>
       {rows.map((r, i) => (
-        <button
-          key={`${r.heroId}-${r.Nome}-${i}`}
-          className="npc-card"
-          onClick={() => navigate(heroPath(r.heroId, 'anotacoes'))}
-          title={`Anotações de ${r.heroNome}`}
-        >
-          <span className="npc-ic npc-ini">{initials(r.Nome)}</span>
-          <div className="npc-main">
-            <div className="npc-nome">{r.Nome}</div>
-            <div className="npc-tipo">
-              {r.rel ? `${r.rel} · ` : ''}conhecido de {r.heroNome}
-            </div>
-          </div>
-        </button>
+        <PessoaDeAnotacaoCard key={`${r.heroId}-${r.Nome}-${i}`} row={r} />
       ))}
     </>
+  )
+}
+
+/** Card de pessoa das anotações — retrato (#200): Alvo → retrato do alvo;
+ *  avulsa → imagem própria (ImgId); sem imagem → iniciais (fallback padrão). */
+function PessoaDeAnotacaoCard({
+  row,
+}: {
+  row: { heroId: string; heroNome: string; Nome: string; rel: string; alvo?: string; imgId?: string }
+}) {
+  const navigate = useNavigate()
+  const portrait = usePessoaPortrait(row.alvo, row.imgId)
+  return (
+    <button
+      className="npc-card"
+      onClick={() => navigate(heroPath(row.heroId, 'anotacoes'))}
+      title={`Anotações de ${row.heroNome}`}
+    >
+      {portrait ? (
+        <span className="npc-ic" style={{ backgroundImage: `url("${portrait}")` }} />
+      ) : (
+        <span className="npc-ic npc-ini">{initials(row.Nome)}</span>
+      )}
+      <div className="npc-main">
+        <div className="npc-nome">{row.Nome}</div>
+        <div className="npc-tipo">
+          {row.rel ? `${row.rel} · ` : ''}conhecido de {row.heroNome}
+        </div>
+      </div>
+    </button>
   )
 }
 
@@ -1135,14 +1283,9 @@ export function NpcsPage() {
     const id = createLocalEntity('Monstro', 'Nova Criatura', emptyMonstroFrontmatter())
     navigate(heroPath(id))
   }
-  // #45: Pessoa local via formulário → entra na lista de PESSOAS.
-  const criarPessoa = (fields: {
-    Nome: string
-    Relação: string
-    Organização: string
-    Posição: string
-    Detalhes: string
-  }) => {
+  // #45: Pessoa local via formulário → entra na lista de PESSOAS
+  // (com imagem própria opcional — #200: ImgId referencia o store de imagens).
+  const criarPessoa = (fields: PessoaFields2) => {
     createLocalEntity('Pessoa', fields.Nome, pessoaFrontmatter(fields))
     setPessoaOpen(false)
   }
@@ -1200,7 +1343,7 @@ export function NpcsPage() {
         <CreateFab label="+ Adicionar Criatura" onClick={criarCriatura} />
       ) : null}
       {pessoaOpen ? (
-        <PessoaForm onSubmit={criarPessoa} onClose={() => setPessoaOpen(false)} />
+        <PessoaForm withImage onSubmit={criarPessoa} onClose={() => setPessoaOpen(false)} />
       ) : null}
       {importCAOpen ? (
         <ImportarModal

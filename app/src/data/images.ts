@@ -12,6 +12,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { useAssetIndex } from './assets'
 import { creatureImageUrl } from './creature-image'
+import { useDocs } from './useDoc'
 import type { VaultDoc } from './types'
 
 const DB_NAME = 'pleitost-images'
@@ -79,6 +80,13 @@ function imagesVersion(): number {
 
 /* ===================== API ===================== */
 
+/** Chave nova pra imagem SEM entidade dona (pessoa das anotações, #200): a
+ *  linha de Pessoa não é uma entidade local (vive no FM do herói), então a
+ *  imagem ganha um id próprio — mesma forma dos ids locais (base36+aleatório). */
+export function newImageId(): string {
+  return `img:${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+}
+
 /** Grava/substitui a imagem de uma entidade (blob como veio do input file). */
 export async function saveEntityImage(id: string, blob: Blob): Promise<void> {
   await withStore('readwrite', (store) => store.put(blob, id))
@@ -137,8 +145,26 @@ export function useEntityImageUrl(id: string | null | undefined): string | null 
  */
 export function useCreaturePortrait(doc: VaultDoc | undefined): string | null {
   const assets = useAssetIndex()
-  const local = useEntityImageUrl(doc?.id ?? null)
+  // Pessoa avulsa (#200) guarda a imagem própria sob o `ImgId` do FM (a
+  // entidade nasce DEPOIS do upload no form); fichas usam o próprio id.
+  const fmImgId = doc?.frontmatter?.['ImgId']
+  const key = typeof fmImgId === 'string' && fmImgId ? fmImgId : (doc?.id ?? null)
+  const local = useEntityImageUrl(key)
   return local ?? creatureImageUrl(doc, assets)
+}
+
+/**
+ * Retrato de uma linha de PESSOA das anotações (#200): com `Alvo` (personagem
+ * existente) o card mostra o retrato DO ALVO (local-first, como todo retrato);
+ * linha avulsa mostra a imagem própria subida no form (key = `ImgId`).
+ * null = sem imagem — o caller mostra o fallback usual de iniciais.
+ */
+export function usePessoaPortrait(alvo?: string, imgId?: string): string | null {
+  const docs = useDocs(alvo ? [alvo] : [])
+  const alvoDoc = alvo ? docs?.get(alvo) : undefined
+  const alvoPortrait = useCreaturePortrait(alvoDoc)
+  const own = useEntityImageUrl(alvo ? null : (imgId ?? null))
+  return alvo ? alvoPortrait : own
 }
 
 /* ===================== testes ===================== */
