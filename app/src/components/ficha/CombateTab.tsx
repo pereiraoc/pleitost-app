@@ -27,6 +27,7 @@ import { useNamedDocs } from './useNamedDocs'
 import { HabilidadesArvorePanel, TecnicasPanel, AcoesPanel } from './HabilidadesTab'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, TabStrip, PanelTrack, TrackPanel, ModBox, UsoDots, GoldDots } from './bits'
 import { wikiStrip } from './local-tip'
@@ -1664,8 +1665,11 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
   const actsByPericia = useAcoesPorPericia()
   // mod = projeção do FM + delta da Interativa (Pericias/PericiasDeAtributo/
   // Pericia(X) — untyped + typed vencedoras, como o painel de atributo do
-  // plugin).
+  // plugin). Perícias POR FAMÍLIA (#201): CA só tem a whitelist de 6
+  // (family-pericias.ts; painel de atributo do plugin, attribute.ts:55-58).
+  const familia = familiaOf(doc)
   const pericias = ((fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[])
+    .filter((p) => familiaTemPericia(familia, slugify(str(p.Nome))))
     .map((p) => {
       const applied = applyTarget(inter.ctx, {
         kind: 'skill',
@@ -2776,6 +2780,9 @@ function InvocacaoCard({
  *  com indentação nas habilidades) em modo readOnly. Esquerda: técnicas + ações;
  *  direita: habilidades. */
 function HabilidadesCombatePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+  // Técnicas por família (#201): CA não tem (tabs/ca/tab-completa.ts) —
+  // mesmo gate da aba COMPETÊNCIAS, via FICHA_FAMILIA.
+  const caps = fichaFamiliaOf(doc)
   return (
     <div
       style={{
@@ -2786,7 +2793,7 @@ function HabilidadesCombatePanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <TecnicasPanel doc={doc} refs={refs} readOnly />
+        {caps.tecnicas ? <TecnicasPanel doc={doc} refs={refs} readOnly /> : null}
         <AcoesPanel doc={doc} refs={refs} />
       </div>
       <div>
@@ -2805,9 +2812,13 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   // perícias/manobras), como o contexto único por render do plugin
   // (mount-interativa-context.ts:computeCtx).
   const inter = useInterativaCtx(doc, refs)
+  // Delta por FAMÍLIA (#201): CA não tem MAGIAS/EM/invocações
+  // (mount-interativa.ts:785 showMagias = Heroi; leitura magias-block.ts:27).
+  const caps = fichaFamiliaOf(doc)
+  const combTabs = COMB_TABS.filter((t) => t.id !== 'magias' || caps.magias)
   const index = Math.max(
     0,
-    COMB_TABS.findIndex((t) => t.id === tab),
+    combTabs.findIndex((t) => t.id === tab),
   )
 
   // Sem flash de valores crus: espera as fontes do contexto (docs das
@@ -2836,7 +2847,7 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         <DefesasRow doc={doc} inter={inter} />
         <div>
           <div style={{ marginBottom: 16 }}>
-            <TabStrip tabs={COMB_TABS} active={tab} onSelect={setTab} pad="11px 18px" />
+            <TabStrip tabs={combTabs} active={tab} onSelect={setTab} pad="11px 18px" />
           </div>
           <PanelTrack index={index}>
             <TrackPanel>
@@ -2851,9 +2862,11 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <TrackPanel>
               <TesourosPanel doc={doc} refs={refs} />
             </TrackPanel>
-            <TrackPanel>
-              <MagiasPanel doc={doc} refs={refs} inter={inter} />
-            </TrackPanel>
+            {caps.magias ? (
+              <TrackPanel>
+                <MagiasPanel doc={doc} refs={refs} inter={inter} />
+              </TrackPanel>
+            ) : null}
           </PanelTrack>
         </div>
       </div>

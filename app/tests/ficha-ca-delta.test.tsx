@@ -142,3 +142,24 @@ describe('COMPETÊNCIAS do CA (plugin tabs/ca/tab-completa.ts + family-pericias.
     expect(screen.getByText('▲')).toBeTruthy()
   })
 })
+
+describe('COMBATE do CA (mount-interativa.ts:785 showMagias = Heroi)', () => {
+  it('sem sub-aba MAGIAS; perícias filtradas; armas naturais e vida continuam', async () => {
+    renderFicha(METIS_ID, 'combate')
+    // Vida real da Interativa (corpo comum preservado).
+    const fm = metis.frontmatter as Record<string, any>
+    const vit = `${fm.Interativa.Recursos_Restantes.Vitalidade} / ${fm.Vida.Vitalidade}`
+    expect(await screen.findByText(vit)).toBeTruthy()
+    expect(screen.queryByText('MAGIAS')).toBeNull()
+    // Arma natural real do FM na aba ATAQUES.
+    expect(screen.getAllByText('Mandíbula').length).toBeGreaterThan(0)
+    // PanelTrack mantém as sub-abas no DOM: perícias fora da whitelist não
+    // aparecem em lugar NENHUM do combate do CA.
+    expect(screen.queryByText('Ladinagem')).toBeNull()
+  })
+
+  it('controle Heroi: sub-aba MAGIAS presente no combate', async () => {
+    renderFicha(MERA_ID, 'combate')
+    expect(await screen.findByText('MAGIAS')).toBeTruthy()
+  })
+})
