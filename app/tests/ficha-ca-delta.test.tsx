@@ -101,3 +101,44 @@ describe('PERFIL do CA (plugin perfil-card.ts:315-342 + biografia-card.ts:20)', 
     expect(screen.getByLabelText('Sintonia')).toBeTruthy()
   })
 })
+
+describe('COMPETÊNCIAS do CA (plugin tabs/ca/tab-completa.ts + family-pericias.ts)', () => {
+  // O PanelTrack mantém TODAS as sub-abas montadas no DOM — as ausências
+  // valem pra aba inteira, sem precisar navegar entre sub-abas.
+  it('sem MAGIAS, PASSADO, Equipamentos, Ofícios, Especializações e Técnicas', async () => {
+    renderFicha(METIS_ID, 'habilidades')
+    expect(await screen.findByText('⚖️ ATRIBUTOS')).toBeTruthy()
+    expect(screen.queryByText('MAGIAS')).toBeNull() // sub-aba não existe
+    expect(screen.queryByText(/PASSADO/)).toBeNull()
+    expect(screen.queryByText('Armas Simples')).toBeNull() // EquipamentosProf
+    expect(screen.queryByText('Ofícios')).toBeNull()
+    expect(screen.queryByText(/Especializações/)).toBeNull()
+    expect(screen.queryByText('Técnicas')).toBeNull()
+  })
+
+  it('perícias = whitelist de 6 (CA_PERICIAS); as outras 7 não renderizam', async () => {
+    renderFicha(METIS_ID, 'habilidades')
+    expect(await screen.findByText('Perícias')).toBeTruthy()
+    for (const nome of ['Atletismo', 'Acrobacia', 'Furtividade', 'Sobrevivência', 'Enganação', 'Intimidação'])
+      expect(screen.getAllByText(nome).length, nome).toBeGreaterThan(0)
+    for (const nome of ['Ladinagem', 'Arcana', 'Sociedades', 'Guerra', 'Medicina', 'Diplomacia'])
+      expect(screen.queryByText(nome), nome).toBeNull()
+  })
+
+  it('TIPO estático no lugar de CLASSE INICIAL; sem stepper de nível (satélite do tutor)', async () => {
+    renderFicha(METIS_ID, 'habilidades')
+    expect(await screen.findByText(/TIPO/)).toBeTruthy()
+    expect(screen.queryByText(/CLASSE INICIAL/)).toBeNull()
+    expect(screen.queryByText('▲')).toBeNull() // stepper de nível
+  })
+
+  it('controle Heroi: MAGIAS/PASSADO/Ofícios/CLASSE INICIAL/stepper presentes', async () => {
+    renderFicha(MERA_ID, 'habilidades')
+    expect(await screen.findByText('MAGIAS')).toBeTruthy()
+    expect(screen.getAllByText(/PASSADO/).length).toBeGreaterThan(0)
+    expect(screen.getByText('Ofícios')).toBeTruthy()
+    expect(screen.getAllByText('Ladinagem').length).toBeGreaterThan(0)
+    expect(screen.getByText(/CLASSE INICIAL/)).toBeTruthy()
+    expect(screen.getByText('▲')).toBeTruthy()
+  })
+})

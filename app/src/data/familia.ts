@@ -90,6 +90,10 @@ export const CA_TESOUROS_PERMITIDOS: ReadonlySet<string> = new Set([
 export interface FichaFamilia {
   /** Campo Tutor no Perfil (perfil-card.ts:333-342; header-ca.ts). */
   tutor: boolean
+  /** Campo de classe no Editável: Heroi edita "Classe" com dropdown de
+   *  classes (perfil-card.ts:398+); CA mostra "Tipo" estático (perfil-
+   *  card.ts:322-331). O rótulo é chave do registro tokens.emojis.perfil. */
+  classe: { rotulo: 'Classe' | 'Tipo'; editavel: boolean }
   /** Nível satélite do tutor (extract/sync-ca-tutor-nivel.ts): o nível exibido
    *  vem do tutor e NÃO é editável na ficha. */
   nivelDoTutor: boolean
@@ -126,6 +130,7 @@ export interface FichaFamilia {
 
 const HEROI_FICHA: FichaFamilia = {
   tutor: false,
+  classe: { rotulo: 'Classe', editavel: true },
   nivelDoTutor: false,
   biografia: true,
   experiencia: true,
@@ -149,6 +154,7 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
   Monstro: HEROI_FICHA,
   CompanheiroAnimal: {
     tutor: true,
+    classe: { rotulo: 'Tipo', editavel: false },
     nivelDoTutor: true,
     biografia: false,
     experiencia: false,
