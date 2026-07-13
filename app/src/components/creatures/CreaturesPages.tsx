@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type CSSProperties , type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties , type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSettings } from '../../settings'
 import { useAssetIndex } from '../../data/assets'
@@ -682,9 +683,24 @@ function CardDotsMenu({
   useEffect(() => {
     if (!open) setArmado(null)
   }, [open])
+  // #215 (causa raiz): os cards têm clip-path — menu absoluto DENTRO do card
+  // é cortado pelo polígono e vira não-clicável no navegador real (jsdom não
+  // faz hit-testing, por isso os testes de tela passavam). O menu renderiza
+  // num PORTAL no body, posicionado pelo rect do gatilho.
+  const triggerRef = useRef<HTMLSpanElement>(null)
+  const [pos, setPos] = useState<{ top: number; right: number } | null>(null)
+  useEffect(() => {
+    if (!open) {
+      setPos(null)
+      return
+    }
+    const rect = triggerRef.current?.getBoundingClientRect()
+    if (rect) setPos({ top: rect.bottom + 6, right: Math.max(8, window.innerWidth - rect.right) })
+  }, [open])
   return (
     <>
       <span
+        ref={triggerRef}
         className="card-dots"
         role="button"
         tabIndex={0}
@@ -705,6 +721,7 @@ function CardDotsMenu({
         ⋮
       </span>
       {open ? (
+        createPortal(
         <>
           {/* clique fora fecha */}
           <div
@@ -718,9 +735,9 @@ function CardDotsMenu({
             role="menu"
             onClick={(e) => e.stopPropagation()}
             style={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
+              position: 'fixed',
+              top: pos?.top ?? 8,
+              right: pos?.right ?? 8,
               zIndex: 41,
               minWidth: 150,
               background: 'var(--card)',
@@ -751,7 +768,9 @@ function CardDotsMenu({
               </button>
             ))}
           </div>
-        </>
+        </>,
+        document.body,
+        )
       ) : null}
     </>
   )
