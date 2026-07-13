@@ -2,7 +2,7 @@
 // como um store observável, com injeção de fake pros testes (InMemory não tem
 // auth — o teste passa {id, nome} direto no SessionRepoProvider).
 import { useSyncExternalStore } from 'react'
-import { supabaseClient, signInAnonimo, signInWithGitHub } from './supabase'
+import { supabaseClient, signInWithGitHub } from './supabase'
 
 export interface SessionUser {
   id: string
@@ -89,10 +89,6 @@ export async function loginGitHub(): Promise<void> {
   await signInWithGitHub()
 }
 
-export async function loginConvidado(nick: string): Promise<void> {
-  setNickname(nick)
-  await signInAnonimo()
-}
 
 export async function logoutSessao(): Promise<void> {
   const sb = supabaseClient()

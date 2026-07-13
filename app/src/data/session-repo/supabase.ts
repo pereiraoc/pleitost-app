@@ -462,10 +462,3 @@ export async function signInWithGitHub(): Promise<void> {
   if (error) throw error
 }
 
-/** Entrada sem conta (jogador convidado) — Supabase anonymous sign-in. */
-export async function signInAnonimo(): Promise<void> {
-  const sb = supabaseClient()
-  if (!sb) throw new Error('Supabase não configurado')
-  const { error } = await sb.auth.signInAnonymously()
-  if (error) throw error
-}

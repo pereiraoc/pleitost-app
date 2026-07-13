@@ -32,7 +32,7 @@ import {
   type SessionRec,
 } from '../../data/session-store'
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
-import { loginConvidado, loginGitHub, logoutSessao } from '../../data/session-repo/auth-state'
+import { loginGitHub, logoutSessao } from '../../data/session-repo/auth-state'
 import { generateSessionCode } from '../../data/session-repo/contract'
 import type { SessionCharacter, SessionRepo, SessionRealtime } from '../../data/session-repo/contract'
 import {
@@ -932,7 +932,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
           })}
           {ordered.length === 0 ? (
             <div style={mono({ fontSize: 11, color: 'var(--muted)', padding: 8 })}>
-              Sessão sem grupo vinculado — crie a sessão a partir de um grupo.
+              O grupo da mesa se monta pelos JOGADORES que entram na sessão.
             </div>
           ) : null}
         </div>
@@ -1198,17 +1198,8 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
 function AuthBox() {
   const repo = useSessionRepo()
   const user = useSessionUser()
-  const [nick, setNick] = useState('')
   const [erro, setErro] = useState('')
   if (!repo) return null
-  const guest = async () => {
-    setErro('')
-    try {
-      await loginConvidado(nick.trim() || 'Convidado')
-    } catch (e) {
-      setErro(String((e as Error).message ?? e))
-    }
-  }
   return (
     <div
       style={{
@@ -1243,53 +1234,23 @@ function AuthBox() {
           </button>
         </>
       ) : (
-        <>
-          <button
-            onClick={() => void loginGitHub().catch((e) => setErro(String(e?.message ?? e)))}
-            style={{
-              padding: '7px 14px',
-              background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
-              border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-              color: 'var(--accent)',
-              cursor: 'pointer',
-              fontWeight: 600,
-              fontSize: 12,
-              clipPath: clip(7),
-            }}
-          >
-             Entrar com GitHub
-          </button>
-          <input
-            value={nick}
-            onChange={(e) => setNick(e.target.value)}
-            placeholder="Apelido"
-            aria-label="Apelido de convidado"
-            style={mono({
-              width: 110,
-              padding: '7px 10px',
-              background: 'var(--card)',
-              border: '1px solid var(--line2)',
-              color: 'var(--text)',
-              fontSize: 11,
-              clipPath: clip(6),
-            })}
-          />
-          <button
-            onClick={() => void guest()}
-            style={mono({
-              padding: '7px 12px',
-              background: 'transparent',
-              border: '1px solid var(--line2)',
-              color: 'var(--muted)',
-              cursor: 'pointer',
-              fontSize: 10.5,
-              letterSpacing: '.05em',
-              clipPath: clip(6),
-            })}
-          >
-            ENTRAR COMO CONVIDADO
-          </button>
-        </>
+        // #204: auth EXCLUSIVAMENTE GitHub — sem entrada anônima/convidado
+        // (decisão do usuário: anonymous sign-in desabilitado no Supabase).
+        <button
+          onClick={() => void loginGitHub().catch((e) => setErro(String(e?.message ?? e)))}
+          style={{
+            padding: '7px 14px',
+            background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
+            border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+            color: 'var(--accent)',
+            cursor: 'pointer',
+            fontWeight: 600,
+            fontSize: 12,
+            clipPath: clip(7),
+          }}
+        >
+           Entrar com GitHub
+        </button>
       )}
       {erro ? <span style={mono({ fontSize: 10.5, color: 'var(--red)' })}>{erro}</span> : null}
     </div>
@@ -1299,14 +1260,9 @@ function AuthBox() {
 /* ═══════════════ LISTA DE SESSÕES (fora de sessão) ═══════════════ */
 
 function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
-  const catalog = useCatalog()
   const repo = useSessionRepo()
   const user = useSessionUser()
   const [joinCode, setJoinCode] = useState('')
-  const [novoGrupo, setNovoGrupo] = useState('')
-  // Grupos da vault (categoria Grupo) pro vínculo da nova sessão — o roster
-  // da mesa vem do grupo (integrantes), fonte de verdade real.
-  const grupos = useMemo(() => catalog.docsByType.get('Grupo') ?? [], [catalog])
 
   // Com login no servidor, criar/entrar passam pelo servidor (o código vem de
   // lá; o registro local vira o espelho da sala). Sem servidor, local puro.
@@ -1344,10 +1300,10 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     setJoinCode('')
   }
   const criar = async () => {
-    // req 8 (#187): criar sessão NÃO exige grupo nem herói — o roster monta
-    // conforme os jogadores entram e publicam seus personagens.
-    const grupoId = novoGrupo || null
-    const nome = grupoId ? (catalog.entryById.get(grupoId)?.basename ?? 'Nova Sessão') : 'Nova Sessão'
+    // #203: sessão NUNCA seleciona grupo — a ficha de grupo existe só a
+    // partir das sessões reais, montada pelos jogadores que entram (req 8).
+    const grupoId = null
+    const nome = 'Nova Sessão'
     if (repo && user) {
       try {
         const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode() })
@@ -1501,26 +1457,6 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
           </button>
         </div>
         <div style={{ height: 1, background: 'var(--line)', margin: '1px 0' }} />
-        {/* Vínculo do roster: nova sessão nasce de um GRUPO da vault. */}
-        <select
-          aria-label="Grupo da nova sessão"
-          value={novoGrupo}
-          onChange={(e) => setNovoGrupo(e.target.value)}
-          style={mono({
-            padding: '10px 12px',
-            background: 'var(--card)',
-            border: '1px solid var(--line2)',
-            color: 'var(--text)',
-            fontSize: 12,
-          })}
-        >
-          <option value="">— sem grupo (monta conforme os jogadores entram) —</option>
-          {grupos.map((g) => (
-            <option key={g.id} value={g.id}>
-              {g.basename}
-            </option>
-          ))}
-        </select>
         <button
           onClick={criar}
           style={{

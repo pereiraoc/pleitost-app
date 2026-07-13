@@ -68,58 +68,29 @@ function renderSessao() {
   )
 }
 
-async function criarSessaoDoGrupo(nomeGrupo: string) {
-  const sel = (await screen.findByLabelText('Grupo da nova sessão')) as HTMLSelectElement
-  const opt = [...sel.options].find((o) => o.textContent === nomeGrupo)!
-  expect(opt).toBeTruthy()
-  fireEvent.change(sel, { target: { value: opt.value } })
-  fireEvent.click(screen.getByText('+ Criar nova sessão'))
+// #203: criar sessão NUNCA seleciona grupo — a ficha de grupo existe só a
+// partir das sessões (jogadores que entram).
+async function criarSessao() {
+  fireEvent.click(await screen.findByText('+ Criar nova sessão'))
 }
 
 describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair', () => {
-  it('cria sessão de um grupo da vault e mostra a ordem com a vida real', async () => {
+  it('cria sessão SEM grupo (#203): iniciativa abre com o hint da mesa vazia', async () => {
     renderSessao()
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
-    await criarSessaoDoGrupo('Carlos, Dante, Mera, Pind, Thoren')
-
-    // entra na sessão: aba INICIATIVA com a ordem
+    await criarSessao()
     expect(await screen.findByText('⚔ ORDEM DE INICIATIVA')).toBeTruthy()
     expect(screen.getByText('Turno 1')).toBeTruthy()
-    // integrantes do grupo aparecem (docs reais)
-    await waitFor(() => {
-      expect(screen.getAllByLabelText(/^Iniciativa de /).length).toBe(5)
-    })
-    // vida real da ficha no label (❤️ vit/max)
-    await waitFor(() => {
-      const labels = screen.getAllByText(/❤️ \d+\/\d+/)
-      expect(labels.length).toBeGreaterThan(0)
-    })
-  })
-
-  it('editar init reordena e PRÓXIMO avança vez/turno (wrap → round+1)', async () => {
-    renderSessao()
-    await criarSessaoDoGrupo('Carlos, Dante, Mera, Pind, Thoren')
-    await screen.findByText('⚔ ORDEM DE INICIATIVA')
-    const inputs = (await screen.findAllByLabelText(/^Iniciativa de /)) as HTMLInputElement[]
-    expect(inputs.length).toBe(5)
-
-    // dá init 18 pro herói da ÚLTIMA linha → vira a primeira (init DESC)
-    const alvo = inputs[inputs.length - 1].getAttribute('aria-label')!
-    fireEvent.change(inputs[inputs.length - 1], { target: { value: '18' } })
-    await waitFor(() => {
-      const now = screen.getAllByLabelText(/^Iniciativa de /) as HTMLInputElement[]
-      expect(now[0].getAttribute('aria-label')).toBe(alvo)
-      expect(now[0].value).toBe('18')
-    })
-
-    // PRÓXIMO 5× fecha a volta → Turno 2
-    for (let i = 0; i < 5; i++) fireEvent.click(screen.getByText('▶ PRÓXIMO'))
-    await waitFor(() => expect(screen.getByText('Turno 2')).toBeTruthy())
+    // sem grupo pré-selecionado: o roster vem dos JOGADORES da sessão
+    expect(screen.getByText(/O grupo da mesa se monta pelos JOGADORES/)).toBeTruthy()
+    // PRÓXIMO com mesa vazia não avança turno (tracker sem combatentes)
+    fireEvent.click(screen.getByText('▶ PRÓXIMO'))
+    expect(screen.getByText('Turno 1')).toBeTruthy()
   })
 
   it('DETALHES mostra nome/código/mestre; SAIR volta pra lista com a sessão', async () => {
     renderSessao()
-    await criarSessaoDoGrupo('Carlos, Dante, Mera, Pind, Thoren')
+    await criarSessao()
     await screen.findByText('⚔ ORDEM DE INICIATIVA')
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))
     expect(await screen.findByText('MESTRE')).toBeTruthy()
@@ -139,8 +110,8 @@ describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair',
     const input = await screen.findByPlaceholderText('Código da sessão')
     fireEvent.change(input, { target: { value: 'ZZTOP1' } })
     fireEvent.click(screen.getByText('Entrar →'))
-    // entra (sem grupo vinculado → hint)
-    expect(await screen.findByText(/Sessão sem grupo vinculado/)).toBeTruthy()
+    // entra (mesa vazia → hint dos jogadores)
+    expect(await screen.findByText(/O grupo da mesa se monta pelos JOGADORES/)).toBeTruthy()
     expect(listSessions()[0].codigo).toBe('ZZTOP1')
   })
 })
