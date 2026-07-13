@@ -21,6 +21,11 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FichaPage } from '../src/components/ficha/FichaPage'
 import { AppShell } from '../src/components/layout/AppShell'
+import {
+  createLocalEntity,
+  emptyCompanheiroFrontmatter,
+  removeLocalEntity,
+} from '../src/data/local-entities'
 import { heroPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -239,5 +244,28 @@ describe('ABAS por família (plugin mount-interativa.ts:897 — CA sem Anotaçõ
     renderFicha(METIS_ID, 'anotacoes')
     expect(await screen.findByText('TUTOR')).toBeTruthy()
     expect(screen.queryByText('// ANOTAÇÕES DE CAMPANHA')).toBeNull()
+  })
+})
+
+describe('CA LOCAL (issue #46 → #201): criado no app, ganha o MESMO delta', () => {
+  it('ficha de CA local mostra TUTOR e esconde MAGIAS/PASSADO', async () => {
+    const id = createLocalEntity(
+      'CompanheiroAnimal',
+      'Novo Companheiro',
+      emptyCompanheiroFrontmatter('Novo Companheiro'),
+    )
+    try {
+      renderFicha(id)
+      expect(await screen.findByText('TUTOR')).toBeTruthy()
+      expect(screen.queryByText(/AVENTUREIRO CLASSE/)).toBeNull()
+      expect(screen.queryByText(/PASSADO/)).toBeNull()
+      cleanup()
+
+      renderFicha(id, 'habilidades')
+      expect(await screen.findByText('⚖️ ATRIBUTOS')).toBeTruthy()
+      expect(screen.queryByText('MAGIAS')).toBeNull()
+    } finally {
+      removeLocalEntity(id)
+    }
   })
 })
