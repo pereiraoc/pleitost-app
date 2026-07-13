@@ -304,3 +304,32 @@ describe('#196 iniciativa remota (encounters)', () => {
     await waitFor(() => expect(screen.getAllByText('Goblin Batedor').length).toBe(1)) // 1 revelado, 1 mascarado
   })
 })
+
+// ── #226: sessões do usuário aparecem em OUTRO dispositivo ────────────────
+describe('#226 lista multi-dispositivo', () => {
+  it('dispositivo novo (store local vazio): sessões em que sou membro aparecem na lista', async () => {
+    const repo = new InMemorySessionRepo()
+    // no servidor: sessão criada pelo GM; o usuário u-2 é membro (entrou
+    // ontem, por exemplo, em outro aparelho)
+    const sess = await repo.createSession({ name: 'Mesa de Quinta', gmUserId: 'gm-1', code: 'MESAQU' })
+    await repo.insertMember({ sessionId: sess.id, userId: 'gm-1', role: 'gm', displayName: 'Mestre' })
+    await repo.insertMember({ sessionId: sess.id, userId: 'u-2', role: 'player', displayName: 'Ana' })
+
+    // dispositivo NOVO da Ana: session-store local vazio (beforeEach limpou)
+    renderCliente(repo, { id: 'u-2', nome: 'Ana' })
+    // o bridge busca findSessionsByUser e registra na lista local
+    expect(await screen.findByText('Mesa de Quinta')).toBeTruthy()
+    expect(screen.getByText('MESAQU')).toBeTruthy()
+    // registrada com o remoteId (Entrar conecta na sala certa)
+    await waitFor(() => expect(listSessions().find((s) => s.codigo === 'MESAQU')?.remoteId).toBe(sess.id))
+    // e NÃO virou a sessão ativa sozinha (sem roubar o foco do dispositivo)
+    expect(screen.getByText('// LISTA DE SESSÕES')).toBeTruthy()
+  })
+
+  it('usuário sem sessões no servidor: lista continua só com as locais', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'u-3', nome: 'Beto' })
+    expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
+    await waitFor(() => expect(listSessions()).toHaveLength(0))
+  })
+})

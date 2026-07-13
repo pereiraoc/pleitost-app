@@ -253,6 +253,28 @@ export function LiveSessionBridge() {
   const user = useSessionUser()
   const { active } = useSessions()
   const remoteId = active?.remoteId ?? null
+  // #226: sessões do usuário em QUALQUER dispositivo — logado, busca no
+  // servidor as sessões em que é membro e registra as desconhecidas na lista
+  // local (por código; não mexe na sessão ATIVA deste dispositivo).
+  useEffect(() => {
+    if (!repo || !user) return
+    let alive = true
+    repo
+      .findSessionsByUser(user.id)
+      .then((remotas) => {
+        if (!alive) return
+        for (const r of remotas) {
+          const local = joinSessionByCode(r.code)
+          updateSession(local.codigo, { nome: r.name, remoteId: r.id })
+        }
+      })
+      .catch(() => {
+        /* servidor fora — a lista local segue valendo */
+      })
+    return () => {
+      alive = false
+    }
+  }, [repo, user])
   useEffect(() => {
     if (!remoteId || !repo || !user) return
     let alive = true

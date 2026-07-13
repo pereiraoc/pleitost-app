@@ -211,6 +211,9 @@ export interface SessionEvent {
 export interface SessionRepo {
   createSession(input: { name: string; gmUserId: string; code: string }): Promise<Session>
   findSessionByCode(code: string): Promise<Session | null>
+  /** Extensão do APP (#226, além do contrato do pleitost-sync): sessões
+   *  ATIVAS em que o usuário é membro — alimenta a lista multi-dispositivo. */
+  findSessionsByUser(userId: string): Promise<Session[]>
   findSessionById(id: string): Promise<Session | null>
 
   insertMember(input: {

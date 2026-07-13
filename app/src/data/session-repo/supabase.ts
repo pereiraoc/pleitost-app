@@ -136,6 +136,23 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     if (error) fail('findSessionByCode', error)
     return data ? mapSession(data as Row) : null
   }
+  async findSessionsByUser(userId: string): Promise<Session[]> {
+    // #226: memberships do usuário → sessões ativas correspondentes
+    const { data: mems, error: e1 } = await this.sb
+      .from('session_members')
+      .select('session_id')
+      .eq('user_id', userId)
+    if (e1) fail('findSessionsByUser', e1)
+    const ids = [...new Set((mems ?? []).map((m) => (m as { session_id: string }).session_id))]
+    if (!ids.length) return []
+    const { data, error } = await this.sb
+      .from('sessions')
+      .select()
+      .in('id', ids)
+      .is('ended_at', null)
+    if (error) fail('findSessionsByUser', error)
+    return ((data ?? []) as Row[]).map(mapSession)
+  }
   async findSessionById(id: string): Promise<Session | null> {
     const { data, error } = await this.sb.from('sessions').select().eq('id', id).maybeSingle()
     if (error) fail('findSessionById', error)

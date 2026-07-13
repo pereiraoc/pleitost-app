@@ -70,6 +70,12 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     const up = code.toUpperCase()
     return [...this.sessions.values()].find((s) => s.code === up && !s.endedAt) ?? null
   }
+  async findSessionsByUser(userId: string): Promise<Session[]> {
+    const ids = new Set(
+      [...this.members.values()].flat().filter((m) => m.userId === userId).map((m) => m.sessionId),
+    )
+    return [...this.sessions.values()].filter((s) => ids.has(s.id) && !s.endedAt)
+  }
   async findSessionById(id: string): Promise<Session | null> {
     return this.sessions.get(id) ?? null
   }
