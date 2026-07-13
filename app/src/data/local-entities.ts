@@ -460,6 +460,9 @@ export function createLocalEntity(
   kind: LocalKind,
   basename: string,
   frontmatter: Record<string, unknown>,
+  // Import (#205) restaura a entidade INTEIRA (session/extras do arquivo
+  // exportado) — criação normal segue sem o parâmetro.
+  opts?: { session?: Record<string, unknown>; extras?: Record<string, unknown> },
 ): string {
   const info = KIND_INFO[kind]
   const id = `${LOCAL_PREFIX}${kind}:${randomId()}`
@@ -470,8 +473,8 @@ export function createLocalEntity(
     subtype: info.subtype,
     basename,
     frontmatter,
-    session: {},
-    extras: {},
+    session: opts?.session ?? {},
+    extras: opts?.extras ?? {},
   }
   hydrateEntities().set(id, rec)
   persistEntities()

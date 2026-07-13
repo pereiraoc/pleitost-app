@@ -18,6 +18,7 @@ import {
   emptyHeroFrontmatter,
   emptyMonstroFrontmatter,
   getLocalDoc,
+  getLocalEntity,
   isLocalId,
   localEntriesOfKind,
   removeLocalEntity,
@@ -36,6 +37,8 @@ import {
 } from '../../grupo/party'
 import { CriadorAventura } from '../mestre/CriadorAventura'
 import { CriadorCombate } from '../mestre/CriadorCombate'
+import { ImportarModal } from './ImportarModal'
+import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -218,22 +221,34 @@ function useFolderDocs(folder: string, localKind?: LocalKind, opts?: { includeVa
  *  inventário (dc.html:707 right:26 bottom:22 z40; botão accent com clip),
  *  sem o ▾ porque é ação direta (não abre menu). Issue #42 pede explícito
  *  igual Inventário/Armas. */
-function CreateFab({ label, onClick }: { label: string; onClick: () => void }) {
+function CreateFab({
+  label,
+  onClick,
+  bottom = 22,
+  secondary,
+}: {
+  label: string
+  onClick: () => void
+  /** Empilha FABs (#205: Importar fica EM CIMA do criar). */
+  bottom?: number
+  /** Variante outline (ação secundária — Importar). */
+  secondary?: boolean
+}) {
   return (
     <button
       onClick={onClick}
       style={{
         position: 'fixed',
         right: 26,
-        bottom: 22,
+        bottom,
         zIndex: 40,
         display: 'inline-flex',
         alignItems: 'center',
         gap: 7,
         padding: '11px 18px',
-        background: 'var(--accent)',
-        border: '1px solid var(--accent)',
-        color: 'var(--ink)',
+        background: secondary ? 'var(--panel)' : 'var(--accent)',
+        border: secondary ? '1px solid var(--line2)' : '1px solid var(--accent)',
+        color: secondary ? 'var(--text)' : 'var(--ink)',
         cursor: 'pointer',
         fontSize: 13,
         fontWeight: 700,
@@ -491,33 +506,85 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
         </span>
         <span className="hero-nvl-label">NVL</span>
       </div>
+      <CardDotsMenu
+        ariaLabel="Ações do herói"
+        open={menuOpen}
+        setOpen={setMenuOpen}
+        items={[
+          { label: 'Abrir', onClick: abrir },
+          // #205: exportação pelo menu "⋮" — arquivo .pleitost.json fácil de
+          // importar de volta (local exporta o store; da vault exporta o doc).
+          {
+            label: '📤 Exportar herói',
+            onClick: () => {
+              const rec = canDelete ? getLocalEntity(entry.id) : undefined
+              if (rec) downloadPortable(toPortable(rec))
+              else if (doc) downloadPortable(portableFromDoc(doc, nome))
+            },
+          },
+          ...(canDelete
+            ? [
+                {
+                  label: `${tokens.emojis.aventureiro.Deletar} Deletar herói`,
+                  color: 'var(--red)',
+                  onClick: () => {
+                    if (
+                      window.confirm(`Deletar o herói "${nome}"? Essa ação não pode ser desfeita.`)
+                    )
+                      removeLocalEntity(entry.id)
+                  },
+                },
+              ]
+            : []),
+        ]}
+      />
+    </div>
+  )
+}
+
+/** Gatilho "⋮" + menu flutuante dos cards (herói e CA local — #205). Vive
+ *  FORA de <button> (os cards com menu usam div role=button) porque menu
+ *  interativo aninhado em button é inválido. */
+function CardDotsMenu({
+  ariaLabel,
+  open,
+  setOpen,
+  items,
+}: {
+  ariaLabel: string
+  open: boolean
+  setOpen: (fn: (o: boolean) => boolean) => void
+  items: { label: string; color?: string; onClick: () => void }[]
+}) {
+  return (
+    <>
       <span
         className="card-dots"
         role="button"
         tabIndex={0}
-        aria-label="Ações do herói"
+        aria-label={ariaLabel}
         onClick={(e) => {
           e.stopPropagation()
-          setMenuOpen((o) => !o)
+          setOpen((o) => !o)
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
             e.stopPropagation()
-            setMenuOpen((o) => !o)
+            setOpen((o) => !o)
           }
         }}
         style={{ cursor: 'pointer' }}
       >
         ⋮
       </span>
-      {menuOpen ? (
+      {open ? (
         <>
           {/* clique fora fecha */}
           <div
             onClick={(e) => {
               e.stopPropagation()
-              setMenuOpen(false)
+              setOpen(() => false)
             }}
             style={{ position: 'fixed', inset: 0, zIndex: 40 }}
           />
@@ -539,35 +606,24 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
               flexDirection: 'column',
             }}
           >
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation()
-                setMenuOpen(false)
-                abrir()
-              }}
-              style={heroMenuItemStyle}
-            >
-              Abrir
-            </button>
-            {canDelete ? (
+            {items.map((item) => (
               <button
+                key={item.label}
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation()
-                  setMenuOpen(false)
-                  if (window.confirm(`Deletar o herói "${nome}"? Essa ação não pode ser desfeita.`))
-                    removeLocalEntity(entry.id)
+                  setOpen(() => false)
+                  item.onClick()
                 }}
-                style={{ ...heroMenuItemStyle, color: 'var(--red)' }}
+                style={item.color ? { ...heroMenuItemStyle, color: item.color } : heroMenuItemStyle}
               >
-                {tokens.emojis.aventureiro.Deletar} Deletar herói
+                {item.label}
               </button>
-            ) : null}
+            ))}
           </div>
         </>
       ) : null}
-    </div>
+    </>
   )
 }
 
@@ -732,6 +788,8 @@ export function HeroisPage() {
     const id = createLocalEntity('Heroi', 'Novo Herói', emptyHeroFrontmatter())
     navigate(heroPath(id))
   }
+  // #205: modal Importar Herói (arquivo .pleitost.json ou exemplo do compêndio)
+  const [importOpen, setImportOpen] = useState(false)
   // #43: cria grupo local e o abre (nome + integrantes editáveis no header).
   const criarGrupo = () => {
     const id = createLocalEntity('Grupo', 'Novo Grupo', emptyGroupFrontmatter())
@@ -776,9 +834,29 @@ export function HeroisPage() {
         </TrackPanel>
       </PanelTrack>
       {tab === 'herois' ? (
-        <CreateFab label="+ Criar Herói" onClick={criarHeroi} />
+        <>
+          <CreateFab label="+ Criar Herói" onClick={criarHeroi} />
+          {/* #205: importar de ARQUIVO ou dos EXEMPLOS do compêndio */}
+          <CreateFab
+            label="📥 Importar Herói"
+            secondary
+            bottom={74}
+            onClick={() => setImportOpen(true)}
+          />
+        </>
       ) : !selectedGroup ? (
         <CreateFab label="+ Criar Grupo" onClick={criarGrupo} />
+      ) : null}
+      {importOpen ? (
+        <ImportarModal
+          kind="Heroi"
+          folder={HEROIS_FOLDER}
+          onClose={() => setImportOpen(false)}
+          onImported={(id) => {
+            setImportOpen(false)
+            navigate(heroPath(id))
+          }}
+        />
       ) : null}
     </div>
   )
@@ -844,11 +922,27 @@ function NpcCard({
       ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível']))
       : null
 
+  // #205: CA local exporta pelo menu "⋮" (mesmo formato do herói). O root é
+  // div role=button (vide HeroCard) porque menu interativo não pode aninhar
+  // em <button>.
+  const [menuOpen, setMenuOpen] = useState(false)
+  const temMenu = isLocalId(entry.id) && subtype === 'Companheiro Animal'
+  const abrir = () => navigate(target)
+
   return (
-    <button
+    <div
       className={selected ? 'npc-card selected' : 'npc-card'}
+      role="button"
+      tabIndex={0}
       aria-current={selected ? 'true' : undefined}
-      onClick={() => navigate(target)}
+      onClick={abrir}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          abrir()
+        }
+      }}
+      style={{ position: 'relative' }}
     >
       {portrait ? (
         <span className="npc-ic" style={{ backgroundImage: `url("${portrait}")` }} />
@@ -890,10 +984,28 @@ function NpcCard({
           </span>
         </div>
       </div>
-      <span className="card-dots" aria-hidden>
-        ⋮
-      </span>
-    </button>
+      {temMenu ? (
+        <CardDotsMenu
+          ariaLabel="Ações do companheiro"
+          open={menuOpen}
+          setOpen={setMenuOpen}
+          items={[
+            { label: 'Abrir', onClick: abrir },
+            {
+              label: '📤 Exportar companheiro',
+              onClick: () => {
+                const rec = getLocalEntity(entry.id)
+                if (rec) downloadPortable(toPortable(rec))
+              },
+            },
+          ]}
+        />
+      ) : (
+        <span className="card-dots" aria-hidden>
+          ⋮
+        </span>
+      )}
+    </div>
   )
 }
 
@@ -996,6 +1108,8 @@ function PessoasDeAnotacoes() {
 export function NpcsPage() {
   const [tab, setTab] = useState(NPC_TABS[0].id)
   const [pessoaOpen, setPessoaOpen] = useState(false)
+  // #205: modal Importar Companheiro Animal (arquivo ou exemplo do compêndio)
+  const [importCAOpen, setImportCAOpen] = useState(false)
   const navigate = useNavigate()
   // Modo Mestre (issue #35): com Mestre OFF as abas gated (BESTIÁRIO +
   // COMBATE/AVENTURA dos Criadores, #194/#195) ficam bloqueadas pra clique
@@ -1071,13 +1185,33 @@ export function NpcsPage() {
       {activeTab === 'pessoas' ? (
         <CreateFab label="+ Adicionar Pessoa" onClick={() => setPessoaOpen(true)} />
       ) : activeTab === 'companheiros' ? (
-        <CreateFab label="+ Adicionar Companheiro Animal" onClick={criarCompanheiro} />
+        <>
+          <CreateFab label="+ Adicionar Companheiro Animal" onClick={criarCompanheiro} />
+          {/* #205: "o mesmo pra companheiro animal" — importar de arquivo/compêndio */}
+          <CreateFab
+            label="📥 Importar Companheiro"
+            secondary
+            bottom={74}
+            onClick={() => setImportCAOpen(true)}
+          />
+        </>
       ) : activeTab === 'bestiario' && mestre ? (
         // gating do Modo Mestre (issue #35) também vale pra criação
         <CreateFab label="+ Adicionar Criatura" onClick={criarCriatura} />
       ) : null}
       {pessoaOpen ? (
         <PessoaForm onSubmit={criarPessoa} onClose={() => setPessoaOpen(false)} />
+      ) : null}
+      {importCAOpen ? (
+        <ImportarModal
+          kind="CompanheiroAnimal"
+          folder="Sistema/Criaturas/Companheiros Animais"
+          onClose={() => setImportCAOpen(false)}
+          onImported={(id) => {
+            setImportCAOpen(false)
+            navigate(heroPath(id))
+          }}
+        />
       ) : null}
     </div>
   )
