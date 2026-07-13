@@ -140,6 +140,13 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     await waitFor(() => expect(screen.getByText('Aventureira Nia')).toBeTruthy())
     expect(screen.getByText(/❤️ 7\/12/)).toBeTruthy()
     expect(screen.getAllByText('Jogadora Ana').length).toBeGreaterThan(0)
+    // #224: o botão do PERSONAGEM garante a própria largura (no mobile o
+    // ellipsis encolhia o nome até sumir, sobrando só o jogador)
+    {
+      const btnPersonagem = screen.getAllByTitle('Ver ficha resumo nos detalhes')[0] as HTMLElement
+      expect(btnPersonagem.style.flex).toBe('1 1 auto')
+      expect(btnPersonagem.style.minWidth).toBe('0')
+    }
 
     // #187: a FICHA DO GRUPO da sessão montou sozinha (tabela nos DETALHES)
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))

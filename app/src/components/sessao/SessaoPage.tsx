@@ -443,7 +443,11 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
                   {sigOf(c.summary.nome)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
+                  {/* #224: o PERSONAGEM tem linha própria (flex garante a
+                      largura — no mobile o ellipsis encolhia o nome até sumir
+                      e sobrava só o jogador); jogador + vida vão na linha de
+                      baixo como anotação. */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <button
                       onClick={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
                       title="Ver ficha resumo nos detalhes"
@@ -458,16 +462,13 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
+                        flex: '1 1 auto',
+                        minWidth: 0,
+                        textAlign: 'left',
                       }}
                     >
                       {c.summary.nome}
                     </button>
-                    {nomeDoMembro(c.memberId) ? (
-                      <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-                        {nomeDoMembro(c.memberId)}
-                      </span>
-                    ) : null}
-                    <span style={{ flex: 1 }} />
                     {/* #188: GM abre a ficha COMPLETA readonly do jogador. */}
                     {live?.gmUserId && user.id === live.gmUserId ? (
                       <button
@@ -487,6 +488,14 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
                         📄 FICHA
                       </button>
                     ) : null}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '2px 0 7px' }}>
+                    {nomeDoMembro(c.memberId) ? (
+                      <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                        {nomeDoMembro(c.memberId)}
+                      </span>
+                    ) : null}
+                    <span style={{ flex: 1 }} />
                     <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
                       {`❤️ ${rr.vitalidade}/${c.summary.vitalidadeMax} · 💙 ${rr.moral}/${c.summary.moralMax ?? 0}${rr.moralTemp > 0 ? ` · 💚 +${rr.moralTemp}` : ''}`}
                     </span>
