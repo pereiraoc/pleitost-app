@@ -4,9 +4,11 @@
 // Biografia/Experiencia/Oficios). Os labels do cluster Passado
 // (PASSADO/PERÍCIA/OFÍCIO/TEXTO DO OFÍCIO, emojis 📝🎓⚒️📋) batem com o
 // passadoFields do renderVals recuperado no pull.
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useCatalog } from '../../data/CatalogContext'
+import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel } from '../../markdown/dataview-value'
 import {
   deleteEntityImage,
@@ -14,7 +16,7 @@ import {
   useCreaturePortrait,
   useEntityImageUrl,
 } from '../../data/images'
-import { isLocalId } from '../../data/local-entities'
+import { isLocalId, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { useViewportWidth } from '../../viewport'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
@@ -1101,6 +1103,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
   const rules = useHeroRules(fm)
+  // Delta por FAMÍLIA (#201) — flags centrais de FICHA_FAMILIA (o CA esconde
+  // biografia/experiência e ganha o campo Tutor, como no plugin).
+  const caps = fichaFamiliaOf(doc)
   // Metas com ALIAS (Classe/Sintonia/Raça/Tamanho) vivem MATERIALIZADAS no FM
   // DERIVADO (rule-applier + merge-calculated compõem o `[[Base|Display]]`); o
   // display do Perfil lê o MODELO PROJETADO pra que o alias apareça na hora, sem
@@ -1127,14 +1132,36 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const sintoniaFmValue =
     rules?.sintonias.find((o) => wikiTarget(o.value) === wikiTarget(str(dfm['Sintonia'])))?.value ??
     str(dfm['Sintonia'])
+  // TUTOR (família CA, #201) — campo do perfil do CA no plugin (perfil-card.ts:
+  // 333-342; header-ca.ts: Classe | Sintonia | Tutor). Valor = FM `Tutor`
+  // (wikilink "[[Mera]]"); opções = heróis conhecidos (vault + locais), o
+  // mesmo universo da tela HERÓIS.
+  const catalog = useCatalog()
+  const localVersion = useLocalStoreVersion()
+  const tutor = str(dfm['Tutor'])
+  const tutorOptions = useMemo(() => {
+    const nomes = new Set<string>()
+    for (const e of catalog.content) if (e.subtype === 'Heroi' && e.basename) nomes.add(e.basename)
+    for (const e of localEntriesOfKind('Heroi')) if (e.basename) nomes.add(e.basename)
+    return [...nomes]
+      .sort((a, b) => a.localeCompare(b, 'pt'))
+      .map((n) => ({ value: `[[${n}]]`, label: n }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [catalog, localVersion])
   // Retrato local-first (issue #197): imagem subida no app tem precedência,
   // senão hierarquia da vault — combinação centralizada em images.ts.
   const portrait = useCreaturePortrait(doc)
   // portW do renderVals (2133): 200 abaixo de 560, senão 262.
   const portW = vw < 560 ? 200 : 262
+  // Sub-abas por família (#201): IDENTIDADE = biografia (plugin biografia-
+  // card.ts:20, só Heroi) e EXPERIÊNCIA = cluster de aventureiro (mount-
+  // interativa.ts:574, sem Extras pro CA) — o CA não renderiza nenhuma.
+  const bioTabs = BIO_TABS.filter((t) =>
+    t.id === 'identidade' ? caps.biografia : caps.experiencia,
+  )
   const index = Math.max(
     0,
-    BIO_TABS.findIndex((t) => t.id === bioTab),
+    bioTabs.findIndex((t) => t.id === bioTab),
   )
 
   return (
@@ -1148,21 +1175,25 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
         gap: 16,
       }}
     >
-      <div
-        style={{
-          textAlign: 'center',
-          padding: 10,
-          background: 'var(--panel)',
-          border: '1px solid var(--line)',
-          fontFamily: 'var(--mono)',
-          fontSize: 12,
-          letterSpacing: '.18em',
-          color: 'var(--muted)',
-          clipPath: clip(10),
-        }}
-      >
-        AVENTUREIRO CLASSE {ci.classe}
-      </div>
+      {/* Banner de classe de aventureiro = conceito de Heroi (plugin
+          aventureiro-card, tabs/heroi/tab-perfil) — o CA não tem (#201). */}
+      {caps.experiencia ? (
+        <div
+          style={{
+            textAlign: 'center',
+            padding: 10,
+            background: 'var(--panel)',
+            border: '1px solid var(--line)',
+            fontFamily: 'var(--mono)',
+            fontSize: 12,
+            letterSpacing: '.18em',
+            color: 'var(--muted)',
+            clipPath: clip(10),
+          }}
+        >
+          AVENTUREIRO CLASSE {ci.classe}
+        </div>
+      ) : null}
 
       <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         {/* Coluna do retrato: o quadro portW×portW do design + os controles de
@@ -1242,15 +1273,19 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
             />
           </Field>
-          {/* #2: mesma largura/estilo do NOME, editável e persistido. */}
-          <Field label="APELIDO">
-            <input
-              aria-label="Apelido"
-              value={apelido}
-              onChange={(e) => setApelido(e.target.value)}
-              style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
-            />
-          </Field>
+          {/* #2: mesma largura/estilo do NOME, editável e persistido.
+              Apelido vive em Biografia.Apelido → só famílias com biografia
+              (plugin biografia-card.ts:20; CA não renderiza, #201). */}
+          {caps.biografia ? (
+            <Field label="APELIDO">
+              <input
+                aria-label="Apelido"
+                value={apelido}
+                onChange={(e) => setApelido(e.target.value)}
+                style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
+              />
+            </Field>
+          ) : null}
           {/* #7: SINTONIA como dropdown dos Traços Elementais reais —
               opções da projeção de regras (mesmas do Editável do plugin). */}
           <Field label="SINTONIA">
@@ -1271,6 +1306,28 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               disabled={rules?.sintoniaRuleLocked}
             />
           </Field>
+          {/* TUTOR — campo da família CA (#201): plugin perfil-card.ts:333-342
+              e header-ca.ts (info grid Classe | Sintonia | Tutor). Emoji do
+              registro central (tokens.emojis.perfil.Tutor). */}
+          {caps.tutor ? (
+            <Field label="TUTOR">
+              <BoxSelect
+                ariaLabel="Tutor"
+                display={
+                  <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
+                    {tokens.emojis.perfil.Tutor} {linkLabel(tutor) || '—'}
+                  </div>
+                }
+                options={withCurrent(
+                  [{ value: '', label: '—' }, ...tutorOptions],
+                  tutor,
+                  linkLabel(tutor),
+                )}
+                value={tutor}
+                onChange={(v) => model.set('Tutor', v)}
+              />
+            </Field>
+          ) : null}
         </div>
       </div>
 
@@ -1292,15 +1349,18 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
         <span>{classe}</span>
       </div>
 
-      <TabStrip tabs={BIO_TABS} active={bioTab} onSelect={setBioTab} pad="12px 20px" />
-      <PanelTrack index={index}>
-        <TrackPanel pad="4px 1px 2px">
-          <IdentidadePanel doc={doc} />
-        </TrackPanel>
-        <TrackPanel pad="4px 1px 2px">
-          <ExperienciaPanel doc={doc} />
-        </TrackPanel>
-      </PanelTrack>
+      {bioTabs.length > 0 ? (
+        <>
+          <TabStrip tabs={bioTabs} active={bioTab} onSelect={setBioTab} pad="12px 20px" />
+          <PanelTrack index={index}>
+            {bioTabs.map((t) => (
+              <TrackPanel key={t.id} pad="4px 1px 2px">
+                {t.id === 'identidade' ? <IdentidadePanel doc={doc} /> : <ExperienciaPanel doc={doc} />}
+              </TrackPanel>
+            ))}
+          </PanelTrack>
+        </>
+      ) : null}
     </div>
   )
 }
