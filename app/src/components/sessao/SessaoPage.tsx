@@ -683,6 +683,71 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   )
 }
 
+/** Ficha do GRUPO da sala (#187): montada AUTOMATICAMENTE dos personagens
+ *  publicados (summaries) — cresce conforme jogadores entram e nunca perde o
+ *  estado (vive em session_characters, edição incremental). Colunas da tabela
+ *  de VIDA do GRUPO (PanelVida / plugin aggregates). */
+function GrupoDaSala() {
+  const live = useLiveSession()
+  const chars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
+  if (!chars.length) return null
+  const th: CSSProperties = mono({
+    fontSize: 9,
+    letterSpacing: '.08em',
+    color: 'var(--muted)',
+    fontWeight: 700,
+    padding: '4px 8px',
+    textTransform: 'uppercase',
+  })
+  const td: CSSProperties = mono({ fontSize: 11.5, padding: '4px 8px', textAlign: 'center', color: 'var(--text)' })
+  const COLS: Array<{ h: string; v: (c: SessionCharacter) => string }> = [
+    { h: '❤️ VIT', v: (c) => `${c.state.recursosRestantes?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}` },
+    { h: '💙 MOR', v: (c) => `${c.state.recursosRestantes?.moral ?? c.summary.moralMax ?? 0}/${c.summary.moralMax ?? 0}` },
+    { h: '🛡️ DEF', v: (c) => String(c.summary.stats?.defesa ?? '—') },
+    { h: '❤️ VIG', v: (c) => String(c.summary.stats?.vigor ?? '—') },
+    { h: '🔥 IMP', v: (c) => String(c.summary.stats?.impeto ?? '—') },
+    { h: '⚡ REF', v: (c) => String(c.summary.stats?.evasao ?? '—') },
+    { h: '👁️ PER', v: (c) => String(c.summary.stats?.percepcao ?? '—') },
+    { h: '💡 ITU', v: (c) => String(c.summary.stats?.intuicao ?? '—') },
+    { h: '👣 MOV', v: (c) => String(c.summary.stats?.movimento ?? '—') },
+  ]
+  return (
+    <div style={{ border: '1px solid var(--line2)', background: 'var(--panel)', clipPath: clip(14), padding: '14px 16px' }}>
+      <div style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)', marginBottom: 8 })}>
+        {'// FICHA DO GRUPO DA SESSÃO'}
+      </div>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ borderCollapse: 'collapse', minWidth: 560 }}>
+          <thead>
+            <tr>
+              <th style={{ ...th, textAlign: 'left' }}>Nome</th>
+              {COLS.map((c) => (
+                <th key={c.h} style={th}>
+                  {c.h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {chars.map((c) => (
+              <tr key={c.id}>
+                <td style={{ fontSize: 12.5, fontWeight: 600, padding: '4px 8px', whiteSpace: 'nowrap', color: 'var(--blue)' }}>
+                  {c.summary.nome}
+                </td>
+                {COLS.map((col) => (
+                  <td key={col.h} style={td}>
+                    {col.v(c)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
 /* ═══════════════ painel DETALHES DA SESSÃO ═══════════════ */
 
 function PcRow({ heroId }: { heroId: string }) {
@@ -755,6 +820,7 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
   const membros = Object.entries(sess.claims)
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <GrupoDaSala />
       <div
         style={{
           padding: '16px 20px',
