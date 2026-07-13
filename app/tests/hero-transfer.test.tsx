@@ -66,6 +66,9 @@ beforeEach(() => {
 afterEach(() => {
   cleanup()
   vi.restoreAllMocks()
+  // restoreAllMocks NÃO desfaz stubGlobal — sem isto o stub de URL vazava
+  // pros testes seguintes do arquivo
+  vi.unstubAllGlobals()
 })
 
 /** Sonda da rota da ficha — o import navega pra ficha do id novo. */
@@ -109,17 +112,23 @@ function uploadArquivo(conteudo: string, nome = 'heroi.pleitost.json') {
 }
 
 /** Intercepta o download do menu ⋮: guarda o Blob e lê via FileReader (o
- *  Blob do jsdom não tem .text()). */
+ *  Blob do jsdom não tem .text()). O stub PRESERVA o construtor de URL
+ *  (classe que estende a real): `{...URL}` virava objeto plano e qualquer
+ *  `new URL(...)` posterior — ex.: o client Supabase que o NpcCard assina
+ *  pro caminho direto de iniciativa (#229) — explodia. */
 function capturarDownload() {
   let blob: Blob | undefined
-  vi.stubGlobal('URL', {
-    ...URL,
-    createObjectURL: vi.fn((b: Blob) => {
-      blob = b
-      return 'blob:mock'
+  class StubURL extends URL {}
+  vi.stubGlobal(
+    'URL',
+    Object.assign(StubURL, {
+      createObjectURL: vi.fn((b: Blob) => {
+        blob = b
+        return 'blob:mock'
+      }),
+      revokeObjectURL: vi.fn(),
     }),
-    revokeObjectURL: vi.fn(),
-  })
+  )
   const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
   const texto = () =>
     new Promise<string>((resolve, reject) => {

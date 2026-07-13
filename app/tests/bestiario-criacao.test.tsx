@@ -68,6 +68,7 @@ beforeEach(() => {
 afterEach(() => {
   cleanup()
   vi.restoreAllMocks()
+  vi.unstubAllGlobals() // stubGlobal (URL) não é coberto pelo restoreAllMocks
 })
 
 function FichaProbe() {
@@ -132,14 +133,19 @@ describe('criação rápida de monstros no Bestiário (#185)', () => {
     cleanup()
 
     let blob: Blob | undefined
-    vi.stubGlobal('URL', {
-      ...URL,
-      createObjectURL: vi.fn((b: Blob) => {
-        blob = b
-        return 'blob:mock'
+    // stub preservando o construtor de URL (vide capturarDownload do
+    // hero-transfer.test.tsx — `{...URL}` quebrava `new URL(...)` posterior)
+    class StubURL extends URL {}
+    vi.stubGlobal(
+      'URL',
+      Object.assign(StubURL, {
+        createObjectURL: vi.fn((b: Blob) => {
+          blob = b
+          return 'blob:mock'
+        }),
+        revokeObjectURL: vi.fn(),
       }),
-      revokeObjectURL: vi.fn(),
-    })
+    )
     vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
     renderNpcs()
     fireEvent.click(screen.getByRole('button', { name: 'BESTIÁRIO' }))
