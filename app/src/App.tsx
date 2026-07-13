@@ -1,5 +1,6 @@
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { CatalogProvider } from './data/CatalogContext'
+import { SessionRepoProvider } from './data/session-repo/provider'
 import { AppShell } from './components/layout/AppShell'
 import { FolderView } from './components/compendium/FolderView'
 import { DocPage } from './components/compendium/DocPage'
@@ -27,7 +28,9 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <CatalogProvider>
-      <RouterProvider router={router} />
+      <SessionRepoProvider>
+        <RouterProvider router={router} />
+      </SessionRepoProvider>
     </CatalogProvider>
   )
 }

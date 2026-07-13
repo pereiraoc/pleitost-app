@@ -6,6 +6,7 @@
 import { useMemo, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useDoc } from '../../data/useDoc'
+import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
@@ -132,4 +133,13 @@ export function ResumoDetail({ id }: { id: string }) {
   const { doc } = useDoc(id)
   if (!doc) return <div className="loading">Carregando resumo…</div>
   return <ResumoBody doc={doc} />
+}
+
+/** Resumo de personagem REMOTO da sala (#186): doc sintético do fmBlob +
+ *  vida do state (live-session) — mesmo corpo do resumo local. */
+export function ResumoSessaoDetail({ charId }: { charId: string }) {
+  const live = useLiveSession()
+  const c = live?.characters.find((x) => x.id === charId) ?? null
+  if (!c) return <div className="detail-empty">Personagem fora da sala.</div>
+  return <ResumoBody doc={synthDocFromCharacter(c)} />
 }

@@ -4,8 +4,7 @@
   "private": true,
   "description": "App do sistema Pleitost (UI das fichas). Contém: o companion app (app/), a documentação de design (design-system) gerada do plugin pleitost-autosheet e o extractor da vault.",
   "workspaces": [
-    "app",
-    "server"
+    "app"
   ],
   "scripts": {
     "gen": "node generator/gen-design-spec.mjs",
@@ -20,9 +19,7 @@
     "test:infra": "node --test scripts/tests/*.test.mjs",
     "tokens": "npm run tokens -w app",
     "test:app": "npm run test -w app",
-    "e2e": "npm run e2e -w app",
-    "server": "npm start -w server",
-    "test:server": "npm test -w server"
+    "e2e": "npm run e2e -w app"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",

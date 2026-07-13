@@ -7,7 +7,7 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 /** Alvo de detalhe: um doc do compêndio, um LOCAL do mapa, o COMÉRCIO dele,
  *  ou a ficha RESUMO de um personagem (#180 — modo Resumo do autosheet). */
 export interface DetailTarget {
-  kind: 'doc' | 'local' | 'comercio' | 'resumo'
+  kind: 'doc' | 'local' | 'comercio' | 'resumo' | 'resumo-sessao'
   id: string
 }
 

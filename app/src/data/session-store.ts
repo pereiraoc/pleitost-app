@@ -27,6 +27,9 @@ export interface SessionRec {
   vezIdx: number
   /** jogador → heroIds reivindicados (CLAIMED no design). */
   claims: Record<string, string[]>
+  /** Id da sessão no SERVIDOR (Supabase) quando criada/entrada via repo —
+   *  ausente = sessão puramente local (#186). */
+  remoteId?: string
 }
 
 const KEY = 'pleitost.sessoes'

@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
 import { useDetail } from '../../data/detail-context'
 import { DocView } from '../compendium/DocPage'
-import { SessaoPage } from '../sessao/SessaoPage'
+import { LiveSessionBridge, SessaoPage } from '../sessao/SessaoPage'
 import { LocalDetail } from '../detail/LocalDetail'
-import { ResumoDetail } from '../detail/ResumoDetail'
+import { ResumoDetail, ResumoSessaoDetail } from '../detail/ResumoDetail'
 import { CommerceDetail } from '../detail/CommerceDetail'
 
 function DocDetail({ id }: { id: string }) {
@@ -49,6 +49,8 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
         <LocalDetail id={target.id} />
       ) : target.kind === 'resumo' ? (
         <ResumoDetail id={target.id} />
+      ) : target.kind === 'resumo-sessao' ? (
+        <ResumoSessaoDetail charId={target.id} />
       ) : (
         <CommerceDetail id={target.id} />
       )}
@@ -95,6 +97,7 @@ export function RightSidebar({
           ×
         </button>
       </div>
+      <LiveSessionBridge />
       <div className="sidebar-right-body">
         {/* SESSÃO inteira vive AQUI (decisão do usuário): lista/criar/entrar,
             iniciativa e detalhes — o nav esquerdo não tem mais SESSÃO. */}

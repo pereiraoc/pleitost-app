@@ -31,15 +31,19 @@ import {
   useSessions,
   type SessionRec,
 } from '../../data/session-store'
+import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
+import { loginConvidado, loginGitHub, logoutSessao } from '../../data/session-repo/auth-state'
+import { generateSessionCode } from '../../data/session-repo/contract'
+import type { SessionCharacter, SessionRepo, SessionRealtime } from '../../data/session-repo/contract'
 import {
-  connectSessionSync,
-  logoutServer,
-  pushSessionPatch,
-  serverCreateSession,
-  serverJoinSession,
-  startDeviceLogin,
-  useServerAuth,
-} from '../../data/session-sync'
+  buildCharacterState,
+  buildCharacterSummary,
+  extractFmBlob,
+} from '../../data/session-repo/publish'
+import { setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
+import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
+import { onHeroWrite } from '../../data/hero-store'
+import { useDetail } from '../../data/detail-context'
 
 // SESS_TABS / SESS_SEL_TABS — verbatim do script do design.
 const SESS_TABS = [
@@ -239,6 +243,280 @@ function CombatRow({
   )
 }
 
+/** Ponte HEADLESS da sala viva (#186): mantém fetch+realtime da sessão ativa
+ *  alimentando o live-session INDEPENDENTE de qual face da sidebar está
+ *  visível — a SessaoPage desmonta quando o usuário vai pra DETALHES (resumo),
+ *  e a sala não pode morrer junto. Montada no RightSidebar. */
+export function LiveSessionBridge() {
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const { active } = useSessions()
+  const remoteId = active?.remoteId ?? null
+  useEffect(() => {
+    if (!remoteId || !repo || !user) return
+    let alive = true
+    const refetch = async () => {
+      try {
+        const [characters, members] = await Promise.all([
+          repo.findCharactersBySession(remoteId),
+          repo.listMembers(remoteId),
+        ])
+        if (alive) setLiveSession({ sessionId: remoteId, characters, members })
+      } catch {
+        // servidor fora — mantém o último snapshot
+      }
+    }
+    void refetch()
+    const off = repo.subscribe(remoteId, () => void refetch())
+    return () => {
+      alive = false
+      off()
+      setLiveSession(null)
+    }
+  }, [remoteId, repo, user])
+  return null
+}
+
+/* ═══════════════ sala remota (#186): jogadores + publicação ═══════════════ */
+
+/** Barra de vida segmentada do design a partir de NÚMEROS (personagem remoto —
+ *  mesmo vidaModel do CombatRow, sem hook local). */
+function VidaBarRemota({ vit, vitMax, moral, moralMax, temp }: { vit: number; vitMax: number; moral: number; moralMax: number; temp: number }) {
+  const T = Math.max(1, vitMax + moralMax)
+  const pct = (v: number) => `${((v / T) * 100).toFixed(3)}%`
+  const negTot = vit < 0 ? Math.min(-vit, vitMax) : 0
+  const neg1 = Math.min(negTot, vitMax / 2)
+  const neg2 = Math.max(0, negTot - vitMax / 2)
+  const vitPos = Math.max(0, vit)
+  return (
+    <div style={{ position: 'relative', height: 10, background: 'var(--card)', border: '1px solid var(--line2)', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: pct(vitPos), background: 'linear-gradient(90deg,#c0392b,#ff5547)', transition: 'width .35s ease' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: pct(neg1), background: 'repeating-linear-gradient(45deg,#d63a2a,#d63a2a 5px,#b93122 5px,#b93122 10px)' }} />
+      <div style={{ position: 'absolute', top: 0, left: pct(vitMax / 2), height: '100%', width: pct(neg2), background: 'repeating-linear-gradient(45deg,#6e3a24,#6e3a24 5px,#512a1a 5px,#512a1a 10px)' }} />
+      <div style={{ position: 'absolute', top: 0, left: pct(vitPos), height: '100%', width: pct(moral), background: 'linear-gradient(90deg,#2f6fd0,#4f9bff)', transition: 'width .35s ease,left .35s ease' }} />
+      <div style={{ position: 'absolute', top: 0, left: pct(vitPos + moral), height: '100%', width: pct(temp), background: 'linear-gradient(90deg,#2e9e58,#43c974)' }} />
+      <div style={{ position: 'absolute', top: 0, left: pct(vitMax), bottom: 0, width: 0, borderLeft: '1px dashed color-mix(in srgb,var(--muted) 55%,transparent)' }} />
+    </div>
+  )
+}
+
+/** Publica/re-publica o MEU herói local na sala e mantém a vida fluindo.
+ *  Dois caminhos de escrita alimentam o mesmo updateCharacterState:
+ *  - herói LOCAL grava via setLocalEntityFm → observamos useLocalStoreVersion
+ *    e re-publicamos o state (barato; merge per top-level no servidor);
+ *  - overlay do hero-store (writeHeroEdit) → onHeroWrite com guarda de
+ *    origem 'sync'. O teste de 2 clientes pegou o primeiro caminho faltando. */
+function usePublicacao(
+  repo: (SessionRepo & SessionRealtime) | null,
+  sessionId: string | null,
+  meuChar: SessionCharacter | null,
+) {
+  const version = useLocalStoreVersion()
+  const charId = meuChar?.id ?? null
+  const heroId = meuChar?.characterPath ?? null
+  useEffect(() => {
+    if (!repo || !sessionId || !charId || !heroId) return
+    const doc = getLocalDoc(heroId)
+    if (doc) void repo.updateCharacterState(charId, buildCharacterState(doc)).catch(() => {})
+  }, [version, repo, sessionId, charId, heroId])
+  useEffect(() => {
+    if (!repo || !sessionId || !charId || !heroId) return
+    return onHeroWrite((id, path, _value, origem) => {
+      if (id !== heroId || origem === 'sync' || !path.startsWith('Interativa.')) return
+      const doc = getLocalDoc(heroId)
+      if (doc) void repo.updateCharacterState(charId, buildCharacterState(doc)).catch(() => {})
+    })
+  }, [repo, sessionId, charId, heroId])
+}
+
+function SalaRemota({ sess }: { sess: SessionRec }) {
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const detail = useDetail()
+  const live = useLiveSession()
+  const [heroiSel, setHeroiSel] = useState('')
+  const meusHerois = localEntriesOfKind('Heroi')
+
+  const chars = live?.characters ?? []
+  const members = live?.members ?? []
+  const nomeDoMembro = (memberId: string) =>
+    members.find((m) => m.userId === memberId)?.displayName ?? ''
+  const meuChar = user ? (chars.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null) : null
+  usePublicacao(repo, sess.remoteId ?? null, meuChar)
+
+  if (!repo || !user || !sess.remoteId) return null
+
+  const publicar = async () => {
+    const doc = heroiSel ? getLocalDoc(heroiSel) : null
+    if (!doc || !sess.remoteId) return
+    // req 8 (#187): publica o herói e o COMPANHEIRO ANIMAL dele junto (Tutor)
+    const heroi = await repo.insertCharacter({
+      sessionId: sess.remoteId,
+      memberId: user.id,
+      kind: 'heroi',
+      tutorCharacterId: null,
+      characterPath: doc.id,
+      visibility: 'visible',
+      summary: buildCharacterSummary(doc),
+      state: buildCharacterState(doc),
+      fmBlob: extractFmBlob(doc.frontmatter as Record<string, unknown>),
+    })
+    for (const ca of localEntriesOfKind('CompanheiroAnimal')) {
+      const caDoc = getLocalDoc(ca.id)
+      if (!caDoc) continue
+      const tutor = str(caDoc.frontmatter['Tutor'])
+      if (!tutor || !tutor.includes(doc.basename)) continue
+      await repo.insertCharacter({
+        sessionId: sess.remoteId,
+        memberId: user.id,
+        kind: 'companheiro',
+        tutorCharacterId: heroi.id,
+        characterPath: caDoc.id,
+        visibility: 'visible',
+        summary: buildCharacterSummary(caDoc),
+        state: buildCharacterState(caDoc),
+        fmBlob: extractFmBlob(caDoc.frontmatter as Record<string, unknown>),
+      })
+    }
+  }
+
+  return (
+    <div
+      style={{
+        border: '1px solid var(--line2)',
+        background: 'var(--panel)',
+        clipPath: clip(15),
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 18px', borderBottom: '1px solid var(--line)' }}>
+        <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--accent)', fontWeight: 700 })}>
+          🌐 JOGADORES NA SESSÃO
+        </span>
+        <span style={{ flex: 1 }} />
+        <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px' }}>
+        {chars
+          .filter((c) => c.kind !== 'npc')
+          .map((c) => {
+            const rr = c.state.recursosRestantes ?? { vitalidade: c.summary.vitalidadeMax, moral: c.summary.moralMax ?? 0, em: 0, moralTemp: 0 }
+            return (
+              <div
+                key={c.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '11px 13px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line)',
+                  clipPath: clip(12),
+                }}
+              >
+                <span
+                  style={mono({
+                    width: 42,
+                    height: 42,
+                    flex: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'var(--panel)',
+                    border: '1px solid var(--line2)',
+                    clipPath: clip(9),
+                    fontSize: 15,
+                    color: 'var(--muted)',
+                  })}
+                >
+                  {sigOf(c.summary.nome)}
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
+                    <button
+                      onClick={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
+                      title="Ver ficha resumo nos detalhes"
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        fontSize: 14.5,
+                        fontWeight: 700,
+                        color: 'var(--blue)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {c.summary.nome}
+                    </button>
+                    {nomeDoMembro(c.memberId) ? (
+                      <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                        {nomeDoMembro(c.memberId)}
+                      </span>
+                    ) : null}
+                    <span style={{ flex: 1 }} />
+                    <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
+                      {`❤️ ${rr.vitalidade}/${c.summary.vitalidadeMax} · 💙 ${rr.moral}/${c.summary.moralMax ?? 0}${rr.moralTemp > 0 ? ` · 💚 +${rr.moralTemp}` : ''}`}
+                    </span>
+                  </div>
+                  <VidaBarRemota
+                    vit={rr.vitalidade}
+                    vitMax={c.summary.vitalidadeMax}
+                    moral={rr.moral}
+                    moralMax={c.summary.moralMax ?? 0}
+                    temp={rr.moralTemp}
+                  />
+                </div>
+              </div>
+            )
+          })}
+        {!meuChar ? (
+          <div style={{ display: 'flex', gap: 9, alignItems: 'center', flexWrap: 'wrap', paddingTop: 4 }}>
+            <select
+              aria-label="Selecionar meu personagem"
+              value={heroiSel}
+              onChange={(e) => setHeroiSel(e.target.value)}
+              style={mono({
+                flex: 1,
+                minWidth: 180,
+                padding: '9px 11px',
+                background: 'var(--card)',
+                border: '1px solid var(--line2)',
+                color: 'var(--text)',
+                fontSize: 12,
+              })}
+            >
+              <option value="">— selecionar meu personagem —</option>
+              {meusHerois.map((h) => (
+                <option key={h.id} value={h.id}>
+                  {h.basename}
+                </option>
+              ))}
+            </select>
+            <button
+              disabled={!heroiSel}
+              onClick={() => void publicar()}
+              style={{
+                padding: '9px 16px',
+                background: heroiSel ? 'var(--accent)' : 'var(--card)',
+                color: heroiSel ? 'var(--ink)' : 'var(--muted)',
+                border: 'none',
+                cursor: heroiSel ? 'pointer' : 'not-allowed',
+                fontWeight: 700,
+                fontSize: 12.5,
+                clipPath: clip(8),
+              }}
+            >
+              Entrar na mesa →
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
 /* ═══════════════ painel INICIATIVA ═══════════════ */
 
 function IniciativaPanel({ sess }: { sess: SessionRec }) {
@@ -262,11 +540,10 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const vez = ordered.length ? Math.min(sess.vezIdx, ordered.length - 1) : 0
   const grupoNomes = members.map((m) => (m.basename ?? '').split(/\s+/)[0]).join(', ')
 
-  // Próximo do tracker: avança a vez; deu a volta → round+1. Patch local +
-  // sala (pushSessionPatch é no-op sem servidor conectado).
+  // Próximo do tracker: avança a vez; deu a volta → round+1 (local; o sync
+  // da iniciativa pela sala entra no #196 via encounters).
   const patch = (p: Partial<SessionRec>) => {
     updateSession(sess.codigo, p)
-    pushSessionPatch(p)
   }
   const proximo = () => {
     if (!ordered.length) return
@@ -277,6 +554,8 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Sala remota (#186): jogadores/vida ao vivo quando a sessão tem servidor. */}
+      <SalaRemota sess={sess} />
       <button
         onClick={() => members[0] && navigate(heroPath(members[0].id, 'grupos'))}
         title="Abrir ficha do grupo"
@@ -592,20 +871,17 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
 
 /* ═══════════════ servidor (login GitHub + status) ═══════════════ */
 
-function ServerBox() {
-  const { url, auth } = useServerAuth()
-  const [device, setDevice] = useState<{ userCode: string; verificationUri: string } | null>(null)
+function AuthBox() {
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const [nick, setNick] = useState('')
   const [erro, setErro] = useState('')
-  if (!url) return null
-  const login = async () => {
+  if (!repo) return null
+  const guest = async () => {
     setErro('')
     try {
-      const d = await startDeviceLogin()
-      setDevice({ userCode: d.userCode, verificationUri: d.verificationUri })
-      await d.finish
-      setDevice(null)
+      await loginConvidado(nick.trim() || 'Convidado')
     } catch (e) {
-      setDevice(null)
       setErro(String((e as Error).message ?? e))
     }
   }
@@ -623,13 +899,12 @@ function ServerBox() {
       }}
     >
       <span style={mono({ fontSize: 10, letterSpacing: '.14em', color: 'var(--muted)' })}>🌐 SERVIDOR</span>
-      <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{url}</span>
       <span style={{ flex: 1 }} />
-      {auth ? (
+      {user ? (
         <>
-          <span style={{ fontSize: 12.5, fontWeight: 600 }}>{auth.user.name || auth.user.login}</span>
+          <span style={{ fontSize: 12.5, fontWeight: 600 }}>{user.nome}</span>
           <button
-            onClick={logoutServer}
+            onClick={() => void logoutSessao()}
             style={mono({
               padding: '5px 10px',
               background: 'var(--card)',
@@ -643,30 +918,54 @@ function ServerBox() {
             SAIR
           </button>
         </>
-      ) : device ? (
-        <span style={mono({ fontSize: 11.5, color: 'var(--text)' })}>
-          Autorize em{' '}
-          <a href={device.verificationUri} target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>
-            {device.verificationUri}
-          </a>{' '}
-          com o código <b style={{ letterSpacing: '.14em' }}>{device.userCode}</b>
-        </span>
       ) : (
-        <button
-          onClick={login}
-          style={{
-            padding: '7px 14px',
-            background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
-            border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-            color: 'var(--accent)',
-            cursor: 'pointer',
-            fontWeight: 600,
-            fontSize: 12,
-            clipPath: clip(7),
-          }}
-        >
-           Entrar com GitHub
-        </button>
+        <>
+          <button
+            onClick={() => void loginGitHub().catch((e) => setErro(String(e?.message ?? e)))}
+            style={{
+              padding: '7px 14px',
+              background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
+              border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+              color: 'var(--accent)',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: 12,
+              clipPath: clip(7),
+            }}
+          >
+             Entrar com GitHub
+          </button>
+          <input
+            value={nick}
+            onChange={(e) => setNick(e.target.value)}
+            placeholder="Apelido"
+            aria-label="Apelido de convidado"
+            style={mono({
+              width: 110,
+              padding: '7px 10px',
+              background: 'var(--card)',
+              border: '1px solid var(--line2)',
+              color: 'var(--text)',
+              fontSize: 11,
+              clipPath: clip(6),
+            })}
+          />
+          <button
+            onClick={() => void guest()}
+            style={mono({
+              padding: '7px 12px',
+              background: 'transparent',
+              border: '1px solid var(--line2)',
+              color: 'var(--muted)',
+              cursor: 'pointer',
+              fontSize: 10.5,
+              letterSpacing: '.05em',
+              clipPath: clip(6),
+            })}
+          >
+            ENTRAR COMO CONVIDADO
+          </button>
+        </>
       )}
       {erro ? <span style={mono({ fontSize: 10.5, color: 'var(--red)' })}>{erro}</span> : null}
     </div>
@@ -677,7 +976,8 @@ function ServerBox() {
 
 function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const catalog = useCatalog()
-  const { auth } = useServerAuth()
+  const repo = useSessionRepo()
+  const user = useSessionUser()
   const [joinCode, setJoinCode] = useState('')
   const [novoGrupo, setNovoGrupo] = useState('')
   // Grupos da vault (categoria Grupo) pro vínculo da nova sessão — o roster
@@ -686,27 +986,33 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
 
   // Com login no servidor, criar/entrar passam pelo servidor (o código vem de
   // lá; o registro local vira o espelho da sala). Sem servidor, local puro.
+  // Com login (Supabase), criar/entrar passam pelo SessionRepo (#186): o
+  // registro LOCAL vira espelho da sala (remoteId liga o modo vivo). Sem
+  // servidor/login, fluxo local puro como antes.
   const join = async () => {
     const code = joinCode.trim()
     if (!code) return
-    if (auth) {
+    if (repo && user) {
       try {
-        const sess = await serverJoinSession(code)
-        const local = joinSessionByCode(sess.codigo)
-        updateSession(local.codigo, {
-          nome: sess.nome,
-          grupoId: sess.grupoId,
-          mestre: sess.mestre,
-          init: sess.init,
-          round: sess.round,
-          vezIdx: sess.vezIdx,
-          claims: sess.claims,
-        })
-        setActiveSessionCode(sess.codigo)
-        setJoinCode('')
-        return
+        const remote = await repo.findSessionByCode(code)
+        if (remote) {
+          const existing = await repo.findMember(remote.id, user.id)
+          if (!existing) {
+            await repo.insertMember({
+              sessionId: remote.id,
+              userId: user.id,
+              role: remote.gmUserId === user.id ? 'gm' : 'player',
+              displayName: user.nome,
+            })
+          }
+          const local = joinSessionByCode(remote.code)
+          updateSession(local.codigo, { nome: remote.name, remoteId: remote.id })
+          setActiveSessionCode(remote.code)
+          setJoinCode('')
+          return
+        }
       } catch {
-        // sessão não existe no servidor — cai no fluxo local
+        // servidor indisponível — cai no fluxo local
       }
     }
     const rec = joinSessionByCode(code)
@@ -714,20 +1020,23 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     setJoinCode('')
   }
   const criar = async () => {
-    const grupoId = novoGrupo || (grupos[0]?.id ?? null)
+    // req 8 (#187): criar sessão NÃO exige grupo nem herói — o roster monta
+    // conforme os jogadores entram e publicam seus personagens.
+    const grupoId = novoGrupo || null
     const nome = grupoId ? (catalog.entryById.get(grupoId)?.basename ?? 'Nova Sessão') : 'Nova Sessão'
-    if (auth) {
+    if (repo && user) {
       try {
-        const sess = await serverCreateSession(nome, grupoId)
-        const local = joinSessionByCode(sess.codigo)
-        updateSession(local.codigo, { nome: sess.nome, grupoId: sess.grupoId, mestre: sess.mestre })
-        setActiveSessionCode(sess.codigo)
+        const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode() })
+        await repo.insertMember({ sessionId: sess.id, userId: user.id, role: 'gm', displayName: user.nome })
+        const local = joinSessionByCode(sess.code)
+        updateSession(local.codigo, { nome: sess.name, grupoId, mestre: user.nome, remoteId: sess.id })
+        setActiveSessionCode(sess.code)
         return
       } catch {
-        // servidor fora — cai no fluxo local
+        // servidor indisponível — cai no fluxo local
       }
     }
-    const rec = createSession(nome, grupoId, auth?.user.name || 'Você')
+    const rec = createSession(nome, grupoId, user?.nome || 'Você')
     setActiveSessionCode(rec.codigo)
   }
 
@@ -736,7 +1045,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
       <div style={mono({ fontSize: 12, letterSpacing: '.16em', color: 'var(--accent)', fontWeight: 700 })}>
         {'// LISTA DE SESSÕES'}
       </div>
-      <ServerBox />
+      <AuthBox />
       {sessions.map((s) => (
         <div
           key={s.codigo}
@@ -881,6 +1190,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
             fontSize: 12,
           })}
         >
+          <option value="">— sem grupo (monta conforme os jogadores entram) —</option>
           {grupos.map((g) => (
             <option key={g.id} value={g.id}>
               {g.basename}
@@ -944,18 +1254,10 @@ function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: (
 
 export function SessaoPage(): ReactNode {
   const { sessions, active } = useSessions()
-  const { auth } = useServerAuth()
   const [tab, setTab] = useState('iniciativa')
   const tabs = active ? SESS_TABS : SESS_SEL_TABS
   const tabIdx = active ? Math.max(0, SESS_TABS.findIndex((t) => t.id === tab)) : 0
 
-  // Sala viva (#101b): com servidor + login, a sessão ativa conecta no WS —
-  // patches da sessão e vida volátil dos heróis fluem nas duas direções.
-  const activeCodigo = active?.codigo ?? null
-  useEffect(() => {
-    if (!activeCodigo || !auth) return
-    return connectSessionSync(activeCodigo)
-  }, [activeCodigo, auth])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
