@@ -596,6 +596,18 @@ export function getLocalDoc(id: string): VaultDoc | undefined {
   return doc
 }
 
+/** Doc local por BASENAME (#206) — contraparte do resolve do catálogo pras
+ *  entidades criadas no app (o Tutor de um CA local geralmente é um herói
+ *  local, referenciado por wikilink "[[Nome]]"). Basename duplicado entre
+ *  entidades locais fica com a primeira (mesma regra de ambiguidade do
+ *  catálogo: nunca chutar entre docs distintos, ordenação de inserção). */
+export function localDocByBasename(basename: string): VaultDoc | undefined {
+  for (const rec of hydrateEntities().values()) {
+    if (rec.basename === basename) return getLocalDoc(rec.id)
+  }
+  return undefined
+}
+
 /** IndexDocEntry sintético (mesma forma dos entries do índice) pra listas. */
 export function syntheticEntry(rec: StoredEntity): IndexDocEntry {
   const grupo = rec.frontmatter['grupo']

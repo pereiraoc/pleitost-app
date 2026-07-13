@@ -5,22 +5,27 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { loadDoc } from '../data/useDoc'
+import { localDocByBasename, useLocalStoreVersion } from '../data/local-entities'
 import type { Catalog } from '../data/catalog'
 import type { VaultDoc } from '../data/types'
 import { rulesModelFromFm, type RulesModel } from './rules-model'
 import { extractHeroRules, ruleModelKey, type DocResolver, type HeroRulesResult } from './extract'
+import { wikilinkBasename } from './rule-applier'
 import { buildHeroProjection, type HeroProjection } from './projection'
 
 /** Resolver de wikilink → doc via catálogo (equivalente app do
  *  VaultReader.resolveLink+readFrontmatter do plugin,
- *  rule-elements-extractor.ts:45-51). Ambíguo/inexistente → null. */
+ *  rule-elements-extractor.ts:45-51). Ambíguo/inexistente → null.
+ *  Fallback (#206): nome que a vault não resolve pode ser uma entidade LOCAL
+ *  (ex.: Tutor de CA apontando pra herói criado no app) — vault primeiro pra
+ *  um herói local homônimo nunca sombrear um doc de regra da vault. */
 export function catalogDocResolver(
   catalog: Catalog,
   load: (id: string) => Promise<VaultDoc>,
 ): DocResolver {
   return async (wikilinkOrName) => {
     const res = catalog.resolve(wikilinkOrName)
-    if (res.kind !== 'doc') return null
+    if (res.kind !== 'doc') return localDocByBasename(wikilinkBasename(wikilinkOrName)) ?? null
     try {
       return await load(res.id)
     } catch {
@@ -65,6 +70,18 @@ export function useHeroRules(fm: Record<string, unknown>): HeroProjection | unde
 
   const [extract, setExtract] = useState<{ key: string; result: HeroRulesResult } | undefined>()
 
+  // Tutor LOCAL vivo (#206): tutor da vault nunca muda, mas um herói criado no
+  // app pode subir de nível — o CA satélite precisa re-extrair. A dep é o
+  // NÍVEL atual do tutor local (não a versão bruta do store), então editar
+  // qualquer outra entidade local NÃO fura o gate do #57.
+  const localVersion = useLocalStoreVersion()
+  const tutorNivelKey = useMemo(() => {
+    if (!model.meta.tutor) return ''
+    const doc = localDocByBasename(wikilinkBasename(model.meta.tutor))
+    return doc ? String(doc.frontmatter['Nível'] ?? '') : ''
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [model, localVersion])
+
   useEffect(() => {
     let alive = true
     extractHeroRules(model, catalogDocResolver(catalog, loadDoc)).then(
@@ -78,7 +95,7 @@ export function useHeroRules(fm: Record<string, unknown>): HeroProjection | unde
     return () => {
       alive = false
     }
-  }, [model, catalog, ruleKey])
+  }, [model, catalog, ruleKey, tutorNivelKey])
 
   // Projeção reconstruída SÍNCRONA a cada fm (barata). Enquanto uma re-extração
   // está pendente (mudou um seed/condition → ruleKey novo, extract ainda com a
