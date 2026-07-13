@@ -1076,7 +1076,8 @@ function NpcCard({
   // div role=button (vide HeroCard) porque menu interativo não pode aninhar
   // em <button>.
   const [menuOpen, setMenuOpen] = useState(false)
-  const temMenu = isLocalId(entry.id) && subtype === 'Companheiro Animal'
+  const temMenu =
+    isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
   const abrir = () => navigate(target)
 
   return (
@@ -1136,13 +1137,13 @@ function NpcCard({
       </div>
       {temMenu ? (
         <CardDotsMenu
-          ariaLabel="Ações do companheiro"
+          ariaLabel={subtype === 'Monstro' ? 'Ações da criatura' : 'Ações do companheiro'}
           open={menuOpen}
           setOpen={setMenuOpen}
           items={[
             { label: 'Abrir', onClick: abrir },
             {
-              label: '📤 Exportar companheiro',
+              label: subtype === 'Monstro' ? '📤 Exportar criatura' : '📤 Exportar companheiro',
               onClick: () => {
                 const rec = getLocalEntity(entry.id)
                 if (rec) downloadPortable(toPortable(rec))
@@ -1290,6 +1291,8 @@ export function NpcsPage() {
   const [pessoaOpen, setPessoaOpen] = useState(false)
   // #205: modal Importar Companheiro Animal (arquivo ou exemplo do compêndio)
   const [importCAOpen, setImportCAOpen] = useState(false)
+  // #185: criação rápida de monstro a partir do bestiário da vault
+  const [importMonstroOpen, setImportMonstroOpen] = useState(false)
   const navigate = useNavigate()
   // Modo Mestre (issue #35): com Mestre OFF as abas gated (BESTIÁRIO +
   // COMBATE/AVENTURA dos Criadores, #194/#195) ficam bloqueadas pra clique
@@ -1371,8 +1374,18 @@ export function NpcsPage() {
           />
         </>
       ) : activeTab === 'bestiario' && mestre ? (
-        // gating do Modo Mestre (issue #35) também vale pra criação
-        <CreateFab label="+ Adicionar Criatura" onClick={criarCriatura} />
+        <>
+          {/* gating do Modo Mestre (issue #35) também vale pra criação */}
+          <CreateFab label="+ Adicionar Criatura" onClick={criarCriatura} />
+          {/* #185: criação RÁPIDA — copia um monstro do bestiário da vault
+              como base editável (mesmo fluxo de importar do compêndio, #205) */}
+          <CreateFab
+            label="📥 Criar do Bestiário"
+            secondary
+            bottom={74}
+            onClick={() => setImportMonstroOpen(true)}
+          />
+        </>
       ) : null}
       {pessoaOpen ? (
         <PessoaForm withImage onSubmit={criarPessoa} onClose={() => setPessoaOpen(false)} />
@@ -1384,6 +1397,17 @@ export function NpcsPage() {
           onClose={() => setImportCAOpen(false)}
           onImported={(id) => {
             setImportCAOpen(false)
+            navigate(heroPath(id))
+          }}
+        />
+      ) : null}
+      {importMonstroOpen ? (
+        <ImportarModal
+          kind="Monstro"
+          folder="Sistema/Criaturas/Bestiário"
+          onClose={() => setImportMonstroOpen(false)}
+          onImported={(id) => {
+            setImportMonstroOpen(false)
             navigate(heroPath(id))
           }}
         />

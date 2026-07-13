@@ -190,6 +190,8 @@ export function ImportarModal({
               const tipo =
                 plainLabel(doc?.frontmatter['Classe']) || plainLabel(doc?.frontmatter['Raça'])
               const nivel = plainLabel(doc?.frontmatter['Nível'])
+              // monstros não têm Nível — o badge é o TIER (#185)
+              const tier = plainLabel(doc?.frontmatter['Tier'])
               return (
                 <button
                   key={entry.id}
@@ -216,6 +218,10 @@ export function ImportarModal({
                   {nivel ? (
                     <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
                       NVL {nivel}
+                    </span>
+                  ) : tier ? (
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+                      TIER {tier}
                     </span>
                   ) : null}
                 </button>
