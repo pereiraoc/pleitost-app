@@ -36,6 +36,14 @@ export interface VidaLocal {
   applyDmg: (n: number) => void
 }
 
+/** Grade de ajustes −10…+10 do template — compartilhada por vida e EM. */
+const mkAdj = (setter: (d: number) => void): VidaAdjRow['adj'] =>
+  [-10, -5, -1, 1, 5, 10].map((d) => ({
+    l: (d < 0 ? '−' : '+') + Math.abs(d),
+    inc: d > 0 ? 1 : 0,
+    fn: () => setter(d),
+  }))
+
 /** Porta fiel do vidaModel() do script do design sobre o modelo salvo:
  *  máximos de Vida.*, correntes da Interativa.Recursos_Restantes — lidas e
  *  gravadas (autosave) no overlay compartilhado por herói. */
@@ -79,12 +87,6 @@ export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
     write('Moral', m)
     write('Vitalidade', clampVit(vit - rem))
   }
-  const mkAdj = (setter: (d: number) => void) =>
-    [-10, -5, -1, 1, 5, 10].map((d) => ({
-      l: (d < 0 ? '−' : '+') + Math.abs(d),
-      inc: d > 0 ? 1 : 0,
-      fn: () => setter(d),
-    }))
   const rows: VidaAdjRow[] = [
     { ic: '❤️', name: 'VITALIDADE', val: `${vit} / ${vitMax}`, cbase: '#d9534f', adj: mkAdj(setVit) },
     { ic: '💙', name: 'MORAL', val: `${moral} / ${moralMax}`, cbase: '#4f8fd6', adj: mkAdj(setMoral) },
@@ -94,12 +96,12 @@ export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
   return { vit, moral, temp, vitMax, moralMax, rows, applyDmg }
 }
 
-/** Miolo do painel de ajuste de vida (rows + botões de dano) — verbatim do
- *  template (linhas 53-66 ≡ 355-368). */
-export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
+/** Rows de ajuste (ícone + label + valor + grade −/+) — miolo verbatim do
+ *  template de vida (linhas 53-66), compartilhado com o painel de EM (#230). */
+export function AdjustRows({ rows }: { rows: VidaAdjRow[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {vida.rows.map((row) => (
+      {rows.map((row) => (
         <div key={row.name} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
             <span style={{ fontSize: 13 }}>{row.ic}</span>
@@ -136,6 +138,16 @@ export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
           </div>
         </div>
       ))}
+    </div>
+  )
+}
+
+/** Miolo do painel de ajuste de vida (rows + botões de dano) — verbatim do
+ *  template (linhas 53-66 ≡ 355-368). */
+export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <AdjustRows rows={vida.rows} />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6, marginTop: 2 }}>
         {[1, 5, 10].map((n) => (
           <button
@@ -160,6 +172,59 @@ export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
       </div>
     </div>
   )
+}
+
+/* ===================== energia mágica (#230) ===================== */
+
+export interface EmLocal {
+  em: number
+  emMax: number
+  rows: VidaAdjRow[]
+}
+
+/** Estado local de EM pro chip da topbar — mesmo padrão do useVidaLocal:
+ *  máximos do FM DERIVADO (Magias.EM vem da CLASSE via rule element — igual
+ *  ao MagiasPanel do Combate), correntes do volátil
+ *  Interativa.Recursos_Restantes.EM/EM_Secundaria (ausente → cheio), writes
+ *  com clamp [0, max]. Row de EM Secundária só quando o herói tem
+ *  (Magias.Secundaria.EM > 0 — labels do MagiaInfoBar). */
+export function useEmLocal(doc: VaultDoc, origem = 'topbar'): EmLocal {
+  const model = useHeroModel(doc, origem)
+  const rules = useHeroRules(model.fm)
+  const baseFm = rules?.derivedFm ?? model.fm
+  const emMax = num(fmPath(baseFm, 'Magias', 'EM'))
+  const emSecMax = num(fmPath(baseFm, 'Magias', 'Secundaria', 'EM'))
+  const rest = interativa(model.fm).restantes
+  const em = rest['EM'] !== undefined ? num(rest['EM']) : emMax
+  const emSec = rest['EM_Secundaria'] !== undefined ? num(rest['EM_Secundaria']) : emSecMax
+
+  const write = (campo: string, valor: number) =>
+    model.setVolatile(`Interativa.Recursos_Restantes.${campo}`, valor)
+  const setEm = (d: number) => write('EM', Math.max(0, Math.min(emMax, em + d)))
+  const setEmSec = (d: number) => write('EM_Secundaria', Math.max(0, Math.min(emSecMax, emSec + d)))
+  // Cor dos losangos de EM do Combate (MagiaInfoBar); ícones do registro.
+  const rows: VidaAdjRow[] = [
+    {
+      ic: tokens.emojis.subcategoria.EnergiaMagica,
+      name: 'ENERGIA MÁGICA',
+      val: `${em} / ${emMax}`,
+      cbase: '#3b82d6',
+      adj: mkAdj(setEm),
+    },
+    ...(emSecMax > 0
+      ? [
+          {
+            ic: tokens.emojis.subcategoria.EnergiaMagicaSecundaria,
+            name: 'ENERGIA MÁGICA SECUNDÁRIA',
+            val: `${emSec} / ${emSecMax}`,
+            cbase: '#3b82d6',
+            adj: mkAdj(setEmSec),
+          },
+        ]
+      : []),
+  ]
+
+  return { em, emMax, rows }
 }
 
 /* ===================== moedas ===================== */

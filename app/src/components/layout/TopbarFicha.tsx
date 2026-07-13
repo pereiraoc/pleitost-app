@@ -18,7 +18,7 @@ import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useDoc, useDocs } from '../../data/useDoc'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
-import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
+import { fichaFamiliaOf } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { heroPath } from '../../paths'
@@ -27,15 +27,8 @@ import { useViewportWidth } from '../../viewport'
 import { initials } from '../creatures/CreaturesPages'
 import { clip } from '../ficha/bits'
 import { tokens } from '../ficha/registry'
-import {
-  experienciaTotais,
-  fmPath,
-  heroNome,
-  interativa,
-  num,
-  str,
-} from '../ficha/hero-model'
-import { CoinsDropdown, useVidaLocal, VidaAdjustRows } from '../ficha/pop-panels'
+import { experienciaTotais, fmPath, heroNome, num, str } from '../ficha/hero-model'
+import { AdjustRows, CoinsDropdown, useEmLocal, useVidaLocal, VidaAdjustRows } from '../ficha/pop-panels'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 
 /** Chip amarelo da topbar (template linha 43/49/73). */
@@ -54,23 +47,12 @@ const chipStyle: CSSProperties = {
 }
 
 /** chipsFor(r) do design com dados do modelo salvo (emojis do registro).
- *  `caps` = FICHA_FAMILIA do doc (#201): CA não tem Magias/EM → sem chip
- *  de EM no combate (mount-interativa.ts:785 showMagias = Heroi). */
-function chipsFor(
-  tab: string,
-  fm: Record<string, unknown>,
-  caps: FichaFamilia,
-): { ic: string; txt: string }[] {
+ *  O chip de EM do combate saiu daqui (#230): virou <EmChip> clicável, no
+ *  mesmo padrão do VidaChip. */
+function chipsFor(tab: string, fm: Record<string, unknown>): { ic: string; txt: string }[] {
   if (tab === 'perfil' || tab === 'habilidades') {
     const nvl = num(fm['Nível'])
     return [{ ic: '', txt: `NVL ${nvl || ''}`.trim() }]
-  }
-  if (tab === 'combate') {
-    if (!caps.magias) return []
-    const emMax = num(fmPath(fm, 'Magias', 'EM'))
-    const rest = interativa(fm).restantes
-    const emCur = rest['EM'] !== undefined ? num(rest['EM']) : emMax
-    return [{ ic: tokens.emojis.subcategoria.EnergiaMagica, txt: `${emCur}/${emMax}` }]
   }
   if (tab === 'anotacoes') {
     const exp = experienciaTotais(fm)
@@ -117,6 +99,51 @@ function VidaChip({ doc }: { doc: VaultDoc }) {
             }}
           >
             <VidaAdjustRows vida={vida} />
+          </div>
+        </>
+      ) : null}
+    </span>
+  )
+}
+
+/** Chip de EM (aba COMBATE) com painel dropdown de ajuste (#230) — mesmo
+ *  padrão do VidaChip: antes era um <span> estático (chipsFor) e o jogador
+ *  não conseguia gastar/restaurar EM pela topbar. Estado via useEmLocal
+ *  (máximo do FM derivado — classe; corrente do volátil, como o MagiasPanel). */
+function EmChip({ doc }: { doc: VaultDoc }) {
+  const emLocal = useEmLocal(doc, 'topbar')
+  const [open, setOpen] = useState(false)
+
+  return (
+    <span style={{ position: 'relative', display: 'inline-flex' }}>
+      <button
+        data-testid="topbar-em-chip"
+        onClick={() => setOpen((o) => !o)}
+        title="Energia Mágica"
+        style={{ ...chipStyle, border: 'none', cursor: 'pointer' }}
+      >
+        <span style={{ fontSize: 13 }}>{tokens.emojis.subcategoria.EnergiaMagica}</span>
+        <span>{`${emLocal.em}/${emLocal.emMax}`}</span>
+      </button>
+      {open ? (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 55 }} />
+          <div
+            data-testid="em-adjust-pop"
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 9px)',
+              right: 0,
+              zIndex: 60,
+              width: 'min(440px,92vw)',
+              background: 'var(--panel2)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(12),
+              padding: 16,
+              boxShadow: '0 14px 44px rgba(0,0,0,.5)',
+            }}
+          >
+            <AdjustRows rows={emLocal.rows} />
           </div>
         </>
       ) : null}
@@ -369,11 +396,8 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
   const rules = useHeroRules(model.fm)
   const vw = useViewportWidth()
   const fm = model.fm
-  // Chip de EM (aba combate) lê Magias.EM, que vem da CLASSE via rule element
-  // (vive no derivedFm, não no FM salvo de uma ficha nova). Alimentar chipsFor
-  // com o MODELO PROJETADO — igual ao MagiasPanel do Combate — pra a topbar ver
-  // o EM máximo calculado pela classe e não "0/0". Nível/marcas/apelido também
-  // acompanham a cascata; o Interativa (EM corrente) é preservado no derivedFm.
+  // Chips leem o MODELO PROJETADO (derivedFm) — Nível/marcas acompanham a
+  // cascata de regras da classe, como o restante da ficha.
   const projected = rules?.derivedFm ?? fm
   // Delta por FAMÍLIA (#201): CA sem chip de EM (sem magias) e sem Moedas
   // (tab-inventario.ts:126-128 do plugin) — flags centrais de FICHA_FAMILIA.
@@ -381,11 +405,14 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
 
   const showChips = vw >= 620
   const showVidaChip = tab === 'combate'
+  // Chip de EM (#230): aba COMBATE, só pra quem tem magias — agora clicável
+  // (padrão do VidaChip), no mesmo slot em que o chip estático ficava.
+  const showEmChip = tab === 'combate' && caps.magias
   // Moedas (🪙) na topbar: aba Inventário e também na visão de GRUPO (compras da
   // loja usam o herói selecionado — o saldo fica visível no topo, não na loja).
   const showCoinChip = caps.moedas && (tab === 'inventario' || tab === 'grupos') && vw >= 620
   const showApelido = vw >= 720
-  const chips = chipsFor(tab, projected, caps)
+  const chips = chipsFor(tab, projected)
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
 
   return (
@@ -400,6 +427,7 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
           ))}
         </div>
       ) : null}
+      {showEmChip ? <EmChip key={`em-${doc.id}`} doc={doc} /> : null}
       {showVidaChip ? <VidaChip key={doc.id} doc={doc} /> : null}
       {showCoinChip ? <CoinsChip key={doc.id} doc={doc} /> : null}
       {/* apelido (slot verbatim do design, gated por vw) + avatar do herói
