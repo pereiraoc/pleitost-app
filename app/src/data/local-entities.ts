@@ -513,7 +513,12 @@ export function setLocalEntityFm(id: string, path: string, value: unknown): void
   const rec = getLocalEntity(id)
   if (!rec) return
   const frontmatter = deepSet(rec.frontmatter, path.split('.'), value)
-  replaceEntity(id, { ...rec, frontmatter })
+  // #218: o basename espelha o NOME exibido (regra do plugin: FM nome, senão
+  // basename) — renomear no PERFIL reflete nas listas/seletores/exports, que
+  // leem basename. Nome vazio mantém o basename anterior (fallback).
+  const basename =
+    path === 'nome' && typeof value === 'string' && value.trim() ? value.trim() : rec.basename
+  replaceEntity(id, { ...rec, frontmatter, basename })
 }
 
 export function getLocalEntitySession(id: string): Record<string, unknown> {
