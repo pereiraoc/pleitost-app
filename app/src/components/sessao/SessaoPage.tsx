@@ -257,11 +257,13 @@ export function LiveSessionBridge() {
     let alive = true
     const refetch = async () => {
       try {
-        const [characters, members] = await Promise.all([
+        const [characters, members, sess] = await Promise.all([
           repo.findCharactersBySession(remoteId),
           repo.listMembers(remoteId),
+          repo.findSessionById(remoteId),
         ])
-        if (alive) setLiveSession({ sessionId: remoteId, characters, members })
+        if (alive)
+          setLiveSession({ sessionId: remoteId, gmUserId: sess?.gmUserId ?? null, characters, members })
       } catch {
         // servidor fora — mantém o último snapshot
       }
@@ -332,6 +334,7 @@ function usePublicacao(
 function SalaRemota({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
+  const navigate = useNavigate()
   const detail = useDetail()
   const live = useLiveSession()
   const [heroiSel, setHeroiSel] = useState('')
@@ -456,6 +459,25 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
                       </span>
                     ) : null}
                     <span style={{ flex: 1 }} />
+                    {/* #188: GM abre a ficha COMPLETA readonly do jogador. */}
+                    {live?.gmUserId && user.id === live.gmUserId ? (
+                      <button
+                        onClick={() => navigate(`/sessao-ficha/${c.id}`)}
+                        title="Abrir ficha completa (somente leitura)"
+                        style={mono({
+                          padding: '3px 8px',
+                          background: 'var(--panel)',
+                          border: '1px solid var(--line2)',
+                          color: 'var(--muted)',
+                          cursor: 'pointer',
+                          fontSize: 9.5,
+                          letterSpacing: '.06em',
+                          flex: 'none',
+                        })}
+                      >
+                        📄 FICHA
+                      </button>
+                    ) : null}
                     <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
                       {`❤️ ${rr.vitalidade}/${c.summary.vitalidadeMax} · 💙 ${rr.moral}/${c.summary.moralMax ?? 0}${rr.moralTemp > 0 ? ` · 💚 +${rr.moralTemp}` : ''}`}
                     </span>

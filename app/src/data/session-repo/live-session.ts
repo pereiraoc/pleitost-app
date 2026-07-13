@@ -8,6 +8,9 @@ import type { SessionCharacter, SessionMember } from './contract'
 
 export interface LiveSession {
   sessionId: string
+  /** Dono da sessão (gmUserId) — deriva o papel: quem é o GM vê ficha
+   *  completa readonly dos jogadores (#188). */
+  gmUserId: string | null
   characters: SessionCharacter[]
   members: SessionMember[]
 }

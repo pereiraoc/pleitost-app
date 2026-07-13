@@ -72,6 +72,24 @@ function useLocalHeroModel(heroId: string, localVersion: number): HeroModel {
   }, [heroId, localVersion])
 }
 
+/** Docs SINTÉTICOS da sessão (#188): ficha de OUTRO jogador vista pelo GM —
+ *  100%% readonly. Setters viram no-op no ÚNICO choke point de escrita da
+ *  ficha (todas as abas escrevem via model.set/setVolatile/setSession), então
+ *  nenhuma aba precisa conhecer a flag. */
+function readonlyModel(doc: VaultDoc): HeroModel {
+  const noop = () => {}
+  return {
+    fm: (doc.frontmatter ?? {}) as Record<string, unknown>,
+    edits: { fm: {}, session: {}, extras: {} },
+    extras: { armas: [], tesouros: [] },
+    set: noop,
+    setVolatile: noop,
+    setSession: noop,
+    session: () => undefined,
+    setExtras: noop,
+  }
+}
+
 export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
   const heroId = doc.id
   const local = isLocalId(heroId)
@@ -122,5 +140,6 @@ export function useHeroModel(doc: VaultDoc, origem: string): HeroModel {
     [heroId, origem, fm, edits],
   )
 
+  if (heroId.startsWith('sessao:')) return readonlyModel(doc)
   return local ? localModel : vaultModel
 }

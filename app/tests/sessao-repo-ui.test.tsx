@@ -147,3 +147,65 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     expect(screen.getByText('7/12')).toBeTruthy() // vida atual/máx na tabela
   })
 })
+
+// ── #188: GM abre a ficha COMPLETA readonly do jogador ────────────────────
+import { Route, Routes } from 'react-router-dom'
+import { SessaoFichaPage } from '../src/components/sessao/SessaoFichaPage'
+import { setLiveSession as setLive } from '../src/data/session-repo/live-session'
+import { buildCharacterState, buildCharacterSummary, extractFmBlob } from '../src/data/session-repo/publish'
+import { getLocalDoc } from '../src/data/local-entities'
+
+describe('#188 ficha completa readonly (GM)', () => {
+  it('abre as abas da ficha do fmBlob; digitar NÃO altera nada (choke point no-op)', async () => {
+    const heroiId = createLocalEntity('Heroi', 'Aventureira Nia', {
+      ...emptyHeroFrontmatter(),
+      Classe: '[[Bardo]]',
+      Vida: { Vitalidade: 12, Moral: 18 },
+    })
+    const doc = getLocalDoc(heroiId)!
+    const fmBlob = extractFmBlob(doc.frontmatter as Record<string, unknown>)
+    setLive({
+      sessionId: 'sess_x',
+      gmUserId: 'gm-1',
+      members: [],
+      characters: [
+        {
+          id: 'char_ro',
+          sessionId: 'sess_x',
+          memberId: 'p-1',
+          kind: 'heroi',
+          tutorCharacterId: null,
+          characterPath: heroiId,
+          visibility: 'visible',
+          summary: buildCharacterSummary(doc),
+          state: buildCharacterState(doc),
+          fmBlob,
+          updatedAt: new Date().toISOString(),
+        },
+      ],
+    })
+    render(
+      <CatalogProvider catalog={catalog}>
+        <SessionRepoProvider repo={new InMemorySessionRepo()} user={{ id: 'gm-1', nome: 'Mestre' }}>
+          <DetailProvider>
+            <MemoryRouter initialEntries={['/sessao-ficha/char_ro']}>
+              <Routes>
+                <Route path="/sessao-ficha/:charId" element={<SessaoFichaPage />} />
+              </Routes>
+            </MemoryRouter>
+          </DetailProvider>
+        </SessionRepoProvider>
+      </CatalogProvider>,
+    )
+    // banner + perfil do fmBlob na tela
+    expect(await screen.findByText('👁️ FICHA DE JOGADOR — SOMENTE LEITURA')).toBeTruthy()
+    const nome = (await screen.findAllByDisplayValue('Aventureira Nia'))[0] as HTMLInputElement
+    // READONLY de verdade: digitar não muda o valor (setters são no-op)
+    fireEvent.change(nome, { target: { value: 'Hackeada' } })
+    expect(nome.value).toBe('Aventureira Nia')
+    // aba COMBATE renderiza do mesmo doc sintético
+    fireEvent.click(screen.getByRole('button', { name: 'COMBATE' }))
+    expect(await screen.findByText('VITALIDADE')).toBeTruthy()
+    setLive(null)
+  })
+})
