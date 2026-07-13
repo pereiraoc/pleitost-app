@@ -162,6 +162,24 @@ function wikiTarget(s: string): string {
   return m ? m[1].trim() : s.trim()
 }
 
+function isWikilink(s: string): boolean {
+  return /^\[\[[^\]]+\]\]$/.test(s)
+}
+
+function wikiBasename(s: string): string {
+  const target = wikiTarget(s)
+  return (target.split('/').pop() ?? target).replace(/\.md$/i, '').trim()
+}
+
+/** Espelho de matchAtaqueNome (plugin merge-setters.ts:421-427): Nome da arma
+ *  vs alvo da rule, normalizando wikilinks pelo BASENAME (o FM pode gravar o
+ *  Nome com path completo; as rules referenciam pelo basename). */
+function matchArmaNome(nome: string, alvo: string): boolean {
+  if (nome === alvo) return true
+  if (isWikilink(nome) && isWikilink(alvo)) return wikiBasename(nome) === wikiBasename(alvo)
+  return false
+}
+
 /** Espelho de appendMergeFontedList (plugin merge-list-utils.ts:67-161),
  *  variante NÃO-destrutiva sobre a lista FM (`[{ [link]: source }]`):
  *  preserva TODOS os itens salvos, adiciona os itens de regra ainda ausentes
@@ -264,6 +282,11 @@ const MAGIA_SEC_SLOT_RX = /^Magias\.Secundaria\.Slots\.([BAEM])$/
 const SLOT_RX = /^(Pericias|Tecnicas|Magias)\.Slots\.([BAEM])$/
 const EQUIP_ARMAS_RX = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais)$/
 const EQUIP_ARMADURA_RX = /^Inventario\.Armadura\.Proficiencia\.(Sem|Leve|Pesada)$/
+// Campos por ARMA equipada — espelho de resolveInventario (plugin
+// rule-target-registry.ts:257-271): `*` (todas), `{Desarmadas}` (mãos::0) e
+// `[[Wikilink]]` (arma específica).
+const ARMAS_LISTA_FIELD_RX =
+  /^Inventario\.Armas\.Lista\.(\*|\{Desarmadas\}|\[\[[^\]]+\]\])\.(Bonus_Item|Bonus_Especial|Atributo)$/
 
 const META_SCALARS = new Set(['Sintonia', 'Classe', 'Raça', 'Raca', 'Tutor', 'Tamanho'])
 const LIST_TARGETS: Record<string, string[]> = {
@@ -477,6 +500,32 @@ export function mergeCalculatedIntoFm(
     if (key === 'Ataques.Proficiencia') {
       const ataques = ensureObj(out, 'Ataques')
       ataques.Proficiencia = maxRank(String(ataques.Proficiencia ?? 'N'), String(value).trim().toUpperCase())
+      continue
+    }
+
+    // Campos por arma equipada (`Inventario.Armas.Lista.<alvo>.<Campo>`) —
+    // espelho de setInventarioArmas (plugin merge-setters.ts:397-413): aplica
+    // nas linhas cujo Nome casa com o alvo (matchArmaNome). `{Desarmadas}`
+    // filtra por `mãos:: 0` via weaponMaosLookup no plugin; o merge do app não
+    // tem o lookup, então filtra VAZIO (no-op), como o plugin sem lookup
+    // (filterDesarmadas, merge-setters.ts:433-447). Sem este handler,
+    // `Sobrescrever Inventario.Armas.Lista.[[Arco Longo]].Bonus_Especial 1`
+    // (Especialização em Arma) não chegava ao derivedFm e o +1 sumia do
+    // modificador de ataque (#217).
+    const armasField = ARMAS_LISTA_FIELD_RX.exec(key)
+    if (armasField) {
+      const [, alvo, field] = armasField
+      const rows = ensureListaRows(out, 'Inventario', 'Armas', 'Lista')
+      const matched =
+        alvo === '*'
+          ? rows
+          : alvo === '{Desarmadas}'
+            ? []
+            : rows.filter((r) => matchArmaNome(String(r.Nome ?? ''), alvo))
+      for (const row of matched) {
+        if (field === 'Atributo') row.Atributo = String(value)
+        else row[field] = num(value)
+      }
       continue
     }
 
