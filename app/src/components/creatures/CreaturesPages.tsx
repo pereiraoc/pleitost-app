@@ -1096,9 +1096,14 @@ function NpcCard({
   //    mesma lógica/registro dos heróis (tierFromLevel + partyTierBar).
   //  - Demais (Pessoas): losango NVL do design, sem cor de tier.
   const subtype = doc?.subtype ?? entry.subtype
-  // Local CA/Monstro abrem a ficha formato herói (issues #46/#47); demais
-  // (vault e Pessoa local) mantêm a rota de doc do compêndio.
-  const abreFicha = isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
+  // Local CA/Monstro abrem a ficha formato herói (issues #46/#47). #229:
+  // monstro da VAULT abre a MESMA ficha — a rota de doc do compêndio só
+  // mostrava o fence autosheet-yaml cru (nenhum stat), e Sistema/Criaturas
+  // está fora do compêndio (#213). A FichaPage já carrega qualquer id via
+  // useDoc (o Carlos da vault abre assim); edições vão pro overlay local,
+  // a vault nunca é escrita. Demais (CA da vault e Pessoa) mantêm o doc.
+  const abreFicha =
+    subtype === 'Monstro' || (isLocalId(entry.id) && subtype === 'Companheiro Animal')
   const target = abreFicha ? heroPath(entry.id) : docPath(entry.id)
   const isMonstro = subtype === 'Monstro'
   const tierFm = doc?.frontmatter['Tier']
