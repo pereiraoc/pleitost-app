@@ -6,11 +6,15 @@ import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
 import { LocationSheet, isLocation } from './LocationSheet'
+import { RuleElementsSection } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { useSettings } from '../../settings'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
 export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+  // Modo Mestre: expõe os Elementos de Regra da nota depois do corpo (#193)
+  const { mestre } = useSettings()
   // Localização (categoria=Localização) vira ficha com abas (issue #66); os
   // demais docs seguem no markdown genérico.
   if (isLocation(doc)) return <LocationSheet doc={doc} sidebar={sidebar} />
@@ -38,6 +42,9 @@ export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) 
       </header>
       <InlineFieldsTable fields={doc.inlineFields} />
       <MarkdownBody doc={doc} />
+      {mestre && doc.ruleElements?.length ? (
+        <RuleElementsSection elements={doc.ruleElements} />
+      ) : null}
     </article>
   )
 }

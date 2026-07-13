@@ -1,11 +1,13 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import type { FolderNode } from '../../data/catalog'
 import { compendiumFolderPath, docPath } from '../../paths'
+import { useSettings } from '../../settings'
 import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
+import { MestreTables, pillStyle } from './MestreTables'
 import { compendiumSections, isHidden, visibleCount, visibleFolders } from './sections'
 
 function FolderCards({ folders }: { folders: FolderNode[] }) {
@@ -48,6 +50,9 @@ function Breadcrumb({ path }: { path: string }) {
 export function FolderView() {
   const splat = useParams()['*'] ?? ''
   const catalog = useCatalog()
+  // #192: Modo Mestre pode alternar a lista pra visão TABELA por tipo
+  const { mestre } = useSettings()
+  const [tabela, setTabela] = useState(false)
   const path = splat.replace(/\/+$/, '')
   const node = catalog.folderByPath.get(path)
 
@@ -92,7 +97,24 @@ export function FolderView() {
         {indexDoc ? <Link to={docPath(indexDoc.id)}>{node.name}</Link> : node.name}
       </h1>
       <FolderCards folders={visibleFolders(node)} />
-      <DocTable entries={listDocs} columns={columns} />
+      {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
+      {mestre && listDocs.length > 0 ? (
+        <div style={{ margin: '10px 0' }}>
+          <button
+            type="button"
+            aria-pressed={tabela}
+            onClick={() => setTabela((v) => !v)}
+            style={pillStyle(tabela)}
+          >
+            ⊞ TABELA
+          </button>
+        </div>
+      ) : null}
+      {mestre && tabela ? (
+        <MestreTables entries={listDocs} />
+      ) : (
+        <DocTable entries={listDocs} columns={columns} />
+      )}
     </section>
   )
 }
