@@ -10,7 +10,9 @@
 // ESPELHADA de volta pro servidor (debounce). O arquivo no disco é a fonte
 // durável — sobrevive a restart do servidor e troca de URL. NÃO toca a vault.
 
-const ENDPOINT = '/app-state'
+import { appStateUrl } from './base-url'
+
+const ENDPOINT = appStateUrl()
 /** Chaves do app que devem persistir (grupo, ficha, personagens, mapa, ajustes). */
 const SYNCED = /^(pleitost\.|local:)/
 

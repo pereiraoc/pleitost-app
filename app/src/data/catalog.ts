@@ -1,4 +1,5 @@
 import type { IndexDocEntry, IndexManifest } from './types'
+import { vaultUrl } from './base-url'
 
 /**
  * Label que o extractor grava em byType para docs content sem `type`
@@ -120,7 +121,7 @@ let catalogPromise: Promise<Catalog> | undefined
 
 /** Carrega o índice uma vez por sessão e constrói o catálogo. */
 export function fetchCatalog(): Promise<Catalog> {
-  catalogPromise ??= fetch('/vault-data/index.json')
+  catalogPromise ??= fetch(vaultUrl('index.json'))
     .then((res) => {
       if (!res.ok) throw new Error(`index.json: HTTP ${res.status}`)
       return res.json() as Promise<IndexManifest>

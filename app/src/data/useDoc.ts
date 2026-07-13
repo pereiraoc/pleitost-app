@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { VaultDoc } from './types'
 import { getLocalDoc, isLocalId, useLocalStoreVersion } from './local-entities'
+import { vaultUrl } from './base-url'
 
 /** URL do JSON de um doc; ids têm espaços/acentos, escapa por segmento. */
 export function docJsonUrl(id: string): string {
-  return '/vault-data/' + id.split('/').map(encodeURIComponent).join('/') + '.json'
+  return vaultUrl(id.split('/').map(encodeURIComponent).join('/') + '.json')
 }
 
 const cache = new Map<string, Promise<VaultDoc>>()

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { AssetEntry, AssetsManifest } from './types'
+import { vaultUrl } from './base-url'
 
 /** Extensões de imagem reconhecidas em embeds ![[...]]. */
 export const IMAGE_EXTENSIONS = new Set([
@@ -36,7 +37,7 @@ export function buildAssetIndex(manifest: AssetsManifest): AssetIndex {
 
 /** URL servível do asset copiado (copiedTo tem espaços/acentos — escapa por segmento). */
 export function assetUrl(entry: AssetEntry): string {
-  return '/vault-data/' + entry.copiedTo.split('/').map(encodeURIComponent).join('/')
+  return vaultUrl(entry.copiedTo.split('/').map(encodeURIComponent).join('/'))
 }
 
 /**
@@ -56,7 +57,7 @@ export function resolveAsset(index: AssetIndex, target: string): AssetEntry | nu
 let indexPromise: Promise<AssetIndex> | undefined
 
 export function fetchAssetIndex(): Promise<AssetIndex> {
-  indexPromise ??= fetch('/vault-data/assets.json')
+  indexPromise ??= fetch(vaultUrl('assets.json'))
     .then((res) => {
       if (!res.ok) throw new Error(`assets.json: HTTP ${res.status}`)
       return res.json() as Promise<AssetsManifest>

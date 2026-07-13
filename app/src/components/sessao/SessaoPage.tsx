@@ -11,6 +11,7 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
+import { vaultUrl } from '../../data/base-url'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { useDocs } from '../../data/useDoc'
@@ -584,7 +585,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           const res = catalog.resolve(entry.sourcePath.replace(/\.md$/i, ''))
           if (res.kind === 'doc') {
             try {
-              const doc = await (await fetch(`/vault-data/${res.id.split('/').map(encodeURIComponent).join('/')}.json`)).json()
+              const doc = await (await fetch(vaultUrl(`${res.id.split('/').map(encodeURIComponent).join('/')}.json`))).json()
               npcs.push({
                 memberId: user.id,
                 kind: 'npc',
