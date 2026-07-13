@@ -108,12 +108,27 @@ describe('FolderView', () => {
     }
   })
 
-  it('Sistema mostra subpastas mas esconde Criaturas', () => {
+  it('Sistema mostra subpastas; Criaturas é PORTAL só dos grupos (#213)', () => {
     renderAt(compendiumFolderPath('Sistema'), folderRoutes)
     for (const name of ['Criação de Personagem', 'Equipamento', 'Regras']) {
       expect(screen.getByText(name)).toBeTruthy()
     }
-    expect(screen.queryByText('Criaturas')).toBeNull()
+    // Criaturas aparece como portal da exceção (Grupos de Criaturas)…
+    expect(screen.getByText('Criaturas')).toBeTruthy()
+  })
+
+  it('portal Criaturas: só Grupos de Criaturas navegável; demais famílias ocultas (#213)', () => {
+    renderAt(compendiumFolderPath('Sistema/Criaturas'), folderRoutes)
+    expect(screen.getByText('Grupos de Criaturas')).toBeTruthy()
+    for (const oculta of ['Heróis', 'Pessoas', 'Bestiário', 'Companheiros Animais']) {
+      expect(screen.queryByText(oculta), oculta).toBeNull()
+    }
+  })
+
+  it('exemplos: pasta Grupos de Criaturas lista os grupos da vault (#213)', () => {
+    renderAt(compendiumFolderPath('Sistema/Criaturas/Grupos de Criaturas'), folderRoutes)
+    expect(screen.getByRole('link', { name: 'Baitaca, Carlos, Drauzio' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Carlos, Dante, Mera, Pind, Thoren' })).toBeTruthy()
   })
 
   it('pasta homogênea de Itens vira tabela com colunas dos inline fields', async () => {
@@ -126,8 +141,8 @@ describe('FolderView', () => {
     expect((await screen.findAllByText('d4+2')).length).toBeGreaterThan(0)
   })
 
-  it('pasta oculta responde como não encontrada', () => {
-    renderAt(compendiumFolderPath('Sistema/Criaturas'), folderRoutes)
+  it('pasta oculta (sem exceção dentro) responde como não encontrada', () => {
+    renderAt(compendiumFolderPath('Sistema/Criaturas/Heróis'), folderRoutes)
     expect(screen.getByText(/não encontrada/)).toBeTruthy()
   })
 })

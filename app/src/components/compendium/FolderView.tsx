@@ -8,7 +8,7 @@ import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
-import { compendiumSections, isHidden, visibleCount, visibleFolders } from './sections'
+import { compendiumSections, hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
 
 function FolderCards({ folders }: { folders: FolderNode[] }) {
   if (!folders.length) return null
@@ -72,7 +72,10 @@ export function FolderView() {
     )
   }
 
-  if (!node || isHidden(path)) {
+  // pasta oculta com exceção visível dentro (#213: Grupos de Criaturas) é
+  // PORTAL: navegável, mas sem listar os docs ocultos dela
+  const portal = node && isHidden(path) && hasVisibleDescendant(node)
+  if (!node || (isHidden(path) && !portal)) {
     return (
       <section className="page">
         <div className="kicker">{COMPENDIO_KICKER}</div>
@@ -86,7 +89,8 @@ export function FolderView() {
   const indexDoc = node.docs.find((d) => d.basename === node.name)
 
   // colunas só quando a lista é homogênea e o tipo tem registro
-  const types = [...new Set(listDocs.map((d) => d.type ?? ''))]
+  const docsVisiveis = portal ? [] : listDocs
+  const types = [...new Set(docsVisiveis.map((d) => d.type ?? ''))]
   const columns = types.length === 1 ? LIST_COLUMNS[types[0]] : undefined
 
   return (
@@ -94,11 +98,11 @@ export function FolderView() {
       <div className="kicker">{COMPENDIO_KICKER}</div>
       <Breadcrumb path={path} />
       <h1>
-        {indexDoc ? <Link to={docPath(indexDoc.id)}>{node.name}</Link> : node.name}
+        {indexDoc && !portal ? <Link to={docPath(indexDoc.id)}>{node.name}</Link> : node.name}
       </h1>
       <FolderCards folders={visibleFolders(node)} />
       {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
-      {mestre && listDocs.length > 0 ? (
+      {mestre && docsVisiveis.length > 0 ? (
         <div style={{ margin: '10px 0' }}>
           <button
             type="button"
@@ -111,9 +115,9 @@ export function FolderView() {
         </div>
       ) : null}
       {mestre && tabela ? (
-        <MestreTables entries={listDocs} />
+        <MestreTables entries={docsVisiveis} />
       ) : (
-        <DocTable entries={listDocs} columns={columns} />
+        <DocTable entries={docsVisiveis} columns={columns} />
       )}
     </section>
   )
