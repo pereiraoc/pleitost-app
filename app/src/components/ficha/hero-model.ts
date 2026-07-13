@@ -313,6 +313,15 @@ export function usosPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): n
   return usosMax(docTierField(doc, 'usos', tier))
 }
 
+/** Freq TEXTUAL de usos_<tier> ("1/10min", "1/dia") — a regra de Descanso
+ *  (descanso.ts) decide restauração pelo sufixo, como o plugin
+ *  (acoes-descanso.ts:aplicarDescansoNosUsos). passivo/ausente → null. */
+export function usosFreqPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): string | null {
+  if (!doc) return null
+  const f = str(docTierField(doc, 'usos', tier)).trim()
+  return f && usosMax(f) !== null ? f : null
+}
+
 /** cargas_<tier> N do doc (Focos/Implementos) — contador iniciado em 0. */
 export function cargasPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
   if (!doc) return null
