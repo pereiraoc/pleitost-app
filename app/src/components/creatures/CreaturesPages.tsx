@@ -47,7 +47,6 @@ import { MESA_GRUPO_ID, useLiveSession } from '../../data/session-repo/live-sess
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
 import { addMonsterToInitiative } from '../../data/session-repo/encounter-actions'
 import { useSessions } from '../../data/session-store'
-import { GrupoDaSala } from '../sessao/SessaoPage'
 import { CriadorAventura } from '../mestre/CriadorAventura'
 import { CriadorCombate } from '../mestre/CriadorCombate'
 import { ImportarModal } from './ImportarModal'
@@ -906,7 +905,9 @@ function GruposPanel({
         <button className="grupo-voltar" onClick={() => onSelect(null)}>
           ← GRUPOS
         </button>
-        <GrupoDaSala />
+        {/* #231: a mesa abre a ficha de GRUPO REAL (abas), com os integrantes
+            resolvidos da sala viva (resolveGroupMembers + docs sessao:) */}
+        <GrupoView groupId={MESA_ID} />
       </div>
     )
   }

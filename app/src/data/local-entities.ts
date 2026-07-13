@@ -23,6 +23,11 @@ import { useMemo, useSyncExternalStore } from 'react'
 import type { Catalog } from './catalog'
 import type { IndexDocEntry, VaultDoc } from './types'
 import { groupMembers } from '../grupo/party'
+import {
+  getLiveSession,
+  MESA_GRUPO_ID,
+  useLiveSession,
+} from './session-repo/live-session'
 
 export const LOCAL_PREFIX = 'local:'
 export function isLocalId(id: string): boolean {
@@ -660,6 +665,22 @@ function memberEntry(catalog: Catalog, id: string): IndexDocEntry | null {
  *  + locais). Ordem: base primeiro, adicionados depois. Reativo via os stores;
  *  balanceamento/agregados recomputam porque os callers observam a versão. */
 export function resolveGroupMembers(catalog: Catalog, groupId: string): IndexDocEntry[] {
+  // #231: o grupo da MESA resolve os integrantes da SALA viva — entries
+  // sintéticos `sessao:<charId>` que o useDoc/useDocs materializa via
+  // synthDocFromCharacter (mesmos canos do resto do GrupoView).
+  if (groupId === MESA_GRUPO_ID) {
+    const live = getLiveSession()
+    return (live?.characters ?? [])
+      .filter((c) => c.kind !== 'npc')
+      .map((c) => ({
+        id: `sessao:${c.id}`,
+        path: c.characterPath,
+        basename: c.summary.nome,
+        type: 'Criatura',
+        subtype: c.summary.family === 'CompanheiroAnimal' ? 'Companheiro Animal' : c.summary.family,
+        kind: 'content',
+      }) as IndexDocEntry)
+  }
   const baseIds = groupBaseMemberIds(catalog, groupId)
   const { add, remove } = getMembership(groupId)
   const removeSet = new Set(remove)
@@ -676,7 +697,9 @@ export function resolveGroupMembers(catalog: Catalog, groupId: string): IndexDoc
 /** Hook reativo dos integrantes de um grupo (uma chamada por render — GrupoView). */
 export function useGroupMembers(catalog: Catalog, groupId: string): IndexDocEntry[] {
   const v = useLocalStoreVersion()
-  return useMemo(() => resolveGroupMembers(catalog, groupId), [catalog, groupId, v])
+  const live = useLiveSession() // #231: mesa reage à sala
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => resolveGroupMembers(catalog, groupId), [catalog, groupId, v, live])
 }
 
 /** Inclui/remove um integrante no override do grupo, normalizando contra a base:

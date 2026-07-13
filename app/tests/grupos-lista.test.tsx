@@ -129,19 +129,15 @@ describe('lista de GRUPOS (#213)', () => {
     // #223: contagem certa — mestre à parte dos jogadores, personagens contados
     expect(screen.getByText('MESTRE + 2 jogadores · 2 personagens')).toBeTruthy()
     fireEvent.click(card)
-    // ficha da mesa (#223): MESTRE, jogadores com seus personagens, tabela
-    expect(await screen.findByText('// FICHA DO GRUPO DA SESSÃO')).toBeTruthy()
-    expect(screen.getByText('Mestre Zé')).toBeTruthy()
-    // #224: PERSONAGEM em destaque; jogador é anotação ao lado
-    const linhaAline = screen.getAllByText('Aline')[0]
-    expect(linhaAline.style.fontWeight).toBe('700')
-    const jogadora = screen.getByText('Jogadora Ana')
-    expect(Number(jogadora.style.fontSize.replace('px', ''))).toBeLessThan(
-      Number(linhaAline.style.fontSize.replace('px', '')),
-    )
-    // Aline aparece no roster (personagem da jogadora) E na tabela de stats
-    expect(screen.getAllByText('Aline').length).toBeGreaterThanOrEqual(2)
-    expect(screen.getByText('12/20')).toBeTruthy()
+    // #231: a mesa abre o GRUPO REAL — GrupoView com as abas definidas hoje
+    expect(await screen.findByText('EXPLORAÇÃO')).toBeTruthy()
+    expect(screen.getByText('PAPÉIS')).toBeTruthy()
+    expect(screen.getByText('PERÍCIAS')).toBeTruthy()
+    // integrantes vêm da SALA viva (entries sessao: → synthDoc)
+    expect(screen.getByText('2 integrantes')).toBeTruthy()
+    expect(screen.getAllByText(/Aline/).length).toBeGreaterThan(0)
+    // mesa não edita integrantes (vêm da sessão)
+    expect(screen.queryByText(/EDITAR INTEGRANTES|editar integrantes/i)).toBeNull()
     // voltar retorna pra lista
     fireEvent.click(screen.getByText('← GRUPOS'))
     expect(await screen.findByText('Grupo da Sessão')).toBeTruthy()

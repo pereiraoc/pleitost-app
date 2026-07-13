@@ -11,6 +11,8 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useCatalog } from '../data/CatalogContext'
+import { MESA_GRUPO_ID } from '../data/session-repo/live-session'
+import { useSessions } from '../data/session-store'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
 import {
@@ -466,9 +468,13 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const memberIds = useMemo(() => new Set(members.map((m) => m.id)), [members])
 
   const isLocalGroup = isLocalId(groupId)
+  const isMesa = groupId === MESA_GRUPO_ID
+  const { active: sessaoAtiva } = useSessions()
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
-  const names = localGroup?.basename ?? entry?.basename ?? groupId
+  const names = isMesa
+    ? (sessaoAtiva?.nome ?? 'Grupo da Sessão')
+    : (localGroup?.basename ?? entry?.basename ?? groupId)
   const subcategoria =
     typeof groupDoc?.frontmatter['subcategoria'] === 'string'
       ? (groupDoc.frontmatter['subcategoria'] as string)
@@ -631,7 +637,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
               }}
             >
               <span>{members.length} integrantes</span>
-              {/* #44: editar integrantes (add/remove) — override local */}
+              {/* #44: editar integrantes (add/remove) — override local.
+                  #231: a MESA não edita — os integrantes vêm da sessão. */}
+              {isMesa ? null : (
               <button
                 onClick={() => setEditMembers(true)}
                 style={{
@@ -649,6 +657,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
               >
                 ✎ Editar
               </button>
+              )}
               {/* #197: retrato do grupo LOCAL — subir/remover imagem no slot
                   60×60 do header (mesmo controle do Perfil). */}
               {isLocalGroup ? <LocalImageUpload id={groupId} /> : null}

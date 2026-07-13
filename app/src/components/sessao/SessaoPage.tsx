@@ -40,7 +40,7 @@ import {
   extractFmBlob,
 } from '../../data/session-repo/publish'
 import { startEncounterFromRoster } from '../../data/session-repo/encounter-actions'
-import { MESA_GRUPO_ID, setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
@@ -361,9 +361,31 @@ function usePublicacao(
   }, [repo, sessionId, charId, heroId])
 }
 
+/** Ordena a mesa (#231): cada herói seguido dos SEUS companheiros (CA
+ *  identado); companheiro órfão (tutor fora da sala) fecha a lista. */
+function ordenarMesa(chars: SessionCharacter[]): Array<{ c: SessionCharacter; ca: boolean }> {
+  const vivos = chars.filter((c) => c.kind !== 'npc')
+  const herois = vivos.filter((c) => c.kind !== 'companheiro')
+  const cas = vivos.filter((c) => c.kind === 'companheiro')
+  const out: Array<{ c: SessionCharacter; ca: boolean }> = []
+  const usados = new Set<string>()
+  for (const h of herois) {
+    out.push({ c: h, ca: false })
+    for (const ca of cas) {
+      if (ca.tutorCharacterId === h.id) {
+        out.push({ c: ca, ca: true })
+        usados.add(ca.id)
+      }
+    }
+  }
+  for (const ca of cas) if (!usados.has(ca.id)) out.push({ c: ca, ca: true })
+  return out
+}
+
 function SalaRemota({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
+  const assets = useAssetIndex()
   const navigate = useNavigate()
   const detail = useDetail()
   const live = useLiveSession()
@@ -429,18 +451,22 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
         <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px' }}>
-        {chars
-          .filter((c) => c.kind !== 'npc')
-          .map((c) => {
+        {ordenarMesa(chars).map(({ c, ca }) => {
             const rr = c.state.recursosRestantes ?? { vitalidade: c.summary.vitalidadeMax, moral: c.summary.moralMax ?? 0, em: 0, moralTemp: 0 }
+            // #231: retrato do personagem (fmBlob → hierarquia da vault);
+            // sem retrato, iniciais. CA fica MENOR e IDENTADO sob o tutor.
+            const portrait = creatureImageUrl(synthDocFromCharacter(c), assets)
+            const av = ca ? 32 : 42
             return (
               <div
                 key={c.id}
+                data-ca-row={ca ? '' : undefined}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12,
-                  padding: '11px 13px',
+                  padding: ca ? '8px 11px' : '11px 13px',
+                  marginLeft: ca ? 26 : 0,
                   background: 'var(--card)',
                   border: '1px solid var(--line)',
                   clipPath: clip(12),
@@ -448,20 +474,23 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
               >
                 <span
                   style={mono({
-                    width: 42,
-                    height: 42,
+                    width: av,
+                    height: av,
                     flex: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: 'var(--panel)',
+                    background: portrait ? undefined : 'var(--panel)',
+                    backgroundImage: portrait ? `url("${portrait}")` : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                     border: '1px solid var(--line2)',
                     clipPath: clip(9),
-                    fontSize: 15,
+                    fontSize: ca ? 12 : 15,
                     color: 'var(--muted)',
                   })}
                 >
-                  {sigOf(c.summary.nome)}
+                  {portrait ? '' : sigOf(c.summary.nome)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   {/* #224: o PERSONAGEM tem linha própria (flex garante a
@@ -477,7 +506,7 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
                         border: 'none',
                         padding: 0,
                         cursor: 'pointer',
-                        fontSize: 14.5,
+                        fontSize: ca ? 12.5 : 14.5,
                         fontWeight: 700,
                         color: 'var(--blue)',
                         overflow: 'hidden',
@@ -1192,8 +1221,10 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </span>
         </div>
       </div>
+      {/* #231: a ficha do grupo NÃO mora nos detalhes — ela abre pelo link
+          FICHA DO GRUPO da iniciativa (GrupoView com as abas). Aqui fica só
+          o MEMBROS colapsável. */}
       {live ? <MembrosColapsavel live={live} /> : null}
-      {live ? <GrupoDaSala roster={false} /> : null}
       {!live && sess.mestre ? (
         <div
           style={{

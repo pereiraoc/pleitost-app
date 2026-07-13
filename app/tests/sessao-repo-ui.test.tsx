@@ -157,9 +157,11 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
       expect(fichaBtn.compareDocumentPosition(herois) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
       expect(herois.compareDocumentPosition(iniciativa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     }
-    // #187: a FICHA DO GRUPO da sessão montou sozinha (tabela nos DETALHES)
+    // #231: a ficha do grupo NÃO mora nos detalhes (abre pelo link da
+    // iniciativa → GrupoView); os detalhes têm o MEMBROS colapsável
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))
-    await waitFor(() => expect(screen.getByText('// FICHA DO GRUPO DA SESSÃO')).toBeTruthy())
+    await waitFor(() => expect(screen.getByText(/\/\/ MEMBROS · 2/)).toBeTruthy())
+    expect(screen.queryByText('// FICHA DO GRUPO DA SESSÃO')).toBeNull()
     // #225: MEMBROS colapsável — mestre e personagem com (usuário) do jogador
     const membrosHeader = screen.getByText(/\/\/ MEMBROS · 2/)
     expect(screen.getByText('👁️ MESTRE')).toBeTruthy()
@@ -168,7 +170,6 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     expect(screen.queryByText('(Jogadora Ana)')).toBeNull()
     fireEvent.click(screen.getByText(/\/\/ MEMBROS · 2/))
     expect(screen.getByText('(Jogadora Ana)')).toBeTruthy()
-    expect(screen.getByText('7/12')).toBeTruthy() // vida atual/máx na tabela
   })
 })
 
@@ -331,5 +332,68 @@ describe('#226 lista multi-dispositivo', () => {
     renderCliente(repo, { id: 'u-3', nome: 'Beto' })
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
     await waitFor(() => expect(listSessions()).toHaveLength(0))
+  })
+})
+
+// ── #231: retratos na lista da sala + companheiro MENOR e IDENTADO ────────
+import { joinSessionByCode, setActiveSessionCode, updateSession } from '../src/data/session-store'
+import { loadDoc } from '../src/data/useDoc'
+
+describe('#231 sala: retratos + companheiro identado', () => {
+  it('herói com Imagem mostra retrato; CA fica menor, identado sob o tutor', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'MESA31' })
+    await repo.insertMember({ sessionId: sess.id, userId: 'gm-1', role: 'gm', displayName: 'Mestre' })
+    await repo.insertMember({ sessionId: sess.id, userId: 'u-1', role: 'player', displayName: 'Octavio' })
+    // herói REAL da vault (Carlos tem FM Imagem → retrato resolve no assets)
+    const carlos = await loadDoc('Sistema/Criaturas/Heróis/Carlos Facão de Andradas')
+    const heroi = await repo.insertCharacter({
+      sessionId: sess.id,
+      memberId: 'u-1',
+      kind: 'heroi',
+      tutorCharacterId: null,
+      characterPath: carlos.id,
+      visibility: 'visible',
+      summary: buildCharacterSummary(carlos),
+      state: buildCharacterState(carlos),
+      fmBlob: extractFmBlob(carlos.frontmatter as Record<string, unknown>),
+    })
+    const metis = await loadDoc('Sistema/Criaturas/Companheiros Animais/Metis, a Graxaim')
+    await repo.insertCharacter({
+      sessionId: sess.id,
+      memberId: 'u-1',
+      kind: 'companheiro',
+      tutorCharacterId: heroi.id,
+      characterPath: metis.id,
+      visibility: 'visible',
+      summary: buildCharacterSummary(metis),
+      state: buildCharacterState(metis),
+      fmBlob: extractFmBlob(metis.frontmatter as Record<string, unknown>),
+    })
+    // dispositivo do jogador: sessão registrada e ATIVA → bridge conecta
+    joinSessionByCode('MESA31')
+    updateSession('MESA31', { nome: 'Mesa', remoteId: sess.id })
+    setActiveSessionCode('MESA31')
+    renderCliente(repo, { id: 'u-1', nome: 'Octavio' })
+
+    // retrato do herói (FM Imagem real → backgroundImage no avatar) — o
+    // nome aparece em mais de um lugar; o da SALA é o botão de resumo
+    await screen.findAllByText('Carlos Facão de Andradas')
+    const btn = screen.getAllByTitle('Ver ficha resumo nos detalhes')[0] as HTMLElement
+    // linha da sala = avatar + coluna do nome; o botão está 2 níveis abaixo
+    const rowCarlos = btn.parentElement!.parentElement!.parentElement as HTMLElement
+    await waitFor(() => {
+      const avatar = rowCarlos.querySelector('span') as HTMLElement
+      expect(avatar.style.backgroundImage).toContain('Carlos%20Fac%C3%A3o%20de%20Andrade.png')
+    })
+    // CA identado e menor, logo abaixo do tutor
+    const caRow = document.querySelector('[data-ca-row]') as HTMLElement
+    expect(caRow).toBeTruthy()
+    expect(caRow.style.marginLeft).toBe('26px')
+    expect(caRow.textContent).toContain('Metis, a Graxaim')
+    // vem DEPOIS do herói no DOM (identação sob o tutor)
+    expect(
+      rowCarlos.compareDocumentPosition(caRow) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
   })
 })
