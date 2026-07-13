@@ -132,7 +132,13 @@ describe('lista de GRUPOS (#213)', () => {
     // ficha da mesa (#223): MESTRE, jogadores com seus personagens, tabela
     expect(await screen.findByText('// FICHA DO GRUPO DA SESSÃO')).toBeTruthy()
     expect(screen.getByText('Mestre Zé')).toBeTruthy()
-    expect(screen.getByText('Jogadora Ana')).toBeTruthy()
+    // #224: PERSONAGEM em destaque; jogador é anotação ao lado
+    const linhaAline = screen.getAllByText('Aline')[0]
+    expect(linhaAline.style.fontWeight).toBe('700')
+    const jogadora = screen.getByText('Jogadora Ana')
+    expect(Number(jogadora.style.fontSize.replace('px', ''))).toBeLessThan(
+      Number(linhaAline.style.fontSize.replace('px', '')),
+    )
     // Aline aparece no roster (personagem da jogadora) E na tabela de stats
     expect(screen.getAllByText('Aline').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByText('12/20')).toBeTruthy()

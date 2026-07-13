@@ -1002,16 +1002,23 @@ export function GrupoDaSala() {
           <span style={{ fontSize: 13.5, fontWeight: 700 }}>{gm?.displayName ?? '—'}</span>
         </div>
         <div style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--muted)' })}>
-          {`JOGADORES · ${jogadores.length} · PERSONAGENS · ${chars.length}`}
+          {`PERSONAGENS · ${chars.length} · JOGADORES · ${jogadores.length}`}
         </div>
+        {/* #224: numa ficha de grupo o PERSONAGEM é o protagonista — nome do
+            personagem em destaque, jogador como anotação ao lado. */}
         {jogadores.map((j) => {
           const ps = personagensDe(j.userId)
-          return (
+          return ps.length ? (
+            ps.map((p) => (
+              <div key={`${j.userId}:${p}`} style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--blue)' }}>{p}</span>
+                <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>{j.displayName}</span>
+              </div>
+            ))
+          ) : (
             <div key={j.userId} style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>{j.displayName}</span>
-              <span style={mono({ fontSize: 10.5, color: ps.length ? 'var(--blue)' : 'var(--muted)' })}>
-                {ps.length ? ps.join(' · ') : 'sem personagem na mesa'}
-              </span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)' }}>{j.displayName}</span>
+              <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>sem personagem na mesa</span>
             </div>
           )
         })}
