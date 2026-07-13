@@ -94,7 +94,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     const codigo = listSessions()[0].codigo
     expect(listSessions()[0].remoteId).toBeTruthy()
     // sala remota visível pro GM
-    expect(await screen.findByText('🌐 JOGADORES NA SESSÃO')).toBeTruthy()
+    expect(await screen.findByText('🌐 HERÓIS NA SESSÃO')).toBeTruthy()
     cleanup()
 
     // ── cliente PLAYER (outro user, mesmo repo = mesma sala)
@@ -107,7 +107,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     renderCliente(repo, { id: 'p-1', nome: 'Jogadora Ana' })
     fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
-    await screen.findByText('🌐 JOGADORES NA SESSÃO')
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
 
     // seleciona o herói local e entra na mesa (publica summary/state/fmBlob)
     const sel = (await screen.findByLabelText('Selecionar meu personagem')) as HTMLSelectElement
@@ -148,9 +148,26 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
       expect(btnPersonagem.style.minWidth).toBe('0')
     }
 
+    // #225: ordem da face INICIATIVA — FICHA DO GRUPO em cima, depois os
+    // HERÓIS com vida, depois a iniciativa
+    {
+      const fichaBtn = screen.getByText('FICHA DO GRUPO ↗')
+      const herois = screen.getByText('🌐 HERÓIS NA SESSÃO')
+      const iniciativa = screen.getByText('⚔ ORDEM DE INICIATIVA')
+      expect(fichaBtn.compareDocumentPosition(herois) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      expect(herois.compareDocumentPosition(iniciativa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    }
     // #187: a FICHA DO GRUPO da sessão montou sozinha (tabela nos DETALHES)
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))
     await waitFor(() => expect(screen.getByText('// FICHA DO GRUPO DA SESSÃO')).toBeTruthy())
+    // #225: MEMBROS colapsável — mestre e personagem com (usuário) do jogador
+    const membrosHeader = screen.getByText(/\/\/ MEMBROS · 2/)
+    expect(screen.getByText('👁️ MESTRE')).toBeTruthy()
+    expect(screen.getByText('(Jogadora Ana)')).toBeTruthy()
+    fireEvent.click(membrosHeader)
+    expect(screen.queryByText('(Jogadora Ana)')).toBeNull()
+    fireEvent.click(screen.getByText(/\/\/ MEMBROS · 2/))
+    expect(screen.getByText('(Jogadora Ana)')).toBeTruthy()
     expect(screen.getByText('7/12')).toBeTruthy() // vida atual/máx na tabela
   })
 })
@@ -226,7 +243,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     // 1 monstro real do bestiário
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
     fireEvent.click(await screen.findByText('+ Criar nova sessão'))
-    await screen.findByText('🌐 JOGADORES NA SESSÃO')
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
     const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
     await act(async () => {
       await repo.insertEncounter({

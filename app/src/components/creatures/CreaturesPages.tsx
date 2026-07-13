@@ -43,7 +43,7 @@ import {
   tierBarColor,
   tierFromLevel,
 } from '../../grupo/party'
-import { useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, useLiveSession } from '../../data/session-repo/live-session'
 import { useSessions } from '../../data/session-store'
 import { GrupoDaSala } from '../sessao/SessaoPage'
 import { CriadorAventura } from '../mestre/CriadorAventura'
@@ -59,7 +59,7 @@ import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-t
 const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
 
 // id sintético da mesa da sessão ativa na lista de GRUPOS (#213)
-const MESA_ID = 'sessao:mesa'
+const MESA_ID = MESA_GRUPO_ID
 
 /** Subtítulo do card da mesa (#223): mestre à parte, plurais corretos. */
 function mesaResumo(live: { members: unknown[]; characters: { kind: string }[] }): string {

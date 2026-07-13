@@ -18,7 +18,6 @@ import { useDocs } from '../../data/useDoc'
 import { useGroupMembers } from '../../data/local-entities'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
-import { heroPath } from '../../paths'
 import { clip, PanelTrack } from '../ficha/bits'
 import { useVidaLocal } from '../ficha/pop-panels'
 import { fmPath, num, str } from '../ficha/hero-model'
@@ -41,7 +40,7 @@ import {
   buildCharacterSummary,
   extractFmBlob,
 } from '../../data/session-repo/publish'
-import { setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, setLiveSession, useLiveSession } from '../../data/session-repo/live-session'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
@@ -402,7 +401,7 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 18px', borderBottom: '1px solid var(--line)' }}>
         <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--accent)', fontWeight: 700 })}>
-          🌐 JOGADORES NA SESSÃO
+          🌐 HERÓIS NA SESSÃO
         </span>
         <span style={{ flex: 1 }} />
         <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
@@ -820,12 +819,10 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
-      {/* Sala remota (#186): jogadores/vida ao vivo quando a sessão tem servidor. */}
-      <SalaRemota sess={sess} />
-      {/* Combate remoto (#196): encounters da sala (iniciar/turno/máscara). */}
-      <CombateDaSala sess={sess} />
+      {/* #225: ordem pedida — FICHA DO GRUPO em cima (leva pra mesa com
+          todos pré-registrados), depois HERÓIS com vida, depois iniciativa. */}
       <button
-        onClick={() => members[0] && navigate(heroPath(members[0].id, 'grupos'))}
+        onClick={() => navigate(`/herois?grupo=${encodeURIComponent(MESA_GRUPO_ID)}`)}
         title="Abrir ficha do grupo"
         style={{
           display: 'flex',
@@ -862,6 +859,10 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
         </div>
         <span style={{ flex: 'none', color: 'var(--muted)', fontSize: 18 }}>→</span>
       </button>
+      {/* Sala remota (#186): HERÓIS da mesa com a vida ao vivo. */}
+      <SalaRemota sess={sess} />
+      {/* Combate remoto (#196): encounters da sala (iniciar/turno/máscara). */}
+      <CombateDaSala sess={sess} />
 
       <div
         style={{
@@ -955,7 +956,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
  *  publicados (summaries) — cresce conforme jogadores entram e nunca perde o
  *  estado (vive em session_characters, edição incremental). Colunas da tabela
  *  de VIDA do GRUPO (PanelVida / plugin aggregates). */
-export function GrupoDaSala() {
+export function GrupoDaSala({ roster = true }: { roster?: boolean } = {}) {
   const live = useLiveSession()
   const chars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
   // #222/#223: a ficha do grupo NUNCA fica em branco — sem conexão viva
@@ -1005,6 +1006,7 @@ export function GrupoDaSala() {
       </div>
       {/* #223: "Deveria mostrar quem é o Mestre, quem são os jogadores e os
           personagens" — roster da mesa, GM primeiro, personagens por jogador */}
+      {roster ? (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
         <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
           <span style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--accent)' })}>👁️ MESTRE</span>
@@ -1032,6 +1034,7 @@ export function GrupoDaSala() {
           )
         })}
       </div>
+      ) : null}
       {chars.length === 0 ? (
         <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
           Nenhum personagem publicado ainda — cada jogador entra na mesa pela aba SESSÃO
@@ -1139,6 +1142,66 @@ function PcRow({ heroId }: { heroId: string }) {
   )
 }
 
+/** MEMBROS da sessão, colapsável (#225): mestre + cada personagem com o
+ *  usuário do jogador entre parênteses; membro sem personagem também lista. */
+function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLiveSession>> }) {
+  const [aberto, setAberto] = useState(true)
+  const gm = live.members.find((m) => m.role === 'gm' || m.userId === live.gmUserId) ?? null
+  const jogadores = live.members.filter((m) => m !== gm)
+  const chars = live.characters.filter((c) => c.kind !== 'npc')
+  return (
+    <div style={{ border: '1px solid var(--line2)', background: 'var(--panel)', clipPath: clip(14) }}>
+      <button
+        onClick={() => setAberto((v) => !v)}
+        aria-expanded={aberto}
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          padding: '12px 16px',
+          background: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+          color: 'var(--text)',
+          fontFamily: 'inherit',
+        }}
+      >
+        <span style={mono({ fontSize: 11, letterSpacing: '.16em', color: 'var(--muted)' })}>
+          {`// MEMBROS · ${live.members.length}`}
+        </span>
+        <span style={{ flex: 1 }} />
+        <span aria-hidden style={{ color: 'var(--muted)', fontSize: 12 }}>
+          {aberto ? '▾' : '▸'}
+        </span>
+      </button>
+      {aberto ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 7, padding: '0 16px 14px' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
+            <span style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--accent)' })}>👁️ MESTRE</span>
+            <span style={{ fontSize: 13.5, fontWeight: 700 }}>{gm?.displayName ?? '—'}</span>
+          </div>
+          {jogadores.map((j) => {
+            const ps = chars.filter((c) => c.memberId === j.userId).map((c) => c.summary.nome)
+            return ps.length ? (
+              ps.map((p) => (
+                <div key={`${j.userId}:${p}`} style={{ fontSize: 13 }}>
+                  <span style={{ fontWeight: 700, color: 'var(--blue)' }}>{p}</span>{' '}
+                  <span style={mono({ fontSize: 10.5, color: 'var(--muted)' })}>({j.displayName})</span>
+                </div>
+              ))
+            ) : (
+              <div key={j.userId} style={{ fontSize: 13, color: 'var(--muted)' }}>
+                sem personagem <span style={mono({ fontSize: 10.5 })}>({j.displayName})</span>
+              </div>
+            )
+          })}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 function DetalhesPanel({ sess }: { sess: SessionRec }) {
   // #223: conectado, a fonte é a SALA (membros com papel + personagens
   // publicados) — o modelo local (claims de heróis) é só o fallback offline.
@@ -1163,11 +1226,8 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </span>
         </div>
       </div>
-      {live ? (
-        <>
-          <GrupoDaSala />
-        </>
-      ) : null}
+      {live ? <MembrosColapsavel live={live} /> : null}
+      {live ? <GrupoDaSala roster={false} /> : null}
       {!live && sess.mestre ? (
         <div
           style={{

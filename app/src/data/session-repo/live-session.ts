@@ -6,6 +6,9 @@ import { useSyncExternalStore } from 'react'
 import type { VaultDoc } from '../types'
 import type { Encounter, SessionCharacter, SessionMember } from './contract'
 
+/** Id sintético do grupo da MESA nas telas de grupos (#213/#225). */
+export const MESA_GRUPO_ID = 'sessao:mesa'
+
 export interface LiveSession {
   sessionId: string
   /** Dono da sessão (gmUserId) — deriva o papel: quem é o GM vê ficha
