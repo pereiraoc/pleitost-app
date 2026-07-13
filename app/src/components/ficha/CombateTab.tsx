@@ -1257,21 +1257,36 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const chipOn = (n: string) =>
     isCondicaoOn(interState.condicoes[n]) || isEfeitoOn(efeitos[n])
   const toggleChip = (nome: string) => {
-    // Condições do catálogo (VC) → Condicoes_Ativas, como o chip da Lista
-    // de Condições do plugin (Estados aceitam esse mapa via fallback);
+    // DESLIGAR remove o label dos DOIS mapas — dual-delete do plugin
+    // (mount-interativa-toggle.ts:191-193). O plugin grava Estados nos dois
+    // (dual-write) e a engine lê o OR (guard-evaluator dual-check), então
+    // apagar de um só deixava o chip preso ligado e o dano congelado quando
+    // o FM veio da vault com o estado salvo (#219 — Dante importado).
+    if (chipOn(nome)) {
+      if (nome in interState.condicoes) {
+        const next = { ...interState.condicoes }
+        delete next[nome]
+        model.setVolatile('Interativa.Condicoes_Ativas', next)
+      }
+      if (nome in efeitos) {
+        const next = { ...efeitos }
+        delete next[nome]
+        model.setVolatile('Interativa.Efeitos_Ativos', next)
+      }
+      return
+    }
+    // LIGAR: condições do catálogo (VC) → Condicoes_Ativas, como o chip da
+    // Lista de Condições do plugin (Estados aceitam esse mapa via fallback);
     // efeitos builtin/Estado fora do catálogo (Acerto Decisivo) →
     // Efeitos_Ativos.
     if (inter.catalog.has(nome)) {
-      const next = { ...interState.condicoes }
-      if (nome in next) delete next[nome]
-      else next[nome] = { value: 1 }
-      model.setVolatile('Interativa.Condicoes_Ativas', next)
+      model.setVolatile('Interativa.Condicoes_Ativas', {
+        ...interState.condicoes,
+        [nome]: { value: 1 },
+      })
       return
     }
-    const next = { ...efeitos }
-    if (isEfeitoOn(next[nome])) delete next[nome]
-    else next[nome] = { on: true }
-    model.setVolatile('Interativa.Efeitos_Ativos', next)
+    model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [nome]: { on: true } })
   }
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
