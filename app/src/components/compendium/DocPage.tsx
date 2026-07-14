@@ -6,18 +6,28 @@ import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
 import { LocationSheet, isLocation } from './LocationSheet'
+import { registerDocView, resolveDocView } from './doc-view-registry'
 import { RuleElementsSection } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { useSettings } from '../../settings'
+
+// Localização (categoria=Localização) vira ficha com abas (issue #66) — a
+// PRIMEIRA entrada do registro de visualizadores (#243). As fases F1/F3
+// registram Item/Organização/História do mesmo jeito, em arquivos próprios.
+registerDocView({
+  id: 'localizacao',
+  match: isLocation,
+  view: (doc, { sidebar }) => <LocationSheet doc={doc} sidebar={sidebar} />,
+})
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
 export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
   // Modo Mestre: expõe os Elementos de Regra da nota depois do corpo (#193)
   const { mestre } = useSettings()
-  // Localização (categoria=Localização) vira ficha com abas (issue #66); os
-  // demais docs seguem no markdown genérico.
-  if (isLocation(doc)) return <LocationSheet doc={doc} sidebar={sidebar} />
+  // Visualizador dedicado do tipo (registro), senão o markdown genérico.
+  const viewer = resolveDocView(doc)
+  if (viewer) return viewer(doc, { sidebar })
 
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
