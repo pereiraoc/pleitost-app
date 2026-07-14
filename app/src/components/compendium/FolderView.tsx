@@ -10,7 +10,8 @@ import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
 import { hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
 import { isNavNode, navChildren, navLabel, navMeta } from './compendio-registry'
-import { resolveLeafView } from './leaf-view-registry'
+import { resolveLeafEntry } from './leaf-view-registry'
+import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 // SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
 // Mesmo barrel que o DocPage carrega; a importação aqui garante o registro
 // mesmo que a folha seja alcançada sem passar por um doc antes.
@@ -87,6 +88,8 @@ export function FolderView() {
   // #192: Modo Mestre pode alternar a lista pra visão TABELA por tipo
   const { mestre } = useSettings()
   const [tabela, setTabela] = useState(false)
+  // #248: entidades locais (aventuras criadas no app) reagem ao store local.
+  const localVersion = useLocalStoreVersion()
   const path = splat.replace(/\/+$/, '')
   const node = catalog.folderByPath.get(path)
 
@@ -126,13 +129,21 @@ export function FolderView() {
   const indexDoc = node.docs.find((d) => d.basename === node.name)
 
   // colunas só quando a lista é homogênea e o tipo tem registro
-  const docsVisiveis = portal ? [] : listDocs
-  const types = [...new Set(docsVisiveis.map((d) => d.type ?? ''))]
+  const vaultDocs = portal ? [] : listDocs
+  const types = [...new Set(vaultDocs.map((d) => d.type ?? ''))]
   const homogeneousType = types.length === 1 ? types[0] : undefined
   const columns = homogeneousType ? LIST_COLUMNS[homogeneousType] : undefined
   // Folha HOMOGÊNEA de um tipo com visualizador dedicado (ex.: Item → grade de
-  // cartas). O Modo Mestre ainda pode cair na visão TABELA (toggle abaixo).
-  const leafView = docsVisiveis.length > 0 ? resolveLeafView(homogeneousType) : null
+  // cartas; Aventura → grade de bounties). O registro pode declarar `localKind`
+  // → entidades criadas no app entram na listagem junto das da vault (#248), e
+  // `creator` → afixo de criação (mestre-gated) acima da grade.
+  const leafEntry = resolveLeafEntry(homogeneousType)
+  const localExtra =
+    !portal && leafEntry?.localKind ? localEntriesOfKind(leafEntry.localKind) : []
+  const docsVisiveis = [...vaultDocs, ...localExtra]
+  const leafView = docsVisiveis.length > 0 ? (leafEntry?.view ?? null) : null
+  const creator = leafEntry?.creator ?? null
+  void localVersion // dep de recomputo (localExtra reage ao store local)
 
   return (
     <section className="page">
@@ -155,6 +166,9 @@ export function FolderView() {
           </button>
         </div>
       ) : null}
+      {/* #248: afixo de criação da folha (mestre-gated pelo próprio componente),
+          acima da grade — ex.: "Criar Aventura" na folha Campanhas/Aventuras. */}
+      {creator ? creator() : null}
       {mestre && tabela ? (
         <MestreTables entries={docsVisiveis} />
       ) : leafView ? (

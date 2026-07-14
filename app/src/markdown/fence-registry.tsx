@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 import type { VaultDoc } from '../data/types'
 import { DataviewBlock } from '../dataview/DataviewBlock'
 import { CombatMarkerBlock } from '../mestre/CombatMarkerBlock'
+import { BountyFence } from './bounty/BountyFence'
 
 export interface FenceProps {
   lang: string
@@ -39,4 +40,5 @@ export const FENCES: Record<string, ComponentType<FenceProps>> = {
   // processa 4 variantes; -small/plain são as usadas nas notas de prep).
   'combat-marker': CombatMarkerFence,
   'combat-marker-small': CombatMarkerFence,
+  bounty: BountyFence, // #248: carta de aventura (rank/subcat/recompensa/objetivos)
 }

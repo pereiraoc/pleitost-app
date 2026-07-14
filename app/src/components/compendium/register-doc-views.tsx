@@ -14,6 +14,10 @@ import './ItemView'
 // F5 (#249) — Combate: roster + dificuldade no doc + grade na folha; o módulo
 // registra por side-effect o doc-view 'combate' e o leaf-view 'Combate'.
 import './CombateView'
+// F4 (#248) — Aventura: carta de bounty (título/rank/subcat/recompensa/
+// objetivos) no doc + grade de cartas na folha Campanhas/Aventuras; registra
+// por side-effect o doc-view 'aventura' e o leaf-view 'Aventura'.
+import './AventuraView'
 
 // Localização (#66) — ficha com abas + Hexploração.
 registerDocView({
