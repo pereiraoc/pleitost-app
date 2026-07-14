@@ -7,15 +7,12 @@ import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
 import { resolveDocView } from './doc-view-registry'
 import './register-doc-views'
-import { RuleElementsSection } from './RuleElements'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
-import { useSettings } from '../../settings'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
 export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
-  // Modo Mestre: expõe os Elementos de Regra da nota depois do corpo (#193)
-  const { mestre } = useSettings()
   // Visualizador dedicado do tipo (registro), senão o markdown genérico.
   const viewer = resolveDocView(doc)
   if (viewer) return viewer(doc, { sidebar })
@@ -43,9 +40,7 @@ export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) 
       </header>
       <InlineFieldsTable fields={doc.inlineFields} />
       <MarkdownBody doc={doc} />
-      {mestre && doc.ruleElements?.length ? (
-        <RuleElementsSection elements={doc.ruleElements} />
-      ) : null}
+      <DocRuleElements doc={doc} />
     </article>
   )
 }

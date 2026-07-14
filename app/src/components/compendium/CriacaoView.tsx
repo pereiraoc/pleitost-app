@@ -8,9 +8,8 @@ import type { VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
-import { RuleElementsSection } from './RuleElements'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
-import { useSettings } from '../../settings'
 import { CRIACAO_SUBTIPOS, isCriacaoSubtipo, type SubtipoCriacao } from './criacao-subtipos'
 
 export function isCriacao(doc: VaultDoc): boolean {
@@ -30,7 +29,6 @@ function campoValor(doc: VaultDoc, keys: string[]): string | null {
 }
 
 export function CriacaoView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
-  const { mestre } = useSettings()
   const sub: SubtipoCriacao = CRIACAO_SUBTIPOS[doc.type as string]
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
   const resumo = (doc.inlineFields as Record<string, string> | undefined)?.['resumo']
@@ -87,9 +85,7 @@ export function CriacaoView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean
 
       <MarkdownBody doc={doc} hideLeadingTitle />
 
-      {mestre && doc.ruleElements?.length ? (
-        <RuleElementsSection elements={doc.ruleElements} />
-      ) : null}
+      <DocRuleElements doc={doc} />
     </article>
   )
 }

@@ -5,6 +5,7 @@ import { getHexMapState } from '../../data/hexmap-store'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc } from '../../data/useDoc'
@@ -757,6 +758,7 @@ export function LocationSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boole
         {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
         {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>
+      <DocRuleElements doc={doc} />
     </article>
   )
 }

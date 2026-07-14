@@ -8,7 +8,8 @@
 // APRESENTA esses dados. Campo ausente fica de fora (sem fallback); kind
 // desconhecido mostra o próprio kind vindo do JSON.
 import type { CSSProperties } from 'react'
-import type { RuleElement } from '../../data/types'
+import type { RuleElement, VaultDoc } from '../../data/types'
+import { useSettings } from '../../settings'
 import { InlineFieldValue } from './InlineFieldValue'
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -329,9 +330,59 @@ function ResumoRow({ rule }: { rule: ParsedRuleLite }) {
   )
 }
 
+/** Validação de COBERTURA/SINTAXE (#251, F7) — o extractor usa o parser real
+ *  do plugin; se uma linha RAW não-vazia não produz regra, é erro de SINTAXE;
+ *  se o parser classificou a ação como 'unknown', o elemento NÃO está coberto
+ *  (ninguém aplica o efeito). Isso deixa "ver que tudo está coberto e não tem
+ *  erros de sintaxe" — o pedido do usuário — sem lista frágil mantida à mão. */
+export interface RuleIssue {
+  /** RAW não-vazio sem nenhuma regra parseada → sintaxe inválida. */
+  syntax: boolean
+  /** Nº de ações classificadas como 'unknown' (não cobertas pelo sistema). */
+  unknown: number
+}
+
+export function elementIssues(element: RuleElement): RuleIssue {
+  const rules = parsedRules(element.parsed)
+  return {
+    syntax: element.raw.trim() !== '' && rules.length === 0,
+    unknown: rules.filter((r) => r.action.kind === 'unknown').length,
+  }
+}
+
+const issueBadgeStyle: CSSProperties = {
+  fontFamily: 'var(--mono)',
+  fontSize: 9,
+  letterSpacing: '.08em',
+  fontWeight: 700,
+  padding: '2px 7px',
+  color: '#fff',
+  background: 'var(--red)',
+  alignSelf: 'flex-start',
+}
+
 function ElementoCard({ element }: { element: RuleElement }) {
+  const issue = elementIssues(element)
+  const problema = issue.syntax || issue.unknown > 0
   return (
-    <div data-rule-element="" style={cardStyle}>
+    <div
+      data-rule-element=""
+      data-rule-issue={problema ? (issue.syntax ? 'syntax' : 'unknown') : undefined}
+      style={
+        problema
+          ? { ...cardStyle, borderColor: 'color-mix(in srgb,var(--red) 55%,var(--line2))' }
+          : cardStyle
+      }
+    >
+      {issue.syntax ? (
+        <span data-issue-badge="" style={issueBadgeStyle}>
+          ⚠ ERRO DE SINTAXE
+        </span>
+      ) : issue.unknown > 0 ? (
+        <span data-issue-badge="" style={issueBadgeStyle}>
+          ⚠ NÃO COBERTO ({issue.unknown})
+        </span>
+      ) : null}
       {parsedRules(element.parsed).map((rule, i) => (
         <ResumoRow key={i} rule={rule} />
       ))}
@@ -344,21 +395,49 @@ function ElementoCard({ element }: { element: RuleElement }) {
   )
 }
 
-/** Seção dos Elementos de Regra da nota; o gate do Modo Mestre é do chamador. */
+/** Seção dos Elementos de Regra da nota; o gate do Modo Mestre é do chamador.
+ *  F7 (#251): resumo de COBERTURA no topo — quantos com problema (sintaxe/não
+ *  coberto) — pra ver de relance que "tudo está coberto e sem erros". */
 export function RuleElementsSection({ elements }: { elements: readonly RuleElement[] }) {
   if (!elements.length) return null
+  const problemas = elements.reduce((n, el) => {
+    const it = elementIssues(el)
+    return n + (it.syntax || it.unknown > 0 ? 1 : 0)
+  }, 0)
   return (
     <section
       data-rule-elements=""
       style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10 }}
     >
-      <div className="kicker">
-        {'// ELEMENTOS DE REGRA'}
-        <span style={{ marginLeft: 8, color: 'var(--accent)' }}>{elements.length}</span>
+      <div className="kicker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span>{'// ELEMENTOS DE REGRA'}</span>
+        <span style={{ color: 'var(--accent)' }}>{elements.length}</span>
+        <span style={{ flex: 1 }} />
+        {problemas === 0 ? (
+          <span data-coverage="ok" style={{ color: '#4ade80', fontSize: 10 }}>
+            ✓ tudo coberto
+          </span>
+        ) : (
+          <span data-coverage="issues" style={{ color: 'var(--red)', fontSize: 10, fontWeight: 700 }}>
+            ⚠ {problemas} {problemas === 1 ? 'com problema' : 'com problemas'}
+          </span>
+        )}
       </div>
       {elements.map((el, i) => (
         <ElementoCard key={i} element={el} />
       ))}
     </section>
   )
+}
+
+/** Wrapper CONECTADO da seção de um doc. Centraliza AQUI o gate do Modo Mestre
+ *  (elementos de regra são conteúdo só-mestre) e o no-op quando não há
+ *  elementos. Toda view de doc termina com `<DocRuleElements doc={doc} />` —
+ *  assim o gate nunca é esquecido e QUALQUER tipo que venha a ter elementos de
+ *  regra ganha o visualizador+cobertura (#251, F7) de graça, sem repetir o
+ *  `{mestre && doc.ruleElements?.length ? …}` em cada call-site. */
+export function DocRuleElements({ doc }: { doc: VaultDoc }) {
+  const { mestre } = useSettings()
+  if (!mestre || !doc.ruleElements?.length) return null
+  return <RuleElementsSection elements={doc.ruleElements} />
 }

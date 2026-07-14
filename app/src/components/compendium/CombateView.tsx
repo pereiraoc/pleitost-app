@@ -25,6 +25,7 @@ import { CombatMarkerBlock } from '../../mestre/CombatMarkerBlock'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { registerDocView } from './doc-view-registry'
 import { registerLeafView } from './leaf-view-registry'
+import { DocRuleElements } from './RuleElements'
 
 /** Categoria que dispara este visualizador. `doc.type` espelha
  *  `frontmatter.categoria` (extractor) — as notas em Campanhas/Combates são
@@ -64,6 +65,7 @@ export function CombateSheet({ doc }: { doc: VaultDoc }) {
           </Link>
         </div>
       ) : null}
+      <DocRuleElements doc={doc} />
     </section>
   )
 }

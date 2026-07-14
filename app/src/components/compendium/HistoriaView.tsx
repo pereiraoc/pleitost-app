@@ -1,6 +1,7 @@
 import type { VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { VaultImage } from './VaultImage'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 // Visualizador de HISTÓRIA / CONTEXTO (issue #247, F3 do épico #243) — docs de
@@ -41,6 +42,7 @@ export function HistoriaView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolea
       <div className="doc-reading-body">
         <MarkdownBody doc={doc} hideLeadingTitle />
       </div>
+      <DocRuleElements doc={doc} />
     </article>
   )
 }

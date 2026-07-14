@@ -24,6 +24,7 @@ import {
 } from '../item-card'
 import { registerDocView } from './doc-view-registry'
 import { registerLeafView } from './leaf-view-registry'
+import { DocRuleElements } from './RuleElements'
 
 /** Categoria que dispara este visualizador. `doc.type` espelha
  *  `frontmatter.categoria` (extractor/parse-doc.mjs) — Armas/Armaduras/Escudos/
@@ -61,6 +62,9 @@ export function ItemSheet({ doc }: { doc: VaultDoc }) {
         <style>{ITEM_CARD_CSS}</style>
         <div className="kicker">{COMPENDIO_KICKER}</div>
         <div className="item-page-card" dangerouslySetInnerHTML={{ __html: html }} />
+        {/* F7 (#251): itens têm elementos de regra (imbuições/qualidades) —
+            visualizador+cobertura no fim; DocRuleElements gate por mestre. */}
+        <DocRuleElements doc={doc} />
       </section>
     </TipProvider>
   )

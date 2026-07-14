@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
 
@@ -165,6 +166,8 @@ export function OrgView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) 
       ) : resumo ? null : (
         <EmptyPanel>{'// ORGANIZAÇÃO SEM INFORMAÇÕES REGISTRADAS'}</EmptyPanel>
       )}
+
+      <DocRuleElements doc={doc} />
     </article>
   )
 }

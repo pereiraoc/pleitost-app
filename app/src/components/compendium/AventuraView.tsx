@@ -27,6 +27,7 @@ import { bountyDataFromFm } from '../../markdown/bounty/bounty-fm'
 import { AventuraForm } from '../mestre/AventuraForm'
 import { registerDocView } from './doc-view-registry'
 import { registerLeafView } from './leaf-view-registry'
+import { DocRuleElements } from './RuleElements'
 
 export const AVENTURA_TYPE = 'Aventura'
 
@@ -96,6 +97,7 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
           ) : null}
         </header>
         <MarkdownBody doc={doc} />
+        <DocRuleElements doc={doc} />
       </article>
     )
   }
@@ -131,6 +133,7 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
           </div>
         </div>
       ) : null}
+      <DocRuleElements doc={doc} />
     </section>
   )
 }

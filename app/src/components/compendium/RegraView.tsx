@@ -10,16 +10,14 @@
 // coluna de leitura renderiza ambas bem (o MarkdownBody avalia o dataview).
 import type { VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
-import { RuleElementsSection } from './RuleElements'
+import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
-import { useSettings } from '../../settings'
 
 export function isRegra(doc: VaultDoc): boolean {
   return doc.type === 'Regra'
 }
 
 export function RegraView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
-  const { mestre } = useSettings()
   return (
     <article className="doc-page doc-reading page">
       {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
@@ -30,9 +28,7 @@ export function RegraView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }
       <div className="doc-reading-body">
         <MarkdownBody doc={doc} hideLeadingTitle />
       </div>
-      {mestre && doc.ruleElements?.length ? (
-        <RuleElementsSection elements={doc.ruleElements} />
-      ) : null}
+      <DocRuleElements doc={doc} />
     </article>
   )
 }
