@@ -67,9 +67,12 @@ export async function parseDoc({ raw, relPath }) {
 
   const inlineFields = parseInlineFields(body);
 
-  const rawRules = Array.isArray(frontmatter.Elementos_de_Regra)
+  // Itens de lista VAZIOS no FM (`Elementos_de_Regra:\n- `) viram null no YAML —
+  // não são regra nenhuma; ignorados na fonte pra não virarem "erro" no F7.
+  const rawRules = (Array.isArray(frontmatter.Elementos_de_Regra)
     ? frontmatter.Elementos_de_Regra
-    : [];
+    : []
+  ).filter((r) => r != null && String(r).trim() !== "");
   const ruleElements = await parseRuleElements(rawRules, basename);
 
   // Condição: parseia as MESMAS linhas pelo subsistema de condição do plugin e

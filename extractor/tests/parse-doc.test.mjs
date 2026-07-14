@@ -86,6 +86,20 @@ test("parseDoc: não-Condição NÃO ganha campo condition", async () => {
   assert.equal(r.ruleElements[0].condition, undefined);
 });
 
+test("parseDoc: item de lista VAZIO em Elementos_de_Regra é ignorado (não vira erro)", async () => {
+  // `Elementos_de_Regra:\n- ` → null no YAML; não é regra → 0 elementos.
+  const raw = `---
+categoria: Habilidade
+subcategoria: Classe
+Elementos_de_Regra:
+-
+---
+Corpo.
+`;
+  const r = await parseDoc({ raw, relPath: "Sistema/Criação de Personagem/Habilidades/Mago/Arma Arcana.md" });
+  assert.deepEqual(r.ruleElements, []);
+});
+
 test("parseDoc: doc sem categoria/regra não quebra", async () => {
   const r = await parseDoc({ raw: "# Só prosa\n[[X]]\n", relPath: "Atlas/Nota.md" });
   assert.equal(r.type, null);
