@@ -5,20 +5,11 @@ import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
-import { LocationSheet, isLocation } from './LocationSheet'
-import { registerDocView, resolveDocView } from './doc-view-registry'
+import { resolveDocView } from './doc-view-registry'
+import './register-doc-views'
 import { RuleElementsSection } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { useSettings } from '../../settings'
-
-// Localização (categoria=Localização) vira ficha com abas (issue #66) — a
-// PRIMEIRA entrada do registro de visualizadores (#243). As fases F1/F3
-// registram Item/Organização/História do mesmo jeito, em arquivos próprios.
-registerDocView({
-  id: 'localizacao',
-  match: isLocation,
-  view: (doc, { sidebar }) => <LocationSheet doc={doc} sidebar={sidebar} />,
-})
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
