@@ -6,6 +6,7 @@ import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { DocRuleElements } from './RuleElements'
+import { AtlasNav } from './AtlasNav'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc } from '../../data/useDoc'
@@ -713,6 +714,10 @@ export function LocationSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boole
           {doc.subtype ? ` · ${doc.subtype}` : ''}
         </span>
       </header>
+
+      {/* F6 (#250): navegação do Atlas — breadcrumb (o que dentro de o que) +
+          lugares-filhos. O mapa navegável entra quando o mapa-raiz existir. */}
+      <AtlasNav doc={doc} />
 
       {/* Imagem do local FIXA — abaixo do tipo e acima das abas, visível em
           qualquer aba (fica muito melhor de ver). Clicar amplia (lightbox). */}
