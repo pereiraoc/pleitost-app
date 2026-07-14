@@ -62,13 +62,15 @@ const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
 // id sintético da mesa da sessão ativa na lista de GRUPOS (#213)
 const MESA_ID = MESA_GRUPO_ID
 
-/** Subtítulo do card da mesa (#223): mestre à parte, plurais corretos. */
-function mesaResumo(live: { members: unknown[]; characters: { kind: string }[] }): string {
-  const jogadores = Math.max(0, live.members.length - 1)
-  const personagens = live.characters.filter((c) => c.kind !== 'npc').length
-  return `MESTRE + ${jogadores} ${jogadores === 1 ? 'jogador' : 'jogadores'} · ${personagens} ${
-    personagens === 1 ? 'personagem' : 'personagens'
-  }`
+/** Subtítulo do card da mesa (#235): "X Heróis e Y Companheiros Animais";
+ *  sem CA, só "X Heróis". */
+function mesaResumo(live: { characters: { kind: string }[] }): string {
+  const vivos = live.characters.filter((c) => c.kind !== 'npc')
+  const cas = vivos.filter((c) => c.kind === 'companheiro').length
+  const herois = vivos.length - cas
+  const h = `${herois} ${herois === 1 ? 'Herói' : 'Heróis'}`
+  if (!cas) return h
+  return `${h} e ${cas} ${cas === 1 ? 'Companheiro Animal' : 'Companheiros Animais'}`
 }
 
 // ── Agrupamento por tier (issue #31) ──────────────────────────────────────

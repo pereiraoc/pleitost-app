@@ -416,7 +416,10 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
 
   return (
-    <>
+    // #237: os chips (vida/EM/moedas) têm PRIORIDADE sobre o título da
+    // topbar — flex none garante que nunca sejam cortados; o título cede
+    // com "…" (app.css .topbar-title).
+    <div style={{ display: 'flex', alignItems: 'center', gap: 9, flex: 'none' }}>
       {showChips && chips.length ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           {chips.map((c) => (
@@ -433,7 +436,7 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
       {/* apelido (slot verbatim do design, gated por vw) + avatar do herói
           atual = seletor rápido de ficha (issue #34) */}
       <HeroSwitcher doc={doc} apelido={showApelido ? apelido : null} />
-    </>
+    </div>
   )
 }
 

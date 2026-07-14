@@ -98,7 +98,8 @@ describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair',
     expect(screen.getByText(codigo)).toBeTruthy()
     expect(screen.getByText(/FERRAMENTAS DE MESTRE/)).toBeTruthy()
 
-    fireEvent.click(screen.getByText('⏏ SAIR'))
+    // #234: SAIR mora nos DETALHES (já estamos neles neste ponto)
+    fireEvent.click(screen.getByText('⏏ SAIR DA SESSÃO'))
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
     // sessão continua na lista, com Entrar
     expect(screen.getByText('▶ Entrar')).toBeTruthy()

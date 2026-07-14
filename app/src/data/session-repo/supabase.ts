@@ -153,6 +153,13 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     if (error) fail('findSessionsByUser', error)
     return ((data ?? []) as Row[]).map(mapSession)
   }
+  async updateSessionState(sessionId: string, patch: Partial<Session['state']>): Promise<void> {
+    // merge por chave de topo (read-merge-write; last-write-wins)
+    const atual = await this.findSessionById(sessionId)
+    const state = { ...(atual?.state ?? {}), ...patch }
+    const { error } = await this.sb.from('sessions').update({ state }).eq('id', sessionId)
+    if (error) fail('updateSessionState', error)
+  }
   async findSessionById(id: string): Promise<Session | null> {
     const { data, error } = await this.sb.from('sessions').select().eq('id', id).maybeSingle()
     if (error) fail('findSessionById', error)

@@ -11,7 +11,8 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useCatalog } from '../data/CatalogContext'
-import { MESA_GRUPO_ID } from '../data/session-repo/live-session'
+import { MESA_GRUPO_ID, useLiveSession } from '../data/session-repo/live-session'
+import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
@@ -452,6 +453,35 @@ function EditMembersModal({
   )
 }
 
+/** Comprime a imagem pro state da sessão (#235): ~384px JPEG — o state é
+ *  jsonb, não storage; sem canvas (jsdom) vai o data-url original. */
+async function comprimirImagem(file: File): Promise<string> {
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const r = new FileReader()
+    r.onload = () => resolve(String(r.result ?? ''))
+    r.onerror = () => reject(r.error)
+    r.readAsDataURL(file)
+  })
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const i = new Image()
+      i.onload = () => resolve(i)
+      i.onerror = reject
+      i.src = dataUrl
+    })
+    const escala = Math.min(1, 384 / Math.max(img.width, img.height))
+    const canvas = document.createElement('canvas')
+    canvas.width = Math.max(1, Math.round(img.width * escala))
+    canvas.height = Math.max(1, Math.round(img.height * escala))
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return dataUrl
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    return canvas.toDataURL('image/jpeg', 0.8)
+  } catch {
+    return dataUrl
+  }
+}
+
 export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
@@ -470,10 +500,22 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const isLocalGroup = isLocalId(groupId)
   const isMesa = groupId === MESA_GRUPO_ID
   const { active: sessaoAtiva } = useSessions()
+  const live = useLiveSession()
+  const repo = useSessionRepo()
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
+  // #235: nome da mesa = APELIDOS dos heróis em ordem alfabética, ", " —
+  // mesma convenção dos grupos da vault ("Baitaca, Carlos, Drauzio").
+  const apelidosMesa = (live?.characters ?? [])
+    .filter((c) => c.kind !== 'npc' && c.kind !== 'companheiro')
+    .map((c) => {
+      const bio = (c.fmBlob?.['Biografia'] ?? {}) as Record<string, unknown>
+      const ap = typeof bio['Apelido'] === 'string' ? bio['Apelido'].trim() : ''
+      return ap || (c.summary.nome.split(/\s+/)[0] ?? c.summary.nome)
+    })
+    .sort((a, b) => a.localeCompare(b, 'pt'))
   const names = isMesa
-    ? (sessaoAtiva?.nome ?? 'Grupo da Sessão')
+    ? (apelidosMesa.length ? apelidosMesa.join(', ') : (sessaoAtiva?.nome ?? 'Grupo da Sessão'))
     : (localGroup?.basename ?? entry?.basename ?? groupId)
   const subcategoria =
     typeof groupDoc?.frontmatter['subcategoria'] === 'string'
@@ -483,7 +525,17 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // precedência; senão a hierarquia da vault (resolveGroupImageUrl). Só grupos
   // locais têm upload, então pra grupo da vault o hook resolve null e nada muda.
   const localImage = useEntityImageUrl(groupId)
-  const imageUrl = localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets)
+  const imageUrl = isMesa
+    ? (live?.state?.grupoImagem ?? null)
+    : (localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets))
+  // #235: QUALQUER integrante (ou o mestre) troca a imagem da mesa — vai pro
+  // state da sessão (sincroniza pra todos via realtime).
+  const trocarImagemMesa = async (file: File) => {
+    const remoteId = sessaoAtiva?.remoteId
+    if (!repo || !remoteId) return
+    const dataUrl = await comprimirImagem(file)
+    await repo.updateSessionState(remoteId, { grupoImagem: dataUrl })
+  }
 
   // Lista original alfabética (espelha orderMembersAlphabetical / G.balRows).
   const balRows: BalRowData[] = orderAlphabetical(members).map((member, i) => {
@@ -573,6 +625,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
               justifyContent: 'center',
               fontSize: 26,
               overflow: 'hidden',
+              position: 'relative',
               background:
                 'linear-gradient(135deg,color-mix(in srgb,var(--accent) 18%,var(--card)),var(--panel2))',
               border: '1px solid color-mix(in srgb,var(--accent) 35%,var(--line2))',
@@ -588,6 +641,34 @@ export function GrupoView({ groupId }: { groupId: string }) {
             ) : (
               '⚔️'
             )}
+            {isMesa && repo && sessaoAtiva?.remoteId ? (
+              <label
+                title="Trocar imagem do grupo"
+                style={{
+                  position: 'absolute',
+                  right: 4,
+                  bottom: 4,
+                  padding: '3px 7px',
+                  background: 'rgba(0,0,0,.55)',
+                  color: '#fff',
+                  fontSize: 12,
+                  cursor: 'pointer',
+                }}
+              >
+                📷
+                <input
+                  type="file"
+                  accept="image/*"
+                  aria-label="Trocar imagem do grupo"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0]
+                    if (f) void trocarImagemMesa(f)
+                    e.target.value = ''
+                  }}
+                />
+              </label>
+            ) : null}
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             {isLocalGroup ? (

@@ -69,10 +69,18 @@ body {
   letter-spacing: 0.16em;
   font-size: 17px;
   font-family: var(--display);
+  /* #237: o título SEMPRE aparece mas cede espaço com "…" — os chips de
+     vida/EM da ficha têm prioridade e nunca são cortados (flex: none). */
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .topbar-spacer {
-  flex: 1;
+  flex: 1 0 0;
+  min-width: 0;
 }
 
 .mode-toggle {

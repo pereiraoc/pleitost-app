@@ -116,6 +116,7 @@ describe('lista de GRUPOS (#213)', () => {
       setLiveSession({
         sessionId: 's1',
         gmUserId: 'gm',
+        state: null,
         characters: [fakeChar('Aline', 12, 20), fakeChar('Beto', 20, 20)],
         members: [
           fakeMember('gm', 'Mestre Zé', 'gm'),
@@ -126,11 +127,13 @@ describe('lista de GRUPOS (#213)', () => {
       })
     })
     const card = await screen.findByText('Grupo da Sessão')
-    // #223: contagem certa — mestre à parte dos jogadores, personagens contados
-    expect(screen.getByText('MESTRE + 2 jogadores · 2 personagens')).toBeTruthy()
+    // #235: card mostra "X Heróis" (e Y Companheiros Animais quando houver)
+    expect(screen.getByText('2 Heróis')).toBeTruthy()
     fireEvent.click(card)
     // #231: a mesa abre o GRUPO REAL — GrupoView com as abas definidas hoje
     expect(await screen.findByText('EXPLORAÇÃO')).toBeTruthy()
+    // #235: nome da mesa = apelidos (fallback 1º nome) alfabéticos com ", "
+    expect(screen.getByText('Aline, Beto')).toBeTruthy()
     expect(screen.getByText('PAPÉIS')).toBeTruthy()
     expect(screen.getByText('PERÍCIAS')).toBeTruthy()
     // integrantes vêm da SALA viva (entries sessao: → synthDoc)

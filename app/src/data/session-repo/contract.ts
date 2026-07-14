@@ -105,6 +105,9 @@ export type SessionRole = 'gm' | 'player'
 
 export interface SessionState {
   turn?: { order: string[]; current: string }
+  /** Extensão do APP (#235): imagem da ficha do grupo da mesa (data-url
+   *  comprimida) — qualquer integrante pode trocar; merge por chave. */
+  grupoImagem?: string
 }
 
 export interface Session {
@@ -214,6 +217,9 @@ export interface SessionRepo {
   /** Extensão do APP (#226, além do contrato do pleitost-sync): sessões
    *  ATIVAS em que o usuário é membro — alimenta a lista multi-dispositivo. */
   findSessionsByUser(userId: string): Promise<Session[]>
+  /** Extensão do APP (#235): patch do state da sessão (merge por chave de
+   *  topo, last-write-wins — mesmo modelo do state de personagem). */
+  updateSessionState(sessionId: string, patch: Partial<SessionState>): Promise<void>
   findSessionById(id: string): Promise<Session | null>
 
   insertMember(input: {

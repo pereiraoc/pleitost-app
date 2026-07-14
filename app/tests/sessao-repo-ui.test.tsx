@@ -139,13 +139,25 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getByText('Aventureira Nia')).toBeTruthy())
     expect(screen.getByText(/❤️ 7\/12/)).toBeTruthy()
-    expect(screen.getAllByText('Jogadora Ana').length).toBeGreaterThan(0)
+    // #233: nome de JOGADOR não aparece na lista de heróis da sala — ele
+    // mora no MEMBROS dos detalhes
+    expect(screen.queryByText('Jogadora Ana')).toBeNull()
     // #224: o botão do PERSONAGEM garante a própria largura (no mobile o
     // ellipsis encolhia o nome até sumir, sobrando só o jogador)
     {
       const btnPersonagem = screen.getAllByTitle('Ver ficha resumo nos detalhes')[0] as HTMLElement
       expect(btnPersonagem.style.flex).toBe('1 1 auto')
       expect(btnPersonagem.style.minWidth).toBe('0')
+    }
+    // #233: toggle vida ↔ defesas por personagem (padrão do pleitost-sync)
+    {
+      fireEvent.click(screen.getAllByTitle('Ver defesas/stats')[0])
+      const stats = document.querySelector('[data-stats-row]') as HTMLElement
+      expect(stats).toBeTruthy()
+      expect(stats.textContent).toContain('DEF')
+      expect(stats.textContent).toContain('MOV')
+      fireEvent.click(screen.getAllByTitle('Ver vida (recursos)')[0])
+      expect(document.querySelector('[data-stats-row]')).toBeNull()
     }
 
     // #225: ordem da face INICIATIVA — FICHA DO GRUPO em cima, depois os

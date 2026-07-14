@@ -11,6 +11,8 @@ export const MESA_GRUPO_ID = 'sessao:mesa'
 
 export interface LiveSession {
   sessionId: string
+  /** state da sessão (#235: imagem do grupo da mesa etc.). */
+  state: import('./contract').SessionState | null
   /** Dono da sessão (gmUserId) — deriva o papel: quem é o GM vê ficha
    *  completa readonly dos jogadores (#188). */
   gmUserId: string | null

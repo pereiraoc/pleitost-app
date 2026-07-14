@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
+import { useEntityImageUrl } from '../../data/images'
 import { useDocs } from '../../data/useDoc'
 import { useGroupMembers } from '../../data/local-entities'
 import { creatureImageUrl } from '../../data/creature-image'
@@ -290,6 +291,7 @@ export function LiveSessionBridge() {
           setLiveSession({
             sessionId: remoteId,
             gmUserId: sess?.gmUserId ?? null,
+            state: sess?.state ?? null,
             characters,
             members,
             encounters,
@@ -382,10 +384,181 @@ function ordenarMesa(chars: SessionCharacter[]): Array<{ c: SessionCharacter; ca
   return out
 }
 
+
+/** Linha de personagem da sala (#233) — retrato local-first (upload do
+ *  aparelho > hierarquia da vault > iniciais), SEM nome de jogador (mora no
+ *  MEMBROS dos detalhes) e toggle vida ↔ defesas espelhado do pleitost-sync
+ *  (character-cards.ts: botão mostra o que VAI abrir — 🛡️ pra stats, ❤️ pra
+ *  voltar; pills Defesa/Vigor/Evasão/Ímpeto/Movimento/Percepção/Intuição). */
+function LinhaPersonagem({
+  c,
+  ca,
+  isGm,
+  onResumo,
+  onFicha,
+}: {
+  c: SessionCharacter
+  ca: boolean
+  isGm: boolean
+  onResumo: () => void
+  onFicha: () => void
+}) {
+  const assets = useAssetIndex()
+  const localImg = useEntityImageUrl(c.characterPath)
+  const [view, setView] = useState<'vida' | 'stats'>('vida')
+  const rr = c.state.recursosRestantes ?? {
+    vitalidade: c.summary.vitalidadeMax,
+    moral: c.summary.moralMax ?? 0,
+    em: 0,
+    moralTemp: 0,
+  }
+  const portrait = localImg ?? creatureImageUrl(synthDocFromCharacter(c), assets)
+  const av = ca ? 32 : 42
+  const st = c.summary.stats
+  const pills: Array<[string, string, unknown]> = [
+    ['🛡️', 'DEF', st?.defesa],
+    ['❤️', 'VIG', st?.vigor],
+    ['⚡', 'REF', st?.evasao],
+    ['🔥', 'IMP', st?.impeto],
+    ['👣', 'MOV', st?.movimento],
+    ['👁️', 'PER', st?.percepcao],
+    ['💡', 'ITU', st?.intuicao],
+  ]
+  return (
+    <div
+      data-ca-row={ca ? '' : undefined}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        padding: ca ? '8px 11px' : '11px 13px',
+        marginLeft: ca ? 26 : 0,
+        background: 'var(--card)',
+        border: '1px solid var(--line)',
+        clipPath: clip(12),
+      }}
+    >
+      <span
+        style={mono({
+          width: av,
+          height: av,
+          flex: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: portrait ? undefined : 'var(--panel)',
+          backgroundImage: portrait ? `url(\"${portrait}\")` : undefined,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          border: '1px solid var(--line2)',
+          clipPath: clip(9),
+          fontSize: ca ? 12 : 15,
+          color: 'var(--muted)',
+        })}
+      >
+        {portrait ? '' : sigOf(c.summary.nome)}
+      </span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={onResumo}
+            title="Ver ficha resumo nos detalhes"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontSize: ca ? 12.5 : 14.5,
+              fontWeight: 700,
+              color: 'var(--blue)',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              flex: '1 1 auto',
+              minWidth: 0,
+              textAlign: 'left',
+            }}
+          >
+            {c.summary.nome}
+          </button>
+          <button
+            onClick={() => setView((v) => (v === 'vida' ? 'stats' : 'vida'))}
+            title={view === 'vida' ? 'Ver defesas/stats' : 'Ver vida (recursos)'}
+            style={mono({
+              padding: '3px 8px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              cursor: 'pointer',
+              fontSize: 11,
+              flex: 'none',
+            })}
+          >
+            {view === 'vida' ? '🛡️' : '❤️'}
+          </button>
+          {isGm ? (
+            <button
+              onClick={onFicha}
+              title="Abrir ficha completa (somente leitura)"
+              style={mono({
+                padding: '3px 8px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line2)',
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                fontSize: 9.5,
+                letterSpacing: '.06em',
+                flex: 'none',
+              })}
+            >
+              📄 FICHA
+            </button>
+          ) : null}
+        </div>
+        {view === 'vida' ? (
+          <>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '2px 0 7px' }}>
+              <span style={{ flex: 1 }} />
+              <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
+                {`❤️ ${rr.vitalidade}/${c.summary.vitalidadeMax} · 💙 ${rr.moral}/${c.summary.moralMax ?? 0}${rr.moralTemp > 0 ? ` · 💚 +${rr.moralTemp}` : ''}`}
+              </span>
+            </div>
+            <VidaBarRemota
+              vit={rr.vitalidade}
+              vitMax={c.summary.vitalidadeMax}
+              moral={rr.moral}
+              moralMax={c.summary.moralMax ?? 0}
+              temp={rr.moralTemp}
+            />
+          </>
+        ) : (
+          <div data-stats-row="" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+            {pills.map(([ic, label, val]) => (
+              <span
+                key={label}
+                style={mono({
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '2px 7px',
+                  background: 'var(--panel)',
+                  border: '1px solid var(--line2)',
+                  fontSize: 10,
+                  color: 'var(--text)',
+                })}
+              >
+                {ic} {label} {String(val ?? '—')}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function SalaRemota({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
-  const assets = useAssetIndex()
   const navigate = useNavigate()
   const detail = useDetail()
   const live = useLiveSession()
@@ -394,8 +567,6 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
 
   const chars = live?.characters ?? []
   const members = live?.members ?? []
-  const nomeDoMembro = (memberId: string) =>
-    members.find((m) => m.userId === memberId)?.displayName ?? ''
   const meuChar = user ? (chars.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null) : null
   usePublicacao(repo, sess.remoteId ?? null, meuChar)
 
@@ -451,116 +622,16 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
         <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px' }}>
-        {ordenarMesa(chars).map(({ c, ca }) => {
-            const rr = c.state.recursosRestantes ?? { vitalidade: c.summary.vitalidadeMax, moral: c.summary.moralMax ?? 0, em: 0, moralTemp: 0 }
-            // #231: retrato do personagem (fmBlob → hierarquia da vault);
-            // sem retrato, iniciais. CA fica MENOR e IDENTADO sob o tutor.
-            const portrait = creatureImageUrl(synthDocFromCharacter(c), assets)
-            const av = ca ? 32 : 42
-            return (
-              <div
-                key={c.id}
-                data-ca-row={ca ? '' : undefined}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: ca ? '8px 11px' : '11px 13px',
-                  marginLeft: ca ? 26 : 0,
-                  background: 'var(--card)',
-                  border: '1px solid var(--line)',
-                  clipPath: clip(12),
-                }}
-              >
-                <span
-                  style={mono({
-                    width: av,
-                    height: av,
-                    flex: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: portrait ? undefined : 'var(--panel)',
-                    backgroundImage: portrait ? `url("${portrait}")` : undefined,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    border: '1px solid var(--line2)',
-                    clipPath: clip(9),
-                    fontSize: ca ? 12 : 15,
-                    color: 'var(--muted)',
-                  })}
-                >
-                  {portrait ? '' : sigOf(c.summary.nome)}
-                </span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  {/* #224: o PERSONAGEM tem linha própria (flex garante a
-                      largura — no mobile o ellipsis encolhia o nome até sumir
-                      e sobrava só o jogador); jogador + vida vão na linha de
-                      baixo como anotação. */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <button
-                      onClick={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
-                      title="Ver ficha resumo nos detalhes"
-                      style={{
-                        background: 'transparent',
-                        border: 'none',
-                        padding: 0,
-                        cursor: 'pointer',
-                        fontSize: ca ? 12.5 : 14.5,
-                        fontWeight: 700,
-                        color: 'var(--blue)',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        flex: '1 1 auto',
-                        minWidth: 0,
-                        textAlign: 'left',
-                      }}
-                    >
-                      {c.summary.nome}
-                    </button>
-                    {/* #188: GM abre a ficha COMPLETA readonly do jogador. */}
-                    {live?.gmUserId && user.id === live.gmUserId ? (
-                      <button
-                        onClick={() => navigate(`/sessao-ficha/${c.id}`)}
-                        title="Abrir ficha completa (somente leitura)"
-                        style={mono({
-                          padding: '3px 8px',
-                          background: 'var(--panel)',
-                          border: '1px solid var(--line2)',
-                          color: 'var(--muted)',
-                          cursor: 'pointer',
-                          fontSize: 9.5,
-                          letterSpacing: '.06em',
-                          flex: 'none',
-                        })}
-                      >
-                        📄 FICHA
-                      </button>
-                    ) : null}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '2px 0 7px' }}>
-                    {nomeDoMembro(c.memberId) ? (
-                      <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-                        {nomeDoMembro(c.memberId)}
-                      </span>
-                    ) : null}
-                    <span style={{ flex: 1 }} />
-                    <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
-                      {`❤️ ${rr.vitalidade}/${c.summary.vitalidadeMax} · 💙 ${rr.moral}/${c.summary.moralMax ?? 0}${rr.moralTemp > 0 ? ` · 💚 +${rr.moralTemp}` : ''}`}
-                    </span>
-                  </div>
-                  <VidaBarRemota
-                    vit={rr.vitalidade}
-                    vitMax={c.summary.vitalidadeMax}
-                    moral={rr.moral}
-                    moralMax={c.summary.moralMax ?? 0}
-                    temp={rr.moralTemp}
-                  />
-                </div>
-              </div>
-            )
-          })}
+        {ordenarMesa(chars).map(({ c, ca }) => (
+          <LinhaPersonagem
+            key={c.id}
+            c={c}
+            ca={ca}
+            isGm={Boolean(live?.gmUserId && user.id === live.gmUserId)}
+            onResumo={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
+            onFicha={() => navigate(`/sessao-ficha/${c.id}`)}
+          />
+        ))}
         {!meuChar ? (
           <div style={{ display: 'flex', gap: 9, alignItems: 'center', flexWrap: 'wrap', paddingTop: 4 }}>
             <select
@@ -1320,6 +1391,27 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
       >
         ⚙ FERRAMENTAS DE MESTRE — EM BREVE
       </div>
+      {/* #234: SAIR mora nos DETALHES da sessão, não na iniciativa */}
+      <button
+        onClick={() => setActiveSessionCode(null)}
+        title="Sair da sessão"
+        style={mono({
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          padding: '11px 16px',
+          background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
+          border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
+          color: '#d8695c',
+          cursor: 'pointer',
+          fontSize: 11,
+          letterSpacing: '.1em',
+          clipPath: clip(8),
+        })}
+      >
+        ⏏ SAIR DA SESSÃO
+      </button>
     </div>
   )
 }
@@ -1611,13 +1703,15 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
 
 /* ═══════════════ página ═══════════════ */
 
+/** Painel da face SESSÃO (#232): SEM scroll próprio — quem rola é o corpo da
+ *  sidebar direita. height:100% + overflow aqui criava dimensionamento
+ *  circular com o PanelTrack (que mede offsetHeight do filho): a "janela"
+ *  congelava pequena e pedia scroll cedo demais. Padding horizontal mínimo —
+ *  o corpo da sidebar já tem o dele (14px). */
 const panelScroll: CSSProperties = {
   flex: '0 0 100%',
   minWidth: 0,
-  height: '100%',
-  overflowY: 'auto',
-  overflowX: 'hidden',
-  padding: '22px 26px',
+  padding: '12px 2px 20px',
 }
 
 function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: () => void }) {
@@ -1651,35 +1745,13 @@ export function SessaoPage(): ReactNode {
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      <div style={{ flex: 'none', padding: '22px 26px', paddingBottom: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 'none', padding: '8px 2px 0' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 2, borderBottom: '1px solid var(--line)' }}>
           {tabs.map((t) => (
             <TabBtn key={t.id} on={active ? tab === t.id : true} label={t.label} onClick={() => setTab(t.id)} />
           ))}
           <span style={{ flex: 1 }} />
-          {active ? (
-            <button
-              onClick={() => setActiveSessionCode(null)}
-              title="Sair da sessão"
-              style={mono({
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '7px 13px',
-                marginBottom: 6,
-                background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
-                border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
-                color: '#d8695c',
-                cursor: 'pointer',
-                fontSize: 10.5,
-                letterSpacing: '.08em',
-                clipPath: clip(6),
-              })}
-            >
-              ⏏ SAIR
-            </button>
-          ) : null}
         </div>
       </div>
       {active ? (
