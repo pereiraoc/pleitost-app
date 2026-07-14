@@ -152,13 +152,16 @@ describe('FolderView', () => {
     expect(screen.getByRole('link', { name: 'Carlos, Dante, Mera, Pind, Thoren' })).toBeTruthy()
   })
 
-  it('pasta homogênea de Itens vira tabela com colunas dos inline fields', async () => {
-    renderAt(
+  it('#245: pasta homogênea de Itens vira GRADE de cartas (não a tabela de texto)', async () => {
+    const { container } = renderAt(
       compendiumFolderPath('Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples'),
       folderRoutes,
     )
-    expect(screen.getByRole('columnheader', { name: 'dano' })).toBeTruthy()
-    expect(screen.getByRole('link', { name: 'Adaga' })).toBeTruthy()
+    // não é mais a DocTable de texto — é a grade de cartas do visualizador de Item
+    expect(container.querySelector('table.doc-table')).toBeNull()
+    expect(container.querySelector('.item-grid')).toBeTruthy()
+    // a Adaga aparece como carta linkada, com o dano (d4+2) na carta
+    expect(await screen.findByRole('link', { name: /Adaga/ })).toBeTruthy()
     expect((await screen.findAllByText('d4+2')).length).toBeGreaterThan(0)
   })
 

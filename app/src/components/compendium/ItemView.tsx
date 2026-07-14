@@ -2,8 +2,8 @@
 // (Arma/Armadura/Escudo/Tesouro) como a MESMA carta que aparece no tooltip do
 // inventário/comércio, agora em tamanho de página. NADA de layout novo: reusa
 // itemCardHtml/docImageUrl/docTier de components/item-card.tsx (fonte de verdade
-// da carta) com fullBody=true (prosa completa em vez do resumo). A grade da
-// folha (várias armas/tesouros numa pasta) é a mesma carta repetida.
+// da carta) no modo RESUMO — o mesmo que o tooltip mostra. A grade da folha
+// (várias armas/tesouros numa pasta) é a mesma carta repetida.
 //
 // Registro: registerDocView({id:'item'}) pro DocView (carta como página) e
 // registerLeafView('Item') pro FolderView (grade de cartas em vez da DocTable).
@@ -34,27 +34,27 @@ export function isItem(doc: VaultDoc): boolean {
   return doc.type === ITEM_CATEGORY
 }
 
-/** HTML da carta grande de um item — a MESMA `itemCardHtml` do tooltip, com a
- *  prosa completa (fullBody). Tier/figura vêm dos helpers do item-card (a
- *  qualidade do Tesouro é dele mesmo → showTier; Arma base não tem qualidade). */
-function itemCard(
-  doc: VaultDoc,
-  assets: ReturnType<typeof useAssetIndex>,
-  fullBody: boolean,
-): string {
+/** HTML da carta de um item — a MESMA `itemCardHtml` do tooltip (modo resumo).
+ *  Tier/figura vêm dos helpers do item-card (a qualidade do Tesouro é dele mesmo
+ *  → showTier; Arma/Armadura/Escudo base não têm qualidade). */
+function itemCard(doc: VaultDoc, assets: ReturnType<typeof useAssetIndex>): string {
   const tier = docTier(doc)
   const showTier = doc.subtype === 'Tesouro'
-  return itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), showTier, fullBody, assets)
+  return itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), showTier, false, assets)
 }
 
 // ─────────────────────────── página de um Item ───────────────────────────
 
-/** Ficha de página de um Item: a carta grande (figura + stats + prosa completa)
- *  na linguagem do compêndio (kicker mono). `TipProvider`/`ITEM_CARD_CSS`
- *  garantem que os tooltips aninhados da carta funcionem também aqui. */
+/** Ficha de página de um Item: a MESMA carta do tooltip (figura + stats +
+ *  descrição), em tamanho grande, na linguagem do compêndio (kicker mono).
+ *  É o modo RESUMO (não fullBody): o corpo de uma arma é só a tabela de stats
+ *  crua + blocos dataview/carta-item — que a carta já resume em linhas; a
+ *  descrição vem da prosa (bodyDesc) ou do inline por tier, exatamente como o
+ *  tooltip do inventário/comércio. `TipProvider`/`ITEM_CARD_CSS` mantêm os
+ *  tooltips aninhados funcionando aqui também. */
 export function ItemSheet({ doc }: { doc: VaultDoc }) {
   const assets = useAssetIndex()
-  const html = itemCard(doc, assets, true)
+  const html = itemCard(doc, assets)
   return (
     <TipProvider>
       <section className="page item-page">
@@ -69,8 +69,8 @@ export function ItemSheet({ doc }: { doc: VaultDoc }) {
 // ─────────────────────── grade de cartas de uma pasta ───────────────────────
 
 /** Grade de cartas de itens (folha de uma pasta de Items). Cada carta é a MESMA
- *  do tooltip (resumo, não fullBody — a página do item traz a prosa completa),
- *  linkando pro doc. Docs ainda carregando aparecem quando o lote resolve. */
+ *  do tooltip (modo resumo), linkando pro doc. Docs ainda carregando mostram o
+ *  nome enquanto o lote resolve. */
 export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
   const assets = useAssetIndex()
   const docs = useDocs(entries.map((e) => e.id))
@@ -84,7 +84,7 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
           return (
             <Link key={entry.id} to={docPath(entry.id)} className="item-grid-cell">
               {doc ? (
-                <span dangerouslySetInnerHTML={{ __html: itemCard(doc, assets, false) }} />
+                <span dangerouslySetInnerHTML={{ __html: itemCard(doc, assets) }} />
               ) : (
                 <span className="item-grid-loading">{entry.basename ?? entry.id}</span>
               )}

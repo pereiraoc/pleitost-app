@@ -160,14 +160,16 @@ describe('LocationSheet (Localização real)', () => {
   })
 })
 
-describe('doc não-Localização segue no markdown (sem regressão)', () => {
-  it('Adaga não vira ficha de Localização', () => {
-    renderDoc(adaga)
+describe('doc não-Localização não vira ficha de Localização (sem regressão)', () => {
+  it('Adaga (Item) vira a carta de Item, não a ficha de Localização', () => {
+    const { container } = renderDoc(adaga)
     expect(adaga.type).not.toBe('Localização')
     // sem abas da ficha de Localização
     expect(screen.queryByRole('tab', { name: 'Hexploração' })).toBeNull()
-    // markdown genérico preservado: heading do body + bloco %% escondido
-    expect(screen.getByRole('heading', { level: 2, name: 'Adaga' })).toBeTruthy()
+    // #245: Adaga agora abre a carta de Item (visualizador dedicado), não o
+    // markdown genérico; o bloco %% (dano::) continua escondido
+    expect(container.querySelector('.shc-card')).toBeTruthy()
+    expect(within(container.querySelector('.shc-card')!).getByText('Adaga')).toBeTruthy()
     expect(screen.queryByText(/dano::/)).toBeNull()
   })
 })
