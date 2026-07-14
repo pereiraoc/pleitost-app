@@ -16,6 +16,13 @@ Thumbs.db
 # Dados extraídos da vault (regenerável: npm run extract)
 vault-data/
 
+# Parsers do plugin empacotados pro browser (regenerável: npm run parsers) —
+# fonte de verdade é o plugin na vault; não versionar código do plugin no repo
+# público (o bundle deployado já contém a lógica; isto evita expor a fonte).
+app/src/generated/rule-parser.ts
+app/src/generated/display-names.ts
+app/src/generated/parse-condition-rule.ts
+
 # Estado durável do usuário (caminhos/fichas/personagens) — #84
 app-state.json
 
