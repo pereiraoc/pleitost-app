@@ -12,6 +12,10 @@ import {
   hasLocalDrafts,
   __resetDraftsForTests,
 } from '../src/data/local-draft-store'
+import {
+  __setPublishedForTests,
+  __resetPublishedForTests,
+} from '../src/data/published-overlay-store'
 import { __resetSettingsForTests } from '../src/settings'
 import type { VaultDoc } from '../src/data/types'
 
@@ -60,6 +64,7 @@ function devOn() {
 
 afterEach(() => {
   __resetDraftsForTests()
+  __resetPublishedForTests()
   __resetSettingsForTests()
   localStorage.clear()
 })
@@ -112,6 +117,18 @@ describe('effectiveDoc — rascunho local gated pelo Modo Dev', () => {
     clearLocalDraft('X')
     expect(localDraftFor('X')).toBeUndefined()
     expect(effectiveDoc(baseDoc()).body).toBe('corpo')
+  })
+
+  it('overlay PUBLICADO aplica pra TODOS (mesmo com Modo Dev OFF)', () => {
+    __setPublishedForTests({ X: { body: 'publicado' } })
+    expect(effectiveDoc(baseDoc()).body).toBe('publicado')
+  })
+
+  it('rascunho local VENCE o publicado (no Modo Dev)', () => {
+    devOn()
+    __setPublishedForTests({ X: { body: 'publicado' } })
+    setLocalDraft('X', { body: 'local' })
+    expect(effectiveDoc(baseDoc()).body).toBe('local')
   })
 
   it('setLocalDraft FUNDE campos: body não apaga ruleElements do mesmo doc', () => {

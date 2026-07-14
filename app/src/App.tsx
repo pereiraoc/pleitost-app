@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { routerBasename } from './data/base-url'
 import { CatalogProvider } from './data/CatalogContext'
+import { startPublishedOverlays } from './data/published-overlay-store'
 import { SessionRepoProvider } from './data/session-repo/provider'
 import { AppShell } from './components/layout/AppShell'
 import { FolderView } from './components/compendium/FolderView'
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
 ], { basename: routerBasename() })
 
 export default function App() {
+  // Carrega + assina os overlays publicados (#47) uma vez. Graceful sem Supabase.
+  useEffect(() => {
+    startPublishedOverlays()
+  }, [])
   return (
     <CatalogProvider>
       <SessionRepoProvider>

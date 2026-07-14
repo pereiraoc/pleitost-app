@@ -9,11 +9,13 @@
 import type { VaultDoc } from './types'
 import { applyOverlay } from './overlay'
 import { localDraftFor } from './local-draft-store'
+import { publishedOverlayFor } from './published-overlay-store'
 import { isDesenvolvedor } from '../settings'
 
 export function effectiveDoc(base: VaultDoc): VaultDoc {
-  // Overlay publicado (Supabase) entra no #47 — aqui só o rascunho local, que só
-  // é aplicado no Modo Desenvolvedor (jogador comum vê base ⊕ publicado).
+  // 3 camadas: base ⊕ overlay PUBLICADO (todos veem) ⊕ rascunho LOCAL (só o dev,
+  // até publicar). Precedência crescente — o rascunho local vence o publicado.
+  const published = publishedOverlayFor(base.id)
   const local = isDesenvolvedor() ? localDraftFor(base.id) : undefined
-  return applyOverlay(base, local)
+  return applyOverlay(base, published, local)
 }

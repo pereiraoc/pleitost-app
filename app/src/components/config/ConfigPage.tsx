@@ -14,6 +14,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { useTheme, type Aesthetic, type Mode } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
+import { DevPublishPanel } from './DevPublishPanel'
 import { tokens } from '../ficha/registry'
 import { useSyncExternalStore } from 'react'
 import {
@@ -548,7 +549,7 @@ function DatabaseLine() {
 
 export function ConfigPage() {
   const { aesthetic, mode, setAesthetic, setMode } = useTheme()
-  const { mestre, setMestre } = useSettings()
+  const { mestre, setMestre, desenvolvedor } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
   const [tab, setTab] = useState('geral')
@@ -607,6 +608,9 @@ export function ConfigPage() {
               />
             ))}
           </ConfigRow>
+          {/* Modo Dev (#252): sem toggle de ativação por ora (liga via
+              localStorage); quando ligado, expõe Publicar/Exportar. */}
+          {desenvolvedor ? <DevPublishPanel /> : null}
         </>
       ) : mestre ? (
         <>

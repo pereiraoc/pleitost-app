@@ -5,6 +5,7 @@ import { liveCharacter, synthDocFromCharacter, useLiveSession } from './session-
 import { vaultUrl } from './base-url'
 import { effectiveDoc } from './effective-doc'
 import { useLocalDraftVersion } from './local-draft-store'
+import { usePublishedOverlayVersion } from './published-overlay-store'
 import { useSettings } from '../settings'
 
 /** Doc SINTÉTICO de personagem remoto (#231): ids `sessao:<charId>` resolvem
@@ -59,6 +60,7 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
   const localVersion = useLocalStoreVersion()
   const live = useLiveSession() // reatividade dos docs sessao: (#231)
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
+  const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const { desenvolvedor } = useSettings() // toggle do Modo Dev re-projeta
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
   const allKey = ids.join('\n')
@@ -92,13 +94,14 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     }
     return byId
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, desenvolvedor])
+  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, publishedVersion, desenvolvedor])
 }
 
 export function useDoc(id: string): DocState {
   const localVersion = useLocalStoreVersion()
   const live = useLiveSession()
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
+  const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const { desenvolvedor } = useSettings()
   const local = isLocalId(id)
   const sessao = isSessaoId(id)
@@ -130,9 +133,10 @@ export function useDoc(id: string): DocState {
     const doc = getLocalDoc(id)
     return doc ? { doc } : { error: new Error(`entidade local "${id}" não encontrada`) }
   }
-  // Doc da vault: projeta base ⊕ overlay (#252). draftVersion/desenvolvedor nas
-  // deps do hook garantem re-render quando um rascunho ou o Modo Dev muda.
+  // Doc da vault: projeta base ⊕ overlay (#252/#47). draftVersion/publishedVersion/
+  // desenvolvedor nas deps do hook garantem re-render quando algo muda.
   void draftVersion
+  void publishedVersion
   void desenvolvedor
   return state.doc ? { doc: effectiveDoc(state.doc) } : state
 }
