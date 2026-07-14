@@ -28,7 +28,7 @@ export function RegraView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }
         <span className="doc-type">Regra{doc.subtype ? ` · ${doc.subtype}` : ''}</span>
       </header>
       <div className="doc-reading-body">
-        <MarkdownBody doc={doc} />
+        <MarkdownBody doc={doc} hideLeadingTitle />
       </div>
       {mestre && doc.ruleElements?.length ? (
         <RuleElementsSection elements={doc.ruleElements} />

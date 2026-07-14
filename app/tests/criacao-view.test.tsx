@@ -104,6 +104,15 @@ describe('RegraView (#246)', () => {
   })
 })
 
+describe('título não duplica (#246)', () => {
+  it('REGRA: o header mostra o nome UMA vez (corpo não repete o # título)', async () => {
+    renderDoc(REGRA)
+    await screen.findByText('Regra')
+    // header "📕 Ações" + antes duplicava o "# Ações" do corpo → agora 1 só
+    expect(screen.getAllByRole('heading', { name: /^Ações$|^📕 Ações$/ }).length).toBe(1)
+  })
+})
+
 describe('controle: outros tipos não viram CriacaoView/RegraView (#246)', () => {
   it('Adaga (Item) segue como carta de item, não CriacaoView', async () => {
     renderDoc(ADAGA)

@@ -12,9 +12,23 @@ import { remarkInlineDataview } from './remark-inline-dataview'
 import { remarkWikilinks } from './remark-wikilinks'
 import { stripComments } from './strip-comments'
 
-export function MarkdownBody({ doc }: { doc: VaultDoc }) {
+/** Remove o PRIMEIRO heading do corpo quando ele repete o título do doc — as
+ *  views com header próprio (Regra/Criação/História) já mostram o nome, então
+ *  o `# Título`/`# = this.file.name` do corpo vira duplicata feia (#246). */
+function stripLeadingTitle(body: string, basename: string): string {
+  const m = /^\s*#{1,6}\s+(.+?)\s*$/m.exec(body)
+  if (!m || body.slice(0, m.index).trim() !== '') return body
+  const titulo = m[1].replace(/`?=\s*this\.file\.name`?/g, basename).trim()
+  if (titulo !== basename.trim()) return body
+  return body.slice(0, m.index) + body.slice(m.index + m[0].length)
+}
+
+export function MarkdownBody({ doc, hideLeadingTitle }: { doc: VaultDoc; hideLeadingTitle?: boolean }) {
   const catalog = useCatalog()
-  const body = useMemo(() => stripComments(doc.body), [doc.body])
+  const body = useMemo(() => {
+    const stripped = stripComments(doc.body)
+    return hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
+  }, [doc.body, doc.basename, hideLeadingTitle])
 
   const plugins = useMemo(
     () => [

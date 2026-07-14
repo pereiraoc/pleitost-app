@@ -39,7 +39,7 @@ export function HistoriaView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolea
         ) : null}
       </header>
       <div className="doc-reading-body">
-        <MarkdownBody doc={doc} />
+        <MarkdownBody doc={doc} hideLeadingTitle />
       </div>
     </article>
   )

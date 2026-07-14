@@ -85,7 +85,7 @@ export function CriacaoView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean
         </p>
       ) : null}
 
-      <MarkdownBody doc={doc} />
+      <MarkdownBody doc={doc} hideLeadingTitle />
 
       {mestre && doc.ruleElements?.length ? (
         <RuleElementsSection elements={doc.ruleElements} />
