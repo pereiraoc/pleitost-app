@@ -90,7 +90,9 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     // ── cliente GM cria a sessão pela tela (sem grupo — req 8)
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre Octavio' })
     fireEvent.click(await screen.findByText('+ Criar nova sessão'))
-    await screen.findByText('⚔ ORDEM DE INICIATIVA')
+    // #238: o bloco local ORDEM DE INICIATIVA saiu — a face abre com a
+    // FICHA DO GRUPO; o combate é o bloco COMBATE (encounter remoto)
+    await screen.findByText('FICHA DO GRUPO ↗')
     const codigo = listSessions()[0].codigo
     expect(listSessions()[0].remoteId).toBeTruthy()
     // sala remota visível pro GM
@@ -160,14 +162,14 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
       expect(document.querySelector('[data-stats-row]')).toBeNull()
     }
 
-    // #225: ordem da face INICIATIVA — FICHA DO GRUPO em cima, depois os
-    // HERÓIS com vida, depois a iniciativa
+    // #225/#238: ordem da face INICIATIVA — FICHA DO GRUPO em cima, depois
+    // os HERÓIS com vida, depois o COMBATE (o GM sempre vê o bloco)
     {
       const fichaBtn = screen.getByText('FICHA DO GRUPO ↗')
       const herois = screen.getByText('🌐 HERÓIS NA SESSÃO')
-      const iniciativa = screen.getByText('⚔ ORDEM DE INICIATIVA')
+      const combate = screen.getByText('⚔ COMBATE')
       expect(fichaBtn.compareDocumentPosition(herois) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-      expect(herois.compareDocumentPosition(iniciativa) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+      expect(herois.compareDocumentPosition(combate) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     }
     // #231: a ficha do grupo NÃO mora nos detalhes (abre pelo link da
     // iniciativa → GrupoView); os detalhes têm o MEMBROS colapsável
@@ -269,7 +271,10 @@ describe('#196 iniciativa remota (encounters)', () => {
         difficulty: null,
       })
     })
-    // GM vê o preparado e INICIA
+    // GM vê o preparado e INICIA — espera a LINHA do preparado (com o
+    // preparado na sala o iniciar é o do card; #238: sem preparados o
+    // header teria um ▶ INICIAR ad-hoc, que não é o que queremos aqui)
+    await screen.findByText('Emboscada')
     fireEvent.click(await screen.findByText('▶ INICIAR'))
     await waitFor(() => expect(screen.getByText(/Turno 1/)).toBeTruthy())
     // GM vê nome real + números + faixa
@@ -287,7 +292,9 @@ describe('#196 iniciativa remota (encounters)', () => {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
-    await waitFor(() => expect(screen.getByText(/⚔ COMBATE DA SESSÃO/)).toBeTruthy())
+    await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
+    // #238: com combate ativo a lista da mesa some — todo mundo tá no combate
+    expect(screen.queryByText('🌐 HERÓIS NA SESSÃO')).toBeNull()
     expect(screen.queryByText('Goblin Batedor')).toBeNull() // nome real oculto
     // rótulo genérico numerado pela RAÇA do FM real ("Goblin (Pequeno) 1/2")
     expect(screen.getByText(/Goblin \(Pequeno\) 1/)).toBeTruthy()
@@ -344,6 +351,113 @@ describe('#226 lista multi-dispositivo', () => {
     renderCliente(repo, { id: 'u-3', nome: 'Beto' })
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
     await waitFor(() => expect(listSessions()).toHaveLength(0))
+  })
+})
+
+// ── #238: bloco COMBATE no formato do pleitost-sync ───────────────────────
+// GM: INICIAR/PARAR no mesmo lugar (ícone por estado), PRÓXIMO/ANTERIOR só
+// com combate ativo. JOGADOR: sem combate ativo o bloco NEM aparece; com
+// combate ativo a lista HERÓIS NA SESSÃO some e todo mundo aparece na lista
+// do combate. Espelha o session-panel do plugin (gm-view.ts:85-91/217-252,
+// player-view.ts:56-77/128-134).
+describe('#238 bloco COMBATE (formato do sync)', () => {
+  async function entrar(codigo: string) {
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.click(screen.getByText('Entrar →'))
+  }
+
+  it('GM vê ▶ INICIAR sem combate; jogador não vê o bloco; iniciar esconde a mesa; ■ PARAR volta tudo', async () => {
+    const repo = new InMemorySessionRepo()
+
+    // ── GM cria a sessão: bloco COMBATE com ▶ INICIAR (sem turno/próximo)
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    await screen.findByText('⚔ COMBATE')
+    const codigo = listSessions()[0].codigo
+    expect(screen.getByTitle('Iniciar Combate').textContent).toBe('▶ INICIAR')
+    expect(screen.queryByText('■ PARAR')).toBeNull()
+    expect(screen.queryByText('PRÓXIMO ▶')).toBeNull()
+    expect(screen.queryByText('◀ ANTERIOR')).toBeNull()
+    // o bloco local ORDEM DE INICIATIVA (com toggle DEFESAS) não existe mais
+    expect(screen.queryByText('⚔ ORDEM DE INICIATIVA')).toBeNull()
+    expect(screen.queryByText('🛡 DEFESAS')).toBeNull()
+    cleanup()
+
+    // ── JOGADORA publica herói; SEM combate ativo o bloco nem aparece
+    __resetSessionStoreForTests()
+    const heroiId = createLocalEntity('Heroi', 'Aventureira Nia', {
+      ...emptyHeroFrontmatter(),
+      Classe: '[[Bardo]]',
+      Vida: { Vitalidade: 12, Moral: 18 },
+    })
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    await entrar(codigo)
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    expect(screen.queryByText('⚔ COMBATE')).toBeNull()
+    expect(screen.queryByText('▶ INICIAR')).toBeNull()
+    const sel = (await screen.findByLabelText('Selecionar meu personagem')) as HTMLSelectElement
+    fireEvent.change(sel, { target: { value: heroiId } })
+    fireEvent.click(screen.getByText('Entrar na mesa →'))
+    await waitFor(() => expect(screen.getAllByText('Aventureira Nia').length).toBeGreaterThan(0))
+    cleanup()
+
+    // ── GM INICIA (ad-hoc, sem preparado): heróis entram na lista do
+    // combate; mesa some pro GM também; PRÓXIMO/ANTERIOR/PARAR aparecem
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    await entrar(codigo)
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    fireEvent.click(await screen.findByText('▶ INICIAR'))
+    await waitFor(() => expect(screen.getByText('■ PARAR')).toBeTruthy())
+    expect(screen.getByTitle('Encerrar Combate').textContent).toBe('■ PARAR')
+    expect(screen.queryByText('▶ INICIAR')).toBeNull()
+    expect(screen.getByTitle('Próximo turno').textContent).toBe('PRÓXIMO ▶')
+    expect(screen.getByTitle('Turno anterior').textContent).toBe('◀ ANTERIOR')
+    expect(screen.getByText(/Turno 1/)).toBeTruthy()
+    expect(screen.queryByText('🌐 HERÓIS NA SESSÃO')).toBeNull()
+    // a heroína da mesa entrou na LISTA DO COMBATE (o nome também vive no
+    // MEMBROS dos detalhes — a query é escopada no bloco)
+    {
+      const combate = screen.getByText('⚔ COMBATE').parentElement!.parentElement as HTMLElement
+      expect(within(combate).getByText('Aventureira Nia')).toBeTruthy()
+    }
+    cleanup()
+
+    // ── JOGADORA com combate ativo: vê o bloco e o herói NA LISTA DO
+    // COMBATE; mesa some; nenhum controle de GM
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    await entrar(codigo)
+    await screen.findByText('⚔ COMBATE')
+    expect(screen.queryByText('🌐 HERÓIS NA SESSÃO')).toBeNull()
+    {
+      const combate = screen.getByText('⚔ COMBATE').parentElement!.parentElement as HTMLElement
+      await waitFor(() => expect(within(combate).getByText('Aventureira Nia')).toBeTruthy())
+    }
+    expect(screen.queryByText('■ PARAR')).toBeNull()
+    expect(screen.queryByText('PRÓXIMO ▶')).toBeNull()
+    expect(screen.queryByText('◀ ANTERIOR')).toBeNull()
+    cleanup()
+
+    // ── GM PARA: heróis voltam pra Mesa, bloco volta pro ▶ INICIAR
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    await entrar(codigo)
+    fireEvent.click(await screen.findByText('■ PARAR'))
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    expect(screen.getByText('▶ INICIAR')).toBeTruthy()
+    expect(screen.queryByText('■ PARAR')).toBeNull()
+    expect(screen.queryByText('PRÓXIMO ▶')).toBeNull()
+    cleanup()
+
+    // ── JOGADORA depois do PARAR: bloco some, mesa volta com a heroína
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    await entrar(codigo)
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    expect(screen.queryByText('⚔ COMBATE')).toBeNull()
+    // nome na mesa (botão de resumo) — MEMBROS dos detalhes também o lista
+    expect((await screen.findAllByText('Aventureira Nia')).length).toBeGreaterThan(0)
   })
 })
 
