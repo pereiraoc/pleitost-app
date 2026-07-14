@@ -7,7 +7,16 @@
 // rank), ataques com armas (modificador/dano/propriedades), ações, técnicas,
 // tesouros, habilidades e consumíveis — TUDO com tooltip (breakdowns do
 // tooltips.tsx + cartas de regra do item-card). Somente leitura.
-import { useMemo, type CSSProperties } from 'react'
+//
+// APRESENTAÇÃO (#242) — espelho visual do `.as-resumo` do plugin (styles.css
+// §MODE Resumo + resumo/internal-helpers.ts) na linguagem do app (clip() +
+// vars do theme.css): header-card com accent bar na cor do tier/nível e badge
+// NVL/TIER (header.ts §5.1), cada seção é um card com kicker, números
+// colorizados como no plugin (.as-resumo-mod-num → var(--red),
+// .as-resumo-attr-num → var(--gold), .as-resumo-dmg-num → var(--blue)),
+// ataques com "• " + sub-row "↳ " (.as-resumo-attack/-attack-props) e listas
+// de itens em chips.
+import { Fragment, useMemo, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useDoc } from '../../data/useDoc'
 import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
@@ -48,13 +57,52 @@ import {
   type BreakdownResult,
 } from '../ficha/tooltips'
 import { ItemHover, ITEM_CARD_CSS } from '../item-card'
-import { ATTR_EMOJI, defesaEmoji, displayName, slugify, tokens } from '../ficha/registry'
+import { ATTR_EMOJI, classeAventureiro, defesaEmoji, displayName, slugify, tokens } from '../ficha/registry'
+import { clip } from '../ficha/bits'
 import { computeMagiaAtaque } from '../../interativa/invocacao'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
 type Fm = Record<string, unknown>
 type Attrs = Record<string, number>
+
+/** Card-base das seções/header — linguagem do app (Panel de ficha/bits):
+ *  fundo var(--panel), borda var(--line2), cantos cortados clip(). */
+const cardStyle = (clipN: number): CSSProperties => ({
+  background: 'var(--panel)',
+  border: '1px solid var(--line2)',
+  clipPath: clip(clipN),
+})
+
+/** Chip de item/valor dentro de um card de seção — mesmo idioma dos stat-cells
+ *  do Combate (var(--card) sobre var(--panel)). */
+const chipStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 5,
+  padding: '3px 8px',
+  background: 'var(--card)',
+  border: '1px solid var(--line2)',
+  clipPath: clip(6),
+  fontSize: 11.5,
+  lineHeight: 1.5,
+}
+
+/** Cor e rótulo do badge de tier/nível — espelho de tierColorByFamily/
+ *  tierLabelByFamily do plugin (resumo/internal-helpers.ts §5.1): herói por
+ *  nível (1-3 bronze / 4-6 prata / 7-9 ouro / 10+ platina, via
+ *  classeAventureiro do registro) e monstro por Tier (0 preto / 1 bronze /
+ *  2 prata / 3+ ouro), cores SEMPRE de tokens.colors.tier. */
+function tierBadge(fm: Fm): { n: number; label: 'NVL' | 'TIER'; color: string } | null {
+  const nivel = num(fm['Nível'])
+  if (nivel) return { n: nivel, label: 'NVL', color: classeAventureiro(nivel).color }
+  const tierRaw = fm['Tier']
+  if (tierRaw == null || tierRaw === '') return null
+  const tier = num(tierRaw)
+  const c = tokens.colors.tier
+  const color = tier <= 0 ? c.Zero : tier === 1 ? c.Bronze : tier === 2 ? c.Silver : c.Gold
+  return { n: tier, label: 'TIER', color }
+}
 
 /** Chips de defesas/sentidos/movimento — emojis SEMPRE do registro gerado
  *  (tokens defesa/categoria via defesaEmoji; Movimento do subcategoria), e o
@@ -83,6 +131,40 @@ const CHIPS: Array<{
   },
 ]
 
+/** Stat-cell de defesa/sentido/movimento — célula vertical (emoji, rótulo
+ *  mono, valor) no idioma dos cards de defesa do Combate; tooltip = mesmo
+ *  breakdown dos chips do #199 (TipHover envolve a célula inteira). */
+function statCell(
+  c: (typeof CHIPS)[number],
+  fm: Fm,
+  attrs: Attrs,
+  stats: ReturnType<typeof memberStats>,
+) {
+  const tip = c.tip(fm, attrs)
+  return (
+    <TipHover
+      key={c.n}
+      html={tip ? renderBreakdownHtml(tip) : null}
+      always
+      style={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 3,
+        padding: '6px 2px 7px',
+        minWidth: 0,
+        background: 'var(--card)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(6),
+      }}
+    >
+      <span style={{ fontSize: 12, lineHeight: 1 }}>{c.ic}</span>
+      <span style={mono({ fontSize: 8, letterSpacing: '.08em', color: 'var(--muted)', lineHeight: 1 })}>{c.n}</span>
+      <span style={mono({ fontSize: 12, fontWeight: 800, lineHeight: 1 })}>{c.v(stats)}</span>
+    </TipHover>
+  )
+}
+
 function defesaTip(fm: Fm, attrs: Attrs, nome: string): BreakdownResult | null {
   const row = findNamedRow(fmPath(fm, 'Defesas_Resistencias', 'Lista'), nome)
   return row ? resistenciaBreakdown(row as ProfRow, attrs) : null
@@ -93,10 +175,18 @@ function sentidoTip(fm: Fm, attrs: Attrs, nome: string): BreakdownResult | null 
   return row ? sentidoBreakdown(row as ProfRow, attrs) : null
 }
 
+/** Seção do resumo como CARD com kicker — tradução do `.as-resumo-section` +
+ *  `.as-resumo-title` do plugin (título uppercase pequeno) pro idioma de
+ *  Panel/PanelTitle do app (ficha/bits). */
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <div style={mono({ fontSize: 9.5, letterSpacing: '.14em', color: 'var(--muted)' })}>{label}</div>
+    <div
+      data-resumo-section={label}
+      style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '9px 11px 11px', ...cardStyle(10) }}
+    >
+      <div data-resumo-kicker="" style={mono({ fontSize: 9.5, letterSpacing: '.14em', color: 'var(--muted)' })}>
+        {label}
+      </div>
       {children}
     </div>
   )
@@ -104,7 +194,9 @@ function Section({ label, children }: { label: string; children: React.ReactNode
 
 const lineStyle: CSSProperties = { fontSize: 12, lineHeight: 1.6, color: 'var(--text)' }
 
-/** Lista compacta "A · B · C" com a carta da regra no hover de cada item. */
+/** Lista de itens em CHIPS (um por item, com a carta da regra no hover) —
+ *  as wrap-rows vírgula-separadas do plugin (tesouros/consumiveis/acoes/
+ *  tecnicas/habilidades-block) viram chips no painel estreito. */
 function HoverList({
   items,
   refs,
@@ -113,14 +205,15 @@ function HoverList({
   refs: HeroRefs
 }) {
   return (
-    <div style={lineStyle}>
+    <div data-resumo-chiplist="" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
       {items.map((e, i) => (
-        <span key={`${e.key}-${i}`}>
-          {i > 0 ? ' · ' : ''}
+        <span key={`${e.key}-${i}`} data-resumo-chip="" style={chipStyle}>
           <ItemHover doc={refs.refDoc(e.raw)} fullBody>
             <span>{e.label}</span>
           </ItemHover>
-          {e.suffix ?? ''}
+          {e.suffix ? (
+            <span style={mono({ fontSize: 10.5, fontWeight: 700, color: 'var(--muted)' })}>{e.suffix}</span>
+          ) : null}
         </span>
       ))}
     </div>
@@ -140,24 +233,36 @@ function PericiasResumo({ fm, attrs }: { fm: Fm; attrs: Attrs }) {
     ),
   })).filter((g) => g.list.length > 0)
   if (grupos.length === 0) return null
+  // Uma linha por atributo (pericias-block do plugin), com o emoji do
+  // atributo em coluna própria (hanging indent) e o modificador em
+  // var(--red) mono (.as-resumo-mod-num).
   return (
     <Section label="// PERÍCIAS">
-      {grupos.map((g) => (
-        <div key={g.attr} style={lineStyle}>
-          <span style={{ fontSize: 11 }}>{ATTR_EMOJI[g.attr] ?? ''}</span>{' '}
-          {g.list.map((row, i) => (
-            <span key={str(row.Nome)}>
-              {i > 0 ? ' · ' : ''}
-              <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
-                <span>
-                  {displayName(slugify(str(row.Nome)))}{' '}
-                  <span style={mono({ fontSize: 11, fontWeight: 700 })}>{fmtSigned(rowMod(row, attrs))}</span>
+      <div
+        data-resumo-pericias=""
+        style={{ display: 'grid', gridTemplateColumns: '18px minmax(0,1fr)', columnGap: 5, rowGap: 6, alignItems: 'baseline' }}
+      >
+        {grupos.map((g) => (
+          <Fragment key={g.attr}>
+            <span style={{ fontSize: 11 }}>{ATTR_EMOJI[g.attr] ?? ''}</span>
+            <div style={lineStyle}>
+              {g.list.map((row, i) => (
+                <span key={str(row.Nome)}>
+                  {i > 0 ? ' · ' : ''}
+                  <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
+                    <span style={{ whiteSpace: 'nowrap' }}>
+                      {displayName(slugify(str(row.Nome)))}{' '}
+                      <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--red)' })}>
+                        {fmtSigned(rowMod(row, attrs))}
+                      </span>
+                    </span>
+                  </TipHover>
                 </span>
-              </TipHover>
-            </span>
-          ))}
-        </div>
-      ))}
+              ))}
+            </div>
+          </Fragment>
+        ))}
+      </div>
     </Section>
   )
 }
@@ -193,9 +298,11 @@ function MagiasResumo({
   return (
     <Section label="// MAGIAS">
       {tipos.length ? (
-        <div style={{ ...lineStyle, display: 'flex', flexWrap: 'wrap', columnGap: 12, rowGap: 3 }}>
+        <>
+          {/* Uma linha por escola proficiente (magias-block.ts headerRow):
+              nome + modificador em var(--red) mono (.as-resumo-mod-num). */}
           {tipos.map((t) => (
-            <span key={t.rota} style={{ whiteSpace: 'nowrap' }}>
+            <div key={t.rota} style={lineStyle}>
               {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover,
                   como a MagiaInfoBar do Combate. */}
               <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
@@ -205,47 +312,55 @@ function MagiasResumo({
                   (magias-block.ts: total assinado + CD = total+10); tooltip =
                   somatório do ataque mágico (entriesBreakdown, como o #143). */}
               <TipHover html={renderBreakdownHtml(entriesBreakdown('Ataque Mágico', t.info.entries ?? []))}>
-                <span style={mono({ fontSize: 11, fontWeight: 700 })}>
+                <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--red)' })}>
                   {`${fmtSigned(t.info.total)}/CD${t.info.total + 10}`}
                 </span>
               </TipHover>
-            </span>
+            </div>
           ))}
-          <span style={{ whiteSpace: 'nowrap' }}>
-            <ItemHover doc={namedDoc('Potência Mágica')} fullBody>
-              <span>
-                <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.PotenciaMagica}</span>{' '}
-                <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
-                  POTÊNCIA MÁGICA
-                </span>{' '}
-                <span style={mono({ fontSize: 11, fontWeight: 700 })}>{potencia}</span>
-              </span>
-            </ItemHover>
-          </span>
-          <span style={{ whiteSpace: 'nowrap' }}>
-            <ItemHover doc={namedDoc('Energia Mágica')} fullBody>
-              <span>
-                <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.EnergiaMagica}</span>{' '}
-                <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
-                  ENERGIA MÁGICA
-                </span>{' '}
-                <span style={mono({ fontSize: 11, fontWeight: 700 })}>{`${em}/${emMax}`}</span>
-              </span>
-            </ItemHover>
-          </span>
-        </div>
-      ) : null}
-      {grupos.map((g) => (
-        <div key={g.titulo} style={{ fontSize: 12, lineHeight: 1.6 }}>
-          <span style={mono({ fontSize: 9, letterSpacing: '.1em', color: g.cor })}>{g.titulo}</span>{' '}
-          {g.magias.map((m, i) => (
-            <span key={`${m.n}-${i}`}>
-              {i > 0 ? ' · ' : ''}
-              <ItemHover doc={m.doc} fullBody>
-                <span>{m.n}</span>
+          {/* Potência/EM em chips; valor em var(--gold) (.as-resumo-attr-num
+              do EM no plugin). */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            <span data-resumo-chip="" style={chipStyle}>
+              <ItemHover doc={namedDoc('Potência Mágica')} fullBody>
+                <span>
+                  <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.PotenciaMagica}</span>{' '}
+                  <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
+                    POTÊNCIA MÁGICA
+                  </span>{' '}
+                  <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--gold)' })}>{potencia}</span>
+                </span>
               </ItemHover>
             </span>
-          ))}
+            <span data-resumo-chip="" style={chipStyle}>
+              <ItemHover doc={namedDoc('Energia Mágica')} fullBody>
+                <span>
+                  <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.EnergiaMagica}</span>{' '}
+                  <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
+                    ENERGIA MÁGICA
+                  </span>{' '}
+                  <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--gold)' })}>{`${em}/${emMax}`}</span>
+                </span>
+              </ItemHover>
+            </span>
+          </div>
+        </>
+      ) : null}
+      {/* Grupos por rank (magias-block.ts RANK_BUCKETS): rótulo colorido em
+          linha própria + itens embaixo — hierarquia tipográfica do plugin. */}
+      {grupos.map((g) => (
+        <div key={g.titulo} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <div style={mono({ fontSize: 9, letterSpacing: '.12em', color: g.cor })}>{g.titulo}</div>
+          <div style={lineStyle}>
+            {g.magias.map((m, i) => (
+              <span key={`${m.n}-${i}`}>
+                {i > 0 ? ' · ' : ''}
+                <ItemHover doc={m.doc} fullBody>
+                  <span style={{ whiteSpace: 'nowrap' }}>{m.n}</span>
+                </ItemHover>
+              </span>
+            ))}
+          </div>
         </div>
       ))}
     </Section>
@@ -292,37 +407,44 @@ function AtaquesResumo({
           },
           attrs,
         )
+        // Linha da arma no formato do ataques-block do plugin: "• Arma +N,
+        // NdM+X" (mod em var(--red) = .as-resumo-mod-num, dano em var(--blue)
+        // = .as-resumo-dmg-num) + sub-row "↳ propriedades" indentada
+        // (.as-resumo-attack-props).
         return (
-          <div key={`${nome}-${i}`} style={lineStyle}>
-            <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier ?? undefined}>
-              <span style={{ fontWeight: 600 }}>
-                {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
-              </span>
-            </ItemHover>{' '}
-            <TipHover
-              html={renderBreakdownHtml(
-                ataqueBreakdown(
-                  nome,
-                  str(arma['Atributo']),
-                  profAtaque,
-                  num(arma['Bonus_Item']),
-                  num(arma['Bonus_Especial']),
-                  attrs[str(arma['Atributo'])] ?? 0,
-                ),
-              )}
-            >
-              <span style={mono({ fontSize: 11, fontWeight: 700 })}>{fmtSigned(mod)}</span>
-            </TipHover>
-            {dano ? (
-              <>
-                {', '}
-                <TipHover html={renderBreakdownHtml(danoArmaBreakdown(nome, danoRaw, profAtaque))}>
-                  <span style={mono({ fontSize: 11, fontWeight: 700, color: 'var(--red)' })}>{dano}</span>
-                </TipHover>
-              </>
-            ) : null}
+          <div key={`${nome}-${i}`} data-resumo-ataque="" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <div style={lineStyle}>
+              <span style={{ color: 'var(--muted)' }}>{'• '}</span>
+              <ItemHover doc={armaDoc} propDoc={propDoc} tier={tier ?? undefined}>
+                <span style={{ fontWeight: 600 }}>
+                  {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
+                </span>
+              </ItemHover>{' '}
+              <TipHover
+                html={renderBreakdownHtml(
+                  ataqueBreakdown(
+                    nome,
+                    str(arma['Atributo']),
+                    profAtaque,
+                    num(arma['Bonus_Item']),
+                    num(arma['Bonus_Especial']),
+                    attrs[str(arma['Atributo'])] ?? 0,
+                  ),
+                )}
+              >
+                <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--red)' })}>{fmtSigned(mod)}</span>
+              </TipHover>
+              {dano ? (
+                <>
+                  {', '}
+                  <TipHover html={renderBreakdownHtml(danoArmaBreakdown(nome, danoRaw, profAtaque))}>
+                    <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--blue)' })}>{dano}</span>
+                  </TipHover>
+                </>
+              ) : null}
+            </div>
             {props.length ? (
-              <div style={{ ...lineStyle, color: 'var(--muted)' }}>
+              <div style={{ ...lineStyle, color: 'var(--muted)', paddingLeft: 14 }}>
                 {'↳ '}
                 {props.map((p, j) => (
                   <span key={p}>
@@ -420,11 +542,38 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
     [fm],
   )
 
+  const badge = tierBadge(fm)
+  const accentColor = badge?.color ?? 'var(--muted)'
+
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '4px 2px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0 8px' }}>
+        {/* Header-card — espelho do `.as-resumo` + header.ts do plugin:
+            accent bar lateral na cor do tier/nível (gradient do
+            .as-resumo-accent) e badge NVL/TIER (.as-resumo-badge). */}
+        <div
+          data-resumo-card=""
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 11,
+            padding: '11px 11px 11px 16px',
+            ...cardStyle(12),
+          }}
+        >
+          <div
+            data-resumo-accent=""
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: 4,
+              background: `linear-gradient(180deg, ${accentColor}, color-mix(in srgb, ${accentColor} 60%, black))`,
+            }}
+          />
           {portrait ? (
             <div
               style={{
@@ -435,49 +584,80 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 border: '1px solid var(--line2)',
-                clipPath: 'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))',
+                clipPath: clip(10),
               }}
             />
           ) : null}
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 16, fontWeight: 700 }}>{doc.basename}</div>
-            <div style={mono({ fontSize: 10.5, color: 'var(--muted)', marginTop: 2 })}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 800, letterSpacing: '-0.2px' }}>
+              {doc.basename}
+            </div>
+            <div style={mono({ fontSize: 10.5, color: 'var(--muted)', marginTop: 3 })}>
               {[classe, nivel ? `Nível ${nivel}` : tier != null && tier !== '' ? `Tier ${tier}` : '']
                 .filter(Boolean)
                 .join(' · ')}
             </div>
           </div>
+          {badge ? (
+            <div
+              data-resumo-badge=""
+              style={{
+                flex: 'none',
+                width: 42,
+                height: 42,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: `color-mix(in srgb, ${badge.color} 18%, var(--card))`,
+                border: `2px solid ${badge.color}`,
+                clipPath: clip(8),
+              }}
+            >
+              <div style={mono({ fontSize: 15, fontWeight: 800, lineHeight: 1 })}>{badge.n}</div>
+              <div style={mono({ fontSize: 7.5, letterSpacing: '1px', color: 'var(--muted)', marginTop: 2 })}>
+                {badge.label}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <Section label="// VIDA">
-          <div style={mono({ fontSize: 12, color: 'var(--text)' })}>
-            {`❤️ ${vida.vit}/${vida.vitMax} · 💙 ${vida.moral}/${vida.moralMax}${vida.temp > 0 ? ` · 💚 +${vida.temp}` : ''}`}
+          {/* Vit/Moral/Temp em chips — emojis do registro (subcategoria
+              Vitalidade/Moral/MoralTemporaria). */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            <span data-resumo-chip="" style={chipStyle}>
+              <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.Vitalidade}</span>
+              <span style={mono({ fontSize: 11.5, fontWeight: 700 })}>{`${vida.vit}/${vida.vitMax}`}</span>
+            </span>
+            <span data-resumo-chip="" style={chipStyle}>
+              <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.Moral}</span>
+              <span style={mono({ fontSize: 11.5, fontWeight: 700 })}>{`${vida.moral}/${vida.moralMax}`}</span>
+            </span>
+            {vida.temp > 0 ? (
+              <span data-resumo-chip="" style={chipStyle}>
+                <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.MoralTemporaria}</span>
+                <span style={mono({ fontSize: 11.5, fontWeight: 700 })}>{`+${vida.temp}`}</span>
+              </span>
+            ) : null}
           </div>
         </Section>
 
         <Section label="// DEFESAS · SENTIDOS · MOVIMENTO">
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-            {CHIPS.map((c) => {
-              const tip = c.tip(fm, attrs)
-              return (
-                <TipHover key={c.n} html={tip ? renderBreakdownHtml(tip) : null} always>
-                  <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 4,
-                      padding: '3px 7px',
-                      background: 'var(--panel)',
-                      border: '1px solid var(--line2)',
-                    }}
-                  >
-                    <span style={{ fontSize: 10 }}>{c.ic}</span>
-                    <span style={mono({ fontSize: 8.5, letterSpacing: '.06em', color: 'var(--muted)' })}>{c.n}</span>
-                    <span style={mono({ fontSize: 10.5, fontWeight: 700 })}>{c.v(stats)}</span>
-                  </span>
-                </TipHover>
-              )
-            })}
+          {/* Grids alinhados de stat-cells (4 defesas / 2 sentidos +
+              movimento) — idioma dos cards de defesa do Combate, com o
+              conteúdo/tooltips dos chips do #199. */}
+          <div
+            data-resumo-statgrid="defesas"
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 5 }}
+          >
+            {CHIPS.slice(0, 4).map((c) => statCell(c, fm, attrs, stats))}
+          </div>
+          <div
+            data-resumo-statgrid="sentidos"
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 5 }}
+          >
+            {CHIPS.slice(4).map((c) => statCell(c, fm, attrs, stats))}
           </div>
         </Section>
 
