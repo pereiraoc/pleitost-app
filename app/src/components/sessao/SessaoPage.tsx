@@ -2,15 +2,16 @@
 // design puxado (Companion App.dc.html §SESSÃO):
 //   - fora de sessão: LISTA DE SESSÕES (entrar/lixeira), entrar por código,
 //     criar nova sessão;
-//   - em sessão: abas INICIATIVA (ficha do grupo + ORDEM DE INICIATIVA com
-//     vida real das fichas, toggle DEFESAS, Turno) e DETALHES DA SESSÃO
-//     (nome/código, MESTRE, membros claimed, ferramentas de mestre em breve).
-// Lógica de turno/ordem espelha o combat-tracker do plugin: ordem init DESC
-// (nome desempata), "Turno ${max(1,round)}" (action-bar.ts:144). Vida vem do
-// volátil das FICHAS (useVidaLocal) — a sessão nunca inventa valores (#101).
+//   - em sessão: abas INICIATIVA (ficha do grupo + HERÓIS NA SESSÃO + bloco
+//     COMBATE, #238) e DETALHES DA SESSÃO (nome/código, MESTRE, membros
+//     claimed, ferramentas de mestre em breve).
+// #238: o combate é o ENCOUNTER remoto da sala (#196), no formato do
+// session-panel do pleitost-sync — GM tem INICIAR/PARAR (ícone muda com o
+// estado) e PRÓXIMO/ANTERIOR só com combate ativo; o jogador só vê o bloco
+// durante combate ativo, e aí a lista da mesa some (todo mundo está na lista
+// do combate), como no plugin (gm-view.ts:85-91, player-view.ts:56-77/128-134).
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
 import { useEntityImageUrl } from '../../data/images'
@@ -19,9 +20,7 @@ import { useGroupMembers } from '../../data/local-entities'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel } from '../../markdown/dataview-value'
 import { clip, PanelTrack } from '../ficha/bits'
-import { useVidaLocal } from '../ficha/pop-panels'
-import { fmPath, num, str } from '../ficha/hero-model'
-import { fmtPlain, fmtSigned, memberStats } from '../../grupo/stats'
+import { num, str } from '../ficha/hero-model'
 import {
   createSession,
   deleteSession,
@@ -54,19 +53,6 @@ const SESS_TABS = [
 ]
 const SESS_SEL_TABS = [{ id: 'lista', label: 'LISTA DE SESSÕES' }]
 
-// Chips de defesas do combatente — ícones/rótulos verbatim do SESSAO.combate
-// do design (defs: DEF/ÍMP/VIG/REF/PER/ITU/MOV); valores de memberStats
-// (mesma fonte da tabela de vida do GRUPO — modelo salvo, plugin aggregates).
-const DEF_CHIPS: Array<{ ic: string; n: string; v: (s: ReturnType<typeof memberStats>) => string }> = [
-  { ic: '🛡️', n: 'DEF', v: (s) => (s.defs['Defesa'] != null ? fmtPlain(s.defs['Defesa']) : '—') },
-  { ic: '🔥', n: 'ÍMP', v: (s) => (s.defs['Ímpeto'] != null ? fmtPlain(s.defs['Ímpeto']) : '—') },
-  { ic: '❤️', n: 'VIG', v: (s) => (s.defs['Vigor'] != null ? fmtPlain(s.defs['Vigor']) : '—') },
-  { ic: '⚡', n: 'REF', v: (s) => (s.defs['Reflexo'] != null ? fmtPlain(s.defs['Reflexo']) : '—') },
-  { ic: '👁️', n: 'PER', v: (s) => (s.sns['Percepção'] != null ? fmtSigned(s.sns['Percepção']) : '—') },
-  { ic: '💡', n: 'ITU', v: (s) => (s.sns['Intuição'] != null ? fmtSigned(s.sns['Intuição']) : '—') },
-  { ic: '👟', n: 'MOV', v: (s) => (s.sp != null ? `${fmtPlain(s.sp)}m` : '—') },
-]
-
 /** Iniciais do nome (sig do design: 'CF' pra Carlos Facão…). */
 function sigOf(nome: string): string {
   return nome
@@ -78,172 +64,6 @@ function sigOf(nome: string): string {
 }
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
-
-/* ═══════════════ linha da ordem de iniciativa ═══════════════ */
-
-function CombatRow({
-  doc,
-  init,
-  ativo,
-  defsOn,
-  onInit,
-}: {
-  doc: VaultDoc
-  init: number
-  ativo: boolean
-  defsOn: boolean
-  onInit: (v: number) => void
-}) {
-  const assets = useAssetIndex()
-  const vida = useVidaLocal(doc, 'sessao')
-  const stats = memberStats(doc.frontmatter)
-  const portrait = creatureImageUrl(doc, assets)
-  const nome = doc.basename
-
-  // vidaModel do design (Companion App.dc.html): larguras em % de
-  // T = vitMax + moralMax; negativa listrada em 2 faixas.
-  const T = Math.max(1, vida.vitMax + vida.moralMax)
-  const pct = (v: number) => `${((v / T) * 100).toFixed(3)}%`
-  const negTot = vida.vit < 0 ? Math.min(-vida.vit, vida.vitMax) : 0
-  const neg1 = Math.min(negTot, vida.vitMax / 2)
-  const neg2 = Math.max(0, negTot - vida.vitMax / 2)
-  const vitPos = Math.max(0, vida.vit)
-
-  // tags do design = condições ativas da ficha (Interativa.Condicoes_Ativas).
-  const cond = fmPath(doc.frontmatter as Record<string, unknown>, 'Interativa', 'Condicoes_Ativas')
-  const tags = cond && typeof cond === 'object' ? Object.keys(cond as Record<string, unknown>) : []
-
-  const on = ativo ? 1 : 0
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-        padding: '11px 13px',
-        background: `color-mix(in srgb,var(--accent) ${on * 7}%,var(--card))`,
-        border: `1px solid color-mix(in srgb,var(--accent) ${on * 55}%,var(--line))`,
-        clipPath: clip(12),
-      }}
-    >
-      <div style={{ flex: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, minWidth: 30 }}>
-        <span style={mono({ fontSize: 8.5, letterSpacing: '.1em', color: 'var(--muted)' })}>INIT</span>
-        <input
-          aria-label={`Iniciativa de ${nome}`}
-          value={String(init)}
-          onChange={(e) => onInit(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
-          style={mono({
-            width: 34,
-            fontSize: 16,
-            fontWeight: 800,
-            color: ativo ? 'var(--accent)' : 'var(--text)',
-            background: 'transparent',
-            border: 'none',
-            textAlign: 'center',
-            padding: 0,
-          })}
-        />
-      </div>
-      {portrait ? (
-        <div
-          style={{
-            width: 42,
-            height: 42,
-            flex: 'none',
-            backgroundImage: `url("${portrait}")`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            clipPath: clip(9),
-            border: '1px solid var(--line2)',
-          }}
-        />
-      ) : (
-        <span
-          style={mono({
-            width: 42,
-            height: 42,
-            flex: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'var(--panel)',
-            border: '1px solid var(--line2)',
-            clipPath: clip(9),
-            fontSize: 15,
-            color: 'var(--muted)',
-          })}
-        >
-          {sigOf(nome)}
-        </span>
-      )}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
-          <span style={{ fontSize: 14.5, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {nome}
-          </span>
-          {vida.vit <= 0 ? (
-            <span title="Vitalidade zerada — marcar morto" style={{ fontSize: 14, flex: 'none', cursor: 'pointer' }}>
-              💀
-            </span>
-          ) : null}
-          <span style={{ flex: 1 }} />
-          <span style={mono({ fontSize: 10.5, color: 'var(--muted)', flex: 'none' })}>
-            {`❤️ ${vida.vit}/${vida.vitMax} · 💙 ${vida.moral}/${vida.moralMax}${vida.temp > 0 ? ` · 💚 +${vida.temp}` : ''}`}
-          </span>
-        </div>
-        <div style={{ position: 'relative', height: 10, background: 'var(--card)', border: '1px solid var(--line2)', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: pct(vitPos), background: 'linear-gradient(90deg,#c0392b,#ff5547)', transition: 'width .35s ease' }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: pct(neg1), background: 'repeating-linear-gradient(45deg,#d63a2a,#d63a2a 5px,#b93122 5px,#b93122 10px)', transition: 'width .35s ease' }} />
-          <div style={{ position: 'absolute', top: 0, left: pct(vida.vitMax / 2), height: '100%', width: pct(neg2), background: 'repeating-linear-gradient(45deg,#6e3a24,#6e3a24 5px,#512a1a 5px,#512a1a 10px)', transition: 'width .35s ease' }} />
-          <div style={{ position: 'absolute', top: 0, left: pct(vitPos), height: '100%', width: pct(vida.moral), background: 'linear-gradient(90deg,#2f6fd0,#4f9bff)', transition: 'width .35s ease,left .35s ease' }} />
-          <div style={{ position: 'absolute', top: 0, left: pct(vitPos + vida.moral), height: '100%', width: pct(vida.temp), background: 'linear-gradient(90deg,#2e9e58,#43c974)', transition: 'width .35s ease,left .35s ease' }} />
-          <div style={{ position: 'absolute', top: 0, left: pct(vida.vitMax), bottom: 0, width: 0, borderLeft: '1px dashed color-mix(in srgb,var(--muted) 55%,transparent)' }} />
-        </div>
-        {tags.length > 0 ? (
-          <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
-            {tags.map((t) => (
-              <span
-                key={t}
-                style={{
-                  padding: '3px 9px',
-                  background: 'color-mix(in srgb,var(--accent) 13%,transparent)',
-                  border: '1px solid color-mix(in srgb,var(--accent) 40%,transparent)',
-                  fontSize: 11,
-                  color: 'var(--accent)',
-                  clipPath: clip(4),
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </span>
-        ) : null}
-        {defsOn ? (
-          <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
-            {DEF_CHIPS.map((d) => (
-              <span
-                key={d.n}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  padding: '4px 9px',
-                  background: 'var(--panel)',
-                  border: '1px solid var(--line2)',
-                  clipPath: clip(4),
-                }}
-              >
-                <span style={{ fontSize: 10 }}>{d.ic}</span>
-                <span style={mono({ fontSize: 9, letterSpacing: '.06em', color: 'var(--muted)' })}>{d.n}</span>
-                <span style={mono({ fontSize: 11, fontWeight: 700, color: 'var(--text)' })}>{d.v(stats)}</span>
-              </span>
-            ))}
-          </span>
-        ) : null}
-      </div>
-    </div>
-  )
-}
 
 /** Ponte HEADLESS da sala viva (#186): mantém fetch+realtime da sessão ativa
  *  alimentando o live-session INDEPENDENTE de qual face da sidebar está
@@ -571,6 +391,11 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   usePublicacao(repo, sess.remoteId ?? null, meuChar)
 
   if (!repo || !user || !sess.remoteId) return null
+  // #238 (sync gm-view.ts:85-91 / player-view.ts:128-134): a mesa some
+  // durante combate ativo — todos os heróis estão na LISTA DO COMBATE. O
+  // componente segue MONTADO (só o render é nulo; hooks acima continuam):
+  // a publicação da vida (usePublicacao) precisa fluir justamente em combate.
+  if ((live?.encounters ?? []).some((e) => e.status === 'active')) return null
 
   const publicar = async () => {
     const doc = heroiSel ? getLocalDoc(heroiSel) : null
@@ -678,15 +503,21 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   )
 }
 
-/* ═══════════════ combate da sala (#196): encounters ═══════════════ */
+/* ═══════════════ combate da sala (#196/#238): encounters ═══════════════ */
 
-/** Iniciativa REMOTA da sessão — port do combat-tracker sobre encounters do
- *  SessionRepo: INICIAR move heróis/companheiros pro combate e cria os NPCs
- *  do roster (prepared → active, turnState round 1); PRÓXIMO/ANTERIOR mudam
- *  o turno (wrap → round±1); ENCERRAR arquiva (heróis voltam pra Mesa).
- *  JOGADOR vê NPC não-revelado com nome MASCARADO (maskedNames) e a
- *  ESTIMATIVA de saúde por faixa (classifyVita) em vez de números; o GM vê
- *  tudo + toggles ❓/❗ (toggleRevealCharacter). */
+/** Bloco COMBATE da sessão (#238) — port do session-panel do pleitost-sync
+ *  sobre os encounters do SessionRepo:
+ *  - GM sempre vê o bloco: INICIAR/PARAR trocam de ícone com o estado
+ *    (▶ ↔ ■); INICIAR move heróis/companheiros pro combate (sync gm-view.ts
+ *    "Iniciar Combate", :364) e PARAR arquiva — heróis voltam pra Mesa
+ *    (sync gm-view.ts:242-252, 🛑 "Encerrar Combate");
+ *  - PRÓXIMO/ANTERIOR só com combate ativo (sync gm-view.ts:217-240) —
+ *    mudam o turno (wrap → round±1);
+ *  - JOGADOR só vê o bloco com combate ATIVO (sync player-view.ts:56-77:
+ *    a seção do encounter nem existe sem ele) e sem controles; NPC
+ *    não-revelado aparece MASCARADO (maskedNames) com ESTIMATIVA de saúde
+ *    por faixa (classifyVita) em vez de números; o GM vê tudo + toggles
+ *    ❓/❗ (toggleRevealCharacter). */
 function CombateDaSala({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
@@ -696,12 +527,28 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const isGm = live.gmUserId === user.id
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
   const preparados = live.encounters.filter((e) => e.status === 'prepared')
+  const sessionId = sess.remoteId
 
   const iniciar = async (encounterId: string) => {
     // NPCs do roster + turnState inicial: código compartilhado com o caminho
     // direto do bestiário (#229) — encounter-actions.startEncounterFromRoster.
     const enc = live.encounters.find((e) => e.id === encounterId)
     if (!enc) return
+    await startEncounterFromRoster(repo, catalog, enc, user.id)
+  }
+
+  const iniciarAdHoc = async () => {
+    // #238: INICIAR sem combate preparado — combate ad-hoc: só os heróis e
+    // companheiros da mesa entram (semântica do repo.startEncounter); NPCs
+    // chegam depois pelo bestiário (#229, addMonsterToInitiative). Nome vem
+    // da sessão (não há nota de combate de origem).
+    const enc = await repo.insertEncounter({
+      sessionId,
+      sourceNotePath: '',
+      name: sess.nome,
+      roster: { entries: [] },
+      difficulty: null,
+    })
     await startEncounterFromRoster(repo, catalog, enc, user.id)
   }
 
@@ -732,9 +579,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
 
-  const chip = (label: string, onClick: () => void, tone: 'accent' | 'red' = 'accent') => (
+  const chip = (label: string, title: string, onClick: () => void, tone: 'accent' | 'red' = 'accent') => (
     <button
       onClick={onClick}
+      title={title}
       style={mono({
         padding: '6px 12px',
         background: `color-mix(in srgb,var(--${tone}) 12%,transparent)`,
@@ -750,7 +598,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     </button>
   )
 
-  if (!ativo && (!isGm || preparados.length === 0)) return null
+  // #238: jogador sem combate ativo NÃO vê o bloco (sync player-view.ts:56-60
+  // — a seção do encounter só existe quando há um ativo). GM sempre vê: é o
+  // painel de controle dele (INICIAR mora aqui).
+  if (!ativo && !isGm) return null
 
   return (
     <div
@@ -771,16 +622,22 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         }}
       >
         <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--red)', fontWeight: 700 })}>
-          ⚔ COMBATE DA SESSÃO
+          ⚔ COMBATE
         </span>
         <span style={{ flex: 1 }} />
         {ativo?.turnState ? (
           <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>Turno {Math.max(1, ativo.turnState.round)}</span>
         ) : null}
-        {isGm && ativo ? chip('◀ ANTERIOR', () => void mover(-1)) : null}
-        {isGm && ativo ? chip('PRÓXIMO ▶', () => void mover(1)) : null}
-        {isGm && ativo ? chip('■ ENCERRAR', () => void repo.endEncounter(ativo.id), 'red') : null}
+        {isGm && ativo ? chip('◀ ANTERIOR', 'Turno anterior', () => void mover(-1)) : null}
+        {isGm && ativo ? chip('PRÓXIMO ▶', 'Próximo turno', () => void mover(1)) : null}
+        {/* Iniciar/Parar — MESMO lugar, ícone muda com o estado (#238). Com
+            combates PREPARADOS o iniciar é o de cada card (como no sync). */}
+        {isGm && ativo ? chip('■ PARAR', 'Encerrar Combate', () => void repo.endEncounter(ativo.id), 'red') : null}
+        {isGm && !ativo && preparados.length === 0
+          ? chip('▶ INICIAR', 'Iniciar Combate', () => void iniciarAdHoc())
+          : null}
       </div>
+      {ativo || (isGm && preparados.length > 0) ? (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 16px' }}>
         {!ativo && isGm
           ? preparados.map((e) => (
@@ -790,7 +647,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   {e.roster.entries.map((r) => `${r.qty}× ${r.label}`).join(' · ')}
                 </span>
                 <span style={{ flex: 1 }} />
-                {chip('▶ INICIAR', () => void iniciar(e.id))}
+                {chip('▶ INICIAR', 'Iniciar Combate', () => void iniciar(e.id))}
               </div>
             ))
           : null}
@@ -844,6 +701,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
             })
           : null}
       </div>
+      ) : null}
     </div>
   )
 }
@@ -853,40 +711,13 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
 function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const navigate = useNavigate()
-  const [defsOn, setDefsOn] = useState(false)
   const members = useGroupMembers(catalog, sess.grupoId ?? '')
-  const docs = useDocs(useMemo(() => members.map((m) => m.id), [members]))
-
-  // Ordem do plugin: init DESC, nome ASC desempata (tracker-actions:63-73).
-  const ordered = useMemo(
-    () =>
-      [...members].sort((a, b) => {
-        const ia = sess.init[a.id] ?? 0
-        const ib = sess.init[b.id] ?? 0
-        if (ib !== ia) return ib - ia
-        return (a.basename ?? '').localeCompare(b.basename ?? '', 'pt')
-      }),
-    [members, sess.init],
-  )
-  const vez = ordered.length ? Math.min(sess.vezIdx, ordered.length - 1) : 0
   const grupoNomes = members.map((m) => (m.basename ?? '').split(/\s+/)[0]).join(', ')
-
-  // Próximo do tracker: avança a vez; deu a volta → round+1 (local; o sync
-  // da iniciativa pela sala entra no #196 via encounters).
-  const patch = (p: Partial<SessionRec>) => {
-    updateSession(sess.codigo, p)
-  }
-  const proximo = () => {
-    if (!ordered.length) return
-    const next = vez + 1
-    if (next >= ordered.length) patch({ vezIdx: 0, round: sess.round + 1 })
-    else patch({ vezIdx: next })
-  }
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
       {/* #225: ordem pedida — FICHA DO GRUPO em cima (leva pra mesa com
-          todos pré-registrados), depois HERÓIS com vida, depois iniciativa. */}
+          todos pré-registrados), depois HERÓIS com vida, depois o COMBATE. */}
       <button
         onClick={() => navigate(`/herois?grupo=${encodeURIComponent(MESA_GRUPO_ID)}`)}
         title="Abrir ficha do grupo"
@@ -925,95 +756,14 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
         </div>
         <span style={{ flex: 'none', color: 'var(--muted)', fontSize: 18 }}>→</span>
       </button>
-      {/* Sala remota (#186): HERÓIS da mesa com a vida ao vivo. */}
+      {/* Sala remota (#186): HERÓIS da mesa com a vida ao vivo — some
+          enquanto há combate ativo (#238, todo mundo tá na lista dele). */}
       <SalaRemota sess={sess} />
-      {/* Combate remoto (#196): encounters da sala (iniciar/turno/máscara). */}
+      {/* COMBATE (#196/#238): encounters da sala no formato do pleitost-sync
+          (iniciar/parar, próximo/anterior, máscara de NPC). O bloco local
+          "ORDEM DE INICIATIVA" (init/defesas por herói) saiu no #238 — a
+          ordem de turno é a do encounter remoto. */}
       <CombateDaSala sess={sess} />
-
-      <div
-        style={{
-          border: '1px solid color-mix(in srgb,var(--red) 40%,var(--line2))',
-          background: 'color-mix(in srgb,var(--red) 5%,var(--panel))',
-          clipPath: clip(15),
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '12px 18px',
-            borderBottom: '1px solid color-mix(in srgb,var(--red) 30%,var(--line))',
-          }}
-        >
-          <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--red)', fontWeight: 700 })}>
-            ⚔ ORDEM DE INICIATIVA
-          </span>
-          <span style={{ flex: 1 }} />
-          <button
-            onClick={() => setDefsOn((v) => !v)}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '6px 12px',
-              background: `color-mix(in srgb,var(--accent) ${defsOn ? 14 : 0}%,transparent)`,
-              border: `1px solid color-mix(in srgb,var(--accent) ${defsOn ? 80 : 20}%,var(--line2))`,
-              color: defsOn ? 'var(--accent)' : 'var(--muted)',
-              cursor: 'pointer',
-              fontFamily: 'var(--mono)',
-              fontSize: 10,
-              letterSpacing: '.1em',
-              clipPath: clip(5),
-            }}
-          >
-            🛡 DEFESAS
-          </button>
-          {/* Avanço de turno — semântica do tracker do plugin (moveCurrent);
-              chip no mesmo estilo do toggle DEFESAS. */}
-          <button
-            onClick={proximo}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '6px 12px',
-              background: 'transparent',
-              border: '1px solid color-mix(in srgb,var(--accent) 20%,var(--line2))',
-              color: 'var(--muted)',
-              cursor: 'pointer',
-              fontFamily: 'var(--mono)',
-              fontSize: 10,
-              letterSpacing: '.1em',
-              clipPath: clip(5),
-            }}
-          >
-            ▶ PRÓXIMO
-          </button>
-          <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>Turno {Math.max(1, sess.round)}</span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px' }}>
-          {ordered.map((m, i) => {
-            const doc = docs?.get(m.id)
-            if (!doc) return null
-            return (
-              <CombatRow
-                key={m.id}
-                doc={doc}
-                init={sess.init[m.id] ?? 0}
-                ativo={i === vez}
-                defsOn={defsOn}
-                onInit={(v) => patch({ init: { ...sess.init, [m.id]: v } })}
-              />
-            )
-          })}
-          {ordered.length === 0 ? (
-            <div style={mono({ fontSize: 11, color: 'var(--muted)', padding: 8 })}>
-              O grupo da mesa se monta pelos JOGADORES que entram na sessão.
-            </div>
-          ) : null}
-        </div>
-      </div>
     </div>
   )
 }

@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
-// SESSÃO (#101) — fluxo completo da tela: lista → criar sessão de um GRUPO da
-// vault → ORDEM DE INICIATIVA com a vida REAL das fichas (useVidaLocal) →
-// editar init reordena → PRÓXIMO avança a vez e fecha o turno (round+1,
-// semântica do combat-tracker do plugin) → DETALHES mostra código/mestre →
-// SAIR volta pra lista com a sessão registrada.
+// SESSÃO (#101) — fluxo da tela SEM servidor (repo/login ausentes): lista →
+// criar sessão → face INICIATIVA → DETALHES mostra código/mestre → SAIR
+// volta pra lista com a sessão registrada.
+// #238: o bloco local "ORDEM DE INICIATIVA" (init/DEFESAS/PRÓXIMO por herói)
+// saiu — o combate é o ENCOUNTER remoto no bloco COMBATE (formato do
+// pleitost-sync), que exige sala conectada (coberto em sessao-repo-ui e
+// iniciativa-direta). Offline a face INICIATIVA tem a FICHA DO GRUPO.
 import { beforeAll, beforeEach, afterEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -75,23 +77,23 @@ async function criarSessao() {
 }
 
 describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair', () => {
-  it('cria sessão SEM grupo (#203): iniciativa abre com o hint da mesa vazia', async () => {
+  it('cria sessão SEM grupo (#203): iniciativa abre; sem sala não há bloco de combate (#238)', async () => {
     renderSessao()
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
     await criarSessao()
-    expect(await screen.findByText('⚔ ORDEM DE INICIATIVA')).toBeTruthy()
-    expect(screen.getByText('Turno 1')).toBeTruthy()
-    // sem grupo pré-selecionado: o roster vem dos JOGADORES da sessão
-    expect(screen.getByText(/O grupo da mesa se monta pelos JOGADORES/)).toBeTruthy()
-    // PRÓXIMO com mesa vazia não avança turno (tracker sem combatentes)
-    fireEvent.click(screen.getByText('▶ PRÓXIMO'))
-    expect(screen.getByText('Turno 1')).toBeTruthy()
+    expect(await screen.findByText('FICHA DO GRUPO ↗')).toBeTruthy()
+    // #238: o bloco local ORDEM DE INICIATIVA (DEFESAS/PRÓXIMO/Turno) saiu;
+    // o COMBATE é o encounter remoto e só existe com a sala conectada
+    expect(screen.queryByText('⚔ ORDEM DE INICIATIVA')).toBeNull()
+    expect(screen.queryByText('🛡 DEFESAS')).toBeNull()
+    expect(screen.queryByText('▶ PRÓXIMO')).toBeNull()
+    expect(screen.queryByText('⚔ COMBATE')).toBeNull()
   })
 
   it('DETALHES mostra nome/código/mestre; SAIR volta pra lista com a sessão', async () => {
     renderSessao()
     await criarSessao()
-    await screen.findByText('⚔ ORDEM DE INICIATIVA')
+    await screen.findByText('FICHA DO GRUPO ↗')
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))
     expect(await screen.findByText('MESTRE')).toBeTruthy()
     const codigo = listSessions()[0].codigo
@@ -111,8 +113,8 @@ describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair',
     const input = await screen.findByPlaceholderText('Código da sessão')
     fireEvent.change(input, { target: { value: 'ZZTOP1' } })
     fireEvent.click(screen.getByText('Entrar →'))
-    // entra (mesa vazia → hint dos jogadores)
-    expect(await screen.findByText(/O grupo da mesa se monta pelos JOGADORES/)).toBeTruthy()
+    // entra (face INICIATIVA abre com a ficha do grupo)
+    expect(await screen.findByText('FICHA DO GRUPO ↗')).toBeTruthy()
     expect(listSessions()[0].codigo).toBe('ZZTOP1')
   })
 })
