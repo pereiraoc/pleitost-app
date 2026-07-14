@@ -115,6 +115,19 @@ describe('AventuraView — carta de bounty do doc (#248)', () => {
     expect(await screen.findByText('Proteção de Carregamento de Esmeraldas')).toBeTruthy()
     expect(document.querySelector('.bounty-subcat')?.textContent).toContain('Proteção de Transporte')
   })
+
+  it('Aventura SEM bounty (Encontro) mostra o corpo real, não uma carta vazia', async () => {
+    // Emboscada de Goblins: type Aventura, subcategoria Encontro, corpo
+    // instrucional + ```combat-marker``` (não é bounty). Não pode virar
+    // "Aventura sem título" nem esconder o corpo.
+    renderDoc('Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync)')
+    expect(await screen.findByRole('heading', { name: 'Emboscada de Goblins' })).toBeTruthy()
+    // corpo real presente
+    expect(screen.getByText(/Combate exemplo pra exercitar o fluxo/)).toBeTruthy()
+    // NÃO renderiza a carta de bounty vazia
+    expect(document.querySelector('.bounty-card')).toBeNull()
+    expect(screen.queryByText('Aventura sem título')).toBeNull()
+  })
 })
 
 describe('folha Campanhas/Aventuras — grade de cartas (#248)', () => {

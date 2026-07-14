@@ -61,8 +61,9 @@ export const KIND_INFO: Record<LocalKind, KindInfo> = {
   Pessoa: { type: 'Criatura', subtype: 'Pessoa', ficha: 'doc' },
   Grupo: { type: 'Grupo', subtype: 'Aventureiros', ficha: 'group' },
   // #248 — aventura criada no Modo Mestre. type: Aventura (espelha o extractor:
-  // FM.categoria = 'Aventura'); subtype vem da subcategoria escolhida (a
-  // syntheticEntry/buildDoc lê o subtype do rec, ajustado no createLocalEntity).
+  // FM.categoria = 'Aventura'). O subtype do entry fica constante 'Aventura'; a
+  // subcategoria REAL da missão (Neutralização/Resgate/…) vive no FM e é a fonte
+  // do chip de subcat na carta (bountyMetaFromDoc lê fm.subcategoria primeiro).
   Aventura: { type: 'Aventura', subtype: 'Aventura', ficha: 'doc' },
 }
 

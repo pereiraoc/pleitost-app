@@ -18,6 +18,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { useDocs } from '../../data/useDoc'
 import { docPath } from '../../paths'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { BountyCard } from '../../markdown/bounty/BountyCard'
 import { bountyMetaFromDoc } from '../../markdown/bounty/BountyFence'
 import { BountyText } from '../../markdown/bounty/BountyText'
@@ -46,6 +47,17 @@ export function bountyDataForDoc(doc: VaultDoc): BountyData {
   return bountyDataFromFm(doc.frontmatter)
 }
 
+/** Um doc `type: Aventura` só é uma CARTA DE BOUNTY quando carrega os campos do
+ *  bloco (fence ```bounty``` no corpo, ou Titulo/Recompensa/Objetivo no FM da
+ *  aventura local). Nem toda nota da pasta é um bounty: "Encontro" é um combate
+ *  de exemplo com corpo instrucional (```combat-marker```) — sem bounty. Sem
+ *  isso, o card viraria "Aventura sem título" e esconderia o corpo real. */
+export function hasBountyContent(doc: VaultDoc): boolean {
+  if (bountyFenceSource(doc.body) != null) return true
+  const data = bountyDataFromFm(doc.frontmatter)
+  return data.Titulo != null || data.Recompensa != null || data.Objetivo != null
+}
+
 /** Wikilinks de FM.disponivel (locais onde a aventura está disponível). */
 function disponivelDe(doc: VaultDoc): string[] {
   const v = doc.frontmatter['disponivel']
@@ -68,6 +80,25 @@ const availStyle: CSSProperties = {
 // ─────────────────────────── página de uma Aventura ───────────────────────────
 
 export function AventuraSheet({ doc }: { doc: VaultDoc }) {
+  // Nota da pasta que NÃO é bounty (ex.: "Encontro") → leitura normal do corpo,
+  // sem forçar a carta vazia (finding do review: não perder o corpo real).
+  if (!hasBountyContent(doc)) {
+    return (
+      <article className="doc-page page aventura-page">
+        <div className="kicker">{COMPENDIO_KICKER}</div>
+        <header className="doc-header">
+          <h1>{doc.basename}</h1>
+          {doc.type ? (
+            <span className="doc-type">
+              {doc.type}
+              {doc.subtype ? ` · ${doc.subtype}` : ''}
+            </span>
+          ) : null}
+        </header>
+        <MarkdownBody doc={doc} />
+      </article>
+    )
+  }
   const data = bountyDataForDoc(doc)
   const meta = bountyMetaFromDoc(doc)
   const disponivel = disponivelDe(doc)
@@ -127,10 +158,23 @@ export function AventuraGrid({ entries }: { entries: IndexDocEntry[] }) {
             className="aventura-grid-cell"
             style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
           >
-            {doc ? (
+            {doc && hasBountyContent(doc) ? (
               <BountyCard data={bountyDataForDoc(doc)} meta={bountyMetaFromDoc(doc)} />
             ) : (
-              <span style={{ color: 'var(--muted)' }}>{entry.basename ?? entry.id}</span>
+              // nota sem bounty (ex.: "Encontro") ou ainda carregando: título
+              // simples, sem forçar uma carta vazia.
+              <span
+                className="aventura-grid-plain"
+                style={{
+                  display: 'block',
+                  padding: '14px 16px',
+                  background: 'var(--panel)',
+                  border: '1px solid var(--line2)',
+                  color: doc ? 'var(--text)' : 'var(--muted)',
+                }}
+              >
+                {doc?.basename ?? entry.basename ?? entry.id}
+              </span>
             )}
           </Link>
         )
