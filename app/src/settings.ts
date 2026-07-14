@@ -15,6 +15,11 @@ import {
 } from './data/commerce'
 
 const MESTRE_KEY = 'pleitost.settings.mestre'
+// Modo Desenvolvedor (#252, F8): libera as afordâncias de EDIÇÃO do compêndio
+// (editar elementos de regra / textos → rascunho LOCAL até "Publicar"). Sem UI
+// de ativação por ora; ligado só via localStorage. O overlay publicado é lido
+// sempre; o rascunho local só é aplicado quando este modo está ON.
+const DESENVOLVEDOR_KEY = 'pleitost.settings.desenvolvedor'
 // Override da matriz de Disponibilidade de Tesouros editada pelo GM no CONFIG
 // (issue #72). Default = a tabela da nota real (DEFAULT_MATRIX, espelho do
 // body); quando o GM edita, o override completo é persistido aqui e a rolagem
@@ -24,6 +29,8 @@ const DISPONIBILIDADE_KEY = 'pleitost.settings.disponibilidade'
 export interface Settings {
   /** Modo Mestre: ON libera o BESTIÁRIO dos NPCs; OFF bloqueia a aba. */
   mestre: boolean
+  /** Modo Desenvolvedor: ON libera a edição do compêndio (rascunho local). */
+  desenvolvedor: boolean
   /** Matriz de disponibilidade (% por tipo de local × tier) que a loja usa. */
   disponibilidade: AvailabilityMatrix
 }
@@ -53,9 +60,13 @@ function loadDisponibilidade(): AvailabilityMatrix {
 
 function loadSettings(): Settings {
   try {
-    return { mestre: localStorage.getItem(MESTRE_KEY) === 'true', disponibilidade: loadDisponibilidade() }
+    return {
+      mestre: localStorage.getItem(MESTRE_KEY) === 'true',
+      desenvolvedor: localStorage.getItem(DESENVOLVEDOR_KEY) === 'true',
+      disponibilidade: loadDisponibilidade(),
+    }
   } catch {
-    return { mestre: false, disponibilidade: cloneMatrix(DEFAULT_MATRIX) }
+    return { mestre: false, desenvolvedor: false, disponibilidade: cloneMatrix(DEFAULT_MATRIX) }
   }
 }
 
@@ -75,6 +86,22 @@ function setMestre(mestre: boolean) {
     /* memória continua a fonte da sessão */
   }
   for (const cb of listeners) cb()
+}
+
+function setDesenvolvedor(desenvolvedor: boolean) {
+  state = { ...getSettings(), desenvolvedor }
+  try {
+    localStorage.setItem(DESENVOLVEDOR_KEY, String(desenvolvedor))
+  } catch {
+    /* memória continua a fonte da sessão */
+  }
+  for (const cb of listeners) cb()
+}
+
+/** Snapshot não-reativo do Modo Desenvolvedor (pra módulos fora de React, ex.
+ *  a projeção de overlay em effective-doc). */
+export function isDesenvolvedor(): boolean {
+  return getSettings().desenvolvedor
 }
 
 /** Grava uma célula da matriz (tipo × tier) — número (%) ou null (indisponível)
@@ -113,7 +140,7 @@ function subscribe(cb: () => void): () => void {
 
 export function useSettings() {
   const settings = useSyncExternalStore(subscribe, getSettings)
-  return { ...settings, setMestre, setDisponibilidadeCell, resetDisponibilidade }
+  return { ...settings, setMestre, setDesenvolvedor, setDisponibilidadeCell, resetDisponibilidade }
 }
 
 /** Snapshot não-reativo da matriz (para módulos fora de React, ex. rolagem). */

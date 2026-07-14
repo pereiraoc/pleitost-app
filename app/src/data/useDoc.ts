@@ -3,6 +3,9 @@ import type { VaultDoc } from './types'
 import { getLocalDoc, isLocalId, useLocalStoreVersion } from './local-entities'
 import { liveCharacter, synthDocFromCharacter, useLiveSession } from './session-repo/live-session'
 import { vaultUrl } from './base-url'
+import { effectiveDoc } from './effective-doc'
+import { useLocalDraftVersion } from './local-draft-store'
+import { useSettings } from '../settings'
 
 /** Doc SINTÉTICO de personagem remoto (#231): ids `sessao:<charId>` resolvem
  *  da sala viva — mesmo canal do resumo/#188, agora disponível pra QUALQUER
@@ -55,6 +58,8 @@ export interface DocState {
 export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
   const localVersion = useLocalStoreVersion()
   const live = useLiveSession() // reatividade dos docs sessao: (#231)
+  const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
+  const { desenvolvedor } = useSettings() // toggle do Modo Dev re-projeta
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
   const allKey = ids.join('\n')
   const vaultKey = ids.filter((id) => !isLocalId(id) && !isSessaoId(id)).join('\n')
@@ -77,19 +82,24 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     // Enquanto os docs da vault não chegam, preserva o estado de loading
     // (undefined) — a menos que só haja ids locais, que já estão prontos.
     if (vaultDocs === undefined && vaultKey) return undefined
-    const byId = new Map<string, VaultDoc>(vaultDocs ?? [])
+    // Docs da vault passam pela projeção de overlay (#252); locais/sessao têm
+    // seus próprios stores de edição e não são tocados pelo overlay do compêndio.
+    const byId = new Map<string, VaultDoc>()
+    for (const [id, doc] of vaultDocs ?? []) byId.set(id, effectiveDoc(doc))
     for (const id of ids) {
       const doc = isLocalId(id) ? getLocalDoc(id) : isSessaoId(id) ? getSessaoDoc(id) : undefined
       if (doc) byId.set(id, doc)
     }
     return byId
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vaultDocs, vaultKey, allKey, localVersion, live])
+  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, desenvolvedor])
 }
 
 export function useDoc(id: string): DocState {
   const localVersion = useLocalStoreVersion()
   const live = useLiveSession()
+  const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
+  const { desenvolvedor } = useSettings()
   const local = isLocalId(id)
   const sessao = isSessaoId(id)
   const [state, setState] = useState<DocState>({})
@@ -120,5 +130,9 @@ export function useDoc(id: string): DocState {
     const doc = getLocalDoc(id)
     return doc ? { doc } : { error: new Error(`entidade local "${id}" não encontrada`) }
   }
-  return state
+  // Doc da vault: projeta base ⊕ overlay (#252). draftVersion/desenvolvedor nas
+  // deps do hook garantem re-render quando um rascunho ou o Modo Dev muda.
+  void draftVersion
+  void desenvolvedor
+  return state.doc ? { doc: effectiveDoc(state.doc) } : state
 }
