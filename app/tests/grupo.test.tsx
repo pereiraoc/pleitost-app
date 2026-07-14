@@ -421,6 +421,18 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
     expect(screen.queryByText(/pontos de vida físicos/)).toBeNull()
   })
 
+  it('#240: TAP (click) também mostra o tooltip; pointerdown fora fecha', async () => {
+    // no celular não existe mouseenter — o toque precisa abrir o tooltip
+    const { container } = renderGroup5()
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    const vitHead = within(vidaPanel).getByText('VIT')
+    fireEvent.click(vitHead, { clientX: 200, clientY: 200 })
+    expect(await screen.findByText(/pontos de vida físicos/)).toBeTruthy()
+    // toque em outro lugar (pointerdown global) fecha
+    fireEvent.pointerDown(document.body)
+    expect(screen.queryByText(/pontos de vida físicos/)).toBeNull()
+  })
+
   it('hero RIQUEZA TOTAL usa a chave riq:f1; trocar de aba limpa o tooltip', async () => {
     const { container } = renderGroup5()
     const riqPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement

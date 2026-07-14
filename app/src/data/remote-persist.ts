@@ -11,6 +11,7 @@
 // durável — sobrevive a restart do servidor e troca de URL. NÃO toca a vault.
 
 import { appStateUrl } from './base-url'
+import { supabaseClient } from './session-repo/supabase'
 
 const ENDPOINT = appStateUrl()
 /** Chaves do app que devem persistir (grupo, ficha, personagens, mapa, ajustes). */
@@ -25,6 +26,106 @@ let origRemove: ((k: string) => void) | null = null
 /** window.localStorage (ou null) — mesma convenção dos outros stores do app. */
 function ls(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
+}
+
+/* ── #239: espelho POR CONTA (Supabase user_state) ─────────────────────────
+ * Logado, o MESMO snapshot (pleitost.* e local:*) sincroniza pra linha do usuário
+ * (RLS: só a própria). Semântica idêntica ao /app-state: hidratar preenche o
+ * que FALTA local (nunca sobrescreve), cada flush faz merge por chave no
+ * jsonb (last-write-wins por lote — documento na issue). v1: dados de outro
+ * dispositivo entram no LOGIN/boot (um reload quando chegam chaves novas);
+ * durante a sessão, só a mesa (SessionRepo) é realtime. */
+interface UserStateOps {
+  get(userId: string): Promise<Record<string, string> | null>
+  put(userId: string, patch: Record<string, string | null>): Promise<void>
+}
+let userOps: UserStateOps | null = null
+let sbUserId: string | null = null
+
+function defaultUserOps(): UserStateOps | null {
+  const sb = supabaseClient()
+  if (!sb) return null
+  return {
+    async get(userId) {
+      const { data, error } = await sb
+        .from('user_state')
+        .select('data')
+        .eq('user_id', userId)
+        .maybeSingle()
+      if (error) throw new Error(error.message)
+      return (data?.data as Record<string, string>) ?? null
+    },
+    async put(userId, patch) {
+      // read-merge-write (linha única por usuário; null remove a chave)
+      const { data } = await sb.from('user_state').select('data').eq('user_id', userId).maybeSingle()
+      const merged: Record<string, string> = { ...((data?.data as Record<string, string>) ?? {}) }
+      for (const [k, v] of Object.entries(patch)) {
+        if (v === null) delete merged[k]
+        else merged[k] = v
+      }
+      const { error } = await sb
+        .from('user_state')
+        .upsert({ user_id: userId, data: merged, updated_at: new Date().toISOString() })
+      if (error) throw new Error(error.message)
+    },
+  }
+}
+
+export function __setUserStateOpsForTests(ops: UserStateOps | null): void {
+  userOps = ops
+}
+
+/** Liga o espelho por conta quando o usuário loga (auth-state chama). Hidrata
+ *  as chaves ausentes; se chegou coisa nova, `onHydrated` decide o que fazer
+ *  (produção: um reload pra os stores re-hidratarem do localStorage). */
+export async function connectUserStateSync(
+  userId: string | null,
+  onHydrated: (addedKeys: string[]) => void = (added) => {
+    if (added.length) window.location.reload()
+  },
+): Promise<void> {
+  if (userId === sbUserId) return
+  sbUserId = userId
+  if (!userId) return
+  const ops = userOps ?? defaultUserOps()
+  if (!ops) return
+  const store = ls()
+  if (!store) return
+  const added: string[] = []
+  try {
+    const data = await ops.get(userId)
+    for (const [k, v] of Object.entries(data ?? {})) {
+      if (typeof v === 'string' && SYNCED.test(k) && store.getItem(k) === null) {
+        // grava pelo canal ORIGINAL (sem re-enfileirar o que veio do servidor)
+        ;(origSet ?? store.setItem.bind(store))(k, v)
+        added.push(k)
+      }
+    }
+    // bootstrap: snapshot local → conta (merge; chaves do servidor ficam)
+    const patch: Record<string, string> = {}
+    for (let i = 0; i < store.length; i++) {
+      const k = store.key(i)
+      if (k && SYNCED.test(k)) {
+        const v = store.getItem(k)
+        if (v !== null) patch[k] = v
+      }
+    }
+    await ops.put(userId, patch)
+  } catch {
+    /* offline/sem tabela: segue local; tenta de novo no próximo login */
+  }
+  onHydrated(added)
+}
+
+async function putUserPatch(patch: Record<string, string | null>): Promise<void> {
+  if (!sbUserId || Object.keys(patch).length === 0) return
+  const ops = userOps ?? defaultUserOps()
+  if (!ops) return
+  try {
+    await ops.put(sbUserId, patch)
+  } catch {
+    /* offline: próxima gravação tenta de novo */
+  }
 }
 
 async function putPatch(patch: Record<string, string | null>): Promise<void> {
@@ -49,6 +150,7 @@ function flush(): void {
   const patch = queue
   queue = {}
   void putPatch(patch)
+  void putUserPatch(patch) // #239: espelho por conta quando logado
 }
 
 function enqueue(key: string, value: string | null): void {
@@ -122,6 +224,8 @@ export async function initPersistence(): Promise<void> {
 
 /** SÓ testes: restaura o localStorage original, desfaz o patch e limpa a fila. */
 export function __resetPersistForTests(): void {
+  sbUserId = null
+  userOps = null
   const store = ls()
   if (patched && store) {
     if (origSet) store.setItem = origSet as Storage['setItem']

@@ -91,7 +91,10 @@ export function SortHead({
 }) {
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        onTipEnter?.(e) // #240: tap mostra o tooltip antes de ordenar
+        onClick()
+      }}
       onMouseEnter={onTipEnter}
       onMouseMove={tip?.move}
       onMouseLeave={tip?.hide}
@@ -139,6 +142,7 @@ export function NameCell({
   return (
     <div
       onMouseEnter={onTipEnter}
+      onClick={onTipEnter}
       onMouseMove={tip?.move}
       onMouseLeave={tip?.hide}
       style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}
@@ -178,6 +182,7 @@ export function ValueCell({
   return (
     <div
       onMouseEnter={onTipEnter}
+      onClick={onTipEnter}
       onMouseMove={tip?.move}
       onMouseLeave={tip?.hide}
       style={{

@@ -17,6 +17,7 @@ import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath, heroPath } from '../../paths'
 import { useSelectedCreature } from '../../data/selected-creature-store'
+import { useDetail } from '../../data/detail-context'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
 import { clip, PanelTrack, TrackPanel } from '../ficha/bits'
@@ -1143,7 +1144,18 @@ function NpcCard({
     isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
   const podeIniciativa = isMonstro && mestre && !!repo && !!user && !!live
   const temMenu = podeExportar || podeIniciativa
-  const abrir = () => navigate(target)
+  // #241: CA CONHECIDA (vault, sem escrita) abre a ficha RESUMO nos detalhes
+  // — o doc do compêndio só mostrava o fence cru. Sem contexto de detalhes,
+  // cai na rota antiga.
+  const detail = useDetail()
+  const resumoConhecido = readonly && subtype === 'Companheiro Animal'
+  const abrir = () => {
+    if (resumoConhecido && detail) {
+      detail.open({ kind: 'resumo', id: entry.id })
+      return
+    }
+    navigate(target)
+  }
 
   return (
     <div

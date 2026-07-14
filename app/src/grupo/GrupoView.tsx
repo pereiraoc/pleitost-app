@@ -178,6 +178,7 @@ function BalRow({
       />
       <div
         onMouseEnter={tip?.tipE(`bal:r${row.gi}c1`)}
+        onClick={tip?.tipE(`bal:r${row.gi}c1`)}
         onMouseMove={tip?.move}
         onMouseLeave={tip?.hide}
         style={{

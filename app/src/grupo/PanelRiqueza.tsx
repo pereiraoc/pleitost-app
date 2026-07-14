@@ -199,6 +199,7 @@ export function PanelRiqueza({
       {/* Hero "RIQUEZA TOTAL" — verbatim do design (heroTipE:'riq:f1'). */}
       <div
         onMouseEnter={tip?.tipE('riq:f1')}
+        onClick={tip?.tipE('riq:f1')}
         onMouseMove={tip?.move}
         onMouseLeave={tip?.hide}
         style={{

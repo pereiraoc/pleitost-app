@@ -240,6 +240,7 @@ export function PanelDestaques({
                 {mg.warn ? (
                   <span
                     onMouseEnter={tip?.tipE(magiaTipKeys[mIdx])}
+                    onClick={tip?.tipE(magiaTipKeys[mIdx])}
                     onMouseMove={tip?.move}
                     onMouseLeave={tip?.hide}
                     style={{ flex: 'none', fontSize: 11, cursor: 'help' }}

@@ -8,7 +8,7 @@
 //     caber em [8, vh-8] }
 //   componentDidMount: scroll (capture) limpa o gtip (_onScrollG).
 // O markup do overlay (§GRUPOS, sc-if grupo.gtip) é replicado em <GtipOverlay>.
-import { useCallback, useEffect, useState, type MouseEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
 import { getGtips } from './gtips'
 
 interface GtipState {
@@ -110,8 +110,29 @@ export function useGrupoTip(): GrupoTip {
     return () => window.removeEventListener('scroll', onScroll, true)
   }, [])
 
+  // #240: TOQUE também abre — mouseenter não existe no celular e os tooltips
+  // "paravam de funcionar" lá. O pointerdown global (abaixo) fecha o tooltip
+  // e memoriza a chave: o click que vem em seguida no MESMO alvo vira toggle
+  // (fecha); em alvo novo, abre. Hover de desktop segue intacto.
+  const prevKeyRef = useRef<string | null>(null)
+  useEffect(() => {
+    const onDown = () => {
+      setGtip((cur) => {
+        prevKeyRef.current = cur?.key ?? null
+        return null
+      })
+    }
+    document.addEventListener('pointerdown', onDown, true)
+    return () => document.removeEventListener('pointerdown', onDown, true)
+  }, [])
   const tipE = useCallback(
-    (key: string) => (e: MouseEvent) => setGtip({ key, x: e.clientX, y: e.clientY }),
+    (key: string) => (e: MouseEvent) => {
+      if (e.type === 'click' && prevKeyRef.current === key) {
+        prevKeyRef.current = null
+        return
+      }
+      setGtip({ key, x: e.clientX, y: e.clientY })
+    },
     [],
   )
   const move = useCallback(

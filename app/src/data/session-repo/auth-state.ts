@@ -3,6 +3,7 @@
 // auth — o teste passa {id, nome} direto no SessionRepoProvider).
 import { useSyncExternalStore } from 'react'
 import { supabaseClient, signInWithGitHub } from './supabase'
+import { connectUserStateSync } from '../remote-persist'
 
 export interface SessionUser {
   id: string
@@ -56,6 +57,8 @@ function start() {
         }
       : null
     emit()
+    // #239: logado → espelho por conta (heróis/anotações entre dispositivos)
+    void connectUserStateSync(cache?.id ?? null)
   })
   sb.auth.onAuthStateChange((_ev, session) => {
     const u = session?.user
@@ -70,6 +73,7 @@ function start() {
         }
       : null
     emit()
+    void connectUserStateSync(cache?.id ?? null)
   })
 }
 
