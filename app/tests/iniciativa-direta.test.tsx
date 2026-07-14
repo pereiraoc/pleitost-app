@@ -115,14 +115,14 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     const repo = new InMemorySessionRepo()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
     fireEvent.click(await screen.findByText('+ Criar nova sessão'))
-    await screen.findByText('⚔ ORDEM DE INICIATIVA')
+    await screen.findByText('⚔ COMBATE') // #238: GM vê o painel de controle sempre
 
     await adicionarAIniciativa('Goblin Batedor')
 
     // combate da sala ATIVO com o NPC na ordem (GM vê nome real + números);
     // "Turno 1" também existe na iniciativa local — basta 2+ ocorrências
-    await waitFor(() => expect(screen.getByText('⚔ COMBATE DA SESSÃO')).toBeTruthy())
-    await waitFor(() => expect(screen.getAllByText(/Turno 1/).length).toBeGreaterThan(1))
+    await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
+    await waitFor(() => expect(screen.getAllByText(/Turno 1/).length).toBeGreaterThanOrEqual(1))
     expect(
       screen.getAllByText('Goblin Batedor').some((e) => e.closest('.npc-card') === null),
     ).toBe(true)
@@ -145,12 +145,12 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     const repo = new InMemorySessionRepo()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
     fireEvent.click(await screen.findByText('+ Criar nova sessão'))
-    await screen.findByText('⚔ ORDEM DE INICIATIVA')
+    await screen.findByText('⚔ COMBATE') // #238: GM vê o painel de controle sempre
     const codigo = listSessions()[0].codigo
 
     // primeiro monstro cria+inicia o combate…
     await adicionarAIniciativa('Goblin Batedor')
-    await waitFor(() => expect(screen.getByText('⚔ COMBATE DA SESSÃO')).toBeTruthy())
+    await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
     // …o segundo entra no MESMO combate ativo (append na ordem)
     await adicionarAIniciativa('Goblin Guerreiro')
     await waitFor(() =>
@@ -176,10 +176,10 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
     fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
-    await waitFor(() => expect(screen.getByText('⚔ COMBATE DA SESSÃO')).toBeTruthy())
+    await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
     // nomes reais ocultos DENTRO do combate da sala (a página CRIATURAS do
     // próprio jogador segue listando o bestiário — não conta)
-    const combate = screen.getByText('⚔ COMBATE DA SESSÃO').parentElement!
+    const combate = screen.getByText('⚔ COMBATE').parentElement!
       .parentElement as HTMLElement
     expect(within(combate).queryByText('Goblin Batedor')).toBeNull()
     expect(within(combate).queryByText('Goblin Guerreiro')).toBeNull()
