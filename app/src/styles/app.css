@@ -656,6 +656,73 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- Items (#245) ---------- */
+/* Página de um Item: a MESMA carta do tooltip (.shc-card), em tamanho grande e
+   centralizada. Só sobrepõe dimensões/tipografia — cor/tier/estrutura vêm do
+   ITEM_CARD_CSS reusado do item-card.tsx. */
+.item-page-card {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+.item-page-card .shc-card {
+  width: min(420px, 100%);
+  max-height: none;
+  overflow: visible;
+  padding: 16px 18px;
+  border-radius: 16px;
+  gap: 5px;
+}
+.item-page-card .shc-img {
+  max-height: 260px;
+  margin-bottom: 8px;
+}
+.item-page-card .shc-name {
+  font-size: 1.5rem;
+  font-family: var(--display);
+  letter-spacing: 0.02em;
+}
+.item-page-card .shc-tier {
+  font-size: 13px;
+}
+.item-page-card .shc-row {
+  font-size: 14px;
+  margin-top: 1px;
+}
+.item-page-card .shc-desc {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* Folha de uma pasta de Items: grade das cartas (não a DocTable de texto). Cada
+   célula é um link pro doc, a carta é a mesma do tooltip (.shc-card, resumo). */
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.9rem;
+  align-items: start;
+}
+.item-grid-cell {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.item-grid-cell .shc-card {
+  width: 100%;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.item-grid-cell:hover .shc-card {
+  transform: translateY(-2px);
+}
+.item-grid-loading {
+  display: block;
+  padding: 1rem;
+  border: 1px dashed var(--line2);
+  border-radius: 11px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
 .doc-list h1,
 .doc-page h1 {
   font-family: var(--display);

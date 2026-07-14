@@ -12,5 +12,8 @@ registerDocView({
   view: (doc, { sidebar }) => <LocationSheet doc={doc} sidebar={sidebar} />,
 })
 
-// F1 (#245): import './ItemView'
+// F1 (#245) — Item: carta grande no doc + grade de cartas na folha (side-effect
+// registra tanto o doc-view 'item' quanto o leaf-view 'Item').
+import './ItemView'
+
 // F3 (#247): import './OrgView' ; import './HistoriaView'
