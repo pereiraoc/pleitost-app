@@ -11,6 +11,9 @@ import { RegraView, isRegra } from './RegraView'
 // F1 (#245) — Item: carta grande no doc + grade de cartas na folha; o módulo
 // registra por side-effect tanto o doc-view 'item' quanto o leaf-view 'Item'.
 import './ItemView'
+// F5 (#249) — Combate: roster + dificuldade no doc + grade na folha; o módulo
+// registra por side-effect o doc-view 'combate' e o leaf-view 'Combate'.
+import './CombateView'
 
 // Localização (#66) — ficha com abas + Hexploração.
 registerDocView({

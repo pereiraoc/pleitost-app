@@ -18,8 +18,7 @@ import {
   computeEncounterDifficultyByLevel,
   formatDifficultyValue,
 } from '../../mestre/encounter-compute'
-import { combatantsFrom, rosterItemFromDoc, type RosterItem } from '../../mestre/roster'
-import type { EncounterRosterEntry } from '../../data/session-repo/contract'
+import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from '../../mestre/roster'
 import type { IndexDocEntry } from '../../data/types'
 import { DifficultyBadge, fieldInputStyle, fieldLabelStyle, sectionStyle } from './ui'
 
@@ -33,14 +32,6 @@ function docsUnder(node: FolderNode | undefined): IndexDocEntry[] {
     ...node.docs.filter((d) => d.basename !== node.name),
     ...node.folders.flatMap((f) => docsUnder(f)),
   ]
-}
-
-/** Linha do roster resolvida contra o catálogo — ou o motivo de não pontuar
- *  (paridade com o sync: genérico/sem ficha/não-Monstro ficam de fora). */
-interface ResolvedEntry {
-  entry: EncounterRosterEntry
-  item: RosterItem | null
-  motivo: string | null
 }
 
 export function CriadorAventura() {
@@ -74,31 +65,16 @@ export function CriadorAventura() {
   }, [noteId, campanhaDocs])
 
   // resolve wikilink target → doc do catálogo → carrega os docs de monstro
-  const resolvedIds = useMemo(() => {
-    const ids: string[] = []
-    for (const entry of roster?.entries ?? []) {
-      if (!entry.sourcePath) continue
-      const res = catalog.resolve(entry.sourcePath)
-      if (res.kind === 'doc') ids.push(res.id)
-    }
-    return ids
-  }, [roster, catalog])
+  const resolvedIds = useMemo(
+    () => (roster ? rosterMonsterIds(roster, catalog) : []),
+    [roster, catalog],
+  )
   const monsterDocs = useDocs(resolvedIds)
 
-  const resolvidas = useMemo<ResolvedEntry[]>(() => {
-    return (roster?.entries ?? []).map((entry) => {
-      if (!entry.sourcePath) {
-        return { entry, item: null, motivo: 'genérico — não pontua' }
-      }
-      const res = catalog.resolve(entry.sourcePath)
-      if (res.kind !== 'doc') return { entry, item: null, motivo: 'sem ficha no catálogo' }
-      const doc = monsterDocs?.get(res.id)
-      if (!doc) return { entry, item: null, motivo: 'carregando…' }
-      const item = rosterItemFromDoc(doc, entry.qty)
-      if (!item) return { entry, item: null, motivo: 'não é Monstro — não pontua' }
-      return { entry, item, motivo: null }
-    })
-  }, [roster, catalog, monsterDocs])
+  const resolvidas = useMemo(
+    () => (roster ? resolveRosterEntries(roster, catalog, monsterDocs) : []),
+    [roster, catalog, monsterDocs],
+  )
 
   const combatants = useMemo(
     () =>

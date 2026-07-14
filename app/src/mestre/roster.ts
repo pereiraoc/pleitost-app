@@ -7,6 +7,7 @@
 // tier/modificador escolhidos pelo GM, que aí pontuam como monstro normal.
 import type { VaultDoc } from '../data/types'
 import type { EncounterRoster, EncounterRosterEntry } from '../data/session-repo/contract'
+import type { Catalog } from '../data/catalog'
 import {
   parseModificador,
   tierFromLevel,
@@ -85,6 +86,53 @@ export function toContractRoster(items: readonly RosterItem[]): EncounterRoster 
     qty: item.qty,
   }))
   return { entries }
+}
+
+/** Ids dos docs de monstro referenciados por um roster (wikilink → catálogo),
+ *  pra alimentar useDocs. Entradas genéricas (sem sourcePath) e as que não
+ *  resolvem no catálogo são omitidas. */
+export function rosterMonsterIds(roster: EncounterRoster, catalog: Catalog): string[] {
+  const ids: string[] = []
+  for (const entry of roster.entries) {
+    if (!entry.sourcePath) continue
+    const res = catalog.resolve(entry.sourcePath)
+    if (res.kind === 'doc') ids.push(res.id)
+  }
+  return ids
+}
+
+/** Uma linha do roster resolvida contra o catálogo — ou o motivo de não
+ *  pontuar (paridade com o sync: genérico/sem ficha/não-Monstro ficam de fora,
+ *  igual `computeEncounterDifficultyForSession` do pleitost-sync). */
+export interface ResolvedRosterEntry {
+  entry: EncounterRosterEntry
+  /** RosterItem que pontua, ou null se a entrada não conta. */
+  item: RosterItem | null
+  /** Motivo de não pontuar (exibível), ou null quando `item` está presente. */
+  motivo: string | null
+}
+
+/** Resolve cada entrada do roster contra o catálogo + os docs já carregados.
+ *  `docs` = mapa id→doc de useDocs (undefined enquanto o lote carrega). Mesma
+ *  lógica que o CriadorAventura usava inline (#194), agora compartilhada com o
+ *  fence combat-marker (#249) — fonte única. */
+export function resolveRosterEntries(
+  roster: EncounterRoster,
+  catalog: Catalog,
+  docs: Map<string, VaultDoc> | undefined,
+): ResolvedRosterEntry[] {
+  return roster.entries.map((entry) => {
+    if (!entry.sourcePath) {
+      return { entry, item: null, motivo: 'genérico — não pontua' }
+    }
+    const res = catalog.resolve(entry.sourcePath)
+    if (res.kind !== 'doc') return { entry, item: null, motivo: 'sem ficha no catálogo' }
+    const doc = docs?.get(res.id)
+    if (!doc) return { entry, item: null, motivo: 'carregando…' }
+    const item = rosterItemFromDoc(doc, entry.qty)
+    if (!item) return { entry, item: null, motivo: 'não é Monstro — não pontua' }
+    return { entry, item, motivo: null }
+  })
 }
 
 /** Níveis dos heróis a partir do input de texto ("5, 5, 4, 3"): números

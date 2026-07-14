@@ -1386,7 +1386,15 @@ function PessoaDeAnotacaoCard({
 }
 
 export function NpcsPage() {
-  const [tab, setTab] = useState(NPC_TABS[0].id)
+  // #249: deep-link de aba via `?tab=` (mesmo padrão do FichaPage/SessaoFicha) —
+  // ex.: o "criar combate" da tela de Combates do compêndio abre `?tab=combate`.
+  const [searchParams] = useSearchParams()
+  const tabPedida = searchParams.get('tab')
+  const abaInicial =
+    tabPedida && [...NPC_TABS, ...MESTRE_TABS].some((t) => t.id === tabPedida)
+      ? tabPedida
+      : NPC_TABS[0].id
+  const [tab, setTab] = useState(abaInicial)
   const [pessoaOpen, setPessoaOpen] = useState(false)
   // #205: modal Importar Companheiro Animal (arquivo ou exemplo do compêndio)
   const [importCAOpen, setImportCAOpen] = useState(false)

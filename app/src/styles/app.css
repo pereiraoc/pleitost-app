@@ -723,6 +723,133 @@ a {
   font-size: 12.5px;
 }
 
+/* #249 — visualização de COMBATE (roster + dificuldade + grade) ------------- */
+.combate-header {
+  margin-bottom: 1rem;
+}
+.combate-header .doc-type {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.05rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line2);
+  border-radius: 6px;
+}
+.combat-marker {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.combat-roster,
+.combat-difficulty {
+  background: var(--panel2, var(--panel));
+  border: 1px solid var(--line2);
+  border-radius: 11px;
+  padding: 0.9rem 1rem;
+}
+.combat-roster-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.combat-roster-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-radius: 8px;
+}
+.combat-roster-qty {
+  font-weight: 700;
+}
+.combat-roster-meta,
+.combat-difficulty-ratio {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.combat-difficulty-pts {
+  margin-left: 0.5rem;
+  color: var(--accent);
+}
+.combat-grid-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.combat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.9rem;
+  align-items: start;
+}
+.combat-grid-cell {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 0.85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-radius: 11px;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.combat-grid-cell:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+.combat-card-name {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.4rem;
+}
+.combat-card-roster {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.combat-card-empty {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.combate-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+.combate-novo-link {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink, #0b0b0b);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+}
+.combate-novo-link:hover {
+  filter: brightness(1.05);
+}
+
 .doc-list h1,
 .doc-page h1 {
   font-family: var(--display);

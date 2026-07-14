@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { VaultDoc } from '../data/types'
 import { DataviewBlock } from '../dataview/DataviewBlock'
+import { CombatMarkerBlock } from '../mestre/CombatMarkerBlock'
 
 export interface FenceProps {
   lang: string
@@ -14,6 +15,15 @@ function AutosheetRulesFence({ code }: FenceProps) {
   return <pre className="fence-autosheet-rules">{code}</pre>
 }
 
+/** #249: fence ```combat-marker(-small)``` — o mesmo bloco que o
+ *  pleitost-autosheet usa nas notas de combate. Parseia o roster + computa a
+ *  dificuldade (via CombatMarkerBlock, que reusa combat-marker.ts +
+ *  encounter-compute.ts) em vez do <pre> cru. Funciona na CombateView e em
+ *  qualquer doc que embuta o bloco. */
+function CombatMarkerFence({ code }: FenceProps) {
+  return <CombatMarkerBlock code={code} />
+}
+
 export function FenceFallback({ lang, code }: FenceProps) {
   return <pre className={`fence-${lang}`}>{code}</pre>
 }
@@ -25,4 +35,8 @@ export function FenceFallback({ lang, code }: FenceProps) {
 export const FENCES: Record<string, ComponentType<FenceProps>> = {
   dataview: DataviewBlock, // avaliada de verdade; fallback interno pro colapsado
   'autosheet-rules': AutosheetRulesFence,
+  // #249: as 2 tags que aparecem nas notas de combate da vault (o autosheet
+  // processa 4 variantes; -small/plain são as usadas nas notas de prep).
+  'combat-marker': CombatMarkerFence,
+  'combat-marker-small': CombatMarkerFence,
 }
