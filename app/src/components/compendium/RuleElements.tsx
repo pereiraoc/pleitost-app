@@ -11,6 +11,7 @@ import type { CSSProperties } from 'react'
 import type { ConditionParse, RuleElement, VaultDoc } from '../../data/types'
 import { useSettings } from '../../settings'
 import { InlineFieldValue } from './InlineFieldValue'
+import { RuleElementsEditor } from './RuleElementsEditor'
 
 // ──────────────────────────────────────────────────────────────────────────
 // Narrowing do `parsed` (unknown no JSON) pra uma vista mínima da AST
@@ -456,7 +457,10 @@ export function RuleElementsSection({ elements }: { elements: readonly RuleEleme
  *  regra ganha o visualizador+cobertura (#251, F7) de graça, sem repetir o
  *  `{mestre && doc.ruleElements?.length ? …}` em cada call-site. */
 export function DocRuleElements({ doc }: { doc: VaultDoc }) {
-  const { mestre } = useSettings()
+  const { mestre, desenvolvedor } = useSettings()
+  // Modo Desenvolvedor (#253, F9): editor in-place com validação viva. Aparece
+  // mesmo sem elementos (pra ADICIONAR) — por isso não passa pelo gate de length.
+  if (desenvolvedor) return <RuleElementsEditor doc={doc} />
   if (!mestre || !doc.ruleElements?.length) return null
   return <RuleElementsSection elements={doc.ruleElements} />
 }
