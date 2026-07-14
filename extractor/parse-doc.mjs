@@ -9,8 +9,15 @@ import { parseFrontmatter } from "./parse-frontmatter.mjs";
 import { parseInlineFields } from "./parse-inline-fields.mjs";
 import { parseLinks } from "./parse-links.mjs";
 import { parseRuleElements } from "./load-rule-parser.mjs";
+import { parseConditionElements } from "./load-condition-parser.mjs";
 
 const HEADING_RE = /^(#{1,6})[ \t]+(.+?)[ \t]*#*$/;
+
+// Notas de Condição (`categoria: Regra`, `subcategoria: Condição`) guardam as
+// `Elementos_de_Regra` num subsistema PRÓPRIO do plugin (Escalavel/Derivar/
+// Somar Condicao.X), que o parser genérico não cobre. Detectar pela subcategoria
+// (sinal de dado, não caminho) pra parsear com o parser certo.
+const CONDICAO_SUBCATEGORIA = "Condição";
 
 function collectFmStrings(value, keyPath, out) {
   if (typeof value === "string") {
@@ -64,6 +71,16 @@ export async function parseDoc({ raw, relPath }) {
     ? frontmatter.Elementos_de_Regra
     : [];
   const ruleElements = await parseRuleElements(rawRules, basename);
+
+  // Condição: parseia as MESMAS linhas pelo subsistema de condição do plugin e
+  // funde `condition` em cada elemento (alinhado por índice). O parser genérico
+  // devolve `parsed: []` pra esses verbos — o `condition` é que os cobre.
+  if (subtype === CONDICAO_SUBCATEGORIA && rawRules.length > 0) {
+    const condEls = await parseConditionElements(rawRules, basename);
+    for (let i = 0; i < ruleElements.length; i++) {
+      if (condEls[i]) ruleElements[i].condition = condEls[i].condition;
+    }
+  }
 
   // Links: corpo + valores de frontmatter (FM tem wikilinks em Imagem, disponivel, etc).
   const fmStrings = [];

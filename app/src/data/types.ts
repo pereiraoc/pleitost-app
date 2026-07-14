@@ -47,10 +47,28 @@ export interface DocHeading {
   text: string
 }
 
+/** Regra de uma nota de Condição, parseada pelo subsistema de condição do
+ *  plugin (Escalavel/Derivar/Somar Condicao.X) — só presente em docs de
+ *  Condição. `kind: 'unknown'` = linha que o parser de condição não reconheceu. */
+export interface ConditionRule {
+  kind: string
+  [k: string]: unknown
+}
+export interface ConditionParse {
+  /** >1 quando a condição escala (ex.: `Escalavel 3`). */
+  scaleMax: number
+  rules: ConditionRule[]
+  /** condições derivadas (`Derivar Condicao X`). */
+  derived: string[]
+}
+
 /** Elemento da DSL autosheet-rules; `parsed` é a AST do rule-parser do plugin (não avaliada aqui). */
 export interface RuleElement {
   raw: string
   parsed: unknown
+  /** Só em notas de Condição: o parse da MESMA linha pelo parser de condição
+   *  (o `parsed` genérico fica vazio pra esses verbos). Fonte da cobertura F7. */
+  condition?: ConditionParse
 }
 
 export interface VaultDoc {

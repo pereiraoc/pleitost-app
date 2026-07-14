@@ -86,6 +86,30 @@ describe('validação de cobertura/sintaxe (#251)', () => {
     expect(elementIssues(el).syntax).toBe(false)
   })
 
+  it('elementIssues: elemento de Condição coberto (Escalavel/derived/rule) NÃO é problema', () => {
+    // parser genérico vazio, mas o subsistema de condição reconheceu → coberto
+    const escalavel: RuleElement = { raw: 'Escalavel 3', parsed: [], condition: { scaleMax: 3, rules: [], derived: [] } }
+    const derivar: RuleElement = { raw: 'Derivar Condicao Preso', parsed: [], condition: { scaleMax: 1, rules: [], derived: ['Preso'] } }
+    const somar: RuleElement = {
+      raw: 'Somar Condicao.Vigor -2',
+      parsed: [],
+      condition: { scaleMax: 1, rules: [{ kind: 'number', key: 'vigor', value: -2 }], derived: [] },
+    }
+    for (const el of [escalavel, derivar, somar]) {
+      expect(elementIssues(el).syntax).toBe(false)
+      expect(elementIssues(el).unknown).toBe(0)
+    }
+  })
+
+  it('elementIssues: Condição que NADA reconhece (só unknown) segue como problema', () => {
+    const lixo: RuleElement = {
+      raw: 'null',
+      parsed: [],
+      condition: { scaleMax: 1, rules: [{ kind: 'unknown', raw: 'null' }], derived: [] },
+    }
+    expect(elementIssues(lixo).syntax).toBe(true)
+  })
+
   it('elementIssues: regra válida (alias-compor) não tem problema', () => {
     const el: RuleElement = {
       raw: 'Nivel 1 Alias Classe Compor 0 "Animista"',

@@ -27,3 +27,15 @@ export const OUT_DIR = process.env.PLEITOST_EXTRACT_OUT
 
 // Caminho do parser de DSL (fonte de verdade da gramática de rule elements).
 export const RULE_PARSER_TS = resolve(PLUGIN_ROOT, "src", "extract", "rule-parser.ts");
+
+// Parser das `Elementos_de_Regra` das notas de Condição (subsistema próprio do
+// plugin — Escalavel/Derivar/Somar Condicao.X). Reusado read-only, igual ao
+// rule-parser genérico. `display-names.ts` é a única dep runtime dele (slugify).
+export const CONDITION_PARSER_TS = resolve(
+  PLUGIN_ROOT,
+  "src",
+  "runtime",
+  "condicoes",
+  "parse-condition-rule.ts",
+);
+export const DISPLAY_NAMES_TS = resolve(PLUGIN_ROOT, "src", "util", "display-names.ts");

@@ -8,7 +8,7 @@
 // APRESENTA esses dados. Campo ausente fica de fora (sem fallback); kind
 // desconhecido mostra o próprio kind vindo do JSON.
 import type { CSSProperties } from 'react'
-import type { RuleElement, VaultDoc } from '../../data/types'
+import type { ConditionParse, RuleElement, VaultDoc } from '../../data/types'
 import { useSettings } from '../../settings'
 import { InlineFieldValue } from './InlineFieldValue'
 
@@ -342,8 +342,27 @@ export interface RuleIssue {
   unknown: number
 }
 
+/** Notas de Condição usam um subsistema próprio do plugin (Escalavel/Derivar/
+ *  Somar Condicao.X): o parser genérico devolve `parsed: []`, mas o extractor
+ *  funde `element.condition` com o parse REAL. Um elemento de condição está
+ *  coberto quando o parser reconheceu algo — escala (scaleMax>1), deriva, ou ao
+ *  menos uma regra que não seja `unknown`. Só o que NADA reconhece (ex.: "null")
+ *  segue como problema. */
+function conditionRecognized(cond: ConditionParse): boolean {
+  return (
+    cond.scaleMax > 1 ||
+    cond.derived.length > 0 ||
+    cond.rules.some((r) => r.kind !== 'unknown')
+  )
+}
+
 export function elementIssues(element: RuleElement): RuleIssue {
   const rules = parsedRules(element.parsed)
+  // Elemento de condição coberto pelo subsistema próprio → sem problema, mesmo
+  // com `parsed` genérico vazio.
+  if (element.condition && conditionRecognized(element.condition)) {
+    return { syntax: false, unknown: 0 }
+  }
   return {
     syntax: element.raw.trim() !== '' && rules.length === 0,
     unknown: rules.filter((r) => r.action.kind === 'unknown').length,
