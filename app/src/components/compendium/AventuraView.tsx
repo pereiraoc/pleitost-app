@@ -21,6 +21,7 @@ import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { BountyCard } from '../../markdown/bounty/BountyCard'
 import { bountyMetaFromDoc } from '../../markdown/bounty/BountyFence'
+import { rankOf, rankStyle, subcatStyle, type BountyRank } from '../../markdown/bounty/bounty-meta'
 import { BountyText } from '../../markdown/bounty/BountyText'
 import { parseBountyBlock, type BountyData } from '../../markdown/bounty/parse-bounty'
 import { bountyDataFromFm } from '../../markdown/bounty/bounty-fm'
@@ -140,46 +141,121 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
 
 // ─────────────────────── grade de cartas de uma pasta ───────────────────────
 
+/** Ordem de rank do maior pro menor (S..D), como o sistema. Sem rank vai por último. */
+const RANK_ORDER: BountyRank[] = ['S', 'A', 'B', 'C', 'D']
+const SEM_RANK = 'Sem rank'
+
+/** Aventuras "de exemplo" (ex.: "Emboscada de Goblins (Exemplo Sync)") não
+ *  entram na folha — pedido do usuário (#265). Sinal do próprio dado (o nome). */
+function isExemplo(doc: VaultDoc): boolean {
+  return /\bexemplo\b/i.test(doc.basename ?? '')
+}
+
+/** Célula de carta de uma aventura (com ou sem bounty). */
+function AventuraCell({ doc, id }: { doc: VaultDoc | undefined; id: string }) {
+  return (
+    <Link
+      to={docPath(id)}
+      className="aventura-grid-cell"
+      style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+    >
+      {doc && hasBountyContent(doc) ? (
+        <BountyCard data={bountyDataForDoc(doc)} meta={bountyMetaFromDoc(doc)} />
+      ) : (
+        <span
+          className="aventura-grid-plain"
+          style={{
+            display: 'block',
+            padding: '14px 16px',
+            background: 'var(--panel)',
+            border: '1px solid var(--line2)',
+            color: doc ? 'var(--text)' : 'var(--muted)',
+          }}
+        >
+          {doc?.basename ?? id}
+        </span>
+      )}
+    </Link>
+  )
+}
+
+const gridStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+  gap: 14,
+}
+
+/** Folha de Aventuras AGRUPADA por RANK (tier) → depois por TIPO (subcategoria),
+ *  pedido do usuário (#265). Esconde as "de exemplo". Rótulos/cores de rank e
+ *  subcategoria vêm da fonte de verdade (bounty-meta, port do render-bounty). */
 export function AventuraGrid({ entries }: { entries: IndexDocEntry[] }) {
   const docs = useDocs(entries.map((e) => e.id))
   if (!entries.length) return null
+  if (!docs) return <div style={{ color: 'var(--muted)', padding: '14px 0' }}>…</div>
+
+  // resolve, tira exemplos, agrupa por rank → subcategoria
+  const resolved = entries
+    .map((e) => ({ id: e.id, doc: docs.get(e.id) }))
+    .filter((x): x is { id: string; doc: VaultDoc } => Boolean(x.doc) && !isExemplo(x.doc!))
+
+  const byRank = new Map<string, Map<string, { id: string; doc: VaultDoc }[]>>()
+  for (const x of resolved) {
+    const meta = bountyMetaFromDoc(x.doc)
+    const rank: string = rankOf(String(meta.rank ?? '')) ?? SEM_RANK
+    const tipo = String(meta.subcategoria ?? '—')
+    if (!byRank.has(rank)) byRank.set(rank, new Map())
+    const byTipo = byRank.get(rank)!
+    if (!byTipo.has(tipo)) byTipo.set(tipo, [])
+    byTipo.get(tipo)!.push(x)
+  }
+
+  const rankKeys = [...byRank.keys()].sort((a, b) => {
+    const ia = RANK_ORDER.indexOf(a as BountyRank)
+    const ib = RANK_ORDER.indexOf(b as BountyRank)
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
+  })
+
   return (
-    <div
-      className="aventura-grid"
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-        gap: 14,
-      }}
-    >
-      {entries.map((entry) => {
-        const doc = docs?.get(entry.id)
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      {rankKeys.map((rank) => {
+        const rs = rank === SEM_RANK ? null : rankStyle(rank)
+        const byTipo = byRank.get(rank)!
+        const tipos = [...byTipo.keys()].sort((a, b) => a.localeCompare(b))
         return (
-          <Link
-            key={entry.id}
-            to={docPath(entry.id)}
-            className="aventura-grid-cell"
-            style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-          >
-            {doc && hasBountyContent(doc) ? (
-              <BountyCard data={bountyDataForDoc(doc)} meta={bountyMetaFromDoc(doc)} />
-            ) : (
-              // nota sem bounty (ex.: "Encontro") ou ainda carregando: título
-              // simples, sem forçar uma carta vazia.
-              <span
-                className="aventura-grid-plain"
-                style={{
-                  display: 'block',
-                  padding: '14px 16px',
-                  background: 'var(--panel)',
-                  border: '1px solid var(--line2)',
-                  color: doc ? 'var(--text)' : 'var(--muted)',
-                }}
-              >
-                {doc?.basename ?? entry.basename ?? entry.id}
-              </span>
-            )}
-          </Link>
+          <section key={rank} data-aventura-rank={rank} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontFamily: 'var(--mono)',
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: '.1em',
+                color: rs?.color ?? 'var(--muted)',
+                borderBottom: `1px solid ${rs?.color ?? 'var(--line2)'}`,
+                paddingBottom: 4,
+              }}
+            >
+              {rank === SEM_RANK ? 'SEM RANK' : `RANK ${rank}`}
+            </div>
+            {tipos.map((tipo) => {
+              const ss = subcatStyle(tipo)
+              return (
+                <div key={tipo} data-aventura-tipo={tipo} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--muted)' }}>
+                    <span aria-hidden>{ss.icon}</span>
+                    <span style={{ fontWeight: 600 }}>{tipo}</span>
+                  </div>
+                  <div className="aventura-grid" style={gridStyle}>
+                    {byTipo.get(tipo)!.map((x) => (
+                      <AventuraCell key={x.id} id={x.id} doc={x.doc} />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </section>
         )
       })}
     </div>
