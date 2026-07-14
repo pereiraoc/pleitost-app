@@ -127,8 +127,13 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     // clique no nome → ficha RESUMO remota nos DETALHES
     fireEvent.click(screen.getByRole('button', { name: 'Aventureira Nia' }))
     await waitFor(() => {
-      expect(screen.getByText('// VIDA')).toBeTruthy()
-      expect(screen.getByText(/❤️ 7\/12 · 💙 18\/18/)).toBeTruthy()
+      // #242: a vida do resumo virou chips (❤️ 7/12) (💙 18/18) — mesmo
+      // conteúdo, markup novo
+      const vida = screen.getByText('// VIDA').parentElement as HTMLElement
+      expect(vida.textContent).toContain('❤️')
+      expect(vida.textContent).toContain('7/12')
+      expect(vida.textContent).toContain('💙')
+      expect(vida.textContent).toContain('18/18')
     })
     cleanup()
 
