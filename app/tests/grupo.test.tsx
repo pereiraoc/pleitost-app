@@ -433,6 +433,22 @@ describe('tooltips do grupo (buildGtip + window.__GTIPS do design)', () => {
     expect(screen.queryByText(/pontos de vida físicos/)).toBeNull()
   })
 
+  it('#254: tap sem coords do cursor (clientX/Y=0) ancora no ELEMENTO, não no canto', async () => {
+    const { container } = renderGroup5()
+    const vidaPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
+    const vitHead = within(vidaPanel).getByText('VIT')
+    // jsdom não faz layout — mocka o rect do alvo (posição real na tela)
+    vitHead.getBoundingClientRect = () =>
+      ({ left: 300, top: 400, width: 40, height: 20, right: 340, bottom: 420, x: 300, y: 400, toJSON: () => ({}) }) as DOMRect
+    // tap: click SEM clientX/clientY (0,0) — o bug punha o tooltip no canto
+    fireEvent.click(vitHead, { clientX: 0, clientY: 0 })
+    await screen.findByText(/pontos de vida físicos/)
+    const overlay = document.querySelector('[data-gtip-overlay]') as HTMLElement
+    expect(overlay).toBeTruthy()
+    // left vem do centro do elemento (~320+16), não do canto (16)
+    expect(parseFloat(overlay.style.left)).toBeGreaterThan(100)
+  })
+
   it('hero RIQUEZA TOTAL usa a chave riq:f1; trocar de aba limpa o tooltip', async () => {
     const { container } = renderGroup5()
     const riqPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement

@@ -78,6 +78,7 @@ function GtipOverlay({ tip }: { tip: BuiltGtip }) {
   return (
     <div
       ref={clampRef}
+      data-gtip-overlay=""
       style={{
         position: 'fixed',
         left: tip.left,
@@ -131,7 +132,20 @@ export function useGrupoTip(): GrupoTip {
         prevKeyRef.current = null
         return
       }
-      setGtip({ key, x: e.clientX, y: e.clientY })
+      // #254: um `click` de TAP ou teclado pode vir com clientX/clientY = 0
+      // (Firefox Android, tap sintético) — aí o tooltip ia parar no canto
+      // superior esquerdo. Sem coords do cursor, ancora no CENTRO do elemento
+      // alvo (getBoundingClientRect); o hover de mouse segue usando o cursor.
+      let x = e.clientX
+      let y = e.clientY
+      if (!x && !y) {
+        const r = (e.currentTarget as HTMLElement | null)?.getBoundingClientRect()
+        if (r) {
+          x = r.left + r.width / 2
+          y = r.top + r.height / 2
+        }
+      }
+      setGtip({ key, x, y })
     },
     [],
   )
