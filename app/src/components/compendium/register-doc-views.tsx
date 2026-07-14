@@ -6,6 +6,9 @@ import { registerDocView } from './doc-view-registry'
 import { LocationSheet, isLocation } from './LocationSheet'
 import { OrgView, isOrg } from './OrgView'
 import { HistoriaView, isHistoria } from './HistoriaView'
+// F1 (#245) — Item: carta grande no doc + grade de cartas na folha; o módulo
+// registra por side-effect tanto o doc-view 'item' quanto o leaf-view 'Item'.
+import './ItemView'
 
 // Localização (#66) — ficha com abas + Hexploração.
 registerDocView({
@@ -27,5 +30,3 @@ registerDocView({
   match: isHistoria,
   view: (doc, { sidebar }) => <HistoriaView doc={doc} sidebar={sidebar} />,
 })
-
-// F1 (#245): import './ItemView'

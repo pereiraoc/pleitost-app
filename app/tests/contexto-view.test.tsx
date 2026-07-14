@@ -173,10 +173,11 @@ describe('doc não-Contexto/Organização segue no markdown (sem regressão)', (
     renderDoc(adaga)
     expect(adaga.type).not.toBe('Organização')
     expect(adaga.type).not.toBe('Contexto')
-    // sem coluna de leitura de história e sem empty state de organização
+    // Adaga não é História (sem coluna de leitura) nem Organização (sem o
+    // empty state). #245: a Adaga é um ITEM (carta), não markdown genérico —
+    // por isso o controle checa AUSÊNCIA das views de Contexto, não a
+    // presença do markdown cru.
     expect(document.querySelector('.doc-reading-body')).toBeNull()
     expect(screen.queryByText('// ORGANIZAÇÃO SEM INFORMAÇÕES REGISTRADAS')).toBeNull()
-    // markdown genérico preservado (heading do body da Adaga)
-    expect(screen.getByRole('heading', { level: 2, name: 'Adaga' })).toBeTruthy()
   })
 })

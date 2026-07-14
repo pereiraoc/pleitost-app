@@ -1,6 +1,9 @@
 // @vitest-environment jsdom
-// TDD do render de doc: escrito ANTES do pipeline de markdown, sobre o doc
-// REAL da Adaga (%%-block, `= this.x`, tabela GFM, wikilinks, fences).
+// TDD do render de MARKDOWN de doc: escrito ANTES do pipeline de markdown, sobre
+// o body REAL da Adaga (%%-block, `= this.x`, tabela GFM, wikilinks, fences).
+// Renderiza o MarkdownBody direto (o componente sob teste) — desde a #245 a
+// Adaga como DOC vira a carta de Item (ItemView), mas o pipeline de markdown
+// segue sendo exercitado aqui pelo body dela.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -9,7 +12,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
-import { DocView } from '../src/components/compendium/DocPage'
+import { MarkdownBody } from '../src/markdown/MarkdownBody'
 import { docPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -49,7 +52,7 @@ function renderDoc(doc: VaultDoc) {
   return render(
     <CatalogProvider catalog={catalog}>
       <MemoryRouter>
-        <DocView doc={doc} />
+        <MarkdownBody doc={doc} />
       </MemoryRouter>
     </CatalogProvider>,
   )
@@ -57,7 +60,7 @@ function renderDoc(doc: VaultDoc) {
 
 afterEach(cleanup)
 
-describe('DocView (Adaga real)', () => {
+describe('MarkdownBody (body real da Adaga)', () => {
   it('esconde o bloco %% ... %% (inline fields não vazam como texto cru)', () => {
     renderDoc(adaga)
     expect(screen.queryByText(/dano::/)).toBeNull()

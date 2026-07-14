@@ -32,6 +32,20 @@ export const NAV_CHILDREN: Record<string, string[]> = {
     'Contexto/Histórias/Contexto Histórico',
   ],
   Sistema: ['Sistema/Criação de Personagem', 'Sistema/Equipamento', 'Sistema/Regras'],
+  // #245: "Items" ACHATA as 7 categorias que o usuário pediu — as 4 subpastas
+  // de Tesouros (Consumíveis/Equipamentos/Imbuições e Qualidade/Implementos)
+  // sobem pro mesmo nível de Armaduras/Armas/Escudos, sem o intermediário
+  // "Tesouros". A árvore de navegação é a fonte de verdade (não as pastas), então
+  // basta declarar os 7 paths aqui.
+  'Sistema/Equipamento': [
+    'Sistema/Equipamento/Armaduras',
+    'Sistema/Equipamento/Armas',
+    'Sistema/Equipamento/Escudos',
+    'Sistema/Equipamento/Tesouros/Consumíveis',
+    'Sistema/Equipamento/Tesouros/Equipamentos',
+    'Sistema/Equipamento/Tesouros/Imbuições e Qualidade',
+    'Sistema/Equipamento/Tesouros/Implementos',
+  ],
 }
 
 /** Ícone (+ label override) por path. Todo path citado em NAV_CHILDREN aparece. */
@@ -48,6 +62,14 @@ export const NAV_META: Record<string, CompendioMeta> = {
   Sistema: { icon: '⚙️' },
   'Sistema/Criação de Personagem': { icon: '🎭' },
   'Sistema/Equipamento': { icon: '🎒', label: 'Items' },
+  // #245: ícones das 7 categorias de Items (fonte de verdade da navegação).
+  'Sistema/Equipamento/Armaduras': { icon: '🛡️' },
+  'Sistema/Equipamento/Armas': { icon: '⚔️' },
+  'Sistema/Equipamento/Escudos': { icon: '🛡' },
+  'Sistema/Equipamento/Tesouros/Consumíveis': { icon: '🧪', label: 'Consumíveis' },
+  'Sistema/Equipamento/Tesouros/Equipamentos': { icon: '🎒', label: 'Equipamentos' },
+  'Sistema/Equipamento/Tesouros/Imbuições e Qualidade': { icon: '✨', label: 'Imbuições e Qualidade' },
+  'Sistema/Equipamento/Tesouros/Implementos': { icon: '🔮', label: 'Implementos' },
   'Sistema/Regras': { icon: '📕' },
 }
 

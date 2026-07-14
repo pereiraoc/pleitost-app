@@ -10,6 +10,11 @@ import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
 import { hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
 import { isNavNode, navChildren, navLabel, navMeta } from './compendio-registry'
+import { resolveLeafView } from './leaf-view-registry'
+// SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
+// Mesmo barrel que o DocPage carrega; a importação aqui garante o registro
+// mesmo que a folha seja alcançada sem passar por um doc antes.
+import './register-doc-views'
 
 /** Botões GRANDES de seção/subseção (#244) — lêem ícone/label do registro
  *  (fonte de verdade da navegação); a contagem vem da subárvore visível. */
@@ -123,7 +128,11 @@ export function FolderView() {
   // colunas só quando a lista é homogênea e o tipo tem registro
   const docsVisiveis = portal ? [] : listDocs
   const types = [...new Set(docsVisiveis.map((d) => d.type ?? ''))]
-  const columns = types.length === 1 ? LIST_COLUMNS[types[0]] : undefined
+  const homogeneousType = types.length === 1 ? types[0] : undefined
+  const columns = homogeneousType ? LIST_COLUMNS[homogeneousType] : undefined
+  // Folha HOMOGÊNEA de um tipo com visualizador dedicado (ex.: Item → grade de
+  // cartas). O Modo Mestre ainda pode cair na visão TABELA (toggle abaixo).
+  const leafView = docsVisiveis.length > 0 ? resolveLeafView(homogeneousType) : null
 
   return (
     <section className="page">
@@ -148,6 +157,8 @@ export function FolderView() {
       ) : null}
       {mestre && tabela ? (
         <MestreTables entries={docsVisiveis} />
+      ) : leafView ? (
+        leafView(docsVisiveis)
       ) : (
         <DocTable entries={docsVisiveis} columns={columns} />
       )}

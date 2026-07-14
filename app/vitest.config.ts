@@ -12,6 +12,13 @@ export default mergeConfig(
     test: {
       // exclude SUBSTITUI os defaults — preservá-los (node_modules, dist, …).
       exclude: [...configDefaults.exclude, 'e2e/**'],
+      // #255: arquivos de teste rodam em SÉRIE. A suite tem stores globais
+      // (hero-store, local-entities, session-store, caches de doc) resetados
+      // POR arquivo mas não isolados ENTRE arquivos paralelos — em paralelo um
+      // teste às vezes "perde a corrida" e falha de forma não-determinística
+      // (isolado sempre passa). Serial deixa a suite 100% determinística
+      // (~68s vs ~13s); a raiz (isolar o estado global) é dívida rastreada.
+      fileParallelism: false,
     },
   }),
 )
