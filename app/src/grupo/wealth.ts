@@ -12,7 +12,9 @@
 // O plugin lê APENAS Inventario.* (Ouro/Tesouros/Consumiveis/Armadura/
 // Escudo/Armas) — os campos top-level Ouro/Tesouros_Especiais/Consumíveis
 // do FM são legados e NÃO entram no cálculo (paridade com o plugin).
-import type { VaultDoc } from '../data/types'
+import { familiaOf } from '../data/familia'
+import type { IndexDocEntry, VaultDoc } from '../data/types'
+import { wikilinkBasename } from '../rules/rule-applier'
 import type { Fm } from './stats'
 import { toArray } from './stats'
 
@@ -205,6 +207,59 @@ export function priceTargets(fm: Fm | undefined): string[] {
     if (row?.Propriedade) push(row.Propriedade)
   }
   return out
+}
+
+// ── Linhas da riqueza (issue #236: CA soma no tutor) ──────────────────────
+
+/** Soma campo a campo de MemberWealthParts (merge CA → tutor). */
+function addParts(a: MemberWealthParts, b: MemberWealthParts): MemberWealthParts {
+  return {
+    ouro: a.ouro + b.ouro,
+    tesouros: a.tesouros + b.tesouros,
+    consumiveis: a.consumiveis + b.consumiveis,
+    armaduraEscudo: a.armaduraEscudo + b.armaduraEscudo,
+    armasProp: a.armasProp + b.armasProp,
+    itensSemConsumiveis: a.itensSemConsumiveis + b.itensSemConsumiveis,
+    totalComTudo: a.totalComTudo + b.totalComTudo,
+  }
+}
+
+export interface WealthMemberRow {
+  member: IndexDocEntry
+  parts: MemberWealthParts
+}
+
+/** Issue #236: membros que viram LINHA na riqueza da mesa. Companheiro Animal
+ *  (família via registro central — data/familia.ts) não tem linha própria: a
+ *  riqueza dele (tesouros; a família não tem moedas nem consumíveis próprios)
+ *  soma nas partes do TUTOR — FM.Tutor wikilink, resolvido entre os membros
+ *  por basename (wikilinkBasename, espelho do plugin util/wikilink.ts). CA
+ *  sem tutor no grupo apenas sai da lista. O plugin não trata o caso na party
+ *  sheet — o pedido do usuário no #236 é a spec. */
+export function wealthMemberRows(
+  members: IndexDocEntry[],
+  docs: Map<string, VaultDoc>,
+  priceOf: PriceOf,
+): WealthMemberRow[] {
+  const rows: WealthMemberRow[] = []
+  const rowByBasename = new Map<string, WealthMemberRow>()
+  const cas: { doc: VaultDoc; parts: MemberWealthParts }[] = []
+  for (const member of members) {
+    const doc = docs.get(member.id)
+    const parts = computeMemberWealthParts(doc?.frontmatter as Fm | undefined, priceOf)
+    if (doc && familiaOf(doc) === 'CompanheiroAnimal') {
+      cas.push({ doc, parts })
+      continue
+    }
+    const row: WealthMemberRow = { member, parts }
+    rows.push(row)
+    rowByBasename.set(member.basename ?? member.id, row)
+  }
+  for (const ca of cas) {
+    const tutor = rowByBasename.get(wikilinkBasename(String(ca.doc.frontmatter['Tutor'] ?? '')))
+    if (tutor) tutor.parts = addParts(tutor.parts, ca.parts)
+  }
+  return rows
 }
 
 // ── Classificação do delta (issue #9: avisos do plugin na party sheet) ────

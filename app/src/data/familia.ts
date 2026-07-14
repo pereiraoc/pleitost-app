@@ -59,6 +59,14 @@ export function familiaOf(doc: VaultDoc): SheetFamily {
   return resolveFamily((doc.frontmatter ?? {}) as Record<string, unknown>, doc.path ?? '')
 }
 
+/** Família de uma ENTRADA do índice (IndexDocEntry/entries sintéticos):
+ *  `subtype` é a subcategoria que o extractor grava (e que syntheticEntry/
+ *  resolveGroupMembers preenchem), com fallback pro path — mesma resolução de
+ *  familiaOf pra quando o doc ainda não carregou (listas síncronas, #236). */
+export function familiaOfEntry(entry: { subtype?: string | null; path?: string }): SheetFamily {
+  return resolveFamily({ subcategoria: entry.subtype ?? '' }, entry.path ?? '')
+}
+
 /** Perícias do CA (slugs NFD, chaves do registro `pericia` do plugin) —
  *  VERBATIM de CA_PERICIAS (plugin data/family-pericias.ts:9-16). */
 export const CA_PERICIAS: readonly string[] = [
