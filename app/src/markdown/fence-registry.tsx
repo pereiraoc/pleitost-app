@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { VaultDoc } from '../data/types'
 import { DataviewBlock } from '../dataview/DataviewBlock'
+import { BountyFence } from './bounty/BountyFence'
 
 export interface FenceProps {
   lang: string
@@ -25,4 +26,5 @@ export function FenceFallback({ lang, code }: FenceProps) {
 export const FENCES: Record<string, ComponentType<FenceProps>> = {
   dataview: DataviewBlock, // avaliada de verdade; fallback interno pro colapsado
   'autosheet-rules': AutosheetRulesFence,
+  bounty: BountyFence, // #248: carta de aventura (rank/subcat/recompensa/objetivos)
 }

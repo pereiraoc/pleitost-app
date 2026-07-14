@@ -36,7 +36,13 @@ export function isLocalId(id: string): boolean {
 
 /** Famílias de entidade local. O slug entra no id (`local:<Kind>:<rand>`); o
  *  subtype real (com espaço, ex. "Companheiro Animal") vive no registro. */
-export type LocalKind = 'Heroi' | 'Grupo' | 'Pessoa' | 'CompanheiroAnimal' | 'Monstro'
+export type LocalKind =
+  | 'Heroi'
+  | 'Grupo'
+  | 'Pessoa'
+  | 'CompanheiroAnimal'
+  | 'Monstro'
+  | 'Aventura'
 
 interface KindInfo {
   type: string
@@ -54,6 +60,10 @@ export const KIND_INFO: Record<LocalKind, KindInfo> = {
   Monstro: { type: 'Criatura', subtype: 'Monstro', ficha: 'hero' },
   Pessoa: { type: 'Criatura', subtype: 'Pessoa', ficha: 'doc' },
   Grupo: { type: 'Grupo', subtype: 'Aventureiros', ficha: 'group' },
+  // #248 — aventura criada no Modo Mestre. type: Aventura (espelha o extractor:
+  // FM.categoria = 'Aventura'); subtype vem da subcategoria escolhida (a
+  // syntheticEntry/buildDoc lê o subtype do rec, ajustado no createLocalEntity).
+  Aventura: { type: 'Aventura', subtype: 'Aventura', ficha: 'doc' },
 }
 
 export interface StoredEntity {
