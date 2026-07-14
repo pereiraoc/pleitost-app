@@ -3,23 +3,13 @@
 // da ficha de Localização. O MAPA navegável (pedido AS-IS) espera o mapa-raiz da
 // vault; até lá, esta navegação por breadcrumb+filhos entrega o "navegar entre
 // lugares" — que é o fallback sem-mapa escolhido pelo usuário.
-import { useMemo, type CSSProperties } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { docPath } from '../../paths'
 import { LOCALIZACAO_TYPE, ancestorChain, buildAtlasIndex, type AtlasNode } from '../../data/atlas-nav'
-
-const chipStyle: CSSProperties = {
-  fontFamily: 'var(--mono)',
-  fontSize: 11,
-  padding: '3px 9px',
-  border: '1px solid var(--line2)',
-  color: 'var(--muted)',
-  textDecoration: 'none',
-  clipPath: 'polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px))',
-}
 
 export function AtlasNav({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
@@ -41,42 +31,59 @@ export function AtlasNav({ doc }: { doc: VaultDoc }) {
   }, [docs, catalog, doc.id, doc.basename])
 
   // breadcrumb = caminho ATÉ aqui (ancestrais); o lugar atual já é o <h1>, então
-  // não repetimos o nome (evita duplicar e polui menos).
+  // não repetimos o nome. Pedido do usuário (#264): PEQUENO, logo abaixo do
+  // título — só um fio de texto mono/muted, sem chip nem caixa, pouco espaço, pra
+  // as infos da página ficarem "na mesma parte".
   const crumbs = chain.slice(0, -1)
 
   if (crumbs.length === 0 && children.length === 0) return null
 
   return (
-    <nav data-atlas-nav="" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {crumbs.length ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
-          <span className="kicker" style={{ fontSize: 9 }}>
-            {'// ATLAS'}
+    <nav
+      data-atlas-nav=""
+      style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 5, marginTop: -4 }}
+    >
+      {crumbs.map((node, i) => (
+        <span key={node.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+          {i > 0 ? <span style={{ color: 'var(--line2)', fontSize: 11 }}>›</span> : null}
+          <Link
+            to={docPath(node.id)}
+            data-atlas-crumb={node.id}
+            style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--muted)', textDecoration: 'none' }}
+          >
+            {node.basename}
+          </Link>
+        </span>
+      ))}
+      {crumbs.length ? <span style={{ color: 'var(--line2)', fontSize: 11 }}>›</span> : null}
+
+      {/* lugares-filhos: continuam na mesma linha, discretos, separados por · */}
+      {children.length ? (
+        <span
+          style={{
+            display: 'inline-flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: 5,
+            marginLeft: crumbs.length ? 10 : 0,
+          }}
+        >
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--line2)' }}>
+            AQUI:
           </span>
-          {crumbs.map((node, i) => (
-            <span key={node.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              {i > 0 ? <span style={{ color: 'var(--line2)' }}>›</span> : null}
-              <Link to={docPath(node.id)} style={chipStyle} data-atlas-crumb={node.id}>
-                {node.basename}
+          {children.map((id, i) => (
+            <span key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              {i > 0 ? <span style={{ color: 'var(--line2)' }}>·</span> : null}
+              <Link
+                to={docPath(id)}
+                data-atlas-child={id}
+                style={{ fontFamily: 'var(--mono)', fontSize: 10.5, color: 'var(--accent)', textDecoration: 'none' }}
+              >
+                {nameOf(id)}
               </Link>
             </span>
           ))}
-          <span style={{ color: 'var(--line2)' }}>›</span>
-        </div>
-      ) : null}
-
-      {/* lugares aqui dentro (descer) */}
-      {children.length ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
-          <span className="kicker" style={{ fontSize: 9 }}>
-            {'// LUGARES AQUI'}
-          </span>
-          {children.map((id) => (
-            <Link key={id} to={docPath(id)} style={chipStyle} data-atlas-child={id}>
-              {nameOf(id)}
-            </Link>
-          ))}
-        </div>
+        </span>
       ) : null}
     </nav>
   )
