@@ -256,3 +256,104 @@ describe('#199 resumo — ações, técnicas, tesouros, habilidades e consumíve
     })
   })
 })
+
+// Apresentação #242 — espelho visual do `.as-resumo` do plugin na linguagem
+// do app: header-card com accent bar/badge do tier, cada seção um card com
+// kicker, grids alinhados de defesas/sentidos e listas de itens em chips.
+describe('#242 resumo — apresentação em cards', () => {
+  it('header é um card com accent bar e badge NVL na cor do tier do registro (nível 7 → ouro)', async () => {
+    const { container } = await renderResumo()
+    const card = container.querySelector<HTMLElement>('[data-resumo-card]')
+    expect(card).toBeTruthy()
+    expect(card!.style.clipPath).toContain('polygon')
+    // accent bar lateral (.as-resumo-accent do plugin) com gradient do tier
+    const accent = card!.querySelector<HTMLElement>('[data-resumo-accent]')
+    expect(accent).toBeTruthy()
+    expect(accent!.style.background).toContain('linear-gradient')
+    expect(accent!.style.background).toContain(tokens.colors.tier.Gold)
+    // badge NVL/TIER (.as-resumo-badge) — Carlos nível 7 → "7" + "NVL"
+    const badge = card!.querySelector<HTMLElement>('[data-resumo-badge]')
+    expect(badge).toBeTruthy()
+    expect(badge!.textContent).toBe('7NVL')
+    // borda na cor do tier (jsdom normaliza hex → rgb; compara normalizado)
+    const probe = document.createElement('div')
+    probe.style.color = tokens.colors.tier.Gold
+    expect(badge!.style.borderColor).toBe(probe.style.color)
+  })
+
+  it('cada seção é um card (borda + cantos cortados) com kicker mono, na ordem do #199', async () => {
+    const { container } = await renderResumo()
+    const secs = [...container.querySelectorAll<HTMLElement>('[data-resumo-section]')]
+    for (const sec of secs) {
+      expect(sec.style.clipPath).toContain('polygon')
+      expect(sec.style.border).toContain('1px solid')
+      const kicker = sec.querySelector<HTMLElement>('[data-resumo-kicker]')
+      expect(kicker).toBeTruthy()
+      // o kicker é filho direto do card — os testes de conteúdo escopam a
+      // seção via `getByText('// X').parentElement`
+      expect(kicker!.parentElement).toBe(sec)
+    }
+    expect(secs.map((s) => s.getAttribute('data-resumo-section'))).toEqual([
+      '// VIDA',
+      '// DEFESAS · SENTIDOS · MOVIMENTO',
+      '// PERÍCIAS',
+      '// MAGIAS',
+      '// ATAQUES',
+      '// AÇÕES',
+      '// TÉCNICAS',
+      '// TESOUROS',
+      '// HABILIDADES',
+      '// CONSUMÍVEIS',
+    ])
+  })
+
+  it('defesas em grid de 4 células e sentidos+movimento em grid de 3, todas com tooltip', async () => {
+    const { container } = await renderResumo()
+    const defs = container.querySelector<HTMLElement>('[data-resumo-statgrid="defesas"]')
+    expect(defs).toBeTruthy()
+    expect(defs!.style.gridTemplateColumns).toContain('repeat(4')
+    expect(defs!.children.length).toBe(4)
+    const sens = container.querySelector<HTMLElement>('[data-resumo-statgrid="sentidos"]')
+    expect(sens).toBeTruthy()
+    expect(sens!.style.gridTemplateColumns).toContain('repeat(3')
+    expect(sens!.children.length).toBe(3)
+    // cada célula é o próprio TipHover do breakdown (#199)
+    for (const cell of [...defs!.children, ...sens!.children]) {
+      expect(cell.getAttribute('data-breakdown-html')).toBeTruthy()
+    }
+  })
+
+  it('vida e listas de itens (ações/técnicas/tesouros/habilidades/consumíveis) viram chips', async () => {
+    const { container } = await renderResumo()
+    // vida: chips de ❤️ e 💙 (💚 só com temp > 0)
+    const vida = screen.getByText('// VIDA').parentElement as HTMLElement
+    expect(vida.querySelectorAll('[data-resumo-chip]').length).toBeGreaterThanOrEqual(2)
+    // 5 seções de lista em chiplist
+    const lists = [...container.querySelectorAll<HTMLElement>('[data-resumo-chiplist]')]
+    expect(lists.length).toBe(5)
+    const chip = screen.getByText('Anel da Resistência (A)').closest('[data-resumo-chip]') as HTMLElement
+    expect(chip).toBeTruthy()
+    expect(chip.style.clipPath).toContain('polygon')
+    // quantidade do consumível fica no mesmo chip do item
+    const pocao = screen.getByText('Poção da Coragem (E)').closest('[data-resumo-chip]') as HTMLElement
+    expect(pocao.textContent).toBe('Poção da Coragem (E) x1')
+  })
+
+  it('perícias em grid com o emoji do atributo em coluna própria e mods em var(--red)', async () => {
+    const { container } = await renderResumo()
+    const grid = container.querySelector<HTMLElement>('[data-resumo-pericias]')
+    expect(grid).toBeTruthy()
+    expect(grid!.style.gridTemplateColumns).toContain('18px')
+    // mod da perícia colorizado como o .as-resumo-mod-num do plugin
+    const enganacao = within(grid!).getByText('+10')
+    expect(enganacao.style.color).toBe('var(--red)')
+  })
+
+  it('ataque tem mod em var(--red) e dano em var(--blue) (mod-num/dmg-num do plugin)', async () => {
+    await renderResumo()
+    const sec = screen.getByText('// ATAQUES').parentElement as HTMLElement
+    expect(within(sec).getByText('+10').style.color).toBe('var(--red)')
+    const dano = await within(sec).findByText('3d4+2')
+    expect(dano.style.color).toBe('var(--blue)')
+  })
+})
