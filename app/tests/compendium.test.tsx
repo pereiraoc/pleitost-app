@@ -11,7 +11,7 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FolderView } from '../src/components/compendium/FolderView'
 import { HeroisPage, NpcsPage } from '../src/components/creatures/CreaturesPages'
-import { COMPENDIUM_SECTIONS, visibleCount } from '../src/components/compendium/sections'
+import { COMPENDIUM_SECTIONS } from '../src/components/compendium/sections'
 import { compendiumFolderPath } from '../src/paths'
 import { groupMembers } from '../src/grupo/party'
 import {
@@ -96,25 +96,46 @@ const folderRoutes = (
 )
 
 describe('FolderView', () => {
-  it('raiz mostra as seções registradas com contagens visíveis', () => {
+  it('#244: raiz mostra as 4 seções como BOTÕES GRANDES (link cada)', () => {
     renderAt('/compendio', folderRoutes)
     for (const section of COMPENDIUM_SECTIONS) {
-      const node = catalog.folderByPath.get(section)!
       const card = screen
         .getAllByRole('link')
-        .find((c) => within(c).queryByText(section))
-      expect(card, `card da seção ${section}`).toBeDefined()
-      expect(within(card!).getByText(String(visibleCount(node)))).toBeTruthy()
+        .find((c) => within(c).queryByText(section) && c.className.includes('sec-card'))
+      expect(card, `botão grande da seção ${section}`).toBeDefined()
     }
+    // Campanhas/Contexto/Sistema são nós de navegação → "N seções"
+    const campanhas = screen
+      .getAllByRole('link')
+      .find((c) => within(c).queryByText('Campanhas'))!
+    expect(within(campanhas).getByText(/2 seções/)).toBeTruthy()
   })
 
-  it('Sistema mostra subpastas; Criaturas é PORTAL só dos grupos (#213)', () => {
+  it('#244: Sistema mostra Criação/Items/Regras; SEM Criaturas na navegação', () => {
     renderAt(compendiumFolderPath('Sistema'), folderRoutes)
-    for (const name of ['Criação de Personagem', 'Equipamento', 'Regras']) {
+    for (const name of ['Criação de Personagem', 'Items', 'Regras']) {
       expect(screen.getByText(name)).toBeTruthy()
     }
-    // Criaturas aparece como portal da exceção (Grupos de Criaturas)…
-    expect(screen.getByText('Criaturas')).toBeTruthy()
+    // "Equipamento" é rotulado "Items"; Criaturas não é botão de navegação
+    expect(screen.queryByText('Equipamento')).toBeNull()
+    expect(screen.queryByText('Criaturas')).toBeNull()
+  })
+
+  it('#244: Campanhas e Contexto abrem os filhos como botões grandes', () => {
+    renderAt(compendiumFolderPath('Campanhas'), folderRoutes)
+    expect(screen.getByText('Aventuras')).toBeTruthy()
+    expect(screen.getByText('Combates')).toBeTruthy()
+    cleanup()
+    renderAt(compendiumFolderPath('Contexto'), folderRoutes)
+    expect(screen.getByText('Organizações')).toBeTruthy()
+    expect(screen.getByText('Histórias')).toBeTruthy()
+  })
+
+  it('#244: Contexto/Histórias mostra Atual e Histórico; Diários oculto', () => {
+    renderAt(compendiumFolderPath('Contexto/Histórias'), folderRoutes)
+    expect(screen.getByText('Contexto Atual')).toBeTruthy()
+    expect(screen.getByText('Contexto Histórico')).toBeTruthy()
+    expect(screen.queryByText('Diários')).toBeNull()
   })
 
   it('portal Criaturas: só Grupos de Criaturas navegável; demais famílias ocultas (#213)', () => {

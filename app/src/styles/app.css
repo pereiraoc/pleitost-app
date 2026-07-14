@@ -593,6 +593,69 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+/* Botões GRANDES de seção do compêndio (#244) — mesma linguagem do type-card,
+   maiores, com ícone em destaque; grid mais folgado. */
+.sec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.sec-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1.4rem;
+  background: linear-gradient(135deg, var(--panel2, var(--panel)), var(--panel));
+  border: 1px solid var(--line2);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% 100%,
+    14px 100%,
+    0 calc(100% - 14px)
+  );
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+
+.sec-card:hover {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, var(--panel2, var(--panel))), var(--panel));
+}
+
+.sec-card-ic {
+  font-size: 2rem;
+  flex: none;
+  line-height: 1;
+}
+
+.sec-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sec-card-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.sec-card-count {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
 .doc-list h1,
 .doc-page h1 {
   font-family: var(--display);

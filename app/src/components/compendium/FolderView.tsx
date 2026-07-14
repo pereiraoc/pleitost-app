@@ -8,15 +8,46 @@ import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
-import { compendiumSections, hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
+import { hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
+import { isNavNode, navChildren, navLabel, navMeta } from './compendio-registry'
 
+/** Botões GRANDES de seção/subseção (#244) — lêem ícone/label do registro
+ *  (fonte de verdade da navegação); a contagem vem da subárvore visível. */
+function SectionButtons({ paths }: { paths: string[] }) {
+  const catalog = useCatalog()
+  return (
+    <div className="sec-grid">
+      {paths.map((path) => {
+        const node = catalog.folderByPath.get(path)
+        const meta = navMeta(path)
+        const count = node ? visibleCount(node) : 0
+        const filhos = navChildren(path).length
+        return (
+          <Link key={path} to={compendiumFolderPath(path)} className="sec-card">
+            <span className="sec-card-ic" aria-hidden>
+              {meta?.icon ?? '📁'}
+            </span>
+            <span className="sec-card-body">
+              <span className="sec-card-name">{navLabel(path)}</span>
+              <span className="sec-card-count">
+                {filhos ? `${filhos} seções` : `${count} ${count === 1 ? 'item' : 'itens'}`}
+              </span>
+            </span>
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
+
+/** Cards menores das subpastas de uma FOLHA (ex.: Items → Armas, Armaduras…). */
 function FolderCards({ folders }: { folders: FolderNode[] }) {
   if (!folders.length) return null
   return (
     <div className="type-grid">
       {folders.map((folder) => (
         <Link key={folder.path} to={compendiumFolderPath(folder.path)} className="type-card">
-          <span className="type-card-name">{folder.name}</span>
+          <span className="type-card-name">{navLabel(folder.path)}</span>
           <span className="type-card-count">{visibleCount(folder)}</span>
         </Link>
       ))}
@@ -32,14 +63,12 @@ function Breadcrumb({ path }: { path: string }) {
       {segments.map((segment, i) => {
         const prefix = segments.slice(0, i + 1).join('/')
         const isLast = i === segments.length - 1
+        // rótulo do registro (Equipamento → "Items"); senão o próprio segmento
+        const label = navMeta(prefix)?.label ?? segment
         return (
           <Fragment key={prefix}>
             <span className="breadcrumb-sep">/</span>
-            {isLast ? (
-              <span>{segment}</span>
-            ) : (
-              <Link to={compendiumFolderPath(prefix)}>{segment}</Link>
-            )}
+            {isLast ? <span>{label}</span> : <Link to={compendiumFolderPath(prefix)}>{label}</Link>}
           </Fragment>
         )
       })}
@@ -62,12 +91,15 @@ export function FolderView() {
     [node],
   )
 
-  // raiz: as seções registradas
-  if (!path) {
+  // #244: home e nós de navegação (Campanhas/Contexto/Histórias/Sistema)
+  // mostram BOTÕES GRANDES dos filhos do registro — a árvore é explícita
+  // (Diários/Criaturas ficam fora; "Equipamento" vira "Items").
+  if (isNavNode(path)) {
     return (
       <section className="page">
         <div className="kicker">{COMPENDIO_KICKER}</div>
-        <FolderCards folders={compendiumSections(catalog)} />
+        {path ? <Breadcrumb path={path} /> : null}
+        <SectionButtons paths={navChildren(path)} />
       </section>
     )
   }
@@ -98,7 +130,7 @@ export function FolderView() {
       <div className="kicker">{COMPENDIO_KICKER}</div>
       <Breadcrumb path={path} />
       <h1>
-        {indexDoc && !portal ? <Link to={docPath(indexDoc.id)}>{node.name}</Link> : node.name}
+        {indexDoc && !portal ? <Link to={docPath(indexDoc.id)}>{navLabel(path)}</Link> : navLabel(path)}
       </h1>
       <FolderCards folders={visibleFolders(node)} />
       {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
