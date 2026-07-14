@@ -26,6 +26,7 @@ import {
   useLocalStoreVersion,
 } from '../data/local-entities'
 import type { IndexDocEntry } from '../data/types'
+import { familiaOfEntry } from '../data/familia'
 import { linkLabel } from '../markdown/dataview-value'
 import {
   BAL_CAPTION,
@@ -486,7 +487,10 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const imageUrl = localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets)
 
   // Lista original alfabética (espelha orderMembersAlphabetical / G.balRows).
-  const balRows: BalRowData[] = orderAlphabetical(members).map((member, i) => {
+  // #236: Companheiro Animal fora do balanceamento de papéis — a família
+  // decide no registro central (familiaOfEntry ← data/familia.ts).
+  const balMembers = members.filter((m) => familiaOfEntry(m) !== 'CompanheiroAnimal')
+  const balRows: BalRowData[] = orderAlphabetical(balMembers).map((member, i) => {
     const doc = memberDocs?.get(member.id)
     return {
       id: member.id,

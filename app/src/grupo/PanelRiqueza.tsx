@@ -25,11 +25,11 @@ import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
 import { fmtPlain, nivelOf } from './stats'
 import {
   DELTA_COLORS,
-  computeMemberWealthParts,
   deltaKind,
   expectedWealthForLevel,
   precoPO,
   priceTargets,
+  wealthMemberRows,
   type PriceOf,
 } from './wealth'
 
@@ -99,11 +99,12 @@ export function PanelRiqueza({
   const deltaStr = (delta: number) => `${delta >= 0 ? '+' : ''}${Math.round(delta)} PO`
 
   // Lista original na ordem do plugin (delta desc — a ordem de G.riqRows).
+  // #236: as linhas vêm de wealthMemberRows — o Companheiro Animal sai da
+  // lista e os tesouros dele já entram nas partes do tutor.
   const computed = ready
-    ? members.map((member) => {
+    ? wealthMemberRows(members, docs, priceOf).map(({ member, parts }) => {
         const doc = docs.get(member.id)
         const nivel = nivelOf(doc)
-        const parts = computeMemberWealthParts(doc?.frontmatter, priceOf)
         const expected = expectedWealthForLevel(nivel)
         const delta = parts.ouro + parts.itensSemConsumiveis - expected
         return { id: member.id, name: member.basename ?? member.id, nivel, parts, expected, delta }
