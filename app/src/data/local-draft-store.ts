@@ -47,18 +47,35 @@ export function localDraftFor(id: string): DocPatch | undefined {
   return get()[id]
 }
 
-/** Grava/atualiza o rascunho local de um doc. */
+/** Funde um patch no rascunho local de um doc (MERGE por campo — assim editar o
+ *  corpo não apaga uma edição de elementos de regra do mesmo doc, e vice-versa).
+ *  Reverter (clearLocalDraft) é que descarta o rascunho inteiro. */
 export function setLocalDraft(id: string, patch: DocPatch) {
-  drafts = { ...get(), [id]: patch }
+  drafts = { ...get(), [id]: { ...get()[id], ...patch } }
   persist()
   emit()
 }
 
-/** Descarta o rascunho local de um doc (ex.: após publicar, ou "reverter"). */
+/** Descarta o rascunho local INTEIRO de um doc (ex.: após publicar, ou "reverter tudo"). */
 export function clearLocalDraft(id: string) {
   if (!(id in get())) return
   const next = { ...get() }
   delete next[id]
+  drafts = next
+  persist()
+  emit()
+}
+
+/** Descarta SÓ um campo do rascunho de um doc (ex.: reverter o texto mantendo a
+ *  edição dos elementos de regra). Se o rascunho fica vazio, some. */
+export function clearLocalDraftField(id: string, field: keyof DocPatch) {
+  const cur = get()[id]
+  if (!cur || !(field in cur)) return
+  const patch = { ...cur }
+  delete patch[field]
+  const next = { ...get() }
+  if (Object.keys(patch).length === 0) delete next[id]
+  else next[id] = patch
   drafts = next
   persist()
   emit()

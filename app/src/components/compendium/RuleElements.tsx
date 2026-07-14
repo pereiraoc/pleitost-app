@@ -12,6 +12,7 @@ import type { ConditionParse, RuleElement, VaultDoc } from '../../data/types'
 import { useSettings } from '../../settings'
 import { InlineFieldValue } from './InlineFieldValue'
 import { RuleElementsEditor } from './RuleElementsEditor'
+import { DocContentEditor } from './DocContentEditor'
 
 // ──────────────────────────────────────────────────────────────────────────
 // Narrowing do `parsed` (unknown no JSON) pra uma vista mínima da AST
@@ -458,9 +459,17 @@ export function RuleElementsSection({ elements }: { elements: readonly RuleEleme
  *  `{mestre && doc.ruleElements?.length ? …}` em cada call-site. */
 export function DocRuleElements({ doc }: { doc: VaultDoc }) {
   const { mestre, desenvolvedor } = useSettings()
-  // Modo Desenvolvedor (#253, F9): editor in-place com validação viva. Aparece
-  // mesmo sem elementos (pra ADICIONAR) — por isso não passa pelo gate de length.
-  if (desenvolvedor) return <RuleElementsEditor doc={doc} />
+  // Modo Desenvolvedor (#253, F9): slot de edição in-place no fim de todo doc —
+  // editor de elementos de regra (validação viva) + editor de texto (preview ao
+  // vivo). Aparece mesmo sem elementos (pra ADICIONAR).
+  if (desenvolvedor) {
+    return (
+      <>
+        <RuleElementsEditor doc={doc} />
+        <DocContentEditor doc={doc} />
+      </>
+    )
+  }
   if (!mestre || !doc.ruleElements?.length) return null
   return <RuleElementsSection elements={doc.ruleElements} />
 }

@@ -7,6 +7,7 @@ import { effectiveDoc } from '../src/data/effective-doc'
 import {
   setLocalDraft,
   clearLocalDraft,
+  clearLocalDraftField,
   localDraftFor,
   hasLocalDrafts,
   __resetDraftsForTests,
@@ -111,5 +112,23 @@ describe('effectiveDoc — rascunho local gated pelo Modo Dev', () => {
     clearLocalDraft('X')
     expect(localDraftFor('X')).toBeUndefined()
     expect(effectiveDoc(baseDoc()).body).toBe('corpo')
+  })
+
+  it('setLocalDraft FUNDE campos: body não apaga ruleElements do mesmo doc', () => {
+    setLocalDraft('X', { ruleElements: [{ raw: 'r', parsed: [] }] })
+    setLocalDraft('X', { body: 'novo corpo' })
+    const d = localDraftFor('X')
+    expect(d?.ruleElements?.[0].raw).toBe('r')
+    expect(d?.body).toBe('novo corpo')
+  })
+
+  it('clearLocalDraftField reverte só um campo; mantém o resto', () => {
+    setLocalDraft('X', { ruleElements: [{ raw: 'r', parsed: [] }], body: 'b' })
+    clearLocalDraftField('X', 'body')
+    expect(localDraftFor('X')?.body).toBeUndefined()
+    expect(localDraftFor('X')?.ruleElements?.[0].raw).toBe('r')
+    // some de vez quando fica vazio
+    clearLocalDraftField('X', 'ruleElements')
+    expect(localDraftFor('X')).toBeUndefined()
   })
 })
