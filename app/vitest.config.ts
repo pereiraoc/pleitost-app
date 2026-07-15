@@ -12,14 +12,14 @@ export default mergeConfig(
     test: {
       // exclude SUBSTITUI os defaults — preservá-los (node_modules, dist, …).
       exclude: [...configDefaults.exclude, 'e2e/**'],
-      // #255: paralelismo REATIVADO com isolamento por PROCESSO — cada arquivo de
-      // teste roda no seu próprio fork (isolate), então os stores globais de módulo
-      // (hero-store, local-entities, session-store, caches de doc, registries de
-      // doc-view/leaf-view) NÃO vazam entre arquivos concorrentes. Antes a suite
-      // rodava em série (fileParallelism:false) como mitigação; o isolamento por
-      // fork resolve a raiz e devolve o paralelismo.
-      pool: 'forks',
-      poolOptions: { forks: { isolate: true } },
+      // #255: arquivos rodam em SÉRIE (mitigação determinística). Tentei devolver
+      // o paralelismo com pool 'forks' + isolate (cada arquivo no próprio
+      // processo), mas alguns testes SENSÍVEIS A TEMPO (rules-ui CLASSE INICIAL,
+      // rules-perf BFS) ainda "perdem a corrida" sob carga paralela (~1 em 4-7
+      // runs) — o isolamento por processo não cobre races INTRA-arquivo/de timing.
+      // Em série a suite é 100% determinística (~80s); a raiz (tornar esses testes
+      // robustos a timing) segue rastreada na #255.
+      fileParallelism: false,
     },
   }),
 )
