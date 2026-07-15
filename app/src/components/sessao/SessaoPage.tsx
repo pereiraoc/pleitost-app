@@ -522,6 +522,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
   const catalog = useCatalog()
+  const assets = useAssetIndex()
   const live = useLiveSession()
   if (!repo || !user || !sess.remoteId || !live) return null
   const isGm = live.gmUserId === user.id
@@ -658,6 +659,12 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               const revelado = ativo.revealedCharacterIds.includes(c.id)
               const status = vitaStatusOf(c)
               const rr = c.state.recursosRestantes
+              // #263: retrato do combatente na iniciativa (faltava). NPC não
+              // revelado, pra jogador, NÃO mostra o retrato real (revelaria a
+              // identidade) — cai nas iniciais do nome mascarado, igual ao nome.
+              const mostraReal = !npc || isGm || revelado
+              const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
+              const portrait = mostraReal ? creatureImageUrl(synthDocFromCharacter(c), assets) : null
               return (
                 <div
                   key={c.id}
@@ -671,6 +678,28 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                     clipPath: clip(9),
                   }}
                 >
+                  <span
+                    aria-hidden
+                    style={{
+                      width: 30,
+                      height: 30,
+                      flex: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: portrait ? undefined : 'var(--panel)',
+                      backgroundImage: portrait ? `url("${portrait}")` : undefined,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      border: '1px solid var(--line2)',
+                      clipPath: clip(7),
+                      fontFamily: 'var(--mono)',
+                      fontSize: 11,
+                      color: 'var(--muted)',
+                    }}
+                  >
+                    {portrait ? '' : sigOf(nomeExib)}
+                  </span>
                   <span style={{ fontSize: 13.5, fontWeight: 700 }}>
                     {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
                   </span>
