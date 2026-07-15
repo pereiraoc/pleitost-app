@@ -232,3 +232,15 @@ export const DIFFICULTY_TONE_COLORS: Readonly<Record<DifficultyToneClass, string
   'is-hard': '#fb923c',
   'is-lethal': '#f87171',
 }
+
+/** toneClass → chave do registro `emojis.dificuldade` (Trivial/Facil/Dificil/
+ *  Letal), pra o call-site NUNCA inventar o emoji: quem quiser o círculo
+ *  colorido do tracker (levelbar-seg) faz `tokens.emojis.dificuldade[TONE_EMOJI_KEY[tone]]`.
+ *  Espelha difficultyEmoji() do plugin (difficulty-bar.ts:88): is-trivial→Trivial,
+ *  is-easy→Facil, is-hard→Dificil, is-lethal→Letal. */
+export const TONE_EMOJI_KEY: Readonly<Record<DifficultyToneClass, 'Trivial' | 'Facil' | 'Dificil' | 'Letal'>> = {
+  'is-trivial': 'Trivial',
+  'is-easy': 'Facil',
+  'is-hard': 'Dificil',
+  'is-lethal': 'Letal',
+}

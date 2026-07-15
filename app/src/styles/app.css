@@ -768,6 +768,77 @@ a {
   border: 1px solid var(--line2);
   border-radius: 8px;
 }
+.combat-roster-item.is-clickable {
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.combat-roster-item.is-clickable:hover,
+.combat-roster-item.is-clickable:focus-visible {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line2));
+  background: color-mix(in srgb, var(--accent) 7%, var(--card));
+  outline: none;
+}
+/* Barrinhas de dificuldade no topo (#266) — cabeçalho com o gm-enc-levelbar. */
+.combat-difficulty-bars {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.combat-difficulty-bars-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+/* Controles do Mestre (#266): toggles + adicionar à sessão. */
+.combat-roster-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--line2);
+}
+.combat-roster-toggles {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+.combat-roster-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 11.5px;
+  color: var(--text);
+  cursor: pointer;
+}
+.combat-roster-toggle input {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+.combat-roster-add {
+  margin-left: auto;
+  padding: 0.45rem 0.9rem;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 7px;
+}
+.combat-roster-add:hover {
+  filter: brightness(1.06);
+}
+.combat-roster-status {
+  margin-top: 0.5rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+}
 .combat-roster-qty {
   font-weight: 700;
 }
@@ -780,6 +851,47 @@ a {
 .combat-difficulty-pts {
   margin-left: 0.5rem;
   color: var(--accent);
+}
+/* Barrinhas de dificuldade por nível — VERBATIM do combat-tracker do plugin
+   (styles.css:11638-11681, .gm-enc-levelbar*): 10 quadradinhos agrupados por
+   tier, com uma barra de cor de tier embaixo de cada grupo. */
+.gm-enc-levelbar {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 3px 6px 4px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.gm-enc-levelbar-tier {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  position: relative;
+  padding-bottom: 4px;
+}
+.gm-enc-levelbar-tier::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  opacity: 0.85;
+  background: var(--tierbar, var(--muted));
+}
+.gm-enc-levelbar-seg {
+  display: inline-block;
+  width: 14px;
+  height: 12px;
+  border-radius: 2px;
+  cursor: help;
+  transition: transform 0.12s ease;
+}
+.gm-enc-levelbar-seg:hover {
+  transform: translateY(-1px);
 }
 .combat-grid-wrap {
   display: flex;

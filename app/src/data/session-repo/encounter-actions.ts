@@ -28,6 +28,39 @@ export interface NpcInsertInput {
   state: CharacterState
 }
 
+/** Pré-seleção de máscara dos NPCs ao entrar no combate (#266) — dois eixos
+ *  INDEPENDENTES, iguais aos do combat-tracker/sync:
+ *   - `invisivel` → `visibility: 'hidden'`: a RLS do Supabase nem entrega o
+ *     row pros jogadores (o NPC some da lista deles); é a "invisibilidade"
+ *     literal (character-cards.ts:72 do sync, session.ts:207).
+ *   - `disfarcado` → identidade mascarada: jogador vê o rótulo genérico
+ *     numerado (maskedNames) em vez do nome real. É o ESTADO PADRÃO de todo
+ *     NPC (revealedCharacterIds vazio), então "disfarçado = true" não muda
+ *     nada; "disfarçado = false" REVELA o NPC de saída (toggleRevealCharacter).
+ *  Ausência de ambos = comportamento anterior (visível na lista, disfarçado). */
+export interface NpcMaskOptions {
+  invisivel?: boolean
+  disfarcado?: boolean
+}
+
+/** Aplica a pré-seleção de máscara (#266) aos NPCs recém-criados de um
+ *  combate: `hidden` pelos invisíveis; reveal de saída quando NÃO disfarçados.
+ *  Só mexe no que o toggle pede (default disfarçado/visível = no-op), pra
+ *  preservar a semântica do sync. */
+async function applyNpcMaskOptions(
+  repo: SessionRepo,
+  encounterId: string,
+  npcIds: readonly string[],
+  opts: NpcMaskOptions | undefined,
+): Promise<void> {
+  if (!opts || (!opts.invisivel && opts.disfarcado !== false)) return
+  for (const id of npcIds) {
+    if (opts.invisivel) await repo.setCharacterVisibility(id, 'hidden')
+    // disfarçado é o default (não-revelado); só agimos pra REVELAR de saída.
+    if (opts.disfarcado === false) await repo.toggleRevealCharacter(encounterId, id)
+  }
+}
+
 /** Doc real de um sourcePath do roster: entidade LOCAL (monstro criado no
  *  app — o id é o próprio path) OU doc da vault resolvido no catálogo. */
 async function docFromSourcePath(catalog: Catalog, sourcePath: string): Promise<VaultDoc | null> {
@@ -91,20 +124,23 @@ export async function npcInputsFromRoster(
 }
 
 /** INICIAR do CombateDaSala: prepared → active criando os NPCs do roster, e
- *  turnState inicial do plugin (heróis primeiro, NPCs depois; round 1). */
+ *  turnState inicial do plugin (heróis primeiro, NPCs depois; round 1).
+ *  `mask` (#266) pré-seleciona invisível/disfarçado dos NPCs de saída. */
 export async function startEncounterFromRoster(
   repo: SessionRepo,
   catalog: Catalog,
   encounter: Encounter,
   memberId: string,
+  mask?: NpcMaskOptions,
 ): Promise<void> {
   const npcs = await npcInputsFromRoster(catalog, encounter.roster.entries, memberId)
   await repo.startEncounter(encounter.id, npcs)
   const chars = await repo.findCharactersBySession(encounter.sessionId)
   const dentro = chars.filter((c) => c.encounterId === encounter.id)
+  const npcsDentro = dentro.filter((c) => c.kind === 'npc')
   const order = [
     ...dentro.filter((c) => c.kind !== 'npc').map((c) => c.id),
-    ...dentro.filter((c) => c.kind === 'npc').map((c) => c.id),
+    ...npcsDentro.map((c) => c.id),
   ]
   await repo.updateEncounterTurnState(encounter.id, {
     order,
@@ -112,6 +148,7 @@ export async function startEncounterFromRoster(
     round: 1,
     started: true,
   })
+  await applyNpcMaskOptions(repo, encounter.id, npcsDentro.map((c) => c.id), mask)
 }
 
 /** #229 (b): caminho DIRETO do mestre — monstro do bestiário → iniciativa da
@@ -128,9 +165,13 @@ export async function addMonsterToInitiative(opts: {
    *  entidade local usa o próprio id). */
   sourcePath: string
   label: string
+  /** Quantidade (#266: o roster do combate pode adicionar N de uma vez). */
+  qty?: number
+  /** Pré-seleção invisível/disfarçado ao entrar no combate (#266). */
+  mask?: NpcMaskOptions
 }): Promise<void> {
-  const { repo, catalog, live, memberId, sourcePath, label } = opts
-  const entry: EncounterRosterEntry = { sourcePath, label, qty: 1 }
+  const { repo, catalog, live, memberId, sourcePath, label, qty, mask } = opts
+  const entry: EncounterRosterEntry = { sourcePath, label, qty: Math.max(1, Math.floor(qty ?? 1) || 1) }
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
   if (!ativo) {
     const enc = await repo.insertEncounter({
@@ -141,27 +182,97 @@ export async function addMonsterToInitiative(opts: {
       roster: { entries: [entry] },
       difficulty: null,
     })
-    await startEncounterFromRoster(repo, catalog, enc, memberId)
+    await startEncounterFromRoster(repo, catalog, enc, memberId, mask)
     return
   }
-  const [npc] = await npcInputsFromRoster(catalog, [entry], memberId)
-  const char = await repo.insertCharacter({
-    sessionId: live.sessionId,
-    memberId,
-    kind: 'npc',
-    tutorCharacterId: null,
-    characterPath: npc.characterPath,
-    visibility: 'visible',
-    summary: npc.summary,
-    state: npc.state,
-    encounterId: ativo.id,
-    createdByEncounterId: ativo.id,
-  })
+  const npcs = await npcInputsFromRoster(catalog, [entry], memberId)
+  const novos: string[] = []
+  const ts = ativo.turnState
+  for (const npc of npcs) {
+    const char = await repo.insertCharacter({
+      sessionId: live.sessionId,
+      memberId,
+      kind: 'npc',
+      tutorCharacterId: null,
+      characterPath: npc.characterPath,
+      visibility: mask?.invisivel ? 'hidden' : 'visible',
+      summary: npc.summary,
+      state: npc.state,
+      encounterId: ativo.id,
+      createdByEncounterId: ativo.id,
+    })
+    novos.push(char.id)
+  }
+  await repo.updateEncounterTurnState(
+    ativo.id,
+    ts
+      ? { ...ts, order: [...ts.order, ...novos] }
+      : { order: novos, currentIndex: 0, round: 1, started: true },
+  )
+  // invisível já foi aplicado no insert; aqui só o reveal de saída (disfarçado=false).
+  if (mask?.disfarcado === false) {
+    for (const id of novos) await repo.toggleRevealCharacter(ativo.id, id)
+  }
+}
+
+/** #266: ROSTER inteiro (visualizador de combate) → iniciativa da sessão
+ *  ativa, com a pré-seleção invisível/disfarçado. Reusa o mesmo caminho do
+ *  #229 (startEncounterFromRoster / insertCharacter+turnState), NÃO
+ *  reimplementa: sem combate ativo, cria+inicia UM combate com o roster todo
+ *  (uma chamada só, evitando o erro de "já ativo"); com combate ativo, injeta
+ *  cada entrada nele (addMonsterToInitiative, respeitando qty). */
+export async function addRosterToInitiative(opts: {
+  repo: SessionRepo
+  catalog: Catalog
+  live: LiveSession
+  memberId: string
+  name: string
+  entries: readonly EncounterRosterEntry[]
+  mask?: NpcMaskOptions
+}): Promise<void> {
+  const { repo, catalog, live, memberId, name, entries, mask } = opts
+  if (entries.length === 0) return
+  const ativo = live.encounters.find((e) => e.status === 'active') ?? null
+  if (!ativo) {
+    const enc = await repo.insertEncounter({
+      sessionId: live.sessionId,
+      sourceNotePath: '',
+      name,
+      roster: { entries: entries.map((e) => ({ ...e })) },
+      difficulty: null,
+    })
+    await startEncounterFromRoster(repo, catalog, enc, memberId, mask)
+    return
+  }
+  // Combate ativo: um insert por NPC (qty expandido em npcInputsFromRoster) e
+  // UM patch de turnState com todos os novos ids. NÃO reusamos
+  // addMonsterToInitiative por entrada — ele lê o turnState do `live` (stale)
+  // e sobrescreveria os ids da entrada anterior. Aqui acumulamos de uma vez.
+  const npcs = await npcInputsFromRoster(catalog, entries, memberId)
+  const novos: string[] = []
+  for (const npc of npcs) {
+    const char = await repo.insertCharacter({
+      sessionId: live.sessionId,
+      memberId,
+      kind: 'npc',
+      tutorCharacterId: null,
+      characterPath: npc.characterPath,
+      visibility: mask?.invisivel ? 'hidden' : 'visible',
+      summary: npc.summary,
+      state: npc.state,
+      encounterId: ativo.id,
+      createdByEncounterId: ativo.id,
+    })
+    novos.push(char.id)
+  }
   const ts = ativo.turnState
   await repo.updateEncounterTurnState(
     ativo.id,
     ts
-      ? { ...ts, order: [...ts.order, char.id] }
-      : { order: [char.id], currentIndex: 0, round: 1, started: true },
+      ? { ...ts, order: [...ts.order, ...novos] }
+      : { order: novos, currentIndex: 0, round: 1, started: true },
   )
+  if (mask?.disfarcado === false) {
+    for (const id of novos) await repo.toggleRevealCharacter(ativo.id, id)
+  }
 }
