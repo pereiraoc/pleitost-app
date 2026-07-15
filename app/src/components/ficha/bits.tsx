@@ -71,40 +71,43 @@ export function TabStrip({
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 2,
         borderBottom: '1px solid var(--line)',
       }}
     >
-      {tabs.map((t) => {
-        const on = t.id === active
-        return (
-          <button
-            key={t.id}
-            onClick={() => onSelect(t.id)}
-            style={{
-              padding: pad,
-              background: on ? 'color-mix(in srgb,var(--accent) 7%,transparent)' : 'transparent',
-              border: 'none',
-              borderBottom: `2px solid ${on ? 'var(--accent)' : 'transparent'}`,
-              color: on ? 'var(--accent)' : 'var(--muted)',
-              cursor: 'pointer',
-              fontWeight: 600,
-              letterSpacing: '.07em',
-              fontSize: 12,
-              whiteSpace: 'nowrap',
-              fontFamily: 'var(--body)',
-            }}
-          >
-            {t.label}
-          </button>
-        )
-      })}
-      {right ? (
-        <>
-          <span style={{ flex: 1 }} />
-          {right}
-        </>
-      ) : null}
+      {/* #284: no celular as abas que não cabem (Combate etc.) precisam rolar de
+          lado — a FILA de abas é um scroller horizontal (arrastável no toque, sem
+          barra visível); o `right` fica FIXO fora do scroll. */}
+      <div
+        className="tabs-scroll"
+        style={{ display: 'flex', alignItems: 'center', gap: 2, flex: '1 1 auto', minWidth: 0 }}
+      >
+        {tabs.map((t) => {
+          const on = t.id === active
+          return (
+            <button
+              key={t.id}
+              onClick={() => onSelect(t.id)}
+              style={{
+                padding: pad,
+                background: on ? 'color-mix(in srgb,var(--accent) 7%,transparent)' : 'transparent',
+                border: 'none',
+                borderBottom: `2px solid ${on ? 'var(--accent)' : 'transparent'}`,
+                color: on ? 'var(--accent)' : 'var(--muted)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                letterSpacing: '.07em',
+                fontSize: 12,
+                whiteSpace: 'nowrap',
+                flex: 'none',
+                fontFamily: 'var(--body)',
+              }}
+            >
+              {t.label}
+            </button>
+          )
+        })}
+      </div>
+      {right ? <span style={{ flex: 'none', paddingLeft: 6 }}>{right}</span> : null}
     </div>
   )
 }

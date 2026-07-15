@@ -551,7 +551,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
 
       {/* Sub-abas ARMAS | EQUIPAMENTOS | POÇÕES. */}
       {shop ? (
-        <div role="tablist" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
+        <div role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
           <SubTabBtn active={subTab === 'armas'} onClick={() => setSubTab('armas')}>ARMAS</SubTabBtn>
           <SubTabBtn active={subTab === 'equip'} onClick={() => setSubTab('equip')}>EQUIPAMENTOS</SubTabBtn>
           <SubTabBtn active={subTab === 'pocoes'} onClick={() => setSubTab('pocoes')}>POÇÕES</SubTabBtn>
@@ -733,7 +733,7 @@ export function LocationSheet({
 
       {/* Fila de abas — mesmo padrão dos grupoTabs (mono/underline accent) com a
           convenção :disabled existente (opacity .38, cursor default). */}
-      <div role="tablist" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
+      <div role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
         {tabs.map((t) => {
           const enabled = t.enabled ? t.enabled(doc) : true
           const on = t.id === tab

@@ -273,6 +273,18 @@ body {
   cursor: pointer;
   line-height: 1;
 }
+/* #284: fila de abas ROLÁVEL de lado — quando as abas não cabem (Combate no
+   celular etc.), arrasta pro lado só a fila; sem barra visível, com inércia de
+   toque. Usada pelo TabStrip e demais barras de abas que podem estourar. */
+.tabs-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.tabs-scroll::-webkit-scrollbar {
+  display: none; /* WebKit/Chrome */
+}
 .sidebar-right-body {
   flex: 1;
   min-height: 0;
