@@ -631,6 +631,14 @@ a {
   font-size: 2rem;
   flex: none;
   line-height: 1;
+  /* #270: ícones lucide do compêndio no estilo da sidebar — caixa fixa,
+     centralizado, cor de acento (stroke = currentColor). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--accent);
 }
 
 .sec-card-body {

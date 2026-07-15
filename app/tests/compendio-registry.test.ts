@@ -4,10 +4,12 @@
 import { describe, expect, it } from 'vitest'
 import {
   NAV_CHILDREN,
+  NAV_ICON_PATHS,
   NAV_META,
   isNavNode,
   navAncestors,
   navChildren,
+  navIconPath,
   navLabel,
   navMeta,
   navParent,
@@ -54,6 +56,34 @@ describe('compendio-registry (#244)', () => {
     const filhos = new Set(Object.values(NAV_CHILDREN).flat())
     for (const p of filhos) {
       expect(navMeta(p)?.icon, `ícone de ${p}`).toBeTruthy()
+    }
+  })
+
+  it('#270: todo path da árvore tem ícone SVG (estilo sidebar), não emoji', () => {
+    const filhos = new Set(Object.values(NAV_CHILDREN).flat())
+    for (const p of filhos) {
+      const svg = navIconPath(p)
+      expect(svg, `svg de ${p}`).toBeTruthy()
+      // é um path SVG lucide-like, não um caractere emoji
+      expect(svg!).toMatch(/<(path|circle|line|polyline|polygon|rect)\b/)
+    }
+  })
+
+  it('#270: dados de path/points são bem-formados (sem typo geométrico)', () => {
+    // atributos de geometria só podem conter comandos/números válidos — pega
+    // letras estranhas (typo) que o DOM aceitaria calado mas não desenharia.
+    const GEOM = /(?:\b[dD]|points|cx|cy|r|x1|y1|x2|y2|x|y|width|height|rx)="([^"]*)"/g
+    const VALID_D = /^[MmLlHhVvCcSsQqTtAaZz0-9.,\-+eE\s]+$/
+    for (const svg of Object.values(NAV_ICON_PATHS)) {
+      for (const m of svg.matchAll(/\sd="([^"]+)"/g)) {
+        expect(m[1], `d="${m[1]}"`).toMatch(VALID_D)
+        // todo path começa com um move (M/m)
+        expect(m[1].trimStart()[0]).toMatch(/[Mm]/)
+      }
+      for (const m of svg.matchAll(/\spoints="([^"]+)"/g)) {
+        expect(m[1], `points="${m[1]}"`).toMatch(/^[0-9.,\-\s]+$/)
+      }
+      void GEOM
     }
   })
 

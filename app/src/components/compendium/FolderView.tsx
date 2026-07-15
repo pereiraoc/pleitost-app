@@ -12,13 +12,33 @@ import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
 import { hasVisibleDescendant, isHidden, subtreeDocs, visibleCount, visibleFolders } from './sections'
-import { isNavNode, navAncestors, navChildren, navLabel, navMeta } from './compendio-registry'
+import { isNavNode, navAncestors, navChildren, navIconPath, navLabel, navMeta } from './compendio-registry'
 import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 // SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
 // Mesmo barrel que o DocPage carrega; a importação aqui garante o registro
 // mesmo que a folha seja alcançada sem passar por um doc antes.
 import './register-doc-views'
+
+/** Ícone da navegação do compêndio no estilo da sidebar (#270): <svg> lucide-like
+ *  do registro; cai no emoji só se um path não tiver path SVG. */
+function CompendioIcon({ path, emoji }: { path: string; emoji?: string }) {
+  const svg = navIconPath(path)
+  if (!svg) return <>{emoji ?? '📁'}</>
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
+  )
+}
 
 /** Botões GRANDES de seção/subseção (#244) — lêem ícone/label do registro
  *  (fonte de verdade da navegação); a contagem vem da subárvore visível. */
@@ -34,7 +54,7 @@ function SectionButtons({ paths }: { paths: string[] }) {
         return (
           <Link key={path} to={compendiumFolderPath(path)} className="sec-card">
             <span className="sec-card-ic" aria-hidden>
-              {meta?.icon ?? '📁'}
+              <CompendioIcon path={path} emoji={meta?.icon} />
             </span>
             <span className="sec-card-body">
               <span className="sec-card-name">{navLabel(path)}</span>

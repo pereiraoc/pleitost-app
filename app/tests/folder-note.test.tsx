@@ -86,6 +86,21 @@ describe('#272 — nota-da-pasta com view dedicada (Atlas/Mundo Livre)', () => {
   })
 })
 
+describe('#270 — ícones lucide (svg) nos botões de navegação, não emoji', () => {
+  it('/compendio: cada botão de seção renderiza um <svg> com paths', async () => {
+    const { container } = renderFolder('')
+    await waitFor(() => expect(container.querySelectorAll('.sec-card').length).toBeGreaterThan(0))
+    const cards = [...container.querySelectorAll('.sec-card')]
+    for (const card of cards) {
+      const svg = card.querySelector('.sec-card-ic svg')
+      expect(svg, 'ícone svg no botão de seção').toBeTruthy()
+      // path/circle/line etc. de verdade dentro do svg (não vazio, bem-formado)
+      expect(svg!.children.length).toBeGreaterThan(0)
+      expect(svg!.getAttribute('stroke')).toBe('currentColor')
+    }
+  })
+})
+
 describe('#272 — nota-índice genérica NÃO é embutida (Atlas raiz)', () => {
   it('Atlas (folder-note type null) mostra o título + cards, sem LocationSheet', async () => {
     const { container } = renderFolder('Atlas')
