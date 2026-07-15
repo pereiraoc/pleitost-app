@@ -121,21 +121,24 @@ describe('COMBATE Defesas/Sentidos — tooltip (item 4) + dots/estrela (item 6) 
       const tips = [...container.querySelectorAll<HTMLElement>('[data-breakdown-html]')].map(
         (el) => el.getAttribute('data-breakdown-html')!,
       )
+      // O tooltip é o breakdown base do plugin, seguido (quando há efeito ativo)
+      // do apêndice de EFEITOS em verde (#262) — então o base é PREFIXO do tip.
+      const startsWithSome = (needle: string) => tips.some((t) => t.startsWith(needle))
       // Defesa (10 + PB + item…): breakdown de resistência (Base 10 crua)
       const defesaHtml = renderBreakdownHtml(
         resistenciaBreakdown(rowOf(fm, 'Defesas_Resistencias', 'Defesa'), attrs),
       )
-      expect(tips).toContain(defesaHtml)
+      expect(startsWithSome(defesaHtml)).toBe(true)
       // Ímpeto (título slugado "Impeto")
       const impetoHtml = renderBreakdownHtml(
         resistenciaBreakdown(rowOf(fm, 'Defesas_Resistencias', 'Ímpeto'), attrs),
       )
-      expect(tips).toContain(impetoHtml)
+      expect(startsWithSome(impetoHtml)).toBe(true)
       // Percepção (sentido — título acentuado, total assinado)
       const percHtml = renderBreakdownHtml(
         sentidoBreakdown(rowOf(fm, 'Sentidos', 'Percepção'), attrs),
       )
-      expect(tips).toContain(percHtml)
+      expect(startsWithSome(percHtml)).toBe(true)
     })
   })
 

@@ -42,6 +42,7 @@ import {
   danoArmaBreakdown,
   entriesBreakdown,
   adoTipHtml,
+  modAppendixHtml,
   sourceTipHtml,
 } from './tooltips'
 import { StarChip } from './HabilidadesTab'
@@ -788,7 +789,11 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
               {/* Breakdown no CONTAINER inteiro (não só no número); o `title`
                   das condições fica no wrapper externo. */}
               <TipHover
-                html={renderBreakdownHtml(resistenciaBreakdown(d, attrs))}
+                html={
+                  renderBreakdownHtml(resistenciaBreakdown(d, attrs)) +
+                  // Bônus/penalidades de EFEITO (condições) em verde/vermelho (#262).
+                  modAppendixHtml(`${displayName(slugify(str(d.Nome)))} — Efeitos`, applied.entries)
+                }
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -869,7 +874,10 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             >
               {/* Breakdown no CONTAINER inteiro; `title` das condições no wrapper. */}
               <TipHover
-                html={renderBreakdownHtml(sentidoBreakdown(s, attrs))}
+                html={
+                  renderBreakdownHtml(sentidoBreakdown(s, attrs)) +
+                  modAppendixHtml(`${displayName(slugify(str(s.Nome)))} — Efeitos`, applied.entries)
+                }
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -1487,21 +1495,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                     ),
                   ) +
                   // + condições/efeitos APLICADOS ao acerto (Auto-Confiança,
-                  // Vantagem de Combate etc.) — antes só no title nativo (#162).
-                  (modApplied.entries.length
-                    ? renderBreakdownHtml({
-                        headerEmoji: '',
-                        title: `${nome} — Modificadores de acerto`,
-                        total: 0,
-                        hideTotal: true,
-                        headerSigned: true,
-                        parts: modApplied.entries.map((e) =>
-                          e.value === 0
-                            ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true }
-                            : { emoji: '', label: stripSharedFrom(e.label), value: e.value },
-                        ),
-                      })
-                    : '')
+                  // Vantagem de Combate etc.) — em VERDE/vermelho (#262).
+                  modAppendixHtml(`${nome} — Modificadores de acerto`, modApplied.entries)
                 }
               >
                 <ModBox
@@ -1819,7 +1814,12 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                 </span>
               </ItemHover>
               <span title={applied.entries.length ? entriesTitle(applied.entries) : undefined}>
-                <TipHover html={renderBreakdownHtml(periciaBreakdown(row, attrs))}>
+                <TipHover
+                  html={
+                    renderBreakdownHtml(periciaBreakdown(row, attrs)) +
+                    modAppendixHtml(`${displayName(slugify(str(row.Nome)))} — Efeitos`, applied.entries)
+                  }
+                >
                   <ModBox
                     modStr={signed(mod)}
                     rank={profLetter(row)}

@@ -25,6 +25,7 @@ import {
 import { createPortal } from 'react-dom'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
 import { num, profLetter, str, type ProfRow } from './hero-model'
+import { stripSharedFrom } from '../../interativa/apply'
 
 // ─────────────────────── tipos (espelho de util/breakdown-types.ts) ───────────────────────
 
@@ -390,6 +391,30 @@ export function entriesBreakdown(
     headerSigned: true,
     hideTotal: !opts?.base && entries.length === 0,
   }
+}
+
+/** Apêndice de tooltip com os bônus/penalidades vindos de EFEITOS (condições) —
+ *  #262: bônus em VERDE (tone pos → .pos), penalidade em vermelho (neg). Valor 0
+ *  = dado/efeito cujo rótulo já traz a notação ("(+1d12)"). '' quando não há —
+ *  não polui. Usado em defesas/sentidos/ataque/perícias do Combate. */
+export function modAppendixHtml(
+  title: string,
+  entries: readonly { label: string; value: number }[],
+): string {
+  if (!entries.length) return ''
+  return renderBreakdownHtml({
+    headerEmoji: '',
+    title,
+    total: 0,
+    hideTotal: true,
+    headerSigned: true,
+    parts: entries.map((e) => {
+      const tone: BreakdownTone = e.value < 0 ? 'neg' : 'pos'
+      return e.value === 0
+        ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true, tone }
+        : { emoji: '', label: stripSharedFrom(e.label), value: e.value, tone }
+    }),
+  })
 }
 
 // ─────────────────────── fonte (espelho de render/shared/source-tooltip.ts) ───────────────────────
