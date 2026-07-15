@@ -3,6 +3,7 @@ import type { VaultDoc } from '../data/types'
 import { DataviewBlock } from '../dataview/DataviewBlock'
 import { CombatMarkerBlock } from '../mestre/CombatMarkerBlock'
 import { BountyFence } from './bounty/BountyFence'
+import { ClassRolesFence } from './class-roles/ClassRolesFence'
 
 export interface FenceProps {
   lang: string
@@ -26,6 +27,9 @@ function CombatMarkerFence({ code }: FenceProps) {
 }
 
 export function FenceFallback({ lang, code }: FenceProps) {
+  // fence desconhecido e VAZIO (ex.: blocos que o plugin preenche) não vira uma
+  // caixa <pre> vazia e feia (#276) — some.
+  if (!code.trim()) return null
   return <pre className={`fence-${lang}`}>{code}</pre>
 }
 
@@ -41,4 +45,5 @@ export const FENCES: Record<string, ComponentType<FenceProps>> = {
   'combat-marker': CombatMarkerFence,
   'combat-marker-small': CombatMarkerFence,
   bounty: BountyFence, // #248: carta de aventura (rank/subcat/recompensa/objetivos)
+  'class-roles': ClassRolesFence, // #276: papéis de combate da classe (não mais JSON cru)
 }
