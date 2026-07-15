@@ -137,7 +137,13 @@ export function applyDanoCtx(
     // Dado EXTRA (ex.: Encantar Arma +1d12): valor 0 (não é fixo), mas o rótulo
     // carrega a notação do dado pra não parecer "0" no tooltip.
     ...extraDice.map((e) => ({ label: `${stripSharedFrom(e.label)} (+${e.dice})`, value: 0 })),
-    ...baseDiceCountEntries.map((e) => ({ ...e, label: stripSharedFrom(e.label), value: 0 })),
+    // Dado da arma extra (Sucesso Decisivo `dadoDeArma`): a notação "(+1d<tam>)"
+    // vai no rótulo pra MOSTRAR quanto aumenta (#271) — antes ficava "(0)".
+    ...baseDiceCountEntries.map((e) => ({
+      ...e,
+      label: `${stripSharedFrom(e.label)} (+${e.value}${e.dadoDeArma ? `d${finalDieSize}` : ` dado${e.value === 1 ? '' : 's'}`})`,
+      value: 0,
+    })),
   ]
   const hasDelta =
     entries.length > 0 || fixedSum !== 0 || perDieSum !== 0 || dieStepSum !== 0 ||
