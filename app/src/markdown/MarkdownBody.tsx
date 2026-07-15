@@ -69,7 +69,10 @@ export function MarkdownBody({ doc, hideLeadingTitle }: { doc: VaultDoc; hideLea
       },
       code({ className, children }) {
         const lang = /language-([\w-]+)/.exec(className ?? '')?.[1]
-        const code = String(children).replace(/\n$/, '')
+        // #277: fence VAZIO (ex.: ```autosheet-rules``` no fim de várias notas)
+        // chega com children `undefined` → `String(undefined)` era "undefined" e
+        // vazava como texto. Trata nulo como string vazia.
+        const code = (children == null ? '' : String(children)).replace(/\n$/, '')
         if (lang) {
           const Fence = FENCES[lang] ?? FenceFallback
           return <Fence lang={lang} code={code} doc={doc} />

@@ -72,6 +72,22 @@ describe('MarkdownBody (body real da Adaga)', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Adaga' })).toBeTruthy()
   })
 
+  it('#277: fence VAZIO (```autosheet-rules```) não vaza "undefined" no fim', () => {
+    // Várias notas (ex.: Classes) terminam com um fence de regras vazio; o
+    // children `undefined` virava a string "undefined" e escapava a guarda.
+    const doc = {
+      id: 'x/Nota',
+      basename: 'Nota',
+      frontmatter: {},
+      inlineFields: {},
+      images: [],
+      body: 'Texto da nota.\n\n```autosheet-rules\n```\n',
+    } as unknown as VaultDoc
+    const { container } = renderDoc(doc)
+    expect(container.textContent).toContain('Texto da nota.')
+    expect(container.textContent).not.toContain('undefined')
+  })
+
   it('avalia `= this.<campo>` nas células da tabela via inlineFields', () => {
     renderDoc(adaga)
     // dano:: "d4+2" → string literal sem aspas; tipo:: perfuração
