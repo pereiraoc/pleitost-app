@@ -12,6 +12,20 @@
 // src/data/assets.ts (o app monta a URL do thumb; este script escreve o arquivo
 // nesse exato caminho) — as duas precisam concordar. Idempotente: pula o thumb
 // que já existe e está mais novo que o original.
+//
+// MASCARAMENTO DE FRONTMATTER (#283): alguns .webp de item na vault têm um bloco
+// YAML `---\ndg-publish: true\n---` COLADO no início do binário (imagem real nunca
+// começa com "---"). Como a vault é READ-ONLY, mascaramos NO BUILD: removemos esse
+// frontmatter do arquivo COPIADO no dist (stripLeadingFrontmatter) — nunca em
+// ../vault-data. Isso corrige qualquer imagem que só teve frontmatter prependado.
+//
+// CAVEAT (dado): os 18 arquivos atuais foram, ALÉM disso, re-encodados como TEXTO
+// UTF-8 em algum ponto, o que trocou todo byte ≥0x80 pelo caractere de
+// substituição � (ef bf bd) — os PIXELS foram destruídos de forma IRREVERSÍVEL.
+// Depois do strip o `file` reconhece o container WebP, mas o sharp ainda não
+// decodifica (dados corrompidos). Esses 18 só voltam re-salvando as imagens
+// originais na vault (fora do escopo read-only) — segue rastreado na #283. O
+// gerador loga o erro e NÃO derruba o deploy; o app cai no fallback do slot.
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -33,6 +47,35 @@ export function thumbDestFor(relFromVaultData) {
   const ext = path.extname(rel).toLowerCase()
   if (!rel.startsWith('assets/') || !RASTER_EXTS.has(ext)) return null
   return `assets-thumb/${rel.slice('assets/'.length)}.webp`
+}
+
+/**
+ * #283: remove um bloco de frontmatter YAML colado no INÍCIO de um arquivo de
+ * imagem (`---\n…\n---\n<binário>`). Retorna o buffer LIMPO, ou o MESMO buffer
+ * (identidade preservada) quando não há frontmatter — o call-site usa `!==` pra
+ * detectar mudança. Seguro: imagem raster real nunca começa com os bytes "---"
+ * (PNG=\x89PNG, JPEG=\xFF\xD8, WEBP=RIFF, GIF=GIF8…), então só mexe no caso
+ * corrompido; sem delimitador de fechamento, não arrisca e devolve o original.
+ * Puro/exportado — base dos testes.
+ */
+export function stripLeadingFrontmatter(buf) {
+  const opensLF = buf.length >= 4 && buf.subarray(0, 4).equals(Buffer.from('---\n'))
+  const opensCRLF = buf.length >= 5 && buf.subarray(0, 5).equals(Buffer.from('---\r\n'))
+  if (!opensLF && !opensCRLF) return buf
+  const closeLF = buf.indexOf(Buffer.from('\n---\n'))
+  const closeCRLF = buf.indexOf(Buffer.from('\n---\r\n'))
+  let end = -1
+  let len = 0
+  if (closeLF !== -1) {
+    end = closeLF
+    len = 5
+  }
+  if (closeCRLF !== -1 && (end === -1 || closeCRLF < end)) {
+    end = closeCRLF
+    len = 6
+  }
+  if (end === -1) return buf // sem fechamento → não arrisca cortar
+  return buf.subarray(end + len)
 }
 
 /** Lista recursiva de arquivos (caminhos absolutos) sob `dir`. */
@@ -75,6 +118,7 @@ async function main() {
   let generated = 0
   let skipped = 0
   let passed = 0 // não-raster (svg/gif) — sem thumb, seguem no cheio
+  let stripped = 0 // #283: imagens com frontmatter mascarado no dist
 
   for (const abs of files) {
     const relFromVaultData = path.relative(vaultDataDir, abs)
@@ -84,6 +128,17 @@ async function main() {
       continue
     }
     const destAbs = path.join(vaultDataDir, destRel)
+
+    // #283: mascara o frontmatter colado no binário — reescreve o cheio LIMPO no
+    // dist (nunca na vault) ANTES de tudo, pra a imagem cheia renderizar e o sharp
+    // conseguir ler. Roda a cada build (o dist é cópia fresca, com o frontmatter).
+    let srcBuf = fs.readFileSync(abs)
+    const cleaned = stripLeadingFrontmatter(srcBuf)
+    if (cleaned !== srcBuf) {
+      fs.writeFileSync(abs, cleaned)
+      srcBuf = cleaned
+      stripped++
+    }
 
     // Idempotência: thumb já existe e é ≥ recente que o original → pula.
     if (fs.existsSync(destAbs) && fs.statSync(destAbs).mtimeMs >= fs.statSync(abs).mtimeMs) {
@@ -95,7 +150,7 @@ async function main() {
       // withoutEnlargement: imagem menor que o alvo não é AMPLIADA (mantém a
       // resolução), só reencodada em webp — o thumb sempre existe, então a URL
       // derivada no app nunca 404a (background-image não tem onError).
-      const buf = await sharp(abs)
+      const buf = await sharp(srcBuf)
         .resize({ width: THUMB_MAX_WIDTH, withoutEnlargement: true })
         .webp({ quality: WEBP_QUALITY })
         .toBuffer()
@@ -112,7 +167,8 @@ async function main() {
 
   console.log(
     `[gen-thumbs] thumbs: ${generated} gerado(s), ${skipped} já existente(s), ` +
-      `${passed} sem thumb (svg/gif/erro). Alvo: ≤${THUMB_MAX_WIDTH}px webp q${WEBP_QUALITY}.`,
+      `${passed} sem thumb (svg/gif/erro), ${stripped} com frontmatter mascarado (#283). ` +
+      `Alvo: ≤${THUMB_MAX_WIDTH}px webp q${WEBP_QUALITY}.`,
   )
 }
 

@@ -18,7 +18,7 @@ import {
   thumbCopiedTo,
   thumbUrl,
 } from '../src/data/assets'
-import { thumbDestFor } from '../../scripts/gen-thumbs.mjs'
+import { thumbDestFor, stripLeadingFrontmatter } from '../../scripts/gen-thumbs.mjs'
 import { VaultImage } from '../src/components/compendium/VaultImage'
 import type { AssetsManifest } from '../src/data/types'
 
@@ -82,6 +82,23 @@ describe('derivação do caminho do thumb (#280)', () => {
     expect(assetUrlFor(entry, true)).toBe(assetUrl(entry))
     // contexto grande (small=false) é sempre o cheio.
     expect(assetUrlFor(entry, false)).toBe(assetUrl(entry))
+  })
+})
+
+describe('stripLeadingFrontmatter (#283) — mascara frontmatter colado no binário', () => {
+  const WEBP = Buffer.from([0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50]) // RIFF…WEBP
+  it('remove o bloco --- inicial e devolve só os bytes da imagem', () => {
+    const glued = Buffer.concat([Buffer.from('---\ndg-publish: true\n---\n'), WEBP])
+    const out = stripLeadingFrontmatter(glued)
+    expect(Buffer.compare(out, WEBP)).toBe(0)
+  })
+  it('imagem SEM frontmatter é devolvida INTACTA (mesma referência)', () => {
+    const out = stripLeadingFrontmatter(WEBP)
+    expect(out).toBe(WEBP) // identidade → o gerador detecta "sem mudança"
+  })
+  it('abre --- mas sem fechamento → não arrisca cortar (devolve original)', () => {
+    const weird = Buffer.concat([Buffer.from('---\nsem fim'), WEBP])
+    expect(stripLeadingFrontmatter(weird)).toBe(weird)
   })
 })
 
