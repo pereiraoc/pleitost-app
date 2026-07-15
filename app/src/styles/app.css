@@ -1041,6 +1041,20 @@ a {
   margin-top: 1.5rem;
 }
 
+/* #275: transclusão de nota embutida numa folder-note genérica (Armaduras
+   embute Sem/Leve/Pesada). Cada bloco lê como um cartão de leitura separado. */
+.note-embed {
+  margin: 0.75rem 0;
+  padding: 0.35rem 0 0.35rem 0.9rem;
+  border-left: 2px solid var(--line);
+}
+.note-embed > :first-child {
+  margin-top: 0;
+}
+.note-embed > :last-child {
+  margin-bottom: 0;
+}
+
 .doc-table {
   width: 100%;
   border-collapse: collapse;

@@ -15,6 +15,8 @@ import { hasVisibleDescendant, isHidden, subtreeDocs, visibleCount, visibleFolde
 import { isNavNode, navAncestors, navChildren, navIconPath, navLabel, navMeta } from './compendio-registry'
 import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
+import { folderNoteHasBody } from '../../markdown/folder-note-body'
 // SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
 // Mesmo barrel que o DocPage carrega; a importação aqui garante o registro
 // mesmo que a folha seja alcançada sem passar por um doc antes.
@@ -130,11 +132,17 @@ function FolderNote({
   const { doc } = useDoc(id)
   const dedicated = doc != null && resolveDocView(doc) !== null
   if (!doc || !dedicated) {
+    // #275: folder-note GENÉRICA (type null, sem view dedicada). Se, removidos o
+    // heading-título e os fences da listagem (dataview), sobra prosa/transclusões,
+    // renderiza o CORPO da nota (com as transclusões resolvidas) ACIMA da lista.
+    // Notas-índice que são SÓ dataview não têm corpo útil → só título + lista.
+    const showBody = doc != null && folderNoteHasBody(doc)
     return (
       <>
         <h1>
           <Link to={docPath(id)}>{fallbackTitle}</Link>
         </h1>
+        {showBody ? <MarkdownBody doc={doc} hideLeadingTitle context="folder-note" /> : null}
         {listing}
       </>
     )

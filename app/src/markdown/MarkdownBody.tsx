@@ -10,24 +10,37 @@ import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
 import { remarkInlineDataview } from './remark-inline-dataview'
 import { remarkWikilinks } from './remark-wikilinks'
+import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
+import { stripLeadingTitle } from './strip-leading-title'
+import {
+  FOLDER_NOTE_SUPPRESSED_FENCES,
+  normalizeNoteEmbeds,
+  remarkStripFences,
+} from './folder-note-body'
+import { NoteTransclusion, TransclusionScope } from './NoteTransclusion'
 
-/** Remove o PRIMEIRO heading do corpo quando ele repete o título do doc — as
- *  views com header próprio (Regra/Criação/História) já mostram o nome, então
- *  o `# Título`/`# = this.file.name` do corpo vira duplicata feia (#246). */
-function stripLeadingTitle(body: string, basename: string): string {
-  const m = /^\s*#{1,6}\s+(.+?)\s*$/m.exec(body)
-  if (!m || body.slice(0, m.index).trim() !== '') return body
-  const titulo = m[1].replace(/`?=\s*this\.file\.name`?/g, basename).trim()
-  if (titulo !== basename.trim()) return body
-  return body.slice(0, m.index) + body.slice(m.index + m[0].length)
-}
+/** Contexto de render do corpo. 'folder-note' (#275): o corpo da nota-da-pasta
+ *  genérica — suprime os fences da listagem (a grade já é a lista). */
+export type MarkdownContext = 'folder-note'
 
-export function MarkdownBody({ doc, hideLeadingTitle }: { doc: VaultDoc; hideLeadingTitle?: boolean }) {
+export function MarkdownBody({
+  doc,
+  hideLeadingTitle,
+  context,
+}: {
+  doc: VaultDoc
+  hideLeadingTitle?: boolean
+  /** Contexto de render — liga supressões específicas (ex.: dataview na folder-note). */
+  context?: MarkdownContext
+}) {
   const catalog = useCatalog()
   const body = useMemo(() => {
     const stripped = stripComments(doc.body)
-    return hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
+    const titled = hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
+    // #275: colapsa a `#subpath` das transclusões de nota ANTES do parse (senão
+    // o inline code da seção fragmenta o embed e nada casa).
+    return normalizeNoteEmbeds(titled)
   }, [doc.body, doc.basename, hideLeadingTitle])
 
   const plugins = useMemo(
@@ -36,14 +49,25 @@ export function MarkdownBody({ doc, hideLeadingTitle }: { doc: VaultDoc; hideLea
       // ordem importa: `= this.x` substitui antes dos wikilinks linkificarem
       () => remarkInlineDataview(doc),
       () => remarkWikilinks({ resolve: catalog.resolve }),
+      // eleva as transclusões de nota a blocos (evita <div> aninhado em <p>)
+      remarkLiftNoteEmbeds,
+      // #275: no contexto folder-note, a grade da pasta já é a listagem —
+      // suprime os fences da query pra não duplicar como tabela/pre.
+      ...(context === 'folder-note'
+        ? [() => remarkStripFences(FOLDER_NOTE_SUPPRESSED_FENCES)]
+        : []),
       remarkCallouts,
     ],
-    [doc, catalog],
+    [doc, catalog, context],
   )
 
   const components = useMemo<Components>(
-    () => ({
-      a({ href, children }) {
+    () =>
+      ({
+        // #275: nó custom emitido pelo remark-wikilinks pra transclusão de nota.
+        // Não é uma tag HTML — o cast (fora do tipo Components) o inclui no mapa.
+        'note-embed': NoteTransclusion,
+        a({ href, children }) {
         // #88: links de doc abrem nos DETALHES da sidebar (se houver); demais
         // internos roteiam pela SPA; externos abrem em nova aba.
         if (href?.startsWith('/doc/')) return <DetailLink to={href}>{children}</DetailLink>
@@ -86,14 +110,18 @@ export function MarkdownBody({ doc, hideLeadingTitle }: { doc: VaultDoc; hideLea
           )
         }
         return <code>{children}</code>
-      },
-    }),
+        },
+      }) as Components,
     [doc],
   )
 
   return (
-    <ReactMarkdown remarkPlugins={plugins} components={components}>
-      {body}
-    </ReactMarkdown>
+    // #275: empilha o id deste doc na cadeia de transclusão — as NoteTransclusion
+    // filhas usam pra detectar ciclo (nota que embute a si mesma).
+    <TransclusionScope id={doc.id}>
+      <ReactMarkdown remarkPlugins={plugins} components={components}>
+        {body}
+      </ReactMarkdown>
+    </TransclusionScope>
   )
 }
