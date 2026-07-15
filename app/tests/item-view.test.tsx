@@ -5,8 +5,8 @@
 // e a prosa do body; (2) navegar numa pasta de Armas mostra a GRADE de cartas
 // (não a DocTable de texto); (3) "Items" ACHATA as 7 categorias pedidas.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -78,6 +78,48 @@ function renderFolder(initialPath: string) {
     </CatalogProvider>,
   )
 }
+
+/** Regressão do crash React #310 (#267): a MESMA `FolderView` (rota splat)
+ *  atende um NÓ DE NAVEGAÇÃO (early return cedo, N hooks) e uma PASTA DE ITEM
+ *  (subtree, antes chamava useMemo DEPOIS do early return → +2 hooks). Navegar de
+ *  um pro outro mudava o nº de hooks → "Rendered more hooks than previous". */
+function NavBtn({ to }: { to: string }) {
+  const nav = useNavigate()
+  return (
+    <button type="button" onClick={() => nav(to)}>
+      ir
+    </button>
+  )
+}
+
+describe('#267 crash React #310 (hooks) — navegar nó→pasta de Item', () => {
+  it('navegar de /compendio (nó de nav) pra pasta de Armas NÃO quebra', () => {
+    const armas = compendiumFolderPath('Sistema/Equipamento/Armas')
+    render(
+      <CatalogProvider catalog={catalog}>
+        {/* SÓ a rota splat → a MESMA instância de FolderView atende os dois */}
+        <MemoryRouter initialEntries={['/compendio']}>
+          <Routes>
+            <Route
+              path="/compendio/*"
+              element={
+                <>
+                  <FolderView />
+                  <NavBtn to={armas} />
+                </>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    // com o bug (useMemo depois do early return), este clique dispara re-render
+    // com nº de hooks diferente → React #310 lançado pelo act() do fireEvent.
+    expect(() => fireEvent.click(screen.getByText('ir'))).not.toThrow()
+    // e a folha de Item renderiza de fato (barra de filtro do #267 aparece).
+    expect(document.querySelector('.item-filterbar')).toBeTruthy()
+  })
+})
 
 describe('registro do visualizador de Item', () => {
   it('o barrel registra o doc-view "item" e o leaf-view "Item"', () => {

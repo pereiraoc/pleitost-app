@@ -136,11 +136,11 @@ export function FolderView() {
   // docs desse tipo na SUBÁRVORE inteira (ex.: "Armas" não tem docs diretos, mas
   // a grade mostra TODAS as armas das subpastas, agrupadas). Detecta pela
   // subárvore quando ela é homogênea de um tipo cujo leaf-entry pede subtree.
-  const subDocs = useMemo(
-    () => (!node || portal ? [] : subtreeDocs(node)),
-    [node, portal],
-  )
-  const subTypes = useMemo(() => [...new Set(subDocs.map((d) => d.type ?? ''))], [subDocs])
+  // NÃO usar useMemo aqui: estão DEPOIS dos early returns (isNavNode/!node), o
+  // que mudaria o nº de hooks entre renders → React #310. São computações puras
+  // baratas (a subárvore já está em memória); rodar por render é ok.
+  const subDocs = !node || portal ? [] : subtreeDocs(node)
+  const subTypes = [...new Set(subDocs.map((d) => d.type ?? ''))]
   const subHomoType = subTypes.length === 1 ? subTypes[0] : undefined
   const subLeaf = resolveLeafEntry(subHomoType)
   const useSubtree = !!subLeaf?.subtree && subDocs.length > vaultDocs.length
