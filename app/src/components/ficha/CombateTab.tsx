@@ -1520,22 +1520,36 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                   renderBreakdownHtml(
                     danoArmaBreakdown(nome, danoRaw, profLetter({ Proficiencia: profAtaque })),
                   ) +
-                  // + bônus/condições APLICADOS ao dano (o que estava só no title
-                  // nativo, agora tap-able no celular).
-                  (danoRes?.entries.length
+                  // + bônus/condições APLICADOS ao dano (#262): bônus em VERDE
+                  // (tone pos), penalidades em vermelho, e o PassoDeDado mostrando
+                  // o dado MIGRANDO ("d4 → d6") como no pleitost-autosheet.
+                  (danoRes && (danoRes.entries.length || danoRes.finalDieSize !== danoRes.baseDieSize)
                     ? renderBreakdownHtml({
                         headerEmoji: '',
                         title: `${nome} — Modificadores de dano`,
                         total: 0,
                         hideTotal: true,
                         headerSigned: true,
-                        // Dado extra (Encantar Arma etc.): value 0 → só o rótulo
-                        // (que já traz "(+1d12)"), sem o "(0)" enganoso.
-                        parts: danoRes.entries.map((e) =>
-                          e.value === 0
-                            ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true }
-                            : { emoji: '', label: stripSharedFrom(e.label), value: e.value },
-                        ),
+                        parts: [
+                          // Dado extra (Encantar Arma etc.): value 0 → só o rótulo
+                          // (já traz "(+1d12)"), verde. Bônus verde, penalidade vermelho.
+                          ...danoRes.entries.map((e) => {
+                            const tone: 'pos' | 'neg' = e.value < 0 ? 'neg' : 'pos'
+                            return e.value === 0
+                              ? { emoji: '', label: stripSharedFrom(e.label), value: 0, noValue: true, tone }
+                              : { emoji: '', label: stripSharedFrom(e.label), value: e.value, tone }
+                          }),
+                          // Passo de dado: uma linha por fonte, mostrando "d4 → d6".
+                          ...(danoRes.finalDieSize !== danoRes.baseDieSize
+                            ? danoRes.dieStepSources.map((label) => ({
+                                emoji: '',
+                                label: stripSharedFrom(label),
+                                value: 0,
+                                extra: `d${danoRes.baseDieSize} → d${danoRes.finalDieSize}`,
+                                tone: (danoRes.finalDieSize > danoRes.baseDieSize ? 'pos' : 'neg') as 'pos' | 'neg',
+                              }))
+                            : []),
+                        ],
                       })
                     : '')
                 }

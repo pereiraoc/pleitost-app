@@ -50,11 +50,18 @@ export interface DanoCalcBase {
 export interface DanoCtxResult {
   /** Display final ("2d6+3+1d12"). */
   display: string
-  /** Contribuições do contexto (tooltip). */
+  /** Contribuições do contexto (tooltip) — SEM o passo de dado (que vira
+   *  `dieStepSources`/`baseDieSize→finalDieSize`, mostrado migrando). */
   entries: ConditionEntry[]
   hasDelta: boolean
   hasPenalty: boolean
   adoInput: Omit<DanoAdOInput, 'prof'>
+  /** Tamanho do dado da arma antes/depois do PassoDeDado (Apunhalante etc.) —
+   *  quando diferem, o tooltip mostra "d{base} → d{final}" (#262). */
+  baseDieSize: number
+  finalDieSize: number
+  /** Rótulos das fontes que mudaram o dado (pra listar cada "d4 → d6"). */
+  dieStepSources: string[]
 }
 
 /** Aplica o contexto de DANO numa arma (plugin applyDanoCtx :473-680).
@@ -72,6 +79,9 @@ export function applyDanoCtx(
       entries: [],
       hasDelta: false,
       hasPenalty: false,
+      baseDieSize: danoCalc.dieSize,
+      finalDieSize: danoCalc.dieSize,
+      dieStepSources: [],
       adoInput: {
         offsetBase: offsetNum,
         baseDieSize: danoCalc.dieSize,
@@ -113,9 +123,11 @@ export function applyDanoCtx(
   // Entries visíveis (tooltip/cor) — achata untyped + typed vencedoras de
   // cada canal, mais extraDice/baseDiceCount (valor 0 mas contam pra delta
   // visual pos, como no plugin em que extraParts pintam `hasDelta`).
+  // Passo de dado (Apunhalante/PassoDeDado): NÃO entra como "+N" nos entries —
+  // vira migração "d{base} → d{final}" no tooltip (#262). Só os rótulos.
+  const dieStepSources = flattenContribs(dieStepEntries, dieStepTyped).map((e) => e.label)
   const entries: ConditionEntry[] = [
     ...flattenContribs(fixedEntries, fixedTyped),
-    ...flattenContribs(dieStepEntries, dieStepTyped),
     ...perDieEntries.map((e) => ({ ...e, label: `${stripSharedFrom(e.label)} (×${perDieDice} dado${perDieDice === 1 ? '' : 's'})`, value: e.value * perDieDice })),
     ...winningTypedEntries(perDieTyped).map((w) => ({
       label: `${displayBonusType(w.type)}: ${stripSharedFrom(w.entry.label)} (×${perDieDice} dado${perDieDice === 1 ? '' : 's'})`,
@@ -153,6 +165,9 @@ export function applyDanoCtx(
     entries,
     hasDelta,
     hasPenalty,
+    baseDieSize: danoCalc.dieSize,
+    finalDieSize,
+    dieStepSources,
     adoInput: {
       offsetBase: offsetNum,
       baseDieSize: danoCalc.dieSize,
