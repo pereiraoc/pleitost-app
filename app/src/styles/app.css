@@ -462,6 +462,43 @@ body {
   }
 }
 
+/* ---------- FAB de criar/importar (#42/#205/#258) ----------
+   Ancorado à borda ESQUERDA do painel DIREITO: quando esse painel é coluna
+   fixa (>=1100px, width 320px) o FAB recua pra ficar à esquerda dele; quando
+   o painel está colapsado/off-canvas (telas estreitas), o FAB fica no canto
+   da tela. `right` responsivo mora aqui; o componente só passa bottom/variante.
+   Espelha o "+ Adicionar Arma" do inventário (fixed, z40, sombra). */
+.create-fab {
+  position: fixed;
+  right: 26px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42);
+}
+
+@media (min-width: 1100px) {
+  /* painel direito fixo = 320px; FAB gruda na borda esquerda dele (+26 de gap) */
+  .create-fab {
+    right: 346px;
+  }
+}
+
+/* #259: os drawers (esquerdo/direito) deslizam com transform; quem pede menos
+   movimento (a11y) recebe os mesmos estados sem a animação de slide. */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar-right {
+    transition: none;
+  }
+}
+
 /* ---------- conteúdo ---------- */
 .app-main {
   flex: 1;

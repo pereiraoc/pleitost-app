@@ -10,6 +10,7 @@ import { DetailProvider } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
 import { BugReportButton } from './BugReportButton'
 import { RightSidebar } from './RightSidebar'
+import { useEdgeSwipe } from './useEdgeSwipe'
 import {
   APP_NAV,
   CHAR_TABS,
@@ -171,6 +172,18 @@ export function AppShell() {
   useEffect(() => {
     void initPwaUpdate()
   }, [])
+  // #259: gesto de swipe pra abrir/fechar as sidebars no mobile — puxar da
+  // borda esquerda→direita abre a esquerda; direita→esquerda abre a direita
+  // (e o gesto oposto sobre um drawer aberto fecha).
+  useEdgeSwipe(
+    { leftOpen: drawerOpen, rightOpen: rightOpen },
+    {
+      openLeft: () => setDrawerOpen(true),
+      closeLeft: () => setDrawerOpen(false),
+      openRight: () => setRightOpen(true),
+      closeRight: () => setRightOpen(false),
+    },
+  )
 
   const section = fichaOpen
     ? fichaTab

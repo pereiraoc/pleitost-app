@@ -247,7 +247,13 @@ function useFolderDocs(folder: string, localKind?: LocalKind, opts?: { includeVa
 /** Botão flutuante de criação — MESMO padrão fixed do "+ Adicionar Arma" do
  *  inventário (dc.html:707 right:26 bottom:22 z40; botão accent com clip),
  *  sem o ▾ porque é ação direta (não abre menu). Issue #42 pede explícito
- *  igual Inventário/Armas. */
+ *  igual Inventário/Armas.
+ *
+ *  #258: o botão fica ancorado à borda ESQUERDA do painel DIREITO. Quando esse
+ *  painel é coluna fixa (telas largas), o FAB recua pra ficar à esquerda dele;
+ *  quando o painel está colapsado/off-canvas (telas estreitas), o FAB volta ao
+ *  canto da tela. Toda a lógica de `right` responsivo vive na classe
+ *  `.create-fab` (app.css); aqui só o empilhamento (`bottom`) e a variante. */
 function CreateFab({
   label,
   onClick,
@@ -263,24 +269,13 @@ function CreateFab({
 }) {
   return (
     <button
+      className={secondary ? 'create-fab secondary' : 'create-fab'}
       onClick={onClick}
       style={{
-        position: 'fixed',
-        right: 26,
         bottom,
-        zIndex: 40,
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 7,
-        padding: '11px 18px',
         background: secondary ? 'var(--panel)' : 'var(--accent)',
         border: secondary ? '1px solid var(--line2)' : '1px solid var(--accent)',
         color: secondary ? 'var(--text)' : 'var(--ink)',
-        cursor: 'pointer',
-        fontSize: 13,
-        fontWeight: 700,
-        letterSpacing: '.02em',
-        boxShadow: '0 10px 26px rgba(0,0,0,.42)',
         clipPath: clip(9),
       }}
     >
