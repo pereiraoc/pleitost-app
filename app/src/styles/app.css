@@ -673,6 +673,18 @@ a {
   border-radius: 16px;
   gap: 5px;
 }
+/* #268: página de um tesouro mostra as 3 qualidades lado a lado — as cartas
+   dividem a largura (não 420px cada) e o bloco fica mais largo. */
+.item-page-card.item-cell-tiers {
+  gap: 1rem;
+  align-items: stretch;
+}
+.item-page-card.item-cell-tiers .shc-card {
+  width: auto;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 360px;
+}
 .item-page-card .shc-img {
   max-height: 260px;
   margin-bottom: 8px;
@@ -713,6 +725,21 @@ a {
 }
 .item-grid-cell:hover .shc-card {
   transform: translateY(-2px);
+}
+/* #268: "Todas" as qualidades — cada célula é um GRUPO das 3 cartas (Adepta/
+   Experiente/Mestre) do MESMO item, lado a lado; a grade alarga as colunas pra
+   caber o trio. As 3 cartas dividem a largura da célula igualmente. */
+.item-grid--tiers {
+  grid-template-columns: repeat(auto-fill, minmax(34rem, 1fr));
+}
+.item-cell-tiers {
+  display: flex;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+.item-cell-tiers .shc-card {
+  flex: 1 1 0;
+  min-width: 0;
 }
 .item-grid-loading {
   display: block;

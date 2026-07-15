@@ -146,6 +146,26 @@ describe('#96 — schema de campos por tipo', () => {
   })
 })
 
+describe('#268 — implemento mostra as infos do CORPO (habilidades ** - L:**)', () => {
+  const foco = byName('Foco da Consistência')
+  it('a carta do implemento inclui as habilidades do body (Carga Preparatória, Drenar)', () => {
+    const html = itemCardHtml(foco, 'A', null, true)
+    // essas infos moram no corpo da nota (não na descrição por tier) e o usuário
+    // quer vê-las na carta (#268)
+    expect(html).toContain('Carga Preparatória')
+    expect(html).toContain('Drenar')
+  })
+  it('outro implemento traz as suas próprias habilidades do corpo', () => {
+    const html = itemCardHtml(byName('Foco da Intensificação'), 'A', null, true)
+    expect(html).toContain('Carga Cadencial')
+    expect(html).toContain('Drenar')
+  })
+  it('a descrição por tier (cargas) continua na carta', () => {
+    const html = itemCardHtml(foco, 'A', null, true)
+    expect(html).toContain('re-rolar')
+  })
+})
+
 describe('#122/#127 — preço com multiplicador de qualidade', () => {
   const base = precoPO(anel) // 40 PO
   it('tier E = preço_base × 5', () => {

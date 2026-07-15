@@ -34,6 +34,7 @@ const byName = (name: string): VaultDoc => {
 
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas'
 const IMB_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade'
+const CONSUMIVEIS_FOLDER = 'Sistema/Equipamento/Tesouros/Consumíveis'
 
 /** Todos os Items da subárvore de uma pasta (como o FolderView passa à grade). */
 function subtree(folderPath: string): VaultDoc[] {
@@ -74,10 +75,17 @@ describe('itemFacet — armas (6.1)', () => {
 })
 
 describe('itemFacet — tesouros por tipo (6.2/6.3/6.4)', () => {
-  it('consumível: grupo pelo tipo_efeito', () => {
-    expect(itemFacet(byName('Poção de Cura')).grupoLabel).toBe('Vitalidade')
-    expect(itemFacet(byName('Poção da Coragem')).grupoLabel).toBe('Moral')
+  it('consumível: grupo pelo TIPO de poção (basename), Cura ≠ Nutrição (#268)', () => {
+    // O #268 corrige o agrupamento: tipo_efeito juntava Cura e Nutrição (ambos
+    // "Vitalidade"). O tipo REAL é o do nome (Poção da/de/do <Tipo>).
+    expect(itemFacet(byName('Poção de Cura')).grupoLabel).toBe('Cura')
+    expect(itemFacet(byName('Poção da Nutrição')).grupoLabel).toBe('Nutrição')
+    expect(itemFacet(byName('Poção da Coragem')).grupoLabel).toBe('Coragem')
     expect(itemFacet(byName('Poção da Velocidade')).grupoLabel).toBe('Velocidade')
+    // Cura e Nutrição são grupos DISTINTOS (o bug era juntá-los)
+    expect(itemFacet(byName('Poção de Cura')).grupo).not.toBe(
+      itemFacet(byName('Poção da Nutrição')).grupo,
+    )
   })
   it('imbuição/equipamento: grupo pelo bonus_tipo (Ataque/Defesa/Perícia)', () => {
     expect(itemFacet(byName('Imbuição Flamejante')).grupoLabel).toBe('Ataque')
@@ -127,6 +135,20 @@ describe('groupItems — contagem por grupo + ordem crescente', () => {
     const names = garras.entries.map((d) => d.basename)
     expect(names[0]).toBe('Garras') // ordem 11 primeiro
     expect(names.indexOf('Garras Grandes')).toBeLessThan(names.indexOf('Garras Colossais'))
+  })
+
+  it('Consumíveis: 4 grupos distintos (Coragem/Nutrição/Velocidade/Cura), 1 por grupo (#268)', () => {
+    const docs = subtree(CONSUMIVEIS_FOLDER)
+    const tree = groupItems(docs, (doc) => doc.basename)
+    const cons = tree.find((c) => c.categoria === 'consumivel')!
+    expect(cons).toBeTruthy()
+    const labels = cons.grupos.map((g) => g.grupoLabel).sort()
+    expect(labels).toEqual(['Coragem', 'Cura', 'Nutrição', 'Velocidade'])
+    // cada grupo tem exatamente 1 poção (Cura NÃO está junto de Nutrição)
+    for (const g of cons.grupos) {
+      const n = g.subgrupos.reduce((s, sub) => s + sub.entries.length, 0)
+      expect(n).toBe(1)
+    }
   })
 
   it('Imbuições e Qualidade: imbuições e qualidades (obra-prima) juntas na mesma folha (6.3)', () => {

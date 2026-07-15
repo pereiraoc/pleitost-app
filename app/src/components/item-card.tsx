@@ -261,6 +261,25 @@ export function bodyDesc(doc: VaultDoc): string {
   return txt.length > 240 ? txt.slice(0, 238).trimEnd() + '…' : txt
 }
 
+/** HABILIDADES do CORPO da nota (#268): as linhas em negrito rotuladas
+ *  ("**Carga Preparatória - L:** …", "**Drenar - L:** …") que descrevem a
+ *  mecânica do item ALÉM da descrição por tier. Hoje só os Implementos as têm; o
+ *  resto do body (intro, bullets por tier, tabela do resumo) já vai pela descrição.
+ *  Fonte de verdade = o body do doc (nada inventado). Retorna [] se não houver. */
+export function bodyAbilities(doc: VaultDoc): { label: string; text: string }[] {
+  const out: { label: string; text: string }[] = []
+  for (const raw of (doc.body ?? '').split('\n')) {
+    // "**Rótulo:** texto" — o rótulo (com custo ex.: "- L") e o texto vêm crus do
+    // body; wikilinks resolvidos, sem inventar nada.
+    const m = raw.match(/^\s*\*\*([^*]+?)\*\*[:：]?\s*(.*)$/)
+    if (!m) continue
+    const label = stripWiki(m[1]).replace(/[:：]\s*$/, '').trim()
+    const text = stripWiki(m[2]).trim()
+    if (label) out.push({ label, text })
+  }
+  return out
+}
+
 /** Resolve `= this.x` (inline dataview) no corpo: nome do arquivo + campos. */
 function resolveInlineDv(doc: VaultDoc, s: string): string {
   const f = { ...(doc.frontmatter ?? {}), ...(doc.inlineFields ?? {}) } as Record<string, unknown>
@@ -469,10 +488,23 @@ export function itemCardHtml(
     parts.push(row('Bônus', bonus ? (btipo ? `${bonus} ${btipo}` : bonus) : ''))
   }
   const rows = parts.join('')
+  // Habilidades do CORPO (#268): implementos guardam mecânica extra no body
+  // ("**Carga Preparatória - L:** …", "**Drenar - L:** …") que NÃO está na
+  // descrição por tier — o usuário quer vê-la na carta. Só a família tesouro
+  // (que tem essas linhas) as ganha; o resto do body vai pela descrição normal.
+  const abilitiesHtml =
+    !fullBody && kind === 'tesouro'
+      ? bodyAbilities(doc)
+          .map(
+            (a) =>
+              `<div class="shc-ability"><b>${esc(a.label)}</b>${a.text ? ` ${esc(a.text)}` : ''}</div>`,
+          )
+          .join('')
+      : ''
   // fullBody (#110/#117/#125): a PROSA completa da regra (HTML) em vez do resumo.
   const descHtml = fullBody
     ? bodyHtml(doc, assets, { cutAfterTable })
-    : esc(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc))
+    : esc(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc)) + abilitiesHtml
   const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
   // Borda: itens de rank (magia/hab/téc/ação) básicos → azul (tier-B); os demais
   // seguem a qualidade/tier (aço/prata/ouro).
@@ -531,6 +563,8 @@ export const ITEM_CARD_CSS = `
 .shc-row{font-size:11.5px;overflow-wrap:anywhere}
 .shc-row b{color:var(--muted);font-weight:700;margin-right:4px}
 .shc-desc{font-size:11px;opacity:.85;line-height:1.35;margin-top:3px}
+.shc-ability{font-size:10.5px;line-height:1.3;margin-top:4px}
+.shc-ability b{color:var(--muted);font-weight:700;margin-right:3px}
 .shc-card--wide{width:284px;max-height:60vh;overflow:hidden}
 .shc-card--table{width:max-content;max-width:min(92vw,600px);max-height:70vh;overflow:auto}
 .shc-body-img{float:right;width:88px;margin:0 0 5px 9px;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.4)}

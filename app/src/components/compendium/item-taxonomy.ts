@@ -12,8 +12,10 @@
 //   - Tesouros: a subpasta É a categoria (Consumíveis/Imbuições/Qualidade/
 //     Equipamentos/Implementos), igual às queries do pleitost-views
 //     (render/modes/cartas/types/*/*-query.ts, por PASTA).
-//   - Consumível: `tipo_efeito` do FM (Vitalidade/Moral/Velocidade — o mesmo campo
-//     que o consumiveis-render.ts do pleitost-views usa pra escolher o emblema).
+//   - Consumível (#268): o TIPO de poção vem do BASENAME ("Poção da/de/do <Tipo>"
+//     → Coragem/Nutrição/Velocidade/Cura). O FM `tipo_efeito` (Vitalidade/Moral/
+//     Velocidade) é só o emblema da carta no pleitost-views e JUNTA Cura+Nutrição
+//     (ambas "Vitalidade"), então não serve pra separar os 4 tipos.
 //   - Imbuição/Qualidade/Equipamento: `bonus_tipo` do FM (ataque/defesa/perícia).
 //   - Equipamento: a subpasta (Ataque/Defesa/Perícia) é o subgrupo primário.
 //   - Qualidade (obra-prima) mora DENTRO de "Imbuições e Qualidade" (6.3).
@@ -123,9 +125,15 @@ const BONUS_TIPO_LABEL: Record<string, string> = {
   perícia: 'Perícia',
 }
 
-/** Rótulo de `tipo_efeito` do FM dos consumíveis (Vitalidade/Moral/Velocidade). */
-function tipoEfeitoLabel(raw: unknown): string {
-  return typeof raw === 'string' && raw.trim() ? raw.trim() : ''
+/** TIPO de uma poção (consumível) = a parte do basename APÓS "Poção da/de/do "
+ *  (Coragem/Nutrição/Velocidade/Cura). É a fonte de verdade do agrupamento de
+ *  consumíveis (#268): o FM `tipo_efeito` (Vitalidade/Moral/Velocidade) é só o
+ *  EMBLEMA da carta no plugin (consumiveis-render.ts:TIPO_MAP) e JUNTA Cura+
+ *  Nutrição (ambas "Vitalidade") — por isso não serve pra separar os 4 tipos.
+ *  Fallback pro basename inteiro se o prefixo não casar. */
+export function consumivelTipo(doc: VaultDoc): string {
+  const m = doc.basename.match(/^Poção\s+d[aeo]s?\s+(.+)$/i)
+  return (m ? m[1] : doc.basename).trim()
 }
 
 function fmStr(doc: VaultDoc, key: string): string {
@@ -221,9 +229,11 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
       subgrupoLabel = subgrupo
     }
   } else if (categoria === 'consumivel') {
-    // 6.2 — por tipo_efeito (Vitalidade/Moral/Velocidade).
-    grupo = fmStr(doc, 'tipo_efeito').toLowerCase()
-    grupoLabel = tipoEfeitoLabel(doc.frontmatter?.['tipo_efeito'])
+    // 6.2 (#268) — por TIPO de poção (do basename): Coragem/Nutrição/Velocidade/
+    // Cura. NÃO por tipo_efeito, que junta Cura e Nutrição (ambas "Vitalidade").
+    const tipo = consumivelTipo(doc)
+    grupo = tipo.toLowerCase()
+    grupoLabel = tipo
   } else if (categoria === 'imbuicao' || categoria === 'equipamento' || categoria === 'qualidade') {
     // 6.3/6.4 — por bonus_tipo (ataque/defesa/perícia).
     const bt = fmStr(doc, 'bonus_tipo').toLowerCase()

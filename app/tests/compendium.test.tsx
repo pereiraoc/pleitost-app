@@ -169,6 +169,70 @@ describe('FolderView', () => {
     renderAt(compendiumFolderPath('Sistema/Criaturas/Heróis'), folderRoutes)
     expect(screen.getByText(/não encontrada/)).toBeTruthy()
   })
+
+  // ── #268: família tesouro — 3 qualidades (3 em 3) no "Todas"; 1 quando filtra ──
+
+  it('#268: Consumíveis em "Todas" mostram as 3 qualidades por item (3 em 3)', async () => {
+    const { container } = renderAt(
+      compendiumFolderPath('Sistema/Equipamento/Tesouros/Consumíveis'),
+      folderRoutes,
+    )
+    // espera as cartas resolverem (a Poção de Cura aparece como link)
+    expect(await screen.findByRole('link', { name: /Poção de Cura/ })).toBeTruthy()
+    await waitFor(() => {
+      // 4 poções × 3 qualidades = 12 cartas por padrão (filtro qualidade = Todas)
+      expect(container.querySelectorAll('.shc-card').length).toBe(12)
+    })
+    // e as 3 qualidades aparecem por item (selo "(Adepto/Experiente/Mestre)")
+    expect(screen.getAllByText('(Adepto)').length).toBe(4)
+    expect(screen.getAllByText('(Experiente)').length).toBe(4)
+    expect(screen.getAllByText('(Mestre)').length).toBe(4)
+  })
+
+  it('#268: filtrar por 1 qualidade mostra 1 carta por item', async () => {
+    const { container } = renderAt(
+      compendiumFolderPath('Sistema/Equipamento/Tesouros/Consumíveis'),
+      folderRoutes,
+    )
+    await screen.findByRole('link', { name: /Poção de Cura/ })
+    await waitFor(() => expect(container.querySelectorAll('.shc-card').length).toBe(12))
+    // clica em "Experiente" na barra de qualidade
+    fireEvent.click(screen.getByRole('button', { name: 'Experiente' }))
+    await waitFor(() => {
+      // 4 poções × 1 qualidade = 4 cartas
+      expect(container.querySelectorAll('.shc-card').length).toBe(4)
+    })
+    expect(screen.getAllByText('(Experiente)').length).toBe(4)
+    expect(screen.queryByText('(Adepto)')).toBeNull()
+  })
+
+  it('#268: Consumíveis agrupam Cura e Nutrição SEPARADOS (não juntos)', async () => {
+    const { container } = renderAt(
+      compendiumFolderPath('Sistema/Equipamento/Tesouros/Consumíveis'),
+      folderRoutes,
+    )
+    await screen.findByRole('link', { name: /Poção de Cura/ })
+    await waitFor(() => expect(container.querySelectorAll('.item-grp').length).toBeGreaterThan(0))
+    const grupos = [...container.querySelectorAll<HTMLElement>('.item-grp-head')].map(
+      (h) => h.textContent ?? '',
+    )
+    // 4 grupos distintos, cada tipo de poção o seu
+    expect(grupos).toContain('Cura')
+    expect(grupos).toContain('Nutrição')
+    expect(grupos).toContain('Coragem')
+    expect(grupos).toContain('Velocidade')
+  })
+
+  it('#268: Implementos exibem as infos do CORPO (habilidades) na carta', async () => {
+    renderAt(
+      compendiumFolderPath('Sistema/Equipamento/Tesouros/Implementos'),
+      folderRoutes,
+    )
+    await screen.findByRole('link', { name: /Foco da Consistência/ })
+    // as habilidades que ficam no corpo da nota (não na descrição por tier)
+    await waitFor(() => expect(screen.getAllByText(/Carga Preparatória/).length).toBeGreaterThan(0))
+    expect(screen.getAllByText(/Drenar/).length).toBeGreaterThan(0)
+  })
 })
 
 describe('Heróis e NPCs (telas do design com dados reais)', () => {

@@ -71,14 +71,21 @@ function itemCard(
 export function ItemSheet({ doc }: { doc: VaultDoc }) {
   const assets = useAssetIndex()
   const facet = itemFacet(doc)
-  const tier = categoriaTemQualidade(facet.categoria) ? 'A' : docTier(doc)
-  const html = itemCard(doc, assets, facet, tier)
+  // Família tesouro (comprada por qualidade): mostra as 3 cartas (Adepta/
+  // Experiente/Mestre) do item (#268); arma/escudo/armadura → 1 carta no tier
+  // inerente.
+  const temQual = categoriaTemQualidade(facet.categoria)
+  const tiers: Tier[] = temQual ? [...TIERS] : [docTier(doc)]
+  const html = tiers.map((t) => itemCard(doc, assets, facet, t)).join('')
   return (
     <TipProvider>
       <section className="page item-page">
         <style>{ITEM_CARD_CSS}</style>
         <div className="kicker">{COMPENDIO_KICKER}</div>
-        <div className="item-page-card" dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          className={temQual ? 'item-page-card item-cell-tiers' : 'item-page-card'}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
         {/* F7 (#251): itens têm elementos de regra (imbuições/qualidades) —
             visualizador+cobertura no fim; DocRuleElements gate por mestre. */}
         <DocRuleElements doc={doc} />
@@ -94,7 +101,10 @@ interface Cell {
   facet: ItemFacet
 }
 
-/** Célula de carta linkada (async: mostra o nome até o doc resolver). */
+/** Célula de carta(s) linkada(s) (async: mostra o nome até o doc resolver).
+ *  `tier` null = "Todas as qualidades" → mostra as 3 cartas (Adepta/Experiente/
+ *  Mestre) das categorias compradas por qualidade (#268); com tier específico,
+ *  1 carta. Categorias sem qualidade (arma/escudo/armadura) ignoram o tier. */
 function ItemCell({
   cell,
   docs,
@@ -104,13 +114,22 @@ function ItemCell({
   cell: Cell
   docs: ReturnType<typeof useDocs>
   assets: ReturnType<typeof useAssetIndex>
-  tier: Tier
+  tier: Tier | null
 }) {
   const doc = docs?.get(cell.entry.id)
+  // Quais tiers renderizar: "Todas" (null) numa família com qualidade → os 3;
+  // caso contrário, o tier escolhido (ou 'A' como base pras sem qualidade).
+  const temQual = categoriaTemQualidade(cell.facet.categoria)
+  const tiersToRender: Tier[] = tier ? [tier] : temQual ? [...TIERS] : ['A']
   return (
     <Link to={docPath(cell.entry.id)} className="item-grid-cell">
       {doc ? (
-        <span dangerouslySetInnerHTML={{ __html: itemCard(doc, assets, cell.facet, tier) }} />
+        <span
+          className={tiersToRender.length > 1 ? 'item-cell-tiers' : undefined}
+          dangerouslySetInnerHTML={{
+            __html: tiersToRender.map((t) => itemCard(doc, assets, cell.facet, t)).join(''),
+          }}
+        />
       ) : (
         <span className="item-grid-loading">{cell.entry.basename ?? cell.entry.id}</span>
       )}
@@ -196,11 +215,12 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
     [cells],
   )
 
-  // Estado do filtro. categoria/grupo = null → "todas"; tier controla em qual
-  // qualidade as cartas de tesouro aparecem (default Adepto).
+  // Estado do filtro. categoria/grupo = null → "todas". tier = null → "Todas"
+  // as qualidades: mostra as 3 cartas (Adepta/Experiente/Mestre) de cada item
+  // comprado por qualidade (#268); com um tier específico, só aquela carta.
   const [catFilter, setCatFilter] = useState<ItemCategoria | null>(null)
   const [grpFilter, setGrpFilter] = useState<string | null>(null)
-  const [tier, setTier] = useState<Tier>('A')
+  const [tier, setTier] = useState<Tier | null>(null)
 
   const filtered = useMemo(
     () =>
@@ -261,9 +281,11 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
           ) : null}
           {temQualidade ? (
             <div className="item-filter-row" data-facet="qualidade">
+              {/* "Todas" (#268): mostra as 3 qualidades de cada item, de 3 em 3. */}
+              {filterPill('Todas', tier === null, () => setTier(null))}
               {TIERS.map((t) => (
                 <span key={t}>
-                  {filterPill(qualidadeLabel(t), tier === t, () => setTier(t))}
+                  {filterPill(qualidadeLabel(t), tier === t, () => setTier((v) => (v === t ? null : t)))}
                 </span>
               ))}
             </div>
@@ -293,7 +315,15 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                         {sub.subgrupoLabel}
                       </h4>
                     ) : null}
-                    <div className="item-grid">
+                    {/* "Todas" as qualidades (#268): a família tesouro mostra as
+                        3 cartas por item (de 3 em 3) → grade de GRUPOS mais larga. */}
+                    <div
+                      className={
+                        tier === null && categoriaTemQualidade(cat.categoria)
+                          ? 'item-grid item-grid--tiers'
+                          : 'item-grid'
+                      }
+                    >
                       {sub.entries.map((cell) => (
                         <ItemCell
                           key={cell.entry.id}
