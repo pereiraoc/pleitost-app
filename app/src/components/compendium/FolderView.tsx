@@ -8,7 +8,7 @@ import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
-import { hasVisibleDescendant, isHidden, visibleCount, visibleFolders } from './sections'
+import { hasVisibleDescendant, isHidden, subtreeDocs, visibleCount, visibleFolders } from './sections'
 import { isNavNode, navChildren, navLabel, navMeta } from './compendio-registry'
 import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
@@ -131,16 +131,31 @@ export function FolderView() {
   // colunas só quando a lista é homogênea e o tipo tem registro
   const vaultDocs = portal ? [] : listDocs
   const types = [...new Set(vaultDocs.map((d) => d.type ?? ''))]
-  const homogeneousType = types.length === 1 ? types[0] : undefined
+  const directType = types.length === 1 ? types[0] : undefined
+  // #267: uma folha pode declarar `subtree` no registro — aí a grade coleta os
+  // docs desse tipo na SUBÁRVORE inteira (ex.: "Armas" não tem docs diretos, mas
+  // a grade mostra TODAS as armas das subpastas, agrupadas). Detecta pela
+  // subárvore quando ela é homogênea de um tipo cujo leaf-entry pede subtree.
+  const subDocs = useMemo(
+    () => (!node || portal ? [] : subtreeDocs(node)),
+    [node, portal],
+  )
+  const subTypes = useMemo(() => [...new Set(subDocs.map((d) => d.type ?? ''))], [subDocs])
+  const subHomoType = subTypes.length === 1 ? subTypes[0] : undefined
+  const subLeaf = resolveLeafEntry(subHomoType)
+  const useSubtree = !!subLeaf?.subtree && subDocs.length > vaultDocs.length
+  const homogeneousType = useSubtree ? subHomoType : directType
   const columns = homogeneousType ? LIST_COLUMNS[homogeneousType] : undefined
   // Folha HOMOGÊNEA de um tipo com visualizador dedicado (ex.: Item → grade de
   // cartas; Aventura → grade de bounties). O registro pode declarar `localKind`
-  // → entidades criadas no app entram na listagem junto das da vault (#248), e
-  // `creator` → afixo de criação (mestre-gated) acima da grade.
+  // → entidades criadas no app entram na listagem junto das da vault (#248),
+  // `creator` → afixo de criação (mestre-gated) acima da grade, e `subtree` →
+  // achata as subpastas numa grade agrupada (#267).
   const leafEntry = resolveLeafEntry(homogeneousType)
   const localExtra =
     !portal && leafEntry?.localKind ? localEntriesOfKind(leafEntry.localKind) : []
-  const docsVisiveis = [...vaultDocs, ...localExtra]
+  const baseDocs = useSubtree ? subDocs : vaultDocs
+  const docsVisiveis = [...baseDocs, ...localExtra]
   const leafView = docsVisiveis.length > 0 ? (leafEntry?.view ?? null) : null
   const creator = leafEntry?.creator ?? null
   void localVersion // dep de recomputo (localExtra reage ao store local)
@@ -152,7 +167,9 @@ export function FolderView() {
       <h1>
         {indexDoc && !portal ? <Link to={docPath(indexDoc.id)}>{navLabel(path)}</Link> : navLabel(path)}
       </h1>
-      <FolderCards folders={visibleFolders(node)} />
+      {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
+          categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
+      {useSubtree ? null : <FolderCards folders={visibleFolders(node)} />}
       {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
       {mestre && docsVisiveis.length > 0 ? (
         <div style={{ margin: '10px 0' }}>

@@ -723,6 +723,34 @@ a {
   font-size: 12.5px;
 }
 
+/* #267: folha de Items AGRUPADA (categoria → grupo → subgrupo) + barra de filtro.
+   As cartas continuam sendo .shc-card; aqui só o cromo das seções e do filtro. */
+.item-grouped {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.item-filterbar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line2);
+}
+.item-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.item-cat + .item-cat {
+  margin-top: 6px;
+}
+.item-sub + .item-sub {
+  margin-top: 6px;
+}
+
 /* #249 — visualização de COMBATE (roster + dificuldade + grade) ------------- */
 .combate-header {
   margin-bottom: 1rem;

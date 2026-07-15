@@ -171,6 +171,74 @@ describe('folha de uma pasta de Items: GRADE de cartas (não a DocTable)', () =>
   })
 })
 
+describe('#267 — folha AGRUPADA por categoria/grupo/subgrupo + barra de filtro', () => {
+  const ARMAS = 'Sistema/Equipamento/Armas'
+  const IMB = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade'
+
+  it('a pasta Armas (sem docs diretos) ACHATA a subárvore e agrupa por grupo de arma', async () => {
+    const { container } = renderFolder(compendiumFolderPath(ARMAS))
+    // o contêiner agrupado + a barra de filtro aparecem
+    expect(container.querySelector('.item-grouped')).toBeTruthy()
+    expect(container.querySelector('.item-filterbar')).toBeTruthy()
+    // seções de grupo de arma (data-grupo do agrupamento)
+    await waitFor(() => {
+      const grupos = [...container.querySelectorAll<HTMLElement>('.item-grp')].map(
+        (g) => g.getAttribute('data-grupo'),
+      )
+      expect(grupos).toContain('cac-simples')
+      expect(grupos).toContain('cac-marcial')
+      expect(grupos).toContain('natural')
+    })
+    // as cartas continuam sendo .shc-card, agora sob as seções
+    await waitFor(() =>
+      expect(container.querySelectorAll('.item-grid-cell .shc-card').length).toBeGreaterThan(20),
+    )
+    // armas naturais têm subgrupo por tipo (data-subgrupo, ex.: "Garras")
+    await waitFor(() => {
+      const subs = [...container.querySelectorAll<HTMLElement>('.item-sub')].map(
+        (s) => s.getAttribute('data-subgrupo'),
+      )
+      expect(subs).toContain('Garras')
+      expect(subs).toContain('Cauda')
+    })
+  })
+
+  it('a barra de filtro tem chips de GRUPO — clicar filtra as seções', async () => {
+    const { container } = renderFolder(compendiumFolderPath(ARMAS))
+    // linha de filtro por grupo existe
+    const grupoRow = await waitFor(() => {
+      const row = container.querySelector<HTMLElement>('.item-filter-row[data-facet="grupo"]')
+      expect(row).toBeTruthy()
+      return row!
+    })
+    // clica no chip "Armas Naturais" → só o grupo natural fica visível
+    const natBtn = within(grupoRow).getByText('Armas Naturais')
+    natBtn.click()
+    await waitFor(() => {
+      const grupos = [...container.querySelectorAll<HTMLElement>('.item-grp')].map(
+        (g) => g.getAttribute('data-grupo'),
+      )
+      expect(grupos).toEqual(['natural'])
+    })
+  })
+
+  it('Imbuições e Qualidade: 2 categorias na mesma folha + filtro de qualidade (tesouro)', async () => {
+    const { container } = renderFolder(compendiumFolderPath(IMB))
+    await waitFor(() => {
+      const cats = [...container.querySelectorAll<HTMLElement>('.item-cat')].map(
+        (c) => c.getAttribute('data-categoria'),
+      )
+      expect(cats).toContain('imbuicao')
+      expect(cats).toContain('qualidade')
+    })
+    // família tesouro → barra de qualidade (Adepto/Experiente/Mestre) presente
+    const qRow = container.querySelector<HTMLElement>('.item-filter-row[data-facet="qualidade"]')
+    expect(qRow).toBeTruthy()
+    expect(within(qRow!).getByText('Adepto')).toBeTruthy()
+    expect(within(qRow!).getByText('Mestre')).toBeTruthy()
+  })
+})
+
 describe('"Items" ACHATA as 7 categorias (flatten de Tesouros)', () => {
   it('Sistema/Equipamento mostra as 7 categorias como botões de navegação', () => {
     renderFolder(compendiumFolderPath('Sistema/Equipamento'))

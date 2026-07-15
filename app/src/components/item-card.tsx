@@ -182,10 +182,15 @@ const CARD_SCHEMA: Record<CardKind, [string, string][]> = {
     ['propriedades', 'Propriedades'],
     ['preço', 'Preço'],
   ],
+  // Escudo (#267 6.6): as infos que o plugin mostra na carta (escudos-render.ts do
+  // pleitost-views) — Dureza, Dano(s), Defesa (bônus), + o texto "Especial" (ex.:
+  // "Pode usar para Escudada.") e as Propriedades. bonus-defesa/dureza/danos são
+  // NÚMEROS no FM (val agora os coerce).
   escudo: [
     ['bonus-defesa', 'Defesa'],
     ['dureza', 'Dureza'],
     ['danos', 'Dano'],
+    ['especial', 'Especial'],
     ['propriedades', 'Propriedades'],
     ['preço', 'Preço'],
   ],
@@ -408,9 +413,27 @@ export function itemCardHtml(
   // Alguns tipos (magia) guardam os campos no FRONTMATTER, não no inline —
   // busca no inline primeiro, cai no frontmatter (fonte de verdade do doc).
   const fmv = (doc.frontmatter ?? {}) as Record<string, unknown>
+  // Lê um campo do inline (primeiro) ou do FM. Coerce NÚMEROS e ARRAYS: desde a
+  // migração inline→FM (v2.0.37), campos como `mãos`/`bonus-defesa`/`dureza`/`danos`
+  // são NÚMEROS e `propriedades` é uma LISTA de wikilinks no FM — antes `val` só
+  // via strings e devolvia "" (arma sem Mãos/Propriedades, escudo sem Defesa/Dureza/
+  // Dano — o bug do #267 6.6). Números → string; listas → wikilinks resolvidos e
+  // juntados por vírgula (mesmo display do comércio/plugin).
+  const coerce = (raw: unknown): string => {
+    if (typeof raw === 'string') return stripWiki(raw)
+    if (typeof raw === 'number' && Number.isFinite(raw)) return String(raw)
+    if (Array.isArray(raw)) {
+      return raw
+        .map((x) => (typeof x === 'string' ? stripWiki(x) : typeof x === 'number' ? String(x) : ''))
+        .filter(Boolean)
+        .join(', ')
+    }
+    return ''
+  }
   const val = (k: string) => {
-    const raw = typeof f[k] === 'string' ? f[k] : typeof fmv[k] === 'string' ? fmv[k] : ''
-    return raw ? stripWiki(raw as string) : ''
+    const inlineV = f[k]
+    if (inlineV !== undefined && inlineV !== null && inlineV !== '') return coerce(inlineV)
+    return coerce(fmv[k])
   }
   // Base v2: campos por tier viraram OBJETOS aninhados no frontmatter
   // (descrição: {adepto, experiente, mestre}); fallback pro flat antigo

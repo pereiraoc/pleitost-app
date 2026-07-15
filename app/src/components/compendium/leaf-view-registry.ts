@@ -23,6 +23,13 @@ interface LeafViewEntry {
   /** Afixo de CRIAÇÃO renderizado acima da grade (mestre-gated pelo próprio
    *  componente). #248: "criar aventuras novas no Modo Mestre". */
   creator?: () => ReactElement | null
+  /** #267: quando `true`, a folha coleta os docs deste tipo na SUBÁRVORE inteira
+   *  (não só os diretos) e os passa achatados ao visualizador — ele mesmo agrupa
+   *  por categoria/grupo/subgrupo. Ex.: a pasta "Armas" não tem docs diretos
+   *  (estão em Armas Simples/Corpo-a-Corpo Simples/…), mas a grade de Items
+   *  mostra TODAS as armas agrupadas. O FolderView, ao ver a flag, junta a
+   *  subárvore e suprime os cards de subpasta (o agrupamento os substitui). */
+  subtree?: boolean
 }
 
 const REGISTRY = new Map<string, LeafViewEntry>()

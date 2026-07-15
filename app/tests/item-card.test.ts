@@ -28,6 +28,41 @@ const adaga = byName('Adaga')
 const anel = byName('Anel Canário')
 const relampejante = byName('Imbuição Relampejante')
 
+describe('#267 6.6 — carta de escudo mostra as infos certas (numéricas do FM)', () => {
+  const escudo = byName('Escudo')
+  const broquel = byName('Broquel')
+  it('Escudo: Defesa/Dureza/Dano vêm do FM (números), não ficam vazios', () => {
+    const html = itemCardHtml(escudo, 'A', null, false)
+    expect(html).toContain('Defesa')
+    expect(html).toContain('Dureza')
+    expect(html).toContain('Dano')
+    // valores numéricos do FM (bonus-defesa:2, dureza:4, danos:4) renderizam
+    expect(html).toMatch(/>Defesa<\/b>2</)
+    expect(html).toMatch(/>Dureza<\/b>4</)
+    expect(html).toMatch(/>Dano<\/b>4</)
+    // o texto "Especial" (Pode usar para Escudada.) aparece (como no plugin)
+    expect(html).toContain('Especial')
+    expect(html).toContain('Escudada')
+  })
+  it('Broquel: valores diferentes (bonus-defesa:1, dureza:2)', () => {
+    const html = itemCardHtml(broquel, 'A', null, false)
+    expect(html).toMatch(/>Defesa<\/b>1</)
+    expect(html).toMatch(/>Dureza<\/b>2</)
+  })
+})
+
+describe('#267 — campos numéricos/lista do FM na carta de arma', () => {
+  it('arma mostra Mãos (número no FM) e Propriedades (lista de wikilinks)', () => {
+    const html = itemCardHtml(adaga, 'A', null, false)
+    // mãos: 1 (número) → antes ficava vazio
+    expect(html).toMatch(/>Mãos<\/b>1</)
+    // propriedades: lista → wikilinks resolvidos e juntados
+    expect(html).toContain('Propriedades')
+    expect(html).toContain('Precisa')
+    expect(html).toContain('Ágil')
+  })
+})
+
 describe('bodyDesc — descrição em prosa do body (armas)', () => {
   it('extrai a prosa da arma que tem descrição', () => {
     expect(bodyDesc(espadaCurva)).toContain('Cimitarra')

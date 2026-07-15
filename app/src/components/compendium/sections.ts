@@ -52,3 +52,22 @@ export function compendiumSections(catalog: Catalog): FolderNode[] {
     (node): node is FolderNode => node !== undefined,
   )
 }
+
+/** #267: TODOS os docs (content) da SUBÁRVORE de um nó, exceto os das pastas
+ *  ocultas e as folder-notes (basename = nome da pasta). Usado pela folha de
+ *  Items pra achatar as subpastas (Armas Simples/Corpo-a-Corpo Simples/…) numa
+ *  única grade agrupada — a subárvore é a fonte, o visualizador agrupa. */
+export function subtreeDocs(node: FolderNode) {
+  const out: FolderNode['docs'] = []
+  const walk = (n: FolderNode) => {
+    if (isHidden(n.path)) return
+    for (const d of n.docs) {
+      // pula a folder-note da pasta (é a página da pasta, não um item)
+      if (d.basename === n.name) continue
+      out.push(d)
+    }
+    for (const f of n.folders) walk(f)
+  }
+  walk(node)
+  return out
+}
