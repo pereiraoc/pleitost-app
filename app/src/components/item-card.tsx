@@ -4,7 +4,7 @@
 // do inline + descrição do inline OU da prosa do body), e a composição de duas
 // cartas lado a lado (arma + propriedade). Reusa o tooltip do app (TipHover) e as
 // resoluções de imagem existentes. Fonte de verdade sempre no doc — nada inventado.
-import { useAssetIndex, resolveAsset, assetUrl } from '../data/assets'
+import { useAssetIndex, resolveAsset, assetUrlFor } from '../data/assets'
 import { weaponImageUrl } from '../data/creature-image'
 import {
   tesouroImageUrl,
@@ -111,7 +111,8 @@ function figuraUrl(
 ): string | null {
   const nome = e.nome ?? e.label
   if (e.armaTarget) {
-    const w = weaponImageUrl(docsById.get(e.armaTarget), assets)
+    // #280: miniatura de item (44px) → thumb.
+    const w = weaponImageUrl(docsById.get(e.armaTarget), assets, true)
     if (w) return w
   }
   return (
@@ -233,7 +234,8 @@ export function docImageUrl(
 ): string | null {
   const id = doc.id
   if (id.includes('/Equipamento/Armas/') || id.includes('/Equipamento/Escudos/')) {
-    return weaponImageUrl(doc, assets)
+    // #280: figura da carta de item (≤174px) → thumb, como as demais figuras.
+    return weaponImageUrl(doc, assets, true)
   }
   if (id.includes('/Imbuições e Qualidade/')) return propriedadeImageUrl(doc.basename, tier, assets)
   if (id.includes('/Consumíveis/'))
@@ -319,7 +321,8 @@ export function bodyHtml(
     if (!floatImg && assets && /\.(png|jpe?g|webp|gif|svg)$/i.test(t)) {
       const ent = resolveAsset(assets, t)
       if (ent) {
-        floatImg = `<img class="shc-body-img" src="${esc(assetUrl(ent))}" alt=""/>`
+        // #280: figura flutuante da carta (88px) → thumb.
+        floatImg = `<img class="shc-body-img" src="${esc(assetUrlFor(ent, true))}" alt=""/>`
       }
     }
     return ''

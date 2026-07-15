@@ -40,6 +40,43 @@ export function assetUrl(entry: AssetEntry): string {
   return vaultUrl(entry.copiedTo.split('/').map(encodeURIComponent).join('/'))
 }
 
+// THUMBNAILS (#280): o build gera versões reduzidas (scripts/gen-thumbs.mjs)
+// espelhando `assets/**` em `assets-thumb/**` com um `.webp` no fim. Só imagens
+// RASTER ganham thumb — svg/gif ficam no original (svg é vetorial; gif animado
+// perde o loop no reencode). Nos contextos PEQUENOS (retratos de lista, mini de
+// item) o app usa thumbUrl; nos GRANDES (retrato da ficha, hero, lightbox) segue
+// no assetUrl cheio.
+const THUMB_RASTER_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'webp', 'avif', 'bmp'])
+
+/** copiedTo → caminho servível do thumb (assets/… → assets-thumb/….webp), ou o
+ *  próprio copiedTo pra formatos sem thumb (svg/gif). Puro/derivado — o gerador
+ *  usa a MESMA regra ao escrever no dist. */
+export function thumbCopiedTo(copiedTo: string): string {
+  const ext = copiedTo.split('.').pop()?.toLowerCase() ?? ''
+  if (!copiedTo.startsWith('assets/') || !THUMB_RASTER_EXTENSIONS.has(ext)) return copiedTo
+  return `assets-thumb/${copiedTo.slice('assets/'.length)}.webp`
+}
+
+/** URL do THUMB do asset (contexto pequeno). Formatos sem thumb caem no cheio. */
+export function thumbUrl(entry: AssetEntry): string {
+  return vaultUrl(thumbCopiedTo(entry.copiedTo).split('/').map(encodeURIComponent).join('/'))
+}
+
+/**
+ * true quando o app deve PREFERIR thumbs (build de produção). Em dev os thumbs
+ * não existem (só nascem no build) — background-image não tem onError pra cair
+ * no cheio, então os call sites de retrato/mini de lista gateiam por aqui.
+ * VaultImage/`<img>` não precisa: usa onError pra trocar pro cheio quando falta.
+ */
+export const preferThumb: boolean = import.meta.env.PROD
+
+/** URL de um asset no contexto certo: thumb quando `small` (e o build prefere
+ *  thumbs), cheio caso contrário. Ponto único — call sites não montam o caminho
+ *  do thumb na mão. */
+export function assetUrlFor(entry: AssetEntry, small: boolean): string {
+  return small && preferThumb ? thumbUrl(entry) : assetUrl(entry)
+}
+
 /**
  * Resolve o alvo de um embed/frontmatter pra um asset copiado: path exato
  * primeiro, depois basename único. Ambíguo/inexistente → null (o caller

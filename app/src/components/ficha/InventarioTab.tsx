@@ -411,7 +411,8 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             const enchIc = imbuicaoEmoji(docField(propDoc, 'propriedades'))
             // Imagem real da arma (issue #12): embed do doc → figura da carta
             // (hierarquia em weaponImageUrl); sem imagem → slot vazio do design.
-            const img = weaponImageUrl(armaDoc, assets)
+            // #280: slot de inventário (pequeno) → thumb.
+            const img = weaponImageUrl(armaDoc, assets, true)
             // Valor do dropdown de arma: id do doc no catálogo; arma fora do
             // catálogo mantém o rótulo atual como opção extra (nunca some).
             const armaTarget = wikiTarget(arma.nomeRaw)

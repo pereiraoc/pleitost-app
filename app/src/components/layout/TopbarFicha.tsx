@@ -300,7 +300,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
             {apelido}
           </span>
         ) : null}
-        <AvatarBox portrait={creatureImageUrl(doc, assets)} nome={heroNome(doc)} size={34} />
+        <AvatarBox portrait={creatureImageUrl(doc, assets, true)} nome={heroNome(doc)} size={34} />
       </button>
       {open ? (
         <>
@@ -365,7 +365,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
                     }
                   >
                     <AvatarBox
-                      portrait={creatureImageUrl(entryDoc, assets)}
+                      portrait={creatureImageUrl(entryDoc, assets, true)}
                       nome={nome}
                       size={32}
                     />

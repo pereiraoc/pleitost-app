@@ -232,7 +232,8 @@ function LinhaPersonagem({
     em: 0,
     moralTemp: 0,
   }
-  const portrait = localImg ?? creatureImageUrl(synthDocFromCharacter(c), assets)
+  // #280: avatar de combatente (pequeno) → thumb; imagem local é blob cru.
+  const portrait = localImg ?? creatureImageUrl(synthDocFromCharacter(c), assets, true)
   const av = ca ? 32 : 42
   const st = c.summary.stats
   const pills: Array<[string, string, unknown]> = [
@@ -664,7 +665,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               // identidade) — cai nas iniciais do nome mascarado, igual ao nome.
               const mostraReal = !npc || isGm || revelado
               const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
-              const portrait = mostraReal ? creatureImageUrl(synthDocFromCharacter(c), assets) : null
+              const portrait = mostraReal
+                ? creatureImageUrl(synthDocFromCharacter(c), assets, true)
+                : null
               return (
                 <div
                   key={c.id}
@@ -927,7 +930,8 @@ function PcRow({ heroId }: { heroId: string }) {
   const docs = useDocs(useMemo(() => [heroId], [heroId]))
   const doc = docs?.get(heroId)
   const nome = doc?.basename ?? catalog.entryById.get(heroId)?.basename ?? heroId
-  const portrait = doc ? creatureImageUrl(doc, assets) : null
+  // #280: retrato de PC no painel de detalhes (pequeno) → thumb.
+  const portrait = doc ? creatureImageUrl(doc, assets, true) : null
   const classe = doc ? linkLabel(str(doc.frontmatter['Classe'])) : ''
   const nivel = doc ? num(doc.frontmatter['Nível']) : 0
   const sub = classe ? `${classe}${nivel ? ` · Nível ${nivel}` : ''}` : ''

@@ -524,7 +524,8 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
     }),
   )
   const { values: attrs } = useMemo(() => heroAtributos(fm), [fm])
-  const portrait = creatureImageUrl(doc, assets)
+  // #280: mini-retrato do card de resumo (pequeno) → thumb.
+  const portrait = creatureImageUrl(doc, assets, true)
   const classe = linkLabel(str(fm['Classe']))
   const nivel = num(fm['Nível'])
   const tier = fm['Tier']

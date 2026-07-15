@@ -143,14 +143,20 @@ export function useEntityImageUrl(id: string | null | undefined): string | null 
  * Único ponto de combinação — call sites de retrato trocam
  * `creatureImageUrl(doc, assets)` por este hook, sem ifs próprios.
  */
-export function useCreaturePortrait(doc: VaultDoc | undefined): string | null {
+export function useCreaturePortrait(
+  doc: VaultDoc | undefined,
+  /** #280: retrato de LISTA (pequeno) usa o thumb da vault; ficha (grande) o
+   *  cheio. A imagem LOCAL subida pelo jogador é sempre o blob cru — nunca há
+   *  thumb dela (não passa pelo build). */
+  small = false,
+): string | null {
   const assets = useAssetIndex()
   // Pessoa avulsa (#200) guarda a imagem própria sob o `ImgId` do FM (a
   // entidade nasce DEPOIS do upload no form); fichas usam o próprio id.
   const fmImgId = doc?.frontmatter?.['ImgId']
   const key = typeof fmImgId === 'string' && fmImgId ? fmImgId : (doc?.id ?? null)
   const local = useEntityImageUrl(key)
-  return local ?? creatureImageUrl(doc, assets)
+  return local ?? creatureImageUrl(doc, assets, small)
 }
 
 /**
@@ -162,7 +168,8 @@ export function useCreaturePortrait(doc: VaultDoc | undefined): string | null {
 export function usePessoaPortrait(alvo?: string, imgId?: string): string | null {
   const docs = useDocs(alvo ? [alvo] : [])
   const alvoDoc = alvo ? docs?.get(alvo) : undefined
-  const alvoPortrait = useCreaturePortrait(alvoDoc)
+  // #280: linha de Pessoa é sempre um chip pequeno → thumb do retrato do alvo.
+  const alvoPortrait = useCreaturePortrait(alvoDoc, true)
   const own = useEntityImageUrl(alvo ? null : (imgId ?? null))
   return alvo ? alvoPortrait : own
 }

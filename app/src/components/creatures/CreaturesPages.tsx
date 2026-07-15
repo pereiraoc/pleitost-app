@@ -594,8 +594,9 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const nome = entry.basename ?? entry.id
   const classe = plainLabel(doc?.frontmatter['Classe'])
   const nivel = plainLabel(doc?.frontmatter['Nível'])
-  // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>)
-  const portrait = creatureImageUrl(doc, assets)
+  // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>);
+  // #280: card de lista (pequeno) → thumb.
+  const portrait = creatureImageUrl(doc, assets, true)
   // Badge NVL com a cor do tier do herói (issue #17): tierFromLevel (espelho
   // de tier-from-level.ts) + registro partyTierBar (1-3 bronze, 4-6 prata,
   // 7-9 ouro, 10+ cristal). Sem Nível carregado, fica nas cores do design.
@@ -822,8 +823,8 @@ function GroupCard({
 }) {
   const assets = useAssetIndex()
   // Imagem do grupo (issue #16): Retratos/<basename do grupo> via
-  // groupImageUrl; sem retrato mantém o fallback ⚔️.
-  const portrait = groupImageUrl(entry.basename, assets)
+  // groupImageUrl; sem retrato mantém o fallback ⚔️. #280: card pequeno → thumb.
+  const portrait = groupImageUrl(entry.basename, assets, true)
   // Rank box com as cores do registro partyBountyRank (issue #16) — espelha
   // o rankBadge do plugin (render-party-sheet.ts:215-219) com o glow de
   // .pleitost-party__rank (styles.css:12420: 0 2px 8px var(--party-glow)).
@@ -1086,8 +1087,9 @@ function NpcCard({
     ''
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   // Retrato local-first (#200): imagem subida pelo jogador (inclui a de Pessoa
-  // avulsa via FM ImgId) tem precedência; senão hierarquia da vault.
-  const portrait = useCreaturePortrait(doc)
+  // avulsa via FM ImgId) tem precedência; senão hierarquia da vault. #280: ícone
+  // da lista de NPCs (pequeno) → thumb.
+  const portrait = useCreaturePortrait(doc, true)
 
   // Badge do losango por subtipo:
   //  - Monstro (issue #19): a divisão é por FM `Tier` (não têm Nível) — o

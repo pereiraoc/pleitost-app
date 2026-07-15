@@ -11,7 +11,7 @@
 //     COM tier / eq-ataque-render.ts:77 SEM tier — sufixo MASCULINO);
 //   • armadura → SEM mapeamento base→imagem confiável (Equipamentos/Armaduras/*
 //     têm nomes genéricos, sem carta) ⇒ null (placeholder), como pediu a issue.
-import { assetUrl, type AssetIndex } from './assets'
+import { assetUrlFor, type AssetIndex } from './assets'
 import { weaponImageUrl } from './creature-image'
 import type { VaultDoc } from './types'
 
@@ -34,9 +34,12 @@ const TIER_FEM: Record<'A' | 'E' | 'M', string> = { A: 'Adepta', E: 'Experiente'
 /** …e MASCULINO nos equipamentos/tesouros (CARTAS_TIER_LABEL_MASCULINO). */
 const TIER_MASC: Record<'A' | 'E' | 'M', string> = { A: 'Adepto', E: 'Experiente', M: 'Mestre' }
 
-function byPath(assets: AssetIndex, path: string): string | null {
+// `small` (#280): as figuras de item aparecem SEMPRE pequenas (miniatura de
+// inventário/combate, selo de canto) ⇒ os helpers de equipamento thumbam por
+// padrão. O flag existe pra caso um contexto grande precise do cheio.
+function byPath(assets: AssetIndex, path: string, small = true): string | null {
   const entry = assets.byPath.get(path.normalize('NFC'))
-  return entry ? assetUrl(entry) : null
+  return entry ? assetUrlFor(entry, small) : null
 }
 
 /** Figura da PROPRIEDADE/imbuição da arma. `base` = basename do wikilink
@@ -79,7 +82,7 @@ export function escudoImageUrl(
   doc: VaultDoc | undefined,
   assets: AssetIndex | undefined,
 ): string | null {
-  return weaponImageUrl(doc, assets)
+  return weaponImageUrl(doc, assets, true)
 }
 
 /** Figura do ESCUDO pelo NOME (Inventario.Escudo.Nome) — Figura/Armas/<basename>.png,

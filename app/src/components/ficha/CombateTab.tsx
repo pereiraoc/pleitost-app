@@ -1459,7 +1459,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         // Figura da arma + imbuição no canto (issue #77): imagem da carta da
         // arma (weaponImageUrl) com a propriedade (imbuição OU obra-prima)
         // sobreposta no canto; sem imagem → o emoji do grupo (fallback).
-        const armaImg = weaponImageUrl(armaDoc, assets)
+        // #280: figura de ataque (pequena) → thumb.
+        const armaImg = weaponImageUrl(armaDoc, assets, true)
         const propImg = propriedadeImageUrl(
           (wikiTarget(str(arma['Propriedade'])).split('/').pop() ?? '').trim(),
           tier ?? '',

@@ -4,7 +4,7 @@
 //   CA:      FM Imagem → Retratos/<nome> → Companheiros Animais/<classe> → null
 //   Monstro: FM Imagem → Monstros/<nome> → Raças/<raça> → Monstros/<classe> → null
 // null = caller usa fallback (iniciais/emoji), como no plugin.
-import { assetUrl, resolveAsset, type AssetIndex } from './assets'
+import { assetUrlFor, resolveAsset, type AssetIndex } from './assets'
 import type { VaultDoc } from './types'
 
 const RETRATOS = 'Recursos e Mídia/Imagens/Retratos'
@@ -14,11 +14,19 @@ const MONSTROS = 'Recursos e Mídia/Imagens/Monstros'
 const RACAS = 'Recursos e Mídia/Imagens/Raças'
 const EXTS = ['.png', '.jpg', '.jpeg', '.webp']
 
-function tryFolder(assets: AssetIndex, folder: string, base: string | null): string | null {
+// `small` (#280): contexto pequeno (retrato de LISTA) — usa o thumb. Retrato
+// GRANDE (ficha/hero) omite e fica no cheio. O default false preserva os call
+// sites que não passam o flag.
+function tryFolder(
+  assets: AssetIndex,
+  folder: string,
+  base: string | null,
+  small = false,
+): string | null {
   if (!base) return null
   for (const ext of EXTS) {
     const entry = assets.byPath.get(`${folder}/${base}${ext}`.normalize('NFC'))
-    if (entry) return assetUrl(entry)
+    if (entry) return assetUrlFor(entry, small)
   }
   return null
 }
@@ -33,6 +41,8 @@ function wikiBase(value: unknown): string | null {
 export function creatureImageUrl(
   doc: VaultDoc | undefined,
   assets: AssetIndex | undefined,
+  /** #280: retrato de LISTA (pequeno) → thumb; retrato de ficha (grande) → cheio. */
+  small = false,
 ): string | null {
   if (!doc || !assets) return null
   const fm = doc.frontmatter
@@ -42,7 +52,7 @@ export function creatureImageUrl(
   if (typeof imagem === 'string' && imagem.trim()) {
     const base = wikiBase(imagem)
     const entry = base ? resolveAsset(assets, base) : null
-    if (entry) return assetUrl(entry)
+    if (entry) return assetUrlFor(entry, small)
   }
 
   const nome =
@@ -52,14 +62,16 @@ export function creatureImageUrl(
 
   switch (doc.subtype) {
     case 'Heroi':
-      return tryFolder(assets, RETRATOS, nome) ?? tryFolder(assets, CLASSES_HEROI, classe)
+      return (
+        tryFolder(assets, RETRATOS, nome, small) ?? tryFolder(assets, CLASSES_HEROI, classe, small)
+      )
     case 'Companheiro Animal':
-      return tryFolder(assets, RETRATOS, nome) ?? tryFolder(assets, CLASSES_CA, classe)
+      return tryFolder(assets, RETRATOS, nome, small) ?? tryFolder(assets, CLASSES_CA, classe, small)
     case 'Monstro':
       return (
-        tryFolder(assets, MONSTROS, nome) ??
-        tryFolder(assets, RACAS, raca) ??
-        tryFolder(assets, MONSTROS, classe)
+        tryFolder(assets, MONSTROS, nome, small) ??
+        tryFolder(assets, RACAS, raca, small) ??
+        tryFolder(assets, MONSTROS, classe, small)
       )
     default:
       return null
@@ -70,9 +82,11 @@ export function creatureImageUrl(
 export function groupImageUrl(
   basename: string | undefined,
   assets: AssetIndex | undefined,
+  /** #280: card de lista de grupo (pequeno) → thumb. */
+  small = false,
 ): string | null {
   if (!basename || !assets) return null
-  return tryFolder(assets, RETRATOS, basename)
+  return tryFolder(assets, RETRATOS, basename, small)
 }
 
 // Figuras das cartas de arma — single source of truth do plugin pleitost-views
@@ -95,6 +109,8 @@ const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
 export function weaponImageUrl(
   doc: VaultDoc | undefined,
   assets: AssetIndex | undefined,
+  /** #280: miniatura de inventário/ataque (pequena) → thumb. */
+  small = false,
 ): string | null {
   if (!doc || !assets) return null
 
@@ -102,7 +118,7 @@ export function weaponImageUrl(
   if (embed) {
     const entry =
       resolveAsset(assets, embed) ?? resolveAsset(assets, embed.split('/').pop() ?? embed)
-    if (entry) return assetUrl(entry)
+    if (entry) return assetUrlFor(entry, small)
   }
 
   const imageRaw = doc.frontmatter['image']
@@ -114,5 +130,5 @@ export function weaponImageUrl(
     fileName = imageRaw
   }
   const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`.normalize('NFC'))
-  return figura ? assetUrl(figura) : null
+  return figura ? assetUrlFor(figura, small) : null
 }
