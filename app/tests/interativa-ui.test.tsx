@@ -190,11 +190,15 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     expect(danoTip).toContain('Encantar Arma')
     expect(danoTip).toContain('1d12')
     expect(danoTip).not.toContain('Encantar Arma (0)')
-    // #154: tooltip do AdO traz o valor correto (1d4+7), não zero
+    // #154/#262: o chip do AdO mostra o display (1d4+7); o TOOLTIP lista as
+    // PARTES (Base + Mestre + fonte Encantar Arma), sem repetir o total no
+    // header (item 1.2). A fonte contribui de verdade (não "0").
     const adoEl = await screen.findByText(/AdO 1d4\+7/)
     const adoTip = adoEl.closest('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
-    expect(adoTip).toContain('1d4+7')
-    expect(adoTip).not.toMatch(/Ataque de Oportunidade<\/strong>\s*<span[^>]*>0</)
+    expect(adoTip).toContain('Base')
+    expect(adoTip).toContain('Encantar Arma')
+    // sem modificador no header (hideTotal) — não repete "1d4+7" nem mostra "0"
+    expect(adoTip).not.toMatch(/Ataque de Oportunidade<\/strong>\s*<span/)
   })
 
   it('desligar Inspiração desativa Performance Bárdica Ativa (auto) e a Defesa volta ao cru', async () => {

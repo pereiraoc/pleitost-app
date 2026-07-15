@@ -239,6 +239,21 @@ export interface DanoAdOInput {
   adoFixo: readonly AdoNamedEntry[]
 }
 
+export type DanoAdOPartKind = 'base' | 'mestre' | 'ado' | 'fixo' | 'porDado' | 'passoDado'
+export type DanoAdOTone = 'pos' | 'neg' | 'neutral'
+
+/** Parte estruturada do breakdown do AdO — porta 1:1 de
+ *  plugin/util/ataque-oportunidade.ts (#262): base/mestre são neutros
+ *  (estruturais); efeitos levam tom pos(verde)/neg(vermelho). `extra` traz a
+ *  notação ("+1d4", "d4 → d6", "×2 dados"). */
+export interface DanoAdOPart {
+  kind: DanoAdOPartKind
+  label: string
+  value: number
+  extra?: string
+  tone: DanoAdOTone
+}
+
 export interface DanoAdOResult {
   diceCount: number
   dieSize: number
@@ -250,6 +265,9 @@ export interface DanoAdOResult {
   hasPenalty: boolean
   /** Fontes que contribuíram (offset/dados) — pra listar no tooltip do AdO. */
   entries: ConditionEntry[]
+  /** Breakdown ESTRUTURADO (base/mestre/dado/passo/fixo/porDado) — o tooltip
+   *  mostra base e extra do mestre SEPARADOS, bônus em verde, dado migrando. */
+  parts: DanoAdOPart[]
 }
 
 /** Entries do canal AdO que contribuem: não-Técnica somam; entre Técnicas
@@ -273,7 +291,7 @@ function contributingAdoEntries(ado: readonly AdoDiceEntry[]): AdoDiceEntry[] {
  *    diceCount = (Mestre ? 1 : 0) + max(dadosTécnica) + Σ(dadosOutras)
  *    offset    = offsetBase + Σfixed + Σperdie×diceCount + ΣadoFixo */
 export function computeDanoAdO(input: DanoAdOInput): DanoAdOResult {
-  const { offsetBase, prof, finalDieSize, fixed, perDie, ado, adoFixo } = input
+  const { offsetBase, baseDieSize, prof, finalDieSize, fixed, perDie, dieStep, ado, adoFixo } = input
 
   const mestreDice = prof === 'M' ? 1 : 0
   const contributors = contributingAdoEntries(ado)
@@ -297,7 +315,7 @@ export function computeDanoAdO(input: DanoAdOInput): DanoAdOResult {
   const effectDelta =
     fixedSum + perDieSum * diceCount + adoFixoSum +
     contributors.filter((e) => !e.passivo).reduce((s, e) => s + e.value, 0) +
-    (input.finalDieSize !== input.baseDieSize ? 1 : 0)
+    (finalDieSize !== baseDieSize ? 1 : 0)
 
   // Fontes que contribuíram pro AdO (pra listar no tooltip, #162): offset fixo,
   // por-dado (×diceCount), oportunidade-fixo e os dados de oportunidade.
@@ -307,13 +325,51 @@ export function computeDanoAdO(input: DanoAdOInput): DanoAdOResult {
   for (const e of adoFixo) if (e.value !== 0) entries.push({ label: e.label, value: e.value })
   for (const e of contributors) if (e.value !== 0) entries.push({ label: `${e.label} (dado)`, value: e.value })
 
+  // Breakdown ESTRUTURADO — porta 1:1 de ataque-oportunidade.ts:184-247 (#262).
+  const parts: DanoAdOPart[] = []
+  // Base — o dano-base do AdO é o offset da arma (sem dados). Estrutural.
+  parts.push({ kind: 'base', label: 'Base', value: offsetBase, tone: 'neutral' })
+  // Mestre — +1 dado de dano da arma quando prof=M. Regra base (neutro).
+  if (mestreDice > 0) {
+    parts.push({ kind: 'mestre', label: 'Mestre', value: 0, extra: `+${mestreDice}d${finalDieSize}`, tone: 'neutral' })
+  }
+  // Dados do canal AdO: PASSIVOS (neutro, fazem parte do AdO-base) antes dos
+  // TOGGLES (verde, buff togglável).
+  for (const e of contributors) {
+    if (!e.passivo) continue
+    parts.push({ kind: 'ado', label: e.label, value: 0, extra: `+${e.value}d${finalDieSize}`, tone: 'neutral' })
+  }
+  for (const e of contributors) {
+    if (e.passivo) continue
+    parts.push({ kind: 'ado', label: e.label, value: 0, extra: `+${e.value}d${finalDieSize}`, tone: 'pos' })
+  }
+  // Passo de dado (Apunhalante/PassoDeDado) — mostra o dado MIGRANDO (d4 → d6).
+  if (baseDieSize !== finalDieSize) {
+    const passoTone: DanoAdOTone = finalDieSize > baseDieSize ? 'pos' : 'neg'
+    for (const e of dieStep) {
+      parts.push({ kind: 'passoDado', label: e.label, value: 0, extra: `d${baseDieSize} → d${finalDieSize}`, tone: passoTone })
+    }
+  }
+  // Bônus fixo (DanoArmaFixo) e fixo-só-do-AdO (OportunidadeFixo).
+  for (const e of fixed) if (e.value !== 0) parts.push({ kind: 'fixo', label: e.label, value: e.value, tone: e.value > 0 ? 'pos' : 'neg' })
+  for (const e of adoFixo) if (e.value !== 0) parts.push({ kind: 'fixo', label: e.label, value: e.value, tone: e.value > 0 ? 'pos' : 'neg' })
+  // Bônus por dado (DanoArmaPorDado) — ×diceCount do AdO. 0 dados → não polui.
+  if (diceCount > 0) {
+    for (const e of perDie) {
+      if (e.value === 0) continue
+      const eff = e.value * diceCount
+      parts.push({ kind: 'porDado', label: e.label, value: eff, extra: `×${diceCount} dado${diceCount === 1 ? '' : 's'}`, tone: eff > 0 ? 'pos' : 'neg' })
+    }
+  }
+
   return {
     diceCount,
     dieSize: finalDieSize,
     offset,
     display,
     hasDelta: effectDelta !== 0,
-    hasPenalty: fixedSum + perDieSum * diceCount + adoFixoSum < 0 || input.finalDieSize < input.baseDieSize,
+    hasPenalty: fixedSum + perDieSum * diceCount + adoFixoSum < 0 || finalDieSize < baseDieSize,
     entries,
+    parts,
   }
 }

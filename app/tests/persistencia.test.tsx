@@ -212,12 +212,14 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
 
   it('condições: toggle persiste o container Condicoes_Ativas (chip segue visível)', async () => {
     const ativas = Object.keys(fm.Interativa.Condicoes_Ativas) // Carlos: 1 (Encantar Arma)
-    // mesma pluralização do CombateTab (nAtivas>1 → "Ativas"; 1 → "Ativa"; 0 → "Nenhuma")
-    const condLabelFor = (n: number) => (n ? `${n}${n > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma')
+    // #262 (1.4): o botão Condições passou a mostrar só o NÚMERO de ativas (como
+    // as outras defesas), não "N Ativa(s)". Lê o dígito de dentro do botão.
     const r = renderFicha('combate')
     const btnCond = await screen.findByText('CONDIÇÕES')
-    expect(screen.getByText(condLabelFor(ativas.length))).toBeTruthy()
-    fireEvent.click(btnCond.closest('button')!)
+    const condBtn = btnCond.closest('button')!
+    const condCount = () => Number(/\d+/.exec(condBtn.textContent ?? '')?.[0] ?? 'NaN')
+    expect(condCount()).toBe(ativas.length)
+    fireEvent.click(condBtn)
     // desliga a primeira condição real (botão de remover é o ÚLTIMO do chip —
     // chips com seletor numérico têm o counter −/+ antes dele, #29; o nome
     // também aparece como magia no trilho de painéis → escopa pelo chip)
@@ -228,7 +230,7 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
         .find((p) => p?.querySelector('button'))
     await waitFor(() => expect(acharChip()).toBeTruthy())
     fireEvent.click([...acharChip()!.querySelectorAll('button')].pop()!)
-    expect(screen.getByText(condLabelFor(ativas.length - 1))).toBeTruthy()
+    expect(condCount()).toBe(ativas.length - 1)
     // chip continua visível (união extraído ∪ overlay), só desligado
     expect(acharChip()).toBeTruthy()
     flushHeroEdits()
@@ -239,7 +241,8 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
 
     simulaReload(r)
     renderFicha('combate')
-    expect(await screen.findByText(condLabelFor(ativas.length - 1))).toBeTruthy()
+    const btnCond2 = (await screen.findByText('CONDIÇÕES')).closest('button')!
+    expect(Number(/\d+/.exec(btnCond2.textContent ?? '')?.[0] ?? 'NaN')).toBe(ativas.length - 1)
   })
 })
 

@@ -41,6 +41,7 @@ import {
   ataqueBreakdown,
   danoArmaBreakdown,
   entriesBreakdown,
+  adoTipHtml,
   sourceTipHtml,
 } from './tooltips'
 import { StarChip } from './HabilidadesTab'
@@ -1557,11 +1558,10 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             ) : null}
             {adoRes !== null ? (
               <TipHover
-                html={renderBreakdownHtml(
-                  // AdO: base = display final; entries = fontes que contribuíram
-                  // (Encantar Arma/OportunidadeFixo etc.) — antes ficavam ocultas (#162).
-                  entriesBreakdown('Ataque de Oportunidade', adoRes.entries, { base: adoRes.display }),
-                )}
+                // #262: tooltip do AdO espelhando o plugin — Base e "+1d{tam}" do
+                // Mestre separados (neutros), bônus verdes, dado migrando; sem
+                // modificador redundante no header (o chip já mostra o display).
+                html={adoTipHtml(adoRes)}
               >
                 <span
                   style={{

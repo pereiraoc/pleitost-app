@@ -138,6 +138,27 @@ export function renderBreakdownHtml(result: BreakdownResult): string {
   return head + body
 }
 
+/** Tooltip do Ataque de Oportunidade (#262) — espelho do plugin
+ *  (ataque-oportunidade.ts): Base e "+1d{tam}" do Mestre SEPARADOS (neutros),
+ *  bônus em VERDE, passo de dado mostrando o dado migrando ("d4 → d6"). Sem
+ *  modificador no header (o chip já mostra o `display`; item 1.2). */
+export function adoTipHtml(ado: import('../../interativa/dano').DanoAdOResult): string {
+  const parts: BreakdownPart[] = ado.parts.map((p) => {
+    const tone: BreakdownTone | undefined = p.tone === 'pos' ? 'pos' : p.tone === 'neg' ? 'neg' : undefined
+    // Base mostra o valor cru (ex.: "Base (2)"); as demais partes de valor 0
+    // trazem a notação no `extra` ("+1d4", "d4 → d6", "×2 dados").
+    if (p.kind === 'base') return { emoji: '', label: p.label, value: p.value, unsigned: true, tone }
+    return { emoji: '', label: p.label, value: p.value, extra: p.extra, tone }
+  })
+  return renderBreakdownHtml({
+    headerEmoji: '',
+    title: 'Ataque de Oportunidade',
+    total: 0,
+    hideTotal: true,
+    parts,
+  })
+}
+
 // ─────────────────────── builders de breakdown (espelho de util/modificadores.ts) ───────────────────────
 
 /** Espelho de PROF_LABEL (modificadores.ts:264-269). */
