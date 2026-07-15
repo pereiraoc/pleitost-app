@@ -66,7 +66,9 @@ export function MarkdownBody({
       ({
         // #275: nó custom emitido pelo remark-wikilinks pra transclusão de nota.
         // Não é uma tag HTML — o cast (fora do tipo Components) o inclui no mapa.
-        'note-embed': NoteTransclusion,
+        // #282: na folder-note, NÃO embute o preview (a nota-alvo já aparece como
+        // card na listagem abaixo — ex.: Armaduras/Sem·Leve·Pesada); some.
+        'note-embed': context === 'folder-note' ? () => null : NoteTransclusion,
         a({ href, children }) {
         // #88: links de doc abrem nos DETALHES da sidebar (se houver); demais
         // internos roteiam pela SPA; externos abrem em nova aba.
@@ -112,7 +114,7 @@ export function MarkdownBody({
         return <code>{children}</code>
         },
       }) as Components,
-    [doc],
+    [doc, context],
   )
 
   return (

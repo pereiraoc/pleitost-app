@@ -3,7 +3,21 @@
 // Antes: defesas/sentidos/perícias nem mostravam no tooltip rico; ataque mostrava
 // sem cor. Agora todos usam modAppendixHtml.
 import { describe, expect, it } from 'vitest'
-import { modAppendixHtml } from '../src/components/ficha/tooltips'
+import { modAppendixHtml, periciaBreakdown } from '../src/components/ficha/tooltips'
+import type { ProfRow } from '../src/components/ficha/hero-model'
+
+// #256: o header do tooltip de perícia usa o emoji do ATRIBUTO REAL (não o 🧠
+// fixo, que coincidia com o emoji de INT e fazia toda perícia parecer INT).
+describe('periciaBreakdown header emoji (#256)', () => {
+  const row = (attr: string, nome: string): ProfRow =>
+    ({ Nome: nome, Atributo: attr, Rank: 'A' }) as unknown as ProfRow
+  it('FOR → 💪, AGI → 💨, INT → 🧠, PRE → 🗣️ (não sempre 🧠)', () => {
+    expect(periciaBreakdown(row('FOR', 'Atletismo'), { FOR: 3 }).headerEmoji).toBe('💪')
+    expect(periciaBreakdown(row('AGI', 'Acrobacia'), { AGI: 3 }).headerEmoji).toBe('💨')
+    expect(periciaBreakdown(row('INT', 'Arcanismo'), { INT: 3 }).headerEmoji).toBe('🧠')
+    expect(periciaBreakdown(row('PRE', 'Intimidação'), { PRE: 3 }).headerEmoji).toBe('🗣️')
+  })
+})
 
 describe('modAppendixHtml (#262)', () => {
   it('bônus positivo → linha VERDE (.pos); penalidade → VERMELHA (.neg)', () => {

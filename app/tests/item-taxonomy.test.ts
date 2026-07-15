@@ -183,6 +183,20 @@ describe('groupItems — contagem por grupo + ordem crescente', () => {
     expect(nomes).toContain('Anel do Equilíbrio')
   })
 
+  it('#281: Equipamentos também sub-agrupam por propriedade (elemento)', () => {
+    // Anel da Resistência tem propriedades = Arcano → subgrupo "arcano".
+    expect(itemFacet(byName('Anel da Resistência')).subgrupoLabel).toBe('Arcano')
+    expect(itemFacet(byName('Botas Fluídicas')).subgrupoLabel).toBe('Água')
+    // no agrupamento, o grupo de Perícia dos Equipamentos tem subgrupos por elemento
+    const equip = groupItems(subtree(EQUIP_FOLDER), (d) => d.basename).find(
+      (c) => c.categoria === 'equipamento',
+    )!
+    const pericia = equip.grupos.find((g) => g.grupoLabel === 'Perícia')!
+    const elementos = pericia.subgrupos.map((s) => s.subgrupoLabel)
+    expect(elementos.length).toBeGreaterThan(1)
+    expect(elementos).toContain('Água')
+  })
+
   it('#273: obra-primas de Dureza (broquel/escudo) entram em Defesa', () => {
     expect(itemFacet(byName('Broquel Obra-prima')).grupoLabel).toBe('Defesa')
     expect(itemFacet(byName('Escudo Obra-prima')).grupoLabel).toBe('Defesa')

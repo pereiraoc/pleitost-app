@@ -230,7 +230,12 @@ export function periciaBreakdown(row: ProfRow, attrs: Record<string, number>): B
   const total = input.attr + PROF_BONUS[input.prof] + input.item + input.especial
   const id = slugify(str(row.Nome))
   const title = input.attrLabel ? `${id} (${input.attrLabel})` : id
-  return { ...buildAttrProfItemEspecial(input, total, E.HeaderPericia, title), headerSigned: true }
+  // #256: o header usa o emoji do ATRIBUTO REAL da perícia (FOR/AGI/INT/PRE), não
+  // o 🧠 fixo de perícia — que coincide com o emoji de INT e fazia toda perícia
+  // (mesmo FOR/AGI/PRE) parecer INT no tooltip do resumo.
+  const attrEmoji =
+    (tokens.emojis.atributo as Record<string, string>)[input.attrLabel] ?? E.HeaderPericia
+  return { ...buildAttrProfItemEspecial(input, total, attrEmoji, title), headerSigned: true }
 }
 
 /** Espelho de buildSentidoBreakdown (modificadores.ts:538-543): título com

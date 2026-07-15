@@ -69,21 +69,17 @@ describe('#275 — Armaduras (prosa + transclusões antes da lista)', () => {
     expect(headings.length).toBe(1)
   })
 
-  it('as transclusões mostram o CONTEÚDO das notas (Sem/Leve/Pesada)', async () => {
+  it('#282: as transclusões NÃO viram preview embutido (a nota-alvo já é card abaixo)', async () => {
     const { container } = renderFolder('Sistema/Equipamento/Armaduras')
-    await waitFor(() => {
-      // corpo de "Sem Armadura" (o texto é fragmentado pelos wikilinks, então
-      // conferimos no textContent do container, não por elemento único)
-      expect(container.textContent).toMatch(/Personagens sem armadura são tipicamente/)
-    })
-    // corpo de "Armadura Leve" e "Armadura Pesada"
-    expect(container.textContent).toMatch(/usam armadura leve são tipicamente/)
-    expect(container.textContent).toMatch(/usam armadura pesada são tipicamente/)
+    await waitFor(() => expect(screen.getByText(/aventureiros se preocupam/)).toBeTruthy())
+    // no contexto folder-note o preview embutido (.note-embed) NÃO é renderizado —
+    // a info já está na prática nos cards de armadura da listagem.
+    expect(container.querySelector('.note-embed')).toBeNull()
   })
 
   it('NÃO vaza o texto cru da transclusão (![[Sem Armadura...]])', async () => {
     const { container } = renderFolder('Sistema/Equipamento/Armaduras')
-    await waitFor(() => expect(screen.getByText(/Personagens sem armadura/)).toBeTruthy())
+    await waitFor(() => expect(screen.getByText(/aventureiros se preocupam/)).toBeTruthy())
     expect(container.textContent).not.toContain('![[')
     expect(container.textContent).not.toContain('this.file.name')
   })
@@ -91,7 +87,7 @@ describe('#275 — Armaduras (prosa + transclusões antes da lista)', () => {
   it('a listagem dos itens da pasta CONTINUA aparecendo', async () => {
     renderFolder('Sistema/Equipamento/Armaduras')
     await waitFor(() => {
-      // os itens da pasta viram cartas na grade (aparecem >1 vez: grade + embed)
+      // os itens da pasta viram cartas na grade (Sem/Leve/Pesada)
       expect(screen.getAllByText(/Sem Armadura/).length).toBeGreaterThan(0)
     })
   })

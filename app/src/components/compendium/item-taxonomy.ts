@@ -261,9 +261,10 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
     const bt = fmStr(doc, 'bonus_tipo').toLowerCase()
     grupoLabel = BONUS_TIPO_LABEL[bt] ?? (bt ? capitalize(bt) : 'Outros')
     grupo = grupoLabel.toLowerCase()
-    // #273: imbuição/qualidade sub-agrupam por PROPRIEDADE (elemento) — dentro de
-    // cada bonus_tipo, imbuições parecidas (mesmo elemento) ficam juntas.
-    if (categoria === 'imbuicao' || categoria === 'qualidade') {
+    // #273/#281: imbuição/qualidade/equipamento sub-agrupam por PROPRIEDADE
+    // (elemento do FM `propriedades`) — dentro de cada bonus_tipo, os parecidos
+    // (mesmo elemento) ficam juntos e a barra ganha o filtro de propriedade (#278).
+    if (categoria === 'imbuicao' || categoria === 'qualidade' || categoria === 'equipamento') {
       const el = itemPropriedade(doc)
       subgrupo = el.toLowerCase()
       subgrupoLabel = el
