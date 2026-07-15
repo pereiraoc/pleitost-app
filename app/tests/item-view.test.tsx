@@ -93,7 +93,7 @@ function NavBtn({ to }: { to: string }) {
 }
 
 describe('#267 crash React #310 (hooks) — navegar nó→pasta de Item', () => {
-  it('navegar de /compendio (nó de nav) pra pasta de Armas NÃO quebra', () => {
+  it('navegar de /compendio (nó de nav) pra pasta de Armas NÃO quebra', async () => {
     const armas = compendiumFolderPath('Sistema/Equipamento/Armas')
     render(
       <CatalogProvider catalog={catalog}>
@@ -116,8 +116,9 @@ describe('#267 crash React #310 (hooks) — navegar nó→pasta de Item', () => 
     // com o bug (useMemo depois do early return), este clique dispara re-render
     // com nº de hooks diferente → React #310 lançado pelo act() do fireEvent.
     expect(() => fireEvent.click(screen.getByText('ir'))).not.toThrow()
-    // e a folha de Item renderiza de fato (barra de filtro do #267 aparece).
-    expect(document.querySelector('.item-filterbar')).toBeTruthy()
+    // e a folha de Item renderiza de fato (barra de filtro do #267 aparece
+    // quando os docs resolvem e há facetas pra filtrar — #279 só o botão de funil).
+    await waitFor(() => expect(document.querySelector('.item-filterbar')).toBeTruthy())
   })
 })
 
@@ -219,9 +220,10 @@ describe('#267 — folha AGRUPADA por categoria/grupo/subgrupo + barra de filtro
 
   it('a pasta Armas (sem docs diretos) ACHATA a subárvore e agrupa por grupo de arma', async () => {
     const { container } = renderFolder(compendiumFolderPath(ARMAS))
-    // o contêiner agrupado + a barra de filtro aparecem
+    // o contêiner agrupado + a barra de filtro aparecem (a barra surge quando os
+    // docs resolvem e há facetas pra filtrar — #279)
     expect(container.querySelector('.item-grouped')).toBeTruthy()
-    expect(container.querySelector('.item-filterbar')).toBeTruthy()
+    await waitFor(() => expect(container.querySelector('.item-filterbar')).toBeTruthy())
     // seções de grupo de arma (data-grupo do agrupamento)
     await waitFor(() => {
       const grupos = [...container.querySelectorAll<HTMLElement>('.item-grp')].map(
@@ -247,6 +249,9 @@ describe('#267 — folha AGRUPADA por categoria/grupo/subgrupo + barra de filtro
 
   it('a barra de filtro tem chips de GRUPO — clicar filtra as seções', async () => {
     const { container } = renderFolder(compendiumFolderPath(ARMAS))
+    // #279: os filtros começam COLAPSADOS — abre pelo botão de funil primeiro.
+    await waitFor(() => expect(container.querySelector('.item-filter-toggle')).toBeTruthy())
+    fireEvent.click(container.querySelector<HTMLElement>('.item-filter-toggle')!)
     // linha de filtro por grupo existe
     const grupoRow = await waitFor(() => {
       const row = container.querySelector<HTMLElement>('.item-filter-row[data-facet="grupo"]')
@@ -273,11 +278,41 @@ describe('#267 — folha AGRUPADA por categoria/grupo/subgrupo + barra de filtro
       expect(cats).toContain('imbuicao')
       expect(cats).toContain('qualidade')
     })
-    // família tesouro → barra de qualidade (Adepto/Experiente/Mestre) presente
-    const qRow = container.querySelector<HTMLElement>('.item-filter-row[data-facet="qualidade"]')
-    expect(qRow).toBeTruthy()
-    expect(within(qRow!).getByText('Adepto')).toBeTruthy()
-    expect(within(qRow!).getByText('Mestre')).toBeTruthy()
+    // #279: abre os filtros; #278: além da qualidade, aparece a linha de
+    // PROPRIEDADE (elemento) das imbuições — Fogo/Água/…
+    fireEvent.click(container.querySelector<HTMLElement>('.item-filter-toggle')!)
+    const qRow = await waitFor(() => {
+      const row = container.querySelector<HTMLElement>('.item-filter-row[data-facet="qualidade"]')
+      expect(row).toBeTruthy()
+      return row!
+    })
+    expect(within(qRow).getByText('Adepto')).toBeTruthy()
+    expect(within(qRow).getByText('Mestre')).toBeTruthy()
+    // #278: linha de propriedade com os elementos das imbuições
+    const pRow = container.querySelector<HTMLElement>('.item-filter-row[data-facet="propriedade"]')
+    expect(pRow).toBeTruthy()
+    expect(within(pRow!).getByText('Fogo')).toBeTruthy()
+    expect(within(pRow!).getByText('Água')).toBeTruthy()
+  })
+
+  it('#278: filtrar por propriedade (elemento) restringe as imbuições ao elemento', async () => {
+    const { container } = renderFolder(compendiumFolderPath(IMB))
+    await waitFor(() => expect(container.querySelector('.item-filter-toggle')).toBeTruthy())
+    fireEvent.click(container.querySelector<HTMLElement>('.item-filter-toggle')!)
+    const pRow = await waitFor(() => {
+      const row = container.querySelector<HTMLElement>('.item-filter-row[data-facet="propriedade"]')
+      expect(row).toBeTruthy()
+      return row!
+    })
+    fireEvent.click(within(pRow).getByText('Fogo'))
+    // só os subgrupos de elemento "Fogo" ficam visíveis (nenhum outro elemento)
+    await waitFor(() => {
+      const subs = [...container.querySelectorAll<HTMLElement>('.item-sub')].map((s) =>
+        s.getAttribute('data-subgrupo'),
+      )
+      expect(subs.length).toBeGreaterThan(0)
+      expect(subs.every((s) => s === 'fogo')).toBe(true)
+    })
   })
 })
 

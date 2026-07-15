@@ -779,6 +779,55 @@ a {
   gap: 6px;
   align-items: center;
 }
+/* #279: botão de funil que colapsa/expande os filtros (menos poluído). */
+.item-filter-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding: 5px 12px;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  cursor: pointer;
+}
+.item-filter-toggle[aria-expanded='true'] {
+  color: var(--panel);
+  background: var(--accent);
+}
+.item-filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.item-filter-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* rótulo pequeno de cada linha (Categoria/Grupo/Propriedade/Qualidade) */
+.item-filter-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 74px;
+  flex: none;
+}
 .item-cat + .item-cat {
   margin-top: 6px;
 }

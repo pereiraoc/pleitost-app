@@ -196,6 +196,8 @@ describe('FolderView', () => {
     )
     await screen.findByRole('link', { name: /Poção de Cura/ })
     await waitFor(() => expect(container.querySelectorAll('.shc-card').length).toBe(12))
+    // #279: os filtros começam colapsados — abre pelo botão de funil antes.
+    fireEvent.click(container.querySelector<HTMLElement>('.item-filter-toggle')!)
     // clica em "Experiente" na barra de qualidade
     fireEvent.click(screen.getByRole('button', { name: 'Experiente' }))
     await waitFor(() => {

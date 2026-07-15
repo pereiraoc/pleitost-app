@@ -9,7 +9,7 @@
 // Registro: registerDocView({id:'item'}) pro DocView (carta como página) e
 // registerLeafView('Item', subtree:true) pro FolderView — o FolderView achata a
 // subárvore da pasta e passa TODOS os Items; este arquivo agrupa e filtra.
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
 import type { IndexDocEntry } from '../../data/types'
@@ -220,16 +220,35 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
   // comprado por qualidade (#268); com um tier específico, só aquela carta.
   const [catFilter, setCatFilter] = useState<ItemCategoria | null>(null)
   const [grpFilter, setGrpFilter] = useState<string | null>(null)
+  const [subFilter, setSubFilter] = useState<string | null>(null)
   const [tier, setTier] = useState<Tier | null>(null)
+  // #279: a barra de filtros começa COLAPSADA atrás de um botão de funil — menos
+  // poluída; clicar abre as linhas de filtro.
+  const [filtersOpen, setFiltersOpen] = useState(false)
+
+  // #278: propriedades (subgrupo — ex.: elemento da imbuição: Fogo/Água/…)
+  // DISPONÍVEIS no recorte atual (categoria+grupo), pra virar uma linha de filtro
+  // própria. Antes o subgrupo só agrupava; agora também filtra.
+  const subgrupos = useMemo(() => {
+    const seen = new Map<string, string>()
+    for (const c of cells) {
+      if (catFilter && c.facet.categoria !== catFilter) continue
+      if (grpFilter && c.facet.grupo !== grpFilter) continue
+      if (!c.facet.subgrupo) continue
+      if (!seen.has(c.facet.subgrupo)) seen.set(c.facet.subgrupo, c.facet.subgrupoLabel)
+    }
+    return [...seen.entries()]
+  }, [cells, catFilter, grpFilter])
 
   const filtered = useMemo(
     () =>
       cells.filter((c) => {
         if (catFilter && c.facet.categoria !== catFilter) return false
         if (grpFilter && c.facet.grupo !== grpFilter) return false
+        if (subFilter && c.facet.subgrupo !== subFilter) return false
         return true
       }),
-    [cells, catFilter, grpFilter],
+    [cells, catFilter, grpFilter, subFilter],
   )
 
   // Árvore agrupada (categoria → grupo → subgrupo) das células filtradas —
@@ -241,56 +260,136 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
 
   if (!entries.length) return null
 
+  const activeCount =
+    (catFilter ? 1 : 0) + (grpFilter ? 1 : 0) + (subFilter ? 1 : 0) + (tier ? 1 : 0)
+  const hasFilters =
+    categorias.length > 1 || grupos.length > 1 || subgrupos.length > 1 || temQualidade
+
   const filterPill = (label: string, active: boolean, onClick: () => void) => (
     <button type="button" aria-pressed={active} onClick={onClick} style={pillStyle(active)}>
       {label}
     </button>
+  )
+  const filterRow = (facet: string, label: string, pills: ReactNode) => (
+    <div className="item-filter-row" data-facet={facet}>
+      <span className="item-filter-label">{label}</span>
+      {pills}
+    </div>
   )
 
   return (
     <TipProvider>
       <div className="item-grouped">
         <style>{ITEM_CARD_CSS}</style>
-        {/* BARRA DE FILTRO (#267): facetas do registro — categoria/grupo/qualidade */}
-        <div className="item-filterbar" role="group" aria-label="Filtros de itens">
-          {categorias.length > 1 ? (
-            <div className="item-filter-row" data-facet="categoria">
-              {filterPill('Todas', catFilter === null, () => {
-                setCatFilter(null)
-                setGrpFilter(null)
-              })}
-              {categorias.map(([cat, label]) =>
-                <span key={cat}>
-                  {filterPill(label, catFilter === cat, () => {
-                    setCatFilter((v) => (v === cat ? null : cat))
-                    setGrpFilter(null)
-                  })}
-                </span>,
-              )}
-            </div>
-          ) : null}
-          {grupos.length > 1 ? (
-            <div className="item-filter-row" data-facet="grupo">
-              {filterPill('Todos', grpFilter === null, () => setGrpFilter(null))}
-              {grupos.map(([g, label]) => (
-                <span key={g}>
-                  {filterPill(label, grpFilter === g, () => setGrpFilter((v) => (v === g ? null : g)))}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          {temQualidade ? (
-            <div className="item-filter-row" data-facet="qualidade">
-              {/* "Todas" (#268): mostra as 3 qualidades de cada item, de 3 em 3. */}
-              {filterPill('Todas', tier === null, () => setTier(null))}
-              {TIERS.map((t) => (
-                <span key={t}>
-                  {filterPill(qualidadeLabel(t), tier === t, () => setTier((v) => (v === t ? null : t)))}
-                </span>
-              ))}
-            </div>
-          ) : null}
-        </div>
+        {/* BARRA DE FILTRO (#267/#278) COLAPSÁVEL (#279): só o botão de funil
+            aparece; clicar abre as linhas categoria/grupo/propriedade/qualidade —
+            facetas do registro (nada hardcodado no call-site). */}
+        {hasFilters ? (
+          <div className="item-filterbar" role="group" aria-label="Filtros de itens">
+            <button
+              type="button"
+              className="item-filter-toggle"
+              aria-expanded={filtersOpen}
+              aria-label="Filtros"
+              onClick={() => setFiltersOpen((v) => !v)}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              <span>FILTROS</span>
+              {activeCount > 0 ? <span className="item-filter-count">{activeCount}</span> : null}
+            </button>
+            {filtersOpen ? (
+              <div className="item-filter-rows">
+                {categorias.length > 1
+                  ? filterRow(
+                      'categoria',
+                      'Categoria',
+                      <>
+                        {filterPill('Todas', catFilter === null, () => {
+                          setCatFilter(null)
+                          setGrpFilter(null)
+                          setSubFilter(null)
+                        })}
+                        {categorias.map(([cat, label]) => (
+                          <span key={cat}>
+                            {filterPill(label, catFilter === cat, () => {
+                              setCatFilter((v) => (v === cat ? null : cat))
+                              setGrpFilter(null)
+                              setSubFilter(null)
+                            })}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+                {grupos.length > 1
+                  ? filterRow(
+                      'grupo',
+                      'Grupo',
+                      <>
+                        {filterPill('Todos', grpFilter === null, () => {
+                          setGrpFilter(null)
+                          setSubFilter(null)
+                        })}
+                        {grupos.map(([g, label]) => (
+                          <span key={g}>
+                            {filterPill(label, grpFilter === g, () => {
+                              setGrpFilter((v) => (v === g ? null : g))
+                              setSubFilter(null)
+                            })}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+                {subgrupos.length > 1
+                  ? filterRow(
+                      'propriedade',
+                      'Propriedade',
+                      <>
+                        {filterPill('Todas', subFilter === null, () => setSubFilter(null))}
+                        {subgrupos.map(([s, label]) => (
+                          <span key={s}>
+                            {filterPill(label, subFilter === s, () =>
+                              setSubFilter((v) => (v === s ? null : s)),
+                            )}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+                {temQualidade
+                  ? filterRow(
+                      'qualidade',
+                      'Qualidade',
+                      <>
+                        {/* "Todas" (#268): mostra as 3 qualidades de cada item, de 3 em 3. */}
+                        {filterPill('Todas', tier === null, () => setTier(null))}
+                        {TIERS.map((t) => (
+                          <span key={t}>
+                            {filterPill(qualidadeLabel(t), tier === t, () =>
+                              setTier((v) => (v === t ? null : t)),
+                            )}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* SEÇÕES agrupadas (categoria → grupo → subgrupo) */}
         {tree.map((cat) => (
