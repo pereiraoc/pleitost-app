@@ -89,6 +89,15 @@ export function MarkdownBody({
         }
         return <img src={src} alt={alt} {...rest} />
       },
+      // #284: tabela do markdown (ex.: "Características de Classe") rola de lado
+      // no mobile — embrulha num wrapper com overflow-x.
+      table({ children }) {
+        return (
+          <div className="table-scroll">
+            <table className="doc-table">{children}</table>
+          </div>
+        )
+      },
       // fences renderizam via registro; o <pre> padrão sai do caminho
       pre({ children }) {
         return <>{children}</>

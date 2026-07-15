@@ -93,25 +93,28 @@ export function DataviewBlock({ lang, code, doc }: Props) {
   }
 
   return (
-    <table className="doc-table dataview-table">
-      <thead>
-        <tr>
-          {headers.map((h) => (
-            <th key={h}>{h}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, i) => (
-          <tr key={i}>
-            {row.map((cell, j) => (
-              <td key={j}>
-                <Cell value={cell} />
-              </td>
+    // #284: tabela de dataview larga rola de lado no mobile.
+    <div className="table-scroll">
+      <table className="doc-table dataview-table">
+        <thead>
+          <tr>
+            {headers.map((h) => (
+              <th key={h}>{h}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i}>
+              {row.map((cell, j) => (
+                <td key={j}>
+                  <Cell value={cell} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }

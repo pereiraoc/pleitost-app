@@ -73,6 +73,8 @@ export function DocTable({ entries, columns }: Props) {
   }
 
   return (
+    // #284: no mobile a tabela larga rola de lado (wrapper com overflow-x).
+    <div className="table-scroll">
     <table className="doc-table">
       <thead>
         <tr>
@@ -97,5 +99,6 @@ export function DocTable({ entries, columns }: Props) {
         })}
       </tbody>
     </table>
+    </div>
   )
 }

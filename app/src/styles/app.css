@@ -285,6 +285,13 @@ body {
 .tabs-scroll::-webkit-scrollbar {
   display: none; /* WebKit/Chrome */
 }
+/* #284: tabela larga rola de lado no mobile (wrapper) — mantém uma barra fina
+   visível (afinal é conteúdo, não abas), com inércia de toque. */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
 .sidebar-right-body {
   flex: 1;
   min-height: 0;
@@ -1527,6 +1534,18 @@ a {
   display: flex;
   gap: 2px;
   border-bottom: 1px solid var(--line);
+  /* #284: abas de Heróis/Criaturas que não cabem rolam de lado (mobile) — sem
+     barra visível, com inércia de toque. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.npc-tabs::-webkit-scrollbar {
+  display: none;
+}
+.npc-tab {
+  flex: none;
 }
 
 .npc-tab {
