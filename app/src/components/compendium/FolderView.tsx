@@ -1,6 +1,9 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
+import { useDoc } from '../../data/useDoc'
+import { DocView } from './DocPage'
+import { resolveDocView } from './doc-view-registry'
 import type { FolderNode } from '../../data/catalog'
 import { compendiumFolderPath, docPath } from '../../paths'
 import { useSettings } from '../../settings'
@@ -9,7 +12,7 @@ import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
 import { hasVisibleDescendant, isHidden, subtreeDocs, visibleCount, visibleFolders } from './sections'
-import { isNavNode, navChildren, navLabel, navMeta } from './compendio-registry'
+import { isNavNode, navAncestors, navChildren, navLabel, navMeta } from './compendio-registry'
 import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 // SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
@@ -62,23 +65,65 @@ function FolderCards({ folders }: { folders: FolderNode[] }) {
 }
 
 function Breadcrumb({ path }: { path: string }) {
-  const segments = path.split('/')
+  // #269: a trilha segue a árvore LÓGICA de navegação (fonte de verdade), não as
+  // pastas cruas da vault — some "Tesouros" (achatado) e o pai de Consumíveis
+  // vira "Items", como o usuário montou manualmente.
+  const crumbs = navAncestors(path)
   return (
     <nav className="breadcrumb">
       <Link to="/compendio">{TITLES.compendio}</Link>
-      {segments.map((segment, i) => {
-        const prefix = segments.slice(0, i + 1).join('/')
-        const isLast = i === segments.length - 1
-        // rótulo do registro (Equipamento → "Items"); senão o próprio segmento
-        const label = navMeta(prefix)?.label ?? segment
+      {crumbs.map((crumb, i) => {
+        const isLast = i === crumbs.length - 1
         return (
-          <Fragment key={prefix}>
+          <Fragment key={crumb}>
             <span className="breadcrumb-sep">/</span>
-            {isLast ? <span>{label}</span> : <Link to={compendiumFolderPath(prefix)}>{label}</Link>}
+            {isLast ? (
+              <span>{navLabel(crumb)}</span>
+            ) : (
+              <Link to={compendiumFolderPath(crumb)}>{navLabel(crumb)}</Link>
+            )}
           </Fragment>
         )
       })}
     </nav>
+  )
+}
+
+/**
+ * #272: nota-da-pasta (folder note do Obsidian, basename = nome da pasta). Se ela
+ * tem VIEW DEDICADA (Localização → LocationSheet, Habilidade/Regra → Criacao/
+ * RegraView…), renderiza o CONTEÚDO dela embutido — o usuário via só o "o que tem
+ * dentro" e não as infos da nota (ex.: Atlas/Mundo Livre). A nota-índice genérica
+ * (type null, corpo é uma query dataview) NÃO é embutida — só duplicaria a
+ * listagem —, aí fica o título linkável de sempre. A listagem da pasta segue
+ * abaixo nos dois casos.
+ */
+function FolderNote({
+  id,
+  fallbackTitle,
+  listing,
+}: {
+  id: string
+  fallbackTitle: string
+  listing: ReactNode
+}) {
+  const { doc } = useDoc(id)
+  const dedicated = doc != null && resolveDocView(doc) !== null
+  if (!doc || !dedicated) {
+    return (
+      <>
+        <h1>
+          <Link to={docPath(id)}>{fallbackTitle}</Link>
+        </h1>
+        {listing}
+      </>
+    )
+  }
+  return (
+    <>
+      <DocView doc={doc} embedded />
+      {listing}
+    </>
   )
 }
 
@@ -160,13 +205,11 @@ export function FolderView() {
   const creator = leafEntry?.creator ?? null
   void localVersion // dep de recomputo (localExtra reage ao store local)
 
-  return (
-    <section className="page">
-      <div className="kicker">{COMPENDIO_KICKER}</div>
-      <Breadcrumb path={path} />
-      <h1>
-        {indexDoc && !portal ? <Link to={docPath(indexDoc.id)}>{navLabel(path)}</Link> : navLabel(path)}
-      </h1>
+  // "O que tem dentro" da pasta: cards de subpasta + toggle mestre + creator +
+  // grade/tabela. Extraído pra variável porque a nota-da-pasta (#272) o renderiza
+  // ABAIXO do conteúdo dela — nos dois ramos é o mesmo bloco.
+  const childrenListing = (
+    <>
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
           categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
       {useSubtree ? null : <FolderCards folders={visibleFolders(node)} />}
@@ -192,6 +235,21 @@ export function FolderView() {
         leafView(docsVisiveis)
       ) : (
         <DocTable entries={docsVisiveis} columns={columns} />
+      )}
+    </>
+  )
+
+  return (
+    <section className="page">
+      <div className="kicker">{COMPENDIO_KICKER}</div>
+      <Breadcrumb path={path} />
+      {indexDoc && !portal ? (
+        <FolderNote id={indexDoc.id} fallbackTitle={navLabel(path)} listing={childrenListing} />
+      ) : (
+        <>
+          <h1>{navLabel(path)}</h1>
+          {childrenListing}
+        </>
       )}
     </section>
   )

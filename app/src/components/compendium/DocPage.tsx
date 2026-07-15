@@ -12,17 +12,25 @@ import { COMPENDIO_KICKER } from '../layout/design-nav'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
-export function DocView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function DocView({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   // Visualizador dedicado do tipo (registro), senão o markdown genérico.
   const viewer = resolveDocView(doc)
-  if (viewer) return viewer(doc, { sidebar })
+  if (viewer) return viewer(doc, { sidebar, embedded })
 
   const grupos = doc.grupo ? (Array.isArray(doc.grupo) ? doc.grupo : [doc.grupo]) : []
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
 
   return (
-    <article className="doc-page page">
-      <div className="kicker">{COMPENDIO_KICKER}</div>
+    <article className={embedded ? 'doc-page' : 'doc-page page'}>
+      {embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>

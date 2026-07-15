@@ -696,7 +696,15 @@ const LOCATION_TABS: LocTab[] = [
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
 
-export function LocationSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function LocationSheet({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   const [tab, setTab] = useState<LocTab['id']>('detalhes')
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
@@ -704,9 +712,9 @@ export function LocationSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boole
   const img = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
 
   return (
-    <article className="doc-page page">
-      {/* Na sidebar de DETALHES o kicker "Compêndio do Sistema" só polui — some. */}
-      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+    <article className={embedded ? 'doc-page' : 'doc-page page'}>
+      {/* Na sidebar/embutido o kicker "Compêndio do Sistema" só polui — some. */}
+      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
         <span className="doc-type">

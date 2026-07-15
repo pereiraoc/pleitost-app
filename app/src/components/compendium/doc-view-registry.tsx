@@ -11,6 +11,10 @@ import type { VaultDoc } from '../../data/types'
 export interface DocViewOpts {
   /** Renderizado na sidebar de DETALHES (some a Hexploração etc.). */
   sidebar?: boolean
+  /** #272: renderizado EMBUTIDO como nota-da-pasta dentro do FolderView — o
+   *  kicker e o wrapper `.page` já vêm de fora, então a view os suprime pra não
+   *  duplicar (kicker em dobro / padding aninhado). */
+  embedded?: boolean
 }
 
 export type DocViewer = (doc: VaultDoc, opts: DocViewOpts) => ReactElement | null

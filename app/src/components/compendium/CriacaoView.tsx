@@ -28,7 +28,15 @@ function campoValor(doc: VaultDoc, keys: string[]): string | null {
   return null
 }
 
-export function CriacaoView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function CriacaoView({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   const sub: SubtipoCriacao = CRIACAO_SUBTIPOS[doc.type as string]
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
   const resumo = (doc.inlineFields as Record<string, string> | undefined)?.['resumo']
@@ -45,8 +53,8 @@ export function CriacaoView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean
   }
 
   return (
-    <article className="doc-page page">
-      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+    <article className={embedded ? 'doc-page' : 'doc-page page'}>
+      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header style={headerStyle}>
         <span style={{ fontSize: '2rem', lineHeight: 1, flex: 'none' }} aria-hidden>

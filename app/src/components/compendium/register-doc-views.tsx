@@ -23,21 +23,21 @@ import './AventuraView'
 registerDocView({
   id: 'localizacao',
   match: isLocation,
-  view: (doc, { sidebar }) => <LocationSheet doc={doc} sidebar={sidebar} />,
+  view: (doc, { sidebar, embedded }) => <LocationSheet doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F3 (#247) — Organização: leitura bonita das infos (cards).
 registerDocView({
   id: 'organizacao',
   match: isOrg,
-  view: (doc, { sidebar }) => <OrgView doc={doc} sidebar={sidebar} />,
+  view: (doc, { sidebar, embedded }) => <OrgView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F3 (#247) — História / Contexto (Atual + Histórico): corpo em coluna de leitura.
 registerDocView({
   id: 'historia',
   match: isHistoria,
-  view: (doc, { sidebar }) => <HistoriaView doc={doc} sidebar={sidebar} />,
+  view: (doc, { sidebar, embedded }) => <HistoriaView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F2 (#246) — Criação de Personagem por SUBTIPO (Magia/Técnica/Habilidade/
@@ -45,12 +45,12 @@ registerDocView({
 registerDocView({
   id: 'criacao',
   match: isCriacao,
-  view: (doc, { sidebar }) => <CriacaoView doc={doc} sidebar={sidebar} />,
+  view: (doc, { sidebar, embedded }) => <CriacaoView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F2 (#246) — Regra (Sistema/Regras): leitura amigável + elementos de regra.
 registerDocView({
   id: 'regra',
   match: isRegra,
-  view: (doc, { sidebar }) => <RegraView doc={doc} sidebar={sidebar} />,
+  view: (doc, { sidebar, embedded }) => <RegraView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })

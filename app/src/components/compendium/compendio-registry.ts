@@ -92,3 +92,44 @@ export function navMeta(path: string): CompendioMeta | undefined {
 export function navLabel(path: string): string {
   return NAV_META[path]?.label ?? path.split('/').pop() ?? path
 }
+
+/**
+ * Pai LÓGICO de um path na árvore de navegação (não o pai da pasta na vault):
+ * o nó cujo NAV_CHILDREN contém `path`. Ex.: o pai de
+ * `Sistema/Equipamento/Tesouros/Consumíveis` é `Sistema/Equipamento` ("Items"),
+ * pulando o intermediário "Tesouros" que a árvore manual achatou (#245). Retorna
+ * '' (home) quando o pai é a raiz e undefined quando `path` não é filho de nó
+ * algum (aí o call-site sobe um segmento de pasta cru — ver navAncestors).
+ */
+export function navParent(path: string): string | undefined {
+  for (const parent of Object.keys(NAV_CHILDREN)) {
+    if (NAV_CHILDREN[parent].includes(path)) return parent
+  }
+  return undefined
+}
+
+/**
+ * Cadeia de ancestrais LÓGICA de `path`, da raiz até o próprio `path` (inclusive),
+ * SEM a home '' — a fonte de verdade é a árvore de navegação (#269), não as pastas
+ * da vault. Nós fora do registro (subpastas mais fundas que uma folha do registro)
+ * sobem por segmento de pasta cru até encontrar um nó do registro; intermediários
+ * achatados (ex.: "Tesouros") nunca viram crumb porque a folha do registro pula
+ * direto pro pai lógico.
+ */
+export function navAncestors(path: string): string[] {
+  const chain: string[] = []
+  let cur = path
+  // guarda contra ciclo/paths degenerados
+  for (let i = 0; cur && i < 32; i++) {
+    chain.unshift(cur)
+    const logical = navParent(cur)
+    if (logical !== undefined) {
+      cur = logical // '' encerra o laço (home é o crumb raiz, renderizado à parte)
+    } else {
+      const up = cur.split('/').slice(0, -1).join('/')
+      if (up === cur) break
+      cur = up
+    }
+  }
+  return chain
+}

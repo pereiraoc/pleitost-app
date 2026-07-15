@@ -111,7 +111,15 @@ function FieldCard({ label, children }: { label: string; children: ReactNode }) 
   )
 }
 
-export function OrgView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function OrgView({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   const img = doc.images.find((i) => i.from.startsWith('frontmatter:')) ?? doc.images[0]
   const resumo = fieldText(doc.frontmatter[RESUMO_KEY])
 
@@ -127,8 +135,8 @@ export function OrgView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) 
   }
 
   return (
-    <article className="doc-page page">
-      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+    <article className={embedded ? 'doc-page' : 'doc-page page'}>
+      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {img ? <VaultImage target={img.target} style={HERO_STYLE} zoom /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>

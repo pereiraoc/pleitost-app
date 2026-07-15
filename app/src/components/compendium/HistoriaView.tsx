@@ -23,12 +23,20 @@ export function isHistoria(doc: VaultDoc): boolean {
   return doc.type === HISTORIA_CATEGORY
 }
 
-export function HistoriaView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function HistoriaView({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
 
   return (
-    <article className="doc-page doc-reading page">
-      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+    <article className={embedded ? 'doc-page doc-reading' : 'doc-page doc-reading page'}>
+      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>

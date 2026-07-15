@@ -17,10 +17,18 @@ export function isRegra(doc: VaultDoc): boolean {
   return doc.type === 'Regra'
 }
 
-export function RegraView({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
+export function RegraView({
+  doc,
+  sidebar,
+  embedded,
+}: {
+  doc: VaultDoc
+  sidebar?: boolean
+  embedded?: boolean
+}) {
   return (
-    <article className="doc-page doc-reading page">
-      {sidebar ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+    <article className={embedded ? 'doc-page doc-reading' : 'doc-page doc-reading page'}>
+      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       <header className="doc-header">
         <h1>📕 {doc.basename}</h1>
         <span className="doc-type">Regra{doc.subtype ? ` · ${doc.subtype}` : ''}</span>
