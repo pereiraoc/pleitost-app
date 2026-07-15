@@ -121,8 +121,27 @@ const BONUS_TIPO_LABEL: Record<string, string> = {
   defesa: 'Defesa',
   resistência: 'Defesa', // Equipamentos de Defesa gravam "resistência" (sinônimo)
   resistencia: 'Defesa',
+  dureza: 'Defesa', // #273: obra-primas de escudo/broquel gravam "dureza" → Defesa
   pericia: 'Perícia',
   perícia: 'Perícia',
+}
+
+const capitalize = (s: string): string => (s ? s[0].toUpperCase() + s.slice(1) : s)
+
+/** PROPRIEDADE (elemento) de imbuição/qualidade = display do 1º wikilink de
+ *  `propriedades` do FM ("[[Traço Elemental do Fogo|Fogo]]" → "Fogo"). Fonte do
+ *  sub-agrupamento das imbuições (#273): imbuições do mesmo elemento ficam juntas.
+ *  Vazio quando não há propriedades (ex.: obra-primas). */
+export function itemPropriedade(doc: VaultDoc): string {
+  const raw = (doc.frontmatter ?? {})['propriedades']
+  const arr = Array.isArray(raw) ? raw : typeof raw === 'string' ? [raw] : []
+  for (const p of arr) {
+    if (typeof p !== 'string') continue
+    const m = p.match(/\[\[[^\]|]+\|([^\]]+)\]\]/) ?? p.match(/\[\[([^\]]+)\]\]/)
+    const label = (m ? m[1] : p).trim()
+    if (label) return label
+  }
+  return ''
 }
 
 /** TIPO de uma poção (consumível) = a parte do basename APÓS "Poção da/de/do "
@@ -235,10 +254,20 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
     grupo = tipo.toLowerCase()
     grupoLabel = tipo
   } else if (categoria === 'imbuicao' || categoria === 'equipamento' || categoria === 'qualidade') {
-    // 6.3/6.4 — por bonus_tipo (ataque/defesa/perícia).
+    // 6.3/6.4 — por bonus_tipo (ataque/defesa/perícia). #274/#273: a CHAVE do
+    // grupo é o RÓTULO canônico (não o bonus_tipo cru) — resistência/defesa/dureza
+    // colapsam num único "Defesa" (antes eram grupos separados de mesmo nome:
+    // Anel da Resistência vs Anel do Equilíbrio; obra-primas de Dureza).
     const bt = fmStr(doc, 'bonus_tipo').toLowerCase()
-    grupo = BONUS_TIPO_LABEL[bt] ? bt : bt || 'outro'
-    grupoLabel = BONUS_TIPO_LABEL[bt] ?? (bt ? bt : 'Outros')
+    grupoLabel = BONUS_TIPO_LABEL[bt] ?? (bt ? capitalize(bt) : 'Outros')
+    grupo = grupoLabel.toLowerCase()
+    // #273: imbuição/qualidade sub-agrupam por PROPRIEDADE (elemento) — dentro de
+    // cada bonus_tipo, imbuições parecidas (mesmo elemento) ficam juntas.
+    if (categoria === 'imbuicao' || categoria === 'qualidade') {
+      const el = itemPropriedade(doc)
+      subgrupo = el.toLowerCase()
+      subgrupoLabel = el
+    }
   } else if (categoria === 'implemento') {
     // 6.5 — implementos não têm um "tipo" no FM; a categoria já é o grupo.
     grupo = ''
@@ -283,7 +312,8 @@ function grupoRank(categoria: ItemCategoria, grupo: string): number {
     const i = (ARMA_GRUPO_ORDER as readonly string[]).indexOf(grupo)
     return i === -1 ? ARMA_GRUPO_ORDER.length : i
   }
-  const order = ['ataque', 'defesa', 'resistência', 'resistencia', 'perícia', 'pericia']
+  // chaves já canônicas (rótulo em minúsculas): ataque → defesa → perícia.
+  const order = ['ataque', 'defesa', 'perícia']
   const i = order.indexOf(grupo)
   return i === -1 ? order.length : i
 }

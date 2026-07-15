@@ -10,6 +10,7 @@ import { subtreeDocs } from '../src/components/compendium/sections'
 import {
   itemFacet,
   itemCategoria,
+  itemPropriedade,
   armaNaturalTipo,
   categoriaTemQualidade,
   groupItems,
@@ -35,6 +36,7 @@ const byName = (name: string): VaultDoc => {
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas'
 const IMB_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade'
 const CONSUMIVEIS_FOLDER = 'Sistema/Equipamento/Tesouros/Consumíveis'
+const EQUIP_FOLDER = 'Sistema/Equipamento/Tesouros/Equipamentos'
 
 /** Todos os Items da subárvore de uma pasta (como o FolderView passa à grade). */
 function subtree(folderPath: string): VaultDoc[] {
@@ -162,6 +164,54 @@ describe('groupItems — contagem por grupo + ordem crescente', () => {
     const nomes = qual.grupos.flatMap((g) => g.subgrupos.flatMap((s) => s.entries))
     expect(nomes).toContain('Arma Obra-prima')
     expect(nomes).toContain('Armadura Obra-prima')
+  })
+
+  it('#274: Equipamentos de Defesa (resistência + defesa) no MESMO grupo Defesa', () => {
+    const anelRes = itemFacet(byName('Anel da Resistência')) // bonus_tipo "resistência"
+    const anelEq = itemFacet(byName('Anel do Equilíbrio')) // bonus_tipo "defesa"
+    expect(anelRes.grupoLabel).toBe('Defesa')
+    expect(anelEq.grupoLabel).toBe('Defesa')
+    expect(anelRes.grupo).toBe(anelEq.grupo) // MESMA chave → um único grupo
+    // no agrupamento real, Equipamentos tem UM só grupo "Defesa" (não dois)
+    const equip = groupItems(subtree(EQUIP_FOLDER), (d) => d.basename).find(
+      (c) => c.categoria === 'equipamento',
+    )!
+    const defesa = equip.grupos.filter((g) => g.grupoLabel === 'Defesa')
+    expect(defesa.length).toBe(1)
+    const nomes = defesa[0].subgrupos.flatMap((s) => s.entries)
+    expect(nomes).toContain('Anel da Resistência')
+    expect(nomes).toContain('Anel do Equilíbrio')
+  })
+
+  it('#273: obra-primas de Dureza (broquel/escudo) entram em Defesa', () => {
+    expect(itemFacet(byName('Broquel Obra-prima')).grupoLabel).toBe('Defesa')
+    expect(itemFacet(byName('Escudo Obra-prima')).grupoLabel).toBe('Defesa')
+    // mesma chave da Armadura Obra-prima (defesa) → um só grupo Defesa
+    expect(itemFacet(byName('Broquel Obra-prima')).grupo).toBe(
+      itemFacet(byName('Armadura Obra-prima')).grupo,
+    )
+  })
+
+  it('#273: imbuições sub-agrupam por propriedade (elemento), parecidas juntas', () => {
+    expect(itemPropriedade(byName('Imbuição Flamejante'))).toBe('Fogo')
+    expect(itemFacet(byName('Imbuição Flamejante')).subgrupoLabel).toBe('Fogo')
+    expect(itemFacet(byName('Imbuição Congelante')).subgrupoLabel).toBe('Água')
+    // dentro do grupo Ataque, há subgrupos por elemento; Fogo junta as 3
+    const imb = groupItems(subtree(IMB_FOLDER), (d) => d.basename).find(
+      (c) => c.categoria === 'imbuicao',
+    )!
+    const ataque = imb.grupos.find((g) => g.grupoLabel === 'Ataque')!
+    const elementos = ataque.subgrupos.map((s) => s.subgrupoLabel)
+    expect(elementos).toContain('Fogo')
+    expect(elementos).toContain('Água')
+    expect(elementos).toContain('Terra')
+    expect(elementos).toContain('Vento')
+    const fogo = ataque.subgrupos.find((s) => s.subgrupoLabel === 'Fogo')!
+    expect(fogo.entries.sort()).toEqual([
+      'Imbuição Explosiva',
+      'Imbuição Flamejante',
+      'Imbuição Incendiária',
+    ])
   })
 
   it('categorias saem na CATEGORIA_ORDER canônica', () => {
