@@ -166,6 +166,13 @@ const popStyle: CSSProperties = {
   border: '1px solid var(--line2)',
   clipPath: clip(12),
   boxShadow: '0 14px 44px rgba(0,0,0,.5)',
+  // #262 (1.5): no celular os popovers de vida/EM/condições ficavam CORTADOS —
+  // travam na largura/altura da viewport e rolam se o conteúdo for maior, em vez
+  // de sangrar pra fora da tela. box-sizing pra o padding não estourar o cap.
+  maxWidth: 'calc(100vw - 20px)',
+  maxHeight: 'calc(100dvh - 96px)',
+  overflowY: 'auto',
+  boxSizing: 'border-box',
 }
 
 function Scrim({ onClick }: { onClick: () => void }) {
