@@ -38,9 +38,12 @@ shape ACHATADO `{ display, entries, hasDelta, hasPenalty }` — NÃO tem as `par
    os de EM) usam `width: min(Xpx, %)`; endurecer pra `maxWidth: calc(100vw-16px)`
    e reposicionar quando estoura a viewport — verificar em 390px.
 
-## #263 — imagens da Iniciativa (aguarda input do usuário)
-`creatureImageUrl(synthDocFromCharacter(c))`; family mapeia certo. Precisa saber
-QUAL personagem mostra QUAL imagem errada pra corrigir sem chutar.
+## #263 — imagens da Iniciativa (diagnóstico FECHADO)
+As linhas de combatente em `CombateDaSala` (SessaoPage ~654-701) mostram nome +
+vida mas **NENHUMA imagem** — por isso "não aparecem corretamente". Fix: pôr o
+retrato (`creatureImageUrl(synthDocFromCharacter(c), assets)`, como no
+`LinhaPersonagem`), respeitando a máscara de NPC (NPC não-revelado + viewer não-GM
+→ retrato genérico/oculto, igual ao nome mascarado). Executar SEM esperar input.
 
 ## #266 — encontros de combate (espelhar combat-tracker do plugin)
 Estudar `plugin/src/render/modes/combat-tracker/*` (barrinhas de dificuldade,
