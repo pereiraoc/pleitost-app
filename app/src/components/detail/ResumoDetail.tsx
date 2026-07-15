@@ -38,6 +38,7 @@ import {
   danoArmaDisplay,
   type ProfRow,
 } from '../ficha/hero-model'
+import type { Tier } from '../../data/commerce'
 import { useVidaLocal } from '../ficha/pop-panels'
 import { findNamedRow, fmtPlain, fmtSigned, memberStats, terrestreMoveRow } from '../../grupo/stats'
 import { magiaGroups, wikiLabels } from '../ficha/CombateTab'
@@ -201,14 +202,17 @@ function HoverList({
   items,
   refs,
 }: {
-  items: { key: string; label: string; raw: unknown; suffix?: string }[]
+  items: { key: string; label: string; raw: unknown; tier?: Tier | null; suffix?: string }[]
   refs: HeroRefs
 }) {
   return (
     <div data-resumo-chiplist="" style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
       {items.map((e, i) => (
         <span key={`${e.key}-${i}`} data-resumo-chip="" style={chipStyle}>
-          <ItemHover doc={refs.refDoc(e.raw)} fullBody>
+          {/* #257: item COM tier possuído (tesouro/consumível) → card SÓ daquela
+              qualidade (como na ficha), não fullBody. Sem tier (ação/técnica/
+              habilidade) → prosa completa, como antes. */}
+          <ItemHover doc={refs.refDoc(e.raw)} tier={e.tier ?? undefined} fullBody={!e.tier}>
             <span>{e.label}</span>
           </ItemHover>
           {e.suffix ? (
@@ -473,10 +477,10 @@ const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
 function inventarioItens(
   raw: unknown,
   opts: { dedup: boolean; comQtd: boolean },
-): { key: string; label: string; raw: unknown; suffix?: string }[] {
+): { key: string; label: string; raw: unknown; tier: Tier | null; suffix?: string }[] {
   const lista = Array.isArray(raw) ? raw : []
   const seen = new Set<string>()
-  const out: { key: string; label: string; raw: unknown; suffix?: string }[] = []
+  const out: { key: string; label: string; raw: unknown; tier: Tier | null; suffix?: string }[] = []
   for (const item of lista) {
     const { nome, tier, qtd } = parseItemAlias(item)
     if (!nome) continue
@@ -490,6 +494,9 @@ function inventarioItens(
       key,
       label: tier ? `${nome} (${tier})` : nome,
       raw: item,
+      // #257: guarda o tier POSSUÍDO (A/E/M) pra o tooltip mostrar só a qualidade
+      // relevante (como na ficha), não a prosa inteira de todas as qualidades.
+      tier,
       suffix: opts.comQtd ? ` x${qtd}` : undefined,
     })
   }

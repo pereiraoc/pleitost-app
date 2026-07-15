@@ -296,22 +296,40 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
 
   it('perícia (Enganacao/Diplomacia): título slugado com atributo + total assinado', () => {
     const preTips = goldenTips('interativa__panel-attr-pre.html')
+    // #256: DIVERGÊNCIA CONSCIENTE do plugin, pedida pelo usuário — o header da
+    // perícia usa o emoji do ATRIBUTO (💪/💨/🧠/🗣️) em vez do 🧠 fixo de perícia do
+    // plugin (que coincide com o emoji de INT e fazia toda perícia parecer INT no
+    // resumo). O CORPO do breakdown segue byte-exact com o golden; normalizamos só
+    // esse emoji de header (é a única ocorrência desses 4 no tooltip — as linhas de
+    // atributo usam ⚖️).
+    const norm = (s: string) => s.replace(/🧠|🗣️|💪|💨/g, '§')
     expect(
-      renderBreakdownHtml(
-        periciaBreakdown(
-          { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
-          { PRE: 3 },
+      norm(
+        renderBreakdownHtml(
+          periciaBreakdown(
+            { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
+            { PRE: 3 },
+          ),
         ),
       ),
-    ).toBe(byTitle(preTips, 'Enganacao (PRE)'))
+    ).toBe(norm(byTitle(preTips, 'Enganacao (PRE)')))
+    // e o header REAL agora é o do atributo PRE (🗣️), não o 🧠 do plugin
     expect(
-      renderBreakdownHtml(
-        periciaBreakdown(
-          { Nome: 'Diplomacia', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
-          { PRE: 3 },
+      periciaBreakdown(
+        { Nome: 'Enganação', Atributo: 'PRE', Proficiencia: 'M', Bonus_Item: 1, Bonus_Especial: 0 },
+        { PRE: 3 },
+      ).headerEmoji,
+    ).toBe('🗣️')
+    expect(
+      norm(
+        renderBreakdownHtml(
+          periciaBreakdown(
+            { Nome: 'Diplomacia', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+            { PRE: 3 },
+          ),
         ),
       ),
-    ).toBe(byTitle(preTips, 'Diplomacia (PRE)'))
+    ).toBe(norm(byTitle(preTips, 'Diplomacia (PRE)')))
   })
 })
 

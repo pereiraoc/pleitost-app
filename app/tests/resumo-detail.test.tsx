@@ -156,6 +156,22 @@ describe('#199 resumo — magias', () => {
     })
   })
 
+  it('#257: tooltip de tesouro possuído renderiza o card da QUALIDADE possuída', async () => {
+    await renderResumo()
+    // Carlos possui "Anel da Resistência (Adepto)" — o hover mostra a carta do
+    // item no tier possuído (tier-específico), não a prosa inteira (fullBody).
+    await waitFor(() => {
+      const chip = screen.getAllByText(/Anel da Resistência/)[0]
+      const tip = chip.closest('[data-breakdown-html]')
+      expect(tip).toBeTruthy()
+      const html = tip!.getAttribute('data-breakdown-html') ?? ''
+      expect(html).toContain('shc-card')
+      // tier-específico (não fullBody): a carta do resumo é o card compacto do
+      // tier possuído — sem a variante larga `shc-card--wide` da prosa completa.
+      expect(html).not.toContain('shc-card--wide')
+    })
+  })
+
   it('Potência e EM têm tooltip com a nota do compêndio', async () => {
     await renderResumo()
     await waitFor(() => {
