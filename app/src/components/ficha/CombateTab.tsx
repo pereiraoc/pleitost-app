@@ -816,27 +816,33 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
         })}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
+        {/* #262 (1.4): Condições no MESMO layout das outras defesas/sentidos —
+            emoji em cima, rótulo, e o "escrito" = quantas ativas (nº). */}
         <button
           onClick={() => setPop((p) => (p === 'cond' ? null : 'cond'))}
+          title={condLabel}
           style={{
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: 10,
+            justifyContent: 'center',
+            gap: 6,
             padding: '10px 14px',
             background: `color-mix(in srgb,var(--accent) ${8 + (pop === 'cond' ? 12 : 0)}%,var(--panel))`,
             border: `1px solid color-mix(in srgb,var(--accent) ${30 + (pop === 'cond' ? 50 : 0)}%,var(--line2))`,
             color: 'var(--text)',
             cursor: 'pointer',
-            textAlign: 'left',
             clipPath: clip(10),
           }}
         >
           <span style={{ fontSize: 16, flex: 'none' }}>⚠️</span>
-          <div style={{ lineHeight: 1.1, minWidth: 0 }}>
+          <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
               CONDIÇÕES
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{condLabel}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: nAtivas ? 'var(--accent)' : 'var(--muted)' }}>
+              {nAtivas}
+            </div>
           </div>
         </button>
         {sentidos.map((s) => {
@@ -889,27 +895,30 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             </div>
           )
         })}
+        {/* #262 (1.4): Recuperação no MESMO layout — emoji em cima, rótulo, e
+            SEM valor escrito (como o usuário pediu). */}
         <button
           onClick={() => setPop((p) => (p === 'recup' ? null : 'recup'))}
+          title="Descanso / recuperação"
           style={{
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: 10,
+            justifyContent: 'center',
+            gap: 6,
             padding: '10px 14px',
             background: `color-mix(in srgb,#43a06a ${8 + (pop === 'recup' ? 14 : 0)}%,var(--panel))`,
             border: `1px solid color-mix(in srgb,#43a06a ${30 + (pop === 'recup' ? 50 : 0)}%,var(--line2))`,
             color: 'var(--text)',
             cursor: 'pointer',
-            textAlign: 'left',
             clipPath: clip(10),
           }}
         >
           <span style={{ fontSize: 16, flex: 'none' }}>💤</span>
-          <div style={{ lineHeight: 1.1, minWidth: 0 }}>
+          <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
               RECUPERAÇÃO
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>Descanso</div>
           </div>
         </button>
       </div>
