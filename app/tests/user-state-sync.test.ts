@@ -9,6 +9,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vite
 import {
   connectUserStateSync,
   installPersistMirror,
+  __putUserPatchForTests,
   __resetPersistForTests,
   __setUserStateOpsForTests,
 } from '../src/data/remote-persist'
@@ -109,5 +110,27 @@ describe('espelho por conta (#239)', () => {
     window.localStorage.setItem('pleitost.settings.mestre', 'true')
     await vi.runAllTimersAsync()
     expect(srv.puts).toHaveLength(0)
+  })
+
+  it('#291: putUserPatch serializa os read-merge-write (nunca 2 puts ao mesmo tempo)', async () => {
+    vi.useRealTimers() // o put finge latência com setTimeout real
+    let active = 0
+    let maxActive = 0
+    __setUserStateOpsForTests({
+      async get() {
+        return null
+      },
+      async put() {
+        active++
+        maxActive = Math.max(maxActive, active)
+        await new Promise((r) => setTimeout(r, 10))
+        active--
+      },
+    })
+    await connectUserStateSync('u-1', () => {}) // seta sbUserId (bootstrap put já resolveu)
+    // dois flushes concorrentes: sem serialização, os dois read-merge-write se
+    // sobreporiam (maxActive = 2) e um clobberaria o outro.
+    await Promise.all([__putUserPatchForTests({ a: '1' }), __putUserPatchForTests({ b: '2' })])
+    expect(maxActive).toBe(1)
   })
 })

@@ -117,15 +117,30 @@ export async function connectUserStateSync(
   onHydrated(added)
 }
 
+// #291: SERIALIZA os read-merge-write da linha user_state. `ops.put` é SELECT →
+// merge → UPSERT; dois flushes concorrentes (bursts, ou o bootstrap sobrepondo um
+// flush normal) liam a linha, mergiam só o próprio patch e sobrescreviam chaves
+// que o outro tinha acabado de gravar. Uma corrente de promises garante ordem.
+let userPutChain: Promise<void> = Promise.resolve()
+
 async function putUserPatch(patch: Record<string, string | null>): Promise<void> {
   if (!sbUserId || Object.keys(patch).length === 0) return
   const ops = userOps ?? defaultUserOps()
   if (!ops) return
-  try {
-    await ops.put(sbUserId, patch)
-  } catch {
-    /* offline: próxima gravação tenta de novo */
-  }
+  const uid = sbUserId
+  userPutChain = userPutChain.then(async () => {
+    try {
+      await ops.put(uid, patch)
+    } catch {
+      /* offline: próxima gravação tenta de novo */
+    }
+  })
+  return userPutChain
+}
+
+/** SÓ testes: dispara um putUserPatch (a serialização é interna). */
+export function __putUserPatchForTests(patch: Record<string, string | null>): Promise<void> {
+  return putUserPatch(patch)
 }
 
 async function putPatch(patch: Record<string, string | null>): Promise<void> {
@@ -235,6 +250,7 @@ export function __resetPersistForTests(): void {
   origSet = null
   origRemove = null
   queue = {}
+  userPutChain = Promise.resolve()
   if (timer) {
     clearTimeout(timer)
     timer = null

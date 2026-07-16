@@ -74,6 +74,16 @@ function start() {
           nome: displayNameOf(u),
         }
       : null
+    // #291: mantém o token do REALTIME em dia. Sem isso, no refresh de token
+    // (~1h) o socket segue com o JWT velho e o realtime RLS-gated PARA de
+    // entregar eventos no meio da mesa (turno/HP/revelação não chegam). O
+    // onAuthStateChange dispara em INITIAL_SESSION/SIGNED_IN/TOKEN_REFRESHED.
+    try {
+      const rt = (sb as { realtime?: { setAuth?: (t: string | null) => void } }).realtime
+      rt?.setAuth?.(session?.access_token ?? null)
+    } catch {
+      /* versão sem realtime.setAuth: ignora */
+    }
     emit()
     void connectUserStateSync(cache?.id ?? null)
   })
