@@ -42,6 +42,7 @@ import {
 import { startEncounterFromRoster } from '../../data/session-repo/encounter-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { advanceTurn } from '../../data/session-repo/turn'
+import { composeGroupName } from '../../data/session-repo/group-name'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
@@ -748,8 +749,14 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
 function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const navigate = useNavigate()
+  const live = useLiveSession()
   const members = useGroupMembers(catalog, sess.grupoId ?? '')
-  const grupoNomes = members.map((m) => (m.basename ?? '').split(/\s+/)[0]).join(', ')
+  // Nome do grupo = apelidos dos HERÓIS (não o nome da sessão). Prefere os heróis
+  // da mesa VIVA (live.characters); sem sessão viva, os membros do grupo local.
+  const heroChars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
+  const grupoNomes = heroChars.length
+    ? composeGroupName(heroChars.map((c) => ({ nome: c.summary.nome, fmBlob: c.fmBlob })))
+    : composeGroupName(members.map((m) => ({ nome: m.basename ?? '' })))
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
