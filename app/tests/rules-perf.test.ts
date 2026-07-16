@@ -134,24 +134,27 @@ describe('#57 BFS paralelo — concorrência e ganho', () => {
     expect(inst.stats.maxInFlight).toBeGreaterThan(1)
   })
 
-  it('(c) ganho: tempo ~ nº de NÍVEIS × d, muito abaixo do serial (docs × d)', async () => {
+  it('(c) ganho: os docs de cada nível resolvem em LOTE (concorrência), não 1-a-1', async () => {
     const d = 5
     const inst = makeResolver(() => d)
     const t0 = performance.now()
     await extractHeroRules(model, inst.resolver)
     const elapsed = performance.now() - t0
-
     const C = inst.stats.calls
-    const serialEquivalent = C * d // custo teórico dos C awaits sequenciais do plugin
-    // Paralelo por nível: elapsed ~ (nº de níveis ≤ maxDepth=6) × d. Bem menor
-    // que o serial. Margem generosa pra ruído de agendador do setTimeout.
-    expect(elapsed).toBeLessThan(serialEquivalent * 0.5)
+
+    // Prova ESTRUTURAL do ganho, robusta a carga (#255): o BFS resolve os docs de
+    // um mesmo nível em LOTE — a concorrência de pico (maxInFlight > 1) é a causa
+    // do speedup; serial (1-a-1) daria maxInFlight = 1. NÃO se compara o tempo de
+    // parede MEDIDO (sob carga do runner) com um serial TEÓRICO não-carregado:
+    // sob CPU saturada o próprio paralelo passa da estimativa serial → flaky. O
+    // wall-clock fica só como LOG informativo.
+    expect(inst.stats.maxInFlight).toBeGreaterThan(1)
+    expect(C).toBeGreaterThan(6) // trabalho suficiente pro ganho fazer sentido
 
     // eslint-disable-next-line no-console
     console.log(
       `[#57 ganho] resolver calls=${C}, maxInFlight=${inst.stats.maxInFlight}, ` +
-        `parallel=${elapsed.toFixed(1)}ms, serial-equiv=${serialEquivalent}ms (d=${d}ms), ` +
-        `speedup~=${(serialEquivalent / elapsed).toFixed(1)}x`,
+        `parallel=${elapsed.toFixed(1)}ms, serial-equiv≈${C * d}ms (d=${d}ms)`,
     )
   })
 })

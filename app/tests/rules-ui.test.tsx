@@ -282,7 +282,9 @@ describe('COMPETÊNCIAS/PERFIL — classe, subclasses, atributos (#11)', () => {
     expect(optionValues(sel)).toContain('[[Monge]]')
     expect(sel.value).toBe('[[Bardo]]')
     fireEvent.change(sel, { target: { value: '[[Mago]]' } })
-    expect(overlaySalvo().fm['Classe']).toBe('[[Mago]]')
+    // #255: o persist do overlay é ASSÍNCRONO — espera o store refletir a troca
+    // (ler síncrono logo após o change corria e falhava sob carga paralela).
+    await waitFor(() => expect(overlaySalvo().fm['Classe']).toBe('[[Mago]]'))
   })
 
   it('subclasse usa o ícone 📕 do registro categoria.Habilidade (#24)', async () => {

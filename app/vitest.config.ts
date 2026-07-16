@@ -12,13 +12,15 @@ export default mergeConfig(
     test: {
       // exclude SUBSTITUI os defaults — preservá-los (node_modules, dist, …).
       exclude: [...configDefaults.exclude, 'e2e/**'],
-      // #255: arquivos rodam em SÉRIE (mitigação determinística). Tentei devolver
-      // o paralelismo com pool 'forks' + isolate (cada arquivo no próprio
-      // processo), mas alguns testes SENSÍVEIS A TEMPO (rules-ui CLASSE INICIAL,
-      // rules-perf BFS) ainda "perdem a corrida" sob carga paralela (~1 em 4-7
-      // runs) — o isolamento por processo não cobre races INTRA-arquivo/de timing.
-      // Em série a suite é 100% determinística (~80s); a raiz (tornar esses testes
-      // robustos a timing) segue rastreada na #255.
+      // #255: arquivos em SÉRIE (mitigação determinística, ~80s). O flake sob
+      // paralelismo NÃO é só vazamento de estado entre arquivos (isso o pool
+      // 'forks'+isolate resolve) — é uma classe de testes SENSÍVEIS A TEMPO que,
+      // sob CPU saturada por N forks, perdem a corrida de recompute assíncrono
+      // (waitFor estoura o timeout): rules-ui, rules-perf, combate-toggles-import
+      // e provavelmente outros. Já endurecidos na raiz: rules-ui CLASSE INICIAL
+      // (waitFor no persist do overlay) e rules-perf BFS (prova estrutural via
+      // maxInFlight, não wall-clock). Reativar o paralelismo exige endurecer o
+      // resto (waitFor/timeouts) — rastreado na #255. Em série é 100% verde.
       fileParallelism: false,
     },
   }),
