@@ -9,9 +9,23 @@ export function useViewportWidth(): number {
     typeof window !== 'undefined' ? window.innerWidth : 1024,
   )
   useEffect(() => {
-    const onResize = () => setVw(window.innerWidth)
+    // #291: coalesce por frame (rAF) — o resize dispara continuamente no
+    // arraste/rotação e cada evento fazia um setState → re-render de todos os
+    // consumidores. Um update por frame chega e evita jank (só re-renderiza se a
+    // largura de fato mudou).
+    let raf = 0
+    const onResize = () => {
+      if (raf) return
+      raf = requestAnimationFrame(() => {
+        raf = 0
+        setVw((cur) => (cur === window.innerWidth ? cur : window.innerWidth))
+      })
+    }
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [])
   return vw
 }

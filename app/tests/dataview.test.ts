@@ -58,6 +58,17 @@ describe('#291 — bugs de dataview em páginas reais', () => {
     expect(w.right.op).toBe('=') // 2º WHERE
   })
 
+  it('comparação >=/> com campo AUSENTE não casa (null não é "maior que tudo")', async () => {
+    // latente no corpus (nenhuma query usa < > <= >= hoje), mas o `compare` tratava
+    // null como maior que tudo (certo pra SORT, errado pros operadores). Uma pasta
+    // de armas onde NENHUMA tem `campoInexistente` deve dar 0 linhas — não todas.
+    const folder = 'Sistema/Equipamento/Armas/Armas Simples/Corpo-a-Corpo Simples'
+    const current = readDoc(`${folder}/Adaga`)
+    const q = `TABLE file.name\nFROM "${folder}"\nWHERE campoInexistente >= 5`
+    const res = await runQuery(parseQuery(q), ctxFor(current))
+    expect(res.rows.length).toBe(0)
+  })
+
   it('campo multi-valor de wikilinks ASPADOS vira lista de DvLink — Identificar Magia', () => {
     // real: perícia:: "[[Arcana]]", "[[Anima]]" — cada item vem aspado; tem que
     // virar DvLink (não string "[[Arcana]]") pra contains(perícia,"Arcana") casar.

@@ -91,7 +91,7 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
     (node.count = node.docs.length + node.folders.reduce((sum, f) => sum + tally(f), 0))
   tally(folderTree)
 
-  function resolve(target: string): WikiResolution {
+  function resolveUncached(target: string): WikiResolution {
     // Âncoras (#heading, #^bloco) não são navegadas no M1 — resolvem pro doc.
     const clean = target.split('#')[0].trim()
     if (!clean) return { kind: 'missing' }
@@ -112,6 +112,18 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
     if (ids.length === 1) return { kind: 'doc', id: ids[0] }
     if (ids.length > 1) return { kind: 'ambiguous', candidates: ids }
     return { kind: 'missing' }
+  }
+
+  // #291: memoiza — o catálogo é IMUTÁVEL na sessão, e o branch de path parcial
+  // (`content.filter(...endsWith)`) era O(n) por chamada; Atlas/comércio resolvem
+  // por-doc, virando O(n²) no agregado. O cache torna cada alvo único O(n) uma vez.
+  const resolveCache = new Map<string, WikiResolution>()
+  function resolve(target: string): WikiResolution {
+    const hit = resolveCache.get(target)
+    if (hit) return hit
+    const res = resolveUncached(target)
+    resolveCache.set(target, res)
+    return res
   }
 
   return { manifest, content, docsByType, entryById, folderTree, folderByPath, resolve }

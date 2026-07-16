@@ -63,8 +63,9 @@ function evalExpr(expr: Expr, doc: VaultDoc, ctx: DataviewCtx): DvValue {
       return !truthy(evalExpr(expr.inner, doc, ctx))
     case 'bin': {
       const left = evalExpr(expr.left, doc, ctx)
-      if (expr.op === 'and') return truthy(left) ? evalExpr(expr.right, doc, ctx) : false
-      if (expr.op === 'or') return truthy(left) ? true : evalExpr(expr.right, doc, ctx)
+      // #291: and/or devolvem BOOLEAN (antes vazavam o valor cru do operando).
+      if (expr.op === 'and') return truthy(left) ? truthy(evalExpr(expr.right, doc, ctx)) : false
+      if (expr.op === 'or') return truthy(left) ? true : truthy(evalExpr(expr.right, doc, ctx))
       const right = evalExpr(expr.right, doc, ctx)
       switch (expr.op) {
         case '=':
@@ -72,13 +73,16 @@ function evalExpr(expr: Expr, doc: VaultDoc, ctx: DataviewCtx): DvValue {
         case '!=':
           return !equals(left, right, ctx.catalog)
         case '>':
-          return compare(left, right) > 0
         case '<':
-          return compare(left, right) < 0
         case '>=':
-          return compare(left, right) >= 0
-        case '<=':
-          return compare(left, right) <= 0
+        case '<=': {
+          // #291: null/undefined em QUALQUER lado → não casa (o `compare` trata
+          // null como "maior que tudo", certo pra SORT mas errado pros operadores;
+          // dataview real considera comparação com null como não-match).
+          if (left == null || right == null) return false
+          const c = compare(left, right)
+          return expr.op === '>' ? c > 0 : expr.op === '<' ? c < 0 : expr.op === '>=' ? c >= 0 : c <= 0
+        }
       }
       break
     }
