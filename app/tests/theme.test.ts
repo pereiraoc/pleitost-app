@@ -85,13 +85,23 @@ describe('theme — CONTEXTO e COR DE DESTAQUE', () => {
     expect(root().dataset.theme).toBe('rubi')
   })
 
-  it('destaque de OUTRA cor sobrepõe --accent inline; igual ao tema não', () => {
+  it('trocar de TEMA NÃO muda a cor de destaque (eixos independentes)', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setTheme('esmeralda'))
-    expect(cssVar('--accent')).toBe('') // destaque = tema → sem override
+    act(() => result.current.setAccent('rubi'))
+    act(() => result.current.setTheme('safira'))
+    expect(result.current.accent).toBe('rubi') // destaque mantido
+    expect(cssVar('--accent')).toBe(ACCENT_COLORS.rubi.accent)
+  })
+
+  it('destaque coincidindo com o tema não gera override; diferente sim', () => {
+    const { result } = renderHook(() => useTheme())
+    // default: tema aco-solar + destaque aco-solar → coincidem → sem override
+    expect(cssVar('--accent')).toBe('')
     act(() => result.current.setAccent('rubi'))
     expect(cssVar('--accent')).toBe(ACCENT_COLORS.rubi.accent)
     expect(cssVar('--accent2')).toBe(ACCENT_COLORS.rubi.accent2)
+    act(() => result.current.setAccent('aco-solar')) // volta a coincidir com o tema
+    expect(cssVar('--accent')).toBe('')
   })
 
   it('setCustomAccent define --accent, não --accent2', () => {

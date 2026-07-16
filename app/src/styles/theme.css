@@ -16,14 +16,14 @@
   --line2: rgba(60, 54, 38, 0.26);
   --text: #2a2925;
   --muted: #6d685b;
-  --accent: #c68a1e;
+  --accent: #d3a51a;
   --accent2: #4f7d84;
   --red: #a8392a;
   --blue: #3c5c95;
-  --gold: #a8842f;
-  --golddot: #d8b661;
+  --gold: #b8901f;
+  --golddot: #e0bd52;
   --ink: #fbf6ea;
-  --sb: rgba(198, 138, 30, 0.3);
+  --sb: rgba(211, 165, 26, 0.3);
 }
 :root[data-theme='aco-solar'][data-mode='dark'] {
   --bg: #17150f;
@@ -35,54 +35,54 @@
   --line2: rgba(200, 180, 140, 0.22);
   --text: #ece3d0;
   --muted: #a2967c;
-  --accent: #d5a134;
+  --accent: #e0b52e;
   --accent2: #6fa0a8;
   --red: #c6543f;
   --blue: #7d97c4;
-  --gold: #dcb55f;
-  --golddot: #dcb55f;
+  --gold: #e0bd5f;
+  --golddot: #e0bd5f;
   --ink: #17140c;
-  --sb: rgba(213, 161, 52, 0.26);
+  --sb: rgba(224, 181, 46, 0.26);
 }
 
 /* ═══════════ ÂMBAR — mel, destaque âmbar ═══════════ */
 :root[data-theme='ambar'][data-mode='light'] {
-  --bg: #efe6d2;
-  --side: #e6d9bf;
-  --panel: #f6efdd;
-  --panel2: #ede2c8;
-  --card: #fcf7ea;
-  --line: rgba(90, 60, 20, 0.14);
-  --line2: rgba(90, 60, 20, 0.26);
-  --text: #3a2c17;
-  --muted: #7d6538;
-  --accent: #d99a2b;
-  --accent2: #7a8a55;
-  --red: #b3402c;
+  --bg: #f1e5cb;
+  --side: #e9d7b6;
+  --panel: #f7eed7;
+  --panel2: #eee0c0;
+  --card: #fcf6e6;
+  --line: rgba(120, 66, 16, 0.14);
+  --line2: rgba(120, 66, 16, 0.26);
+  --text: #3c2a12;
+  --muted: #7f6234;
+  --accent: #e57a16;
+  --accent2: #8a7a48;
+  --red: #bd3f22;
   --blue: #45689e;
-  --gold: #b98a2c;
-  --golddot: #e6c069;
-  --ink: #fdf7e6;
-  --sb: rgba(217, 154, 43, 0.3);
+  --gold: #bf7a24;
+  --golddot: #e8a24a;
+  --ink: #fdf6e6;
+  --sb: rgba(229, 122, 22, 0.3);
 }
 :root[data-theme='ambar'][data-mode='dark'] {
-  --bg: #1a1409;
-  --side: #140f06;
-  --panel: #241b0e;
-  --panel2: #2e2312;
-  --card: #382a16;
-  --line: rgba(220, 180, 120, 0.1);
-  --line2: rgba(220, 180, 120, 0.22);
-  --text: #f0e2c8;
-  --muted: #ac9268;
-  --accent: #e6a838;
-  --accent2: #9aa870;
-  --red: #cf6a4a;
+  --bg: #1c1207;
+  --side: #150d05;
+  --panel: #27190c;
+  --panel2: #322010;
+  --card: #3d2814;
+  --line: rgba(230, 160, 100, 0.1);
+  --line2: rgba(230, 160, 100, 0.22);
+  --text: #f2e0c4;
+  --muted: #b08c60;
+  --accent: #f0882a;
+  --accent2: #b09468;
+  --red: #d9603a;
   --blue: #6b8ac4;
-  --gold: #e0bd6f;
-  --golddot: #e6c069;
-  --ink: #1a1206;
-  --sb: rgba(230, 168, 56, 0.26);
+  --gold: #e8a24a;
+  --golddot: #f0b45a;
+  --ink: #1c1206;
+  --sb: rgba(240, 136, 42, 0.26);
 }
 
 /* ═══════════ FERRO FRIO — cinza + roxo, destaque ametista ═══════════ */

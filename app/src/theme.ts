@@ -38,11 +38,11 @@ export const MODES: { id: Mode; label: string; ic: string }[] = [
 /** Cores de destaque — ESPELHAM os --accent das paletas (mesma cor, pra a seleção
  *  de destaque bater com o tema homônimo). */
 export const ACCENT_COLORS: Record<ThemeName, { label: string; accent: string; accent2: string }> = {
-  'aco-solar': { label: 'AÇO SOLAR', accent: '#c68a1e', accent2: '#4f7d84' },
+  'aco-solar': { label: 'AÇO SOLAR', accent: '#d3a51a', accent2: '#4f7d84' }, // ouro
   'ferro-frio': { label: 'FERRO FRIO', accent: '#9a7fd6', accent2: '#6f8a9e' },
   safira: { label: 'SAFIRA', accent: '#4a86e8', accent2: '#46b0c0' },
   rubi: { label: 'RUBI', accent: '#e0503f', accent2: '#d99a3a' },
-  ambar: { label: 'ÂMBAR', accent: '#d99a2b', accent2: '#7a8a55' },
+  ambar: { label: 'ÂMBAR', accent: '#e57a16', accent2: '#8a7a48' }, // laranja
   esmeralda: { label: 'ESMERALDA', accent: '#35b87a', accent2: '#c2a24a' },
 }
 
@@ -231,9 +231,9 @@ export function useTheme() {
   return {
     ...theme,
     isDark: theme.mode === 'dark',
-    /** Troca só o TEMA (cor) — NÃO mexe no modo (eixo independente). Coordena o
-     *  destaque com a cor (dá pra trocar o destaque à parte depois). */
-    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t, accent: t })),
+    /** Troca SÓ o TEMA (cor). NÃO mexe no modo NEM na cor de destaque — os três
+     *  são eixos independentes. */
+    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t })),
     /** Define o MODO (claro/escuro) do tema atual. */
     setMode: (mode: Mode) => writeTheme((s) => ({ ...s, mode })),
     /** Alterna claro/escuro (toggle da topbar), mantendo tema/contexto/destaque. */

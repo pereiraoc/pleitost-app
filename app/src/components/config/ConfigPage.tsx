@@ -661,6 +661,16 @@ export function ConfigPage() {
       />
       {tab === 'geral' ? (
         <>
+          <ConfigRow ic="🌓" label="Modo de Exibição">
+            {MODES.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
+            ))}
+          </ConfigRow>
+          <ConfigRow ic="🌐" label="Contexto">
+            {CONTEXTS.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />
+            ))}
+          </ConfigRow>
           <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 19, flex: 'none' }}>🎨</span>
@@ -680,16 +690,6 @@ export function ConfigPage() {
               ))}
             </div>
           </div>
-          <ConfigRow ic="🌓" label="Modo de Exibição">
-            {MODES.map((o) => (
-              <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
-            ))}
-          </ConfigRow>
-          <ConfigRow ic="🌐" label="Contexto">
-            {CONTEXTS.map((o) => (
-              <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />
-            ))}
-          </ConfigRow>
           <AccentRow />
           <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
             {MESTRE_OPTS.map((o) => (
