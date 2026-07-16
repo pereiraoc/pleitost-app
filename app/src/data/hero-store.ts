@@ -144,6 +144,9 @@ export function subscribeHero(heroId: string, cb: () => void): () => void {
   set.add(cb)
   return () => {
     set.delete(cb)
+    // #291: remove a entrada vazia do map (senão cresce sem limite a cada herói
+    // aberto — vazamento de memória).
+    if (set.size === 0) listeners.delete(heroId)
   }
 }
 

@@ -38,6 +38,16 @@ function nickname(): string {
   }
 }
 
+/** Nome exibível robusto: 1º candidato NÃO-vazio. #291: `?? ` deixava passar
+ *  string vazia ('' não é nullish), então uma conta GitHub sem `name`/`user_name`
+ *  e sem nick virava display_name '' — que viola o CHECK não-vazio do
+ *  session_members no join. Aqui `.trim()` garante um nome de verdade. */
+export function displayNameOf(u: { user_metadata?: Record<string, unknown> } | null | undefined): string {
+  const cands = [u?.user_metadata?.['name'], u?.user_metadata?.['user_name'], nickname()]
+  for (const c of cands) if (typeof c === 'string' && c.trim()) return c
+  return 'Convidado'
+}
+
 function start() {
   if (started) return
   started = true
@@ -49,11 +59,7 @@ function start() {
     cache = u
       ? {
           id: u.id,
-          nome:
-            (u.user_metadata?.['name'] as string | undefined) ??
-            (u.user_metadata?.['user_name'] as string | undefined) ??
-            nickname() ??
-            'Convidado',
+          nome: displayNameOf(u),
         }
       : null
     emit()
@@ -65,11 +71,7 @@ function start() {
     cache = u
       ? {
           id: u.id,
-          nome:
-            (u.user_metadata?.['name'] as string | undefined) ??
-            (u.user_metadata?.['user_name'] as string | undefined) ??
-            nickname() ??
-            'Convidado',
+          nome: displayNameOf(u),
         }
       : null
     emit()

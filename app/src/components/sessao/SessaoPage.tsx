@@ -41,6 +41,7 @@ import {
 } from '../../data/session-repo/publish'
 import { startEncounterFromRoster } from '../../data/session-repo/encounter-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
+import { advanceTurn } from '../../data/session-repo/turn'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
@@ -569,16 +570,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const mover = async (delta: number) => {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
-    let idx = ts.currentIndex + delta
-    let round = ts.round
-    if (idx >= ts.order.length) {
-      idx = 0
-      round++
-    } else if (idx < 0) {
-      idx = Math.max(0, ts.order.length - 1)
-      round = Math.max(1, round - 1)
-    }
-    await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex: idx, round })
+    // #291: contador monotônico → PRÓXIMO/ANTERIOR são inversos exatos e a virada
+    // de rodada não desincroniza (advanceTurn puro, testado).
+    const { currentIndex, round } = advanceTurn(ts, delta)
+    await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex, round })
   }
 
   const nomes = ativo
