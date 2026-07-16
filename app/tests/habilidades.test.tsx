@@ -92,6 +92,22 @@ describe('HABILIDADES — bucketização por rank (Item 2)', () => {
   })
 })
 
+describe('HABILIDADES — magias ESSENCIAIS pra aprender (#286)', () => {
+  it('Arcanista vê as magias Essenciais nas não-aprendidas, não só Negra/Branca', async () => {
+    // Carlos: Arcana Branca/E, Negra/N — slots B2 A4 E1. As magias ESSENCIAIS
+    // (pasta /Magia Arcana Essencial/, sem escola própria na ficha) não casavam
+    // nenhuma escola proficiente e sumiam; agora entram na escola Arcana destino.
+    renderHabilidades(CARLOS_ID)
+    fireEvent.click(await screen.findByText('HABILIDADES'))
+    // painel "Magias" (título exato) → o EditToggle irmão liga o modo Alterar.
+    const magiasTitle = await screen.findByText('Magias')
+    fireEvent.click(within(magiasTitle.parentElement as HTMLElement).getByText('✎ Alterar'))
+    // "Alarme" é Essencial (Adepta) — só aparece pra aprender com o fix do #286
+    // (os docs das magias carregam async ao entrar no Alterar).
+    expect(await screen.findByText('Alarme', undefined, { timeout: 8000 })).toBeTruthy()
+  })
+})
+
 describe('HABILIDADES — dropdown de Escolha_Habilidades (Item 1)', () => {
   it('Explorador Nato: pick read-only por padrão; dropdown só ao Alterar', async () => {
     renderHabilidades(DRAUZIO_ID)

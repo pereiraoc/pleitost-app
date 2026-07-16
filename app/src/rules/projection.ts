@@ -436,7 +436,7 @@ function wikiBase(s: string): string {
  *  Arcana onde o herói tem proficiência (≥A). Espelho de pickArcanaEspecial
  *  (enrichments.ts:438-443); sem prof → Branca (caso degenerado). `grupos` =
  *  escolas do escopo (Magias.Lista OU Magias.Secundaria.Lista). */
-function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): string {
+export function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): string {
   const negra = grupos.find((g) => String(g?.Nome) === 'Arcana Negra')
   const prof = String(negra?.Proficiencia ?? 'N').trim().toUpperCase()
   return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra : MAGIA_ESCOLA_NOME.ArcanaBranca

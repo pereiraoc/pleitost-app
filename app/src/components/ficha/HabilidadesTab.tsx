@@ -20,7 +20,7 @@ import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, Ra
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { swapAtributo } from '../../rules/projection'
+import { pickArcanaEspecial, swapAtributo } from '../../rules/projection'
 import {
   applyPericiaRankEdit,
   computePericiaMaxReachable,
@@ -2607,6 +2607,20 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
           .filter((e) => e.type === 'Magia' && e.id.includes(`/Magia ${nome}/`))
           .map((e) => e.id),
       )
+    }
+    // #286: as magias ESSENCIAIS (pasta /Magia Arcana Essencial/) são Arcana
+    // GENÉRICA — não têm escola própria na ficha, então nenhuma escola proficiente
+    // casava a pasta e elas sumiam das não-aprendidas (só apareciam Negra/Branca).
+    // Anexa-as à escola Arcana DESTINO (pickArcanaEspecial: Negra se proficiente,
+    // senão Branca), exatamente como o roteamento das essenciais APRENDIDAS
+    // (escolaDestinoDaMagia). Assim aparecem em "Magias Arcana" pra aprender.
+    const temArcanaProf = escolasProficiente.some((e) => str(e.Nome).startsWith('Arcana'))
+    if (temArcanaProf) {
+      const destino = pickArcanaEspecial(escolasAll as Array<Record<string, unknown>>)
+      const essenciais = catalog.content
+        .filter((e) => e.type === 'Magia' && e.id.includes('/Magia Arcana Essencial/'))
+        .map((e) => e.id)
+      if (essenciais.length) map.set(destino, [...(map.get(destino) ?? []), ...essenciais])
     }
     return map
     // eslint-disable-next-line react-hooks/exhaustive-deps
