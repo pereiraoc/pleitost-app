@@ -19,9 +19,17 @@ const WIKILINK = /^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/
 function scalarFromString(raw: string): DvValue {
   const trimmed = raw.trim()
   if (trimmed === '') return null
+  // #291: desencapa aspas ANTES de testar wikilink. Campos multi-valor guardam
+  // cada item aspado (`"[[Arcana]]", "[[Anima]]"`); sem isso um `"[[Arcana]]"`
+  // virava a STRING `[[Arcana]]` e contains(campo,"Arcana") não casava.
+  if (/^".*"$/.test(trimmed)) {
+    const inner = trimmed.slice(1, -1)
+    const innerLink = WIKILINK.exec(inner.trim())
+    if (innerLink) return { $link: true, target: innerLink[1].trim(), label: innerLink[2]?.trim() }
+    return inner // string aspada comum permanece string (não vira número/bool)
+  }
   const link = WIKILINK.exec(trimmed)
   if (link) return { $link: true, target: link[1].trim(), label: link[2]?.trim() }
-  if (/^".*"$/.test(trimmed)) return trimmed.slice(1, -1)
   if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed)
   if (trimmed === 'true') return true
   if (trimmed === 'false') return false

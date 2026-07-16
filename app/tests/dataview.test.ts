@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { parseQuery } from '../src/dataview/parse'
 import { runQuery, type DataviewCtx } from '../src/dataview/eval'
-import { isDvLink } from '../src/dataview/model'
+import { isDvLink, parseFieldString } from '../src/dataview/model'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -45,6 +45,30 @@ const linkLabelOf = (cell: unknown): string => {
   const link = cell as { target: string; label?: string }
   return link.label ?? link.target.split('/').pop()!
 }
+
+describe('#291 — bugs de dataview em páginas reais', () => {
+  it('múltiplos WHERE combinam com AND (não colapsam no último) — Duas-mãos.md', () => {
+    // real: `where categoria="Item" ... WHERE subcategoria="Arma" and ...` — o 2º
+    // WHERE não pode apagar o 1º (senão a tabela mostra itens sem categoria=Item).
+    const q = parseQuery('TABLE file.name\nFROM "Sistema"\nWHERE categoria="Item"\nWHERE subcategoria="Arma"')
+    const w = q.where as { kind: string; op: string; left: { op: string }; right: { op: string } }
+    expect(w.kind).toBe('bin')
+    expect(w.op).toBe('and')
+    expect(w.left.op).toBe('=') // 1º WHERE preservado
+    expect(w.right.op).toBe('=') // 2º WHERE
+  })
+
+  it('campo multi-valor de wikilinks ASPADOS vira lista de DvLink — Identificar Magia', () => {
+    // real: perícia:: "[[Arcana]]", "[[Anima]]" — cada item vem aspado; tem que
+    // virar DvLink (não string "[[Arcana]]") pra contains(perícia,"Arcana") casar.
+    const v = parseFieldString('"[[Arcana]]", "[[Anima]]"')
+    expect(Array.isArray(v)).toBe(true)
+    const arr = v as unknown[]
+    expect(arr.length).toBe(2)
+    expect(arr.every(isDvLink)).toBe(true)
+    expect(arr.map((l) => (l as { target: string }).target)).toEqual(['Arcana', 'Anima'])
+  })
+})
 
 describe('parse', () => {
   it('query malformada lança (component cai no fallback)', () => {

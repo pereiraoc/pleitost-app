@@ -247,7 +247,11 @@ export function parseQuery(src: string): Query {
     if (upper === 'FROM') {
       query.from = parseFrom(parser)
     } else if (upper === 'WHERE') {
-      query.where = parser.parseExpr()
+      // #291: WHERE repetido combina com AND (semântica do dataview real), não
+      // sobrescreve — senão o 2º WHERE apaga o 1º (ex.: Duas-mãos.md perdia
+      // `categoria="Item"`).
+      const expr = parser.parseExpr()
+      query.where = query.where ? { kind: 'bin', op: 'and', left: query.where, right: expr } : expr
     } else if (upper === 'SORT') {
       do {
         const expr = parser.parseExpr()

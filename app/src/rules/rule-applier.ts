@@ -403,7 +403,6 @@ function applyAction(rule: ParsedRule, deltas: Deltas, ctx: ApplyContext, model:
       }
       return { applied: true }
     }
-      return { applied: true }
 
     case 'escolher':
     case 'restringir':
