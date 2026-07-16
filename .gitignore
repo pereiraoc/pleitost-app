@@ -31,3 +31,6 @@ pleitost-mapas.json
 server/data/
 server/node_modules/
 app/test-results/
+
+# backups locais (dados de conta — nunca no repo público)
+.backups/

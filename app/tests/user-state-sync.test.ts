@@ -112,6 +112,20 @@ describe('espelho por conta (#239)', () => {
     expect(srv.puts).toHaveLength(0)
   })
 
+  it('#291: bootstrap não clobbera o servidor com dado local VELHO; mas sincroniza chave nova', async () => {
+    // servidor já tem X com valor NOVO (gravado por outro dispositivo)
+    const srv = fakeServer({ 'pleitost.heroEdits.X': 'NOVO_de_A' })
+    // ESTE dispositivo tem X VELHO local + uma chave que o servidor NÃO tem
+    window.localStorage.setItem('pleitost.heroEdits.X', 'VELHO_de_B')
+    window.localStorage.setItem('pleitost.novaChave', 'novo_local')
+    await connectUserStateSync('u-1', () => {})
+    await vi.runAllTimersAsync()
+    // X mantém o NOVO (o bootstrap NÃO empurrou o velho) — sem perda de dados
+    expect(srv.data['pleitost.heroEdits.X']).toBe('NOVO_de_A')
+    // a chave AUSENTE no servidor foi sincronizada
+    expect(srv.data['pleitost.novaChave']).toBe('novo_local')
+  })
+
   it('#291: putUserPatch serializa os read-merge-write (nunca 2 puts ao mesmo tempo)', async () => {
     vi.useRealTimers() // o put finge latência com setTimeout real
     let active = 0

@@ -101,16 +101,22 @@ export async function connectUserStateSync(
         added.push(k)
       }
     }
-    // bootstrap: snapshot local → conta (merge; chaves do servidor ficam)
+    // #291: bootstrap empurra SÓ as chaves AUSENTES no servidor (dados locais
+    // genuinamente novos deste dispositivo). Antes empurrava TODAS as chaves
+    // locais → um dispositivo com dado VELHO sobrescrevia (no login) o dado mais
+    // NOVO que outro dispositivo já tinha gravado na conta = perda de dados. As
+    // edições normais continuam sincronizando pelo flush (por-chave); só o
+    // bulk-push do login deixa de clobberar o servidor.
+    const serverKeys = new Set(Object.keys(data ?? {}))
     const patch: Record<string, string> = {}
     for (let i = 0; i < store.length; i++) {
       const k = store.key(i)
-      if (k && SYNCED.test(k)) {
+      if (k && SYNCED.test(k) && !serverKeys.has(k)) {
         const v = store.getItem(k)
         if (v !== null) patch[k] = v
       }
     }
-    await ops.put(userId, patch)
+    if (Object.keys(patch).length) await ops.put(userId, patch)
   } catch {
     /* offline/sem tabela: segue local; tenta de novo no próximo login */
   }
