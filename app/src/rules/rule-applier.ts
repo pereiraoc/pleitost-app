@@ -10,6 +10,11 @@
 import type { ParsedRule, RuleScope, RuleCondition, RuleAction } from './rule-types'
 import type { RulesModel } from './rules-model'
 import { slugify } from '../components/ficha/registry'
+// #291: primitivas de wikilink/membership numa fonte única (elimina a duplicação
+// com aplicavel-a.ts que foi o vetor de drift do #288). Re-exporta wikilinkBasename/
+// isWikilink pra não quebrar quem já importa daqui.
+import { wikilinkBasename, isWikilink, listContainsToken } from './wikilink'
+export { wikilinkBasename, isWikilink }
 
 /** Espelho de ApplyContext (plugin rule-applier.ts:17-39), sem os campos
  *  de tracking granular. */
@@ -40,18 +45,6 @@ export function wikilinkTarget(wl: string): string {
   return m ? m[1].trim() : wl
 }
 
-/** Espelho de wikilinkBasename (plugin util/wikilink.ts:64-69). */
-export function wikilinkBasename(wl: string): string {
-  const m = wl.match(WIKILINK_EXACT)
-  if (!m) return wl.trim()
-  const target = m[1].trim()
-  return (target.split('/').pop() ?? target).replace(/\.md$/i, '').trim()
-}
-
-/** Espelho de isWikilink (plugin util/wikilink.ts:72-74). */
-export function isWikilink(s: string): boolean {
-  return /^\[\[[^\]]+\]\]$/.test(s)
-}
 
 // ──────────────────────────────────────────────────────────────────────────
 // Scope check — espelho de scopePasses (plugin rule-applier.ts:106-133).
@@ -152,16 +145,6 @@ function compareAttr(left: number, op: '>' | '>=' | '<' | '<=' | '==' | '!=', ri
   }
 }
 
-/** Espelho de listContainsToken (plugin rule-applier.ts:226-235):
- *  needle wikilink compara por BASENAME do target. */
-function listContainsToken(value: unknown, needle: string): boolean {
-  const matches = isWikilink(needle)
-    ? (s: string) => isWikilink(s) && wikilinkBasename(s) === wikilinkBasename(needle)
-    : (s: string) => s.includes(needle)
-  if (Array.isArray(value)) return value.some((v) => typeof v === 'string' && matches(v))
-  if (typeof value === 'string') return matches(value)
-  return false
-}
 
 /** Espelho de lookupNamePath (plugin rule-applier.ts:237-265). */
 function lookupNamePath(model: RulesModel, slotProp: string): unknown {

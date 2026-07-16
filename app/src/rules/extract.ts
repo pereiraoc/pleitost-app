@@ -34,6 +34,8 @@ import {
   resolveAllChoices,
   type ChoiceDescriptor,
 } from './resolve-choices'
+// #288 (profundo): mesmo avaliador AplicavelA da loja, agora no motor do herói.
+import { tesouroAplicavelAoItem } from './aplicavel-a'
 
 /** Resolve um wikilink/nome pro doc do vault-data (null quando não existe). */
 export type DocResolver = (wikilinkOrName: string) => Promise<VaultDoc | null>
@@ -425,6 +427,36 @@ async function resolveTutorNivel(model: RulesModel, resolver: DocResolver): Prom
   return Number.isFinite(nivel) ? nivel : null
 }
 
+/** #288 (profundo, #291): tesouros (imbuição/qualidade) EQUIPADOS num host
+ *  incompatível têm TODAS as suas rules podadas — igual ao plugin (bloqueio por
+ *  AplicavelA), reusando o MESMO avaliador da loja (tesouroAplicavelAoItem). Cada
+ *  slot com propriedade (arma/armadura/escudo) forma um par tesouro↔host; se o
+ *  AplicavelA do tesouro não casa com o host, o basename do tesouro entra no set
+ *  de bloqueio. Docs não-resolvidos (ex.: entidade local) → conservador, não
+ *  bloqueia. Retorna basenames (== ParsedRule.sourceNote). */
+export async function computeBlockedTreasures(
+  model: RulesModel,
+  resolver: DocResolver,
+): Promise<Set<string>> {
+  const inv = model.inventario
+  const pairs: Array<{ tesouro: string | null; host: string | null }> = [
+    ...inv.armas.lista.map((a) => ({ tesouro: a.propriedade, host: a.nome })),
+    { tesouro: inv.armadura.propriedade, host: inv.armadura.nome },
+    { tesouro: inv.escudo.propriedade, host: inv.escudo.nome },
+  ]
+  const blocked = new Set<string>()
+  await Promise.all(
+    pairs.map(async ({ tesouro, host }) => {
+      if (!tesouro || !host) return
+      const tesouroBase = wikilinkBasename(tesouro)
+      const [tesouroDoc, hostDoc] = await Promise.all([resolver(tesouroBase), resolver(wikilinkBasename(host))])
+      if (!tesouroDoc || !hostDoc) return
+      if (!tesouroAplicavelAoItem(tesouroDoc, hostDoc)) blocked.add(tesouroBase)
+    }),
+  )
+  return blocked
+}
+
 /** Loop principal — espelho de extractAndApplyRules (plugin
  *  rule-elements-extractor.ts:414-694): seeds → BFS → [discover(gate) →
  *  resolve → injectPicks → apply → constraints → signature] até convergir. */
@@ -438,6 +470,8 @@ export async function extractHeroRules(baseModel: RulesModel, resolver: DocResol
       ? { ...baseModel, meta: { ...baseModel.meta, nivel: tutorNivel } }
       : baseModel
   const seeds = collectSeeds(model)
+  // #288 (profundo): tesouros equipados em host incompatível → suas rules podadas.
+  const blockedTreasures = await computeBlockedTreasures(model, resolver)
   const { parsedRules, visitedDocs } = await bfsRules(seeds, resolver)
 
   const editable = parsedRules.filter((r) => r.channel !== 'interactive-only')
@@ -483,6 +517,11 @@ export async function extractHeroRules(baseModel: RulesModel, resolver: DocResol
     ctx.choicesObj = buildPicksRecord(resolvedChoices)
 
     for (const r of editable) {
+      // #288 (profundo): pula rules de tesouro incompatível com o host equipado.
+      if (blockedTreasures.has(r.sourceNote)) {
+        rejectedRules.push({ rule: r, result: { applied: false, reason: 'aplicavel-a-bloqueado' } })
+        continue
+      }
       const result = applyRule(r, workingModel, deltas, ctx)
       if (result.applied) appliedRules.push(r)
       else rejectedRules.push({ rule: r, result })

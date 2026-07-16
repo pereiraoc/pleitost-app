@@ -10,33 +10,15 @@
 // `Propriedades,Contem([[Arremesso]])` casa `[[Arremesso|Arremesso 3]]` da Adaga.
 import type { VaultDoc } from '../data/types'
 import type { AplicavelOrGroup, HostItemStats, RuleCondition } from '../generated/rule-parser'
+// #291: membership de wikilink numa FONTE ÚNICA (antes duplicada aqui e no
+// rule-applier — o vetor de drift do #288).
+import { listContainsToken } from './wikilink'
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 function str(v: unknown): string {
   return typeof v === 'string' ? v : v == null ? '' : String(v)
-}
-
-// ── helpers portados VERBATIM do plugin (util/wikilink.ts, rule-applier.ts) ──
-/** "[[A/B|C]]" → "B" (basename do alvo, sem alias, sem .md); texto cru → o texto. */
-function wikilinkBasename(wl: string): string {
-  const m = wl.match(/^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/)
-  if (!m) return wl.trim()
-  const target = m[1].trim()
-  return (target.split('/').pop() ?? target).replace(/\.md$/i, '').trim()
-}
-function isWikilink(s: string): boolean {
-  return /^\[\[[^\]]+\]\]$/.test(s)
-}
-/** Membership numa lista: wikilink casa por basename; texto cru casa por substring. */
-function listContainsToken(value: unknown, needle: string): boolean {
-  const matches = isWikilink(needle)
-    ? (s: string) => isWikilink(s) && wikilinkBasename(s) === wikilinkBasename(needle)
-    : (s: string) => s.includes(needle)
-  if (Array.isArray(value)) return value.some((v) => typeof v === 'string' && matches(v))
-  if (typeof value === 'string') return matches(value)
-  return false
 }
 
 /** Stats do host (arma/escudo/armadura) que o AplicavelA avalia — lidos do FM.
