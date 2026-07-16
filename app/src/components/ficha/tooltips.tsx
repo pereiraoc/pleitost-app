@@ -587,12 +587,14 @@ interface TipCtl {
 
 const TipCtx = createContext<TipCtl | null>(null)
 
-/** Dispositivo com hover real (mouse) — no toque (celular) o hover não dispara,
- *  então o tooltip abre por TAP. */
+/** Dispositivo com MOUSE de verdade (hover + ponteiro fino). No toque o hover não
+ *  dispara de forma confiável, então o tooltip abre por TAP. Exige `pointer: fine`
+ *  também porque vários celulares reportam `hover: hover` por engano — sem isso o
+ *  app achava que dava hover e o tooltip só abria no 2º toque. */
 const CAN_HOVER =
   typeof window !== 'undefined' &&
   typeof window.matchMedia === 'function' &&
-  window.matchMedia('(hover: hover)').matches
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 // Estilos estruturais do popup — porta das regras .dv-breakdown-tip do
 // plugin (styles.css:7936-7986), com as vars do Obsidian trocadas pelas
@@ -744,16 +746,19 @@ export function TipHover({
       data-breakdown-html={html}
       className="dv-breakdown-hover has-breakdown"
       style={{ display: 'inline-flex', cursor: CAN_HOVER ? 'help' : 'pointer', ...style }}
-      tabIndex={-1}
-      // No toque (sem hover), TAP abre/fecha; no desktop o hover cuida.
+      tabIndex={CAN_HOVER ? -1 : undefined}
+      // No TOQUE, SÓ o TAP abre/fecha (toggle). No desktop, SÓ o hover/foco. Nunca
+      // os dois no mesmo dispositivo: senão, num tap, o mouseenter sintético
+      // (show) + o click (toggle) se cancelavam e exigiam 2 toques.
       onClick={ctl && !CAN_HOVER ? ctl.toggle(html) : undefined}
-      onMouseEnter={ctl ? ctl.show(html) : undefined}
-      onMouseMove={ctl ? ctl.move : undefined}
-      onMouseLeave={ctl ? ctl.hide : undefined}
+      onMouseEnter={ctl && CAN_HOVER ? ctl.show(html) : undefined}
+      onMouseMove={ctl && CAN_HOVER ? ctl.move : undefined}
+      onMouseLeave={ctl && CAN_HOVER ? ctl.hide : undefined}
       onFocus={
         // focusin do plugin (breakdown-tooltip.ts:236): mostra ancorado no
-        // próprio elemento (base = centro/embaixo do rect).
-        ctl
+        // próprio elemento (base = centro/embaixo do rect). Só em hover — no
+        // toque, o foco vindo do tap conflitaria com o click.
+        ctl && CAN_HOVER
           ? (e) => {
               const r = e.currentTarget.getBoundingClientRect()
               ctl.show(html)({
@@ -763,7 +768,7 @@ export function TipHover({
             }
           : undefined
       }
-      onBlur={ctl ? ctl.hide : undefined}
+      onBlur={ctl && CAN_HOVER ? ctl.hide : undefined}
     >
       {children}
     </span>

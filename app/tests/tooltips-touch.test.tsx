@@ -25,6 +25,26 @@ describe('TipHover — tap abre/fecha (celular)', () => {
     fireEvent.click(screen.getByText('alvo'))
     expect(document.querySelector('.dv-breakdown-tip')).toBeNull()
   })
+
+  it('tap REAL (mouseEnter sintético + click) mostra em UM toque só', () => {
+    // No celular um tap dispara mouseenter sintético E click. Antes os dois se
+    // cancelavam (show + toggle) e exigiam 2 toques. Em toque, mouseenter não é
+    // mais ligado, então um tap = um show.
+    render(
+      <TipProvider>
+        <TipHover html="<div>BREAKDOWN Y</div>">
+          <span>alvo</span>
+        </TipHover>
+      </TipProvider>,
+    )
+    const alvo = screen.getByText('alvo')
+    const target = alvo.closest('.has-breakdown') as HTMLElement
+    fireEvent.mouseEnter(target) // no toque: no-op (não abre nem "arma" nada)
+    fireEvent.click(target)
+    const tip = document.querySelector('.dv-breakdown-tip')
+    expect(tip).toBeTruthy()
+    expect(tip!.innerHTML).toContain('BREAKDOWN Y')
+  })
 })
 
 describe('entriesBreakdown — bônus aplicados (dano/AdO)', () => {
