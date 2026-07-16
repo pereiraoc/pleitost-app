@@ -65,6 +65,20 @@ function sigOf(nome: string): string {
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
+// #287: retrato do combatente/personagem via <img object-fit:cover> (não mais
+// background-image). O `background-size:cover` estava sendo ignorado em runtime e
+// a imagem aparecia ancorada no canto superior esquerdo em tamanho natural; um
+// <img> com object-fit não pode ser resetado por shorthand e é o mesmo padrão do
+// VaultImage que já funciona no resto do app. Container clipa/dimensiona; o img
+// preenche 100% e centra.
+const imgCover: CSSProperties = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  objectPosition: 'center',
+  display: 'block',
+}
+
 /** Ponte HEADLESS da sala viva (#186): mantém fetch+realtime da sessão ativa
  *  alimentando o live-session INDEPENDENTE de qual face da sidebar está
  *  visível — a SessaoPage desmonta quando o usuário vai pra DETALHES (resumo),
@@ -267,17 +281,15 @@ function LinhaPersonagem({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: portrait ? undefined : 'var(--panel)',
-          backgroundImage: portrait ? `url(\"${portrait}\")` : undefined,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          overflow: 'hidden',
+          background: 'var(--panel)',
           border: '1px solid var(--line2)',
           clipPath: clip(9),
           fontSize: ca ? 12 : 15,
           color: 'var(--muted)',
         })}
       >
-        {portrait ? '' : sigOf(c.summary.nome)}
+        {portrait ? <img src={portrait} alt="" style={imgCover} /> : sigOf(c.summary.nome)}
       </span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -690,10 +702,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      background: portrait ? undefined : 'var(--panel)',
-                      backgroundImage: portrait ? `url("${portrait}")` : undefined,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      overflow: 'hidden',
+                      background: 'var(--panel)',
                       border: '1px solid var(--line2)',
                       clipPath: clip(7),
                       fontFamily: 'var(--mono)',
@@ -701,7 +711,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                       color: 'var(--muted)',
                     }}
                   >
-                    {portrait ? '' : sigOf(nomeExib)}
+                    {portrait ? <img src={portrait} alt="" style={imgCover} /> : sigOf(nomeExib)}
                   </span>
                   <span style={{ fontSize: 13.5, fontWeight: 700 }}>
                     {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
@@ -953,13 +963,13 @@ function PcRow({ heroId }: { heroId: string }) {
             width: 38,
             height: 38,
             flex: 'none',
-            backgroundImage: `url("${portrait}")`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            overflow: 'hidden',
             border: '1px solid var(--line2)',
             clipPath: clip(8),
           }}
-        />
+        >
+          <img src={portrait} alt="" style={imgCover} />
+        </div>
       ) : (
         <span
           style={mono({

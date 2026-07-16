@@ -507,15 +507,24 @@ describe('#231 sala: retratos + companheiro identado', () => {
     setActiveSessionCode('MESA31')
     renderCliente(repo, { id: 'u-1', nome: 'Octavio' })
 
-    // retrato do herói (FM Imagem real → backgroundImage no avatar) — o
-    // nome aparece em mais de um lugar; o da SALA é o botão de resumo
+    // retrato do herói (FM Imagem real → <img object-fit:cover>) — o nome
+    // aparece em mais de um lugar; o da SALA é o botão de resumo.
+    // #287: o retrato é um <img>, NÃO background-image. O background-image tinha
+    // um bug de reconciliação do React: o avatar alternava `background: portrait ?
+    // undefined : 'var(--panel)'`; quando o retrato resolvia ASSÍNCRONO, o React
+    // limpava o shorthand `background` (=''), o que RESETA background-size/position
+    // no DOM, e como os longhands não mudavam de valor entre renders, não eram
+    // reaplicados → imagem em tamanho natural ancorada no canto superior esquerdo.
+    // O <img object-fit> não pode ser resetado por shorthand.
     await screen.findAllByText('Carlos Facão de Andradas')
     const btn = screen.getAllByTitle('Ver ficha resumo nos detalhes')[0] as HTMLElement
     // linha da sala = avatar + coluna do nome; o botão está 2 níveis abaixo
     const rowCarlos = btn.parentElement!.parentElement!.parentElement as HTMLElement
     await waitFor(() => {
-      const avatar = rowCarlos.querySelector('span') as HTMLElement
-      expect(avatar.style.backgroundImage).toContain('Carlos%20Fac%C3%A3o%20de%20Andrade.png')
+      const img = rowCarlos.querySelector('img') as HTMLImageElement
+      expect(img).toBeTruthy()
+      expect(img.getAttribute('src')).toContain('Carlos%20Fac%C3%A3o%20de%20Andrade.png')
+      expect(img.style.objectFit).toBe('cover') // preenche e centra, sem cortar canto
     })
     // CA identado e menor, logo abaixo do tutor
     const caRow = document.querySelector('[data-ca-row]') as HTMLElement
