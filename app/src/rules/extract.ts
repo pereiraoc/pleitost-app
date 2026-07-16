@@ -17,7 +17,7 @@ import { rankGroupLabel } from '../components/ficha/registry'
 import { str } from '../components/ficha/hero-model'
 import type { ParsedRule, InheritedConstraint, ChoiceProvenance } from './rule-types'
 import { parsedRulesOf } from './rule-types'
-import type { RulesModel, FontedLink } from './rules-model'
+import { ATRIBUTOS, type RulesModel, type FontedLink, type AtributoId } from './rules-model'
 import {
   applyRule,
   conditionPasses,
@@ -382,7 +382,37 @@ function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
       // mantido de fora — nenhum condition o consulta (vide lookupNamePath).
     }
   }
+  // #291: aplica a restrição de Atributo Principal ao MODELO DE TRABALHO (o plugin
+  // faz isso entre iterações via applyPrincipalConstraint). Sem isso, condições/
+  // Propriedade que leem o rank de atributo (Propriedade(INT), Condicional INT>=3)
+  // viam o rank PRÉ-swap na iteração seguinte. Mesma lógica do merge-calculated.
+  const principalRaw = deltas['__constraint__Atributos.Principal']
+  const allowed = Array.isArray(principalRaw)
+    ? (principalRaw as unknown[]).filter((a): a is AtributoId => (ATRIBUTOS as readonly string[]).includes(a as string))
+    : null
+  applyPrincipalToModel(model, allowed)
   return model
+}
+
+/** #291: swap de Atributo Principal no RulesModel — espelho de
+ *  applyPrincipalConstraint (merge-calculated.ts:358 / plugin): se o atributo do
+ *  rank 3 não é permitido, allowed[0] assume o rank 3 e o antigo do rank 3 recebe
+ *  o rank que allowed[0] tinha (permutação preservada). */
+export function applyPrincipalToModel(model: RulesModel, allowed: AtributoId[] | null): void {
+  if (!allowed || allowed.length === 0) return
+  const at = model.atributos
+  const allowedSet = new Set(allowed)
+  const attrByRank = (rank: number): AtributoId | null => ATRIBUTOS.find((a) => at[a] === rank) ?? null
+  const attr3 = attrByRank(3)
+  if (attr3 && allowedSet.has(attr3)) {
+    model.atributoPrincipal = attr3
+    return
+  }
+  const newAttr3 = allowed[0]
+  const oldRankOfNew = at[newAttr3]
+  at[newAttr3] = 3
+  if (attr3 && attr3 !== newAttr3) at[attr3] = oldRankOfNew
+  model.atributoPrincipal = newAttr3
 }
 
 /** Assinatura ESTÁVEL de tudo que a extração LÊ do herói (#57). Duas fichas com
