@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -17,11 +18,25 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`
 // base escapada pra uso em RegExp (workbox denylist abaixo).
 const baseRe = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-// #191: versão do app injetada no bundle (o CONFIG mostra); vem do
-// package.json do app — fonte de verdade única, sem literal duplicado.
-const appVersion: string = JSON.parse(
+// #191: versão do app injetada no bundle (o CONFIG mostra; #285: também vai no
+// contexto do bug report). Vem do package.json + o SHA CURTO do git do build —
+// assim cada deploy é distinguível e dá pra ver em que build um report foi feito
+// (se já foi corrigido depois). Fora de repo git (tarball) cai só no semver.
+const pkgVersion: string = JSON.parse(
   fs.readFileSync(path.resolve(dirname, 'package.json'), 'utf8'),
 ).version
+let gitSha = ''
+try {
+  gitSha = execSync('git rev-parse --short HEAD', {
+    cwd: dirname,
+    stdio: ['ignore', 'pipe', 'ignore'],
+  })
+    .toString()
+    .trim()
+} catch {
+  /* build fora de um repo git — mantém só o semver */
+}
+const appVersion: string = gitSha ? `${pkgVersion}+${gitSha}` : pkgVersion
 
 /** #189: SPA fallback pro GitHub Pages — Pages responde 404.html em rota
  *  desconhecida; uma CÓPIA do index.html faz deep-links (/heroi/..., /doc/...)

@@ -87,8 +87,10 @@ describe('tela CONFIG (issue #35)', () => {
     expect(screen.getByText('Tema da Interface')).toBeTruthy()
     expect(screen.getByText('Modo de Exibição')).toBeTruthy()
     expect(screen.getByText('Modo Mestre')).toBeTruthy()
-    // #191: a versão do rodapé é a REAL do app (package.json via define)
-    expect(screen.getByText('PLEITOST COMPANION//OS · v0.1.0')).toBeTruthy()
+    // #191: a versão do rodapé é a REAL do app (package.json via define). #285: o
+    // formato agora é `v<semver>+<git-sha>` (build distinguível no bug report) —
+    // casa o prefixo do semver, tolerando o sufixo do SHA.
+    expect(screen.getByText(/^PLEITOST COMPANION\/\/OS · v0\.1\.0/)).toBeTruthy()
     // opções verbatim do themeOpts/modeOpts do design
     expect(screen.getByRole('button', { name: /CYBERPUNK RED/ })).toBeTruthy()
     expect(screen.getByRole('button', { name: /MEDIEVAL/ })).toBeTruthy()

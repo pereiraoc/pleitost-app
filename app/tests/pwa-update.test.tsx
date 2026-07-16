@@ -113,7 +113,9 @@ describe('toast de update do PWA (issue #191)', () => {
 
   it('versão REAL do app no CONFIG (package.json via define)', async () => {
     renderApp()
-    // v0.1.0 = version do app/package.json — injetada, não literal no código
-    expect(await screen.findByText('PLEITOST COMPANION//OS · v0.1.0')).toBeTruthy()
+    // v0.1.0 = version do app/package.json — injetada, não literal no código.
+    // #285: agora com sufixo `+<git-sha>` (build distinguível no bug report);
+    // casa o prefixo do semver, tolerando o SHA.
+    expect(await screen.findByText(/^PLEITOST COMPANION\/\/OS · v0\.1\.0/)).toBeTruthy()
   })
 })

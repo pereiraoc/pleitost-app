@@ -4,7 +4,7 @@
 // docs REAIS da vault (classe/escola do herói). Interações são estado local
 // EFÊMERO. Larguras de grid, rótulos ('VALOR') e enriquecimento das linhas
 // (enrich/enrichStk) seguem o fim do profData/renderVals recuperado no pull:
-//   perCols/ofiCols/stkCols = edit ? '1.25fr 0.75fr 1fr 1fr'
+//   perCols/ofiCols/stkCols = edit ? 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
 //                                  : '1.25fr 0.6fr 0.7fr'
 //   stacks: modKind std10 (Defesas/Sentidos: 10+attr+PB+item+especial),
 //   move (4+attr+item+especial, SEM PB), none (Combate); flags showProf/
@@ -136,7 +136,7 @@ const colHeadPlain: CSSProperties = {
 
 // Larguras de grid verbatim do renderVals recuperado (perCols/ofiCols/stkCols).
 const PROF_COLS_VIEW = '1.25fr 0.6fr 0.7fr'
-const PROF_COLS_EDIT = '1.25fr 0.75fr 1fr 1fr'
+const PROF_COLS_EDIT = 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
 
 /** Dígitos iniciais de um custo ("2A" → "2"; "L"/vazio → ""). */
 function custoDigits(custo: unknown): string {
@@ -1026,7 +1026,7 @@ function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '1.25fr 0.75fr 1fr 1fr',
+          gridTemplateColumns: 'minmax(96px,1.25fr) 0.75fr 1fr 1fr',
           alignItems: 'center',
           gap: 8,
           padding: '0 2px 9px',
@@ -1039,7 +1039,7 @@ function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
         <span />
         <span style={colHead}>PROFICIÊNCIA</span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.25fr 0.75fr 1fr 1fr', alignItems: 'center', gap: '0 8px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(96px,1.25fr) 0.75fr 1fr 1fr', alignItems: 'center', gap: '0 8px' }}>
         {rows.map((r, i) => (
           <div key={i} style={{ display: 'contents' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, padding: '6px 2px' }}>
