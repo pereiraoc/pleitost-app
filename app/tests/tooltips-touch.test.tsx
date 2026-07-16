@@ -45,6 +45,24 @@ describe('TipHover — tap abre/fecha (celular)', () => {
     expect(tip).toBeTruthy()
     expect(tip!.innerHTML).toContain('BREAKDOWN Y')
   })
+
+  it('tap sem coords (clientX/Y=0) ancora no ALVO, não no canto (0,0)', () => {
+    render(
+      <TipProvider>
+        <TipHover html="<div>BREAKDOWN Z</div>">
+          <span>alvo</span>
+        </TipHover>
+      </TipProvider>,
+    )
+    const target = screen.getByText('alvo').closest('.has-breakdown') as HTMLElement
+    target.getBoundingClientRect = () =>
+      ({ left: 100, top: 150, right: 140, bottom: 190, width: 40, height: 40, x: 100, y: 150, toJSON: () => ({}) }) as DOMRect
+    fireEvent.click(target) // jsdom: clientX/Y = 0 → cai no fallback do rect
+    const tip = document.querySelector('.dv-breakdown-tip') as HTMLElement
+    expect(tip).toBeTruthy()
+    // x = 100 + 40/2 = 120 → left = 120 + 16 = 136px (NÃO 16px, que seria o canto)
+    expect(tip.style.left).toBe('136px')
+  })
 })
 
 describe('entriesBreakdown — bônus aplicados (dano/AdO)', () => {

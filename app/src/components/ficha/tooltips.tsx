@@ -693,10 +693,23 @@ export function TipProvider({ children }: { children: ReactNode }) {
     [],
   )
   const hide = useCallback(() => setTip((cur) => (cur ? null : cur)), [])
-  // Tap (toque): abre/fecha o tooltip no ponto tocado.
+  // Tap (toque): abre/fecha o tooltip. #254: um click de TAP pode vir com
+  // clientX/clientY = 0 (Firefox Android e afins) — aí o tooltip ia parar no
+  // canto superior esquerdo. Sem coords do cursor, ancora no alvo (centro/base
+  // do rect), como o gtip.tsx e o onFocus já fazem.
   const toggle = useCallback(
-    (html: string) => (e: ReactMouseEvent) =>
-      setTip((cur) => (cur && cur.html === html ? null : { html, x: e.clientX, y: e.clientY })),
+    (html: string) => (e: ReactMouseEvent) => {
+      let x = e.clientX
+      let y = e.clientY
+      if (!x && !y) {
+        const r = (e.currentTarget as HTMLElement | null)?.getBoundingClientRect()
+        if (r) {
+          x = r.left + r.width / 2
+          y = r.bottom
+        }
+      }
+      setTip((cur) => (cur && cur.html === html ? null : { html, x, y }))
+    },
     [],
   )
   const ctl = useMemo<TipCtl>(() => ({ show, move, hide, toggle }), [show, move, hide, toggle])
