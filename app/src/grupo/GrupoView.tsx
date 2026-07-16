@@ -14,6 +14,7 @@ import { useCatalog } from '../data/CatalogContext'
 import { MESA_GRUPO_ID, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
+import { useSettings } from '../settings'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
 import {
@@ -527,11 +528,15 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // precedência; senão a hierarquia da vault (resolveGroupImageUrl). Só grupos
   // locais têm upload, então pra grupo da vault o hook resolve null e nada muda.
   const localImage = useEntityImageUrl(groupId)
+  // #291: só quem está com MODO MESTRE ativado troca a imagem da mesa (a RLS da
+  // sessão só deixa o GM escrever; sem o gate, um jogador comum tentava e falhava
+  // em silêncio). Decisão do usuário: gate pelo Modo Mestre, não pelo gmUserId.
+  const { mestre } = useSettings()
   const imageUrl = isMesa
     ? (live?.state?.grupoImagem ?? null)
     : (localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets))
-  // #235: QUALQUER integrante (ou o mestre) troca a imagem da mesa — vai pro
-  // state da sessão (sincroniza pra todos via realtime).
+  // #235/#291: quem está com MODO MESTRE troca a imagem da mesa (afordância
+  // gated acima) — vai pro state da sessão (sincroniza pra todos via realtime).
   const trocarImagemMesa = async (file: File) => {
     const remoteId = sessaoAtiva?.remoteId
     if (!repo || !remoteId) return
@@ -646,7 +651,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
             ) : (
               '⚔️'
             )}
-            {isMesa && repo && sessaoAtiva?.remoteId ? (
+            {isMesa && repo && sessaoAtiva?.remoteId && mestre ? (
               <label
                 title="Trocar imagem do grupo"
                 style={{
