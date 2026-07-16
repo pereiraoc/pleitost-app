@@ -4,7 +4,13 @@
 // DIREITA é drawer < 1100px (vide app.css). Fora dessas faixas o gesto não
 // faz nada (as sidebars são colunas/collapse, não drawers).
 import { useEffect, useRef } from 'react'
-import { detectEdgeSwipe, EDGE_ZONE_PX, type DrawerState, type SwipePoint } from './edge-swipe'
+import {
+  detectEdgeSwipe,
+  EDGE_ZONE_PX,
+  HORIZONTAL_DOMINANCE,
+  type DrawerState,
+  type SwipePoint,
+} from './edge-swipe'
 
 /** Larguras de corte espelhadas do app.css (drawer off-canvas). */
 const LEFT_DRAWER_MAX = 819
@@ -84,15 +90,31 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
       }
     }
 
+    // Reivindica o gesto quando ele JÁ é claramente horizontal: preventDefault
+    // (listener NÃO-passivo) impede o scroll/nav do browser de roubar o swipe.
+    // Só chega aqui pra gestos ARMADOS (começaram na borda, ou há drawer aberto),
+    // então nunca atrapalha scrollers horizontais de conteúdo (que começam no meio
+    // e não armam `start`).
+    const onMove = (e: PointerEvent) => {
+      if (!start || e.pointerId !== start.id) return
+      const dx = e.clientX - start.x
+      const dy = e.clientY - start.y
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * HORIZONTAL_DOMINANCE && e.cancelable) {
+        e.preventDefault()
+      }
+    }
+
     const onCancel = () => {
       start = null
     }
 
     document.addEventListener('pointerdown', onDown, { passive: true })
+    document.addEventListener('pointermove', onMove, { passive: false })
     document.addEventListener('pointerup', onUp, { passive: true })
     document.addEventListener('pointercancel', onCancel, { passive: true })
     return () => {
       document.removeEventListener('pointerdown', onDown)
+      document.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerup', onUp)
       document.removeEventListener('pointercancel', onCancel)
     }

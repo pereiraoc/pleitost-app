@@ -8,12 +8,20 @@
   box-sizing: border-box;
 }
 
+/* #259: sem swipe-back do browser. No Chrome Android um swipe da borda dispara a
+   navegação "voltar", que emite pointercancel e MATA o gesto de abrir o drawer.
+   overscroll-behavior-x: none corta isso (não afeta scrollers horizontais
+   internos, que têm overflow próprio). */
+html {
+  overscroll-behavior-x: none;
+}
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: var(--body);
   font-size: 14px;
+  overscroll-behavior-x: none;
 }
 
 .app-root {

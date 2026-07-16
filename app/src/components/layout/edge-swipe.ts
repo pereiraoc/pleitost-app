@@ -11,7 +11,7 @@
 /** Zona de borda: o gesto SÓ conta como "puxar a sidebar" se COMEÇOU a até
  *  esta distância (px) da borda da tela — no meio da tela o toque é conteúdo
  *  normal (scroll, clique) e não deve mexer nos drawers. */
-export const EDGE_ZONE_PX = 28
+export const EDGE_ZONE_PX = 40
 /** Distância horizontal mínima (px) pra confirmar o swipe — abaixo disso é
  *  toque/tap acidental. */
 export const SWIPE_THRESHOLD_PX = 56
