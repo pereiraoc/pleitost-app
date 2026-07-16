@@ -11,7 +11,7 @@
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
-import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, type ThemeName } from '../../theme'
+import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, MODES, type ThemeName } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -622,7 +622,7 @@ function DatabaseLine() {
 }
 
 export function ConfigPage() {
-  const { theme, context, setTheme, setContext } = useTheme()
+  const { theme, mode, context, setTheme, setMode, setContext } = useTheme()
   const { mestre, setMestre, desenvolvedor } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
@@ -680,6 +680,11 @@ export function ConfigPage() {
               ))}
             </div>
           </div>
+          <ConfigRow ic="🌓" label="Modo de Exibição">
+            {MODES.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
+            ))}
+          </ConfigRow>
           <ConfigRow ic="🌐" label="Contexto">
             {CONTEXTS.map((o) => (
               <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />

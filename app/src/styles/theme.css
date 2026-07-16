@@ -1,16 +1,12 @@
-/* TEMA (paleta de COR, data-theme) × CONTEXTO (fontes/vibe, data-context) —
-   eixos independentes (theme.ts). A cor de destaque escolhida sobrepõe
-   --accent/--accent2/--sb inline no :root quando difere do tema.
+/* TEMA (cor) × MODO (claro/escuro) × CONTEXTO (fontes) — eixos independentes
+   (theme.ts). Cada TEMA tem variante CLARA e ESCURA: paletas completas em
+   [data-theme='X'][data-mode='Y']. O contexto (data-context) troca só as fontes.
+   A cor de destaque escolhida sobrepõe --accent/--accent2/--sb inline no :root
+   quando difere do tema. */
 
-   Cada tema é uma paleta COMPLETA (fundo/painéis/texto/linhas/destaque). Dois
-   claros e quentes (Aço Solar, Âmbar) + quatro escuros joia (Ferro Frio, Safira,
-   Rubi, Esmeralda). As fontes vêm do CONTEXTO, não do tema. */
-
-/* ═══════════ TEMAS (cor) ═══════════ */
-
-/* ---- AÇO SOLAR (padrão) — aço claro e quente, destaque dourado ---- */
+/* ═══════════ AÇO SOLAR — aço, destaque dourado ═══════════ */
 :root,
-:root[data-theme='aco-solar'] {
+:root[data-theme='aco-solar'][data-mode='light'] {
   --bg: #e2e0da;
   --side: #d5d2c8;
   --panel: #edece6;
@@ -29,9 +25,28 @@
   --ink: #fbf6ea;
   --sb: rgba(198, 138, 30, 0.3);
 }
+:root[data-theme='aco-solar'][data-mode='dark'] {
+  --bg: #17150f;
+  --side: #120f0a;
+  --panel: #211d15;
+  --panel2: #2a251a;
+  --card: #332c1f;
+  --line: rgba(200, 180, 140, 0.1);
+  --line2: rgba(200, 180, 140, 0.22);
+  --text: #ece3d0;
+  --muted: #a2967c;
+  --accent: #d5a134;
+  --accent2: #6fa0a8;
+  --red: #c6543f;
+  --blue: #7d97c4;
+  --gold: #dcb55f;
+  --golddot: #dcb55f;
+  --ink: #17140c;
+  --sb: rgba(213, 161, 52, 0.26);
+}
 
-/* ---- ÂMBAR — mel claro e quente, destaque âmbar ---- */
-:root[data-theme='ambar'] {
+/* ═══════════ ÂMBAR — mel, destaque âmbar ═══════════ */
+:root[data-theme='ambar'][data-mode='light'] {
   --bg: #efe6d2;
   --side: #e6d9bf;
   --panel: #f6efdd;
@@ -50,9 +65,28 @@
   --ink: #fdf7e6;
   --sb: rgba(217, 154, 43, 0.3);
 }
+:root[data-theme='ambar'][data-mode='dark'] {
+  --bg: #1a1409;
+  --side: #140f06;
+  --panel: #241b0e;
+  --panel2: #2e2312;
+  --card: #382a16;
+  --line: rgba(220, 180, 120, 0.1);
+  --line2: rgba(220, 180, 120, 0.22);
+  --text: #f0e2c8;
+  --muted: #ac9268;
+  --accent: #e6a838;
+  --accent2: #9aa870;
+  --red: #cf6a4a;
+  --blue: #6b8ac4;
+  --gold: #e0bd6f;
+  --golddot: #e6c069;
+  --ink: #1a1206;
+  --sb: rgba(230, 168, 56, 0.26);
+}
 
-/* ---- FERRO FRIO — bem escuro, cinza + roxo, destaque ametista ---- */
-:root[data-theme='ferro-frio'] {
+/* ═══════════ FERRO FRIO — cinza + roxo, destaque ametista ═══════════ */
+:root[data-theme='ferro-frio'][data-mode='dark'] {
   --bg: #0d0c11;
   --side: #0a0910;
   --panel: #15131c;
@@ -71,9 +105,28 @@
   --ink: #100e16;
   --sb: rgba(154, 127, 214, 0.24);
 }
+:root[data-theme='ferro-frio'][data-mode='light'] {
+  --bg: #e7e5ee;
+  --side: #dcd9e6;
+  --panel: #efeef4;
+  --panel2: #e4e2ec;
+  --card: #f7f6fb;
+  --line: rgba(70, 60, 100, 0.14);
+  --line2: rgba(70, 60, 100, 0.26);
+  --text: #26232e;
+  --muted: #6b6580;
+  --accent: #7a5fc0;
+  --accent2: #4f7684;
+  --red: #b53f34;
+  --blue: #45619e;
+  --gold: #8a7a3a;
+  --golddot: #c9b877;
+  --ink: #f5f3fb;
+  --sb: rgba(122, 95, 192, 0.28);
+}
 
-/* ---- SAFIRA — azul profundo, destaque safira ---- */
-:root[data-theme='safira'] {
+/* ═══════════ SAFIRA — azul ═══════════ */
+:root[data-theme='safira'][data-mode='dark'] {
   --bg: #090d16;
   --side: #070a12;
   --panel: #101627;
@@ -92,9 +145,28 @@
   --ink: #0a0f1c;
   --sb: rgba(74, 134, 232, 0.24);
 }
+:root[data-theme='safira'][data-mode='light'] {
+  --bg: #dde5f2;
+  --side: #d0dbee;
+  --panel: #eaf0f9;
+  --panel2: #dfe8f5;
+  --card: #f4f8fd;
+  --line: rgba(30, 60, 110, 0.14);
+  --line2: rgba(30, 60, 110, 0.26);
+  --text: #16243a;
+  --muted: #566b8c;
+  --accent: #2f6cd0;
+  --accent2: #2f8b98;
+  --red: #c93f32;
+  --blue: #2f63b0;
+  --gold: #8a7a3a;
+  --golddot: #d9c47a;
+  --ink: #f0f6fd;
+  --sb: rgba(47, 108, 208, 0.28);
+}
 
-/* ---- RUBI — carmesim profundo, destaque rubi ---- */
-:root[data-theme='rubi'] {
+/* ═══════════ RUBI — vermelho ═══════════ */
+:root[data-theme='rubi'][data-mode='dark'] {
   --bg: #140809;
   --side: #100607;
   --panel: #1e0f11;
@@ -113,9 +185,28 @@
   --ink: #1a0a0b;
   --sb: rgba(224, 80, 63, 0.24);
 }
+:root[data-theme='rubi'][data-mode='light'] {
+  --bg: #f2dedd;
+  --side: #eccecd;
+  --panel: #f8e9e8;
+  --panel2: #f0dbda;
+  --card: #fdf4f3;
+  --line: rgba(120, 30, 30, 0.14);
+  --line2: rgba(120, 30, 30, 0.26);
+  --text: #3a1717;
+  --muted: #8a5450;
+  --accent: #c8382a;
+  --accent2: #c07f2a;
+  --red: #c8382a;
+  --blue: #45619e;
+  --gold: #a8842f;
+  --golddot: #e6c46a;
+  --ink: #fdf3f2;
+  --sb: rgba(200, 56, 42, 0.28);
+}
 
-/* ---- ESMERALDA — verde profundo, destaque esmeralda ---- */
-:root[data-theme='esmeralda'] {
+/* ═══════════ ESMERALDA — verde ═══════════ */
+:root[data-theme='esmeralda'][data-mode='dark'] {
   --bg: #07130d;
   --side: #050f0a;
   --panel: #0e1d15;
@@ -134,18 +225,33 @@
   --ink: #0a1a12;
   --sb: rgba(53, 184, 122, 0.24);
 }
+:root[data-theme='esmeralda'][data-mode='light'] {
+  --bg: #dcefe3;
+  --side: #cee6d6;
+  --panel: #e9f5ee;
+  --panel2: #dfeee5;
+  --card: #f3faf6;
+  --line: rgba(20, 80, 50, 0.14);
+  --line2: rgba(20, 80, 50, 0.26);
+  --text: #163025;
+  --muted: #557a65;
+  --accent: #1f9e63;
+  --accent2: #a08a3a;
+  --red: #c93f32;
+  --blue: #45619e;
+  --gold: #8a7a3a;
+  --golddot: #d9c46a;
+  --ink: #f0faf4;
+  --sb: rgba(31, 158, 99, 0.28);
+}
 
-/* ═══════════ CONTEXTOS (fontes/vibe) ═══════════ */
-
-/* ---- FANTASIA (padrão) — serifada, elegante ---- */
+/* ═══════════ CONTEXTOS (fontes) ═══════════ */
 :root,
 :root[data-context='fantasia'] {
   --mono: 'Cinzel', serif;
   --body: 'Spectral', Georgia, serif;
   --display: 'Cinzel', serif;
 }
-
-/* ---- CYBERPUNK — monoespaçada, técnica ---- */
 :root[data-context='cyberpunk'] {
   --mono: 'Share Tech Mono', monospace;
   --body: 'Chakra Petch', system-ui, sans-serif;

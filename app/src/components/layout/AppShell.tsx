@@ -226,7 +226,7 @@ export function AppShell() {
         <button
           className="mode-toggle"
           onClick={toggleLightDark}
-          title="Alternar tema claro/escuro (Aço Solar / Ferro Frio)"
+          title="Alternar claro/escuro"
         >
           {isDark ? '☀️' : '🌙'}
         </button>

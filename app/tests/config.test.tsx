@@ -85,6 +85,7 @@ describe('tela CONFIG (issue #35)', () => {
     expect(screen.getByRole('link', { name: 'CONFIG' })).toBeTruthy()
     expect(await screen.findByText('// CONFIGURAÇÕES DO SISTEMA')).toBeTruthy()
     expect(screen.getByText('Tema')).toBeTruthy()
+    expect(screen.getByText('Modo de Exibição')).toBeTruthy()
     expect(screen.getByText('Contexto')).toBeTruthy()
     expect(screen.getByText('Cor de Destaque')).toBeTruthy()
     expect(screen.getByText('Modo Mestre')).toBeTruthy()
@@ -112,6 +113,7 @@ describe('tela CONFIG (issue #35)', () => {
 
     fireEvent.click(ferroFrioTema)
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
+    expect(document.documentElement.dataset.mode).toBe('dark') // modo natural do ferro-frio
     expect(JSON.parse(localStorage.getItem('pleitost.theme')!).theme).toBe('ferro-frio')
 
     // Contexto é ortogonal: clicar CYBERPUNK muda data-context, não o tema
@@ -119,10 +121,12 @@ describe('tela CONFIG (issue #35)', () => {
     expect(document.documentElement.dataset.context).toBe('cyberpunk')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
 
-    // atalho da topbar (mesma fonte, sem reload): tema escuro → ☀️ → volta pro claro
-    expect(screen.getByTitle(/Alternar tema claro\/escuro/).textContent).toBe('☀️')
-    fireEvent.click(screen.getByTitle(/Alternar tema claro\/escuro/))
-    expect(document.documentElement.dataset.theme).toBe('aco-solar')
+    // atalho da topbar alterna o MODO do tema atual (mesma fonte, sem reload):
+    // ferro-frio escuro → ☀️ → clica → ferro-frio CLARO (tema não muda)
+    expect(screen.getByTitle('Alternar claro/escuro').textContent).toBe('☀️')
+    fireEvent.click(screen.getByTitle('Alternar claro/escuro'))
+    expect(document.documentElement.dataset.mode).toBe('light')
+    expect(document.documentElement.dataset.theme).toBe('ferro-frio') // tema mantido
   })
 
   it('Modo Mestre persiste em pleitost.settings.mestre', async () => {

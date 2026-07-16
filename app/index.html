@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" data-theme="aco-solar" data-context="fantasia">
+<html lang="pt-BR" data-theme="aco-solar" data-mode="light" data-context="fantasia">
   <head>
     <meta charset="UTF-8" />
     <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
@@ -17,8 +17,11 @@
           var t = JSON.parse(raw)
           var el = document.documentElement
           var THEMES = ['aco-solar', 'ferro-frio', 'safira', 'rubi', 'ambar', 'esmeralda']
+          var DARK_DEFAULT = { 'ferro-frio': 1, safira: 1, rubi: 1, esmeralda: 1 }
           var legacyCyber = t.theme === 'cyberpunk' || t.aesthetic === 'cyberpunk'
-          el.dataset.theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : legacyCyber ? 'ferro-frio' : 'aco-solar'
+          var theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : legacyCyber ? 'ferro-frio' : 'aco-solar'
+          el.dataset.theme = theme
+          el.dataset.mode = t.mode === 'dark' || t.mode === 'light' ? t.mode : DARK_DEFAULT[theme] ? 'dark' : 'light'
           el.dataset.context = t.context === 'cyberpunk' || legacyCyber ? 'cyberpunk' : 'fantasia'
           if (t.accent === 'custom' && typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
             el.style.setProperty('--accent', t.customAccent)
