@@ -16,14 +16,15 @@ export type Mode = 'dark' | 'light'
 export type ContextName = 'fantasia' | 'cyberpunk'
 export type AccentId = ThemeName | 'custom'
 
-/** Temas (rótulo + MODO padrão — o "natural" de cada um; o toggle alterna). */
-export const THEMES: { id: ThemeName; label: string; defaultMode: Mode }[] = [
-  { id: 'aco-solar', label: 'AÇO SOLAR', defaultMode: 'light' },
-  { id: 'ambar', label: 'ÂMBAR', defaultMode: 'light' },
-  { id: 'ferro-frio', label: 'FERRO FRIO', defaultMode: 'dark' },
-  { id: 'safira', label: 'SAFIRA', defaultMode: 'dark' },
-  { id: 'rubi', label: 'RUBI', defaultMode: 'dark' },
-  { id: 'esmeralda', label: 'ESMERALDA', defaultMode: 'dark' },
+/** Temas (só a cor). O MODO (claro/escuro) é um eixo INDEPENDENTE — trocar de
+ *  tema NÃO mexe no modo (e vice-versa). */
+export const THEMES: { id: ThemeName; label: string }[] = [
+  { id: 'aco-solar', label: 'AÇO SOLAR' },
+  { id: 'ambar', label: 'ÂMBAR' },
+  { id: 'ferro-frio', label: 'FERRO FRIO' },
+  { id: 'safira', label: 'SAFIRA' },
+  { id: 'rubi', label: 'RUBI' },
+  { id: 'esmeralda', label: 'ESMERALDA' },
 ]
 export const CONTEXTS: { id: ContextName; label: string; ic: string }[] = [
   { id: 'fantasia', label: 'FANTASIA', ic: '🏰' },
@@ -57,10 +58,6 @@ function isContext(v: unknown): v is ContextName {
 }
 function isAccentId(v: unknown): v is AccentId {
   return v === 'custom' || isThemeName(v)
-}
-/** Modo natural do tema (usado ao TROCAR de tema; o toggle sobrescreve depois). */
-function defaultModeOf(id: ThemeName): Mode {
-  return THEMES.find((t) => t.id === id)?.defaultMode ?? 'light'
 }
 
 const STORAGE_KEY = 'pleitost.theme'
@@ -96,11 +93,11 @@ function normalize(p: unknown): { state: ThemeState; legacy: boolean } {
     theme = DEFAULT.theme
     if (o.theme !== undefined || o.aesthetic !== undefined) legacy = true
   }
-  // MODO: direto; senão o modo natural do tema.
+  // MODO: eixo independente do tema; direto ou o default global.
   let mode: Mode
   if (isMode(o.mode)) mode = o.mode
   else {
-    mode = defaultModeOf(theme)
+    mode = DEFAULT.mode
     if (o.mode === undefined && (o.theme !== undefined || o.aesthetic !== undefined)) legacy = true
   }
   // CONTEXTO.
@@ -234,8 +231,9 @@ export function useTheme() {
   return {
     ...theme,
     isDark: theme.mode === 'dark',
-    /** Troca o TEMA (cor). Começa no MODO natural dele e coordena o destaque. */
-    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t, mode: defaultModeOf(t), accent: t })),
+    /** Troca só o TEMA (cor) — NÃO mexe no modo (eixo independente). Coordena o
+     *  destaque com a cor (dá pra trocar o destaque à parte depois). */
+    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t, accent: t })),
     /** Define o MODO (claro/escuro) do tema atual. */
     setMode: (mode: Mode) => writeTheme((s) => ({ ...s, mode })),
     /** Alterna claro/escuro (toggle da topbar), mantendo tema/contexto/destaque. */

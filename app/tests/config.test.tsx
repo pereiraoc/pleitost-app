@@ -111,21 +111,22 @@ describe('tela CONFIG (issue #35)', () => {
     expect(ferroFrioTema.style.getPropertyValue('--on')).toBe('0')
     expect(document.documentElement.dataset.theme).toBe('aco-solar')
 
+    // trocar de TEMA NÃO mexe no modo (eixo independente): fica no claro default
     fireEvent.click(ferroFrioTema)
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
-    expect(document.documentElement.dataset.mode).toBe('dark') // modo natural do ferro-frio
+    expect(document.documentElement.dataset.mode).toBe('light') // modo inalterado
     expect(JSON.parse(localStorage.getItem('pleitost.theme')!).theme).toBe('ferro-frio')
 
-    // Contexto é ortogonal: clicar CYBERPUNK muda data-context, não o tema
+    // Contexto é ortogonal: clicar CYBERPUNK muda data-context, não o tema/modo
     fireEvent.click(screen.getByRole('button', { name: /CYBERPUNK/ }))
     expect(document.documentElement.dataset.context).toBe('cyberpunk')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
 
-    // atalho da topbar alterna o MODO do tema atual (mesma fonte, sem reload):
-    // ferro-frio escuro → ☀️ → clica → ferro-frio CLARO (tema não muda)
-    expect(screen.getByTitle('Alternar claro/escuro').textContent).toBe('☀️')
+    // atalho da topbar alterna SÓ o MODO (mesma fonte que a linha "Modo", sem
+    // reload): claro → 🌙 → clica → escuro, tema mantido
+    expect(screen.getByTitle('Alternar claro/escuro').textContent).toBe('🌙')
     fireEvent.click(screen.getByTitle('Alternar claro/escuro'))
-    expect(document.documentElement.dataset.mode).toBe('light')
+    expect(document.documentElement.dataset.mode).toBe('dark')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio') // tema mantido
   })
 

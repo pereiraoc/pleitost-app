@@ -45,14 +45,16 @@ describe('theme — TEMA (cor) × MODO (claro/escuro)', () => {
     expect(root().dataset.context).toBe('fantasia')
   })
 
-  it('setTheme começa no MODO natural do tema (ferro-frio → escuro)', () => {
+  it('setTheme NÃO mexe no modo (eixos independentes)', () => {
     const { result } = renderHook(() => useTheme())
     act(() => result.current.setTheme('ferro-frio'))
     expect(root().dataset.theme).toBe('ferro-frio')
-    expect(root().dataset.mode).toBe('dark') // modo natural do ferro-frio
-    expect(result.current.isDark).toBe(true)
+    expect(root().dataset.mode).toBe('light') // modo inalterado (default light)
+    // escolhe escuro; trocar de tema mantém o escuro
+    act(() => result.current.setMode('dark'))
     act(() => result.current.setTheme('aco-solar'))
-    expect(root().dataset.mode).toBe('light') // natural do aco-solar
+    expect(root().dataset.theme).toBe('aco-solar')
+    expect(root().dataset.mode).toBe('dark') // modo mantido
   })
 
   it('toggleLightDark alterna o MODO do tema atual (mantém o tema)', () => {
