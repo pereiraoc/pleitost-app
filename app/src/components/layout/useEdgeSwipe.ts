@@ -4,13 +4,7 @@
 // DIREITA é drawer < 1100px (vide app.css). Fora dessas faixas o gesto não
 // faz nada (as sidebars são colunas/collapse, não drawers).
 import { useEffect, useRef } from 'react'
-import {
-  detectEdgeSwipe,
-  EDGE_ZONE_PX,
-  HORIZONTAL_DOMINANCE,
-  type DrawerState,
-  type SwipePoint,
-} from './edge-swipe'
+import { detectEdgeSwipe, HORIZONTAL_DOMINANCE, type DrawerState, type SwipePoint } from './edge-swipe'
 
 /** Larguras de corte espelhadas do app.css (drawer off-canvas). */
 const LEFT_DRAWER_MAX = 819
@@ -49,13 +43,11 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === 'mouse') return
       if (!isNarrowEnough()) return
-      // Só arma o gesto se começou na zona de borda OU se há um drawer aberto
-      // (nesse caso o swipe oposto — em qualquer ponto — fecha).
-      const s = stateRef.current
-      const nearEdge =
-        e.clientX <= EDGE_ZONE_PX || e.clientX >= window.innerWidth - EDGE_ZONE_PX
-      const anyOpen = s.leftOpen || s.rightOpen
-      if (!nearEdge && !anyOpen) return
+      // O gesto vale de QUALQUER ponto (do meio) — arrasta pra abrir/fechar. Só
+      // NÃO arma sobre scrollers horizontais de conteúdo (abas/tabelas/trio de
+      // qualidades), pra o dedo poder rolá-los pro lado sem abrir o painel.
+      const el = e.target as Element | null
+      if (el?.closest?.('.tabs-scroll, .table-scroll, .item-cell-tiers, [data-hscroll]')) return
       start = { x: e.clientX, y: e.clientY, id: e.pointerId }
     }
 

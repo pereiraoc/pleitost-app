@@ -67,18 +67,17 @@ export function detectEdgeSwipe(
   if (adx < ady * HORIZONTAL_DOMINANCE) return null
 
   const toRight = dx > 0
-  const fromLeftEdge = start.x <= EDGE_ZONE_PX
-  const fromRightEdge = start.x >= viewportWidth - EDGE_ZONE_PX
+  void viewportWidth // não mais usado: o gesto vale de QUALQUER ponto (do meio)
 
-  // FECHAR tem prioridade: com um drawer aberto, o gesto oposto o fecha
-  // (o drawer aberto cobre a tela, então o início não precisa estar na borda).
+  // FECHAR tem prioridade: com um drawer aberto, o gesto oposto o fecha.
   if (state.leftOpen && !toRight) return { kind: 'close-left' }
   if (state.rightOpen && toRight) return { kind: 'close-right' }
 
-  // ABRIR: precisa começar na borda certa e ir no sentido certo, com o
-  // respectivo drawer fechado.
-  if (!state.leftOpen && fromLeftEdge && toRight) return { kind: 'open-left' }
-  if (!state.rightOpen && fromRightEdge && !toRight) return { kind: 'open-right' }
+  // ABRIR por DIREÇÃO, de qualquer ponto da tela (pedido do usuário — não precisa
+  // começar na borda): arrastar pra DIREITA abre a ESQUERDA; pra ESQUERDA abre a
+  // DIREITA.
+  if (!state.leftOpen && toRight) return { kind: 'open-left' }
+  if (!state.rightOpen && !toRight) return { kind: 'open-right' }
 
   return null
 }
