@@ -110,11 +110,11 @@ describe('tela CONFIG (issue #35)', () => {
     fireEvent.click(cyber)
     expect(document.documentElement.dataset.aesthetic).toBe('cyberpunk')
     expect(screen.getByRole('button', { name: /CYBERPUNK RED/ }).style.getPropertyValue('--on')).toBe('1')
-    expect(JSON.parse(localStorage.getItem('pleitost-theme')!).aesthetic).toBe('cyberpunk')
+    expect(JSON.parse(localStorage.getItem('pleitost.theme')!).aesthetic).toBe('cyberpunk')
 
     fireEvent.click(screen.getByRole('button', { name: /ESCURO/ }))
     expect(document.documentElement.dataset.mode).toBe('dark')
-    expect(JSON.parse(localStorage.getItem('pleitost-theme')!).mode).toBe('dark')
+    expect(JSON.parse(localStorage.getItem('pleitost.theme')!).mode).toBe('dark')
     // o toggle da topbar compartilha a MESMA fonte (sem reload): 🌙 = dark
     expect(screen.getByTitle('Alternar modo claro/escuro').textContent).toBe('🌙')
     fireEvent.click(screen.getByRole('button', { name: /CLARO/ }))

@@ -11,7 +11,7 @@
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
-import { useTheme, type Aesthetic, type Mode } from '../../theme'
+import { useTheme, ACCENT_PRESETS, type Aesthetic, type Mode, type AccentId } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -146,6 +146,89 @@ function OptPill({
       <span style={{ fontSize: 13 }}>{ic}</span>
       <span>{label}</span>
     </button>
+  )
+}
+
+// Cor de Destaque (extensão de tema pedida pelo usuário): presets nomeados +
+// PADRÃO (usa a do tema base) + PERSONALIZADA (cor livre). Vocabulário visual
+// das pills do CONFIG, mas com bolinha de amostra no lugar do emoji.
+const ACCENT_OPTS: { id: AccentId; label: string; swatch: string | null }[] = [
+  { id: 'padrao', label: 'PADRÃO', swatch: null }, // null → gradiente do tema base
+  { id: 'esmeralda', label: ACCENT_PRESETS.esmeralda.label, swatch: ACCENT_PRESETS.esmeralda.accent },
+  { id: 'rubi', label: ACCENT_PRESETS.rubi.label, swatch: ACCENT_PRESETS.rubi.accent },
+  { id: 'safira', label: ACCENT_PRESETS.safira.label, swatch: ACCENT_PRESETS.safira.accent },
+  { id: 'ametista', label: ACCENT_PRESETS.ametista.label, swatch: ACCENT_PRESETS.ametista.accent },
+]
+
+/** Base visual das pills de destaque (mesmo padrão --on do OptPill). */
+function accentPillStyle(on: boolean): CSSProperties {
+  return {
+    '--on': on ? 1 : 0,
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 7,
+    padding: '7px 12px',
+    cursor: 'pointer',
+    border: '1px solid color-mix(in srgb,var(--accent) calc(35% + var(--on,0)*65%),var(--line2))',
+    background: 'color-mix(in srgb,var(--accent) calc(var(--on,0)*100%),transparent)',
+    color: 'color-mix(in srgb,var(--ink) calc(var(--on,0)*100%),var(--text))',
+    fontFamily: 'var(--mono)',
+    fontSize: 12,
+    letterSpacing: '.05em',
+    whiteSpace: 'nowrap',
+    clipPath: 'polygon(0 0,100% 0,100% 100%,7px 100%,0 calc(100% - 7px))',
+  } as CSSProperties
+}
+
+/** Bolinha de amostra da cor (ou gradiente do tema base quando swatch=null). */
+function Swatch({ color }: { color: string | null }) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        width: 13,
+        height: 13,
+        flex: 'none',
+        borderRadius: '50%',
+        border: '1px solid var(--line2)',
+        background: color ?? 'linear-gradient(135deg,var(--accent),var(--accent2))',
+      }}
+    />
+  )
+}
+
+/** Linha "Cor de Destaque": presets + cor personalizada (input nativo). */
+function AccentRow() {
+  const { accent, customAccent, setAccent, setCustomAccent } = useTheme()
+  const customColor = customAccent ?? '#8f611b'
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>🖌️</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Cor de Destaque</span>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+        {ACCENT_OPTS.map((o) => (
+          <button key={o.id} title={o.label} onClick={() => setAccent(o.id)} style={accentPillStyle(accent === o.id)}>
+            <Swatch color={o.swatch} />
+            <span>{o.label}</span>
+          </button>
+        ))}
+        {/* PERSONALIZADA: o <label> abre o seletor de cor nativo; escolher já
+            muda para 'custom'. Input visualmente oculto, acionado pelo label. */}
+        <label title="Cor personalizada" style={accentPillStyle(accent === 'custom')}>
+          <Swatch color={customColor} />
+          <span>PERSONALIZADA</span>
+          <input
+            type="color"
+            aria-label="Cor de destaque personalizada"
+            value={customColor}
+            onChange={(e) => setCustomAccent(e.target.value)}
+            style={{ position: 'absolute', width: 0, height: 0, padding: 0, border: 0, opacity: 0 }}
+          />
+        </label>
+      </div>
+    </div>
   )
 }
 
@@ -597,6 +680,7 @@ export function ConfigPage() {
               <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
             ))}
           </ConfigRow>
+          <AccentRow />
           <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
             {MESTRE_OPTS.map((o) => (
               <OptPill
