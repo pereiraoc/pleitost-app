@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" data-theme="aco-solar">
+<html lang="pt-BR" data-theme="aco-solar" data-context="fantasia">
   <head>
     <meta charset="UTF-8" />
     <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
@@ -16,9 +16,10 @@
           if (!raw) return
           var t = JSON.parse(raw)
           var el = document.documentElement
-          var THEMES = ['aco-solar', 'ferro-frio', 'medieval', 'cyberpunk']
-          var theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : t.aesthetic === 'cyberpunk' || t.aesthetic === 'medieval' ? t.aesthetic : 'aco-solar'
-          el.dataset.theme = theme
+          var THEMES = ['aco-solar', 'ferro-frio', 'safira', 'rubi', 'ambar', 'esmeralda']
+          var legacyCyber = t.theme === 'cyberpunk' || t.aesthetic === 'cyberpunk'
+          el.dataset.theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : legacyCyber ? 'ferro-frio' : 'aco-solar'
+          el.dataset.context = t.context === 'cyberpunk' || legacyCyber ? 'cyberpunk' : 'fantasia'
           if (t.accent === 'custom' && typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
             el.style.setProperty('--accent', t.customAccent)
             el.style.setProperty('--sb', 'color-mix(in srgb, ' + t.customAccent + ' 30%, transparent)')

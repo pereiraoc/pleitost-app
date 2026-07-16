@@ -85,37 +85,44 @@ describe('tela CONFIG (issue #35)', () => {
     expect(screen.getByRole('link', { name: 'CONFIG' })).toBeTruthy()
     expect(await screen.findByText('// CONFIGURAÇÕES DO SISTEMA')).toBeTruthy()
     expect(screen.getByText('Tema')).toBeTruthy()
+    expect(screen.getByText('Contexto')).toBeTruthy()
     expect(screen.getByText('Cor de Destaque')).toBeTruthy()
     expect(screen.getByText('Modo Mestre')).toBeTruthy()
     // #191: a versão do rodapé é a REAL do app (package.json via define). #285: o
     // formato agora é `v<semver>+<git-sha>` (build distinguível no bug report) —
     // casa o prefixo do semver, tolerando o sufixo do SHA.
     expect(screen.getByText(/^PLEITOST COMPANION\/\/OS · v0\.1\.0/)).toBeTruthy()
-    // temas completos (theme.ts THEMES)
-    expect(screen.getByRole('button', { name: /AÇO SOLAR/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /FERRO FRIO/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /MEDIEVAL/ })).toBeTruthy()
+    // Tema/Cor de Destaque compartilham os 6 nomes (AÇO SOLAR aparece nos DOIS) →
+    // getAllByRole. Contexto tem rótulos únicos (FANTASIA/CYBERPUNK).
+    expect(screen.getAllByRole('button', { name: /AÇO SOLAR/ }).length).toBeGreaterThanOrEqual(2)
+    expect(screen.getByRole('button', { name: /FANTASIA/ })).toBeTruthy()
     expect(screen.getByRole('button', { name: /CYBERPUNK/ })).toBeTruthy()
+    expect(screen.getByText('PERSONALIZADA')).toBeTruthy() // <label> do input de cor
   })
 
   it('seletor de TEMA ligado ao theme.ts real: data-theme aplicado e persistido', async () => {
     renderApp('/config')
-    const acoSolar = await screen.findByRole('button', { name: /AÇO SOLAR/ })
-    const ferroFrio = screen.getByRole('button', { name: /FERRO FRIO/ })
-    // default: aco-solar (padrão --on marca o atual)
-    expect(acoSolar.style.getPropertyValue('--on')).toBe('1')
-    expect(ferroFrio.style.getPropertyValue('--on')).toBe('0')
+    await screen.findAllByRole('button', { name: /AÇO SOLAR/ })
+    // Tema e Cor de Destaque têm os mesmos rótulos; a pill do TEMA vem 1º no DOM.
+    const acoSolarTema = screen.getAllByRole('button', { name: /AÇO SOLAR/ })[0]
+    const ferroFrioTema = screen.getAllByRole('button', { name: /FERRO FRIO/ })[0]
+    expect(acoSolarTema.style.getPropertyValue('--on')).toBe('1') // default aco-solar
+    expect(ferroFrioTema.style.getPropertyValue('--on')).toBe('0')
     expect(document.documentElement.dataset.theme).toBe('aco-solar')
 
-    fireEvent.click(ferroFrio)
+    fireEvent.click(ferroFrioTema)
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
-    expect(screen.getByRole('button', { name: /FERRO FRIO/ }).style.getPropertyValue('--on')).toBe('1')
     expect(JSON.parse(localStorage.getItem('pleitost.theme')!).theme).toBe('ferro-frio')
 
-    // o atalho da topbar compartilha a MESMA fonte (sem reload): tema escuro → ☀️
+    // Contexto é ortogonal: clicar CYBERPUNK muda data-context, não o tema
+    fireEvent.click(screen.getByRole('button', { name: /CYBERPUNK/ }))
+    expect(document.documentElement.dataset.context).toBe('cyberpunk')
+    expect(document.documentElement.dataset.theme).toBe('ferro-frio')
+
+    // atalho da topbar (mesma fonte, sem reload): tema escuro → ☀️ → volta pro claro
     expect(screen.getByTitle(/Alternar tema claro\/escuro/).textContent).toBe('☀️')
     fireEvent.click(screen.getByTitle(/Alternar tema claro\/escuro/))
-    expect(document.documentElement.dataset.theme).toBe('aco-solar') // volta pro claro-assinatura
+    expect(document.documentElement.dataset.theme).toBe('aco-solar')
   })
 
   it('Modo Mestre persiste em pleitost.settings.mestre', async () => {

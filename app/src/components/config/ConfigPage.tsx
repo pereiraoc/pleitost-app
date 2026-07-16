@@ -11,7 +11,7 @@
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
-import { useTheme, ACCENT_PRESETS, THEMES, type AccentId } from '../../theme'
+import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, type ThemeName } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -149,16 +149,13 @@ function OptPill({
   )
 }
 
-// Cor de Destaque (extensão de tema pedida pelo usuário): presets nomeados +
-// PADRÃO (usa a do tema base) + PERSONALIZADA (cor livre). Vocabulário visual
-// das pills do CONFIG, mas com bolinha de amostra no lugar do emoji.
-const ACCENT_OPTS: { id: AccentId; label: string; swatch: string | null }[] = [
-  { id: 'padrao', label: 'PADRÃO', swatch: null }, // null → gradiente do tema base
-  { id: 'esmeralda', label: ACCENT_PRESETS.esmeralda.label, swatch: ACCENT_PRESETS.esmeralda.accent },
-  { id: 'rubi', label: ACCENT_PRESETS.rubi.label, swatch: ACCENT_PRESETS.rubi.accent },
-  { id: 'safira', label: ACCENT_PRESETS.safira.label, swatch: ACCENT_PRESETS.safira.accent },
-  { id: 'ametista', label: ACCENT_PRESETS.ametista.label, swatch: ACCENT_PRESETS.ametista.accent },
-]
+// Cor de Destaque (SEPARADA do tema): as 6 cores dos temas + PERSONALIZADA.
+// Vocabulário visual das pills do CONFIG, com bolinha de amostra da cor.
+const ACCENT_OPTS: { id: ThemeName; label: string; swatch: string }[] = THEMES.map((t) => ({
+  id: t.id,
+  label: ACCENT_COLORS[t.id].label,
+  swatch: ACCENT_COLORS[t.id].accent,
+}))
 
 /** Base visual das pills de destaque (mesmo padrão --on do OptPill). */
 function accentPillStyle(on: boolean): CSSProperties {
@@ -180,8 +177,8 @@ function accentPillStyle(on: boolean): CSSProperties {
   } as CSSProperties
 }
 
-/** Bolinha de amostra da cor (ou gradiente do tema base quando swatch=null). */
-function Swatch({ color }: { color: string | null }) {
+/** Bolinha de amostra da cor de destaque. */
+function Swatch({ color }: { color: string }) {
   return (
     <span
       aria-hidden
@@ -191,7 +188,7 @@ function Swatch({ color }: { color: string | null }) {
         flex: 'none',
         borderRadius: '50%',
         border: '1px solid var(--line2)',
-        background: color ?? 'linear-gradient(135deg,var(--accent),var(--accent2))',
+        background: color,
       }}
     />
   )
@@ -625,7 +622,7 @@ function DatabaseLine() {
 }
 
 export function ConfigPage() {
-  const { theme, setTheme } = useTheme()
+  const { theme, context, setTheme, setContext } = useTheme()
   const { mestre, setMestre, desenvolvedor } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
@@ -671,10 +668,23 @@ export function ConfigPage() {
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {THEMES.map((o) => (
-                <OptPill key={o.id} ic={o.ic} label={o.label} on={theme === o.id} onClick={() => setTheme(o.id)} />
+                <button
+                  key={o.id}
+                  title={o.label}
+                  onClick={() => setTheme(o.id)}
+                  style={accentPillStyle(theme === o.id)}
+                >
+                  <Swatch color={ACCENT_COLORS[o.id].accent} />
+                  <span>{o.label}</span>
+                </button>
               ))}
             </div>
           </div>
+          <ConfigRow ic="🌐" label="Contexto">
+            {CONTEXTS.map((o) => (
+              <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />
+            ))}
+          </ConfigRow>
           <AccentRow />
           <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
             {MESTRE_OPTS.map((o) => (

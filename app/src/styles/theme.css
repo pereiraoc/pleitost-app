@@ -1,12 +1,14 @@
-/* TEMAS = paletas COMPLETAS, selecionadas por data-theme no <html> (theme.ts).
-   Cada tema troca fundo/painéis/texto/linhas/destaque — não só uma cor. A cor de
-   destaque escolhida pelo usuário (separada) sobrepõe --accent/--accent2/--sb
-   inline no :root (vence estas regras).
+/* TEMA (paleta de COR, data-theme) × CONTEXTO (fontes/vibe, data-context) —
+   eixos independentes (theme.ts). A cor de destaque escolhida sobrepõe
+   --accent/--accent2/--sb inline no :root quando difere do tema.
 
-   'medieval' e 'cyberpunk' são derivados do design (Companion App.dc.html);
-   'aco-solar' e 'ferro-frio' são temas próprios do app. */
+   Cada tema é uma paleta COMPLETA (fundo/painéis/texto/linhas/destaque). Dois
+   claros e quentes (Aço Solar, Âmbar) + quatro escuros joia (Ferro Frio, Safira,
+   Rubi, Esmeralda). As fontes vêm do CONTEXTO, não do tema. */
 
-/* ---- AÇO SOLAR (padrão) — aço claro e quente, destaque dourado solar ---- */
+/* ═══════════ TEMAS (cor) ═══════════ */
+
+/* ---- AÇO SOLAR (padrão) — aço claro e quente, destaque dourado ---- */
 :root,
 :root[data-theme='aco-solar'] {
   --bg: #e2e0da;
@@ -26,9 +28,27 @@
   --golddot: #d8b661;
   --ink: #fbf6ea;
   --sb: rgba(198, 138, 30, 0.3);
-  --mono: 'Cinzel', serif;
-  --body: 'Spectral', Georgia, serif;
-  --display: 'Cinzel', serif;
+}
+
+/* ---- ÂMBAR — mel claro e quente, destaque âmbar ---- */
+:root[data-theme='ambar'] {
+  --bg: #efe6d2;
+  --side: #e6d9bf;
+  --panel: #f6efdd;
+  --panel2: #ede2c8;
+  --card: #fcf7ea;
+  --line: rgba(90, 60, 20, 0.14);
+  --line2: rgba(90, 60, 20, 0.26);
+  --text: #3a2c17;
+  --muted: #7d6538;
+  --accent: #d99a2b;
+  --accent2: #7a8a55;
+  --red: #b3402c;
+  --blue: #45689e;
+  --gold: #b98a2c;
+  --golddot: #e6c069;
+  --ink: #fdf7e6;
+  --sb: rgba(217, 154, 43, 0.3);
 }
 
 /* ---- FERRO FRIO — bem escuro, cinza + roxo, destaque ametista ---- */
@@ -50,61 +70,89 @@
   --golddot: #c9b877;
   --ink: #100e16;
   --sb: rgba(154, 127, 214, 0.24);
-  --mono: 'Share Tech Mono', monospace;
-  --body: 'Chakra Petch', system-ui, sans-serif;
-  --display: 'Chakra Petch', system-ui, sans-serif;
 }
 
-/* ---- MEDIEVAL — pergaminho quente (design: medieval light) ---- */
-:root[data-theme='medieval'] {
-  --bg: #e7dabd;
-  --side: #dccfac;
-  --panel: #f1e8d2;
-  --panel2: #e6dabb;
-  --card: #f8f2e3;
-  --line: rgba(74, 52, 20, 0.14);
-  --line2: rgba(74, 52, 20, 0.26);
-  --text: #352815;
-  --muted: #776242;
-  --accent: #8f611b;
-  --accent2: #3d7355;
-  --red: #a8392a;
-  --blue: #3c5c95;
-  --gold: #876722;
-  --golddot: #dcb55f;
-  --ink: #fbf4e2;
-  --sb: rgba(143, 97, 27, 0.32);
+/* ---- SAFIRA — azul profundo, destaque safira ---- */
+:root[data-theme='safira'] {
+  --bg: #090d16;
+  --side: #070a12;
+  --panel: #101627;
+  --panel2: #151d33;
+  --card: #1b2540;
+  --line: rgba(120, 160, 220, 0.1);
+  --line2: rgba(120, 160, 220, 0.22);
+  --text: #d4e0f2;
+  --muted: #7f92b3;
+  --accent: #4a86e8;
+  --accent2: #46b0c0;
+  --red: #e0574a;
+  --blue: #6ba0f0;
+  --gold: #cbb46a;
+  --golddot: #d9c47a;
+  --ink: #0a0f1c;
+  --sb: rgba(74, 134, 232, 0.24);
+}
+
+/* ---- RUBI — carmesim profundo, destaque rubi ---- */
+:root[data-theme='rubi'] {
+  --bg: #140809;
+  --side: #100607;
+  --panel: #1e0f11;
+  --panel2: #281417;
+  --card: #331a1e;
+  --line: rgba(220, 150, 150, 0.1);
+  --line2: rgba(220, 150, 150, 0.22);
+  --text: #f0dcdc;
+  --muted: #b38a8a;
+  --accent: #e0503f;
+  --accent2: #d99a3a;
+  --red: #ff5a4a;
+  --blue: #9a8fd0;
+  --gold: #d9b25a;
+  --golddot: #e6c46a;
+  --ink: #1a0a0b;
+  --sb: rgba(224, 80, 63, 0.24);
+}
+
+/* ---- ESMERALDA — verde profundo, destaque esmeralda ---- */
+:root[data-theme='esmeralda'] {
+  --bg: #07130d;
+  --side: #050f0a;
+  --panel: #0e1d15;
+  --panel2: #12261b;
+  --card: #183025;
+  --line: rgba(140, 210, 170, 0.1);
+  --line2: rgba(140, 210, 170, 0.22);
+  --text: #d6ecdf;
+  --muted: #82a892;
+  --accent: #35b87a;
+  --accent2: #c2a24a;
+  --red: #e0574a;
+  --blue: #6ba0d0;
+  --gold: #cbb45a;
+  --golddot: #d9c46a;
+  --ink: #0a1a12;
+  --sb: rgba(53, 184, 122, 0.24);
+}
+
+/* ═══════════ CONTEXTOS (fontes/vibe) ═══════════ */
+
+/* ---- FANTASIA (padrão) — serifada, elegante ---- */
+:root,
+:root[data-context='fantasia'] {
   --mono: 'Cinzel', serif;
   --body: 'Spectral', Georgia, serif;
   --display: 'Cinzel', serif;
 }
 
-/* ---- CYBERPUNK — neon escuro (design: cyberpunk dark) ---- */
-:root[data-theme='cyberpunk'] {
-  --bg: #080a0e;
-  --side: #0b0f14;
-  --panel: #0f141a;
-  --panel2: #141a21;
-  --card: #1a212a;
-  --line: rgba(255, 255, 255, 0.07);
-  --line2: rgba(255, 255, 255, 0.15);
-  --text: #e7ebf0;
-  --muted: #7f8a99;
-  --accent: #f5e90a;
-  --accent2: #0bd3e0;
-  --red: #ff4438;
-  --blue: #6c9ce8;
-  --gold: #e0bd55;
-  --golddot: #e0bd55;
-  --ink: #0a0e13;
-  --sb: rgba(245, 233, 10, 0.22);
+/* ---- CYBERPUNK — monoespaçada, técnica ---- */
+:root[data-context='cyberpunk'] {
   --mono: 'Share Tech Mono', monospace;
   --body: 'Chakra Petch', system-ui, sans-serif;
   --display: 'Chakra Petch', system-ui, sans-serif;
 }
 
-/* ---- vars Obsidian referenciadas por tokens.css (gerado do plugin) ----
-   Mapeamento documentado design→Obsidian; ajustar aqui se ficar estranho: */
+/* ---- vars Obsidian referenciadas por tokens.css (gerado do plugin) ---- */
 :root {
   --background-primary: var(--panel);
   --background-secondary: var(--panel2);

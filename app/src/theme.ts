@@ -1,49 +1,60 @@
-// Tema do app — TEMA (paleta completa) + COR DE DESTAQUE (separados, pedido do
-// usuário).
+// Tema do app — TRÊS eixos independentes (pedido do usuário):
+//   • TEMA (paleta completa de cor): aco-solar, ferro-frio, safira, rubi, ambar,
+//     esmeralda. Seleciona a paleta INTEIRA (fundo/painéis/texto/…) via data-theme.
+//   • CONTEXTO (vibe + fontes): fantasia | cyberpunk. Troca as fontes/estilo via
+//     data-context, ortogonal à cor.
+//   • COR DE DESTAQUE: as mesmas 6 cores + Customizada. Sobrepõe --accent/--accent2/
+//     --sb inline QUANDO difere do tema (quando coincide, deixa a paleta mandar).
 //
-// TEMA: um nome que seleciona a PALETA INTEIRA (fundo/painéis/texto/linhas/…) em
-// styles/theme.css via `data-theme` no <html>. São paletas completas e bem
-// distintas (não só troca de uma cor): 'aco-solar' (padrão, aço claro e quente),
-// 'ferro-frio' (bem escuro, cinza + roxo), 'medieval' (pergaminho), 'cyberpunk'
-// (neon escuro).
-//
-// COR DE DESTAQUE: SEPARADA do tema — sobrepõe --accent/--accent2/--sb como
-// override inline no :root (vence a folha), recolorindo realces/ativos sem mexer
-// no resto da paleta do tema. 'padrao' = usa o destaque do próprio tema.
-//
-// Estado de MÓDULO via useSyncExternalStore. Persiste em `pleitost.theme` (chave
-// que SINCRONIZA por conta via remote-persist #239). Migra chaves/shapes antigos.
+// Tudo em styles/theme.css (data-theme = paletas, data-context = fontes). Estado
+// de módulo via useSyncExternalStore. Persiste em `pleitost.theme` (sincroniza por
+// conta via remote-persist #239); migra shapes antigos.
 import { useSyncExternalStore } from 'react'
 
-/** Tema = paleta completa nomeada. */
-export type ThemeName = 'aco-solar' | 'ferro-frio' | 'medieval' | 'cyberpunk'
-/** Cor de destaque: 'padrao' = a do tema; 'custom' = cor livre; resto = preset. */
-export type AccentId = 'padrao' | 'esmeralda' | 'rubi' | 'safira' | 'ametista' | 'custom'
+/** Tema = paleta de cor nomeada. */
+export type ThemeName = 'aco-solar' | 'ferro-frio' | 'safira' | 'rubi' | 'ambar' | 'esmeralda'
+/** Contexto = vibe/fontes. */
+export type ContextName = 'fantasia' | 'cyberpunk'
+/** Cor de destaque = uma das 6 cores, ou 'custom'. */
+export type AccentId = ThemeName | 'custom'
 
-/** Metadados dos temas (rótulo, ícone, se é escuro — pro toggle da topbar). */
-export const THEMES: { id: ThemeName; label: string; ic: string; dark: boolean }[] = [
-  { id: 'aco-solar', label: 'AÇO SOLAR', ic: '🔆', dark: false },
-  { id: 'ferro-frio', label: 'FERRO FRIO', ic: '🌑', dark: true },
-  { id: 'medieval', label: 'MEDIEVAL', ic: '🏰', dark: false },
-  { id: 'cyberpunk', label: 'CYBERPUNK', ic: '🌃', dark: true },
+/** Temas (rótulo + se é escuro, pro toggle claro/escuro da topbar). */
+export const THEMES: { id: ThemeName; label: string; dark: boolean }[] = [
+  { id: 'aco-solar', label: 'AÇO SOLAR', dark: false },
+  { id: 'ambar', label: 'ÂMBAR', dark: false },
+  { id: 'ferro-frio', label: 'FERRO FRIO', dark: true },
+  { id: 'safira', label: 'SAFIRA', dark: true },
+  { id: 'rubi', label: 'RUBI', dark: true },
+  { id: 'esmeralda', label: 'ESMERALDA', dark: true },
 ]
+export const CONTEXTS: { id: ContextName; label: string; ic: string }[] = [
+  { id: 'fantasia', label: 'FANTASIA', ic: '🏰' },
+  { id: 'cyberpunk', label: 'CYBERPUNK', ic: '🌃' },
+]
+
+/** Cores de destaque — ESPELHAM os --accent/--accent2 das paletas em theme.css
+ *  (mesma cor, pra a seleção de destaque bater com o tema homônimo). */
+export const ACCENT_COLORS: Record<ThemeName, { label: string; accent: string; accent2: string }> = {
+  'aco-solar': { label: 'AÇO SOLAR', accent: '#c68a1e', accent2: '#4f7d84' },
+  'ferro-frio': { label: 'FERRO FRIO', accent: '#9a7fd6', accent2: '#6f8a9e' },
+  safira: { label: 'SAFIRA', accent: '#4a86e8', accent2: '#46b0c0' },
+  rubi: { label: 'RUBI', accent: '#e0503f', accent2: '#d99a3a' },
+  ambar: { label: 'ÂMBAR', accent: '#d99a2b', accent2: '#7a8a55' },
+  esmeralda: { label: 'ESMERALDA', accent: '#35b87a', accent2: '#c2a24a' },
+}
+
 const THEME_IDS = THEMES.map((t) => t.id)
 function isThemeName(v: unknown): v is ThemeName {
   return typeof v === 'string' && (THEME_IDS as string[]).includes(v)
 }
+function isContext(v: unknown): v is ContextName {
+  return v === 'fantasia' || v === 'cyberpunk'
+}
+function isAccentId(v: unknown): v is AccentId {
+  return v === 'custom' || isThemeName(v)
+}
 function isDarkTheme(id: ThemeName): boolean {
   return THEMES.find((t) => t.id === id)?.dark ?? false
-}
-
-/** Presets de destaque — recolorem --accent/--accent2 (e --sb, derivada). */
-export const ACCENT_PRESETS: Record<
-  Exclude<AccentId, 'padrao' | 'custom'>,
-  { label: string; accent: string; accent2: string }
-> = {
-  esmeralda: { label: 'ESMERALDA', accent: '#2f9e6b', accent2: '#b3823a' },
-  rubi: { label: 'RUBI', accent: '#c4433a', accent2: '#c79233' },
-  safira: { label: 'SAFIRA', accent: '#3f74c9', accent2: '#3fa08f' },
-  ametista: { label: 'AMETISTA', accent: '#8b5bd0', accent2: '#4fa38c' },
 }
 
 const STORAGE_KEY = 'pleitost.theme'
@@ -51,33 +62,52 @@ const OLD_STORAGE_KEY = 'pleitost-theme'
 
 export interface ThemeState {
   theme: ThemeName
+  context: ContextName
   accent: AccentId
-  /** Cor hex livre — usada só quando accent === 'custom'. */
   customAccent: string | null
 }
 
-const DEFAULT: ThemeState = { theme: 'aco-solar', accent: 'padrao', customAccent: null }
+const DEFAULT: ThemeState = { theme: 'aco-solar', context: 'fantasia', accent: 'aco-solar', customAccent: null }
 
-function isAccentId(v: unknown): v is AccentId {
-  return v === 'padrao' || v === 'custom' || (typeof v === 'string' && v in ACCENT_PRESETS)
-}
-
-/** Sanitiza qualquer JSON persistido (inclusive shapes antigos com mode/aesthetic)
- *  num ThemeState completo — nunca confia no storage. */
-function normalize(p: unknown): ThemeState {
+/** Sanitiza qualquer JSON persistido (inclusive shapes antigos) num ThemeState. */
+function normalize(p: unknown): { state: ThemeState; legacy: boolean } {
   const o = (typeof p === 'object' && p !== null ? p : {}) as Record<string, unknown>
-  const hex = typeof o.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(o.customAccent) ? o.customAccent : null
-  // theme direto; senão deriva do 'aesthetic' antigo (medieval/cyberpunk); senão default.
-  const theme: ThemeName = isThemeName(o.theme)
-    ? o.theme
-    : o.aesthetic === 'medieval' || o.aesthetic === 'cyberpunk'
-      ? o.aesthetic
-      : DEFAULT.theme
-  return {
-    theme,
-    accent: isAccentId(o.accent) ? o.accent : 'padrao',
-    customAccent: hex,
+  let legacy = false
+  // TEMA: novo direto; senão deriva do antigo (medieval/cyberpunk viraram
+  // contexto → tema neutro claro/escuro).
+  let theme: ThemeName
+  if (isThemeName(o.theme)) theme = o.theme
+  else if (o.theme === 'cyberpunk' || o.aesthetic === 'cyberpunk') {
+    theme = 'ferro-frio'
+    legacy = true
+  } else {
+    theme = DEFAULT.theme
+    if (o.theme !== undefined || o.aesthetic !== undefined) legacy = true
   }
+  // CONTEXTO: novo direto; senão deriva (cyberpunk antigo → cyberpunk).
+  let context: ContextName
+  if (isContext(o.context)) context = o.context
+  else {
+    context = o.theme === 'cyberpunk' || o.aesthetic === 'cyberpunk' ? 'cyberpunk' : DEFAULT.context
+    if (o.context === undefined) legacy = true
+  }
+  // DESTAQUE: novo direto; 'padrao' antigo → segue o tema; 'ametista' antigo →
+  // ferro-frio (roxo). Senão default = o tema.
+  let accent: AccentId
+  if (isAccentId(o.accent)) accent = o.accent
+  else if (o.accent === 'padrao') {
+    accent = theme
+    legacy = true
+  } else if (o.accent === 'ametista') {
+    accent = 'ferro-frio'
+    legacy = true
+  } else {
+    accent = theme
+    if (o.accent !== undefined) legacy = true
+  }
+  const customAccent =
+    typeof o.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(o.customAccent) ? o.customAccent : null
+  return { state: { theme, context, accent, customAccent }, legacy }
 }
 
 function loadTheme(): ThemeState {
@@ -86,7 +116,6 @@ function loadTheme(): ThemeState {
   try {
     raw = localStorage.getItem(STORAGE_KEY)
     if (raw == null) {
-      // migração: chave antiga (hífen) não casava com o SYNCED → não sincronizava.
       const old = localStorage.getItem(OLD_STORAGE_KEY)
       if (old != null) {
         raw = old
@@ -104,13 +133,11 @@ function loadTheme(): ThemeState {
   let result: ThemeState = { ...DEFAULT }
   if (raw != null) {
     try {
-      const parsed = JSON.parse(raw) as Record<string, unknown>
-      result = normalize(parsed)
-      // shape antigo ({mode,aesthetic} sem `theme` válido) → re-persistir o novo,
-      // pra a conta sincronizar o formato atual (não o legado).
-      if (!isThemeName(parsed?.theme)) needsPersist = true
+      const { state, legacy } = normalize(JSON.parse(raw))
+      result = state
+      if (legacy) needsPersist = true // shape antigo → re-persiste o formato novo
     } catch {
-      needsPersist = true // corrompido → grava o default limpo
+      needsPersist = true
     }
   }
   if (needsPersist) {
@@ -126,33 +153,37 @@ function loadTheme(): ThemeState {
 let state: ThemeState | null = null
 const listeners = new Set<() => void>()
 
-/** Override de destaque efetivo (ou null = usar o do tema). */
-function accentOverride(theme: ThemeState): { accent: string; accent2: string | null } | null {
-  if (theme.accent === 'custom') {
-    return theme.customAccent ? { accent: theme.customAccent, accent2: null } : null
-  }
-  if (theme.accent === 'padrao') return null
-  const p = ACCENT_PRESETS[theme.accent]
-  return p ? { accent: p.accent, accent2: p.accent2 } : null
-}
-
 function applyDom(t: ThemeState) {
   if (typeof document === 'undefined') return
   const root = document.documentElement
   root.dataset.theme = t.theme
-  const ov = accentOverride(t)
+  root.dataset.context = t.context
   const s = root.style
-  if (!ov) {
-    // 'padrão' → remove overrides, deixa o destaque do tema aparecer.
+  // Custom → sobrepõe só --accent (+ --sb); --accent2 fica do tema.
+  if (t.accent === 'custom') {
+    if (t.customAccent) {
+      s.setProperty('--accent', t.customAccent)
+      s.removeProperty('--accent2')
+      s.setProperty('--sb', `color-mix(in srgb, ${t.customAccent} 30%, transparent)`)
+    } else {
+      s.removeProperty('--accent')
+      s.removeProperty('--accent2')
+      s.removeProperty('--sb')
+    }
+    return
+  }
+  // Destaque = o do próprio tema → sem override (deixa a paleta mandar).
+  if (t.accent === t.theme) {
     s.removeProperty('--accent')
     s.removeProperty('--accent2')
     s.removeProperty('--sb')
     return
   }
-  s.setProperty('--accent', ov.accent)
-  if (ov.accent2) s.setProperty('--accent2', ov.accent2)
-  else s.removeProperty('--accent2') // custom só define accent; accent2 fica do tema
-  s.setProperty('--sb', `color-mix(in srgb, ${ov.accent} 30%, transparent)`)
+  // Destaque de OUTRA cor → sobrepõe.
+  const c = ACCENT_COLORS[t.accent]
+  s.setProperty('--accent', c.accent)
+  s.setProperty('--accent2', c.accent2)
+  s.setProperty('--sb', `color-mix(in srgb, ${c.accent} 30%, transparent)`)
 }
 
 function getTheme(): ThemeState {
@@ -185,17 +216,22 @@ export function useTheme() {
   const theme = useSyncExternalStore(subscribe, getTheme)
   return {
     ...theme,
-    /** True se o tema atual é escuro (pro ícone do toggle). */
     isDark: isDarkTheme(theme.theme),
-    /** Escolhe um tema completo. */
-    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t })),
+    /** Escolhe o TEMA (paleta). Coordena o destaque com ele (a cor homônima),
+     *  mantendo os dois selecionáveis à parte depois. */
+    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t, accent: t })),
+    /** Escolhe o CONTEXTO (vibe/fontes). */
+    setContext: (c: ContextName) => writeTheme((s) => ({ ...s, context: c })),
+    /** Escolhe a COR DE DESTAQUE (independente do tema). */
+    setAccent: (accent: AccentId) => writeTheme((s) => ({ ...s, accent })),
+    /** Cor de destaque livre. */
+    setCustomAccent: (hex: string) => writeTheme((s) => ({ ...s, accent: 'custom', customAccent: hex })),
     /** Atalho claro/escuro da topbar: pula pro tema-assinatura oposto. */
     toggleLightDark: () =>
-      writeTheme((s) => ({ ...s, theme: isDarkTheme(s.theme) ? 'aco-solar' : 'ferro-frio' })),
-    /** Preset de destaque (ou 'padrao'). */
-    setAccent: (accent: AccentId) => writeTheme((s) => ({ ...s, accent })),
-    /** Cor de destaque livre — já muda para 'custom'. */
-    setCustomAccent: (hex: string) => writeTheme((s) => ({ ...s, accent: 'custom', customAccent: hex })),
+      writeTheme((s) => {
+        const t: ThemeName = isDarkTheme(s.theme) ? 'aco-solar' : 'ferro-frio'
+        return { ...s, theme: t, accent: t }
+      }),
   }
 }
 

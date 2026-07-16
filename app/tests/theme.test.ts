@@ -1,16 +1,14 @@
 // @vitest-environment jsdom
-// Tema (theme.ts): TEMA = paleta completa via data-theme; COR DE DESTAQUE separada
-// (override inline de --accent/--accent2/--sb). Persiste em `pleitost.theme` (chave
-// que sincroniza por conta), migrando shape antigo {mode,aesthetic}.
+// Tema (theme.ts): 3 eixos — TEMA (paleta, data-theme), CONTEXTO (fontes,
+// data-context) e COR DE DESTAQUE (override inline quando difere do tema).
+// Persiste em `pleitost.theme` (sincroniza por conta); migra shapes antigos.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { act, cleanup, renderHook } from '@testing-library/react'
-import { ACCENT_PRESETS, useTheme, __resetThemeForTests } from '../src/theme'
+import { ACCENT_COLORS, useTheme, __resetThemeForTests } from '../src/theme'
 
 const root = () => document.documentElement
 const cssVar = (name: string) => root().style.getPropertyValue(name)
 
-// jsdom+vitest: o localStorage nativo do Node sombreia o do jsdom (vem undefined).
-// Instala um mock em memória em globalThis pra o teste E o theme.ts compartilharem.
 beforeAll(() => {
   const store = new Map<string, string>()
   const mock = {
@@ -35,63 +33,65 @@ afterEach(() => {
   __resetThemeForTests()
 })
 
-describe('theme — tema (paleta completa)', () => {
-  it('default é aco-solar e vira data-theme no <html>', () => {
+describe('theme — TEMA (paleta) e CONTEXTO', () => {
+  it('default: aco-solar + fantasia; vira data-theme/data-context no <html>', () => {
     const { result } = renderHook(() => useTheme())
     expect(result.current.theme).toBe('aco-solar')
+    expect(result.current.context).toBe('fantasia')
     expect(result.current.isDark).toBe(false)
     expect(root().dataset.theme).toBe('aco-solar')
+    expect(root().dataset.context).toBe('fantasia')
   })
 
-  it('setTheme troca o tema (aplica data-theme e marca escuro)', () => {
+  it('setTheme troca a paleta e coordena o destaque com ela', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setTheme('ferro-frio'))
-    expect(root().dataset.theme).toBe('ferro-frio')
+    act(() => result.current.setTheme('safira'))
+    expect(root().dataset.theme).toBe('safira')
+    expect(result.current.accent).toBe('safira') // coordenado
     expect(result.current.isDark).toBe(true)
-    act(() => result.current.setTheme('medieval'))
-    expect(root().dataset.theme).toBe('medieval')
-    expect(result.current.isDark).toBe(false)
+    // destaque coincide com o tema → sem override inline (paleta manda)
+    expect(cssVar('--accent')).toBe('')
   })
 
-  it('toggleLightDark pula entre os temas-assinatura claro/escuro', () => {
+  it('setContext é ortogonal (só troca as fontes/data-context)', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.toggleLightDark()) // aco-solar (claro) → ferro-frio
+    act(() => result.current.setTheme('rubi'))
+    act(() => result.current.setContext('cyberpunk'))
+    expect(root().dataset.context).toBe('cyberpunk')
+    expect(root().dataset.theme).toBe('rubi') // tema intacto
+  })
+
+  it('toggleLightDark pula aco-solar (claro) ↔ ferro-frio (escuro)', () => {
+    const { result } = renderHook(() => useTheme())
+    act(() => result.current.toggleLightDark())
     expect(result.current.theme).toBe('ferro-frio')
-    act(() => result.current.toggleLightDark()) // ferro-frio (escuro) → aco-solar
+    act(() => result.current.toggleLightDark())
     expect(result.current.theme).toBe('aco-solar')
   })
 })
 
-describe('theme — cor de destaque (separada do tema)', () => {
-  it('preset aplica --accent/--accent2/--sb inline e persiste, sem mexer no tema', () => {
+describe('theme — COR DE DESTAQUE (separada do tema)', () => {
+  it('destaque de OUTRA cor sobrepõe --accent/--accent2/--sb inline', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setTheme('ferro-frio'))
-    act(() => result.current.setAccent('rubi'))
-    expect(result.current.theme).toBe('ferro-frio') // tema intacto
-    expect(cssVar('--accent')).toBe(ACCENT_PRESETS.rubi.accent)
-    expect(cssVar('--accent2')).toBe(ACCENT_PRESETS.rubi.accent2)
-    expect(cssVar('--sb')).toContain('color-mix')
-    const saved = JSON.parse(localStorage.getItem('pleitost.theme') as string)
-    expect(saved.accent).toBe('rubi')
-    expect(saved.theme).toBe('ferro-frio')
+    act(() => result.current.setTheme('esmeralda')) // tema+destaque esmeralda
+    act(() => result.current.setAccent('rubi')) // destaque diferente → override
+    expect(root().dataset.theme).toBe('esmeralda') // tema intacto
+    expect(cssVar('--accent')).toBe(ACCENT_COLORS.rubi.accent)
+    expect(cssVar('--accent2')).toBe(ACCENT_COLORS.rubi.accent2)
+    expect(cssVar('--sb')).toContain(ACCENT_COLORS.rubi.accent)
   })
 
-  it("'padrao' remove os overrides (destaque do tema reaparece)", () => {
+  it('destaque IGUAL ao tema não gera override (paleta manda)', () => {
     const { result } = renderHook(() => useTheme())
     act(() => result.current.setAccent('safira'))
-    expect(cssVar('--accent')).toBe(ACCENT_PRESETS.safira.accent)
-    act(() => result.current.setAccent('padrao'))
+    act(() => result.current.setTheme('safira'))
     expect(cssVar('--accent')).toBe('')
-    expect(cssVar('--accent2')).toBe('')
-    expect(cssVar('--sb')).toBe('')
   })
 
-  it('setCustomAccent muda para custom, define --accent e não define --accent2', () => {
+  it('setCustomAccent define --accent, não define --accent2', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setAccent('rubi'))
     act(() => result.current.setCustomAccent('#123456'))
     expect(result.current.accent).toBe('custom')
-    expect(result.current.customAccent).toBe('#123456')
     expect(cssVar('--accent')).toBe('#123456')
     expect(cssVar('--accent2')).toBe('')
   })
@@ -100,26 +100,27 @@ describe('theme — cor de destaque (separada do tema)', () => {
 describe('theme — persistência e migração', () => {
   it('persiste na chave nova pleitost.theme', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setTheme('cyberpunk'))
-    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('cyberpunk')
+    act(() => result.current.setTheme('rubi'))
+    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('rubi')
   })
 
-  it('migra shape antigo {mode,aesthetic} → theme, e chave antiga pleitost-theme', () => {
-    localStorage.setItem('pleitost-theme', JSON.stringify({ mode: 'dark', aesthetic: 'cyberpunk' }))
+  it('migra shape antigo {mode,aesthetic:cyberpunk} → ferro-frio + contexto cyberpunk', () => {
+    localStorage.setItem('pleitost-theme', JSON.stringify({ mode: 'dark', aesthetic: 'cyberpunk', accent: 'ametista' }))
     __resetThemeForTests()
     const { result } = renderHook(() => useTheme())
-    expect(result.current.theme).toBe('cyberpunk') // aesthetic antigo → theme
-    expect(result.current.accent).toBe('padrao')
+    expect(result.current.theme).toBe('ferro-frio')
+    expect(result.current.context).toBe('cyberpunk')
+    expect(result.current.accent).toBe('ferro-frio') // ametista antigo → ferro-frio (roxo)
     expect(localStorage.getItem('pleitost-theme')).toBeNull()
-    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('cyberpunk')
+    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('ferro-frio')
   })
 
-  it('normalize rejeita lixo e cai no default aco-solar', () => {
-    localStorage.setItem('pleitost.theme', JSON.stringify({ theme: 'nope', accent: 42, customAccent: 'xyz' }))
+  it('normalize rejeita lixo e cai no default aco-solar/fantasia', () => {
+    localStorage.setItem('pleitost.theme', JSON.stringify({ theme: 'nope', context: 9, accent: 'xyz' }))
     __resetThemeForTests()
     const { result } = renderHook(() => useTheme())
     expect(result.current.theme).toBe('aco-solar')
-    expect(result.current.accent).toBe('padrao')
-    expect(result.current.customAccent).toBeNull()
+    expect(result.current.context).toBe('fantasia')
+    expect(result.current.accent).toBe('aco-solar')
   })
 })
