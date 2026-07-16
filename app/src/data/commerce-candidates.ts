@@ -6,6 +6,7 @@
 // TODOS do sistema (típico se está nos Recursos, senão incomum).
 import type { VaultDoc } from './types'
 import { precoPO } from '../grupo/wealth'
+import { aplicavelPredicates, hostStatsFromDoc, isAplicavelAoHost } from '../rules/aplicavel-a'
 import {
   RARIDADE_MULT,
   comboMult,
@@ -71,7 +72,12 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
 
   // 2) Combos ARMA(típica)×IMBUIÇÃO — "Adaga Relampejante" (preço = imbuição).
   for (const arma of input.armasTipicas) {
+    const host = hostStatsFromDoc(arma)
     for (const imb of input.imbuicoes) {
+      // #288: só oferece o combo se a imbuição é APLICÁVEL a esta arma (AplicavelA
+      // do sistema) — antes toda arma × toda imbuição virava carta, gerando combos
+      // incompatíveis (ex.: imbuição de Tipo,corte numa arma perfurante).
+      if (!isAplicavelAoHost(aplicavelPredicates(imb), host)) continue
       const adj = imbuicaoAdjetivo(imb.basename)
       candidates.push({
         key: `${arma.id}|${imb.id}`,
@@ -86,7 +92,9 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
       })
     }
     // 3) Arma Obra-prima (básico) aplicada à arma típica — "Adaga Obra-prima".
-    if (obraPrimaArma) {
+    //    #288: mesmo filtro AplicavelA — a obra-prima de arma exige Subcategoria,Arma
+    //    + Grupo,cac-*|d-*; armas fora desses grupos não recebem o combo.
+    if (obraPrimaArma && isAplicavelAoHost(aplicavelPredicates(obraPrimaArma), host)) {
       candidates.push({
         key: `${arma.id}|obra-prima`,
         nome: `${arma.basename} Obra-prima`,
