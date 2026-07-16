@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="pt-BR" data-aesthetic="medieval" data-mode="light">
+<html lang="pt-BR" data-theme="aco-solar">
   <head>
     <meta charset="UTF-8" />
     <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Pleitost</title>
-    <!-- Primer de tema pré-paint (evita FOUC): aplica data-mode/data-aesthetic e a
-         cor personalizada ANTES do React montar, lendo `pleitost.theme` (mesma
-         fonte do theme.ts, com fallback pra chave antiga). Presets nomeados de
+    <!-- Primer de tema pré-paint (evita FOUC): aplica data-theme e a cor
+         personalizada ANTES do React montar, lendo `pleitost.theme` (mesma fonte
+         do theme.ts, com migração da chave/shape antigos). Presets nomeados de
          destaque aplicam no mount (flash desprezível). Espelho de applyDom. -->
     <script>
       ;(function () {
@@ -16,8 +16,9 @@
           if (!raw) return
           var t = JSON.parse(raw)
           var el = document.documentElement
-          if (t.mode === 'dark' || t.mode === 'light') el.dataset.mode = t.mode
-          if (t.aesthetic === 'cyberpunk' || t.aesthetic === 'medieval') el.dataset.aesthetic = t.aesthetic
+          var THEMES = ['aco-solar', 'ferro-frio', 'medieval', 'cyberpunk']
+          var theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : t.aesthetic === 'cyberpunk' || t.aesthetic === 'medieval' ? t.aesthetic : 'aco-solar'
+          el.dataset.theme = theme
           if (t.accent === 'custom' && typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
             el.style.setProperty('--accent', t.customAccent)
             el.style.setProperty('--sb', 'color-mix(in srgb, ' + t.customAccent + ' 30%, transparent)')

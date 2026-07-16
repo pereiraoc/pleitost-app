@@ -84,41 +84,38 @@ describe('tela CONFIG (issue #35)', () => {
     // CONFIG agora é NavLink (rota implementada), não botão disabled
     expect(screen.getByRole('link', { name: 'CONFIG' })).toBeTruthy()
     expect(await screen.findByText('// CONFIGURAÇÕES DO SISTEMA')).toBeTruthy()
-    expect(screen.getByText('Tema da Interface')).toBeTruthy()
-    expect(screen.getByText('Modo de Exibição')).toBeTruthy()
+    expect(screen.getByText('Tema')).toBeTruthy()
+    expect(screen.getByText('Cor de Destaque')).toBeTruthy()
     expect(screen.getByText('Modo Mestre')).toBeTruthy()
     // #191: a versão do rodapé é a REAL do app (package.json via define). #285: o
     // formato agora é `v<semver>+<git-sha>` (build distinguível no bug report) —
     // casa o prefixo do semver, tolerando o sufixo do SHA.
     expect(screen.getByText(/^PLEITOST COMPANION\/\/OS · v0\.1\.0/)).toBeTruthy()
-    // opções verbatim do themeOpts/modeOpts do design
-    expect(screen.getByRole('button', { name: /CYBERPUNK RED/ })).toBeTruthy()
+    // temas completos (theme.ts THEMES)
+    expect(screen.getByRole('button', { name: /AÇO SOLAR/ })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /FERRO FRIO/ })).toBeTruthy()
     expect(screen.getByRole('button', { name: /MEDIEVAL/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /ESCURO/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /CLARO/ })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /CYBERPUNK/ })).toBeTruthy()
   })
 
-  it('themeOpts ligadas ao theme.ts real: aesthetic e mode aplicados e persistidos', async () => {
+  it('seletor de TEMA ligado ao theme.ts real: data-theme aplicado e persistido', async () => {
     renderApp('/config')
-    const medieval = await screen.findByRole('button', { name: /MEDIEVAL/ })
-    const cyber = screen.getByRole('button', { name: /CYBERPUNK RED/ })
-    // default do design: medieval + light (padrão --on marca a atual)
-    expect(medieval.style.getPropertyValue('--on')).toBe('1')
-    expect(cyber.style.getPropertyValue('--on')).toBe('0')
-    expect(document.documentElement.dataset.aesthetic).toBe('medieval')
+    const acoSolar = await screen.findByRole('button', { name: /AÇO SOLAR/ })
+    const ferroFrio = screen.getByRole('button', { name: /FERRO FRIO/ })
+    // default: aco-solar (padrão --on marca o atual)
+    expect(acoSolar.style.getPropertyValue('--on')).toBe('1')
+    expect(ferroFrio.style.getPropertyValue('--on')).toBe('0')
+    expect(document.documentElement.dataset.theme).toBe('aco-solar')
 
-    fireEvent.click(cyber)
-    expect(document.documentElement.dataset.aesthetic).toBe('cyberpunk')
-    expect(screen.getByRole('button', { name: /CYBERPUNK RED/ }).style.getPropertyValue('--on')).toBe('1')
-    expect(JSON.parse(localStorage.getItem('pleitost.theme')!).aesthetic).toBe('cyberpunk')
+    fireEvent.click(ferroFrio)
+    expect(document.documentElement.dataset.theme).toBe('ferro-frio')
+    expect(screen.getByRole('button', { name: /FERRO FRIO/ }).style.getPropertyValue('--on')).toBe('1')
+    expect(JSON.parse(localStorage.getItem('pleitost.theme')!).theme).toBe('ferro-frio')
 
-    fireEvent.click(screen.getByRole('button', { name: /ESCURO/ }))
-    expect(document.documentElement.dataset.mode).toBe('dark')
-    expect(JSON.parse(localStorage.getItem('pleitost.theme')!).mode).toBe('dark')
-    // o toggle da topbar compartilha a MESMA fonte (sem reload): 🌙 = dark
-    expect(screen.getByTitle('Alternar modo claro/escuro').textContent).toBe('🌙')
-    fireEvent.click(screen.getByRole('button', { name: /CLARO/ }))
-    expect(document.documentElement.dataset.mode).toBe('light')
+    // o atalho da topbar compartilha a MESMA fonte (sem reload): tema escuro → ☀️
+    expect(screen.getByTitle(/Alternar tema claro\/escuro/).textContent).toBe('☀️')
+    fireEvent.click(screen.getByTitle(/Alternar tema claro\/escuro/))
+    expect(document.documentElement.dataset.theme).toBe('aco-solar') // volta pro claro-assinatura
   })
 
   it('Modo Mestre persiste em pleitost.settings.mestre', async () => {

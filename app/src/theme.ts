@@ -1,30 +1,41 @@
-// Tema do app — base (aesthetic × mode) + COR DE DESTAQUE customizável.
+// Tema do app — TEMA (paleta completa) + COR DE DESTAQUE (separados, pedido do
+// usuário).
 //
-// Base: aesthetic ('medieval'/'cyberpunk') × mode ('dark'/'light') seleciona a
-// paleta em styles/theme.css via data-aesthetic/data-mode no <html> (essas 4
-// paletas são DERIVADAS do design — não mexer aqui). Sobre elas, o usuário
-// escolhe uma COR DE DESTAQUE: um preset nomeado (Esmeralda/Rubi/…) ou uma cor
-// própria. O destaque é aplicado como override INLINE de custom properties no
-// :root (`--accent`/`--accent2`/`--sb`), que vence a folha de estilo — então
-// recolore realces/botões/ativos sem tocar na theme.css do design.
+// TEMA: um nome que seleciona a PALETA INTEIRA (fundo/painéis/texto/linhas/…) em
+// styles/theme.css via `data-theme` no <html>. São paletas completas e bem
+// distintas (não só troca de uma cor): 'aco-solar' (padrão, aço claro e quente),
+// 'ferro-frio' (bem escuro, cinza + roxo), 'medieval' (pergaminho), 'cyberpunk'
+// (neon escuro).
 //
-// Estado de MÓDULO via useSyncExternalStore (mesmo padrão de settings/hero-store):
-// topbar (AppShell) e CONFIG leem/escrevem a MESMA fonte, refletindo sem reload.
+// COR DE DESTAQUE: SEPARADA do tema — sobrepõe --accent/--accent2/--sb como
+// override inline no :root (vence a folha), recolorindo realces/ativos sem mexer
+// no resto da paleta do tema. 'padrao' = usa o destaque do próprio tema.
 //
-// Persistência: chave `pleitost.theme` — casa com o SYNCED de remote-persist
-// (/^(pleitost\.|local:)/), então o tema ESPELHA por conta (Supabase user_state)
-// e acompanha o usuário entre dispositivos, de graça (#239). Migra da chave
-// antiga `pleitost-theme` (hífen, não sincronizava).
+// Estado de MÓDULO via useSyncExternalStore. Persiste em `pleitost.theme` (chave
+// que SINCRONIZA por conta via remote-persist #239). Migra chaves/shapes antigos.
 import { useSyncExternalStore } from 'react'
 
-export type Mode = 'dark' | 'light'
-export type Aesthetic = 'cyberpunk' | 'medieval'
-/** Cor de destaque: 'padrao' = a do tema base (sem override); 'custom' = cor
- *  livre do usuário; os demais são presets nomeados (ACCENT_PRESETS). */
+/** Tema = paleta completa nomeada. */
+export type ThemeName = 'aco-solar' | 'ferro-frio' | 'medieval' | 'cyberpunk'
+/** Cor de destaque: 'padrao' = a do tema; 'custom' = cor livre; resto = preset. */
 export type AccentId = 'padrao' | 'esmeralda' | 'rubi' | 'safira' | 'ametista' | 'custom'
 
-/** Presets de destaque — recolorem `--accent`/`--accent2` (e `--sb`, derivada).
- *  Cores de luminância média, legíveis tanto no claro quanto no escuro. */
+/** Metadados dos temas (rótulo, ícone, se é escuro — pro toggle da topbar). */
+export const THEMES: { id: ThemeName; label: string; ic: string; dark: boolean }[] = [
+  { id: 'aco-solar', label: 'AÇO SOLAR', ic: '🔆', dark: false },
+  { id: 'ferro-frio', label: 'FERRO FRIO', ic: '🌑', dark: true },
+  { id: 'medieval', label: 'MEDIEVAL', ic: '🏰', dark: false },
+  { id: 'cyberpunk', label: 'CYBERPUNK', ic: '🌃', dark: true },
+]
+const THEME_IDS = THEMES.map((t) => t.id)
+function isThemeName(v: unknown): v is ThemeName {
+  return typeof v === 'string' && (THEME_IDS as string[]).includes(v)
+}
+function isDarkTheme(id: ThemeName): boolean {
+  return THEMES.find((t) => t.id === id)?.dark ?? false
+}
+
+/** Presets de destaque — recolorem --accent/--accent2 (e --sb, derivada). */
 export const ACCENT_PRESETS: Record<
   Exclude<AccentId, 'padrao' | 'custom'>,
   { label: string; accent: string; accent2: string }
@@ -39,27 +50,31 @@ const STORAGE_KEY = 'pleitost.theme'
 const OLD_STORAGE_KEY = 'pleitost-theme'
 
 export interface ThemeState {
-  mode: Mode
-  aesthetic: Aesthetic
+  theme: ThemeName
   accent: AccentId
   /** Cor hex livre — usada só quando accent === 'custom'. */
   customAccent: string | null
 }
 
-const DEFAULT: ThemeState = { mode: 'light', aesthetic: 'medieval', accent: 'padrao', customAccent: null }
+const DEFAULT: ThemeState = { theme: 'aco-solar', accent: 'padrao', customAccent: null }
 
 function isAccentId(v: unknown): v is AccentId {
   return v === 'padrao' || v === 'custom' || (typeof v === 'string' && v in ACCENT_PRESETS)
 }
 
-/** Sanitiza qualquer JSON persistido (inclusive o shape antigo só com mode/
- *  aesthetic) num ThemeState completo — nunca confia no que veio do storage. */
+/** Sanitiza qualquer JSON persistido (inclusive shapes antigos com mode/aesthetic)
+ *  num ThemeState completo — nunca confia no storage. */
 function normalize(p: unknown): ThemeState {
   const o = (typeof p === 'object' && p !== null ? p : {}) as Record<string, unknown>
   const hex = typeof o.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(o.customAccent) ? o.customAccent : null
+  // theme direto; senão deriva do 'aesthetic' antigo (medieval/cyberpunk); senão default.
+  const theme: ThemeName = isThemeName(o.theme)
+    ? o.theme
+    : o.aesthetic === 'medieval' || o.aesthetic === 'cyberpunk'
+      ? o.aesthetic
+      : DEFAULT.theme
   return {
-    mode: o.mode === 'dark' || o.mode === 'light' ? o.mode : DEFAULT.mode,
-    aesthetic: o.aesthetic === 'cyberpunk' || o.aesthetic === 'medieval' ? o.aesthetic : DEFAULT.aesthetic,
+    theme,
     accent: isAccentId(o.accent) ? o.accent : 'padrao',
     customAccent: hex,
   }
@@ -67,6 +82,7 @@ function normalize(p: unknown): ThemeState {
 
 function loadTheme(): ThemeState {
   let raw: string | null = null
+  let needsPersist = false
   try {
     raw = localStorage.getItem(STORAGE_KEY)
     if (raw == null) {
@@ -74,31 +90,43 @@ function loadTheme(): ThemeState {
       const old = localStorage.getItem(OLD_STORAGE_KEY)
       if (old != null) {
         raw = old
+        needsPersist = true
         try {
-          localStorage.setItem(STORAGE_KEY, old)
           localStorage.removeItem(OLD_STORAGE_KEY)
         } catch {
-          /* storage read-only: segue com o valor migrado em memória */
+          /* storage read-only */
         }
       }
     }
   } catch {
     /* primeira visita / storage indisponível */
   }
+  let result: ThemeState = { ...DEFAULT }
   if (raw != null) {
     try {
-      return normalize(JSON.parse(raw))
+      const parsed = JSON.parse(raw) as Record<string, unknown>
+      result = normalize(parsed)
+      // shape antigo ({mode,aesthetic} sem `theme` válido) → re-persistir o novo,
+      // pra a conta sincronizar o formato atual (não o legado).
+      if (!isThemeName(parsed?.theme)) needsPersist = true
     } catch {
-      /* corrompido → defaults */
+      needsPersist = true // corrompido → grava o default limpo
     }
   }
-  return { ...DEFAULT }
+  if (needsPersist) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result))
+    } catch {
+      /* storage indisponível */
+    }
+  }
+  return result
 }
 
 let state: ThemeState | null = null
 const listeners = new Set<() => void>()
 
-/** Resolve o override de destaque efetivo (ou null = usar o do tema base). */
+/** Override de destaque efetivo (ou null = usar o do tema). */
 function accentOverride(theme: ThemeState): { accent: string; accent2: string | null } | null {
   if (theme.accent === 'custom') {
     return theme.customAccent ? { accent: theme.customAccent, accent2: null } : null
@@ -108,15 +136,14 @@ function accentOverride(theme: ThemeState): { accent: string; accent2: string | 
   return p ? { accent: p.accent, accent2: p.accent2 } : null
 }
 
-function applyDom(theme: ThemeState) {
+function applyDom(t: ThemeState) {
   if (typeof document === 'undefined') return
   const root = document.documentElement
-  root.dataset.mode = theme.mode
-  root.dataset.aesthetic = theme.aesthetic
-  const ov = accentOverride(theme)
+  root.dataset.theme = t.theme
+  const ov = accentOverride(t)
   const s = root.style
   if (!ov) {
-    // 'padrão' → remove os overrides, deixa a paleta base (theme.css) aparecer.
+    // 'padrão' → remove overrides, deixa o destaque do tema aparecer.
     s.removeProperty('--accent')
     s.removeProperty('--accent2')
     s.removeProperty('--sb')
@@ -124,8 +151,7 @@ function applyDom(theme: ThemeState) {
   }
   s.setProperty('--accent', ov.accent)
   if (ov.accent2) s.setProperty('--accent2', ov.accent2)
-  else s.removeProperty('--accent2') // custom só define accent; accent2 fica do base
-  // --sb (scrollbar/realce translúcido) acompanha o destaque.
+  else s.removeProperty('--accent2') // custom só define accent; accent2 fica do tema
   s.setProperty('--sb', `color-mix(in srgb, ${ov.accent} 30%, transparent)`)
 }
 
@@ -157,16 +183,19 @@ function subscribe(cb: () => void): () => void {
 
 export function useTheme() {
   const theme = useSyncExternalStore(subscribe, getTheme)
-
   return {
     ...theme,
-    toggleMode: () => writeTheme((t) => ({ ...t, mode: t.mode === 'dark' ? 'light' : 'dark' })),
-    setMode: (mode: Mode) => writeTheme((t) => ({ ...t, mode })),
-    setAesthetic: (aesthetic: Aesthetic) => writeTheme((t) => ({ ...t, aesthetic })),
-    /** Escolhe um preset nomeado (ou 'padrao'). Não mexe em customAccent. */
-    setAccent: (accent: AccentId) => writeTheme((t) => ({ ...t, accent })),
-    /** Define a cor livre e já muda para o modo 'custom'. */
-    setCustomAccent: (hex: string) => writeTheme((t) => ({ ...t, accent: 'custom', customAccent: hex })),
+    /** True se o tema atual é escuro (pro ícone do toggle). */
+    isDark: isDarkTheme(theme.theme),
+    /** Escolhe um tema completo. */
+    setTheme: (t: ThemeName) => writeTheme((s) => ({ ...s, theme: t })),
+    /** Atalho claro/escuro da topbar: pula pro tema-assinatura oposto. */
+    toggleLightDark: () =>
+      writeTheme((s) => ({ ...s, theme: isDarkTheme(s.theme) ? 'aco-solar' : 'ferro-frio' })),
+    /** Preset de destaque (ou 'padrao'). */
+    setAccent: (accent: AccentId) => writeTheme((s) => ({ ...s, accent })),
+    /** Cor de destaque livre — já muda para 'custom'. */
+    setCustomAccent: (hex: string) => writeTheme((s) => ({ ...s, accent: 'custom', customAccent: hex })),
   }
 }
 
@@ -175,7 +204,7 @@ export function getThemeSnapshot(): ThemeState {
   return getTheme()
 }
 
-/** SÓ testes: zera o cache em memória e limpa os overrides do DOM. */
+/** SÓ testes: zera o cache em memória e limpa overrides do DOM. */
 export function __resetThemeForTests(): void {
   state = null
   if (typeof document !== 'undefined') {

@@ -1,8 +1,7 @@
 // @vitest-environment jsdom
-// Tema (theme.ts): base aesthetic×mode + COR DE DESTAQUE (preset/custom) aplicada
-// como override inline de --accent/--accent2/--sb no :root, persistida em
-// `pleitost.theme` (chave que SINCRONIZA por conta via remote-persist), com
-// migração da chave antiga `pleitost-theme`.
+// Tema (theme.ts): TEMA = paleta completa via data-theme; COR DE DESTAQUE separada
+// (override inline de --accent/--accent2/--sb). Persiste em `pleitost.theme` (chave
+// que sincroniza por conta), migrando shape antigo {mode,aesthetic}.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { ACCENT_PRESETS, useTheme, __resetThemeForTests } from '../src/theme'
@@ -10,9 +9,8 @@ import { ACCENT_PRESETS, useTheme, __resetThemeForTests } from '../src/theme'
 const root = () => document.documentElement
 const cssVar = (name: string) => root().style.getPropertyValue(name)
 
-// jsdom+vitest: o localStorage nativo do Node (experimental) sombreia o do jsdom
-// e vem undefined. Instala um mock em memória em globalThis pra que o teste E o
-// theme.ts (que usa `localStorage` cru) compartilhem o MESMO store.
+// jsdom+vitest: o localStorage nativo do Node sombreia o do jsdom (vem undefined).
+// Instala um mock em memória em globalThis pra o teste E o theme.ts compartilharem.
 beforeAll(() => {
   const store = new Map<string, string>()
   const mock = {
@@ -37,42 +35,48 @@ afterEach(() => {
   __resetThemeForTests()
 })
 
-describe('theme — base aesthetic × mode', () => {
-  it('default é medieval/light/padrao, sem override de destaque', () => {
+describe('theme — tema (paleta completa)', () => {
+  it('default é aco-solar e vira data-theme no <html>', () => {
     const { result } = renderHook(() => useTheme())
-    expect(result.current.mode).toBe('light')
-    expect(result.current.aesthetic).toBe('medieval')
-    expect(result.current.accent).toBe('padrao')
-    expect(root().dataset.mode).toBe('light')
-    expect(root().dataset.aesthetic).toBe('medieval')
-    expect(cssVar('--accent')).toBe('') // 'padrão' não sobrescreve a paleta base
+    expect(result.current.theme).toBe('aco-solar')
+    expect(result.current.isDark).toBe(false)
+    expect(root().dataset.theme).toBe('aco-solar')
   })
 
-  it('toggleMode/setMode/setAesthetic seguem funcionando (regressão)', () => {
+  it('setTheme troca o tema (aplica data-theme e marca escuro)', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.toggleMode())
-    expect(result.current.mode).toBe('dark')
-    expect(root().dataset.mode).toBe('dark')
-    act(() => result.current.setMode('light'))
-    expect(result.current.mode).toBe('light')
-    act(() => result.current.setAesthetic('cyberpunk'))
-    expect(root().dataset.aesthetic).toBe('cyberpunk')
+    act(() => result.current.setTheme('ferro-frio'))
+    expect(root().dataset.theme).toBe('ferro-frio')
+    expect(result.current.isDark).toBe(true)
+    act(() => result.current.setTheme('medieval'))
+    expect(root().dataset.theme).toBe('medieval')
+    expect(result.current.isDark).toBe(false)
+  })
+
+  it('toggleLightDark pula entre os temas-assinatura claro/escuro', () => {
+    const { result } = renderHook(() => useTheme())
+    act(() => result.current.toggleLightDark()) // aco-solar (claro) → ferro-frio
+    expect(result.current.theme).toBe('ferro-frio')
+    act(() => result.current.toggleLightDark()) // ferro-frio (escuro) → aco-solar
+    expect(result.current.theme).toBe('aco-solar')
   })
 })
 
-describe('theme — cor de destaque', () => {
-  it('preset nomeado aplica --accent/--accent2/--sb inline e persiste', () => {
+describe('theme — cor de destaque (separada do tema)', () => {
+  it('preset aplica --accent/--accent2/--sb inline e persiste, sem mexer no tema', () => {
     const { result } = renderHook(() => useTheme())
+    act(() => result.current.setTheme('ferro-frio'))
     act(() => result.current.setAccent('rubi'))
+    expect(result.current.theme).toBe('ferro-frio') // tema intacto
     expect(cssVar('--accent')).toBe(ACCENT_PRESETS.rubi.accent)
     expect(cssVar('--accent2')).toBe(ACCENT_PRESETS.rubi.accent2)
     expect(cssVar('--sb')).toContain('color-mix')
-    expect(cssVar('--sb')).toContain(ACCENT_PRESETS.rubi.accent)
     const saved = JSON.parse(localStorage.getItem('pleitost.theme') as string)
     expect(saved.accent).toBe('rubi')
+    expect(saved.theme).toBe('ferro-frio')
   })
 
-  it("voltar para 'padrao' remove os overrides (paleta base reaparece)", () => {
+  it("'padrao' remove os overrides (destaque do tema reaparece)", () => {
     const { result } = renderHook(() => useTheme())
     act(() => result.current.setAccent('safira'))
     expect(cssVar('--accent')).toBe(ACCENT_PRESETS.safira.accent)
@@ -82,44 +86,39 @@ describe('theme — cor de destaque', () => {
     expect(cssVar('--sb')).toBe('')
   })
 
-  it('setCustomAccent muda para custom, define --accent e NÃO define --accent2', () => {
+  it('setCustomAccent muda para custom, define --accent e não define --accent2', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setAccent('rubi')) // define accent2 antes…
+    act(() => result.current.setAccent('rubi'))
     act(() => result.current.setCustomAccent('#123456'))
     expect(result.current.accent).toBe('custom')
     expect(result.current.customAccent).toBe('#123456')
     expect(cssVar('--accent')).toBe('#123456')
-    expect(cssVar('--accent2')).toBe('') // custom só mexe no accent; accent2 fica do base
+    expect(cssVar('--accent2')).toBe('')
   })
 })
 
 describe('theme — persistência e migração', () => {
-  it('persiste na chave nova pleitost.theme (sincroniza por conta)', () => {
+  it('persiste na chave nova pleitost.theme', () => {
     const { result } = renderHook(() => useTheme())
-    act(() => result.current.setMode('dark'))
-    expect(localStorage.getItem('pleitost.theme')).toBeTruthy()
+    act(() => result.current.setTheme('cyberpunk'))
+    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('cyberpunk')
   })
 
-  it('migra a chave antiga pleitost-theme → pleitost.theme e a remove', () => {
+  it('migra shape antigo {mode,aesthetic} → theme, e chave antiga pleitost-theme', () => {
     localStorage.setItem('pleitost-theme', JSON.stringify({ mode: 'dark', aesthetic: 'cyberpunk' }))
     __resetThemeForTests()
     const { result } = renderHook(() => useTheme())
-    expect(result.current.mode).toBe('dark')
-    expect(result.current.aesthetic).toBe('cyberpunk')
-    expect(result.current.accent).toBe('padrao') // shape antigo ganha o default
+    expect(result.current.theme).toBe('cyberpunk') // aesthetic antigo → theme
+    expect(result.current.accent).toBe('padrao')
     expect(localStorage.getItem('pleitost-theme')).toBeNull()
-    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).mode).toBe('dark')
+    expect(JSON.parse(localStorage.getItem('pleitost.theme') as string).theme).toBe('cyberpunk')
   })
 
-  it('normalize rejeita lixo persistido e cai nos defaults', () => {
-    localStorage.setItem(
-      'pleitost.theme',
-      JSON.stringify({ mode: 'x', aesthetic: 9, accent: 'nope', customAccent: 'not-a-color' }),
-    )
+  it('normalize rejeita lixo e cai no default aco-solar', () => {
+    localStorage.setItem('pleitost.theme', JSON.stringify({ theme: 'nope', accent: 42, customAccent: 'xyz' }))
     __resetThemeForTests()
     const { result } = renderHook(() => useTheme())
-    expect(result.current.mode).toBe('light')
-    expect(result.current.aesthetic).toBe('medieval')
+    expect(result.current.theme).toBe('aco-solar')
     expect(result.current.accent).toBe('padrao')
     expect(result.current.customAccent).toBeNull()
   })

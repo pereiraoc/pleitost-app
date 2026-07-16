@@ -143,7 +143,7 @@ export function AppShell() {
   // Colapso da sidebar em desktop (navCollapsed do design; toggleNav do
   // renderVals: <820 abre o drawer, >=820 colapsa pra 64px só-ícones).
   const [collapsed, setCollapsed] = useState(false)
-  const { mode, toggleMode } = useTheme()
+  const { isDark, toggleLightDark } = useTheme()
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -225,10 +225,10 @@ export function AppShell() {
         <div className="topbar-spacer" />
         <button
           className="mode-toggle"
-          onClick={toggleMode}
-          title="Alternar modo claro/escuro"
+          onClick={toggleLightDark}
+          title="Alternar tema claro/escuro (Aço Solar / Ferro Frio)"
         >
-          {mode === 'dark' ? '🌙' : '☀️'}
+          {isDark ? '☀️' : '🌙'}
         </button>
         {heroId ? <TopbarFicha key={heroId} id={heroId} tab={fichaTab ?? 'perfil'} /> : null}
         {/* #87: toggle da sidebar direita (Sessão/Detalhes) — no mobile */}

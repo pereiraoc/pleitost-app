@@ -11,7 +11,7 @@
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
-import { useTheme, ACCENT_PRESETS, type Aesthetic, type Mode, type AccentId } from '../../theme'
+import { useTheme, ACCENT_PRESETS, THEMES, type AccentId } from '../../theme'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -232,15 +232,9 @@ function AccentRow() {
   )
 }
 
-// themeOpts/modeOpts VERBATIM do script do design (linhas 2347-2348).
-const THEME_OPTS: { id: Aesthetic; label: string; ic: string }[] = [
-  { id: 'cyberpunk', label: 'CYBERPUNK RED', ic: '🌃' },
-  { id: 'medieval', label: 'MEDIEVAL', ic: '🏰' },
-]
-const MODE_OPTS: { id: Mode; label: string; ic: string }[] = [
-  { id: 'dark', label: 'ESCURO', ic: '🌙' },
-  { id: 'light', label: 'CLARO', ic: '☀️' },
-]
+// Temas = paletas completas (theme.ts THEMES). O "Modo de Exibição" (claro/escuro)
+// foi absorvido pelos temas: cada tema JÁ é claro ou escuro; o atalho da topbar
+// pula entre Aço Solar (claro) e Ferro Frio (escuro).
 // Opções do Modo Mestre (extensão sancionada): estados no vocabulário das
 // linhas do CONFIG do design ("ATIVADAS"), emojis de estado do registro.
 const MESTRE_OPTS: { id: boolean; label: string; ic: string }[] = [
@@ -631,7 +625,7 @@ function DatabaseLine() {
 }
 
 export function ConfigPage() {
-  const { aesthetic, mode, setAesthetic, setMode } = useTheme()
+  const { theme, setTheme } = useTheme()
   const { mestre, setMestre, desenvolvedor } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
@@ -670,16 +664,17 @@ export function ConfigPage() {
       />
       {tab === 'geral' ? (
         <>
-          <ConfigRow ic="🎨" label="Tema da Interface">
-            {THEME_OPTS.map((o) => (
-              <OptPill key={o.id} ic={o.ic} label={o.label} on={aesthetic === o.id} onClick={() => setAesthetic(o.id)} />
-            ))}
-          </ConfigRow>
-          <ConfigRow ic="🌓" label="Modo de Exibição">
-            {MODE_OPTS.map((o) => (
-              <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
-            ))}
-          </ConfigRow>
+          <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ fontSize: 19, flex: 'none' }}>🎨</span>
+              <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Tema</span>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {THEMES.map((o) => (
+                <OptPill key={o.id} ic={o.ic} label={o.label} on={theme === o.id} onClick={() => setTheme(o.id)} />
+              ))}
+            </div>
+          </div>
           <AccentRow />
           <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Modo Mestre">
             {MESTRE_OPTS.map((o) => (
