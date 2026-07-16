@@ -12,23 +12,24 @@ export function BountyText({ text }: { text: string }) {
   const catalog = useCatalog()
   const parts: React.ReactNode[] = []
   let last = 0
-  let m: RegExpExecArray | null
-  WIKILINK.lastIndex = 0
-  while ((m = WIKILINK.exec(text)) !== null) {
-    if (m.index > last) parts.push(text.slice(last, m.index))
+  // matchAll usa iterador próprio (não muta o lastIndex do regex de módulo) —
+  // evita estado compartilhado mutável durante o render (react-hooks/immutability).
+  for (const m of text.matchAll(WIKILINK)) {
+    const idx = m.index
+    if (idx > last) parts.push(text.slice(last, idx))
     const target = m[1]
     const label = m[2] ?? target
     const res = catalog.resolve(target)
     if (res.kind === 'doc') {
       parts.push(
-        <Link key={`${m.index}`} to={docPath(res.id)} className="internal-link">
+        <Link key={`${idx}`} to={docPath(res.id)} className="internal-link">
           {label}
         </Link>,
       )
     } else {
       parts.push(label)
     }
-    last = m.index + m[0].length
+    last = idx + m[0].length
   }
   if (last < text.length) parts.push(text.slice(last))
   return (

@@ -21,7 +21,7 @@ export function cycleSort(cur: GrpSort | null | undefined, col: number): GrpSort
 
 /** num() do build do grupo (design). */
 export function gnum(v: unknown): number {
-  const m = String(v).replace(/[^0-9.\-]/g, '')
+  const m = String(v).replace(/[^0-9.-]/g, '')
   return m === '' ? 0 : parseFloat(m)
 }
 

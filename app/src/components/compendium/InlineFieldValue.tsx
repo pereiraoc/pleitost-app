@@ -16,10 +16,11 @@ export function InlineFieldValue({ value }: { value: string }) {
   const text = unquote(value)
   const parts: ReactNode[] = []
   let last = 0
-  let match: RegExpExecArray | null
-  WIKILINK.lastIndex = 0
-  while ((match = WIKILINK.exec(text))) {
-    if (match.index > last) parts.push(text.slice(last, match.index))
+  // matchAll usa iterador próprio (não muta o lastIndex do regex de módulo) —
+  // evita estado compartilhado mutável durante o render (react-hooks/immutability).
+  for (const match of text.matchAll(WIKILINK)) {
+    const idx = match.index
+    if (idx > last) parts.push(text.slice(last, idx))
     const [, target, alias] = match
     const label = alias ?? target
     const res = catalog.resolve(target)
@@ -33,7 +34,7 @@ export function InlineFieldValue({ value }: { value: string }) {
         <span key={parts.length}>{label}</span>
       ),
     )
-    last = match.index + match[0].length
+    last = idx + match[0].length
   }
   if (last < text.length) parts.push(text.slice(last))
   return <>{parts}</>

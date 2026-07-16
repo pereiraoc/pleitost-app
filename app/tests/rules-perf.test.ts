@@ -151,7 +151,6 @@ describe('#57 BFS paralelo — concorrência e ganho', () => {
     expect(inst.stats.maxInFlight).toBeGreaterThan(1)
     expect(C).toBeGreaterThan(6) // trabalho suficiente pro ganho fazer sentido
 
-    // eslint-disable-next-line no-console
     console.log(
       `[#57 ganho] resolver calls=${C}, maxInFlight=${inst.stats.maxInFlight}, ` +
         `parallel=${elapsed.toFixed(1)}ms, serial-equiv≈${C * d}ms (d=${d}ms)`,

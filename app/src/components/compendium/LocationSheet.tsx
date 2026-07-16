@@ -464,7 +464,6 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random),
       localType,
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shop, localType, built, disponibilidade, doc.id])
 
   // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não

@@ -106,9 +106,9 @@ export function hexUnionPath(cells: { col: number; row: number }[]): string {
 
 /** Arredondamento em coordenadas cubo (Red Blob) pra achar o hex mais próximo. */
 function axialRound(q: number, r: number): HexCell {
-  let x = q
-  let z = r
-  let y = -x - z
+  const x = q
+  const z = r
+  const y = -x - z
   let rx = Math.round(x)
   let ry = Math.round(y)
   let rz = Math.round(z)
