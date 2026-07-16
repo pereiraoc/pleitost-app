@@ -86,7 +86,8 @@ export function CriadorCombate() {
       const i = cur.findIndex((x) => x.sourceId === item.sourceId)
       if (i >= 0) {
         const next = [...cur]
-        next[i] = { ...next[i], qty: next[i].qty + item.qty }
+        const prev = next[i]!
+        next[i] = { ...prev, qty: prev.qty + item.qty }
         return next
       }
       return [...cur, item]

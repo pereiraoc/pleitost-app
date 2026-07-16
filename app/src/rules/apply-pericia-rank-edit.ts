@@ -38,14 +38,14 @@ export function pisoFromIncrementos(incs: Inc[]): number {
   let max = 0
   for (const inc of incs) {
     const k = rankKey(inc)
-    if (k && !isSlotSource(inc[k])) max = Math.max(max, RANK_ORDER[k])
+    if (k && !isSlotSource(inc[k])) max = Math.max(max, RANK_ORDER[k]!)
   }
   return max
 }
 
 /** Piso como LETRA (N/A/E/M) — conveniência pro gate do NAEM na UI. */
 export function pisoLetterFromIncrementos(incs: Inc[]): 'N' | 'A' | 'E' | 'M' {
-  return RANK_FROM[pisoFromIncrementos(incs)]
+  return RANK_FROM[pisoFromIncrementos(incs)]!
 }
 
 /** Recomputa Proficiencia = max rank dos incrementos rank-based (A/E/M). */
@@ -53,9 +53,9 @@ function maxRank(incs: Inc[]): 'N' | 'A' | 'E' | 'M' {
   let max = 0
   for (const inc of incs) {
     const k = rankKey(inc)
-    if (k) max = Math.max(max, RANK_ORDER[k])
+    if (k) max = Math.max(max, RANK_ORDER[k]!)
   }
-  return RANK_FROM[max]
+  return RANK_FROM[max]!
 }
 
 /**
@@ -87,7 +87,7 @@ export function applyPericiaRankEdit(
   // Remove Slot.* com rank > alvo.
   incs = incs.filter((inc) => {
     const k = rankKey(inc)
-    return !(k && isSlotSource(inc[k]) && RANK_ORDER[k] > target)
+    return !(k && isSlotSource(inc[k]) && RANK_ORDER[k]! > target)
   })
 
   // Adiciona Slot.<r> nos ranks (piso+1)..alvo ainda sem incremento na linha salva.
@@ -117,11 +117,11 @@ export function computePericiaMaxReachable(
 ): 'N' | 'A' | 'E' | 'M' {
   const curIdx = RANK_ORDER[currentRank] ?? 0
   for (const cand of ['M', 'E', 'A', 'N'] as const) {
-    if (RANK_ORDER[cand] <= curIdx) return cand // rebaixar/manter — sempre alcançável
+    if (RANK_ORDER[cand]! <= curIdx) return cand // rebaixar/manter — sempre alcançável
     let needA = 0
     let needE = 0
     let needM = 0
-    for (let r = curIdx + 1; r <= RANK_ORDER[cand]; r++) {
+    for (let r = curIdx + 1; r <= RANK_ORDER[cand]!; r++) {
       const rankStr = RANK_FROM[r] as 'A' | 'E' | 'M'
       if (derivedIncs.some((inc) => rankKey(inc) === rankStr)) continue
       if (rankStr === 'A') needA++
@@ -152,7 +152,7 @@ export function ranksOutsideRange(
 ): Array<'N' | 'A' | 'E' | 'M'> {
   const out: Array<'N' | 'A' | 'E' | 'M'> = []
   for (const r of ['N', 'A', 'E', 'M'] as const) {
-    if (RANK_ORDER[r] < RANK_ORDER[piso] || RANK_ORDER[r] > RANK_ORDER[ceiling]) out.push(r)
+    if (RANK_ORDER[r]! < RANK_ORDER[piso]! || RANK_ORDER[r]! > RANK_ORDER[ceiling]!) out.push(r)
   }
   return out
 }

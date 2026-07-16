@@ -22,7 +22,7 @@ export function remarkCallouts() {
         ...node.data,
         hProperties: {
           ...(node.data?.hProperties as object | undefined),
-          className: ['callout', `callout-${match[1].toLowerCase()}`],
+          className: ['callout', `callout-${match[1]!.toLowerCase()}`],
         },
       }
     })

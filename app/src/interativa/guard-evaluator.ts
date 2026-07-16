@@ -51,7 +51,7 @@ export function isGrupoConhecido(grupo: string | undefined): boolean {
 }
 
 export function isCorpoACorpo(grupo: string | undefined): boolean {
-  return GRUPOS_POR_TERMO['corpo-a-corpo'].includes((grupo ?? '').toLowerCase().trim())
+  return GRUPOS_POR_TERMO['corpo-a-corpo']!.includes((grupo ?? '').toLowerCase().trim())
 }
 
 export function isEspecial(grupo: string | undefined): boolean {
@@ -66,14 +66,14 @@ const WIKILINK = /^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/
 export function wikilinkLabel(value: string): string {
   const m = WIKILINK.exec(String(value ?? '').trim())
   if (!m) return String(value ?? '').trim()
-  return (m[2] ?? m[1].split('/').pop() ?? '').trim()
+  return (m[2] ?? m[1]!.split('/').pop() ?? '').trim()
 }
 
 /** Basename do target de um wikilink raw; string plana intacta. */
 export function wikilinkBasename(value: string): string {
   const m = WIKILINK.exec(String(value ?? '').trim())
   if (!m) return String(value ?? '').trim()
-  return (m[1].split('/').pop() ?? m[1]).replace(/\.md$/i, '').trim()
+  return (m[1]!.split('/').pop() ?? m[1]!).replace(/\.md$/i, '').trim()
 }
 
 export interface GuardEvalContext {
@@ -145,7 +145,7 @@ function evalProficiencia(rawValue: string, profAtual: Proficiencia | undefined)
   const m = rawValue.trim().match(/^(>=|<=|>|<|==|=)\s*([NAEM])$/i)
   if (!m) return false
   const op = m[1]
-  const expected = RANK_NUM[m[2].toUpperCase() as Proficiencia]
+  const expected = RANK_NUM[m[2]!.toUpperCase() as Proficiencia]
   const atual = RANK_NUM[profAtual]
   switch (op) {
     case '>=': return atual >= expected
@@ -192,10 +192,10 @@ function evalSeletor(
   if (!seletores || !effectLabel) return false
   const m = /^\[\[([^\]|]+)\|([^\]]+)\]\]$/.exec(rawValue.trim())
   if (!m) return false
-  const key = `${effectLabel}::${m[1].trim()}`
+  const key = `${effectLabel}::${m[1]!.trim()}`
   const actual = seletores[key]
   if (actual == null) return false
-  return String(actual) === m[2].trim()
+  return String(actual) === m[2]!.trim()
 }
 
 function evalRecurso(
@@ -206,7 +206,7 @@ function evalRecurso(
   if (!recursos) return false
   const m = value.trim().match(/^([A-Za-zÁÉÍÓÚÂÊÔÇÃÕa-záéíóúâêôçãõ_]+)\s*(>=|<=|>|<|==|=)\s*(-?\d+)$/)
   if (!m) return false
-  const atual = recursoValue(m[1], recursos, armaCounts)
+  const atual = recursoValue(m[1]!, recursos, armaCounts)
   if (atual == null) return false
   const threshold = Number(m[3])
   switch (m[2]) {
@@ -249,7 +249,7 @@ function hasPropriedade(armaProps: string[] | undefined, target: string): boolea
   return armaProps.some((p) => {
     const m = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/.exec(p.trim())
     if (m) {
-      const targetName = (m[1].split('/').pop() ?? m[1]).trim().toLowerCase()
+      const targetName = (m[1]!.split('/').pop() ?? m[1]!).trim().toLowerCase()
       return targetName === tNorm
     }
     return p.trim().toLowerCase() === tNorm

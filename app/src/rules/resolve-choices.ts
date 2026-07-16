@@ -133,7 +133,7 @@ export function resolveChoice(
     if (desc.occurrenceWithinParent !== undefined) return desc
     const linkTargets = new Set(lista.map((it) => wikilinkTarget(it.link)))
     const matches = desc.options.filter((opt) => linkTargets.has(wikilinkTarget(opt)))
-    if (matches.length === 1) return { ...desc, pick: matches[0], source: 'inferred' }
+    if (matches.length === 1) return { ...desc, pick: matches[0]!, source: 'inferred' }
   }
 
   if (desc.kind === 'escolha-pericia-especial' || desc.kind === 'escolha-prop-map') {
@@ -148,7 +148,7 @@ export function resolveChoice(
   }
 
   if (desc.options.length > 0) {
-    return { ...desc, pick: desc.options[0], source: 'default' }
+    return { ...desc, pick: desc.options[0]!, source: 'default' }
   }
   return desc
 }
@@ -196,7 +196,7 @@ function distributeSiblingPicks(
   for (const group of groups.values()) {
     if (group.length <= 1) continue
     const claimed = new Set<string>()
-    const lista = pickListForComplementarSel(group[0].targetRaw, model)
+    const lista = pickListForComplementarSel(group[0]!.targetRaw, model)
     for (const desc of group) {
       const transient = transientPicks[desc.choiceKey]
       if (transient) {

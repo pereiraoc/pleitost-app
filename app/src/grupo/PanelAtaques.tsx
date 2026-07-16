@@ -51,8 +51,8 @@ export function PanelAtaques({
               return (
                 <span
                   key={`${w.label}-${i}`}
-                  onMouseEnter={tip?.tipE(tipKeys[gIdx][i])}
-                  onClick={tip?.tipE(tipKeys[gIdx][i])}
+                  onMouseEnter={tip?.tipE(tipKeys[gIdx]![i]!)}
+                  onClick={tip?.tipE(tipKeys[gIdx]![i]!)}
                   onMouseMove={tip?.move}
                   onMouseLeave={tip?.hide}
                   style={{

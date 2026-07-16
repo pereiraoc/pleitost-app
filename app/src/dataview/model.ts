@@ -25,11 +25,11 @@ function scalarFromString(raw: string): DvValue {
   if (/^".*"$/.test(trimmed)) {
     const inner = trimmed.slice(1, -1)
     const innerLink = WIKILINK.exec(inner.trim())
-    if (innerLink) return { $link: true, target: innerLink[1].trim(), label: innerLink[2]?.trim() }
+    if (innerLink) return { $link: true, target: innerLink[1]!.trim(), label: innerLink[2]?.trim() }
     return inner // string aspada comum permanece string (não vira número/bool)
   }
   const link = WIKILINK.exec(trimmed)
-  if (link) return { $link: true, target: link[1].trim(), label: link[2]?.trim() }
+  if (link) return { $link: true, target: link[1]!.trim(), label: link[2]?.trim() }
   if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed)
   if (trimmed === 'true') return true
   if (trimmed === 'false') return false
@@ -98,7 +98,7 @@ export function getField(doc: VaultDoc, name: string): DvValue {
   // dataview é case-insensitive em nomes de campo
   const lower = name.toLowerCase()
   for (const key of Object.keys(doc.inlineFields)) {
-    if (key.toLowerCase() === lower) return parseFieldString(doc.inlineFields[key])
+    if (key.toLowerCase() === lower) return parseFieldString(doc.inlineFields[key]!)
   }
   for (const key of Object.keys(doc.frontmatter)) {
     if (key.toLowerCase() === lower) return fmToValue(doc.frontmatter[key])

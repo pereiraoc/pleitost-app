@@ -115,8 +115,8 @@ export function applyModifier(
   if (lower === 'dadoextraporseletor') {
     const m = strValue.match(/^"([^"]+)"\s+(.+)$/)
     if (!m) return
-    const seletorName = m[1].trim()
-    const table = m[2].trim()
+    const seletorName = m[1]!.trim()
+    const table = m[2]!.trim()
     const seletores = model.interativa.seletores ?? {}
     let seletorRaw = seletores[`${label}::${seletorName}`]
     if (seletorRaw === undefined) {
@@ -214,7 +214,7 @@ export function applyModifier(
   }
   const skillAttrMatch = /^Per[ií]cias?DeAtributo\(([A-Za-z]+)\)$/i.exec(target)
   if (skillAttrMatch) {
-    const attr = skillAttrMatch[1].toUpperCase() as AtributoId
+    const attr = skillAttrMatch[1]!.toUpperCase() as AtributoId
     if (VALID_ATTRS.includes(attr)) {
       if (mod.tipoBonus) addSkillByAttrTyped(ctx, attr, mod.tipoBonus, label, numValue, src)
       else addSkillByAttr(ctx, attr, label, numValue, src)
@@ -223,7 +223,7 @@ export function applyModifier(
   }
   const skillNameMatch = /^Per[ií]cia\(([^)]+)\)$/i.exec(target)
   if (skillNameMatch) {
-    const pid = slugify(skillNameMatch[1])
+    const pid = slugify(skillNameMatch[1]!)
     if (mod.tipoBonus) addSkillByNameTyped(ctx, pid, mod.tipoBonus, label, numValue, src)
     else addSkillByName(ctx, pid, label, numValue, src)
     return
@@ -241,7 +241,7 @@ export function applyModifier(
   }
   const attackAttrMatch = /^AtaquesDeAtributo\(([A-Za-z]+)\)$/i.exec(target)
   if (attackAttrMatch) {
-    const attr = attackAttrMatch[1].toUpperCase() as AtributoId
+    const attr = attackAttrMatch[1]!.toUpperCase() as AtributoId
     if (VALID_ATTRS.includes(attr)) {
       if (mod.tipoBonus) addAttackByAttrTyped(ctx, attr, mod.tipoBonus, label, numValue, src)
       else addAttackByAttr(ctx, attr, label, numValue, src)
@@ -317,7 +317,7 @@ function lookupArmaBonusItem(model: EngineModel, armaBasename: string): number {
   for (const arma of model.inventario.armas.lista) {
     const m = String(arma.nome ?? '').match(/^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/)
     const base = m
-      ? (m[1].split('/').pop() ?? m[1]).replace(/\.md$/i, '').trim()
+      ? (m[1]!.split('/').pop() ?? m[1]!).replace(/\.md$/i, '').trim()
       : String(arma.nome ?? '').trim()
     if (base === armaBasename) {
       const n = Number(arma.bonusItem ?? 0)

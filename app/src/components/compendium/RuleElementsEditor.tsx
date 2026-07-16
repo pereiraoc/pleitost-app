@@ -118,7 +118,7 @@ export function RuleElementsEditor({ doc }: { doc: VaultDoc }) {
       </div>
 
       {lines.map((raw, i) => {
-        const st = lineStatus(parsed[i])
+        const st = lineStatus(parsed[i]!)
         return (
           <div key={i} style={rowStyle}>
             <textarea

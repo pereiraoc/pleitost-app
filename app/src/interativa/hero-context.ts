@@ -71,7 +71,7 @@ export function buildEngineModel(fm: Record<string, unknown>, descriptors: reado
 
   const model: EngineModel = {
     meta: { nivel: num(fm['Nível']) || 1 },
-    atributos: { FOR: attrs['FOR'], AGI: attrs['AGI'], INT: attrs['INT'], PRE: attrs['PRE'] },
+    atributos: { FOR: attrs['FOR']!, AGI: attrs['AGI']!, INT: attrs['INT']!, PRE: attrs['PRE']! },
     ataques: { proficiencia: profOf(str(fmPath(fm, 'Ataques', 'Proficiencia'))) },
     magias: { potencia },
     inventario: {

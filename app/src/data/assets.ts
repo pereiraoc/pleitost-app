@@ -87,7 +87,7 @@ export function resolveAsset(index: AssetIndex, target: string): AssetEntry | nu
   const exact = index.byPath.get(clean)
   if (exact) return exact
   const candidates = index.byBasename.get(clean) ?? []
-  if (candidates.length === 1 && !candidates[0].ambiguous) return candidates[0]
+  if (candidates.length === 1 && !candidates[0]!.ambiguous) return candidates[0]!
   return null
 }
 

@@ -52,7 +52,7 @@ export function tierMultFromName(name: unknown): number {
 /** Espelha parseTierFromDisplay (tier-multipliers.ts). */
 export function parseTierFromDisplay(displayPart: unknown): string | null {
   const m = String(displayPart).match(/\((Adepto|Experiente|Mestre)\)/i)
-  return m ? m[1] : null
+  return m ? m[1]! : null
 }
 
 /** Espelha parseConsumableQty (tier-multipliers.ts): `(xN)` no fim, default 1. */
@@ -66,8 +66,8 @@ export function wikilinkTargetFlexible(s: unknown): string {
   if (s == null) return ''
   const str = String(s).trim()
   const m = str.match(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/)
-  if (m) return m[1].trim()
-  return str.replace(/^\[\[|\]\]$/g, '').split('|')[0].trim()
+  if (m) return m[1]!.trim()
+  return str.replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim()
 }
 
 /** Espelha tierMultFromCategoriaLink (pricing.ts): basename do link → mult. */

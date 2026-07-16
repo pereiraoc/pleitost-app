@@ -26,7 +26,7 @@ export function applyDieStep(baseSize: number, step: number): number {
   const idx = DIE_STEP_ORDER.indexOf(baseSize as (typeof DIE_STEP_ORDER)[number])
   if (idx < 0) return baseSize
   const clamped = Math.max(0, Math.min(DIE_STEP_ORDER.length - 1, idx + step))
-  return DIE_STEP_ORDER[clamped]
+  return DIE_STEP_ORDER[clamped]!
 }
 
 /** Elegibilidade da linha AdO: corpo-a-corpo (cac-simples/cac-marcial/

@@ -170,7 +170,7 @@ export function PanelDestaques({
                     <TopSpan
                       key={`${top.who}-${i}`}
                       top={top}
-                      onTipEnter={tip?.tipE(skillTipKeys[gIdx][sIdx][i])}
+                      onTipEnter={tip?.tipE(skillTipKeys[gIdx]![sIdx]![i]!)}
                       tip={tip}
                     />
                   ))}
@@ -239,8 +239,8 @@ export function PanelDestaques({
                 <span style={{ fontWeight: 700, fontSize: 12.5, flex: 'none' }}>{mg.nome}</span>
                 {mg.warn ? (
                   <span
-                    onMouseEnter={tip?.tipE(magiaTipKeys[mIdx])}
-                    onClick={tip?.tipE(magiaTipKeys[mIdx])}
+                    onMouseEnter={tip?.tipE(magiaTipKeys[mIdx]!)}
+                    onClick={tip?.tipE(magiaTipKeys[mIdx]!)}
                     onMouseMove={tip?.move}
                     onMouseLeave={tip?.hide}
                     style={{ flex: 'none', fontSize: 11, cursor: 'help' }}
@@ -250,7 +250,7 @@ export function PanelDestaques({
                 ) : null}
                 <span style={{ flex: 1 }} />
                 {mg.top ? (
-                  <TopSpan top={mg.top} onTipEnter={tip?.tipE(magiaTipKeys[mIdx])} tip={tip} />
+                  <TopSpan top={mg.top} onTipEnter={tip?.tipE(magiaTipKeys[mIdx]!)} tip={tip} />
                 ) : null}
               </div>
             ))}

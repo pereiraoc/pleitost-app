@@ -90,7 +90,7 @@ function parseMatrixSection(body: string, sectionTitle: string): AvailabilityMat
   const lines = section.split('\n').filter((l) => l.trim().startsWith('|'))
   // header + separador + linhas de dados; header dá a ordem das colunas de tier.
   if (lines.length < 3) return null
-  const header = splitRow(lines[0]) // ["Local","Adepto","Experiente","Mestre"]
+  const header = splitRow(lines[0]!) // ["Local","Adepto","Experiente","Mestre"]
   const colOfTier: Record<Tier, number> = { A: -1, E: -1, M: -1 }
   for (const tier of TIERS) {
     colOfTier[tier] = header.findIndex((h) => h.toLowerCase() === TIER_COLUNA[tier].toLowerCase())
@@ -100,7 +100,7 @@ function parseMatrixSection(body: string, sectionTitle: string): AvailabilityMat
   const parsed: Partial<AvailabilityMatrix> = {}
   for (const line of lines.slice(2)) {
     const cells = splitRow(line)
-    const nome = parseLocalName(cells[0])
+    const nome = parseLocalName(cells[0]!)
     const known = LOCAL_TYPES.find((t) => t === nome)
     if (!known) continue
     parsed[known] = {
@@ -339,7 +339,7 @@ const WIKILINK = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/
 /** Alvo de um wikilink de Recurso ("[[A/B|C]]" → "A/B"); string plana volta. */
 function wikiTargetOf(value: string): string {
   const m = WIKILINK.exec(value)
-  return (m ? m[1] : value).trim()
+  return (m ? m[1]! : value).trim()
 }
 
 // ═══════════════════ Motor v2 (issue #93): pronta + encomenda ═══════════════

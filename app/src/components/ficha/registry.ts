@@ -81,7 +81,7 @@ export const ATTR_EMOJI: Record<string, string> = tokens.emojis.atributo
  *  troféu). Centralizado aqui (não hardcodar no call-site) — usado em
  *  Competências/Perícias e Combate/Perícias (#163). */
 export const ESPECIALIDADE_EMOJI: string =
-  (tokens.emojis.subcategoria as Record<string, string>).Especializacao
+  (tokens.emojis.subcategoria as Record<string, string>).Especializacao!
 export const MAESTRIA_EMOJI = '🏆'
 
 /** Slug NFD-strip do plugin (util/display-names.ts) — chave dos registros. */

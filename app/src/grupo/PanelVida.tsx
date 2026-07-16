@@ -86,7 +86,7 @@ export function PanelVida({
   const base: Row[] = ordered.map((member, i) => ({
     id: member.id,
     nome: member.basename ?? member.id,
-    cells: memberCells(stats[i]),
+    cells: memberCells(stats[i]!),
     grupo: false,
     gi: i,
   }))
@@ -138,7 +138,7 @@ export function PanelVida({
               />
               {row.cells.map((v, i) => (
                 <ValueCell
-                  key={VIDA_HEADS[i].l}
+                  key={VIDA_HEADS[i]!.l}
                   value={v}
                   weight={row.grupo ? 800 : 500}
                   cor={row.grupo ? 'var(--accent)' : 'var(--text)'}

@@ -178,7 +178,7 @@ export function PanelRiqueza({
               />
               {row.cells.map((v, i) => (
                 <ValueCell
-                  key={RIQ_HEADS[i].l}
+                  key={RIQ_HEADS[i]!.l}
                   value={v}
                   weight={row.grupo ? 800 : 500}
                   cor={

@@ -184,7 +184,8 @@ export function useMapView(): UseMapView {
     const pts = [...pointers.current.values()]
     if (pts.length >= 2) {
       // Início de pinça: baseline de distância/ponto-médio + view atual.
-      const [a, b] = pts
+      const a = pts[0]! // pts.length >= 2
+      const b = pts[1]!
       pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
       panBase.current = null
     } else {
@@ -200,7 +201,8 @@ export function useMapView(): UseMapView {
     // PINÇA (2+ ponteiros): escala pela razão de distância, ancorada no
     // ponto-médio inicial (que também acompanha o pan dos dedos).
     if (pts.length >= 2 && pinchBase.current) {
-      const [a, b] = pts
+      const a = pts[0]! // pts.length >= 2
+      const b = pts[1]!
       const d = dist(a, b)
       const base = pinchBase.current
       if (base.d > 0) {
@@ -238,11 +240,12 @@ export function useMapView(): UseMapView {
     pointers.current.delete(e.pointerId)
     const pts = [...pointers.current.values()]
     if (pts.length >= 2) {
-      const [a, b] = pts
+      const a = pts[0]! // pts.length >= 2
+      const b = pts[1]!
       pinchBase.current = { d: dist(a, b), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, view }
     } else if (pts.length === 1) {
       pinchBase.current = null
-      panBase.current = { x: pts[0].x, y: pts[0].y, tx: view.tx, ty: view.ty }
+      panBase.current = { x: pts[0]!.x, y: pts[0]!.y, tx: view.tx, ty: view.ty }
     } else {
       pinchBase.current = null
       panBase.current = null

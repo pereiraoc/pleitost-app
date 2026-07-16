@@ -13,7 +13,7 @@ const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/
 export function wikiTarget(value: unknown): string {
   if (typeof value !== 'string') return ''
   const match = WIKILINK.exec(value)
-  return (match ? match[1] : value).trim()
+  return (match ? match[1]! : value).trim()
 }
 
 export function fmOf(doc: VaultDoc | undefined): Record<string, unknown> {
@@ -419,12 +419,12 @@ export function interativa(fm: Record<string, unknown>): {
 export function shortSintonia(value: unknown): string {
   const label = linkLabel(str(value))
   const m = /^Traço Elemental d[aeo]\s+(.+)$/i.exec(label)
-  return m ? m[1].trim() : label
+  return m ? m[1]!.trim() : label
 }
 
 /** Nome curto de subclasse — espelha shortSubclassName do plugin ("X (Y)" → "Y"). */
 export function shortSubclass(value: unknown): string {
   const label = linkLabel(str(value))
   const m = /\(([^)]+)\)\s*$/.exec(label)
-  return m ? m[1].trim() : label
+  return m ? m[1]!.trim() : label
 }

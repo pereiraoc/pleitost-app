@@ -12,7 +12,7 @@ export const LOCALIZACAO_TYPE = 'Localização'
 export function wikiTarget(raw: unknown): string | null {
   if (typeof raw !== 'string') return null
   const m = /\[\[([^\]|#]+)(?:[#|][^\]]*)?\]\]/.exec(raw)
-  return m ? m[1].trim() : null
+  return m ? m[1]!.trim() : null
 }
 
 /** Id do lugar-pai (Geolocalização) de um doc, ou null (raiz / não resolvido). */

@@ -17,7 +17,7 @@ function plainLabel(value: unknown): string {
   if (typeof value === 'number') return String(value)
   if (typeof value !== 'string' || !value) return ''
   const match = WIKI.exec(value)
-  return match ? (match[2] ?? match[1]) : value
+  return match ? (match[2] ?? match[1]!) : value
 }
 
 /** Lê o arquivo como texto via FileReader — Blob.text() não existe no jsdom,

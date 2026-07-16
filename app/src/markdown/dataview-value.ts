@@ -11,5 +11,5 @@ export function linkLabel(value: unknown): string {
   if (typeof value !== 'string') return ''
   const match = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/.exec(value)
   if (!match) return value
-  return (match[2] ?? match[1]).trim()
+  return (match[2] ?? match[1]!).trim()
 }

@@ -17,7 +17,7 @@ export function BountyText({ text }: { text: string }) {
   for (const m of text.matchAll(WIKILINK)) {
     const idx = m.index
     if (idx > last) parts.push(text.slice(last, idx))
-    const target = m[1]
+    const target = m[1]!
     const label = m[2] ?? target
     const res = catalog.resolve(target)
     if (res.kind === 'doc') {

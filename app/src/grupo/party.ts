@@ -50,7 +50,7 @@ export interface RankColors {
 export function rankColors(letter: string): RankColors {
   const pb = tokens.colors.partyBountyRank as Record<string, string>
   const L = /^[SABCD]$/.test(letter) ? letter : 'D'
-  return { color: pb[`${L}Color`], bg: pb[`${L}Bg`], glow: pb[`${L}Glow`] }
+  return { color: pb[`${L}Color`]!, bg: pb[`${L}Bg`]!, glow: pb[`${L}Glow`]! }
 }
 
 /** Cor da barrinha/tier — espelha PARTY_TIER_BAR (tiers-display.ts:27) via
@@ -58,7 +58,7 @@ export function rankColors(letter: string): RankColors {
  *  (render-party-sheet.ts:194: `PARTY_TIER_BAR[maxGroupTier] || PARTY_TIER_BAR[1]`). */
 export function tierBarColor(tier: number): string {
   const bar = tokens.colors.partyTierBar as Record<string, string>
-  return bar[`Tier${tier}`] ?? bar['Tier1']
+  return bar[`Tier${tier}`] ?? bar['Tier1']!
 }
 
 /** Espelha tiers-display.ts: rank do FM ([SABCD]), senão derivado do tier máximo. */

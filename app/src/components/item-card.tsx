@@ -275,8 +275,8 @@ export function bodyAbilities(doc: VaultDoc): { label: string; text: string }[] 
     // body; wikilinks resolvidos, sem inventar nada.
     const m = raw.match(/^\s*\*\*([^*]+?)\*\*[:：]?\s*(.*)$/)
     if (!m) continue
-    const label = stripWiki(m[1]).replace(/[:：]\s*$/, '').trim()
-    const text = stripWiki(m[2]).trim()
+    const label = stripWiki(m[1]!).replace(/[:：]\s*$/, '').trim()
+    const text = stripWiki(m[2]!).trim()
     if (label) out.push({ label, text })
   }
   return out
@@ -387,7 +387,7 @@ export function bodyHtml(
     if (h) {
       flushPara()
       flushList()
-      const txt = inlineMd(h[2]).trim()
+      const txt = inlineMd(h[2]!).trim()
       // Pula o heading do próprio doc — o card já mostra o nome no topo. Casa por
       // PREFIXO: "Anima (PRE)" / "Anima - PRE" também são o título, não conteúdo.
       const stripped = txt.replace(/<[^>]+>/g, '').replace(/[\s-]/g, '').toLowerCase()
@@ -406,7 +406,7 @@ export function bodyHtml(
         out.push('<ul class="shc-ul">')
         inList = true
       }
-      out.push(`<li>${inlineMd(li[1])}</li>`)
+      out.push(`<li>${inlineMd(li[1]!)}</li>`)
       continue
     }
     flushList()

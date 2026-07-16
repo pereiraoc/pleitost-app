@@ -70,10 +70,10 @@ const GRUPO_TABS = [
 const ROLE_COLS = ['#4ade80', '#c084fc', '#f87171', '#60a5fa']
 const BAL_HEADS: { ic: string; l: string; cor: string; papel?: (typeof PAPEIS)[number] }[] = [
   { ic: '🎖️', l: 'TIR', cor: 'var(--accent)' },
-  { ic: '★', l: 'LID', cor: ROLE_COLS[0], papel: 'Lider' },
-  { ic: '★', l: 'CON', cor: ROLE_COLS[1], papel: 'Controlador' },
-  { ic: '★', l: 'ABT', cor: ROLE_COLS[2], papel: 'Abatedor' },
-  { ic: '★', l: 'VAN', cor: ROLE_COLS[3], papel: 'Vanguarda' },
+  { ic: '★', l: 'LID', cor: ROLE_COLS[0]!, papel: 'Lider' },
+  { ic: '★', l: 'CON', cor: ROLE_COLS[1]!, papel: 'Controlador' },
+  { ic: '★', l: 'ABT', cor: ROLE_COLS[2]!, papel: 'Abatedor' },
+  { ic: '★', l: 'VAN', cor: ROLE_COLS[3]!, papel: 'Vanguarda' },
 ]
 
 const rowGrid: CSSProperties = {
@@ -124,7 +124,7 @@ function StarCell({
         ...(warn ? papelTdWarnStyle : null),
       }}
     >
-      {star(slots[0], 0)}
+      {star(slots[0]!, 0)}
       <span
         style={{
           width: 0,
@@ -133,8 +133,8 @@ function StarCell({
           margin: '1px -1.5px',
         }}
       />
-      {star(slots[1], 1)}
-      {star(slots[2], 2)}
+      {star(slots[1]!, 1)}
+      {star(slots[2]!, 2)}
       {value > 3 ? (
         <span style={{ fontSize: 12, color: cor, marginLeft: 2, fontWeight: 700 }}>+</span>
       ) : null}
@@ -228,7 +228,7 @@ function PanelBalanceamento({
   const sorted = applySort(
     rows,
     sort,
-    (r, c) => (c === 0 ? r.tier : r.values[PAPEIS[c - 1]] || 0),
+    (r, c) => (c === 0 ? r.tier : r.values[PAPEIS[c - 1]!] || 0),
     (r) => r.label,
   )
   return (

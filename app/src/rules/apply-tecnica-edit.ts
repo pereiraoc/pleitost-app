@@ -14,7 +14,7 @@ const WIKILINK = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 
 function wikiTarget(s: string): string {
   const m = s.match(WIKILINK)
-  return (m ? m[1] : s).trim()
+  return (m ? m[1]! : s).trim()
 }
 
 function isRuleSource(src: unknown): boolean {

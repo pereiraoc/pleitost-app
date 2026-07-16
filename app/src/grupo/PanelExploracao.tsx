@@ -156,7 +156,7 @@ function currentLocalId(
   const hexes = state.hexes
   const start = atual ? hexes.findIndex((h) => h.id === atual.id) : hexes.length - 1
   for (let i = start; i >= 0; i--) {
-    const h = hexes[i]
+    const h = hexes[i]!
     const id = cellAt(hexMap, h.col, h.row)?.localId ?? h.localId
     if (id) return id
   }
@@ -384,7 +384,7 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
       segs.push({ principal: h, principalIdx: idx, children: [] })
     } else {
       if (segs.length === 0) segs.push({ principal: null, principalIdx: -1, children: [] })
-      segs[segs.length - 1].children.push({ h, idx })
+      segs[segs.length - 1]!.children.push({ h, idx })
     }
   })
   return segs
@@ -754,7 +754,7 @@ function LeftBar({
                                   {paradaRow(c.h, c.idx, 'child')}
                                 </div>
                               ))}
-                              {insertRow(kids[kids.length - 1].idx + 1, true)}
+                              {insertRow(kids[kids.length - 1]!.idx + 1, true)}
                             </>
                           )
                         : collapsedRow(key, kids)

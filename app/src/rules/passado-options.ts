@@ -19,7 +19,7 @@ export function coveredPericias(calculated: Deltas): Set<string> {
   for (const [key, value] of Object.entries(calculated)) {
     if (key.startsWith('__')) continue
     const m = key.match(PERICIA_PROF_KEY_RX)
-    if (m && PERICIAS.includes(m[1]) && isRankA(value)) out.add(m[1])
+    if (m && PERICIAS.includes(m[1]!) && isRankA(value)) out.add(m[1]!)
   }
   return out
 }
@@ -30,7 +30,7 @@ export function coveredOficios(calculated: Deltas): Set<string> {
   for (const [key, value] of Object.entries(calculated)) {
     if (key.startsWith('__')) continue
     const m = key.match(OFICIO_PROF_KEY_RX)
-    if (m && isRankA(value)) out.add(m[1])
+    if (m && isRankA(value)) out.add(m[1]!)
   }
   return out
 }
@@ -104,7 +104,7 @@ export function applyPassadoPickToRows(
     let max = 0
     for (const inc of next) {
       for (const key of Object.keys(inc)) {
-        if (key === 'A' || key === 'E' || key === 'M') max = Math.max(max, RANK_ORDER[key])
+        if (key === 'A' || key === 'E' || key === 'M') max = Math.max(max, RANK_ORDER[key]!)
       }
     }
     return { ...row, Incrementos: next, Proficiencia: RANK_FROM[max] }

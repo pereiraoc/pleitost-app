@@ -174,7 +174,7 @@ function plainLabel(value: unknown): string {
   if (typeof value === 'number') return String(value)
   if (typeof value !== 'string' || !value) return ''
   const match = WIKI.exec(value)
-  return match ? (match[2] ?? match[1]) : value
+  return match ? (match[2] ?? match[1]!) : value
 }
 
 /** Iniciais pro slot sem retrato (h.ini do design: "Carlos Facão…" → "CF").
@@ -1390,7 +1390,7 @@ export function NpcsPage() {
   const abaInicial =
     tabPedida && [...NPC_TABS, ...MESTRE_TABS].some((t) => t.id === tabPedida)
       ? tabPedida
-      : NPC_TABS[0].id
+      : NPC_TABS[0]!.id
   const [tab, setTab] = useState(abaInicial)
   const [pessoaOpen, setPessoaOpen] = useState(false)
   // #205: modal Importar Companheiro Animal (arquivo ou exemplo do compêndio)
@@ -1405,7 +1405,7 @@ export function NpcsPage() {
   // seleção recua pra primeira aba.
   const { mestre } = useSettings()
   const allTabs = [...NPC_TABS.map(({ id, label }) => ({ id, label })), ...MESTRE_TABS]
-  const activeTab = !mestre && MESTRE_GATED_IDS.has(tab) ? NPC_TABS[0].id : tab
+  const activeTab = !mestre && MESTRE_GATED_IDS.has(tab) ? NPC_TABS[0]!.id : tab
   const index = allTabs.findIndex((t) => t.id === activeTab)
 
   // #46: Companheiro Animal local → ficha (família CA: Tutor). #47: Monstro

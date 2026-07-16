@@ -84,7 +84,7 @@ function maxRankFromIncs(incs: IncEntry[]): 'N' | 'A' | 'E' | 'M' {
     const r = RANK_ORDER[k] ?? 0
     if (r > max) max = r
   }
-  return RANK_FROM[max]
+  return RANK_FROM[max]!
 }
 
 function num(v: unknown): number {
@@ -114,7 +114,7 @@ function materializeAlias(calc: Fm): Fm {
         .slice()
         .sort((a, b) => a.order - b.order)
       if (raw.length > 0) {
-        const base = raw[0].fragment
+        const base = raw[0]!.fragment
         const perOrder = new Map<number, string>()
         for (const f of raw) perOrder.set(f.order, f.fragment)
         const display = [...perOrder.entries()].sort((a, b) => a[0] - b[0]).map(([, f]) => f).join(' ')
@@ -150,8 +150,8 @@ function ensureObj(parent: Fm, key: string): Fm {
 
 function ensureListaRows(fm: Fm, ...path: string[]): Row[] {
   let cur: Fm = fm
-  for (let i = 0; i < path.length - 1; i++) cur = ensureObj(cur, path[i])
-  const last = path[path.length - 1]
+  for (let i = 0; i < path.length - 1; i++) cur = ensureObj(cur, path[i]!)
+  const last = path[path.length - 1]!
   if (!Array.isArray(cur[last])) cur[last] = []
   return cur[last] as Row[]
 }
@@ -159,7 +159,7 @@ function ensureListaRows(fm: Fm, ...path: string[]): Row[] {
 const WIKILINK_TARGET = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 function wikiTarget(s: string): string {
   const m = s.match(WIKILINK_TARGET)
-  return m ? m[1].trim() : s.trim()
+  return m ? m[1]!.trim() : s.trim()
 }
 
 function isWikilink(s: string): boolean {
@@ -220,7 +220,7 @@ function pruneOrphanedRuleEntries(rows: Row[], calculatedItems: unknown[]): void
     if (typeof link === 'string') alive.add(wikiTarget(link))
   }
   for (let i = rows.length - 1; i >= 0; i--) {
-    const entry = Object.entries(rows[i])[0]
+    const entry = Object.entries(rows[i]!)[0]
     if (!entry) continue
     const [link, source] = entry
     const ruleDerived = typeof source === 'string' && /^(Regra|Escolha)(\.|$)/.test(source)
@@ -310,8 +310,8 @@ function ensureMovimentoRow(fm: Fm, nome: string): Row {
 
 function setNested(fm: Fm, path: string[], value: unknown): void {
   let cur: Fm = fm
-  for (let i = 0; i < path.length - 1; i++) cur = ensureObj(cur, path[i])
-  cur[path[path.length - 1]] = value
+  for (let i = 0; i < path.length - 1; i++) cur = ensureObj(cur, path[i]!)
+  cur[path[path.length - 1]!] = value
 }
 
 /** Espelho de inferImplicitSlotAPericia (plugin merge-calculated-into-model.ts
@@ -322,7 +322,7 @@ function inferImplicitSlotAPericia(rows: Row[]): void {
     const incs = incsOf(row)
     const hasHighRegra = incs.some((e) => {
       const k = incKey(e)
-      return (k === 'E' || k === 'M') && isRuleSource(e[k])
+      return (k === 'E' || k === 'M') && isRuleSource(e[k]!)
     })
     if (!hasHighRegra) continue
     if (incs.some((e) => incKey(e) === 'A')) continue
@@ -338,11 +338,11 @@ function inferImplicitRegraAOficio(rows: Row[]): void {
     const incs = incsOf(row)
     const high = incs.find((e) => {
       const k = incKey(e)
-      return (k === 'E' || k === 'M') && isRuleSource(e[k])
+      return (k === 'E' || k === 'M') && isRuleSource(e[k]!)
     })
     if (!high) continue
     if (incs.some((e) => incKey(e) === 'A')) continue
-    incs.push({ A: high[incKey(high)] })
+    incs.push({ A: high[incKey(high)]! })
   }
 }
 
@@ -366,7 +366,7 @@ function applyPrincipalConstraint(fm: Fm, allowed: string[] | null): void {
     at.Principal = attr3
     return
   }
-  const newAttr3 = allowed[0]
+  const newAttr3 = allowed[0]!
   const oldRankOfNew = num(at[newAttr3])
   at[newAttr3] = 3
   if (attr3 && attr3 !== newAttr3) at[attr3] = oldRankOfNew
@@ -396,7 +396,7 @@ export function mergeCalculatedIntoFm(
     // Campos de proficiência das 5 listas.
     const prof = PROF_TARGET_RX.exec(key)
     if (prof) {
-      const [, ns, name, field] = prof
+      const [, ns, name, field] = prof as unknown as [string, string, string, string]
       if (ns === 'Pericias' || ns === 'Oficios') {
         const rows = ensureListaRows(out, ns, 'Lista')
         let row = findRowBySlug(rows, name)
@@ -423,7 +423,7 @@ export function mergeCalculatedIntoFm(
 
     // Listas fonteadas (Habilidades/Tecnicas/Acoes).
     if (key in LIST_TARGETS && Array.isArray(value)) {
-      const rows = ensureListaRows(out, ...LIST_TARGETS[key])
+      const rows = ensureListaRows(out, ...LIST_TARGETS[key]!)
       // #51: poda entradas rule-derived (Regra./Escolha.) que a regra NÃO produz
       // mais (unpick / condição deixou de valer) — antes ficavam até re-salvar.
       pruneOrphanedRuleEntries(rows, value)
@@ -450,7 +450,7 @@ export function mergeCalculatedIntoFm(
     const magSecEsc = MAGIA_SEC_ESCOLA_FIELD_RX.exec(key)
     const magEsc = magSecEsc ?? MAGIA_ESCOLA_FIELD_RX.exec(key)
     if (magEsc) {
-      const [, escola, field] = magEsc
+      const [, escola, field] = magEsc as unknown as [string, string, string]
       const escolas = magSecEsc
         ? ensureListaRows(out, 'Magias', 'Secundaria', 'Lista')
         : ensureListaRows(out, 'Magias', 'Lista')
@@ -475,7 +475,7 @@ export function mergeCalculatedIntoFm(
     // Slots (Pericias/Tecnicas/Magias) + Potencia/EM.
     const slot = SLOT_RX.exec(key)
     if (slot) {
-      setNested(out, [slot[1], 'Slots', slot[2]], num(value))
+      setNested(out, [slot[1]!, 'Slots', slot[2]!], num(value))
       continue
     }
     if (key === 'Magias.Potencia') { setNested(out, ['Magias', 'Potencia'], num(value)); continue }
@@ -484,7 +484,7 @@ export function mergeCalculatedIntoFm(
     // Slots.*}) — espelho de resolveMagiasSecundaria (scalar paths).
     const secSlot = MAGIA_SEC_SLOT_RX.exec(key)
     if (secSlot) {
-      setNested(out, ['Magias', 'Secundaria', 'Slots', secSlot[1]], num(value))
+      setNested(out, ['Magias', 'Secundaria', 'Slots', secSlot[1]!], num(value))
       continue
     }
     if (key === 'Magias.Secundaria.Potencia') {
@@ -514,7 +514,7 @@ export function mergeCalculatedIntoFm(
     // modificador de ataque (#217).
     const armasField = ARMAS_LISTA_FIELD_RX.exec(key)
     if (armasField) {
-      const [, alvo, field] = armasField
+      const [, alvo, field] = armasField as unknown as [string, string, string]
       const rows = ensureListaRows(out, 'Inventario', 'Armas', 'Lista')
       const matched =
         alvo === '*'
@@ -533,13 +533,13 @@ export function mergeCalculatedIntoFm(
     const eqA = EQUIP_ARMAS_RX.exec(key)
     if (eqA) {
       const prof2 = ensureObj(ensureObj(ensureObj(out, 'Inventario'), 'Armas'), 'Proficiencia')
-      if (String(value) === 'P') prof2[eqA[1]] = 'P'
+      if (String(value) === 'P') prof2[eqA[1]!] = 'P'
       continue
     }
     const eqAr = EQUIP_ARMADURA_RX.exec(key)
     if (eqAr) {
       const prof2 = ensureObj(ensureObj(ensureObj(out, 'Inventario'), 'Armadura'), 'Proficiencia')
-      if (String(value) === 'P') prof2[eqAr[1]] = 'P'
+      if (String(value) === 'P') prof2[eqAr[1]!] = 'P'
       continue
     }
     if (key === 'Inventario.Escudo.Proficiencia') {
@@ -565,7 +565,7 @@ export function mergeCalculatedIntoFm(
 
     // Atributos.FOR/AGI/INT/PRE (Definir direto).
     if (/^Atributos\.(FOR|AGI|INT|PRE)$/.test(key)) {
-      ensureObj(out, 'Atributos')[key.split('.')[1]] = num(value)
+      ensureObj(out, 'Atributos')[key.split('.')[1]!] = num(value)
       continue
     }
     if (key === 'Atributos.Principal') {

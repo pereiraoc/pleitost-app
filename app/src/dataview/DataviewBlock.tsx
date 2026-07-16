@@ -85,7 +85,7 @@ export function DataviewBlock({ lang, code, doc }: Props) {
       <ul className="dataview-list">
         {rows.map((row, i) => (
           <li key={i}>
-            <Cell value={row[0]} />
+            <Cell value={row[0]!} />
           </li>
         ))}
       </ul>

@@ -18,7 +18,7 @@ export function remarkInlineDataview(doc: VaultDoc) {
       const expr = node.value.slice(1).trim()
       const match = /^this\.(.+)$/.exec(expr)
       if (!match) return
-      const replacement: Text = { type: 'text', value: evaluate(match[1], doc) }
+      const replacement: Text = { type: 'text', value: evaluate(match[1]!, doc) }
       parent.children[index] = replacement
     })
   }

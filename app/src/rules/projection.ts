@@ -31,7 +31,7 @@ export function withAlias(wl: string, shortFn: (target: string) => string): stri
   const m = wl.match(/^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/)
   if (!m) return wl
   if (m[2]) return wl
-  const target = m[1]
+  const target = m[1]!
   const short = shortFn(target).trim()
   if (!short || short === target) return wl
   return `[[${target}|${short}]]`
@@ -40,13 +40,13 @@ export function withAlias(wl: string, shortFn: (target: string) => string): stri
 /** Espelho de shortSubclassName (plugin util/wikilink.ts:141-144). */
 export function shortSubclassName(target: string): string {
   const m = target.match(/\(([^)]+)\)\s*$/)
-  return m ? m[1].trim() : target
+  return m ? m[1]!.trim() : target
 }
 
 /** Espelho de shortSintoniaName (plugin util/wikilink.ts:147-149). */
 export function shortSintoniaName(target: string): string {
   const m = target.match(/^Traço Elemental d[aeo]\s+(.+)$/i)
-  return m ? m[1].trim() : target
+  return m ? m[1]!.trim() : target
 }
 
 /** Pasta-fonte das classes de Heroi — espelho de classesPathPrefix
@@ -122,7 +122,7 @@ export function listEspecializacoesByPericia(catalog: Catalog): {
     ;(bucket[slug] ??= []).push(`[[${base}]]`)
   }
   for (const map of [especializacoes, maestrias]) {
-    for (const key of Object.keys(map)) map[key].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+    for (const key of Object.keys(map)) map[key]!.sort((a, b) => a.localeCompare(b, 'pt-BR'))
   }
   return { especializacoes, maestrias }
 }
@@ -183,7 +183,7 @@ const LISTA_NAMESPACE: Record<string, string> = {
 export function targetToModelPath(targetRaw: string): string | null {
   const lista = LISTA_TARGET_RX.exec(targetRaw)
   if (lista) {
-    const [, ns, nome, field] = lista
+    const [, ns, nome, field] = lista as unknown as [string, string, string, string]
     return `${LISTA_NAMESPACE[ns]}.${nome}.${TARGET_FIELD[field] ?? field}`
   }
   if (targetRaw === 'Ataques.Proficiencia') return 'ataques.proficiencia'
@@ -197,7 +197,7 @@ export function targetToModelPath(targetRaw: string): string | null {
   // resolveInventario (plugin rule-target-registry.ts:246-252:
   // `armasProf[1].toLowerCase()`).
   const armas = /^Inventario\.Armas\.Proficiencia\.(Simples|Marciais|Especificas)$/.exec(targetRaw)
-  if (armas) return `inventario.armas.proficiencia.${armas[1].toLowerCase()}`
+  if (armas) return `inventario.armas.proficiencia.${armas[1]!.toLowerCase()}`
   // Potência Mágica e EM Máximo (Definir Magias.Potencia/EM) — pro tooltip das
   // FONTES de elementos de regra no número (#145).
   if (targetRaw === 'Magias.Potencia') return 'magias.potencia'
@@ -429,7 +429,7 @@ const MAGIA_ESCOLA_NOME: Record<string, string> = {
 const WIKI_BASE_RX = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 function wikiBase(s: string): string {
   const m = s.match(WIKI_BASE_RX)
-  return (m ? m[1] : s).trim()
+  return (m ? m[1]! : s).trim()
 }
 
 /** Arcana genérica (Especial/Essencial ou nota sem `escola`): roteia pra escola
@@ -439,7 +439,7 @@ function wikiBase(s: string): string {
 export function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): string {
   const negra = grupos.find((g) => String(g?.Nome) === 'Arcana Negra')
   const prof = String(negra?.Proficiencia ?? 'N').trim().toUpperCase()
-  return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra : MAGIA_ESCOLA_NOME.ArcanaBranca
+  return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra! : MAGIA_ESCOLA_NOME.ArcanaBranca!
 }
 
 /** Escola-destino (Nome do grupo no FM) de uma magia concedida por regra —
@@ -458,12 +458,12 @@ function escolaDestinoDaMagia(
     const r = catalog.resolve(base)
     if (r.kind === 'doc') subcat = String(catalog.entryById.get(r.id)?.subtype ?? '').trim()
   }
-  if (subcat === 'Anima') return MAGIA_ESCOLA_NOME.Anima
-  if (subcat === 'Tesouros') return MAGIA_ESCOLA_NOME.Tesouros
+  if (subcat === 'Anima') return MAGIA_ESCOLA_NOME.Anima!
+  if (subcat === 'Tesouros') return MAGIA_ESCOLA_NOME.Tesouros!
   if (subcat === 'Arcana') {
     const esc = fm ? String(fm.escola ?? fm.Escola ?? '').trim() : ''
-    if (esc === 'Negra') return MAGIA_ESCOLA_NOME.ArcanaNegra
-    if (esc === 'Branca') return MAGIA_ESCOLA_NOME.ArcanaBranca
+    if (esc === 'Negra') return MAGIA_ESCOLA_NOME.ArcanaNegra!
+    if (esc === 'Branca') return MAGIA_ESCOLA_NOME.ArcanaBranca!
     return pickArcanaEspecial(grupos)
   }
   return null

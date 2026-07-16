@@ -25,7 +25,7 @@ export function composeStateKey(label: string, sharedFrom?: string | null): stri
 export function parseStateKey(stateKey: string): { label: string; sharedFrom?: string } {
   const parts = stateKey.split('::')
   if (parts.length === 1) return { label: stateKey }
-  return { label: parts[0], sharedFrom: parts.slice(1).join('::') }
+  return { label: parts[0]!, sharedFrom: parts.slice(1).join('::') }
 }
 
 /** True quando entry de `condicoesAtivas` representa ativa (plugin :119-128):

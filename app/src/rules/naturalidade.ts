@@ -79,13 +79,13 @@ function buildTree(opts: NaturalidadeOption[]): TreeNode {
     const parts = rel.split('/')
     let node = root
     for (let i = 0; i < parts.length - 1; i++) {
-      const seg = parts[i]
+      const seg = parts[i]!
       if (!node.children.has(seg)) {
         node.children.set(seg, { segment: seg, path: `${node.path}/${seg}`, leaves: [], children: new Map() })
       }
       node = node.children.get(seg)!
     }
-    const last = parts[parts.length - 1]
+    const last = parts[parts.length - 1]!
     if (parts.length >= 2 && last === parts[parts.length - 2]) {
       node.indexNote = o
     } else if (parts.length === 1) {

@@ -45,7 +45,7 @@ function tokenize(src: string): Token[] {
   const tokens: Token[] = []
   let i = 0
   while (i < src.length) {
-    const ch = src[i]
+    const ch = src[i]!
     if (/\s/.test(ch)) {
       i++
       continue

@@ -8,7 +8,7 @@ const WIKILINK_EXACT = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 export function wikilinkBasename(wl: string): string {
   const m = wl.match(WIKILINK_EXACT)
   if (!m) return wl.trim()
-  const target = m[1].trim()
+  const target = m[1]!.trim()
   return (target.split('/').pop() ?? target).replace(/\.md$/i, '').trim()
 }
 

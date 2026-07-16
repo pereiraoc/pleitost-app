@@ -39,7 +39,7 @@ export function isAventura(doc: VaultDoc): boolean {
 /** Extrai o source do 1º fence ```bounty``` do corpo (aventura da vault). */
 function bountyFenceSource(body: string): string | null {
   const m = body.match(/```bounty\r?\n([\s\S]*?)```/)
-  return m ? m[1] : null
+  return m ? m[1]! : null
 }
 
 /** BountyData do doc: fence do corpo (vault) OU frontmatter (aventura local). */

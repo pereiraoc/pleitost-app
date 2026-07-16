@@ -24,7 +24,7 @@ const FIGURA_CONSUMIVEIS = 'Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
   const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(nome)
-  const target = (m ? m[1] : nome).trim()
+  const target = (m ? m[1]! : nome).trim()
   return target.split('/').pop() ?? target
 }
 

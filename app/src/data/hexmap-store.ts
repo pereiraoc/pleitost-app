@@ -182,10 +182,10 @@ export function setHexLocal(
 ): HexMapCell {
   const cur = hydrate(regionId)
   const idx = cur.cells.findIndex((c) => c.col === col && c.row === row)
-  const cell = makeCell(col, row, localId, idx === -1 ? undefined : cur.cells[idx].areaIds)
+  const cell = makeCell(col, row, localId, idx === -1 ? undefined : cur.cells[idx]!.areaIds)
   if (idx === -1) {
     commit(regionId, { ...cur, cells: [...cur.cells, cell] })
-  } else if (cur.cells[idx].localId !== localId) {
+  } else if (cur.cells[idx]!.localId !== localId) {
     const next = cur.cells.slice()
     next[idx] = cell
     commit(regionId, { ...cur, cells: next })
@@ -198,8 +198,8 @@ export function setHexLocal(
 export function removeHex(regionId: string, col: number, row: number): void {
   const cur = hydrate(regionId)
   const idx = cur.cells.findIndex((c) => c.col === col && c.row === row)
-  if (idx === -1 || cur.cells[idx].localId === undefined) return
-  const areaIds = cur.cells[idx].areaIds
+  if (idx === -1 || cur.cells[idx]!.localId === undefined) return
+  const areaIds = cur.cells[idx]!.areaIds
   const next = cur.cells.slice()
   if (areaIds && areaIds.length) next[idx] = makeCell(col, row, undefined, areaIds)
   else next.splice(idx, 1)
@@ -253,8 +253,8 @@ export function setHexAreaBulk(
     if (idx === -1) {
       next.push(makeCell(t.col, t.row, undefined, [areaId]))
       changed = true
-    } else if (!(next[idx].areaIds ?? []).includes(areaId)) {
-      next[idx] = makeCell(t.col, t.row, next[idx].localId, [...(next[idx].areaIds ?? []), areaId])
+    } else if (!(next[idx]!.areaIds ?? []).includes(areaId)) {
+      next[idx] = makeCell(t.col, t.row, next[idx]!.localId, [...(next[idx]!.areaIds ?? []), areaId])
       changed = true
     }
   }

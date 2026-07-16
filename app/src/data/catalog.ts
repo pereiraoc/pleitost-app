@@ -93,7 +93,7 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
 
   function resolveUncached(target: string): WikiResolution {
     // Âncoras (#heading, #^bloco) não são navegadas no M1 — resolvem pro doc.
-    const clean = target.split('#')[0].trim()
+    const clean = target.split('#')[0]!.trim()
     if (!clean) return { kind: 'missing' }
 
     if (clean.includes('/')) {
@@ -102,14 +102,14 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
       // Path parcial (Obsidian aceita sufixos de caminho)
       const suffix = '/' + id
       const candidates = content.filter((d) => d.id.endsWith(suffix)).map((d) => d.id)
-      if (candidates.length === 1) return { kind: 'doc', id: candidates[0] }
+      if (candidates.length === 1) return { kind: 'doc', id: candidates[0]! }
       if (candidates.length > 1) return { kind: 'ambiguous', candidates }
       return { kind: 'missing' }
     }
 
     const ids =
       idsByBasename.get(clean) ?? idsByBasenameLower.get(clean.toLowerCase()) ?? []
-    if (ids.length === 1) return { kind: 'doc', id: ids[0] }
+    if (ids.length === 1) return { kind: 'doc', id: ids[0]! }
     if (ids.length > 1) return { kind: 'ambiguous', candidates: ids }
     return { kind: 'missing' }
   }

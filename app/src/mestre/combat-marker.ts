@@ -82,7 +82,7 @@ export function splitBlockSource(source: string): SplitBlockSource {
   const lines = String(source ?? '').split('\n')
   const markerIndex = lines.findIndex((line) => STATE_MARKERS.has(line.trim().toLowerCase()))
   const rosterLines = (markerIndex >= 0 ? lines.slice(0, markerIndex) : lines).slice()
-  while (rosterLines.length && !rosterLines[rosterLines.length - 1].trim()) rosterLines.pop()
+  while (rosterLines.length && !rosterLines[rosterLines.length - 1]!.trim()) rosterLines.pop()
   const stateLines = markerIndex >= 0 ? lines.slice(markerIndex + 1) : []
   return { rosterLines, stateLines }
 }
@@ -104,7 +104,7 @@ export function parseCombatMarkerBlocks(noteContent: string): ParseCombatMarkerB
   if (blocks.length > 1) {
     return { ok: false, reason: 'multiple-blocks', blockCount: blocks.length }
   }
-  const { rosterLines } = splitBlockSource(blocks[0])
+  const { rosterLines } = splitBlockSource(blocks[0]!)
   const entries: EncounterRosterEntry[] = []
   for (const raw of rosterLines) {
     const parsed = parseRosterLine(raw)
@@ -151,7 +151,7 @@ function rosterEntryFromParsed(parsed: ParsedRosterLine): EncounterRosterEntry |
   // Wikilink: "[[Path|Alias]]" ou "[[Path]]"
   const m = target.match(/^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/)
   if (m) {
-    const targetPath = m[1].trim()
+    const targetPath = m[1]!.trim()
     const alias = (m[2] ?? targetPath).trim()
     return {
       sourcePath: targetPath,

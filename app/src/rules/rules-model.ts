@@ -139,7 +139,7 @@ export function parseFontedLinkList(v: unknown): FontedLink[] {
     if (typeof item === 'string') out.push({ link: item, source: '' })
     else if (item && typeof item === 'object') {
       const entries = Object.entries(item as Record<string, unknown>)
-      if (entries.length === 1) out.push({ link: entries[0][0], source: str(entries[0][1]) })
+      if (entries.length === 1) out.push({ link: entries[0]![0], source: str(entries[0]![1]) })
     }
   }
   return out

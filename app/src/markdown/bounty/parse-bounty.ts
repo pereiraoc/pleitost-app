@@ -47,7 +47,7 @@ export function parseBountyBlock(source: string): BountyData {
         if (typeof current !== 'object' || Array.isArray(current)) {
           data[block] = {}
         }
-        ;(data[block] as Record<string, BountyValue>)[kv[1].trim()] = parseBountyValue(kv[2])
+        ;(data[block]! as Record<string, BountyValue>)[kv[1]!.trim()] = parseBountyValue(kv[2]!)
       } else if (block) {
         if (!Array.isArray(data[block])) data[block] = []
         ;(data[block] as BountyValue[]).push(parseBountyValue(content))

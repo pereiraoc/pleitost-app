@@ -45,7 +45,7 @@ function buildGtip(g: GtipState | null): BuiltGtip | null {
   if (!g || !GT) return null
   const ix = GT.map[g.key]
   if (ix === undefined) return null
-  const ent = GT.store[ix]
+  const ent = GT.store[ix]!
   const vw = window.innerWidth
   const vh = window.innerHeight
   let ew = ent.w

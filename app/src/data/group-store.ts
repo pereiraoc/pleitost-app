@@ -253,9 +253,9 @@ export function moveGroupHex(groupId: string, hexId: string, toIndex: number): v
   const hexes = cur.hexes.slice()
   const [moved] = hexes.splice(from, 1)
   const to = Math.max(0, Math.min(hexes.length, Math.floor(toIndex)))
-  hexes.splice(to, 0, moved)
+  hexes.splice(to, 0, moved!) // from !== -1 garante que splice removeu um item
   // no-op se a ordem não mudou (evita render/gravação inútil)
-  if (hexes.every((h, i) => h.id === cur.hexes[i].id)) return
+  if (hexes.every((h, i) => h.id === cur.hexes[i]!.id)) return
   commit(groupId, { ...cur, hexes })
 }
 
@@ -269,7 +269,7 @@ export function updateGroupHex(
   const idx = cur.hexes.findIndex((h) => h.id === hexId)
   if (idx === -1) return
   const next = cur.hexes.slice()
-  const merged = { ...next[idx], ...patch }
+  const merged = { ...next[idx]!, ...patch } // idx !== -1 garante a parada
   // localId/data/label vazios removem o campo (o JSON não guarda undefined).
   if (!merged.localId) delete merged.localId
   if (!merged.data) delete merged.data
@@ -311,7 +311,7 @@ export function hexAtual(state: GroupState): GroupHex | null {
     const t = state.hexes.find((h) => h.id === state.atualId)
     if (t) return t
   }
-  return state.hexes.length ? state.hexes[state.hexes.length - 1] : null
+  return state.hexes.length ? state.hexes[state.hexes.length - 1]! : null
 }
 
 /** SÓ testes: zera a memória (não o localStorage) — simula reload da página. */

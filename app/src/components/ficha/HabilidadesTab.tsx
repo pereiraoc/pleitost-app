@@ -141,7 +141,7 @@ const PROF_COLS_EDIT = 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
 /** Dígitos iniciais de um custo ("2A" → "2"; "L"/vazio → ""). */
 function custoDigits(custo: unknown): string {
   const m = /^(\d+)/.exec(str(custo).trim())
-  return m ? m[1] : ''
+  return m ? m[1]! : ''
 }
 
 /** Rank (Adepta/Experiente/Mestre) de um doc: inline rank::, senão subcategoria. */
@@ -249,7 +249,7 @@ function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto:
   const out: { nome: string; texto: string }[] = []
   const re = /^\s*[-*]\s+\*\*([^:*]+):\*\*\s*(.*)$/gm
   let m: RegExpExecArray | null
-  while ((m = re.exec(body))) out.push({ nome: m[1].trim(), texto: m[2].trim() })
+  while ((m = re.exec(body))) out.push({ nome: m[1]!.trim(), texto: m[2]!.trim() })
   return out
 }
 
@@ -297,7 +297,7 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     const next = habRows.map((row) => {
       const entries = Object.entries(row)
       if (entries.length !== 1) return row
-      const source = entries[0][1]
+      const source = entries[0]![1]
       if (typeof source === 'string' && tagRx.test(source)) {
         replaced = true
         return { [newKey]: source }
@@ -1683,7 +1683,7 @@ function habTree(
     // Rank do doc alvo (inline `rank::`); default SEM rank explícito → 'Adepta',
     // como o plugin (habilidades-card.ts:123). Só chega aqui com `loaded`, então
     // o doc do root já resolveu e o Experiente/Mestre é confiável.
-    const group = docRankGroup(refDoc(root.target)) || RANK_GROUP_ORDER[1]
+    const group = docRankGroup(refDoc(root.target)) || RANK_GROUP_ORDER[1]!
     push(group, itemOf(root, false))
     for (const child of byParent.get(root.target) ?? []) {
       push(group, itemOf(child, true))
@@ -1774,7 +1774,7 @@ export function HabilidadesArvorePanel({
     const kept = savedList.filter((row) => {
       const entriesRow = Object.entries(row)
       if (entriesRow.length !== 1) return true
-      const src = entriesRow[0][1]
+      const src = entriesRow[0]![1]
       return !(typeof src === 'string' && thisTagRx.test(src))
     })
     kept.push({ [newKey]: newSource })
@@ -2011,7 +2011,7 @@ function tecnicaClasses(d: VaultDoc): string[] {
   CLASSE_WIKILINK_RX.lastIndex = 0
   let m: RegExpExecArray | null
   while ((m = CLASSE_WIKILINK_RX.exec(s)) !== null) {
-    const target = m[1].trim()
+    const target = m[1]!.trim()
     out.push(target.split('/').pop() ?? target)
   }
   if (out.length === 0) {
@@ -2118,7 +2118,7 @@ export function TecnicasPanel({
     const kept = savedList.filter((row) => {
       const entriesRow = Object.entries(row)
       if (entriesRow.length !== 1) return true
-      const src = entriesRow[0][1]
+      const src = entriesRow[0]![1]
       return !(typeof src === 'string' && thisTagRx.test(src))
     })
     kept.push({ [newKey]: newSource })
@@ -2591,7 +2591,7 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
   // O design agrupa magias por SUBCATEGORIA ("Magias Arcana" — Negra+Branca
   // juntas — "Magias Anima"), não por escola (#165). Escola "Arcana Negra"/
   // "Arcana Branca" → Arcana; "Anima" → Anima.
-  const escolaSubcat = (nome: string): string => (nome === 'Tesouros' ? 'Tesouros' : nome.split(' ')[0])
+  const escolaSubcat = (nome: string): string => (nome === 'Tesouros' ? 'Tesouros' : nome.split(' ')[0]!)
   const h2Of = (nome: string) =>
     nome === 'Tesouros' ? 'Magias de Tesouros' : `Magias ${escolaSubcat(nome)}`
 
@@ -2647,8 +2647,10 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
     used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
   /** Slots VAZIOS de um rank = livres do orçamento global (leitura + edição). */
-  const emptyOfRank = (g: string): number =>
-    Math.max(0, num(slotsFm?.[RANK_GROUP_SLOT[g]]) - usedBy(RANK_GROUP_SLOT[g]))
+  const emptyOfRank = (g: string): number => {
+    const slot = RANK_GROUP_SLOT[g]!
+    return Math.max(0, num(slotsFm?.[slot]) - usedBy(slot))
+  }
 
   // Aprender/remover magia por slot (#62): grava na lista SALVA (o merge
   // reaplica as concessões de regra por cima). Espelho de addMagia/removeMagia
@@ -2758,7 +2760,7 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
               // Cabeçalho da subcategoria só quando muda (Arcana Negra + Branca
               // ficam sob um único "Magias Arcana", como no design — #165).
               const showH2 =
-                escolaIdx === 0 || escolaSubcat(str(escolas[escolaIdx - 1].Nome)) !== escolaSubcat(nome)
+                escolaIdx === 0 || escolaSubcat(str(escolas[escolaIdx - 1]!.Nome)) !== escolaSubcat(nome)
               const byRank = new Map<string, ListaEntry[]>()
               for (const e of entries) {
                 const rank = isTesouro

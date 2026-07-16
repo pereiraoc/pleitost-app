@@ -49,7 +49,7 @@ function extractWikilinks(s: string): string[] {
   const out: string[] = []
   let m: RegExpExecArray | null
   WIKILINK_RE.lastIndex = 0
-  while ((m = WIKILINK_RE.exec(s)) !== null) out.push(m[1])
+  while ((m = WIKILINK_RE.exec(s)) !== null) out.push(m[1]!)
   return out
 }
 
@@ -177,7 +177,7 @@ export async function bfsRules(
     // Todo item da fronteira compartilha a MESMA profundidade (BFS por nível).
     // Nível além de maxDepth → o serial daria `continue` em todos (sem resolver
     // nem gerar regra); não resolve para não carregar docs que nunca contribuem.
-    if (frontier[0].depth > opts.maxDepth) break
+    if (frontier[0]!.depth > opts.maxDepth) break
 
     // Resolve a fronteira inteira em paralelo, preservando o índice.
     const docs = await Promise.all(frontier.map((it) => resolver(it.wikilinkOrPath)))
@@ -188,7 +188,7 @@ export async function bfsRules(
       // consumir o item). Resolver a fronteira toda pode carregar alguns docs a
       // mais que a serial pararia antes — cacheados/inócuos, sem mudar o result.
       if (visited.size >= opts.maxNodes) return { parsedRules, visitedDocs }
-      const item = frontier[i]
+      const item = frontier[i]!
       const doc = docs[i]
       if (!doc) continue
       if (visited.has(doc.id)) continue
@@ -263,7 +263,7 @@ function applyConstraints(deltas: Deltas): void {
     else constraints[target] = new Set([...constraints[target]].filter((x) => allowed.includes(x)))
   }
   for (const target of Object.keys(constraints)) {
-    const set = constraints[target]
+    const set = constraints[target]!
     if (set.size === 1) deltas[target] = [...set][0]
   }
 }
@@ -278,7 +278,7 @@ function buildCategoriaPorNota(model: RulesModel): Map<string, 'Adepto' | 'Exper
   const rankFromCat = (cat: string | null): 'A' | 'E' | 'M' | null => {
     if (!cat) return null
     const m = cat.match(/^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/)
-    const label = m ? m[1].trim() : cat.trim()
+    const label = m ? m[1]!.trim() : cat.trim()
     if (label === 'Adepto') return 'A'
     if (label === 'Experiente') return 'E'
     if (label === 'Mestre') return 'M'
@@ -288,7 +288,7 @@ function buildCategoriaPorNota(model: RulesModel): Map<string, 'Adepto' | 'Exper
     if (!wl) return null
     const m = wl.match(/^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/)
     if (!m) return null
-    const target = m[1].trim()
+    const target = m[1]!.trim()
     return (target.split('/').pop() ?? target).replace(/\.md$/i, '')
   }
   const out = new Map<string, 'Adepto' | 'Experiente' | 'Mestre'>()
@@ -337,7 +337,8 @@ function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
     if (key.startsWith('__')) continue
     const prof = key.match(PROF_TARGET_RX)
     if (prof) {
-      const [, namespace, name, field] = prof
+      // PROF_TARGET_RX tem 3 grupos: name sempre presente quando `prof` casa.
+      const [, namespace, name, field] = prof as [string, string, string, string]
       if (namespace === 'Pericias') {
         const p = (model.pericias[name] ??= {
           nome: name,
@@ -408,7 +409,7 @@ export function applyPrincipalToModel(model: RulesModel, allowed: AtributoId[] |
     model.atributoPrincipal = attr3
     return
   }
-  const newAttr3 = allowed[0]
+  const newAttr3 = allowed[0]!
   const oldRankOfNew = at[newAttr3]
   at[newAttr3] = 3
   if (attr3 && attr3 !== newAttr3) at[attr3] = oldRankOfNew

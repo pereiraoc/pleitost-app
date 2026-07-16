@@ -291,12 +291,12 @@ function setAtPath(
   const out = { ...root }
   let node = out
   for (let i = 0; i < segs.length - 1; i++) {
-    const cur = node[segs[i]]
+    const cur = node[segs[i]!]
     const clone = cur && typeof cur === 'object' && !Array.isArray(cur) ? { ...(cur as Record<string, unknown>) } : {}
-    node[segs[i]] = clone
+    node[segs[i]!] = clone
     node = clone
   }
-  node[segs[segs.length - 1]] = value
+  node[segs[segs.length - 1]!] = value
   return out
 }
 

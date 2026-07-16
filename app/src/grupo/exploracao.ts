@@ -90,8 +90,8 @@ function round1(n: number): number {
 /** Subpath fechado de UM hex (px da fonte) — pra compor a união de uma área. */
 function hexSubpath(col: number, row: number): string {
   const v = hexVertices(col, row)
-  let d = `M${round1(v[0].x)},${round1(v[0].y)}`
-  for (let k = 1; k < 6; k++) d += `L${round1(v[k].x)},${round1(v[k].y)}`
+  let d = `M${round1(v[0]!.x)},${round1(v[0]!.y)}`
+  for (let k = 1; k < 6; k++) d += `L${round1(v[k]!.x)},${round1(v[k]!.y)}`
   return d + 'Z'
 }
 
@@ -164,7 +164,7 @@ export function hexGridPath(): string {
   let d = ''
   for (const { col, row } of hexGridCells()) {
     const v = hexVertices(col, row)
-    d += `M${round1(v[2].x)},${round1(v[2].y)}L${round1(v[3].x)},${round1(v[3].y)}L${round1(v[4].x)},${round1(v[4].y)}L${round1(v[5].x)},${round1(v[5].y)}`
+    d += `M${round1(v[2]!.x)},${round1(v[2]!.y)}L${round1(v[3]!.x)},${round1(v[3]!.y)}L${round1(v[4]!.x)},${round1(v[4]!.y)}L${round1(v[5]!.x)},${round1(v[5]!.y)}`
   }
   return d
 }
@@ -175,8 +175,8 @@ export function hexGridPath(): string {
 export function pointInPolygon(pt: Pt, poly: Pt[]): boolean {
   let inside = false
   for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const a = poly[i]
-    const b = poly[j]
+    const a = poly[i]!
+    const b = poly[j]!
     const straddles = a.y > pt.y !== b.y > pt.y
     if (straddles) {
       const xCross = ((b.x - a.x) * (pt.y - a.y)) / (b.y - a.y) + a.x
@@ -255,7 +255,7 @@ function buildTree(opts: NaturalidadeOption[]): TreeNode {
     const parts = rel.split('/')
     let node = root
     for (let i = 0; i < parts.length - 1; i++) {
-      const seg = parts[i]
+      const seg = parts[i]!
       if (!node.children.has(seg)) {
         node.children.set(seg, { segment: seg, leaves: [], children: new Map() })
       }

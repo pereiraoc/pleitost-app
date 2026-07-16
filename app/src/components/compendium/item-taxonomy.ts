@@ -126,7 +126,7 @@ const BONUS_TIPO_LABEL: Record<string, string> = {
   perícia: 'Perícia',
 }
 
-const capitalize = (s: string): string => (s ? s[0].toUpperCase() + s.slice(1) : s)
+const capitalize = (s: string): string => (s ? s[0]!.toUpperCase() + s.slice(1) : s)
 
 /** PROPRIEDADE (elemento) de imbuição/qualidade = display do 1º wikilink de
  *  `propriedades` do FM ("[[Traço Elemental do Fogo|Fogo]]" → "Fogo"). Fonte do
@@ -138,7 +138,7 @@ export function itemPropriedade(doc: VaultDoc): string {
   for (const p of arr) {
     if (typeof p !== 'string') continue
     const m = p.match(/\[\[[^\]|]+\|([^\]]+)\]\]/) ?? p.match(/\[\[([^\]]+)\]\]/)
-    const label = (m ? m[1] : p).trim()
+    const label = (m ? m[1]! : p).trim()
     if (label) return label
   }
   return ''
@@ -152,7 +152,7 @@ export function itemPropriedade(doc: VaultDoc): string {
  *  Fallback pro basename inteiro se o prefixo não casar. */
 export function consumivelTipo(doc: VaultDoc): string {
   const m = doc.basename.match(/^Poção\s+d[aeo]s?\s+(.+)$/i)
-  return (m ? m[1] : doc.basename).trim()
+  return (m ? m[1]! : doc.basename).trim()
 }
 
 function fmStr(doc: VaultDoc, key: string): string {

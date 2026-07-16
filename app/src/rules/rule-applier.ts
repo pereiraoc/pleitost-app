@@ -42,7 +42,7 @@ const WIKILINK_EXACT = /^\[\[([^\]|]+)(?:\|[^\]]+)?\]\]$/
 /** Espelho de wikilinkTarget (plugin util/wikilink.ts:10-13). */
 export function wikilinkTarget(wl: string): string {
   const m = wl.match(WIKILINK_EXACT)
-  return m ? m[1].trim() : wl
+  return m ? m[1]!.trim() : wl
 }
 
 
@@ -97,7 +97,7 @@ function lookupProfRank(model: RulesModel, prop: string): number | null {
   const m = prop.match(PROF_PATH_RX)
   if (m) {
     const namespace = m[1]
-    const name = m[2]
+    const name = m[2]!
     if (namespace === 'Pericias') {
       const p = model.pericias[name]
       return p ? PROF_RANK[p.proficiencia] ?? null : null
@@ -127,7 +127,7 @@ function lookupBonusEspecial(model: RulesModel, prop: string): number | null {
   const m = prop.match(BONUS_ESPECIAL_PATH_RX)
   if (!m) return null
   if (m[1] === 'Pericias') {
-    const p = model.pericias[m[2]]
+    const p = model.pericias[m[2]!]
     return p ? p.bonusEspecial ?? 0 : null
   }
   const found = model.oficios.find((x) => x.nome === m[2])
@@ -233,7 +233,7 @@ const RANK_ORDER: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
 function readRank(v: unknown): number | null {
   if (typeof v !== 'string') return null
   const s = v.trim().toUpperCase()
-  return s in RANK_ORDER ? RANK_ORDER[s] : null
+  return s in RANK_ORDER ? RANK_ORDER[s]! : null
 }
 
 function readDeltaAsNumber(v: unknown): number | null {

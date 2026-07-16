@@ -155,7 +155,7 @@ export function wikiLabels(value: unknown): string[] {
   const out: string[] = []
   const re = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
   let m: RegExpExecArray | null
-  while ((m = re.exec(s)) !== null) out.push((m[2] ?? m[1].split('/').pop() ?? '').trim())
+  while ((m = re.exec(s)) !== null) out.push((m[2] ?? m[1]!.split('/').pop() ?? '').trim())
   return out
 }
 
@@ -647,7 +647,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
       if (!byNome.has(nome)) byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.bonusType.Condicao })
     }
     return [...byNome.values()].map((d) => {
-      const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]
+      const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]!
       return { nome: d.nome, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor }
     })
   }, [inter, condicoesExtraidas, interState.condicoes])
@@ -2749,7 +2749,7 @@ function InvocacaoCard({
                         {wanted.toUpperCase()}
                       </span>
                       <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
-                        {formatStatValue(wanted, resolved.stats[k])}
+                        {formatStatValue(wanted, resolved.stats[k]!)}
                       </span>
                     </span>
                   )

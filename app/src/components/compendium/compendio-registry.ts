@@ -142,7 +142,7 @@ export function navLabel(path: string): string {
  */
 export function navParent(path: string): string | undefined {
   for (const parent of Object.keys(NAV_CHILDREN)) {
-    if (NAV_CHILDREN[parent].includes(path)) return parent
+    if (NAV_CHILDREN[parent]!.includes(path)) return parent
   }
   return undefined
 }

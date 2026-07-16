@@ -73,7 +73,7 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
         const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g
         let m: RegExpExecArray | null
         while ((m = re.exec(raw)) !== null) {
-          const res = catalog.resolve(m[1].trim())
+          const res = catalog.resolve(m[1]!.trim())
           if (res.kind === 'doc') out.add(res.id)
         }
       }
@@ -89,7 +89,7 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
     const refDoc = (value: unknown): VaultDoc | undefined => {
       const fromRefs = refs.refDoc(value)
       if (fromRefs) return fromRefs
-      const target = str(value).replace(/^\[\[|\]\]$/g, '').split('|')[0].trim()
+      const target = str(value).replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim()
       if (target && propDocs) {
         const res = catalog.resolve(target)
         if (res.kind === 'doc') return propDocs.get(res.id)

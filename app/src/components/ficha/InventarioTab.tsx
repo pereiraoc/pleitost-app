@@ -689,7 +689,7 @@ function GearCard({
   doc?: VaultDoc
   propDoc?: VaultDoc
 }) {
-  const base = linkLabel(str(gear['Nome'])) || bases[0]
+  const base = linkLabel(str(gear['Nome'])) || bases[0]!
   const tier = tierLetter(gear['Categoria']) ?? ''
   const setTier = onTier
   const noGear = /^Sem\b/.test(base)
@@ -938,7 +938,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         const tDoc = refs.refDoc(raw)
         // Grupo = pasta do doc do tesouro na vault (fonte real da organização).
         const parts = (tDoc?.id ?? '').split('/')
-        const grupo = parts.length > 1 ? parts[parts.length - 2] : ''
+        const grupo = parts.length > 1 ? parts[parts.length - 2]! : ''
         return {
           nome,
           tier: tier ?? '',

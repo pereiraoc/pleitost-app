@@ -23,7 +23,7 @@ export function InlineFieldValue({ value }: { value: string }) {
     if (idx > last) parts.push(text.slice(last, idx))
     const [, target, alias] = match
     const label = alias ?? target
-    const res = catalog.resolve(target)
+    const res = catalog.resolve(target!)
     parts.push(
       res.kind === 'doc' ? (
         // #88: abre nos DETALHES da sidebar quando há uma; senão navega

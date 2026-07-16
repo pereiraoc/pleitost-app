@@ -37,7 +37,8 @@ export function CriacaoView({
   sidebar?: boolean
   embedded?: boolean
 }) {
-  const sub: SubtipoCriacao = CRIACAO_SUBTIPOS[doc.type as string]
+  // dispatch por `match: isCriacao` garante que doc.type é chave do registro
+  const sub: SubtipoCriacao = CRIACAO_SUBTIPOS[doc.type as string]!
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
   const resumo = (doc.inlineFields as Record<string, string> | undefined)?.['resumo']
   const chips = sub.campos

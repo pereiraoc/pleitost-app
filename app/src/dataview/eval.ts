@@ -108,13 +108,13 @@ function evalExpr(expr: Expr, doc: VaultDoc, ctx: DataviewCtx): DvValue {
         case 'contains': {
           const [haystack, needle] = args
           if (Array.isArray(haystack)) {
-            return haystack.some((v) => equals(v, needle, ctx.catalog))
+            return haystack.some((v) => equals(v, needle!, ctx.catalog))
           }
           if (typeof haystack === 'string') {
             if (typeof needle === 'string') return haystack.includes(needle)
             if (isDvLink(needle)) return haystack.includes(needle.target)
           }
-          if (isDvLink(haystack)) return equals(haystack, needle, ctx.catalog)
+          if (isDvLink(haystack)) return equals(haystack, needle!, ctx.catalog)
           return false
         }
         default:
@@ -151,7 +151,7 @@ function candidateIds(from: FromTerm[], ctx: DataviewCtx): string[] {
   if (positives.length === 0) {
     base = new Set(all())
   } else {
-    base = setOf(positives[0])
+    base = setOf(positives[0]!)
     for (const term of positives.slice(1)) {
       const other = setOf(term)
       base = new Set([...base].filter((id) => other.has(id)))
@@ -181,8 +181,8 @@ export async function runQuery(query: Query, ctx: DataviewCtx): Promise<DvResult
     }))
     keyed.sort((a, b) => {
       for (let i = 0; i < query.sort.length; i++) {
-        const cmp = compare(a.keys[i], b.keys[i])
-        if (cmp !== 0) return query.sort[i].desc ? -cmp : cmp
+        const cmp = compare(a.keys[i]!, b.keys[i]!)
+        if (cmp !== 0) return query.sort[i]!.desc ? -cmp : cmp
       }
       return 0
     })

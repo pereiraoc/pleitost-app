@@ -40,7 +40,7 @@ function GruposTab({ doc }: { doc: VaultDoc }) {
   }, [catalog, doc])
   // Escolha salva só vale enquanto o herói continuar naquele grupo.
   const salvo = str(model.session('grupos.ativo'))
-  const ativo = groupIds.includes(salvo) ? salvo : groupIds[0]
+  const ativo = groupIds.includes(salvo) ? salvo : groupIds[0]!
 
   if (!groupIds.length) {
     return (

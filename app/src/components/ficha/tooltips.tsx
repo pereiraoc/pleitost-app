@@ -351,7 +351,7 @@ export function danoArmaBreakdown(
     .match(/^(\d+)?d(\d+)([+-]\d+)?$/i)
   if (m) {
     const baseDice = m[1] ? parseInt(m[1], 10) : 1
-    const dieSize = parseInt(m[2], 10)
+    const dieSize = parseInt(m[2]!, 10)
     const offset = m[3] ?? ''
     const profDice = PROF_DICE[prof]
     parts.push({ emoji: E.Base, label: 'Base', value: 0, extra: `${baseDice}d${dieSize}${offset}` })
@@ -439,7 +439,7 @@ export function parseSource(raw: string): ParsedSource {
   const type = raw.slice(0, dotIdx)
   let origin = raw.slice(dotIdx + 1).trim()
   const wlMatch = origin.match(/^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/)
-  if (wlMatch) origin = (wlMatch[2] ?? wlMatch[1]).trim()
+  if (wlMatch) origin = (wlMatch[2] ?? wlMatch[1]!).trim()
   return { type, origin: origin || undefined }
 }
 

@@ -429,7 +429,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     }
     const armaIds: string[] = []
     for (const raw of recursos) {
-      const res = catalog.resolve(raw.replace(/^\[\[|\]\]$/g, '').split('|')[0].trim())
+      const res = catalog.resolve(raw.replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim())
       if (res.kind === 'doc' && res.id.includes('/Equipamento/Armas/')) armaIds.push(res.id)
     }
     const load = (arr: string[]) =>

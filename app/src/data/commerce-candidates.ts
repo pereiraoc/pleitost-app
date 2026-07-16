@@ -21,7 +21,7 @@ const T3: Tier[] = ['A', 'E', 'M']
 /** basename do alvo de um wikilink de Recurso ("[[A/B|C]]" → "B"). */
 function recursoBasename(raw: string): string {
   const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(raw)
-  const target = (m ? m[1] : raw).trim()
+  const target = (m ? m[1]! : raw).trim()
   return target.split('/').pop() ?? target
 }
 
@@ -114,8 +114,8 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
   for (const raw of input.recursos) {
     const m = /\[\[([^\]|]+)\|([^\]]+)\]\]/.exec(raw)
     if (!m) continue
-    const targetBase = (m[1].split('/').pop() ?? '').trim()
-    const alias = m[2].trim()
+    const targetBase = (m[1]!.split('/').pop() ?? '').trim()
+    const alias = m[2]!.trim()
     if (!/Obra-prima$/i.test(targetBase)) continue
     const q = qualByName.get(targetBase)
     if (!q) continue
