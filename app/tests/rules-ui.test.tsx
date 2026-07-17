@@ -115,9 +115,10 @@ describe('PERFIL — NOME/APELIDO/SINTONIA (#2, #7)', () => {
   it('SINTONIA vira dropdown dos Traços Elementais reais e persiste (#7)', async () => {
     renderFicha()
     const sel = (await screen.findByLabelText('Sintonia')) as HTMLSelectElement
-    // opções reais aparecem quando a projeção resolve
-    await waitFor(() => expect(sel.options.length).toBeGreaterThan(1))
-    expect(optionValues(sel)).toContain('[[Traço Elemental da Água|Água]]')
+    // #255: as opções resolvem de forma assíncrona/incremental — esperar a
+    // opção ALVO (Água), não só length>1, senão sob carga a leitura corre à
+    // frente e vê só as primeiras opções populadas (ex.: só o Vento).
+    await waitFor(() => expect(optionValues(sel)).toContain('[[Traço Elemental da Água|Água]]'))
     // valor atual casa com o FM ([[Traço Elemental do Vento]])
     expect(sel.value).toBe('[[Traço Elemental do Vento|Vento]]')
     fireEvent.change(sel, { target: { value: '[[Traço Elemental da Água|Água]]' } })

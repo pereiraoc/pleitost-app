@@ -371,32 +371,42 @@ describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
   it('arma: clicar no tier ATIVO desseleciona e zera o bônus; Obra-prima automática some', async () => {
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
-    // FM: Punhal está Experiente → clicar E desseleciona (setArmaRank(null))
+    // FM: Punhal está Experiente → clicar E desseleciona (setArmaRank(null)).
+    // #255: cada leitura de overlaySalvo() é DEPOIS de um recompute+persist
+    // ASSÍNCRONO — sob CPU saturada a leitura síncrona corria à frente do
+    // persist (flake). waitFor re-tenta até o persist assentar.
     fireEvent.click(tierBtn(container, 'E', 26))
-    const lista = overlaySalvo().fm['Inventario.Armas.Lista']
-    expect(lista[0].Categoria).toBe('')
-    expect(lista[0].Bonus_Item).toBe(0)
-    // imbuição NÃO é Obra-prima → permanece (apply-armas-edit.ts:149-151)
-    expect(lista[0].Propriedade).toBe(String(armaFm.Propriedade))
+    await waitFor(() => {
+      const lista = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(lista[0].Categoria).toBe('')
+      expect(lista[0].Bonus_Item).toBe(0)
+      // imbuição NÃO é Obra-prima → permanece (apply-armas-edit.ts:149-151)
+      expect(lista[0].Propriedade).toBe(String(armaFm.Propriedade))
+    })
 
     // re-selecionar com propriedade vazia → Obra-prima automática
     fireEvent.click(tierBtn(container, 'E', 26)) // re-seleciona (imbuição ainda existe)
-    let l2 = overlaySalvo().fm['Inventario.Armas.Lista']
-    expect(l2[0].Propriedade).toBe(String(armaFm.Propriedade))
+    await waitFor(() =>
+      expect(overlaySalvo().fm['Inventario.Armas.Lista'][0].Propriedade).toBe(String(armaFm.Propriedade)),
+    )
     fireEvent.click(tierBtn(container, 'E', 26)) // desseleciona de novo
     // limpa a propriedade manualmente pra exercitar o ramo auto-Obra-prima
     fireEvent.change(screen.getByLabelText('Propriedade da arma'), { target: { value: '' } })
     fireEvent.click(tierBtn(container, 'A', 26))
-    l2 = overlaySalvo().fm['Inventario.Armas.Lista']
-    expect(l2[0].Categoria).toBe('[[Adepto]]')
-    expect(l2[0].Bonus_Item).toBe(1)
-    expect(l2[0].Propriedade).toBe('[[Arma Obra-prima|Obra-prima]]')
+    await waitFor(() => {
+      const l2 = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(l2[0].Categoria).toBe('[[Adepto]]')
+      expect(l2[0].Bonus_Item).toBe(1)
+      expect(l2[0].Propriedade).toBe('[[Arma Obra-prima|Obra-prima]]')
+    })
     // desselecionar agora TAMBÉM remove a Obra-prima automática (:149-151)
     fireEvent.click(tierBtn(container, 'A', 26))
-    l2 = overlaySalvo().fm['Inventario.Armas.Lista']
-    expect(l2[0].Categoria).toBe('')
-    expect(l2[0].Bonus_Item).toBe(0)
-    expect(l2[0].Propriedade).toBe('')
+    await waitFor(() => {
+      const l2 = overlaySalvo().fm['Inventario.Armas.Lista']
+      expect(l2[0].Categoria).toBe('')
+      expect(l2[0].Bonus_Item).toBe(0)
+      expect(l2[0].Propriedade).toBe('')
+    })
   })
 
   it('o bônus recalculado propaga pro mod de ataque do COMBATE', async () => {
