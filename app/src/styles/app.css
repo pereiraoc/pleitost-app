@@ -176,6 +176,16 @@ body {
   color: var(--ink);
 }
 
+/* Feedback do mestre: dar hover num item JÁ SELECIONADO deixava o texto
+   ilegível — o `.nav-item:hover` (mais específico) trocava o fundo dourado por
+   um quase-transparente, mas a cor do texto (--ink, feita pra contrastar com o
+   dourado) passava a igualar o fundo da barra (clara no modo claro, escura no
+   escuro). Mantendo o fundo dourado no hover do item ativo, o texto segue
+   legível — sem tocar nos tokens de tema (vale pra todos os temas). */
+.nav-item.active:hover:not(:disabled) {
+  background: var(--accent);
+}
+
 .nav-item:disabled {
   opacity: 0.38;
   cursor: default;

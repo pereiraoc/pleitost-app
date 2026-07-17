@@ -41,6 +41,7 @@ import {
 } from '../../data/session-repo/publish'
 import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/session-repo/encounter-actions'
 import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
+import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { advanceTurn } from '../../data/session-repo/turn'
 import { composeGroupName } from '../../data/session-repo/group-name'
@@ -48,6 +49,7 @@ import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-r
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
 import { useDetail } from '../../data/detail-context'
+import { Lightbox } from '../Lightbox'
 
 // SESS_TABS / SESS_SEL_TABS — verbatim do script do design.
 const SESS_TABS = [
@@ -80,6 +82,29 @@ const imgCover: CSSProperties = {
   objectFit: 'cover',
   objectPosition: 'center',
   display: 'block',
+}
+
+/** Retrato/imagem da sidebar que amplia no clique (feedback do mestre: "clicar
+ *  na imagem abre ela maior, mobile ou pc"). Reusa o <Lightbox> do compêndio.
+ *  stopPropagation: os retratos vivem dentro de linhas/botões clicáveis, então
+ *  o zoom não pode disparar o clique do pai (navegar/selecionar). */
+function ZoomImg({ src, alt, style }: { src: string; alt?: string; style?: CSSProperties }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt ?? ''}
+        style={{ ...imgCover, cursor: 'zoom-in', ...style }}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setOpen(true)
+        }}
+      />
+      {open ? <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} /> : null}
+    </>
+  )
 }
 
 /** Ponte HEADLESS da sala viva (#186): mantém fetch+realtime da sessão ativa
@@ -292,7 +317,7 @@ function LinhaPersonagem({
           color: 'var(--muted)',
         })}
       >
-        {portrait ? <img src={portrait} alt="" style={imgCover} /> : sigOf(c.summary.nome)}
+        {portrait ? <ZoomImg src={portrait} alt={c.summary.nome} /> : sigOf(c.summary.nome)}
       </span>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -711,7 +736,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                       color: 'var(--muted)',
                     }}
                   >
-                    {portrait ? <img src={portrait} alt="" style={imgCover} /> : sigOf(nomeExib)}
+                    {portrait ? <ZoomImg src={portrait} alt={nomeExib} /> : sigOf(nomeExib)}
                   </span>
                   <span style={{ fontSize: 13.5, fontWeight: 700 }}>
                     {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
@@ -790,21 +815,39 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
           clipPath: clip(15),
         }}
       >
-        <span
-          style={{
-            width: 44,
-            height: 44,
-            flex: 'none',
-            background: 'var(--blue)',
-            clipPath: clip(9),
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 20,
-          }}
-        >
-          👥
-        </span>
+        {/* Feedback do mestre: mostrar a imagem REAL do grupo (a da mesa vive no
+            state sincronizado da sessão — determinístico entre dispositivos),
+            com fallback pro emoji 👥. Clique amplia (ZoomImg). */}
+        {live?.state?.grupoImagem ? (
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              flex: 'none',
+              overflow: 'hidden',
+              clipPath: clip(9),
+              border: '1px solid var(--line2)',
+            }}
+          >
+            <ZoomImg src={live.state.grupoImagem} alt={grupoNomes || sess.nome} />
+          </div>
+        ) : (
+          <span
+            style={{
+              width: 44,
+              height: 44,
+              flex: 'none',
+              background: 'var(--blue)',
+              clipPath: clip(9),
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 20,
+            }}
+          >
+            👥
+          </span>
+        )}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={mono({ fontSize: 10, letterSpacing: '.16em', color: 'var(--muted)', marginBottom: 4 })}>
             FICHA DO GRUPO ↗
@@ -983,7 +1026,7 @@ function PcRow({ heroId }: { heroId: string }) {
             clipPath: clip(8),
           }}
         >
-          <img src={portrait} alt="" style={imgCover} />
+          <ZoomImg src={portrait} alt={nome} />
         </div>
       ) : (
         <span
@@ -1016,8 +1059,22 @@ function PcRow({ heroId }: { heroId: string }) {
   )
 }
 
+/** Feedback do mestre: nos DETALHES o HERÓI é o protagonista — nome do herói em
+ *  destaque e, logo abaixo, identado com uma seta ↳, o usuário do jogador. Fica
+ *  homogêneo pros dois casos (com e sem personagem na mesa). */
+function HeroUserRow({ heroi, usuario }: { heroi: string | null; usuario: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <span style={{ fontSize: 13.5, fontWeight: 700, color: heroi ? 'var(--blue)' : 'var(--muted)' }}>
+        {heroi ?? 'Sem personagem'}
+      </span>
+      <span style={mono({ fontSize: 10.5, color: 'var(--muted)', paddingLeft: 15 })}>↳ {usuario}</span>
+    </div>
+  )
+}
+
 /** MEMBROS da sessão, colapsável (#225): mestre + cada personagem com o
- *  usuário do jogador entre parênteses; membro sem personagem também lista. */
+ *  usuário do jogador abaixo (HeroUserRow); membro sem personagem também lista. */
 function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLiveSession>> }) {
   const [aberto, setAberto] = useState(true)
   const gm = live.members.find((m) => m.role === 'gm' || m.userId === live.gmUserId) ?? null
@@ -1058,16 +1115,9 @@ function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLi
           {jogadores.map((j) => {
             const ps = chars.filter((c) => c.memberId === j.userId).map((c) => c.summary.nome)
             return ps.length ? (
-              ps.map((p) => (
-                <div key={`${j.userId}:${p}`} style={{ fontSize: 13 }}>
-                  <span style={{ fontWeight: 700, color: 'var(--blue)' }}>{p}</span>{' '}
-                  <span style={mono({ fontSize: 10.5, color: 'var(--muted)' })}>({j.displayName})</span>
-                </div>
-              ))
+              ps.map((p) => <HeroUserRow key={`${j.userId}:${p}`} heroi={p} usuario={j.displayName} />)
             ) : (
-              <div key={j.userId} style={{ fontSize: 13, color: 'var(--muted)' }}>
-                sem personagem <span style={mono({ fontSize: 10.5 })}>({j.displayName})</span>
-              </div>
+              <HeroUserRow key={j.userId} heroi={null} usuario={j.displayName} />
             )
           })}
         </div>
@@ -1080,7 +1130,13 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
   // #223: conectado, a fonte é a SALA (membros com papel + personagens
   // publicados) — o modelo local (claims de heróis) é só o fallback offline.
   const live = useLiveSession()
+  const repo = useSessionRepo()
+  const user = useSessionUser()
   const membros = Object.entries(sess.claims)
+  // Feedback do mestre: o botão de saída precisa separar DESCONECTAR (volta à
+  // lista, membership intacta) de ABANDONAR/ENCERRAR. Só o CRIADOR (papel gm da
+  // sessão, não o toggle Modo Mestre) encerra a mesa pra todos.
+  const ehCriador = isSessionCreator(live, user, sess)
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div
@@ -1185,41 +1241,80 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
           </div>
         </div>
       ))}
-      <div
-        style={mono({
-          fontSize: 10,
-          letterSpacing: '.12em',
-          color: 'var(--muted)',
-          textAlign: 'center',
-          padding: 12,
-          border: '1px dashed var(--line2)',
-          marginTop: 4,
-          clipPath: clip(10),
-        })}
-      >
-        ⚙ FERRAMENTAS DE MESTRE — EM BREVE
+      {/* #234 → feedback do mestre: DESCONECTAR (fica no histórico p/ rejoin) +
+          ABANDONAR (jogador) OU ENCERRAR (criador, some pra todos). Espelha o
+          pleitost-sync (view.ts). */}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 4 }}>
+        <button
+          onClick={() => disconnectSession()}
+          title="Desconectar — a sessão fica no histórico; rejoine quando quiser"
+          style={mono({
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            padding: '11px 16px',
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            color: 'var(--text)',
+            cursor: 'pointer',
+            fontSize: 11,
+            letterSpacing: '.1em',
+            clipPath: clip(8),
+          })}
+        >
+          ↩ DESCONECTAR
+        </button>
+        {ehCriador ? (
+          <button
+            onClick={() => {
+              if (window.confirm(`Encerrar "${sess.nome}" pra todos os jogadores? A mesa deixa de existir.`))
+                void endSessionAsGm(repo, sess.remoteId, sess.codigo)
+            }}
+            title="Encerrar sessão (pra todos os jogadores)"
+            style={mono({
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              padding: '11px 16px',
+              background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
+              border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
+              color: '#d8695c',
+              cursor: 'pointer',
+              fontSize: 11,
+              letterSpacing: '.1em',
+              clipPath: clip(8),
+            })}
+          >
+            ⛔ ENCERRAR SESSÃO
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              if (window.confirm(`Abandonar "${sess.nome}"? Pra voltar você precisa do código.`))
+                void abandonSession(repo, sess.remoteId, user?.id, sess.codigo)
+            }}
+            title="Abandonar — sai da sessão no server; pra voltar precisa do código"
+            style={mono({
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              padding: '11px 16px',
+              background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
+              border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
+              color: '#d8695c',
+              cursor: 'pointer',
+              fontSize: 11,
+              letterSpacing: '.1em',
+              clipPath: clip(8),
+            })}
+          >
+            🚪 ABANDONAR SESSÃO
+          </button>
+        )}
       </div>
-      {/* #234: SAIR mora nos DETALHES da sessão, não na iniciativa */}
-      <button
-        onClick={() => setActiveSessionCode(null)}
-        title="Sair da sessão"
-        style={mono({
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          padding: '11px 16px',
-          background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
-          border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
-          color: '#d8695c',
-          cursor: 'pointer',
-          fontSize: 11,
-          letterSpacing: '.1em',
-          clipPath: clip(8),
-        })}
-      >
-        ⏏ SAIR DA SESSÃO
-      </button>
     </div>
   )
 }

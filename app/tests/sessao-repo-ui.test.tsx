@@ -181,14 +181,15 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     fireEvent.click(screen.getByText('DETALHES DA SESSÃO'))
     await waitFor(() => expect(screen.getByText(/\/\/ MEMBROS · 2/)).toBeTruthy())
     expect(screen.queryByText('// FICHA DO GRUPO DA SESSÃO')).toBeNull()
-    // #225: MEMBROS colapsável — mestre e personagem com (usuário) do jogador
+    // #225 → feedback do mestre: MEMBROS colapsável — herói em destaque e o
+    // usuário do jogador logo abaixo, identado com a seta ↳ (HeroUserRow).
     const membrosHeader = screen.getByText(/\/\/ MEMBROS · 2/)
     expect(screen.getByText('👁️ MESTRE')).toBeTruthy()
-    expect(screen.getByText('(Jogadora Ana)')).toBeTruthy()
+    expect(screen.getByText('↳ Jogadora Ana')).toBeTruthy()
     fireEvent.click(membrosHeader)
-    expect(screen.queryByText('(Jogadora Ana)')).toBeNull()
+    expect(screen.queryByText('↳ Jogadora Ana')).toBeNull()
     fireEvent.click(screen.getByText(/\/\/ MEMBROS · 2/))
-    expect(screen.getByText('(Jogadora Ana)')).toBeTruthy()
+    expect(screen.getByText('↳ Jogadora Ana')).toBeTruthy()
   })
 })
 

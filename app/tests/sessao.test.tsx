@@ -98,10 +98,10 @@ describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair',
     expect(await screen.findByText('MESTRE')).toBeTruthy()
     const codigo = listSessions()[0].codigo
     expect(screen.getByText(codigo)).toBeTruthy()
-    expect(screen.getByText(/FERRAMENTAS DE MESTRE/)).toBeTruthy()
 
-    // #234: SAIR mora nos DETALHES (já estamos neles neste ponto)
-    fireEvent.click(screen.getByText('⏏ SAIR DA SESSÃO'))
+    // #234 → feedback do mestre: DESCONECTAR mora nos DETALHES e volta pra lista
+    // MANTENDO a sessão no histórico (Abandonar/Encerrar é que removem).
+    fireEvent.click(screen.getByText('↩ DESCONECTAR'))
     expect(await screen.findByText('// LISTA DE SESSÕES')).toBeTruthy()
     // sessão continua na lista, com Entrar
     expect(screen.getByText('▶ Entrar')).toBeTruthy()
