@@ -13,7 +13,7 @@
 //     (overlay), a mesma consolidação que o save do plugin faz.
 import type { VaultDoc } from '../data/types'
 import { linkLabel } from '../markdown/dataview-value'
-import { rankGroupLabel } from '../components/ficha/registry'
+import { rankGroupLabel, slugify } from '../components/ficha/registry'
 import { str } from '../components/ficha/hero-model'
 import type { ParsedRule, InheritedConstraint, ChoiceProvenance } from './rule-types'
 import { parsedRulesOf } from './rule-types'
@@ -323,7 +323,7 @@ const PROF_TARGET_RX =
  *  restrito aos paths que conditionPasses/provenance leem: proficiências e
  *  bônus especial das 4 listas, metas escalares e listas de habilidades/
  *  técnicas/ações/magias. Base = FM salvo (regras já materializadas). */
-function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
+export function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
   const model = structuredClone(base)
   const pushLink = (lista: FontedLink[], value: unknown): void => {
     if (typeof value === 'string') {
@@ -340,8 +340,13 @@ function projectWorkingModel(base: RulesModel, deltas: Deltas): RulesModel {
       // PROF_TARGET_RX tem 3 grupos: name sempre presente quando `prof` casa.
       const [, namespace, name, field] = prof as [string, string, string, string]
       if (namespace === 'Pericias') {
-        const p = (model.pericias[name] ??= {
-          nome: name,
+        // #291: a base keia model.pericias pelo SLUG canônico (periciaId=slugify).
+        // Os appliers Definir/Proficiencia gravam targetRaw CRU (sem slugify),
+        // então um alvo acentuado (Enganação) criaria uma entrada divergente da
+        // base e as cascatas entre iterações liam a errada. Normaliza pra slug.
+        const pid = slugify(name)
+        const p = (model.pericias[pid] ??= {
+          nome: pid,
           proficiencia: 'N',
           bonusEspecial: 0,
           incrementos: [],
