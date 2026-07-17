@@ -39,7 +39,8 @@ import {
   buildCharacterSummary,
   extractFmBlob,
 } from '../../data/session-repo/publish'
-import { startEncounterFromRoster } from '../../data/session-repo/encounter-actions'
+import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/session-repo/encounter-actions'
+import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { advanceTurn } from '../../data/session-repo/turn'
 import { composeGroupName } from '../../data/session-repo/group-name'
@@ -577,15 +578,18 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex, round })
   }
 
+  // #291: pro GM, sobrepõe o real (do segredo) sobre os NPCs disfarçados — o
+  // mestre vê a identidade/stats enquanto o jogador só recebe a linha mascarada.
+  const chars = isGm ? overlayDisguiseSecrets(live.characters, live.sessionId) : live.characters
   const nomes = ativo
     ? maskedNames(
-        live.characters.filter((c) => c.encounterId === ativo.id && c.kind === 'npc'),
+        chars.filter((c) => c.encounterId === ativo.id && c.kind === 'npc'),
         ativo.revealedCharacterIds,
       )
     : new Map<string, string>()
   const noCombate = ativo
     ? (ativo.turnState?.order ?? [])
-        .map((id) => live.characters.find((c) => c.id === id))
+        .map((id) => chars.find((c) => c.id === id))
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
 
@@ -727,7 +731,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   <span style={{ flex: 1 }} />
                   {isGm && npc ? (
                     <button
-                      onClick={() => void repo.toggleRevealCharacter(ativo.id, c.id)}
+                      onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo.id, c.id)}
                       title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
                       style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
                     >

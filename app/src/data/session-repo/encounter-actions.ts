@@ -10,11 +10,14 @@ import type { VaultDoc } from '../types'
 import { vaultUrl } from '../base-url'
 import { getLocalDoc } from '../local-entities'
 import { buildCharacterState, buildCharacterSummary } from './publish'
+import { maskSummaryForDisguise } from './disguise'
+import { stashDisguiseSecret, readDisguiseSecret } from './disguise-secrets'
 import type {
   CharacterState,
   CharacterSummary,
   Encounter,
   EncounterRosterEntry,
+  SessionCharacter,
   SessionRepo,
 } from './contract'
 import type { LiveSession } from './live-session'
@@ -26,6 +29,68 @@ export interface NpcInsertInput {
   characterPath: string
   summary: CharacterSummary
   state: CharacterState
+}
+
+/** Placeholder do characterPath publicado pro NPC disfarçado — o path real tem
+ *  o NOME (`Monstros/Goblin Assassino`), então não vai pra linha; fica no
+ *  segredo do GM (disguise-secrets). */
+const MASKED_CHARACTER_PATH = '(disfarçado)'
+
+/** #291 (segurança): insere um NPC no combate aplicando a máscara. NPC que entra
+ *  DISFARÇADO (visível e não-revelado — o padrão de todo NPC) publica só a
+ *  projeção mascarada (summary sem identidade/stats; characterPath placeholder) e
+ *  guarda o real no user_state do GM; o jogador nunca recebe os dados reais, nem
+ *  por devtools. Invisível → `hidden` (a RLS nem entrega). Revelado
+ *  (disfarçado=false) publica o real de saída. Retorna o char (id pro turnState). */
+export async function insertNpc(
+  repo: SessionRepo,
+  sessionId: string,
+  encounterId: string,
+  npc: NpcInsertInput,
+  mask: NpcMaskOptions | undefined,
+): Promise<SessionCharacter> {
+  const invisivel = !!mask?.invisivel
+  const revelado = mask?.disfarcado === false
+  const disfarcado = !invisivel && !revelado
+  const char = await repo.insertCharacter({
+    sessionId,
+    memberId: npc.memberId,
+    kind: 'npc',
+    tutorCharacterId: null,
+    characterPath: disfarcado ? MASKED_CHARACTER_PATH : npc.characterPath,
+    visibility: invisivel ? 'hidden' : 'visible',
+    summary: disfarcado ? maskSummaryForDisguise(npc.summary) : npc.summary,
+    state: npc.state,
+    encounterId,
+    createdByEncounterId: encounterId,
+  })
+  if (disfarcado) {
+    stashDisguiseSecret(sessionId, char.id, {
+      summary: npc.summary,
+      fmBlob: {},
+      characterPath: npc.characterPath,
+    })
+  }
+  return char
+}
+
+/** #291: alterna o reveal de um NPC disfarçado. Ao REVELAR, re-publica o NOME
+ *  real (do segredo do GM) — stats/ficha continuam ocultos pro jogador ("vê só a
+ *  estimativa + o nome"). Ao DES-revelar, volta a mascarar o nome. Usar no lugar
+ *  do repo.toggleRevealCharacter cru na UI do mestre. */
+export async function toggleRevealDisguisedNpc(
+  repo: SessionRepo,
+  sessionId: string,
+  encounterId: string,
+  characterId: string,
+): Promise<string[]> {
+  const revealedIds = await repo.toggleRevealCharacter(encounterId, characterId)
+  const secret = readDisguiseSecret(sessionId, characterId)
+  if (secret) {
+    const nowRevealed = revealedIds.includes(characterId)
+    await repo.updateCharacterSummary(characterId, { nome: nowRevealed ? secret.summary.nome : '' })
+  }
+  return revealedIds
 }
 
 /** Pré-seleção de máscara dos NPCs ao entrar no combate (#266) — dois eixos
@@ -41,24 +106,6 @@ export interface NpcInsertInput {
 export interface NpcMaskOptions {
   invisivel?: boolean
   disfarcado?: boolean
-}
-
-/** Aplica a pré-seleção de máscara (#266) aos NPCs recém-criados de um
- *  combate: `hidden` pelos invisíveis; reveal de saída quando NÃO disfarçados.
- *  Só mexe no que o toggle pede (default disfarçado/visível = no-op), pra
- *  preservar a semântica do sync. */
-async function applyNpcMaskOptions(
-  repo: SessionRepo,
-  encounterId: string,
-  npcIds: readonly string[],
-  opts: NpcMaskOptions | undefined,
-): Promise<void> {
-  if (!opts || (!opts.invisivel && opts.disfarcado !== false)) return
-  for (const id of npcIds) {
-    if (opts.invisivel) await repo.setCharacterVisibility(id, 'hidden')
-    // disfarçado é o default (não-revelado); só agimos pra REVELAR de saída.
-    if (opts.disfarcado === false) await repo.toggleRevealCharacter(encounterId, id)
-  }
 }
 
 /** Doc real de um sourcePath do roster: entidade LOCAL (monstro criado no
@@ -134,21 +181,23 @@ export async function startEncounterFromRoster(
   mask?: NpcMaskOptions,
 ): Promise<void> {
   const npcs = await npcInputsFromRoster(catalog, encounter.roster.entries, memberId)
-  await repo.startEncounter(encounter.id, npcs)
+  // #291: startEncounter só ATIVA (move heróis/companheiros); os NPCs entram um a
+  // um por insertNpc (mascarados quando disfarçados), pra o real nunca ir pra a
+  // linha publicada — nem por um instante de realtime.
+  await repo.startEncounter(encounter.id, [])
+  const novos: string[] = []
+  for (const npc of npcs) novos.push((await insertNpc(repo, encounter.sessionId, encounter.id, npc, mask)).id)
   const chars = await repo.findCharactersBySession(encounter.sessionId)
-  const dentro = chars.filter((c) => c.encounterId === encounter.id)
-  const npcsDentro = dentro.filter((c) => c.kind === 'npc')
-  const order = [
-    ...dentro.filter((c) => c.kind !== 'npc').map((c) => c.id),
-    ...npcsDentro.map((c) => c.id),
-  ]
+  const naoNpc = chars.filter((c) => c.encounterId === encounter.id && c.kind !== 'npc').map((c) => c.id)
   await repo.updateEncounterTurnState(encounter.id, {
-    order,
+    order: [...naoNpc, ...novos],
     currentIndex: 0,
     round: 1,
     started: true,
   })
-  await applyNpcMaskOptions(repo, encounter.id, npcsDentro.map((c) => c.id), mask)
+  // reveal de saída (disfarçado=false): os NPCs já entraram com dado REAL (insertNpc),
+  // aqui só marca o estado revealed no encounter.
+  if (mask?.disfarcado === false) for (const id of novos) await repo.toggleRevealCharacter(encounter.id, id)
 }
 
 /** #229 (b): caminho DIRETO do mestre — monstro do bestiário → iniciativa da
@@ -189,18 +238,7 @@ export async function addMonsterToInitiative(opts: {
   const novos: string[] = []
   const ts = ativo.turnState
   for (const npc of npcs) {
-    const char = await repo.insertCharacter({
-      sessionId: live.sessionId,
-      memberId,
-      kind: 'npc',
-      tutorCharacterId: null,
-      characterPath: npc.characterPath,
-      visibility: mask?.invisivel ? 'hidden' : 'visible',
-      summary: npc.summary,
-      state: npc.state,
-      encounterId: ativo.id,
-      createdByEncounterId: ativo.id,
-    })
+    const char = await insertNpc(repo, live.sessionId, ativo.id, npc, mask)
     novos.push(char.id)
   }
   await repo.updateEncounterTurnState(
@@ -251,18 +289,7 @@ export async function addRosterToInitiative(opts: {
   const npcs = await npcInputsFromRoster(catalog, entries, memberId)
   const novos: string[] = []
   for (const npc of npcs) {
-    const char = await repo.insertCharacter({
-      sessionId: live.sessionId,
-      memberId,
-      kind: 'npc',
-      tutorCharacterId: null,
-      characterPath: npc.characterPath,
-      visibility: mask?.invisivel ? 'hidden' : 'visible',
-      summary: npc.summary,
-      state: npc.state,
-      encounterId: ativo.id,
-      createdByEncounterId: ativo.id,
-    })
+    const char = await insertNpc(repo, live.sessionId, ativo.id, npc, mask)
     novos.push(char.id)
   }
   const ts = ativo.turnState

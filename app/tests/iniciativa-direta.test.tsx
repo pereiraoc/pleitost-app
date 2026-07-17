@@ -24,6 +24,7 @@ import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import { __resetLocalStoreForTests } from '../src/data/local-entities'
 import { __resetSessionStoreForTests, listSessions } from '../src/data/session-store'
 import { setLiveSession } from '../src/data/session-repo/live-session'
+import { readDisguiseSecret } from '../src/data/session-repo/disguise-secrets'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -128,17 +129,22 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     ).toBe(true)
     expect(screen.getByText(new RegExp(`❤️ ${goblinVit}/${goblinVit}`))).toBeTruthy()
 
-    // estado remoto: encounter ativo + NPC com summary/state do doc REAL
+    // estado remoto: encounter ativo + NPC. #291: a linha PUBLICADA é MASCARADA
+    // (o jogador nunca recebe o nome real, nem por devtools); o real vive no
+    // segredo do GM (o GM vê "Goblin Batedor" na tela via overlay, asserido acima).
     const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
     const encs = await repo.listEncountersBySession(remoteId)
     const ativo = encs.find((e) => e.status === 'active')!
     expect(ativo).toBeTruthy()
     const chars = await repo.findCharactersBySession(remoteId)
     const npc = chars.find((c) => c.kind === 'npc')!
-    expect(npc.summary.nome).toBe('Goblin Batedor')
-    expect(npc.summary.vitalidadeMax).toBe(goblinVit)
+    expect(npc.summary.nome).toBe('') // mascarado na linha publicada
+    expect(npc.characterPath).toBe('(disfarçado)')
+    expect(npc.summary.vitalidadeMax).toBe(goblinVit) // estimativa mantida
     expect(npc.state.recursosRestantes.vitalidade).toBe(goblinVit)
     expect(ativo.turnState?.order).toContain(npc.id)
+    // o nome real só no segredo do GM
+    expect(readDisguiseSecret(remoteId, npc.id)?.summary.nome).toBe('Goblin Batedor')
   })
 
   it('com combate ativo: o monstro entra NELE e vai pro fim da ordem; o jogador o vê MASCARADO', async () => {
@@ -164,13 +170,15 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     const chars = await repo.findCharactersBySession(remoteId)
     const npcs = chars.filter((c) => c.kind === 'npc')
     expect(npcs.length).toBe(2)
-    // append: o segundo NPC é o último da ordem
-    const segundo = npcs.find((c) => c.summary.nome === 'Goblin Guerreiro')!
+    // append: o segundo NPC é o último da ordem. #291: as linhas são mascaradas
+    // (nome ''), então identifica o segundo pelo SEGREDO do GM.
+    const segundo = npcs.find((c) => readDisguiseSecret(remoteId, c.id)?.summary.nome === 'Goblin Guerreiro')!
     expect(ativo.turnState?.order.at(-1)).toBe(segundo.id)
     cleanup()
 
-    // ── JOGADOR entra na sala: NPCs não-revelados aparecem MASCARADOS pela
-    // Raça, sem números de vida (semântica do #196 intacta)
+    // ── JOGADOR entra na sala: NPCs não-revelados aparecem MASCARADOS. #291: a
+    // raça também é ocultada (segurança), então o rótulo é "Criatura N" genérico,
+    // não "Goblin N".
     __resetSessionStoreForTests()
     setLiveSession(null)
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
@@ -183,8 +191,8 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
       .parentElement as HTMLElement
     expect(within(combate).queryByText('Goblin Batedor')).toBeNull()
     expect(within(combate).queryByText('Goblin Guerreiro')).toBeNull()
-    expect(within(combate).getByText(/Goblin \(Pequeno\) 1/)).toBeTruthy()
-    expect(within(combate).getByText(/Goblin \(Pequeno\) 2/)).toBeTruthy()
+    expect(within(combate).getByText(/Criatura 1/)).toBeTruthy()
+    expect(within(combate).getByText(/Criatura 2/)).toBeTruthy()
   })
 
   it('sem sessão remota ativa o menu ⋮ do monstro da vault não oferece iniciativa', async () => {

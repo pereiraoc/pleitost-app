@@ -301,9 +301,9 @@ describe('#196 iniciativa remota (encounters)', () => {
     // #238: com combate ativo a lista da mesa some — todo mundo tá no combate
     expect(screen.queryByText('🌐 HERÓIS NA SESSÃO')).toBeNull()
     expect(screen.queryByText('Goblin Batedor')).toBeNull() // nome real oculto
-    // rótulo genérico numerado pela RAÇA do FM real ("Goblin (Pequeno) 1/2")
-    expect(screen.getByText(/Goblin \(Pequeno\) 1/)).toBeTruthy()
-    expect(screen.getByText(/Goblin \(Pequeno\) 2/)).toBeTruthy()
+    // #291: raça também ocultada (segurança) → rótulo genérico "Criatura N"
+    expect(screen.getByText(/Criatura 1/)).toBeTruthy()
+    expect(screen.getByText(/Criatura 2/)).toBeTruthy()
     // estimativa por faixa, sem números de vida do NPC
     expect(screen.getAllByText(/Impecável|Saudável|Ferido/).length).toBeGreaterThan(0)
     // player NÃO tem controles de GM
