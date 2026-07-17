@@ -1576,9 +1576,6 @@ a {
 }
 .npc-tab {
   flex: none;
-}
-
-.npc-tab {
   padding: 12px 18px;
   background: transparent;
   border: none;
