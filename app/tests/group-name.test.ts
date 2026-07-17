@@ -29,4 +29,16 @@ describe('composeGroupName', () => {
   it('lista vazia → string vazia (pra cair no fallback do chamador)', () => {
     expect(composeGroupName([])).toBe('')
   })
+  it('companheiro animal (family != Heroi) NÃO entra no nome do grupo', () => {
+    const chars = [
+      { nome: 'Mera da Costa', family: 'Heroi', fmBlob: { Apelido: 'Mera' } },
+      { nome: 'Metis, a Graxaim', family: 'CompanheiroAnimal' },
+      { nome: 'Dante', family: 'Heroi' },
+      { nome: 'Goblin', family: 'Monstro' },
+    ]
+    expect(composeGroupName(chars)).toBe('Mera, Dante')
+  })
+  it('só companheiro/monstro → vazio (chamador cai no nome da sessão)', () => {
+    expect(composeGroupName([{ nome: 'Metis', family: 'CompanheiroAnimal' }])).toBe('')
+  })
 })

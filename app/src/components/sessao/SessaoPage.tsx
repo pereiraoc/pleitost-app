@@ -751,12 +751,21 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const navigate = useNavigate()
   const live = useLiveSession()
   const members = useGroupMembers(catalog, sess.grupoId ?? '')
-  // Nome do grupo = apelidos dos HERÓIS (não o nome da sessão). Prefere os heróis
-  // da mesa VIVA (live.characters); sem sessão viva, os membros do grupo local.
+  // Nome do grupo = apelidos dos HERÓIS (não o nome da sessão nem os companheiros
+  // animais). Prefere os heróis da mesa VIVA (live.characters); sem sessão viva,
+  // os membros do grupo local. `family`/subtype filtram companheiro/monstro no
+  // composeGroupName (só 'Heroi' entra).
   const heroChars = (live?.characters ?? []).filter((c) => c.kind !== 'npc')
   const grupoNomes = heroChars.length
-    ? composeGroupName(heroChars.map((c) => ({ nome: c.summary.nome, fmBlob: c.fmBlob })))
-    : composeGroupName(members.map((m) => ({ nome: m.basename ?? '' })))
+    ? composeGroupName(
+        heroChars.map((c) => ({ nome: c.summary.nome, family: c.summary.family, fmBlob: c.fmBlob })),
+      )
+    : composeGroupName(
+        members.map((m) => ({
+          nome: m.basename ?? '',
+          family: m.subtype === 'Companheiro Animal' ? 'CompanheiroAnimal' : 'Heroi',
+        })),
+      )
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
