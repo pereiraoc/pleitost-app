@@ -1339,13 +1339,14 @@ function AddFab({
 }) {
   const [open, setOpen] = useState(false)
   return (
-    // Posição do design (dc.html:707: right:26 bottom:22 z40, absolute no
-    // container full-height da tela) — fixed porque aqui quem rola é o
+    // #63: ancoramento responsivo em .inv-fab (recuar pra esquerda do painel
+    // direito fixo, como o create-fab do herói) — o `right` mora no CSS; aqui
+    // fica o resto (fixed/bottom/z40/coluna). fixed porque quem rola é o
     // .app-main; as bordas visíveis da section coincidem com o viewport.
     <div
+      className="inv-fab"
       style={{
         position: 'fixed',
-        right: 26,
         bottom: 22,
         zIndex: 40,
         display: 'flex',

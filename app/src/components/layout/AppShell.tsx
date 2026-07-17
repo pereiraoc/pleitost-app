@@ -143,6 +143,8 @@ export function AppShell() {
   // Colapso da sidebar em desktop (navCollapsed do design; toggleNav do
   // renderVals: <820 abre o drawer, >=820 colapsa pra 64px só-ícones).
   const [collapsed, setCollapsed] = useState(false)
+  // Colapso da sidebar DIREITA no desktop (feedback do mestre) — vira trilho.
+  const [rightCollapsed, setRightCollapsed] = useState(false)
   const { isDark, toggleLightDark } = useTheme()
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -284,7 +286,12 @@ export function AppShell() {
         {rightOpen ? (
           <div className="drawer-scrim right" onClick={() => setRightOpen(false)} />
         ) : null}
-        <RightSidebar drawerOpen={rightOpen} onCloseDrawer={() => setRightOpen(false)} />
+        <RightSidebar
+          drawerOpen={rightOpen}
+          onCloseDrawer={() => setRightOpen(false)}
+          collapsed={rightCollapsed}
+          onToggleCollapse={() => setRightCollapsed((c) => !c)}
+        />
       </div>
       <PwaUpdateToast />
       </div>

@@ -281,7 +281,10 @@ body {
   background: var(--accent);
   border-color: var(--accent);
 }
-.sidebar-right-tabs .srt-close {
+/* Botão de COLAPSAR/EXPANDIR o painel direito (feedback do mestre; era o "×").
+   Só aparece no DESKTOP — no mobile o painel abre/fecha por swipe + scrim. */
+.sidebar-right-tabs .srt-collapse {
+  display: none;
   flex: none;
   width: 26px;
   height: 26px;
@@ -290,6 +293,11 @@ body {
   color: var(--muted);
   cursor: pointer;
   line-height: 1;
+  font-size: 13px;
+}
+.sidebar-right-tabs .srt-collapse:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line2));
 }
 /* #284: fila de abas ROLÁVEL de lado — quando as abas não cabem (Combate no
    celular etc.), arrasta pro lado só a fila; sem barra visível, com inércia de
@@ -490,12 +498,33 @@ body {
     transform: none;
     width: 320px;
     z-index: auto;
+    transition: width 0.16s ease;
   }
   .right-toggle {
     display: none;
   }
   .drawer-scrim.right {
     display: none;
+  }
+  /* o botão de colapsar/expandar só existe no desktop (coluna fixa) */
+  .sidebar-right-tabs .srt-collapse {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* colapsado: o painel vira um TRILHO fino, só com o botão de expandir;
+     as abas e o corpo somem (mas seguem montados — a ponte de sessão vive). */
+  .sidebar-right.collapsed {
+    width: 40px;
+  }
+  .sidebar-right.collapsed .srt,
+  .sidebar-right.collapsed .sidebar-right-body {
+    display: none;
+  }
+  .sidebar-right.collapsed .sidebar-right-tabs {
+    justify-content: center;
+    padding: 10px 6px;
+    border-bottom: none;
   }
 }
 
@@ -523,6 +552,19 @@ body {
 @media (min-width: 1100px) {
   /* painel direito fixo = 320px; FAB gruda na borda esquerda dele (+26 de gap) */
   .create-fab {
+    right: 346px;
+  }
+}
+
+/* #63 (feedback do mestre): os FABs "+ Adicionar Arma/Tesouro" do inventário
+   seguem o MESMO ancoramento do create-fab — recuam pra ESQUERDA do painel
+   direito fixo em vez de ficar POR CIMA dele; em telas estreitas voltam ao
+   canto. Só o `right` responsivo mora aqui (o container mantém o resto inline). */
+.inv-fab {
+  right: 26px;
+}
+@media (min-width: 1100px) {
+  .inv-fab {
     right: 346px;
   }
 }

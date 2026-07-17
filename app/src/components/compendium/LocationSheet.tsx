@@ -6,7 +6,7 @@ import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { DocRuleElements } from './RuleElements'
-import { AtlasNav } from './AtlasNav'
+import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren, type AtlasRelations } from './AtlasNav'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc } from '../../data/useDoc'
@@ -112,7 +112,7 @@ function DetailRow({ label, children }: { label: string; children: ReactNode }) 
   )
 }
 
-function DetalhesTab({ doc }: { doc: VaultDoc }) {
+function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
   const recursos = locationRecursos(doc)
 
   const rows: ReactNode[] = []
@@ -152,9 +152,12 @@ function DetalhesTab({ doc }: { doc: VaultDoc }) {
         <table className="inline-fields">
           <tbody>{rows}</tbody>
         </table>
-      ) : (
+      ) : rel.children.length === 0 ? (
         <EmptyPanel>{'// SEM DETALHES REGISTRADOS'}</EmptyPanel>
-      )}
+      ) : null}
+      {/* Feedback do mestre: os lugares-filhos moram AQUI (descer na hierarquia),
+          não no breadcrumb do topo. */}
+      <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} />
     </div>
   )
 }
@@ -705,6 +708,7 @@ export function LocationSheet({
   embedded?: boolean
 }) {
   const [tab, setTab] = useState<LocTab['id']>('detalhes')
+  const rel = useAtlasRelations(doc)
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
   const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
@@ -722,9 +726,9 @@ export function LocationSheet({
         </span>
       </header>
 
-      {/* F6 (#250): navegação do Atlas — breadcrumb (o que dentro de o que) +
-          lugares-filhos. O mapa navegável entra quando o mapa-raiz existir. */}
-      <AtlasNav doc={doc} />
+      {/* F6 (#250) → feedback do mestre: SÓ o breadcrumb (o caminho) no topo;
+          os lugares-filhos viram lista "Lugares dentro de X" na aba Detalhes. */}
+      <AtlasBreadcrumb crumbs={rel.crumbs} />
 
       {/* Imagem do local FIXA — abaixo do tipo e acima das abas, visível em
           qualquer aba (fica muito melhor de ver). Clicar amplia (lightbox). */}
@@ -766,7 +770,7 @@ export function LocationSheet({
       </div>
 
       <div style={{ marginTop: 4 }}>
-        {tab === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
+        {tab === 'detalhes' ? <DetalhesTab doc={doc} rel={rel} /> : null}
         {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
         {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>

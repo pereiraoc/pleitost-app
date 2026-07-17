@@ -61,9 +61,14 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
 export function RightSidebar({
   drawerOpen,
   onCloseDrawer,
+  collapsed = false,
+  onToggleCollapse,
 }: {
   drawerOpen: boolean
   onCloseDrawer: () => void
+  /** Colapso no DESKTOP (#feedback): o painel vira um trilho fino. */
+  collapsed?: boolean
+  onToggleCollapse?: () => void
 }) {
   const detail = useDetail()
   const [tab, setTab] = useState<'sessao' | 'detalhes'>('sessao')
@@ -76,9 +81,23 @@ export function RightSidebar({
   return (
     <aside
       data-right-sidebar=""
-      className={['sidebar-right', drawerOpen ? 'drawer-open' : ''].filter(Boolean).join(' ')}
+      className={['sidebar-right', drawerOpen ? 'drawer-open' : '', collapsed ? 'collapsed' : '']
+        .filter(Boolean)
+        .join(' ')}
     >
       <div className="sidebar-right-tabs">
+        {/* Feedback do mestre: o antigo "×" virou o botão de COLAPSAR/EXPANDAR
+            (ícone claro do estado). No mobile some (o painel abre/fecha por
+            swipe + scrim). Fica ANTES das abas pra sobrar visível no trilho. */}
+        <button
+          className="srt-collapse"
+          aria-label={collapsed ? 'Expandir painel' : 'Colapsar painel'}
+          aria-expanded={!collapsed}
+          title={collapsed ? 'Expandir painel' : 'Colapsar painel'}
+          onClick={onToggleCollapse}
+        >
+          {collapsed ? '⟨' : '⟩'}
+        </button>
         <button
           className={tab === 'sessao' ? 'srt active' : 'srt'}
           aria-pressed={tab === 'sessao'}
@@ -92,9 +111,6 @@ export function RightSidebar({
           onClick={() => setTab('detalhes')}
         >
           DETALHES
-        </button>
-        <button className="srt-close" aria-label="Fechar" onClick={onCloseDrawer}>
-          ×
         </button>
       </div>
       <LiveSessionBridge />
