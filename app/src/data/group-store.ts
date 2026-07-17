@@ -29,6 +29,8 @@
 // campos novos são opcionais). Sem dados reais migráveis, sancionado trocar a
 // forma.
 
+import { createKeyedStoreChannel } from './store-kit'
+
 export interface GroupHex {
   id: string
   /** Coluna da grade hexagonal sobreposta ao mapa (ver exploracao.ts). */
@@ -59,7 +61,7 @@ export interface GroupState {
 const STORE_PREFIX = 'pleitost.groupState.'
 
 const memory = new Map<string, GroupState>()
-const listeners = new Map<string, Set<() => void>>()
+const channel = createKeyedStoreChannel()
 
 function emptyState(): GroupState {
   return { hexes: [] }
@@ -146,20 +148,10 @@ export function getGroupState(groupId: string): GroupState {
 }
 
 export function subscribeGroup(groupId: string, cb: () => void): () => void {
-  let set = listeners.get(groupId)
-  if (!set) {
-    set = new Set()
-    listeners.set(groupId, set)
-  }
-  set.add(cb)
-  return () => {
-    set.delete(cb)
-  }
+  return channel.subscribe(groupId, cb)
 }
 
-function notify(groupId: string): void {
-  for (const cb of listeners.get(groupId) ?? []) cb()
-}
+const notify = channel.emit
 
 /** Estado vazio (nenhuma parada, nenhuma região) → chave removida. */
 function isEmpty(s: GroupState): boolean {

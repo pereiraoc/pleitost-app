@@ -10,6 +10,7 @@
 // A sincronização remota (#101b, servidor) pluga por cima deste store: o shape
 // SessionRec é o payload que o servidor replica por sala.
 import { useSyncExternalStore } from 'react'
+import { createStoreChannel } from './store-kit'
 
 export interface SessionRec {
   codigo: string
@@ -41,7 +42,7 @@ function storage(): Storage | null {
 
 let cache: SessionRec[] | null = null
 let activeCache: string | null | undefined
-const listeners = new Set<() => void>()
+const channel = createStoreChannel()
 
 function load(): SessionRec[] {
   if (cache) return cache
@@ -61,7 +62,7 @@ function persist(next: SessionRec[]): void {
   } catch {
     // storage indisponível (private mode) — segue só em memória
   }
-  for (const l of listeners) l()
+  channel.emit()
 }
 
 export function listSessions(): SessionRec[] {
@@ -140,13 +141,10 @@ export function setActiveSessionCode(codigo: string | null): void {
   } catch {
     // sem storage — memória basta
   }
-  for (const l of listeners) l()
+  channel.emit()
 }
 
-function subscribe(cb: () => void): () => void {
-  listeners.add(cb)
-  return () => listeners.delete(cb)
-}
+const subscribe = channel.subscribe
 
 let snapCache: { sessions: SessionRec[]; active: string | null } | null = null
 

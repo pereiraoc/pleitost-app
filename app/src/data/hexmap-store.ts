@@ -18,6 +18,7 @@
 // Uma célula sem localId E sem áreas é descartada (não referencia nada).
 
 import { SEED_HEXMAPS } from './seed-hexmaps'
+import { createKeyedStoreChannel } from './store-kit'
 export interface HexMapCell {
   /** Coluna da grade hexagonal sobreposta ao mapa (ver exploracao.ts). */
   col: number
@@ -37,7 +38,7 @@ export interface HexMapState {
 const STORE_PREFIX = 'pleitost.hexMap.'
 
 const memory = new Map<string, HexMapState>()
-const listeners = new Map<string, Set<() => void>>()
+const channel = createKeyedStoreChannel()
 
 function emptyState(): HexMapState {
   return { cells: [] }
@@ -139,20 +140,10 @@ export function getHexMapState(regionId: string): HexMapState {
 }
 
 export function subscribeHexMap(regionId: string, cb: () => void): () => void {
-  let set = listeners.get(regionId)
-  if (!set) {
-    set = new Set()
-    listeners.set(regionId, set)
-  }
-  set.add(cb)
-  return () => {
-    set.delete(cb)
-  }
+  return channel.subscribe(regionId, cb)
 }
 
-function notify(regionId: string): void {
-  for (const cb of listeners.get(regionId) ?? []) cb()
-}
+const notify = channel.emit
 
 /** Canal 'imediato': memória (UI na hora) + notify + localStorage. */
 function commit(regionId: string, next: HexMapState): void {

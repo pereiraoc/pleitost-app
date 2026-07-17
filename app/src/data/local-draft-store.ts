@@ -7,13 +7,14 @@
 // theme). Chave por doc id → DocPatch.
 import { useSyncExternalStore } from 'react'
 import type { DocPatch } from './overlay'
+import { createStoreChannel } from './store-kit'
 
 const KEY = 'pleitost.compendio.drafts'
 type Drafts = Record<string, DocPatch>
 
 let drafts: Drafts | null = null
-let version = 0
-const listeners = new Set<() => void>()
+const channel = createStoreChannel()
+const emit = channel.emit
 
 function load(): Drafts {
   try {
@@ -35,11 +36,6 @@ function persist() {
   } catch {
     /* memória continua a fonte da sessão */
   }
-}
-
-function emit() {
-  version++
-  for (const cb of listeners) cb()
 }
 
 /** Rascunho local de um doc (undefined = sem rascunho). */
@@ -90,20 +86,13 @@ export function hasLocalDrafts(): boolean {
   return Object.keys(get()).length > 0
 }
 
-function subscribe(cb: () => void): () => void {
-  listeners.add(cb)
-  return () => {
-    listeners.delete(cb)
-  }
-}
-
 /** Versão reativa (bump a cada mudança) — pros hooks re-projetarem o doc. */
 export function useLocalDraftVersion(): number {
-  return useSyncExternalStore(subscribe, () => version)
+  return useSyncExternalStore(channel.subscribe, channel.version)
 }
 
 /** SÓ testes: zera o cache em memória (simula reload). */
 export function __resetDraftsForTests() {
   drafts = null
-  version = 0
+  channel.resetForTests()
 }

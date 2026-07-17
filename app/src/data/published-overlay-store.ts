@@ -6,16 +6,12 @@
 import { useSyncExternalStore } from 'react'
 import type { DocPatch } from './overlay'
 import { supabaseClient } from './session-repo/supabase'
+import { createStoreChannel } from './store-kit'
 
 let published = new Map<string, DocPatch>()
-let version = 0
 let started = false
-const listeners = new Set<() => void>()
-
-function emit() {
-  version++
-  for (const cb of listeners) cb()
-}
+const channel = createStoreChannel()
+const emit = channel.emit
 
 interface OverlayRow {
   id: string
@@ -89,16 +85,9 @@ export async function publishOverlays(
   emit()
 }
 
-function subscribe(cb: () => void): () => void {
-  listeners.add(cb)
-  return () => {
-    listeners.delete(cb)
-  }
-}
-
 /** Versão reativa (bump a cada mudança publicada) — pros hooks re-projetarem. */
 export function usePublishedOverlayVersion(): number {
-  return useSyncExternalStore(subscribe, () => version)
+  return useSyncExternalStore(channel.subscribe, channel.version)
 }
 
 /** SÓ testes: injeta overlays publicados sem tocar a rede. */
@@ -109,6 +98,6 @@ export function __setPublishedForTests(map: Record<string, DocPatch>) {
 }
 export function __resetPublishedForTests() {
   published = new Map()
-  version = 0
+  channel.resetForTests()
   started = false
 }

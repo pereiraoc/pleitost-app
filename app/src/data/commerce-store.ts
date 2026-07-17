@@ -10,6 +10,7 @@
 // Chave: `pleitost.commerce.<locationId>` → { pronta, encomenda, travada, localType }.
 import { useSyncExternalStore } from 'react'
 import type { ProntaEntry, EncomendaEntry, LocalType, Tier } from './commerce'
+import { createStoreChannel } from './store-kit'
 
 export interface ShopState {
   /** Estoque atual (pronta entrega) — quantidade decrementa na compra. */
@@ -25,8 +26,8 @@ export interface ShopState {
 const STORE_PREFIX = 'pleitost.commerce.'
 
 const memory = new Map<string, ShopState>()
-const listeners = new Set<() => void>()
-let version = 0
+const channel = createStoreChannel()
+const bump = channel.emit
 
 function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
@@ -50,19 +51,11 @@ function key(locationId: string): string {
   return STORE_PREFIX + locationId
 }
 
-function bump(): void {
-  version++
-  for (const cb of listeners) cb()
-}
-
 export function subscribeCommerce(cb: () => void): () => void {
-  listeners.add(cb)
-  return () => {
-    listeners.delete(cb)
-  }
+  return channel.subscribe(cb)
 }
 export function commerceVersion(): number {
-  return version
+  return channel.version()
 }
 
 /** Estado da loja guardado, ou null se o local ainda não foi rolado (ou se o
@@ -138,6 +131,5 @@ export function useShopState(locationId: string): ShopState | null {
 /** SÓ testes: zera a memória (não o localStorage) — simula reload. */
 export function __resetCommerceStoreForTests(): void {
   memory.clear()
-  version = 0
-  listeners.clear()
+  channel.resetForTests()
 }

@@ -43,6 +43,8 @@
 // ?debug=1. Console API: window.__pleitostDebug (ver/limpar/baixar o log,
 // resetar edições locais por herói) — o app não tem tela CONFIG desenhada.
 
+import { createKeyedStoreChannel } from './store-kit'
+
 export interface HeroEdits {
   fm: Record<string, unknown>
   session: Record<string, unknown>
@@ -71,7 +73,7 @@ const DEBUG_LOG_MAX = 500
 let autoSaveDebounceMs = 800
 
 const memory = new Map<string, HeroEdits>()
-const listeners = new Map<string, Set<() => void>>()
+const channel = createKeyedStoreChannel()
 const pendingTimers = new Map<string, ReturnType<typeof setTimeout>>()
 
 function emptyEdits(): HeroEdits {
@@ -136,23 +138,10 @@ export function getHeroEdits(heroId: string): HeroEdits {
 }
 
 export function subscribeHero(heroId: string, cb: () => void): () => void {
-  let set = listeners.get(heroId)
-  if (!set) {
-    set = new Set()
-    listeners.set(heroId, set)
-  }
-  set.add(cb)
-  return () => {
-    set.delete(cb)
-    // #291: remove a entrada vazia do map (senão cresce sem limite a cada herói
-    // aberto — vazamento de memória).
-    if (set.size === 0) listeners.delete(heroId)
-  }
+  return channel.subscribe(heroId, cb)
 }
 
-function notify(heroId: string): void {
-  for (const cb of listeners.get(heroId) ?? []) cb()
-}
+const notify = channel.emit
 
 function hasEdits(edits: HeroEdits): boolean {
   return (

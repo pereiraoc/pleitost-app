@@ -6,12 +6,13 @@
 // outro. Chave `pleitost.selectedCreature` — no namespace pleitost.*, então já
 // é durável (espelhada no servidor pelo #84).
 import { useSyncExternalStore } from 'react'
+import { createStoreChannel } from './store-kit'
 
 const KEY = 'pleitost.selectedCreature'
 
 // undefined = ainda não hidratado; null = ninguém selecionado; string = id.
 let memory: string | null | undefined
-const listeners = new Set<() => void>()
+const channel = createStoreChannel()
 
 function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
@@ -48,14 +49,11 @@ export function setSelectedCreature(id: string | null): void {
   } catch {
     /* noop */
   }
-  for (const cb of listeners) cb()
+  channel.emit()
 }
 
 export function subscribeSelectedCreature(cb: () => void): () => void {
-  listeners.add(cb)
-  return () => {
-    listeners.delete(cb)
-  }
+  return channel.subscribe(cb)
 }
 
 /** Hook reativo do personagem selecionado. */
