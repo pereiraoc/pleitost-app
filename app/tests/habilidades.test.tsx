@@ -92,19 +92,22 @@ describe('HABILIDADES — bucketização por rank (Item 2)', () => {
   })
 })
 
-describe('HABILIDADES — magias ESSENCIAIS pra aprender (#286)', () => {
-  it('Arcanista vê as magias Essenciais nas não-aprendidas, não só Negra/Branca', async () => {
-    // Carlos: Arcana Branca/E, Negra/N — slots B2 A4 E1. As magias ESSENCIAIS
-    // (pasta /Magia Arcana Essencial/, sem escola própria na ficha) não casavam
-    // nenhuma escola proficiente e sumiam; agora entram na escola Arcana destino.
+describe('HABILIDADES — Essenciais só pra Arcanista (#296)', () => {
+  it('Bardo (Carlos) NÃO vê magias Essenciais, mas vê as Brancas não-aprendidas', async () => {
+    // Carlos é BARDO (Classe [[Bardo|Trovador…]]), com Arcana Branca/E, Negra/N.
+    // O #286 ofertava as ESSENCIAIS (pasta /Magia Arcana Essencial/) a QUALQUER
+    // herói com prof Arcana — mas Essencial é exclusiva de Arcanista (plugin
+    // view-model.ts:617). Reportado no #296: Bardo tinha acesso indevido. O
+    // painel de não-aprendidas deve mostrar as Brancas (ex. "Arma de Luz") mas
+    // NUNCA uma Essencial (ex. "Alarme").
     renderHabilidades(CARLOS_ID)
     fireEvent.click(await screen.findByText('HABILIDADES'))
-    // painel "Magias" (título exato) → o EditToggle irmão liga o modo Alterar.
     const magiasTitle = await screen.findByText('Magias')
     fireEvent.click(within(magiasTitle.parentElement as HTMLElement).getByText('✎ Alterar'))
-    // "Alarme" é Essencial (Adepta) — só aparece pra aprender com o fix do #286
-    // (os docs das magias carregam async ao entrar no Alterar).
-    expect(await screen.findByText('Alarme', undefined, { timeout: 8000 })).toBeTruthy()
+    // Âncora positiva: uma Branca Adepta NÃO aprendida por Carlos carrega (async).
+    expect(await screen.findByText('Arma de Luz', undefined, { timeout: 8000 })).toBeTruthy()
+    // #296: "Alarme" (Essencial) NÃO deve aparecer pra um Bardo.
+    expect(screen.queryByText('Alarme')).toBeNull()
   })
 })
 

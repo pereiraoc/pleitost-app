@@ -442,6 +442,21 @@ export function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): stri
   return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra! : MAGIA_ESCOLA_NOME.ArcanaBranca!
 }
 
+/** #296: as Magias Arcanas ESSENCIAIS entram no catálogo de não-aprendidas do
+ *  herói? Espelha o gate do plugin (view-model.ts): no escopo PRIMÁRIO só se a
+ *  classe é Arcanista (`classeAtual !== "Arcanista" → false`, :617); no escopo
+ *  SECUNDÁRIO são permitidas independente da classe (Treinamento de Arcanista
+ *  secundário, :676) — a proficiência secundária já filtra. Em ambos exige ter
+ *  proficiência Arcana. Antes o app ofertava pra QUALQUER herói com prof Arcana,
+ *  então o Bardo (Arcana Branca/Negra, não-Arcanista) recebia Essencial. */
+export function shouldOfferEssenciais(
+  sec: boolean,
+  temArcanaProf: boolean,
+  classeArcanista: boolean,
+): boolean {
+  return temArcanaProf && (sec || classeArcanista)
+}
+
 /** Escola-destino (Nome do grupo no FM) de uma magia concedida por regra —
  *  espelho de enrichMagias (cola/enrichments.ts:417-488). subcategoria da nota
  *  decide (FM visitado senão subtype do índice); Arcana usa `escola` (Negra/

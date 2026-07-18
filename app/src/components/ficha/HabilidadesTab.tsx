@@ -20,7 +20,7 @@ import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, Ra
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { pickArcanaEspecial, swapAtributo } from '../../rules/projection'
+import { pickArcanaEspecial, shouldOfferEssenciais, swapAtributo } from '../../rules/projection'
 import {
   applyPericiaRankEdit,
   computePericiaMaxReachable,
@@ -2614,8 +2614,15 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
     // Anexa-as à escola Arcana DESTINO (pickArcanaEspecial: Negra se proficiente,
     // senão Branca), exatamente como o roteamento das essenciais APRENDIDAS
     // (escolaDestinoDaMagia). Assim aparecem em "Magias Arcana" pra aprender.
+    // #296: as Essenciais só entram no painel PRIMÁRIO quando a classe do herói
+    // é Arcanista (plugin view-model.ts:617: `classeAtual !== "Arcanista" →
+    // return false`). No painel SECUNDÁRIO são permitidas independente da classe
+    // (Treinamento de Arcanista secundário, view-model.ts:676) — a proficiência
+    // secundária já filtra. Antes entravam pra QUALQUER herói com prof Arcana:
+    // o Bardo (Arcana Branca/Negra, não-Arcanista) recebia Essencial indevido.
     const temArcanaProf = escolasProficiente.some((e) => str(e.Nome).startsWith('Arcana'))
-    if (temArcanaProf) {
+    const classeArcanista = (wikiTarget(str(fm['Classe'])).split('/').pop() ?? '') === 'Arcanista'
+    if (shouldOfferEssenciais(!!sec, temArcanaProf, classeArcanista)) {
       const destino = pickArcanaEspecial(escolasAll as Array<Record<string, unknown>>)
       const essenciais = catalog.content
         .filter((e) => e.type === 'Magia' && e.id.includes('/Magia Arcana Essencial/'))
