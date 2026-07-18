@@ -13,9 +13,13 @@ import { getHeroEdits, writeHeroEdit, applyFmEdits, getAtPath } from './hero-sto
 import { getLocalDoc, isLocalId, setLocalEntityFm } from './local-entities'
 import {
   ARMA_OBRA_PRIMA,
+  ARMADURA_OBRA_PRIMA,
+  buildItemAlias,
   buildTesouroAlias,
   deriveArmaAtributo,
+  escudoObraPrima,
   heroAtributos,
+  parseItemAlias,
   tierCategoriaFm,
   wikiTarget,
 } from '../components/ficha/hero-model'
@@ -48,6 +52,11 @@ function armasListaDe(fm: Record<string, unknown>): unknown[] {
   const inv = (fm['Inventario'] ?? {}) as Record<string, unknown>
   const armas = (inv['Armas'] ?? {}) as Record<string, unknown>
   return Array.isArray(armas['Lista']) ? [...(armas['Lista'] as unknown[])] : []
+}
+
+function consumiveisDe(fm: Record<string, unknown>): unknown[] {
+  const inv = (fm['Inventario'] ?? {}) as Record<string, unknown>
+  return Array.isArray(inv['Consumiveis']) ? [...(inv['Consumiveis'] as unknown[])] : []
 }
 
 /** Grava um path do FM do herói pela API de store correta (local vs vault). */
@@ -162,6 +171,85 @@ export function buyWeapon(
   const lista = armasListaDe(fm)
   lista.push(buildPurchasedWeaponRow(weapon, heroAtributos(fm).values))
   writeHero(heroId, vaultDoc, 'Inventario.Armas.Lista', lista)
+
+  return { ok: true, ouroRestante: novoOuro }
+}
+
+/** Compra de POÇÃO (consumível): debita o Ouro e SOMA +1 na quantidade do
+ *  consumível (nome+tier) em Inventario.Consumiveis — não vai mais pros Tesouros
+ *  (#299/feedback). Formato do alias = buildItemAlias ("… (Adepto) (x2)"). */
+export function buyConsumivel(
+  heroId: string,
+  vaultDoc: VaultDoc | undefined,
+  nome: string,
+  tier: Tier,
+  preco: number,
+): PurchaseResult {
+  const fm = currentFm(heroId, vaultDoc)
+  const ouro = ouroDe(fm)
+  if (ouro < preco) return { ok: false, reason: 'ouro-insuficiente', ouroRestante: ouro }
+
+  const novoOuro = ouro - preco
+  writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
+
+  writeHero(heroId, vaultDoc, 'Inventario.Consumiveis', incrementConsumivel(consumiveisDe(fm), nome, tier))
+  return { ok: true, ouroRestante: novoOuro }
+}
+
+/** +1 na quantidade do consumível (nome+tier) numa lista de aliases; adiciona
+ *  com qtd 1 se ainda não existir. Puro (round-trip de parseItemAlias). */
+export function incrementConsumivel(lista: unknown[], nome: string, tier: Tier): unknown[] {
+  let feito = false
+  const next = lista.map((raw) => {
+    const p = parseItemAlias(raw)
+    if (!feito && p.nome === nome && p.tier === tier) {
+      feito = true
+      return buildItemAlias(nome, tier, (p.qtd || 0) + 1)
+    }
+    return raw
+  })
+  if (!feito) next.push(buildItemAlias(nome, tier, 1))
+  return next
+}
+
+/** Linha de EQUIPAMENTO (Armadura/Escudo) equipado — mesmo shape do writeGear
+ *  da ficha: Nome (base wikilink) + Categoria (tier) + Propriedade (obra-prima
+ *  da peça) + Dureza (escudo). Puro. */
+export function buildEquippedGear(
+  slot: 'Armadura' | 'Escudo',
+  base: string,
+  tier: Tier,
+  dureza = 0,
+): Record<string, unknown> {
+  const nome = `[[${base}]]`
+  const row: Record<string, unknown> = {
+    Nome: nome,
+    Categoria: tierCategoriaFm(tier),
+    Propriedade: slot === 'Armadura' ? ARMADURA_OBRA_PRIMA : escudoObraPrima(nome),
+  }
+  if (slot === 'Escudo') row.Dureza = dureza
+  return row
+}
+
+/** Compra de ARMADURA/ESCUDO obra-prima: debita o Ouro e EQUIPA a peça no slot
+ *  (Inventario.Armadura|Escudo) — "deixar equipável" do feedback. Substitui a
+ *  peça atual do slot (modelo de UM slot equipado, como a ficha). */
+export function equipGear(
+  heroId: string,
+  vaultDoc: VaultDoc | undefined,
+  slot: 'Armadura' | 'Escudo',
+  base: string,
+  tier: Tier,
+  preco: number,
+  dureza = 0,
+): PurchaseResult {
+  const fm = currentFm(heroId, vaultDoc)
+  const ouro = ouroDe(fm)
+  if (ouro < preco) return { ok: false, reason: 'ouro-insuficiente', ouroRestante: ouro }
+
+  const novoOuro = ouro - preco
+  writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
+  writeHero(heroId, vaultDoc, `Inventario.${slot}`, buildEquippedGear(slot, base, tier, dureza))
 
   return { ok: true, ouroRestante: novoOuro }
 }

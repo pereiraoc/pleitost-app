@@ -32,8 +32,15 @@ import {
   setShopRoll,
   useShopState,
 } from '../../data/commerce-store'
-import { buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
-import { docField } from '../ficha/hero-model'
+import {
+  buyConsumivel,
+  buyTreasure,
+  buyWeapon,
+  equipGear,
+  heroOuro,
+  type PurchaseResult,
+} from '../../data/purchase'
+import { docField, num } from '../ficha/hero-model'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
 import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc, ItemHover, docTier, docImageUrl } from '../item-card'
@@ -570,34 +577,65 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       setAviso('Escolha um herói para comprar.')
       return
     }
-    // #299: combo arma×imbuição/obra-prima é uma ARMA — vai pra Armas.Lista, não
-    // pros Tesouros. O doc da arma já está em docsById (carregado pro catálogo).
-    let r: PurchaseResult
+    const hid = selectedHero.entry.id
+    const hdoc = selectedHero.doc
+    const finish = (r: PurchaseResult) => {
+      if (!r.ok) {
+        setAviso('Ouro insuficiente.')
+        return
+      }
+      decrementProntaEntry(doc.id, entry.key, entry.tier)
+      setAviso(`Comprado: ${entry.label} (${TIER_COLUNA[entry.tier]}). Ouro restante: ${r.ouroRestante} PO.`)
+    }
+    const pb = entry.propriedadeBase ?? ''
+    // Poção → Consumíveis (soma quantidade), não Tesouros.
+    if (entry.isPocao) {
+      finish(buyConsumivel(hid, hdoc, entry.nome, entry.tier, entry.preco))
+      return
+    }
+    // #299: combo arma×imbuição/obra-prima é ARMA → Armas.Lista.
     if (entry.armaTarget) {
       const armaId = entry.armaTarget
       const idxEntry = catalog.entryById.get(armaId)
       const armaBasename = idxEntry?.basename ?? armaId.split('/').pop() ?? armaId
-      r = buyWeapon(
-        selectedHero.entry.id,
-        selectedHero.doc,
-        {
-          armaBasename,
-          grupo: idxEntry?.grupo,
-          propriedades: docField(docsById.get(armaId), 'propriedades'),
-          tier: entry.tier,
-          propriedadeBase: entry.propriedadeBase,
-        },
-        entry.preco,
+      finish(
+        buyWeapon(
+          hid,
+          hdoc,
+          {
+            armaBasename,
+            grupo: idxEntry?.grupo,
+            propriedades: docField(docsById.get(armaId), 'propriedades'),
+            tier: entry.tier,
+            propriedadeBase: entry.propriedadeBase,
+          },
+          entry.preco,
+        ),
       )
-    } else {
-      r = buyTreasure(selectedHero.entry.id, selectedHero.doc, entry.nome, entry.tier, entry.preco)
-    }
-    if (!r.ok) {
-      setAviso('Ouro insuficiente.')
       return
     }
-    decrementProntaEntry(doc.id, entry.key, entry.tier)
-    setAviso(`Comprado: ${entry.label} (${TIER_COLUNA[entry.tier]}). Ouro restante: ${r.ouroRestante} PO.`)
+    // Armadura obra-prima → EQUIPA a Armadura (deixar equipável).
+    if (pb === 'Armadura Obra-prima' && entry.thumbBasename) {
+      finish(equipGear(hid, hdoc, 'Armadura', entry.thumbBasename, entry.tier, entry.preco))
+      return
+    }
+    // Escudo/Broquel obra-prima → EQUIPA o Escudo (Dureza vem do doc da base).
+    if ((pb === 'Escudo Obra-prima' || pb === 'Broquel Obra-prima') && entry.thumbBasename) {
+      const base = entry.thumbBasename
+      const res = catalog.resolve(base)
+      if (res.kind === 'doc') {
+        void loadDoc(res.id)
+          .catch(() => undefined)
+          .then((escDoc) =>
+            finish(equipGear(hid, hdoc, 'Escudo', base, entry.tier, entry.preco, num(docField(escDoc, 'dureza')))),
+          )
+      } else {
+        finish(equipGear(hid, hdoc, 'Escudo', base, entry.tier, entry.preco, 0))
+      }
+      return
+    }
+    // Demais tesouros (implementos/equipamentos/ferramenta obra-prima).
+    finish(buyTreasure(hid, hdoc, entry.nome, entry.tier, entry.preco))
   }
 
   const pronta = shop?.pronta ?? []
