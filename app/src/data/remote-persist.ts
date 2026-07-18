@@ -16,6 +16,15 @@ import { supabaseClient } from './session-repo/supabase'
 const ENDPOINT = appStateUrl()
 /** Chaves do app que devem persistir (grupo, ficha, personagens, mapa, ajustes). */
 const SYNCED = /^(pleitost\.|local:)/
+/** Preferências POR DISPOSITIVO — NÃO sincronizam por conta. O tema/cor de
+ *  destaque é escolha visual local: sincronizá-lo fazia um valor antigo do
+ *  servidor (de outro boot/device) reverter a seleção local ao reabrir. Segue
+ *  no localStorage (per-origin), durável o bastante pra uma preferência de UI. */
+const DEVICE_LOCAL = /^pleitost\.theme$/
+/** Deve sincronizar pra conta/servidor? (exclui as preferências por dispositivo) */
+function synced(k: string): boolean {
+  return SYNCED.test(k) && !DEVICE_LOCAL.test(k)
+}
 
 let queue: Record<string, string | null> = {}
 let timer: ReturnType<typeof setTimeout> | null = null
@@ -95,7 +104,7 @@ export async function connectUserStateSync(
   try {
     const data = await ops.get(userId)
     for (const [k, v] of Object.entries(data ?? {})) {
-      if (typeof v === 'string' && SYNCED.test(k) && store.getItem(k) === null) {
+      if (typeof v === 'string' && synced(k) && store.getItem(k) === null) {
         // grava pelo canal ORIGINAL (sem re-enfileirar o que veio do servidor)
         ;(origSet ?? store.setItem.bind(store))(k, v)
         added.push(k)
@@ -111,7 +120,7 @@ export async function connectUserStateSync(
     const patch: Record<string, string> = {}
     for (let i = 0; i < store.length; i++) {
       const k = store.key(i)
-      if (k && SYNCED.test(k) && !serverKeys.has(k)) {
+      if (k && synced(k) && !serverKeys.has(k)) {
         const v = store.getItem(k)
         if (v !== null) patch[k] = v
       }
@@ -193,7 +202,7 @@ export async function hydrateFromServer(timeoutMs = 3500): Promise<void> {
     if (!res.ok) return
     const data = (await res.json()) as Record<string, unknown>
     for (const [k, v] of Object.entries(data)) {
-      if (typeof v === 'string' && SYNCED.test(k) && store.getItem(k) === null) {
+      if (typeof v === 'string' && synced(k) && store.getItem(k) === null) {
         store.setItem(k, v)
       }
     }
@@ -213,11 +222,11 @@ export function installPersistMirror(): void {
   origRemove = store.removeItem.bind(store)
   store.setItem = (k: string, v: string) => {
     origSet!(k, v)
-    if (SYNCED.test(k)) enqueue(k, v)
+    if (synced(k)) enqueue(k, v)
   }
   store.removeItem = (k: string) => {
     origRemove!(k)
-    if (SYNCED.test(k)) enqueue(k, null)
+    if (synced(k)) enqueue(k, null)
   }
   // celular: ao esconder/fechar o app, garante o flush pendente
   window.addEventListener('visibilitychange', () => {
@@ -228,7 +237,7 @@ export function installPersistMirror(): void {
   const patch: Record<string, string> = {}
   for (let i = 0; i < store.length; i++) {
     const k = store.key(i)
-    if (k && SYNCED.test(k)) {
+    if (k && synced(k)) {
       const v = store.getItem(k)
       if (v !== null) patch[k] = v
     }

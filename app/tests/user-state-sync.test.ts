@@ -90,6 +90,21 @@ describe('espelho por conta (#239)', () => {
     expect(window.localStorage.getItem('pleitost.hexMap.X')).toBe('{"cells":[]}')
   })
 
+  it('tema/cor de destaque NÃO sincroniza por conta (preferência por dispositivo)', async () => {
+    // bug: um valor ANTIGO do servidor revertia a cor de destaque local ao reabrir.
+    const srv = fakeServer({ 'pleitost.theme': '{"theme":"ferro-frio","accent":"ferro-frio"}' })
+    await connectUserStateSync('u-1', () => {})
+    // o tema do servidor NÃO é hidratado no localStorage (segue o default local)
+    expect(window.localStorage.getItem('pleitost.theme')).toBeNull()
+    installPersistMirror()
+    await vi.runAllTimersAsync() // bootstrap
+    // escolher a cor de destaque local NÃO espelha pra conta (não pode voltar)
+    window.localStorage.setItem('pleitost.theme', '{"theme":"aco-solar","accent":"aco-solar"}')
+    await vi.runAllTimersAsync()
+    expect(window.localStorage.getItem('pleitost.theme')).toContain('aco-solar') // fica local
+    expect(srv.data['pleitost.theme']).toBe('{"theme":"ferro-frio","accent":"ferro-frio"}') // servidor intacto
+  })
+
   it('gravações locais espelham pra conta (flush debounced) e remoção apaga', async () => {
     const srv = fakeServer()
     await connectUserStateSync('u-1', () => {})
