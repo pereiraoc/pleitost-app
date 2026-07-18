@@ -7,7 +7,7 @@
 // raw e a AST do rule-parser do plugin (lossless) — este componente só
 // APRESENTA esses dados. Campo ausente fica de fora (sem fallback); kind
 // desconhecido mostra o próprio kind vindo do JSON.
-import type { CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import type { ConditionParse, RuleElement, VaultDoc } from '../../data/types'
 import { useSettings } from '../../settings'
 import { InlineFieldValue } from './InlineFieldValue'
@@ -471,5 +471,43 @@ export function DocRuleElements({ doc }: { doc: VaultDoc }) {
     )
   }
   if (!mestre || !doc.ruleElements?.length) return null
-  return <RuleElementsSection elements={doc.ruleElements} />
+  return <CollapsibleRuleElements elements={doc.ruleElements} />
+}
+
+/** Feedback do mestre: os elementos de regra são baixo nível — ficam COLAPSADOS
+ *  atrás de um botão (clica pra expandir), pra não poluir a nota. O gate de
+ *  mestre/desenvolvedor já é feito em DocRuleElements. */
+function CollapsibleRuleElements({ elements }: { elements: readonly RuleElement[] }) {
+  const [aberto, setAberto] = useState(false)
+  return (
+    <div style={{ marginTop: 18, clear: 'both' }}>
+      <button
+        type="button"
+        aria-expanded={aberto}
+        onClick={() => setAberto((v) => !v)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '7px 14px',
+          background: 'var(--panel)',
+          border: '1px solid var(--line2)',
+          color: 'var(--muted)',
+          cursor: 'pointer',
+          fontFamily: 'var(--mono)',
+          fontSize: 10.5,
+          letterSpacing: '.12em',
+          clipPath: clip(7),
+        }}
+      >
+        <span aria-hidden>{aberto ? '▾' : '▸'}</span>
+        {`ELEMENTOS DE REGRA · ${elements.length}`}
+      </button>
+      {aberto ? (
+        <div style={{ marginTop: 10 }}>
+          <RuleElementsSection elements={elements} />
+        </div>
+      ) : null}
+    </div>
+  )
 }

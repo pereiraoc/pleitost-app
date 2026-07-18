@@ -5,7 +5,7 @@
 // A validação usa o parser REAL (via extractor): RAW sem regra = sintaxe;
 // action.kind 'unknown' = não coberto.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -151,6 +151,8 @@ describe('validação de cobertura/sintaxe (#251)', () => {
         </MemoryRouter>
       </CatalogProvider>,
     )
+    // #feedback: elementos de regra ficam COLAPSADOS — expande pelo botão
+    fireEvent.click(screen.getByText(/ELEMENTOS DE REGRA ·/))
     const sec = document.querySelector('[data-rule-elements]') as HTMLElement
     expect(sec).toBeTruthy()
     expect(sec.querySelector('[data-coverage]')).toBeTruthy()
@@ -159,6 +161,8 @@ describe('validação de cobertura/sintaxe (#251)', () => {
 
   it('na FICHA do Animista (mestre): seção presente com resumo de cobertura', async () => {
     renderDoc(ANIMISTA)
+    // #feedback: expande o colapsado (o botão aparece quando o doc carrega)
+    fireEvent.click(await screen.findByText(/ELEMENTOS DE REGRA ·/))
     const sec = await waitFor(() => {
       const el = document.querySelector('[data-rule-elements]') as HTMLElement
       expect(el).toBeTruthy()

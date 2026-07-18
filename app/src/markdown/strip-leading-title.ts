@@ -5,7 +5,10 @@
  *  pasta. Fonte única — não reimplementar no call-site. */
 export function stripLeadingTitle(body: string, basename: string): string {
   const m = /^\s*#{1,6}\s+(.+?)\s*$/m.exec(body)
-  if (!m || body.slice(0, m.index).trim() !== '') return body
+  // O retrato da nota costuma vir ANTES do "# Título" (![[X.png]]\n# Nome) — o
+  // embed de imagem não descaracteriza o título como "leading" (feedback do
+  // mestre: nome da classe aparecia 2×). Ignora embeds de imagem no que precede.
+  if (!m || body.slice(0, m.index).replace(/!\[\[[^\]]+\]\]/g, '').trim() !== '') return body
   const titulo = m[1]!.replace(/`?=\s*this\.file\.name`?/g, basename).trim()
   if (titulo !== basename.trim()) return body
   return body.slice(0, m.index) + body.slice(m.index + m[0].length)

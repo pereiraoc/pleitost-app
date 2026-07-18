@@ -49,7 +49,7 @@ import {
   TipProvider,
   ataqueBreakdown,
   danoArmaBreakdown,
-  entriesBreakdown,
+  magiaAtaqueBreakdown,
   movimentoBreakdown,
   periciaBreakdown,
   renderBreakdownHtml,
@@ -313,9 +313,9 @@ function MagiasResumo({
                 <span style={{ fontWeight: 600 }}>{t.rota}</span>
               </ItemHover>{' '}
               {/* Modificador +N/CD — formato do resumo do plugin
-                  (magias-block.ts: total assinado + CD = total+10); tooltip =
-                  somatório do ataque mágico (entriesBreakdown, como o #143). */}
-              <TipHover html={renderBreakdownHtml(entriesBreakdown('Ataque Mágico', t.info.entries ?? []))}>
+                  (magias-block.ts: total assinado + CD = total+10). #65: tooltip
+                  no MESMO breakdown das perícias (atr/prof/item/esp com emojis). */}
+              <TipHover html={renderBreakdownHtml(magiaAtaqueBreakdown(t.info))}>
                 <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--red)' })}>
                   {`${fmtSigned(t.info.total)}/CD${t.info.total + 10}`}
                 </span>

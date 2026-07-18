@@ -53,7 +53,7 @@ export const CRIACAO_SUBTIPOS: Record<string, SubtipoCriacao> = {
     ],
   },
   Classe: {
-    icon: '🎓',
+    icon: '👑',
     cor: 'var(--accent)',
     campos: [
       { label: 'Tipo', keys: ['subcategoria'] },

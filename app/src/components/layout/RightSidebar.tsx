@@ -39,9 +39,7 @@ function DetailPanel({ onNavigate }: { onNavigate: () => void }) {
             tela cheia ↗
           </Link>
         ) : null}
-        <button className="detail-close" aria-label="Fechar detalhes" onClick={() => detail?.close()}>
-          ×
-        </button>
+        {/* Feedback do mestre: sem botão × no bar de DETALHES (não faz sentido). */}
       </div>
       {target.kind === 'doc' ? (
         <DocDetail id={target.id} />

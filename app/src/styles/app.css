@@ -1373,15 +1373,16 @@ a {
   );
 }
 
-/* #feedback: retrato da nota de Criação (Classe/Magia/…) no canto direito do
-   header — tamanho fixo de perfil, recortado (object-fit) em vez de esticado. */
+/* #feedback: retrato da nota de Criação (Classe/Magia/…) FLUTUA no canto direito
+   — tamanho fixo de perfil, recortado (object-fit), o texto envolve (não empurra
+   pra baixo). */
 .criacao-hero {
-  flex: none;
+  float: right;
   width: 190px;
   max-width: 40%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  align-self: flex-start;
+  margin: 2px 0 12px 18px;
   cursor: zoom-in;
   border: 1px solid var(--line2);
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));

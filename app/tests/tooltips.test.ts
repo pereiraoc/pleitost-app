@@ -23,6 +23,7 @@ import {
   ataqueBreakdown,
   danoArmaBreakdown,
   enrichRuleTooltips,
+  magiaAtaqueBreakdown,
   movimentoBreakdown,
   oficioBreakdown,
   periciaBreakdown,
@@ -330,6 +331,28 @@ describe('renderBreakdownHtml + builders — byte-exact vs goldens da Interativa
         ),
       ),
     ).toBe(norm(byTitle(preTips, 'Diplomacia (PRE)')))
+  })
+
+  // #65 (feedback do mestre): o tooltip do MODIFICADOR DE MAGIA no Resumo deve ter
+  // o MESMO breakdown com emojis das perícias — atributo, proficiência (experiência),
+  // item, especialização — em vez da lista genérica sem emoji (entriesBreakdown).
+  it('magiaAtaqueBreakdown: mesmos emojis/valores das perícias (atr/prof/item/esp)', () => {
+    const mag = magiaAtaqueBreakdown({
+      total: 5,
+      title: '',
+      mag: { attr: 3, attrLabel: 'PRE', prof: 'E', item: 1, especial: 0, rota: 'Magia Arcana' },
+    })
+    const per = periciaBreakdown(
+      { Nome: 'X', Atributo: 'PRE', Proficiencia: 'E', Bonus_Item: 1, Bonus_Especial: 0 },
+      { PRE: 3 },
+    )
+    // 4 linhas, MESMOS emojis das perícias (atributo/proficiência/item/especialização)
+    expect(mag.parts.length).toBe(4)
+    expect(mag.parts.map((p) => p.emoji)).toEqual(per.parts.map((p) => p.emoji))
+    expect(mag.parts.map((p) => p.value)).toEqual(per.parts.map((p) => p.value))
+    expect(mag.headerSigned).toBe(true)
+    // header usa o emoji do atributo (PRE → 🗣️), como as perícias
+    expect(mag.headerEmoji).toBe('🗣️')
   })
 })
 

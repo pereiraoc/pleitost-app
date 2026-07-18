@@ -56,42 +56,35 @@ export function CriacaoView({
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {sidebar || embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
-      {/* Feedback do mestre: nome/tipo/atributo-chave à ESQUERDA e a imagem no
-          canto direito (retrato, sem esticar) — não mais uma faixa espichada. */}
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ flex: '1 1 260px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <header style={headerStyle}>
-            <span style={{ fontSize: '2rem', lineHeight: 1, flex: 'none' }} aria-hidden>
-              {sub.icon}
-            </span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <h1 style={{ margin: 0 }}>{doc.basename}</h1>
-              <span
-                className="doc-type"
-                style={{ color: sub.cor, fontWeight: 700, letterSpacing: '.06em' }}
-              >
-                {doc.type}
-                {doc.subtype ? ` · ${doc.subtype}` : ''}
-              </span>
-            </div>
-          </header>
-
-          {chips.length ? (
-            <div className="criacao-chips">
-              {chips.map((c) => (
-                <span key={c.label} className="criacao-chip">
-                  <span className="criacao-chip-k">{c.label}</span>
-                  <span className="criacao-chip-v" style={{ color: sub.cor }}>
-                    <InlineFieldValue value={c.value!} />
-                  </span>
-                </span>
-              ))}
-            </div>
-          ) : null}
+      {/* Feedback do mestre: a imagem FLUTUA no canto direito (retrato, sem
+          esticar) e o texto (header/tipo/chips/resumo) envolve ela — não empurra
+          nada pra baixo (float, não flex de 2 colunas). */}
+      {hero ? <VaultImage target={hero.target} className="criacao-hero" zoom /> : null}
+      <header style={headerStyle}>
+        <span style={{ fontSize: '2rem', lineHeight: 1, flex: 'none' }} aria-hidden>
+          {sub.icon}
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <h1 style={{ margin: 0 }}>{doc.basename}</h1>
+          <span className="doc-type" style={{ color: sub.cor, fontWeight: 700, letterSpacing: '.06em' }}>
+            {doc.type}
+            {doc.subtype ? ` · ${doc.subtype}` : ''}
+          </span>
         </div>
+      </header>
 
-        {hero ? <VaultImage target={hero.target} className="criacao-hero" zoom /> : null}
-      </div>
+      {chips.length ? (
+        <div className="criacao-chips">
+          {chips.map((c) => (
+            <span key={c.label} className="criacao-chip">
+              <span className="criacao-chip-k">{c.label}</span>
+              <span className="criacao-chip-v" style={{ color: sub.cor }}>
+                <InlineFieldValue value={c.value!} />
+              </span>
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       {resumo ? (
         <p className="criacao-resumo">

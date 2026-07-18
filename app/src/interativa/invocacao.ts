@@ -325,6 +325,10 @@ export interface BonusInfo {
   /** Parcelas estruturadas (label+valor) pro tooltip rico no padrão do plugin
    *  (entriesBreakdown → renderBreakdownHtml) — mesmo conteúdo do title. */
   entries?: Array<{ label: string; value: number }>
+  /** #65: componentes do ATAQUE MÁGICO no MESMO shape das perícias (atr/prof/
+   *  item/especialização) — pro breakdown com emojis igual às perícias. Só o
+   *  computeMagiaAtaque preenche. */
+  mag?: { attr: number; attrLabel: string; prof: Proficiencia; item: number; especial: number; rota: string }
 }
 
 /** Ataque Mágico do herói na escola da rota = PB(rank) + atributo + item +
@@ -343,7 +347,19 @@ export function computeMagiaAtaque(fm: Record<string, unknown>, rota: string | u
   if (escola.bonusItem !== 0) entries.push({ label: 'Item', value: escola.bonusItem })
   if (escola.bonusEspecial !== 0) entries.push({ label: 'Especialização', value: escola.bonusEspecial })
   const lines = entries.map((e) => `${e.label} ${signed(e.value)}`)
-  return { total, title: `Ataque Mágico ${signed(total)}\n${lines.join('\n')}`, entries }
+  return {
+    total,
+    title: `Ataque Mágico ${signed(total)}\n${lines.join('\n')}`,
+    entries,
+    mag: {
+      attr,
+      attrLabel: escola.atributo,
+      prof: escola.proficiencia,
+      item: escola.bonusItem,
+      especial: escola.bonusEspecial,
+      rota,
+    },
+  }
 }
 
 /** number literal → breakdown simples; "MagiaAtaque"/"AtaqueMagico" →

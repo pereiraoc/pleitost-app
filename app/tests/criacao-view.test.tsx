@@ -82,8 +82,9 @@ describe('CriacaoView por subtipo (#246)', () => {
   it('CLASSE: imagem + atributo-chave; distinta da Magia', async () => {
     renderDoc(CLASSE)
     expect(await screen.findByText('Classe · Conjurador')).toBeTruthy()
-    // o header do subtipo é o 1º heading (o corpo pode repetir o título)
-    expect(screen.getAllByRole('heading', { name: 'Animista' }).length).toBeGreaterThan(0)
+    // #feedback: o nome da classe NÃO duplica — só o header (h1), o "# Animista"
+    // do corpo é strippado mesmo com o embed de imagem antes dele.
+    expect(screen.getAllByRole('heading', { name: 'Animista', level: 1 }).length).toBe(1)
     // atributo-chave no chip (PRE também aparece no corpo — escopa ao chip)
     const chips = document.querySelector('.criacao-chips') as HTMLElement
     expect(chips.textContent).toContain('Atributo-chave')

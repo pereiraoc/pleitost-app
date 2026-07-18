@@ -26,6 +26,7 @@ import { createPortal } from 'react-dom'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
 import { num, profLetter, str, type ProfRow } from './hero-model'
 import { stripSharedFrom } from '../../interativa/apply'
+import type { BonusInfo } from '../../interativa/invocacao'
 
 // ─────────────────────── tipos (espelho de util/breakdown-types.ts) ───────────────────────
 
@@ -236,6 +237,21 @@ export function periciaBreakdown(row: ProfRow, attrs: Record<string, number>): B
   const attrEmoji =
     (tokens.emojis.atributo as Record<string, string>)[input.attrLabel] ?? E.HeaderPericia
   return { ...buildAttrProfItemEspecial(input, total, attrEmoji, title), headerSigned: true }
+}
+
+/** #65 (feedback do mestre): breakdown do ATAQUE MÁGICO no MESMO padrão das
+ *  perícias — atributo, proficiência (experiência), item, especialização com
+ *  emojis (buildAttrProfItemEspecial), em vez da lista genérica sem emoji. O
+ *  computeMagiaAtaque preenche `mag` com os componentes reais; sem ele (dado
+ *  antigo) cai no entriesBreakdown. */
+export function magiaAtaqueBreakdown(info: BonusInfo): BreakdownResult {
+  const m = info.mag
+  if (!m) return entriesBreakdown('Ataque Mágico', info.entries ?? [], { headerEmoji: E.HeaderPericia })
+  const input: RowInput = { attr: m.attr, attrLabel: m.attrLabel, prof: m.prof, item: m.item, especial: m.especial }
+  const attrEmoji = (tokens.emojis.atributo as Record<string, string>)[m.attrLabel] ?? E.HeaderPericia
+  const rotaLabel = m.rota.replace(/^Magia\s+/, '')
+  const title = m.attrLabel ? `${rotaLabel} (${m.attrLabel})` : rotaLabel
+  return { ...buildAttrProfItemEspecial(input, info.total, attrEmoji, title), headerSigned: true }
 }
 
 /** Espelho de buildSentidoBreakdown (modificadores.ts:538-543): título com

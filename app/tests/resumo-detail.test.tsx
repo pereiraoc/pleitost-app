@@ -133,12 +133,14 @@ describe('#199 resumo — magias', () => {
     expect(txt).toContain('ENERGIA MÁGICA 4/4')
   })
 
-  it('modificador tem tooltip do somatório do ataque mágico', async () => {
+  it('modificador tem o MESMO breakdown das perícias (atr/prof/item/esp), #65', async () => {
     await renderResumo()
     const tip =
       screen.getByText('+7/CD17').closest('[data-breakdown-html]')?.getAttribute('data-breakdown-html') ?? ''
-    expect(tip).toContain('Ataque Mágico')
+    // breakdown estruturado (não a lista genérica): atributo + Item + Especialização
     expect(tip).toContain('PRE')
+    expect(tip).toContain('Item')
+    expect(tip).toContain('Especialização')
   })
 
   it('lista as magias por rank (e as de tesouros) com a carta da regra no hover', async () => {

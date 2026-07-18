@@ -98,6 +98,8 @@ describe('#193: Elementos de Regra no DocPage (Magias Anima real)', () => {
     expect(magiasAnima.ruleElements.length).toBeGreaterThan(0) // sanidade da fixture
     mestreOn()
     renderDoc(magiasAnima)
+    // #feedback: os elementos de regra ficam COLAPSADOS — expande pelo botão
+    fireEvent.click(screen.getByText(/ELEMENTOS DE REGRA ·/))
     expect(screen.getByText(/\/\/ ELEMENTOS DE REGRA/)).toBeTruthy()
     // todo raw do JSON aparece verbatim na tela (bloco mono)
     for (const raw of new Set(magiasAnima.ruleElements.map((el) => el.raw))) {
@@ -108,6 +110,7 @@ describe('#193: Elementos de Regra no DocPage (Magias Anima real)', () => {
   it('mestre ON: resumo do parsed mostra ação/alvo/escopo que o JSON traz', () => {
     mestreOn()
     renderDoc(magiasAnima)
+    fireEvent.click(screen.getByText(/ELEMENTOS DE REGRA ·/)) // expande o colapsado
     // "Definir Magias.Potencia 4" → verbo Definir + alvo Magias.Potencia
     expect(screen.getAllByText('Definir').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Magias.Potencia').length).toBeGreaterThan(0)
