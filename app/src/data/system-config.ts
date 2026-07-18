@@ -32,6 +32,11 @@ const DEFAULT_POCAO: Readonly<Record<LocalType, Readonly<Record<Tier, string>>>>
   Object.fromEntries(LOCAL_TYPES.map((lt) => [lt, Object.freeze({ ...POCAO_DICE[lt] })])),
 ) as never
 
+// Taxa de revenda (#300): fração do valor de mercado devolvida em Ouro ao VENDER
+// um item (arma/tesouro) na ficha. Default metade; ajustável no CONFIG/SISTEMA
+// junto das demais opções de tesouro.
+const DEFAULT_REVENDA = 0.5
+
 const KEY = 'pleitost.settings.sistema'
 
 interface SistemaOverrides {
@@ -39,7 +44,11 @@ interface SistemaOverrides {
   combo?: Partial<Record<ComboKey, number>>
   raridade?: Partial<Record<Raridade, number>>
   pocao?: Partial<Record<LocalType, Partial<Record<Tier, string>>>>
+  revenda?: number
 }
+
+// Valor VIVO da taxa de revenda (escalar; não vive numa tabela do commerce.ts).
+let revendaTaxa = DEFAULT_REVENDA
 
 let version = 0
 const listeners = new Set<() => void>()
@@ -77,6 +86,7 @@ function apply(ov: SistemaOverrides) {
   for (const lt of LOCAL_TYPES) {
     for (const t of TIERS) POCAO_DICE[lt][t] = ov.pocao?.[lt]?.[t] ?? DEFAULT_POCAO[lt][t]
   }
+  revendaTaxa = ov.revenda ?? DEFAULT_REVENDA
   bump()
 }
 
@@ -96,6 +106,7 @@ export const sistemaConfig = {
     combo: DEFAULT_COMBO,
     raridade: DEFAULT_RARIDADE,
     pocao: DEFAULT_POCAO,
+    revenda: DEFAULT_REVENDA,
   },
   setTierMult(tier: Tier, value: number) {
     mutate((ov) => {
@@ -131,6 +142,20 @@ export const sistemaConfig = {
   resetPocao() {
     mutate((ov) => {
       delete ov.pocao
+    })
+  },
+  /** Taxa de revenda corrente (fração 0..1). */
+  getRevenda(): number {
+    return revendaTaxa
+  },
+  setRevenda(value: number) {
+    mutate((ov) => {
+      ov.revenda = value
+    })
+  },
+  resetRevenda() {
+    mutate((ov) => {
+      delete ov.revenda
     })
   },
   subscribe(cb: () => void): () => void {

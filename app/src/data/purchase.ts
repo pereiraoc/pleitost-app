@@ -11,8 +11,17 @@
 import type { VaultDoc } from './types'
 import { getHeroEdits, writeHeroEdit, applyFmEdits, getAtPath } from './hero-store'
 import { getLocalDoc, isLocalId, setLocalEntityFm } from './local-entities'
-import { buildTesouroAlias } from '../components/ficha/hero-model'
+import {
+  ARMA_OBRA_PRIMA,
+  buildTesouroAlias,
+  deriveArmaAtributo,
+  heroAtributos,
+  tierCategoriaFm,
+  wikiTarget,
+} from '../components/ficha/hero-model'
 import type { Tier } from './commerce'
+
+const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 
 /** FM salvo corrente de um herói (local: FM da entidade; vault: extraído +
  *  overlay), a partir do doc extraído passado (vault) — para o local o doc é
@@ -33,6 +42,12 @@ function ouroDe(fm: Record<string, unknown>): number {
 function tesourosDe(fm: Record<string, unknown>): unknown[] {
   const inv = (fm['Inventario'] ?? {}) as Record<string, unknown>
   return Array.isArray(inv['Tesouros']) ? [...(inv['Tesouros'] as unknown[])] : []
+}
+
+function armasListaDe(fm: Record<string, unknown>): unknown[] {
+  const inv = (fm['Inventario'] ?? {}) as Record<string, unknown>
+  const armas = (inv['Armas'] ?? {}) as Record<string, unknown>
+  return Array.isArray(armas['Lista']) ? [...(armas['Lista'] as unknown[])] : []
 }
 
 /** Grava um path do FM do herói pela API de store correta (local vs vault). */
@@ -89,4 +104,64 @@ export function buyTreasure(
 /** Ouro corrente de um herói (para o seletor mostrar o saldo). */
 export function heroOuro(heroId: string, vaultDoc: VaultDoc | undefined): number {
   return ouroDe(currentFm(heroId, vaultDoc))
+}
+
+/** Compra de COMBO arma×imbuição (ou arma obra-prima) no comércio — o item é
+ *  uma ARMA, então vai pra Inventario.Armas.Lista, não pros Tesouros (#299).
+ *  `propriedadeBase` é o basename da imbuição OU 'Arma Obra-prima'. */
+export interface WeaponPurchase {
+  /** Basename da arma-base → `Nome: [[X]]`. */
+  armaBasename: string
+  /** Grupo da arma (index/FM) — deriva o Atributo. */
+  grupo?: string | string[] | null
+  /** `propriedades` do doc da arma (string inline v1 ou array v2) — deriva o
+   *  Atributo. `deriveArmaAtributo` já normaliza (aceita `unknown`). */
+  propriedades: unknown
+  /** Tier comprado → Categoria (link do tier). */
+  tier: Tier
+  /** Basename da imbuição/qualidade aplicada (vazio = arma-base sem imbuição). */
+  propriedadeBase?: string
+}
+
+/** Monta a LINHA de arma (Inventario.Armas.Lista) de uma compra de combo, com o
+ *  MESMO shape do addArma da ficha (apply-armas-edit.ts): Nome wikilink +
+ *  Atributo derivado + Categoria do tier + Propriedade (imbuição ou obra-prima).
+ *  Puro: recebe os atributos do herói prontos. */
+export function buildPurchasedWeaponRow(
+  w: WeaponPurchase,
+  atributos: Record<string, number>,
+): Record<string, unknown> {
+  const base = w.propriedadeBase ?? ''
+  const propriedade = !base ? '' : base === ARMA_OBRA_PRIMA_BASE ? ARMA_OBRA_PRIMA : `[[${base}]]`
+  return {
+    Nome: `[[${w.armaBasename}]]`,
+    Atributo: deriveArmaAtributo(w.grupo, w.propriedades, atributos),
+    Bonus_Item: 0,
+    Bonus_Especial: 0,
+    Categoria: tierCategoriaFm(w.tier),
+    Propriedade: propriedade,
+    Fonte: 'Comércio',
+  }
+}
+
+/** Debita `preco` de Ouro e adiciona a arma comprada a Inventario.Armas.Lista
+ *  (não aos Tesouros). Falha (sem escrever) se o ouro for menor que o preço. */
+export function buyWeapon(
+  heroId: string,
+  vaultDoc: VaultDoc | undefined,
+  weapon: WeaponPurchase,
+  preco: number,
+): PurchaseResult {
+  const fm = currentFm(heroId, vaultDoc)
+  const ouro = ouroDe(fm)
+  if (ouro < preco) return { ok: false, reason: 'ouro-insuficiente', ouroRestante: ouro }
+
+  const novoOuro = ouro - preco
+  writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
+
+  const lista = armasListaDe(fm)
+  lista.push(buildPurchasedWeaponRow(weapon, heroAtributos(fm).values))
+  writeHero(heroId, vaultDoc, 'Inventario.Armas.Lista', lista)
+
+  return { ok: true, ouroRestante: novoOuro }
 }

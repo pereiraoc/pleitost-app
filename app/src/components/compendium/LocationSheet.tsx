@@ -32,7 +32,8 @@ import {
   setShopRoll,
   useShopState,
 } from '../../data/commerce-store'
-import { buyTreasure, heroOuro } from '../../data/purchase'
+import { buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
+import { docField } from '../ficha/hero-model'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
 import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc, ItemHover, docTier, docImageUrl } from '../item-card'
@@ -569,7 +570,28 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       setAviso('Escolha um herói para comprar.')
       return
     }
-    const r = buyTreasure(selectedHero.entry.id, selectedHero.doc, entry.nome, entry.tier, entry.preco)
+    // #299: combo arma×imbuição/obra-prima é uma ARMA — vai pra Armas.Lista, não
+    // pros Tesouros. O doc da arma já está em docsById (carregado pro catálogo).
+    let r: PurchaseResult
+    if (entry.armaTarget) {
+      const armaId = entry.armaTarget
+      const idxEntry = catalog.entryById.get(armaId)
+      const armaBasename = idxEntry?.basename ?? armaId.split('/').pop() ?? armaId
+      r = buyWeapon(
+        selectedHero.entry.id,
+        selectedHero.doc,
+        {
+          armaBasename,
+          grupo: idxEntry?.grupo,
+          propriedades: docField(docsById.get(armaId), 'propriedades'),
+          tier: entry.tier,
+          propriedadeBase: entry.propriedadeBase,
+        },
+        entry.preco,
+      )
+    } else {
+      r = buyTreasure(selectedHero.entry.id, selectedHero.doc, entry.nome, entry.tier, entry.preco)
+    }
     if (!r.ok) {
       setAviso('Ouro insuficiente.')
       return

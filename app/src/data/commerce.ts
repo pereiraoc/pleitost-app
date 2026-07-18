@@ -307,6 +307,13 @@ export interface ShopEntry {
  *  (grupo/wealth.ts): Adepto ×1, Experiente ×5, Mestre ×25. */
 export const TIER_PRICE_MULT: Record<Tier, number> = { A: 1, E: 5, M: 25 }
 
+/** Ouro devolvido ao VENDER um item (#300): fração `taxa` do valor de mercado
+ *  (base = preço do item × mult do tier, a MESMA conta da compra), arredondado
+ *  e nunca negativo. base 0 (arma-base sem imbuição) → 0. */
+export function resaleRefund(base: number, taxa: number): number {
+  return Math.max(0, Math.round(base * taxa))
+}
+
 /** Recursos (wikilinks) → itens de tesouro resolvidos. Só entram os que
  *  resolvem para um doc `Tesouro` (magia com preço/tiers); armas base e
  *  strings simples ficam de fora (a loja de disponibilidade é de tesouros,

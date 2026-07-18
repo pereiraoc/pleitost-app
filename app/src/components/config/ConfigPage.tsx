@@ -544,6 +544,39 @@ function RegiaoSection() {
   )
 }
 
+/** "Taxa de Revenda" (#300): fração do valor de mercado devolvida em Ouro ao
+ *  VENDER um item (arma/tesouro) na ficha. Vale para armas E tesouros. */
+function RevendaSection() {
+  useSistemaVersion()
+  return (
+    <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 19, flex: 'none' }}>🏷️</span>
+        <span style={{ fontWeight: 600, fontSize: 14.5, flex: 1 }}>Taxa de Revenda</span>
+        <ResetBtn onClick={() => sistemaConfig.resetRevenda()} />
+      </div>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <span
+          style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' }}
+        >
+          FRAÇÃO DEVOLVIDA ×
+        </span>
+        <NumCell
+          value={sistemaConfig.getRevenda()}
+          label="taxa de revenda"
+          onChange={(v) => sistemaConfig.setRevenda(v)}
+        />
+      </div>
+      <div
+        style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
+      >
+        Ao VENDER uma arma ou tesouro na ficha, o herói recebe esta fração do valor de mercado do item
+        (0.5 = metade). Base = preço do item × multiplicador do tier.
+      </div>
+    </div>
+  )
+}
+
 /** "Tesouros em Vilarejos" — VERBATIM da nota: chances por Obter Informação,
  *  1×/semana por tesouro específico (vários testes na semana se forem itens
  *  diferentes). */
@@ -713,6 +746,7 @@ export function ConfigPage() {
               defaults; os padrões em si nunca mudam — DEFAULT_MATRIX). */}
           <DisponibilidadeSection />
           <MultiplicadoresSection />
+          <RevendaSection />
           <RegiaoSection />
           <PocoesSection />
           <VilarejoSection />

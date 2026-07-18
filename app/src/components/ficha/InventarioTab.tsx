@@ -23,7 +23,8 @@ import {
   tesouroImageUrl,
 } from '../../data/equipment-image'
 import { loadDoc, useDocs } from '../../data/useDoc'
-import { TIER_PRICE_MULT } from '../../data/commerce'
+import { TIER_PRICE_MULT, resaleRefund } from '../../data/commerce'
+import { sistemaConfig } from '../../data/system-config'
 import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
 import { fichaFamiliaOf } from '../../data/familia'
@@ -37,6 +38,7 @@ import {
   ITEM_TIER_BTN,
   grupoArmaEmoji,
   imbuicaoEmoji,
+  orderArmasByGrupo,
   tokens,
 } from './registry'
 import { armaduraBases, escudoBases } from './equipment-bases'
@@ -196,6 +198,38 @@ function TrashBtn({ onClick }: { onClick: () => void }) {
       }}
     >
       🗑️
+    </button>
+  )
+}
+
+/** Botão VENDER (#300): remove o item E credita Ouro (fração de revenda). Mostra
+ *  o valor de revenda no rótulo (ou tooltip, no modo `compact` dos tesouros).
+ *  refund 0 (item sem valor de mercado) → vende mesmo assim, sem creditar. */
+function SellBtn({ refund, onClick, compact }: { refund: number; onClick: () => void; compact?: boolean }) {
+  const title = refund > 0 ? `Vender por ${refund} PO` : 'Vender (sem valor de revenda)'
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      aria-label={title}
+      style={{
+        border: 'none',
+        background: 'none',
+        padding: 4,
+        color: 'var(--muted)',
+        cursor: 'pointer',
+        flex: 'none',
+        alignSelf: 'center',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
+        fontFamily: 'var(--mono)',
+        fontSize: 10.5,
+        letterSpacing: '.06em',
+      }}
+    >
+      <span style={{ fontSize: 14 }}>💰</span>
+      {compact ? null : <span>VENDER{refund > 0 ? ` +${refund}` : ''}</span>}
     </button>
   )
 }
@@ -399,6 +433,19 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       lista.filter((_, j) => j !== i),
     )
 
+  // #300: VENDER = remover a arma E creditar Ouro (refund já calculado no render
+  // a partir do valor de mercado da imbuição × tier × taxa de revenda).
+  const sellArma = (i: number, refund: number) => {
+    if (refund > 0) {
+      const ouro = num(fmPath(model.fm, 'Inventario', 'Ouro'))
+      model.set('Inventario.Ouro', ouro + refund)
+    }
+    model.set(
+      'Inventario.Armas.Lista',
+      lista.filter((_, j) => j !== i),
+    )
+  }
+
   return (
     <div style={{ ...panelStyle(), display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
@@ -425,6 +472,12 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             // Obra-prima automática): mesma resolução das cartas do pleitost-views.
             const propImg = propriedadeImageUrl(propBase, arma.tier, assets)
             const weaponSelo = obraPrimaSeloUrl(propBase, arma.tier, assets)
+            // #300: valor de revenda = preço da imbuição/propriedade × mult do
+            // tier × taxa de revenda (arma-base sem imbuição → 0).
+            const armaRefund = resaleRefund(
+              propDoc ? precoPO(propDoc) * TIER_PRICE_MULT[arma.tier || 'A'] : 0,
+              sistemaConfig.getRevenda(),
+            )
             return (
               <div
                 key={`${arma.nome}-${i}`}
@@ -616,6 +669,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           </span>
                         </span>
                         <span style={{ flex: 1, minWidth: 4 }} />
+                        <SellBtn refund={armaRefund} onClick={() => sellArma(i, armaRefund)} />
                         <TrashBtn onClick={() => removeArma(i)} />
                       </span>
                       <span
@@ -957,6 +1011,20 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       'Inventario.Tesouros',
       tesourosRaw.filter((_, j) => j !== index),
     )
+  // #300: valor de revenda de um tesouro = preço × mult do tier × taxa (mesma
+  // base do `custo` usado na ordenação).
+  const tesouroRefund = (r: TesouroRow) =>
+    resaleRefund(precoPO(r.doc) * TIER_PRICE_MULT[r.tier || 'A'], sistemaConfig.getRevenda())
+  const sellTesouro = (index: number, refund: number) => {
+    if (refund > 0) {
+      const ouro = num(fmPath(model.fm, 'Inventario', 'Ouro'))
+      model.set('Inventario.Ouro', ouro + refund)
+    }
+    model.set(
+      'Inventario.Tesouros',
+      tesourosRaw.filter((_, j) => j !== index),
+    )
+  }
   // Qualidade do tesouro — espelha setTesouroTier do plugin
   // (apply-tesouros-edit.ts:60-78): reescreve o alias com o novo tier;
   // "null não desseleciona — tesouro sem tier não faz sentido. UI trata
@@ -1028,7 +1096,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1.5fr 1fr 1fr 40px',
+                gridTemplateColumns: '1.5fr 1fr 1fr 72px',
                 alignItems: 'center',
                 gap: 8,
                 padding: '9px 2px 7px',
@@ -1057,7 +1125,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 key={r.nome + r.tier}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1.5fr 1fr 1fr 40px',
+                  gridTemplateColumns: '1.5fr 1fr 1fr 72px',
                   alignItems: 'center',
                   gap: 8,
                   padding: '7px 2px',
@@ -1109,11 +1177,15 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 <span style={{ display: 'flex', gap: 5, justifyContent: 'center', opacity: g.dois }}>
                   <GoldDots on={r.bonus} />
                 </span>
-                <span
-                  onClick={() => removeTesouro(r.index)}
-                  style={{ textAlign: 'center', color: 'var(--muted)', fontSize: 14, cursor: 'pointer' }}
-                >
-                  🗑️
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
+                  <SellBtn compact refund={tesouroRefund(r)} onClick={() => sellTesouro(r.index, tesouroRefund(r))} />
+                  <span
+                    onClick={() => removeTesouro(r.index)}
+                    title="Descartar (sem devolver ouro)"
+                    style={{ color: 'var(--muted)', fontSize: 14, cursor: 'pointer' }}
+                  >
+                    🗑️
+                  </span>
                 </span>
               </div>
             ))}
@@ -1504,13 +1576,17 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
 
   const armaCatalog = useMemo(
     () =>
-      catalog.content
-        .filter((e: IndexDocEntry) => e.id.startsWith(ARMAS_FOLDER) && e.subtype === 'Arma')
-        .map((e) => ({
-          ic: grupoArmaEmoji(typeof e.grupo === 'string' ? e.grupo : ''),
-          nm: e.basename ?? e.id,
-          key: e.id,
-        })),
+      // #298: ordena por GRUPO_ARMA_ORDER (naturais/especiais no fim) + alfabético,
+      // igual ao dropdown agrupado — antes vinha na ordem crua do índice.
+      orderArmasByGrupo(
+        catalog.content.filter(
+          (e: IndexDocEntry) => e.id.startsWith(ARMAS_FOLDER) && e.subtype === 'Arma',
+        ),
+      ).map((e) => ({
+        ic: grupoArmaEmoji(typeof e.grupo === 'string' ? e.grupo : ''),
+        nm: e.basename ?? e.id,
+        key: e.id,
+      })),
     [catalog],
   )
   const tesouroCatalog = useMemo(

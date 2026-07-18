@@ -157,6 +157,22 @@ export const GRUPO_ARMA_ORDER: { key: string; label: string }[] = [
   { key: 'natural', label: 'Armas Naturais' },
 ]
 
+/** Ordena entradas de arma pela ordem canônica dos grupos (GRUPO_ARMA_ORDER:
+ *  naturais/especiais SEMPRE por último, #298) e alfabético pt-BR dentro do
+ *  grupo. Grupo desconhecido/vazio cai depois dos conhecidos (o picker precisa
+ *  listar TODAS as armas, então não descarta como o dropdown agrupado). Puro e
+ *  estável — genérico sobre qualquer entrada com `grupo`/`basename`. */
+export function orderArmasByGrupo<
+  T extends { grupo?: string | string[] | null; basename?: string | null },
+>(entries: readonly T[]): T[] {
+  const rank = new Map(GRUPO_ARMA_ORDER.map((g, i) => [g.key, i]))
+  const rankOf = (e: T) =>
+    rank.get((typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()) ?? GRUPO_ARMA_ORDER.length
+  return [...entries].sort(
+    (a, b) => rankOf(a) - rankOf(b) || (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR'),
+  )
+}
+
 /** Emoji de imbuição/propriedade via inline `propriedades::` do doc do tesouro
  *  ("[[Traço Elemental do Vento|Vento]]" → registro propriedadeImbuicao.Vento). */
 export function imbuicaoEmoji(propriedades: unknown): string {
