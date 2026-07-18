@@ -171,6 +171,55 @@ const subHeadStyle: CSSProperties = {
   opacity: 0.85,
 }
 
+// Filtro de propriedade TRI-ESTADO (pedido do usuário): 1º clique = CONTÉM o
+// valor, 2º = NÃO CONTÉM (excludente — pill vermelha com ícone de bloqueio),
+// 3º = limpa. Aplica-se às facetas "de conteúdo" (Propriedade/Força/Propriedades
+// da arma), onde o item TEM uma lista de propriedades; categoria/grupo/qualidade
+// seguem single-select (são estruturais e cascateiam).
+type TriMode = 'inc' | 'exc'
+type TriSel = { value: string; mode: TriMode } | null
+/** Avança o ciclo do valor clicado: (vazio|outro)→contém, contém→não contém,
+ *  não contém→limpa. */
+function cycleTri(cur: TriSel, value: string): TriSel {
+  if (!cur || cur.value !== value) return { value, mode: 'inc' }
+  return cur.mode === 'inc' ? { value, mode: 'exc' } : null
+}
+/** A célula passa? Sem seleção → passa; contém → precisa ter; não contém →
+ *  precisa NÃO ter. */
+function passesTri(sel: TriSel, has: boolean): boolean {
+  return !sel || (sel.mode === 'inc' ? has : !has)
+}
+/** Ícone de bloqueio (⊘) da pill excludente. */
+function BanIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="11"
+      height="11"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      aria-hidden
+      style={{ flex: 'none', marginRight: 4, verticalAlign: '-1px' }}
+    >
+      <circle cx="12" cy="12" r="9" />
+      <line x1="5.6" y1="5.6" x2="18.4" y2="18.4" />
+    </svg>
+  )
+}
+/** Estilo da pill excludente (vermelho) — deriva do pillStyle ativo. */
+function pillStyleExc(): CSSProperties {
+  return {
+    ...pillStyle(true),
+    color: '#fff',
+    background: 'var(--red)',
+    border: '1px solid color-mix(in srgb,var(--red) 55%,transparent)',
+    display: 'inline-flex',
+    alignItems: 'center',
+  }
+}
+
 /** Grade AGRUPADA de cartas de Items de uma pasta (subárvore achatada pelo
  *  FolderView). Agrupa por categoria → grupo → subgrupo (item-taxonomy.groupItems)
  *  e mostra uma barra de filtro no topo (categoria/grupo/qualidade — facetas do
@@ -221,9 +270,10 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
   // comprado por qualidade (#268); com um tier específico, só aquela carta.
   const [catFilter, setCatFilter] = useState<ItemCategoria | null>(null)
   const [grpFilter, setGrpFilter] = useState<string | null>(null)
-  const [subFilter, setSubFilter] = useState<string | null>(null)
+  // Filtros de conteúdo TRI-ESTADO (contém → não contém → limpa).
+  const [subFilter, setSubFilter] = useState<TriSel>(null)
   // #304: filtro de propriedade de ARMA (FOR 1/2/…, Precisa, Arremesso).
-  const [propFilter, setPropFilter] = useState<string | null>(null)
+  const [propFilter, setPropFilter] = useState<TriSel>(null)
   const [tier, setTier] = useState<Tier | null>(null)
   // #279: a barra de filtros começa COLAPSADA atrás de um botão de funil — menos
   // poluída; clicar abre as linhas de filtro.
@@ -265,8 +315,8 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
       cells.filter((c) => {
         if (catFilter && c.facet.categoria !== catFilter) return false
         if (grpFilter && c.facet.grupo !== grpFilter) return false
-        if (subFilter && c.facet.subgrupo !== subFilter) return false
-        if (propFilter && !c.facet.propriedades.includes(propFilter)) return false
+        if (subFilter && !passesTri(subFilter, c.facet.subgrupo === subFilter.value)) return false
+        if (propFilter && !passesTri(propFilter, c.facet.propriedades.includes(propFilter.value))) return false
         return true
       }),
     [cells, catFilter, grpFilter, subFilter, propFilter],
@@ -300,6 +350,29 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
       {label}
     </button>
   )
+  // Pill TRI-ESTADO: contém → não contém (vermelha + ⊘) → limpa. Tooltip explica
+  // o estado atual e o que o próximo clique faz.
+  const triPill = (label: string, value: string, sel: TriSel, setSel: (s: TriSel) => void) => {
+    const mode = sel && sel.value === value ? sel.mode : null
+    const title =
+      mode === 'inc'
+        ? `Mostrando só COM «${label}» — clique para inverter (só SEM)`
+        : mode === 'exc'
+          ? `Mostrando só SEM «${label}» (excluído) — clique para limpar`
+          : `Filtrar «${label}»: 1 clique = contém · 2 = não contém · 3 = limpa`
+    return (
+      <button
+        type="button"
+        aria-pressed={mode !== null}
+        title={title}
+        onClick={() => setSel(cycleTri(sel, value))}
+        style={mode === 'exc' ? pillStyleExc() : pillStyle(mode === 'inc')}
+      >
+        {mode === 'exc' ? <BanIcon /> : null}
+        {label}
+      </button>
+    )
+  }
   const filterRow = (facet: string, label: string, pills: ReactNode) => (
     <div className="item-filter-row" data-facet={facet}>
       <span className="item-filter-label">{label}</span>
@@ -394,11 +467,7 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                       <>
                         {filterPill('Todas', subFilter === null, () => setSubFilter(null))}
                         {subgrupos.map(([s, label]) => (
-                          <span key={s}>
-                            {filterPill(label, subFilter === s, () =>
-                              setSubFilter((v) => (v === s ? null : s)),
-                            )}
-                          </span>
+                          <span key={s}>{triPill(label, s, subFilter, setSubFilter)}</span>
                         ))}
                       </>,
                     )
@@ -408,15 +477,11 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                       'forca',
                       'Força',
                       <>
-                        {filterPill('Todas', propFilter === null || !isForcaToken(propFilter), () =>
-                          setPropFilter((v) => (v && isForcaToken(v) ? null : v)),
+                        {filterPill('Todas', propFilter === null || !isForcaToken(propFilter.value), () =>
+                          setPropFilter((v) => (v && isForcaToken(v.value) ? null : v)),
                         )}
                         {forcaTokens.map((t) => (
-                          <span key={t}>
-                            {filterPill(t, propFilter === t, () =>
-                              setPropFilter((v) => (v === t ? null : t)),
-                            )}
-                          </span>
+                          <span key={t}>{triPill(t, t, propFilter, setPropFilter)}</span>
                         ))}
                       </>,
                     )
@@ -428,15 +493,11 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                       <>
                         {filterPill(
                           'Todas',
-                          propFilter === null || isForcaToken(propFilter),
-                          () => setPropFilter((v) => (v && !isForcaToken(v) ? null : v)),
+                          propFilter === null || isForcaToken(propFilter.value),
+                          () => setPropFilter((v) => (v && !isForcaToken(v.value) ? null : v)),
                         )}
                         {propTokens.map((t) => (
-                          <span key={t}>
-                            {filterPill(t, propFilter === t, () =>
-                              setPropFilter((v) => (v === t ? null : t)),
-                            )}
-                          </span>
+                          <span key={t}>{triPill(t, t, propFilter, setPropFilter)}</span>
                         ))}
                       </>,
                     )

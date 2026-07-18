@@ -314,6 +314,39 @@ describe('#267 — folha AGRUPADA por categoria/grupo/subgrupo + barra de filtro
       expect(subs.every((s) => s === 'fogo')).toBe(true)
     })
   })
+
+  it('filtro tri-estado: contém → não contém (exclui) → limpa', async () => {
+    const { container } = renderFolder(compendiumFolderPath(IMB))
+    await waitFor(() => expect(container.querySelector('.item-filter-toggle')).toBeTruthy())
+    fireEvent.click(container.querySelector<HTMLElement>('.item-filter-toggle')!)
+    const pRow = await waitFor(() => {
+      const row = container.querySelector<HTMLElement>('.item-filter-row[data-facet="propriedade"]')
+      expect(row).toBeTruthy()
+      return row!
+    })
+    const subs = () =>
+      [...container.querySelectorAll<HTMLElement>('.item-sub')].map((s) => s.getAttribute('data-subgrupo'))
+    const total = subs().length
+    expect(total).toBeGreaterThan(1)
+    const fogo = () => within(pRow).getByText('Fogo')
+
+    // 1º clique: CONTÉM Fogo → só fogo
+    fireEvent.click(fogo())
+    await waitFor(() => expect(subs().every((s) => s === 'fogo')).toBe(true))
+
+    // 2º clique: NÃO CONTÉM Fogo → nenhum fogo, mas os outros elementos aparecem
+    fireEvent.click(fogo())
+    await waitFor(() => {
+      const s = subs()
+      expect(s.length).toBeGreaterThan(0)
+      expect(s.some((x) => x === 'fogo')).toBe(false)
+    })
+    expect(fogo().closest('button')!.getAttribute('aria-pressed')).toBe('true')
+
+    // 3º clique: LIMPA → volta tudo
+    fireEvent.click(fogo())
+    await waitFor(() => expect(subs().length).toBe(total))
+  })
 })
 
 describe('"Items" ACHATA as 7 categorias (flatten de Tesouros)', () => {
