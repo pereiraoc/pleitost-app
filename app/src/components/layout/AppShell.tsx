@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'reac
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
+import { usePendingTabs } from './use-pending-tabs'
 import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useDoc } from '../../data/useDoc'
 import { DetailProvider } from '../../data/detail-context'
@@ -70,10 +71,12 @@ function CharTabButton({
   item,
   active,
   onSelect,
+  pending,
 }: {
   item: NavItem
   active: boolean
   onSelect: () => void
+  pending?: boolean
 }) {
   return (
     <button className={active ? 'nav-item active' : 'nav-item'} onClick={onSelect}>
@@ -81,6 +84,9 @@ function CharTabButton({
         <NavIcon id={item.id} />
       </span>
       <span className="nav-label">{item.label}</span>
+      {/* #302: ponto de pendência — algo a preencher nesta aba (slots livres,
+          escolhas não feitas). Some quando a aba está completa. */}
+      {pending ? <span className="nav-pending" aria-hidden title="Há algo a preencher" /> : null}
     </button>
   )
 }
@@ -168,6 +174,8 @@ export function AppShell() {
   const charTabs = heroDoc
     ? CHAR_TABS.filter((t) => abaFichaVisivel(familiaOf(heroDoc), t.id))
     : CHAR_TABS
+  // #302: abas com pendência (algo a preencher) — ponto no botão da sidebar.
+  const pendingTabs = usePendingTabs(heroDoc)
   // #191: registra o SW e liga o fluxo de update (idempotente)
   useEffect(() => {
     void initPwaUpdate()
@@ -257,6 +265,7 @@ export function AppShell() {
                   item={item}
                   active={fichaOpen && fichaTab === item.id}
                   onSelect={() => selectFichaTab(item.id)}
+                  pending={pendingTabs.has(item.id)}
                 />
               ) : (
                 <NavButton key={item.id} item={item} onNavigate={closeDrawer} />

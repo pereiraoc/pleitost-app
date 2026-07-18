@@ -1,0 +1,98 @@
+// #302: pendências do herói POR aba do painel esquerdo — o que ainda falta
+// preencher. REUSA exatamente as contas dos painéis (slot-accounting +
+// eligibilidade de especialidade/maestria), pra o indicador nunca discordar do
+// que a aba mostra. Puro: recebe o FM DERIVADO + rules + caps de família.
+import {
+  canAddOne,
+  computeMagiaSlotsView,
+  computeSlotsView,
+  magiaCanAddOne,
+  type MagiaRank,
+  type SlotRank,
+} from './slot-accounting'
+import { fmPath, listaEntries, num, profLetter, str, type ProfRow } from '../components/ficha/hero-model'
+import type { FichaFamilia } from '../data/familia'
+
+type Fm = Record<string, unknown>
+/** Só os campos de `rules` que a pendência usa (evita acoplar ao tipo inteiro). */
+interface RulesLike {
+  subclassChoices?: Array<{ pick?: string | null }>
+  sintonias?: unknown[]
+}
+
+const RANK_IDX: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
+
+function slotsRec(fm: Fm, ...path: string[]): Record<string, unknown> | undefined {
+  return fmPath(fm, ...path) as Record<string, unknown> | undefined
+}
+
+/** ≥1 slot de perícia livre — mesma conta da ProficienciasPanel. */
+function freePericiaSlot(fm: Fm): boolean {
+  const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+  const usedBy = (l: string) =>
+    pericias.filter((p) =>
+      (p.Incrementos ?? []).some((inc) => str((inc as Record<string, unknown>)[l]).startsWith('Slot')),
+    ).length
+  const s = slotsRec(fm, 'Pericias', 'Slots')
+  const view = computeSlotsView({
+    total: { A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
+    used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+  return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
+}
+
+/** ≥1 slot de técnica livre — mesma conta da TecnicasPanel. */
+function freeTecnicaSlot(fm: Fm): boolean {
+  const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
+  const usedBy = (l: string) =>
+    entries.filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
+  const s = slotsRec(fm, 'Tecnicas', 'Slots')
+  const view = computeSlotsView({
+    total: { A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
+    used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+  return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
+}
+
+/** ≥1 slot de magia livre (global entre escolas) — mesma conta da MagiasHabPanel. */
+function freeMagiaSlot(fm: Fm): boolean {
+  const escolas = (fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+  const usedBy = (l: string) =>
+    escolas
+      .flatMap((e) => listaEntries(e.Lista))
+      .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
+  const s = slotsRec(fm, 'Magias', 'Slots')
+  const view = computeMagiaSlotsView({
+    total: { B: num(s?.['B']), A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
+    used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
+  })
+  return (['B', 'A', 'E', 'M'] as MagiaRank[]).some((r) => magiaCanAddOne(view, r))
+}
+
+/** Ids de aba (CHAR_TABS) com pendência. 'habilidades' = Competências, 'perfil'
+ *  = Biografia. */
+export function heroPendencias(fm: Fm, rules: RulesLike | null | undefined, caps: FichaFamilia): Set<string> {
+  const pend = new Set<string>()
+  const elig = (p: ProfRow, min: 'E' | 'M') => (RANK_IDX[profLetter(p)] ?? 0) >= RANK_IDX[min]!
+
+  // COMPETÊNCIAS (habilidades)
+  if (caps.classe.editavel && !str(fm['Classe'])) pend.add('habilidades')
+  if ((rules?.subclassChoices ?? []).some((c) => !str(c.pick ?? ''))) pend.add('habilidades')
+  if ((rules?.sintonias ?? []).length > 0 && !str(fm['Sintonia'])) pend.add('habilidades')
+  if (caps.tecnicas && freeTecnicaSlot(fm)) pend.add('habilidades')
+  if (caps.magias && freeMagiaSlot(fm)) pend.add('habilidades')
+  if (caps.especializacoes) {
+    if (freePericiaSlot(fm)) pend.add('habilidades')
+    const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+    for (const p of pericias) {
+      const rec = p as Record<string, unknown>
+      if (elig(p, 'E') && !str(rec['Especializacao'])) pend.add('habilidades')
+      if (elig(p, 'M') && str(rec['Especializacao']) && !str(rec['Maestria'])) pend.add('habilidades')
+    }
+  }
+
+  // BIOGRAFIA (perfil) — herói sem nome próprio definido.
+  if (caps.biografia && !str(fm['nome'])) pend.add('perfil')
+
+  return pend
+}

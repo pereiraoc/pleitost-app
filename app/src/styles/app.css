@@ -1402,6 +1402,22 @@ a {
   }
 }
 
+/* #302: ponto de pendência no botão da aba (algo a preencher). Discreto, no
+   canto direito do botão da sidebar. */
+.nav-item {
+  position: relative;
+}
+.nav-pending {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
 /* #303: ícone "supercharged" antes do wikilink (emoji do tipo do doc-alvo),
    via ::before — não entra no textContent do link (navegável/buscável pelo
    texto). O atributo só existe quando o toggle do CONFIG está ligado. */
