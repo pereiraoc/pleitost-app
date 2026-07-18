@@ -102,7 +102,7 @@ export function AdjustRows({ rows }: { rows: VidaAdjRow[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {rows.map((row) => (
-        <div key={row.name} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div key={row.name} className="vida-adj-row" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
             <span style={{ fontSize: 13 }}>{row.ic}</span>
             <span
@@ -115,7 +115,10 @@ export function AdjustRows({ rows }: { rows: VidaAdjRow[] }) {
               {row.val}
             </span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 5 }}>
+          {/* Grade −10…+10: 6 numa linha quando cabe; empilha +N sobre −N (3
+              colunas) num painel estreito. Layout via .vida-adj-grid (app.css,
+              @container) — NÃO inline, senão o inline venceria a query. */}
+          <div className="vida-adj-grid">
             {row.adj.map((b) => (
               <button
                 key={b.l}

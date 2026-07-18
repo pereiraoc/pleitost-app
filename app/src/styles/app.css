@@ -1909,3 +1909,46 @@ a[data-link-icon]::before {
 .grupo-sort-head:hover {
   color: var(--text);
 }
+
+/* Grade de ajuste −10…+10 de vida/EM (pop-panels AdjustRows). Padrão: 6 botões
+   numa linha. Quando o painel é estreito (popover no painel direito / celular),
+   os botões ficavam CORTADOS — então empilha +N EM CIMA de −N em 3 colunas
+   (metade da largura). Container query pela largura REAL da linha (.vida-adj-row
+   é o container), então adapta sozinho a "quando não tem espaço". */
+.vida-adj-row {
+  container-type: inline-size;
+}
+
+.vida-adj-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+@container (max-width: 340px) {
+  .vida-adj-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-flow: column;
+  }
+  /* DOM = [−10 −5 −1 +1 +5 +10]; reordena p/ cada coluna ser +N (cima) / −N
+     (baixo), pareado por magnitude: col1 ±1, col2 ±5, col3 ±10. */
+  .vida-adj-grid > :nth-child(4) {
+    order: 1;
+  } /* +1 */
+  .vida-adj-grid > :nth-child(3) {
+    order: 2;
+  } /* −1 */
+  .vida-adj-grid > :nth-child(5) {
+    order: 3;
+  } /* +5 */
+  .vida-adj-grid > :nth-child(2) {
+    order: 4;
+  } /* −5 */
+  .vida-adj-grid > :nth-child(6) {
+    order: 5;
+  } /* +10 */
+  .vida-adj-grid > :nth-child(1) {
+    order: 6;
+  } /* −10 */
+}
