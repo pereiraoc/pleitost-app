@@ -69,15 +69,17 @@ export function agruparEmBlocos<T>(itens: T[], keyOf: (t: T) => { tier: SpeedTie
 
 - Cada card ganha as **barrinhas de dificuldade** inline (reusa `EncounterLevelBar` de
   `components/mestre/ui.tsx`) — o mesmo cálculo que já aparece ao abrir.
+- **Tooltip explicando a classificação** (ver §3.1) também nos cards da lista.
 - **Ordenar do mais fácil pro mais difícil**: escalar de dificuldade do encontro
   (pontos dos monstros via `encounter-compute`), empate por nome. `CombateGrid` computa a
   faceta por doc (como o `ItemGrid` faz), ordena, e renderiza.
 
 ## 3. Página do combate (rework) — `CombateSheet` + `CombatMarkerBlock.tsx`
 
-- **Manter** as barrinhas no topo.
+- **Manter** as barrinhas no topo, agora com o **tooltip explicativo** (§3.1).
 - **Adicionar** um badge único: **dificuldade do encontro no nível do grupo** (Trivial/
-  Fácil/Difícil/Letal — do modelo de pontos, no nível configurado). Ocultável via CONFIG (§4).
+  Fácil/Difícil/Letal — do modelo de pontos, no nível configurado), com o mesmo tooltip.
+  Ocultável via CONFIG (§4).
 - **Remover** a tabela "DIFICULDADE POR NÍVEL" (`CombatMarkerBlock` ~linhas 195–227) — as
   barrinhas bastam.
 - **Banners de monstro empilhados** (um por monstro individual), cada um com:
@@ -87,6 +89,27 @@ export function agruparEmBlocos<T>(itens: T[], keyOf: (t: T) => { tier: SpeedTie
     **estado inicial** (escondido 🙈/👁️, disfarçado 🎭) — tudo com emojis fáceis de ver.
   - No **Modo Mestre**: seletor de velocidade (super/rápido/lento) + toggles de estado,
     **por monstro individual**. Persistido no overlay (§5).
+
+### 3.1 Tooltip da dificuldade (de onde vem a classificação)
+
+Ao passar o mouse numa barrinha (ou no badge), um tooltip **explica a classificação** —
+não só mostra o número. Pedido do usuário: "que nem no pleitost-autosheet pra combate".
+
+- **Fonte de verdade (já mapeada, port verbatim do plugin)** — `mestre/encounter-compute.ts`:
+  - **Limiares** (`classifyDifficultyRatio`): razão = monstros/heróis × 100 →
+    `<50 Trivial · 50–75 Fácil · 75–100 Difícil · >100 Letal`.
+  - **Pontos dos monstros** (`getMonsterContribution`): por tier (T0 5, T1 10, T2 25, T3 40)
+    × modificador (Elite ×2, Solo ×3, Competente = tabela 6/12/28/48).
+  - **Pontos dos heróis** (`getPlayerContribution`): por nível (tabela 10..52), × 4 heróis.
+- **Infra a reusar (a mesma dos outros números do app, que espelha o plugin)** —
+  `components/ficha/tooltips.tsx`: `TipHover` + `renderBreakdownHtml`/`buildSourceBreakdown`
+  (o mesmo padrão de "de onde vem" das perícias/EM/potência). O `EncounterLevelBar` troca o
+  `title=` nativo por esse tooltip rico envolto num `TipProvider`.
+- **Conteúdo do tooltip**: label + porquê (razão X% e a régua dos limiares, destacando a
+  faixa atual) + o breakdown dos pontos (cada monstro: `tier × modificador = pts`; heróis:
+  `4 × nível`). Emojis do registro `tokens.emojis.dificuldade` (já existe).
+- Sem native `title` no seg (evita tooltip duplo). No mobile (sem hover) o tap abre/fecha,
+  como os outros `TipHover` do app.
 
 ## 4. Config — `settings.ts` + `ConfigPage.tsx`
 
@@ -149,6 +172,8 @@ Editados: `components/compendium/CombateView.tsx`, `mestre/CombatMarkerBlock.tsx
 - `initiative-blocks`: `ladoDe`, `agruparEmBlocos` (ordem canônica dos 6 blocos, semBloco,
   sequência flat), sob fixtures.
 - Ordenação da lista (fácil→difícil) e badge de dificuldade no nível X (sobre encounter real).
+- Tooltip da dificuldade: o breakdown cita os limiares e os pontos (monstros por tier×mod,
+  heróis por nível) — conteúdo derivado de `encounter-compute`, não string solta.
 - `encounter-speeds`: set/override por monstro, persistência, seed no encontro.
 - Turn: `advanceTurn` caminhando pela sequência derivada de blocos (próximo/anterior/round).
 - Regressão: a página não quebra sem prep (blocos vazios → só banners, sem crash).
