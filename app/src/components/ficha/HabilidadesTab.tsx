@@ -260,7 +260,7 @@ function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto:
   return out
 }
 
-function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'habilidades')
   const fm = model.fm
   // Projeção de regras (app/src/rules): opções de Classe/Sintonia (vault
@@ -387,7 +387,10 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const setSintonia = (v: string) => model.set('Sintonia', v)
 
   return (
-    <div style={{ ...panel, display: 'flex', gap: 14, alignItems: 'stretch', flexWrap: 'wrap' }}>
+    <div
+      className="classe-nivel-row"
+      style={{ ...panel, display: 'flex', gap: 14, alignItems: 'stretch', flexWrap: 'wrap' }}
+    >
       <div style={{ flex: 1, minWidth: 300, display: 'flex', flexDirection: 'column', gap: 13 }}>
         {/* Sem subclasse (ex.: Animista) o select de classe ocupa a linha
             INTEIRA (mesma largura da Sintonia abaixo); com subclasses, grade
@@ -409,8 +412,15 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   {s.ic} {s.label}
                 </span>
               </ItemHover>
-              {/* Caixa (classe inicial / subclasse) → card do doc selecionado. */}
-              <ItemHover doc={refs.refDoc(s.boxTarget)} fullBody style={{ display: 'block', width: '100%' }}>
+              {/* Caixa (classe inicial / subclasse) → card do doc selecionado.
+                  #311: as células da grade têm altura igual (stretch); empurrar o
+                  select pro RODAPÉ (marginTop auto) alinha todos os dropdowns
+                  mesmo quando um rótulo (nome de subclasse) ocupa 2 linhas. */}
+              <ItemHover
+                doc={refs.refDoc(s.boxTarget)}
+                fullBody
+                style={{ display: 'block', width: '100%', marginTop: 'auto' }}
+              >
                 <SelectBox ariaLabel={s.label} value={s.value} options={s.options} onChange={s.onChange} />
               </ItemHover>
             </div>
@@ -438,6 +448,7 @@ function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         </div>
       </div>
       <div
+        className="classe-nivel-level"
         style={{
           display: 'grid',
           gridTemplateColumns: 'auto auto',

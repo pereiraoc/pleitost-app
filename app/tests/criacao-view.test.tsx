@@ -81,7 +81,11 @@ describe('CriacaoView por subtipo (#246)', () => {
 
   it('CLASSE: imagem + atributo-chave; distinta da Magia', async () => {
     renderDoc(CLASSE)
-    expect(await screen.findByText('Classe · Conjurador')).toBeTruthy()
+    // #301: na CLASSE o kicker mostra só a família (subtype "Conjurador"), não
+    // "Classe · Conjurador" — o nome (h1) já diz que é a classe Animista.
+    await waitFor(() =>
+      expect(document.querySelector('.doc-type')?.textContent).toBe('Conjurador'),
+    )
     // #feedback: o nome da classe NÃO duplica — só o header (h1), o "# Animista"
     // do corpo é strippado mesmo com o embed de imagem antes dele.
     expect(screen.getAllByRole('heading', { name: 'Animista', level: 1 }).length).toBe(1)

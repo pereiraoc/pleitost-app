@@ -7,6 +7,11 @@
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroRefs } from './useHeroRefs'
+// #309: reusa o painel de classe/subclasse das Competências na Biografia (2
+// lugares sincronizados pelo mesmo store, como o Passado). Os dois arquivos já
+// se acoplam (HabilidadesTab importa PerfilTab); o ciclo é só em runtime.
+import { ClasseNivelPanel } from './HabilidadesTab'
 import { useCatalog } from '../../data/CatalogContext'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel } from '../../markdown/dataview-value'
@@ -425,7 +430,9 @@ export function PassadoBox({
               {f.ic} {f.label}
             </span>
             {f.select ? (
-              <ItemHover doc={f.ruleName ? ruleDoc(f.ruleName) : undefined} fullBody style={{ display: 'block', width: '100%' }}>
+              // #312: empurra o campo pro RODAPÉ da célula (marginTop auto) — assim
+              // "TEXTO DO OFÍCIO" (rótulo/campo maior) não desalinha os dropdowns.
+              <ItemHover doc={f.ruleName ? ruleDoc(f.ruleName) : undefined} fullBody style={{ display: 'block', width: '100%', marginTop: 'auto' }}>
               <div style={{ position: 'relative', minWidth: 0 }}>
                 <select
                   aria-label={f.label}
@@ -471,7 +478,7 @@ export function PassadoBox({
                 value={f.value}
                 onChange={f.onChange ? (e) => f.onChange!(e.target.value) : undefined}
                 readOnly={!f.onChange}
-                style={inputStyle}
+                style={{ ...inputStyle, marginTop: 'auto' }}
               />
             )}
           </div>
@@ -1099,10 +1106,13 @@ export function LocalImageUpload({ id }: { id: string }) {
 
 export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const [bioTab, setBioTab] = useState('identidade')
+  const [classeAberta, setClasseAberta] = useState(false)
   const vw = useViewportWidth()
   const model = useHeroModel(doc, 'perfil')
   const fm = model.fm
   const rules = useHeroRules(fm)
+  // #309: refs pro painel de classe/subclasse expansível (mesmo das Competências).
+  const refs = useHeroRefs(doc, rules?.derivedFm ?? model.fm)
   // Delta por FAMÍLIA (#201) — flags centrais de FICHA_FAMILIA (o CA esconde
   // biografia/experiência e ganha o campo Tutor, como no plugin).
   const caps = fichaFamiliaOf(doc)
@@ -1346,8 +1356,27 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           clipPath: clip(15),
         }}
       >
-        <span>{classe}</span>
+        {/* #309: sem classe (herói novo) → "Aventureiro"; botão ao lado expande
+            os seletores de classe/subclasse (mesmos das Competências). */}
+        <span>{classe || 'Aventureiro'}</span>
+        <button
+          onClick={() => setClasseAberta((v) => !v)}
+          aria-expanded={classeAberta}
+          title="Classe e subclasses"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--ink)',
+            cursor: 'pointer',
+            fontSize: 15,
+            lineHeight: 1,
+            padding: '2px 6px',
+          }}
+        >
+          {classeAberta ? '▴' : '▾'}
+        </button>
       </div>
+      {classeAberta ? <ClasseNivelPanel doc={doc} refs={refs} /> : null}
 
       {bioTabs.length > 0 ? (
         <>

@@ -67,9 +67,13 @@ export function CriacaoView({
         </span>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
           <h1 style={{ margin: 0 }}>{doc.basename}</h1>
+          {/* #301: só na CLASSE o kicker mostra apenas a FAMÍLIA (subtype, ex.
+              "Marcialista") — o nome da classe já é o h1. Nos demais (Magia ·
+              Arcana, Técnica · Adepta) o "Tipo · Subtipo" segue informativo. */}
           <span className="doc-type" style={{ color: sub.cor, fontWeight: 700, letterSpacing: '.06em' }}>
-            {doc.type}
-            {doc.subtype ? ` · ${doc.subtype}` : ''}
+            {doc.type === 'Classe' && doc.subtype
+              ? doc.subtype
+              : `${doc.type}${doc.subtype ? ` · ${doc.subtype}` : ''}`}
           </span>
         </div>
       </header>

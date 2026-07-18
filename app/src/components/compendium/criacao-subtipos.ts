@@ -56,7 +56,8 @@ export const CRIACAO_SUBTIPOS: Record<string, SubtipoCriacao> = {
     icon: '👑',
     cor: 'var(--accent)',
     campos: [
-      { label: 'Tipo', keys: ['subcategoria'] },
+      // #301: sem chip "Tipo" (subcategoria) — a família já aparece no kicker
+      // logo abaixo do nome; era redundante.
       { label: 'Atributo-chave', keys: ['atributo-chave', 'atributo_chave'] },
     ],
   },

@@ -1384,9 +1384,11 @@ a {
    pra baixo). */
 .criacao-hero {
   float: right;
-  width: 190px;
-  max-width: 40%;
-  aspect-ratio: 4 / 5;
+  /* #301: QUADRADO e menor — vai do topo do nome até ~a base da tag de atributo
+     principal (header + chips), não mais pra baixo (era 190px × 4/5 = alto). */
+  width: 132px;
+  max-width: 36%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   margin: 2px 0 12px 18px;
   cursor: zoom-in;
@@ -1395,8 +1397,20 @@ a {
 }
 @media (max-width: 640px) {
   .criacao-hero {
-    width: 130px;
-    max-width: 42%;
+    width: 108px;
+    max-width: 40%;
+  }
+}
+
+/* #311: ficha estreita (mobile) — o NÍVEL sobe pro topo, centralizado acima dos
+   dropdowns de classe/subclasse (como na ficha editável do plugin). */
+@media (max-width: 720px) {
+  .classe-nivel-row {
+    flex-direction: column;
+  }
+  .classe-nivel-row .classe-nivel-level {
+    order: -1;
+    align-self: center;
   }
 }
 
