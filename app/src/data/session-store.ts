@@ -31,6 +31,9 @@ export interface SessionRec {
   /** Id da sessão no SERVIDOR (Supabase) quando criada/entrada via repo —
    *  ausente = sessão puramente local (#186). */
   remoteId?: string
+  /** ISO da última vez que o usuário DESCONECTOU desta sessão (feedback do
+   *  mestre) — mostrado como "Última Conexão" na lista. */
+  ultimaConexao?: string
 }
 
 const KEY = 'pleitost.sessoes'

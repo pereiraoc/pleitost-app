@@ -50,6 +50,7 @@ import { useGrupoTip, type GrupoTip } from './gtip'
 import { useEntityImageUrl } from '../data/images'
 import { LocalImageUpload } from '../components/ficha/PerfilTab'
 import { resolveGroupImageUrl } from './group-image'
+import { useMesaGroupImageUrl } from './use-mesa-group-image'
 import { PanelExploracao } from './PanelExploracao'
 import { PanelVida } from './PanelVida'
 import { PanelRiqueza } from './PanelRiqueza'
@@ -528,12 +529,16 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // precedência; senão a hierarquia da vault (resolveGroupImageUrl). Só grupos
   // locais têm upload, então pra grupo da vault o hook resolve null e nada muda.
   const localImage = useEntityImageUrl(groupId)
+  // #74 (feedback do mestre): a MESA herda a imagem do grupo persistente dos
+  // heróis (ex.: "Aventureiros") quando não tem imagem própria — mesma fonte que
+  // o botão FICHA DO GRUPO da sidebar usa, pra não divergirem.
+  const mesaImage = useMesaGroupImageUrl()
   // #291: só quem está com MODO MESTRE ativado troca a imagem da mesa (a RLS da
   // sessão só deixa o GM escrever; sem o gate, um jogador comum tentava e falhava
   // em silêncio). Decisão do usuário: gate pelo Modo Mestre, não pelo gmUserId.
   const { mestre } = useSettings()
   const imageUrl = isMesa
-    ? (live?.state?.grupoImagem ?? null)
+    ? mesaImage
     : (localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets))
   // #235/#291: quem está com MODO MESTRE troca a imagem da mesa (afordância
   // gated acima) — vai pro state da sessão (sincroniza pra todos via realtime).

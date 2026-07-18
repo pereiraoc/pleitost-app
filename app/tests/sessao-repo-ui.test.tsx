@@ -89,7 +89,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
 
     // ── cliente GM cria a sessão pela tela (sem grupo — req 8)
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre Octavio' })
-    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    fireEvent.click(await screen.findByText('+ Criar'))
     // #238: o bloco local ORDEM DE INICIATIVA saiu — a face abre com a
     // FICHA DO GRUPO; o combate é o bloco COMBATE (encounter remoto)
     await screen.findByText('FICHA DO GRUPO ↗')
@@ -263,7 +263,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     // GM cria a sessão e um encounter PREPARADO com 2 goblins genéricos +
     // 1 monstro real do bestiário
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
-    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    fireEvent.click(await screen.findByText('+ Criar'))
     await screen.findByText('🌐 HERÓIS NA SESSÃO')
     const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
     await act(async () => {
@@ -377,7 +377,7 @@ describe('#238 bloco COMBATE (formato do sync)', () => {
 
     // ── GM cria a sessão: bloco COMBATE com ▶ INICIAR (sem turno/próximo)
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
-    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    fireEvent.click(await screen.findByText('+ Criar'))
     await screen.findByText('⚔ COMBATE')
     const codigo = listSessions()[0].codigo
     expect(screen.getByTitle('Iniciar Combate').textContent).toBe('▶ INICIAR')

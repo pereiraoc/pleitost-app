@@ -70,7 +70,7 @@ describe('#87 sidebar direita (Sessão / Detalhes)', () => {
     // face SESSÃO (padrão): a tela de sessões (decisão do usuário 2026-07-12 —
     // a Sessão saiu do nav esquerdo e vive toda aqui)
     await waitFor(() => expect(within(bar).getByText('// LISTA DE SESSÕES')).toBeTruthy())
-    expect(within(bar).getByText('+ Criar nova sessão')).toBeTruthy()
+    expect(within(bar).getByText('+ Criar')).toBeTruthy()
 
     // empurrar um doc → foca DETALHES e renderiza o doc (sem navegar)
     fireEvent.click(screen.getByText('abrir doc'))

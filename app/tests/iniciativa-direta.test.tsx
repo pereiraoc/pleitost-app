@@ -115,7 +115,7 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
   it('sem combate ativo: cria um combate com o monstro e INICIA (Turno 1, NPC na ordem)', async () => {
     const repo = new InMemorySessionRepo()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
-    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    fireEvent.click(await screen.findByText('+ Criar'))
     await screen.findByText('⚔ COMBATE') // #238: GM vê o painel de controle sempre
 
     await adicionarAIniciativa('Goblin Batedor')
@@ -150,7 +150,7 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
   it('com combate ativo: o monstro entra NELE e vai pro fim da ordem; o jogador o vê MASCARADO', async () => {
     const repo = new InMemorySessionRepo()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
-    fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+    fireEvent.click(await screen.findByText('+ Criar'))
     await screen.findByText('⚔ COMBATE') // #238: GM vê o painel de controle sempre
     const codigo = listSessions()[0].codigo
 

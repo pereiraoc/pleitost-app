@@ -3,11 +3,14 @@
 // acaba a mesa pra todos). Server-side é best-effort: se o repo falhar, o
 // histórico local some do mesmo jeito (o usuário não fica preso na sessão).
 import type { SessionRepo } from './contract'
-import { deleteSession, setActiveSessionCode } from '../session-store'
+import { deleteSession, getActiveSessionCode, setActiveSessionCode, updateSession } from '../session-store'
 
 /** ↩ Desconectar — só desativa a sessão ativa; membership e histórico intactos.
- *  Volta pra LISTA DE SESSÕES, onde as sessões já entradas seguem pra rejoin. */
+ *  Volta pra LISTA DE SESSÕES, onde as sessões já entradas seguem pra rejoin.
+ *  Carimba "Última Conexão" na sessão que estava ativa (feedback do mestre). */
 export function disconnectSession(): void {
+  const active = getActiveSessionCode()
+  if (active) updateSession(active, { ultimaConexao: new Date().toISOString() })
   setActiveSessionCode(null)
 }
 

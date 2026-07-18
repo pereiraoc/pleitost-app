@@ -73,7 +73,7 @@ function renderSessao() {
 // #203: criar sessão NUNCA seleciona grupo — a ficha de grupo existe só a
 // partir das sessões (jogadores que entram).
 async function criarSessao() {
-  fireEvent.click(await screen.findByText('+ Criar nova sessão'))
+  fireEvent.click(await screen.findByText('+ Criar'))
 }
 
 describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair', () => {

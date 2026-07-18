@@ -45,6 +45,7 @@ import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } f
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { advanceTurn } from '../../data/session-repo/turn'
 import { composeGroupName } from '../../data/session-repo/group-name'
+import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
@@ -56,7 +57,6 @@ const SESS_TABS = [
   { id: 'iniciativa', label: 'INICIATIVA' },
   { id: 'detalhes', label: 'DETALHES DA SESSÃO' },
 ]
-const SESS_SEL_TABS = [{ id: 'lista', label: 'LISTA DE SESSÕES' }]
 
 /** Iniciais do nome (sig do design: 'CF' pra Carlos Facão…). */
 function sigOf(nome: string): string {
@@ -779,6 +779,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const navigate = useNavigate()
   const live = useLiveSession()
+  const mesaGroupImage = useMesaGroupImageUrl()
   const members = useGroupMembers(catalog, sess.grupoId ?? '')
   // Nome do grupo = apelidos dos HERÓIS (não o nome da sessão nem os companheiros
   // animais). Prefere os heróis da mesa VIVA (live.characters); sem sessão viva,
@@ -815,10 +816,10 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
           clipPath: clip(15),
         }}
       >
-        {/* Feedback do mestre: mostrar a imagem REAL do grupo (a da mesa vive no
-            state sincronizado da sessão — determinístico entre dispositivos),
-            com fallback pro emoji 👥. Clique amplia (ZoomImg). */}
-        {live?.state?.grupoImagem ? (
+        {/* Feedback do mestre: imagem REAL do grupo — subida (state, sincronizada)
+            OU herdada do grupo persistente dos heróis (#74, mesma fonte da ficha
+            de grupo cheia), com fallback pro emoji 👥. Clique amplia (ZoomImg). */}
+        {mesaGroupImage ? (
           <div
             style={{
               width: 44,
@@ -829,7 +830,7 @@ function IniciativaPanel({ sess }: { sess: SessionRec }) {
               border: '1px solid var(--line2)',
             }}
           >
-            <ZoomImg src={live.state.grupoImagem} alt={grupoNomes || sess.nome} />
+            <ZoomImg src={mesaGroupImage} alt={grupoNomes || sess.nome} />
           </div>
         ) : (
           <span
@@ -1388,7 +1389,12 @@ function AuthBox() {
 function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
+  const catalog = useCatalog()
   const [joinCode, setJoinCode] = useState('')
+  // Nome do herói pra lista: vault (catálogo) ou entidade local; id cru como
+  // último recurso (nunca inventa).
+  const heroNome = (id: string) =>
+    catalog.entryById.get(id)?.basename ?? getLocalDoc(id)?.basename ?? id
 
   // Com login no servidor, criar/entrar passam pelo servidor (o código vem de
   // lá; o registro local vira o espelho da sala). Sem servidor, local puro.
@@ -1452,73 +1458,61 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
         {'// LISTA DE SESSÕES'}
       </div>
       <AuthBox />
-      {sessions.map((s) => (
+      {sessions.map((s) => {
+        const membros = Object.entries(s.claims)
+        return (
         <div
           key={s.codigo}
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 10,
-            padding: '16px 18px',
+            gap: 8,
+            padding: '13px 16px',
             background: 'linear-gradient(135deg,var(--panel2),var(--panel))',
             border: '1px solid var(--line2)',
-            clipPath: clip(15),
+            clipPath: clip(14),
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 17, fontWeight: 700 }}>{s.nome}</span>
+          {/* Feedback do mestre: botão Entrar MENOR, no cabeçalho do card. */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 15.5, fontWeight: 700 }}>{s.nome}</span>
             <span
               style={mono({
-                fontSize: 11,
+                fontSize: 10.5,
                 color: 'var(--muted)',
                 background: 'var(--card)',
                 border: '1px solid var(--line2)',
-                padding: '3px 9px',
+                padding: '2px 8px',
                 clipPath: clip(5),
               })}
             >
               {s.codigo}
             </span>
             <span style={{ flex: 1 }} />
-            <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>
-              {new Date(s.criadaEm).toLocaleDateString('pt-BR')}
-            </span>
-          </div>
-          {s.mestre ? (
-            <div style={{ fontSize: 13, color: 'var(--muted)' }}>
-              <span style={{ color: 'var(--text)', fontWeight: 600 }}>Mestre:</span> {s.mestre}
-            </div>
-          ) : null}
-          <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
-            <span style={{ color: 'var(--text)', fontWeight: 600 }}>Jogadores:</span>{' '}
-            {Object.keys(s.claims).join(', ') || '—'}
-          </div>
-          <div style={{ display: 'flex', gap: 9, marginTop: 2, alignItems: 'center' }}>
             <button
               onClick={() => setActiveSessionCode(s.codigo)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 7,
-                padding: '8px 16px',
+                gap: 5,
+                padding: '5px 12px',
                 background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
                 border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
                 color: 'var(--accent)',
                 cursor: 'pointer',
                 fontWeight: 600,
-                fontSize: 12.5,
-                clipPath: clip(7),
+                fontSize: 11.5,
+                clipPath: clip(6),
               }}
             >
               ▶ Entrar
             </button>
-            <span style={{ flex: 1 }} />
             <button
               aria-label={`Excluir sessão ${s.nome}`}
               onClick={() => deleteSession(s.codigo)}
               style={{
-                width: 34,
-                height: 32,
+                width: 28,
+                height: 26,
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1526,36 +1520,80 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
                 border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
                 color: '#d8695c',
                 cursor: 'pointer',
-                clipPath: clip(6),
+                fontSize: 12,
+                clipPath: clip(5),
               }}
             >
               🗑️
             </button>
           </div>
+          {s.mestre ? (
+            <div style={mono({ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' })}>
+              👁️ MESTRE · <span style={{ color: 'var(--text)', fontWeight: 600 }}>{s.mestre}</span>
+            </div>
+          ) : null}
+          {/* Feedback do mestre: usuários e seus heróis (mesmo inativos), resumidos. */}
+          {membros.length ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {membros.map(([jogador, heroIds]) => (
+                <div key={jogador} style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'baseline' }}>
+                  <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--blue)' }}>{jogador}</span>
+                  {heroIds.length ? (
+                    heroIds.map((hid) => (
+                      <span
+                        key={hid}
+                        style={mono({
+                          fontSize: 10,
+                          color: 'var(--muted)',
+                          background: 'var(--card)',
+                          border: '1px solid var(--line)',
+                          padding: '1px 7px',
+                          clipPath: clip(4),
+                        })}
+                      >
+                        {heroNome(hid)}
+                      </span>
+                    ))
+                  ) : (
+                    <span style={{ fontSize: 10.5, color: 'var(--muted)' }}>sem herói</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ fontSize: 12, color: 'var(--muted)' }}>Sem jogadores ainda</div>
+          )}
+          <div style={mono({ fontSize: 9.5, letterSpacing: '.06em', color: 'var(--muted)' })}>
+            {s.ultimaConexao
+              ? `Última Conexão: ${new Date(s.ultimaConexao).toLocaleString('pt-BR')}`
+              : `Criada em ${new Date(s.criadaEm).toLocaleDateString('pt-BR')}`}
+          </div>
         </div>
-      ))}
+        )
+      })}
+      {/* Feedback do mestre: "+ Criar" ao LADO do "Entrar", autocontido. */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 13,
-          padding: 18,
+          gap: 10,
+          padding: 16,
           background: 'var(--panel)',
           border: '1px dashed var(--line2)',
-          clipPath: clip(15),
+          clipPath: clip(14),
           marginTop: 6,
         }}
       >
         <div style={mono({ fontSize: 10.5, letterSpacing: '.14em', color: 'var(--muted)' })}>ENTRAR EM UMA SESSÃO</div>
-        <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <input
             value={joinCode}
             onChange={(e) => setJoinCode(e.target.value)}
             placeholder="Código da sessão"
             style={mono({
               flex: 1,
-              minWidth: 180,
-              padding: '11px 14px',
+              minWidth: 150,
+              padding: '10px 13px',
               background: 'var(--card)',
               border: '1px solid var(--line2)',
               color: 'var(--text)',
@@ -1568,7 +1606,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
           <button
             onClick={join}
             style={{
-              padding: '11px 20px',
+              padding: '10px 18px',
               background: 'var(--accent)',
               color: 'var(--ink)',
               border: 'none',
@@ -1581,24 +1619,24 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
           >
             Entrar →
           </button>
+          <button
+            onClick={criar}
+            title="Criar nova sessão"
+            style={{
+              padding: '10px 16px',
+              background: 'transparent',
+              border: '1px solid var(--accent)',
+              color: 'var(--accent)',
+              cursor: 'pointer',
+              fontWeight: 700,
+              letterSpacing: '.05em',
+              fontSize: 13,
+              clipPath: clip(9),
+            }}
+          >
+            + Criar
+          </button>
         </div>
-        <div style={{ height: 1, background: 'var(--line)', margin: '1px 0' }} />
-        <button
-          onClick={criar}
-          style={{
-            padding: 12,
-            background: 'transparent',
-            border: '1px solid var(--accent)',
-            color: 'var(--accent)',
-            cursor: 'pointer',
-            fontWeight: 700,
-            letterSpacing: '.05em',
-            fontSize: 13,
-            clipPath: clip(10),
-          }}
-        >
-          + Criar nova sessão
-        </button>
       </div>
     </div>
   )
@@ -1643,34 +1681,38 @@ function TabBtn({ on, label, onClick }: { on: boolean; label: string; onClick: (
 export function SessaoPage(): ReactNode {
   const { sessions, active } = useSessions()
   const [tab, setTab] = useState('iniciativa')
-  const tabs = active ? SESS_TABS : SESS_SEL_TABS
   const tabIdx = active ? Math.max(0, SESS_TABS.findIndex((t) => t.id === tab)) : 0
 
+  // Feedback do mestre: FORA de sessão não tem barra de abas — o header
+  // "// LISTA DE SESSÕES" já vive no ListaPanel; a aba única só duplicava.
+  if (!active) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={panelScroll}>
+          <ListaPanel sessions={sessions} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ flex: 'none', padding: '8px 2px 0' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 2, borderBottom: '1px solid var(--line)' }}>
-          {tabs.map((t) => (
-            <TabBtn key={t.id} on={active ? tab === t.id : true} label={t.label} onClick={() => setTab(t.id)} />
+          {SESS_TABS.map((t) => (
+            <TabBtn key={t.id} on={tab === t.id} label={t.label} onClick={() => setTab(t.id)} />
           ))}
           <span style={{ flex: 1 }} />
         </div>
       </div>
-      {active ? (
-        <PanelTrack index={tabIdx}>
-          <div style={panelScroll}>
-            <IniciativaPanel sess={active} />
-          </div>
-          <div style={panelScroll}>
-            <DetalhesPanel sess={active} />
-          </div>
-        </PanelTrack>
-      ) : (
+      <PanelTrack index={tabIdx}>
         <div style={panelScroll}>
-          <ListaPanel sessions={sessions} />
+          <IniciativaPanel sess={active} />
         </div>
-      )}
+        <div style={panelScroll}>
+          <DetalhesPanel sess={active} />
+        </div>
+      </PanelTrack>
     </div>
   )
 }
