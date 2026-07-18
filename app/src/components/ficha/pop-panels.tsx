@@ -150,8 +150,8 @@ export function AdjustRows({ rows }: { rows: VidaAdjRow[] }) {
 export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <AdjustRows rows={vida.rows} />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6, marginTop: 2 }}>
+      {/* Dano no TOPO (feedback): aplicar dano é a ação mais comum → primeiro. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
         {[1, 5, 10].map((n) => (
           <button
             key={n}
@@ -173,6 +173,9 @@ export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
           </button>
         ))}
       </div>
+      {/* Separador sutil entre o dano e os ajustes de Vitalidade/Moral/Temp. */}
+      <div style={{ height: 1, background: 'var(--line2)', opacity: 0.6 }} />
+      <AdjustRows rows={vida.rows} />
     </div>
   )
 }
