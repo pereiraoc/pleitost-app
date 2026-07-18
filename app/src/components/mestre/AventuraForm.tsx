@@ -74,18 +74,55 @@ export function AventuraForm() {
   }
 
   if (!open) {
+    // Trigger FLUTUANTE no canto inferior direito (pedido do usuário) — some ao
+    // sair da folha (o componente só é montado aqui via creator do leaf-view).
     return (
-      <div style={{ margin: '10px 0' }}>
-        <button type="button" onClick={() => setOpen(true)} style={accentBtnStyle(true)}>
-          + Criar Aventura
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        title="Criar aventura"
+        style={{
+          ...accentBtnStyle(true),
+          position: 'fixed',
+          right: 20,
+          bottom: 20,
+          zIndex: 45,
+          padding: '12px 18px',
+          fontSize: 14,
+          boxShadow: '0 10px 28px rgba(0,0,0,.45)',
+        }}
+      >
+        + Criar Aventura
+      </button>
     )
   }
 
   return (
-    <div style={{ ...sectionStyle, margin: '10px 0' }}>
-      <div className="kicker">{'// CRIAR AVENTURA'}</div>
+    <>
+      {/* Fundo escuro + painel fixo no canto inferior direito (modal). */}
+      <div
+        onClick={() => {
+          reset()
+          setOpen(false)
+        }}
+        style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', zIndex: 60 }}
+      />
+      <div
+        style={{
+          ...sectionStyle,
+          position: 'fixed',
+          right: 16,
+          bottom: 16,
+          zIndex: 61,
+          margin: 0,
+          width: 'min(460px, calc(100vw - 32px))',
+          maxHeight: 'calc(100dvh - 90px)',
+          overflowY: 'auto',
+          boxSizing: 'border-box',
+          boxShadow: '0 16px 44px rgba(0,0,0,.5)',
+        }}
+      >
+        <div className="kicker">{'// CRIAR AVENTURA'}</div>
       <label>
         <span style={fieldLabelStyle}>TÍTULO</span>
         <input
@@ -190,6 +227,7 @@ export function AventuraForm() {
           Cancelar
         </button>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

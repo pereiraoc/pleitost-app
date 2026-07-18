@@ -15,7 +15,9 @@ import { IMAGE_EXTENSIONS } from '../data/assets'
 /** Fences que a folder-note NÃO deve renderizar (a listagem da pasta já cobre a
  *  query). Central — a supressão é ligada só no contexto 'folder-note', nunca
  *  global. Novas linguagens a suprimir entram AQUI. */
-export const FOLDER_NOTE_SUPPRESSED_FENCES: readonly string[] = ['dataview']
+// `dataview` (a grade da pasta já é a lista) e `button` (botão QuickAdd do
+// Obsidian — sem plugin no app, só vazava o config cru como <pre>).
+export const FOLDER_NOTE_SUPPRESSED_FENCES: readonly string[] = ['dataview', 'button']
 
 /**
  * Transclusões de nota `![[Alvo#Seção]]` chegam FRAGMENTADAS pelo parser quando
@@ -71,10 +73,15 @@ export function cleanFolderNoteBody(doc: VaultDoc): string {
 }
 
 /** true quando, removidos título + fences suprimidos, ainda há prosa/embeds úteis
- *  no corpo da folder-note. Só separadores (`---`) e espaços contam como vazio. */
+ *  no corpo da folder-note. Só separadores (`---`), HEADINGS (rótulos de seção
+ *  de queries removidas), âncoras de bloco (`^id`) e espaços contam como vazio —
+ *  uma nota-índice que é só isso (ex.: Campanhas/Aventuras: headings + dataview +
+ *  botão QuickAdd) não tem corpo útil, a grade da pasta já é a lista. */
 export function folderNoteHasBody(doc: VaultDoc): boolean {
   const clean = cleanFolderNoteBody(doc)
-    .replace(/^-{3,}\s*$/gm, '') // separadores horizontais soltos não são conteúdo
+    .replace(/^-{3,}\s*$/gm, '') // separadores horizontais soltos
+    .replace(/^#{1,6}\s.*$/gm, '') // headings soltos (rótulo de seção sem prosa)
+    .replace(/^\^[\w-]+\s*$/gm, '') // âncoras de bloco (^id) — metadado, não conteúdo
     .trim()
   return clean.length > 0
 }

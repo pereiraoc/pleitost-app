@@ -142,6 +142,16 @@ describe('folha Campanhas/Aventuras — grade de cartas (#248)', () => {
     const cells = document.querySelectorAll('a.aventura-grid-cell')
     expect(cells.length).toBeGreaterThan(1)
   })
+
+  it('não vaza o botão QuickAdd / dataview / headings da nota-índice — só a lista', async () => {
+    const { container } = renderFolder('Campanhas/Aventuras')
+    await waitFor(() => expect(document.querySelector('.aventura-grid')).toBeTruthy())
+    const txt = container.textContent ?? ''
+    expect(txt).not.toContain('QuickAdd') // action do botão (fence ```button``` suprimido)
+    expect(txt).not.toContain('button-criar-nova-aventura') // âncora de bloco ^id
+    expect(txt).not.toContain('TABLE WITHOUT ID') // query dataview
+    expect(txt).not.toContain('Aventureiros Classe C') // heading solto da nota-índice
+  })
 })
 
 // ── criação de aventura no Modo Mestre (#248 + #195) ──
