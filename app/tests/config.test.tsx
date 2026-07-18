@@ -142,6 +142,18 @@ describe('tela CONFIG (issue #35)', () => {
     fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('false')
   })
+
+  it('Dificuldade dos Combates persiste em pleitost.settings.mostrarDificuldade', async () => {
+    renderApp('/config')
+    await screen.findByText('Dificuldade dos Combates')
+    const linha = () => within(screen.getByText('Dificuldade dos Combates').parentElement as HTMLElement)
+    // default ON
+    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.getPropertyValue('--on')).toBe('1')
+    fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
+    expect(localStorage.getItem('pleitost.settings.mostrarDificuldade')).toBe('false')
+    fireEvent.click(linha().getByRole('button', { name: /\bATIVADO$/ }))
+    expect(localStorage.getItem('pleitost.settings.mostrarDificuldade')).toBe('true')
+  })
 })
 
 describe('gating do BESTIÁRIO pelo Modo Mestre (issue #35)', () => {

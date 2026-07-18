@@ -28,6 +28,9 @@ const DISPONIBILIDADE_KEY = 'pleitost.settings.disponibilidade'
 // #303: ícones "supercharged" nos wikilinks (emoji do tipo do doc-alvo). Default
 // LIGADO — como na vault; o usuário pode desligar no CONFIG.
 const LINK_ICONS_KEY = 'pleitost.settings.linkIcons'
+// Badge de dificuldade dos combates (lista + página), no nível médio do grupo
+// ativo. Default LIGADO; o usuário pode desligar no CONFIG.
+const MOSTRAR_DIF_KEY = 'pleitost.settings.mostrarDificuldade'
 
 export interface Settings {
   /** Modo Mestre: ON libera o BESTIÁRIO dos NPCs; OFF bloqueia a aba. */
@@ -36,6 +39,8 @@ export interface Settings {
   desenvolvedor: boolean
   /** Ícones supercharged nos links (default ON). */
   linkIcons: boolean
+  /** Badge de dificuldade dos combates (default ON). */
+  mostrarDificuldade: boolean
   /** Matriz de disponibilidade (% por tipo de local × tier) que a loja usa. */
   disponibilidade: AvailabilityMatrix
 }
@@ -69,6 +74,7 @@ function loadSettings(): Settings {
       mestre: localStorage.getItem(MESTRE_KEY) === 'true',
       desenvolvedor: localStorage.getItem(DESENVOLVEDOR_KEY) === 'true',
       linkIcons: localStorage.getItem(LINK_ICONS_KEY) !== 'false', // default ON
+      mostrarDificuldade: localStorage.getItem(MOSTRAR_DIF_KEY) !== 'false', // default ON
       disponibilidade: loadDisponibilidade(),
     }
   } catch {
@@ -76,6 +82,7 @@ function loadSettings(): Settings {
       mestre: false,
       desenvolvedor: false,
       linkIcons: true,
+      mostrarDificuldade: true,
       disponibilidade: cloneMatrix(DEFAULT_MATRIX),
     }
   }
@@ -113,6 +120,16 @@ function setLinkIcons(linkIcons: boolean) {
   state = { ...getSettings(), linkIcons }
   try {
     localStorage.setItem(LINK_ICONS_KEY, String(linkIcons))
+  } catch {
+    /* memória continua a fonte da sessão */
+  }
+  for (const cb of listeners) cb()
+}
+
+function setMostrarDificuldade(mostrarDificuldade: boolean) {
+  state = { ...getSettings(), mostrarDificuldade }
+  try {
+    localStorage.setItem(MOSTRAR_DIF_KEY, String(mostrarDificuldade))
   } catch {
     /* memória continua a fonte da sessão */
   }
@@ -166,6 +183,7 @@ export function useSettings() {
     setMestre,
     setDesenvolvedor,
     setLinkIcons,
+    setMostrarDificuldade,
     setDisponibilidadeCell,
     resetDisponibilidade,
   }
