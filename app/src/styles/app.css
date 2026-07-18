@@ -1143,6 +1143,27 @@ a {
 .gm-enc-levelbar-seg:hover {
   transform: translateY(-1px);
 }
+/* Badge "SUA MESA" (só GM): dificuldade contra os heróis reais da mesa ativa. */
+.combat-party-dif {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.combat-party-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: help;
+}
+
 /* Banners por monstro na página do combate (um empilhado no outro): espaço de
    imagem à esquerda, stats com emojis; no Modo Mestre, os botões de velocidade/
    estado à direita. */

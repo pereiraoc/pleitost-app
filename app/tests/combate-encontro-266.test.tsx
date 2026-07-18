@@ -261,6 +261,46 @@ describe('#266 controles do Mestre: adicionar à sessão + toggles invisível/di
   })
 })
 
+describe('badge da SUA MESA: dificuldade vs os heróis reais da mesa (só GM)', () => {
+  const heroi = (id: string, nivel: number): SessionCharacter => ({
+    id,
+    sessionId: 's',
+    memberId: 'gm-1',
+    kind: 'heroi',
+    tutorCharacterId: null,
+    characterPath: `local/${id}`,
+    visibility: 'visible',
+    summary: {
+      nome: id,
+      family: 'Heroi',
+      nivel,
+      atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0 },
+      vitalidadeMax: 10,
+      stats: { defesa: 0, vigor: 0, evasao: 0, impeto: 0, movimento: 0, percepcao: 0, intuicao: 0 },
+    },
+    state: { recursosRestantes: { vitalidade: 10, moral: 0, em: 0, moralTemp: 0 }, condicoesAtivas: {}, efeitosAtivos: {}, invocacoesAtivas: {} },
+    fmBlob: {},
+    updatedAt: '',
+    encounterId: null,
+  })
+
+  it('mestre + mesa com heróis → aparece a badge da mesa', async () => {
+    mestreOn()
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'PARTY1' })
+    fakeLive(sess.id, [heroi('Ana', 3), heroi('Beto', 5)])
+    const { container } = renderSheet({ repo })
+    await waitFor(() => expect(container.querySelector('.combat-party-badge')).toBeTruthy())
+  })
+
+  it('sem mesa (só compêndio) → não aparece a badge da mesa', async () => {
+    mestreOn()
+    const { container } = renderSheet()
+    await waitFor(() => expect(container.querySelector('.combate-monstro-banner')).toBeTruthy())
+    expect(container.querySelector('.combat-party-badge')).toBeNull()
+  })
+})
+
 describe('#266 addRosterToInitiative: injeta num combate JÁ ativo sem perder ids', () => {
   it('com combate ativo, o roster inteiro entra no turnState existente (sem sobrescrever)', async () => {
     const repo = new InMemorySessionRepo()

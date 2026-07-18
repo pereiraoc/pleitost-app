@@ -17,11 +17,18 @@ import { useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
 import { parseCombatMarkerBlocks, splitBlockSource } from './combat-marker'
-import { computeEncounterDifficultyByLevel } from './encounter-compute'
+import {
+  computeEncounterDifficulty,
+  computeEncounterDifficultyByLevel,
+  DIFFICULTY_TONE_COLORS,
+  TONE_EMOJI_KEY,
+} from './encounter-compute'
 import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from './roster'
 import type { EncounterRoster } from '../data/session-repo/contract'
 import { EncounterLevelBar } from '../components/mestre/ui'
-import { TipProvider } from '../components/ficha/tooltips'
+import { TipProvider, TipHover } from '../components/ficha/tooltips'
+import { partyDifficultyTipHtml } from './difficulty-tip'
+import type { SessionCharacter } from '../data/session-repo/contract'
 import { useDetail } from '../data/detail-context'
 import { useSettings } from '../settings'
 import { useAssetIndex } from '../data/assets'
@@ -55,6 +62,15 @@ function parseFenceRoster(code: string): EncounterRoster {
   const wrapped = ['```combat-marker', ...rosterLines, '```'].join('\n')
   const parsed = parseCombatMarkerBlocks(wrapped)
   return parsed.ok ? parsed.roster : { entries: [] }
+}
+
+/** Níveis dos HERÓIS da mesa atual (sem companheiro animal nem NPC) — pra a
+ *  badge de dificuldade "da sua mesa" (pedido do GM ao escolher combates). */
+function partyHeroLevels(chars: readonly SessionCharacter[]): number[] {
+  return chars
+    .filter((c) => c.summary?.family === 'Heroi')
+    .map((c) => c.summary?.nivel)
+    .filter((n): n is number => typeof n === 'number' && n > 0)
 }
 
 /** Roster + dificuldade de um combate. `code` = corpo cru de um fence
@@ -96,6 +112,16 @@ export function CombatMarkerBlock({
     [resolvidas],
   )
   const byLevel = useMemo(() => computeEncounterDifficultyByLevel(combatants), [combatants])
+
+  // Badge de dificuldade "da SUA MESA" (só GM): dificuldade contra os heróis
+  // REAIS da mesa ativa (sem companheiro animal). Nula sem mesa/heróis.
+  const partyDif = useMemo(() => {
+    if (!mestre || !mostrarDificuldade) return null
+    const heroLevels = partyHeroLevels(live?.characters ?? [])
+    if (heroLevels.length === 0) return null
+    const items = resolvidas.flatMap((r) => (r.item ? [r.item] : []))
+    return { result: computeEncounterDifficulty(combatantsFrom(items, heroLevels)), heroLevels }
+  }, [mestre, mostrarDificuldade, live, resolvidas])
 
   // Instâncias INDIVIDUAIS de monstro (qty → N banners), com a chave estável do
   // prep (encounter-speeds) e vida/imagem lidas do doc do bestiário.
@@ -158,6 +184,25 @@ export function CombatMarkerBlock({
           <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
             <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
             <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
+          </div>
+        ) : null}
+        {/* Badge da SUA MESA (só GM): dificuldade contra os heróis reais da mesa
+            ativa. Tooltip explica com a composição real do grupo. */}
+        {partyDif ? (
+          <div className="combat-party-dif" data-combat-party-dif="">
+            <span className="combat-difficulty-bars-label">{'// SUA MESA'}</span>
+            <TipHover html={partyDifficultyTipHtml(partyDif.result, combatants, partyDif.heroLevels)}>
+              <span
+                className="combat-party-badge"
+                style={{
+                  color: DIFFICULTY_TONE_COLORS[partyDif.result.toneClass],
+                  borderColor: DIFFICULTY_TONE_COLORS[partyDif.result.toneClass],
+                  background: `color-mix(in srgb,${DIFFICULTY_TONE_COLORS[partyDif.result.toneClass]} 14%,transparent)`,
+                }}
+              >
+                {tokens.emojis.dificuldade[TONE_EMOJI_KEY[partyDif.result.toneClass]]} {partyDif.result.label}
+              </span>
+            </TipHover>
           </div>
         ) : null}
 
