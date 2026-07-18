@@ -16,7 +16,11 @@ import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath, heroPath } from '../../paths'
-import { useSelectedCreature } from '../../data/selected-creature-store'
+import {
+  getSelectedCreature,
+  setSelectedCreature,
+  useSelectedCreature,
+} from '../../data/selected-creature-store'
 import { useDetail } from '../../data/detail-context'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
@@ -662,7 +666,13 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
                   // (compêndio) nunca são afetados (a vault é read-only).
                   confirmLabel: '⚠️ Confirmar? Remove só a cópia local',
                   color: 'var(--red)',
-                  onClick: () => removeLocalEntity(entry.id),
+                  onClick: () => {
+                    // #305: some a seleção junto com o herói — senão a nav
+                    // (Combate etc) segue apontando pro id deletado e cai em
+                    // "herói não encontrado".
+                    if (getSelectedCreature() === entry.id) setSelectedCreature(null)
+                    removeLocalEntity(entry.id)
+                  },
                 },
               ]
             : []),

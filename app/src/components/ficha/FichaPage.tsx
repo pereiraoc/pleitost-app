@@ -3,7 +3,8 @@
 // seção correspondente do design puxado — SEM chrome extra: cada tela do
 // design já tem sua própria estrutura (o PERFIL abre com o próprio topo de
 // rank/retrato) e a volta pra lista de heróis é pela sidebar (HERÓIS).
-import { useParams, useSearchParams } from 'react-router-dom'
+import { Navigate, useParams, useSearchParams } from 'react-router-dom'
+import { isLocalId } from '../../data/local-entities'
 import { useMemo } from 'react'
 import { useDoc } from '../../data/useDoc'
 import { abaFichaVisivel, familiaOf } from '../../data/familia'
@@ -170,7 +171,13 @@ export function FichaPage() {
   const rules = useHeroRules(model.fm)
   const refs = useHeroRefs(doc, rules?.derivedFm ?? model.fm)
 
-  if (error) return <p role="alert">Herói não encontrado: {id}</p>
+  // #305: herói LOCAL que não existe mais (deletado) → volta pra lista em vez de
+  // um beco sem saída "não encontrado". Vault (read-only) mantém a mensagem —
+  // erro ali é transitório (rede), não um id inexistente.
+  if (error) {
+    if (isLocalId(id)) return <Navigate to="/herois" replace />
+    return <p role="alert">Herói não encontrado: {id}</p>
+  }
   if (!doc) return <p className="loading">Carregando ficha…</p>
 
   return (

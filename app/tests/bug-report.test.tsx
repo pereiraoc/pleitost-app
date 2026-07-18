@@ -72,18 +72,18 @@ function renderApp() {
 }
 
 describe('botão REPORTAR BUG (#220)', () => {
-  it('fica ACIMA do HERÓIS no painel esquerdo, com fundo vermelho e ícone de bug', () => {
+  it('fica ABAIXO do CONFIG no painel esquerdo, com fundo vermelho e ícone de bug (#308)', () => {
     renderApp()
     const btn = screen.getByRole('button', { name: /REPORTAR BUG/ })
     expect(btn.style.background).toContain('--red')
     expect(btn.textContent).toContain('🐞')
-    // ordem no grupo de navegação: REPORTAR BUG vem antes do link HERÓIS
+    // #308: REPORTAR BUG vem DEPOIS do link CONFIG (fim do grupo de navegação).
     const grupo = btn.closest('.nav-group')!
     const rotulos = [...grupo.querySelectorAll('.nav-item')].map((el) => el.textContent ?? '')
     const iBug = rotulos.findIndex((t) => t.includes('REPORTAR BUG'))
-    const iHerois = rotulos.findIndex((t) => t.includes('HERÓIS'))
-    expect(iBug).toBeGreaterThanOrEqual(0)
-    expect(iHerois).toBeGreaterThan(iBug)
+    const iConfig = rotulos.findIndex((t) => t.includes('CONFIG'))
+    expect(iConfig).toBeGreaterThanOrEqual(0)
+    expect(iBug).toBeGreaterThan(iConfig)
   })
 
   it('qualquer um envia: escreve → ENVIAR → reporte sai com contexto automático', async () => {

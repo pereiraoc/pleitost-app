@@ -122,10 +122,9 @@ describe('tela CONFIG (issue #35)', () => {
     expect(document.documentElement.dataset.context).toBe('cyberpunk')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
 
-    // atalho da topbar alterna SÓ o MODO (mesma fonte que a linha "Modo", sem
-    // reload): claro → 🌙 → clica → escuro, tema mantido
-    expect(screen.getByTitle('Alternar claro/escuro').textContent).toBe('🌙')
-    fireEvent.click(screen.getByTitle('Alternar claro/escuro'))
+    // #307: o atalho da topbar saiu; o MODO agora troca só pela linha "Modo de
+    // Exibição" do CONFIG (pill ESCURO) — muda o modo sem mexer no tema.
+    fireEvent.click(screen.getByRole('button', { name: /ESCURO/ }))
     expect(document.documentElement.dataset.mode).toBe('dark')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio') // tema mantido
   })

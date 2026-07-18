@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useTheme } from '../../theme'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
@@ -145,7 +144,6 @@ export function AppShell() {
   const [collapsed, setCollapsed] = useState(false)
   // Colapso da sidebar DIREITA no desktop (feedback do mestre) — vira trilho.
   const [rightCollapsed, setRightCollapsed] = useState(false)
-  const { isDark, toggleLightDark } = useTheme()
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -225,13 +223,8 @@ export function AppShell() {
         <span className="brand-badge">PE</span>
         <span className="topbar-title">{title}</span>
         <div className="topbar-spacer" />
-        <button
-          className="mode-toggle"
-          onClick={toggleLightDark}
-          title="Alternar claro/escuro"
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
+        {/* #307: toggle claro/escuro saiu do topo (já está no CONFIG) — o espaço
+            fica pro avatar do personagem selecionado (TopbarFicha). */}
         {heroId ? <TopbarFicha key={heroId} id={heroId} tab={fichaTab ?? 'perfil'} /> : null}
         {/* #87: toggle da sidebar direita (Sessão/Detalhes) — no mobile */}
         <button
@@ -272,11 +265,11 @@ export function AppShell() {
           </nav>
           <div className="sidebar-spacer" />
           <nav className="nav-group">
-            {/* #220: acima do HERÓIS, fundo vermelho — qualquer um reporta */}
-            <BugReportButton onOpenChange={closeDrawer} />
             {APP_NAV.map((item) => (
               <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
             ))}
+            {/* #308: report de bugs ABAIXO do CONFIG (fundo vermelho) */}
+            <BugReportButton onOpenChange={closeDrawer} />
           </nav>
         </aside>
         {drawerOpen ? <div className="drawer-scrim" onClick={closeDrawer} /> : null}

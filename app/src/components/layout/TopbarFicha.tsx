@@ -247,7 +247,9 @@ function AvatarBox({
         color: 'var(--muted)',
       }}
     >
-      {initials(nome)}
+      {/* #306: herói novo sem retrato/classe E sem nome ⇒ iniciais vazias
+          deixavam o box em branco; cai no glifo de pessoa pra sempre aparecer. */}
+      {initials(nome) || '👤'}
     </span>
   )
 }
