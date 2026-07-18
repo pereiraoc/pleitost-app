@@ -78,8 +78,8 @@ export function agruparEmBlocos<T>(itens: T[], keyOf: (t: T) => { tier: SpeedTie
 
 - **Manter** as barrinhas no topo, agora com o **tooltip explicativo** (§3.1).
 - **Adicionar** um badge único: **dificuldade do encontro no nível do grupo** (Trivial/
-  Fácil/Difícil/Letal — do modelo de pontos, no nível configurado), com o mesmo tooltip.
-  Ocultável via CONFIG (§4).
+  Fácil/Difícil/Letal — do modelo de pontos), com o mesmo tooltip. O nível = **média do
+  nível do grupo ATIVO** (§4), não um número manual. Ocultável via CONFIG.
 - **Remover** a tabela "DIFICULDADE POR NÍVEL" (`CombatMarkerBlock` ~linhas 195–227) — as
   barrinhas bastam.
 - **Banners de monstro empilhados** (um por monstro individual), cada um com:
@@ -113,11 +113,11 @@ não só mostra o número. Pedido do usuário: "que nem no pleitost-autosheet pr
 
 ## 4. Config — `settings.ts` + `ConfigPage.tsx`
 
-- **`nivelGrupo: number`** (nível do grupo) — alimenta o badge de dificuldade. Default
-  sensato (ex.: 1, ou média do grupo ativo se houver — a definir na implementação).
-- **`mostrarDificuldade: boolean`** — liga/desliga o badge de dificuldade na página/lista.
-- Ambos na tela CONFIG, padrão do `settings.ts` (chave `pleitost.settings.*`, sincroniza
-  por conta).
+- O nível usado no badge = **média do nível do grupo ATIVO** (grupo persistente / mesa) —
+  derivado em runtime, NÃO um número manual no CONFIG. Sem grupo ativo → esconde o badge
+  (ou cai num fallback nível 1; decidir no plano). Helper puro `nivelMedioDoGrupo(...)`.
+- **`mostrarDificuldade: boolean`** — único item novo no CONFIG; liga/desliga o badge
+  (default ON). Padrão do `settings.ts` (chave `pleitost.settings.*`, sincroniza por conta).
 
 ## 5. Armazenamento dos blocos/estados do encontro (novo — `app/src/data/encounter-speeds.ts`)
 
@@ -151,7 +151,7 @@ não só mostra o número. Pedido do usuário: "que nem no pleitost-autosheet pr
 ## 7. Emojis/labels (registro central — `tokens`)
 
 Estender o registro (fonte de verdade), nunca `if tier==='super' return '⚡'` no call-site:
-- velocidade: super / rápido / lento (ex.: ⚡ / 🏃 / 🐢 — a confirmar no design system);
+- velocidade: super ⚡ · rápido 🏃 · lento 🐢 (confirmado com o usuário — "por ora");
 - estado: escondido / disfarçado (👁️‍🗨️/🙈 · 🎭);
 - modificador já tem emoji? senão, adicionar Competente/Elite/Solo.
 Onde o registro é gerado a partir do design-system do plugin, adicionar lá e regenerar
@@ -187,8 +187,20 @@ Editados: `components/compendium/CombateView.tsx`, `mestre/CombatMarkerBlock.tsx
 3. **Combate ao vivo**: `turnState.speeds` + seed + `setCombatantSpeed` + render em 6 blocos
    + turn pela sequência.
 
-## 11. Itens em aberto / adiados
+## 11. Itens resolvidos / adiados
 
-- Emojis exatos de velocidade — confirmar no design system.
-- Default de `nivelGrupo` (fixo vs média do grupo ativo).
-- (Futuro, se quiser) rolagem automática vs CD-Nível — hoje é manual por decisão.
+Resolvidos (com o usuário):
+- Velocidade: ⚡ super · 🏃 rápido · 🐢 lento ("por ora").
+- Nível do badge = **média do nível do grupo ativo** (não número manual).
+
+Adiado dentro deste tema:
+- Rolagem automática vs CD-Nível — hoje o GM encaixa manual, por decisão.
+
+Backlog SEPARADO (fora deste spec — vira spec próprio depois, pedido do usuário):
+- **Ícones de link (supercharged) iguais aos do Obsidian + toggle no CONFIG.** O toggle
+  (`settings.linkIcons`) e o `data-link-icon` já existem (#303); falta **bater o mapa
+  doc-type→ícone com o do Obsidian** (fonte de verdade = config/snippet do supercharged-links
+  na vault) e expor o enable/desabilita no CONFIG de forma clara.
+- **Emojis errados em headers de nota do compêndio** (ex.: emoji de condição numa Habilidade).
+  Corrigir a fonte do mapa doc-type→emoji (o mesmo mapa do item acima) pra o kicker/header
+  usar o certo. Liga com o item de cima: alinhar tudo ao mapa do Obsidian.
