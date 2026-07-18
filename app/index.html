@@ -5,10 +5,12 @@
     <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Pleitost</title>
-    <!-- Primer de tema pré-paint (evita FOUC): aplica data-theme e a cor
-         personalizada ANTES do React montar, lendo `pleitost.theme` (mesma fonte
-         do theme.ts, com migração da chave/shape antigos). Presets nomeados de
-         destaque aplicam no mount (flash desprezível). Espelho de applyDom. -->
+    <!-- Primer de tema pré-paint (evita FOUC): aplica data-theme, data-mode E a
+         COR DE DESTAQUE (custom OU preset nomeado) ANTES do React montar, lendo
+         `pleitost.theme` (mesma fonte do theme.ts, com migração da chave/shape
+         antigos). Espelho fiel de applyDom — sem isso, um destaque nomeado ≠ tema
+         (ex.: tema ferro-frio + destaque aço-solar) só aparecia depois que a
+         Config montava (primeiro getTheme do React). -->
     <script>
       ;(function () {
         try {
@@ -18,14 +20,34 @@
           var el = document.documentElement
           var THEMES = ['aco-solar', 'ferro-frio', 'safira', 'rubi', 'ambar', 'esmeralda']
           var DARK_DEFAULT = { 'ferro-frio': 1, safira: 1, rubi: 1, esmeralda: 1 }
+          // espelha ACCENT_COLORS do theme.ts (accent, accent2)
+          var ACCENT = {
+            'aco-solar': ['#d3a51a', '#4f7d84'],
+            'ferro-frio': ['#9a7fd6', '#6f8a9e'],
+            safira: ['#4a86e8', '#46b0c0'],
+            rubi: ['#e0503f', '#d99a3a'],
+            ambar: ['#e57a16', '#8a7a48'],
+            esmeralda: ['#35b87a', '#c2a24a'],
+          }
           var legacyCyber = t.theme === 'cyberpunk' || t.aesthetic === 'cyberpunk'
           var theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : legacyCyber ? 'ferro-frio' : 'aco-solar'
           el.dataset.theme = theme
           el.dataset.mode = t.mode === 'dark' || t.mode === 'light' ? t.mode : DARK_DEFAULT[theme] ? 'dark' : 'light'
           el.dataset.context = t.context === 'cyberpunk' || legacyCyber ? 'cyberpunk' : 'fantasia'
-          if (t.accent === 'custom' && typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
-            el.style.setProperty('--accent', t.customAccent)
-            el.style.setProperty('--sb', 'color-mix(in srgb, ' + t.customAccent + ' 30%, transparent)')
+          // resolve o destaque (mesma normalização do theme.ts)
+          var accent = t.accent
+          if (accent === 'padrao' || accent === undefined) accent = theme
+          else if (accent === 'ametista') accent = 'ferro-frio'
+          if (accent === 'custom') {
+            if (typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
+              el.style.setProperty('--accent', t.customAccent)
+              el.style.setProperty('--sb', 'color-mix(in srgb, ' + t.customAccent + ' 30%, transparent)')
+            }
+          } else if (accent !== theme && ACCENT[accent]) {
+            // destaque nomeado ≠ tema → override (=== tema deixa a paleta mandar)
+            el.style.setProperty('--accent', ACCENT[accent][0])
+            el.style.setProperty('--accent2', ACCENT[accent][1])
+            el.style.setProperty('--sb', 'color-mix(in srgb, ' + ACCENT[accent][0] + ' 30%, transparent)')
           }
         } catch (e) {
           /* storage indisponível / json ruim → defaults do HTML */
