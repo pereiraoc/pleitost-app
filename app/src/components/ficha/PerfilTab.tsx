@@ -1376,7 +1376,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           {classeAberta ? '▴' : '▾'}
         </button>
       </div>
-      {classeAberta ? <ClasseNivelPanel doc={doc} refs={refs} /> : null}
+      {classeAberta ? <ClasseNivelPanel doc={doc} refs={refs} hideSintonia /> : null}
 
       {bioTabs.length > 0 ? (
         <>

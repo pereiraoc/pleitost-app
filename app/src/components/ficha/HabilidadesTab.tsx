@@ -260,7 +260,17 @@ function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto:
   return out
 }
 
-export function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function ClasseNivelPanel({
+  doc,
+  refs,
+  hideSintonia,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  /** #309: na Biografia a Sintonia já aparece acima; esconde o dropdown aqui
+   *  (nas Competências segue visível). */
+  hideSintonia?: boolean
+}) {
   const model = useHeroModel(doc, 'habilidades')
   const fm = model.fm
   // Projeção de regras (app/src/rules): opções de Classe/Sintonia (vault
@@ -426,26 +436,28 @@ export function ClasseNivelPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
             </div>
           ))}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <span
-            style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
-          >
-            🌀 SINTONIA
-          </span>
-          {/* Caixa de sintonia → card do Traço Elemental no hover. */}
-          <ItemHover doc={refs.refDoc(sintoniaFmValue)} fullBody style={{ display: 'block', width: '100%' }}>
-            <SelectBox
-              ariaLabel="SINTONIA"
-              value={sintoniaFmValue}
-              options={withCurrent(
-                [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
-                sintoniaFmValue,
-                linkLabel(str(fm['Sintonia'])),
-              )}
-              onChange={setSintonia}
-            />
-          </ItemHover>
-        </div>
+        {hideSintonia ? null : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <span
+              style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
+            >
+              🌀 SINTONIA
+            </span>
+            {/* Caixa de sintonia → card do Traço Elemental no hover. */}
+            <ItemHover doc={refs.refDoc(sintoniaFmValue)} fullBody style={{ display: 'block', width: '100%' }}>
+              <SelectBox
+                ariaLabel="SINTONIA"
+                value={sintoniaFmValue}
+                options={withCurrent(
+                  [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+                  sintoniaFmValue,
+                  linkLabel(str(fm['Sintonia'])),
+                )}
+                onChange={setSintonia}
+              />
+            </ItemHover>
+          </div>
+        )}
       </div>
       <div
         className="classe-nivel-level"
