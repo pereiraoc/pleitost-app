@@ -25,6 +25,7 @@ import {
 import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from './roster'
 import type { EncounterRoster } from '../data/session-repo/contract'
 import { DifficultyBadge, EncounterLevelBar } from '../components/mestre/ui'
+import { TipProvider } from '../components/ficha/tooltips'
 import { useDetail } from '../data/detail-context'
 import { useSettings } from '../settings'
 import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
@@ -101,13 +102,14 @@ export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string;
   }
 
   return (
-    <div className="combat-marker">
-      {/* ── barrinhas de dificuldade no TOPO (espelho do gm-enc-levelbar do
-          combat-tracker do plugin) — o pedido AS-IS do #266. ── */}
-      <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
-        <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
-        <EncounterLevelBar byLevel={byLevel} />
-      </div>
+    <TipProvider>
+      <div className="combat-marker">
+        {/* ── barrinhas de dificuldade no TOPO com tooltip explicativo (de onde
+            vem a classificação: limiares + pontos — difficultyTipHtml). ── */}
+        <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
+          <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
+          <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
+        </div>
 
       {/* ── roster: cada linha é CLICÁVEL → abre a ficha-resumo no painel
           DETALHES da direita (via useDetail; o doc resolve pelo catálogo). ── */}
@@ -225,6 +227,7 @@ export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string;
           </tbody>
         </table>
       </div>
-    </div>
+      </div>
+    </TipProvider>
   )
 }

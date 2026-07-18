@@ -9,9 +9,12 @@ import {
   TONE_EMOJI_KEY,
   formatDifficultyValue,
   type DifficultyMeta,
+  type EncounterCombatant,
   type EncounterDifficultyByLevelEntry,
 } from '../../mestre/encounter-compute'
+import { difficultyTipHtml } from '../../mestre/difficulty-tip'
 import { tokens } from '../ficha/registry'
+import { TipHover } from '../ficha/tooltips'
 
 /** clip-path de canto cortado (mesmo polígono do design). */
 export function clip(n: number): NonNullable<CSSProperties['clipPath']> {
@@ -127,7 +130,16 @@ const LEVELBAR_TIER_COLOR: Readonly<Record<number, string>> = {
  *  cada seg colorido pelo tom do classify daquele nível (4 heróis vs os
  *  monstros atuais) e com o breakdown no `title`. Cor do seg SEMPRE de
  *  DIFFICULTY_TONE_COLORS; emoji do título SEMPRE do registro (nada inventado). */
-export function EncounterLevelBar({ byLevel }: { byLevel: readonly EncounterDifficultyByLevelEntry[] }) {
+export function EncounterLevelBar({
+  byLevel,
+  combatants,
+}: {
+  byLevel: readonly EncounterDifficultyByLevelEntry[]
+  /** Quando fornecido, cada seg ganha o tooltip RICO (de onde vem a classificação
+   *  — limiares + pontos, via difficultyTipHtml/TipHover); requer um TipProvider
+   *  ancestral. Sem ele, cai no `title` nativo (meta por nível). */
+  combatants?: readonly EncounterCombatant[]
+}) {
   // Agrupa por tier preservando a ordem (T1: 1-3, T2: 4-6, T3: 7-9, T4: 10+).
   const byTier: Array<{ tier: number; entries: EncounterDifficultyByLevelEntry[] }> = []
   for (const e of byLevel) {
@@ -139,15 +151,29 @@ export function EncounterLevelBar({ byLevel }: { byLevel: readonly EncounterDiff
     <div className="gm-enc-levelbar" data-mestre-levelbar="">
       {byTier.map(({ tier, entries }) => (
         <div key={tier} className={`gm-enc-levelbar-tier is-tier-${tier}`} style={{ ['--tierbar' as string]: LEVELBAR_TIER_COLOR[tier] }}>
-          {entries.map((e) => (
-            <span
-              key={e.level}
-              className={`gm-enc-levelbar-seg ${e.toneClass}`}
-              data-level={e.level}
-              title={`${tokens.emojis.dificuldade[TONE_EMOJI_KEY[e.toneClass]]} ${e.label} — Nível ${e.level} · ${formatDifficultyValue(e.ratio)}% (Monstros ${formatDifficultyValue(e.monsterTotal)}, 4 Heróis ${formatDifficultyValue(e.playerTotal)})`}
-              style={{ background: DIFFICULTY_TONE_COLORS[e.toneClass] }}
-            />
-          ))}
+          {entries.map((e) => {
+            const bg = DIFFICULTY_TONE_COLORS[e.toneClass]
+            if (combatants) {
+              return (
+                <TipHover key={e.level} html={difficultyTipHtml(e, combatants)}>
+                  <span
+                    className={`gm-enc-levelbar-seg ${e.toneClass}`}
+                    data-level={e.level}
+                    style={{ background: bg }}
+                  />
+                </TipHover>
+              )
+            }
+            return (
+              <span
+                key={e.level}
+                className={`gm-enc-levelbar-seg ${e.toneClass}`}
+                data-level={e.level}
+                title={`${tokens.emojis.dificuldade[TONE_EMOJI_KEY[e.toneClass]]} ${e.label} — Nível ${e.level} · ${formatDifficultyValue(e.ratio)}% (Monstros ${formatDifficultyValue(e.monsterTotal)}, 4 Heróis ${formatDifficultyValue(e.playerTotal)})`}
+                style={{ background: bg }}
+              />
+            )
+          })}
         </div>
       ))}
     </div>
