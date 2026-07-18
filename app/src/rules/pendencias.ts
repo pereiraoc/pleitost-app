@@ -69,30 +69,43 @@ function freeMagiaSlot(fm: Fm): boolean {
   return (['B', 'A', 'E', 'M'] as MagiaRank[]).some((r) => magiaCanAddOne(view, r))
 }
 
-/** Ids de aba (CHAR_TABS) com pendência. 'habilidades' = Competências, 'perfil'
- *  = Biografia. */
-export function heroPendencias(fm: Fm, rules: RulesLike | null | undefined, caps: FichaFamilia): Set<string> {
-  const pend = new Set<string>()
+/** Pendências por aba (CHAR_TABS), cada uma com a LISTA de motivos legíveis
+ *  (o indicador mostra o ponto quando a lista não é vazia e usa os motivos no
+ *  tooltip). 'habilidades' = Competências. Biografia NÃO tem pendência: o nome
+ *  do herói sempre existe (cai no basename), então o antigo check de `fm.nome`
+ *  vazio era falso-positivo pra todo herói real (ex.: Carlos usa o basename). */
+export function heroPendencias(
+  fm: Fm,
+  rules: RulesLike | null | undefined,
+  caps: FichaFamilia,
+): Map<string, string[]> {
+  const out = new Map<string, string[]>()
+  const add = (tab: string, motivo: string) => {
+    const list = out.get(tab)
+    if (list) list.push(motivo)
+    else out.set(tab, [motivo])
+  }
   const elig = (p: ProfRow, min: 'E' | 'M') => (RANK_IDX[profLetter(p)] ?? 0) >= RANK_IDX[min]!
 
   // COMPETÊNCIAS (habilidades)
-  if (caps.classe.editavel && !str(fm['Classe'])) pend.add('habilidades')
-  if ((rules?.subclassChoices ?? []).some((c) => !str(c.pick ?? ''))) pend.add('habilidades')
-  if ((rules?.sintonias ?? []).length > 0 && !str(fm['Sintonia'])) pend.add('habilidades')
-  if (caps.tecnicas && freeTecnicaSlot(fm)) pend.add('habilidades')
-  if (caps.magias && freeMagiaSlot(fm)) pend.add('habilidades')
+  if (caps.classe.editavel && !str(fm['Classe'])) add('habilidades', 'Classe não escolhida')
+  if ((rules?.subclassChoices ?? []).some((c) => !str(c.pick ?? ''))) add('habilidades', 'Subclasse não escolhida')
+  if ((rules?.sintonias ?? []).length > 0 && !str(fm['Sintonia'])) add('habilidades', 'Sintonia não escolhida')
+  if (caps.tecnicas && freeTecnicaSlot(fm)) add('habilidades', 'Técnica a aprender (slot livre)')
+  if (caps.magias && freeMagiaSlot(fm)) add('habilidades', 'Magia a aprender (slot livre)')
   if (caps.especializacoes) {
-    if (freePericiaSlot(fm)) pend.add('habilidades')
+    if (freePericiaSlot(fm)) add('habilidades', 'Perícia adicional disponível')
     const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+    let esp = 0
+    let mae = 0
     for (const p of pericias) {
       const rec = p as Record<string, unknown>
-      if (elig(p, 'E') && !str(rec['Especializacao'])) pend.add('habilidades')
-      if (elig(p, 'M') && str(rec['Especializacao']) && !str(rec['Maestria'])) pend.add('habilidades')
+      if (elig(p, 'E') && !str(rec['Especializacao'])) esp++
+      if (elig(p, 'M') && str(rec['Especializacao']) && !str(rec['Maestria'])) mae++
     }
+    if (esp) add('habilidades', esp === 1 ? 'Especialidade não escolhida' : `${esp} especialidades não escolhidas`)
+    if (mae) add('habilidades', mae === 1 ? 'Maestria não escolhida' : `${mae} maestrias não escolhidas`)
   }
 
-  // BIOGRAFIA (perfil) — herói sem nome próprio definido.
-  if (caps.biografia && !str(fm['nome'])) pend.add('perfil')
-
-  return pend
+  return out
 }

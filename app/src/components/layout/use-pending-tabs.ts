@@ -1,6 +1,7 @@
-// #302: conjunto de abas (CHAR_TABS) do herói com PENDÊNCIA — alimenta o
-// indicador no painel esquerdo. Projeta o modelo derivado + rules do herói (as
-// mesmas contas dos painéis, via heroPendencias) e memoiza pelo FM.
+// #302: pendências por aba (CHAR_TABS) do herói — mapa aba→motivos que alimenta
+// o indicador no painel esquerdo (ponto + tooltip com o que falta). Projeta o
+// modelo derivado + rules do herói (as mesmas contas dos painéis, via
+// heroPendencias) e memoiza pelo FM.
 import { useMemo } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
@@ -8,7 +9,7 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import { fichaFamiliaOf } from '../../data/familia'
 import { heroPendencias } from '../../rules/pendencias'
 
-const EMPTY: ReadonlySet<string> = new Set()
+const EMPTY: ReadonlyMap<string, string[]> = new Map()
 const STUB_DOC = {
   id: '',
   path: '',
@@ -23,7 +24,7 @@ const STUB_DOC = {
   ruleElements: [],
 } as unknown as VaultDoc
 
-export function usePendingTabs(heroDoc: VaultDoc | undefined): ReadonlySet<string> {
+export function usePendingTabs(heroDoc: VaultDoc | undefined): ReadonlyMap<string, string[]> {
   // Hooks SEMPRE chamados (stub quando não há herói) — projeção memoizada por FM.
   const model = useHeroModel(heroDoc ?? STUB_DOC, 'nav-pend')
   const rules = useHeroRules(model.fm)

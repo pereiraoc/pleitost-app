@@ -76,7 +76,7 @@ function CharTabButton({
   item: NavItem
   active: boolean
   onSelect: () => void
-  pending?: boolean
+  pending?: readonly string[]
 }) {
   return (
     <button className={active ? 'nav-item active' : 'nav-item'} onClick={onSelect}>
@@ -85,8 +85,15 @@ function CharTabButton({
       </span>
       <span className="nav-label">{item.label}</span>
       {/* #302: ponto de pendência — algo a preencher nesta aba (slots livres,
-          escolhas não feitas). Some quando a aba está completa. */}
-      {pending ? <span className="nav-pending" aria-hidden title="Há algo a preencher" /> : null}
+          escolhas não feitas). Some quando a aba está completa. O tooltip
+          (hover no ponto) lista exatamente o que falta. */}
+      {pending && pending.length ? (
+        <span
+          className="nav-pending"
+          aria-hidden
+          title={pending.map((m) => `• ${m}`).join('\n')}
+        />
+      ) : null}
     </button>
   )
 }
@@ -265,7 +272,7 @@ export function AppShell() {
                   item={item}
                   active={fichaOpen && fichaTab === item.id}
                   onSelect={() => selectFichaTab(item.id)}
-                  pending={pendingTabs.has(item.id)}
+                  pending={pendingTabs.get(item.id)}
                 />
               ) : (
                 <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
