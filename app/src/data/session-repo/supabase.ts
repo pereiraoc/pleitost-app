@@ -116,6 +116,29 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     return () => void this.sb.removeChannel(channel)
   }
 
+  /* ── presença (#294) ── */
+  subscribePresence(
+    sessionId: string,
+    self: { userId: string; name: string },
+    onPresence: (connectedUserIds: string[]) => void,
+  ): () => void {
+    // Canal de PRESENÇA à parte do de postgres_changes; a `key` = userId faz o
+    // presenceState() vir indexado por usuário (várias abas do mesmo user
+    // colapsam numa entrada). onPresence recebe os userIds conectados agora.
+    const channel = this.sb.channel(`presence-${sessionId}`, {
+      config: { presence: { key: self.userId } },
+    })
+    const emit = () => onPresence(Object.keys(channel.presenceState()))
+    channel
+      .on('presence', { event: 'sync' }, emit)
+      .on('presence', { event: 'join' }, emit)
+      .on('presence', { event: 'leave' }, emit)
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') void channel.track({ userId: self.userId, name: self.name })
+      })
+    return () => void this.sb.removeChannel(channel)
+  }
+
   /* ── sessões ── */
   async createSession(input: { name: string; gmUserId: string; code: string }): Promise<Session> {
     const { data, error } = await this.sb

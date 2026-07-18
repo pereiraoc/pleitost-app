@@ -300,6 +300,16 @@ export interface SessionRealtime {
   /** Assina mudanças da sessão (members/characters/encounters). Retorna
    *  unsubscribe. */
   subscribe(sessionId: string, onChange: () => void): () => void
+  /** Presença ao vivo (#294): marca a própria presença (`self`) num canal da
+   *  sala e assina quem está conectado AGORA. `onPresence` recebe os userIds
+   *  conectados a cada sync/join/leave. Retorna unsubscribe. Opcional — o
+   *  transporte local (InMemory) não tem presença (sessão offline num só
+   *  dispositivo). */
+  subscribePresence?(
+    sessionId: string,
+    self: { userId: string; name: string },
+    onPresence: (connectedUserIds: string[]) => void,
+  ): () => void
 }
 
 /** Código de sessão — 6 chars A-Z0-9 (mesmo formato do plugin). */

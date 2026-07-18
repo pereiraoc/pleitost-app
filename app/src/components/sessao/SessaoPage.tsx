@@ -43,6 +43,7 @@ import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/s
 import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
+import { setConnectedUserIds, useConnectedUserIds } from '../../data/session-repo/session-presence'
 import { useHeroRefs } from '../ficha/useHeroRefs'
 import { useInterativaCtx } from '../../interativa/useInterativaCtx'
 import {
@@ -174,9 +175,18 @@ export function LiveSessionBridge() {
     }
     void refetch()
     const off = repo.subscribe(remoteId, () => void refetch())
+    // #294: presença ao vivo — marca a minha presença e assina quem está
+    // conectado agora (transporte local não tem presença → optional chaining).
+    const offPresence = repo.subscribePresence?.(
+      remoteId,
+      { userId: user.id, name: user.nome },
+      setConnectedUserIds,
+    )
     return () => {
       alive = false
       off()
+      offPresence?.()
+      setConnectedUserIds([])
       setLiveSession(null)
     }
   }, [remoteId, repo, user])
@@ -1149,21 +1159,60 @@ function PcRow({ heroId }: { heroId: string }) {
 /** Feedback do mestre: nos DETALHES o HERÓI é o protagonista — nome do herói em
  *  destaque e, logo abaixo, identado com uma seta ↳, o usuário do jogador. Fica
  *  homogêneo pros dois casos (com e sem personagem na mesa). */
-function HeroUserRow({ heroi, usuario }: { heroi: string | null; usuario: string }) {
+/** Bolinha "conectado agora" (#294): pulso verde discreto; título acessível. */
+function PresencaDot() {
+  return (
+    <span
+      title="Conectado agora"
+      aria-label="Conectado agora"
+      style={{
+        flex: 'none',
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        background: '#16a34a',
+        boxShadow: '0 0 0 3px color-mix(in srgb,#16a34a 25%,transparent)',
+      }}
+    />
+  )
+}
+
+function HeroUserRow({
+  heroi,
+  usuario,
+  conectado,
+}: {
+  heroi: string | null
+  usuario: string
+  conectado?: boolean
+}) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
       <span style={{ fontSize: 13.5, fontWeight: 700, color: heroi ? 'var(--blue)' : 'var(--muted)' }}>
         {heroi ?? 'Sem personagem'}
       </span>
-      <span style={mono({ fontSize: 10.5, color: 'var(--muted)', paddingLeft: 15 })}>↳ {usuario}</span>
+      <span
+        style={mono({
+          fontSize: 10.5,
+          color: 'var(--muted)',
+          paddingLeft: 15,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+        })}
+      >
+        <span>↳ {usuario}</span>
+        {conectado ? <PresencaDot /> : null}
+      </span>
     </div>
   )
 }
 
 /** MEMBROS da sessão, colapsável (#225): mestre + cada personagem com o
  *  usuário do jogador abaixo (HeroUserRow); membro sem personagem também lista. */
-function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLiveSession>> }) {
+export function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLiveSession>> }) {
   const [aberto, setAberto] = useState(true)
+  const conectados = useConnectedUserIds()
   const gm = live.members.find((m) => m.role === 'gm' || m.userId === live.gmUserId) ?? null
   const jogadores = live.members.filter((m) => m !== gm)
   const chars = live.characters.filter((c) => c.kind !== 'npc')
@@ -1195,16 +1244,20 @@ function MembrosColapsavel({ live }: { live: NonNullable<ReturnType<typeof useLi
       </button>
       {aberto ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7, padding: '0 16px 14px' }}>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <span style={mono({ fontSize: 9.5, letterSpacing: '.12em', color: 'var(--accent)' })}>👁️ MESTRE</span>
             <span style={{ fontSize: 13.5, fontWeight: 700 }}>{gm?.displayName ?? '—'}</span>
+            {gm && conectados.has(gm.userId) ? <PresencaDot /> : null}
           </div>
           {jogadores.map((j) => {
+            const online = conectados.has(j.userId)
             const ps = chars.filter((c) => c.memberId === j.userId).map((c) => c.summary.nome)
             return ps.length ? (
-              ps.map((p) => <HeroUserRow key={`${j.userId}:${p}`} heroi={p} usuario={j.displayName} />)
+              ps.map((p) => (
+                <HeroUserRow key={`${j.userId}:${p}`} heroi={p} usuario={j.displayName} conectado={online} />
+              ))
             ) : (
-              <HeroUserRow key={j.userId} heroi={null} usuario={j.displayName} />
+              <HeroUserRow key={j.userId} heroi={null} usuario={j.displayName} conectado={online} />
             )
           })}
         </div>
