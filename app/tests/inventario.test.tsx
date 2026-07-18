@@ -486,6 +486,8 @@ describe('#13: qualidade (A/E/M) recalcula o bônus como o plugin', () => {
     const bonusM = bonusPorTier(tDoc, 'M') // base v2: bonus.mestre (aninhado)
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
+    // Tesouros: tiers/Item Bônus/ações agora vivem no modo Alterar (feedback).
+    fireEvent.click(screen.getByText('✎ Alterar'))
     const nomeEl = [...container.querySelectorAll<HTMLElement>('span')].find(
       (s) => s.textContent === alvo,
     )!
@@ -605,6 +607,7 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     const alvo = parseAlias(tesourosFm[0])
     const { container } = renderFicha('inventario')
     await screen.findByLabelText('Arma')
+    fireEvent.click(screen.getByText('✎ Alterar')) // lixeira do tesouro vive no Alterar
     const nomeEl = [...container.querySelectorAll<HTMLElement>('span')].find(
       (s) => s.textContent === alvo,
     )!

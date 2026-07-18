@@ -230,26 +230,3 @@ export function buildEquippedGear(
   if (slot === 'Escudo') row.Dureza = dureza
   return row
 }
-
-/** Compra de ARMADURA/ESCUDO obra-prima: debita o Ouro e EQUIPA a peça no slot
- *  (Inventario.Armadura|Escudo) — "deixar equipável" do feedback. Substitui a
- *  peça atual do slot (modelo de UM slot equipado, como a ficha). */
-export function equipGear(
-  heroId: string,
-  vaultDoc: VaultDoc | undefined,
-  slot: 'Armadura' | 'Escudo',
-  base: string,
-  tier: Tier,
-  preco: number,
-  dureza = 0,
-): PurchaseResult {
-  const fm = currentFm(heroId, vaultDoc)
-  const ouro = ouroDe(fm)
-  if (ouro < preco) return { ok: false, reason: 'ouro-insuficiente', ouroRestante: ouro }
-
-  const novoOuro = ouro - preco
-  writeHero(heroId, vaultDoc, 'Inventario.Ouro', novoOuro)
-  writeHero(heroId, vaultDoc, `Inventario.${slot}`, buildEquippedGear(slot, base, tier, dureza))
-
-  return { ok: true, ouroRestante: novoOuro }
-}

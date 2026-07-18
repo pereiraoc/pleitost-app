@@ -29,13 +29,16 @@ import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
 import { fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { clip, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
+import { clip, EditToggle, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
+import { itemCategoria } from '../compendium/item-taxonomy'
+import { buildEquippedGear } from '../../data/purchase'
 import { CoinsDropdown } from './pop-panels'
 import type { HeroRefs } from './useHeroRefs'
 import {
   ATTR_EMOJI,
   GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
+  TIER_NOME,
   grupoArmaEmoji,
   imbuicaoEmoji,
   orderArmasByGrupo,
@@ -1025,6 +1028,31 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       tesourosRaw.filter((_, j) => j !== index),
     )
   }
+  // Toggle Alterar/Concluir do painel de TESOUROS (feedback): fora do Alterar a
+  // tela fica enxuta (só qualidade, sem Item Bônus/tiers/ações — melhor no celular).
+  const [tesEdit, setTesEdit] = useState(false)
+  // Peça de EQUIPAMENTO não equipada guardada nos Tesouros (armadura/escudo):
+  // detecta pelo doc-alvo; ganha botão "Equipar" que a move pro slot.
+  const gearSlotOf = (r: TesouroRow): 'Armadura' | 'Escudo' | null => {
+    const c = r.doc ? itemCategoria(r.doc) : 'outro'
+    return c === 'armadura' ? 'Armadura' : c === 'escudo' ? 'Escudo' : null
+  }
+  const equiparTesouro = (r: TesouroRow) => {
+    const slot = gearSlotOf(r)
+    if (!slot) return
+    const dureza = slot === 'Escudo' ? num(docField(r.doc, 'dureza')) : 0
+    const novo = buildEquippedGear(slot, r.nome, r.tier || 'A', dureza)
+    // Tira a peça equipada da lista; devolve a que estava equipada (se houver)
+    // pros Tesouros (swap — não perde a peça anterior).
+    let next = tesourosRaw.filter((_, j) => j !== r.index)
+    const atual = slot === 'Armadura' ? armadura : escudo
+    const atualNome = linkLabel(str(atual['Nome']))
+    if (atualNome && !/^Sem\b/.test(atualNome)) {
+      next = [...next, buildTesouroAlias(atualNome, tierLetter(atual['Categoria']) || 'A')]
+    }
+    model.set('Inventario.Tesouros', next)
+    model.set(`Inventario.${slot}`, novo)
+  }
   // Qualidade do tesouro — espelha setTesouroTier do plugin
   // (apply-tesouros-edit.ts:60-78): reescreve o alias com o novo tier;
   // "null não desseleciona — tesouro sem tier não faz sentido. UI trata
@@ -1090,107 +1118,161 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       ) : null}
 
       <div style={panelStyle()}>
-        <PanelLabel>TESOUROS</PanelLabel>
-        {groups.map((g) => (
-          <div key={g.title} style={{ marginBottom: 6 }}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1.5fr 1fr 1fr 72px',
-                alignItems: 'center',
-                gap: 8,
-                padding: '9px 2px 7px',
-                borderBottom: '1px solid var(--line)',
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: '.06em',
-                  color: '#7d8593',
-                }}
-              >
-                {g.title}
-              </span>
-              <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em' }}>QUALIDADE</span>
-              <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em', opacity: g.dois }}>
-                ITEM BÔNUS
-              </span>
-              <span />
-            </div>
-            {g.rows.map((r) => (
+        {/* Cabeçalho com toggle Alterar/Concluir (feedback) — como as outras
+            seções. Fora do Alterar a tela fica enxuta (sem Item Bônus/tiers). */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+          <PanelLabel>TESOUROS</PanelLabel>
+          <span style={{ flex: 1 }} />
+          <EditToggle edit={tesEdit} onToggle={() => setTesEdit((v) => !v)} />
+        </div>
+        {(() => {
+          // Colunas por modo: Alterar = nome/qualidade/bônus/ações; leitura =
+          // nome/qualidade/equipar (Item Bônus escondido — menos coisa no celular).
+          const cols = tesEdit ? '1.5fr 1fr 1fr 72px' : '1.5fr auto minmax(72px,auto)'
+          return groups.map((g) => (
+            <div key={g.title} style={{ marginBottom: 8 }}>
               <div
-                key={r.nome + r.tier}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1.5fr 1fr 1fr 72px',
+                  gridTemplateColumns: cols,
                   alignItems: 'center',
                   gap: 8,
-                  padding: '7px 2px',
-                  borderBottom: '1px solid var(--line)',
+                  padding: '9px 2px 6px',
                 }}
               >
-                <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                  {/* Figura do tesouro AO LADO do nome (issue #65). Com figura,
-                      só a imagem (sem o emoji redundante); sem figura → emoji.
-                      Card no hover da IMAGEM também (#120). */}
-                  <ItemHover doc={r.doc} tier={r.tier || undefined}>
-                    {r.img ? (
-                      <span
-                        style={{
-                          flex: 'none',
-                          width: 30,
-                          height: 30,
-                          background: 'var(--panel2)',
-                          border: '1px solid var(--line2)',
-                          clipPath: clip(6),
-                          backgroundImage: `url("${r.img}")`,
-                          backgroundSize: 'contain',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center',
-                        }}
-                      />
-                    ) : (
-                      <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
-                    )}
-                  </ItemHover>
-                  <ItemHover doc={r.doc} tier={r.tier || undefined}>
-                    <span
-                      style={{
-                        fontWeight: 600,
-                        color: 'var(--blue)',
-                        fontSize: 13.5,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {r.nome}
-                    </span>
-                  </ItemHover>
+                <span
+                  style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', color: '#7d8593' }}
+                >
+                  {g.title}
                 </span>
-                <span style={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
-                  <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r.index, next)} />
-                </span>
-                <span style={{ display: 'flex', gap: 5, justifyContent: 'center', opacity: g.dois }}>
-                  <GoldDots on={r.bonus} />
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
-                  <SellBtn compact refund={tesouroRefund(r)} onClick={() => sellTesouro(r.index, tesouroRefund(r))} />
-                  <span
-                    onClick={() => removeTesouro(r.index)}
-                    title="Descartar (sem devolver ouro)"
-                    style={{ color: 'var(--muted)', fontSize: 14, cursor: 'pointer' }}
-                  >
-                    🗑️
+                <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em' }}>QUALIDADE</span>
+                {tesEdit ? (
+                  <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em', opacity: g.dois }}>
+                    ITEM BÔNUS
                   </span>
-                </span>
+                ) : null}
+                <span />
               </div>
-            ))}
-          </div>
-        ))}
+              {g.rows.map((r) => {
+                // Borda esquerda colorida pela QUALIDADE (tipo como é na loja).
+                const tierBd = r.tier ? ITEM_TIER_BTN[r.tier].bd : 'var(--line2)'
+                const slot = gearSlotOf(r)
+                return (
+                  <div
+                    key={r.nome + r.tier}
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: cols,
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '7px 9px',
+                      marginBottom: 5,
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      borderLeft: `3px solid ${tierBd}`,
+                      clipPath: clip(8),
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                      <ItemHover doc={r.doc} tier={r.tier || undefined}>
+                        {r.img ? (
+                          <span
+                            style={{
+                              flex: 'none',
+                              width: 30,
+                              height: 30,
+                              background: 'var(--panel2)',
+                              border: '1px solid var(--line2)',
+                              clipPath: clip(6),
+                              backgroundImage: `url("${r.img}")`,
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center',
+                            }}
+                          />
+                        ) : (
+                          <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
+                        )}
+                      </ItemHover>
+                      <ItemHover doc={r.doc} tier={r.tier || undefined}>
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            color: 'var(--blue)',
+                            fontSize: 13.5,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {r.nome}
+                        </span>
+                      </ItemHover>
+                    </span>
+                    {tesEdit ? (
+                      <>
+                        <span style={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
+                          <TierBtns sel={r.tier} size={22} onSelect={(next) => setTierTesouro(r.index, next)} />
+                        </span>
+                        <span style={{ display: 'flex', gap: 5, justifyContent: 'center', opacity: g.dois }}>
+                          <GoldDots on={r.bonus} />
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 2 }}>
+                          <SellBtn compact refund={tesouroRefund(r)} onClick={() => sellTesouro(r.index, tesouroRefund(r))} />
+                          <span
+                            onClick={() => removeTesouro(r.index)}
+                            title="Descartar (sem devolver ouro)"
+                            style={{ color: 'var(--muted)', fontSize: 14, cursor: 'pointer' }}
+                          >
+                            🗑️
+                          </span>
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        {/* Fora do Alterar: qualidade só MOSTRA qual é (rótulo colorido). */}
+                        <span
+                          style={{
+                            textAlign: 'center',
+                            fontFamily: 'var(--mono)',
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            letterSpacing: '.06em',
+                            color: tierBd,
+                          }}
+                        >
+                          {r.tier ? TIER_NOME[r.tier] : '—'}
+                        </span>
+                        <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                          {slot ? (
+                            <button
+                              onClick={() => equiparTesouro(r)}
+                              title={`Equipar (${slot})`}
+                              style={{
+                                fontFamily: 'var(--mono)',
+                                fontSize: 10,
+                                letterSpacing: '.06em',
+                                color: 'var(--accent)',
+                                background: 'transparent',
+                                border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                                padding: '5px 10px',
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                                clipPath: clip(6),
+                              }}
+                            >
+                              EQUIPAR
+                            </button>
+                          ) : null}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))
+        })()}
       </div>
     </>
   )

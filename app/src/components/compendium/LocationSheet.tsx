@@ -32,15 +32,8 @@ import {
   setShopRoll,
   useShopState,
 } from '../../data/commerce-store'
-import {
-  buyConsumivel,
-  buyTreasure,
-  buyWeapon,
-  equipGear,
-  heroOuro,
-  type PurchaseResult,
-} from '../../data/purchase'
-import { docField, num } from '../ficha/hero-model'
+import { buyConsumivel, buyTreasure, buyWeapon, heroOuro, type PurchaseResult } from '../../data/purchase'
+import { docField } from '../ficha/hero-model'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
 import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc, ItemHover, docTier, docImageUrl } from '../item-card'
@@ -614,24 +607,15 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       )
       return
     }
-    // Armadura obra-prima → EQUIPA a Armadura (deixar equipável).
-    if (pb === 'Armadura Obra-prima' && entry.thumbBasename) {
-      finish(equipGear(hid, hdoc, 'Armadura', entry.thumbBasename, entry.tier, entry.preco))
-      return
-    }
-    // Escudo/Broquel obra-prima → EQUIPA o Escudo (Dureza vem do doc da base).
-    if ((pb === 'Escudo Obra-prima' || pb === 'Broquel Obra-prima') && entry.thumbBasename) {
-      const base = entry.thumbBasename
-      const res = catalog.resolve(base)
-      if (res.kind === 'doc') {
-        void loadDoc(res.id)
-          .catch(() => undefined)
-          .then((escDoc) =>
-            finish(equipGear(hid, hdoc, 'Escudo', base, entry.tier, entry.preco, num(docField(escDoc, 'dureza')))),
-          )
-      } else {
-        finish(equipGear(hid, hdoc, 'Escudo', base, entry.tier, entry.preco, 0))
-      }
+    // Armadura/Escudo/Broquel obra-prima → vão pros TESOUROS como peça NÃO
+    // EQUIPADA (o herói equipa depois pelo botão "Equipar" no inventário). O
+    // nome do tesouro é a BASE (thumbBasename, ex. "Armadura Leve"), que resolve
+    // pro doc da peça — o inventário reconhece que é equipável.
+    if (
+      (pb === 'Armadura Obra-prima' || pb === 'Escudo Obra-prima' || pb === 'Broquel Obra-prima') &&
+      entry.thumbBasename
+    ) {
+      finish(buyTreasure(hid, hdoc, entry.thumbBasename, entry.tier, entry.preco))
       return
     }
     // Demais tesouros (implementos/equipamentos/ferramenta obra-prima).
