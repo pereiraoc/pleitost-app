@@ -1910,22 +1910,34 @@ a[data-link-icon]::before {
   color: var(--text);
 }
 
-/* Grade de ajuste −10…+10 de vida/EM (pop-panels AdjustRows). Padrão: 6 botões
-   numa linha. Quando o painel é estreito (popover no painel direito / celular),
-   os botões ficavam CORTADOS — então empilha +N EM CIMA de −N em 3 colunas
-   (metade da largura). Container query pela largura REAL da linha (.vida-adj-row
-   é o container), então adapta sozinho a "quando não tem espaço". */
-.vida-adj-row {
-  container-type: inline-size;
+/* Popover de ajuste de vida/EM (topbar VidaChip/EmChip + combate VidaBar).
+   Desktop: largura confortável. No celular ENCOLHE pro conteúdo (a grade
+   empilhada é estreita) — sem isso a CAIXA continuava larga e, ancorada em
+   right:0 num chip no meio da barra, sangrava pra fora da tela (os botões da
+   esquerda ficavam CORTADOS). max-width trava na viewport; max-height + scroll
+   como o popStyle do combate. */
+.adj-pop {
+  width: min(440px, 92vw);
+  max-height: calc(100dvh - 96px);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
+/* Grade de ajuste −10…+10 de vida/EM (pop-panels AdjustRows). Padrão: 6 numa
+   linha. */
 .vida-adj-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 5px;
 }
 
-@container (max-width: 340px) {
+/* Celular: a caixa encolhe pro conteúdo e a grade empilha +N EM CIMA de −N em
+   3 colunas (metade da largura horizontal). */
+@media (max-width: 559px) {
+  .adj-pop {
+    width: max-content;
+    max-width: calc(100vw - 20px);
+  }
   .vida-adj-grid {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);

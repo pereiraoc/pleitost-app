@@ -588,7 +588,7 @@ function VidaBar({ doc }: { doc: VaultDoc }) {
       {open ? (
         <>
           <Scrim onClick={() => setOpen(false)} />
-          <div style={{ ...popStyle, top: 'calc(100% + 10px)', left: 0, width: 'min(440px,94%)', padding: 16 }}>
+          <div className="adj-pop" style={{ ...popStyle, top: 'calc(100% + 10px)', left: 0, padding: 16 }}>
             <VidaAdjustRows vida={vida} />
           </div>
         </>

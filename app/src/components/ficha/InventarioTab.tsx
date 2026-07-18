@@ -38,7 +38,6 @@ import {
   ATTR_EMOJI,
   GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
-  TIER_NOME,
   grupoArmaEmoji,
   imbuicaoEmoji,
   orderArmasByGrupo,
@@ -1127,8 +1126,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         </div>
         {(() => {
           // Colunas por modo: Alterar = nome/qualidade/bônus/ações; leitura =
-          // nome/qualidade/equipar (Item Bônus escondido — menos coisa no celular).
-          const cols = tesEdit ? '1.5fr 1fr 1fr 72px' : '1.5fr auto minmax(72px,auto)'
+          // nome/equipar (qualidade vira sufixo (A)/(E)/(M) no nome — menos
+          // coluna, mais fácil no celular).
+          const cols = tesEdit ? '1.5fr 1fr 1fr 72px' : '1fr auto'
           return groups.map((g) => (
             <div key={g.title} style={{ marginBottom: 8 }}>
               <div
@@ -1145,11 +1145,13 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 >
                   {g.title}
                 </span>
-                <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em' }}>QUALIDADE</span>
                 {tesEdit ? (
-                  <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em', opacity: g.dois }}>
-                    ITEM BÔNUS
-                  </span>
+                  <>
+                    <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em' }}>QUALIDADE</span>
+                    <span style={{ textAlign: 'center', ...mono9, letterSpacing: '.04em', opacity: g.dois }}>
+                      ITEM BÔNUS
+                    </span>
+                  </>
                 ) : null}
                 <span />
               </div>
@@ -1208,6 +1210,21 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           {r.nome}
                         </span>
                       </ItemHover>
+                      {/* Fora do Alterar, a qualidade vira sufixo (A)/(E)/(M) no
+                          nome (tier-colorido, casa com a borda) — sem coluna. */}
+                      {!tesEdit && r.tier ? (
+                        <span
+                          style={{
+                            flex: 'none',
+                            fontFamily: 'var(--mono)',
+                            fontSize: 11.5,
+                            fontWeight: 700,
+                            color: tierBd,
+                          }}
+                        >
+                          ({r.tier})
+                        </span>
+                      ) : null}
                     </span>
                     {tesEdit ? (
                       <>
@@ -1229,43 +1246,30 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         </span>
                       </>
                     ) : (
-                      <>
-                        {/* Fora do Alterar: qualidade só MOSTRA qual é (rótulo colorido). */}
-                        <span
-                          style={{
-                            textAlign: 'center',
-                            fontFamily: 'var(--mono)',
-                            fontSize: 10.5,
-                            fontWeight: 700,
-                            letterSpacing: '.06em',
-                            color: tierBd,
-                          }}
-                        >
-                          {r.tier ? TIER_NOME[r.tier] : '—'}
-                        </span>
-                        <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                          {slot ? (
-                            <button
-                              onClick={() => equiparTesouro(r)}
-                              title={`Equipar (${slot})`}
-                              style={{
-                                fontFamily: 'var(--mono)',
-                                fontSize: 10,
-                                letterSpacing: '.06em',
-                                color: 'var(--accent)',
-                                background: 'transparent',
-                                border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-                                padding: '5px 10px',
-                                cursor: 'pointer',
-                                whiteSpace: 'nowrap',
-                                clipPath: clip(6),
-                              }}
-                            >
-                              EQUIPAR
-                            </button>
-                          ) : null}
-                        </span>
-                      </>
+                      // Fora do Alterar: qualidade já está no nome (sufixo) e na
+                      // borda; aqui só o botão Equipar (quando é peça equipável).
+                      <span style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {slot ? (
+                          <button
+                            onClick={() => equiparTesouro(r)}
+                            title={`Equipar (${slot})`}
+                            style={{
+                              fontFamily: 'var(--mono)',
+                              fontSize: 10,
+                              letterSpacing: '.06em',
+                              color: 'var(--accent)',
+                              background: 'transparent',
+                              border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                              padding: '5px 10px',
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                              clipPath: clip(6),
+                            }}
+                          >
+                            EQUIPAR
+                          </button>
+                        ) : null}
+                      </span>
                     )}
                   </div>
                 )

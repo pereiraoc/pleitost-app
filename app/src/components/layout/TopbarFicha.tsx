@@ -85,12 +85,12 @@ function VidaChip({ doc }: { doc: VaultDoc }) {
         <>
           <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 55 }} />
           <div
+            className="adj-pop"
             style={{
               position: 'absolute',
               top: 'calc(100% + 9px)',
               right: 0,
               zIndex: 60,
-              width: 'min(440px,92vw)',
               background: 'var(--panel2)',
               border: '1px solid var(--line2)',
               clipPath: clip(12),
@@ -130,12 +130,12 @@ function EmChip({ doc }: { doc: VaultDoc }) {
           <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 55 }} />
           <div
             data-testid="em-adjust-pop"
+            className="adj-pop"
             style={{
               position: 'absolute',
               top: 'calc(100% + 9px)',
               right: 0,
               zIndex: 60,
-              width: 'min(440px,92vw)',
               background: 'var(--panel2)',
               border: '1px solid var(--line2)',
               clipPath: clip(12),

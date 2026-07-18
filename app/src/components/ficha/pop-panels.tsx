@@ -102,7 +102,7 @@ export function AdjustRows({ rows }: { rows: VidaAdjRow[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       {rows.map((row) => (
-        <div key={row.name} className="vida-adj-row" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div key={row.name} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
             <span style={{ fontSize: 13 }}>{row.ic}</span>
             <span
