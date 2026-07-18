@@ -144,6 +144,31 @@ export function itemPropriedade(doc: VaultDoc): string {
   return ''
 }
 
+/** #304: tokens de propriedade FILTRÁVEIS de uma ARMA, do FM `propriedades`.
+ *  "Força N" mantém o valor (FOR 1/2/… viram filtros distintos); "Arremesso X"
+ *  colapsa em "Arremesso" (o alcance não filtra, pedido do usuário); as demais
+ *  (Precisa/Ágil/Apunhalante/…) usam o rótulo cru. Deduplicado, na ordem do FM. */
+export function weaponPropTokens(doc: VaultDoc): string[] {
+  const raw = (doc.frontmatter ?? {})['propriedades']
+  const arr = Array.isArray(raw) ? raw : typeof raw === 'string' ? [raw] : []
+  const out: string[] = []
+  for (const p of arr) {
+    if (typeof p !== 'string') continue
+    const m = p.match(/\[\[[^\]|]+\|([^\]]+)\]\]/) ?? p.match(/\[\[([^\]]+)\]\]/)
+    let label = (m ? m[1]! : p).trim()
+    if (!label) continue
+    if (/^arremesso\b/i.test(label)) label = 'Arremesso'
+    if (!out.includes(label)) out.push(label)
+  }
+  return out
+}
+
+/** #304: token de propriedade de arma é do eixo FORÇA (FOR 1/2/…)? Vira a linha
+ *  de filtro própria, separada das outras propriedades. */
+export function isForcaToken(token: string): boolean {
+  return /^for[çc]a\b/i.test(token)
+}
+
 /** TIPO de uma poção (consumível) = a parte do basename APÓS "Poção da/de/do "
  *  (Coragem/Nutrição/Velocidade/Cura). É a fonte de verdade do agrupamento de
  *  consumíveis (#268): o FM `tipo_efeito` (Vitalidade/Moral/Velocidade) é só o
@@ -218,6 +243,9 @@ export interface ItemFacet {
   qualidade: Tier
   qualidadeLabel: string
   ordem: number
+  /** #304: propriedades filtráveis (só armas; ex.: "Força 2", "Precisa",
+   *  "Arremesso") — vazio nas demais categorias. */
+  propriedades: string[]
 }
 
 function fmOrdem(doc: VaultDoc): number {
@@ -238,6 +266,7 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
   let subgrupo = ''
   let subgrupoLabel = ''
 
+  let propriedades: string[] = []
   if (categoria === 'arma') {
     // 6.1 — grupo do FM; naturais ganham subgrupo pelo tipo (raiz do basename).
     grupo = fmStr(doc, 'grupo').toLowerCase()
@@ -247,6 +276,7 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
       subgrupo = armaNaturalTipo(doc)
       subgrupoLabel = subgrupo
     }
+    propriedades = weaponPropTokens(doc) // #304: filtros de propriedade da arma
   } else if (categoria === 'consumivel') {
     // 6.2 (#268) — por TIPO de poção (do basename): Coragem/Nutrição/Velocidade/
     // Cura. NÃO por tipo_efeito, que junta Cura e Nutrição (ambas "Vitalidade").
@@ -286,6 +316,7 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
     qualidade,
     qualidadeLabel: qualidadeLabel(qualidade),
     ordem,
+    propriedades,
   }
 }
 

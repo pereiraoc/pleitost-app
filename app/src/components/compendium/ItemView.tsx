@@ -34,6 +34,7 @@ import {
   groupFacetedItems,
   itemFacet,
   categoriaTemQualidade,
+  isForcaToken,
   qualidadeLabel,
   type ItemCategoria,
   type ItemFacet,
@@ -221,6 +222,8 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
   const [catFilter, setCatFilter] = useState<ItemCategoria | null>(null)
   const [grpFilter, setGrpFilter] = useState<string | null>(null)
   const [subFilter, setSubFilter] = useState<string | null>(null)
+  // #304: filtro de propriedade de ARMA (FOR 1/2/…, Precisa, Arremesso).
+  const [propFilter, setPropFilter] = useState<string | null>(null)
   const [tier, setTier] = useState<Tier | null>(null)
   // #279: a barra de filtros começa COLAPSADA atrás de um botão de funil — menos
   // poluída; clicar abre as linhas de filtro.
@@ -240,15 +243,33 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
     return [...seen.entries()]
   }, [cells, catFilter, grpFilter])
 
+  // #304: propriedades das ARMAS no recorte atual — FORÇA (FOR 1/2/…) numa linha
+  // própria, as demais (Precisa/Arremesso/Ágil/…) numa linha "Propriedades".
+  const { forcaTokens, propTokens } = useMemo(() => {
+    const forca = new Set<string>()
+    const outras = new Set<string>()
+    for (const c of cells) {
+      if (catFilter && c.facet.categoria !== catFilter) continue
+      if (grpFilter && c.facet.grupo !== grpFilter) continue
+      for (const t of c.facet.propriedades) (isForcaToken(t) ? forca : outras).add(t)
+    }
+    const forcaVal = (t: string) => Number(t.replace(/\D+/g, '')) || 0
+    return {
+      forcaTokens: [...forca].sort((a, b) => forcaVal(a) - forcaVal(b)),
+      propTokens: [...outras].sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    }
+  }, [cells, catFilter, grpFilter])
+
   const filtered = useMemo(
     () =>
       cells.filter((c) => {
         if (catFilter && c.facet.categoria !== catFilter) return false
         if (grpFilter && c.facet.grupo !== grpFilter) return false
         if (subFilter && c.facet.subgrupo !== subFilter) return false
+        if (propFilter && !c.facet.propriedades.includes(propFilter)) return false
         return true
       }),
-    [cells, catFilter, grpFilter, subFilter],
+    [cells, catFilter, grpFilter, subFilter, propFilter],
   )
 
   // Árvore agrupada (categoria → grupo → subgrupo) das células filtradas —
@@ -261,9 +282,18 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
   if (!entries.length) return null
 
   const activeCount =
-    (catFilter ? 1 : 0) + (grpFilter ? 1 : 0) + (subFilter ? 1 : 0) + (tier ? 1 : 0)
+    (catFilter ? 1 : 0) +
+    (grpFilter ? 1 : 0) +
+    (subFilter ? 1 : 0) +
+    (propFilter ? 1 : 0) +
+    (tier ? 1 : 0)
   const hasFilters =
-    categorias.length > 1 || grupos.length > 1 || subgrupos.length > 1 || temQualidade
+    categorias.length > 1 ||
+    grupos.length > 1 ||
+    subgrupos.length > 1 ||
+    forcaTokens.length > 0 ||
+    propTokens.length > 0 ||
+    temQualidade
 
   const filterPill = (label: string, active: boolean, onClick: () => void) => (
     <button type="button" aria-pressed={active} onClick={onClick} style={pillStyle(active)}>
@@ -320,6 +350,7 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                           setCatFilter(null)
                           setGrpFilter(null)
                           setSubFilter(null)
+                          setPropFilter(null)
                         })}
                         {categorias.map(([cat, label]) => (
                           <span key={cat}>
@@ -327,6 +358,7 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                               setCatFilter((v) => (v === cat ? null : cat))
                               setGrpFilter(null)
                               setSubFilter(null)
+                              setPropFilter(null)
                             })}
                           </span>
                         ))}
@@ -341,12 +373,14 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                         {filterPill('Todos', grpFilter === null, () => {
                           setGrpFilter(null)
                           setSubFilter(null)
+                          setPropFilter(null)
                         })}
                         {grupos.map(([g, label]) => (
                           <span key={g}>
                             {filterPill(label, grpFilter === g, () => {
                               setGrpFilter((v) => (v === g ? null : g))
                               setSubFilter(null)
+                              setPropFilter(null)
                             })}
                           </span>
                         ))}
@@ -363,6 +397,44 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
                           <span key={s}>
                             {filterPill(label, subFilter === s, () =>
                               setSubFilter((v) => (v === s ? null : s)),
+                            )}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+                {forcaTokens.length > 0
+                  ? filterRow(
+                      'forca',
+                      'Força',
+                      <>
+                        {filterPill('Todas', propFilter === null || !isForcaToken(propFilter), () =>
+                          setPropFilter((v) => (v && isForcaToken(v) ? null : v)),
+                        )}
+                        {forcaTokens.map((t) => (
+                          <span key={t}>
+                            {filterPill(t, propFilter === t, () =>
+                              setPropFilter((v) => (v === t ? null : t)),
+                            )}
+                          </span>
+                        ))}
+                      </>,
+                    )
+                  : null}
+                {propTokens.length > 0
+                  ? filterRow(
+                      'propriedade-arma',
+                      'Propriedades',
+                      <>
+                        {filterPill(
+                          'Todas',
+                          propFilter === null || isForcaToken(propFilter),
+                          () => setPropFilter((v) => (v && !isForcaToken(v) ? null : v)),
+                        )}
+                        {propTokens.map((t) => (
+                          <span key={t}>
+                            {filterPill(t, propFilter === t, () =>
+                              setPropFilter((v) => (v === t ? null : t)),
                             )}
                           </span>
                         ))}
