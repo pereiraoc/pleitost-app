@@ -152,4 +152,20 @@ describe('folha Campanhas/Combates: lista os combates (não o markdown do índic
       ),
     ).toBe(true)
   })
+
+  it('cada card tem barrinhas de dificuldade e a ordem é fácil→difícil', async () => {
+    const { container } = renderFolder(compendiumFolderPath(COMBATES_FOLDER))
+    // espera os monstros resolverem (algum card com dificuldade > 0)
+    await waitFor(() => {
+      const difs = [...container.querySelectorAll<HTMLElement>('[data-enc-dif]')].map((c) =>
+        Number(c.getAttribute('data-enc-dif')),
+      )
+      expect(difs.some((d) => d > 0)).toBe(true)
+    })
+    expect(container.querySelectorAll('.gm-enc-levelbar').length).toBeGreaterThan(1)
+    const difs = [...container.querySelectorAll<HTMLElement>('[data-enc-dif]')].map((c) =>
+      Number(c.getAttribute('data-enc-dif')),
+    )
+    expect(difs).toEqual([...difs].sort((a, b) => a - b))
+  })
 })

@@ -15,13 +15,22 @@
 // Campanhas/Combates lista os combates numa grade (CombateGrid).
 //
 // Registro: registerDocView({id:'combate'}) + registerLeafView('Combate').
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
+import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { docPath } from '../../paths'
 import { useSettings } from '../../settings'
 import { parseCombatMarkerBlocks } from '../../mestre/combat-marker'
 import { CombatMarkerBlock } from '../../mestre/CombatMarkerBlock'
+import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from '../../mestre/roster'
+import {
+  computeEncounterDifficultyByLevel,
+  type EncounterDifficultyByLevelEntry,
+} from '../../mestre/encounter-compute'
+import type { EncounterRoster } from '../../data/session-repo/contract'
+import { EncounterLevelBar } from '../mestre/ui'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { registerDocView } from './doc-view-registry'
 import { registerLeafView } from './leaf-view-registry'
@@ -72,14 +81,27 @@ export function CombateSheet({ doc }: { doc: VaultDoc }) {
 
 // ─────────────────────── grade de combates de uma pasta ───────────────────────
 
-/** Cartão de um combate na grade: nome + resumo do roster (contagem por
- *  monstro), linkando pro doc. O resumo lê o roster do body (parse reusado). */
-function CombateCard({ entry, doc }: { entry: IndexDocEntry; doc: VaultDoc | undefined }) {
-  const parsed = doc ? parseCombatMarkerBlocks(doc.body) : null
-  const entries = parsed?.ok ? parsed.roster.entries : []
+/** Cartão de um combate na grade: nome + barrinhas de dificuldade + resumo do
+ *  roster. `total` (pontos de monstro) vai no data-attr pra ordenação/teste. */
+function CombateCard({
+  entry,
+  doc,
+  roster,
+  byLevel,
+  total,
+}: {
+  entry: IndexDocEntry
+  doc: VaultDoc | undefined
+  roster: EncounterRoster
+  byLevel: EncounterDifficultyByLevelEntry[]
+  total: number
+}) {
+  const entries = roster.entries
   return (
-    <Link to={docPath(entry.id)} className="combat-grid-cell">
+    <Link to={docPath(entry.id)} className="combat-grid-cell" data-enc-dif={total}>
       <span className="combat-card-name">{entry.basename ?? entry.id}</span>
+      {/* barrinhas de dificuldade por nível — as mesmas que aparecem ao abrir */}
+      {byLevel.length ? <EncounterLevelBar byLevel={byLevel} /> : null}
       {entries.length ? (
         <ul className="combat-card-roster">
           {entries.map((e, i) => (
@@ -95,11 +117,55 @@ function CombateCard({ entry, doc }: { entry: IndexDocEntry; doc: VaultDoc | und
   )
 }
 
-/** Grade de combates de uma pasta (folha Campanhas/Combates). Cada carta linka
- *  pro doc e resume o roster. Em Modo Mestre, um botão pro Criador de Combate. */
+/** Grade de combates de uma pasta (folha Campanhas/Combates). Cada carta mostra
+ *  as barrinhas de dificuldade e a lista vem ordenada do mais fácil pro mais
+ *  difícil (pontos dos monstros). Reusa o pipeline roster→combatentes→dificuldade
+ *  do CombatMarkerBlock (rosterMonsterIds + resolveRosterEntries + combatantsFrom
+ *  + computeEncounterDifficultyByLevel) — nada reimplementado. */
 export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
   const { mestre } = useSettings()
+  const catalog = useCatalog()
   const docs = useDocs(entries.map((e) => e.id))
+
+  // rosters parseados por combate
+  const rosters = useMemo(
+    () =>
+      entries.map((entry) => {
+        const doc = docs?.get(entry.id)
+        const parsed = doc ? parseCombatMarkerBlocks(doc.body) : null
+        const roster: EncounterRoster = parsed?.ok ? parsed.roster : { entries: [] }
+        return { entry, doc, roster }
+      }),
+    [entries, docs],
+  )
+  // união dos ids de monstro de TODOS os combates → 1 só useDocs
+  const monsterIds = useMemo(
+    () => [...new Set(rosters.flatMap((r) => rosterMonsterIds(r.roster, catalog)))],
+    [rosters, catalog],
+  )
+  const monsterDocs = useDocs(monsterIds)
+  // dificuldade por combate + ordenação fácil→difícil (empate por nome)
+  const cards = useMemo(
+    () =>
+      rosters
+        .map((r) => {
+          const resolvidas = resolveRosterEntries(r.roster, catalog, monsterDocs)
+          const combatants = combatantsFrom(
+            resolvidas.flatMap((x) => (x.item ? [x.item] : [])),
+            [],
+          )
+          const byLevel = computeEncounterDifficultyByLevel(combatants)
+          const total = byLevel[0]?.monsterTotal ?? 0
+          return { ...r, byLevel, total }
+        })
+        .sort(
+          (a, b) =>
+            a.total - b.total ||
+            (a.doc?.basename ?? a.entry.id).localeCompare(b.doc?.basename ?? b.entry.id, 'pt-BR'),
+        ),
+    [rosters, catalog, monsterDocs],
+  )
+
   return (
     <div className="combat-grid-wrap">
       {mestre ? (
@@ -111,8 +177,15 @@ export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
       ) : null}
       {entries.length ? (
         <div className="combat-grid">
-          {entries.map((entry) => (
-            <CombateCard key={entry.id} entry={entry} doc={docs?.get(entry.id)} />
+          {cards.map((c) => (
+            <CombateCard
+              key={c.entry.id}
+              entry={c.entry}
+              doc={c.doc}
+              roster={c.roster}
+              byLevel={c.byLevel}
+              total={c.total}
+            />
           ))}
         </div>
       ) : (
