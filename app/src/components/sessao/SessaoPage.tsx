@@ -1477,6 +1477,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const user = useSessionUser()
   const catalog = useCatalog()
   const [joinCode, setJoinCode] = useState('')
+  const [erro, setErro] = useState('')
   // Nome do herói pra lista: vault (catálogo) ou entidade local; id cru como
   // último recurso (nunca inventa).
   const heroNome = (id: string) =>
@@ -1490,6 +1491,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const join = async () => {
     const code = joinCode.trim()
     if (!code) return
+    setErro('')
     if (repo && user) {
       try {
         const remote = await repo.findSessionByCode(code)
@@ -1509,8 +1511,13 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
           setJoinCode('')
           return
         }
+        // #295: o servidor respondeu e NÃO há sessão com esse código — erro claro
+        // em vez de cair no fluxo local, que criava um placeholder fantasma e
+        // "entrava" numa sessão inexistente.
+        setErro('Sessão não encontrada. Confira o código com o mestre.')
+        return
       } catch {
-        // servidor indisponível — cai no fluxo local
+        // servidor indisponível (erro de rede) — degrada pro fluxo local abaixo.
       }
     }
     const rec = joinSessionByCode(code)
@@ -1723,6 +1730,9 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
             + Criar
           </button>
         </div>
+        {erro ? (
+          <div style={mono({ fontSize: 11, color: 'var(--red)', letterSpacing: '.04em' })}>{erro}</div>
+        ) : null}
       </div>
     </div>
   )
