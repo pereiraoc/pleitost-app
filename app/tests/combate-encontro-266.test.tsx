@@ -136,12 +136,12 @@ describe('#266 barrinhas de dificuldade no topo (espelho do gm-enc-levelbar)', (
 describe('#266 lista de monstros clicável → ficha-resumo na direita', () => {
   it('clicar num monstro do roster abre o resumo dele no painel DETALHES', async () => {
     const { container } = renderSheet()
-    // roster resolvido (wikilinks contra o catálogo)
+    // banners resolvidos (wikilinks contra o catálogo); clica no nome do monstro
     const item = await waitFor(() => {
-      const el = [...container.querySelectorAll<HTMLElement>('.combat-roster-item')].find((li) =>
-        /Goblin Batedor/.test(li.textContent ?? ''),
+      const el = [...container.querySelectorAll<HTMLElement>('.combate-monstro-nome')].find((n) =>
+        /Goblin Batedor/.test(n.textContent ?? ''),
       )
-      expect(el, 'linha do Goblin Batedor').toBeTruthy()
+      expect(el, 'nome clicável do Goblin Batedor').toBeTruthy()
       // só é clicável quando resolveu doc (role=button)
       expect(el!.getAttribute('role')).toBe('button')
       return el!
@@ -158,10 +158,12 @@ describe('#266 lista de monstros clicável → ficha-resumo na direita', () => {
   })
 
   it('sem Modo Mestre / sem sessão os controles GM não aparecem', async () => {
-    renderSheet()
-    await screen.findByText(/5×\s*Goblin Batedor/)
+    const { container } = renderSheet()
+    await waitFor(() => expect(container.querySelector('.combate-monstro-banner')).toBeTruthy())
     expect(screen.queryByRole('button', { name: '+ Adicionar à sessão' })).toBeNull()
     expect(screen.queryByLabelText('Iniciar invisível')).toBeNull()
+    // sem Modo Mestre, os botões de velocidade por monstro também não aparecem
+    expect(container.querySelector('.combate-monstro-gm')).toBeNull()
   })
 })
 

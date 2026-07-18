@@ -17,17 +17,29 @@ import { useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
 import { parseCombatMarkerBlocks, splitBlockSource } from './combat-marker'
-import {
-  computeEncounterDifficulty,
-  computeEncounterDifficultyByLevel,
-  formatDifficultyValue,
-} from './encounter-compute'
+import { computeEncounterDifficultyByLevel } from './encounter-compute'
 import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from './roster'
 import type { EncounterRoster } from '../data/session-repo/contract'
-import { DifficultyBadge, EncounterLevelBar } from '../components/mestre/ui'
+import { EncounterLevelBar } from '../components/mestre/ui'
 import { TipProvider } from '../components/ficha/tooltips'
 import { useDetail } from '../data/detail-context'
 import { useSettings } from '../settings'
+import { useAssetIndex } from '../data/assets'
+import { creatureImageUrl } from '../data/creature-image'
+import { fmPath, num } from '../components/ficha/hero-model'
+import { tokens } from '../components/ficha/registry'
+import {
+  SPEED_EMOJI,
+  SPEED_LABEL,
+  SPEED_ORDER,
+  STATE_EMOJI,
+  type SpeedTier,
+} from '../data/initiative-blocks'
+import {
+  getMonsterPrep,
+  setMonsterPrep,
+  useEncounterSpeedsVersion,
+} from '../data/encounter-speeds'
 import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useLiveSession } from '../data/session-repo/live-session'
 import { addRosterToInitiative } from '../data/session-repo/encounter-actions'
@@ -47,10 +59,23 @@ function parseFenceRoster(code: string): EncounterRoster {
 
 /** Roster + dificuldade de um combate. `code` = corpo cru de um fence
  *  combat-marker; `roster` = roster já parseado (a CombateView passa o do doc). */
-export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string; roster?: EncounterRoster }) {
+export function CombatMarkerBlock({
+  code,
+  roster: rosterProp,
+  encounterPath,
+}: {
+  code?: string
+  roster?: EncounterRoster
+  /** Caminho do doc do encontro (doc.id) — chave do prep de velocidade/estado
+   *  por monstro. Só a página de Combate passa; no fence cru fica undefined
+   *  (aí a atribuição do GM não aparece). */
+  encounterPath?: string
+}) {
   const catalog = useCatalog()
   const detail = useDetail()
-  const { mestre } = useSettings()
+  const assets = useAssetIndex()
+  const { mestre, mostrarDificuldade } = useSettings()
+  useEncounterSpeedsVersion() // re-render quando o GM muda velocidade/estado
   const repo = useSessionRepo()
   const user = useSessionUser()
   const live = useLiveSession()
@@ -70,8 +95,31 @@ export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string;
     () => combatantsFrom(resolvidas.flatMap((r) => (r.item ? [r.item] : [])), []),
     [resolvidas],
   )
-  const monsterTotal = useMemo(() => computeEncounterDifficulty(combatants).monsterTotal, [combatants])
   const byLevel = useMemo(() => computeEncounterDifficultyByLevel(combatants), [combatants])
+
+  // Instâncias INDIVIDUAIS de monstro (qty → N banners), com a chave estável do
+  // prep (encounter-speeds) e vida/imagem lidas do doc do bestiário.
+  const instances = useMemo(
+    () =>
+      resolvidas.flatMap((r) => {
+        const item = r.item
+        const doc = item?.sourceId ? monsterDocs?.get(item.sourceId) : undefined
+        const base = item?.sourcePath ?? r.entry.label
+        const qty = Math.max(1, r.entry.qty)
+        return Array.from({ length: qty }, (_, i) => ({
+          key: `${base}#${i + 1}`,
+          label: r.entry.label,
+          n: i + 1,
+          qty,
+          tier: item?.tier ?? null,
+          modificador: item?.modificador ?? null,
+          docId: item?.sourceId ?? null,
+          img: doc ? creatureImageUrl(doc, assets, true) : null,
+          vit: doc ? num(fmPath(doc.frontmatter, 'Vida', 'Vitalidade')) : 0,
+        }))
+      }),
+    [resolvidas, monsterDocs, assets],
+  )
 
   // #266: pré-seleção de máscara dos NPCs ao adicionar à sessão. "disfarçado"
   // é o DEFAULT do combat-tracker (NPC nasce mascarado), então o toggle começa
@@ -105,53 +153,123 @@ export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string;
     <TipProvider>
       <div className="combat-marker">
         {/* ── barrinhas de dificuldade no TOPO com tooltip explicativo (de onde
-            vem a classificação: limiares + pontos — difficultyTipHtml). ── */}
-        <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
-          <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
-          <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
-        </div>
+            vem a classificação: limiares + pontos). Ocultável no CONFIG. ── */}
+        {mostrarDificuldade ? (
+          <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
+            <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
+            <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
+          </div>
+        ) : null}
 
-      {/* ── roster: cada linha é CLICÁVEL → abre a ficha-resumo no painel
-          DETALHES da direita (via useDetail; o doc resolve pelo catálogo). ── */}
+      {/* ── BANNERS por monstro (um por instância): imagem + tier/vida/
+          modificador/velocidade/estado (emoji). No Modo Mestre, o GM define a
+          velocidade de iniciativa e o estado inicial por monstro. ── */}
       <div className="combat-roster">
-        <div className="kicker">{'// ROSTER'}</div>
-        <ul className="combat-roster-list">
-          {resolvidas.map((r, i) => {
-            // sourceId = id do doc no catálogo (rosterItemFromDoc). Genérico/
-            // sem ficha → não abre resumo (não há doc), fica estático.
-            const docId = r.item?.sourceId ?? null
+        <div className="kicker">{'// MONSTROS'}</div>
+        <div className="combate-monstros">
+          {instances.map((m) => {
+            const prep = getMonsterPrep(encounterPath ?? '', m.key)
+            const docId = m.docId
             const abrir = docId && detail ? () => detail.open({ kind: 'resumo', id: docId }) : null
+            const podeEditar = mestre && !!encounterPath
             return (
-              <li
-                key={`${r.entry.label}-${i}`}
-                className={`combat-roster-item${abrir ? ' is-clickable' : ''}`}
-                {...(abrir
-                  ? {
-                      role: 'button' as const,
-                      tabIndex: 0,
-                      onClick: abrir,
-                      onKeyDown: (e: KeyboardEvent) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          abrir()
+              <div key={m.key} className="combate-monstro-banner" data-monstro-banner="">
+                <span
+                  className="combate-monstro-img"
+                  aria-hidden
+                  style={m.img ? { backgroundImage: `url("${m.img}")` } : undefined}
+                >
+                  {m.img ? null : tokens.emojis.subcategoria.Monstro}
+                </span>
+                <div className="combate-monstro-info">
+                  <span
+                    className={`combate-monstro-nome${abrir ? ' is-clickable' : ''}`}
+                    {...(abrir
+                      ? {
+                          role: 'button' as const,
+                          tabIndex: 0,
+                          onClick: abrir,
+                          onKeyDown: (e: KeyboardEvent) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              abrir()
+                            }
+                          },
+                          title: `Ver ficha-resumo de ${m.label}`,
                         }
-                      },
-                      title: `Ver ficha-resumo de ${r.entry.label}`,
-                    }
-                  : {})}
-              >
-                <span className="combat-roster-qty">
-                  {r.entry.qty}× {r.entry.label}
-                </span>
-                <span className="combat-roster-meta">
-                  {r.item
-                    ? `T${r.item.tier}${r.item.modificador ? ` · ${r.item.modificador}` : ''}`
-                    : r.motivo}
-                </span>
-              </li>
+                      : {})}
+                  >
+                    {m.label}
+                    {m.qty > 1 ? ` #${m.n}` : ''}
+                  </span>
+                  <span className="combate-monstro-stats">
+                    {m.tier != null ? (
+                      <span className="combate-monstro-stat" title="Tier">
+                        T{m.tier}
+                      </span>
+                    ) : null}
+                    {m.vit > 0 ? (
+                      <span className="combate-monstro-stat" title="Vitalidade">
+                        ❤️ {m.vit}
+                      </span>
+                    ) : null}
+                    {m.modificador ? (
+                      <span className="combate-monstro-stat" title="Modificador">
+                        {m.modificador}
+                      </span>
+                    ) : null}
+                    <span className="combate-monstro-stat" title="Iniciativa">
+                      {prep.tier ? `${SPEED_EMOJI[prep.tier]} ${SPEED_LABEL[prep.tier]}` : '⏱️ a definir'}
+                    </span>
+                    {prep.escondido ? (
+                      <span className="combate-monstro-stat" title="Escondido">
+                        {STATE_EMOJI.escondido}
+                      </span>
+                    ) : null}
+                    {prep.disfarcado ? (
+                      <span className="combate-monstro-stat" title="Disfarçado">
+                        {STATE_EMOJI.disfarcado}
+                      </span>
+                    ) : null}
+                  </span>
+                </div>
+                {podeEditar ? (
+                  <div className="combate-monstro-gm">
+                    {SPEED_ORDER.map((t) => (
+                      <button
+                        key={t}
+                        type="button"
+                        className={`combate-vel-btn${prep.tier === t ? ' is-on' : ''}`}
+                        title={SPEED_LABEL[t]}
+                        onClick={() =>
+                          setMonsterPrep(encounterPath!, m.key, { tier: prep.tier === t ? null : (t as SpeedTier) })
+                        }
+                      >
+                        {SPEED_EMOJI[t]}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className={`combate-vel-btn${prep.escondido ? ' is-on' : ''}`}
+                      title="Escondido"
+                      onClick={() => setMonsterPrep(encounterPath!, m.key, { escondido: !prep.escondido })}
+                    >
+                      {STATE_EMOJI.escondido}
+                    </button>
+                    <button
+                      type="button"
+                      className={`combate-vel-btn${prep.disfarcado ? ' is-on' : ''}`}
+                      title="Disfarçado"
+                      onClick={() => setMonsterPrep(encounterPath!, m.key, { disfarcado: !prep.disfarcado })}
+                    >
+                      {STATE_EMOJI.disfarcado}
+                    </button>
+                  </div>
+                ) : null}
+              </div>
             )
           })}
-        </ul>
+        </div>
 
         {/* ── controles do Mestre (#266): adicionar o roster à iniciativa da
             sessão + toggles invisível/disfarçado. Só aparece no gate GM. ── */}
@@ -191,41 +309,6 @@ export function CombatMarkerBlock({ code, roster: rosterProp }: { code?: string;
             {status}
           </div>
         ) : null}
-      </div>
-
-      {/* ── dificuldade por nível detalhada (a "barra" do tracker em tabela) ── */}
-      <div className="combat-difficulty">
-        <div className="kicker">
-          {'// DIFICULDADE POR NÍVEL'}
-          <span className="combat-difficulty-pts">
-            Monstros {formatDifficultyValue(monsterTotal)} pts
-          </span>
-        </div>
-        <table className="doc-table" data-mestre-dificuldade="">
-          <thead>
-            <tr>
-              <th>Nível</th>
-              <th>Tier</th>
-              <th>Dificuldade</th>
-              <th>Razão</th>
-            </tr>
-          </thead>
-          <tbody>
-            {byLevel.map((entry) => (
-              <tr key={entry.level}>
-                <td>{entry.level}</td>
-                <td>T{entry.tier}</td>
-                <td>
-                  <DifficultyBadge meta={entry} ratio={entry.ratio} />
-                </td>
-                <td className="combat-difficulty-ratio">
-                  {formatDifficultyValue(entry.ratio)}% ({formatDifficultyValue(entry.monsterTotal)}/
-                  {formatDifficultyValue(entry.playerTotal)})
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
       </div>
     </TipProvider>

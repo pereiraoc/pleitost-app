@@ -63,7 +63,7 @@ export function CombateSheet({ doc }: { doc: VaultDoc }) {
         <span className="doc-type">{COMBATE_CATEGORY}</span>
       </header>
       {roster.entries.length ? (
-        <CombatMarkerBlock roster={roster} />
+        <CombatMarkerBlock roster={roster} encounterPath={doc.id} />
       ) : (
         <p className="npc-empty">// SEM BLOCO COMBAT-MARKER NESTA NOTA</p>
       )}

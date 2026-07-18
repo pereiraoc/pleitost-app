@@ -92,44 +92,37 @@ describe('registro do visualizador de Combate (#249)', () => {
 })
 
 describe('página de um Combate: roster + dificuldade (não o markdown cru)', () => {
-  it('/doc/Vila de Goblins mostra o roster (5× Goblin Batedor etc.)', async () => {
+  it('/doc/Vila de Goblins mostra banners por monstro (Goblin Batedor #1…#5 etc.)', async () => {
     const { container } = renderDoc(vila)
     // NÃO é mais o <pre> cru do fence fallback
     expect(container.querySelector('.fence-combat-marker-small')).toBeNull()
-    // roster resolvido (o fence resolve os wikilinks contra o catálogo async)
+    // banners resolvidos (o fence resolve os wikilinks contra o catálogo async)
     await waitFor(() => {
-      const roster = container.querySelector('.combat-roster')
-      expect(roster, 'roster do combate').toBeTruthy()
-      expect(within(roster as HTMLElement).getByText(/5×\s*Goblin Batedor/)).toBeTruthy()
+      expect(container.querySelectorAll('.combate-monstro-banner').length).toBeGreaterThan(0)
     })
+    // 5 Batedor + 5 Guerreiro + 2 Piromante + 3 Soldado = 15 banners individuais
+    expect(container.querySelectorAll('.combate-monstro-banner').length).toBe(15)
     const roster = container.querySelector('.combat-roster') as HTMLElement
-    expect(within(roster).getByText(/5×\s*Goblin Guerreiro/)).toBeTruthy()
-    expect(within(roster).getByText(/2×\s*Goblin Piromante/)).toBeTruthy()
-    expect(within(roster).getByText(/3×\s*Goblin Soldado/)).toBeTruthy()
+    expect(within(roster).getAllByText(/Goblin Batedor/).length).toBe(5)
+    expect(within(roster).getAllByText(/Goblin Piromante/).length).toBe(2)
   })
 
-  it('mostra a DIFICULDADE computada (badge do classify + pontos de monstro)', async () => {
+  it('mostra as barrinhas de dificuldade e NÃO a tabela detalhada por nível', async () => {
     const { container } = renderDoc(vila)
-    await waitFor(() => {
-      // a badge de dificuldade do tracker (skin .gm-enc-difficulty)
-      expect(container.querySelector('.combat-difficulty .gm-enc-difficulty')).toBeTruthy()
-    })
-    // total de pontos de monstro é > 0 (5 T0 + 5 T1 + 2 T1 + 3 T1 = 25 + 100 = ...)
-    // Goblin Batedor T0 = 5pts × 5 = 25; T1 = 10pts × 10 = 100 → 125 pts
-    const diff = container.querySelector('.combat-difficulty') as HTMLElement
-    expect(diff.textContent).toMatch(/125/)
-    // o label de classify aparece (TRIVIAL/FÁCIL/DIFICIL/LETAL — fonte de verdade)
-    expect(diff.textContent).toMatch(/TRIVIAL|FÁCIL|DIFICIL|LETAL/)
+    await waitFor(() => expect(container.querySelector('.gm-enc-levelbar')).toBeTruthy())
+    // a tabela "DIFICULDADE POR NÍVEL" foi removida (as barras + tooltip bastam)
+    expect(container.querySelector('.combat-difficulty')).toBeNull()
+    expect(container.textContent).not.toContain('DIFICULDADE POR NÍVEL')
   })
 
   it('combate simples (Emboscada Goblin: 4 Goblin Batedor) também resolve', async () => {
     const emboscada = readDoc(EMBOSCADA_ID)
     const { container } = renderDoc(emboscada)
     await waitFor(() => {
-      const roster = container.querySelector('.combat-roster')
-      expect(roster).toBeTruthy()
-      expect(within(roster as HTMLElement).getByText(/4×\s*Goblin Batedor/)).toBeTruthy()
+      expect(container.querySelectorAll('.combate-monstro-banner').length).toBe(4)
     })
+    const roster = container.querySelector('.combat-roster') as HTMLElement
+    expect(within(roster).getAllByText(/Goblin Batedor/).length).toBe(4)
   })
 })
 

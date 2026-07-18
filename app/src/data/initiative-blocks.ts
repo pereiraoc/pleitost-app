@@ -12,6 +12,12 @@ export const SPEED_LABEL: Record<SpeedTier, string> = {
   rapido: 'Rápido',
   lento: 'Lento',
 }
+
+/** Estado inicial do monstro no combate (house-rule do app). Fonte única dos
+ *  emojis/labels — mesmo motivo do SPEED_*. */
+export type EstadoInicial = 'escondido' | 'disfarcado'
+export const STATE_EMOJI: Record<EstadoInicial, string> = { escondido: '🙈', disfarcado: '🎭' }
+export const STATE_LABEL: Record<EstadoInicial, string> = { escondido: 'Escondido', disfarcado: 'Disfarçado' }
 const LADO_LABEL: Record<Lado, string> = { jogador: 'Jogadores', inimigo: 'Inimigos' }
 
 // famílias/subcategorias que contam como lado JOGADOR (herói ou jogador).
