@@ -81,13 +81,29 @@ export function MarkdownBody({
         // #282: na folder-note, NÃO embute o preview (a nota-alvo já aparece como
         // card na listagem abaixo — ex.: Armaduras/Sem·Leve·Pesada); some.
         'note-embed': context === 'folder-note' ? () => null : NoteTransclusion,
-        a({ href, children }) {
+        a(props) {
+        const { href, children } = props
+        // #303: o remark-wikilinks põe o emoji supercharged em data-link-icon;
+        // este override PRECISA repassá-lo (antes só passava href/children, então
+        // o ícone se perdia e o ::before nunca disparava).
+        const rawIcon = (props as Record<string, unknown>)['data-link-icon']
+        const icon = typeof rawIcon === 'string' ? rawIcon : undefined
         // #88: links de doc abrem nos DETALHES da sidebar (se houver); demais
         // internos roteiam pela SPA; externos abrem em nova aba.
-        if (href?.startsWith('/doc/')) return <DetailLink to={href}>{children}</DetailLink>
-        if (href?.startsWith('/')) return <Link to={href}>{children}</Link>
+        if (href?.startsWith('/doc/'))
+          return (
+            <DetailLink to={href} dataLinkIcon={icon}>
+              {children}
+            </DetailLink>
+          )
+        if (href?.startsWith('/'))
+          return (
+            <Link to={href} data-link-icon={icon || undefined}>
+              {children}
+            </Link>
+          )
         return (
-          <a href={href} target="_blank" rel="noreferrer">
+          <a href={href} target="_blank" rel="noreferrer" data-link-icon={icon || undefined}>
             {children}
           </a>
         )

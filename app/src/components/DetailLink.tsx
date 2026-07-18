@@ -30,11 +30,16 @@ export function DetailLink({
   to,
   className,
   children,
+  dataLinkIcon,
 }: {
   id?: string
   to?: string
   className?: string
   children: ReactNode
+  /** #303: emoji supercharged do doc-alvo → vai como data-link-icon no <a> (o CSS
+   *  a[data-link-icon]::before o prepende). Sem repassar isto, o ícone se perdia
+   *  no render dos wikilinks (o override do MarkdownBody só passava href/children). */
+  dataLinkIcon?: string
 }) {
   const detail = useDetail()
   const docId = id ?? (to ? docIdFromPath(to) : undefined)
@@ -44,6 +49,7 @@ export function DetailLink({
       <a
         href={href}
         className={className}
+        data-link-icon={dataLinkIcon || undefined}
         onClick={(e) => {
           e.preventDefault()
           detail.open({ kind: 'doc', id: docId })
@@ -54,7 +60,7 @@ export function DetailLink({
     )
   }
   return (
-    <Link to={href} className={className}>
+    <Link to={href} className={className} data-link-icon={dataLinkIcon || undefined}>
       {children}
     </Link>
   )
