@@ -56,9 +56,10 @@ export function CriacaoView({
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {sidebar || embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
-      {/* Feedback do mestre: a imagem FLUTUA no canto direito (retrato, sem
-          esticar) e o texto (header/tipo/chips/resumo) envolve ela — não empurra
-          nada pra baixo (float, não flex de 2 colunas). */}
+      {/* Feedback do mestre: a imagem FLUTUA no canto direito e o texto envolve
+          ela. O .doc-page é FLEX-column (float é ignorado num flex item), então
+          o conteúdo vai num bloco flow-root (.criacao-body) onde o float vale. */}
+      <div className="criacao-body">
       {hero ? <VaultImage target={hero.target} className="criacao-hero" zoom /> : null}
       <header style={headerStyle}>
         <span style={{ fontSize: '2rem', lineHeight: 1, flex: 'none' }} aria-hidden>
@@ -94,6 +95,7 @@ export function CriacaoView({
 
       {/* heroTarget: o embed da mesma imagem no corpo é suprimido (não duplica). */}
       <MarkdownBody doc={doc} hideLeadingTitle heroTarget={hero?.target} />
+      </div>
 
       <DocRuleElements doc={doc} />
     </article>

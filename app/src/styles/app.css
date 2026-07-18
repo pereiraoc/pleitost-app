@@ -1373,6 +1373,12 @@ a {
   );
 }
 
+/* flow-root: contexto de bloco pro float da imagem funcionar (o .doc-page é
+   flex-column) e CONTER o float (a régua de regras abaixo não sobrepõe). */
+.criacao-body {
+  display: flow-root;
+}
+
 /* #feedback: retrato da nota de Criação (Classe/Magia/…) FLUTUA no canto direito
    — tamanho fixo de perfil, recortado (object-fit), o texto envolve (não empurra
    pra baixo). */
