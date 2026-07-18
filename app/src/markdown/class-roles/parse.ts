@@ -38,7 +38,13 @@ function normalizeBuild(entry: unknown, index: number): Build {
 /** Lê o corpo do bloco class-roles em Build[]. Lança em conteúdo inválido (o
  *  render mostra a mensagem, como o plugin). Vazio → []. */
 export function parseClassRolesSource(source: string): Build[] {
-  const raw = String(source ?? '').trim()
+  // Notas de Classe (ex.: a seção "## Líderes" de Classes.md) terminam com
+  // VÍRGULA SOBRANDO — comum em edição à mão. JSON.parse é estrito, então
+  // normalizamos: tira vírgula antes de ] ou }, e a vírgula solta no fim.
+  const raw = String(source ?? '')
+    .trim()
+    .replace(/,(\s*[\]}])/g, '$1')
+    .replace(/,\s*$/, '')
   if (!raw) return []
 
   const candidates: string[] = []

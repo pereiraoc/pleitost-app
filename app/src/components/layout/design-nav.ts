@@ -65,6 +65,13 @@ export const TITLES: Record<string, string> = {
 /** Kicker da tela do compêndio, como desenhado. */
 export const COMPENDIO_KICKER = '// COMPÊNDIO DO SISTEMA'
 
+/** Kicker com a CATEGORIA do doc (feedback do mestre): "// COMPÊNDIO DO SISTEMA
+ *  — LOCALIZAÇÃO". Sem categoria, volta ao kicker base. */
+export function compendioKicker(category?: string | null): string {
+  const c = category?.trim()
+  return c ? `${COMPENDIO_KICKER} — ${c.toUpperCase()}` : COMPENDIO_KICKER
+}
+
 /** Rotas implementadas por item de nav; itens fora daqui renderizam disabled. */
 export const NAV_ROUTES: Record<string, string> = {
   compendio: '/compendio',

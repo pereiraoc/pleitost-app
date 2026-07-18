@@ -31,6 +31,25 @@ describe('parseClassRolesSource (#276)', () => {
   it('role desconhecido → erro (não inventa)', () => {
     expect(() => parseClassRolesSource('["X", { "Nadador": 3 }]')).toThrow(/Role desconhecido/)
   })
+
+  // Feedback do mestre: a seção "## Líderes" de Classes.md termina com VÍRGULA
+  // SOBRANDO (e linha em branco) — JSON.parse estrito rejeitava e a fence mostrava
+  // o erro em vez da tabela ("não ta mostrando os líderes"). Deve tolerar.
+  it('tolera vírgula sobrando no fim (seção Líderes de Classes.md)', () => {
+    const LIDERES = `["Arcanista Espiritualista", { "Líder": 3 }],
+["Comandante Estrategista", { "Líder": 3 }],
+["Comandante Combatente", { "Vanguarda": 1, "Líder": 2 }],
+
+`
+    const builds = parseClassRolesSource(LIDERES)
+    expect(builds.length).toBe(3)
+    expect(builds[0]![0]).toBe('Arcanista Espiritualista')
+    expect(builds[2]![1]).toEqual({ Vanguarda: 1, Líder: 2 })
+  })
+
+  it('tolera vírgula sobrando antes do colchete de fechamento', () => {
+    expect(parseClassRolesSource('[["X", { "Líder": 2 }], ]').length).toBe(1)
+  })
 })
 
 describe('ClassRolesFence (#276) — render', () => {

@@ -28,11 +28,15 @@ export function MarkdownBody({
   doc,
   hideLeadingTitle,
   context,
+  heroTarget,
 }: {
   doc: VaultDoc
   hideLeadingTitle?: boolean
   /** Contexto de render — liga supressões específicas (ex.: dataview na folder-note). */
   context?: MarkdownContext
+  /** Alvo da imagem-herói (FM Imagem) já exibida FORA do corpo — o embed dela no
+   *  corpo é suprimido pra não duplicar (ex.: nota de Classe). */
+  heroTarget?: string
 }) {
   const catalog = useCatalog()
   const body = useMemo(() => {
@@ -80,12 +84,19 @@ export function MarkdownBody({
           </a>
         )
       },
-      img({ src, alt, ...rest }) {
+      img({ src, alt, width, ...rest }) {
         // embeds ![[...]] chegam com URL vault: do remark-wikilinks
         if (typeof src === 'string' && src.startsWith('vault:')) {
           const target = decodeURIComponent(src.slice('vault:'.length))
-          const width = alt && /^\d+$/.test(alt) ? Number(alt) : undefined
-          return <VaultImage target={target} width={width} />
+          // dedup: a imagem-herói (FM) já é exibida fora do corpo (ex.: Classe).
+          if (heroTarget && target === heroTarget) return null
+          const w =
+            typeof width === 'number'
+              ? width
+              : typeof width === 'string' && /^\d+$/.test(width)
+                ? Number(width)
+                : undefined
+          return <VaultImage target={target} width={w} />
         }
         return <img src={src} alt={alt} {...rest} />
       },
@@ -123,7 +134,7 @@ export function MarkdownBody({
         return <code>{children}</code>
         },
       }) as Components,
-    [doc, context],
+    [doc, context, heroTarget],
   )
 
   return (

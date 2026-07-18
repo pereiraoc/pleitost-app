@@ -101,59 +101,48 @@ describe('LocationSheet (Localização real)', () => {
     expect(screen.getByRole('tab', { name: 'Comércio' })).toBeTruthy()
   })
 
-  it('Detalhes: Tipo (subcategoria), Recursos wikilink e Geolocalização navegáveis', async () => {
+  // Feedback do mestre: Tipo virou o subtype no doc-type (topo); Geolocalização
+  // virou o breadcrumb rotulado; Recursos viraram uma GRADE de mini-cards.
+  it('Detalhes: subtype no topo, Recursos em cards e Geolocalização no breadcrumb', async () => {
     renderDoc(cantoAlto)
-    // Tipo = subcategoria "Capital" (rótulo declarado no schema da ficha)
-    const table = document.querySelector<HTMLElement>('table.inline-fields')!
-    expect(within(table).getByText('Tipo')).toBeTruthy()
-    expect(within(table).getByText('Capital')).toBeTruthy()
-
-    // Recursos: cada item é wikilink navegável (via resolver do catálogo)
-    const adagaRes = catalog.resolve('Adaga')
-    expect(adagaRes.kind).toBe('doc')
-    const adagaLink = within(table).getByRole('link', { name: 'Adaga' })
-    expect(adagaLink.getAttribute('href')).toBe(docPath((adagaRes as { id: string }).id))
-    // alias do Recurso preserva o rótulo (Armadura Obra-prima|Armadura Leve)
-    expect(within(table).getByRole('link', { name: 'Armadura Leve' })).toBeTruthy()
-
-    // Geolocalização = wikilink navegável
+    // Tipo = subtype "Capital" no doc-type do topo (fora da tabela)
+    expect(document.querySelector('.doc-type')?.textContent).toBe('Capital')
+    // Recursos: grade de cards com o rótulo (alias "Armadura Leve" preservado)
+    await waitFor(() => expect(screen.getByText(/\/\/ RECURSOS/)).toBeTruthy())
+    expect(screen.getByText('Armadura Leve')).toBeTruthy()
+    expect(screen.getByText('Adaga')).toBeTruthy()
+    // Geolocalização = breadcrumb navegável (pai resolvido pelo índice do Atlas)
     const geoRes = catalog.resolve('Principado das Flores')
     expect(geoRes.kind).toBe('doc')
-    const geoLink = within(table).getByRole('link', { name: 'Principado das Flores' })
+    const geoLink = await screen.findByRole('link', { name: 'Principado das Flores' })
     expect(geoLink.getAttribute('href')).toBe(docPath((geoRes as { id: string }).id))
-
-    // imagem da região no topo (embed do body → asset resolvido)
-    expect(await screen.findByAltText('Canto Alto.png')).toBeTruthy()
   })
 
   it('Detalhes: campos ausentes do FM são omitidos (nunca inventados)', () => {
     renderDoc(cantoAlto)
-    // Canto Alto tem Descrição/Contexto/Organizações/Acontecimento nulos
-    const table = document.querySelector<HTMLElement>('table.inline-fields')!
-    expect(within(table).queryByText('Descrição')).toBeNull()
-    expect(within(table).queryByText('Contexto')).toBeNull()
-    expect(within(table).queryByText('Organizações Influentes')).toBeNull()
-    expect(within(table).queryByText('Acontecimento Recente')).toBeNull()
+    // Canto Alto tem Descrição/Contexto/Organizações/Acontecimento nulos → não aparecem
+    expect(screen.queryByText('Descrição')).toBeNull()
+    expect(screen.queryByText('Contexto')).toBeNull()
+    expect(screen.queryByText('Organizações Influentes')).toBeNull()
+    expect(screen.queryByText('Acontecimento Recente')).toBeNull()
   })
 
-  it('Líciae: Recurso string simples ("Gado") vira texto, não link', () => {
+  it('Líciae: Recurso string simples ("Gado") vira card sem nota, não link', async () => {
     renderDoc(liciae)
-    const table = document.querySelector<HTMLElement>('table.inline-fields')!
-    expect(within(table).getByText('Grande Cidade')).toBeTruthy() // Tipo
-    expect(within(table).getByText('Gado')).toBeTruthy()
-    expect(within(table).queryByRole('link', { name: 'Gado' })).toBeNull()
-    // Geolocalização segue navegável
-    expect(within(table).getByRole('link', { name: 'Campos do Provento' })).toBeTruthy()
+    expect(document.querySelector('.doc-type')?.textContent).toBe('Grande Cidade') // Tipo
+    await waitFor(() => expect(screen.getByText('Gado')).toBeTruthy())
+    expect(screen.queryByRole('link', { name: 'Gado' })).toBeNull()
+    // Geolocalização segue navegável (breadcrumb)
+    expect(await screen.findByRole('link', { name: 'Campos do Provento' })).toBeTruthy()
   })
 
   it('aba Comércio: loja da localização (issue #72) — AUTO-ABRE ao entrar, sem Modo Mestre', async () => {
     renderDoc(cantoAlto)
-    // Detalhes é o default
-    expect(document.querySelector('table.inline-fields')).toBeTruthy()
+    // Detalhes é o default — Canto Alto mostra a grade de Recursos
+    await waitFor(() => expect(screen.getByText(/\/\/ RECURSOS/)).toBeTruthy())
     fireEvent.click(screen.getByRole('tab', { name: 'Comércio' }))
-    // troca de aba desmonta o painel de Detalhes (não há mais seletor de herói —
-    // o comprador é o herói selecionado globalmente)
-    expect(document.querySelector('table.inline-fields')).toBeNull()
+    // troca de aba desmonta o painel de Detalhes
+    expect(screen.queryByText(/\/\/ RECURSOS/)).toBeNull()
     // Sem Modo Mestre a loja NÃO fica "fechada": ao carregar os Recursos a
     // rolagem roda sozinha (o comércio "que deveria aparecer" aparece).
     await waitFor(() => expect(screen.queryByText('// LOJA FECHADA')).toBeNull())

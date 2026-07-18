@@ -4,10 +4,11 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useDoc } from '../../data/useDoc'
 import { DocView } from './DocPage'
 import { resolveDocView } from './doc-view-registry'
+import { isLocation } from './LocationSheet'
 import type { FolderNode } from '../../data/catalog'
 import { compendiumFolderPath, docPath } from '../../paths'
 import { useSettings } from '../../settings'
-import { COMPENDIO_KICKER, TITLES } from '../layout/design-nav'
+import { COMPENDIO_KICKER, compendioKicker, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
@@ -147,10 +148,13 @@ function FolderNote({
       </>
     )
   }
+  // Feedback do mestre: uma Localização já mostra "Lugares dentro de X"
+  // (AtlasChildren, com o tipo ao lado) dentro da própria ficha — não repetir a
+  // listagem genérica da pasta (que duplicava as regiões-filhas).
   return (
     <>
       <DocView doc={doc} embedded />
-      {listing}
+      {isLocation(doc) ? null : listing}
     </>
   )
 }
@@ -269,7 +273,9 @@ export function FolderView() {
 
   return (
     <section className="page">
-      <div className="kicker">{COMPENDIO_KICKER}</div>
+      {/* Feedback do mestre: kicker inclui a categoria da nota-da-pasta quando
+          há (ex.: "— LOCALIZAÇÃO"), análogo às fichas dedicadas. */}
+      <div className="kicker">{compendioKicker(indexDoc?.type)}</div>
       <Breadcrumb path={path} />
       {indexDoc && !portal ? (
         <FolderNote id={indexDoc.id} fallbackTitle={navLabel(path)} listing={childrenListing} />

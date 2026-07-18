@@ -1373,6 +1373,26 @@ a {
   );
 }
 
+/* #feedback: retrato da nota de Criação (Classe/Magia/…) no canto direito do
+   header — tamanho fixo de perfil, recortado (object-fit) em vez de esticado. */
+.criacao-hero {
+  flex: none;
+  width: 190px;
+  max-width: 40%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  align-self: flex-start;
+  cursor: zoom-in;
+  border: 1px solid var(--line2);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+@media (max-width: 640px) {
+  .criacao-hero {
+    width: 130px;
+    max-width: 42%;
+  }
+}
+
 /* ---------- leitura de histórias/contexto (#247) ---------- */
 /* Coluna de leitura confortável: prosa com medida (~66ch), entrelinha generosa
    e títulos com respiro. Tabelas (Contexto Atual/Economia) transbordam a

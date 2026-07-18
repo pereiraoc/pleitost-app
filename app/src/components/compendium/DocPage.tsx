@@ -8,7 +8,7 @@ import { VaultImage } from './VaultImage'
 import { resolveDocView } from './doc-view-registry'
 import './register-doc-views'
 import { DocRuleElements } from './RuleElements'
-import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { compendioKicker } from '../layout/design-nav'
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
@@ -30,16 +30,13 @@ export function DocView({
 
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
-      {embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+      {embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
-        {doc.type ? (
-          <span className="doc-type">
-            {doc.type}
-            {doc.subtype ? ` · ${doc.subtype}` : ''}
-          </span>
-        ) : null}
+        {/* Feedback do mestre: a categoria (doc.type) foi pro kicker; aqui fica
+            só o subtype quando existe (ex.: "Arcana Negra"). */}
+        {doc.subtype ? <span className="doc-type">{doc.subtype}</span> : null}
         {grupos.map((grupo) => (
           <span key={grupo} className="grupo-chip">
             <InlineFieldValue value={grupo} />
@@ -47,7 +44,7 @@ export function DocView({
         ))}
       </header>
       <InlineFieldsTable fields={doc.inlineFields} />
-      <MarkdownBody doc={doc} />
+      <MarkdownBody doc={doc} heroTarget={hero?.target} />
       <DocRuleElements doc={doc} />
     </article>
   )

@@ -58,7 +58,7 @@ describe('#272 — nota-da-pasta com view dedicada (Atlas/Mundo Livre)', () => {
     const { container } = renderFolder('Atlas/Mundo Livre')
     // LocationSheet embutido mostra o tipo "Localização" (a nota, não só o título).
     await waitFor(() => {
-      expect(screen.getByText(/^Localização/)).toBeTruthy()
+      expect(screen.getByText('Região')).toBeTruthy()
     })
     // o título "Mundo Livre" vem do header do LocationSheet (h1)
     const h1 = container.querySelector('h1')
@@ -75,7 +75,7 @@ describe('#272 — nota-da-pasta com view dedicada (Atlas/Mundo Livre)', () => {
 
   it('não duplica o kicker nem aninha .page (modo embutido)', async () => {
     const { container } = renderFolder('Atlas/Mundo Livre')
-    await waitFor(() => expect(screen.getByText(/^Localização/)).toBeTruthy())
+    await waitFor(() => expect(screen.getByText('Região')).toBeTruthy())
     // um único kicker "Compêndio" (o do FolderView; o do LocationSheet some)
     const kickers = container.querySelectorAll('.kicker')
     expect(kickers.length).toBe(1)

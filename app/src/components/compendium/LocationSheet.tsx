@@ -7,9 +7,9 @@ import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { DocRuleElements } from './RuleElements'
 import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren, type AtlasRelations } from './AtlasNav'
-import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { compendioKicker } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
-import { loadDoc } from '../../data/useDoc'
+import { loadDoc, useDocs } from '../../data/useDoc'
 import {
   getLocalDoc,
   localEntriesOfKind,
@@ -35,7 +35,8 @@ import {
 import { buyTreasure, heroOuro } from '../../data/purchase'
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
-import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc } from '../item-card'
+import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc, ItemHover, docTier, docImageUrl } from '../item-card'
+import { useAssetIndex, resolveAsset, assetUrl } from '../../data/assets'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
 // (DocView) por uma ficha com abas Detalhes/Comércio/Hexploração na linguagem
@@ -69,11 +70,11 @@ type DetailField =
   | { kind: 'text'; label: string; key: string }
   | { kind: 'recursos'; label: string }
 
+// Feedback do mestre: Tipo e Geolocalização NÃO entram na tabela (já aparecem no
+// topo). Recursos saíram da tabela também — viram uma grade de mini-cards com
+// imagem + tooltip (RecursosGrid), abaixo.
 const DETAIL_FIELDS: DetailField[] = [
-  { kind: 'subtype', label: 'Tipo' },
   { kind: 'text', label: 'Descrição', key: 'Descrição' },
-  { kind: 'recursos', label: 'Recursos' },
-  { kind: 'text', label: 'Geolocalização', key: 'Geolocalização' },
   { kind: 'text', label: 'Contexto', key: 'Contexto' },
   { kind: 'text', label: 'Organizações Influentes', key: 'Organizações_Influentes' },
   { kind: 'text', label: 'Acontecimento Recente', key: 'Acontecimento_Recente' },
@@ -112,53 +113,127 @@ function DetailRow({ label, children }: { label: string; children: ReactNode }) 
   )
 }
 
+/** Recurso sem nota no sistema (ex.: "Rubi", "Agricultura (Grãos)") — ícone
+ *  genérico, já que não há carta pra mostrar. */
+const RECURSO_ICON = '📦'
+
+/** Mini-card de um recurso do lugar (feedback do mestre): quadrado com a imagem
+ *  da coisa (arma/imbuição/tesouro), tooltip da carta como as armas mostram
+ *  (ItemHover); recurso sem nota cai no ícone genérico + tooltip com o nome. */
+function RecursoCard({ name, doc }: { name: string; doc: VaultDoc | undefined }) {
+  const assets = useAssetIndex()
+  const byName = doc && assets ? resolveAsset(assets, doc.basename) : null
+  const img =
+    doc && assets ? (docImageUrl(doc, docTier(doc), assets) ?? (byName ? assetUrl(byName) : null)) : null
+  const square = (
+    <span
+      style={{
+        width: 54,
+        height: 54,
+        flex: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        background: 'var(--card)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(9),
+        fontSize: 24,
+      }}
+    >
+      {img ? (
+        <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      ) : (
+        RECURSO_ICON
+      )}
+    </span>
+  )
+  const cell = (
+    <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, width: 72, cursor: 'default' }}>
+      {square}
+      <span
+        style={{
+          fontSize: 9.5,
+          lineHeight: 1.15,
+          textAlign: 'center',
+          color: 'var(--muted)',
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+        }}
+      >
+        {name}
+      </span>
+    </span>
+  )
+  return doc ? <ItemHover doc={doc} fullBody>{cell}</ItemHover> : <TipHover html={esc(name)}>{cell}</TipHover>
+}
+
+/** Grade de recursos: resolve os wikilinks (arma/imbuição/foco/tesouro) pros
+ *  docs e carrega as cartas; texto puro fica como recurso sem nota. */
+function RecursosGrid({ recursos }: { recursos: string[] }) {
+  const catalog = useCatalog()
+  const items = useMemo(
+    () =>
+      recursos.map((raw) => {
+        const inner = /\[\[([^\]]+)\]\]/.exec(raw)?.[1] ?? null
+        if (inner) {
+          const [target, alias] = inner.split('|')
+          const res = catalog.resolve((target ?? '').trim())
+          return { id: res.kind === 'doc' ? res.id : null, name: (alias ?? target ?? raw).trim() }
+        }
+        return { id: null as string | null, name: raw.trim() }
+      }),
+    [recursos, catalog],
+  )
+  const ids = useMemo(() => items.map((i) => i.id).filter((x): x is string => !!x), [items])
+  const docs = useDocs(ids)
+  if (!items.length) return null
+  return (
+    <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
+        {`// RECURSOS · ${items.length}`}
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+        {items.map((it, i) => (
+          <RecursoCard key={i} name={it.name} doc={it.id ? docs?.get(it.id) : undefined} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
   const recursos = locationRecursos(doc)
-
   const rows: ReactNode[] = []
   for (const field of DETAIL_FIELDS) {
-    if (field.kind === 'subtype') {
-      const tipo = fieldText(doc.subtype)
-      if (tipo) rows.push(<DetailRow key="Tipo" label={field.label}>{tipo}</DetailRow>)
-    } else if (field.kind === 'recursos') {
-      if (recursos.length) {
-        rows.push(
-          <DetailRow key="Recursos" label={field.label}>
-            <span style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 10px' }}>
-              {recursos.map((r, i) => (
-                <span key={i}>
-                  <InlineFieldValue value={r} />
-                </span>
-              ))}
-            </span>
-          </DetailRow>,
-        )
-      }
-    } else {
-      const text = fieldText(doc.frontmatter[field.key])
-      if (text != null) {
-        rows.push(
-          <DetailRow key={field.key} label={field.label}>
-            <InlineFieldValue value={text} />
-          </DetailRow>,
-        )
-      }
+    if (field.kind !== 'text') continue
+    const text = fieldText(doc.frontmatter[field.key])
+    if (text != null) {
+      rows.push(
+        <DetailRow key={field.key} label={field.label}>
+          <InlineFieldValue value={text} />
+        </DetailRow>,
+      )
     }
   }
-
+  const vazio = !rows.length && !recursos.length && rel.children.length === 0
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      {rows.length ? (
-        <table className="inline-fields">
-          <tbody>{rows}</tbody>
-        </table>
-      ) : rel.children.length === 0 ? (
-        <EmptyPanel>{'// SEM DETALHES REGISTRADOS'}</EmptyPanel>
-      ) : null}
-      {/* Feedback do mestre: os lugares-filhos moram AQUI (descer na hierarquia),
-          não no breadcrumb do topo. */}
-      <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} />
-    </div>
+    <TipProvider>
+      <style>{ITEM_CARD_CSS}</style>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        {rows.length ? (
+          <table className="inline-fields">
+            <tbody>{rows}</tbody>
+          </table>
+        ) : null}
+        {recursos.length ? <RecursosGrid recursos={recursos} /> : null}
+        {vazio ? <EmptyPanel>{'// SEM DETALHES REGISTRADOS'}</EmptyPanel> : null}
+        {/* Feedback do mestre: os lugares-filhos moram AQUI (descer na hierarquia). */}
+        <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
+      </div>
+    </TipProvider>
   )
 }
 
@@ -717,13 +792,12 @@ export function LocationSheet({
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {/* Na sidebar/embutido o kicker "Compêndio do Sistema" só polui — some. */}
-      {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
+      {sidebar || embedded ? null : <div className="kicker">{compendioKicker(LOCATION_CATEGORY)}</div>}
       <header className="doc-header">
         <h1>{doc.basename}</h1>
-        <span className="doc-type">
-          {LOCATION_CATEGORY}
-          {doc.subtype ? ` · ${doc.subtype}` : ''}
-        </span>
+        {/* Feedback do mestre: só o subtype ("Nação"), sem "Localização · " (a
+            categoria já vai no kicker). */}
+        <span className="doc-type">{doc.subtype || LOCATION_CATEGORY}</span>
       </header>
 
       {/* F6 (#250) → feedback do mestre: SÓ o breadcrumb (o caminho) no topo;

@@ -88,8 +88,8 @@ describe('CriacaoView por subtipo (#246)', () => {
     const chips = document.querySelector('.criacao-chips') as HTMLElement
     expect(chips.textContent).toContain('Atributo-chave')
     expect(chips.textContent).toContain('PRE')
-    // retrato da classe (FM Imagem → doc-hero)
-    await waitFor(() => expect(document.querySelector('.doc-hero')).toBeTruthy())
+    // retrato da classe (FM Imagem → canto direito, .criacao-hero, não esticado)
+    await waitFor(() => expect(document.querySelector('.criacao-hero')).toBeTruthy())
   })
 })
 

@@ -117,8 +117,10 @@ describe('#275 — Armas/Escudos (prosa + dataview suprimido)', () => {
 describe('#275 — regressão: view dedicada (#272) intacta', () => {
   it('Atlas/Mundo Livre continua com a Localização embutida', async () => {
     renderFolder('Atlas/Mundo Livre')
+    // doc-type embutido agora mostra só o subtype ("Região"); a categoria vai no
+    // kicker "— LOCALIZAÇÃO".
     await waitFor(() => {
-      expect(screen.getByText(/^Localização/)).toBeTruthy()
+      expect(screen.getByText('Região')).toBeTruthy()
     })
   })
 })

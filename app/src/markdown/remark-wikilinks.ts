@@ -28,10 +28,18 @@ export function remarkWikilinks({ resolve }: Options) {
         if (match.startsWith('!')) {
           const ext = /\.([a-z0-9]+)$/i.exec(target.trim())?.[1]?.toLowerCase()
           if (ext && IMAGE_EXTENSIONS.has(ext)) {
+            // Modificadores de embed do Obsidian (![[x.png|right|profile|250]]):
+            // o TOKEN numérico é a largura; o resto (right/profile/…) é layout que
+            // NÃO deve vazar como texto/alt. Só a largura é consumida aqui.
+            const width = (alias ?? '')
+              .split('|')
+              .map((s) => s.trim())
+              .find((s) => /^\d+$/.test(s))
             return {
               type: 'image',
               url: `vault:${encodeURIComponent(target.trim())}`,
-              alt: alias ?? '',
+              alt: '',
+              ...(width ? { data: { hProperties: { width: Number(width) } } } : {}),
             }
           }
           // Transclusão de nota: se resolve pra um doc, nó custom que o

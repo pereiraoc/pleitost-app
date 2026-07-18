@@ -18,6 +18,8 @@ export interface AtlasRelations {
   /** Ids dos lugares-filhos (um nível abaixo), já ordenados por nome. */
   children: string[]
   nameOf: (id: string) => string
+  /** Subtipo (Nação/Região/…) do lugar — pro rótulo "Nome — Tipo". */
+  subtypeOf: (id: string) => string
 }
 
 /** Relações do Atlas pro lugar atual — breadcrumb (subir) + filhos (descer).
@@ -32,11 +34,12 @@ export function useAtlasRelations(doc: VaultDoc): AtlasRelations {
   const nameOf = (id: string) => catalog.entryById.get(id)?.basename ?? id.split('/').pop() ?? id
 
   return useMemo(() => {
-    if (!docs) return { crumbs: [], children: [], nameOf }
+    const subOf = (id: string) => (typeof docs?.get(id)?.subtype === 'string' ? docs.get(id)!.subtype! : '')
+    if (!docs) return { crumbs: [], children: [], nameOf, subtypeOf: subOf }
     const { parentOf, childrenOf } = buildAtlasIndex(docs.values(), catalog)
     const chain = ancestorChain(doc.id, parentOf, nameOf)
     const children = (childrenOf.get(doc.id) ?? []).slice().sort((a, b) => nameOf(a).localeCompare(nameOf(b)))
-    return { crumbs: chain.slice(0, -1), children, nameOf }
+    return { crumbs: chain.slice(0, -1), children, nameOf, subtypeOf: subOf }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docs, catalog, doc.id])
 }
@@ -49,9 +52,14 @@ export function AtlasBreadcrumb({ crumbs }: { crumbs: AtlasNode[] }) {
   return (
     <nav
       data-atlas-nav=""
-      aria-label="Caminho no Atlas"
+      aria-label="Geolocalização"
       style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 5, marginTop: -4 }}
     >
+      {/* Feedback do mestre: rótulo "Geolocalização:" deixa claro que é onde este
+          lugar está contido (o caminho de pais). */}
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.1em', color: 'var(--muted)' }}>
+        GEOLOCALIZAÇÃO:
+      </span>
       {crumbs.map((node, i) => (
         <span key={node.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
           {i > 0 ? <span style={{ color: 'var(--line2)', fontSize: 11 }}>›</span> : null}
@@ -75,10 +83,12 @@ export function AtlasChildren({
   doc,
   children,
   nameOf,
+  subtypeOf,
 }: {
   doc: VaultDoc
   children: string[]
   nameOf: (id: string) => string
+  subtypeOf: (id: string) => string
 }) {
   if (children.length === 0) return null
   return (
@@ -87,28 +97,37 @@ export function AtlasChildren({
         {`// LUGARES DENTRO DE ${doc.basename.toUpperCase()} · ${children.length}`}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {children.map((id) => (
-          <Link
-            key={id}
-            to={docPath(id)}
-            data-atlas-child={id}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 9,
-              padding: '9px 12px',
-              background: 'var(--panel)',
-              border: '1px solid var(--line2)',
-              color: 'var(--text)',
-              textDecoration: 'none',
-              clipPath: 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))',
-            }}
-          >
-            <span style={{ color: 'var(--accent)', fontSize: 13 }}>📍</span>
-            <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600 }}>{nameOf(id)}</span>
-            <span style={{ color: 'var(--muted)', fontSize: 14 }}>→</span>
-          </Link>
-        ))}
+        {children.map((id) => {
+          const tipo = subtypeOf(id)
+          return (
+            <Link
+              key={id}
+              to={docPath(id)}
+              data-atlas-child={id}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 9,
+                padding: '9px 12px',
+                background: 'var(--panel)',
+                border: '1px solid var(--line2)',
+                color: 'var(--text)',
+                textDecoration: 'none',
+                clipPath: 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))',
+              }}
+            >
+              <span style={{ color: 'var(--accent)', fontSize: 13 }}>📍</span>
+              <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600 }}>{nameOf(id)}</span>
+              {/* Feedback do mestre: o tipo do lugar, pequeno, ao lado do nome. */}
+              {tipo ? (
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' }}>
+                  {tipo}
+                </span>
+              ) : null}
+              <span style={{ color: 'var(--muted)', fontSize: 14 }}>→</span>
+            </Link>
+          )
+        })}
       </div>
     </section>
   )
