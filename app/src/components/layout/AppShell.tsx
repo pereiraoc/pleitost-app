@@ -6,7 +6,7 @@ import { setSelectedCreature, useSelectedCreature } from '../../data/selected-cr
 import { usePendingTabs } from './use-pending-tabs'
 import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useDoc } from '../../data/useDoc'
-import { DetailProvider } from '../../data/detail-context'
+import { DetailProvider, DetailAutoReveal } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
 import { BugReportButton } from './BugReportButton'
 import { RightSidebar } from './RightSidebar'
@@ -223,6 +223,10 @@ export function AppShell() {
 
   return (
     <DetailProvider>
+      {/* No mobile, abrir algo nos DETALHES (link/ação) revela o painel direito
+          automaticamente — no desktop o painel já é fixo, e abrir o drawer lá
+          mostraria um scrim indevido, então só revela abaixo de 820px. */}
+      <DetailAutoReveal onReveal={() => window.innerWidth < 820 && setRightOpen(true)} />
       <div className="app-root">
       <header className="topbar">
         <button
