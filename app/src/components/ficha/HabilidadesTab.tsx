@@ -20,7 +20,14 @@ import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, Ra
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
-import { pickArcanaEspecial, shouldOfferEssenciais, swapAtributo } from '../../rules/projection'
+import {
+  escolaDestinoDaMagia,
+  pickArcanaEspecial,
+  placeMagiaChoicePick,
+  shouldOfferEssenciais,
+  swapAtributo,
+} from '../../rules/projection'
+import type { Catalog } from '../../data/catalog'
 import {
   applyPericiaRankEdit,
   computePericiaMaxReachable,
@@ -1711,6 +1718,7 @@ export function HabilidadesArvorePanel({
   readOnly?: boolean
 }) {
   const model = useHeroModel(doc, 'habilidades')
+  const catalog = useCatalog()
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
   const entries = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
@@ -1756,30 +1764,8 @@ export function HabilidadesArvorePanel({
   // tag — mesmo mecanismo do subclassChoices (setSubclassPick acima) e da
   // persistência-como-estado do app (extract.ts:12). O plugin grava um
   // transient (`__choice__<key>`); aqui a fonte de verdade é o próprio FM.
-  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) => {
-    if (!newWl) return
-    const target = choiceTargetList(choice.targetRaw)
-    const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
-    const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const newKey = `[[${wikiTarget(newWl)}]]`
-    // Tag INDEXADA pela ocorrência (Escolha.NN.[[pai]]) — o resolveChoice do
-    // plugin lê exatamente essa. Sem o índice, várias escolhas do mesmo pai
-    // (5 essências) escreviam a MESMA tag e mudar uma mudava todas.
-    const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
-    const newSource = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
-    // Remove SÓ a linha desta MESMA ocorrência (tag exata) — as irmãs ficam.
-    const thisTagRx = nn
-      ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
-      : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
-    const kept = savedList.filter((row) => {
-      const entriesRow = Object.entries(row)
-      if (entriesRow.length !== 1) return true
-      const src = entriesRow[0]![1]
-      return !(typeof src === 'string' && thisTagRx.test(src))
-    })
-    kept.push({ [newKey]: newSource })
-    model.set(target.fmKey, kept)
-  }
+  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) =>
+    writeChoicePick(model, catalog, refs, parentTarget, choice, newWl)
 
   return (
     <div style={panel}>
@@ -1884,6 +1870,56 @@ export function HabilidadesArvorePanel({
       </div>
     </div>
   )
+}
+
+/** #297: escreve o pick de uma `Escolha_Habilidades`. Alvos PLANOS
+ *  (Tecnicas/Acoes/Habilidades) gravam a linha tagueada na lista plana; alvo
+ *  `Magias(.Secundaria).Lista` grava a magia no GRUPO DE ESCOLA certo (a lista é
+ *  aninhada por escola), removendo o pick anterior — antes o alvo Magias caía no
+ *  fallback Habilidades.Lista e trocar a magia "não fazia nada". Compartilhado
+ *  pelos dois onChoiceChange (habilidade-pai e técnica-pai), idênticos. */
+function writeChoicePick(
+  model: ReturnType<typeof useHeroModel>,
+  catalog: Catalog,
+  refs: HeroRefs,
+  parentTarget: string,
+  choice: HabChoice,
+  newWl: string,
+): void {
+  if (!newWl) return
+  const t = (choice.targetRaw ?? '').toLowerCase()
+  const newTarget = wikiTarget(newWl)
+  const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
+  const source = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
+  if (t.startsWith('magias')) {
+    const sec = t.startsWith('magias.secundaria') || t.startsWith('magias_secundaria')
+    const path = sec ? ['Magias', 'Secundaria', 'Lista'] : ['Magias', 'Lista']
+    const fmKey = sec ? 'Magias.Secundaria.Lista' : 'Magias.Lista'
+    const grupos = (fmPath(model.fm, ...path) ?? []) as Array<Record<string, unknown>>
+    const visited = new Map<string, VaultDoc>()
+    const doc = refs.refDoc(newWl)
+    if (doc) visited.set(newTarget, doc)
+    const escola = escolaDestinoDaMagia(newTarget, catalog, visited, grupos)
+    if (!escola) return // não resolvível → não corrompe (não ocorre p/ Arcana/Anima/Tesouros)
+    const oldTarget = choice.pick ? wikiTarget(choice.pick) : null
+    model.set(fmKey, placeMagiaChoicePick(grupos, oldTarget, newTarget, escola, source))
+    return
+  }
+  // Alvo PLANO (Tecnicas/Acoes/Habilidades) — grava a linha tagueada na lista.
+  const target = choiceTargetList(choice.targetRaw)
+  const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
+  const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const thisTagRx = nn
+    ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
+    : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
+  const kept = savedList.filter((row) => {
+    const entriesRow = Object.entries(row)
+    if (entriesRow.length !== 1) return true
+    const src = entriesRow[0]![1]
+    return !(typeof src === 'string' && thisTagRx.test(src))
+  })
+  kept.push({ [`[[${newTarget}]]`]: source })
+  model.set(target.fmKey, kept)
 }
 
 /** Lista-alvo de uma `Escolha_Habilidades` a partir do `targetRaw` da rule
@@ -2104,26 +2140,8 @@ export function TecnicasPanel({
     }
     return map
   }, [rules])
-  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) => {
-    if (!newWl) return
-    const target = choiceTargetList(choice.targetRaw)
-    const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
-    const esc = parentTarget.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const newKey = `[[${wikiTarget(newWl)}]]`
-    const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
-    const newSource = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
-    const thisTagRx = nn
-      ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
-      : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
-    const kept = savedList.filter((row) => {
-      const entriesRow = Object.entries(row)
-      if (entriesRow.length !== 1) return true
-      const src = entriesRow[0]![1]
-      return !(typeof src === 'string' && thisTagRx.test(src))
-    })
-    kept.push({ [newKey]: newSource })
-    model.set(target.fmKey, kept)
-  }
+  const onChoiceChange = (parentTarget: string, choice: HabChoice, newWl: string) =>
+    writeChoicePick(model, catalog, refs, parentTarget, choice, newWl)
 
   // Técnicas aprendidas agrupadas por rank (Slot.target senão rank do doc).
   const learnedByGroup = useMemo(() => {

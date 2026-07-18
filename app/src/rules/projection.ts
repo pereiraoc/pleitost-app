@@ -461,7 +461,7 @@ export function shouldOfferEssenciais(
  *  espelho de enrichMagias (cola/enrichments.ts:417-488). subcategoria da nota
  *  decide (FM visitado senão subtype do índice); Arcana usa `escola` (Negra/
  *  Branca) senão roteia por proficiência. `null` = escola não resolvível. */
-function escolaDestinoDaMagia(
+export function escolaDestinoDaMagia(
   base: string,
   catalog: Catalog,
   visited: Map<string, VaultDoc>,
@@ -482,6 +482,33 @@ function escolaDestinoDaMagia(
     return pickArcanaEspecial(grupos)
   }
   return null
+}
+
+/** #297: aplica o pick de uma `Escolha_Habilidades … Complementar Magias.Lista`
+ *  na estrutura de escolas de `Magias(.Secundaria).Lista` (a lista é aninhada
+ *  POR escola, não plana). Remove o pick ANTIGO (`oldTarget`) e qualquer
+ *  duplicata do NOVO de TODOS os grupos, e adiciona a nova magia
+ *  (`{[[X]]: source}`) no grupo `escolaDestino`. Puro: recebe/retorna os grupos
+ *  de escola. O merge dedupa por link (appendMergeFmList) e o prune limpa o pick
+ *  antigo órfão, então a regra reaplicada não duplica.  */
+export function placeMagiaChoicePick(
+  grupos: Array<Record<string, unknown>>,
+  oldTarget: string | null,
+  newTarget: string,
+  escolaDestino: string,
+  source: string,
+): Array<Record<string, unknown>> {
+  const keyBasename = (k: string): string =>
+    ((k.replace(/^\[\[|\]\]$/g, '').split('|')[0] ?? '').split('/').pop() ?? '').trim()
+  const strip = (lista: unknown): Array<Record<string, unknown>> =>
+    (Array.isArray(lista) ? lista : []).filter((row) => {
+      const t = keyBasename(Object.keys(row as Record<string, unknown>)[0] ?? '')
+      return t !== newTarget && (oldTarget == null || t !== oldTarget)
+    })
+  const out: Array<Record<string, unknown>> = grupos.map((g) => ({ ...g, Lista: strip(g.Lista) }))
+  const dest = out.find((g) => String(g.Nome) === escolaDestino)
+  if (dest) (dest.Lista as Array<Record<string, unknown>>).push({ [`[[${newTarget}]]`]: source })
+  return out
 }
 
 /** Distribui os deltas PLANOS `Magias.Lista` e `Magias.Secundaria.Lista`

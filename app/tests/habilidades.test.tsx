@@ -29,6 +29,9 @@ const catalog = buildCatalog(manifest)
 
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 const DRAUZIO_ID = 'Sistema/Criaturas/Heróis/Drauzio Variola'
+// Érico = Bardo Manipulador com "Estilo de Combate (Arte Mágica)" ativo; pick
+// atual "Palavras Cortantes" em Arcana Negra.
+const ERICO_ID = 'Sistema/Criaturas/Heróis/Érico Verdadeiríssimo'
 
 beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
@@ -108,6 +111,39 @@ describe('HABILIDADES — Essenciais só pra Arcanista (#296)', () => {
     expect(await screen.findByText('Arma de Luz', undefined, { timeout: 8000 })).toBeTruthy()
     // #296: "Alarme" (Essencial) NÃO deve aparecer pra um Bardo.
     expect(screen.queryByText('Alarme')).toBeNull()
+  })
+})
+
+describe('HABILIDADES — trocar a magia de Arte Mágica aplica (#297)', () => {
+  it('Bardo: mudar a Escolha "Magia" (Complementar Magias.Lista) PERSISTE', async () => {
+    // Antes, o pick de um alvo Magias.Lista caía no fallback Habilidades.Lista;
+    // o resolver não o achava e o dropdown revertia pro default → "nada acontece".
+    renderHabilidades(ERICO_ID)
+    fireEvent.click(await screen.findByText('HABILIDADES'))
+    // Alterar no painel de HABILIDADES (a árvore que tem a escolha), não no de Magias.
+    const habTitle = await screen.findByText('Habilidades')
+    fireEvent.click(within(habTitle.parentElement as HTMLElement).getByText('✎ Alterar'))
+    // O dropdown "Magia" da Arte Mágica começa em "Palavras Cortantes".
+    const findMagiaSelect = (needle: string) =>
+      (screen.getAllByLabelText('Magia') as HTMLSelectElement[]).find((s) => s.value.includes(needle))
+    await waitFor(
+      () => {
+        if (!findMagiaSelect('Palavras Cortantes')) throw new Error('select Magia ainda não montou')
+      },
+      { timeout: 8000 },
+    )
+    const select = findMagiaSelect('Palavras Cortantes')!
+    fireEvent.change(select, { target: { value: '[[Ruído Estridente]]' } })
+    // #297: a nova magia PERSISTE (o pick foi escrito no grupo de escola certo) e
+    // a antiga saiu — antes revertia pra "Palavras Cortantes".
+    await waitFor(
+      () => {
+        const sels = screen.getAllByLabelText('Magia') as HTMLSelectElement[]
+        expect(sels.some((s) => s.value.includes('Ruído Estridente'))).toBe(true)
+        expect(sels.every((s) => !s.value.includes('Palavras Cortantes'))).toBe(true)
+      },
+      { timeout: 8000 },
+    )
   })
 })
 
