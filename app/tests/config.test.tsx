@@ -4,7 +4,7 @@
 // (useSettings); com Mestre OFF a aba BESTIÁRIO dos NPCs fica bloqueada pra
 // clique (convenção :disabled), e ligar em CONFIG reflete sem reload.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -131,15 +131,15 @@ describe('tela CONFIG (issue #35)', () => {
 
   it('Modo Mestre persiste em pleitost.settings.mestre', async () => {
     renderApp('/config')
-    // \b evita casar o sufixo de "DESATIVADO"
-    const ativado = await screen.findByRole('button', { name: /\bATIVADO$/ })
-    const desativado = screen.getByRole('button', { name: /DESATIVADO/ })
-    // default: OFF
-    expect(desativado.style.getPropertyValue('--on')).toBe('1')
-    fireEvent.click(ativado)
+    // #303: "Ícones nos Links" também usa ATIVADO/DESATIVADO — escopa à linha do
+    // Modo Mestre pra não ambiguar. \b evita casar o sufixo de "DESATIVADO".
+    await screen.findByText('Modo Mestre')
+    const linha = () => within(screen.getByText('Modo Mestre').parentElement as HTMLElement)
+    expect(linha().getByRole('button', { name: /DESATIVADO/ }).style.getPropertyValue('--on')).toBe('1')
+    fireEvent.click(linha().getByRole('button', { name: /\bATIVADO$/ }))
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('true')
-    expect(screen.getByRole('button', { name: /\bATIVADO$/ }).style.getPropertyValue('--on')).toBe('1')
-    fireEvent.click(screen.getByRole('button', { name: /DESATIVADO/ }))
+    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.getPropertyValue('--on')).toBe('1')
+    fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('false')
   })
 })
@@ -155,7 +155,12 @@ describe('gating do BESTIÁRIO pelo Modo Mestre (issue #35)', () => {
 
     // liga o Modo Mestre na tela CONFIG (mesma árvore, sem reload)
     fireEvent.click(screen.getByRole('link', { name: 'CONFIG' }))
-    fireEvent.click(await screen.findByRole('button', { name: /\bATIVADO$/ }))
+    await screen.findByText('Modo Mestre')
+    fireEvent.click(
+      within(screen.getByText('Modo Mestre').parentElement as HTMLElement).getByRole('button', {
+        name: /\bATIVADO$/,
+      }),
+    )
 
     // volta pros NPCS: aba disponível e clicável
     fireEvent.click(screen.getByRole('link', { name: 'CRIATURAS' }))
@@ -174,7 +179,12 @@ describe('gating do BESTIÁRIO pelo Modo Mestre (issue #35)', () => {
     expect(bestiarioBtn().className).toContain('on')
 
     fireEvent.click(screen.getByRole('link', { name: 'CONFIG' }))
-    fireEvent.click(await screen.findByRole('button', { name: /DESATIVADO/ }))
+    await screen.findByText('Modo Mestre')
+    fireEvent.click(
+      within(screen.getByText('Modo Mestre').parentElement as HTMLElement).getByRole('button', {
+        name: /DESATIVADO/,
+      }),
+    )
     fireEvent.click(screen.getByRole('link', { name: 'CRIATURAS' }))
     await waitFor(() => expect(bestiarioBtn().disabled).toBe(true))
     // seleção recuou pra primeira aba (PESSOAS)

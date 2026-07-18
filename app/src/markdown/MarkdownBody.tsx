@@ -10,6 +10,8 @@ import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
 import { remarkInlineDataview } from './remark-inline-dataview'
 import { remarkWikilinks } from './remark-wikilinks'
+import { linkIconForEntry } from './link-icon'
+import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
 import { stripLeadingTitle } from './strip-leading-title'
@@ -39,6 +41,7 @@ export function MarkdownBody({
   heroTarget?: string
 }) {
   const catalog = useCatalog()
+  const { linkIcons } = useSettings()
   const body = useMemo(() => {
     const stripped = stripComments(doc.body)
     const titled = hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
@@ -52,7 +55,12 @@ export function MarkdownBody({
       remarkGfm,
       // ordem importa: `= this.x` substitui antes dos wikilinks linkificarem
       () => remarkInlineDataview(doc),
-      () => remarkWikilinks({ resolve: catalog.resolve }),
+      () =>
+        remarkWikilinks({
+          resolve: catalog.resolve,
+          // #303: ícones supercharged nos links (toggle do CONFIG, default on).
+          iconFor: linkIcons ? (id) => linkIconForEntry(catalog.entryById.get(id)) : undefined,
+        }),
       // eleva as transclusões de nota a blocos (evita <div> aninhado em <p>)
       remarkLiftNoteEmbeds,
       // #275: no contexto folder-note, a grade da pasta já é a listagem —
@@ -62,7 +70,7 @@ export function MarkdownBody({
         : []),
       remarkCallouts,
     ],
-    [doc, catalog, context],
+    [doc, catalog, context, linkIcons],
   )
 
   const components = useMemo<Components>(

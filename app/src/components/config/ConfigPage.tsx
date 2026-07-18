@@ -656,7 +656,7 @@ function DatabaseLine() {
 
 export function ConfigPage() {
   const { theme, mode, context, setTheme, setMode, setContext } = useTheme()
-  const { mestre, setMestre, desenvolvedor } = useSettings()
+  const { mestre, setMestre, desenvolvedor, linkIcons, setLinkIcons } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
   const [tab, setTab] = useState('geral')
@@ -732,6 +732,18 @@ export function ConfigPage() {
                 label={o.label}
                 on={mestre === o.id}
                 onClick={() => setMestre(o.id)}
+              />
+            ))}
+          </ConfigRow>
+          {/* #303: ícones supercharged nos links (emoji do tipo do doc-alvo). */}
+          <ConfigRow ic="🔗" label="Ícones nos Links">
+            {MESTRE_OPTS.map((o) => (
+              <OptPill
+                key={String(o.id)}
+                ic={o.ic}
+                label={o.label}
+                on={linkIcons === o.id}
+                onClick={() => setLinkIcons(o.id)}
               />
             ))}
           </ConfigRow>

@@ -25,12 +25,17 @@ const DESENVOLVEDOR_KEY = 'pleitost.settings.desenvolvedor'
 // body); quando o GM edita, o override completo é persistido aqui e a rolagem
 // da loja passa a usá-lo.
 const DISPONIBILIDADE_KEY = 'pleitost.settings.disponibilidade'
+// #303: ícones "supercharged" nos wikilinks (emoji do tipo do doc-alvo). Default
+// LIGADO — como na vault; o usuário pode desligar no CONFIG.
+const LINK_ICONS_KEY = 'pleitost.settings.linkIcons'
 
 export interface Settings {
   /** Modo Mestre: ON libera o BESTIÁRIO dos NPCs; OFF bloqueia a aba. */
   mestre: boolean
   /** Modo Desenvolvedor: ON libera a edição do compêndio (rascunho local). */
   desenvolvedor: boolean
+  /** Ícones supercharged nos links (default ON). */
+  linkIcons: boolean
   /** Matriz de disponibilidade (% por tipo de local × tier) que a loja usa. */
   disponibilidade: AvailabilityMatrix
 }
@@ -63,10 +68,16 @@ function loadSettings(): Settings {
     return {
       mestre: localStorage.getItem(MESTRE_KEY) === 'true',
       desenvolvedor: localStorage.getItem(DESENVOLVEDOR_KEY) === 'true',
+      linkIcons: localStorage.getItem(LINK_ICONS_KEY) !== 'false', // default ON
       disponibilidade: loadDisponibilidade(),
     }
   } catch {
-    return { mestre: false, desenvolvedor: false, disponibilidade: cloneMatrix(DEFAULT_MATRIX) }
+    return {
+      mestre: false,
+      desenvolvedor: false,
+      linkIcons: true,
+      disponibilidade: cloneMatrix(DEFAULT_MATRIX),
+    }
   }
 }
 
@@ -92,6 +103,16 @@ function setDesenvolvedor(desenvolvedor: boolean) {
   state = { ...getSettings(), desenvolvedor }
   try {
     localStorage.setItem(DESENVOLVEDOR_KEY, String(desenvolvedor))
+  } catch {
+    /* memória continua a fonte da sessão */
+  }
+  for (const cb of listeners) cb()
+}
+
+function setLinkIcons(linkIcons: boolean) {
+  state = { ...getSettings(), linkIcons }
+  try {
+    localStorage.setItem(LINK_ICONS_KEY, String(linkIcons))
   } catch {
     /* memória continua a fonte da sessão */
   }
@@ -140,7 +161,14 @@ function subscribe(cb: () => void): () => void {
 
 export function useSettings() {
   const settings = useSyncExternalStore(subscribe, getSettings)
-  return { ...settings, setMestre, setDesenvolvedor, setDisponibilidadeCell, resetDisponibilidade }
+  return {
+    ...settings,
+    setMestre,
+    setDesenvolvedor,
+    setLinkIcons,
+    setDisponibilidadeCell,
+    resetDisponibilidade,
+  }
 }
 
 /** Snapshot não-reativo da matriz (para módulos fora de React, ex. rolagem). */

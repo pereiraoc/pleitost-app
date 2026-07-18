@@ -1402,6 +1402,13 @@ a {
   }
 }
 
+/* #303: ícone "supercharged" antes do wikilink (emoji do tipo do doc-alvo),
+   via ::before — não entra no textContent do link (navegável/buscável pelo
+   texto). O atributo só existe quando o toggle do CONFIG está ligado. */
+a[data-link-icon]::before {
+  content: attr(data-link-icon) ' ';
+}
+
 /* #311: ficha estreita (mobile) — o NÍVEL sobe pro topo, centralizado acima dos
    dropdowns de classe/subclasse (como na ficha editável do plugin). */
 @media (max-width: 720px) {
