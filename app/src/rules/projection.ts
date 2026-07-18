@@ -104,9 +104,15 @@ const ESPECIALIZACOES_PATH_PREFIX =
 export function listEspecializacoesByPericia(catalog: Catalog): {
   especializacoes: Record<string, string[]>
   maestrias: Record<string, string[]>
+  /** #313: maestrias POR especialidade (chave = slug do basename da
+   *  especialidade), derivado da hierarquia de pastas
+   *  `<Perícia>/<Especialidade>/<Maestria>.md` — cada especialidade libera só as
+   *  SUAS 2 matérias, não as 4 da perícia. */
+  maestriasByEspecialidade: Record<string, string[]>
 } {
   const especializacoes: Record<string, string[]> = {}
   const maestrias: Record<string, string[]> = {}
+  const maestriasByEspecialidade: Record<string, string[]> = {}
   for (const entry of catalog.docsByType.get('Regra') ?? []) {
     if (!entry.path.startsWith(ESPECIALIZACOES_PATH_PREFIX)) continue
     const sub = String(entry.subtype ?? '').trim()
@@ -114,17 +120,27 @@ export function listEspecializacoesByPericia(catalog: Catalog): {
       sub === 'Especialização' ? especializacoes : sub === 'Maestria' ? maestrias : null
     if (!bucket) continue
     const rest = entry.path.slice(ESPECIALIZACOES_PATH_PREFIX.length)
-    const periciaDisplay = rest.split('/')[0] ?? ''
+    const parts = rest.split('/')
+    const periciaDisplay = parts[0] ?? ''
     if (!periciaDisplay || !rest.includes('/')) continue
     const base = entry.basename ?? entry.id.split('/').pop() ?? ''
     if (!base) continue
     const slug = slugifyNome(periciaDisplay)
     ;(bucket[slug] ??= []).push(`[[${base}]]`)
+    // Maestria: pasta-pai (parts[1]) = a especialidade que a libera. Chave = o
+    // BASENAME da especialidade (casa com wikiTarget do pick, sem depender de
+    // função de slug).
+    if (sub === 'Maestria') {
+      const especialidadeDisplay = parts[1] ?? ''
+      if (especialidadeDisplay) {
+        ;(maestriasByEspecialidade[especialidadeDisplay] ??= []).push(`[[${base}]]`)
+      }
+    }
   }
-  for (const map of [especializacoes, maestrias]) {
+  for (const map of [especializacoes, maestrias, maestriasByEspecialidade]) {
     for (const key of Object.keys(map)) map[key]!.sort((a, b) => a.localeCompare(b, 'pt-BR'))
   }
-  return { especializacoes, maestrias }
+  return { especializacoes, maestrias, maestriasByEspecialidade }
 }
 
 // ───────────────── fontes de regra por path (tooltips de Fonte) ─────────────────
@@ -409,6 +425,9 @@ export interface HeroProjection {
   especializacaoOptions: Record<string, string[]>
   /** Opções de Maestria por PericiaId — espelho de maestriaOptions. */
   maestriaOptions: Record<string, string[]>
+  /** #313: maestrias por ESPECIALIDADE (slug do basename) — cada especialidade
+   *  libera só as suas 2 matérias. */
+  maestriasByEspecialidade: Record<string, string[]>
   /** Deltas convergidos (debug/testes). */
   calculated: Deltas
   /** FM DERIVADO = FM salvo + calculated mesclado (mesmo shape do FM). As abas
@@ -742,6 +761,7 @@ export function buildHeroProjection(
     sourcesPerRank: deriveSourcesPerRank(result.appliedRules),
     especializacaoOptions: espMaes.especializacoes,
     maestriaOptions: espMaes.maestrias,
+    maestriasByEspecialidade: espMaes.maestriasByEspecialidade,
     calculated,
     derivedFm,
   }

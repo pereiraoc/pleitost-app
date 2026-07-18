@@ -1371,9 +1371,24 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
       ? pericias.filter((p) => eligivel(p, minRank)).map((p) => {
           const slug = slugify(str(p.Nome))
           const pick = str((p as Record<string, unknown>)[field])
+          // #313: Maestria oferece SÓ as 2 matérias da ESPECIALIDADE escolhida
+          // nessa perícia (derivado da hierarquia de pastas), não as 4 da perícia.
+          // Sem especialidade escolhida → nada a escolher ainda.
+          const espPick =
+            field === 'Maestria' ? str((p as Record<string, unknown>)['Especializacao']) : ''
+          const espBase = espPick ? wikiTarget(espPick).split('/').pop() ?? '' : ''
+          const opts =
+            field === 'Maestria'
+              ? (rules.maestriasByEspecialidade[espBase] ?? [])
+              : (options[slug] ?? [])
           return {
-            skill: `${displayName(slug)} (${minRank})`,
-            items: (options[slug] ?? []).map((opt) => ({
+            // #313: no rótulo do grupo de Maestria, mostra de qual especialidade
+            // as matérias derivam ("Atletismo ← Impulso"), deixando claro o vínculo.
+            skill:
+              field === 'Maestria' && espBase
+                ? `${displayName(slug)} ← ${linkLabel(espPick)}`
+                : `${displayName(slug)} (${minRank})`,
+            items: opts.map((opt) => ({
               on: pick === opt,
               txt: linkLabel(opt),
               target: opt,
