@@ -10,7 +10,7 @@
 // estado) e PRÓXIMO/ANTERIOR só com combate ativo; o jogador só vê o bloco
 // durante combate ativo, e aí a lista da mesa some (todo mundo está na lista
 // do combate), como no plugin (gm-view.ts:85-91, player-view.ts:56-77/128-134).
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { Fragment, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
@@ -43,6 +43,16 @@ import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/s
 import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
+import { useHeroRefs } from '../ficha/useHeroRefs'
+import { useInterativaCtx } from '../../interativa/useInterativaCtx'
+import {
+  invocacoesAtivas,
+  resolveActiveInvocacoes,
+  isEvKey,
+  invocStatEmoji,
+  formatStatValue,
+  type ActiveInvocacao,
+} from '../../interativa/invocacao'
 import { advanceTurn } from '../../data/session-repo/turn'
 import { composeGroupName } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
@@ -559,6 +569,76 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
  *    não-revelado aparece MASCARADO (maskedNames) com ESTIMATIVA de saúde
  *    por faixa (classifyVita) em vez de números; o GM vê tudo + toggles
  *    ❓/❗ (toggleRevealCharacter). */
+/** #66: card READ-ONLY de uma invocação ativa no roster de combate — nome,
+ *  vida (X/máx + moral temporária), defesas/stats e ataques resolvidos. */
+export function InvocacaoRosterCard({ inv }: { inv: ActiveInvocacao }) {
+  const { label, inst, resolved, evMax } = inv
+  const stats = resolved ? Object.entries(resolved.stats).filter(([k]) => !isEvKey(k)) : []
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+        padding: '7px 10px',
+        background: 'color-mix(in srgb,var(--accent2) 7%,var(--card))',
+        border: '1px solid color-mix(in srgb,var(--accent2) 32%,var(--line))',
+        clipPath: clip(7),
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+        <span aria-hidden style={{ color: 'var(--accent2)', fontSize: 12 }}>↳</span>
+        <span style={{ fontSize: 12.5, fontWeight: 700 }}>🔮 {label}</span>
+        <span style={{ flex: 1 }} />
+        <span style={mono({ fontSize: 10.5, color: '#d8695c', fontWeight: 700 })}>
+          ❤️ {inst.vitalidade}/{evMax}
+          {inst.moralTemporaria ? ` +${inst.moralTemporaria}` : ''}
+        </span>
+      </div>
+      {stats.length ? (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 10px' }}>
+          {stats.map(([k, v]) => (
+            <span key={k} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+              {invocStatEmoji(k)} {formatStatValue(k, v)}
+            </span>
+          ))}
+        </div>
+      ) : null}
+      {resolved?.ataques.map((at, i) => (
+        <div key={i} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+          ⚔️ {at.nome}
+          {at.bonus != null
+            ? ` ${typeof at.bonus === 'number' ? (at.bonus >= 0 ? '+' : '') + at.bonus : at.bonus}`
+            : ''}
+          {at.dano != null ? ` · ${at.dano}` : ''}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** #66: invocações ativas de um combatente (Amálgama etc.) — resolve o stat
+ *  block pelas regras do invocador (synthDoc + interativa) e renderiza aninhado
+ *  embaixo dele, como o companheiro animal. Só monta quando há invocação ativa
+ *  (o call-site gateia) — os hooks pesados não rodam pra combatente comum. */
+function CombatenteInvocacoes({ char }: { char: SessionCharacter }) {
+  const doc = useMemo(() => synthDocFromCharacter(char), [char])
+  const refs = useHeroRefs(doc)
+  const inter = useInterativaCtx(doc, refs)
+  const resolvidas = useMemo(() => {
+    const ativas = invocacoesAtivas({ Interativa: { Invocacoes_Ativas: char.state.invocacoesAtivas } })
+    return resolveActiveInvocacoes(inter.descriptors, doc.frontmatter, ativas)
+  }, [inter.descriptors, doc, char.state.invocacoesAtivas])
+  if (resolvidas.length === 0) return null
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginLeft: 22 }}>
+      {resolvidas.map((a) => (
+        <InvocacaoRosterCard key={a.inst.id} inv={a} />
+      ))}
+    </div>
+  )
+}
+
 function CombateDaSala({ sess }: { sess: SessionRec }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
@@ -701,13 +781,16 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               // revelado, pra jogador, NÃO mostra o retrato real (revelaria a
               // identidade) — cai nas iniciais do nome mascarado, igual ao nome.
               const mostraReal = !npc || isGm || revelado
+              // #66: invocações só aparecem quando o combatente é visível (não
+              // vaza um NPC disfarçado) E tem invocação ativa (gateia os hooks).
+              const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
               const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
               const portrait = mostraReal
                 ? creatureImageUrl(synthDocFromCharacter(c), assets, true)
                 : null
               return (
+                <Fragment key={c.id}>
                 <div
-                  key={c.id}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -764,6 +847,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                     </button>
                   ) : null}
                 </div>
+                {/* #66: invocações ativas aninhadas embaixo do invocador */}
+                {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
+                </Fragment>
               )
             })
           : null}

@@ -179,6 +179,54 @@ export function resolveInvocacao(desc: EffectDescriptor, ctx: InvocacaoCtx): Inv
   return { stats, ataques }
 }
 
+export interface ActiveInvocacao {
+  label: string
+  inst: InvocacaoInstance
+  /** Stat block resolvido (null se o invocador não tem rank pra essa invocação). */
+  resolved: InvocacaoResolved | null
+  /** EV máximo da instância (5×PM no Amálgama etc.). */
+  evMax: number
+}
+
+/** #66 (feedback do mestre): resolve TODAS as invocações ATIVAS de um invocador
+ *  pro roster de combate — casa cada label com seu descriptor e resolve o stat
+ *  block POR INSTÂNCIA (ctx com a potência daquela instância, como o
+ *  InstanciaCard). Puro/read-only; labels sem descriptor são ignorados. */
+export function resolveActiveInvocacoes(
+  descriptors: readonly EffectDescriptor[],
+  fm: Record<string, unknown>,
+  ativas: InvocacoesAtivasMap,
+): ActiveInvocacao[] {
+  const nivel = num(fm['Nível']) || 1
+  const out: ActiveInvocacao[] = []
+  for (const [label, insts] of Object.entries(ativas)) {
+    const desc = descriptors.find((d) => d.label === label)
+    if (!desc) continue
+    const proficiencia = lookupRota(fm, desc.invocacao?.porProficienciaEm)
+    for (const inst of insts) {
+      const ctx: InvocacaoCtx = {
+        nivelInvocador: nivel,
+        proficiencia,
+        selectores: { 'Potência Mágica': inst.potencia, 'Potencia Magica': inst.potencia },
+      }
+      const base = resolveInvocacao(desc, ctx)
+      // bônus {doInvocador:"MagiaAtaque"} → número real do ataque mágico do
+      // invocador (resolveAttackBonus); número literal passa direto.
+      const resolved = base
+        ? {
+            ...base,
+            ataques: base.ataques.map((a) => ({
+              ...a,
+              bonus: typeof a.bonus === 'string' ? (resolveAttackBonus(a.bonus, fm, desc)?.total ?? a.bonus) : a.bonus,
+            })),
+          }
+        : null
+      out.push({ label, inst, resolved, evMax: computeEvMax(desc, inst.potencia) })
+    }
+  }
+  return out
+}
+
 /** number literal direto; {doInvocador: X} vira a string X (caller resolve
  *  consultando o herói) — plugin :171-182. */
 function resolveBonusRef(bonus: number | { doInvocador: string } | undefined): number | string | null {
