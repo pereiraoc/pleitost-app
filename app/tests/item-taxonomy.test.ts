@@ -55,6 +55,11 @@ describe('itemCategoria — categoria pelo PATH do doc', () => {
     expect(itemCategoria(byName('Arma Obra-prima'))).toBe('qualidade')
     expect(itemCategoria(byName('Bracelete Elemental'))).toBe('equipamento')
     expect(itemCategoria(byName('Foco da Penetração'))).toBe('implemento')
+    // Artefatos = novo tipo de tesouro (só a pasta os distingue)
+    expect(itemCategoria(byName('Garras do Rei-Mago'))).toBe('artefato')
+  })
+  it('Artefatos não têm qualidade comprada (item único, sem tier/custo)', () => {
+    expect(categoriaTemQualidade('artefato')).toBe(false)
   })
 })
 

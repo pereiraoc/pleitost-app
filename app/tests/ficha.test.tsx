@@ -8,6 +8,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
+import { resolveVaultFile } from './fixtures/frozen-heroes'
 import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
@@ -27,7 +28,7 @@ const catalog = buildCatalog(manifest)
 
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 const carlos = JSON.parse(
-  fs.readFileSync(path.join(vaultDataDir, `${CARLOS_ID}.json`), 'utf8'),
+  fs.readFileSync(resolveVaultFile(vaultDataDir, `${CARLOS_ID}.json`), 'utf8'),
 ) as VaultDoc
 const fm = carlos.frontmatter as Record<string, any>
 
@@ -35,7 +36,7 @@ beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
     const url = String(input)
     const rel = decodeURIComponent(url.replace(/^\/vault-data\//, ''))
-    const file = path.join(vaultDataDir, rel)
+    const file = resolveVaultFile(vaultDataDir, rel)
     const ok = fs.existsSync(file)
     return {
       ok,
@@ -102,8 +103,10 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     // arma real equipada na sub-aba ATAQUES
     expect(await screen.findByText(/Punhal Relampejante/)).toBeTruthy()
     // chip de AdO (design): dano base da arma + modelo da Interativa (#15) —
-    // Mestre soma 1 dado (d4+2 → 1d4+2) e o FM salvo do Carlos tem Encantar
-    // Arma ATIVO no Punhal (Potência Mágica 9 → OportunidadeFixo +5): 1d4+7.
+    // Mestre soma 1 dado (d4+2 → 1d4+2) e o FM (congelado em tests/fixtures) do
+    // Carlos tem Encantar Arma ATIVO no Punhal (Potência Mágica 9 →
+    // OportunidadeFixo +5): 1d4+7. (Inspiração NÃO está persistida no fixture, só
+    // o efeito auto de Performance Bárdica — logo sem o buff de dano da Inspiração.)
     // AdO agora abre tooltip por hover/tap (TipHover), sem title nativo:
     // localiza o chip pelo próprio texto.
     const adoChip = await screen.findByText(/AdO 1d4\+7/)

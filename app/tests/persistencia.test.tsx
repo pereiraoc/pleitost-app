@@ -10,6 +10,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { resolveVaultFile } from './fixtures/frozen-heroes'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { AppShell } from '../src/components/layout/AppShell'
@@ -31,7 +32,7 @@ const catalog = buildCatalog(manifest)
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 const STORE_KEY = `pleitost.heroEdits.${CARLOS_ID}`
 const carlos = JSON.parse(
-  fs.readFileSync(path.join(vaultDataDir, `${CARLOS_ID}.json`), 'utf8'),
+  fs.readFileSync(resolveVaultFile(vaultDataDir, `${CARLOS_ID}.json`), 'utf8'),
 ) as VaultDoc
 const fm = carlos.frontmatter as Record<string, any>
 
@@ -60,7 +61,7 @@ beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
     const url = String(input)
     const rel = decodeURIComponent(url.replace(/^\/vault-data\//, ''))
-    const file = path.join(vaultDataDir, rel)
+    const file = resolveVaultFile(vaultDataDir, rel)
     const ok = fs.existsSync(file)
     return {
       ok,

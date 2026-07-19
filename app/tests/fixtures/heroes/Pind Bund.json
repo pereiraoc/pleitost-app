@@ -1,0 +1,865 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Pind Bund",
+  "path": "Sistema/Criaturas/Heróis/Pind Bund.md",
+  "basename": "Pind Bund",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Carlos, Dante, Mera, Pind, Thoren]]",
+    "[[Affonso, Assis, Leonel e Pind]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Carlos, Dante, Mera, Pind, Thoren]]",
+      "[[Affonso, Assis, Leonel e Pind]]"
+    ],
+    "Imagem": "Pind Bund.png",
+    "Nível": 7,
+    "Classe": "[[Arcanista|Mestre-Arcanista Bruxo]]",
+    "Sintonia": "[[Traço Elemental da Terra]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 20,
+      "Moral": 40
+    },
+    "Atributos": {
+      "Principal": "INT",
+      "FOR": 0,
+      "AGI": 2,
+      "INT": 3,
+      "PRE": 1
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 3,
+        "E": 3,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 2,
+          "Especializacao": "[[Truque Mágico]]",
+          "Maestria": "[[Utensílio Mágico]]",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Arcanista]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M"
+            },
+            {
+              "Bonus_Item": "Regra.[[Sensor Arcano]]"
+            },
+            {
+              "Bonus_Especial": "Regra.[[Princípios Arcanos]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[História]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Colar da Eloquência]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Luvas Purificadas]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Influência]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Anel Canário]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Anatomia",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Escola Arcana]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Princípios Arcanos]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Arcanologista]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Prática Avançada]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Campo de Força]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Escola Arcana (Estudos do Vazio)|Estudos do Vazio]]": "Escolha.[[Escola Arcana]]"
+        },
+        {
+          "[[Prática Avançada (Estudos do Vazio)|Estudos do Vazio]]": "Regra.[[Prática Avançada]]"
+        },
+        {
+          "[[Mestre-Arcanista]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Prática Excepcional]]": "Regra.[[Arcanista]]"
+        },
+        {
+          "[[Prática Excepcional (Estudos do Vazio)]]": "Regra.[[Prática Excepcional]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Escudo Residual]]": "Slot.A"
+        },
+        {
+          "[[Magia Acelerada]]": "Slot.E"
+        },
+        {
+          "[[Contra-mágica Superior]]": "Slot.E"
+        },
+        {
+          "[[Contra-mágica Flexível]]": "Slot.A"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 8,
+      "EM": 7,
+      "Slots": {
+        "B": 5,
+        "A": 7,
+        "E": 5,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Raio Arcano]]": "Regra.[[Princípios Arcanos]]"
+            },
+            {
+              "[[Mão Mágica]]": "Slot.B",
+              "[[Identificar]]": "Slot.A"
+            },
+            {
+              "[[Compreender Idiomas]]": "Slot.E",
+              "[[Mão Mágica]]": "Slot.B"
+            },
+            {
+              "[[Detectar Magia]]": "Slot.B",
+              "[[Compreender Idiomas]]": "Slot.E"
+            },
+            {
+              "[[Luz]]": "Slot.B",
+              "[[Detectar Magia]]": "Slot.B"
+            },
+            {
+              "[[Visão no Escuro]]": "Slot.A",
+              "[[Luz]]": "Slot.B"
+            },
+            {
+              "[[Amálgama das Sombras]]": "Slot.E",
+              "[[Visão no Escuro]]": "Slot.A"
+            },
+            {
+              "[[Aterrorizar]]": "Slot.A",
+              "[[Amálgama das Sombras]]": "Slot.E"
+            },
+            {
+              "[[Choque Mental]]": "Slot.B",
+              "[[Aterrorizar]]": "Slot.A"
+            },
+            {
+              "[[Condenar]]": "Slot.M",
+              "[[Choque Mental]]": "Slot.B"
+            },
+            {
+              "[[Distorção Sensorial]]": "Slot.E",
+              "[[Condenar]]": "Slot.M"
+            },
+            {
+              "[[Drenar]]": "Slot.B",
+              "[[Distorção Sensorial]]": "Slot.E"
+            },
+            {
+              "[[Força Mental]]": "Slot.A",
+              "[[Drenar]]": "Slot.B"
+            },
+            {
+              "[[Imagem do Medo]]": "Slot.E",
+              "[[Enfraquecer]]": "Slot.A"
+            },
+            {
+              "[[Lentidão]]": "Slot.E",
+              "[[Força Mental]]": "Slot.A"
+            },
+            {
+              "[[Míssil Mágico]]": "Slot.A",
+              "[[Imagem do Medo]]": "Slot.E"
+            },
+            {
+              "[[Servo das Sombras]]": "Slot.A",
+              "[[Lentidão]]": "Slot.E"
+            },
+            {
+              "[[Míssil Mágico]]": "Slot.A"
+            },
+            {
+              "[[Servo das Sombras]]": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Compreender Idiomas]]": "Tesouro.[[Colar da Eloquência]]"
+            },
+            {
+              "[[Detectar Magia]]": "Tesouro.[[Sensor Arcano]]"
+            },
+            {
+              "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": []
+    },
+    "Ataques": {
+      "Proficiencia": "E",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Luva do Arcanista|Luva do Arcanista (Experiente)]]",
+        "[[Anel da Resistência|Anel da Resistência (Adepto)]]",
+        "[[Anel do Equilíbrio|Anel do Equilíbrio (Experiente)]]",
+        "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+        "[[Foco da Repetição|Foco da Repetição (Experiente)]]",
+        "[[Sensor Arcano|Sensor Arcano (Experiente)]]",
+        "[[Foco da Penetração|Foco da Penetração (Experiente)]]",
+        "[[Colar da Eloquência|Colar da Eloquência (Experiente)]]",
+        "[[Anel Canário|Anel Canário (Adepto)]]",
+        "[[Luvas Purificadas|Luvas Purificadas (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "1x Orelha de Goblin\n\ncolar eloquencia latin ",
+      "Consumiveis": [
+        "[[Poção de Cura|Poção de Cura (Adepto) (x1)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "N",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Adaga]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [
+        {
+          "qtd": 3,
+          "texto": "Goblins e Hobgoblin em mina"
+        },
+        {
+          "qtd": 5,
+          "texto": "Rastrear tribo de hobgoblin e recuperar gemas"
+        },
+        {
+          "qtd": 3,
+          "texto": "Resolução de tremores na escavação de novo predio"
+        },
+        {
+          "qtd": 4,
+          "texto": "energia negativa em construção de estrada"
+        },
+        {
+          "qtd": 4,
+          "texto": "Proteção de Carregamento de Esmeraldas (Lilá > Safira)"
+        },
+        {
+          "qtd": 3,
+          "texto": "Ordem Solar: Zumbis perto de Vinhedos"
+        },
+        {
+          "qtd": 14,
+          "texto": "Ordem Solar: Expedição à Tumba Selada"
+        },
+        {
+          "qtd": 24,
+          "texto": "Neutralização da Fenda de Energia Negativa"
+        },
+        {
+          "qtd": 41,
+          "texto": "Expedição principe anão"
+        },
+        {
+          "qtd": 50,
+          "texto": "Missão kobolds na estação"
+        }
+      ],
+      "Reconhecimentos": [
+        {
+          "entidade": "Ordem Solar",
+          "texto": "Luz do Ápice"
+        },
+        {
+          "entidade": "Reino dos anões",
+          "texto": "Desbravador Real"
+        }
+      ]
+    },
+    "Biografia": {
+      "Passado": "Coveiro",
+      "Motivacao": "",
+      "Genero": "M",
+      "Idade": "?",
+      "Naturalidade": "[[Safira]]",
+      "Altura": "166",
+      "Peso": "44",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": "11 marcas\nDia 1: Hoje comi panquecas.\nDia 8: pegar quest da fundação \nDia 9: seguimos a carroça com 1 hob e dois goblin\ndia 10 investigamos fogueira azul\ndia 11_ traduzimos\ndia 12: traduzimos\ndia 13: traduzimos e entregamos missao, agendamos missão de promoção \nnovo mês fui traido \nDia 1: Pegamos missão barco\nDia 2: Entramos no barco\nDia 3: Barco uma merda\nDia 4: Barco uma merda ainda\nDia 5: Barco ainda uma merda\nDia 6: Barco ainda uma merda\nDia 7: ATAQUE GOBLIN"
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 3,
+      "Abatedor": 0,
+      "Vanguarda": 0
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 20,
+        "Moral": 14,
+        "Moral_Temporaria": 8,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      },
+      "Usos_Recursos": {
+        "tes:Foco da Repetição|tier:A": 0,
+        "tes:Sensor Arcano|tier:E": 1,
+        "tes:Foco da Repetição|tier:E": 1,
+        "tes:Foco da Penetração|tier:A": 0,
+        "tes:Anel Canário|tier:A": 0,
+        "tes:Colar da Eloquência|tier:E": 1,
+        "tes:Amplificador Audiovisual|tier:A": 1,
+        "tes:Luvas Purificadas|tier:A": 1
+      },
+      "Invocacoes_Ativas": {
+        "Amálgama das Sombras": [
+          {
+            "id": "Amálgama das Sombras#1782167100900-1",
+            "potencia": 6,
+            "vitalidade": 30,
+            "moralTemporaria": 0
+          }
+        ]
+      },
+      "Condicoes_Ativas": {},
+      "Efeitos_Ativos": {}
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Affonso, Assis, Leonel e Pind",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink",
+      "alias": "Mestre-Arcanista Bruxo"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Truque Mágico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Utensílio Mágico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sensor Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Princípios Arcanos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luvas Purificadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Influência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel Canário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Excepcional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luva do Arcanista",
+      "kind": "wikilink",
+      "alias": "Luva do Arcanista (Experiente)"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink",
+      "alias": "Anel da Resistência (Adepto)"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink",
+      "alias": "Anel do Equilíbrio (Experiente)"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink",
+      "alias": "Amplificador Audiovisual (Adepto)"
+    },
+    {
+      "target": "Foco da Repetição",
+      "kind": "wikilink",
+      "alias": "Foco da Repetição (Experiente)"
+    },
+    {
+      "target": "Sensor Arcano",
+      "kind": "wikilink",
+      "alias": "Sensor Arcano (Experiente)"
+    },
+    {
+      "target": "Foco da Penetração",
+      "kind": "wikilink",
+      "alias": "Foco da Penetração (Experiente)"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink",
+      "alias": "Colar da Eloquência (Experiente)"
+    },
+    {
+      "target": "Anel Canário",
+      "kind": "wikilink",
+      "alias": "Anel Canário (Adepto)"
+    },
+    {
+      "target": "Luvas Purificadas",
+      "kind": "wikilink",
+      "alias": "Luvas Purificadas (Adepto)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Adepto) (x1)"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

@@ -17,6 +17,7 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { resolveVaultFile } from './fixtures/frozen-heroes'
 import { buildCatalog } from '../src/data/catalog'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 import {
@@ -64,7 +65,7 @@ const manifest = JSON.parse(
 const catalog = buildCatalog(manifest)
 
 const loadSync = (id: string): VaultDoc =>
-  JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
+  JSON.parse(fs.readFileSync(resolveVaultFile(vaultDataDir, `${id}.json`), 'utf8')) as VaultDoc
 
 /** Resolvedor síncrono wikilink→doc — mesma semântica do HeroRefs.refDoc. */
 const refDoc = (value: unknown): VaultDoc | undefined => {

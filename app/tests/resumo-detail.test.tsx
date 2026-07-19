@@ -10,6 +10,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-li
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { resolveVaultFile } from './fixtures/frozen-heroes'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ResumoDetail } from '../src/components/detail/ResumoDetail'
@@ -28,7 +29,7 @@ beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
     const url = String(input)
     const rel = decodeURIComponent(url.replace(/^\/vault-data\//, ''))
-    const file = path.join(vaultDataDir, rel)
+    const file = resolveVaultFile(vaultDataDir, rel)
     const ok = fs.existsSync(file)
     return { ok, status: ok ? 200 : 404, json: async () => JSON.parse(fs.readFileSync(file, 'utf8')) }
   }) as typeof fetch
@@ -265,8 +266,8 @@ describe('#199 resumo — ações, técnicas, tesouros, habilidades e consumíve
     expect(screen.getByText('// CONSUMÍVEIS')).toBeTruthy()
     const txt = container.textContent ?? ''
     expect(txt).toContain('Poção de Cura (A) x3')
-    expect(txt).toContain('Poção de Cura (E) x2')
-    expect(txt).toContain('Poção da Coragem (E) x1')
+    expect(txt).toContain('Poção de Cura (E) x1')
+    expect(txt).toContain('Poção da Nutrição (E) x1')
     await waitFor(() => {
       const tip = screen.getByText('Poção de Cura (A)').closest('[data-breakdown-html]')
       expect(tip).toBeTruthy()
@@ -353,8 +354,8 @@ describe('#242 resumo — apresentação em cards', () => {
     expect(chip).toBeTruthy()
     expect(chip.style.clipPath).toContain('polygon')
     // quantidade do consumível fica no mesmo chip do item
-    const pocao = screen.getByText('Poção da Coragem (E)').closest('[data-resumo-chip]') as HTMLElement
-    expect(pocao.textContent).toBe('Poção da Coragem (E) x1')
+    const pocao = screen.getByText('Poção da Nutrição (E)').closest('[data-resumo-chip]') as HTMLElement
+    expect(pocao.textContent).toBe('Poção da Nutrição (E) x1')
   })
 
   it('perícias em grid com o emoji do atributo em coluna própria e mods em var(--red)', async () => {

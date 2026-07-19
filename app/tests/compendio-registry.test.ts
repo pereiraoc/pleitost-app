@@ -44,6 +44,17 @@ describe('compendio-registry (#244)', () => {
     expect(navLabel('Sistema/Equipamento')).toBe('Items')
   })
 
+  it('Artefatos (novo tipo de tesouro) entra em Items com ícone/label e trilha própria', () => {
+    const ART = 'Sistema/Equipamento/Tesouros/Artefatos'
+    // aparece entre as categorias de "Items" (Sistema/Equipamento)
+    expect(navChildren('Sistema/Equipamento')).toContain(ART)
+    expect(navLabel(ART)).toBe('Artefatos')
+    expect(navMeta(ART)?.icon).toBeTruthy()
+    expect(navIconPath(ART)).toBeTruthy()
+    // trilha pula o intermediário "Tesouros": Sistema › Items › Artefatos
+    expect(navAncestors(ART).map(navLabel)).toEqual(['Sistema', 'Items', 'Artefatos'])
+  })
+
   it('folhas não são nós de navegação', () => {
     expect(isNavNode('Atlas')).toBe(false)
     expect(isNavNode('Campanhas/Aventuras')).toBe(false)

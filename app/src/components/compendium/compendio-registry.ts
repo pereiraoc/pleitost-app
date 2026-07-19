@@ -41,6 +41,7 @@ export const NAV_CHILDREN: Record<string, string[]> = {
     'Sistema/Equipamento/Armaduras',
     'Sistema/Equipamento/Armas',
     'Sistema/Equipamento/Escudos',
+    'Sistema/Equipamento/Tesouros/Artefatos',
     'Sistema/Equipamento/Tesouros/Consumíveis',
     'Sistema/Equipamento/Tesouros/Equipamentos',
     'Sistema/Equipamento/Tesouros/Imbuições e Qualidade',
@@ -66,6 +67,9 @@ export const NAV_META: Record<string, CompendioMeta> = {
   'Sistema/Equipamento/Armaduras': { icon: '🛡️' },
   'Sistema/Equipamento/Armas': { icon: '⚔️' },
   'Sistema/Equipamento/Escudos': { icon: '🛡' },
+  // Artefatos = novo tipo de tesouro (só a PASTA os distingue; type/subtype
+  // seguem Item/Tesouro). Entram como categoria própria de "Items".
+  'Sistema/Equipamento/Tesouros/Artefatos': { icon: '💎', label: 'Artefatos' },
   'Sistema/Equipamento/Tesouros/Consumíveis': { icon: '🧪', label: 'Consumíveis' },
   'Sistema/Equipamento/Tesouros/Equipamentos': { icon: '🎒', label: 'Equipamentos' },
   'Sistema/Equipamento/Tesouros/Imbuições e Qualidade': { icon: '✨', label: 'Imbuições e Qualidade' },
@@ -100,6 +104,8 @@ export const NAV_ICON_PATHS: Record<string, string> = {
   'Sistema/Equipamento/Armaduras': SHIELD,
   'Sistema/Equipamento/Armas': SWORDS,
   'Sistema/Equipamento/Escudos': `${SHIELD}<path d="M12 4v16"/>`,
+  // gem (lucide) — artefato legendário/precioso
+  'Sistema/Equipamento/Tesouros/Artefatos': `<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>`,
   'Sistema/Equipamento/Tesouros/Consumíveis': `<path d="M10 2v6.5L4.5 18a2 2 0 0 0 1.75 3h11.5a2 2 0 0 0 1.75-3L14 8.5V2"/><path d="M8.5 2h7"/><path d="M7 15h10"/>`,
   'Sistema/Equipamento/Tesouros/Equipamentos': BACKPACK,
   'Sistema/Equipamento/Tesouros/Imbuições e Qualidade': `<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.6 1.8 1.9.7-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.7z"/>`,

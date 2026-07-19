@@ -17,7 +17,11 @@ export function parseFrontmatter(raw) {
   const fmText = m[1];
   const body = raw.slice(m[0].length);
   try {
-    const parsed = parseYaml(fmText);
+    // uniqueKeys:false → tolera chaves DUPLICADAS como o Obsidian/PyYAML (última
+    // vence). Sem isso, o parser `yaml` (estrito) lançava "Map keys must be
+    // unique" e o doc caía com frontmatter VAZIO — ex.: heróis com `Interativa`
+    // que repete `Condicoes_Ativas` (Dante/Mera) perdiam TODA a ficha.
+    const parsed = parseYaml(fmText, { uniqueKeys: false });
     // YAML vazio (`--- \n ---`) → null; normaliza pra objeto.
     const frontmatter =
       parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};

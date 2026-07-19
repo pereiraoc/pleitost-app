@@ -34,6 +34,7 @@ export type ItemCategoria =
   | 'arma'
   | 'escudo'
   | 'armadura'
+  | 'artefato'
   | 'consumivel'
   | 'imbuicao'
   | 'qualidade'
@@ -46,6 +47,7 @@ export const CATEGORIA_LABEL: Record<ItemCategoria, string> = {
   arma: 'Armas',
   escudo: 'Escudos',
   armadura: 'Armaduras',
+  artefato: 'Artefatos',
   consumivel: 'Consumíveis',
   imbuicao: 'Imbuições',
   qualidade: 'Qualidades',
@@ -59,6 +61,7 @@ export const CATEGORIA_ORDER: ItemCategoria[] = [
   'arma',
   'escudo',
   'armadura',
+  'artefato',
   'consumivel',
   'imbuicao',
   'qualidade',
@@ -74,6 +77,8 @@ export function itemCategoria(doc: VaultDoc): ItemCategoria {
   if (id.includes('/Equipamento/Armas/')) return 'arma'
   if (id.includes('/Equipamento/Escudos/')) return 'escudo'
   if (id.includes('/Equipamento/Armaduras/')) return 'armadura'
+  // Artefatos: novo tipo de tesouro — a subpasta é a fonte de verdade.
+  if (id.includes('/Equipamento/Tesouros/Artefatos/')) return 'artefato'
   if (id.includes('/Consumíveis/')) return 'consumivel'
   // "Imbuições e Qualidade" tem 2 subpastas: Imbuições e Qualidade (obra-prima).
   if (id.includes('/Imbuições e Qualidade/Qualidade/')) return 'qualidade'
