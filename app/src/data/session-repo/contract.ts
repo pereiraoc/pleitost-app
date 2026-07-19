@@ -76,6 +76,10 @@ export interface EncounterTurnState {
   currentIndex: number
   round: number
   started: boolean
+  /** #324: combatentes ESCONDIDOS pelo GM — os jogadores não os veem na
+   *  iniciativa; o GM vê com marcador 🙈. Persiste no MESMO jsonb turn_state
+   *  (sem coluna nova). Ausente/[] = ninguém escondido. */
+  hidden?: string[]
 }
 
 /** Difficulty persistida (jsonb) — no plugin estende EncounterDifficultyResult

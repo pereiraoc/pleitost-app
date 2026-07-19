@@ -333,6 +333,45 @@ describe('#196 iniciativa remota (encounters)', () => {
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getAllByText('Goblin Batedor').length).toBe(1)) // 1 revelado, 1 mascarado
   })
+
+  it('#324 GM esconde um combatente no modo EDITAR → jogador não o vê', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
+    await act(async () => {
+      await repo.insertEncounter({
+        sessionId: remoteId,
+        sourceNotePath: 'Campanhas/Combates/Teste',
+        name: 'Emboscada',
+        roster: {
+          entries: [{ sourcePath: 'Sistema/Criaturas/Bestiário/Goblin Batedor', label: 'Goblin Batedor', qty: 2 }],
+        },
+        difficulty: null,
+      })
+    })
+    await screen.findByText('Emboscada')
+    fireEvent.click(await screen.findByText('▶ INICIAR'))
+    await waitFor(() => expect(screen.getByText(/Turno 1/)).toBeTruthy())
+    // GM entra no modo EDITAR e esconde o 2º combatente (👁️ → 🙈)
+    fireEvent.click(screen.getByText('✎ EDITAR INICIATIVA'))
+    const esconder = await screen.findAllByTitle('Esconder dos jogadores')
+    expect(esconder.length).toBe(2)
+    fireEvent.click(esconder[1]!)
+    cleanup()
+
+    // player entra → só o 1º combatente aparece; o escondido some
+    __resetSessionStoreForTests()
+    renderCliente(repo, { id: 'p-1', nome: 'Ana' })
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+      target: { value: (await repo.findSessionById(remoteId))!.code },
+    })
+    fireEvent.click(screen.getByText('Entrar →'))
+    await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
+    expect(screen.getByText(/Criatura 1/)).toBeTruthy()
+    expect(screen.queryByText(/Criatura 2/)).toBeNull() // escondido pelo GM
+  })
 })
 
 // ── #226: sessões do usuário aparecem em OUTRO dispositivo ────────────────

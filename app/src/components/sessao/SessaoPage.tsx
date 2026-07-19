@@ -746,6 +746,16 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     }
   }
 
+  // #324: ESCONDER combatente — persiste em turnState.hidden (mesmo jsonb, sem
+  // coluna nova). Jogadores não veem os escondidos; o GM vê com 🙈.
+  const hidden = new Set(ativo?.turnState?.hidden ?? [])
+  const toggleHidden = async (id: string) => {
+    if (!ativo?.turnState) return
+    const cur = ativo.turnState.hidden ?? []
+    const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]
+    await repo.updateEncounterTurnState(ativo.id, { ...ativo.turnState, hidden: next })
+  }
+
   // #291: pro GM, sobrepõe o real (do segredo) sobre os NPCs disfarçados — o
   // mestre vê a identidade/stats enquanto o jogador só recebe a linha mascarada.
   const chars = isGm ? overlayDisguiseSecrets(live.characters, live.sessionId) : live.characters
@@ -845,6 +855,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           : null}
         {ativo
           ? noCombate.map((c, i) => {
+              // #324: escondido → jogador NEM renderiza a linha (o índice `i`
+              // segue o da ORDEM completa, então o turno atual não desalinha).
+              const escondido = hidden.has(c.id)
+              if (escondido && !isGm) return null
               const vezAtual = ativo.turnState?.currentIndex === i
               const npc = c.kind === 'npc'
               const revelado = ativo.revealedCharacterIds.includes(c.id)
@@ -879,7 +893,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                     borderRight: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
                     borderBottom: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
                     borderLeft: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-                    opacity: dragId === c.id ? 0.4 : 1,
+                    opacity: dragId === c.id ? 0.4 : escondido ? 0.5 : 1,
                     clipPath: clip(9),
                   }}
                 >
@@ -967,6 +981,16 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                       style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
                     >
                       {statsView.has(c.id) ? '❤️' : '🛡️'}
+                    </button>
+                  ) : null}
+                  {/* #324: esconder/mostrar aos jogadores — só no modo EDITAR. */}
+                  {isGm && editIniciativa ? (
+                    <button
+                      onClick={() => void toggleHidden(c.id)}
+                      title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+                    >
+                      {escondido ? '🙈' : '👁️'}
                     </button>
                   ) : null}
                   {/* #324: disfarce (revelar identidade) só no modo EDITAR INICIATIVA. */}
