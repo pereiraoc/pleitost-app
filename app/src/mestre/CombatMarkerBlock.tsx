@@ -162,6 +162,14 @@ export function CombatMarkerBlock({
 
   const adicionar = async () => {
     if (!repo || !user || !live) return
+    // #330: leva pra sessão a velocidade/estado que o GM definiu por monstro. As
+    // `instances` são construídas na MESMA ordem de expansão do roster que o
+    // addRosterToInitiative usa (entradas × qty), então o array casa 1:1 com os
+    // NPCs criados. Sem encounterPath (fence cru) os preps ficam no default.
+    const preps = instances.map((m) => {
+      const p = getMonsterPrep(encounterPath ?? '', m.key)
+      return { speed: p.tier, escondido: p.escondido, disfarcado: p.disfarcado }
+    })
     await addRosterToInitiative({
       repo,
       catalog,
@@ -170,6 +178,7 @@ export function CombatMarkerBlock({
       name: 'Combate',
       entries: roster.entries,
       mask: { invisivel, disfarcado },
+      preps,
     })
     const total = roster.entries.reduce((n, e) => n + Math.max(1, e.qty), 0)
     setStatus(`${total} combatente${total === 1 ? '' : 's'} adicionado${total === 1 ? '' : 's'} à iniciativa.`)
@@ -248,18 +257,24 @@ export function CombatMarkerBlock({
                     {m.qty > 1 ? ` #${m.n}` : ''}
                   </span>
                   <span className="combate-monstro-stats">
-                    {m.tier != null ? (
-                      <span className="combate-monstro-stat" title="Tier">
-                        T{m.tier}
-                      </span>
-                    ) : null}
+                    {/* #331: ordem — vida, tier (badge), modificador (tag
+                        Competente/Elite/Solo, a fonte é single-value então já é o
+                        mais alto), e SÓ ENTÃO a iniciativa. */}
                     {m.vit > 0 ? (
                       <span className="combate-monstro-stat" title="Vitalidade">
                         ❤️ {m.vit}
                       </span>
                     ) : null}
+                    {m.tier != null ? (
+                      <span className="combate-monstro-tier" title="Tier">
+                        Tier {m.tier}
+                      </span>
+                    ) : null}
                     {m.modificador ? (
-                      <span className="combate-monstro-stat" title="Modificador">
+                      <span
+                        className={`combate-monstro-mod is-${m.modificador.toLowerCase()}`}
+                        title="Modificador"
+                      >
                         {m.modificador}
                       </span>
                     ) : null}

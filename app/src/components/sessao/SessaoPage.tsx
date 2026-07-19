@@ -514,11 +514,13 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   usePublicacao(repo, sess.remoteId ?? null, meuChar, catalog)
 
   if (!repo || !user || !sess.remoteId) return null
-  // #238 (sync gm-view.ts:85-91 / player-view.ts:128-134): a mesa some
-  // durante combate ativo — todos os heróis estão na LISTA DO COMBATE. O
-  // componente segue MONTADO (só o render é nulo; hooks acima continuam):
-  // a publicação da vida (usePublicacao) precisa fluir justamente em combate.
-  if ((live?.encounters ?? []).some((e) => e.status === 'active')) return null
+  const isGm = Boolean(live?.gmUserId && user.id === live.gmUserId)
+  const emCombate = (live?.encounters ?? []).some((e) => e.status === 'active')
+  // #238: durante combate ativo a MESA some (todos estão na LISTA DO COMBATE). O
+  // componente segue MONTADO (hooks acima continuam — a publicação da vida flui).
+  // EXCEÇÃO: um JOGADOR ainda SEM herói precisa poder ENTRAR na mesa mesmo em
+  // combate → mantém só o seletor. GM nunca tem herói: nunca vê seletor.
+  if (emCombate && (isGm || meuChar)) return null
 
   const publicar = async () => {
     const doc = heroiSel ? getLocalDoc(heroiSel) : null
@@ -568,24 +570,35 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 18px', borderBottom: '1px solid var(--line)' }}>
         <span style={mono({ fontSize: 12, letterSpacing: '.14em', color: 'var(--accent)', fontWeight: 700 })}>
-          🌐 HERÓIS NA SESSÃO
+          {emCombate ? '⚔ ENTRAR NO COMBATE' : '🌐 HERÓIS NA SESSÃO'}
         </span>
         <span style={{ flex: 1 }} />
-        <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
+        {!emCombate ? (
+          <span style={mono({ fontSize: 11, color: 'var(--muted)' })}>{members.length} na mesa</span>
+        ) : null}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '14px 16px' }}>
-        {ordenarMesa(chars).map(({ c, ca }) => (
-          <LinhaPersonagem
-            key={c.id}
-            c={c}
-            ca={ca}
-            isGm={Boolean(live?.gmUserId && user.id === live.gmUserId)}
-            onResumo={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
-            onFicha={() => navigate(`/sessao-ficha/${c.id}`)}
-          />
-        ))}
-        {!meuChar ? (
+        {!emCombate
+          ? ordenarMesa(chars).map(({ c, ca }) => (
+              <LinhaPersonagem
+                key={c.id}
+                c={c}
+                ca={ca}
+                isGm={isGm}
+                onResumo={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
+                onFicha={() => navigate(`/sessao-ficha/${c.id}`)}
+              />
+            ))
+          : null}
+        {/* #4: GM nunca escolhe herói. #2: jogador SEM herói vê o seletor mesmo em
+            combate (pra entrar no meio). */}
+        {!meuChar && !isGm ? (
           <div style={{ display: 'flex', gap: 9, alignItems: 'center', flexWrap: 'wrap', paddingTop: 4 }}>
+            {emCombate ? (
+              <span style={mono({ fontSize: 11, color: 'var(--muted)', width: '100%' })}>
+                Escolha seu herói pra entrar no combate em andamento.
+              </span>
+            ) : null}
             <select
               aria-label="Selecionar meu personagem"
               value={heroiSel}
@@ -721,6 +734,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const live = useLiveSession()
+  const detail = useDetail()
+  const navigate = useNavigate()
   // #324: modo EDITAR INICIATIVA (só do GM) — habilita as alças de arrastar; fora
   // dele o combate fica como antes (vida + botão de defesas). O drag-and-drop é
   // pointer-based (funciona no touch mobile).
@@ -917,8 +932,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: 10,
+            flexDirection: 'column',
+            gap: 6,
             padding: '9px 12px',
             background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
             border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
@@ -926,48 +941,127 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
             clipPath: clip(9),
           }}
         >
-          {isGm && editIniciativa ? (
+          {/* Linha 1: alça (edição), retrato, nome (abre resumo) e controles do GM.
+              Os controles ficam SEMPRE nesta linha — a barra de vida foi pra linha
+              de baixo, então nada empurra os botões pra fora da tela no mobile. */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            {isGm && editIniciativa ? (
+              <span
+                onPointerDown={(e) => {
+                  setDragId(c.id)
+                  e.currentTarget.setPointerCapture(e.pointerId)
+                }}
+                onPointerMove={onDragMove}
+                onPointerUp={() => void onDragEnd()}
+                onPointerCancel={() => {
+                  setDragId(null)
+                  setOverBlock(null)
+                }}
+                title="Arraste pra um bloco de velocidade"
+                style={{ flex: 'none', cursor: 'grab', touchAction: 'none', fontSize: 15, lineHeight: 1, color: 'var(--muted)', padding: '0 2px' }}
+              >
+                ☰
+              </span>
+            ) : null}
             <span
-              onPointerDown={(e) => {
-                setDragId(c.id)
-                e.currentTarget.setPointerCapture(e.pointerId)
+              aria-hidden
+              style={{
+                width: 30,
+                height: 30,
+                flex: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                background: 'var(--panel)',
+                border: '1px solid var(--line2)',
+                clipPath: clip(7),
+                fontFamily: 'var(--mono)',
+                fontSize: 11,
+                color: 'var(--muted)',
               }}
-              onPointerMove={onDragMove}
-              onPointerUp={() => void onDragEnd()}
-              onPointerCancel={() => {
-                setDragId(null)
-                setOverBlock(null)
-              }}
-              title="Arraste pra um bloco de velocidade"
-              style={{ flex: 'none', cursor: 'grab', touchAction: 'none', fontSize: 15, lineHeight: 1, color: 'var(--muted)', padding: '0 2px' }}
             >
-              ☰
+              {portrait ? <ZoomImg src={portrait} alt={nomeExib} /> : sigOf(nomeExib)}
             </span>
-          ) : null}
-          <span
-            aria-hidden
-            style={{
-              width: 30,
-              height: 30,
-              flex: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              background: 'var(--panel)',
-              border: '1px solid var(--line2)',
-              clipPath: clip(7),
-              fontFamily: 'var(--mono)',
-              fontSize: 11,
-              color: 'var(--muted)',
-            }}
-          >
-            {portrait ? <ZoomImg src={portrait} alt={nomeExib} /> : sigOf(nomeExib)}
-          </span>
-          <span style={{ fontSize: 13.5, fontWeight: 700 }}>
-            {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
-          </span>
-          <div style={{ flex: 1, minWidth: 64, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* #329: nome clicável abre o resumo (mesma UX do card de membro) —
+                funcionava fora do combate, agora também dentro. NPC mascarado pro
+                jogador NÃO é clicável (não vaza identidade). */}
+            {mostraReal ? (
+              <button
+                onClick={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
+                title="Ver resumo"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  textAlign: 'left',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: 13.5,
+                  fontWeight: 700,
+                  color: 'var(--accent)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {nomeExib}
+              </button>
+            ) : (
+              <span
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  fontSize: 13.5,
+                  fontWeight: 700,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {nomeExib}
+              </span>
+            )}
+            {isGm || !npc ? (
+              <button
+                onClick={() => toggleStats(c.id)}
+                title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
+                style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+              >
+                {statsView.has(c.id) ? '❤️' : '🛡️'}
+              </button>
+            ) : null}
+            {isGm && editIniciativa ? (
+              <button
+                onClick={() => cycleSpeed(c.id)}
+                title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra trocar)`}
+                style={mono({ background: 'var(--panel)', border: '1px solid var(--line2)', cursor: 'pointer', fontSize: 13, padding: '1px 6px', flex: 'none' })}
+              >
+                {SPEED_EMOJI[speedOf(c.id)]}
+              </button>
+            ) : null}
+            {isGm && editIniciativa ? (
+              <button
+                onClick={() => void toggleHidden(c.id)}
+                title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
+                style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+              >
+                {escondido ? '🙈' : '👁️'}
+              </button>
+            ) : null}
+            {isGm && npc && editIniciativa ? (
+              <button
+                onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}
+                title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
+                style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+              >
+                {revelado ? '❗' : '❓'}
+              </button>
+            ) : null}
+          </div>
+          {/* Linha 2: vida/defesas/tag — largura cheia, alinhada sob o retrato. */}
+          <div style={{ paddingLeft: 39, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {statsView.has(c.id) && (isGm || !npc) ? (
               // #324: stats AGRUPADOS — (Defesa, Movimento) · (Vigor, Reflexo,
               // Ímpeto) · (Percepção, Intuição). Cada grupo é nowrap (não quebra no
@@ -1013,42 +1107,6 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               </>
             )}
           </div>
-          {isGm || !npc ? (
-            <button
-              onClick={() => toggleStats(c.id)}
-              title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
-            >
-              {statsView.has(c.id) ? '❤️' : '🛡️'}
-            </button>
-          ) : null}
-          {isGm && editIniciativa ? (
-            <button
-              onClick={() => cycleSpeed(c.id)}
-              title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra trocar)`}
-              style={mono({ background: 'var(--panel)', border: '1px solid var(--line2)', cursor: 'pointer', fontSize: 13, padding: '1px 6px', flex: 'none' })}
-            >
-              {SPEED_EMOJI[speedOf(c.id)]}
-            </button>
-          ) : null}
-          {isGm && editIniciativa ? (
-            <button
-              onClick={() => void toggleHidden(c.id)}
-              title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-            >
-              {escondido ? '🙈' : '👁️'}
-            </button>
-          ) : null}
-          {isGm && npc && editIniciativa ? (
-            <button
-              onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}
-              title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-            >
-              {revelado ? '❗' : '❓'}
-            </button>
-          ) : null}
         </div>
         {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
       </Fragment>
@@ -1106,6 +1164,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         ) : null}
         {isGm && ativo ? chip('◀ ANTERIOR', 'Turno anterior', () => void mover(-1)) : null}
         {isGm && ativo ? chip('PRÓXIMO ▶', 'Próximo turno', () => void mover(1)) : null}
+        {/* #328: adicionar combatente DURANTE o combate — leva ao bestiário, onde
+            o card do monstro tem "⚔️ Adicionar à iniciativa" (anexa ao combate
+            ativo, addMonsterToInitiative). Era possível mas não descobrível daqui. */}
+        {isGm && ativo ? chip('＋ COMBATENTE', 'Adicionar combatente (bestiário)', () => navigate('/npcs')) : null}
         {/* #324: liga o modo de reordenar a iniciativa (só então aparecem as alças
             de arrastar); fora dele o combate fica como antes. */}
         {isGm && ativo

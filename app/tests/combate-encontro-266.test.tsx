@@ -358,3 +358,65 @@ describe('#266 addRosterToInitiative: injeta num combate JÁ ativo sem perder id
     expect(enc2.turnState?.round).toBe(2) // preservou o round em andamento
   })
 })
+
+describe('#330 prep por instância (velocidade/estado do combate) → turnState.speeds/hidden', () => {
+  it('carrega a VELOCIDADE e o ESCONDIDO que o GM definiu por monstro pra a sessão', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'PREP01' })
+    // sem combate ativo → cria+inicia; roster genérico (2 Orc + 3 Kobold). preps
+    // alinham 1:1 com a expansão [orc1, orc2, kobold1, kobold2, kobold3].
+    await addRosterToInitiative({
+      repo,
+      catalog,
+      live: { sessionId: sess.id, state: null, gmUserId: 'gm-1', characters: [], members: [], encounters: [] },
+      memberId: 'gm-1',
+      name: 'Emboscada',
+      entries: [
+        { sourcePath: null, label: 'Orc', qty: 2 },
+        { sourcePath: null, label: 'Kobold', qty: 3 },
+      ],
+      preps: [
+        { speed: 'super' },
+        { speed: 'rapido', escondido: true },
+        { speed: 'lento' },
+        {},
+        { escondido: true },
+      ],
+      mask: { invisivel: false, disfarcado: true },
+    })
+
+    const enc = (await repo.listEncountersBySession(sess.id)).find((e) => e.status === 'active')!
+    const order = enc.turnState!.order
+    expect(order.length).toBe(5)
+    const speeds = enc.turnState!.speeds ?? {}
+    expect(speeds[order[0]!]).toBe('super')
+    expect(speeds[order[1]!]).toBe('rapido')
+    expect(speeds[order[2]!]).toBe('lento')
+    expect(speeds[order[3]!]).toBeUndefined() // sem prep → padrão (lento no display)
+    const hidden = enc.turnState!.hidden ?? []
+    expect(hidden).toContain(order[1]!)
+    expect(hidden).toContain(order[4]!)
+    expect(hidden).not.toContain(order[0]!)
+  })
+
+  it('disfarce por instância: com global disfarçado=false, o marcado no prep NÃO é revelado (segurança)', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'PREP02' })
+    await addRosterToInitiative({
+      repo,
+      catalog,
+      live: { sessionId: sess.id, state: null, gmUserId: 'gm-1', characters: [], members: [], encounters: [] },
+      memberId: 'gm-1',
+      name: 'Emboscada',
+      entries: [{ sourcePath: null, label: 'Orc', qty: 2 }],
+      preps: [{ disfarcado: true }, {}],
+      mask: { invisivel: false, disfarcado: false }, // GM quer revelar de saída…
+    })
+    const enc = (await repo.listEncountersBySession(sess.id)).find((e) => e.status === 'active')!
+    const order = enc.turnState!.order
+    // …mas o orc #1 foi marcado disfarçado no prep → continua mascarado (não
+    // revelado); o orc #2 (sem prep) é revelado normalmente.
+    expect(enc.revealedCharacterIds).not.toContain(order[0]!)
+    expect(enc.revealedCharacterIds).toContain(order[1]!)
+  })
+})
