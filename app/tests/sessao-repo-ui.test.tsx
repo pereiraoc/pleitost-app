@@ -612,3 +612,52 @@ describe('#231 sala: retratos + companheiro identado', () => {
     ).toBeTruthy()
   })
 })
+
+describe('#332 entrar/criar com servidor exige login — nada de sessão-fantasma local (caso Ulfson)', () => {
+  it('SEM login, "Entrar por código" mostra pedido de login e NÃO cria sessão local nem membro remoto', async () => {
+    const repo = new InMemorySessionRepo()
+    // uma sessão REAL existe no servidor (criada por um GM)
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'ULF001' })
+
+    // cliente SEM usuário logado (user null) — o cenário do Ulfson
+    render(
+      <CatalogProvider catalog={catalog}>
+        <SessionRepoProvider repo={repo} user={null}>
+          <DetailProvider>
+            <MemoryRouter>
+              <RightSidebar drawerOpen onCloseDrawer={() => {}} />
+            </MemoryRouter>
+          </DetailProvider>
+        </SessionRepoProvider>
+      </CatalogProvider>,
+    )
+    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: 'ULF001' } })
+    fireEvent.click(screen.getByText('Entrar →'))
+
+    // pede login e NÃO entrou: nada de placeholder local (antes virava sessão
+    // fantasma sem remoteId — o "entrei mas o mestre não me vê")
+    await screen.findByText(/Entre com sua conta/i)
+    expect(listSessions().length).toBe(0)
+    // e nenhum membro-jogador foi criado no servidor
+    const membros = await repo.listMembers(sess.id)
+    expect(membros.some((m) => m.role === 'player')).toBe(false)
+  })
+
+  it('SEM login, "+ Criar" mostra pedido de login e NÃO cria sessão local', async () => {
+    const repo = new InMemorySessionRepo()
+    render(
+      <CatalogProvider catalog={catalog}>
+        <SessionRepoProvider repo={repo} user={null}>
+          <DetailProvider>
+            <MemoryRouter>
+              <RightSidebar drawerOpen onCloseDrawer={() => {}} />
+            </MemoryRouter>
+          </DetailProvider>
+        </SessionRepoProvider>
+      </CatalogProvider>,
+    )
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText(/Entre com sua conta/i)
+    expect(listSessions().length).toBe(0)
+  })
+})

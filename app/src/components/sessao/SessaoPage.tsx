@@ -1923,34 +1923,45 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     const code = joinCode.trim()
     if (!code) return
     setErro('')
-    if (repo && user) {
+    // #332: com SERVIDOR configurado (Supabase), entrar é SEMPRE remoto. Antes,
+    // qualquer falha do servidor — inclusive NÃO ESTAR LOGADO (user null pulava o
+    // bloco) ou uma sessão de auth expirada (insertMember jogava e o catch engolia)
+    // — caía num placeholder LOCAL sem remoteId: o jogador "entrava", mas o member/
+    // personagem nunca iam pro servidor e o mestre nunca o via (o caso do Ulfson).
+    // Agora exige login e MOSTRA o erro em vez de fingir que entrou.
+    if (repo) {
+      if (!user) {
+        setErro('Entre com sua conta (login no topo) pra participar da sessão.')
+        return
+      }
       try {
         const remote = await repo.findSessionByCode(code)
-        if (remote) {
-          const existing = await repo.findMember(remote.id, user.id)
-          if (!existing) {
-            await repo.insertMember({
-              sessionId: remote.id,
-              userId: user.id,
-              role: remote.gmUserId === user.id ? 'gm' : 'player',
-              displayName: user.nome,
-            })
-          }
-          const local = joinSessionByCode(remote.code)
-          updateSession(local.codigo, { nome: remote.name, remoteId: remote.id })
-          setActiveSessionCode(remote.code)
-          setJoinCode('')
+        if (!remote) {
+          // #295: servidor respondeu e não há sessão com esse código.
+          setErro('Sessão não encontrada. Confira o código com o mestre.')
           return
         }
-        // #295: o servidor respondeu e NÃO há sessão com esse código — erro claro
-        // em vez de cair no fluxo local, que criava um placeholder fantasma e
-        // "entrava" numa sessão inexistente.
-        setErro('Sessão não encontrada. Confira o código com o mestre.')
-        return
+        const existing = await repo.findMember(remote.id, user.id)
+        if (!existing) {
+          await repo.insertMember({
+            sessionId: remote.id,
+            userId: user.id,
+            role: remote.gmUserId === user.id ? 'gm' : 'player',
+            displayName: user.nome,
+          })
+        }
+        const local = joinSessionByCode(remote.code)
+        updateSession(local.codigo, { nome: remote.name, remoteId: remote.id })
+        setActiveSessionCode(remote.code)
+        setJoinCode('')
       } catch {
-        // servidor indisponível (erro de rede) — degrada pro fluxo local abaixo.
+        // servidor respondeu com erro (auth expirada, permissão, rede): mostra e
+        // NÃO finge que entrou (nada de sessão-fantasma local).
+        setErro('Não deu pra entrar agora. Verifique sua conexão/login e tente de novo.')
       }
+      return
     }
+    // Sem servidor configurado (app puramente local): fluxo local como antes.
     const rec = joinSessionByCode(code)
     setActiveSessionCode(rec.codigo)
     setJoinCode('')
@@ -1960,18 +1971,26 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     // partir das sessões reais, montada pelos jogadores que entram (req 8).
     const grupoId = null
     const nome = 'Nova Sessão'
-    if (repo && user) {
+    // #332: mesmo cuidado do join — com servidor configurado, criar é remoto e
+    // exige login; sem isso a sessão nascia só local (fantasma) e ninguém
+    // conseguia entrar nela. Erro claro em vez de placeholder silencioso.
+    if (repo) {
+      if (!user) {
+        setErro('Entre com sua conta (login no topo) pra criar uma sessão.')
+        return
+      }
       try {
         const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode() })
         await repo.insertMember({ sessionId: sess.id, userId: user.id, role: 'gm', displayName: user.nome })
         const local = joinSessionByCode(sess.code)
         updateSession(local.codigo, { nome: sess.name, grupoId, mestre: user.nome, remoteId: sess.id })
         setActiveSessionCode(sess.code)
-        return
       } catch {
-        // servidor indisponível — cai no fluxo local
+        setErro('Não deu pra criar a sessão agora. Verifique sua conexão/login e tente de novo.')
       }
+      return
     }
+    // Sem servidor configurado (app puramente local): sessão local como antes.
     const rec = createSession(nome, grupoId, user?.nome || 'Você')
     setActiveSessionCode(rec.codigo)
   }
