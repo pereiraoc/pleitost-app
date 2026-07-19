@@ -441,6 +441,30 @@ export function emptyHeroFrontmatter(): Record<string, unknown> {
   return { ...baseCreatureFm(), subcategoria: 'Heroi', Nível: 1 }
 }
 
+/**
+ * TROCA DE CLASSE — campos do FM salvo que precisam VOLTAR AO BRANCO ao mudar de
+ * classe. Fonte ÚNICA (transversal): o estado ESCOLHIDO específico de uma classe
+ * (magias aprendidas + proficiência de escola + slots, subclasse/Sintonia,
+ * técnicas, escolhas de habilidade e seletores de essência) fica MATERIALIZADO no
+ * FM e NÃO some sozinho quando a classe muda — a projeção só RE-DERIVA os grants
+ * da classe atual, então uma proficiência de escola do Bardo sobrevive num
+ * Comandante (que não lança magia) e a aba MAGIAS segue oferecendo magia. Zerar
+ * estes campos aqui deixa a nova classe reconstruir do zero.
+ *
+ * Perícias/Ofícios NÃO entram: são compartilhados com o Passado (background), não
+ * exclusivos da classe. Atributos/Nível/Bio/Inventário também ficam.
+ */
+export function classChangeResets(): Array<[string, unknown]> {
+  const empty = baseCreatureFm()
+  return [
+    ['Magias', empty.Magias],
+    ['Sintonia', ''],
+    ['Habilidades.Lista', []],
+    ['Tecnicas.Lista', []],
+    ['Interativa.Seletores', {}],
+  ]
+}
+
 /** Companheiro Animal em branco — família CompanheiroAnimal do plugin (Tutor). */
 export function emptyCompanheiroFrontmatter(nome: string): Record<string, unknown> {
   return {

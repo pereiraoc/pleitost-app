@@ -15,6 +15,7 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
@@ -298,7 +299,17 @@ export function ClasseNivelPanel({
   const classeFmValue =
     rules?.classes.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Classe'])))?.value ??
     str(fm['Classe'])
-  const setClasse = (v: string) => model.set('Classe', v)
+  // Trocar de classe LIMPA o estado escolhido específico da classe anterior
+  // (magias/subclasse/técnicas/escolhas/essências) — senão grants materializados
+  // no FM (ex.: proficiência de escola + magias do Bardo) sobrevivem numa classe
+  // sem magia (Comandante). O DERIVADO recomputa sozinho; só os PICKS salvos
+  // precisam ser zerados. Fonte única em classChangeResets (local-entities.ts).
+  const setClasse = (v: string) => {
+    if (wikiTarget(v) !== wikiTarget(str(fm['Classe']))) {
+      for (const [path, value] of classChangeResets()) model.set(path, value)
+    }
+    model.set('Classe', v)
+  }
 
   // SUBCLASSES — troca de pick persiste o ESTADO no FM: regrava a linha
   // `Escolha.[[pai]]` de Habilidades.Lista com a nova opção (pick = estado,
