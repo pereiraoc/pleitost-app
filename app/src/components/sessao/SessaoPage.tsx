@@ -873,6 +873,25 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
       {blocoLabel(tier, lado).toUpperCase()}
     </div>
   )
+  // TAG de estimativa de vida (Impecável/Ferido/…) com borda + fundo tonal — mesmo
+  // visual do pleitost-autosheet. Usada pro JOGADOR (NPC) e também pro GM ao lado
+  // dos números.
+  const faixaTagEl = (tone: keyof typeof VITA_TONE_COLOR, label: string) => (
+    <span
+      style={mono({
+        fontSize: 10,
+        fontWeight: 700,
+        color: VITA_TONE_COLOR[tone],
+        background: `color-mix(in srgb,${VITA_TONE_COLOR[tone]} 14%,transparent)`,
+        border: `1px solid color-mix(in srgb,${VITA_TONE_COLOR[tone]} 34%,transparent)`,
+        padding: '2px 8px',
+        clipPath: clip(5),
+        flex: 'none',
+      })}
+    >
+      {label}
+    </span>
+  )
   // Linha de UM combatente (reusada dentro de cada bloco).
   const renderCombatente = (c: SessionCharacter) => {
     const i = orderIndexOf(c)
@@ -943,46 +962,38 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           </span>
           <div style={{ flex: 1, minWidth: 64, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {statsView.has(c.id) && (isGm || !npc) ? (
-              <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
-                <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
-                <span>❤️{c.summary.stats?.vigor ?? 0}</span>
-                <span>⚡{c.summary.stats?.evasao ?? 0}</span>
-                <span>🔥{c.summary.stats?.impeto ?? 0}</span>
-                <span>👣{c.summary.stats?.movimento ?? 0}</span>
-                <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
-                <span>💡{c.summary.stats?.intuicao ?? 0}</span>
+              // #324: stats AGRUPADOS — (Defesa, Movimento) · (Vigor, Reflexo,
+              // Ímpeto) · (Percepção, Intuição). Cada grupo é nowrap (não quebra no
+              // meio); a quebra acontece ENTRE os grupos.
+              <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 12, flexWrap: 'wrap' })}>
+                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
+                  <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
+                  <span>👣{c.summary.stats?.movimento ?? 0}</span>
+                </span>
+                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
+                  <span>❤️{c.summary.stats?.vigor ?? 0}</span>
+                  <span>⚡{c.summary.stats?.evasao ?? 0}</span>
+                  <span>🔥{c.summary.stats?.impeto ?? 0}</span>
+                </span>
+                <span style={{ display: 'flex', gap: 7, whiteSpace: 'nowrap' }}>
+                  <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
+                  <span>💡{c.summary.stats?.intuicao ?? 0}</span>
+                </span>
               </span>
             ) : npc && !isGm ? (
-              // NPC pro JOGADOR: só a TAG de estimativa — borda + fundo tonal (mesmo
-              // visual do pleitost-autosheet), SEM barra nem números.
-              <span
-                style={mono({
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: VITA_TONE_COLOR[status.tone],
-                  background: `color-mix(in srgb,${VITA_TONE_COLOR[status.tone]} 14%,transparent)`,
-                  border: `1px solid color-mix(in srgb,${VITA_TONE_COLOR[status.tone]} 34%,transparent)`,
-                  padding: '2px 8px',
-                  clipPath: clip(5),
-                  alignSelf: 'flex-start',
-                })}
-              >
-                {status.label}
-              </span>
+              // NPC pro JOGADOR: só a TAG de estimativa (sem barra nem números).
+              faixaTagEl(status.tone, status.label)
             ) : (
-              // Herói (pra todo mundo) e NPC pro GM: texto + BARRA DE VIDA com TODOS
-              // os fatores (vida negativa hachurada, moral, moral temporária, marca
-              // do máx). Reusa VidaBarRemota — mesmo componente da FICHA DO GRUPO. A
-              // barra só entra com máx VÁLIDO (> 0); com máx 0 (summary velho não
-              // curado) ela renderizava toda azul (segmento de moral estourando).
+              // Herói (todo mundo) e NPC pro GM: números NEUTROS + (pra NPC) a TAG de
+              // estimativa + a BARRA. Os números NÃO levam a cor da faixa (antes o
+              // vida do NPC saía azul pra Impecável). A barra só entra com máx > 0.
               <>
-                {/* Texto compacto = só VITALIDADE (a moral/temp azul e verde ficam
-                    na BARRA, sem virar um "X/X azul" confuso ao lado). */}
-                <span style={mono({ fontSize: 9.5, color: npc ? VITA_TONE_COLOR[status.tone] : 'var(--muted)' })}>
-                  {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}${
-                    npc ? ` · ${status.label}` : ''
-                  }`}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
+                  <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                    {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}`}
+                  </span>
+                  {npc ? faixaTagEl(status.tone, status.label) : null}
+                </div>
                 {c.summary.vitalidadeMax > 0 ? (
                   <VidaBarRemota
                     vit={rr?.vitalidade ?? c.summary.vitalidadeMax}
