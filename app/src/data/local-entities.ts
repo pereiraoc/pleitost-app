@@ -138,6 +138,31 @@ export function useLocalStoreVersion(): number {
   return useSyncExternalStore(subscribeLocalStore, localStoreVersion, localStoreVersion)
 }
 
+/** Migração: as proficiências-base UNIVERSAIS (Armas Simples, Defesa Sem
+ *  Armadura) nasciam 'N' num skeleton antigo, mas todo personagem É proficiente
+ *  nelas. Sobe N→P ao carregar (idempotente; só toca FM com Inventario, i.e.
+ *  heróis). Mantém tudo mais intacto. Some quando não houver mais herói legado. */
+export function migrateBaseProficiencias(fm: Record<string, unknown>): Record<string, unknown> {
+  const inv = fm['Inventario']
+  if (!inv || typeof inv !== 'object') return fm
+  const invR = inv as Record<string, unknown>
+  const armas = invR['Armas'] as Record<string, unknown> | undefined
+  const armasProf = armas?.['Proficiencia'] as Record<string, unknown> | undefined
+  const armadura = invR['Armadura'] as Record<string, unknown> | undefined
+  const armaduraProf = armadura?.['Proficiencia'] as Record<string, unknown> | undefined
+  const needSimples = !!armasProf && armasProf['Simples'] === 'N'
+  const needSem = !!armaduraProf && armaduraProf['Sem'] === 'N'
+  if (!needSimples && !needSem) return fm
+  return {
+    ...fm,
+    Inventario: {
+      ...invR,
+      ...(needSimples ? { Armas: { ...armas, Proficiencia: { ...armasProf, Simples: 'P' } } } : {}),
+      ...(needSem ? { Armadura: { ...armadura, Proficiencia: { ...armaduraProf, Sem: 'P' } } } : {}),
+    },
+  }
+}
+
 function hydrateEntities(): Map<string, StoredEntity> {
   if (entities) return entities
   const map = new Map<string, StoredEntity>()
@@ -149,7 +174,7 @@ function hydrateEntities(): Map<string, StoredEntity> {
         if (rec && typeof rec === 'object' && typeof rec.id === 'string') {
           map.set(id, {
             ...rec,
-            frontmatter: rec.frontmatter ?? {},
+            frontmatter: migrateBaseProficiencias(rec.frontmatter ?? {}),
             session: rec.session ?? {},
             extras: rec.extras ?? {},
           })
@@ -360,13 +385,17 @@ function baseCreatureFm(): Record<string, unknown> {
         Nome: '',
         Categoria: '',
         Propriedade: '',
-        Proficiencia: { Sem: 'N', Leve: 'N', Pesada: 'N' },
+        // Base universal: TODO personagem é proficiente em defesa SEM armadura
+        // (Sem='P'). Leve/Pesada vêm das regras de classe. (Espelha o FM dos
+        // heróis reais da vault — o skeleton nascia com 'N' por engano.)
+        Proficiencia: { Sem: 'P', Leve: 'N', Pesada: 'N' },
       },
       Escudo: { Nome: '', Dano: 0, Dureza: 0, Categoria: '', Propriedade: '', Proficiencia: 'N' },
       Tesouros: [],
       Tesouros_Especiais: '',
       Consumiveis: [],
-      Armas: { Proficiencia: { Simples: 'N', Marciais: 'N', Especificas: [] }, Lista: [] },
+      // Base universal: TODO personagem é proficiente em Armas Simples (P).
+      Armas: { Proficiencia: { Simples: 'P', Marciais: 'N', Especificas: [] }, Lista: [] },
     },
     Experiencia: { Marcas: [], Reconhecimentos: [] },
     Biografia: {
