@@ -273,6 +273,38 @@ function usePublicacao(
   }, [repo, sessionId, charId, heroId])
 }
 
+/** #327: CURA summaries velhos (vitalidadeMax 0 publicado ANTES do fix) sem
+ *  depender do dono reabrir: o GM deriva a vida/defesas do fmBlob (que já viaja no
+ *  personagem) e re-publica. Só toca em quem está com máx 0 e tem fmBlob — depois
+ *  de curado (máx > 0) o filtro pula, sem laço. Best-effort: se o RLS barrar a
+ *  escrita do GM num personagem de jogador, o .catch engole e o heal do dono
+ *  (usePublicacao) segue como caminho. */
+function useHealStaleSummaries(
+  repo: (SessionRepo & SessionRealtime) | null,
+  chars: readonly SessionCharacter[],
+  catalog: Catalog,
+  enabled: boolean,
+) {
+  useEffect(() => {
+    if (!repo || !enabled) return
+    let alive = true
+    for (const c of chars) {
+      if (c.summary.vitalidadeMax > 0) continue
+      if (!c.fmBlob || Object.keys(c.fmBlob).length === 0) continue
+      const doc = synthDocFromCharacter(c)
+      void effectiveFmForPublish(doc, catalog).then((efm) => {
+        if (!alive) return
+        const s = buildCharacterSummary(doc, efm)
+        if (s.vitalidadeMax > 0) void repo.updateCharacterSummary(c.id, s).catch(() => {})
+      })
+    }
+    return () => {
+      alive = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [repo, chars, catalog, enabled])
+}
+
 /** Ordena a mesa (#231): cada herói seguido dos SEUS companheiros (CA
  *  identado); companheiro órfão (tutor fora da sala) fecha a lista. */
 function ordenarMesa(chars: SessionCharacter[]): Array<{ c: SessionCharacter; ca: boolean }> {
@@ -705,6 +737,14 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
       else n.add(id)
       return n
     })
+  // #327: GM cura summaries com vitalidadeMax 0 (deriva do fmBlob) — não depende
+  // do dono reabrir.
+  useHealStaleSummaries(
+    repo,
+    live?.characters ?? [],
+    catalog,
+    !!(repo && live && user && live.gmUserId === user.id),
+  )
   if (!repo || !user || !sess.remoteId || !live) return null
   const isGm = live.gmUserId === user.id
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
@@ -913,29 +953,45 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                 <span>💡{c.summary.stats?.intuicao ?? 0}</span>
               </span>
             ) : npc && !isGm ? (
-              // NPC pro JOGADOR: só a FAIXA (estimativa) — sem barra nem números.
-              <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
+              // NPC pro JOGADOR: só a TAG de estimativa — borda + fundo tonal (mesmo
+              // visual do pleitost-autosheet), SEM barra nem números.
+              <span
+                style={mono({
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: VITA_TONE_COLOR[status.tone],
+                  background: `color-mix(in srgb,${VITA_TONE_COLOR[status.tone]} 14%,transparent)`,
+                  border: `1px solid color-mix(in srgb,${VITA_TONE_COLOR[status.tone]} 34%,transparent)`,
+                  padding: '2px 8px',
+                  clipPath: clip(5),
+                  alignSelf: 'flex-start',
+                })}
+              >
                 {status.label}
               </span>
             ) : (
               // Herói (pra todo mundo) e NPC pro GM: texto + BARRA DE VIDA com TODOS
               // os fatores (vida negativa hachurada, moral, moral temporária, marca
-              // do máx). Reusa VidaBarRemota — mesmo componente da FICHA DO GRUPO.
+              // do máx). Reusa VidaBarRemota — mesmo componente da FICHA DO GRUPO. A
+              // barra só entra com máx VÁLIDO (> 0); com máx 0 (summary velho não
+              // curado) ela renderizava toda azul (segmento de moral estourando).
               <>
+                {/* Texto compacto = só VITALIDADE (a moral/temp azul e verde ficam
+                    na BARRA, sem virar um "X/X azul" confuso ao lado). */}
                 <span style={mono({ fontSize: 9.5, color: npc ? VITA_TONE_COLOR[status.tone] : 'var(--muted)' })}>
-                  {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax} · 💙 ${
-                    rr?.moral ?? (c.summary.moralMax ?? 0)
-                  }/${c.summary.moralMax ?? 0}${(rr?.moralTemp ?? 0) > 0 ? ` · 💚 +${rr?.moralTemp}` : ''}${
+                  {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}${
                     npc ? ` · ${status.label}` : ''
                   }`}
                 </span>
-                <VidaBarRemota
-                  vit={rr?.vitalidade ?? c.summary.vitalidadeMax}
-                  vitMax={c.summary.vitalidadeMax}
-                  moral={rr?.moral ?? (c.summary.moralMax ?? 0)}
-                  moralMax={c.summary.moralMax ?? 0}
-                  temp={rr?.moralTemp ?? 0}
-                />
+                {c.summary.vitalidadeMax > 0 ? (
+                  <VidaBarRemota
+                    vit={rr?.vitalidade ?? c.summary.vitalidadeMax}
+                    vitMax={c.summary.vitalidadeMax}
+                    moral={rr?.moral ?? (c.summary.moralMax ?? 0)}
+                    moralMax={c.summary.moralMax ?? 0}
+                    temp={rr?.moralTemp ?? 0}
+                  />
+                ) : null}
               </>
             )}
           </div>
