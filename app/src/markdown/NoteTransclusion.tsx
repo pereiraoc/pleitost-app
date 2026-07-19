@@ -61,7 +61,11 @@ export function NoteTransclusion({
   return (
     <TransclusionScope id={id}>
       <div className="note-embed">
-        <MarkdownBody doc={doc} hideLeadingTitle />
+        {/* MANTÉM o título do alvo (ex.: "Impulso") — é o rótulo do bloco embutido,
+            como no Obsidian. Antes escondia (`hideLeadingTitle`), e a nota-índice
+            "Especialização e Maestria" saía com os blocos sem nome. Folder-notes
+            não passam por aqui (o note-embed vira null lá). */}
+        <MarkdownBody doc={doc} />
       </div>
     </TransclusionScope>
   )
