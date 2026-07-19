@@ -811,8 +811,13 @@ function GearCard({
             {selo ? <SeloObraPrima url={selo} size={24} /> : null}
           </span>
         </ItemHover>
+        {/* #NNN: o <select> nativo cobre TODA a área (absoluto, invisível), então
+            clicar em qualquer ponto — inclusive a setinha ▾ e o espaço vazio —
+            abre o menu. Antes o select só ocupava a largura do texto e a setinha
+            era um <span> decorativo sem handler, então só o nome funcionava. */}
         <span
           style={{
+            position: 'relative',
             flex: 1,
             minWidth: 0,
             display: 'flex',
@@ -825,24 +830,19 @@ function GearCard({
           }}
         >
           <select
+            aria-label={titulo}
             value={base}
             onChange={(e) => onBase(e.target.value)}
             style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              opacity: 0,
+              cursor: 'pointer',
               appearance: 'none',
               WebkitAppearance: 'none',
-              background: 'transparent',
               border: 'none',
-              color: 'var(--blue)',
-              fontSize: 14,
-              fontWeight: 600,
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              outline: 'none',
-              flex: '0 1 auto',
-              minWidth: 0,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
             }}
           >
             {(bases.includes(base) ? bases : [base, ...bases]).map((o) => (
@@ -851,6 +851,19 @@ function GearCard({
               </option>
             ))}
           </select>
+          <span
+            style={{
+              color: 'var(--blue)',
+              fontSize: 14,
+              fontWeight: 600,
+              minWidth: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {base}
+          </span>
           {rankOn && ench ? (
             <span
               style={{
