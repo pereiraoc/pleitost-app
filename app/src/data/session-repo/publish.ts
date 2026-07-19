@@ -8,7 +8,31 @@ import type { VaultDoc } from '../types'
 import { fmPath, num, str } from '../../components/ficha/hero-model'
 import { linkLabel } from '../../markdown/dataview-value'
 import { memberStats } from '../../grupo/stats'
+import { projectHeroRules } from '../../rules/useHeroRules'
+import { loadDoc } from '../useDoc'
+import type { Catalog } from '../catalog'
 import type { CharacterFamily, CharacterState, CharacterSummary } from './contract'
+
+/** FM EFETIVO (derivado) pra publicar na sessão. A vida/defesas MÁX de ficha nova
+ *  vêm das REGRAS da classe (Definir Vida.Vitalidade/Moral etc.) — só existem no
+ *  derivedFm; o FM salvo (skeleton) traz 0, então a mesa mostrava vida/vigor 0/0
+ *  ou 24/0 (#323/#326). Deriva uma vez e alimenta summary/state/blob. Fallback:
+ *  FM cru se a projeção falhar. */
+export async function effectiveFmForPublish(
+  doc: VaultDoc,
+  catalog: Catalog,
+): Promise<Record<string, unknown>> {
+  try {
+    const { projection } = await projectHeroRules(
+      doc.frontmatter as Record<string, unknown>,
+      catalog,
+      loadDoc,
+    )
+    return projection.derivedFm
+  } catch {
+    return doc.frontmatter as Record<string, unknown>
+  }
+}
 
 function familyOf(doc: VaultDoc): CharacterFamily {
   const sub = str(doc.frontmatter['subcategoria'] ?? doc.subtype)

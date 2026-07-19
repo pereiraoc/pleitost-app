@@ -107,8 +107,10 @@ describe('tela CONFIG (issue #35)', () => {
     // Tema e Cor de Destaque têm os mesmos rótulos; a pill do TEMA vem 1º no DOM.
     const acoSolarTema = screen.getAllByRole('button', { name: /AÇO SOLAR/ })[0]
     const ferroFrioTema = screen.getAllByRole('button', { name: /FERRO FRIO/ })[0]
-    expect(acoSolarTema.style.getPropertyValue('--on')).toBe('1') // default aco-solar
-    expect(ferroFrioTema.style.getPropertyValue('--on')).toBe('0')
+    // #325: seleção indicada direto no `background` (não mais o var --on, que não
+    // renderizava no iOS Safari) — a pill selecionada fica com fundo do destaque.
+    expect(acoSolarTema.style.background).toBe('var(--accent)') // default aco-solar
+    expect(ferroFrioTema.style.background).toBe('transparent')
     expect(document.documentElement.dataset.theme).toBe('aco-solar')
 
     // trocar de TEMA NÃO mexe no modo (eixo independente): fica no claro default
@@ -135,10 +137,10 @@ describe('tela CONFIG (issue #35)', () => {
     // Modo Mestre pra não ambiguar. \b evita casar o sufixo de "DESATIVADO".
     await screen.findByText('Modo Mestre')
     const linha = () => within(screen.getByText('Modo Mestre').parentElement as HTMLElement)
-    expect(linha().getByRole('button', { name: /DESATIVADO/ }).style.getPropertyValue('--on')).toBe('1')
+    expect(linha().getByRole('button', { name: /DESATIVADO/ }).style.background).toBe('var(--accent)')
     fireEvent.click(linha().getByRole('button', { name: /\bATIVADO$/ }))
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('true')
-    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.getPropertyValue('--on')).toBe('1')
+    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.background).toBe('var(--accent)')
     fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('false')
   })
@@ -148,7 +150,7 @@ describe('tela CONFIG (issue #35)', () => {
     await screen.findByText('Dificuldade dos Combates')
     const linha = () => within(screen.getByText('Dificuldade dos Combates').parentElement as HTMLElement)
     // default ON
-    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.getPropertyValue('--on')).toBe('1')
+    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.background).toBe('var(--accent)')
     fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
     expect(localStorage.getItem('pleitost.settings.mostrarDificuldade')).toBe('false')
     fireEvent.click(linha().getByRole('button', { name: /\bATIVADO$/ }))

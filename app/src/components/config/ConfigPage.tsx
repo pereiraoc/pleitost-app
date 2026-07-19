@@ -124,17 +124,22 @@ function OptPill({
   return (
     <button
       onClick={onClick}
+      // #325: estilo do estado SELECIONADO calculado direto do booleano `on`
+      // (sem o truque `--on` + calc() dentro de color-mix, que não renderizava
+      // no iOS Safari → o pill selecionado não destacava e o ícone fixo parecia
+      // um checkmark travado).
       style={
         {
-          '--on': on ? 1 : 0,
           display: 'inline-flex',
           alignItems: 'center',
           gap: 7,
           padding: '8px 13px',
           cursor: 'pointer',
-          border: '1px solid color-mix(in srgb,var(--accent) calc(35% + var(--on,0)*65%),var(--line2))',
-          background: 'color-mix(in srgb,var(--accent) calc(var(--on,0)*100%),transparent)',
-          color: 'color-mix(in srgb,var(--ink) calc(var(--on,0)*100%),var(--text))',
+          border: on
+            ? '1px solid var(--accent)'
+            : '1px solid color-mix(in srgb,var(--accent) 35%,var(--line2))',
+          background: on ? 'var(--accent)' : 'transparent',
+          color: on ? 'var(--ink)' : 'var(--text)',
           fontFamily: 'var(--mono)',
           fontSize: 12,
           letterSpacing: '.05em',
@@ -157,18 +162,20 @@ const ACCENT_OPTS: { id: ThemeName; label: string; swatch: string }[] = THEMES.m
   swatch: ACCENT_COLORS[t.id].accent,
 }))
 
-/** Base visual das pills de destaque (mesmo padrão --on do OptPill). */
+/** Base visual das pills de destaque (mesmo estado SELECIONADO do OptPill —
+ *  calculado direto do booleano `on`, robusto no iOS Safari; #325). */
 function accentPillStyle(on: boolean): CSSProperties {
   return {
-    '--on': on ? 1 : 0,
     display: 'inline-flex',
     alignItems: 'center',
     gap: 7,
     padding: '7px 12px',
     cursor: 'pointer',
-    border: '1px solid color-mix(in srgb,var(--accent) calc(35% + var(--on,0)*65%),var(--line2))',
-    background: 'color-mix(in srgb,var(--accent) calc(var(--on,0)*100%),transparent)',
-    color: 'color-mix(in srgb,var(--ink) calc(var(--on,0)*100%),var(--text))',
+    border: on
+      ? '1px solid var(--accent)'
+      : '1px solid color-mix(in srgb,var(--accent) 35%,var(--line2))',
+    background: on ? 'var(--accent)' : 'transparent',
+    color: on ? 'var(--ink)' : 'var(--text)',
     fontFamily: 'var(--mono)',
     fontSize: 12,
     letterSpacing: '.05em',

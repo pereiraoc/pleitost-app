@@ -33,12 +33,14 @@ export function vitaStatusOf(c: SessionCharacter): VitaClassification {
   return classifyVita(c.state.recursosRestantes?.vitalidade ?? 0, c.summary.vitalidadeMax)
 }
 
-/** Cor da faixa — mesma paleta de tons do painel do sync. */
+/** Cor da faixa de estado de vida — MESMA paleta do pleitost-autosheet (#322):
+ *  styles.css .gm-enc-difficulty.is-* (is-trivial azul, is-easy verde, is-hard
+ *  laranja, is-lethal vermelho). Antes o is-trivial ("Impecável") saía cinza. */
 export const VITA_TONE_COLOR: Record<VitaTone, string> = {
-  'is-trivial': 'var(--muted)',
-  'is-easy': '#5aa563',
-  'is-hard': '#c98b3a',
-  'is-lethal': '#c85a4a',
+  'is-trivial': '#60a5fa',
+  'is-easy': '#4ade80',
+  'is-hard': '#fb923c',
+  'is-lethal': '#f87171',
   'is-dead': '#8a8f98',
 }
 

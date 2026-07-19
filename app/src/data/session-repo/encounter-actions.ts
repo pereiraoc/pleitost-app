@@ -9,7 +9,7 @@ import type { Catalog } from '../catalog'
 import type { VaultDoc } from '../types'
 import { vaultUrl } from '../base-url'
 import { getLocalDoc } from '../local-entities'
-import { buildCharacterState, buildCharacterSummary } from './publish'
+import { buildCharacterState, buildCharacterSummary, effectiveFmForPublish } from './publish'
 import { maskSummaryForDisguise } from './disguise'
 import { stashDisguiseSecret, readDisguiseSecret } from './disguise-secrets'
 import type {
@@ -137,12 +137,14 @@ export async function npcInputsFromRoster(
     for (let i = 0; i < Math.max(1, entry.qty); i++) {
       const doc = entry.sourcePath ? await docFromSourcePath(catalog, entry.sourcePath) : null
       if (doc) {
+        // #323/#326: FM derivado (vida/defesas máx das regras, não o 0 do cru).
+        const efm = await effectiveFmForPublish(doc, catalog)
         npcs.push({
           memberId,
           kind: 'npc',
           characterPath: doc.id,
-          summary: buildCharacterSummary(doc),
-          state: buildCharacterState(doc),
+          summary: buildCharacterSummary(doc, efm),
+          state: buildCharacterState(doc, efm),
         })
         continue
       }

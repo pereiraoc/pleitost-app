@@ -37,8 +37,10 @@ import type { SessionCharacter, SessionRepo, SessionRealtime } from '../../data/
 import {
   buildCharacterState,
   buildCharacterSummary,
+  effectiveFmForPublish,
   extractFmBlob,
 } from '../../data/session-repo/publish'
+import type { Catalog } from '../../data/catalog'
 import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/session-repo/encounter-actions'
 import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
@@ -226,22 +228,33 @@ function usePublicacao(
   repo: (SessionRepo & SessionRealtime) | null,
   sessionId: string | null,
   meuChar: SessionCharacter | null,
+  catalog: Catalog,
 ) {
   const version = useLocalStoreVersion()
   const charId = meuChar?.id ?? null
   const heroId = meuChar?.characterPath ?? null
+  // #323/#326: publica o STATE com o FM DERIVADO — o corrente de vida/moral cai no
+  // MÁX quando ausente (ficha nova), e o máx vem das regras da classe, não do 0
+  // do FM cru. Deriva (async, cacheado) antes de mandar.
+  const pushState = (cId: string, hId: string) => {
+    const doc = getLocalDoc(hId)
+    if (!doc) return
+    void effectiveFmForPublish(doc, catalog).then((efm) =>
+      repo?.updateCharacterState(cId, buildCharacterState(doc, efm)).catch(() => {}),
+    )
+  }
   useEffect(() => {
     if (!repo || !sessionId || !charId || !heroId) return
-    const doc = getLocalDoc(heroId)
-    if (doc) void repo.updateCharacterState(charId, buildCharacterState(doc)).catch(() => {})
+    pushState(charId, heroId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, repo, sessionId, charId, heroId])
   useEffect(() => {
     if (!repo || !sessionId || !charId || !heroId) return
     return onHeroWrite((id, path, _value, origem) => {
       if (id !== heroId || origem === 'sync' || !path.startsWith('Interativa.')) return
-      const doc = getLocalDoc(heroId)
-      if (doc) void repo.updateCharacterState(charId, buildCharacterState(doc)).catch(() => {})
+      pushState(charId, heroId)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repo, sessionId, charId, heroId])
 }
 
@@ -443,13 +456,14 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   const navigate = useNavigate()
   const detail = useDetail()
   const live = useLiveSession()
+  const catalog = useCatalog()
   const [heroiSel, setHeroiSel] = useState('')
   const meusHerois = localEntriesOfKind('Heroi')
 
   const chars = live?.characters ?? []
   const members = live?.members ?? []
   const meuChar = user ? (chars.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null) : null
-  usePublicacao(repo, sess.remoteId ?? null, meuChar)
+  usePublicacao(repo, sess.remoteId ?? null, meuChar, catalog)
 
   if (!repo || !user || !sess.remoteId) return null
   // #238 (sync gm-view.ts:85-91 / player-view.ts:128-134): a mesa some
@@ -462,6 +476,9 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
     const doc = heroiSel ? getLocalDoc(heroiSel) : null
     if (!doc || !sess.remoteId) return
     // req 8 (#187): publica o herói e o COMPANHEIRO ANIMAL dele junto (Tutor)
+    // #323/#326: FM derivado (vida/defesas máx das regras da classe) pra summary/
+    // state/blob — senão a mesa mostra vida/vigor 0/0 numa ficha nova.
+    const efm = await effectiveFmForPublish(doc, catalog)
     const heroi = await repo.insertCharacter({
       sessionId: sess.remoteId,
       memberId: user.id,
@@ -469,15 +486,16 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
       tutorCharacterId: null,
       characterPath: doc.id,
       visibility: 'visible',
-      summary: buildCharacterSummary(doc),
-      state: buildCharacterState(doc),
-      fmBlob: extractFmBlob(doc.frontmatter as Record<string, unknown>),
+      summary: buildCharacterSummary(doc, efm),
+      state: buildCharacterState(doc, efm),
+      fmBlob: extractFmBlob(efm),
     })
     for (const ca of localEntriesOfKind('CompanheiroAnimal')) {
       const caDoc = getLocalDoc(ca.id)
       if (!caDoc) continue
       const tutor = str(caDoc.frontmatter['Tutor'])
       if (!tutor || !tutor.includes(doc.basename)) continue
+      const caEfm = await effectiveFmForPublish(caDoc, catalog)
       await repo.insertCharacter({
         sessionId: sess.remoteId,
         memberId: user.id,
@@ -485,9 +503,9 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
         tutorCharacterId: heroi.id,
         characterPath: caDoc.id,
         visibility: 'visible',
-        summary: buildCharacterSummary(caDoc),
-        state: buildCharacterState(caDoc),
-        fmBlob: extractFmBlob(caDoc.frontmatter as Record<string, unknown>),
+        summary: buildCharacterSummary(caDoc, caEfm),
+        state: buildCharacterState(caDoc, caEfm),
+        fmBlob: extractFmBlob(caEfm),
       })
     }
   }
