@@ -74,3 +74,19 @@ export function agruparEmBlocos<T>(
   }
   return { blocos, semBloco, sequencia }
 }
+
+/** #324: ordena uma lista de IDS na ordem canônica dos blocos (a `sequencia` dos
+ *  6 blocos, seguida dos sem-velocidade preservando a ordem atual). É a ORDEM DE
+ *  TURNO efetiva quando o GM atribui velocidades — mantém os blocos contíguos pra
+ *  o display agrupar e o PRÓXIMO/ANTERIOR andar em ordem de bloco. */
+export function blockSortOrder(
+  order: readonly string[],
+  speeds: Record<string, SpeedTier>,
+  ladoOf: (id: string) => Lado,
+): string[] {
+  const { blocos, semBloco } = agruparEmBlocos([...order], (id) => ({
+    tier: speeds[id] ?? null,
+    lado: ladoOf(id),
+  }))
+  return [...blocos.flatMap((b) => b.itens), ...semBloco]
+}

@@ -57,6 +57,14 @@ import {
   type ActiveInvocacao,
 } from '../../interativa/invocacao'
 import { advanceTurn, reorderTurnState } from '../../data/session-repo/turn'
+import {
+  blockSortOrder,
+  ladoDe,
+  SPEED_EMOJI,
+  SPEED_LABEL,
+  blocoLabel,
+  type SpeedTier,
+} from '../../data/initiative-blocks'
 import { composeGroupName } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
@@ -740,15 +748,44 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const idx = row ? Number((row as HTMLElement).dataset.combatenteIdx) : NaN
     if (!Number.isNaN(idx)) setOverIdx(idx)
   }
+  // #324: velocidade (super/rápido/lento) por combatente → forma os 6 blocos com
+  // o LADO (derivado da família). Guardada em turnState.speeds; ao mudar, a ORDEM
+  // é reordenada pelos blocos (blockSortOrder) pra o turno andar em ordem de bloco
+  // e o display agrupar contíguo.
+  const speeds = (ativo?.turnState?.speeds ?? {}) as Record<string, SpeedTier>
+  const ladoOf = (id: string) =>
+    ladoDe(live.characters.find((c) => c.id === id)?.summary.family ?? '')
   const onDragEnd = async () => {
     const from = dragId
     const to = overIdx
     setDragId(null)
     setOverIdx(null)
     if (from && to != null && ativo?.turnState) {
-      const next = reorderTurnState(ativo.turnState, from, to)
-      if (next !== ativo.turnState) await repo.updateEncounterTurnState(ativo.id, next)
+      const ts = ativo.turnState
+      const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
+      const reordered = reorderTurnState(ts, from, to)
+      const order = blockSortOrder(reordered.order, speeds, ladoOf) // mantém blocos contíguos
+      const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+      if (order.join() !== ts.order.join())
+        await repo.updateEncounterTurnState(ativo.id, { ...ts, order, currentIndex })
     }
+  }
+  const assignSpeed = async (id: string, tier: SpeedTier | null) => {
+    if (!ativo?.turnState) return
+    const ts = ativo.turnState
+    const sp = { ...(ts.speeds ?? {}) }
+    if (tier == null) delete sp[id]
+    else sp[id] = tier
+    const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
+    const order = blockSortOrder(ts.order, sp, ladoOf)
+    const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
+  }
+  const cycleSpeed = (id: string) => {
+    const cur = speeds[id]
+    const next: SpeedTier | null =
+      cur == null ? 'super' : cur === 'super' ? 'rapido' : cur === 'rapido' ? 'lento' : null
+    void assignSpeed(id, next)
   }
 
   // #324: ESCONDER combatente — persiste em turnState.hidden (mesmo jsonb, sem
@@ -775,6 +812,40 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         .map((id) => chars.find((c) => c.id === id))
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
+  // #324: ids que ABREM um bloco na iniciativa (1º VISÍVEL de cada bloco, pra o
+  // display dos 6 blocos). Baseado na ordem já block-sorted + só os visíveis pro
+  // observador (jogador não conta os escondidos).
+  const firstOfBlock = new Set<string>()
+  {
+    let lastKey: string | null = null
+    for (const c of noCombate) {
+      if (hidden.has(c.id) && !isGm) continue
+      const t = speeds[c.id]
+      const k = t ? `${t}:${ladoDe(c.summary.family)}` : null
+      if (k != null && k !== lastKey) firstOfBlock.add(c.id)
+      lastKey = k
+    }
+  }
+  const blocoHeader = (c: SessionCharacter) => {
+    const tier = speeds[c.id]!
+    return (
+      <div
+        style={mono({
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+          margin: '4px 2px 0',
+          fontSize: 10,
+          letterSpacing: '.12em',
+          color: ladoDe(c.summary.family) === 'jogador' ? 'var(--blue)' : 'var(--red)',
+          fontWeight: 700,
+        })}
+      >
+        <span style={{ fontSize: 13 }}>{SPEED_EMOJI[tier]}</span>
+        {blocoLabel(tier, ladoDe(c.summary.family)).toUpperCase()}
+      </div>
+    )
+  }
 
   const chip = (label: string, title: string, onClick: () => void, tone: 'accent' | 'red' = 'accent') => (
     <button
@@ -882,6 +953,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                 : null
               return (
                 <Fragment key={c.id}>
+                {/* #324: cabeçalho do bloco (⚡/🏃/🐢 + Jogadores/Inimigos ...). */}
+                {firstOfBlock.has(c.id) ? blocoHeader(c) : null}
                 <div
                   data-combatente-idx={i}
                   style={{
@@ -986,6 +1059,28 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                       style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
                     >
                       {statsView.has(c.id) ? '❤️' : '🛡️'}
+                    </button>
+                  ) : null}
+                  {/* #324: VELOCIDADE — clica pra ciclar ⚡→🏃→🐢→(sem); define o
+                      bloco de iniciativa. Só no modo EDITAR. */}
+                  {isGm && editIniciativa ? (
+                    <button
+                      onClick={() => cycleSpeed(c.id)}
+                      title={
+                        speeds[c.id]
+                          ? `Velocidade: ${SPEED_LABEL[speeds[c.id]!]} (clica pra trocar)`
+                          : 'Definir velocidade (bloco de iniciativa)'
+                      }
+                      style={mono({
+                        background: 'var(--panel)',
+                        border: '1px solid var(--line2)',
+                        cursor: 'pointer',
+                        fontSize: 13,
+                        padding: '1px 6px',
+                        flex: 'none',
+                      })}
+                    >
+                      {speeds[c.id] ? SPEED_EMOJI[speeds[c.id]!] : '💨'}
                     </button>
                   ) : null}
                   {/* #324: esconder/mostrar aos jogadores — só no modo EDITAR. */}

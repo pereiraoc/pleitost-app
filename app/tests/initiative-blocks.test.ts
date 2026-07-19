@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel } from '../src/data/initiative-blocks'
+import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel, blockSortOrder } from '../src/data/initiative-blocks'
 
 type C = { id: string; family: string; tier: 'super' | 'rapido' | 'lento' | null }
 const key = (c: C) => ({ tier: c.tier, lado: ladoDe(c.family) })
@@ -43,5 +43,17 @@ describe('initiative-blocks', () => {
       { id: 'b', family: 'Monstro', tier: 'rapido' },
     ]
     expect(agruparEmBlocos(itens, key).sequencia.map((c) => c.id)).toEqual(['a', 'b'])
+  })
+
+  it('blockSortOrder: reordena os ids na ordem dos blocos + sem-velocidade no fim', () => {
+    const fam: Record<string, string> = {
+      'j-super': 'Heroi', 'm-super': 'Monstro', 'j-rapido': 'Heroi', 'm-lento': 'Monstro', sem: 'Heroi',
+    }
+    const speeds = { 'm-lento': 'lento', 'j-super': 'super', 'm-super': 'super', 'j-rapido': 'rapido' } as const
+    const ladoOf = (id: string) => ladoDe(fam[id] ?? '')
+    // ordem inicial embaralhada; blockSortOrder → blocos canônicos, `sem` no fim
+    expect(blockSortOrder(['m-lento', 'sem', 'j-super', 'm-super', 'j-rapido'], speeds, ladoOf)).toEqual([
+      'j-super', 'm-super', 'j-rapido', 'm-lento', 'sem',
+    ])
   })
 })

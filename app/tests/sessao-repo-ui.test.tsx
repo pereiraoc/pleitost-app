@@ -372,6 +372,36 @@ describe('#196 iniciativa remota (encounters)', () => {
     expect(screen.getByText(/Criatura 1/)).toBeTruthy()
     expect(screen.queryByText(/Criatura 2/)).toBeNull() // escondido pelo GM
   })
+
+  it('#324 GM define velocidade → aparece o bloco de iniciativa', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('🌐 HERÓIS NA SESSÃO')
+    const remoteId = (await repo.findSessionByCode(listSessions()[0].codigo))!.id
+    await act(async () => {
+      await repo.insertEncounter({
+        sessionId: remoteId,
+        sourceNotePath: 'Campanhas/Combates/Teste',
+        name: 'Emboscada',
+        roster: {
+          entries: [{ sourcePath: 'Sistema/Criaturas/Bestiário/Goblin Batedor', label: 'Goblin Batedor', qty: 2 }],
+        },
+        difficulty: null,
+      })
+    })
+    await screen.findByText('Emboscada')
+    fireEvent.click(await screen.findByText('▶ INICIAR'))
+    await waitFor(() => expect(screen.getByText(/Turno 1/)).toBeTruthy())
+    // sem velocidade → nenhum bloco
+    expect(screen.queryByText(/INIMIGOS SUPER RÁPIDOS/)).toBeNull()
+    // GM entra no modo EDITAR e define o 1º goblin como Super Rápido (⚡)
+    fireEvent.click(screen.getByText('✎ EDITAR INICIATIVA'))
+    const vel = await screen.findAllByTitle(/Definir velocidade/)
+    fireEvent.click(vel[0]!)
+    // aparece o cabeçalho do bloco (goblin = inimigo)
+    await waitFor(() => expect(screen.getByText(/INIMIGOS SUPER RÁPIDOS/)).toBeTruthy())
+  })
 })
 
 // ── #226: sessões do usuário aparecem em OUTRO dispositivo ────────────────
