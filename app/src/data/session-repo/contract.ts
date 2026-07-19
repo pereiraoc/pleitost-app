@@ -80,6 +80,10 @@ export interface EncounterTurnState {
    *  iniciativa; o GM vê com marcador 🙈. Persiste no MESMO jsonb turn_state
    *  (sem coluna nova). Ausente/[] = ninguém escondido. */
   hidden?: string[]
+  /** #324: VELOCIDADE (super/rapido/lento) por combatente, atribuída pelo GM.
+   *  Junto com o LADO (derivado da família) forma os 6 blocos de iniciativa.
+   *  Ausente = sem bloco. Persiste no mesmo jsonb turn_state. */
+  speeds?: Record<string, 'super' | 'rapido' | 'lento'>
 }
 
 /** Difficulty persistida (jsonb) — no plugin estende EncounterDifficultyResult

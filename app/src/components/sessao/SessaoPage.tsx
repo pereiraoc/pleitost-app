@@ -239,9 +239,14 @@ function usePublicacao(
   const pushState = (cId: string, hId: string) => {
     const doc = getLocalDoc(hId)
     if (!doc) return
-    void effectiveFmForPublish(doc, catalog).then((efm) =>
-      repo?.updateCharacterState(cId, buildCharacterState(doc, efm)).catch(() => {}),
-    )
+    void effectiveFmForPublish(doc, catalog).then((efm) => {
+      repo?.updateCharacterState(cId, buildCharacterState(doc, efm)).catch(() => {})
+      // #323/#326: RE-PUBLICA o SUMMARY (vida/defesas MÁX derivados). Heróis que
+      // entraram na sessão ANTES do fix ficaram com o summary salvo no servidor
+      // com máx 0 (→ "24/0", "0/0"); só o JOIN publicava summary. Ao dono abrir a
+      // sessão, isto auto-corrige o registro no servidor.
+      repo?.updateCharacterSummary(cId, buildCharacterSummary(doc, efm)).catch(() => {})
+    })
   }
   useEffect(() => {
     if (!repo || !sessionId || !charId || !heroId) return
