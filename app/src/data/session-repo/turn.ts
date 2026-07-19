@@ -20,3 +20,19 @@ export function advanceTurn(ts: TurnLike, delta: number): { currentIndex: number
   const absClamped = Math.max(0, abs) // não retrocede antes do começo (rodada 1, idx 0)
   return { currentIndex: absClamped % len, round: Math.floor(absClamped / len) + 1 }
 }
+
+/** Reordena a INICIATIVA (drag-and-drop): move `id` pra posição `toIndex`,
+ *  PRESERVANDO o combatente do turno atual (currentIndex acompanha quem estava
+ *  jogando) e a rodada. Puro/testável — o GM arrasta e isto vira o novo
+ *  turnState sincronizado. No-op se `id` não está na ordem. */
+export function reorderTurnState<T extends TurnLike>(ts: T, id: string, toIndex: number): T {
+  const from = ts.order.indexOf(id)
+  if (from < 0) return ts
+  const len = ts.order.length
+  const currentId = ts.order[clamp(ts.currentIndex, 0, len - 1)]
+  const order = [...ts.order]
+  order.splice(from, 1)
+  order.splice(clamp(toIndex, 0, order.length), 0, id)
+  const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+  return { ...ts, order, currentIndex } // preserva `started` e demais campos do encounter
+}

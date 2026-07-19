@@ -2,7 +2,7 @@
 // inversos exatos (inclusive na virada de rodada), e a `order` vazia / o começo
 // são tratados sem desincronizar o round.
 import { describe, expect, it } from 'vitest'
-import { advanceTurn, type TurnLike } from '../src/data/session-repo/turn'
+import { advanceTurn, reorderTurnState, type TurnLike } from '../src/data/session-repo/turn'
 
 const ts = (currentIndex: number, round: number, n = 3): TurnLike => ({
   order: Array.from({ length: n }, (_, i) => `c${i}`),
@@ -39,5 +39,28 @@ describe('advanceTurn (#291)', () => {
     for (let i = 0; i < 5; i++) cur = advanceTurn({ ...start, ...cur }, +1)
     for (let i = 0; i < 5; i++) cur = advanceTurn({ ...start, ...cur }, -1)
     expect(cur).toEqual({ currentIndex: 1, round: 2 })
+  })
+})
+
+describe('reorderTurnState (#324 — drag-and-drop da iniciativa)', () => {
+  it('move o combatente pra nova posição', () => {
+    // [c0,c1,c2] mover c0 → índice 2 = [c1,c2,c0]
+    expect(reorderTurnState(ts(0, 1), 'c0', 2).order).toEqual(['c1', 'c2', 'c0'])
+  })
+  it('PRESERVA o combatente do turno atual (currentIndex acompanha)', () => {
+    // turno atual = c1 (idx 1); mover c0 pro fim → c1 continua sendo o atual
+    const r = reorderTurnState(ts(1, 2), 'c0', 2)
+    expect(r.order).toEqual(['c1', 'c2', 'c0'])
+    expect(r.order[r.currentIndex]).toBe('c1')
+    expect(r.round).toBe(2)
+  })
+  it('mover pra cima também funciona e mantém o atual', () => {
+    const r = reorderTurnState(ts(0, 1), 'c2', 0) // [c2,c0,c1], atual era c0
+    expect(r.order).toEqual(['c2', 'c0', 'c1'])
+    expect(r.order[r.currentIndex]).toBe('c0')
+  })
+  it('no-op quando o id não está na ordem', () => {
+    const t = ts(0, 1)
+    expect(reorderTurnState(t, 'xx', 1)).toBe(t)
   })
 })

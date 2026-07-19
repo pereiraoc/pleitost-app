@@ -56,7 +56,7 @@ import {
   formatStatValue,
   type ActiveInvocacao,
 } from '../../interativa/invocacao'
-import { advanceTurn } from '../../data/session-repo/turn'
+import { advanceTurn, reorderTurnState } from '../../data/session-repo/turn'
 import { composeGroupName } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
@@ -673,6 +673,12 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const live = useLiveSession()
+  // #324: modo EDITAR INICIATIVA (só do GM) — habilita as alças de arrastar; fora
+  // dele o combate fica como antes (vida + botão de defesas). O drag-and-drop é
+  // pointer-based (funciona no touch mobile).
+  const [editIniciativa, setEditIniciativa] = useState(false)
+  const [dragId, setDragId] = useState<string | null>(null)
+  const [overIdx, setOverIdx] = useState<number | null>(null)
   if (!repo || !user || !sess.remoteId || !live) return null
   const isGm = live.gmUserId === user.id
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
@@ -709,6 +715,25 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     // de rodada não desincroniza (advanceTurn puro, testado).
     const { currentIndex, round } = advanceTurn(ts, delta)
     await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex, round })
+  }
+
+  // #324: GM arrasta a alça (☰); ao mover, a linha sob o dedo vira o alvo; ao
+  // soltar, sincroniza a nova ordem (reorderTurnState preserva o turno atual).
+  const onDragMove = (e: { clientX: number; clientY: number }) => {
+    if (!dragId) return
+    const row = document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-combatente-idx]')
+    const idx = row ? Number((row as HTMLElement).dataset.combatenteIdx) : NaN
+    if (!Number.isNaN(idx)) setOverIdx(idx)
+  }
+  const onDragEnd = async () => {
+    const from = dragId
+    const to = overIdx
+    setDragId(null)
+    setOverIdx(null)
+    if (from && to != null && ativo?.turnState) {
+      const next = reorderTurnState(ativo.turnState, from, to)
+      if (next !== ativo.turnState) await repo.updateEncounterTurnState(ativo.id, next)
+    }
   }
 
   // #291: pro GM, sobrepõe o real (do segredo) sobre os NPCs disfarçados — o
@@ -777,6 +802,16 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         ) : null}
         {isGm && ativo ? chip('◀ ANTERIOR', 'Turno anterior', () => void mover(-1)) : null}
         {isGm && ativo ? chip('PRÓXIMO ▶', 'Próximo turno', () => void mover(1)) : null}
+        {/* #324: liga o modo de reordenar a iniciativa (só então aparecem as alças
+            de arrastar); fora dele o combate fica como antes. */}
+        {isGm && ativo
+          ? chip(
+              editIniciativa ? '✓ PRONTO' : '✎ EDITAR INICIATIVA',
+              editIniciativa ? 'Concluir edição da iniciativa' : 'Reordenar a iniciativa (arrastar)',
+              () => setEditIniciativa((v) => !v),
+              editIniciativa ? 'red' : 'accent',
+            )
+          : null}
         {/* Iniciar/Parar — MESMO lugar, ícone muda com o estado (#238). Com
             combates PREPARADOS o iniciar é o de cada card (como no sync). */}
         {isGm && ativo ? chip('■ PARAR', 'Encerrar Combate', () => void repo.endEncounter(ativo.id), 'red') : null}
@@ -819,16 +854,52 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               return (
                 <Fragment key={c.id}>
                 <div
+                  data-combatente-idx={i}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: 10,
                     padding: '9px 12px',
                     background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
-                    border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    // #324: alvo do drag ganha borda de topo; a linha arrastada some um pouco.
+                    borderTop:
+                      dragId && overIdx === i && dragId !== c.id
+                        ? '2px solid var(--accent)'
+                        : `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    borderRight: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    borderBottom: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    borderLeft: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+                    opacity: dragId === c.id ? 0.4 : 1,
                     clipPath: clip(9),
                   }}
                 >
+                  {isGm && editIniciativa ? (
+                    <span
+                      onPointerDown={(e) => {
+                        setDragId(c.id)
+                        setOverIdx(i)
+                        e.currentTarget.setPointerCapture(e.pointerId)
+                      }}
+                      onPointerMove={onDragMove}
+                      onPointerUp={() => void onDragEnd()}
+                      onPointerCancel={() => {
+                        setDragId(null)
+                        setOverIdx(null)
+                      }}
+                      title="Arraste pra reordenar a iniciativa"
+                      style={{
+                        flex: 'none',
+                        cursor: 'grab',
+                        touchAction: 'none',
+                        fontSize: 15,
+                        lineHeight: 1,
+                        color: 'var(--muted)',
+                        padding: '0 2px',
+                      }}
+                    >
+                      ☰
+                    </span>
+                  ) : null}
                   <span
                     aria-hidden
                     style={{
