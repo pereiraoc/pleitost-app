@@ -320,6 +320,8 @@ describe('#196 iniciativa remota (encounters)', () => {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
+    // #324: o botão de revelar (disfarce) agora só aparece no modo EDITAR INICIATIVA.
+    fireEvent.click(await screen.findByText('✎ EDITAR INICIATIVA'))
     await waitFor(() => expect(screen.getAllByTitle('Revelar identidade aos players').length).toBeGreaterThan(0))
     fireEvent.click(screen.getAllByTitle('Revelar identidade aos players')[0])
     cleanup()

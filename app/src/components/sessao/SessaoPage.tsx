@@ -679,6 +679,16 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const [editIniciativa, setEditIniciativa] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
   const [overIdx, setOverIdx] = useState<number | null>(null)
+  // Combatentes mostrando defesas/stats em vez de vida (toggle por linha, espelho
+  // do card de MEMBRO). Set de ids.
+  const [statsView, setStatsView] = useState<ReadonlySet<string>>(new Set())
+  const toggleStats = (id: string) =>
+    setStatsView((s) => {
+      const n = new Set(s)
+      if (n.has(id)) n.delete(id)
+      else n.add(id)
+      return n
+    })
   if (!repo || !user || !sess.remoteId || !live) return null
   const isGm = live.gmUserId === user.id
   const ativo = live.encounters.find((e) => e.status === 'active') ?? null
@@ -923,7 +933,19 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   <span style={{ fontSize: 13.5, fontWeight: 700 }}>
                     {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
                   </span>
-                  {npc ? (
+                  {/* #324: defesas/stats só quando o toggle da linha está ligado
+                      (NPC pra jogador segue mascarado — só o dono/GM vê stats). */}
+                  {statsView.has(c.id) && (isGm || !npc) ? (
+                    <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
+                      <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
+                      <span>❤️{c.summary.stats?.vigor ?? 0}</span>
+                      <span>⚡{c.summary.stats?.evasao ?? 0}</span>
+                      <span>🔥{c.summary.stats?.impeto ?? 0}</span>
+                      <span>👣{c.summary.stats?.movimento ?? 0}</span>
+                      <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
+                      <span>💡{c.summary.stats?.intuicao ?? 0}</span>
+                    </span>
+                  ) : npc ? (
                     // NPC: jogador vê a FAIXA (estimativa); GM vê os números
                     <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
                       {isGm
@@ -936,7 +958,19 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                     </span>
                   )}
                   <span style={{ flex: 1 }} />
-                  {isGm && npc ? (
+                  {/* #324: alternar vida ↔ defesas na linha (GM sempre; jogador só
+                      nos próprios heróis, não em NPC). */}
+                  {isGm || !npc ? (
+                    <button
+                      onClick={() => toggleStats(c.id)}
+                      title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+                    >
+                      {statsView.has(c.id) ? '❤️' : '🛡️'}
+                    </button>
+                  ) : null}
+                  {/* #324: disfarce (revelar identidade) só no modo EDITAR INICIATIVA. */}
+                  {isGm && npc && editIniciativa ? (
                     <button
                       onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo.id, c.id)}
                       title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
