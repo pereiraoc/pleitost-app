@@ -901,26 +901,44 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           <span style={{ fontSize: 13.5, fontWeight: 700 }}>
             {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
           </span>
-          {statsView.has(c.id) && (isGm || !npc) ? (
-            <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
-              <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
-              <span>❤️{c.summary.stats?.vigor ?? 0}</span>
-              <span>⚡{c.summary.stats?.evasao ?? 0}</span>
-              <span>🔥{c.summary.stats?.impeto ?? 0}</span>
-              <span>👣{c.summary.stats?.movimento ?? 0}</span>
-              <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
-              <span>💡{c.summary.stats?.intuicao ?? 0}</span>
-            </span>
-          ) : npc ? (
-            <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
-              {isGm ? `❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax} · ${status.label}` : status.label}
-            </span>
-          ) : (
-            <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>
-              {`❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax}`}
-            </span>
-          )}
-          <span style={{ flex: 1 }} />
+          <div style={{ flex: 1, minWidth: 64, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {statsView.has(c.id) && (isGm || !npc) ? (
+              <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
+                <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
+                <span>❤️{c.summary.stats?.vigor ?? 0}</span>
+                <span>⚡{c.summary.stats?.evasao ?? 0}</span>
+                <span>🔥{c.summary.stats?.impeto ?? 0}</span>
+                <span>👣{c.summary.stats?.movimento ?? 0}</span>
+                <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
+                <span>💡{c.summary.stats?.intuicao ?? 0}</span>
+              </span>
+            ) : npc && !isGm ? (
+              // NPC pro JOGADOR: só a FAIXA (estimativa) — sem barra nem números.
+              <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
+                {status.label}
+              </span>
+            ) : (
+              // Herói (pra todo mundo) e NPC pro GM: texto + BARRA DE VIDA com TODOS
+              // os fatores (vida negativa hachurada, moral, moral temporária, marca
+              // do máx). Reusa VidaBarRemota — mesmo componente da FICHA DO GRUPO.
+              <>
+                <span style={mono({ fontSize: 9.5, color: npc ? VITA_TONE_COLOR[status.tone] : 'var(--muted)' })}>
+                  {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax} · 💙 ${
+                    rr?.moral ?? (c.summary.moralMax ?? 0)
+                  }/${c.summary.moralMax ?? 0}${(rr?.moralTemp ?? 0) > 0 ? ` · 💚 +${rr?.moralTemp}` : ''}${
+                    npc ? ` · ${status.label}` : ''
+                  }`}
+                </span>
+                <VidaBarRemota
+                  vit={rr?.vitalidade ?? c.summary.vitalidadeMax}
+                  vitMax={c.summary.vitalidadeMax}
+                  moral={rr?.moral ?? (c.summary.moralMax ?? 0)}
+                  moralMax={c.summary.moralMax ?? 0}
+                  temp={rr?.moralTemp ?? 0}
+                />
+              </>
+            )}
+          </div>
           {isGm || !npc ? (
             <button
               onClick={() => toggleStats(c.id)}
