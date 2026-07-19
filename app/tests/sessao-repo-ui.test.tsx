@@ -393,13 +393,14 @@ describe('#196 iniciativa remota (encounters)', () => {
     await screen.findByText('Emboscada')
     fireEvent.click(await screen.findByText('▶ INICIAR'))
     await waitFor(() => expect(screen.getByText(/Turno 1/)).toBeTruthy())
-    // sem velocidade → nenhum bloco
+    // #324: todos nascem LENTO → bloco "Inimigos Lentos" aparece; Super não ainda
+    await waitFor(() => expect(screen.getByText(/INIMIGOS LENTOS/)).toBeTruthy())
     expect(screen.queryByText(/INIMIGOS SUPER RÁPIDOS/)).toBeNull()
-    // GM entra no modo EDITAR e define o 1º goblin como Super Rápido (⚡)
+    // GM entra no modo EDITAR e cicla a velocidade do 1º goblin (lento → super)
     fireEvent.click(screen.getByText('✎ EDITAR INICIATIVA'))
-    const vel = await screen.findAllByTitle(/Definir velocidade/)
+    const vel = await screen.findAllByTitle(/Velocidade:/)
     fireEvent.click(vel[0]!)
-    // aparece o cabeçalho do bloco (goblin = inimigo)
+    // aparece o cabeçalho do bloco Super Rápido (goblin = inimigo)
     await waitFor(() => expect(screen.getByText(/INIMIGOS SUPER RÁPIDOS/)).toBeTruthy())
   })
 })

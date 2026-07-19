@@ -56,13 +56,15 @@ import {
   formatStatValue,
   type ActiveInvocacao,
 } from '../../interativa/invocacao'
-import { advanceTurn, reorderTurnState } from '../../data/session-repo/turn'
+import { advanceTurn } from '../../data/session-repo/turn'
 import {
   blockSortOrder,
   ladoDe,
   SPEED_EMOJI,
   SPEED_LABEL,
+  SPEED_ORDER,
   blocoLabel,
+  type Lado,
   type SpeedTier,
 } from '../../data/initiative-blocks'
 import { composeGroupName } from '../../data/session-repo/group-name'
@@ -691,7 +693,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // pointer-based (funciona no touch mobile).
   const [editIniciativa, setEditIniciativa] = useState(false)
   const [dragId, setDragId] = useState<string | null>(null)
-  const [overIdx, setOverIdx] = useState<number | null>(null)
+  // #324: bloco sob o dedo durante o arraste (alvo de drop = define a velocidade).
+  const [overBlock, setOverBlock] = useState<{ tier: SpeedTier; lado: Lado } | null>(null)
   // Combatentes mostrando defesas/stats em vez de vida (toggle por linha, espelho
   // do card de MEMBRO). Set de ids.
   const [statsView, setStatsView] = useState<ReadonlySet<string>>(new Set())
@@ -740,52 +743,49 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     await repo.updateEncounterTurnState(ativo.id, { ...ts, currentIndex, round })
   }
 
-  // #324: GM arrasta a alça (☰); ao mover, a linha sob o dedo vira o alvo; ao
-  // soltar, sincroniza a nova ordem (reorderTurnState preserva o turno atual).
-  const onDragMove = (e: { clientX: number; clientY: number }) => {
-    if (!dragId) return
-    const row = document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-combatente-idx]')
-    const idx = row ? Number((row as HTMLElement).dataset.combatenteIdx) : NaN
-    if (!Number.isNaN(idx)) setOverIdx(idx)
-  }
-  // #324: velocidade (super/rápido/lento) por combatente → forma os 6 blocos com
-  // o LADO (derivado da família). Guardada em turnState.speeds; ao mudar, a ORDEM
-  // é reordenada pelos blocos (blockSortOrder) pra o turno andar em ordem de bloco
-  // e o display agrupar contíguo.
+  // #324: velocidade por combatente → forma os 6 blocos com o LADO (da família).
+  // PADRÃO = lento (não existe "sem velocidade"). Guardada em turnState.speeds; ao
+  // mudar, a ORDEM é reordenada pelos blocos (blockSortOrder) pro turno andar em
+  // ordem de bloco e o display agrupar contíguo.
   const speeds = (ativo?.turnState?.speeds ?? {}) as Record<string, SpeedTier>
+  const speedOf = (id: string): SpeedTier => speeds[id] ?? 'lento'
   const ladoOf = (id: string) =>
     ladoDe(live.characters.find((c) => c.id === id)?.summary.family ?? '')
-  const onDragEnd = async () => {
-    const from = dragId
-    const to = overIdx
-    setDragId(null)
-    setOverIdx(null)
-    if (from && to != null && ativo?.turnState) {
-      const ts = ativo.turnState
-      const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
-      const reordered = reorderTurnState(ts, from, to)
-      const order = blockSortOrder(reordered.order, speeds, ladoOf) // mantém blocos contíguos
-      const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
-      if (order.join() !== ts.order.join())
-        await repo.updateEncounterTurnState(ativo.id, { ...ts, order, currentIndex })
-    }
-  }
-  const assignSpeed = async (id: string, tier: SpeedTier | null) => {
+  const assignSpeed = async (id: string, tier: SpeedTier) => {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
-    const sp = { ...(ts.speeds ?? {}) }
-    if (tier == null) delete sp[id]
-    else sp[id] = tier
+    const sp = { ...(ts.speeds ?? {}), [id]: tier }
     const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
     const order = blockSortOrder(ts.order, sp, ladoOf)
     const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
     await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
   }
+  // ciclo entre as 3 velocidades (super → rápido → lento → super) — sem "nenhuma".
   const cycleSpeed = (id: string) => {
-    const cur = speeds[id]
-    const next: SpeedTier | null =
-      cur == null ? 'super' : cur === 'super' ? 'rapido' : cur === 'rapido' ? 'lento' : null
-    void assignSpeed(id, next)
+    const cur = speedOf(id)
+    void assignSpeed(id, cur === 'super' ? 'rapido' : cur === 'rapido' ? 'lento' : 'super')
+  }
+  // #324: DRAG-AND-DROP pra dentro dos blocos. Ao mover, o bloco sob o dedo vira
+  // alvo; ao soltar, define a velocidade (só se o LADO bater — não dá pra pôr
+  // jogador em bloco de inimigo e vice-versa).
+  const onDragMove = (e: { clientX: number; clientY: number }) => {
+    if (!dragId) return
+    const bl = document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-block-tier]') as
+      | HTMLElement
+      | null
+    if (!bl) {
+      setOverBlock(null)
+      return
+    }
+    setOverBlock({ tier: bl.dataset.blockTier as SpeedTier, lado: bl.dataset.blockLado as Lado })
+  }
+  const onDragEnd = async () => {
+    const from = dragId
+    const target = overBlock
+    setDragId(null)
+    setOverBlock(null)
+    // só atribui se o combatente é do MESMO lado do bloco alvo
+    if (from && target && ladoOf(from) === target.lado) await assignSpeed(from, target.tier)
   }
 
   // #324: ESCONDER combatente — persiste em turnState.hidden (mesmo jsonb, sem
@@ -812,38 +812,154 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         .map((id) => chars.find((c) => c.id === id))
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
-  // #324: ids que ABREM um bloco na iniciativa (1º VISÍVEL de cada bloco, pra o
-  // display dos 6 blocos). Baseado na ordem já block-sorted + só os visíveis pro
-  // observador (jogador não conta os escondidos).
-  const firstOfBlock = new Set<string>()
-  {
-    let lastKey: string | null = null
-    for (const c of noCombate) {
-      if (hidden.has(c.id) && !isGm) continue
-      const t = speeds[c.id]
-      const k = t ? `${t}:${ladoDe(c.summary.family)}` : null
-      if (k != null && k !== lastKey) firstOfBlock.add(c.id)
-      lastKey = k
-    }
-  }
-  const blocoHeader = (c: SessionCharacter) => {
-    const tier = speeds[c.id]!
+  // #324: os 6 blocos na ordem canônica (Super/Rápido/Lento × Jogador/Inimigo).
+  const ALL_BLOCKS: { tier: SpeedTier; lado: Lado }[] = SPEED_ORDER.flatMap((tier) =>
+    (['jogador', 'inimigo'] as Lado[]).map((lado) => ({ tier, lado })),
+  )
+  const orderIndexOf = (c: SessionCharacter) => (ativo?.turnState?.order ?? []).indexOf(c.id)
+  const blocoHeaderEl = (tier: SpeedTier, lado: Lado) => (
+    <div
+      style={mono({
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        fontSize: 10,
+        letterSpacing: '.12em',
+        color: lado === 'jogador' ? 'var(--blue)' : 'var(--red)',
+        fontWeight: 700,
+      })}
+    >
+      <span style={{ fontSize: 13 }}>{SPEED_EMOJI[tier]}</span>
+      {blocoLabel(tier, lado).toUpperCase()}
+    </div>
+  )
+  // Linha de UM combatente (reusada dentro de cada bloco).
+  const renderCombatente = (c: SessionCharacter) => {
+    const i = orderIndexOf(c)
+    const escondido = hidden.has(c.id)
+    const vezAtual = ativo?.turnState?.currentIndex === i
+    const npc = c.kind === 'npc'
+    const revelado = ativo?.revealedCharacterIds.includes(c.id) ?? false
+    const status = vitaStatusOf(c)
+    const rr = c.state.recursosRestantes
+    const mostraReal = !npc || isGm || revelado
+    const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
+    const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
+    const portrait = mostraReal ? creatureImageUrl(synthDocFromCharacter(c), assets, true) : null
     return (
-      <div
-        style={mono({
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          margin: '4px 2px 0',
-          fontSize: 10,
-          letterSpacing: '.12em',
-          color: ladoDe(c.summary.family) === 'jogador' ? 'var(--blue)' : 'var(--red)',
-          fontWeight: 700,
-        })}
-      >
-        <span style={{ fontSize: 13 }}>{SPEED_EMOJI[tier]}</span>
-        {blocoLabel(tier, ladoDe(c.summary.family)).toUpperCase()}
-      </div>
+      <Fragment key={c.id}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '9px 12px',
+            background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
+            border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
+            opacity: dragId === c.id ? 0.4 : escondido ? 0.5 : 1,
+            clipPath: clip(9),
+          }}
+        >
+          {isGm && editIniciativa ? (
+            <span
+              onPointerDown={(e) => {
+                setDragId(c.id)
+                e.currentTarget.setPointerCapture(e.pointerId)
+              }}
+              onPointerMove={onDragMove}
+              onPointerUp={() => void onDragEnd()}
+              onPointerCancel={() => {
+                setDragId(null)
+                setOverBlock(null)
+              }}
+              title="Arraste pra um bloco de velocidade"
+              style={{ flex: 'none', cursor: 'grab', touchAction: 'none', fontSize: 15, lineHeight: 1, color: 'var(--muted)', padding: '0 2px' }}
+            >
+              ☰
+            </span>
+          ) : null}
+          <span
+            aria-hidden
+            style={{
+              width: 30,
+              height: 30,
+              flex: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+              background: 'var(--panel)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(7),
+              fontFamily: 'var(--mono)',
+              fontSize: 11,
+              color: 'var(--muted)',
+            }}
+          >
+            {portrait ? <ZoomImg src={portrait} alt={nomeExib} /> : sigOf(nomeExib)}
+          </span>
+          <span style={{ fontSize: 13.5, fontWeight: 700 }}>
+            {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
+          </span>
+          {statsView.has(c.id) && (isGm || !npc) ? (
+            <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
+              <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
+              <span>❤️{c.summary.stats?.vigor ?? 0}</span>
+              <span>⚡{c.summary.stats?.evasao ?? 0}</span>
+              <span>🔥{c.summary.stats?.impeto ?? 0}</span>
+              <span>👣{c.summary.stats?.movimento ?? 0}</span>
+              <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
+              <span>💡{c.summary.stats?.intuicao ?? 0}</span>
+            </span>
+          ) : npc ? (
+            <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
+              {isGm ? `❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax} · ${status.label}` : status.label}
+            </span>
+          ) : (
+            <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>
+              {`❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax}`}
+            </span>
+          )}
+          <span style={{ flex: 1 }} />
+          {isGm || !npc ? (
+            <button
+              onClick={() => toggleStats(c.id)}
+              title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+            >
+              {statsView.has(c.id) ? '❤️' : '🛡️'}
+            </button>
+          ) : null}
+          {isGm && editIniciativa ? (
+            <button
+              onClick={() => cycleSpeed(c.id)}
+              title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra trocar)`}
+              style={mono({ background: 'var(--panel)', border: '1px solid var(--line2)', cursor: 'pointer', fontSize: 13, padding: '1px 6px', flex: 'none' })}
+            >
+              {SPEED_EMOJI[speedOf(c.id)]}
+            </button>
+          ) : null}
+          {isGm && editIniciativa ? (
+            <button
+              onClick={() => void toggleHidden(c.id)}
+              title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+            >
+              {escondido ? '🙈' : '👁️'}
+            </button>
+          ) : null}
+          {isGm && npc && editIniciativa ? (
+            <button
+              onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}
+              title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
+            >
+              {revelado ? '❗' : '❓'}
+            </button>
+          ) : null}
+        </div>
+        {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
+      </Fragment>
     )
   }
 
@@ -930,183 +1046,44 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
             ))
           : null}
         {ativo
-          ? noCombate.map((c, i) => {
-              // #324: escondido → jogador NEM renderiza a linha (o índice `i`
-              // segue o da ORDEM completa, então o turno atual não desalinha).
-              const escondido = hidden.has(c.id)
-              if (escondido && !isGm) return null
-              const vezAtual = ativo.turnState?.currentIndex === i
-              const npc = c.kind === 'npc'
-              const revelado = ativo.revealedCharacterIds.includes(c.id)
-              const status = vitaStatusOf(c)
-              const rr = c.state.recursosRestantes
-              // #263: retrato do combatente na iniciativa (faltava). NPC não
-              // revelado, pra jogador, NÃO mostra o retrato real (revelaria a
-              // identidade) — cai nas iniciais do nome mascarado, igual ao nome.
-              const mostraReal = !npc || isGm || revelado
-              // #66: invocações só aparecem quando o combatente é visível (não
-              // vaza um NPC disfarçado) E tem invocação ativa (gateia os hooks).
-              const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
-              const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
-              const portrait = mostraReal
-                ? creatureImageUrl(synthDocFromCharacter(c), assets, true)
-                : null
+          ? ALL_BLOCKS.map(({ tier, lado }) => {
+              const itens = noCombate.filter(
+                (c) => speedOf(c.id) === tier && ladoDe(c.summary.family) === lado,
+              )
+              const visiveis = itens.filter((c) => isGm || !hidden.has(c.id))
+              // fora do modo EDITAR (ou pro jogador): só blocos com combatente visível.
+              if (visiveis.length === 0 && !(editIniciativa && isGm)) return null
+              const alvoValido =
+                dragId != null &&
+                overBlock?.tier === tier &&
+                overBlock?.lado === lado &&
+                ladoOf(dragId) === lado
+              const cor = lado === 'jogador' ? 'blue' : 'red'
               return (
-                <Fragment key={c.id}>
-                {/* #324: cabeçalho do bloco (⚡/🏃/🐢 + Jogadores/Inimigos ...). */}
-                {firstOfBlock.has(c.id) ? blocoHeader(c) : null}
                 <div
-                  data-combatente-idx={i}
+                  key={`${tier}:${lado}`}
+                  data-block-tier={tier}
+                  data-block-lado={lado}
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    padding: '9px 12px',
-                    background: `color-mix(in srgb,var(--accent) ${vezAtual ? 7 : 0}%,var(--card))`,
-                    // #324: alvo do drag ganha borda de topo; a linha arrastada some um pouco.
-                    borderTop:
-                      dragId && overIdx === i && dragId !== c.id
-                        ? '2px solid var(--accent)'
-                        : `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-                    borderRight: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-                    borderBottom: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-                    borderLeft: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
-                    opacity: dragId === c.id ? 0.4 : escondido ? 0.5 : 1,
-                    clipPath: clip(9),
+                    flexDirection: 'column',
+                    gap: 6,
+                    padding: 8,
+                    border: alvoValido
+                      ? '2px dashed var(--accent)'
+                      : `1px dashed color-mix(in srgb,var(--${cor}) 40%,var(--line2))`,
+                    background: alvoValido ? 'color-mix(in srgb,var(--accent) 8%,transparent)' : 'transparent',
+                    clipPath: clip(11),
                   }}
                 >
-                  {isGm && editIniciativa ? (
-                    <span
-                      onPointerDown={(e) => {
-                        setDragId(c.id)
-                        setOverIdx(i)
-                        e.currentTarget.setPointerCapture(e.pointerId)
-                      }}
-                      onPointerMove={onDragMove}
-                      onPointerUp={() => void onDragEnd()}
-                      onPointerCancel={() => {
-                        setDragId(null)
-                        setOverIdx(null)
-                      }}
-                      title="Arraste pra reordenar a iniciativa"
-                      style={{
-                        flex: 'none',
-                        cursor: 'grab',
-                        touchAction: 'none',
-                        fontSize: 15,
-                        lineHeight: 1,
-                        color: 'var(--muted)',
-                        padding: '0 2px',
-                      }}
-                    >
-                      ☰
+                  {blocoHeaderEl(tier, lado)}
+                  {visiveis.map(renderCombatente)}
+                  {editIniciativa && visiveis.length === 0 ? (
+                    <span style={mono({ fontSize: 10, color: 'var(--muted)', fontStyle: 'italic', padding: '4px 2px' })}>
+                      arraste um combatente pra cá
                     </span>
-                  ) : null}
-                  <span
-                    aria-hidden
-                    style={{
-                      width: 30,
-                      height: 30,
-                      flex: 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      overflow: 'hidden',
-                      background: 'var(--panel)',
-                      border: '1px solid var(--line2)',
-                      clipPath: clip(7),
-                      fontFamily: 'var(--mono)',
-                      fontSize: 11,
-                      color: 'var(--muted)',
-                    }}
-                  >
-                    {portrait ? <ZoomImg src={portrait} alt={nomeExib} /> : sigOf(nomeExib)}
-                  </span>
-                  <span style={{ fontSize: 13.5, fontWeight: 700 }}>
-                    {npc && !isGm ? (nomes.get(c.id) ?? c.summary.nome) : c.summary.nome}
-                  </span>
-                  {/* #324: defesas/stats só quando o toggle da linha está ligado
-                      (NPC pra jogador segue mascarado — só o dono/GM vê stats). */}
-                  {statsView.has(c.id) && (isGm || !npc) ? (
-                    <span style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', gap: 7, flexWrap: 'wrap' })}>
-                      <span>🛡️{c.summary.stats?.defesa ?? 0}</span>
-                      <span>❤️{c.summary.stats?.vigor ?? 0}</span>
-                      <span>⚡{c.summary.stats?.evasao ?? 0}</span>
-                      <span>🔥{c.summary.stats?.impeto ?? 0}</span>
-                      <span>👣{c.summary.stats?.movimento ?? 0}</span>
-                      <span>👁️{c.summary.stats?.percepcao ?? 0}</span>
-                      <span>💡{c.summary.stats?.intuicao ?? 0}</span>
-                    </span>
-                  ) : npc ? (
-                    // NPC: jogador vê a FAIXA (estimativa); GM vê os números
-                    <span style={mono({ fontSize: 10, color: VITA_TONE_COLOR[status.tone], fontWeight: 700 })}>
-                      {isGm
-                        ? `❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax} · ${status.label}`
-                        : status.label}
-                    </span>
-                  ) : (
-                    <span style={mono({ fontSize: 10, color: 'var(--muted)' })}>
-                      {`❤️ ${rr?.vitalidade ?? 0}/${c.summary.vitalidadeMax}`}
-                    </span>
-                  )}
-                  <span style={{ flex: 1 }} />
-                  {/* #324: alternar vida ↔ defesas na linha (GM sempre; jogador só
-                      nos próprios heróis, não em NPC). */}
-                  {isGm || !npc ? (
-                    <button
-                      onClick={() => toggleStats(c.id)}
-                      title={statsView.has(c.id) ? 'Ver vida' : 'Ver defesas/stats'}
-                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
-                    >
-                      {statsView.has(c.id) ? '❤️' : '🛡️'}
-                    </button>
-                  ) : null}
-                  {/* #324: VELOCIDADE — clica pra ciclar ⚡→🏃→🐢→(sem); define o
-                      bloco de iniciativa. Só no modo EDITAR. */}
-                  {isGm && editIniciativa ? (
-                    <button
-                      onClick={() => cycleSpeed(c.id)}
-                      title={
-                        speeds[c.id]
-                          ? `Velocidade: ${SPEED_LABEL[speeds[c.id]!]} (clica pra trocar)`
-                          : 'Definir velocidade (bloco de iniciativa)'
-                      }
-                      style={mono({
-                        background: 'var(--panel)',
-                        border: '1px solid var(--line2)',
-                        cursor: 'pointer',
-                        fontSize: 13,
-                        padding: '1px 6px',
-                        flex: 'none',
-                      })}
-                    >
-                      {speeds[c.id] ? SPEED_EMOJI[speeds[c.id]!] : '💨'}
-                    </button>
-                  ) : null}
-                  {/* #324: esconder/mostrar aos jogadores — só no modo EDITAR. */}
-                  {isGm && editIniciativa ? (
-                    <button
-                      onClick={() => void toggleHidden(c.id)}
-                      title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
-                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-                    >
-                      {escondido ? '🙈' : '👁️'}
-                    </button>
-                  ) : null}
-                  {/* #324: disfarce (revelar identidade) só no modo EDITAR INICIATIVA. */}
-                  {isGm && npc && editIniciativa ? (
-                    <button
-                      onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo.id, c.id)}
-                      title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
-                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
-                    >
-                      {revelado ? '❗' : '❓'}
-                    </button>
                   ) : null}
                 </div>
-                {/* #66: invocações ativas aninhadas embaixo do invocador */}
-                {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
-                </Fragment>
               )
             })
           : null}
