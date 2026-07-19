@@ -113,6 +113,16 @@ export function listEspecializacoesByPericia(catalog: Catalog): {
   const especializacoes: Record<string, string[]> = {}
   const maestrias: Record<string, string[]> = {}
   const maestriasByEspecialidade: Record<string, string[]> = {}
+  // ── DÉBITO TÉCNICO (pendência na vault): algumas perícias são PLANAS — a
+  // especialidade e a maestria são irmãs direto na pasta da perícia (ex.:
+  // `Arcana/Truque Mágico` + `Arcana/Utensílio Mágico`), sem a subpasta de
+  // especialidade que o resto usa (`Atletismo/Impulso/Inércia`). Enquanto a
+  // vault não for reestruturada pra `<Perícia>/<Especialidade>/<Maestria>` (e a
+  // subcategoria "Especialização" renomeada pra não confundir com o bônus de
+  // especialização), pareamos aqui cada maestria plana com as especialidades
+  // planas da MESMA perícia. REMOVER este bloco quando a vault normalizar. ──
+  const flatEspPorPericia: Record<string, string[]> = {} // periciaDisplay → [espBase]
+  const flatMaePorPericia: Record<string, string[]> = {} // periciaDisplay → [maeBase]
   for (const entry of catalog.docsByType.get('Regra') ?? []) {
     if (!entry.path.startsWith(ESPECIALIZACOES_PATH_PREFIX)) continue
     const sub = String(entry.subtype ?? '').trim()
@@ -127,14 +137,28 @@ export function listEspecializacoesByPericia(catalog: Catalog): {
     if (!base) continue
     const slug = slugifyNome(periciaDisplay)
     ;(bucket[slug] ??= []).push(`[[${base}]]`)
-    // Maestria: pasta-pai (parts[1]) = a especialidade que a libera. Chave = o
-    // BASENAME da especialidade (casa com wikiTarget do pick, sem depender de
-    // função de slug).
+    // `<Perícia>/<Especialidade>/<Nota>` (aninhado) tem 3+ partes; `<Perícia>/
+    // <Nota>` (plano) tem 2.
+    const aninhado = parts.length >= 3
     if (sub === 'Maestria') {
-      const especialidadeDisplay = parts[1] ?? ''
-      if (especialidadeDisplay) {
-        ;(maestriasByEspecialidade[especialidadeDisplay] ??= []).push(`[[${base}]]`)
+      if (aninhado) {
+        // pasta-pai (parts[1]) = a especialidade que a libera. Chave = o BASENAME
+        // da especialidade (casa com wikiTarget do pick).
+        const especialidadeDisplay = parts[1] ?? ''
+        if (especialidadeDisplay) {
+          ;(maestriasByEspecialidade[especialidadeDisplay] ??= []).push(`[[${base}]]`)
+        }
+      } else {
+        ;(flatMaePorPericia[periciaDisplay] ??= []).push(base)
       }
+    } else if (sub === 'Especialização' && !aninhado) {
+      ;(flatEspPorPericia[periciaDisplay] ??= []).push(base)
+    }
+  }
+  // pareia maestrias planas ↔ especialidades planas da mesma perícia (débito).
+  for (const [pericia, maes] of Object.entries(flatMaePorPericia)) {
+    for (const esp of flatEspPorPericia[pericia] ?? []) {
+      for (const mae of maes) (maestriasByEspecialidade[esp] ??= []).push(`[[${mae}]]`)
     }
   }
   for (const map of [especializacoes, maestrias, maestriasByEspecialidade]) {

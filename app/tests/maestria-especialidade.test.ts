@@ -33,4 +33,10 @@ describe('maestriasByEspecialidade (#313)', () => {
     expect(maestriasByEspecialidade['Impulso']!.length).toBe(2)
     for (const m of maestriasByEspecialidade['Impulso']!) expect(atletismo).toContain(m)
   })
+
+  it('perícia PLANA (Arcana, débito): a maestria plana casa a especialidade irmã', () => {
+    // Arcana é `Arcana/Truque Mágico` + `Arcana/Utensílio Mágico` (sem subpasta
+    // de especialidade). A especialidade Truque Mágico deve liberar Utensílio Mágico.
+    expect(maestriasByEspecialidade['Truque Mágico']).toContain('[[Utensílio Mágico]]')
+  })
 })
