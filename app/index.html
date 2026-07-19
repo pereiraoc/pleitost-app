@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Pleitost</title>
+    <title>Pedra Estelar - Companion App</title>
+    <!-- Favicon da ABA = Pedra Estelar SEM fundo (transparente). O ícone do app
+         instalado (PWA/iOS) usa a versão COM fundo (icon-*.png / apple-touch). -->
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!-- Primer de tema pré-paint (evita FOUC): aplica data-theme, data-mode E a
          COR DE DESTAQUE (custom OU preset nomeado) ANTES do React montar, lendo
          `pleitost.theme` (mesma fonte do theme.ts, com migração da chave/shape

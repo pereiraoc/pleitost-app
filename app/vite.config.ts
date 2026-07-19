@@ -87,11 +87,13 @@ export default defineConfig({
         display: 'standalone',
         background_color: '#1e1e2e',
         theme_color: '#1e1e2e',
+        // Ícone do app instalado = Pedra Estelar COM fundo (a maskable é
+        // recortada em círculo/arredondada pelo launcher, então usa a versão com
+        // margem/safe-zone). A aba usa a versão SEM fundo (favicon em index.html).
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-          { src: 'icon.svg', sizes: 'any', type: 'image/svg+xml' },
+          { src: 'icon-512-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {
