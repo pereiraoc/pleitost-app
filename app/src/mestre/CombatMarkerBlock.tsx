@@ -38,8 +38,8 @@ import { tokens } from '../components/ficha/registry'
 import {
   SPEED_EMOJI,
   SPEED_LABEL,
-  SPEED_ORDER,
   STATE_EMOJI,
+  tiersFor,
   type SpeedTier,
 } from '../data/initiative-blocks'
 import {
@@ -280,7 +280,8 @@ export function CombatMarkerBlock({
                 </div>
                 {podeEditar ? (
                   <div className="combate-monstro-gm">
-                    {SPEED_ORDER.map((t) => (
+                    {/* monstros são inimigos → sem Super Lento (só herói tem). */}
+                    {tiersFor('inimigo').map((t) => (
                       <button
                         key={t}
                         type="button"

@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel, blockSortOrder } from '../src/data/initiative-blocks'
+import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel, blockSortOrder, tiersFor } from '../src/data/initiative-blocks'
 
 type C = { id: string; family: string; tier: 'super' | 'rapido' | 'lento' | null }
 const key = (c: C) => ({ tier: c.tier, lado: ladoDe(c.family) })
@@ -13,8 +13,13 @@ describe('initiative-blocks', () => {
     expect(ladoDe('Criatura')).toBe('inimigo')
   })
 
-  it('SPEED_ORDER é super, rapido, lento', () => {
-    expect(SPEED_ORDER).toEqual(['super', 'rapido', 'lento'])
+  it('SPEED_ORDER é super, rapido, lento, superLento', () => {
+    expect(SPEED_ORDER).toEqual(['super', 'rapido', 'lento', 'superLento'])
+  })
+
+  it('tiersFor: herói tem Super Lento; inimigo não', () => {
+    expect(tiersFor('jogador')).toEqual(['super', 'rapido', 'lento', 'superLento'])
+    expect(tiersFor('inimigo')).toEqual(['super', 'rapido', 'lento'])
   })
 
   it('agrupa nos 6 blocos na ordem canônica e monta a sequência flat', () => {

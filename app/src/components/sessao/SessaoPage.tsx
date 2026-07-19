@@ -64,6 +64,7 @@ import {
   SPEED_LABEL,
   SPEED_ORDER,
   blocoLabel,
+  tiersFor,
   type Lado,
   type SpeedTier,
 } from '../../data/initiative-blocks'
@@ -800,10 +801,12 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
     await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
   }
-  // ciclo entre as 3 velocidades (super → rápido → lento → super) — sem "nenhuma".
+  // ciclo entre as velocidades DISPONÍVEIS pro lado (herói tem Super Lento;
+  // inimigo não) — sem "nenhuma".
   const cycleSpeed = (id: string) => {
-    const cur = speedOf(id)
-    void assignSpeed(id, cur === 'super' ? 'rapido' : cur === 'rapido' ? 'lento' : 'super')
+    const tiers = tiersFor(ladoOf(id))
+    const idx = tiers.indexOf(speedOf(id))
+    void assignSpeed(id, tiers[(idx + 1) % tiers.length]!)
   }
   // #324: DRAG-AND-DROP pra dentro dos blocos. Ao mover, o bloco sob o dedo vira
   // alvo; ao soltar, define a velocidade (só se o LADO bater — não dá pra pôr
@@ -852,9 +855,13 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         .map((id) => chars.find((c) => c.id === id))
         .filter((c): c is SessionCharacter => Boolean(c))
     : []
-  // #324: os 6 blocos na ordem canônica (Super/Rápido/Lento × Jogador/Inimigo).
+  // #324: os blocos na ordem canônica (Super Rápido/Rápido/Lento/Super Lento ×
+  // Jogador/Inimigo). Super Lento é só de JOGADOR → o par superLento+inimigo não
+  // existe (7 blocos no total).
   const ALL_BLOCKS: { tier: SpeedTier; lado: Lado }[] = SPEED_ORDER.flatMap((tier) =>
-    (['jogador', 'inimigo'] as Lado[]).map((lado) => ({ tier, lado })),
+    (['jogador', 'inimigo'] as Lado[])
+      .filter((lado) => tiersFor(lado).includes(tier))
+      .map((lado) => ({ tier, lado })),
   )
   const orderIndexOf = (c: SessionCharacter) => (ativo?.turnState?.order ?? []).indexOf(c.id)
   const blocoHeaderEl = (tier: SpeedTier, lado: Lado) => (

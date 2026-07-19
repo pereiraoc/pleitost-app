@@ -1,16 +1,23 @@
 // Modelo PURO dos blocos de iniciativa (house-rule do app, não existe na vault):
-// velocidade Super/Rápido/Lento × lado Jogador/Inimigo. O LADO é sempre derivado
-// da família (nunca armazenado). Fonte de verdade única dos labels/emojis de
-// velocidade — o registro `tokens` é gerado do plugin e não conhece isto.
-export type SpeedTier = 'super' | 'rapido' | 'lento'
+// velocidade Super Rápido/Rápido/Lento/Super Lento × lado Jogador/Inimigo. O LADO
+// é sempre derivado da família (nunca armazenado). Fonte de verdade única dos
+// labels/emojis de velocidade — o registro `tokens` é gerado do plugin e não
+// conhece isto. Super Lento é EXCLUSIVO de heróis (jogador) — inimigos não têm.
+export type SpeedTier = 'super' | 'rapido' | 'lento' | 'superLento'
 export type Lado = 'jogador' | 'inimigo'
 
-export const SPEED_ORDER: SpeedTier[] = ['super', 'rapido', 'lento']
-export const SPEED_EMOJI: Record<SpeedTier, string> = { super: '⚡', rapido: '🏃', lento: '🐢' }
+export const SPEED_ORDER: SpeedTier[] = ['super', 'rapido', 'lento', 'superLento']
+export const SPEED_EMOJI: Record<SpeedTier, string> = { super: '⚡', rapido: '💨', lento: '🐢', superLento: '🐌' }
 export const SPEED_LABEL: Record<SpeedTier, string> = {
   super: 'Super Rápido',
   rapido: 'Rápido',
   lento: 'Lento',
+  superLento: 'Super Lento',
+}
+
+/** Super Lento só existe pro lado JOGADOR; inimigos ficam nos 3 primeiros. */
+export function tiersFor(lado: Lado): SpeedTier[] {
+  return lado === 'jogador' ? SPEED_ORDER : SPEED_ORDER.filter((t) => t !== 'superLento')
 }
 
 /** Estado inicial do monstro no combate (house-rule do app). Fonte única dos
@@ -29,7 +36,14 @@ export function ladoDe(family: string): Lado {
 
 /** "Jogadores Super Rápidos" / "Inimigos Lentos" etc. (label plural do bloco). */
 export function blocoLabel(tier: SpeedTier, lado: Lado): string {
-  const speed = tier === 'lento' ? 'Lentos' : tier === 'super' ? 'Super Rápidos' : 'Rápidos'
+  const speed =
+    tier === 'lento'
+      ? 'Lentos'
+      : tier === 'super'
+        ? 'Super Rápidos'
+        : tier === 'superLento'
+          ? 'Super Lentos'
+          : 'Rápidos'
   return `${LADO_LABEL[lado]} ${speed}`
 }
 
