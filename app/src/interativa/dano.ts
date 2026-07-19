@@ -72,7 +72,7 @@ export function applyDanoCtx(
   sourceId: string,
 ): DanoCtxResult {
   const offsetNum = danoCalc.offset
-  const baseDisplay = composeDisplay(danoCalc.baseDice + danoCalc.profDice, danoCalc.dieSize, offsetNum, [])
+  const baseDisplay = composeDanoDisplay(danoCalc.baseDice + danoCalc.profDice, danoCalc.dieSize, offsetNum, [])
   if (!ctx) {
     return {
       display: baseDisplay,
@@ -118,7 +118,7 @@ export function applyDanoCtx(
     .reduce((s, e) => s + e.value, 0)
   const perDieDice = baseDice + dadosDeArmaExtra
   const finalOffset = offsetNum + fixedSum + perDieSum * perDieDice
-  const display = composeDisplay(totalDice, finalDieSize, finalOffset, extraDice.map((e) => e.dice))
+  const display = composeDanoDisplay(totalDice, finalDieSize, finalOffset, extraDice.map((e) => e.dice))
 
   // Entries visíveis (tooltip/cor) — achata untyped + typed vencedoras de
   // cada canal, mais extraDice/baseDiceCount (valor 0 mas contam pra delta
@@ -187,17 +187,52 @@ export function applyDanoCtx(
   }
 }
 
-function composeDisplay(dice: number, die: number, offset: number, extra: string[]): string {
-  let display: string
-  if (!die || dice <= 0) {
-    display = String(offset)
-  } else {
-    display = `${dice}d${die}`
-    if (offset > 0) display += `+${offset}`
-    else if (offset < 0) display += String(offset)
+/** Monta o display canônico do dano: AGRUPA dados de mesma face (soma as
+ *  contagens), soma TODOS os flats num único trailing, e ordena os termos por
+ *  CONTAGEM desc (mais dados primeiro), face asc no empate. Ex.: base 3d4+2 +
+ *  extra "1d12+5" → "3d4+1d12+7"; +"1d12" na face já existente → "3d4+2d12+7".
+ *  (bug #318 — antes concatenava os extras crus e saía "3d4+2+1d12+5", com os
+ *  flats separados.) O tooltip segue listando as FONTES separadas. */
+export function composeDanoDisplay(
+  dice: number,
+  die: number,
+  offset: number,
+  extra: readonly string[],
+): string {
+  const byFace = new Map<number, number>()
+  let flat = offset
+  if (die && dice > 0) byFace.set(die, (byFace.get(die) ?? 0) + dice)
+  for (const notation of extra) accumulateDanoNotation(notation, byFace, (f) => (flat += f))
+  const terms = [...byFace.entries()]
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1] || a[0] - b[0])
+    .map(([face, count]) => `${count}d${face}`)
+  if (terms.length === 0) return String(flat)
+  let out = terms.join('+')
+  if (flat > 0) out += `+${flat}`
+  else if (flat < 0) out += String(flat)
+  return out
+}
+
+/** Tokeniza uma notação de dano ("1d12+3", "2d6-1", "d8", "+4") e acumula dados
+ *  por face + soma flats. `XdY` é dado (contagem vazia = 1); número puro é flat. */
+function accumulateDanoNotation(
+  notation: string,
+  byFace: Map<number, number>,
+  addFlat: (n: number) => void,
+): void {
+  const tokens = notation.replace(/\s+/g, '').match(/[+-]?\d*d\d+|[+-]?\d+/gi)
+  if (!tokens) return
+  for (const tok of tokens) {
+    const dm = /^([+-]?\d*)d(\d+)$/i.exec(tok)
+    if (dm) {
+      const raw = dm[1]!
+      const count = raw === '' || raw === '+' ? 1 : raw === '-' ? -1 : parseInt(raw, 10)
+      byFace.set(parseInt(dm[2]!, 10), (byFace.get(parseInt(dm[2]!, 10)) ?? 0) + count)
+    } else {
+      addFlat(parseInt(tok, 10))
+    }
   }
-  for (const ed of extra) display += `+${ed}`
-  return display
 }
 
 function flattenContribs(

@@ -641,10 +641,14 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   // visíveis pro herói (Inspiração, Encantar Arma, …) ∪ chaves já salvas.
   const condicoesExtraidas = interativa(fmOf(doc)).condicoes
   const chips: CondChip[] = useMemo(() => {
-    const defs = condChipDefs(inter.condicaoDocs, inter.descriptors, tokens.emojis.bonusType.Condicao)
+    // #319: fallback de ícone de condição = subcategoria.Condicao (💫), MESMO
+    // token do pleitost-autosheet (EMOJI.subcategoria.Condicao). O per-condição
+    // continua vindo do visual.iconeLigado da nota. Antes usava bonusType.Condicao
+    // (🌟), que destoava do plugin.
+    const defs = condChipDefs(inter.condicaoDocs, inter.descriptors, tokens.emojis.subcategoria.Condicao)
     const byNome = new Map(defs.map((d) => [d.nome, d]))
     for (const nome of [...Object.keys(condicoesExtraidas), ...Object.keys(interState.condicoes)]) {
-      if (!byNome.has(nome)) byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.bonusType.Condicao })
+      if (!byNome.has(nome)) byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.subcategoria.Condicao })
     }
     return [...byNome.values()].map((d) => {
       const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]!
@@ -848,7 +852,9 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             clipPath: clip(10),
           }}
         >
-          <span style={{ fontSize: 16, flex: 'none' }}>⚠️</span>
+          {/* #319: emoji do botão = subcategoria.Condicao (💫), mesmo do plugin
+              (antes era ⚠️ hardcodado). */}
+          <span style={{ fontSize: 16, flex: 'none' }}>{tokens.emojis.subcategoria.Condicao}</span>
           <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
               CONDIÇÕES

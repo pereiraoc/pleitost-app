@@ -10,6 +10,24 @@ import { detectEdgeSwipe, HORIZONTAL_DOMINANCE, type DrawerState, type SwipePoin
 const LEFT_DRAWER_MAX = 819
 const RIGHT_DRAWER_MAX = 1099
 
+/** Um toque que começa DENTRO de um scroller horizontal (carrossel, tabela,
+ *  strip de cards) NÃO deve armar o gesto de drawer — senão o `preventDefault`
+ *  do move rouba o scroll lateral do conteúdo (bug: no tablet, com o painel da
+ *  direita aberto, não dava pra passar os carrosséis). Detecta GENERICAMENTE:
+ *  sobe a árvore e para no primeiro ancestral com overflow-x rolável — cobre
+ *  qualquer scroller sem precisar marcar classe a classe. Mantém os seletores
+ *  explícitos como rede pra casos onde o overflow só aparece abaixo de um
+ *  breakpoint (ex.: `.item-cell-tiers`). */
+function startsInHorizontalScroller(target: EventTarget | null): boolean {
+  let node = target instanceof Element ? target : null
+  for (; node && node !== document.body; node = node.parentElement) {
+    if (node.matches('.tabs-scroll, .table-scroll, .item-cell-tiers, [data-hscroll]')) return true
+    const ox = getComputedStyle(node).overflowX
+    if ((ox === 'auto' || ox === 'scroll') && node.scrollWidth > node.clientWidth + 1) return true
+  }
+  return false
+}
+
 export interface EdgeSwipeHandlers {
   openLeft: () => void
   closeLeft: () => void
@@ -44,10 +62,9 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
       if (e.pointerType === 'mouse') return
       if (!isNarrowEnough()) return
       // O gesto vale de QUALQUER ponto (do meio) — arrasta pra abrir/fechar. Só
-      // NÃO arma sobre scrollers horizontais de conteúdo (abas/tabelas/trio de
-      // qualidades), pra o dedo poder rolá-los pro lado sem abrir o painel.
-      const el = e.target as Element | null
-      if (el?.closest?.('.tabs-scroll, .table-scroll, .item-cell-tiers, [data-hscroll]')) return
+      // NÃO arma sobre scrollers horizontais de conteúdo (carrosséis/abas/tabelas/
+      // trio de qualidades), pra o dedo poder rolá-los pro lado sem mexer no painel.
+      if (startsInHorizontalScroller(e.target)) return
       start = { x: e.clientX, y: e.clientY, id: e.pointerId }
     }
 

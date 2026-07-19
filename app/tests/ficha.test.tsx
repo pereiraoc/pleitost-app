@@ -112,8 +112,9 @@ describe('FichaPage (Carlos, modelo salvo real)', () => {
     const adoChip = await screen.findByText(/AdO 1d4\+7/)
     expect(adoChip.textContent).toContain('AdO 1d4+7')
     // dano exibido = calcDanoArma (prof M = +2 dados: 3d4+2) + dado extra do
-    // Encantar Arma (tabela potência 9 → 1d12+3): 3d4+2+1d12+3.
-    expect(screen.getByText(/3d4\+2\+1d12\+3/)).toBeTruthy()
+    // Encantar Arma (tabela potência 9 → 1d12+3). #318: junta os flats (2+3) e
+    // agrupa os dados → 3d4+1d12+5.
+    expect(screen.getByText(/3d4\+1d12\+5/)).toBeTruthy()
     // AÇÕES por perícia (catálogo real: Cambalhota → Acrobacia)
     expect((await screen.findAllByText('AÇÕES')).length).toBeGreaterThan(0)
     expect(screen.getByText('Cambalhota')).toBeTruthy()

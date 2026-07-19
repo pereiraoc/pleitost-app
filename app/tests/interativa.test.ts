@@ -531,9 +531,10 @@ describe('#29 seletores: defaults de ativação (plugin condicoes-catalog.ts:104
     }
     const dano = (c: InterativaComputed) =>
       applyDanoCtx({ baseDice: 1, profDice: 1, dieSize: 4, offset: 2 }, c.ctx, 'Punhal')
-    expect(dano(withPot(6)).display).toBe('2d4+2+1d12')
-    expect(dano(withPot(7)).display).toBe('2d4+2+1d12+1')
-    expect(dano(withPot(8)).display).toBe('2d4+2+1d12+2')
+    // #318: display junta os flats e agrupa os dados (base 2d4+2 + Encantar 1d12(+F))
+    expect(dano(withPot(6)).display).toBe('2d4+1d12+2')
+    expect(dano(withPot(7)).display).toBe('2d4+1d12+3')
+    expect(dano(withPot(8)).display).toBe('2d4+1d12+4')
     const ado6 = computeDanoAdO({ ...dano(withPot(6)).adoInput, prof: 'E' })
     const ado7 = computeDanoAdO({ ...dano(withPot(7)).adoInput, prof: 'E' })
     expect(ado6.display).toBe('5') // offset 2 + fixo 3

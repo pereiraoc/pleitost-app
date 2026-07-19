@@ -17,6 +17,7 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { FichaPage } from '../src/components/ficha/FichaPage'
 import { heroPath } from '../src/paths'
+import { tokens } from '../src/components/ficha/registry'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -134,6 +135,15 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     expect(vigor.style.color).toBe('var(--text)')
   })
 
+  it('#319: emoji das condições = subcategoria.Condicao (💫, mesmo do plugin), não bonusType (🌟)', async () => {
+    renderCombate()
+    const cond = await screen.findByText('CONDIÇÕES')
+    const btn = cond.closest('button') as HTMLElement
+    // o botão CONDIÇÕES usa o MESMO token do pleitost-autosheet
+    expect(btn.textContent).toContain(tokens.emojis.subcategoria.Condicao)
+    expect(tokens.emojis.subcategoria.Condicao).not.toBe(tokens.emojis.bonusType.Condicao)
+  })
+
   it('toggle Enfraquecido no popover CONDIÇÕES: Vigor -2 vermelho; destoggle restaura', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
@@ -146,9 +156,10 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
       expect(vigor.textContent).toBe(String(defBase('Vigor') - 2))
       expect(vigor.style.color).toBe(RED)
     })
-    // dano do Punhal também sofre (DanoArmaFixo -1, DanoArmaPorDado -1×3 dados)
-    // base M: 3d4+2 → 3d4-2, mantendo o dado extra do Encantar Arma (d12+3, pot 9)
-    expect(screen.getByText(/3d4-2\+1d12\+3/)).toBeTruthy()
+    // dano do Punhal também sofre (DanoArmaFixo -1, DanoArmaPorDado -1×3 dados):
+    // base 3d4+2 → 3d4-2; + Encantar Arma 1d12+3 (pot 9). #318: junta os flats
+    // (-2+3) num só → 3d4+1d12+1.
+    expect(screen.getByText(/3d4\+1d12\+1/)).toBeTruthy()
     // destoggle
     fireEvent.click(within(screen.getByText('Enfraquecido').parentElement as HTMLElement).getByText('−'))
     await waitFor(() => {
@@ -175,15 +186,16 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     await waitFor(() => expect(modSpan().textContent).toBe('+13'))
     expect(modSpan().style.color).toBe(GREEN)
     // Apunhalante (Passivo requer VC, propriedade do Punhal): passo de dado
-    // d4→d6 e +1 fixo → 3d6+3, com o dado extra do Encantar Arma preservado (pot 9)
-    expect(screen.getByText(/3d6\+3\+1d12\+3/)).toBeTruthy()
+    // d4→d6 e +1 fixo → base 3d6+3; + Encantar 1d12+3 (pot 9). #318: junta os
+    // flats (3+3) → 3d6+1d12+6.
+    expect(screen.getByText(/3d6\+1d12\+6/)).toBeTruthy()
   })
 
   it('#153/#154: dano buffado fica negrito e o tooltip de dano/AdO lista o Encantar Arma (não zero)', async () => {
     renderCombate()
     // Carlos salvo tem Encantar Arma ATIVO no Punhal (potência 9) → dano
-    // 3d4+2+1d12+3 e AdO 1d4+7.
-    const danoEl = await screen.findByText(/3d4\+2\+1d12\+3/)
+    // 3d4+1d12+5 (#318 junta os flats 2+3) e AdO 1d4+7.
+    const danoEl = await screen.findByText(/3d4\+1d12\+5/)
     // #153: dano em negrito quando buffado
     expect(danoEl.style.fontWeight).toBe('800')
     // #153: tooltip de dano lista o Encantar Arma COM o dado (não "(0)")
@@ -279,18 +291,19 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟9 salvo no F
   it('mudar a potência recalcula o dado extra do dano na hora (tabela da nota)', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
-    // dano do Punhal com potência 9: 3d4+2 (M) + 1d12+3 (tabela {9: d12+3})
-    expect(screen.getByText(/3d4\+2\+1d12\+3/)).toBeTruthy()
+    // dano do Punhal com potência 9: 3d4+2 (M) + 1d12+3 (tabela {9: d12+3});
+    // #318 junta os flats → 3d4+1d12+5
+    expect(screen.getByText(/3d4\+1d12\+5/)).toBeTruthy()
     fireEvent.click(screen.getByText('CONDIÇÕES'))
     await acharChipEncantar()
     fireEvent.click(screen.getByTitle('Aumentar Potência Mágica'))
-    // potência 10 → tabela {10: d12+4}
-    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12\+4/)).toBeTruthy())
+    // potência 10 → tabela {10: d12+4} → 3d4+1d12+6
+    await waitFor(() => expect(screen.getByText(/3d4\+1d12\+6/)).toBeTruthy())
     expect(screen.getByText('🌟 10')).toBeTruthy()
-    // desce 2 → potência 8 → tabela {8: d12+2}
+    // desce 2 → potência 8 → tabela {8: d12+2} → 3d4+1d12+4
     fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
     fireEvent.click(screen.getByTitle('Diminuir Potência Mágica'))
-    await waitFor(() => expect(screen.getByText(/3d4\+2\+1d12\+2/)).toBeTruthy())
+    await waitFor(() => expect(screen.getByText(/3d4\+1d12\+4/)).toBeTruthy())
     expect(screen.getByText('🌟 8')).toBeTruthy()
   })
 
