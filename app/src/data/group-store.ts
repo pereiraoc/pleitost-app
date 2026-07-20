@@ -170,6 +170,26 @@ function commit(groupId: string, next: GroupState): void {
     )
 }
 
+/** Migração única (bug: exploração da MESA vazava entre sessões): antes a
+ *  exploração era keyed pela constante MESA_GRUPO_ID ('sessao:mesa') e virou
+ *  escopada por sessão. Porta o estado ANTIGO (`from`) pro escopo `to` SE `to`
+ *  está vazio e `from` tem dados — e depois LIMPA `from`, pra não portar duas
+ *  vezes nem revazar entre sessões. Retorna true se portou algo. */
+export function migrateGroupState(from: string, to: string): boolean {
+  if (from === to) return false
+  const fromState = hydrate(from)
+  if (isEmpty(fromState)) return false
+  const toState = hydrate(to)
+  if (!isEmpty(toState)) return false // destino já tem dados — nunca sobrescreve
+  commit(to, {
+    hexes: fromState.hexes,
+    ...(fromState.regiaoAtiva ? { regiaoAtiva: fromState.regiaoAtiva } : {}),
+    ...(fromState.atualId ? { atualId: fromState.atualId } : {}),
+  })
+  commit(from, emptyState()) // remove a chave antiga
+  return true
+}
+
 function newHexId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID()

@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { heroPath } from '../paths'
 import { useCatalog } from '../data/CatalogContext'
+import { migrateGroupState } from '../data/group-store'
 import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
@@ -608,6 +609,12 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // mapa (caminho percorrido) é local e keyed por groupId — então a trilha
   // VAZAVA entre sessões. Escopa o store da exploração da mesa por sessão.
   const exploId = isMesa && live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId
+  // Porta a exploração ANTIGA (keyed pela constante MESA_GRUPO_ID, órfã ao
+  // escopar por sessão) pro escopo desta sessão — uma vez, ao abrir a mesa. Só
+  // migra se o escopo novo está vazio; depois limpa a antiga (não revaza).
+  useEffect(() => {
+    if (isMesa && live?.sessionId) migrateGroupState(MESA_GRUPO_ID, exploId)
+  }, [isMesa, live?.sessionId, exploId])
   const repo = useSessionRepo()
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
