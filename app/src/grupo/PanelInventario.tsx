@@ -209,7 +209,10 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const tesouroGroups = useMemo(() => {
     const byG = new Map<string, { id: string; nome: string; artefato: boolean }[]>()
     for (const e of catalog.content) {
-      if (e.subtype !== 'Tesouro') continue
+      // Artefatos ganharam subtype próprio 'Artefato' (re-extract da vault); pro
+      // seletor ambos são tesouros — quem decide grupo/gating de Mestre é o
+      // folder (art), não o subtype.
+      if (e.subtype !== 'Tesouro' && e.subtype !== 'Artefato') continue
       const art = e.id.startsWith(ARTEFATOS_FOLDER)
       if (!e.id.startsWith(EQUIPAMENTOS_FOLDER) && !(mestre && art)) continue
       const seg = art
