@@ -90,6 +90,31 @@ function bgSpan(container: HTMLElement, needle: string): HTMLElement | undefined
   )
 }
 
+const MERA_ID = 'Sistema/Criaturas/Heróis/Mera'
+const mera = JSON.parse(fs.readFileSync(path.join(vaultDataDir, `${MERA_ID}.json`), 'utf8')) as VaultDoc
+
+describe('tipo Arma: ataques custom FOR-scaled (Garras do Rei-Mago)', () => {
+  it('Mera (tem o Garras) mostra os 2 ataques das garras injetados no combate', async () => {
+    // Guarda: o teste depende da Mera possuir o Garras (Inventario.Tesouros).
+    // Se um re-extract remover, falha aqui com mensagem clara (não timeout).
+    const tesouros = ((mera.frontmatter as any).Inventario?.Tesouros ?? []) as string[]
+    expect(tesouros.some((t) => /Garras do Rei-Mago/.test(String(t))), 'Mera deve ter o Garras').toBe(true)
+
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(MERA_ID, 'combate')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    // Injetados como armas → aparecem pelo label do efeito (custom.label).
+    await screen.findByText('Garras do Rei-Mago (Mão Primária)')
+    await screen.findByText('Garras do Rei-Mago (Mão Secundária)')
+  })
+})
+
 describe('#77: ATAQUES mostram a imagem da arma + imbuição no canto', () => {
   it('imagem da arma (Figura/Armas/Punhal.png) com a imbuição sobreposta (Relampejante Experiente)', async () => {
     // fixtures reais: Punhal Experiente com Imbuição Relampejante

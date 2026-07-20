@@ -86,7 +86,15 @@ export interface InvocacaoEfeito {
 
 // ── Descriptor (plugin extract/interativa/descriptor-types.ts) ──
 
-export type TipoKind = 'Passivo' | 'Estado' | 'Condição' | 'Forma' | 'AçãoLocal' | 'AtaqueLocal'
+export type TipoKind = 'Passivo' | 'Estado' | 'Condição' | 'Forma' | 'AçãoLocal' | 'AtaqueLocal' | 'Arma'
+
+/** Stats de um ataque custom (`tipo: Arma`) por nível de FOR (plugin
+ *  interativa/types.ts:ArmaPorFor). `dano` obrigatório; propriedades = wikilinks raw. */
+export interface ArmaPorFor {
+  dano: string
+  tipo: string
+  propriedades: string[]
+}
 
 export interface NumericSelector {
   label: string
@@ -123,6 +131,15 @@ export interface EffectDescriptor {
   /** Sub-bloco `invocacao:` quando `tipoEfeito === "Invocação"` (plugin
    *  parse-bloco.ts:231 — só é lido nesse tipo). */
   invocacao?: InvocacaoEfeito
+  /** SÓ quando `tipo === "Arma"`: wikilink de preview do ataque custom. */
+  link?: string
+  /** SÓ quando `tipo === "Arma"`: stats por FOR (chaves 1/2/3; FOR fora do
+   *  range clampa). Injetado como ataque na combate (inject-arma-custom). */
+  porFor?: Record<number, ArmaPorFor>
+  /** SÓ quando `tipo === "Arma"`: item-bônus FIXO (ex.: artefato Mestre → 3). */
+  bonusItem?: number
+  /** SÓ quando `tipo === "Arma"`: grupo de arma canônico p/ elegibilidade de AdO. */
+  grupoAtaque?: string
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -483,7 +500,40 @@ export function blocoParaDescritor(raw: unknown, sourceNote: string): EffectDesc
     desc.grupoArma = { armas: (grupoArma['armas'] as unknown[]).map(String) }
   }
 
+  // tipo Arma (ataque custom FOR-scaled) — plugin parse-bloco.ts:286-305.
+  if (tipo === 'Arma') {
+    const link = str(efeito['link'])
+    if (link) desc.link = link
+    const porFor = parsePorFor(efeito['porFor'])
+    if (porFor) desc.porFor = porFor
+    const bi = Number(efeito['bonusItem'])
+    if (Number.isFinite(bi)) desc.bonusItem = bi
+    const ga = str(efeito['grupoAtaque']).trim()
+    if (ga) desc.grupoAtaque = ga
+  }
+
   return desc
+}
+
+/** `porFor: { <FOR>: { dano, tipo, propriedades } }` → mapa (plugin
+ *  parse-bloco.ts:parsePorFor). Chaves = níveis de FOR inteiros ≥1; cada
+ *  entrada exige `dano`; propriedades default vazio. */
+function parsePorFor(raw: unknown): Record<number, ArmaPorFor> | undefined {
+  if (!raw || typeof raw !== 'object') return undefined
+  const out: Record<number, ArmaPorFor> = {}
+  for (const [k, v] of Object.entries(raw as Dict)) {
+    const forLevel = Number(k)
+    if (!Number.isInteger(forLevel) || forLevel < 1) continue
+    if (!v || typeof v !== 'object') continue
+    const entry = v as Dict
+    const dano = str(entry['dano']).trim()
+    if (!dano) continue
+    const propriedades = Array.isArray(entry['propriedades'])
+      ? (entry['propriedades'] as unknown[]).map((p) => String(p).trim()).filter((s) => s.length > 0)
+      : []
+    out[forLevel] = { dano, tipo: str(entry['tipo']).trim(), propriedades }
+  }
+  return Object.keys(out).length > 0 ? out : undefined
 }
 
 /** Tier-gate opcional do bloco (Imbuição Incendiária declara 1 entry por

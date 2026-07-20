@@ -111,6 +111,7 @@ import { propagateAutoStates } from '../../interativa/hero-context'
 import { isCondicaoOn, isEfeitoOn, toMultiplier } from '../../interativa/state'
 import type { AtributoId, ConditionNumberKey } from '../../interativa/condition-context'
 import type { EffectDescriptor } from '../../interativa/descriptor'
+import { collectCustomAtaques, type CustomAtaque } from '../../interativa/arma-custom'
 import {
   buildDanoTitle,
   computeEvMax,
@@ -1301,14 +1302,31 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
-  const armas = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  const armasFm = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  // Ataques CUSTOM (efeito `tipo: Arma`, ex.: garras do Garras do Rei-Mago):
+  // resolvidos pelo FOR do herói e injetados na lista como se fossem armas
+  // (mesma pipeline de dano/AdO/tooltip). `__custom` carrega os stats inline.
+  const customAtaques = collectCustomAtaques(inter.descriptors, attrs['FOR'] ?? 0)
+  const armas: Record<string, unknown>[] = [
+    ...armasFm,
+    ...customAtaques.map((c) => ({
+      Nome: c.link,
+      Atributo: c.atributo,
+      Bonus_Item: c.bonusItem,
+      Bonus_Especial: 0,
+      Categoria: '',
+      Propriedade: '',
+      __custom: c,
+    })),
+  ]
   // Regra do compêndio de cada PROPRIEDADE de arma (Precisa/Arremesso/…) pro
   // tooltip. Propriedade parametrizada ("Arremesso 3", "Recarga 2") → resolve o
   // doc-base ("Arremesso") tirando o número; o texto exibido mantém o parâmetro.
   const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
-  const propRuleDoc = useNamedDocs(
-    armas.flatMap((a) => wikiLabels(docField(refs.refDoc(a['Nome']), 'propriedades')).map(propBase)),
-  )
+  const propRuleDoc = useNamedDocs([
+    ...armasFm.flatMap((a) => wikiLabels(docField(refs.refDoc(a['Nome']), 'propriedades')).map(propBase)),
+    ...customAtaques.flatMap((c) => wikiLabels(c.propriedades).map(propBase)),
+  ])
   const interState = interativa(fm)
   const efeitos = (fmPath(fm, 'Interativa', 'Efeitos_Ativos') ?? {}) as Record<string, unknown>
   // Chips do design = toggles REAIS da engine (ancoragem AtaquesEAcoes do
@@ -1406,16 +1424,22 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
       </div>
 
       {armas.map((arma, i) => {
-        const nome = linkLabel(str(arma['Nome']))
-        const prop = linkLabel(str(arma['Propriedade']))
-        const basename = wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome
+        const cust = arma['__custom'] as CustomAtaque | undefined
+        const nome = cust ? cust.label : linkLabel(str(arma['Nome']))
+        const prop = cust ? '' : linkLabel(str(arma['Propriedade']))
+        // sourceId dos modificadores: label do custom (não casa imbuição — ok).
+        const basename = cust ? cust.label : (wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome)
+        // Custom: o doc do artefato (via `link`) dá figura/hover; os stats vêm
+        // inline (dano/tipo/propriedades já resolvidos por FOR).
         const armaDoc = refs.refDoc(arma['Nome'])
         // Base v2: stats da arma (dano/tipo/propriedades) estão no FRONTMATTER;
         // merge (inline vence em up/prev/next) pra ler nos dois formatos.
-        const inline = {
-          ...((armaDoc?.frontmatter ?? {}) as Record<string, unknown>),
-          ...((armaDoc?.inlineFields ?? {}) as Record<string, unknown>),
-        }
+        const inline = cust
+          ? { dano: cust.dano, tipo: cust.tipo, propriedades: cust.propriedades }
+          : {
+              ...((armaDoc?.frontmatter ?? {}) as Record<string, unknown>),
+              ...((armaDoc?.inlineFields ?? {}) as Record<string, unknown>),
+            }
         const danoRaw = unquote(str(inline['dano']))
         // dano exibido = calcDanoArma do plugin (dados base + prof) COM o
         // contexto de dano aplicado (applyDanoCtx: fixo/por-dado/passo de
@@ -1434,7 +1458,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         // AdO (a.ado do design): arma corpo-a-corpo/especial + prof>=A —
         // computeDanoAdO do plugin (Mestre +1 dado; canais ado/adoFixo;
         // técnicas não acumulam entre si).
-        const grupoArma = str(fmOf(armaDoc)['grupo']).toLowerCase().trim()
+        const grupoArma = (cust ? cust.grupo : str(fmOf(armaDoc)['grupo'])).toLowerCase().trim()
         const adoRes =
           danoRes && ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profAtaque)
             ? computeDanoAdO({ ...danoRes.adoInput, prof: profAtaque as 'A' | 'E' | 'M' })
@@ -1466,12 +1490,16 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         // arma (weaponImageUrl) com a propriedade (imbuição OU obra-prima)
         // sobreposta no canto; sem imagem → o emoji do grupo (fallback).
         // #280: figura de ataque (pequena) → thumb.
-        const armaImg = weaponImageUrl(armaDoc, assets, true)
-        const propImg = propriedadeImageUrl(
-          (wikiTarget(str(arma['Propriedade'])).split('/').pop() ?? '').trim(),
-          tier ?? '',
-          assets,
-        )
+        const armaImg = cust
+          ? (tesouroImageUrl(str(armaDoc?.basename), '', assets) ?? weaponImageUrl(armaDoc, assets, true))
+          : weaponImageUrl(armaDoc, assets, true)
+        const propImg = cust
+          ? null
+          : propriedadeImageUrl(
+              (wikiTarget(str(arma['Propriedade'])).split('/').pop() ?? '').trim(),
+              tier ?? '',
+              assets,
+            )
         return (
           <div key={`${nome}-${i}`} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={rowStyle}>
