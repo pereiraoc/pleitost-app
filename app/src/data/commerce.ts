@@ -139,9 +139,11 @@ export const DEFAULT_ENCOMENDA_MATRIX: AvailabilityMatrix = {
 
 // ───────────────── Modificadores por Região (raridade × básico) ─────────────
 
-/** Tesouros BÁSICOS (mais comuns) — lista verbatim da seção "## Modificadores
- *  por Região" da nota. São nomes canônicos (basename do doc do tesouro). */
-export const TESOUROS_BASICOS: readonly string[] = [
+/** Tesouros BÁSICOS (mais comuns) — VIVO: default = espelho verbatim da seção
+ *  "## Modificadores por Região" da nota (verificado por parseBasicos no teste).
+ *  O CONFIG/SISTEMA (system-config) sobrescreve MUTANDO este array — nunca troca
+ *  a referência, que é lida por raridadeTesouro. Nomes canônicos (basename). */
+export const TESOUROS_BASICOS: string[] = [
   'Anel do Equilíbrio',
   'Luva do Arcanista',
   'Bracelete Elemental',
@@ -149,6 +151,22 @@ export const TESOUROS_BASICOS: readonly string[] = [
   'Armadura Obra-prima',
   'Ferramenta Obra-prima',
 ]
+
+/** Lê a lista de básicos da nota: os bullets "* [[X]]" logo após a frase
+ *  "considerados básicos". Devolve os basenames (alvo do wikilink), ou null se
+ *  a seção não casar — é a FONTE da lista default (espelhada em TESOUROS_BASICOS). */
+export function parseBasicos(body: string): string[] | null {
+  const lines = body.split(/\r?\n/)
+  const start = lines.findIndex((l) => /considerados\s+b[áa]sicos/i.test(l))
+  if (start < 0) return null
+  const out: string[] = []
+  for (let i = start + 1; i < lines.length; i++) {
+    const m = /^\s*[*-]\s+\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(lines[i]!)
+    if (m) out.push((m[1]!.split('/').pop() ?? '').trim())
+    else if (out.length) break // 1ª linha não-bullet após a lista = fim
+  }
+  return out.length ? out : null
+}
 
 /** Raridade regional de um tesouro (típico = está nos Recursos da localização).
  *  Básicos ganham uma classe própria (mais comuns). */

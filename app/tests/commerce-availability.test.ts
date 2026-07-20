@@ -10,6 +10,7 @@ import {
   DEFAULT_ENCOMENDA_MATRIX,
   parseDisponibilidadeEncomenda,
   parseDisponibilidadePronta,
+  parseBasicos,
   TESOUROS_BASICOS,
   RARIDADE_MULT,
   raridadeTesouro,
@@ -56,17 +57,18 @@ describe('tabela Disponibilidade por Encomenda (nota real)', () => {
 })
 
 describe('classificação típico/incomum/básico + modificadores', () => {
-  it('lista de básicos vem da nota (verbatim)', () => {
-    for (const b of [
+  it('parseBasicos lê a lista da nota real — e o espelho TESOUROS_BASICOS bate', () => {
+    const daNota = parseBasicos(nota.body)
+    expect(daNota).toEqual([
       'Anel do Equilíbrio',
       'Luva do Arcanista',
       'Bracelete Elemental',
       'Arma Obra-prima',
       'Armadura Obra-prima',
       'Ferramenta Obra-prima',
-    ]) {
-      expect(TESOUROS_BASICOS).toContain(b)
-    }
+    ])
+    // O default vivo (espelho) é exatamente o que a nota lista.
+    expect([...TESOUROS_BASICOS]).toEqual(daNota)
   })
 
   it('raridadeTesouro: básico×típico, básico×incomum, típico, incomum', () => {

@@ -14,7 +14,14 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ConfigPage } from '../src/components/config/ConfigPage'
-import { COMBO_MULT, POCAO_DICE, RARIDADE_MULT, TIER_PRICE_MULT } from '../src/data/commerce'
+import {
+  COMBO_MULT,
+  POCAO_DICE,
+  RARIDADE_MULT,
+  TESOUROS_BASICOS,
+  TIER_PRICE_MULT,
+  raridadeTesouro,
+} from '../src/data/commerce'
 import { sistemaConfig } from '../src/data/system-config'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -124,6 +131,32 @@ describe('config/sistema editável (#202)', () => {
     fireEvent.click(secao.querySelector('button')!)
     expect(RARIDADE_MULT.incomum).toBe(0.25)
     expect(COMBO_MULT.ii).toBe(0.125)
+  })
+
+  it('básicos: remover/adicionar reflete em raridadeTesouro; restaurar volta à lista da nota', async () => {
+    await abrirSistema()
+    // Bracelete Elemental é básico (vem da nota) → básico-incomum fora dos Recursos.
+    expect(raridadeTesouro('Bracelete Elemental', false)).toBe('basico-incomum')
+    // Remover pelo ✕ do chip → deixa de ser básico (vira incomum comum).
+    fireEvent.click(screen.getByLabelText('remover Bracelete Elemental dos básicos'))
+    expect([...TESOUROS_BASICOS]).not.toContain('Bracelete Elemental')
+    expect(raridadeTesouro('Bracelete Elemental', false)).toBe('incomum')
+    // Adicionar um tesouro que não era básico (pelo select) → passa a básico.
+    expect(raridadeTesouro('Anel Canário', false)).toBe('incomum')
+    fireEvent.change(screen.getByLabelText('adicionar tesouro básico'), {
+      target: { value: 'Anel Canário' },
+    })
+    expect([...TESOUROS_BASICOS]).toContain('Anel Canário')
+    expect(raridadeTesouro('Anel Canário', false)).toBe('basico-incomum')
+    // Persistiu no override; defaults congelados intactos.
+    const saved = JSON.parse(window.localStorage.getItem('pleitost.settings.sistema')!)
+    expect(saved.basicos).toContain('Anel Canário')
+    expect(saved.basicos).not.toContain('Bracelete Elemental')
+    expect(sistemaConfig.defaults.basicos).toContain('Bracelete Elemental')
+    // "restaurar" (botão dedicado) volta à lista da nota.
+    fireEvent.click(screen.getByTitle('restaurar a lista de básicos da nota'))
+    expect([...TESOUROS_BASICOS]).toContain('Bracelete Elemental')
+    expect([...TESOUROS_BASICOS]).not.toContain('Anel Canário')
   })
 
   it('poções: dado por local × tier editável como texto, com reset', async () => {

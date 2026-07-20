@@ -15,6 +15,7 @@ import {
   LOCAL_TYPES,
   POCAO_DICE,
   RARIDADE_MULT,
+  TESOUROS_BASICOS,
   TIERS,
   TIER_PRICE_MULT,
   type LocalType,
@@ -31,6 +32,8 @@ const DEFAULT_RARIDADE = Object.freeze({ ...RARIDADE_MULT })
 const DEFAULT_POCAO: Readonly<Record<LocalType, Readonly<Record<Tier, string>>>> = Object.freeze(
   Object.fromEntries(LOCAL_TYPES.map((lt) => [lt, Object.freeze({ ...POCAO_DICE[lt] })])),
 ) as never
+// Lista PADRÃO de básicos — cópia congelada do espelho da nota (fonte do reset).
+const DEFAULT_BASICOS: readonly string[] = Object.freeze([...TESOUROS_BASICOS])
 
 // Taxa de revenda (#300): fração do valor de mercado devolvida em Ouro ao VENDER
 // um item (arma/tesouro) na ficha. Default metade; ajustável no CONFIG/SISTEMA
@@ -45,6 +48,8 @@ interface SistemaOverrides {
   raridade?: Partial<Record<Raridade, number>>
   pocao?: Partial<Record<LocalType, Partial<Record<Tier, string>>>>
   revenda?: number
+  /** Lista de tesouros básicos (nomes) — substitui DEFAULT_BASICOS por inteiro. */
+  basicos?: string[]
 }
 
 // Valor VIVO da taxa de revenda (escalar; não vive numa tabela do commerce.ts).
@@ -86,6 +91,8 @@ function apply(ov: SistemaOverrides) {
   for (const lt of LOCAL_TYPES) {
     for (const t of TIERS) POCAO_DICE[lt][t] = ov.pocao?.[lt]?.[t] ?? DEFAULT_POCAO[lt][t]
   }
+  // Muta o array VIVO no lugar (mesma referência lida por raridadeTesouro).
+  TESOUROS_BASICOS.splice(0, TESOUROS_BASICOS.length, ...(ov.basicos ?? DEFAULT_BASICOS))
   revendaTaxa = ov.revenda ?? DEFAULT_REVENDA
   bump()
 }
@@ -107,6 +114,7 @@ export const sistemaConfig = {
     raridade: DEFAULT_RARIDADE,
     pocao: DEFAULT_POCAO,
     revenda: DEFAULT_REVENDA,
+    basicos: DEFAULT_BASICOS,
   },
   setTierMult(tier: Tier, value: number) {
     mutate((ov) => {
@@ -137,11 +145,35 @@ export const sistemaConfig = {
     mutate((ov) => {
       delete ov.combo
       delete ov.raridade
+      delete ov.basicos
     })
   },
   resetPocao() {
     mutate((ov) => {
       delete ov.pocao
+    })
+  },
+  /** Lista corrente de tesouros básicos (nomes). */
+  getBasicos(): readonly string[] {
+    return TESOUROS_BASICOS
+  },
+  /** Adiciona um nome à lista (no-op se já existe). */
+  addBasico(nome: string) {
+    const n = nome.trim()
+    if (!n || TESOUROS_BASICOS.includes(n)) return
+    mutate((ov) => {
+      ov.basicos = [...(ov.basicos ?? DEFAULT_BASICOS), n]
+    })
+  },
+  /** Remove um nome da lista. */
+  removeBasico(nome: string) {
+    mutate((ov) => {
+      ov.basicos = (ov.basicos ?? DEFAULT_BASICOS).filter((b) => b !== nome)
+    })
+  },
+  resetBasicos() {
+    mutate((ov) => {
+      delete ov.basicos
     })
   },
   /** Taxa de revenda corrente (fração 0..1). */

@@ -10,8 +10,9 @@
 // As linhas mock do CONFIG do design (Idioma/Animações/Sincronização/
 // Notificações, script linha 1860) NÃO são renderizadas: são placeholders
 // sem configuração real por trás — nada de settings fake.
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, MODES, type ThemeName } from '../../theme'
+import { useCatalog } from '../../data/CatalogContext'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -491,6 +492,22 @@ function PocoesSection() {
  *  tesouros BÁSICOS. Informativo: é a regra que a loja aplica. */
 function RegiaoSection() {
   useSistemaVersion()
+  const catalog = useCatalog()
+  // Candidatos p/ adicionar aos básicos: nomes de tesouros (Equipamentos/
+  // Implementos) + qualidades (Obra-prima). Fonte real — nada inventado.
+  const basicoCandidatos = useMemo(() => {
+    const names = new Set<string>()
+    for (const e of catalog.content) {
+      if (
+        e.basename &&
+        (e.id.includes('/Tesouros/Equipamentos/') ||
+          e.id.includes('/Tesouros/Implementos/') ||
+          e.id.includes('/Imbuições e Qualidade/Qualidade/'))
+      )
+        names.add(e.basename)
+    }
+    return [...names].sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  }, [catalog])
   const linhas: Array<{ caso: string; get: () => number; set: (v: number) => void }> = [
     { caso: 'Tesouro típico', get: () => RARIDADE_MULT['tipico'], set: (v) => sistemaConfig.setRaridade('tipico', v) },
     { caso: 'Tesouro básico típico', get: () => RARIDADE_MULT['basico-tipico'], set: (v) => sistemaConfig.setRaridade('basico-tipico', v) },
@@ -530,7 +547,10 @@ function RegiaoSection() {
           <span
             key={t}
             style={{
-              padding: '3px 9px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '3px 6px 3px 9px',
               background: 'var(--card)',
               border: '1px solid var(--line2)',
               fontSize: 11,
@@ -539,13 +559,73 @@ function RegiaoSection() {
             }}
           >
             {t}
+            <button
+              onClick={() => sistemaConfig.removeBasico(t)}
+              aria-label={`remover ${t} dos básicos`}
+              title="remover dos básicos"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                fontSize: 12,
+                lineHeight: 1,
+                padding: 0,
+              }}
+            >
+              ✕
+            </button>
           </span>
         ))}
+        <select
+          value=""
+          aria-label="adicionar tesouro básico"
+          onChange={(e) => {
+            if (e.target.value) sistemaConfig.addBasico(e.target.value)
+          }}
+          style={{
+            padding: '4px 8px',
+            background: 'var(--panel)',
+            border: '1px dashed var(--line2)',
+            color: 'var(--muted)',
+            fontFamily: 'var(--mono)',
+            fontSize: 11,
+            cursor: 'pointer',
+            clipPath: 'polygon(0 0,100% 0,100% 100%,4px 100%,0 calc(100% - 4px))',
+          }}
+        >
+          <option value="">+ adicionar…</option>
+          {basicoCandidatos
+            .filter((n) => !TESOUROS_BASICOS.includes(n))
+            .map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+        </select>
+        <button
+          onClick={() => sistemaConfig.resetBasicos()}
+          title="restaurar a lista de básicos da nota"
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 10,
+            letterSpacing: '.08em',
+            color: 'var(--muted)',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            padding: '0 4px',
+          }}
+        >
+          restaurar
+        </button>
       </div>
       <div
         style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.04em', color: 'var(--muted)', opacity: 0.85 }}
       >
-        Aplicado sobre a disponibilidade quando o tesouro não é típico da região (fração: 0.5 = ×1/2).
+        Básicos (mais comuns) da nota Disponibilidade de Tesouros — editável (✕ remove, "+ adicionar" inclui).
+        {' '}O modificador de raridade acima é aplicado quando o tesouro não é típico da região (0.5 = ×1/2).
       </div>
     </div>
   )
