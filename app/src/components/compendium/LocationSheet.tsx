@@ -503,12 +503,20 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     const imbIds: string[] = []
     const qualIds: string[] = []
     const pocIds: string[] = []
+    // Bases de armadura/escudo → "<base> Obra-prima" em qualquer cidade (#341).
+    // "Sem Armadura"/"Sem Escudo" ficam de fora (não há obra-prima do nada).
+    const armaduraIds: string[] = []
+    const escudoIds: string[] = []
     for (const e of catalog.content) {
       const id = e.id
       if (id.includes('/Tesouros/Equipamentos/') || id.includes('/Tesouros/Implementos/')) tesIds.push(id)
       else if (id.includes('/Imbuições e Qualidade/Imbuições/')) imbIds.push(id)
       else if (id.includes('/Imbuições e Qualidade/Qualidade/')) qualIds.push(id)
       else if (id.includes('/Tesouros/Consumíveis/')) pocIds.push(id)
+      else if (id.includes('/Equipamento/Armaduras/') && e.subtype === 'Armadura' && e.basename && !/^Sem /.test(e.basename))
+        armaduraIds.push(id)
+      else if (id.includes('/Equipamento/Escudos/') && e.subtype === 'Escudo' && e.basename && !/^Sem /.test(e.basename))
+        escudoIds.push(id)
     }
     // #341: TODAS as armas vendáveis (fora especiais/naturais, que só vêm por
     // habilidade). A nota "Disponibilidade de Tesouros" prevê armas INCOMUNS com %
@@ -525,14 +533,22 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
         ds.filter((d): d is VaultDoc => d != null),
       )
     let alive = true
-    Promise.all([load(tesIds), load(imbIds), load(qualIds), load(pocIds), load(armaIds)]).then(
-      ([tesourosSimples, imbuicoes, qualidades, pocoes, armas]) => {
-        if (!alive) return
-        const all = [...tesourosSimples, ...imbuicoes, ...qualidades, ...pocoes, ...armas]
-        setDocsById(new Map(all.map((d) => [d.id, d])))
-        setBuilt(buildShopCandidates({ recursos, tesourosSimples, imbuicoes, qualidades, pocoes, armas }))
-      },
-    )
+    Promise.all([
+      load(tesIds),
+      load(imbIds),
+      load(qualIds),
+      load(pocIds),
+      load(armaIds),
+      load(armaduraIds),
+      load(escudoIds),
+    ]).then(([tesourosSimples, imbuicoes, qualidades, pocoes, armas, armaduras, escudos]) => {
+      if (!alive) return
+      const all = [...tesourosSimples, ...imbuicoes, ...qualidades, ...pocoes, ...armas, ...armaduras, ...escudos]
+      setDocsById(new Map(all.map((d) => [d.id, d])))
+      setBuilt(
+        buildShopCandidates({ recursos, tesourosSimples, imbuicoes, qualidades, pocoes, armas, armaduras, escudos }),
+      )
+    })
     return () => {
       alive = false
     }

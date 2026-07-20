@@ -42,7 +42,14 @@ describe('buildShopCandidates (Canto Alto real)', () => {
       byName('Imbuição Enraizante'), // ∉ Recursos MAS cabe na Adaga (Tipo,perfuração)
     ],
     armas: [byName('Adaga'), byName('Espada Longa')], // Adaga típica; Espada Longa incomum (∉ Recursos)
-    qualidades: [byName('Arma Obra-prima'), byName('Armadura Obra-prima')],
+    armaduras: [byName('Armadura Leve'), byName('Armadura Pesada')], // Leve ∈ Recursos; Pesada não
+    escudos: [byName('Broquel'), byName('Escudo')], // Broquel ∈ Recursos; Escudo não
+    qualidades: [
+      byName('Arma Obra-prima'),
+      byName('Armadura Obra-prima'),
+      byName('Broquel Obra-prima'),
+      byName('Escudo Obra-prima'),
+    ],
     pocoes: [byName('Poção de Cura')],
   })
   const find = (label: string) => built.candidates.find((c) => c.label === label)
@@ -87,11 +94,36 @@ describe('buildShopCandidates (Canto Alto real)', () => {
     expect(find('Bracelete Elemental')!.mult).toBe(0.5) // básico, fora dos Recursos
   })
 
-  it('obra-prima específica dos Recursos ("Armadura Obra-prima|Armadura Leve")', () => {
+  it('armadura TÍPICA dos Recursos ("Armadura Obra-prima|Armadura Leve") → básico-típico ×2', () => {
     const c = find('Armadura Leve Obra-prima')!
     expect(c).toBeTruthy()
     expect(c.mult).toBe(2)
     expect(c.propriedadeBase).toBe('Armadura Obra-prima')
+  })
+
+  it('#341/user: armadura INCOMUM (Armadura Pesada ∉ Recursos) É oferecida — básico-incomum ×½', () => {
+    // Antes só entravam as obra-primas listadas nos Recursos → armaduras fora deles
+    // sumiam em qualquer cidade. Agora TODA base entra: Pesada é básico-incomum ×½.
+    const c = find('Armadura Pesada Obra-prima')!
+    expect(c, 'armadura fora dos Recursos deve virar candidato').toBeTruthy()
+    expect(c.mult).toBe(0.5)
+    expect(c.propriedadeBase).toBe('Armadura Obra-prima')
+  })
+
+  it('escudo NÃO é básico: Broquel TÍPICO ×1, Escudo INCOMUM ×¼', () => {
+    // Broquel ∈ Recursos → típico ×1; Escudo ∉ Recursos → incomum ×¼ (não básico:
+    // Broquel/Escudo Obra-prima estão fora da lista de básicos da nota).
+    expect(find('Broquel Obra-prima')!.mult).toBe(1)
+    expect(find('Broquel Obra-prima')!.propriedadeBase).toBe('Broquel Obra-prima')
+    expect(find('Escudo Obra-prima')!.mult).toBe(0.25)
+    expect(find('Escudo Obra-prima')!.propriedadeBase).toBe('Escudo Obra-prima')
+  })
+
+  it('bases PURAS (sem obra-prima) nunca viram candidato — só as combinações', () => {
+    // Armas/armaduras/escudos base não são vendáveis; só imbuição/obra-prima.
+    expect(find('Armadura Pesada')).toBeUndefined()
+    expect(find('Escudo')).toBeUndefined()
+    expect(find('Espada Longa')).toBeUndefined()
   })
 
   it('poções viram PocaoCandidate à parte', () => {

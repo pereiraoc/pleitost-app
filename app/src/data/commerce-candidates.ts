@@ -6,6 +6,7 @@
 // TODOS do sistema (típico se está nos Recursos, senão incomum).
 import type { VaultDoc } from './types'
 import { precoPO } from '../grupo/wealth'
+import { escudoObraPrima, wikiTarget } from '../components/ficha/hero-model'
 import { aplicavelPredicates, hostStatsFromDoc, isAplicavelAoHost } from '../rules/aplicavel-a'
 import {
   RARIDADE_MULT,
@@ -43,6 +44,10 @@ export interface BuildCandidatesInput {
    *  "Disponibilidade de Tesouros" prevê os dois (Arma incomum + imbuição típica
    *  ×½, etc.), então a arma incomum entra com % reduzido, não some. */
   armas: VaultDoc[]
+  /** Bases de ARMADURA (Armadura Leve/Pesada) — viram "<base> Obra-prima". */
+  armaduras: VaultDoc[]
+  /** Bases de ESCUDO (Broquel/Escudo) — viram "<base> Obra-prima". */
+  escudos: VaultDoc[]
   /** Qualidades obra-prima (Arma/Armadura/Broquel/Escudo/Ferramenta Obra-prima). */
   qualidades: VaultDoc[]
   /** Poções (consumíveis). */
@@ -115,26 +120,35 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
     }
   }
 
-  // 4) Obra-primas específicas dos Recursos (ex.: "Armadura Obra-prima|Armadura
-  //    Leve", "Broquel Obra-prima|Broquel") — básico típico.
+  // 4) Obra-primas de ARMADURA/ESCUDO — oferecidas em QUALQUER cidade (#341/user),
+  //    não só quando estão nos Recursos. A base é TÍPICA se aparece nos Recursos
+  //    (via o alias "[[<Qualidade>|<base>]]", ex. "Armadura Obra-prima|Armadura
+  //    Leve"), senão INCOMUM. A classe sai de raridadeTesouro(<qualidade>, típico):
+  //    Armadura Obra-prima é BÁSICO (×2 típico / ×½ incomum); Broquel/Escudo
+  //    Obra-prima NÃO são básicos (×1 típico / ×¼ incomum).
+  const basesTipicas = new Set<string>()
   for (const raw of input.recursos) {
     const m = /\[\[([^\]|]+)\|([^\]]+)\]\]/.exec(raw)
     if (!m) continue
-    const targetBase = (m[1]!.split('/').pop() ?? '').trim()
-    const alias = m[2]!.trim()
-    if (!/Obra-prima$/i.test(targetBase)) continue
-    const q = qualByName.get(targetBase)
+    if (/Obra-prima$/i.test((m[1]!.split('/').pop() ?? '').trim())) basesTipicas.add(m[2]!.trim())
+  }
+  const gearBases = [
+    ...input.armaduras.map((base) => ({ base, quality: 'Armadura Obra-prima' })),
+    ...input.escudos.map((base) => ({ base, quality: wikiTarget(escudoObraPrima(base.basename)) })),
+  ]
+  for (const { base, quality } of gearBases) {
+    const q = qualByName.get(quality)
     if (!q) continue
     candidates.push({
-      key: `${q.id}|${alias}`,
-      nome: `${alias} Obra-prima`,
-      label: `${alias} Obra-prima`,
+      key: `${q.id}|${base.basename}`,
+      nome: `${base.basename} Obra-prima`,
+      label: `${base.basename} Obra-prima`,
       precoBase: precoPO(q),
-      mult: RARIDADE_MULT['basico-tipico'],
+      mult: RARIDADE_MULT[raridadeTesouro(quality, basesTipicas.has(base.basename))],
       tiers: T3,
       imbTarget: q.id, // 2ª carta no hover = a obra-prima
-      propriedadeBase: targetBase, // selo "<Qualidade> <Tier>.png"
-      thumbBasename: alias, // miniatura do escudo/armadura base ("Broquel")
+      propriedadeBase: quality, // selo "<Qualidade> <Tier>.png"
+      thumbBasename: base.basename, // miniatura da armadura/escudo base
     })
   }
 
