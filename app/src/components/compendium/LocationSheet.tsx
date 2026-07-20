@@ -168,7 +168,11 @@ function RecursoCard({ name, doc }: { name: string; doc: VaultDoc | undefined })
       </span>
     </span>
   )
-  return doc ? <ItemHover doc={doc} fullBody>{cell}</ItemHover> : <TipHover html={esc(name)}>{cell}</TipHover>
+  // Card COMPACTO no hover (sem fullBody): mostra os campos do item (dano/mãos/
+  // valor/propriedades) + a descrição curta. fullBody trazia também a PROSA do
+  // corpo com uma tabela (shc-tbl) que REPETIA mãos/valor já mostrados em cima —
+  // redundante no contexto de recurso da Localização. Feedback do mestre.
+  return doc ? <ItemHover doc={doc}>{cell}</ItemHover> : <TipHover html={esc(name)}>{cell}</TipHover>
 }
 
 /** Grade de recursos: resolve os wikilinks (arma/imbuição/foco/tesouro) pros

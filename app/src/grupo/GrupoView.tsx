@@ -52,6 +52,7 @@ import { LocalImageUpload } from '../components/ficha/PerfilTab'
 import { resolveGroupImageUrl } from './group-image'
 import { useMesaGroupImageUrl } from './use-mesa-group-image'
 import { PanelExploracao } from './PanelExploracao'
+import { PanelInventario } from './PanelInventario'
 import { PanelVida } from './PanelVida'
 import { PanelRiqueza } from './PanelRiqueza'
 import { PanelDestaques } from './PanelDestaques'
@@ -62,6 +63,9 @@ import { PanelAtaques } from './PanelAtaques'
 // design dedicado — as demais mantêm a ordem do design.
 const GRUPO_TABS = [
   { id: 'exploracao', label: 'EXPLORAÇÃO' },
+  // #333: INVENTÁRIO logo depois de EXPLORAÇÃO. As abas mapeiam 1:1 (por índice)
+  // com os TrackPanel abaixo — inserir aqui exige o painel na MESMA posição.
+  { id: 'inventario', label: 'INVENTÁRIO' },
   { id: 'papeis', label: 'PAPÉIS' },
   { id: 'competencias', label: 'COMPETÊNCIAS' },
   { id: 'riqueza', label: 'RIQUEZA' },
@@ -811,6 +815,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
       <PanelTrack index={tabIdx}>
         <TrackPanel pad="0">
           <PanelExploracao groupId={groupId} />
+        </TrackPanel>
+        <TrackPanel pad="0">
+          <PanelInventario groupId={groupId} />
         </TrackPanel>
         <TrackPanel pad="0">
           <PanelBalanceamento

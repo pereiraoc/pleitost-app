@@ -53,7 +53,10 @@ const tesouroEntries = manifest.docs.filter(
     d.id.startsWith('Sistema/Equipamento/Tesouros/') &&
     d.subtype === 'Tesouro' &&
     !d.id.startsWith('Sistema/Equipamento/Tesouros/Consumíveis/') &&
-    !d.id.startsWith('Sistema/Equipamento/Tesouros/Imbuições e Qualidade/'),
+    !d.id.startsWith('Sistema/Equipamento/Tesouros/Imbuições e Qualidade/') &&
+    // #333: Artefatos saíram do seletor de tesouros do jogador (só o Mestre os
+    // coloca, via inventário do grupo) — o mirror do teste acompanha o app.
+    !d.id.startsWith('Sistema/Equipamento/Tesouros/Artefatos/'),
 )
 
 /** vitest 4 + jsdom sem webstorage do Node — polyfill fiel só no teste. */
@@ -601,6 +604,26 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     fireEvent.click(await fabItem(alvo.basename!))
     tesouros = overlaySalvo().fm['Inventario.Tesouros']
     expect(tesouros.length).toBe(tesourosFm.length + 1)
+  })
+
+  it('#333: Artefato NÃO aparece no seletor de tesouros do jogador (só GM via grupo)', async () => {
+    // pré-condição do fixture: existe um Artefato na vault.
+    const artefato = manifest.docs.find((d) =>
+      d.id.startsWith('Sistema/Equipamento/Tesouros/Artefatos/'),
+    )
+    expect(artefato, 'fixture precisa de ao menos 1 Artefato').toBeTruthy()
+    renderFicha('inventario')
+    await screen.findByLabelText('Arma')
+    fireEvent.click(screen.getByRole('button', { name: 'EQUIPAMENTOS' }))
+    fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar Tesouro/ }))
+    // o popup abre com tesouros — mas o Artefato não está entre eles.
+    await waitFor(() =>
+      expect(document.querySelectorAll('button span').length).toBeGreaterThan(0),
+    )
+    const oferecido = [...document.querySelectorAll<HTMLElement>('button span')].some(
+      (s) => s.textContent === artefato!.basename,
+    )
+    expect(oferecido, `${artefato!.basename} não deve estar no seletor do jogador`).toBe(false)
   })
 
   it('remover tesouro persiste a lista filtrada', async () => {

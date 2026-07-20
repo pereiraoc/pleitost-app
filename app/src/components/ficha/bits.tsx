@@ -4,10 +4,45 @@
 import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
 import { TipHover, sourceTipHtml } from './tooltips'
+import { useDetail } from '../../data/detail-context'
 
 /** clip-path de canto cortado usado em todo o design. */
 export function clip(n: number): string {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
+}
+
+/** Botãozinho ℹ️ ao lado de um dropdown de construção (Classe/Subclasse/Sintonia/
+ *  …): abre a NOTA SELECIONADA no painel de DETALHES. Some quando o valor não
+ *  resolve num doc do compêndio (`docId` null) ou fora do provider de detalhes —
+ *  então cada call-site só passa `refs.refDoc(alvo)?.id`. No touch (sem hover do
+ *  card) é a única forma de ver a nota. */
+export function DetailInfoButton({ docId, label }: { docId?: string | null; label?: string }) {
+  const detail = useDetail()
+  if (!docId || !detail) return null
+  return (
+    <button
+      type="button"
+      title="Ver detalhes"
+      aria-label={label ? `Ver detalhes de ${label}` : 'Ver detalhes'}
+      onClick={() => detail.open({ kind: 'doc', id: docId })}
+      style={{
+        flex: 'none',
+        width: 34,
+        alignSelf: 'stretch',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 13,
+        background: 'var(--card)',
+        border: '1px solid var(--line2)',
+        color: 'var(--muted)',
+        cursor: 'pointer',
+        clipPath: clip(8),
+      }}
+    >
+      ℹ️
+    </button>
+  )
 }
 
 /** Painel padrão: padding:16px 18px;background:var(--panel);border:1px solid var(--line2);clip 14. */

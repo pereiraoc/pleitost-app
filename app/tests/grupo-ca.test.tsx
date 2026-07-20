@@ -96,7 +96,7 @@ describe('issue #236: Companheiro Animal na ficha de grupo (dados reais)', () =>
 
   it('PAPÉIS: o CA não vira linha do balanceamento', async () => {
     const { container } = renderGroup()
-    const papelPanel = container.querySelectorAll('[data-panel]')[1] as HTMLElement
+    const papelPanel = container.querySelectorAll('[data-panel]')[2] as HTMLElement
     // espera o load dos docs (classe real da tutora aparece na linha dela)
     await waitFor(() =>
       expect(within(papelPanel).queryByText('Sentinela Domador')).toBeTruthy(),
@@ -130,7 +130,7 @@ describe('issue #236: Companheiro Animal na ficha de grupo (dados reais)', () =>
     expect(tsr).not.toBe(Math.round(tutorParts.itensSemConsumiveis))
 
     const { container } = renderGroup()
-    const riqPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
+    const riqPanel = container.querySelectorAll('[data-panel]')[4] as HTMLElement
     // espera os PREÇOS carregarem: TSR da tutora com a soma do CA
     await waitFor(() => {
       const cell = within(riqPanel).queryByText('Mera')?.parentElement?.parentElement

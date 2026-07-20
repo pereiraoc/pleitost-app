@@ -111,11 +111,33 @@ export interface Encounter {
 
 export type SessionRole = 'gm' | 'player'
 
+/** #333: item do INVENTÁRIO COMPARTILHADO da mesa. Guardado num MAPA (id-único →
+ *  item) dentro do state da sessão, não num array: cada adição usa uma chave nova,
+ *  então futuras adições concorrentes ficam fáceis de mesclar (o merge do state
+ *  hoje é por chave de topo → o mapa inteiro é last-write-wins; adições
+ *  ~simultâneas são raras num loot de grupo). */
+export interface GroupInventoryItem {
+  /** id do doc do item no catálogo (resolve carta/imagem). */
+  docId: string
+  /** nome exibível. */
+  nome: string
+  /** tier do tesouro (A/E/M) — usado ao puxar pra ficha. */
+  tier?: string
+  /** userId de quem colocou no inventário do grupo. */
+  addedBy: string
+  /** ISO timestamp da adição (ordenação estável). */
+  addedAt: string
+}
+
 export interface SessionState {
   turn?: { order: string[]; current: string }
   /** Extensão do APP (#235): imagem da ficha do grupo da mesa (data-url
    *  comprimida) — qualquer integrante pode trocar; merge por chave. */
   grupoImagem?: string
+  /** #333: inventário COMPARTILHADO da mesa (mapa id-único → item). GM e
+   *  jogadores colocam itens; o jogador PUXA um item pra ficha dele (sai do
+   *  grupo = transferência). */
+  inventarioGrupo?: Record<string, GroupInventoryItem>
 }
 
 export interface Session {

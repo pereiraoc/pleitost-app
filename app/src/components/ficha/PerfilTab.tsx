@@ -26,7 +26,7 @@ import { useViewportWidth } from '../../viewport'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { applyPassadoPickToRows } from '../../rules/passado-options'
 import { NATURALIDADE_OUTRO } from '../../rules/naturalidade'
-import { clip, TabStrip, PanelTrack, TrackPanel } from './bits'
+import { clip, DetailInfoButton, TabStrip, PanelTrack, TrackPanel } from './bits'
 import { ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { localTipHtml, LOC_TIP_CSS } from './local-tip'
 import { useNamedDocs } from './useNamedDocs'
@@ -218,6 +218,7 @@ export function BoxSelect({
   onChange,
   ariaLabel,
   disabled,
+  infoDocId,
 }: {
   display: ReactNode
   options: SelectOption[]
@@ -225,32 +226,43 @@ export function BoxSelect({
   onChange: (v: string) => void
   ariaLabel: string
   disabled?: boolean
+  /** Doc da opção SELECIONADA — quando presente, mostra o ℹ️ ao lado (fora do
+   *  select invisível, pra ser clicável) que abre a nota nos detalhes. */
+  infoDocId?: string | null
 }) {
+  // ESTRUTURA ESTÁVEL (sempre a mesma árvore): a caixa + o botão ℹ️ que só
+  // aparece com infoDocId. Antes eu trocava entre `box` e `<div>box+botão</div>`
+  // conforme o infoDocId resolvia (natDoc async null→doc), e essa troca REMONTAVA
+  // o <select> — que voltava sem as opções (0 options). Manter o wrapper fixo
+  // (como o SelectBox de Habilidades) evita o remount.
   return (
-    // width:100% do wrapper de select do design (dc.html:795) — sem ele a
-    // célula encolhe pro conteúdo em colunas com align-items:center.
-    <div style={{ position: 'relative', minWidth: 0, width: '100%' }}>
-      {display}
-      <select
-        aria-label={ariaLabel}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0,
-          cursor: disabled ? 'default' : 'pointer',
-        }}
-      >
-        {options.map((o, i) => (
-          <option key={`${o.value}-${i}`} value={o.value} disabled={o.disabled}>
-            {o.label}
-          </option>
-        ))}
-      </select>
+    <div style={{ display: 'flex', alignItems: 'stretch', gap: 6, minWidth: 0, width: '100%' }}>
+      {/* width:100% do wrapper de select do design (dc.html:795) — sem ele a
+          célula encolhe pro conteúdo em colunas com align-items:center. */}
+      <div style={{ position: 'relative', minWidth: 0, flex: 1 }}>
+        {display}
+        <select
+          aria-label={ariaLabel}
+          value={value}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: disabled ? 'default' : 'pointer',
+          }}
+        >
+          {options.map((o, i) => (
+            <option key={`${o.value}-${i}`} value={o.value} disabled={o.disabled}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <DetailInfoButton docId={infoDocId} label={ariaLabel} />
     </div>
   )
 }
@@ -607,6 +619,7 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
               options={naturalidadeLines}
               value={naturalidadeValue}
               onChange={onNaturalidadeSelect}
+              infoDocId={naturalidadeIsLink && naturalidade ? natDoc(naturalidade)?.id : null}
             />
             {outroMode || naturalidadeIsOutro ? (
               <input
@@ -1314,6 +1327,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               value={sintoniaFmValue}
               onChange={(v) => model.set('Sintonia', v)}
               disabled={rules?.sintoniaRuleLocked}
+              infoDocId={refs.refDoc(sintoniaFmValue)?.id}
             />
           </Field>
           {/* TUTOR — campo da família CA (#201): plugin perfil-card.ts:333-342
@@ -1335,6 +1349,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
                 )}
                 value={tutor}
                 onChange={(v) => model.set('Tutor', v)}
+                infoDocId={refs.refDoc(tutor)?.id}
               />
             </Field>
           ) : null}

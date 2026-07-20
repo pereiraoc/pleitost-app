@@ -82,10 +82,14 @@ const IMBUICOES_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/'
 // Espelha o listImbuicoes do plugin, que exclui as obra-primas não-arma
 // (cola/yaml-block-deps-factory.ts:686-692).
 const IMBUICOES_ARMA_FOLDER = `${IMBUICOES_FOLDER}Imbuições/`
+// Artefatos: tesouros ESPECIAIS, concedidos pelo Mestre — o jogador NÃO os
+// adiciona sozinho na ficha (saem do "Adicionar Tesouro"); chegam via inventário
+// do grupo (o GM coloca lá e o jogador puxa). Ver PanelInventario.
+const ARTEFATOS_FOLDER = 'Sistema/Equipamento/Tesouros/Artefatos/'
 // Base do wikilink da Obra-prima automática da arma ("Arma Obra-prima"),
 // derivada da constante do modelo — nunca string inventada.
 const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
-const TESOUROS_EXCLUIR = [CONSUMIVEIS_FOLDER, IMBUICOES_FOLDER]
+const TESOUROS_EXCLUIR = [CONSUMIVEIS_FOLDER, IMBUICOES_FOLDER, ARTEFATOS_FOLDER]
 
 /** Select transparente dentro do pill desenhado — estilos verbatim do select
  *  do design (Companion App.dc.html:636, armadura/escudo); peso/tamanho

@@ -17,7 +17,7 @@ import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
-import { clip, AttrBadge, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
+import { clip, AttrBadge, DetailInfoButton, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
 import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -193,53 +193,60 @@ function SelectBox({
   options,
   onChange,
   ariaLabel,
+  infoDocId,
 }: {
   value: string
   options: SelectOption[]
   onChange?: (v: string) => void
   ariaLabel?: string
+  /** Doc da opção SELECIONADA — quando presente, mostra o ℹ️ ao lado que abre a
+   *  nota nos detalhes (refs.refDoc(alvo)?.id no call-site). */
+  infoDocId?: string | null
 }) {
   const opts = withCurrent(options, value)
   return (
-    <div style={{ position: 'relative', minWidth: 0 }}>
-      <select
-        aria-label={ariaLabel}
-        value={value}
-        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
-        style={{
-          appearance: 'none',
-          WebkitAppearance: 'none',
-          width: '100%',
-          padding: '11px 28px 11px 12px',
-          background: 'var(--card)',
-          border: '1px solid var(--line2)',
-          color: 'var(--blue)',
-          fontWeight: 600,
-          fontSize: 13.5,
-          cursor: 'pointer',
-          textOverflow: 'ellipsis',
-          clipPath: clip(8),
-        }}
-      >
-        {(opts.length ? opts : [{ value: '', label: '—' }]).map((o, i) => (
-          <option key={`${o.value}-${i}`} value={o.value}>
-            {o.label || '—'}
-          </option>
-        ))}
-      </select>
-      <span
-        style={{
-          position: 'absolute',
-          right: 11,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          color: 'var(--muted)',
-          fontSize: 11,
-          pointerEvents: 'none',
-        }}
-      >
-        ▾
-      </span>
+    <div style={{ display: 'flex', alignItems: 'stretch', gap: 6, minWidth: 0 }}>
+      <div style={{ position: 'relative', minWidth: 0, flex: 1 }}>
+        <select
+          aria-label={ariaLabel}
+          value={value}
+          onChange={onChange ? (e) => onChange(e.target.value) : undefined}
+          style={{
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            width: '100%',
+            padding: '11px 28px 11px 12px',
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            color: 'var(--blue)',
+            fontWeight: 600,
+            fontSize: 13.5,
+            cursor: 'pointer',
+            textOverflow: 'ellipsis',
+            clipPath: clip(8),
+          }}
+        >
+          {(opts.length ? opts : [{ value: '', label: '—' }]).map((o, i) => (
+            <option key={`${o.value}-${i}`} value={o.value}>
+              {o.label || '—'}
+            </option>
+          ))}
+        </select>
+        <span
+          style={{
+            position: 'absolute',
+            right: 11,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'var(--muted)',
+            fontSize: 11,
+            pointerEvents: 'none',
+          }}
+        >
+          ▾
+        </span>
+      </div>
+      <DetailInfoButton docId={infoDocId} label={ariaLabel} />
     </div>
   )
 }
@@ -419,7 +426,14 @@ export function ClasseNivelPanel({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: selects.length === 1 ? 'minmax(0,1fr)' : 'repeat(3,minmax(0,1fr))',
+            // Preenche a linha INTEIRA seja qual for a contagem: 1 select (sem
+            // subclasse) → coluna única; 2 (uma subclasse) → metades; 3+ → grade
+            // de 3 que quebra. Antes ficava fixo em 3 col com 1 subclasse, deixando
+            // a 3ª coluna vazia (o select não ocupava o espaço todo).
+            gridTemplateColumns:
+              selects.length === 1
+                ? 'minmax(0,1fr)'
+                : `repeat(${Math.min(selects.length, 3)},minmax(0,1fr))`,
             gap: 11,
           }}
         >
@@ -442,7 +456,13 @@ export function ClasseNivelPanel({
                 fullBody
                 style={{ display: 'block', width: '100%', marginTop: 'auto' }}
               >
-                <SelectBox ariaLabel={s.label} value={s.value} options={s.options} onChange={s.onChange} />
+                <SelectBox
+                  ariaLabel={s.label}
+                  value={s.value}
+                  options={s.options}
+                  onChange={s.onChange}
+                  infoDocId={refs.refDoc(s.boxTarget)?.id}
+                />
               </ItemHover>
             </div>
           ))}
@@ -465,6 +485,7 @@ export function ClasseNivelPanel({
                   linkLabel(str(fm['Sintonia'])),
                 )}
                 onChange={setSintonia}
+                infoDocId={refs.refDoc(sintoniaFmValue)?.id}
               />
             </ItemHover>
           </div>
