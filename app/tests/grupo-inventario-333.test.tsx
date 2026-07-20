@@ -142,10 +142,10 @@ describe('#333/#336 inventário do grupo', () => {
     setLive(sess.id, {})
     renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
 
-    // tipo Equipamento → sub Outro → escolhe o item → Adicionar
+    // tipo Equipamento → sub Tesouro → escolhe o item → Adicionar
     fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
-    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
-    const sel = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
+    fireEvent.click(screen.getByRole('button', { name: /tesouro/i }))
+    const sel = (await screen.findByLabelText('Tesouro')) as HTMLSelectElement
     await waitFor(() => expect(sel.options.length).toBeGreaterThan(1))
     fireEvent.change(sel, { target: { value: EQUIP.id } })
     fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar/ }))
@@ -180,6 +180,21 @@ describe('#333/#336 inventário do grupo', () => {
     })
   })
 
+  it('#336 armas naturais/especiais fora do seletor; propriedade só depois da arma', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'INV005' })
+    setLive(sess.id, {})
+    renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
+
+    fireEvent.click(await screen.findByRole('button', { name: /Arma/ }))
+    const sel = (await screen.findByLabelText('Arma')) as HTMLSelectElement
+    await waitFor(() => expect(sel.options.length).toBeGreaterThan(1))
+    // "Cauda" é arma NATURAL — não deve estar entre as opções (#4)
+    expect([...sel.options].some((o) => o.textContent === 'Cauda')).toBe(false)
+    // #8: propriedade fica DESABILITADA até escolher a arma
+    expect((screen.getByLabelText('Propriedade da arma') as HTMLSelectElement).disabled).toBe(true)
+  })
+
   it('Artefato só aparece no seletor de Equipamento pro Mestre', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'INV002' })
@@ -187,18 +202,18 @@ describe('#333/#336 inventário do grupo', () => {
     // jogador comum (sem Modo Mestre): sem Artefato no seletor
     const { unmount } = renderPanel(repo, { id: 'p-1', nome: 'Ana' })
     fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
-    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
-    const selJog = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
+    fireEvent.click(screen.getByRole('button', { name: /tesouro/i }))
+    const selJog = (await screen.findByLabelText('Tesouro')) as HTMLSelectElement
     await waitFor(() => expect(selJog.options.length).toBeGreaterThan(1))
     expect([...selJog.options].some((o) => o.value === ARTEFATO.id)).toBe(false)
     unmount()
 
-    // Mestre: Artefato disponível no "Outro"
+    // Mestre: Artefato disponível no "Tesouro"
     mestreOn()
     renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
     fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
-    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
-    const selGm = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
+    fireEvent.click(screen.getByRole('button', { name: /tesouro/i }))
+    const selGm = (await screen.findByLabelText('Tesouro')) as HTMLSelectElement
     await waitFor(() => expect([...selGm.options].some((o) => o.value === ARTEFATO.id)).toBe(true))
   })
 

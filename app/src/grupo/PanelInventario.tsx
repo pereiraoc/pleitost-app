@@ -1,13 +1,16 @@
 // Painel "INVENTÁRIO DO GRUPO" (#333/#336) — inventário COMPARTILHADO da mesa. O
 // Mestre e os jogadores CONFIGURAM um item (arma + propriedade + qualidade /
-// equipamento / implemento / ouro), veem o VALOR em PO e adicionam ao pool
-// (sincronizado no state da sessão, realtime). O jogador PUXA um item pra ficha
-// dele — sai do grupo (transferência de loot). Artefatos: só o Mestre os coloca.
+// equipamento / implemento / ouro), veem a IMAGEM + o VALOR em PO e adicionam ao
+// pool (sincronizado no state da sessão, realtime). O jogador PUXA um item pra
+// ficha dele — sai do grupo (transferência de loot).
 //
 // Reusa os catálogos/preços/builders da ficha e do comércio (nada reinventado):
-// armaduraBases/escudoBases, precoPO, e o núcleo puro grupo/inventario-item.
+// GRUPO_ARMA_ORDER/grupoArmaEmoji (dropdown de armas agrupado), armaduraBases/
+// escudoBases, precoPO, tesouroAplicavelAoItem (filtra imbuição por arma), e o
+// núcleo puro grupo/inventario-item. A config é state LOCAL — nada é sincronizado
+// até o "Adicionar", então o jogador não vê o que o Mestre está montando (#6).
 // Só existe na MESA (sessão com remoteId): sem sessão não há pool compartilhado.
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDocs } from '../data/useDoc'
@@ -16,17 +19,14 @@ import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useSettings } from '../settings'
 import { getLocalDoc, setLocalEntityFm } from '../data/local-entities'
 import { heroAtributos } from '../components/ficha/hero-model'
+import { GRUPO_ARMA_ORDER, grupoArmaEmoji } from '../components/ficha/registry'
 import { ItemHover, docImageUrl, docTier } from '../components/item-card'
 import { clip } from '../components/ficha/bits'
 import { armaduraBases, escudoBases } from '../components/ficha/equipment-bases'
+import { tesouroAplicavelAoItem } from '../rules/aplicavel-a'
 import { precoPO } from './wealth'
 import { sectionTitleStyle } from './panel-ui'
-import {
-  itemValorPO,
-  pullItemToFm,
-  normalizeGroupItem,
-  KIND_LABEL,
-} from './inventario-item'
+import { itemValorPO, pullItemToFm, normalizeGroupItem, KIND_LABEL } from './inventario-item'
 import type { GroupInventoryItem } from '../data/session-repo/contract'
 import type { VaultDoc } from '../data/types'
 
@@ -36,7 +36,10 @@ const EQUIPAMENTOS_FOLDER = 'Sistema/Equipamento/Tesouros/Equipamentos/'
 const IMPLEMENTOS_FOLDER = 'Sistema/Equipamento/Tesouros/Implementos/'
 const ARTEFATOS_FOLDER = 'Sistema/Equipamento/Tesouros/Artefatos/'
 const OBRA_PRIMAS = ['Arma Obra-prima', 'Armadura Obra-prima', 'Broquel Obra-prima', 'Escudo Obra-prima']
+// armas naturais/especiais só entram por habilidade/regra — fora do configurador.
+const EXCLUDED_ARMA_GRUPOS = new Set(['natural', 'especial'])
 
+// #1: equipamento usa o ícone de tesouro (anel); implemento a varinha.
 const KIND_EMOJI: Record<string, string> = {
   arma: '⚔️',
   armadura: '🛡️',
@@ -46,8 +49,8 @@ const KIND_EMOJI: Record<string, string> = {
 }
 const TIPOS = [
   { id: 'arma', label: '⚔️ Arma' },
-  { id: 'equipamento', label: '🛡️ Equipamento' },
-  { id: 'implemento', label: '🔮 Implemento' },
+  { id: 'equipamento', label: '💍 Equipamento' },
+  { id: 'implemento', label: '🪄 Implemento' },
   { id: 'ouro', label: '🪙 Ouro' },
 ] as const
 type Tipo = (typeof TIPOS)[number]['id']
@@ -64,34 +67,31 @@ const selStyle = mono({
   clipPath: clip(8),
 })
 
-/** id-único de uma entrada do inventário (sem depender de crypto). */
+/** id-único de uma entrada do inventário. */
 function novaChave(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
 
-/** Seletor de qualidade A/E/M (com "Base" opcional). */
-function TierSel({
-  value,
-  onChange,
-  allowBase,
-}: {
-  value: string
-  onChange: (t: string) => void
-  allowBase?: boolean
-}) {
-  const opts = allowBase ? ['', 'A', 'E', 'M'] : ['A', 'E', 'M']
-  const label: Record<string, string> = { '': 'Base', A: 'A', E: 'E', M: 'M' }
+/** Emoji do item no pool (implemento = varinha; equipamento/tesouro = anel). */
+function itemEmoji(it: GroupInventoryItem): string {
+  const n = normalizeGroupItem(it)
+  if (n.kind === 'tesouro' && n.docId?.startsWith(IMPLEMENTOS_FOLDER)) return '🪄'
+  return KIND_EMOJI[n.kind ?? 'tesouro'] ?? '💍'
+}
+
+/** Seletor de qualidade A/E/M (#10: sem BASE — mínimo Adepto). */
+function TierSel({ value, onChange }: { value: string; onChange: (t: string) => void }) {
   return (
     <div style={{ display: 'flex', gap: 4 }}>
-      {opts.map((t) => {
+      {(['A', 'E', 'M'] as const).map((t) => {
         const on = value === t
         return (
           <button
-            key={t || 'base'}
+            key={t}
             type="button"
             onClick={() => onChange(t)}
             style={mono({
-              padding: '7px 11px',
+              padding: '7px 12px',
               fontSize: 11.5,
               fontWeight: 700,
               cursor: 'pointer',
@@ -101,7 +101,7 @@ function TierSel({
               clipPath: clip(6),
             })}
           >
-            {label[t]}
+            {t}
           </button>
         )
       })}
@@ -119,21 +119,19 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const user = useSessionUser()
   const { mestre } = useSettings()
 
-  // config do "Adicionar item"
   const [tipo, setTipo] = useState<Tipo | ''>('')
   const [armaSel, setArmaSel] = useState('') // id do doc da arma
-  const [propSel, setPropSel] = useState('') // basename da imbuição ('' = nenhuma)
-  const [armaTier, setArmaTier] = useState('')
-  const [equipSub, setEquipSub] = useState<'armadura' | 'escudo' | 'outro'>('armadura')
+  const [propSel, setPropSel] = useState('') // basename da imbuição ('' = obra-prima via tier)
+  const [armaTier, setArmaTier] = useState('A')
+  const [equipSub, setEquipSub] = useState<'armadura' | 'escudo' | 'tesouro'>('armadura')
   const [gearBase, setGearBase] = useState('') // basename (armadura/escudo)
-  const [equipOutro, setEquipOutro] = useState('') // id (equipamento "outro")
-  const [equipTier, setEquipTier] = useState('')
+  const [tesSel, setTesSel] = useState('') // id do equipamento/artefato ("Tesouro")
+  const [equipTier, setEquipTier] = useState('A')
   const [impSel, setImpSel] = useState('') // id do implemento
   const [impTier, setImpTier] = useState('A')
   const [ouroQtd, setOuroQtd] = useState('')
   const [status, setStatus] = useState('')
 
-  // #335: o log de confirmação some sozinho depois de alguns segundos.
   useEffect(() => {
     if (!status) return
     const t = setTimeout(() => setStatus(''), 4000)
@@ -158,45 +156,61 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     return m
   }, [live?.members])
 
-  // basename → id do doc (resolve pelo catálogo). null se não resolve.
   const idOf = (basename: string): string | null => {
     const r = catalog.resolve(basename)
     return r.kind === 'doc' ? r.id : null
   }
 
-  // ── catálogos dos seletores ──────────────────────────────────────────────
-  const armas = useMemo(
-    () =>
-      catalog.content
-        .filter((e) => e.id.startsWith(ARMAS_FOLDER) && e.subtype === 'Arma')
-        .map((e) => ({ id: e.id, nome: e.basename ?? e.id, grupo: typeof e.grupo === 'string' ? e.grupo : '' }))
-        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt')),
+  // ── catálogos ─────────────────────────────────────────────────────────────
+  // #4/#7: armas AGRUPADAS por grupo (GRUPO_ARMA_ORDER + emoji), naturais/
+  // especiais fora.
+  const armaGroups = useMemo(() => {
+    const byGrupo = new Map<string, { id: string; nome: string; grupo: string }[]>()
+    for (const e of catalog.content) {
+      if (!e.id.startsWith(ARMAS_FOLDER) || e.subtype !== 'Arma') continue
+      const g = (typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()
+      if (EXCLUDED_ARMA_GRUPOS.has(g)) continue
+      const list = byGrupo.get(g) ?? []
+      list.push({ id: e.id, nome: e.basename ?? e.id, grupo: g })
+      byGrupo.set(g, list)
+    }
+    return GRUPO_ARMA_ORDER.filter((g) => byGrupo.has(g.key)).map((g) => ({
+      ...g,
+      entries: byGrupo.get(g.key)!.sort((a, b) => a.nome.localeCompare(b.nome, 'pt')),
+    }))
+  }, [catalog])
+  const allArmas = useMemo(() => armaGroups.flatMap((g) => g.entries), [armaGroups])
+
+  const imbuicaoIds = useMemo(
+    () => catalog.content.filter((e) => e.id.startsWith(IMBUICOES_ARMA_FOLDER)).map((e) => e.id),
     [catalog],
   )
-  const imbuicoes = useMemo(
-    () =>
-      catalog.content
-        .filter((e) => e.id.startsWith(IMBUICOES_ARMA_FOLDER))
-        .map((e) => e.basename ?? e.id)
-        .sort((a, b) => a.localeCompare(b, 'pt')),
-    [catalog],
-  )
-  const armaduras = useMemo(() => armaduraBases(catalog), [catalog])
-  const escudos = useMemo(() => escudoBases(catalog), [catalog])
-  // "Outro equipamento": equipamentos de perícia/ataque/defesa + (só Mestre) os
-  // ARTEFATOS — #E: o jogador não os adiciona sozinho, o Mestre coloca aqui.
-  const equipamentos = useMemo(
-    () =>
-      catalog.content
-        .filter(
-          (e) =>
-            e.subtype === 'Tesouro' &&
-            (e.id.startsWith(EQUIPAMENTOS_FOLDER) || (mestre && e.id.startsWith(ARTEFATOS_FOLDER))),
-        )
-        .map((e) => ({ id: e.id, nome: e.basename ?? e.id, artefato: e.id.startsWith(ARTEFATOS_FOLDER) }))
-        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt')),
-    [catalog, mestre],
-  )
+  const armaduras = useMemo(() => armaduraBases(catalog).filter((n) => !/^Sem\b/.test(n)), [catalog])
+  const escudos = useMemo(() => escudoBases(catalog).filter((n) => n !== 'Sem Escudo'), [catalog])
+  // #7: "Tesouro" (equipamentos de perícia/ataque/defesa) AGRUPADO por subpasta;
+  // Artefatos (só Mestre) num grupo à parte.
+  const tesouroGroups = useMemo(() => {
+    const byG = new Map<string, { id: string; nome: string; artefato: boolean }[]>()
+    for (const e of catalog.content) {
+      if (e.subtype !== 'Tesouro') continue
+      const art = e.id.startsWith(ARTEFATOS_FOLDER)
+      if (!e.id.startsWith(EQUIPAMENTOS_FOLDER) && !(mestre && art)) continue
+      const seg = art
+        ? '✦ Artefatos'
+        : (e.id.split('/Equipamentos/')[1]?.split('/')[0] ?? 'Equipamentos').replace(/^Equipamentos de /, '')
+      const list = byG.get(seg) ?? []
+      list.push({ id: e.id, nome: e.basename ?? e.id, artefato: art })
+      byG.set(seg, list)
+    }
+    return [...byG.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0], 'pt'))
+      .map(([label, entries]) => ({ label, entries: entries.sort((a, b) => a.nome.localeCompare(b.nome, 'pt')) }))
+  }, [catalog, mestre])
+  const tesouroById = useMemo(() => {
+    const m = new Map<string, { nome: string; artefato: boolean }>()
+    for (const g of tesouroGroups) for (const e of g.entries) m.set(e.id, e)
+    return m
+  }, [tesouroGroups])
   const implementos = useMemo(
     () =>
       catalog.content
@@ -206,7 +220,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     [catalog],
   )
 
-  // ── docs necessários (preço + imagem) ────────────────────────────────────
+  // ── docs (preço/imagem/aplicabilidade) ────────────────────────────────────
   const idsToLoad = useMemo(() => {
     const ids = new Set<string>()
     for (const it of itens) {
@@ -217,20 +231,23 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       const id = idOf(b)
       if (id) ids.add(id)
     }
-    if (armaSel) ids.add(armaSel)
-    if (propSel) {
-      const id = idOf(propSel)
-      if (id) ids.add(id)
+    if (tipo === 'arma' && armaSel) {
+      ids.add(armaSel)
+      for (const id of imbuicaoIds) ids.add(id) // filtra as aplicáveis
+      if (propSel) {
+        const id = idOf(propSel)
+        if (id) ids.add(id)
+      }
     }
     if (tipo === 'equipamento' && equipSub === 'escudo' && gearBase) {
       const id = idOf(gearBase)
       if (id) ids.add(id)
     }
-    if (tipo === 'equipamento' && equipSub === 'outro' && equipOutro) ids.add(equipOutro)
+    if (tipo === 'equipamento' && equipSub === 'tesouro' && tesSel) ids.add(tesSel)
     if (tipo === 'implemento' && impSel) ids.add(impSel)
     return [...ids]
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itens, armaSel, propSel, tipo, equipSub, gearBase, equipOutro, impSel, catalog])
+  }, [itens, tipo, armaSel, propSel, equipSub, gearBase, tesSel, impSel, imbuicaoIds, catalog])
   const docs = useDocs(idsToLoad)
 
   const priceOf = (basename: string): number => {
@@ -239,14 +256,31 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   }
 
   const armaDoc = armaSel ? docs?.get(armaSel) : undefined
+  const propDoc = propSel ? docs?.get(idOf(propSel) ?? '') : undefined
   const escudoDoc = equipSub === 'escudo' && gearBase ? docs?.get(idOf(gearBase) ?? '') : undefined
+  const tesDoc = tesSel ? docs?.get(tesSel) : undefined
+  const impDoc = impSel ? docs?.get(impSel) : undefined
 
-  // ── monta o item (draft) a partir da config atual — null se incompleto ────
+  // #8: imbuições APLICÁVEIS à arma selecionada (AplicavelA) — só depois de
+  // escolher a arma; senão a lista fica vazia/desabilitada.
+  const imbuicoesAplicaveis = useMemo(() => {
+    if (!armaDoc) return []
+    const out: string[] = []
+    for (const id of imbuicaoIds) {
+      const idoc = docs?.get(id)
+      if (idoc && tesouroAplicavelAoItem(idoc, armaDoc)) out.push(idoc.basename ?? id)
+    }
+    return out.sort((a, b) => a.localeCompare(b, 'pt'))
+  }, [armaDoc, docs, imbuicaoIds])
+
+  const tesArtefato = tesSel ? (tesouroById.get(tesSel)?.artefato ?? false) : false
+
+  // ── monta o item (draft) ──────────────────────────────────────────────────
   const draft = useMemo<GroupInventoryItem | null>(() => {
     const base = { addedBy: user?.id ?? '', addedAt: '' }
     if (tipo === 'arma') {
       if (!armaSel) return null
-      const a = armas.find((x) => x.id === armaSel)
+      const a = allArmas.find((x) => x.id === armaSel)
       const propriedades = (armaDoc?.frontmatter?.['propriedades'] ??
         (armaDoc?.inlineFields as Record<string, unknown> | undefined)?.['propriedades']) as unknown
       return {
@@ -255,20 +289,28 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
         grupo: a?.grupo,
         propriedades,
         propriedadeBase: propSel || undefined,
-        tier: armaTier || undefined,
+        tier: armaTier || 'A',
         ...base,
       }
     }
     if (tipo === 'equipamento') {
-      if (equipSub === 'outro') {
-        if (!equipOutro) return null
-        const e = equipamentos.find((x) => x.id === equipOutro)
-        return { kind: 'tesouro', docId: equipOutro, nome: e?.nome ?? '', tier: equipTier || 'A', ...base }
+      if (equipSub === 'tesouro') {
+        if (!tesSel) return null
+        // #3: artefato é sempre Mestre — sem escolha de qualidade.
+        return {
+          kind: 'tesouro',
+          docId: tesSel,
+          nome: tesouroById.get(tesSel)?.nome ?? '',
+          tier: tesArtefato ? 'M' : equipTier || 'A',
+          ...base,
+        }
       }
-      if (!gearBase || /^Sem\b/.test(gearBase)) return null
+      if (!gearBase) return null
       const dureza =
-        equipSub === 'escudo' ? Number((escudoDoc?.frontmatter as Record<string, unknown> | undefined)?.['dureza']) || 0 : 0
-      return { kind: equipSub, nome: gearBase, tier: equipTier || undefined, dureza, ...base }
+        equipSub === 'escudo'
+          ? Number((escudoDoc?.frontmatter as Record<string, unknown> | undefined)?.['dureza']) || 0
+          : 0
+      return { kind: equipSub, nome: gearBase, tier: equipTier || 'A', dureza, ...base }
     }
     if (tipo === 'implemento') {
       if (!impSel) return null
@@ -282,8 +324,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     }
     return null
   }, [
-    tipo, armaSel, propSel, armaTier, equipSub, gearBase, equipOutro, equipTier, impSel, impTier,
-    ouroQtd, armas, equipamentos, implementos, armaDoc, escudoDoc, user?.id,
+    tipo, armaSel, propSel, armaTier, equipSub, gearBase, tesSel, tesArtefato, equipTier, impSel,
+    impTier, ouroQtd, allArmas, implementos, tesouroById, armaDoc, escudoDoc, user?.id,
   ])
 
   const valorAtual = draft ? itemValorPO(draft, priceOf) : 0
@@ -304,9 +346,15 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     const item: GroupInventoryItem = { ...draft, addedBy: user!.id, addedAt: new Date().toISOString(), valorPO: valorAtual }
     await writeMap({ ...mapa, [novaChave()]: item })
     setStatus(`${itemNome(item)} entrou no inventário do grupo.`)
-    // reset da config
-    setArmaSel(''); setPropSel(''); setArmaTier(''); setGearBase(''); setEquipOutro('')
-    setEquipTier(''); setImpSel(''); setImpTier('A'); setOuroQtd('')
+    setArmaSel(''); setPropSel(''); setArmaTier('A'); setGearBase(''); setTesSel('')
+    setEquipTier('A'); setImpSel(''); setImpTier('A'); setOuroQtd('')
+  }
+
+  // #9: arma ALEATÓRIA (respeita a qualidade escolhida; sai obra-prima via tier).
+  const aleatorizarArma = () => {
+    if (!allArmas.length) return
+    setArmaSel(allArmas[Math.floor(Math.random() * allArmas.length)]!.id)
+    setPropSel('')
   }
 
   const remover = async (key: string) => {
@@ -345,11 +393,23 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     )
   }
 
+  // preview (imagem + tooltip) do item + propriedade selecionados (#5)
+  const previewDocs: { doc: VaultDoc | undefined; propDoc?: VaultDoc | undefined }[] =
+    tipo === 'arma' && armaDoc
+      ? [{ doc: armaDoc, propDoc }]
+      : tipo === 'equipamento' && equipSub === 'escudo' && escudoDoc
+        ? [{ doc: escudoDoc }]
+        : tipo === 'equipamento' && equipSub === 'tesouro' && tesDoc
+          ? [{ doc: tesDoc }]
+          : tipo === 'implemento' && impDoc
+            ? [{ doc: impDoc }]
+            : []
+
   return (
     <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ ...sectionTitleStyle }}>💼 INVENTÁRIO DO GRUPO</div>
 
-      {/* ── ADICIONAR ITEM: tipo → sub-config → valor → adicionar ── */}
+      {/* ── ADICIONAR ITEM ── */}
       <div
         style={{
           display: 'flex',
@@ -361,9 +421,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
           clipPath: clip(12),
         }}
       >
-        <span style={mono({ fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' })}>
-          + ADICIONAR ITEM
-        </span>
+        <span style={mono({ fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' })}>+ ADICIONAR ITEM</span>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {TIPOS.map((t) => {
             const on = tipo === t.id
@@ -389,38 +447,60 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
           })}
         </div>
 
-        {/* sub-config por tipo */}
         {tipo === 'arma' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <select aria-label="Arma" value={armaSel} onChange={(e) => setArmaSel(e.target.value)} style={selStyle}>
-              <option value="">— arma —</option>
-              {armas.map((a) => (
-                <option key={a.id} value={a.id}>{a.nome}</option>
-              ))}
+            <div style={{ display: 'flex', gap: 6, alignItems: 'stretch' }}>
+              <select aria-label="Arma" value={armaSel} onChange={(e) => { setArmaSel(e.target.value); setPropSel('') }} style={selStyle}>
+                <option value="">— arma —</option>
+                {armaGroups.map((g) => (
+                  <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
+                    {g.entries.map((a) => (<option key={a.id} value={a.id}>{a.nome}</option>))}
+                  </optgroup>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={aleatorizarArma}
+                title="Arma aleatória (com a qualidade escolhida)"
+                style={mono({
+                  flex: 'none',
+                  padding: '0 12px',
+                  fontSize: 15,
+                  cursor: 'pointer',
+                  color: 'var(--accent)',
+                  background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
+                  border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                  clipPath: clip(8),
+                })}
+              >
+                🎲
+              </button>
+            </div>
+            {/* #8: propriedade só depois de escolher a arma, e só as APLICÁVEIS. */}
+            <select
+              aria-label="Propriedade da arma"
+              value={propSel}
+              disabled={!armaSel}
+              onChange={(e) => setPropSel(e.target.value)}
+              style={{ ...selStyle, opacity: armaSel ? 1 : 0.5 }}
+            >
+              <option value="">{armaSel ? '— obra-prima (sem imbuição) —' : '— escolha a arma primeiro —'}</option>
+              {imbuicoesAplicaveis.map((n) => (<option key={n} value={n}>{n}</option>))}
             </select>
-            <select aria-label="Propriedade da arma" value={propSel} onChange={(e) => setPropSel(e.target.value)} style={selStyle}>
-              <option value="">— sem propriedade —</option>
-              {imbuicoes.map((n) => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </select>
-            <label style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 8 })}>
-              QUALIDADE
-              <TierSel value={armaTier} onChange={setArmaTier} allowBase />
-            </label>
+            <QualityRow value={armaTier} onChange={setArmaTier} />
           </div>
         ) : null}
 
         {tipo === 'equipamento' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', gap: 6 }}>
-              {(['armadura', 'escudo', 'outro'] as const).map((s) => {
+              {(['armadura', 'escudo', 'tesouro'] as const).map((s) => {
                 const on = equipSub === s
                 return (
                   <button
                     key={s}
                     type="button"
-                    onClick={() => { setEquipSub(s); setGearBase(''); setEquipOutro('') }}
+                    onClick={() => { setEquipSub(s); setGearBase(''); setTesSel('') }}
                     style={mono({
                       padding: '6px 11px',
                       fontSize: 11,
@@ -433,46 +513,47 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                       clipPath: clip(6),
                     })}
                   >
-                    {s === 'outro' ? 'Outro' : s}
+                    {s}
                   </button>
                 )
               })}
             </div>
             {equipSub === 'armadura' ? (
               <select aria-label="Armadura" value={gearBase} onChange={(e) => setGearBase(e.target.value)} style={selStyle}>
-                <option value="">— armadura (leve/pesada) —</option>
-                {armaduras.filter((n) => !/^Sem\b/.test(n)).map((n) => (<option key={n} value={n}>{n}</option>))}
+                <option value="">🛡️ — armadura (leve/pesada) —</option>
+                {armaduras.map((n) => (<option key={n} value={n}>{n}</option>))}
               </select>
             ) : equipSub === 'escudo' ? (
               <select aria-label="Escudo" value={gearBase} onChange={(e) => setGearBase(e.target.value)} style={selStyle}>
-                <option value="">— escudo (broquel/escudo) —</option>
-                {escudos.filter((n) => n !== 'Sem Escudo').map((n) => (<option key={n} value={n}>{n}</option>))}
+                <option value="">🛡️ — escudo (broquel/escudo) —</option>
+                {escudos.map((n) => (<option key={n} value={n}>{n}</option>))}
               </select>
             ) : (
-              <select aria-label="Equipamento" value={equipOutro} onChange={(e) => setEquipOutro(e.target.value)} style={selStyle}>
-                <option value="">— equipamento (perícia/ataque/defesa) —</option>
-                {equipamentos.map((e) => (
-                  <option key={e.id} value={e.id}>{e.artefato ? '✦ ' : ''}{e.nome}</option>
+              <select aria-label="Tesouro" value={tesSel} onChange={(e) => setTesSel(e.target.value)} style={selStyle}>
+                <option value="">💍 — tesouro (perícia/ataque/defesa) —</option>
+                {tesouroGroups.map((g) => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.entries.map((e) => (<option key={e.id} value={e.id}>{e.nome}</option>))}
+                  </optgroup>
                 ))}
               </select>
             )}
-            <label style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 8 })}>
-              QUALIDADE
-              <TierSel value={equipTier} onChange={setEquipTier} allowBase />
-            </label>
+            {/* #3: artefato não tem escolha de qualidade (é sempre Mestre). */}
+            {equipSub === 'tesouro' && tesArtefato ? (
+              <span style={mono({ fontSize: 10.5, color: 'var(--muted)' })}>✦ Artefato — qualidade Mestre.</span>
+            ) : (
+              <QualityRow value={equipTier} onChange={setEquipTier} />
+            )}
           </div>
         ) : null}
 
         {tipo === 'implemento' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <select aria-label="Implemento" value={impSel} onChange={(e) => setImpSel(e.target.value)} style={selStyle}>
-              <option value="">— implemento —</option>
+              <option value="">🪄 — implemento —</option>
               {implementos.map((e) => (<option key={e.id} value={e.id}>{e.nome}</option>))}
             </select>
-            <label style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 8 })}>
-              QUALIDADE
-              <TierSel value={impTier} onChange={setImpTier} />
-            </label>
+            <QualityRow value={impTier} onChange={setImpTier} />
           </div>
         ) : null}
 
@@ -486,6 +567,16 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             onChange={(e) => setOuroQtd(e.target.value)}
             style={selStyle}
           />
+        ) : null}
+
+        {/* preview: imagem + tooltip do item (e da propriedade) selecionados (#5) */}
+        {previewDocs.length ? (
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {previewDocs.map((p, i) => (
+              <PreviewChip key={i} doc={p.doc} propDoc={p.propDoc} assets={assets} />
+            ))}
+            {tipo === 'arma' && propDoc ? <PreviewChip doc={propDoc} assets={assets} /> : null}
+          </div>
         ) : null}
 
         {/* valor + adicionar */}
@@ -570,11 +661,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                     fontSize: 18,
                   }}
                 >
-                  {img ? (
-                    <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    KIND_EMOJI[kind] ?? '💍'
-                  )}
+                  {img ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : itemEmoji(it)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                   {doc ? <ItemHover doc={doc}>{nomeEl}</ItemHover> : nomeEl}
@@ -609,14 +696,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                     onClick={() => void remover(it.key)}
                     title="Remover do inventário do grupo"
                     aria-label={`Remover ${itemNome(it)}`}
-                    style={{
-                      flex: 'none',
-                      background: 'transparent',
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontSize: 14,
-                      color: 'var(--muted)',
-                    }}
+                    style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--muted)' }}
                   >
                     🗑
                   </button>
@@ -628,11 +708,69 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       )}
 
       {status ? (
-        <div role="status" style={mono({ fontSize: 11, color: 'var(--accent)' })}>
-          {status}
-        </div>
+        <div role="status" style={mono({ fontSize: 11, color: 'var(--accent)' })}>{status}</div>
       ) : null}
     </div>
+  )
+}
+
+/** Linha "QUALIDADE" + seletor A/E/M. */
+function QualityRow({ value, onChange }: { value: string; onChange: (t: string) => void }): ReactNode {
+  return (
+    <label style={mono({ fontSize: 10, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 8 })}>
+      QUALIDADE
+      <TierSel value={value} onChange={onChange} />
+    </label>
+  )
+}
+
+/** Chip de preview: imagem + nome do doc, com o card no hover (ItemHover). */
+function PreviewChip({
+  doc,
+  propDoc,
+  assets,
+}: {
+  doc: VaultDoc | undefined
+  propDoc?: VaultDoc | undefined
+  assets: ReturnType<typeof useAssetIndex>
+}): ReactNode {
+  if (!doc) return null
+  const img = docImageUrl(doc, docTier(doc), assets)
+  return (
+    <ItemHover doc={doc} propDoc={propDoc}>
+      <span
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 7,
+          padding: '5px 9px 5px 5px',
+          background: 'var(--card)',
+          border: '1px solid var(--line2)',
+          clipPath: clip(7),
+          cursor: 'default',
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            width: 30,
+            height: 30,
+            flex: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            background: 'var(--panel)',
+            border: '1px solid var(--line2)',
+            clipPath: clip(6),
+            fontSize: 14,
+          }}
+        >
+          {img ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : '💠'}
+        </span>
+        <span style={{ fontSize: 12, fontWeight: 600 }}>{doc.basename}</span>
+      </span>
+    </ItemHover>
   )
 }
 
