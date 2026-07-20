@@ -8,7 +8,7 @@
 //   - grpCycleSort/grpSort + applySort/headMap → sort.ts;
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useCatalog } from '../data/CatalogContext'
 import { MESA_GRUPO_ID, useLiveSession } from '../data/session-repo/live-session'
@@ -72,6 +72,97 @@ const GRUPO_TABS = [
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'ataques', label: 'ATAQUES' },
 ]
+
+/** #338: fila de abas com rolagem horizontal — a RODA do mouse rola de lado
+ *  (desktop) e uma SETINHA aparece à direita/esquerda quando há abas fora da tela.
+ *  As setas são só em telas maiores (≥720px): no toque o swipe já resolve. */
+function ScrollTabsRow({ children, style }: { children: ReactNode; style?: CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [ov, setOv] = useState({ left: false, right: false })
+  const [wide, setWide] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    // roda VERTICAL do mouse → rolagem HORIZONTAL das abas.
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+      if (el.scrollWidth <= el.clientWidth) return
+      el.scrollLeft += e.deltaY
+      e.preventDefault()
+    }
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth
+      setOv({ left: el.scrollLeft > 2, right: el.scrollLeft < max - 2 })
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    el.addEventListener('scroll', update, { passive: true })
+    update()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null
+    ro?.observe(el)
+    window.addEventListener('resize', update)
+    return () => {
+      el.removeEventListener('wheel', onWheel)
+      el.removeEventListener('scroll', update)
+      ro?.disconnect()
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  useEffect(() => {
+    const mq = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(min-width: 720px)') : null
+    if (!mq) return
+    const u = () => setWide(mq.matches)
+    u()
+    mq.addEventListener?.('change', u)
+    return () => mq.removeEventListener?.('change', u)
+  }, [])
+
+  const scroll = (dir: 1 | -1) => {
+    const el = ref.current
+    if (el) el.scrollBy({ left: dir * Math.max(140, el.clientWidth * 0.6), behavior: 'smooth' })
+  }
+  const seta = (dir: 1 | -1, show: boolean): ReactNode =>
+    wide && show ? (
+      <button
+        type="button"
+        aria-label={dir === 1 ? 'Ver mais abas' : 'Ver abas anteriores'}
+        onClick={() => scroll(dir)}
+        style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 1,
+          ...(dir === 1 ? { right: 0 } : { left: 0 }),
+          width: 38,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: dir === 1 ? 'flex-end' : 'flex-start',
+          padding: dir === 1 ? '0 7px 0 0' : '0 0 0 7px',
+          border: 'none',
+          cursor: 'pointer',
+          color: 'var(--accent)',
+          fontSize: 19,
+          fontWeight: 700,
+          background:
+            dir === 1
+              ? 'linear-gradient(to right, transparent, var(--bg) 60%)'
+              : 'linear-gradient(to left, transparent, var(--bg) 60%)',
+        }}
+      >
+        {dir === 1 ? '›' : '‹'}
+      </button>
+    ) : null
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <div ref={ref} className="tabs-scroll" style={style}>
+        {children}
+      </div>
+      {seta(-1, ov.left)}
+      {seta(1, ov.right)}
+    </div>
+  )
+}
 const ROLE_COLS = ['#4ade80', '#c084fc', '#f87171', '#60a5fa']
 const BAL_HEADS: { ic: string; l: string; cor: string; papel?: (typeof PAPEIS)[number] }[] = [
   { ic: '🎖️', l: 'TIR', cor: 'var(--accent)' },
@@ -783,7 +874,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
           #334: usa o .tabs-scroll compartilhado (rolagem horizontal arrastável no
           toque, -webkit-overflow-scrolling) — igual às abas de ficha/inventário;
           antes era um overflow inline sem o touch scroll e não rolava de lado. */}
-      <div className="tabs-scroll" style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', marginTop: 2, minWidth: 0 }}>
+      <ScrollTabsRow style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', marginTop: 2, minWidth: 0 }}>
         {GRUPO_TABS.map((t) => {
           const on = t.id === tab
           return (
@@ -812,7 +903,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
             </button>
           )
         })}
-      </div>
+      </ScrollTabsRow>
 
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
