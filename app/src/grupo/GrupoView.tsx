@@ -779,8 +779,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
         />
       </div>
 
-      {/* TABS (navegação real — grupoTabs do design limpa o gtip ao trocar) */}
-      <div style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', overflowX: 'auto', scrollbarWidth: 'none', marginTop: 2 }}>
+      {/* TABS (navegação real — grupoTabs do design limpa o gtip ao trocar).
+          #334: usa o .tabs-scroll compartilhado (rolagem horizontal arrastável no
+          toque, -webkit-overflow-scrolling) — igual às abas de ficha/inventário;
+          antes era um overflow inline sem o touch scroll e não rolava de lado. */}
+      <div className="tabs-scroll" style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', marginTop: 2 }}>
         {GRUPO_TABS.map((t) => {
           const on = t.id === tab
           return (

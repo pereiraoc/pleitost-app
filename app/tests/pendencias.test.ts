@@ -75,4 +75,68 @@ describe('heroPendencias (#302)', () => {
     const pend = heroPendencias(fm, { subclassChoices: [{ pick: null }], sintonias: [] }, CAPS)
     expect(pend.has('habilidades')).toBe(true)
   })
+
+  // #328: Mago SECUNDÁRIO com todos os slots preenchidos NÃO deve mais mostrar
+  // "Magia a aprender". Caso do bug (Bazuquer): primário Quasi-Mago tem um slot B
+  // SOLTO sem escola proficiente (inpreenchível) e o secundário Mago tem 4 slots A
+  // todos preenchidos. Antes freeMagiaSlot só olhava o primário e via o B livre.
+  it('#328 Mago secundário cheio (+ slot B solto inpreenchível no primário) → sem pendência de magia', () => {
+    const fm = {
+      Classe: '[[Guerreiro|Quasi-Mago]]',
+      nome: 'Bazuquer',
+      Pericias: { Slots: zeroSlots, Lista: [] },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: {
+        Slots: { B: 1, A: 0, E: 0, M: 0 },
+        Lista: [
+          { Nome: 'Arcana Negra', Proficiencia: 'N', Lista: [] },
+          { Nome: 'Arcana Branca', Proficiencia: 'N', Lista: [] },
+          { Nome: 'Tesouros', Proficiencia: 'N', Lista: [{ '[[Visão no Escuro]]': 'Regra' }] },
+        ],
+        Secundaria: {
+          Slots: { B: 0, A: 4, E: 0, M: 0 },
+          Lista: [
+            { Nome: 'Arcana Negra', Proficiencia: 'E', Lista: [{ '[[Aterrorizar]]': 'Slot.A' }, { '[[Míssil Mágico]]': 'Slot.A' }] },
+            { Nome: 'Arcana Branca', Proficiencia: 'E', Lista: [{ '[[Encantar Arma]]': 'Slot.A' }, { '[[Fluxo de Vida]]': 'Slot.A' }] },
+          ],
+        },
+      },
+    }
+    const pend = heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS)
+    expect(pend.get('habilidades') ?? []).not.toContain('Magia a aprender (slot livre)')
+  })
+
+  it('#328 slot A livre numa escola PROFICIENTE (primário) → pendência (controle positivo)', () => {
+    const fm = {
+      Classe: '[[Mago]]',
+      nome: 'Erin',
+      Pericias: { Slots: zeroSlots, Lista: [] },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: {
+        Slots: { B: 0, A: 2, E: 0, M: 0 },
+        Lista: [{ Nome: 'Arcana Negra', Proficiencia: 'E', Lista: [{ '[[Míssil Mágico]]': 'Slot.A' }] }],
+      },
+    }
+    const pend = heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS)
+    expect(pend.get('habilidades')).toContain('Magia a aprender (slot livre)')
+  })
+
+  it('#328 slot A livre no Mago SECUNDÁRIO (escola proficiente) → pendência', () => {
+    const fm = {
+      Classe: '[[Guerreiro|Quasi-Mago]]',
+      nome: 'Bazuquer',
+      Pericias: { Slots: zeroSlots, Lista: [] },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: {
+        Slots: { B: 0, A: 0, E: 0, M: 0 },
+        Lista: [{ Nome: 'Arcana Negra', Proficiencia: 'N', Lista: [] }],
+        Secundaria: {
+          Slots: { B: 0, A: 4, E: 0, M: 0 },
+          Lista: [{ Nome: 'Arcana Negra', Proficiencia: 'E', Lista: [{ '[[Aterrorizar]]': 'Slot.A' }] }],
+        },
+      },
+    }
+    const pend = heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS)
+    expect(pend.get('habilidades')).toContain('Magia a aprender (slot livre)')
+  })
 })

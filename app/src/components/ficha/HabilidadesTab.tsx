@@ -146,10 +146,14 @@ const colHeadPlain: CSSProperties = {
 const PROF_COLS_VIEW = '1.25fr 0.6fr 0.7fr'
 const PROF_COLS_EDIT = 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
 
-/** Dígitos iniciais de um custo ("2A" → "2"; "L"/vazio → ""). */
-function custoDigits(custo: unknown): string {
-  const m = /^(\d+)/.exec(str(custo).trim())
-  return m ? m[1]! : ''
+/** Selo compacto de custo: dígitos de ação ("2A" → "2") ou o CÓDIGO do custo
+ *  quando não é numérico ("R" reação, "L" livre, "P", "Min"). Antes o não-numérico
+ *  caía em "" e a reação virava um quadradinho VAZIO (#329) — agora mostra "R".
+ *  Fonte de verdade = o próprio valor do campo `custo`, nada inventado. */
+export function custoDigits(custo: unknown): string {
+  const c = str(custo).trim()
+  const m = /^(\d+)/.exec(c)
+  return m ? m[1]! : c
 }
 
 /** Rank (Adepta/Experiente/Mestre) de um doc: inline rank::, senão subcategoria. */

@@ -99,6 +99,13 @@ describe('PERFIL — NOME/APELIDO/SINTONIA (#2, #7)', () => {
     fireEvent.change(nome, { target: { value: 'Carlão' } })
     expect(overlaySalvo().fm['nome']).toBe('Carlão')
     expect(nome.value).toBe('Carlão')
+    // #330: dá pra ESVAZIAR o campo pra retypar do zero — antes o value caía no
+    // fallback do basename assim que ficava vazio (sobrava 1 letra).
+    fireEvent.change(nome, { target: { value: '' } })
+    expect(nome.value).toBe('')
+    fireEvent.change(nome, { target: { value: 'Novo' } })
+    expect(nome.value).toBe('Novo')
+    expect(overlaySalvo().fm['nome']).toBe('Novo')
   })
 
   it('APELIDO é input com o MESMO estilo do NOME e persiste Biografia.Apelido', async () => {

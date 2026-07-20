@@ -54,19 +54,39 @@ function freeTecnicaSlot(fm: Fm): boolean {
   return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
 }
 
-/** ≥1 slot de magia livre (global entre escolas) — mesma conta da MagiasHabPanel. */
-function freeMagiaSlot(fm: Fm): boolean {
-  const escolas = (fmPath(fm, 'Magias', 'Lista') ?? []) as Record<string, unknown>[]
+/** ≥1 slot de magia PREENCHÍVEL num namespace (Magias ou Magias.Secundaria) —
+ *  mesma conta da MagiasHabPanel. #328: um slot só conta se HÁ escola PROFICIENTE
+ *  (prof ≠ N, fora Tesouros) pra recebê-lo; sem ela o painel não oferece onde
+ *  aprender, então o slot é INPREENCHÍVEL e não é pendência (ex.: o slot B solto
+ *  que o Quasi-Mago concede sem proficiência de escola no primário). */
+function freeMagiaSlotIn(magias: Record<string, unknown> | undefined): boolean {
+  if (!magias) return false
+  const escolas = (magias['Lista'] ?? []) as Record<string, unknown>[]
+  const temProficiente = escolas.some(
+    (e) => str(e['Nome']) !== 'Tesouros' && str(e['Proficiencia']) !== 'N',
+  )
+  if (!temProficiente) return false
   const usedBy = (l: string) =>
     escolas
-      .flatMap((e) => listaEntries(e.Lista))
+      .flatMap((e) => listaEntries(e['Lista']))
       .filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
-  const s = slotsRec(fm, 'Magias', 'Slots')
+  const s = (magias['Slots'] ?? {}) as Record<string, unknown>
   const view = computeMagiaSlotsView({
-    total: { B: num(s?.['B']), A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
+    total: { B: num(s['B']), A: num(s['A']), E: num(s['E']), M: num(s['M']) },
     used: { B: usedBy('B'), A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
   return (['B', 'A', 'E', 'M'] as MagiaRank[]).some((r) => magiaCanAddOne(view, r))
+}
+
+/** ≥1 slot de magia livre — no PRIMÁRIO ou no SECUNDÁRIO (#328: o Mago secundário
+ *  guarda slots/lista em Magias.Secundaria; antes só o primário era checado, então
+ *  quem preenchia o secundário e tinha um slot solto no primário via a pendência
+ *  sem nunca conseguir limpá-la). */
+function freeMagiaSlot(fm: Fm): boolean {
+  return (
+    freeMagiaSlotIn(fmPath(fm, 'Magias') as Record<string, unknown> | undefined) ||
+    freeMagiaSlotIn(fmPath(fm, 'Magias', 'Secundaria') as Record<string, unknown> | undefined)
+  )
 }
 
 /** Pendências por aba (CHAR_TABS), cada uma com a LISTA de motivos legíveis

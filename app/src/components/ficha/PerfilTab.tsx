@@ -1137,6 +1137,12 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const dfm = rules?.derivedFm ?? fm
   // NOME editável (#7): FM `nome` (overlay), senão basename — regra do plugin.
   const nome = str(fm['nome']) || heroNome(doc)
+  // #330: o VALUE do input distingue nome NUNCA definido (mostra o basename) de
+  // nome ESVAZIADO na edição (fica vazio, pra retypar do zero). Antes o value
+  // usava `nome` (com `|| basename`), então apagar a última letra revertia pro
+  // basename e era impossível esvaziar. `nome` segue não-vazio pros cabeçalhos.
+  const nomeVal = fm['nome']
+  const nomeInput = nomeVal == null ? nome : str(nomeVal)
   const setNome = (v: string) => model.set('nome', v)
   // APELIDO — slot do design (linhas 145-148); fonte FM Biografia.Apelido,
   // editável com persistência no overlay (#2).
@@ -1291,7 +1297,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           <Field label="NOME">
             <input
               aria-label="Nome"
-              value={nome}
+              value={nomeInput}
               onChange={(e) => setNome(e.target.value)}
               style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
             />
