@@ -13,6 +13,7 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import type { VaultDoc } from '../../data/types'
 import { GrupoView } from '../../grupo/GrupoView'
+import { MESA_GRUPO_ID, useLiveSession } from '../../data/session-repo/live-session'
 import { clip } from './bits'
 import { str, wikiTarget } from './hero-model'
 import { useHeroRefs } from './useHeroRefs'
@@ -29,6 +30,7 @@ import { CombateTab } from './CombateTab'
 function GruposTab({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'grupos')
+  const live = useLiveSession()
   const groupIds = useMemo(() => {
     const raw = doc.grupo
     const list = Array.isArray(raw) ? raw : raw ? [raw] : []
@@ -39,6 +41,19 @@ function GruposTab({ doc }: { doc: VaultDoc }) {
     }
     return ids
   }, [catalog, doc])
+
+  // #342: CONECTADO a uma sessão → a ficha do grupo é SEMPRE a da MESA (a mesma
+  // que o "FICHA DO GRUPO" da sessão abre), com a MESMA lógica/dados (hexploração,
+  // inventário etc.). O seletor "Grupo Ativo" só aparece DESCONECTADO. Antes esta
+  // aba usava o grupo da VAULT do herói (doc.grupo) → dados diferentes da sessão.
+  if (live?.sessionId) {
+    return (
+      <div className="grupo-screen" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <GrupoView key={MESA_GRUPO_ID} groupId={MESA_GRUPO_ID} />
+      </div>
+    )
+  }
+
   // Escolha salva só vale enquanto o herói continuar naquele grupo.
   const salvo = str(model.session('grupos.ativo'))
   const ativo = groupIds.includes(salvo) ? salvo : groupIds[0]!
