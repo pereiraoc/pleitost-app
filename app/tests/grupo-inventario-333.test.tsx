@@ -253,4 +253,65 @@ describe('#333/#336 inventário do grupo', () => {
       expect(Object.keys(s).length).toBe(0)
     })
   })
+
+  it('#340 GM envia item pra um personagem (paraChar entra no state)', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'SEND01' })
+    await repo.updateSessionState(sess.id, {
+      inventarioGrupo: {
+        k1: { kind: 'tesouro', docId: TESOURO.id, nome: TESOURO.basename ?? TESOURO.id, tier: 'A', addedBy: 'gm-1', addedAt: '2026-01-01T00:00:00Z' },
+      },
+    })
+    const remote = (await repo.findSessionById(sess.id))!
+    const heroChar = heroi('p-1', 'local:Heroi:zzz') // id 'char-p-1'
+    setLive(sess.id, {
+      state: remote.state,
+      characters: [heroChar],
+      members: [
+        { sessionId: sess.id, userId: 'gm-1', role: 'gm', displayName: 'Mestre', joinedAt: '' },
+        { sessionId: sess.id, userId: 'p-1', role: 'player', displayName: 'Ana', joinedAt: '' },
+      ],
+    })
+    mestreOn()
+    renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
+
+    const sel = (await screen.findByLabelText(/Enviar .* para/)) as HTMLSelectElement
+    fireEvent.change(sel, { target: { value: heroChar.id } })
+
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      expect((Object.values(s)[0] as Record<string, unknown>).paraChar).toBe(heroChar.id)
+    })
+  })
+
+  it('#340 item endereçado ao MEU personagem é recebido automaticamente', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'SEND02' })
+    const heroiId = createLocalEntity('Heroi', 'Nia', { ...emptyHeroFrontmatter() })
+    await repo.updateSessionState(sess.id, {
+      inventarioGrupo: {
+        k1: { kind: 'tesouro', docId: TESOURO.id, nome: TESOURO.basename ?? TESOURO.id, tier: 'A', addedBy: 'gm-1', addedAt: '2026-01-01T00:00:00Z', paraChar: 'char-p-1' },
+      },
+    })
+    const remote = (await repo.findSessionById(sess.id))!
+    setLive(sess.id, {
+      state: remote.state,
+      characters: [heroi('p-1', heroiId)], // id 'char-p-1' = destino
+      members: [
+        { sessionId: sess.id, userId: 'gm-1', role: 'gm', displayName: 'Mestre', joinedAt: '' },
+        { sessionId: sess.id, userId: 'p-1', role: 'player', displayName: 'Ana', joinedAt: '' },
+      ],
+    })
+    renderPanel(repo, { id: 'p-1', nome: 'Ana' })
+
+    // recebimento automático: some do pool + entra na ficha local
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      expect(Object.keys(s).length).toBe(0)
+    })
+    await waitFor(() => {
+      const tes = (getLocalDoc(heroiId)?.frontmatter?.['Inventario'] as Record<string, unknown>)?.['Tesouros'] as unknown[]
+      expect(Array.isArray(tes) && tes.length === 1).toBe(true)
+    })
+  })
 })

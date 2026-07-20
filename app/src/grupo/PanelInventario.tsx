@@ -10,7 +10,7 @@
 // núcleo puro grupo/inventario-item. A config é state LOCAL — nada é sincronizado
 // até o "Adicionar", então o jogador não vê o que o Mestre está montando (#6).
 // Só existe na MESA (sessão com remoteId): sem sessão não há pool compartilhado.
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDocs } from '../data/useDoc'
@@ -20,7 +20,8 @@ import { useSettings } from '../settings'
 import { getLocalDoc, setLocalEntityFm } from '../data/local-entities'
 import { heroAtributos } from '../components/ficha/hero-model'
 import { GRUPO_ARMA_ORDER, grupoArmaEmoji, ITEM_TIER_BTN } from '../components/ficha/registry'
-import { ItemHover, docImageUrl, docTier } from '../components/item-card'
+import { ItemHover, docImageUrl, docTier, ITEM_CARD_CSS } from '../components/item-card'
+import { TipProvider } from '../components/ficha/tooltips'
 import { tesouroImageUrl } from '../data/equipment-image'
 import { clip } from '../components/ficha/bits'
 import { armaduraBases, escudoBases } from '../components/ficha/equipment-bases'
@@ -74,7 +75,6 @@ function novaChave(): string {
 }
 
 const asTierChar = (t: string | undefined): '' | 'A' | 'E' | 'M' => (t === 'A' || t === 'E' || t === 'M' ? t : '')
-const TIER_MASC: Record<'A' | 'E' | 'M', string> = { A: 'Adepto', E: 'Experiente', M: 'Mestre' }
 
 /** Emoji do item no pool (implemento = varinha; equipamento/tesouro = anel). */
 function itemEmoji(it: GroupInventoryItem): string {
@@ -154,11 +154,24 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     [mapa],
   )
 
-  const nomePorUser = useMemo(() => {
+  // #340: personagem do usuário atual (destino do "puxar"/recebimento) e os
+  // heróis da mesa (destinos do "enviar" do Mestre).
+  const meuChar = useMemo(
+    () => (live?.characters ?? []).find((c) => c.memberId === user?.id && c.kind === 'heroi') ?? null,
+    [live?.characters, user?.id],
+  )
+  const herois = useMemo(
+    () =>
+      (live?.characters ?? [])
+        .filter((c) => c.kind === 'heroi')
+        .map((c) => ({ id: c.id, nome: c.summary?.nome || '—' })),
+    [live?.characters],
+  )
+  const nomePorChar = useMemo(() => {
     const m = new Map<string, string>()
-    for (const mem of live?.members ?? []) m.set(mem.userId, mem.displayName)
+    for (const h of herois) m.set(h.id, h.nome)
     return m
-  }, [live?.members])
+  }, [herois])
 
   const idOf = (basename: string): string | null => {
     const r = catalog.resolve(basename)
@@ -373,14 +386,46 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     await writeMap(next)
   }
 
-  const puxar = async (it: ItemView) => {
+  const puxar = async (it: ItemView, recebido = false) => {
     if (!meuHeroiLocal) return
     const fm = (getLocalDoc(meuHeroiLocal)?.frontmatter ?? {}) as Record<string, unknown>
     const atributos = heroAtributos(fm).values
     for (const w of pullItemToFm(it, fm, atributos)) setLocalEntityFm(meuHeroiLocal, w.path, w.value)
     await remover(it.key)
-    setStatus(`${itemNome(it)} foi pra sua ficha.`)
+    setStatus(recebido ? `Você recebeu ${itemNome(it)} do Mestre.` : `${itemNome(it)} foi pra sua ficha.`)
   }
+
+  // #340: o GM ENDEREÇA um item a um personagem (charId) — ou desendereça (charId '').
+  const enviar = async (key: string, charId: string) => {
+    const cur = mapa[key]
+    if (!cur) return
+    await writeMap({ ...mapa, [key]: { ...cur, paraChar: charId || undefined } })
+    if (charId) setStatus(`Enviado para ${nomePorChar.get(charId) ?? 'personagem'}.`)
+  }
+
+  // #340: recebimento AUTOMÁTICO — os itens endereçados ao MEU personagem são
+  // puxados pra minha ficha e saem do pool ("movem pra minha ficha"). Em LOTE (o
+  // jogador pode entrar com vários já endereçados a ele) → uma escrita só, sem
+  // corrida. O ref evita reprocessar no intervalo até o realtime atualizar o pool.
+  const recebendo = useRef<Set<string>>(new Set())
+  useEffect(() => {
+    if (!meuChar || !meuHeroiLocal) return
+    const meus = itens.filter((it) => it.paraChar === meuChar.id && !recebendo.current.has(it.key))
+    if (!meus.length) return
+    for (const it of meus) recebendo.current.add(it.key)
+    for (const it of meus) {
+      const fm = (getLocalDoc(meuHeroiLocal)?.frontmatter ?? {}) as Record<string, unknown>
+      const atributos = heroAtributos(fm).values
+      for (const w of pullItemToFm(it, fm, atributos)) setLocalEntityFm(meuHeroiLocal, w.path, w.value)
+    }
+    const next = { ...mapa }
+    for (const it of meus) delete next[it.key]
+    void writeMap(next)
+    setStatus(
+      meus.length === 1 ? `Você recebeu ${itemNome(meus[0]!)} do Mestre.` : `Você recebeu ${meus.length} itens do Mestre.`,
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itens, meuChar?.id, meuHeroiLocal])
 
   if (semSessao) {
     return (
@@ -427,7 +472,11 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     })()
 
   return (
-    <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <TipProvider>
+      {/* ITEM_CARD_CSS + TipProvider: sem eles o ItemHover não mostra a carta —
+          o mesmo tooltip do inventário do personagem (#339/#340). */}
+      <style>{ITEM_CARD_CSS}</style>
+      <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ ...sectionTitleStyle }}>💼 INVENTÁRIO DO GRUPO</div>
 
       {/* ── ADICIONAR ITEM ── */}
@@ -671,7 +720,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                     : null
             const tierBd = tier ? ITEM_TIER_BTN[tier].bd : 'var(--line2)'
             const podeRemover = mestre || it.addedBy === user!.id
-            const nomeQuem = nomePorUser.get(it.addedBy) ?? '—'
+            const paraChar = it.paraChar
             return (
               <div
                 key={it.key}
@@ -723,16 +772,15 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                     </span>
                   </ItemHover>
                   {tier ? (
-                    <span style={mono({ fontSize: 11, fontWeight: 700, color: tierBd, flex: 'none' })}>
-                      ({TIER_MASC[tier]})
-                    </span>
+                    <span style={mono({ fontSize: 11, fontWeight: 700, color: tierBd, flex: 'none' })}>({tier})</span>
                   ) : null}
                 </span>
                 <span style={mono({ fontSize: 9.5, color: 'var(--muted)', flex: 'none', textAlign: 'right', whiteSpace: 'nowrap' })}>
-                  {it.valorPO ? `${it.valorPO} PO · ` : ''}
-                  {nomeQuem}
+                  {it.valorPO ? `${it.valorPO} PO` : ''}
+                  {paraChar ? <span style={{ color: 'var(--accent)' }}> · → {nomePorChar.get(paraChar) ?? '—'}</span> : null}
                 </span>
-                {meuHeroiLocal ? (
+                {/* JOGADOR: puxa pra própria ficha (só itens LIVRES, não endereçados). */}
+                {!paraChar && meuHeroiLocal ? (
                   <button
                     onClick={() => void puxar(it)}
                     title="Puxar pra minha ficha (sai do grupo)"
@@ -750,6 +798,27 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                   >
                     🎒 Puxar
                   </button>
+                ) : null}
+                {/* MESTRE: envia pra ficha de um personagem (recebe automático lá). */}
+                {mestre && herois.length ? (
+                  <select
+                    aria-label={`Enviar ${itemNome(it)} para`}
+                    value={paraChar ?? ''}
+                    onChange={(e) => void enviar(it.key, e.target.value)}
+                    style={mono({
+                      flex: 'none',
+                      maxWidth: 150,
+                      padding: '6px 8px',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      color: 'var(--text)',
+                      fontSize: 11,
+                      clipPath: clip(6),
+                    })}
+                  >
+                    <option value="">📤 enviar…</option>
+                    {herois.map((h) => (<option key={h.id} value={h.id}>{h.nome}</option>))}
+                  </select>
                 ) : null}
                 {podeRemover ? (
                   <button
@@ -770,7 +839,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       {status ? (
         <div role="status" style={mono({ fontSize: 11, color: 'var(--accent)' })}>{status}</div>
       ) : null}
-    </div>
+      </div>
+    </TipProvider>
   )
 }
 

@@ -129,6 +129,10 @@ interface GroupInvCommon {
   addedAt: string
   /** valor total em PO computado na adição (exibição/soma sem re-resolver docs). */
   valorPO?: number
+  /** #340: o GM ENDEREÇOU o item a um personagem (id do SessionCharacter). O
+   *  cliente dono desse personagem recebe na ficha (pull automático) e o item sai
+   *  do pool. Ausente = livre (qualquer um puxa). */
+  paraChar?: string
 }
 
 /** ARMA: arma-base + propriedade (imbuição ou obra-prima) + qualidade. */
