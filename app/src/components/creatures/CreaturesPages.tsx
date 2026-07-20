@@ -48,7 +48,7 @@ import {
   tierBarColor,
   tierFromLevel,
 } from '../../grupo/party'
-import { MESA_GRUPO_ID, useLiveSession } from '../../data/session-repo/live-session'
+import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../../data/session-repo/live-session'
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
 import { addMonsterToInitiative } from '../../data/session-repo/encounter-actions'
 import { useSessions } from '../../data/session-store'
@@ -940,7 +940,13 @@ function GruposPanel({
           <span className="hero-card-stripe" aria-hidden />
           <span className="hero-ini">⚔️</span>
           <div className="hero-main">
-            <div className="hero-nome">Grupo da Sessão</div>
+            {/* Nome = apelidos dos personagens da sessão (mesma fonte do GrupoView);
+                sem live (só sessão salva) → rótulo genérico. */}
+            <div className="hero-nome">
+              {live && mesaApelidos(live.characters).length
+                ? mesaApelidos(live.characters).join(', ')
+                : 'Grupo da Sessão'}
+            </div>
             <div className="hero-classe">
               {live
                 ? mesaResumo(live)

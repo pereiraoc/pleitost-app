@@ -126,9 +126,12 @@ describe('lista de GRUPOS (#213)', () => {
         encounters: [],
       })
     })
-    const card = await screen.findByText('Grupo da Sessão')
+    // #bug3: o card da mesa mostra os APELIDOS dos personagens (mesma fonte do
+    // GrupoView), não mais o rótulo genérico "Grupo da Sessão".
+    const card = await screen.findByText('Aline, Beto')
     // #235: card mostra "X Heróis" (e Y Companheiros Animais quando houver)
     expect(screen.getByText('2 Heróis')).toBeTruthy()
+    expect(screen.queryByText('Grupo da Sessão')).toBeNull()
     fireEvent.click(card)
     // #231: a mesa abre o GRUPO REAL — GrupoView com as abas definidas hoje
     expect(await screen.findByText('EXPLORAÇÃO')).toBeTruthy()
@@ -141,8 +144,8 @@ describe('lista de GRUPOS (#213)', () => {
     expect(screen.getAllByText(/Aline/).length).toBeGreaterThan(0)
     // mesa não edita integrantes (vêm da sessão)
     expect(screen.queryByText(/EDITAR INTEGRANTES|editar integrantes/i)).toBeNull()
-    // voltar retorna pra lista
+    // voltar retorna pra lista (card de novo pelos apelidos)
     fireEvent.click(screen.getByText('← GRUPOS'))
-    expect(await screen.findByText('Grupo da Sessão')).toBeTruthy()
+    expect(await screen.findByText('Aline, Beto')).toBeTruthy()
   })
 })

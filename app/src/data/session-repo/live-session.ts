@@ -47,6 +47,20 @@ export function liveCharacter(charId: string): SessionCharacter | null {
   return live?.characters.find((c) => c.id === charId) ?? null
 }
 
+/** Nome da MESA = apelidos dos heróis (sem NPC/companheiro) em ordem alfabética
+ *  (#235), ex.: "Baitaca, Carlos, Drauzio". Fonte única do nome do grupo da
+ *  sessão — usada no GrupoView e na lista de grupos (Heróis). */
+export function mesaApelidos(characters: readonly SessionCharacter[]): string[] {
+  return characters
+    .filter((c) => c.kind !== 'npc' && c.kind !== 'companheiro')
+    .map((c) => {
+      const bio = (c.fmBlob?.['Biografia'] ?? {}) as Record<string, unknown>
+      const ap = typeof bio['Apelido'] === 'string' ? bio['Apelido'].trim() : ''
+      return ap || (c.summary.nome.split(/\s+/)[0] ?? c.summary.nome)
+    })
+    .sort((a, b) => a.localeCompare(b, 'pt'))
+}
+
 /** Doc SINTÉTICO de um personagem remoto: fmBlob + vida/volátil do state —
  *  o ResumoDetail (useVidaLocal lê fm.Interativa) renderiza sem saber que o
  *  personagem não é local. */

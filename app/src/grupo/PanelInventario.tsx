@@ -724,6 +724,9 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             const tierBd = tier ? ITEM_TIER_BTN[tier].bd : 'var(--line2)'
             const podeRemover = mestre || it.addedBy === user!.id
             const paraChar = it.paraChar
+            // Recomputa o valor no display (auto-corrige itens antigos, ex.:
+            // artefato que fora salvo × tier); fallback pro salvo durante a carga.
+            const vDisplay = itemValorPO(it, priceOf) || it.valorPO
             return (
               <div
                 key={it.key}
@@ -779,8 +782,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                   ) : null}
                 </span>
                 <span style={mono({ fontSize: 9.5, color: 'var(--muted)', flex: 'none', textAlign: 'right', whiteSpace: 'nowrap' })}>
-                  {it.valorPO ? `${it.valorPO} PO` : ''}
-                  {paraChar ? <span style={{ color: 'var(--accent)' }}> · → {nomePorChar.get(paraChar) ?? '—'}</span> : null}
+                  {vDisplay ? `${vDisplay} PO` : ''}
+                  {paraChar ? <span style={{ color: 'var(--accent)' }}> · ⏳ pendente → {nomePorChar.get(paraChar) ?? '—'}</span> : null}
                 </span>
                 {/* JOGADOR: puxa pra própria ficha (só itens LIVRES, não endereçados). */}
                 {!paraChar && meuHeroiLocal ? (
@@ -802,28 +805,51 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                     🎒 Puxar
                   </button>
                 ) : null}
-                {/* MESTRE: envia pra ficha de um personagem (recebe automático lá). */}
+                {/* MESTRE: envia pra ficha de um personagem (recebe automático lá).
+                    ENDEREÇADO (paraChar) = envio PENDENTE — o item aguarda o alvo
+                    conectar pra ser recebido. Enquanto pendente trava: não dá pra
+                    re-enviar a outro nem deletar; só CANCELAR o envio. */}
                 {mestre && herois.length ? (
-                  <select
-                    aria-label={`Enviar ${itemNome(it)} para`}
-                    value={paraChar ?? ''}
-                    onChange={(e) => void enviar(it.key, e.target.value)}
-                    style={mono({
-                      flex: 'none',
-                      maxWidth: 150,
-                      padding: '6px 8px',
-                      background: 'var(--card)',
-                      border: '1px solid var(--line2)',
-                      color: 'var(--text)',
-                      fontSize: 11,
-                      clipPath: clip(6),
-                    })}
-                  >
-                    <option value="">📤 enviar…</option>
-                    {herois.map((h) => (<option key={h.id} value={h.id}>{h.nome}</option>))}
-                  </select>
+                  paraChar ? (
+                    <button
+                      onClick={() => void enviar(it.key, '')}
+                      title={`Envio pendente para ${nomePorChar.get(paraChar) ?? 'personagem'} — clique para cancelar`}
+                      style={mono({
+                        flex: 'none',
+                        padding: '6px 10px',
+                        background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
+                        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                        color: 'var(--accent)',
+                        cursor: 'pointer',
+                        fontSize: 11,
+                        fontWeight: 700,
+                        clipPath: clip(6),
+                      })}
+                    >
+                      ⏳ pendente ✕
+                    </button>
+                  ) : (
+                    <select
+                      aria-label={`Enviar ${itemNome(it)} para`}
+                      value=""
+                      onChange={(e) => void enviar(it.key, e.target.value)}
+                      style={mono({
+                        flex: 'none',
+                        maxWidth: 150,
+                        padding: '6px 8px',
+                        background: 'var(--card)',
+                        border: '1px solid var(--line2)',
+                        color: 'var(--text)',
+                        fontSize: 11,
+                        clipPath: clip(6),
+                      })}
+                    >
+                      <option value="">📤 enviar…</option>
+                      {herois.map((h) => (<option key={h.id} value={h.id}>{h.nome}</option>))}
+                    </select>
+                  )
                 ) : null}
-                {podeRemover ? (
+                {podeRemover && !paraChar ? (
                   <button
                     onClick={() => void remover(it.key)}
                     title="Remover do inventário do grupo"

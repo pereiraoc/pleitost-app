@@ -9,9 +9,11 @@
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
+import { heroPath } from '../paths'
 import { useCatalog } from '../data/CatalogContext'
-import { MESA_GRUPO_ID, useLiveSession } from '../data/session-repo/live-session'
+import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
 import { useSettings } from '../settings'
@@ -263,6 +265,7 @@ function BalRow({
   tip?: GrupoTip
 }) {
   const g = row.grupo ? 1 : 0
+  const navigate = useNavigate()
   return (
     <div style={{ ...rowGrid, ...rowShellStyle(row.grupo) }}>
       <NameCell
@@ -271,6 +274,7 @@ function BalRow({
         weight={row.grupo ? 800 : 600}
         cor={row.grupo ? 'var(--accent)' : 'var(--text)'}
         onTipEnter={row.grupo ? tip?.tipE('bal:r5c0') : undefined}
+        onOpen={row.grupo ? undefined : () => navigate(heroPath(row.id))}
         tip={tip}
       />
       <div
@@ -600,19 +604,16 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const isMesa = groupId === MESA_GRUPO_ID
   const { active: sessaoAtiva } = useSessions()
   const live = useLiveSession()
+  // A mesa usa MESA_GRUPO_ID (constante) em TODA sessão, mas o group-store do
+  // mapa (caminho percorrido) é local e keyed por groupId — então a trilha
+  // VAZAVA entre sessões. Escopa o store da exploração da mesa por sessão.
+  const exploId = isMesa && live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId
   const repo = useSessionRepo()
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
   // #235: nome da mesa = APELIDOS dos heróis em ordem alfabética, ", " —
   // mesma convenção dos grupos da vault ("Baitaca, Carlos, Drauzio").
-  const apelidosMesa = (live?.characters ?? [])
-    .filter((c) => c.kind !== 'npc' && c.kind !== 'companheiro')
-    .map((c) => {
-      const bio = (c.fmBlob?.['Biografia'] ?? {}) as Record<string, unknown>
-      const ap = typeof bio['Apelido'] === 'string' ? bio['Apelido'].trim() : ''
-      return ap || (c.summary.nome.split(/\s+/)[0] ?? c.summary.nome)
-    })
-    .sort((a, b) => a.localeCompare(b, 'pt'))
+  const apelidosMesa = mesaApelidos(live?.characters ?? [])
   const names = isMesa
     ? (apelidosMesa.length ? apelidosMesa.join(', ') : (sessaoAtiva?.nome ?? 'Grupo da Sessão'))
     : (localGroup?.basename ?? entry?.basename ?? groupId)
@@ -908,7 +909,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
         <TrackPanel pad="0">
-          <PanelExploracao groupId={groupId} />
+          <PanelExploracao key={exploId} groupId={exploId} />
         </TrackPanel>
         <TrackPanel pad="0">
           <PanelInventario groupId={groupId} />

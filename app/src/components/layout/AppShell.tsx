@@ -232,8 +232,12 @@ export function AppShell() {
         <button
           className="topbar-menu"
           onClick={() => {
-            if (window.innerWidth < 820) setDrawerOpen((open) => !open)
-            else setCollapsed((c) => !c)
+            // Mobile: abrir a esquerda fecha a direita (drawers mutuamente
+            // exclusivos — senão a esquerda abria ATRÁS da direita, #bug).
+            if (window.innerWidth < 820) {
+              setRightOpen(false)
+              setDrawerOpen((open) => !open)
+            } else setCollapsed((c) => !c)
           }}
           title="Menu"
         >
@@ -248,7 +252,11 @@ export function AppShell() {
         {/* #87: toggle da sidebar direita (Sessão/Detalhes) — no mobile */}
         <button
           className="right-toggle"
-          onClick={() => setRightOpen((o) => !o)}
+          onClick={() => {
+            // Abrir a direita fecha a esquerda (mesma exclusão mútua mobile).
+            setDrawerOpen(false)
+            setRightOpen((o) => !o)
+          }}
           aria-pressed={rightOpen}
           title="Sessão / Detalhes"
         >

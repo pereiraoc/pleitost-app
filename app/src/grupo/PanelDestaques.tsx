@@ -7,8 +7,10 @@
 // Tooltips (build recuperado): contador df sequencial — cada top de perícia
 // consome 'dest:f<df++>' na ordem grupos→skills→tops, e DEPOIS cada magia
 // consome o próximo (o mesmo tipE vale pro ⚠️ e pro top da magia).
-import type { MouseEventHandler, ReactNode } from 'react'
+import { useMemo, type MouseEventHandler, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
+import { heroPath } from '../paths'
 import type { GrupoTip } from './gtip'
 import { tokens } from '../generated/tokens'
 import { equipCards, magiaHighlights, skillHighlights, type SkillTop } from './destaques'
@@ -24,10 +26,13 @@ const rankColor = (prof: string): string =>
 function TopSpan({
   top,
   onTipEnter,
+  onOpen,
   tip,
 }: {
   top: SkillTop
   onTipEnter?: MouseEventHandler
+  /** Abre a ficha do personagem ao clicar no NOME. */
+  onOpen?: () => void
   tip?: GrupoTip
 }) {
   return (
@@ -41,12 +46,15 @@ function TopSpan({
         {fmtSigned(top.mod)} ({top.prof})
       </span>
       <span
+        onClick={onOpen ? (e) => { e.stopPropagation(); onOpen() } : undefined}
+        title={onOpen ? 'Abrir ficha' : undefined}
         style={{
           color: 'var(--blue)',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           maxWidth: 104,
+          cursor: onOpen ? 'pointer' : undefined,
         }}
       >
         {top.who}
@@ -119,6 +127,13 @@ export function PanelDestaques({
   const groups = skillHighlights(members, docs)
   const equips = equipCards(members, docs, tokens.emojis.glyph.Star)
   const magias = magiaHighlights(members, docs)
+  // Clicar no nome (who = basename do membro) abre a ficha do personagem.
+  const navigate = useNavigate()
+  const idByName = useMemo(() => new Map(members.map((m) => [m.basename ?? m.id, m.id])), [members])
+  const openWho = (who: string) => {
+    const id = idByName.get(who)
+    if (id) navigate(heroPath(id))
+  }
   const attrEmoji = (attr: string) =>
     (tokens.emojis.atributo as Record<string, string>)[attr] ?? tokens.emojis.glyph.Bolt
 
@@ -171,6 +186,7 @@ export function PanelDestaques({
                       key={`${top.who}-${i}`}
                       top={top}
                       onTipEnter={tip?.tipE(skillTipKeys[gIdx]![sIdx]![i]!)}
+                      onOpen={() => openWho(top.who)}
                       tip={tip}
                     />
                   ))}
@@ -201,12 +217,15 @@ export function PanelDestaques({
                       {m.mark}
                     </span>
                     <span
+                      onClick={(e) => { e.stopPropagation(); openWho(m.who) }}
+                      title="Abrir ficha"
                       style={{
                         color: 'var(--blue)',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         maxWidth: 104,
+                        cursor: 'pointer',
                       }}
                     >
                       {m.who}
@@ -250,7 +269,12 @@ export function PanelDestaques({
                 ) : null}
                 <span style={{ flex: 1 }} />
                 {mg.top ? (
-                  <TopSpan top={mg.top} onTipEnter={tip?.tipE(magiaTipKeys[mIdx]!)} tip={tip} />
+                  <TopSpan
+                    top={mg.top}
+                    onTipEnter={tip?.tipE(magiaTipKeys[mIdx]!)}
+                    onOpen={() => openWho(mg.top!.who)}
+                    tip={tip}
+                  />
                 ) : null}
               </div>
             ))}

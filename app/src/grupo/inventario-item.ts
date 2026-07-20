@@ -70,7 +70,11 @@ export function itemValorPO(
     case 'escudo':
       return it.tier ? priceOf(escudoObraPrimaBase(it.nome)) * tierMult(it.tier) : 0
     default: // tesouro
-      return priceOf(it.nome) * tierMult(it.tier)
+      // Artefatos: o `preço` da nota é o valor CRU (já final), NÃO escala por
+      // tier — o "(Mestre)" é só a raridade do item, não um multiplicador.
+      return it.docId?.includes('/Artefatos/')
+        ? priceOf(it.nome)
+        : priceOf(it.nome) * tierMult(it.tier)
   }
 }
 

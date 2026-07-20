@@ -11,7 +11,9 @@
 // Dados espelham o plugin: buildStatsRows/computeGrupoAggregates
 // (aggregates.ts) e orderMembersLevelDescThenName (render-party-sheet.ts).
 import { useState, type CSSProperties } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
+import { heroPath } from '../paths'
 import type { GrupoTip } from './gtip'
 import { NameCell, SortHead, ValueCell, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
@@ -78,6 +80,7 @@ export function PanelVida({
   tip?: GrupoTip
 }) {
   const [sort, setSort] = useState<GrpSort | null>(null)
+  const navigate = useNavigate()
 
   // Lista original na ordem do plugin (espelha G.vidaRows do design).
   const ordered = orderByLevelDesc(members, docs)
@@ -134,6 +137,7 @@ export function PanelVida({
                 weight={row.grupo ? 800 : 500}
                 cor={row.grupo ? 'var(--accent)' : 'var(--blue)'}
                 onTipEnter={row.grupo ? tip?.tipE('vida:r5c0') : undefined}
+                onOpen={row.grupo ? undefined : () => navigate(heroPath(row.id))}
                 tip={tip}
               />
               {row.cells.map((v, i) => (

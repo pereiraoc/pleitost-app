@@ -16,9 +16,11 @@
 // lista original por delta desc, linha Grupo com somas e hero RIQUEZA TOTAL.
 // Preços vêm dos docs reais dos itens (`preço:: N PO` via vault-data).
 import { useMemo, useState, type CSSProperties } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
+import { heroPath } from '../paths'
 import type { GrupoTip } from './gtip'
 import { NameCell, SortHead, ValueCell, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
@@ -74,6 +76,7 @@ export function PanelRiqueza({
 }) {
   const catalog = useCatalog()
   const [sort, setSort] = useState<GrpSort | null>(null)
+  const navigate = useNavigate()
 
   // Pré-carrega os docs dos itens precificáveis (mesmos campos que
   // pricing.ts lê); resolução de link espelha getFirstLinkpathDest.
@@ -174,6 +177,7 @@ export function PanelRiqueza({
                 weight={row.grupo ? 800 : 500}
                 cor={row.grupo ? 'var(--accent)' : 'var(--blue)'}
                 onTipEnter={row.grupo ? tip?.tipE('riq:r5c0') : undefined}
+                onOpen={row.grupo ? undefined : () => navigate(heroPath(row.id))}
                 tip={tip}
               />
               {row.cells.map((v, i) => (

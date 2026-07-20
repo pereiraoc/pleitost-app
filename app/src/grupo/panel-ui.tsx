@@ -129,6 +129,7 @@ export function NameCell({
   weight,
   cor,
   onTipEnter,
+  onOpen,
   tip,
 }: {
   name: string
@@ -137,15 +138,18 @@ export function NameCell({
   cor: string
   /** labelTipE do design (só a linha Grupo tem). */
   onTipEnter?: MouseEventHandler
+  /** Abre a ficha do personagem (linhas de MEMBRO — clicar no nome). */
+  onOpen?: () => void
   tip?: GrupoTip
 }) {
   return (
     <div
       onMouseEnter={onTipEnter}
-      onClick={onTipEnter}
+      onClick={onOpen ?? onTipEnter}
       onMouseMove={tip?.move}
       onMouseLeave={tip?.hide}
-      style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}
+      title={onOpen ? 'Abrir ficha' : undefined}
+      style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0, cursor: onOpen ? 'pointer' : undefined }}
     >
       <span style={{ fontSize: 12, flex: 'none' }}>👤</span>
       <span
