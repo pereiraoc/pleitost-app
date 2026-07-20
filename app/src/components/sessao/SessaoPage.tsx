@@ -1655,6 +1655,23 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
   // lista, membership intacta) de ABANDONAR/ENCERRAR. Só o CRIADOR (papel gm da
   // sessão, não o toggle Modo Mestre) encerra a mesa pra todos.
   const ehCriador = isSessionCreator(live, user, sess)
+  // Renomear sessão (só o criador/GM): grava no servidor (updateSessionName) e
+  // no espelho local. Funciona offline — o isSessionCreator usa sess.mestre.
+  const [editandoNome, setEditandoNome] = useState(false)
+  const [nomeDraft, setNomeDraft] = useState(sess.nome)
+  const salvarNome = async () => {
+    const novo = nomeDraft.trim()
+    setEditandoNome(false)
+    if (!novo || novo === sess.nome) return
+    if (repo && sess.remoteId) {
+      try {
+        await repo.updateSessionName(sess.remoteId, novo)
+      } catch {
+        /* servidor fora — mantém só o local */
+      }
+    }
+    updateSession(sess.codigo, { nome: novo })
+  }
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div
@@ -1668,7 +1685,46 @@ function DetalhesPanel({ sess }: { sess: SessionRec }) {
       >
         <div style={{ position: 'absolute', top: 0, left: 0, width: 60, height: 3, background: 'var(--accent)' }} />
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 21, fontWeight: 700, color: 'var(--accent)' }}>{sess.nome}</span>
+          {ehCriador && editandoNome ? (
+            <input
+              autoFocus
+              value={nomeDraft}
+              onChange={(e) => setNomeDraft(e.target.value)}
+              onBlur={() => void salvarNome()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') void salvarNome()
+                else if (e.key === 'Escape') setEditandoNome(false)
+              }}
+              aria-label="Nome da sessão"
+              style={{
+                fontSize: 21,
+                fontWeight: 700,
+                color: 'var(--accent)',
+                background: 'var(--card)',
+                border: '1px solid var(--line2)',
+                padding: '2px 8px',
+                clipPath: clip(6),
+                maxWidth: 340,
+              }}
+            />
+          ) : (
+            <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 8 }}>
+              <span style={{ fontSize: 21, fontWeight: 700, color: 'var(--accent)' }}>{sess.nome}</span>
+              {ehCriador ? (
+                <button
+                  onClick={() => {
+                    setNomeDraft(sess.nome)
+                    setEditandoNome(true)
+                  }}
+                  title="Renomear sessão"
+                  aria-label="Renomear sessão"
+                  style={{ background: 'transparent', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: 14 }}
+                >
+                  ✎
+                </button>
+              ) : null}
+            </span>
+          )}
           <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>
             CÓDIGO: <span style={{ color: 'var(--text)' }}>{sess.codigo}</span>
           </span>
@@ -1903,6 +1959,178 @@ function AuthBox() {
 
 /* ═══════════════ LISTA DE SESSÕES (fora de sessão) ═══════════════ */
 
+interface SessaoRoster {
+  gm: string | null
+  players: { userId: string; nome: string; herois: string[] }[]
+}
+
+/** Carrega o ROSTER de uma sessão (mestre + jogadores com seus heróis) do
+ *  BACKEND, pra a lista mostrar os membros mesmo DESCONECTADO — antes só o
+ *  espelho local (s.claims/s.mestre) aparecia, e ficava vazio pros membros que
+ *  não estavam neste dispositivo. `null` até carregar / sem remoteId. */
+function useSessionRoster(remoteId: string | null): SessaoRoster | null {
+  const repo = useSessionRepo()
+  const [roster, setRoster] = useState<SessaoRoster | null>(null)
+  useEffect(() => {
+    if (!repo || !remoteId) {
+      setRoster(null)
+      return
+    }
+    let alive = true
+    Promise.all([
+      repo.listMembers(remoteId),
+      repo.findCharactersBySession(remoteId),
+      repo.findSessionById(remoteId),
+    ])
+      .then(([members, chars, s]) => {
+        if (!alive) return
+        const gmId = s?.gmUserId ?? null
+        const herby = new Map<string, string[]>()
+        for (const c of chars) {
+          if (c.kind === 'npc') continue
+          const arr = herby.get(c.memberId) ?? []
+          arr.push(c.summary.nome)
+          herby.set(c.memberId, arr)
+        }
+        const gmMember = members.find((m) => m.role === 'gm' || m.userId === gmId)
+        const players = members
+          .filter((m) => m.userId !== gmMember?.userId)
+          .map((m) => ({ userId: m.userId, nome: m.displayName, herois: herby.get(m.userId) ?? [] }))
+        setRoster({ gm: gmMember?.displayName ?? null, players })
+      })
+      .catch(() => {
+        /* servidor fora — cai no espelho local */
+      })
+    return () => {
+      alive = false
+    }
+  }, [repo, remoteId])
+  return roster
+}
+
+/** Card de uma sessão na lista. Mostra mestre + jogadores/heróis do BACKEND
+ *  (roster) quando disponível, senão o espelho local (claims). */
+function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => string }) {
+  const roster = useSessionRoster(s.remoteId ?? null)
+  const gm = roster?.gm ?? s.mestre
+  const players = roster
+    ? roster.players
+    : Object.entries(s.claims).map(([nome, heroIds]) => ({
+        userId: nome,
+        nome,
+        herois: heroIds.map(heroNome),
+      }))
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        padding: '13px 16px',
+        background: 'linear-gradient(135deg,var(--panel2),var(--panel))',
+        border: '1px solid var(--line2)',
+        clipPath: clip(14),
+      }}
+    >
+      {/* Feedback do mestre: botão Entrar MENOR, no cabeçalho do card. */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 15.5, fontWeight: 700 }}>{s.nome}</span>
+        <span
+          style={mono({
+            fontSize: 10.5,
+            color: 'var(--muted)',
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            padding: '2px 8px',
+            clipPath: clip(5),
+          })}
+        >
+          {s.codigo}
+        </span>
+        <span style={{ flex: 1 }} />
+        <button
+          onClick={() => setActiveSessionCode(s.codigo)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 5,
+            padding: '5px 12px',
+            background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
+            border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+            color: 'var(--accent)',
+            cursor: 'pointer',
+            fontWeight: 600,
+            fontSize: 11.5,
+            clipPath: clip(6),
+          }}
+        >
+          ▶ Entrar
+        </button>
+        <button
+          aria-label={`Excluir sessão ${s.nome}`}
+          onClick={() => deleteSession(s.codigo)}
+          style={{
+            width: 28,
+            height: 26,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
+            border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
+            color: '#d8695c',
+            cursor: 'pointer',
+            fontSize: 12,
+            clipPath: clip(5),
+          }}
+        >
+          🗑️
+        </button>
+      </div>
+      {gm ? (
+        <div style={mono({ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' })}>
+          👁️ MESTRE · <span style={{ color: 'var(--text)', fontWeight: 600 }}>{gm}</span>
+        </div>
+      ) : null}
+      {/* Feedback do mestre: usuários e seus heróis (mesmo inativos), resumidos. */}
+      {players.length ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {players.map((p) => (
+            <div key={p.userId} style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'baseline' }}>
+              <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--blue)' }}>{p.nome}</span>
+              {p.herois.length ? (
+                p.herois.map((h, i) => (
+                  <span
+                    key={`${p.userId}:${h}:${i}`}
+                    style={mono({
+                      fontSize: 10,
+                      color: 'var(--muted)',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line)',
+                      padding: '1px 7px',
+                      clipPath: clip(4),
+                    })}
+                  >
+                    {h}
+                  </span>
+                ))
+              ) : (
+                <span style={{ fontSize: 10.5, color: 'var(--muted)' }}>sem herói</span>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ fontSize: 12, color: 'var(--muted)' }}>Sem jogadores ainda</div>
+      )}
+      <div style={mono({ fontSize: 9.5, letterSpacing: '.06em', color: 'var(--muted)' })}>
+        {s.ultimaConexao
+          ? `Última Conexão: ${new Date(s.ultimaConexao).toLocaleString('pt-BR')}`
+          : `Criada em ${new Date(s.criadaEm).toLocaleDateString('pt-BR')}`}
+      </div>
+    </div>
+  )
+}
+
 function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
   const repo = useSessionRepo()
   const user = useSessionUser()
@@ -2001,119 +2229,9 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
         {'// LISTA DE SESSÕES'}
       </div>
       <AuthBox />
-      {sessions.map((s) => {
-        const membros = Object.entries(s.claims)
-        return (
-        <div
-          key={s.codigo}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-            padding: '13px 16px',
-            background: 'linear-gradient(135deg,var(--panel2),var(--panel))',
-            border: '1px solid var(--line2)',
-            clipPath: clip(14),
-          }}
-        >
-          {/* Feedback do mestre: botão Entrar MENOR, no cabeçalho do card. */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 15.5, fontWeight: 700 }}>{s.nome}</span>
-            <span
-              style={mono({
-                fontSize: 10.5,
-                color: 'var(--muted)',
-                background: 'var(--card)',
-                border: '1px solid var(--line2)',
-                padding: '2px 8px',
-                clipPath: clip(5),
-              })}
-            >
-              {s.codigo}
-            </span>
-            <span style={{ flex: 1 }} />
-            <button
-              onClick={() => setActiveSessionCode(s.codigo)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 5,
-                padding: '5px 12px',
-                background: 'color-mix(in srgb,var(--accent) 16%,var(--card))',
-                border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-                color: 'var(--accent)',
-                cursor: 'pointer',
-                fontWeight: 600,
-                fontSize: 11.5,
-                clipPath: clip(6),
-              }}
-            >
-              ▶ Entrar
-            </button>
-            <button
-              aria-label={`Excluir sessão ${s.nome}`}
-              onClick={() => deleteSession(s.codigo)}
-              style={{
-                width: 28,
-                height: 26,
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'color-mix(in srgb,var(--red) 10%,var(--card))',
-                border: '1px solid color-mix(in srgb,var(--red) 38%,var(--line2))',
-                color: '#d8695c',
-                cursor: 'pointer',
-                fontSize: 12,
-                clipPath: clip(5),
-              }}
-            >
-              🗑️
-            </button>
-          </div>
-          {s.mestre ? (
-            <div style={mono({ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' })}>
-              👁️ MESTRE · <span style={{ color: 'var(--text)', fontWeight: 600 }}>{s.mestre}</span>
-            </div>
-          ) : null}
-          {/* Feedback do mestre: usuários e seus heróis (mesmo inativos), resumidos. */}
-          {membros.length ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {membros.map(([jogador, heroIds]) => (
-                <div key={jogador} style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'baseline' }}>
-                  <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--blue)' }}>{jogador}</span>
-                  {heroIds.length ? (
-                    heroIds.map((hid) => (
-                      <span
-                        key={hid}
-                        style={mono({
-                          fontSize: 10,
-                          color: 'var(--muted)',
-                          background: 'var(--card)',
-                          border: '1px solid var(--line)',
-                          padding: '1px 7px',
-                          clipPath: clip(4),
-                        })}
-                      >
-                        {heroNome(hid)}
-                      </span>
-                    ))
-                  ) : (
-                    <span style={{ fontSize: 10.5, color: 'var(--muted)' }}>sem herói</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ fontSize: 12, color: 'var(--muted)' }}>Sem jogadores ainda</div>
-          )}
-          <div style={mono({ fontSize: 9.5, letterSpacing: '.06em', color: 'var(--muted)' })}>
-            {s.ultimaConexao
-              ? `Última Conexão: ${new Date(s.ultimaConexao).toLocaleString('pt-BR')}`
-              : `Criada em ${new Date(s.criadaEm).toLocaleDateString('pt-BR')}`}
-          </div>
-        </div>
-        )
-      })}
+      {sessions.map((s) => (
+        <SessaoCard key={s.codigo} s={s} heroNome={heroNome} />
+      ))}
       {/* Feedback do mestre: "+ Criar" ao LADO do "Entrar", autocontido. */}
       <div
         style={{
