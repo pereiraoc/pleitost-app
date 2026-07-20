@@ -510,10 +510,15 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       else if (id.includes('/Imbuições e Qualidade/Qualidade/')) qualIds.push(id)
       else if (id.includes('/Tesouros/Consumíveis/')) pocIds.push(id)
     }
+    // #341: TODAS as armas vendáveis (fora especiais/naturais, que só vêm por
+    // habilidade). A nota "Disponibilidade de Tesouros" prevê armas INCOMUNS com %
+    // reduzido — então não são mais gateadas pelos Recursos; a tipicidade (∈
+    // Recursos) é decidida dentro do buildShopCandidates.
     const armaIds: string[] = []
-    for (const raw of recursos) {
-      const res = catalog.resolve(raw.replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim())
-      if (res.kind === 'doc' && res.id.includes('/Equipamento/Armas/')) armaIds.push(res.id)
+    for (const e of catalog.content) {
+      if (!e.id.startsWith('Sistema/Equipamento/Armas/') || e.subtype !== 'Arma') continue
+      const g = (typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()
+      if (g !== 'natural' && g !== 'especial') armaIds.push(e.id)
     }
     const load = (arr: string[]) =>
       Promise.all(arr.map((id) => loadDoc(id).catch(() => null))).then((ds) =>
@@ -521,13 +526,11 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
       )
     let alive = true
     Promise.all([load(tesIds), load(imbIds), load(qualIds), load(pocIds), load(armaIds)]).then(
-      ([tesourosSimples, imbuicoes, qualidades, pocoes, armasTipicas]) => {
+      ([tesourosSimples, imbuicoes, qualidades, pocoes, armas]) => {
         if (!alive) return
-        const all = [...tesourosSimples, ...imbuicoes, ...qualidades, ...pocoes, ...armasTipicas]
+        const all = [...tesourosSimples, ...imbuicoes, ...qualidades, ...pocoes, ...armas]
         setDocsById(new Map(all.map((d) => [d.id, d])))
-        setBuilt(
-          buildShopCandidates({ recursos, tesourosSimples, imbuicoes, qualidades, pocoes, armasTipicas }),
-        )
+        setBuilt(buildShopCandidates({ recursos, tesourosSimples, imbuicoes, qualidades, pocoes, armas }))
       },
     )
     return () => {

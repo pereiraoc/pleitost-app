@@ -41,7 +41,7 @@ describe('buildShopCandidates (Canto Alto real)', () => {
       byName('Imbuição Flamejante'), // ∉ Recursos + NÃO cabe na Adaga (perfuração ≠ corte)
       byName('Imbuição Enraizante'), // ∉ Recursos MAS cabe na Adaga (Tipo,perfuração)
     ],
-    armasTipicas: [byName('Adaga')],
+    armas: [byName('Adaga'), byName('Espada Longa')], // Adaga típica; Espada Longa incomum (∉ Recursos)
     qualidades: [byName('Arma Obra-prima'), byName('Armadura Obra-prima')],
     pocoes: [byName('Poção de Cura')],
   })
@@ -70,6 +70,15 @@ describe('buildShopCandidates (Canto Alto real)', () => {
     const c = find('Adaga Obra-prima')!
     expect(c.mult).toBe(2)
     expect(c.propriedadeBase).toBe('Arma Obra-prima')
+  })
+
+  it('#341 arma INCOMUM (Espada Longa ∉ Recursos) É oferecida — Obra-prima básico-incomum ×½', () => {
+    // Antes armas fora dos Recursos SUMIAM da loja (o caso do Lilá). A nota
+    // Disponibilidade de Tesouros prevê a arma incomum com % reduzido: aqui a
+    // Obra-prima (básico) da Espada Longa entra como básico-incomum ×½.
+    const c = find('Espada Longa Obra-prima')!
+    expect(c, 'arma incomum deve virar candidato').toBeTruthy()
+    expect(c.mult).toBe(0.5)
   })
 
   it('tesouro TÍPICO (Anel Canário ∈ Recursos) ×1; BÁSICO incomum (Bracelete) ×½', () => {

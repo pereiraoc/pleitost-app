@@ -38,8 +38,11 @@ export interface BuildCandidatesInput {
   tesourosSimples: VaultDoc[]
   /** Todas as imbuições (combinam com as armas típicas). */
   imbuicoes: VaultDoc[]
-  /** Armas TÍPICAS (docs resolvidos dos Recursos, subcategoria Arma). */
-  armasTipicas: VaultDoc[]
+  /** TODAS as armas vendáveis (fora especiais/naturais, que só vêm por regra). O
+   *  combo é TÍPICO se a arma está nos Recursos, senão INCOMUM — a nota
+   *  "Disponibilidade de Tesouros" prevê os dois (Arma incomum + imbuição típica
+   *  ×½, etc.), então a arma incomum entra com % reduzido, não some. */
+  armas: VaultDoc[]
   /** Qualidades obra-prima (Arma/Armadura/Broquel/Escudo/Ferramenta Obra-prima). */
   qualidades: VaultDoc[]
   /** Poções (consumíveis). */
@@ -70,8 +73,12 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
     })
   }
 
-  // 2) Combos ARMA(típica)×IMBUIÇÃO — "Adaga Relampejante" (preço = imbuição).
-  for (const arma of input.armasTipicas) {
+  // 2) Combos ARMA×IMBUIÇÃO — "Adaga Relampejante" (preço = imbuição). Vale pra
+  //    TODA arma vendável: típica (∈ Recursos) ou incomum. O comboMult aplica os
+  //    modificadores da nota (tt ×1 · it ×½ · ti ×¼ · ii ×⅛), então a arma incomum
+  //    entra com % menor no roll — não é mais excluída.
+  for (const arma of input.armas) {
+    const armaTipica = tipico.has(arma.basename)
     const host = hostStatsFromDoc(arma)
     for (const imb of input.imbuicoes) {
       // #288: só oferece o combo se a imbuição é APLICÁVEL a esta arma (AplicavelA
@@ -84,23 +91,22 @@ export function buildShopCandidates(input: BuildCandidatesInput): {
         nome: `${arma.basename} ${adj}`,
         label: `${arma.basename} ${adj}`,
         precoBase: precoPO(imb),
-        mult: comboMult(true, tipico.has(imb.basename)),
+        mult: comboMult(armaTipica, tipico.has(imb.basename)),
         tiers: T3,
         armaTarget: arma.id,
         imbTarget: imb.id, // p/ a 2ª carta no hover
         propriedadeBase: imb.basename, // p/ selo (figura "Imbuição X <Tier>.png")
       })
     }
-    // 3) Arma Obra-prima (básico) aplicada à arma típica — "Adaga Obra-prima".
-    //    #288: mesmo filtro AplicavelA — a obra-prima de arma exige Subcategoria,Arma
-    //    + Grupo,cac-*|d-*; armas fora desses grupos não recebem o combo.
+    // 3) Arma Obra-prima (básico) — "Adaga Obra-prima". Básico-típico ×2 se a arma
+    //    é típica; básico-incomum ×½ se não. #288: mesmo filtro AplicavelA.
     if (obraPrimaArma && isAplicavelAoHost(aplicavelPredicates(obraPrimaArma), host)) {
       candidates.push({
         key: `${arma.id}|obra-prima`,
         nome: `${arma.basename} Obra-prima`,
         label: `${arma.basename} Obra-prima`,
         precoBase: precoPO(obraPrimaArma),
-        mult: RARIDADE_MULT[raridadeTesouro('Arma Obra-prima', true)], // básico-típico ×2
+        mult: RARIDADE_MULT[raridadeTesouro('Arma Obra-prima', armaTipica)],
         tiers: T3,
         armaTarget: arma.id,
         imbTarget: obraPrimaArma.id, // 2ª carta no hover = a obra-prima
