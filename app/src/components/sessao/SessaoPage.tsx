@@ -1167,7 +1167,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         {/* #328: adicionar combatente DURANTE o combate — leva ao bestiário, onde
             o card do monstro tem "⚔️ Adicionar à iniciativa" (anexa ao combate
             ativo, addMonsterToInitiative). Era possível mas não descobrível daqui. */}
-        {isGm && ativo ? chip('＋ COMBATENTE', 'Adicionar combatente (bestiário)', () => navigate('/npcs')) : null}
+        {isGm && ativo ? chip('+ COMBATENTE', 'Adicionar combatente (bestiário)', () => navigate('/npcs')) : null}
         {/* #324: liga o modo de reordenar a iniciativa (só então aparecem as alças
             de arrastar); fora dele o combate fica como antes. */}
         {isGm && ativo

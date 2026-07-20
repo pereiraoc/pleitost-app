@@ -6,7 +6,7 @@
 // InventarioTab.TESOUROS_EXCLUIR).
 //
 // Só existe na MESA (sessão com remoteId): sem sessão não há pool compartilhado.
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
 import { useDocs } from '../data/useDoc'
@@ -45,6 +45,13 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const { mestre } = useSettings()
   const [sel, setSel] = useState('')
   const [status, setStatus] = useState('')
+  // #335: o log de confirmação some sozinho depois de alguns segundos — antes
+  // ficava fixo ocupando espaço embaixo.
+  useEffect(() => {
+    if (!status) return
+    const t = setTimeout(() => setStatus(''), 4000)
+    return () => clearTimeout(t)
+  }, [status])
 
   const remoteId = live?.sessionId ?? null
   const semSessao = !repo || !remoteId || !user
@@ -199,7 +206,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             clipPath: clip(8),
           }}
         >
-          ＋ Adicionar
+          + Adicionar
         </button>
       </div>
 
