@@ -157,9 +157,20 @@ export function AppShell() {
   const [collapsed, setCollapsed] = useState(false)
   // Colapso da sidebar DIREITA no desktop (feedback do mestre) — vira trilho.
   const [rightCollapsed, setRightCollapsed] = useState(false)
-  const { pathname } = useLocation()
+  const location = useLocation()
+  const { pathname } = location
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  // No mobile, NAVEGAR (trocar de rota) fecha os drawers — senão o painel
+  // direito (Sessão/Detalhes) ficava por cima da tela navegada: abrir a FICHA
+  // DO GRUPO da sessão não revelava a ficha. Detalhes (DetailAutoReveal) abrem
+  // sem navegar, então não conflitam com isto.
+  useEffect(() => {
+    if (window.innerWidth < 820) {
+      setDrawerOpen(false)
+      setRightOpen(false)
+    }
+  }, [location.key])
 
   // Ficha aberta (/heroi/...): CHAR_TABS ficam ativas e trocam a ?tab=.
   const fichaOpen = pathname.startsWith('/heroi/')
