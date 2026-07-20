@@ -41,6 +41,10 @@ const TESOURO = manifest.docs.find(
     !d.id.startsWith('Sistema/Equipamento/Tesouros/Imbuições e Qualidade/') &&
     !d.id.startsWith('Sistema/Equipamento/Tesouros/Artefatos/'),
 )!
+// equipamento "outro" (perícia/ataque/defesa) pro configurador
+const EQUIP = manifest.docs.find(
+  (d) => d.id.startsWith('Sistema/Equipamento/Tesouros/Equipamentos/') && d.subtype === 'Tesouro',
+)!
 
 function makeStorage(): Storage {
   const data = new Map<string, string>()
@@ -131,42 +135,70 @@ function renderPanel(repo: InMemorySessionRepo, user: { id: string; nome: string
   )
 }
 
-describe('#333 inventário do grupo', () => {
-  it('adicionar item entra no state.inventarioGrupo da sessão', async () => {
+describe('#333/#336 inventário do grupo', () => {
+  it('adicionar EQUIPAMENTO pelo configurador entra no state (kind tesouro)', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'INV001' })
     setLive(sess.id, {})
     renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
 
-    const sel = (await screen.findByLabelText('Item pra adicionar ao grupo')) as HTMLSelectElement
+    // tipo Equipamento → sub Outro → escolhe o item → Adicionar
+    fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
+    const sel = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
     await waitFor(() => expect(sel.options.length).toBeGreaterThan(1))
-    fireEvent.change(sel, { target: { value: TESOURO.id } })
-    fireEvent.click(screen.getByRole('button', { name: /Adicionar/ }))
+    fireEvent.change(sel, { target: { value: EQUIP.id } })
+    fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar/ }))
 
     await waitFor(async () => {
       const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
       const vals = Object.values(s)
       expect(vals.length).toBe(1)
-      expect(vals[0]!.docId).toBe(TESOURO.id)
-      expect(vals[0]!.addedBy).toBe('gm-1')
+      const v = vals[0] as Record<string, unknown>
+      expect(v.kind).toBe('tesouro')
+      expect(v.docId).toBe(EQUIP.id)
+      expect(v.addedBy).toBe('gm-1')
     })
   })
 
-  it('Artefato só entra no seletor do GRUPO pro Mestre', async () => {
+  it('adicionar OURO entra no state (kind ouro + quantidade + valor)', async () => {
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'INV004' })
+    setLive(sess.id, {})
+    renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
+
+    fireEvent.click(await screen.findByRole('button', { name: /Ouro/ }))
+    fireEvent.change(screen.getByLabelText('Quantidade de ouro'), { target: { value: '75' } })
+    fireEvent.click(screen.getByRole('button', { name: /\+ Adicionar/ }))
+
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state.inventarioGrupo ?? {}
+      const v = Object.values(s)[0] as Record<string, unknown>
+      expect(v.kind).toBe('ouro')
+      expect(v.qtd).toBe(75)
+      expect(v.valorPO).toBe(75)
+    })
+  })
+
+  it('Artefato só aparece no seletor de Equipamento pro Mestre', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-1', code: 'INV002' })
-    // jogador comum (sem Modo Mestre): sem Artefato no seletor
     setLive(sess.id, {})
+    // jogador comum (sem Modo Mestre): sem Artefato no seletor
     const { unmount } = renderPanel(repo, { id: 'p-1', nome: 'Ana' })
-    const selJog = (await screen.findByLabelText('Item pra adicionar ao grupo')) as HTMLSelectElement
+    fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
+    const selJog = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
     await waitFor(() => expect(selJog.options.length).toBeGreaterThan(1))
     expect([...selJog.options].some((o) => o.value === ARTEFATO.id)).toBe(false)
     unmount()
 
-    // Mestre: Artefato disponível
+    // Mestre: Artefato disponível no "Outro"
     mestreOn()
     renderPanel(repo, { id: 'gm-1', nome: 'Mestre' })
-    const selGm = (await screen.findByLabelText('Item pra adicionar ao grupo')) as HTMLSelectElement
+    fireEvent.click(await screen.findByRole('button', { name: /Equipamento/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Outro' }))
+    const selGm = (await screen.findByLabelText('Equipamento')) as HTMLSelectElement
     await waitFor(() => expect([...selGm.options].some((o) => o.value === ARTEFATO.id)).toBe(true))
   })
 

@@ -111,23 +111,69 @@ export interface Encounter {
 
 export type SessionRole = 'gm' | 'player'
 
-/** #333: item do INVENTÁRIO COMPARTILHADO da mesa. Guardado num MAPA (id-único →
- *  item) dentro do state da sessão, não num array: cada adição usa uma chave nova,
- *  então futuras adições concorrentes ficam fáceis de mesclar (o merge do state
- *  hoje é por chave de topo → o mapa inteiro é last-write-wins; adições
- *  ~simultâneas são raras num loot de grupo). */
-export interface GroupInventoryItem {
-  /** id do doc do item no catálogo (resolve carta/imagem). */
-  docId: string
-  /** nome exibível. */
-  nome: string
-  /** tier do tesouro (A/E/M) — usado ao puxar pra ficha. */
-  tier?: string
+/** #333/#336: item do INVENTÁRIO COMPARTILHADO da mesa. Guardado num MAPA
+ *  (id-único → item) dentro do state da sessão, não num array: cada adição usa
+ *  uma chave nova, então futuras adições concorrentes ficam fáceis de mesclar (o
+ *  merge do state hoje é por chave de topo → o mapa inteiro é last-write-wins;
+ *  adições ~simultâneas são raras num loot de grupo).
+ *
+ *  #336: união DISCRIMINADA por `kind` — o item é CONFIGURADO no grupo (arma +
+ *  propriedade + qualidade / equipamento / implemento / ouro) e carrega o
+ *  necessário pra (a) exibir, (b) mostrar o valor, (c) reconstruir a entrada de
+ *  FM ao puxar pra ficha. Itens LEGADOS (sem `kind`) são tratados como `tesouro`
+ *  (normalizeGroupItem). */
+interface GroupInvCommon {
   /** userId de quem colocou no inventário do grupo. */
   addedBy: string
   /** ISO timestamp da adição (ordenação estável). */
   addedAt: string
+  /** valor total em PO computado na adição (exibição/soma sem re-resolver docs). */
+  valorPO?: number
 }
+
+/** ARMA: arma-base + propriedade (imbuição ou obra-prima) + qualidade. */
+export interface GroupInvArma extends GroupInvCommon {
+  kind: 'arma'
+  /** basename da arma (Nome + exibição). */
+  nome: string
+  /** grupo da arma (deriva o Atributo no pull). */
+  grupo?: string
+  /** `propriedades` do doc da arma (deriva o Atributo). */
+  propriedades?: unknown
+  /** basename da imbuição escolhida OU 'Arma Obra-prima' (auto com tier). '' = nenhuma. */
+  propriedadeBase?: string
+  /** '' | A | E | M. */
+  tier?: string
+}
+
+/** ARMADURA/ESCUDO: peça de slot único, com qualidade (obra-prima). */
+export interface GroupInvGear extends GroupInvCommon {
+  kind: 'armadura' | 'escudo'
+  /** base (Armadura Leve / Broquel / …). */
+  nome: string
+  tier?: string
+  /** dureza base (materializada no equip do escudo). */
+  dureza?: number
+}
+
+/** TESOURO/EQUIPAMENTO/IMPLEMENTO: item de bag, alias com tier. */
+export interface GroupInvTesouro extends GroupInvCommon {
+  kind?: 'tesouro'
+  /** id do doc no catálogo (resolve carta/imagem/preço). */
+  docId: string
+  /** nome exibível. */
+  nome: string
+  /** tier do tesouro (A/E/M). */
+  tier?: string
+}
+
+/** OURO: só a quantidade. */
+export interface GroupInvOuro extends GroupInvCommon {
+  kind: 'ouro'
+  qtd: number
+}
+
+export type GroupInventoryItem = GroupInvArma | GroupInvGear | GroupInvTesouro | GroupInvOuro
 
 export interface SessionState {
   turn?: { order: string[]; current: string }
