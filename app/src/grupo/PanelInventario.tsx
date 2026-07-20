@@ -19,14 +19,15 @@ import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useSettings } from '../settings'
 import { getLocalDoc, setLocalEntityFm } from '../data/local-entities'
 import { heroAtributos } from '../components/ficha/hero-model'
-import { GRUPO_ARMA_ORDER, grupoArmaEmoji } from '../components/ficha/registry'
+import { GRUPO_ARMA_ORDER, grupoArmaEmoji, ITEM_TIER_BTN } from '../components/ficha/registry'
 import { ItemHover, docImageUrl, docTier } from '../components/item-card'
+import { tesouroImageUrl } from '../data/equipment-image'
 import { clip } from '../components/ficha/bits'
 import { armaduraBases, escudoBases } from '../components/ficha/equipment-bases'
 import { tesouroAplicavelAoItem } from '../rules/aplicavel-a'
 import { precoPO } from './wealth'
 import { sectionTitleStyle } from './panel-ui'
-import { itemValorPO, pullItemToFm, normalizeGroupItem, KIND_LABEL } from './inventario-item'
+import { itemValorPO, pullItemToFm, normalizeGroupItem } from './inventario-item'
 import type { GroupInventoryItem } from '../data/session-repo/contract'
 import type { VaultDoc } from '../data/types'
 
@@ -71,6 +72,9 @@ const selStyle = mono({
 function novaChave(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
+
+const asTierChar = (t: string | undefined): '' | 'A' | 'E' | 'M' => (t === 'A' || t === 'E' || t === 'M' ? t : '')
+const TIER_MASC: Record<'A' | 'E' | 'M', string> = { A: 'Adepto', E: 'Experiente', M: 'Mestre' }
 
 /** Emoji do item no pool (implemento = varinha; equipamento/tesouro = anel). */
 function itemEmoji(it: GroupInventoryItem): string {
@@ -141,7 +145,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
   const remoteId = live?.sessionId ?? null
   const semSessao = !repo || !remoteId || !user
 
-  const mapa = live?.state?.inventarioGrupo ?? {}
+  const mapa = useMemo(() => live?.state?.inventarioGrupo ?? {}, [live?.state?.inventarioGrupo])
   const itens = useMemo<ItemView[]>(
     () =>
       Object.entries(mapa)
@@ -226,6 +230,11 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     for (const it of itens) {
       const n = normalizeGroupItem(it)
       if (n.kind === 'tesouro' && n.docId) ids.add(n.docId)
+      // arma/armadura/escudo do pool: resolve o doc pelo nome (carta/imagem).
+      else if ((n.kind === 'arma' || n.kind === 'armadura' || n.kind === 'escudo') && (n as { nome?: string }).nome) {
+        const id = idOf((n as { nome: string }).nome)
+        if (id) ids.add(id)
+      }
     }
     for (const b of OBRA_PRIMAS) {
       const id = idOf(b)
@@ -239,7 +248,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
         if (id) ids.add(id)
       }
     }
-    if (tipo === 'equipamento' && equipSub === 'escudo' && gearBase) {
+    if (tipo === 'equipamento' && (equipSub === 'armadura' || equipSub === 'escudo') && gearBase) {
       const id = idOf(gearBase)
       if (id) ids.add(id)
     }
@@ -257,7 +266,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
 
   const armaDoc = armaSel ? docs?.get(armaSel) : undefined
   const propDoc = propSel ? docs?.get(idOf(propSel) ?? '') : undefined
-  const escudoDoc = equipSub === 'escudo' && gearBase ? docs?.get(idOf(gearBase) ?? '') : undefined
+  const gearDoc =
+    (equipSub === 'armadura' || equipSub === 'escudo') && gearBase ? docs?.get(idOf(gearBase) ?? '') : undefined
   const tesDoc = tesSel ? docs?.get(tesSel) : undefined
   const impDoc = impSel ? docs?.get(impSel) : undefined
 
@@ -308,7 +318,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       if (!gearBase) return null
       const dureza =
         equipSub === 'escudo'
-          ? Number((escudoDoc?.frontmatter as Record<string, unknown> | undefined)?.['dureza']) || 0
+          ? Number((gearDoc?.frontmatter as Record<string, unknown> | undefined)?.['dureza']) || 0
           : 0
       return { kind: equipSub, nome: gearBase, tier: equipTier || 'A', dureza, ...base }
     }
@@ -325,7 +335,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     return null
   }, [
     tipo, armaSel, propSel, armaTier, equipSub, gearBase, tesSel, tesArtefato, equipTier, impSel,
-    impTier, ouroQtd, allArmas, implementos, tesouroById, armaDoc, escudoDoc, user?.id,
+    impTier, ouroQtd, allArmas, implementos, tesouroById, armaDoc, gearDoc, user?.id,
   ])
 
   const valorAtual = draft ? itemValorPO(draft, priceOf) : 0
@@ -393,17 +403,28 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
     )
   }
 
-  // preview (imagem + tooltip) do item + propriedade selecionados (#5)
-  const previewDocs: { doc: VaultDoc | undefined; propDoc?: VaultDoc | undefined }[] =
-    tipo === 'arma' && armaDoc
-      ? [{ doc: armaDoc, propDoc }]
-      : tipo === 'equipamento' && equipSub === 'escudo' && escudoDoc
-        ? [{ doc: escudoDoc }]
-        : tipo === 'equipamento' && equipSub === 'tesouro' && tesDoc
-          ? [{ doc: tesDoc }]
-          : tipo === 'implemento' && impDoc
-            ? [{ doc: impDoc }]
-            : []
+  // preview (imagem + tooltip do CARD, com tier) do item + propriedade
+  // selecionados (#5) — mesma carta que aparece no inventário do personagem.
+  const previewDocs: { doc: VaultDoc; propDoc?: VaultDoc; tier: '' | 'A' | 'E' | 'M'; img: string | null }[] =
+    (() => {
+      if (tipo === 'arma' && armaDoc) {
+        const t = asTierChar(armaTier)
+        return [{ doc: armaDoc, propDoc, tier: t, img: docImageUrl(armaDoc, t || docTier(armaDoc), assets) }]
+      }
+      if (tipo === 'equipamento' && (equipSub === 'armadura' || equipSub === 'escudo') && gearDoc) {
+        const t = asTierChar(equipTier)
+        return [{ doc: gearDoc, tier: t, img: docImageUrl(gearDoc, t || docTier(gearDoc), assets) }]
+      }
+      if (tipo === 'equipamento' && equipSub === 'tesouro' && tesDoc) {
+        const t = tesArtefato ? 'M' : asTierChar(equipTier)
+        return [{ doc: tesDoc, tier: t, img: tesouroImageUrl(tesDoc.basename, t, assets) }]
+      }
+      if (tipo === 'implemento' && impDoc) {
+        const t = asTierChar(impTier)
+        return [{ doc: impDoc, tier: t, img: tesouroImageUrl(impDoc.basename, t, assets) }]
+      }
+      return []
+    })()
 
   return (
     <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -573,9 +594,16 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
         {previewDocs.length ? (
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {previewDocs.map((p, i) => (
-              <PreviewChip key={i} doc={p.doc} propDoc={p.propDoc} assets={assets} />
+              <PreviewChip key={i} doc={p.doc} propDoc={p.propDoc} tier={p.tier} img={p.img} assets={assets} />
             ))}
-            {tipo === 'arma' && propDoc ? <PreviewChip doc={propDoc} assets={assets} /> : null}
+            {tipo === 'arma' && propDoc ? (
+              <PreviewChip
+                doc={propDoc}
+                tier={asTierChar(armaTier)}
+                img={docImageUrl(propDoc, asTierChar(armaTier) || docTier(propDoc), assets)}
+                assets={assets}
+              />
+            ) : null}
           </div>
         ) : null}
 
@@ -624,54 +652,86 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {itens.map((it) => {
-            const kind = it.kind ?? 'tesouro'
-            const docId = kind === 'tesouro' ? (it as { docId?: string }).docId : undefined
+            // Mesma linguagem visual da lista de equipamentos do inventário do
+            // personagem (InventarioTab): borda esquerda pela QUALIDADE, imagem do
+            // item (contain), nome azul + sufixo do tier, e o CARD no hover.
+            const n = normalizeGroupItem(it)
+            const kind = n.kind ?? 'tesouro'
+            const nome = itemNome(it)
+            const tier = asTierChar((n as { tier?: string }).tier)
+            const docId = kind === 'tesouro' ? (n as { docId?: string }).docId : kind === 'ouro' ? null : idOf(nome)
             const doc = docId ? docs?.get(docId) : undefined
-            const img = doc ? docImageUrl(doc, docTier(doc), assets) : null
+            const img =
+              kind === 'ouro'
+                ? null
+                : kind === 'tesouro'
+                  ? tesouroImageUrl(nome, tier, assets)
+                  : doc
+                    ? docImageUrl(doc, tier || docTier(doc), assets)
+                    : null
+            const tierBd = tier ? ITEM_TIER_BTN[tier].bd : 'var(--line2)'
             const podeRemover = mestre || it.addedBy === user!.id
             const nomeQuem = nomePorUser.get(it.addedBy) ?? '—'
-            const tier = (it as { tier?: string }).tier
-            const nomeEl = <span style={{ fontSize: 13.5, fontWeight: 700 }}>{itemNome(it)}</span>
             return (
               <div
                 key={it.key}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 11,
-                  padding: '9px 12px',
+                  gap: 10,
+                  padding: '7px 10px',
                   background: 'var(--card)',
                   border: '1px solid var(--line2)',
-                  clipPath: clip(9),
+                  borderLeft: `3px solid ${tierBd}`,
+                  clipPath: clip(8),
                 }}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    width: 38,
-                    height: 38,
-                    flex: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    overflow: 'hidden',
-                    background: 'var(--panel)',
-                    border: '1px solid var(--line2)',
-                    clipPath: clip(8),
-                    fontSize: 18,
-                  }}
-                >
-                  {img ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : itemEmoji(it)}
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, flex: 1 }}>
+                  <ItemHover doc={doc} tier={tier || undefined}>
+                    {img ? (
+                      <span
+                        aria-hidden
+                        style={{
+                          flex: 'none',
+                          width: 30,
+                          height: 30,
+                          background: 'var(--panel2)',
+                          border: '1px solid var(--line2)',
+                          clipPath: clip(6),
+                          backgroundImage: `url("${img}")`,
+                          backgroundSize: 'contain',
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'center',
+                        }}
+                      />
+                    ) : (
+                      <span aria-hidden style={{ fontSize: 15, flex: 'none' }}>{itemEmoji(it)}</span>
+                    )}
+                  </ItemHover>
+                  <ItemHover doc={doc} tier={tier || undefined}>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        color: 'var(--blue)',
+                        fontSize: 13.5,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {nome}
+                    </span>
+                  </ItemHover>
+                  {tier ? (
+                    <span style={mono({ fontSize: 11, fontWeight: 700, color: tierBd, flex: 'none' })}>
+                      ({TIER_MASC[tier]})
+                    </span>
+                  ) : null}
                 </span>
-                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {doc ? <ItemHover doc={doc}>{nomeEl}</ItemHover> : nomeEl}
-                  <span style={mono({ fontSize: 9.5, color: 'var(--muted)', display: 'flex', gap: 8, flexWrap: 'wrap' })}>
-                    <span>{KIND_LABEL[kind] ?? 'Tesouro'}</span>
-                    {tier ? <span>· {tier}</span> : null}
-                    {it.valorPO ? <span>· {it.valorPO} PO</span> : null}
-                    <span>· por {nomeQuem}</span>
-                  </span>
-                </div>
+                <span style={mono({ fontSize: 9.5, color: 'var(--muted)', flex: 'none', textAlign: 'right', whiteSpace: 'nowrap' })}>
+                  {it.valorPO ? `${it.valorPO} PO · ` : ''}
+                  {nomeQuem}
+                </span>
                 {meuHeroiLocal ? (
                   <button
                     onClick={() => void puxar(it)}
@@ -724,20 +784,25 @@ function QualityRow({ value, onChange }: { value: string; onChange: (t: string) 
   )
 }
 
-/** Chip de preview: imagem + nome do doc, com o card no hover (ItemHover). */
+/** Chip de preview: imagem + nome do doc, com o CARD (tier) no hover (ItemHover) —
+ *  o mesmo tooltip do inventário do personagem. */
 function PreviewChip({
   doc,
   propDoc,
-  assets,
+  tier,
+  img,
+  assets: _assets,
 }: {
   doc: VaultDoc | undefined
   propDoc?: VaultDoc | undefined
+  tier?: '' | 'A' | 'E' | 'M'
+  img?: string | null
   assets: ReturnType<typeof useAssetIndex>
 }): ReactNode {
   if (!doc) return null
-  const img = docImageUrl(doc, docTier(doc), assets)
+  const tierBd = tier ? ITEM_TIER_BTN[tier].bd : 'var(--line2)'
   return (
-    <ItemHover doc={doc} propDoc={propDoc}>
+    <ItemHover doc={doc} propDoc={propDoc} tier={tier || undefined}>
       <span
         style={{
           display: 'inline-flex',
@@ -746,6 +811,7 @@ function PreviewChip({
           padding: '5px 9px 5px 5px',
           background: 'var(--card)',
           border: '1px solid var(--line2)',
+          borderLeft: `3px solid ${tierBd}`,
           clipPath: clip(7),
           cursor: 'default',
         }}
