@@ -16,6 +16,7 @@ import {
   useLocalStoreVersion,
 } from '../../data/local-entities'
 import { useSettings } from '../../settings'
+import { podeComerciar, useGroupStoreVersion } from '../../data/group-store'
 import {
   TIER_COLUNA,
   DEFAULT_ENCOMENDA_MATRIX,
@@ -831,6 +832,9 @@ export function locationHasHexMap(doc: VaultDoc): boolean {
   return regionMapForDoc(doc) != null
 }
 
+const COMERCIO_DISABLED_NOTE =
+  'O comércio abre quando o grupo está PARADO neste local (parada atual da exploração). O Modo Mestre sempre pode.'
+
 const HEX_DISABLED_NOTE =
   'Hexploração só é habilitada na nota-raiz de uma região com mapa de hexcrawl configurado (por ora, Mundo Livre).'
 
@@ -851,6 +855,10 @@ export function LocationSheet({
 }) {
   const [tab, setTab] = useState<LocTab['id']>('detalhes')
   const rel = useAtlasRelations(doc)
+  // F7 (#347): gate do comércio pela parada atual — mestre sempre pode; a
+  // versão global do group-store re-renderiza quando o grupo se move.
+  const { mestre } = useSettings()
+  useGroupStoreVersion()
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
   const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
@@ -879,7 +887,11 @@ export function LocationSheet({
           convenção :disabled existente (opacity .38, cursor default). */}
       <div role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
         {tabs.map((t) => {
-          const enabled = t.enabled ? t.enabled(doc) : true
+          // F7 (#347): Comércio gateado pela PARADA ATUAL do grupo — só a
+          // posição libera a compra; mestre sempre pode. Informação do
+          // compêndio segue aberta (só a AÇÃO é gateada).
+          const gateComercio = t.id === 'comercio' && !mestre && !podeComerciar(doc.id)
+          const enabled = (t.enabled ? t.enabled(doc) : true) && !gateComercio
           const on = t.id === tab
           return (
             <button
@@ -887,7 +899,13 @@ export function LocationSheet({
               role="tab"
               aria-selected={on}
               disabled={!enabled}
-              title={!enabled && t.id === 'hexploracao' ? HEX_DISABLED_NOTE : undefined}
+              title={
+                !enabled && t.id === 'hexploracao'
+                  ? HEX_DISABLED_NOTE
+                  : gateComercio
+                    ? COMERCIO_DISABLED_NOTE
+                    : undefined
+              }
               onClick={() => enabled && setTab(t.id)}
               style={{
                 padding: '11px 16px',

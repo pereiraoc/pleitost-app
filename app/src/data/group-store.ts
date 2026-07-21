@@ -29,6 +29,7 @@
 // campos novos são opcionais). Sem dados reais migráveis, sancionado trocar a
 // forma.
 
+import { useSyncExternalStore } from 'react'
 import { createKeyedStoreChannel } from './store-kit'
 
 export interface GroupHex {
@@ -151,7 +152,27 @@ export function subscribeGroup(groupId: string, cb: () => void): () => void {
   return channel.subscribe(groupId, cb)
 }
 
-const notify = channel.emit
+// F7: versão GLOBAL do store (qualquer grupo) — o gate do comércio
+// (podeComerciar) precisa reagir a movimento em qualquer grupo.
+let globalVersion = 0
+const globalListeners = new Set<() => void>()
+const notify = (groupId: string): void => {
+  globalVersion++
+  for (const cb of globalListeners) cb()
+  channel.emit(groupId)
+}
+
+/** Reatividade global do group-store (React) — re-render quando QUALQUER grupo
+ *  muda (usado pelo gate de comércio da LocationSheet). */
+export function useGroupStoreVersion(): number {
+  return useSyncExternalStore(
+    (cb) => {
+      globalListeners.add(cb)
+      return () => globalListeners.delete(cb)
+    },
+    () => globalVersion,
+  )
+}
 
 /** Estado vazio (nenhuma parada, nenhuma região) → chave removida. */
 function isEmpty(s: GroupState): boolean {
@@ -346,6 +367,27 @@ export function hexAtual(state: GroupState): GroupHex | null {
     if (t) return t
   }
   return state.hexes.length ? state.hexes[state.hexes.length - 1]! : null
+}
+
+/** F7 (#347, report a751ea41): o COMÉRCIO de um local só libera quando algum
+ *  GRUPO deste dispositivo está PARADO nele — hex ATUAL (hexAtual) com
+ *  `localId` do doc do local. O Modo Mestre não passa por aqui (sempre pode).
+ *  Varre os estados de grupo conhecidos (memória + localStorage). */
+export function podeComerciar(docId: string): boolean {
+  if (!docId) return false
+  const ids = new Set<string>(memory.keys())
+  const s = storage()
+  if (s) {
+    for (let i = 0; i < s.length; i++) {
+      const k = s.key(i)
+      if (k?.startsWith(STORE_PREFIX)) ids.add(k.slice(STORE_PREFIX.length))
+    }
+  }
+  for (const gid of ids) {
+    const atual = hexAtual(getGroupState(gid))
+    if (atual?.localId === docId) return true
+  }
+  return false
 }
 
 /** SÓ testes: zera a memória (não o localStorage) — simula reload da página. */

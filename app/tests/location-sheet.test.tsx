@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { DocView } from '../src/components/compendium/DocPage'
+import { addGroupHex, getGroupState, setGroupStateFull, __resetGroupStoreMemoryForTests } from '../src/data/group-store'
 import { docPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -48,7 +49,23 @@ beforeAll(() => {
   }) as typeof fetch
 })
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  __resetGroupStoreMemoryForTests()
+  try {
+    window.localStorage?.clear()
+  } catch {
+    /* sem storage */
+  }
+})
+
+/** F7 (#347): o comércio agora é GATEADO pela parada atual do grupo — os
+ *  testes de loja semeiam um grupo PARADO no local (jogador na cidade). */
+function grupoParadoEm(docId: string) {
+  addGroupHex('mesa-teste', { col: 1, row: 1, label: 'parada', localId: docId })
+  const s = getGroupState('mesa-teste')
+  setGroupStateFull('mesa-teste', { ...s, atualId: s.hexes[s.hexes.length - 1]!.id })
+}
 
 function renderDoc(doc: VaultDoc) {
   return render(
@@ -77,7 +94,8 @@ describe('LocationSheet (Localização real)', () => {
     const comercio = screen.getByRole('tab', { name: 'Comércio' }) as HTMLButtonElement
     const hex = screen.getByRole('tab', { name: 'Hexploração' }) as HTMLButtonElement
     expect(detalhes.disabled).toBe(false)
-    expect(comercio.disabled).toBe(false)
+    // F7 (#347): sem grupo PARADO no local (e sem Modo Mestre), comércio fecha.
+    expect(comercio.disabled).toBe(true)
     // Hexploração: fundação do hexcrawl ainda sem mapa (issue #67) → disabled + nota
     expect(hex.disabled).toBe(true)
     expect(hex.getAttribute('title')).toMatch(/mapa de hexcrawl/i)
@@ -137,6 +155,8 @@ describe('LocationSheet (Localização real)', () => {
   })
 
   it('aba Comércio: loja da localização (issue #72) — AUTO-ABRE ao entrar, sem Modo Mestre', async () => {
+    // F7 (#347): jogador com o grupo PARADO em Canto Alto (o gate libera).
+    grupoParadoEm(cantoAlto.id)
     renderDoc(cantoAlto)
     // Detalhes é o default — Canto Alto mostra a grade de Recursos
     await waitFor(() => expect(screen.getByText(/\/\/ RECURSOS/)).toBeTruthy())
