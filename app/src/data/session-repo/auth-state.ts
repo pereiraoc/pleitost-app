@@ -4,6 +4,7 @@
 import { useSyncExternalStore } from 'react'
 import { supabaseClient, signInWithGitHub } from './supabase'
 import { connectUserStateSync } from '../remote-persist'
+import { clearGitHubToken, setGitHubToken } from '../github-issue'
 
 export interface SessionUser {
   id: string
@@ -68,6 +69,14 @@ function start() {
   })
   sb.auth.onAuthStateChange((_ev, session) => {
     const u = session?.user
+    // N4: captura o provider_token do GitHub (só vem no SIGNED_IN/refresh) pra
+    // o report abrir a issue como o próprio autor. O login (user_name) rotula a
+    // UI ("aberta como @fulano"). setGitHubToken ignora null (não apaga um token
+    // bom num TOKEN_REFRESHED); o logout limpa explicitamente.
+    setGitHubToken(
+      session?.provider_token ?? null,
+      typeof u?.user_metadata?.['user_name'] === 'string' ? (u.user_metadata['user_name'] as string) : null,
+    )
     cache = u
       ? {
           id: u.id,
@@ -109,6 +118,7 @@ export async function loginGitHub(): Promise<void> {
 export async function logoutSessao(): Promise<void> {
   const sb = supabaseClient()
   if (sb) await sb.auth.signOut()
+  clearGitHubToken()
   cache = null
   emit()
 }

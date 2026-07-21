@@ -3,9 +3,38 @@
 > Pedido (sessão 2026-07-20): "seria legal se quando alguém fizesse um problem
 > report, fosse aberto por esse usuário que fez ele... uma issue dentro do repo."
 
-Este é o único item da rodada que **precisa de decisões suas** antes de eu
-implementar (mexe em OAuth e no caminho de report que hoje funciona). Deixei
-proposto, não implementado, pra não arriscar quebrar o canal anônimo atual.
+## ✅ IMPLEMENTADO — Opção 2 (OAuth do próprio autor)
+
+Você escolheu a **Opção 2**: a issue é aberta **literalmente pela conta GitHub
+do autor**, via `provider_token` da sessão Supabase. Como funciona agora:
+
+- **Autor logado com GitHub** → o report cria a issue direto na API do GitHub,
+  como ele, com texto + contexto + logs do modo debug. Retorna o link `#N`.
+- **Convidado (nick, sem GitHub)** → cai no canal anônimo atual (INSERT em
+  `bug_reports`). **Sem regressão** — ninguém perde o report.
+- Se a criação falhar (escopo/rede/token), o report **cai no canal anônimo**
+  automaticamente (fallback silencioso).
+
+Arquivos: `data/github-issue.ts` (token + POST), `data/bug-report.ts` (escolhe o
+canal), `auth-state.ts` (captura o `provider_token` no login), `supabase.ts`
+(pede o escopo `public_repo` no `signInWithGitHub`).
+
+### ⚠️ O que você precisa saber (não precisa mexer em painel)
+- O escopo `public_repo` é pedido **no login** (client-side) — **nenhuma config
+  no painel do Supabase é necessária**. O GitHub mostra o consentimento na
+  próxima vez que alguém logar.
+- **Quem já estava logado** tem um token SEM `public_repo` (de antes) → a
+  primeira tentativa cai no anônimo até a pessoa **deslogar e logar de novo**
+  (aí o token novo já abre a issue). Você e a Mera, por exemplo, relogam uma vez.
+- O `provider_token` não é persistido pelo Supabase entre sessões longas — a
+  gente guarda em `sessionStorage` pra sobreviver a reload; num dispositivo novo
+  ou depois de expirar, é só o próximo login recapturar.
+
+---
+
+## Histórico das opções consideradas
+
+Antes de implementar, as três abordagens avaliadas (a Opção 2 foi a escolhida):
 
 ## Como funciona hoje (não quebrar)
 
