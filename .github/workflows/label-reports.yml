@@ -1,0 +1,28 @@
+# Aplica a label bug/enhancement nas issues abertas pelo Reportar Bug do app.
+# Por quê: o param `labels` da API só funciona pra quem tem push no repo — pra
+# jogador comum o GitHub descarta silenciosamente. O app então grava o marcador
+# `pleitost:tipo=bug|sugestao` num comentário HTML do corpo, e este workflow
+# (que roda com o token do repo, com permissão de escrita) aplica a label.
+name: label-reports
+on:
+  issues:
+    types: [opened]
+permissions:
+  issues: write
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue?.body ?? ''
+            const m = body.match(/pleitost:tipo=(bug|sugestao)/)
+            if (!m) return // issue não veio do app — não mexe
+            const label = m[1] === 'bug' ? 'bug' : 'enhancement'
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: [label],
+            })

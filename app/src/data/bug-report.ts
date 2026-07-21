@@ -10,12 +10,17 @@ import { APP_VERSION } from '../pwa-update'
 import { getLogs, isDebugOn, type DebugEntry } from './debug-log'
 import { canOpenGitHubIssue, gitHubLogin, openGitHubIssue } from './github-issue'
 
+/** Tipo do report — escolhido pelo autor no modal. Vira a label da issue
+ *  (bug/enhancement), pra priorizar bugs primeiro. */
+export type TipoReport = 'bug' | 'sugestao'
+
 export interface BugReport {
   texto: string
+  tipo: TipoReport
   /** Contexto automático que ajuda a reproduzir (rota, versão, navegador).
    *  `logs` só vem preenchido quando o modo debug estava ligado — o rastro dos
    *  pontos instrumentados antes do bug, pra entrar junto na issue. */
-  contexto: { pagina: string; versao: string; userAgent: string; logs?: DebugEntry[] }
+  contexto: { pagina: string; versao: string; userAgent: string; tipo: TipoReport; logs?: DebugEntry[] }
 }
 
 /** O que aconteceu com o report — a UI usa pra dar o retorno certo. */
@@ -36,13 +41,16 @@ function tituloDe(texto: string): string {
   return primeira.length > 90 ? primeira.slice(0, 87) + '…' : primeira
 }
 
-/** Corpo markdown da issue: texto + contexto + logs (se houver). */
+/** Corpo markdown da issue: texto + contexto + logs (se houver). O marcador
+ *  `pleitost:tipo=...` (comentário invisível) é o que o workflow do repo lê pra
+ *  aplicar a label — o param `labels` da API é descartado pra quem não tem push. */
 function corpoIssue(report: BugReport): string {
   const c = report.contexto
   const partes = [
     report.texto,
     '',
     '---',
+    `**Tipo:** ${report.tipo === 'bug' ? '🐞 Bug' : '💡 Sugestão'}`,
     `**Página:** \`${c.pagina}\``,
     `**Versão:** \`${c.versao}\``,
     `**Navegador:** \`${c.userAgent}\``,
@@ -51,7 +59,7 @@ function corpoIssue(report: BugReport): string {
     const linhas = c.logs.map((l) => `${new Date(l.t).toISOString()} [${l.tag}] ${l.msg}`).join('\n')
     partes.push('', '<details><summary>Logs do modo debug</summary>', '', '```', linhas, '```', '</details>')
   }
-  partes.push('', '_Aberta pelo autor via Reportar Bug do app._')
+  partes.push('', `<!-- pleitost:tipo=${report.tipo} -->`, '', '_Aberta pelo autor via Reportar Bug do app._')
   return partes.join('\n')
 }
 
@@ -65,7 +73,7 @@ async function inserirAnon(report: BugReport): Promise<void> {
   if (error) throw new Error(`Não deu pra enviar (${error.message}) — tenta de novo.`)
 }
 
-export async function enviarBugReport(texto: string): Promise<ResultadoReport> {
+export async function enviarBugReport(texto: string, tipo: TipoReport = 'bug'): Promise<ResultadoReport> {
   const limpo = texto.trim()
   if (!limpo) throw new Error('Escreva o que aconteceu antes de enviar.')
   // Anexa os logs SÓ se o modo debug estava ligado (senão o buffer está vazio).
@@ -73,10 +81,12 @@ export async function enviarBugReport(texto: string): Promise<ResultadoReport> {
   const logs = isDebugOn() ? getLogs().slice(-200) : []
   const report: BugReport = {
     texto: limpo,
+    tipo,
     contexto: {
       pagina: window.location.pathname,
       versao: APP_VERSION,
       userAgent: navigator.userAgent,
+      tipo,
       ...(logs.length ? { logs } : {}),
     },
   }
@@ -88,7 +98,10 @@ export async function enviarBugReport(texto: string): Promise<ResultadoReport> {
   // token expirado), NÃO perde o report: cai no canal anônimo.
   if (canOpenGitHubIssue()) {
     try {
-      const issue = await openGitHubIssue(tituloDe(limpo), corpoIssue(report))
+      // Labels padrão do GitHub: bug / enhancement. Só aplicam pra quem tem push;
+      // pros demais o workflow label-reports.yml lê o marcador do corpo.
+      const labels = tipo === 'bug' ? ['bug'] : ['enhancement']
+      const issue = await openGitHubIssue(tituloDe(limpo), corpoIssue(report), labels)
       // Espelha no Supabase já triado (github_issue), pra o dashboard bater —
       // best-effort, um erro aqui não invalida a issue já criada.
       try {

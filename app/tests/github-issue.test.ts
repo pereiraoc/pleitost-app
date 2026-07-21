@@ -79,17 +79,34 @@ describe('github-issue: token + criação', () => {
 })
 
 describe('enviarBugReport: escolhe o canal', () => {
-  it('autor logado com GitHub → abre issue e retorna canal github', async () => {
+  it('autor logado com GitHub → abre issue (label bug + marcador) e retorna canal github', async () => {
     setGitHubToken('tkn', 'fulano')
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () =>
-        new Response(JSON.stringify({ number: 7, html_url: 'https://github.com/pereiraoc/pleitost-app/issues/7' }), {
-          status: 201,
-        }),
-      ),
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ number: 7, html_url: 'https://github.com/pereiraoc/pleitost-app/issues/7' }), {
+        status: 201,
+      }),
     )
+    vi.stubGlobal('fetch', fetchMock)
     const r = await enviarBugReport('cliquei e sumiu')
     expect(r).toEqual({ canal: 'github', url: 'https://github.com/pereiraoc/pleitost-app/issues/7', number: 7 })
+    const payload = JSON.parse(String((fetchMock.mock.calls[0]![1] as RequestInit).body))
+    expect(payload.labels).toEqual(['bug']) // default é bug
+    expect(payload.body).toContain('pleitost:tipo=bug') // marcador pro workflow
+  })
+
+  it('tipo sugestão → label enhancement + marcador sugestao', async () => {
+    setGitHubToken('tkn', 'fulano')
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ number: 8, html_url: 'https://github.com/pereiraoc/pleitost-app/issues/8' }), {
+        status: 201,
+      }),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const r = await enviarBugReport('seria legal poder…', 'sugestao')
+    expect(r.canal).toBe('github')
+    const payload = JSON.parse(String((fetchMock.mock.calls[0]![1] as RequestInit).body))
+    expect(payload.labels).toEqual(['enhancement'])
+    expect(payload.body).toContain('pleitost:tipo=sugestao')
+    expect(payload.body).toContain('💡 Sugestão')
   })
 })

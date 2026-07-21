@@ -4,7 +4,7 @@
 // com textarea; o envio vai pro canal aberto de bug-report.ts (sem login).
 import { useEffect, useState, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
-import { enviarBugReport, type ResultadoReport } from '../../data/bug-report'
+import { enviarBugReport, type ResultadoReport, type TipoReport } from '../../data/bug-report'
 import { isDebugOn, logCount, onDebugChange, setDebugOn } from '../../data/debug-log'
 import { canOpenGitHubIssue, gitHubLogin } from '../../data/github-issue'
 import { clip } from '../ficha/bits'
@@ -28,6 +28,9 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
   const [estado, setEstado] = useState<Estado>('editando')
   const [erro, setErro] = useState('')
   const [resultado, setResultado] = useState<ResultadoReport | null>(null)
+  // Tipo do report: bug (default) ou sugestão — vira a label da issue, pra
+  // priorização (bugs primeiro).
+  const [tipo, setTipo] = useState<TipoReport>('bug')
   // Modo debug (persistido): quando ligado, o app captura logs dos pontos
   // instrumentados e eles vão ANEXADOS neste reporte.
   const [debug, setDebug] = useState(isDebugOn())
@@ -43,12 +46,13 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
     setEstado('editando')
     setErro('')
     setResultado(null)
+    setTipo('bug')
   }
 
   const enviar = async () => {
     setEstado('enviando')
     try {
-      const r = await enviarBugReport(texto)
+      const r = await enviarBugReport(texto, tipo)
       setResultado(r)
       setEstado('enviado')
       setTexto('')
@@ -141,6 +145,36 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
                 <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
                   Conta o que aconteceu (o que você fez, o que esperava e o que apareceu). A tela
                   atual e a versão do app vão junto automaticamente.
+                </div>
+                {/* Tipo do report: vira a label da issue (bug/enhancement). */}
+                <div role="radiogroup" aria-label="Tipo do reporte" style={{ display: 'flex', gap: 8 }}>
+                  {(
+                    [
+                      ['bug', '🐞 Bug'],
+                      ['sugestao', '💡 Sugestão'],
+                    ] as const
+                  ).map(([valor, rotulo]) => (
+                    <button
+                      key={valor}
+                      type="button"
+                      role="radio"
+                      aria-checked={tipo === valor}
+                      onClick={() => setTipo(valor)}
+                      style={{
+                        flex: 1,
+                        padding: '8px 10px',
+                        fontSize: 12.5,
+                        fontWeight: tipo === valor ? 700 : 400,
+                        background: tipo === valor ? 'rgba(255,85,71,.14)' : 'var(--card)',
+                        border: `1px solid ${tipo === valor ? 'var(--red)' : 'var(--line2)'}`,
+                        color: 'var(--text)',
+                        cursor: 'pointer',
+                        clipPath: clip(6),
+                      }}
+                    >
+                      {rotulo}
+                    </button>
+                  ))}
                 </div>
                 {canOpenGitHubIssue() ? (
                   <div style={{ fontSize: 12, color: 'var(--muted)' }}>

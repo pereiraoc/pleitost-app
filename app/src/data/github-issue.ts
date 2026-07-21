@@ -72,8 +72,11 @@ export interface IssueCriada {
 }
 
 /** Cria a issue no repo COMO o autor (provider_token). Lança em erro de rede/
- *  escopo/permissão — o chamador faz fallback pro canal anônimo. */
-export async function openGitHubIssue(title: string, body: string): Promise<IssueCriada> {
+ *  escopo/permissão — o chamador faz fallback pro canal anônimo.
+ *  `labels`: o GitHub SÓ aplica labels de quem tem push no repo (pra jogador
+ *  comum ele descarta silenciosamente) — por isso o corpo também leva o marcador
+ *  `pleitost:tipo=...` e um workflow do repo aplica a label por ele. */
+export async function openGitHubIssue(title: string, body: string, labels?: string[]): Promise<IssueCriada> {
   readStash()
   if (!token) throw new Error('sem token do GitHub')
   const resp = await fetch(`https://api.github.com/repos/${REPO}/issues`, {
@@ -84,7 +87,7 @@ export async function openGitHubIssue(title: string, body: string): Promise<Issu
       'Content-Type': 'application/json',
       'X-GitHub-Api-Version': '2022-11-28',
     },
-    body: JSON.stringify({ title, body }),
+    body: JSON.stringify({ title, body, ...(labels?.length ? { labels } : {}) }),
   })
   if (!resp.ok) {
     // 403/404 costumam ser escopo public_repo faltando; 401 token expirado.
