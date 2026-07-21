@@ -564,8 +564,13 @@ function EditMembersModal({
   )
 }
 
-/** Comprime a imagem pro state da sessão (#235): ~384px JPEG — o state é
- *  jsonb, não storage; sem canvas (jsdom) vai o data-url original. */
+/** Comprime a imagem pro state da sessão (#235): ~256px JPEG — o state é
+ *  jsonb, não storage; sem canvas (jsdom) vai o data-url original.
+ *  Armazenamento (docs/armazenamento-supabase.md, win code-only): enquanto a
+ *  foto vive INLINE no sessions.state, ela é reescrita a cada merge do state
+ *  (exploração/inventário), então cortar o payload (256px q0.72 em vez de 384px
+ *  q0.8, ~2–3× menor) reduz a amplificação. Reversível quando a foto migrar pro
+ *  Storage (Solução A). */
 async function comprimirImagem(file: File): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const r = new FileReader()
@@ -580,14 +585,14 @@ async function comprimirImagem(file: File): Promise<string> {
       i.onerror = reject
       i.src = dataUrl
     })
-    const escala = Math.min(1, 384 / Math.max(img.width, img.height))
+    const escala = Math.min(1, 256 / Math.max(img.width, img.height))
     const canvas = document.createElement('canvas')
     canvas.width = Math.max(1, Math.round(img.width * escala))
     canvas.height = Math.max(1, Math.round(img.height * escala))
     const ctx = canvas.getContext('2d')
     if (!ctx) return dataUrl
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-    return canvas.toDataURL('image/jpeg', 0.8)
+    return canvas.toDataURL('image/jpeg', 0.72)
   } catch {
     return dataUrl
   }
