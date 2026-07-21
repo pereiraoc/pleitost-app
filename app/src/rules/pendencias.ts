@@ -18,6 +18,10 @@ type Fm = Record<string, unknown>
 interface RulesLike {
   subclassChoices?: Array<{ pick?: string | null }>
   sintonias?: unknown[]
+  /** #13b: escolhas de habilidade/técnica NÃO-subclasse (ex.: Instrumentos de
+   *  Guerra). `source: 'default'|'none'` = o app preencheu sozinho / sem pick =
+   *  seleção não feita pelo usuário. */
+  habilidadeChoices?: Array<{ options?: string[]; source?: string }>
 }
 
 const RANK_IDX: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
@@ -124,6 +128,16 @@ export function heroPendencias(
   if ((rules?.sintonias ?? []).length > 0 && !str(fm['Sintonia'])) add('habilidades', 'Sintonia não escolhida')
   if (caps.tecnicas && freeTecnicaSlot(fm)) add('habilidades', 'Técnica a aprender (slot livre)')
   if (caps.tecnicas && tecnicaOverbooked(fm)) add('habilidades', 'Técnicas excedem os slots disponíveis')
+  // #13b: seleção de habilidade/técnica não feita (ex.: Instrumentos de Guerra
+  // permite escolher, mas o app defaultou / não há pick).
+  const escolhasPend = (rules?.habilidadeChoices ?? []).filter(
+    (c) => (c.options?.length ?? 0) > 1 && (c.source === 'default' || c.source === 'none'),
+  ).length
+  if (escolhasPend)
+    add(
+      'habilidades',
+      escolhasPend === 1 ? 'Seleção de habilidade não escolhida' : `${escolhasPend} seleções não escolhidas`,
+    )
   if (caps.magias && freeMagiaSlot(fm)) add('habilidades', 'Magia a aprender (slot livre)')
   if (caps.especializacoes) {
     if (freePericiaSlot(fm)) add('habilidades', 'Perícia adicional disponível')

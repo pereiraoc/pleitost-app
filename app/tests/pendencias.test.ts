@@ -139,4 +139,31 @@ describe('heroPendencias (#302)', () => {
     const pend = heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS)
     expect(pend.get('habilidades')).toContain('Magia a aprender (slot livre)')
   })
+
+  it('#13b: seleção de habilidade não feita (Instrumentos de Guerra, source default) vira pendência', () => {
+    const fm = {
+      Classe: '[[Bardo]]',
+      nome: 'X',
+      Pericias: { Slots: zeroSlots, Lista: [] },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: { Slots: { B: 0, A: 0, E: 0, M: 0 }, Lista: [] },
+    }
+    const rules = {
+      subclassChoices: [],
+      sintonias: [],
+      habilidadeChoices: [
+        { options: ['[[Cordas]]', '[[Percussão]]'], source: 'default' }, // não escolhida
+        { options: ['[[Sopro]]', '[[Metais]]'], source: 'persisted' }, // escolhida → não conta
+        { options: ['[[Único]]'], source: 'default' }, // 1 opção → não é escolha real
+      ],
+    }
+    expect(heroPendencias(fm, rules, CAPS).get('habilidades')).toContain('Seleção de habilidade não escolhida')
+    const rules2 = {
+      habilidadeChoices: [
+        { options: ['a', 'b'], source: 'default' },
+        { options: ['c', 'd'], source: 'none' },
+      ],
+    }
+    expect(heroPendencias(fm, rules2, CAPS).get('habilidades')).toContain('2 seleções não escolhidas')
+  })
 })
