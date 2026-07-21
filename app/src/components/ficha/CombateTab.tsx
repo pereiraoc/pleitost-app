@@ -1301,6 +1301,96 @@ function AtaqueArmaFigura({
   )
 }
 
+/** Toggles POR-ARMA das propriedades interativas (Segurar com Duas Mãos, Atacar
+ *  Além do Alcance, Propulsão…) — cada um liga/desliga per-arma + ajustador
+ *  numérico. Espelho do renderArmaPropertyToggles do plugin. */
+function ArmaPropToggles({
+  toggles,
+  armaBasename,
+  isOn,
+  onToggle,
+  curSel,
+  onSel,
+}: {
+  toggles: EffectDescriptor[]
+  armaBasename: string
+  isOn: (label: string) => boolean
+  onToggle: (d: EffectDescriptor) => void
+  curSel: (d: EffectDescriptor) => number
+  onSel: (d: EffectDescriptor, n: number) => void
+}) {
+  if (!toggles.length) return null
+  const adjBtn: CSSProperties = {
+    width: 18,
+    height: 18,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'var(--card)',
+    border: '1px solid var(--line2)',
+    color: 'var(--text)',
+    fontFamily: 'var(--mono)',
+    fontWeight: 700,
+    cursor: 'pointer',
+    borderRadius: 3,
+  }
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', paddingLeft: 60, marginTop: 2 }}>
+      {toggles.map((d) => {
+        const on = isOn(d.label)
+        const ic = on ? d.parameters['IconeLigado'] || '✅' : d.parameters['IconeDesligado'] || '🚫'
+        const sel = d.numericSelector
+        const cur = curSel(d)
+        return (
+          <span
+            key={d.label}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '3px 9px',
+              background: on ? 'color-mix(in srgb,var(--accent) 14%,var(--panel))' : 'var(--panel)',
+              border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 45%,var(--line2))' : 'var(--line2)'}`,
+              clipPath: clip(6),
+              fontSize: 11.5,
+            }}
+          >
+            <button
+              onClick={() => onToggle(d)}
+              title={on ? `Desativar ${d.label}` : `Ativar ${d.label} pra ${armaBasename}`}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13, padding: 0, lineHeight: 1 }}
+            >
+              {ic}
+            </button>
+            <span style={{ color: on ? 'var(--accent)' : 'var(--text)', fontWeight: on ? 700 : 500 }}>{d.label}</span>
+            {on && sel ? (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <button
+                  onClick={() => onSel(d, Math.max(sel.min, cur - sel.step))}
+                  disabled={cur <= sel.min}
+                  title={`Diminuir ${sel.label}`}
+                  style={{ ...adjBtn, opacity: cur <= sel.min ? 0.4 : 1 }}
+                >
+                  −
+                </button>
+                <span style={{ fontFamily: 'var(--mono)', fontWeight: 700, minWidth: 14, textAlign: 'center' }}>{cur}</span>
+                <button
+                  onClick={() => onSel(d, Math.min(sel.max, cur + sel.step))}
+                  disabled={cur >= sel.max}
+                  title={`Aumentar ${sel.label}`}
+                  style={{ ...adjBtn, opacity: cur >= sel.max ? 0.4 : 1 }}
+                >
+                  +
+                </button>
+              </span>
+            ) : null}
+          </span>
+        )
+      })}
+    </div>
+  )
+}
+
 function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter: InterativaCtxState }) {
   const model = useHeroModel(doc, 'combate')
   const assets = useAssetIndex()
@@ -1378,27 +1468,53 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
 
-  // #9/#4: empunhadura de arma versátil — clicar na propriedade "Duas-mãos" do
-  // ataque liga/desliga o Estado "Segurar com Duas Mãos" (o guard-evaluator usa:
-  // arma com Duas-mãos + estado ON → empunhadura efetiva 2). Estado GLOBAL como
-  // no plugin; dual-map (Efeitos_Ativos/Condicoes_Ativas) igual aos chips.
-  const DUAS_MAOS_STATE = 'Segurar com Duas Mãos'
-  const duasMaosOn = isEfeitoOn(efeitos[DUAS_MAOS_STATE]) || isCondicaoOn(interState.condicoes[DUAS_MAOS_STATE])
-  const toggleDuasMaos = () => {
-    if (duasMaosOn) {
-      if (DUAS_MAOS_STATE in efeitos) {
-        const n = { ...efeitos }
-        delete n[DUAS_MAOS_STATE]
-        model.setVolatile('Interativa.Efeitos_Ativos', n)
-      }
-      if (DUAS_MAOS_STATE in interState.condicoes) {
-        const n = { ...interState.condicoes }
-        delete n[DUAS_MAOS_STATE]
-        model.setVolatile('Interativa.Condicoes_Ativas', n)
-      }
+  // #9/#4 + Alcance/Propulsão: TOGGLES POR-ARMA das PROPRIEDADES (Segurar com Duas
+  // Mãos, Atacar Além do Alcance, Propulsão…). São efeitos `origem: Propriedade`,
+  // `aplicacao: ArmaSelecionada` (per-arma via weaponSelector) com ajustador
+  // numérico opcional — espelho do renderArmaPropertyToggles do plugin. O motor
+  // (guard-evaluator/build-effect-context) já aplica via weaponSelector.
+  const magiasPotencia = num(fmPath(fm, 'Magias', 'Potencia'))
+  const propToggleDescs = inter.descriptors.filter(
+    (d) => d.origem === 'Propriedade' && !d.sharedFrom && (d.tipo === 'Estado' || d.tipo === 'Condição'),
+  )
+  const sourceNoteBase = (sn: string) => sn.split('/').pop()?.replace(/\.md$/i, '') ?? sn
+  const togglesForArma = (propBasenames: string[]): EffectDescriptor[] => {
+    if (!propToggleDescs.length) return []
+    const set = new Set(propBasenames.map((p) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()))
+    return propToggleDescs.filter((d) => set.has(sourceNoteBase(d.sourceNote)))
+  }
+  const armaLinkOf = (b: string) => `[[${b}]]`
+  const armaPropOn = (label: string, armaLink: string) => {
+    const st = interState.condicoes[label]
+    return (
+      isCondicaoOn(st) &&
+      typeof st === 'object' &&
+      (st as { weaponSelector?: string }).weaponSelector === armaLink
+    )
+  }
+  const toggleArmaProp = (d: EffectDescriptor, armaBasename: string) => {
+    const armaLink = armaLinkOf(armaBasename)
+    const next = { ...interState.condicoes }
+    if (armaPropOn(d.label, armaLink)) {
+      delete next[d.label]
     } else {
-      model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [DUAS_MAOS_STATE]: { on: true } })
+      const sel = d.numericSelector
+      next[d.label] = {
+        value: 1,
+        weaponSelector: armaLink,
+        ...(sel ? { numericSelector: defaultNumericSelector(d, magiasPotencia) ?? sel.min } : {}),
+      }
     }
+    model.setVolatile('Interativa.Condicoes_Ativas', next)
+  }
+  const setArmaPropSel = (d: EffectDescriptor, armaBasename: string, n: number) => {
+    const armaLink = armaLinkOf(armaBasename)
+    const st = interState.condicoes[d.label]
+    const base = st && typeof st === 'object' ? (st as Record<string, unknown>) : {}
+    model.setVolatile('Interativa.Condicoes_Ativas', {
+      ...interState.condicoes,
+      [d.label]: { ...base, value: 1, weaponSelector: armaLink, numericSelector: n },
+    })
   }
 
   // Manobras: linha padrão de Ataques.Lista (mod usa a proficiência de ataque)
@@ -1677,45 +1793,35 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               }}
             >
               {props.length
-                ? props.map((p, pi) => {
-                    // #9/#4: "Duas-mãos" é TOGGLE de empunhadura (não abre regra).
-                    const isDuasMaos = propBase(p) === 'Duas-mãos'
-                    return (
-                      <span key={p} style={{ display: 'inline-flex', gap: 4 }}>
-                        {isDuasMaos ? (
-                          <span
-                            onClick={toggleDuasMaos}
-                            title={
-                              duasMaosOn
-                                ? 'Segurando com duas mãos — clique pra soltar'
-                                : 'Clique pra segurar com duas mãos'
-                            }
-                            style={{
-                              cursor: 'pointer',
-                              fontWeight: duasMaosOn ? 700 : 600,
-                              color: duasMaosOn ? 'var(--accent)' : 'var(--text)',
-                              textDecoration: 'underline',
-                              textUnderlineOffset: 2,
-                            }}
-                          >
-                            {duasMaosOn ? '✊ ' : ''}
-                            {p}
-                          </span>
-                        ) : (
-                          // Cada propriedade → a REGRA do compêndio (Precisa/Arremesso/…);
-                          // "Arremesso 3" resolve o doc "Arremesso".
-                          <ItemHover doc={propRuleDoc(propBase(p))} fullBody>
-                            <span>{p}</span>
-                          </ItemHover>
-                        )}
-                        {pi < props.length - 1 ? <span>·</span> : null}
-                      </span>
-                    )
-                  })
+                ? props.map((p, pi) => (
+                    <span key={p} style={{ display: 'inline-flex', gap: 4 }}>
+                      {/* Cada propriedade → a REGRA do compêndio (Precisa/Arremesso/…);
+                          "Arremesso 3" resolve o doc "Arremesso". Os toggles das
+                          propriedades interativas (Duas-mãos/Alcance/Propulsão) ficam
+                          na linha ArmaPropToggles abaixo. */}
+                      <ItemHover doc={propRuleDoc(propBase(p))} fullBody>
+                        <span>{p}</span>
+                      </ItemHover>
+                      {pi < props.length - 1 ? <span>·</span> : null}
+                    </span>
+                  ))
                 : tipo}
             </span>
             <span style={{ flex: 1 }} />
             </div>
+            {/* #9/#4 + Alcance/Propulsão: toggles por-arma das propriedades. */}
+            <ArmaPropToggles
+              toggles={togglesForArma(props)}
+              armaBasename={basename}
+              isOn={(label) => armaPropOn(label, armaLinkOf(basename))}
+              onToggle={(d) => toggleArmaProp(d, basename)}
+              curSel={(d) => {
+                const st = interState.condicoes[d.label]
+                const saved = st && typeof st === 'object' ? (st as { numericSelector?: number }).numericSelector : undefined
+                return saved ?? (d.numericSelector ? (defaultNumericSelector(d, magiasPotencia) ?? d.numericSelector.min) : 0)
+              }}
+              onSel={(d, n) => setArmaPropSel(d, basename, n)}
+            />
             {/* Imbuição (#166): usos IDENTADO abaixo da arma + resumo do efeito. */}
             {usosMaxN || propResumo ? (
               <div
