@@ -40,6 +40,20 @@ export async function initPwaUpdate(): Promise<void> {
         needRefresh = true
         emit()
       },
+      // Sync entre devices (#366 follow-up): com registerType 'prompt', um
+      // PWA instalado só descobria versão nova no LOAD — sessões longas (e o
+      // hábito de nunca fechar o app) prendiam o aparelho num bundle velho
+      // indefinidamente, inclusive com fixes de sync críticos. Checa por
+      // update a cada 15 min E ao voltar o foco pro app; o banner continua
+      // sendo prompt (nada recarrega sozinho no meio da mesa).
+      onRegisteredSW(_url, reg) {
+        if (!reg) return
+        const check = () => void reg.update().catch(() => {})
+        setInterval(check, 15 * 60_000)
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') check()
+        })
+      },
     })
   } catch {
     /* módulo virtual indisponível — sem fluxo de update (dev/teste) */

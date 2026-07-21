@@ -13,6 +13,7 @@
 import { appStateUrl } from './base-url'
 import { supabaseClient } from './session-repo/supabase'
 import { mergeArrayBlobsBy, mergeRecordBlobs, type CollectionMerger } from './collection-merge'
+import { pushLog } from './debug-log'
 
 const ENDPOINT = appStateUrl()
 /** Chaves do app que devem persistir (grupo, ficha, personagens, mapa, ajustes). */
@@ -155,8 +156,16 @@ export async function connectUserStateSync(
       }
     }
     if (Object.keys(patch).length) await ops.put(userId, patch)
-  } catch {
+    // Modo debug: rastro do sync por conta (diagnóstico de "herói não
+    // aparece no outro device" direto no aparelho, via report com logs).
+    pushLog(
+      'account-sync',
+      `hidratou=${added.length} subiu=${Object.keys(patch).length} chaves`,
+      { added, subiu: Object.keys(patch) },
+    )
+  } catch (e) {
     /* offline/sem tabela: segue local; tenta de novo no próximo login */
+    pushLog('account-sync', `FALHOU: ${e instanceof Error ? e.message : String(e)}`)
   }
   onHydrated(added)
 }
