@@ -463,6 +463,28 @@ describe('efeitos interativos (blocos Efeitos_Interativos das notas)', () => {
     const c2 = compute(f2)
     expect(applyTarget(c2.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(0)
   })
+
+  it('#19: Broquel Obra-prima erguido = +1 na Defesa (obra-prima é DUREZA, não defesa)', () => {
+    const f = goldenFm() as Record<string, any>
+    f.Inventario = structuredClone(f.Inventario)
+    // broquel OBRA-PRIMA adepto: base 1; a obra-prima NÃO soma na defesa do erguer.
+    f.Inventario.Escudo = {
+      Nome: '[[Broquel]]',
+      Dano: 0,
+      Dureza: 3,
+      Categoria: '[[Adepto]]',
+      Propriedade: '[[Broquel Obra-prima|Obra-prima]]',
+      Proficiencia: 'P',
+    }
+    f.Interativa = {
+      ...f.Interativa,
+      Condicoes_Ativas: {},
+      Efeitos_Ativos: { 'Escudo Erguido': { on: true } },
+      Seletores: {},
+    }
+    const c = compute(f)
+    expect(applyTarget(c.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(1)
+  })
 })
 
 // ──────────────────────────────────────────────────────────────────────────

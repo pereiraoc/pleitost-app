@@ -274,8 +274,9 @@ export function applyModifier(
     return
   }
 
-  // BonusEscudo (Erguer Escudo): tipo do escudo (Escudo=2/Broquel=1) +
-  // Obra-prima por tier (A+1/E+2/M+3).
+  // BonusEscudo (Erguer Escudo): defesa pelo TIPO do escudo (Escudo=2/Broquel=1).
+  // #19: obra-prima NÃO entra aqui — o benefício de obra-prima é DUREZA do escudo
+  // (via a rule base `Definir Inventario.Escudo.Dureza N`), não a defesa do erguer.
   if (lower === 'bonusescudo') {
     const escudo = model.inventario.escudo
     if (!escudo || !escudo.nome) return
@@ -285,15 +286,7 @@ export function applyModifier(
     if (escudoBasename === 'Escudo') bonusBase = 2
     else if (escudoBasename === 'Broquel') bonusBase = 1
     if (bonusBase === 0) return
-    const propRaw = String(escudo.propriedade ?? '').toLowerCase()
-    let obraExtra = 0
-    if (propRaw.includes('obra-prima') || propRaw.includes('obra prima')) {
-      const cat = String(escudo.categoria ?? '').toLowerCase()
-      if (cat.includes('mestre')) obraExtra = 3
-      else if (cat.includes('experiente')) obraExtra = 2
-      else if (cat.includes('adepto')) obraExtra = 1
-    }
-    const total = (bonusBase + obraExtra) * numValue
+    const total = bonusBase * numValue
     if (total !== 0) addNumber(ctx, 'defesa', `${label} (${escudoBasename})`, total, src)
     return
   }
