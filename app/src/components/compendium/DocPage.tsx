@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
 import type { VaultDoc } from '../../data/types'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
@@ -53,8 +53,18 @@ export function DocView({
 export function DocPage() {
   const id = useParams()['*'] ?? ''
   const { doc, error } = useDoc(id)
+  const navigate = useNavigate()
 
   if (error) return <p role="alert">Falha ao carregar o doc: {error.message}</p>
   if (!doc) return <p className="loading">Carregando…</p>
-  return <DocView doc={doc} />
+  return (
+    <div>
+      {/* #bug1: botão de VOLTAR ao abrir um item/doc pela rota /doc — antes não
+          havia como voltar pra página anterior. Volta no histórico do router. */}
+      <button className="grupo-voltar" onClick={() => navigate(-1)}>
+        ← VOLTAR
+      </button>
+      <DocView doc={doc} />
+    </div>
+  )
 }

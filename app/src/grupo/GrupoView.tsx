@@ -9,9 +9,8 @@
 //   - buildGtip/gtipShow/gtipMove/gtipHide + window.__GTIPS → gtip.tsx/gtips.ts;
 //   - roleCols, nameCor/weight, dltCor, chaves tipE ('bal:r<gi>c<n>', ...).
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
-import { heroPath } from '../paths'
+import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
 import { migrateGroupState } from '../data/group-store'
 import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../data/session-repo/live-session'
@@ -47,7 +46,7 @@ import {
   type PapelValues,
 } from './party'
 import { orderAlphabetical } from './order'
-import { NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
+import { abrirMembroDetalhe, NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, sortArrow, type GrpSort } from './sort'
 import { useGrupoTip, type GrupoTip } from './gtip'
 import { useEntityImageUrl } from '../data/images'
@@ -266,7 +265,7 @@ function BalRow({
   tip?: GrupoTip
 }) {
   const g = row.grupo ? 1 : 0
-  const navigate = useNavigate()
+  const detail = useDetail()
   return (
     <div style={{ ...rowGrid, ...rowShellStyle(row.grupo) }}>
       <NameCell
@@ -275,7 +274,7 @@ function BalRow({
         weight={row.grupo ? 800 : 600}
         cor={row.grupo ? 'var(--accent)' : 'var(--text)'}
         onTipEnter={row.grupo ? tip?.tipE('bal:r5c0') : undefined}
-        onOpen={row.grupo ? undefined : () => navigate(heroPath(row.id))}
+        onOpen={row.grupo ? undefined : () => abrirMembroDetalhe(detail, row.id)}
         tip={tip}
       />
       <div

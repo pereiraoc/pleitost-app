@@ -755,6 +755,7 @@ export function TipHover({
   children,
   style,
   always,
+  onActivate,
 }: {
   html: string | null | undefined
   children: ReactNode
@@ -764,22 +765,34 @@ export function TipHover({
    *  `<span>` e o React reconcilia no lugar em vez de remontar os filhos
    *  (crítico pra `<select>`/inputs que não podem perder o nó). */
   always?: boolean
+  /** Clique ATIVA algo (ex.: abrir o doc nos DETALHES). No desktop, o hover
+   *  segue mostrando o tooltip e o clique dispara isto; no toque, o tap dispara
+   *  isto (em vez do toggle do tooltip — pra item, abrir é a ação primária). */
+  onActivate?: () => void
 }) {
   const ctl = useContext(TipCtx)
   if (!html) {
     if (!always) return <>{children}</>
-    return <span style={{ display: 'inline-flex', ...style }}>{children}</span>
+    return (
+      <span
+        style={{ display: 'inline-flex', cursor: onActivate ? 'pointer' : undefined, ...style }}
+        onClick={onActivate}
+      >
+        {children}
+      </span>
+    )
   }
   return (
     <span
       data-breakdown-html={html}
       className="dv-breakdown-hover has-breakdown"
-      style={{ display: 'inline-flex', cursor: CAN_HOVER ? 'help' : 'pointer', ...style }}
+      style={{ display: 'inline-flex', cursor: onActivate ? 'pointer' : CAN_HOVER ? 'help' : 'pointer', ...style }}
       tabIndex={CAN_HOVER ? -1 : undefined}
       // No TOQUE, SÓ o TAP abre/fecha (toggle). No desktop, SÓ o hover/foco. Nunca
       // os dois no mesmo dispositivo: senão, num tap, o mouseenter sintético
       // (show) + o click (toggle) se cancelavam e exigiam 2 toques.
-      onClick={ctl && !CAN_HOVER ? ctl.toggle(html) : undefined}
+      // onActivate (abrir detalhe) vence o toggle: clicar abre o item.
+      onClick={onActivate ?? (ctl && !CAN_HOVER ? ctl.toggle(html) : undefined)}
       onMouseEnter={ctl && CAN_HOVER ? ctl.show(html) : undefined}
       onMouseMove={ctl && CAN_HOVER ? ctl.move : undefined}
       onMouseLeave={ctl && CAN_HOVER ? ctl.hide : undefined}

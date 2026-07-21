@@ -8,14 +8,13 @@
 // consome 'dest:f<df++>' na ordem grupos→skills→tops, e DEPOIS cada magia
 // consome o próximo (o mesmo tipE vale pro ⚠️ e pro top da magia).
 import { useMemo, type MouseEventHandler, type ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
-import { heroPath } from '../paths'
+import { useDetail } from '../data/detail-context'
 import type { GrupoTip } from './gtip'
 import { tokens } from '../generated/tokens'
 import { equipCards, magiaHighlights, skillHighlights, type SkillTop } from './destaques'
 import { fmtSigned } from './stats'
-import { sectionTitleStyle } from './panel-ui'
+import { abrirMembroDetalhe, sectionTitleStyle } from './panel-ui'
 
 const CARD_CLIP = 'polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))'
 
@@ -127,12 +126,12 @@ export function PanelDestaques({
   const groups = skillHighlights(members, docs)
   const equips = equipCards(members, docs, tokens.emojis.glyph.Star)
   const magias = magiaHighlights(members, docs)
-  // Clicar no nome (who = basename do membro) abre a ficha do personagem.
-  const navigate = useNavigate()
+  // Clicar no nome (who = basename do membro) abre o personagem nos DETALHES.
+  const detail = useDetail()
   const idByName = useMemo(() => new Map(members.map((m) => [m.basename ?? m.id, m.id])), [members])
   const openWho = (who: string) => {
     const id = idByName.get(who)
-    if (id) navigate(heroPath(id))
+    if (id) abrirMembroDetalhe(detail, id)
   }
   const attrEmoji = (attr: string) =>
     (tokens.emojis.atributo as Record<string, string>)[attr] ?? tokens.emojis.glyph.Bolt

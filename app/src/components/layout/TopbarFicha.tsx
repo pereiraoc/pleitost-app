@@ -13,7 +13,7 @@
 // persistido): vida e moedas são o MESMO estado das abas (diretriz
 // 2026-07-05 — uma fonte compartilhada dentro do app, persistida).
 import { useMemo, useState, type CSSProperties } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useDoc, useDocs } from '../../data/useDoc'
@@ -269,6 +269,10 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
   const [open, setOpen] = useState(false)
   const assets = useAssetIndex()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  // #bug10: trocar de herói PRESERVA a aba atual (Combate → Combate), em vez de
+  // cair sempre no Perfil/Biografia. AppShell já rebaixa aba invisível na família.
+  const curTab = searchParams.get('tab') ?? undefined
   const { entries, docs } = useSwitcherEntries()
 
   return (
@@ -341,7 +345,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
                     key={entry.id}
                     onClick={() => {
                       setOpen(false)
-                      navigate(heroPath(entry.id))
+                      navigate(heroPath(entry.id, curTab))
                     }}
                     style={
                       {

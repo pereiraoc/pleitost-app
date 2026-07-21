@@ -742,7 +742,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                 }}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, flex: 1 }}>
-                  <ItemHover doc={doc} tier={tier || undefined}>
+                  <ItemHover doc={doc} tier={tier || undefined} clickToOpen>
                     {img ? (
                       <span
                         aria-hidden
@@ -763,7 +763,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                       <span aria-hidden style={{ fontSize: 15, flex: 'none' }}>{itemEmoji(it)}</span>
                     )}
                   </ItemHover>
-                  <ItemHover doc={doc} tier={tier || undefined}>
+                  <ItemHover doc={doc} tier={tier || undefined} clickToOpen>
                     <span
                       style={{
                         fontWeight: 600,

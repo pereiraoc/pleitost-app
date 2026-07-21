@@ -496,7 +496,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                   clipPath: clip(12),
                 }}
               >
-                <ItemHover doc={armaDoc} propDoc={propDoc} tier={arma.tier || 'A'}>
+                <ItemHover doc={armaDoc} propDoc={propDoc} tier={arma.tier || 'A'} clickToOpen>
                   <span
                     style={{
                       position: 'relative',
@@ -785,7 +785,7 @@ function GearCard({
         ) : null}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <ItemHover doc={doc} propDoc={propDoc} tier={tierLetter(gear['Categoria']) || undefined}>
+        <ItemHover doc={doc} propDoc={propDoc} tier={tierLetter(gear['Categoria']) || undefined} clickToOpen>
           <span
             style={{
               position: 'relative',
@@ -1193,7 +1193,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                     }}
                   >
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                      <ItemHover doc={r.doc} tier={r.tier || undefined}>
+                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
                         {r.img ? (
                           <span
                             style={{
@@ -1213,7 +1213,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           <span style={{ fontSize: 14, flex: 'none' }}>{tokens.emojis.bonusType.Item}</span>
                         )}
                       </ItemHover>
-                      <ItemHover doc={r.doc} tier={r.tier || undefined}>
+                      <ItemHover doc={r.doc} tier={r.tier || undefined} clickToOpen>
                         <span
                           style={{
                             fontWeight: 600,

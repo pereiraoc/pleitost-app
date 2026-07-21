@@ -17,6 +17,7 @@ import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data
 import { precoPO } from '../grupo/wealth'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
+import { useDetail } from '../data/detail-context'
 import type { CSSProperties, ReactNode } from 'react'
 
 /** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
@@ -620,6 +621,7 @@ export function ItemHover({
   children,
   style,
   fullBody,
+  clickToOpen,
 }: {
   doc?: VaultDoc
   propDoc?: VaultDoc
@@ -628,8 +630,12 @@ export function ItemHover({
   style?: CSSProperties
   /** Mostra a PROSA COMPLETA da regra (não o resumo) — ficha em edição. */
   fullBody?: boolean
+  /** #bug11/#3c: clicar abre o doc no painel de DETALHES (direita) — a ficha
+   *  COMPLETA do item/artefato, sem sair da tela. Requer DetailCtl no shell. */
+  clickToOpen?: boolean
 }) {
   const assets = useAssetIndex()
+  const detail = useDetail()
   let html: string | null = null
   if (doc) {
     // Sem tier explícito (ex.: habilidade/técnica/magia), deriva do RANK do doc —
@@ -652,8 +658,14 @@ export function ItemHover({
   }
   // `always`: o doc pode chegar async (refs) — manter o mesmo wrapper evita
   // remontar os filhos (ex.: <select> do Perfil) quando o card aparece.
+  const canOpen = clickToOpen && detail && doc
   return (
-    <TipHover html={html} style={style} always>
+    <TipHover
+      html={html}
+      style={style}
+      always
+      onActivate={canOpen ? () => detail!.open({ kind: 'doc', id: doc!.id }) : undefined}
+    >
       {children}
     </TipHover>
   )

@@ -12,6 +12,19 @@
 //     issue #9) — o dltCor do design (sinal +/−) fica aqui como referência
 import type { CSSProperties, MouseEvent, MouseEventHandler } from 'react'
 import type { GrupoTip } from './gtip'
+import type { DetailCtl, DetailTarget } from '../data/detail-context'
+
+/** Abre um MEMBRO do grupo no painel de DETALHES (direita) — #bug: clicar no
+ *  nome nas abas abria a ficha cheia como se fosse do usuário. Membros de
+ *  sessão têm id `sessao:<charId>` → resumo-sessao; membros da vault/local →
+ *  resumo. Volátil: no-op sem DetailCtl (fora do shell com painel). */
+export function abrirMembroDetalhe(detail: DetailCtl | null | undefined, id: string): void {
+  if (!detail || !id) return
+  const target: DetailTarget = id.startsWith('sessao:')
+    ? { kind: 'resumo-sessao', id: id.slice('sessao:'.length) }
+    : { kind: 'resumo', id }
+  detail.open(target)
+}
 
 export const ROW_CLIP = 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))'
 
