@@ -1416,17 +1416,26 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
   return (
     <div style={panelStyle()}>
       <PanelLabel>CONSUMÍVEIS</PanelLabel>
+      {/* Report b56bd3d0 (mobile): sem espaço, o NOME da poção ocupa a linha
+          inteira e os contadores A/E/M descem (media query — nada muda quando
+          há espaço). */}
+      <style>{`
+        .cons-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;align-items:center;gap:8px}
+        @media (max-width:560px){
+          .cons-grid{grid-template-columns:repeat(3,1fr);row-gap:6px}
+          .cons-grid > .cons-nome{grid-column:1/-1}
+          .cons-grid > .cons-head-item{display:none}
+        }
+      `}</style>
       <div
+        className="cons-grid"
         style={{
-          display: 'grid',
-          gridTemplateColumns: '1.6fr 1fr 1fr 1fr',
-          alignItems: 'center',
-          gap: 8,
           padding: '0 2px 9px',
           borderBottom: '1px solid var(--line)',
         }}
       >
         <span
+          className="cons-head-item"
           style={{
             fontFamily: 'var(--mono)',
             fontSize: 10,
@@ -1449,16 +1458,13 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
       {rows.map((c) => (
         <div
           key={c.nome}
+          className="cons-grid"
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1.6fr 1fr 1fr 1fr',
-            alignItems: 'center',
-            gap: 8,
             padding: '8px 2px',
             borderBottom: '1px solid var(--line)',
           }}
         >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+          <span className="cons-nome" style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
             <button
               onClick={() => toggleUsed(c.nome, c.used)}
               style={{

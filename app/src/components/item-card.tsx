@@ -555,7 +555,7 @@ export function useItemFigura(e: FiguraTarget, docsById: Map<string, VaultDoc>) 
 
 /** Estilos da carta que aparece no hover da miniatura (dentro do tooltip). */
 export const ITEM_CARD_CSS = `
-.shc-wrap{display:flex;gap:8px;align-items:stretch}
+.shc-wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
 .shc-card{width:174px;flex:none;display:flex;flex-direction:column;gap:2px;border:3px solid var(--line2);border-radius:11px;padding:7px}
 .shc-card.tier-B{border-color:#4a90d9;box-shadow:0 0 0 1px #2f5f92,0 2px 12px rgba(0,0,0,.4);background:linear-gradient(160deg,color-mix(in srgb,#4a90d9 12%,var(--card)),var(--card))}
 .shc-card.tier-A{border-color:#6b727c;box-shadow:0 0 0 1px #3a3f47,0 2px 12px rgba(0,0,0,.45);background:linear-gradient(160deg,color-mix(in srgb,#8b929c 12%,var(--card)),var(--card))}

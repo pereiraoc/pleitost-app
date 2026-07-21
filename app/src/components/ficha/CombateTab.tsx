@@ -19,6 +19,7 @@ import { useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
+import { useDetail } from '../../data/detail-context'
 import { useAssetIndex } from '../../data/assets'
 import { weaponImageUrl } from '../../data/creature-image'
 import { propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image'
@@ -2221,9 +2222,12 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
   // F3 (#347, report a389cb35): OFÍCIOS no FIM das perícias (decisão de review
   // — não é seção própria). Filtro e fórmula do plugin (oficios.ts:22 prof ≠ N;
   // calcOficio: atributo SÓ conta com prof ≥ Adepto).
-  const oficios = ((fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]).filter(
-    (o) => profLetter(o) !== 'N',
-  )
+  // Report 2e156006: ofícios DECRESCENTES por modificador (melhores em cima),
+  // como as perícias acima (sort b.mod - a.mod).
+  const oficios = ((fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[])
+    .filter((o) => profLetter(o) !== 'N')
+    .map((row) => ({ row, bd: oficioBreakdown(row, attrs) }))
+    .sort((a, b) => b.bd.total - a.bd.total)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -2427,8 +2431,7 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
           OFÍCIOS
         </div>
       ) : null}
-      {oficios.map((row) => {
-        const bd = oficioBreakdown(row, attrs)
+      {oficios.map(({ row, bd }) => {
         const rotulo = str(row.Complemento)
           ? `${displayName(slugify(str(row.Nome)))} (${str(row.Complemento)})`
           : displayName(slugify(str(row.Nome)))
@@ -2495,6 +2498,9 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
 
 function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const model = useHeroModel(doc, 'combate')
+  // Report e5067c43: clicar no NOME abre o doc COMPLETO nos detalhes (direita)
+  // — mesmo padrão do #11/#3c (kind 'doc' → DocView, com o corpo da nota).
+  const detail = useDetail()
   const rules = useHeroRules(model.fm)
   const assets = useAssetIndex()
   // Base derivada; o volátil (Usos_Recursos) é preservado pelo merge.
@@ -2575,7 +2581,17 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             )}
           </ItemHover>
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
-            <span style={{ fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
+            <span
+              onClick={t.doc ? () => detail?.open({ kind: 'doc', id: t.doc!.id }) : undefined}
+              style={{
+                fontWeight: 600,
+                fontSize: 14,
+                color: t.doc ? 'var(--blue)' : 'var(--text)',
+                cursor: t.doc ? 'pointer' : undefined,
+              }}
+            >
+              {t.nome}
+            </span>
             {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166).
                 Passivo (sem max) mostra só o resumo; CARGAS iniciam em 0. */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>

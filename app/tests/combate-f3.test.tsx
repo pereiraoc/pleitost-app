@@ -97,6 +97,12 @@ describe('F3 — combate: movimento/ofícios/tesouros passivos/manobras (#347)',
     // Atuacao (Chula) M/PRE → PRE 3 + prof 6 = +9
     const chula = await screen.findByText(/\(Chula\)/)
     expect(chula.closest('div')!.parentElement!.textContent).toContain('+9')
+    // Report 2e156006: ordem DECRESCENTE — Atuacao (+9) vem ANTES de Oficio (+3)
+    const poetaEl = await screen.findByText(/\(Poeta\)/)
+    expect(
+      chula.compareDocumentPosition(poetaEl) & Node.DOCUMENT_POSITION_FOLLOWING,
+      'Atuacao (+9) antes de Oficio (+3)',
+    ).toBeTruthy()
     // Conhecimento tem prof N → NÃO aparece (match exato — "Conhecimento
     // Arcano Adepto" de habilidades é outra coisa)
     expect(screen.queryByText('Conhecimento')).toBeNull()
