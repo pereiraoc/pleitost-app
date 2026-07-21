@@ -10,6 +10,7 @@
 // correntes de Interativa.Recursos_Restantes com autosave — topbar e aba
 // COMBATE leem/escrevem a mesma fonte (diretriz 2026-07-05).
 import type { VaultDoc } from '../../data/types'
+import { fichaFamiliaOf } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip } from './bits'
@@ -60,8 +61,12 @@ export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
   // (rule-driven), logo o max não regride.
   const rules = useHeroRules(fm)
   const baseFm = rules?.derivedFm ?? fm
+  // F5 (#347): família decide a MORAL (Monstro não tem — vida-panel.ts:4 do
+  // plugin) e o piso da vitalidade (herói/CA negativam até −máx; Monstro trava
+  // em 0, tracker clampVitalidade).
+  const caps = fichaFamiliaOf(doc)
   const vitMax = num(fmPath(baseFm, 'Vida', 'Vitalidade'))
-  const moralMax = num(fmPath(baseFm, 'Vida', 'Moral'))
+  const moralMax = caps.moral ? num(fmPath(baseFm, 'Vida', 'Moral')) : 0
   const rest = interativa(fm).restantes
   const vit = rest['Vitalidade'] !== undefined ? num(rest['Vitalidade']) : vitMax
   const moral = rest['Moral'] !== undefined ? num(rest['Moral']) : moralMax
@@ -69,7 +74,8 @@ export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
 
   const write = (campo: string, valor: number) =>
     model.setVolatile(`Interativa.Recursos_Restantes.${campo}`, valor)
-  const clampVit = (x: number) => Math.max(-vitMax, Math.min(vitMax, x))
+  const vitMin = caps.moral ? -vitMax : 0
+  const clampVit = (x: number) => Math.max(vitMin, Math.min(vitMax, x))
   const setVit = (d: number) => write('Vitalidade', clampVit(vit + d))
   const setMoral = (d: number) => write('Moral', Math.max(0, Math.min(moralMax, moral + d)))
   const setTemp = (d: number) => write('Moral_Temporaria', Math.max(0, temp + d))
@@ -89,8 +95,13 @@ export function useVidaLocal(doc: VaultDoc, origem = 'combate'): VidaLocal {
   }
   const rows: VidaAdjRow[] = [
     { ic: '❤️', name: 'VITALIDADE', val: `${vit} / ${vitMax}`, cbase: '#d9534f', adj: mkAdj(setVit) },
-    { ic: '💙', name: 'MORAL', val: `${moral} / ${moralMax}`, cbase: '#4f8fd6', adj: mkAdj(setMoral) },
-    { ic: '💚', name: 'MORAL TEMPORÁRIA', val: `+${temp}`, cbase: '#43a06a', adj: mkAdj(setTemp) },
+    // Monstro não tem moral (caps.moral) — só a linha de vitalidade.
+    ...(caps.moral
+      ? [
+          { ic: '💙', name: 'MORAL', val: `${moral} / ${moralMax}`, cbase: '#4f8fd6', adj: mkAdj(setMoral) },
+          { ic: '💚', name: 'MORAL TEMPORÁRIA', val: `+${temp}`, cbase: '#43a06a', adj: mkAdj(setTemp) },
+        ]
+      : []),
   ]
 
   return { vit, moral, temp, vitMax, moralMax, rows, applyDmg }

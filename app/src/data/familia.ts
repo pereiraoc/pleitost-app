@@ -130,6 +130,13 @@ export interface FichaFamilia {
   moedas: boolean
   /** Consumíveis (tab-inventario.ts:126 — só Heroi). */
   consumiveis: boolean
+  /** Moral na vida (vida-panel.ts:4 showMoral = family !== 'Monstro';
+   *  frontmatter-extractor.ts:162-166 model.vida.moral = null em Monstro).
+   *  Sem moral o dano vai direto na vitalidade e ela TRAVA em 0 (tracker
+   *  clampVitalidade — herói/CA negativam, monstro não). */
+  moral: boolean
+  /** Progressão por TIER 0-3 (meta.tier, header-monstro.ts) em vez de Nível. */
+  tier: boolean
   /** Whitelist de perícias (null = todas as 13) — family-pericias.ts. */
   pericias: readonly string[] | null
   /** Tesouros equipáveis (null = todos) — tabs/ca/tab-completa.ts:33-43. */
@@ -140,6 +147,8 @@ const HEROI_FICHA: FichaFamilia = {
   tutor: false,
   classe: { rotulo: 'Classe', editavel: true },
   nivelDoTutor: false,
+  moral: true,
+  tier: false,
   biografia: true,
   experiencia: true,
   anotacoes: true,
@@ -156,14 +165,34 @@ const HEROI_FICHA: FichaFamilia = {
 
 export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
   Heroi: HEROI_FICHA,
-  // Monstro tem delta próprio no plugin (tabs/monstro/tab-completa.ts) — fora
-  // do escopo do #201 (CA); mantém o comportamento atual do app (ficha cheia)
-  // até a issue do Monstro portar o delta dele.
-  Monstro: HEROI_FICHA,
+  // F5 (#347): delta do Monstro portado do plugin (tabs/monstro/tab-completa.ts
+  // — Perfil reduzido/Vida sem moral/Perícias/Defesas+Sentidos/Combate/Magias
+  // readonly/Habilidades/Tesouros; family-defaults.ts — Tier, Vida.Moral null).
+  Monstro: {
+    tutor: false,
+    classe: { rotulo: 'Classe', editavel: true }, // classe de bestiário
+    nivelDoTutor: false,
+    moral: false,
+    tier: true,
+    biografia: false,
+    experiencia: false,
+    anotacoes: false,
+    oficios: false,
+    especializacoes: false,
+    tecnicas: false,
+    magias: true, // readonly na prática (sourced de classe/modificador)
+    equipamentos: false,
+    moedas: false,
+    consumiveis: false,
+    pericias: null, // todas as 13, readonly
+    tesourosPermitidos: null,
+  },
   CompanheiroAnimal: {
     tutor: true,
     classe: { rotulo: 'Tipo', editavel: false },
     nivelDoTutor: true,
+    moral: true,
+    tier: false,
     biografia: false,
     experiencia: false,
     anotacoes: false,

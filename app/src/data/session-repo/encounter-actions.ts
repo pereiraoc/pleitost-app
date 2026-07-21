@@ -196,8 +196,57 @@ async function docFromSourcePath(catalog: Catalog, sourcePath: string): Promise<
   }
 }
 
+/** F5 (#347, report 24234546): doc SINTÉTICO do monstro genérico — Tier 0 /
+ *  Soldado / Incomum (defaults da família no plugin, family-defaults.ts) com o
+ *  esqueleto padrão de defesas/sentidos/movimento. Os STATS saem das REGRAS de
+ *  classe de bestiário pela MESMA engine dos monstros reais
+ *  (effectiveFmForPublish) — nada de zeros hardcoded. (O plugin tem o mesmo
+ *  bug no tracker dele, ZERO_STATS — correção lá é release próprio.) */
+function genericoMonstroDoc(label: string): VaultDoc {
+  const profRow = (nome: string, attr: string) => ({
+    Nome: nome,
+    Atributo: attr,
+    Proficiencia: 'N',
+    Bonus_Item: 0,
+    Bonus_Especial: 0,
+  })
+  return {
+    id: `generico:${label}`,
+    path: `generico:${label}`,
+    basename: label,
+    type: 'Criatura',
+    subtype: 'Monstro',
+    frontmatter: {
+      categoria: 'Criatura',
+      subcategoria: 'Monstro',
+      Tier: 0,
+      Classe: '[[Soldado]]',
+      Raça: '[[Incomum]]',
+      Atributos: { Principal: 'FOR', FOR: 0, AGI: 0, INT: 0, PRE: 0 },
+      Vida: { Vitalidade: 0 },
+      Defesas_Resistencias: {
+        Lista: [
+          profRow('Defesa', 'FOR'),
+          profRow('Vigor', 'FOR'),
+          profRow('Impeto', 'AGI'),
+          profRow('Reflexo', 'AGI'),
+        ],
+      },
+      Sentidos: { Lista: [profRow('Percepcao', 'INT'), profRow('Intuicao', 'PRE')] },
+      Movimento: { Lista: [{ Nome: 'Terrestre', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0 }] },
+      Ataques: { Proficiencia: 'N', Lista: [] },
+      Habilidades: { Lista: [] },
+    },
+    inlineFields: {},
+    images: [],
+    body: '',
+    ruleElements: [],
+  } as unknown as VaultDoc
+}
+
 /** NPCs de um roster: resolve cada sourcePath → summary/state do doc real do
- *  bestiário; genéricos (sourcePath null/não resolvido) entram "crus". */
+ *  bestiário; genérico (sourcePath null/não resolvido) usa o doc SINTÉTICO
+ *  Tier 0/Soldado e passa pelo MESMO caminho de derivação (F5 #347). */
 export async function npcInputsFromRoster(
   catalog: Catalog,
   entries: readonly EncounterRosterEntry[],
@@ -206,37 +255,17 @@ export async function npcInputsFromRoster(
   const npcs: NpcInsertInput[] = []
   for (const entry of entries) {
     for (let i = 0; i < Math.max(1, entry.qty); i++) {
-      const doc = entry.sourcePath ? await docFromSourcePath(catalog, entry.sourcePath) : null
-      if (doc) {
-        // #323/#326: FM derivado (vida/defesas máx das regras, não o 0 do cru).
-        const efm = await effectiveFmForPublish(doc, catalog)
-        npcs.push({
-          memberId,
-          kind: 'npc',
-          characterPath: doc.id,
-          summary: buildCharacterSummary(doc, efm),
-          state: buildCharacterState(doc, efm),
-        })
-        continue
-      }
+      const doc =
+        (entry.sourcePath ? await docFromSourcePath(catalog, entry.sourcePath) : null) ??
+        genericoMonstroDoc(entry.label)
+      // #323/#326: FM derivado (vida/defesas máx das regras, não o 0 do cru).
+      const efm = await effectiveFmForPublish(doc, catalog)
       npcs.push({
         memberId,
         kind: 'npc',
-        characterPath: entry.sourcePath ?? `generico:${entry.label}`,
-        summary: {
-          nome: entry.label,
-          family: 'Monstro',
-          nivel: 0,
-          atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0 },
-          vitalidadeMax: 0,
-          stats: { defesa: 0, vigor: 0, evasao: 0, impeto: 0, movimento: 0, percepcao: 0, intuicao: 0 },
-        },
-        state: {
-          recursosRestantes: { vitalidade: 0, moral: 0, em: 0, moralTemp: 0 },
-          condicoesAtivas: {},
-          efeitosAtivos: {},
-          invocacoesAtivas: {},
-        },
+        characterPath: doc.id,
+        summary: buildCharacterSummary(doc, efm),
+        state: buildCharacterState(doc, efm),
       })
     }
   }
