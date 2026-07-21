@@ -381,6 +381,16 @@ function applyAction(rule: ParsedRule, deltas: Deltas, ctx: ApplyContext, model:
           action.targetRaw,
           base ? { link: String(action.valueRaw), source: `Regra.[[${base}]]` } : action.valueRaw,
         )
+      } else if (action.targetRaw === 'Magias.Lista.Tesouros.Lista') {
+        // #364: magia concedida por TESOURO leva a fonte `Tesouro.[[nota]]`
+        // (materialização do plugin, v2.0.33/source-classification) — é o que
+        // o agrupador do painel usa pra pô-la em "Magias de Tesouros".
+        const base = rule.sourceNote.split('/').pop()?.replace(/\.md$/i, '') ?? ''
+        deltaListAppend(
+          deltas,
+          action.targetRaw,
+          base ? { link: String(action.valueRaw), source: `Tesouro.[[${base}]]` } : action.valueRaw,
+        )
       } else {
         deltaListAppend(deltas, action.targetRaw, action.valueRaw)
       }
