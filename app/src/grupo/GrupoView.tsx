@@ -12,7 +12,14 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNod
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
-import { migrateGroupState } from '../data/group-store'
+import {
+  getGroupState,
+  groupStateJson,
+  migrateGroupState,
+  setGroupStateFull,
+  subscribeGroup,
+  type GroupState,
+} from '../data/group-store'
 import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
@@ -615,6 +622,35 @@ export function GrupoView({ groupId }: { groupId: string }) {
     if (isMesa && live?.sessionId) migrateGroupState(MESA_GRUPO_ID, exploId)
   }, [isMesa, live?.sessionId, exploId])
   const repo = useSessionRepo()
+  // #5: SINCRONIZA a exploração da mesa com o estado da sessão (backend), pra
+  // todos os membros/aparelhos verem a mesma trilha (antes vivia só no
+  // localStorage por-dispositivo). Remoto = fonte de verdade; se o remoto está
+  // VAZIO e o local tem (migração/edição prévia), semeia o remoto. A guarda por
+  // JSON (exploSyncRef) evita loop: um pull não re-empurra.
+  const exploSyncRef = useRef('')
+  useEffect(() => {
+    if (!isMesa || !repo || !live?.sessionId) return
+    const sid = live.sessionId
+    const remote = live.state?.exploracao as GroupState | undefined
+    const remoteJson = remote ? groupStateJson(remote) : ''
+    const localJson = groupStateJson(getGroupState(exploId))
+    const EMPTY = groupStateJson({ hexes: [] })
+    if (remoteJson && remoteJson !== localJson) {
+      exploSyncRef.current = remoteJson
+      setGroupStateFull(exploId, remote!)
+    } else if (!remoteJson && localJson !== EMPTY) {
+      exploSyncRef.current = localJson
+      void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
+    } else {
+      exploSyncRef.current = remoteJson || localJson
+    }
+    return subscribeGroup(exploId, () => {
+      const lj = groupStateJson(getGroupState(exploId))
+      if (lj === exploSyncRef.current) return // veio de um pull → não re-empurra
+      exploSyncRef.current = lj
+      void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
+    })
+  }, [isMesa, repo, live?.sessionId, live?.state?.exploracao, exploId])
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined
   const entry = catalog.entryById.get(groupId)
   // #235: nome da mesa = APELIDOS dos heróis em ordem alfabética, ", " —

@@ -6,6 +6,7 @@
 // Diferenças conscientes: tipos de snapshot/diff/encounter INLINADOS (o app
 // não importa módulos do plugin) e `EncounterDifficultyResult` reduzido ao
 // shape persistido (jsonb livre).
+import type { GroupState } from '../group-store' // extensão do app (#5, não vem do sync)
 
 /* ── snapshot.ts ─────────────────────────────────────────────────────── */
 
@@ -188,6 +189,10 @@ export interface SessionState {
    *  jogadores colocam itens; o jogador PUXA um item pra ficha dele (sai do
    *  grupo = transferência). */
   inventarioGrupo?: Record<string, GroupInventoryItem>
+  /** #5: exploração COMPARTILHADA da mesa (trilha/caminho percorrido) — antes
+   *  vivia só no localStorage por-dispositivo, então não sincronizava entre
+   *  membros/aparelhos. Replace por chave (last-write-wins), como o inventário. */
+  exploracao?: GroupState
 }
 
 export interface Session {

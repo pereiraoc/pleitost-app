@@ -7,7 +7,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   addGroupHex,
   getGroupState,
+  groupStateJson,
   migrateGroupState,
+  setGroupStateFull,
   __resetGroupStoreMemoryForTests,
 } from '../src/data/group-store'
 
@@ -72,5 +74,29 @@ describe('migrateGroupState — porta a exploração da mesa', () => {
     addGroupHex(NEW, { col: 2, row: 2 })
     expect(migrateGroupState(NEW, NEW)).toBe(false)
     expect(getGroupState(NEW).hexes).toHaveLength(1)
+  })
+})
+
+describe('sync da mesa: groupStateJson + setGroupStateFull', () => {
+  it('setGroupStateFull aplica um estado completo (remoto→local) filtrando hexes', () => {
+    setGroupStateFull(NEW, {
+      hexes: [
+        { id: 'h1', col: 1, row: 2, label: 'Vila', kind: 'parada' },
+        { id: 'bad', col: NaN as unknown as number, row: 0 }, // inválido → filtrado
+      ],
+      regiaoAtiva: 'Regiao X',
+      atualId: 'h1',
+    })
+    const s = getGroupState(NEW)
+    expect(s.hexes).toHaveLength(1)
+    expect(s.regiaoAtiva).toBe('Regiao X')
+    expect(s.atualId).toBe('h1')
+  })
+
+  it('groupStateJson é canônico e igual pra estados equivalentes (base do guard anti-loop)', () => {
+    const a = groupStateJson({ hexes: [{ id: 'h1', col: 1, row: 2 }], regiaoAtiva: 'R' })
+    const b = groupStateJson({ hexes: [{ id: 'h1', col: 1, row: 2 }], regiaoAtiva: 'R' })
+    expect(a).toBe(b)
+    expect(groupStateJson({ hexes: [] })).not.toBe(a)
   })
 })

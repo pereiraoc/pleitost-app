@@ -175,6 +175,28 @@ function commit(groupId: string, next: GroupState): void {
  *  escopada por sessão. Porta o estado ANTIGO (`from`) pro escopo `to` SE `to`
  *  está vazio e `from` tem dados — e depois LIMPA `from`, pra não portar duas
  *  vezes nem revazar entre sessões. Retorna true se portou algo. */
+/** Serialização canônica pro compare do sync (ignora updatedAt/ordem de chaves). */
+export function groupStateJson(s: GroupState): string {
+  return JSON.stringify({
+    hexes: s.hexes,
+    ...(s.regiaoAtiva ? { regiaoAtiva: s.regiaoAtiva } : {}),
+    ...(s.atualId ? { atualId: s.atualId } : {}),
+  })
+}
+
+/** Aplica um estado COMPLETO no store (sync da mesa: remoto→local). Filtra hexes
+ *  inválidos, como a hidratação. */
+export function setGroupStateFull(groupId: string, next: GroupState): void {
+  const hexes = Array.isArray(next?.hexes) ? next.hexes.filter(isHex) : []
+  commit(groupId, {
+    hexes,
+    ...(typeof next?.regiaoAtiva === 'string' ? { regiaoAtiva: next.regiaoAtiva } : {}),
+    ...(typeof next?.atualId === 'string' && hexes.some((h) => h.id === next.atualId)
+      ? { atualId: next.atualId }
+      : {}),
+  })
+}
+
 export function migrateGroupState(from: string, to: string): boolean {
   if (from === to) return false
   const fromState = hydrate(from)
