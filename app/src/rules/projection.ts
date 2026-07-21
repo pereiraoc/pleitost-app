@@ -52,6 +52,9 @@ export function shortSintoniaName(target: string): string {
 /** Pasta-fonte das classes de Heroi — espelho de classesPathPrefix
  *  (plugin cola/process-yaml-vault-scans.ts:50-55). */
 const CLASSES_PATH_PREFIX = 'Sistema/Criação de Personagem/Classes/'
+/** F5/#362: classes de BESTIÁRIO (Soldado, Bruto, …) — fonte do dropdown de
+ *  Classe quando a família é Monstro (plugin process-yaml-vault-scans.ts:73). */
+const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiário/'
 
 /** Scan de notas por categoria via índice do vault-data (type/subtype =
  *  categoria/subcategoria) — espelho de listNotesByCategoria (plugin
@@ -759,7 +762,14 @@ export function buildHeroProjection(
     : null
 
   return {
-    classes: listNotesByCategoria(catalog, 'Classe', { pathPrefix: CLASSES_PATH_PREFIX }).map(linked),
+    // F5/#362: a família decide a FONTE das classes — Monstro usa as 8 classes
+    // de bestiário; demais, as classes de aventureiro.
+    classes: listNotesByCategoria(catalog, 'Classe', {
+      pathPrefix:
+        String(savedFm['subcategoria'] ?? '').trim() === 'Monstro'
+          ? BESTIARIO_CLASSES_PREFIX
+          : CLASSES_PATH_PREFIX,
+    }).map(linked),
     sintonias: listNotesByCategoria(catalog, 'Sintonia', { subcategoria: null })
       .map((wl) => withAlias(wl, shortSintoniaName))
       .map(linked),

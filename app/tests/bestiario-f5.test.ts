@@ -66,3 +66,20 @@ describe('F5 — bestiário (#347)', () => {
     expect(fichaFamiliaOf(heroi as VaultDoc).moral).toBe(true)
   })
 })
+
+describe('#362 — classe de bestiário e tier (F5 restante)', () => {
+  it('projeção do MONSTRO oferece as classes de BESTIÁRIO no dropdown (não as de aventureiro)', async () => {
+    const { projectHeroRules } = await import('../src/rules/useHeroRules')
+    const { loadDoc } = await import('../src/data/useDoc')
+    const { projection } = await projectHeroRules(
+      goblin.frontmatter as never,
+      catalog,
+      loadDoc,
+    )
+    const labels = projection.classes.map((c: { label: string }) => c.label)
+    expect(labels).toContain('Soldado')
+    expect(labels).toContain('Bruto')
+    expect(labels).not.toContain('Druida') // classe de aventureiro fora
+    expect(labels.length).toBe(8) // as 8 classes de bestiário
+  }, 30000)
+})

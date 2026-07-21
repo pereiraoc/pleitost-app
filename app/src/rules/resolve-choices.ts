@@ -132,8 +132,22 @@ export function resolveChoice(
     // plugin — dados legados sem tag dependem disso).
     if (desc.occurrenceWithinParent !== undefined) return desc
     const linkTargets = new Set(lista.map((it) => wikilinkTarget(it.link)))
+    // Inferência 2b: o único item da lista que casa com as options — mas SÓ se
+    // ele não carrega a tag de OUTRA escolha (#365: a "Forma Adicional" roubava
+    // a Caçadora persistida pela Tradição e o default re-appendava a mesma).
     const matches = desc.options.filter((opt) => linkTargets.has(wikilinkTarget(opt)))
-    if (matches.length === 1) return { ...desc, pick: matches[0]!, source: 'inferred' }
+    if (matches.length === 1) {
+      const item = lista.find((it) => wikilinkTarget(it.link) === wikilinkTarget(matches[0]!))
+      const outraTag = item && /^Escolha\./.test(item.source) && !item.source.includes(`[[${choiceBase}]]`)
+      if (!outraTag) return { ...desc, pick: matches[0]!, source: 'inferred' }
+    }
+    // #365: o DEFAULT de uma escolha de lista nunca repete uma opção JÁ TOMADA
+    // na lista alvo (mesma regra do dropdown, que filtra `taken`) — duas
+    // escolhas defaultando pro mesmo options[0] duplicavam a forma nas Ações.
+    // Todas tomadas → sem pick (source 'none') = pendência visível (#337).
+    const livre = desc.options.find((opt) => !linkTargets.has(wikilinkTarget(opt)))
+    if (livre) return { ...desc, pick: livre, source: 'default' }
+    return desc
   }
 
   if (desc.kind === 'escolha-pericia-especial' || desc.kind === 'escolha-prop-map') {
@@ -174,7 +188,7 @@ function distributeSiblingPicks(
   discovered: Map<string, ChoiceDescriptor>,
   model: RulesModel,
   transientPicks: Record<string, string>,
-): Map<string, { pick: string; source: 'persisted' | 'inferred' }> {
+): Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' }> {
   const activeParents = new Set<string>()
   for (const it of [...model.habilidades.lista, ...model.tecnicas.lista, ...model.acoes]) {
     activeParents.add(wikilinkTarget(it.link))
@@ -192,7 +206,7 @@ function distributeSiblingPicks(
     arr.push(desc)
     groups.set(sig, arr)
   }
-  const out = new Map<string, { pick: string; source: 'persisted' | 'inferred' }>()
+  const out = new Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' }>()
   for (const group of groups.values()) {
     if (group.length <= 1) continue
     const claimed = new Set<string>()
@@ -232,6 +246,22 @@ function distributeSiblingPicks(
         }
       }
       if (pick) out.set(desc.choiceKey, { pick, source: 'inferred' })
+    }
+    // Pass C (#365): DEFAULT DISTRIBUÍDO — escolhas de PAIS DIFERENTES que
+    // sobraram sem pick (ficha nova, lista alvo vazia) pegam a PRIMEIRA opção
+    // livre em vez de todas defaultarem options[0] (que duplicava a mesma
+    // forma nas Ações — "Forma" da Tradição + "Forma Adicional"). Irmãs do
+    // MESMO pai (occurrenceWithinParent definido) ficam FORA: a divergência
+    // consciente do app as deixa VAZIAS (ver resolveChoice), e dar default
+    // aqui contaria linhagens não escolhidas como possuídas (Elementalista).
+    for (const desc of group) {
+      if (out.has(desc.choiceKey)) continue
+      if (desc.occurrenceWithinParent !== undefined) continue
+      const livre = desc.options.find((opt) => !claimed.has(wikilinkTarget(opt)))
+      if (livre) {
+        claimed.add(wikilinkTarget(livre))
+        out.set(desc.choiceKey, { pick: livre, source: 'default' })
+      }
     }
   }
   return out

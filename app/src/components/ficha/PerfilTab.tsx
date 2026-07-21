@@ -1287,7 +1287,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               clipPath: 'polygon(0 0,100% 0,100% 100%,7px 100%,0 calc(100% - 7px))',
             }}
           >
-            NVL {nivel || '—'}
+            {/* F5/#362: Monstro progride por TIER 0-3 (header-monstro.ts do
+                plugin), não por nível. */}
+            {caps.tier ? `TIER ${num(dfm['Tier'])}` : `NVL ${nivel || '—'}`}
           </span>
         </div>
         <LocalImageUpload id={doc.id} />

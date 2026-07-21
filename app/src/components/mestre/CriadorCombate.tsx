@@ -171,11 +171,37 @@ export function CriadorCombate() {
               onChange={(e) => setSelId(e.target.value)}
               style={{ ...fieldInputStyle, cursor: 'pointer', minWidth: 220 }}
             >
-              {bestiario.map((e) => (
-                <option key={e.id} value={e.id}>
-                  {e.basename ?? e.id}
-                </option>
-              ))}
+              {/* #362: monstros AGRUPADOS por Tier 0-3 (fm.Tier), como a aba
+                  BESTIÁRIO agrupa a lista — locais/sem tier ficam no fim. */}
+              {(() => {
+                const tierDe = (id: string): number | null => {
+                  const t = Number(docs?.get(id)?.frontmatter['Tier'])
+                  return Number.isFinite(t) ? t : null
+                }
+                const grupos = new Map<number | null, typeof bestiario>()
+                for (const e of bestiario) {
+                  const t = tierDe(e.id)
+                  const arr = grupos.get(t) ?? []
+                  arr.push(e)
+                  grupos.set(t, arr)
+                }
+                const tiers = [...grupos.keys()].sort((a, b) =>
+                  a === null ? 1 : b === null ? -1 : a - b,
+                )
+                return tiers.map((t) => (
+                  <optgroup key={String(t)} label={t === null ? 'SEM TIER' : `TIER ${t}`}>
+                    {grupos
+                      .get(t)!
+                      .slice()
+                      .sort((a, b) => (a.basename ?? a.id).localeCompare(b.basename ?? b.id, 'pt'))
+                      .map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.basename ?? e.id}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))
+              })()}
             </select>
           </label>
           <label>
