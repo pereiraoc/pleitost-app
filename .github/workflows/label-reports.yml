@@ -17,7 +17,9 @@ jobs:
         with:
           script: |
             const body = context.payload.issue?.body ?? ''
-            const m = body.match(/pleitost:tipo=(bug|sugestao)/)
+            // Review: exige a forma de COMENTÁRIO HTML que só o app emite —
+            // o marcador solto em texto citado não dispara.
+            const m = body.match(/<!--\s*pleitost:tipo=(bug|sugestao)\s*-->/)
             if (!m) return // issue não veio do app — não mexe
             const label = m[1] === 'bug' ? 'bug' : 'enhancement'
             await github.rest.issues.addLabels({

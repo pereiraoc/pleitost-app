@@ -122,7 +122,7 @@ export interface EffectDescriptor {
   aplicacao?: 'TodasAsArmas' | 'ArmaSelecionada' | 'AtaqueNatural'
   selectsWeapon?: boolean
   sharedFrom?: string
-  sharedFromMeta?: { potenciaMagica?: number }
+  sharedFromMeta?: { potenciaMagica?: number; nivel?: number }
   numericSelector?: NumericSelector
   selectors: DiscreteSelector[]
   parameters: Record<string, string>

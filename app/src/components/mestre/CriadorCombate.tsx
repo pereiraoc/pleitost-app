@@ -215,7 +215,12 @@ export function CriadorCombate() {
               style={{ ...fieldInputStyle, width: 72 }}
             />
           </label>
-          <button type="button" onClick={addMonstro} disabled={!docs} style={accentBtnStyle(!!docs)}>
+          <button
+            type="button"
+            onClick={addMonstro}
+            disabled={!docs || !bestiario.length}
+            style={accentBtnStyle(!!docs && bestiario.length > 0)}
+          >
             + Adicionar
           </button>
         </div>

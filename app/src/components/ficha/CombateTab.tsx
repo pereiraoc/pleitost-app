@@ -2404,7 +2404,9 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       // Usos iniciam cheios; Cargas iniciam descarregadas (plugin, usos.ts).
       const cur = max ? (salvo ?? (cargas ? 0 : max)) : 0
       // Figura do tesouro (issue #65) — igual ao inventário.
-      const img = tier ? tesouroImageUrl(nome, tier, assets) : tesouroImageUrl(nome, 'A', assets)
+      // Review C5: sem tier passa '' (vai direto pra `${nome}.png`) — 'A'
+      // podia pegar a imagem "Adepto" de um homônimo com tier.
+      const img = tesouroImageUrl(nome, tier ?? '', assets)
       const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
       return {
         nome: tier ? `${nome} (${tier})` : nome,
@@ -2422,9 +2424,12 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      {tesouros.map((t) => (
+      {/* Review C2: React key com ÍNDICE — dois passivos homônimos sem tier
+          colidiam. A chave de USOS (t.key) fica intacta: é persistida em
+          Interativa.Usos_Recursos e mudar órfãria os usos salvos. */}
+      {tesouros.map((t, ti) => (
         <div
-          key={t.key}
+          key={`${t.key}|${ti}`}
           style={{
             display: 'flex',
             alignItems: 'flex-start',

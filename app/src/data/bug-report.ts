@@ -63,6 +63,14 @@ function corpoIssue(report: BugReport): string {
   return partes.join('\n')
 }
 
+/** Redige padrões de credencial (JWT, tokens GitHub, Bearer, api keys) — os
+ *  logs viajam pro corpo PÚBLICO da issue e pro jsonb do Supabase. */
+const SECRET_RX =
+  /(Bearer\s+[A-Za-z0-9._~+/=-]{8,})|(gh[pousr]_[A-Za-z0-9]{16,})|(eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{4,}\.[A-Za-z0-9_-]{4,})|((?:api[_-]?key|access_token|provider_token|refresh_token)["':=\s]+[A-Za-z0-9._~+/=-]{8,})/gi
+function redactSecrets(s: string): string {
+  return s.replace(SECRET_RX, '[REDACTED]')
+}
+
 async function inserirAnon(report: BugReport): Promise<void> {
   const sb = supabaseClient()
   if (!sb) throw new Error('Servidor de reportes indisponível — tenta de novo mais tarde.')
@@ -77,8 +85,15 @@ export async function enviarBugReport(texto: string, tipo: TipoReport = 'bug'): 
   const limpo = texto.trim()
   if (!limpo) throw new Error('Escreva o que aconteceu antes de enviar.')
   // Anexa os logs SÓ se o modo debug estava ligado (senão o buffer está vazio).
-  // Corta pra não estourar o limite de texto/linha do report.
-  const logs = isDebugOn() ? getLogs().slice(-200) : []
+  // Corta pra não estourar o limite de texto/linha do report. Review: os logs
+  // capturam console.warn/error de SDKs (Supabase renova token via console em
+  // alguns fluxos) e o corpo da issue no GitHub é PÚBLICO — redige qualquer
+  // coisa com cara de credencial antes de anexar.
+  const logs = isDebugOn()
+    ? getLogs()
+        .slice(-200)
+        .map((l) => ({ ...l, msg: redactSecrets(l.msg) }))
+    : []
   const report: BugReport = {
     texto: limpo,
     tipo,

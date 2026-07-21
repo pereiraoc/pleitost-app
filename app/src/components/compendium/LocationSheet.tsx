@@ -856,9 +856,15 @@ export function LocationSheet({
   const [tab, setTab] = useState<LocTab['id']>('detalhes')
   const rel = useAtlasRelations(doc)
   // F7 (#347): gate do comércio pela parada atual — mestre sempre pode; a
-  // versão global do group-store re-renderiza quando o grupo se move.
+  // versão global do group-store re-renderiza quando o grupo se move. Review
+  // C3: o scan do storage (podeComerciar) roda SÓ quando a versão muda, não
+  // em todo render.
   const { mestre } = useSettings()
-  useGroupStoreVersion()
+  const groupVersion = useGroupStoreVersion()
+  const podeComerciarAqui = useMemo(
+    () => mestre || podeComerciar(doc.id),
+    [mestre, doc.id, groupVersion],
+  )
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
   const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
@@ -890,7 +896,7 @@ export function LocationSheet({
           // F7 (#347): Comércio gateado pela PARADA ATUAL do grupo — só a
           // posição libera a compra; mestre sempre pode. Informação do
           // compêndio segue aberta (só a AÇÃO é gateada).
-          const gateComercio = t.id === 'comercio' && !mestre && !podeComerciar(doc.id)
+          const gateComercio = t.id === 'comercio' && !podeComerciarAqui
           const enabled = (t.enabled ? t.enabled(doc) : true) && !gateComercio
           const on = t.id === tab
           return (

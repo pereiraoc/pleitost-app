@@ -51,7 +51,13 @@ export function sharedAllyDescriptors(
   allyFm: Record<string, unknown>,
   docs: readonly (VaultDoc | undefined)[],
 ): EffectDescriptor[] {
-  const meta = { potenciaMagica: num(fmPath(allyFm, 'Magias', 'Potencia')) }
+  // Meta do CONJURADOR (plugin share-ally-effects.ts:19-21): potência mágica E
+  // nível — efeitos que escalam porNivel usam o nível do aliado, não do receptor.
+  const nivelAliado = num(allyFm['Nível'])
+  const meta = {
+    potenciaMagica: num(fmPath(allyFm, 'Magias', 'Potencia')),
+    ...(nivelAliado ? { nivel: nivelAliado } : {}),
+  }
   const out: EffectDescriptor[] = []
   const seen = new Set<string>()
   for (const doc of docs) {
@@ -81,7 +87,14 @@ export function useSharedAllyDescriptors(
 ): { descriptors: EffectDescriptor[]; loaded: boolean } {
   const catalog = useCatalog()
   const localVersion = useLocalStoreVersion()
-  const myGroups = useMemo(() => groupBasenamesOf(fm), [fm])
+  // Review B3: `fm` muda de REFERÊNCIA a cada recompute de regras — memoiza os
+  // grupos por CONTEÚDO (chave ordenada) pra cadeia aliados→targets→docs não
+  // re-derivar em todo render da ficha.
+  const myGroupsKey = useMemo(() => [...groupBasenamesOf(fm)].sort().join('|'), [fm])
+  const myGroups = useMemo(
+    () => new Set(myGroupsKey ? myGroupsKey.split('|') : []),
+    [myGroupsKey],
+  )
   const selfBase = selfDoc.basename ?? selfDoc.id.split('/').pop()!
 
   // Candidatos: toda criatura do catálogo (scan do plugin é Sistema/Criaturas/

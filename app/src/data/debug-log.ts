@@ -28,6 +28,11 @@ export interface DebugEntry {
 
 const buffer: DebugEntry[] = []
 let hooksInstalled = false
+// originais preservados pra DESINSTALAR ao desligar (review: o override não
+// pode ficar pra sempre na sessão depois de um liga/desliga).
+let origConsole: { error: typeof console.error; warn: typeof console.warn } | null = null
+let winErrorHandler: ((e: ErrorEvent) => void) | null = null
+let winRejectionHandler: ((e: Event) => void) | null = null
 
 function readFlag(): boolean {
   try {
@@ -51,6 +56,7 @@ export function setDebugOn(on: boolean): void {
     /* modo privado / storage cheio — segue sem persistir */
   }
   if (on) installHooks()
+  else uninstallHooks()
   try {
     window.dispatchEvent(new CustomEvent(CHANGE_EVENT))
   } catch {
@@ -105,20 +111,38 @@ function installHooks(): void {
     args
       .map((a) => (a instanceof Error ? `${a.name}: ${a.message}` : typeof a === 'string' ? a : safeJson(a)))
       .join(' ')
+  origConsole = { error: console.error.bind(console), warn: console.warn.bind(console) }
   for (const level of ['error', 'warn'] as const) {
-    const orig = console[level].bind(console)
+    const orig = origConsole[level]
     console[level] = (...args: unknown[]) => {
       pushLog(`console.${level}`, fmt(args))
       orig(...args)
     }
   }
-  window.addEventListener('error', (e) => {
+  winErrorHandler = (e: ErrorEvent) => {
     pushLog('window.error', `${e.message} @ ${e.filename}:${e.lineno}`)
-  })
-  window.addEventListener('unhandledrejection', (e) => {
+  }
+  winRejectionHandler = (e: Event) => {
     const r = (e as PromiseRejectionEvent).reason
     pushLog('unhandledrejection', r instanceof Error ? `${r.name}: ${r.message}` : safeJson(r))
-  })
+  }
+  window.addEventListener('error', winErrorHandler)
+  window.addEventListener('unhandledrejection', winRejectionHandler)
+}
+
+/** Restaura console/window ao DESLIGAR o modo debug — sem override residual. */
+function uninstallHooks(): void {
+  if (!hooksInstalled) return
+  hooksInstalled = false
+  if (origConsole) {
+    console.error = origConsole.error
+    console.warn = origConsole.warn
+    origConsole = null
+  }
+  if (winErrorHandler) window.removeEventListener('error', winErrorHandler)
+  if (winRejectionHandler) window.removeEventListener('unhandledrejection', winRejectionHandler)
+  winErrorHandler = null
+  winRejectionHandler = null
 }
 
 function safeJson(v: unknown): string {
