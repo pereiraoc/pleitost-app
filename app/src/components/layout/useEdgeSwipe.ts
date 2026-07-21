@@ -58,13 +58,22 @@ export function useEdgeSwipe(state: DrawerState, handlers: EdgeSwipeHandlers) {
 
     const isNarrowEnough = () => window.innerWidth <= RIGHT_DRAWER_MAX
 
+    const EDGE_ZONE = 32 // px — faixa de borda pra ABRIR um drawer
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === 'mouse') return
       if (!isNarrowEnough()) return
-      // O gesto vale de QUALQUER ponto (do meio) — arrasta pra abrir/fechar. Só
-      // NÃO arma sobre scrollers horizontais de conteúdo (carrosséis/abas/tabelas/
-      // trio de qualidades), pra o dedo poder rolá-los pro lado sem mexer no painel.
+      // NÃO arma sobre scrollers horizontais de conteúdo (carrosséis/abas/tabelas).
       if (startsInHorizontalScroller(e.target)) return
+      // #N3: só ARMA perto da BORDA da tela (abrir) ou se já há drawer aberto
+      // (fechar arrastando). Antes armava de QUALQUER ponto e roubava o swipe do
+      // carrossel (PanelTrack é transform, não é scroller de overflow) — no tablet
+      // com a esquerda fixa isso travava passar os carrosséis pro lado.
+      const vw = window.innerWidth
+      const st = stateRef.current
+      const leftIsDrawer = vw <= LEFT_DRAWER_MAX
+      const nearLeftEdge = leftIsDrawer && e.clientX <= EDGE_ZONE
+      const nearRightEdge = e.clientX >= vw - EDGE_ZONE // direita é drawer até 1099 (isNarrowEnough)
+      if (!st.leftOpen && !st.rightOpen && !nearLeftEdge && !nearRightEdge) return
       start = { x: e.clientX, y: e.clientY, id: e.pointerId }
     }
 

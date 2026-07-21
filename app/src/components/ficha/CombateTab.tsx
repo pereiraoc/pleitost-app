@@ -47,6 +47,7 @@ import {
 } from './tooltips'
 import { StarChip } from './HabilidadesTab'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
+import { ConsumiveisPanel } from './InventarioTab'
 import {
   buildDescansoUsoItems,
   descansarWrites,
@@ -146,6 +147,7 @@ const COMB_TABS = [
   { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'tesouros', label: 'TESOUROS' },
+  { id: 'consumiveis', label: 'CONSUMÍVEIS' }, // N2
   { id: 'magias', label: 'MAGIAS' },
 ]
 
@@ -3025,6 +3027,9 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             </TrackPanel>
             <TrackPanel>
               <TesourosPanel doc={doc} refs={refs} />
+            </TrackPanel>
+            <TrackPanel>
+              <ConsumiveisPanel doc={doc} refs={refs} />
             </TrackPanel>
             {caps.magias ? (
               <TrackPanel>

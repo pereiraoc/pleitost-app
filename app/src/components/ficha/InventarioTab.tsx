@@ -1327,7 +1327,7 @@ function consRows(fm: Record<string, unknown>, catalogo: IndexDocEntry[]): ConsR
   return [...byNome.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt'))
 }
 
-function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
+export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
   const rawList = (fmPath(model.fm, 'Inventario', 'Consumiveis') ?? []) as unknown[]
