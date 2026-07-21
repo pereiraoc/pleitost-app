@@ -147,8 +147,8 @@ const COMB_TABS = [
   { id: 'habilidades', label: 'HABILIDADES' },
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'tesouros', label: 'TESOUROS' },
-  { id: 'consumiveis', label: 'CONSUMÍVEIS' }, // N2
   { id: 'magias', label: 'MAGIAS' },
+  { id: 'consumiveis', label: 'CONSUMÍVEIS' }, // N2 (depois de Magias)
 ]
 
 /** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]). */
@@ -3028,14 +3028,14 @@ export function CombateTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             <TrackPanel>
               <TesourosPanel doc={doc} refs={refs} />
             </TrackPanel>
-            <TrackPanel>
-              <ConsumiveisPanel doc={doc} refs={refs} />
-            </TrackPanel>
             {caps.magias ? (
               <TrackPanel>
                 <MagiasPanel doc={doc} refs={refs} inter={inter} />
               </TrackPanel>
             ) : null}
+            <TrackPanel>
+              <ConsumiveisPanel doc={doc} refs={refs} />
+            </TrackPanel>
           </PanelTrack>
         </div>
       </div>

@@ -247,7 +247,11 @@ function usePublicacao(
   // #323/#326: publica o STATE com o FM DERIVADO — o corrente de vida/moral cai no
   // MÁX quando ausente (ficha nova), e o máx vem das regras da classe, não do 0
   // do FM cru. Deriva (async, cacheado) antes de mandar.
-  const pushState = (cId: string, hId: string) => {
+  // `publishFmBlob`: edições FORA de Interativa.* (ouro/inventário/tesouros/…)
+  // mudam o fmBlob — precisam ser RE-PUBLICADAS pro outro dispositivo ver (antes
+  // o fmBlob só ia no JOIN, então essas mudanças se perdiam). Edições de Interativa
+  // só mexem no state/volátil (fmBlob exclui Interativa), então dispensam o blob.
+  const pushState = (cId: string, hId: string, publishFmBlob = true) => {
     const doc = getLocalDoc(hId)
     if (!doc) return
     void effectiveFmForPublish(doc, catalog).then((efm) => {
@@ -257,6 +261,8 @@ function usePublicacao(
       // com máx 0 (→ "24/0", "0/0"); só o JOIN publicava summary. Ao dono abrir a
       // sessão, isto auto-corrige o registro no servidor.
       repo?.updateCharacterSummary(cId, buildCharacterSummary(doc, efm)).catch(() => {})
+      // #bug-salvamento: re-publica o fmBlob (ouro/inventário/tesouros/etc.).
+      if (publishFmBlob) repo?.updateCharacterFmBlob(cId, extractFmBlob(efm)).catch(() => {})
     })
   }
   useEffect(() => {
@@ -267,8 +273,10 @@ function usePublicacao(
   useEffect(() => {
     if (!repo || !sessionId || !charId || !heroId) return
     return onHeroWrite((id, path, _value, origem) => {
-      if (id !== heroId || origem === 'sync' || !path.startsWith('Interativa.')) return
-      pushState(charId, heroId)
+      // Antes só re-publicava em edições Interativa.* — inventário/ouro/tesouros
+      // (fora de Interativa) não disparavam nada e não iam pro servidor.
+      if (id !== heroId || origem === 'sync') return
+      pushState(charId, heroId, !path.startsWith('Interativa.'))
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repo, sessionId, charId, heroId])
