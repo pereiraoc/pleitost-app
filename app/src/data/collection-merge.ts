@@ -36,7 +36,30 @@ function parseRecord(raw: string | null): Record<string, unknown> | null {
   }
 }
 
-/** União de blobs `Record<id, item>` — local vence no mesmo id. */
+/** Chave especial de TOMBSTONES de deleção dentro dos blobs Record (report:
+ *  "não consigo deletar porque eles voltam" — a união ressuscitava deleções).
+ *  União dos dois lados; id com tombstone SAI da união (deleção propaga). */
+const TOMBSTONES_KEY = '__tombstones__'
+
+function tombstonesOf(rec: Record<string, unknown>): Record<string, string> {
+  const t = rec[TOMBSTONES_KEY]
+  if (!t || typeof t !== 'object' || Array.isArray(t)) return {}
+  const out: Record<string, string> = {}
+  for (const [id, iso] of Object.entries(t as Record<string, unknown>)) {
+    if (typeof iso === 'string') out[id] = iso
+  }
+  return out
+}
+
+/** Serialização canônica rasa (chaves ordenadas) — comparação estável. */
+function canon(rec: Record<string, unknown>): string {
+  const out: Record<string, unknown> = {}
+  for (const k of Object.keys(rec).sort()) out[k] = rec[k]
+  return JSON.stringify(out)
+}
+
+/** União de blobs `Record<id, item>` — local vence no mesmo id; tombstones
+ *  (deleções) unem e REMOVEM o id da união nos dois lados. */
 export const mergeRecordBlobs: CollectionMerger = (localRaw, remoteRaw) => {
   const local = parseRecord(localRaw)
   const remote = parseRecord(remoteRaw)
@@ -47,12 +70,20 @@ export const mergeRecordBlobs: CollectionMerger = (localRaw, remoteRaw) => {
   if (!local) {
     return { value: remoteRaw, addedFromRemote: localRaw !== remoteRaw, differsFromRemote: false }
   }
-  const merged: Record<string, unknown> = { ...remote, ...local }
-  const addedFromRemote = Object.keys(remote).some((k) => !(k in local))
-  const differsFromRemote = Object.keys(local).some(
-    (k) => !(k in remote) || JSON.stringify(remote[k]) !== JSON.stringify(local[k]),
-  )
-  return { value: JSON.stringify(merged), addedFromRemote, differsFromRemote }
+  const tombs = { ...tombstonesOf(remote), ...tombstonesOf(local) }
+  const merged: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries({ ...remote, ...local })) {
+    if (k === TOMBSTONES_KEY) continue
+    if (k in tombs) continue // deletado em algum device — não ressuscita
+    merged[k] = v
+  }
+  if (Object.keys(tombs).length) merged[TOMBSTONES_KEY] = tombs
+  const cMerged = canon(merged)
+  return {
+    value: cMerged,
+    addedFromRemote: cMerged !== canon(local),
+    differsFromRemote: cMerged !== canon(remote),
+  }
 }
 
 function parseArray(raw: string | null): unknown[] | null {

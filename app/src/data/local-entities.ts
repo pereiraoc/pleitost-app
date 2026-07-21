@@ -163,6 +163,37 @@ export function migrateBaseProficiencias(fm: Record<string, unknown>): Record<st
   }
 }
 
+/** TOMBSTONES de deleção (report do usuário: "não consigo deletar porque eles
+ *  voltam"): a união do sync entre dispositivos (#366) ressuscitava entidades
+ *  deletadas — qualquer aparelho que ainda as tivesse re-subia na próxima
+ *  hidratação. Ao deletar, o id ganha um tombstone (id → ISO) persistido
+ *  DENTRO do blob (chave especial __tombstones__, ignorada como entidade pela
+ *  hidratação) — o merge de coleção respeita e a deleção PROPAGA. Poda após
+ *  90 dias (não cresce pra sempre). */
+const TOMBSTONES_KEY = '__tombstones__'
+const TOMBSTONE_TTL_MS = 90 * 24 * 60 * 60 * 1000
+let tombstones: Map<string, string> | null = null
+
+function hydrateTombstones(): Map<string, string> {
+  if (tombstones) return tombstones
+  const map = new Map<string, string>()
+  const raw = safeGet(ENTITIES_KEY)
+  if (raw) {
+    try {
+      const t = (JSON.parse(raw) as Record<string, unknown>)[TOMBSTONES_KEY]
+      if (t && typeof t === 'object') {
+        for (const [id, iso] of Object.entries(t as Record<string, unknown>)) {
+          if (typeof iso === 'string') map.set(id, iso)
+        }
+      }
+    } catch {
+      /* corrompido → sem tombstones */
+    }
+  }
+  tombstones = map
+  return map
+}
+
 function hydrateEntities(): Map<string, StoredEntity> {
   if (entities) return entities
   const map = new Map<string, StoredEntity>()
@@ -211,7 +242,16 @@ function hydrateMembership(): Map<string, Membership> {
 
 function persistEntities(): void {
   const map = hydrateEntities()
-  safeSet(ENTITIES_KEY, JSON.stringify(Object.fromEntries(map)))
+  const tombs = hydrateTombstones()
+  // poda: tombstone velho já propagou pra todo device ativo — descarta.
+  const cutoff = Date.now() - TOMBSTONE_TTL_MS
+  for (const [id, iso] of tombs) {
+    const t = Date.parse(iso)
+    if (Number.isFinite(t) && t < cutoff) tombs.delete(id)
+  }
+  const blob: Record<string, unknown> = Object.fromEntries(map)
+  if (tombs.size) blob[TOMBSTONES_KEY] = Object.fromEntries(tombs)
+  safeSet(ENTITIES_KEY, JSON.stringify(blob))
 }
 function persistMembership(): void {
   const map = hydrateMembership()
@@ -613,6 +653,9 @@ export function setLocalEntityExtras(id: string, key: 'armas' | 'tesouros', list
 export function removeLocalEntity(id: string): void {
   const map = hydrateEntities()
   if (!map.delete(id)) return
+  // deleção PROPAGA entre dispositivos via tombstone (senão a união do sync
+  // por conta ressuscita a entidade a partir de outro aparelho).
+  hydrateTombstones().set(id, new Date().toISOString())
   persistEntities()
   bump()
 }
@@ -802,6 +845,7 @@ export function availableMemberEntries(catalog: Catalog): IndexDocEntry[] {
 export function __resetLocalStoreForTests(): void {
   entities = null
   membership = null
+  tombstones = null
   version = 0
   listeners.clear()
 }

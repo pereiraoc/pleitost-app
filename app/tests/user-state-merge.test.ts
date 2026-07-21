@@ -140,3 +140,61 @@ describe('espelho por conta: merge POR ENTRADA das coleções', () => {
     expect(added).toEqual([])
   })
 })
+
+describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")', () => {
+  const T = '__tombstones__'
+
+  it('deletei no celular: a conta ainda tem → NÃO volta local e a remoção SOBE', async () => {
+    const srv = fakeServer({
+      [ENT]: JSON.stringify({
+        'local:Heroi:dup': heroi('local:Heroi:dup'),
+        'local:Heroi:fica': heroi('local:Heroi:fica'),
+      }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    // celular já deletou a duplicata (blob sem ela + tombstone)
+    window.localStorage.setItem(
+      ENT,
+      JSON.stringify({
+        'local:Heroi:fica': heroi('local:Heroi:fica'),
+        [T]: { 'local:Heroi:dup': '2026-07-21T20:00:00.000Z' },
+      }),
+    )
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    // local segue SEM a duplicata (nada ressuscitou → sem reload)
+    const local = JSON.parse(window.localStorage.getItem(ENT)!)
+    expect(local['local:Heroi:dup']).toBeUndefined()
+    expect(local['local:Heroi:fica']).toBeTruthy()
+    // e a CONTA perde a duplicata (deleção propagada) mantendo o tombstone
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:dup']).toBeUndefined()
+    expect(server[T]['local:Heroi:dup']).toBeTruthy()
+  })
+
+  it('deletei no tablet (tombstone na conta): o celular que ainda tem REMOVE ao logar', async () => {
+    const srv = fakeServer({
+      [ENT]: JSON.stringify({
+        'local:Heroi:fica': heroi('local:Heroi:fica'),
+        [T]: { 'local:Heroi:dup': '2026-07-21T20:00:00.000Z' },
+      }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      ENT,
+      JSON.stringify({
+        'local:Heroi:dup': heroi('local:Heroi:dup'),
+        'local:Heroi:fica': heroi('local:Heroi:fica'),
+      }),
+    )
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    // a duplicata some LOCALMENTE (mudou → reload via added)
+    const local = JSON.parse(window.localStorage.getItem(ENT)!)
+    expect(local['local:Heroi:dup']).toBeUndefined()
+    expect(added).toContain(ENT)
+    // e NÃO ressuscita na conta
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:dup']).toBeUndefined()
+  })
+})
