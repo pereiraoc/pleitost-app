@@ -12,6 +12,7 @@
 
 import { appStateUrl } from './base-url'
 import { supabaseClient } from './session-repo/supabase'
+import { mergeArrayBlobsBy, mergeRecordBlobs, type CollectionMerger } from './collection-merge'
 
 const ENDPOINT = appStateUrl()
 /** Chaves do app que devem persistir (grupo, ficha, personagens, mapa, ajustes). */
@@ -24,6 +25,19 @@ const DEVICE_LOCAL = /^pleitost\.theme$/
 /** Deve sincronizar pra conta/servidor? (exclui as preferências por dispositivo) */
 function synced(k: string): boolean {
   return SYNCED.test(k) && !DEVICE_LOCAL.test(k)
+}
+
+/** Chaves de COLEÇÃO (blob único com N itens): a hidratação faz MERGE POR
+ *  ENTRADA (união; local vence no mesmo id) em vez de fill-only-missing — um
+ *  device com a chave presente nunca recebia (nem subia) os itens do outro
+ *  (report: heróis importados no tablet não apareciam no celular), e um flush
+ *  desatualizado apagava da conta os itens alheios. Registro central; merges
+ *  estruturais em collection-merge.ts. */
+const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
+  'pleitost.localEntities': mergeRecordBlobs,
+  'pleitost.groupMembership': mergeRecordBlobs,
+  'pleitost.compendio.drafts': mergeRecordBlobs,
+  'pleitost.sessoes': mergeArrayBlobsBy('codigo'),
 }
 
 let queue: Record<string, string | null> = {}
@@ -103,10 +117,25 @@ export async function connectUserStateSync(
   const added: string[] = []
   try {
     const data = await ops.get(userId)
+    const write = origSet ?? store.setItem.bind(store)
+    const patch: Record<string, string> = {}
     for (const [k, v] of Object.entries(data ?? {})) {
-      if (typeof v === 'string' && synced(k) && store.getItem(k) === null) {
+      if (typeof v !== 'string' || !synced(k)) continue
+      const merger = COLLECTION_MERGERS[k]
+      if (merger) {
+        // Coleções: MERGE por entrada nos DOIS sentidos — o que faltar local
+        // desce (added → reload), o que faltar/diferir na conta sobe.
+        const r = merger(store.getItem(k), v)
+        if (r.addedFromRemote) {
+          write(k, r.value)
+          added.push(k)
+        }
+        if (r.differsFromRemote) patch[k] = r.value
+        continue
+      }
+      if (store.getItem(k) === null) {
         // grava pelo canal ORIGINAL (sem re-enfileirar o que veio do servidor)
-        ;(origSet ?? store.setItem.bind(store))(k, v)
+        write(k, v)
         added.push(k)
       }
     }
@@ -115,9 +144,9 @@ export async function connectUserStateSync(
     // locais → um dispositivo com dado VELHO sobrescrevia (no login) o dado mais
     // NOVO que outro dispositivo já tinha gravado na conta = perda de dados. As
     // edições normais continuam sincronizando pelo flush (por-chave); só o
-    // bulk-push do login deixa de clobberar o servidor.
+    // bulk-push do login deixa de clobberar o servidor. (Coleções acima já
+    // subiram o MERGE quando divergem.)
     const serverKeys = new Set(Object.keys(data ?? {}))
-    const patch: Record<string, string> = {}
     for (let i = 0; i < store.length; i++) {
       const k = store.key(i)
       if (k && synced(k) && !serverKeys.has(k)) {
@@ -202,9 +231,14 @@ export async function hydrateFromServer(timeoutMs = 3500): Promise<void> {
     if (!res.ok) return
     const data = (await res.json()) as Record<string, unknown>
     for (const [k, v] of Object.entries(data)) {
-      if (typeof v === 'string' && synced(k) && store.getItem(k) === null) {
-        store.setItem(k, v)
+      if (typeof v !== 'string' || !synced(k)) continue
+      const merger = COLLECTION_MERGERS[k]
+      if (merger) {
+        const r = merger(store.getItem(k), v)
+        if (r.addedFromRemote) store.setItem(k, r.value)
+        continue
       }
+      if (store.getItem(k) === null) store.setItem(k, v)
     }
   } catch {
     /* offline/timeout */
