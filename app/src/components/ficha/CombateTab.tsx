@@ -1620,7 +1620,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   // Efeitos_Ativos[stateKey] (isEffectActive: AçãoLocal lê Efeitos_Ativos, com
   // chave composta pro shared). Nada hardcodado: label/ícone vêm do bloco.
   const acaoLocalChips = (() => {
-    const outMap = new Map<string, { key: string; rotulo: string; ic: string }>()
+    const outMap = new Map<string, { key: string; rotulo: string; ic: string; desc: EffectDescriptor }>()
     for (const d of inter.descriptors) {
       if (d.tipo !== 'AçãoLocal') continue
       if (d.sharedFrom && !(d.escopo === 'CompartilhadoGrupo' || d.compartilhar === 'Grupo')) continue
@@ -1630,18 +1630,63 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         key,
         rotulo: d.sharedFrom ? `${d.label} (de ${d.sharedFrom})` : d.label,
         ic: d.parameters['IconeLigado'] || tokens.emojis.subcategoria.Condicao,
+        desc: d,
       })
     }
     return [...outMap.values()]
   })()
-  const toggleAcaoLocal = (key: string) => {
-    if (isEfeitoOn(efeitos[key])) {
-      const next = { ...efeitos }
-      delete next[key]
-      model.setVolatile('Interativa.Efeitos_Ativos', next)
+  // Report 6729da6f ("Ato Inspirador não tá alterando o dano"): paridade com o
+  // createOnToggleAnchored do plugin (mount-interativa-toggle.ts:38-130) —
+  // (a) STORAGE DUAL: liga grava em Condicoes_Ativas {value:1} E Efeitos_Ativos
+  //     {on:true} (chave composta); desliga remove dos DOIS;
+  // (b) CASCADE links.requer: ligar X com requer=[Y] também ATIVA Y ("sem Y
+  //     ativo não tem efeito — a ativação implícita é o esperado"). Requeridos
+  //     = interseção dos guards Estado/Condição comuns a TODOS os modifiers
+  //     (collectRequeridosFromDescriptor:205-224); shared ativa o requerido do
+  //     MESMO aliado.
+  const collectRequeridos = (d: EffectDescriptor): string[] => {
+    const mods = d.modifiers ?? []
+    if (!mods.length) return []
+    const stripWl = (s: string) => s.replace(/^\[\[|\]\]$/g, '').split('|').pop()?.trim() ?? s
+    let common: Set<string> | null = null
+    for (const mod of mods) {
+      const labels = new Set<string>()
+      for (const g of mod.guards ?? []) {
+        if (g.kind === 'Estado' || g.kind === 'Condição') labels.add(stripWl(g.value))
+      }
+      if (common === null) common = labels
+      else {
+        const prev: string[] = [...common]
+        common = new Set(prev.filter((x) => labels.has(x)))
+      }
+    }
+    return [...(common ?? [])]
+  }
+  const toggleAcaoLocal = (chip: { key: string; desc: EffectDescriptor }) => {
+    const { key, desc } = chip
+    const condMap = { ...interState.condicoes }
+    const efMap = { ...efeitos }
+    if (isEfeitoOn(efMap[key]) || isCondicaoOn(condMap[key])) {
+      delete condMap[key]
+      delete efMap[key]
+      model.setVolatile('Interativa.Condicoes_Ativas', condMap)
+      model.setVolatile('Interativa.Efeitos_Ativos', efMap)
       return
     }
-    model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [key]: { on: true } })
+    for (const reqLabel of collectRequeridos(desc)) {
+      const reqDesc =
+        inter.descriptors.find(
+          (d) => d.label === reqLabel && (d.sharedFrom ?? null) === (desc.sharedFrom ?? null),
+        ) ?? inter.descriptors.find((d) => d.label === reqLabel)
+      const reqKey = composeStateKey(reqLabel, reqDesc?.sharedFrom)
+      if (condMap[reqKey] || isEfeitoOn(efMap[reqKey])) continue
+      condMap[reqKey] = { value: 1 }
+      if (reqDesc?.tipo !== 'Condição') efMap[reqKey] = { on: true }
+    }
+    condMap[key] = { value: 1 }
+    efMap[key] = { on: true }
+    model.setVolatile('Interativa.Condicoes_Ativas', condMap)
+    model.setVolatile('Interativa.Efeitos_Ativos', efMap)
   }
 
   // #9/#4 + Alcance/Propulsão: TOGGLES POR-ARMA das PROPRIEDADES (Segurar com Duas
@@ -1709,7 +1754,11 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const rowStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
+    // Report 8291a0a7 (mobile): sem espaço, os chips de DANO e AdO quebram pra
+    // linha de baixo em vez de estourar/cortar (flex-wrap; rowGap mais justo).
+    flexWrap: 'wrap',
     gap: 15,
+    rowGap: 8,
     padding: '13px 16px',
     background: 'var(--panel)',
     border: '1px solid var(--line)',
@@ -1745,11 +1794,11 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
           )
         })}
         {acaoLocalChips.map((c) => {
-          const on = isEfeitoOn(efeitos[c.key]) ? 1 : 0
+          const on = isEfeitoOn(efeitos[c.key]) || isCondicaoOn(interState.condicoes[c.key]) ? 1 : 0
           return (
             <button
               key={c.key}
-              onClick={() => toggleAcaoLocal(c.key)}
+              onClick={() => toggleAcaoLocal(c)}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
