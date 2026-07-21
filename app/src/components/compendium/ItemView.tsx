@@ -21,6 +21,7 @@ import { docPath } from '../../paths'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { pillStyle } from './MestreTables'
 import { TipProvider } from '../ficha/tooltips'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
 import {
   itemCardHtml,
   docImageUrl,
@@ -87,6 +88,15 @@ export function ItemSheet({ doc }: { doc: VaultDoc }) {
           className={temQual ? 'item-page-card item-cell-tiers' : 'item-page-card'}
           dangerouslySetInnerHTML={{ __html: html }}
         />
+        {/* F4 (#347, report ccc57891): o CORPO da nota abaixo da carta — a
+            "descrição completa" (artefatos têm tabelas de magias/restrições/
+            dano por FOR no body que a carta não cobre). Mesmo padrão do
+            painel de detalhes do plugin (renderMd da nota inteira). */}
+        {doc.body?.trim() ? (
+          <div style={{ maxWidth: 720 }}>
+            <MarkdownBody doc={doc} hideLeadingTitle />
+          </div>
+        ) : null}
         {/* F7 (#251): itens têm elementos de regra (imbuições/qualidades) —
             visualizador+cobertura no fim; DocRuleElements gate por mestre. */}
         <DocRuleElements doc={doc} />
