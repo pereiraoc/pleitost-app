@@ -221,7 +221,8 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
     // (Auto-Confiança). Inspiração não persistiu no Condicoes_Ativas (só o efeito
     // auto ficou), então ativamos o chip pra torná-la a fonte LOCAL do cascade.
     expect(boxValue('DEFESA').textContent).toBe(String(defBase('Defesa') + 1))
-    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    // Split 2026-07-21: Inspiração é EFEITO de habilidade → popover EFEITOS.
+    fireEvent.click(screen.getByText('EFEITOS'))
     // "Inspiração" também aparece como AÇÃO na sub-aba Habilidades → escopa o CHIP
     // (o que tem botões de toggle).
     const acharChipInsp = () =>
@@ -255,7 +256,7 @@ describe('COMBATE computa o modelo da Interativa (Carlos real)', () => {
 })
 
 // ──────────────────────────────────────────────────────────────────────────
-// #29 — potência/seletores nos chips do popover CONDIÇÕES
+// #29 — potência/seletores nos chips (split 2026-07-21: popover EFEITOS)
 // Espelho do plugin (sem golden do interior do popover do app): counter do
 // chip ativo = condicoes-selectors.ts:20-93 (`− 🌟 N +`, titles
 // "Diminuir/Aumentar <label>", clamp+disabled nos extremos, storage duplo);
@@ -274,7 +275,7 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟9 salvo no F
   it('chip ativo mostra o counter da potência salva e clampa nos extremos', async () => {
     renderCombate()
     await screen.findByText('DEFESA')
-    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    fireEvent.click(screen.getByText('EFEITOS')) // split 2026-07-21: Encantar Arma é efeito de MAGIA
     const chip = await acharChipEncantar()
     // FM salvo do Carlos: Condicoes_Ativas["Encantar Arma"].numericSelector = 9
     expect(fm.Interativa.Condicoes_Ativas['Encantar Arma'].numericSelector).toBe(9)
@@ -294,7 +295,7 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟9 salvo no F
     // dano do Punhal com potência 9: 3d4+2 (M) + 1d12+3 (tabela {9: d12+3});
     // #318 junta os flats → 3d4+1d12+5
     expect(screen.getByText(/3d4\+1d12\+5/)).toBeTruthy()
-    fireEvent.click(screen.getByText('CONDIÇÕES'))
+    fireEvent.click(screen.getByText('EFEITOS')) // split 2026-07-21: Encantar Arma é efeito de MAGIA
     await acharChipEncantar()
     fireEvent.click(screen.getByTitle('Aumentar Potência Mágica'))
     // potência 10 → tabela {10: d12+4} → 3d4+1d12+6
@@ -312,6 +313,7 @@ describe('#29 potência dos efeitos (Carlos real: Encantar Arma 🌟9 salvo no F
     await screen.findByText('DEFESA')
     const defesaBase = defBase('Defesa') + 1 // Auto-Confiança do FM salvo
     expect(boxValue('DEFESA').textContent).toBe(String(defesaBase))
+    // Desajeitado é condição do SISTEMA → segue no popover CONDIÇÕES.
     fireEvent.click(screen.getByText('CONDIÇÕES'))
     const chip = (await screen.findByText('Desajeitado')).parentElement as HTMLElement
     fireEvent.click(within(chip).getByText('+'))

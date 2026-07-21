@@ -212,38 +212,41 @@ describe('volátil da aba COMBATE (Interativa.* com autosave)', () => {
   })
 
   it('condições: toggle persiste o container Condicoes_Ativas (chip segue visível)', async () => {
-    const ativas = Object.keys(fm.Interativa.Condicoes_Ativas) // Carlos: 1 (Encantar Arma)
-    // #262 (1.4): o botão Condições passou a mostrar só o NÚMERO de ativas (como
-    // as outras defesas), não "N Ativa(s)". Lê o dígito de dentro do botão.
+    const ativas = Object.keys(fm.Interativa.Condicoes_Ativas)
+    // Split 2026-07-21: o container mistura EFEITOS (magia/habilidade), condições
+    // do SISTEMA e AçãoLocal (rail de ataques) — o teste acompanha o botão
+    // EFEITOS e desliga especificamente o Encantar Arma (efeito de magia).
+    const alvo = 'Encantar Arma'
+    expect(ativas).toContain(alvo)
     const r = renderFicha('combate')
-    const btnCond = await screen.findByText('CONDIÇÕES')
-    const condBtn = btnCond.closest('button')!
-    const condCount = () => Number(/\d+/.exec(condBtn.textContent ?? '')?.[0] ?? 'NaN')
-    expect(condCount()).toBe(ativas.length)
-    fireEvent.click(condBtn)
-    // desliga a primeira condição real (botão de remover é o ÚLTIMO do chip —
-    // chips com seletor numérico têm o counter −/+ antes dele, #29; o nome
-    // também aparece como magia no trilho de painéis → escopa pelo chip)
+    const btnCond = (await screen.findByText('EFEITOS')).closest('button')!
+    const condCount = () => Number(/\d+/.exec(btnCond.textContent ?? '')?.[0] ?? 'NaN')
+    const antes = condCount()
+    expect(antes).toBeGreaterThanOrEqual(1)
+    fireEvent.click(btnCond)
+    // desliga o chip do alvo (botão de remover é o ÚLTIMO do chip — chips com
+    // seletor numérico têm o counter −/+ antes dele, #29; o nome também
+    // aparece como magia no trilho de painéis → escopa pelo chip)
     const acharChip = () =>
       screen
-        .getAllByText(ativas[0])
+        .getAllByText(alvo)
         .map((el) => el.parentElement as HTMLElement)
         .find((p) => p?.querySelector('button'))
     await waitFor(() => expect(acharChip()).toBeTruthy())
     fireEvent.click([...acharChip()!.querySelectorAll('button')].pop()!)
-    expect(condCount()).toBe(ativas.length - 1)
+    expect(condCount()).toBe(antes - 1)
     // chip continua visível (união extraído ∪ overlay), só desligado
     expect(acharChip()).toBeTruthy()
     flushHeroEdits()
     const salvo = overlaySalvo().fm['Interativa.Condicoes_Ativas']
-    expect(Object.keys(salvo)).not.toContain(ativas[0])
-    // demais condições (se houver) seguem no container salvo
-    for (const outra of ativas.slice(1)) expect(Object.keys(salvo)).toContain(outra)
+    expect(Object.keys(salvo)).not.toContain(alvo)
+    // demais entradas do container seguem salvas
+    for (const outra of ativas.filter((a) => a !== alvo)) expect(Object.keys(salvo)).toContain(outra)
 
     simulaReload(r)
     renderFicha('combate')
-    const btnCond2 = (await screen.findByText('CONDIÇÕES')).closest('button')!
-    expect(Number(/\d+/.exec(btnCond2.textContent ?? '')?.[0] ?? 'NaN')).toBe(ativas.length - 1)
+    const btnCond2 = (await screen.findByText('EFEITOS')).closest('button')!
+    expect(Number(/\d+/.exec(btnCond2.textContent ?? '')?.[0] ?? 'NaN')).toBe(antes - 1)
   })
 })
 

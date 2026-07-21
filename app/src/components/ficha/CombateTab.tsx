@@ -137,7 +137,8 @@ import {
   type InvocacoesAtivasMap,
 } from '../../interativa/invocacao'
 import {
-  condChipDefs,
+  chipDefsSplit,
+  type CondChipDef,
   defaultCondState,
   defaultNumericSelector,
   isPotenciaLabel,
@@ -637,7 +638,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   const defesas = (fmPath(fm, 'Defesas_Resistencias', 'Lista') ?? []) as ProfRow[]
   const sentidos = (fmPath(fm, 'Sentidos', 'Lista') ?? []) as ProfRow[]
   const interState = interativa(fm)
-  const [pop, setPop] = useState<null | 'cond' | 'recup'>(null)
+  const [pop, setPop] = useState<null | 'cond' | 'efeitos' | 'recup'>(null)
 
   // Delta da Interativa por key numérica (defesas/sentidos) — mesmas
   // entries/cor do plugin (applyConditionToBreakdown + valueClass).
@@ -651,21 +652,45 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   // sistema (Sistema/Regras/Condições, grupo do FM) ∪ efeitos tipo Condição
   // visíveis pro herói (Inspiração, Encantar Arma, …) ∪ chaves já salvas.
   const condicoesExtraidas = interativa(fmOf(doc)).condicoes
-  const chips: CondChip[] = useMemo(() => {
-    // #319: fallback de ícone de condição = subcategoria.Condicao (💫), MESMO
-    // token do pleitost-autosheet (EMOJI.subcategoria.Condicao). O per-condição
-    // continua vindo do visual.iconeLigado da nota. Antes usava bonusType.Condicao
-    // (🌟), que destoava do plugin.
-    const defs = condChipDefs(inter.condicaoDocs, inter.descriptors, tokens.emojis.subcategoria.Condicao)
-    const byNome = new Map(defs.map((d) => [d.nome, d]))
+  // Split (pedido do usuário 2026-07-21): CONDIÇÕES = só as básicas do
+  // SISTEMA; EFEITOS = efeitos tipo Condição de habilidade/magia/grupo
+  // (Inspiração, Encantar Arma, Celeridade, "(de X)"). Emojis dos efeitos:
+  // visual.iconeLigado do bloco → magia usa o emoji DA MAGIA (doc da
+  // sourceNote) → 🌟 (subcategoria.EfeitoInterativo do registro).
+  const magiaSourceIds = useMemo(
+    () =>
+      [
+        ...new Set(
+          inter.descriptors
+            .filter((d) => d.tipo === 'Condição' && d.origem === 'Magia')
+            .map((d) => d.sourceNote)
+            .filter((id) => !id.startsWith('(')),
+        ),
+      ],
+    [inter],
+  )
+  const magiaSourceDocs = useDocs(magiaSourceIds)
+  const { condChips, efeitoChips } = useMemo(() => {
+    const { condicoes, efeitos } = chipDefsSplit(inter.condicaoDocs, inter.descriptors, {
+      condIcon: tokens.emojis.subcategoria.Condicao,
+      efeitoIcon: tokens.emojis.subcategoria.EfeitoInterativo,
+      resolveSourceDoc: (id) => magiaSourceDocs?.get(id),
+    })
+    // Ativas sem def conhecida (extraídas de condição composta / legado) caem
+    // nas CONDIÇÕES, como antes.
+    const byNome = new Map(condicoes.map((d) => [d.nome, d]))
+    const efeitoNomes = new Set(efeitos.map((d) => d.nome))
     for (const nome of [...Object.keys(condicoesExtraidas), ...Object.keys(interState.condicoes)]) {
-      if (!byNome.has(nome)) byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.subcategoria.Condicao })
+      if (!byNome.has(nome) && !efeitoNomes.has(nome))
+        byNome.set(nome, { nome, grupo: 'Positiva', ic: tokens.emojis.subcategoria.Condicao })
     }
-    return [...byNome.values()].map((d) => {
+    const paint = (d: CondChipDef): CondChip => {
       const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]!
       return { nome: d.nome, rotulo: d.rotulo, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor, resumo: d.resumo }
-    })
-  }, [inter, condicoesExtraidas, interState.condicoes])
+    }
+    return { condChips: [...byNome.values()].map(paint), efeitoChips: efeitos.map(paint) }
+  }, [inter, condicoesExtraidas, interState.condicoes, magiaSourceDocs])
+  const chips: CondChip[] = useMemo(() => [...condChips, ...efeitoChips], [condChips, efeitoChips])
   const condOn: Record<string, boolean> = Object.fromEntries(
     chips.map((c) => [c.nome, isCondicaoOn(interState.condicoes[c.nome])]),
   )
@@ -745,8 +770,12 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
       [nome]: { ...base, value: nextVal },
     })
   }
-  const nAtivas = chips.filter((c) => condOn[c.nome]).length
+  const nAtivas = condChips.filter((c) => condOn[c.nome]).length
   const condLabel = nAtivas ? `${nAtivas}${nAtivas > 1 ? ' Ativas' : ' Ativa'}` : 'Nenhuma'
+  const nEfeitosAtivos = efeitoChips.filter((c) => condOn[c.nome]).length
+  const efeitosLabel = nEfeitosAtivos
+    ? `${nEfeitosAtivos}${nEfeitosAtivos > 1 ? ' Ativos' : ' Ativo'}`
+    : 'Nenhum'
 
   // DESCANSO (#227): Descansar/Dormir do plugin (acoes-descanso.ts:
   // renderDescansoCol) sobre o canal volátil — bases (max) do FM DERIVADO
@@ -846,7 +875,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
           )
         })}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
         {/* F3 (#347): MOVIMENTO — caixinha ao lado de Intuição (decisão de
             review: NÃO é seção). Valor = o MAIOR movimento da ficha
             (normalmente Terrestre); tooltip = breakdown do maior no estilo
@@ -920,37 +949,6 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             </div>
           )
         })()}
-        {/* #262 (1.4): Condições no MESMO layout das outras defesas/sentidos —
-            emoji em cima, rótulo, e o "escrito" = quantas ativas (nº). */}
-        <button
-          onClick={() => setPop((p) => (p === 'cond' ? null : 'cond'))}
-          title={condLabel}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            padding: '10px 14px',
-            background: `color-mix(in srgb,var(--accent) ${8 + (pop === 'cond' ? 12 : 0)}%,var(--panel))`,
-            border: `1px solid color-mix(in srgb,var(--accent) ${30 + (pop === 'cond' ? 50 : 0)}%,var(--line2))`,
-            color: 'var(--text)',
-            cursor: 'pointer',
-            clipPath: clip(10),
-          }}
-        >
-          {/* #319: emoji do botão = subcategoria.Condicao (💫), mesmo do plugin
-              (antes era ⚠️ hardcodado). */}
-          <span style={{ fontSize: 16, flex: 'none' }}>{tokens.emojis.subcategoria.Condicao}</span>
-          <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
-              CONDIÇÕES
-            </div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: nAtivas ? 'var(--accent)' : 'var(--muted)' }}>
-              {nAtivas}
-            </div>
-          </div>
-        </button>
         {sentidos.map((s) => {
           const applied = deltaFor(str(s.Nome))
           return (
@@ -1004,6 +1002,70 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             </div>
           )
         })}
+      </div>
+
+      {/* Fileira 3 (pedido do usuário): Condições · Efeitos · Recuperação. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
+        {/* #262 (1.4): Condições no MESMO layout das outras defesas/sentidos —
+            emoji em cima, rótulo, e o "escrito" = quantas ativas (nº). */}
+        <button
+          onClick={() => setPop((p) => (p === 'cond' ? null : 'cond'))}
+          title={condLabel}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 6,
+            padding: '10px 14px',
+            background: `color-mix(in srgb,var(--accent) ${8 + (pop === 'cond' ? 12 : 0)}%,var(--panel))`,
+            border: `1px solid color-mix(in srgb,var(--accent) ${30 + (pop === 'cond' ? 50 : 0)}%,var(--line2))`,
+            color: 'var(--text)',
+            cursor: 'pointer',
+            clipPath: clip(10),
+          }}
+        >
+          {/* #319: emoji do botão = subcategoria.Condicao (💫), mesmo do plugin
+              (antes era ⚠️ hardcodado). */}
+          <span style={{ fontSize: 16, flex: 'none' }}>{tokens.emojis.subcategoria.Condicao}</span>
+          <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+              CONDIÇÕES
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: nAtivas ? 'var(--accent)' : 'var(--muted)' }}>
+              {nAtivas}
+            </div>
+          </div>
+        </button>
+        {/* EFEITOS (pedido do usuário 2026-07-21): o que era efeito de
+            habilidade/magia/grupo dentro de CONDIÇÕES ganha popover próprio. */}
+        <button
+          onClick={() => setPop((p) => (p === 'efeitos' ? null : 'efeitos'))}
+          title={efeitosLabel}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 6,
+            padding: '10px 14px',
+            background: `color-mix(in srgb,var(--gold) ${8 + (pop === 'efeitos' ? 12 : 0)}%,var(--panel))`,
+            border: `1px solid color-mix(in srgb,var(--gold) ${30 + (pop === 'efeitos' ? 50 : 0)}%,var(--line2))`,
+            color: 'var(--text)',
+            cursor: 'pointer',
+            clipPath: clip(10),
+          }}
+        >
+          <span style={{ fontSize: 16, flex: 'none' }}>{tokens.emojis.subcategoria.EfeitoInterativo}</span>
+          <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+              EFEITOS
+            </div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: nEfeitosAtivos ? 'var(--gold)' : 'var(--muted)' }}>
+              {nEfeitosAtivos}
+            </div>
+          </div>
+        </button>
         {/* #262 (1.4): Recuperação no MESMO layout — emoji em cima, rótulo, e
             SEM valor escrito (como o usuário pediu). */}
         <button
@@ -1031,8 +1093,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
           </div>
         </button>
       </div>
-
-      {pop === 'cond' ? (
+      {pop === 'cond' || pop === 'efeitos' ? (
         <>
           <Scrim onClick={() => setPop(null)} />
           <div
@@ -1048,7 +1109,10 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
             }}
           >
             {COND_GRUPOS.map((g) => {
-              const doGrupo = chips.filter((c) => c.grupo === g.id)
+              // O MESMO corpo serve pros dois popovers — muda só a lista.
+              const doGrupo = (pop === 'efeitos' ? efeitoChips : condChips).filter(
+                (c) => c.grupo === g.id,
+              )
               if (!doGrupo.length) return null
               return (
                 <div key={g.id}>

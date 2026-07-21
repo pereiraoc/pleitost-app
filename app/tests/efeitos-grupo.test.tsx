@@ -84,8 +84,10 @@ function renderCombate(heroId: string) {
   )
 }
 
-async function abrirCondicoes() {
-  fireEvent.click(await screen.findByText('CONDIÇÕES'))
+async function abrirEfeitos() {
+  // Split de 2026-07-21: efeitos de habilidade/magia/grupo vivem no popover
+  // EFEITOS (CONDIÇÕES fica só com as básicas do sistema).
+  fireEvent.click(await screen.findByText('EFEITOS'))
 }
 
 describe('F2 — efeitos de grupo/magia como condições (#347)', () => {
@@ -94,14 +96,14 @@ describe('F2 — efeitos de grupo/magia como condições (#347)', () => {
     // AçãoLocal compartilhada vive no RAIL de chips do painel Ataques (a Lista
     // de Efeitos do plugin) — visível sem abrir popover (sub-aba default).
     expect(await screen.findByText('Ato Inspirador (de Carlos Facão de Andradas)')).toBeTruthy()
-    await abrirCondicoes()
-    // Condição compartilhada no popover CONDIÇÕES ("Efeitos do Grupo" do plugin).
+    await abrirEfeitos()
+    // Compartilhada no popover EFEITOS ("Efeitos do Grupo" do plugin).
     expect(await screen.findByText('Inspiração (de Carlos Facão de Andradas)')).toBeTruthy()
   }, 30000)
 
   it('ativar a Inspiração compartilhada grava a chave COMPOSTA label::aliado', async () => {
     renderCombate(MERA_ID)
-    await abrirCondicoes()
+    await abrirEfeitos()
     // O toggle é o BOTÃO dentro do chip (o span do nome não é clicável) —
     // quando desligado é o único button do chip.
     const label = await screen.findByText('Inspiração (de Carlos Facão de Andradas)')
@@ -120,7 +122,7 @@ describe('F2 — efeitos de grupo/magia como condições (#347)', () => {
     const els = await screen.findAllByText('Ato Inspirador')
     const chipEl = els.find((el) => el.closest('button'))
     expect(chipEl, 'chip próprio de AçãoLocal no rail de ataques').toBeTruthy()
-    await abrirCondicoes()
+    await abrirEfeitos()
     // Magia compartilhável de aliada (Celeridade da Mera, compartilharGrupo).
     expect(await screen.findByText('Celeridade (de Mera)')).toBeTruthy()
   }, 30000)

@@ -10,6 +10,7 @@ import { useHeroRules } from '../rules/useHeroRules'
 import type { HeroRefs } from '../components/ficha/useHeroRefs'
 import { docField, fmOf, fmPath, str } from '../components/ficha/hero-model'
 import { wikiStrip } from '../components/ficha/local-tip'
+import { magiaEmoji } from '../components/ficha/registry'
 import {
   CONDICOES_FOLDER,
   ERGUER_ESCUDO_ID,
@@ -131,17 +132,25 @@ export interface CondChipDef {
   resumo?: string
 }
 
-/** Lista completa de condições togláveis — união das condições do sistema
- *  (Sistema/Regras/Condições, grupo do FM) com os efeitos `tipo: Condição`
- *  visíveis pro herói (Inspiração, Encantar Arma, Celeridade, …), como a
- *  Lista de Condições do plugin (tab-recursos). Ícone = visual.iconeLigado
- *  do bloco; default 🌟 (bonusType.Condicao do registro). */
-export function condChipDefs(
+/** Split pedido pelo usuário (2026-07-21): o popover CONDIÇÕES fica SÓ com as
+ *  condições básicas do SISTEMA (Sistema/Regras/Condições); tudo que é efeito
+ *  `tipo: Condição` de habilidade/magia/grupo (Inspiração, Encantar Arma,
+ *  Celeridade, "(de X)") vai pro popover EFEITOS. Emojis dos efeitos:
+ *  `visual.iconeLigado` do bloco (convenção do plugin) → efeito de MAGIA usa o
+ *  emoji DA MAGIA (magiaEmoji do doc da sourceNote) → fallback do registro. */
+export function chipDefsSplit(
   condicaoDocs: readonly VaultDoc[],
   descriptors: readonly EffectDescriptor[],
-  fallbackIcon: string,
-): CondChipDef[] {
-  const out = new Map<string, CondChipDef>()
+  opts: {
+    /** Fallback das condições do sistema (💫 subcategoria.Condicao). */
+    condIcon: string
+    /** Fallback dos efeitos (🌟 subcategoria.EfeitoInterativo). */
+    efeitoIcon: string
+    /** Doc da sourceNote de um descriptor (pro emoji da magia). */
+    resolveSourceDoc?: (id: string) => VaultDoc | undefined
+  },
+): { condicoes: CondChipDef[]; efeitos: CondChipDef[] } {
+  const cond = new Map<string, CondChipDef>()
   for (const doc of condicaoDocs) {
     if (!isCondicaoDoc(doc)) continue
     const fm = fmOf(doc)
@@ -149,7 +158,7 @@ export function condChipDefs(
     const grupo = str(fm['grupo']) === 'Positiva' ? 'Positiva' : 'Negativa'
     // Ícone do bloco Efeitos_Interativos da própria condição, se houver.
     const blocos = fm['Efeitos_Interativos']
-    let ic = fallbackIcon
+    let ic = opts.condIcon
     if (Array.isArray(blocos)) {
       const own = blocos.find(
         (b) => b && typeof b === 'object' && str((b as Record<string, unknown>)['label']) === nome,
@@ -158,34 +167,58 @@ export function condChipDefs(
       if (str(visual['iconeLigado'])) ic = str(visual['iconeLigado'])
     }
     const resumo = wikiStrip(str(fm['resumo']).replace(/^"|"$/g, '')).trim() || undefined
-    out.set(nome, { nome, grupo, ic, resumo })
+    cond.set(nome, { nome, grupo, ic, resumo })
+  }
+  const efeitos = new Map<string, CondChipDef>()
+  const efeitoIcone = (desc: EffectDescriptor): string => {
+    const visual = desc.parameters['IconeLigado']
+    if (visual) return visual
+    if (desc.origem === 'Magia') {
+      const doc = opts.resolveSourceDoc?.(desc.sourceNote)
+      if (doc) return magiaEmoji(fmOf(doc))
+    }
+    return opts.efeitoIcon
   }
   for (const desc of descriptors) {
     if (desc.tipo !== 'Condição' || desc.sharedFrom) continue
-    if (out.has(desc.label)) continue
-    out.set(desc.label, {
+    if (cond.has(desc.label) || efeitos.has(desc.label)) continue
+    efeitos.set(desc.label, {
       nome: desc.label,
       grupo: desc.grupo === 'Negativa' ? 'Negativa' : 'Positiva',
-      ic: desc.parameters['IconeLigado'] || fallbackIcon,
+      ic: efeitoIcone(desc),
     })
   }
-  // F2 (#347): CONDIÇÕES compartilhadas pelos aliados — "(de X)" como a Lista
-  // de Condições do plugin (condicoes-catalog.ts:42-48 filtra tipo Condição;
-  // AçãoLocal compartilhada vive na lista de EFEITOS → no app, o rail de chips
-  // do painel Ataques). Chave de estado composta `label::aliado`, então o
-  // mesmo efeito que o herói também tem por si coexiste com o do aliado.
+  // F2 (#347): CONDIÇÕES compartilhadas pelos aliados — "(de X)" (plugin
+  // condicoes-catalog.ts:42-48 filtra tipo Condição; AçãoLocal compartilhada
+  // vive no rail de chips do painel Ataques). Chave composta `label::aliado`.
   for (const desc of descriptors) {
     if (!desc.sharedFrom || desc.tipo !== 'Condição') continue
     const key = composeStateKey(desc.label, desc.sharedFrom)
-    if (out.has(key)) continue
-    out.set(key, {
+    if (efeitos.has(key)) continue
+    efeitos.set(key, {
       nome: key,
       rotulo: `${desc.label} (de ${desc.sharedFrom})`,
       grupo: desc.grupo === 'Negativa' ? 'Negativa' : 'Positiva',
-      ic: desc.parameters['IconeLigado'] || fallbackIcon,
+      ic: efeitoIcone(desc),
     })
   }
-  return [...out.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+  const ordena = (m: Map<string, CondChipDef>) =>
+    [...m.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+  return { condicoes: ordena(cond), efeitos: ordena(efeitos) }
+}
+
+/** União (paridade com a Lista de Condições ÚNICA do plugin — o teste golden
+ *  valida o CONJUNTO; a UI do app separa em dois popovers via chipDefsSplit). */
+export function condChipDefs(
+  condicaoDocs: readonly VaultDoc[],
+  descriptors: readonly EffectDescriptor[],
+  fallbackIcon: string,
+): CondChipDef[] {
+  const { condicoes, efeitos } = chipDefsSplit(condicaoDocs, descriptors, {
+    condIcon: fallbackIcon,
+    efeitoIcon: fallbackIcon,
+  })
+  return [...condicoes, ...efeitos].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
 }
 
 // ──────────────────────────────────────────────────────────────────────────
