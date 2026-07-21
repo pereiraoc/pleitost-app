@@ -805,8 +805,20 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // ordem de bloco e o display agrupar contíguo.
   const speeds = (ativo?.turnState?.speeds ?? {}) as Record<string, SpeedTier>
   const speedOf = (id: string): SpeedTier => speeds[id] ?? 'lento'
-  const ladoOf = (id: string) =>
-    ladoDe(live.characters.find((c) => c.id === id)?.summary.family ?? '')
+  // #16: o companheiro animal fica do LADO DO TUTOR (tutor jogador → lado
+  // jogador), não sempre "inimigo". Resolve o tutor por tutorCharacterId.
+  const charByIdLive = new Map(live.characters.map((c) => [c.id, c]))
+  const ladoDeChar = (c: SessionCharacter): Lado => {
+    if (c.kind === 'companheiro' && c.tutorCharacterId) {
+      const tutor = charByIdLive.get(c.tutorCharacterId)
+      if (tutor) return ladoDe(tutor.summary.family)
+    }
+    return ladoDe(c.summary.family)
+  }
+  const ladoOf = (id: string) => {
+    const c = charByIdLive.get(id)
+    return c ? ladoDeChar(c) : 'inimigo'
+  }
   const assignSpeed = async (id: string, tier: SpeedTier) => {
     if (!ativo?.turnState) return
     const ts = ativo.turnState
@@ -914,8 +926,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
       {label}
     </span>
   )
-  // Linha de UM combatente (reusada dentro de cada bloco).
-  const renderCombatente = (c: SessionCharacter) => {
+  // Linha de UM combatente (reusada dentro de cada bloco). `indent` = companheiro
+  // animal exibido abaixo do tutor (#16).
+  const renderCombatente = (c: SessionCharacter, indent = false) => {
     const i = orderIndexOf(c)
     const escondido = hidden.has(c.id)
     const vezAtual = ativo?.turnState?.currentIndex === i
@@ -939,6 +952,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
             border: `1px solid color-mix(in srgb,var(--accent) ${vezAtual ? 55 : 0}%,var(--line))`,
             opacity: dragId === c.id ? 0.4 : escondido ? 0.5 : 1,
             clipPath: clip(9),
+            marginLeft: indent ? 20 : 0, // #16: CA identado abaixo do tutor
           }}
         >
           {/* Linha 1: alça (edição), retrato, nome (abre resumo) e controles do GM.
@@ -1202,9 +1216,30 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
         {ativo
           ? ALL_BLOCKS.map(({ tier, lado }) => {
               const itens = noCombate.filter(
-                (c) => speedOf(c.id) === tier && ladoDe(c.summary.family) === lado,
+                (c) => speedOf(c.id) === tier && ladoDeChar(c) === lado,
               )
-              const visiveis = itens.filter((c) => isGm || !hidden.has(c.id))
+              const vis0 = itens.filter((c) => isGm || !hidden.has(c.id))
+              // #16: ordena os CAs logo ABAIXO do tutor (quando o tutor está NESTE
+              // bloco) e marca pra indentar; CA cujo tutor está em outro tier fica
+              // no fim do bloco (do lado certo), sem indent.
+              const cas = vis0.filter((c) => c.kind === 'companheiro')
+              const naoCas = vis0.filter((c) => c.kind !== 'companheiro')
+              const casPorTutor = new Map<string, SessionCharacter[]>()
+              const casOrfaos: SessionCharacter[] = []
+              for (const ca of cas) {
+                const t = ca.tutorCharacterId
+                if (t && naoCas.some((h) => h.id === t)) {
+                  const arr = casPorTutor.get(t) ?? []
+                  arr.push(ca)
+                  casPorTutor.set(t, arr)
+                } else casOrfaos.push(ca)
+              }
+              const visiveis: Array<{ c: SessionCharacter; indent: boolean }> = []
+              for (const h of naoCas) {
+                visiveis.push({ c: h, indent: false })
+                for (const ca of casPorTutor.get(h.id) ?? []) visiveis.push({ c: ca, indent: true })
+              }
+              for (const ca of casOrfaos) visiveis.push({ c: ca, indent: false })
               // fora do modo EDITAR (ou pro jogador): só blocos com combatente visível.
               if (visiveis.length === 0 && !(editIniciativa && isGm)) return null
               const alvoValido =
@@ -1231,7 +1266,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   }}
                 >
                   {blocoHeaderEl(tier, lado)}
-                  {visiveis.map(renderCombatente)}
+                  {visiveis.map(({ c, indent }) => renderCombatente(c, indent))}
                   {editIniciativa && visiveis.length === 0 ? (
                     <span style={mono({ fontSize: 10, color: 'var(--muted)', fontStyle: 'italic', padding: '4px 2px' })}>
                       arraste um combatente pra cá
