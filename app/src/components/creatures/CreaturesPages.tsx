@@ -24,6 +24,7 @@ import {
 import { useDetail } from '../../data/detail-context'
 import { tokens } from '../../generated/tokens'
 import { GrupoView } from '../../grupo/GrupoView'
+import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { clip, PanelTrack, TrackPanel } from '../ficha/bits'
 import {
   createLocalEntity,
@@ -895,6 +896,7 @@ function GruposPanel({
   // existe" — o card da mesa aparece com a sessão local ATIVA mesmo sem a
   // conexão viva (o GrupoDaSala orienta a conectar); conectado, mostra contagem.
   const { active: sessaoAtiva } = useSessions()
+  const mesaImg = useMesaGroupImageUrl()
   const membersByGroup = useMemo(
     () => new Map(groups.map((g) => [g.id, resolveGroupMembers(catalog, g.id)])),
     [catalog, groups, version],
@@ -938,7 +940,14 @@ function GruposPanel({
       {live || sessaoAtiva ? (
         <button className="hero-card" onClick={() => onSelect(MESA_ID)}>
           <span className="hero-card-stripe" aria-hidden />
-          <span className="hero-ini">⚔️</span>
+          {/* F6 (#347, report b5e2a8b6): a MESA usa a MESMA imagem da ficha do
+              grupo (subida > herdada, useMesaGroupImageUrl) — antes hardcodava
+              o fallback ⚔️ ("duas espadas"). */}
+          {mesaImg ? (
+            <div className="hero-portrait" style={{ backgroundImage: `url("${mesaImg}")` }} />
+          ) : (
+            <span className="hero-ini">⚔️</span>
+          )}
           <div className="hero-main">
             {/* Nome = apelidos dos personagens da sessão (mesma fonte do GrupoView);
                 sem live (só sessão salva) → rótulo genérico. */}

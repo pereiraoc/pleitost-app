@@ -61,6 +61,7 @@ import { useEntityImageUrl } from '../data/images'
 import { LocalImageUpload } from '../components/ficha/PerfilTab'
 import { resolveGroupImageUrl } from './group-image'
 import { useMesaGroupImageUrl } from './use-mesa-group-image'
+import { Lightbox } from '../components/Lightbox'
 import { PanelExploracao } from './PanelExploracao'
 import { PanelInventario } from './PanelInventario'
 import { PanelVida } from './PanelVida'
@@ -680,6 +681,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // heróis (ex.: "Aventureiros") quando não tem imagem própria — mesma fonte que
   // o botão FICHA DO GRUPO da sidebar usa, pra não divergirem.
   const mesaImage = useMesaGroupImageUrl()
+  const [imgZoom, setImgZoom] = useState(false)
   // #291: só quem está com MODO MESTRE ativado troca a imagem da mesa (a RLS da
   // sessão só deixa o GM escrever; sem o gate, um jogador comum tentava e falhava
   // em silêncio). Decisão do usuário: gate pelo Modo Mestre, não pelo gmUserId.
@@ -795,14 +797,18 @@ export function GrupoView({ groupId }: { groupId: string }) {
             }}
           >
             {imageUrl ? (
+              // F6 (#347, report b5e2a8b6): clicar AMPLIA (Lightbox), como as
+              // imagens das outras fichas; o upload segue no botão 📷.
               <img
                 src={imageUrl}
                 alt=""
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                onClick={() => setImgZoom(true)}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
               />
             ) : (
               '⚔️'
             )}
+            {imgZoom && imageUrl ? <Lightbox src={imageUrl} alt="" onClose={() => setImgZoom(false)} /> : null}
             {isMesa && repo && sessaoAtiva?.remoteId && mestre ? (
               <label
                 title="Trocar imagem do grupo"

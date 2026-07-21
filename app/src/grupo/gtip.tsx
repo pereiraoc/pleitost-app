@@ -8,7 +8,7 @@
 //     caber em [8, vh-8] }
 //   componentDidMount: scroll (capture) limpa o gtip (_onScrollG).
 // O markup do overlay (§GRUPOS, sc-if grupo.gtip) é replicado em <GtipOverlay>.
-import { useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
+import { useLayoutEffect, useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
 import { getGtips } from './gtips'
 
 interface GtipState {
@@ -63,21 +63,32 @@ function buildGtip(g: GtipState | null): BuiltGtip | null {
   }
 }
 
-/** ref do buildGtip: corrige o top pro tooltip caber na viewport. */
-function clampRef(el: HTMLDivElement | null) {
-  if (!el) return
-  const r = el.getBoundingClientRect()
-  let dy = 0
-  if (r.top < 8) dy = 8 - r.top
-  else if (r.bottom > window.innerHeight - 8) dy = window.innerHeight - 8 - r.bottom
-  if (dy) el.style.top = parseFloat(el.style.top) + dy + 'px'
-}
-
-/** Overlay do tooltip — markup/estilos verbatim do design (sc-if grupo.gtip). */
+/** Overlay do tooltip — markup/estilos verbatim do design (sc-if grupo.gtip).
+ *  F6 (#347, report b5e2a8b6): o clamp era um ref ONE-SHOT (só no mount) — ao
+ *  REPOSICIONAR o tooltip no mesmo elemento reutilizado o clamp não rodava de
+ *  novo e ele vazava pro canto/fora da tela. Agora é useLayoutEffect por tip,
+ *  re-aplica a posição BASE antes de medir (um clamp anterior pode ter mutado
+ *  style.top/left) e clampa VERTICAL e HORIZONTAL. */
 function GtipOverlay({ tip }: { tip: BuiltGtip }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.top = tip.top
+    el.style.left = tip.left
+    const r = el.getBoundingClientRect()
+    let dy = 0
+    if (r.top < 8) dy = 8 - r.top
+    else if (r.bottom > window.innerHeight - 8) dy = window.innerHeight - 8 - r.bottom
+    let dx = 0
+    if (r.left < 8) dx = 8 - r.left
+    else if (r.right > window.innerWidth - 8) dx = window.innerWidth - 8 - r.right
+    if (dy) el.style.top = parseFloat(el.style.top) + dy + 'px'
+    if (dx) el.style.left = parseFloat(el.style.left) + dx + 'px'
+  }, [tip])
   return (
     <div
-      ref={clampRef}
+      ref={ref}
       data-gtip-overlay=""
       style={{
         position: 'fixed',
