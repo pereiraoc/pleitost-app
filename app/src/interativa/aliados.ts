@@ -51,8 +51,12 @@ export function sharedAllyDescriptors(
   allyFm: Record<string, unknown>,
   docs: readonly (VaultDoc | undefined)[],
 ): EffectDescriptor[] {
-  // Meta do CONJURADOR (plugin share-ally-effects.ts:19-21): potência mágica E
-  // nível — efeitos que escalam porNivel usam o nível do aliado, não do receptor.
+  // Meta do CONJURADOR — paridade de SHAPE com o allyMeta do plugin
+  // (process-yaml-extract-phase.ts:338 popula {potenciaMagica, nivel}). Hoje o
+  // ÚNICO campo consumido é potenciaMagica (build-effect-modifier.ts:160, lá e
+  // aqui); `nivel` é carregado sem leitor — nenhum efeito compartilhável usa
+  // porNivel (invocações nunca compartilham, v2.0.35/#264; Ataque Furtivo e
+  // Aspecto Elemental são próprios). Fica pelo espelho fiel, não por impacto.
   const nivelAliado = num(allyFm['Nível'])
   const meta = {
     potenciaMagica: num(fmPath(allyFm, 'Magias', 'Potencia')),
