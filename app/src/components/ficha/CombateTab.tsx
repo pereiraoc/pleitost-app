@@ -38,6 +38,9 @@ import {
   resistenciaBreakdown,
   sentidoBreakdown,
   periciaBreakdown,
+  movimentoBreakdown,
+  manobraBreakdown,
+  oficioBreakdown,
   ataqueBreakdown,
   danoArmaBreakdown,
   entriesBreakdown,
@@ -45,6 +48,7 @@ import {
   modAppendixHtml,
   sourceTipHtml,
 } from './tooltips'
+import { MOVIMENTO_BASE } from '../../grupo/stats'
 import { StarChip } from './HabilidadesTab'
 import { useVidaLocal, VidaAdjustRows } from './pop-panels'
 import { ConsumiveisPanel } from './InventarioTab'
@@ -843,6 +847,79 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
         })}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 12, marginTop: 12 }}>
+        {/* F3 (#347): MOVIMENTO — caixinha ao lado de Intuição (decisão de
+            review: NÃO é seção). Valor = o MAIOR movimento da ficha
+            (normalmente Terrestre); tooltip = breakdown do maior no estilo
+            padrão (#262 verde/vermelho) + demais tipos + efeitos ativos.
+            Fórmula do plugin (modificadores.ts:357-371): 4 + AGI + item +
+            especial + condições. */}
+        {(() => {
+          const movs = (fmPath(fm, 'Movimento', 'Lista') ?? []) as ProfRow[]
+          if (!movs.length) return null
+          const applied = applyTarget(inter.ctx, { kind: 'number', key: 'movimento' })
+          const totalOf = (r: ProfRow) =>
+            MOVIMENTO_BASE + (attrs['AGI'] ?? 0) + num(r.Bonus_Item) + num(r.Bonus_Especial)
+          const principal = movs.reduce((a, b) => (totalOf(b) > totalOf(a) ? b : a), movs[0]!)
+          const outros = movs.filter((r) => r !== principal)
+          const outrosHtml = outros.length
+            ? renderBreakdownHtml({
+                headerEmoji: '',
+                title: 'Outros movimentos',
+                total: 0,
+                hideTotal: true,
+                parts: outros.map((r) => ({ emoji: '', label: str(r.Nome), value: totalOf(r), unsigned: true })),
+              })
+            : ''
+          return (
+            <div
+              title={applied.entries.length ? entriesTitle(applied.entries) : undefined}
+              style={{
+                display: 'flex',
+                minWidth: 0,
+                background: 'var(--panel)',
+                border: '1px solid var(--line)',
+                clipPath: clip(10),
+              }}
+            >
+              <TipHover
+                html={
+                  renderBreakdownHtml(movimentoBreakdown(principal, attrs)) +
+                  outrosHtml +
+                  modAppendixHtml('Movimento — Efeitos', applied.entries)
+                }
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  padding: '10px 14px',
+                  width: '100%',
+                  minWidth: 0,
+                }}
+              >
+                <span style={{ fontSize: 16, flex: 'none' }}>{tokens.emojis.tooltip.HeaderMovimento}</span>
+                <div style={{ lineHeight: 1.1, textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+                    MOVIMENTO
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
+                    }}
+                  >
+                    {totalOf(principal) + applied.delta}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <GoldDots on={num(principal.Bonus_Item)} compact />
+                  {num(principal.Bonus_Especial) > 0 ? <StarChip n={num(principal.Bonus_Especial)} compact /> : null}
+                </div>
+              </TipHover>
+            </div>
+          )
+        })()}
         {/* #262 (1.4): Condições no MESMO layout das outras defesas/sentidos —
             emoji em cima, rótulo, e o "escrito" = quantas ativas (nº). */}
         <button
@@ -1914,15 +1991,27 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
           <span style={{ fontSize: 19, flex: 'none' }}>{tokens.emojis.combate.Ataque}</span>
           <span style={{ fontWeight: 600, fontSize: 15, minWidth: 160 }}>
             Manobras{' '}
-            <span
-              title={manobraApplied.entries.length ? entriesTitle(manobraApplied.entries) : undefined}
-              style={{
-                color: toneColor(valueTone(manobraApplied.entries)) ?? 'var(--accent)',
-                fontFamily: 'var(--mono)',
-              }}
+            {/* F3 (#347, report 522291d8): tooltip de BREAKDOWN no modificador
+                — estilo padrão do app (#262 verde/vermelho), fórmula do plugin
+                (atributo + proficiência DE ATAQUE + item + especialização +
+                efeitos). */}
+            <TipHover
+              html={
+                renderBreakdownHtml(manobraBreakdown(manobraRow!, profAtaque, attrs)) +
+                modAppendixHtml('Manobras — Efeitos', manobraApplied.entries)
+              }
+              style={{ display: 'inline-flex' }}
             >
-              {signed(manobraMod)}
-            </span>
+              <span
+                title={manobraApplied.entries.length ? entriesTitle(manobraApplied.entries) : undefined}
+                style={{
+                  color: toneColor(valueTone(manobraApplied.entries)) ?? 'var(--accent)',
+                  fontFamily: 'var(--mono)',
+                }}
+              >
+                {signed(manobraMod)}
+              </span>
+            </TipHover>
           </span>
           <span style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
             {MANOBRAS.map((m) => (
@@ -2015,6 +2104,12 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
     pericias
       .flatMap(({ row }) => [linkLabel(str(row.Especializacao)), linkLabel(str(row.Maestria))])
       .filter(Boolean),
+  )
+  // F3 (#347, report a389cb35): OFÍCIOS no FIM das perícias (decisão de review
+  // — não é seção própria). Filtro e fórmula do plugin (oficios.ts:22 prof ≠ N;
+  // calcOficio: atributo SÓ conta com prof ≥ Adepto).
+  const oficios = ((fmPath(fm, 'Oficios', 'Lista') ?? []) as ProfRow[]).filter(
+    (o) => profLetter(o) !== 'N',
   )
 
   return (
@@ -2206,6 +2301,79 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
           </div>
         )
       })}
+      {oficios.length ? (
+        <div
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 9.5,
+            letterSpacing: '.14em',
+            color: 'var(--muted)',
+            marginTop: 4,
+          }}
+        >
+          OFÍCIOS
+        </div>
+      ) : null}
+      {oficios.map((row) => {
+        const bd = oficioBreakdown(row, attrs)
+        const rotulo = str(row.Complemento)
+          ? `${displayName(slugify(str(row.Nome)))} (${str(row.Complemento)})`
+          : displayName(slugify(str(row.Nome)))
+        return (
+          <div
+            key={`${row.Nome}-${str(row.Complemento)}`}
+            style={{
+              padding: '8px 12px',
+              background: 'var(--panel)',
+              border: '1px solid var(--line)',
+              clipPath: clip(12),
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  padding: '3px 8px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: 'var(--muted)',
+                  flex: 'none',
+                }}
+              >
+                <span>{ATTR_EMOJI[str(row.Atributo)] ?? ''}</span>
+                <span>{str(row.Atributo)}</span>
+              </span>
+              <span
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  fontWeight: 600,
+                  fontSize: 14,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {rotulo}
+              </span>
+              <TipHover html={renderBreakdownHtml(bd)}>
+                <ModBox
+                  modStr={signed(bd.total)}
+                  rank={profLetter(row)}
+                  star={num(row.Bonus_Especial) > 0}
+                  dots={num(row.Bonus_Item)}
+                  width={40}
+                />
+              </TipHover>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -2221,23 +2389,34 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const inter = interativa(fm)
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...inter.usos, [key]: next })
+  // F3 (#347, report 0c29814d): TODOS os tesouros aparecem — os SEM usos/cargas
+  // (passivos) renderizam como link + resumo, sem a linha de bolinhas (plugin
+  // tesouros.ts:18-131 lista todos; só quem tem usos ganha os toggles).
   const tesouros = ((fmPath(fm, 'Inventario', 'Tesouros') ?? []) as unknown[])
     .map((raw) => {
       const { nome, tier } = parseItemAlias(raw)
-      if (!tier) return null
       const tDoc = refs.refDoc(raw)
-      const cargas = cargasPorTier(tDoc, tier)
-      const usosN = usosPorTier(tDoc, tier)
-      const max = cargas ?? usosN
-      if (!max) return null
-      const key = `tes:${nome}|tier:${tier}`
+      const cargas = tier ? cargasPorTier(tDoc, tier) : null
+      const usosN = tier ? usosPorTier(tDoc, tier) : null
+      const max = cargas ?? usosN // null → tesouro PASSIVO (sem linha USOS)
+      const key = `tes:${nome}|tier:${tier ?? ''}`
       const salvo = inter.usos[key] !== undefined ? num(inter.usos[key]) : null
       // Usos iniciam cheios; Cargas iniciam descarregadas (plugin, usos.ts).
-      const cur = salvo ?? (cargas ? 0 : max)
+      const cur = max ? (salvo ?? (cargas ? 0 : max)) : 0
       // Figura do tesouro (issue #65) — igual ao inventário.
-      const img = tesouroImageUrl(nome, tier, assets)
+      const img = tier ? tesouroImageUrl(nome, tier, assets) : tesouroImageUrl(nome, 'A', assets)
       const resumo = wikiStrip(str(docField(tDoc, 'resumo')).replace(/^"|"$/g, ''))
-      return { nome: `${nome} (${tier})`, key, cur, max, img, doc: tDoc, tier, resumo }
+      return {
+        nome: tier ? `${nome} (${tier})` : nome,
+        key,
+        cur,
+        max,
+        img,
+        doc: tDoc,
+        tier,
+        resumo,
+        isCarga: Boolean(cargas),
+      }
     })
     .filter((t): t is NonNullable<typeof t> => t !== null)
 
@@ -2256,7 +2435,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             clipPath: clip(12),
           }}
         >
-          <ItemHover doc={t.doc} tier={t.tier}>
+          <ItemHover doc={t.doc} tier={t.tier ?? undefined}>
             {t.img ? (
               <span
                 style={{
@@ -2279,12 +2458,17 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
           </ItemHover>
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
             <span style={{ fontWeight: 600, fontSize: 14 }}>{t.nome}</span>
-            {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166). */}
+            {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166).
+                Passivo (sem max) mostra só o resumo; CARGAS iniciam em 0. */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
-                USOS
-              </span>
-              <UsoDots cur={t.cur} max={t.max} onToggle={(next) => setUso(t.key, next)} />
+              {t.max ? (
+                <>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' }}>
+                    {t.isCarga ? 'CARGAS' : 'USOS'}
+                  </span>
+                  <UsoDots cur={t.cur} max={t.max} onToggle={(next) => setUso(t.key, next)} />
+                </>
+              ) : null}
               {t.resumo ? (
                 <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
                   {t.resumo}

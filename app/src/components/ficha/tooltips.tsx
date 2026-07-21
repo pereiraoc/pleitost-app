@@ -316,6 +316,21 @@ export function oficioBreakdown(row: ProfRow, attrs: Record<string, number>): Br
   return { headerEmoji: E.HeaderOficio, title, parts, total }
 }
 
+/** F3 (#347) — espelho do baseManobraBd do plugin (ataques-markdown.ts:
+ *  408-423): Atributo do row (FOR) + PROFICIÊNCIA DE ATAQUE + Item +
+ *  Especialização; título "Manobras (FOR)"; total assinado. (INT em Forma
+ *  Feral fica fora — Druida fora do escopo do app.) */
+export function manobraBreakdown(
+  row: ProfRow,
+  profAtaque: string,
+  attrs: Record<string, number>,
+): BreakdownResult {
+  const input = rowInput({ ...row, Proficiencia: profAtaque } as ProfRow, attrs)
+  const total = input.attr + PROF_BONUS[input.prof] + input.item + input.especial
+  const title = input.attrLabel ? `Manobras (${input.attrLabel})` : 'Manobras'
+  return { ...buildAttrProfItemEspecial(input, total, E.HeaderPericia, title), headerSigned: true }
+}
+
 /** Dados extras de dano por proficiência — VERBATIM do PROF_DICE do plugin
  *  (modificadores.ts:35): N/A = 0, E = 1, M = 2 dados ADICIONAIS. */
 const PROF_DICE: Record<RankLetter, number> = { N: 0, A: 0, E: 1, M: 2 }

@@ -325,7 +325,11 @@ export function usosFreqPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'
 /** cargas_<tier> N do doc (Focos/Implementos) — contador iniciado em 0. */
 export function cargasPorTier(doc: VaultDoc | undefined, tier: 'A' | 'E' | 'M'): number | null {
   if (!doc) return null
-  const n = parseInt(str(docTierField(doc, 'cargas', tier)), 10)
+  // Base v2: `cargas.<tier>` é NÚMERO no FM (v1 inline era string) — str() só
+  // aceita string e devolvia '', então parseInt dava NaN e o Foco nunca era
+  // detectado (report 470ecb92 "Foco não implementado nos tesouros").
+  const v = docTierField(doc, 'cargas', tier)
+  const n = typeof v === 'number' ? v : parseInt(str(v), 10)
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
