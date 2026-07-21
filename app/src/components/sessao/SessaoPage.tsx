@@ -72,7 +72,7 @@ import { composeGroupName } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
-import { onHeroWrite } from '../../data/hero-store'
+import { applyFmEdits, getHeroEdits, onHeroWrite } from '../../data/hero-store'
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
 import { Lightbox } from '../Lightbox'
@@ -141,6 +141,16 @@ export function LiveSessionBridge() {
   const user = useSessionUser()
   const { active } = useSessions()
   const remoteId = active?.remoteId ?? null
+  const catalog = useCatalog()
+  const live = useLiveSession()
+  // F1 (#347): a PUBLICAÇÃO da ficha (state/summary/fmBlob a cada edição) vive
+  // AQUI, não na SalaRemota — a SessaoPage desmonta quando o usuário vai pra
+  // DETALHES (justamente pra abrir o resumo de um colega!), e as edições feitas
+  // com outra aba visível não publicavam nada até ele voltar pra aba sessão.
+  const meuChar = user
+    ? (live?.characters.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null)
+    : null
+  usePublicacao(repo, remoteId, meuChar, catalog)
   // #226: sessões do usuário em QUALQUER dispositivo — logado, busca no
   // servidor as sessões em que é membro e registra as desconhecidas na lista
   // local (por código; não mexe na sessão ATIVA deste dispositivo).
@@ -236,6 +246,20 @@ function VidaBarRemota({ vit, vitMax, moral, moralMax, temp }: { vit: number; vi
   )
 }
 
+/** F1 (#347): doc local EFETIVO pra publicação — base ⊕ overlay de edits do
+ *  hero-store, o MESMO merge que a UI usa (applyFmEdits, useHeroModel). Antes a
+ *  publicação (e o join) mandava só o getLocalDoc BASE: ouro/vida/condições
+ *  editados viviam no overlay e a mesa recebia o snapshot VELHO — a raiz
+ *  profunda dos reports "não sincroniza entre membros/dispositivos". */
+function localDocComEdits(hId: string): ReturnType<typeof getLocalDoc> {
+  const base = getLocalDoc(hId)
+  if (!base) return undefined
+  return {
+    ...base,
+    frontmatter: applyFmEdits(base.frontmatter as Record<string, unknown>, getHeroEdits(hId).fm),
+  }
+}
+
 /** Publica/re-publica o MEU herói local na sala e mantém a vida fluindo.
  *  Dois caminhos de escrita alimentam o mesmo updateCharacterState:
  *  - herói LOCAL grava via setLocalEntityFm → observamos useLocalStoreVersion
@@ -259,7 +283,7 @@ function usePublicacao(
   // o fmBlob só ia no JOIN, então essas mudanças se perdiam). Edições de Interativa
   // só mexem no state/volátil (fmBlob exclui Interativa), então dispensam o blob.
   const pushState = (cId: string, hId: string, publishFmBlob = true) => {
-    const doc = getLocalDoc(hId)
+    const doc = localDocComEdits(hId)
     if (!doc) {
       pushLog('publish', `pushState ABORTADO: doc local ausente (${hId})`)
       return
@@ -533,8 +557,9 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
 
   const chars = live?.characters ?? []
   const members = live?.members ?? []
+  // F1 (#347): a publicação (usePublicacao) mudou pra LiveSessionBridge —
+  // monta sempre, independente da aba visível. Aqui só a UI da sala.
   const meuChar = user ? (chars.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null) : null
-  usePublicacao(repo, sess.remoteId ?? null, meuChar, catalog)
 
   if (!repo || !user || !sess.remoteId) return null
   const isGm = Boolean(live?.gmUserId && user.id === live.gmUserId)
@@ -546,7 +571,8 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
   if (emCombate && (isGm || meuChar)) return null
 
   const publicar = async () => {
-    const doc = heroiSel ? getLocalDoc(heroiSel) : null
+    // F1 (#347): join publica o doc COM os edits (mesmo merge do pushState).
+    const doc = heroiSel ? localDocComEdits(heroiSel) : null
     if (!doc || !sess.remoteId) return
     // req 8 (#187): publica o herói e o COMPANHEIRO ANIMAL dele junto (Tutor)
     // #323/#326: FM derivado (vida/defesas máx das regras da classe) pra summary/
@@ -564,7 +590,7 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
       fmBlob: extractFmBlob(efm),
     })
     for (const ca of localEntriesOfKind('CompanheiroAnimal')) {
-      const caDoc = getLocalDoc(ca.id)
+      const caDoc = localDocComEdits(ca.id)
       if (!caDoc) continue
       const tutor = str(caDoc.frontmatter['Tutor'])
       if (!tutor || !tutor.includes(doc.basename)) continue
