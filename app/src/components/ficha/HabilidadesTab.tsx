@@ -1719,10 +1719,20 @@ function habTree(
   choicesByTarget: Map<string, HabChoice[]>,
 ): Map<string, TreeItem[]> {
   if (!loaded) return new Map()
-  const targets = new Set(entries.map((e) => e.target))
+  // #7: dedup por target (primeiro vence) — habilidade concedida por 2 fontes
+  // (ex.: Especialização em Arma/Mestre-de-Armas via Classe + Estilo) aparecia
+  // DUPLICADA. Espelha o plugin (habilidades-block.ts:30-36).
+  const seenTarget = new Set<string>()
+  const ents: ListaEntry[] = []
+  for (const e of entries) {
+    if (seenTarget.has(e.target)) continue
+    seenTarget.add(e.target)
+    ents.push(e)
+  }
+  const targets = new Set(ents.map((e) => e.target))
   const byParent = new Map<string, ListaEntry[]>()
   const roots: ListaEntry[] = []
-  for (const e of entries) {
+  for (const e of ents) {
     // Pick de Escolha_Habilidades cujo pai TEM dropdown de escolha
     // (choicesByTarget) já é mostrado pela própria escolha — não duplicar como
     // filho na árvore (era isso que repetia as essências do Animista). EXCETO

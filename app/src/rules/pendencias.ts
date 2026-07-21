@@ -41,17 +41,28 @@ function freePericiaSlot(fm: Fm): boolean {
   return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
 }
 
-/** ≥1 slot de técnica livre — mesma conta da TecnicasPanel. */
-function freeTecnicaSlot(fm: Fm): boolean {
+/** View de slots de TÉCNICA (mesma conta da TecnicasPanel). */
+function tecnicaSlotsView(fm: Fm) {
   const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
   const usedBy = (l: string) =>
     entries.filter((e) => e.fonte.kind === 'Slot' && e.fonte.target === l).length
   const s = slotsRec(fm, 'Tecnicas', 'Slots')
-  const view = computeSlotsView({
+  return computeSlotsView({
     total: { A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
     used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
+}
+
+/** ≥1 slot de técnica livre — mesma conta da TecnicasPanel. */
+function freeTecnicaSlot(fm: Fm): boolean {
+  const view = tecnicaSlotsView(fm)
   return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
+}
+
+/** #13: MAIS técnicas do que slots (infeasível) — globalOk=false, como o
+ *  slot-accounting.ts do plugin (usa a mesma função `slotsFeasible`). */
+function tecnicaOverbooked(fm: Fm): boolean {
+  return !tecnicaSlotsView(fm).globalOk
 }
 
 /** ≥1 slot de magia PREENCHÍVEL num namespace (Magias ou Magias.Secundaria) —
@@ -112,6 +123,7 @@ export function heroPendencias(
   if ((rules?.subclassChoices ?? []).some((c) => !str(c.pick ?? ''))) add('habilidades', 'Subclasse não escolhida')
   if ((rules?.sintonias ?? []).length > 0 && !str(fm['Sintonia'])) add('habilidades', 'Sintonia não escolhida')
   if (caps.tecnicas && freeTecnicaSlot(fm)) add('habilidades', 'Técnica a aprender (slot livre)')
+  if (caps.tecnicas && tecnicaOverbooked(fm)) add('habilidades', 'Técnicas excedem os slots disponíveis')
   if (caps.magias && freeMagiaSlot(fm)) add('habilidades', 'Magia a aprender (slot livre)')
   if (caps.especializacoes) {
     if (freePericiaSlot(fm)) add('habilidades', 'Perícia adicional disponível')
