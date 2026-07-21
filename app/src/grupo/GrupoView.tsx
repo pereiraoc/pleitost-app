@@ -23,6 +23,7 @@ import {
 import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../data/session-repo/live-session'
 import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
+import { pushLog } from '../data/debug-log'
 import { useSettings } from '../settings'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
@@ -638,8 +639,10 @@ export function GrupoView({ groupId }: { groupId: string }) {
     if (remoteJson && remoteJson !== localJson) {
       exploSyncRef.current = remoteJson
       setGroupStateFull(exploId, remote!)
+      pushLog('explo', 'pull remoto→local')
     } else if (!remoteJson && localJson !== EMPTY) {
       exploSyncRef.current = localJson
+      pushLog('explo', 'semeia remoto (remoto vazio, local tem)')
       void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
     } else {
       exploSyncRef.current = remoteJson || localJson
@@ -648,6 +651,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
       const lj = groupStateJson(getGroupState(exploId))
       if (lj === exploSyncRef.current) return // veio de um pull → não re-empurra
       exploSyncRef.current = lj
+      pushLog('explo', 'push local→remoto')
       void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
     })
   }, [isMesa, repo, live?.sessionId, live?.state?.exploracao, exploId])

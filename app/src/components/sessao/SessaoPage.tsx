@@ -73,6 +73,7 @@ import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { onHeroWrite } from '../../data/hero-store'
+import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
 import { Lightbox } from '../Lightbox'
 
@@ -173,7 +174,11 @@ export function LiveSessionBridge() {
           repo.findSessionById(remoteId),
           repo.listEncountersBySession(remoteId),
         ])
-        if (alive)
+        if (alive) {
+          pushLog(
+            'sync',
+            `refetch chars=${characters.length} membros=${members.length} state=${sess?.state ? 'sim' : 'não'}`,
+          )
           setLiveSession({
             sessionId: remoteId,
             gmUserId: sess?.gmUserId ?? null,
@@ -182,8 +187,10 @@ export function LiveSessionBridge() {
             members,
             encounters,
           })
-      } catch {
+        }
+      } catch (e) {
         // servidor fora — mantém o último snapshot
+        pushLog('sync', `refetch FALHOU: ${e instanceof Error ? e.message : String(e)}`)
       }
     }
     void refetch()
@@ -253,7 +260,11 @@ function usePublicacao(
   // só mexem no state/volátil (fmBlob exclui Interativa), então dispensam o blob.
   const pushState = (cId: string, hId: string, publishFmBlob = true) => {
     const doc = getLocalDoc(hId)
-    if (!doc) return
+    if (!doc) {
+      pushLog('publish', `pushState ABORTADO: doc local ausente (${hId})`)
+      return
+    }
+    pushLog('publish', `pushState char=${cId} fmBlob=${publishFmBlob}`)
     void effectiveFmForPublish(doc, catalog).then((efm) => {
       repo?.updateCharacterState(cId, buildCharacterState(doc, efm)).catch(() => {})
       // #323/#326: RE-PUBLICA o SUMMARY (vida/defesas MÁX derivados). Heróis que
@@ -275,7 +286,11 @@ function usePublicacao(
     return onHeroWrite((id, path, _value, origem) => {
       // Antes só re-publicava em edições Interativa.* — inventário/ouro/tesouros
       // (fora de Interativa) não disparavam nada e não iam pro servidor.
-      if (id !== heroId || origem === 'sync') return
+      if (id !== heroId || origem === 'sync') {
+        pushLog('publish', `write IGNORADO id=${id} path=${path} origem=${origem}`)
+        return
+      }
+      pushLog('publish', `write→publish path=${path}`)
       pushState(charId, heroId, !path.startsWith('Interativa.'))
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

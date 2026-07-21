@@ -5,11 +5,14 @@
 // supabase/bug-reports.sql (aplicar no SQL editor do projeto).
 import { supabaseClient } from './session-repo/supabase'
 import { APP_VERSION } from '../pwa-update'
+import { getLogs, isDebugOn, type DebugEntry } from './debug-log'
 
 export interface BugReport {
   texto: string
-  /** Contexto automático que ajuda a reproduzir (rota, versão, navegador). */
-  contexto: { pagina: string; versao: string; userAgent: string }
+  /** Contexto automático que ajuda a reproduzir (rota, versão, navegador).
+   *  `logs` só vem preenchido quando o modo debug estava ligado — o rastro dos
+   *  pontos instrumentados antes do bug, pra entrar junto na issue. */
+  contexto: { pagina: string; versao: string; userAgent: string; logs?: DebugEntry[] }
 }
 
 type Sender = (r: BugReport) => Promise<void>
@@ -22,12 +25,16 @@ export function __setBugSenderForTests(s: Sender | null): void {
 export async function enviarBugReport(texto: string): Promise<void> {
   const limpo = texto.trim()
   if (!limpo) throw new Error('Escreva o que aconteceu antes de enviar.')
+  // Anexa os logs SÓ se o modo debug estava ligado (senão o buffer está vazio).
+  // Corta pra não estourar o limite de texto/linha do report.
+  const logs = isDebugOn() ? getLogs().slice(-200) : []
   const report: BugReport = {
     texto: limpo,
     contexto: {
       pagina: window.location.pathname,
       versao: APP_VERSION,
       userAgent: navigator.userAgent,
+      ...(logs.length ? { logs } : {}),
     },
   }
   if (sender) return sender(report)
