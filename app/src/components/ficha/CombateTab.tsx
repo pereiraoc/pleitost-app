@@ -109,7 +109,7 @@ import {
 } from '../../interativa/apply'
 import { applyDanoCtx, computeDanoAdO } from '../../interativa/dano'
 import { propagateAutoStates } from '../../interativa/hero-context'
-import { isCondicaoOn, isEfeitoOn, toMultiplier } from '../../interativa/state'
+import { composeStateKey, isCondicaoOn, isEfeitoOn, toMultiplier } from '../../interativa/state'
 import type { AtributoId, ConditionNumberKey } from '../../interativa/condition-context'
 import type { EffectDescriptor } from '../../interativa/descriptor'
 import { collectCustomAtaques, type CustomAtaque } from '../../interativa/arma-custom'
@@ -604,6 +604,8 @@ function VidaBar({ doc }: { doc: VaultDoc }) {
 
 interface CondChip {
   nome: string
+  /** F2: rótulo de exibição ("Inspiração (de Carlos)"); ausente = nome. */
+  rotulo?: string
   grupo: string
   ic: string
   cor: string
@@ -657,7 +659,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
     }
     return [...byNome.values()].map((d) => {
       const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]!
-      return { nome: d.nome, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor, resumo: d.resumo }
+      return { nome: d.nome, rotulo: d.rotulo, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor, resumo: d.resumo }
     })
   }, [inter, condicoesExtraidas, interState.condicoes])
   const condOn: Record<string, boolean> = Object.fromEntries(
@@ -668,8 +670,11 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
   const descByLabel = useMemo(() => {
     const map = new Map<string, EffectDescriptor>()
     for (const d of inter.descriptors) {
-      if (d.sharedFrom) continue
-      if (!map.has(d.label)) map.set(d.label, d)
+      // F2 (#347): chave = stateKey (label puro; compartilhado `label::aliado`)
+      // — os chips de aliado resolvem o próprio descriptor (potência do
+      // conjurador, seletores) sem colidir com o efeito próprio de mesmo label.
+      const key = composeStateKey(d.label, d.sharedFrom)
+      if (!map.has(key)) map.set(key, d)
     }
     return map
   }, [inter])
@@ -1039,7 +1044,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                               cursor: c.resumo ? 'help' : undefined,
                             }}
                           >
-                            {c.nome}
+                            {c.rotulo ?? c.nome}
                           </span>
                           {on === 1 && sel && desc ? (
                             // Counter `− 🌟 N +` do plugin (condicoes-selectors
@@ -1468,6 +1473,36 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
 
+  // F2 (#347): chips de AÇÃO LOCAL derivados dos DESCRIPTORS — o equivalente da
+  // Lista de Efeitos do plugin ancorada nos ataques (Ato Inspirador modifica
+  // dano de arma). Próprios e COMPARTILHADOS por aliado ("(de X)"); estado em
+  // Efeitos_Ativos[stateKey] (isEffectActive: AçãoLocal lê Efeitos_Ativos, com
+  // chave composta pro shared). Nada hardcodado: label/ícone vêm do bloco.
+  const acaoLocalChips = (() => {
+    const outMap = new Map<string, { key: string; rotulo: string; ic: string }>()
+    for (const d of inter.descriptors) {
+      if (d.tipo !== 'AçãoLocal') continue
+      if (d.sharedFrom && !(d.escopo === 'CompartilhadoGrupo' || d.compartilhar === 'Grupo')) continue
+      const key = composeStateKey(d.label, d.sharedFrom)
+      if (outMap.has(key)) continue
+      outMap.set(key, {
+        key,
+        rotulo: d.sharedFrom ? `${d.label} (de ${d.sharedFrom})` : d.label,
+        ic: d.parameters['IconeLigado'] || tokens.emojis.subcategoria.Condicao,
+      })
+    }
+    return [...outMap.values()]
+  })()
+  const toggleAcaoLocal = (key: string) => {
+    if (isEfeitoOn(efeitos[key])) {
+      const next = { ...efeitos }
+      delete next[key]
+      model.setVolatile('Interativa.Efeitos_Ativos', next)
+      return
+    }
+    model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [key]: { on: true } })
+  }
+
   // #9/#4 + Alcance/Propulsão: TOGGLES POR-ARMA das PROPRIEDADES (Segurar com Duas
   // Mãos, Atacar Além do Alcance, Propulsão…). São efeitos `origem: Propriedade`,
   // `aplicacao: ArmaSelecionada` (per-arma via weaponSelector) com ajustador
@@ -1565,6 +1600,31 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             >
               <span style={{ fontSize: 15 }}>{c.ic}</span>
               {c.n}
+            </button>
+          )
+        })}
+        {acaoLocalChips.map((c) => {
+          const on = isEfeitoOn(efeitos[c.key]) ? 1 : 0
+          return (
+            <button
+              key={c.key}
+              onClick={() => toggleAcaoLocal(c.key)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 9,
+                padding: '8px 15px',
+                background: `color-mix(in srgb,var(--accent) ${8 + on * 16}%,var(--panel))`,
+                border: `1px solid color-mix(in srgb,var(--accent) ${32 + on * 48}%,var(--line2))`,
+                color: on ? 'var(--accent)' : 'var(--text)',
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: 'pointer',
+                clipPath: 'polygon(0 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px))',
+              }}
+            >
+              <span style={{ fontSize: 15 }}>{c.ic}</span>
+              {c.rotulo}
             </button>
           )
         })}

@@ -221,6 +221,9 @@ export interface DescriptorSources {
   condicaoDocs: readonly VaultDoc[]
   /** Docs universais extras (Erguer Escudo). */
   extraDocs?: readonly VaultDoc[]
+  /** F2 (#347): descriptors COMPARTILHADOS pelos aliados de grupo (sharedFrom
+   *  setado) — agregados fora (useSharedAllyDescriptors) e apensados aqui. */
+  sharedDescriptors?: readonly EffectDescriptor[]
 }
 
 /** Coleta TODOS os descriptors visíveis pro herói (efeitos das notas
@@ -274,6 +277,14 @@ export function collectDescriptors(sources: DescriptorSources): EffectDescriptor
   for (const bloco of BUILTIN_EFEITOS_BLOCOS) {
     const desc = blocoParaDescritor(bloco, str(bloco['sourceNote']) || '(builtin)')
     if (desc) out.push(desc)
+  }
+  // F2 (#347): efeitos dos ALIADOS (sharedFrom) — dedup inclui o aliado, então
+  // o mesmo efeito vindo de 2 aliados coexiste (chaves de estado distintas).
+  for (const desc of sources.sharedDescriptors ?? []) {
+    const key = `${desc.label} ${desc.sourceNote} ${desc.sharedFrom ?? ''}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push(desc)
   }
 
   out.sort((a, b) => a.label.localeCompare(b.label, 'pt-BR'))

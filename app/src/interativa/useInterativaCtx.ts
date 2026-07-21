@@ -18,6 +18,8 @@ import {
   type InterativaComputed,
 } from './hero-context'
 import type { EffectDescriptor } from './descriptor'
+import { useSharedAllyDescriptors } from './aliados'
+import { composeStateKey } from './state'
 
 /** Docs universais da engine além das condições (toggle ERGUER do design). */
 const EXTRA_EFFECT_IDS = [ERGUER_ESCUDO_ID]
@@ -58,6 +60,8 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
   const fm = rules?.derivedFm ?? model.fm
   const catalog = useCatalog()
   const { docs: allExtra, loaded } = useCondicaoDocs()
+  // F2 (#347): efeitos compartilhados pelos aliados de grupo (sharedFrom).
+  const shared = useSharedAllyDescriptors(doc, fm)
 
   // 2ª fase de carga: propriedades INTRÍNSECAS das armas equipadas (inline
   // `propriedades::` do doc da arma — Apunhalante etc.) declaram efeitos e
@@ -102,13 +106,14 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
       refDoc,
       condicaoDocs,
       extraDocs,
+      sharedDescriptors: shared.descriptors,
     })
     return {
       ...computed,
       condicaoDocs,
-      loaded: loaded && refs.loaded && propDocs !== undefined,
+      loaded: loaded && refs.loaded && propDocs !== undefined && shared.loaded,
     }
-  }, [fm, refs, catalog, allExtra, loaded, propDocs])
+  }, [fm, refs, catalog, allExtra, loaded, propDocs, shared])
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -116,7 +121,10 @@ export function useInterativaCtx(doc: VaultDoc, refs: HeroRefs): InterativaCtxSt
 // ──────────────────────────────────────────────────────────────────────────
 
 export interface CondChipDef {
+  /** CHAVE DE ESTADO em Condicoes_Ativas — compartilhado usa `label::aliado`. */
   nome: string
+  /** F2: rótulo de exibição quando difere da chave ("Inspiração (de Carlos)"). */
+  rotulo?: string
   grupo: 'Positiva' | 'Negativa'
   ic: string
   /** #12: resumo da condição (do doc `resumo`) pro tooltip no chip. */
@@ -161,6 +169,22 @@ export function condChipDefs(
       ic: desc.parameters['IconeLigado'] || fallbackIcon,
     })
   }
+  // F2 (#347): CONDIÇÕES compartilhadas pelos aliados — "(de X)" como a Lista
+  // de Condições do plugin (condicoes-catalog.ts:42-48 filtra tipo Condição;
+  // AçãoLocal compartilhada vive na lista de EFEITOS → no app, o rail de chips
+  // do painel Ataques). Chave de estado composta `label::aliado`, então o
+  // mesmo efeito que o herói também tem por si coexiste com o do aliado.
+  for (const desc of descriptors) {
+    if (!desc.sharedFrom || desc.tipo !== 'Condição') continue
+    const key = composeStateKey(desc.label, desc.sharedFrom)
+    if (out.has(key)) continue
+    out.set(key, {
+      nome: key,
+      rotulo: `${desc.label} (de ${desc.sharedFrom})`,
+      grupo: desc.grupo === 'Negativa' ? 'Negativa' : 'Positiva',
+      ic: desc.parameters['IconeLigado'] || fallbackIcon,
+    })
+  }
   return [...out.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
 }
 
@@ -186,7 +210,10 @@ export function defaultNumericSelector(
   const sel = desc.numericSelector
   if (!sel) return undefined
   if (!isPotenciaLabel(sel.label)) return sel.min
-  return Math.max(sel.min, Math.min(sel.max, magiasPotencia))
+  // F2: efeito de ALIADO usa a potência do CONJURADOR (sharedFromMeta), não a
+  // do herói que ativa (plugin condicoes-catalog.ts:104-120).
+  const pot = desc.sharedFromMeta?.potenciaMagica ?? magiasPotencia
+  return Math.max(sel.min, Math.min(sel.max, pot))
 }
 
 /** Estado inicial ao ATIVAR uma condição do popover — espelha defaultStateFor

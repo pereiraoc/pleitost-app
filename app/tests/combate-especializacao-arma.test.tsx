@@ -74,7 +74,27 @@ beforeAll(() => {
     const rel = decodeURIComponent(String(input).replace(/^\/vault-data\//, ''))
     const file = path.join(vaultDataDir, rel)
     const ok = fs.existsSync(file)
-    return { ok, status: ok ? 200 : 404, json: async () => JSON.parse(fs.readFileSync(file, 'utf8')) }
+    return {
+      ok,
+      status: ok ? 200 : 404,
+      json: async () => {
+        const data = JSON.parse(fs.readFileSync(file, 'utf8'))
+        if (rel === `${THOREN_ID}.json`) {
+          // F2 (#347): o FM REAL do Thoren tem Inspiração::Carlos ativa (a mesa
+          // gravou) e o app passou a APLICAR efeitos de aliado (+1 ataque) —
+          // este teste isola a ESPECIALIZAÇÃO, então limpa as entradas
+          // compartilhadas (label::aliado) preservando o estado próprio.
+          const inter = data.frontmatter.Interativa ?? {}
+          const cond = Object.fromEntries(
+            Object.entries((inter.Condicoes_Ativas ?? {}) as Record<string, unknown>).filter(
+              ([k]) => !k.includes('::'),
+            ),
+          )
+          data.frontmatter.Interativa = { ...inter, Condicoes_Ativas: cond }
+        }
+        return data
+      },
+    }
   }) as typeof fetch
 })
 beforeEach(() => {
