@@ -605,6 +605,8 @@ interface CondChip {
   grupo: string
   ic: string
   cor: string
+  /** #12: resumo da condição pro tooltip no chip. */
+  resumo?: string
 }
 
 /** Nome da linha do FM → key numérica do ConditionContext. */
@@ -653,7 +655,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
     }
     return [...byNome.values()].map((d) => {
       const grupoDef = COND_GRUPOS.find((g) => g.id === d.grupo) ?? COND_GRUPOS[0]!
-      return { nome: d.nome, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor }
+      return { nome: d.nome, grupo: d.grupo, ic: d.ic, cor: grupoDef.cor, resumo: d.resumo }
     })
   }, [inter, condicoesExtraidas, interState.condicoes])
   const condOn: Record<string, boolean> = Object.fromEntries(
@@ -1025,10 +1027,14 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                         >
                           <span style={{ fontSize: 13 }}>{c.ic}</span>
                           <span
+                            // #12: resumo da condição no hover/tap (title nativo) —
+                            // antes não dava pra ver o que a condição faz em combate.
+                            title={c.resumo || undefined}
                             style={{
                               fontWeight: 600,
                               fontSize: 13,
                               color: on ? c.cor : 'var(--text)',
+                              cursor: c.resumo ? 'help' : undefined,
                             }}
                           >
                             {c.nome}
@@ -1370,6 +1376,29 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const setUso = (key: string, next: number) =>
     model.setVolatile('Interativa.Usos_Recursos', { ...interState.usos, [key]: next })
 
+  // #9/#4: empunhadura de arma versátil — clicar na propriedade "Duas-mãos" do
+  // ataque liga/desliga o Estado "Segurar com Duas Mãos" (o guard-evaluator usa:
+  // arma com Duas-mãos + estado ON → empunhadura efetiva 2). Estado GLOBAL como
+  // no plugin; dual-map (Efeitos_Ativos/Condicoes_Ativas) igual aos chips.
+  const DUAS_MAOS_STATE = 'Segurar com Duas Mãos'
+  const duasMaosOn = isEfeitoOn(efeitos[DUAS_MAOS_STATE]) || isCondicaoOn(interState.condicoes[DUAS_MAOS_STATE])
+  const toggleDuasMaos = () => {
+    if (duasMaosOn) {
+      if (DUAS_MAOS_STATE in efeitos) {
+        const n = { ...efeitos }
+        delete n[DUAS_MAOS_STATE]
+        model.setVolatile('Interativa.Efeitos_Ativos', n)
+      }
+      if (DUAS_MAOS_STATE in interState.condicoes) {
+        const n = { ...interState.condicoes }
+        delete n[DUAS_MAOS_STATE]
+        model.setVolatile('Interativa.Condicoes_Ativas', n)
+      }
+    } else {
+      model.setVolatile('Interativa.Efeitos_Ativos', { ...efeitos, [DUAS_MAOS_STATE]: { on: true } })
+    }
+  }
+
   // Manobras: linha padrão de Ataques.Lista (mod usa a proficiência de ataque)
   // + delta da Interativa (key `manobra` — inclui ManobrasPorItemDaArma).
   const manobraRow = ((fmPath(fm, 'Ataques', 'Lista') ?? []) as ProfRow[]).find(
@@ -1646,16 +1675,41 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               }}
             >
               {props.length
-                ? props.map((p, pi) => (
-                    <span key={p} style={{ display: 'inline-flex', gap: 4 }}>
-                      {/* Cada propriedade → a REGRA do compêndio (Precisa/Arremesso/…);
-                          "Arremesso 3" resolve o doc "Arremesso". */}
-                      <ItemHover doc={propRuleDoc(propBase(p))} fullBody>
-                        <span>{p}</span>
-                      </ItemHover>
-                      {pi < props.length - 1 ? <span>·</span> : null}
-                    </span>
-                  ))
+                ? props.map((p, pi) => {
+                    // #9/#4: "Duas-mãos" é TOGGLE de empunhadura (não abre regra).
+                    const isDuasMaos = propBase(p) === 'Duas-mãos'
+                    return (
+                      <span key={p} style={{ display: 'inline-flex', gap: 4 }}>
+                        {isDuasMaos ? (
+                          <span
+                            onClick={toggleDuasMaos}
+                            title={
+                              duasMaosOn
+                                ? 'Segurando com duas mãos — clique pra soltar'
+                                : 'Clique pra segurar com duas mãos'
+                            }
+                            style={{
+                              cursor: 'pointer',
+                              fontWeight: duasMaosOn ? 700 : 600,
+                              color: duasMaosOn ? 'var(--accent)' : 'var(--text)',
+                              textDecoration: 'underline',
+                              textUnderlineOffset: 2,
+                            }}
+                          >
+                            {duasMaosOn ? '✊ ' : ''}
+                            {p}
+                          </span>
+                        ) : (
+                          // Cada propriedade → a REGRA do compêndio (Precisa/Arremesso/…);
+                          // "Arremesso 3" resolve o doc "Arremesso".
+                          <ItemHover doc={propRuleDoc(propBase(p))} fullBody>
+                            <span>{p}</span>
+                          </ItemHover>
+                        )}
+                        {pi < props.length - 1 ? <span>·</span> : null}
+                      </span>
+                    )
+                  })
                 : tipo}
             </span>
             <span style={{ flex: 1 }} />

@@ -9,6 +9,7 @@ import { useHeroModel } from '../data/useHeroModel'
 import { useHeroRules } from '../rules/useHeroRules'
 import type { HeroRefs } from '../components/ficha/useHeroRefs'
 import { docField, fmOf, fmPath, str } from '../components/ficha/hero-model'
+import { wikiStrip } from '../components/ficha/local-tip'
 import {
   CONDICOES_FOLDER,
   ERGUER_ESCUDO_ID,
@@ -118,6 +119,8 @@ export interface CondChipDef {
   nome: string
   grupo: 'Positiva' | 'Negativa'
   ic: string
+  /** #12: resumo da condição (do doc `resumo`) pro tooltip no chip. */
+  resumo?: string
 }
 
 /** Lista completa de condições togláveis — união das condições do sistema
@@ -146,7 +149,8 @@ export function condChipDefs(
       const visual = (own?.['visual'] ?? {}) as Record<string, unknown>
       if (str(visual['iconeLigado'])) ic = str(visual['iconeLigado'])
     }
-    out.set(nome, { nome, grupo, ic })
+    const resumo = wikiStrip(str(fm['resumo']).replace(/^"|"$/g, '')).trim() || undefined
+    out.set(nome, { nome, grupo, ic, resumo })
   }
   for (const desc of descriptors) {
     if (desc.tipo !== 'Condição' || desc.sharedFrom) continue
