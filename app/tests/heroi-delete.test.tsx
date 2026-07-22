@@ -88,10 +88,10 @@ describe('deletar herói pelo menu ⋮ (#215)', () => {
     fireEvent.click(screen.getByLabelText('Ações do herói'))
     // 1º clique ARMA: rótulo troca pra confirmação, nada é removido ainda
     fireEvent.click(screen.getByText(/Deletar herói/))
-    expect(screen.getByText(/Confirmar\? Remove só a cópia local/)).toBeTruthy()
+    expect(screen.getByText(/Confirmar\? Remove da sua conta/)).toBeTruthy()
     expect(localEntitiesOfKind('Heroi')).toHaveLength(1)
     // 2º clique EXECUTA
-    fireEvent.click(screen.getByText(/Confirmar\? Remove só a cópia local/))
+    fireEvent.click(screen.getByText(/Confirmar\? Remove da sua conta/))
     await waitFor(() => expect(screen.queryByText('Zé Deletável')).toBeNull())
     expect(localEntitiesOfKind('Heroi')).toHaveLength(0)
   })

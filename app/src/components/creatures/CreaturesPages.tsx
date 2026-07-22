@@ -663,9 +663,11 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
             ? [
                 {
                   label: `${tokens.emojis.aventureiro.Deletar} Deletar herói`,
-                  // #215: só a CÓPIA LOCAL sai — os exemplos da database
-                  // (compêndio) nunca são afetados (a vault é read-only).
-                  confirmLabel: '⚠️ Confirmar? Remove só a cópia local',
+                  // #215: os exemplos da database (compêndio) nunca são
+                  // afetados (a vault é read-only). Desde os tombstones do
+                  // sync por conta (#366), a deleção vale pra CONTA inteira —
+                  // some também nos teus outros dispositivos.
+                  confirmLabel: '⚠️ Confirmar? Remove da sua conta (todos os seus dispositivos)',
                   color: 'var(--red)',
                   onClick: () => {
                     // #305: some a seleção junto com o herói — senão a nav
