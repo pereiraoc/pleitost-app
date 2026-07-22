@@ -731,10 +731,6 @@ export function InvocacaoRosterCard({ inv }: { inv: ActiveInvocacao }) {
         <span aria-hidden style={{ color: 'var(--accent2)', fontSize: 12 }}>↳</span>
         <span style={{ fontSize: 12.5, fontWeight: 700 }}>🔮 {label}</span>
         <span style={{ flex: 1 }} />
-        <span style={mono({ fontSize: 10.5, color: '#d8695c', fontWeight: 700 })}>
-          ❤️ {inst.vitalidade}/{evMax}
-          {inst.moralTemporaria ? ` +${inst.moralTemporaria}` : ''}
-        </span>
         <button
           onClick={() => setStatsView((v) => !v)}
           title={statsView ? 'Ver vida' : 'Ver defesas/stats'}
@@ -743,6 +739,13 @@ export function InvocacaoRosterCard({ inv }: { inv: ActiveInvocacao }) {
           {statsView ? '❤️' : '🛡️'}
         </button>
       </div>
+      {/* vida no MESMO lugar/fonte das linhas de combatente: linha abaixo do
+          nome, à esquerda, mono 9.5 muted (pedido 2026-07-21). */}
+      {!statsView ? (
+        <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+          {`❤️ ${inst.vitalidade}/${evMax}${inst.moralTemporaria ? ` +${inst.moralTemporaria}` : ''}`}
+        </span>
+      ) : null}
       {statsView ? (
         <>
           {stats.length ? (
