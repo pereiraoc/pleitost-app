@@ -31,6 +31,7 @@ const LINK_ICONS_KEY = 'pleitost.settings.linkIcons'
 // Badge de dificuldade dos combates (lista + página), no nível médio do grupo
 // ativo. Default LIGADO; o usuário pode desligar no CONFIG.
 const MOSTRAR_DIF_KEY = 'pleitost.settings.mostrarDificuldade'
+const CLICK_DETALHES_KEY = 'pleitost.settings.clickDetalhes'
 
 export interface Settings {
   /** Modo Mestre: ON libera o BESTIÁRIO dos NPCs; OFF bloqueia a aba. */
@@ -41,6 +42,9 @@ export interface Settings {
   linkIcons: boolean
   /** Badge de dificuldade dos combates (default ON). */
   mostrarDificuldade: boolean
+  /** Clicar em item/técnica/magia na ficha ABRE NOS DETALHES (direita) em vez
+   *  de só o tooltip (pedido do usuário 2026-07-21; default OFF = tooltip). */
+  clickDetalhes: boolean
   /** Matriz de disponibilidade (% por tipo de local × tier) que a loja usa. */
   disponibilidade: AvailabilityMatrix
 }
@@ -75,6 +79,7 @@ function loadSettings(): Settings {
       desenvolvedor: localStorage.getItem(DESENVOLVEDOR_KEY) === 'true',
       linkIcons: localStorage.getItem(LINK_ICONS_KEY) !== 'false', // default ON
       mostrarDificuldade: localStorage.getItem(MOSTRAR_DIF_KEY) !== 'false', // default ON
+      clickDetalhes: localStorage.getItem(CLICK_DETALHES_KEY) === 'true', // default OFF
       disponibilidade: loadDisponibilidade(),
     }
   } catch {
@@ -83,6 +88,7 @@ function loadSettings(): Settings {
       desenvolvedor: false,
       linkIcons: true,
       mostrarDificuldade: true,
+      clickDetalhes: false,
       disponibilidade: cloneMatrix(DEFAULT_MATRIX),
     }
   }
@@ -120,6 +126,16 @@ function setLinkIcons(linkIcons: boolean) {
   state = { ...getSettings(), linkIcons }
   try {
     localStorage.setItem(LINK_ICONS_KEY, String(linkIcons))
+  } catch {
+    /* memória continua a fonte da sessão */
+  }
+  for (const cb of listeners) cb()
+}
+
+function setClickDetalhes(clickDetalhes: boolean) {
+  state = { ...getSettings(), clickDetalhes }
+  try {
+    localStorage.setItem(CLICK_DETALHES_KEY, String(clickDetalhes))
   } catch {
     /* memória continua a fonte da sessão */
   }
@@ -184,6 +200,7 @@ export function useSettings() {
     setDesenvolvedor,
     setLinkIcons,
     setMostrarDificuldade,
+    setClickDetalhes,
     setDisponibilidadeCell,
     resetDisponibilidade,
   }

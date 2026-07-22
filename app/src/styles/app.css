@@ -809,6 +809,17 @@ a {
   min-width: 0;
   max-width: 360px;
 }
+/* Painel de DETALHES (sidebar estreita): as qualidades empilham em coluna,
+   cada carta na largura cheia — nada de 3 espremidas lado a lado. */
+.item-page-card.item-cards-stack {
+  flex-direction: column;
+  align-items: center;
+}
+.item-page-card.item-cards-stack .shc-card {
+  flex: none;
+  width: 100%;
+  max-width: 420px;
+}
 .item-page-card .shc-img {
   max-height: 260px;
   margin-bottom: 8px;

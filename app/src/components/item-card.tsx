@@ -18,6 +18,7 @@ import { precoPO } from '../grupo/wealth'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
 import { useDetail } from '../data/detail-context'
+import { useSettings } from '../settings'
 import type { CSSProperties, ReactNode } from 'react'
 
 /** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
@@ -636,6 +637,10 @@ export function ItemHover({
 }) {
   const assets = useAssetIndex()
   const detail = useDetail()
+  // Pedido 2026-07-21: preferência global em Config/Geral — clicar no item
+  // abre nos DETALHES (direita) em vez de só o tooltip. Central AQUI: vale
+  // pra técnicas/habilidades/ações/magias/tesouros (todo ItemHover da ficha).
+  const { clickDetalhes } = useSettings()
   let html: string | null = null
   if (doc) {
     // Sem tier explícito (ex.: habilidade/técnica/magia), deriva do RANK do doc —
@@ -658,7 +663,7 @@ export function ItemHover({
   }
   // `always`: o doc pode chegar async (refs) — manter o mesmo wrapper evita
   // remontar os filhos (ex.: <select> do Perfil) quando o card aparece.
-  const canOpen = clickToOpen && detail && doc
+  const canOpen = (clickToOpen || clickDetalhes) && detail && doc
   return (
     <TipHover
       html={html}
@@ -693,13 +698,22 @@ export function ConsumivelHover({
   style?: CSSProperties
 }) {
   const assets = useAssetIndex()
+  const detail = useDetail()
+  const { clickDetalhes } = useSettings()
   const html = !doc
     ? null
     : tier
       ? `<div class="shc-wrap">${itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), true)}</div>`
       : allTiersCardHtml(doc, assets)
+  // Mesma preferência do ItemHover: clique abre o consumível nos DETALHES.
+  const canOpen = clickDetalhes && detail && doc
   return (
-    <TipHover html={html} style={style} always>
+    <TipHover
+      html={html}
+      style={style}
+      always
+      onActivate={canOpen ? () => detail!.open({ kind: 'doc', id: doc!.id }) : undefined}
+    >
       {children}
     </TipHover>
   )

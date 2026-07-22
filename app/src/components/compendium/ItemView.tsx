@@ -70,7 +70,7 @@ function itemCard(
  *  descrição), em tamanho grande, na linguagem do compêndio (kicker mono).
  *  É o modo RESUMO (não fullBody). `TipProvider`/`ITEM_CARD_CSS` mantêm os
  *  tooltips aninhados funcionando aqui também. */
-export function ItemSheet({ doc }: { doc: VaultDoc }) {
+export function ItemSheet({ doc, sidebar }: { doc: VaultDoc; sidebar?: boolean }) {
   const assets = useAssetIndex()
   const facet = itemFacet(doc)
   // Família tesouro (comprada por qualidade): mostra as 3 cartas (Adepta/
@@ -85,7 +85,15 @@ export function ItemSheet({ doc }: { doc: VaultDoc }) {
         <style>{ITEM_CARD_CSS}</style>
         <div className="kicker">{COMPENDIO_KICKER}</div>
         <div
-          className={temQual ? 'item-page-card item-cell-tiers' : 'item-page-card'}
+          className={[
+            'item-page-card',
+            temQual ? 'item-cell-tiers' : '',
+            // Painel de DETALHES (direita) é estreito: as 3 qualidades ficam
+            // UMA EMBAIXO DA OUTRA em vez de dividir a largura espremidas.
+            sidebar && temQual ? 'item-cards-stack' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           dangerouslySetInnerHTML={{ __html: html }}
         />
         {/* F4 (#347, report ccc57891): o CORPO da nota abaixo da carta — a
@@ -592,7 +600,7 @@ export function ItemGrid({ entries }: { entries: IndexDocEntry[] }) {
 registerDocView({
   id: 'item',
   match: isItem,
-  view: (doc) => <ItemSheet doc={doc} />,
+  view: (doc, { sidebar }) => <ItemSheet doc={doc} sidebar={sidebar} />,
 })
 
 // FolderView: pasta de `type: Item` vira grade AGRUPADA de cartas. `subtree`:

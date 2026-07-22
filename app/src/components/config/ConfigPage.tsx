@@ -743,8 +743,17 @@ function DatabaseLine() {
 
 export function ConfigPage() {
   const { theme, mode, context, setTheme, setMode, setContext } = useTheme()
-  const { mestre, setMestre, desenvolvedor, linkIcons, setLinkIcons, mostrarDificuldade, setMostrarDificuldade } =
-    useSettings()
+  const {
+    mestre,
+    setMestre,
+    desenvolvedor,
+    linkIcons,
+    setLinkIcons,
+    mostrarDificuldade,
+    setMostrarDificuldade,
+    clickDetalhes,
+    setClickDetalhes,
+  } = useSettings()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
   const [tab, setTab] = useState('geral')
@@ -845,6 +854,20 @@ export function ConfigPage() {
                 label={o.label}
                 on={mostrarDificuldade === o.id}
                 onClick={() => setMostrarDificuldade(o.id)}
+              />
+            ))}
+          </ConfigRow>
+          {/* Clique em item/técnica/magia na ficha abre nos DETALHES (direita)
+              em vez de só o tooltip (pedido 2026-07-21; DESATIVADO = tooltip,
+              comportamento clássico). */}
+          <ConfigRow ic="🖱️" label="Clique Abre nos Detalhes">
+            {MESTRE_OPTS.map((o) => (
+              <OptPill
+                key={String(o.id)}
+                ic={o.ic}
+                label={o.label}
+                on={clickDetalhes === o.id}
+                onClick={() => setClickDetalhes(o.id)}
               />
             ))}
           </ConfigRow>
