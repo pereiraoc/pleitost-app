@@ -707,10 +707,13 @@ function SalaRemota({ sess }: { sess: SessionRec }) {
  *    não-revelado aparece MASCARADO (maskedNames) com ESTIMATIVA de saúde
  *    por faixa (classifyVita) em vez de números; o GM vê tudo + toggles
  *    ❓/❗ (toggleRevealCharacter). */
-/** #66: card READ-ONLY de uma invocação ativa no roster de combate — nome,
- *  vida (X/máx + moral temporária), defesas/stats e ataques resolvidos. */
+/** #66: card READ-ONLY de uma invocação ativa no roster de combate. Pedido do
+ *  usuário (2026-07-21): por padrão SÓ a barra de vida + a vida — as
+ *  defesas/stats E os ataques só aparecem no toggle 🛡️ (o MESMO botão
+ *  Ver defesas/stats das linhas de combatente). */
 export function InvocacaoRosterCard({ inv }: { inv: ActiveInvocacao }) {
   const { label, inst, resolved, evMax } = inv
+  const [statsView, setStatsView] = useState(false)
   const stats = resolved ? Object.entries(resolved.stats).filter(([k]) => !isEvKey(k)) : []
   return (
     <div
@@ -732,25 +735,46 @@ export function InvocacaoRosterCard({ inv }: { inv: ActiveInvocacao }) {
           ❤️ {inst.vitalidade}/{evMax}
           {inst.moralTemporaria ? ` +${inst.moralTemporaria}` : ''}
         </span>
+        <button
+          onClick={() => setStatsView((v) => !v)}
+          title={statsView ? 'Ver vida' : 'Ver defesas/stats'}
+          style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+        >
+          {statsView ? '❤️' : '🛡️'}
+        </button>
       </div>
-      {stats.length ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 10px' }}>
-          {stats.map(([k, v]) => (
-            <span key={k} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-              {invocStatEmoji(k)} {formatStatValue(k, v)}
-            </span>
+      {statsView ? (
+        <>
+          {stats.length ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 10px' }}>
+              {stats.map(([k, v]) => (
+                <span key={k} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                  {invocStatEmoji(k)} {formatStatValue(k, v)}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          {resolved?.ataques.map((at, i) => (
+            <div key={i} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+              ⚔️ {at.nome}
+              {at.bonus != null
+                ? ` ${typeof at.bonus === 'number' ? (at.bonus >= 0 ? '+' : '') + at.bonus : at.bonus}`
+                : ''}
+              {at.dano != null ? ` · ${at.dano}` : ''}
+            </div>
           ))}
-        </div>
-      ) : null}
-      {resolved?.ataques.map((at, i) => (
-        <div key={i} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-          ⚔️ {at.nome}
-          {at.bonus != null
-            ? ` ${typeof at.bonus === 'number' ? (at.bonus >= 0 ? '+' : '') + at.bonus : at.bonus}`
-            : ''}
-          {at.dano != null ? ` · ${at.dano}` : ''}
-        </div>
-      ))}
+        </>
+      ) : (
+        // Barra de vida (mesma dos combatentes) — invocação não tem moral;
+        // moral temporária entra como a faixa verde.
+        <VidaBarRemota
+          vit={inst.vitalidade}
+          vitMax={evMax}
+          moral={0}
+          moralMax={0}
+          temp={inst.moralTemporaria ?? 0}
+        />
+      )}
     </div>
   )
 }
