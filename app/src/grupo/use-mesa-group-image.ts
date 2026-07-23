@@ -12,12 +12,14 @@ import { useEntityImageUrl } from '../data/images'
 import { useLiveSession } from '../data/session-repo/live-session'
 import { resolveGroupImageUrl } from './group-image'
 
-export function useMesaGroupImageUrl(): string | null {
+/** Grupo PERSISTENTE da mesa: o primeiro grupo que os personagens publicados
+ *  referenciam no FM `grupo` (fmBlob). Fonte única da ponte mesa↔grupo — usada
+ *  pela imagem herdada (#74) e pelo armazenamento da EXPLORAÇÃO (#379 r2: a
+ *  trilha é do GRUPO, não da sessão). null = mesa sem grupo persistente. */
+export function useMesaGrupoPersistenteId(): string | null {
   const live = useLiveSession()
   const catalog = useCatalog()
-  const assets = useAssetIndex()
-  // grupo persistente que os heróis da sessão referenciam no FM `grupo`.
-  const heroGroupId = useMemo(() => {
+  return useMemo(() => {
     for (const c of live?.characters ?? []) {
       const raw = (c.fmBlob as Record<string, unknown> | undefined)?.['grupo']
       const list = Array.isArray(raw) ? raw : raw != null ? [raw] : []
@@ -30,6 +32,13 @@ export function useMesaGroupImageUrl(): string | null {
     }
     return null
   }, [live, catalog])
+}
+
+export function useMesaGroupImageUrl(): string | null {
+  const live = useLiveSession()
+  const assets = useAssetIndex()
+  // grupo persistente que os heróis da sessão referenciam no FM `grupo`.
+  const heroGroupId = useMesaGrupoPersistenteId()
   const heroGroupDoc = useDoc(heroGroupId ?? '').doc
   const heroGroupLocalImg = useEntityImageUrl(heroGroupId)
   const inherited =

@@ -60,7 +60,7 @@ import { useGrupoTip, type GrupoTip } from './gtip'
 import { useEntityImageUrl } from '../data/images'
 import { LocalImageUpload } from '../components/ficha/PerfilTab'
 import { resolveGroupImageUrl } from './group-image'
-import { useMesaGroupImageUrl } from './use-mesa-group-image'
+import { useMesaGroupImageUrl, useMesaGrupoPersistenteId } from './use-mesa-group-image'
 import { Lightbox } from '../components/Lightbox'
 import { PanelExploracao } from './PanelExploracao'
 import { PanelInventario } from './PanelInventario'
@@ -620,14 +620,25 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const live = useLiveSession()
   // A mesa usa MESA_GRUPO_ID (constante) em TODA sessão, mas o group-store do
   // mapa (caminho percorrido) é local e keyed por groupId — então a trilha
-  // VAZAVA entre sessões. Escopa o store da exploração da mesa por sessão.
-  const exploId = isMesa && live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId
-  // Porta a exploração ANTIGA (keyed pela constante MESA_GRUPO_ID, órfã ao
-  // escopar por sessão) pro escopo desta sessão — uma vez, ao abrir a mesa. Só
-  // migra se o escopo novo está vazio; depois limpa a antiga (não revaza).
+  // VAZAVA entre sessões. #379 r2: a trilha é do GRUPO, não da sessão — quando
+  // a mesa tem um grupo PERSISTENTE (FM `grupo` dos personagens publicados, a
+  // mesma ponte da imagem herdada #74), a exploração LÊ/ESCREVE o groupState
+  // DESSE grupo: a ficha do grupo da vault mostra a trilha completa conectado
+  // OU desconectado, e sessões novas da mesma mesa herdam o caminho. Mesa sem
+  // grupo persistente segue no escopo por sessão (sem vazar entre mesas).
+  const grupoPersistenteId = useMesaGrupoPersistenteId()
+  const exploId = isMesa
+    ? (grupoPersistenteId ?? (live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId))
+    : groupId
+  // Migrações (uma vez, ao abrir a mesa; nunca sobrescrevem destino com dados):
+  // legado constante → exploId; escopo por sessão → grupo persistente. Se o
+  // destino JÁ tem trilha, o sync #5 abaixo converge pro remoto (fonte de
+  // verdade) no pull.
   useEffect(() => {
-    if (isMesa && live?.sessionId) migrateGroupState(MESA_GRUPO_ID, exploId)
-  }, [isMesa, live?.sessionId, exploId])
+    if (!isMesa || !live?.sessionId) return
+    migrateGroupState(MESA_GRUPO_ID, exploId)
+    if (grupoPersistenteId) migrateGroupState(`${MESA_GRUPO_ID}:${live.sessionId}`, exploId)
+  }, [isMesa, live?.sessionId, exploId, grupoPersistenteId])
   const repo = useSessionRepo()
   // #5: SINCRONIZA a exploração da mesa com o estado da sessão (backend), pra
   // todos os membros/aparelhos verem a mesma trilha (antes vivia só no
