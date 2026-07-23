@@ -23,7 +23,7 @@ import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/l
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
-import {
+import { profArmaEfetiva,
   fmPath,
   heroAtributos,
   interativa,
@@ -400,12 +400,16 @@ function AtaquesResumo({
           ...((armaDoc?.inlineFields ?? {}) as Fm),
         }
         const danoRaw = unquote(str(inline['dano']))
-        const dano = danoArmaDisplay(danoRaw, profAtaque)
+        // #374: sem proficiência na categoria da arma (nem nas Específicas),
+        // o rank cai pra N — mesmo gate do CombateTab.
+        const basenameArma = wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome
+        const profArma = profArmaEfetiva(profAtaque, str(inline['grupo']), basenameArma, fm)
+        const dano = danoArmaDisplay(danoRaw, profArma)
         const props = wikiLabels(inline['propriedades'])
         const mod = rowMod(
           {
             Atributo: str(arma['Atributo']),
-            Proficiencia: profAtaque,
+            Proficiencia: profArma,
             Bonus_Item: num(arma['Bonus_Item']),
             Bonus_Especial: num(arma['Bonus_Especial']),
           },
@@ -429,7 +433,7 @@ function AtaquesResumo({
                   ataqueBreakdown(
                     nome,
                     str(arma['Atributo']),
-                    profAtaque,
+                    profArma,
                     num(arma['Bonus_Item']),
                     num(arma['Bonus_Especial']),
                     attrs[str(arma['Atributo'])] ?? 0,
@@ -441,7 +445,7 @@ function AtaquesResumo({
               {dano ? (
                 <>
                   {', '}
-                  <TipHover html={renderBreakdownHtml(danoArmaBreakdown(nome, danoRaw, profAtaque))}>
+                  <TipHover html={renderBreakdownHtml(danoArmaBreakdown(nome, danoRaw, profArma))}>
                     <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--blue)' })}>{dano}</span>
                   </TipHover>
                 </>

@@ -356,6 +356,45 @@ export function parseDanoArma(dano: unknown): { dice: number; die: number; offse
   return { dice: 0, die: 0, offset: Number.isFinite(n) ? n : 0 }
 }
 
+/** Proficiência EFETIVA com uma ARMA (report #374). Regra do sistema:
+ *  - Armas.md: "Você perde seu bônus de Proficiência nos Ataques se usar um
+ *    tipo de arma que não é proficiente" (2 categorias: simples e marcial).
+ *  - Dados de Dano.md: o nº de dados de dano depende da proficiência COM A
+ *    ARMA e em Ataques.
+ *  Proficiente quando: grupo *-simples com Inventario.Armas.Proficiencia.
+ *  Simples='P'; grupo *-marcial com Marciais='P'; ou a arma consta em
+ *  Especificas (wikilinks, match por basename). Grupos natural/especial (fora
+ *  das 2 categorias) e FM sem o bloco (legado/NPC) não têm gate. Sem
+ *  proficiência → 'N' (sem bônus de prof, sem dados extras, sem AdO). */
+export function profArmaEfetiva(
+  profAtaque: string,
+  grupoArma: unknown,
+  armaBasename: unknown,
+  fm: Record<string, unknown>,
+): RankLetter {
+  const rank = profLetter({ Proficiencia: profAtaque })
+  const g = str(grupoArma).toLowerCase().trim()
+  const categoria =
+    g === 'cac-simples' || g === 'd-simples'
+      ? 'Simples'
+      : g === 'cac-marcial' || g === 'd-marcial'
+        ? 'Marciais'
+        : null
+  if (!categoria) return rank
+  const prof = fmPath(fm, 'Inventario', 'Armas', 'Proficiencia') as
+    | Record<string, unknown>
+    | undefined
+  if (!prof || typeof prof !== 'object') return rank
+  if (str(prof[categoria]) === 'P') return rank
+  const alvo = str(armaBasename).toLowerCase().trim()
+  const especificas = Array.isArray(prof['Especificas']) ? prof['Especificas'] : []
+  const especifica = especificas.some((e) => {
+    const base = wikiTarget(str(e)).split('/').pop() ?? ''
+    return base.toLowerCase().trim() === alvo
+  })
+  return especifica ? rank : 'N'
+}
+
 /** Dados extras de dano por proficiência — VERBATIM do PROF_DICE do plugin. */
 export const PROF_DICE: Record<string, number> = { N: 0, A: 0, E: 1, M: 2 }
 

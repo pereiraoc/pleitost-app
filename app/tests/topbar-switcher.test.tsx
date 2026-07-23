@@ -112,7 +112,9 @@ describe('seletor rápido: só personagens do usuário (#211)', () => {
     expect(within(list).queryByRole('button', { name: /Metis, a Graxaim/ })).toBeNull()
   })
 
-  it('ordem das listas: tier desc + alfabético pt; 3 visíveis com scroll', async () => {
+  it('ordem (#376): o personagem ABERTO primeiro; resto tier desc + alfabético pt', async () => {
+    // Ana (nv 2) é a ÚLTIMA na ordem tier desc — mas é a ficha aberta, então
+    // sobe pro topo (report: "não tá mostrando primeiro o selecionado").
     const { ana } = seedLocais()
     renderApp(heroPath(ana))
     fireEvent.click(await screen.findByTestId('topbar-avatar'))
@@ -124,7 +126,7 @@ describe('seletor rápido: só personagens do usuário (#211)', () => {
         .getAllByRole('button')
         .map((b) => b.textContent)
       // sem retrato, o slot de iniciais contribui com a 1ª letra no texto
-      expect(nomes).toEqual(['Rex', 'Bruno', 'Zeca', 'Ana'].map((n) => `${n[0]}${n}`))
+      expect(nomes).toEqual(['Ana', 'Rex', 'Bruno', 'Zeca'].map((n) => `${n[0]}${n}`))
     })
   })
 

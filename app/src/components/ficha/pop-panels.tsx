@@ -196,6 +196,9 @@ export function VidaAdjustRows({ vida }: { vida: VidaLocal }) {
 export interface EmLocal {
   em: number
   emMax: number
+  /** Máximo da energia SECUNDÁRIA (0 = não tem) — #377: o chip da topbar
+   *  precisa saber se existe QUALQUER energia antes de renderizar. */
+  emSecMax: number
   rows: VidaAdjRow[]
 }
 
@@ -241,7 +244,7 @@ export function useEmLocal(doc: VaultDoc, origem = 'topbar'): EmLocal {
       : []),
   ]
 
-  return { em, emMax, rows }
+  return { em, emMax, emSecMax, rows }
 }
 
 /* ===================== moedas ===================== */

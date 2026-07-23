@@ -85,6 +85,7 @@ import {
 import {
   cargasPorTier,
   danoArmaDisplay,
+  profArmaEfetiva,
   fmOf,
   fmPath,
   heroAtributos,
@@ -1839,33 +1840,37 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               ...((armaDoc?.inlineFields ?? {}) as Record<string, unknown>),
             }
         const danoRaw = unquote(str(inline['dano']))
+        const grupoArma = (cust ? cust.grupo : str(fmOf(armaDoc)['grupo'])).toLowerCase().trim()
+        // #374: proficiência EFETIVA com a arma — sem proficiência na
+        // categoria (simples/marcial) nem na lista de Específicas, o rank
+        // cai pra N (sem bônus de prof no acerto, sem dados extras, sem AdO).
+        const profArma = profArmaEfetiva(profAtaque, grupoArma, basename, fm)
         // dano exibido = calcDanoArma do plugin (dados base + prof) COM o
         // contexto de dano aplicado (applyDanoCtx: fixo/por-dado/passo de
         // dado/dados extras — Encantar Arma, Apunhalante, Ato Inspirador…).
         const calc = parseDanoArma(danoRaw)
         const danoRes = calc.die
           ? applyDanoCtx(
-              { baseDice: calc.dice, profDice: PROF_DICE[profAtaque] ?? 0, dieSize: calc.die, offset: calc.offset },
+              { baseDice: calc.dice, profDice: PROF_DICE[profArma] ?? 0, dieSize: calc.die, offset: calc.offset },
               inter.ctx,
               basename,
             )
           : null
-        const dano = danoRes ? danoRes.display : danoArmaDisplay(danoRaw, profAtaque)
+        const dano = danoRes ? danoRes.display : danoArmaDisplay(danoRaw, profArma)
         const props = wikiLabels(inline['propriedades'])
         const tipo = props.length ? props.join(' · ') : str(inline['tipo'])
         // AdO (a.ado do design): arma corpo-a-corpo/especial + prof>=A —
         // computeDanoAdO do plugin (Mestre +1 dado; canais ado/adoFixo;
         // técnicas não acumulam entre si).
-        const grupoArma = (cust ? cust.grupo : str(fmOf(armaDoc)['grupo'])).toLowerCase().trim()
         const adoRes =
-          danoRes && ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profAtaque)
-            ? computeDanoAdO({ ...danoRes.adoInput, prof: profAtaque as 'A' | 'E' | 'M' })
+          danoRes && ADO_GRUPOS.includes(grupoArma) && ['A', 'E', 'M'].includes(profArma)
+            ? computeDanoAdO({ ...danoRes.adoInput, prof: profArma as 'A' | 'E' | 'M' })
             : null
         const tipoIco = tipoDanoEmoji(unquote(str(inline['tipo'])))
         const modBase = rowMod(
           {
             Atributo: str(arma['Atributo']),
-            Proficiencia: profAtaque,
+            Proficiencia: profArma,
             Bonus_Item: num(arma['Bonus_Item']),
             Bonus_Especial: num(arma['Bonus_Especial']),
           },
@@ -1921,7 +1926,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                     ataqueBreakdown(
                       nome,
                       str(arma['Atributo']),
-                      profLetter({ Proficiencia: profAtaque }),
+                      profArma,
                       num(arma['Bonus_Item']),
                       num(arma['Bonus_Especial']),
                       attrs[str(arma['Atributo'])] ?? 0,
@@ -1934,7 +1939,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               >
                 <ModBox
                   modStr={signed(mod)}
-                  rank={profLetter({ Proficiencia: profAtaque })}
+                  rank={profArma}
                   star={num(arma['Bonus_Especial']) > 0}
                   dots={num(arma['Bonus_Item'])}
                   width={46}
@@ -1946,7 +1951,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               <TipHover
                 html={
                   renderBreakdownHtml(
-                    danoArmaBreakdown(nome, danoRaw, profLetter({ Proficiencia: profAtaque })),
+                    danoArmaBreakdown(nome, danoRaw, profArma),
                   ) +
                   // + bônus/condições APLICADOS ao dano (#262): bônus em VERDE
                   // (tone pos), penalidades em vermelho, e o PassoDeDado mostrando

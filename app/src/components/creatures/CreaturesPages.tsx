@@ -123,13 +123,43 @@ function tierGroups(
 /** Cabeçalho do grupo — kicker mono já usado no app (`// ...`), com a letra
  *  na cor do registro partyBountyRank (rankColors). Extensão sancionada pelo
  *  usuário na issue #31; nenhum chrome novo além do kicker existente. */
-function TierKicker({ letter }: { letter: string }) {
+function TierKicker({ letter, color }: { letter: string; color?: string }) {
   return (
     <div className="kicker">
       {'// TIER '}
-      <span style={{ color: rankColors(letter).color }}>{letter}</span>
+      <span style={{ color: color ?? rankColors(letter).color }}>{letter}</span>
     </div>
   )
+}
+
+/** #380: grupos do BESTIÁRIO por FM `Tier` NUMÉRICO, decrescente (3→0) — a
+ *  MESMA fonte/cor do badge "TIER n" do card (monsterTierColor, verbatim do
+ *  plugin header-monstro.ts). Monstro sem Tier vai pro fim, rotulado "—".
+ *  As LETRAS S/A/B/C são convenção de tier de HERÓI (nível) e não valem aqui. */
+function tierGroupsMonstro(
+  entries: IndexDocEntry[],
+  docs: Map<string, VaultDoc>,
+): { letter: string; color: string; entries: IndexDocEntry[] }[] {
+  const byTier = new Map<number | null, IndexDocEntry[]>()
+  for (const entry of entries) {
+    const raw = Number(docs.get(entry.id)?.frontmatter['Tier'])
+    const tier = Number.isFinite(raw) ? raw : null
+    const bucket = byTier.get(tier)
+    if (bucket) bucket.push(entry)
+    else byTier.set(tier, [entry])
+  }
+  const tiers = [...byTier.keys()].sort((a, b) => {
+    if (a === null) return 1
+    if (b === null) return -1
+    return b - a
+  })
+  return tiers.map((tier) => ({
+    letter: tier === null ? '—' : String(tier),
+    color: monsterTierColor(tier ?? 0),
+    entries: byTier
+      .get(tier)!
+      .sort((a, b) => ptAlpha.compare(a.basename ?? a.id, b.basename ?? b.id)),
+  }))
 }
 
 // Abas verbatim do NPC_TABS do design; a pasta da vault é a fonte real de
@@ -140,6 +170,8 @@ const NPC_TABS: {
   label: string
   folder: string
   tierOf?: (doc?: VaultDoc) => number
+  /** #380: agrupamento por Tier NUMÉRICO de monstro (3→0) no lugar das letras. */
+  tierNumerico?: boolean
   localKind: LocalKind
 }[] = [
   { id: 'pessoas', label: 'PESSOAS', folder: 'Sistema/Criaturas/Pessoas', localKind: 'Pessoa' },
@@ -155,6 +187,7 @@ const NPC_TABS: {
     label: 'BESTIÁRIO',
     folder: 'Sistema/Criaturas/Bestiário',
     tierOf: tierOfFmTier,
+    tierNumerico: true, // #380: agrupa por Tier de monstro (3→0), não S/A/B/C
     localKind: 'Monstro',
   },
 ]
@@ -1255,6 +1288,24 @@ function NpcCard({
                   },
                 ]
               : []),
+            // #375: paridade com o HeroCard (#215) — CA/monstro LOCAL tem
+            // Deletar com confirmação in-app; a deleção grava tombstone
+            // (#366), então some da conta inteira. Vault segue intocável.
+            ...(podeExportar
+              ? [
+                  {
+                    label: `${tokens.emojis.aventureiro.Deletar} ${
+                      subtype === 'Monstro' ? 'Deletar criatura' : 'Deletar companheiro'
+                    }`,
+                    confirmLabel: '⚠️ Confirmar? Remove da sua conta (todos os seus dispositivos)',
+                    color: 'var(--red)',
+                    onClick: () => {
+                      if (getSelectedCreature() === entry.id) setSelectedCreature(null)
+                      removeLocalEntity(entry.id)
+                    },
+                  },
+                ]
+              : []),
             ...(isMonstro && mestre && repo && user && live
               ? [
                   {
@@ -1286,6 +1337,7 @@ function NpcCard({
 function NpcPanel({
   folder,
   tierOf,
+  tierNumerico,
   localKind,
   includeVault,
   vaultReadonly,
@@ -1293,6 +1345,8 @@ function NpcPanel({
 }: {
   folder: string
   tierOf?: (doc?: VaultDoc) => number
+  /** #380: agrupa por Tier NUMÉRICO de monstro (3→0) no lugar das letras. */
+  tierNumerico?: boolean
   localKind: LocalKind
   /** false = só entidades do usuário (Criaturas/Pessoas, req 5). */
   includeVault?: boolean
@@ -1309,9 +1363,13 @@ function NpcPanel({
         {prepend}
         {docs && tierOf
           ? // docs carregados: grupos por tier decrescente (issue #31);
-            // lista achatada com key estável por card (vide HeroisPage)
-            tierGroups(entries, docs, tierOf).flatMap((group) => [
-              <TierKicker key={`tier-${group.letter}`} letter={group.letter} />,
+            // lista achatada com key estável por card (vide HeroisPage).
+            // #380: bestiário usa o Tier numérico do monstro (3→0).
+            (tierNumerico
+              ? tierGroupsMonstro(entries, docs)
+              : tierGroups(entries, docs, tierOf).map((g) => ({ ...g, color: undefined as string | undefined }))
+            ).flatMap((group) => [
+              <TierKicker key={`tier-${group.letter}`} letter={group.letter} color={group.color} />,
               ...group.entries.map((entry) => (
                 <NpcCard
                   key={entry.id}
@@ -1476,6 +1534,7 @@ export function NpcsPage() {
             key={t.id}
             folder={t.folder}
             tierOf={t.tierOf}
+            tierNumerico={t.tierNumerico}
             localKind={t.localKind}
             includeVault={t.id !== 'pessoas'}
             vaultReadonly={t.id === 'companheiros'}

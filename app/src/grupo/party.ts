@@ -3,6 +3,7 @@
 // (papelValuesFromModel ← FM.Papel), tier-from-level.ts e tiers-display.ts.
 // Nada é recomputado de regras: FM.Papel já é o modelo salvo pelo motor.
 import type { Catalog } from '../data/catalog'
+import { wikilinkBasename } from '../rules/wikilink'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
 import { tokens } from '../generated/tokens'
 
@@ -17,6 +18,19 @@ export type PapelValues = Record<Papel, number>
 export const BAL_CAPTION =
   'A linha tracejada indica 1 estrela na soma do grupo — o mínimo recomendado. ' +
   'Cerca de 2 estrelas por papel costuma corresponder a um grupo mais equilibrado.'
+
+/** #378: ids dos grupos do doc — FM `grupo` (wikilink ou lista) resolvido no
+ *  catálogo. Fonte ÚNICA da aba GRUPOS e do gate do botão GRUPO na nav. */
+export function groupIdsOf(catalog: Catalog, doc: VaultDoc | undefined): string[] {
+  const raw = doc?.grupo
+  const list = Array.isArray(raw) ? raw : raw ? [raw] : []
+  const ids: string[] = []
+  for (const value of list) {
+    const res = catalog.resolve(wikilinkBasename(String(value)))
+    if (res.kind === 'doc' && !ids.includes(res.id)) ids.push(res.id)
+  }
+  return ids
+}
 
 /** Espelha papelValuesFromModel (role-token.ts): FM.Papel, ausente → 0. */
 export function papelValues(doc: VaultDoc | undefined): PapelValues {

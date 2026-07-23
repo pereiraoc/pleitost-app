@@ -78,10 +78,15 @@ describe('#86 seleção persistida na tela de seleção', () => {
     // topbar da ficha renderiza mesmo FORA da ficha (herói selecionado)
     expect(await screen.findByTestId('topbar-avatar')).toBeTruthy()
 
-    // as abas de personagem são <button> clicáveis (não NavButton disabled)
+    // as abas de personagem são <button> clicáveis (não NavButton disabled).
+    // #378: exceção ÚNICA — GRUPO desabilita quando o herói não tem grupo nem
+    // sessão (o caso deste herói local recém-criado).
     const tabs = charTabButtons(container)
     expect(tabs.length).toBeGreaterThan(0)
-    expect(tabs.every((b) => !b.disabled)).toBe(true)
+    for (const b of tabs) {
+      if (b.textContent?.includes('GRUPO')) expect(b.disabled).toBe(true)
+      else expect(b.disabled).toBe(false)
+    }
 
     // o card do herói local aparece destacado
     await waitFor(() => {

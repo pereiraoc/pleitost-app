@@ -22,6 +22,11 @@ import { AppShell } from '../src/components/layout/AppShell'
 import { FichaPage } from '../src/components/ficha/FichaPage'
 import { heroPath } from '../src/paths'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
+import {
+  createLocalEntity,
+  emptyHeroFrontmatter,
+  __resetLocalStoreForTests,
+} from '../src/data/local-entities'
 import type { IndexManifest } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -66,6 +71,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   window.localStorage.clear()
+  __resetLocalStoreForTests()
   __resetHeroStoreMemoryForTests()
 })
 afterEach(cleanup)
@@ -119,4 +125,27 @@ describe('chip de EM da topbar é clicável e ajusta o valor (issue #230)', () =
     fireEvent.click(within(pop).getByText('+10')) // clamp no max
     await waitFor(() => expect(chipTxt()).toContain('4/4'))
   })
+})
+
+describe('#377 — EM 0/0 não aparece na topbar', () => {
+  it('herói sem energia mágica (EM máx 0): chip AUSENTE na aba combate', async () => {
+    // herói local em branco: família tem caps.magias, mas sem classe
+    // conjuradora o EM máx derivado é 0 — o chip "0/0" só poluía.
+    const id = createLocalEntity('Heroi', 'Guerreiro Seco', emptyHeroFrontmatter())
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(id, 'combate')]}>
+          <Routes>
+            <Route element={<AppShell />}>
+              <Route path="/heroi/*" element={<FichaPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    // a topbar do combate montou (o chip de vida está lá)…
+    await screen.findByTitle('Vida')
+    // …mas o de EM não (Carlos 4/4 dos testes acima é o trap reverso).
+    expect(screen.queryByTestId('topbar-em-chip')).toBeNull()
+  }, 30000)
 })

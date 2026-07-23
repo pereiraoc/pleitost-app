@@ -113,6 +113,10 @@ function VidaChip({ doc }: { doc: VaultDoc }) {
 function EmChip({ doc }: { doc: VaultDoc }) {
   const emLocal = useEmLocal(doc, 'topbar')
   const [open, setOpen] = useState(false)
+  // #377: sem energia mágica NENHUMA (máximos zerados — herói sem classe
+  // conjuradora), o chip "0/0" não aparece. O gate por família (caps.magias)
+  // fica de pé; este é o gate por FICHA.
+  if (emLocal.emMax === 0 && emLocal.emSecMax === 0) return null
 
   return (
     <span style={{ position: 'relative', display: 'inline-flex' }}>
@@ -274,6 +278,13 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
   // cair sempre no Perfil/Biografia. AppShell já rebaixa aba invisível na família.
   const curTab = searchParams.get('tab') ?? undefined
   const { entries, docs } = useSwitcherEntries()
+  // #376: o personagem ABERTO vem primeiro na lista — o resto mantém a
+  // ordem tier desc + alfabético pt (report: "não tá mostrando primeiro o
+  // selecionado").
+  const ordered = useMemo(() => {
+    const cur = entries.filter((e) => e.id === doc.id)
+    return cur.length ? [...cur, ...entries.filter((e) => e.id !== doc.id)] : entries
+  }, [entries, doc.id])
 
   return (
     <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
@@ -336,7 +347,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
                 maxHeight: SWITCHER_ROW_H * 3 + SWITCHER_GAP * 2,
               }}
             >
-              {entries.map((entry) => {
+              {ordered.map((entry) => {
                 const entryDoc = docs?.get(entry.id)
                 const nome = entry.basename ?? entry.id
                 const on = entry.id === doc.id

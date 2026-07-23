@@ -47,6 +47,12 @@ export function liveCharacter(charId: string): SessionCharacter | null {
   return live?.characters.find((c) => c.id === charId) ?? null
 }
 
+/** #378: o doc (herói/CA local ou da vault) está PUBLICADO na sessão viva?
+ *  `characterPath` guarda o id de origem do personagem publicado. */
+export function characterNaSessao(sess: LiveSession | null, docId: string): boolean {
+  return !!sess?.characters.some((c) => c.characterPath === docId)
+}
+
 /** Nome da MESA = apelidos dos heróis (sem NPC/companheiro) em ordem alfabética
  *  (#235), ex.: "Baitaca, Carlos, Drauzio". Fonte única do nome do grupo da
  *  sessão — usada no GrupoView e na lista de grupos (Heróis). */

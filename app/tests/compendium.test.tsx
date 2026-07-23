@@ -452,14 +452,34 @@ describe('#31: agrupamento por tier decrescente nas listas', () => {
     expect(renderedGroups(caPanel, '.npc-card', '.npc-nome')).toEqual(expected)
   })
 
-  it('BESTIÁRIO: grupos pelo FM Tier direto (não nível), decrescente', async () => {
+  it('BESTIÁRIO (#380): grupos pelo FM Tier NUMÉRICO, decrescente (3→0)', async () => {
+    // Report #380: monstros agrupam pelo número do Tier (como o badge "TIER n"
+    // do card), não pelas letras S/A/B/C — que são convenção de NÍVEL de herói.
     const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
     await screen.findAllByText(/Goblin \(Pequeno\)/)
     const bestPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[2]
-    const expected = expectedGroups('Sistema/Criaturas/Bestiário', (fm) => Number(fm['Tier']))
-    // sanidade da fixture: mais de um grupo (Tier 2 → B; Tier 0/1 → C)
+    // esperado direto da vault: buckets por Tier numérico, desc; sem Tier → "—"
+    const byTier = new Map<string, string[]>()
+    for (const entry of docsOfFolder('Sistema/Criaturas/Bestiário')) {
+      const raw = Number(readDoc(entry.id).frontmatter['Tier'])
+      const label = Number.isFinite(raw) ? String(raw) : '—'
+      byTier.set(label, [...(byTier.get(label) ?? []), entry.basename!])
+    }
+    const expected = [...byTier.keys()]
+      .sort((a, b) => (a === '—' ? 1 : b === '—' ? -1 : Number(b) - Number(a)))
+      .map((label) => ({ letter: label, names: byTier.get(label)!.sort((a, b) => ptAlpha.compare(a, b)) }))
     expect(expected.length).toBeGreaterThan(1)
-    expect(renderedGroups(bestPanel, '.npc-card', '.npc-nome')).toEqual(expected)
+    const groups: { letter: string; names: string[] }[] = []
+    for (const el of bestPanel.querySelectorAll<HTMLElement>('.kicker, .npc-card')) {
+      if (el.classList.contains('kicker')) {
+        const m = /^\/\/ TIER (\d+|—)$/.exec(el.textContent ?? '')
+        expect(m, `kicker fora do formato numérico: "${el.textContent}"`).toBeTruthy()
+        groups.push({ letter: m![1], names: [] })
+      } else {
+        groups[groups.length - 1].names.push(el.querySelector<HTMLElement>('.npc-nome')!.textContent!)
+      }
+    }
+    expect(groups).toEqual(expected)
   })
 
   it('PESSOAS (fora da issue) segue sem kicker, com o empty state desenhado', async () => {

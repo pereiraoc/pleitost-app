@@ -5,6 +5,9 @@ import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
 import { usePendingTabs } from './use-pending-tabs'
 import { abaFichaVisivel, familiaOf } from '../../data/familia'
+import { useCatalog } from '../../data/CatalogContext'
+import { groupIdsOf } from '../../grupo/party'
+import { characterNaSessao, useLiveSession } from '../../data/session-repo/live-session'
 import { useDoc } from '../../data/useDoc'
 import { DetailProvider, DetailAutoReveal } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
@@ -72,14 +75,22 @@ function CharTabButton({
   active,
   onSelect,
   pending,
+  disabled,
 }: {
   item: NavItem
   active: boolean
   onSelect: () => void
   pending?: readonly string[]
+  /** #378: aba sem conteúdo pro personagem atual (GRUPO sem grupo/sessão). */
+  disabled?: boolean
 }) {
   return (
-    <button className={active ? 'nav-item active' : 'nav-item'} onClick={onSelect}>
+    <button
+      className={active ? 'nav-item active' : 'nav-item'}
+      onClick={disabled ? undefined : onSelect}
+      disabled={disabled}
+      style={disabled ? { opacity: 0.4, cursor: 'default' } : undefined}
+    >
       <span className="nav-ic" aria-hidden>
         <NavIcon id={item.id} />
       </span>
@@ -194,6 +205,15 @@ export function AppShell() {
     : CHAR_TABS
   // #302: abas com pendência (algo a preencher) — ponto no botão da sidebar.
   const pendingTabs = usePendingTabs(heroDoc)
+  // #378: personagem sem grupo (FM) e fora da sessão viva → o botão GRUPO
+  // fica desabilitado (pedido do report: "não deixe clicável" em vez de cair
+  // na mesa de outra sessão). Enquanto o doc carrega, segue clicável.
+  const catalog = useCatalog()
+  const liveSess = useLiveSession()
+  const grupoDisponivel =
+    !heroDoc ||
+    groupIdsOf(catalog, heroDoc).length > 0 ||
+    (!!liveSess?.sessionId && characterNaSessao(liveSess, heroDoc.id))
   // #191: registra o SW e liga o fluxo de update (idempotente)
   useEffect(() => {
     void initPwaUpdate()
@@ -296,6 +316,7 @@ export function AppShell() {
                   active={fichaOpen && fichaTab === item.id}
                   onSelect={() => selectFichaTab(item.id)}
                   pending={pendingTabs.get(item.id)}
+                  disabled={item.id === 'grupos' && !grupoDisponivel}
                 />
               ) : (
                 <NavButton key={item.id} item={item} onNavigate={closeDrawer} />

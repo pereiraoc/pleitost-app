@@ -639,9 +639,13 @@ export function GrupoView({ groupId }: { groupId: string }) {
     if (!isMesa || !repo || !live?.sessionId) return
     const sid = live.sessionId
     const remote = live.state?.exploracao as GroupState | undefined
-    const remoteJson = remote ? groupStateJson(remote) : ''
     const localJson = groupStateJson(getGroupState(exploId))
     const EMPTY = groupStateJson({ hexes: [] })
+    // #379: remoto PRESENTE-MAS-VAZIO conta como ausente — um {hexes:[]}
+    // gravado por um device sem a trilha NÃO pode sobrescrever uma trilha
+    // local inteira (era o vetor de perda do "sumiu todo o histórico").
+    const remoteRaw = remote ? groupStateJson(remote) : ''
+    const remoteJson = remoteRaw === EMPTY ? '' : remoteRaw
     if (remoteJson && remoteJson !== localJson) {
       exploSyncRef.current = remoteJson
       setGroupStateFull(exploId, remote!)
