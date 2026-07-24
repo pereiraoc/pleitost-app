@@ -1,0 +1,405 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Luva do Arcanista",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Luva do Arcanista.md",
+  "basename": "Luva do Arcanista",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Amplifica poder arcano.",
+    "preço": "30 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques Mágicos e CDs de Magias Arcanas de Arcanista e Mago.",
+      "experiente": "+2 de bônus de item em Ataques Mágicos e CDs de Magias Arcanas de Arcanista e Mago.",
+      "mestre": "+3 de bônus de item em Ataques Mágicos e CDs de Magias Arcanas de Arcanista e Mago."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "Categoria Adepto Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 1",
+      "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 1",
+      "Categoria Experiente Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "Categoria Experiente Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 2",
+      "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 2",
+      "Categoria Mestre Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+      "Categoria Mestre Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+      "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 3",
+      "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaNegra.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Luva do Arcanista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Magias.Secundaria.Lista.ArcanaBranca.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Magias Arcanas"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - implemento*\nEssa luva de veludo possui ranhuras de material arcano, aumentando o fluxo de magia através dos dedos do usuário. Magias Arcanas conjuradas enquanto a mão que veste essa luva está livre ou empunhando um implemento mágico são empoderadas.\n* Adepto: +1 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n* Experiente: +2 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n* Mestre: +3 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-ataque\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano Aprimorado",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano Aprimorado.md",
+  "basename": "Combate Arcano Aprimorado",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      null
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprimora suas técnicas de [[Combate Arcano]]: [[Sequência Arcana]], [[Melhoramento Arcano]], [[Combinação Arcana]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sequência Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprimora suas técnicas de [[Combate Arcano]]: [[Sequência Arcana]], [[Melhoramento Arcano]], [[Combinação Arcana]].\"\n%%\n#### `= this.file.name`\nVocê aprimora suas técnicas de [[Combate Arcano]], recebendo os seguintes benefícios para elas: \n* [[Sequência Arcana]] - O dano do ataque adicional aumenta para 2d6+3 quando a arma é corpo-a-corpo e 2d4+2 quando é um arco.\n* [[Melhoramento Arcano]] - Você recebe 6 [[Energia Heroica|EH]] temporário por 1 turno caso a Magia seja conjurada com sucesso.\n* [[Combinação Arcana]] - Caso você faça o Ataque antes da Magia e o Ataque tenha sucesso, o alvo recebe uma [[Penalidades|penalidade de circunstância]] de -2 nas [[Resistências]] contra a Magia conjurada como parte de Combinação Arcana.\n\n```autosheet-rules\n```\n"
+}

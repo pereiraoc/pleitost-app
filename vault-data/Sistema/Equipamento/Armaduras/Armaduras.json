@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Equipamento/Armaduras/Armaduras",
+  "path": "Sistema/Equipamento/Armaduras/Armaduras.md",
+  "basename": "Armaduras",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "Classe de Dificuldade"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sem Armadura",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armaduras"
+    }
+  ],
+  "body": "# Armaduras\nApanhar é ruim, por isso aventureiros se preocupam com sua capacidade de esquivar e resistir ataques. Isso é representado pela [[Defesa]], que é a [[CD|Classe de Dificuldade]] que os ataques tentam superar.\n\nExistem 3 categorias que representam os tipos de armadura (ou ausência) existentes: sem, leve e pesada.\nVocê perde seu bônus de [[Proficiência]] na [[Defesa]] se usar um tipo de armadura que não é proficiente. Toda criatura pode se beneficiar da sua proficiência em defesa estando sem armadura.\n\n![[Sem Armadura#`= this.file.name`]]\n![[Armadura Leve#`= this.file.name`]]\n![[Armadura Pesada#`= this.file.name`]]"
+}

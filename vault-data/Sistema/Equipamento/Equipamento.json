@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Equipamento/Equipamento",
+  "path": "Sistema/Equipamento/Equipamento.md",
+  "basename": "Equipamento",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Equipamento"
+    }
+  ],
+  "body": "# Equipamento\n\n---\n```dataview\nLIST\nFROM \"Sistema/Equipamento\"\nWHERE subcategoria = null and file.name != this.file.name\nSORT file.name ASC\n```"
+}

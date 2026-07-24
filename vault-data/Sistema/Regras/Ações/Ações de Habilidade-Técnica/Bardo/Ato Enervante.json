@@ -1,0 +1,74 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Enervante",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Bardo/Ato Enervante.md",
+  "basename": "Ato Enervante",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Ato Enervante",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ato Enervante",
+        "tipo": "AçãoLocal",
+        "origem": "Técnica",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "iconeLigado": "🎶",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "requer": [
+            "Enervar"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Bardo]]\"",
+    "resumo": "Inimigos afetados por Enervar recebem dano mental e podem ficar Abalados."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Bardo]]\"\n\nresumo:: Inimigos afetados por Enervar recebem dano mental e podem ficar Abalados.\n%%\n### `= this.file.name` - `= this.custo`\nCusta 1 EM para ativar. Faça um teste de [[Atuação]] contra o [[Ímpeto]] de cada inimigo em 6q afetados por Enevar.\n\n**Sucesso:** A criatura recebe 2d4 de dano mental e fica [[Abalado|Abalada]] por 1 turno.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d4.\n**Falha:** A criatura recebe metade do dano de um sucesso.\n**Falha Decisiva:** A criatura não é afetada.\n\nO dano no sucesso (e metade na falha) aumenta para 3d4 no 4º nível e 4d4 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

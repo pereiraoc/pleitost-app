@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Eliminar Covardia",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Eliminar Covardia.md",
+  "basename": "Eliminar Covardia",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Seus [[Atacar|Ataques]] recebem +2 de [[bônus de circunstância]] na jogada de dano contra alvos [[Abalado|Abalados]] (+3 se você for [[Mestre]] em [[Intimidação]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalados"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Seus [[Atacar|Ataques]] recebem +2 de [[bônus de circunstância]] na jogada de dano contra alvos [[Abalado|Abalados]] (+3 se você for [[Mestre]] em [[Intimidação]]).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê destrói os covardes em combate. Seus [[Atacar|Ataques]] recebem +2 de [[bônus de circunstância]] na jogada de dano contra alvos [[Abalado|Abalados]]. Esse bônus aumenta para +3 se você for [[Mestre]] em [[Intimidação]].\n*Requer Experiente em Intimidação*\n\n```autosheet-rules\n```\n"
+}

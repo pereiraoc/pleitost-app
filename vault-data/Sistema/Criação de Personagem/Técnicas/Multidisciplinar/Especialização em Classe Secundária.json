@@ -1,0 +1,927 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Especialização em Classe Secundária",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Especialização em Classe Secundária.md",
+  "basename": "Especialização em Classe Secundária",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Ressonância Elemental]], [[Força Elemental]], [[Familiar Anima]], [[Expandir Magia]], [[Essência Adicional]], [[Criar Runa]], [[Arma Natural]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Repertório Expandido]], [[Raio Arcano Intensificado]], [[Infusão Luminosa]], [[Guia Constante]], [[Fluxo Dividido]], [[Fluxo Ajustável]], [[Magia Oculta]], [[Escudo Residual]], [[Contra-mágica]], [[Conservar Invocação]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Truque Útil]], [[Sentido Artístico]], [[Triunfo!]], [[Performance Reforçante]], [[Performance Enervante]], [[Performance Acelerante]], [[Manobras Inspiradas]], [[Jeitinho de Bardo]], [[Entrada Dramática]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Ambidestria]], [[Olho do Caçador]], [[Luta Cega]], [[Herbalismo Prático]], [[Especialista em Caçada]], [[Emboscada]], [[Ataque Móvel]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voz de Comando]], [[Vantagem Numérica]], [[Tática de Abertura]], [[Sinergia Mágica Básica]], [[Reanalisar Combate]], [[Mitigar Dificuldades]], [[Levantar Ânimos]], [[Entravar]], [[Blindar]], [[Análise Cautelosa]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Treinamento de Guardião]], [[Sentidos Apurados]], [[Investida Feral]], [[Forma Instintiva]], [[Forma Adicional]], [[Aspecto Ágil]], [[Aspecto Sagaz]], [[Aspecto Indômito]], [[Aspecto Elemental]], [[Oportunidade Feral]], [[Magia Feral]], [[Domínio de Formas]], [[Aspecto Colossal]], [[Aspecto Camuflado]], [[Maestria de Formas]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Retirada]], [[Posicionamento Conveniente]], [[Girar a Faca]], [[Gatuno]], [[Envenenador Nato]], [[Cambalhota Estratégica]], [[Aproveitar o Medo]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Segundo Armamento]],[[Escudo Arcano]], [[Conjuração Móvel]], [[Bainha Mágica]], [[Avaliação Arcana Aplicada ao Combate]], [[Arquearia Arcana]])",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voadora]], [[Técnica Elemental]], [[Movimentação Aprimorada]], [[Mente Limpa]], [[Manobras Esmagadoras]], [[Especialista em Fisicalidade]], [[Desviar Projétil]], [[Arma Monástica]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você aprende uma técnica adepta da sua classe secundária.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Ressonância Elemental]], [[Força Elemental]], [[Familiar Anima]], [[Expandir Magia]], [[Essência Adicional]], [[Criar Runa]], [[Arma Natural]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_49e8db44",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Animista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Magia Distante]]",
+              "[[Ressonância Elemental]]",
+              "[[Força Elemental]]",
+              "[[Familiar Anima]]",
+              "[[Expandir Magia]]",
+              "[[Essência Adicional]]",
+              "[[Criar Runa]]",
+              "[[Arma Natural]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Animista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Ressonância Elemental]], [[Força Elemental]], [[Familiar Anima]], [[Expandir Magia]], [[Essência Adicional]], [[Criar Runa]], [[Arma Natural]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Repertório Expandido]], [[Raio Arcano Intensificado]], [[Infusão Luminosa]], [[Guia Constante]], [[Fluxo Dividido]], [[Fluxo Ajustável]], [[Magia Oculta]], [[Escudo Residual]], [[Contra-mágica]], [[Conservar Invocação]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_863f9c3d",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Arcanista]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Magia Distante]]",
+              "[[Repertório Expandido]]",
+              "[[Raio Arcano Intensificado]]",
+              "[[Infusão Luminosa]]",
+              "[[Guia Constante]]",
+              "[[Fluxo Dividido]]",
+              "[[Fluxo Ajustável]]",
+              "[[Magia Oculta]]",
+              "[[Escudo Residual]]",
+              "[[Contra-mágica]]",
+              "[[Conservar Invocação]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Arcanista]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Magia Distante]], [[Repertório Expandido]], [[Raio Arcano Intensificado]], [[Infusão Luminosa]], [[Guia Constante]], [[Fluxo Dividido]], [[Fluxo Ajustável]], [[Magia Oculta]], [[Escudo Residual]], [[Contra-mágica]], [[Conservar Invocação]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Truque Útil]], [[Sentido Artístico]], [[Triunfo!]], [[Performance Reforçante]], [[Performance Enervante]], [[Performance Acelerante]], [[Manobras Inspiradas]], [[Jeitinho de Bardo]], [[Entrada Dramática]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_ca13d4aa",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Bardo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Truque Útil]]",
+              "[[Sentido Artístico]]",
+              "[[Triunfo!]]",
+              "[[Performance Reforçante]]",
+              "[[Performance Enervante]]",
+              "[[Performance Acelerante]]",
+              "[[Manobras Inspiradas]]",
+              "[[Jeitinho de Bardo]]",
+              "[[Entrada Dramática]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Bardo]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Truque Útil]], [[Sentido Artístico]], [[Triunfo!]], [[Performance Reforçante]], [[Performance Enervante]], [[Performance Acelerante]], [[Manobras Inspiradas]], [[Jeitinho de Bardo]], [[Entrada Dramática]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Ambidestria]], [[Olho do Caçador]], [[Luta Cega]], [[Herbalismo Prático]], [[Especialista em Caçada]], [[Emboscada]], [[Ataque Móvel]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_e5e3a0c9",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Caçador]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Saque Rápido]]",
+              "[[Ambidestria]]",
+              "[[Olho do Caçador]]",
+              "[[Luta Cega]]",
+              "[[Herbalismo Prático]]",
+              "[[Especialista em Caçada]]",
+              "[[Emboscada]]",
+              "[[Ataque Móvel]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Caçador]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Ambidestria]], [[Olho do Caçador]], [[Luta Cega]], [[Herbalismo Prático]], [[Especialista em Caçada]], [[Emboscada]], [[Ataque Móvel]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voz de Comando]], [[Vantagem Numérica]], [[Tática de Abertura]], [[Sinergia Mágica Básica]], [[Reanalisar Combate]], [[Mitigar Dificuldades]], [[Levantar Ânimos]], [[Entravar]], [[Blindar]], [[Análise Cautelosa]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_a3dc1c9e",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Comandante]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Voz de Comando]]",
+              "[[Vantagem Numérica]]",
+              "[[Tática de Abertura]]",
+              "[[Sinergia Mágica Básica]]",
+              "[[Reanalisar Combate]]",
+              "[[Mitigar Dificuldades]]",
+              "[[Levantar Ânimos]]",
+              "[[Entravar]]",
+              "[[Blindar]]",
+              "[[Análise Cautelosa]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Comandante]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voz de Comando]], [[Vantagem Numérica]], [[Tática de Abertura]], [[Sinergia Mágica Básica]], [[Reanalisar Combate]], [[Mitigar Dificuldades]], [[Levantar Ânimos]], [[Entravar]], [[Blindar]], [[Análise Cautelosa]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Treinamento de Guardião]], [[Sentidos Apurados]], [[Investida Feral]], [[Forma Instintiva]], [[Forma Adicional]], [[Aspecto Ágil]], [[Aspecto Sagaz]], [[Aspecto Indômito]], [[Aspecto Elemental]], [[Oportunidade Feral]], [[Magia Feral]], [[Domínio de Formas]], [[Aspecto Colossal]], [[Aspecto Camuflado]], [[Maestria de Formas]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_619bd30e",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Druida]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Treinamento de Guardião]]",
+              "[[Sentidos Apurados]]",
+              "[[Investida Feral]]",
+              "[[Forma Instintiva]]",
+              "[[Forma Adicional]]",
+              "[[Aspecto Ágil]]",
+              "[[Aspecto Sagaz]]",
+              "[[Aspecto Indômito]]",
+              "[[Aspecto Elemental]]",
+              "[[Oportunidade Feral]]",
+              "[[Magia Feral]]",
+              "[[Domínio de Formas]]",
+              "[[Aspecto Colossal]]",
+              "[[Aspecto Camuflado]]",
+              "[[Maestria de Formas]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Druida]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Treinamento de Guardião]], [[Sentidos Apurados]], [[Investida Feral]], [[Forma Instintiva]], [[Forma Adicional]], [[Aspecto Ágil]], [[Aspecto Sagaz]], [[Aspecto Indômito]], [[Aspecto Elemental]], [[Oportunidade Feral]], [[Magia Feral]], [[Domínio de Formas]], [[Aspecto Colossal]], [[Aspecto Camuflado]], [[Maestria de Formas]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_2548d3c9",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Guerreiro]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Ambidestria]]",
+              "[[Aparar]]",
+              "[[Ataque Multidisciplinar]]",
+              "[[Ataque Poderoso]]",
+              "[[Avanço Defensivo]]",
+              "[[Bloqueio Agressivo]]",
+              "[[Bravura]]",
+              "[[Disparo Múltiplo]]",
+              "[[Disparo Suporte]]",
+              "[[Oportunidade Especializada]]",
+              "[[Preparado]]",
+              "[[Protetor]]",
+              "[[Tiro a Queima Roupa]]",
+              "[[Trespassar]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Guerreiro]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Aparar]], [[Ataque Multidisciplinar]], [[Ataque Poderoso]], [[Avanço Defensivo]], [[Bloqueio Agressivo]], [[Bravura]], [[Disparo Múltiplo]], [[Disparo Suporte]], [[Oportunidade Especializada]], [[Preparado]], [[Protetor]], [[Tiro a Queima Roupa]], [[Trespassar]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Retirada]], [[Posicionamento Conveniente]], [[Girar a Faca]], [[Gatuno]], [[Envenenador Nato]], [[Cambalhota Estratégica]], [[Aproveitar o Medo]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_bd72d8e6",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Ladino]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Saque Rápido]]",
+              "[[Retirada]]",
+              "[[Posicionamento Conveniente]]",
+              "[[Girar a Faca]]",
+              "[[Gatuno]]",
+              "[[Envenenador Nato]]",
+              "[[Cambalhota Estratégica]]",
+              "[[Aproveitar o Medo]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Ladino]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Saque Rápido]], [[Retirada]], [[Posicionamento Conveniente]], [[Girar a Faca]], [[Gatuno]], [[Envenenador Nato]], [[Cambalhota Estratégica]], [[Aproveitar o Medo]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Segundo Armamento]],[[Escudo Arcano]], [[Conjuração Móvel]], [[Bainha Mágica]], [[Avaliação Arcana Aplicada ao Combate]], [[Arquearia Arcana]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_a874ca4e",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Mago]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Segundo Armamento]]",
+              "[[Escudo Arcano]]",
+              "[[Conjuração Móvel]]",
+              "[[Bainha Mágica]]",
+              "[[Avaliação Arcana Aplicada ao Combate]]",
+              "[[Arquearia Arcana]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Segundo Armamento]],[[Escudo Arcano]], [[Conjuração Móvel]], [[Bainha Mágica]], [[Avaliação Arcana Aplicada ao Combate]], [[Arquearia Arcana]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voadora]], [[Técnica Elemental]], [[Movimentação Aprimorada]], [[Mente Limpa]], [[Manobras Esmagadoras]], [[Especialista em Fisicalidade]], [[Desviar Projétil]], [[Arma Monástica]])",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Classe Secundária",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Técnica Adepta Secundária",
+              "choiceKey": "__esc_h_62aebebf",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Monge]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Tecnicas.Lista",
+            "options": [
+              "[[Voadora]]",
+              "[[Técnica Elemental]]",
+              "[[Movimentação Aprimorada]]",
+              "[[Mente Limpa]]",
+              "[[Manobras Esmagadoras]]",
+              "[[Especialista em Fisicalidade]]",
+              "[[Desviar Projétil]]",
+              "[[Arma Monástica]]"
+            ],
+            "label": "Técnica Adepta Secundária"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Monge]]) Escolha_Habilidades \"Técnica Adepta Secundária\" Complementar Tecnicas.Lista Selecionar ([[Voadora]], [[Técnica Elemental]], [[Movimentação Aprimorada]], [[Mente Limpa]], [[Manobras Esmagadoras]], [[Especialista em Fisicalidade]], [[Desviar Projétil]], [[Arma Monástica]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Distante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ressonância Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Familiar Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Expandir Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Adicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Criar Runa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Natural",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Repertório Expandido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Raio Arcano Intensificado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Infusão Luminosa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guia Constante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fluxo Dividido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fluxo Ajustável",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Oculta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Residual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contra-mágica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conservar Invocação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Truque Útil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentido Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Triunfo!",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Reforçante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Enervante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Acelerante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manobras Inspiradas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jeitinho de Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Entrada Dramática",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Saque Rápido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ambidestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Olho do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luta Cega",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Herbalismo Prático",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialista em Caçada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Emboscada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Móvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voz de Comando",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem Numérica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tática de Abertura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sinergia Mágica Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reanalisar Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mitigar Dificuldades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar Ânimos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Entravar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Blindar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Análise Cautelosa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Guardião",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos Apurados",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Investida Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Instintiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Adicional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Sagaz",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Indômito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Domínio de Formas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Colossal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Camuflado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maestria de Formas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Multidisciplinar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Poderoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avanço Defensivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloqueio Agressivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bravura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Suporte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oportunidade Especializada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preparado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Protetor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tiro a Queima Roupa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trespassar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Retirada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Posicionamento Conveniente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Girar a Faca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gatuno",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Envenenador Nato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota Estratégica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aproveitar o Medo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Segundo Armamento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conjuração Móvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bainha Mágica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avaliação Arcana Aplicada ao Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arquearia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação Aprimorada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mente Limpa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manobras Esmagadoras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialista em Fisicalidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desviar Projétil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Monástica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]],[[Arcanista]],[[Bardo]],[[Caçador]],[[Comandante]],[[Druida]],[[Guerreiro]],[[Ladino]],[[Mago]],[[Monge]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você aprende uma técnica adepta da sua classe secundária.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende uma técnica adepta da sua classe secundária.\n\n```autosheet-rules\n```\n"
+}

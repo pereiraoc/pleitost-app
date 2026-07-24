@@ -1,0 +1,211 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Druida",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Druida.md",
+  "basename": "Treinamento de Druida",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Druídico\"",
+      "Nivel 1 Complementar Habilidades.Lista [[Forma Feral Menor]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Aspecto Feral]]",
+      "Nivel 4 Definir Magias.EM 2",
+      "Nivel 7 Definir Magias.EM 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Druídico\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Druida",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Druídico"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Druídico\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Forma Feral Menor]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Druida",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Forma Feral Menor]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Forma Feral Menor]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Aspecto Feral]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Druida",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Aspecto Feral]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Aspecto Feral]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Magias.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Druida",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 4 Definir Magias.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Druida",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 7 Definir Magias.EM 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Forma Feral Menor",
+      "kind": "wikilink",
+      "alias": "Forma Feral"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer INT 2, conta como Técnica Adepta para outras classes*\n\nVocê desperta sua energia feral da natureza, abraçando os ensinamentos druídicos.\n\nVocê recebe a habilidade [[Forma Feral Menor|Forma Feral]]. Suas formas não se beneficiam da [[Resistências|Resistência]] da forma e não tem os benefícios e ações citados em **habilidades**.\n\nNo 4º nível, você recebe a habilidade [[Aspecto Feral]] e sua [[Energia Mágica|EM]] máxima se torna 2.\n\nNo 7º nível, sua [[Energia Mágica|EM]] aumenta para 3 e você se torna [[Experiente]] em proficiência druídica.\n\nVocê pode escolher Técnicas Adeptas de Druida no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Druida no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

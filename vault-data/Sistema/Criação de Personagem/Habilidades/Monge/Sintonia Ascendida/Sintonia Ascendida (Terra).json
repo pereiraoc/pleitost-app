@@ -1,0 +1,84 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Terra)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Terra).md",
+  "basename": "Sintonia Ascendida (Terra)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Sintonia Profunda (Terra)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora escudo natural e bloqueio causa dano.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Terra)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida (Terra)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Sintonia Profunda (Terra)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Terra)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Terra)",
+      "kind": "wikilink",
+      "alias": "Escudo Natural"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink",
+      "alias": "bloqueia"
+    },
+    {
+      "target": "Sintonia Profunda (Terra)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora escudo natural e bloqueio causa dano.\"\n%%\n##### `= this.file.name`\nSuas proteções se tornam mais rígidas que já são. O limite de danos do seu [[Corpo em Sintonia (Terra)|Escudo Natural]] aumenta para 8 e, quando você [[Bloquear com Escudo|bloqueia]] com seu Escudo Natural, causa 4 de dano de contusão ao inimigo que teve o ataque bloqueado.\n\n```autosheet-rules\n```\n"
+}

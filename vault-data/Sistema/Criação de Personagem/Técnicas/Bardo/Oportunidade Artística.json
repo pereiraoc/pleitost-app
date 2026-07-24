@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Oportunidade Artística",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Oportunidade Artística.md",
+  "basename": "Oportunidade Artística",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando um aliado que consegue te ver ou ouvir e está em até 6q de você faz um [[Ataque de Oportunidade]], você pode, como uma reação, dramatizar o ataque, aumentando seu efeito. Você realiza um teste de [[Atuação]] contra a [[CD|CD-Nível]] da criatura alvejada. **Sucesso:** O aliado recebe [[Vantagem de Combate]] para o [[Ataque de Oportunidade]] e causa 1d6+3 de dano mental adicional caso tenha sucesso. **Sucesso Decisivo:** Como sucesso, mas o dano extra aumenta para 2d6+3. **Falha:** O aliado causa 1d6+3 de dano mental adicional caso tenha sucesso no [[Ataque de Oportunidade]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando um aliado que consegue te ver ou ouvir e está em até 6q de você faz um [[Ataque de Oportunidade]], você pode, como uma reação, dramatizar o ataque, aumentando seu efeito. Você realiza um teste de [[Atuação]] contra a [[CD|CD-Nível]] da criatura alvejada. **Sucesso:** O aliado recebe [[Vantagem de Combate]] para o [[Ataque de Oportunidade]] e causa 1d6+3 de dano mental adicional caso tenha sucesso. **Sucesso Decisivo:** Como sucesso, mas o dano extra aumenta para 2d6+3. **Falha:** O aliado causa 1d6+3 de dano mental adicional caso tenha sucesso no [[Ataque de Oportunidade]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Oportunidade Artística.\n\n**Oportunidade Artística - R**\nQuando um aliado que consegue te ver ou ouvir e está em até 6q de você faz um [[Ataque de Oportunidade]], você pode, como uma reação, dramatizar o ataque, aumentando seu efeito. Você realiza um teste de [[Atuação]] contra a [[CD|CD-Nível]] da criatura alvejada.\n\n**Sucesso:** O aliado recebe [[Vantagem de Combate]] para o [[Ataque de Oportunidade]] e causa 1d6+3 de dano mental adicional caso tenha sucesso.\n**Sucesso Decisivo:** Como sucesso, mas o dano extra aumenta para 2d6+3.\n**Falha:** O aliado causa 1d6+3 de dano mental adicional caso tenha sucesso no [[Ataque de Oportunidade]].\n**Falha Decisiva:** Nada acontece.\n\n```autosheet-rules\n```\n"
+}

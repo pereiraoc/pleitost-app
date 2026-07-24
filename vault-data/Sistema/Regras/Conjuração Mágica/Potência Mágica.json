@@ -1,0 +1,27 @@
+{
+  "id": "Sistema/Regras/Conjuração Mágica/Potência Mágica",
+  "path": "Sistema/Regras/Conjuração Mágica/Potência Mágica.md",
+  "basename": "Potência Mágica",
+  "type": "Regra",
+  "subtype": "Potência Mágica",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "PM"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Potência Mágica",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Potência Mágica"
+    }
+  ],
+  "body": "### Potência Mágica\nVocê tem um valor de potência mágica dependendo da sua aptidão mágica para cada tipo de magia. Potência mágica é sempre associada a classe ou habilidade que garante magias. Você pode ter valores diferentes de potência mágica para cada magia, dependendo de qual habilidade proveu acesso a aquela magia. Potência mágica define o quão eficaz é a magia utilizada, seja duração, dano ou outro efeito. Cada magia que depende de potência mágica informa onde ela é considerada."
+}

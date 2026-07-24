@@ -1,0 +1,109 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Ato Restaurador",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Ato Restaurador.md",
+  "basename": "Ato Restaurador",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Ato Restaurador]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Ato Restaurador",
+        "tipo": "AçãoLocal",
+        "origem": "Técnica",
+        "escopo": {
+          "aplicaEm": "Ambos",
+          "compartilharGrupo": true
+        },
+        "visual": {
+          "iconeLigado": "🎶",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "requer": [
+            "Performance Bárdica Ativa"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"(2 EM ou RM) Você e aliados em 10q afetados pela performance recuperam 3d6+2×[[Presença|PRE]] [[Energia Heroica|EH]]. Esse valor aumenta para 4d6+3×[[Presença|PRE]] no 7º nível.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Restaurador]]",
+      "parsed": [
+        {
+          "sourceNote": "Ato Restaurador",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Restaurador]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Restaurador]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Ato Bárdico"
+    },
+    {
+      "target": "Ato Restaurador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"(2 EM ou RM) Você e aliados em 10q afetados pela performance recuperam 3d6+2×[[Presença|PRE]] [[Energia Heroica|EH]]. Esse valor aumenta para 4d6+3×[[Presença|PRE]] no 7º nível.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende o [[Performance Bárdica|Ato Bárdico]] Ato Restaurador. Ato Restaurador pode ser utilizado como parte de qualquer performance que afeta somente aliados.\n\n**Ato Restaurador - 2A (2 EM)** - Você e aliados em 10q afetados pela performance recuperam 3d6+2×[[Presença|PRE]] [[Energia Heroica|EH]]. Esse valor aumenta para 4d6+3×[[Presença|PRE]] no 7º nível.\n\n```autosheet-rules\n```\n"
+}

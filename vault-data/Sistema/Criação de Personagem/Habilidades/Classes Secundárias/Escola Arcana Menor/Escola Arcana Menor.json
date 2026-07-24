@@ -1,0 +1,99 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor.md",
+  "basename": "Escola Arcana Menor",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Escola Arcana Menor (Estudos do Vazio)]], [[Escola Arcana Menor (Aplicações da Luz)]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Treinamento de Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Escolhe uma escola arcana.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Escola Arcana Menor (Estudos do Vazio)]], [[Escola Arcana Menor (Aplicações da Luz)]])",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_c1fb62ce",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Escola Arcana Menor (Estudos do Vazio)]]",
+              "[[Escola Arcana Menor (Aplicações da Luz)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Escola Arcana Menor (Estudos do Vazio)]], [[Escola Arcana Menor (Aplicações da Luz)]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Estudos do Vazio)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Escola Arcana Menor (Aplicações da Luz)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Escola Arcana Menor (Estudos do Vazio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Aplicações da Luz)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Treinamento de Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Escolhe uma escola arcana.\"\n%%\n#### `= this.file.name`\n![[Escola Arcana Menor (Estudos do Vazio)#`= this.file.name`]]\n![[Escola Arcana Menor (Aplicações da Luz)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

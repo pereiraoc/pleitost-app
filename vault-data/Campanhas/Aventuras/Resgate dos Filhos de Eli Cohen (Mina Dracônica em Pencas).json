@@ -1,0 +1,28 @@
+{
+  "id": "Campanhas/Aventuras/Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)",
+  "path": "Campanhas/Aventuras/Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas).md",
+  "basename": "Resgate dos Filhos de Eli Cohen (Mina Dracônica em Pencas)",
+  "type": "Aventura",
+  "subtype": "Resgate",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Resgate",
+    "rank": "C",
+    "disponivel": [
+      "[[Pencas]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Resgate dos Filhos de Eli Cohen\n\nRecompensa:\n- Marcas: 6\n- Ouro: {min: 50, max: 100}\n- Extra: \"Pergaminho de Fluxo de Vida (por salvar Brafor)\"\nObjetivo:\n- \"Descobrir o que aconteceu com os filhos de Eli Cohen e trazê-los de volta.\"\nLocal:\n- \"[[Pencas]] (Mina Dracônica a 30min da cidade)\"\nContato: \"Eli Cohen\"\nFinanciador: \"Eli Cohen\"\n```\n"
+}

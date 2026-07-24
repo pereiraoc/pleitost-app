@@ -1,0 +1,99 @@
+{
+  "id": "Sistema/Regras/Combate/Morte",
+  "path": "Sistema/Regras/Combate/Morte.md",
+  "basename": "Morte",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Morta, Morto, Mortes",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Resolução]]",
+    "next": "[[Morte]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resolução",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arrastar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inconsciente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Primeiros Socorros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Morte"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Resolução]]\nnext:: [[Morte]]\n%%\n## Morte\nAo ficar com [[Energia Vital|EV]] 0 ou menos, o personagem continua capaz, mas em estado crítico ([[Morrendo]]).\nNesse estado, o número de ações que o personagem recebe no início do turno é reduzido em 1 caso a [[Energia Vital|EV]] estiver 0 ou em um valor negativo até a metade da [[Energia Vital|EV]] máxima, e reduzido em 2 caso esteja mais negativo. Essa redução de ações acumula com [[Lento]].\n\nUm personagem nesse estado perde 1d4 [[Energia Vital|EV]] para cada ação ou reação realizada (uma atividade de duas ações te faz perder 2d4 [[Energia Vital|EV]]; 3 ações, 3d4). As ações [[Mover]], até um máximo de metade da sua [[Movimentação]], [[Levantar]], [[Arrastar-se]] e [[Interagir]] com objetos são exceções que não impõem a perda de [[Energia Vital|EV]].\nSe sua [[Energia Vital|EV]] chegar a um valor negativo igual a sua [[Energia Vital|EV]] máxima, você fica [[Inconsciente]] e [[Caído]], e, não sendo estabilizado (por [[Primeiros Socorros]] ou um efeito que recupere [[Energia Vital|EV]]) em 1 turno, você morre.\nApós cair, você somente recupera a consciência se sua [[Energia Vital|EV]] for recuperada até seu máximo ou se você ficar com [[Energia Vital|EV]] positiva por ao menos 10 minutos.\n\n%%\nQuando sua [[Energia Vital]] é reduzida a 0 ou menos, você está morrendo. Um personagem morrendo fica [[Inconsciente]], [[Caído]] e perde 1d4 [[Energia Vital|EV]] no início de seus turnos. A ordem de iniciativa do personagem muda para uma posição antes do turno que seu [[Energia Vital|EV]] se torna 0 ou menos.\nUm personagem com [[Energia Vital|EV]] negativa não pode recuperar [[Energia Heroica|EH]], mas pode receber [[Energia Heroica|EH]] temporária.\nUm personagem pode ser estabilizado pela ação de [[Medicina]] [[Primeiros Socorros]] ou ao receber qualquer recuperação de [[Energia Vital|EV]]. Um personagem estabilizado não perde [[Energia Vital|EV]] no início do seu turno mas continua inconsciente. Se sua [[Energia Vital|EV]] chegar a um valor negativo igual a sua [[Energia Vital|EV]] máxima, você morre. \n%%\n\n%%\nAssim como normalmente, um personagem com [[Energia Vital|EV]] negativa não pode recuperar [[Energia Heroica|EH]], mas pode receber [[Energia Heroica|EH]] temporária.\n%%\n\n```autosheet-rules\n```\n"
+}

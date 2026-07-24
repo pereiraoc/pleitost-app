@@ -1,0 +1,320 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate (Luta Artística)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/Estilo de Combate (Luta Artística).md",
+  "basename": "Estilo de Combate (Luta Artística)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+      "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Alias Classe Compor 2 \"de Luta Artística\"",
+      "Somar Papel.Abatedor 1"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Auto-Confiança",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "modificadores": [
+          {
+            "somar": "Pericia(Acrobacia)",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Você se torna proficiente em armas com a propriedade [[Precisa]] e [[Arco Curto]]. Adepto em [[Evasão]]. Armas são instrumentos musicais para você. [[Auto-Confiança]] melhora [[Cambalhota]]."
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Adaga de Duelo]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Curta]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Curva]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Punhal]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Rapieira]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco Curto]]"
+          },
+          "raw": "Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 2 \"de Luta Artística\"",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 2,
+            "fragment": "de Luta Artística"
+          },
+          "raw": "Alias Classe Compor 2 \"de Luta Artística\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Combate (Luta Artística)",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Abatedor 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: Você se torna proficiente em armas com a propriedade [[Precisa]] e [[Arco Curto]]. Adepto em [[Evasão]]. Armas são instrumentos musicais para você. [[Auto-Confiança]] melhora [[Cambalhota]].\n%%\n##### `= this.file.name`\nVocê combina arte e luta, recebendo os seguintes benefícios:\n* Você se torna proficiente em armas com a propriedade [[Precisa]] e [[Arco Curto]];\n* Você se torna [[Adepto]] em [[Evasão]];\n* Você pode usar armas como um instrumento musical;\n* [[Auto-Confiança]] também garante +1 de [[Bônus de Condição|bônus de condição]] para [[Acrobacia]].\n\n```autosheet-rules\n```\n"
+}

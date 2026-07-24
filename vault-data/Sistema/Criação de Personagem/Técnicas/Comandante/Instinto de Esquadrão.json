@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Instinto de Esquadrão",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Instinto de Esquadrão.md",
+  "basename": "Instinto de Esquadrão",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Uma vez por turno, quando você usa uma habilidade de [[Comandos de Batalha]] que requer uma reação por parte dos aliados alvo, um destes recebe uma reação extra que pode ser usada como parte do comando.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Uma vez por turno, quando você usa uma habilidade de [[Comandos de Batalha]] que requer uma reação por parte dos aliados alvo, um destes recebe uma reação extra que pode ser usada como parte do comando.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê treina seus aliados para responder instintivamente a seus comandos. Uma vez por turno, quando você usa uma habilidade de [[Comandos de Batalha]] que requer uma reação por parte dos aliados alvo, um destes recebe uma reação extra que pode ser usada como parte do comando. Essa reação extra é perdida caso não seja usada para o comando.\n\n```autosheet-rules\n```\n"
+}

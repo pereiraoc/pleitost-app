@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Intuir Direção",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Intuir Direção.md",
+  "basename": "Intuir Direção",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "60 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Sobrevivência]]\"",
+    "propriedades": "",
+    "resumo": "\"Orienta-se na natureza para navegação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Sobrevivência]]\"\npropriedades:: \nresumo:: \"Orienta-se na natureza para navegação.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Sobrevivência]] contra a [[CD]] da tarefa.\n\n```autosheet-rules\n```\n"
+}

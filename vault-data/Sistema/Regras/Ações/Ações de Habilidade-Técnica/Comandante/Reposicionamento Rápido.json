@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Reposicionamento Rápido",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Reposicionamento Rápido.md",
+  "basename": "Reposicionamento Rápido",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Reposicionamento Rápido",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "L",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"1 vez por turno, role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode [[Mover|Mover-se]] metade do movimento e ganha [[bônus de circunstância]] na [[Defesa]] durante o movimento igual ao resultado do dado. Não pode usar no mesmo turno em que o aliado foi alvo de [[Reposicionar]] (e vice-versa).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"1 vez por turno, role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele pode [[Mover|Mover-se]] metade do movimento e ganha [[bônus de circunstância]] na [[Defesa]] durante o movimento igual ao resultado do dado. Não pode usar no mesmo turno em que o aliado foi alvo de [[Reposicionar]] (e vice-versa).\"\n%%\n### `= this.file.name` - `= this.custo`\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, [[Mover|Mover-se]] metade do seu movimento. Adicione o resultado do dado como um [[bônus de circunstância]] na [[Defesa]] do aliado durante o movimento. Reposicionamento Rápido pode ser usado uma vez por turno. Um aliado que foi alvo de [[Reposicionar]] não pode ser alvo de Reposicionamento Rápido no mesmo turno e vice-versa. Reposicionamento Rápido conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

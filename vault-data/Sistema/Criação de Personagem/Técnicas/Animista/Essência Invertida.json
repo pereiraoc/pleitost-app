@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Invertida",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Essência Invertida.md",
+  "basename": "Essência Invertida",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manipular uma essência oposta usando sua sintonia. Você recebe acesso a uma [[Essências Elementais|Essência Elemental]] do elemento oposto a sua sintonia, você pode conjurar a forma Básica e Adepta desta essência. \n\nOs efeitos das formas conjuradas dessa essência funcionam normalmente, mas você manifesta essa força elemental de forma fora do usual. Um Animista de Água pode manifestar uma essência de Fogo fazendo vapor quente, um Animista de Terra manifestaria uma essência de vento manipulando areia, etc...\n\n| Sintonia | Elemento Oposto |\n| -------- | --------------- |\n| Fogo     | Água            | \n| Água     | Fogo            |\n| Vento    | Terra           |\n| Terra    | Vento           |\n\n```autosheet-rules\n```\n"
+}

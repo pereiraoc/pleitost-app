@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Esconder-se",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Esconder-se.md",
+  "basename": "Esconder-se",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Furtividade]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta esconder-se.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink",
+      "alias": "Cobertura Média"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Furtividade]]\"\npropriedades:: \nresumo:: \"Tenta esconder-se.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Furtividade]] vs [[Percepção]] das criaturas que te observam. Esse teste sempre falha para criaturas que você não tem [[Cobertura|Cobertura Média]] contra. Se torna [[Escondido]] contra as criaturas que seu teste teve sucesso.\n\n```autosheet-rules\n```\n"
+}

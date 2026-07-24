@@ -1,0 +1,161 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Anel Canário",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Anel Canário.md",
+  "basename": "Anel Canário",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Bônus de [[Enganação]]. Distrai inimigos como reação.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Enganação. Pode reagir para dar VdC ao ataque de um aliado contra criatura em 3q (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Enganação. Pode reagir para dar VdC ao ataque de um aliado contra criatura em 6q ou 50% de chance de inimigo errar (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Enganação. Pode reagir para dar VdC ao ataque de um aliado contra criatura em 6q ou 50% de chance de inimigo errar apos acertar (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Enganacao.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Anel Canário",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Anel Canário",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Enganacao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Anel Canário",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Enganacao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - anel*\nEste anel tem imagens de canários gravados, que parecem cantar quando observados atentamente. Ele produz sons ambientes, seja para tranquilizar ou distrair.\n* Adepto: +1 de [[bônus de item]] em testes de [[Enganação]]. Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura em até 3q de você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque.\n* Experiente: +2 de [[bônus de item]] em testes de [[Enganação]]. Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura em até 6q de você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque. Alternativamente, você também pode ativar esse item quando um aliado em 6q é alvejado com um [[Atacar|Ataque]] de um inimigo, você garante 50% de chance de falha para esse ataque.\n* Mestre: +3 de [[bônus de item]] em testes de [[Enganação]].  Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura em até 10q de você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque. Alternativamente, você também pode ativar esse item quando um inimigo tem sucesso em um [[Atacar|Ataque]] contra um aliado em 6q, o que garante 50% de chance do ataque ter acertado uma imagem falsa, negando o dano.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

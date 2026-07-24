@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Sem Fuga",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Sem Fuga.md",
+  "basename": "Sem Fuga",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Inimigos fazendo [[Passo de Ajuste|Passos de Ajuste]] provocam [[Ataque de Oportunidade|Ataques de Oportunidade]] para você.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink",
+      "alias": "Passos de Ajuste"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "Ataques de Oportunidade"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Inimigos fazendo [[Passo de Ajuste|Passos de Ajuste]] provocam [[Ataque de Oportunidade|Ataques de Oportunidade]] para você.\"\n%%\n#### `= this.file.name` - `= this.rank`\nInimigos fazendo [[Passo de Ajuste|Passos de Ajuste]] provocam [[Ataque de Oportunidade|Ataques de Oportunidade]] para você.\n\n```autosheet-rules\n```\n"
+}

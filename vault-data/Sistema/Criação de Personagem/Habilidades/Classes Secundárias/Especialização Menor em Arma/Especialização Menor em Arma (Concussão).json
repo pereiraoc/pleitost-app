@@ -1,0 +1,86 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Concussão)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Concussão).md",
+  "basename": "Especialização Menor em Arma (Concussão)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização Menor em Arma (Concussão)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Maça]]",
+            "[[Tacape]]",
+            "[[Maça Estrela]]",
+            "[[Martelo de Guerra]]",
+            "[[Picareta de Guerra]]",
+            "[[Malho]]"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Você se torna especializado em armas do grupo Concussão para fins de requisito e condicionais de técnicas e habilidades de Guerreiro."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça Estrela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Martelo de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malho",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Você se torna especializado em armas do grupo Concussão para fins de requisito e condicionais de técnicas e habilidades de Guerreiro.\n%%\n#### `= this.file.name`\nVocê se torna especializado em armas do grupo Concussão para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Concussão      | [[Maça]], [[Tacape]], [[Maça Estrela]], [[Martelo de Guerra]], [[Picareta de Guerra]], [[Malho]] |\n\n```autosheet-rules\n```\n"
+}

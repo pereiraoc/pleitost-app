@@ -1,0 +1,822 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Arcanista",
+  "path": "Sistema/Criação de Personagem/Classes/Arcanista.md",
+  "basename": "Arcanista",
+  "type": "Classe",
+  "subtype": "Conjurador",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": "Conjurador",
+    "atributo-chave": "INT",
+    "dg-publish": true,
+    "Imagem": "[[Arcanista.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Arcanista\"",
+      "Nivel 1 Definir Vida.Vitalidade 10",
+      "Nivel 1 Definir Vida.Moral 20",
+      "Nivel 1 Restringir Atributos.Principal INT",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Princípios Arcanos]]",
+      "Nivel 2 Somar Magias.Slots.A 1",
+      "Nivel 3 Somar Magias.Slots.A 1",
+      "Nivel 4 Complementar Habilidades.Lista [[Arcanologista]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Prática Avançada]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Campo de Força]]",
+      "Nivel 5 Somar Magias.Slots.E 1",
+      "Nivel 6 Somar Magias.Slots.E 1",
+      "Nivel 7 Complementar Habilidades.Lista [[Mestre-Arcanista]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Prática Excepcional]]",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Arcana.Proficiencia A"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Arcanista\"",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Arcanista"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Arcanista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "10"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 20",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "20"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 20",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Restringir Atributos.Principal INT",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "INT"
+            ]
+          },
+          "raw": "Nivel 1 Restringir Atributos.Principal INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Escola Arcana]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Escola Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Princípios Arcanos]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Princípios Arcanos]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Princípios Arcanos]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 2 Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 2 Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 3 Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Arcanologista]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Arcanologista]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Arcanologista]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Prática Avançada]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Prática Avançada]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Prática Avançada]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Campo de Força]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Campo de Força]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Campo de Força]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 6 Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 6
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 6 Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Arcanista]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Mestre-Arcanista]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Arcanista]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Prática Excepcional]]",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Prática Excepcional]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Prática Excepcional]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Arcana.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Arcanista",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Arcana.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Princípios Arcanos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanologista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Arcano Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre-Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Excepcional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Princípios Arcanos",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Arcanologista",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Prática Avançada",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Campo de Força",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Arcano Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Mestre-Arcanista",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Prática Excepcional",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Arcanista.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Arcanista.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Arcanista.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Arcanista"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Básicas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Adeptas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Experientes"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Mestre"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Arcanista.jpeg|right|profile|250]]\n#  `= this.file.name`\n\nArcanistas são os principais praticantes de magia Arcana, manipulando a entropia elemental presente no mundo e nas criaturas para criar fenômenos que exaltam a força de seus aliados ou suprimem a vontade de lutar dos inimigos.\n\n```class-roles\n[\"Espiritualista\", { \"Líder\": 3 }],\n[\"Bruxo\", { \"Controlador\": 3 }]\n```\n\n## Características de Classe\n**[[Energia Vital|EV]]:** 10\n**[[Energia Heroica|EH]]:** 20\n\n**[[Atributos|Atributo de Classe]]:** [[Inteligência|INT]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Arcana]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em [[Inteligência|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]]\n\n**[[Resistências]]:** [[Adepto]] em [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Intuição]]\n\n| Nível | Habilidades de Classe                                       |\n|:-----:| ----------------------------------------------------------- |\n|  1º   | [[Escola Arcana]], [[Princípios Arcanos]]                   |\n|  2º   | [[Conhecimento Arcano Adepto]], [[Técnica Adepta]]          |\n|  3º   | [[Conhecimento Arcano Adepto]], [[Técnica Adepta]]          |\n|  4º   | [[Arcanologista]], [[Prática Avançada]], [[Campo de Força]] |\n|  5º   | [[Conhecimento Arcano Experiente]], [[Técnica Experiente]]  |\n|  6º   | [[Conhecimento Arcano Experiente]], [[Técnica Experiente]]  |\n|  7º   | [[Mestre-Arcanista]], [[Prática Excepcional]]               | \n\n![[Escola Arcana#`= this.file.name`]]\n![[Princípios Arcanos#`= this.file.name`]]\n![[Conhecimento Arcano Adepto#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n\n![[Arcanologista#`= this.file.name`]]\n![[Prática Avançada#`= this.file.name`]]\n![[Campo de Força#`= this.file.name`]]\n![[Conhecimento Arcano Experiente#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n![[Mestre-Arcanista#`= this.file.name`]]\n![[Prática Excepcional#`= this.file.name`]]\n\n---\n\n#### Técnicas de Arcanista\n\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  subclasse as \"Escola\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc, subclasse asc\n```\n\n---\n\n#### Magias Arcanas Básicas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Arcana\",\n  escola AS \"Escola\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT escola ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Arcana\" and rank=\"Básica\" and escola!=\"Especial\"\n```\n\n#### Magias Arcanas Adeptas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Arcana\",\n  escola AS \"Escola\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT escola ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Arcana\" and rank=\"Adepta\"\n```\n\n#### Magias Arcanas Experientes\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Arcana\",\n  escola AS \"Escola\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT escola ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Arcana\" and rank=\"Experiente\"\n```\n\n#### Magias Arcanas Mestre\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Arcana\",\n  escola AS \"Escola\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT escola ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Arcana\" and rank=\"Mestre\"\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,249 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.2-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.2-alpha.md",
+  "basename": "Release Notes v0.4.2-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Especialização em Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maestria em Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Caçadora Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Aplicações da Luz)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escola Arcana Menor (Estudos do Vazio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Orc",
+      "kind": "wikilink",
+      "alias": "Orc Médio"
+    },
+    {
+      "target": "Sistema/Equipamento/Armas/Lâminas/Espada Longa",
+      "kind": "wikilink",
+      "alias": "Espada Longa"
+    },
+    {
+      "target": "Especialização em Arma (Lâminas)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Incendiária",
+      "kind": "wikilink",
+      "alias": "Incendiária"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X",
+      "kind": "wikilink"
+    },
+    {
+      "target": "<arma>",
+      "kind": "wikilink"
+    },
+    {
+      "target": "parent",
+      "kind": "wikilink"
+    },
+    {
+      "target": "base",
+      "kind": "wikilink",
+      "alias": "display"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.4.2-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🎯 Combat Tracker absorvido pelo Autosheet (#170)"
+    },
+    {
+      "level": 3,
+      "text": "👥 Ficha de Grupo absorvida pelo Autosheet (#176)"
+    },
+    {
+      "level": 3,
+      "text": "💾 Ficha Interativa salva sozinha (#172)"
+    },
+    {
+      "level": 3,
+      "text": "⚙️ Bônus tipados: Status, Circunstância, Especialização, Item, Único (#171)"
+    },
+    {
+      "level": 3,
+      "text": "🗡️ Inventário e Ataques unificados internamente"
+    },
+    {
+      "level": 3,
+      "text": "🏃 Classes Secundárias — rules + ações novas"
+    },
+    {
+      "level": 3,
+      "text": "👹 Bestiário — Classes ganham descrição + balance"
+    },
+    {
+      "level": 3,
+      "text": "⚔️ Lutando com Duas Armas — rework"
+    },
+    {
+      "level": 3,
+      "text": "🎭 Forma Feral — armas naturais ativas vão pro ataque"
+    },
+    {
+      "level": 3,
+      "text": "🛡️ Guerreiro — rebalance de papel"
+    },
+    {
+      "level": 3,
+      "text": "🪟 Avatar preview funciona em mobile/narrow (#173)"
+    },
+    {
+      "level": 3,
+      "text": "🐛 Bugs reportados em fichas reais"
+    },
+    {
+      "level": 3,
+      "text": "🧠 Bugs de regra que afetavam fichas existentes"
+    },
+    {
+      "level": 3,
+      "text": "🌐 CSS"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Schema `tipoBonus` em Efeitos_Interativos (#171)"
+    },
+    {
+      "level": 3,
+      "text": "Novo verbo `Senão` pra `Condicional`"
+    },
+    {
+      "level": 3,
+      "text": "Novas categorias de notas no vault"
+    },
+    {
+      "level": 3,
+      "text": "Schema FM novo: `Inventario.Armas` é objeto"
+    },
+    {
+      "level": 3,
+      "text": "Mudanças de mecânica / regras desta versão"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas nesta versão"
+    },
+    {
+      "level": 2,
+      "text": "🚧 Próximas (não nesta versão)"
+    },
+    {
+      "level": 1,
+      "text": "🛠️ Parte técnica (plugin `pleitost-autosheet` v1.2.0)"
+    },
+    {
+      "level": 2,
+      "text": "Combat Tracker — absorção (#170)"
+    },
+    {
+      "level": 2,
+      "text": "Ficha de Grupo — absorção (#176)"
+    },
+    {
+      "level": 2,
+      "text": "Auto-save Ficha Interativa (#172)"
+    },
+    {
+      "level": 2,
+      "text": "Bônus tipados (#171)"
+    },
+    {
+      "level": 2,
+      "text": "Refactor unificação `Inventario.Armas` ↔ `Ataques.Lista`"
+    },
+    {
+      "level": 2,
+      "text": "Pick persistence cross-session pra escolha-pericia-especial"
+    },
+    {
+      "level": 2,
+      "text": "Materializa `__alias__` deltas em wikilinks (#175)"
+    },
+    {
+      "level": 2,
+      "text": "Avatar preview em narrow viewport (#173)"
+    },
+    {
+      "level": 2,
+      "text": "Cobertura de testes"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.4.1-alpha...v0.4.2-alpha\n\n# 📦 Release Notes — Pleitost v0.4.2-alpha\n\n**Período coberto:** Mai/2026\n**Foco:** Versão de consolidação e absorção. O **Combat Tracker** e a **Ficha de Grupo** viram parte do `pleitost-autosheet` — `pleitost-combat-marker` deixa de ser necessário; `pleitost-views` continua ativo só pros blocos auxiliares `class-roles` e `bounty`. A **Interativa salva sozinha** (autosave configurável). **Bônus tipados** (Status/Circunstância/Especialização/Item/Único) param de stackar igual no sistema real. Inventário e ataques são **uma estrutura única** internamente — bug \"salvar 2 vezes pra Especialização pegar\" eliminado. **Classes Secundárias** ganham suporte de regras (técnicas + habilidades menores + reduced features); ficha ainda não tem UI completa pra conjuradores secundários.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🎯 Combat Tracker absorvido pelo Autosheet (#170)\n\nNão precisa mais habilitar o plugin `pleitost-combat-marker` — o fence `autosheet-combat-tracker` (aliases: `autosheet-combat-marker`, `combat-tracker`, `combat-marker`) faz tudo dentro do autosheet, com features que o tracker velho não tinha:\n\n- **Edição inline** — vit/moral max, nome, e stats genéricos (Defesa/Vigor/etc) editáveis direto na linha.\n- **Drag-drop com preview em tempo real + setinhas ↑/↓** pra reordenar.\n- **markDirty + flash discreto + saveQueue** — alterações persistem com feedback visual sem layout shift.\n- **Tooltips ricos** em vit/moral/defesa (Base+Atributo+Prof+Item+Especialização) + dificuldade colorida com emojis (🟢 Trivial / ⚪ Fácil / 🟡 Médio / 🔴 Difícil / ⚫ Extremo).\n- **Resource bar (PM/EM/Slots) com tooltip detalhado**, levelbar com tier visual, condition chips ricos.\n- **Validações** — vit/moral negativas bloqueadas, drop em posição inválida ignorado.\n- Paridade visual pixel-perfect com o tracker antigo.\n\n### 👥 Ficha de Grupo absorvida pelo Autosheet (#176)\n\nNão precisa mais do plugin `pleitost-views` — o fence `autosheet-grupo` renderiza a Ficha de Grupo com o mesmo visual + um avatar novo:\n\n- **Avatar à esquerda do título do grupo**, com chain de fallback: property `Imagem` → `Recursos e Mídia/Imagens/Retratos/<nome do grupo>.{png,jpg,jpeg,webp}` → `Recursos e Mídia/Imagens/Retratos/Grupo de Criaturas.png` → emoji 👥.\n- **Zoom hover/click** no avatar (mesmo helper das fichas Heroi/Monstro/CA), com modal full-screen em viewport estreito.\n- **Título do grupo agora é texto puro** (basename da nota), não mais wikilink.\n- **Tesouros do grupo somam propriedades de armas equipadas** (Imbuições etc) — antes só somava itens do inventário, ignorava armas.\n\n### 💾 Ficha Interativa salva sozinha (#172)\n\nToggle `autoSaveInterativa` nas Settings do plugin (ligado por default neste vault). Quando ativo:\n\n- Toda mudança na Interativa (toggle de efeito, ± vit, ± slot, edit de nome, etc) propaga **direto pra `userEdits`** via write-through. Sem dirty-tracking manual por tab.\n- Auto-save dispara após **2.5s sem interação** (configurável). Status bar discreto mostra `salvando…` / `salvo` / `não-salvo`.\n- **Sanitize automático** no load: `recursosRestantes` que excede o max (ex: vit 15/max 10 após troca de classe) é clampado; keys órfãs (efeito que sumiu) são removidas. State inválido não volta a ser salvo.\n- **Anti-scroll-shift** — re-render local é pulado durante o save (evita pulo visual no meio da rolagem).\n\n### ⚙️ Bônus tipados: Status, Circunstância, Especialização, Item, Único (#171)\n\nBônus do MESMO TIPO param de empilhar igual no sistema. Os 5 tipos:\n\n- **Status** — derivados de condições/efeitos persistentes (Inspiração, Heroísmo, etc). Bônus do mesmo tipo Status NÃO somam — só o maior conta.\n- **Circunstância** — bônus situacionais (penalidade de Alcance além do ideal, Erguer Escudo, etc). Idem.\n- **Especialização** — `+2 de Especialização` de habilidades como Especialização em X, Fúria, Fúria Profunda. Não stack com outro Especialização.\n- **Item** — bônus de itens equipados (Pulseira da Potência, Imbuições, Categoria de arma). Não stack com Item.\n- **Único** — bônus que vêm de apenas uma fonte por natureza (Apunhalante, Duas-mãos, Propulsão).\n\nTooltips do breakdown agora mostram emoji por tipo e marcam quais foram **dropped (overlap)** com risco visual. Aplicado em ~25 notas (Inspiração, Ato Inspirador, Reforçar, Performance Reforçante, Heroísmo, Fúria/Fúria Profunda, Erguer Escudo, Alcance, Apunhalante, Duas-mãos, Propulsão, várias Imbuições, etc).\n\n### 🗡️ Inventário e Ataques unificados internamente\n\nArmas equipadas agora vivem em `inventario.armas.lista[]` com bônus inline. `ataques.lista[]` fica só com Manobras/Naturais/Especiais. `ataques.proficiencia` virou escalar.\n\nVisualmente quase tudo igual — mas **elimina o bug \"salvar 2 vezes pra Especialização em Lâminas pegar\"**. Cria Guerreiro novo, equipa Espada Bastarda Experiente, escolhe Especialização em Lâminas, salva 1 vez — bônus aparece. Mesma estrutura é usada pela rule e pela UI; sem sync posterior.\n\nMigração das fichas existentes feita via script (`npm run migrate-armas`). Quem abrir ficha em formato legado vê warning + carrega normalmente.\n\n### 🏃 Classes Secundárias — rules + ações novas\n\nSuporte de **regras** pra classes secundárias (a regra-mãe de quem pega capabilities de múltiplas classes). Adicionado:\n\n- **3 técnicas multidisciplinares** em `Sistema/Criação de Personagem/Técnicas/Multidisciplinar/`:\n\t- [[Especialização em Classe Secundária]]\n\t- [[Maestria em Classe Secundária]]\n\t- [[Treinamento de Classe Secundária]]\n- **9 habilidades \"Treinamento de X\"** (uma por classe) reorganizadas em `Sistema/Criação de Personagem/Habilidades/Classes Secundárias/` (estavam soltas em `Sistema/Regras/Classe Secundária/`):\n\tTreinamento de Animista / Arcanista / Bardo / Caçador / Comandante / Druida / Guerreiro / Ladino / Mago / Monge.\n- **5 habilidades \"Menores\"** pra reduced features de classes secundárias:\n\t- [[Ataque Furtivo Menor]] (Ladino secundário)\n\t- [[Forma Feral Menor]] (Druida secundário) + 4 ações relacionadas: [[Forma Brutal Menor]], [[Forma Caçadora Menor]], [[Forma Espreitadora Menor]], [[Forma Fortificada Menor]]\n\t- [[Escola Arcana Menor (Aplicações da Luz)]] + [[Escola Arcana Menor (Estudos do Vazio)]] (Mago secundário)\n\n> 🚧 **Ficha ainda não suporta UI completa pra conjuradores secundários** — slots de magia, progressão de Potência Mágica, escolha de escolas vindo de classe secundária não renderizam corretamente. Rules estão no vault, ficha tratará na próxima versão.\n\n### 👹 Bestiário — Classes ganham descrição + balance\n\nClasses de Bestiário recebem corpo completo (resumo, atributo principal, EV, defesas, percepção, dano de ataque típico, perícias típicas, conjuração mágica, habilidades sugeridas):\n\n- **Artilharia** (Anima — dano consistente em área)\n- **Encantador** (Arcana Branca — potencializa aliados; atributo correto: ArcanaBranca em vez de Anima)\n- **Supressor** (Arcana Negra — debuffs/controle)\n\nOs demais (Assassino, Batedor, Bruto, Líder, Soldado) recebem ajustes menores no rule format.\n\n**Nerf de Magia Elemental dos casters**: `Magias.EM` em tier 2/3 reduzido (6→5, 8→7) pra Artilharia/Encantador/Supressor.\n\n### ⚔️ Lutando com Duas Armas — rework\n\nA propriedade **Apunhalante agora funciona com Duas Armas** (antes era explicitamente desabilitada). O aumento de dado e dano base só se aplica à arma que possui a propriedade, alterando somente os dados que ela contribui, sem afetar os dados da outra arma. Exemplo no texto: Experiente com Rapieira + Espada Curta secundária — 4d6 (2 de cada arma) pega os 2 melhores e soma 3 (dano base Rapieira). Com Vantagem de Combate, 2d8 e 2d6, soma 4.\n\n### 🎭 Forma Feral — armas naturais ativas vão pro ataque\n\nQuando você ativa uma Forma Feral, as armas naturais da forma (Garras, Presas, Caudas, etc) entram em `ataques.lista` automaticamente. Antes a Pulseira da Potência só pegava as Manobras + armas marcadas com `mãos:: 0` no inventário — agora pega armas naturais da forma ativa também.\n\n### 🛡️ Guerreiro — rebalance de papel\n\n- **Longo Alcance** agora é Abatedor 3 puro (era Vanguarda 1 + Abatedor 2).\n- **Classes.md** atualizada com `Guerreiro a Distância` listado como Abatedor 3.\n\n### 🪟 Avatar preview funciona em mobile/narrow (#173)\n\nEm viewport estreito (mobile/painel lateral apertado), o preview do avatar do herói/monstro/CA virou modal full-screen centralizado em vez de tooltip cortado. CSS media query independente — independente do path que abriu o preview.\n\n### 🐛 Bugs reportados em fichas reais\n\nBugs que existiam desde antes da 0.4.1, corrigidos agora:\n\n- **Orc Médio (e similares) com display correto (#175)** — quando a raça tem alias composto (ex: `[[Orc|Orc Médio]]`), o display ficava preso no alias antigo do FM até o reload. Agora os fragments do alias materializam direto no wikilink.\n- **Especialização em Arma — bug do 1º save** — equipar arma E pegar especialização no mesmo save agora aplica o bônus no 1º clique (não precisa salvar 2x). Causa raiz: rule e UI operavam em estruturas diferentes; agora compartilham `inventario.armas.lista`.\n- **Tier da arma propaga bonusItem** — clicar Experiente em arma sem propriedade seta auto Obra-prima E aplica `+2 de Item` na hora.\n- **Especialização em Lâminas em arma com path completo** — match agora é por basename do wikilink, funciona com `[[Sistema/Equipamento/Armas/Lâminas/Espada Longa|Espada Longa]]`.\n- **Source attribution em arma com path completo** — logs mostravam \"Regra\" plain quando deveriam mostrar `Regra.[[Especialização em Arma (Lâminas)]]`.\n- **DadoExtraDaArma aparece no tooltip de dano** (antes some).\n- **Ímpeto/Vigor/Reflexo** usam corretamente o MAIOR dos dois atributos (Vigor=max(FOR,PRE), Reflexo=max(AGI,INT), Ímpeto=max(INT,PRE)).\n- **Segurar com Duas Mãos** agora vem do `condicoesAtivas` (era hardcoded).\n- **mergeDamage preserva baseDiceCount** — Forma Brutal + Pulseira da Potência calcula dano corretamente.\n- **Alias composto sobrevive ao save** — escolher Trovador (Bardo) preservava o display \"Trovador\" antes de aplicar a regra. Agora alias compose roda mesmo quando user edita classe via dropdown.\n\n### 🧠 Bugs de regra que afetavam fichas existentes\n\n- **Condicional + Senão** — novo par de verbos pra branch IF/ELSE (anti-oscilação). Útil pra rules que escolhem entre duas variantes mutuamente exclusivas.\n- **Condicional gate suprime Escolha_Habilidades órfã** — quando uma escolha vive dentro de um Condicional que avalia false, ela não fica pendurada sem dono.\n- **Cascade cleanup em mount** — alguns toggles persistiam em condicoesAtivas após perder o requisito.\n- **Encantador / Supressor modifiers** — atributo correto na lista de magias (ArcanaBranca pra Encantador, não Anima).\n- **Animais Treinados** + Daring Warrior adjustments — Maestria adicionada; Treinamento de X reorganizado como Habilidade.\n- **Estratégia Perfeita (Rastreador)** ajustes.\n- **Atk Poderoso Mestre+2mãos = +6** (era +7, agora bate com body da nota).\n- **Disparo Múltiplo (Guerreiro)** — fix de tier.\n- **Mago Técnicas tier** fix.\n\n### 🌐 CSS\n\n- **Nomes longos de Técnicas/Habilidades** quebram linha em vez de overflow.\n- **Reorganização Classes Secundárias** dentro de `Sistema/Criação de Personagem/`.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Schema `tipoBonus` em Efeitos_Interativos (#171)\n\n`tipoBonus` opcional em cada modificador. Valores: `Status`, `Circunstancia`, `Condicao`, `Especializacao`, `Item`, `Unico`. Default: untyped (stack tradicional). Exemplo:\n\n```yaml\nEfeitos_Interativos:\n  - label: Inspiração\n    tipo: Estado\n    grupo: Bônus\n    origem: Habilidade\n    modificadores:\n      - alvo: Ataque\n        valor: 1\n        tipoBonus: Condicao\n```\n\nResolver de runtime faz merge por bucket tipado ANTES do display — bônus duplicados do mesmo tipo aparecem como **dropped** no breakdown.\n\nAplicado em ~25 notas: Inspiração, Ato Inspirador, Reforçar, Performance Reforçante, Heroísmo, Vantagem de Combate, Fúria, Fúria Profunda, Erguer Escudo, Alcance, Apunhalante, Duas-mãos, Propulsão, Estilo de Combate (Luta Artística), várias Imbuições, etc.\n\n### Novo verbo `Senão` pra `Condicional`\n\n`Condicional X Y` agora aceita um par `Senão Z W` pareado pra branch IF/ELSE:\n\n```yaml\nElementos_de_Regra:\n  - Condicional Sintonia,[[Traço Elemental do Vento]] Somar Defesa 1\n  - Senão Somar Defesa 0\n```\n\nÚtil pra regras que escolhem entre variantes mutuamente exclusivas — sem oscilar entre os dois branches no fixed-point loop.\n\n### Novas categorias de notas no vault\n\n- **`Sistema/Criação de Personagem/Habilidades/Classes Secundárias/`** — 14 habilidades (9 Treinamento de X + 5 Menores).\n- **`Sistema/Criação de Personagem/Técnicas/Multidisciplinar/`** — 3 técnicas novas (Especialização/Maestria/Treinamento em Classe Secundária).\n- **`Sistema/Regras/Ações/Ações de Habilidade-Técnica/Classe Secundária/`** — 4 Ações Menores (Forma Brutal/Caçadora/Espreitadora/Fortificada Menor).\n\n### Schema FM novo: `Inventario.Armas` é objeto\n\n```yaml\nInventario:\n  Armas:\n    Proficiencia:\n      Simples: P\n      Marciais: P\n      Especificas:\n        - \"[[Espada Curta]]\"\n    Lista:\n      - Nome: \"[[Espada Bastarda]]\"\n        Atributo: FOR\n        Bonus_Item: 2\n        Bonus_Especial: 1\n        Propriedade: \"[[Imbuição Incendiária|Incendiária]]\"\n        Categoria: \"[[Experiente]]\"\n        Fonte: Manual\nAtaques:\n  Proficiencia: A\n  Lista:\n    - Nome: Manobras\n      Atributo: FOR\n      Bonus_Item: 0\n      Bonus_Especial: 0\n      Fonte: Padrao\n```\n\nSchema antigo (`Inventario.Armas: [...]` direto, `Ataques.Proficiencia.Armas.*`) ainda lê com warning. `npm run migrate-armas` faz migração 1-shot.\n\nSintaxe das rules:\n\n| Antes | Depois |\n|---|---|\n| `Condicional Armas.Arma,[[X]]` | `Condicional Inventario.Armas.Lista,[[X]]` |\n| `Sobrescrever Ataques.Lista.[[X]].Bonus_Especial 1` | `Sobrescrever Inventario.Armas.Lista.[[X]].Bonus_Especial 1` |\n| `Definir Ataques.Proficiencia.Ataque A` | `Definir Ataques.Proficiencia A` (escalar) |\n| `Definir Ataques.Proficiencia.Armas.Marciais P` | `Definir Inventario.Armas.Proficiencia.Marciais P` |\n| `Complementar Ataques.Proficiencia.Armas.Especificas [[X]]` | `Complementar Inventario.Armas.Proficiencia.Especificas [[X]]` |\n| `Definir Ataques.Lista.{Desarmadas}.Bonus_Item N` (Pulseira) | **igual** (Manobras/naturais ficam em `Ataques.Lista`) |\n\n50+ notas do vault migradas (8 Especializações + 40+ classes/habilidades com `Ataques.Proficiencia` + 3 wildcards de Bestiário).\n\n### Mudanças de mecânica / regras desta versão\n\n- **Lutando com Duas Armas** — rework: Apunhalante agora funciona com 2 armas (afeta só a arma com a propriedade, sem afetar os dados da outra).\n- **Apunhalante** — texto do efeito reescrito pra deixar mais claro (mecânica não mudou: +1 passo de dado + dano base +1 quando com Vantagem de Combate). Agora marcado com `tipoBonus: Unico`.\n- **Bestiário Casters (Artilharia/Encantador/Supressor)** — nerf de EM tier 2/3 (6→5, 8→7) + descrições completas + Encantador atributo correto (ArcanaBranca).\n- **Guerreiro a Distância** — papel ajustado pra Abatedor 3 (era Vanguarda 1 + Abatedor 2).\n- **Reforçar (Bardo)** — adiciona `Efeitos_Interativos` (Defesa +1 + Resistências +1 ativos quando Performance Bárdica ativa).\n- **Erguer Escudo** — bônus de escudo agora é `Circunstancia` (não stack com outro Circunstância).\n- **Braceletes de Pedra** — rewording.\n- **Alcance** — texto e resumo atualizados; penalidade tipoBonus: Circunstância.\n- **Animais Treinados** — Maestria adicionada; Treinamento de X reorganizado como Habilidade.\n\n---\n\n## ✅ Issues fechadas nesta versão\n\n- **#170** — Merge Combat Tracker plugin into Autosheet plugin (absorção completa + features novas).\n- **#171** — Implement Status/Circunstancial Bonus/Penalidade (5 tipos de bônus tipados).\n- **#172** — Transform Ficha Interativa to Save Always (auto-save + write-through + sanitize).\n- **#173** — Correct Autosheet Avatar Enlarge (preview em mobile/narrow).\n- **#175** — Correct Ficha de Monstro Not Showing Orc as Médio (alias compose).\n- **#176** — Migrate Ficha de Grupo from `pleitost-views` plugin to `pleitost-autosheet` plugin.\n\n---\n\n## 🚧 Próximas (não nesta versão)\n\nPendências aceitas pra próxima janela:\n\n- 🟡 **Suporte completo de UI pra Classes Secundárias de conjuradores** (Animista/Arcanista/Bardo/Druida/Mago secundários) — slots de magia, Potência Mágica, escolha de escolas vindo de classe secundária. Rules já estão no vault.\n- 🟡 **#174** — Add Familiar from Especialização em Animais.\n- 🟢 **Manual mode (Fase 14)** — variante \"modo livre\" sem rule engine. Hoje stub.\n\n---\n\n---\n\n# 🛠️ Parte técnica (plugin `pleitost-autosheet` v1.2.0)\n\n> Tudo abaixo é interno do plugin. Pode pular se você só usa a vault.\n\n## Combat Tracker — absorção (#170)\n\n- **Plugin `pleitost-combat-marker` deletado** — o `pleitost-autosheet` registra os 4 aliases (`autosheet-combat-tracker`, `autosheet-combat-marker`, `combat-tracker`, `combat-marker`) e roda o handler nativo.\n- **Pipeline novo**: `parse-roster.ts` (parser de YAML do bloco) → `build-roster.ts` (resolve fichas/monstros via deps, BFS derives) → render UI (pixel-perfect com 6 cenários goldens) → `persist @estado` (serialize/deserialize JSON inline).\n- **Features novas além do legado**: edit completo (vit/moral max + nome + stats genéricos), markDirty + flash + saveQueue, drag-drop com preview em tempo real + setinhas reorder, validações (vit negativa bloqueada, drop step invalid), live reorder no drag, tooltips ricos via `attachBreakdown`, ordenação por initiative, levelbar tier overlay removido (limpa visual), condition editor inline.\n- **Test infra**: harness `combat-marker-legacy-harness.ts` roda o `tracker-code.js` legado em jsdom; `legacy-goldens.test.ts` captura snapshots; `parity-vs-legacy.test.ts` compara handler novo vs golden semanticamente.\n\n## Ficha de Grupo — absorção (#176)\n\n- **Plugin `pleitost-views` deletado** — `autosheet-grupo` fence vive em `pleitost-autosheet`.\n- **Pipeline**: `process-grupo-block.ts` → `render-party-sheet.ts` (coordenador) → sections dedicadas (`section-papel`, `section-pericia`, `section-ataques`, `section-magias`, `section-equip-prof`) + `wealth/breakdown.ts` + `wealth/pricing.ts`.\n- **Test infra**: harness roda `party-sheet.js` legado live em jsdom via `new AsyncFunction`; `parity-vs-legacy.test.ts` valida DOM idêntico em 5 cenários sintéticos + 2 cenários reais (Baitaca, Flohx).\n- **DOM-first**: helper `h()` substitui montagem por string. Coordenador `renderPartySheetEl` exporta direto pra appendChild.\n- **Refactors**: emojis migrados pro `EMOJI` registry; cores via `PALETTE` registry; helpers compartilhados (`wikilinkTargetFlexible`, `parseWikilinkAlias`, `floating-tooltip`).\n- **Avatar do grupo**: `resolve-group-image.ts` com fallback chain (FM `Imagem` → `Retratos/<basename>.{png,jpg,jpeg,webp}` → `Retratos/Grupo de Criaturas.{ext}` → `EMOJI.glyph.PartyGroup`); reusa `setupAvatarPreview` dos headers heroi/monstro/CA pra zoom hover/click.\n\n## Auto-save Ficha Interativa (#172)\n\n- **Settings**: `autoSaveInterativa` (boolean, default true neste vault), `autoSaveDebounceMs` (default 2500).\n- **Sanitize state inválido** em 4 fases: clamp de `recursosRestantes` pros maxes (`Fase 0a`), drop de keys órfãs em selectors (`Fase 0b`), drop órfãos em `usosRecursos`/`invocacoesAtivas` (`Fase 0c`), wire-up no pipeline real (`Fase 0d`).\n- **Write-through** em 3 batches: toggle + panel sections (`Fase 2a`), tab-recursos sections (`Fase 2b`), tab-companheiros (`Fase 2c`). Cada mutador escreve direto em `userEdits` em vez de dirty-tracking manual.\n- **`TabApi.isDirty/getDelta` opcionais** (`Fase 3`) — tabs que migraram pra write-through não precisam mais reportar.\n- **Cleanup pós-save granular** (`Fase 4`) — snapshot de `Object.keys(userEdits)` pré-save; só limpa as keys consumidas, preservando edits in-flight.\n- **`onMetaChange` ganha `meta?.skipRerender`** (`Fase 1`) — write-through pula re-render local pra evitar scroll-shift.\n- **Anti-scroll-shift** pós-save: `notifyAfterSave` dispara refresh leve do status bar; `fmModified` suprimido por 1s pós-save pra não disparar `metadataCache.changed` falso.\n\n## Bônus tipados (#171)\n\n- **`BonusType`**: `Status | Circunstancia | Condicao | Especializacao | Item | Unico` em `src/runtime/condicoes/bonus-type.ts`.\n- **Context buckets**: `resolveNumber` por tipo (max-wins por bucket). Untyped continua stack tradicional.\n- **Display**: emojis por tipo no breakdown tooltip; dropped (overlap) marcados com risco visual.\n- **Merge buckets ANTES do resolve** pra evitar stacking duplicado entre buckets.\n- **Helpers centralizados** em `src/runtime/condicoes/bonus-type.ts` — call-sites usam `BONUS_TYPES`, `bonusTypeEmoji`, etc.\n\n## Refactor unificação `Inventario.Armas` ↔ `Ataques.Lista`\n\n- **Schema novo**: `ArmaState = AtaqueState` (alias). `inventario.armas: { proficiencia: {simples, marciais, especificas}, lista: ArmaState[] }`. `ataques.proficiencia` escalar.\n- **Bug \"salvar 2x pra Especialização pegar\"** eliminado: rule e UI operam na MESMA estrutura, sem `syncAtaquesFromArmas` posterior.\n- **2º pass targeted**: `applyArmasListaNamedDeltas` em `project-volatile.ts` aplica `Inventario.Armas.Lista.[[<arma>]].<field>` deltas após `applyUserEdits` — bug do 1º save (arma adicionada no mesmo save que recebe a Especialização) também eliminado.\n- **Migração**: script `scripts/migrate-armas-fm.mjs` (`npm run migrate-armas`) migra fichas + fixtures. Plugin lê formato legado com warning + fallback.\n- **Helper compartilhado** `getAllAtaques(model)` mescla Manobras + armas equipadas (inventario) + naturais/especiais — usado por 5 modos (Editável, Interativa, Leitura, Resumo, Grupo).\n- **Forma Feral**: `injectActiveFeralWeapons` injeta armas naturais ativas em `ataques.lista` ANTES das rules rodarem — Pulseira da Potência aplica via `filterDesarmadas`.\n\n## Pick persistence cross-session pra escolha-pericia-especial\n\n- **`RuleScope.escolha` ganha `occurrence?: number`** populado por `injectPicks` a partir do `ChoiceDescriptor.occurrenceWithinParent`.\n- **Applier escreve source `Escolha.NN.[[parent]]` direto** pra `escolha-pericia-especial`; `canonicalSourceTyped` passa through quando detecta prefixo `Escolha.`.\n- **Pre-merge wipe estendido**: increments field-based (com `field` set) com source classified `rule` ou `escolha` são wipados E o valor do campo correspondente é resetado. Gated em `hasCalculated` pra preservar trace na clean pass do extractor.\n- **`setPericiaField` re-emite increment field-based** quando source é granular — `upsertFieldIncrement` adiciona `{rank: \"A\", field: \"Bonus_Especial\", source: \"Escolha.NN.[[parent]]\"}`. `inferPickFromIncrementos` faz match exato → pick consolida em UM save.\n- **`deriveNaemStates` filtra `inc.field`** ao agrupar por rank — increment field-based (rank placeholder) não contamina mais o rank A da pericia (NAEM não tranca como rule-locked; contagem de slot conta correta).\n\n## Materializa `__alias__` deltas em wikilinks (#175)\n\n- Loop principal de `mergeCalculatedIntoModel` antes pulava `__alias__*` keys (`if (!path) continue`). Fragments eram coletados pelo applier mas nunca aplicados ao target meta.\n- `materializeAliasDeltas` agora processa cada `__alias__<Target>` key: sort fragments por order, compõe `[[base|display]]`, escreve em `model.meta.<target>`.\n- **`applyAliasCompositionPostUserEdits`** roda DEPOIS do `applyUserEdits` pra recompor alias quando user pickou via UI dropdown (sem alias).\n\n## Avatar preview em narrow viewport (#173)\n\n- CSS media query `@media (max-width: 720px)` + `body.pas-force-mobile` viram o preview em **modal full-screen flex-centered** (inset: 8px, background opaco). Independente do path que abriu o preview.\n- Touch (pointer: coarse): click toggles + backdrop pra fechar.\n- Desktop (hover): preview ancorado ao cursor com flip; segue mousemove.\n\n## Cobertura de testes\n\n- `tests/integration/extract-save-cycle.test.ts` — E2E pra pick persistence (`escolha-pericia-especial` §8.5.2.14: 2 rules do mesmo parent inferem picks diferentes).\n- `tests/unit/render/modes/grupo/resolve-group-image.test.ts` — 6 cenários cobrindo os 4 fallbacks do avatar do grupo.\n- `tests/unit/render/shared/derive-naem-states.test.ts` — 3 tests pra `inc.field` não contaminar agrupamento por rank.\n- `tests/integration/druida-pulseira-forma-feral.test.ts` — E2E Druida + Pulseira da Potência + Forma Brutal.\n- `tests/integration/auto-save-interativa.test.ts` — auto-save end-to-end + paridade + perf (Fase 6 #172).\n- `tests/unit/scripts/migrate-armas-fm.test.ts` — TDD do script de migração.\n- `tests/integration/rules-vault-migrated.test.ts` — rules na nova sintaxe aplicam OK.\n\n**Estado final**: 2851 testes passando, 6 skipped (intencionais — parity-vs-legacy do grupo skipped pós-cutover, Pulseira fallback runtime n/a, parity sintético do header de grupo skipped pela divergência intencional do avatar novo). 163 test files passing.\n"
+}

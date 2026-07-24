@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Assustar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Assustar.md",
+  "basename": "Assustar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Intimidação]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta assustar uma criatura, reduzindo a agressividade.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink",
+      "alias": "Nervosa"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Intimidação]]\"\npropriedades:: \nresumo:: \"Tenta assustar uma criatura, reduzindo a agressividade.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Intimidação]] vs [[Ímpeto]] de uma criatura em até 6q.\n\n**Sucesso:** A criatura fica [[Abalado|Abalada]] até o início de seu próximo turno.\n**Sucesso Decisivo:** A criatura fica [[Abalado|Abalada]] por 2 turnos.\n**Falha:** Nada acontece.\n\nUma criatura que já foi alvo do seu [[Assustar]] nos últimos 10 minutos fica [[Nervoso|Nervosa]] no lugar de [[Abalado|Abalada]]. Uma criatura que já foi alvo do seu [[Assustar]] duas vezes nos últimos 10 minutos não é afetada.\n\n```autosheet-rules\n```\n"
+}

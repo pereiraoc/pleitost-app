@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Trespassar",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Trespassar.md",
+  "basename": "Trespassar",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo contra 2 inimigos no seu alcance que estejam adjacentes entre si, usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto|Adepta]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo contra 2 inimigos no seu alcance que estejam adjacentes entre si, usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Trespassar.\n\n**Trespassar - 2A**\nFaça um [[Atacar|Ataque]] corpo-a-corpo contra dois inimigos que estejam no seu alcance e adjacentes um ao outro na [[Penalidade por Ataque Múltiplo|PAM]] atual, conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

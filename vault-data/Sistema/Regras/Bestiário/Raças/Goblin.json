@@ -1,0 +1,228 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Goblin",
+  "path": "Sistema/Regras/Bestiário/Raças/Goblin.md",
+  "basename": "Goblin",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista [[Escaramuça Goblin (R)]]",
+      "Definir Sintonia [[Traço Elemental do Fogo]]",
+      "Definir Tamanho Pequeno",
+      "Alias Raça Compor 0 \"Goblin\"",
+      "Alias Raça Compor 1 \"(Pequeno)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Goblin.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista [[Escaramuça Goblin (R)]]",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Escaramuça Goblin (R)]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Escaramuça Goblin (R)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sintonia [[Traço Elemental do Fogo]]",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental do Fogo]]"
+          },
+          "raw": "Definir Sintonia [[Traço Elemental do Fogo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Tamanho Pequeno",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Pequeno"
+          },
+          "raw": "Definir Tamanho Pequeno",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Goblin\"",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Goblin"
+          },
+          "raw": "Alias Raça Compor 0 \"Goblin\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Pequeno)\"",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Pequeno)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Pequeno)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Goblin",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Escaramuça Goblin",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assassino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Batedor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Artilharia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escaramuça Goblin (R)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Goblin.\"\n%%\n##### `= this.file.name`\nGoblins são uma das raças monstruosas encontradas no mundo. Caóticos e imprevisiveis, Goblins vivem em cavernas e saqueiam comunidades próximas. Quando usam magia, tendem ao uso de Magia Anima do Fogo.\n\nGoblins tem [[Presença|PRE]] como atributo primário (3) ou secundário (2), geralmente negligenciando [[Inteligência|INT]]. Todo Goblin é leve no passo, sendo capaz de realizar [[Escaramuça Goblin]].\nPapéis típicos são [[Soldado]], [[Assassino]], [[Batedor]] e [[Artilharia]].\n\n```autosheet-rules\n```\n"
+}

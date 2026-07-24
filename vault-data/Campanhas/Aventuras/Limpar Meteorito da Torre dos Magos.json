@@ -1,0 +1,36 @@
+{
+  "id": "Campanhas/Aventuras/Limpar Meteorito da Torre dos Magos",
+  "path": "Campanhas/Aventuras/Limpar Meteorito da Torre dos Magos.md",
+  "basename": "Limpar Meteorito da Torre dos Magos",
+  "type": "Aventura",
+  "subtype": "Neutralização",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Neutralização",
+    "rank": "B",
+    "disponivel": [
+      "[[Canto Alto]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Neutralização de Monstros em Caverna do Meteorito\n\nRecompensa:\n- Marcas: {min: 2, max: 4}\n- Ouro: {min: 40, max: 60}\nObjetivo:\n- \"Neutralizar os montros saindo da caverna do grande meteorito.\"\nLocal:\n- \"[[Lilá]] > [[Safira]] (Mar)\"\nContato: \"Arquimago da Torre dos Magos\"\nFinanciador: \"Torre dos Magos\"\n```\n"
+}

@@ -1,0 +1,832 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Caçador",
+  "path": "Sistema/Criação de Personagem/Classes/Caçador.md",
+  "basename": "Caçador",
+  "type": "Classe",
+  "subtype": "Marcialista",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": "Marcialista",
+    "atributo-chave": "FOR ou AGI",
+    "dg-publish": true,
+    "Imagem": "[[Caçador.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Caçador\"",
+      "Nivel 1 Definir Vida.Vitalidade 15",
+      "Nivel 1 Definir Vida.Moral 30",
+      "Nivel 1 Restringir Atributos.Principal FOR, AGI",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Explorador Nato]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Estratégia de Caça]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Desbravador]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Estratégia Aprimorada]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Sentinela]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Estratégia Perfeita]]",
+      "Nivel 1 Somar Pericias.Slots.A 2",
+      "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "Somar Papel.Abatedor 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Caçador\"",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Caçador"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Caçador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 15",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "15"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 15",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 30",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "30"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 30",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Restringir Atributos.Principal FOR, AGI",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "FOR",
+              "AGI"
+            ]
+          },
+          "raw": "Nivel 1 Restringir Atributos.Principal FOR, AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Explorador Nato]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Explorador Nato]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Explorador Nato]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Estratégia de Caça]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratégia de Caça]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Estratégia de Caça]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Desbravador]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Desbravador]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Desbravador]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Estratégia Aprimorada]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratégia Aprimorada]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Estratégia Aprimorada]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Sentinela]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Sentinela]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Sentinela]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Estratégia Perfeita]]",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratégia Perfeita]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Estratégia Perfeita]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Proficiencia.Marciais",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Pesada",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 2",
+      "parsed": [
+        {
+          "sourceNote": "Caçador",
+          "occurrenceIndex": 21,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Abatedor 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "INT",
+      "subpath": "Inteligência (INT)"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Marciais",
+      "kind": "wikilink",
+      "alias": "Marciais"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armaduras Leves"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Pesadas"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Explorador Nato",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desbravador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Aprimorada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentinela",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia Perfeita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Explorador Nato",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia de Caça",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Desbravador",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia Aprimorada",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Sentinela",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia Perfeita",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Caçador.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Caçador.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Caçador.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Caçador"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Caçador.jpeg|right|profile|250]]\n#  `= this.file.name`\n\nCaçadores são rangers. E traduzir ranger é um desafio por si só.\n\n```class-roles\n[\"Domador\", { \"Abatedor\": 2, \"Vanguarda\": 1 }],\n[\"Rastreador\", { \"Abatedor\": 3 }]\n```\n\n## Características de Classe\n**[[Energia Vital|EV]]:** 15\n**[[Energia Heroica|EH]]:** 30\n\n**[[Atributos|Atributo de Classe]]:** [[Força|FOR]] ou [[Agilidade|AGI]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Sobrevivência]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 2 + [[Atributos#Inteligência (INT)|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]] e [[Armas Marciais|Marciais]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]], proficiente em [[Armaduras|Armaduras Leves]] e [[Armaduras|Pesadas]]\n\n**[[Resistências]]:** [[Adepto]] em [[Vigor]] e [[Evasão]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Percepção]]\n\n| Nível | Habilidades de Classe                       |\n|:-----:| ------------------------------------------- |\n|  1º   | [[Explorador Nato]], [[Estratégia de Caça]] |\n|  2º   | [[Técnica Adepta]]                          |\n|  3º   | [[Técnica Adepta]]                          |\n|  4º   | [[Desbravador]], [[Estratégia Aprimorada]]  |\n|  5º   | [[Técnica Experiente]]                      |\n|  6º   | [[Técnica Experiente]]                      |\n|  7º   | [[Sentinela]], [[Estratégia Perfeita]] | \n\n![[Explorador Nato#`= this.file.name`]]\n![[Estratégia de Caça#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n\n![[Desbravador#`= this.file.name`]]\n![[Estratégia Aprimorada#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n![[Sentinela#`= this.file.name`]]\n![[Estratégia Perfeita#`= this.file.name`]]\n\n---\n\n#### Técnicas de Caçador\n\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n```autosheet-rules\n```\n"
+}

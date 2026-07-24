@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante Adepta.md",
+  "basename": "Essência Enraizante Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Terra",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Vinhas Emaranhantes]]",
+      "Complementar Magias.Lista [[Enraizar]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Vinhas Emaranhantes]], adepta [[Enraizar]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Vinhas Emaranhantes]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Enraizante Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Vinhas Emaranhantes]]"
+          },
+          "raw": "Complementar Magias.Lista [[Vinhas Emaranhantes]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Enraizar]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Enraizante Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Enraizar]]"
+          },
+          "raw": "Complementar Magias.Lista [[Enraizar]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vinhas Emaranhantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enraizar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Vinhas Emaranhantes]], adepta [[Enraizar]]\"\n%%\n#### `= this.file.name`\n* basica [[Vinhas Emaranhantes]]\n* adepta [[Enraizar]]\n\n```autosheet-rules\n```\n"
+}

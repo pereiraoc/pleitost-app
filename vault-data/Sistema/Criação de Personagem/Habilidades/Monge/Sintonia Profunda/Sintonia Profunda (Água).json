@@ -1,0 +1,82 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Água)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Água).md",
+  "basename": "Sintonia Profunda (Água)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Corpo em Sintonia (Água)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Aumenta seu alcance corpo-a-corpo em 1q para ataques desarmados. Você pode realizar [[Maré de Combate]] estando a 2q de distância do alvo. Caso você tenha a Técnica [[Arma Monástica]], aumenta seu alcance corpo-a-corpo em 1q para ataques com Bordão.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Água)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda (Água)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Corpo em Sintonia (Água)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Água)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maré de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Monástica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Água)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\n\nresumo:: \"Aumenta seu alcance corpo-a-corpo em 1q para ataques desarmados. Você pode realizar [[Maré de Combate]] estando a 2q de distância do alvo. Caso você tenha a Técnica [[Arma Monástica]], aumenta seu alcance corpo-a-corpo em 1q para ataques com Bordão.\"\n%%\n##### `= this.file.name`\nAumenta seu alcance corpo-a-corpo em 1q para ataques desarmados. Você pode realizar [[Maré de Combate]] estando a 2q de distância do alvo. Caso você tenha a Técnica [[Arma Monástica]], aumenta seu alcance corpo-a-corpo em 1q para ataques com Bordão.\n\n```autosheet-rules\n```\n"
+}

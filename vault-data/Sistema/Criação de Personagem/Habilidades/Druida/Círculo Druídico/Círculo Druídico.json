@@ -1,0 +1,258 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo Druídico",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Círculo Druídico/Círculo Druídico.md",
+  "basename": "Círculo Druídico",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Círculo do Sol (Fogo e Terra)]], [[Círculo da Lua (Água e Vento)]], [[Círculo das Estrelas (Fogo e Vento)]], [[Círculo do Oceano (Água e Terra)]])",
+      "Definir Magias.Lista.Anima.Proficiencia A",
+      "Definir Magias.Potencia 4",
+      "Definir Magias.EM 2",
+      "Definir Magias.Lista.Anima.Atributo INT",
+      "Condicional (INT>PRE) Sobrescrever Pericias.Lista.Anima.Atributo INT"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Recebe os benefícios de um círculo druídico. Você se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Druida é 4. Sua [[Energia Mágica|EM]] máxima é 2. Pode usar [[Anima]] usando [[Inteligência|INT]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Círculo do Sol (Fogo e Terra)]], [[Círculo da Lua (Água e Vento)]], [[Círculo das Estrelas (Fogo e Vento)]], [[Círculo do Oceano (Água e Terra)]])",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_dbdf8d70",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Círculo do Sol (Fogo e Terra)]]",
+              "[[Círculo da Lua (Água e Vento)]]",
+              "[[Círculo das Estrelas (Fogo e Vento)]]",
+              "[[Círculo do Oceano (Água e Terra)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Círculo do Sol (Fogo e Terra)]], [[Círculo da Lua (Água e Vento)]], [[Círculo das Estrelas (Fogo e Vento)]], [[Círculo do Oceano (Água e Terra)]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Magias.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Definir Magias.Lista.Anima.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional (INT>PRE) Sobrescrever Pericias.Lista.Anima.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Círculo Druídico",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "attr-compare",
+            "left": "INT",
+            "op": ">",
+            "right": "PRE"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Anima.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Condicional (INT>PRE) Sobrescrever Pericias.Lista.Anima.Atributo INT",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Círculo do Sol (Fogo e Terra)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Círculo da Lua (Água e Vento)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Círculo das Estrelas (Fogo e Vento)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Círculo do Oceano (Água e Terra)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo do Sol (Fogo e Terra)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo da Lua (Água e Vento)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo das Estrelas (Fogo e Vento)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo do Oceano (Água e Terra)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto]]\n\nresumo:: \"Recebe os benefícios de um círculo druídico. Você se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Druida é 4. Sua [[Energia Mágica|EM]] máxima é 2. Pode usar [[Anima]] usando [[Inteligência|INT]].\"\n%%\n####  `= this.file.name`\nEscolha o círculo druídico que você faz parte, dependendo da sua sintonia:\n\n![[Círculo do Sol (Fogo e Terra)#`= this.file.name`]]\n![[Círculo da Lua (Água e Vento)#`= this.file.name`]]\n![[Círculo das Estrelas (Fogo e Vento)#`= this.file.name`]]\n![[Círculo do Oceano (Água e Terra)#`= this.file.name`]]\n\nVocê se torna [[Adepto]] em [[Magia Anima]] e sua potência mágica para magias de Druida é 4. Sua [[Energia Mágica|EM]] máxima é 2. Seu atributo-chave para magias é [[Inteligência]].\n\nSeu entendimento dos elementos vem de uma tradição druídica de introspecção e estudo. Você pode usar [[Inteligência]] no lugar de [[Presença]] para testes de [[Anima]].\n\n```autosheet-rules\n```\n"
+}

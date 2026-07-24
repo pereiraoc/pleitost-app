@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Proficiência/Experiente",
+  "path": "Sistema/Regras/Proficiência/Experiente.md",
+  "basename": "Experiente",
+  "type": "Regra",
+  "subtype": "Proficiência",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "E, Experientes",
+    "categoria": "Regra",
+    "subcategoria": "Proficiência",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Proficiência|Proficiência]]",
+    "prev": "[[Adepto]]",
+    "next": "[[Mestre]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Experiente"
+    }
+  ],
+  "body": "%%\nup:: [[Proficiência|Proficiência]]\nprev:: [[Adepto]]\nnext:: [[Mestre]]\n%%\n## Experiente\n* Experiente é o nível intermediário, garantindo um bônus de +4. Adicionalmente, subir uma perícia para Experiente garante uma especialização, ataques com armas nas quais você é Experiente causam 2 dados de dano. Certas atividades e [[Técnicas]] requerem um mínimo de Experiente para realizá-las."
+}

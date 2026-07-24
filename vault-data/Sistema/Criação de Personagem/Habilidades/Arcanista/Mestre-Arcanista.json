@@ -1,0 +1,365 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Mestre-Arcanista",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Mestre-Arcanista.md",
+  "basename": "Mestre-Arcanista",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 5",
+      "Somar Vida.Moral 10",
+      "Definir Ataques.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Definir Magias.Potencia 8",
+      "Definir Magias.EM 7",
+      "Nivel 7 Alias Classe Compor 0 \"Mestre-Arcanista\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], Potência Mágica, [[Energia Mágica|EM]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 5",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "5"
+          },
+          "raw": "Somar Vida.Vitalidade 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 10",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "10"
+          },
+          "raw": "Somar Vida.Moral 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 8",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "8"
+          },
+          "raw": "Definir Magias.Potencia 8",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 7",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "7"
+          },
+          "raw": "Definir Magias.EM 7",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Alias Classe Compor 0 \"Mestre-Arcanista\"",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Arcanista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Mestre-Arcanista"
+          },
+          "raw": "Nivel 7 Alias Classe Compor 0 \"Mestre-Arcanista\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], Potência Mágica, [[Energia Mágica|EM]].\"\n%%\n#### `= this.file.name`\nVocê se gradua como um mestre da magia arcana, possivelmente inovando no mundo do estudo mágico. Arcanistas que atingem esse nível de experiência são conhecidos como Mestres-Arcanista, aqueles que moldam a realidade as suas vontades.\n* Sua [[Energia Vital|EV]] máxima aumenta em 5;\n* Sua [[Energia Heroica|EH]] máxima aumenta em 10;\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Mestre]] em [[Ímpeto]];\n* Você se torna [[Experiente]] em [[Vigor]] e [[Evasão]];\n* Você se torna [[Mestre]] em [[Intuição]];\n* Você se torna [[Experiente]] em [[Percepção]];\n* Sua potência mágica para magias de Arcanista aumenta para 8;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 7.\n\n```autosheet-rules\n```\n"
+}

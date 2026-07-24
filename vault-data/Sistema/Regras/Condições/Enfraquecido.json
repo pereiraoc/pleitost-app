@@ -1,0 +1,232 @@
+{
+  "id": "Sistema/Regras/Condições/Enfraquecido",
+  "path": "Sistema/Regras/Condições/Enfraquecido.md",
+  "basename": "Enfraquecido",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Enfraquecido, Enfraquecidos, Enfraquecida, Enfraquecidas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Condicao.Vigor -2",
+      "Somar Condicao.PericiasDeAtributo(FOR) -2",
+      "Somar Condicao.AtaquesDeAtributo(FOR) -2",
+      "Somar Condicao.DanoArmaFixo -1",
+      "Somar Condicao.DanoArmaPorDado -1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Recebe -2 de [[Penalidades|penalidade de condição]] nas [[Perícias|Perícias]] baseadas em [[Força|FOR]], [[Vigor]], ataques baseados em [[Força|FOR]] e reduz dano de [[Atacar|Ataques]] em 1+dados.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Condicao.Vigor -2",
+      "parsed": [
+        {
+          "sourceNote": "Enfraquecido",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.Vigor",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.Vigor -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "number",
+            "key": "vigor",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.PericiasDeAtributo(FOR) -2",
+      "parsed": [
+        {
+          "sourceNote": "Enfraquecido",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.PericiasDeAtributo(FOR)",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.PericiasDeAtributo(FOR) -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "skill_attr",
+            "attr": "FOR",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.AtaquesDeAtributo(FOR) -2",
+      "parsed": [
+        {
+          "sourceNote": "Enfraquecido",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.AtaquesDeAtributo(FOR)",
+            "valueRaw": "-2"
+          },
+          "raw": "Somar Condicao.AtaquesDeAtributo(FOR) -2",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "attack_attr",
+            "attr": "FOR",
+            "value": -2
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.DanoArmaFixo -1",
+      "parsed": [
+        {
+          "sourceNote": "Enfraquecido",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.DanoArmaFixo",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.DanoArmaFixo -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "damage_fixed",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    },
+    {
+      "raw": "Somar Condicao.DanoArmaPorDado -1",
+      "parsed": [
+        {
+          "sourceNote": "Enfraquecido",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Condicao.DanoArmaPorDado",
+            "valueRaw": "-1"
+          },
+          "raw": "Somar Condicao.DanoArmaPorDado -1",
+          "provenance": []
+        }
+      ],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [
+          {
+            "kind": "damage_per_die",
+            "value": -1
+          }
+        ],
+        "derived": []
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Dados de Dano",
+      "kind": "wikilink",
+      "alias": "dados de dano da arma"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"Recebe -2 de [[Penalidades|penalidade de condição]] nas [[Perícias|Perícias]] baseadas em [[Força|FOR]], [[Vigor]], ataques baseados em [[Força|FOR]] e reduz dano de [[Atacar|Ataques]] em 1+dados.\"\n%%\n## `= this.file.name`\nRecebe -2 de [[Penalidades|penalidade de condição]] nas [[Perícias|Perícias]] baseadas em [[Força|FOR]], [[Vigor]], ataques baseados em [[Força|FOR]]. Recebe uma [[Penalidades|penalidade de condição]] no dano de [[Atacar|Ataques]] igual a 1 + o número de [[Dados de Dano|dados de dano da arma]] usados no ataque.\n\n```autosheet-rules\n```\n"
+}

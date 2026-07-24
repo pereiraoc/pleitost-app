@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Distração/Distração",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Enganação/Distração/Distração.md",
+  "basename": "Distração",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Enganação]]",
+    "resumo": "\"[[Disfarçar-se|Disfarce]] genérico em 3A. [[Finta]] afeta mais ataques. Pode repetir [[Distrair]] com penalidade -2.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disfarçar-se",
+      "kind": "wikilink",
+      "alias": "Disfarce"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disfarçar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Enganação]]\nresumo:: \"[[Disfarçar-se|Disfarce]] genérico em 3A. [[Finta]] afeta mais ataques. Pode repetir [[Distrair]] com penalidade -2.\"\n%%\n### `= this.file.name`\n* Você pode preparar um disfarce para uso rápido, permitindo [[Disfarçar-se]] com 3A (6 segundos). Esse disfarce representa uma pessoa \"genérica\" sem traços específicos, mas suficiente para te descaracterizar.\n* Quando você tem sucesso em uma [[Finta]], seus ataques corpo-a-corpo contra a criatura tem [[Vantagem de Combate]] até o final do seu turno em vez de somente o próximo ataque. O aumento de grau de sucesso no sucesso decisivo com Finta ainda se aplica somente ao primeiro ataque.\n* Quando você tem sucesso decisivo em uma [[Finta]], você melhora todos os graus de sucesso em um passo (falha decisiva para falha, falha para sucesso e sucesso para sucesso decisivo) e não somente falha para sucesso.\n* Você pode [[Distrair]] criaturas que já foram alvo do seu [[Distrair]] no último minuto, porém com -2 de [[Penalidades|penalidade de circunstância]].\n\n```autosheet-rules\n```\n"
+}

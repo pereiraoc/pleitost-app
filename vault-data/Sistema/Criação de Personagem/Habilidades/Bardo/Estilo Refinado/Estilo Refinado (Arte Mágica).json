@@ -1,0 +1,222 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Arte Mágica)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Arte Mágica).md",
+  "basename": "Estilo Refinado (Arte Mágica)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Combate (Arte Mágica)]]",
+      "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Nivel 4 Somar Magias.Slots.A 1",
+      "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Somar Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+      "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Somar Magias.Lista.ArcanaBranca.Bonus_Especial 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Estende [[Performance Bárdica]] quando usa [[Ruído Estridente]], [[Palavras Cortantes]] ou [[Projétil Telecinético]]. Adepto em [[Evasão]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Arte Mágica)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Arte Mágica)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Combate (Arte Mágica)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Arte Mágica)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Arte Mágica)",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 4 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Arte Mágica)",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 4 Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Somar Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Arte Mágica)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Método Artístico (Manipulador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Somar Magias.Lista.ArcanaNegra.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Somar Magias.Lista.ArcanaBranca.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Refinado (Arte Mágica)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Método Artístico (Inspirador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Somar Magias.Lista.ArcanaBranca.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruído Estridente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palavras Cortantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Projétil Telecinético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink",
+      "alias": "método"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Manipulador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Inspirador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\n\nresumo:: \"Estende [[Performance Bárdica]] quando usa [[Ruído Estridente]], [[Palavras Cortantes]] ou [[Projétil Telecinético]]. Adepto em [[Evasão]].\"\n\n%%\n##### `= this.file.name`\n* Você se torna [[Adepto]] em [[Evasão]];\n* Você aprende uma Magia Adepta adicional do seu [[Método Artístico|método]].\n* Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] nos Ataques Mágicos e CDs de Magias de Bardo do seu [[Método Artístico|método]].\n\n*Nota: O +2 para Magias não se aplica aos Ataques Mágicos feitos com [[Atuação]], pois o modificador de Atuação está substituindo o modificador de Ataque Mágico.*\n\n```autosheet-rules\n```\n"
+}

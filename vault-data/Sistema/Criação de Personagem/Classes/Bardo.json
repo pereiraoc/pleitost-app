@@ -1,0 +1,1045 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Bardo",
+  "path": "Sistema/Criação de Personagem/Classes/Bardo.md",
+  "basename": "Bardo",
+  "type": "Classe",
+  "subtype": "Híbrido",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Classe",
+    "subcategoria": "Híbrido",
+    "atributo-chave": "PRE",
+    "dg-publish": true,
+    "Imagem": "[[Bardo.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Bardo\"",
+      "Nivel 1 Definir Vida.Vitalidade 12",
+      "Nivel 1 Definir Vida.Moral 24",
+      "Nivel 1 Definir Atributos.Principal PRE",
+      "Nivel 1 Escolher Atributos.Principal PRE",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Método Artístico]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Estilo de Combate]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Auto-Confiança]]",
+      "Nivel 3 Complementar Habilidades.Lista [[Conhecimento Arcano Adepto]]",
+      "Nivel 3 Somar Magias.Slots.A 1",
+      "Nivel 7 Complementar Habilidades.Lista [[Mestre-Bardo]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Estilo Virtuoso]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Método Aprimorado]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Trovador]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Estilo Refinado]]",
+      "Nivel 5 Somar Magias.Slots.A 1",
+      "Nivel 1 Somar Pericias.Slots.A 3",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+      "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+      "Somar Papel.Lider 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Bardo\"",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Bardo"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Bardo\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "12"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 24",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "24"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 24",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Atributos.Principal PRE",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.Principal",
+            "valueRaw": "PRE"
+          },
+          "raw": "Nivel 1 Definir Atributos.Principal PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Escolher Atributos.Principal PRE",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolher",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "PRE"
+            ]
+          },
+          "raw": "Nivel 1 Escolher Atributos.Principal PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Método Artístico]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Método Artístico]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Método Artístico]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Performance Bárdica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Estilo de Combate]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo de Combate]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Estilo de Combate]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Auto-Confiança]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Auto-Confiança]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Auto-Confiança]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Complementar Habilidades.Lista [[Conhecimento Arcano Adepto]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Conhecimento Arcano Adepto]]"
+          },
+          "raw": "Nivel 3 Complementar Habilidades.Lista [[Conhecimento Arcano Adepto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 3 Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 3 Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Bardo]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Mestre-Bardo]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Bardo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Estilo Virtuoso]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Virtuoso]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Estilo Virtuoso]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Método Aprimorado]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Método Aprimorado]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Método Aprimorado]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Trovador]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Trovador]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Trovador]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Estilo Refinado]]",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Refinado]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Estilo Refinado]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 5 Somar Magias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 5
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 5 Somar Magias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 3",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 24,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 25,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Atuacao.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 26,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Oficios.Lista.Atuacao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Bardo",
+          "occurrenceIndex": 27,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink",
+      "alias": "Atuação (PRE)"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armaduras Leves"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trovador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Refinado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre-Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Virtuoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Aprimorado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Trovador",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Refinado",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Mestre-Bardo",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Virtuoso",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Método Aprimorado",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Bardo.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bardo.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Bardo.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Bardo"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Bardo"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Básicas Brancas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Adeptas Brancas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Experientes Brancas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Básicas Negras"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Adeptas Negras"
+    },
+    {
+      "level": 4,
+      "text": "Magias Arcanas Experientes Negras"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Bardo.jpeg|right|profile|250]]\n# Bardo\n\nBardos são os artistas da magia. Usando de uma poderosa presença, estes são líderes carismáticos ou elusivos manipuladores. \n\n```class-roles\n[\"Arte Mágica Inspirador\", { \"Líder\": 3 }],\n[\"Arte Mágica Manipulador\", { \"Líder\": 2, \"Controlador\": 1 }],\n[\"Luta Artística Inspirador\", { \"Líder\": 2, \"Abatedor\": 1 }],\n[\"Luta Artística Manipulador\", { \"Líder\": 1, \"Abatedor\": 1, \"Controlador\": 1 }]\n```\n\n## Características de Classe\n\n**[[Energia Vital|EV]]:** 12\n**[[Energia Heroica|EH]]:** 24\n\n**[[Atributos|Atributo de Classe]]:** [[Presença|PRE]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Diplomacia]] ou [[Enganação]], dependendo do Método. [[Adepto]] em Ofício: [[Atuação|Atuação (PRE)]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 3 + [[Inteligência|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]], proficiente em [[Armaduras|Armaduras Leves]]\n\n**[[Resistências]]:** [[Adepto]] em [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Percepção]] e [[Intuição]]\n\n| Nível | Habilidades de Classe                                                |\n|:-----:| -------------------------------------------------------------------- |\n|  1º   | [[Método Artístico]], [[Performance Bárdica]], [[Estilo de Combate]], [[Auto-Confiança]] |\n|  2º   | [[Técnica Adepta]]                                                   |\n|  3º   | [[Conhecimento Arcano Adepto]], [[Técnica Adepta]]                   |\n|  4º   | [[Trovador]], [[Estilo Refinado]]                                    |\n|  5º   | [[Conhecimento Arcano Adepto]], [[Técnica Experiente]]               |\n|  6º   | [[Técnica Experiente]]                                               |\n|  7º   | [[Mestre-Bardo]], [[Estilo Virtuoso]], [[Método Aprimorado]]     |\n\n![[Método Artístico#`= this.file.name`]]\n![[Performance Bárdica#`= this.file.name`]]\n![[Estilo de Combate#`= this.file.name`]]\n![[Auto-Confiança#`= this.file.name`]]\n![[Conhecimento Arcano Adepto#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n\n![[Trovador#`= this.file.name`]]\n![[Estilo Refinado#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n![[Mestre-Bardo#`= this.file.name`]]\n![[Estilo Virtuoso#`= this.file.name`]]\n![[Método Aprimorado#`= this.file.name`]]\n\n---\n\n#### Técnicas de Bardo\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n#### Magias Arcanas Básicas Brancas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Básica\"\n```\n\n#### Magias Arcanas Adeptas Brancas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Adepta\"\n```\n\n#### Magias Arcanas Experientes Brancas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Experiente\"\n```\n\n#### Magias Arcanas Básicas Negras\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Negra\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Negra\" and rank=\"Básica\"\n```\n\n#### Magias Arcanas Adeptas Negras\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Negra\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Negra\" and rank=\"Adepta\"\n```\n\n#### Magias Arcanas Experientes Negras\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Negra\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Negra\" and rank=\"Experiente\"\n```\n\n```autosheet-rules\n```\n"
+}

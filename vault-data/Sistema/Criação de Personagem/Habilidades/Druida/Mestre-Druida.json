@@ -1,0 +1,474 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Mestre-Druida",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Mestre-Druida.md",
+  "basename": "Mestre-Druida",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 6",
+      "Somar Vida.Moral 12",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "Definir Magias.Potencia 8",
+      "Definir Magias.EM 4",
+      "Nivel 7 Alias Classe Compor 0 \"Mestre-Druida\"",
+      "Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])",
+      "Nivel 9 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica e [[Energia Mágica|EM]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 6",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "6"
+          },
+          "raw": "Somar Vida.Vitalidade 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 12",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "12"
+          },
+          "raw": "Somar Vida.Moral 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 8",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "8"
+          },
+          "raw": "Definir Magias.Potencia 8",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 4",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.EM 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Alias Classe Compor 0 \"Mestre-Druida\"",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Mestre-Druida"
+          },
+          "raw": "Nivel 7 Alias Classe Compor 0 \"Mestre-Druida\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Experiente",
+              "choiceKey": "__esc_h_5b62bd95",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Experiente]]",
+              "[[Essência Hidratante Experiente]]",
+              "[[Essência Torrencial Experiente]]",
+              "[[Essência Explosiva Experiente]]",
+              "[[Essência Flamejante Experiente]]",
+              "[[Essência Incendiária Experiente]]",
+              "[[Essência Enraizante Experiente]]",
+              "[[Essência Mineral Experiente]]",
+              "[[Essência Sísmica Experiente]]",
+              "[[Essência Ciclonal Experiente]]",
+              "[[Essência Relampejante Experiente]]",
+              "[[Essência Ventania Experiente]]",
+              "[[Essência de Criação Experiente]]"
+            ],
+            "label": "Essência Elemental Experiente"
+          },
+          "raw": "Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 9 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])",
+      "parsed": [
+        {
+          "sourceNote": "Mestre-Druida",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 9
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Experiente",
+              "choiceKey": "__esc_h_1f9c332d",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Experiente]]",
+              "[[Essência Hidratante Experiente]]",
+              "[[Essência Torrencial Experiente]]",
+              "[[Essência Explosiva Experiente]]",
+              "[[Essência Flamejante Experiente]]",
+              "[[Essência Incendiária Experiente]]",
+              "[[Essência Enraizante Experiente]]",
+              "[[Essência Mineral Experiente]]",
+              "[[Essência Sísmica Experiente]]",
+              "[[Essência Ciclonal Experiente]]",
+              "[[Essência Relampejante Experiente]]",
+              "[[Essência Ventania Experiente]]",
+              "[[Essência de Criação Experiente]]"
+            ],
+            "label": "Essência Elemental Experiente"
+          },
+          "raw": "Nivel 9 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente]], [[Essência Hidratante Experiente]], [[Essência Torrencial Experiente]], [[Essência Explosiva Experiente]], [[Essência Flamejante Experiente]], [[Essência Incendiária Experiente]], [[Essência Enraizante Experiente]], [[Essência Mineral Experiente]], [[Essência Sísmica Experiente]], [[Essência Ciclonal Experiente]], [[Essência Relampejante Experiente]], [[Essência Ventania Experiente]], [[Essência de Criação Experiente]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Essência Congelante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Anima]], Potência Mágica e [[Energia Mágica|EM]].\"\n%%\n####  `= this.file.name`\nVocê se torna um avatar das feras e a natureza que elas ocupam. Druidas que atingem esse nível de experiência são conhecidos como Mestres-Druida, uma representação do mundo natural em uma pessoa.\n* Sua [[Energia Vital|EV]] máxima aumenta em 6\n* Sua [[Energia Heroica|EH]] máxima aumenta em 12\n* Você se torna [[Mestre]] em [[Ímpeto]];\n* Você se torna [[Experiente]] em [[Vigor]] e [[Evasão]];\n* Você se torna [[Mestre]] em [[Percepção]];\n* Você se torna [[Experiente]] em [[Intuição]];\n* Sua potência mágica para magias de Druida aumenta para 8;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 4;\n* Escolha 1 [[Essências Elementais|Essência Elemental]] que você tem acesso, você pode conjurar a forma Experiente dela.\n\n```autosheet-rules\n```\n"
+}

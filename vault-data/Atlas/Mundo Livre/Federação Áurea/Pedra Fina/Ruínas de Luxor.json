@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Ruínas de Luxor",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Ruínas de Luxor.md",
+  "basename": "Ruínas de Luxor",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ruínas de Luxor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ruínas de Luxor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ruínas de Luxor.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** \n> \n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```"
+}

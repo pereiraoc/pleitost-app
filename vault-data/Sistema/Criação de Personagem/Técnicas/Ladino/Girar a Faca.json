@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Girar a Faca",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Girar a Faca.md",
+  "basename": "Girar a Faca",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Se sua última ação foi um ataque corpo-a-corpo que aplicou dano de [[Ataque Furtivo]], faça um teste contra o [[Vigor]] do mesmo alvo usando seu modificador de ataque da arma; causa 2d6 dano (3d6 E em Ataques, 4d6 M), 2 (3 E, 4 M) na falha, +1d6 se decisivo, nada na falha decisiva.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Se sua última ação foi um ataque corpo-a-corpo que aplicou dano de [[Ataque Furtivo]], faça um teste contra o [[Vigor]] do mesmo alvo usando seu modificador de ataque da arma; causa 2d6 dano (3d6 E em Ataques, 4d6 M), 2 (3 E, 4 M) na falha, +1d6 se decisivo, nada na falha decisiva.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Girar a Faca.\n\n**Girar a Faca - 1A**\nPode ser usado se sua ultima ação foi um [[Atacar|Ataque]] corpo-a-corpo com sucesso que teve Ataque Furtivo aplicado a seu dano. Faça um teste contra o [[Vigor]] da criatura alvejada pelo ataque, seu modificador para o teste é igual ao seu modificador de ataque com a arma utilizada no ataque previamente requerido.\n\n**Sucesso:** Você causa 2d6 de dano de precisão. O dano aumenta para 3d6 caso seja [[Experiente]] em [[Ataques]], e para 4d6 caso seja [[Mestre]].\n**Sucesso Decisivo:** Como sucesso, mas o dano aumenta em 1d6.\n**Falha:** Você causa 2 de dano de precisão. O dano aumenta para 3 caso seja [[Experiente]] em [[Ataques]], e para 4 caso seja [[Mestre]].\n**Falha Decisiva:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

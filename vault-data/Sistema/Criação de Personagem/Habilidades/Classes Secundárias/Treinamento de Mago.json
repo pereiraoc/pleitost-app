@@ -1,0 +1,518 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Mago",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Mago.md",
+  "basename": "Treinamento de Mago",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Quasi-Mago\"",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+      "Nivel 1 Definir Magias.Secundaria.Potencia 2",
+      "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "Nivel 1 Somar Magias.Secundaria.Slots.A 1",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+      "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+      "Nivel 1 Complementar Habilidades.Lista [[Arma Arcana]]",
+      "Nivel 1 Complementar Acoes.Lista [[Melhoramento Arcano]]",
+      "Nivel 1 Complementar Acoes.Lista [[Combinação Arcana]]",
+      "Nivel 4 Definir Magias.Secundaria.Potencia 3",
+      "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+      "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+      "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+      "Nivel 7 Definir Magias.Secundaria.Potencia 4"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Quasi-Mago\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Quasi-Mago"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Quasi-Mago\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaNegra.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.ArcanaBranca.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Arma Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Arma Arcana]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Arma Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Acoes.Lista [[Melhoramento Arcano]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Melhoramento Arcano]]"
+          },
+          "raw": "Nivel 1 Complementar Acoes.Lista [[Melhoramento Arcano]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Acoes.Lista [[Combinação Arcana]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Combinação Arcana]]"
+          },
+          "raw": "Nivel 1 Complementar Acoes.Lista [[Combinação Arcana]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 4 Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Mago",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 4",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferramentas Arcanas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer INT 1 e FOR 2 ou AGI 2, conta como Técnica Adepta para outras classes*\n\nVocê combina Magia Arcana ao seus golpes e técnicas marciais, como um Mago.\n\nVocê se torna [[Adepto]] em [[Magia Arcana]] e aprende uma Magia Arcana Adepta (Branca ou Negra) de sua escolha. Sua potência mágica para magias de Mago é 2, sua [[Energia Mágica|EM]] máxima é 2 e seu atributo-chave para magias é [[Inteligência]].\n\nVocê recebe a habilidade [[Arma Arcana]]. Você só é limitado pela Arma Arcana quando conjura usando uma magia aprendida e usa [[Energia Mágica|EM]] dado por essa classe secundária. \n\nVocê recebe as habilidades [[Combinação Arcana]] e [[Melhoramento Arcano]]. Você só pode conjurar magias aprendidas e usar [[Energia Mágica|EM]] concedidos por essa classe secundária como parte dessas habilidades.\n\nNo 4º nível, sua potência mágica para magias de Mago aumenta para 3 e você aprende uma Magia Arcana Adepta da escola oposta a que você aprendeu ao obter essa classe secundária.\n\nNo 7º nível, você se torna [[Experiente]] em Magia Arcana e sua potência mágica para magias de Mago aumenta para 4.\n\nVocê pode escolher Técnicas Adeptas de Mago no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Mago no lugar de Técnicas Mestre da sua classe. A técnica [[Ferramentas Arcanas]] não é permitida.\n\n```autosheet-rules\n```\n"
+}

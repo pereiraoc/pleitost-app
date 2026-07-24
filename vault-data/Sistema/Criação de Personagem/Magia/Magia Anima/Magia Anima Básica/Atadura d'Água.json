@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Atadura d'Água",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Atadura d'Água.md",
+  "basename": "Atadura d'Água",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Básica",
+    "custo": "10 minutos",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "Você realiza a ação [[Tratar Ferimentos]] usando seu Ataque Mágico no lugar de [[Medicina]]. Você é considerado [[Adepto]] em Medicina neste caso."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: Você realiza a ação [[Tratar Ferimentos]] usando seu Ataque Mágico no lugar de [[Medicina]]. Você é considerado [[Adepto]] em Medicina neste caso.\n%%\n# `= this.file.name` - `= this.custo`\nVocê manifesta um fluxo de água purificada para curar ferimentos. Você realiza a ação [[Tratar Ferimentos]] usando seu Ataque Mágico no lugar de [[Medicina]]. Você é considerado [[Adepto]] em Medicina neste caso."
+}

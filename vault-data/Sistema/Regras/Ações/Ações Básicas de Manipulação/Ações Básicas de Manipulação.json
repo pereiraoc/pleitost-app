@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Ações Básicas de Manipulação",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Ações Básicas de Manipulação.md",
+  "basename": "Ações Básicas de Manipulação",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação Básica de Manipulação, Manipulação, Manipular",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações|Ações]]",
+    "prev": "[[Ações Básicas de Movimento]]",
+    "next": "[[Ações Básicas de Combate]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações Básicas de Manipulação"
+    }
+  ],
+  "body": "%%\nup:: [[Ações|Ações]]\nprev:: [[Ações Básicas de Movimento]]\nnext:: [[Ações Básicas de Combate]]\n%%\n## Ações Básicas de Manipulação \n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  custo AS \"Ações\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações Básicas de Manipulação\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\"\n```\n\n```autosheet-rules\n```\n"
+}

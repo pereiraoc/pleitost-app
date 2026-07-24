@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Regras/Conjuração Mágica/Energia Mágica",
+  "path": "Sistema/Regras/Conjuração Mágica/Energia Mágica.md",
+  "basename": "Energia Mágica",
+  "type": "Regra",
+  "subtype": "Energia Mágica",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "EM"
+    ],
+    "categoria": "Regra",
+    "subcategoria": "Energia Mágica",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descansa"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EVs"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "Energia Mágica"
+    }
+  ],
+  "body": "#### Energia Mágica\nEnergia Mágica (EM) é um potencial mágico acumulado. Quando você [[Descansar|Descansa]], você recarrega sua EM completamente e Dissipa qualquer efeito mágico que foi conjurado por você usando EM.\n%%\nEnergia Mágica (EM) é um potencial mágico superficial. Um conjurador tipicamente consegue manter pouca EM preparada, mas consegue carregá-la com menos esforço. Quando você [[Descansar|Descansa]], você recarrega sua EM completamente. Por conta da natureza superficial da EM, Magias ou outros efeitos que tiveram seu custo pago com EM (mesmo que parcialmente) não tem efeitos tão duradouros: elas não são capazes de recuperar [[Energia Vital|EVs]] e se a duração for maior que 10 minutos ela é reduzida para 10 minutos.\n%%"
+}

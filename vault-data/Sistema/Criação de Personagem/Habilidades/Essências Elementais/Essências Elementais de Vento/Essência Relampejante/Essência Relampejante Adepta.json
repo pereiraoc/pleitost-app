@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Relampejante/Essência Relampejante Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Relampejante/Essência Relampejante Adepta.md",
+  "basename": "Essência Relampejante Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Vento",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Raio Magnético]]",
+      "Complementar Magias.Lista [[Surto Elétrico]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Raio Magnético]], adepta [[Surto Elétrico]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Raio Magnético]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Relampejante Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Raio Magnético]]"
+          },
+          "raw": "Complementar Magias.Lista [[Raio Magnético]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Surto Elétrico]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Relampejante Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Surto Elétrico]]"
+          },
+          "raw": "Complementar Magias.Lista [[Surto Elétrico]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Raio Magnético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Surto Elétrico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Raio Magnético]], adepta [[Surto Elétrico]]\"\n%%\n#### `= this.file.name`\n* basica [[Raio Magnético]]\n* adepta [[Surto Elétrico]]\n\n```autosheet-rules\n```\n"
+}

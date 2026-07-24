@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada (Aplicações da Luz)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Avançada/Prática Avançada (Aplicações da Luz).md",
+  "basename": "Prática Avançada (Aplicações da Luz)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Escola Arcana (Aplicações da Luz)]]",
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "Somar Magias.Slots.E 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende duas  [[Magia Branca Experiente|Magias Brancas Experientes]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Escola Arcana (Aplicações da Luz)]]",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Aplicações da Luz)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Escola Arcana (Aplicações da Luz)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Escola Arcana (Aplicações da Luz)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Aplicações da Luz)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.E 2",
+      "parsed": [
+        {
+          "sourceNote": "Prática Avançada (Aplicações da Luz)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.E 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Experiente",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Experientes"
+    },
+    {
+      "target": "Escola Arcana (Aplicações da Luz)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende duas  [[Magia Branca Experiente|Magias Brancas Experientes]] de sua escolha.\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Magia Arcana Branca]] e aprende duas  [[Magia Branca Experiente|Magias Brancas Experientes]] de sua escolha.\n\n```autosheet-rules\n```\n"
+}

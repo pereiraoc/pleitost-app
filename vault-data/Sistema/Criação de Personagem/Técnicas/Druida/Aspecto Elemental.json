@@ -1,0 +1,189 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Elemental.md",
+  "basename": "Aspecto Elemental",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Aspecto Elemental",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true,
+          "arma": "AtaqueNatural"
+        },
+        "visual": {
+          "iconeLigado": "👹",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "discreto",
+            "label": "Elemento",
+            "opcoes": [
+              "Fogo",
+              "Água",
+              "Terra",
+              "Vento"
+            ]
+          },
+          {
+            "kind": "numerico",
+            "label": "EM Investido",
+            "min": 1,
+            "max": 4,
+            "step": 1
+          }
+        ],
+        "modificadores": [
+          {
+            "somar": "DanoArmaFixo",
+            "valor": 1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "natural"
+              },
+              {
+                "seletor": {
+                  "label": "EM Investido",
+                  "valor": "1"
+                }
+              }
+            ]
+          },
+          {
+            "somar": "DadoExtra",
+            "valor": {
+              "porNivel": {
+                "1": "d4",
+                "4": "d6",
+                "7": "d8"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "natural"
+              },
+              {
+                "seletor": {
+                  "label": "EM Investido",
+                  "valor": "2"
+                }
+              }
+            ]
+          },
+          {
+            "somar": "DadoExtra",
+            "valor": {
+              "porNivel": {
+                "4": "d8",
+                "7": "d10"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "natural"
+              },
+              {
+                "seletor": {
+                  "label": "EM Investido",
+                  "valor": "3"
+                }
+              }
+            ]
+          },
+          {
+            "somar": "DadoExtra",
+            "valor": {
+              "porNivel": {
+                "7": "d12"
+              }
+            },
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "grupoArma": "natural"
+              },
+              {
+                "seletor": {
+                  "label": "EM Investido",
+                  "valor": "4"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Aumenta dano causado pelas armas da forma feral."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo Druídico",
+      "kind": "wikilink",
+      "alias": "círculo"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    },
+    {
+      "target": "Energia Mágica\\",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Aumenta dano causado pelas armas da forma feral.\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende Aspecto Elemental como um [[Aspecto Feral]].\n\n**Aspecto Elemental** - Por 1 minuto, a [[Forma Feral]] causa dano adicional de um dos elementos do seu [[Círculo Druídico|círculo]] (a sua escolha) com ataques naturais da forma dependendo do seu nível e da quantia de [[Energia Mágica|EM]] investida nesse aspecto. O dano extra é simplificado para [[Ataque de Oportunidade|AdO]]. Compatível com todas as formas.\n\n| [[Energia Mágica\\|EM]] | Nível 1~3 | Nível 4~6 | Nível 7+ |\n|:----------------------:|:---------:|:---------:|:--------:|\n|           1            |     1     |     1     |    2     |\n|           2            |  1d4 (1)  |  1d6 (2)  | 1d8 (2)  |\n|           3            |     -     |  1d8 (2)  | 1d10 (3) |\n|           4            |     -     |     -     | 1d12 (3) |\n\nDano em parênteses é o para o caso de [[Ataque de Oportunidade|AdO]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,103 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Camuflado",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Aspecto Camuflado.md",
+  "basename": "Aspecto Camuflado",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Aspecto Camuflado",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true,
+          "arma": "AtaqueNatural"
+        },
+        "visual": {
+          "iconeLigado": "👹",
+          "iconeDesligado": "🚫"
+        },
+        "selectores": [
+          {
+            "kind": "numerico",
+            "label": "EM Investido",
+            "min": 2,
+            "max": 4,
+            "step": 1
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Oculta e torna dificil de alvejar a forma. Compatível com Forma Caçadora e Espreitadora.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink",
+      "alias": "Espreitadora"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manto Translúcido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invisibilidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Oculta e torna dificil de alvejar a forma. Compatível com Forma Caçadora e Espreitadora.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende Aspecto Camuflado como um [[Aspecto Feral]].\n\n**Aspecto Camuflado** - A [[Forma Feral]] recebe os seguintes benefícios dependendo da quantia de [[Energia Mágica|EM]] investida nesse aspecto. Compatível com [[Forma Caçadora]] e [[Forma Espreitadora|Espreitadora]]. Aspecto Camuflado requer um mínimo de 2 [[Energia Mágica|EM]].\n\n| EM  | Benefício                             |\n|:---:| ------------------------------------- |\n|  2  | Você recebe os efeitos de [[Ofuscação]] por 1 minuto | \n|  3  | Você recebe os efeitos de [[Manto Translúcido]] por 10 minutos, quando esse efeito Dissipar, você recebe os efeitos de [[Ofuscação]] por 1 minuto |\n|  4  | Você recebe os efeitos de [[Invisibilidade]] por 1 minuto |\n\n```autosheet-rules\n```\n"
+}

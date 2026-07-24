@@ -1,0 +1,200 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Diadema da Ameaça",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Diadema da Ameaça.md",
+  "basename": "Diadema da Ameaça",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Bônus de [[Intimidação]]. Assusta criaturas feridas.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em testes de Intimidação. Uma ação para Abalar uma criatura que você causou dano (recarga 10 min).",
+      "experiente": "+2 de bônus de item em testes de Intimidação. Uma ação para Abalar e Desprevenir uma criatura que você causou dano (recarga 10 min).",
+      "mestre": "+3 de bônus de item em testes de Intimidação. Uma ação para Abalar, Desprevenir e fazer fugir uma criatura que você causou dano (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Intimidacao.Bonus_Item 3",
+      "Complementar Magias.Lista.Tesouros.Lista [[Aterrorizar]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Diadema da Ameaça",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Diadema da Ameaça",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Intimidacao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Diadema da Ameaça",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Intimidacao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Aterrorizar]]",
+      "parsed": [
+        {
+          "sourceNote": "Diadema da Ameaça",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Aterrorizar]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Aterrorizar]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    },
+    {
+      "target": "Aterrorizar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Fogo) - diadema*\nEste diadema conta com uma gema intensamente vermelha na sua parte central, intensificando a personalidade agressiva do usuário.\n\n* Adepto: +1 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] por 1 turno. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] e [[Desprevenido|Desprevenida]] por 1 turno. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] e [[Desprevenido|Desprevenida]] por 1 turno e deve usar sua reação (caso tenha) para [[Mover]] (ou [[Nadar]]/[[Voar]]) o máximo possível para longe de você. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

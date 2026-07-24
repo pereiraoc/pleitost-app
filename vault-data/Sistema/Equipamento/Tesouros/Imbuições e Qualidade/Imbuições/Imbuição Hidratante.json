@@ -1,0 +1,135 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Hidratante",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Hidratante.md",
+  "basename": "Imbuição Hidratante",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Água|Água]]"
+    ],
+    "resumo": "Arma capaz de curar aliados.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 1/10 min, faz ataque à distância com VdC em aliado; no sucesso, não causa dano e ele recupera Moral igual ao dano da arma (sem dano condicional).",
+      "experiente": "+2 de bônus de item em Ataques. 1/10 min, faz ataque à distância com VdC em aliado; sucesso: sem dano e cura Moral = dano da arma (sem dano condicional); falha: cura metade.",
+      "mestre": "+3 de bônus de item em Ataques. 1/10 min, ataque à distância com VdC em aliado; exceto em falha decisiva, não causa dano e cura Moral = dano da arma (sem dano condicional), +1 dado no sucesso."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,d-marcial|d-simples"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,d-marcial|d-simples",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Hidratante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-simples"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,d-marcial|d-simples",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - arma de distância*\nUma arma carregada do poder da água, amarrada com uma corrente portando gemas azuis. Quando ativada, você pode disparar um tiro restaurador.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Caso tenha sucesso, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam). No sucesso decisivo, além do efeito do sucesso, o alvo recebe 4 [[Energia Heroica|EH]] temporária por 1 turno.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Caso tenha sucesso, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam). No sucesso decisivo, além do efeito do sucesso, o alvo recebe 6 [[Energia Heroica|EH]] temporária por 1 turno. Na falha, o aliado recupera [[Energia Heroica|EH]] igual a metade do valor.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Exceto na falha decisiva, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam), acrescido de um dado de dano da arma em caso de sucesso. No sucesso decisivo, além do efeito do sucesso, o alvo recebe 8 [[Energia Heroica|EH]] temporária por 1 turno.\n\nFora de combate, o tiro restaurador sempre tem sucesso.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

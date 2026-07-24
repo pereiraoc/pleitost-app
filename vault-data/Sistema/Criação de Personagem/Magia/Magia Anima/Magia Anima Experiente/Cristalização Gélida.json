@@ -1,0 +1,83 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Cristalização Gélida",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Cristalização Gélida.md",
+  "basename": "Cristalização Gélida",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Cristalização Gélida (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] para congelar criatura. [[Sustentar|Sustentada]] por até 10t. Alvo congelado fica [[Imobilizado]] ([[Preso]] na falha, e 1d6×potência de dano de frio se decisivo). Não pode [[Escapar]] com [[Acrobacia]] (-2 para Escapar se decisivo). Gelo pode ser atacado (Defesa 10, Dureza 1×potência, [[Energia Vital|EV]] 5×potência, fraqueza a Fogo 1×potência)\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustentada"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink",
+      "alias": "Imobilizada"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] para congelar criatura. [[Sustentar|Sustentada]] por até 10t. Alvo congelado fica [[Imobilizado]] ([[Preso]] na falha, e 1d6×potência de dano de frio se decisivo). Não pode [[Escapar]] com [[Acrobacia]] (-2 para Escapar se decisivo). Gelo pode ser atacado (Defesa 10, Dureza 1×potência, [[Energia Vital|EV]] 5×potência, fraqueza a Fogo 1×potência)\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q. Cristalização Gélida pode ser [[Sustentar|Sustentada]] por até 10 turnos.\n\n**Sucesso:** A criatura é cristalizada em uma formação de gelo, deixando-a [[Imobilizado|Imobilizada]].\n**Sucesso Decisivo:** Como sucesso, e a criatura recebe 1d6×potência de dano de frio e -2 de [[Penalidades|penalidade de circunstância]] para [[Escapar]] da cristalização.\n**Falha:** A criatura é parcialmente cristalizada em uma formação de gelo, deixando-a [[Preso|Presa]].\n**Falha Decisiva:** A criatura não é afetada.\n\nA criatura pode tentar [[Escapar]] contra CD da magia. Escapar do gelo requer força bruta, portanto tentativas para [[Escapar]] não podem ser feitas usando [[Acrobacia]].\n\nO gelo pode ser alvejado para destruí-lo, Dissipando a magia. O gelo tem [[Defesa]] 10, Dureza 1×potência, [[Energia Vital|EV]] 5×potência e fraqueza a Fogo 1×potência.\n"
+}

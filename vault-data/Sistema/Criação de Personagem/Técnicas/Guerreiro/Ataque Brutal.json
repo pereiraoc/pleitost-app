@@ -1,0 +1,103 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Brutal",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Brutal.md",
+  "basename": "Ataque Brutal",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Ataque Brutal",
+        "tipo": "AçãoLocal",
+        "origem": "Técnica",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "⚔️",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "ManobrasPorItemDaArma",
+            "valor": 1,
+            "tipoBonus": "Item",
+            "quando": [
+              {
+                "grupoArma": "corpo-a-corpo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] com arma corpo-a-corpo empunhada com duas mãos; se acertar, você pode tentar [[Derrubar]] (e, se for [[Experiente]] em [[Atletismo]], também [[Empurrar]] depois) usando a mesma [[Penalidade por Ataque Múltiplo|PAM]] do ataque.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] com arma corpo-a-corpo empunhada com duas mãos; se acertar, você pode tentar [[Derrubar]] (e, se for [[Experiente]] em [[Atletismo]], também [[Empurrar]] depois) usando a mesma [[Penalidade por Ataque Múltiplo|PAM]] do ataque.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Brutal.\n\n**Ataque Brutal - 2A**\nFaça um [[Atacar|Ataque]] com uma arma corpo-a-corpo que você está empunhando com duas mãos contra uma criatura. Caso tenha sucesso, pode [[Derrubar]] essa criatura como parte de Ataque Brutal na mesma [[Penalidade por Ataque Múltiplo|PAM]] do ataque inicial, mesmo que esteja com as mãos ocupadas. Considere os ataques normalmente para sua [[Penalidade por Ataque Múltiplo|PAM]], mas ela só aumenta depois que você \nrealizar Ataque Brutal.\n\nSe você tiver algum [[Bônus de Item|bônus de item]] para [[Atacar|Ataques]] com a arma utilizada em Ataque Brutal, pode adicioná-lo a tentativa de [[Derrubar]] de Ataque Brutal.\n\nAdicionalmente, você também pode optar por [[Empurrar]] como parte de Ataque Brutal se tiver sucesso no ataque inicial e for [[Experiente]] em [[Atletismo]]. Isso ocorre após a tentativa de Derrubar.\n\n```autosheet-rules\n```\n"
+}

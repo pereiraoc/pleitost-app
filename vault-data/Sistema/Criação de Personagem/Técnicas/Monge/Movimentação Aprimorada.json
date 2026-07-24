@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Movimentação Aprimorada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Movimentação Aprimorada.md",
+  "basename": "Movimentação Aprimorada",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você recebe +2q de [[bônus de especialização]] na [[Movimentação]] terrestre. Durante seu [[Mover|movimento]], você pode atravessar líquidos ou superfícies frágeis, mas precisa terminar em chão firme (senão cai/afunda quando o movimento acabar).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "movimento"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você recebe +2q de [[bônus de especialização]] na [[Movimentação]] terrestre. Durante seu [[Mover|movimento]], você pode atravessar líquidos ou superfícies frágeis, mas precisa terminar em chão firme (senão cai/afunda quando o movimento acabar).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe +2q de [[bônus de especialização]] na [[Movimentação]] terrestre.\nAdicionalmente, você pode [[Mover]] por cima de líquidos ou superfícies que não aguentem seu peso. Esse benefício dura somente durante seu movimento, você cai/afunda ou a superfície frágil cede normalmente se o movimento acabar e você não estiver em chão firme.\n\n```autosheet-rules\n```\n"
+}

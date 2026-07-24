@@ -1,0 +1,229 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Bestas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Bestas).md",
+  "basename": "Especialização em Arma (Bestas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização em Arma (Bestas)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Besta de Mão]]",
+            "[[Besta Leve]]",
+            "[[Besta]]",
+            "[[Besta Pesada]]"
+          ]
+        }
+      }
+    ],
+    "Elementos_de_Regra": [
+      "Condicional Inventario.Armas.Lista,[[Besta de Mão]] Sobrescrever Inventario.Armas.Lista.[[Besta de Mão]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Besta Leve]] Sobrescrever Inventario.Armas.Lista.[[Besta Leve]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Besta]] Sobrescrever Inventario.Armas.Lista.[[Besta]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Besta Pesada]] Sobrescrever Inventario.Armas.Lista.[[Besta Pesada]].Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Atirador\"",
+      "Somar Papel.Abatedor 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Bestas."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Besta de Mão]] Sobrescrever Inventario.Armas.Lista.[[Besta de Mão]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Besta de Mão]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Besta de Mão]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Besta de Mão]] Sobrescrever Inventario.Armas.Lista.[[Besta de Mão]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Besta Leve]] Sobrescrever Inventario.Armas.Lista.[[Besta Leve]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Besta Leve]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Besta Leve]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Besta Leve]] Sobrescrever Inventario.Armas.Lista.[[Besta Leve]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Besta]] Sobrescrever Inventario.Armas.Lista.[[Besta]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Besta]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Besta]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Besta]] Sobrescrever Inventario.Armas.Lista.[[Besta]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Besta Pesada]] Sobrescrever Inventario.Armas.Lista.[[Besta Pesada]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Besta Pesada]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Besta Pesada]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Besta Pesada]] Sobrescrever Inventario.Armas.Lista.[[Besta Pesada]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Atirador\"",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Atirador"
+          },
+          "raw": "Alias Classe Compor 1 \"Atirador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Bestas)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Abatedor 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Besta de Mão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Pesada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Bestas.\n%%\n#### `= this.file.name`\nVocê recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Bestas.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Bestas         | [[Besta de Mão]], [[Besta Leve]], [[Besta]], [[Besta Pesada]]                  |\n\n```autosheet-rules\n```\n"
+}

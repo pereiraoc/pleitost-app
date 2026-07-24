@@ -1,0 +1,142 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Enervante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Performance Enervante.md",
+  "basename": "Performance Enervante",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Acoes.Lista [[Enervar]]",
+      "Complementar Acoes.Lista [[Ato Enervante]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Auto-Confiança",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "modificadores": [
+          {
+            "somar": "Pericia(Intimidação)",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você aprende a Performance Bárdica [[Enervar]] e [[Auto-Confiança]] garante bônus para [[Assustar]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Acoes.Lista [[Enervar]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Enervante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Enervar]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Enervar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Ato Enervante]]",
+      "parsed": [
+        {
+          "sourceNote": "Performance Enervante",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Ato Enervante]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Ato Enervante]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Enervar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enervar",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Ato Enervante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você aprende a Performance Bárdica [[Enervar]] e [[Auto-Confiança]] garante bônus para [[Assustar]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a Performance Bárdica Enervar. Adicionalmente, [[Auto-Confiança]] também garante +1 de [[Bônus de Condição|bônus de condição]] na [[Intimidação]].\n\n![[Enervar#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

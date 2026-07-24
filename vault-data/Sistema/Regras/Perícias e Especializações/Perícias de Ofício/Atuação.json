@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Atuação",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Atuação.md",
+  "basename": "Atuação",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias de Ofício]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias de Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Atuação ([[Presença|PRE]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias de Ofício]]\nprev:: \nnext:: \n%%\n### Atuação ([[Presença|PRE]])\nAtuação é dividida em oratória, dança e música."
+}

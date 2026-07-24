@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Enganar a Morte",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Enganar a Morte.md",
+  "basename": "Enganar a Morte",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Reação para ficar com 1 EV ao ser reduzido a menos de 1.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Morrendo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Reação para ficar com 1 EV ao ser reduzido a menos de 1.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Enganar a Morte.\n\n**Enganar a Morte - R**\nPode ser usado quando você recebe dano que reduziria sua [[Energia Vital|EV]] a menos de 1. Por algum motivo, você desvia da morte por um fio. Você recebe o dano normalmente, mas não fica [[Morrendo]] e sua [[Energia Vital|EV]] atual se torna 1. Você não pode usar essa habilidade novamente até [[Descansar]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,824 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Dante",
+  "path": "Sistema/Criaturas/Heróis/Dante.md",
+  "basename": "Dante",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Carlos, Dante, Mera, Pind, Thoren]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Carlos, Dante, Mera, Pind, Thoren]]"
+    ],
+    "Imagem": "",
+    "Nível": 7,
+    "Classe": "[[Ladino|Ladino Mestre Artista Sombrio]]",
+    "Sintonia": "[[Traço Elemental do Vento]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 24,
+      "Moral": 48
+    },
+    "Atributos": {
+      "Principal": "AGI",
+      "FOR": 0,
+      "AGI": 3,
+      "INT": 1,
+      "PRE": 2
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "PRE",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "PRE",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "M",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "M",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 3,
+        "M": 1
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "E",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 2,
+          "Especializacao": "[[Infiltração]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Ladino]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Especial": "Regra.[[Estilo de Ladino (Artista Sombrio)]]",
+              "Bonus_Item": "Regra.[[Capa Discreta]]"
+            },
+            {
+              "Bonus_Especial": "Regra.[[Estilo de Ladino (Artista Sombrio)]]",
+              "Bonus_Item": "Regra.[[Capa Discreta]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Malandragem]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Estilo de Ladino (Artista Sombrio)]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "M",
+          "Bonus_Item": 2,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Distração]]",
+          "Maestria": "[[Lá e Cá]]",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "M": "Slot.M",
+              "Bonus_Especial": "Escolha.02.[[Estilo de Ladino (Perito)]]"
+            },
+            {
+              "Bonus_Item": "Regra.[[Anel Canário]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Submundo",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Ataque Furtivo]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Estilo de Ladino]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Ladino Experiente]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Estilo Aprimorado]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Ladino Mestre]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Estilo de Ladino (Perito)|Perito]]": "Escolha.[[Estilo de Ladino]]"
+        },
+        {
+          "[[Estilo Próprio]]": "Regra.[[Ladino]]"
+        },
+        {
+          "[[Estilo Aprimorado (Perito)|Perito]]": "Regra.[[Estilo Aprimorado]]"
+        },
+        {
+          "[[Estilo de Ladino (Artista Sombrio)]]": "Escolha.[[Estilo de Ladino]]"
+        },
+        {
+          "[[Estilo Aprimorado (Artista Sombrio)]]": "Regra.[[Estilo Aprimorado]]"
+        },
+        {
+          "[[Estilo Próprio (Artista Sombrio)]]": "Regra.[[Estilo Próprio]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Girar a Faca]]": "Slot.A"
+        },
+        {
+          "[[Retirada]]": "Slot.A"
+        },
+        {
+          "[[Oportunidade Injusta]]": "Slot.E"
+        },
+        {
+          "[[Olho nas Costas]]": "Slot.E"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 3,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Mão Mágica]]": "Regra.[[Estilo de Ladino (Artista Sombrio)]]"
+            },
+            {
+              "[[Manto Translúcido]]": "Regra.[[Estilo Aprimorado (Artista Sombrio)]]"
+            },
+            {
+              "[[Ofuscação]]": "Regra.[[Estilo Aprimorado (Artista Sombrio)]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Manto Translúcido]]": "Tesouro.[[Capa Discreta]]"
+            },
+            {
+              "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+            },
+            {
+              "[[Ofuscação]]": "Tesouro.[[Capa Discreta]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": []
+    },
+    "Ataques": {
+      "Proficiencia": "M",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "[[Armadura Leve]]",
+        "Categoria": "[[Experiente]]",
+        "Propriedade": "[[Armadura Obra-prima|Obra-prima]]",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Anel da Resistência|Anel da Resistência (Adepto)]]",
+        "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+        "[[Capa Discreta|Capa Discreta (Experiente)]]",
+        "[[Anel Canário|Anel Canário (Experiente)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção de Cura|Poção de Cura (Experiente) (x1)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "N",
+          "Especificas": [
+            "[[Adaga de Duelo]]",
+            "[[Espada Curta]]",
+            "[[Espada Curva]]",
+            "[[Punhal]]",
+            "[[Rapieira]]",
+            "[[Arco Curto]]",
+            "[[Arco de Caça]]"
+          ]
+        },
+        "Lista": [
+          {
+            "Nome": "[[Punhal]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Relampejante|Relampejante]]",
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Arco Curto]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          },
+          {
+            "Nome": "[[Punhal]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 2,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Experiente]]",
+            "Propriedade": "[[Imbuição Torrencial|Torrencial]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [
+        {
+          "qtd": 4,
+          "texto": "Proteção de Carregamento de Esmeraldas (Lilá > Safira)"
+        },
+        {
+          "qtd": 3,
+          "texto": "Ordem Solar: Zumbis perto de Vinhedos"
+        },
+        {
+          "qtd": 14,
+          "texto": "Ordem Solar: Expedição à Tumba Selada"
+        },
+        {
+          "qtd": 24,
+          "texto": "Neutralização da Fenda de Energia Negativa"
+        }
+      ],
+      "Reconhecimentos": [
+        {
+          "entidade": "Ordem Solar",
+          "texto": "Luz do Ápice"
+        },
+        {
+          "entidade": "",
+          "texto": ""
+        },
+        {
+          "entidade": "",
+          "texto": ""
+        }
+      ]
+    },
+    "Biografia": {
+      "Passado": "Maltrapilho",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 0,
+      "Abatedor": 3,
+      "Vanguarda": 0
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 2419,
+        "Moral": 4,
+        "Moral_Temporaria": 0,
+        "EM": 3,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      },
+      "Condicoes_Ativas": {
+        "Acerto Decisivo": {
+          "value": 1
+        },
+        "Vantagem de Combate": {
+          "value": 1
+        }
+      },
+      "Efeitos_Ativos": {
+        "Acerto Decisivo": {
+          "on": true
+        },
+        "Vantagem de Combate": {
+          "on": true
+        },
+        "Performance Bárdica Ativa": {
+          "on": true,
+          "auto": true,
+          "autoFrom": "Inspiração::Carlos Facão de Andradas"
+        }
+      },
+      "Usos_Recursos": {
+        "tes:Capa Discreta|tier:A": 1,
+        "arma:Punhal|prop:Torrencial": 1,
+        "arma:Punhal|prop:Relampejante": 1,
+        "tes:Amplificador Audiovisual|tier:A": 1,
+        "tes:Anel Canário|tier:E": 1,
+        "tes:Capa Discreta|tier:E": 1
+      },
+      "Invocacoes_Ativas": {}
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink",
+      "alias": "Ladino Mestre Artista Sombrio"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Infiltração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capa Discreta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Malandragem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lá e Cá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel Canário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Artista Sombrio)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink",
+      "alias": "Anel da Resistência (Adepto)"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink",
+      "alias": "Amplificador Audiovisual (Adepto)"
+    },
+    {
+      "target": "Capa Discreta",
+      "kind": "wikilink",
+      "alias": "Capa Discreta (Experiente)"
+    },
+    {
+      "target": "Anel Canário",
+      "kind": "wikilink",
+      "alias": "Anel Canário (Experiente)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Experiente) (x1)"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink",
+      "alias": "Relampejante"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Torrencial"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

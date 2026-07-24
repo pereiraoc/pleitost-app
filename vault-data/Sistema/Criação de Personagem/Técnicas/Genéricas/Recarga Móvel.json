@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Genéricas/Recarga Móvel",
+  "path": "Sistema/Criação de Personagem/Técnicas/Genéricas/Recarga Móvel.md",
+  "basename": "Recarga Móvel",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"[[Mover|Mova-se]], [[Espreitar|Espreite]] ou realize um [[Passo de Ajuste]] e depois [[Recarregue]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova-se"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink",
+      "alias": "Espreite"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Recarregue",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Recarregar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse::\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"[[Mover|Mova-se]], [[Espreitar|Espreite]] ou realize um [[Passo de Ajuste]] e depois [[Recarregue]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Recarga Móvel.\n\n**Recarga Móvel - 1A**  \n[[Mover|Mova]], [[Espreitar|Espreite]] ou faça um [[Passo de Ajuste]], você pode então [[Recarregar]].\n\n```autosheet-rules\n```\n"
+}

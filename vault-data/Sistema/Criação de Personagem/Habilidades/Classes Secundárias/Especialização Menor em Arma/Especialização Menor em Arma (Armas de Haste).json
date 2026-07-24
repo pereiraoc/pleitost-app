@@ -1,0 +1,76 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Armas de Haste)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Armas de Haste).md",
+  "basename": "Especialização Menor em Arma (Armas de Haste)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização Menor em Arma (Armas de Haste)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Azagaia]]",
+            "[[Lança]]",
+            "[[Alabarda]]",
+            "[[Pique]]"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Você se torna especializado em armas do grupo Haste para fins de requisito e condicionais de técnicas e habilidades de Guerreiro."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Azagaia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alabarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pique",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Você se torna especializado em armas do grupo Haste para fins de requisito e condicionais de técnicas e habilidades de Guerreiro.\n%%\n#### `= this.file.name`\nVocê se torna especializado em armas do grupo Haste para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Armas de Haste | [[Azagaia]], [[Lança]], [[Alabarda]], [[Pique]]                                |\n\n```autosheet-rules\n```\n"
+}

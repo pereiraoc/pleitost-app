@@ -1,0 +1,25 @@
+{
+  "id": "Contexto/Organizações/Sociedade Aberta",
+  "path": "Contexto/Organizações/Sociedade Aberta.md",
+  "basename": "Sociedade Aberta",
+  "type": "Organização",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": null,
+    "Líder": null,
+    "Descrição": null,
+    "Objetivo_de_Longo_Prazo": null,
+    "Objetivo_Imediato": null,
+    "Resumo": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Organização\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Objetivo de Longo Prazo:** \n>**Objetivo Imediato:** \n>**Influência:** \n>**Descrição:** \n"
+}

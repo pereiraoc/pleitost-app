@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Travessia/Triatlo",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Travessia/Triatlo.md",
+  "basename": "Triatlo",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Atletismo]]",
+    "resumo": "\"Nada e Escala.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Atletismo]]\nresumo:: \"Nada e Escala.\"\n%%\n### `= this.file.name`\n* Ganha movimentaçao de Nadar e Escalar igual a metade do movimento terrestre.\n\n*Requer Travessia*\n\n```autosheet-rules\n```\n"
+}

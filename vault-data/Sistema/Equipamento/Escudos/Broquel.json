@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Equipamento/Escudos/Broquel",
+  "path": "Sistema/Equipamento/Escudos/Broquel.md",
+  "basename": "Broquel",
+  "type": "Item",
+  "subtype": "Escudo",
+  "grupo": "broquel",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Escudo",
+    "grupo": "broquel",
+    "dg-publish": true,
+    "especial": "Danos: 4, Bônus Defesa: 1, Dureza: 2",
+    "resumo": "Pequeno escudo, leve e ágil.",
+    "propriedades": [],
+    "bonus-defesa": 1,
+    "dureza": 2,
+    "danos": 4,
+    "preço": "",
+    "Elementos_de_Regra": [
+      "Definir Inventario.Escudo.Dureza 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Escudos]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Inventario.Escudo.Dureza 2",
+      "parsed": [
+        {
+          "sourceNote": "Broquel",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Escudo.Dureza",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Inventario.Escudo.Dureza 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Escudos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Escudos]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Danos          | Bônus Defesa          | Dureza          | Propriedades          | Preço          |\n| -------------- | --------------------- | --------------- | --------------------- | -------------- |\n| `= this.danos` | `= this[\"bonus-defesa\"]` | `= this.dureza` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: escudos\n```\n\n```autosheet-rules\n```\n"
+}

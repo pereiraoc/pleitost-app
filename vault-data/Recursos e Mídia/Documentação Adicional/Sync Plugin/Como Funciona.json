@@ -1,0 +1,85 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Como Funciona",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Como Funciona.md",
+  "basename": "Como Funciona",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Configuração",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Como Funciona"
+    },
+    {
+      "level": 2,
+      "text": "Modelo em 1 frase"
+    },
+    {
+      "level": 2,
+      "text": "Topologia"
+    },
+    {
+      "level": 2,
+      "text": "Quem pode mudar o quê"
+    },
+    {
+      "level": 2,
+      "text": "Fluxos"
+    },
+    {
+      "level": 3,
+      "text": "Player edita a própria ficha"
+    },
+    {
+      "level": 3,
+      "text": "Mestre aplica dano em NPC"
+    },
+    {
+      "level": 3,
+      "text": "Mestre tenta editar ficha com claim"
+    },
+    {
+      "level": 3,
+      "text": "Player B tenta editar ficha alheia"
+    },
+    {
+      "level": 3,
+      "text": "Initial sync ao entrar/reabrir"
+    },
+    {
+      "level": 2,
+      "text": "O que viaja via servidor"
+    },
+    {
+      "level": 2,
+      "text": "Jogador sem o vault completo do Mestre"
+    },
+    {
+      "level": 2,
+      "text": "Visibilidade"
+    },
+    {
+      "level": 2,
+      "text": "Off / on da sincronização FM"
+    },
+    {
+      "level": 2,
+      "text": "Offline"
+    },
+    {
+      "level": 2,
+      "text": "Limites"
+    }
+  ],
+  "body": "# Como Funciona\n\n## Modelo em 1 frase\n\nDurante a sessão, o **servidor é a verdade**; cada Obsidian conectado espelha o estado nas próprias notas — mas só o **dono do claim** edita.\n\n## Topologia\n\n```mermaid\nflowchart LR\n    Mestre[Mestre]\n    P1[Jogador 1]\n    P2[Jogador 2]\n    DB[(\"Servidor\")]\n\n    Mestre <--> DB\n    P1 <--> DB\n    P2 <--> DB\n```\n\nCada participante tem o próprio vault. O sync NÃO sincroniza arquivos — sincroniza o **estado de jogo** (vida/condições/recursos/nivel/atributos).\n\n## Quem pode mudar o quê\n\n| Personagem | Dono é | Mestre edita pelo painel? | Player edita? |\n|---|---|---|---|\n| Heroi com claim | Player que reivindicou | ❌ (Notice \"Só o dono pode mudar X\") | ✅ via autosheet |\n| Companheiro animal de heroi com claim | Mesmo do tutor | ❌ (lock transitivo) | ✅ via autosheet |\n| Invocação ativa de heroi com claim | Mesmo do invocador | ❌ (lock transitivo) | ✅ via autosheet |\n| Heroi/companheiro placeholder (sem claim) | Mestre | ✅ | ❌ |\n| NPC do bestiário, NPC spawned | Mestre | ✅ direto no painel | ❌ |\n\n**Lock transitivo**: se a Mera é da Player A, tudo que pertence a ela (Metis o companheiro, Amálgama das Sombras a invocação ativa) **só a Player A altera**. O Mestre tenta clicar e recebe Notice.\n\n## Fluxos\n\n### Player edita a própria ficha\n\n```mermaid\nflowchart TB\n    A[\"Player A edita FM<br/>(autosheet)\"]\n    B[\"Watcher publica delta<br/>no servidor\"]\n    C[\"Realtime → Mestre e<br/>outros players\"]\n    D[\"Writer escreve FM local<br/>(debounce 200ms)\"]\n    E[\"Autosheet re-monta<br/>aba/scroll preservados\"]\n\n    A --> B --> C --> D --> E\n```\n\n### Mestre aplica dano em NPC\n\n```mermaid\nflowchart TB\n    A[\"Mestre aplica dano<br/>no card do Goblin\"]\n    B[\"updateCharacterState<br/>no servidor\"]\n    C[\"Realtime → todos<br/>os painéis atualizam\"]\n    D{\"FM do Goblin.md<br/>é tocado?\"}\n    E[\"NÃO — multi-instância<br/>(1 nota = N goblins)\"]\n\n    A --> B --> C --> D --> E\n```\n\n### Mestre tenta editar ficha com claim\n\n```mermaid\nflowchart TB\n    A[\"Mestre clica '-5 dano'<br/>no card da Mera\"]\n    B{\"Mera tem claim<br/>de player?\"}\n    C[\"Notice<br/>'Só o dono pode mudar Mera'\"]\n    D[\"Nada vai pro servidor\"]\n\n    A --> B -->|sim| C --> D\n```\n\n### Player B tenta editar ficha alheia\n\n```mermaid\nflowchart TB\n    A[\"Player B edita<br/>FM da Mera (alheia)\"]\n    B[\"Watcher detecta:<br/>isMine = false\"]\n    C[\"Writer reverte FM<br/>com snapshot do servidor\"]\n    D[\"Input 'salta de volta'<br/>visualmente\"]\n\n    A --> B --> C --> D\n```\n\n### Initial sync ao entrar/reabrir\n\n```mermaid\nflowchart TB\n    A[\"Player entra/reabre<br/>a sessão\"]\n    B[\"Compara FM local<br/>com estado do servidor\"]\n    C{\"Divergem?\"}\n    D[\"No-op\"]\n    E[\"Writer escreve FM ← DB<br/>+ Notice 'Sincronizando<br/>Mera (30→15)'\"]\n\n    A --> B --> C\n    C -->|não| D\n    C -->|sim| E\n```\n\n## O que viaja via servidor\n\nNão é a ficha inteira. Só os campos abaixo (que mudam durante a sessão):\n\n| Campo | Atualiza quando |\n|---|---|\n| Vitalidade, Moral, Moral Temporária, EM | Combate, cura, descanso |\n| Condições ativas | Aplicar/remover (Atordoado, Cego, etc) |\n| Efeitos ativos | Buffs/debuffs |\n| Recursos consumíveis | Slots de magia, usos de itens |\n| Invocações ativas | Invocar/dissipar (Amálgama, Servo das Sombras) |\n| Nível, atributos | Level up, ganho de item |\n| Vit/Moral máximas, stats derivados | Recalculado por mudança acima |\n| Nome, classe, sintonia, raça, imagem | Level up, mudança narrativa |\n\n**NÃO viaja**: inventário detalhado, ataques detalhados, magias declaradas, anotações, descrições, lore. Esses ficam no FM local de cada um.\n\n## Jogador sem o vault completo do Mestre\n\nO release de jogador (`pleitost-jogador-vX.zip`) **NÃO inclui**:\n\n- `Sistema/Criaturas/Bestiário/` (notas dos monstros)\n- `Campanhas/` (notas de combate/aventura do Mestre)\n- `Recursos e Mídia/Ferramentas de GM/`, `Rascunhos/` (literal — nome de pasta no disco)\n\nQuando o Mestre publica um Goblin Soldado na sessão, o player NÃO tem a nota `.md` correspondente. O sync resolve isso:\n\n| O que o player precisa ver | De onde vem |\n|---|---|\n| Nome / classe / raça do monstro | `summary` no servidor (publicado pelo Mestre) |\n| Vida / condições | `state` no servidor |\n| Defesa / Vigor / Evasão / Ímpeto / Movimento / Percepção / Intuição | `summary.stats` no servidor (já calculado) |\n| Imagem do retrato | Cascade local → ícone do kind como fallback final (👹) |\n| Link clicável pra abrir a ficha | NÃO há (em combate vira label genérico \"Goblin 1\") |\n\nEm combate ativo, o player vê o NPC anonimizado por default (Goblin 1, Goblin 2…); Mestre revela com ❓/❗ — aí o player passa a ver o nome real (do summary, sem precisar do `.md` local). Stats (Defesa/Vigor/etc) podem ser consultados via toggle 🛡️ — vêm 100% do servidor.\n\n## Visibilidade\n\n| Quem está olhando | Heroi/Companheiro de PC | NPC visível | NPC oculto (Mestre) |\n|---|---|---|---|\n| Mestre | ✅ tudo | ✅ tudo | ✅ tudo |\n| Jogador | ✅ tudo (anonimizado se em combate até ser revelado) | ✅ | ❌ RLS bloqueia no servidor |\n\nNPCs ocultos não vazam: nem o `select` do banco entrega a row pro player.\n\n## Off / on da sincronização FM\n\nToggle em [[Configuração]] — **Sincronizar fichas com a sessão** (default ON):\n\n| ON | OFF |\n|---|---|\n| FM local atualiza em tempo real | FM local não é tocado pelo plugin |\n| Autosheet re-monta a cada delta (preserva aba/scroll/modo) | Autosheet fica estático |\n| Pode perder mid-typing em rajada de combate | Mid-typing intacto |\n| Vita do painel = vita da ficha sempre | Painel e ficha podem divergir |\n\nNPCs ficam DB-only **independente** desse toggle (3 instâncias do mesmo Goblin não cabem num arquivo só).\n\n## Offline\n\n| Acontecimento | Resultado |\n|---|---|\n| Você fica sem internet | Plugin tenta reconectar; alterações no FM enfileiram pra publicar |\n| Você reabre o Obsidian | Plugin tenta retomar última sessão (`lastSession` em `data.json`) |\n| Sessão foi encerrada enquanto offline | Plugin limpa silenciosamente — volta pra home |\n| Mestre aplicou dano enquanto você estava offline | Initial sync ao reabrir escreve FM ← servidor com Notice descritivo |\n\n## Limites\n\n- Sincronização precisa de internet (latência típica < 1s; rede ruim atrasa)\n- Free tier do Supabase aguenta dezenas de mesas — pra escala maior, hospede o próprio ([[Configuração]])\n- Plugin depende do **pleitost-autosheet** carregado (visual + dados da ficha)\n"
+}

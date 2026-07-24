@@ -1,0 +1,258 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Artista Sombrio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Artista Sombrio).md",
+  "basename": "Estilo de Ladino (Artista Sombrio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "Definir Pericias.Lista.Arcana.Proficiencia A",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "Definir Magias.EM 1",
+      "Complementar Magias.Lista [[Mão Mágica]]",
+      "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+      "Complementar Acoes.Lista [[Passo das Sombras]]",
+      "Alias Classe Compor 1 \"Artista Sombrio\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você recebe +2 de [[bônus de especialização]] em Furtividade. Você se torna [[Adepto]] em [[Arcana]]. Você se torna [[Adepto]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima é 1. Você aprende [[Mão Mágica]], ela conta como Magia negra. Seu atributo-chave para magias é [[Inteligência]]. Pode usar Passo das Sombras.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Pericias.Lista.Furtividade.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Arcana.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Arcana.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Magias.EM 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Mão Mágica]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Mão Mágica]]"
+          },
+          "raw": "Complementar Magias.Lista [[Mão Mágica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Passo das Sombras]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Passo das Sombras]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Passo das Sombras]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Artista Sombrio\"",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Artista Sombrio)",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Artista Sombrio"
+          },
+          "raw": "Alias Classe Compor 1 \"Artista Sombrio\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Mão Mágica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Luva do Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo das Sombras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto]]\n\nresumo:: \"Você recebe +2 de [[bônus de especialização]] em Furtividade. Você se torna [[Adepto]] em [[Arcana]]. Você se torna [[Adepto]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima é 1. Você aprende [[Mão Mágica]], ela conta como Magia negra. Seu atributo-chave para magias é [[Inteligência]]. Pode usar Passo das Sombras.\"\n%%\n##### `= this.file.name`\nA magia do vazio te mantem nas sombras. Você recebe +2 de [[bônus de especialização]] em Furtividade. Você se torna [[Adepto]] em [[Arcana]]. Você se torna [[Adepto]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima é 1. Você pode se beneficiar do bônus de [[Luva do Arcanista]]. Você aprende [[Mão Mágica]] e ela conta como uma Magia Negra para você. Seu atributo-chave para magias é [[Inteligência]]. Você aprende a habilidade [[Passo das Sombras]].\n\n```autosheet-rules\n```\n"
+}

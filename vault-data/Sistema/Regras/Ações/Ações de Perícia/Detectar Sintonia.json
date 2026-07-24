@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Detectar Sintonia",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Detectar Sintonia.md",
+  "basename": "Detectar Sintonia",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Anima]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta identificar a [[Sintonia]] de uma criatura, para intuir vulnerabilidades.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Anima]]\"\npropriedades:: \nresumo:: \"Tenta identificar a [[Sintonia]] de uma criatura, para intuir vulnerabilidades.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Anima]] vs [[CD|CD-Nível]] de uma criatura que você consegue ver. Em caso de sucesso, detecta o elemento que a criatura tem sintonia mais forte (o que pode mostrar vulnerabilidades elementais).\n\n```autosheet-rules\n```\n"
+}

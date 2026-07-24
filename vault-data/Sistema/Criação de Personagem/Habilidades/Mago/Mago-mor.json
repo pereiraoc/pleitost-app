@@ -1,0 +1,365 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Mago-mor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Mago-mor.md",
+  "basename": "Mago-mor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 6",
+      "Somar Vida.Moral 12",
+      "Definir Ataques.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Definir Magias.Potencia 4",
+      "Definir Magias.EM 3",
+      "Nivel 4 Alias Classe Compor 0 \"Mago-mor\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Defesa]] [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], Potência Mágica.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 6",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "6"
+          },
+          "raw": "Somar Vida.Vitalidade 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 12",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "12"
+          },
+          "raw": "Somar Vida.Moral 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Magias.EM 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Alias Classe Compor 0 \"Mago-mor\"",
+      "parsed": [
+        {
+          "sourceNote": "Mago-mor",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Mago-mor"
+          },
+          "raw": "Nivel 4 Alias Classe Compor 0 \"Mago-mor\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Defesa]] [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], Potência Mágica.\"\n%%\n#### `= this.file.name`\nVocê se torna reconhecido como um guerreiro mágico. Magos que atingem esse nível de experiência são conhecidos como Magos-mor, aplicando a magia unida ao combate de forma impressionante.\n* Sua [[Energia Vital|EV]] máxima aumenta em 6\n* Sua [[Energia Heroica|EH]] máxima aumenta em 12\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Experiente]] em [[Vigor]] e [[Ímpeto]];\n* Você se torna [[Adepto]] em [[Evasão]];\n* Você se torna [[Experiente]] em [[Intuição]];\n* Você se torna [[Adepto]] em [[Percepção]];\n* Sua [[Energia Mágica|EM]] máxima aumenta para 3;\n* Sua potência mágica para magias de Mago aumenta para 4.\n\n```autosheet-rules\n```\n"
+}

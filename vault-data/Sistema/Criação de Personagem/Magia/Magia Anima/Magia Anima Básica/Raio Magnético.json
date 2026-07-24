@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Raio Magnético",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Raio Magnético.md",
+  "basename": "Raio Magnético",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 10q com 1d6+3 de dano de raio; até o próximo turno, o próximo [[Atacar|Ataque]] com arma de metal contra o alvo recebe +1 de [[Bônus de Circunstância|bônus de circunstância]]. No sucesso decisivo, +1d6; no sucesso, o dano aumenta para 2d6+3 ([[Experiente]] em [[Magia Anima]) e 3d6+3 ([[Mestre]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 10q com 1d6+3 de dano de raio; até o próximo turno, o próximo [[Atacar|Ataque]] com arma de metal contra o alvo recebe +1 de [[Bônus de Circunstância|bônus de circunstância]]. No sucesso decisivo, +1d6; no sucesso, o dano aumenta para 2d6+3 ([[Experiente]] em [[Magia Anima]) e 3d6+3 ([[Mestre]]).\"\n%%\n# `= this.file.name` - `= this.custo`\nDispara uma raio eletricamente carregado contra uma criatura. Faça um Ataque Mágico contra [[Evasão]] de uma criatura em 10q.\n\n**Sucesso:** A criatura recebe 1d6+3 de dano de raio e, até o início do seu próximo turno, o próximo [[Atacar|Ataque]] feito contra o alvo usando uma arma de metal recebe +1 de [[Bônus de Circunstância|bônus de circunstância]].\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d6.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d6+3 ao se tornar [[Experiente]] com [[Magia Anima]] e 3d6+3 ao se tornar [[Mestre]]."
+}

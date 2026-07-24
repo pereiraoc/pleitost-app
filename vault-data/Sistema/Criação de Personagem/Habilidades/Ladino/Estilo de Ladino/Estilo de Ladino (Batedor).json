@@ -1,0 +1,158 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Batedor)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Batedor).md",
+  "basename": "Estilo de Ladino (Batedor)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Sentidos.Lista.Percepcao.Bonus_Especial 2",
+      "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "Complementar Acoes.Lista [[Encontrar Fraqueza]]",
+      "Alias Classe Compor 1 \"Batedor\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você recebe +2 de [[bônus de especialização]] em [[Percepção]] e é sempre considerado [[Procurar|Vigiando]] sem penalidades ou limitação de ações. Você se torna [[Adepto]] em [[Sobrevivência]]. Você aprende a habilidade [[Encontrar Fraqueza]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Bonus_Especial 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Batedor)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Especial",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Bonus_Especial 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Batedor)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Encontrar Fraqueza]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Batedor)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Encontrar Fraqueza]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Encontrar Fraqueza]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Batedor\"",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Batedor)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Batedor"
+          },
+          "raw": "Alias Classe Compor 1 \"Batedor\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink",
+      "alias": "Vigiando"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encontrar Fraqueza",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto]]\n\nresumo:: \"Você recebe +2 de [[bônus de especialização]] em [[Percepção]] e é sempre considerado [[Procurar|Vigiando]] sem penalidades ou limitação de ações. Você se torna [[Adepto]] em [[Sobrevivência]]. Você aprende a habilidade [[Encontrar Fraqueza]].\"\n%%\n##### `= this.file.name`\nNada escapa dos seus olhos. Você recebe +2 de [[bônus de especialização]] em [[Percepção]] e é sempre considerado [[Procurar|Vigiando]] sem penalidades ou limitação de ações. Você se torna [[Adepto]] em [[Sobrevivência]]. Você aprende a habilidade [[Encontrar Fraqueza]].\n\n```autosheet-rules\n```\n"
+}

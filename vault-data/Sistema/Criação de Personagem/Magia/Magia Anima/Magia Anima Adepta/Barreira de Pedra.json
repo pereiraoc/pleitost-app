@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Barreira de Pedra",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Barreira de Pedra.md",
+  "basename": "Barreira de Pedra",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Adepta",
+    "custo": "R",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Reduz dano de corte/perf/cont em 2×potência de você ou aliado em 3q. Ataca [[Evasão]] para empurrar 1q (2q se decisivo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Reduz dano de corte/perf/cont em 2×potência de você ou aliado em 3q. Ataca [[Evasão]] para empurrar 1q (2q se decisivo).\"\n%%\n# `= this.file.name` - `= this.custo`\nPode ser usado quando você ou um aliado em até 3q é acertado por um [[Atacar|Ataque]] que causa dano de corte, perfuração ou contusão. Uma barreira de pedra surge momentaneamente, bloqueando o ataque e empurrando o agressor. Reduza o dano do ataque em 2×potência. Você não pode usar Magias Adeptas ou superiores até o fim do seu próximo turno. Caso a criatura que causou o dano esteja adjacente ao alvo, faça um Ataque Mágico contra [[Evasão]] desta:\n\n**Sucesso:** A criatura é empurrada 1q.\n**Sucesso Decisivo:** A criatura é empurrada 2q."
+}

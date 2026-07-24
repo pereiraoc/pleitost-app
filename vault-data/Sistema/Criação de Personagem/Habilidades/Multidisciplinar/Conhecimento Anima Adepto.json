@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Anima Adepto",
+  "path": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Anima Adepto.md",
+  "basename": "Conhecimento Anima Adepto",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\"\n%%\n#### `= this.file.name`\nVocê recebe acesso a uma [[Essências Elementais|Essência Elemental]], você pode conjurar a forma Básica e Adepta desta essência.\n\n```autosheet-rules\n```\n"
+}

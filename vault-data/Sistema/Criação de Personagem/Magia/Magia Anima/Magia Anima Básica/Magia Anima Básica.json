@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Magia Anima Básica",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Magia Anima Básica.md",
+  "basename": "Magia Anima Básica",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Anima Básica"
+    }
+  ],
+  "body": "### Magia Anima Básica\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  elemento AS \"Elemento\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT elemento ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Básica\"\n```"
+}

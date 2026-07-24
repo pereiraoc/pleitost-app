@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Oportunidade Prevista",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Oportunidade Prevista.md",
+  "basename": "Oportunidade Prevista",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Oportunidade Prevista",
+        "tipo": "Estado",
+        "origem": "Técnica",
+        "visual": {
+          "iconeLigado": "🎯",
+          "iconeDesligado": "🚫",
+          "ancorar": "AtaquesEAcoes"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoOportunidade",
+            "valor": 1
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando você fizer um [[Ataque de Oportunidade]] contra uma criatura e tiver recebido um dado de comando no seu último turno, adicione 1 dado de dano da arma ao dano.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando você fizer um [[Ataque de Oportunidade]] contra uma criatura e tiver recebido um dado de comando no seu último turno, adicione 1 dado de dano da arma ao dano.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você faz um [[Ataque de Oportunidade]] contra uma criatura e você recebeu um dado de comando no seu último turno, adicione um dado de dano da arma no dano.\n\n**Especial:** Técnicas que aumentam o dano do [[Ataque de Oportunidade]] não acumulam.\n\n```autosheet-rules\n```\n"
+}

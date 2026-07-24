@@ -1,0 +1,201 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Guerreiro",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Guerreiro.md",
+  "basename": "Treinamento de Guerreiro",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"de Combate\"",
+      "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Complementar Habilidades.Lista [[Especialização Menor em Arma]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"de Combate\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Guerreiro",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "de Combate"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"de Combate\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Guerreiro",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Proficiencia.Marciais",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Guerreiro",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Inventario.Armadura.Proficiencia.Leve",
+            "min": "P"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Pesada",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": [],
+          "stableCheck": true
+        },
+        {
+          "sourceNote": "Treinamento de Guerreiro",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "prof-min",
+            "prop": "Inventario.Armadura.Proficiencia.Leve",
+            "min": "P"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": [],
+          "stableCheck": true,
+          "conditionNegated": true
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Especialização Menor em Arma]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Guerreiro",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Especialização Menor em Arma]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Especialização Menor em Arma]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Armas Marciais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer FOR 2 ou AGI 2, conta como Técnica Adepta para outras classes*\n\nVocê diversifica seu treinamento para incluir fundamentos de um Guerreiro, incluindo estilos de combate, conhecimento de armas e uso de armadura.\n\nVocê se torna proficiente em [[Armas Marciais]] e [[Armadura Leve]]. Se você já é proficiente em [[Armadura Leve]], você se torna proficiente em [[Armadura Pesada]]. \n\nVocê recebe a habilidade [[Especialização Menor em Arma]].\n\nVocê pode escolher Técnicas Adeptas de Guerreiro no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Guerreiro no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

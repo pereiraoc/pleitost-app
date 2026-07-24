@@ -1,0 +1,371 @@
+{
+  "id": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Felino",
+  "path": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Felino.md",
+  "basename": "Companheiro Animal Felino",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 0 \"Felino\"",
+      "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "Definir Atributos.FOR 1",
+      "Definir Atributos.AGI 3",
+      "Definir Atributos.INT 2",
+      "Definir Atributos.PRE 0",
+      "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "Complementar Ataques.Lista [[Presas]]",
+      "Complementar Ataques.Lista [[Garras]]",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Seu companheiro animal é do tipo felino.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 0 \"Felino\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Felino"
+          },
+          "raw": "Alias Classe Compor 0 \"Felino\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Companheiro Animal]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Faro|Faro (6q)]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.FOR 1",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Atributos.FOR 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.AGI 3",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.AGI",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Atributos.AGI 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.INT 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.INT",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Atributos.INT 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.PRE 0",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.PRE",
+            "valueRaw": "0"
+          },
+          "raw": "Definir Atributos.PRE 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Furtividade.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Presas]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Presas]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Presas]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Garras]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Garras]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Garras]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Felino",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink",
+      "alias": "Faro (6q)"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Seu companheiro animal é do tipo felino.\"\n%%\n##### `= this.file.name`\n* [[Força|FOR]] 1, [[Agilidade|AGI]] 3, [[Inteligência|INT]] 2, [[Presença|PRE]] 0\n* [[Adepto]] em [[Furtividade]]\n* [[Movimentação]] Terrestre 7\n* [[Faro]] com alcance 6q\n* 2 de dano de precisão adicional em [[Atacar|Ataques]] com [[Vantagem de Combate]]\n* [[Presas]]\n* [[Garras]]\n\n```autosheet-rules\n```\n"
+}

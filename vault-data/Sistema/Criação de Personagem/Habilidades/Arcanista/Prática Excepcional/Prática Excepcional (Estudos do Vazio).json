@@ -1,0 +1,126 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Excepcional/Prática Excepcional (Estudos do Vazio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Arcanista/Prática Excepcional/Prática Excepcional (Estudos do Vazio).md",
+  "basename": "Prática Excepcional (Estudos do Vazio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Prática Avançada (Estudos do Vazio)]]",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia M",
+      "Somar Magias.Slots.M 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você se torna [[Mestre]] em [[Magia Arcana Negra]] e aprende uma  [[Magia Negra Mestre]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Prática Avançada (Estudos do Vazio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Prática Excepcional (Estudos do Vazio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Prática Avançada (Estudos do Vazio)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Prática Avançada (Estudos do Vazio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Prática Excepcional (Estudos do Vazio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.M 1",
+      "parsed": [
+        {
+          "sourceNote": "Prática Excepcional (Estudos do Vazio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.M",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Slots.M 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prática Avançada (Estudos do Vazio)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\n\nresumo:: \"Você se torna [[Mestre]] em [[Magia Arcana Negra]] e aprende uma  [[Magia Negra Mestre]] de sua escolha.\"\n%%\n##### `= this.file.name`\nVocê se torna [[Mestre]] em [[Magia Arcana Negra]] e aprende uma  [[Magia Negra Mestre]] de sua escolha.\n\n```autosheet-rules\n```\n"
+}

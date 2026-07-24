@@ -1,0 +1,1029 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Ladino",
+  "path": "Sistema/Criação de Personagem/Classes/Ladino.md",
+  "basename": "Ladino",
+  "type": "Classe",
+  "subtype": "Marcialista",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": "Marcialista",
+    "atributo-chave": "AGI",
+    "dg-publish": true,
+    "Imagem": "[[Ladino.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Ladino\"",
+      "Nivel 1 Definir Vida.Vitalidade 12",
+      "Nivel 1 Definir Vida.Moral 24",
+      "Nivel 1 Restringir Atributos.Principal AGI",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Estilo de Ladino]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Ladino Experiente]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Estilo Aprimorado]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Ladino Mestre]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Estilo Próprio]]",
+      "Nivel 1 Somar Pericias.Slots.A 3",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "Somar Papel.Abatedor 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Ladino\"",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Ladino"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Ladino\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "12"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 24",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "24"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 24",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Restringir Atributos.Principal AGI",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "AGI"
+            ]
+          },
+          "raw": "Nivel 1 Restringir Atributos.Principal AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Ataque Furtivo]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Estilo de Ladino]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo de Ladino]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Estilo de Ladino]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Ladino Experiente]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Ladino Experiente]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Ladino Experiente]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Estilo Aprimorado]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Aprimorado]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Estilo Aprimorado]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Ladino Mestre]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Ladino Mestre]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Ladino Mestre]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Estilo Próprio]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Próprio]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Estilo Próprio]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 3",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Adaga de Duelo]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Adaga de Duelo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Curta]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curta]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Espada Curva]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Espada Curva]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Punhal]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Punhal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Rapieira]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Rapieira]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco Curto]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco Curto]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Inventario.Armas.Proficiencia.Especificas",
+            "valueRaw": "[[Arco de Caça]]"
+          },
+          "raw": "Nivel 1 Complementar Inventario.Armas.Proficiencia.Especificas [[Arco de Caça]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 24,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 25,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Furtividade.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 26,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Furtividade.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Abatedor 3",
+      "parsed": [
+        {
+          "sourceNote": "Ladino",
+          "occurrenceIndex": 27,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "3"
+          },
+          "raw": "Somar Papel.Abatedor 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "INT",
+      "subpath": "Inteligência (INT)"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propriedades",
+      "kind": "wikilink",
+      "alias": "propriedade"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armaduras Leves"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo\\",
+      "kind": "wikilink",
+      "alias": "Ataque Furtivo (1d10)"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Próprio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo\\",
+      "kind": "wikilink",
+      "alias": "Ataque Furtivo (1d12)"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Ladino Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Aprimorado",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Ladino Mestre",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Próprio",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Ladino.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ladino.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Ladino.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Ladino"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Ladino.jpeg|right|profile|250]]\n#  `= this.file.name`\n\nO Ladino é o mais esperto, discreto, silencioso e malandro de todos os heróis. Um aventureiro que usa táticas que muitos consideram desleais, mas que para ele são apenas pragmáti­cas e lógicas.\n\n```class-roles\n[\"Ladino\", { \"Abatedor\": 3 }]\n```\n\n## Características de Classe\n**[[Energia Vital|EV]]:** 12\n**[[Energia Heroica|EH]]:** 24\n\n**[[Atributos|Atributo de Classe]]:** [[Agilidade|AGI]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Furtividade]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 3 + [[Atributos#Inteligência (INT)|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]], Armas com a [[Propriedades|propriedade]] [[Precisa]], [[Arco Curto]] e [[Arco de Caça]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]], proficiente em [[Armaduras|Armaduras Leves]]\n\n**[[Resistências]]:** [[Adepto]] em [[Evasão]] e [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Percepção]] e [[Intuição]]\n\n| Nível | Habilidades de Classe                                                                      |\n|:-----:| --------------------------------------------------------|\n|  1º   | [[Ataque Furtivo]], [[Estilo de Ladino]]             |\n|  2º   | [[Técnica Adepta]]                                          |\n|  3º   | [[Técnica Adepta]]                                          |\n|  4º   | [[Ladino Experiente]], [[Estilo Aprimorado]], [[Ataque Furtivo\\|Ataque Furtivo (1d10)]] |\n|  5º   | [[Técnica Experiente]]                                      |\n|  6º   | [[Técnica Experiente]]                                      |\n|  7º   | [[Ladino Mestre]], [[Estilo Próprio]], [[Ataque Furtivo\\|Ataque Furtivo (1d12)]] |\n\n![[Ataque Furtivo#`= this.file.name`]]\n![[Estilo de Ladino#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n\n![[Ladino Experiente#`= this.file.name`]]\n![[Estilo Aprimorado#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n![[Ladino Mestre#`= this.file.name`]]\n![[Estilo Próprio#`= this.file.name`]]\n\n---\n\n#### Técnicas de Ladino\n\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n```autosheet-rules\n```\n"
+}

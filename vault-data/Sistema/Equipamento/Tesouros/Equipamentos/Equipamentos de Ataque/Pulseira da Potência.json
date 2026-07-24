@@ -1,0 +1,247 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Pulseira da Potência",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque/Pulseira da Potência.md",
+  "basename": "Pulseira da Potência",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus para [[Atacar]] com ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].",
+    "preço": "30 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques desarmados e Manobras de Ataque.",
+      "experiente": "+2 de bônus de item em Ataques desarmados e Manobras de Ataque.",
+      "mestre": "+3 de bônus de item em Ataques desarmados e Manobras de Ataque."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Ataques.Lista.{Desarmadas}.Bonus_Item 1",
+      "Categoria Adepto Definir Ataques.Lista.Manobras.Bonus_Item 1",
+      "Categoria Experiente Definir Ataques.Lista.{Desarmadas}.Bonus_Item 2",
+      "Categoria Experiente Definir Ataques.Lista.Manobras.Bonus_Item 2",
+      "Categoria Mestre Definir Ataques.Lista.{Desarmadas}.Bonus_Item 3",
+      "Categoria Mestre Definir Ataques.Lista.Manobras.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Ataques.Lista.{Desarmadas}.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.{Desarmadas}.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Ataques.Lista.{Desarmadas}.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Ataques.Lista.Manobras.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.Manobras.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Ataques.Lista.Manobras.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Ataques.Lista.{Desarmadas}.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.{Desarmadas}.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Ataques.Lista.{Desarmadas}.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Ataques.Lista.Manobras.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.Manobras.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Ataques.Lista.Manobras.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Ataques.Lista.{Desarmadas}.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.{Desarmadas}.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Ataques.Lista.{Desarmadas}.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Ataques.Lista.Manobras.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Pulseira da Potência",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.Manobras.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Ataques.Lista.Manobras.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - pulseira*\nEsta pulseira potencializa sua força física, harmonizando seus músculos quando atacando.\n* Adepto: +1 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n* Experiente: +2 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n* Mestre: +3 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n\nUma pulseira da potência pode conter uma Imbuição Anima de arma de mesma categoria. Nesse caso, os efeitos da imbuição se aplicam a ataques desarmados que satisfaçam as condições da imbuição (por exemplo, uma [[Imbuição Ciclonal]] pode ser usada para realizar um ataque adicional de Garras de uma [[Forma Feral]] depois de ter feito outro ataque de Garras pois esses ataques causam dano cortante) e o preço da pulseira aumenta para a soma do preço da pulseira e da imbuição.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-ataque\n```\n\n```autosheet-rules\n```\n"
+}

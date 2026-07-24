@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/História/História",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/História/História.md",
+  "basename": "História",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sociedades]]",
+    "resumo": "\"Acesso limitado a idioma histórico. +2 para Conhecimento histórico.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Sociedades]]\nresumo:: \"Acesso limitado a idioma histórico. +2 para Conhecimento histórico.\"\n%%\n### `= this.file.name`\n* Você aprende um idioma não-humano, sendo capaz de se comunicar nele com vocabulário limitado. Você recebe -2 de [[Penalidades|penalidade de especialização]] em testes de [[Diplomacia]], [[Enganação]] e [[Intimidação]] utilizando o idioma.\n* Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] para testes de Conhecimento sobre fatos e civilizações antigas.\n\n```autosheet-rules\n```\n"
+}

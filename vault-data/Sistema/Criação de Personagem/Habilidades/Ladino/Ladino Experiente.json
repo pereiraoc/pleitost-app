@@ -1,0 +1,321 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Ladino Experiente",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Ladino Experiente.md",
+  "basename": "Ladino Experiente",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 6",
+      "Somar Vida.Moral 12",
+      "Definir Ataques.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "Nivel 4 Alias Classe Compor 0 \"Ladino Experiente\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 6",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "6"
+          },
+          "raw": "Somar Vida.Vitalidade 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 12",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "12"
+          },
+          "raw": "Somar Vida.Moral 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Alias Classe Compor 0 \"Ladino Experiente\"",
+      "parsed": [
+        {
+          "sourceNote": "Ladino Experiente",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Ladino Experiente"
+          },
+          "raw": "Nivel 4 Alias Classe Compor 0 \"Ladino Experiente\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "wikilink",
+      "alias": "estilos"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Ataques]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]].\"\n%%\n#### `= this.file.name`\nVocê evoluiu e botou em prática suas técnicas heterodoxas. Ladinos que atingem esse nível de experiência são conhecidos por diversos nomes, dada a diversidade de suas habilidades e  [[Estilo de Ladino|estilos]]. Assassinos, Especialistas, Espiões, Diplomatas e muitos outros títulos acabam sendo usados.\n* Sua [[Energia Vital|EV]] máxima aumenta em 6\n* Sua [[Energia Heroica|EH]] máxima aumenta em 12\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Experiente]] em [[Evasão]] e [[Ímpeto]];\n* Você se torna [[Adepto]] em [[Vigor]];\n* Você se torna [[Experiente]] em [[Percepção]] e [[Intuição]].\n\n```autosheet-rules\n```\n"
+}

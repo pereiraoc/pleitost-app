@@ -1,0 +1,82 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor.md",
+  "basename": "Krasnogor",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Pedra Fina]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      "Âmbar",
+      "[[Machado de Batalha]]",
+      "[[Machadinha]]",
+      "[[Machadão]]",
+      "[[Picareta de Guerra]]",
+      "[[Imbuição Mineral]]",
+      "[[Imbuição Sísmica]]",
+      "[[Imbuição Enraizante]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Krasnogor.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machado de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Machadão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Picareta de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Krasnogor.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Krasnogor.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** \n> \n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```"
+}

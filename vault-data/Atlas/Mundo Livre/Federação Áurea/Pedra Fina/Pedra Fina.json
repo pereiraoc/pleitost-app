@@ -1,0 +1,37 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Pedra Fina",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Pedra Fina.md",
+  "basename": "Pedra Fina",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Federação Áurea]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** \n> \n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Federação Áurea/Pedra Fina\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```"
+}

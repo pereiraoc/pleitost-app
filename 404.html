@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="aco-solar" data-mode="light" data-context="fantasia">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- #237: pinch-zoom desligado — o app é a UI inteira e o zoom quebrava o manuseio -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Pedra Estelar - Companion App</title>
+    <!-- Favicon da ABA = Pedra Estelar SEM fundo (transparente). O ícone do app
+         instalado (PWA/iOS) usa a versão COM fundo (icon-*.png / apple-touch). -->
+    <link rel="icon" type="image/png" href="/pleitost-app/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/pleitost-app/apple-touch-icon.png" />
+    <!-- Primer de tema pré-paint (evita FOUC): aplica data-theme, data-mode E a
+         COR DE DESTAQUE (custom OU preset nomeado) ANTES do React montar, lendo
+         `pleitost.theme` (mesma fonte do theme.ts, com migração da chave/shape
+         antigos). Espelho fiel de applyDom — sem isso, um destaque nomeado ≠ tema
+         (ex.: tema ferro-frio + destaque aço-solar) só aparecia depois que a
+         Config montava (primeiro getTheme do React). -->
+    <script>
+      ;(function () {
+        try {
+          var raw = localStorage.getItem('pleitost.theme') || localStorage.getItem('pleitost-theme')
+          if (!raw) return
+          var t = JSON.parse(raw)
+          var el = document.documentElement
+          var THEMES = ['aco-solar', 'ferro-frio', 'safira', 'rubi', 'ambar', 'esmeralda']
+          var DARK_DEFAULT = { 'ferro-frio': 1, safira: 1, rubi: 1, esmeralda: 1 }
+          // espelha ACCENT_COLORS do theme.ts (accent, accent2)
+          var ACCENT = {
+            'aco-solar': ['#d3a51a', '#4f7d84'],
+            'ferro-frio': ['#9a7fd6', '#6f8a9e'],
+            safira: ['#4a86e8', '#46b0c0'],
+            rubi: ['#e0503f', '#d99a3a'],
+            ambar: ['#e57a16', '#8a7a48'],
+            esmeralda: ['#35b87a', '#c2a24a'],
+          }
+          var legacyCyber = t.theme === 'cyberpunk' || t.aesthetic === 'cyberpunk'
+          var theme = THEMES.indexOf(t.theme) >= 0 ? t.theme : legacyCyber ? 'ferro-frio' : 'aco-solar'
+          el.dataset.theme = theme
+          el.dataset.mode = t.mode === 'dark' || t.mode === 'light' ? t.mode : DARK_DEFAULT[theme] ? 'dark' : 'light'
+          el.dataset.context = t.context === 'cyberpunk' || legacyCyber ? 'cyberpunk' : 'fantasia'
+          // resolve o destaque (mesma normalização do theme.ts)
+          var accent = t.accent
+          if (accent === 'padrao' || accent === undefined) accent = theme
+          else if (accent === 'ametista') accent = 'ferro-frio'
+          if (accent === 'custom') {
+            if (typeof t.customAccent === 'string' && /^#[0-9a-fA-F]{3,8}$/.test(t.customAccent)) {
+              el.style.setProperty('--accent', t.customAccent)
+              el.style.setProperty('--sb', 'color-mix(in srgb, ' + t.customAccent + ' 30%, transparent)')
+            }
+          } else if (accent !== theme && ACCENT[accent]) {
+            // destaque nomeado ≠ tema → override (=== tema deixa a paleta mandar)
+            el.style.setProperty('--accent', ACCENT[accent][0])
+            el.style.setProperty('--accent2', ACCENT[accent][1])
+            el.style.setProperty('--sb', 'color-mix(in srgb, ' + ACCENT[accent][0] + ' 30%, transparent)')
+          }
+        } catch (e) {
+          /* storage indisponível / json ruim → defaults do HTML */
+        }
+      })()
+    </script>
+    <!-- fontes do design (Companion App.dc.html) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Cinzel:wght@400;500;600;700&family=Spectral:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/pleitost-app/assets/index-jxy-rTMk.js"></script>
+    <link rel="modulepreload" crossorigin href="/pleitost-app/assets/preload-helper-V4R9Hebe.js">
+    <link rel="modulepreload" crossorigin href="/pleitost-app/assets/bits-CMyrm9gz.js">
+    <link rel="modulepreload" crossorigin href="/pleitost-app/assets/ui-COkBXLze.js">
+    <link rel="stylesheet" crossorigin href="/pleitost-app/assets/index-CWGDsrGS.css">
+  <link rel="manifest" href="/pleitost-app/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Controle Respiratório",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Controle Respiratório.md",
+  "basename": "Controle Respiratório",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Água",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Água]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Controle Respiratório"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Água]]\nprev::\nnext::\n%%\n### Controle Respiratório\nVocê consegue ficar até 10 minutos sem respirar antes de começar a sufocar. Você recebe +2 de [[bônus de especialização]] em [[Atletismo]] para [[Nadar]].\n"
+}

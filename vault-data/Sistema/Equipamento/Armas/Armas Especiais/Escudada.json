@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Escudada",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Escudada.md",
+  "basename": "Escudada",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "especial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "especial",
+    "dg-publish": true,
+    "dano": "d4+2",
+    "tipo": "contusão",
+    "mãos": 1,
+    "propriedades": [],
+    "ordem": 2,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armas Especiais]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armas Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Especiais]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nAtaque que pode ser feito usando um [[Escudo]]. Conta como uma arma marcial para fins de proficiência.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n```autosheet-rules\n```\n"
+}

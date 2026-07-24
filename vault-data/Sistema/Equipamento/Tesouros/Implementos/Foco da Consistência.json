@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Implementos/Foco da Consistência",
+  "path": "Sistema/Equipamento/Tesouros/Implementos/Foco da Consistência.md",
+  "basename": "Foco da Consistência",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]",
+      "[[Magia Anima|Anima]]"
+    ],
+    "resumo": "Permite rolar novamente dados para magias.",
+    "preço": "60 PO",
+    "descrição": {
+      "adepto": "Acumula cargas para re-rolar dados de cura ou dano de uma magia Adepta.",
+      "experiente": "Acumula cargas para re-rolar dados de cura ou dano de uma magia Adepta ou Experiente.",
+      "mestre": "Acumula cargas para re-rolar dados de cura ou dano de uma magia Adepta, Experiente ou Mestre."
+    },
+    "cargas": {
+      "adepto": 4,
+      "experiente": 6,
+      "mestre": 8
+    }
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descansa"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink",
+      "alias": "Anima"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano/Anima - implemento*\nUm implemento construído para aumentar a consistência de magias. Esse implemento torna magias mais confiáveis, com resultados consistentes.\n\n**Carga Preparatória - L:** Quando você [[Descansar|Descansa]], esse Foco ganha Cargas até seu máximo.\n\n**Drenar - L:** Uma vez por turno, quando você rola dano ou cura com uma magia não-básica, consuma um número de Cargas a sua escolha para re-rolar um número de dados igual ao número de Cargas consumidas. As categorias de magia que podem ser afetadas dependem da categoria do Foco.\n\n* Adepto: O Foco armazena até 4 Cargas e afeta magias Adeptas.\n* Experiente: O Foco armazena até 6 Cargas e afeta magias Adeptas e Experientes.\n* Mestre: O Foco armazena até 8 Cargas e afeta magias Adeptas, Experientes e Mestre.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: implementos\n```\n\n```autosheet-rules\n```\n"
+}

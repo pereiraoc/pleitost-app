@@ -1,0 +1,125 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia de Caça/Estratégia de Caça.md",
+  "basename": "Estratégia de Caça",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Habilidades.Lista Selecionar ([[Estratégia de Caça (Domador)]], [[Estratégia de Caça (Rastreador)]])",
+      "Complementar Acoes.Lista [[Marca do Caçador]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Ganha benefícios dependendo da estratégia escolhida."
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Habilidades.Lista Selecionar ([[Estratégia de Caça (Domador)]], [[Estratégia de Caça (Rastreador)]])",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "",
+              "choiceKey": "__esc_h_a6e1acd2",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Estratégia de Caça (Domador)]]",
+              "[[Estratégia de Caça (Rastreador)]]"
+            ],
+            "label": null
+          },
+          "raw": "Complementar Habilidades.Lista Selecionar ([[Estratégia de Caça (Domador)]], [[Estratégia de Caça (Rastreador)]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Marca do Caçador]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia de Caça",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Marca do Caçador]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Marca do Caçador]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia de Caça (Rastreador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Rastreador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: Ganha benefícios dependendo da estratégia escolhida.\n%%\n#### `= this.file.name`\nEscolha uma estratégia de caça, você aprende a habilidade [[Marca do Caçador]] e ganha benefícios dependendo da estratégia escolhida.\n![[Estratégia de Caça (Domador)#`= this.file.name`]]\n![[Estratégia de Caça (Rastreador)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

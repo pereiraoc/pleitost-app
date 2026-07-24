@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Compartilhar Fraqueza",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Compartilhar Fraqueza.md",
+  "basename": "Compartilhar Fraqueza",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando você tiver sucesso em [[Encontrar Fraqueza]], escolha 1 aliado; o próximo [[Atacar|Ataque]] dele contra o alvo ganha [[Vantagem de Combate]] até o início do seu próximo turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encontrar Fraqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando você tiver sucesso em [[Encontrar Fraqueza]], escolha 1 aliado; o próximo [[Atacar|Ataque]] dele contra o alvo ganha [[Vantagem de Combate]] até o início do seu próximo turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você tem sucesso em [[Encontrar Fraqueza]], escolha um aliado. O próximo [[Atacar|Ataque]] do aliado contra a criatura alvo de [[Encontrar Fraqueza]] tem [[Vantagem de Combate]]. Esse benefício expira no início do seu próximo turno.\n*Requer Estilo Batedor*\n\n```autosheet-rules\n```\n"
+}

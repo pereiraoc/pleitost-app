@@ -1,0 +1,135 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio (Artista Sombrio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Próprio/Estilo Próprio (Artista Sombrio).md",
+  "basename": "Estilo Próprio (Artista Sombrio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo Aprimorado (Artista Sombrio)]]",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "Definir Magias.EM 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você se torna [[Experiente]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima aumenta para 3. [[Passo das Sombras]] teletransporta 7q.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo Aprimorado (Artista Sombrio)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio (Artista Sombrio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo Aprimorado (Artista Sombrio)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo Aprimorado (Artista Sombrio)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio (Artista Sombrio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Próprio (Artista Sombrio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Magias.EM 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Passo das Sombras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Aprimorado (Artista Sombrio)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Mestre]]\n\nresumo:: \"Você se torna [[Experiente]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima aumenta para 3. [[Passo das Sombras]] teletransporta 7q.\"\n\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] em [[Magia Arcana Negra]]. Sua [[Energia Mágica|EM]] máxima aumenta para 3. Quando você usa [[Passo das Sombras]], aumente a distância do teletransporte para 7q.\n\n```autosheet-rules\n```\n"
+}

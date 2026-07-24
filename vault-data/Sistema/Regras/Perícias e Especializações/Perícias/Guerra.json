@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Guerra",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Guerra.md",
+  "basename": "Guerra",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Sociedades]]",
+    "next": "[[Anima]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Coordenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Estratégia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avaliar Campo de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Guerra ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Sociedades]]\nnext:: [[Anima]]\n%%\n## Guerra ([[Inteligência|INT]])\n[[Coordenar]], [[Identificar Estratégia]], [[Avaliar Campo de Batalha]]. Guerra rege o quão versado é o personagem em combate, o campo de batalha e capacidade tática."
+}

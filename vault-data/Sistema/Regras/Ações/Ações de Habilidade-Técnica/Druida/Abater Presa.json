@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Abater Presa",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Abater Presa.md",
+  "basename": "Abater Presa",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "[[Derrubar]] e [[Atacar|ataca]] com mesma [[Penalidade por Ataque Múltiplo|PAM]]."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "ataca"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: [[Derrubar]] e [[Atacar|ataca]] com mesma [[Penalidade por Ataque Múltiplo|PAM]].\n\n%%\n### `= this.file.name` - `= this.custo`\nRealize [[Derrubar]] contra uma criatura e então faça um [[Atacar|Ataque]] com Presas contra essa mesma criatura. Considere os ataques normalmente para sua [[Penalidade por Ataque Múltiplo|PAM]], mas ela só aumenta depois que você realizar os dois ataques.\n\n```autosheet-rules\n```\n"
+}

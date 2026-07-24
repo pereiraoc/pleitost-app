@@ -1,0 +1,86 @@
+{
+  "id": "Atlas/Mundo Livre/Mundo Livre",
+  "path": "Atlas/Mundo Livre/Mundo Livre.md",
+  "basename": "Mundo Livre",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Atlas]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      "[[Espada Longa]]",
+      "[[Arco de Caça]]",
+      "[[Besta Leve]]",
+      "[[Besta]]",
+      "[[Maça]]",
+      "[[Funda]]",
+      "[[Porrete]]",
+      "[[Tacape]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mapa do Mundo Livre.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Atlas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Funda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porrete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mapa do Mundo Livre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:**  `= this.Recursos`.\n> \n> ℹ️**Descrição:** \n> \n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```leaflet\nid: mapa-mundo-livre\nimage: [[Mapa do Mundo Livre.png]]\nheight: 575px\nwidth: 425px\n\nminZoom: -6.5\nmaxZoom: -2\ndefaultZoom: -6.5\nzoomDelta: 0.5\n\nlat: -25331\nlong: 14599\n\nunit: meters\nscale: 45.6\nrecenter: true\ndarkMode: false\n\nmarker: Ponto de Interesse,-12880,2992,Primeiro Contato,,,\nmarker: Ponto de Interesse,-8224,7408,Ruínas de Luxor,,,\nmarker: Ponto de Interesse,-8752,13616,Última Parada,,,\nmarker: Capital,-8752,18960,Baar'Shava,,,\nmarker: Ponto de Interesse,-12288,26944,Palácio de Ja'ar,,,\nmarker: Cidade Pequena,-21696,26960,Lilá,,,\nmarker: Cidade Grande,-19088,24288,Rharos,,,\nmarker: Capital,-20560,21616,Iluminada,,,\nmarker: Ponto de Interesse,-19257,14580,Torre dos Magos,,,\nmarker: Ponto de Interesse,-19833,11860,Meteorito,,,\nmarker: Ponto de Interesse,-24000,9344,Rio Raio da Luz,,,\nmarker: Ponto de Interesse,-22114,4776,Forte Norte,,,\nmarker: Ponto de Interesse,-26130,4792,Forte Sul,,,\nmarker: Cidade Grande,-27612,14516,Manilha,,,\nmarker: Cidade Grande,-25624,14528,Líciae,,,\nmarker: Ponto de Interesse,-28696,26944,Grande Mata,,,\nmarker: Ponto de Interesse,-32768,23416,Campo de Mineradores,,,\nmarker: Capital,-33888,19856,Safira,,,\nmarker: Capital,-38016,16304,Canto Alto,,,\nmarker: Cidade Pequena,-38560,20720,Riqueza,,,\nmarker: Ponto de Interesse,-40416,26112,Floresta da Ordem,,,\nmarker: Cidade Pequena,-41600,11840,Varadas,,,\nmarker: Cidade Pequena,-39552,8288,Pencas,,,\nmarker: Cidade Pequena,-34992,9200,Vinhedos,,,\nmarker: Cidade Pequena,-32928,9216,Pedrita,,,\nmarker: Cidade Pequena,-33376,3008,Chama Céu,,,\nmarker: Ponto de Interesse,-16562.606329906324,1672.882061765899,Montanhas de Vidro,,,\nmarker: Cidade Pequena,-12342.283700568241,2098.9290891780456,Krasnogor,,,\n\n```\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```"
+}

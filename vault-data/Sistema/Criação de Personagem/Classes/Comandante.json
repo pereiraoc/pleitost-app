@@ -1,0 +1,809 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Comandante",
+  "path": "Sistema/Criação de Personagem/Classes/Comandante.md",
+  "basename": "Comandante",
+  "type": "Classe",
+  "subtype": "Marcialista",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": "Marcialista",
+    "atributo-chave": "FOR, AGI ou INT",
+    "dg-publish": true,
+    "Imagem": "[[Comandante.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Comandante\"",
+      "Nivel 1 Definir Vida.Vitalidade 12",
+      "Nivel 1 Definir Vida.Moral 24",
+      "Nivel 1 Escolher Atributos.Principal FOR, AGI, INT",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Estratagema]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Senhor-da-Guerra]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Estratagema Superior]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Mestre-da-Guerra]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Estratagema Supremo]]",
+      "Nivel 1 Somar Pericias.Slots.A 2",
+      "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Guerra.Proficiencia A",
+      "Somar Papel.Lider 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Comandante\"",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Comandante"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Comandante\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "12"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 24",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "24"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 24",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Escolher Atributos.Principal FOR, AGI, INT",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolher",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "FOR",
+              "AGI",
+              "INT"
+            ]
+          },
+          "raw": "Nivel 1 Escolher Atributos.Principal FOR, AGI, INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Comandos de Batalha]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Comandos de Batalha]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Estratagema]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratagema]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Estratagema]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Senhor-da-Guerra]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Senhor-da-Guerra]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Senhor-da-Guerra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Estratagema Superior]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratagema Superior]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Estratagema Superior]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-da-Guerra]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Mestre-da-Guerra]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-da-Guerra]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Estratagema Supremo]]",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estratagema Supremo]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Estratagema Supremo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Proficiencia.Marciais",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armas.Proficiencia.Marciais P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Guerra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Guerra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 2",
+      "parsed": [
+        {
+          "sourceNote": "Comandante",
+          "occurrenceIndex": 20,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Lider 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Estratagema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Marciais",
+      "kind": "wikilink",
+      "alias": "Marciais"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armaduras Leves"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Senhor-da-Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Superior",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre-da-Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Supremo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratagema",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Senhor-da-Guerra",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratagema Superior",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Mestre-da-Guerra",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estratagema Supremo",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Mestre",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Comandante.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Comandante.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Comandante.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Comandante"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Comandante.jpeg|right|profile|250]]\n#  `= this.file.name`\n\nComandantes são presenças incomparáveis no campo de batalha. Eles são capazes de encontrar oportunidades e energizar seus aliados para aproveitá-las de forma decisiva.\n\n```class-roles\n[\"Combatente\", { \"Líder\": 2, \"Vanguarda\": 1 }],\n[\"Estrategista\", { \"Líder\": 3 }]\n```\n\n## Características de Classe\n**[[Energia Vital|EV]]:** 12\n**[[Energia Heroica|EH]]:** 24\n\n**[[Atributos|Atributo de Classe]]:** [[Força|FOR]], [[Agilidade|AGI]] ou [[Inteligência|INT]], dependendo do [[Estratagema]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Guerra]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 2 + [[Inteligência|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]] e [[Armas Marciais|Marciais]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]], proficiente em [[Armaduras|Armaduras Leves]]\n\n**[[Resistências]]:** [[Adepto]] em [[Vigor]] e [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Percepção]]\n\n| Nível | Habilidades de Classe                                        |\n|:-----:| ------------------------------------------------------------ |\n|  1º   | [[Comandos de Batalha]], [[Estratagema]] |\n|  2º   | [[Técnica Adepta]]                                           |\n|  3º   | [[Técnica Adepta]]                                           |\n|  4º   | [[Senhor-da-Guerra]], [[Estratagema Superior]]               |\n|  5º   | [[Técnica Experiente]]                                       |\n|  6º   | [[Técnica Experiente]]                                       |\n|  7º   | [[Mestre-da-Guerra]], [[Estratagema Supremo]]                | \n|  8º   | [[Técnica Mestre]]                                           |\n|  9º   | [[Técnica Mestre]]                                           |\n\n![[Comandos de Batalha#`= this.file.name`]]\n![[Estratagema#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n\n![[Senhor-da-Guerra#`= this.file.name`]]\n![[Estratagema Superior#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n![[Mestre-da-Guerra#`= this.file.name`]]\n![[Estratagema Supremo#`= this.file.name`]]\n![[Técnica Mestre#`= this.file.name`]]\n\n---\n\n#### Técnicas de Comandante\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n```autosheet-rules\n```\n"
+}

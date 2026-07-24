@@ -1,0 +1,149 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.0-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.4.0-alpha.md",
+  "basename": "Release Notes v0.4.0-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Criatura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "parent",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.4.0-alpha"
+    },
+    {
+      "level": 2,
+      "text": "✨ Destaques"
+    },
+    {
+      "level": 3,
+      "text": "🧙 Sistema RPG (mecânica & conteúdo)"
+    },
+    {
+      "level": 3,
+      "text": "🛠️ Plugin pleitost-autosheet"
+    },
+    {
+      "level": 3,
+      "text": "🎯 Plugin pleitost-combat-marker"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas nesta versão"
+    },
+    {
+      "level": 2,
+      "text": "🧙 Conteúdo do Sistema"
+    },
+    {
+      "level": 3,
+      "text": "Druida — Aspecto rework"
+    },
+    {
+      "level": 3,
+      "text": "Mago — casting rework + EM"
+    },
+    {
+      "level": 3,
+      "text": "Bestiário expandido"
+    },
+    {
+      "level": 3,
+      "text": "Condições — clarification + Fugindo removida"
+    },
+    {
+      "level": 3,
+      "text": "Outros tunings"
+    },
+    {
+      "level": 2,
+      "text": "🏗️ Reescrita do plugin (TypeScript)"
+    },
+    {
+      "level": 3,
+      "text": "Arquitetura"
+    },
+    {
+      "level": 3,
+      "text": "Ganhos"
+    },
+    {
+      "level": 2,
+      "text": "📊 Modo Resumo"
+    },
+    {
+      "level": 2,
+      "text": "📖 Modo Leitura (Print-Friendly)"
+    },
+    {
+      "level": 2,
+      "text": "🦸 Renomeação Jogador → Heroi"
+    },
+    {
+      "level": 2,
+      "text": "🎭 Biografia expandida (Heroi)"
+    },
+    {
+      "level": 2,
+      "text": "💾 Save em bloco (atômico)"
+    },
+    {
+      "level": 2,
+      "text": "📱 Mobile / Layout narrow"
+    },
+    {
+      "level": 2,
+      "text": "🐛 Debug & Diagnóstico"
+    },
+    {
+      "level": 2,
+      "text": "⚔️ Tipo de nota Combate"
+    },
+    {
+      "level": 2,
+      "text": "🧠 Rule elements (paths nested)"
+    },
+    {
+      "level": 3,
+      "text": "Canonicalização — shortcuts legados rejeitados"
+    },
+    {
+      "level": 3,
+      "text": "Choices com origem persistida"
+    },
+    {
+      "level": 3,
+      "text": "Outros fixes"
+    },
+    {
+      "level": 2,
+      "text": "🧹 Plugin legado removido"
+    },
+    {
+      "level": 2,
+      "text": "🗂️ Templates & Estrutura"
+    },
+    {
+      "level": 2,
+      "text": "👥 Commits (visão geral)"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.3.0-alpha...v0.4.0-alpha\n\n# 📦 Release Notes — Pleitost v0.4.0-alpha\n\n**Período coberto:** Abr–Mai/2026\n**Plugin shippado:** `pleitost-autosheet` v1.0.0 (marco de estabilidade — cutover v0.9.0 concluído, semântica de rule elements completa pra Heroi/Monstro/CA).\n**Foco:** reworks de mecânica do Sistema RPG (**Druida** com novo modelo de Aspectos, **Mago** com casting temático condicional, **Bestiário** com 3 classes novas — Assassino, Encantador, Supressor — e cobertura de rule elements em todas as classes existentes, condição **Fugindo** removida do sistema), somados à reescrita completa do plugin **pleitost-autosheet** em TypeScript com arquitetura modular, modos de visualização novos (Resumo + Leitura), renomeação canônica `Jogador → Heroi`, biografia expandida, save em bloco atômico, suporte a mobile, e correções massivas de rule elements.\n\n---\n\n## ✨ Destaques\n\n### 🧙 Sistema RPG (mecânica & conteúdo)\n\n- **Druida — Aspecto rework** — Aspecto Feral virou seletor de Técnica de Aspecto (escolha entre Indômito/Elemental/Ágil/Sagaz). 2 novas Habilidades Mestre (Mestre-Druida, Forma Perfeita) + 2 novas Técnicas Mestre (Aspecto Sagaz, Aspecto Ágil). Magias Anima (Hidrovitalizar, Corrente Restauradora) e 4 Aspectos existentes ajustados.\n- **Mago — casting rework + EM** — sistema de conjuração reformulado com condicional temático (Combinação/Melhoramento Arcano). Surto de Poder (Habilidade) e Poder Flexível (Técnica) **removidos**, substituídos por Flexibilidade Arcana + Forçar Entropia. Mago/Grão-mago/Mago-mor revisados.\n- **Bestiário — 5 classes novas** — Bruto e Soldado retrabalhados + 4 novas habilidades de Bestiário (Bruto Aterrorizador, Oportunista, Restringir Movimento, Vigor Bruto), e 3 classes inteiramente novas: Assassino, Encantador, Supressor.\n- **Condição Fugindo removida do sistema** — Caído e Morrendo clarificadas; magias relacionadas (Aterrorizar, Sussuro Sombrio, Imagem do Medo, Regeneração) e Mente Limpa (Monge) ajustadas pra refletir o novo modelo.\n\n### 🛠️ Plugin pleitost-autosheet\n\n- **Plugin pleitost-autosheet reescrito em TypeScript** — arquitetura modular (`extract → projection → render → save`) com pipeline isolável, runtime de modificadores condicionais, save atômico (1 chamada `processFrontMatter`), tests unitários/integração/snapshot/visual cobrindo 1370+ casos. Fluidez maior, menos bugs, base sustentável para evolução.\n- **Modo Resumo** (família Heroi + Companheiro Animal + Monstro) — single-block read-only com accent bar tier-colorida; antes só Monstro tinha.\n- **Modo Leitura** — visualização tabular densa, fonte serif, otimizada para impressão A4. `Ctrl+P` produz ficha de RPG digna de papel. 16 sections em ordem fixa cobrindo Atributos, Vitalidade, Ataques, Resistências, Sentidos, Perícias, Ofícios, Especializações, EM, Magias, Tesouros, Ações, Técnicas, Habilidades, Ações de Perícia, Consumíveis.\n- **Renomeação `Jogador → Heroi`** — pasta `Sistema/Criaturas/Jogadores/` → `Heróis/`, FM `subcategoria: Jogador` → `Heroi`, todas as fichas e refs atualizadas. Shim de compatibilidade aceita FM legado em fichas externas.\n- **Biografia expandida no Heroi** — nova aba/seção com Motivação, Naturalidade, Gênero, Idade, Altura, Peso, Ideais ↔ Desprezos, Qualidades ↔ Defeitos, e box \"📖 Passado\" agrupando Passado/Perícia/Ofício/Texto.\n- **Save em bloco (atômico)** — Interativa coleta deltas de todas as abas dirty, faz mergeDeep e chama `onSaveAll` UMA vez (em vez de save por aba). Garantia: o que o painel \"Detalhes de Alteração\" mostra é exatamente o que será gravado (princípio NO-SILENT-MUTATION-ON-SAVE).\n- **Forçar modo mobile** — setting `forceMobileMode` ativa layout narrow em qualquer tela, pra simular celular sem precisar redimensionar. Útil pra teste e pra desktop pequeno.\n- **Debug logs estruturados** — sistema de logging em arquivos JSONL por escopo (`global`, `editavel`, `interativa`, `resumo`, `leitura`, `manual`) em `Recursos e Mídia/Logs/pleitost-autosheet/`. Cada evento traz timestamp + scope + evt + payload. Setting `debugMode` ativa nível verbose. Facilita diagnóstico sem console.\n- **Rule elements com paths canônicos** — DSL agora usa `Pericias.Lista.<X>.Proficiencia` e `Pericias.Lista.<X>.Bonus_Especial` (paths nested) em vez de shortcuts flat (`<X>_Proficiencia`, `<X>_Especial`). Parser ganhou kinds `prof-min` e `bonus-min` que aceitam só os paths canônicos; shortcuts legados explicitamente rejeitados com test de regression.\n- **Tipo de nota Combate** — novo template `Templates/Templates de Campanhas/TEMPLATE categoria=Combate.md` integrado ao combat-marker, pra criar encontros estruturados rapidamente.\n- **Plugin legado removido** — `pleitost-autosheet` antigo (DataviewJS, ~3.1MB main.js gerado por bundle de templates) deletado. Cutover concluído: novo plugin assume o id canônico `pleitost-autosheet` e os code blocks `autosheet-yaml` / `autosheet-ref` (sem sufixo de transição).\n- **Forma Druida + Encantar Arma compartilhado** — runtime de modificadores na Interativa cobre transformações druídicas (Forma Feral, Aspecto Elemental) e efeitos compartilháveis entre aliados do mesmo grupo (Encantar Arma do herói X aparece como toggável na ficha do aliado Y).\n\n### 🎯 Plugin pleitost-combat-marker\n\n- **Barra de dificuldade por nível no tracker**: barra de 10 segmentos (níveis 1-10) na linha do título da seção \"Combate\", mostrando como o encontro classificaria pra um grupo hipotético de 4 heróis daquele nível. Cores reusam as 4 tons de dificuldade existentes (trivial/fácil/difícil/letal). Segmentos agrupados em 4 tiers (1-3 / 4-6 / 7-9 / 10) com linhas bronze/prata/ouro/cristal abaixo, espelhando cores de tier do `pleitost-views`.\n\n---\n\n## ✅ Issues fechadas nesta versão\n\n- **#149** — Reescrita do plugin autosheet em TypeScript (fluidez, estabilidade, manutenção).\n- **#147** — Modo Resumo para Heroi e Companheiro Animal (paridade com Monstro).\n- **#146** — Modo Leitura print-friendly cobrindo as 3 famílias.\n- **#142** — Suporte a mobile / forçar modo mobile.\n- **#141** — Sistema de logs estruturados pra diagnóstico.\n- **#91** — Save em bloco (atômico) com painel \"Detalhes de Alteração\".\n- **#90** — Rule elements com paths canônicos nested (Pericias.Lista.X.Proficiencia, etc.).\n- **#73** — Renomeação Jogador → Heroi (consistência terminológica).\n- **#70** — Biografia expandida nas fichas de Heroi.\n- **#25** — Remoção da condição Fugindo das interações do Autosheet (alinhado com a remoção de Fugindo do sistema).\n\n---\n\n## 🧙 Conteúdo do Sistema\n\nMudanças de mecânica/conteúdo do sistema RPG nessa versão:\n\n### Druida — Aspecto rework\n\nAspecto Feral virou seletor de Técnica de Aspecto. 2 novas Técnicas Mestre (Aspecto Sagaz, Aspecto Ágil); 4 existentes ajustadas (Camuflado, Colossal, Elemental, Indômito). 2 novas Habilidades Mestre (Mestre-Druida, Forma Perfeita). Magias Anima tunadas (Hidrovitalizar, Corrente Restauradora).\n\n### Mago — casting rework + EM\n\nThematical conditional casting; Surto de Poder removida → substituída por Flexibilidade Arcana (Habilidade) + Forçar Entropia (Técnica). Mago/Grão-mago/Mago-mor revisados. Poder Flexível (Técnica) removida. Fix de ciclo unintended de 3 cast no Mago.\n\n### Bestiário expandido\n\n- **2 classes existentes retrabalhadas**: Bruto e Soldado.\n- **4 novas habilidades de Bestiário**: Bruto Aterrorizador, Oportunista, Restringir Movimento, Vigor Bruto.\n- **3 classes inteiramente novas**: Assassino, Encantador, Supressor.\n- Aspecto Feral (Druida): missing choice list adicionada.\n\n### Condições — clarification + Fugindo removida\n\nCondição **Fugindo** deletada do sistema; Caído e Morrendo clarificadas. Magias relacionadas ajustadas (Aterrorizar, Sussuro Sombrio, Imagem do Medo, Regeneração). Mente Limpa (Técnica Monge): clarification. Conjuração Mágica + Tempo (Regra Básica): adições.\n\n### Outros tunings\n\nTruque Útil (Bardo), Escudo Residual / Infusão Luminosa / Recuperação Heroica (Arcanista), Evitar Baixas (Comandante), Reanimar (Magia Branca Experiente), Abalado (Condição).\n\n---\n\n## 🏗️ Reescrita do plugin (TypeScript)\n\n### Arquitetura\n\nPipeline canônico em camadas isoláveis:\n\n```\nObsidian code block (autosheet-yaml / autosheet-ref)\n    ↓\nsrc/cola/      — process-yaml-block, process-ref-block, handle-save\n    ↓\nsrc/extract/   — frontmatter-extractor, rule-parser, rule-applier,\n                 compose-model, project-volatile, merge-calculated,\n                 apply-user-edits, resolve-choices, serialize-to-fm\n    ↓\nVolatileMemory (5 camadas: propMem, calculatedRules, userEdits, sheetVolatile, rawKept)\n    ↓\nsrc/render/    — shell, tabs, groups, modes (Editavel/Interativa/Resumo/Leitura)\nsrc/diff/      — compute-details, deep-diff, target-to-model-path\n```\n\n### Ganhos\n\n- **Type-safety**: TypeScript strict, sem `@ts-ignore`, casts limitados a fronteiras (FM destypado).\n- **Tests**: 1370+ tests cobrem unit + integration + snapshot + visual parity. Pre-commit hooks (`lint-no-v3`, `lint-no-literals`).\n- **Modular**: modos shell self-contained (Interativa, Resumo, Leitura) têm mounter próprio em `src/render/modes/<modo>/`; Editavel continua via legacy path (tab-bar + tabs/groups). Adicionar modo novo = criar nova pasta sem tocar código existente.\n- **Sem ciclos**: dependency graph linear (`extract → diff → render`, `runtime → extract`).\n- **Single source of truth**: `EMOJI.*` (registro de emojis), `PALETTE.*` (registro de cores), `displayName(slug)` (nomes com acento). Lint enforce literais.\n\n---\n\n## 📊 Modo Resumo\n\n- **3 famílias suportadas** — Heroi, Companheiro Animal, Monstro (antes só Monstro tinha).\n- **Single-block read-only com accent bar lateral** colorida pelo tier/nível (estilo `pleitost-bounty` do plugin pleitost-views).\n- **14 sections em ordem fixa** com hide-when-empty consistente: Header (avatar + summary + tier/NVL badge), Atributos, Vitalidade + Defesa, Resistências, Sentidos + Movimentos, Perícias, Magias por escola, Magias-Tesouros, Ataques, Ações, Técnicas, Tesouros, Habilidades, Consumíveis.\n- **Adaptações por família**:\n  - Heroi: tier por nível (Bronze/Silver/Gold/Platina), NVL no badge.\n  - Monstro: TIER (1-4), Raça+Tamanho na summary.\n  - Companheiro Animal: Tutor por último em negrito, sem Magias.\n\n---\n\n## 📖 Modo Leitura (Print-Friendly)\n\n- **Visual tabular denso**, fonte serif Georgia, otimizado pra impressão A4.\n- **16 sections em ordem fixa** com HRs entre blocos.\n- **2 padrões visuais**: Tabela 6-col (emoji/nome/prof/item/esp/total) pra stats numéricos; Lista descritiva `[[Item]] (custo): resumo` pros itens textuais.\n- **Print CSS dedicado** — `@page A4 12-14mm`, fonte serif, B&W, `page-break-inside: avoid`. `Ctrl+P` produz PDF/papel limpo.\n- **Enrichers de body inline** — `parseInlineResumo` + `parseInlineUp` em `process-yaml-block.ts` lendo body inline; magias/tesouros/ações/técnicas/habilidades/consumíveis ganham descrição automaticamente quando a nota declara `resumo:`.\n\n---\n\n## 🦸 Renomeação Jogador → Heroi\n\n- **20 fichas + 1 índice** migrados de `Sistema/Criaturas/Jogadores/` → `Heróis/`.\n- **FM**: `subcategoria: Jogador` → `subcategoria: Heroi` em todas as fichas.\n- **Tipo canônico no código**: `SheetFamily = \"Heroi\" | \"Monstro\" | \"CompanheiroAnimal\"`.\n- **Shim de compatibilidade** em `src/data/family-compat.ts` aceita `subcategoria: Jogador` legado de fichas externas/imports — fichas internas migradas mas o plugin continua entendendo o termo antigo.\n- **152 templates legados deletados** + templates consolidados no top de `Templates/Templates de Sistema/Criatura/` (Heroi/Monstro/Companheiro Animal/Grupo).\n- **Plugins integrados** — `obsidian-icon-folder`, `supercharged-links-obsidian`, `quickadd`, `pleitost-combat-marker` atualizados com paths/IDs novos.\n- **Comando QuickAdd** \"NOVO: Jogador\" → \"NOVO: Herói\" + templatePath atualizado.\n\n---\n\n## 🎭 Biografia expandida (Heroi)\n\nNova seção dedicada na aba Perfil, abaixo dos atributos:\n\n- **Box \"📖 Passado\"** agrupando Passado, Perícia pelo Passado, Ofício pelo Passado, Texto do Ofício — mesmo padrão visual do box de Atributos (border + título centralizado).\n- **Motivação de Aventureiro** + **Naturalidade**.\n- **Gênero, Idade, Altura, Peso**.\n- **Ideais ↔ Desprezos** (par atômico — adicionar/remover sempre em sincronia, com cores polares: amarelo positivo, vermelho negativo).\n- **Qualidades ↔ Defeitos** (par atômico, mesma mecânica).\n- Persistido em FM `Biografia.{passado, motivacao, naturalidade, genero, idade, altura, peso, ideais[], desprezos[], qualidades[], defeitos[], anotacoes}`.\n\n---\n\n## 💾 Save em bloco (atômico)\n\n- **NO-SILENT-MUTATION-ON-SAVE** — princípio de design: tudo que será gravado no FM aparece ANTES no painel \"Detalhes de Alteração\". Sem mutações silenciosas.\n- **Save atômico** — Interativa coleta `getDelta()` de cada aba dirty, faz `mergeDeep`, chama `onSaveAll(merged, dirtyIds)` UMA vez. Editavel emite todos os edits acumulados num único `processFrontMatter`.\n- **Re-projeção pré-save** — antes de comparar/serializar, projeta volatile uma última vez pra capturar enrichments/optimizações (slot allocation, etc.).\n- **Validação bloqueante** — `validateSave` checa overflow de slots (perícias + técnicas com fungibilidade descendente: M cobre E+A, E cobre A) antes de gravar; bloqueia com `Notice` se inconsistente.\n- **Idempotência (R-IDEM-1)** — diff vazio → outcome \"noop\", sem grava. Items `source: Regra` mantidos no FM pra próximo load+extract bater.\n\n---\n\n## 📱 Mobile / Layout narrow\n\n- **Setting `forceMobileMode`** — toggle nas configurações do plugin que ativa CSS narrow em qualquer tela.\n- **Detection automática** — viewport ≤ 720px aciona narrow nativo (sem JS).\n- **Fallback JS** — pra Obsidian mobile que não dispara matchMedia consistente, fallback detecta via window dimensions.\n- **Modo Leitura responsivo** — narrow layout reordena sections via CSS `order`, com `defer-aside` movendo blocos lateriais pro fim.\n- **Botões/dropdowns** — paridade visual com legado em ficha estreita; sem esticamento em layouts wide.\n\n---\n\n## 🐛 Debug & Diagnóstico\n\n- **Logs estruturados em JSONL** — `Recursos e Mídia/Logs/pleitost-autosheet/<scope>/<YYYY-MM-DD>_<version>.jsonl`. Scopes: `0-global`, `1-editavel`, `2-interativa`, `3-resumo`, `4-leitura`, `5-manual`.\n- **Setting `debugMode`** — nível verbose adiciona eventos de re-render, choice resolution, BFS visits, diff details.\n- **Setting `logRetentionDays`** — auto-cleanup de logs antigos.\n- **Comando `Tail latest log`** — npm script `npm run logs:tail` filtra por scope (`--scope=interativa`) pra dev.\n- **Audit trail completo** — load.start, load.shared-rules, load.rules-extracted, choices.resolved, vm.derived, vm.details, save.written, save.no-writer, image.resolved.\n\n---\n\n## ⚔️ Tipo de nota Combate\n\n- **Novo template** — `Recursos e Mídia/Templates/Templates de Campanhas/TEMPLATE categoria=Combate.md`.\n- **Pasta `Campanhas/Combates/`** estabelecida pra notas de combate.\n- **Bloco `combat-marker`** integrado por padrão — encontros declarados em formato `- N [[Criatura]]`, com cálculo automático de dificuldade (TRIVIAL/FÁCIL/DIFÍCIL/LETAL) baseado em contribuição de Heróis (por nível) vs Monstros (por tier × modificador Solo/Elite/Competente).\n- **Templates de Aventuras** renomeados pra `Templates de Campanhas` pra refletir escopo (campanha = aventuras + combates + outros).\n\n---\n\n## 🧠 Rule elements (paths nested)\n\n### Canonicalização — shortcuts legados rejeitados\n\nPaths canônicos agora usam namespace nested:\n\n| Antes (shortcut) | Agora (canônico) | Uso |\n|---|---|---|\n| `<X>_Proficiencia` | `Pericias\\|Oficios\\|Defesas_Resistencias\\|Sentidos.Lista.<X>.Proficiencia` | `Definir`, `Sobrescrever`, `Condicional` (kind `prof-min`) |\n| `<X>_Especial` | `Pericias\\|Oficios.Lista.<X>.Bonus_Especial` | `Condicional` (novo kind `bonus-min`) |\n| `<X>_Item` | `Pericias\\|...\\|Movimento.Lista.<X>.Bonus_Item` | `Definir`, `Somar` |\n\n- **Parser** ganhou kinds `prof-min` e `bonus-min` que aceitam só os paths canônicos.\n- **Tests de regression** garantem que shortcuts legados são rejeitados com `condition-false` (não fallback silencioso).\n- **Vault editado** — todas as ocorrências em rules da vault canonicalizadas (Estilo Aprimorado/Próprio Perito, Jeitinho de Bardo, Estratégia de Caça, etc.).\n\n### Choices com origem persistida\n\n- **`Escolha.[[parent]]`** / **`Escolha.NN.[[parent]]`** — `complementar-sel` agora persiste a origem da escolha no source-tag (analog ao já feito pra `escolha-pericia-especial` no Perito). NN desambigua múltiplas escolhas pro mesmo parent.\n- **Distribuição preservada no save** — escolhas antes embaralhavam ao salvar (Forma Feral virava Especialidade, etc.); agora `Pass A claims fortes` (transient + source-tag) garante atribuição correta.\n\n### Outros fixes\n\n- **Fungibilidade descendente** em pericias slots (paridade com tecnicas).\n- **`pruneOrphanedChoices`** cobre habilidades + tecnicas + acoes (antes só habilidades).\n- **Choices renderizadas semanticamente** — `Escolha_Habilidades` SEMPRE vive na seção Habilidades, com sub-seção \"Escolhas Adicionais\" pra choices de técnicas/ações.\n- **Items picados** filtrados da lista standalone (sem redundância — só aparecem dentro do dropdown da habilidade-pai).\n\n---\n\n## 🧹 Plugin legado removido\n\n- **Cutover v0.9.0 (interno do plugin)** — pasta `pleitost-autosheet/` antiga (DataviewJS, ~3.1MB main.js bundleado) deletada.\n- **Plugin novo renomeado** — `pleitost-autosheet-v3` → `pleitost-autosheet` (assume id canônico).\n- **Code blocks padronizados** — `autosheet-yaml-v3` → `autosheet-yaml`, `autosheet-ref-v3` → `autosheet-ref` (28 fichas + bestiário + companheiros animais atualizados).\n- **`modifier-schema.md`** (DataviewJS com constantes/fórmulas de regra) movido pra dentro do plugin novo (`pleitost-autosheet/runtime/modifier-schema.md`); `pleitost-combat-marker` agora depende do plugin pra essa info.\n- **Lint guardrail** — `lint-no-v3.mjs` impede re-introdução do sufixo de transição em código.\n\n---\n\n## 🗂️ Templates & Estrutura\n\n- **Templates consolidados** em `Templates/Templates de Sistema/Criatura/`:\n  - `TEMPLATE subcategoria=Heroi.md`\n  - `TEMPLATE subcategoria=Monstro.md`\n  - `TEMPLATE subcategoria=Companheiro Animal.md`\n  - `TEMPLATE categoria=Grupo.md`\n- **152 templates legados deletados** (subpastas Automática/Editável/Interativa/Leitura por família).\n- **Pasta `Recursos e Mídia/Templates/Templates de Aventuras/`** renomeada pra `Templates de Campanhas/`.\n- **Novo `TEMPLATE categoria=Combate.md`** com bloco `combat-marker` integrado.\n\n---\n\n## 👥 Commits (visão geral)\n\n- **Início Abr/2026**: Fundação do plugin v3 (Fases 0-1 — visual capture harness, code block processors `autosheet-{yaml,ref}-v3` coexistindo com legado).\n- **Mid Abr/2026**: Fases 2-7 — shell + grupos + 6 tabs Heroi com dados dummy → extract real do FM com rule elements → Editavel completo nas 3 famílias.\n- **Mid-Late Abr/2026**: Fase 8-10 — handle-save real → bateria round-trip → remoção do RM (placeholder de magias).\n- **Late Abr/2026**: Fase 11 — Interativa (top + tabs + shell + runtime de modificadores condicionais Round 44/45). Forma Druida, Encantar Arma compartilhado, guards `Recurso,X>=N`.\n- **Late Abr/2026 (continuação)**: Fase 12 — Modo Resumo nas 3 famílias.\n- **Late Abr/2026**: Fase 13 — Modo Leitura print-friendly (16 sections × 3 famílias).\n- **Final Abr/2026**: Cutover v0.9.0 — rename plugin v3 → autosheet (id canônico, code blocks sem sufixo), migração `Jogadores → Heróis` (20 fichas + 152 templates legados deletados), legado deletado.\n- **Mai/2026**: Polish pós-cutover (semântica de Tier sticky, modificadores como seed do BFS, magias readonly em Monstro, defaults de atributos sensatos), 3 classes novas no Bestiário (Assassino/Encantador/Supressor), barra de dificuldade no combat-marker. Plugin bumped pra v1.0.0 (marco de estabilidade).\n"
+}

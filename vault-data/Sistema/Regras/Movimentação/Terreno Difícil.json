@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Regras/Movimentação/Terreno Difícil",
+  "path": "Sistema/Regras/Movimentação/Terreno Difícil.md",
+  "basename": "Terreno Difícil",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Terreno Difícil"
+    }
+  ],
+  "body": "## Terreno Difícil\nVocê consome 1q extra de movimento para mover-se para um quadrado que é considerado terreno difícil. Você não pode dar [[Passo de Ajuste]] na direção de um quadrado que é terreno difícil. Se um quadrado já é terreno difícil e alguma circunstância aplique os efeitos de terreno difícil (como passar por um aliado, ou [[Cambalhota]]), você consome 2q extra de movimento para mover-se para esse quadrado.\n\n```autosheet-rules\n```\n"
+}

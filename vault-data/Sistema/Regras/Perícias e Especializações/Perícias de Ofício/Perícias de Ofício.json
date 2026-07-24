@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Perícias de Ofício",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias de Ofício/Perícias de Ofício.md",
+  "basename": "Perícias de Ofício",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Intimidação]]",
+    "next": "[[Especialização e Maestria]]",
+    "down": "[[Atuação]], [[Conhecimento]], [[Ofício]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização e Maestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ofício",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Atuação",
+      "kind": "embed",
+      "subpath": "Atuação ( Presença PRE )"
+    },
+    {
+      "target": "Conhecimento",
+      "kind": "embed",
+      "subpath": "Conhecimento ( Inteligência INT )"
+    },
+    {
+      "target": "Ofício",
+      "kind": "embed",
+      "subpath": "Ofício ( Inteligência INT )"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Perícias de Ofício"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Intimidação]]\nnext:: [[Especialização e Maestria]]\ndown:: [[Atuação]], [[Conhecimento]], [[Ofício]]\n%%\n## \n## Perícias de Ofício\nPersonagens típicamente tem uma perícia de ofício. Essa perícia representa um trabalho ou habilidade não necessariamente muito útil para aventuras. Ofícios são típicamente usados quando há uma pausa entre as aventuras ou em alguns casos específicos durante aventuras.\n\nOs ofícios são: [[Atuação]] ([[Presença|PRE]]), [[Conhecimento]] ([[Inteligência|INT]]) e [[Ofício]] ([[Inteligência|INT]]). \n![[Atuação#Atuação ( Presença PRE )]]\n![[Conhecimento#Conhecimento ( Inteligência INT )]]\n![[Ofício#Ofício ( Inteligência INT )]]"
+}

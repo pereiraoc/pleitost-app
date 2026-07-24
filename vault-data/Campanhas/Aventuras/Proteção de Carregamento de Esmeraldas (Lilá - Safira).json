@@ -1,0 +1,32 @@
+{
+  "id": "Campanhas/Aventuras/Proteção de Carregamento de Esmeraldas (Lilá - Safira)",
+  "path": "Campanhas/Aventuras/Proteção de Carregamento de Esmeraldas (Lilá - Safira).md",
+  "basename": "Proteção de Carregamento de Esmeraldas (Lilá - Safira)",
+  "type": "Aventura",
+  "subtype": "Proteção de Transporte",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Proteção de Transporte",
+    "rank": "C",
+    "disponivel": [
+      "[[Lilá]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lilá",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Proteção de Carregamento de Esmeraldas\n\nRecompensa:\n- Marcas: {min: 2, max: 4}\n- Ouro: {min: 40, max: 60}\nObjetivo:\n- \"Acompanhar e poteger barco com carregamento de pedra de esmeraldas brutas na viagem entre Lilá e Safira.\"\nLocal:\n- \"[[Lilá]] > [[Safira]] (Mar)\"\nContato: \"Capitão do Navio\"\nFinanciador: \"Desconhecido\"\n```\n"
+}

@@ -1,0 +1,92 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Postura de Artilharia",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Postura de Artilharia.md",
+  "basename": "Postura de Artilharia",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"Enquanto estiver na Postura de Artilharia, você fica [[Desprevenido]] e recebe -2 de [[Penalidades|penalidade de circunstância]] na [[Evasão]], mas aumenta o [[Alcance]] e o limite de [[Propulsão]] das armas de distância, melhora [[Disparo Múltiplo]] (reduz a [[Penalidades|penalidade de especialização]] em 1), dá +1 dado de dano em [[Disparo Perfurante]] e aumenta o cone de [[Rajada de Flechas]] para 6q. A postura termina se você [[Mover|mover]] (mesmo forçado) ou ficar [[Caído]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Propulsão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Disparo Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Disparo Perfurante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rajada de Flechas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "mover"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"Enquanto estiver na Postura de Artilharia, você fica [[Desprevenido]] e recebe -2 de [[Penalidades|penalidade de circunstância]] na [[Evasão]], mas aumenta o [[Alcance]] e o limite de [[Propulsão]] das armas de distância, melhora [[Disparo Múltiplo]] (reduz a [[Penalidades|penalidade de especialização]] em 1), dá +1 dado de dano em [[Disparo Perfurante]] e aumenta o cone de [[Rajada de Flechas]] para 6q. A postura termina se você [[Mover|mover]] (mesmo forçado) ou ficar [[Caído]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Postura de Artilharia.\n*Requer Disparo Múltiplo, Disparo Perfurante ou Rajada de Flechas*\n\n**Postura de Artilharia - 1A**\nVocê assume uma postura ideal para ataques a distância, mas limitando sua movimentação. Enquanto você assumir essa postura, você recebe os seguintes efeitos:\n* Você fica [[Desprevenido]];\n* Você recebe -2 de [[Penalidades|penalidade de circunstância]] na [[Evasão]];\n* Você aumenta o [[Alcance]] das suas armas de distância: de 6 para 10, 10 para 15, 15 para 20 e 20 para 25;\n* Você aumenta o limite de [[Propulsão]] das suas armas de distância (caso haja): de 6 para 10 e 10 para 15;\n* Você reduz em 1 a [[Penalidades|penalidade de especialização]] nos ataques feitos com [[Disparo Múltiplo]], tanto para 2A ou 3A;\n* [[Disparo Perfurante]] causa 1 dado de dano da arma adicional;\n* O cone de [[Rajada de Flechas]] aumenta para 6q.\n\nVocê perde a postura caso mova, seja intencionalmente ou de forma forçada, ou se ficar [[Caído]].\n\n```autosheet-rules\n```\n"
+}

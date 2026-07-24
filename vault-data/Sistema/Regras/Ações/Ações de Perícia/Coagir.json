@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Coagir",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Coagir.md",
+  "basename": "Coagir",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Intimidação]]\"",
+    "propriedades": "",
+    "resumo": "\"Usar de ameaças para obter o que quer.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Intimidação]]\"\npropriedades:: \nresumo:: \"Usar de ameaças para obter o que quer.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê força uma criatura a fazer o que você quer utilizando-se de ameaças. Faça um teste de [[Intimidação]] vs [[CD]] da tarefa (muitas vezes o[[Ímpeto]] de uma criatura). \n\n**Sucesso:** Você tem sucesso na sua coerção, mas isso pode ter consequências (ex: criatura querer se vingar)\n**Sucesso Decisivo:** Como sucesso, mas as chances de haverem consequências são mínimas.\n**Falha:** Você falha em coagir e muito provavelmente cria inimizades.\n**Falha Decisiva:** Como falha, mas alvos se tornam imunes a sua coação por ao menos 1 semana.\n\n```autosheet-rules\n```\n"
+}

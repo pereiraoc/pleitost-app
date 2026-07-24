@@ -1,0 +1,35 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Escaramuça Goblin",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Escaramuça Goblin.md",
+  "basename": "Escaramuça Goblin",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Goblin termina movimento adjacente a outro, faz [[Passo de Ajuste]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Goblin termina movimento adjacente a outro, faz [[Passo de Ajuste]].\"\n%%\n##### `= this.file.name`\nCriatura pode usar Escaramuça Goblin.\n\n**Escaramuça Goblin - R**\nGoblin termina movimento adjacente a outro, faz [[Passo de Ajuste]].\n\n```autosheet-rules\n```\n"
+}

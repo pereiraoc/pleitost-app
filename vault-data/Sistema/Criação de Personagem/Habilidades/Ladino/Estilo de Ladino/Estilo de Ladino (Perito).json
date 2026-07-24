@@ -1,0 +1,164 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Perito)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo de Ladino/Estilo de Ladino (Perito).md",
+  "basename": "Estilo de Ladino (Perito)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Pericias.Slots.A 1",
+      "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+      "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+      "Alias Classe Compor 1 \"Perito\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em uma [[Perícias|Perícia]] a sua escolha. Escolha duas [[Perícias]] que você é [[Adepto]]. Você ganha +2 de [[bônus de especialização]] nessas perícias.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Pericias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Perito)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Pericias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Perito)",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Bônus de Especialização",
+              "choiceKey": "__esc_h_9d3d85ea",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolha-pericia-especial",
+            "label": "Bônus de Especialização",
+            "valueRaw": "2"
+          },
+          "raw": "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Perito)",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Bônus de Especialização",
+              "choiceKey": "__esc_h_9c3d8457",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "escolha-pericia-especial",
+            "label": "Bônus de Especialização",
+            "valueRaw": "2"
+          },
+          "raw": "Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Perito\"",
+      "parsed": [
+        {
+          "sourceNote": "Estilo de Ladino (Perito)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Perito"
+          },
+          "raw": "Alias Classe Compor 1 \"Perito\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em uma [[Perícias|Perícia]] a sua escolha. Escolha duas [[Perícias]] que você é [[Adepto]]. Você ganha +2 de [[bônus de especialização]] nessas perícias.\"\n%%\n##### `= this.file.name`\nVocê usa de perícias de forma sagaz. Você se torna [[Adepto]] em uma [[Perícias|Perícia]] a sua escolha. Escolha duas [[Perícias]] que você é [[Adepto]]. Você ganha +2 de [[bônus de especialização]] nessas perícias.\n\n```autosheet-rules\n```\n"
+}

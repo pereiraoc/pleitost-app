@@ -1,0 +1,100 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Fogo)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Profunda/Sintonia Profunda (Fogo).md",
+  "basename": "Sintonia Profunda (Fogo)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Corpo em Sintonia (Fogo)]]",
+      "Complementar Acoes.Lista [[Fúria Profunda]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você aprende a habilidade [[Fúria Profunda]].\t\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Fogo)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda (Fogo)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Corpo em Sintonia (Fogo)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Corpo em Sintonia (Fogo)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Fúria Profunda]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Profunda (Fogo)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Fúria Profunda]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Fúria Profunda]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fúria Profunda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Fogo)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\n\nresumo:: \"Você aprende a habilidade [[Fúria Profunda]].\t\"\n%%\n##### `= this.file.name`\nVocê aprende a habilidade [[Fúria Profunda]].\n\n```autosheet-rules\n```\n"
+}

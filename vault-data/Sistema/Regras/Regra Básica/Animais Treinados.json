@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Animais Treinados",
+  "path": "Sistema/Regras/Regra Básica/Animais Treinados.md",
+  "basename": "Animais Treinados",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": "Animal Treinado, animal treinado, Familiar",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Comandar Animal",
+      "kind": "wikilink",
+      "alias": "Comandá-lo"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CDs"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Animais Treinados"
+    },
+    {
+      "level": 3,
+      "text": "Familiar"
+    }
+  ],
+  "body": "## Animais Treinados\nUm animal treinado é um animal muito pequeno (1/4 de quadrado), como um gato, rato, pássaro, macaco ou similar. Ele não compreende nenhum idioma, mas você pode [[Comandar Animal|Comandá-lo]] sempre com sucesso, realizando ações que seriam razoáveis de um animal, a critério do Mestre.\n\nQuando você ganha um animal treinado, escolha duas habilidades, que definem que tipo de animal ele é. Se seu animal tem uma característica natural que é uma habilidade (como um pássaro voar, por exemplo), você deve escolher essa habilidade para ele.\n* **Anfíbio:** Pode [[Nadar]], como se tivesse movimentação aquática, e respirar na água;\n* **Escavador:** Pode escavar, criando pequenos buracos, como se tivesse movimentação de escavação;\n* **Escalador:** Pode [[Escalar]] como se tivesse movimentação de escalada;\n* **Visão no Escuro:** Pode ver no escuro;\n* **Voador:** Pode [[Voar]], como se tivesse movimentação aérea;\n* **Destreza:** Pode [[Interagir]] como se tivesse mãos, apertando botões, movendo alavancas, girando uma chave ou tarefas similares, exceto para ativar itens mágicos ou consumíveis;\n* **Faro:** Pode farejar, como se tivesse [[Faro]] como sentido.\n\nAnimais Treinados não são úteis para combate no geral, mas se você precisar de estatísticas de combate considere sua [[Energia Vital|EV]] máxima 6, todas as suas [[CD|CDs]] (Defesa, Resistências, etc...) 10, todos seus modificadores de teste +0 e todas suas movimentações 4q.\n\nSe você perder seu animal treinado por qualquer motivo, pode treinar outro com 1 semana de trabalho.\n\n### Familiar\nÉ um animal treinado com efeitos mágicos que volta quando você dorme caso tenha morrido.\n\n```autosheet-rules\n```\n"
+}

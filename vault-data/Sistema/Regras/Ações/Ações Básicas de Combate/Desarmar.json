@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Combate/Desarmar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Combate/Desarmar.md",
+  "basename": "Desarmar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Combate",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Combate",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Combate]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "",
+    "resumo": "\"Tenta desestabilizar ou remover uma arma ou escudo usado por uma criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soltar",
+      "kind": "wikilink",
+      "alias": "solta"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aparar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Combate]]\nprev:: \nnext:: \n\npropriedades:: \nresumo:: \"Tenta desestabilizar ou remover uma arma ou escudo usado por uma criatura.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um [[Ataques|Ataque]] contra a [[Evasão]] de uma criatura adjacente a você que está empunhando pelo menos uma arma. Você recebe -2 de [[Penalidades|penalidade de circunstância]] para alvejar uma criatura uma categoria de tamanho maior que você e não pode alvejar uma criatura duas ou mais categorias de tamanho maior. Você precisa de uma mão livre para Desarmar.\n\n**Sucesso:** A criatura recebe -2 de [[Penalidades|penalidade de circunstância]] nos [[Atacar|Ataques]] com a arma empunhada até usar uma ação [[Sacar]] para empunhar a arma novamente.\n**Sucesso Decisivo:** A criatura [[Soltar|solta]] a arma empunhada.\n**Falha:** A criatura não é afetada.\n\nVocê pode também Desarmar para remover o bônus de circunstância na [[Defesa]] dado por um escudo levantado ou armas usadas para aparar ([[Adaga de Duelo]] ou [[Aparar]]), removendo o bônus de defesa em caso de sucesso. No sucesso decisivo, a criatura também [[Soltar|solta]] a arma de aparar ou o escudo erguido. (Escudos são amarrados no braço mas ainda seria necessário [[Sacar]] o escudo para utilizá-lo novamente).\n\n```autosheet-rules\n```\n"
+}

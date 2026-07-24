@@ -1,0 +1,103 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Iluminada",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Iluminada.md",
+  "basename": "Iluminada",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Campos do Provento]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      "[[Espada Bastarda]]",
+      "[[Montante]]",
+      "[[Alabarda]]",
+      "[[Arco de Guerra]]",
+      "[[Besta Pesada]]",
+      "[[Anel Mensageiro]]",
+      "[[Brasão Tático]]",
+      "[[Diadema da Ameaça]]",
+      "[[Armadura Obra-prima|Armadura Pesada]]",
+      "[[Escudo Obra-prima|Escudo]]",
+      "[[Imbuição de Aço Solar]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Iluminada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alabarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel Mensageiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diadema da Ameaça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Armadura Pesada"
+    },
+    {
+      "target": "Escudo Obra-prima",
+      "kind": "wikilink",
+      "alias": "Escudo"
+    },
+    {
+      "target": "Imbuição de Aço Solar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Iluminada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Iluminada.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 300.000 (10% Classe Baixa,  65% Classe Média, 25% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> ℹ️**Descrição:** \n>\n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```"
+}

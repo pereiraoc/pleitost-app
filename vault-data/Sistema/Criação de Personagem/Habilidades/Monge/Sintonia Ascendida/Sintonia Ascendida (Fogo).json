@@ -1,0 +1,93 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Fogo)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Fogo).md",
+  "basename": "Sintonia Ascendida (Fogo)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Sintonia Profunda (Fogo)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Causa dano adicional quando ferido.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Fogo)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida (Fogo)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Sintonia Profunda (Fogo)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Fogo)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Fúria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Fogo)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Mestre]]\n\nresumo:: \"Causa dano adicional quando ferido.\"\n%%\n##### `= this.file.name`\nSeu corpo transforma dor em poder. Quando sua [[Energia Vital|EV]] atual é metade do máximo (tipicamente 15) ou menos, você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] no dano de [[Atacar|Ataques]] corpo-a-corpo. O bônus aumenta para +4 se sua [[Energia Vital|EV]] atual é um quarto do máximo (tipicamente 7) ou menos e aumenta para +6 se sua [[Energia Vital|EV]] atual é 0 ou menos. Adicionalmente, você pode iniciar [[Fúria]] como uma ação livre ao rolar iniciativa.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Passo das Sombras",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Passo das Sombras.md",
+  "basename": "Passo das Sombras",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Ladino]]\"",
+    "resumo": "\"(1 EM) Teleporta 4q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Ladino]]\"\n\nresumo:: \"(1 EM) Teleporta 4q.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê usa magia negra para se misturar com as sombras do ambiente, posicionando-se onde convêm. Você se teletransporta para um espaço desocupado que você consegue ver em 4q. Consome 1 [[Energia Mágica|EM]] para ser utilizado.\n\n```autosheet-rules\n```\n"
+}

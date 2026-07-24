@@ -1,0 +1,570 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Animista",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Animista.md",
+  "basename": "Treinamento de Animista",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Elemental\"",
+      "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Proficiencia A",
+      "Nivel 1 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+      "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+      "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Atributo PRE",
+      "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+      "Nivel 4 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+      "Nivel 7 Definir Magias.Secundaria.Lista.Anima.Proficiencia E",
+      "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+      "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "Nivel 7 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente Menor]], [[Essência Hidratante Experiente Menor]], [[Essência Torrencial Experiente Menor]], [[Essência Explosiva Experiente Menor]], [[Essência Flamejante Experiente Menor]], [[Essência Incendiária Experiente Menor]], [[Essência Enraizante Experiente Menor]], [[Essência Mineral Experiente Menor]], [[Essência Sísmica Experiente Menor]], [[Essência Ciclonal Experiente Menor]], [[Essência Relampejante Experiente Menor]], [[Essência Ventania Experiente Menor]], [[Essência de Criação Experiente Menor]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Elemental\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Elemental"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Elemental\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_1b3a8c20",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Menor]]",
+              "[[Essência Hidratante Menor]]",
+              "[[Essência Torrencial Menor]]",
+              "[[Essência Explosiva Menor]]",
+              "[[Essência Flamejante Menor]]",
+              "[[Essência Incendiária Menor]]",
+              "[[Essência Enraizante Menor]]",
+              "[[Essência Mineral Menor]]",
+              "[[Essência Sísmica Menor]]",
+              "[[Essência Ciclonal Menor]]",
+              "[[Essência Relampejante Menor]]",
+              "[[Essência Ventania Menor]]",
+              "[[Essência de Criação Menor]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Nivel 1 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Potencia 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Nivel 1 Definir Magias.Secundaria.Lista.Anima.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "4"
+          },
+          "raw": "Nivel 4 Definir Magias.Secundaria.Potencia 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Adepta",
+              "choiceKey": "__esc_h_1815ea18",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Menor]]",
+              "[[Essência Hidratante Menor]]",
+              "[[Essência Torrencial Menor]]",
+              "[[Essência Explosiva Menor]]",
+              "[[Essência Flamejante Menor]]",
+              "[[Essência Incendiária Menor]]",
+              "[[Essência Enraizante Menor]]",
+              "[[Essência Mineral Menor]]",
+              "[[Essência Sísmica Menor]]",
+              "[[Essência Ciclonal Menor]]",
+              "[[Essência Relampejante Menor]]",
+              "[[Essência Ventania Menor]]",
+              "[[Essência de Criação Menor]]"
+            ],
+            "label": "Essência Elemental Adepta"
+          },
+          "raw": "Nivel 4 Escolha_Habilidades \"Essência Elemental Adepta\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Menor]], [[Essência Hidratante Menor]], [[Essência Torrencial Menor]], [[Essência Explosiva Menor]], [[Essência Flamejante Menor]], [[Essência Incendiária Menor]], [[Essência Enraizante Menor]], [[Essência Mineral Menor]], [[Essência Sísmica Menor]], [[Essência Ciclonal Menor]], [[Essência Relampejante Menor]], [[Essência Ventania Menor]], [[Essência de Criação Menor]])",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Lista.Anima.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.Anima.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Lista.Anima.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Potencia",
+            "valueRaw": "5"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.Potencia 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.EM",
+            "valueRaw": "3"
+          },
+          "raw": "Nivel 7 Definir Magias.Secundaria.EM 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente Menor]], [[Essência Hidratante Experiente Menor]], [[Essência Torrencial Experiente Menor]], [[Essência Explosiva Experiente Menor]], [[Essência Flamejante Experiente Menor]], [[Essência Incendiária Experiente Menor]], [[Essência Enraizante Experiente Menor]], [[Essência Mineral Experiente Menor]], [[Essência Sísmica Experiente Menor]], [[Essência Ciclonal Experiente Menor]], [[Essência Relampejante Experiente Menor]], [[Essência Ventania Experiente Menor]], [[Essência de Criação Experiente Menor]])",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Animista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            },
+            {
+              "kind": "escolha",
+              "label": "Essência Elemental Experiente",
+              "choiceKey": "__esc_h_00c14d0d",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Habilidades.Lista",
+            "options": [
+              "[[Essência Congelante Experiente Menor]]",
+              "[[Essência Hidratante Experiente Menor]]",
+              "[[Essência Torrencial Experiente Menor]]",
+              "[[Essência Explosiva Experiente Menor]]",
+              "[[Essência Flamejante Experiente Menor]]",
+              "[[Essência Incendiária Experiente Menor]]",
+              "[[Essência Enraizante Experiente Menor]]",
+              "[[Essência Mineral Experiente Menor]]",
+              "[[Essência Sísmica Experiente Menor]]",
+              "[[Essência Ciclonal Experiente Menor]]",
+              "[[Essência Relampejante Experiente Menor]]",
+              "[[Essência Ventania Experiente Menor]]",
+              "[[Essência de Criação Experiente Menor]]"
+            ],
+            "label": "Essência Elemental Experiente"
+          },
+          "raw": "Nivel 7 Escolha_Habilidades \"Essência Elemental Experiente\" Complementar Habilidades.Lista Selecionar ([[Essência Congelante Experiente Menor]], [[Essência Hidratante Experiente Menor]], [[Essência Torrencial Experiente Menor]], [[Essência Explosiva Experiente Menor]], [[Essência Flamejante Experiente Menor]], [[Essência Incendiária Experiente Menor]], [[Essência Enraizante Experiente Menor]], [[Essência Mineral Experiente Menor]], [[Essência Sísmica Experiente Menor]], [[Essência Ciclonal Experiente Menor]], [[Essência Relampejante Experiente Menor]], [[Essência Ventania Experiente Menor]], [[Essência de Criação Experiente Menor]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais",
+      "kind": "wikilink",
+      "alias": "Essência Elemental"
+    },
+    {
+      "target": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Hidratante Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Explosiva Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Flamejante Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Incendiária Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Enraizante Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Mineral Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ciclonal Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Relampejante Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Ventania Experiente Menor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência de Criação Experiente Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer PRE 2, conta como Técnica Adepta para outras classes*\n\nVocê amplifica sua sensitividade aos elementos, canalizando-os como um Animista.\n\nVocê se torna [[Adepto]] em [[Magia Anima]] e recebe acesso a uma [[Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais|Essência Elemental]] do elemento referente a sua sintonia. Você pode conjurar a forma Básica e Adepta dessa essência. Quando você escolhe [[Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais]], nenhuma pode ser do elemento oposto a sua sintonia. \n\nSua potência mágica para magias de Animista é 3, sua [[Energia Mágica|EM]] máxima é 2 e seu atributo-chave para magias é [[Presença]]. \n\nNo 4º nível, sua potência mágica para magias de Animista aumenta para 4 e você recebe acesso a uma [[Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais|Essência Elemental]], podendo conjurar a forma Básica e Adepta desta.\n\nNo 7º nível, você se torna [[Experiente]] em [[Magia Anima]], sua potência mágica para magias de Animista aumenta para 5, sua [[Energia Mágica|EM]] máxima aumenta para 3 e escolha uma [[Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais|Essência Elemental]] que você já tem acesso, você pode conjurar a forma Experiente dela. \n\nVocê pode escolher Técnicas Adeptas de Animista no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Animista no lugar de Técnicas Mestre da sua classe.\n\n| Sintonia | Elemento Oposto |\n| -------- | --------------- |\n| Fogo     | Água            | \n| Água     | Fogo            |\n| Vento    | Terra           |\n| Terra    | Vento           |\n\n```autosheet-rules\n```\n"
+}

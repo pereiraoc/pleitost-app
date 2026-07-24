@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Aura Flamejante",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Fogo/Aura Flamejante.md",
+  "basename": "Aura Flamejante",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Fogo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Fogo]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manto Incendiário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Aura Flamejante"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Fogo]]\nprev::\nnext::\n%%\n### Aura Flamejante\nUma vez por dia, você pode conjurar [[Manto Incendiário]]. Para esta magia, você é considerado [[Adepto]] em Magia Anima e seu atributo chave é [[Força]], [[Inteligência]] ou [[Presença]] (o que for maior)."
+}

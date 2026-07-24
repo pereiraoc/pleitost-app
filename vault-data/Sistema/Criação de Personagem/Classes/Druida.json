@@ -1,0 +1,847 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Druida",
+  "path": "Sistema/Criação de Personagem/Classes/Druida.md",
+  "basename": "Druida",
+  "type": "Classe",
+  "subtype": "Híbrido",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Classe",
+    "subcategoria": "Híbrido",
+    "atributo-chave": "INT",
+    "dg-publish": true,
+    "Imagem": "[[Druida.png]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Druida\"",
+      "Nivel 1 Definir Vida.Vitalidade 12",
+      "Nivel 1 Definir Vida.Moral 24",
+      "Nivel 1 Restringir Atributos.Principal INT",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Círculo Druídico]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Tradição Druídica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Aspecto Feral]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Druida-mor]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Forma Melhorada]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Mestre-Druida]]",
+      "Nivel 7 Complementar Habilidades.Lista [[Forma Perfeita]]",
+      "Nivel 1 Somar Pericias.Slots.A 1",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+      "Somar Papel.Vanguarda 1",
+      "Somar Papel.Controlador 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Druida\"",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Druida"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Druida\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "12"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 24",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "24"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 24",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Restringir Atributos.Principal INT",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "INT"
+            ]
+          },
+          "raw": "Nivel 1 Restringir Atributos.Principal INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Círculo Druídico]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Círculo Druídico]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Círculo Druídico]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Tradição Druídica]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Tradição Druídica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Tradição Druídica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Aspecto Feral]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Aspecto Feral]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Aspecto Feral]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Druida-mor]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Druida-mor]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Druida-mor]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Forma Melhorada]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Forma Melhorada]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Forma Melhorada]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Druida]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Mestre-Druida]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Mestre-Druida]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Complementar Habilidades.Lista [[Forma Perfeita]]",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Forma Perfeita]]"
+          },
+          "raw": "Nivel 7 Complementar Habilidades.Lista [[Forma Perfeita]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Leve",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Pesada",
+            "valueRaw": "P"
+          },
+          "raw": "Nivel 1 Definir Inventario.Armadura.Proficiencia.Pesada P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 1",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 20,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Vanguarda 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Controlador 1",
+      "parsed": [
+        {
+          "sourceNote": "Druida",
+          "occurrenceIndex": 21,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Controlador",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Controlador 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida.png",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armaduras Leves"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Pesadas"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo Druídico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Anima Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida-mor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Duradoura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre-Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Eterna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Anima Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo Druídico",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Druídica",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Aspecto Feral",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Anima Adepto",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Druida-mor",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Duradoura",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Mestre-Druida",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Tradição Eterna",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Druida.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Melhorada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Perfeita",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Druida.png",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Druida.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Druida"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Druída"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Básicas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Adeptas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Experientes"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Druida.png|right|profile|250]]\n# Druida\n\nDruidas são agentes da natureza. Uma conexão forte com o mundo natural, unida a experiência da vida longe da civilização.\n\n```class-roles\n[\"Druida Guardião\", { \"Vanguarda\": 1, \"Abatedor\": 1, \"Controlador\": 1 }],\n[\"Druida Xamã\", { \"Vanguarda\": 1, \"Controlador\": 2 }]\n```\n\n## Características de Classe\n\n**[[Energia Vital|EV]]:** 12\n**[[Energia Heroica|EH]]:** 24\n\n**[[Atributos|Atributo de Classe]]:** [[Inteligência|INT]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Anima]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 1 + [[Inteligência|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]], proficiente em [[Armaduras|Armaduras Leves]] e [[Armaduras|Pesadas]]\n\n**[[Resistências]]:** [[Adepto]] em [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Percepção]]\n\n| Nível | Habilidades de Classe                                    |\n|:-----:| -------------------------------------------------------- |\n|  1º   | [[Círculo Druídico]], [[Tradição Druídica]], [[Aspecto Feral]] |\n|  2º   | [[Técnica Adepta]]                                         |\n|  3º   | [[Conhecimento Anima Adepto]], [[Técnica Adepta]]         |\n|  4º   | [[Druida-mor]], [[Tradição Duradoura]]                    |\n|  5º   | [[Conhecimento Anima Adepto]], [[Técnica Experiente]]     |\n|  6º   | [[Técnica Experiente]]                                     |\n|  7º   | [[Mestre-Druida]], [[Tradição Eterna]]                    |\n|  8º   | [[Técnica Experiente]]                                     |\n|  9º   | [[Conhecimento Anima Experiente]], [[Técnica Experiente]] |\n\n![[Círculo Druídico#`= this.file.name`]]\n![[Tradição Druídica#`= this.file.name`]]\n![[Aspecto Feral#`= this.file.name`]]\n![[Conhecimento Anima Adepto#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]\n![[Druida-mor#`= this.file.name`]]\n![[Tradição Duradoura#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n![[Mestre-Druida#`= this.file.name`]]\n![[Tradição Eterna#`= this.file.name`]]\n\n---\n\n#### Técnicas de Druída\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n#### Magias Anima Básicas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  rank AS \"Rank\",\n  elemento as \"Elemento\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Básica\"\n```\n\n#### Magias Anima Adeptas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  rank AS \"Rank\",\n  elemento as \"Elemento\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Adepta\"\n```\n\n#### Magias Anima Experientes\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  rank AS \"Rank\",\n  elemento as \"Elemento\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Experiente\"\n```\n\n```autosheet-rules\n```\n"
+}

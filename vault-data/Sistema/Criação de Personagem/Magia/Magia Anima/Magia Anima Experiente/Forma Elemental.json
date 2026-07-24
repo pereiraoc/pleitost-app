@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Forma Elemental",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Forma Elemental.md",
+  "basename": "Forma Elemental",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Forma Elemental (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": null,
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Assume forma elemental de um elemento a sua escolha por 10t.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Assume forma elemental de um elemento a sua escolha por 10t.\"\n%%\n# `= this.file.name` - `= this.custo`\nSe transforma numa forma elemental por 10 turnos, que te da habilidades físicas superiores, dependendo da forma.\nAs armas das formas usam seu modificador de Ataque Mágico e sua Defesa conta como sem armadura.\nEscolha:\n* Forma de Fogo:\n\t* Você recebe 1×potência [[Energia Heroica|EH]] temporário enquanto durar a forma\n\t* [[Defesa]] 13+MOD\n\t* [[Intimidação]] +4+MOD\n\t* Arma: Chicote de Fogo - Corpo-a-corpo com alcance 2q, 2d6+MOD dano de fogo\n\n* Forma de Água:\n\t* Você recebe 1×potência [[Energia Heroica|EH]] temporário enquanto durar a forma\n\t* [[Defesa]] 13+MOD\n\t* [[Acrobacia]] +4+MOD\n\t* Arma: Lâmina d'Água - Corpo-a-corpo, 2d6+MOD dano cortante, +1d6 dano adicional contra criaturas que você tem [[Vantagem de Combate]]\n\n* Forma de Vento:\n\t* Você recebe +1q de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre\n\t* [[Defesa]] 13+MOD\n\t* [[Furtividade]] +4+MOD\n\t* Arma: Flecha de Vento - Alcance 10q, 2d6+MOD dano perfurante\n\n* Forma de Terra:\n\t* Você recebe 2×potência [[Energia Heroica|EH]] temporário enquanto durar a forma\n\t* [[Defesa]] 14+MOD\n\t* [[Atletismo]] +4+MOD\n\t* Arma: Punho de Pedra - Corpo-a-corpo, 2d8+MOD dano de contusão"
+}

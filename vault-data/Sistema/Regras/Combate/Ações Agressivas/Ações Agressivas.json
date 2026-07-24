@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Ações Agressivas",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Ações Agressivas.md",
+  "basename": "Ações Agressivas",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação Agressiva, Ações Agressivas (Ataques, Magias e Testes)",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Iniciativa]]",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iniciativa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Teste",
+      "kind": "wikilink",
+      "alias": "Testes"
+    },
+    {
+      "target": "Sistema/Regras/Combate/Ações Agressivas/Magia",
+      "kind": "wikilink",
+      "alias": "Magias"
+    },
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "embed",
+      "subpath": "Ataques"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "embed",
+      "subpath": "Penalidade por Ataque Múltiplo (PAM)"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "embed",
+      "subpath": "Lutando com Duas Armas"
+    },
+    {
+      "target": "Teste",
+      "kind": "embed",
+      "subpath": "Testes"
+    },
+    {
+      "target": "Sistema/Regras/Combate/Ações Agressivas/Magia",
+      "kind": "embed",
+      "subpath": "Magias"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações Agressivas (Ataques, Magias e Testes)"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Iniciativa]]\nnext:: \n%%\n## Ações Agressivas (Ataques, Magias e Testes)\nDurante um combate, é típico que personagens utilizem de ações agressivas para derrotar o lado adversário. A grande maioria das ações agressivas são [[Ataques|Ataques]], [[Teste|Testes]], ou [[Sistema/Regras/Combate/Ações Agressivas/Magia|Magias]]. Algumas [[Técnicas]] utilizam-se dessas outras ações base.\n\n![[Ataques#Ataques]]\n![[Penalidade por Ataque Múltiplo#Penalidade por Ataque Múltiplo (PAM)]]\n![[Lutando com Duas Armas#Lutando com Duas Armas]]\n![[Teste#Testes]]\n![[Sistema/Regras/Combate/Ações Agressivas/Magia#Magias]]\n\n```autosheet-rules\n```\n"
+}

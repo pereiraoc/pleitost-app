@@ -1,0 +1,79 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Tesouros",
+  "path": "Sistema/Equipamento/Tesouros/Tesouros.md",
+  "basename": "Tesouros",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Tesouros"
+    },
+    {
+      "level": 3,
+      "text": "Tesouro Mundano"
+    },
+    {
+      "level": 3,
+      "text": "Tesouros Mágicos"
+    },
+    {
+      "level": 4,
+      "text": "Itens Mágicos de Ataque"
+    },
+    {
+      "level": 4,
+      "text": "Itens Mágicos de Defesa"
+    },
+    {
+      "level": 4,
+      "text": "Itens Mágicos de Perícia e Sentidos"
+    },
+    {
+      "level": 4,
+      "text": "Imbuições para Armas"
+    },
+    {
+      "level": 4,
+      "text": "Implementos Mágicos"
+    },
+    {
+      "level": 4,
+      "text": "Consumíveis Mágicos"
+    },
+    {
+      "level": 3,
+      "text": "Artefatos"
+    }
+  ],
+  "body": "# Tesouros\n\nTesouros tem um preço base referente a versão Adepta. A versão Experiente custa 5 vezes o valor. A versão Mestre custa 25 vezes o valor.\n\n### Tesouro Mundano\nTesouros mundanos são objetos de melhor qualidade, produzidos com mais dificuldade e por mãos mais hábeis. Tipicamente tesouros mundanos são armas ou armaduras obra-prima, mas uma ferramenta utilizada para uma atividade de perícia como [[Medicina]] ou [[Ladinagem]] pode ser obra-prima também.\n\nA habilidade do artesão dita o teor do bônus dado pelo item, sendo +1 para obras-prima Adepta, +2 para Experiente e +3 para Mestre. Armas obra-prima garantem um [[bônus de item]] nas rolagens de ataque, armaduras obra-prima garantem um [[bônus de item]] na [[Defesa]], escudos obra-prima tem durabilidade maior e ferramentas obra-prima garantem um [[bônus de item]] no teste de perícia que estão associadas.\n\nEsses itens obra-prima são uma forma mais barata e acessível de garantir os bônus numéricos que os personagens precisam, principalmente os não-conjuradores, nas suas habilidades principais.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Qualidade\"\nSORT link(file.link, title) ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n### Tesouros Mágicos\nTesouros mágicos estão espalhados e são criados pelo mundo. Objetos construídos para potencializar ou suprimir aspectos elementais de cada criatura, estes ajudam os heróis nas suas aventuras, garantindo aquela última gota de força que diferencia uma investida heroica de sucesso e uma tragédia.\n\nItens mágicos podem ser de fonte Arcana ou Anima. Ambos os tipos podem ser criados pela perícia de ofício adequada, acompanhada de treinamento nas perícias de Arcana ou Anima. Itens Arcanos tipicamente modulam as energias elementais, assim como a magia arcana, criando efeitos energéticos, normalmente com algum custo. Itens Anima tipicamente potencializam um aspecto elemental do personagem, usando o poder de um elemento para melhorar uma perícia na qual o elemento se expressa ou adicionando uma rajada primal a uma arma.\n\nItens mágicos muitas vezes tem várias versões do mesmo, quando criados por um artesão com proficiência maior, tipicamente aumentando seus bônus numéricos e melhorando ou flexibilizando as suas demais habilidades.\n\n#### Itens Mágicos de Ataque\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Ataque\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n#### Itens Mágicos de Defesa\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Defesa\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n#### Itens Mágicos de Perícia e Sentidos\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n#### Imbuições para Armas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n#### Implementos Mágicos\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Implementos\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n#### Consumíveis Mágicos\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Tesouro\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\",\n  preço AS \"Preço Base\"\nFROM \"Sistema/Equipamento/Tesouros/Consumíveis\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```\n\n### Artefatos\nArtefatos são tesouros de valor incalculável. Cada artefato carrega uma história de um acontecimento dramático, criatura lendária ou profecias antigas. Artefatos são sempre itens de categoria [[Mestre]], muito poderosos, mas geralmente tem algum empecilho ou dificuldade para serem usados. Acesso a artefatos é dado unicamente pelo Mestre do jogo. Esses artefatos são referências que se aplicam ao cenário descrito neste documento - novas histórias podem precisar de novos artefatos.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Artefato\",\n  resumo AS \"Descrição\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Tesouros/Artefatos\"\nSORT propriedades ASC\nWHERE subcategoria=\"Tesouro\"\n```"
+}

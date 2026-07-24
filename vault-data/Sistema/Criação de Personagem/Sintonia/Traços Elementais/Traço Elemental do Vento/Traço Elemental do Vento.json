@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Traço Elemental do Vento",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Traço Elemental do Vento.md",
+  "basename": "Traço Elemental do Vento",
+  "type": "Sintonia",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Traço Elemental do Vento",
+    "categoria": "Sintonia",
+    "subcategoria": null,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traços Elementais]]",
+    "prev": "[[Traço Elemental da Água]]",
+    "next": "[[Traço Elemental da Terra]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traços Elementais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Traço Elemental do Vento"
+    }
+  ],
+  "body": "%%\nup:: [[Traços Elementais]]\nprev:: [[Traço Elemental da Água]]\nnext:: [[Traço Elemental da Terra]]\n%%\n### Traço Elemental do Vento\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Traços Elemental\",\n  nível AS \"Nível\",\n  sintonia AS \"Sintonia\"\nSORT nível,file.name ASC\nWHERE subcategoria = \"Traço-Elemental\" and sintonia = \"Vento\"\n```"
+}

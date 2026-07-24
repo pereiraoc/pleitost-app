@@ -1,0 +1,80 @@
+{
+  "id": "Sistema/Regras/Condições/Agarrado",
+  "path": "Sistema/Regras/Condições/Agarrado.md",
+  "basename": "Agarrado",
+  "type": "Regra",
+  "subtype": "Condição",
+  "grupo": "Negativa",
+  "frontmatter": {
+    "alias": "Agarrada, Agarradas",
+    "categoria": "Regra",
+    "subcategoria": "Condição",
+    "grupo": "Negativa",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Derivar Condicao Preso",
+      "Derivar Condicao Desprevenido"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Condições|Condição]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"[[Preso]], [[Desprevenido]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Derivar Condicao Preso",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Preso"
+        ]
+      }
+    },
+    {
+      "raw": "Derivar Condicao Desprevenido",
+      "parsed": [],
+      "condition": {
+        "scaleMax": 1,
+        "rules": [],
+        "derived": [
+          "Desprevenido"
+        ]
+      }
+    }
+  ],
+  "links": [
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condição"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Condições|Condição]]\nprev:: \nnext:: \n\nresumo:: \"[[Preso]], [[Desprevenido]].\"\n%%\n## `= this.file.name`\n`= this.resumo` Alvo pode tentar [[Escapar]] contra [[CD]] que causou o efeito.\n\n```autosheet-rules\n```\n"
+}

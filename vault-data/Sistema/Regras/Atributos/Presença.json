@@ -1,0 +1,85 @@
+{
+  "id": "Sistema/Regras/Atributos/Presença",
+  "path": "Sistema/Regras/Atributos/Presença.md",
+  "basename": "Presença",
+  "type": "Regra",
+  "subtype": "Atributo",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "PRE, Presença (PRE)",
+    "categoria": "Regra",
+    "subcategoria": "Atributo",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Atributos|Atributo]]",
+    "prev": "[[Inteligência]]",
+    "next": "[[Proficiência]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentido"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Presença (PRE)"
+    }
+  ],
+  "body": "%%\nup:: [[Atributos|Atributo]]\nprev:: [[Inteligência]]\nnext:: [[Proficiência]]\n%%\n## Presença (PRE)\nPresença representa força de personalidade, capacidade de persuasão e notoriedade. Contribui com:\n* [[Resistências]] [[Vigor]] e [[Ímpeto]]\n* [[Sentidos|Sentido]] [[Intuição]]\n* [[Perícias|Perícias]] [[Anima]], [[Diplomacia]], [[Enganação]] e [[Intimidação]]\n* Número máximo de itens mágicos"
+}

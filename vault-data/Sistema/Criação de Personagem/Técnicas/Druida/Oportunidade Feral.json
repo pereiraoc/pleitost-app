@@ -1,0 +1,76 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Oportunidade Feral",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Oportunidade Feral.md",
+  "basename": "Oportunidade Feral",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Oportunidade Feral",
+        "tipo": "Estado",
+        "origem": "Técnica",
+        "visual": {
+          "iconeLigado": "🎯",
+          "iconeDesligado": "🚫",
+          "ancorar": "AtaquesEAcoes"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoOportunidade",
+            "valor": 1
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"[[Forma Feral|Formas Ferais]] adicione 1 dado de dano da arma ao dano de [[Ataque de Oportunidade]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink",
+      "alias": "Formas Ferais"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"[[Forma Feral|Formas Ferais]] adicione 1 dado de dano da arma ao dano de [[Ataque de Oportunidade]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando a [[Forma Feral]] faz um [[Ataque de Oportunidade]] contra uma criatura, adicione um dado de dano da arma no dano.\n\n**Especial:** Técnicas que aumentam o dano do [[Ataque de Oportunidade]] não acumulam.\n\n```autosheet-rules\n```\n"
+}

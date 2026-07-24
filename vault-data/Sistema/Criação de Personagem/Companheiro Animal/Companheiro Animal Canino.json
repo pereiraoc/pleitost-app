@@ -1,0 +1,344 @@
+{
+  "id": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Canino",
+  "path": "Sistema/Criação de Personagem/Companheiro Animal/Companheiro Animal Canino.md",
+  "basename": "Companheiro Animal Canino",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 0 \"Canino\"",
+      "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "Definir Atributos.FOR 3",
+      "Definir Atributos.AGI 2",
+      "Definir Atributos.INT 1",
+      "Definir Atributos.PRE 0",
+      "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "Complementar Ataques.Lista [[Mandíbula]]",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Seu companheiro animal é do tipo canino.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 0 \"Canino\"",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Canino"
+          },
+          "raw": "Alias Classe Compor 0 \"Canino\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Companheiro Animal]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Companheiro Animal]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Faro|Faro (6q)]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Faro|Faro (6q)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.FOR 3",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.FOR",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Atributos.FOR 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.AGI 2",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.AGI",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Atributos.AGI 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.INT 1",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.INT",
+            "valueRaw": "1"
+          },
+          "raw": "Definir Atributos.INT 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Atributos.PRE 0",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Atributos.PRE",
+            "valueRaw": "0"
+          },
+          "raw": "Definir Atributos.PRE 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Sobrevivencia.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Ataques.Lista [[Mandíbula]]",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Ataques.Lista",
+            "valueRaw": "[[Mandíbula]]"
+          },
+          "raw": "Complementar Ataques.Lista [[Mandíbula]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Companheiro Animal Canino",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mandíbula",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink",
+      "alias": "Faro (6q)"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto]]\n\nresumo:: \"Seu companheiro animal é do tipo canino.\"\n%%\n##### `= this.file.name`\n* [[Força|FOR]] 3, [[Agilidade|AGI]] 2, [[Inteligência|INT]] 1, [[Presença|PRE]] 0\n* [[Adepto]] em [[Sobrevivência]]\n* [[Movimentação]] Terrestre 6\n* [[Faro]] com alcance 6q\n* +2 de [[bônus de especialização]] para [[Rastrear]] algo envolvendo cheiro\n* [[Mandíbula]]\n\n```autosheet-rules\n```\n"
+}

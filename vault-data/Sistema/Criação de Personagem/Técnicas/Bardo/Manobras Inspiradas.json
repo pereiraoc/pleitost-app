@@ -1,0 +1,84 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Manobras Inspiradas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Manobras Inspiradas.md",
+  "basename": "Manobras Inspiradas",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Auto-Confiança",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "modificadores": [
+          {
+            "somar": "Manobra",
+            "valor": 1,
+            "tipoBonus": "Condicao",
+            "quando": [
+              {
+                "estado": "Performance Bárdica Ativa"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"[[Inspiração]] garante +1 em [[Ataques#Manobras de Ataque|Manobras de Ataque]] e [[Auto-Confiança]] garante +1 para [[Ataques#Manobras de Ataque|Manobras de Ataque]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"[[Inspiração]] garante +1 em [[Ataques#Manobras de Ataque|Manobras de Ataque]] e [[Auto-Confiança]] garante +1 para [[Ataques#Manobras de Ataque|Manobras de Ataque]].\"\n%%\n#### `= this.file.name` - `= this.rank`\n[[Inspiração]] garante +1 de [[Bônus de Condição|bônus de condição]] em [[Ataques#Manobras de Ataque|Manobras de Ataque]] para as criaturas afetadas.\n\nAdicionalmente, [[Auto-Confiança]] também garante +1 de [[Bônus de Condição|bônus de condição]] para [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Flexibilidade Marcial",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Flexibilidade Marcial.md",
+  "basename": "Flexibilidade Marcial",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"No início do dia, escolha 1 [[Técnica Adepta]] e 1 [[Técnica Experiente]] de Guerreiro (que você cumpra os pré-requisitos e não tenha); você ganha essas técnicas até o início do próximo dia.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"No início do dia, escolha 1 [[Técnica Adepta]] e 1 [[Técnica Experiente]] de Guerreiro (que você cumpra os pré-requisitos e não tenha); você ganha essas técnicas até o início do próximo dia.\"\n%%\n#### `= this.file.name` - `= this.rank`\nNo início do dia, escolha uma [[Técnica Adepta]] e uma [[Técnica Experiente]] de Guerreiro que você satisfaz os pré-requisitos e não as tenha. Você recebe essas técnicas até o início do próximo dia.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Perseguição Decisiva",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Perseguição Decisiva.md",
+  "basename": "Perseguição Decisiva",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando um inimigo no seu alcance corpo-a-corpo [[Mover|Mover-se]] para longe, você pode reagir para [[Mover|Mover-se]] junto, mantendo-o no seu alcance até ele parar ou até você atingir seu deslocamento máximo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando um inimigo no seu alcance corpo-a-corpo [[Mover|Mover-se]] para longe, você pode reagir para [[Mover|Mover-se]] junto, mantendo-o no seu alcance até ele parar ou até você atingir seu deslocamento máximo.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Perseguição Decisiva.\n\n**Perseguição Decisiva - R**\nPode ser usado quando um inimigo no seu alcance corpo-a-corpo [[Mover|Move]] para longe de você. [[Mover|Mova]] junto com o inimigo mantendo ele no seu alcance até ele parar de mover ou seu movimento chegar ao seu máximo.\n\n```autosheet-rules\n```\n"
+}

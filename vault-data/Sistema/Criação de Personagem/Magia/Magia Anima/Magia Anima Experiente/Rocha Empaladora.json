@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Rocha Empaladora",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Rocha Empaladora.md",
+  "basename": "Rocha Empaladora",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Rocha Empaladora (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 6q com 1d4×potência de dano de perfuração (metade na falha) e alvo fica [[Preso]] por 3t (1t na falha). Alvo [[Preso]] pode tentar [[Escapar]] e recebe 1×potência de dano de perfuração sempre que terminar turno preso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 6q com 1d4×potência de dano de perfuração (metade na falha) e alvo fica [[Preso]] por 3t (1t na falha). Alvo [[Preso]] pode tentar [[Escapar]] e recebe 1×potência de dano de perfuração sempre que terminar turno preso.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q.\n\n**Sucesso:** A criatura recebe 1d4×potência de dano de perfuração e fica [[Preso|Presa]] por 3 turnos.\n**Sucesso Decisivo:** A criatura recebe 1d4×(potência+2) de dano de perfuração, fica [[Atordoado|Atordoada 1]] e [[Preso|Presa]] por 3 turnos .\n**Falha:** A criatura recebe metade de 1d4×potência de dano de perfuração fica [[Preso|Presa]] por 1 turno.\n**Falha Decisiva:** A criatura não é afetada.\n\nUma criatura [[Preso|Presa]] por Enraizar pode tentar [[Escapar]] contra a [[CD]] da magia. Cada turno que uma criatura terminar [[Preso|Presa]] por conta desta magia recebe 1×potência de dano de perfuração."
+}

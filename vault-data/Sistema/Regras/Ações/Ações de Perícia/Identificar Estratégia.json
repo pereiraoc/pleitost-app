@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Identificar Estratégia",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Identificar Estratégia.md",
+  "basename": "Identificar Estratégia",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Guerra]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta deduzir o estilo de luta de uma criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Guerra]]\"\npropriedades:: \nresumo:: \"Tenta deduzir o estilo de luta de uma criatura.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de Guerra contra a [[CD|CD-Nível]] de uma criatura. No sucesso você descobre a classe e estilo de combate da criatura.\n\n```autosheet-rules\n```\n"
+}

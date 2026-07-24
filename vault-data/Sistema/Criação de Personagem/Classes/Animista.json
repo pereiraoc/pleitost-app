@@ -1,0 +1,732 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Animista",
+  "path": "Sistema/Criação de Personagem/Classes/Animista.md",
+  "basename": "Animista",
+  "type": "Classe",
+  "subtype": "Conjurador",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Classe",
+    "subcategoria": "Conjurador",
+    "atributo-chave": "PRE",
+    "dg-publish": true,
+    "Imagem": "[[Animista.jpeg]]",
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 0 \"Animista\"",
+      "Nivel 1 Definir Vida.Vitalidade 10",
+      "Nivel 1 Definir Vida.Moral 20",
+      "Nivel 1 Restringir Atributos.Principal PRE",
+      "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "Nivel 1 Complementar Habilidades.Lista [[Magias Anima]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Elementalista]]",
+      "Nivel 4 Complementar Habilidades.Lista [[Proteção Elemental]]",
+      "Nivel 1 Somar Pericias.Slots.A 2",
+      "Nivel 1 Definir Ataques.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+      "Somar Papel.Controlador 2",
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Somar Papel.Abatedor 1",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Somar Papel.Abatedor 1",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Somar Papel.Lider 1",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Somar Papel.Lider 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Classes]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 0 \"Animista\"",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Animista"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 0 \"Animista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "10"
+          },
+          "raw": "Nivel 1 Definir Vida.Vitalidade 10",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Vida.Moral 20",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "20"
+          },
+          "raw": "Nivel 1 Definir Vida.Moral 20",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Restringir Atributos.Principal PRE",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "PRE"
+            ]
+          },
+          "raw": "Nivel 1 Restringir Atributos.Principal PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Evolução Básica]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Magias Anima]]",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Magias Anima]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Magias Anima]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Elementalista]]",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Elementalista]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Elementalista]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 4 Complementar Habilidades.Lista [[Proteção Elemental]]",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 4
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Proteção Elemental]]"
+          },
+          "raw": "Nivel 4 Complementar Habilidades.Lista [[Proteção Elemental]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Pericias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Nivel 1 Somar Pericias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Ataques.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Nivel 1 Definir Pericias.Lista.Anima.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Controlador 2",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 14,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Controlador",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Controlador 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Somar Papel.Abatedor 1",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 15,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Fogo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Somar Papel.Abatedor 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Somar Papel.Abatedor 1",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 16,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Vento]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Abatedor",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Somar Papel.Abatedor 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 17,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Água]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Animista",
+          "occurrenceIndex": 18,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Terra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Classes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista.jpeg",
+      "kind": "embed",
+      "alias": "right|profile|250",
+      "isImage": true
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributo de Classe"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícia de Classe"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias Adicionais"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armas Simples",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magias Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Anima Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementalista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proteção Elemental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Anima Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magias Anima",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Anima Adepto",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Elementalista",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Proteção Elemental",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Conhecimento Anima Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Técnica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Animista.jpeg",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Animista.jpeg",
+      "from": "frontmatter:Imagem"
+    },
+    {
+      "target": "Animista.jpeg",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 2,
+      "text": "Características de Classe"
+    },
+    {
+      "level": 4,
+      "text": "Técnicas de Animista"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Básicas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Adeptas"
+    },
+    {
+      "level": 4,
+      "text": "Magias Anima Experientes"
+    }
+  ],
+  "body": "%%\nup:: [[Classes]]\nprev:: \nnext:: \n%%\n![[Animista.jpeg|right|profile|250]]\n#  `= this.file.name`\n\nAnimistas são os manipuladores das forças elementais do mundo. Com uma conexão de Anima superior a qualquer sintonia, são capazes de comandar os 4 elementos de diversas formas.\n\n```class-roles\n[\"Animista (Fogo/Vento)\", { \"Controlador\": 2, \"Abatedor\": 1 }],\n[\"Animista (Água/Terra)\", { \"Controlador\": 2, \"Líder\": 1 }]\n```\n\n## Características de Classe\n**[[Energia Vital|EV]]:** 10\n**[[Energia Heroica|EH]]:** 20\n**[[Atributos|Atributo de Classe]]:** [[Presença|PRE]]\n\n**[[Perícias|Perícia de Classe]]:** [[Adepto]] em [[Anima]]\n\n**[[Perícias|Perícias Adicionais]]:** [[Adepto]] em 2 + [[Inteligência|INT]] quaisquer\n\n**[[Ataques]]:** [[Adepto]] em [[Ataques]], proficiente em [[Armas Simples]]\n\n**[[Defesa]]:** [[Adepto]] em [[Defesa]]\n\n**[[Resistências]]:** [[Adepto]] em [[Ímpeto]]\n\n**[[Sentidos]]:** [[Adepto]] em [[Intuição]]\n\n| Nível | Habilidades de Classe                                     |\n|:-----:| --------------------------------------------------------- |\n|  1º   | [[Magias Anima]]                                          |\n|  2º   | [[Conhecimento Anima Adepto]], [[Técnica Adepta]]         |\n|  3º   | [[Conhecimento Anima Adepto]], [[Técnica Adepta]]         |\n|  4º   | [[Elementalista]], [[Proteção Elemental]]                 | \n|  5º   | [[Conhecimento Anima Experiente]], [[Técnica Experiente]] |\n|  6º   | [[Conhecimento Anima Experiente]], [[Técnica Experiente]] |\n\n![[Magias Anima#`= this.file.name`]]\n![[Conhecimento Anima Adepto#`= this.file.name`]]\n![[Técnica Adepta#`= this.file.name`]]     \n\n![[Elementalista#`= this.file.name`]]\n![[Proteção Elemental#`= this.file.name`]]\n![[Conhecimento Anima Experiente#`= this.file.name`]]\n![[Técnica Experiente#`= this.file.name`]]\n\n---\n\n#### Técnicas de Animista\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank as \"Categoria\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Técnica\"\nsort rank asc\n```\n\n---\n\n#### Magias Anima Básicas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  elemento AS \"Elemento\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT elemento ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Básica\"\n```\n\n#### Magias Anima Adeptas\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  elemento AS \"Elemento\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT elemento ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Adepta\"\n```\n\n#### Magias Anima Experientes\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  elemento AS \"Elemento\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT elemento ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Experiente\"\n```\n\n```autosheet-rules\n```\n"
+}

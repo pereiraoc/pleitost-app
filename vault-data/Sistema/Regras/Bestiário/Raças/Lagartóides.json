@@ -1,0 +1,250 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Lagartóides",
+  "path": "Sistema/Regras/Bestiário/Raças/Lagartóides.md",
+  "basename": "Lagartóides",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Sintonia [[Traço Elemental da Água]]",
+      "Definir Tamanho Médio",
+      "Alias Raça Compor 0 \"Lagartóide\"",
+      "Alias Raça Compor 1 \"(Médio)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "Complementar Movimento.Lista Aquatico",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Lagarto.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Sintonia [[Traço Elemental da Água]]",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental da Água]]"
+          },
+          "raw": "Definir Sintonia [[Traço Elemental da Água]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Tamanho Médio",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Médio"
+          },
+          "raw": "Definir Tamanho Médio",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Lagartóide\"",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Lagartóide"
+          },
+          "raw": "Alias Raça Compor 0 \"Lagartóide\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Médio)\"",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Médio)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Médio)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Aquatico",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Aquatico"
+          },
+          "raw": "Complementar Movimento.Lista Aquatico",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Lagartóides",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assassino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Batedor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líder",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Artilharia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Lagarto.\"\n%%\n##### `= this.file.name`\nLagartóides são criaturas elementais da água inteligentes e estruturadas. Buscam conhecimento e tem um senso de valor exageradamente lógico. Acreditam na sua supremacia intelectual absoluta, mas são submissos à aqueles que acreditam serem mais inteligentes.\n\nLagartóides tem [[Inteligência|INT]] como atributo primário (3) ou secundário (2), geralmente negligenciando [[Presença|PRE]]. Como uma criatura elemental, todo Lagartóide é capaz de realizar [[Magia Anima]] da Água, não importando o papel.\nPapéis típicos são [[Soldado]], [[Assassino]], [[Batedor]], [[Líder]] e [[Artilharia]].\n\n```autosheet-rules\n```\n"
+}

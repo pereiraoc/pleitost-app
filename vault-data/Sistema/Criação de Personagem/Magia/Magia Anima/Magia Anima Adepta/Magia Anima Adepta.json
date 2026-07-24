@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Magia Anima Adepta",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Magia Anima Adepta.md",
+  "basename": "Magia Anima Adepta",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Anima Adepta"
+    }
+  ],
+  "body": "### Magia Anima Adepta\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Anima\",\n  elemento AS \"Elemento\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT elemento ASC\nWHERE categoria=\"Magia\" and subcategoria=\"Anima\" and rank=\"Adepta\"\n```"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Finta",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Finta.md",
+  "basename": "Finta",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Enganação]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta abrir as defesas de uma criatura, fazendo um ataque falso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Enganação]]\"\npropriedades:: \nresumo:: \"Tenta abrir as defesas de uma criatura, fazendo um ataque falso.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Enganação]] vs [[Percepção]]/[[Intuição]] (o que for maior) de uma criatura no seu alcance corpo-a-corpo.\n\n**Sucesso:** Seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]].\n**Sucesso Decisivo:** Seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]] e se você obter uma falha (não decisiva), considere como um sucesso.\n**Falha:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

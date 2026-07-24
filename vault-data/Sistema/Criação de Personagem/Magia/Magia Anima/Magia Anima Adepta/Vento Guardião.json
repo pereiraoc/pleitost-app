@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Vento Guardião",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Vento Guardião.md",
+  "basename": "Vento Guardião",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Aura de 2q por 10t em si que é terreno difícil e ataques a distância contra você recebem -2.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Aura de 2q por 10t em si que é terreno difícil e ataques a distância contra você recebem -2.\"\n%%\n# `= this.file.name` - `= this.custo`\nVento forte gira em volta do usuário por 10 turnos, circulo de raio 2q. Apaga chamas mundanas, dispersa gás, é [[Terreno Difícil]] para criaturas (excluindo o usuário) e ataques a distância que passem pelo vento recebem -2 de [[Penalidades|penalidade de circunstância]] no [[Atacar|Ataque]]."
+}

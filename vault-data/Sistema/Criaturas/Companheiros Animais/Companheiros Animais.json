@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criaturas/Companheiros Animais/Companheiros Animais",
+  "path": "Sistema/Criaturas/Companheiros Animais/Companheiros Animais.md",
+  "basename": "Companheiros Animais",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Companheiros Animais"
+    }
+  ],
+  "body": "# Companheiros Animais\n```button\nname NOVO: Companheiro Animal 🐾\ntype command\naction QuickAdd: NOVO: Companheiro Animal\n```\n^button-criar-novo-companheiro-animal\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  Classe AS \"Classe\",\n  Sintonia AS \"Sintonia\",\n  Nível AS \"Nível\"\nFROM \"Sistema/Criaturas/Companheiros Animais\"\nWHERE subcategoria = \"Companheiro Animal\" and file.name != this.file.name\nSORT Nível DESC, Classe ASC, file.name ASC\n```"
+}

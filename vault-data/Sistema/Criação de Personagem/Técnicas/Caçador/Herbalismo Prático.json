@@ -1,0 +1,80 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Herbalismo Prático",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Herbalismo Prático.md",
+  "basename": "Herbalismo Prático",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Curativo Herbal",
+        "tipo": "AçãoLocal",
+        "origem": "Técnica",
+        "visual": {
+          "ancorar": "Recuperacao"
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Você prepara 4 Curativos Herbais ([[Adepto]]) no início do dia. Cura 1d4+2 [[Energia Vital|EV]] (2d4+2 como [[Experiente]] ou 3d4+2 como [[Mestre]], de acordo com sua perícia em [[Medicina]]).",
+    "usos_nome": "\"Curativo Herbal\"",
+    "usos_freq": "4/dia"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Você prepara 4 Curativos Herbais ([[Adepto]]) no início do dia. Cura 1d4+2 [[Energia Vital|EV]] (2d4+2 como [[Experiente]] ou 3d4+2 como [[Mestre]], de acordo com sua perícia em [[Medicina]]).\n\nusos_nome:: \"Curativo Herbal\"\nusos_freq:: 4/dia\n%%\n#### `= this.file.name` - `= this.rank`\nVocê se torna [[Adepto]] em Ofício: Herbalismo. Você prepara 4 Curativos Herbais (Adepto) no início do dia. Estes expiram no próximo dia. Você prepara metade destes se não tiver acesso à natureza no início do dia.\nCaso você se torne [[Experiente]] em [[Medicina]], você cria Curativos Herbais (Experiente). Caso você se torne [[Mestre]] em [[Medicina]], você se torna [[Experiente]] em Ofício: Herbalismo e cria Curativos Herbais (Mestre).\n* Curativo Herbal (Adepto): 1A para aplicar em uma criatura adjacente. Cura 1d4+2 [[Energia Vital|EV]].\n* Curativo Herbal (Experiente): 1A para aplicar em uma criatura adjacente. Cura 2d4+2[[Energia Vital|EV]].\n* Curativo Herbal (Mestre): 1A para aplicar em uma criatura adjacente. Cura 3d4+2 [[Energia Vital|EV]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Visão no Escuro",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Adepta/Visão no Escuro.md",
+  "basename": "Visão no Escuro",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em 2q, um alvo voluntário ganha visão no escuro por 30 minutos×potência (enxerga sem cores, em tons de cinza).\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em 2q, um alvo voluntário ganha visão no escuro por 30 minutos×potência (enxerga sem cores, em tons de cinza).\"\n%%\n# `= this.file.name` - `= this.custo`\nCriatura alvo pode ver no escuro por 30 minutos×potência, alcance 2q. Visão no escuro não permite ver nuances de cor, como se tudo estivesse em tons de cinza. A criatura só é afetada se aceitar voluntariamente o encantamento.\n\n```autosheet-rules\n```\n"
+}

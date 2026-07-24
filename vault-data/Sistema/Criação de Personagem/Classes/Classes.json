@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Classes/Classes",
+  "path": "Sistema/Criação de Personagem/Classes/Classes.md",
+  "basename": "Classes",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Classe",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Classes"
+    },
+    {
+      "level": 2,
+      "text": "Líderes"
+    },
+    {
+      "level": 2,
+      "text": "Controladores"
+    },
+    {
+      "level": 2,
+      "text": "Abatedores"
+    },
+    {
+      "level": 2,
+      "text": "Vanguardas"
+    },
+    {
+      "level": 2,
+      "text": "Generalistas"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n%%\n# Classes\nAs classes definem o arquétipo heroico que o personagem representa e quais funções ele tende a se destacar.\n\n## Líderes\nLíderes fortalecem aliados, sustentam o grupo e mantém o time eficiente com cura, efeitos benéficos e/ou coordenação.\n\n```class-roles\n[\"Arcanista Espiritualista\", { \"Líder\": 3 }],\n[\"Comandante Estrategista\", { \"Líder\": 3 }],\n[\"Bardo Arte Mágica Inspirador\", { \"Líder\": 3 }],\n[\"Bardo Luta Artística Inspirador\", { \"Abatedor\": 1, \"Líder\": 2 }],\n[\"Bardo Arte Mágica Manipulador\", { \"Controlador\": 1, \"Líder\": 2 }],\n[\"Comandante Combatente\", { \"Vanguarda\": 1, \"Líder\": 2 }],\n\n```\n\n## Controladores\nControladores enfraquecem inimigos e ditam o ritmo da batalha com penalidades de combate, restrições e/ou dano em área.\n\n```class-roles\n[\"Arcanista Bruxo\", { \"Controlador\": 3 }],\n[\"Animista Água/Terra\", { \"Líder\": 1, \"Controlador\": 2 }],\n[\"Animista Fogo/Vento\", { \"Abatedor\": 1, \"Controlador\": 2 }],\n[\"Druida Xamã\", { \"Vanguarda\": 1, \"Controlador\": 2 }]\n```\n\n## Abatedores\nAbatedores focam em eliminar rapidamente um alvo específico com alto dano e pressão ofensiva. \n\n```class-roles\n[\"Ladino\", { \"Abatedor\": 3 }],\n[\"Caçador Rastreador\", { \"Abatedor\": 3 }],\n[\"Guerreiro a Distância\", { \"Abatedor\": 3 }],\n[\"Caçador Domador\", { \"Vanguarda\": 1, \"Abatedor\": 2 }],\n[\"Mago\", { \"Controlador\": 1, \"Abatedor\": 2 }]\n```\n\n## Vanguardas\nVanguardas ocupam a linha de frente e servem como base física do grupo, segurando pressão e impondo presença em combate.\n\n```class-roles\n[\"Monge Fogo/Terra\", { \"Vanguarda\": 3 }],\n\n[\"Monge Água\", { \"Controlador\": 1, \"Vanguarda\": 2 }],\n[\"Monge Vento\", { \"Abatedor\": 1, \"Vanguarda\": 2 }],\n[\"Guerreiro Corpo-a-Corpo\", { \"Abatedor\": 1, \"Vanguarda\": 2 }]\n```\n\n## Generalistas\nGeneralistas combinam funções diferentes e oferecem versatilidade ao grupo, adaptando sua atuação conforme a necessidade da cena ou do combate.\n\n```class-roles\n[\"Bardo Luta Artística Manipulador\", { \"Líder\": 1, \"Abatedor\": 1, \"Controlador\": 1}],\n\n[\"Druida Guardião\", { \"Vanguarda\": 1, \"Abatedor\": 1, \"Controlador\": 1}]\n```\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Classe\",\n  subcategoria AS \"Tipo\",\n  atributo-chave as \"Atributo de Classe\"\nFROM \"Sistema/Criação de Personagem/Classes\"\nSORT subcategoria ASC\nWHERE categoria=\"Classe\"\n```\n\n```autosheet-rules\n```\n"
+}

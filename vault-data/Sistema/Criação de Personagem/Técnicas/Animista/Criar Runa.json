@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Criar Runa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Criar Runa.md",
+  "basename": "Criar Runa",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "P",
+    "resumo": "\"Você pode realizar um ritual de 10 minutos que cria uma runa contendo uma magia que você conhece. Você gasta [[Energia Mágica|EM]] referente a magia escolhida para criar a runa. Uma criatura pode, empunhando a runa, conjurar a magia que você escolheu ao criá-la, utilizando o mesmo numero de ações da magia. A magia conjurada pela criatura usa sua potência mágica, bônus de ataque e CD. A runa então é destruída. Você não pode criar outra runa enquanto outra exista. Você pode destruir uma runa criada por você utilizando uma ação Concentrar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: P\n\nresumo:: \"Você pode realizar um ritual de 10 minutos que cria uma runa contendo uma magia que você conhece. Você gasta [[Energia Mágica|EM]] referente a magia escolhida para criar a runa. Uma criatura pode, empunhando a runa, conjurar a magia que você escolheu ao criá-la, utilizando o mesmo numero de ações da magia. A magia conjurada pela criatura usa sua potência mágica, bônus de ataque e CD. A runa então é destruída. Você não pode criar outra runa enquanto outra exista. Você pode destruir uma runa criada por você utilizando uma ação Concentrar.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode realizar um ritual de 10 minutos que cria uma runa contendo uma magia que você conhece. Você gasta [[Energia Mágica|EM]] referente a magia escolhida para criar a runa. Uma criatura pode, empunhando a runa, conjurar a magia que você escolheu ao criá-la, utilizando o mesmo numero de ações da magia. A magia conjurada pela criatura usa sua potência mágica, bônus de ataque e CD. A runa então é destruída. Você não pode criar outra runa enquanto outra exista. Você pode destruir uma runa criada por você utilizando uma ação Concentrar. Se você [[Descansar]], recuperando sua [[Energia Mágica|EM]], a runa é destruída.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,126 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.0-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.0-alpha.md",
+  "basename": "Release Notes v0.5.0-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    },
+    {
+      "target": "Cartas do Sistema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visualizador de Regras",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.0-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🪄 Itens activatables — rework mecânico"
+    },
+    {
+      "level": 3,
+      "text": "🥷 Artista Sombrio (Ladino) — tune-down + nova técnica"
+    },
+    {
+      "level": 3,
+      "text": "💚 Regra geral: perda voluntária de Energia Vital"
+    },
+    {
+      "level": 3,
+      "text": "🎯 Ataque de Oportunidade — dano calculado + Acerto Decisivo"
+    },
+    {
+      "level": 3,
+      "text": "🎯 Marca do Caçador (Rastreador) — efeitos completos"
+    },
+    {
+      "level": 3,
+      "text": "👑 Líder (Bestiário) — descrição completa"
+    },
+    {
+      "level": 3,
+      "text": "🧠 Choque Mental — dano em Sucesso Decisivo explícito"
+    },
+    {
+      "level": 3,
+      "text": "💚 Ficha Interativa v2 — reorg em clusters"
+    },
+    {
+      "level": 3,
+      "text": "🔮 Magias Secundárias"
+    },
+    {
+      "level": 3,
+      "text": "🔍 Visualizador de Regras — fence `autosheet-rules`"
+    },
+    {
+      "level": 3,
+      "text": "🐛 Bugs em fichas reais"
+    },
+    {
+      "level": 3,
+      "text": "🐾 Conteúdo de fichas"
+    },
+    {
+      "level": 3,
+      "text": "🎨 Visual"
+    },
+    {
+      "level": 2,
+      "text": "🎴 Sistema de Cartas em plugin nativo (`pleitost-views`)"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Mudanças de mecânica"
+    },
+    {
+      "level": 3,
+      "text": "Schemas novos no FM"
+    },
+    {
+      "level": 3,
+      "text": "Targets novos no catálogo de modificadores"
+    },
+    {
+      "level": 3,
+      "text": "Bloco novo"
+    },
+    {
+      "level": 3,
+      "text": "Conteúdo novo"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Releases dos plugins"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.4.2-alpha...v0.5.0-alpha\n\n# 📦 Release Notes — Pleitost v0.5.0-alpha\n\n**Período coberto:** 2026-05-18 → 2026-05-25\n\n**Foco:** **Itens activatables reescritos** + **tune-down do Artista Sombrio** (Ladino) + interatividade rica (Ataque de Oportunidade calculado, Marca do Caçador, Magias Secundárias) + Ficha Interativa v2. **Sistema de Cartas** migrou de `dataviewjs` pra plugin nativo (`pleitost-views`), com 2 fences novos cobrindo tanto impressão A4 quanto inline nas notas dos itens.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🪄 Itens activatables — rework mecânico\n\nReescrita **das mecânicas** de 5 itens — não só polimento de texto. Padrão geral:\n\n- **1/dia (ou 1/hora) → 1/10min** — efeitos ficam muito mais usáveis em combate e em cenas curtas, antes eram \"guarda pra emergência\".\n- **Conjurar magia (sub-roll, intermediado) → Ativar diretamente em si** — modelagem mais previsível, sem precisar resolver a magia separadamente.\n- **Magnitudes rebalanceadas** pra compensar a frequência maior — efeitos mais focados mas escalando por tier.\n\n| Item | O que mudou |\n|---|---|\n| **Capa Discreta** | 1/dia conjurar Ofuscação/Manto Translúcido/Invisibilidade → 1/10min ativa em si por N turnos (escalando por tier). |\n| **Cinto dos Ermos** | Todos os recursos passam pra 1/10min. Magnitudes escalam por tier — Marcador dura 24h → 7d → 30d; Fruto cura 2 → 4 → 6 EV; Bússola dá +1 → +2 → +3 (e a habilidade de Bússola Mágica saiu). |\n| **Luvas Purificadas** | 1/dia conjurar Remover Aflição (cura 3d6/6d6 EH) → 1/10min Interagir pra cura direta de 1d6+3 → 2d6+3 → 3d6+3 EH, com alcance escalando (adjacente → 2q → 6q). |\n| **Luvas do Ladrão** | Propriedade muda de **Água** para **Arcano**. 1/dia conjurar Chave/Visor Arcano → conjurar com custo de **EV** (4-6 EV) — sem cap diário. |\n| **Amplificador Audiovisual** | 1/dia conjurar Visão no Escuro → 1/10min ativa em si (3 turnos no Adepto, 1 min no Experiente). Mestre passa a ter Visão no Escuro **permanente** (se for dissipada, volta após 10 min). |\n\nPolish menor em **Botas Fluídicas** (correção de wikilink — sem mudança mecânica).\n\n### 🥷 Artista Sombrio (Ladino) — tune-down + nova técnica\n\nRebalanceamento pra ser mais temático e menos sobrecarregado:\n\n- **Estilo Aprimorado (Artista Sombrio)** — perde `Magias.Potencia 4`, `Magias.Slots.A 2` e `usos_nome::Manto Translúcido Extra` (eram a parte forte demais). Ganha **Ofuscação** (conjurada só em si) + mantém Manto Translúcido.\n- **NOVA técnica Experiente: Técnicas Sombrias** (em `Sistema/Criação de Personagem/Técnicas/Ladino/`). Requer Estilo Artista Sombrio. Aprende 2 magias adeptas que alvejem inimigos + Potência Mágica 4 (6 no nível 7) + 2 slots adeptos. Alvos recebem -2 em Resistências se você estiver com Vantagem de Combate. Passiva.\n\nQuem quer continuar com o build ofensivo pega a técnica nova; quem prefere o estilo puramente tático fica só com o Estilo Aprimorado mais limpo.\n\n### 💚 Regra geral: perda voluntária de Energia Vital\n\nTexto explícito em `Sistema/Regras/Vitalidade/Energia Vital.md`: **perda voluntária de EV não pode te deixar abaixo de 1**. Pra ativar um custo de 5 EV precisa ter ≥6 EV. Vários efeitos (Regeneração, Magia Acelerada, Determinação Guerreira, Surto de Adrenalina, Forçar Entropia, Técnica Elemental) perdem a frase \"precisa ter ao menos N EV\" — a regra geral cuida do piso.\n\n### 🎯 Ataque de Oportunidade — dano calculado + Acerto Decisivo\n\nO painel Ataques agora mostra o dano calculado do AdO inline, depois do emoji de tipo de dano:\n\n```\n2d4+2 🪡 ([[Ataque de Oportunidade|AdO]]: 2 🪡)\n```\n\n5 técnicas (Oportunidade Prevista, Oportunidade Feral, Caçada Oportuna, Instintos Aprimorados, Oportunidade Especializada) + Vantagem de Combate + Encantar Arma declaram seus contribuintes via `Efeitos_Interativos`.\n\n**Acerto Decisivo** virou um toggle ancorado no painel Ataques (efeito-núcleo embutido — não precisa de nota dedicada), lado a lado com Vantagem de Combate.\n\n**Oportunidade Especializada** (Guerreiro) só soma o dado de AdO quando a arma usada pertence a um grupo de **Especialização em Arma** do herói. Antes aplicava global.\n\n### 🎯 Marca do Caçador (Rastreador) — efeitos completos\n\n- **Marca do Caçador** — toggle Estado \"Alvo de Caça\".\n- **Primeiro Ataque** — soma dado extra (d6 → d10 → d12 por nível) quando Alvo de Caça ativo.\n- **Estratégia Perfeita** — Passivo que soma dado extra da arma quando Alvo de Caça **e** Acerto Decisivo ativos simultaneamente.\n- **Caçada Oportuna** virou Passivo + guard (não toggle).\n\n### 👑 Líder (Bestiário) — descrição completa\n\nClasse ganha corpo completo (resumo, atributo principal, EV, defesas, percepção, dano típico, perícias). Percepção sobe N→A→E→M (era N→N→A→E). **Ataque Poderoso** ganha redação mais clara (mecânica não mudou).\n\n### 🧠 Choque Mental — dano em Sucesso Decisivo explícito\n\nTexto explícito nos tiers Experiente (3d4+2) e Mestre (4d4+2). Mecânica não mudou, só a leitura.\n\n### 💚 Ficha Interativa v2 — reorg em clusters\n\nReformatação completa do layout v2:\n\n- **Cluster Vida** — losango ❤️ central com fill bottom-up + sidebar com Vit/Moral/MoralTemp. Suporta vida negativa com gravidade visual.\n- **Cluster Atributos** — badge de tipo + Ofícios no mid.\n- **Cluster Magias** — 4 diamonds (🏆 Tesouros · 🌗 Arcana · 🔮 Anima · 🌀 Secundária) reorganizados. Companheiros migraram pro cluster Magias (seção fixa por escola). Usos de imbuição inline em Ataques. Usos de tesouro inline no painel Tesouros.\n- **Cluster Extras** — Consumíveis · Anotações · Experiência · Moedas na sidebar direita.\n- **Modo Manual removido**. Modos restantes: 📜 Leitura · 📋 Resumo · ✏️ Editável · 🎮 Interativa.\n- **Naturalidade virou dropdown** de Localização (Atlas).\n\n### 🔮 Magias Secundárias\n\nUI completa pra **conjuradores secundários** (Animista/Arcanista/Bardo/Mago/Druida secundários): card \"Magias Secundárias\" no Editável, painel próprio na Interativa, EM Secundária independente da Primária, Potência Mágica por escola. Encerra a implementação de **Classes Secundárias** começada na v0.4.2-alpha.\n\n### 🔍 Visualizador de Regras — fence `autosheet-rules`\n\nNovo bloco que renderiza as regras de uma nota legivelmente (efeito por target / valor / condicional). Adicionado a **65+ notas-fonte** (Armas, Armaduras, Escudos, Tesouros, Atributos, Combate, Sentidos, Propriedades, Vitalidade).\n\n### 🐛 Bugs em fichas reais\n\nVitalidade negativa na Interativa (#178), Manobras + Ataque Brutal (#179), Combat Tracker dano com Enter (#180), Descansar restaurando Encorajar (#182), Anotações limpas após autosave (#183), Maestrias + Especializações nas perícias da Interativa (#184), Editável pisando em `Efeitos_Interativos` (#188), auto-save no Combat Tracker (#193), múltiplas armas na ficha editável.\n\n### 🐾 Conteúdo de fichas\n\n- **Pind Bund** — pet do Amálgama das Sombras corrigido (Bonus_Item 2 em Magia Arcana Negra/Branca; ajustado no tune-down do Artista Sombrio).\n- **Carlos, Thoren** — estado interativo preservado.\n- **Adriann, Carlos César, Kenji, Zuko** — updates de play; rules de spell knowledge faltantes adicionadas.\n- **Metis, a Graxaim** — companheiro animal ganha biografia.\n- **Deodoro Fontesseca** — Naturalidade preenchida.\n- **Leonel Bravolla** — modo Interativa estabelecido.\n- Retrato novo: **\"Affonso, Assis, Leonel e Pind\"**.\n\n### 🎨 Visual\n\n- Ícone desligado de Duas-mãos 🚫 → 🫱.\n\n---\n\n## 🎴 Sistema de Cartas em plugin nativo (`pleitost-views`)\n\nAs cartas do sistema saíram do `dataviewjs` e foram pra o plugin `pleitost-views`. **Visualmente idêntico** ao que era antes, mas:\n\n- **Carrega mais rápido** (sem o runtime do Dataview entre a nota e o render).\n- **Sai byte-a-byte igual** entre as cartas inline nas notas dos itens e as cartas no export de impressão (antes podia divergir).\n\n**2 fences novos**:\n\n| Fence | Onde | O que faz |\n|---|---|---|\n| `cartas` | 11 arquivos em `Recursos e Mídia/Exportação/` | Mosaico A4 landscape, 8 cartas/página, pronto pra imprimir e recortar (63×88mm) |\n| `carta-item` | 85 notas individuais em `Sistema/Equipamento/**/*.md` | 1 card por tier presente, inline na própria nota |\n\n**10 tipos cobertos**: armas marciais/simples, armas especiais/naturais, escudos, consumíveis, equipamentos (ataque, defesa, perícia), imbuições, qualidades, implementos + verso unificado.\n\n**Reorganização**: \"Cartas de Equipamentos de Ataque e Defesa.md\" virou 2 arquivos separados (`Ataque.md` + `Defesa.md`).\n\n**Bug pré-existente corrigido (#79)**: Cartas de Armas Naturais/Especiais mostravam todos os modificadores como `d4+0` no dataviewjs legado. Plugin novo lê corretamente — Cauda de Dragão `d8+4`, Garras `d4+2`, etc.\n\nDoc user-facing: [[Cartas do Sistema]] em `Documentação Adicional/Views Plugin/`. Detalhes técnicos: `pleitost-views/CHANGELOG.md`.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Mudanças de mecânica\n- **Energia Vital como Recurso** — regra do floor explícita.\n- **Líder (Bestiário)** — Percepção N→A→E→M (era N→N→A→E).\n- **Marca do Caçador / Estratégia de Caça / Estratégia Perfeita** — efeitos completos via `Efeitos_Interativos`.\n- **Caçada Oportuna** virou Passivo + guard.\n- **Artista Sombrio** — tune-down do Estilo Aprimorado + nova técnica **Técnicas Sombrias**.\n- **Choque Mental** — texto explícito do dano em Sucesso Decisivo.\n\n### Schemas novos no FM\n- **`Magias.Secundaria`** em fichas de Heroi (estrutura espelhada da Primária, com Potência por escola).\n- **`grupoArma`** em `Efeitos_Interativos` — notas de Especialização em Arma declaram suas armas-membro (16 notas: 8 principais + 8 Menores).\n\n### Targets novos no catálogo de modificadores\n- `DadoOportunidade`, `OportunidadeFixo`, `DadoDecisivo`.\n\n### Bloco novo\n- **`autosheet-rules`** — renderiza tabela legível dos efeitos de uma nota de regra. Ver doc em [[Visualizador de Regras]].\n\n### Conteúdo novo\n- **Alfange** — arma marcial.\n- **Disponibilidade de Tesouros** — nota de regra nova + link no Escudo do Mestre.\n- **Múltiplas origens típicas** em armas e tesouros.\n- **Bestiário** — racial traits novos pra Goblin/Orc/Kobold; renomeação Lagarto → Lagartóides.\n- **Vitalidade 20 do Companheiro Animal** — tier corrigido (Nível 4 → Nível 7).\n- **Habilidades de Classes Secundárias** — closeout da implementação iniciada na v0.4.2-alpha. Inclui Especialização Menor em Arma (8 grupos), Essências Elementais Menores (20 notas), Escola Arcana Menor (3 notas). Esse conteúdo serve principalmente pra completar o suporte da autosheet a builds multiclasses; ver detalhes no CHANGELOG da autosheet.\n\n---\n\n## ✅ Issues fechadas\n\n- **#64** — Combat Tracker improvements.\n- **#79** — Modificador errado em Cartas de Armas Especiais/Naturais.\n- **#135** — Suporte completo a Classe Secundária na Autosheet.\n- **#167** — Visualizador de Regras.\n- **#178** — Vitalidade não ficando negativa na Interativa.\n- **#179** — Manobras não somando weapon Item Bônus pra Ataque Brutal.\n- **#180** — Combat Tracker damage field (Enter no input).\n- **#182** — Botão Descansar não restaurava Encorajar.\n- **#183** — Anotações na ficha editável limpas após autosave.\n- **#184** — Maestrias e Especializações nas perícias da Interativa.\n- **#185** — Dano de Ataque de Oportunidade + Acerto Decisivo.\n- **#188** — Editável não pisa em `Efeitos_Interativos`.\n- **#189** — Companheiros vira section inline.\n- **#191** — Oportunidade Especializada gateada por grupo de armas + Especialização Menor em Arma.\n- **#193** — Auto-save no Combat Tracker.\n- **#194** — Ficha Interativa v2 (clusters).\n- **#195** — Remove Modo Manual + Save UI externa.\n- **#196** — Naturalidade dropdown de Localização.\n- **#197** — Economia.md path → rule-element configurável. *Won't fix.*\n- **#198** — Suite E2E com fixtures vivas. *Won't fix.*\n- **#199** — CSS dedup.\n- **#200** — Split `main.ts`.\n- **#201** — `emitManobras` typed bonuses.\n- **#202** — `emoji-registry` fallback dinâmico.\n- **#203** — 32 → 0 circular dependencies.\n\n---\n\n## 🛠️ Releases dos plugins\n\nDetalhes completos no CHANGELOG de cada plugin (acessível pelo sistema de arquivos / GitHub).\n\n| Plugin | Versão | Highlights |\n|---|---|---|\n| `pleitost-autosheet` | **2.0.0** | Auditoria + fechamento de débito técnico (Magias Secundárias completas, Visualizador de Regras, Interativa v2, AdO calculado, cleanup #199–#203). [`CHANGELOG`](.obsidian/plugins/pleitost-autosheet/CHANGELOG.md) |\n| `pleitost-autosheet` | **2.0.1** | Fix lookup usos + polish visual. |\n| `pleitost-autosheet` | **2.0.2** | Wikilinks no FM agora sempre basename (`composeFmWikilink` + lint guardrail anti-regressão). Migração one-shot de 9 fichas legadas via script. |\n| `pleitost-views` | **0.2.0 → 0.4.1** | Refactor TS modular + 2 fences novos (`cartas` impressão A4 e `carta-item` inline) que substituem todo o `dataviewjs` de cartas no vault (~22.000 LOC removidas). Plano e decisões em [`docs/architecture/cartas-mosaico.md`](.obsidian/plugins/pleitost-views/docs/architecture/cartas-mosaico.md). [`CHANGELOG`](.obsidian/plugins/pleitost-views/CHANGELOG.md) |\n"
+}

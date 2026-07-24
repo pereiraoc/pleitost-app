@@ -1,0 +1,65 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Configuração",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Configuração.md",
+  "basename": "Configuração",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Iniciar Sessão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Configuração"
+    },
+    {
+      "level": 2,
+      "text": "Conta"
+    },
+    {
+      "level": 2,
+      "text": "Identidade na mesa"
+    },
+    {
+      "level": 2,
+      "text": "Sessão"
+    },
+    {
+      "level": 2,
+      "text": "Salvar log de sessão"
+    },
+    {
+      "level": 2,
+      "text": "Avançado"
+    },
+    {
+      "level": 3,
+      "text": "Debug"
+    },
+    {
+      "level": 3,
+      "text": "Sincronizar fichas com a sessão (bidi)"
+    },
+    {
+      "level": 3,
+      "text": "Backend Supabase"
+    },
+    {
+      "level": 2,
+      "text": "Troubleshooting"
+    }
+  ],
+  "body": "# Configuração\n\nSettings → Pleitost Sync.\n\n## Conta\n\n| Método | Como |\n|---|---|\n| **Login com GitHub** (recomendado) | Click → navegador autoriza → volta autenticado. Sessão persiste no Supabase |\n| **Email + senha** (fallback) | Preencha em \"Avançado\" → **Criar conta** (1ª vez) ou login direto |\n| Logout | Botão **Logout** depois de logado |\n\n## Identidade na mesa\n\n| Setting | Função |\n|---|---|\n| **Modo** | Mestre (cria sessões) ou Jogador (entra com código). Default UX — não bloqueia o outro fluxo |\n| **Nickname** | OBRIGATÓRIO. Como você aparece pros outros |\n\n## Sessão\n\nVer [[Iniciar Sessão]].\n\n## Salvar log de sessão\n\nToggle. ON: ao encerrar sessão (Mestre), gera `Aventuras/Logs de Sessão/Sessao-YYYY-MM-DD-HHMM.md` com:\n\n- Nome + código\n- Membros conectados\n- Personagens finais (vida/condições)\n- Encounters (preparados/ativos/arquivados)\n\n## Avançado\n\nToggle **Mostrar configurações avançadas** revela:\n\n### Debug\n\n| Setting | Função |\n|---|---|\n| **Modo debug** | Plugin grava logs JSONL em `Recursos e Mídia/Logs/pleitost-sync/` |\n| **Retenção** | Dias (default 7); logs mais antigos são apagados |\n| **Limpar logs** | Apaga todos os arquivos acumulados |\n\n### Sincronizar fichas com a sessão (bidi)\n\nToggle do **bidi sync** (default ON).\n\n| ON | OFF |\n|---|---|\n| Deltas da sessão escrevem no FM local | FM local não é tocado pelo plugin |\n| Modo Interativa reflete sessão em tempo real | Interativa fica desalinhada do painel |\n| Initial sync ao entrar escreve FM ← DB | Não há initial sync |\n| Re-mount no autosheet preserva aba/scroll mas perde mid-typing | Sem re-mount; mid-typing intacto |\n\n**NPCs do bestiário ficam DB-only independente desse toggle** — múltiplas instâncias da mesma nota não cabem num FM individual.\n\n### Backend Supabase\n\n| Setting | Função |\n|---|---|\n| **Supabase URL (override)** | URL do seu projeto (em branco = default do autor) |\n| **Supabase anon key (override)** | Anon key pública |\n\nProvisionamento de projeto próprio: rode `.obsidian/plugins/pleitost-sync/supabase/install.sql` UMA vez no SQL Editor do dashboard. Pra dropar tudo e reinstalar: `uninstall.sql` antes.\n\n## Troubleshooting\n\n| Sintoma | Causa | Fix |\n|---|---|---|\n| \"Pleitost Sync requer pleitost-autosheet\" | autosheet desabilitado | Habilita autosheet nos Community plugins |\n| \"Não autenticado\" | Sessão Supabase expirou | Login novamente |\n| \"Nickname obrigatório\" | Settings → Nickname vazio | Preenche |\n| Sessão \"Mesa X\" sumiu ao retomar | Mestre encerrou enquanto offline | Plugin limpa do recents automaticamente |\n| Sua vita \"salta de volta\" sozinha quando você edita ficha alheia | Regra do claim — só dono edita ([[Como Funciona]]) | Edite só a sua ficha |\n| Painel mostra vita diferente da Modo Interativa | Toggle \"Sincronizar fichas\" OFF | Liga o toggle ou re-edite manualmente |\n| Tooltips não aparecem / avatar sem hover | Singleton do autosheet não carregou | Recarregar plugin |\n"
+}

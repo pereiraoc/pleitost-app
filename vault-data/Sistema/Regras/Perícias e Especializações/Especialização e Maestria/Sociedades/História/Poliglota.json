@@ -1,0 +1,40 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/História/Poliglota",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Sociedades/História/Poliglota.md",
+  "basename": "Poliglota",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Sociedades]]",
+    "resumo": "\"Mais idiomas.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Sociedades]]\nresumo:: \"Mais idiomas.\"\n%%\n### `= this.file.name`\n* Aprende mais dois idiomas com a mesmas restrições de [[História]].\n\n*Requer História*\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Enraizar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Enraizar.md",
+  "basename": "Enraizar",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Enraizar (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 6q para aplicar [[Preso]] por 3 turnos (1t na falha, 5t e [[Atordoado|Atordoado 1]] se decisivo). Alvo pode tentar [[Escapar]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 6q para aplicar [[Preso]] por 3 turnos (1t na falha, 5t e [[Atordoado|Atordoado 1]] se decisivo). Alvo pode tentar [[Escapar]].\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 6q.\n\n**Sucesso:** A criatura fica [[Preso|Presa]] por 3 turnos.\n**Sucesso Decisivo:** A criatura fica [[Atordoado|Atordoada 1]] e [[Preso|Presa]] por 5 turnos .\n**Falha:** A criatura fica [[Preso|Presa]] por 1 turno.\n**Falha Decisiva:** A criatura não é afetada.\n\nUma criatura [[Preso|Presa]] por Enraizar pode tentar [[Escapar]] contra a [[CD]] da magia."
+}

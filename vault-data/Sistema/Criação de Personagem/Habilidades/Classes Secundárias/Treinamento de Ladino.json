@@ -1,0 +1,112 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Ladino",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Ladino.md",
+  "basename": "Treinamento de Ladino",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Astuto\"",
+      "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo Menor]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Astuto\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Ladino",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Astuto"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Astuto\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo Menor]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Ladino",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Ataque Furtivo Menor]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Ataque Furtivo Menor]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Ataque Furtivo Menor",
+      "kind": "wikilink",
+      "alias": "Ataque Furtivo"
+    },
+    {
+      "target": "Ataque Furtivo Menor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer AGI 2, conta como Técnica Adepta para outras classes*\n\nVocê amplia seu leque de atuação incluindo a esperteza e técnica de um Ladino.\n\nVocê recebe a habilidade [[Ataque Furtivo Menor|Ataque Furtivo]], mas causando somente 1 de dano adicional. No 4º nível, aumente o dano para 1d2. No 7º nível, aumente o dano para 1d4.\n\nVocê pode escolher Técnicas Adeptas de Ladino no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Ladino no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

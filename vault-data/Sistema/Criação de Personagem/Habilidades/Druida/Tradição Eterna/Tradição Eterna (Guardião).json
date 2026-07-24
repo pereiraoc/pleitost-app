@@ -1,0 +1,156 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Eterna/Tradição Eterna (Guardião)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Eterna/Tradição Eterna (Guardião).md",
+  "basename": "Tradição Eterna (Guardião)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Tradição Druídica (Guardião)]]",
+      "Definir Ataques.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "Definir Magias.Lista.Anima.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora [[Ataques]], [[Defesa]] e [[Magia Anima]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Tradição Druídica (Guardião)]]",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna (Guardião)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Tradição Druídica (Guardião)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Tradição Druídica (Guardião)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna (Guardião)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Ataques.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna (Guardião)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.Anima.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Tradição Eterna (Guardião)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.Anima.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tradição Druídica (Guardião)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora [[Ataques]], [[Defesa]] e [[Magia Anima]].\"\n%%\n#####  `= this.file.name`\n* Você se torna [[Mestre]] em [[Ataques]];\n* Você se torna [[Mestre]] em [[Defesa]];\n* Você se torna [[Experiente]] em [[Magia Anima]].\n\n```autosheet-rules\n```\n"
+}

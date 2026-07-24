@@ -1,0 +1,2701 @@
+{
+  "counts": {
+    "total": 285,
+    "referenced": 53,
+    "orphan": 232,
+    "missing": 3
+  },
+  "assets": [
+    {
+      "path": "Recursos e Mídia/Excalidraw/Companion App Draft.excalidraw.png",
+      "basename": "Companion App Draft.excalidraw.png",
+      "copiedTo": "assets/Recursos e Mídia/Excalidraw/Companion App Draft.excalidraw.png",
+      "sha256": "f65251ff4326af2f34aa76008e129416df068ed617a1edd9699153f8894fd9ae",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Excalidraw/Companion App Draft.excalidraw.svg",
+      "basename": "Companion App Draft.excalidraw.svg",
+      "copiedTo": "assets/Recursos e Mídia/Excalidraw/Companion App Draft.excalidraw.svg",
+      "sha256": "f8d3d510aaf3be8a51226bdb8fbb0f146d30258be6decaef0b072fe59a5e7456",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Cartas Exportadas/Consumíveis/Poção da Nutrição Adepta.png",
+      "basename": "Poção da Nutrição Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Cartas Exportadas/Consumíveis/Poção da Nutrição Adepta.png",
+      "sha256": "aec0255a9a1acc13816c8fec181907b76ef85b02388d665abea63cc385e31c75",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": true
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Cartas Exportadas/Consumíveis/Poção de Cura Adepta.png",
+      "basename": "Poção de Cura Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Cartas Exportadas/Consumíveis/Poção de Cura Adepta.png",
+      "sha256": "57857d1be60594d903f0d8959fc50733eb5108b43b764e6eca891a615599c7bc",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": true
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-1.png",
+      "basename": "ataque-bonus-1.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-1.png",
+      "sha256": "833553f9b4b3173a74058afb96f47ef9426f93471f3f4d2231dbfb55ee045b58",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-2.png",
+      "basename": "ataque-bonus-2.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-2.png",
+      "sha256": "8bbab277e1e19e24a6b44b5f47a0f3a68a41e44c211769195c392be63bf8c83c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-3.png",
+      "basename": "ataque-bonus-3.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/ataque-bonus-3.png",
+      "sha256": "f442a5895d65b911197fb24fe6871fc021d82d07039f5ede000a4c26894c695f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-1.png",
+      "basename": "bonus-1.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-1.png",
+      "sha256": "09ae1c7ac9bbb55c92b6022dd2d7586323bfb2169130187d3d2531a92593561e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-10.png",
+      "basename": "bonus-10.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-10.png",
+      "sha256": "6ad6f851fbabfad5815bdb817c50d619dd5440377bbd227752c237de876ef237",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-15.png",
+      "basename": "bonus-15.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-15.png",
+      "sha256": "bdabd202dd7dfe466b47514056cfce002c22b3ad23ac28bd1920a9b7c530af38",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-2.png",
+      "basename": "bonus-2.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-2.png",
+      "sha256": "58f87abd33545ff0ca4efb1c860d0b9364a1ff2edf6a643fe294b17e17cb1703",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-20.png",
+      "basename": "bonus-20.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-20.png",
+      "sha256": "fbc7711ffdb4580fce2331af84724116bf7b7b3d467538b980b24f5d71e6b9f7",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-3.png",
+      "basename": "bonus-3.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-3.png",
+      "sha256": "a3034ad5dc0266da0409d7f61adcd990407cb1bc8325550da621efd3172a69b9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-4.png",
+      "basename": "bonus-4.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-4.png",
+      "sha256": "f41c664395e868e54b0a9f9ade14b142f2e31567ca2f3e0458598dc1aba9dd9b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-5.png",
+      "basename": "bonus-5.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-5.png",
+      "sha256": "61923f4aed8de52bdecb722a750dcebae58136b4c558d99f142e3b121686085b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-6.png",
+      "basename": "bonus-6.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-6.png",
+      "sha256": "e732d7692b2358f251dec5a18c015484391d24ac9e8dd7e8e93c4762f74acb0c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-7.png",
+      "basename": "bonus-7.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-7.png",
+      "sha256": "7990066f4fd08f5dd8058347296c235392bcba46318c079499ba7ec3ffc55683",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-8.png",
+      "basename": "bonus-8.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-8.png",
+      "sha256": "998e7ed1c2ac0409a4f9df742e8e83cb8c61460bb367e8cfa5dc5c08a027a5d8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-9.png",
+      "basename": "bonus-9.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Bônus/bonus-9.png",
+      "sha256": "dff251bd0eec3facb93379c0bf5080aa734deecc47aafdf51557c35befca4d8b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d10.png",
+      "basename": "dado-tamanho-d10.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d10.png",
+      "sha256": "49f4c58fcc28e4605328b9c892c4af1fbf3caf0384f7801ca4dcd5bc39773bf1",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d12.png",
+      "basename": "dado-tamanho-d12.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d12.png",
+      "sha256": "6b97ec5af4c08c14e17e562abff514401efc48bae0c2fa33ab5ac774c25b89e5",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d2.png",
+      "basename": "dado-tamanho-d2.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d2.png",
+      "sha256": "284371f9818be4493079041d9ca86f7643c5c56c15e5696893e9e655b7e38d86",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d20.png",
+      "basename": "dado-tamanho-d20.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d20.png",
+      "sha256": "471e69e04b2296f145b1da0f74675012206af63e7537570d5a95cd5a5c9d82a9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d4.png",
+      "basename": "dado-tamanho-d4.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d4.png",
+      "sha256": "66109341a4d93637b06fc0ed29818ba7b0616d1ab62427ff036c57ec51997fac",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d6.png",
+      "basename": "dado-tamanho-d6.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d6.png",
+      "sha256": "3a9e9ec99e54c6722ee65634ce65f90204cfe3a042892c808d5ef5da1c90f240",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d8.png",
+      "basename": "dado-tamanho-d8.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Dados/dado-tamanho-d8.png",
+      "sha256": "b82c521bfbd4046c19cef6136c3cd641b9dc0d6e5e06f6e6c12de690fef106b0",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-ataque.png",
+      "basename": "emblema-ataque.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-ataque.png",
+      "sha256": "9ee2210d5ef48acd99dad58756026148f6d5d619b918286dbf8a865ad0daaf88",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-contusão.png",
+      "basename": "emblema-contusão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-contusão.png",
+      "sha256": "dbdef7b96acdebaa41f9ac7f3dc6300e1a187545088a99453e4fcf8568cacc4f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-corte.png",
+      "basename": "emblema-corte.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-corte.png",
+      "sha256": "f5ee8235450de7c695e6ae834125ed5809f4717f9abafbe60446c0b98821ac11",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-danos.png",
+      "basename": "emblema-danos.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-danos.png",
+      "sha256": "c6e86b09fbb436504ac7ad87dc2fbf7a00e7e20a6069a0eba0c724550e69d46e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-defesa.png",
+      "basename": "emblema-defesa.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-defesa.png",
+      "sha256": "53f47b9cd76ef8dc065a8fde80d84b0c0a7cf18212293bf2790074046791a1aa",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-dureza.png",
+      "basename": "emblema-dureza.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-dureza.png",
+      "sha256": "5706f48f5ad2b48bd8cd61becc2e2de48d5f8a44f7a42c26f973dd1316f725f5",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-foco.png",
+      "basename": "emblema-foco.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-foco.png",
+      "sha256": "4dd97cea4ce60d438fc064d80c66a50c1f4db0287e6d05952b3f2c530779a55e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-moral.png",
+      "basename": "emblema-moral.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-moral.png",
+      "sha256": "f92da8876a37aa38872c8abeda28d199a8eaeb3844ae7717dd3393e3fea52988",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-perfuração.png",
+      "basename": "emblema-perfuração.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-perfuração.png",
+      "sha256": "f52912a2d4f171c8d48ecb14c4474d66d39aa4c8eeba952790abcf2854609387",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-pericia.png",
+      "basename": "emblema-pericia.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-pericia.png",
+      "sha256": "078ab0b654cd97387d677915ecccc8edbe40860411f5a14d12a7d968e185429d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-resistências.png",
+      "basename": "emblema-resistências.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-resistências.png",
+      "sha256": "2a3a3fd37722b1dabd91335b1712f04cc0e128c56a6f8271754e36a43b746a6d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-vazio.png",
+      "basename": "emblema-vazio.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-vazio.png",
+      "sha256": "e1b9e7daa58896e3e764a2d86931d6747827eded4730385a20acacf78e217958",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-velocidade.png",
+      "basename": "emblema-velocidade.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-velocidade.png",
+      "sha256": "2d7e3e6ce59f8bcd6ac8f83579ece9a3d9aaef9c4aa761054c013c7cc15e8fe9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-vitalidade.png",
+      "basename": "emblema-vitalidade.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Emblemas/emblema-vitalidade.png",
+      "sha256": "56acb3247242ae3f71bf79c40d7dc9c8eb04f3a9e6f3bc58e98d160afb7a8710",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-adepto.png",
+      "basename": "carta-frente-adepto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-adepto.png",
+      "sha256": "071e2e99298d73a3498d5fd348b71901a5d772855ae16bd9e4bef61f6f04404d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-experiente.png",
+      "basename": "carta-frente-experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-experiente.png",
+      "sha256": "c296096294b29ba5a1d766e8ad463e6f86ac4b88ae11fde1657e0f5b314e134f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-mestre.png",
+      "basename": "carta-frente-mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-mestre.png",
+      "sha256": "163f45ef10afc7c9e0339a5e3115a1a4bda2f01814583758e70111f99d0b8c7e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-mundano.png",
+      "basename": "carta-frente-mundano.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-frente-mundano.png",
+      "sha256": "17b9fa6af17c6cf0c8236a994ab0d6fce31da8c604bb222ad17dd501169588c6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-amarelo.png",
+      "basename": "carta-fundo-amarelo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-amarelo.png",
+      "sha256": "ce90b6a61b288be0555292ce23a29a9fb1ad260e3ffbfab30adfb44ced8e9d9f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-azul.png",
+      "basename": "carta-fundo-azul.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-azul.png",
+      "sha256": "ec359ec9c65802071744d96fac535c22dabdbe3359463043aaa756c1c10b7558",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-cinza.png",
+      "basename": "carta-fundo-cinza.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-cinza.png",
+      "sha256": "2c143dd4d8a8630b0b83410f693edbc18a71943f6ccfc811f8d6b65ec0fd93f8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-marrom.png",
+      "basename": "carta-fundo-marrom.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-fundo-marrom.png",
+      "sha256": "3fb1d929a8a845ebb626f29a1a6c8a516f6a3747cbae1d7c392cd0f199356f29",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-verso-marrom.png",
+      "basename": "carta-verso-marrom.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Elementos de Interface/Fundo/carta-verso-marrom.png",
+      "sha256": "40a3386479cd79663ee41bf2708d54110f62d65f1eedad3376448b011cffddb9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Adaga de Duelo.png",
+      "basename": "Adaga de Duelo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Adaga de Duelo.png",
+      "sha256": "635c18c96a5d303ac164b5a1dd9ded7aa4b5b235ee7395aa7c54648018767d7b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Adaga.png",
+      "basename": "Adaga.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Adaga.png",
+      "sha256": "09c19b23adf6728956c4a9e4433c2dcf14ac414ec62e6d942a62df1b1b4f3bff",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Alabarda.png",
+      "basename": "Alabarda.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Alabarda.png",
+      "sha256": "bdb07a91b6003a30c6d005bf83ccf65d79e6bac7d8b061d3307dba728b61dd0b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Alfange.png",
+      "basename": "Alfange.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Alfange.png",
+      "sha256": "dee8561db37e8abc41c2be3af21cb04fb68a006b0b97213462cba090ec056304",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco Curto.png",
+      "basename": "Arco Curto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco Curto.png",
+      "sha256": "ba190b5f909d7b9850194615db0b576ef40cbcc8955f3132f37c5c72b174764d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco de Caça.png",
+      "basename": "Arco de Caça.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco de Caça.png",
+      "sha256": "ff3de100571fe9bb6a644d96ad8b9d55c42ba88ec41fa36fe045164b94fe1832",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco de Guerra.png",
+      "basename": "Arco de Guerra.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco de Guerra.png",
+      "sha256": "3d126a0e8754baf09be1dde20e2aeb98bc5ffd52eb969a4943b37f18abfb6be8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco Longo.png",
+      "basename": "Arco Longo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Arco Longo.png",
+      "sha256": "70c962dde39706ebb988de240a4ed12b675d5790d047592558668475a9e8cc6f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Ataque Desarmado.png",
+      "basename": "Ataque Desarmado.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Ataque Desarmado.png",
+      "sha256": "749e8f6ff743c637dde63eb0fb7699b7f92c808bef3e814f6f14991330bb1fd7",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Azagaia.png",
+      "basename": "Azagaia.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Azagaia.png",
+      "sha256": "28e1578545e6551d08c0afb07cc5e35994f3cf6dd57a6f9b83cfa1a7db613fa9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta de Mão.png",
+      "basename": "Besta de Mão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta de Mão.png",
+      "sha256": "c6f131caf9c6eb5d19aa3bfce5f92802f886fd0df12628271f58c0c1b109d711",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta Leve.png",
+      "basename": "Besta Leve.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta Leve.png",
+      "sha256": "6661beac244d37ec3f08d269c35fa817336d5a0b4ba2b1e42dc4d4d672376a52",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta Pesada.png",
+      "basename": "Besta Pesada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta Pesada.png",
+      "sha256": "e09ce2e60c689a896446a902ec413d9ab4088a164b9bc5b3a923e28123223585",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta.png",
+      "basename": "Besta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Besta.png",
+      "sha256": "9e1479a2dd0095e2a0478da2ad6ad3e0c637d9ac109733f1d5c5d9fabd6eb02c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Bordão.png",
+      "basename": "Bordão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Bordão.png",
+      "sha256": "0dee86c9105131fdc5e0297ed3a73d416ff522a4505c14a2c3f6b96136a3c281",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Broquel.png",
+      "basename": "Broquel.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Broquel.png",
+      "sha256": "53be2148ef4dba6c5bf61e12a8714e9338050071c8eeb0c2a25b1f43948ba612",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Colossal.png",
+      "basename": "Cauda Colossal.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Colossal.png",
+      "sha256": "49b0c6e08354d0fb6504cbcf673327325aecc598edf29024531e9e1d94c0bf09",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda de Dragão.png",
+      "basename": "Cauda de Dragão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda de Dragão.png",
+      "sha256": "687d8fc0e839962d3e57b96c6a3d880b1b82e4e050bb7ca75d587e11f72a2fec",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Enorme.png",
+      "basename": "Cauda Enorme.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Enorme.png",
+      "sha256": "2fc408d1ad7387187b9445cfed5f483b6f70ef9b7470a2402f10d8f84ef127db",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Grande.png",
+      "basename": "Cauda Grande.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Grande.png",
+      "sha256": "64cbc6dc3caeeb20dcd7aa3f4fd38da42cbf4c82de8d88cea2269993e4b0e895",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Pesada.png",
+      "basename": "Cauda Pesada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda Pesada.png",
+      "sha256": "b47f92d954f3ec96529f4e945b11ba13b1b65130a3e3bf4047e4024d95a167f4",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda.png",
+      "basename": "Cauda.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Cauda.png",
+      "sha256": "8bdb19e3f96579c7170eedf98e7f61d859eb1ce8eb18d69f6566f032bbee9457",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Colossais.png",
+      "basename": "Chifres Colossais.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Colossais.png",
+      "sha256": "2855940b53d7220b87c2dc8fd46a0c257b980cac3ed24db08354744707482d63",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Enormes.png",
+      "basename": "Chifres Enormes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Enormes.png",
+      "sha256": "f36b42b053b393253b785186e578b2b630447dd78b3356a27377370d235f095e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Grandes.png",
+      "basename": "Chifres Grandes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Grandes.png",
+      "sha256": "4944355d0be705ec29a5954d9752966ed220c96d8ecc2e64474251e1dca8962d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Letais.png",
+      "basename": "Chifres Letais.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres Letais.png",
+      "sha256": "a2486465c3c5f2c5484979285e376f41bd2edb3cb5cc164a3c2f965a9bd757e0",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres.png",
+      "basename": "Chifres.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Chifres.png",
+      "sha256": "0a91768a0400b6bf91ec6515493f952bc638867214d8d369308ba2584ecd2289",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/default.png",
+      "basename": "default.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/default.png",
+      "sha256": "87620eb40eb787d57f2d4542e09a89b551f940f5007c153bcf997951ac61607e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Escudada.png",
+      "basename": "Escudada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Escudada.png",
+      "sha256": "b2eaae14110caea5efc7ec1fb405ce0eff29d002969f489c33f9f13d78205ceb",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Escudo.png",
+      "basename": "Escudo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Escudo.png",
+      "sha256": "6e7cd9e675fc7450d95267f9bd867732ba387bd90c4eef9fa3548baf1950cdf7",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Bastarda.png",
+      "basename": "Espada Bastarda.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Bastarda.png",
+      "sha256": "a0dcca8e07c5d1907eed7b9f4ebc36213be7ba5889b19a856a53b319aa92a6fc",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Curta.png",
+      "basename": "Espada Curta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Curta.png",
+      "sha256": "ecc48841b0297b945a84fc765da98e7d76b7e1a8b4f949902966a5cde1219e78",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Curva.png",
+      "basename": "Espada Curva.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Curva.png",
+      "sha256": "cb8e64515695d8867874ab1bf833366cc941befe67134f5c418d0fed5f74b8fc",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Longa.png",
+      "basename": "Espada Longa.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Espada Longa.png",
+      "sha256": "bcfbaa5af3eaac6e62a30ef14b668e29674e223bb81da6d12deb65005fa4c5b3",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Funda.png",
+      "basename": "Funda.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Funda.png",
+      "sha256": "066f7b5478b1aaeccd79ae4f1243fffef3d60cd1bdaf88c350d1b27ece25e04b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garra de Tigre.png",
+      "basename": "Garra de Tigre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garra de Tigre.png",
+      "sha256": "8ef80582e60bdd45e4ac0bfb41b602a3ebfbc1faad2f85a808f912252059ba61",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Afiadas.png",
+      "basename": "Garras Afiadas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Afiadas.png",
+      "sha256": "dd7da9c84c447a227db2489901d2028128adc0819091dbe34679645cfb0af6c1",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Colossais.png",
+      "basename": "Garras Colossais.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Colossais.png",
+      "sha256": "d1c287f2cd03225f8cceb0565754ec0d88b83bafd5f52b225bed344e1da1bd22",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Enormes.png",
+      "basename": "Garras Enormes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Enormes.png",
+      "sha256": "02e930d6f93c9ba7ccacb6f2b14b700336598c9d08affc507175e856ed7976ce",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Grandes.png",
+      "basename": "Garras Grandes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras Grandes.png",
+      "sha256": "6988b108069541f03853d465ae44d80fbc0ddf531003b0b1f0422d83879143db",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras.png",
+      "basename": "Garras.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Garras.png",
+      "sha256": "22e67cf8f72aba1923614e69522726679a5b6884d0b076ffed97d6aa6055ba35",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Lança.png",
+      "basename": "Lança.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Lança.png",
+      "sha256": "1ab69e652e4a3e7a028fe41146fac710d602d69fe2412fcd43384cb360942994",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Maça Estrela.png",
+      "basename": "Maça Estrela.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Maça Estrela.png",
+      "sha256": "0d4969c012fd036d4841de1ec6107f4d83d9771a1c922e66b67fbd87d2eaf4bd",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Maça.png",
+      "basename": "Maça.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Maça.png",
+      "sha256": "37fc84823dac7a0281a44236bc7c1bbff9f11b93f674fd0a8eef2dbfbea7e52c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machadão.png",
+      "basename": "Machadão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machadão.png",
+      "sha256": "f81357ff350040524d5151e2c33e60b73c8379a589aa23ca9a5a1042e4ef8b37",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machadinha.png",
+      "basename": "Machadinha.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machadinha.png",
+      "sha256": "223b804ba9136483983e7e9ecd6744c617d5b002ec6c30e5fd723e349897de6b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machado de Batalha.png",
+      "basename": "Machado de Batalha.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Machado de Batalha.png",
+      "sha256": "23cb8e474b30cf417168ac214b8a0e6ec4c4367c4127f49319502a3b7f9b8b60",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Malho.png",
+      "basename": "Malho.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Malho.png",
+      "sha256": "3aff14ab1e8325b5d207c00b914ad0fe79af730a0f6ac61c12f58debc1096a1b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Afiada.png",
+      "basename": "Mandíbula Afiada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Afiada.png",
+      "sha256": "44e8699f4e11a67d6ab7d36a2bb7afa56f0cc64eba987a1db2f684bda77216fa",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Colossal.png",
+      "basename": "Mandíbula Colossal.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Colossal.png",
+      "sha256": "f09f4a99e32a3a6a5d53f4ab33b1f9c587d2bdcbef269bc34f3819e2ec0dbab6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Enorme.png",
+      "basename": "Mandíbula Enorme.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Enorme.png",
+      "sha256": "b75e8608812e000b33d7571dceb5008326e5f6cc589f18497a89855a879c276b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Grande.png",
+      "basename": "Mandíbula Grande.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula Grande.png",
+      "sha256": "0096c7813b8fa80bd1941e9dda74186a28fe21df127855295db12acf28238e5b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula.png",
+      "basename": "Mandíbula.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Mandíbula.png",
+      "sha256": "50a175831f8f660b01f671e6e08c8407f790f0701433810f13c6223c65d3d65f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Manopla.png",
+      "basename": "Manopla.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Manopla.png",
+      "sha256": "b32e73d265192caedfe1421d778238c77d2b2da559688a3e24d2e2bbb345a5cb",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Martelo de Guerra.png",
+      "basename": "Martelo de Guerra.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Martelo de Guerra.png",
+      "sha256": "d2a3306e48dc665083813042e21118d014bec601c61f9985f6fb5aeac334dc10",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Montante.png",
+      "basename": "Montante.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Montante.png",
+      "sha256": "ea402dadad40481959e8dc21d57df7f1888048071e74396267cdf348a919c2c3",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Picareta de Guerra.png",
+      "basename": "Picareta de Guerra.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Picareta de Guerra.png",
+      "sha256": "2ff0c1c3a9c85ead5a6532a646b5a876f3885e499b8b5882ca2ea98862a1735e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Pique.png",
+      "basename": "Pique.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Pique.png",
+      "sha256": "266f95037d2b3f7d592a68fc96d490e2c98b44bbf87d43ca6593e7785002457f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Pontos de Pressão.png",
+      "basename": "Pontos de Pressão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Pontos de Pressão.png",
+      "sha256": "a1532eed675e85b59db647e52f842809e368f1235765a20f36df0a0d4958f6af",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Porrete.png",
+      "basename": "Porrete.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Porrete.png",
+      "sha256": "3ec8dd9e8a8f981e4bc5d279934a2e6d4746064b72d7a7c7a1c58f74d66917ed",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Colossais.png",
+      "basename": "Presas Colossais.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Colossais.png",
+      "sha256": "e7ccb370d6351e911b58bd50f1914c437f8f77add5ec3a44465cf2c9f6c9fe51",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas de Lobo.png",
+      "basename": "Presas de Lobo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas de Lobo.png",
+      "sha256": "6f4192ebdc0109c3e1c2fd7860847e704a2af7cfe2e595b21465bcdf05183829",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Enormes.png",
+      "basename": "Presas Enormes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Enormes.png",
+      "sha256": "108d898e8a5719c3189e8e372d5580d821ccc3a3dce2dff7c8f8d22ab3af308a",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Grandes.png",
+      "basename": "Presas Grandes.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Grandes.png",
+      "sha256": "ef1bbeb9ed656322c9c4a6e81b5556cda32472f3b43e6c885bb41386c1c973aa",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Letais.png",
+      "basename": "Presas Letais.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas Letais.png",
+      "sha256": "57d7d46cb210808f82e3e9bd336ad3fb402bccdfc41b00ed6020d1b0abac6835",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas.png",
+      "basename": "Presas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Presas.png",
+      "sha256": "5eb813aafc5a5759ed2ac179304eb37b4a0ef5c4542c6a1120bf5864310d04dd",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Punhal.png",
+      "basename": "Punhal.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Punhal.png",
+      "sha256": "c5bb05895dbcde7f62a1587cbd8e956785cb672d901b4a649640f646ec14d3cb",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Rapieira.png",
+      "basename": "Rapieira.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Rapieira.png",
+      "sha256": "f0675fc871ffe1fe479627b47f4d3967c77e814ab4cd0b013164f46813716cd8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Armas/Tacape.png",
+      "basename": "Tacape.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Armas/Tacape.png",
+      "sha256": "f298b5f7c7749e03742c5e009006591170c44807d84ac5d52e2338f3a25b9cdb",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Adepta.png",
+      "basename": "Poção da Coragem Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Adepta.png",
+      "sha256": "5d9983ff30e18092e376e90ff0813747b4307b3775128e4a6c1796fb0a620af0",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Experiente.png",
+      "basename": "Poção da Coragem Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Experiente.png",
+      "sha256": "5fd9aebcff2ce76976e0bd9f297617d4a5b71f0c9e3b7b76abf71cbeb7e4779d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Mestre.png",
+      "basename": "Poção da Coragem Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Coragem Mestre.png",
+      "sha256": "3cf266de3bccf2c6ba548ddd92ff6fd2a845f82cc75ee36ae4a6e7ecaf52b7b8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Adepta.png",
+      "basename": "Poção da Nutrição Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Adepta.png",
+      "sha256": "c8e611652c171b25b62f31dd27b137281b485f6d849b83d6dc66897004b76b40",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": true
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Experiente.png",
+      "basename": "Poção da Nutrição Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Experiente.png",
+      "sha256": "50dacb25a573977c130c8b80f6c401fc690ec259acb2607cf902215db0891035",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Mestre.png",
+      "basename": "Poção da Nutrição Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Nutrição Mestre.png",
+      "sha256": "00a7a4c633594b82a66383b3b94fa6644b2d8c7564fec17d6dd264d244f0f2c9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Adepta.png",
+      "basename": "Poção da Velocidade Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Adepta.png",
+      "sha256": "2cf951ba318ba1358533efe2249197d5092a8788df64272ae21ff6e240d73f07",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Experiente.png",
+      "basename": "Poção da Velocidade Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Experiente.png",
+      "sha256": "e76b09cb91f6af83c8d0e9a83334d5fbff2a1d55509b54dbc2d1915e14e31f9c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Mestre.png",
+      "basename": "Poção da Velocidade Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção da Velocidade Mestre.png",
+      "sha256": "a19ba48241d7d082e922672bea4646bc4acc61286c71c0996642152d5a532810",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Adepta.png",
+      "basename": "Poção de Cura Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Adepta.png",
+      "sha256": "cd74bdbdfa592e4134f0a11225e72aa11c2822d1bd16ecc6f2ea783838057dec",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": true
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Experiente.png",
+      "basename": "Poção de Cura Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Experiente.png",
+      "sha256": "f43681decfee0d27371a762648ee4770e418b48eb49982775d627314d05a27ca",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Mestre.png",
+      "basename": "Poção de Cura Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis/Poção de Cura Mestre.png",
+      "sha256": "ae7aca64b77b7ad1cf2727d223e31419f5e985d791262b0ac66a5a406669ab35",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Amplificador Audiovisual.png",
+      "basename": "Amplificador Audiovisual.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Amplificador Audiovisual.png",
+      "sha256": "32b21a0d563b37553f842ebdbe756151f4b0da445130d6c60a76f9d845631e15",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel Canário.png",
+      "basename": "Anel Canário.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel Canário.png",
+      "sha256": "4b0443d54fc4d3111a980d9c72d233e003eeed61c61f69af0f4a6026a5a387e9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Adepto.png",
+      "basename": "Anel da Resistência Adepto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Adepto.png",
+      "sha256": "baddbba4e3540ab42d4fe0fdb55ce27a4888be15f07a2e72e123601aaffa7f51",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Experiente.png",
+      "basename": "Anel da Resistência Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Experiente.png",
+      "sha256": "6ac29659af921a6cb26cd392a6167fe6e790902138fe865cf56529a6eb653fa2",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Mestre.png",
+      "basename": "Anel da Resistência Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel da Resistência Mestre.png",
+      "sha256": "ba51d1b8910c5816405654987459abcf46796dee8ecdffa13412c6fd1ac5830b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Adepto.png",
+      "basename": "Anel do Equilíbrio Adepto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Adepto.png",
+      "sha256": "c3e53f355614b94104446267e1f21ff4f8626d141a3d0c3ac9de83001025924b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Experiente.png",
+      "basename": "Anel do Equilíbrio Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Experiente.png",
+      "sha256": "5798f764bb1f0ca6d182810660ce274a33f2095474dbba22f8897a577b43ba46",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Mestre.png",
+      "basename": "Anel do Equilíbrio Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel do Equilíbrio Mestre.png",
+      "sha256": "40f704d033f8df5aa61abeff13795c570a83cc8d70352598040f6d1ab5b0fa4e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel Mensageiro.png",
+      "basename": "Anel Mensageiro.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Anel Mensageiro.png",
+      "sha256": "8e98c9d3a5a8b14211f77a81f7a8f3eddbaa6488626e3fed4483c5e68a517405",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Botas Fluídicas.png",
+      "basename": "Botas Fluídicas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Botas Fluídicas.png",
+      "sha256": "6c91443c0ed79f5f8e8025c5c046c2c7dea7b0e47e0faba14b6491d55d2528d3",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Bracelete Elemental.png",
+      "basename": "Bracelete Elemental.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Bracelete Elemental.png",
+      "sha256": "f3b654006e108370ad4edc9b43d8670123d3e464b5957b8d256617f542da112b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Braceletes de Pedra.png",
+      "basename": "Braceletes de Pedra.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Braceletes de Pedra.png",
+      "sha256": "c4d9d4398e536947062909b3166f487696569056d353ac4b21dc06431ee16466",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Brasão Tático.png",
+      "basename": "Brasão Tático.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Brasão Tático.png",
+      "sha256": "1e0a7fd04347c08ebae2e3fad7b9cbccff63258563d483fecda366bf62c2c016",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Broche Artístico.png",
+      "basename": "Broche Artístico.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Broche Artístico.png",
+      "sha256": "f9ed28b17549f99262899ededb5ade40820fa5acb3b541b1ca5810d3b1312d8c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Capa Discreta.png",
+      "basename": "Capa Discreta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Capa Discreta.png",
+      "sha256": "89cbc883b9e53b07e1439422ff785dddf324594941b0dccc91adb30906b02456",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Cinto dos Ermos.png",
+      "basename": "Cinto dos Ermos.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Cinto dos Ermos.png",
+      "sha256": "0e6f107523e5e27e89647a3778030d5bde1ba228243e7e5b267b414dc7d2b017",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Colar da Eloquência.png",
+      "basename": "Colar da Eloquência.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Colar da Eloquência.png",
+      "sha256": "bdcf3de768200760614f8735d9a4f8ca891a02f66de5b8dbbee3ab1492f47a6c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Diadema da Ameaça.png",
+      "basename": "Diadema da Ameaça.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Diadema da Ameaça.png",
+      "sha256": "ba025941c0ca6f72a658dc21d2887abce362729f0caddf07293000642d44ff3a",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Diapasão Elemental.png",
+      "basename": "Diapasão Elemental.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Diapasão Elemental.png",
+      "sha256": "b640523c3db591dccb29c036d2679b3f06cb9f3bd9517a278cb101fc1fc9fc7b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Garras do Rei-Mago.png",
+      "basename": "Garras do Rei-Mago.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Garras do Rei-Mago.png",
+      "sha256": "5ee778658d90dc84885bfd110738777ffbcd1db3863dee026a5a2acd2bb95921",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luva do Arcanista.png",
+      "basename": "Luva do Arcanista.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luva do Arcanista.png",
+      "sha256": "8a93eb53f351acd642007c92fbb1eb131f34ecc0da6b05bc4d33a1151a6118b6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luvas do Ladrão.png",
+      "basename": "Luvas do Ladrão.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luvas do Ladrão.png",
+      "sha256": "a45a44db7e3b65175a013ddabc84190aff7306c7f4da72dfb7db33a16857d32a",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luvas Purificadas.png",
+      "basename": "Luvas Purificadas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Luvas Purificadas.png",
+      "sha256": "db629a0f68e84bab6c78f9587e1908cb189dce617891a7025b96a16246f1679c",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Pulseira da Potência.png",
+      "basename": "Pulseira da Potência.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Pulseira da Potência.png",
+      "sha256": "a032b26550299d5180c2b81a9b04e77b4243127f5b296612108e4dfe4d2a4aee",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Sensor Arcano.png",
+      "basename": "Sensor Arcano.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Equipamentos/Sensor Arcano.png",
+      "sha256": "12deb72170c4095afdd5906bfbe5adc96c68cdcdb1147b414b69289c8e441725",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Adepta.png",
+      "basename": "Arma Obra-prima Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Adepta.png",
+      "sha256": "db2572929ad9c99eb8d0893259908505ec7a4009a0200c46bc04cba8dc6efe53",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Experiente.png",
+      "basename": "Arma Obra-prima Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Experiente.png",
+      "sha256": "689ede7356b834c9bcdebdf022727c035e65abd5322bd87b78eae20ea051c940",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Mestre.png",
+      "basename": "Arma Obra-prima Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Arma Obra-prima Mestre.png",
+      "sha256": "528c007dc5b09c1f2df897650b519ed819eadd07dfacf4b92efd8dec6a286439",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Adepta.png",
+      "basename": "Armadura Obra-prima Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Adepta.png",
+      "sha256": "8fa3c26ab6c63700185e226f18e84d8a8d1f24b8da55a9b82f2151198c877b35",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Experiente.png",
+      "basename": "Armadura Obra-prima Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Experiente.png",
+      "sha256": "ddad92d9c7e8a9646790053680ae7d399cfa161a1d468501c7fc0eeef147db0b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Mestre.png",
+      "basename": "Armadura Obra-prima Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Armadura Obra-prima Mestre.png",
+      "sha256": "78ce4b9a9a06e6a33754354c227e776881e72304828b704dbc3c8b657482f6bc",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Adepta.png",
+      "basename": "Broquel Obra-prima Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Adepta.png",
+      "sha256": "db2572929ad9c99eb8d0893259908505ec7a4009a0200c46bc04cba8dc6efe53",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Experiente.png",
+      "basename": "Broquel Obra-prima Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Experiente.png",
+      "sha256": "689ede7356b834c9bcdebdf022727c035e65abd5322bd87b78eae20ea051c940",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Mestre.png",
+      "basename": "Broquel Obra-prima Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Broquel Obra-prima Mestre.png",
+      "sha256": "528c007dc5b09c1f2df897650b519ed819eadd07dfacf4b92efd8dec6a286439",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Adepta.png",
+      "basename": "Escudo Obra-prima Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Adepta.png",
+      "sha256": "db2572929ad9c99eb8d0893259908505ec7a4009a0200c46bc04cba8dc6efe53",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Experiente.png",
+      "basename": "Escudo Obra-prima Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Experiente.png",
+      "sha256": "689ede7356b834c9bcdebdf022727c035e65abd5322bd87b78eae20ea051c940",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Mestre.png",
+      "basename": "Escudo Obra-prima Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Escudo Obra-prima Mestre.png",
+      "sha256": "528c007dc5b09c1f2df897650b519ed819eadd07dfacf4b92efd8dec6a286439",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Adepta.png",
+      "basename": "Ferramenta Obra-prima Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Adepta.png",
+      "sha256": "cc932e5da43e9a259a6e1868e13390cdf9395a41d3912dbb5f71ed95908c1a95",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Experiente.png",
+      "basename": "Ferramenta Obra-prima Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Experiente.png",
+      "sha256": "71941b27a74a258bfd9a9e802209624e0f2fd718e841658b36d881a247ec320f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Mestre.png",
+      "basename": "Ferramenta Obra-prima Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Ferramenta Obra-prima Mestre.png",
+      "sha256": "1133394c8be863ab7295d8af4945269743a74757ae09b28a9c77678678466e60",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Adepta.png",
+      "basename": "Imbuição Ciclonal Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Adepta.png",
+      "sha256": "5d3f067c760c38fbe65d38b587258194415ba582a1ae5608c9b357a7ca01e108",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Experiente.png",
+      "basename": "Imbuição Ciclonal Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Experiente.png",
+      "sha256": "9949eede934ee57eddeb0de58f31e66a407638a2f4ccb0e84cee1a45e311b1af",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Mestre.png",
+      "basename": "Imbuição Ciclonal Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Ciclonal Mestre.png",
+      "sha256": "c37d1c526230efb72ec94e4a3c4aa449f3c6e12b61b54e0b912a4020ae7d5e99",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Adepta.png",
+      "basename": "Imbuição Congelante Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Adepta.png",
+      "sha256": "459c8cf131080a3804cf09a5fd0cc0411c5c61e34f353f39a45219451770d0ef",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Experiente.png",
+      "basename": "Imbuição Congelante Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Experiente.png",
+      "sha256": "3faa9468e37fe67e9b31cb42698c1e5eda113c3f46335158936fbc72b3798c47",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Mestre.png",
+      "basename": "Imbuição Congelante Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Congelante Mestre.png",
+      "sha256": "2706a2008c8e3adf4e4c02718309a076cf151fcfa2b267ed0ffdc127b9495c10",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Adepta.png",
+      "basename": "Imbuição da Ventania Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Adepta.png",
+      "sha256": "c79f1ce5aba802e0c7b7dff490d9f0647ff0415f1cd02ac1e0c8882a5e98852b",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Experiente.png",
+      "basename": "Imbuição da Ventania Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Experiente.png",
+      "sha256": "7d2aa5faa66faafe50852f14c5a31cda58989d81f1c0953279a56ad03d9e8e98",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Mestre.png",
+      "basename": "Imbuição da Ventania Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição da Ventania Mestre.png",
+      "sha256": "175c317ebe10172ac8bd28f834c3bb4c75a1cc5caa069fcf5b178e0528572acd",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Adepta.png",
+      "basename": "Imbuição de Aço Solar Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Adepta.png",
+      "sha256": "497c978ddf721f210dbdeaf03e84015a8e32bac7c58a10a2ed06caaf4ed2e5b4",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Experiente.png",
+      "basename": "Imbuição de Aço Solar Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Experiente.png",
+      "sha256": "497c978ddf721f210dbdeaf03e84015a8e32bac7c58a10a2ed06caaf4ed2e5b4",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Mestre.png",
+      "basename": "Imbuição de Aço Solar Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Aço Solar Mestre.png",
+      "sha256": "497c978ddf721f210dbdeaf03e84015a8e32bac7c58a10a2ed06caaf4ed2e5b4",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Adepta.png",
+      "basename": "Imbuição de Ferro Frio Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Adepta.png",
+      "sha256": "d374b46c16daf3f09320d7fb62e77852246939d82b56821d95a8a09b98c0eda1",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Experiente.png",
+      "basename": "Imbuição de Ferro Frio Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Experiente.png",
+      "sha256": "d374b46c16daf3f09320d7fb62e77852246939d82b56821d95a8a09b98c0eda1",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Mestre.png",
+      "basename": "Imbuição de Ferro Frio Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição de Ferro Frio Mestre.png",
+      "sha256": "d374b46c16daf3f09320d7fb62e77852246939d82b56821d95a8a09b98c0eda1",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Adepta.png",
+      "basename": "Imbuição Enraizante Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Adepta.png",
+      "sha256": "7a3cd5d80c88cf17cf3698341c1201d78c5a65e5ec4fb130b33d80297fc94ebe",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Experiente.png",
+      "basename": "Imbuição Enraizante Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Experiente.png",
+      "sha256": "814f8d209b88051096f1c1324b3c8a4940806d20151878eb2bb1cfde57e732fb",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Mestre.png",
+      "basename": "Imbuição Enraizante Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Enraizante Mestre.png",
+      "sha256": "73eaa0d2a420eac5a265ea040898e82af84bddae62a3cba2a3604f3cb5c436ab",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Adepta.png",
+      "basename": "Imbuição Explosiva Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Adepta.png",
+      "sha256": "c8f9a03a53a82474cd9ced3d76dadb61da0f248e41368598ecd880444ea1d241",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Experiente.png",
+      "basename": "Imbuição Explosiva Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Experiente.png",
+      "sha256": "0b782adc7649728ccb7645e76cdca16ff301f870725751225ca7307c324adcea",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Mestre.png",
+      "basename": "Imbuição Explosiva Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Explosiva Mestre.png",
+      "sha256": "8d5ef300205bb1bd060698f799d334cba987198206b3a7629eaf09248be9667f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Adepta.png",
+      "basename": "Imbuição Flamejante Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Adepta.png",
+      "sha256": "5cfe2ac7aeb95d56730c56a90eb03bed8b906c6c442313aa33de3ee5dd210d11",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Experiente.png",
+      "basename": "Imbuição Flamejante Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Experiente.png",
+      "sha256": "a390669b6eee085018018aa9a1ca6b5ecc08b191094102377f984cfa6c75d275",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Mestre.png",
+      "basename": "Imbuição Flamejante Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Flamejante Mestre.png",
+      "sha256": "f31aec8a5812568f8fb07dd6c021c3886d43da037906afdeda4f5e548d7ac622",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Adepta.png",
+      "basename": "Imbuição Hidratante Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Adepta.png",
+      "sha256": "e5aefa97f748aba92e3e17fe2ede378f5605ec97745cd7b7386f3b0770f18775",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Experiente.png",
+      "basename": "Imbuição Hidratante Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Experiente.png",
+      "sha256": "ea78bed1e37662a422e4369d92e1c14e8c8e9a143f3c94f9b8d6f766cade3b89",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Mestre.png",
+      "basename": "Imbuição Hidratante Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Hidratante Mestre.png",
+      "sha256": "8cf08fff9f24194577a729ab90560029f5fedb3e2262cc944c797dcc4a7dde1e",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Adepta.png",
+      "basename": "Imbuição Incendiária Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Adepta.png",
+      "sha256": "e7e0cc4f32faf11589944e54c5a231ca5a16491896e7960d5eb6bcc7d08cd8f6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Experiente.png",
+      "basename": "Imbuição Incendiária Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Experiente.png",
+      "sha256": "014ec4e759e92fafc72bc1eec435ac09cfb6e481a6d163a5176954fca272faad",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Mestre.png",
+      "basename": "Imbuição Incendiária Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Incendiária Mestre.png",
+      "sha256": "39d419c0a33f5aadeb8989deab85a99b35078ee9b56a39456c4d9876ade801f6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Adepta.png",
+      "basename": "Imbuição Mineral Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Adepta.png",
+      "sha256": "36fc85bff3fa94914d6f7723087477c54c451e51e8d0f7039cc96c41d805dc40",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Experiente.png",
+      "basename": "Imbuição Mineral Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Experiente.png",
+      "sha256": "f504a969719e1c5aa12071f46355f975101679929608003be83093831c7fc033",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Mestre.png",
+      "basename": "Imbuição Mineral Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Mineral Mestre.png",
+      "sha256": "c561c2a4fa7a3e4cab949ce59be6102a80d21466c2edd08d78b4c19c3926fb5f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Adepta.png",
+      "basename": "Imbuição Relampejante Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Adepta.png",
+      "sha256": "655d08d91ecc28b2bcd4d793656d4c710fa5476736f1d72e7b43ec1f453054aa",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Experiente.png",
+      "basename": "Imbuição Relampejante Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Experiente.png",
+      "sha256": "15c52f58b4b3e601c87fc6ab9efd5fecf6dc7e5963ee3e119458203af20dd22f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Mestre.png",
+      "basename": "Imbuição Relampejante Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Relampejante Mestre.png",
+      "sha256": "0fc608e04b8540601aa3e6b1d30028d8725e158682e1d9d647c912e9f9661b73",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Adepta.png",
+      "basename": "Imbuição Sísmica Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Adepta.png",
+      "sha256": "d434832b399a6557474ee4fda356df55c1759e59735634966740b798fdb884cd",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Experiente.png",
+      "basename": "Imbuição Sísmica Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Experiente.png",
+      "sha256": "190593105ebfc94817631dfc2ffa2f28343802a8657af8f1790a96c52f614dea",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Mestre.png",
+      "basename": "Imbuição Sísmica Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Sísmica Mestre.png",
+      "sha256": "d5052bdd1e55fdbb3b786e8f85b1ddaf9fa92ad9d89d9200a96f08fe12c37a92",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Adepta.png",
+      "basename": "Imbuição Torrencial Adepta.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Adepta.png",
+      "sha256": "9bdf950f017591d5a2024986f2570ff0816269cb467fabaa23b6078431ae481a",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Experiente.png",
+      "basename": "Imbuição Torrencial Experiente.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Experiente.png",
+      "sha256": "8e95ac62d59714f3a3c062595f0eac02fa020dc9f8a3767ac70088d7eb11150d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Mestre.png",
+      "basename": "Imbuição Torrencial Mestre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Imbuição Torrencial Mestre.png",
+      "sha256": "22922d6e5f00d7146de80d6bcd185f1184a4c1750f002e4777992ce1c4668686",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Pedra Estelar.png",
+      "basename": "Pedra Estelar.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas/Pedra Estelar.png",
+      "sha256": "cd4ce2894ac6c3ada22873a058add9fe7abda164d950513aa66b8387b5af465f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Consistência.png",
+      "basename": "Foco da Consistência.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Consistência.png",
+      "sha256": "c05e58191d111f21eb191e9e12b4a26dc692cb2404fd14b63f38f9dcc3a143f7",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Intensificação.png",
+      "basename": "Foco da Intensificação.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Intensificação.png",
+      "sha256": "b0837d60c2d6d46c4fdd81856c8ef198ffde335509a9a48d02b132fcaff420be",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Penetração.png",
+      "basename": "Foco da Penetração.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Penetração.png",
+      "sha256": "fbfa6946e25615020bce3bb7a066993c5c402a8b0641a6e3e44bde5a297da821",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Repetição.png",
+      "basename": "Foco da Repetição.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Cartas/Figura/Implementos/Foco da Repetição.png",
+      "sha256": "adc3f8e87e5d3e59ef03dd680f157b8797e2f2bb272830b9199d185cca265f4f",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Animista.jpeg",
+      "basename": "Animista.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Animista.jpeg",
+      "sha256": "56374853275b43875594627334d7d132384e702b7e14dab1de45689e8d597a7f",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Animista"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Arcanista.jpeg",
+      "basename": "Arcanista.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Arcanista.jpeg",
+      "sha256": "51e572976fbadd90bec7b9916b555b06466c9e0318ec174796f70fd06e618528",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Arcanista"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Bardo.jpeg",
+      "basename": "Bardo.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Bardo.jpeg",
+      "sha256": "cd813149aaf24c895e2f24142baeae87dd14546c4e7dd98ed6a9465ac51f96b8",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Bardo"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Caçador.jpeg",
+      "basename": "Caçador.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Caçador.jpeg",
+      "sha256": "776e0e3527f69677477f45e1f8d0fd0aea6cc598066bc1aee893cd419f12b9a3",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Caçador"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Comandante.jpeg",
+      "basename": "Comandante.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Comandante.jpeg",
+      "sha256": "1e237c1cbdd151ed53c72dd08b64b032ba49a09ee4975c734c0445b76c3e90d2",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Comandante"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Druida.png",
+      "basename": "Druida.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Druida.png",
+      "sha256": "e637c003857680c4d4442a00f65cd4479f6403b40a5930940efb0d06f878b509",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Druida"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Guerreiro.jpeg",
+      "basename": "Guerreiro.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Guerreiro.jpeg",
+      "sha256": "122bbbcd22d2f8970a583a8ee5a417e3ad6f1aeb1e4b1e3f088df14e668c9b9a",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Guerreiro"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Ladino.jpeg",
+      "basename": "Ladino.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Ladino.jpeg",
+      "sha256": "c62059c8c017735474077065a71eb0f2ea456f4bf4050a6421b8f3101b7702b1",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Ladino"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Mago.jpeg",
+      "basename": "Mago.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Mago.jpeg",
+      "sha256": "583286f2973632ae022619aba4591056c0e8d2c3fd3ade1cbb11a6b7966d496e",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Mago"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Classes/Monge.jpeg",
+      "basename": "Monge.jpeg",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Classes/Monge.jpeg",
+      "sha256": "c18edb38b3f14dd18fb24fed361db824cc2677f253c4b551dc279114b4cd0956",
+      "referencedBy": [
+        "Sistema/Criação de Personagem/Classes/Monge"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Ave.png",
+      "basename": "Companheiro Animal Ave.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Ave.png",
+      "sha256": "513b770b8a4c1d5b4480e8203beaee21c552a421ffe8acd6394f8920fce96af6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Canino.png",
+      "basename": "Companheiro Animal Canino.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Canino.png",
+      "sha256": "c84082086ba17d68067611a78c7ddebb641a71d20c4f8f12b06fe27a229b3f30",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Felino.png",
+      "basename": "Companheiro Animal Felino.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Felino.png",
+      "sha256": "2b437a1c8d55b7550cc54ad0e9843b2594ea99d799659b257a46435a1f17bb8d",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Ursino.png",
+      "basename": "Companheiro Animal Ursino.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Companheiros Animais/Companheiro Animal Ursino.png",
+      "sha256": "14e3829b7ee20cf3e9c3d95b8e48c09f4cc1b8ff3de2db052ca32460a06c2fca",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Baar'Shava.png",
+      "basename": "Baar'Shava.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Baar'Shava.png",
+      "sha256": "8b92a58ff66bc0e1eed39545cd609db2fe3e4e6aada68589705b4149bee1a444",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Baar'Shava"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Campo de Mineradores.png",
+      "basename": "Campo de Mineradores.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Campo de Mineradores.png",
+      "sha256": "fb9b0bb63b2c9852b5e4f8f51ef76a399690c0293986ea595cac49ffe92bc202",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Campo de Mineradores"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Canto Alto.png",
+      "basename": "Canto Alto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Canto Alto.png",
+      "sha256": "d096f005e4669ded387bb640f181e3dc3b8c6a545453f109e362740e625f1019",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Principado das Flores/Canto Alto"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Chama Céu.png",
+      "basename": "Chama Céu.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Chama Céu.png",
+      "sha256": "fd0d7f9b723dc70abdca82c649052edffa37ebec3e65c8f2df3b7f2ed6f7ae82",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Chama Céu"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Cúpula dos Céus.png",
+      "basename": "Cúpula dos Céus.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Cúpula dos Céus.png",
+      "sha256": "e1f8819c5c467b4da0a51910215743a3461bcdfe533747b775846271e926c83a",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Cúpula dos Céus"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Firmamentum.png",
+      "basename": "Firmamentum.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Firmamentum.png",
+      "sha256": "71bea40abd7099985b760a7a92e6bfffcc78d7b66fec2305dc2382a64dce583b",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Firmamentum"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Floresta da Ordem.png",
+      "basename": "Floresta da Ordem.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Floresta da Ordem.png",
+      "sha256": "0a789a5733762d5612d3bc5cc09b79e88f1ffd580f792e36eb899a027a9882f9",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Ilha das Cinzas/Floresta da Ordem"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Forte Norte.png",
+      "basename": "Forte Norte.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Forte Norte.png",
+      "sha256": "941668f6009dfe7cd39e1cac2f66ba9524c44cb85e04155f156bf390d6d3fd69",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Norte"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Forte Sul.png",
+      "basename": "Forte Sul.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Forte Sul.png",
+      "sha256": "112ad532ca65125bfe31ed5f2e7bada6da010c82cde5bfa874206c8a2eeb6549",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Forte Sul"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Grande Mata.png",
+      "basename": "Grande Mata.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Grande Mata.png",
+      "sha256": "9a2454253aead2830ea39d3278ee1a33ffcf3a0d77ec0ac3b1567aacf5aa800a",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Grande Mata"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Grande Muro.png",
+      "basename": "Grande Muro.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Grande Muro.png",
+      "sha256": "ad566b95526e3059b979441ce4af8504497a4910f5d145f630d99a0a6278f13f",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Grande Muro"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Iluminada.png",
+      "basename": "Iluminada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Iluminada.png",
+      "sha256": "62a7f1d0bdbefe89a110e2c5ddfbfde1baf1486e5351b243f5c695b898024494",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Iluminada"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Krasnogor.png",
+      "basename": "Krasnogor.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Krasnogor.png",
+      "sha256": "366c5c96ebf322071dfcbcec523a3fa2bd30596cafeb75911d30a9b429b68da6",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Krasnogor"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Líciae.png",
+      "basename": "Líciae.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Líciae.png",
+      "sha256": "18b4f56591287c0b7d6ec0b5a8a505bf4bf178bd7df1fd0ba8bf91f7d6a8dde5",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Líciae"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Lilá.png",
+      "basename": "Lilá.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Lilá.png",
+      "sha256": "547b0cdbe67600749ebddaa9863404b752a0686a7619e1d4b394f850b462f0b5",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Lilá"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Lucerna.png",
+      "basename": "Lucerna.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Lucerna.png",
+      "sha256": "0ea316ba86e728660a07cabdb6eab96bbfeaec19dc9a8c67e514c52cee2a1533",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Lucerna"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Magna Vigília.png",
+      "basename": "Magna Vigília.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Magna Vigília.png",
+      "sha256": "3e6187dc94cdeafecbf9d8d48056688b0deb7cc85b75f637e4572820f25e4136",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Magna Vigilia"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Manilha.png",
+      "basename": "Manilha.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Manilha.png",
+      "sha256": "36e1ba7b47683d6e398f4a5a2a1cec6a19ce01631171d6af529e5cf621025bc1",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Manilha"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png",
+      "basename": "Mapa do Mundo Livre.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png",
+      "sha256": "c0b2a0d5440ed469d01de39de03f2d0d564d7004155415dd8a89ecd9408529e3",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Mundo Livre"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Meteorito.png",
+      "basename": "Meteorito.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Meteorito.png",
+      "sha256": "85a26fac7fed0e90aff792746566d27eff84630b9f0fae65166b05986fb046fd",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Meteorito"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Montanhas de Vidro.png",
+      "basename": "Montanhas de Vidro.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Montanhas de Vidro.png",
+      "sha256": "b24815304eb0766963de780eb22f964c81b128fd12742cdc7248b99e8f6d76fe",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Montanhas de Vidro"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Mosteiro dos Mares.png",
+      "basename": "Mosteiro dos Mares.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Mosteiro dos Mares.png",
+      "sha256": "cc512e6281c50c489728f7f04b589772a6216c60b720982b9625cb0f421f010f",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Mosteiro dos Mares"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Palácio das Pedras.png",
+      "basename": "Palácio das Pedras.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Palácio das Pedras.png",
+      "sha256": "aeb625000c53b10122dc4a8545c849e5026dd8966c23f86bf1d3bfcb8cb793ed",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Palácio das Pedras"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Palácio de Ja'ar.png",
+      "basename": "Palácio de Ja'ar.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Palácio de Ja'ar.png",
+      "sha256": "5c490f7a52a688f348a71ae9e2b7dd39dd2ea78537c7a303eb6fda2dba38a845",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Palácio de Ja'ar"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Pátria Aurora.png",
+      "basename": "Pátria Aurora.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Pátria Aurora.png",
+      "sha256": "a70bd0723f12182a8da94102c184aeccd6f2bd9851c838c74f144a4a98d4b3b0",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Pátria Aurora"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Pedrita.png",
+      "basename": "Pedrita.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Pedrita.png",
+      "sha256": "4e85e6d1700520cb513adc3f8a3f4ef49f50c48abdb3e8a2b627b165842ed146",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Pedrita"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Pencas.png",
+      "basename": "Pencas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Pencas.png",
+      "sha256": "1b56a1f6ccb19309429c8ab58c34f080954fe42182587b1894535a34679c86e5",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Principado das Flores/Pencas"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Prasinarium.png",
+      "basename": "Prasinarium.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Prasinarium.png",
+      "sha256": "a464677b5a4b8e036275e992d779a3e8e61767114f7051e7b10235f02a1fbf09",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Prasinarium"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Primeiro Contato.png",
+      "basename": "Primeiro Contato.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Primeiro Contato.png",
+      "sha256": "2829855468263d7d61c2fe9bc27ab1c791d496e6634f5ddfdf974735e9862e43",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Primeiro Contato"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Rharos.png",
+      "basename": "Rharos.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Rharos.png",
+      "sha256": "d3b8a51df9a3da1a731c51762cebe80f0306a82a09857485aea418974c6f3fcb",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rharos"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Rio Raio da Luz.png",
+      "basename": "Rio Raio da Luz.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Rio Raio da Luz.png",
+      "sha256": "6162b7ce64cfc50e0e3d830e43fe53cd63f6ff9be8bba2b6955a698dfa853ed9",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Rio Raio da Luz"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Riqueza.png",
+      "basename": "Riqueza.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Riqueza.png",
+      "sha256": "3c575029a1c5ddb7bb7b2a742d1fae71729a02b55258685dfcea246332c54df9",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Ilha das Cinzas/Riqueza"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Ruínas de Luxor.png",
+      "basename": "Ruínas de Luxor.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Ruínas de Luxor.png",
+      "sha256": "6eaa5c8774241931220fbc89a823dd9735e824cff7a164d192de2961dc3df125",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Ruínas de Luxor"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Safira.png",
+      "basename": "Safira.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Safira.png",
+      "sha256": "9024de88701409b8e214a2da6c2a4cad2c641141140702af22af3d54a0169f77",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Planaltina/Safira"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Torre das Tochas.png",
+      "basename": "Torre das Tochas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Torre das Tochas.png",
+      "sha256": "113d4214c30052955d17efc73f579483fd189736b0b89828cc83bde2d3d002ea",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Torre das Tochas"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Torre dos Magos.png",
+      "basename": "Torre dos Magos.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Torre dos Magos.png",
+      "sha256": "c7bfb923894f54c50cbcab0161505c09458d1c184b003b275ea25744ff8f92e6",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Campos do Provento/Torre dos Magos"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Última Parada.png",
+      "basename": "Última Parada.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Última Parada.png",
+      "sha256": "f9d3c6c2a1b39b91219484182a71d2500cfba814d4399284bc5350f1d9fe2fc2",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Federação Áurea/Pedra Fina/Última Parada"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Varadas.png",
+      "basename": "Varadas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Varadas.png",
+      "sha256": "79cb135a0071598880aebd37666fbd022b6b150438fec8c710dfb6848f141c39",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Principado das Flores/Varadas"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Velimaris.png",
+      "basename": "Velimaris.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Velimaris.png",
+      "sha256": "202412a8fdcfbcc1018b01942abbe1f68b8312f6aba413ea451609d923d1d98e",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Pátria Aurora/Velimaris"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Mapas/Vinhedos.png",
+      "basename": "Vinhedos.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Mapas/Vinhedos.png",
+      "sha256": "4bbac320ba724509a8d9f41b0656f9513731272327fc0cd2ed6eced352920d0c",
+      "referencedBy": [
+        "Atlas/Mundo Livre/Principado das Flores/Vinhedos"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Affonso, Assis, Leonel e Pind.png",
+      "basename": "Affonso, Assis, Leonel e Pind.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Affonso, Assis, Leonel e Pind.png",
+      "sha256": "a8c0178e2bfbb245d8068fc499de0a423281dfb50e696fb8b4adbb59f76cea72",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Affonso.png",
+      "basename": "Affonso.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Affonso.png",
+      "sha256": "9f222f2f1ac1512968f3489c515bf1b2fa964e5f32e0d8fc9cc23fe05a7afecd",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Assis Porenquanto.png",
+      "basename": "Assis Porenquanto.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Assis Porenquanto.png",
+      "sha256": "ee89194720aae621d05b7288f3065c895cb8ec7ac104e71d32fd7555779986bf",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Carlos Facão de Andrade.png",
+      "basename": "Carlos Facão de Andrade.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Carlos Facão de Andrade.png",
+      "sha256": "818115520f12b756df258c53bfdd141bf5c3849d8ca6c9d99da2eba7932014f0",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Carlos, Dante, Mera, Pind, Thoren.png",
+      "basename": "Carlos, Dante, Mera, Pind, Thoren.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Carlos, Dante, Mera, Pind, Thoren.png",
+      "sha256": "d844a2725988b69e0c1cf5fbc0f0519939bc0c53e1bdcb1864f4c26d78717212",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Dante.png",
+      "basename": "Dante.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Dante.png",
+      "sha256": "4bd5eb51a9191cc5cdbe58b7b2d0bb1cbc07c178b2e82e092935cc973cc7cfb6",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Érico Verdadeiríssimo.png",
+      "basename": "Érico Verdadeiríssimo.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Érico Verdadeiríssimo.png",
+      "sha256": "550087a65d929605044e195af95bede58a8abcc528b1e9c3905d1d30495e6ad2",
+      "referencedBy": [
+        "Sistema/Criaturas/Heróis/Érico Verdadeiríssimo"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Ex-Tenente Deodoro Fontesseca.png",
+      "basename": "Ex-Tenente Deodoro Fontesseca.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Ex-Tenente Deodoro Fontesseca.png",
+      "sha256": "b962e36e0bdbee91bfa1aea4a0f0274f4c69b3c830f48af5eeb44d1d376cdd62",
+      "referencedBy": [
+        "Sistema/Criaturas/Heróis/Ex-Tenente Deodoro Fontesseca"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Grupo de Criaturas.png",
+      "basename": "Grupo de Criaturas.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Grupo de Criaturas.png",
+      "sha256": "71e4f904b5145a7dd82777f24c11e60daec0ed8e2c4ef7ed030a94366c431a1a",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Leonel Bravolla.png",
+      "basename": "Leonel Bravolla.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Leonel Bravolla.png",
+      "sha256": "0c793d88ba6121de8bdfc58cbdadae2610db5880d1f499dceb4429e279e54ec7",
+      "referencedBy": [
+        "Sistema/Criaturas/Heróis/Leonel Bravolla"
+      ],
+      "orphan": false,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Mera.png",
+      "basename": "Mera.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Mera.png",
+      "sha256": "7cb64197af9a47818fea00726678932a70417061b04986fac78b931963160797",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Metis, a Graxaim.png",
+      "basename": "Metis, a Graxaim.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Metis, a Graxaim.png",
+      "sha256": "d620879c28bd9eb697658dce4cbe8fd9b8de0efcc1aa9773dec19f36b6aafb94",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Pind Bund.png",
+      "basename": "Pind Bund.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Pind Bund.png",
+      "sha256": "19abadd8cb2e1d08a1ac160350032949ad46186b98e6ad38115202338dccf9c9",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    },
+    {
+      "path": "Recursos e Mídia/Imagens/Retratos/Thoren.png",
+      "basename": "Thoren.png",
+      "copiedTo": "assets/Recursos e Mídia/Imagens/Retratos/Thoren.png",
+      "sha256": "487794a9004a16252eed92cac5b226819c20b69363c5cca4c4cf67bf33ecbef8",
+      "referencedBy": [],
+      "orphan": true,
+      "ambiguous": false
+    }
+  ],
+  "missing": [
+    {
+      "target": "<Nome>.png",
+      "referencedBy": [
+        "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.2-alpha"
+      ]
+    },
+    {
+      "target": "Aventureiros.jpg",
+      "referencedBy": [
+        "Recursos e Mídia/Documentação Adicional/Sync Plugin/Ficha do Grupo"
+      ]
+    },
+    {
+      "target": "X.png",
+      "referencedBy": [
+        "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Frontmatter"
+      ]
+    }
+  ]
+}

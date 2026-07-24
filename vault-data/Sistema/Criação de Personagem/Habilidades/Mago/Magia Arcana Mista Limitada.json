@@ -1,0 +1,227 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Magia Arcana Mista Limitada",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Magia Arcana Mista Limitada.md",
+  "basename": "Magia Arcana Mista Limitada",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+      "Definir Magias.Lista.ArcanaBranca.Atributo INT",
+      "Definir Magias.EM 2",
+      "Somar Magias.Slots.A 2",
+      "Definir Magias.Potencia 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana]] (tanto Branca como Negra) e sua potência mágica para magias de Mago é 3. Sua [[Energia Mágica|EM]] máxima é 2. Você aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Atributo INT",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Atributo",
+            "valueRaw": "INT"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Atributo INT",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 2",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "2"
+          },
+          "raw": "Definir Magias.EM 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 3",
+      "parsed": [
+        {
+          "sourceNote": "Magia Arcana Mista Limitada",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "3"
+          },
+          "raw": "Definir Magias.Potencia 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana]] (tanto Branca como Negra) e sua potência mágica para magias de Mago é 3. Sua [[Energia Mágica|EM]] máxima é 2. Você aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]] de sua escolha.\"\n%%\n#### `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana]] (tanto Branca como Negra) e sua potência mágica para magias de Mago é 3. Sua [[Energia Mágica|EM]] máxima é 2. Seu atributo-chave para magias é [[Inteligência]]. \n\nVocê aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]] de sua escolha. \n\nVocê nunca pode ter uma diferença maior que 1 entre o número de magias Brancas e Negras conhecidas, de todas as categorias. Por exemplo, ao receber [[Conhecimento Arcano Adepto]] tendo uma Magia de cada escola no seu repertório, pode aprender uma Magia Branca ou Negra a sua escolha. No caso de ter duas Magias Brancas e uma Negra no seu repertório, deve escolher necessariamente uma Magia Negra para aprender.\n\n%%importante marcar que, na pratica é lv-1 para lvs 1-3 (adepto), lv-2 para lvs 4-6 (experiente) e lv-3 para lvs 7-9 (mestre) - a classe ganha recursos fortes nos niveis 4 e 7 (inclusive aumento de weapon damage por proficiencia) portanto é importante que o nv magico nao suba junto nesses nvs%%\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta de Mão",
+  "path": "Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta de Mão.md",
+  "basename": "Besta de Mão",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "d-simples",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "d-simples",
+    "dg-publish": true,
+    "dano": "d4+2",
+    "tipo": "perfuração",
+    "mãos": 1,
+    "propriedades": [
+      "[[Alcance|Alcance 10]]",
+      "[[Recarga]]"
+    ],
+    "ordem": 3,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Distância Simples|Simples]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Distância Simples",
+      "kind": "wikilink",
+      "alias": "Simples"
+    },
+    {
+      "target": "Alcance",
+      "kind": "wikilink",
+      "alias": "Alcance 10"
+    },
+    {
+      "target": "Recarga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Distância Simples|Simples]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: armas-marciais-simples\n```\n\n```autosheet-rules\n```\n"
+}

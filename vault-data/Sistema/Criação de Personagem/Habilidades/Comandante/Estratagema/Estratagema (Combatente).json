@@ -1,0 +1,186 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema/Estratagema (Combatente)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Comandante/Estratagema/Estratagema (Combatente).md",
+  "basename": "Estratagema (Combatente)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Restringir Atributos.Principal FOR, AGI",
+      "Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "Complementar Habilidades.Lista [[Usar Escudo]]",
+      "Alias Classe Compor 1 \"Combatente\"",
+      "Somar Papel.Vanguarda 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Aliados que você consegue ver em até 6q de você contam como em sua área de influência. Quando você tem sucesso em um [[Atacar|Ataque]] corpo-a-corpo no seu turno, você recebe um dado de comando d6, d8 num sucesso decisivo.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Restringir Atributos.Principal FOR, AGI",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Combatente)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "restringir",
+            "targetRaw": "Atributos.Principal",
+            "allowed": [
+              "FOR",
+              "AGI"
+            ]
+          },
+          "raw": "Restringir Atributos.Principal FOR, AGI",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Inventario.Armadura.Proficiencia.Pesada P",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Combatente)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armadura.Proficiencia.Pesada",
+            "valueRaw": "P"
+          },
+          "raw": "Definir Inventario.Armadura.Proficiencia.Pesada P",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Habilidades.Lista [[Usar Escudo]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Combatente)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Usar Escudo]]"
+          },
+          "raw": "Complementar Habilidades.Lista [[Usar Escudo]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Combatente\"",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Combatente)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Combatente"
+          },
+          "raw": "Alias Classe Compor 1 \"Combatente\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 1",
+      "parsed": [
+        {
+          "sourceNote": "Estratagema (Combatente)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Vanguarda 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Armaduras",
+      "kind": "wikilink",
+      "alias": "Armadura Pesada"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto]]\n\nresumo:: \"Aliados que você consegue ver em até 6q de você contam como em sua área de influência. Quando você tem sucesso em um [[Atacar|Ataque]] corpo-a-corpo no seu turno, você recebe um dado de comando d6, d8 num sucesso decisivo.\"\n%%\n##### `= this.file.name`\nVocê lidera a batalha da linha de frente. Seu atributo de classe deve ser [[Força|FOR]] ou [[Agilidade|AGI]]. Aliados que você consegue ver em até 6q de você contam como em sua área de influência. Quando você tem sucesso em um [[Atacar|Ataque]] corpo-a-corpo no seu turno, você recebe um dado de comando d6, d8 num sucesso decisivo. Adicionalmente, você se torna proficiente em [[Armaduras|Armadura Pesada]]. Você também recebe a habilidade [[Usar Escudo]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,96 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Batedor)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Batedor).md",
+  "basename": "Estilo Aprimorado (Batedor)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Uma vez por turno, quando você tem sucesso em um [[Atacar|Ataque]] contra uma criatura que você teve sucesso (ou melhor) em [[Encontrar Fraqueza]] no mesmo turno, escolha uma informação para obter entre a maior [[Resistências|Resistência]], maior resistência ou imunidade da criatura (caso haja), a maior fraqueza da criatura (caso haja), O valor exato de [[Defesa]] da criatura."
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Batedor)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Ladino (Batedor)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Batedor)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Encontrar Fraqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink",
+      "alias": "Resistência"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Batedor)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Uma vez por turno, quando você tem sucesso em um [[Atacar|Ataque]] contra uma criatura que você teve sucesso (ou melhor) em [[Encontrar Fraqueza]] no mesmo turno, escolha uma informação para obter entre a maior [[Resistências|Resistência]], maior resistência ou imunidade da criatura (caso haja), a maior fraqueza da criatura (caso haja), O valor exato de [[Defesa]] da criatura.\n%%\n##### `= this.file.name`\nVocê aprende detalhes das defesas dos inimigos quando você consegue prever seus movimentos de combate. Uma vez por turno, quando você tem sucesso em um [[Atacar|Ataque]] contra uma criatura que você teve sucesso (ou melhor) em [[Encontrar Fraqueza]] no mesmo turno, escolha uma informação para obter:\n* A maior [[Resistências|Resistência]] da criatura;\n* A maior resistência ou imunidade da criatura, caso haja;\n* A maior fraqueza da criatura, caso haja;\n* O valor exato de [[Defesa]] da criatura.\n%%Quando você tem sucesso (ou melhor) em [[Encontrar Fraqueza]], os dados de dano do [[Ataque Furtivo]] aumentam para d8.\n\n```autosheet-rules\n```\n"
+}

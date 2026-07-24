@@ -1,0 +1,68 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Combate",
+  "path": "Recursos e Mídia/Documentação Adicional/Sync Plugin/Combate.md",
+  "basename": "Combate",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Combate"
+    },
+    {
+      "level": 2,
+      "text": "Ciclo de vida"
+    },
+    {
+      "level": 2,
+      "text": "Adicionar combate (Preparado)"
+    },
+    {
+      "level": 2,
+      "text": "Card de Preparado"
+    },
+    {
+      "level": 2,
+      "text": "Iniciar Combate"
+    },
+    {
+      "level": 2,
+      "text": "Combate Ativo — Mestre"
+    },
+    {
+      "level": 2,
+      "text": "Combate Ativo — Player"
+    },
+    {
+      "level": 3,
+      "text": "Como o label genérico é gerado"
+    },
+    {
+      "level": 2,
+      "text": "Aplicando dano"
+    },
+    {
+      "level": 2,
+      "text": "Reveal toggle"
+    },
+    {
+      "level": 2,
+      "text": "Encerrar Combate"
+    },
+    {
+      "level": 2,
+      "text": "Combates Arquivados (collapse)"
+    },
+    {
+      "level": 2,
+      "text": "Notas técnicas"
+    }
+  ],
+  "body": "# Combate\n\nIntegra com o combat-tracker do autosheet. 3 seções no painel:\n\n| Seção | Quem vê | Pra quê |\n|---|---|---|\n| Combates Preparados | Só Mestre | Roster + dificuldade, prontos pra iniciar |\n| Combate Ativo | Todos (regras diferentes pra Mestre vs player) | Em andamento — 1 por sessão |\n| Combates Arquivados | Só Mestre (collapse) | Histórico |\n\n## Ciclo de vida\n\n```mermaid\nstateDiagram-v2\n    [*] --> Preparado: Mestre clica 🔗 no tracker do autosheet\n    Preparado --> Ativo: Mestre clica \"Iniciar Combate\"\n    Ativo --> Arquivado: Mestre clica 🛑 \"Encerrar Combate\"\n    Preparado --> [*]: Mestre clica ✕\n    Arquivado --> [*]: Mestre clica ✕\n```\n\n## Adicionar combate (Preparado)\n\n1. Abra nota com bloco `combat-marker` (ou variantes `combat-marker-small`, `combat-tracker`, `combat-tracker-small`)\n2. Action-bar do tracker mostra botão **🔗 Adicionar à Sessão** (só quando há sessão sync Mestre ativa)\n3. Click → vai pra \"Combates Preparados\" no painel\n\n| Cenário | Resultado |\n|---|---|\n| Nota com 0 blocos combat-marker | Notice \"A nota X não tem bloco combat-marker\" |\n| Nota com 2+ blocos | Rejeita: \"Sync MVP aceita só 1 bloco\" |\n| Nota com 1 bloco | Roster extraído, dificuldade calculada, encounter criado |\n\n## Card de Preparado\n\nMostra:\n\n- Nome (basename da nota)\n- Roster resumido (`3× Goblin Soldado · 1× Goblin Chefe`)\n- **Dificuldade** colorida (Trivial / Fácil / Difícil / Letal) — calculada vs os **heróis** da Ficha do Grupo (companheiros excluídos)\n- **Iniciar Combate** + ✕\n\nTooltip da dificuldade = snapshot do grupo no momento do insert (não recalcula depois).\n\n## Iniciar Combate\n\n1. Encounter muda pra `status = active` (UNIQUE: só 1 ativo por sessão)\n2. **Heróis + companheiros** existentes na sessão **migram pra dentro** (encounter_id set)\n3. NPCs já adicionados que **coincidem com itens do roster** são reaproveitados\n4. NPCs **novos** são criados pros itens não-cobertos (somem da Mesa, ficam no combate)\n\nA seção \"Personagens na Mesa\" fica vazia durante combate ativo.\n\n## Combate Ativo — Mestre\n\n| Elemento | Função |\n|---|---|\n| Header | Nome do combate + **dificuldade** (oculta pro player) |\n| ⏮️ Turno N ⏭️ | Anterior / próximo turno |\n| 🛑 | Encerrar combate |\n| 👁️ ao lado do NPC | Toggle reveal identidade pros players (não aparece em membros do grupo — eles já são públicos) |\n| 👁️‍🗨️ ao lado do NPC | Toggle visibilidade global (RLS esconde do player) |\n| Card heroi/companheiro/invocação com claim | **Read-only** (regra do claim — dono edita pelo autosheet) |\n| Card NPC ou placeholder | Edição completa (dano, condições, etc) |\n| ▲ ⠿ ▼ abaixo do avatar | Reordenar a iniciativa (▲/▼ ou drag o ⠿) |\n| ✕ | Remover participante |\n\n**Iniciativa**: sync mostra só a ORDEM (não valores numéricos — quem gerencia número é o autosheet combat-tracker).\n\n```mermaid\nflowchart TB\n    A[Mera] --> B[Goblin 1]\n    B --> C[Pind]\n    C --> D[Goblin 2]\n    D --> E[\"⏭️ Próximo turno<br/>volta pra Mera\"]\n```\n\n## Combate Ativo — Player\n\n| Elemento | Visão |\n|---|---|\n| Header | Nome do combate (SEM dificuldade) |\n| Heroi/companheiro de player conectado | Nome real + supercharged link |\n| NPC Mestre-controlled SEM reveal | Nome genérico (Goblin 1, Goblin 2, Humano 1, Canino Médio 1) + status tag colorida; SEM link, SEM avatar real |\n| NPC Mestre-controlled COM reveal | Nome real (`fm.nome`) plain text — sem link |\n\n### Como o label genérico é gerado\n\n| Subcategoria do FM | Label |\n|---|---|\n| Monstro | `fm.Raça` (alias do wikilink) ou \"Criatura\" se vazio |\n| Companheiro Animal | Alias de `fm.Classe`, ou strip do prefix \"Companheiro Animal \" (ex: \"Canino Médio\") |\n| Heroi | \"Humano\" (fixo) |\n| Sem FM no vault | Fallback do kind (Criatura / Companheiro / Humano) |\n\n**Disambiguação**: `Goblin 1`, `Goblin 2` quando 2+ chars têm o mesmo label.\n\n## Aplicando dano\n\n| Em quem | Quem aplica |\n|---|---|\n| NPC do bestiário | Mestre direto no card |\n| Heroi/companheiro/invocação de player | **Dono** pelo autosheet (Modo Interativa ou combat-tracker do próprio); sync propaga |\n\nMestre clicando em card claimed → Notice \"Só o dono pode mudar X\". Controles do Mestre ficam ocultos visualmente no card.\n\n## Reveal toggle\n\n| Click | Efeito |\n|---|---|\n| 1× | Adiciona ID em `encounter.revealed_character_ids` → player vê fm.nome plain |\n| 2× | Remove (unreveal) |\n| Encerrar combate | Zera revealed_character_ids |\n\n## Encerrar Combate\n\n1. Status vira `archived` + `archived_at = now()`\n2. **Heróis/companheiros pré-existentes** voltam pra Mesa (encounter_id = null)\n3. **NPCs criados pelo combate** ficam linkados ao arquivado — somem da Mesa, ficam no histórico\n4. revealed_character_ids zerado\n\n## Combates Arquivados (collapse)\n\nDefault colapsado. Cada entry: nome + badge de dificuldade (tooltip do snapshot do grupo) + roster summary + ✕. Sem cards de personagem (é referência histórica).\n\n## Notas técnicas\n\n- **NPC com vida cheia ao spawnar**: Iniciar Combate cria NPCs novos com vit=vitMax, moral=moralMax, sem condições. Não herda estado transient do FM-fonte do bestiário.\n- **Spawn mid-combat**: Mestre adicionar Criatura/NPC com combate ativo coloca direto no combate (encounter_id set + created_by_encounter_id). Não precisa pausar.\n"
+}

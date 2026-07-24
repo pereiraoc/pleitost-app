@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Magia Distante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Multidisciplinar/Magia Distante.md",
+  "basename": "Magia Distante",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]],[[Arcanista]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Se sua próxima ação for conjurar uma magia, aumente o alcance dela: 2q vira 6q, 6q vira 10q e alcances de 10q ou mais aumentam em +5q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]],[[Arcanista]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Se sua próxima ação for conjurar uma magia, aumente o alcance dela: 2q vira 6q, 6q vira 10q e alcances de 10q ou mais aumentam em +5q.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Distante.\n\n**Magia Distante - 1A**\nSe sua próxima ação é conjurar uma magia, o alcance desta é aumentado. Magias com alcance de 2q sobem para 6q, 6q para 10q e aumentam em 5q para alcance 10q ou maior.\n\n```autosheet-rules\n```\n"
+}

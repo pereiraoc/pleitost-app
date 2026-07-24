@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Remover Aflição",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Remover Aflição.md",
+  "basename": "Remover Aflição",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Alcance 6q. Tenta dissipar um veneno ou doença que esteja afetando a criatura alvo.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Alcance 6q. Tenta dissipar um veneno ou doença que esteja afetando a criatura alvo.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Tenta dissipar um veneno ou doença que esteja afetando a criatura alvo.\n\n```autosheet-rules\n```\n"
+}

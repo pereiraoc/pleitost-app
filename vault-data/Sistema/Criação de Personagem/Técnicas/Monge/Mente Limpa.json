@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Mente Limpa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Mente Limpa.md",
+  "basename": "Mente Limpa",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Remova [[Abalado]] e [[Nervoso]] de você. Quando obrigado a gastar ações fazendo algo, você pode, em vez disso, ocupar até um máximo de 1 ação sem fazer nada.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Remova [[Abalado]] e [[Nervoso]] de você. Quando obrigado a gastar ações fazendo algo, você pode, em vez disso, ocupar até um máximo de 1 ação sem fazer nada.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Mente Limpa.\nAdicionalmente, quando algum efeito te obriga a realizar certas ações, você pode optar por substituir o equivalente de 1A por ficar parado fazendo nada. Você não pode usar esse benefício novamente até o início do seu próximo turno.\n\n**Mente Limpa - 1A**\nRemova as condições [[Abalado]] e [[Nervoso]] de você.\n\n```autosheet-rules\n```\n"
+}

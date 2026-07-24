@@ -1,0 +1,75 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Ficha de Grupo",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Ficha de Grupo.md",
+  "basename": "Ficha de Grupo",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {
+    "preço": "50 PO"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sistema/Criaturas/Grupos de Criaturas/Baitaca, Carlos, Drauzio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baitaca, Carlos, Drauzio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nome do Grupo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Ficha de Grupo"
+    },
+    {
+      "level": 2,
+      "text": "Onde usar"
+    },
+    {
+      "level": 2,
+      "text": "Sintaxe do bloco"
+    },
+    {
+      "level": 3,
+      "text": "Versão explícita (referenciar outro grupo)"
+    },
+    {
+      "level": 2,
+      "text": "Como o plugin descobre os membros"
+    },
+    {
+      "level": 2,
+      "text": "Seções da ficha"
+    },
+    {
+      "level": 2,
+      "text": "Wealth section (riqueza)"
+    },
+    {
+      "level": 3,
+      "text": "Como o pricing funciona"
+    },
+    {
+      "level": 2,
+      "text": "Tooltips"
+    },
+    {
+      "level": 2,
+      "text": "Snippet rápido"
+    },
+    {
+      "level": 2,
+      "text": "Limitações"
+    }
+  ],
+  "body": "# Ficha de Grupo\n\nBloco `autosheet-grupo` numa nota de grupo — o plugin renderiza uma\nficha consolidada com TODOS os membros lado a lado: papel, vida,\natributos, defesas, sentidos, perícias, ataques, magias, ofícios,\nequipamento e riqueza esperada vs atual.\n\n## Onde usar\n\nNotas em `Sistema/Criaturas/Grupos de Criaturas/` com FM\n`categoria: Grupo`. O plugin descobre os membros via FM `grupo:` que\ncada criatura individual aponta de volta pra nota do grupo.\n\n## Sintaxe do bloco\n\n````markdown\n```autosheet-grupo\ngrupo\n```\n````\n\nO conteúdo do bloco é cosmético — o plugin lê o caminho da própria\nnota e descobre os membros automaticamente.\n\n### Versão explícita (referenciar outro grupo)\n\n````markdown\n```autosheet-grupo\n[[Sistema/Criaturas/Grupos de Criaturas/Baitaca, Carlos, Drauzio]]\n```\n````\n\nÚtil quando você quer mostrar a ficha de um grupo dentro de outra\nnota (planejamento de sessão, log de combate).\n\n## Como o plugin descobre os membros\n\n1. Lê o path da nota host (ou do wikilink no source do bloco).\n2. Faz scan reverso do vault: pra cada `Sistema/Criaturas/**/*.md`,\n   lê o FM `grupo:` (lista de wikilinks).\n3. Se algum desses wikilinks aponta de volta pra nota do grupo, a\n   criatura entra como membro.\n\n**No FM da criatura** (Heroi/Monstro/CompanheiroAnimal):\n\n```yaml\n---\ncategoria: Criatura\nsubcategoria: Heroi\ngrupo:\n  - \"[[Baitaca, Carlos, Drauzio]]\"\n---\n```\n\nSem o `grupo:` apontando de volta, a criatura **não aparece** na ficha\nde grupo, mesmo que o nome dela esteja na nota do grupo.\n\n## Seções da ficha\n\nA ficha renderiza N seções colapsáveis (cada `<details>` aberto por\ndefault). Cada seção tem 1 coluna por membro + linha de cabeçalho.\n\n| Seção | O que mostra |\n|---|---|\n| **Balanceamento de papéis** | Tokens de papel (★/⯨/☆) por categoria — Líder, Vanguarda, Abatedor, Controlador. Tooltip mostra fonte (classe + sintonia + traços). |\n| **Vida, Defesas, Sentidos e Movimento** | Vit/Moral, Defesa/Vigor/Evasão/Ímpeto/Resistências, Percepção/Intuição/Visão Especial, Movimento Terrestre/Aquático/Aéreo. Tooltip rico (Base/Atributo/Proficiência/Item/Especial). |\n| **Perícias** | Grelha 2×3: Atributos (FOR/AGI/INT/PRE) + Magias (Anima/Branca/Negra) + top perícias por membro. Tooltip mostra breakdown. |\n| **Ataques** | Lista de ataques por membro. Mostra modificador máximo + tipo de dano. |\n| **Magias** | Slots por escola (Anima/Arcana Branca/Arcana Negra) — usados/totais. Top magia conhecida por membro. |\n| **Ofícios** | Top 2 ofícios por membro (com proficiência). |\n| **Equipamento e Profissão** | Profissões + escudos + armas marciais + armaduras leves/pesadas equipadas. |\n| **Riqueza** | Comparação riqueza atual vs esperada por nível. Tabela de inventário com pricing. |\n\n## Wealth section (riqueza)\n\nA seção mais elaborada — mostra:\n\n- **Wealth-hero** (cabeçalho 💰): total atual vs esperado pra média\n  do grupo, com semáforo (verde = ok, amarelo = abaixo, vermelho =\n  muito abaixo).\n- **Tabela por membro**: 1 linha por personagem com\n  - Nível\n  - Esperado (lookup em `Contexto/Histórias/Contexto Atual/Economia.md`)\n  - Atual (soma de tudo no inventário, ponderado por tier)\n  - Delta + ratio\n  - Breakdown de itens por categoria (Armas, Armaduras, Tesouros,\n    Consumíveis, Imbuições)\n\n### Como o pricing funciona\n\nCada item no inventário é resolvido pelo wikilink. O plugin lê o body\nda nota do item e procura `preço:: N PO` (formato Dataview inline).\n\n```markdown\n---\ncategoria: Item\nsubcategoria: Arma Marcial\n---\npreço:: 50 PO\n```\n\n**Tier multipliers**: itens com `tier: Adepto/Experiente/Mestre`\nmultiplicam (×1, ×5, ×25 respectivamente). Tesouros consumíveis\ncontam 1× pelo preço base.\n\n**Cache por render**: cada renderização cacheia preços lidos do vault\npra evitar re-leitura quando vários membros têm o mesmo item.\n\n> ⚠️ O caminho da `Economia.md` é fixo:\n> `Contexto/Histórias/Contexto Atual/Economia.md`. Vault diferente\n> precisa edit no código (`runtime/wealth/economy-path.ts`).\n\n## Tooltips\n\nHover em qualquer célula com modificador → tooltip flutuante mostra\nbreakdown numérico (Base / Atributo / Proficiência / Item / Especial),\nmesma infra usada pela Ficha Editável e pelo Combat Tracker.\n\nHover nos tokens de papel (★/⯨/☆) → tooltip mostra origem (qual\nclasse/sintonia/traço concedeu o ranking).\n\nEm mobile (touch-only): role tooltip toggle por tap; auto-hide depois\nde 1.5s.\n\n## Snippet rápido\n\nNota do grupo:\n\n````markdown\n---\ncategoria: Grupo\nsubcategoria: Aventureiros\n---\n```autosheet-grupo\ngrupo\n```\n````\n\nFicha de cada membro:\n\n```yaml\n---\ncategoria: Criatura\nsubcategoria: Heroi  # ou Monstro / CompanheiroAnimal\ngrupo:\n  - \"[[Nome do Grupo]]\"\n---\n```\n\n## Limitações\n\n- **Performance**: scan reverso do vault inteiro a cada render. Vaults\n  com 10k+ notas podem sentir. Cache por render mitiga, mas primeira\n  abertura é O(N_files).\n- **`preço::` inline no body**: o plugin lê o body via `vault.read`\n  pra cada item — quebra do padrão \"autosheet só lê FM\". Cache por\n  render limita reads repetidos.\n- **Economia.md path fixo** (ver acima).\n"
+}

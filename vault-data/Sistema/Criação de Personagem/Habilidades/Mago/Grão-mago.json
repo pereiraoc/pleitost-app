@@ -1,0 +1,452 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Grão-mago",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Grão-mago.md",
+  "basename": "Grão-mago",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Somar Vida.Vitalidade 6",
+      "Somar Vida.Moral 12",
+      "Definir Ataques.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "Definir Magias.Potencia 5",
+      "Definir Magias.EM 4",
+      "Nivel 7 Somar Magias.Slots.E 1",
+      "Nivel 7 Alias Classe Compor 0 \"Grão-mago\""
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Arcana]], Potência Mágica, [[Energia Mágica|EM]], e aprende uma [[Magia Arcana]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Somar Vida.Vitalidade 6",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Vitalidade",
+            "valueRaw": "6"
+          },
+          "raw": "Somar Vida.Vitalidade 6",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Vida.Moral 12",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Vida.Moral",
+            "valueRaw": "12"
+          },
+          "raw": "Somar Vida.Moral 12",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Ataques.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Vigor.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Impeto.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Proficiencia",
+            "valueRaw": "M"
+          },
+          "raw": "Definir Sentidos.Lista.Intuicao.Proficiencia M",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Sentidos.Lista.Percepcao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaNegra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Potencia 5",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Potencia",
+            "valueRaw": "5"
+          },
+          "raw": "Definir Magias.Potencia 5",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.EM 4",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 12,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.EM",
+            "valueRaw": "4"
+          },
+          "raw": "Definir Magias.EM 4",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Somar Magias.Slots.E 1",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.E",
+            "valueRaw": "1"
+          },
+          "raw": "Nivel 7 Somar Magias.Slots.E 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 7 Alias Classe Compor 0 \"Grão-mago\"",
+      "parsed": [
+        {
+          "sourceNote": "Grão-mago",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 7
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 0,
+            "fragment": "Grão-mago"
+          },
+          "raw": "Nivel 7 Alias Classe Compor 0 \"Grão-mago\"",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\n\nresumo:: \"Melhora [[Energia Vital|EV]], [[Energia Heroica|EH]], [[Defesa]], [[Ímpeto]], [[Vigor]], [[Evasão]], [[Intuição]], [[Percepção]], [[Magia Arcana]], Potência Mágica, [[Energia Mágica|EM]], e aprende uma [[Magia Arcana]].\"\n%%\n#### `= this.file.name`\nVocê domina a ciência de combinar conjuração e combate, alcançando conhecimento mágico que até alguns Arcanistas não chegaram. Magos que atingem esse nível de experiência são conhecidos como Grão-magos, uma tempestade viva de perícia arcana e proeza marcial.\n* Sua [[Energia Vital|EV]] máxima aumenta em 6\n* Sua [[Energia Heroica|EH]] máxima aumenta em 12\n* Você se torna [[Mestre]] em [[Ataques]];\n* Você se torna [[Mestre]] em [[Defesa]];\n* Você se torna [[Mestre]] em [[Vigor]] e [[Ímpeto]];\n* Você se torna [[Experiente]] em [[Evasão]];\n* Você se torna [[Mestre]] em [[Intuição]];\n* Você se torna [[Experiente]] em [[Percepção]];\n* Você se torna [[Experiente]] em [[Magia Arcana]];\n* Sua potência mágica para magias de Mago aumenta para 5;\n* Sua [[Energia Mágica|EM]] máxima aumenta para 4;\n* Você aprende uma [[Magia Branca Experiente]] ou [[Magia Negra Experiente]] (as limitações de [[Magia Arcana Mista Limitada]] para magias conhecidas ainda se aplicam).\n\n```autosheet-rules\n```\n"
+}

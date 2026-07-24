@@ -1,0 +1,105 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Lucerna",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Lucerna.md",
+  "basename": "Lucerna",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Contexto": null,
+    "Descrição": null,
+    "Organizações_Influentes": null,
+    "Acontecimento_Recente": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lucerna.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lucerna.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lucerna.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto Histórico:** \n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** \n>\n> 👁️**Aparência do Local:** \n> \n> 🛡️**Influências:**\n>- **[[Sociedade Aberta]]:** \n>\n>📖**Acontecimento Recente:** \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```"
+}

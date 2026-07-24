@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Ataque Combinado",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Ataque Combinado.md",
+  "basename": "Ataque Combinado",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": "Ataque Combinado",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo e depois use [[Abater]]; se o aliado atacar pela reação, ele deve atacar o mesmo inimigo. Requer ter ao menos 1 dado de comando.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo e depois use [[Abater]]; se o aliado atacar pela reação, ele deve atacar o mesmo inimigo. Requer ter ao menos 1 dado de comando.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um [[Atacar|Ataque]] corpo-a-corpo contra um inimigo. Em seguida, realize [[Abater]]. O aliado alvo de [[Abater]], se usar a reação para Atacar, deve realizar o Ataque contra o mesmo inimigo do seu Ataque. Você precisa ter ao menos um dado de comando para realizar Ataque Combinado. Ataque Combinado conta como uma habilidade de [[Comandos de Batalha]].\n\n%%Role o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Faça um [[Atacar|Ataque]] corpo-a-corpo contra um inimigo.  O aliado previamente escolhido pode, como uma reação, realizar um Ataque contra o mesmo inimigo do seu Ataque. Adicione o resultado do dado como um [[bônus de circunstância]] no dano do Ataque do aliado caso este tenha sucesso. Ataque Combinado conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

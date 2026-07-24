@@ -1,0 +1,107 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Monge",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Monge.md",
+  "basename": "Treinamento de Monge",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Pugilista\"",
+      "Nivel 1 Complementar Habilidades.Lista [[Arte Marcial]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Pugilista\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Monge",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Pugilista"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Pugilista\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Habilidades.Lista [[Arte Marcial]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Monge",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Arte Marcial]]"
+          },
+          "raw": "Nivel 1 Complementar Habilidades.Lista [[Arte Marcial]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Arte Marcial",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer FOR 2 ou AGI 2, conta como Técnica Adepta para outras classes*\n\nVocê diversifica seu treinamento, transformando seu corpo em uma arma, como um Monge.\n\nVocê recebe a habilidade [[Arte Marcial]].\n\nVocê pode escolher Técnicas Adeptas de Monge no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Monge no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

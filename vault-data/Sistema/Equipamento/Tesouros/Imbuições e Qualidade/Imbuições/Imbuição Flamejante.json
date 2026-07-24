@@ -1,0 +1,129 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Flamejante",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Flamejante.md",
+  "basename": "Imbuição Flamejante",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Fogo|Fogo]]"
+    ],
+    "resumo": "Arma capaz de realizar corte flamejante.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 2A para realizar Cone de Fogo com área 3q, potência 2 e ataque mágico igual ataque. Se ultima ação foi atacar, pode ativar com 1A mas deve mirar na direção do alvo (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Ataques. 2A para realizar Cone de Fogo com área 4q, potência 3 e ataque mágico igual ataque. Se ultima ação foi atacar, pode ativar com 1A mas deve mirar na direção do alvo (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Ataques. 2A para realizar Cone de Fogo com área 6q, potência 4 e ataque mágico igual ataque. Se ultima ação foi atacar, pode ativar com 1A mas deve mirar na direção do alvo (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Flamejante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Cone de Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Fogo) - arma corpo-a-corpo que causa dano cortante*\nUma arma carregada do poder do fogo, portando uma gema vermelha em sua base. Pode ser ativada para realizar um corte flamejante.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 2, mas área reduzida para um cone de 3q. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 3. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico, potência mágica 4 e área aumentada para um cone de 6q. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,177 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Virtuoso/Estilo Virtuoso (Arte Mágica)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Virtuoso/Estilo Virtuoso (Arte Mágica).md",
+  "basename": "Estilo Virtuoso (Arte Mágica)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo Refinado (Arte Mágica)]]",
+      "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "Definir Ataques.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Faz [[Performance Bárdica]] quando usa Magia. Realiza Ato junto com Performance na Magia Básica. [[Experiente]] em [[Ataques]], [[Defesa]] e [[Evasão]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo Refinado (Arte Mágica)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso (Arte Mágica)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo Refinado (Arte Mágica)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo Refinado (Arte Mágica)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso (Arte Mágica)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso (Arte Mágica)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Ataques.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso (Arte Mágica)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Definir Ataques.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruído Estridente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palavras Cortantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Projétil Telecinético",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink",
+      "alias": "Ato Bárdico"
+    },
+    {
+      "target": "Estilo Refinado (Arte Mágica)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\n\nresumo:: \"Faz [[Performance Bárdica]] quando usa Magia. Realiza Ato junto com Performance na Magia Básica. [[Experiente]] em [[Ataques]], [[Defesa]] e [[Evasão]].\"\n%%\n##### `= this.file.name`\n* Você se torna [[Experiente]] em [[Ataques]];\n* Você se torna [[Experiente]] em [[Defesa]];\n* Você se torna [[Experiente]] em [[Evasão]];\n* Quando você conjura uma Magia não-básica, você pode iniciar uma [[Performance Bárdica]] como ação livre.\n* Quando você conjura [[Ruído Estridente]], [[Palavras Cortantes]] ou [[Projétil Telecinético]], você pode, além de iniciar uma [[Performance Bárdica]], ativar o [[Performance Bárdica|Ato Bárdico]] relativo a essa performance.\n\n```autosheet-rules\n```\n"
+}

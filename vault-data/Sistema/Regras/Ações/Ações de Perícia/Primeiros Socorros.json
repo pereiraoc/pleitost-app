@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Primeiros Socorros",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Primeiros Socorros.md",
+  "basename": "Primeiros Socorros",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Medicina]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta estabilizar uma criatura que está morrendo, impedindo uma morte eminente.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Manipulação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Medicina]]\"\npropriedades:: \nresumo:: \"Tenta estabilizar uma criatura que está morrendo, impedindo uma morte eminente.\"\n%%\n### `= this.file.name` - `= this.custo`\nTenta parar o processo de morte de uma criatura adjacente a você. Faça um teste de [[Medicina]] vs [[CD]] = 10 + metade da [[Energia Vital|EV]] negativa da criatura. Em caso de sucesso, criatura estabiliza. Primeiros Socorros conta como uma ação de [[Ações Básicas de Manipulação|Manipulação]]. Requer uma mão livre.\n\n```autosheet-rules\n```\n"
+}

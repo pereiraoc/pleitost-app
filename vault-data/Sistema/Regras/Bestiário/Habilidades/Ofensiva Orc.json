@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Ofensiva Orc",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Ofensiva Orc.md",
+  "basename": "Ofensiva Orc",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Orc [[Mover|Move]] na direção de um inimigo com +2q de movimento (1/turno).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Orc [[Mover|Move]] na direção de um inimigo com +2q de movimento (1/turno).\"\n%%\n##### `= this.file.name`\nCriatura pode usar Ofensiva Orc.\n\n**Ofensiva Orc - R**\nOrc [[Mover|Move]] na direção de um inimigo com +2q de movimento (1/turno).\n\n```autosheet-rules\n```\n"
+}

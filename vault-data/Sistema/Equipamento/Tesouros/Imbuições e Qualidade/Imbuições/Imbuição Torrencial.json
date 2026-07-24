@@ -1,0 +1,130 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Torrencial",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Torrencial.md",
+  "basename": "Imbuição Torrencial",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Água|Água]]"
+    ],
+    "resumo": "Arma com flanqueamento sobrenatural.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. Ao acertar corpo-a-corpo, pode teleportar para outro espaço adjacente ao alvo (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Ataques. Ao atacar corpo-a-corpo, pode teleportar para outro espaço adjacente ao alvo (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Ataques. Ao atacar corpo-a-corpo, pode teleportar para outro espaço adjacente ao alvo e pode iniciar ataque de 4q (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte|perfuração"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte|perfuração",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Torrencial",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "perfuração"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte|perfuração",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - arma corpo-a-corpo que causa dano cortante ou perfurante*\nUma arma carregada do poder da água, portando gemas azuis em sua extensão. Quando ativada, seus ataques trespassam seu alvo.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você tem sucesso em um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você faz um [[Atacar|Ataque]] corpo-a-corpo com essa arma, antes de realizar a rolagem, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você faz um [[Atacar|Ataque]] corpo-a-corpo com essa arma, antes de realizar a rolagem, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado. Caso ative essa arma, você pode declarar o ataque estando em até 4q de distância do alvo.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Sentidos Apurados",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Sentidos Apurados.md",
+  "basename": "Sentidos Apurados",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"[[Forma Feral|Formas Ferais]] tem Visão na Penumbra e [[Faro]] 6q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink",
+      "alias": "Formas Ferais"
+    },
+    {
+      "target": "Faro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"[[Forma Feral|Formas Ferais]] tem Visão na Penumbra e [[Faro]] 6q.\"\n%%\n#### `= this.file.name` - `= this.rank`\n[[Forma Feral|Formas Ferais]] tem Visão na Penumbra e [[Faro]] 6q.\n\n```autosheet-rules\n```\n"
+}

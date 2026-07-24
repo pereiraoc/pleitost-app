@@ -1,0 +1,68 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Especiais/Erguer Escudo",
+  "path": "Sistema/Regras/Ações/Ações Especiais/Erguer Escudo.md",
+  "basename": "Erguer Escudo",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Especial",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Especial",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Escudo Erguido",
+        "tipo": "Estado",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "🛡️",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "BonusEscudo",
+            "valor": 1,
+            "tipoBonus": "Circunstancia"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações Especiais]]",
+    "prev": "",
+    "next": "",
+    "resumo": "Você recebe o de [[bônus de circunstância]] na [[Defesa]] garantido pelo seu [[Escudos|Escudo]] até o início do seu próximo turno."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudos",
+      "kind": "wikilink",
+      "alias": "Escudo"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Especiais]]\nprev:: \nnext:: \n\nresumo:: Você recebe o de [[bônus de circunstância]] na [[Defesa]] garantido pelo seu [[Escudos|Escudo]] até o início do seu próximo turno.\n%%\n### `= this.file.name` - `= this.custo`\nVocê prepara seu escudo para se defender. Você recebe o de [[bônus de circunstância]] na [[Defesa]] garantido pelo seu [[Escudos|Escudo]] até o início do seu próximo turno. Você só pode Erguer um escudo que não chegou a seu limite de danos.\n\n```autosheet-rules\n```\n"
+}

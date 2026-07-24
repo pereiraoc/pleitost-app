@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Surto de Adrenalina",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Surto de Adrenalina.md",
+  "basename": "Surto de Adrenalina",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "L",
+    "resumo": "\"Quando seu turno acabar, você pode agir imediatamente com 3 ações, reiniciando a [[Penalidade por Ataque Múltiplo|PAM]] como se fosse um novo turno; depois disso, você fica [[Lento|Lento 2]] por 1 turno. Custa 15 EV.\"",
+    "usos_nome": "\"Surto de Adrenalina\"",
+    "usos_freq": "1/dia"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink",
+      "alias": "Lento 2"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: L\n\nresumo:: \"Quando seu turno acabar, você pode agir imediatamente com 3 ações, reiniciando a [[Penalidade por Ataque Múltiplo|PAM]] como se fosse um novo turno; depois disso, você fica [[Lento|Lento 2]] por 1 turno. Custa 15 EV.\"\n\nusos_nome:: \"Surto de Adrenalina\"\nusos_freq:: 1/dia\n%%\n#### `= this.file.name` - `= this.rank`\nVocê tem reservas de energia que te permitem agir de forma rápida e decisiva em situações de perigo. Você aprende a habilidade Surto de Adrenalina.\n\n**Surto de Adrenalina - L**\nPode ser usado quando seu turno acaba. Você ganha 3 ações e sua [[Penalidade por Ataque Múltiplo|PAM]] reinicia como se fosse um novo turno. Após realizar essas 3 ações, você fica [[Lento|Lento 2]] por 1 turno. Você perde 15 [[Energia Vital|EV]] para ativar Surto de Adrenalina.\n\n```autosheet-rules\n```\n"
+}

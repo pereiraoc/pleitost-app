@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Aprimorada/Estratégia Aprimorada (Domador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Aprimorada/Estratégia Aprimorada (Domador).md",
+  "basename": "Estratégia Aprimorada (Domador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Seu [[Companheiro Animal]] se torna [[Experiente]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Aprimorada (Domador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratégia de Caça (Domador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\n\nresumo:: \"Seu [[Companheiro Animal]] se torna [[Experiente]].\"\n%%\n##### `= this.file.name`\nSeu [[Companheiro Animal]] se torna [[Experiente]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,200 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia.md",
+  "basename": "Corpo em Sintonia",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Corpo em Sintonia (Fogo)]]",
+      "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Corpo em Sintonia (Água)]]",
+      "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Corpo em Sintonia (Vento)]]",
+      "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Corpo em Sintonia (Terra)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você ganha benefícios dependendo da sua [[sintonia]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Corpo em Sintonia (Fogo)]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Fogo]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Corpo em Sintonia (Fogo)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Fogo]] Complementar Habilidades.Lista [[Corpo em Sintonia (Fogo)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Corpo em Sintonia (Água)]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Água]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Corpo em Sintonia (Água)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Água]] Complementar Habilidades.Lista [[Corpo em Sintonia (Água)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Corpo em Sintonia (Vento)]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental do Vento]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Corpo em Sintonia (Vento)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental do Vento]] Complementar Habilidades.Lista [[Corpo em Sintonia (Vento)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Corpo em Sintonia (Terra)]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Sintonia",
+            "needle": "[[Traço Elemental da Terra]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Corpo em Sintonia (Terra)]]"
+          },
+          "raw": "Condicional Sintonia,[[Traço Elemental da Terra]] Complementar Habilidades.Lista [[Corpo em Sintonia (Terra)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Fogo)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Corpo em Sintonia (Água)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Corpo em Sintonia (Vento)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Corpo em Sintonia (Terra)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Fogo)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Água)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Vento)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Terra)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você ganha benefícios dependendo da sua [[sintonia]].\"\n%%\n#### `= this.file.name`\nSua sintonia se expressa mais intensamente pelo seu corpo, você ganha benefícios dependendo da sua [[sintonia]].\n\n![[Corpo em Sintonia (Fogo)#`= this.file.name`]]\n![[Corpo em Sintonia (Água)#`= this.file.name`]]\n![[Corpo em Sintonia (Vento)#`= this.file.name`]]\n![[Corpo em Sintonia (Terra)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

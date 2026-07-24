@@ -1,0 +1,21 @@
+{
+  "id": "Sistema/Criaturas/Grupos de Criaturas/Affonso, Assis, Leonel e Pind",
+  "path": "Sistema/Criaturas/Grupos de Criaturas/Affonso, Assis, Leonel e Pind.md",
+  "basename": "Affonso, Assis, Leonel e Pind",
+  "type": "Grupo",
+  "subtype": "Aventureiros",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Grupo",
+    "subcategoria": "Aventureiros",
+    "grupo": null,
+    "dg-publish": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-grupo\ngrupo\n```"
+}

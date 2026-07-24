@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Névoa Sombria",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Névoa Sombria.md",
+  "basename": "Névoa Sombria",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria zona nebulosa que deixa criaturas [[Cego|Cegas]] e [[Escondido|Escondidas]] em um circulo de raio 4q com alcance 10q por 10 turnos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cego",
+      "kind": "wikilink",
+      "alias": "Cegas"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "Escondidas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria zona nebulosa que deixa criaturas [[Cego|Cegas]] e [[Escondido|Escondidas]] em um circulo de raio 4q com alcance 10q por 10 turnos.\"\n%%\n# `= this.file.name` - `= this.custo`\nCria zona nebulosa em um circulo de raio 4q com alcance 10q por 10 turnos. Enquanto estiverem dentro da área, criaturas ficam [[Cego|Cegas]] e contam como [[Escondido|Escondidas]] para criaturas fora da área.\n\n```autosheet-rules\n```\n"
+}

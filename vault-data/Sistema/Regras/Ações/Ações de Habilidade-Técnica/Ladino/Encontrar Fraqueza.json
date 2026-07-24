@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Encontrar Fraqueza",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ladino/Encontrar Fraqueza.md",
+  "basename": "Encontrar Fraqueza",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Ladino]]\"",
+    "resumo": "\"Faça um teste de [[Percepção]] contra a [[Defesa]] de um alvo que você veja (1 vez por alvo por turno): sucesso dá [[Vantagem de Combate]] no próximo ataque neste turno; sucesso decisivo dá [[Vantagem de Combate]] em todos os ataques até o fim do seu próximo turno; falha faz seu próximo ataque adicionar [[Ataque Furtivo]] mesmo sem [[Vantagem de Combate]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Ladino]]\"\n\nresumo:: \"Faça um teste de [[Percepção]] contra a [[Defesa]] de um alvo que você veja (1 vez por alvo por turno): sucesso dá [[Vantagem de Combate]] no próximo ataque neste turno; sucesso decisivo dá [[Vantagem de Combate]] em todos os ataques até o fim do seu próximo turno; falha faz seu próximo ataque adicionar [[Ataque Furtivo]] mesmo sem [[Vantagem de Combate]].\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê procura uma brecha nas defesas do seu alvo. Faça um teste de [[Percepção]] contra a [[Defesa]] de uma criatura que consiga ver. Você não pode usar esta habilidade mais de uma vez no mesmo alvo durante o mesmo turno.\n\n**Sucesso:** Você encontra um bom ângulo de ataque, seu próximo ataque contra o alvo neste turno é feito com [[Vantagem de Combate]].\n**Sucesso Decisivo:** Você entende e prevê como a criatura pretende se proteger, encontrando uma vulnerabilidade, todos os seus ataques contra o alvo tem [[Vantagem de Combate]] até o fim do seu próximo turno.\n**Falha:** Você encontra uma fraqueza superficial, seu próximo ataque contra o alvo adiciona [[Ataque Furtivo]], mesmo que não tenha [[Vantagem de Combate]].\n**Falha Decisiva:** Você falha em encontrar qualquer vulnerabilidade.\n\n```autosheet-rules\n```\n"
+}

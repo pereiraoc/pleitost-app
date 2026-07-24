@@ -1,0 +1,147 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Heroísmo",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Heroísmo.md",
+  "basename": "Heroísmo",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Heroísmo (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Heroísmo",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "Pericias",
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Ataque",
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "MagiaAtaque",
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Defesa",
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Resistencias",
+            "valor": 2,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      },
+      {
+        "label": "Heroísmo (Exaustão)",
+        "tipo": "Condição",
+        "grupo": "Negativa",
+        "origem": "Magia",
+        "escopo": {
+          "compartilharGrupo": true
+        },
+        "modificadores": [
+          {
+            "somar": "Pericias",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Ataque",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "MagiaAtaque",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Defesa",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          },
+          {
+            "somar": "Resistencias",
+            "valor": -2,
+            "tipoBonus": "Condicao"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 6q recebe 1×potência [[Energia Heroica|EH]] temporária e +2 em todos os testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 3t. No fim do efeito, recebe -2 nestes mesmos por 1t (ignorado se [[Mestre]]).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataques Mágicos"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de condição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 6q recebe 1×potência [[Energia Heroica|EH]] temporária e +2 em todos os testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 3t. No fim do efeito, recebe -2 nestes mesmos por 1t (ignorado se [[Mestre]]).\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Criatura alvo recebe um surto de competência, seguido de um cansaço. Criatura recebe 1×potência [[Energia Heroica|EH]] temporária e +2 de [[bônus de condição]] em todos os testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 3 turnos. Ao fim desse efeito, a criatura recebe -2 de [[Penalidades|penalidade de condição]] em todos os testes, [[Ataques]], [[Magia|Ataques Mágicos]], [[Defesa]] e [[Resistências]] por 1 turno. Essa penalidade pós-efeito deixa de acontecer ao se tornar [[Mestre]] com [[Magia Arcana Branca]].\n\n```autosheet-rules\n```\n"
+}

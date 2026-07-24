@@ -1,0 +1,64 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.5-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.5-alpha.md",
+  "basename": "Release Notes v0.5.5-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.5-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "⚡ A Ficha Interativa ficou muito mais fluida (#250 + #253)"
+    },
+    {
+      "level": 3,
+      "text": "🩹 A ficha não empilha mais (#249)"
+    },
+    {
+      "level": 3,
+      "text": "🔵 Focos agora são um contador de Cargas na ficha (#252)"
+    },
+    {
+      "level": 3,
+      "text": "⚗️ Cooldown manual de poções (#251)"
+    },
+    {
+      "level": 3,
+      "text": "🔑 Bugs de sessão fechados"
+    },
+    {
+      "level": 3,
+      "text": "📖 Visualizador de Regras mostra o tier dos Efeitos Interativos (#248)"
+    },
+    {
+      "level": 3,
+      "text": "🎲 Estado das fichas pós-sessão"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    },
+    {
+      "level": 2,
+      "text": "🐛 Issues abertas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Releases dos plugins"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.4-alpha...v0.5.5-alpha\n\n# 📦 Release Notes — Pleitost v0.5.5-alpha\n\n**Período coberto:** 2026-06-22 → 2026-06-28\n\n**Foco:** **follow-up da mesa 2026-06-22** — todos os bugs desta release foram diagnosticados na mesma análise de logs cross-peer (o GM subiu os logs pelo botão novo da v0.5.4, mais o zip da ficha do Pind Bund com debug ligado). Saíram três frentes: **performance da Ficha Interativa** (rolar e receber updates ficou fluido), o **empilhamento de fichas resolvido**, e um **fechamento de bugs de sessão** (GM reentrando como player, painel que não colapsava, loop de revert entre peers). No caminho ainda entraram **duas coisas de jogo**: os **Focos agora aparecem como um contador de Cargas** na ficha (fechando o rework que começou na v0.5.4) e um **cooldown manual de poções**. O **Combate Zumbi (#228)**, aberto desde a v0.5.3, finalmente fechou.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### ⚡ A Ficha Interativa ficou muito mais fluida (#250 + #253)\n\nFichas grandes (Mera, Carlos Facão, Dante) engasgavam em dois momentos, e os dois foram atacados nesta release:\n\n- **Rolar a ficha travava** ([#250](https://github.com/sfynz/pleitost/issues/250)). A ficha vivia na mesma camada do scroller do preview do Obsidian, então **cada frame de scroll redesenhava a ficha inteira na CPU** — quanto mais alta, pior (na Mera, ~metade dos frames travava). O fix promove a ficha a uma **camada de GPU própria**, então rolar virou mover uma textura pronta em vez de repintar tudo. Medido: Mera de 99ms→17ms por frame (77→2 frames travados), Carlos de 83ms→17ms. É só CSS, sem risco de layout.\n- **Receber update do servidor congelava a ficha** ([#253](https://github.com/sfynz/pleitost/issues/253)). Cada writeback do sync (dano do GM, condição de aliado, etc.) re-renderizava a ficha inteira — ~0,2–0,5s de freeze cada, e numa rajada de combate eram vários seguidos. Agora os updates do servidor passam por um **agendador**: uma rajada colapsa num render só (~600ms), a **ficha que está fora da tela / numa aba de fundo não re-renderiza** (só quando você volta pra ela), e um update do servidor nunca sobrescreve um save seu em andamento. **Suas próprias interações continuam instantâneas** — o adiamento é só pros updates que chegam de fora.\n\n### 🩹 A ficha não empilha mais (#249)\n\nNa mesa 2026-06-22 a Interativa do Pind Bund apareceu **duplicada**, empilhando mais uma cópia a cada evento (chegou a 3 fichas uma embaixo da outra). Causa: quando o sync reescrevia o frontmatter em rajada, o autosheet iniciava um novo render enquanto o anterior (1–3s em fichas grandes) ainda rodava — os dois se intercalavam e cada um montava uma cópia. Agora o render é **serializado** (um por vez; a rajada colapsa no render mais recente), então nunca sobra mais de uma ficha no container. De quebra, virou **alerta automático**: se uma regressão empilhar de novo, a própria ficha detecta e o log sobe sozinho pro servidor.\n\n### 🔵 Focos agora são um contador de Cargas na ficha (#252)\n\nA v0.5.4 trocou o recurso diário dos Focos por um sistema de **Cargas + Drenar**. Esta release entrega o outro lado disso: **as Cargas viram um contador de verdade na Ficha Interativa** ([#252](https://github.com/sfynz/pleitost/issues/252)). Cada Foco no inventário mostra seus pontos de Carga em **azul** (a cor da Energia Mágica, 🔵), separados dos contadores comuns de uso. O Foco **começa descarregado (0)** e você marca as Cargas conforme joga; **dormir descarrega** de volta pra zero. O controle é manual — o sistema não tenta adivinhar quando você carrega. Sincroniza entre todos os peers automaticamente, igual aos outros usos da ficha.\n\n### ⚗️ Cooldown manual de poções (#251)\n\nCada poção na seção **Consumíveis** da Ficha Interativa ganhou um **botão de cooldown** ([#251](https://github.com/sfynz/pleitost/issues/251)): um toque alterna entre ⚗️ (pronta) e ⏳ (em cooldown), e enquanto está em cooldown o nome fica **riscado** (não dá pra usar). É 100% manual, por poção — serve pra você marcar \"essa já usei nesse descanso\" sem rastrear de cabeça. Também sincroniza entre peers.\n\n### 🔑 Bugs de sessão fechados\n\nTrês bugs de multiplayer que apareceram na mesa 2026-06-22:\n\n- **GM reentrava como player depois de reinstalar a vault** ([#246](https://github.com/sfynz/pleitost/issues/246)). Ao reinstalar, o GM perdia o histórico local e entrava na sessão antiga por código — e caía como jogador comum, mesmo logado na mesma conta. Causa: a role vinha de um estado velho / nome digitado em vez da conta. Agora **a role é sempre derivada da conta** (a conta dona da sessão é sempre o GM), em todos os pontos de entrada — reconectou pela mesma conta, voltou como Mestre.\n- **A lista de membros do painel não colapsava/expandia** ([#247](https://github.com/sfynz/pleitost/issues/247)). Clicar no cabeçalho salvava o estado mas o painel não redesenhava — a otimização que evita re-render desnecessário não sabia que o \"colapsado\" tinha mudado. Corrigido pros dois lados (GM e jogador).\n- **Condição removida por um aliado voltava sozinha (loop de revert)** ([#254](https://github.com/sfynz/pleitost/issues/254)). Quando outro jogador removia uma Condição/Efeito de um personagem, o seu cliente não removia do espelho local — via aquilo como \"alguém editou indevidamente\" e revertia, num vaivém (aconteceu 6× na mesa, com Mera/Carlos/Thoren). Agora o espelho de personagem que **não é seu** copia o servidor **exatamente** (remoções inclusas), então não há mais delta-fantasma nem loop de revert.\n\n### 📖 Visualizador de Regras mostra o tier dos Efeitos Interativos (#248)\n\nAs Imbuições (Incendiária, Congelante) declaram efeitos diferentes por tier (Adepto/Experiente/Mestre), mas o **Visualizador de Regras** mostrava as três entradas **idênticas** — o campo de tier existia nos dados desde a v0.5.4 mas nunca tinha entrado no visualizador. Agora cada efeito mostra um **badge de tier** no cabeçalho, então dá pra distinguir o que cada nível da Imbuição faz.\n\n### 🎲 Estado das fichas pós-sessão\n\nFichas atualizadas refletindo a sessão de 2026-06-22 (Carlos Facão, Metis a Graxaim, Mera, Pind Bund, Thoren): moral/vitalidade, Inspiração e Performance Bárdica ativas, consumíveis de poção, invocação Amálgama das Sombras do Pind Bund, tesouros ajustados.\n\n---\n\n## ✅ Issues fechadas\n\n**Performance (autosheet):**\n\n- **[#250](https://github.com/sfynz/pleitost/issues/250)** — lag de scroll da Interativa resolvido com camada de GPU (`translateZ(0)`).\n- **[#253](https://github.com/sfynz/pleitost/issues/253)** — lag de update resolvido com agendador (throttle trailing + render-on-visible + flush-on-save).\n\n**Correções (autosheet):**\n\n- **[#249](https://github.com/sfynz/pleitost/issues/249)** — Ficha Interativa não empilha mais shells quando o FM muda em rajada (render serializado + remoção do listener órfão no destroy).\n- **[#248](https://github.com/sfynz/pleitost/issues/248)** — Visualizador de Regras renderiza o tier-gate (Adepto/Experiente/Mestre) dos Efeitos Interativos.\n\n**Features (autosheet):**\n\n- **[#252](https://github.com/sfynz/pleitost/issues/252)** — Focos (Implementos) renderizam como contador de **Cargas** (azul, descarregado por padrão, descarrega ao dormir).\n- **[#251](https://github.com/sfynz/pleitost/issues/251)** — cooldown manual de poções na seção Consumíveis (⚗️ ↔ ⏳, nome riscado em cooldown).\n\n**Correções (sync):**\n\n- **[#254](https://github.com/sfynz/pleitost/issues/254)** — anti-eco: espelho de char não-próprio usa REPLACE, elimina o loop `unauthorized-edit-revert`.\n- **[#246](https://github.com/sfynz/pleitost/issues/246)** — GM reentra como GM após reinstalar a vault (role derivada da conta em todos os pontos de entrada).\n- **[#247](https://github.com/sfynz/pleitost/issues/247)** — painel da sessão colapsa/expande a lista de membros (`membersCollapsed` na signature de render).\n\n**Fechada com ressalva:**\n\n- **[#228 — Combate Zumbi](https://github.com/sfynz/pleitost/issues/228)** — aberto desde a v0.5.3. Confirmado resolvido pela migration `REPLICA IDENTITY FULL` (v0.3.17, 2026-06-16): na mesa 2026-06-22 a propagação de encounter ficou saudável (o jogador acompanhou o combate ativo por 1h30, 102 re-renders). Ressalva: nos logs capturados o GM não chegou a **encerrar** o combate, então a closura se apoia na migration (fix direto da causa) + propagação observada + confirmação do user de que não recorre.\n\n## 🐛 Issues abertas\n\n- Nenhuma issue de mesa em aberto no fim deste ciclo. A observabilidade multi-peer da v0.5.4 (upload de logs pelo GM + puller cross-peer) foi o que tornou toda esta leva de correções reproduzível — ela virou o processo-padrão de diagnóstico das mesas.\n\n---\n\n## 🛠️ Releases dos plugins\n\n| Plugin | Versão | Highlights |\n|---|---|---|\n| `pleitost-autosheet` | **2.0.24 → 2.0.29** | **2.0.25**: render serializado (`createSerializedRunner`) resolve o empilhamento de fichas + remoção do listener `onFmModified` órfão + observabilidade do render (`rid`/`mode`/`scope`, `load.mounted` com warn se `childCount>1`) + tier-gate dos Efeitos Interativos no Visualizador de Regras (#248/#249). **2.0.26**: fix de lag de scroll via camada de GPU (`transform: translateZ(0)`, só CSS) (#250). **2.0.27**: cooldown manual de poções na Interativa (#251). **2.0.28**: Focos como contador de Cargas (azul, descarga ao dormir) + polish do botão de cooldown (#252). **2.0.29**: fix de lag de update via `createDeferredRenderScheduler` (throttle trailing + render-on-visible + flush-on-save) (#253). [`CHANGELOG`](../../../.obsidian/plugins/pleitost-autosheet/CHANGELOG.md) |\n| `pleitost-sync` | **0.3.17 → 0.3.19** | **0.3.18**: \"entrar pela conta\" — GM reentra como GM (`deriveSessionRole` em todos os pontos de entrada) + painel colapsa a lista de membros (`computeRenderSignature` extraído pra função pura) + fechamento do Combate Zumbi #228 com ressalva (#246/#247). **0.3.19**: anti-eco (P3) — espelho de char não-próprio usa REPLACE em vez de merge-união, elimina o loop `unauthorized-edit-revert`; contrato `owner-skip-contract.md` atualizado; typecheck do sync zerado (#254). [`CHANGELOG`](../../../.obsidian/plugins/pleitost-sync/CHANGELOG.md) |\n| `pleitost-views` | 0.4.1 (sem bump) | Estável. |\n"
+}

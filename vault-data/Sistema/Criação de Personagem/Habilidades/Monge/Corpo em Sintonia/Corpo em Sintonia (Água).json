@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Água)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Corpo em Sintonia/Corpo em Sintonia (Água).md",
+  "basename": "Corpo em Sintonia (Água)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Sintonia [[Traço Elemental da Água]]",
+      "Complementar Acoes.Lista [[Maré de Combate]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você aprende a habilidade [[Maré de Combate]]. Adicionalmente, quando você usa uma ação para dar um [[Passo de Ajuste]], você pode dar um Passo de Ajuste adicional como ação livre.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Sintonia [[Traço Elemental da Água]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Água)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito",
+            "targetRaw": "Sintonia",
+            "valueRaw": "[[Traço Elemental da Água]]"
+          },
+          "raw": "Requisito Sintonia [[Traço Elemental da Água]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Maré de Combate]]",
+      "parsed": [
+        {
+          "sourceNote": "Corpo em Sintonia (Água)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Maré de Combate]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Maré de Combate]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maré de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto]]\n\nresumo:: \"Você aprende a habilidade [[Maré de Combate]]. Adicionalmente, quando você usa uma ação para dar um [[Passo de Ajuste]], você pode dar um Passo de Ajuste adicional como ação livre.\"\n%%\n##### `= this.file.name`\nVocê aprende a habilidade [[Maré de Combate]]. Adicionalmente, quando você usa uma ação para dar um [[Passo de Ajuste]], você pode dar um Passo de Ajuste adicional como ação livre.\n\n```autosheet-rules\n```\n"
+}

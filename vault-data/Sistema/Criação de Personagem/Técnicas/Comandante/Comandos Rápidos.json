@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Comandos Rápidos",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Comandos Rápidos.md",
+  "basename": "Comandos Rápidos",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Você aprende as habilidades [[Abatimento Rápido]] e [[Reposicionamento Rápido]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abatimento Rápido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reposicionamento Rápido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abatimento Rápido",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Reposicionamento Rápido",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Você aprende as habilidades [[Abatimento Rápido]] e [[Reposicionamento Rápido]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a dar comandos rápidos e concisos, apesar de menos eficazes. Você aprende as habilidades [[Abatimento Rápido]] e [[Reposicionamento Rápido]].\n\n![[Abatimento Rápido#`= this.file.name` - `= this.custo`]]\n\n![[Reposicionamento Rápido#`= this.file.name` - `= this.custo`]]\n\n```autosheet-rules\n```\n"
+}

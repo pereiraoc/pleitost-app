@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Armas Marciais",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Armas Marciais.md",
+  "basename": "Armas Marciais",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armas Marciais"
+    }
+  ],
+  "body": "# Armas Marciais\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM \"Sistema/Equipamento/Armas/Armas Marciais\"\nSORT grupo, ordem, file.name ASC\nWHERE subcategoria=\"Arma\" \n```"
+}

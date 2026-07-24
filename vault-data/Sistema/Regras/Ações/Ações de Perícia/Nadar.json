@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Nadar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Nadar.md",
+  "basename": "Nadar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Atravessa água.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Move"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Atravessa água.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Atletismo]] vs  [[CD]] do corpo d'água (perigo, correnteza, etc...). Conta como uma ação de [[Ações Básicas de Movimento|Movimento]].\n\n**Sucesso:** Você [[Mover|Move]] 2q pela água.\n**Sucesso Decisivo:** Você [[Mover|Move]] 3q pela água.\n**Falha:** Você não consegue se mover, mas não afunda ou é arrastado pela correnteza.\n**Falha Decisiva:** Você não consegue se mover, mas pode afundar ou ser arrastado se não tentar Nadar novamente.\n\nIniciar e terminar um turno na água sem ao menos falhar em Nadar faz você afundar ou ser arrastado, dependendo do tipo de corpo d'água.\n\n```autosheet-rules\n```\n"
+}

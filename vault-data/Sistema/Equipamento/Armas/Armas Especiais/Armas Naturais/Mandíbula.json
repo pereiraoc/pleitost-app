@@ -1,0 +1,41 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Mandíbula",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Armas Naturais/Mandíbula.md",
+  "basename": "Mandíbula",
+  "type": "Item",
+  "subtype": "Arma",
+  "grupo": "natural",
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Item",
+    "subcategoria": "Arma",
+    "grupo": "natural",
+    "dg-publish": true,
+    "dano": "d6+3",
+    "tipo": "perfuração",
+    "mãos": 0,
+    "propriedades": [],
+    "ordem": 31,
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armas Especiais]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armas Especiais",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armas Especiais]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n\n| Dano          | Tipo          | Propriedades          |\n| ------------- | ------------- | --------------------- |\n| `= this.dano` | `= this.tipo` | `= this.propriedades` |\n\n```autosheet-rules\n```\n"
+}

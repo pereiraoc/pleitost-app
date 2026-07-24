@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Saltar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Saltar.md",
+  "basename": "Saltar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Movimento",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Movimento",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Movimento]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Movimento|Movimento]]",
+    "resumo": "\"Salta 2q em linha reta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Movimento",
+      "kind": "wikilink",
+      "alias": "Movimento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Movimento]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Movimento|Movimento]]\nresumo:: \"Salta 2q em linha reta.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nSalta 2q em linha reta.\n\n```autosheet-rules\n```\n"
+}

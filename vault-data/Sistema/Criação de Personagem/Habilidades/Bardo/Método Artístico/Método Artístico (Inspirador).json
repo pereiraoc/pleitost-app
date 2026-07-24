@@ -1,0 +1,221 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico (Inspirador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/Método Artístico (Inspirador).md",
+  "basename": "Método Artístico (Inspirador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "Definir Magias.Lista.ArcanaBranca.Atributo PRE",
+      "Somar Magias.Slots.B 2",
+      "Somar Magias.Slots.A 2",
+      "Definir Pericias.Lista.Diplomacia.Proficiencia A",
+      "Alias Classe Compor 1 \"Inspirador\"",
+      "Somar Papel.Lider 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e e aprende duas [[Magia Branca Adepta|Magias Brancas Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Diplomacia]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Magias.Lista.ArcanaBranca.Atributo PRE",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Atributo",
+            "valueRaw": "PRE"
+          },
+          "raw": "Definir Magias.Lista.ArcanaBranca.Atributo PRE",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.B 2",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.B",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.B 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Pericias.Lista.Diplomacia.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Pericias.Lista.Diplomacia.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Inspirador\"",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Inspirador"
+          },
+          "raw": "Alias Classe Compor 1 \"Inspirador\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Lider 1",
+      "parsed": [
+        {
+          "sourceNote": "Método Artístico (Inspirador)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Lider",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Papel.Lider 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Básica",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Básicas"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Adepta"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e e aprende duas [[Magia Branca Adepta|Magias Brancas Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Diplomacia]].\"\n%%\n##### `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e e aprende duas [[Magia Branca Adepta|Magias Brancas Adepta]] de sua escolha. Você se torna [[Adepto]] em [[Diplomacia]].\n\n```autosheet-rules\n```\n"
+}

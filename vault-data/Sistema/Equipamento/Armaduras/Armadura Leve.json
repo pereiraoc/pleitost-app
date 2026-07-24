@@ -1,0 +1,67 @@
+{
+  "id": "Sistema/Equipamento/Armaduras/Armadura Leve",
+  "path": "Sistema/Equipamento/Armaduras/Armadura Leve.md",
+  "basename": "Armadura Leve",
+  "type": "Item",
+  "subtype": "Armadura",
+  "grupo": "Leve",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Armadura",
+    "grupo": "Leve",
+    "dg-publish": true,
+    "propriedades": [],
+    "bonus-defesa": "",
+    "força-necessaria": "",
+    "preço": ""
+  },
+  "inlineFields": {
+    "up": "[[Armaduras]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Armaduras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink",
+      "alias": "Bardos"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink",
+      "alias": "Ladinos"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink",
+      "alias": "Guerreiros"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink",
+      "alias": "Caçadores"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Armaduras]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nPersonagens que usam armadura leve são tipicamente marcialistas e híbridos baseados em [[Agilidade]]. [[Bardo|Bardos]] e [[Ladino|Ladinos]] são quase sempre vistos usando armadura leve. Alguns [[Guerreiro|Guerreiros]] e [[Caçador|Caçadores]] mais focados em mobilidade também acabam usando esse tipo de armadura. Sua [[Defesa]] ainda depende da [[Agilidade]] como se estivesse sem armadura, mas certos materiais e encantamentos podem ser aplicados em armaduras leves, expandindo o leque de opções para esses personagens.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n```autosheet-rules\n```\n"
+}

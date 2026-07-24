@@ -1,0 +1,150 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Mineral",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Mineral.md",
+  "basename": "Imbuição Mineral",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Terra|Terra]]"
+    ],
+    "resumo": "Arma que protege.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. Ao sofrer dano de corte/contusão/perfuração, use reação para reduzir dano em 5 (recarga 10 min).",
+      "experiente": "+2 de bônus de item em Ataques. Ao sofrer dano de corte/contusão/perfuração, use reação para reduzir dano em 7 e receber 4 EH temporária (recarga 10 min).",
+      "mestre": "+3 de bônus de item em Ataques. Ao sofrer dano de corte/contusão/perfuração, use reação para reduzir dano em 10, receber 6 EH temporária e +1 Defesa enquanto EH temporária durar (recarga 10 min)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte Maos,2|Propriedades,Contem([[Duas-mãos]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte Maos,2|Propriedades,Contem([[Duas-mãos]])",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Mineral",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Maos",
+                  "needle": "2"
+                },
+                {
+                  "kind": "props-contains",
+                  "slotProp": "Propriedades",
+                  "needle": "[[Duas-mãos]]"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte Maos,2|Propriedades,Contem([[Duas-mãos]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duas-mãos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink",
+      "alias": "Terra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Terra) - arma corpo-a-corpo de duas-mãos ou com propriedade [[Duas-mãos]]*\nUma arma carregada do poder da terra, portando gemas âmbar em sua extensão. Quando ativada, te protege de ataques físicos.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação para reduzir o dano recebido em 5.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação reduzir o dano recebido em 7. Após receber o dano, você recebe 4 de [[Energia Heroica|EH]] temporária por 1 minuto.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação para reduzir o dano recebido em 10. Após receber o dano, você recebe 6 de [[Energia Heroica|EH]] temporária por 1 minuto e tem +1 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] enquanto a [[Energia Heroica|EH]] temporária persistir.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,699 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Ex-Tenente Deodoro Fontesseca",
+  "path": "Sistema/Criaturas/Heróis/Ex-Tenente Deodoro Fontesseca.md",
+  "basename": "Ex-Tenente Deodoro Fontesseca",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [],
+    "Imagem": "[[Ex-Tenente Deodoro Fontesseca.png]]",
+    "Nível": 5,
+    "Classe": "[[Comandante|Senhor-da-Guerra Combatente]]",
+    "Sintonia": "[[Traço Elemental da Terra]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 18,
+      "Moral": 36
+    },
+    "Atributos": {
+      "Principal": "FOR",
+      "FOR": 3,
+      "AGI": 1,
+      "INT": 2,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 2,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[História]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Colar da Eloquência]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "E",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "[[Estratégia]]",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Comandante]]"
+            },
+            {
+              "E": "Slot.E"
+            },
+            {
+              "Bonus_Item": "Regra.[[Brasão Tático]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Militar",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Comandante]]"
+        },
+        {
+          "[[Comandos de Batalha]]": "Regra.[[Comandante]]"
+        },
+        {
+          "[[Estratagema]]": "Regra.[[Comandante]]"
+        },
+        {
+          "[[Senhor-da-Guerra]]": "Regra.[[Comandante]]"
+        },
+        {
+          "[[Estratagema Superior]]": "Regra.[[Comandante]]"
+        },
+        {
+          "[[Usar Escudo]]": "Regra.[[Estratagema (Combatente)]]"
+        },
+        {
+          "[[Estratagema (Combatente)|Combatente]]": "Escolha.[[Estratagema]]"
+        },
+        {
+          "[[Estratagema Superior (Combatente)|Combatente]]": "Regra.[[Estratagema Superior]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 1,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Blindar]]": "Slot.A"
+        },
+        {
+          "[[Oportunidade Prevista]]": "Slot.E"
+        },
+        {
+          "[[Tática de Abertura]]": "Slot.A"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Visão no Escuro]]": "Tesouro.[[Amplificador Audiovisual]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Avanço Conjunto]]": "Regra.[[Estratagema Superior (Combatente)]]"
+        },
+        {
+          "[[Ataque Combinado]]": "Regra.[[Estratagema Superior (Combatente)]]"
+        },
+        {
+          "[[Reposicionar]]": "Regra.[[Comandos de Batalha]]"
+        },
+        {
+          "[[Abater]]": "Regra.[[Comandos de Batalha]]"
+        },
+        {
+          "[[Erguer Escudo]]": "Regra.[[Usar Escudo]]"
+        },
+        {
+          "[[Bloquear com Escudo]]": "Regra.[[Usar Escudo]]"
+        },
+        {
+          "[[Plano de Combate]]": "Regra.[[Estratégia]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "E",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "[[Armadura Pesada]]",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "P"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "P"
+      },
+      "Tesouros": [
+        "[[Anel da Resistência|Anel da Resistência (Adepto)]]",
+        "[[Amplificador Audiovisual|Amplificador Audiovisual (Adepto)]]",
+        "[[Brasão Tático|Brasão Tático (Adepto)]]",
+        "[[Colar da Eloquência|Colar da Eloquência (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "  - Honra ao Mérito de Pencas: +2 em Testes de Diplomacia com civís da cidade de Pencas.\n  - Caltrop: 4q dc 10 ACRO 1d4\n  - 2x Pasta Relax (Adepta): 5 EH temporario por 10 minutos.\n  - 1x Papeis Antigos (Anão Anciã): Anotações de soldados e salários.",
+      "Consumiveis": [
+        "[[Poção da Nutrição|Poção da Nutrição (Experiente) (x1)]]",
+        "[[Poção de Cura|Poção de Cura (Adepto) (x1)]]",
+        "[[Poção de Cura|Poção de Cura (Experiente) (x1)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "P",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Pique]]",
+            "Atributo": "FOR",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Adepto]]",
+            "Propriedade": "[[Imbuição Enraizante|Enraizante]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "Veterano",
+      "Motivacao": "Alternativa a Carreira Militar",
+      "Genero": "M",
+      "Idade": "45",
+      "Naturalidade": "[[Rharos]]",
+      "Altura": "1.81m",
+      "Peso": "80kg",
+      "Ideais": [
+        "Integração de Raças",
+        "A Fraqueza da Estratégia é o Azar"
+      ],
+      "Desprezos": [
+        "Racistas",
+        "Guerras Fúteis"
+      ],
+      "Qualidades": [
+        "Intelectual e Letrado"
+      ],
+      "Defeitos": [
+        "Supersticioso"
+      ],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 2,
+      "Controlador": 0,
+      "Abatedor": 0,
+      "Vanguarda": 1
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 18,
+        "Moral": 31,
+        "Moral_Temporaria": 10,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ex-Tenente Deodoro Fontesseca.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink",
+      "alias": "Senhor-da-Guerra Combatente"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema (Combatente)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Superior",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratagema Superior (Combatente)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Usar Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Pesada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel da Resistência",
+      "kind": "wikilink",
+      "alias": "Anel da Resistência (Adepto)"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink",
+      "alias": "Amplificador Audiovisual (Adepto)"
+    },
+    {
+      "target": "Brasão Tático",
+      "kind": "wikilink",
+      "alias": "Brasão Tático (Adepto)"
+    },
+    {
+      "target": "Colar da Eloquência",
+      "kind": "wikilink",
+      "alias": "Colar da Eloquência (Adepto)"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink",
+      "alias": "Poção da Nutrição (Experiente) (x1)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Adepto) (x1)"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink",
+      "alias": "Poção de Cura (Experiente) (x1)"
+    },
+    {
+      "target": "Pique",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink",
+      "alias": "Enraizante"
+    },
+    {
+      "target": "Rharos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ex-Tenente Deodoro Fontesseca.png",
+      "from": "frontmatter:Imagem"
+    }
+  ],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}
