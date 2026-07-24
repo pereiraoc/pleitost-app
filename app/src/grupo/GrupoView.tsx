@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNod
 import { clip, PanelTrack, TrackPanel } from '../components/ficha/bits'
 import { useDetail } from '../data/detail-context'
 import { useCatalog } from '../data/CatalogContext'
-import {
+import { groupStateUpdatedAt,
   getGroupState,
   groupStateJson,
   migrateGroupState,
@@ -654,7 +654,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
   useEffect(() => {
     if (!isMesa || !repo || !live?.sessionId) return
     const sid = live.sessionId
-    const remote = live.state?.exploracao as GroupState | undefined
+    const remote = live.state?.exploracao as (GroupState & { updatedAt?: string }) | undefined
     const localJson = groupStateJson(getGroupState(exploId))
     const EMPTY = groupStateJson({ hexes: [] })
     // #379: remoto PRESENTE-MAS-VAZIO conta como ausente — um {hexes:[]}
@@ -662,23 +662,34 @@ export function GrupoView({ groupId }: { groupId: string }) {
     // local inteira (era o vetor de perda do "sumiu todo o histórico").
     const remoteRaw = remote ? groupStateJson(remote) : ''
     const remoteJson = remoteRaw === EMPTY ? '' : remoteRaw
-    if (remoteJson && remoteJson !== localJson) {
+    // Pull NÃO REGRIDE (fragmentação por códigos de sessão): se o carimbo
+    // LOCAL é mais novo que o do remoto (ambos presentes), o local vence e é
+    // EMPURRADO — uma sessão com state velho não apaga a trilha consolidada
+    // do grupo. Remoto sem carimbo (states antigos) mantém o pull clássico.
+    const remoteUpdated = typeof remote?.updatedAt === 'string' ? remote.updatedAt : null
+    const localUpdated = groupStateUpdatedAt(exploId)
+    const localMaisNovo = !!remoteUpdated && !!localUpdated && localUpdated > remoteUpdated
+    /** Push com carimbo: preserva o updatedAt da última edição local. */
+    const pushRemoto = (motivo: string) => {
+      exploSyncRef.current = groupStateJson(getGroupState(exploId))
+      pushLog('explo', motivo)
+      const carimbo = groupStateUpdatedAt(exploId) ?? new Date().toISOString()
+      const comCarimbo = { ...getGroupState(exploId), updatedAt: carimbo } as GroupState
+      void repo.updateSessionState(sid, { exploracao: comCarimbo }).catch(() => {})
+    }
+    if (remoteJson && remoteJson !== localJson && !localMaisNovo) {
       exploSyncRef.current = remoteJson
       setGroupStateFull(exploId, remote!)
       pushLog('explo', 'pull remoto→local')
-    } else if (!remoteJson && localJson !== EMPTY) {
-      exploSyncRef.current = localJson
-      pushLog('explo', 'semeia remoto (remoto vazio, local tem)')
-      void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
+    } else if (localJson !== EMPTY && (!remoteJson || (localMaisNovo && remoteJson !== localJson))) {
+      pushRemoto(remoteJson ? 'push local→remoto (local mais novo)' : 'semeia remoto (remoto vazio, local tem)')
     } else {
       exploSyncRef.current = remoteJson || localJson
     }
     return subscribeGroup(exploId, () => {
       const lj = groupStateJson(getGroupState(exploId))
       if (lj === exploSyncRef.current) return // veio de um pull → não re-empurra
-      exploSyncRef.current = lj
-      pushLog('explo', 'push local→remoto')
-      void repo.updateSessionState(sid, { exploracao: getGroupState(exploId) }).catch(() => {})
+      pushRemoto('push local→remoto')
     })
   }, [isMesa, repo, live?.sessionId, live?.state?.exploracao, exploId])
   const localGroup = isLocalGroup ? getLocalEntity(groupId) : undefined

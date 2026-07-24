@@ -196,6 +196,19 @@ function commit(groupId: string, next: GroupState): void {
  *  escopada por sessão. Porta o estado ANTIGO (`from`) pro escopo `to` SE `to`
  *  está vazio e `from` tem dados — e depois LIMPA `from`, pra não portar duas
  *  vezes nem revazar entre sessões. Retorna true se portou algo. */
+/** Carimbo da última edição LOCAL do grupo (gravado pelo commit no storage).
+ *  Usado pelo sync da mesa (#379): pull não regride — local mais novo vence. */
+export function groupStateUpdatedAt(groupId: string): string | null {
+  try {
+    const raw = localStorage.getItem(storageKey(groupId))
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { updatedAt?: unknown }
+    return typeof parsed.updatedAt === 'string' ? parsed.updatedAt : null
+  } catch {
+    return null
+  }
+}
+
 /** Serialização canônica pro compare do sync (ignora updatedAt/ordem de chaves). */
 export function groupStateJson(s: GroupState): string {
   return JSON.stringify({
