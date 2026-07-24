@@ -395,6 +395,7 @@ function buildSegments(hexes: GroupHex[], isPrincipal: (h: GroupHex) => boolean)
  *  reorder por ponteiro (toque) e inserir-entre-partes. */
 function LeftBar({
   groupId,
+  readOnly,
   state,
   hexMap,
   collapsed,
@@ -407,6 +408,7 @@ function LeftBar({
   onSetMode,
 }: {
   groupId: string
+  readOnly?: boolean
   state: GroupState
   hexMap: HexMapCell[]
   collapsed: boolean
@@ -514,14 +516,18 @@ function LeftBar({
           }}
         >
           <span
-            data-drag-handle={h.id}
-            role="button"
-            aria-label={`Reordenar ${hexLabel(h, hexMap, catalog)} (parada ${idx + 1})`}
-            title={`Arraste pra reordenar (parada ${idx + 1})`}
-            onPointerDown={onHandleDown(h)}
-            onPointerMove={onHandleMove}
-            onPointerUp={onHandleUp}
-            onPointerCancel={onHandleUp}
+            {...(readOnly
+              ? {}
+              : {
+                  'data-drag-handle': h.id,
+                  role: 'button',
+                  'aria-label': `Reordenar ${hexLabel(h, hexMap, catalog)} (parada ${idx + 1})`,
+                  title: `Arraste pra reordenar (parada ${idx + 1})`,
+                  onPointerDown: onHandleDown(h),
+                  onPointerMove: onHandleMove,
+                  onPointerUp: onHandleUp,
+                  onPointerCancel: onHandleUp,
+                })}
             onClick={(e) => e.stopPropagation()}
             style={{
               flex: 'none',
@@ -561,6 +567,7 @@ function LeftBar({
               {hexLabel(h, hexMap, catalog)}
             </span>
           </TipHover>
+          {readOnly ? null : (
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -580,6 +587,7 @@ function LeftBar({
           >
             ×
           </button>
+          )}
         </div>
       </div>
     )
@@ -588,7 +596,8 @@ function LeftBar({
   /** Botão fininho de INSERIR parada na posição `index` (#82). Ativo mostra a
    *  dica; some durante um arraste. Só aparece DENTRO de um caminho expandido
    *  (`indent`), pra inserir uma parada num ponto específico da rota. */
-  const insertRow = (index: number, indent = false) => (
+  const insertRow = (index: number, indent = false) =>
+    readOnly ? null : (
     <button
       key={`ins-${index}`}
       data-insert-at={index}
@@ -787,6 +796,13 @@ function LeftBar({
             gap: 6,
           }}
         >
+          {readOnly ? (
+            /* caminho é editado JOGANDO (mesa conectada) — fora dela, leitura */
+            <span style={{ ...fieldLabelStyle, fontSize: 9, textAlign: 'center', padding: '4px 0' }}>
+              {'// SOMENTE LEITURA — EDITE PELA MESA'}
+            </span>
+          ) : (
+          <>
           <button
             data-marcar-hex=""
             data-add-parada=""
@@ -823,6 +839,8 @@ function LeftBar({
                 : 'toque os hexes da rota em sequência (pode repetir) · × remove'}
             </span>
           ) : null}
+          </>
+          )}
         </div>
       )}
     </aside>
@@ -837,7 +855,10 @@ function hexFill(isAtual: boolean, isParada = false): string {
   return 'color-mix(in srgb,var(--accent) 20%,transparent)'
 }
 
-export function PanelExploracao({ groupId }: { groupId: string }) {
+/** `readOnly` (pedido do usuário, follow-up #379 r2): fora da MESA CONECTADA o
+ *  caminho é SOMENTE LEITURA — a trilha é sincronizada com o session state
+ *  (remoto = fonte de verdade) e edição offline seria sobrescrita no pull. */
+export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOnly?: boolean }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const state = useSyncExternalStore(
@@ -998,7 +1019,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       return
     }
     const existente = hexAt(state.hexes, cell.col, cell.row)
-    if (addMode !== 'off') {
+    if (addMode !== 'off' && !readOnly) {
       // #82/#85: SEMPRE adiciona (revisitar é permitido — allowDup). Remover é
       // pelo × na lista. Com posição de inserção escolhida, insere lá. O `kind`
       // vem do MODO (parada = marco; caminho = rota).
@@ -1022,6 +1043,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
   // ── Token / moeda (#71) — arrastar e soltar ────────────────────────────────
   const onTokenPointerDown = (e: React.PointerEvent) => {
     e.stopPropagation()
+    if (readOnly) return
     tokenDragRef.current = true
     setTokenDropCell(atual ? { col: atual.col, row: atual.row } : null)
     ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
@@ -1045,7 +1067,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
     }
   }
   const confirmarParada = () => {
-    if (!tokenDropCell) return
+    if (readOnly || !tokenDropCell) return
     const nova = { col: tokenDropCell.col, row: tokenDropCell.row, data: todayISO(), kind: 'parada' as const }
     // allowDup: revisitar o mesmo lugar é permitido (#82).
     const criado =
@@ -1110,6 +1132,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
       >
         <LeftBar
           groupId={groupId}
+          readOnly={readOnly}
           state={state}
           hexMap={hexMap}
           collapsed={leftCollapsed}
@@ -1395,6 +1418,7 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
         <HexInfo
           key={selecionado.id}
           groupId={groupId}
+          readOnly={readOnly}
           hex={selecionado}
           hexMap={hexMap}
           atual={selecionado.id === atual?.id}
@@ -1423,12 +1447,14 @@ export function PanelExploracao({ groupId }: { groupId: string }) {
  *  Edição da associação de Localização (dropdown do Atlas). */
 function HexInfo({
   groupId,
+  readOnly,
   hex,
   hexMap,
   atual,
   onRemove,
 }: {
   groupId: string
+  readOnly?: boolean
   hex: GroupHex
   hexMap: HexMapCell[]
   atual: boolean
@@ -1472,6 +1498,7 @@ function HexInfo({
             ABRIR DOC
           </Link>
         ) : null}
+        {readOnly ? null : (
         <button
           onClick={onRemove}
           aria-label="Remover hex"
@@ -1488,6 +1515,7 @@ function HexInfo({
         >
           ×
         </button>
+        )}
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
         {/* #85: rótulo livre da parada pro LOG do grupo (o que fizeram ali). */}
@@ -1498,6 +1526,7 @@ function HexInfo({
             type="text"
             placeholder="ex.: acampamos aqui · emboscada · encontramos o mercador"
             value={hex.label ?? ''}
+            disabled={readOnly}
             onChange={(e) => updateGroupHex(groupId, hex.id, { label: e.target.value || undefined })}
             style={inputStyle}
           />
@@ -1507,6 +1536,7 @@ function HexInfo({
           <input
             type="date"
             value={hex.data ?? ''}
+            disabled={readOnly}
             onChange={(e) => updateGroupHex(groupId, hex.id, { data: e.target.value || undefined })}
             style={inputStyle}
           />
@@ -1515,6 +1545,7 @@ function HexInfo({
           <span style={fieldLabelStyle}>LOCAL</span>
           <select
             value={hex.localId ?? ''}
+            disabled={readOnly}
             onChange={(e) => updateGroupHex(groupId, hex.id, { localId: e.target.value || undefined })}
             style={inputStyle}
           >

@@ -639,6 +639,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
     migrateGroupState(MESA_GRUPO_ID, exploId)
     if (grupoPersistenteId) migrateGroupState(`${MESA_GRUPO_ID}:${live.sessionId}`, exploId)
   }, [isMesa, live?.sessionId, exploId, grupoPersistenteId])
+  // Pedido do usuário (follow-up #379 r2): o caminho só é EDITÁVEL na MESA
+  // CONECTADA — a trilha sincroniza com o session state (remoto = fonte de
+  // verdade) e edição offline seria sobrescrita no pull. Ficha de grupo
+  // (vault/local, fora da sessão) mostra o caminho somente leitura.
+  const exploReadOnly = !(isMesa && !!live?.sessionId)
   const repo = useSessionRepo()
   // #5: SINCRONIZA a exploração da mesa com o estado da sessão (backend), pra
   // todos os membros/aparelhos verem a mesma trilha (antes vivia só no
@@ -981,7 +986,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
         <TrackPanel pad="0">
-          <PanelExploracao key={exploId} groupId={exploId} />
+          <PanelExploracao key={exploId} groupId={exploId} readOnly={exploReadOnly} />
         </TrackPanel>
         <TrackPanel pad="0">
           <PanelInventario groupId={groupId} />

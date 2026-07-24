@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { GrupoView } from '../src/grupo/GrupoView'
-import { MAPA_MUNDO_LIVRE } from '../src/grupo/PanelExploracao'
+import { MAPA_MUNDO_LIVRE, PanelExploracao } from '../src/grupo/PanelExploracao'
 import {
   fracToHex,
   hexCenter,
@@ -120,11 +120,16 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
+// Contrato novo (follow-up #379 r2): edição do caminho SÓ na MESA CONECTADA;
+// GrupoView de grupo comum passa readOnly ao painel. A MECÂNICA de edição
+// (marcar/arrastar/moeda/zoom) continua coberta montando o PainelExploracao
+// DIRETO (default editável — o mesmo modo da mesa); o gate do GrupoView tem
+// suite própria em explo-readonly-desconectado.test.tsx.
 const renderGroup = () =>
   render(
     <CatalogProvider catalog={catalog}>
       <MemoryRouter>
-        <GrupoView groupId={GROUP_ID} />
+        <PanelExploracao groupId={GROUP_ID} />
       </MemoryRouter>
     </CatalogProvider>,
   )
@@ -413,7 +418,14 @@ describe('locaisSelectLines (árvore real do Atlas)', () => {
 
 describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
   it('é a PRIMEIRA aba, ativa por padrão, mostra o mapa real e a grade', async () => {
-    const { container } = renderGroup()
+    // estrutura (tabs/track/kicker) é do GrupoView — monta a view inteira
+    const { container } = render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <GrupoView groupId={GROUP_ID} />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
     const tabExp = screen.getByText('EXPLORAÇÃO')
     // primeira aba da fila e ativa por padrão (accent + track em -0%)
     const tabsRow = tabExp.parentElement as HTMLElement
