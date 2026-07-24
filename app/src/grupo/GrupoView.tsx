@@ -668,7 +668,11 @@ export function GrupoView({ groupId }: { groupId: string }) {
     // do grupo. Remoto sem carimbo (states antigos) mantém o pull clássico.
     const remoteUpdated = typeof remote?.updatedAt === 'string' ? remote.updatedAt : null
     const localUpdated = groupStateUpdatedAt(exploId)
-    const localMaisNovo = !!remoteUpdated && !!localUpdated && localUpdated > remoteUpdated
+    // Local carimbado vence remoto SEM carimbo (state de sessão antiga): por
+    // definição o carimbo local é uma edição posterior — empurra e o remoto
+    // ganha carimbo (o mundo converge). Pull "clássico" fica pro device sem
+    // edição própria (local vazio/sem carimbo).
+    const localMaisNovo = !!localUpdated && (!remoteUpdated || localUpdated > remoteUpdated)
     /** Push com carimbo: preserva o updatedAt da última edição local. */
     const pushRemoto = (motivo: string) => {
       exploSyncRef.current = groupStateJson(getGroupState(exploId))
@@ -679,7 +683,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
     }
     if (remoteJson && remoteJson !== localJson && !localMaisNovo) {
       exploSyncRef.current = remoteJson
-      setGroupStateFull(exploId, remote!)
+      setGroupStateFull(exploId, remote!) // leva o updatedAt do remoto junto
       pushLog('explo', 'pull remoto→local')
     } else if (localJson !== EMPTY && (!remoteJson || (localMaisNovo && remoteJson !== localJson))) {
       pushRemoto(remoteJson ? 'push local→remoto (local mais novo)' : 'semeia remoto (remoto vazio, local tem)')

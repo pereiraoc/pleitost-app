@@ -151,10 +151,13 @@ describe('#379 r2 — trilha da mesa vive no GRUPO PERSISTENTE', () => {
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'GP2' })
     // grupo da vault com trilha VELHA (1 parada de 13/07 — o caso do usuário)
     setGroupStateFull(GRUPO_CARLOS, { hexes: [{ id: 'old', col: 1, row: 1, kind: 'parada' }] } as never)
-    // remoto da sessão tem a trilha completa (fonte de verdade do #5)
+    // remoto da sessão tem a trilha CONSOLIDADA com carimbo mais novo que a
+    // edição local (last-writer-wins real — o guard não deixa remoto sem/com
+    // carimbo velho regredir o local)
+    const carimboNovo = new Date(Date.now() + 60_000).toISOString()
     setLiveSession({
       ...liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'),
-      state: { exploracao: TRILHA } as LiveSession['state'],
+      state: { exploracao: { ...(TRILHA as object), updatedAt: carimboNovo } } as LiveSession['state'],
     })
     renderView(repo, MESA_GRUPO_ID)
     await waitFor(() => {

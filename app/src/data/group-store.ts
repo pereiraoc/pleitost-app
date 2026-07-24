@@ -179,15 +179,18 @@ function isEmpty(s: GroupState): boolean {
   return s.hexes.length === 0 && !s.regiaoAtiva
 }
 
-/** Canal 'imediato': memória (UI na hora) + notify + localStorage. */
-function commit(groupId: string, next: GroupState): void {
+/** Canal 'imediato': memória (UI na hora) + notify + localStorage.
+ *  `updatedAt` explícito preserva o carimbo de ORIGEM (pull do sync grava o
+ *  carimbo do remoto — #379: senão a trilha puxada parecia "recém-editada" e
+ *  vencia indevidamente a de outra sessão no last-writer-wins). */
+function commit(groupId: string, next: GroupState, updatedAt?: string): void {
   memory.set(groupId, next)
   notify(groupId)
   if (isEmpty(next)) safeRemove(storageKey(groupId))
   else
     safeSet(
       storageKey(groupId),
-      JSON.stringify({ ...next, updatedAt: new Date().toISOString() }),
+      JSON.stringify({ ...next, updatedAt: updatedAt ?? new Date().toISOString() }),
     )
 }
 
@@ -222,13 +225,18 @@ export function groupStateJson(s: GroupState): string {
  *  inválidos, como a hidratação. */
 export function setGroupStateFull(groupId: string, next: GroupState): void {
   const hexes = Array.isArray(next?.hexes) ? next.hexes.filter(isHex) : []
-  commit(groupId, {
-    hexes,
-    ...(typeof next?.regiaoAtiva === 'string' ? { regiaoAtiva: next.regiaoAtiva } : {}),
-    ...(typeof next?.atualId === 'string' && hexes.some((h) => h.id === next.atualId)
-      ? { atualId: next.atualId }
-      : {}),
-  })
+  const carimboRemoto = (next as { updatedAt?: unknown })?.updatedAt
+  commit(
+    groupId,
+    {
+      hexes,
+      ...(typeof next?.regiaoAtiva === 'string' ? { regiaoAtiva: next.regiaoAtiva } : {}),
+      ...(typeof next?.atualId === 'string' && hexes.some((h) => h.id === next.atualId)
+        ? { atualId: next.atualId }
+        : {}),
+    },
+    typeof carimboRemoto === 'string' ? carimboRemoto : undefined,
+  )
 }
 
 export function migrateGroupState(from: string, to: string): boolean {

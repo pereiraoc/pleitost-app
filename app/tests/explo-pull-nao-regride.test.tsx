@@ -146,11 +146,10 @@ describe('pull NÃO regride: local mais novo vence o remoto velho', () => {
     })
   }, 30000)
 
-  it('remoto SEM updatedAt (states antigos) mantém o comportamento: pull', async () => {
+  it('remoto SEM carimbo + local VAZIO (device novo): pull clássico', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'REG3' })
     const exploId = `${MESA_GRUPO_ID}:${sess.id}`
-    setGroupStateFull(exploId, TRILHA_VELHA)
     setLiveSession(liveMesa(sess.id, TRILHA_NOVA))
     renderMesa(repo)
     await waitFor(() => {
@@ -160,5 +159,44 @@ describe('pull NÃO regride: local mais novo vence o remoto velho', () => {
         'n3',
       ])
     })
+  }, 30000)
+
+  it('remoto SEM carimbo vs local CARIMBADO: local vence e carimba o remoto', async () => {
+    // sessão antiga cujo state nunca ganhou updatedAt não pode apagar uma
+    // trilha editada/consolidada — o local empurra e o remoto converge.
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'REG4' })
+    const exploId = `${MESA_GRUPO_ID}:${sess.id}`
+    setGroupStateFull(exploId, TRILHA_NOVA) // carimbado (commit grava updatedAt)
+    setLiveSession(liveMesa(sess.id, TRILHA_VELHA)) // remoto SEM updatedAt
+    renderMesa(repo)
+    await waitFor(async () => {
+      const s = (await repo.findSessionById(sess.id))!.state
+      const explo = (s.exploracao ?? {}) as { hexes?: { id: string }[]; updatedAt?: string }
+      expect((explo.hexes ?? []).map((h) => h.id)).toEqual(['n1', 'n2', 'n3'])
+      expect(typeof explo.updatedAt).toBe('string')
+    })
+    expect((getGroupState(exploId).hexes as { id: string }[]).map((h) => h.id)).toEqual([
+      'n1',
+      'n2',
+      'n3',
+    ])
+  }, 30000)
+
+  it('PULL preserva o carimbo do REMOTO (não "renova" o local): reconectar noutra sessão mais nova ainda puxa', async () => {
+    // furo real: o pull carimbava o local com NOW — a trilha recém-puxada de
+    // uma sessão velha parecia "mais nova" que a consolidada de outra sessão.
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'REG5' })
+    const exploId = `${MESA_GRUPO_ID}:${sess.id}`
+    const antigo = '2026-07-13T00:00:00.000Z'
+    setLiveSession(liveMesa(sess.id, { ...(TRILHA_VELHA as object), updatedAt: antigo }))
+    renderMesa(repo)
+    await waitFor(() => {
+      expect((getGroupState(exploId).hexes as { id: string }[]).map((h) => h.id)).toEqual(['v1'])
+    })
+    // o carimbo LOCAL após o pull é o do REMOTO (13/07), não "agora"
+    const { groupStateUpdatedAt } = await import('../src/data/group-store')
+    expect(groupStateUpdatedAt(exploId)).toBe(antigo)
   }, 30000)
 })
