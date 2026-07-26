@@ -116,3 +116,33 @@ describe('F6 — imagem do grupo (#347)', () => {
     expect(await screen.findByRole('dialog', { name: /Imagem ampliada/ })).toBeTruthy()
   })
 })
+
+describe('imagem da mesa — fallback default Grupo de Criaturas', () => {
+  it('sem grupoImagem subida E sem grupo persistente → usa Retratos/Grupo de Criaturas.png', async () => {
+    // Sessão sem state.grupoImagem e sem characters — cenário "mesa recém-criada".
+    setLiveSession({
+      sessionId: 's-empty',
+      gmUserId: 'gm',
+      state: {},
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    render(
+      <CatalogProvider catalog={catalog}>
+        <SessionRepoProvider repo={null} user={{ id: 'p1', nome: 'Ana' }}>
+          <MemoryRouter>
+            <GrupoView groupId={MESA_GRUPO_ID} />
+          </MemoryRouter>
+        </SessionRepoProvider>
+      </CatalogProvider>,
+    )
+    const { waitFor } = await import('@testing-library/react')
+    await waitFor(() => {
+      const img = [...document.querySelectorAll('img')].find((i) =>
+        /Grupo%20de%20Criaturas\.png/.test(i.src),
+      )
+      expect(img, 'default Grupo de Criaturas.png renderizado').toBeTruthy()
+    })
+  })
+})

@@ -2,15 +2,20 @@
 // pela ficha do grupo cheia (GrupoView) quanto pelo botão FICHA DO GRUPO da
 // sidebar, pra não divergirem. Precedência: a imagem SUBIDA (state.grupoImagem,
 // sincronizada por conta) → senão a HERDADA do grupo persistente dos heróis da
-// sessão (ex.: "Aventureiros", via FM `grupo` do herói) → null (caller usa o
-// fallback ⚔️/👥). Aditivo e seguro: se nada resolver, devolve null.
+// sessão (ex.: "Aventureiros", via FM `grupo` do herói) → senão a imagem
+// DEFAULT "Grupo de Criaturas" (Retratos/Grupo de Criaturas.png) → null.
+// Aditivo e seguro: se nem o default existir nos assets, devolve null e o
+// caller mantém o fallback ⚔️/👥.
 import { useMemo } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useAssetIndex } from '../data/assets'
+import { groupImageUrl } from '../data/creature-image'
 import { useDoc } from '../data/useDoc'
 import { useEntityImageUrl } from '../data/images'
 import { useLiveSession } from '../data/session-repo/live-session'
 import { resolveGroupImageUrl } from './group-image'
+
+const DEFAULT_GROUP_BASENAME = 'Grupo de Criaturas'
 
 /** Grupo PERSISTENTE da mesa: o primeiro grupo que os personagens publicados
  *  referenciam no FM `grupo` (fmBlob). Fonte única da ponte mesa↔grupo — usada
@@ -44,5 +49,9 @@ export function useMesaGroupImageUrl(): string | null {
   const inherited =
     heroGroupLocalImg ??
     (heroGroupDoc ? resolveGroupImageUrl(heroGroupDoc, heroGroupDoc.basename, assets) : null)
-  return live?.state?.grupoImagem ?? inherited ?? null
+  return (
+    live?.state?.grupoImagem ??
+    inherited ??
+    groupImageUrl(DEFAULT_GROUP_BASENAME, assets)
+  )
 }
