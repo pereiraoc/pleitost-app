@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel, blockSortOrder, tiersFor } from '../src/data/initiative-blocks'
+import { ladoDe, agruparEmBlocos, SPEED_ORDER, blocoLabel, blockSortOrder, dropOrder, tiersFor } from '../src/data/initiative-blocks'
 
 type C = { id: string; family: string; tier: 'super' | 'rapido' | 'lento' | null }
 const key = (c: C) => ({ tier: c.tier, lado: ladoDe(c.family) })
@@ -60,5 +60,43 @@ describe('initiative-blocks', () => {
     expect(blockSortOrder(['m-lento', 'sem', 'j-super', 'm-super', 'j-rapido'], speeds, ladoOf)).toEqual([
       'j-super', 'm-super', 'j-rapido', 'm-lento', 'sem',
     ])
+  })
+
+  // #400: soltar o drag numa posição exata (antes/depois de uma linha) dentro do
+  // bloco — reordena DENTRO da mesma categoria pelo próprio drag.
+  describe('dropOrder (#400)', () => {
+    const fam: Record<string, string> = { a: 'Heroi', b: 'Heroi', c: 'Heroi', m: 'Monstro' }
+    const ladoOf = (id: string) => ladoDe(fam[id] ?? '')
+    // 3 heróis rápidos (a,b,c) + 1 monstro lento
+    const speeds = { a: 'rapido', b: 'rapido', c: 'rapido', m: 'lento' } as const
+    const base = ['a', 'b', 'c', 'm']
+
+    it('reordena DENTRO do bloco: soltar `c` ANTES de `a`', () => {
+      expect(dropOrder(base, speeds, ladoOf, 'c', 'rapido', { id: 'a', before: true })).toEqual([
+        'c', 'a', 'b', 'm',
+      ])
+    })
+
+    it('reordena DENTRO do bloco: soltar `a` DEPOIS de `b`', () => {
+      expect(dropOrder(base, speeds, ladoOf, 'a', 'rapido', { id: 'b', before: false })).toEqual([
+        'b', 'a', 'c', 'm',
+      ])
+    })
+
+    it('sem linha-alvo: só reagrupa nos blocos (blockSortOrder preserva ordem relativa)', () => {
+      // move `a` pro bloco lento sem alvo → blockSortOrder mantém `a` antes de
+      // `m` (ordem relativa do input); o posicionamento fino é via linha-alvo.
+      expect(dropOrder(base, speeds, ladoOf, 'a', 'lento', null)).toEqual(['b', 'c', 'a', 'm'])
+    })
+
+    it('muda de bloco E posiciona: soltar `a` (vira lento) ANTES de `m`', () => {
+      expect(dropOrder(base, speeds, ladoOf, 'a', 'lento', { id: 'm', before: true })).toEqual([
+        'b', 'c', 'a', 'm',
+      ])
+    })
+
+    it('soltar sobre si mesmo é no-op de posição (só reagrupa)', () => {
+      expect(dropOrder(base, speeds, ladoOf, 'b', 'rapido', { id: 'b', before: true })).toEqual(base)
+    })
   })
 })

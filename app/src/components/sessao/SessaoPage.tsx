@@ -59,6 +59,7 @@ import {
 import { advanceTurn } from '../../data/session-repo/turn'
 import {
   blockSortOrder,
+  dropOrder,
   ladoDe,
   SPEED_EMOJI,
   SPEED_LABEL,
@@ -819,6 +820,10 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   const [dragId, setDragId] = useState<string | null>(null)
   // #324: bloco sob o dedo durante o arraste (alvo de drop = define a velocidade).
   const [overBlock, setOverBlock] = useState<{ tier: SpeedTier; lado: Lado } | null>(null)
+  // #400: linha sob o dedo + se cai ANTES ou depois dela — pra desenhar o
+  // indicador de drop e reposicionar exatamente ali (ordenar dentro do bloco
+  // pelo próprio drag, não só pelos botões ↑/↓).
+  const [overRow, setOverRow] = useState<{ id: string; before: boolean } | null>(null)
   // Combatentes mostrando defesas/stats em vez de vida (toggle por linha, espelho
   // do card de MEMBRO). Set de ids.
   const [statsView, setStatsView] = useState<ReadonlySet<string>>(new Set())
@@ -919,22 +924,53 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // jogador em bloco de inimigo e vice-versa).
   const onDragMove = (e: { clientX: number; clientY: number }) => {
     if (!dragId) return
-    const bl = document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-block-tier]') as
-      | HTMLElement
-      | null
+    const el = document.elementFromPoint(e.clientX, e.clientY)
+    const bl = el?.closest('[data-block-tier]') as HTMLElement | null
     if (!bl) {
       setOverBlock(null)
+      setOverRow(null)
       return
     }
     setOverBlock({ tier: bl.dataset.blockTier as SpeedTier, lado: bl.dataset.blockLado as Lado })
+    // #400: linha sob o dedo (exceto a própria) → indicador de drop ANTES/depois
+    // conforme o cursor esteja na metade de cima ou de baixo da linha.
+    const row = el?.closest('[data-combatente-id]') as HTMLElement | null
+    const rowId = row?.dataset.combatenteId
+    if (row && rowId && rowId !== dragId) {
+      const r = row.getBoundingClientRect()
+      setOverRow({ id: rowId, before: e.clientY < r.top + r.height / 2 })
+    } else {
+      setOverRow(null)
+    }
   }
   const onDragEnd = async () => {
     const from = dragId
     const target = overBlock
+    const row = overRow
     setDragId(null)
     setOverBlock(null)
-    // só atribui se o combatente é do MESMO lado do bloco alvo
-    if (from && target && ladoOf(from) === target.lado) await assignSpeed(from, target.tier)
+    setOverRow(null)
+    if (!from || !target || ladoOf(from) !== target.lado) return
+    // #400: solta EXATAMENTE na posição indicada (antes/depois da linha-alvo)
+    // dentro do bloco; sem linha-alvo, cai no fim do bloco (comportamento #324).
+    await dropNaPosicao(from, target.tier, row)
+  }
+
+  // #400: move `from` pro bloco `tier` e o insere na posição do indicador de
+  // drop (antes/depois de `row.id`). Persiste pelo MESMO caminho do assignSpeed
+  // (updateEncounterTurnState); o ponteiro de turno segue o combatente da vez.
+  const dropNaPosicao = async (
+    from: string,
+    tier: SpeedTier,
+    row: { id: string; before: boolean } | null,
+  ) => {
+    if (!ativo?.turnState) return
+    const ts = ativo.turnState
+    const sp = { ...(ts.speeds ?? {}), [from]: tier }
+    const order = dropOrder(ts.order, ts.speeds ?? {}, ladoOf, from, tier, row)
+    const currentId = ts.order[ts.currentIndex] ?? ts.order[0]
+    const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, speeds: sp, currentIndex })
   }
 
   // #391: reordenar DENTRO do bloco — o drag (#324) só movia ENTRE blocos. O
@@ -1079,9 +1115,26 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
     const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
     const portrait = mostraReal ? creatureImageUrl(synthDocFromCharacter(c), assets, true) : null
+    // #400: indicador de drop — barra fina onde o combatente arrastado cairia.
+    const dropAntes = !!dragId && dragId !== c.id && overRow?.id === c.id && overRow.before
+    const dropDepois = !!dragId && dragId !== c.id && overRow?.id === c.id && !overRow.before
+    const dropBar = (
+      <div
+        aria-hidden
+        style={{
+          height: 3,
+          margin: '1px 0',
+          background: 'var(--accent)',
+          borderRadius: 2,
+          boxShadow: '0 0 6px var(--accent)',
+        }}
+      />
+    )
     return (
       <Fragment key={c.id}>
+        {dropAntes ? dropBar : null}
         <div
+          data-combatente-id={c.id}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -1109,8 +1162,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                 onPointerCancel={() => {
                   setDragId(null)
                   setOverBlock(null)
+                  setOverRow(null)
                 }}
-                title="Arraste pra um bloco de velocidade"
+                title="Arraste pra reordenar (solte antes/depois de um combatente ou noutro bloco)"
                 style={{ flex: 'none', cursor: 'grab', touchAction: 'none', fontSize: 15, lineHeight: 1, color: 'var(--muted)', padding: '0 2px' }}
               >
                 ☰
@@ -1338,6 +1392,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
           </div>
         </div>
         {temInvoc ? <CombatenteInvocacoes char={c} /> : null}
+        {dropDepois ? dropBar : null}
       </Fragment>
     )
   }

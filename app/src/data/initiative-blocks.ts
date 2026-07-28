@@ -104,3 +104,25 @@ export function blockSortOrder(
   }))
   return [...blocos.flatMap((b) => b.itens), ...semBloco]
 }
+
+/** #400: nova ordem ao SOLTAR `from` no bloco `tier`, inserido antes/depois da
+ *  linha-alvo (`row`) do indicador de drop; sem alvo, `from` fica no fim do
+ *  bloco (blockSortOrder puro). Pura pra testar sem geometria de ponteiro. */
+export function dropOrder(
+  order: readonly string[],
+  speeds: Record<string, SpeedTier>,
+  ladoOf: (id: string) => Lado,
+  from: string,
+  tier: SpeedTier,
+  row: { id: string; before: boolean } | null,
+): string[] {
+  const sp = { ...speeds, [from]: tier }
+  let out = blockSortOrder(order, sp, ladoOf)
+  if (row && row.id !== from) {
+    out = out.filter((id) => id !== from)
+    const at = out.indexOf(row.id)
+    if (at >= 0) out.splice(row.before ? at : at + 1, 0, from)
+    else out.push(from)
+  }
+  return out
+}
