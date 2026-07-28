@@ -26,6 +26,10 @@ export interface RosterItem {
   qty: number
   tier: number
   modificador: MonsterModifier
+  /** #389: classe de BESTIÁRIO do genérico (basename da nota em Sistema/
+   *  Regras/Bestiário/Classes de Bestiário) — deriva os stats do doc
+   *  sintético. Monstro de ficha real: null (a classe vem do FM dele). */
+  classe?: string | null
 }
 
 /** RosterItem a partir de um doc de monstro do bestiário (FM real: Tier +
@@ -78,13 +82,22 @@ export function combatantsFrom(
 }
 
 /** Roster do CONTRATO (session-repo) a partir dos itens em edição — o que o
- *  insertEncounter persiste (jsonb), mesmo shape que o sync grava. */
+ *  insertEncounter persiste (jsonb), mesmo shape que o sync grava. Entrada
+ *  GENÉRICA (#389) leva junto tier/modificador/classe escolhidos no Criador
+ *  (campos aditivos; ficha real segue só com sourcePath/label/qty). */
 export function toContractRoster(items: readonly RosterItem[]): EncounterRoster {
-  const entries: EncounterRosterEntry[] = items.map((item) => ({
-    sourcePath: item.sourcePath,
-    label: item.label,
-    qty: item.qty,
-  }))
+  const entries: EncounterRosterEntry[] = items.map((item) =>
+    item.sourcePath
+      ? { sourcePath: item.sourcePath, label: item.label, qty: item.qty }
+      : {
+          sourcePath: null,
+          label: item.label,
+          qty: item.qty,
+          tier: item.tier,
+          modificador: item.modificador,
+          classe: item.classe ?? null,
+        },
+  )
   return { entries }
 }
 
@@ -123,6 +136,25 @@ export function resolveRosterEntries(
 ): ResolvedRosterEntry[] {
   return roster.entries.map((entry) => {
     if (!entry.sourcePath) {
+      // #389: genérico persistido COM tier pontua como monstro normal (o
+      // Criador já pontuava ao vivo; agora o roster relido também). Entrada
+      // legada sem tier segue fora, comportamento antigo.
+      if (Number.isFinite(Number(entry.tier)) && entry.tier !== undefined) {
+        const mod = entry.modificador
+        return {
+          entry,
+          item: {
+            sourceId: null,
+            sourcePath: null,
+            label: entry.label,
+            qty: Math.max(1, Math.floor(entry.qty) || 1),
+            tier: Number(entry.tier),
+            modificador: mod === 'Competente' || mod === 'Elite' || mod === 'Solo' ? mod : null,
+            classe: entry.classe ?? null,
+          },
+          motivo: null,
+        }
+      }
       return { entry, item: null, motivo: 'genérico — não pontua' }
     }
     const res = catalog.resolve(entry.sourcePath)

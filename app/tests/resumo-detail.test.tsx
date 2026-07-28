@@ -316,6 +316,9 @@ describe('#242 resumo — apresentação em cards', () => {
       '// VIDA',
       '// DEFESAS · SENTIDOS · MOVIMENTO',
       '// PERÍCIAS',
+      // #387: picks de Especialização/Maestria ganharam bloco próprio no
+      // resumo (espelho do especializacoes-block do modo Leitura do plugin)
+      '// ESPECIALIZAÇÕES & MAESTRIAS',
       '// MAGIAS',
       '// ATAQUES',
       '// AÇÕES',

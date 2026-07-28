@@ -9,18 +9,23 @@
 //   componentDidMount: scroll (capture) limpa o gtip (_onScrollG).
 // O markup do overlay (§GRUPOS, sc-if grupo.gtip) é replicado em <GtipOverlay>.
 import { useLayoutEffect, useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
-import { getGtips } from './gtips'
+import { getGtips, type GtipEntry } from './gtips'
 
 interface GtipState {
   key: string
   x: number
   y: number
+  /** #384: entrada DINÂMICA (dados vivos) — tem precedência sobre o store
+   *  estático do design; a chave segue valendo pra identidade (toggle #240)
+   *  e pra regra de largura `riq:` do buildGtip. */
+  ent?: GtipEntry
 }
 
 /** Handlers que o design liga nos slots (tipE/tipMove/tipHide do renderVals). */
 export interface GrupoTip {
-  /** tipE(key) do design: onMouseEnter que mostra o tooltip da chave. */
-  tipE: (key: string) => (e: MouseEvent) => void
+  /** tipE(key) do design: onMouseEnter que mostra o tooltip da chave.
+   *  #384: `ent` opcional injeta conteúdo vivo no lugar do store estático. */
+  tipE: (key: string, ent?: GtipEntry) => (e: MouseEvent) => void
   /** grupo.tipMove do design (onMouseMove). */
   move: (e: MouseEvent) => void
   /** grupo.tipHide do design (onMouseLeave). */
@@ -39,13 +44,14 @@ interface BuiltGtip {
   tf: string
 }
 
-/** Porta VERBATIM do buildGtip() do design. */
+/** Porta VERBATIM do buildGtip() do design — #384: entrada dinâmica (g.ent)
+ *  tem precedência; sem ela, cai no store estático (comportamento original). */
 function buildGtip(g: GtipState | null): BuiltGtip | null {
+  if (!g) return null
   const GT = getGtips()
-  if (!g || !GT) return null
-  const ix = GT.map[g.key]
-  if (ix === undefined) return null
-  const ent = GT.store[ix]!
+  const ix = GT ? GT.map[g.key] : undefined
+  const ent = g.ent ?? (ix === undefined ? undefined : GT!.store[ix])
+  if (!ent) return null
   const vw = window.innerWidth
   const vh = window.innerHeight
   let ew = ent.w
@@ -138,7 +144,7 @@ export function useGrupoTip(): GrupoTip {
     return () => document.removeEventListener('pointerdown', onDown, true)
   }, [])
   const tipE = useCallback(
-    (key: string) => (e: MouseEvent) => {
+    (key: string, ent?: GtipEntry) => (e: MouseEvent) => {
       if (e.type === 'click' && prevKeyRef.current === key) {
         prevKeyRef.current = null
         return
@@ -156,7 +162,7 @@ export function useGrupoTip(): GrupoTip {
           y = r.top + r.height / 2
         }
       }
-      setGtip({ key, x, y })
+      setGtip({ key, x, y, ent })
     },
     [],
   )

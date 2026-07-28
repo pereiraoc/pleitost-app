@@ -141,3 +141,60 @@ describe('#229 (a): monstro da vault no BESTIÁRIO abre a ficha formato herói',
     expect(card.textContent).toContain(String(gfm.Tier))
   })
 })
+
+describe('#383: TIER 0 legível no modo escuro', () => {
+  // Report: "O Tier 0 nem dá pra ler quando tá em modo escuro, porque fica
+  // completamente preto com fundo preto." — monsterTierColor(0) devolvia o
+  // "#111111" CRU do registro (tokens.colors.tier.Zero). No PLUGIN esse Zero
+  // só vira BORDA + tinta de fundo (styles.css: border + color-mix 20% com o
+  // background) — nunca cor de texto; no app ele era aplicado direto como
+  // color do número/borda do losango e do kicker do grupo → preto-sobre-preto.
+  const PRETO_CRU = 'rgb(17, 17, 17)' // #111111 normalizado pelo jsdom
+
+  it('badge do card tier-0 e kicker "// TIER 0" usam token de tema, não o #111111 cru', async () => {
+    // Goblin Batedor é Tier 0 no FM — guarda do cenário (se o dado mudar,
+    // o teste precisa de outro monstro tier 0).
+    expect(Number(gfm.Tier)).toBe(0)
+    renderNpcsComFicha()
+    fireEvent.click(screen.getByRole('button', { name: 'BESTIÁRIO' }))
+    const card = await findGoblinCard()
+
+    const num = card.querySelector<HTMLElement>('.npc-nvl-num')!
+    const diamond = card.querySelector<HTMLElement>('.npc-nvl-diamond')!
+    expect(num.textContent).toBe('0')
+    expect(num.style.color).not.toBe(PRETO_CRU)
+    expect(num.style.color).toMatch(/^var\(--/) // token de tema, contrasta em qualquer modo
+    expect(diamond.style.borderColor).not.toBe(PRETO_CRU)
+
+    // Kicker do grupo (#380) no MESMO painel do card — o "0" também era cru.
+    const panel = card.closest('[data-panel]')!
+    const kicker = [...panel.querySelectorAll<HTMLElement>('.kicker')].find(
+      (k) => k.textContent === '// TIER 0',
+    )!
+    expect(kicker).toBeTruthy()
+    const letra = kicker.querySelector<HTMLElement>('span')!
+    expect(letra.style.color).not.toBe(PRETO_CRU)
+    expect(letra.style.color).toMatch(/^var\(--/)
+  })
+
+  it('badge TIER da ficha do Goblin Piromante (página do report) usa tokens de tema', async () => {
+    // Guarda: a ficha aberta no report renderiza o badge com cores de TOKEN
+    // (--accent/--ink), legíveis em qualquer modo.
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath('Sistema/Criaturas/Bestiário/Goblin Piromante')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    await screen.findAllByDisplayValue('Goblin Piromante')
+    const badge = [...document.querySelectorAll<HTMLElement>('span')].find((el) =>
+      /^TIER \d+$/.test(el.textContent ?? ''),
+    )!
+    expect(badge).toBeTruthy()
+    expect(badge.style.background).toBe('var(--accent)')
+    expect(badge.style.color).toBe('var(--ink)')
+  })
+})

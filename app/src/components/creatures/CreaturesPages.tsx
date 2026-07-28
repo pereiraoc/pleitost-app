@@ -1118,11 +1118,14 @@ export function HeroisPage() {
 }
 
 /** Cor do TIER de monstro — espelha tierColorForMonstro (header-monstro.ts:32):
- *  Tier 0 usa o registro tokens.colors.tier.Zero (palette-registry.ts:13,
- *  "Tier 0 do Monstro (sem tier) — usado como --badge-tier-color"); tiers 1+
- *  seguem o registro partyTierBar (issue #19), com teto em Tier4. */
+ *  tiers 1+ seguem o registro partyTierBar (issue #19), com teto em Tier4.
+ *  #383: o Zero do registro (tokens.colors.tier.Zero = #111111) é tinta de
+ *  BORDA/FUNDO no plugin (styles.css: border + color-mix 20% com o
+ *  background) — nunca cor de texto; aplicado cru como color do número/kicker
+ *  ficava preto-sobre-preto no modo escuro. O "preto" theme-aware do app é
+ *  var(--text) (escuro no modo claro, claro no escuro). */
 function monsterTierColor(t: number): string {
-  if (t <= 0) return tokens.colors.tier.Zero
+  if (t <= 0) return 'var(--text)'
   return tierBarColor(Math.min(Math.floor(t), 4))
 }
 
@@ -1470,13 +1473,17 @@ function PessoaDeAnotacaoCard({
 export function NpcsPage() {
   // #249: deep-link de aba via `?tab=` (mesmo padrão do FichaPage/SessaoFicha) —
   // ex.: o "criar combate" da tela de Combates do compêndio abre `?tab=combate`.
-  const [searchParams] = useSearchParams()
+  // #381: a aba ativa VIVE na URL (não em useState) — abrir uma criatura e usar
+  // o voltar físico retorna pra /npcs?tab=... e a página remonta na aba certa.
+  const [searchParams, setSearchParams] = useSearchParams()
   const tabPedida = searchParams.get('tab')
-  const abaInicial =
+  const tab =
     tabPedida && [...NPC_TABS, ...MESTRE_TABS].some((t) => t.id === tabPedida)
       ? tabPedida
       : NPC_TABS[0]!.id
-  const [tab, setTab] = useState(abaInicial)
+  // #381: troca de aba com replace — clicar entre abas não empilha histórico
+  // (um único voltar sai da página, como antes do fix).
+  const setTab = (id: string) => setSearchParams({ tab: id }, { replace: true })
   const [pessoaOpen, setPessoaOpen] = useState(false)
   // #205: modal Importar Companheiro Animal (arquivo ou exemplo do compêndio)
   const [importCAOpen, setImportCAOpen] = useState(false)

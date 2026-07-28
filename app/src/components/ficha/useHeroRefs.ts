@@ -65,6 +65,9 @@ function collectTargets(hero: VaultDoc | undefined, fmEffective?: Record<string,
   if (Array.isArray(pericias)) {
     for (const p of pericias as Record<string, unknown>[]) {
       if (str(p['Especializacao'])) pushTarget(out, p['Especializacao'])
+      // #387: a Maestria também tem nota própria — carrega pro card no hover
+      // (bloco Especializações & Maestrias do resumo).
+      if (str(p['Maestria'])) pushTarget(out, p['Maestria'])
     }
   }
 

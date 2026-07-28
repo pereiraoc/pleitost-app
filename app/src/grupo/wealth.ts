@@ -92,7 +92,7 @@ export function precoPO(doc: VaultDoc | undefined | null): number {
   return m ? Number(m[1]) : 0
 }
 
-interface InvFm {
+export interface InvFm {
   Inventario?: {
     Tesouros?: unknown
     Consumiveis?: unknown
@@ -105,65 +105,141 @@ interface InvFm {
 
 export type PriceOf = (linkTarget: string) => number
 
-/** Espelha sumInventarioTesouros (pricing.ts): display = parte após `|`
- *  ('' sem alias) → tier (default Adepto) × preço base. */
-export function sumInventarioTesouros(fm: InvFm, priceOf: PriceOf): number {
-  let sum = 0
+// ── Itemização (issue #384) ───────────────────────────────────────────────
+// As MESMAS regras de precificação dos totais, linha a linha, pros tooltips
+// DISCRIMINADOS da riqueza (riq-tips.ts). Os sums delegam pros itemizadores —
+// uma fonte só, sem drift soma↔detalhe. Formato dos rótulos = o do design
+// puxado (grupo-tips.js): "Nome (Inicial-do-tier)".
+
+/** Uma linha do detalhe: rótulo (formato do design) + valor em PO. */
+export interface WealthLine {
+  label: string
+  value: number
+}
+
+/** Display do wikilink (alias após `|`, sem `]]`); '' sem alias. */
+function wikilinkDisplay(s: unknown): string {
+  const str = String(s ?? '')
+  return str.includes('|') ? str.split('|').pop()!.replace(/\]\]$/, '') : ''
+}
+
+/** Basename de um alvo de link (sem pasta/.md) — mesmo passo usado em
+ *  tierMultFromCategoriaLink. */
+function pathBasename(p: string): string {
+  return (p.split('/').pop() ?? p).replace(/\.md$/i, '')
+}
+
+/** Inicial do tier pro rótulo do design ("(A)"/"(E)"/"(M)") — espelha a
+ *  resolução de tierMultFromName (default Adepto quando não reconhece). */
+export function tierInitial(name: unknown): string {
+  const n = String(name || '').toLowerCase()
+  if (n.includes('mestre')) return 'M'
+  if (n.includes('experiente')) return 'E'
+  return 'A'
+}
+
+/** Tier da Categoria pro rótulo — mesmo basename de tierMultFromCategoriaLink. */
+function tierInitialFromCategoriaLink(linkStr: unknown): string {
+  const p = wikilinkTargetFlexible(linkStr)
+  return tierInitial(p ? pathBasename(p) : '')
+}
+
+/** Linhas de Inventario.Tesouros — preço × tier do display (default Adepto). */
+export function itemizeTesouros(fm: InvFm, priceOf: PriceOf): WealthLine[] {
+  const out: WealthLine[] = []
   for (const entry of toArray(fm?.Inventario?.Tesouros)) {
     const p = wikilinkTargetFlexible(entry)
     if (!p) continue
-    const display = String(entry).includes('|')
-      ? String(entry).split('|').pop()!.replace(/\]\]$/, '')
-      : ''
+    const display = String(entry).includes('|') ? wikilinkDisplay(entry) : ''
     const tier = parseTierFromDisplay(display) || 'Adepto'
-    sum += priceOf(p) * tierMultFromName(tier)
+    out.push({
+      label: `${pathBasename(p)} (${tierInitial(tier)})`,
+      value: priceOf(p) * tierMultFromName(tier),
+    })
   }
-  return sum
+  return out
 }
 
-/** Espelha sumConsumiveis (pricing.ts): tier + quantidade `(xN)` do display. */
-export function sumConsumiveis(fm: InvFm, priceOf: PriceOf): number {
-  let sum = 0
+/** Linhas de Inventario.Consumiveis — tier + quantidade `(xN)` do display. */
+export function itemizeConsumiveis(fm: InvFm, priceOf: PriceOf): WealthLine[] {
+  const out: WealthLine[] = []
   for (const entry of toArray(fm?.Inventario?.Consumiveis)) {
     const p = wikilinkTargetFlexible(entry)
     if (!p) continue
     const inner = String(entry)
-    const display = inner.includes('|') ? inner.split('|').pop()!.replace(/\]\]$/, '') : inner
+    const display = inner.includes('|') ? wikilinkDisplay(entry) : inner
     const tier = parseTierFromDisplay(display) || 'Adepto'
     const qty = parseConsumableQty(display)
-    sum += priceOf(p) * tierMultFromName(tier) * qty
+    out.push({
+      label: `${pathBasename(p)} (${tierInitial(tier)}) ×${qty}`,
+      value: priceOf(p) * tierMultFromName(tier) * qty,
+    })
   }
-  return sum
+  return out
 }
 
-/** Espelha priceArmaduraEscudo (pricing.ts): preço da Propriedade × tier da Categoria. */
-export function priceArmaduraEscudo(fm: InvFm, priceOf: PriceOf): number {
-  let sum = 0
+/** Linhas de Armadura/Escudo — rótulo = campo do FM + alias da Propriedade
+ *  ("Armadura (Obra-prima) (E)", como no design) × tier da Categoria. */
+export function itemizeArmaduraEscudo(fm: InvFm, priceOf: PriceOf): WealthLine[] {
+  const out: WealthLine[] = []
+  const push = (campo: string, peca: { Propriedade?: unknown; Categoria?: unknown }) => {
+    const p = wikilinkTargetFlexible(peca.Propriedade)
+    const prop = wikilinkDisplay(peca.Propriedade) || pathBasename(p)
+    out.push({
+      label: `${campo} (${prop}) (${tierInitialFromCategoriaLink(peca.Categoria)})`,
+      value: priceOf(p) * tierMultFromCategoriaLink(peca.Categoria),
+    })
+  }
   const arm = fm?.Inventario?.Armadura
-  if (arm?.Propriedade) {
-    sum += priceOf(wikilinkTargetFlexible(arm.Propriedade)) * tierMultFromCategoriaLink(arm.Categoria)
-  }
+  if (arm?.Propriedade) push('Armadura', arm)
   const escudo = fm?.Inventario?.Escudo
-  if (escudo?.Propriedade && String(escudo.Propriedade).trim()) {
-    sum +=
-      priceOf(wikilinkTargetFlexible(escudo.Propriedade)) * tierMultFromCategoriaLink(escudo.Categoria)
-  }
-  return sum
+  if (escudo?.Propriedade && String(escudo.Propriedade).trim()) push('Escudo', escudo)
+  return out
 }
 
-/** Espelha priceAtaquesPropriedades (pricing.ts): só Inventario.Armas.Lista. */
-export function priceAtaquesPropriedades(fm: InvFm, priceOf: PriceOf): number {
-  let sum = 0
+/** Linhas de Inventario.Armas.Lista — "Arma (Propriedade) (Tier)" como no
+ *  design; só linhas com Propriedade (paridade com o pricing). */
+export function itemizeArmasProp(fm: InvFm, priceOf: PriceOf): WealthLine[] {
+  const out: WealthLine[] = []
   for (const row of toArray(fm?.Inventario?.Armas?.Lista) as Array<{
+    Nome?: unknown
     Propriedade?: unknown
     Categoria?: unknown
   }>) {
     if (!row?.Propriedade) continue
     const p = wikilinkTargetFlexible(row.Propriedade)
     if (!p) continue
-    sum += priceOf(p) * tierMultFromCategoriaLink(row.Categoria)
+    const arma = pathBasename(wikilinkTargetFlexible(row.Nome))
+    const prop = wikilinkDisplay(row.Propriedade) || pathBasename(p)
+    out.push({
+      label: `${arma ? `${arma} ` : ''}(${prop}) (${tierInitialFromCategoriaLink(row.Categoria)})`,
+      value: priceOf(p) * tierMultFromCategoriaLink(row.Categoria),
+    })
   }
-  return sum
+  return out
+}
+
+const sumLines = (lines: WealthLine[]): number => lines.reduce((s, l) => s + l.value, 0)
+
+/** Espelha sumInventarioTesouros (pricing.ts): display = parte após `|`
+ *  ('' sem alias) → tier (default Adepto) × preço base. */
+export function sumInventarioTesouros(fm: InvFm, priceOf: PriceOf): number {
+  return sumLines(itemizeTesouros(fm, priceOf))
+}
+
+/** Espelha sumConsumiveis (pricing.ts): tier + quantidade `(xN)` do display. */
+export function sumConsumiveis(fm: InvFm, priceOf: PriceOf): number {
+  return sumLines(itemizeConsumiveis(fm, priceOf))
+}
+
+/** Espelha priceArmaduraEscudo (pricing.ts): preço da Propriedade × tier da Categoria. */
+export function priceArmaduraEscudo(fm: InvFm, priceOf: PriceOf): number {
+  return sumLines(itemizeArmaduraEscudo(fm, priceOf))
+}
+
+/** Espelha priceAtaquesPropriedades (pricing.ts): só Inventario.Armas.Lista. */
+export function priceAtaquesPropriedades(fm: InvFm, priceOf: PriceOf): number {
+  return sumLines(itemizeArmasProp(fm, priceOf))
 }
 
 export interface MemberWealthParts {
@@ -227,6 +303,9 @@ function addParts(a: MemberWealthParts, b: MemberWealthParts): MemberWealthParts
 export interface WealthMemberRow {
   member: IndexDocEntry
   parts: MemberWealthParts
+  /** FMs que compõem a linha (#384: o detalhe discriminado itemiza sobre
+   *  eles): o do membro + os dos CAs somados no tutor (#236). */
+  fms: InvFm[]
 }
 
 /** Issue #236: membros que viram LINHA na riqueza da mesa. Companheiro Animal
@@ -251,13 +330,17 @@ export function wealthMemberRows(
       cas.push({ doc, parts })
       continue
     }
-    const row: WealthMemberRow = { member, parts }
+    const row: WealthMemberRow = { member, parts, fms: [(doc?.frontmatter ?? {}) as InvFm] }
     rows.push(row)
     rowByBasename.set(member.basename ?? member.id, row)
   }
   for (const ca of cas) {
     const tutor = rowByBasename.get(wikilinkBasename(String(ca.doc.frontmatter['Tutor'] ?? '')))
-    if (tutor) tutor.parts = addParts(tutor.parts, ca.parts)
+    if (tutor) {
+      tutor.parts = addParts(tutor.parts, ca.parts)
+      // #384: o detalhe discriminado do tutor também lista os itens do CA.
+      tutor.fms.push(ca.doc.frontmatter as InvFm)
+    }
   }
   return rows
 }

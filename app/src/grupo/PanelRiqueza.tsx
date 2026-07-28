@@ -2,9 +2,13 @@
 // do design (Companion App.dc.html, §GRUPOS + build recuperado do renderVals):
 //   - cabeçalhos ordenáveis (grpCycleSort/applySort, aba 'riqueza'); sem
 //     sort → alfabético pt por nome; linha Grupo sempre por último;
-//   - tooltips: heads 'riq:h1..h5', células 'riq:r<gi>c<i+1>' com gi = índice
-//     na lista ORIGINAL (delta desc, a ordem de G.riqRows do design), rótulo
-//     Grupo 'riq:r5c0', hero RIQUEZA TOTAL 'riq:f1';
+//   - tooltips: heads 'riq:h1..h5' e rótulo Grupo 'riq:r5c0' vêm do STORE do
+//     design (texto genérico); hero RIQUEZA TOTAL 'riq:f1'. As CÉLULAS de
+//     valor (#384) injetam conteúdo DINÂMICO (riq-tips.ts) via tipE(key, ent):
+//     o detalhe discriminado (tesouros/consumíveis/ouro/Δ e os "por
+//     integrante" da linha Grupo) é recomputado dos dados VIVOS do membro da
+//     linha — antes vinha do snapshot estático chaveado por índice (gi) e
+//     caía no integrante errado quando a ordem viva divergia do snapshot;
 //   - cores: membro var(--blue)/var(--text); a coluna Δ dos membros usa a
 //     classificação do PLUGIN (issue #9): deltaKind/DELTA_COLORS espelham
 //     deltaClass (render-party-sheet.ts:385) + .pleitost-party__delta-*
@@ -21,13 +25,28 @@ import { useDocs } from '../data/useDoc'
 import { useDetail } from '../data/detail-context'
 import type { IndexDocEntry, VaultDoc } from '../data/types'
 import type { GrupoTip } from './gtip'
+import { storeEntry, type GtipEntry } from './gtips'
 import { abrirMembroDetalhe, NameCell, SortHead, ValueCell, rowShellStyle, sectionTitleStyle } from './panel-ui'
+import {
+  riqTipConsumiveis,
+  riqTipDelta,
+  riqTipGrupoConsumiveis,
+  riqTipGrupoNivel,
+  riqTipGrupoOuro,
+  riqTipGrupoTesouros,
+  riqTipOuro,
+  riqTipTesouros,
+} from './riq-tips'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
 import { fmtPlain, nivelOf } from './stats'
 import {
   DELTA_COLORS,
   deltaKind,
   expectedWealthForLevel,
+  itemizeArmaduraEscudo,
+  itemizeArmasProp,
+  itemizeConsumiveis,
+  itemizeTesouros,
   precoPO,
   priceTargets,
   wealthMemberRows,
@@ -62,6 +81,9 @@ interface Row {
   gi: number
   /** Cor da coluna Δ (deltaKind do plugin) — só membros; Grupo fica accent. */
   dltCor?: string
+  /** #384: conteúdo VIVO do tooltip por célula (índice = coluna); undefined =
+   *  célula sem detalhe (Δ do Grupo, como no design). */
+  tips: (GtipEntry | undefined)[]
 }
 
 export function PanelRiqueza({
@@ -104,12 +126,12 @@ export function PanelRiqueza({
   // #236: as linhas vêm de wealthMemberRows — o Companheiro Animal sai da
   // lista e os tesouros dele já entram nas partes do tutor.
   const computed = ready
-    ? wealthMemberRows(members, docs, priceOf).map(({ member, parts }) => {
+    ? wealthMemberRows(members, docs, priceOf).map(({ member, parts, fms }) => {
         const doc = docs.get(member.id)
         const nivel = nivelOf(doc)
         const expected = expectedWealthForLevel(nivel)
         const delta = parts.ouro + parts.itensSemConsumiveis - expected
-        return { id: member.id, name: member.basename ?? member.id, nivel, parts, expected, delta }
+        return { id: member.id, name: member.basename ?? member.id, nivel, parts, expected, delta, fms }
       })
     : []
   computed.sort((a, b) => b.delta - a.delta || a.name.localeCompare(b.name, 'pt'))
@@ -128,6 +150,20 @@ export function PanelRiqueza({
     gi: i,
     // Aviso do plugin (issue #9): Δ do membro classificado por deltaKind.
     dltCor: DELTA_COLORS[deltaKind(r.delta, r.expected)],
+    // #384: o detalhe discriminado vem dos DADOS REAIS do membro DESTA linha
+    // (antes: snapshot estático do design chaveado por índice → integrante
+    // errado). NVL segue genérico do store (mesmo texto em toda linha).
+    tips: [
+      storeEntry('riq:r0c1'),
+      riqTipConsumiveis(r.fms.flatMap((f) => itemizeConsumiveis(f, priceOf))),
+      riqTipOuro(r.parts.ouro),
+      riqTipTesouros({
+        armas: r.fms.flatMap((f) => itemizeArmasProp(f, priceOf)),
+        armaduraEscudo: r.fms.flatMap((f) => itemizeArmaduraEscudo(f, priceOf)),
+        tesouros: r.fms.flatMap((f) => itemizeTesouros(f, priceOf)),
+      }),
+      riqTipDelta(r.nivel, r.expected, r.delta),
+    ],
   }))
   const maxNivel = computed.length ? Math.max(...computed.map((r) => r.nivel)) : 1
   const sumTotal = computed.reduce((a, r) => a + r.parts.totalComTudo, 0)
@@ -144,6 +180,17 @@ export function PanelRiqueza({
       ],
       grupo: true,
       gi: base.length,
+      // #384: "por integrante" pareado pelos valores VIVOS de cada linha;
+      // Δ do Grupo sem tooltip (riq:r5c5 não existe no design).
+      tips: [
+        riqTipGrupoNivel(maxNivel),
+        riqTipGrupoConsumiveis(computed.map((r) => ({ label: r.name, value: r.parts.consumiveis }))),
+        riqTipGrupoOuro(computed.map((r) => ({ label: r.name, value: r.parts.ouro }))),
+        riqTipGrupoTesouros(
+          computed.map((r) => ({ label: r.name, value: r.parts.itensSemConsumiveis })),
+        ),
+        undefined,
+      ],
     })
   }
   const rows = applySort(base, sort, (r, c) => gnum(r.cells[c]), (r) => r.nome)
@@ -191,7 +238,15 @@ export function PanelRiqueza({
                         ? (row.dltCor ?? 'var(--text)')
                         : 'var(--text)'
                   }
-                  onTipEnter={tip?.tipE(`riq:r${row.gi}c${i + 1}`)}
+                  // #384: conteúdo VIVO da célula (tips[i]); a chave segue o
+                  // gi só como identidade (toggle #240 / largura riq:). Célula
+                  // do Grupo sem detalhe (Δ) não liga tooltip — senão a chave
+                  // por índice cairia numa entrada de MEMBRO do snapshot.
+                  onTipEnter={
+                    row.grupo && !row.tips[i]
+                      ? undefined
+                      : tip?.tipE(`riq:r${row.gi}c${i + 1}`, row.tips[i])
+                  }
                   tip={tip}
                 />
               ))}

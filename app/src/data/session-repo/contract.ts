@@ -66,6 +66,14 @@ export interface EncounterRosterEntry {
   sourcePath: string | null
   label: string
   qty: number
+  /** #389: entrada GENÉRICA persiste o que o GM escolheu no Criador — o doc
+   *  sintético deriva os stats disso (tier + classe de bestiário +
+   *  modificador). Ausentes em entradas de ficha real e em rosters legados
+   *  (fallback Tier 0 / Soldado, comportamento antigo). Campos aditivos no
+   *  jsonb — o pleitost-sync ignora chaves extras. */
+  tier?: number
+  modificador?: string | null
+  classe?: string | null
 }
 
 export interface EncounterRoster {

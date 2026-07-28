@@ -62,6 +62,13 @@ const readMemberDocs = (groupId: string): Map<string, VaultDoc> =>
 const PB: Record<string, number> = { N: 0, A: 2, E: 4, M: 6 }
 type AnyFm = Record<string, any>
 
+// #392: a coluna VIT/MOR da ficha de grupo mostra o CORRENTE
+// (`Interativa.Recursos_Restantes`; ausente = cheio), não mais o máximo de
+// `Vida.*` — a expectativa manual replica a MESMA semântica nullish do
+// memberStats (stats.ts, divergência consciente do espelho).
+const restOf = (f: AnyFm, campo: 'Vitalidade' | 'Moral') =>
+  Number(f.Interativa?.Recursos_Restantes?.[campo] ?? f.Vida[campo])
+
 beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
     const url = String(input)
@@ -146,8 +153,9 @@ describe('stats.ts (espelho de aggregates.ts) sobre o grupo do Thoren', () => {
   it('defesas/sentidos/movimento do Thoren batem com o cálculo manual do FM', () => {
     const fm = readDoc('Sistema/Criaturas/Heróis/Thoren').frontmatter as AnyFm
     const stats = memberStats(fm)
-    expect(stats.v).toBe(fm.Vida.Vitalidade)
-    expect(stats.m).toBe(fm.Vida.Moral)
+    // #392: VIT/MOR = corrente (Recursos_Restantes; ausente = cheio)
+    expect(stats.v).toBe(restOf(fm, 'Vitalidade'))
+    expect(stats.m).toBe(restOf(fm, 'Moral'))
     for (const row of fm.Defesas_Resistencias.Lista) {
       const manual =
         10 + fm.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
@@ -170,8 +178,9 @@ describe('stats.ts (espelho de aggregates.ts) sobre o grupo do Thoren', () => {
       members.map((m) => memberStats(docs.get(m.id)!.frontmatter)),
     )!
     const fms = members.map((m) => docs.get(m.id)!.frontmatter as AnyFm)
-    expect(agg.sumVit).toBe(fms.reduce((s, f) => s + f.Vida.Vitalidade, 0))
-    expect(agg.sumMor).toBe(fms.reduce((s, f) => s + f.Vida.Moral, 0))
+    // #392: a linha Grupo soma o VIT/MOR CORRENTE de cada membro
+    expect(agg.sumVit).toBe(fms.reduce((s, f) => s + restOf(f, 'Vitalidade'), 0))
+    expect(agg.sumMor).toBe(fms.reduce((s, f) => s + restOf(f, 'Moral'), 0))
     const manualDef = fms.map((f) => {
       const row = f.Defesas_Resistencias.Lista.find((r: AnyFm) => r.Nome === 'Defesa')
       return 10 + f.Atributos[row.Atributo] + PB[row.Proficiencia] + row.Bonus_Item + row.Bonus_Especial
@@ -347,8 +356,9 @@ describe('sort por clique nos cabeçalhos (grpCycleSort/applySort do design)', (
     const docs = readMemberDocs(GROUP5_ID)
     const members = groupMembers(catalog, GROUP5_ID)
     const vidaPanel = container.querySelectorAll('[data-panel]')[3] as HTMLElement
-    // espera os docs carregarem (VIT real do primeiro membro visível)
-    const anyVit = String((docs.get(members[0].id)!.frontmatter as AnyFm).Vida.Vitalidade)
+    // espera os docs carregarem (VIT real do primeiro membro visível —
+    // #392: a célula mostra o CORRENTE, não o máximo)
+    const anyVit = String(restOf(docs.get(members[0].id)!.frontmatter as AnyFm, 'Vitalidade'))
     await waitFor(() => expect(vidaPanel.textContent).toContain(anyVit))
 
     // expectativa independente: lista base = nível desc + nome (ordem do
@@ -356,7 +366,8 @@ describe('sort por clique nos cabeçalhos (grpCycleSort/applySort do design)', (
     const base = members
       .map((m) => {
         const fm = docs.get(m.id)!.frontmatter as AnyFm
-        return { nome: m.basename ?? m.id, nivel: Number(fm['Nível']) || 1, vit: Number(fm.Vida.Vitalidade) }
+        // #392: sort por VIT ordena pelo valor CORRENTE mostrado na célula
+        return { nome: m.basename ?? m.id, nivel: Number(fm['Nível']) || 1, vit: restOf(fm, 'Vitalidade') }
       })
       .sort((a, b) => b.nivel - a.nivel || a.nome.localeCompare(b.nome, 'pt'))
     const stable = <T,>(arr: T[], cmp: (a: T, b: T) => number): T[] =>
@@ -693,5 +704,109 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
       const card = within(magiasCol).getByText(mg.nome).parentElement as HTMLElement
       expect((card.textContent ?? '').includes('⚠️')).toBe(mg.warn)
     }
+  })
+})
+
+// ── Issue #384: o detalhe DISCRIMINADO da riqueza segue o INTEGRANTE ──────
+// Antes o conteúdo vinha ESTÁTICO do snapshot do design (grupo-tips.js),
+// chaveado por índice de linha (r0..r4 = Dante/Pind/Thoren/Carlos/Mera na
+// ordem por Δ do snapshot) — em qualquer grupo/ordem viva diferente, o valor
+// discriminado caía no integrante errado. GROUP3 (Baitaca, Carlos, Drauzio)
+// denuncia: 3 membros (≠5 do snapshot — a linha Grupo cai em chave de
+// MEMBRO), Drauzio sem tesouros no inventário e valores ≠ do snapshot.
+describe('#384: tooltips discriminados da riqueza pareiam com o integrante', () => {
+  const priceOf = (target: string): number => {
+    const res = catalog.resolve(target)
+    return res.kind === 'doc' ? precoPO(readDoc(res.id)) : 0
+  }
+  const overlayEl = () => document.querySelector('[data-gtip-overlay]') as HTMLElement | null
+  /** Valor (strong) da linha "label · valor · PO" do tooltip. */
+  const pairOf = (ov: HTMLElement, label: string) => {
+    const s = [...ov.querySelectorAll('span')].find((el) => el.textContent === label)
+    return s?.parentElement?.querySelector('strong')?.textContent ?? null
+  }
+  const sigmaOf = (ov: HTMLElement) => pairOf(ov, 'Σ')
+
+  /** Expectativa por membro a partir do PRÓPRIO doc (independe da ordem da tabela). */
+  const expectedOf = () => {
+    const members = groupMembers(catalog, GROUP3_ID)
+    const docs = readMemberDocs(GROUP3_ID)
+    return members.map((m) => {
+      const fm = docs.get(m.id)!.frontmatter as AnyFm
+      const parts = computeMemberWealthParts(fm, priceOf)
+      const esperado = expectedWealthForLevel(Number(fm['Nível']) || 1)
+      return {
+        nome: m.basename ?? m.id,
+        nivel: Number(fm['Nível']) || 1,
+        tsr: Math.round(parts.itensSemConsumiveis),
+        esperado,
+        delta: parts.ouro + parts.itensSemConsumiveis - esperado,
+      }
+    })
+  }
+
+  /** Espera os PREÇOS carregarem (senão lê o render intermediário com 0 PO). */
+  const waitPrices = async (riqPanel: HTMLElement, exp: ReturnType<typeof expectedOf>[0]) => {
+    await waitFor(() => {
+      const row = within(riqPanel).queryByText(exp.nome)?.parentElement?.parentElement
+      expect(row && (row.children[4] as HTMLElement).textContent).toBe(`${exp.tsr} PO`)
+    })
+  }
+
+  it('célula TSR de cada membro discrimina os tesouros DELE (Σ e itens)', async () => {
+    const { container } = renderGroup(GROUP3_ID)
+    const expected = expectedOf()
+    const riqPanel = container.querySelectorAll('[data-panel]')[4] as HTMLElement
+    await waitPrices(riqPanel, expected[0])
+    const tipOf = (nome: string) => {
+      const row = within(riqPanel).getByText(nome).parentElement!.parentElement!
+      fireEvent.mouseOver(row.children[4] as HTMLElement, { clientX: 200, clientY: 200 })
+      return overlayEl()!
+    }
+    // Σ do detalhe = valor TSR da PRÓPRIA linha, membro a membro
+    for (const exp of expected) {
+      expect(sigmaOf(tipOf(exp.nome)), exp.nome).toBe(String(exp.tsr))
+    }
+    // guardas reais: itens do PRÓPRIO inventário, no formato do design
+    const baitaca = tipOf('Baitaca').textContent ?? ''
+    expect(baitaca).toContain('Pulseira da Potência (A)')
+    expect(baitaca).toContain('Cauda de Dragão (da Potência) (A)')
+    const drauzio = tipOf('Drauzio Variola').textContent ?? ''
+    expect(drauzio).toContain('Arco de Guerra (Explosiva) (A)')
+    // não vaza item de OUTRO integrante (nem do snapshot do design)
+    expect(drauzio).not.toContain('Pulseira da Potência')
+    expect(drauzio).not.toContain('Espada Bastarda')
+  })
+
+  it('linha Grupo: "Tesouros (sem ouro) por integrante" pareia nome↔valor', async () => {
+    const { container } = renderGroup(GROUP3_ID)
+    const expected = expectedOf()
+    const riqPanel = container.querySelectorAll('[data-panel]')[4] as HTMLElement
+    await waitPrices(riqPanel, expected[0])
+    const grupoRow = within(riqPanel).getByText('Grupo').parentElement!.parentElement!
+    fireEvent.mouseOver(grupoRow.children[4] as HTMLElement, { clientX: 200, clientY: 200 })
+    const ov = overlayEl()!
+    expect(ov.textContent).toContain('Tesouros (sem ouro) por integrante')
+    for (const exp of expected) {
+      expect(pairOf(ov, exp.nome), exp.nome).toBe(String(exp.tsr))
+    }
+    expect(sigmaOf(ov)).toBe(String(expected.reduce((s, e) => s + e.tsr, 0)))
+  })
+
+  it('Δ do membro usa o nível/esperado/diferença DELE', async () => {
+    const { container } = renderGroup(GROUP3_ID)
+    const expected = expectedOf()
+    const riqPanel = container.querySelectorAll('[data-panel]')[4] as HTMLElement
+    await waitPrices(riqPanel, expected[0])
+    const baitaca = expected.find((e) => e.nome === 'Baitaca')!
+    expect(baitaca.nivel).not.toBe(7) // ≠ do nível uniforme do snapshot do design
+    const row = within(riqPanel).getByText('Baitaca').parentElement!.parentElement!
+    fireEvent.mouseOver(row.children[5] as HTMLElement, { clientX: 200, clientY: 200 })
+    const ov = overlayEl()!
+    expect(pairOf(ov, `📌 Esperado (economia · nível ${baitaca.nivel})`)).toBe(
+      String(baitaca.esperado),
+    )
+    const sgn = baitaca.delta >= 0 ? `+${Math.round(baitaca.delta)}` : String(Math.round(baitaca.delta))
+    expect(pairOf(ov, '➡️ Diferença (vs esperado)')).toBe(sgn)
   })
 })

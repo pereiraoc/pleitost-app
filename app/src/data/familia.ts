@@ -122,10 +122,26 @@ export interface FichaFamilia {
   /** Magias/EM/invocações (mount-interativa.ts:785 showMagias = Heroi;
    *  leitura/sections/magias-block.ts:27). */
   magias: boolean
-  /** Card de proficiências de equipamento + pickers de armadura/escudo
-   *  (CA usa Armadura Natural — interativa/panel/sections/defesa.ts:58-64;
-   *  tab-completa do CA não tem card Equipamentos). */
+  /** #382: slots de magia ILIMITADOS — o Monstro aprende qualquer magia que a
+   *  proficiência da escola cubra, sem orçamento Magias.Slots (plugin
+   *  tabs/monstro/tab-completa.ts:281 `unlimitedSlots: true`;
+   *  view-model.ts:657-668: canAdd por proficiência, não por slot). */
+  magiasIlimitadas: boolean
+  /** #382: seletor de Modificador de bestiário (Competente/Elite/Solo) no
+   *  perfil — pills do Monstro no plugin (perfil-card.ts:174-199). As opções
+   *  vêm da projeção (notas de Sistema/Regras/Bestiário/Modificadores/). */
+  modificador: boolean
+  /** Pickers de armadura/escudo no Inventário (CA usa Armadura Natural —
+   *  interativa/panel/sections/defesa.ts:58-64; tab-completa do CA não tem
+   *  card Equipamentos). #382: Monstro TEM — o plugin renderiza Armas+Escudo
+   *  editáveis no card de Combate do Monstro (tabs/monstro/tab-completa.ts:
+   *  234-254) e trata Heroi/Monstro igual nas categorias de armadura
+   *  (defesa.ts:56-64). */
   equipamentos: boolean
+  /** Card de PROFICIÊNCIAS de equipamento (prof-equipamentos-card) — só o
+   *  Heroi monta (tabs/monstro/tab-completa.ts não o inclui; no Monstro a
+   *  proficiência é rule-driven). Split do gate `equipamentos` no #382. */
+  profEquipamentos: boolean
   /** Moedas/Tesouros Especiais (tab-inventario.ts:126-128 — só Heroi). */
   moedas: boolean
   /** Consumíveis (tab-inventario.ts:126 — só Heroi). */
@@ -156,7 +172,10 @@ const HEROI_FICHA: FichaFamilia = {
   especializacoes: true,
   tecnicas: true,
   magias: true,
+  magiasIlimitadas: false,
+  modificador: false,
   equipamentos: true,
+  profEquipamentos: true,
   moedas: true,
   consumiveis: true,
   pericias: null,
@@ -180,8 +199,17 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     oficios: false,
     especializacoes: false,
     tecnicas: false,
-    magias: true, // readonly na prática (sourced de classe/modificador)
-    equipamentos: false,
+    magias: true,
+    // #382: monstro aprende magia sem orçamento de slots (unlimitedSlots do
+    // plugin, tab-completa.ts:281) e escolhe o Modificador no perfil
+    // (perfil-card.ts:174-199).
+    magiasIlimitadas: true,
+    modificador: true,
+    // #382: pickers de armadura/escudo visíveis (o plugin mostra Escudo
+    // editável no Combate do Monstro, tab-completa.ts:234-254); o card de
+    // PROFICIÊNCIAS segue só no Heroi (rule-driven no Monstro).
+    equipamentos: true,
+    profEquipamentos: false,
     moedas: false,
     consumiveis: false,
     pericias: null, // todas as 13, readonly
@@ -200,7 +228,10 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     especializacoes: false,
     tecnicas: false,
     magias: false,
+    magiasIlimitadas: false,
+    modificador: false,
     equipamentos: false,
+    profEquipamentos: false,
     moedas: false,
     consumiveis: false,
     pericias: CA_PERICIAS,

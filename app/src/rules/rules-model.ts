@@ -6,6 +6,10 @@
 import { slugify } from '../components/ficha/registry'
 import { parseItemAlias, str, num, fmPath } from '../components/ficha/hero-model'
 import { resolveFamilyFromFrontmatter, type SheetFamily } from '../data/familia'
+// #382: parser de referência do Modificador (espelho de parseModificador do
+// plugin, frontmatter-helpers.ts:195) — aceita flat, wikilink e o legado
+// Regras_Escolhas.modificador_bestiario.
+import { parseModificador } from '../mestre/encounter-compute'
 
 export type AtributoId = 'FOR' | 'AGI' | 'INT' | 'PRE'
 /** Ordem canônica dos atributos — espelho de ATRIBUTOS (plugin types/model.ts). */
@@ -234,7 +238,10 @@ export function rulesModelFromFm(fm: Record<string, unknown>): RulesModel {
       raca: str(fm['Raça']) || null,
       tutor: str(fm['Tutor']) || null,
       tamanho: str(fm['Tamanho']) || null,
-      modificador: str(fm['Modificador']) || null,
+      // #382: normalizado pelo parser (espelho do plugin frontmatter-
+      // extractor.ts:155 `model.meta.modificador = parseModificador(fm)`) —
+      // FM com wikilink não quebra os seeds do collectSeeds.
+      modificador: parseModificador(fm),
       subclasses: Array.isArray(fm['Subclasses']) ? (fm['Subclasses'] as unknown[]).map((s) => str(s)) : [],
       passado: str(bio['Passado']) || null,
       passadoPericia,

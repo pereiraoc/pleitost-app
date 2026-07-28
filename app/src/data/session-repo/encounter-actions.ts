@@ -196,13 +196,22 @@ async function docFromSourcePath(catalog: Catalog, sourcePath: string): Promise<
   }
 }
 
-/** F5 (#347, report 24234546): doc SINTÉTICO do monstro genérico — Tier 0 /
- *  Soldado / Incomum (defaults da família no plugin, family-defaults.ts) com o
- *  esqueleto padrão de defesas/sentidos/movimento. Os STATS saem das REGRAS de
- *  classe de bestiário pela MESMA engine dos monstros reais
- *  (effectiveFmForPublish) — nada de zeros hardcoded. (O plugin tem o mesmo
- *  bug no tracker dele, ZERO_STATS — correção lá é release próprio.) */
-function genericoMonstroDoc(label: string): VaultDoc {
+/** F5 (#347, report 24234546): doc SINTÉTICO do monstro genérico — defaults
+ *  Tier 0 / Soldado / Incomum (family-defaults.ts do plugin) com o esqueleto
+ *  padrão de defesas/sentidos/movimento. Os STATS saem das REGRAS de classe
+ *  de bestiário pela MESMA engine dos monstros reais (effectiveFmForPublish)
+ *  — nada de zeros hardcoded. #389: o Criador agora persiste tier/classe/
+ *  modificador do genérico e eles entram AQUI no FM sintético (roster legado
+ *  sem os campos cai nos defaults antigos). */
+function genericoMonstroDoc(
+  label: string,
+  opts?: { tier?: number; classe?: string | null; modificador?: string | null },
+): VaultDoc {
+  const tierRaw = Number(opts?.tier)
+  const tier = Number.isFinite(tierRaw) ? Math.max(0, Math.min(3, Math.floor(tierRaw))) : 0
+  const classe = String(opts?.classe ?? '').trim() || 'Soldado'
+  const mod = String(opts?.modificador ?? '').trim()
+  const modificador = mod === 'Competente' || mod === 'Elite' || mod === 'Solo' ? mod : null
   const profRow = (nome: string, attr: string) => ({
     Nome: nome,
     Atributo: attr,
@@ -219,8 +228,9 @@ function genericoMonstroDoc(label: string): VaultDoc {
     frontmatter: {
       categoria: 'Criatura',
       subcategoria: 'Monstro',
-      Tier: 0,
-      Classe: '[[Soldado]]',
+      Tier: tier,
+      Classe: `[[${classe}]]`,
+      ...(modificador ? { Modificador: modificador } : {}),
       Raça: '[[Incomum]]',
       Atributos: { Principal: 'FOR', FOR: 0, AGI: 0, INT: 0, PRE: 0 },
       Vida: { Vitalidade: 0 },
@@ -257,7 +267,11 @@ export async function npcInputsFromRoster(
     for (let i = 0; i < Math.max(1, entry.qty); i++) {
       const doc =
         (entry.sourcePath ? await docFromSourcePath(catalog, entry.sourcePath) : null) ??
-        genericoMonstroDoc(entry.label)
+        genericoMonstroDoc(entry.label, {
+          tier: entry.tier,
+          classe: entry.classe,
+          modificador: entry.modificador,
+        })
       // #323/#326: FM derivado (vida/defesas máx das regras, não o 0 do cru).
       const efm = await effectiveFmForPublish(doc, catalog)
       npcs.push({

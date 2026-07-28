@@ -271,6 +271,52 @@ function PericiasResumo({ fm, attrs }: { fm: Fm; attrs: Attrs }) {
   )
 }
 
+/** #387: Especializações & Maestrias por perícia — o resumo não mostrava os
+ *  picks. Espelho do especializacoes-block do modo Leitura do plugin (leitura/
+ *  sections/especializacoes-block.ts, a superfície read-only do plugin que os
+ *  lista): "Perícia: Especialização X · Maestria Y", hide-when-empty. Os picks
+ *  vivem SALVOS em Pericias.Lista[].Especializacao/Maestria (escolha do usuário
+ *  persistida — fonte de regra, não saída de cascata), então lê o FM do doc
+ *  como as demais seções. Cards das notas no hover via refs (useHeroRefs coleta
+ *  Especializacao e, pelo #387, Maestria também). */
+function EspecializacoesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
+  const rows = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
+  const items = (Array.isArray(rows) ? rows : [])
+    .map((r) => ({
+      pericia: displayName(slugify(str(r.Nome))),
+      esp: str((r as Record<string, unknown>)['Especializacao']),
+      mae: str((r as Record<string, unknown>)['Maestria']),
+    }))
+    .filter((x) => x.esp || x.mae)
+  if (items.length === 0) return null
+  return (
+    <Section label="// ESPECIALIZAÇÕES & MAESTRIAS">
+      {items.map((it) => (
+        <div key={it.pericia} data-resumo-espmae-row="" style={lineStyle}>
+          <span style={{ fontWeight: 600 }}>{`${it.pericia}: `}</span>
+          {it.esp ? (
+            <span style={{ whiteSpace: 'nowrap' }}>
+              <span style={{ color: 'var(--muted)' }}>Especialização </span>
+              <ItemHover doc={refs.refDoc(it.esp)} fullBody>
+                <span style={{ fontWeight: 600 }}>{linkLabel(it.esp)}</span>
+              </ItemHover>
+            </span>
+          ) : null}
+          {it.esp && it.mae ? <span style={{ color: 'var(--muted)' }}>{' · '}</span> : null}
+          {it.mae ? (
+            <span style={{ whiteSpace: 'nowrap' }}>
+              <span style={{ color: 'var(--muted)' }}>Maestria </span>
+              <ItemHover doc={refs.refDoc(it.mae)} fullBody>
+                <span style={{ fontWeight: 600 }}>{linkLabel(it.mae)}</span>
+              </ItemHover>
+            </span>
+          ) : null}
+        </div>
+      ))}
+    </Section>
+  )
+}
+
 function MagiasResumo({
   fm,
   refs,
@@ -674,6 +720,7 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
         </Section>
 
         <PericiasResumo fm={fm} attrs={attrs} />
+        <EspecializacoesResumo fm={fm} refs={refs} />
         <MagiasResumo fm={fm} refs={refs} namedDoc={namedDoc} />
         <AtaquesResumo fm={fm} attrs={attrs} refs={refs} propRuleDoc={propRuleDoc} />
 

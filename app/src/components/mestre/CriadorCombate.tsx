@@ -29,6 +29,11 @@ import { accentBtnStyle, clip, DifficultyBadge, fieldInputStyle, fieldLabelStyle
 // mesma pasta que a aba BESTIÁRIO da página CRIATURAS lista
 const BESTIARIO_FOLDER = 'Sistema/Criaturas/Bestiário'
 
+// #389: fonte de verdade das classes de bestiário do genérico — as notas de
+// regra da vault (mesma pasta que a projeção do monstro usa,
+// BESTIARIO_CLASSES_PREFIX em rules/projection.ts), nunca lista hardcoded.
+const CLASSES_BESTIARIO_FOLDER = 'Sistema/Regras/Bestiário/Classes de Bestiário'
+
 // Vocabulário do plugin (contributions.ts): sem modificador = Normal/null.
 const MODIFICADORES: Array<{ value: string; label: string }> = [
   { value: '', label: 'Normal' },
@@ -37,10 +42,11 @@ const MODIFICADORES: Array<{ value: string; label: string }> = [
   { value: 'Solo', label: 'Solo' },
 ]
 
-/** Sufixo mono de um item do roster: tier + modificador (dados da ficha,
- *  nada inventado — modificador null não imprime nada). */
+/** Sufixo mono de um item do roster: tier (+ classe do genérico #389) +
+ *  modificador (dados da ficha, nada inventado — null não imprime nada). */
 function itemMeta(item: RosterItem): string {
-  return `T${item.tier}${item.modificador ? ` · ${item.modificador}` : ''}`
+  const classe = item.sourceId === null && item.classe ? ` · ${item.classe}` : ''
+  return `T${item.tier}${classe}${item.modificador ? ` · ${item.modificador}` : ''}`
 }
 
 export function CriadorCombate() {
@@ -59,11 +65,20 @@ export function CriadorCombate() {
   }, [catalog, version])
   const docs = useDocs(useMemo(() => bestiario.map((e) => e.id), [bestiario]))
 
+  // #389: classes de bestiário da vault pro select do genérico
+  const classesBestiario = useMemo(() => {
+    const node = catalog.folderByPath.get(CLASSES_BESTIARIO_FOLDER)
+    return (node ? node.docs.filter((d) => d.basename !== node.name) : [])
+      .map((d) => d.basename ?? d.id)
+      .sort((a, b) => a.localeCompare(b, 'pt'))
+  }, [catalog])
+
   const [items, setItems] = useState<RosterItem[]>([])
   const [selId, setSelId] = useState('')
   const [qty, setQty] = useState('1')
   const [genNome, setGenNome] = useState('')
   const [genTier, setGenTier] = useState('1')
+  const [genClasse, setGenClasse] = useState('Soldado')
   const [genMod, setGenMod] = useState('')
   const [genQty, setGenQty] = useState('1')
   const [nome, setNome] = useState('Novo Combate')
@@ -104,6 +119,7 @@ export function CriadorCombate() {
       qty: Math.max(1, Math.floor(Number(genQty)) || 1),
       tier: Number(genTier),
       modificador: (genMod || null) as MonsterModifier,
+      classe: genClasse || 'Soldado',
     }
     setItems((cur) => [...cur, item])
     setGenNome('')
@@ -246,6 +262,21 @@ export function CriadorCombate() {
               {[0, 1, 2, 3].map((t) => (
                 <option key={t} value={t}>
                   {t}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span style={fieldLabelStyle}>CLASSE</span>
+            <select
+              aria-label="Classe do genérico"
+              value={genClasse}
+              onChange={(e) => setGenClasse(e.target.value)}
+              style={{ ...fieldInputStyle, cursor: 'pointer' }}
+            >
+              {classesBestiario.map((c) => (
+                <option key={c} value={c}>
+                  {c}
                 </option>
               ))}
             </select>

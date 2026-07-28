@@ -28,3 +28,12 @@ declare global {
 export function getGtips(): Gtips | null {
   return (typeof window !== 'undefined' && window.__GTIPS) || null
 }
+
+/** Entrada do store por chave — #384: pra reusar um texto GENÉRICO do design
+ *  numa célula cuja chave por índice (`riq:r<gi>c1`) extrapola o snapshot
+ *  (grupos com mais integrantes que o desenhado). */
+export function storeEntry(key: string): GtipEntry | undefined {
+  const gt = getGtips()
+  const ix = gt?.map[key]
+  return ix === undefined ? undefined : gt!.store[ix]
+}

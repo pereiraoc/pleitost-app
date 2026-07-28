@@ -105,11 +105,21 @@ export interface MemberStats {
   sp: number | null
 }
 
-/** Espelha buildStatsRows (aggregates.ts) para UM membro. */
+/** Espelha buildStatsRows (aggregates.ts) para UM membro.
+ *  #392 (divergência consciente do espelho): VIT/MOR mostram o CORRENTE, não o
+ *  máximo do FM — `Interativa.Recursos_Restantes` com "ausente = cheio", a MESMA
+ *  semântica do useVidaLocal (pop-panels) e da iniciativa (`rr?.vitalidade ??
+ *  max`). É o que faz a coluna da ficha de grupo acompanhar dano/cura ao vivo:
+ *  na MESA o synthDocFromCharacter preenche a Interativa do state.recursos-
+ *  Restantes da sessão; herói local grava a Interativa no próprio FM. Doc sem
+ *  Interativa (grupo de exemplo da vault) cai no máximo — render idêntico ao
+ *  do plugin. */
 export function memberStats(fm: Fm | undefined): MemberStats {
   const f = fm ?? {}
-  const v = (f as { Vida?: { Vitalidade?: unknown } })?.Vida?.Vitalidade ?? '—'
-  const m = (f as { Vida?: { Moral?: unknown } })?.Vida?.Moral ?? '—'
+  const rest = (f as { Interativa?: { Recursos_Restantes?: Record<string, unknown> } })?.Interativa
+    ?.Recursos_Restantes
+  const v = rest?.['Vitalidade'] ?? (f as { Vida?: { Vitalidade?: unknown } })?.Vida?.Vitalidade ?? '—'
+  const m = rest?.['Moral'] ?? (f as { Vida?: { Moral?: unknown } })?.Vida?.Moral ?? '—'
   const defs: Record<string, number | null> = {}
   for (const name of DEFENSE_NAMES) {
     const row = findNamedRow(

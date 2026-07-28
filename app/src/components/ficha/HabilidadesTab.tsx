@@ -38,6 +38,10 @@ import {
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
 import { computeMagiaAtaque, lookupRota } from '../../interativa/invocacao'
 import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
+// #382: leitor do FM `Modificador` do Monstro — o MESMO parser do plugin
+// (frontmatter-helpers.ts:195, portado em encounter-compute) que a projeção
+// usa pra filtrar as opções; o select exibe/grava o valor plano.
+import { parseModificador } from '../../mestre/encounter-compute'
 import {
   canAddOne,
   computeMagiaSlotsView,
@@ -394,6 +398,28 @@ export function ClasseNivelPanel({
       onChange: caps.classe.editavel ? setClasse : undefined,
       boxTarget: classeFmValue,
     },
+    // #382: seletor de MODIFICADOR do Monstro — espelho das pills
+    // COMPETENTE/ELITE/SOLO do perfil do Monstro no plugin (perfil-card.ts:
+    // 174-199, toggle → null quando desmarca = opção "Normal" aqui, o
+    // vocabulário do contributions.ts: sem modificador = Normal/null).
+    // Opções da PROJEÇÃO (notas da vault); o select SÓ grava o FM — a
+    // cascata (collectSeeds semeia Modificador + Competente implícito)
+    // aplica as regras das notas.
+    ...(caps.modificador
+      ? [
+          {
+            ic: tokens.emojis.categoria.Habilidade,
+            label: 'MODIFICADOR',
+            value: parseModificador(fm) ?? '',
+            options: [
+              { value: '', label: 'Normal' },
+              ...withCurrent(rules?.modificadores ?? [], parseModificador(fm) ?? ''),
+            ],
+            onChange: (v: string) => model.set('Modificador', v),
+            boxTarget: parseModificador(fm) ?? '',
+          },
+        ]
+      : []),
     ...(rules
       ? rules.subclassChoices.map((c) => ({
           // #24: subclasses são docs de categoria Habilidade (golden:
@@ -2656,6 +2682,11 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
+  // #382: Monstro tem slots ILIMITADOS (unlimitedSlots do plugin, tabs/
+  // monstro/tab-completa.ts:281) — o catálogo de não-aprendidas gateia SÓ
+  // pela proficiência da escola (view-model.ts:657-668), não por Magias.Slots.
+  const caps = fichaFamiliaOf(doc)
+  const semLimiteDeSlots = caps.magiasIlimitadas
   // Secundária (#150): o MESMO card re-escopado — `Magias` ← `Magias.Secundaria`
   // — espelho do plugin (tab-magias.ts:104-126), que reusa magiasCard com
   // m.magias.secundaria.* e o título "Magias Secundárias". O scopedFm mantém
@@ -3060,8 +3091,11 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
                     const rank = rankGroupLabel(str(d.frontmatter['rank']))
                     // Gate per-escola×rank (#62): a proficiência da escola cobre
                     // o rank da magia E existe slot daquele rank (slot livre).
+                    // #382: com slots ilimitados (Monstro) o gate de slot cai —
+                    // a proficiência basta (magias-card.ts:332 do plugin:
+                    // `!unlimitedSlots && slots[rk] <= 0 → continue`).
                     if (!escolaCobreRank(escolaProf, rank)) continue
-                    if (!ranksComSlot.includes(rank)) continue
+                    if (!semLimiteDeSlots && !ranksComSlot.includes(rank)) continue
                     const list = byRank.get(rank) ?? []
                     list.push(d)
                     byRank.set(rank, list)
@@ -3093,7 +3127,14 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
                             {byRank.get(g)!.map((d) => {
                               // Gate por slot livre (#75/#62): sem fungibilidade —
                               // magiaCanAddOne(rank). Sem slot, o + desabilita.
-                              const canAdd = magiaCanAddOne(magiaSlotsView, RANK_GROUP_SLOT[g] as MagiaRank)
+                              // #382: Monstro tem slots ILIMITADOS — o canAdd é só
+                              // por proficiência (view-model.ts:662-668 do plugin:
+                              // `magiasCanAdd = isMonstro ? profPermits(rank) : …`);
+                              // a linha só renderiza se escolaCobreRank já passou,
+                              // então aqui o + fica sempre habilitado.
+                              const canAdd =
+                                semLimiteDeSlots ||
+                                magiaCanAddOne(magiaSlotsView, RANK_GROUP_SLOT[g] as MagiaRank)
                               return (
                               <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <button

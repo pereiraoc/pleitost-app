@@ -25,6 +25,11 @@ import { listLocalizacoes, naturalidadeSelectLines, type NaturalidadeLine } from
 import { linkLabel } from '../markdown/dataview-value'
 import { num } from '../components/ficha/hero-model'
 import { rankGroupLabel } from '../components/ficha/registry'
+// #382: vocabulário do Modificador — o MESMO parser que lê o FM (espelho de
+// parseModificador do plugin, frontmatter-helpers.ts:195) filtra quais notas
+// da pasta são selecionáveis (exclui "Evolução Básica de Monstro" sem lista
+// negra hardcodada).
+import { parseModificador } from '../mestre/encounter-compute'
 
 /** Espelho de withAlias (plugin util/wikilink.ts:129-137). */
 export function withAlias(wl: string, shortFn: (target: string) => string): string {
@@ -55,6 +60,9 @@ const CLASSES_PATH_PREFIX = 'Sistema/Criação de Personagem/Classes/'
 /** F5/#362: classes de BESTIÁRIO (Soldado, Bruto, …) — fonte do dropdown de
  *  Classe quando a família é Monstro (plugin process-yaml-vault-scans.ts:73). */
 const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiário/'
+/** #382: notas de Modificador de bestiário (Competente/Elite/Solo) — fonte do
+ *  seletor de Modificador do Monstro (pills do plugin, perfil-card.ts:174-199). */
+const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
 
 /** Scan de notas por categoria via índice do vault-data (type/subtype =
  *  categoria/subcategoria) — espelho de listNotesByCategoria (plugin
@@ -412,6 +420,12 @@ export interface LinkedOption {
 export interface HeroProjection {
   /** Dropdown de Classe — vault scan (process-yaml-vault-scans.ts:50-55). */
   classes: LinkedOption[]
+  /** #382: opções de Modificador do MONSTRO (Competente/Elite/Solo) — notas
+   *  reais de Sistema/Regras/Bestiário/Modificadores/ filtradas pelo
+   *  vocabulário do parseModificador (paridade com as pills do plugin,
+   *  perfil-card.ts:176-180). `value` é o valor PLANO que o FM grava
+   *  (serialize-to-fm.ts:182 do plugin). Vazio fora da família Monstro. */
+  modificadores: LinkedOption[]
   /** Dropdown de Sintonia — Traços raiz com alias curto (perfil-card.ts:514-522). */
   sintonias: LinkedOption[]
   /** True quando uma rule define Sintonia (metaRuleLocked, view-model.ts:362-364). */
@@ -761,15 +775,22 @@ export function buildHeroProjection(
     ? (dPrincipal as AtributoId)
     : null
 
+  const isMonstro = String(savedFm['subcategoria'] ?? '').trim() === 'Monstro'
+
   return {
     // F5/#362: a família decide a FONTE das classes — Monstro usa as 8 classes
     // de bestiário; demais, as classes de aventureiro.
     classes: listNotesByCategoria(catalog, 'Classe', {
-      pathPrefix:
-        String(savedFm['subcategoria'] ?? '').trim() === 'Monstro'
-          ? BESTIARIO_CLASSES_PREFIX
-          : CLASSES_PATH_PREFIX,
+      pathPrefix: isMonstro ? BESTIARIO_CLASSES_PREFIX : CLASSES_PATH_PREFIX,
     }).map(linked),
+    // #382: Modificadores selecionáveis do Monstro — scan das notas da pasta
+    // (categoria Habilidade) ∩ valores que o parseModificador aceita.
+    modificadores: isMonstro
+      ? listNotesByCategoria(catalog, 'Habilidade', { pathPrefix: MODIFICADORES_PATH_PREFIX })
+          .map((wl) => parseModificador({ Modificador: wl }))
+          .filter((m): m is NonNullable<typeof m> => m !== null)
+          .map((m) => ({ value: m, label: m }))
+      : [],
     sintonias: listNotesByCategoria(catalog, 'Sintonia', { subcategoria: null })
       .map((wl) => withAlias(wl, shortSintoniaName))
       .map(linked),

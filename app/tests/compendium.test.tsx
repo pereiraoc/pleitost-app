@@ -359,8 +359,9 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
       expect(within(card).getByText('TIER')).toBeTruthy()
       const num = card.querySelector<HTMLElement>('.npc-nvl-num')!
       expect(num.textContent, entry.id).toBe(String(tier))
-      // Tier 0 usa o registro tier.Zero do plugin; 1+ segue partyTierBar
-      const cor = hexRgb(tier <= 0 ? '#111111' : TIER_COLOR[tier])
+      // Tier 0 usa var(--text) — #383: o tier.Zero cru (#111111) era
+      // preto-sobre-preto no modo escuro; 1+ segue partyTierBar
+      const cor = tier <= 0 ? 'var(--text)' : hexRgb(TIER_COLOR[tier])
       expect(num.style.color, entry.id).toBe(cor)
       expect(card.querySelector<HTMLElement>('.npc-nvl-diamond')!.style.borderColor).toBe(cor)
     }

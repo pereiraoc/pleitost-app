@@ -10,7 +10,7 @@
 // estado) e PRÓXIMO/ANTERIOR só com combate ativo; o jogador só vê o bloco
 // durante combate ativo, e aí a lista da mesa some (todo mundo está na lista
 // do combate), como no plugin (gm-view.ts:85-91, player-view.ts:56-77/128-134).
-import { Fragment, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
@@ -822,6 +822,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // Combatentes mostrando defesas/stats em vez de vida (toggle por linha, espelho
   // do card de MEMBRO). Set de ids.
   const [statsView, setStatsView] = useState<ReadonlySet<string>>(new Set())
+  // #390: alvo pendente do EV por NPC (acumula taps em rajada) — hook ANTES
+  // do guard de early-return (Rules of Hooks).
+  const evPendente = useRef(new Map<string, number>())
   const toggleStats = (id: string) =>
     setStatsView((s) => {
       const n = new Set(s)
@@ -934,6 +937,38 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     if (from && target && ladoOf(from) === target.lado) await assignSpeed(from, target.tier)
   }
 
+  // #391: reordenar DENTRO do bloco — o drag (#324) só movia ENTRE blocos. O
+  // vizinho é o próximo/anterior em turnState.order com a MESMA velocidade e o
+  // MESMO lado (a posição no bloco é a ordem relativa em `order`); null = já é
+  // o primeiro/último do bloco (botão desabilita).
+  const vizinhoNoBloco = (id: string, dir: -1 | 1): string | null => {
+    const order = ativo?.turnState?.order ?? []
+    const i = order.indexOf(id)
+    if (i < 0) return null
+    for (let j = i + dir; j >= 0 && j < order.length; j += dir) {
+      const outro = order[j]!
+      if (speedOf(outro) === speedOf(id) && ladoOf(outro) === ladoOf(id)) return outro
+    }
+    return null
+  }
+  // Troca os DOIS ids de posição (o que estiver entre eles — outro bloco — não
+  // se move) e persiste pelo MESMO caminho do drag (updateEncounterTurnState);
+  // como no assignSpeed, o ponteiro de turno segue o COMBATENTE da vez.
+  const moveNoBloco = async (id: string, dir: -1 | 1) => {
+    if (!ativo?.turnState) return
+    const ts = ativo.turnState
+    const outro = vizinhoNoBloco(id, dir)
+    if (!outro) return
+    const order = [...ts.order]
+    const i = order.indexOf(id)
+    const j = order.indexOf(outro)
+    order[i] = outro
+    order[j] = id
+    const currentId = ts.order[ts.currentIndex]
+    const currentIndex = currentId ? Math.max(0, order.indexOf(currentId)) : ts.currentIndex
+    await repo.updateEncounterTurnState(ativo.id, { ...ts, order, currentIndex })
+  }
+
   // #324: ESCONDER combatente — persiste em turnState.hidden (mesmo jsonb, sem
   // coluna nova). Jogadores não veem os escondidos; o GM vê com 🙈.
   const hidden = new Set(ativo?.turnState?.hidden ?? [])
@@ -1002,6 +1037,34 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
       {label}
     </span>
   )
+  // #390: GM ajusta o EV do NPC direto na linha da iniciativa (dano/cura).
+  // Grava o recursosRestantes COMPLETO (merge do repo é por chave top-level),
+  // clamp [0, max]. Só NPC: herói é o dono da própria ficha (claim model).
+  // Taps em rajada leriam o state STALE do render (writes perdidos) — o alvo
+  // pendente por NPC (evPendente, declarado junto dos hooks) acumula os deltas
+  // até o live alcançar (GM é o único escritor do state de NPC, sem corrida).
+  const ajustaEvNpc = (c: SessionCharacter, delta: number) => {
+    if (!repo) return
+    const max = c.summary.vitalidadeMax
+    const rr0 = c.state.recursosRestantes
+    const base = evPendente.current.get(c.id) ?? rr0?.vitalidade ?? max
+    const next = Math.max(0, Math.min(max, base + delta))
+    if (next === base) return
+    evPendente.current.set(c.id, next)
+    repo
+      .updateCharacterState(c.id, {
+        recursosRestantes: {
+          vitalidade: next,
+          moral: rr0?.moral ?? (c.summary.moralMax ?? 0),
+          em: rr0?.em ?? 0,
+          moralTemp: rr0?.moralTemp ?? 0,
+        },
+      })
+      .then(() => {
+        if (evPendente.current.get(c.id) === next) evPendente.current.delete(c.id)
+      })
+      .catch(() => evPendente.current.delete(c.id))
+  }
   // Linha de UM combatente (reusada dentro de cada bloco). `indent` = companheiro
   // animal exibido abaixo do tutor (#16).
   const renderCombatente = (c: SessionCharacter, indent = false) => {
@@ -1131,6 +1194,40 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                 {SPEED_EMOJI[speedOf(c.id)]}
               </button>
             ) : null}
+            {/* #391: ↑/↓ reordenam DENTRO do bloco (o drag só move entre
+                blocos); desabilitado no primeiro/último do bloco. */}
+            {isGm && editIniciativa ? (
+              <span style={{ display: 'flex', gap: 3, flex: 'none' }}>
+                {(
+                  [
+                    ['↑', 'Subir na ordem', -1],
+                    ['↓', 'Descer na ordem', +1],
+                  ] as const
+                ).map(([glifo, rotulo, dir]) => {
+                  const pode = vizinhoNoBloco(c.id, dir) != null
+                  return (
+                    <button
+                      key={rotulo}
+                      aria-label={rotulo}
+                      title={rotulo}
+                      disabled={!pode}
+                      onClick={() => void moveNoBloco(c.id, dir)}
+                      style={mono({
+                        background: 'var(--panel)',
+                        border: '1px solid var(--line2)',
+                        color: pode ? 'var(--text)' : 'var(--muted)',
+                        cursor: pode ? 'pointer' : 'default',
+                        fontSize: 13,
+                        padding: '1px 6px',
+                        flex: 'none',
+                      })}
+                    >
+                      {glifo}
+                    </button>
+                  )
+                })}
+              </span>
+            ) : null}
             {isGm && editIniciativa ? (
               <button
                 onClick={() => void toggleHidden(c.id)}
@@ -1183,7 +1280,49 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
                     {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}`}
                   </span>
+                  {/* #388: número da MORAL ao lado do da vida (a barra tinha o
+                      segmento azul mas sem número). Mesmo padrão do 💙 MOR do
+                      GrupoDaSala/LinhaPersonagem. Só pra quem TEM moral: família
+                      Monstro não tem (caps moral=false) → moralMax 0/undefined
+                      no summary → nada impresso. */}
+                  {(c.summary.moralMax ?? 0) > 0 ? (
+                    <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                      {`💙 ${rr?.moral ?? c.summary.moralMax ?? 0}/${c.summary.moralMax ?? 0}`}
+                    </span>
+                  ) : null}
                   {npc ? faixaTagEl(status.tone, status.label) : null}
+                  {/* #390: steppers de EV do NPC — só o GM (dano/cura na hora) */}
+                  {npc && isGm && c.summary.vitalidadeMax > 0 ? (
+                    <span style={{ display: 'flex', gap: 3, flex: 'none' }}>
+                      {(
+                        [
+                          ['−5', -5],
+                          ['−1', -1],
+                          ['+1', +1],
+                          ['+5', +5],
+                        ] as const
+                      ).map(([lbl, delta]) => (
+                        <button
+                          key={lbl}
+                          aria-label={`${lbl} EV`}
+                          title={`${lbl} EV`}
+                          onClick={() => ajustaEvNpc(c, delta)}
+                          style={mono({
+                            background: 'var(--panel)',
+                            border: '1px solid var(--line2)',
+                            color: delta < 0 ? 'var(--red)' : 'var(--accent)',
+                            cursor: 'pointer',
+                            fontSize: 10,
+                            fontWeight: 700,
+                            padding: '1px 6px',
+                            clipPath: clip(4),
+                          })}
+                        >
+                          {lbl}
+                        </button>
+                      ))}
+                    </span>
+                  ) : null}
                 </div>
                 {c.summary.vitalidadeMax > 0 ? (
                   <VidaBarRemota
