@@ -18,8 +18,14 @@ export type AventuraRank = (typeof AVENTURA_RANKS)[number]
 
 /** Subcategorias (tipos de missão) — LIDAS do registro BOUNTY_SUBCAT (fonte de
  *  verdade portada do pleitost-views); nunca uma lista inventada aqui. Filtra o
- *  alias "Teste Classe" (duplicata de "Teste de Classe"). */
-export const AVENTURA_SUBCATS = Object.keys(BOUNTY_SUBCAT).filter((k) => k !== 'Teste Classe')
+ *  alias "Teste Classe" (duplicata de "Teste de Classe"). #396: acrescenta
+ *  "Outro" (catch-all pedido pelo usuário) — fica FORA do BOUNTY_SUBCAT (mantém
+ *  o espelho do pleitost-views intacto); o estilo cai no SUBCAT_FALLBACK (📜),
+ *  coerente com subcats que a vault já usa fora do registro (ex.: "Encontro"). */
+export const AVENTURA_SUBCATS = [
+  ...Object.keys(BOUNTY_SUBCAT).filter((k) => k !== 'Teste Classe'),
+  'Outro',
+]
 
 export interface AventuraReward {
   Marcas?: number | { min: number; max: number }

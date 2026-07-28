@@ -74,6 +74,9 @@ export interface EncounterRosterEntry {
   tier?: number
   modificador?: string | null
   classe?: string | null
+  /** #395: raça de bestiário do genérico (Goblin/Orc/…) — concede habilidades
+   *  raciais + Sintonia/Tamanho/Movimento. Ausente → Incomum (default). */
+  raca?: string | null
 }
 
 export interface EncounterRoster {

@@ -326,6 +326,14 @@ export function ClasseNivelPanel({
     model.set('Classe', v)
   }
 
+  // #395: RAÇA do Monstro — grava o wikilink no FM `Raça`; a cascata concede as
+  // habilidades raciais + Sintonia/Tamanho/Movimento. Opções da projeção
+  // (notas de Sistema/Regras/Bestiário/Raças/).
+  const racaFmValue =
+    rules?.racas.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Raça'])))?.value ??
+    str(fm['Raça'])
+  const setRaca = (v: string) => model.set('Raça', v)
+
   // SUBCLASSES — troca de pick persiste o ESTADO no FM: regrava a linha
   // `Escolha.[[pai]]` de Habilidades.Lista com a nova opção (pick = estado,
   // espelho do resolve-choices/serialize do plugin — o item picado vive na
@@ -398,28 +406,26 @@ export function ClasseNivelPanel({
       onChange: caps.classe.editavel ? setClasse : undefined,
       boxTarget: classeFmValue,
     },
-    // #382: seletor de MODIFICADOR do Monstro — espelho das pills
-    // COMPETENTE/ELITE/SOLO do perfil do Monstro no plugin (perfil-card.ts:
-    // 174-199, toggle → null quando desmarca = opção "Normal" aqui, o
-    // vocabulário do contributions.ts: sem modificador = Normal/null).
-    // Opções da PROJEÇÃO (notas da vault); o select SÓ grava o FM — a
-    // cascata (collectSeeds semeia Modificador + Competente implícito)
-    // aplica as regras das notas.
-    ...(caps.modificador
+    // #395: seletor de RAÇA do Monstro (Goblin/Orc/…) ao lado da Classe.
+    // Opção em branco no topo (monstro novo nasce sem raça).
+    ...(caps.raca
       ? [
           {
-            ic: tokens.emojis.categoria.Habilidade,
-            label: 'MODIFICADOR',
-            value: parseModificador(fm) ?? '',
+            ic: tokens.emojis.perfil.Raca,
+            label: 'RAÇA',
+            value: racaFmValue,
             options: [
-              { value: '', label: 'Normal' },
-              ...withCurrent(rules?.modificadores ?? [], parseModificador(fm) ?? ''),
+              { value: '', label: '— Nenhuma —' },
+              ...withCurrent(rules?.racas ?? [], racaFmValue, linkLabel(str(fm['Raça']))),
             ],
-            onChange: (v: string) => model.set('Modificador', v),
-            boxTarget: parseModificador(fm) ?? '',
+            onChange: setRaca,
+            boxTarget: racaFmValue,
           },
         ]
       : []),
+    // #394: o MODIFICADOR do Monstro saiu do select e virou pills (renderizadas
+    // abaixo da grade, ver `modPills`) — paridade com as pills COMPETENTE/ELITE/
+    // SOLO do perfil-card.ts:174-199 do plugin.
     ...(rules
       ? rules.subclassChoices.map((c) => ({
           // #24: subclasses são docs de categoria Habilidade (golden:
@@ -436,6 +442,23 @@ export function ClasseNivelPanel({
         }))
       : escolhasFallback),
   ]
+
+  // #394: MODIFICADOR do Monstro como PILLS (Competente/Elite/Solo), toggle
+  // → null (Normal) quando reclica o ativo — espelho de perfil-card.ts:174-199
+  // do plugin. Opções da PROJEÇÃO (notas da vault); a pill só grava o FM, a
+  // cascata (collectSeeds) aplica as regras. Tons a/e/m como no plugin.
+  const modAtual = parseModificador(fm) ?? ''
+  const modPills = caps.modificador
+    ? (rules?.modificadores ?? []).map((o) => ({ value: o.value, label: o.label }))
+    : []
+  // tons a/e/m do plugin → cores de rank (Adepto verde / Experiente azul /
+  // Mestre roxo), fonte de verdade tokens.colors.rank.
+  const modToneColor: Record<string, string> = {
+    Competente: tokens.colors.rank.A,
+    Elite: tokens.colors.rank.E,
+    Solo: tokens.colors.rank.M,
+  }
+  const setModificador = (v: string) => model.set('Modificador', v === modAtual ? '' : v)
 
   // SINTONIA — opções reais (Traços Elementais raiz, alias curto) da
   // projeção; persiste o valor da opção (withAlias, perfil-card.ts:520).
@@ -497,6 +520,52 @@ export function ClasseNivelPanel({
             </div>
           ))}
         </div>
+        {/* #394: pills do MODIFICADOR do Monstro (só quando a família tem
+            modificador). Botões toggle: reclicar o ativo volta a Normal. */}
+        {modPills.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <span
+              style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
+            >
+              {tokens.emojis.categoria.Habilidade} MODIFICADOR
+            </span>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {modPills.map((p) => {
+                const active = p.value === modAtual
+                const toneColor = modToneColor[p.value] ?? 'var(--accent)'
+                return (
+                  <ItemHover key={p.value} doc={refs.refDoc(p.value)} fullBody>
+                    <button
+                      type="button"
+                      aria-label={p.label}
+                      aria-pressed={active}
+                      onClick={() => setModificador(p.value)}
+                      style={{
+                        fontFamily: 'var(--mono)',
+                        fontSize: 10,
+                        letterSpacing: '.08em',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        padding: '5px 12px',
+                        cursor: 'pointer',
+                        clipPath: clip(6),
+                        color: active ? '#0b0b0d' : 'var(--muted)',
+                        background: active
+                          ? toneColor
+                          : `color-mix(in srgb,${toneColor} 10%,var(--panel))`,
+                        border: `1px solid ${
+                          active ? toneColor : `color-mix(in srgb,${toneColor} 40%,var(--line2))`
+                        }`,
+                      }}
+                    >
+                      {p.label}
+                    </button>
+                  </ItemHover>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
         {hideSintonia ? null : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <span

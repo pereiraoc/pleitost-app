@@ -131,6 +131,12 @@ export interface FichaFamilia {
    *  perfil — pills do Monstro no plugin (perfil-card.ts:174-199). As opções
    *  vêm da projeção (notas de Sistema/Regras/Bestiário/Modificadores/). */
   modificador: boolean
+  /** #395: seletor de RAÇA de bestiário (Goblin/Orc/Kobold/…) no perfil do
+   *  Monstro. As opções vêm da projeção (notas de Sistema/Regras/Bestiário/
+   *  Raças/); a raça concede as habilidades raciais + Sintonia/Tamanho/
+   *  Movimento pela cascata. Heroi/CA não têm (raça de aventureiro é outro
+   *  fluxo). */
+  raca: boolean
   /** Pickers de armadura/escudo no Inventário (CA usa Armadura Natural —
    *  interativa/panel/sections/defesa.ts:58-64; tab-completa do CA não tem
    *  card Equipamentos). #382: Monstro TEM — o plugin renderiza Armas+Escudo
@@ -174,6 +180,7 @@ const HEROI_FICHA: FichaFamilia = {
   magias: true,
   magiasIlimitadas: false,
   modificador: false,
+  raca: false,
   equipamentos: true,
   profEquipamentos: true,
   moedas: true,
@@ -205,6 +212,7 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     // (perfil-card.ts:174-199).
     magiasIlimitadas: true,
     modificador: true,
+    raca: true,
     // #382: pickers de armadura/escudo visíveis (o plugin mostra Escudo
     // editável no Combate do Monstro, tab-completa.ts:234-254); o card de
     // PROFICIÊNCIAS segue só no Heroi (rule-driven no Monstro).
@@ -230,6 +238,7 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     magias: false,
     magiasIlimitadas: false,
     modificador: false,
+    raca: false,
     equipamentos: false,
     profEquipamentos: false,
     moedas: false,

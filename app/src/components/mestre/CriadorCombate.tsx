@@ -11,20 +11,21 @@ import { useDocs } from '../../data/useDoc'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { useSessionRepo } from '../../data/session-repo/provider'
 import { useLiveSession } from '../../data/session-repo/live-session'
+import { useDetail } from '../../data/detail-context'
 import { useSettings } from '../../settings'
 import {
   computeEncounterDifficulty,
+  computeEncounterDifficultyByLevel,
   formatDifficultyValue,
   type MonsterModifier,
 } from '../../mestre/encounter-compute'
 import {
   combatantsFrom,
-  parseHeroLevels,
   rosterItemFromDoc,
   toContractRoster,
   type RosterItem,
 } from '../../mestre/roster'
-import { accentBtnStyle, clip, DifficultyBadge, fieldInputStyle, fieldLabelStyle, sectionStyle } from './ui'
+import { accentBtnStyle, clip, DifficultyBadge, EncounterLevelBar, fieldInputStyle, fieldLabelStyle, sectionStyle } from './ui'
 
 // mesma pasta que a aba BESTIÁRIO da página CRIATURAS lista
 const BESTIARIO_FOLDER = 'Sistema/Criaturas/Bestiário'
@@ -33,6 +34,8 @@ const BESTIARIO_FOLDER = 'Sistema/Criaturas/Bestiário'
 // regra da vault (mesma pasta que a projeção do monstro usa,
 // BESTIARIO_CLASSES_PREFIX em rules/projection.ts), nunca lista hardcoded.
 const CLASSES_BESTIARIO_FOLDER = 'Sistema/Regras/Bestiário/Classes de Bestiário'
+// #395: raças do genérico — mesma fonte que a projeção da ficha do Monstro usa.
+const RACAS_BESTIARIO_FOLDER = 'Sistema/Regras/Bestiário/Raças'
 
 // Vocabulário do plugin (contributions.ts): sem modificador = Normal/null.
 const MODIFICADORES: Array<{ value: string; label: string }> = [
@@ -55,6 +58,7 @@ export function CriadorCombate() {
   const version = useLocalStoreVersion()
   const repo = useSessionRepo()
   const live = useLiveSession()
+  const detail = useDetail()
 
   // bestiário da vault + monstros locais criados pelo GM (mesma fonte da aba
   // BESTIÁRIO — issues #42/#47)
@@ -65,13 +69,15 @@ export function CriadorCombate() {
   }, [catalog, version])
   const docs = useDocs(useMemo(() => bestiario.map((e) => e.id), [bestiario]))
 
-  // #389: classes de bestiário da vault pro select do genérico
-  const classesBestiario = useMemo(() => {
-    const node = catalog.folderByPath.get(CLASSES_BESTIARIO_FOLDER)
+  // #389/#395: classes e raças de bestiário da vault pros selects do genérico
+  const folderBasenames = (folder: string) => {
+    const node = catalog.folderByPath.get(folder)
     return (node ? node.docs.filter((d) => d.basename !== node.name) : [])
       .map((d) => d.basename ?? d.id)
       .sort((a, b) => a.localeCompare(b, 'pt'))
-  }, [catalog])
+  }
+  const classesBestiario = useMemo(() => folderBasenames(CLASSES_BESTIARIO_FOLDER), [catalog])
+  const racasBestiario = useMemo(() => folderBasenames(RACAS_BESTIARIO_FOLDER), [catalog])
 
   const [items, setItems] = useState<RosterItem[]>([])
   const [selId, setSelId] = useState('')
@@ -79,13 +85,13 @@ export function CriadorCombate() {
   const [genNome, setGenNome] = useState('')
   const [genTier, setGenTier] = useState('1')
   const [genClasse, setGenClasse] = useState('Soldado')
+  const [genRaca, setGenRaca] = useState('Incomum')
   const [genMod, setGenMod] = useState('')
   const [genQty, setGenQty] = useState('1')
   const [nome, setNome] = useState('Novo Combate')
-  const [niveisText, setNiveisText] = useState('1, 1, 1, 1')
   const [status, setStatus] = useState('')
 
-  // gate defensivo — a página CRIATURAS já desabilita a aba sem Modo Mestre
+  // gate defensivo — o afixo do compêndio já é mestre-gated
   if (!mestre) return null
 
   const efetivoSelId = selId || bestiario[0]?.id || ''
@@ -120,16 +126,21 @@ export function CriadorCombate() {
       tier: Number(genTier),
       modificador: (genMod || null) as MonsterModifier,
       classe: genClasse || 'Soldado',
+      raca: genRaca || 'Incomum',
     }
     setItems((cur) => [...cur, item])
     setGenNome('')
   }
 
-  const niveis = parseHeroLevels(niveisText)
-  const result = computeEncounterDifficulty(combatantsFrom(items, niveis))
-
-  // heróis da sessão remota ativa (companheiros excluídos, regra do sync)
+  // #397: os níveis vêm DIRETO da sessão ativa (não mais input manual). Sem
+  // sessão, a dificuldade específica pra mesa não é computável — mostra só as
+  // barrinhas por nível (dificuldade genérica, como a lista de Combates faz).
   const sessionHeroes = (live?.characters ?? []).filter((c) => c.kind === 'heroi')
+  const niveis = sessionHeroes
+    .map((h) => h.summary.nivel)
+    .filter((n): n is number => typeof n === 'number' && n > 0)
+  const result = computeEncounterDifficulty(combatantsFrom(items, niveis))
+  const byLevel = computeEncounterDifficultyByLevel(combatantsFrom(items, []))
 
   const podeEnviar = !!repo && !!live && items.length > 0 && !!nome.trim()
   const enviar = async () => {
@@ -152,27 +163,21 @@ export function CriadorCombate() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="kicker">{'// CRIADOR DE COMBATE'}</div>
 
-      {/* ── heróis do grupo ── */}
+      {/* ── heróis da mesa ativa (#397: sem input manual — vem da sessão) ── */}
       <div style={sectionStyle}>
-        <div className="kicker">{'// HERÓIS DO GRUPO'}</div>
-        <label>
-          <span style={fieldLabelStyle}>NÍVEIS DOS HERÓIS (separados por vírgula)</span>
-          <input
-            aria-label="Níveis dos heróis"
-            value={niveisText}
-            onChange={(e) => setNiveisText(e.target.value)}
-            style={{ ...fieldInputStyle, width: 220 }}
-          />
-        </label>
+        <div className="kicker">{'// HERÓIS DA MESA'}</div>
         {sessionHeroes.length ? (
-          <button
-            type="button"
-            onClick={() => setNiveisText(sessionHeroes.map((h) => h.summary.nivel).join(', '))}
-            style={accentBtnStyle(true)}
-          >
-            Usar heróis da sessão ({sessionHeroes.length})
-          </button>
-        ) : null}
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+            {sessionHeroes.length} herói{sessionHeroes.length === 1 ? '' : 's'} na sessão:{' '}
+            {sessionHeroes
+              .map((h) => `${h.summary.nome} (nível ${h.summary.nivel ?? '?'})`)
+              .join(', ')}
+          </div>
+        ) : (
+          <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+            {'// SEM SESSÃO ATIVA — a dificuldade específica da mesa aparece ao entrar numa sessão (aba SESSÃO). Enquanto isso, veja a dificuldade por nível abaixo.'}
+          </div>
+        )}
       </div>
 
       {/* ── montar roster ── */}
@@ -239,6 +244,20 @@ export function CriadorCombate() {
           >
             + Adicionar
           </button>
+          {/* #397: abre a ficha RESUMO do monstro selecionado no painel Detalhes */}
+          <button
+            type="button"
+            aria-label="Ver ficha resumo do monstro"
+            title="Ver ficha resumo nos Detalhes"
+            onClick={() => efetivoSelId && detail?.open({ kind: 'resumo', id: efetivoSelId })}
+            disabled={!efetivoSelId || !detail}
+            style={{
+              ...accentBtnStyle(!!efetivoSelId && !!detail),
+              padding: '6px 10px',
+            }}
+          >
+            🔍 Resumo
+          </button>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'flex-end', flexWrap: 'wrap' }}>
           <label>
@@ -277,6 +296,22 @@ export function CriadorCombate() {
               {classesBestiario.map((c) => (
                 <option key={c} value={c}>
                   {c}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            {/* #395: raça do genérico — concede habilidades raciais na cascata */}
+            <span style={fieldLabelStyle}>RAÇA</span>
+            <select
+              aria-label="Raça do genérico"
+              value={genRaca}
+              onChange={(e) => setGenRaca(e.target.value)}
+              style={{ ...fieldInputStyle, cursor: 'pointer' }}
+            >
+              {racasBestiario.map((r) => (
+                <option key={r} value={r}>
+                  {r}
                 </option>
               ))}
             </select>
@@ -361,16 +396,22 @@ export function CriadorCombate() {
         )}
       </div>
 
-      {/* ── dificuldade ao vivo ── */}
+      {/* ── dificuldade ao vivo (#397) ── */}
       <div style={sectionStyle}>
         <div className="kicker">{'// DIFICULDADE'}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-          <DifficultyBadge meta={result} ratio={result.ratio} big />
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
-            Monstros {formatDifficultyValue(result.monsterTotal)} · Heróis{' '}
-            {formatDifficultyValue(result.playerTotal)} ({niveis.length} herói{niveis.length === 1 ? '' : 's'})
-          </span>
-        </div>
+        {/* barrinhas por nível — sempre (a mesma visão da lista de Combates) */}
+        {byLevel.length ? <EncounterLevelBar byLevel={byLevel} /> : null}
+        {/* dificuldade ESPECÍFICA pra mesa ativa — só com heróis na sessão */}
+        {niveis.length ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginTop: 10 }}>
+            <DifficultyBadge meta={result} ratio={result.ratio} big />
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>
+              Pra mesa atual · Monstros {formatDifficultyValue(result.monsterTotal)} · Heróis{' '}
+              {formatDifficultyValue(result.playerTotal)} ({niveis.length} herói
+              {niveis.length === 1 ? '' : 's'})
+            </span>
+          </div>
+        ) : null}
       </div>
 
       {/* ── enviar pra sessão ── */}

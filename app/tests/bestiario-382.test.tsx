@@ -139,25 +139,26 @@ describe('#382 (1) — seletor de Modificador (Competente/Elite/Solo/Normal)', (
     expect(habs).toContain('[[Competente]]')
   }, 30000)
 
-  it('ficha do monstro: select MODIFICADOR com as opções reais grava o FM', async () => {
+  // #394: o modificador é escolhido por BOTÕES/pills (paridade com as pills
+  // COMPETENTE/ELITE/SOLO do perfil-card.ts:174-199 do plugin), não por select.
+  it('ficha do monstro: BOTÕES de Modificador (Competente/Elite/Solo) togglam e gravam o FM', async () => {
     renderFicha(GOBLIN_ID)
-    // O painel de classe/modificador expande no PERFIL (mesmo panel da classe).
     fireEvent.click(await screen.findByTitle('Classe e subclasses'))
-    const select = (await screen.findByLabelText('MODIFICADOR')) as HTMLSelectElement
-    // Opções da projeção chegam quando o BFS resolve.
-    await waitFor(
-      () => {
-        const labels = [...select.options].map((o) => o.textContent)
-        expect(labels).toContain('Elite')
-      },
-      { timeout: 20000 },
-    )
-    const labels = [...select.options].map((o) => o.textContent)
-    expect(labels).toEqual(['Normal', 'Competente', 'Elite', 'Solo'])
-    // Selecionar Elite grava o FM (valor PLANO, como o serialize-to-fm do
-    // plugin) — o select re-renderiza já com o valor salvo do overlay.
-    fireEvent.change(select, { target: { value: 'Elite' } })
-    await waitFor(() => expect(select.value).toBe('Elite'))
+    // três pills, uma por modificador (fonte: notas da vault via projeção)
+    const btnCompetente = await screen.findByRole('button', { name: 'Competente' }, { timeout: 20000 })
+    const btnElite = screen.getByRole('button', { name: 'Elite' })
+    const btnSolo = screen.getByRole('button', { name: 'Solo' })
+    expect(btnCompetente).toBeTruthy()
+    expect(btnElite).toBeTruthy()
+    expect(btnSolo).toBeTruthy()
+    // NENHUM ativo de início (monstro sem Modificador = Normal)
+    expect(btnElite.getAttribute('aria-pressed')).toBe('false')
+    // clicar em Elite ativa (aria-pressed) e grava o FM
+    fireEvent.click(btnElite)
+    await waitFor(() => expect(btnElite.getAttribute('aria-pressed')).toBe('true'))
+    // toggle: clicar de novo no ATIVO desliga (volta a Normal/null)
+    fireEvent.click(btnElite)
+    await waitFor(() => expect(btnElite.getAttribute('aria-pressed')).toBe('false'))
   }, 30000)
 })
 

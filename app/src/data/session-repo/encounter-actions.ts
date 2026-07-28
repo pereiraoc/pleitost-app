@@ -203,13 +203,18 @@ async function docFromSourcePath(catalog: Catalog, sourcePath: string): Promise<
  *  — nada de zeros hardcoded. #389: o Criador agora persiste tier/classe/
  *  modificador do genérico e eles entram AQUI no FM sintético (roster legado
  *  sem os campos cai nos defaults antigos). */
-function genericoMonstroDoc(
+export function genericoMonstroDoc(
   label: string,
-  opts?: { tier?: number; classe?: string | null; modificador?: string | null },
+  opts?: { tier?: number; classe?: string | null; modificador?: string | null; raca?: string | null },
 ): VaultDoc {
   const tierRaw = Number(opts?.tier)
   const tier = Number.isFinite(tierRaw) ? Math.max(0, Math.min(3, Math.floor(tierRaw))) : 0
   const classe = String(opts?.classe ?? '').trim() || 'Soldado'
+  // #395: raça escolhida (default Incomum) — concede as habilidades raciais e
+  // Sintonia/Tamanho/Movimento pela cascata; a Evolução Básica do Monstro vem
+  // do grant da CLASSE (Complementar Habilidades.Lista [[Evolução Básica de
+  // Monstro]] em toda classe de bestiário), aplicada por effectiveFmForPublish.
+  const raca = String(opts?.raca ?? '').trim() || 'Incomum'
   const mod = String(opts?.modificador ?? '').trim()
   const modificador = mod === 'Competente' || mod === 'Elite' || mod === 'Solo' ? mod : null
   const profRow = (nome: string, attr: string) => ({
@@ -231,7 +236,7 @@ function genericoMonstroDoc(
       Tier: tier,
       Classe: `[[${classe}]]`,
       ...(modificador ? { Modificador: modificador } : {}),
-      Raça: '[[Incomum]]',
+      Raça: `[[${raca}]]`,
       Atributos: { Principal: 'FOR', FOR: 0, AGI: 0, INT: 0, PRE: 0 },
       Vida: { Vitalidade: 0 },
       Defesas_Resistencias: {
@@ -271,6 +276,7 @@ export async function npcInputsFromRoster(
           tier: entry.tier,
           classe: entry.classe,
           modificador: entry.modificador,
+          raca: entry.raca,
         })
       // #323/#326: FM derivado (vida/defesas máx das regras, não o 0 do cru).
       const efm = await effectiveFmForPublish(doc, catalog)

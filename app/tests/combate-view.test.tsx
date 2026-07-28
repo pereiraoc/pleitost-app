@@ -5,7 +5,7 @@
 // vault (Campanhas/Combates/*.json, type='Combate', body com fence
 // ```combat-marker-small```) via fetch fake sobre ../vault-data.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, waitFor, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -17,6 +17,7 @@ import { FolderView } from '../src/components/compendium/FolderView'
 import { registeredDocViewIds } from '../src/components/compendium/doc-view-registry'
 import { registeredLeafViewTypes } from '../src/components/compendium/leaf-view-registry'
 import { isCombate } from '../src/components/compendium/CombateView'
+import { setLiveSession } from '../src/data/session-repo/live-session'
 import { FENCES } from '../src/markdown/fence-registry'
 import { compendiumFolderPath, docPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
@@ -160,5 +161,65 @@ describe('folha Campanhas/Combates: lista os combates (não o markdown do índic
       Number(c.getAttribute('data-enc-dif')),
     )
     expect(difs).toEqual([...difs].sort((a, b) => a - b))
+  })
+
+  // #399: avatares das criaturas — imagem por nome→raça (Goblin Batedor não tem
+  // retrato próprio → cai na imagem da raça Goblin), senão emoji.
+  it('as linhas do roster mostram avatar da criatura (imagem da raça Goblin)', async () => {
+    const { container } = renderFolder(compendiumFolderPath(COMBATES_FOLDER))
+    await waitFor(() => expect(container.querySelector('.combat-grid')).toBeTruthy())
+    // avatares presentes em toda linha de roster
+    await waitFor(() =>
+      expect(container.querySelectorAll('.combat-roster-avatar').length).toBeGreaterThan(0),
+    )
+    // ao menos um resolveu pra IMAGEM (Goblin Batedor → Raças/Goblin.png),
+    // não só o emoji de fallback
+    await waitFor(() => {
+      const imgs = [...container.querySelectorAll<HTMLImageElement>('.combat-roster-avatar img')]
+      expect(imgs.length).toBeGreaterThan(0)
+      expect(imgs.some((i) => /Ra%C3%A7as\/Goblin|Raças\/Goblin/.test(i.getAttribute('src') ?? ''))).toBe(
+        true,
+      )
+    })
+  })
+})
+
+// #398: filtro/ordem pela mesa ativa — precisa de sessão viva com heróis.
+describe('#398 — filtro de dificuldade pela mesa ativa', () => {
+  afterEach(() => setLiveSession(null))
+
+  it('sem sessão: nenhum filtro de mesa', async () => {
+    setLiveSession(null)
+    const { container } = renderFolder(compendiumFolderPath(COMBATES_FOLDER))
+    await waitFor(() => expect(container.querySelector('.combat-grid')).toBeTruthy())
+    expect(screen.queryByLabelText('Dificuldade para a mesa atual')).toBeNull()
+  })
+
+  it('com heróis na sessão: o filtro aparece e ligar mostra a dificuldade da mesa (badge)', async () => {
+    setLiveSession({
+      sessionId: 's1',
+      characters: [
+        { id: 'h1', kind: 'heroi', summary: { nome: 'Nia', family: 'Heroi', nivel: 1 } },
+        { id: 'h2', kind: 'heroi', summary: { nome: 'Rok', family: 'Heroi', nivel: 1 } },
+      ],
+      members: [],
+    } as never)
+    const { container } = renderFolder(compendiumFolderPath(COMBATES_FOLDER))
+    await waitFor(() => expect(container.querySelector('.combat-grid')).toBeTruthy())
+    const filtro = (await screen.findByLabelText('Dificuldade para a mesa atual')) as HTMLInputElement
+    // esperar os monstros resolverem (dificuldade computável)
+    await waitFor(() =>
+      expect(
+        [...container.querySelectorAll<HTMLElement>('[data-enc-dif]')].some(
+          (c) => Number(c.getAttribute('data-enc-dif')) > 0,
+        ),
+      ).toBe(true),
+    )
+    fireEvent.click(filtro)
+    // liga → badges de dificuldade da mesa (2 heróis nível 1 = 20 pts; goblins T0
+    // pontuam alto → DIFICIL/LETAL). O badge do design é .gm-enc-difficulty.
+    await waitFor(() =>
+      expect(container.querySelectorAll('.gm-enc-difficulty').length).toBeGreaterThan(0),
+    )
   })
 })

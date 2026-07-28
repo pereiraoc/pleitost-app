@@ -1552,7 +1552,9 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   // Ataques CUSTOM (efeito `tipo: Arma`, ex.: garras do Garras do Rei-Mago):
   // resolvidos pelo FOR do herói e injetados na lista como se fossem armas
   // (mesma pipeline de dano/AdO/tooltip). `__custom` carrega os stats inline.
-  const customAtaques = collectCustomAtaques(inter.descriptors, attrs['FOR'] ?? 0)
+  // #393: passa AGI também — a propriedade Precisa faz o ataque custom usar
+  // max(FOR, AGI) (empate em FOR), igual às armas do inventário.
+  const customAtaques = collectCustomAtaques(inter.descriptors, attrs['FOR'] ?? 0, attrs['AGI'] ?? 0)
   const armas: Record<string, unknown>[] = [
     ...armasFm,
     ...customAtaques.map((c) => ({

@@ -30,6 +30,9 @@ export interface RosterItem {
    *  Regras/Bestiário/Classes de Bestiário) — deriva os stats do doc
    *  sintético. Monstro de ficha real: null (a classe vem do FM dele). */
   classe?: string | null
+  /** #395: raça de BESTIÁRIO do genérico (basename da nota em Sistema/Regras/
+   *  Bestiário/Raças) — concede habilidades raciais na cascata. Null → Incomum. */
+  raca?: string | null
 }
 
 /** RosterItem a partir de um doc de monstro do bestiário (FM real: Tier +
@@ -96,6 +99,7 @@ export function toContractRoster(items: readonly RosterItem[]): EncounterRoster 
           tier: item.tier,
           modificador: item.modificador,
           classe: item.classe ?? null,
+          raca: item.raca ?? null,
         },
   )
   return { entries }
@@ -151,6 +155,7 @@ export function resolveRosterEntries(
             tier: Number(entry.tier),
             modificador: mod === 'Competente' || mod === 'Elite' || mod === 'Solo' ? mod : null,
             classe: entry.classe ?? null,
+            raca: entry.raca ?? null,
           },
           motivo: null,
         }

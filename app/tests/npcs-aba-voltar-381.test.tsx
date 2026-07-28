@@ -141,12 +141,20 @@ describe('#381 — voltar físico preserva a aba ativa de CRIATURAS', () => {
     await screen.findByText('TELA INICIAL')
   }, 30000)
 
-  it('deep-links intactos: /npcs sem query abre PESSOAS; ?tab=combate (#249) segue valendo', async () => {
+  it('deep-links intactos: /npcs sem query abre PESSOAS; ?tab=bestiario abre BESTIÁRIO', async () => {
     const { unmount } = renderApp(['/npcs'])
     expect(screen.getByRole('button', { name: 'PESSOAS' }).className).toContain('on')
     unmount()
 
+    // #397: a aba COMBATE saiu de Criaturas (o Criador foi pro compêndio).
+    // BESTIÁRIO segue como deep-link mestre-gated válido.
+    renderApp(['/npcs?tab=bestiario'])
+    expect(screen.getByRole('button', { name: 'BESTIÁRIO' }).className).toContain('on')
+  }, 30000)
+
+  it('#397: deep-link legado ?tab=combate cai na aba padrão (COMBATE não existe mais)', async () => {
     renderApp(['/npcs?tab=combate'])
-    expect(screen.getByRole('button', { name: 'COMBATE' }).className).toContain('on')
+    expect(screen.getByRole('button', { name: 'PESSOAS' }).className).toContain('on')
+    expect(screen.queryByRole('button', { name: 'COMBATE' })).toBeNull()
   }, 30000)
 })

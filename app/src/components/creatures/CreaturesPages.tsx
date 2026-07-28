@@ -53,8 +53,6 @@ import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../../data/session-
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
 import { addMonsterToInitiative } from '../../data/session-repo/encounter-actions'
 import { useSessions } from '../../data/session-store'
-import { CriadorAventura } from '../mestre/CriadorAventura'
-import { CriadorCombate } from '../mestre/CriadorCombate'
 import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
 
@@ -197,10 +195,10 @@ const NPC_TABS: {
 // contrato congelado das trilhas F1/I), os Criadores entram como abas
 // mestre-gated AQUI, reusando a convenção do BESTIÁRIO (issue #35): aba
 // :disabled com Mestre OFF, seleção recua pra primeira aba se o modo desligar.
-const MESTRE_TABS = [
-  { id: 'combate', label: 'COMBATE' },
-  { id: 'aventura', label: 'AVENTURA' },
-] as const
+// #396/#397: os Criadores saíram de Criaturas — Aventura foi pro compêndio
+// (Campanhas/Aventuras, #248) e Combate pro compêndio (Campanhas/Combates,
+// afixo do FolderView). Sobra só o BESTIÁRIO como aba mestre-gated aqui.
+const MESTRE_TABS: readonly { id: string; label: string }[] = []
 
 /** Abas que só existem com Modo Mestre ligado (BESTIÁRIO + Criadores). */
 const MESTRE_GATED_IDS = new Set<string>(['bestiario', ...MESTRE_TABS.map((t) => t.id)])
@@ -1548,14 +1546,8 @@ export function NpcsPage() {
             prepend={t.id === 'pessoas' ? <PessoasDeAnotacoes /> : undefined}
           />
         ))}
-        {/* Criadores do Modo Mestre (#195/#194) — só montam com Mestre ON
-            (gate interno dos componentes cobre o painel fora de foco) */}
-        <TrackPanel>
-          <CriadorCombate />
-        </TrackPanel>
-        <TrackPanel>
-          <CriadorAventura />
-        </TrackPanel>
+        {/* #396/#397: os Criadores (Aventura + Combate) saíram de Criaturas
+            para o compêndio. */}
       </PanelTrack>
       {activeTab === 'pessoas' ? (
         <CreateFab label="+ Adicionar Pessoa" onClick={() => setPessoaOpen(true)} />

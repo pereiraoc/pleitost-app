@@ -233,6 +233,12 @@ describe('criar aventura no Modo Mestre (#248)', () => {
     // formulário: título + rank + objetivo
     const titulo = await screen.findByLabelText(/título/i)
     fireEvent.change(titulo, { target: { value: 'Expedição ao Norte' } })
+    // #396: o tipo de missão "Outro" (catch-all) está entre as opções
+    const tipo = screen.getByLabelText('Tipo de missão') as HTMLSelectElement
+    const opts = [...tipo.options].map((o) => o.value)
+    expect(opts).toContain('Outro')
+    fireEvent.change(tipo, { target: { value: 'Outro' } })
+    expect(tipo.value).toBe('Outro')
     fireEvent.click(screen.getByRole('button', { name: /^salvar$/i }))
     // a nova aventura entra na grade
     expect(await screen.findByText('Expedição ao Norte')).toBeTruthy()

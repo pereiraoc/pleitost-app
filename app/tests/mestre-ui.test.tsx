@@ -20,6 +20,8 @@ import { InMemorySessionRepo } from '../src/data/session-repo/in-memory'
 import { setLiveSession } from '../src/data/session-repo/live-session'
 import type { SessionCharacter } from '../src/data/session-repo/contract'
 import { NpcsPage } from '../src/components/creatures/CreaturesPages'
+import { CriadorCombate } from '../src/components/mestre/CriadorCombate'
+import { DetailProvider } from '../src/data/detail-context'
 import { __resetLocalStoreForTests } from '../src/data/local-entities'
 import { __resetSettingsForTests } from '../src/settings'
 import type { IndexManifest } from '../src/data/types'
@@ -87,6 +89,35 @@ function renderCriaturas(repo: InMemorySessionRepo | null = null) {
   )
 }
 
+/** #397: o Criador de Combate saiu de Criaturas para o compêndio. Os testes
+ *  do #195 renderizam o componente direto (com Detalhes p/ o botão Resumo). */
+function renderCriador(repo: InMemorySessionRepo | null = null) {
+  return render(
+    <CatalogProvider catalog={catalog}>
+      <SessionRepoProvider repo={repo} user={repo ? { id: 'gm-1', nome: 'Mestre' } : null}>
+        <DetailProvider>
+          <MemoryRouter>
+            <CriadorCombate />
+          </MemoryRouter>
+        </DetailProvider>
+      </SessionRepoProvider>
+    </CatalogProvider>,
+  )
+}
+
+/** Sessão viva com N heróis de um nível (níveis vêm da sessão, não de input). */
+function fakeLive(sessionId: string, levels: number[]) {
+  setLiveSession({
+    sessionId,
+    characters: levels.map((nivel, i) => ({
+      id: `h${i}`,
+      kind: 'heroi',
+      summary: { nome: `Herói ${i + 1}`, family: 'Heroi', nivel },
+    })),
+    members: [],
+  } as never)
+}
+
 /** Adiciona um monstro do bestiário pelo fluxo real da tela. */
 async function addMonstro(id: string, qty: string) {
   const sel = (await screen.findByLabelText('Monstro do bestiário')) as HTMLSelectElement
@@ -98,41 +129,48 @@ async function addMonstro(id: string, qty: string) {
   fireEvent.click(btn)
 }
 
-describe('gate do Modo Mestre nas abas COMBATE/AVENTURA', () => {
-  it('Mestre OFF → abas desabilitadas (mesma convenção do BESTIÁRIO)', () => {
+describe('gate do Modo Mestre em Criaturas', () => {
+  it('Mestre OFF → BESTIÁRIO desabilitado; COMBATE/AVENTURA não existem mais aqui', () => {
     renderCriaturas()
-    expect((screen.getByRole('button', { name: 'COMBATE' }) as HTMLButtonElement).disabled).toBe(true)
-    expect((screen.getByRole('button', { name: 'AVENTURA' }) as HTMLButtonElement).disabled).toBe(true)
     expect((screen.getByRole('button', { name: 'BESTIÁRIO' }) as HTMLButtonElement).disabled).toBe(true)
+    // #396/#397: os Criadores saíram de Criaturas para o compêndio
+    expect(screen.queryByRole('button', { name: 'COMBATE' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'AVENTURA' })).toBeNull()
   })
 })
 
-describe('#195 Criador de Combate', () => {
-  it('roster com monstros reais do bestiário → dificuldade ao vivo NA TELA', async () => {
+describe('#195/#397 Criador de Combate (agora no compêndio)', () => {
+  it('roster com monstros reais → dificuldade pra mesa ativa (níveis vêm da sessão)', async () => {
     mestreOn()
-    renderCriaturas()
-    fireEvent.click(screen.getByRole('button', { name: 'COMBATE' }))
+    // #397: sem input manual — 4 heróis nível 1 na sessão (4×10 = 40 pts)
+    fakeLive('s1', [1, 1, 1, 1])
+    renderCriador()
 
-    // 3× Goblin Soldado (T1 Normal = 10 pts cada) vs níveis default 1,1,1,1
-    // (4×10 = 40): 30/40 = 75% → FÁCIL (threshold inclusivo do classify)
+    // 3× Goblin Soldado (T1 Normal = 10 pts cada = 30): 30/40 = 75% → FÁCIL
     await addMonstro('Sistema/Criaturas/Bestiário/Goblin Soldado', '3')
     expect(screen.getByText('3× Goblin Soldado')).toBeTruthy()
     await waitFor(() => expect(screen.getByText('FÁCIL')).toBeTruthy())
-    expect(screen.getByText('75%')).toBeTruthy()
+    expect(screen.getByText(/75%/)).toBeTruthy()
 
     // + 1× Goblin Piromante (T1 = 10): 40/40 = 100% → DIFICIL
     await addMonstro('Sistema/Criaturas/Bestiário/Goblin Piromante', '1')
     await waitFor(() => expect(screen.getByText('DIFICIL')).toBeTruthy())
-    expect(screen.getByText('100%')).toBeTruthy()
 
-    // heróis nível 5 (4×27 = 108): 40/108 ≈ 37% → TRIVIAL de volta
-    fireEvent.change(screen.getByLabelText('Níveis dos heróis'), { target: { value: '5 5 5 5' } })
-    await waitFor(() => expect(screen.getByText('TRIVIAL')).toBeTruthy())
+    // #397: NÃO há mais input "Níveis dos heróis"
+    expect(screen.queryByLabelText('Níveis dos heróis')).toBeNull()
+    // #397: as barrinhas por nível aparecem (dificuldade genérica)
+    expect(document.querySelector('.gm-enc-levelbar')).toBeTruthy()
+  })
 
-    // sem sessão remota: botão desabilitado + explicação na tela
-    const enviar = screen.getByRole('button', { name: 'Adicionar à sessão' }) as HTMLButtonElement
-    expect(enviar.disabled).toBe(true)
-    expect(screen.getByText(/SEM SESSÃO REMOTA ATIVA/)).toBeTruthy()
+  it('#397: botão 🔍 Resumo abre a ficha resumo do monstro nos Detalhes', async () => {
+    mestreOn()
+    fakeLive('s1', [1])
+    renderCriador()
+    const sel = (await screen.findByLabelText('Monstro do bestiário')) as HTMLSelectElement
+    fireEvent.change(sel, { target: { value: 'Sistema/Criaturas/Bestiário/Goblin Soldado' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Ver ficha resumo do monstro' }))
+    // o painel de Detalhes abre com o resumo do monstro (nome na tela)
+    await waitFor(() => expect(screen.getAllByText(/Goblin Soldado/).length).toBeGreaterThan(0))
   })
 
   it('com sessão fake ativa: insertEncounter persiste roster + dificuldade + heroSnapshot', async () => {
@@ -154,13 +192,11 @@ describe('#195 Criador de Combate', () => {
     } as unknown as SessionCharacter
     setLiveSession({ sessionId: sess.id, characters: [heroina], members: [] })
 
-    renderCriaturas(repo)
-    fireEvent.click(screen.getByRole('button', { name: 'COMBATE' }))
+    renderCriador(repo)
     await addMonstro('Sistema/Criaturas/Bestiário/Goblin Soldado', '3')
 
-    // níveis vindos da sessão remota (1 heroína nível 5 → 27 pts):
-    // 30/27 ≈ 111% → LETAL
-    fireEvent.click(screen.getByRole('button', { name: 'Usar heróis da sessão (1)' }))
+    // níveis vindos DIRETO da sessão (1 heroína nível 5 → 27 pts):
+    // 30/27 ≈ 111% → LETAL, sem clicar em nada
     await waitFor(() => expect(screen.getByText('LETAL')).toBeTruthy())
 
     fireEvent.change(screen.getByLabelText('Nome do combate'), { target: { value: 'Emboscada' } })
@@ -190,41 +226,15 @@ describe('#195 Criador de Combate', () => {
   })
 })
 
-describe('#194 Criador de Aventura', () => {
-  it('nível do grupo → recompensa esperada; nota real → dificuldade por nível', async () => {
+// #396/#397: os Criadores (Aventura + Combate) foram REMOVIDOS de Criaturas —
+// a autoria vive no compêndio (Campanhas/Aventuras e Campanhas/Combates).
+describe('#396/#397 — abas AVENTURA e COMBATE removidas de Criaturas', () => {
+  it('Modo Mestre ON: não há botão AVENTURA nem COMBATE na página CRIATURAS', () => {
     mestreOn()
     renderCriaturas()
-    fireEvent.click(screen.getByRole('button', { name: 'AVENTURA' }))
-
-    // recompensa: nível 5 → 400 PO (ECONOMY_WEALTH_DATA via wealth.ts)
-    fireEvent.change(screen.getByLabelText('Nível do grupo'), { target: { value: '5' } })
-    expect(screen.getAllByText('400 PO').length).toBeGreaterThanOrEqual(2) // resumo + tabela
-    expect(screen.getByText('+225 PO')).toBeTruthy() // Δ do 4→5
-
-    // nota de aventura real da vault com bloco combat-marker
-    const notas = (await screen.findByLabelText('Nota de aventura')) as HTMLSelectElement
-    await waitFor(() =>
-      expect(
-        within(notas).getAllByRole('option').some((o) => o.textContent?.includes('Emboscada de Goblins')),
-      ).toBe(true),
-    )
-    fireEvent.change(notas, {
-      target: { value: 'Campanhas/Aventuras/Emboscada de Goblins (Exemplo Sync)' },
-    })
-
-    // roster parseado na tela (3× Soldado + 1× Piromante = 40 pts)
-    expect(await screen.findByText('3× Goblin Soldado')).toBeTruthy()
-    expect(screen.getByText('1× Goblin Piromante')).toBeTruthy()
-
-    // tabela por nível: 40 pts → DIFICIL nos níveis 1-3, TRIVIAL nos 4-10
-    // (thresholds do classify: 100%/90.9%/83.3% e depois ≤40%)
-    const tabela = document.querySelector('[data-mestre-dificuldade]') as HTMLElement
-    await waitFor(() => {
-      expect(within(tabela).getAllByText('DIFICIL')).toHaveLength(3)
-      expect(within(tabela).getAllByText('TRIVIAL')).toHaveLength(7)
-    })
-    // linha do nível selecionado (5) marcada
-    const linhaNivel5 = within(tabela).getAllByRole('row').find((r) => r.getAttribute('aria-current'))
-    expect(linhaNivel5?.textContent).toContain('T2')
+    expect(screen.queryByRole('button', { name: 'AVENTURA' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'COMBATE' })).toBeNull()
+    // BESTIÁRIO segue como aba mestre-gated
+    expect(screen.getByRole('button', { name: 'BESTIÁRIO' })).toBeTruthy()
   })
 })

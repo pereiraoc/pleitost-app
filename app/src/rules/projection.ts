@@ -63,6 +63,9 @@ const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiári
 /** #382: notas de Modificador de bestiário (Competente/Elite/Solo) — fonte do
  *  seletor de Modificador do Monstro (pills do plugin, perfil-card.ts:174-199). */
 const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
+/** #395: raças de bestiário (Goblin/Orc/Kobold/…) — fonte do seletor de Raça
+ *  do Monstro. As notas são categoria Habilidade / subcategoria Raça. */
+const RACAS_PATH_PREFIX = 'Sistema/Regras/Bestiário/Raças/'
 
 /** Scan de notas por categoria via índice do vault-data (type/subtype =
  *  categoria/subcategoria) — espelho de listNotesByCategoria (plugin
@@ -426,6 +429,9 @@ export interface HeroProjection {
    *  perfil-card.ts:176-180). `value` é o valor PLANO que o FM grava
    *  (serialize-to-fm.ts:182 do plugin). Vazio fora da família Monstro. */
   modificadores: LinkedOption[]
+  /** #395: opções de Raça do MONSTRO (Goblin/Orc/Kobold/…) — notas de
+   *  Sistema/Regras/Bestiário/Raças/. Vazio fora da família Monstro. */
+  racas: LinkedOption[]
   /** Dropdown de Sintonia — Traços raiz com alias curto (perfil-card.ts:514-522). */
   sintonias: LinkedOption[]
   /** True quando uma rule define Sintonia (metaRuleLocked, view-model.ts:362-364). */
@@ -790,6 +796,14 @@ export function buildHeroProjection(
           .map((wl) => parseModificador({ Modificador: wl }))
           .filter((m): m is NonNullable<typeof m> => m !== null)
           .map((m) => ({ value: m, label: m }))
+      : [],
+    // #395: Raças selecionáveis do Monstro — scan das notas de Raças (a raça
+    // concede habilidades raciais + Sintonia/Tamanho/Movimento pela cascata).
+    racas: isMonstro
+      ? listNotesByCategoria(catalog, 'Habilidade', {
+          pathPrefix: RACAS_PATH_PREFIX,
+          subcategoria: 'Raça',
+        }).map(linked)
       : [],
     sintonias: listNotesByCategoria(catalog, 'Sintonia', { subcategoria: null })
       .map((wl) => withAlias(wl, shortSintoniaName))

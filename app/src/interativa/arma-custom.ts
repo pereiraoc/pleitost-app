@@ -12,7 +12,9 @@ export interface CustomAtaque {
   label: string
   /** Wikilink de preview (doc do artefato) — figura/hover. */
   link: string
-  atributo: 'FOR'
+  /** #393: FOR por padrão; AGI quando o degrau porFor RESOLVIDO tem a
+   *  propriedade Precisa e AGI > FOR (max(FOR, AGI), empate em FOR). */
+  atributo: 'FOR' | 'AGI'
   /** Item-bônus FIXO do efeito (ex.: artefato Mestre → 3). */
   bonusItem: number
   dano: string
@@ -39,11 +41,27 @@ export function resolvePorFor(porFor: Record<number, ArmaPorFor>, forValue: numb
   return porFor[chosen] ?? null
 }
 
+/** #393: Precisa ("pode usar Agilidade em vez de Força na jogada de ataque")
+ *  → max(FOR, AGI), empate em FOR. Espelho de deriveArmaAtributo do plugin
+ *  (extract/apply-armas-edit.ts:44-59). Só olha as `propriedades` do degrau
+ *  porFor JÁ resolvido (as Garras têm Precisa nos degraus 1/2, mas não no 3). */
+function atributoComPrecisa(
+  propriedades: readonly string[],
+  forValue: number,
+  agiValue: number,
+): 'FOR' | 'AGI' {
+  const temPrecisa = propriedades.some((p) => p.toLowerCase().includes('precisa'))
+  if (temPrecisa && agiValue > forValue) return 'AGI'
+  return 'FOR'
+}
+
 /** Descriptors `tipo: Arma` → ataques resolvidos pro `forValue`. Dedupe por
- *  label (plugin inject-arma-custom.ts:injectArmaCustom). */
+ *  label (plugin inject-arma-custom.ts:injectArmaCustom). `agiValue` (#393)
+ *  entra no cálculo do atributo quando o degrau tem Precisa; ausente → FOR. */
 export function collectCustomAtaques(
   descriptors: readonly EffectDescriptor[],
   forValue: number,
+  agiValue = 0,
 ): CustomAtaque[] {
   const out: CustomAtaque[] = []
   const seen = new Set<string>()
@@ -56,7 +74,7 @@ export function collectCustomAtaques(
     out.push({
       label: ef.label,
       link: ef.link ?? `[[${ef.label}]]`,
-      atributo: 'FOR',
+      atributo: atributoComPrecisa(stats.propriedades, forValue, agiValue),
       bonusItem: ef.bonusItem ?? 0,
       dano: stats.dano,
       tipo: stats.tipo,
