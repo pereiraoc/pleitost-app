@@ -10,6 +10,7 @@ import { parseInlineFields } from "./parse-inline-fields.mjs";
 import { parseLinks } from "./parse-links.mjs";
 import { parseRuleElements } from "./load-rule-parser.mjs";
 import { parseConditionElements } from "./load-condition-parser.mjs";
+import { parseLocationBody } from "./parse-location-body.mjs";
 
 const HEADING_RE = /^(#{1,6})[ \t]+(.+?)[ \t]*#*$/;
 
@@ -18,6 +19,11 @@ const HEADING_RE = /^(#{1,6})[ \t]+(.+?)[ \t]*#*$/;
 // Somar Condicao.X), que o parser genérico não cobre. Detectar pela subcategoria
 // (sinal de dado, não caminho) pra parsear com o parser certo.
 const CONDICAO_SUBCATEGORIA = "Condição";
+
+// Notas de Localização (Atlas/**) guardam prosa (Descrição/Aparência/População
+// + Distritos/Locais de Interesse) DENTRO de callouts do body — o FM tem os
+// campos como placeholders vazios. `locationBody` é essa prosa parseada.
+const LOCALIZACAO_CATEGORIA = "Localização";
 
 function collectFmStrings(value, keyPath, out) {
   if (typeof value === "string") {
@@ -126,6 +132,9 @@ export async function parseDoc({ raw, relPath }) {
     headings,
     body,
   };
+  if (type === LOCALIZACAO_CATEGORIA) {
+    record.locationBody = parseLocationBody(body);
+  }
   if (fm.frontmatterError) {
     record.frontmatterError = fm.frontmatterError;
     record.frontmatterRaw = fm.frontmatterRaw;

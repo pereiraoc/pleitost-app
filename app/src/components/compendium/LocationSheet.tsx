@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import type { IndexDocEntry, VaultDoc } from '../../data/types'
+import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
 import { InlineFieldValue } from './InlineFieldValue'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { DocRuleElements } from './RuleElements'
@@ -64,19 +65,21 @@ function clip(n: number): NonNullable<CSSProperties['clipPath']> {
 
 /** Campos da aba Detalhes, na ordem de exibição (fonte de verdade do schema
  *  da ficha — os rótulos são declarados aqui, nunca inventados no render).
- *  `subtype` lê doc.subtype (= frontmatter.subcategoria); `text` lê
- *  frontmatter[key]; `recursos` lê a lista frontmatter.Recursos. Campos
+ *  `text` lê frontmatter[key] com fallback para `locationBody[fallback]`
+ *  (o template da vault escreve a prosa dentro de um callout do body — o
+ *  FM tem placeholder vazio, o parser popula `locationBody`). Campos
  *  ausentes/vazios são omitidos. */
-type DetailField =
-  | { kind: 'subtype'; label: string }
-  | { kind: 'text'; label: string; key: string }
-  | { kind: 'recursos'; label: string }
+type DetailField = { kind: 'text'; label: string; key: string; fallback?: keyof LocationBody }
 
 // Feedback do mestre: Tipo e Geolocalização NÃO entram na tabela (já aparecem no
 // topo). Recursos saíram da tabela também — viram uma grade de mini-cards com
-// imagem + tooltip (RecursosGrid), abaixo.
+// imagem + tooltip (RecursosGrid), abaixo. Descrição/Aparência/População foram
+// pedidos do mestre pra aparecerem no compêndio; hoje moram no body em callout
+// e chegam por `locationBody`.
 const DETAIL_FIELDS: DetailField[] = [
-  { kind: 'text', label: 'Descrição', key: 'Descrição' },
+  { kind: 'text', label: 'Descrição', key: 'Descrição', fallback: 'descricao' },
+  { kind: 'text', label: 'Aparência do Local', key: 'Aparência_do_Local', fallback: 'aparencia' },
+  { kind: 'text', label: 'População', key: 'População', fallback: 'populacao' },
   { kind: 'text', label: 'Contexto', key: 'Contexto' },
   { kind: 'text', label: 'Organizações Influentes', key: 'Organizações_Influentes' },
   { kind: 'text', label: 'Acontecimento Recente', key: 'Acontecimento_Recente' },
@@ -214,9 +217,13 @@ function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
   const recursos = locationRecursos(doc)
   const rows: ReactNode[] = []
   for (const field of DETAIL_FIELDS) {
-    if (field.kind !== 'text') continue
-    const text = fieldText(doc.frontmatter[field.key])
-    if (text != null) {
+    // FM primeiro (permite override manual); se vazio, cai no locationBody
+    // parseado do callout do template. Nunca inventa — se as duas fontes
+    // são vazias, o campo é omitido.
+    const fmText = fieldText(doc.frontmatter[field.key])
+    const bodyText = field.fallback ? doc.locationBody?.[field.fallback] ?? null : null
+    const text = fmText ?? bodyText
+    if (text != null && text !== '') {
       rows.push(
         <DetailRow key={field.key} label={field.label}>
           <InlineFieldValue value={text} />
@@ -774,6 +781,20 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   )
 }
 
+// ─────────────────────── Aba Locais de Interesse ───────────────────────
+
+/** Aba de LOCAIS DE INTERESSE: renderiza o markdown do callout
+ *  `[!info] Distritos e Locais de Interesse` (parseado no extractor e
+ *  guardado em `doc.locationBody.locaisInteresse`). Reusa o pipeline
+ *  markdown do compêndio via doc sintético — mantém wikilinks navegáveis,
+ *  ícones supercharged e o estilo do resto do app. */
+function LocaisInteresseTab({ doc }: { doc: VaultDoc }) {
+  const raw = doc.locationBody?.locaisInteresse ?? null
+  if (!raw) return <EmptyPanel>{'// SEM DISTRITOS OU LOCAIS DE INTERESSE'}</EmptyPanel>
+  const synthetic: VaultDoc = { ...doc, body: raw }
+  return <MarkdownBody doc={synthetic} />
+}
+
 /** Aba HEXPLORAÇÃO (issue #67) — autoria do mapa de hexcrawl da região. Quando
  *  a região tem um mapa configurado (region-maps.ts) mas ainda não há hex
  *  mapeado, mostra o CTA "Adicionar Hexploração" (que abre o editor); com
@@ -817,10 +838,18 @@ function HexploracaoTab({ doc }: { doc: VaultDoc }) {
 // ───────────────────────────── Abas ─────────────────────────────
 
 interface LocTab {
-  id: 'detalhes' | 'comercio' | 'hexploracao'
+  id: 'detalhes' | 'comercio' | 'locais-interesse' | 'hexploracao'
   label: string
   /** Predicado de habilitação; ausente = sempre habilitada. */
   enabled?: (doc: VaultDoc) => boolean
+}
+
+/** A aba "Locais de Interesse" só faz sentido quando o doc TEM o callout
+ *  `[!info] Distritos e Locais de Interesse` no body (parseado no extractor
+ *  para `locationBody.locaisInteresse`). Regiões/Nações sem esse callout
+ *  ficam com a aba desabilitada — não inventar conteúdo vazio. */
+function hasLocaisInteresse(doc: VaultDoc): boolean {
+  return !!doc.locationBody?.locaisInteresse
 }
 
 /** Issue #67: a Hexploração habilita numa Localização que ANCORA um mapa de
@@ -838,9 +867,13 @@ const COMERCIO_DISABLED_NOTE =
 const HEX_DISABLED_NOTE =
   'Hexploração só é habilitada na nota-raiz de uma região com mapa de hexcrawl configurado (por ora, Mundo Livre).'
 
+const LOCAIS_INTERESSE_DISABLED_NOTE =
+  'Este lugar não tem distritos ou locais de interesse registrados no callout do body.'
+
 const LOCATION_TABS: LocTab[] = [
   { id: 'detalhes', label: 'Detalhes' },
   { id: 'comercio', label: 'Comércio' },
+  { id: 'locais-interesse', label: 'Locais de Interesse', enabled: hasLocaisInteresse },
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
 
@@ -908,9 +941,11 @@ export function LocationSheet({
               title={
                 !enabled && t.id === 'hexploracao'
                   ? HEX_DISABLED_NOTE
-                  : gateComercio
-                    ? COMERCIO_DISABLED_NOTE
-                    : undefined
+                  : !enabled && t.id === 'locais-interesse'
+                    ? LOCAIS_INTERESSE_DISABLED_NOTE
+                    : gateComercio
+                      ? COMERCIO_DISABLED_NOTE
+                      : undefined
               }
               onClick={() => enabled && setTab(t.id)}
               style={{
@@ -937,6 +972,7 @@ export function LocationSheet({
       <div style={{ marginTop: 4 }}>
         {tab === 'detalhes' ? <DetalhesTab doc={doc} rel={rel} /> : null}
         {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
+        {tab === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}
         {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>
       <DocRuleElements doc={doc} />

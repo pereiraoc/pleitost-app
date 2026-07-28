@@ -84,10 +84,10 @@ describe('LocationSheet (Localização real)', () => {
     expect(liciae.type).toBe('Localização')
   })
 
-  it('renderiza ficha com as três abas; Hexploração desabilitada com nota', () => {
+  it('renderiza ficha com as quatro abas; Hexploração desabilitada com nota', () => {
     renderDoc(cantoAlto)
     expect(screen.getByRole('heading', { level: 1, name: 'Canto Alto' })).toBeTruthy()
-    for (const label of ['Detalhes', 'Comércio', 'Hexploração']) {
+    for (const label of ['Detalhes', 'Comércio', 'Locais de Interesse', 'Hexploração']) {
       expect(screen.getByRole('tab', { name: label })).toBeTruthy()
     }
     const detalhes = screen.getByRole('tab', { name: 'Detalhes' }) as HTMLButtonElement
@@ -132,17 +132,52 @@ describe('LocationSheet (Localização real)', () => {
     // Geolocalização = breadcrumb navegável (pai resolvido pelo índice do Atlas)
     const geoRes = catalog.resolve('Principado das Flores')
     expect(geoRes.kind).toBe('doc')
-    const geoLink = await screen.findByRole('link', { name: 'Principado das Flores' })
-    expect(geoLink.getAttribute('href')).toBe(docPath((geoRes as { id: string }).id))
+    // A Descrição também menciona [[Principado das Flores]] (locationBody) —
+    // o breadcrumb é identificado pelo atributo `data-atlas-crumb`, não pelo
+    // nome (o mesmo link aparece em vários lugares).
+    const crumb = document.querySelector<HTMLAnchorElement>(
+      `[data-atlas-crumb="${(geoRes as { id: string }).id}"]`,
+    )
+    expect(crumb?.getAttribute('href')).toBe(docPath((geoRes as { id: string }).id))
   })
 
-  it('Detalhes: campos ausentes do FM são omitidos (nunca inventados)', () => {
+  it('Detalhes: campos ausentes do FM E do locationBody são omitidos (nunca inventados)', () => {
     renderDoc(cantoAlto)
-    // Canto Alto tem Descrição/Contexto/Organizações/Acontecimento nulos → não aparecem
-    expect(screen.queryByText('Descrição')).toBeNull()
+    // Canto Alto tem Contexto/Organizações/Acontecimento sem valor no FM E sem
+    // fallback no locationBody → seguem omitidos.
     expect(screen.queryByText('Contexto')).toBeNull()
     expect(screen.queryByText('Organizações Influentes')).toBeNull()
     expect(screen.queryByText('Acontecimento Recente')).toBeNull()
+  })
+
+  it('Detalhes: Descrição/Aparência/População do body callout aparecem quando o FM é vazio', () => {
+    renderDoc(cantoAlto)
+    // Fallback do locationBody (parseado do callout `[!info] Informações`):
+    // FM tem Descrição/Aparência/População vazias, mas o parser popula.
+    expect(screen.getByText('Descrição')).toBeTruthy()
+    expect(screen.getByText('Aparência do Local')).toBeTruthy()
+    expect(screen.getByText('População')).toBeTruthy()
+    // trechos únicos que só existem no locationBody de Canto Alto:
+    expect(screen.getByText(/Palácio dos Altos Ventos/)).toBeTruthy()
+    expect(screen.getByText(/150\.000/)).toBeTruthy()
+  })
+
+  it('aba Locais de Interesse: habilitada quando o callout existe (Canto Alto) e renderiza os distritos', async () => {
+    renderDoc(cantoAlto)
+    const loi = screen.getByRole('tab', { name: 'Locais de Interesse' }) as HTMLButtonElement
+    expect(loi.disabled).toBe(false)
+    fireEvent.click(loi)
+    // markdown do callout preserva os cabeçalhos em bold — checar por um
+    // rótulo único do callout de Canto Alto (Praça do Carrilhão só aparece
+    // aqui, ao contrário de Colina do Plenário que também é citada na aparência).
+    await waitFor(() => expect(screen.getByText('Praça do Carrilhão')).toBeTruthy())
+  })
+
+  it('aba Locais de Interesse: desabilitada em Localização sem callout (Mundo Livre / Região)', () => {
+    renderDoc(mundoLivre)
+    const loi = screen.getByRole('tab', { name: 'Locais de Interesse' }) as HTMLButtonElement
+    expect(loi.disabled).toBe(true)
+    expect(loi.getAttribute('title')).toMatch(/callout do body/i)
   })
 
   it('Líciae: Recurso string simples ("Gado") vira card sem nota, não link', async () => {
@@ -150,8 +185,14 @@ describe('LocationSheet (Localização real)', () => {
     expect(document.querySelector('.doc-type')?.textContent).toBe('Grande Cidade') // Tipo
     await waitFor(() => expect(screen.getByText('Gado')).toBeTruthy())
     expect(screen.queryByRole('link', { name: 'Gado' })).toBeNull()
-    // Geolocalização segue navegável (breadcrumb)
-    expect(await screen.findByRole('link', { name: 'Campos do Provento' })).toBeTruthy()
+    // Geolocalização segue navegável (breadcrumb) — identificado pelo
+    // data-atlas-crumb, já que o mesmo nome pode aparecer também na Descrição.
+    const geoRes = catalog.resolve('Campos do Provento')
+    expect(geoRes.kind).toBe('doc')
+    const crumb = document.querySelector<HTMLAnchorElement>(
+      `[data-atlas-crumb="${(geoRes as { id: string }).id}"]`,
+    )
+    expect(crumb).toBeTruthy()
   })
 
   it('aba Comércio: loja da localização (issue #72) — AUTO-ABRE ao entrar, sem Modo Mestre', async () => {

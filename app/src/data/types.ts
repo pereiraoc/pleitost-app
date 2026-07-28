@@ -85,6 +85,20 @@ export interface VaultDoc {
   images: DocImage[]
   headings: DocHeading[]
   body: string
+  /** Prosa parseada dos callouts do body — só para `type === 'Localização'`.
+   *  O template da vault grava Descrição/Aparência/População dentro de um
+   *  callout `[!info] Informações` e os distritos/pontos dentro de um callout
+   *  `[!info] Distritos e Locais de Interesse`. O FM tem esses campos como
+   *  placeholders vazios; a fonte-de-verdade da prosa vive aqui (populado
+   *  pelo extractor/parse-location-body.mjs). */
+  locationBody?: LocationBody
+}
+
+export interface LocationBody {
+  populacao: string | null
+  descricao: string | null
+  aparencia: string | null
+  locaisInteresse: string | null
 }
 
 export interface AssetEntry {
