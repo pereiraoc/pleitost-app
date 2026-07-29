@@ -71,15 +71,16 @@ function clip(n: number): NonNullable<CSSProperties['clipPath']> {
  *  ausentes/vazios são omitidos. */
 type DetailField = { kind: 'text'; label: string; key: string; fallback?: keyof LocationBody }
 
-// Feedback do mestre: Tipo e Geolocalização NÃO entram na tabela (já aparecem no
-// topo). Recursos saíram da tabela também — viram uma grade de mini-cards com
-// imagem + tooltip (RecursosGrid), abaixo. Descrição/Aparência/População foram
-// pedidos do mestre pra aparecerem no compêndio; hoje moram no body em callout
-// e chegam por `locationBody`.
+// Feedback do mestre: Tipo e Geolocalização NÃO entram nos detalhes (já aparecem
+// no topo). Recursos viraram uma grade de mini-cards com imagem + tooltip
+// (RecursosGrid), abaixo. Descrição/Aparência/População foram pedidos do mestre
+// pra aparecerem no compêndio; hoje moram no body em callout e chegam por
+// `locationBody`. Ordem: População (contexto rápido do lugar) → Descrição
+// (o que é) → Aparência (como é visualmente) → resto.
 const DETAIL_FIELDS: DetailField[] = [
+  { kind: 'text', label: 'População', key: 'População', fallback: 'populacao' },
   { kind: 'text', label: 'Descrição', key: 'Descrição', fallback: 'descricao' },
   { kind: 'text', label: 'Aparência do Local', key: 'Aparência_do_Local', fallback: 'aparencia' },
-  { kind: 'text', label: 'População', key: 'População', fallback: 'populacao' },
   { kind: 'text', label: 'Contexto', key: 'Contexto' },
   { kind: 'text', label: 'Organizações Influentes', key: 'Organizações_Influentes' },
   { kind: 'text', label: 'Acontecimento Recente', key: 'Acontecimento_Recente' },
@@ -109,12 +110,15 @@ const HERO_STYLE: CSSProperties = {
   clipPath: clip(14),
 }
 
-function DetailRow({ label, children }: { label: string; children: ReactNode }) {
+/** Bloco stacked: label em mono kicker em cima, prosa embaixo — usa toda a
+ *  largura disponível em vez da tabela 2-colunas (a coluna de label reservava
+ *  1/3 da tela do celular pra dizer "DESCRIÇÃO"). */
+function DetailBlock({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <tr>
-      <th scope="row">{label}</th>
-      <td>{children}</td>
-    </tr>
+    <section className="local-field local-field-col">
+      <span className="local-field-label">{label.toUpperCase()}</span>
+      <div style={{ fontSize: 14, lineHeight: 1.6 }}>{children}</div>
+    </section>
   )
 }
 
@@ -215,7 +219,7 @@ function RecursosGrid({ recursos }: { recursos: string[] }) {
 
 function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
   const recursos = locationRecursos(doc)
-  const rows: ReactNode[] = []
+  const blocks: ReactNode[] = []
   for (const field of DETAIL_FIELDS) {
     // FM primeiro (permite override manual); se vazio, cai no locationBody
     // parseado do callout do template. Nunca inventa — se as duas fontes
@@ -224,22 +228,20 @@ function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
     const bodyText = field.fallback ? doc.locationBody?.[field.fallback] ?? null : null
     const text = fmText ?? bodyText
     if (text != null && text !== '') {
-      rows.push(
-        <DetailRow key={field.key} label={field.label}>
+      blocks.push(
+        <DetailBlock key={field.key} label={field.label}>
           <InlineFieldValue value={text} />
-        </DetailRow>,
+        </DetailBlock>,
       )
     }
   }
-  const vazio = !rows.length && !recursos.length && rel.children.length === 0
+  const vazio = !blocks.length && !recursos.length && rel.children.length === 0
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-        {rows.length ? (
-          <table className="inline-fields">
-            <tbody>{rows}</tbody>
-          </table>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+        {blocks.length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>{blocks}</div>
         ) : null}
         {recursos.length ? <RecursosGrid recursos={recursos} /> : null}
         {vazio ? <EmptyPanel>{'// SEM DETALHES REGISTRADOS'}</EmptyPanel> : null}

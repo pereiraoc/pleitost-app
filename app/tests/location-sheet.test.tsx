@@ -144,19 +144,32 @@ describe('LocationSheet (Localização real)', () => {
   it('Detalhes: campos ausentes do FM E do locationBody são omitidos (nunca inventados)', () => {
     renderDoc(cantoAlto)
     // Canto Alto tem Contexto/Organizações/Acontecimento sem valor no FM E sem
-    // fallback no locationBody → seguem omitidos.
-    expect(screen.queryByText('Contexto')).toBeNull()
-    expect(screen.queryByText('Organizações Influentes')).toBeNull()
-    expect(screen.queryByText('Acontecimento Recente')).toBeNull()
+    // fallback no locationBody → seguem omitidos (rótulo NÃO aparece em nenhum
+    // case).
+    expect(screen.queryByText(/^Contexto$/i)).toBeNull()
+    expect(screen.queryByText(/^Organizações Influentes$/i)).toBeNull()
+    expect(screen.queryByText(/^Acontecimento Recente$/i)).toBeNull()
+  })
+
+  it('Detalhes: ordem dos campos é População → Descrição → Aparência (feedback do mestre)', () => {
+    renderDoc(cantoAlto)
+    const labels = Array.from(
+      document.querySelectorAll<HTMLElement>('.local-field-label'),
+    ).map((el) => el.textContent?.trim().toUpperCase() ?? '')
+    const idx = (needle: string): number => labels.findIndex((l) => l === needle)
+    expect(idx('POPULAÇÃO')).toBeGreaterThanOrEqual(0)
+    expect(idx('POPULAÇÃO')).toBeLessThan(idx('DESCRIÇÃO'))
+    expect(idx('DESCRIÇÃO')).toBeLessThan(idx('APARÊNCIA DO LOCAL'))
   })
 
   it('Detalhes: Descrição/Aparência/População do body callout aparecem quando o FM é vazio', () => {
     renderDoc(cantoAlto)
     // Fallback do locationBody (parseado do callout `[!info] Informações`):
     // FM tem Descrição/Aparência/População vazias, mas o parser popula.
-    expect(screen.getByText('Descrição')).toBeTruthy()
-    expect(screen.getByText('Aparência do Local')).toBeTruthy()
-    expect(screen.getByText('População')).toBeTruthy()
+    // Rótulos são exibidos em uppercase (mono kicker), busca case-insensitive.
+    expect(screen.getByText(/^Descrição$/i)).toBeTruthy()
+    expect(screen.getByText(/^Aparência do Local$/i)).toBeTruthy()
+    expect(screen.getByText(/^População$/i)).toBeTruthy()
     // trechos únicos que só existem no locationBody de Canto Alto:
     expect(screen.getByText(/Palácio dos Altos Ventos/)).toBeTruthy()
     expect(screen.getByText(/150\.000/)).toBeTruthy()
