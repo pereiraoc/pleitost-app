@@ -1141,8 +1141,22 @@ function NpcCard({
   const navigate = useNavigate()
   const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
-  // subtítulo accent2 do design (n.tipo): Raça, senão Classe, senão subtipo
+  // subtítulo accent2 do design (n.tipo): Raça, senão Classe, senão subtipo.
+  // #414 (sugestão do usuário): Pessoa compõe as infos do #45 no lugar do
+  // rótulo "Pessoa" — Relação · Organização · Posição (Detalhes fica de
+  // fora); tudo vazio cai no subtipo como antes.
+  const pessoaInfo =
+    (doc?.subtype ?? entry.subtype) === 'Pessoa'
+      ? [
+          plainLabel(doc?.frontmatter['Relação']),
+          plainLabel(doc?.frontmatter['Organização']),
+          plainLabel(doc?.frontmatter['Posição']),
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      : ''
   const tipo =
+    pessoaInfo ||
     plainLabel(doc?.frontmatter['Raça']) ||
     plainLabel(doc?.frontmatter['Classe']) ||
     entry.subtype ||
