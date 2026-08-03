@@ -321,6 +321,40 @@ export async function startEncounterFromRoster(
   })
 }
 
+/** #403 (report ebe08297): herói/companheiro publicado DURANTE combate ativo
+ *  não aparecia até parar o combate + F5 — o roster renderiza SÓ o
+ *  turnState.order (snapshot do startEncounter) e o publicar() do jogador não
+ *  pode tocá-lo (RLS: só o GM escreve session_encounters). O cliente do GM
+ *  chama isto a cada mudança do live: quem falta entra no FIM do order (mesmo
+ *  padrão do addMonsterToInitiative). O live pode estar STALE (refetch em
+ *  voo), então antes de escrever RE-LÊ encounters+characters do servidor —
+ *  sem isso um segundo disparo apendaria o mesmo id duas vezes. */
+export async function reconcileHeroesIntoActiveEncounter(
+  repo: SessionRepo,
+  live: LiveSession,
+): Promise<void> {
+  // Gate barato no snapshot do live: só re-lê o servidor quando há suspeita.
+  const ativoLive = live.encounters.find((e) => e.status === 'active')
+  const tsLive = ativoLive?.turnState
+  if (!ativoLive || !tsLive?.started) return
+  const suspeitos = live.characters.some(
+    (c) => c.kind !== 'npc' && !tsLive.order.includes(c.id),
+  )
+  if (!suspeitos) return
+  const [encounters, chars] = await Promise.all([
+    repo.listEncountersBySession(live.sessionId),
+    repo.findCharactersBySession(live.sessionId),
+  ])
+  const ativo = encounters.find((e) => e.status === 'active')
+  const ts = ativo?.turnState
+  if (!ativo || !ts?.started) return
+  const faltando = chars
+    .filter((c) => c.kind !== 'npc' && !ts.order.includes(c.id))
+    .map((c) => c.id)
+  if (!faltando.length) return
+  await repo.updateEncounterTurnState(ativo.id, { ...ts, order: [...ts.order, ...faltando] })
+}
+
 /** #229 (b): caminho DIRETO do mestre — monstro do bestiário → iniciativa da
  *  sessão ativa. Com combate ativo, o NPC entra NELE (insertCharacter +
  *  append no turnState.order — arquiva junto, createdByEncounterId); sem

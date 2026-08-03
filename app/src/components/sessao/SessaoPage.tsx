@@ -41,7 +41,11 @@ import {
   extractFmBlob,
 } from '../../data/session-repo/publish'
 import type { Catalog } from '../../data/catalog'
-import { startEncounterFromRoster, toggleRevealDisguisedNpc } from '../../data/session-repo/encounter-actions'
+import {
+  reconcileHeroesIntoActiveEncounter,
+  startEncounterFromRoster,
+  toggleRevealDisguisedNpc,
+} from '../../data/session-repo/encounter-actions'
 import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
@@ -152,6 +156,24 @@ export function LiveSessionBridge() {
     ? (live?.characters.find((c) => c.memberId === user.id && c.kind === 'heroi') ?? null)
     : null
   usePublicacao(repo, remoteId, meuChar, catalog)
+  // #403: SÓ o GM escreve session_encounters (RLS) — o cliente dele reconcilia
+  // heróis publicados no MEIO do combate pro turnState.order a cada mudança do
+  // live. O busy-ref serializa (o próprio write dispara refetch → novo live →
+  // re-checagem); a ação re-lê o servidor antes de escrever (live stale não
+  // duplica append).
+  const reconciling = useRef(false)
+  useEffect(() => {
+    if (!repo || !user || !live || live.gmUserId !== user.id) return
+    if (reconciling.current) return
+    reconciling.current = true
+    void reconcileHeroesIntoActiveEncounter(repo, live)
+      .catch(() => {
+        /* servidor fora — o próximo live re-tenta */
+      })
+      .finally(() => {
+        reconciling.current = false
+      })
+  }, [repo, user, live])
   // #226: sessões do usuário em QUALQUER dispositivo — logado, busca no
   // servidor as sessões em que é membro e registra as desconhecidas na lista
   // local (por código; não mexe na sessão ATIVA deste dispositivo).
