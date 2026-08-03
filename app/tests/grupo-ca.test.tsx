@@ -24,6 +24,7 @@ import { wikilinkBasename } from '../src/rules/rule-applier'
 import {
   computeMemberWealthParts,
   expectedWealthForLevel,
+  isArtefatoId,
   precoPO,
 } from '../src/grupo/wealth'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
@@ -45,6 +46,11 @@ const readDoc = (id: string): VaultDoc =>
 const priceOf = (target: string): number => {
   const res = catalog.resolve(target)
   return res.kind === 'doc' ? precoPO(readDoc(res.id)) : 0
+}
+// #412: artefato entra CRU na riqueza (mesma exceção do painel)
+const isArtefato = (target: string): boolean => {
+  const res = catalog.resolve(target)
+  return res.kind === 'doc' && isArtefatoId(res.id)
 }
 
 beforeAll(() => {
@@ -114,8 +120,8 @@ describe('issue #236: Companheiro Animal na ficha de grupo (dados reais)', () =>
 
   it('RIQUEZA: sem linha do CA; a linha do tutor soma os tesouros dele', async () => {
     // expectativa independente: partes recomputadas no teste dos FMs crus
-    const tutorParts = computeMemberWealthParts(tutor.frontmatter, priceOf)
-    const caParts = computeMemberWealthParts(ca.frontmatter, priceOf)
+    const tutorParts = computeMemberWealthParts(tutor.frontmatter, priceOf, isArtefato)
+    const caParts = computeMemberWealthParts(ca.frontmatter, priceOf, isArtefato)
     const tsr = Math.round(tutorParts.itensSemConsumiveis + caParts.itensSemConsumiveis)
     const oro = Math.round(tutorParts.ouro + caParts.ouro)
     const cns = Math.round(tutorParts.consumiveis + caParts.consumiveis)

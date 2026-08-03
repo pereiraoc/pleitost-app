@@ -233,3 +233,23 @@ describe('bodyHtml — linhas consecutivas quebram (Sucesso/Falha em linhas pró
     expect(html).toContain('Falha')
   })
 })
+
+// #412 (report c53d8b34): "Riqueza do artefato está sendo multiplicado pela
+// categoria" — artefato tem preço CRU na nota (já final); o "(Mestre)" é
+// raridade, não multiplicador (mesma regra do inventário de grupo,
+// inventario-item.ts). O card multiplicava por TIER_PRICE_MULT (M=×25).
+describe('#412 — preço do artefato é CRU (não multiplica pela categoria)', () => {
+  const artefato = byName('Garras do Rei-Mago') // preço:: 1750 PO
+  it('card do artefato Mestre mostra o preço da nota, sem ×25', () => {
+    const html = itemCardHtml(artefato, 'M', null, true)
+    expect(html).toContain('1750 PO')
+    expect(html).not.toContain('43750')
+  })
+  it('trap reverso: tesouro comum Mestre segue multiplicando', () => {
+    const anelDoc = byName('Anel Canário')
+    const base = precoPO(anelDoc)
+    const html = itemCardHtml(anelDoc, 'M', null, true)
+    expect(base).toBeGreaterThan(0)
+    expect(html).toContain(`${base * 25} PO`)
+  })
+})

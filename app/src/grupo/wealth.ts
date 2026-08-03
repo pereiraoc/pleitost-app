@@ -92,6 +92,17 @@ export function precoPO(doc: VaultDoc | undefined | null): number {
   return m ? Number(m[1]) : 0
 }
 
+/** #412: ARTEFATOS (Sistema/Equipamento/Tesouros/Artefatos/) têm preço CRU —
+ *  o "(Mestre)" do alias é a RARIDADE do item, não um multiplicador de tier.
+ *  Fonte única da exceção (o inventário de grupo já a aplicava em
+ *  inventario-item.ts; card e riqueza multiplicavam por engano). */
+export function isArtefatoId(id: string | null | undefined): boolean {
+  return !!id && id.includes('/Artefatos/')
+}
+
+/** #412: um alvo de wikilink é artefato? (resolução docId a cargo do caller). */
+export type IsArtefato = (linkTarget: string) => boolean
+
 export interface InvFm {
   Inventario?: {
     Tesouros?: unknown
@@ -144,8 +155,14 @@ function tierInitialFromCategoriaLink(linkStr: unknown): string {
   return tierInitial(p ? pathBasename(p) : '')
 }
 
-/** Linhas de Inventario.Tesouros — preço × tier do display (default Adepto). */
-export function itemizeTesouros(fm: InvFm, priceOf: PriceOf): WealthLine[] {
+/** Linhas de Inventario.Tesouros — preço × tier do display (default Adepto).
+ *  #412: artefato (isArtefato) NÃO multiplica — preço cru; o tier segue no
+ *  rótulo como raridade. */
+export function itemizeTesouros(
+  fm: InvFm,
+  priceOf: PriceOf,
+  isArtefato?: IsArtefato,
+): WealthLine[] {
   const out: WealthLine[] = []
   for (const entry of toArray(fm?.Inventario?.Tesouros)) {
     const p = wikilinkTargetFlexible(entry)
@@ -154,7 +171,7 @@ export function itemizeTesouros(fm: InvFm, priceOf: PriceOf): WealthLine[] {
     const tier = parseTierFromDisplay(display) || 'Adepto'
     out.push({
       label: `${pathBasename(p)} (${tierInitial(tier)})`,
-      value: priceOf(p) * tierMultFromName(tier),
+      value: priceOf(p) * (isArtefato?.(p) ? 1 : tierMultFromName(tier)),
     })
   }
   return out
@@ -222,9 +239,13 @@ export function itemizeArmasProp(fm: InvFm, priceOf: PriceOf): WealthLine[] {
 const sumLines = (lines: WealthLine[]): number => lines.reduce((s, l) => s + l.value, 0)
 
 /** Espelha sumInventarioTesouros (pricing.ts): display = parte após `|`
- *  ('' sem alias) → tier (default Adepto) × preço base. */
-export function sumInventarioTesouros(fm: InvFm, priceOf: PriceOf): number {
-  return sumLines(itemizeTesouros(fm, priceOf))
+ *  ('' sem alias) → tier (default Adepto) × preço base. #412: artefato cru. */
+export function sumInventarioTesouros(
+  fm: InvFm,
+  priceOf: PriceOf,
+  isArtefato?: IsArtefato,
+): number {
+  return sumLines(itemizeTesouros(fm, priceOf, isArtefato))
 }
 
 /** Espelha sumConsumiveis (pricing.ts): tier + quantidade `(xN)` do display. */
@@ -252,11 +273,15 @@ export interface MemberWealthParts {
   totalComTudo: number
 }
 
-/** Espelha computeMemberWealthParts (pricing.ts). */
-export function computeMemberWealthParts(fm: Fm | undefined, priceOf: PriceOf): MemberWealthParts {
+/** Espelha computeMemberWealthParts (pricing.ts). #412: artefato cru. */
+export function computeMemberWealthParts(
+  fm: Fm | undefined,
+  priceOf: PriceOf,
+  isArtefato?: IsArtefato,
+): MemberWealthParts {
   const f = (fm ?? {}) as InvFm
   const ouro = Number(f?.Inventario?.Ouro) || 0
-  const tesouros = sumInventarioTesouros(f, priceOf)
+  const tesouros = sumInventarioTesouros(f, priceOf, isArtefato)
   const consumiveis = sumConsumiveis(f, priceOf)
   const armaduraEscudo = priceArmaduraEscudo(f, priceOf)
   const armasProp = priceAtaquesPropriedades(f, priceOf)
@@ -319,13 +344,14 @@ export function wealthMemberRows(
   members: IndexDocEntry[],
   docs: Map<string, VaultDoc>,
   priceOf: PriceOf,
+  isArtefato?: IsArtefato,
 ): WealthMemberRow[] {
   const rows: WealthMemberRow[] = []
   const rowByBasename = new Map<string, WealthMemberRow>()
   const cas: { doc: VaultDoc; parts: MemberWealthParts }[] = []
   for (const member of members) {
     const doc = docs.get(member.id)
-    const parts = computeMemberWealthParts(doc?.frontmatter as Fm | undefined, priceOf)
+    const parts = computeMemberWealthParts(doc?.frontmatter as Fm | undefined, priceOf, isArtefato)
     if (doc && familiaOf(doc) === 'CompanheiroAnimal') {
       cas.push({ doc, parts })
       continue

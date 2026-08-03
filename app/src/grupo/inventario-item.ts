@@ -15,6 +15,7 @@ import {
   tierCategoriaFm,
   wikiTarget,
 } from '../components/ficha/hero-model'
+import { isArtefatoId } from './wealth'
 
 export const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 
@@ -72,9 +73,8 @@ export function itemValorPO(
     default: // tesouro
       // Artefatos: o `preço` da nota é o valor CRU (já final), NÃO escala por
       // tier — o "(Mestre)" é só a raridade do item, não um multiplicador.
-      return it.docId?.includes('/Artefatos/')
-        ? priceOf(it.nome)
-        : priceOf(it.nome) * tierMult(it.tier)
+      // #412: mesma regra centralizada em isArtefatoId (riqueza + card usam).
+      return isArtefatoId(it.docId) ? priceOf(it.nome) : priceOf(it.nome) * tierMult(it.tier)
   }
 }
 

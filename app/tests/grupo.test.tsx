@@ -27,6 +27,7 @@ import {
   computeMemberWealthParts,
   deltaKind,
   expectedWealthForLevel,
+  isArtefatoId,
   precoPO,
   tierMultFromName,
 } from '../src/grupo/wealth'
@@ -618,9 +619,14 @@ describe('issue #9: avisos do plugin na ficha de grupo (dados reais)', () => {
     }
     // expectativa independente: razão + limiares recomputados no teste
     const KIND_COLOR: Record<string, string> = { ok: '#16a34a', warn: '#ea580c', bad: '#dc2626' }
+    // #412: artefato entra CRU na riqueza (mesma exceção do painel)
+    const isArtefato = (target: string): boolean => {
+      const res = catalog.resolve(target)
+      return res.kind === 'doc' && isArtefatoId(res.id)
+    }
     const expected = members.map((m) => {
       const fm = docs.get(m.id)!.frontmatter as AnyFm
-      const parts = computeMemberWealthParts(fm, priceOf)
+      const parts = computeMemberWealthParts(fm, priceOf, isArtefato)
       const esperado = expectedWealthForLevel(Number(fm['Nível']) || 1)
       const delta = parts.ouro + parts.itensSemConsumiveis - esperado
       const ratio = Math.abs(delta) / Math.max(Math.abs(esperado), 1)
@@ -731,9 +737,14 @@ describe('#384: tooltips discriminados da riqueza pareiam com o integrante', () 
   const expectedOf = () => {
     const members = groupMembers(catalog, GROUP3_ID)
     const docs = readMemberDocs(GROUP3_ID)
+    // #412: artefato entra CRU na riqueza (mesma exceção do painel)
+    const isArtefato = (target: string): boolean => {
+      const res = catalog.resolve(target)
+      return res.kind === 'doc' && isArtefatoId(res.id)
+    }
     return members.map((m) => {
       const fm = docs.get(m.id)!.frontmatter as AnyFm
-      const parts = computeMemberWealthParts(fm, priceOf)
+      const parts = computeMemberWealthParts(fm, priceOf, isArtefato)
       const esperado = expectedWealthForLevel(Number(fm['Nível']) || 1)
       return {
         nome: m.basename ?? m.id,

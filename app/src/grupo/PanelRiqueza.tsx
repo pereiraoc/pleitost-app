@@ -46,6 +46,7 @@ import {
   itemizeArmaduraEscudo,
   itemizeArmasProp,
   itemizeConsumiveis,
+  isArtefatoId,
   itemizeTesouros,
   precoPO,
   priceTargets,
@@ -119,6 +120,11 @@ export function PanelRiqueza({
     const res = catalog.resolve(target)
     return res.kind === 'doc' ? precoPO(priceDocs?.get(res.id)) : 0
   }
+  // #412: artefato vale o preço CRU (o "(Mestre)" do alias é raridade).
+  const isArtefato = (target: string) => {
+    const res = catalog.resolve(target)
+    return res.kind === 'doc' && isArtefatoId(res.id)
+  }
 
   const deltaStr = (delta: number) => `${delta >= 0 ? '+' : ''}${Math.round(delta)} PO`
 
@@ -126,7 +132,7 @@ export function PanelRiqueza({
   // #236: as linhas vêm de wealthMemberRows — o Companheiro Animal sai da
   // lista e os tesouros dele já entram nas partes do tutor.
   const computed = ready
-    ? wealthMemberRows(members, docs, priceOf).map(({ member, parts, fms }) => {
+    ? wealthMemberRows(members, docs, priceOf, isArtefato).map(({ member, parts, fms }) => {
         const doc = docs.get(member.id)
         const nivel = nivelOf(doc)
         const expected = expectedWealthForLevel(nivel)
@@ -160,7 +166,7 @@ export function PanelRiqueza({
       riqTipTesouros({
         armas: r.fms.flatMap((f) => itemizeArmasProp(f, priceOf)),
         armaduraEscudo: r.fms.flatMap((f) => itemizeArmaduraEscudo(f, priceOf)),
-        tesouros: r.fms.flatMap((f) => itemizeTesouros(f, priceOf)),
+        tesouros: r.fms.flatMap((f) => itemizeTesouros(f, priceOf, isArtefato)),
       }),
       riqTipDelta(r.nivel, r.expected, r.delta),
     ],

@@ -14,7 +14,7 @@ import {
 } from '../data/equipment-image'
 import { tokens } from './ficha/registry'
 import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data/commerce'
-import { precoPO } from '../grupo/wealth'
+import { isArtefatoId, precoPO } from '../grupo/wealth'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
 import { useDetail } from '../data/detail-context'
@@ -480,7 +480,9 @@ export function itemCardHtml(
   const precoStr = (): string => {
     const base = precoPO(doc)
     if (base <= 0) return val('preço')
-    return `${base * (showTier ? TIER_PRICE_MULT[tier] : 1)} PO`
+    // #412: artefato tem preço CRU (o tier do card é raridade, não multiplicador).
+    const mult = showTier && !isArtefatoId(doc.id) ? TIER_PRICE_MULT[tier] : 1
+    return `${base * mult} PO`
   }
   const parts: string[] = CARD_SCHEMA[kind].map(([k, label]) =>
     k === 'preço' ? row(label, precoStr()) : row(label, val(k)),
