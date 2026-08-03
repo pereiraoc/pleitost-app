@@ -36,6 +36,14 @@ export interface SkillTop {
   mod: number
   prof: string
   who: string
+  /** #415: partes REAIS do modificador pro tooltip DINÂMICO do painel (antes o
+   *  breakdown vinha ESTÁTICO do snapshot do design, chaveado por índice —
+   *  bônus de item do integrante errado). Mesma decomposição do skillMod. */
+  attr: string
+  attrVal: number
+  profVal: number
+  item: number
+  especial: number
 }
 
 export interface SkillHighlight {
@@ -72,6 +80,11 @@ export function topTwoForSkill(
       prof: String(row.Proficiencia ?? 'N').toUpperCase(),
       who: name,
       name,
+      attr: String(row.Atributo ?? '').toUpperCase(),
+      attrVal: getAttr(fm, row.Atributo),
+      profVal: profMod(row.Proficiencia),
+      item: Number(row.Bonus_Item) || 0,
+      especial: Number(row.Bonus_Especial) || 0,
     })
   }
   scored.sort((a, b) => b.mod - a.mod || a.name.localeCompare(b.name, 'pt'))
@@ -241,17 +254,36 @@ const MAGIA_ESCOLAS: Array<readonly [string, MagiaHighlight['emojiKey']]> = [
 const magiasLista = (fm: Fm | undefined) =>
   toArray((fm as { Magias?: { Lista?: unknown } } | undefined)?.Magias?.Lista) as NamedRow[]
 
-/** Espelha magiaModDisplay (section-magias.ts) = calcMagia. */
-export function magiaMod(fm: Fm | undefined, nome: string): { total: number; prof: string } | null {
+/** Espelha magiaModDisplay (section-magias.ts) = calcMagia. #415: devolve
+ *  também as PARTES (tooltip dinâmico — mesma decomposição do skillMod). */
+export function magiaMod(
+  fm: Fm | undefined,
+  nome: string,
+): {
+  total: number
+  prof: string
+  attr: string
+  attrVal: number
+  profVal: number
+  item: number
+  especial: number
+} | null {
   const row = findNamedRow(magiasLista(fm), nome)
   if (!row) return null
   const prof = String(row.Proficiencia ?? 'N').toUpperCase()
-  const total =
-    getAttr(fm, row.Atributo) +
-    profMod(prof) +
-    (Number(row.Bonus_Item) || 0) +
-    (Number(row.Bonus_Especial) || 0)
-  return { total, prof }
+  const attrVal = getAttr(fm, row.Atributo)
+  const profVal = profMod(prof)
+  const item = Number(row.Bonus_Item) || 0
+  const especial = Number(row.Bonus_Especial) || 0
+  return {
+    total: attrVal + profVal + item + especial,
+    prof,
+    attr: String(row.Atributo ?? '').toUpperCase(),
+    attrVal,
+    profVal,
+    item,
+    especial,
+  }
 }
 
 /** Espelha buildMagiasSectionEl + allMagiaAdeptoPlus (section-magias.ts);
@@ -274,15 +306,22 @@ export function magiaHighlights(
       const d = magiaMod(fm, nome)
       if (!d || profRank(d.prof) < 1) continue
       const name = member.basename ?? member.id
-      scored.push({ mod: d.total, prof: d.prof, who: name, name })
+      scored.push({
+        mod: d.total,
+        prof: d.prof,
+        who: name,
+        name,
+        attr: d.attr,
+        attrVal: d.attrVal,
+        profVal: d.profVal,
+        item: d.item,
+        especial: d.especial,
+      })
     }
     scored.sort((a, b) => b.mod - a.mod || a.name.localeCompare(b.name, 'pt'))
     const first = scored[0]
-    return {
-      nome,
-      emojiKey,
-      warn: hasAny && !anyNonN,
-      top: first ? { mod: first.mod, prof: first.prof, who: first.who } : null,
-    }
+    if (!first) return { nome, emojiKey, warn: hasAny && !anyNonN, top: null }
+    const { name: _name, ...top } = first
+    return { nome, emojiKey, warn: hasAny && !anyNonN, top }
   })
 }

@@ -13,6 +13,8 @@ import { useDetail } from '../data/detail-context'
 import type { GrupoTip } from './gtip'
 import { tokens } from '../generated/tokens'
 import { equipCards, magiaHighlights, skillHighlights, type SkillTop } from './destaques'
+import { destTipModificador, WARN_ADEPTO_KEY } from './dest-tips'
+import { storeEntry } from './gtips'
 import { fmtSigned } from './stats'
 import { abrirMembroDetalhe, sectionTitleStyle } from './panel-ui'
 
@@ -184,7 +186,13 @@ export function PanelDestaques({
                     <TopSpan
                       key={`${top.who}-${i}`}
                       top={top}
-                      onTipEnter={tip?.tipE(skillTipKeys[gIdx]![sIdx]![i]!)}
+                      // #415: ent DINÂMICO dos dados reais do top — a chave só
+                      // dá identidade (toggle de toque); o conteúdo não vem
+                      // mais do snapshot estático (integrante errado).
+                      onTipEnter={tip?.tipE(
+                        skillTipKeys[gIdx]![sIdx]![i]!,
+                        destTipModificador(attrEmoji(grp.attr), top),
+                      )}
                       onOpen={() => openWho(top.who)}
                       tip={tip}
                     />
@@ -257,8 +265,11 @@ export function PanelDestaques({
                 <span style={{ fontWeight: 700, fontSize: 12.5, flex: 'none' }}>{mg.nome}</span>
                 {mg.warn ? (
                   <span
-                    onMouseEnter={tip?.tipE(magiaTipKeys[mIdx]!)}
-                    onClick={tip?.tipE(magiaTipKeys[mIdx]!)}
+                    // #415: o texto do ⚠️ vem da entrada GENÉRICA estável do
+                    // design (WARN_ADEPTO_KEY) — o índice sequencial deslizava
+                    // quando a contagem de tops vivos difere do snapshot.
+                    onMouseEnter={tip?.tipE(magiaTipKeys[mIdx]!, storeEntry(WARN_ADEPTO_KEY))}
+                    onClick={tip?.tipE(magiaTipKeys[mIdx]!, storeEntry(WARN_ADEPTO_KEY))}
                     onMouseMove={tip?.move}
                     onMouseLeave={tip?.hide}
                     style={{ flex: 'none', fontSize: 11, cursor: 'help' }}
@@ -270,7 +281,12 @@ export function PanelDestaques({
                 {mg.top ? (
                   <TopSpan
                     top={mg.top}
-                    onTipEnter={tip?.tipE(magiaTipKeys[mIdx]!)}
+                    // #415: breakdown dinâmico também nas magias (header =
+                    // emoji da escola, como no snapshot do design).
+                    onTipEnter={tip?.tipE(
+                      magiaTipKeys[mIdx]!,
+                      destTipModificador(tokens.emojis.escola[mg.emojiKey], mg.top),
+                    )}
                     onOpen={() => openWho(mg.top!.who)}
                     tip={tip}
                   />
