@@ -298,11 +298,14 @@ const LIST_TARGETS: Record<string, string[]> = {
   Acoes: ['Acoes', 'Lista'],
 }
 
+/** Cria a linha do movimento se faltar — SÓ pro Complementar (append). Default
+ *  Atributo "FOR" como o plugin (merge-setters.ts:250); '' sumia com o badge
+ *  do atributo na ficha (#406). */
 function ensureMovimentoRow(fm: Fm, nome: string): Row {
   const rows = ensureListaRows(fm, 'Movimento', 'Lista')
   let row = rows.find((r) => String(r.Nome) === nome)
   if (!row) {
-    row = { Nome: nome, Atributo: '', Bonus_Item: 0, Bonus_Especial: 0 }
+    row = { Nome: nome, Atributo: 'FOR', Bonus_Item: 0, Bonus_Especial: 0 }
     rows.push(row)
   }
   return row
@@ -406,7 +409,13 @@ export function mergeCalculatedIntoFm(
         }
         applyProfListField(row, field, value, sourceOf(key))
       } else if (ns === 'Movimento') {
-        applyScalarRowField(ensureMovimentoRow(out, name), field, value)
+        // #406: Definir só aplica em linha EXISTENTE — espelho de setMovimento
+        // do plugin (merge-setters.ts:257-258: find → no-op). Sem isto,
+        // `Definir Movimento.Lista.*.Bonus_Item` (Evolução Básica de Monstro)
+        // criava uma linha literal "*" na ficha.
+        const rows = ensureListaRows(out, 'Movimento', 'Lista')
+        const row = rows.find((r) => String(r.Nome) === name)
+        if (row) applyScalarRowField(row, field, value)
       } else {
         const rows = ensureListaRows(out, ns, 'Lista')
         const row = findRowBySlug(rows, name)
