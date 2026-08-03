@@ -1728,6 +1728,9 @@ a[data-link-icon]::before {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* #410: respiro no fim do scroll — os FABs fixos (bottom 22/74 + ~48px de
+     altura) cobriam os últimos cards no mobile (delete inacessível). */
+  padding-bottom: 140px;
 }
 
 .hero-card {
@@ -1942,6 +1945,9 @@ a[data-link-icon]::before {
   gap: 18px;
   /* topo do painel = contentPad do design (dc.html:524: padding:contentPad) */
   padding-top: 24px;
+  /* #410: respiro no fim do scroll — os FABs fixos (bottom 22/74 + ~48px de
+     altura) cobriam os últimos cards no mobile (delete inacessível). */
+  padding-bottom: 140px;
 }
 
 .npc-card {
