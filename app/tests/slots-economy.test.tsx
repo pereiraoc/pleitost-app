@@ -286,3 +286,49 @@ describe('#75 render — slots vazios de magia por rank', () => {
     await waitFor(() => expect(screen.getAllByText('Vazio').length).toBeGreaterThanOrEqual(1))
   })
 })
+
+// ═══════════════ #402 — saldo NEGATIVO visível (espelho do plugin) ═══════════════
+// Report 671a45ef: baixar INT reduz Pericias.Slots abaixo do já gasto, mas a
+// barra clampava em 0 ("A 0/1") e nada acendia. O plugin (pericias-card.ts
+// setSpan + computeSlotsView com visualAvail/showCheckmark) mostra o avail CRU
+// ("A -1/1" em vermelho) e um ✓ quando a fungibilidade cobre o negativo.
+
+describe('#402 computeSlotsView — visualAvail e showCheckmark (porta completa)', () => {
+  it('over-booked SEM cobertura: avail negativo + classe err', () => {
+    const v = computeSlotsView({ total: { A: 1, E: 0, M: 0 }, used: { A: 2, E: 0, M: 0 } })
+    expect(v.globalOk).toBe(false)
+    expect(v.avail.A).toBe(-1)
+    expect(v.classFor.A).toBe('err')
+    expect(v.showCheckmark).toBe(false)
+  })
+  it('excesso de A coberto por E (fungível): globalOk + checkmark; E "reservado" vira zero', () => {
+    const v = computeSlotsView({ total: { A: 0, E: 1, M: 0 }, used: { A: 1, E: 0, M: 0 } })
+    expect(v.globalOk).toBe(true)
+    expect(v.avail.A).toBe(-1)
+    expect(v.visualAvail.E).toBe(0) // o slot E está reservado cobrindo o A
+    expect(v.classFor.E).toBe('zero') // não é "ok": já está comprometido
+    expect(v.showCheckmark).toBe(true)
+  })
+})
+
+describe('#402 render — barra de perícias mostra saldo negativo em vermelho', () => {
+  it('mais Slot.A gastos que o orçamento → label "A -N/T" com classe err', async () => {
+    const fm = bardoFm(1)
+    const pericias = fm['Pericias'] as { Slots: unknown; Lista: Record<string, unknown>[] }
+    // TODAS as perícias gastando Slot.A — muito acima do orçamento do Bardo
+    // nível 1 (o cenário do report: slots derrubados abaixo do já gasto).
+    for (const row of pericias.Lista) {
+      row['Proficiencia'] = 'A'
+      row['Incrementos'] = [{ A: 'Slot.A' }]
+    }
+    const id = createLocalEntity('Heroi', 'Bardo Estourado', fm)
+    renderFicha(id, 'habilidades')
+    const heading = await screen.findByText('Perícias')
+    fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
+    await waitFor(() => {
+      const spanA = document.querySelector('[data-slot-class]') as HTMLElement | null
+      expect(spanA?.textContent).toMatch(/^A -\d+\/\d+$/)
+      expect(spanA?.getAttribute('data-slot-class')).toBe('err')
+    })
+  })
+})

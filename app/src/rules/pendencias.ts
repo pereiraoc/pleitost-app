@@ -30,19 +30,30 @@ function slotsRec(fm: Fm, ...path: string[]): Record<string, unknown> | undefine
   return fmPath(fm, ...path) as Record<string, unknown> | undefined
 }
 
-/** ≥1 slot de perícia livre — mesma conta da ProficienciasPanel. */
-function freePericiaSlot(fm: Fm): boolean {
+/** View de slots de PERÍCIA (mesma conta da PericiasProfPanel). */
+function periciaSlotsView(fm: Fm) {
   const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
   const usedBy = (l: string) =>
     pericias.filter((p) =>
       (p.Incrementos ?? []).some((inc) => str((inc as Record<string, unknown>)[l]).startsWith('Slot')),
     ).length
   const s = slotsRec(fm, 'Pericias', 'Slots')
-  const view = computeSlotsView({
+  return computeSlotsView({
     total: { A: num(s?.['A']), E: num(s?.['E']), M: num(s?.['M']) },
     used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
+}
+
+/** ≥1 slot de perícia livre — mesma conta da ProficienciasPanel. */
+function freePericiaSlot(fm: Fm): boolean {
+  const view = periciaSlotsView(fm)
   return (['A', 'E', 'M'] as SlotRank[]).some((r) => canAddOne(view, r))
+}
+
+/** #402: MAIS perícias gastas do que os slots cobrem (ex.: INT reduzido depois
+ *  do gasto) — simétrico ao tecnicaOverbooked, mesma `slotsFeasible`. */
+function periciaOverbooked(fm: Fm): boolean {
+  return !periciaSlotsView(fm).globalOk
 }
 
 /** View de slots de TÉCNICA (mesma conta da TecnicasPanel). */
@@ -141,6 +152,7 @@ export function heroPendencias(
   if (caps.magias && freeMagiaSlot(fm)) add('habilidades', 'Magia a aprender (slot livre)')
   if (caps.especializacoes) {
     if (freePericiaSlot(fm)) add('habilidades', 'Perícia adicional disponível')
+    if (periciaOverbooked(fm)) add('habilidades', 'Perícias excedem os slots disponíveis')
     const pericias = (fmPath(fm, 'Pericias', 'Lista') ?? []) as ProfRow[]
     let esp = 0
     let mae = 0

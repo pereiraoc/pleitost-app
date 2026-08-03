@@ -48,6 +48,7 @@ import {
   computeSlotsView,
   magiaCanAddOne,
   type MagiaRank,
+  type SlotClass,
 } from '../../rules/slot-accounting'
 import type { AtributoId } from '../../rules/rules-model'
 import {
@@ -147,6 +148,14 @@ const colHeadPlain: CSSProperties = {
 }
 
 // Larguras de grid verbatim do renderVals recuperado (perCols/ofiCols/stkCols).
+/** Cor por classe da barra de slots (#402) — paralelo dos as-slots-{ok,zero,err}
+ *  do plugin (styles.css:5637-5646: text-accent/text-muted/text-error). */
+const SLOT_CLASS_COLOR: Record<SlotClass, string> = {
+  ok: 'var(--accent)',
+  zero: 'var(--muted)',
+  err: 'var(--red)',
+}
+
 const PROF_COLS_VIEW = '1.25fr 0.6fr 0.7fr'
 const PROF_COLS_EDIT = 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
 
@@ -1296,7 +1305,6 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
     pericias.filter((p) =>
       (p.Incrementos ?? []).some((inc) => str((inc as Record<string, unknown>)[letter]).startsWith('Slot')),
     ).length
-  const slots = slotsInfo(fmPath(fm, 'Pericias', 'Slots'), usedBy, ['A', 'E', 'M'])
 
   // Economia de slot (#73): o rank-up só gasta os slots que existem. `used` =
   // perícias com Slot.X por rank; `total` = Pericias.Slots do derivedFm. O teto
@@ -1464,12 +1472,21 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
               color: 'var(--text)',
             }}
           >
-            {slots.map((s, i) => (
-              <span key={s.letter} style={{ display: 'contents' }}>
+            {/* #402: avail CRU da slotsView (negativo aparece — "A -1/1") com a
+                cor da classe do plugin (pericias-card setSpan: ok/zero/err) e ✓
+                quando a fungibilidade cobre o negativo (showCheckmark). */}
+            {(['A', 'E', 'M'] as const).map((letter, i) => (
+              <span key={letter} style={{ display: 'contents' }}>
                 {i > 0 ? <span style={{ color: 'var(--line2)' }}>|</span> : null}
-                <span>{s.label}</span>
+                <span
+                  data-slot-class={slotsView.classFor[letter]}
+                  style={{ color: SLOT_CLASS_COLOR[slotsView.classFor[letter]] }}
+                >
+                  {`${letter} ${slotsView.avail[letter]}/${slotsView.total[letter]}`}
+                </span>
               </span>
             ))}
+            {slotsView.showCheckmark ? <span style={{ color: 'var(--accent)' }}>✓</span> : null}
           </span>
         </div>
       ) : null}

@@ -166,4 +166,44 @@ describe('heroPendencias (#302)', () => {
     }
     expect(heroPendencias(fm, rules2, CAPS).get('habilidades')).toContain('2 seleções não escolhidas')
   })
+
+  // #402 (report 671a45ef): INT reduzido derruba Pericias.Slots abaixo do que já
+  // foi gasto — o indicador precisa acender, como já acontecia com Técnicas.
+  it('#402: perícias EXCEDEM os slots (INT reduzido) → pendência de excesso', () => {
+    const fm = {
+      Classe: '[[Bardo]]',
+      nome: 'Érico',
+      Pericias: {
+        Slots: { A: 1, E: 0, M: 0 },
+        Lista: [
+          { Nome: 'Atletismo', Proficiencia: 'A', Incrementos: [{ A: 'Slot.A' }] },
+          { Nome: 'História', Proficiencia: 'A', Incrementos: [{ A: 'Slot.A' }] },
+        ],
+      },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: { Slots: { B: 0, A: 0, E: 0, M: 0 }, Lista: [] },
+    }
+    expect(heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS).get('habilidades')).toContain(
+      'Perícias excedem os slots disponíveis',
+    )
+  })
+
+  it('#402 trap reverso: excesso de A coberto por slot E livre (fungível) → SEM pendência de excesso', () => {
+    const fm = {
+      Classe: '[[Bardo]]',
+      nome: 'Érico',
+      Pericias: {
+        Slots: { A: 1, E: 1, M: 0 },
+        Lista: [
+          { Nome: 'Atletismo', Proficiencia: 'A', Incrementos: [{ A: 'Slot.A' }] },
+          { Nome: 'História', Proficiencia: 'A', Incrementos: [{ A: 'Slot.A' }] },
+        ],
+      },
+      Tecnicas: { Slots: zeroSlots, Lista: [] },
+      Magias: { Slots: { B: 0, A: 0, E: 0, M: 0 }, Lista: [] },
+    }
+    expect(heroPendencias(fm, { subclassChoices: [], sintonias: [] }, CAPS).get('habilidades') ?? []).not.toContain(
+      'Perícias excedem os slots disponíveis',
+    )
+  })
 })

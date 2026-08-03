@@ -17,8 +17,13 @@ export interface SlotsView {
   total: { A: number; E: number; M: number }
   used: { A: number; E: number; M: number }
   avail: { A: number; E: number; M: number }
+  /** Avail descontando reservas da fungibilidade (E/M "ocupados" cobrindo
+   *  déficit de rank menor) — plugin computeVisualAvail (:46-59). */
+  visualAvail: { A: number; E: number; M: number }
   globalOk: boolean
   classFor: { A: SlotClass; E: SlotClass; M: SlotClass }
+  /** ✓ na barra: negativo por-tier COBERTO pela fungibilidade (globalOk). */
+  showCheckmark: boolean
 }
 
 /** Verifica se `need{A,E,M}` cabe no orçamento `tot{A,E,M}` com fungibilidade
@@ -52,7 +57,30 @@ export function slotsFeasible(
   return true
 }
 
-/** SlotsView fungível — espelho de computeSlotsView do plugin (:61-84). */
+/** Reservas da fungibilidade — VERBATIM de computeVisualAvail (:46-59): E/M
+ *  livres que estão cobrindo déficit de rank menor deixam de contar como
+ *  "disponíveis" no visual. */
+function computeVisualAvail(
+  availA: number,
+  availE: number,
+  availM: number,
+): { A: number; E: number; M: number } {
+  const deficitA = Math.max(0, -availA)
+  const deficitE = Math.max(0, -availE)
+  const reserveEForA = Math.min(Math.max(0, availE), deficitA)
+  const deficitAAfterE = Math.max(0, deficitA - reserveEForA)
+  const reserveMForE = Math.min(Math.max(0, availM), deficitE)
+  const reserveMForA = Math.min(Math.max(0, availM) - reserveMForE, deficitAAfterE)
+  return {
+    A: availA,
+    E: availE - reserveEForA,
+    M: availM - reserveMForE - reserveMForA,
+  }
+}
+
+/** SlotsView fungível — espelho de computeSlotsView do plugin (:61-84).
+ *  #402: porta COMPLETA (visualAvail + showCheckmark; antes o app omitia e a
+ *  UI clampava o negativo em 0, escondendo o over-booked). */
 export function computeSlotsView(input: {
   total: { A: number; E: number; M: number }
   used: { A: number; E: number; M: number }
@@ -64,12 +92,18 @@ export function computeSlotsView(input: {
     M: total.M - used.M,
   }
   const globalOk = slotsFeasible(used.A, used.E, used.M, total.A, total.E, total.M)
-  const classOf = (av: number): SlotClass => {
-    if (globalOk) return av > 0 ? 'ok' : 'zero'
+  const visualAvail = computeVisualAvail(avail.A, avail.E, avail.M)
+  const classOf = (av: number, vis: number): SlotClass => {
+    if (globalOk) return vis > 0 ? 'ok' : 'zero'
     return av < 0 ? 'err' : 'zero'
   }
-  const classFor = { A: classOf(avail.A), E: classOf(avail.E), M: classOf(avail.M) }
-  return { total, used, avail, globalOk, classFor }
+  const classFor = {
+    A: classOf(avail.A, visualAvail.A),
+    E: classOf(avail.E, visualAvail.E),
+    M: classOf(avail.M, visualAvail.M),
+  }
+  const showCheckmark = globalOk && (avail.A < 0 || avail.E < 0)
+  return { total, used, avail, visualAvail, globalOk, classFor, showCheckmark }
 }
 
 /** True quando dá pra gastar +1 slot de `rank` sem estourar o orçamento global
