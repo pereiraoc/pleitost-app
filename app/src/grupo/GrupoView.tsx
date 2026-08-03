@@ -654,13 +654,24 @@ export function GrupoView({ groupId }: { groupId: string }) {
   useEffect(() => {
     if (!isMesa || !repo || !live?.sessionId) return
     const sid = live.sessionId
-    const remote = live.state?.exploracao as (GroupState & { updatedAt?: string }) | undefined
+    const remote = live.state?.exploracao as
+      | (GroupState & { updatedAt?: string; grupoId?: string })
+      | undefined
     const localJson = groupStateJson(getGroupState(exploId))
     const EMPTY = groupStateJson({ hexes: [] })
+    // #404: a trilha remota tem DONO (`grupoId` carimbado no push). Se a mesa
+    // trocou de grupo persistente, o remoto pertence ao grupo ANTIGO e não
+    // pode ser puxado pro novo — era o vetor do "grupo novo aparece com um
+    // histórico que não é dele". Sem carimbo (state legado) ou dono =
+    // escopo-sessão DESTA mesa (trilha pré-grupo, upgrade do #379 r2) → pull
+    // normal; o próximo push carimba o dono atual.
+    const donoRemoto = typeof remote?.grupoId === 'string' ? remote.grupoId : null
+    const remotoDeOutroGrupo =
+      !!donoRemoto && donoRemoto !== exploId && donoRemoto !== `${MESA_GRUPO_ID}:${sid}`
     // #379: remoto PRESENTE-MAS-VAZIO conta como ausente — um {hexes:[]}
     // gravado por um device sem a trilha NÃO pode sobrescrever uma trilha
     // local inteira (era o vetor de perda do "sumiu todo o histórico").
-    const remoteRaw = remote ? groupStateJson(remote) : ''
+    const remoteRaw = remote && !remotoDeOutroGrupo ? groupStateJson(remote) : ''
     const remoteJson = remoteRaw === EMPTY ? '' : remoteRaw
     // Pull NÃO REGRIDE (fragmentação por códigos de sessão): se o carimbo
     // LOCAL é mais novo que o do remoto (ambos presentes), o local vence e é
@@ -678,7 +689,12 @@ export function GrupoView({ groupId }: { groupId: string }) {
       exploSyncRef.current = groupStateJson(getGroupState(exploId))
       pushLog('explo', motivo)
       const carimbo = groupStateUpdatedAt(exploId) ?? new Date().toISOString()
-      const comCarimbo = { ...getGroupState(exploId), updatedAt: carimbo } as GroupState
+      // #404: carimba o DONO da trilha — o pull de outro grupo persistente ignora.
+      const comCarimbo = {
+        ...getGroupState(exploId),
+        updatedAt: carimbo,
+        grupoId: exploId,
+      } as GroupState
       void repo.updateSessionState(sid, { exploracao: comCarimbo }).catch(() => {})
     }
     if (remoteJson && remoteJson !== localJson && !localMaisNovo) {
