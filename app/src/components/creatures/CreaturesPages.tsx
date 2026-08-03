@@ -1356,21 +1356,29 @@ function NpcCard({
           ⋮
         </span>
       )}
-      {/* #413: modal de edição DENTRO do card (root é role=button que navega no
-          clique/Enter) — o wrapper barra a propagação pro abrir(). */}
-      {editPessoa ? (
-        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
-          <PessoaForm
-            withImage
-            initial={pessoaInitial(entry.id, nome)}
-            onClose={() => setEditPessoa(false)}
-            onSubmit={(f) => {
-              salvarPessoaEditada(entry.id, f)
-              setEditPessoa(false)
-            }}
-          />
-        </div>
-      ) : null}
+      {/* #413 (round 2): o modal vai de PORTAL pro body — dentro do card ele
+          fica RECORTADO pelo clip-path do .npc-card e preso ao transform do
+          PanelTrack ("aparece só por cima do mini espaço da criatura"), mesmo
+          sendo position:fixed. Igual ao CardDotsMenu acima. O wrapper com
+          stopPropagation continua necessário: eventos de portal PROPAGAM pela
+          árvore React — sem ele, clique/Enter no form dispara o abrir() do
+          card (root role=button). */}
+      {editPessoa
+        ? createPortal(
+            <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+              <PessoaForm
+                withImage
+                initial={pessoaInitial(entry.id, nome)}
+                onClose={() => setEditPessoa(false)}
+                onSubmit={(f) => {
+                  salvarPessoaEditada(entry.id, f)
+                  setEditPessoa(false)
+                }}
+              />
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   )
 }

@@ -97,6 +97,11 @@ describe('#413 — editar/deletar Pessoa local em Criaturas/Pessoas', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Ações da pessoa' }))
     fireEvent.click(screen.getByText(/Editar pessoa/))
     const dialog = await screen.findByRole('dialog', { name: 'Adicionar Pessoa' })
+    // Report do usuário (round 2): o modal renderizado DENTRO do card fica
+    // recortado pelo clip-path do .npc-card (e preso ao transform do track) —
+    // "aparece só por cima do mini espaço da criatura". Tem que ir de PORTAL
+    // pro body, como o CardDotsMenu deste mesmo arquivo.
+    expect(dialog.closest('.npc-card')).toBeNull()
     // pré-preenchido com os campos atuais
     expect((within(dialog).getByLabelText('Nome') as HTMLInputElement).value).toBe('Fulana Teste')
     expect((within(dialog).getByLabelText('Organização') as HTMLInputElement).value).toBe(
