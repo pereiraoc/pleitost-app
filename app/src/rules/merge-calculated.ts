@@ -47,11 +47,11 @@ function canonicalSource(sourceNote: string, type: 'Regra' | 'Tesouro'): string 
   return `${type}.[[${base}]]`
 }
 
-/** Chave única de um incremento FM (`{ [rank|field]: source }` tem 1 chave). */
-function incKey(e: IncEntry): string {
-  return Object.keys(e)[0] ?? ''
-}
-
+// #416: o YAML que o plugin grava pode AGREGAR mais de um par no MESMO objeto
+// de incremento (Thoren real: `{ Bonus_Item: Regra.[[X]], M: Slot.M }`). O
+// parseIncrementos do plugin (frontmatter-helpers.ts:282) itera TODAS as
+// entries de cada objeto — os leitores daqui fazem o mesmo; ler só a primeira
+// chave deixava o rank invisível (barra contava o slot gasto, NAEM não).
 function incsOf(row: Row): IncEntry[] {
   if (!Array.isArray(row.Incrementos)) row.Incrementos = []
   return row.Incrementos as IncEntry[]
@@ -59,9 +59,10 @@ function incsOf(row: Row): IncEntry[] {
 
 /** Upsert de incremento de RANK — espelho de upsertIncrement
  *  (plugin merge-setters.ts:676-687): promove a fonte do rank existente ou
- *  adiciona `{ [rank]: source }`. */
+ *  adiciona `{ [rank]: source }`. #416: "existente" = objeto que CONTÉM a
+ *  chave (pode dividir o objeto com outro par). */
 function upsertRankInc(incs: IncEntry[], rank: 'A' | 'E' | 'M', source: string): void {
-  const existing = incs.find((e) => incKey(e) === rank)
+  const existing = incs.find((e) => rank in e)
   if (existing) existing[rank] = source
   else incs.push({ [rank]: source })
 }
@@ -69,20 +70,22 @@ function upsertRankInc(incs: IncEntry[], rank: 'A' | 'E' | 'M', source: string):
 /** Upsert de incremento de CAMPO (`Bonus_Item`/`Bonus_Especial`) — espelho de
  *  upsertFieldIncrement (plugin merge-setters.ts). */
 function upsertFieldInc(incs: IncEntry[], field: string, source: string): void {
-  const existing = incs.find((e) => incKey(e) === field)
+  const existing = incs.find((e) => field in e)
   if (existing) existing[field] = source
   else incs.push({ [field]: source })
 }
 
 /** Rank máximo entre os incrementos de rank — espelho de recompute em
- *  refreshDerivedProficiencias (plugin merge-calculated-into-model.ts:654-673). */
+ *  refreshDerivedProficiencias (plugin merge-calculated-into-model.ts:654-673).
+ *  #416: itera TODAS as chaves de cada objeto (parseIncrementos). */
 function maxRankFromIncs(incs: IncEntry[]): 'N' | 'A' | 'E' | 'M' {
   let max = 0
   for (const e of incs) {
-    const k = incKey(e)
-    if (!RANKS.has(k)) continue
-    const r = RANK_ORDER[k] ?? 0
-    if (r > max) max = r
+    for (const k of Object.keys(e)) {
+      if (!RANKS.has(k)) continue
+      const r = RANK_ORDER[k] ?? 0
+      if (r > max) max = r
+    }
   }
   return RANK_FROM[max]!
 }
@@ -323,12 +326,12 @@ function setNested(fm: Fm, path: string[], value: unknown): void {
 function inferImplicitSlotAPericia(rows: Row[]): void {
   for (const row of rows) {
     const incs = incsOf(row)
-    const hasHighRegra = incs.some((e) => {
-      const k = incKey(e)
-      return (k === 'E' || k === 'M') && isRuleSource(e[k]!)
-    })
+    // #416: chaves iteradas por entry (objeto pode ter mais de um par).
+    const hasHighRegra = incs.some((e) =>
+      Object.keys(e).some((k) => (k === 'E' || k === 'M') && isRuleSource(e[k]!)),
+    )
     if (!hasHighRegra) continue
-    if (incs.some((e) => incKey(e) === 'A')) continue
+    if (incs.some((e) => 'A' in e)) continue
     incs.push({ A: 'Slot.A' })
   }
 }
@@ -339,13 +342,20 @@ function inferImplicitSlotAPericia(rows: Row[]): void {
 function inferImplicitRegraAOficio(rows: Row[]): void {
   for (const row of rows) {
     const incs = incsOf(row)
-    const high = incs.find((e) => {
-      const k = incKey(e)
-      return (k === 'E' || k === 'M') && isRuleSource(e[k]!)
-    })
-    if (!high) continue
-    if (incs.some((e) => incKey(e) === 'A')) continue
-    incs.push({ A: high[incKey(high)]! })
+    // #416: acha o PAR (chave E/M com fonte de regra), não o primeiro objeto.
+    let highSource: string | undefined
+    for (const e of incs) {
+      for (const k of Object.keys(e)) {
+        if ((k === 'E' || k === 'M') && isRuleSource(e[k]!)) {
+          highSource = e[k]!
+          break
+        }
+      }
+      if (highSource) break
+    }
+    if (!highSource) continue
+    if (incs.some((e) => 'A' in e)) continue
+    incs.push({ A: highSource })
   }
 }
 

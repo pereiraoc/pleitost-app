@@ -23,9 +23,17 @@ function isSlotSource(src: unknown): boolean {
   return typeof src === 'string' && src.startsWith('Slot')
 }
 
-function rankKey(inc: Inc): 'A' | 'E' | 'M' | null {
-  const k = Object.keys(inc)[0]
-  return k === 'A' || k === 'E' || k === 'M' ? k : null
+/** #416: pares de RANK de um incremento — o YAML do plugin pode agregar mais
+ *  de um par no MESMO objeto (`{ Bonus_Item: Regra.[[X]], M: Slot.M }`, caso
+ *  real do Thoren em Sobrevivência); o parseIncrementos do plugin
+ *  (frontmatter-helpers.ts:282) itera TODAS as entries. Ler só a primeira
+ *  chave deixava o rank invisível (barra contava o slot gasto, NAEM não). */
+function rankPairs(inc: Inc): Array<['A' | 'E' | 'M', unknown]> {
+  const out: Array<['A' | 'E' | 'M', unknown]> = []
+  for (const k of Object.keys(inc)) {
+    if (k === 'A' || k === 'E' || k === 'M') out.push([k, inc[k]])
+  }
+  return out
 }
 
 function incsOf(row: Row): Inc[] {
@@ -37,8 +45,9 @@ function incsOf(row: Row): Inc[] {
 export function pisoFromIncrementos(incs: Inc[]): number {
   let max = 0
   for (const inc of incs) {
-    const k = rankKey(inc)
-    if (k && !isSlotSource(inc[k])) max = Math.max(max, RANK_ORDER[k]!)
+    for (const [k, src] of rankPairs(inc)) {
+      if (!isSlotSource(src)) max = Math.max(max, RANK_ORDER[k]!)
+    }
   }
   return max
 }
@@ -52,8 +61,7 @@ export function pisoLetterFromIncrementos(incs: Inc[]): 'N' | 'A' | 'E' | 'M' {
 function maxRank(incs: Inc[]): 'N' | 'A' | 'E' | 'M' {
   let max = 0
   for (const inc of incs) {
-    const k = rankKey(inc)
-    if (k) max = Math.max(max, RANK_ORDER[k]!)
+    for (const [k] of rankPairs(inc)) max = Math.max(max, RANK_ORDER[k]!)
   }
   return RANK_FROM[max]!
 }
@@ -84,16 +92,22 @@ export function applyPericiaRankEdit(
   }
   let incs = row.Incrementos as Inc[]
 
-  // Remove Slot.* com rank > alvo.
-  incs = incs.filter((inc) => {
-    const k = rankKey(inc)
-    return !(k && isSlotSource(inc[k]) && RANK_ORDER[k]! > target)
-  })
+  // Remove Slot.* com rank > alvo — #416: apaga a CHAVE do par (o objeto pode
+  // dividir espaço com um Bonus_Item, que sobrevive); objeto vazio sai.
+  incs = incs
+    .map((inc) => {
+      const next: Inc = { ...inc }
+      for (const [k, src] of rankPairs(inc)) {
+        if (isSlotSource(src) && RANK_ORDER[k]! > target) delete next[k]
+      }
+      return next
+    })
+    .filter((inc) => Object.keys(inc).length > 0)
 
   // Adiciona Slot.<r> nos ranks (piso+1)..alvo ainda sem incremento na linha salva.
   for (let r = piso + 1; r <= target; r++) {
     const rank = RANK_FROM[r] as 'A' | 'E' | 'M'
-    if (!incs.some((inc) => rankKey(inc) === rank)) incs.push({ [rank]: `Slot.${rank}` })
+    if (!incs.some((inc) => rank in inc)) incs.push({ [rank]: `Slot.${rank}` })
   }
 
   row.Incrementos = incs
@@ -123,7 +137,7 @@ export function computePericiaMaxReachable(
     let needM = 0
     for (let r = curIdx + 1; r <= RANK_ORDER[cand]!; r++) {
       const rankStr = RANK_FROM[r] as 'A' | 'E' | 'M'
-      if (derivedIncs.some((inc) => rankKey(inc) === rankStr)) continue
+      if (derivedIncs.some((inc) => rankStr in inc)) continue
       if (rankStr === 'A') needA++
       else if (rankStr === 'E') needE++
       else needM++
