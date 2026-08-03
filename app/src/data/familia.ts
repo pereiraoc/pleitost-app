@@ -159,6 +159,11 @@ export interface FichaFamilia {
   moral: boolean
   /** Progressão por TIER 0-3 (meta.tier, header-monstro.ts) em vez de Nível. */
   tier: boolean
+  /** #407: seção "Habilidades Especiais" ({nome,texto}) + dropdown de adição
+   *  manual de habilidades do bestiário (Sistema/Regras/Bestiário/Habilidades/)
+   *  — só o Monstro editável no plugin (habilidades-card.ts:208-324 +
+   *  apply-habilidades-edit.ts, source "Manual"). */
+  habilidadesBestiario: boolean
   /** Whitelist de perícias (null = todas as 13) — family-pericias.ts. */
   pericias: readonly string[] | null
   /** Tesouros equipáveis (null = todos) — tabs/ca/tab-completa.ts:33-43. */
@@ -171,6 +176,7 @@ const HEROI_FICHA: FichaFamilia = {
   nivelDoTutor: false,
   moral: true,
   tier: false,
+  habilidadesBestiario: false,
   biografia: true,
   experiencia: true,
   anotacoes: true,
@@ -200,6 +206,7 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     nivelDoTutor: false,
     moral: false,
     tier: true,
+    habilidadesBestiario: true,
     biografia: false,
     experiencia: false,
     anotacoes: false,
@@ -229,6 +236,7 @@ export const FICHA_FAMILIA: Record<SheetFamily, FichaFamilia> = {
     nivelDoTutor: true,
     moral: true,
     tier: false,
+    habilidadesBestiario: false,
     biografia: false,
     experiencia: false,
     anotacoes: false,

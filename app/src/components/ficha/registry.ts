@@ -260,6 +260,17 @@ export function classeAventureiro(nivel: number): {
   return { classe: 'S', emoji: t.Platina, color: c.Platina }
 }
 
+/** Tier visual do MONSTRO (0-3) — espelha tierForMonstro + medalForTier do
+ *  plugin (perfil-card.ts:73-88): ≥4 platina, 3 gold, 2 silver, senão bronze. */
+export function classeMonstro(tier: number): { emoji: string; color: string } {
+  const t = tokens.emojis.tier
+  const c = tokens.colors.tier
+  if (tier >= 4) return { emoji: t.Platina, color: c.Platina }
+  if (tier === 3) return { emoji: t.Gold, color: c.Gold }
+  if (tier === 2) return { emoji: t.Silver, color: c.Silver }
+  return { emoji: t.Bronze, color: c.Bronze }
+}
+
 /** Rank de habilidade/técnica → rótulo dos grupos do design (Adepta/Experiente/Mestre). */
 export function rankGroupLabel(raw: string): string {
   const key = slugify(raw).toLowerCase()

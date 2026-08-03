@@ -1380,8 +1380,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
         }}
       >
         {/* #309: sem classe (herói novo) → "Aventureiro"; botão ao lado expande
-            os seletores de classe/subclasse (mesmos das Competências). */}
-        <span>{classe || 'Aventureiro'}</span>
+            os seletores de classe/subclasse (mesmos das Competências).
+            #409: pra Monstro sem classe o rótulo é "Criatura". */}
+        <span>{classe || (caps.tier ? 'Criatura' : 'Aventureiro')}</span>
         <button
           onClick={() => setClasseAberta((v) => !v)}
           aria-expanded={classeAberta}

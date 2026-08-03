@@ -79,6 +79,7 @@ import {
   SLOT_GROUP,
   type RankLetter,
   classeAventureiro,
+  classeMonstro,
   displayName,
   ESPECIALIDADE_EMOJI,
   grupoArmaEmoji,
@@ -315,8 +316,15 @@ export function ClasseNivelPanel({
   const nivel = num((rules?.derivedFm ?? fm)['Nível'])
   const setNivel = (fn: (n: number) => number) => model.set('Nível', fn(nivelSalvo))
   const ci = classeAventureiro(nivel)
+  // #405: Monstro progride por TIER 0-3 (perfil-card.ts:201-231 do plugin) —
+  // o diamond mostra o Tier com steppers clampados gravando FM `Tier`; o card
+  // NÍVEL (FM `Nível`, que Monstro nem tem) é exclusivo das outras famílias.
+  const tierAtual = num(fm['Tier'])
+  const mi = classeMonstro(tierAtual)
   // pfTierColor do design (renderVals recuperado) — registro PF_TIER_COLORS.
-  const tierColor = PF_TIER_COLORS[ci.classe as keyof typeof PF_TIER_COLORS] ?? ci.color
+  const tierColor = caps.tier
+    ? mi.color
+    : (PF_TIER_COLORS[ci.classe as keyof typeof PF_TIER_COLORS] ?? ci.color)
 
   // CLASSE — valor do FM casado com a opção por target (FM guarda alias
   // composto por regra: "[[Bardo|Trovador ...]]"); troca persiste o wikilink
@@ -623,7 +631,7 @@ export function ClasseNivelPanel({
             color: 'var(--muted)',
           }}
         >
-          NÍVEL
+          {caps.tier ? 'TIER' : 'NÍVEL'}
         </span>
         <div
           style={{
@@ -662,9 +670,9 @@ export function ClasseNivelPanel({
             }}
           >
             <span style={{ fontSize: 34, fontWeight: 800, color: tierColor, fontFamily: 'var(--mono)' }}>
-              {nivel}
+              {caps.tier ? tierAtual : nivel}
             </span>
-            <span style={{ fontSize: 15, lineHeight: 1 }}>{ci.emoji}</span>
+            <span style={{ fontSize: 15, lineHeight: 1 }}>{caps.tier ? mi.emoji : ci.emoji}</span>
           </div>
         </div>
         {/* Stepper de nível: nunca pro CA — o nível é satélite do tutor
@@ -673,7 +681,11 @@ export function ClasseNivelPanel({
         {caps.nivelDoTutor ? null : (
         <div style={{ gridRow: 2, gridColumn: 2, display: 'flex', flexDirection: 'column', gap: 6, flex: 'none' }}>
           <button
-            onClick={() => setNivel((n) => Math.min(10, n + 1))}
+            onClick={() =>
+              caps.tier
+                ? model.set('Tier', Math.min(3, tierAtual + 1))
+                : setNivel((n) => Math.min(10, n + 1))
+            }
             style={{
               width: 28,
               height: 26,
@@ -690,7 +702,11 @@ export function ClasseNivelPanel({
             ▲
           </button>
           <button
-            onClick={() => setNivel((n) => Math.max(1, n - 1))}
+            onClick={() =>
+              caps.tier
+                ? model.set('Tier', Math.max(0, tierAtual - 1))
+                : setNivel((n) => Math.max(1, n - 1))
+            }
             style={{
               width: 28,
               height: 26,
@@ -1928,8 +1944,47 @@ export function HabilidadesArvorePanel({
   const model = useHeroModel(doc, 'habilidades')
   const catalog = useCatalog()
   const rules = useHeroRules(model.fm)
+  const caps = fichaFamiliaOf(doc)
   const fm = rules?.derivedFm ?? model.fm
   const entries = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
+
+  // #407 (Monstro): habilidades MANUAIS — espelho de apply-habilidades-edit.ts
+  // do plugin. A escrita opera na lista SALVA (o merge reaplica regra por
+  // cima); source "Manual" marca a linha como user-explícita (o prune de
+  // órfãs de regra não a toca) e é o gate do 🗑️ na árvore.
+  const savedHabRows = (fmPath(model.fm, 'Habilidades', 'Lista') ?? []) as Record<
+    string,
+    unknown
+  >[]
+  const manualTargets = useMemo(() => {
+    const set = new Set<string>()
+    for (const row of savedHabRows) {
+      const [key, value] = Object.entries(row)[0] ?? []
+      if (key && value === 'Manual') set.add(wikiTarget(key))
+    }
+    return set
+  }, [savedHabRows])
+  // Opções: notas de Sistema/Regras/Bestiário/Habilidades/ ainda não presentes
+  // (match por basename, como o renderHabilidadeAdd do plugin :285-324).
+  const presentes = useMemo(() => new Set(entries.map((e) => e.target)), [entries])
+  const habBestiarioOpts = useMemo(
+    () =>
+      catalog.content
+        .filter((e) => e.id.startsWith('Sistema/Regras/Bestiário/Habilidades/'))
+        .map((e) => e.basename ?? e.id)
+        .filter((b) => !presentes.has(b))
+        .sort((a, b) => a.localeCompare(b, 'pt-BR')),
+    [catalog, presentes],
+  )
+  const addManual = (basename: string) => {
+    if (!basename || presentes.has(basename)) return
+    model.set('Habilidades.Lista', [...savedHabRows, { [`[[${basename}]]`]: 'Manual' }])
+  }
+  const removeManual = (target: string) =>
+    model.set(
+      'Habilidades.Lista',
+      savedHabRows.filter((row) => wikiTarget(Object.keys(row)[0] ?? '') !== target),
+    )
 
   // Escolhas de habilidade (não-subclasse) por basename do sourceNote — casa
   // com a habilidade-pai na árvore (plugin habilidades-card.ts:377-380).
@@ -2015,6 +2070,24 @@ export function HabilidadesArvorePanel({
                         {it.child ? (it.txt.match(/\(([^)]+)\)\s*$/)?.[1] ?? it.txt) : it.txt}
                       </span>
                     </ItemHover>
+                    {/* #407: 🗑️ SÓ em linha Manual (plugin habilidades-card.ts:360)
+                        e só no Alterar. */}
+                    {edit && caps.habilidadesBestiario && manualTargets.has(it.target) ? (
+                      <button
+                        aria-label={`Remover ${it.txt}`}
+                        onClick={() => removeManual(it.target)}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontSize: 13,
+                          padding: 0,
+                          flex: 'none',
+                        }}
+                      >
+                        {tokens.emojis.ui.Remover}
+                      </button>
+                    ) : null}
                   </div>
                   {/* Escolhas pedidas POR esta habilidade, indentadas como
                       children — mesmo SelectBox da subclasse (plugin
@@ -2076,6 +2149,164 @@ export function HabilidadesArvorePanel({
           </div>
         ))}
       </div>
+      {/* #407 (Monstro): "➕ Habilidade" do bestiário + Habilidades Especiais —
+          espelho do habilidades-card do plugin (renderHabilidadeAdd :285-324 +
+          renderEspeciais :208-283). */}
+      {caps.habilidadesBestiario ? (
+        <>
+          {edit && habBestiarioOpts.length > 0 ? (
+            <div style={{ marginTop: 14 }}>
+              <SelectBox
+                ariaLabel="Adicionar habilidade"
+                value=""
+                options={[
+                  { value: '', label: `${tokens.emojis.ui.Adicionar} Habilidade` },
+                  ...habBestiarioOpts.map((b) => ({ value: b, label: b })),
+                ]}
+                onChange={addManual}
+              />
+            </div>
+          ) : null}
+          <HabilidadesEspeciaisSection model={model} edit={edit} />
+        </>
+      ) : null}
+    </div>
+  )
+}
+
+/** #407: seção "Habilidades Especiais" do Monstro ({nome, texto} em
+ *  Habilidades.Especiais) — espelho de renderEspeciais do plugin
+ *  (habilidades-card.ts:208-283): input Nome + textarea Resumo com save no
+ *  blur, 🗑️ por linha e botão "➕ Habilidade Especial". Fora do Alterar os
+ *  textos aparecem read-only. */
+function HabilidadesEspeciaisSection({
+  model,
+  edit,
+}: {
+  model: ReturnType<typeof useHeroModel>
+  edit: boolean
+}) {
+  const raw = (fmPath(model.fm, 'Habilidades', 'Especiais') ?? []) as Record<string, unknown>[]
+  // FM aceita nome/Nome e texto/Texto (frontmatter-extractor.ts:286-289).
+  const especiais = (Array.isArray(raw) ? raw : []).map((e) => ({
+    nome: str(e['nome'] ?? e['Nome']),
+    texto: str(e['texto'] ?? e['Texto']),
+  }))
+  const write = (next: { nome: string; texto: string }[]) =>
+    model.set('Habilidades.Especiais', next)
+  const patch = (i: number, campo: 'nome' | 'texto', valor: string) => {
+    if (especiais[i]?.[campo] === valor) return
+    write(especiais.map((e, j) => (j === i ? { ...e, [campo]: valor } : e)))
+  }
+
+  return (
+    <div style={{ marginTop: 18 }}>
+      <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)', marginBottom: 8 }}>
+        Habilidades Especiais
+      </div>
+      {especiais.length === 0 ? (
+        <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>Nenhuma habilidade especial.</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {especiais.map((esp, i) => (
+            <div
+              key={`${i}:${especiais.length}`}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 8,
+                paddingLeft: 8,
+                borderLeft: '3px solid var(--line2)',
+              }}
+            >
+              <span style={{ fontSize: 13, flex: 'none', lineHeight: '26px' }}>
+                {tokens.emojis.categoria.Habilidade}
+              </span>
+              {edit ? (
+                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <input
+                    type="text"
+                    placeholder="Nome"
+                    defaultValue={esp.nome}
+                    onBlur={(e) => patch(i, 'nome', e.target.value)}
+                    style={{
+                      padding: '5px 9px',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      color: 'var(--text)',
+                      fontSize: 13,
+                      fontWeight: 600,
+                    }}
+                  />
+                  <textarea
+                    placeholder="Resumo"
+                    rows={2}
+                    defaultValue={esp.texto}
+                    onBlur={(e) => patch(i, 'texto', e.target.value)}
+                    style={{
+                      padding: '5px 9px',
+                      background: 'var(--card)',
+                      border: '1px solid var(--line2)',
+                      color: 'var(--text)',
+                      fontSize: 12.5,
+                      resize: 'vertical',
+                      fontFamily: 'inherit',
+                    }}
+                  />
+                </div>
+              ) : (
+                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>
+                    {esp.nome || '(sem nome)'}
+                  </span>
+                  {esp.texto ? (
+                    <span style={{ fontSize: 12.5, color: 'var(--text)', lineHeight: 1.5 }}>
+                      {esp.texto}
+                    </span>
+                  ) : null}
+                </div>
+              )}
+              {edit ? (
+                <button
+                  aria-label={`Remover habilidade especial ${esp.nome || i + 1}`}
+                  onClick={() => write(especiais.filter((_, j) => j !== i))}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: 13,
+                    padding: 0,
+                    flex: 'none',
+                    lineHeight: '26px',
+                  }}
+                >
+                  {tokens.emojis.ui.Remover}
+                </button>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      )}
+      {edit ? (
+        <button
+          onClick={() => write([...especiais, { nome: '', texto: '' }])}
+          style={{
+            marginTop: 10,
+            padding: '6px 13px',
+            background: 'var(--card)',
+            border: '1px solid var(--line2)',
+            color: 'var(--accent)',
+            cursor: 'pointer',
+            fontFamily: 'var(--mono)',
+            fontSize: 10.5,
+            fontWeight: 700,
+            letterSpacing: '.05em',
+            clipPath: clip(8),
+          }}
+        >
+          {tokens.emojis.ui.Adicionar} Habilidade Especial
+        </button>
+      ) : null}
     </div>
   )
 }

@@ -18,7 +18,7 @@ import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { useDoc, useDocs } from '../../data/useDoc'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
-import { fichaFamiliaOf } from '../../data/familia'
+import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { heroPath } from '../../paths'
@@ -49,8 +49,15 @@ const chipStyle: CSSProperties = {
 /** chipsFor(r) do design com dados do modelo salvo (emojis do registro).
  *  O chip de EM do combate saiu daqui (#230): virou <EmChip> clicável, no
  *  mesmo padrão do VidaChip. */
-function chipsFor(tab: string, fm: Record<string, unknown>): { ic: string; txt: string }[] {
+function chipsFor(
+  tab: string,
+  fm: Record<string, unknown>,
+  caps: FichaFamilia,
+): { ic: string; txt: string }[] {
   if (tab === 'perfil' || tab === 'habilidades') {
+    // #405: Monstro progride por TIER 0-3 (header-monstro.ts do plugin) — o
+    // chip NVL era só de quem tem FM Nível.
+    if (caps.tier) return [{ ic: '', txt: `TIER ${num(fm['Tier'])}` }]
     const nvl = num(fm['Nível'])
     return [{ ic: '', txt: `NVL ${nvl || ''}`.trim() }]
   }
@@ -429,7 +436,7 @@ function TopbarFichaInner({ doc, tab }: { doc: VaultDoc; tab: string }) {
   // loja usam o herói selecionado — o saldo fica visível no topo, não na loja).
   const showCoinChip = caps.moedas && (tab === 'inventario' || tab === 'grupos') && vw >= 620
   const showApelido = vw >= 720
-  const chips = chipsFor(tab, projected)
+  const chips = chipsFor(tab, projected, caps)
   const apelido = str(fmPath(fm, 'Biografia', 'Apelido'))
 
   return (
