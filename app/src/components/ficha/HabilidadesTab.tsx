@@ -15,6 +15,7 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
+import { rederiveArmasAtributos } from './arma-atributo-sync'
 import { classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { clip, AttrBadge, DetailInfoButton, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
@@ -715,6 +716,7 @@ export function ClasseNivelPanel({
 function AtributosPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
+  const catalog = useCatalog()
   // Lê o FM DERIVADO: `Definir/Escolher Atributos.Principal` da classe já
   // rodou o swap (PRE no rank 3, Principal=PRE) AO VIVO — o painel reflete a
   // classe sem esperar um save materializar (#58). O SWAP manual também opera
@@ -751,6 +753,16 @@ function AtributosPanel({ doc }: { doc: VaultDoc }) {
       AGI: next.atributos.AGI,
       INT: next.atributos.INT,
       PRE: next.atributos.PRE,
+    })
+    // #401: arma com Precisa deriva de FOR/AGI — o swap re-deriva o Atributo
+    // SALVO de todas as armas (antes só a escolha no dropdown derivava, e a
+    // arma ficava presa no atributo antigo até remover/re-adicionar).
+    void rederiveArmasAtributos(
+      catalog,
+      fmPath(model.fm, 'Inventario', 'Armas', 'Lista'),
+      next.atributos,
+    ).then((novaLista) => {
+      if (novaLista) model.set('Inventario.Armas.Lista', novaLista)
     })
   }
 
