@@ -44,3 +44,21 @@ describe('creatureImageUrl (hierarquia do plugin) sobre assets reais', () => {
     expect(groupImageUrl('grupo-que-nao-existe', assets)).toBeNull()
   })
 })
+
+// #408: monstro local com Raça [[Lagartóides]] — a imagem da raça na vault se
+// chamava "Lagartóide.png" (singular) e nunca casava com o basename do doc da
+// raça ("Lagartóides"); o arquivo foi renomeado na vault pra alinhar.
+describe('#408 — imagem de raça do monstro criado no app', () => {
+  it('Monstro sem retrato próprio cai em Raças/Lagartóides', () => {
+    const doc = {
+      id: 'local:Monstro:x',
+      path: 'local:Monstro:x',
+      basename: 'Lagarto do Pântano',
+      subtype: 'Monstro',
+      frontmatter: { 'Raça': '[[Lagartóides]]', Classe: '' },
+    } as unknown as VaultDoc
+    const url = creatureImageUrl(doc, assets)
+    expect(url).toContain('Lagart')
+    expect(url).toContain('Ra%C3%A7as')
+  })
+})
