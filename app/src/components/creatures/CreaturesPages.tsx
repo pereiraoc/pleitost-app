@@ -39,6 +39,7 @@ import {
   removeLocalEntity,
   PESSOA_RELACOES,
   pessoaFrontmatter,
+  setLocalEntityFm,
   resolveGroupMembers,
   useLocalStoreVersion,
   type LocalKind,
@@ -1201,7 +1202,12 @@ function NpcCard({
   const podeExportar =
     isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
   const podeIniciativa = isMonstro && mestre && !!repo && !!user && !!live
-  const temMenu = podeExportar || podeIniciativa
+  // #413: Pessoa LOCAL edita/deleta pelo menu ⋯ — a página dela é DOC
+  // read-only (KIND_INFO ficha:'doc') e os campos do #45 só existem no
+  // PessoaForm (que sempre foi edit-ready via `initial`; faltava a entrada).
+  const podePessoa = isLocalId(entry.id) && subtype === 'Pessoa'
+  const [editPessoa, setEditPessoa] = useState(false)
+  const temMenu = podeExportar || podeIniciativa || podePessoa
   // #241: CA CONHECIDA (vault, sem escrita) abre a ficha RESUMO nos detalhes
   // — o doc do compêndio só mostrava o fence cru. Sem contexto de detalhes,
   // cai na rota antiga.
@@ -1272,11 +1278,30 @@ function NpcCard({
       </div>
       {temMenu ? (
         <CardDotsMenu
-          ariaLabel={subtype === 'Monstro' ? 'Ações da criatura' : 'Ações do companheiro'}
+          ariaLabel={
+            subtype === 'Monstro'
+              ? 'Ações da criatura'
+              : podePessoa
+                ? 'Ações da pessoa'
+                : 'Ações do companheiro'
+          }
           open={menuOpen}
           setOpen={setMenuOpen}
           items={[
             { label: 'Abrir', onClick: abrir },
+            // #413: editar reabre o PessoaForm preenchido; deletar segue o
+            // padrão do CA/Monstro (#375: tombstone, some da conta inteira).
+            ...(podePessoa
+              ? [
+                  { label: '✎ Editar pessoa', onClick: () => setEditPessoa(true) },
+                  {
+                    label: `${tokens.emojis.aventureiro.Deletar} Deletar pessoa`,
+                    confirmLabel: '⚠️ Confirmar? Remove da sua conta (todos os seus dispositivos)',
+                    color: 'var(--red)',
+                    onClick: () => removeLocalEntity(entry.id),
+                  },
+                ]
+              : []),
             ...(podeExportar
               ? [
                   {
@@ -1331,8 +1356,49 @@ function NpcCard({
           ⋮
         </span>
       )}
+      {/* #413: modal de edição DENTRO do card (root é role=button que navega no
+          clique/Enter) — o wrapper barra a propagação pro abrir(). */}
+      {editPessoa ? (
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <PessoaForm
+            withImage
+            initial={pessoaInitial(entry.id, nome)}
+            onClose={() => setEditPessoa(false)}
+            onSubmit={(f) => {
+              salvarPessoaEditada(entry.id, f)
+              setEditPessoa(false)
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   )
+}
+
+/** #413: campos atuais da Pessoa local pro `initial` do PessoaForm. */
+function pessoaInitial(id: string, nome: string): Partial<PessoaFields2> {
+  const fm = getLocalEntity(id)?.frontmatter ?? {}
+  const s = (v: unknown) => (typeof v === 'string' ? v : '')
+  return {
+    Nome: nome,
+    Relação: s(fm['Relação']) || undefined,
+    Organização: s(fm['Organização']),
+    Posição: s(fm['Posição']),
+    Detalhes: s(fm['Detalhes']),
+    ImgId: s(fm['ImgId']) || undefined,
+  }
+}
+
+/** #413: regrava os campos do #45 no FM local; `nome` espelha o basename
+ *  (#218 — renomear reflete nas listas). ImgId '' limpa a referência
+ *  (useCreaturePortrait trata vazio como ausente, images.ts:157). */
+function salvarPessoaEditada(id: string, f: PessoaFields2): void {
+  setLocalEntityFm(id, 'nome', f.Nome)
+  setLocalEntityFm(id, 'Relação', f['Relação'])
+  setLocalEntityFm(id, 'Organização', f['Organização'])
+  setLocalEntityFm(id, 'Posição', f['Posição'])
+  setLocalEntityFm(id, 'Detalhes', f.Detalhes)
+  setLocalEntityFm(id, 'ImgId', f.ImgId ?? '')
 }
 
 function NpcPanel({
