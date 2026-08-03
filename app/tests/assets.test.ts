@@ -34,9 +34,21 @@ describe('assets sobre vault-data real', () => {
     expect(resolveAsset(index, amb!.path)?.copiedTo).toBe(amb!.copiedTo)
   })
 
-  it('basename ambíguo e alvo inexistente → null (nunca chutar)', () => {
-    const amb = manifest.assets.find((a) => a.ambiguous)!
-    expect(resolveAsset(index, amb.basename)).toBeNull()
+  it('basename não-único → path mais CURTO (regra do Obsidian, verificada ao vivo)', () => {
+    // getFirstLinkpathDest do Obsidian resolve basename não-único pro arquivo
+    // de path mais curto — verificado no Obsidian VIVO da vault (2026-08-03):
+    //   Krasnogor.png (Mapas × 2 sprites Wonderdraft) → Imagens/Mapas/…
+    //   Canto Alto-bw.png (Emblemas × Emblemas/transparent) → Emblemas/…
+    //   Poção de Cura Adepta.png (Cartas Exportadas × Figura) → Figura/…
+    // Antes o app recusava ambíguos ("nunca chutar") e a imagem SUMIA quando um
+    // sprite homônimo entrava na vault (pasta Emblemas) — divergindo do que o
+    // Obsidian mostra pro MESMO embed.
+    expect(resolveAsset(index, 'Krasnogor.png')?.path).toBe(
+      'Recursos e Mídia/Imagens/Mapas/Krasnogor.png',
+    )
+    expect(resolveAsset(index, 'Canto Alto-bw.png')?.path).toBe(
+      'Recursos e Mídia/Imagens/Emblemas/Canto Alto-bw.png',
+    )
     expect(resolveAsset(index, 'nao-existe.png')).toBeNull()
   })
 

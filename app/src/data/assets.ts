@@ -79,16 +79,24 @@ export function assetUrlFor(entry: AssetEntry, small: boolean): string {
 
 /**
  * Resolve o alvo de um embed/frontmatter pra um asset copiado: path exato
- * primeiro, depois basename único. Ambíguo/inexistente → null (o caller
- * loga; nunca chutar).
+ * primeiro, depois basename. Basename NÃO-ÚNICO resolve pro arquivo de path
+ * mais CURTO (desempate lexicográfico) — espelho do getFirstLinkpathDest do
+ * Obsidian, VERIFICADO no Obsidian vivo da vault (2026-08-03) com
+ * Krasnogor.png/Canto Alto-bw.png/Poção de Cura Adepta.png. A política antiga
+ * ("ambíguo → null, nunca chutar") divergia do que o Obsidian mostra pro MESMO
+ * embed e apagava a imagem quando um sprite homônimo entrava na vault.
+ * Inexistente → null.
  */
 export function resolveAsset(index: AssetIndex, target: string): AssetEntry | null {
   const clean = target.trim().normalize('NFC')
   const exact = index.byPath.get(clean)
   if (exact) return exact
   const candidates = index.byBasename.get(clean) ?? []
-  if (candidates.length === 1 && !candidates[0]!.ambiguous) return candidates[0]!
-  return null
+  if (candidates.length === 0) return null
+  if (candidates.length === 1) return candidates[0]!
+  return [...candidates].sort(
+    (a, b) => a.path.length - b.path.length || a.path.localeCompare(b.path),
+  )[0]!
 }
 
 let indexPromise: Promise<AssetIndex> | undefined
