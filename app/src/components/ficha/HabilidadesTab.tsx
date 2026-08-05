@@ -3057,9 +3057,14 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
   const h2Of = (nome: string) =>
     nome === 'Tesouros' ? 'Magias de Tesouros' : `Magias ${escolaSubcat(nome)}`
 
+  // #417: proficiência da escola OCULTA ArcanaEssencial — gate das Essenciais
+  // (plugin view-model.ts:609-628). Vem da projeção (deltas de Truque Mágico/
+  // Utensílio Mágico/notas do Arcanista; na secundária, Treinamento de
+  // Arcanista).
+  const profEssencial = (sec ? rules?.profEssencialSec : rules?.profEssencial) ?? 'N'
   // Docs de magia da vault por escola (pasta "Magia <Escola>") pro painel edit —
   // pelas escolas PROFICIENTES (fonte das não-aprendidas), não pelas aprendidas.
-  const spellIdsByEscola = useMemo(() => {
+  const { spellIdsByEscola, essencialIds } = useMemo(() => {
     const map = new Map<string, string[]>()
     for (const escola of escolasProficiente) {
       const nome = str(escola.Nome)
@@ -3076,24 +3081,20 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
     // Anexa-as à escola Arcana DESTINO (pickArcanaEspecial: Negra se proficiente,
     // senão Branca), exatamente como o roteamento das essenciais APRENDIDAS
     // (escolaDestinoDaMagia). Assim aparecem em "Magias Arcana" pra aprender.
-    // #296: as Essenciais só entram no painel PRIMÁRIO quando a classe do herói
-    // é Arcanista (plugin view-model.ts:617: `classeAtual !== "Arcanista" →
-    // return false`). No painel SECUNDÁRIO são permitidas independente da classe
-    // (Treinamento de Arcanista secundário, view-model.ts:676) — a proficiência
-    // secundária já filtra. Antes entravam pra QUALQUER herói com prof Arcana:
-    // o Bardo (Arcana Branca/Negra, não-Arcanista) recebia Essencial indevido.
-    const temArcanaProf = escolasProficiente.some((e) => str(e.Nome).startsWith('Arcana'))
-    const classeArcanista = (wikiTarget(str(fm['Classe'])).split('/').pop() ?? '') === 'Arcanista'
-    if (shouldOfferEssenciais(!!sec, temArcanaProf, classeArcanista)) {
+    // #417 (era #296): o gate é a proficiência OCULTA ArcanaEssencial — o rank
+    // de cada essencial é confrontado com ELA (não com a prof da escola-destino)
+    // no loop de render, espelhando o isAllowed do plugin.
+    const essenciais = new Set<string>()
+    if (shouldOfferEssenciais(profEssencial)) {
       const destino = pickArcanaEspecial(escolasAll as Array<Record<string, unknown>>)
-      const essenciais = catalog.content
-        .filter((e) => e.type === 'Magia' && e.id.includes('/Magia Arcana Essencial/'))
-        .map((e) => e.id)
-      if (essenciais.length) map.set(destino, [...(map.get(destino) ?? []), ...essenciais])
+      for (const e of catalog.content) {
+        if (e.type === 'Magia' && e.id.includes('/Magia Arcana Essencial/')) essenciais.add(e.id)
+      }
+      if (essenciais.size) map.set(destino, [...(map.get(destino) ?? []), ...essenciais])
     }
-    return map
+    return { spellIdsByEscola: map, essencialIds: essenciais }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalog, fm])
+  }, [catalog, fm, profEssencial])
   const allSpellIds = useMemo(() => [...spellIdsByEscola.values()].flat(), [spellIdsByEscola])
   const spellDocs = useDocs(edit ? allSpellIds : [])
 
@@ -3420,10 +3421,14 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
                     const rank = rankGroupLabel(str(d.frontmatter['rank']))
                     // Gate per-escola×rank (#62): a proficiência da escola cobre
                     // o rank da magia E existe slot daquele rank (slot livre).
+                    // #417: ESSENCIAL gateia pela proficiência oculta
+                    // ArcanaEssencial, não pela da escola-destino (isAllowed do
+                    // plugin, view-model.ts:627).
                     // #382: com slots ilimitados (Monstro) o gate de slot cai —
                     // a proficiência basta (magias-card.ts:332 do plugin:
                     // `!unlimitedSlots && slots[rk] <= 0 → continue`).
-                    if (!escolaCobreRank(escolaProf, rank)) continue
+                    const gateProf = essencialIds.has(id) ? profEssencial : escolaProf
+                    if (!escolaCobreRank(gateProf, rank)) continue
                     if (!semLimiteDeSlots && !ranksComSlot.includes(rank)) continue
                     const list = byRank.get(rank) ?? []
                     list.push(d)

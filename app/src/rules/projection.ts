@@ -475,6 +475,16 @@ export interface HeroProjection {
   /** #313: maestrias por ESPECIALIDADE (slug do basename) — cada especialidade
    *  libera só as suas 2 matérias. */
   maestriasByEspecialidade: Record<string, string[]>
+  /** #417: proficiência da escola OCULTA ArcanaEssencial — gate das magias
+   *  Essenciais (plugin view-model.ts:609-628: "gateia pela proficiência
+   *  oculta ArcanaEssencial, não mais Arcanista"). Concedida por Truque
+   *  Mágico/Utensílio Mágico (especialização/maestria de Arcana, qualquer
+   *  classe) e pelas notas-base do Arcanista. O merge NÃO materializa a
+   *  escola no FM (oculta — o display das aprendidas segue Negra/Branca). */
+  profEssencial: 'N' | 'A' | 'E' | 'M'
+  /** #417: idem no escopo SECUNDÁRIO (Treinamento de Arcanista —
+   *  Magias.Secundaria.Lista.ArcanaEssencial). */
+  profEssencialSec: 'N' | 'A' | 'E' | 'M'
   /** Deltas convergidos (debug/testes). */
   calculated: Deltas
   /** FM DERIVADO = FM salvo + calculated mesclado (mesmo shape do FM). As abas
@@ -508,19 +518,16 @@ export function pickArcanaEspecial(grupos: Array<Record<string, unknown>>): stri
   return prof && prof !== 'N' ? MAGIA_ESCOLA_NOME.ArcanaNegra! : MAGIA_ESCOLA_NOME.ArcanaBranca!
 }
 
-/** #296: as Magias Arcanas ESSENCIAIS entram no catálogo de não-aprendidas do
- *  herói? Espelha o gate do plugin (view-model.ts): no escopo PRIMÁRIO só se a
- *  classe é Arcanista (`classeAtual !== "Arcanista" → false`, :617); no escopo
- *  SECUNDÁRIO são permitidas independente da classe (Treinamento de Arcanista
- *  secundário, :676) — a proficiência secundária já filtra. Em ambos exige ter
- *  proficiência Arcana. Antes o app ofertava pra QUALQUER herói com prof Arcana,
- *  então o Bardo (Arcana Branca/Negra, não-Arcanista) recebia Essencial. */
-export function shouldOfferEssenciais(
-  sec: boolean,
-  temArcanaProf: boolean,
-  classeArcanista: boolean,
-): boolean {
-  return temArcanaProf && (sec || classeArcanista)
+/** #417 (era #296): as Magias Arcanas ESSENCIAIS entram no catálogo de
+ *  não-aprendidas quando a proficiência OCULTA ArcanaEssencial ≥ A — espelho do
+ *  isAllowed do plugin (view-model.ts:625-628: "Essencial gateia pela
+ *  proficiência oculta ArcanaEssencial, NÃO MAIS Arcanista"). Truque Mágico/
+ *  Utensílio Mágico concedem a qualquer classe; as notas-base do Arcanista e o
+ *  Treinamento de Arcanista (secundária) concedem as deles. O trap do #296
+ *  segue de pé: Bardo sem concessão tem prof N → nada de Essencial. O gate por
+ *  RANK (prof ≥ rank da magia) fica no caller (escolaCobreRank com esta prof). */
+export function shouldOfferEssenciais(profEssencial: 'N' | 'A' | 'E' | 'M'): boolean {
+  return profEssencial !== 'N'
 }
 
 /** Escola-destino (Nome do grupo no FM) de uma magia concedida por regra —
@@ -831,7 +838,18 @@ export function buildHeroProjection(
     especializacaoOptions: espMaes.especializacoes,
     maestriaOptions: espMaes.maestrias,
     maestriasByEspecialidade: espMaes.maestriasByEspecialidade,
+    // #417: a escola oculta não entra no FM — a proficiência vem direto dos
+    // deltas (Definir Magias[.Secundaria].Lista.ArcanaEssencial.Proficiencia).
+    profEssencial: profRankOf(calculated['Magias.Lista.ArcanaEssencial.Proficiencia']),
+    profEssencialSec: profRankOf(
+      calculated['Magias.Secundaria.Lista.ArcanaEssencial.Proficiencia'],
+    ),
     calculated,
     derivedFm,
   }
+}
+
+/** #417: valor de proficiência dos deltas → rank válido (senão N). */
+function profRankOf(v: unknown): 'N' | 'A' | 'E' | 'M' {
+  return v === 'A' || v === 'E' || v === 'M' ? v : 'N'
 }

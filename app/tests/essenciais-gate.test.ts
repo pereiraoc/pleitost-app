@@ -1,26 +1,22 @@
 // @vitest-environment node
-// #296: o Bardo (proficiência Arcana Branca/Negra, mas NÃO-Arcanista) estava
-// recebendo Magia Essencial no catálogo de não-aprendidas. As Essenciais só
-// entram: no escopo PRIMÁRIO se a classe é Arcanista; no SECUNDÁRIO sempre (a
-// prof secundária filtra). Sem prof Arcana → nunca.
+// #417 (era #296): as Essenciais entram no catálogo de não-aprendidas quando a
+// proficiência OCULTA ArcanaEssencial ≥ A — espelho do isAllowed do plugin
+// (view-model.ts:625-628: "gateia pela proficiência oculta ArcanaEssencial,
+// NÃO MAIS Arcanista"). A regra antiga do #296 (classe Arcanista no primário)
+// virou obsoleta quando o plugin passou o gate pra ArcanaEssencial — Truque
+// Mágico/Utensílio Mágico concedem a qualquer classe. O trap do #296 segue:
+// Bardo SEM concessão tem prof N e não vê Essencial.
 import { describe, expect, it } from 'vitest'
 import { shouldOfferEssenciais } from '../src/rules/projection'
 
-describe('shouldOfferEssenciais (#296)', () => {
-  it('Bardo (prof Arcana, não-Arcanista, primário) → NÃO oferece Essencial', () => {
-    expect(shouldOfferEssenciais(false, true, false)).toBe(false)
+describe('shouldOfferEssenciais (#417)', () => {
+  it('sem concessão (prof N) → NÃO oferece — trap do #296 preservado', () => {
+    expect(shouldOfferEssenciais('N')).toBe(false)
   })
 
-  it('Arcanista (primário) → oferece', () => {
-    expect(shouldOfferEssenciais(false, true, true)).toBe(true)
-  })
-
-  it('secundário (Treinamento de Arcanista) com prof Arcana → oferece mesmo sem classe Arcanista', () => {
-    expect(shouldOfferEssenciais(true, true, false)).toBe(true)
-  })
-
-  it('sem proficiência Arcana → nunca oferece (nem primário nem secundário)', () => {
-    expect(shouldOfferEssenciais(false, false, true)).toBe(false)
-    expect(shouldOfferEssenciais(true, false, false)).toBe(false)
+  it('qualquer concessão (A/E/M) → oferece; o gate por RANK fica no caller', () => {
+    expect(shouldOfferEssenciais('A')).toBe(true)
+    expect(shouldOfferEssenciais('E')).toBe(true)
+    expect(shouldOfferEssenciais('M')).toBe(true)
   })
 })
