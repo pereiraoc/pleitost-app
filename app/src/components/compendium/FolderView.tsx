@@ -242,6 +242,16 @@ export function FolderView() {
   // ABAIXO do conteúdo dela — nos dois ramos é o mesmo bloco.
   const childrenListing = (
     <>
+      {/* Mapa do mundo (fase 1 do atlas completo): entrada na RAIZ do Atlas —
+          o card leva pro visualizador /mapa (AtlasMapaPage). O AtlasNav já
+          anunciava esperar o mapa-raiz. */}
+      {path === 'Atlas' ? (
+        <div className="type-grid" style={{ marginBottom: 10 }}>
+          <Link to="/mapa" className="type-card">
+            <span className="type-card-name">🗺️ Mapa do Mundo</span>
+          </Link>
+        </div>
+      ) : null}
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
           categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
       {useSubtree ? null : <FolderCards folders={visibleFolders(node)} />}

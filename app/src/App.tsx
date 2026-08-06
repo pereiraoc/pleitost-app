@@ -20,6 +20,9 @@ const FichaPage = lazy(() => import('./components/ficha/FichaPage').then((m) => 
 const SessaoFichaPage = lazy(() =>
   import('./components/sessao/SessaoFichaPage').then((m) => ({ default: m.SessaoFichaPage })),
 )
+const AtlasMapaPage = lazy(() =>
+  import('./components/compendium/AtlasMapaPage').then((m) => ({ default: m.AtlasMapaPage })),
+)
 
 /** Fallback discreto enquanto o chunk da rota carrega. */
 function RouteFallback() {
@@ -58,6 +61,8 @@ const router = createBrowserRouter(
         { path: '/sessao-ficha/:charId', element: L(<SessaoFichaPage />) },
         { path: '/config', element: L(<ConfigPage />) },
         { path: '/doc/*', element: L(<DocPage />) },
+        // Mapa do mundo (fase 1 do atlas completo) — entrada no FolderView do Atlas.
+        { path: '/mapa', element: L(<AtlasMapaPage />) },
       ],
     },
     // #210: sob GitHub Pages de projeto o app vive em /pleitost-app/ — sem o
