@@ -204,6 +204,10 @@ export interface SessionState {
    *  vivia só no localStorage por-dispositivo, então não sincronizava entre
    *  membros/aparelhos. Replace por chave (last-write-wins), como o inventário. */
   exploracao?: GroupState
+  /** #419: mapa do mundo — regiões/pins/habilitação por grupo marcados pelo
+   *  GM (mapa-atlas-store). O MESTRE empurra o blob; jogadores só leem
+   *  (sanitize no consumo). Replace por chave, como a exploração. */
+  mapaAtlas?: unknown
 }
 
 export interface Session {
