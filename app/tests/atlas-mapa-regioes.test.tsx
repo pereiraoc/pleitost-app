@@ -28,7 +28,9 @@ import {
   regioesDesabilitadas,
   sanitize,
   toggleRegiaoHabilitada,
+  __setSeedMapaAtlasForTests,
 } from '../src/map/mapa-atlas-store'
+import { SEED_MAPA_ATLAS } from '../src/map/seed-mapa-atlas'
 import { __resetSettingsForTests } from '../src/settings'
 import type { IndexManifest } from '../src/data/types'
 
@@ -68,6 +70,7 @@ beforeAll(() => {
   }) as typeof fetch
 })
 beforeEach(() => {
+  __setSeedMapaAtlasForTests(null)
   window.localStorage.clear()
   __resetMapaAtlasForTests()
   __resetSettingsForTests()
@@ -301,5 +304,67 @@ describe('AtlasMapaPage — ferramentas do mestre', () => {
     expect(screen.getByText('FERRAMENTAS DO MESTRE')).toBeTruthy()
     expect(screen.getByText('⬡ MARCAR REGIÃO')).toBeTruthy()
     expect(screen.getByText('📍 MARCAR LUGAR')).toBeTruthy()
+  })
+})
+
+
+describe('#424 — seed embarcado: o mapa do mestre é o PADRÃO de todo viewer', () => {
+  it('aparelho novo (sem localStorage/sessão) já vê as 3 regiões oficiais', async () => {
+    __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
+    __resetMapaAtlasForTests()
+    const s = getMapaAtlas()
+    expect(s.regioes.map((r) => r.nome).sort()).toEqual(['Magna Pátria', 'Mundo Livre', 'Pátria Aurora'])
+    expect(s.pins).toHaveLength(1)
+    // e o /mapa renderiza o gating do seed (região desabilitada coberta)
+    renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
+  })
+
+  it('mestre com SEED carregado (sem edição própria) NÃO empurra pra mesa', async () => {
+    __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
+    __resetMapaAtlasForTests()
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'MAPA3' })
+    setLiveSession({
+      sessionId: sess.id,
+      gmUserId: 'gm',
+      state: null, // mesa ainda sem mapaAtlas
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    const spy = vi.spyOn(repo, 'updateSessionState')
+    renderMapa(repo)
+    await screen.findByAltText('Mapa do mundo')
+    await new Promise((r) => setTimeout(r, 150))
+    // seed não é edição local — nada de push (a mesa pode estar mais nova)
+    expect(spy.mock.calls.some((c) => 'mapaAtlas' in ((c[1] ?? {}) as object))).toBe(false)
+  })
+
+  it('mestre com seed + MESA com conteúdo: adota a mesa (mais fresca que o seed)', async () => {
+    __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
+    __resetMapaAtlasForTests()
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    setLiveSession({
+      sessionId: 's1',
+      gmUserId: 'gm',
+      state: {
+        mapaAtlas: {
+          regioes: [{ id: 'r-nova', nome: 'Versão da Mesa', pontos: [{ x: 0, y: 0 }, { x: 1000, y: 0 }, { x: 1000, y: 1000 }, { x: 0, y: 1000 }] }],
+          pins: [],
+          habilitadas: {},
+        },
+      } as unknown as LiveSession['state'],
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    await waitFor(() => expect(getMapaAtlas().regioes.map((r) => r.nome)).toEqual(['Versão da Mesa']))
   })
 })

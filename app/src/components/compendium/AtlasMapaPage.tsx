@@ -31,8 +31,8 @@ import {
   DEFAULT_VIEWER,
   addPin,
   addRegiao,
-  getMapaAtlas,
   hexEmRegioes,
+  mapaAtlasFoiEditadoLocalmente,
   setMapaAtlasFull,
   mapaAtlasJson,
   normalizeRegioesToHex,
@@ -106,25 +106,24 @@ export function AtlasMapaPage() {
   const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas']
   const cfg = useMemo(() => (!mestre && remoto ? sanitize(remoto) : local), [mestre, remoto, local])
 
-  // #423: ADOÇÃO — mestre em aparelho SEM config local (nada marcado) importa
-  // o mapa da MESA uma vez; sem isso, o GM que marcou noutro aparelho abria a
-  // lista vazia e "não tinha onde clicar pra editar". Depois da adoção, o
-  // local volta a ser o autor (o trap: local COM conteúdo nunca adota).
+  // #423/#424: ADOÇÃO — mestre em aparelho SEM edição própria (o raw local não
+  // existe; o seed embarcado não conta) importa o mapa da MESA uma vez — a
+  // mesa é sempre mais fresca que o seed. Depois da adoção, o local é o autor.
   useEffect(() => {
-    if (!mestre || !remoto) return
-    const cur = getMapaAtlas()
-    if (cur.regioes.length > 0 || cur.pins.length > 0) return
+    if (!mestre || !remoto || mapaAtlasFoiEditadoLocalmente()) return
     const r = sanitize(remoto)
     if (r.regioes.length > 0 || r.pins.length > 0) setMapaAtlasFull(r)
   }, [mestre, remoto])
 
   // MESTRE conectado EMPURRA o blob a cada mudança local (veículo da
   // exploração #5: sessions.state jsonb; updateSessionState mescla top-level).
-  // #423: guarda ANTI-WIPE — local VAZIO nunca sobrescreve mesa com conteúdo
-  // (aparelho novo do GM apagaria as marcações de todo mundo no mount).
+  // #423/#424: só empurra estado EDITADO NESTE aparelho — seed carregado sem
+  // edição nunca sobrescreve a mesa (que pode estar mais nova), e local vazio
+  // nunca apaga mesa com conteúdo.
   const pushedRef = useRef('')
   useEffect(() => {
     if (!mestre || !repo || !live?.sessionId) return
+    if (!mapaAtlasFoiEditadoLocalmente()) return
     if (local.regioes.length === 0 && local.pins.length === 0) {
       const r = remoto ? sanitize(remoto) : null
       if (r && (r.regioes.length > 0 || r.pins.length > 0)) return
@@ -678,6 +677,9 @@ export function AtlasMapaPage() {
                       </label>
                       <span style={mono9}>{on ? 'visível' : 'coberta pelo overlay'}</span>
                       <span style={{ flex: 1 }} />
+                      {/* Report "não tem onde clicar": o glifo ✎ sem `color`
+                          herdava o buttontext padrão (preto) e sumia no painel
+                          escuro — vira pill visível com rótulo. */}
                       <button
                         aria-label={`Editar hexes de ${r.nome}`}
                         title="Adicionar/remover hexes desta região"
@@ -687,9 +689,9 @@ export function AtlasMapaPage() {
                           setVertices([])
                           setPinPendente(null)
                         }}
-                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+                        style={pillStyle(editRegiaoId === r.id && modo === 'hexes')}
                       >
-                        ✎
+                        ✎ EDITAR
                       </button>
                       <button
                         aria-label={`Remover região ${r.nome}`}

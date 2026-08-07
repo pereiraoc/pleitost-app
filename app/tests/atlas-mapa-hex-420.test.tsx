@@ -41,6 +41,7 @@ import {
   outlineRingsFromCells,
   toggleRegiaoHabilitada,
   toggleRegiaoHex,
+  __setSeedMapaAtlasForTests,
 } from '../src/map/mapa-atlas-store'
 import { DetailProvider, useDetail } from '../src/data/detail-context'
 import { __resetSettingsForTests } from '../src/settings'
@@ -84,6 +85,7 @@ beforeAll(() => {
   }) as typeof fetch
 })
 beforeEach(() => {
+  __setSeedMapaAtlasForTests(null)
   window.localStorage.clear()
   __resetMapaAtlasForTests()
   __resetHexMapStoreMemoryForTests()

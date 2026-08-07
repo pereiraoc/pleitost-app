@@ -4,7 +4,7 @@
 // RAIZ do Atlas no compêndio. O overlay (atlas-overlay.webp) é deployado
 // junto mas NÃO renderiza — vira o gating por região do GM na fase 2. A
 // exploração (grade do Mundo Livre + trilhas) fica intocada.
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
@@ -15,6 +15,7 @@ import { CatalogProvider } from '../src/data/CatalogContext'
 import { AtlasMapaPage, ATLAS_MAPA_ASSET, ATLAS_OVERLAY_ASSET } from '../src/components/compendium/AtlasMapaPage'
 import { FolderView } from '../src/components/compendium/FolderView'
 import { buildAssetIndex, resolveAsset } from '../src/data/assets'
+import { __setSeedMapaAtlasForTests, __resetMapaAtlasForTests } from '../src/map/mapa-atlas-store'
 import type { AssetsManifest, IndexManifest } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -34,6 +35,10 @@ beforeAll(() => {
     const ok = fs.existsSync(file)
     return { ok, status: ok ? 200 : 404, json: async () => JSON.parse(fs.readFileSync(file, 'utf8')) }
   }) as typeof fetch
+})
+beforeEach(() => {
+  __setSeedMapaAtlasForTests(null)
+  __resetMapaAtlasForTests()
 })
 afterEach(cleanup)
 

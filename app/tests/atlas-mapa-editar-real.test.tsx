@@ -13,7 +13,11 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { AtlasMapaPage } from '../src/components/compendium/AtlasMapaPage'
 import { atlasHexCenter } from '../src/map/atlas-grid'
-import { __resetMapaAtlasForTests, getMapaAtlas } from '../src/map/mapa-atlas-store'
+import {
+  __resetMapaAtlasForTests,
+  __setSeedMapaAtlasForTests,
+  getMapaAtlas,
+} from '../src/map/mapa-atlas-store'
 import { __resetSettingsForTests } from '../src/settings'
 import { setLiveSession } from '../src/data/session-repo/live-session'
 import type { IndexManifest } from '../src/data/types'
@@ -38,6 +42,7 @@ beforeAll(() => {
   }) as typeof fetch
 })
 beforeEach(() => {
+  __setSeedMapaAtlasForTests(null)
   window.localStorage.clear()
   window.localStorage.setItem('pleitost.mapaAtlas', JSON.stringify(BLOB))
   window.localStorage.setItem('pleitost.settings.mestre', 'true')

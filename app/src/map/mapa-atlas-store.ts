@@ -21,6 +21,7 @@
 //     sessions.state (jsonb `mapaAtlas`, mesmo veículo da exploração #5) —
 //     conectado, o jogador lê o state; o local é a fonte do GM.
 import { useSyncExternalStore } from 'react'
+import { SEED_MAPA_ATLAS } from './seed-mapa-atlas'
 import {
   ATLAS_GRID_H,
   ATLAS_GRID_W,
@@ -88,21 +89,43 @@ function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
 }
 
+// #424 ("salvarmos como padrão pra tudo"): seed embarcado com o mapa oficial
+// do mestre — default de quem nunca editou neste aparelho (modelo do
+// SEED_HEXMAPS; mutável só pra teste, __setSeedMapaAtlasForTests).
+let seed: unknown = SEED_MAPA_ATLAS
+export function __setSeedMapaAtlasForTests(next: unknown): void {
+  seed = next
+  memory = null
+}
+
+/** true quando ESTE aparelho já tem estado próprio gravado (o raw existe) —
+ *  gate da adoção da mesa e do push do mestre (#423/#424): seed carregado não
+ *  conta como edição local. */
+export function mapaAtlasFoiEditadoLocalmente(): boolean {
+  try {
+    return storage()?.getItem(STORE_KEY) != null
+  } catch {
+    return false
+  }
+}
+
 function isPonto(p: unknown): p is MapaPonto {
   const o = p as Record<string, unknown> | null
   return !!o && Number.isFinite(o.x) && Number.isFinite(o.y)
 }
 
-/** Hidrata com validação estrita (padrão isHex do group-store). */
+/** Hidrata com validação estrita (padrão isHex do group-store). Sem estado
+ *  local gravado, o DEFAULT é o seed embarcado (#424). */
 function hydrate(): MapaAtlasState {
   if (memory) return memory
-  let state = emptyState()
+  let state: MapaAtlasState | null = null
   try {
     const raw = storage()?.getItem(STORE_KEY)
     if (raw) state = sanitize(JSON.parse(raw))
   } catch {
     state = emptyState()
   }
+  state ??= sanitize(seed)
   memory = state
   return state
 }
