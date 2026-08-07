@@ -208,6 +208,11 @@ export interface SessionState {
    *  GM (mapa-atlas-store). O MESTRE empurra o blob; jogadores só leem
    *  (sanitize no consumo). Replace por chave, como a exploração. */
   mapaAtlas?: unknown
+  /** #430: LUGARES/ÁREAS do hexmap mapa:mundo autorados pelo GM (hexmap-store).
+   *  Antes viviam só no user_state por-conta → jogadores não viam. O MESTRE
+   *  empurra as células editadas; jogadores adotam no store local. Replace por
+   *  chave. Forma: { cells: HexMapCell[] }. */
+  hexMapMundo?: unknown
 }
 
 export interface Session {

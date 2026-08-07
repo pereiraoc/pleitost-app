@@ -53,6 +53,8 @@ import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
 import { HexInfoBar } from '../map/HexInfoBar'
+import { useHexMapMundoSync } from '../map/use-hexmapmundo-sync'
+import { useSettings } from '../settings'
 import {
   addGroupHex,
   getGroupState,
@@ -865,6 +867,10 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
   const hexMap = hexMapState.cells
   const cfgAtlas = useMapaAtlas()
   const crop = useMemo(() => vistaCrop(regionId, cfgAtlas.regioes), [regionId, cfgAtlas])
+  // #430: jogador da mesa adota o mapa-múndi autorado pelo mestre (lugares/
+  // áreas) — assim a exploração do grupo mostra o que o mestre marcou.
+  const { mestre } = useSettings()
+  useHexMapMundoSync(mestre)
   // #89: havendo sidebar de detalhes, a info do local abre NELA (não no bloco
   // lateral do mapa); sem ela (testes) cai no RightBar #70.
   const detail = useDetail()

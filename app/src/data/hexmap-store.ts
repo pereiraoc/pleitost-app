@@ -301,6 +301,27 @@ export function removeArea(regionId: string, areaId: string): void {
   )
 }
 
+// ─────────────── DISTRIBUIÇÃO POR MESA (session.state.hexMapMundo) ──────────
+// O mapa do mundo autorado pelo mestre (mapa:mundo) chega aos JOGADORES pela
+// mesa (mesmo veículo das regiões/#5): o mestre empurra as células, o jogador
+// aplica no store local (setHexMapFull) e o render usa o store normal.
+
+/** Já houve edição LOCAL desta região? (o seed é derivado em runtime e só
+ *  persiste após a 1ª edição — a chave crua existir = autoria neste device.) */
+export function hexMapFoiEditado(regionId: string): boolean {
+  return safeGet(storageKey(regionId)) !== null
+}
+
+/** Aplica um conjunto COMPLETO de células na região (sync remoto→local): o
+ *  jogador adota o mapa do mestre vindo da mesa. Filtra células inválidas como
+ *  a hidratação. */
+export function setHexMapFull(regionId: string, rawCells: unknown): void {
+  const cells = Array.isArray(rawCells)
+    ? rawCells.map(normalizeCell).filter((c): c is HexMapCell => c !== null)
+    : []
+  commit(regionId, { cells })
+}
+
 // ─────────────────────── BACKUP (export/import) #81 ─────────────────────────
 
 const BACKUP_KIND = 'pleitost.hexmap.backup'

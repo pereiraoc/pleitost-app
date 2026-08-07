@@ -65,6 +65,7 @@ import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
 import { buildAtlasIndex } from '../../data/atlas-nav'
 import { useDocs } from '../../data/useDoc'
 import { HexInfoBar } from '../../map/HexInfoBar'
+import { useHexMapMundoSync } from '../../map/use-hexmapmundo-sync'
 
 /** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
 export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
@@ -167,6 +168,9 @@ export function AtlasMapaPage() {
   // portado pela grade calibrada (seed mapa:mundo). Clique num hex mostra o
   // que existe ali, como no mapa da exploração.
   const hexMap = useHexMap(MAPA_MUNDO_ID)
+  // #430: mestre empurra o mapa autorado pra mesa; jogador adota — o render
+  // usa o store normal (hexMap) já sincronizado.
+  useHexMapMundoSync(mestre)
   const [hexSel, setHexSel] = useState<AtlasHexCell | null>(null)
 
   // ── Autoria (Modo Mestre) ────────────────────────────────────────────────

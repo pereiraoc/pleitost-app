@@ -86,6 +86,43 @@ export const mergeRecordBlobs: CollectionMerger = (localRaw, remoteRaw) => {
   }
 }
 
+/** Timestamp ISO `updatedAt` de um blob (0 se ausente/ilegível). */
+function updatedAtOf(raw: string | null): number {
+  if (!raw) return 0
+  try {
+    const v = JSON.parse(raw) as { updatedAt?: unknown }
+    const t = typeof v?.updatedAt === 'string' ? Date.parse(v.updatedAt) : NaN
+    return Number.isFinite(t) ? t : 0
+  } catch {
+    return 0
+  }
+}
+
+/** Blobs versionados por `updatedAt` (hexMap.<região>, groupState.<grupo>): NÃO
+ *  são coleções de itens, são um documento por chave que carrega o carimbo da
+ *  última edição. A união por-item não se aplica (sem id por célula/parada);
+ *  a política é NEWER-WINS — a última atualização (maior updatedAt) vale, os dois
+ *  sentidos. Corrige o report "marquei num device e sumiu no outro": a
+ *  hidratação era fill-only-missing (device com a chave nunca recebia a versão
+ *  mais nova). Empate de carimbo com conteúdo diferente → LOCAL vence (não
+ *  regride o que está na mão) e sobe. */
+export const mergeByUpdatedAt: CollectionMerger = (localRaw, remoteRaw) => {
+  if (localRaw === null) {
+    return { value: remoteRaw, addedFromRemote: true, differsFromRemote: false }
+  }
+  if (localRaw === remoteRaw) {
+    return { value: localRaw, addedFromRemote: false, differsFromRemote: false }
+  }
+  const localAt = updatedAtOf(localRaw)
+  const remoteAt = updatedAtOf(remoteRaw)
+  if (remoteAt > localAt) {
+    // conta tem a versão mais NOVA → adota (grava local + reload); não re-sobe
+    return { value: remoteRaw, addedFromRemote: true, differsFromRemote: false }
+  }
+  // local mais novo (ou empate com conteúdo distinto) → local vence e SOBE
+  return { value: localRaw, addedFromRemote: false, differsFromRemote: true }
+}
+
 function parseArray(raw: string | null): unknown[] | null {
   if (!raw) return null
   try {

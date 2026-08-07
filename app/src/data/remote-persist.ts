@@ -12,7 +12,12 @@
 
 import { appStateUrl } from './base-url'
 import { supabaseClient } from './session-repo/supabase'
-import { mergeArrayBlobsBy, mergeRecordBlobs, type CollectionMerger } from './collection-merge'
+import {
+  mergeArrayBlobsBy,
+  mergeByUpdatedAt,
+  mergeRecordBlobs,
+  type CollectionMerger,
+} from './collection-merge'
 import { pushLog } from './debug-log'
 
 const ENDPOINT = appStateUrl()
@@ -39,6 +44,22 @@ const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
   'pleitost.groupMembership': mergeRecordBlobs,
   'pleitost.compendio.drafts': mergeRecordBlobs,
   'pleitost.sessoes': mergeArrayBlobsBy('codigo'),
+}
+
+/** Chaves versionadas por `updatedAt` (uma por região/grupo — prefixo, não
+ *  exata): o mapa de hexcrawl (mapa:mundo etc.) e o caminho de cada grupo. NÃO
+ *  são coleções de itens; a política é NEWER-WINS (report c85c98cf: "marquei
+ *  num device e sumiu no outro" — a hidratação fill-only-missing nunca trazia a
+ *  versão mais nova). Ambos gravam updatedAt no blob (hexmap-store/group-store). */
+const UPDATED_AT_PREFIXES = ['pleitost.hexMap.', 'pleitost.groupState.']
+
+/** Merger da chave: coleção exata, senão newer-wins por prefixo, senão nenhum
+ *  (escalares seguem fill-only-missing). */
+function mergerFor(key: string): CollectionMerger | undefined {
+  const exact = COLLECTION_MERGERS[key]
+  if (exact) return exact
+  if (UPDATED_AT_PREFIXES.some((p) => key.startsWith(p))) return mergeByUpdatedAt
+  return undefined
 }
 
 let queue: Record<string, string | null> = {}
@@ -122,7 +143,7 @@ export async function connectUserStateSync(
     const patch: Record<string, string> = {}
     for (const [k, v] of Object.entries(data ?? {})) {
       if (typeof v !== 'string' || !synced(k)) continue
-      const merger = COLLECTION_MERGERS[k]
+      const merger = mergerFor(k)
       if (merger) {
         // Coleções: MERGE por entrada nos DOIS sentidos — o que faltar local
         // desce (added → reload), o que faltar/diferir na conta sobe.
@@ -241,7 +262,7 @@ export async function hydrateFromServer(timeoutMs = 3500): Promise<void> {
     const data = (await res.json()) as Record<string, unknown>
     for (const [k, v] of Object.entries(data)) {
       if (typeof v !== 'string' || !synced(k)) continue
-      const merger = COLLECTION_MERGERS[k]
+      const merger = mergerFor(k)
       if (merger) {
         const r = merger(store.getItem(k), v)
         if (r.addedFromRemote) store.setItem(k, r.value)

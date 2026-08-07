@@ -141,6 +141,68 @@ describe('espelho por conta: merge POR ENTRADA das coleções', () => {
   })
 })
 
+describe('mapas/caminhos versionados: NEWER-WINS por updatedAt (report c85c98cf)', () => {
+  const MAPA = 'pleitost.hexMap.mapa:mundo'
+  const GRP = 'pleitost.groupState.Grupo Teste'
+  const blob = (cells: unknown, updatedAt: string) => JSON.stringify({ cells, updatedAt })
+
+  it('conta tem marcações MAIS NOVAS → o device com versão velha ADOTA (e recarrega)', async () => {
+    const srv = fakeServer({
+      [MAPA]: blob([{ col: 46, row: 16, localId: 'X' }], '2026-08-07T10:00:00.000Z'),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    // device tem uma versão ANTIGA (sem a marcação nova)
+    window.localStorage.setItem(MAPA, blob([], '2026-08-01T00:00:00.000Z'))
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    // adotou a mais nova (a última atualização vale) e sinalizou reload
+    expect(JSON.parse(window.localStorage.getItem(MAPA)!).cells).toHaveLength(1)
+    expect(added).toContain(MAPA)
+  })
+
+  it('device tem a versão MAIS NOVA → mantém local e SOBE (conta converge)', async () => {
+    const srv = fakeServer({
+      [MAPA]: blob([], '2026-08-01T00:00:00.000Z'),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      MAPA,
+      blob([{ col: 46, row: 16, localId: 'X' }], '2026-08-07T10:00:00.000Z'),
+    )
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    // local intacto (não regride) e nada de reload
+    expect(JSON.parse(window.localStorage.getItem(MAPA)!).cells).toHaveLength(1)
+    expect(added).not.toContain(MAPA)
+    // a conta recebe a versão nova
+    expect(JSON.parse(srv.rows.get('u1')![MAPA]!).cells).toHaveLength(1)
+  })
+
+  it('groupState segue a mesma política newer-wins', async () => {
+    const srv = fakeServer({
+      [GRP]: JSON.stringify({ hexes: [{ id: 'a', col: 46, row: 16 }], updatedAt: '2026-08-07T10:00:00.000Z' }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      GRP,
+      JSON.stringify({ hexes: [], updatedAt: '2026-08-01T00:00:00.000Z' }),
+    )
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    expect(JSON.parse(window.localStorage.getItem(GRP)!).hexes).toHaveLength(1)
+    expect(added).toContain(GRP)
+  })
+
+  it('chave de mapa só no SERVIDOR hidrata (fill preservado)', async () => {
+    const srv = fakeServer({ [MAPA]: blob([{ col: 1, row: 1, localId: 'Y' }], '2026-08-07T10:00:00.000Z') })
+    __setUserStateOpsForTests(srv.ops)
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    expect(JSON.parse(window.localStorage.getItem(MAPA)!).cells).toHaveLength(1)
+    expect(added).toContain(MAPA)
+  })
+})
+
 describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")', () => {
   const T = '__tombstones__'
 
