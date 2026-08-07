@@ -177,7 +177,11 @@ function commit(next: MapaAtlasState): void {
   memory = next
   notify()
   try {
-    storage()?.setItem(STORE_KEY, JSON.stringify(next))
+    // #430: carimba `updatedAt` no blob persistido pra o sync por conta
+    // (user_state) reconciliar por NEWER-WINS entre dispositivos (regiões
+    // estavam ficando velhas no celular — fill-only-missing nunca trazia a
+    // versão nova). sanitize ignora a chave extra.
+    storage()?.setItem(STORE_KEY, JSON.stringify({ ...next, updatedAt: new Date().toISOString() }))
   } catch {
     /* memória continua a fonte da sessão */
   }

@@ -201,6 +201,27 @@ describe('mapas/caminhos versionados: NEWER-WINS por updatedAt (report c85c98cf)
     expect(JSON.parse(window.localStorage.getItem(MAPA)!).cells).toHaveLength(1)
     expect(added).toContain(MAPA)
   })
+
+  it('pleitost.mapaAtlas (regiões) segue newer-wins — conta mais nova é adotada', async () => {
+    const ATLAS = 'pleitost.mapaAtlas'
+    const atlasBlob = (nomes: string[], updatedAt: string) =>
+      JSON.stringify({ regioes: nomes.map((n, i) => ({ id: 'r' + i, nome: n })), pins: [], habilitadas: {}, updatedAt })
+    const srv = fakeServer({
+      [ATLAS]: atlasBlob(['Magna Pátria', 'Pátria Aurora', 'Mundo Livre'], '2026-08-07T10:00:00.000Z'),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    // celular com regiões ANTIGAS
+    window.localStorage.setItem(ATLAS, atlasBlob(['Velha'], '2026-08-01T00:00:00.000Z'))
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    const local = JSON.parse(window.localStorage.getItem(ATLAS)!)
+    expect(local.regioes.map((r: { nome: string }) => r.nome)).toEqual([
+      'Magna Pátria',
+      'Pátria Aurora',
+      'Mundo Livre',
+    ])
+    expect(added).toContain(ATLAS)
+  })
 })
 
 describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")', () => {

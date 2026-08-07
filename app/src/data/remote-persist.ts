@@ -52,13 +52,18 @@ const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
  *  num device e sumiu no outro" — a hidratação fill-only-missing nunca trazia a
  *  versão mais nova). Ambos gravam updatedAt no blob (hexmap-store/group-store). */
 const UPDATED_AT_PREFIXES = ['pleitost.hexMap.', 'pleitost.groupState.']
+/** Chaves ÚNICAS (não-prefixo) versionadas por updatedAt: o mapa do mundo
+ *  (regiões/habilitação por grupo). Mesma política newer-wins. */
+const UPDATED_AT_KEYS = new Set(['pleitost.mapaAtlas'])
 
-/** Merger da chave: coleção exata, senão newer-wins por prefixo, senão nenhum
- *  (escalares seguem fill-only-missing). */
+/** Merger da chave: coleção exata, senão newer-wins (chave/prefixo), senão
+ *  nenhum (escalares seguem fill-only-missing). */
 function mergerFor(key: string): CollectionMerger | undefined {
   const exact = COLLECTION_MERGERS[key]
   if (exact) return exact
-  if (UPDATED_AT_PREFIXES.some((p) => key.startsWith(p))) return mergeByUpdatedAt
+  if (UPDATED_AT_KEYS.has(key) || UPDATED_AT_PREFIXES.some((p) => key.startsWith(p))) {
+    return mergeByUpdatedAt
+  }
   return undefined
 }
 
