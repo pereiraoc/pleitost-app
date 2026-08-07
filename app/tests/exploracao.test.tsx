@@ -58,6 +58,7 @@ import {
   __resetHexMapStoreMemoryForTests,
   __setSeedsForTests,
   getHexMapState,
+  setHexArea,
   setHexLocal,
 } from '../src/data/hexmap-store'
 import { docPath } from '../src/paths'
@@ -893,6 +894,68 @@ describe('#70 barra direita colapsável = info do local (Tipo/Descrição/Recurs
     const mapa = mockMapaRect(container)
     fireEvent.click(mapa, clickCoords(cropFracToHex(0.7, 0.7)))
     expect(container.querySelector('[data-info-bar]')).toBeNull()
+  })
+})
+
+// ── feedback do mestre: só LUGARES realçados; paradas/caminho = bolinhas;
+//    barra horizontal embaixo (estilo /mapa) ao clicar num lugar ──────────────
+describe('mapa do grupo — realce enxuto + bolinhas + barra de info embaixo', () => {
+  it('só o HEX do LUGAR ganha realce; célula que é só ÁREA de região NÃO', async () => {
+    const lugar = cropFracToHex(0.3, 0.3)
+    const soArea = cropFracToHex(0.6, 0.6)
+    setHexLocal(MAPA_MUNDO_ID, lugar.col, lugar.row, KRASNOGOR_ID)
+    setHexArea(MAPA_MUNDO_ID, soArea.col, soArea.row, 'Atlas/Mundo Livre/Mundo Livre')
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    await waitFor(() =>
+      expect(container.querySelector(`[data-hex-local="${lugar.col},${lugar.row}"]`)).toBeTruthy(),
+    )
+    // o hex que é APENAS área de região não é pintado (senão o mapa inteiro
+    // parece marcado — pedido do mestre)
+    expect(container.querySelector(`[data-hex-local="${soArea.col},${soArea.row}"]`)).toBeNull()
+  })
+
+  it('PARADA é bolinha (não hex) e CAMINHO é bolinha MENOR', async () => {
+    const p = addGroupHex(GROUP_ID, { col: 48, row: 10, kind: 'parada' })
+    const c = addGroupHex(GROUP_ID, { col: 50, row: 12, kind: 'caminho' })
+    // hex final vira o ATUAL (bolinha azul maior) — assim p e c não são atual
+    addGroupHex(GROUP_ID, { col: 52, row: 14, kind: 'caminho' })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const parada = container.querySelector(`[data-hex="${p.id}"]`) as SVGElement
+    const caminho = container.querySelector(`[data-hex="${c.id}"]`) as SVGElement
+    // ambos são <circle> (nada de polígono de hex marcado)
+    expect(parada.tagName.toLowerCase()).toBe('circle')
+    expect(caminho.tagName.toLowerCase()).toBe('circle')
+    // parada segue com o marcador data-parada-mapa; caminho não
+    expect(parada.hasAttribute('data-parada-mapa')).toBe(true)
+    expect(caminho.hasAttribute('data-parada-mapa')).toBe(false)
+    // caminho é MENOR que a parada
+    expect(Number(caminho.getAttribute('r'))).toBeLessThan(Number(parada.getAttribute('r')))
+  })
+
+  it('clicar num LUGAR abre a barra horizontal embaixo (data-hex-info) e marca o hex', async () => {
+    const cell = cropFracToHex(0.4, 0.55)
+    setHexLocal(MAPA_MUNDO_ID, cell.col, cell.row, KRASNOGOR_ID)
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    const mapa = mockMapaRect(container)
+    // sem clique → sem barra embaixo
+    expect(container.querySelector('[data-hex-info]')).toBeNull()
+    fireEvent.click(mapa, clickCoords(cell))
+    // barra horizontal do /mapa com o LUGAR em destaque (NESTE HEX)
+    const bar = await waitFor(() => {
+      const b = container.querySelector('[data-hex-info]') as HTMLElement
+      expect(b).toBeTruthy()
+      return b
+    })
+    expect(within(bar).getByText('NESTE HEX')).toBeTruthy()
+    expect(within(bar).getByText('Krasnogor')).toBeTruthy()
+    // e o hex clicado fica MARCADO (contorno selecionado)
+    expect(container.querySelector('[data-hex-selecionado]')).toBeTruthy()
+    // fechar recolhe a barra
+    fireEvent.click(within(bar).getByLabelText('Fechar info do hex'))
+    expect(container.querySelector('[data-hex-info]')).toBeNull()
   })
 })
 

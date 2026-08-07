@@ -324,6 +324,21 @@ describe('#424 — seed embarcado: o mapa do mestre é o PADRÃO de todo viewer'
     expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
   })
 
+  it('#36 seed NÃO habilita nada por default — mestre habilita manual por grupo', () => {
+    __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
+    __resetMapaAtlasForTests()
+    const s = getMapaAtlas()
+    // controle do mestre: TODAS as regiões desabilitadas de saída
+    expect(s.habilitadas).toEqual({})
+    for (const grupo of [DEFAULT_VIEWER, 'grupo-qualquer']) {
+      expect(regioesDesabilitadas(s, grupo).map((r) => r.nome).sort()).toEqual([
+        'Magna Pátria',
+        'Mundo Livre',
+        'Pátria Aurora',
+      ])
+    }
+  })
+
   it('mestre com SEED carregado (sem edição própria) NÃO empurra pra mesa', async () => {
     __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
     __resetMapaAtlasForTests()

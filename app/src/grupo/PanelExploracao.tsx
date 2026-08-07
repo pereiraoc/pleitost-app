@@ -49,9 +49,10 @@ import { docPath } from '../paths'
 import { useHexMap } from '../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
-import { cellAt, type HexMapCell } from '../data/hexmap-store'
+import { areasAt, cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useMapView } from '../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../map/MapControls'
+import { HexInfoBar } from '../map/HexInfoBar'
 import {
   addGroupHex,
   getGroupState,
@@ -848,14 +849,6 @@ function LeftBar({
   )
 }
 
-/** Preenchimento do hex por estado (#85): ATUAL forte, PARADA média, ponto de
- *  CAMINHO discreto — pra distinguir na trilha o que é parada do que é rota. */
-function hexFill(isAtual: boolean, isParada = false): string {
-  if (isAtual) return 'color-mix(in srgb,var(--accent) 46%,transparent)'
-  if (isParada) return 'color-mix(in srgb,var(--accent) 32%,transparent)'
-  return 'color-mix(in srgb,var(--accent) 20%,transparent)'
-}
-
 /** `readOnly` (pedido do usuário, follow-up #379 r2): fora da MESA CONECTADA o
  *  caminho é SOMENTE LEITURA — a trilha é sincronizada com o session state
  *  (remoto = fonte de verdade) e edição offline seria sobrescrita no pull. */
@@ -902,6 +895,9 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
   const [selectedId, setSelectedId] = useState<string | null>(null)
   /** Hex clicado que tem localização mapeada → barra direita (#70). */
   const [infoLocalId, setInfoLocalId] = useState<string | null>(null)
+  /** Hex clicado no MAPA → barra horizontal embaixo (mesmo estilo do /mapa) +
+   *  contorno do hex selecionado (pedido: "clicar num lugar mostra embaixo"). */
+  const [infoHex, setInfoHex] = useState<HexCell | null>(null)
   /** Barra direita mostra a IMAGEM da região (só via clique no token, #71). */
   const [infoWithImage, setInfoWithImage] = useState(false)
   const [leftCollapsed, setLeftCollapsed] = useState(false)
@@ -1018,7 +1014,10 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
     if (map.consumeMoved()) return
     const cell = hexAtClient(e.clientX, e.clientY)
     if (!cell) {
-      if (addMode === 'off') setSelectedId(null)
+      if (addMode === 'off') {
+        setSelectedId(null)
+        setInfoHex(null)
+      }
       return
     }
     const existente = hexAt(state.hexes, cell.col, cell.row)
@@ -1036,9 +1035,13 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
       // tocando os hexes da rota sem abrir nada.
       setSelectedId(addMode === 'parada' ? criado.id : null)
     } else {
-      // fora do modo marcar: parada abre o popover; qualquer hex com
-      // localização mapeada abre a barra direita (#70).
+      // fora do modo marcar: parada abre o popover; qualquer hex com conteúdo
+      // (lugar OU área) abre a barra horizontal embaixo (mesmo estilo do /mapa)
+      // e marca o hex; a barra direita/detalhes (#70/#89) segue pelo chip.
       setSelectedId(existente ? existente.id : null)
+      const cel = cellAt(hexMap, cell.col, cell.row)
+      const temConteudo = !!cel?.localId || areasAt(hexMap, cell.col, cell.row).length > 0
+      setInfoHex(temConteudo ? cell : null)
       if (!openInfoForCell(cell.col, cell.row, false) && !existente) setInfoLocalId(null)
     }
   }
@@ -1252,19 +1255,36 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                     strokeWidth={1}
                     vectorEffect="non-scaling-stroke"
                   />
-                  {/* Hexes COM localização configurada na região (#70): realce
-                      sutil pra sinalizar que têm info clicável. */}
-                  {hexMap.map((c) => (
+                  {/* Hexes com LUGAR pontual (#70): realce sutil pra sinalizar
+                      info clicável. Só o LUGAR — não as células de ÁREA de
+                      região (senão o mapa inteiro parece marcado; pedido do
+                      mestre). */}
+                  {hexMap
+                    .filter((c) => c.localId)
+                    .map((c) => (
+                      <polygon
+                        key={`loc-${c.col},${c.row}`}
+                        data-hex-local={`${c.col},${c.row}`}
+                        points={atlasHexPolygonPoints(c.col, c.row)}
+                        fill="color-mix(in srgb,var(--accent) 10%,transparent)"
+                        stroke="color-mix(in srgb,var(--accent) 32%,transparent)"
+                        strokeWidth={1}
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    ))}
+                  {/* Hex SELECIONADO (clique na barra de info) — contorno como
+                      no /mapa ("fica o lugar selecionado marcado"). */}
+                  {infoHex ? (
                     <polygon
-                      key={`loc-${c.col},${c.row}`}
-                      data-hex-local={`${c.col},${c.row}`}
-                      points={atlasHexPolygonPoints(c.col, c.row)}
-                      fill="color-mix(in srgb,var(--accent) 8%,transparent)"
-                      stroke="color-mix(in srgb,var(--accent) 30%,transparent)"
-                      strokeWidth={1}
+                      data-hex-selecionado=""
+                      points={atlasHexPolygonPoints(infoHex.col, infoHex.row)}
+                      fill="color-mix(in srgb,var(--accent) 20%,transparent)"
+                      stroke="var(--accent)"
+                      strokeWidth={2.5}
                       vectorEffect="non-scaling-stroke"
+                      style={{ pointerEvents: 'none' }}
                     />
-                  ))}
+                  ) : null}
                   {hoverLivre ? (
                     <polygon
                       data-hex-hover=""
@@ -1293,9 +1313,10 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                       vectorEffect="non-scaling-stroke"
                     />
                   ) : null}
-                  {/* PARADA = marcador hex forte; CAMINHO = bolinha discreta na
-                      rota; ATUAL em AZUL com glow. SEM rótulo no mapa — o nome
-                      já está escrito na própria arte do mapa (#85). */}
+                  {/* PARADA e CAMINHO são BOLINHAS (pedido do mestre: sem hex
+                      destacado). PARADA = bolinha média (o tamanho da antiga de
+                      caminho); CAMINHO = bolinha menor ainda; ATUAL em AZUL com
+                      glow. SEM rótulo — o nome já está na arte do mapa (#85). */}
                   {state.hexes.map((h) => {
                     const isAtual = h.id === atual?.id
                     const isSel = h.id === selectedId
@@ -1304,49 +1325,35 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                     const glow = isAtual
                       ? { filter: `drop-shadow(0 0 8px color-mix(in srgb,${ATUAL_BLUE} 80%,transparent))` }
                       : undefined
-                    // ponto de CAMINHO (rota): bolinha pequena
                     const titleText = localTitleText(h)
-                    if (!parada) {
-                      return (
-                        <circle
-                          key={h.id}
-                          data-hex={h.id}
-                          data-col={h.col}
-                          data-row={h.row}
-                          {...(isAtual ? { 'data-atual': '' } : {})}
-                          {...(isSel ? { 'data-sel': '' } : {})}
-                          cx={center.x}
-                          cy={center.y}
-                          r={isAtual ? 12 : 8}
-                          fill={isAtual ? ATUAL_BLUE : 'color-mix(in srgb,var(--accent) 45%,transparent)'}
-                          stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
-                          strokeWidth={isAtual || isSel ? 2.5 : 1.5}
-                          vectorEffect="non-scaling-stroke"
-                          style={glow}
-                        >
-                          {titleText ? <title>{titleText}</title> : null}
-                        </circle>
-                      )
-                    }
-                    // PARADA: hex marcador proeminente (sem rótulo)
+                    // raio: ATUAL > PARADA (bolinha média) > CAMINHO (menor)
+                    const r = isAtual ? 12 : parada ? 8 : 5
                     return (
-                      <polygon
+                      <circle
                         key={h.id}
                         data-hex={h.id}
                         data-col={h.col}
                         data-row={h.row}
                         {...(isAtual ? { 'data-atual': '' } : {})}
                         {...(isSel ? { 'data-sel': '' } : {})}
-                        data-parada-mapa=""
-                        points={atlasHexPolygonPoints(h.col, h.row)}
-                        fill={isAtual ? `color-mix(in srgb,${ATUAL_BLUE} 55%,transparent)` : hexFill(false, true)}
+                        {...(parada ? { 'data-parada-mapa': '' } : {})}
+                        cx={center.x}
+                        cy={center.y}
+                        r={r}
+                        fill={
+                          isAtual
+                            ? ATUAL_BLUE
+                            : parada
+                              ? 'color-mix(in srgb,var(--accent) 60%,transparent)'
+                              : 'color-mix(in srgb,var(--accent) 40%,transparent)'
+                        }
                         stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
-                        strokeWidth={isAtual || isSel ? 2.5 : 2}
+                        strokeWidth={isAtual || isSel ? 2.5 : 1.5}
                         vectorEffect="non-scaling-stroke"
                         style={glow}
                       >
                         {titleText ? <title>{titleText}</title> : null}
-                      </polygon>
+                      </circle>
                     )
                   })}
                   {/* Célula-alvo do token durante o arraste (#71) */}
@@ -1416,6 +1423,25 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
             >
               + ADICIONAR PARADA
             </button>
+          ) : null}
+
+          {/* Barra horizontal de INFO do hex clicado (mesma do /mapa) — o
+              LUGAR do hex em destaque + regiões que o englobam; clicar no chip
+              abre o doc (detalhes/RightBar). */}
+          {mapEntry && infoHex ? (
+            <HexInfoBar
+              cells={hexMap}
+              col={infoHex.col}
+              row={infoHex.row}
+              onOpenDoc={(id) => {
+                if (detail) detail.open({ kind: 'doc', id })
+                else {
+                  setInfoLocalId(id)
+                  setRightCollapsed(false)
+                }
+              }}
+              onClose={() => setInfoHex(null)}
+            />
           ) : null}
         </div>
 

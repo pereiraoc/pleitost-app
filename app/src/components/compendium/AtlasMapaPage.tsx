@@ -64,6 +64,7 @@ import {
 import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
 import { buildAtlasIndex } from '../../data/atlas-nav'
 import { useDocs } from '../../data/useDoc'
+import { HexInfoBar } from '../../map/HexInfoBar'
 
 /** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
 export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
@@ -167,16 +168,6 @@ export function AtlasMapaPage() {
   // que existe ali, como no mapa da exploração.
   const hexMap = useHexMap(MAPA_MUNDO_ID)
   const [hexSel, setHexSel] = useState<AtlasHexCell | null>(null)
-  const celSel = hexSel ? cellAt(hexMap.cells, hexSel.col, hexSel.row) : null
-  const areasSel = hexSel ? areasAt(hexMap.cells, hexSel.col, hexSel.row) : []
-  // Docs do hex selecionado (nome/tipo reais — nada de label inventado).
-  const idsSel = useMemo(() => {
-    const ids: string[] = []
-    if (celSel?.localId) ids.push(celSel.localId)
-    for (const a of areasSel) if (!ids.includes(a)) ids.push(a)
-    return ids
-  }, [celSel, areasSel])
-  const docsSel = useDocs(idsSel)
 
   // ── Autoria (Modo Mestre) ────────────────────────────────────────────────
   const [modo, setModo] = useState<ModoMestre>('nav')
@@ -467,102 +458,18 @@ export function AtlasMapaPage() {
           </div>
         )}
         <MapControls map={map} />
-        {/* Barra de INFO do hex — feedback do mestre: PRIMEIRO o que está
-            NESTE hex específico (ex.: a cidade que mora só ali), na COR DE
-            DESTAQUE do app, e as áreas/região que englobam o hex num grupo
-            separado — pra bater o olho e saber o que é do hex.
-            Clique em região desabilitada nunca chega aqui. */}
-        {hexSel && (celSel?.localId || areasSel.length > 0) ? (
-          <div
-            data-hex-info=""
-            style={{
-              position: 'absolute',
-              left: 10,
-              right: 10,
-              bottom: 10,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              flexWrap: 'wrap',
-              padding: '10px 14px',
-              background: 'color-mix(in srgb,var(--panel) 92%,transparent)',
-              border: '1px solid var(--line2)',
-              clipPath: clip(10),
-              backdropFilter: 'blur(3px)',
-            }}
-          >
-            {(() => {
-              const chip = (id: string, destaque: boolean) => {
-                const d = docsSel?.get(id)
-                const nome = d?.basename ?? catalog.entryById.get(id)?.basename ?? id.split('/').pop()
-                const tipo = typeof d?.subtype === 'string' ? d.subtype : ''
-                return (
-                  <button
-                    key={id}
-                    data-hex-info-lugar={destaque ? '' : undefined}
-                    onClick={() => abrirDoc(id)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'baseline',
-                      gap: 7,
-                      padding: '5px 11px',
-                      background: 'var(--card)',
-                      border: destaque
-                        ? '1px solid color-mix(in srgb,var(--accent) 55%,var(--line2))'
-                        : '1px solid var(--line2)',
-                      color: destaque ? 'var(--accent)' : 'var(--blue)',
-                      cursor: 'pointer',
-                      clipPath: clip(6),
-                      fontSize: 13.5,
-                      fontWeight: destaque ? 700 : 600,
-                    }}
-                  >
-                    {nome}
-                    {tipo ? <span style={{ ...mono9, fontSize: 9 }}>{tipo.toUpperCase()}</span> : null}
-                  </button>
-                )
-              }
-              const lugar = celSel?.localId ?? null
-              const areas = areasSel.filter((a) => a !== lugar)
-              return (
-                <>
-                  {lugar ? (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ ...mono9, fontSize: 8.5, color: 'var(--accent)' }}>NESTE HEX</span>
-                      {chip(lugar, true)}
-                    </span>
-                  ) : null}
-                  {lugar && areas.length > 0 ? (
-                    <span
-                      aria-hidden
-                      style={{ alignSelf: 'stretch', borderLeft: '1px solid var(--line2)', margin: '0 4px' }}
-                    />
-                  ) : null}
-                  {areas.length > 0 ? (
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span style={{ ...mono9, fontSize: 8.5 }}>DENTRO DE</span>
-                      {areas.map((id) => chip(id, false))}
-                    </span>
-                  ) : null}
-                </>
-              )
-            })()}
-            <span style={{ flex: 1 }} />
-            <button
-              aria-label="Fechar info do hex"
-              onClick={() => setHexSel(null)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--muted)',
-                cursor: 'pointer',
-                fontSize: 15,
-                lineHeight: 1,
-              }}
-            >
-              ×
-            </button>
-          </div>
+        {/* Barra de INFO do hex — PRIMEIRO o que está NESTE hex (a cidade que
+            mora só ali, cor de destaque), depois as áreas/região que o
+            englobam. Componente compartilhado com a exploração dos grupos
+            (map/HexInfoBar). Clique em região desabilitada nunca chega aqui. */}
+        {hexSel ? (
+          <HexInfoBar
+            cells={hexMap.cells}
+            col={hexSel.col}
+            row={hexSel.row}
+            onOpenDoc={abrirDoc}
+            onClose={() => setHexSel(null)}
+          />
         ) : null}
       </div>
 
