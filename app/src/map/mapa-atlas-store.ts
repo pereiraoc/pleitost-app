@@ -21,6 +21,14 @@
 //     sessions.state (jsonb `mapaAtlas`, mesmo veículo da exploração #5) —
 //     conectado, o jogador lê o state; o local é a fonte do GM.
 import { useSyncExternalStore } from 'react'
+import {
+  ATLAS_GRID_H,
+  ATLAS_GRID_W,
+  ATLAS_HEX_HSTEP,
+  ATLAS_HEX_VSTEP,
+  atlasHexCenter,
+  atlasHexVertices,
+} from './atlas-grid'
 
 export interface MapaPonto {
   x: number
@@ -32,6 +40,10 @@ export interface MapaRegiao {
   nome: string
   /** Vértices do polígono em px da FONTE (ordem do desenho). */
   pontos: MapaPonto[]
+  /** Feedback do mestre ("marcar sempre hex inteiro"): true quando o contorno
+   *  já foi ALINHADO à grade (união dos hexes inteiros cujo centro caiu no
+   *  desenho). Região sem a flag é normalizada no load do mestre. */
+  hexAligned?: boolean
 }
 
 export interface MapaPin {
@@ -104,6 +116,7 @@ export function sanitize(raw: unknown): MapaAtlasState {
       id: r.id as string,
       nome: r.nome as string,
       pontos: (r.pontos as MapaPonto[]).map((p) => ({ x: p.x, y: p.y })),
+      ...(r.hexAligned === true ? { hexAligned: true as const } : {}),
     }))
   const pins = (Array.isArray(o.pins) ? o.pins : [])
     .map((p) => p as Record<string, unknown>)
@@ -153,14 +166,36 @@ function newId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`
 }
 
-/** Fecha um polígono desenhado como REGIÃO nomeada (≥3 vértices). */
+/** Fecha um polígono desenhado como REGIÃO nomeada (≥3 vértices). Feedback do
+ *  mestre: o contorno é ALINHADO à grade ("marcar sempre hex inteiro") — o
+ *  desenho livre vira a união dos hexes cujo centro caiu dentro dele. Se o
+ *  desenho não pegou nenhum hex, guarda o traço cru (sem flag). */
 export function addRegiao(nome: string, pontos: MapaPonto[]): MapaRegiao | null {
   const limpo = nome.trim()
   if (!limpo || pontos.length < 3) return null
   const cur = hydrate()
-  const regiao: MapaRegiao = { id: newId('regiao'), nome: limpo, pontos: [...pontos] }
+  const snap = snapPontosToHexes(pontos)
+  const regiao: MapaRegiao = snap
+    ? { id: newId('regiao'), nome: limpo, pontos: snap, hexAligned: true }
+    : { id: newId('regiao'), nome: limpo, pontos: [...pontos] }
   commit({ ...cur, regioes: [...cur.regioes, regiao] })
   return regiao
+}
+
+/** Normaliza regiões antigas (traço livre, sem hexAligned) pro contorno
+ *  hex-alinhado — roda uma vez no load do MESTRE; o push da mesa propaga. */
+export function normalizeRegioesToHex(): boolean {
+  const cur = hydrate()
+  let mudou = false
+  const regioes = cur.regioes.map((r) => {
+    if (r.hexAligned) return r
+    const snap = snapPontosToHexes(r.pontos)
+    if (!snap) return r
+    mudou = true
+    return { ...r, pontos: snap, hexAligned: true as const }
+  })
+  if (mudou) commit({ ...cur, regioes })
+  return mudou
 }
 
 export function removeRegiao(id: string): void {
@@ -197,6 +232,83 @@ export function setMapaAtlasFull(raw: unknown): void {
 /** Serialização canônica pro compare do sync (ordem de chaves estável). */
 export function mapaAtlasJson(s: MapaAtlasState): string {
   return JSON.stringify({ regioes: s.regioes, pins: s.pins, habilitadas: s.habilitadas })
+}
+
+// ── Snap do contorno à grade (feedback: "marcar sempre hex inteiro") ───────
+
+/** Chave canônica de um vértice (0.1px absorve o ruído de FP entre hexes
+ *  vizinhos, que computam o MESMO vértice a partir de centros diferentes). */
+const vk = (p: MapaPonto): string => `${p.x.toFixed(1)},${p.y.toFixed(1)}`
+
+/** Desenho livre → contorno da UNIÃO dos hexes inteiros cujo CENTRO caiu no
+ *  polígono: coleta as 6 arestas de cada hex incluído, descarta as
+ *  compartilhadas (aparecem 2×) e encadeia as de borda num anel. Componentes
+ *  desconexos/furos: fica o MAIOR anel (o desenho do mestre é um blob por
+ *  região). null quando nenhum hex foi pego (desenho menor que um hex). */
+export function snapPontosToHexes(pontos: MapaPonto[]): MapaPonto[] | null {
+  if (pontos.length < 3) return null
+  const desenho: MapaRegiao = { id: '~', nome: '~', pontos }
+  const xs = pontos.map((p) => p.x)
+  const ys = pontos.map((p) => p.y)
+  const c0 = Math.max(0, Math.floor((Math.min(...xs) - ATLAS_HEX_HSTEP) / ATLAS_HEX_HSTEP))
+  const c1 = Math.ceil((Math.max(...xs) + ATLAS_HEX_HSTEP) / ATLAS_HEX_HSTEP)
+  const r0 = Math.max(0, Math.floor((Math.min(...ys) - ATLAS_HEX_VSTEP) / ATLAS_HEX_VSTEP))
+  const r1 = Math.ceil((Math.max(...ys) + ATLAS_HEX_VSTEP) / ATLAS_HEX_VSTEP)
+
+  // Arestas de borda: conta por chave não-direcionada; interna aparece 2×.
+  const edges = new Map<string, { a: MapaPonto; b: MapaPonto; n: number }>()
+  let pegou = false
+  for (let c = c0; c <= c1; c++) {
+    for (let r = r0; r <= r1; r++) {
+      const centro = atlasHexCenter(c, r)
+      if (centro.x < 0 || centro.y < 0 || centro.x > ATLAS_GRID_W || centro.y > ATLAS_GRID_H) continue
+      if (!pontoNaRegiao(centro, desenho)) continue
+      pegou = true
+      const vs = atlasHexVertices(c, r)
+      for (let k = 0; k < 6; k++) {
+        const a = vs[k]!
+        const b = vs[(k + 1) % 6]!
+        const key = [vk(a), vk(b)].sort().join('|')
+        const cur = edges.get(key)
+        if (cur) cur.n++
+        else edges.set(key, { a, b, n: 1 })
+      }
+    }
+  }
+  if (!pegou) return null
+
+  // Encadeia as arestas de borda (n=1) em anéis; devolve o maior.
+  const borda = [...edges.values()].filter((e) => e.n === 1)
+  const porVertice = new Map<string, Array<{ a: MapaPonto; b: MapaPonto }>>()
+  for (const e of borda) {
+    for (const key of [vk(e.a), vk(e.b)]) {
+      const list = porVertice.get(key) ?? []
+      list.push(e)
+      porVertice.set(key, list)
+    }
+  }
+  const usadas = new Set<{ a: MapaPonto; b: MapaPonto }>()
+  let melhor: MapaPonto[] = []
+  for (const inicio of borda) {
+    if (usadas.has(inicio)) continue
+    const anel: MapaPonto[] = [inicio.a]
+    usadas.add(inicio)
+    let atual = inicio.b
+    // guarda de laço: nunca mais passos que arestas de borda
+    for (let passos = 0; passos < borda.length; passos++) {
+      anel.push(atual)
+      if (vk(atual) === vk(anel[0]!)) break
+      const proxima = (porVertice.get(vk(atual)) ?? []).find((e) => !usadas.has(e))
+      if (!proxima) break
+      usadas.add(proxima)
+      atual = vk(proxima.a) === vk(atual) ? proxima.b : proxima.a
+    }
+    if (anel.length > melhor.length) melhor = anel
+  }
+  if (melhor.length < 3) return null
+  // remove o vértice repetido do fechamento e arredonda (0.1px)
+  const fechado = vk(melhor[0]!) === vk(melhor[melhor.length - 1]!) ? melhor.slice(0, -1) : melhor
+  return fechado.map((p) => ({ x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 }))
 }
 
 // ── Consulta de gating ─────────────────────────────────────────────────────

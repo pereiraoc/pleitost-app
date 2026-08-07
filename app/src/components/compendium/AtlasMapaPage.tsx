@@ -32,7 +32,9 @@ import {
   addPin,
   addRegiao,
   mapaAtlasJson,
+  normalizeRegioesToHex,
   pinVisivel,
+  pontoNaRegiao,
   regioesDesabilitadas,
   removePin,
   removeRegiao,
@@ -41,6 +43,16 @@ import {
   useMapaAtlas,
   type MapaPonto,
 } from '../../map/mapa-atlas-store'
+import {
+  atlasFracToHex,
+  atlasHexCenter,
+  atlasHexPolygonPoints,
+  type AtlasHexCell,
+} from '../../map/atlas-grid'
+import { useHexMap } from '../../data/useHexMap'
+import { areasAt, cellAt } from '../../data/hexmap-store'
+import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
+import { useDocs } from '../../data/useDoc'
 
 /** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
 export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
@@ -115,6 +127,29 @@ export function AtlasMapaPage() {
     [cfg, viewerGrupo],
   )
 
+  // Feedback do mestre ("marcar sempre hex inteiro"): regiões desenhadas a
+  // traço livre são normalizadas UMA vez pro contorno hex-alinhado no load do
+  // mestre; o push da mesa propaga o resultado.
+  useEffect(() => {
+    if (mestre) normalizeRegioesToHex()
+  }, [mestre])
+
+  // #420: HEXMAP do mundo — o mapeamento do Mundo Livre (lugares + áreas)
+  // portado pela grade calibrada (seed mapa:mundo). Clique num hex mostra o
+  // que existe ali, como no mapa da exploração.
+  const hexMap = useHexMap(MAPA_MUNDO_ID)
+  const [hexSel, setHexSel] = useState<AtlasHexCell | null>(null)
+  const celSel = hexSel ? cellAt(hexMap.cells, hexSel.col, hexSel.row) : null
+  const areasSel = hexSel ? areasAt(hexMap.cells, hexSel.col, hexSel.row) : []
+  // Docs do hex selecionado (nome/tipo reais — nada de label inventado).
+  const idsSel = useMemo(() => {
+    const ids: string[] = []
+    if (celSel?.localId) ids.push(celSel.localId)
+    for (const a of areasSel) if (!ids.includes(a)) ids.push(a)
+    return ids
+  }, [celSel, areasSel])
+  const docsSel = useDocs(idsSel)
+
   // ── Autoria (Modo Mestre) ────────────────────────────────────────────────
   const [modo, setModo] = useState<ModoMestre>('nav')
   const [vertices, setVertices] = useState<MapaPonto[]>([])
@@ -152,12 +187,28 @@ export function AtlasMapaPage() {
   /** Clique no mapa em px da FONTE (suprimido após arraste/pinça). */
   const onMapClick = (e: React.MouseEvent) => {
     if (map.consumeMoved()) return
-    if (!mestre || modo === 'nav') return
     const f = map.fracAtClient(e.clientX, e.clientY)
     if (!f) return
     const p = { x: Math.round(f.fx * ATLAS_MAPA_W), y: Math.round(f.fy * ATLAS_MAPA_H) }
-    if (modo === 'regiao') setVertices((v) => [...v, p])
-    else if (modo === 'pin') setPinPendente(p)
+    if (mestre && modo === 'regiao') {
+      setVertices((v) => [...v, p])
+      return
+    }
+    if (mestre && modo === 'pin') {
+      setPinPendente(p)
+      return
+    }
+    // Modo navegação: clique abre a INFO do hex ("ver a respeito de cada
+    // hex") — exceto em região DESABILITADA: nada clicável/sem informação.
+    const hex = atlasFracToHex(f.fx, f.fy)
+    const centro = atlasHexCenter(hex.col, hex.row)
+    if (desabilitadas.some((r) => pontoNaRegiao(centro, r))) {
+      setHexSel(null)
+      return
+    }
+    const cel = cellAt(hexMap.cells, hex.col, hex.row)
+    const areas = areasAt(hexMap.cells, hex.col, hex.row)
+    setHexSel(cel || areas.length ? hex : null)
   }
 
   const concluirRegiao = () => {
@@ -270,21 +321,32 @@ export function AtlasMapaPage() {
                     />
                   </>
                 ) : null}
-                {/* Contornos das regiões — SÓ no Modo Mestre (autoria). */}
+                {/* Contornos das regiões — SÓ no Modo Mestre (autoria).
+                    Feedback do mestre: borda QUASE TRANSPARENTE (sem cor de
+                    destaque) — o contorno hex-alinhado já se apoia na malha. */}
                 {mestre
                   ? cfg.regioes.map((r) => (
                       <polygon
                         key={r.id}
                         points={r.pontos.map((p) => `${p.x},${p.y}`).join(' ')}
                         fill="none"
-                        stroke="var(--accent)"
-                        strokeWidth={8}
-                        strokeDasharray="24 16"
-                        opacity={0.8}
+                        stroke="rgba(120,120,120,0.18)"
+                        strokeWidth={4}
                         style={{ pointerEvents: 'none' }}
                       />
                     ))
                   : null}
+                {/* Hex SELECIONADO (info aberta) — realce discreto. */}
+                {hexSel ? (
+                  <polygon
+                    data-hex-selecionado=""
+                    points={atlasHexPolygonPoints(hexSel.col, hexSel.row)}
+                    fill="color-mix(in srgb,var(--accent) 22%,transparent)"
+                    stroke="var(--accent)"
+                    strokeWidth={4}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                ) : null}
                 {/* Polígono EM DESENHO (modo região). */}
                 {mestre && vertices.length > 0 ? (
                   <polyline
@@ -331,6 +393,71 @@ export function AtlasMapaPage() {
           </div>
         )}
         <MapControls map={map} />
+        {/* Barra de INFO do hex — o que existe ali (lugar + áreas), como no
+            mapa da exploração; clique em região desabilitada nunca chega aqui. */}
+        {hexSel && (celSel?.localId || areasSel.length > 0) ? (
+          <div
+            data-hex-info=""
+            style={{
+              position: 'absolute',
+              left: 10,
+              right: 10,
+              bottom: 10,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              flexWrap: 'wrap',
+              padding: '10px 14px',
+              background: 'color-mix(in srgb,var(--panel) 92%,transparent)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(10),
+              backdropFilter: 'blur(3px)',
+            }}
+          >
+            {idsSel.map((id) => {
+              const d = docsSel?.get(id)
+              const nome = d?.basename ?? catalog.entryById.get(id)?.basename ?? id.split('/').pop()
+              const tipo = typeof d?.subtype === 'string' ? d.subtype : ''
+              return (
+                <button
+                  key={id}
+                  onClick={() => navigate(docPath(id))}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'baseline',
+                    gap: 7,
+                    padding: '5px 11px',
+                    background: 'var(--card)',
+                    border: '1px solid var(--line2)',
+                    color: 'var(--blue)',
+                    cursor: 'pointer',
+                    clipPath: clip(6),
+                    fontSize: 13.5,
+                    fontWeight: 600,
+                  }}
+                >
+                  {nome}
+                  {tipo ? <span style={{ ...mono9, fontSize: 9 }}>{tipo.toUpperCase()}</span> : null}
+                </button>
+              )
+            })}
+            <span style={{ flex: 1 }} />
+            <button
+              aria-label="Fechar info do hex"
+              onClick={() => setHexSel(null)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                fontSize: 15,
+                lineHeight: 1,
+              }}
+            >
+              ×
+            </button>
+          </div>
+        ) : null}
       </div>
 
       {/* ── Painel do MESTRE: marcar regiões/lugares + habilitação por grupo ── */}
