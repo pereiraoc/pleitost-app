@@ -85,7 +85,11 @@ import {
   vistaCrop,
   vistaGridPath,
 } from '../map/mapa-vistas'
-import { useMapaAtlas } from '../map/mapa-atlas-store'
+import {
+  regioesDesabilitadas,
+  setRegioesHabilitadasGrupo,
+  useMapaAtlas,
+} from '../map/mapa-atlas-store'
 import { sectionTitleStyle } from './panel-ui'
 
 /** Cor do ponto/token ATUAL do grupo — AZUL (destaca de tudo que é accent). */
@@ -854,7 +858,17 @@ function LeftBar({
 /** `readOnly` (pedido do usuário, follow-up #379 r2): fora da MESA CONECTADA o
  *  caminho é SOMENTE LEITURA — a trilha é sincronizada com o session state
  *  (remoto = fonte de verdade) e edição offline seria sobrescrita no pull. */
-export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOnly?: boolean }) {
+export function PanelExploracao({
+  groupId,
+  readOnly,
+  gatingKey,
+}: {
+  groupId: string
+  readOnly?: boolean
+  /** Chave de habilitação de regiões deste grupo/sessão (= o que o jogador
+   *  resolve como viewer). Só o MESTRE edita, na ficha do grupo. */
+  gatingKey?: string
+}) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const state = useSyncExternalStore(
@@ -1127,6 +1141,11 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
         {/* O botão de adicionar parada vive no RODAPÉ da barra de CAMINHO
             (visível em tela cheia) — não mais aqui no cabeçalho (#82). */}
       </div>
+
+      {/* #40/#41 — GATING por grupo (mestre-only): quais regiões os JOGADORES
+          deste grupo/sessão podem ver no Atlas. Padrão = só Mundo Livre
+          (anti-spoiler); o mestre libera Magna Pátria/Pátria Aurora aqui. */}
+      {mestre && gatingKey ? <GatingRegioes grupoKey={gatingKey} /> : null}
 
       {/* Layout: barra esquerda (caminho) · mapa · barra direita (info).
           Em tela cheia (#80) a LINHA inteira vira overlay — as barras vão
@@ -1490,6 +1509,70 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
           )
         : null}
     </TipProvider>
+  )
+}
+
+/** Controle de VISIBILIDADE das regiões do Atlas pros jogadores deste grupo
+ *  (#41). Opera sobre o set EFETIVO (herdado do DEFAULT_VIEWER quando o grupo
+ *  não tem config), pra habilitar Magna Pátria não derrubar o Mundo Livre.
+ *  "Mundo Completo" = todas as regiões de uma vez. */
+function GatingRegioes({ grupoKey }: { grupoKey: string }) {
+  const cfg = useMapaAtlas()
+  if (cfg.regioes.length === 0) return null
+  // set efetivo: config própria do grupo OU o baseline herdado (Mundo Livre)
+  const desabilitadas = new Set(regioesDesabilitadas(cfg, grupoKey).map((r) => r.id))
+  const habilitada = (id: string) => !desabilitadas.has(id)
+  const todas = cfg.regioes.every((r) => habilitada(r.id))
+  const setTudo = (on: boolean) =>
+    setRegioesHabilitadasGrupo(grupoKey, on ? cfg.regioes.map((r) => r.id) : [])
+  const toggle = (id: string) => {
+    const next = new Set(cfg.regioes.filter((r) => habilitada(r.id)).map((r) => r.id))
+    if (next.has(id)) next.delete(id)
+    else next.add(id)
+    setRegioesHabilitadasGrupo(grupoKey, [...next])
+  }
+  const chkStyle: CSSProperties = { display: 'flex', alignItems: 'center', gap: 7, cursor: 'pointer', fontSize: 13 }
+  return (
+    <section
+      data-gating-grupo=""
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        padding: '12px 14px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(10),
+      }}
+    >
+      <div style={sectionTitleStyle}>{'// MAPAS VISÍVEIS PRO GRUPO'}</div>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' }}>
+        os jogadores deste grupo só veem no Atlas as regiões marcadas aqui (padrão: só Mundo Livre)
+      </span>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+        <label style={{ ...chkStyle, fontWeight: 700 }}>
+          <input
+            type="checkbox"
+            aria-label="Mundo Completo (todas as regiões)"
+            checked={todas}
+            onChange={(e) => setTudo(e.target.checked)}
+          />
+          Mundo Completo
+        </label>
+        <span aria-hidden style={{ borderLeft: '1px solid var(--line2)', alignSelf: 'stretch' }} />
+        {cfg.regioes.map((r) => (
+          <label key={r.id} style={chkStyle}>
+            <input
+              type="checkbox"
+              aria-label={`Habilitar ${r.nome}`}
+              checked={habilitada(r.id)}
+                onChange={() => toggle(r.id)}
+            />
+            {r.nome}
+          </label>
+        ))}
+      </div>
+    </section>
   )
 }
 

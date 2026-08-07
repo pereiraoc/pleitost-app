@@ -324,19 +324,37 @@ describe('#424 — seed embarcado: o mapa do mestre é o PADRÃO de todo viewer'
     expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
   })
 
-  it('#36 seed NÃO habilita nada por default — mestre habilita manual por grupo', () => {
+  it('#40 anti-spoiler: default = SÓ Mundo Livre; grupo sem config HERDA o default', () => {
     __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
     __resetMapaAtlasForTests()
     const s = getMapaAtlas()
-    // controle do mestre: TODAS as regiões desabilitadas de saída
-    expect(s.habilitadas).toEqual({})
+    // baseline embarcado: só Mundo Livre habilitada pro DEFAULT_VIEWER
+    expect(s.habilitadas).toEqual({ default: ['regiao-f3497878'] })
+    // DEFAULT_VIEWER e QUALQUER grupo sem config próprio veem só Mundo Livre —
+    // Magna Pátria e Pátria Aurora ficam desabilitadas (cobertas). Sem spoiler.
     for (const grupo of [DEFAULT_VIEWER, 'grupo-qualquer']) {
       expect(regioesDesabilitadas(s, grupo).map((r) => r.nome).sort()).toEqual([
         'Magna Pátria',
-        'Mundo Livre',
         'Pátria Aurora',
       ])
     }
+  })
+
+  it('#40 grupo COM habilitação própria NÃO herda o default (usa o próprio set)', () => {
+    __setSeedMapaAtlasForTests(SEED_MAPA_ATLAS)
+    __resetMapaAtlasForTests()
+    // GM libera Magna Pátria (só) pro grupo-x → ele vê Magna Pátria, não Mundo Livre
+    toggleRegiaoHabilitada('grupo-x', 'regiao-e5e8309d')
+    const s = getMapaAtlas()
+    expect(regioesDesabilitadas(s, 'grupo-x').map((r) => r.nome).sort()).toEqual([
+      'Mundo Livre',
+      'Pátria Aurora',
+    ])
+    // grupo sem config segue no default (só Mundo Livre)
+    expect(regioesDesabilitadas(s, 'grupo-y').map((r) => r.nome).sort()).toEqual([
+      'Magna Pátria',
+      'Pátria Aurora',
+    ])
   })
 
   it('mestre com SEED carregado (sem edição própria) NÃO empurra pra mesa', async () => {

@@ -284,6 +284,16 @@ export function toggleRegiaoHabilitada(grupoId: string, regiaoId: string): void 
   commit({ ...cur, habilitadas: { ...cur.habilitadas, [grupoId]: next } })
 }
 
+/** Grava o conjunto COMPLETO de regiões habilitadas de um grupo. Usado pelo
+ *  controle da ficha do grupo, que opera sobre o set EFETIVO (herdado do
+ *  DEFAULT_VIEWER quando o grupo não tem config) — assim habilitar Magna Pátria
+ *  num grupo que herdava Mundo Livre NÃO derruba o Mundo Livre. */
+export function setRegioesHabilitadasGrupo(grupoId: string, regiaoIds: string[]): void {
+  const cur = hydrate()
+  const next = [...new Set(regiaoIds)]
+  commit({ ...cur, habilitadas: { ...cur.habilitadas, [grupoId]: next } })
+}
+
 /** Aplica um estado COMPLETO (pull do state da sessão — remoto do GM). */
 export function setMapaAtlasFull(raw: unknown): void {
   commit(sanitize(raw))
@@ -408,11 +418,15 @@ export function pontoNaRegiao(p: MapaPonto, regiao: MapaRegiao): boolean {
 }
 
 /** Regiões DESABILITADAS pro viewer (grupoId resolvido ou DEFAULT_VIEWER).
- *  Sem nenhuma região marcada, nada é coberto (mapa aberto — fase 1). */
+ *  ANTI-SPOILER: um grupo SEM habilitação própria HERDA o baseline do
+ *  DEFAULT_VIEWER (padrão embarcado: só Mundo Livre) — sem config explícita do
+ *  mestre, o jogador NÃO vê Magna Pátria/Pátria Aurora. Habilitação vazia
+ *  EXPLÍCITA (`habilitadas[grupo] = []`) esconde tudo (escolha do mestre). */
 export function regioesDesabilitadas(state: MapaAtlasState, grupoId: string | null): MapaRegiao[] {
   if (state.regioes.length === 0) return []
-  const habilitadas = new Set(state.habilitadas[grupoId ?? DEFAULT_VIEWER] ?? [])
-  return state.regioes.filter((r) => !habilitadas.has(r.id))
+  const key = grupoId ?? DEFAULT_VIEWER
+  const enabled = new Set(state.habilitadas[key] ?? state.habilitadas[DEFAULT_VIEWER] ?? [])
+  return state.regioes.filter((r) => !enabled.has(r.id))
 }
 
 /** Célula pertence a alguma região da lista? (membership por CÉLULA — a

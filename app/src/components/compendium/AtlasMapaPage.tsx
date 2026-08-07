@@ -14,7 +14,7 @@
 // o MESTRE empurra a cada mudança; o jogador conectado LÊ o state direto no
 // render (nunca grava — GM é o único autor, sem loop de merge).
 // A vault não é tocada.
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAssetIndex, assetUrl, resolveAsset } from '../../data/assets'
 import { useCatalog } from '../../data/CatalogContext'
@@ -22,8 +22,6 @@ import { docPath } from '../../paths'
 import { LOCALIZACAO_TYPE } from '../../data/atlas-nav'
 import { localEntriesOfKind } from '../../data/local-entities'
 import { useSettings } from '../../settings'
-import { useLiveSession } from '../../data/session-repo/live-session'
-import { useSessionRepo } from '../../data/session-repo/provider'
 import { useMesaGrupoPersistenteId } from '../../grupo/use-mesa-group-image'
 import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
@@ -31,19 +29,14 @@ import {
   DEFAULT_VIEWER,
   addRegiao,
   hexEmRegioes,
-  mapaAtlasFoiEditadoLocalmente,
-  setMapaAtlasFull,
-  mapaAtlasJson,
   normalizeRegioesToHex,
   outlineRingsFromCells,
   pinVisivel,
   regioesDesabilitadas,
   removePin,
   removeRegiao,
-  sanitize,
   toggleRegiaoHabilitada,
   toggleRegiaoHex,
-  useMapaAtlas,
   type MapaPonto,
 } from '../../map/mapa-atlas-store'
 import { useDetail } from '../../data/detail-context'
@@ -66,6 +59,7 @@ import { buildAtlasIndex } from '../../data/atlas-nav'
 import { useDocs } from '../../data/useDoc'
 import { HexInfoBar } from '../../map/HexInfoBar'
 import { useHexMapMundoSync } from '../../map/use-hexmapmundo-sync'
+import { useMapaAtlasSync } from '../../map/use-mapaatlas-sync'
 
 /** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
 export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
@@ -110,43 +104,11 @@ export function AtlasMapaPage() {
   const navigate = useNavigate()
   const map = useMapView()
   const { mestre } = useSettings()
-  const live = useLiveSession()
-  const repo = useSessionRepo()
   const grupoMesa = useMesaGrupoPersistenteId()
-  const local = useMapaAtlas()
 
-  // Jogador conectado lê o state da MESA (autor = GM); mestre/offline usa o
-  // local. Nunca gravamos o remoto no store local — sem loop de merge.
-  const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas']
-  const cfg = useMemo(() => (!mestre && remoto ? sanitize(remoto) : local), [mestre, remoto, local])
-
-  // #423/#424: ADOÇÃO — mestre em aparelho SEM edição própria (o raw local não
-  // existe; o seed embarcado não conta) importa o mapa da MESA uma vez — a
-  // mesa é sempre mais fresca que o seed. Depois da adoção, o local é o autor.
-  useEffect(() => {
-    if (!mestre || !remoto || mapaAtlasFoiEditadoLocalmente()) return
-    const r = sanitize(remoto)
-    if (r.regioes.length > 0 || r.pins.length > 0) setMapaAtlasFull(r)
-  }, [mestre, remoto])
-
-  // MESTRE conectado EMPURRA o blob a cada mudança local (veículo da
-  // exploração #5: sessions.state jsonb; updateSessionState mescla top-level).
-  // #423/#424: só empurra estado EDITADO NESTE aparelho — seed carregado sem
-  // edição nunca sobrescreve a mesa (que pode estar mais nova), e local vazio
-  // nunca apaga mesa com conteúdo.
-  const pushedRef = useRef('')
-  useEffect(() => {
-    if (!mestre || !repo || !live?.sessionId) return
-    if (!mapaAtlasFoiEditadoLocalmente()) return
-    if (local.regioes.length === 0 && local.pins.length === 0) {
-      const r = remoto ? sanitize(remoto) : null
-      if (r && (r.regioes.length > 0 || r.pins.length > 0)) return
-    }
-    const json = mapaAtlasJson(local)
-    if (json === pushedRef.current) return
-    pushedRef.current = json
-    void repo.updateSessionState(live.sessionId, { mapaAtlas: JSON.parse(json) }).catch(() => {})
-  }, [mestre, repo, live?.sessionId, local, remoto])
+  // Adoção + push do mapaAtlas com a mesa (hook compartilhado com a ficha do
+  // grupo). `cfg` = jogador conectado lê a mesa; mestre/offline usa o local.
+  const { cfg } = useMapaAtlasSync(mestre)
 
   // Viewer do gating: mestre PREVIEW por seletor; jogador = grupo persistente
   // da mesa; sem grupo → DEFAULT_VIEWER ("(sem grupo)").

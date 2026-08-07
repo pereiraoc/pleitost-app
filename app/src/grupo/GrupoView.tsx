@@ -25,6 +25,8 @@ import { useSessionRepo } from '../data/session-repo/provider'
 import { useSessions } from '../data/session-store'
 import { pushLog } from '../data/debug-log'
 import { useSettings } from '../settings'
+import { DEFAULT_VIEWER } from '../map/mapa-atlas-store'
+import { useMapaAtlasSync } from '../map/use-mapaatlas-sync'
 import { useAssetIndex } from '../data/assets'
 import { useDoc, useDocs } from '../data/useDoc'
 import {
@@ -630,6 +632,10 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const exploId = isMesa
     ? (grupoPersistenteId ?? (live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId))
     : groupId
+  // #41 chave do GATING de regiões deste grupo — DEVE bater com o que o jogador
+  // resolve como viewer (AtlasMapaPage: grupoPersistente ?? DEFAULT_VIEWER).
+  // Mesa: o grupo persistente; ficha de grupo da vault: o próprio groupId.
+  const gatingKey = isMesa ? (grupoPersistenteId ?? DEFAULT_VIEWER) : groupId
   // Migrações (uma vez, ao abrir a mesa; nunca sobrescrevem destino com dados):
   // legado constante → exploId; escopo por sessão → grupo persistente. Se o
   // destino JÁ tem trilha, o sync #5 abaixo converge pro remoto (fonte de
@@ -737,6 +743,9 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // sessão só deixa o GM escrever; sem o gate, um jogador comum tentava e falhava
   // em silêncio). Decisão do usuário: gate pelo Modo Mestre, não pelo gmUserId.
   const { mestre } = useSettings()
+  // #41: adoção/push do mapaAtlas (regiões + gating por grupo) da mesa também
+  // rodam na ficha do grupo — o mestre edita a habilitação aqui e propaga.
+  useMapaAtlasSync(mestre)
   const imageUrl = isMesa
     ? mesaImage
     : (localImage ?? resolveGroupImageUrl(groupDoc, entry?.basename, assets))
@@ -1017,7 +1026,12 @@ export function GrupoView({ groupId }: { groupId: string }) {
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
         <TrackPanel pad="0">
-          <PanelExploracao key={exploId} groupId={exploId} readOnly={exploReadOnly} />
+          <PanelExploracao
+            key={exploId}
+            groupId={exploId}
+            readOnly={exploReadOnly}
+            gatingKey={gatingKey}
+          />
         </TrackPanel>
         <TrackPanel pad="0">
           <PanelInventario groupId={groupId} />
