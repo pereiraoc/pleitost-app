@@ -934,6 +934,32 @@ describe('mapa do grupo — realce enxuto + bolinhas + barra de info embaixo', (
     expect(Number(caminho.getAttribute('r'))).toBeLessThan(Number(parada.getAttribute('r')))
   })
 
+  it('#37 popover NÃO pede LOCAL quando o hex já mapeia um lugar (mapa:mundo)', async () => {
+    // o mestre já definiu o lugar NO MAPA (célula → Krasnogor); a parada ali
+    // não deve pedir pra selecionar local de novo (report: "não faz sentido")
+    setHexLocal(MAPA_MUNDO_ID, 47, 9, KRASNOGOR_ID)
+    const p = addGroupHex(GROUP_ID, { col: 47, row: 9, kind: 'parada' })
+    // parada num hex SEM lugar mapeado (trap) — criada antes do render
+    const q = addGroupHex(GROUP_ID, { col: 60, row: 30, kind: 'parada', label: 'acampamento' })
+    const { container } = renderGroup()
+    await esperaMapa(container)
+    // abre o popover clicando na linha da parada (lista do caminho)
+    const bar = container.querySelector('[data-caminho-bar]') as HTMLElement
+    fireEvent.click(bar.querySelector(`[data-parada="${p.id}"]`) as HTMLElement)
+    const info = container.querySelector('[data-hex-info][data-popover]') as HTMLElement
+    expect(info).toBeTruthy()
+    // nome do lugar + ABRIR DOC presentes; dropdown LOCAL editável ausente,
+    // no lugar dele o lugar DEFINIDO NO MAPA (read-only)
+    expect(within(info).getAllByText('Krasnogor').length).toBeGreaterThan(0)
+    expect(within(info).getByText('ABRIR DOC')).toBeTruthy()
+    expect(within(info).queryByLabelText('LOCAL')).toBeNull()
+    expect(within(info).getByText('LOCAL (DEFINIDO NO MAPA)')).toBeTruthy()
+    // trap: parada num hex SEM lugar mapeado ainda oferece o dropdown
+    fireEvent.click(bar.querySelector(`[data-parada="${q.id}"]`) as HTMLElement)
+    const info2 = container.querySelector('[data-hex-info][data-popover]') as HTMLElement
+    expect(within(info2).getByLabelText('LOCAL')).toBeTruthy()
+  })
+
   it('clicar num LUGAR abre a barra horizontal embaixo (data-hex-info) e marca o hex', async () => {
     const cell = cropFracToHex(0.4, 0.55)
     setHexLocal(MAPA_MUNDO_ID, cell.col, cell.row, KRASNOGOR_ID)

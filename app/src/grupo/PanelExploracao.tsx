@@ -1509,9 +1509,16 @@ function HexInfo({
   // #214: MESMA resolução da lista (hexLabel) — a célula mapeada do mapa
   // (Safira etc.) dá o nome mesmo quando o GroupHex não carimbou localId.
   const nome = hexLabel(hex, hexMap, catalog)
+  // #37 (report 695a288f): o LUGAR já pode estar DEFINIDO NO MAPA (o mestre
+  // pintou a célula em mapa:mundo). Nesse caso o lugar do hex já é conhecido —
+  // pedir pra selecionar de novo "não faz sentido". O dropdown LOCAL só faz
+  // sentido pra hex SEM lugar mapeado (associação manual, legado).
+  const lugarNoMapa = cellAt(hexMap, hex.col, hex.row)?.localId ?? null
+  const lugarResolvido = lugarNoMapa ?? hex.localId ?? null
   return (
     <div
       data-hex-info=""
+      data-popover=""
       style={{
         padding: '14px 16px',
         background: 'var(--panel)',
@@ -1528,9 +1535,9 @@ function HexInfo({
           <span style={{ ...pillStyle(false), cursor: 'default', padding: '3px 9px' }}>ATUAL</span>
         ) : null}
         <span style={{ flex: 1 }} />
-        {hex.localId ? (
+        {lugarResolvido ? (
           <Link
-            to={docPath(hex.localId)}
+            to={docPath(lugarResolvido)}
             style={{
               fontFamily: 'var(--mono)',
               fontSize: 10,
@@ -1585,21 +1592,41 @@ function HexInfo({
             style={inputStyle}
           />
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
-          <span style={fieldLabelStyle}>LOCAL</span>
-          <select
-            value={hex.localId ?? ''}
-            disabled={readOnly}
-            onChange={(e) => updateGroupHex(groupId, hex.id, { localId: e.target.value || undefined })}
-            style={inputStyle}
-          >
-            {lines.map((line, i) => (
-              <option key={i} value={line.value ?? ''} disabled={line.disabled}>
-                {line.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        {/* #37: só oferece o dropdown quando o hex NÃO tem lugar definido no
+            mapa. Com lugar mapeado, mostra-o como referência (sem pedir
+            seleção redundante). */}
+        {lugarNoMapa ? (
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
+            <span style={fieldLabelStyle}>LOCAL (DEFINIDO NO MAPA)</span>
+            <span
+              style={{
+                ...inputStyle,
+                display: 'inline-flex',
+                alignItems: 'center',
+                color: 'var(--text)',
+                background: 'color-mix(in srgb,var(--accent) 8%,var(--card))',
+              }}
+            >
+              {catalog.entryById.get(lugarNoMapa)?.basename ?? lugarNoMapa.split('/').pop()}
+            </span>
+          </label>
+        ) : (
+          <label style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 220 }}>
+            <span style={fieldLabelStyle}>LOCAL</span>
+            <select
+              value={hex.localId ?? ''}
+              disabled={readOnly}
+              onChange={(e) => updateGroupHex(groupId, hex.id, { localId: e.target.value || undefined })}
+              style={inputStyle}
+            >
+              {lines.map((line, i) => (
+                <option key={i} value={line.value ?? ''} disabled={line.disabled}>
+                  {line.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
       </div>
     </div>
   )
