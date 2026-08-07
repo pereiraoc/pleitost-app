@@ -8,7 +8,7 @@
 //     📍 define/MOVE o hex do lugar, ⬡ pinta/despinta a área (capacidades do
 //     editor do Mundo Livre, agora no mapa-múndi).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -162,6 +162,25 @@ describe('#425 — ATLAS NO MAPA: hierarquia com status e edição por item', ()
       expect(cellsByLocal(cells).get(KRASNOGOR)).toMatchObject({ col: 22, row: 16 })
       expect(cellAt(cells, 20, 16)?.localId).toBeUndefined()
     })
+  })
+
+  it('barra de info: lugar do hex DESTACADO (NESTE HEX, cor accent) separado das áreas', async () => {
+    // célula do seed que tem lugar E áreas — independente da geografia
+    const alvo = getHexMapState(MAPA_MUNDO_ID).cells.find((c) => c.localId && c.areaIds?.length)!
+    expect(alvo).toBeTruthy()
+    const { container } = renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    mockRectEClicaHex(container, alvo)
+    await waitFor(() => expect(container.querySelector('[data-hex-info]')).toBeTruthy())
+    const barra = within(container.querySelector('[data-hex-info]') as HTMLElement)
+    // grupo do hex específico: rótulo NESTE HEX + chip destacado com o lugar
+    expect(barra.getByText('NESTE HEX')).toBeTruthy()
+    const chip = container.querySelector('[data-hex-info-lugar]') as HTMLElement
+    expect(chip).toBeTruthy()
+    expect(chip.textContent).toContain(alvo.localId!.split('/').pop())
+    expect(chip.style.color).toBe('var(--accent)')
+    // grupo separado com as áreas/região que englobam o hex (rótulo DENTRO DE)
+    expect(barra.getByText('DENTRO DE')).toBeTruthy()
   })
 
   it('⬡ pinta e despinta hexes da área (toggle por toque)', async () => {

@@ -467,8 +467,11 @@ export function AtlasMapaPage() {
           </div>
         )}
         <MapControls map={map} />
-        {/* Barra de INFO do hex — o que existe ali (lugar + áreas), como no
-            mapa da exploração; clique em região desabilitada nunca chega aqui. */}
+        {/* Barra de INFO do hex — feedback do mestre: PRIMEIRO o que está
+            NESTE hex específico (ex.: a cidade que mora só ali), na COR DE
+            DESTAQUE do app, e as áreas/região que englobam o hex num grupo
+            separado — pra bater o olho e saber o que é do hex.
+            Clique em região desabilitada nunca chega aqui. */}
         {hexSel && (celSel?.localId || areasSel.length > 0) ? (
           <div
             data-hex-info=""
@@ -488,33 +491,62 @@ export function AtlasMapaPage() {
               backdropFilter: 'blur(3px)',
             }}
           >
-            {idsSel.map((id) => {
-              const d = docsSel?.get(id)
-              const nome = d?.basename ?? catalog.entryById.get(id)?.basename ?? id.split('/').pop()
-              const tipo = typeof d?.subtype === 'string' ? d.subtype : ''
+            {(() => {
+              const chip = (id: string, destaque: boolean) => {
+                const d = docsSel?.get(id)
+                const nome = d?.basename ?? catalog.entryById.get(id)?.basename ?? id.split('/').pop()
+                const tipo = typeof d?.subtype === 'string' ? d.subtype : ''
+                return (
+                  <button
+                    key={id}
+                    data-hex-info-lugar={destaque ? '' : undefined}
+                    onClick={() => abrirDoc(id)}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'baseline',
+                      gap: 7,
+                      padding: '5px 11px',
+                      background: 'var(--card)',
+                      border: destaque
+                        ? '1px solid color-mix(in srgb,var(--accent) 55%,var(--line2))'
+                        : '1px solid var(--line2)',
+                      color: destaque ? 'var(--accent)' : 'var(--blue)',
+                      cursor: 'pointer',
+                      clipPath: clip(6),
+                      fontSize: 13.5,
+                      fontWeight: destaque ? 700 : 600,
+                    }}
+                  >
+                    {nome}
+                    {tipo ? <span style={{ ...mono9, fontSize: 9 }}>{tipo.toUpperCase()}</span> : null}
+                  </button>
+                )
+              }
+              const lugar = celSel?.localId ?? null
+              const areas = areasSel.filter((a) => a !== lugar)
               return (
-                <button
-                  key={id}
-                  onClick={() => abrirDoc(id)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'baseline',
-                    gap: 7,
-                    padding: '5px 11px',
-                    background: 'var(--card)',
-                    border: '1px solid var(--line2)',
-                    color: 'var(--blue)',
-                    cursor: 'pointer',
-                    clipPath: clip(6),
-                    fontSize: 13.5,
-                    fontWeight: 600,
-                  }}
-                >
-                  {nome}
-                  {tipo ? <span style={{ ...mono9, fontSize: 9 }}>{tipo.toUpperCase()}</span> : null}
-                </button>
+                <>
+                  {lugar ? (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ ...mono9, fontSize: 8.5, color: 'var(--accent)' }}>NESTE HEX</span>
+                      {chip(lugar, true)}
+                    </span>
+                  ) : null}
+                  {lugar && areas.length > 0 ? (
+                    <span
+                      aria-hidden
+                      style={{ alignSelf: 'stretch', borderLeft: '1px solid var(--line2)', margin: '0 4px' }}
+                    />
+                  ) : null}
+                  {areas.length > 0 ? (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <span style={{ ...mono9, fontSize: 8.5 }}>DENTRO DE</span>
+                      {areas.map((id) => chip(id, false))}
+                    </span>
+                  ) : null}
+                </>
               )
-            })}
+            })()}
             <span style={{ flex: 1 }} />
             <button
               aria-label="Fechar info do hex"
