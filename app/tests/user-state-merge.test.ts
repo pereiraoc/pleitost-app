@@ -202,6 +202,20 @@ describe('mapas/caminhos versionados: NEWER-WINS por updatedAt (report c85c98cf)
     expect(added).toContain(MAPA)
   })
 
+  it('EMPATE sem carimbo (transição): NINGUÉM clobbera — mantém local, não sobe', async () => {
+    // regressão do data-loss: dois blobs SEM updatedAt (ambos 0) e conteúdo
+    // distinto não podem sobrescrever um ao outro no login.
+    const srv = fakeServer({ [MAPA]: JSON.stringify({ cells: [{ col: 9, row: 9 }] }) }) // sem updatedAt
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(MAPA, JSON.stringify({ cells: [{ col: 1, row: 1, localId: 'MEU' }] })) // sem updatedAt
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    // local intacto (não adotou o remoto) e NÃO subiu (não clobberou a conta)
+    expect(JSON.parse(window.localStorage.getItem(MAPA)!).cells[0].localId).toBe('MEU')
+    expect(added).not.toContain(MAPA)
+    expect(JSON.parse(srv.rows.get('u1')![MAPA]!).cells[0]).toMatchObject({ col: 9, row: 9 })
+  })
+
   it('pleitost.mapaAtlas (regiões) segue newer-wins — conta mais nova é adotada', async () => {
     const ATLAS = 'pleitost.mapaAtlas'
     const atlasBlob = (nomes: string[], updatedAt: string) =>

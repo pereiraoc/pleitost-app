@@ -116,11 +116,20 @@ export const mergeByUpdatedAt: CollectionMerger = (localRaw, remoteRaw) => {
   const localAt = updatedAtOf(localRaw)
   const remoteAt = updatedAtOf(remoteRaw)
   if (remoteAt > localAt) {
-    // conta tem a versão mais NOVA → adota (grava local + reload); não re-sobe
+    // conta tem a versão ESTRITAMENTE mais nova → adota (grava local + reload)
     return { value: remoteRaw, addedFromRemote: true, differsFromRemote: false }
   }
-  // local mais novo (ou empate com conteúdo distinto) → local vence e SOBE
-  return { value: localRaw, addedFromRemote: false, differsFromRemote: true }
+  if (localAt > remoteAt) {
+    // local ESTRITAMENTE mais novo → vence e SOBE
+    return { value: localRaw, addedFromRemote: false, differsFromRemote: true }
+  }
+  // EMPATE de carimbo (inclui blobs SEM updatedAt, ambos = 0) com conteúdo
+  // distinto: NÃO dá pra saber quem é mais novo — mantém o LOCAL e NÃO sobe.
+  // Antes o "local vence + push" no empate deixava o ÚLTIMO device a sincronizar
+  // sobrescrever o outro (data-loss na transição, antes de os carimbos
+  // existirem). Sem carimbo confiável, ninguém clobbera; a 1ª edição real
+  // (que carimba updatedAt) desempata e propaga.
+  return { value: localRaw, addedFromRemote: false, differsFromRemote: false }
 }
 
 function parseArray(raw: string | null): unknown[] | null {
