@@ -25,9 +25,12 @@ import {
   ATLAS_GRID_H,
   ATLAS_GRID_W,
   ATLAS_HEX_HSTEP,
+  ATLAS_HEX_SIZE,
   ATLAS_HEX_VSTEP,
   atlasHexCenter,
   atlasHexVertices,
+  atlasPixelToHex,
+  type AtlasHexCell,
 } from './atlas-grid'
 
 export interface MapaPonto {
@@ -38,12 +41,16 @@ export interface MapaPonto {
 export interface MapaRegiao {
   id: string
   nome: string
-  /** Vértices do polígono em px da FONTE (ordem do desenho). */
+  /** CÉLULAS (hex inteiros) que compõem a região — fonte de verdade da
+   *  membership desde o feedback do mestre ("marcar sempre hex inteiro") e da
+   *  edição por pintura (toggleRegiaoHex). Blob legado sem cells é derivado
+   *  no sanitize (centros dentro do polígono). */
+  cells: AtlasHexCell[]
+  /** Contorno DERIVADO da união das células (maior anel — render/back-compat). */
   pontos: MapaPonto[]
-  /** Feedback do mestre ("marcar sempre hex inteiro"): true quando o contorno
-   *  já foi ALINHADO à grade (união dos hexes inteiros cujo centro caiu no
-   *  desenho). Região sem a flag é normalizada no load do mestre. */
-  hexAligned?: boolean
+  /** TODOS os anéis do contorno (região pintada pode ter mais de um blob);
+   *  o clip do overlay usa estes. Derivado — recalculado a cada mudança. */
+  aneis?: MapaPonto[][]
 }
 
 export interface MapaPin {
@@ -103,6 +110,10 @@ function hydrate(): MapaAtlasState {
 /** Sanitiza um blob externo (localStorage OU state da sessão) pro shape. */
 export function sanitize(raw: unknown): MapaAtlasState {
   const o = (raw ?? {}) as Record<string, unknown>
+  const isCell = (c: unknown): c is AtlasHexCell => {
+    const x = c as Record<string, unknown> | null
+    return !!x && Number.isInteger(x.col) && Number.isInteger(x.row)
+  }
   const regioes = (Array.isArray(o.regioes) ? o.regioes : [])
     .map((r) => r as Record<string, unknown>)
     .filter(
@@ -112,12 +123,15 @@ export function sanitize(raw: unknown): MapaAtlasState {
         Array.isArray(r.pontos) &&
         (r.pontos as unknown[]).every(isPonto),
     )
-    .map((r) => ({
-      id: r.id as string,
-      nome: r.nome as string,
-      pontos: (r.pontos as MapaPonto[]).map((p) => ({ x: p.x, y: p.y })),
-      ...(r.hexAligned === true ? { hexAligned: true as const } : {}),
-    }))
+    .map((r) => {
+      const pontos = (r.pontos as MapaPonto[]).map((p) => ({ x: p.x, y: p.y }))
+      // Blob legado (só polígono) → deriva as células dos centros contidos;
+      // com células válidas, o contorno é REderivado delas (fonte de verdade).
+      const cells = (Array.isArray(r.cells) ? (r.cells as unknown[]).filter(isCell) : []).map(
+        (c) => ({ col: (c as AtlasHexCell).col, row: (c as AtlasHexCell).row }),
+      )
+      return montarRegiao(r.id as string, r.nome as string, cells.length ? cells : cellsFromStroke(pontos), pontos)
+    })
   const pins = (Array.isArray(o.pins) ? o.pins : [])
     .map((p) => p as Record<string, unknown>)
     .filter(
@@ -166,36 +180,55 @@ function newId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`
 }
 
-/** Fecha um polígono desenhado como REGIÃO nomeada (≥3 vértices). Feedback do
- *  mestre: o contorno é ALINHADO à grade ("marcar sempre hex inteiro") — o
- *  desenho livre vira a união dos hexes cujo centro caiu dentro dele. Se o
- *  desenho não pegou nenhum hex, guarda o traço cru (sem flag). */
+/** Fecha um desenho livre como REGIÃO nomeada ("marcar sempre hex inteiro"):
+ *  vira o conjunto de hexes cujo centro caiu no traço + contorno derivado.
+ *  Desenho que não pegou hex nenhum não cria região. */
 export function addRegiao(nome: string, pontos: MapaPonto[]): MapaRegiao | null {
   const limpo = nome.trim()
   if (!limpo || pontos.length < 3) return null
+  const cells = cellsFromStroke(pontos)
+  if (cells.length === 0) return null
   const cur = hydrate()
-  const snap = snapPontosToHexes(pontos)
-  const regiao: MapaRegiao = snap
-    ? { id: newId('regiao'), nome: limpo, pontos: snap, hexAligned: true }
-    : { id: newId('regiao'), nome: limpo, pontos: [...pontos] }
+  const regiao = montarRegiao(newId('regiao'), limpo, cells, pontos)
   commit({ ...cur, regioes: [...cur.regioes, regiao] })
   return regiao
 }
 
-/** Normaliza regiões antigas (traço livre, sem hexAligned) pro contorno
- *  hex-alinhado — roda uma vez no load do MESTRE; o push da mesa propaga. */
+/** EDIÇÃO por pintura (feedback: "adicionar novos hex a uma região"): liga/
+ *  desliga uma célula da região e re-deriva o contorno. */
+export function toggleRegiaoHex(regiaoId: string, cell: AtlasHexCell): void {
+  const cur = hydrate()
+  const regioes = cur.regioes.map((r) => {
+    if (r.id !== regiaoId) return r
+    const tem = r.cells.some((c) => c.col === cell.col && c.row === cell.row)
+    const cells = tem
+      ? r.cells.filter((c) => !(c.col === cell.col && c.row === cell.row))
+      : [...r.cells, { col: cell.col, row: cell.row }]
+    return montarRegiao(r.id, r.nome, cells, r.pontos)
+  })
+  commit({ ...cur, regioes })
+}
+
+/** Normaliza blobs antigos — o sanitize já DERIVA as células na leitura; aqui
+ *  só detecta se o blob PERSISTIDO ainda está na forma velha (região sem
+ *  cells) e regrava a forma migrada (o push da mesa propaga). Roda no load do
+ *  MESTRE. */
 export function normalizeRegioesToHex(): boolean {
   const cur = hydrate()
-  let mudou = false
-  const regioes = cur.regioes.map((r) => {
-    if (r.hexAligned) return r
-    const snap = snapPontosToHexes(r.pontos)
-    if (!snap) return r
-    mudou = true
-    return { ...r, pontos: snap, hexAligned: true as const }
-  })
-  if (mudou) commit({ ...cur, regioes })
-  return mudou
+  if (cur.regioes.length === 0) return false
+  let rawMigrado = true
+  try {
+    const raw = storage()?.getItem(STORE_KEY)
+    if (raw) {
+      const o = JSON.parse(raw) as { regioes?: Array<{ cells?: unknown[] }> }
+      rawMigrado = (o.regioes ?? []).every((r) => Array.isArray(r.cells) && r.cells.length > 0)
+    }
+  } catch {
+    rawMigrado = false
+  }
+  if (rawMigrado) return false
+  commit({ ...cur })
+  return true
 }
 
 export function removeRegiao(id: string): void {
@@ -234,50 +267,57 @@ export function mapaAtlasJson(s: MapaAtlasState): string {
   return JSON.stringify({ regioes: s.regioes, pins: s.pins, habilitadas: s.habilitadas })
 }
 
-// ── Snap do contorno à grade (feedback: "marcar sempre hex inteiro") ───────
+// ── Células e contorno ("marcar sempre hex inteiro") ───────────────────────
 
 /** Chave canônica de um vértice (0.1px absorve o ruído de FP entre hexes
  *  vizinhos, que computam o MESMO vértice a partir de centros diferentes). */
 const vk = (p: MapaPonto): string => `${p.x.toFixed(1)},${p.y.toFixed(1)}`
 
-/** Desenho livre → contorno da UNIÃO dos hexes inteiros cujo CENTRO caiu no
- *  polígono: coleta as 6 arestas de cada hex incluído, descarta as
- *  compartilhadas (aparecem 2×) e encadeia as de borda num anel. Componentes
- *  desconexos/furos: fica o MAIOR anel (o desenho do mestre é um blob por
- *  região). null quando nenhum hex foi pego (desenho menor que um hex). */
-export function snapPontosToHexes(pontos: MapaPonto[]): MapaPonto[] | null {
-  if (pontos.length < 3) return null
-  const desenho: MapaRegiao = { id: '~', nome: '~', pontos }
+/** Desenho livre → hexes inteiros cujo CENTRO caiu no polígono. A margem de
+ *  1 hex além da imagem INCLUI as células de borda (a coluna 0 tem centro em
+ *  x≈−2.8; o corte da esquerda do report veio de exigir centro ≥ 0). */
+export function cellsFromStroke(pontos: MapaPonto[]): AtlasHexCell[] {
+  if (pontos.length < 3) return []
+  const desenho: MapaRegiao = { id: '~', nome: '~', cells: [], pontos }
   const xs = pontos.map((p) => p.x)
   const ys = pontos.map((p) => p.y)
-  const c0 = Math.max(0, Math.floor((Math.min(...xs) - ATLAS_HEX_HSTEP) / ATLAS_HEX_HSTEP))
-  const c1 = Math.ceil((Math.max(...xs) + ATLAS_HEX_HSTEP) / ATLAS_HEX_HSTEP)
-  const r0 = Math.max(0, Math.floor((Math.min(...ys) - ATLAS_HEX_VSTEP) / ATLAS_HEX_VSTEP))
-  const r1 = Math.ceil((Math.max(...ys) + ATLAS_HEX_VSTEP) / ATLAS_HEX_VSTEP)
-
-  // Arestas de borda: conta por chave não-direcionada; interna aparece 2×.
-  const edges = new Map<string, { a: MapaPonto; b: MapaPonto; n: number }>()
-  let pegou = false
+  const c0 = Math.floor((Math.min(...xs) - ATLAS_HEX_HSTEP * 2) / ATLAS_HEX_HSTEP)
+  const c1 = Math.ceil((Math.max(...xs) + ATLAS_HEX_HSTEP * 2) / ATLAS_HEX_HSTEP)
+  const r0 = Math.floor((Math.min(...ys) - ATLAS_HEX_VSTEP * 2) / ATLAS_HEX_VSTEP)
+  const r1 = Math.ceil((Math.max(...ys) + ATLAS_HEX_VSTEP * 2) / ATLAS_HEX_VSTEP)
+  const out: AtlasHexCell[] = []
   for (let c = c0; c <= c1; c++) {
     for (let r = r0; r <= r1; r++) {
       const centro = atlasHexCenter(c, r)
-      if (centro.x < 0 || centro.y < 0 || centro.x > ATLAS_GRID_W || centro.y > ATLAS_GRID_H) continue
-      if (!pontoNaRegiao(centro, desenho)) continue
-      pegou = true
-      const vs = atlasHexVertices(c, r)
-      for (let k = 0; k < 6; k++) {
-        const a = vs[k]!
-        const b = vs[(k + 1) % 6]!
-        const key = [vk(a), vk(b)].sort().join('|')
-        const cur = edges.get(key)
-        if (cur) cur.n++
-        else edges.set(key, { a, b, n: 1 })
-      }
+      if (
+        centro.x < -ATLAS_HEX_SIZE ||
+        centro.y < -ATLAS_HEX_SIZE ||
+        centro.x > ATLAS_GRID_W + ATLAS_HEX_SIZE ||
+        centro.y > ATLAS_GRID_H + ATLAS_HEX_SIZE
+      )
+        continue
+      if (pontoNaRegiao(centro, desenho)) out.push({ col: c, row: r })
     }
   }
-  if (!pegou) return null
+  return out
+}
 
-  // Encadeia as arestas de borda (n=1) em anéis; devolve o maior.
+/** União das células → anéis do contorno: arestas compartilhadas (2×) caem,
+ *  as de borda encadeiam em anéis, MAIORES primeiro (região pintada pode ter
+ *  mais de um blob; anel-furo vira cobertura — limitação documentada). */
+export function outlineRingsFromCells(cells: AtlasHexCell[]): MapaPonto[][] {
+  const edges = new Map<string, { a: MapaPonto; b: MapaPonto; n: number }>()
+  for (const cell of cells) {
+    const vs = atlasHexVertices(cell.col, cell.row)
+    for (let k = 0; k < 6; k++) {
+      const a = vs[k]!
+      const b = vs[(k + 1) % 6]!
+      const key = [vk(a), vk(b)].sort().join('|')
+      const cur = edges.get(key)
+      if (cur) cur.n++
+      else edges.set(key, { a, b, n: 1 })
+    }
+  }
   const borda = [...edges.values()].filter((e) => e.n === 1)
   const porVertice = new Map<string, Array<{ a: MapaPonto; b: MapaPonto }>>()
   for (const e of borda) {
@@ -288,13 +328,12 @@ export function snapPontosToHexes(pontos: MapaPonto[]): MapaPonto[] | null {
     }
   }
   const usadas = new Set<{ a: MapaPonto; b: MapaPonto }>()
-  let melhor: MapaPonto[] = []
+  const aneis: MapaPonto[][] = []
   for (const inicio of borda) {
     if (usadas.has(inicio)) continue
     const anel: MapaPonto[] = [inicio.a]
     usadas.add(inicio)
     let atual = inicio.b
-    // guarda de laço: nunca mais passos que arestas de borda
     for (let passos = 0; passos < borda.length; passos++) {
       anel.push(atual)
       if (vk(atual) === vk(anel[0]!)) break
@@ -303,12 +342,26 @@ export function snapPontosToHexes(pontos: MapaPonto[]): MapaPonto[] | null {
       usadas.add(proxima)
       atual = vk(proxima.a) === vk(atual) ? proxima.b : proxima.a
     }
-    if (anel.length > melhor.length) melhor = anel
+    if (anel.length >= 3) {
+      const fechado = vk(anel[0]!) === vk(anel[anel.length - 1]!) ? anel.slice(0, -1) : anel
+      aneis.push(fechado.map((p) => ({ x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 })))
+    }
   }
-  if (melhor.length < 3) return null
-  // remove o vértice repetido do fechamento e arredonda (0.1px)
-  const fechado = vk(melhor[0]!) === vk(melhor[melhor.length - 1]!) ? melhor.slice(0, -1) : melhor
-  return fechado.map((p) => ({ x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 }))
+  aneis.sort((a, b) => b.length - a.length)
+  return aneis
+}
+
+/** Região com contorno derivado das células; sem célula, mantém o traço cru
+ *  (região vazia continua existente/editável). */
+function montarRegiao(id: string, nome: string, cells: AtlasHexCell[], fallback: MapaPonto[]): MapaRegiao {
+  const aneis = outlineRingsFromCells(cells)
+  return {
+    id,
+    nome,
+    cells,
+    pontos: aneis[0] ?? fallback,
+    ...(aneis.length ? { aneis } : {}),
+  }
 }
 
 // ── Consulta de gating ─────────────────────────────────────────────────────
@@ -335,9 +388,16 @@ export function regioesDesabilitadas(state: MapaAtlasState, grupoId: string | nu
   return state.regioes.filter((r) => !habilitadas.has(r.id))
 }
 
-/** Um pin está visível/clicável quando NENHUMA região desabilitada o contém. */
+/** Célula pertence a alguma região da lista? (membership por CÉLULA — a
+ *  fonte de verdade desde o "marcar sempre hex inteiro"). */
+export function hexEmRegioes(cell: AtlasHexCell, regioes: MapaRegiao[]): boolean {
+  return regioes.some((r) => r.cells.some((c) => c.col === cell.col && c.row === cell.row))
+}
+
+/** Um pin está visível/clicável quando o HEX dele não cai em região
+ *  desabilitada. */
 export function pinVisivel(pin: MapaPin, desabilitadas: MapaRegiao[]): boolean {
-  return !desabilitadas.some((r) => pontoNaRegiao(pin, r))
+  return !hexEmRegioes(atlasPixelToHex(pin.x, pin.y), desabilitadas)
 }
 
 /** SÓ testes: zera a memória (simula reload). */

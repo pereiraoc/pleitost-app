@@ -35,11 +35,14 @@ import {
   DEFAULT_VIEWER,
   __resetMapaAtlasForTests,
   addRegiao,
+  cellsFromStroke,
   getMapaAtlas,
   normalizeRegioesToHex,
-  snapPontosToHexes,
+  outlineRingsFromCells,
   toggleRegiaoHabilitada,
+  toggleRegiaoHex,
 } from '../src/map/mapa-atlas-store'
+import { DetailProvider, useDetail } from '../src/data/detail-context'
 import { __resetSettingsForTests } from '../src/settings'
 import { setLiveSession } from '../src/data/session-repo/live-session'
 import type { IndexManifest } from '../src/data/types'
@@ -181,36 +184,51 @@ describe('#420 — clique no hex: info gateada por região', () => {
   })
 })
 
-describe('#420 — regiões alinhadas a HEX INTEIRO (feedback do mestre)', () => {
-  it('snap: desenho livre vira contorno cujo vértices são vértices de hex', () => {
-    const snap = snapPontosToHexes([
-      { x: 3600, y: 1400 },
-      { x: 4100, y: 1400 },
-      { x: 4100, y: 1900 },
-      { x: 3600, y: 1900 },
-    ])!
-    expect(snap.length).toBeGreaterThan(6) // união de vários hexes
-    // todo vértice do contorno coincide (0.2px) com um vértice de hex da área
+describe('#420 — regiões por HEX INTEIRO (células + contorno derivado)', () => {
+  it('desenho livre vira CÉLULAS + contorno cujos vértices são vértices de hex', () => {
+    const r = regiaoSobreKrasnogor()
+    expect(r.cells.length).toBeGreaterThan(10)
+    expect(r.cells).toContainEqual(KRAS_CELL)
+    const contorno = r.aneis?.[0] ?? r.pontos
+    expect(contorno.length).toBeGreaterThan(6)
     const todos: Array<{ x: number; y: number }> = []
     for (let c = 40; c <= 52; c++)
-      for (let r = 12; r <= 22; r++) todos.push(...atlasHexVertices(c, r))
-    for (const p of snap) {
+      for (let rr = 12; rr <= 22; rr++) todos.push(...atlasHexVertices(c, rr))
+    for (const p of contorno) {
       const perto = todos.some((v) => Math.hypot(v.x - p.x, v.y - p.y) < 0.2)
       expect(perto).toBe(true)
     }
   })
 
-  it('addRegiao salva já alinhada (hexAligned) e normalize converte as antigas', () => {
+  it('report "ficou cortado": traço na BORDA esquerda inclui a coluna 0 (centro x≈−2.8)', () => {
+    const cells = cellsFromStroke([
+      { x: -20, y: 900 },
+      { x: 400, y: 900 },
+      { x: 400, y: 1500 },
+      { x: -20, y: 1500 },
+    ])
+    expect(cells.some((c) => c.col === 0)).toBe(true)
+  })
+
+  it('pintura: toggleRegiaoHex adiciona e remove hex, re-derivando o contorno', () => {
     const r = regiaoSobreKrasnogor()
-    expect(r.hexAligned).toBe(true)
-    // injeta uma região "antiga" (traço livre) direto no storage e normaliza
+    const fora = { col: KRAS_CELL.col + 6, row: KRAS_CELL.row }
+    toggleRegiaoHex(r.id, fora)
+    let atual = getMapaAtlas().regioes.find((x) => x.id === r.id)!
+    expect(atual.cells).toContainEqual(fora)
+    expect((atual.aneis ?? []).length).toBeGreaterThanOrEqual(2) // blob separado = anel próprio
+    toggleRegiaoHex(r.id, fora)
+    atual = getMapaAtlas().regioes.find((x) => x.id === r.id)!
+    expect(atual.cells).not.toContainEqual(fora)
+  })
+
+  it('normalize regrava blob ANTIGO (região sem cells) na forma migrada', () => {
     const cur = getMapaAtlas()
     window.localStorage.setItem(
       'pleitost.mapaAtlas',
       JSON.stringify({
         ...cur,
         regioes: [
-          ...cur.regioes,
           { id: 'r-antiga', nome: 'Antiga', pontos: [{ x: 4300, y: 2300 }, { x: 4900, y: 2300 }, { x: 4900, y: 2900 }, { x: 4300, y: 2900 }] },
         ],
       }),
@@ -218,7 +236,44 @@ describe('#420 — regiões alinhadas a HEX INTEIRO (feedback do mestre)', () =>
     __resetMapaAtlasForTests()
     expect(normalizeRegioesToHex()).toBe(true)
     const depois = getMapaAtlas().regioes.find((x) => x.id === 'r-antiga')!
-    expect(depois.hexAligned).toBe(true)
-    expect(depois.pontos.length).toBeGreaterThan(6)
+    expect(depois.cells.length).toBeGreaterThan(10)
+    expect(normalizeRegioesToHex()).toBe(false) // idempotente
+  })
+
+  it('outlineRingsFromCells: célula única vira 1 anel de 6 vértices', () => {
+    const aneis = outlineRingsFromCells([KRAS_CELL])
+    expect(aneis).toHaveLength(1)
+    expect(aneis[0]).toHaveLength(6)
+  })
+})
+
+
+describe('feedback — lugar clicado abre nos DETALHES (barra direita), não navega', () => {
+  function ProbeDetalhe() {
+    const d = useDetail()
+    return <div data-target={d?.target?.id ?? ''} />
+  }
+  it('info do hex → botão do lugar abre no detail-context; a rota não muda', async () => {
+    const { container } = render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={['/mapa']}>
+          <DetailProvider>
+            <Routes>
+              <Route path="/mapa" element={<AtlasMapaPage />} />
+              <Route path="/doc/*" element={<div data-doc-page="" />} />
+            </Routes>
+            <ProbeDetalhe />
+          </DetailProvider>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    await screen.findByAltText('Mapa do mundo')
+    mockRectEClicaHex(container, KRAS_CELL)
+    await waitFor(() => expect(container.querySelector('[data-hex-info]')).toBeTruthy())
+    fireEvent.click(screen.getByText('Krasnogor'))
+    expect(
+      (document.querySelector('[data-target]') as HTMLElement).getAttribute('data-target'),
+    ).toBe(KRASNOGOR)
+    expect(container.querySelector('[data-doc-page]')).toBeNull() // NÃO navegou
   })
 })

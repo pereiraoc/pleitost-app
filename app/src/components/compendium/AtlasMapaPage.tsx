@@ -31,24 +31,21 @@ import {
   DEFAULT_VIEWER,
   addPin,
   addRegiao,
+  hexEmRegioes,
   mapaAtlasJson,
   normalizeRegioesToHex,
   pinVisivel,
-  pontoNaRegiao,
   regioesDesabilitadas,
   removePin,
   removeRegiao,
   sanitize,
   toggleRegiaoHabilitada,
+  toggleRegiaoHex,
   useMapaAtlas,
   type MapaPonto,
 } from '../../map/mapa-atlas-store'
-import {
-  atlasFracToHex,
-  atlasHexCenter,
-  atlasHexPolygonPoints,
-  type AtlasHexCell,
-} from '../../map/atlas-grid'
+import { useDetail } from '../../data/detail-context'
+import { atlasFracToHex, atlasHexPolygonPoints, type AtlasHexCell } from '../../map/atlas-grid'
 import { useHexMap } from '../../data/useHexMap'
 import { areasAt, cellAt } from '../../data/hexmap-store'
 import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
@@ -63,7 +60,7 @@ export const ATLAS_OVERLAY_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas-overla
 export const ATLAS_MAPA_W = 7440
 export const ATLAS_MAPA_H = 5262
 
-type ModoMestre = 'nav' | 'regiao' | 'pin'
+type ModoMestre = 'nav' | 'regiao' | 'pin' | 'hexes'
 
 function clip(n: number): string {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
@@ -156,6 +153,8 @@ export function AtlasMapaPage() {
   const [nomeRegiao, setNomeRegiao] = useState('')
   const [pinPendente, setPinPendente] = useState<MapaPonto | null>(null)
   const [pinLocalId, setPinLocalId] = useState('')
+  /** Região em EDIÇÃO por pintura (feedback: "adicionar novos hex"). */
+  const [editRegiaoId, setEditRegiaoId] = useState<string | null>(null)
 
   const localizacoes = useMemo(
     () =>
@@ -198,11 +197,15 @@ export function AtlasMapaPage() {
       setPinPendente(p)
       return
     }
+    const hex = atlasFracToHex(f.fx, f.fy)
+    if (mestre && modo === 'hexes' && editRegiaoId) {
+      // PINTURA: toca pra ligar/desligar o hex na região em edição.
+      toggleRegiaoHex(editRegiaoId, hex)
+      return
+    }
     // Modo navegação: clique abre a INFO do hex ("ver a respeito de cada
     // hex") — exceto em região DESABILITADA: nada clicável/sem informação.
-    const hex = atlasFracToHex(f.fx, f.fy)
-    const centro = atlasHexCenter(hex.col, hex.row)
-    if (desabilitadas.some((r) => pontoNaRegiao(centro, r))) {
+    if (hexEmRegioes(hex, desabilitadas)) {
       setHexSel(null)
       return
     }
@@ -227,9 +230,17 @@ export function AtlasMapaPage() {
     }
   }
 
+  // Feedback do mestre: lugar clicado abre nos DETALHES da barra direita
+  // (mesmo caminho da exploração, PanelExploracao:1005); sem provider de
+  // detalhes (ex.: teste isolado), navega — padrão do DetailLink.
+  const detail = useDetail()
+  const abrirDoc = (id: string) => {
+    if (detail) detail.open({ kind: 'doc', id })
+    else navigate(docPath(id))
+  }
   const abrirPin = (localId: string) => {
     if (map.consumeMoved()) return
-    navigate(docPath(localId))
+    abrirDoc(localId)
   }
 
   const pinsVisiveis = cfg.pins.filter((p) => pinVisivel(p, desabilitadas))
@@ -301,12 +312,14 @@ export function AtlasMapaPage() {
                   <>
                     <defs>
                       <clipPath id="mapa-regioes-off">
-                        {desabilitadas.map((r) => (
-                          <polygon
-                            key={r.id}
-                            points={r.pontos.map((p) => `${p.x},${p.y}`).join(' ')}
-                          />
-                        ))}
+                        {desabilitadas.flatMap((r) =>
+                          (r.aneis ?? [r.pontos]).map((anel, i) => (
+                            <polygon
+                              key={`${r.id}:${i}`}
+                              points={anel.map((p) => `${p.x},${p.y}`).join(' ')}
+                            />
+                          )),
+                        )}
                       </clipPath>
                     </defs>
                     <image
@@ -325,16 +338,26 @@ export function AtlasMapaPage() {
                     Feedback do mestre: borda QUASE TRANSPARENTE (sem cor de
                     destaque) — o contorno hex-alinhado já se apoia na malha. */}
                 {mestre
-                  ? cfg.regioes.map((r) => (
-                      <polygon
-                        key={r.id}
-                        points={r.pontos.map((p) => `${p.x},${p.y}`).join(' ')}
-                        fill="none"
-                        stroke="rgba(120,120,120,0.18)"
-                        strokeWidth={4}
-                        style={{ pointerEvents: 'none' }}
-                      />
-                    ))
+                  ? cfg.regioes.flatMap((r) =>
+                      (r.aneis ?? [r.pontos]).map((anel, i) => (
+                        <polygon
+                          key={`${r.id}:${i}`}
+                          points={anel.map((p) => `${p.x},${p.y}`).join(' ')}
+                          fill={
+                            editRegiaoId === r.id && modo === 'hexes'
+                              ? 'color-mix(in srgb,var(--accent) 14%,transparent)'
+                              : 'none'
+                          }
+                          stroke={
+                            editRegiaoId === r.id && modo === 'hexes'
+                              ? 'color-mix(in srgb,var(--accent) 55%,transparent)'
+                              : 'rgba(120,120,120,0.18)'
+                          }
+                          strokeWidth={4}
+                          style={{ pointerEvents: 'none' }}
+                        />
+                      )),
+                    )
                   : null}
                 {/* Hex SELECIONADO (info aberta) — realce discreto. */}
                 {hexSel ? (
@@ -421,7 +444,7 @@ export function AtlasMapaPage() {
               return (
                 <button
                   key={id}
-                  onClick={() => navigate(docPath(id))}
+                  onClick={() => abrirDoc(id)}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'baseline',
@@ -531,6 +554,24 @@ export function AtlasMapaPage() {
             </div>
           ) : null}
 
+          {modo === 'hexes' && editRegiaoId ? (
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={mono9}>
+                Toque nos hexes pra ADICIONAR/REMOVER da região “
+                {cfg.regioes.find((r) => r.id === editRegiaoId)?.nome ?? ''}”
+              </span>
+              <button
+                style={pillStyle(false)}
+                onClick={() => {
+                  setModo('nav')
+                  setEditRegiaoId(null)
+                }}
+              >
+                ✓ CONCLUIR EDIÇÃO
+              </button>
+            </div>
+          ) : null}
+
           {modo === 'pin' ? (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
               <span style={mono9}>
@@ -617,6 +658,19 @@ export function AtlasMapaPage() {
                       </label>
                       <span style={mono9}>{on ? 'visível' : 'coberta pelo overlay'}</span>
                       <span style={{ flex: 1 }} />
+                      <button
+                        aria-label={`Editar hexes de ${r.nome}`}
+                        title="Adicionar/remover hexes desta região"
+                        onClick={() => {
+                          setEditRegiaoId(r.id)
+                          setModo('hexes')
+                          setVertices([])
+                          setPinPendente(null)
+                        }}
+                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13 }}
+                      >
+                        ✎
+                      </button>
                       <button
                         aria-label={`Remover região ${r.nome}`}
                         onClick={() => removeRegiao(r.id)}
