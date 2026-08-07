@@ -97,8 +97,9 @@ describe('seed canônico do mapa do Mundo Livre (#214)', () => {
       subcategoria: 'Aventureiros',
     })
     // parada criada no hex mapeado — SEM carimbar localId no GroupHex (o
-    // clique no mapa não carimba; a resolução tem que vir da célula)
-    addGroupHex(gid, { col: 22, row: 32, kind: 'parada' })
+    // clique no mapa não carimba; a resolução tem que vir da célula). O painel
+    // lê a grade do MUNDO (mapa:mundo): célula ML (22,32) ⇔ mundo (66,37).
+    addGroupHex(gid, { col: 66, row: 37, kind: 'parada' })
     render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter>
@@ -109,13 +110,13 @@ describe('seed canônico do mapa do Mundo Livre (#214)', () => {
     // lista lateral do caminho
     const rows = await screen.findAllByText('Safira')
     expect(rows.length).toBeGreaterThan(0)
-    expect(screen.queryByText('Hex 22,32')).toBeNull()
+    expect(screen.queryByText('Hex 66,37')).toBeNull()
     // popover da parada (HexInfo): clicar na linha do caminho seleciona e o
     // nome tem que vir da MESMA resolução (célula mapeada), não do GroupHex
     fireEvent.click(rows[0])
     const popover = document.querySelector('[data-hex-info]')
     expect(popover).toBeTruthy()
     expect(popover!.textContent).toContain('Safira')
-    expect(popover!.textContent).not.toContain('Hex 22,32')
+    expect(popover!.textContent).not.toContain('Hex 66,37')
   })
 })

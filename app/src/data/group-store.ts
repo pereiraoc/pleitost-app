@@ -28,9 +28,17 @@
 // de regiaoAtiva/atualId simplesmente não hidratam (isHex filtra pontos; os
 // campos novos são opcionais). Sem dados reais migráveis, sancionado trocar a
 // forma.
+//
+// GRADE DO MUNDO (pedido do mestre — trilhas portadas pro atlas): as coords
+// dos hexes passaram da grade do Mundo Livre pra grade CALIBRADA do mapa-múndi
+// (atlas-grid.ts; célula ML (c,r) ⇔ mundo (c+44,r+5)). `grade:'mundo'` marca
+// estados já na grade nova; blob SEM o marcador (local antigo OU remoto de
+// cliente antigo via setGroupStateFull) migra na leitura com o shift PAR — a
+// paridade odd-q é preservada e ids/atualId ficam intactos.
 
 import { useSyncExternalStore } from 'react'
 import { createKeyedStoreChannel } from './store-kit'
+import { ATLAS_COL_SHIFT, ATLAS_ROW_SHIFT } from '../map/atlas-grid'
 
 export interface GroupHex {
   id: string
@@ -51,12 +59,16 @@ export interface GroupHex {
 }
 
 export interface GroupState {
-  /** Id do doc de Localização raiz da região ativa (region-maps.ts), #68. */
+  /** Id da VISTA ativa do mapa-múndi (mapa-vistas.ts; era o doc da região do
+   *  registro antigo — o id do Mundo Livre é o mesmo), #68. */
   regiaoAtiva?: string
   /** Paradas do caminho na ORDEM explícita do array (#69). */
   hexes: GroupHex[]
   /** Hex ATUAL — a "moeda" do grupo no mapa (#71); default = última parada. */
   atualId?: string
+  /** Coords na grade do MUNDO (atlas-grid). Ausente = blob antigo na grade do
+   *  Mundo Livre → migra na leitura (shift +44,+5). */
+  grade?: 'mundo'
 }
 
 const STORE_PREFIX = 'pleitost.groupState.'
@@ -65,7 +77,14 @@ const memory = new Map<string, GroupState>()
 const channel = createKeyedStoreChannel()
 
 function emptyState(): GroupState {
-  return { hexes: [] }
+  return { hexes: [], grade: 'mundo' }
+}
+
+/** Blob sem `grade:'mundo'` está na grade antiga do Mundo Livre → porta as
+ *  coords pro mundo (shift par preserva o odd-q; ids/atualId intactos). */
+function paraGradeMundo(hexes: GroupHex[], grade: unknown): GroupHex[] {
+  if (grade === 'mundo') return hexes
+  return hexes.map((h) => ({ ...h, col: h.col + ATLAS_COL_SHIFT, row: h.row + ATLAS_ROW_SHIFT }))
 }
 
 /** localStorage com try/catch — sem storage/quota degrada pra memória
@@ -124,9 +143,10 @@ function hydrate(groupId: string): GroupState {
     try {
       const parsed = JSON.parse(raw) as Partial<GroupState>
       if (Array.isArray(parsed.hexes)) {
-        const hexes = parsed.hexes.filter(isHex)
+        const hexes = paraGradeMundo(parsed.hexes.filter(isHex), parsed.grade)
         state = {
           hexes,
+          grade: 'mundo',
           // regiaoAtiva/atualId só hidratam se forem strings válidas; atualId
           // aponta um hex existente (senão cai no default = última parada).
           ...(typeof parsed.regiaoAtiva === 'string' ? { regiaoAtiva: parsed.regiaoAtiva } : {}),
@@ -218,18 +238,26 @@ export function groupStateJson(s: GroupState): string {
     hexes: s.hexes,
     ...(s.regiaoAtiva ? { regiaoAtiva: s.regiaoAtiva } : {}),
     ...(s.atualId ? { atualId: s.atualId } : {}),
+    // grade REAL do blob (não normalizada): remoto antigo ≠ local migrado de
+    // propósito — o sync resolve por carimbo e o push carrega o marcador. Só
+    // acompanha hexes: estado VAZIO serializa igual ao sentinel EMPTY do sync
+    // (#379 — vazio nunca pode "parecer diferente" e sobrescrever trilha).
+    ...(s.grade && s.hexes.length ? { grade: s.grade } : {}),
   })
 }
 
 /** Aplica um estado COMPLETO no store (sync da mesa: remoto→local). Filtra hexes
  *  inválidos, como a hidratação. */
 export function setGroupStateFull(groupId: string, next: GroupState): void {
-  const hexes = Array.isArray(next?.hexes) ? next.hexes.filter(isHex) : []
+  const hexes = Array.isArray(next?.hexes)
+    ? paraGradeMundo(next.hexes.filter(isHex), next?.grade)
+    : []
   const carimboRemoto = (next as { updatedAt?: unknown })?.updatedAt
   commit(
     groupId,
     {
       hexes,
+      grade: 'mundo',
       ...(typeof next?.regiaoAtiva === 'string' ? { regiaoAtiva: next.regiaoAtiva } : {}),
       ...(typeof next?.atualId === 'string' && hexes.some((h) => h.id === next.atualId)
         ? { atualId: next.atualId }
@@ -247,6 +275,7 @@ export function migrateGroupState(from: string, to: string): boolean {
   if (!isEmpty(toState)) return false // destino já tem dados — nunca sobrescreve
   commit(to, {
     hexes: fromState.hexes,
+    grade: fromState.grade,
     ...(fromState.regiaoAtiva ? { regiaoAtiva: fromState.regiaoAtiva } : {}),
     ...(fromState.atualId ? { atualId: fromState.atualId } : {}),
   })

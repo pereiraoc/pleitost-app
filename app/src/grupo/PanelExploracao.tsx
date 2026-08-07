@@ -46,8 +46,8 @@ import { useDoc, useDocs } from '../data/useDoc'
 import { TipProvider, TipHover } from '../components/ficha/tooltips'
 import { localTipHtml, LOC_TIP_CSS, wikiStrip } from '../components/ficha/local-tip'
 import { docPath } from '../paths'
-import { REGION_MAPS, regionMapById } from '../data/region-maps'
 import { useHexMap } from '../data/useHexMap'
+import { MAPA_MUNDO_ID } from '../data/seed-hexmaps'
 import { useDetail } from '../data/detail-context'
 import { cellAt, type HexMapCell } from '../data/hexmap-store'
 import { useMapView } from '../map/useMapView'
@@ -68,30 +68,30 @@ import {
   type GroupHex,
   type GroupState,
 } from '../data/group-store'
+import { locaisSelectLines, subcategoriaEmoji } from './exploracao'
 import {
-  fracToHex,
-  hexCenter,
-  hexGridPath,
-  hexPolygonPoints,
-  locaisSelectLines,
-  MAP_H,
-  MAP_W,
-  subcategoriaEmoji,
-  type HexCell,
-} from './exploracao'
+  ATLAS_GRID_H,
+  atlasHexCenter,
+  atlasHexPolygonPoints,
+  atlasPixelToHex,
+  type AtlasHexCell as HexCell,
+} from '../map/atlas-grid'
+import {
+  MAPA_MUNDO_ASSET,
+  MAPA_VISTAS,
+  vistaCrop,
+  vistaGridPath,
+} from '../map/mapa-vistas'
+import { useMapaAtlas } from '../map/mapa-atlas-store'
 import { sectionTitleStyle } from './panel-ui'
 
-/** Asset real do mapa do Mundo Livre (mantido exportado: os testes de
- *  exploração referenciam o path). A fonte de verdade do asset por região é
- *  region-maps.ts (regionMapById). */
-export const MAPA_MUNDO_LIVRE = 'Recursos e Mídia/Imagens/Mapas/Mapa do Mundo Livre.png'
-
-/** Região ativa efetiva: a escolhida pelo GM ou a primeira com mapa (default). */
 /** Cor do ponto/token ATUAL do grupo — AZUL (destaca de tudo que é accent). */
 const ATUAL_BLUE = '#3b82f6'
 
+/** VISTA ativa efetiva: a escolhida pelo GM ou a primeira (Mundo Livre — o
+ *  mesmo id do registro antigo de regiões, então escolhas salvas valem). */
 export function activeRegionId(state: GroupState): string {
-  return state.regiaoAtiva ?? REGION_MAPS[0]?.regionId ?? ''
+  return state.regiaoAtiva ?? MAPA_VISTAS[0]!.id
 }
 
 /** Pill mono do design (skin do badge GRUPO do header, clip 6). */
@@ -160,7 +160,8 @@ function currentLocalId(
     const id = cellAt(hexMap, h.col, h.row)?.localId ?? h.localId
     if (id) return id
   }
-  return regionId || undefined
+  // vistas sem doc no Atlas (vista:*) não têm página pra abrir
+  return regionId && !regionId.startsWith('vista:') ? regionId : undefined
 }
 
 // ─────────────────────────── #70 Barra DIREITA ──────────────────────────────
@@ -866,8 +867,11 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
     () => getGroupState(groupId),
   )
   const regionId = activeRegionId(state)
-  const hexMapState = useHexMap(regionId)
+  // Trilhas/lugares na grade ÚNICA do MUNDO (mapa:mundo) — a vista só recorta.
+  const hexMapState = useHexMap(MAPA_MUNDO_ID)
   const hexMap = hexMapState.cells
+  const cfgAtlas = useMapaAtlas()
+  const crop = useMemo(() => vistaCrop(regionId, cfgAtlas.regioes), [regionId, cfgAtlas])
   // #89: havendo sidebar de detalhes, a info do local abre NELA (não no bloco
   // lateral do mapa); sem ela (testes) cai no RightBar #70.
   const detail = useDetail()
@@ -918,8 +922,8 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
   const atual = hexAtual(state)
   const selecionado = selectedId ? (state.hexes.find((h) => h.id === selectedId) ?? null) : null
 
-  // A malha inteira é 1 <path> constante (barato; não depende do estado).
-  const gridPath = useMemo(() => hexGridPath(), [])
+  // A malha do CROP é 1 <path> (barato; recalcula só na troca de vista).
+  const gridPath = useMemo(() => vistaGridPath(crop), [crop])
 
   // Docs dos locais pro TOOLTIP no mapa (#124) — nativo (<title>) já que os
   // hexes são SVG. Descrição (campo) + recursos, fonte de verdade no frontmatter.
@@ -946,13 +950,12 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
     return parts.join('\n')
   }
 
-  const mapAsset = regionMapById(regionId)?.mapAsset ?? MAPA_MUNDO_LIVRE
-  const mapEntry = assets?.byPath.get(mapAsset) ?? null
+  const mapEntry = assets?.byPath.get(MAPA_MUNDO_ASSET) ?? null
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
     const f = map.fracAtClient(clientX, clientY)
-    return f ? fracToHex(f.fx, f.fy) : null
+    return f ? atlasPixelToHex(crop.x + f.fx * crop.w, crop.y + f.fy * crop.h) : null
   }
 
   const onPointerDown = (e: React.PointerEvent) => {
@@ -1083,7 +1086,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
   // hover realça QUALQUER hex (todos podem virar parada, inclusive revisita #82).
   const hoverLivre = hoverHex
   const tokenCell = tokenDropCell ?? (atual ? { col: atual.col, row: atual.row } : null)
-  const tokenCenter = tokenCell ? hexCenter(tokenCell.col, tokenCell.row) : null
+  const tokenCenter = tokenCell ? atlasHexCenter(tokenCell.col, tokenCell.row) : null
   // "Adicionar parada" aparece quando o token foi arrastado pra uma célula
   // DIFERENTE do hex atual (#82: pode ser um lugar já visitado = revisita).
   const podeAdicionar =
@@ -1096,7 +1099,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <div style={sectionTitleStyle}>{'// EXPLORAÇÃO'}</div>
-        {/* #68: seletor de REGIÃO (dentre as com mapa). */}
+        {/* #68: seletor de REGIÃO — vistas do mapa-múndi (mapa-vistas.ts). */}
         <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={fieldLabelStyle}>REGIÃO</span>
           <select
@@ -1105,9 +1108,9 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
             onChange={(e) => setRegiaoAtiva(groupId, e.target.value)}
             style={inputStyle}
           >
-            {REGION_MAPS.map((m) => (
-              <option key={m.regionId} value={m.regionId}>
-                {catalog.entryById.get(m.regionId)?.basename ?? m.regionId}
+            {MAPA_VISTAS.map((v) => (
+              <option key={v.id} value={v.id}>
+                {catalog.entryById.get(v.id)?.basename ?? v.nome}
               </option>
             ))}
           </select>
@@ -1198,6 +1201,10 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                 style={{
                   position: 'relative',
                   height: '100%',
+                  // A caixa É o recorte da vista: proporção do crop + overflow
+                  // hidden clipam a imagem-múndi ao trecho visível da vista.
+                  aspectRatio: `${crop.w} / ${crop.h}`,
+                  overflow: 'hidden',
                   flex: 'none',
                   transform: map.transform,
                   transformOrigin: '0 0',
@@ -1207,11 +1214,22 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                   src={assetUrl(mapEntry)}
                   alt={mapEntry.basename}
                   draggable={false}
-                  style={{ height: '100%', width: 'auto', display: 'block' }}
+                  data-mapa-img=""
+                  style={{
+                    // Mapa inteiro posicionado pra janela mostrar SÓ o crop:
+                    // altura = mundo/crop; offsets em % da janela.
+                    position: 'absolute',
+                    height: `${(ATLAS_GRID_H / crop.h) * 100}%`,
+                    left: `${(-crop.x / crop.w) * 100}%`,
+                    top: `${(-crop.y / crop.h) * 100}%`,
+                    width: 'auto',
+                    maxWidth: 'none',
+                    display: 'block',
+                  }}
                 />
-                {/* Overlay em px da FONTE (escala junto com o transform do mapa) */}
+                {/* Overlay em px da FONTE (viewBox = crop; escala com o mapa) */}
                 <svg
-                  viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+                  viewBox={`${crop.x} ${crop.y} ${crop.w} ${crop.h}`}
                   preserveAspectRatio="none"
                   style={{
                     position: 'absolute',
@@ -1240,7 +1258,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                     <polygon
                       key={`loc-${c.col},${c.row}`}
                       data-hex-local={`${c.col},${c.row}`}
-                      points={hexPolygonPoints(c.col, c.row)}
+                      points={atlasHexPolygonPoints(c.col, c.row)}
                       fill="color-mix(in srgb,var(--accent) 8%,transparent)"
                       stroke="color-mix(in srgb,var(--accent) 30%,transparent)"
                       strokeWidth={1}
@@ -1250,7 +1268,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                   {hoverLivre ? (
                     <polygon
                       data-hex-hover=""
-                      points={hexPolygonPoints(hoverHex!.col, hoverHex!.row)}
+                      points={atlasHexPolygonPoints(hoverHex!.col, hoverHex!.row)}
                       fill="color-mix(in srgb,var(--accent) 12%,transparent)"
                       stroke="color-mix(in srgb,var(--accent) 55%,transparent)"
                       strokeWidth={1.5}
@@ -1263,7 +1281,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                       data-trilha=""
                       points={state.hexes
                         .map((h) => {
-                          const c = hexCenter(h.col, h.row)
+                          const c = atlasHexCenter(h.col, h.row)
                           return `${c.x},${c.y}`
                         })
                         .join(' ')}
@@ -1282,7 +1300,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                     const isAtual = h.id === atual?.id
                     const isSel = h.id === selectedId
                     const parada = isParada(h)
-                    const center = hexCenter(h.col, h.row)
+                    const center = atlasHexCenter(h.col, h.row)
                     const glow = isAtual
                       ? { filter: `drop-shadow(0 0 8px color-mix(in srgb,${ATUAL_BLUE} 80%,transparent))` }
                       : undefined
@@ -1299,7 +1317,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                           {...(isSel ? { 'data-sel': '' } : {})}
                           cx={center.x}
                           cy={center.y}
-                          r={isAtual ? 16 : 10}
+                          r={isAtual ? 12 : 8}
                           fill={isAtual ? ATUAL_BLUE : 'color-mix(in srgb,var(--accent) 45%,transparent)'}
                           stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
                           strokeWidth={isAtual || isSel ? 2.5 : 1.5}
@@ -1320,7 +1338,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                         {...(isAtual ? { 'data-atual': '' } : {})}
                         {...(isSel ? { 'data-sel': '' } : {})}
                         data-parada-mapa=""
-                        points={hexPolygonPoints(h.col, h.row)}
+                        points={atlasHexPolygonPoints(h.col, h.row)}
                         fill={isAtual ? `color-mix(in srgb,${ATUAL_BLUE} 55%,transparent)` : hexFill(false, true)}
                         stroke={isAtual ? ATUAL_BLUE : isSel ? 'var(--text)' : 'var(--accent)'}
                         strokeWidth={isAtual || isSel ? 2.5 : 2}
@@ -1335,7 +1353,7 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                   {tokenDropCell ? (
                     <polygon
                       data-token-alvo=""
-                      points={hexPolygonPoints(tokenDropCell.col, tokenDropCell.row)}
+                      points={atlasHexPolygonPoints(tokenDropCell.col, tokenDropCell.row)}
                       fill="color-mix(in srgb,var(--accent) 22%,transparent)"
                       stroke="var(--accent)"
                       strokeWidth={2}
@@ -1354,16 +1372,16 @@ export function PanelExploracao({ groupId, readOnly }: { groupId: string; readOn
                       onClick={onTokenClick}
                     >
                       <circle
-                        r={30}
+                        r={22}
                         fill={ATUAL_BLUE}
                         stroke="var(--panel)"
-                        strokeWidth={5}
+                        strokeWidth={4}
                         style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,.5))' }}
                       />
                       <text
                         textAnchor="middle"
                         dominantBaseline="central"
-                        fontSize={30}
+                        fontSize={22}
                         style={{ userSelect: 'none' }}
                       >
                         ⚔️
