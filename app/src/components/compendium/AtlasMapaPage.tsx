@@ -31,7 +31,9 @@ import {
   DEFAULT_VIEWER,
   addPin,
   addRegiao,
+  getMapaAtlas,
   hexEmRegioes,
+  setMapaAtlasFull,
   mapaAtlasJson,
   normalizeRegioesToHex,
   pinVisivel,
@@ -104,16 +106,34 @@ export function AtlasMapaPage() {
   const remoto = (live?.state as Record<string, unknown> | null | undefined)?.['mapaAtlas']
   const cfg = useMemo(() => (!mestre && remoto ? sanitize(remoto) : local), [mestre, remoto, local])
 
+  // #423: ADOÇÃO — mestre em aparelho SEM config local (nada marcado) importa
+  // o mapa da MESA uma vez; sem isso, o GM que marcou noutro aparelho abria a
+  // lista vazia e "não tinha onde clicar pra editar". Depois da adoção, o
+  // local volta a ser o autor (o trap: local COM conteúdo nunca adota).
+  useEffect(() => {
+    if (!mestre || !remoto) return
+    const cur = getMapaAtlas()
+    if (cur.regioes.length > 0 || cur.pins.length > 0) return
+    const r = sanitize(remoto)
+    if (r.regioes.length > 0 || r.pins.length > 0) setMapaAtlasFull(r)
+  }, [mestre, remoto])
+
   // MESTRE conectado EMPURRA o blob a cada mudança local (veículo da
   // exploração #5: sessions.state jsonb; updateSessionState mescla top-level).
+  // #423: guarda ANTI-WIPE — local VAZIO nunca sobrescreve mesa com conteúdo
+  // (aparelho novo do GM apagaria as marcações de todo mundo no mount).
   const pushedRef = useRef('')
   useEffect(() => {
     if (!mestre || !repo || !live?.sessionId) return
+    if (local.regioes.length === 0 && local.pins.length === 0) {
+      const r = remoto ? sanitize(remoto) : null
+      if (r && (r.regioes.length > 0 || r.pins.length > 0)) return
+    }
     const json = mapaAtlasJson(local)
     if (json === pushedRef.current) return
     pushedRef.current = json
     void repo.updateSessionState(live.sessionId, { mapaAtlas: JSON.parse(json) }).catch(() => {})
-  }, [mestre, repo, live?.sessionId, local])
+  }, [mestre, repo, live?.sessionId, local, remoto])
 
   // Viewer do gating: mestre PREVIEW por seletor; jogador = grupo persistente
   // da mesa; sem grupo → DEFAULT_VIEWER ("(sem grupo)").

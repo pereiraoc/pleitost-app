@@ -216,6 +216,78 @@ describe('AtlasMapaPage — mesa: GM empurra, jogador lê o state', () => {
   })
 })
 
+describe('#423 — mestre noutro aparelho: adoção da mesa + guarda anti-wipe', () => {
+  const REMOTO = {
+    regioes: [
+      { id: 'r-mesa', nome: 'Magna Pátria', pontos: [{ x: 0, y: 0 }, { x: 1000, y: 0 }, { x: 1000, y: 1000 }, { x: 0, y: 1000 }] },
+    ],
+    pins: [],
+    habilitadas: {},
+  }
+
+  it('mestre com local VAZIO adota o mapa da MESA (aparece a lista com ✎)', async () => {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    setLiveSession({
+      sessionId: 's1',
+      gmUserId: 'gm',
+      state: { mapaAtlas: REMOTO } as unknown as LiveSession['state'],
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    // adotou: a região da mesa entrou no store local e a lista com ✎ existe
+    await waitFor(() => expect(getMapaAtlas().regioes).toHaveLength(1))
+    expect(await screen.findByLabelText('Editar hexes de Magna Pátria')).toBeTruthy()
+  })
+
+  it('anti-wipe: mestre com local vazio NUNCA empurra vazio por cima da mesa', async () => {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'MAPA2' })
+    setLiveSession({
+      sessionId: sess.id,
+      gmUserId: 'gm',
+      state: { mapaAtlas: REMOTO } as unknown as LiveSession['state'],
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    const spy = vi.spyOn(repo, 'updateSessionState')
+    renderMapa(repo)
+    await screen.findByAltText('Mapa do mundo')
+    await waitFor(() => expect(getMapaAtlas().regioes).toHaveLength(1)) // adoção
+    // nenhum push com regioes vazias em momento algum
+    for (const call of spy.mock.calls) {
+      const patch = call[1] as { mapaAtlas?: { regioes?: unknown[] } }
+      if (patch.mapaAtlas) expect(patch.mapaAtlas.regioes?.length ?? 0).toBeGreaterThan(0)
+    }
+  })
+
+  it('trap reverso: mestre com config LOCAL não adota a mesa (local é o autor)', async () => {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    const local = regiaoQuadrada('Minha Local')
+    setLiveSession({
+      sessionId: 's1',
+      gmUserId: 'gm',
+      state: { mapaAtlas: REMOTO } as unknown as LiveSession['state'],
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    await new Promise((r) => setTimeout(r, 100))
+    const nomes = getMapaAtlas().regioes.map((r) => r.nome)
+    expect(nomes).toEqual(['Minha Local'])
+    void local
+  })
+})
+
 describe('AtlasMapaPage — ferramentas do mestre', () => {
   it('painel só aparece no Modo Mestre; fora dele não há autoria', async () => {
     renderMapa()
