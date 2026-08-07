@@ -65,16 +65,21 @@ it('repro: mestre com o blob real → ✎ → tap num hex adiciona à região', 
   const editBtn = screen.getByLabelText('Editar hexes de Magna Pátria')
   fireEvent.click(editBtn)
   await screen.findByText('✓ CONCLUIR EDIÇÃO')
-  // mocka o rect e clica num hex FORA da Magna Pátria (col 10, row 20 — mar oeste)
+  // mocka o rect e toca numa célula QUE PERTENCE à região (independente da
+  // geografia do blob, que o mestre segue ajustando): tap remove, tap devolve.
   const W = 744, H = 526.2
   const mapa = container.querySelector('[data-mapa]') as HTMLElement
   mapa.getBoundingClientRect = () => ({ left: 0, top: 0, right: W, bottom: H, width: W, height: H, x: 0, y: 0 }) as DOMRect
-  const antes = getMapaAtlas().regioes.find((r) => r.nome === 'Magna Pátria')!.cells.length
-  const c = atlasHexCenter(10, 20)
+  const regiao = () => getMapaAtlas().regioes.find((r) => r.nome === 'Magna Pátria')!
+  const antes = regiao().cells.length
+  const alvo = regiao().cells[0]!
+  const c = atlasHexCenter(alvo.col, alvo.row)
   const viewport = container.querySelector('[data-mapa-viewport]') as HTMLElement
   fireEvent.click(viewport, { clientX: c.x / 10, clientY: c.y / 10 })
+  await waitFor(() => expect(regiao().cells.length).toBe(antes - 1))
+  fireEvent.click(viewport, { clientX: c.x / 10, clientY: c.y / 10 })
   await waitFor(() => {
-    const depois = getMapaAtlas().regioes.find((r) => r.nome === 'Magna Pátria')!.cells.length
-    expect(depois).toBe(antes + 1)
+    expect(regiao().cells.length).toBe(antes)
+    expect(regiao().cells.some((x) => x.col === alvo.col && x.row === alvo.row)).toBe(true)
   })
 }, 30000)

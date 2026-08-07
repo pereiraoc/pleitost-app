@@ -29,13 +29,13 @@ import { useMapView } from '../../map/useMapView'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import {
   DEFAULT_VIEWER,
-  addPin,
   addRegiao,
   hexEmRegioes,
   mapaAtlasFoiEditadoLocalmente,
   setMapaAtlasFull,
   mapaAtlasJson,
   normalizeRegioesToHex,
+  outlineRingsFromCells,
   pinVisivel,
   regioesDesabilitadas,
   removePin,
@@ -49,8 +49,20 @@ import {
 import { useDetail } from '../../data/detail-context'
 import { atlasFracToHex, atlasHexPolygonPoints, type AtlasHexCell } from '../../map/atlas-grid'
 import { useHexMap } from '../../data/useHexMap'
-import { areasAt, cellAt } from '../../data/hexmap-store'
+import {
+  areasAt,
+  cellAt,
+  cellsByLocal,
+  cellsOfArea,
+  hexHasArea,
+  removeHex,
+  removeHexArea,
+  setHexArea,
+  setHexLocal,
+  type HexMapCell,
+} from '../../data/hexmap-store'
 import { MAPA_MUNDO_ID } from '../../data/seed-hexmaps'
+import { buildAtlasIndex } from '../../data/atlas-nav'
 import { useDocs } from '../../data/useDoc'
 
 /** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
@@ -62,7 +74,7 @@ export const ATLAS_OVERLAY_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas-overla
 export const ATLAS_MAPA_W = 7440
 export const ATLAS_MAPA_H = 5262
 
-type ModoMestre = 'nav' | 'regiao' | 'pin' | 'hexes'
+type ModoMestre = 'nav' | 'regiao' | 'hexes' | 'hex-lugar' | 'hex-area'
 
 function clip(n: number): string {
   return `polygon(0 0,calc(100% - ${n}px) 0,100% ${n}px,100% 100%,${n}px 100%,0 calc(100% - ${n}px))`
@@ -170,18 +182,11 @@ export function AtlasMapaPage() {
   const [modo, setModo] = useState<ModoMestre>('nav')
   const [vertices, setVertices] = useState<MapaPonto[]>([])
   const [nomeRegiao, setNomeRegiao] = useState('')
-  const [pinPendente, setPinPendente] = useState<MapaPonto | null>(null)
-  const [pinLocalId, setPinLocalId] = useState('')
   /** Região em EDIÇÃO por pintura (feedback: "adicionar novos hex"). */
   const [editRegiaoId, setEditRegiaoId] = useState<string | null>(null)
+  /** Doc do Atlas em edição no MAPA (hierarquia): lugar pontual ou área. */
+  const [alvoDoc, setAlvoDoc] = useState<string | null>(null)
 
-  const localizacoes = useMemo(
-    () =>
-      (catalog.docsByType.get(LOCALIZACAO_TYPE) ?? [])
-        .slice()
-        .sort((a, b) => (a.basename ?? a.id).localeCompare(b.basename ?? b.id, 'pt-BR')),
-    [catalog],
-  )
   // Grupos do gating: docs de Grupo da vault + grupos locais criados no app.
   const grupos = useMemo(() => {
     const vault = (catalog.docsByType.get('Grupo') ?? []).map((e) => ({
@@ -212,14 +217,29 @@ export function AtlasMapaPage() {
       setVertices((v) => [...v, p])
       return
     }
-    if (mestre && modo === 'pin') {
-      setPinPendente(p)
-      return
-    }
     const hex = atlasFracToHex(f.fx, f.fy)
     if (mestre && modo === 'hexes' && editRegiaoId) {
       // PINTURA: toca pra ligar/desligar o hex na região em edição.
       toggleRegiaoHex(editRegiaoId, hex)
+      return
+    }
+    if (mestre && modo === 'hex-lugar' && alvoDoc) {
+      // LUGAR pontual (hierarquia do Atlas): o toque DEFINE/MOVE o hex do doc
+      // — semântica do editor do Mundo Livre (um lugar, um hex; remover o
+      // antigo preserva as áreas dele).
+      const atual = cellsByLocal(hexMap.cells).get(alvoDoc)
+      if (atual) removeHex(MAPA_MUNDO_ID, atual.col, atual.row)
+      setHexLocal(MAPA_MUNDO_ID, hex.col, hex.row, alvoDoc)
+      return
+    }
+    if (mestre && modo === 'hex-area' && alvoDoc) {
+      // ÁREA (hierarquia): toque liga/desliga o hex na área — multi-membership
+      // preservada (#82), como no editor do Mundo Livre.
+      if (hexHasArea(hexMap.cells, hex.col, hex.row, alvoDoc)) {
+        removeHexArea(MAPA_MUNDO_ID, hex.col, hex.row, alvoDoc)
+      } else {
+        setHexArea(MAPA_MUNDO_ID, hex.col, hex.row, alvoDoc)
+      }
       return
     }
     // Modo navegação: clique abre a INFO do hex ("ver a respeito de cada
@@ -238,14 +258,6 @@ export function AtlasMapaPage() {
       setVertices([])
       setNomeRegiao('')
       setModo('nav')
-    }
-  }
-
-  const confirmarPin = () => {
-    if (pinPendente && pinLocalId) {
-      addPin(pinLocalId, pinPendente.x, pinPendente.y)
-      setPinPendente(null)
-      setPinLocalId('')
     }
   }
 
@@ -389,6 +401,36 @@ export function AtlasMapaPage() {
                     style={{ pointerEvents: 'none' }}
                   />
                 ) : null}
+                {/* Feedback da edição pela HIERARQUIA: hex atual do LUGAR em
+                    definição / contorno da ÁREA em pintura. */}
+                {mestre && modo === 'hex-lugar' && alvoDoc
+                  ? (() => {
+                      const c = cellsByLocal(hexMap.cells).get(alvoDoc)
+                      return c ? (
+                        <polygon
+                          data-hex-lugar-atual=""
+                          points={atlasHexPolygonPoints(c.col, c.row)}
+                          fill="color-mix(in srgb,var(--blue) 30%,transparent)"
+                          stroke="var(--blue)"
+                          strokeWidth={5}
+                          style={{ pointerEvents: 'none' }}
+                        />
+                      ) : null
+                    })()
+                  : null}
+                {mestre && modo === 'hex-area' && alvoDoc
+                  ? outlineRingsFromCells(cellsOfArea(hexMap.cells, alvoDoc)).map((anel, i) => (
+                      <polygon
+                        key={`area-edit:${i}`}
+                        data-area-em-edicao=""
+                        points={anel.map((p) => `${p.x},${p.y}`).join(' ')}
+                        fill="color-mix(in srgb,var(--blue) 16%,transparent)"
+                        stroke="var(--blue)"
+                        strokeWidth={4}
+                        style={{ pointerEvents: 'none' }}
+                      />
+                    ))
+                  : null}
                 {/* Polígono EM DESENHO (modo região). */}
                 {mestre && vertices.length > 0 ? (
                   <polyline
@@ -416,16 +458,6 @@ export function AtlasMapaPage() {
                     <circle r={16} fill="var(--accent)" stroke="var(--ink)" strokeWidth={4} />
                   </g>
                 ))}
-                {/* Pin PENDENTE (modo lugar). */}
-                {pinPendente ? (
-                  <circle
-                    cx={pinPendente.x}
-                    cy={pinPendente.y}
-                    r={20}
-                    fill="var(--red)"
-                    style={{ pointerEvents: 'none' }}
-                  />
-                ) : null}
               </svg>
             </div>
           </div>
@@ -522,21 +554,9 @@ export function AtlasMapaPage() {
             </button>
             <button
               style={pillStyle(modo === 'regiao')}
-              onClick={() => {
-                setModo('regiao')
-                setPinPendente(null)
-              }}
+              onClick={() => setModo('regiao')}
             >
               ⬡ MARCAR REGIÃO
-            </button>
-            <button
-              style={pillStyle(modo === 'pin')}
-              onClick={() => {
-                setModo('pin')
-                setVertices([])
-              }}
-            >
-              📍 MARCAR LUGAR
             </button>
           </div>
 
@@ -591,48 +611,30 @@ export function AtlasMapaPage() {
             </div>
           ) : null}
 
-          {modo === 'pin' ? (
+          {(modo === 'hex-lugar' || modo === 'hex-area') && alvoDoc ? (
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
               <span style={mono9}>
-                {pinPendente ? 'Escolha a Localização do pin:' : 'Toque no mapa pra posicionar o lugar'}
+                {modo === 'hex-lugar'
+                  ? `Toque no hex onde fica “${nomeDe(alvoDoc)}” (toque de novo pra mover)`
+                  : `Toque nos hexes pra pintar/despintar a área “${nomeDe(alvoDoc)}”`}
               </span>
-              {pinPendente ? (
-                <>
-                  <select
-                    aria-label="Localização do pin"
-                    value={pinLocalId}
-                    onChange={(e) => setPinLocalId(e.target.value)}
-                    style={{
-                      padding: '6px 10px',
-                      background: 'var(--card)',
-                      border: '1px solid var(--line2)',
-                      color: 'var(--text)',
-                      fontSize: 13,
-                      maxWidth: 260,
-                    }}
-                  >
-                    <option value="">— Localização —</option>
-                    {localizacoes.map((l) => (
-                      <option key={l.id} value={l.id}>
-                        {l.basename ?? l.id}
-                      </option>
-                    ))}
-                  </select>
-                  <button style={pillStyle(false)} disabled={!pinLocalId} onClick={confirmarPin}>
-                    ✓ FIXAR LUGAR
-                  </button>
-                  <button style={pillStyle(false)} onClick={() => setPinPendente(null)}>
-                    ↩ CANCELAR
-                  </button>
-                </>
-              ) : null}
+              <button
+                style={pillStyle(false)}
+                onClick={() => {
+                  setModo('nav')
+                  setAlvoDoc(null)
+                }}
+              >
+                ✓ CONCLUIR
+              </button>
             </div>
           ) : null}
 
-          {/* Habilitação POR GRUPO ("poderão ser habilitadas conforme o grupo"). */}
+          {/* Habilitação POR GRUPO ("poderão ser habilitadas conforme o grupo").
+              Pedido do mestre: esta seção se chama MAPAS. */}
           {cfg.regioes.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <div style={{ ...mono9, fontWeight: 700 }}>REGIÕES HABILITADAS</div>
+              <div style={{ ...mono9, fontWeight: 700 }}>MAPAS</div>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                 <select
                   aria-label="Grupo do gating"
@@ -687,7 +689,6 @@ export function AtlasMapaPage() {
                           setEditRegiaoId(r.id)
                           setModo('hexes')
                           setVertices([])
-                          setPinPendente(null)
                         }}
                         style={pillStyle(editRegiaoId === r.id && modo === 'hexes')}
                       >
@@ -707,10 +708,10 @@ export function AtlasMapaPage() {
             </div>
           ) : null}
 
-          {/* Lugares marcados (remover). */}
+          {/* Pins LEGADOS (o fluxo de lugar virou o hexmap da hierarquia). */}
           {cfg.pins.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <div style={{ ...mono9, fontWeight: 700 }}>LUGARES NO MAPA</div>
+              <div style={{ ...mono9, fontWeight: 700 }}>PINS LEGADOS</div>
               {cfg.pins.map((p) => (
                 <div key={p.id} style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 13 }}>
                   <span>📍 {nomeDe(p.localId)}</span>
@@ -726,8 +727,139 @@ export function AtlasMapaPage() {
               ))}
             </div>
           ) : null}
+
+          {/* Pedido do mestre: a HIERARQUIA COMPLETA do Atlas ("os locais e
+              tudo mais, de forma hierárquica pra eu ver a lista de tudo") —
+              cada item mostra se JÁ está definido no mapa (lugar/área do
+              hexmap mapa:mundo) e edita direto: 📍 define/move o hex do
+              lugar, ⬡ pinta a área — as capacidades do editor do Mundo
+              Livre no mapa-múndi. */}
+          <AtlasNoMapa
+            hexCells={hexMap.cells}
+            alvoDoc={modo === 'hex-lugar' || modo === 'hex-area' ? alvoDoc : null}
+            modoAlvo={modo === 'hex-lugar' || modo === 'hex-area' ? modo : null}
+            onDefinirLugar={(id) => {
+              setAlvoDoc(id)
+              setModo('hex-lugar')
+              setEditRegiaoId(null)
+              setVertices([])
+            }}
+            onPintarArea={(id) => {
+              setAlvoDoc(id)
+              setModo('hex-area')
+              setEditRegiaoId(null)
+              setVertices([])
+            }}
+          />
         </div>
       ) : null}
     </section>
+  )
+}
+
+/** Hierarquia do Atlas com o STATUS no mapa-múndi e edição por item. A árvore
+ *  vem do FM Geolocalização (buildAtlasIndex — a mesma do AtlasNav). */
+function AtlasNoMapa({
+  hexCells,
+  alvoDoc,
+  modoAlvo,
+  onDefinirLugar,
+  onPintarArea,
+}: {
+  hexCells: HexMapCell[]
+  alvoDoc: string | null
+  modoAlvo: 'hex-lugar' | 'hex-area' | null
+  onDefinirLugar: (id: string) => void
+  onPintarArea: (id: string) => void
+}) {
+  const catalog = useCatalog()
+  const localIds = useMemo(
+    () => (catalog.docsByType.get(LOCALIZACAO_TYPE) ?? []).map((e) => e.id),
+    [catalog],
+  )
+  const docs = useDocs(localIds)
+  const arvore = useMemo(() => {
+    if (!docs) return null
+    const { parentOf, childrenOf } = buildAtlasIndex(docs.values(), catalog)
+    const nameOf = (id: string) => catalog.entryById.get(id)?.basename ?? id.split('/').pop() ?? id
+    const ordena = (ids: string[]) => ids.slice().sort((a, b) => nameOf(a).localeCompare(nameOf(b), 'pt-BR'))
+    // Raiz = pai FORA do conjunto de Localização (Mundo Livre etc. apontam
+    // Geolocalização → [[Atlas]], que é doc mas não é lugar).
+    const ehLugar = new Set(localIds)
+    const roots = ordena(localIds.filter((id) => !ehLugar.has(parentOf.get(id) ?? '')))
+    return { childrenOf, nameOf, ordena, roots }
+  }, [docs, catalog, localIds])
+  const porLugar = useMemo(() => cellsByLocal(hexCells), [hexCells])
+
+  if (!arvore) return null
+
+  const linha = (id: string, nivel: number): React.ReactNode => {
+    const doc = docs?.get(id)
+    const tipo = typeof doc?.subtype === 'string' ? doc.subtype : ''
+    const lugar = porLugar.get(id)
+    const areaN = cellsOfArea(hexCells, id).length
+    const definido = !!lugar || areaN > 0
+    const filhos = arvore.ordena(arvore.childrenOf.get(id) ?? [])
+    const emEdicao = alvoDoc === id
+    return (
+      <div key={id} data-atlas-item={id} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: 8,
+            alignItems: 'center',
+            paddingLeft: nivel * 18,
+            fontSize: 13,
+          }}
+        >
+          <span
+            data-status={definido ? 'definido' : 'faltando'}
+            title={definido ? 'Definido no mapa' : 'AINDA FORA do mapa'}
+            style={{ flex: 'none', fontSize: 11 }}
+          >
+            {definido ? '🟢' : '🔴'}
+          </span>
+          <span style={{ fontWeight: 600, color: emEdicao ? 'var(--blue)' : 'var(--text)' }}>
+            {arvore.nameOf(id)}
+          </span>
+          {tipo ? <span style={{ ...mono9, fontSize: 8.5 }}>{tipo.toUpperCase()}</span> : null}
+          <span style={mono9}>
+            {lugar ? `📍 hex ${lugar.col},${lugar.row}` : ''}
+            {lugar && areaN ? ' · ' : ''}
+            {areaN ? `⬡ ${areaN} hexes` : ''}
+          </span>
+          <span style={{ flex: 1 }} />
+          <button
+            aria-label={`Definir lugar de ${arvore.nameOf(id)}`}
+            title="Definir/mover o hex deste lugar no mapa"
+            onClick={() => onDefinirLugar(id)}
+            style={pillStyle(emEdicao && modoAlvo === 'hex-lugar')}
+          >
+            📍
+          </button>
+          <button
+            aria-label={`Pintar área de ${arvore.nameOf(id)}`}
+            title="Pintar/despintar os hexes da área deste lugar"
+            onClick={() => onPintarArea(id)}
+            style={pillStyle(emEdicao && modoAlvo === 'hex-area')}
+          >
+            ⬡
+          </button>
+        </div>
+        {filhos.map((f) => linha(f, nivel + 1))}
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ ...mono9, fontWeight: 700 }}>ATLAS NO MAPA</div>
+      <span style={mono9}>
+        🟢 definido no mapa · 🔴 ainda fora — 📍 define o hex do lugar, ⬡ pinta a área
+      </span>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 420, overflowY: 'auto' }}>
+        {arvore.roots.map((id) => linha(id, 0))}
+      </div>
+    </div>
   )
 }

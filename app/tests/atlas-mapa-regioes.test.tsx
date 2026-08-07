@@ -303,7 +303,9 @@ describe('AtlasMapaPage — ferramentas do mestre', () => {
     await screen.findByAltText('Mapa do mundo')
     expect(screen.getByText('FERRAMENTAS DO MESTRE')).toBeTruthy()
     expect(screen.getByText('⬡ MARCAR REGIÃO')).toBeTruthy()
-    expect(screen.getByText('📍 MARCAR LUGAR')).toBeTruthy()
+    // autoria de PIN foi substituída pela hierarquia do Atlas (hexmap)
+    expect(screen.queryByText('📍 MARCAR LUGAR')).toBeNull()
+    expect(await screen.findByText('ATLAS NO MAPA')).toBeTruthy()
   })
 })
 
@@ -314,7 +316,8 @@ describe('#424 — seed embarcado: o mapa do mestre é o PADRÃO de todo viewer'
     __resetMapaAtlasForTests()
     const s = getMapaAtlas()
     expect(s.regioes.map((r) => r.nome).sort()).toEqual(['Magna Pátria', 'Mundo Livre', 'Pátria Aurora'])
-    expect(s.pins).toHaveLength(1)
+    // marcações finais do mestre: lugares agora vivem no hexmap, sem pins
+    expect(s.pins).toHaveLength(0)
     // e o /mapa renderiza o gating do seed (região desabilitada coberta)
     renderMapa()
     await screen.findByAltText('Mapa do mundo')
