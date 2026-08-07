@@ -277,3 +277,72 @@ describe('feedback — lugar clicado abre nos DETALHES (barra direita), não nav
     expect(container.querySelector('[data-doc-page]')).toBeNull() // NÃO navegou
   })
 })
+
+
+describe('#422 — tap de dedo TREMIDO no celular pinta (touch slop 12px; mouse segue 3px)', () => {
+  function setupPaint(container: HTMLElement) {
+    const W = 744
+    const H = 526.2
+    const mapa = container.querySelector('[data-mapa]') as HTMLElement
+    mapa.getBoundingClientRect = () =>
+      ({ left: 0, top: 0, right: W, bottom: H, width: W, height: H, x: 0, y: 0 }) as DOMRect
+    return container.querySelector('[data-mapa-viewport]') as HTMLElement
+  }
+
+  async function comecaEdicao() {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
+    const r = regiaoSobreKrasnogor()
+    const utils = renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    fireEvent.click(screen.getByLabelText('Editar hexes de Pedra Fina Norte'))
+    await screen.findByText('✓ CONCLUIR EDIÇÃO')
+    return { r, container: utils.container }
+  }
+
+  /** jsdom não tem PointerEvent — despacha Event cru com os campos que o
+   *  React lê no sintético (pointerId/pointerType/clientX/clientY). */
+  function pointer(vp: HTMLElement, type: string, pointerType: string, x: number, y: number) {
+    const ev = new Event(type, { bubbles: true }) as unknown as Record<string, unknown>
+    ev.pointerId = 1
+    ev.pointerType = pointerType
+    ev.clientX = x
+    ev.clientY = y
+    vp.dispatchEvent(ev as unknown as Event)
+  }
+
+  it('TOQUE com tremida de 8px: o click não é suprimido e o hex pinta', async () => {
+    const { r, container } = await comecaEdicao()
+    const antes = getMapaAtlas().regioes.find((x2) => x2.id === r.id)!.cells.length
+    const vp = setupPaint(container)
+    const alvo = atlasHexCenter(KRAS_CELL.col + 6, KRAS_CELL.row)
+    const x = alvo.x / 10
+    const y = alvo.y / 10
+    pointer(vp, 'pointerdown', 'touch', x, y)
+    pointer(vp, 'pointermove', 'touch', x + 6, y + 5)
+    pointer(vp, 'pointerup', 'touch', x + 6, y + 5)
+    fireEvent.click(vp, { clientX: x + 6, clientY: y + 5 })
+    // a tremida (coords de cliente ×10 na fonte) pode cair no hex vizinho —
+    // o que importa é o CLICK ter registrado: uma célula nova entrou.
+    await waitFor(() => {
+      const atual = getMapaAtlas().regioes.find((x2) => x2.id === r.id)!
+      expect(atual.cells.length).toBe(antes + 1)
+    })
+  })
+
+  it('trap reverso: MOUSE arrastando 8px continua suprimindo o click (pan preciso)', async () => {
+    const { r, container } = await comecaEdicao()
+    const antes = getMapaAtlas().regioes.find((x2) => x2.id === r.id)!.cells.length
+    const vp = setupPaint(container)
+    const alvo = atlasHexCenter(KRAS_CELL.col + 6, KRAS_CELL.row)
+    const x = alvo.x / 10
+    const y = alvo.y / 10
+    pointer(vp, 'pointerdown', 'mouse', x, y)
+    pointer(vp, 'pointermove', 'mouse', x + 6, y + 5)
+    pointer(vp, 'pointerup', 'mouse', x + 6, y + 5)
+    fireEvent.click(vp, { clientX: x + 6, clientY: y + 5 })
+    await new Promise((res) => setTimeout(res, 60))
+    const atual = getMapaAtlas().regioes.find((x2) => x2.id === r.id)!
+    expect(atual.cells.length).toBe(antes)
+  })
+})

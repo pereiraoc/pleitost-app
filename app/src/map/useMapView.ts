@@ -77,6 +77,12 @@ export function useMapView(): UseMapView {
   const panBase = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null)
   const pinchBase = useRef<{ d: number; mx: number; my: number; view: MapView } | null>(null)
   const movedRef = useRef(false)
+  /** Ponteiro atual é TOQUE? Dedo real treme 5-15px num tap — com o limiar de
+   *  mouse (3px) a maioria dos toques virava "micro-arraste" e o click era
+   *  suprimido (report: "não to conseguindo editar" a pintura de região no
+   *  celular; mesmo efeito nos taps de hex da exploração). Touch usa slop de
+   *  plataforma (~12px); mouse/caneta seguem precisos em 3px. */
+  const touchRef = useRef(false)
 
   /** Restringe a translação pra o mapa NUNCA sair da viewport: quando a
    *  imagem cobre um eixo, a borda não pode entrar; quando é menor que a
@@ -180,6 +186,7 @@ export function useMapView(): UseMapView {
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
     ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
     movedRef.current = false
+    touchRef.current = e.pointerType === 'touch'
     setDragging(true)
     const pts = [...pointers.current.values()]
     if (pts.length >= 2) {
@@ -232,7 +239,10 @@ export function useMapView(): UseMapView {
     if (!start) return
     const dx = e.clientX - start.x
     const dy = e.clientY - start.y
-    if (Math.abs(dx) + Math.abs(dy) > 3) movedRef.current = true
+    // Distância EUCLIDIANA (o slop de plataforma é um raio — Manhattan
+    // penalizava tremida diagonal e ainda comia taps de ~10px).
+    const slop = touchRef.current ? 12 : 3
+    if (Math.hypot(dx, dy) > slop) movedRef.current = true
     if (movedRef.current) setView((v) => clampView(v, { ...v, tx: start.tx + dx, ty: start.ty + dy }))
   }, [view, clampView])
 
