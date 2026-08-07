@@ -36,10 +36,17 @@ export function useHexMapMundoSync(mestre: boolean): void {
     void repo.updateSessionState(live.sessionId, { hexMapMundo: { cells: hexMap.cells } }).catch(() => {})
   }, [mestre, repo, live?.sessionId, hexMap.cells, remotoSig])
 
-  // JOGADOR (não-mestre) adota o mapa da mesa quando difere do local.
+  // JOGADOR (não-mestre) adota o mapa da mesa UMA vez por valor remoto distinto.
+  // CUIDADO (React #185): NÃO comparar `remotoSig` (células cruas) com
+  // `JSON.stringify(hexMap.cells)` (células NORMALIZADAS por setHexMapFull) — a
+  // normalização (migração areaId→areaIds, ordem de chaves, campos vazios
+  // omitidos) faz as strings nunca baterem, e o efeito re-importava a CADA
+  // render → loop infinito de commit/emit. Rastreia o último remoto importado.
+  const importedRef = useRef<string | null>(null)
   useEffect(() => {
     if (mestre || remotoSig === null) return
-    if (remotoSig === JSON.stringify(hexMap.cells)) return
+    if (remotoSig === importedRef.current) return
+    importedRef.current = remotoSig
     setHexMapFull(MAPA_MUNDO_ID, remotoCells)
-  }, [mestre, remotoSig, remotoCells, hexMap.cells])
+  }, [mestre, remotoSig, remotoCells])
 }

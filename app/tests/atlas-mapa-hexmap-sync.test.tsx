@@ -155,4 +155,30 @@ describe('#430 — jogador adota o mapa da mesa', () => {
       expect(cellAt(getHexMapState(MAPA_MUNDO_ID).cells, 46, 16)?.localId).toBe(KRASNOGOR),
     )
   })
+
+  it('adoção NÃO faz loop quando o remoto NORMALIZA diferente (React #185)', async () => {
+    // célula com `areaId` (forma antiga) → setHexMapFull normaliza pra
+    // `areaIds`; o JSON normalizado NUNCA bate com o cru → o efeito re-importava
+    // a cada render (loop infinito de commit/emit → crash). Com o fix, adota 1×.
+    setLiveSession({
+      sessionId: 's1',
+      gmUserId: 'gm',
+      state: {
+        hexMapMundo: { cells: [{ col: 5, row: 5, areaId: 'AREA-X' }] },
+      } as unknown as LiveSession['state'],
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    // se houver loop, o render estoura "Maximum update depth" e o findBy falha
+    renderMapa()
+    await screen.findByAltText('Mapa do mundo')
+    await waitFor(() => {
+      const cel = cellAt(getHexMapState(MAPA_MUNDO_ID).cells, 5, 5)
+      expect(cel?.areaIds).toEqual(['AREA-X'])
+    })
+    // estabilizou: uma janela extra sem re-render descontrolado
+    await new Promise((r) => setTimeout(r, 80))
+    expect(cellAt(getHexMapState(MAPA_MUNDO_ID).cells, 5, 5)?.areaIds).toEqual(['AREA-X'])
+  })
 })
