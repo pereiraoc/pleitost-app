@@ -18,6 +18,7 @@ import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { folderNoteHasBody } from '../../markdown/folder-note-body'
+import { AtlasMapaPage } from './AtlasMapaPage'
 // SIDE-EFFECT: registra os visualizadores de folha (Item → grade de cartas).
 // Mesmo barrel que o DocPage carrega; a importação aqui garante o registro
 // mesmo que a folha seja alcançada sem passar por um doc antes.
@@ -242,14 +243,13 @@ export function FolderView() {
   // ABAIXO do conteúdo dela — nos dois ramos é o mesmo bloco.
   const childrenListing = (
     <>
-      {/* Mapa do mundo (fase 1 do atlas completo): entrada na RAIZ do Atlas —
-          o card leva pro visualizador /mapa (AtlasMapaPage). O AtlasNav já
-          anunciava esperar o mapa-raiz. */}
+      {/* Mapa do mundo EMBUTIDO na raiz do Atlas (pedido do mestre: abrir
+          Compêndio/Atlas já mostra o mapa, sem card intermediário; os lugares
+          do Atlas seguem listados abaixo). Traz junto as FERRAMENTAS DO MESTRE
+          (regiões/habilitação por grupo) — onde antes "não se achava" o gating. */}
       {path === 'Atlas' ? (
-        <div className="type-grid" style={{ marginBottom: 10 }}>
-          <Link to="/mapa" className="type-card">
-            <span className="type-card-name">🗺️ Mapa do Mundo</span>
-          </Link>
+        <div style={{ marginBottom: 16 }}>
+          <AtlasMapaPage />
         </div>
       ) : null}
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por

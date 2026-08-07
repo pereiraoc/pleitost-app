@@ -81,15 +81,17 @@ describe('mapa do mundo — entrada na raiz do Atlas', () => {
     )
   }
 
-  it('raiz do Atlas mostra o card "Mapa do Mundo" linkando /mapa', async () => {
+  it('raiz do Atlas EMBUTE o mapa (sem card intermediário)', async () => {
     renderFolder('/compendio/Atlas')
-    const card = await screen.findByText('🗺️ Mapa do Mundo')
-    expect(card.closest('a')?.getAttribute('href')).toBe('/mapa')
+    // o mapa renderiza inline; não há mais o card "🗺️ Mapa do Mundo"
+    const img = (await screen.findByAltText('Mapa do mundo')) as HTMLImageElement
+    expect(decodeURIComponent(img.src)).toContain('Mapas/atlas.webp')
+    expect(screen.queryByText('🗺️ Mapa do Mundo')).toBeNull()
   })
 
-  it('trap reverso: subpasta (Mundo Livre) NÃO tem o card', async () => {
+  it('trap reverso: subpasta (Mundo Livre) NÃO embute o mapa', async () => {
     renderFolder('/compendio/Atlas/Mundo Livre')
     await screen.findAllByText(/Mundo Livre/)
-    expect(screen.queryByText('🗺️ Mapa do Mundo')).toBeNull()
+    expect(document.querySelector('img[alt="Mapa do mundo"]')).toBeNull()
   })
 })
