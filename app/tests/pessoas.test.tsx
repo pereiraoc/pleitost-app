@@ -118,6 +118,69 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     })
   })
 
+  it('#444 o PRÓPRIO herói não aparece em Pessoas (nem duplicado por estar em 2 grupos)', async () => {
+    // Carlos está em 2 grupos que o contêm; sem o fix apareceria 2x (o membro
+    // é o doc da vault, o herói atual é local: ids diferentes, mesmo nome).
+    const id = createLocalEntity('Heroi', 'Carlos Facão de Andradas', {
+      ...emptyHeroFrontmatter(),
+      grupo: ['[[Carlos, Dante, Mera, Pind, Thoren]]', '[[Baitaca, Carlos, Drauzio]]'],
+    } as never)
+    const { container } = renderAnotacoes(id)
+    fireEvent.click(await screen.findByText('PESSOAS'))
+    await screen.findByText('Dante') // o grupo resolveu (membros aparecem)
+    const grupo = container.querySelector('[data-pessoa-grupo="Grupo"]') as HTMLElement
+    // o próprio Carlos NÃO aparece (0x) e ninguém está duplicado
+    expect(within(grupo).queryByText('Carlos Facão de Andradas')).toBeNull()
+    expect(within(grupo).getAllByText('Dante')).toHaveLength(1)
+  })
+
+  it('#445 agrupa por relação na ordem Grupo→Família→…→Inimigos, com cabeçalhos', async () => {
+    const id = createLocalEntity('Heroi', 'Dono', {
+      ...emptyHeroFrontmatter(),
+      Pessoas: [
+        { Nome: 'Rival', Relação: 'Inimigo' },
+        { Nome: 'Mãe', Relação: 'Família' },
+        { Nome: 'Colega', Relação: 'Amigo' },
+      ],
+    } as never)
+    const { container } = renderAnotacoes(id)
+    fireEvent.click(await screen.findByText('PESSOAS'))
+    await screen.findByText('Mãe')
+    // cabeçalhos por relação (plural onde o mestre pediu)
+    const grupos = [...container.querySelectorAll('[data-pessoa-grupo]')].map((g) =>
+      g.getAttribute('data-pessoa-grupo'),
+    )
+    // ordem: Família antes de Amigos antes de Inimigos
+    expect(grupos).toEqual(['Família', 'Amigos', 'Inimigos'])
+    // cada card sob o cabeçalho certo
+    const familia = container.querySelector('[data-pessoa-grupo="Família"]') as HTMLElement
+    expect(within(familia).getByText('Mãe')).toBeTruthy()
+  })
+
+  it('#443 clicar numa Pessoa abre um resumo COERENTE (Relação/Organização), não VIDA/atributos', async () => {
+    const pid = createLocalEntity('Pessoa', 'Zeca do Bar', {
+      Relação: 'Amigo',
+      Organização: 'Taverna do Cão',
+      Posição: 'Dono',
+      Detalhes: 'Sabe de tudo que rola na cidade.',
+    })
+    const id = createLocalEntity('Heroi', 'Dono', {
+      ...emptyHeroFrontmatter(),
+      Pessoas: [{ Nome: 'Zeca do Bar', Relação: 'Amigo', Alvo: pid }],
+    } as never)
+    renderAnotacoes(id)
+    fireEvent.click(await screen.findByText('PESSOAS'))
+    fireEvent.click(await screen.findByRole('button', { name: 'Zeca do Bar' }))
+    await waitFor(() => expect(document.querySelector('[data-pessoa-resumo]')).toBeTruthy())
+    // mostra os campos de PESSOA…
+    expect(screen.getByText('// PESSOA')).toBeTruthy()
+    expect(screen.getByText('Taverna do Cão')).toBeTruthy()
+    expect(screen.getByText('Sabe de tudo que rola na cidade.')).toBeTruthy()
+    // …e NÃO o resumo de criatura (VIDA/atributos)
+    expect(screen.queryByText('// VIDA')).toBeNull()
+    expect(screen.queryByText('// ATRIBUTOS')).toBeNull()
+  })
+
   it('#442 picker: só entidades do usuário — Pessoas cadastradas, sem o próprio herói, sem bestiário da vault', async () => {
     const id = createLocalEntity('Heroi', 'Meu Herói', emptyHeroFrontmatter())
     createLocalEntity('Heroi', 'Aliado Conhecido', emptyHeroFrontmatter())

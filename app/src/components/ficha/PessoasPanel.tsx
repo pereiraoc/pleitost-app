@@ -29,6 +29,25 @@ function rowsOf(fm: Record<string, unknown>): PessoaRow[] {
   return Array.isArray(raw) ? (raw as PessoaRow[]) : []
 }
 
+// #445 — agrupamento por tipo de relação, na ordem pedida pelo mestre. "Grupo"
+// são os membros de grupo (auto); os demais casam o campo `Relação` (valores
+// singulares de PESSOA_RELACOES). Relação vazia/desconhecida cai em Neutro.
+const RELACAO_GRUPOS: { label: string; values: string[] }[] = [
+  { label: 'Grupo', values: [] }, // membros de grupo (autoMembros)
+  { label: 'Família', values: ['Família'] },
+  { label: 'Romance', values: ['Romance'] },
+  { label: 'Amigos', values: ['Amigo'] },
+  { label: 'Conhecidos', values: ['Conhecido'] },
+  { label: 'Negócios', values: ['Negócios'] },
+  { label: 'Neutro', values: ['Neutro'] },
+  { label: 'Inimigos', values: ['Inimigo'] },
+]
+/** Índice do grupo de relação de uma linha manual (default = Neutro). */
+function grupoDaRelacao(relacao: string): number {
+  const i = RELACAO_GRUPOS.findIndex((g) => g.values.includes(relacao))
+  return i >= 0 ? i : RELACAO_GRUPOS.findIndex((g) => g.label === 'Neutro')
+}
+
 function Chip({ label, value }: { label: string; value: string }) {
   if (!value) return null
   return (
@@ -315,9 +334,19 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
   const membros0 = useGroupMembers(catalog, groupIds[0] ?? '')
   const membros1 = useGroupMembers(catalog, groupIds[1] ?? '')
   const manuais = new Set(rows.map((r) => r.Alvo ?? `nome:${r.Nome}`))
-  const autoMembros = [...membros0, ...membros1].filter(
-    (m) => m.id !== doc.id && !manuais.has(m.id),
-  )
+  // #444: exclui o PRÓPRIO herói (por id OU nome — o membro pode ser o doc da
+  // VAULT e o atual o herói LOCAL: ids diferentes, mesma pessoa) e DEDUPLICA
+  // (o mesmo membro em 2 grupos aparecia 2x).
+  const selfNome = (doc.basename ?? '').trim().toLowerCase()
+  const seenAuto = new Set<string>()
+  const autoMembros = [...membros0, ...membros1].filter((m) => {
+    const nome = (m.basename ?? '').trim().toLowerCase()
+    if (m.id === doc.id || (!!nome && nome === selfNome)) return false
+    if (seenAuto.has(m.id) || (!!nome && seenAuto.has('n:' + nome))) return false
+    seenAuto.add(m.id)
+    if (nome) seenAuto.add('n:' + nome)
+    return !manuais.has(m.id)
+  })
 
   const save = (next: PessoaRow[]) => model.set('Pessoas', next)
   const abrirResumo = (id: string) => detail?.open({ kind: 'resumo', id })
@@ -357,33 +386,42 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
         </button>
       </div>
 
-      {autoMembros.map((m) => (
-        <PessoaCard
-          key={`auto-${m.id}`}
-          // Alvo: m.id — linha derivada aponta pro membro real, então o card
-          // mostra o retrato DELE (#200), como as linhas de CONHECIDO.
-          row={{
-            Nome: m.basename ?? m.id,
-            Relação: '',
-            Organização: '',
-            Posição: '',
-            Detalhes: '',
-            Alvo: m.id,
-          }}
-          badge="GRUPO"
-          onResumo={() => abrirResumo(m.id)}
-        />
-      ))}
-      {rows.map((r, idx) => (
-        <PessoaCard
-          key={`${r.Alvo ?? r.Nome}-${idx}`}
-          row={r}
-          badge={r.Alvo ? 'CONHECIDO' : undefined}
-          onResumo={r.Alvo ? () => abrirResumo(r.Alvo!) : undefined}
-          onEdit={() => setModal({ t: 'editar', idx })}
-          onDelete={() => save(rows.filter((_, i) => i !== idx))}
-        />
-      ))}
+      {/* #445 — agrupado por relação, na ordem do mestre. "Grupo" = membros de
+          grupo; cada bloco tem um cabeçalho e some quando vazio. */}
+      {RELACAO_GRUPOS.map((g, gi) => {
+        const isGrupo = g.label === 'Grupo'
+        const cards = isGrupo
+          ? autoMembros.map((m) => (
+              <PessoaCard
+                key={`auto-${m.id}`}
+                row={{ Nome: m.basename ?? m.id, Relação: '', Organização: '', Posição: '', Detalhes: '', Alvo: m.id }}
+                badge="GRUPO"
+                onResumo={() => abrirResumo(m.id)}
+              />
+            ))
+          : rows
+              .map((r, idx) => ({ r, idx }))
+              .filter(({ r }) => grupoDaRelacao(r.Relação ?? '') === gi)
+              .map(({ r, idx }) => (
+                <PessoaCard
+                  key={`${r.Alvo ?? r.Nome}-${idx}`}
+                  row={r}
+                  badge={r.Alvo ? 'CONHECIDO' : undefined}
+                  onResumo={r.Alvo ? () => abrirResumo(r.Alvo!) : undefined}
+                  onEdit={() => setModal({ t: 'editar', idx })}
+                  onDelete={() => save(rows.filter((_, i) => i !== idx))}
+                />
+              ))
+        if (cards.length === 0) return null
+        return (
+          <div key={g.label} data-pessoa-grupo={g.label} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={mono({ fontSize: 9.5, letterSpacing: '.14em', color: 'var(--muted)', marginTop: gi > 0 ? 4 : 0 })}>
+              {`// ${g.label.toUpperCase()}`}
+            </div>
+            {cards}
+          </div>
+        )
+      })}
       {rows.length === 0 && autoMembros.length === 0 ? (
         <div style={mono({ fontSize: 11, color: 'var(--muted)', padding: 8 })}>
           Ninguém conhecido ainda — adicione uma pessoa nova ou um personagem existente.

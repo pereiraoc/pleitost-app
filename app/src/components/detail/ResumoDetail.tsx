@@ -774,9 +774,83 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
   )
 }
 
+/** #443 — resumo de uma PESSOA (subtype 'Pessoa'): os campos do #45
+ *  (Relação/Organização/Posição/Detalhes), NÃO VIDA/atributos de criatura. */
+function PessoaResumo({ doc }: { doc: VaultDoc }) {
+  const assets = useAssetIndex()
+  const fm = doc.frontmatter as Fm
+  const plain = (v: unknown): string => (typeof v === 'string' ? linkLabel(unquote(v)).trim() : '')
+  const portrait = creatureImageUrl(doc, assets, true)
+  const relacao = plain(fm['Relação'])
+  const org = plain(fm['Organização'])
+  const pos = plain(fm['Posição'])
+  const det = plain(fm['Detalhes'])
+  const ini = (doc.basename ?? '?')
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? '')
+    .join('')
+  const chip = (label: string, value: string) =>
+    value ? (
+      <span data-resumo-chip="" style={chipStyle}>
+        <span style={mono({ fontSize: 8.5, letterSpacing: '.08em', color: 'var(--muted)' })}>{label}</span>
+        <span style={{ fontSize: 11.5, color: 'var(--text)' }}>{value}</span>
+      </span>
+    ) : null
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0 8px' }}>
+      <div
+        data-resumo-card=""
+        data-pessoa-resumo=""
+        style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: '11px 11px 11px 16px', ...cardStyle(12) }}
+      >
+        {portrait ? (
+          <div
+            style={{ width: 52, height: 52, flex: 'none', backgroundImage: `url("${portrait}")`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid var(--line2)', clipPath: clip(10) }}
+          />
+        ) : (
+          <div
+            style={{ width: 52, height: 52, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(10), ...mono({ fontSize: 18, color: 'var(--muted)' }) }}
+          >
+            {ini}
+          </div>
+        )}
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 800, letterSpacing: '-0.2px' }}>
+            {doc.basename}
+          </div>
+          <div style={mono({ fontSize: 10.5, color: 'var(--muted)', marginTop: 3 })}>
+            {relacao || 'Pessoa'}
+          </div>
+        </div>
+      </div>
+      {relacao || org || pos ? (
+        <Section label="// PESSOA">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            {chip('RELAÇÃO', relacao)}
+            {chip('ORGANIZAÇÃO', org)}
+            {chip('POSIÇÃO', pos)}
+          </div>
+        </Section>
+      ) : null}
+      {det ? (
+        <Section label="// DETALHES">
+          <div style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text)', whiteSpace: 'pre-wrap' }}>{det}</div>
+        </Section>
+      ) : null}
+      {!relacao && !org && !pos && !det ? (
+        <div style={mono({ fontSize: 11, color: 'var(--muted)', padding: 8 })}>Sem informações registradas.</div>
+      ) : null}
+    </div>
+  )
+}
+
 export function ResumoDetail({ id }: { id: string }) {
   const { doc } = useDoc(id)
   if (!doc) return <div className="loading">Carregando resumo…</div>
+  // #443: Pessoa tem resumo PRÓPRIO (campos de Pessoa); criaturas seguem o
+  // resumo de ficha (VIDA/atributos/…).
+  if ((doc.subtype ?? '') === 'Pessoa') return <PessoaResumo doc={doc} />
   return <ResumoBody doc={doc} />
 }
 
