@@ -8,6 +8,8 @@ import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useCatalog } from '../../data/CatalogContext'
 import { groupIdsOf } from '../../grupo/party'
 import { characterNaSessao, useLiveSession } from '../../data/session-repo/live-session'
+import { useIsSessionMestre } from '../../data/session-mestre'
+import { useSettings } from '../../settings'
 import { useDoc } from '../../data/useDoc'
 import { DetailProvider, DetailAutoReveal } from '../../data/detail-context'
 import { TopbarFicha } from './TopbarFicha'
@@ -218,6 +220,13 @@ export function AppShell() {
   useEffect(() => {
     void initPwaUpdate()
   }, [])
+  // #440: conectado a uma sessão, o Modo Mestre é DEFINIDO pelo papel (GM →
+  // ligado; jogador → desligado). Fora da sessão o usuário mexe livremente.
+  const { locked: mestreLocked, roleMestre } = useIsSessionMestre()
+  const { mestre, setMestre } = useSettings()
+  useEffect(() => {
+    if (mestreLocked && mestre !== roleMestre) setMestre(roleMestre)
+  }, [mestreLocked, roleMestre, mestre, setMestre])
   // #259: gesto de swipe pra abrir/fechar as sidebars no mobile — puxar da
   // borda esquerda→direita abre a esquerda; direita→esquerda abre a direita
   // (e o gesto oposto sobre um drawer aberto fecha).

@@ -15,6 +15,7 @@ import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, MODES, type ThemeName } from
 import { useCatalog } from '../../data/CatalogContext'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
+import { useIsSessionMestre } from '../../data/session-mestre'
 import { DevPublishPanel } from './DevPublishPanel'
 import { tokens } from '../ficha/registry'
 import { useSyncExternalStore } from 'react'
@@ -116,15 +117,19 @@ function OptPill({
   label,
   on,
   onClick,
+  disabled,
 }: {
   ic: string
   label: string
   on: boolean
   onClick: () => void
+  /** #440: trava (ex.: Modo Mestre definido pela sessão) — não clicável, esmaecido. */
+  disabled?: boolean
 }) {
   return (
     <button
-      onClick={onClick}
+      disabled={disabled}
+      onClick={disabled ? undefined : onClick}
       // #325: estilo do estado SELECIONADO calculado direto do booleano `on`
       // (sem o truque `--on` + calc() dentro de color-mix, que não renderizava
       // no iOS Safari → o pill selecionado não destacava e o ícone fixo parecia
@@ -135,7 +140,8 @@ function OptPill({
           alignItems: 'center',
           gap: 7,
           padding: '8px 13px',
-          cursor: 'pointer',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          opacity: disabled && !on ? 0.4 : 1,
           border: on
             ? '1px solid var(--accent)'
             : '1px solid color-mix(in srgb,var(--accent) 35%,var(--line2))',
@@ -766,6 +772,7 @@ export function ConfigPage() {
     clickDetalhes,
     setClickDetalhes,
   } = useSettings()
+  const { locked: mestreLocked, roleMestre } = useIsSessionMestre()
   // Abas GERAL (interface/modo/mestre) e SISTEMA (configs de tesouro que valem
   // pras sessões criadas pelo usuário como mestre) — pedido do usuário (req 10).
   const [tab, setTab] = useState('geral')
@@ -840,10 +847,18 @@ export function ConfigPage() {
                 ic={o.ic}
                 label={o.label}
                 on={mestre === o.id}
+                disabled={mestreLocked}
                 onClick={() => setMestre(o.id)}
               />
             ))}
           </ConfigRow>
+          {/* #440: dentro de uma sessão, o Modo Mestre é definido pelo papel. */}
+          {mestreLocked ? (
+            <div style={configNoteStyle}>
+              Definido pela sessão ativa ({roleMestre ? 'você é o Mestre' : 'você é jogador'}). Saia
+              da sessão pra alterar livremente.
+            </div>
+          ) : null}
           {/* #303: ícones supercharged nos links (emoji do tipo do doc-alvo). */}
           <ConfigRow ic="🔗" label="Ícones nos Links">
             {MESTRE_OPTS.map((o) => (

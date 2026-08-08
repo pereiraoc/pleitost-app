@@ -98,6 +98,12 @@ function start() {
   })
 }
 
+/** SÓ testes: define o usuário atual sem passar pelo Supabase. */
+export function __setUserForTests(user: SessionUser | null): void {
+  cache = user
+  emit()
+}
+
 /** Usuário atual do Supabase (null = deslogado/sem servidor). */
 export function useSupabaseUser(): SessionUser | null {
   return useSyncExternalStore(

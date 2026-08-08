@@ -12,7 +12,7 @@ import { COMPENDIO_KICKER, compendioKicker, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
 import { LIST_COLUMNS } from './list-columns'
 import { MestreTables, pillStyle } from './MestreTables'
-import { hasVisibleDescendant, isHidden, subtreeDocs, visibleCount, visibleFolders } from './sections'
+import { hasVisibleDescendant, isHidden, isMestreOnlyFolder, subtreeDocs, visibleCount, visibleFolders } from './sections'
 import { isNavNode, navAncestors, navChildren, navIconPath, navLabel, navMeta } from './compendio-registry'
 import { resolveLeafEntry } from './leaf-view-registry'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
@@ -177,6 +177,18 @@ export function FolderView() {
     [node],
   )
 
+  // #441: pasta SÓ do mestre (Campanhas) — jogador nem navega direto (vale pra
+  // nós de nav E pastas comuns; o card/nav já some, isto barra a URL direta).
+  // DEPOIS dos hooks acima (rules-of-hooks) e ANTES dos demais early returns.
+  if (path && isMestreOnlyFolder(path) && !mestre) {
+    return (
+      <section className="page">
+        <div className="kicker">{COMPENDIO_KICKER}</div>
+        <p>Pasta não encontrada: {path}</p>
+      </section>
+    )
+  }
+
   // #244: home e nós de navegação (Campanhas/Contexto/Histórias/Sistema)
   // mostram BOTÕES GRANDES dos filhos do registro — a árvore é explícita
   // (Diários/Criaturas ficam fora; "Equipamento" vira "Items").
@@ -185,15 +197,15 @@ export function FolderView() {
       <section className="page">
         <div className="kicker">{COMPENDIO_KICKER}</div>
         {path ? <Breadcrumb path={path} /> : null}
-        <SectionButtons paths={navChildren(path)} />
+        <SectionButtons paths={navChildren(path).filter((p) => mestre || !isMestreOnlyFolder(p))} />
       </section>
     )
   }
 
   // pasta oculta com exceção visível dentro (#213: Grupos de Criaturas) é
   // PORTAL: navegável, mas sem listar os docs ocultos dela
-  const portal = node && isHidden(path) && hasVisibleDescendant(node)
-  if (!node || (isHidden(path) && !portal)) {
+  const portal = node && isHidden(path, mestre) && hasVisibleDescendant(node, mestre)
+  if (!node || (isHidden(path, mestre) && !portal)) {
     return (
       <section className="page">
         <div className="kicker">{COMPENDIO_KICKER}</div>
@@ -254,7 +266,7 @@ export function FolderView() {
       ) : null}
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
           categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
-      {useSubtree ? null : <FolderCards folders={visibleFolders(node)} />}
+      {useSubtree ? null : <FolderCards folders={visibleFolders(node, mestre)} />}
       {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
       {mestre && docsVisiveis.length > 0 ? (
         <div style={{ margin: '10px 0' }}>

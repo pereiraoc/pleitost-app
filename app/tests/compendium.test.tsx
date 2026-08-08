@@ -2,6 +2,7 @@
 // Navegação por pastas + heróis/NPCs renderizando sobre o índice REAL da
 // vault; fetch stubado lê os JSONs do disco (mesma fonte do dev server).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { __resetSettingsForTests } from '../src/settings'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
@@ -37,7 +38,11 @@ const readDoc = (id: string): VaultDoc =>
 const TIER_COLOR = ['', '#cd7f32', '#94a3b8', '#d4af37', '#8fd3ff']
 const tierOfLevel = (n: number) => (n <= 3 ? 1 : n <= 6 ? 2 : n <= 9 ? 3 : 4)
 
-beforeEach(() => __resetLocalStoreForTests())
+beforeEach(() => {
+  __resetLocalStoreForTests()
+  window.localStorage?.clear()
+  __resetSettingsForTests() // Modo Mestre OFF por padrão
+})
 
 // req 4 (#181): o painel Heróis lista SÓ personagens DO USUÁRIO (locais).
 // Semeia um elenco local com níveis cobrindo os 4 tiers (S/A/B/C).
@@ -61,6 +66,14 @@ const hexRgb = (hex: string) =>
   `rgb(${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)})`
 
 beforeAll(() => {
+  if (!window.localStorage) {
+    const data = new Map<string, string>()
+    Object.defineProperty(window, 'localStorage', { configurable: true, value: {
+      get length() { return data.size }, clear: () => data.clear(),
+      getItem: (k: string) => (data.has(k) ? data.get(k)! : null), key: (i: number) => [...data.keys()][i] ?? null,
+      removeItem: (k: string) => void data.delete(k), setItem: (k: string, v: string) => void data.set(k, String(v)),
+    } })
+  }
   // serve /vault-data/** do disco, como o dev server faz (objeto plain em vez
   // de Response — o ambiente jsdom não garante o global do node)
   globalThis.fetch = (async (input: unknown) => {
@@ -96,7 +109,9 @@ const folderRoutes = (
 )
 
 describe('FolderView', () => {
-  it('#244: raiz mostra as 4 seções como BOTÕES GRANDES (link cada)', () => {
+  it('#244: raiz mostra as 4 seções como BOTÕES GRANDES (link cada) — no Modo Mestre', () => {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
     renderAt('/compendio', folderRoutes)
     for (const section of COMPENDIUM_SECTIONS) {
       const card = screen
@@ -111,6 +126,17 @@ describe('FolderView', () => {
     expect(within(campanhas).getByText(/2 seções/)).toBeTruthy()
   })
 
+  it('#441: JOGADOR (Modo Mestre OFF) NÃO vê a seção Campanhas na raiz', () => {
+    renderAt('/compendio', folderRoutes)
+    // Atlas/Contexto/Sistema aparecem; Campanhas não (spoiler de campanha)
+    expect(
+      screen.getAllByRole('link').some((c) => within(c).queryByText('Atlas')),
+    ).toBe(true)
+    expect(
+      screen.getAllByRole('link').some((c) => within(c).queryByText('Campanhas')),
+    ).toBe(false)
+  })
+
   it('#244: Sistema mostra Criação/Items/Regras; SEM Criaturas na navegação', () => {
     renderAt(compendiumFolderPath('Sistema'), folderRoutes)
     for (const name of ['Criação de Personagem', 'Items', 'Regras']) {
@@ -122,6 +148,8 @@ describe('FolderView', () => {
   })
 
   it('#244: Campanhas e Contexto abrem os filhos como botões grandes', () => {
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
     renderAt(compendiumFolderPath('Campanhas'), folderRoutes)
     expect(screen.getByText('Aventuras')).toBeTruthy()
     expect(screen.getByText('Combates')).toBeTruthy()

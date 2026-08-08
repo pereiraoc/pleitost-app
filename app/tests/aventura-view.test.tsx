@@ -57,9 +57,12 @@ function renderDoc(id: string) {
 }
 
 function renderFolder(pathStr: string) {
+  // #441: a pasta Campanhas é mestre-only — as folhas de aventura só existem
+  // pro mestre; os testes da grade renderizam com o Modo Mestre ligado.
   return render(
     <CatalogProvider catalog={catalog}>
       <MemoryRouter initialEntries={[compendiumFolderPath(pathStr)]}>
+        <MestreOn />
         <Routes>
           <Route path="/compendio/*" element={<FolderView />} />
         </Routes>

@@ -4,7 +4,7 @@
 // e criar novos combates no Modo Mestre". Verificado sobre COMBATES REAIS da
 // vault (Campanhas/Combates/*.json, type='Combate', body com fence
 // ```combat-marker-small```) via fetch fake sobre ../vault-data.
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
@@ -14,6 +14,8 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { DocView } from '../src/components/compendium/DocPage'
 import { FolderView } from '../src/components/compendium/FolderView'
+import { __resetSettingsForTests, useSettings } from '../src/settings'
+import { useEffect } from 'react'
 import { registeredDocViewIds } from '../src/components/compendium/doc-view-registry'
 import { registeredLeafViewTypes } from '../src/components/compendium/leaf-view-registry'
 import { isCombate } from '../src/components/compendium/CombateView'
@@ -52,7 +54,26 @@ beforeAll(() => {
   }) as typeof fetch
 })
 
+beforeEach(() => {
+  if (!window.localStorage) {
+    const data = new Map<string, string>()
+    Object.defineProperty(window, 'localStorage', { configurable: true, value: {
+      get length() { return data.size }, clear: () => data.clear(),
+      getItem: (k: string) => (data.has(k) ? data.get(k)! : null), key: (i: number) => [...data.keys()][i] ?? null,
+      removeItem: (k: string) => void data.delete(k), setItem: (k: string, v: string) => void data.set(k, String(v)),
+    } })
+  }
+  window.localStorage.clear()
+  __resetSettingsForTests()
+})
 afterEach(cleanup)
+
+/** #441: Campanhas/Combates é mestre-only — os testes da folha ligam o Modo Mestre. */
+function MestreOn() {
+  const { setMestre } = useSettings()
+  useEffect(() => setMestre(true), [setMestre])
+  return null
+}
 
 function renderDoc(doc: VaultDoc) {
   return render(
@@ -68,6 +89,7 @@ function renderFolder(initialPath: string) {
   return render(
     <CatalogProvider catalog={catalog}>
       <MemoryRouter initialEntries={[initialPath]}>
+        <MestreOn />
         <Routes>
           <Route path="/compendio" element={<FolderView />} />
           <Route path="/compendio/*" element={<FolderView />} />

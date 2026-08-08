@@ -8,6 +8,16 @@ export const COMPENDIUM_SECTIONS = ['Atlas', 'Campanhas', 'Contexto', 'Sistema']
 
 export const COMPENDIUM_HIDDEN_FOLDERS = new Set(['Sistema/Criaturas'])
 
+// #441: pastas SÓ do mestre — jogadores não veem (spoiler de campanha:
+// aventuras/combates preparados). Ocultas quando o Modo Mestre está OFF.
+export const COMPENDIUM_MESTRE_ONLY = new Set(['Campanhas'])
+
+/** A pasta (ou uma ancestral dela) é só do mestre? */
+export function isMestreOnlyFolder(path: string): boolean {
+  for (const m of COMPENDIUM_MESTRE_ONLY) if (under(path, m)) return true
+  return false
+}
+
 // #213: os GRUPOS puxados do Obsidian são EXEMPLOS navegáveis no compêndio
 // (saíram da aba GRUPOS, que agora é só do usuário) — exceção dentro da
 // subárvore oculta.
@@ -17,21 +27,22 @@ function under(path: string, root: string): boolean {
   return path === root || path.startsWith(root + '/')
 }
 
-export function isHidden(path: string): boolean {
+export function isHidden(path: string, mestre = true): boolean {
   for (const ex of COMPENDIUM_VISIBLE_EXCEPTIONS) if (under(path, ex)) return false
   for (const hidden of COMPENDIUM_HIDDEN_FOLDERS) if (under(path, hidden)) return true
+  if (!mestre && isMestreOnlyFolder(path)) return true // #441: Campanhas só do GM
   return false
 }
 
 /** Pasta oculta ainda aparece se tiver uma EXCEÇÃO visível lá dentro (senão
  *  a exceção fica inalcançável na navegação). */
-export function hasVisibleDescendant(node: FolderNode): boolean {
-  return node.folders.some((f) => !isHidden(f.path) || hasVisibleDescendant(f))
+export function hasVisibleDescendant(node: FolderNode, mestre = true): boolean {
+  return node.folders.some((f) => !isHidden(f.path, mestre) || hasVisibleDescendant(f, mestre))
 }
 
 /** Subpastas navegáveis no compêndio (esconde as registradas acima). */
-export function visibleFolders(node: FolderNode): FolderNode[] {
-  return node.folders.filter((f) => !isHidden(f.path) || hasVisibleDescendant(f))
+export function visibleFolders(node: FolderNode, mestre = true): FolderNode[] {
+  return node.folders.filter((f) => !isHidden(f.path, mestre) || hasVisibleDescendant(f, mestre))
 }
 
 /** Contagem exibida: subárvore menos os docs em pastas ocultas (as exceções
