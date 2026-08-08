@@ -118,6 +118,22 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     })
   })
 
+  it('#442 picker: só entidades do usuário — Pessoas cadastradas, sem o próprio herói, sem bestiário da vault', async () => {
+    const id = createLocalEntity('Heroi', 'Meu Herói', emptyHeroFrontmatter())
+    createLocalEntity('Heroi', 'Aliado Conhecido', emptyHeroFrontmatter())
+    createLocalEntity('Pessoa', 'Zeca Local', {})
+    renderAnotacoes(id)
+    fireEvent.click(await screen.findByText('PESSOAS'))
+    fireEvent.click(await screen.findByText('+ Existente'))
+    const sel = (await screen.findByLabelText('Personagem existente')) as HTMLSelectElement
+    const opts = [...sel.options].map((o) => o.textContent)
+    expect(opts).toContain('Aliado Conhecido') // outro herói do usuário
+    expect(opts).toContain('Zeca Local') // Pessoa cadastrada por ele
+    expect(opts).not.toContain('Meu Herói') // o próprio herói NÃO aparece
+    // nada do BESTIÁRIO da vault (era spoiler pros jogadores)
+    expect(opts.some((o) => /Goblin|Orc|Lagart/i.test(o ?? ''))).toBe(false)
+  })
+
   it('Criaturas/Pessoas agrega as pessoas das anotações dos heróis do usuário', async () => {
     const id = createLocalEntity('Heroi', 'Meu Herói', emptyHeroFrontmatter())
     renderAnotacoes(id)

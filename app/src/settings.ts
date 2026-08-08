@@ -28,9 +28,6 @@ const DISPONIBILIDADE_KEY = 'pleitost.settings.disponibilidade'
 // #303: ícones "supercharged" nos wikilinks (emoji do tipo do doc-alvo). Default
 // LIGADO — como na vault; o usuário pode desligar no CONFIG.
 const LINK_ICONS_KEY = 'pleitost.settings.linkIcons'
-// Badge de dificuldade dos combates (lista + página), no nível médio do grupo
-// ativo. Default LIGADO; o usuário pode desligar no CONFIG.
-const MOSTRAR_DIF_KEY = 'pleitost.settings.mostrarDificuldade'
 const CLICK_DETALHES_KEY = 'pleitost.settings.clickDetalhes'
 
 export interface Settings {
@@ -40,8 +37,6 @@ export interface Settings {
   desenvolvedor: boolean
   /** Ícones supercharged nos links (default ON). */
   linkIcons: boolean
-  /** Badge de dificuldade dos combates (default ON). */
-  mostrarDificuldade: boolean
   /** Clicar em item/técnica/magia na ficha ABRE NOS DETALHES (direita) em vez
    *  de só o tooltip (pedido do usuário 2026-07-21; default OFF = tooltip). */
   clickDetalhes: boolean
@@ -78,7 +73,6 @@ function loadSettings(): Settings {
       mestre: localStorage.getItem(MESTRE_KEY) === 'true',
       desenvolvedor: localStorage.getItem(DESENVOLVEDOR_KEY) === 'true',
       linkIcons: localStorage.getItem(LINK_ICONS_KEY) !== 'false', // default ON
-      mostrarDificuldade: localStorage.getItem(MOSTRAR_DIF_KEY) !== 'false', // default ON
       clickDetalhes: localStorage.getItem(CLICK_DETALHES_KEY) === 'true', // default OFF
       disponibilidade: loadDisponibilidade(),
     }
@@ -87,7 +81,6 @@ function loadSettings(): Settings {
       mestre: false,
       desenvolvedor: false,
       linkIcons: true,
-      mostrarDificuldade: true,
       clickDetalhes: false,
       disponibilidade: cloneMatrix(DEFAULT_MATRIX),
     }
@@ -142,16 +135,6 @@ function setClickDetalhes(clickDetalhes: boolean) {
   for (const cb of listeners) cb()
 }
 
-function setMostrarDificuldade(mostrarDificuldade: boolean) {
-  state = { ...getSettings(), mostrarDificuldade }
-  try {
-    localStorage.setItem(MOSTRAR_DIF_KEY, String(mostrarDificuldade))
-  } catch {
-    /* memória continua a fonte da sessão */
-  }
-  for (const cb of listeners) cb()
-}
-
 /** Snapshot não-reativo do Modo Desenvolvedor (pra módulos fora de React, ex.
  *  a projeção de overlay em effective-doc). */
 export function isDesenvolvedor(): boolean {
@@ -199,7 +182,6 @@ export function useSettings() {
     setMestre,
     setDesenvolvedor,
     setLinkIcons,
-    setMostrarDificuldade,
     setClickDetalhes,
     setDisponibilidadeCell,
     resetDisponibilidade,

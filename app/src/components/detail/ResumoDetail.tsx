@@ -680,6 +680,26 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
           ) : null}
         </div>
 
+        {/* #437 — ATRIBUTOS: espelho do resumo/sections/atributos-line.ts do
+            plugin (linha ordenada desc, desempate PRE<AGI<INT<FOR). Estava
+            faltando na porta pro app (dados lidos, mas não exibidos). */}
+        <Section label="// ATRIBUTOS">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            {(['PRE', 'AGI', 'INT', 'FOR'] as const)
+              .map((id, rank) => ({ id, rank, value: attrs[id] ?? 0 }))
+              .sort((a, b) => b.value - a.value || a.rank - b.rank)
+              .map(({ id, value }) => (
+                <span key={id} data-resumo-chip="" data-atributo={id} style={chipStyle}>
+                  <span style={{ fontSize: 11 }}>{tokens.emojis.atributo[id]}</span>
+                  <span style={mono({ fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' })}>
+                    {id}
+                  </span>
+                  <span style={mono({ fontSize: 11.5, fontWeight: 700 })}>{value}</span>
+                </span>
+              ))}
+          </div>
+        </Section>
+
         <Section label="// VIDA">
           {/* Vit/Moral/Temp em chips — emojis do registro (subcategoria
               Vitalidade/Moral/MoralTemporaria). */}

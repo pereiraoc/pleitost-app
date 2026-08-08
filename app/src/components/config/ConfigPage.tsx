@@ -247,6 +247,20 @@ const MESTRE_OPTS: { id: boolean; label: string; ic: string }[] = [
   { id: false, label: 'DESATIVADO', ic: tokens.emojis.ui.CheckboxOff },
 ]
 
+/** #439 — destino do clique na ficha: DETALHES (nota completa) x TOOLTIP. */
+const CLICK_ABRE_OPTS: { id: boolean; label: string; ic: string }[] = [
+  { id: true, label: 'DETALHES', ic: '📖' },
+  { id: false, label: 'TOOLTIP', ic: '💬' },
+]
+
+/** Nota explicativa abaixo de uma linha de config (alinhada ao rótulo). */
+const configNoteStyle: CSSProperties = {
+  fontSize: 11.5,
+  color: 'var(--muted)',
+  lineHeight: 1.4,
+  padding: '1px 4px 8px 32px',
+}
+
 /** Célula editável da matriz de disponibilidade: input de % (ou "—" quando
  *  vazio/indisponível), no vocabulário mono das linhas do CONFIG. Vazio = null
  *  (indisponível); número = % daquele (tipo × tier). */
@@ -749,8 +763,6 @@ export function ConfigPage() {
     desenvolvedor,
     linkIcons,
     setLinkIcons,
-    mostrarDificuldade,
-    setMostrarDificuldade,
     clickDetalhes,
     setClickDetalhes,
   } = useSettings()
@@ -844,24 +856,11 @@ export function ConfigPage() {
               />
             ))}
           </ConfigRow>
-          {/* Badge de dificuldade dos combates (lista + página), no nível médio
-              do grupo ativo. */}
-          <ConfigRow ic={tokens.emojis.subcategoria.Monstro} label="Dificuldade dos Combates">
-            {MESTRE_OPTS.map((o) => (
-              <OptPill
-                key={String(o.id)}
-                ic={o.ic}
-                label={o.label}
-                on={mostrarDificuldade === o.id}
-                onClick={() => setMostrarDificuldade(o.id)}
-              />
-            ))}
-          </ConfigRow>
-          {/* Clique em item/técnica/magia na ficha abre nos DETALHES (direita)
-              em vez de só o tooltip (pedido 2026-07-21; DESATIVADO = tooltip,
-              comportamento clássico). */}
-          <ConfigRow ic="🖱️" label="Clique Abre nos Detalhes">
-            {MESTRE_OPTS.map((o) => (
+          {/* #439 — clicar em item/técnica/magia na ficha: DETALHES (nota
+              completa na barra lateral) ou só o TOOLTIP (comportamento
+              clássico). Vira uma ESCOLHA de destino, não um liga/desliga. */}
+          <ConfigRow ic="🖱️" label="Ao clicar, abre">
+            {CLICK_ABRE_OPTS.map((o) => (
               <OptPill
                 key={String(o.id)}
                 ic={o.ic}
@@ -871,6 +870,9 @@ export function ConfigPage() {
               />
             ))}
           </ConfigRow>
+          <div style={configNoteStyle}>
+            Detalhes faz a nota completa abrir na barra lateral de detalhes.
+          </div>
           {/* Modo Dev (#252): sem toggle de ativação por ora (liga via
               localStorage); quando ligado, expõe Publicar/Exportar. */}
           {desenvolvedor ? <DevPublishPanel /> : null}

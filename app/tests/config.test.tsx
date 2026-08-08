@@ -145,16 +145,18 @@ describe('tela CONFIG (issue #35)', () => {
     expect(localStorage.getItem('pleitost.settings.mestre')).toBe('false')
   })
 
-  it('Dificuldade dos Combates persiste em pleitost.settings.mostrarDificuldade', async () => {
+  it('#439 "Ao clicar, abre" escolhe DETALHES/TOOLTIP e persiste clickDetalhes', async () => {
     renderApp('/config')
-    await screen.findByText('Dificuldade dos Combates')
-    const linha = () => within(screen.getByText('Dificuldade dos Combates').parentElement as HTMLElement)
-    // default ON
-    expect(linha().getByRole('button', { name: /\bATIVADO$/ }).style.background).toBe('var(--accent)')
-    fireEvent.click(linha().getByRole('button', { name: /DESATIVADO/ }))
-    expect(localStorage.getItem('pleitost.settings.mostrarDificuldade')).toBe('false')
-    fireEvent.click(linha().getByRole('button', { name: /\bATIVADO$/ }))
-    expect(localStorage.getItem('pleitost.settings.mostrarDificuldade')).toBe('true')
+    await screen.findByText('Ao clicar, abre')
+    const linha = () => within(screen.getByText('Ao clicar, abre').parentElement as HTMLElement)
+    // default = TOOLTIP (clickDetalhes false)
+    fireEvent.click(linha().getByRole('button', { name: /DETALHES/ }))
+    expect(localStorage.getItem('pleitost.settings.clickDetalhes')).toBe('true')
+    fireEvent.click(linha().getByRole('button', { name: /TOOLTIP/ }))
+    expect(localStorage.getItem('pleitost.settings.clickDetalhes')).toBe('false')
+    // a nota explicativa aparece; a linha antiga de dificuldade sumiu (#438)
+    expect(screen.getByText(/nota completa abrir na barra lateral/)).toBeTruthy()
+    expect(screen.queryByText('Dificuldade dos Combates')).toBeNull()
   })
 })
 

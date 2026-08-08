@@ -313,6 +313,7 @@ describe('#242 resumo — apresentação em cards', () => {
       expect(kicker!.parentElement).toBe(sec)
     }
     expect(secs.map((s) => s.getAttribute('data-resumo-section'))).toEqual([
+      '// ATRIBUTOS',
       '// VIDA',
       '// DEFESAS · SENTIDOS · MOVIMENTO',
       '// PERÍCIAS',
@@ -327,6 +328,21 @@ describe('#242 resumo — apresentação em cards', () => {
       '// HABILIDADES',
       '// CONSUMÍVEIS',
     ])
+  })
+
+  it('#437 mostra a seção ATRIBUTOS com FOR/AGI/INT/PRE ordenados desc (PRE 3 primeiro)', async () => {
+    const { container } = await renderResumo()
+    const sec = container.querySelector<HTMLElement>('[data-resumo-section="// ATRIBUTOS"]')
+    expect(sec).toBeTruthy()
+    const chips = [...sec!.querySelectorAll('[data-atributo]')]
+    // 4 atributos, PRE (3) na frente por ordenação desc
+    expect(chips.map((c) => c.getAttribute('data-atributo'))[0]).toBe('PRE')
+    const pre = sec!.querySelector('[data-atributo="PRE"]')!
+    expect(pre.textContent).toContain('🗣️')
+    expect(pre.textContent).toContain('3')
+    expect(sec!.querySelector('[data-atributo="AGI"]')!.textContent).toContain('2')
+    expect(sec!.querySelector('[data-atributo="INT"]')!.textContent).toContain('1')
+    expect(chips).toHaveLength(4)
   })
 
   it('defesas em grid de 4 células e sentidos+movimento em grid de 3, todas com tooltip', async () => {

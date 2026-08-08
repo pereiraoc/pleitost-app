@@ -90,7 +90,7 @@ export function CombatMarkerBlock({
   const catalog = useCatalog()
   const detail = useDetail()
   const assets = useAssetIndex()
-  const { mestre, mostrarDificuldade } = useSettings()
+  const { mestre } = useSettings()
   useEncounterSpeedsVersion() // re-render quando o GM muda velocidade/estado
   const repo = useSessionRepo()
   const user = useSessionUser()
@@ -116,12 +116,12 @@ export function CombatMarkerBlock({
   // Badge de dificuldade "da SUA MESA" (só GM): dificuldade contra os heróis
   // REAIS da mesa ativa (sem companheiro animal). Nula sem mesa/heróis.
   const partyDif = useMemo(() => {
-    if (!mestre || !mostrarDificuldade) return null
+    if (!mestre) return null
     const heroLevels = partyHeroLevels(live?.characters ?? [])
     if (heroLevels.length === 0) return null
     const items = resolvidas.flatMap((r) => (r.item ? [r.item] : []))
     return { result: computeEncounterDifficulty(combatantsFrom(items, heroLevels)), heroLevels }
-  }, [mestre, mostrarDificuldade, live, resolvidas])
+  }, [mestre, live, resolvidas])
 
   // Instâncias INDIVIDUAIS de monstro (qty → N banners), com a chave estável do
   // prep (encounter-speeds) e vida/imagem lidas do doc do bestiário.
@@ -188,13 +188,12 @@ export function CombatMarkerBlock({
     <TipProvider>
       <div className="combat-marker">
         {/* ── barrinhas de dificuldade no TOPO com tooltip explicativo (de onde
-            vem a classificação: limiares + pontos). Ocultável no CONFIG. ── */}
-        {mostrarDificuldade ? (
-          <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
-            <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
-            <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
-          </div>
-        ) : null}
+            vem a classificação: limiares + pontos). O bloco todo já é só do
+            mestre — a dificuldade é sempre visível pra ele (#438). ── */}
+        <div className="combat-difficulty-bars" data-combat-difficulty-bars="">
+          <span className="combat-difficulty-bars-label">{'// DIFICULDADE'}</span>
+          <EncounterLevelBar byLevel={byLevel} combatants={combatants} />
+        </div>
         {/* Badge da SUA MESA (só GM): dificuldade contra os heróis reais da mesa
             ativa. Tooltip explica com a composição real do grupo. */}
         {partyDif ? (

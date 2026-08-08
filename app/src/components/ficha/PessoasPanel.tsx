@@ -192,29 +192,27 @@ function PessoaCard({
 function ExistentePicker({
   onPick,
   onClose,
+  currentHeroId,
 }: {
   onPick: (id: string, nome: string) => void
   onClose: () => void
+  /** Herói sendo editado — excluído da lista (não faz sentido se conhecer). */
+  currentHeroId?: string
 }) {
-  const catalog = useCatalog()
   const groups = useMemo(() => {
-    const folder = (path: string) =>
-      catalog.folderByPath.get(path)?.docs.filter((d) => d.basename !== path.split('/').pop()) ?? []
+    // #442: SÓ entidades do PRÓPRIO usuário (as que ele cadastrou em
+    // Criaturas/Pessoas ou como heróis/companheiros/monstros locais). Nada do
+    // BESTIÁRIO da vault (era spoiler pros jogadores) e nada do herói atual.
     return [
-      { label: 'Heróis', entries: localEntriesOfKind('Heroi') },
       {
-        label: 'Companheiros Animais',
-        entries: [
-          ...localEntriesOfKind('CompanheiroAnimal'),
-          ...folder('Sistema/Criaturas/Companheiros Animais'),
-        ],
+        label: 'Heróis',
+        entries: localEntriesOfKind('Heroi').filter((e) => e.id !== currentHeroId),
       },
-      {
-        label: 'Bestiário',
-        entries: [...localEntriesOfKind('Monstro'), ...folder('Sistema/Criaturas/Bestiário')],
-      },
-    ]
-  }, [catalog])
+      { label: 'Pessoas', entries: localEntriesOfKind('Pessoa') },
+      { label: 'Companheiros Animais', entries: localEntriesOfKind('CompanheiroAnimal') },
+      { label: 'Monstros', entries: localEntriesOfKind('Monstro') },
+    ].filter((g) => g.entries.length > 0)
+  }, [currentHeroId])
   const [sel, setSel] = useState('')
   const nomeOf = (id: string) =>
     groups.flatMap((g) => g.entries).find((e) => e.id === id)?.basename ?? id
@@ -404,6 +402,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
       ) : null}
       {modal?.t === 'existente' ? (
         <ExistentePicker
+          currentHeroId={doc.id}
           onClose={() => setModal(null)}
           onPick={(id, nome) => setModal({ t: 'campos', alvo: id, nome })}
         />
