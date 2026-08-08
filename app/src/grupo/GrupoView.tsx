@@ -629,12 +629,16 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // OU desconectado, e sessões novas da mesma mesa herdam o caminho. Mesa sem
   // grupo persistente segue no escopo por sessão (sem vazar entre mesas).
   const grupoPersistenteId = useMesaGrupoPersistenteId()
+  // #435: a trilha da mesa é POR SESSÃO (não mais pelo grupo dos heróis). O
+  // group-keying (#379) VAZAVA entre sessões cujos heróis apontam o mesmo grupo
+  // (report: trilha do Carlos aparecia na sessão de mestre). Trade-off aceito
+  // pelo user ("cada grupo é de uma sessão"): a ficha do grupo DESCONECTADA não
+  // mostra mais a trilha — ela vive na sessão.
   const exploId = isMesa
-    ? (grupoPersistenteId ?? (live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId))
+    ? (live?.sessionId ? `${MESA_GRUPO_ID}:${live.sessionId}` : groupId)
     : groupId
-  // #41 chave do GATING de regiões deste grupo — DEVE bater com o que o jogador
-  // resolve como viewer (AtlasMapaPage: grupoPersistente ?? DEFAULT_VIEWER).
-  // Mesa: o grupo persistente; ficha de grupo da vault: o próprio groupId.
+  // #41 chave do GATING de regiões (mapaAtlas) — INDEPENDENTE da trilha; segue
+  // pelo GRUPO (o jogador resolve grupoPersistente ?? DEFAULT_VIEWER no viewer).
   const gatingKey = isMesa ? (grupoPersistenteId ?? DEFAULT_VIEWER) : groupId
   // Migrações (uma vez, ao abrir a mesa; nunca sobrescrevem destino com dados):
   // legado constante → exploId; escopo por sessão → grupo persistente. Se o
@@ -642,8 +646,12 @@ export function GrupoView({ groupId }: { groupId: string }) {
   // verdade) no pull.
   useEffect(() => {
     if (!isMesa || !live?.sessionId) return
-    migrateGroupState(MESA_GRUPO_ID, exploId)
-    if (grupoPersistenteId) migrateGroupState(`${MESA_GRUPO_ID}:${live.sessionId}`, exploId)
+    migrateGroupState(MESA_GRUPO_ID, exploId) // legado: constante → sessão
+    // #435: a trilha que vivia no GRUPO (group-keying do #379) migra pra ESTA
+    // sessão na 1ª abertura — a sessão do grupo herda o histórico (Carlos 217).
+    // migrateGroupState só copia se o destino (sessão) está vazio e ESVAZIA a
+    // origem (grupo) → outra sessão do mesmo grupo não recebe (fim do vazamento).
+    if (grupoPersistenteId) migrateGroupState(grupoPersistenteId, exploId)
   }, [isMesa, live?.sessionId, exploId, grupoPersistenteId])
   // Pedido do usuário (follow-up #379 r2): o caminho só é EDITÁVEL na MESA
   // CONECTADA — a trilha sincroniza com o session state (remoto = fonte de

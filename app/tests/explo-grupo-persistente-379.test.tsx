@@ -123,19 +123,36 @@ function renderView(repo: InMemorySessionRepo, groupId: string) {
 }
 
 describe('#379 r2 — trilha da mesa vive no GRUPO PERSISTENTE', () => {
-  it('mesa com grupo persistente: trilha do escopo-sessão MIGRA pro grupo', async () => {
+  it('#435: trilha do GRUPO migra pra SESSÃO na 1ª abertura (não vaza)', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'GP1' })
-    // trilha existente no escopo por sessão (o armazenamento antigo)
-    setGroupStateFull(`${MESA_GRUPO_ID}:${sess.id}`, TRILHA)
+    // trilha existente no GRUPO da vault (o armazenamento do #379)
+    setGroupStateFull(GRUPO_CARLOS, TRILHA)
     setLiveSession(liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'))
     renderView(repo, MESA_GRUPO_ID)
-    // a trilha agora vive no groupState do GRUPO DA VAULT…
+    // a trilha agora vive na SESSÃO desta mesa…
     await waitFor(() => {
-      expect(getGroupState(GRUPO_CARLOS).hexes).toHaveLength(2)
+      expect(getGroupState(`${MESA_GRUPO_ID}:${sess.id}`).hexes).toHaveLength(2)
     })
-    // …e o escopo por sessão foi esvaziado (migração, não cópia)
-    expect(getGroupState(`${MESA_GRUPO_ID}:${sess.id}`).hexes).toHaveLength(0)
+    // …e o GRUPO foi esvaziado (migração, não cópia) → outra sessão do mesmo
+    // grupo NÃO recebe o histórico (fim do vazamento entre sessões)
+    expect(getGroupState(GRUPO_CARLOS).hexes).toHaveLength(0)
+  }, 30000)
+
+  it('#435 anti-vazamento: 2 sessões com os MESMOS heróis NÃO compartilham a trilha', async () => {
+    const repo = new InMemorySessionRepo()
+    const sA = await repo.createSession({ name: 'Mesa A', gmUserId: 'gm', code: 'GPA' })
+    const sB = await repo.createSession({ name: 'Mesa B', gmUserId: 'gm', code: 'GPB' })
+    // a sessão A tem uma trilha própria
+    setGroupStateFull(`${MESA_GRUPO_ID}:${sA.id}`, TRILHA)
+    // abrir a sessão B (mesmos heróis do grupo Carlos) NÃO puxa a trilha da A
+    setLiveSession(liveMesa(sB.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'))
+    renderView(repo, MESA_GRUPO_ID)
+    await screen.findAllByText(/EXPLORAÇÃO/i)
+    await new Promise((r) => setTimeout(r, 120))
+    // B tem a SUA trilha (vazia); A intacta — cada sessão a sua
+    expect(getGroupState(`${MESA_GRUPO_ID}:${sB.id}`).hexes).toHaveLength(0)
+    expect(getGroupState(`${MESA_GRUPO_ID}:${sA.id}`).hexes).toHaveLength(2)
   }, 30000)
 
   it('DESCONECTADO, a ficha do grupo do Carlos mostra a trilha completa', async () => {
@@ -146,14 +163,14 @@ describe('#379 r2 — trilha da mesa vive no GRUPO PERSISTENTE', () => {
     expect(await screen.findByText(/Tumba Selada/)).toBeTruthy()
   }, 30000)
 
-  it('caso real: grupo com 1 hex velho + remoto da sessão com a trilha → pull converge', async () => {
+  it('caso real: sessão com 1 hex velho + remoto com a trilha → pull converge (na SESSÃO)', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'GP2' })
-    // grupo da vault com trilha VELHA (1 parada de 13/07 — o caso do usuário)
-    setGroupStateFull(GRUPO_CARLOS, { hexes: [{ id: 'old', col: 1, row: 1, kind: 'parada' }] } as never)
-    // remoto da sessão tem a trilha CONSOLIDADA com carimbo mais novo que a
-    // edição local (last-writer-wins real — o guard não deixa remoto sem/com
-    // carimbo velho regredir o local)
+    // a SESSÃO com trilha VELHA (1 parada) local
+    setGroupStateFull(`${MESA_GRUPO_ID}:${sess.id}`, {
+      hexes: [{ id: 'old', col: 1, row: 1, kind: 'parada' }],
+    } as never)
+    // remoto da sessão tem a trilha CONSOLIDADA com carimbo mais novo (LWW real)
     const carimboNovo = new Date(Date.now() + 60_000).toISOString()
     setLiveSession({
       ...liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'),
@@ -161,7 +178,7 @@ describe('#379 r2 — trilha da mesa vive no GRUPO PERSISTENTE', () => {
     })
     renderView(repo, MESA_GRUPO_ID)
     await waitFor(() => {
-      const hexes = getGroupState(GRUPO_CARLOS).hexes as { id: string }[]
+      const hexes = getGroupState(`${MESA_GRUPO_ID}:${sess.id}`).hexes as { id: string }[]
       expect(hexes.map((h) => h.id)).toEqual(['h1', 'h2'])
     })
   }, 30000)

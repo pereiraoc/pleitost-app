@@ -141,38 +141,39 @@ describe('#404 — trilha remota tem DONO; grupo novo não herda histórico alhe
     expect(getGroupState(GRUPO_CARLOS).hexes).toHaveLength(0)
   }, 30000)
 
-  it('push carimba o grupoId do dono no blob remoto', async () => {
+  it('push carimba o grupoId do dono (= a SESSÃO) no blob remoto', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'DN2' })
     setLiveSession(liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'))
     renderView(repo, MESA_GRUPO_ID)
-    // edição local no grupo persistente → push semeia o remoto com o carimbo
-    addGroupHex(GRUPO_CARLOS, { col: 5, row: 5, kind: 'parada' })
+    // #435: edição local vive na SESSÃO → push semeia o remoto com o carimbo
+    const exploId = `${MESA_GRUPO_ID}:${sess.id}`
+    addGroupHex(exploId, { col: 5, row: 5, kind: 'parada' })
     await waitFor(async () => {
       const s = await repo.findSessionById(sess.id)
       const explo = s?.state?.exploracao as { grupoId?: string; hexes?: unknown[] } | undefined
       expect(explo?.hexes).toHaveLength(1)
-      expect(explo?.grupoId).toBe(GRUPO_CARLOS)
+      expect(explo?.grupoId).toBe(exploId)
     })
   }, 30000)
 
-  it('upgrade path: remoto carimbado com o ESCOPO-SESSÃO desta mesa ainda puxa', async () => {
+  it('remoto carimbado com o ESCOPO-SESSÃO desta mesa puxa (dono = exploId)', async () => {
     const repo = new InMemorySessionRepo()
     const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm', code: 'DN3' })
-    // trilha da própria mesa, acumulada ANTES do grupo persistente existir
+    const exploId = `${MESA_GRUPO_ID}:${sess.id}`
     setLiveSession({
       ...liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'),
       state: {
         exploracao: {
           ...(TRILHA_ANTIGA as object),
-          grupoId: `${MESA_GRUPO_ID}:${sess.id}`,
+          grupoId: exploId,
           updatedAt: '2026-08-01T00:00:00.000Z',
         },
       } as LiveSession['state'],
     })
     renderView(repo, MESA_GRUPO_ID)
     await waitFor(() => {
-      expect(getGroupState(GRUPO_CARLOS).hexes).toHaveLength(2)
+      expect(getGroupState(exploId).hexes).toHaveLength(2)
     })
   }, 30000)
 })
