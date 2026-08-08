@@ -32,15 +32,17 @@ function rowsOf(fm: Record<string, unknown>): PessoaRow[] {
 // #445 — agrupamento por tipo de relação, na ordem pedida pelo mestre. "Grupo"
 // são os membros de grupo (auto); os demais casam o campo `Relação` (valores
 // singulares de PESSOA_RELACOES). Relação vazia/desconhecida cai em Neutro.
-const RELACAO_GRUPOS: { label: string; values: string[] }[] = [
-  { label: 'Grupo', values: [] }, // membros de grupo (autoMembros)
-  { label: 'Família', values: ['Família'] },
-  { label: 'Romance', values: ['Romance'] },
-  { label: 'Amigos', values: ['Amigo'] },
-  { label: 'Conhecidos', values: ['Conhecido'] },
-  { label: 'Negócios', values: ['Negócios'] },
-  { label: 'Neutro', values: ['Neutro'] },
-  { label: 'Inimigos', values: ['Inimigo'] },
+// `badge` = a tag do card (o próprio tipo de relação daquela linha, não mais
+// "CONHECIDO"/"GRUPO" genéricos — pedido do mestre).
+const RELACAO_GRUPOS: { label: string; values: string[]; badge: string }[] = [
+  { label: 'Grupo', values: [], badge: 'GRUPO' }, // membros de grupo (autoMembros)
+  { label: 'Família', values: ['Família'], badge: 'FAMÍLIA' },
+  { label: 'Romance', values: ['Romance'], badge: 'ROMANCE' },
+  { label: 'Amigos', values: ['Amigo'], badge: 'AMIGO' },
+  { label: 'Conhecidos', values: ['Conhecido'], badge: 'CONHECIDO' },
+  { label: 'Negócios', values: ['Negócios'], badge: 'NEGÓCIOS' },
+  { label: 'Neutro', values: ['Neutro'], badge: 'NEUTRO' },
+  { label: 'Inimigos', values: ['Inimigo'], badge: 'INIMIGO' },
 ]
 /** Índice do grupo de relação de uma linha manual (default = Neutro). */
 function grupoDaRelacao(relacao: string): number {
@@ -395,7 +397,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
               <PessoaCard
                 key={`auto-${m.id}`}
                 row={{ Nome: m.basename ?? m.id, Relação: '', Organização: '', Posição: '', Detalhes: '', Alvo: m.id }}
-                badge="GRUPO"
+                badge={g.badge}
                 onResumo={() => abrirResumo(m.id)}
               />
             ))
@@ -406,7 +408,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
                 <PessoaCard
                   key={`${r.Alvo ?? r.Nome}-${idx}`}
                   row={r}
-                  badge={r.Alvo ? 'CONHECIDO' : undefined}
+                  badge={g.badge}
                   onResumo={r.Alvo ? () => abrirResumo(r.Alvo!) : undefined}
                   onEdit={() => setModal({ t: 'editar', idx })}
                   onDelete={() => save(rows.filter((_, i) => i !== idx))}

@@ -144,7 +144,8 @@ describe('imagem no card de PESSOAS (issue #200)', () => {
     expect(within(dialog).queryByText(/🖼 Imagem/)).toBeNull()
     fireEvent.click(within(dialog).getByText('Adicionar'))
 
-    await waitFor(() => expect(screen.getByText('CONHECIDO')).toBeTruthy())
+    // badge = a relação da linha (default Neutro), não mais "CONHECIDO"
+    await waitFor(() => expect(screen.getByText('NEUTRO')).toBeTruthy())
     await waitFor(() => expect(blobImg(container)).toBeTruthy())
   })
 

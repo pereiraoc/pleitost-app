@@ -16,12 +16,13 @@
 // .as-resumo-attr-num → var(--gold), .as-resumo-dmg-num → var(--blue)),
 // ataques com "• " + sub-row "↳ " (.as-resumo-attack/-attack-props) e listas
 // de itens em chips.
-import { Fragment, useMemo, type CSSProperties } from 'react'
+import { Fragment, useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useDoc } from '../../data/useDoc'
 import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
+import { Lightbox } from '../Lightbox'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
 import { profArmaEfetiva,
   fmPath,
@@ -87,6 +88,42 @@ const chipStyle: CSSProperties = {
   clipPath: clip(6),
   fontSize: 11.5,
   lineHeight: 1.5,
+}
+
+/** Retrato do resumo CLICÁVEL → amplia no Lightbox (#pedido do mestre: a
+ *  imagem da ficha resumo nos Detalhes não abria maior como em outros lugares).
+ *  Mostra o thumb; ao clicar abre a versão cheia. */
+export function ZoomPortrait({
+  thumb,
+  full,
+  alt,
+  frame,
+}: {
+  thumb: string
+  full: string | null
+  alt?: string
+  frame: CSSProperties
+}) {
+  const [zoom, setZoom] = useState(false)
+  const clickable = !!full
+  return (
+    <>
+      <div
+        data-resumo-portrait=""
+        role={clickable ? 'button' : undefined}
+        aria-label={clickable ? `Ampliar imagem${alt ? ` de ${alt}` : ''}` : undefined}
+        onClick={clickable ? () => setZoom(true) : undefined}
+        style={{
+          ...frame,
+          backgroundImage: `url("${thumb}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          cursor: clickable ? 'zoom-in' : 'default',
+        }}
+      />
+      {zoom && full ? <Lightbox src={full} alt={alt} onClose={() => setZoom(false)} /> : null}
+    </>
+  )
 }
 
 /** Cor e rótulo do badge de tier/nível — espelho de tierColorByFamily/
@@ -633,17 +670,11 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
             }}
           />
           {portrait ? (
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                flex: 'none',
-                backgroundImage: `url("${portrait}")`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                border: '1px solid var(--line2)',
-                clipPath: clip(10),
-              }}
+            <ZoomPortrait
+              thumb={portrait}
+              full={creatureImageUrl(doc, assets, false)}
+              alt={doc.basename}
+              frame={{ width: 52, height: 52, flex: 'none', border: '1px solid var(--line2)', clipPath: clip(10) }}
             />
           ) : null}
           <div style={{ minWidth: 0, flex: 1 }}>
@@ -805,8 +836,11 @@ function PessoaResumo({ doc }: { doc: VaultDoc }) {
         style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 11, padding: '11px 11px 11px 16px', ...cardStyle(12) }}
       >
         {portrait ? (
-          <div
-            style={{ width: 52, height: 52, flex: 'none', backgroundImage: `url("${portrait}")`, backgroundSize: 'cover', backgroundPosition: 'center', border: '1px solid var(--line2)', clipPath: clip(10) }}
+          <ZoomPortrait
+            thumb={portrait}
+            full={creatureImageUrl(doc, assets, false)}
+            alt={doc.basename}
+            frame={{ width: 52, height: 52, flex: 'none', border: '1px solid var(--line2)', clipPath: clip(10) }}
           />
         ) : (
           <div

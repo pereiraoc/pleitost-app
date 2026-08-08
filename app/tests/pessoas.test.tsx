@@ -109,8 +109,9 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     const nomeInput = within(dialog).getByDisplayValue('Aliado Conhecido') as HTMLInputElement
     expect(nomeInput.disabled).toBe(true)
     fireEvent.click(within(dialog).getByText(/Adicionar|Salvar|Criar/))
-    // card com badge CONHECIDO; clicar no nome abre o RESUMO na sidebar
-    await waitFor(() => expect(screen.getByText('CONHECIDO')).toBeTruthy())
+    // badge = a relação da linha (default Neutro), não mais "CONHECIDO";
+    // clicar no nome abre o RESUMO na sidebar
+    await waitFor(() => expect(screen.getByText('NEUTRO')).toBeTruthy())
     fireEvent.click(screen.getByRole('button', { name: 'Aliado Conhecido' }))
     await waitFor(() => {
       expect(screen.getByText('// VIDA')).toBeTruthy()
