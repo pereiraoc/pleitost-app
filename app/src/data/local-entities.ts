@@ -78,6 +78,11 @@ export interface StoredEntity {
   session: Record<string, unknown>
   /** Adições sem linha de FM (extras dos painéis ADICIONADAS). */
   extras: Record<string, unknown>
+  /** Carimbo ISO da última mutação DESTA entidade (#448). O sync por conta
+   *  resolve conflito do mesmo id por recência (mergeRecordBlobsByUpdatedAt) —
+   *  sem ele, edições de conteúdo (ex.: Pessoas nas anotações) não propagavam
+   *  entre dispositivos. Ausente = legado (0, mais antigo); a 1ª edição carimba. */
+  updatedAt?: string
 }
 
 interface Membership {
@@ -588,6 +593,7 @@ export function createLocalEntity(
     frontmatter,
     session: opts?.session ?? {},
     extras: opts?.extras ?? {},
+    updatedAt: new Date().toISOString(),
   }
   hydrateEntities().set(id, rec)
   persistEntities()
@@ -605,7 +611,9 @@ export function localEntitiesOfKind(kind: LocalKind): StoredEntity[] {
 }
 
 function replaceEntity(id: string, next: StoredEntity): void {
-  hydrateEntities().set(id, next)
+  // Carimba a mutação (#448) — todo setter passa por aqui, então o sync por
+  // conta resolve conflito do mesmo id pela versão mais nova.
+  hydrateEntities().set(id, { ...next, updatedAt: new Date().toISOString() })
   persistEntities()
   bump()
 }

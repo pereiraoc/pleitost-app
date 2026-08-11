@@ -9,6 +9,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vite
 import {
   connectUserStateSync,
   installPersistMirror,
+  resyncUserState,
   __putUserPatchForTests,
   __resetPersistForTests,
   __setUserStateOpsForTests,
@@ -139,6 +140,40 @@ describe('espelho por conta (#239)', () => {
     expect(srv.data['pleitost.heroEdits.X']).toBe('NOVO_de_A')
     // a chave AUSENTE no servidor foi sincronizada
     expect(srv.data['pleitost.novaChave']).toBe('novo_local')
+  })
+
+  it('#448 pull ao voltar o foco: mudança de outro device chega sem reboot', async () => {
+    // durante a sessão só a mesa era realtime; o user_state só puxava no
+    // boot/login. resyncUserState (disparado pelo visibilitychange→visible)
+    // re-hidrata a conta quando o app volta ao primeiro plano.
+    const srv = fakeServer()
+    await connectUserStateSync('u-1', () => {})
+    installPersistMirror()
+    await vi.runAllTimersAsync() // bootstrap
+    // outro device grava um herói novo na conta enquanto o app está aberto
+    srv.data['pleitost.localEntities'] = JSON.stringify({
+      'local:Heroi:novo': {
+        id: 'local:Heroi:novo',
+        kind: 'Heroi',
+        basename: 'Novo',
+        frontmatter: {},
+        updatedAt: '2026-08-09T00:00:00.000Z',
+      },
+    })
+    const added: string[] = []
+    await resyncUserState((a) => added.push(...a))
+    expect(window.localStorage.getItem('pleitost.localEntities')).toContain('local:Heroi:novo')
+    expect(added).toContain('pleitost.localEntities')
+  })
+
+  it('resyncUserState deslogado é no-op (não puxa nada)', async () => {
+    const srv = fakeServer({ 'pleitost.settings.mestre': 'true' })
+    // sem connectUserStateSync antes → sbUserId nulo
+    const added: string[] = []
+    await resyncUserState((a) => added.push(...a))
+    expect(window.localStorage.getItem('pleitost.settings.mestre')).toBeNull()
+    expect(added).toEqual([])
+    expect(srv.puts).toHaveLength(0)
   })
 
   it('#291: putUserPatch serializa os read-merge-write (nunca 2 puts ao mesmo tempo)', async () => {

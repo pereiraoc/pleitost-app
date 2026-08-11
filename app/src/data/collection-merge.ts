@@ -86,6 +86,52 @@ export const mergeRecordBlobs: CollectionMerger = (localRaw, remoteRaw) => {
   }
 }
 
+/** Timestamp `updatedAt` de UMA entidade dentro do blob (0 se ausente). */
+function entUpdatedAt(v: unknown): number {
+  if (!v || typeof v !== 'object') return 0
+  const t = (v as Record<string, unknown>)['updatedAt']
+  const ms = typeof t === 'string' ? Date.parse(t) : NaN
+  return Number.isFinite(ms) ? ms : 0
+}
+
+/** Como mergeRecordBlobs (união por id + tombstones), mas o conflito do MESMO
+ *  id resolve por `updatedAt` da entidade (NEWER-WINS) em vez de local-sempre-
+ *  vence. Report #448: adicionar uma Pessoa nas anotações edita o CONTEÚDO de um
+ *  herói já existente; com local-wins a edição nunca propagava (o device
+ *  desatualizado vencia o conflito) e o flush ainda regredia a conta. Com o
+ *  carimbo por entidade a versão mais nova ganha nos DOIS sentidos (pull e
+ *  push). Empate de carimbo (inclui legado SEM updatedAt, ambos 0) → mantém o
+ *  LOCAL (não churn, compatível com o comportamento antigo). */
+export const mergeRecordBlobsByUpdatedAt: CollectionMerger = (localRaw, remoteRaw) => {
+  const local = parseRecord(localRaw)
+  const remote = parseRecord(remoteRaw)
+  if (!remote) {
+    return { value: localRaw ?? remoteRaw, addedFromRemote: false, differsFromRemote: local !== null }
+  }
+  if (!local) {
+    return { value: remoteRaw, addedFromRemote: localRaw !== remoteRaw, differsFromRemote: false }
+  }
+  const tombs = { ...tombstonesOf(remote), ...tombstonesOf(local) }
+  const merged: Record<string, unknown> = {}
+  const ids = new Set([...Object.keys(remote), ...Object.keys(local)])
+  for (const k of ids) {
+    if (k === TOMBSTONES_KEY) continue
+    if (k in tombs) continue // deletado em algum device — não ressuscita
+    const l = local[k]
+    const r = remote[k]
+    if (l === undefined) merged[k] = r
+    else if (r === undefined) merged[k] = l
+    else merged[k] = entUpdatedAt(r) > entUpdatedAt(l) ? r : l // empate → local
+  }
+  if (Object.keys(tombs).length) merged[TOMBSTONES_KEY] = tombs
+  const cMerged = canon(merged)
+  return {
+    value: cMerged,
+    addedFromRemote: cMerged !== canon(local),
+    differsFromRemote: cMerged !== canon(remote),
+  }
+}
+
 /** Timestamp ISO `updatedAt` de um blob (0 se ausente/ilegível). */
 function updatedAtOf(raw: string | null): number {
   if (!raw) return 0

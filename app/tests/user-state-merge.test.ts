@@ -10,6 +10,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   connectUserStateSync,
+  __putUserPatchForTests,
   __resetPersistForTests,
   __setUserStateOpsForTests,
 } from '../src/data/remote-persist'
@@ -52,6 +53,14 @@ function fakeServer(initial: Record<string, string> = {}) {
 
 const ENT = 'pleitost.localEntities'
 const heroi = (id: string) => ({ id, kind: 'Heroi', basename: id, frontmatter: { subcategoria: 'Heroi' } })
+/** Herói com carimbo `updatedAt` por entidade (recência #448) + FM extra. */
+const heroiAt = (id: string, updatedAt: string, fmExtra: Record<string, unknown> = {}) => ({
+  id,
+  kind: 'Heroi',
+  basename: id,
+  frontmatter: { subcategoria: 'Heroi', ...fmExtra },
+  updatedAt,
+})
 
 beforeEach(() => {
   if (!window.localStorage) {
@@ -293,5 +302,132 @@ describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")
     // e NÃO ressuscita na conta
     const server = JSON.parse(srv.rows.get('u1')![ENT]!)
     expect(server['local:Heroi:dup']).toBeUndefined()
+  })
+})
+
+// #448: adicionar uma Pessoa nas anotações edita o CONTEÚDO de um herói já
+// existente. A união local-sempre-vence (mergeRecordBlobs) nunca propagava a
+// edição: o device desatualizado vencia o conflito de id. Carimbo `updatedAt`
+// por entidade + newer-wins por entrada resolvem — a versão mais nova ganha.
+describe('conflito por-entidade: NEWER-WINS por updatedAt (#448 Pessoas)', () => {
+  it('conta tem a entidade MAIS NOVA (com a Pessoa) → o device velho ADOTA no login', async () => {
+    const srv = fakeServer({
+      [ENT]: JSON.stringify({
+        'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-08T00:00:00.000Z', {
+          Pessoas: [{ Nome: 'Zeca do Bar' }],
+        }),
+      }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    // celular com o herói SEM a Pessoa e carimbo mais VELHO
+    window.localStorage.setItem(
+      ENT,
+      JSON.stringify({ 'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-01T00:00:00.000Z') }),
+    )
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    const local = JSON.parse(window.localStorage.getItem(ENT)!)
+    expect(local['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(1)
+    expect(added).toContain(ENT) // chegou coisa nova → reload
+  })
+
+  it('empate SEM carimbo (legado) → o LOCAL vence (mantém compatibilidade)', async () => {
+    const srv = fakeServer({
+      [ENT]: JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Remota' } }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      ENT,
+      JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Local' } }),
+    )
+    await connectUserStateSync('u1', () => {})
+    expect(JSON.parse(window.localStorage.getItem(ENT)!)['local:Heroi:x'].basename).toBe('Local')
+  })
+})
+
+// #448/#449: o PUSH (flush → ops.put) sobrescrevia a chave inteira sem merge.
+// Um device com blob velho, ao gravar QUALQUER coisa, regredia a conta —
+// apagava a Pessoa que outro device tinha gravado (Carlos ficou com
+// `Pessoas: null` no servidor) e a trilha nova do grupo. O push agora é
+// MERGE-AWARE: lê o valor atual e aplica o merger da chave antes de gravar.
+describe('push MERGE-AWARE: o flush não regride a conta (#448/#449)', () => {
+  async function comSbUserId() {
+    const srv = fakeServer()
+    __setUserStateOpsForTests(srv.ops)
+    await connectUserStateSync('u1', () => {}) // seta sbUserId (conta vazia)
+    return srv
+  }
+
+  it('#448 device desatualizado NÃO apaga a Pessoa gravada por outro device', async () => {
+    const srv = await comSbUserId()
+    // outro device já gravou Carlos COM a Pessoa (carimbo novo)
+    srv.rows.set('u1', {
+      [ENT]: JSON.stringify({
+        'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-08T00:00:00.000Z', {
+          Pessoas: [{ Nome: 'Zeca do Bar' }],
+        }),
+      }),
+    })
+    // ESTE device (velho, sem a Pessoa) faz um flush do seu blob
+    await __putUserPatchForTests({
+      [ENT]: JSON.stringify({ 'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-01T00:00:00.000Z') }),
+    })
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:c'].updatedAt).toBe('2026-08-08T00:00:00.000Z')
+    expect(server['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(1)
+  })
+
+  it('device com a versão MAIS NOVA empurra e a conta adota', async () => {
+    const srv = await comSbUserId()
+    srv.rows.set('u1', {
+      [ENT]: JSON.stringify({ 'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-01T00:00:00.000Z') }),
+    })
+    await __putUserPatchForTests({
+      [ENT]: JSON.stringify({
+        'local:Heroi:c': heroiAt('local:Heroi:c', '2026-08-09T00:00:00.000Z', {
+          Pessoas: [{ Nome: 'Nova' }],
+        }),
+      }),
+    })
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(1)
+  })
+
+  it('UNIÃO no push: o herói de OUTRO device na conta sobrevive ao meu flush', async () => {
+    const srv = await comSbUserId()
+    srv.rows.set('u1', {
+      [ENT]: JSON.stringify({ 'local:Heroi:tab': heroiAt('local:Heroi:tab', '2026-08-08T00:00:00.000Z') }),
+    })
+    await __putUserPatchForTests({
+      [ENT]: JSON.stringify({ 'local:Heroi:cel': heroiAt('local:Heroi:cel', '2026-08-08T00:00:00.000Z') }),
+    })
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(Object.keys(server).sort()).toEqual(['local:Heroi:cel', 'local:Heroi:tab'])
+  })
+
+  it('#449 groupState: flush com trilha VELHA não regride a trilha NOVA da conta', async () => {
+    const srv = await comSbUserId()
+    const GRP = 'pleitost.groupState.G'
+    srv.rows.set('u1', {
+      [GRP]: JSON.stringify({
+        hexes: [
+          { id: 'a', col: 1, row: 1 },
+          { id: 'b', col: 2, row: 2 },
+        ],
+        updatedAt: '2026-08-08T00:00:00.000Z',
+      }),
+    })
+    await __putUserPatchForTests({
+      [GRP]: JSON.stringify({ hexes: [], updatedAt: '2026-08-01T00:00:00.000Z' }),
+    })
+    const server = JSON.parse(srv.rows.get('u1')![GRP]!)
+    expect(server.hexes).toHaveLength(2) // manteve a versão nova
+  })
+
+  it('escalares (heroEdits) seguem sobrescrita simples — sem leitura extra', async () => {
+    const srv = await comSbUserId()
+    srv.rows.set('u1', { 'pleitost.heroEdits.X': 'antigo' })
+    await __putUserPatchForTests({ 'pleitost.heroEdits.X': 'novo' })
+    expect(srv.rows.get('u1')!['pleitost.heroEdits.X']).toBe('novo')
   })
 })

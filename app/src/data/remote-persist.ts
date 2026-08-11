@@ -16,6 +16,7 @@ import {
   mergeArrayBlobsBy,
   mergeByUpdatedAt,
   mergeRecordBlobs,
+  mergeRecordBlobsByUpdatedAt,
   type CollectionMerger,
 } from './collection-merge'
 import { pushLog } from './debug-log'
@@ -40,7 +41,10 @@ function synced(k: string): boolean {
  *  desatualizado apagava da conta os itens alheios. Registro central; merges
  *  estruturais em collection-merge.ts. */
 const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
-  'pleitost.localEntities': mergeRecordBlobs,
+  // #448: localEntities une por id mas resolve conflito do MESMO id por
+  // recência (updatedAt por entidade) — edições de conteúdo (Pessoas nas
+  // anotações) precisam propagar, não só entidades novas.
+  'pleitost.localEntities': mergeRecordBlobsByUpdatedAt,
   'pleitost.groupMembership': mergeRecordBlobs,
   'pleitost.compendio.drafts': mergeRecordBlobs,
   'pleitost.sessoes': mergeArrayBlobsBy('codigo'),
@@ -125,18 +129,43 @@ export function __setUserStateOpsForTests(ops: UserStateOps | null): void {
   userOps = ops
 }
 
+/** Callback padrão: um reload deixa os stores re-hidratarem do localStorage
+ *  quando o merge trouxe chaves novas da conta. */
+function defaultReload(added: string[]): void {
+  if (added.length) window.location.reload()
+}
+
 /** Liga o espelho por conta quando o usuário loga (auth-state chama). Hidrata
  *  as chaves ausentes; se chegou coisa nova, `onHydrated` decide o que fazer
  *  (produção: um reload pra os stores re-hidratarem do localStorage). */
 export async function connectUserStateSync(
   userId: string | null,
-  onHydrated: (addedKeys: string[]) => void = (added) => {
-    if (added.length) window.location.reload()
-  },
+  onHydrated: (addedKeys: string[]) => void = defaultReload,
 ): Promise<void> {
   if (userId === sbUserId) return
   sbUserId = userId
   if (!userId) return
+  await pullAndBootstrap(userId, onHydrated)
+}
+
+/** Re-hidrata a conta pro usuário JÁ logado (#448): o user_state só puxava no
+ *  boot/login; durante a sessão só a mesa era realtime, então mudanças de outro
+ *  device (Pessoas, trilhas) não apareciam sem reboot. Disparado quando o app
+ *  volta ao primeiro plano (visibilitychange→visible). No-op se deslogado. */
+export async function resyncUserState(
+  onHydrated: (addedKeys: string[]) => void = defaultReload,
+): Promise<void> {
+  if (!sbUserId) return
+  await pullAndBootstrap(sbUserId, onHydrated)
+}
+
+/** Puxa a conta (merge por chave) + empurra as chaves genuinamente novas deste
+ *  device. Compartilhado pelo login (connectUserStateSync) e pelo foco
+ *  (resyncUserState). */
+async function pullAndBootstrap(
+  userId: string,
+  onHydrated: (addedKeys: string[]) => void,
+): Promise<void> {
   const ops = userOps ?? defaultUserOps()
   if (!ops) return
   const store = ls()
@@ -209,7 +238,24 @@ async function putUserPatch(patch: Record<string, string | null>): Promise<void>
   const uid = sbUserId
   userPutChain = userPutChain.then(async () => {
     try {
-      await ops.put(uid, patch)
+      // MERGE-AWARE (#448/#449): o push cego regredia a conta — um device com
+      // blob VELHO sobrescrevia a chave inteira, apagando o que outro device
+      // gravou (Pessoas viravam null no servidor; a trilha nova do grupo sumia).
+      // Antes de gravar, lê o valor ATUAL da conta e aplica o merger da chave
+      // (união/newer-wins) — o push nunca regride. Só chaves mergeáveis não-nulas
+      // pagam a leitura extra; escalares seguem sobrescrita direta.
+      const mergeable = Object.keys(patch).some((k) => patch[k] !== null && !!mergerFor(k))
+      let finalPatch = patch
+      if (mergeable) {
+        const server = (await ops.get(uid)) ?? {}
+        finalPatch = {}
+        for (const [k, v] of Object.entries(patch)) {
+          const merger = v !== null ? mergerFor(k) : undefined
+          const cur = server[k]
+          finalPatch[k] = merger && typeof cur === 'string' ? merger(v, cur).value : v
+        }
+      }
+      await ops.put(uid, finalPatch)
     } catch {
       /* offline: próxima gravação tenta de novo */
     }
@@ -297,9 +343,12 @@ export function installPersistMirror(): void {
     origRemove!(k)
     if (synced(k)) enqueue(k, null)
   }
-  // celular: ao esconder/fechar o app, garante o flush pendente
+  // celular: ao esconder/fechar o app, garante o flush pendente; ao VOLTAR ao
+  // primeiro plano, re-hidrata a conta (#448) — mudanças de outro device
+  // aparecem sem precisar reabrir o app do zero.
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') flush()
+    else void resyncUserState()
   })
   window.addEventListener('pagehide', flush)
   // bootstrap: manda o estado LOCAL atual pro servidor
