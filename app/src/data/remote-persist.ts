@@ -180,13 +180,14 @@ async function pullAndBootstrap(
       const merger = mergerFor(k)
       if (merger) {
         // Coleções: MERGE por entrada nos DOIS sentidos — o que faltar local
-        // desce (added → reload), o que faltar/diferir na conta sobe.
+        // desce (added → grava `value` + reload), o que diferir sobe (`pushValue`,
+        // que no EMPATE preserva a conta → não clobbera).
         const r = merger(store.getItem(k), v)
         if (r.addedFromRemote) {
           write(k, r.value)
           added.push(k)
         }
-        if (r.differsFromRemote) patch[k] = r.value
+        if (r.differsFromRemote) patch[k] = r.pushValue ?? r.value
         continue
       }
       if (store.getItem(k) === null) {
@@ -252,7 +253,13 @@ async function putUserPatch(patch: Record<string, string | null>): Promise<void>
         for (const [k, v] of Object.entries(patch)) {
           const merger = v !== null ? mergerFor(k) : undefined
           const cur = server[k]
-          finalPatch[k] = merger && typeof cur === 'string' ? merger(v, cur).value : v
+          if (merger && typeof cur === 'string') {
+            const r = merger(v, cur) // v = meu blob local; cur = a conta
+            // sobe o `pushValue` — no EMPATE preserva o da conta (não regride).
+            finalPatch[k] = r.pushValue ?? r.value
+          } else {
+            finalPatch[k] = v
+          }
         }
       }
       await ops.put(uid, finalPatch)

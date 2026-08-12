@@ -95,7 +95,11 @@ describe('espelho por conta: merge POR ENTRADA das coleções', () => {
     expect(Object.keys(server).sort()).toEqual(['local:Heroi:cel1', 'local:Heroi:tablet1'])
   })
 
-  it('conflito do MESMO id: o LOCAL vence (nunca perde o que está na mão)', async () => {
+  it('conflito do MESMO id SEM carimbo (empate): local EXIBE o seu, mas NÃO clobbera a conta', async () => {
+    // #448 regressão: antes o empate fazia "local vence + push" e um device com
+    // versão vazia sobrescrevia a cheia da conta (Pessoas viravam null). Agora o
+    // empate mantém o local pra exibir, mas NÃO regride a conta (sem carimbo não
+    // dá pra saber quem é mais novo → ninguém clobbera; a 1ª edição desempata).
     const srv = fakeServer({
       [ENT]: JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Versão Remota' } }),
     })
@@ -105,11 +109,12 @@ describe('espelho por conta: merge POR ENTRADA das coleções', () => {
       JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Versão Local' } }),
     )
     await connectUserStateSync('u1', () => {})
+    // local segue exibindo a SUA versão (nunca perde o que está na mão)
     const local = JSON.parse(window.localStorage.getItem(ENT)!)
     expect(local['local:Heroi:x'].basename).toBe('Versão Local')
-    // o servidor converge pro vencedor local
+    // a CONTA NÃO é clobberada (mantém a dela) — no push, empate preserva o remoto
     const server = JSON.parse(srv.rows.get('u1')![ENT]!)
-    expect(server['local:Heroi:x'].basename).toBe('Versão Local')
+    expect(server['local:Heroi:x'].basename).toBe('Versão Remota')
   })
 
   it('chave só no SERVIDOR continua hidratando (fill preservado)', async () => {
@@ -429,5 +434,49 @@ describe('push MERGE-AWARE: o flush não regride a conta (#448/#449)', () => {
     srv.rows.set('u1', { 'pleitost.heroEdits.X': 'antigo' })
     await __putUserPatchForTests({ 'pleitost.heroEdits.X': 'novo' })
     expect(srv.rows.get('u1')!['pleitost.heroEdits.X']).toBe('novo')
+  })
+
+  // REGRESSÃO CRÍTICA (perda de dados observada em produção): device com a
+  // entidade VAZIA e SEM carimbo (empate) NÃO pode apagar a versão CHEIA da
+  // conta. Era o vetor real: o celular (0 Pessoas) clobberava as 13 do Carlos a
+  // cada foreground/flush. O push no empate PRESERVA o remoto.
+  it('EMPATE no flush: device com Carlos VAZIO NÃO apaga as 13 Pessoas da conta', async () => {
+    const srv = await comSbUserId()
+    const cheio = {
+      ...heroi('local:Heroi:c'),
+      frontmatter: { subcategoria: 'Heroi', Pessoas: Array.from({ length: 13 }, (_, i) => ({ Nome: `P${i}` })) },
+    }
+    srv.rows.set('u1', { [ENT]: JSON.stringify({ 'local:Heroi:c': cheio }) })
+    // device flush do SEU Carlos vazio (sem carimbo → empate com o da conta)
+    await __putUserPatchForTests({ [ENT]: JSON.stringify({ 'local:Heroi:c': heroi('local:Heroi:c') }) })
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(13) // NÃO clobberou
+  })
+
+  it('EMPATE no boot: device VAZIO não sobe seu Carlos vazio sobre a conta cheia', async () => {
+    const cheio = {
+      ...heroi('local:Heroi:c'),
+      frontmatter: { subcategoria: 'Heroi', Pessoas: Array.from({ length: 13 }, (_, i) => ({ Nome: `P${i}` })) },
+    }
+    const srv = fakeServer({ [ENT]: JSON.stringify({ 'local:Heroi:c': cheio }) })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(ENT, JSON.stringify({ 'local:Heroi:c': heroi('local:Heroi:c') }))
+    await connectUserStateSync('u1', () => {})
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(13) // conta intacta
+  })
+
+  it('carimbado ainda vence o empate — quem edita (carimba) propaga e a conta atualiza', async () => {
+    const srv = await comSbUserId()
+    srv.rows.set('u1', { [ENT]: JSON.stringify({ 'local:Heroi:c': heroi('local:Heroi:c') }) }) // conta vazia, sem carimbo
+    // device editou (carimbou) o Carlos COM 13 Pessoas → vence o empate e sobe
+    const editado = {
+      ...heroiAt('local:Heroi:c', '2026-08-12T02:00:00.000Z', {
+        Pessoas: Array.from({ length: 13 }, (_, i) => ({ Nome: `P${i}` })),
+      }),
+    }
+    await __putUserPatchForTests({ [ENT]: JSON.stringify({ 'local:Heroi:c': editado }) })
+    const server = JSON.parse(srv.rows.get('u1')![ENT]!)
+    expect(server['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(13) // carimbo desempatou → subiu
   })
 })

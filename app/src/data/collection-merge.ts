@@ -16,11 +16,17 @@
 // Array<item> com campo-id (pleitost.sessoes por `codigo`).
 
 export interface CollectionMergeResult {
-  /** Blob resultante (serializado) — a UNIÃO. */
+  /** Blob a gravar LOCAL (o que o device exibe). No empate mantém o LOCAL. */
   value: string
+  /** Blob a SUBIR pra conta. Difere do `value` só no EMPATE: aqui preserva o
+   *  REMOTO, pra o push NUNCA regredir a conta (um device com versão vazia/velha
+   *  não clobbera a cheia do outro — #448). Ausente = usar `value` (mergers sem
+   *  distinção pull/push). */
+  pushValue?: string
   /** O merge trouxe entradas que o LOCAL não tinha → gravar local + reload. */
   addedFromRemote: boolean
-  /** O merge difere do REMOTO (entradas/valores locais) → subir pra conta. */
+  /** O `pushValue` difere do REMOTO (updates genuínos: novo/mais novo local ou
+   *  deleção) → subir pra conta. NÃO liga no empate (não clobbera). */
   differsFromRemote: boolean
 }
 
@@ -106,29 +112,76 @@ export const mergeRecordBlobsByUpdatedAt: CollectionMerger = (localRaw, remoteRa
   const local = parseRecord(localRaw)
   const remote = parseRecord(remoteRaw)
   if (!remote) {
-    return { value: localRaw ?? remoteRaw, addedFromRemote: false, differsFromRemote: local !== null }
+    return {
+      value: localRaw ?? remoteRaw,
+      pushValue: localRaw ?? remoteRaw,
+      addedFromRemote: false,
+      differsFromRemote: local !== null,
+    }
   }
   if (!local) {
-    return { value: remoteRaw, addedFromRemote: localRaw !== remoteRaw, differsFromRemote: false }
+    return {
+      value: remoteRaw,
+      pushValue: remoteRaw,
+      addedFromRemote: localRaw !== remoteRaw,
+      differsFromRemote: false,
+    }
   }
   const tombs = { ...tombstonesOf(remote), ...tombstonesOf(local) }
-  const merged: Record<string, unknown> = {}
+  // Dois blobs: `mergedLocal` (empate → local, pra exibir) e `mergedPush`
+  // (empate → remoto, pra NÃO clobberar a conta). `adopted`/`toPush` são
+  // rastreados por-entidade (o empate não conta pra nenhum → não regride nem
+  // força reload).
+  const mergedLocal: Record<string, unknown> = {}
+  const mergedPush: Record<string, unknown> = {}
+  let adopted = false
+  let toPush = false
   const ids = new Set([...Object.keys(remote), ...Object.keys(local)])
   for (const k of ids) {
     if (k === TOMBSTONES_KEY) continue
-    if (k in tombs) continue // deletado em algum device — não ressuscita
+    if (k in tombs) {
+      // deletado em algum device — sai da união (não ressuscita)
+      if (k in local) adopted = true // local ainda tinha vivo → some localmente
+      if (k in remote) toPush = true // conta ainda tinha vivo → deleção sobe
+      continue
+    }
     const l = local[k]
     const r = remote[k]
-    if (l === undefined) merged[k] = r
-    else if (r === undefined) merged[k] = l
-    else merged[k] = entUpdatedAt(r) > entUpdatedAt(l) ? r : l // empate → local
+    if (l === undefined) {
+      mergedLocal[k] = r
+      mergedPush[k] = r
+      adopted = true // só na conta → local adota
+    } else if (r === undefined) {
+      mergedLocal[k] = l
+      mergedPush[k] = l
+      toPush = true // só local → sobe (entidade nova)
+    } else {
+      const la = entUpdatedAt(l)
+      const ra = entUpdatedAt(r)
+      if (ra > la) {
+        mergedLocal[k] = r
+        mergedPush[k] = r
+        adopted = true // conta mais nova → adota
+      } else if (la > ra) {
+        mergedLocal[k] = l
+        mergedPush[k] = l
+        toPush = true // local mais novo → sobe
+      } else {
+        // EMPATE: local exibe o SEU, push preserva o da CONTA (não clobbera)
+        mergedLocal[k] = l
+        mergedPush[k] = r
+      }
+    }
   }
-  if (Object.keys(tombs).length) merged[TOMBSTONES_KEY] = tombs
-  const cMerged = canon(merged)
+  if (Object.keys(tombs).length) {
+    mergedLocal[TOMBSTONES_KEY] = tombs
+    mergedPush[TOMBSTONES_KEY] = tombs
+  }
   return {
-    value: cMerged,
-    addedFromRemote: cMerged !== canon(local),
-    differsFromRemote: cMerged !== canon(remote),
+    value: canon(mergedLocal),
+    pushValue: canon(mergedPush),
+    addedFromRemote: adopted,
+    differsFromRemote: toPush,
   }
 }
 
@@ -154,28 +207,28 @@ function updatedAtOf(raw: string | null): number {
  *  regride o que está na mão) e sobe. */
 export const mergeByUpdatedAt: CollectionMerger = (localRaw, remoteRaw) => {
   if (localRaw === null) {
-    return { value: remoteRaw, addedFromRemote: true, differsFromRemote: false }
+    return { value: remoteRaw, pushValue: remoteRaw, addedFromRemote: true, differsFromRemote: false }
   }
   if (localRaw === remoteRaw) {
-    return { value: localRaw, addedFromRemote: false, differsFromRemote: false }
+    return { value: localRaw, pushValue: remoteRaw, addedFromRemote: false, differsFromRemote: false }
   }
   const localAt = updatedAtOf(localRaw)
   const remoteAt = updatedAtOf(remoteRaw)
   if (remoteAt > localAt) {
     // conta tem a versão ESTRITAMENTE mais nova → adota (grava local + reload)
-    return { value: remoteRaw, addedFromRemote: true, differsFromRemote: false }
+    return { value: remoteRaw, pushValue: remoteRaw, addedFromRemote: true, differsFromRemote: false }
   }
   if (localAt > remoteAt) {
     // local ESTRITAMENTE mais novo → vence e SOBE
-    return { value: localRaw, addedFromRemote: false, differsFromRemote: true }
+    return { value: localRaw, pushValue: localRaw, addedFromRemote: false, differsFromRemote: true }
   }
   // EMPATE de carimbo (inclui blobs SEM updatedAt, ambos = 0) com conteúdo
-  // distinto: NÃO dá pra saber quem é mais novo — mantém o LOCAL e NÃO sobe.
-  // Antes o "local vence + push" no empate deixava o ÚLTIMO device a sincronizar
-  // sobrescrever o outro (data-loss na transição, antes de os carimbos
-  // existirem). Sem carimbo confiável, ninguém clobbera; a 1ª edição real
-  // (que carimba updatedAt) desempata e propaga.
-  return { value: localRaw, addedFromRemote: false, differsFromRemote: false }
+  // distinto: NÃO dá pra saber quem é mais novo. O LOCAL segue exibindo o seu,
+  // mas o PUSH preserva o REMOTO — ninguém clobbera a conta. Antes o "local
+  // vence + push" deixava um device com versão vazia/velha sobrescrever a cheia
+  // do outro (data-loss real: Pessoas viravam null). A 1ª edição (que carimba
+  // updatedAt) desempata e propaga.
+  return { value: localRaw, pushValue: remoteRaw, addedFromRemote: false, differsFromRemote: false }
 }
 
 function parseArray(raw: string | null): unknown[] | null {
