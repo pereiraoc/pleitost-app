@@ -183,6 +183,15 @@ export class SupabaseSessionRepo implements SessionRepo, SessionRealtime {
     const { error } = await this.sb.from('sessions').update({ state }).eq('id', sessionId)
     if (error) fail('updateSessionState', error)
   }
+  async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
+    // RPC SECURITY DEFINER: QUALQUER membro (ou o mestre) edita SÓ a trilha,
+    // contornando a RLS gm-only da sessão sem poder tocar o resto do state.
+    const { error } = await this.sb.rpc('session_set_exploracao', {
+      p_session_id: sessionId,
+      p_exploracao: exploracao ?? null,
+    })
+    if (error) fail('setExploracao', error)
+  }
   async findSessionById(id: string): Promise<Session | null> {
     const { data, error } = await this.sb.from('sessions').select().eq('id', id).maybeSingle()
     if (error) fail('findSessionById', error)

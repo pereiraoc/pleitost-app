@@ -709,7 +709,10 @@ export function GrupoView({ groupId }: { groupId: string }) {
         updatedAt: carimbo,
         grupoId: exploId,
       } as GroupState
-      void repo.updateSessionState(sid, { exploracao: comCarimbo }).catch(() => {})
+      // #449: a trilha é do GRUPO — QUALQUER membro edita (RPC session_set_exploracao,
+      // que checa membership); antes ia por updateSessionState (RLS gm-only) e a
+      // marcação do jogador falhava em silêncio.
+      void repo.setExploracao(sid, comCarimbo).catch(() => {})
     }
     if (remoteJson && remoteJson !== localJson && !localMaisNovo) {
       exploSyncRef.current = remoteJson

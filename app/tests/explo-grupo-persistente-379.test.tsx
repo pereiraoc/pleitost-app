@@ -9,7 +9,7 @@
 // ficha do grupo do Carlos mostra a trilha toda, conectado OU desconectado.
 // O escopo por sessão migra pro grupo (destino vazio); com dados nos dois, o
 // sync #5 (remoto = fonte de verdade) converge no pull.
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
@@ -181,6 +181,28 @@ describe('#379 r2 — trilha da mesa vive no GRUPO PERSISTENTE', () => {
       const hexes = getGroupState(`${MESA_GRUPO_ID}:${sess.id}`).hexes as { id: string }[]
       expect(hexes.map((h) => h.id)).toEqual(['h1', 'h2'])
     })
+  }, 30000)
+
+  it('#449 a marcação sobe pela RPC de MEMBRO (setExploracao), não pela via gm-only', async () => {
+    // report: jogador não conseguia marcar caminho — o push ia por
+    // updateSessionState (RLS gm-only) e falhava em silêncio. Agora a trilha é
+    // do grupo e QUALQUER membro edita via session_set_exploracao.
+    const repo = new InMemorySessionRepo()
+    const sess = await repo.createSession({ name: 'Mesa', gmUserId: 'gm-outro', code: 'GP4' })
+    const spyExplo = vi.spyOn(repo, 'setExploracao')
+    const spyState = vi.spyOn(repo, 'updateSessionState')
+    // local (a sessão) tem trilha; remoto vazio → o efeito #5 SEMEIA o remoto (push)
+    setGroupStateFull(`${MESA_GRUPO_ID}:${sess.id}`, TRILHA)
+    setLiveSession(liveMesa(sess.id, '[[Carlos, Dante, Mera, Pind, Thoren]]'))
+    renderView(repo, MESA_GRUPO_ID)
+    await waitFor(() => expect(spyExplo).toHaveBeenCalled())
+    // subiu pela RPC de membro, com a trilha certa…
+    expect(spyExplo.mock.calls[0]![0]).toBe(sess.id)
+    expect((spyExplo.mock.calls[0]![1] as { hexes: unknown[] }).hexes).toHaveLength(2)
+    // …e NÃO pela via gm-only (updateSessionState nunca recebe exploracao)
+    for (const call of spyState.mock.calls) {
+      expect(call[1]).not.toHaveProperty('exploracao')
+    }
   }, 30000)
 
   it('mesa SEM grupo persistente segue no escopo por sessão (trap reverso)', async () => {

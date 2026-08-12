@@ -323,8 +323,14 @@ export interface SessionRepo {
    *  ATIVAS em que o usuário é membro — alimenta a lista multi-dispositivo. */
   findSessionsByUser(userId: string): Promise<Session[]>
   /** Extensão do APP (#235): patch do state da sessão (merge por chave de
-   *  topo, last-write-wins — mesmo modelo do state de personagem). */
+   *  topo, last-write-wins — mesmo modelo do state de personagem). Só o MESTRE
+   *  (RLS gm-only) — combate/iniciativa/imagem. */
   updateSessionState(sessionId: string, patch: Partial<SessionState>): Promise<void>
+  /** Edita SÓ a trilha (`exploracao`) via RPC `session_set_exploracao` — QUALQUER
+   *  membro da sessão pode (a trilha é do grupo, todos editam/veem); o resto do
+   *  state continua do mestre. Report: jogador não conseguia marcar caminho
+   *  (updateSessionState caía na RLS gm-only e falhava em silêncio). */
+  setExploracao(sessionId: string, exploracao: GroupState): Promise<void>
   findSessionById(id: string): Promise<Session | null>
 
   insertMember(input: {

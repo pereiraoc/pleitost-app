@@ -76,6 +76,12 @@ export class InMemorySessionRepo implements SessionRepo, SessionRealtime {
     sess.state = { ...sess.state, ...patch }
     this.notify(sessionId)
   }
+  async setExploracao(sessionId: string, exploracao: Session['state']['exploracao']): Promise<void> {
+    const sess = this.sessions.get(sessionId)
+    if (!sess) return
+    sess.state = { ...sess.state, exploracao }
+    this.notify(sessionId)
+  }
   async findSessionsByUser(userId: string): Promise<Session[]> {
     const ids = new Set(
       [...this.members.values()].flat().filter((m) => m.userId === userId).map((m) => m.sessionId),
