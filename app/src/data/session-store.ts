@@ -43,25 +43,73 @@ function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
 }
 
+/** Marcador de DELEÇÃO no blob de sessoes (report #449: apagar uma mesa não
+ *  propagava — a união do sync ressuscitava do outro device). Ao deletar, o
+ *  código vira um tombstone `{codigo, __deleted__: ISO}` persistido junto (a
+ *  hidratação o esconde da lista; o merge de coleção respeita e a deleção sobe).
+ *  Podado após 90 dias. */
+interface SessionTombstone {
+  codigo: string
+  __deleted__: string
+}
+const TOMB_TTL_MS = 90 * 24 * 60 * 60 * 1000
+
 let cache: SessionRec[] | null = null
+let tombCache: SessionTombstone[] | null = null
 let activeCache: string | null | undefined
 const channel = createStoreChannel()
 
-function load(): SessionRec[] {
-  if (cache) return cache
-  try {
-    const raw = storage()?.getItem(KEY)
-    cache = raw ? (JSON.parse(raw) as SessionRec[]) : []
-  } catch {
-    cache = []
-  }
-  return cache
+function isTombstone(x: unknown): x is SessionTombstone {
+  return (
+    !!x &&
+    typeof x === 'object' &&
+    typeof (x as Record<string, unknown>)['__deleted__'] === 'string' &&
+    typeof (x as Record<string, unknown>)['codigo'] === 'string'
+  )
 }
 
-function persist(next: SessionRec[]): void {
-  cache = next
+function hydrate(): void {
+  if (cache && tombCache) return
+  let arr: unknown[] = []
   try {
-    storage()?.setItem(KEY, JSON.stringify(next))
+    const raw = storage()?.getItem(KEY)
+    const parsed = raw ? (JSON.parse(raw) as unknown) : []
+    arr = Array.isArray(parsed) ? parsed : []
+  } catch {
+    arr = []
+  }
+  const live: SessionRec[] = []
+  const tombs: SessionTombstone[] = []
+  for (const it of arr) {
+    if (isTombstone(it)) tombs.push(it)
+    else if (it && typeof it === 'object') live.push(it as SessionRec)
+  }
+  cache = live
+  tombCache = tombs
+}
+
+/** Tombstones podados (os velhos já propagaram pra todo device) — não crescem. */
+function livingTombs(): SessionTombstone[] {
+  hydrate()
+  const cutoff = Date.now() - TOMB_TTL_MS
+  return tombCache!.filter((t) => {
+    const at = Date.parse(t.__deleted__)
+    return !Number.isFinite(at) || at >= cutoff
+  })
+}
+
+function load(): SessionRec[] {
+  hydrate()
+  return cache!
+}
+
+/** Grava a lista VIVA preservando os tombstones (podados) no blob. */
+function persist(next: SessionRec[]): void {
+  const tombs = livingTombs()
+  cache = next
+  tombCache = tombs
+  try {
+    storage()?.setItem(KEY, JSON.stringify([...next, ...tombs]))
   } catch {
     // storage indisponível (private mode) — segue só em memória
   }
@@ -122,25 +170,59 @@ export function joinSessionByCode(codigo: string): SessionRec {
 }
 
 export function deleteSession(codigo: string): void {
-  persist(load().filter((s) => s.codigo !== codigo))
+  const live = load().filter((s) => s.codigo !== codigo)
+  // tombstone da deleção (substitui marcador antigo do mesmo código) — a
+  // remoção propaga pelo sync e a mesa não ressuscita pela união (#449).
+  const tombs = [
+    ...livingTombs().filter((t) => t.codigo !== codigo),
+    { codigo, __deleted__: new Date().toISOString() },
+  ]
+  cache = live
+  tombCache = tombs
+  try {
+    storage()?.setItem(KEY, JSON.stringify([...live, ...tombs]))
+  } catch {
+    /* memória basta */
+  }
   if (getActiveSessionCode() === codigo) setActiveSessionCode(null)
+  channel.emit()
 }
 
 export function updateSession(codigo: string, patch: Partial<SessionRec>): void {
   persist(load().map((s) => (s.codigo === codigo ? { ...s, ...patch } : s)))
 }
 
+/** Lê o código da mesa ativa tolerando os DOIS formatos: o blob CARIMBADO
+ *  {codigo, updatedAt} (novo — newer-wins entre aparelhos) e a string CRUA
+ *  legada (pré-fix). Código nulo/vazio → null (sem mesa ativa). */
+function parseActiveCode(raw: string | null): string | null {
+  if (!raw) return null
+  try {
+    const v = JSON.parse(raw) as unknown
+    if (v && typeof v === 'object' && !Array.isArray(v)) {
+      const c = (v as { codigo?: unknown }).codigo
+      return typeof c === 'string' && c ? c : null
+    }
+  } catch {
+    /* string crua legada (código direto) */
+  }
+  return raw
+}
+
 export function getActiveSessionCode(): string | null {
   if (activeCache !== undefined) return activeCache
-  activeCache = storage()?.getItem(ACTIVE_KEY) ?? null
+  activeCache = parseActiveCode(storage()?.getItem(ACTIVE_KEY) ?? null)
   return activeCache
 }
 
 export function setActiveSessionCode(codigo: string | null): void {
   activeCache = codigo
   try {
-    if (codigo) storage()?.setItem(ACTIVE_KEY, codigo)
-    else storage()?.removeItem(ACTIVE_KEY)
+    // Blob CARIMBADO (inclui o "sem mesa", codigo:null): a escolha de mesa ativa
+    // mais recente propaga entre aparelhos (newer-wins no sync). Antes era string
+    // crua com fill-only-missing → o ponteiro ficava preso ao valor velho do
+    // device (report: celular travado numa mesa de teste).
+    storage()?.setItem(ACTIVE_KEY, JSON.stringify({ codigo, updatedAt: new Date().toISOString() }))
   } catch {
     // sem storage — memória basta
   }
@@ -171,6 +253,7 @@ export function useSessions(): { sessions: SessionRec[]; active: SessionRec | nu
 
 export function __resetSessionStoreForTests(): void {
   cache = null
+  tombCache = null
   activeCache = undefined
   snapCache = null
   try {

@@ -58,7 +58,7 @@ const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
 const UPDATED_AT_PREFIXES = ['pleitost.hexMap.', 'pleitost.groupState.']
 /** Chaves ÚNICAS (não-prefixo) versionadas por updatedAt: o mapa do mundo
  *  (regiões/habilitação por grupo). Mesma política newer-wins. */
-const UPDATED_AT_KEYS = new Set(['pleitost.mapaAtlas'])
+const UPDATED_AT_KEYS = new Set(['pleitost.mapaAtlas', 'pleitost.sessaoAtiva'])
 
 /** Merger da chave: coleção exata, senão newer-wins (chave/prefixo), senão
  *  nenhum (escalares seguem fill-only-missing). */

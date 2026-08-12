@@ -250,6 +250,33 @@ describe('mapas/caminhos versionados: NEWER-WINS por updatedAt (report c85c98cf)
     ])
     expect(added).toContain(ATLAS)
   })
+
+  // #448 follow-up: a MESA ATIVA (sessaoAtiva) precisa seguir a escolha mais
+  // recente entre aparelhos. Report: celular preso numa mesa de teste porque o
+  // ponteiro era fill-only-missing (o valor certo da conta nunca descia).
+  const ATIVA = 'pleitost.sessaoAtiva'
+  it('sessaoAtiva: escolha MAIS NOVA da conta é adotada (newer-wins)', async () => {
+    const srv = fakeServer({
+      [ATIVA]: JSON.stringify({ codigo: 'EYMSMC', updatedAt: '2026-08-11T00:00:00.000Z' }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    // celular preso na mesa de teste, carimbo mais VELHO
+    window.localStorage.setItem(ATIVA, JSON.stringify({ codigo: 'TQDMER', updatedAt: '2026-07-24T00:00:00.000Z' }))
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    expect(JSON.parse(window.localStorage.getItem(ATIVA)!).codigo).toBe('EYMSMC')
+    expect(added).toContain(ATIVA)
+  })
+
+  it('sessaoAtiva: conta CARIMBADA vence valor LEGADO (string crua, updatedAt=0)', async () => {
+    const srv = fakeServer({
+      [ATIVA]: JSON.stringify({ codigo: 'EYMSMC', updatedAt: '2026-08-11T00:00:00.000Z' }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(ATIVA, 'TQDMER') // formato antigo (bare)
+    await connectUserStateSync('u1', () => {})
+    expect(JSON.parse(window.localStorage.getItem(ATIVA)!).codigo).toBe('EYMSMC')
+  })
 })
 
 describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")', () => {
@@ -307,6 +334,40 @@ describe('tombstones: deleção PROPAGA e não ressuscita (report "eles voltam")
     // e NÃO ressuscita na conta
     const server = JSON.parse(srv.rows.get('u1')![ENT]!)
     expect(server['local:Heroi:dup']).toBeUndefined()
+  })
+})
+
+// #449: apagar uma mesa não propagava — a união (mergeArrayBlobsBy) ressuscitava
+// a sessão do outro device. Tombstone `{codigo, __deleted__}` faz a deleção
+// propagar e não voltar.
+describe('sessoes: EXCLUSÃO de mesa propaga por tombstone (#449)', () => {
+  const SESS = 'pleitost.sessoes'
+  const live = (codes: string[]) => codes.map((c) => ({ codigo: c, nome: `Mesa ${c}` }))
+
+  it('deletei uma mesa (tombstone): a conta perde a mesa e ela NÃO ressuscita', async () => {
+    const srv = fakeServer({ [SESS]: JSON.stringify(live(['FICA11', 'VAI222'])) })
+    __setUserStateOpsForTests(srv.ops)
+    // device já deletou VAI222 (tombstone) e ainda tem FICA11
+    window.localStorage.setItem(
+      SESS,
+      JSON.stringify([{ codigo: 'FICA11', nome: 'Mesa FICA11' }, { codigo: 'VAI222', __deleted__: '2026-08-11T00:00:00.000Z' }]),
+    )
+    await connectUserStateSync('u1', () => {})
+    const server = JSON.parse(srv.rows.get('u1')![SESS]!) as Array<Record<string, unknown>>
+    const vivas = server.filter((x) => !x['__deleted__']).map((x) => x['codigo'])
+    expect(vivas).toEqual(['FICA11']) // VAI222 saiu da conta (deleção subiu)
+  })
+
+  it('a mesa deletada NÃO volta pro device via união (tombstone respeitado no pull)', async () => {
+    const srv = fakeServer({ [SESS]: JSON.stringify(live(['FICA11', 'VAI222'])) })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      SESS,
+      JSON.stringify([{ codigo: 'FICA11', nome: 'Mesa FICA11' }, { codigo: 'VAI222', __deleted__: '2026-08-11T00:00:00.000Z' }]),
+    )
+    await connectUserStateSync('u1', () => {})
+    const localArr = JSON.parse(window.localStorage.getItem(SESS)!) as Array<Record<string, unknown>>
+    expect(localArr.filter((x) => !x['__deleted__']).map((x) => x['codigo'])).toEqual(['FICA11'])
   })
 })
 

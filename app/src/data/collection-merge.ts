@@ -242,34 +242,59 @@ function parseArray(raw: string | null): unknown[] | null {
 }
 
 /** União de blobs `Array<item>` chaveados por `idField` — ordem: locais
- *  primeiro (posições preservadas), remotos novos ao fim; local vence no id. */
+ *  primeiro (posições preservadas), remotos novos ao fim; local vence no id.
+ *  TOMBSTONES (#449): um item `{[idField], __deleted__: ISO}` marca DELEÇÃO — o
+ *  id sai da união nos dois lados (a deleção propaga e não ressuscita) e o
+ *  marcador segue no blob (o mais recente por id) até ser podado na origem. */
 export function mergeArrayBlobsBy(idField: string): CollectionMerger {
+  const TOMB = '__deleted__'
+  const isTomb = (it: unknown): boolean =>
+    !!it && typeof it === 'object' && typeof (it as Record<string, unknown>)[TOMB] === 'string'
+  const idOf = (it: unknown): string =>
+    it && typeof it === 'object' ? String((it as Record<string, unknown>)[idField] ?? '') : ''
   return (localRaw, remoteRaw) => {
     const local = parseArray(localRaw)
     const remote = parseArray(remoteRaw)
     if (!remote) {
-      return { value: localRaw ?? remoteRaw, addedFromRemote: false, differsFromRemote: local !== null }
+      return { value: localRaw ?? remoteRaw, pushValue: localRaw ?? remoteRaw, addedFromRemote: false, differsFromRemote: local !== null }
     }
     if (!local) {
-      return { value: remoteRaw, addedFromRemote: localRaw !== remoteRaw, differsFromRemote: false }
+      return { value: remoteRaw, pushValue: remoteRaw, addedFromRemote: localRaw !== remoteRaw, differsFromRemote: false }
     }
-    const idOf = (it: unknown): string =>
-      it && typeof it === 'object' ? String((it as Record<string, unknown>)[idField] ?? '') : ''
-    const localIds = new Set(local.map(idOf))
-    const novosDoRemoto = remote.filter((it) => {
+    // Tombstones (mais recente por id) dos dois lados.
+    const tombs = new Map<string, string>()
+    for (const it of [...remote, ...local]) {
+      if (!isTomb(it)) continue
+      const id = idOf(it)
+      const iso = String((it as Record<string, unknown>)[TOMB])
+      const prev = tombs.get(id)
+      if (id && (!prev || iso > prev)) tombs.set(id, iso)
+    }
+    const liveLocal = local.filter((it) => !isTomb(it) && !tombs.has(idOf(it)))
+    const liveRemote = remote.filter((it) => !isTomb(it) && !tombs.has(idOf(it)))
+    const localIds = new Set(liveLocal.map(idOf))
+    const novosDoRemoto = liveRemote.filter((it) => {
       const id = idOf(it)
       return id !== '' && !localIds.has(id)
     })
-    const merged = [...local, ...novosDoRemoto]
-    const remoteById = new Map(remote.map((it) => [idOf(it), it]))
-    const differsFromRemote = local.some((it) => {
-      const r = remoteById.get(idOf(it))
-      return r === undefined || JSON.stringify(r) !== JSON.stringify(it)
-    })
-    return {
-      value: JSON.stringify(merged),
-      addedFromRemote: novosDoRemoto.length > 0,
-      differsFromRemote,
-    }
+    const tombItems = [...tombs].map(([id, iso]) => ({ [idField]: id, [TOMB]: iso }))
+    const merged = [...liveLocal, ...novosDoRemoto, ...tombItems]
+    // Conjuntos de VIVOS crus (pré-tombstone) pra decidir added/differs.
+    const localLiveRaw = local.filter((it) => !isTomb(it))
+    const remoteLiveRaw = remote.filter((it) => !isTomb(it))
+    const remoteById = new Map(remoteLiveRaw.map((it) => [idOf(it), it]))
+    const remoteLiveIds = new Set(remoteLiveRaw.map(idOf))
+    // added: local ganha item novo da conta OU perde um vivo por tombstone.
+    const addedFromRemote =
+      novosDoRemoto.length > 0 || localLiveRaw.some((it) => tombs.has(idOf(it)))
+    // differs: local tem vivo/conteúdo que a conta não tem, OU um tombstone
+    // remove um vivo da conta (deleção sobe).
+    const differsFromRemote =
+      liveLocal.some((it) => {
+        const r = remoteById.get(idOf(it))
+        return r === undefined || JSON.stringify(r) !== JSON.stringify(it)
+      }) || [...remoteLiveIds].some((id) => tombs.has(id))
+    const value = JSON.stringify(merged)
+    return { value, pushValue: value, addedFromRemote, differsFromRemote }
   }
 }
