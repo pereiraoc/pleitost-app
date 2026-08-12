@@ -92,6 +92,25 @@ export const mergeRecordBlobs: CollectionMerger = (localRaw, remoteRaw) => {
   }
 }
 
+/** `a` CONTÉM `b`? (superset PROFUNDO) — todo dado de `b` também está em `a`.
+ *  Usado no EMPATE por-entidade de dado LEGADO (sem carimbo): o lado que contém
+ *  o outro vence, porque só ACRESCENTA (nunca perde) — ex.: {Pessoas:[13]} ⊇
+ *  {Pessoas:[]}. Divergência real (nenhum contém o outro) NÃO resolve por aqui. */
+function deepContains(a: unknown, b: unknown): boolean {
+  if (b === null || b === undefined) return true
+  if (typeof b !== 'object') return a === b
+  if (Array.isArray(b)) {
+    if (!Array.isArray(a)) return false
+    // todo elemento de `b` existe em `a` (igualdade estrutural rasa por JSON)
+    const as = a.map((x) => JSON.stringify(x))
+    return b.every((eb) => as.includes(JSON.stringify(eb)))
+  }
+  if (typeof a !== 'object' || a === null || Array.isArray(a)) return false
+  const ao = a as Record<string, unknown>
+  const bo = b as Record<string, unknown>
+  return Object.keys(bo).every((k) => k in ao && deepContains(ao[k], bo[k]))
+}
+
 /** Timestamp `updatedAt` de UMA entidade dentro do blob (0 se ausente). */
 function entUpdatedAt(v: unknown): number {
   if (!v || typeof v !== 'object') return 0
@@ -167,9 +186,24 @@ export const mergeRecordBlobsByUpdatedAt: CollectionMerger = (localRaw, remoteRa
         mergedPush[k] = l
         toPush = true // local mais novo → sobe
       } else {
-        // EMPATE: local exibe o SEU, push preserva o da CONTA (não clobbera)
-        mergedLocal[k] = l
-        mergedPush[k] = r
+        // EMPATE de carimbo (dado legado). Se um lado é SUPERSET do outro, ele
+        // vence (só acrescenta, nunca perde) — assim ficha antiga mais completa
+        // propaga sem precisar de edição. Divergência real (nenhum contém o
+        // outro): local exibe o seu e o push preserva a conta (não clobbera).
+        const localSup = deepContains(l, r)
+        const remoteSup = deepContains(r, l)
+        if (remoteSup && !localSup) {
+          mergedLocal[k] = r
+          mergedPush[k] = r
+          adopted = true // conta mais completa → adota
+        } else if (localSup && !remoteSup) {
+          mergedLocal[k] = l
+          mergedPush[k] = l
+          toPush = true // local mais completo → sobe
+        } else {
+          mergedLocal[k] = l
+          mergedPush[k] = r
+        }
       }
     }
   }

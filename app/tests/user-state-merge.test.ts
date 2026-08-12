@@ -411,6 +411,50 @@ describe('conflito por-entidade: NEWER-WINS por updatedAt (#448 Pessoas)', () =>
   })
 })
 
+// #448 migração: dado LEGADO sem carimbo (updatedAt=0 dos dois lados) não
+// propagava no empate — cada aparelho guardava o seu. Como TODO o dado antigo é
+// não-carimbado, nada sincronizava até uma edição. Refinamento SEGURO: no
+// empate, o lado que é SUPERSET do outro vence (só ACRESCENTA, nunca perde).
+describe('EMPATE por SUPERSET: dado legado mais completo propaga (migração #448)', () => {
+  const cheio = () => ({
+    ...heroi('local:Heroi:c'),
+    frontmatter: { subcategoria: 'Heroi', Pessoas: Array.from({ length: 13 }, (_, i) => ({ Nome: `P${i}` })) },
+  })
+
+  it('conta esparsa ADOTA a versão completa do device (push superset) no boot', async () => {
+    const srv = fakeServer({ [ENT]: JSON.stringify({ 'local:Heroi:c': heroi('local:Heroi:c') }) }) // conta vazia
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(ENT, JSON.stringify({ 'local:Heroi:c': cheio() })) // device completo
+    await connectUserStateSync('u1', () => {})
+    expect(JSON.parse(srv.rows.get('u1')![ENT]!)['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(13)
+  })
+
+  it('device esparso ADOTA a versão completa da conta (pull superset)', async () => {
+    const srv = fakeServer({ [ENT]: JSON.stringify({ 'local:Heroi:c': cheio() }) }) // conta completa
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(ENT, JSON.stringify({ 'local:Heroi:c': heroi('local:Heroi:c') })) // device vazio
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    const local = JSON.parse(window.localStorage.getItem(ENT)!)
+    expect(local['local:Heroi:c'].frontmatter.Pessoas).toHaveLength(13)
+    expect(added).toContain(ENT)
+  })
+
+  it('DIVERGÊNCIA real (nenhum superset) mantém local e NÃO regride a conta', async () => {
+    const srv = fakeServer({
+      [ENT]: JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Conta' } }),
+    })
+    __setUserStateOpsForTests(srv.ops)
+    window.localStorage.setItem(
+      ENT,
+      JSON.stringify({ 'local:Heroi:x': { ...heroi('local:Heroi:x'), basename: 'Local' } }),
+    )
+    await connectUserStateSync('u1', () => {})
+    expect(JSON.parse(window.localStorage.getItem(ENT)!)['local:Heroi:x'].basename).toBe('Local')
+    expect(JSON.parse(srv.rows.get('u1')![ENT]!)['local:Heroi:x'].basename).toBe('Conta')
+  })
+})
+
 // #448/#449: o PUSH (flush → ops.put) sobrescrevia a chave inteira sem merge.
 // Um device com blob velho, ao gravar QUALQUER coisa, regredia a conta —
 // apagava a Pessoa que outro device tinha gravado (Carlos ficou com
