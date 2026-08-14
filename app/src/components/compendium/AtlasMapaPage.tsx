@@ -60,10 +60,11 @@ import { useDocs } from '../../data/useDoc'
 import { HexInfoBar } from '../../map/HexInfoBar'
 import { useHexMapMundoSync } from '../../map/use-hexmapmundo-sync'
 import { useMapaAtlasSync } from '../../map/use-mapaatlas-sync'
-
-/** Paths EXATOS dos assets no manifest (byPath — sem resolução por basename). */
-export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
-export const ATLAS_OVERLAY_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas-overlay.webp'
+// Paths dos assets do mapa: agora em map/atlas-grid.ts (módulo neutro — o
+// wizard de criação também consome sem importar componente de página);
+// re-exportados aqui pra compatibilidade dos consumidores existentes.
+import { ATLAS_MAPA_ASSET, ATLAS_OVERLAY_ASSET } from '../../map/atlas-grid'
+export { ATLAS_MAPA_ASSET, ATLAS_OVERLAY_ASSET }
 
 /** Dimensões da FONTE do atlas.webp — coordenadas de regiões/pins são px
  *  desta imagem (mesmo contrato do MAP_W/MAP_H da exploração). */

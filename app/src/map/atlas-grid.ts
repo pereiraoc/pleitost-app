@@ -24,6 +24,13 @@
 export const ATLAS_GRID_W = 7440
 export const ATLAS_GRID_H = 5262
 
+/** Paths EXATOS dos assets do mapa no manifest (byPath — sem resolução por
+ *  basename). Moram aqui (módulo neutro da fonte do atlas) pra página do mapa
+ *  E o wizard de criação (#452, preview da naturalidade) consumirem sem
+ *  importar componente de página. */
+export const ATLAS_MAPA_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas.webp'
+export const ATLAS_OVERLAY_ASSET = 'Recursos e Mídia/Imagens/Mapas/atlas-overlay.webp'
+
 /** Circunraio do hex flat-top na fonte do atlas.webp (74 × 0.74777). */
 export const ATLAS_HEX_SIZE = 55.335
 /** Origem REBASEADA do centro do hex (0,0): 39·s+tx − 44·HSTEP / 122·s+ty − 5·VSTEP. */

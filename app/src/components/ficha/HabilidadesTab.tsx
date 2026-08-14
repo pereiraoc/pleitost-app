@@ -14,7 +14,7 @@ import type { VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
-import { useHeroModel } from '../../data/useHeroModel'
+import { useHeroModel, type HeroModel } from '../../data/useHeroModel'
 import { rederiveArmasAtributos } from './arma-atributo-sync'
 import { classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
@@ -160,6 +160,8 @@ const SLOT_CLASS_COLOR: Record<SlotClass, string> = {
 
 const PROF_COLS_VIEW = '1.25fr 0.6fr 0.7fr'
 const PROF_COLS_EDIT = 'minmax(96px,1.25fr) 0.75fr 1fr 1fr'
+/** Grade de edição SEM a coluna de item bônus (wizard, `hideItemBonus`). */
+const PROF_COLS_EDIT_SEM_ITEM = 'minmax(96px,1.25fr) 0.75fr 1fr'
 
 /** Selo compacto de custo: dígitos de ação ("2A" → "2") ou o CÓDIGO do custo
  *  quando não é numérico ("R" reação, "L" livre, "P", "Min"). Antes o não-numérico
@@ -287,6 +289,37 @@ function benefitChoiceOptions(doc: VaultDoc | undefined): { nome: string; texto:
   return out
 }
 
+/** Persiste um pick de SUBCLASSE no FM: regrava a linha `Escolha.[[pai]]` de
+ *  Habilidades.Lista com a nova opção (pick = estado, espelho do
+ *  resolve-choices/serialize do plugin — o item picado vive na lista com
+ *  source `Escolha.[[<parent>]]`). Compartilhado entre o ClasseNivelPanel e o
+ *  wizard de criação (#452 passo 1.2). */
+export function applySubclassPick(
+  model: HeroModel,
+  fm: Record<string, unknown>,
+  parent: string,
+  pickValue: string,
+): void {
+  if (!pickValue) return
+  const habRows = (fmPath(fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]
+  const esc = parent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
+  const newKey = `[[${wikiTarget(pickValue)}]]`
+  let replaced = false
+  const next = habRows.map((row) => {
+    const entries = Object.entries(row)
+    if (entries.length !== 1) return row
+    const source = entries[0]![1]
+    if (typeof source === 'string' && tagRx.test(source)) {
+      replaced = true
+      return { [newKey]: source }
+    }
+    return row
+  })
+  if (!replaced) next.push({ [newKey]: `Escolha.[[${parent}]]` })
+  model.set('Habilidades.Lista', next)
+}
+
 export function ClasseNivelPanel({
   doc,
   refs,
@@ -352,30 +385,10 @@ export function ClasseNivelPanel({
     str(fm['Raça'])
   const setRaca = (v: string) => model.set('Raça', v)
 
-  // SUBCLASSES — troca de pick persiste o ESTADO no FM: regrava a linha
-  // `Escolha.[[pai]]` de Habilidades.Lista com a nova opção (pick = estado,
-  // espelho do resolve-choices/serialize do plugin — o item picado vive na
-  // lista com source `Escolha.[[<parent>]]`).
-  const habRows = (fmPath(fm, 'Habilidades', 'Lista') ?? []) as Record<string, unknown>[]
-  const setSubclassPick = (parent: string, pickValue: string) => {
-    if (!pickValue) return
-    const esc = parent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const tagRx = new RegExp(`^Escolha(\\.\\d+)?\\.\\[\\[${esc}\\]\\]$`)
-    const newKey = `[[${wikiTarget(pickValue)}]]`
-    let replaced = false
-    const next = habRows.map((row) => {
-      const entries = Object.entries(row)
-      if (entries.length !== 1) return row
-      const source = entries[0]![1]
-      if (typeof source === 'string' && tagRx.test(source)) {
-        replaced = true
-        return { [newKey]: source }
-      }
-      return row
-    })
-    if (!replaced) next.push({ [newKey]: `Escolha.[[${parent}]]` })
-    model.set('Habilidades.Lista', next)
-  }
+  // SUBCLASSES — troca de pick persiste o ESTADO no FM (helper compartilhado
+  // com o wizard de criação, ver applySubclassPick).
+  const setSubclassPick = (parent: string, pickValue: string) =>
+    applySubclassPick(model, fm, parent, pickValue)
 
   // Fallback enquanto a projeção resolve: escolhas do FM (fonte Escolha.[[X]]),
   // sem opções — slot renderiza o valor salvo.
@@ -1316,14 +1329,27 @@ function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
 
 /* ===================== sub-aba PERÍCIAS ===================== */
 
-function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
+/** Painel de Perícias da aba COMPETÊNCIAS. Exportado pro WIZARD de criação
+ *  (#452 passo 7) com props opt-in: `forceEdit` abre direto em modo edição
+ *  (sem o toggle) e `hideItemBonus` esconde a coluna de item bônus (na criação
+ *  ainda não existe item bônus de nada). Default = comportamento da aba. */
+export function PericiasProfPanel({
+  doc,
+  forceEdit,
+  hideItemBonus,
+}: {
+  doc: VaultDoc
+  forceEdit?: boolean
+  hideItemBonus?: boolean
+}) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   // FM DERIVADO (FM salvo + cascata de regras) pro render LIVE; fallback no
   // salvo enquanto a projeção resolve — espelho de vm.model do Editável.
   const fm = rules?.derivedFm ?? model.fm
   const { values: attrs } = heroAtributos(fm)
-  const [edit, setEdit] = useState(false)
+  const [editState, setEdit] = useState(false)
+  const edit = forceEdit || editState
   // Perícias POR FAMÍLIA (#201): o CA só possui a whitelist de 6 (plugin
   // data/family-pericias.ts; tab-completa do CA passa filter: CA_PERICIAS) —
   // o FM lista as 13, mas as fora da família não renderizam nem contam slot
@@ -1362,14 +1388,14 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
     )
   }
 
-  const cols = edit ? PROF_COLS_EDIT : PROF_COLS_VIEW
+  const cols = edit ? (hideItemBonus ? PROF_COLS_EDIT_SEM_ITEM : PROF_COLS_EDIT) : PROF_COLS_VIEW
 
   return (
     <div style={panel}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
         <div style={monoTitle}>Perícias</div>
         <span style={{ flex: 1 }} />
-        <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
+        {forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
       <div
         style={{
@@ -1386,7 +1412,7 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
           <span style={{ ...colHeadPlain, textAlign: 'left', paddingLeft: 4 }}>MODIFICADOR</span>
         ) : null}
         <span style={colHeadPlain}>PROFICIÊNCIA</span>
-        {edit ? <span style={colHeadPlain}>ITEM BÔNUS</span> : null}
+        {edit && !hideItemBonus ? <span style={colHeadPlain}>ITEM BÔNUS</span> : null}
         {edit ? <span style={colHeadPlain}>ESPECIALIZAÇÃO</span> : null}
       </div>
       {pericias.map((row) => {
@@ -1462,7 +1488,7 @@ function PericiasProfPanel({ doc }: { doc: VaultDoc }) {
                 />
               )}
             </span>
-            {edit ? (
+            {edit && !hideItemBonus ? (
               <span style={{ display: 'flex', gap: 5, justifyContent: 'center' }}>
                 <GoldDots
                   on={num(row.Bonus_Item)}
@@ -1942,10 +1968,13 @@ export function HabilidadesArvorePanel({
   doc,
   refs,
   readOnly,
+  forceEdit,
 }: {
   doc: VaultDoc
   refs: HeroRefs
   readOnly?: boolean
+  /** Wizard (#452): abre direto em modo edição, sem o toggle. */
+  forceEdit?: boolean
 }) {
   const model = useHeroModel(doc, 'habilidades')
   const catalog = useCatalog()
@@ -2024,7 +2053,7 @@ export function HabilidadesArvorePanel({
   // (Escolha_Habilidades de elementos de regra) ficam read-only; ao Alterar,
   // viram dropdown editável. Em Combate (readOnly) nunca edita.
   const [editState, setEdit] = useState(false)
-  const edit = readOnly ? false : editState
+  const edit = readOnly ? false : forceEdit || editState
 
   // Persiste o pick de uma `Escolha_Habilidades` (não-subclasse) como ESTADO no
   // FM salvo: regrava a linha `Escolha.[[<parent>]]` na LISTA-ALVO da choice
@@ -2041,7 +2070,7 @@ export function HabilidadesArvorePanel({
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
         <div style={{ ...monoTitle, letterSpacing: '.08em' }}>Habilidades</div>
         <span style={{ flex: 1 }} />
-        {readOnly ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
+        {readOnly || forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
       <div style={{ display: 'flex', gap: 26, alignItems: 'flex-start' }}>
         {[leftGroups, rightGroups].map((col, ci) => (
@@ -2535,17 +2564,20 @@ export function TecnicasPanel({
   doc,
   refs,
   readOnly,
+  forceEdit,
 }: {
   doc: VaultDoc
   refs: HeroRefs
   readOnly?: boolean
+  /** Wizard (#452): abre direto em modo edição, sem o toggle. */
+  forceEdit?: boolean
 }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const fm = rules?.derivedFm ?? model.fm
   const [editState, setEdit] = useState(false)
-  const edit = readOnly ? false : editState
+  const edit = readOnly ? false : forceEdit || editState
   const entries = listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))
   // Escolha de benefício (prosa) por técnica — pick persistido no FM (#135/#148).
   const beneficios = (fmPath(model.fm, 'Tecnicas', 'Beneficios') ?? {}) as Record<string, string>
@@ -2676,7 +2708,7 @@ export function TecnicasPanel({
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
         <span style={{ ...monoTitle, letterSpacing: '.08em' }}>Técnicas</span>
         <span style={{ flex: 1 }} />
-        {readOnly ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
+        {readOnly || forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
       <div
         style={{
@@ -3012,7 +3044,21 @@ function escolaCobreRank(prof: string, rankGroup: string): boolean {
   return (MAGIA_PROF_NUM[prof] ?? 0) >= (MAGIA_RANK_IDX[rankGroup] ?? 99)
 }
 
-function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec?: boolean }) {
+/** Painel de MAGIAS da aba COMPETÊNCIAS (primária; `sec` = Secundária).
+ *  Exportado pro WIZARD de criação (#452 passo 8) — mesma mecânica de
+ *  aprender/remover por slots. */
+export function MagiasHabPanel({
+  doc,
+  refs,
+  sec,
+  forceEdit,
+}: {
+  doc: VaultDoc
+  refs: HeroRefs
+  sec?: boolean
+  /** Wizard (#452): abre direto em modo edição, sem o toggle. */
+  forceEdit?: boolean
+}) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
@@ -3032,7 +3078,8 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
     (sec
       ? (fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? [])
       : (fmPath(model.fm, 'Magias', 'Lista') ?? [])) as Record<string, unknown>[]
-  const [edit, setEdit] = useState(false)
+  const [editState, setEdit] = useState(false)
+  const edit = forceEdit || editState
   const escolasAll = (fmPath(mfm, 'Magias', 'Lista') ?? []) as EscolaFm[]
   // Painel ESQUERDO (Aprendidas): escolas com magia aprendida SEMPRE; também
   // as PROFICIENTES sem magia — pra exibir seus slots VAZIOS por rank (#75,
@@ -3216,7 +3263,7 @@ function MagiasHabPanel({ doc, refs, sec }: { doc: VaultDoc; refs: HeroRefs; sec
             {sec ? 'Magias Secundárias' : 'Magias'}
           </span>
           <span style={{ flex: 1 }} />
-          <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
+          {forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
         </div>
         <div
           style={{
