@@ -902,8 +902,10 @@ function stackPaths(ns: string, row: ProfRow): { prof: string; item?: string; st
 
 interface StackSection {
   title: string
-  /** modKind do profData recuperado: std10 | move | none. */
-  modKind: 'std10' | 'move' | 'none'
+  /** modKind do profData recuperado: std10 | mod | move | none. `mod` = só o
+   *  modificador ASSINADO (Sentidos: attr+PB+item+especial, SEM base 10 — como
+   *  no Combate/Resumo e no próprio tooltip; report 8919aaba). */
+  modKind: 'std10' | 'mod' | 'move' | 'none'
   /** Flags por seção do profData (viram opacity dos cabeçalhos). */
   showProf: 0 | 1
   showDots: 0 | 1
@@ -960,7 +962,9 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
     },
     {
       title: 'Sentidos',
-      modKind: 'std10',
+      // Sentidos NÃO somam base 10 (isso é Defesa) — mostram o mod assinado,
+      // igual ao tooltip (sentidoBreakdown) e às outras telas. Report 8919aaba.
+      modKind: 'mod',
       showProf: 1,
       showDots: 1,
       showStar: 1,
@@ -1046,6 +1050,8 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
             const modStr =
               sec.modKind === 'std10'
                 ? String(10 + rowMod(row, attrs))
+                : sec.modKind === 'mod'
+                  ? signed(rowMod(row, attrs))
                 : sec.modKind === 'move'
                   ? String(
                       4 +

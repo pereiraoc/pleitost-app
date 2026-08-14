@@ -169,3 +169,23 @@ describe('HABILIDADES — dropdown de Escolha_Habilidades (Item 1)', () => {
     expect(select.value).toBe('[[Especialista em Caçada]]')
   })
 })
+
+// Report 8919aaba: na aba COMPETÊNCIAS os SENTIDOS (Percepção/Intuição) apareciam
+// com o total base-10 (10+mod, como uma DEFESA), enquanto o tooltip mostrava o
+// mod ASSINADO correto (+x). O valor deve ser o mod assinado — igual ao Combate,
+// ao Resumo e ao próprio tooltip (sentidoBreakdown, sem base 10).
+describe('COMPETÊNCIAS — Sentidos mostram o mod ASSINADO (+x), não o total base-10 (8919aaba)', () => {
+  it('Percepção e Intuição têm valor assinado (+x), sem base 10', async () => {
+    renderHabilidades(CARLOS_ID)
+    await screen.findByText('Sentidos') // a seção renderizou
+    for (const nome of ['Percepção', 'Intuição']) {
+      const row = screen
+        .getAllByText(nome)
+        .map((l) => l.closest('[style*="grid-template-columns"]'))
+        .find(Boolean) as HTMLElement | undefined
+      expect(row).toBeTruthy()
+      // o ModBox mostra o mod ASSINADO (com o std10 antigo apareceria "13" cru)
+      expect(within(row!).getByText(/^[+-]\d+$/).textContent).toMatch(/^[+-]\d+$/)
+    }
+  })
+})
