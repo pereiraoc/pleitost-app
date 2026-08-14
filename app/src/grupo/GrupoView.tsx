@@ -56,7 +56,7 @@ import {
   type PapelValues,
 } from './party'
 import { orderAlphabetical } from './order'
-import { abrirMembroDetalhe, NameCell, SortHead, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
+import { abrirMembroDetalhe, NameCell, SortHead, StarCell, papelTdWarnStyle, rowShellStyle, sectionTitleStyle } from './panel-ui'
 import { applySort, cycleSort, sortArrow, type GrpSort } from './sort'
 import { useGrupoTip, type GrupoTip } from './gtip'
 import { useEntityImageUrl } from '../data/images'
@@ -190,65 +190,6 @@ const rowGrid: CSSProperties = {
   gridTemplateColumns: 'minmax(240px,3fr) minmax(64px,.7fr) repeat(4,minmax(56px,1fr))',
   gap: 6,
   alignItems: 'center',
-}
-
-/**
- * Célula de estrelas do design: 1ª estrela, guia tracejada, resto, e "+"
- * (plus do build; cor do "+" = t.cor). O markup lê t.s1.c/t.s1.o e t.rest,
- * mas o build recuperado só fornece slots:[{on}] + cor — o enriquecimento
- * s1/rest não existe em lugar nenhum do pull; a opacidade da estrela vazia
- * (0.18) é a única aproximação restante.
- */
-function StarCell({
-  value,
-  cor,
-  warn,
-  onTipEnter,
-  tip,
-}: {
-  value: number
-  cor: string
-  /** Coluna com soma do Grupo <1 estrela → aviso do plugin (papelTdWarnStyle). */
-  warn?: boolean
-  onTipEnter?: (e: React.MouseEvent) => void
-  tip?: GrupoTip
-}) {
-  const slots = [0, 1, 2].map((k) => k < value)
-  const star = (on: boolean, key: number) => (
-    <span key={key} style={{ fontSize: 15, lineHeight: 1, color: cor, opacity: on ? 1 : 0.18 }}>
-      ★
-    </span>
-  )
-  return (
-    <div
-      onMouseEnter={onTipEnter}
-      onMouseMove={tip?.move}
-      onMouseLeave={tip?.hide}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 3,
-        cursor: 'help',
-        ...(warn ? papelTdWarnStyle : null),
-      }}
-    >
-      {star(slots[0]!, 0)}
-      <span
-        style={{
-          width: 0,
-          alignSelf: 'stretch',
-          borderLeft: '1px dashed color-mix(in srgb,var(--muted) 60%,transparent)',
-          margin: '1px -1.5px',
-        }}
-      />
-      {star(slots[1]!, 1)}
-      {star(slots[2]!, 2)}
-      {value > 3 ? (
-        <span style={{ fontSize: 12, color: cor, marginLeft: 2, fontWeight: 700 }}>+</span>
-      ) : null}
-    </div>
-  )
 }
 
 interface BalRowData {

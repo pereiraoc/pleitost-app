@@ -14,6 +14,65 @@ import type { CSSProperties, MouseEvent, MouseEventHandler } from 'react'
 import type { GrupoTip } from './gtip'
 import type { DetailCtl, DetailTarget } from '../data/detail-context'
 
+/**
+ * Célula de estrelas do design: 1ª estrela, guia tracejada, resto, e "+"
+ * (plus do build; cor do "+" = t.cor). Compartilhada entre a aba PAPÉIS do
+ * grupo (GrupoView) e o wizard de criação (#452 — preview de papéis
+ * pós-subclasse); a opacidade da estrela vazia (0.18) é a única aproximação
+ * restante do pull.
+ */
+export function StarCell({
+  value,
+  cor,
+  warn,
+  onTipEnter,
+  tip,
+}: {
+  value: number
+  cor: string
+  /** Coluna com soma do Grupo <1 estrela → aviso do plugin (papelTdWarnStyle). */
+  warn?: boolean
+  onTipEnter?: (e: MouseEvent) => void
+  tip?: GrupoTip
+}) {
+  const slots = [0, 1, 2].map((k) => k < value)
+  const star = (on: boolean, key: number) => (
+    <span key={key} style={{ fontSize: 15, lineHeight: 1, color: cor, opacity: on ? 1 : 0.18 }}>
+      ★
+    </span>
+  )
+  return (
+    <div
+      onMouseEnter={onTipEnter}
+      onMouseMove={tip?.move}
+      onMouseLeave={tip?.hide}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 3,
+        cursor: 'help',
+        ...(warn ? papelTdWarnStyle : null),
+      }}
+    >
+      {star(slots[0]!, 0)}
+      <span
+        style={{
+          width: 0,
+          alignSelf: 'stretch',
+          borderLeft: '1px dashed color-mix(in srgb,var(--muted) 60%,transparent)',
+          margin: '1px -1.5px',
+        }}
+      />
+      {star(slots[1]!, 1)}
+      {star(slots[2]!, 2)}
+      {value > 3 ? (
+        <span style={{ fontSize: 12, color: cor, marginLeft: 2, fontWeight: 700 }}>+</span>
+      ) : null}
+    </div>
+  )
+}
+
 /** Abre um MEMBRO do grupo no painel de DETALHES (direita) — #bug: clicar no
  *  nome nas abas abria a ficha cheia como se fosse do usuário. Membros de
  *  sessão têm id `sessao:<charId>` → resumo-sessao; membros da vault/local →

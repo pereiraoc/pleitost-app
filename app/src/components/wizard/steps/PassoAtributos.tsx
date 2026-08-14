@@ -19,10 +19,10 @@ import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
 import { ATRIBUTOS, type AtributoId } from '../../../rules/rules-model'
 import { memberStats, fmtPlain, fmtSigned } from '../../../grupo/stats'
-import { ATTR_EMOJI } from '../../ficha/registry'
+import { ATTR_EMOJI, defesaEmoji, tokens } from '../../ficha/registry'
 import { fmPath, num, str } from '../../ficha/hero-model'
 import { clip } from '../../ficha/bits'
-import { WizSecao, wizTitulo } from '../bits'
+import { WizPillBtn, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
 
 function valores(fm: Record<string, unknown>): Record<AtributoId, number> {
@@ -68,6 +68,19 @@ function siglaDoAlias(alias: unknown): AtributoId | null {
   return null
 }
 
+/** Chip de stat derivado (preview 5.4) — emoji do registro (defesaEmoji cobre
+ *  defesas E sentidos; Movimento 👣 do subcategoria) + rótulo mono + valor. */
+function StatChip({ nome, valor, ic }: { nome: string; valor: string; ic: string }) {
+  return (
+    <span style={{ padding: '8px 12px', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(6), fontSize: 13 }}>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', display: 'block' }}>
+        {ic} {nome.toUpperCase()}
+      </span>
+      <strong>{valor}</strong>
+    </span>
+  )
+}
+
 function EscolhaAttr({
   pergunta,
   opcoes,
@@ -87,34 +100,17 @@ function EscolhaAttr({
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
         {ATRIBUTOS.map((a) => {
           const habil = opcoes.includes(a)
-          const on = atual === a
-          const nota = extra?.(a) ?? null
           return (
-            <button
+            <WizPillBtn
               key={a}
-              onClick={habil ? () => onPick(a) : undefined}
+              on={atual === a}
               disabled={!habil}
-              aria-pressed={on}
-              title={nota ?? undefined}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                fontFamily: 'var(--mono)',
-                fontSize: 12,
-                fontWeight: 700,
-                padding: '8px 14px',
-                color: on ? 'var(--ink)' : habil ? 'var(--text)' : 'var(--muted)',
-                background: on ? 'var(--accent)' : 'var(--card)',
-                border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
-                cursor: habil ? 'pointer' : 'default',
-                opacity: habil ? 1 : 0.45,
-                clipPath: clip(6),
-              }}
+              onClick={() => onPick(a)}
+              title={extra?.(a) ?? undefined}
             >
               <span>{ATTR_EMOJI[a] ?? ''}</span>
               <span>{a}</span>
-            </button>
+            </WizPillBtn>
           )
         })}
       </div>
@@ -243,27 +239,16 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
       >
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {Object.entries(stats.defs).map(([nome, valor]) => (
-            <span key={nome} style={{ padding: '8px 12px', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(6), fontSize: 13 }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', display: 'block' }}>
-                {nome.toUpperCase()}
-              </span>
-              <strong>{valor != null ? fmtPlain(valor) : '—'}</strong>
-            </span>
+            <StatChip key={nome} nome={nome} ic={defesaEmoji(nome)} valor={valor != null ? fmtPlain(valor) : '—'} />
           ))}
           {Object.entries(stats.sns).map(([nome, valor]) => (
-            <span key={nome} style={{ padding: '8px 12px', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(6), fontSize: 13 }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', display: 'block' }}>
-                {nome.toUpperCase()}
-              </span>
-              <strong>{valor != null ? fmtSigned(valor) : '—'}</strong>
-            </span>
+            <StatChip key={nome} nome={nome} ic={defesaEmoji(nome)} valor={valor != null ? fmtSigned(valor) : '—'} />
           ))}
-          <span style={{ padding: '8px 12px', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(6), fontSize: 13 }}>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', display: 'block' }}>
-              MOVIMENTO
-            </span>
-            <strong>{stats.sp != null ? fmtPlain(stats.sp) : '—'}</strong>
-          </span>
+          <StatChip
+            nome="Movimento"
+            ic={(tokens.emojis.subcategoria as Record<string, string>)['Movimento'] ?? ''}
+            valor={stats.sp != null ? fmtPlain(stats.sp) : '—'}
+          />
         </div>
       </WizSecao>
     </div>

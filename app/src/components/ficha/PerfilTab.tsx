@@ -487,6 +487,7 @@ export function PassadoBox({
               </ItemHover>
             ) : (
               <input
+                aria-label={f.label}
                 value={f.value}
                 onChange={f.onChange ? (e) => f.onChange!(e.target.value) : undefined}
                 readOnly={!f.onChange}

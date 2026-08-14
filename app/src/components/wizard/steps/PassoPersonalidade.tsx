@@ -8,6 +8,7 @@
 // PerfilTab lê os mesmos paths); o pareamento é POSICIONAL (índice i de
 // Qualidades corresponde ao i de Defeitos) — nenhum campo novo no FM.
 import { fmPath } from '../../ficha/hero-model'
+import { tokens } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
 import { WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
@@ -17,20 +18,11 @@ function bioLista(fm: Record<string, unknown>, campo: string): string[] {
   return Array.isArray(raw) ? raw.map((x) => (typeof x === 'string' ? x : String(x ?? ''))) : []
 }
 
-const temConteudo = (l: string[]) => l.filter((x) => x.trim() !== '')
-
-/** Gate: ≥1 par em cada dupla e contagens iguais (posições preenchidas). */
-export function personalidadeCompleta(ctx: WizardCtx): boolean {
-  const ideais = temConteudo(bioLista(ctx.fm, 'Ideais'))
-  const desprezos = temConteudo(bioLista(ctx.fm, 'Desprezos'))
-  const qualidades = temConteudo(bioLista(ctx.fm, 'Qualidades'))
-  const defeitos = temConteudo(bioLista(ctx.fm, 'Defeitos'))
-  return (
-    ideais.length > 0 &&
-    ideais.length === desprezos.length &&
-    qualidades.length > 0 &&
-    qualidades.length === defeitos.length
-  )
+/** Gate LIVRE (decisão do usuário): personalidade é opcional — dá pra pular e
+ *  preencher depois na Biografia. O editor mantém o PAREAMENTO estrutural
+ *  (ideal↔desprezo, qualidade↔defeito) pra quem preencher aqui. */
+export function personalidadeCompleta(): boolean {
+  return true
 }
 
 /** Editor de PARES posicionais (a[i] ↔ b[i]) sobre dois arrays da Biografia. */
@@ -40,6 +32,8 @@ function ParesEditor({
   campoB,
   labelA,
   labelB,
+  ariaA,
+  ariaB,
   placeholderA,
   placeholderB,
 }: {
@@ -48,6 +42,9 @@ function ParesEditor({
   campoB: string
   labelA: string
   labelB: string
+  /** aria-labels SEM emoji (acessibilidade/testes). */
+  ariaA: string
+  ariaB: string
   placeholderA: string
   placeholderB: string
 }) {
@@ -92,7 +89,7 @@ function ParesEditor({
       {Array.from({ length: linhas }, (_, i) => (
         <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <input
-            aria-label={`${labelA} ${i + 1}`}
+            aria-label={`${ariaA} ${i + 1}`}
             value={a[i] ?? ''}
             placeholder={placeholderA}
             onChange={(e) => setLinha(campoA, a, i, e.target.value)}
@@ -102,7 +99,7 @@ function ParesEditor({
             ↔
           </span>
           <input
-            aria-label={`${labelB} ${i + 1}`}
+            aria-label={`${ariaB} ${i + 1}`}
             value={b[i] ?? ''}
             placeholder={placeholderB}
             onChange={(e) => setLinha(campoB, b, i, e.target.value)}
@@ -147,32 +144,37 @@ function ParesEditor({
 }
 
 export function PassoPersonalidade({ ctx }: { ctx: WizardCtx }) {
+  const B = tokens.emojis.biografia
   return (
     <div>
       <WizSecao
         titulo="Ideais e Desprezos"
-        nota="O que você acredita e pelo que luta — e, em contrapartida, o que rejeita e combate. Um desprezo pra cada ideal (mesmo número)."
+        nota="Opcional — dá pra preencher depois na Biografia. Pense em pares: pra cada coisa em que você acredita e pela qual luta, o que você rejeita e combate?"
       >
         <ParesEditor
           ctx={ctx}
           campoA="Ideais"
           campoB="Desprezos"
-          labelA="Ideais"
-          labelB="Desprezos"
+          labelA={`${B.Ideais} Ideais`}
+          labelB={`${B.Desprezos} Desprezos`}
+          ariaA="Ideais"
+          ariaB="Desprezos"
           placeholderA="Liberdade acima de tudo"
           placeholderB="Tiranos e correntes"
         />
       </WizSecao>
       <WizSecao
         titulo="Qualidades e Defeitos"
-        nota="Cada qualidade tem uma contrapartida que alguém poderia apontar — ex.: Confiante/Orgulhoso, Honesto/Tapado."
+        nota="Opcional. Cada qualidade tem uma contrapartida que alguém poderia apontar — ex.: Confiante/Orgulhoso, Honesto/Tapado."
       >
         <ParesEditor
           ctx={ctx}
           campoA="Qualidades"
           campoB="Defeitos"
-          labelA="Qualidades"
-          labelB="Defeitos"
+          labelA={`${B.Qualidades} Qualidades`}
+          labelB={`${B.Defeitos} Defeitos`}
+          ariaA="Qualidades"
+          ariaB="Defeitos"
           placeholderA="Confiante"
           placeholderB="Orgulhoso"
         />

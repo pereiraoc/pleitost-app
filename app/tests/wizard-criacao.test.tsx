@@ -140,6 +140,33 @@ describe('modo wizard na FichaPage (#453)', () => {
     expect(wizardAtivo(getLocalDoc(id))).toBe(false)
   }, 30000)
 
+  it('classe escolhida → PAPÉIS NO GRUPO com as estrelas da cascata (Somar Papel.X)', async () => {
+    // Guerreiro tem `Somar Papel.Abatedor 1` nos elementos de regra — a MESMA
+    // lógica da aba Papéis do grupo (papelValuesFromFm sobre o FM derivado).
+    const id = createLocalEntity('Heroi', 'Novo Herói', {
+      ...emptyHeroFrontmatter(),
+      Classe: '[[Guerreiro]]',
+      Wizard: { passo: 1 },
+    })
+    renderFicha(id)
+    await screen.findByText('// PAPÉIS NO GRUPO', undefined, { timeout: 15000 })
+    // os 4 papéis do registro aparecem (cores/descrições do ROLE_META)
+    for (const nome of ['LÍDER', 'CONTROLADOR', 'ABATEDOR', 'VANGUARDA']) {
+      expect(screen.getByText(nome)).toBeTruthy()
+    }
+    // a cascata entrega ao menos 1 estrela CHEIA no Abatedor (opacity 1)
+    await waitFor(
+      () => {
+        const chipAbatedor = screen.getByText('ABATEDOR').closest('div[style]')?.parentElement
+        const cheias = [...(chipAbatedor?.querySelectorAll('span') ?? [])].filter(
+          (s) => s.textContent === '★' && s.style.opacity === '1',
+        )
+        expect(cheias.length).toBeGreaterThanOrEqual(1)
+      },
+      { timeout: 15000 },
+    )
+  }, 30000)
+
   it('wizardPasso lê o ponteiro salvo (default 1; inválido → 1)', () => {
     expect(wizardPasso({ Wizard: { passo: 4 } })).toBe(4)
     expect(wizardPasso({ Wizard: {} })).toBe(1)
@@ -195,21 +222,23 @@ describe('gates puros dos passos', () => {
     expect(atributosCompletos(ctxDe(fm, { principalAllowed: ['INT', 'PRE'] }))).toBe(false)
   })
 
-  it('personalidade: pares com MESMO número (ideais↔desprezos, qualidades↔defeitos)', () => {
-    const ok = {
-      Biografia: {
-        Ideais: ['Liberdade'],
-        Desprezos: ['Tirania'],
-        Qualidades: ['Confiante', 'Honesto'],
-        Defeitos: ['Orgulhoso', 'Tapado'],
-      },
-    }
-    expect(personalidadeCompleta(ctxDe(ok))).toBe(true)
-    const desigual = {
-      Biografia: { Ideais: ['A', 'B'], Desprezos: ['X'], Qualidades: ['Q'], Defeitos: ['D'] },
-    }
-    expect(personalidadeCompleta(ctxDe(desigual))).toBe(false)
-    expect(personalidadeCompleta(ctxDe({ Biografia: {} }))).toBe(false)
+  it('passado: exige naturalidade+contexto+perícia+ofício; identidade/motivação são OPCIONAIS', async () => {
+    const { passadoCompleto } = await import('../src/components/wizard/steps/PassoPassado')
+    const fm = { Biografia: { Naturalidade: '[[Lilá]]', Passado: 'Artesão' } }
+    const rules = { passadoPericiaPick: '[[Atletismo]]', passadoOficioPick: 'Oficio' }
+    // completo SEM gênero/idade/altura/peso/motivação (preenche depois na Biografia)
+    expect(passadoCompleto(ctxDe(fm, rules as never))).toBe(true)
+    // mas o núcleo do passado continua obrigatório
+    expect(passadoCompleto(ctxDe({ Biografia: { Passado: 'Artesão' } }, rules as never))).toBe(false)
+    expect(
+      passadoCompleto(ctxDe(fm, { passadoPericiaPick: null, passadoOficioPick: 'Oficio' } as never)),
+    ).toBe(false)
+  })
+
+  it('personalidade é OPCIONAL (decisão do usuário) — gate sempre livre', () => {
+    // O editor mantém o pareamento estrutural, mas dá pra pular e preencher
+    // depois na Biografia.
+    expect(personalidadeCompleta()).toBe(true)
   })
 
   it('equipamento: mão principal + armadura', () => {

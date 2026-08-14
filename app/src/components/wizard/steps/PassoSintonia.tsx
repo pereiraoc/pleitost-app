@@ -6,7 +6,7 @@
 // (sintoniaRuleLocked), o passo vira informativo e o gate libera.
 import { str, wikiTarget } from '../../ficha/hero-model'
 import { useCatalog } from '../../../data/CatalogContext'
-import { WizCardLista, WizSecao } from '../bits'
+import { docIdOf, WizCardLista, WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 
 export function sintoniaCompleta(ctx: WizardCtx): boolean {
@@ -17,10 +17,7 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
   const { fm, model, rules } = ctx
   const catalog = useCatalog()
   const atual = wikiTarget(str(fm['Sintonia']))
-  const docIdDe = (wikilink: string): string | null => {
-    const r = catalog.resolve(wikiTarget(wikilink))
-    return r.kind === 'doc' ? r.id : null
-  }
+  const docIdDe = (wikilink: string) => docIdOf(catalog, wikilink)
 
   if (rules?.sintoniaRuleLocked) {
     return (

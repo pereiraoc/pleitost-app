@@ -17,16 +17,19 @@ import { useHexMap } from '../../../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../../../data/seed-hexmaps'
 import { atlasHexCenter, ATLAS_MAPA_ASSET } from '../../../map/atlas-grid'
 import { NATURALIDADE_OUTRO } from '../../../rules/naturalidade'
-import { fmPath, str, wikiTarget } from '../../ficha/hero-model'
+import { fmPath, str } from '../../ficha/hero-model'
+import { tokens } from '../../ficha/registry'
 import { PassadoBox } from '../../ficha/PerfilTab'
 import { clip } from '../../ficha/bits'
-import { WizCampo, WizPills, WizSecao, wizTitulo } from '../bits'
+import { docIdOf, WizCampo, WizPills, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
 
 const bioStr = (fm: Record<string, unknown>, campo: string): string =>
   str(fmPath(fm, 'Biografia', campo)).trim()
 
-/** Gate: naturalidade + contexto do passado + perícia + ofício + identidade. */
+/** Gate: naturalidade + contexto do passado + perícia + ofício. Motivação/
+ *  gênero/idade/altura/peso são OPCIONAIS (decisão do usuário) — dá pra
+ *  preencher depois na Biografia. */
 export function passadoCompleto(ctx: WizardCtx): boolean {
   const { fm, rules } = ctx
   if (!rules) return false
@@ -34,12 +37,7 @@ export function passadoCompleto(ctx: WizardCtx): boolean {
     bioStr(fm, 'Naturalidade') !== '' &&
     bioStr(fm, 'Passado') !== '' &&
     !!rules.passadoPericiaPick &&
-    !!rules.passadoOficioPick &&
-    bioStr(fm, 'Motivacao') !== '' &&
-    bioStr(fm, 'Genero') !== '' &&
-    bioStr(fm, 'Idade') !== '' &&
-    bioStr(fm, 'Altura') !== '' &&
-    bioStr(fm, 'Peso') !== ''
+    !!rules.passadoOficioPick
   )
 }
 
@@ -122,11 +120,10 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
   const natIsLink = /^\[\[[^\]]+\]\]$/.test(natRaw.trim())
   const natIsOutro = !natIsLink && natRaw.trim().length > 0
   const [outroMode, setOutroMode] = useState(false)
-  const natDocId = useMemo(() => {
-    if (!natIsLink) return null
-    const r = catalog.resolve(wikiTarget(natRaw))
-    return r.kind === 'doc' ? r.id : null
-  }, [catalog, natRaw, natIsLink])
+  const natDocId = useMemo(
+    () => (natIsLink ? docIdOf(catalog, natRaw) : null),
+    [catalog, natRaw, natIsLink],
+  )
   const onNaturalidade = (v: string) => {
     if (v === NATURALIDADE_OUTRO) {
       setOutroMode(true)
@@ -134,18 +131,20 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
     }
     setOutroMode(false)
     model.set('Biografia.Naturalidade', v)
-    const r = catalog.resolve(wikiTarget(v))
-    if (r.kind === 'doc') detail?.open({ kind: 'doc', id: r.id }) // a nota do local ao lado
+    const id = docIdOf(catalog, v)
+    if (id) detail?.open({ kind: 'doc', id }) // a nota do local ao lado
   }
 
   return (
     <div>
       <WizSecao
         titulo="Onde você nasceu?"
-        nota="Escolha o local no Atlas — o mapa foca onde você nasceu e a nota do local abre nos detalhes. Não achou? Use “Outro”."
+        nota="Todo herói vem de algum lugar. Escolha o local no Atlas: o mapa foca no ponto e a nota do lugar abre nos detalhes — se o seu canto não estiver lá, use “Outro” e descreva."
       >
         <label style={{ display: 'flex', flexDirection: 'column', gap: 5, maxWidth: 460 }}>
-          <span style={{ ...wizTitulo, fontSize: 10 }}>NATURALIDADE</span>
+          <span style={{ ...wizTitulo, fontSize: 10 }}>
+            {tokens.emojis.biografia.Naturalidade} NATURALIDADE
+          </span>
           <select
             aria-label="Naturalidade"
             value={outroMode || natIsOutro ? NATURALIDADE_OUTRO : natRaw.trim()}
@@ -183,32 +182,52 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
 
       <WizSecao
         titulo="Qual seu contexto do passado?"
-        nota="O contexto define a perícia adepta e o trabalho que você tinha (Ofício ou Atuação — o ℹ️ abre os detalhes de cada um)."
+        nota="O que você era antes da aventura? O contexto te dá uma perícia adepta e diz como você trabalhava (Ofício ou Atuação) — o ℹ️ de cada campo abre a regra."
       >
         {/* Mecânica canônica de Passado/perícia/ofício/complemento (Biografia). */}
         <PassadoBox doc={doc} origem="wizard" />
       </WizSecao>
 
-      <WizSecao titulo="Por que você decidiu virar aventureiro?">
-        <WizCampo
-          label="Motivação de aventureiro"
-          value={bioStr(fm, 'Motivacao')}
-          onChange={(v) => model.set('Biografia.Motivacao', v)}
-          multiline
-        />
+      <WizSecao
+        titulo="Por que você decidiu virar aventureiro?"
+        nota="Opcional — dá pra escrever (ou mudar) depois, na Biografia."
+      >
+        <div style={{ maxWidth: 460 }}>
+          <WizCampo
+            label={`${tokens.emojis.biografia.Motivacao} Motivação de aventureiro`}
+            value={bioStr(fm, 'Motivacao')}
+            onChange={(v) => model.set('Biografia.Motivacao', v)}
+            placeholder="Fugir do passado, fama, uma dívida…"
+          />
+        </div>
       </WizSecao>
 
-      <WizSecao titulo="Identidade">
+      <WizSecao
+        titulo="Identidade"
+        nota="Opcional — preencha o que já souber; o resto fica editável na Biografia."
+      >
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 12 }}>
           <WizPills
-            label="Gênero"
+            label={`${tokens.emojis.biografia.Genero} Gênero`}
             options={['M', 'F', 'Outro']}
             value={bioStr(fm, 'Genero')}
             onChange={(v) => model.set('Biografia.Genero', v)}
           />
-          <WizCampo label="Idade" value={bioStr(fm, 'Idade')} onChange={(v) => model.set('Biografia.Idade', v)} />
-          <WizCampo label="Altura" value={bioStr(fm, 'Altura')} onChange={(v) => model.set('Biografia.Altura', v)} />
-          <WizCampo label="Peso" value={bioStr(fm, 'Peso')} onChange={(v) => model.set('Biografia.Peso', v)} />
+          <WizCampo
+            label={`${tokens.emojis.biografia.Idade} Idade`}
+            value={bioStr(fm, 'Idade')}
+            onChange={(v) => model.set('Biografia.Idade', v)}
+          />
+          <WizCampo
+            label={`${tokens.emojis.biografia.Altura} Altura`}
+            value={bioStr(fm, 'Altura')}
+            onChange={(v) => model.set('Biografia.Altura', v)}
+          />
+          <WizCampo
+            label={`${tokens.emojis.biografia.Peso} Peso`}
+            value={bioStr(fm, 'Peso')}
+            onChange={(v) => model.set('Biografia.Peso', v)}
+          />
         </div>
       </WizSecao>
     </div>

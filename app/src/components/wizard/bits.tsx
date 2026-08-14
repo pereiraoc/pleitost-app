@@ -4,7 +4,16 @@
 // o doc nos DETALHES (sidebar direita — canal useDetail existente).
 import type { CSSProperties, ReactNode } from 'react'
 import { useDetail } from '../../data/detail-context'
+import type { Catalog } from '../../data/catalog'
+import { wikiTarget } from '../ficha/hero-model'
 import { clip } from '../ficha/bits'
+
+/** Doc do catálogo por wikilink/target ("[[Bardo|X]]" → id do doc) — o
+ *  resolvedor único dos cards do wizard (detalheId). */
+export function docIdOf(catalog: Catalog, wikilink: string): string | null {
+  const r = catalog.resolve(wikiTarget(wikilink))
+  return r.kind === 'doc' ? r.id : null
+}
 
 export const wizTitulo: CSSProperties = {
   fontFamily: 'var(--mono)',
@@ -33,6 +42,12 @@ export interface WizCardItem {
   sub?: string
   /** Emoji/ícone à esquerda. */
   ic?: string
+  /** Imagem (thumb) à esquerda — tem precedência sobre `ic` (ex.: retrato da
+   *  arma, como nos cards de inventário). */
+  img?: string | null
+  /** Fallback CHEIO quando o thumb 404a (mesmo idioma do VaultImage: troca o
+   *  src UMA vez no onError; sem ele, esconde a moldura). */
+  imgFull?: string | null
   /** Badge à direita (ex.: MUITO RECOMENDADA). */
   badge?: string
   badgeCor?: string
@@ -83,7 +98,38 @@ export function WizCardLista({
               clipPath: clip(8),
             }}
           >
-            {it.ic ? <span style={{ fontSize: 17, flex: 'none' }}>{it.ic}</span> : null}
+            {it.img ? (
+              <span
+                style={{
+                  flex: 'none',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  background: 'var(--panel2)',
+                  border: '1px solid var(--line2)',
+                  clipPath: clip(6),
+                }}
+              >
+                <img
+                  src={it.img}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => {
+                    // idioma do VaultImage: thumb 404 → cheio UMA vez; sem
+                    // fallback (ou cheio também falhou) → esconde a moldura.
+                    const img = e.currentTarget
+                    if (it.imgFull && img.src !== it.imgFull) img.src = it.imgFull
+                    else (img.parentElement as HTMLElement).style.display = 'none'
+                  }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              </span>
+            ) : it.ic ? (
+              <span style={{ fontSize: 17, flex: 'none' }}>{it.ic}</span>
+            ) : null}
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontWeight: 700 }}>{it.titulo}</span>
               {it.sub ? (
@@ -154,7 +200,51 @@ export function WizCampo({
   )
 }
 
-/** Pills de escolha única (ex.: Gênero M/F/Outro). */
+/** Pill de escolha do wizard — o botão único de todas as fileiras de pills
+ *  (gênero, filtro CaC×Distância, escolha de atributo). Estados: ligado
+ *  (accent), desligado, desabilitado (esmaecido). */
+export function WizPillBtn({
+  on,
+  onClick,
+  disabled,
+  title,
+  children,
+}: {
+  on: boolean
+  onClick?: () => void
+  disabled?: boolean
+  title?: string
+  children: ReactNode
+}) {
+  return (
+    <button
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      aria-pressed={on}
+      title={title}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        fontFamily: 'var(--mono)',
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: '.06em',
+        padding: '7px 14px',
+        color: on ? 'var(--ink)' : disabled ? 'var(--muted)' : 'var(--text)',
+        background: on ? 'var(--accent)' : 'var(--card)',
+        border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
+        cursor: disabled ? 'default' : 'pointer',
+        opacity: disabled ? 0.45 : 1,
+        clipPath: clip(6),
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** Pills de escolha única com rótulo (ex.: Gênero M/F/Outro). */
 export function WizPills({
   label,
   options,
@@ -170,30 +260,11 @@ export function WizPills({
     <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
       <span style={{ ...wizTitulo, fontSize: 10 }}>{label.toUpperCase()}</span>
       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-        {options.map((o) => {
-          const on = o === value
-          return (
-            <button
-              key={o}
-              onClick={() => onChange(o)}
-              aria-pressed={on}
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '.06em',
-                padding: '7px 14px',
-                color: on ? 'var(--ink)' : 'var(--muted)',
-                background: on ? 'var(--accent)' : 'var(--card)',
-                border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
-                cursor: 'pointer',
-                clipPath: clip(6),
-              }}
-            >
-              {o}
-            </button>
-          )
-        })}
+        {options.map((o) => (
+          <WizPillBtn key={o} on={o === value} onClick={() => onChange(o)}>
+            {o}
+          </WizPillBtn>
+        ))}
       </div>
     </div>
   )

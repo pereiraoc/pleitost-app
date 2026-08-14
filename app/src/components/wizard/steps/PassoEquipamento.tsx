@@ -24,8 +24,12 @@ import {
   type ArmaInfo,
 } from '../../../rules/equip-recomendacao'
 import { deriveArmaAtributo, fmPath, num, str, wikiTarget } from '../../ficha/hero-model'
+import { EQUIP_TYPES, tokens } from '../../ficha/registry'
+import { useAssetIndex } from '../../../data/assets'
+import { weaponImageUrl } from '../../../data/creature-image'
+import { escudoImageUrl } from '../../../data/equipment-image'
 import { clip } from '../../ficha/bits'
-import { WizCardLista, WizSecao, wizTitulo, type WizCardItem } from '../bits'
+import { WizCardLista, WizPillBtn, WizSecao, wizTitulo, type WizCardItem } from '../bits'
 import type { WizardCtx } from '../steps'
 
 interface ArmaCatalogada extends ArmaInfo {
@@ -41,22 +45,29 @@ export function equipamentoCompleto(ctx: WizardCtx): boolean {
   return lista.length >= 1 && armadura !== ''
 }
 
-function Chip({ label, on }: { label: string; on: boolean }) {
+/** Chip de proficiência no idioma do card Equipamentos de COMPETÊNCIAS
+ *  (EQUIP_TYPES: emoji do registro + nome) — só as que o herói TEM aparecem
+ *  (pedido do usuário: sem poluição com o que não é proficiente). */
+function ProfChip({ ic, nome }: { ic: string; nome: string }) {
   return (
     <span
       style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
         fontFamily: 'var(--mono)',
         fontSize: 10,
         fontWeight: 700,
         letterSpacing: '.06em',
-        padding: '4px 9px',
-        color: on ? 'var(--accent)' : 'var(--muted)',
-        border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
-        opacity: on ? 1 : 0.6,
+        padding: '5px 10px',
+        color: 'var(--accent)',
+        background: 'color-mix(in srgb,var(--accent) 10%,var(--card))',
+        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
         clipPath: clip(5),
       }}
     >
-      {label} {on ? '✓' : '✗'}
+      <span style={{ fontSize: 12 }}>{ic}</span>
+      {nome.toUpperCase()}
     </span>
   )
 }
@@ -65,6 +76,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
   const { fm, model, rules } = ctx
   const catalog = useCatalog()
   const detail = useDetail()
+  const assets = useAssetIndex()
   const derivado = (rules?.derivedFm ?? fm) as Record<string, unknown>
 
   // — Herói: atributos + proficiências (derivadas da classe) —
@@ -167,13 +179,18 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
         .filter(Boolean)
         .join(' · '),
       detalheId: a.id,
+      // Retrato da arma como nos cards de inventário (weaponImageUrl: thumb
+      // com fallback pro cheio — idioma do VaultImage).
+      img: weaponImageUrl(armaDocs?.get(a.id), assets, true),
+      imgFull: weaponImageUrl(armaDocs?.get(a.id), assets, false),
       badge: r.nivel === 'muito' ? 'MUITO RECOMENDADA' : r.nivel === 'recomendada' ? 'RECOMENDADA' : undefined,
       badgeCor: r.nivel === 'muito' ? 'var(--accent)' : 'var(--muted)',
     }))
-  }, [armas, filtro, hero, profArmas])
+  }, [armas, filtro, hero, profArmas, armaDocs, assets])
 
   // — Escudos e armaduras do catálogo —
   const escudos = useMemo(() => catalog.content.filter((e) => e.subtype === 'Escudo'), [catalog])
+  const escudoDocs = useDocs(useMemo(() => escudos.map((e) => e.id), [escudos]))
   const armaduras = useMemo(() => catalog.content.filter((e) => e.subtype === 'Armadura'), [catalog])
   const armaduraAtual = wikiTarget(str(fmPath(fm, 'Inventario', 'Armadura', 'Nome')))
   const tipoRecomendado = recomendacaoArmadura(profArmadura, hero)
@@ -256,23 +273,28 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
 
   return (
     <div>
-      <WizSecao titulo="Suas proficiências" nota="O que a sua classe te ensinou a usar — as recomendações abaixo seguem isso.">
+      <WizSecao
+        titulo="Suas proficiências"
+        nota="O que a sua classe te ensinou a usar — as armas e armaduras recomendadas abaixo partem daqui."
+      >
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ ...wizTitulo, fontSize: 10 }}>ATAQUES: {profAtaques}</span>
-          <Chip label="ARMAS SIMPLES" on={profArmas.simples} />
-          <Chip label="ARMAS MARCIAIS" on={profArmas.marciais} />
+          <ProfChip ic={tokens.emojis.combate.Ataque} nome={`Ataques ${profAtaques}`} />
+          {/* Registro EQUIP_TYPES (o mesmo do card Equipamentos de COMPETÊNCIAS):
+              só as proficiências PRESENTES aparecem. */}
+          {EQUIP_TYPES.filter((t) => str(fmPath(derivado, 'Inventario', ...t.path)) === 'P').map(
+            (t) => (
+              <ProfChip key={t.nm} ic={t.ic} nome={t.nm} />
+            ),
+          )}
           {profArmas.especificas.map((e) => (
-            <Chip key={e} label={e.toUpperCase()} on />
+            <ProfChip key={e} ic={tokens.emojis.equipProf.ArmasSimples} nome={e} />
           ))}
-          <Chip label="ESCUDOS" on={profEscudo} />
-          <Chip label="ARMADURA LEVE" on={profArmadura.leve} />
-          <Chip label="ARMADURA PESADA" on={profArmadura.pesada} />
         </div>
       </WizSecao>
 
       <WizSecao
         titulo="Selecione suas armas principais"
-        nota="Clique numa mão pra escolher o que colocar nela. Arma de 2 mãos ocupa as duas; a mão secundária também aceita escudo."
+        nota="Toque numa mão e escolha o que ela carrega — as MUITO RECOMENDADAS casam com os seus atributos. Arma de 2 mãos ocupa as duas; a mão secundária também aceita um escudo, e deixá-la livre libera manobras."
       >
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <SlotMao mao="principal" />
@@ -326,25 +348,9 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
                   ['dist', '🏹 A DISTÂNCIA'],
                 ] as const
               ).map(([id, label]) => (
-                <button
-                  key={id}
-                  onClick={() => setFiltro(id)}
-                  aria-pressed={filtro === id}
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: '.08em',
-                    padding: '6px 12px',
-                    color: filtro === id ? 'var(--ink)' : 'var(--muted)',
-                    background: filtro === id ? 'var(--accent)' : 'var(--card)',
-                    border: `1px solid ${filtro === id ? 'var(--accent)' : 'var(--line2)'}`,
-                    cursor: 'pointer',
-                    clipPath: clip(5),
-                  }}
-                >
+                <WizPillBtn key={id} on={filtro === id} onClick={() => setFiltro(id)}>
                   {label}
-                </button>
+                </WizPillBtn>
               ))}
             </div>
             <WizCardLista
@@ -365,6 +371,8 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
                     id: e.basename ?? e.id,
                     titulo: e.basename ?? e.id,
                     detalheId: e.id,
+                    img: escudoImageUrl(escudoDocs?.get(e.id), assets),
+                    imgFull: weaponImageUrl(escudoDocs?.get(e.id), assets, false),
                     badge: profEscudo ? 'PROFICIENTE' : undefined,
                   }))}
                   selecionado={null}
@@ -376,7 +384,10 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
         ) : null}
       </WizSecao>
 
-      <WizSecao titulo="Selecione sua armadura">
+      <WizSecao
+        titulo="Selecione sua armadura"
+        nota="A RECOMENDADA segue sua proficiência e seus atributos (FOR pesada, AGI leve). Sem Armadura também é uma escolha válida."
+      >
         <WizCardLista
           ariaLabel="Armaduras"
           itens={armaduras.map((e) => {

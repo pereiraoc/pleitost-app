@@ -34,7 +34,13 @@ export function groupIdsOf(catalog: Catalog, doc: VaultDoc | undefined): string[
 
 /** Espelha papelValuesFromModel (role-token.ts): FM.Papel, ausente → 0. */
 export function papelValues(doc: VaultDoc | undefined): PapelValues {
-  const papel = (doc?.frontmatter['Papel'] ?? {}) as Record<string, unknown>
+  return papelValuesFromFm(doc?.frontmatter ?? {})
+}
+
+/** Variante por FM cru — o wizard de criação (#452) lê o FM DERIVADO (a
+ *  cascata `Somar Papel.X` da classe/subclasse) antes de existir doc pronto. */
+export function papelValuesFromFm(fm: Record<string, unknown>): PapelValues {
+  const papel = (fm['Papel'] ?? {}) as Record<string, unknown>
   const num = (v: unknown) => (typeof v === 'number' ? v : 0)
   return {
     Lider: num(papel['Lider']),
