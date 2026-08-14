@@ -1036,10 +1036,18 @@ export function HeroisPage() {
     if (id) setTab('grupos')
   }
 
-  // #42: cria herói local em branco (skeleton válido) e abre a ficha pra
-  // montar via rule elements (a cascata fica com outra parte).
+  // #42: cria herói local (skeleton válido) e abre a ficha. #452: o herói novo
+  // nasce com o marcador `Wizard` — a ficha abre na CRIAÇÃO ACOMPANHADA (10
+  // passos) e vira a visualização padrão ao concluir. Os ATRIBUTOS nascem
+  // zerados (o passo 5 exige a distribuição 3/2/1/0 explícita do jogador —
+  // o skeleton default já viria distribuído e pularia a escolha).
   const criarHeroi = () => {
-    const id = createLocalEntity('Heroi', 'Novo Herói', emptyHeroFrontmatter())
+    const fm = {
+      ...emptyHeroFrontmatter(),
+      Atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0, Principal: '' },
+      Wizard: { passo: 1 },
+    }
+    const id = createLocalEntity('Heroi', 'Novo Herói', fm)
     navigate(heroPath(id))
   }
   // #205: modal Importar Herói (arquivo .pleitost.json ou exemplo do compêndio)

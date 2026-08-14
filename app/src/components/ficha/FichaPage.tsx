@@ -23,6 +23,8 @@ import { AnotacoesTab } from './AnotacoesTab'
 import { HabilidadesTab } from './HabilidadesTab'
 import { InventarioTab } from './InventarioTab'
 import { CombateTab } from './CombateTab'
+import { WizardView } from '../wizard/WizardView'
+import { wizardAtivo } from '../wizard/wizard-mode'
 
 /** Aba GRUPO = ficha do GRUPO ATIVO (issue #8): herói em 2+ grupos mostra UMA
  *  ficha por vez, com o seletor "Grupo Ativo" no topo; a escolha persiste por
@@ -188,6 +190,17 @@ export function FichaPage() {
     return <p role="alert">Herói não encontrado: {id}</p>
   }
   if (!doc) return <p className="loading">Carregando ficha…</p>
+
+  // #452: herói local em CRIAÇÃO ACOMPANHADA → o wizard toma o lugar das abas
+  // (as CHAR_TABS ficam desabilitadas no AppShell) até o passo final remover o
+  // marcador `Wizard` do FM.
+  if (wizardAtivo(doc)) {
+    return (
+      <div key={doc.id}>
+        <WizardView doc={doc} refs={refs} />
+      </div>
+    )
+  }
 
   return (
     <div key={doc.id}>

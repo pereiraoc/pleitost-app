@@ -61,15 +61,20 @@ export function RightSidebar({
   onCloseDrawer,
   collapsed = false,
   onToggleCollapse,
+  soDetalhes = false,
 }: {
   drawerOpen: boolean
   onCloseDrawer: () => void
   /** Colapso no DESKTOP (#feedback): o painel vira um trilho fino. */
   collapsed?: boolean
   onToggleCollapse?: () => void
+  /** #452 (wizard de criação): só a face DETALHES — a aba SESSÃO some da UI
+   *  (a LiveSessionBridge segue montada; esconder não desconecta a mesa). */
+  soDetalhes?: boolean
 }) {
   const detail = useDetail()
-  const [tab, setTab] = useState<'sessao' | 'detalhes'>('sessao')
+  const [tabState, setTab] = useState<'sessao' | 'detalhes'>('sessao')
+  const tab = soDetalhes ? 'detalhes' : tabState
   const targetKey = detail?.target ? `${detail.target.kind}:${detail.target.id}` : null
   // algo abriu nos detalhes → foca a face DETALHES (e abre o drawer no mobile)
   useEffect(() => {
@@ -96,13 +101,15 @@ export function RightSidebar({
         >
           {collapsed ? '⟨' : '⟩'}
         </button>
-        <button
-          className={tab === 'sessao' ? 'srt active' : 'srt'}
-          aria-pressed={tab === 'sessao'}
-          onClick={() => setTab('sessao')}
-        >
-          SESSÃO
-        </button>
+        {soDetalhes ? null : (
+          <button
+            className={tab === 'sessao' ? 'srt active' : 'srt'}
+            aria-pressed={tab === 'sessao'}
+            onClick={() => setTab('sessao')}
+          >
+            SESSÃO
+          </button>
+        )}
         <button
           className={tab === 'detalhes' ? 'srt active' : 'srt'}
           aria-pressed={tab === 'detalhes'}

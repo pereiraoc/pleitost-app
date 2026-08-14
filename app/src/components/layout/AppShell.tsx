@@ -16,6 +16,7 @@ import { TopbarFicha } from './TopbarFicha'
 import { BugReportButton } from './BugReportButton'
 import { RightSidebar } from './RightSidebar'
 import { useEdgeSwipe } from './useEdgeSwipe'
+import { wizardAtivo } from '../wizard/wizard-mode'
 import {
   APP_NAV,
   CHAR_TABS,
@@ -205,6 +206,9 @@ export function AppShell() {
   const charTabs = heroDoc
     ? CHAR_TABS.filter((t) => abaFichaVisivel(familiaOf(heroDoc), t.id))
     : CHAR_TABS
+  // #452: herói em CRIAÇÃO ACOMPANHADA (wizard) — as abas da ficha ficam
+  // bloqueadas (o conteúdo é o wizard) e a sidebar direita mostra só DETALHES.
+  const emWizard = wizardAtivo(heroDoc)
   // #302: abas com pendência (algo a preencher) — ponto no botão da sidebar.
   const pendingTabs = usePendingTabs(heroDoc)
   // #378: personagem sem grupo (FM) e fora da sessão viva → o botão GRUPO
@@ -325,7 +329,7 @@ export function AppShell() {
                   active={fichaOpen && fichaTab === item.id}
                   onSelect={() => selectFichaTab(item.id)}
                   pending={pendingTabs.get(item.id)}
-                  disabled={item.id === 'grupos' && !grupoDisponivel}
+                  disabled={emWizard || (item.id === 'grupos' && !grupoDisponivel)}
                 />
               ) : (
                 <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
@@ -353,6 +357,7 @@ export function AppShell() {
           onCloseDrawer={() => setRightOpen(false)}
           collapsed={rightCollapsed}
           onToggleCollapse={() => setRightCollapsed((c) => !c)}
+          soDetalhes={emWizard}
         />
       </div>
       <PwaUpdateToast />
