@@ -40,50 +40,58 @@ describe('armaInfoDoFm — parse do doc da arma', () => {
   })
 })
 
-describe('recomendacaoArma — spec 6.1.1–6.1.4', () => {
-  it('6.1.1: Força X == FOR do herói → MUITO recomendada', () => {
-    const r = recomendacaoArma(arma({ forca: 2 }), { FOR: 2, AGI: 0 }, soSimples)
+describe('recomendacaoArma — spec 6.1.1–6.1.4 + step-down das simples (#464 item 14)', () => {
+  it('6.1.1: Força X == FOR em arma MARCIAL → MUITO recomendada', () => {
+    const r = recomendacaoArma(arma({ grupo: 'cac-marcial', forca: 2 }), { FOR: 2, AGI: 0 }, comMarciais)
     expect(r.nivel).toBe('muito')
   })
-  it('6.1.2: Força X == FOR-1 → recomendada', () => {
-    const r = recomendacaoArma(arma({ forca: 1 }), { FOR: 2, AGI: 0 }, soSimples)
+  it('6.1.2: Força X == FOR-1 em arma MARCIAL → recomendada', () => {
+    const r = recomendacaoArma(arma({ grupo: 'cac-marcial', forca: 1 }), { FOR: 2, AGI: 0 }, comMarciais)
     expect(r.nivel).toBe('recomendada')
   })
   it('Força acima do FOR não recomenda', () => {
     expect(recomendacaoArma(arma({ forca: 3 }), { FOR: 1, AGI: 0 }, soSimples).nivel).toBeNull()
   })
-  it('6.1.3: AGI 2 → PRECISA vira muito recomendada (mesmo sem casar Força)', () => {
-    const r = recomendacaoArma(arma({ precisa: true, forca: 0 }), { FOR: 3, AGI: 2 }, soSimples)
-    expect(r.nivel).toBe('muito')
+  it('STEP-DOWN: arma SIMPLES que seria MUITO vira RECOMENDADA; a recomendada vira POUCO', () => {
+    expect(recomendacaoArma(arma({ forca: 2 }), { FOR: 2, AGI: 0 }, soSimples).nivel).toBe('recomendada')
+    expect(recomendacaoArma(arma({ forca: 1 }), { FOR: 2, AGI: 0 }, soSimples).nivel).toBe('pouco')
   })
-  it('6.1.3: AGI 2 → A DISTÂNCIA muito recomendada; com Força==FOR é a MAIS recomendada (score maior)', () => {
-    const dist = recomendacaoArma(arma({ grupo: 'd-simples', forca: 0 }), { FOR: 1, AGI: 2 }, soSimples)
-    const distForca = recomendacaoArma(arma({ grupo: 'd-simples', forca: 1 }), { FOR: 1, AGI: 2 }, soSimples)
+  it('STEP-DOWN ignorado com BÔNUS DE ESPECIALIZAÇÃO cobrindo a arma', () => {
+    const espec = new Set(['Arma Teste'])
+    expect(recomendacaoArma(arma({ forca: 2 }), { FOR: 2, AGI: 0 }, soSimples, espec).nivel).toBe('muito')
+    expect(recomendacaoArma(arma({ forca: 1 }), { FOR: 2, AGI: 0 }, soSimples, espec).nivel).toBe('recomendada')
+  })
+  it('6.1.3: AGI 2 → PRECISA marcial vira MUITO; simples fica RECOMENDADA (step-down)', () => {
+    expect(
+      recomendacaoArma(arma({ grupo: 'cac-marcial', precisa: true, forca: 0 }), { FOR: 3, AGI: 2 }, comMarciais).nivel,
+    ).toBe('muito')
+    expect(
+      recomendacaoArma(arma({ precisa: true, forca: 0 }), { FOR: 3, AGI: 2 }, soSimples).nivel,
+    ).toBe('recomendada')
+  })
+  it('6.1.3: A DISTÂNCIA marcial com Força==FOR é a MAIS recomendada (score máximo)', () => {
+    const dist = recomendacaoArma(arma({ grupo: 'd-marcial', forca: 0 }), { FOR: 1, AGI: 2 }, comMarciais)
+    const distForca = recomendacaoArma(arma({ grupo: 'd-marcial', forca: 1 }), { FOR: 1, AGI: 2 }, comMarciais)
     expect(dist.nivel).toBe('muito')
     expect(distForca.nivel).toBe('muito')
     expect(distForca.score).toBeGreaterThan(dist.score)
   })
-  it('AGI 1 NÃO ativa a regra de precisas/distância (não vira MUITO só por ser precisa)', () => {
-    // FOR 1 + Força 0 ainda é 6.1.2 (X-1 → recomendada); o ponto é que a
-    // PRECISA não eleva a muito sem AGI ≥ 2.
-    const r = recomendacaoArma(arma({ precisa: true }), { FOR: 1, AGI: 1 }, soSimples)
+  it('AGI 1 NÃO ativa a regra de precisas/distância', () => {
+    // marcial Força==FOR-1 fica recomendada; a PRECISA sem AGI ≥ 2 não eleva.
+    const r = recomendacaoArma(arma({ grupo: 'cac-marcial', precisa: true, forca: 0 }), { FOR: 1, AGI: 1 }, comMarciais)
     expect(r.nivel).toBe('recomendada')
-    const rForaDaFaixa = recomendacaoArma(arma({ precisa: true, forca: 3 }), { FOR: 1, AGI: 1 }, soSimples)
-    expect(rForaDaFaixa.nivel).toBeNull()
   })
   it('6.1.4: sem proficiência NA arma → nunca recomendada (marcial sem prof)', () => {
     const r = recomendacaoArma(arma({ grupo: 'cac-marcial', forca: 2 }), { FOR: 2, AGI: 0 }, soSimples)
     expect(r.nivel).toBeNull()
   })
-  it('6.1.4: proficiente em MARCIAIS → as simples deixam de ser recomendadas', () => {
-    const simples = recomendacaoArma(arma({ grupo: 'cac-simples', forca: 2 }), { FOR: 2, AGI: 0 }, comMarciais)
-    const marcial = recomendacaoArma(arma({ grupo: 'cac-marcial', forca: 2 }), { FOR: 2, AGI: 0 }, comMarciais)
-    expect(simples.nivel).toBeNull()
-    expect(marcial.nivel).toBe('muito')
-  })
-  it('6.1.4: proficiência ESPECÍFICA numa simples mantém a recomendação dela', () => {
-    const prof: ProficienciasArmas = { simples: true, marciais: true, especificas: ['Adaga'] }
-    const r = recomendacaoArma(arma({ basename: 'Adaga', grupo: 'cac-simples', forca: 2 }), { FOR: 2, AGI: 0 }, prof)
+  it('proficiência ESPECÍFICA numa marcial sem prof de grupo mantém a recomendação', () => {
+    const prof: ProficienciasArmas = { simples: true, marciais: false, especificas: ['Adaga de Duelo'] }
+    const r = recomendacaoArma(
+      arma({ basename: 'Adaga de Duelo', grupo: 'cac-marcial', forca: 2 }),
+      { FOR: 2, AGI: 0 },
+      prof,
+    )
     expect(r.nivel).toBe('muito')
   })
 })

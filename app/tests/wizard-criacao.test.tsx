@@ -75,11 +75,11 @@ beforeEach(() => {
 })
 afterEach(cleanup)
 
-/** Herói recém-criado pelo botão "Criar Herói" (espelho do criarHeroi #452). */
+/** Herói recém-criado pelo botão "Criar Herói" (espelho do criarHeroi #452 —
+ *  atributos já nascem distribuídos pelo skeleton, #463 item 10). */
 function criarHeroiWizard(): string {
   return createLocalEntity('Heroi', 'Novo Herói', {
     ...emptyHeroFrontmatter(),
-    Atributos: { FOR: 0, AGI: 0, INT: 0, PRE: 0, Principal: '' },
     Wizard: { passo: 1 },
   })
 }
@@ -109,12 +109,12 @@ describe('modo wizard na FichaPage (#453)', () => {
     // casca do wizard no lugar do PERFIL
     expect(await screen.findByText('// CRIAÇÃO DE HERÓI')).toBeTruthy()
     expect(screen.getByText('✕ Descartar criação')).toBeTruthy()
-    // passo 1 (Classe) ativo; gate segura o avanço
-    expect(await screen.findByText('// ESCOLHA SUA CLASSE')).toBeTruthy()
+    // passo 1 agora é SINTONIA (#461 item 1); gate segura o avanço
+    expect(await screen.findByText('// ESCOLHA SUA SINTONIA APARENTE')).toBeTruthy()
     const avancar = screen.getByText('Avançar →') as HTMLButtonElement
     expect(avancar.disabled).toBe(true)
-    // as CLASSES da projeção aparecem como cards (fonte: vault scan)
-    await waitFor(() => expect(screen.getByRole('option', { name: /Guerreiro/ })).toBeTruthy(), {
+    // as SINTONIAS da projeção aparecem como cards
+    await waitFor(() => expect(screen.getAllByRole('option').length).toBeGreaterThan(0), {
       timeout: 15000,
     })
   }, 30000)
@@ -145,8 +145,9 @@ describe('modo wizard na FichaPage (#453)', () => {
     // lógica da aba Papéis do grupo (papelValuesFromFm sobre o FM derivado).
     const id = createLocalEntity('Heroi', 'Novo Herói', {
       ...emptyHeroFrontmatter(),
+      Sintonia: '[[Traço Elemental do Fogo]]',
       Classe: '[[Guerreiro]]',
-      Wizard: { passo: 1 },
+      Wizard: { passo: 2 }, // passo 2 = Classe (Sintonia veio antes, #461)
     })
     renderFicha(id)
     await screen.findByText('// PAPÉIS NO GRUPO', undefined, { timeout: 15000 })
@@ -175,13 +176,18 @@ describe('modo wizard na FichaPage (#453)', () => {
 })
 
 describe('reset de dependentes ao trocar de CLASSE (#454)', () => {
-  it('resetOnClasseChange = classChangeResets (fonte única da ficha) + equipamento do wizard', () => {
+  it('resetOnClasseChange = classChangeResets (menos Sintonia, #461) + equipamento do wizard', () => {
     const aplicados: Array<[string, unknown]> = []
     const model = { set: (p: string, v: unknown) => aplicados.push([p, v]) } as unknown as HeroModel
     resetOnClasseChange(model)
     const paths = aplicados.map(([p]) => p)
     // os resets centrais da ficha (magias/subclasse/técnicas/escolhas)…
-    for (const [p] of classChangeResets()) expect(paths).toContain(p)
+    // EXCETO a Sintonia: no wizard ela é escolhida ANTES da classe (#461 item 1)
+    // e trocar de classe não descarta essa escolha explícita.
+    for (const [p] of classChangeResets().filter(([x]) => x !== 'Sintonia')) {
+      expect(paths).toContain(p)
+    }
+    expect(paths).not.toContain('Sintonia')
     // …mais o equipamento inicial (conceito do wizard)
     for (const [p] of equipamentoResets()) expect(paths).toContain(p)
     // e o equipamento volta ao estado de nascença
@@ -241,14 +247,12 @@ describe('gates puros dos passos', () => {
     expect(personalidadeCompleta()).toBe(true)
   })
 
-  it('equipamento: mão principal + armadura', () => {
-    const ok = {
-      Inventario: { Armas: { Lista: [{ Nome: '[[Adaga]]' }] }, Armadura: { Nome: '[[Sem Armadura]]' } },
-    }
-    expect(equipamentoCompleto(ctxDe(ok))).toBe(true)
+  it('equipamento: só a armadura é obrigatória (mãos podem seguir DESARMADAS)', () => {
+    // #464 item 15: Ataque Desarmado é o default válido das mãos.
     expect(
       equipamentoCompleto(ctxDe({ Inventario: { Armas: { Lista: [] }, Armadura: { Nome: '[[Sem Armadura]]' } } })),
-    ).toBe(false)
+    ).toBe(true)
+    expect(equipamentoCompleto(ctxDe({ Inventario: { Armas: { Lista: [] }, Armadura: { Nome: '' } } }))).toBe(false)
   })
 
   it('magias: passo só existe com escola proficiente/aprendida (primária ou secundária)', () => {

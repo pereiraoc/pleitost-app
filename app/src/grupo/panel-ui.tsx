@@ -27,6 +27,7 @@ export function StarCell({
   warn,
   onTipEnter,
   tip,
+  semGuia,
 }: {
   value: number
   cor: string
@@ -34,6 +35,9 @@ export function StarCell({
   warn?: boolean
   onTipEnter?: (e: MouseEvent) => void
   tip?: GrupoTip
+  /** Wizard (#461 item 4): sem a guia tracejada da 1ª estrela (o "mínimo do
+   *  grupo" não é relevante na criação individual). */
+  semGuia?: boolean
 }) {
   const slots = [0, 1, 2].map((k) => k < value)
   const star = (on: boolean, key: number) => (
@@ -56,14 +60,16 @@ export function StarCell({
       }}
     >
       {star(slots[0]!, 0)}
-      <span
-        style={{
-          width: 0,
-          alignSelf: 'stretch',
-          borderLeft: '1px dashed color-mix(in srgb,var(--muted) 60%,transparent)',
-          margin: '1px -1.5px',
-        }}
-      />
+      {semGuia ? null : (
+        <span
+          style={{
+            width: 0,
+            alignSelf: 'stretch',
+            borderLeft: '1px dashed color-mix(in srgb,var(--muted) 60%,transparent)',
+            margin: '1px -1.5px',
+          }}
+        />
+      )}
       {star(slots[1]!, 1)}
       {star(slots[2]!, 2)}
       {value > 3 ? (

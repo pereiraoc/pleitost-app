@@ -5,6 +5,7 @@
 // (slots fungíveis + benefícios). Pendências de regra seguem visíveis como na
 // ficha — o gate é livre (o jogador pode deixar escolhas pra depois).
 import { HabilidadesArvorePanel, TecnicasPanel } from '../../ficha/HabilidadesTab'
+import { TipProvider } from '../../ficha/tooltips'
 import { WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 
@@ -14,10 +15,12 @@ export function PassoHabilidades({ ctx }: { ctx: WizardCtx }) {
       titulo="Habilidades e Técnicas"
       nota="As habilidades concedidas pela classe já estão aqui; resolva as escolhas pendentes e aprenda técnicas nos slots."
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-        <HabilidadesArvorePanel doc={ctx.doc} refs={ctx.refs} forceEdit />
-        <TecnicasPanel doc={ctx.doc} refs={ctx.refs} forceEdit />
-      </div>
+      <TipProvider>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <HabilidadesArvorePanel doc={ctx.doc} refs={ctx.refs} forceEdit />
+          <TecnicasPanel doc={ctx.doc} refs={ctx.refs} forceEdit />
+        </div>
+      </TipProvider>
     </WizSecao>
   )
 }

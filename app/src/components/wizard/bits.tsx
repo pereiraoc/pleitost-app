@@ -23,15 +23,79 @@ export const wizTitulo: CSSProperties = {
   color: 'var(--muted)',
 }
 
-export function WizSecao({ titulo, children, nota }: { titulo: string; children: ReactNode; nota?: ReactNode }) {
+export function WizSecao({
+  titulo,
+  children,
+  nota,
+  pendente,
+}: {
+  titulo: string
+  children: ReactNode
+  nota?: ReactNode
+  /** #461 item 8: seção OBRIGATÓRIA ainda não satisfeita → asterisco vermelho
+   *  pequeno ao lado do título (obrigatoriedade implícita: sem asterisco =
+   *  opcional ou já resolvido). */
+  pendente?: boolean
+}) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 22 }}>
-      <span style={wizTitulo}>{`// ${titulo.toUpperCase()}`}</span>
+      <span style={wizTitulo}>
+        {`// ${titulo.toUpperCase()}`}
+        {pendente ? (
+          <span aria-label="obrigatório" title="Obrigatório" style={{ color: '#f87171', marginLeft: 4 }}>
+            *
+          </span>
+        ) : null}
+      </span>
       {nota ? (
         <span style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.5, textWrap: 'pretty' }}>{nota}</span>
       ) : null}
       {children}
     </div>
+  )
+}
+
+/** Moldura de retrato dos cards/barras do wizard — thumb com fallback pro
+ *  CHEIO no onError (idioma do VaultImage); cheio também falhou → some. */
+export function WizThumb({
+  img,
+  imgFull,
+  size = 40,
+  cover,
+}: {
+  img: string
+  imgFull?: string | null
+  size?: number
+  /** cover pra retratos (classe); contain pra itens (armas). */
+  cover?: boolean
+}) {
+  return (
+    <span
+      style={{
+        flex: 'none',
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        background: 'var(--panel2)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(6),
+      }}
+    >
+      <img
+        src={img}
+        alt=""
+        loading="lazy"
+        onError={(e) => {
+          const el = e.currentTarget
+          if (imgFull && el.src !== imgFull) el.src = imgFull
+          else (el.parentElement as HTMLElement).style.display = 'none'
+        }}
+        style={{ width: '100%', height: '100%', objectFit: cover ? 'cover' : 'contain' }}
+      />
+    </span>
   )
 }
 
@@ -99,34 +163,7 @@ export function WizCardLista({
             }}
           >
             {it.img ? (
-              <span
-                style={{
-                  flex: 'none',
-                  width: 40,
-                  height: 40,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden',
-                  background: 'var(--panel2)',
-                  border: '1px solid var(--line2)',
-                  clipPath: clip(6),
-                }}
-              >
-                <img
-                  src={it.img}
-                  alt=""
-                  loading="lazy"
-                  onError={(e) => {
-                    // idioma do VaultImage: thumb 404 → cheio UMA vez; sem
-                    // fallback (ou cheio também falhou) → esconde a moldura.
-                    const img = e.currentTarget
-                    if (it.imgFull && img.src !== it.imgFull) img.src = it.imgFull
-                    else (img.parentElement as HTMLElement).style.display = 'none'
-                  }}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </span>
+              <WizThumb img={it.img} imgFull={it.imgFull} />
             ) : it.ic ? (
               <span style={{ fontSize: 17, flex: 'none' }}>{it.ic}</span>
             ) : null}

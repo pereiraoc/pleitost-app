@@ -79,7 +79,7 @@ export function proficienciasDoFm(fm: Record<string, unknown>): ProficienciasArm
   }
 }
 
-export type NivelRecomendacao = 'muito' | 'recomendada' | null
+export type NivelRecomendacao = 'muito' | 'recomendada' | 'pouco' | null
 
 /** O herói é proficiente NESTA arma? (específica > grupo). */
 export function proficienteNaArma(arma: ArmaInfo, prof: ProficienciasArmas): boolean {
@@ -89,25 +89,24 @@ export function proficienteNaArma(arma: ArmaInfo, prof: ProficienciasArmas): boo
 }
 
 /**
- * Nível de recomendação de UMA arma pro herói (spec 6.1.1–6.1.4).
+ * Nível de recomendação de UMA arma pro herói (spec 6.1.1–6.1.4 + #464 item 14).
  * `score` ordena dentro do mesmo nível (6.1.3: precisa/distância com Força==FOR
  * são "as mais recomendadas" — recebem o maior score).
+ *
+ * STEP-DOWN das simples (#464 item 14): arma que NÃO é marcial cai um degrau —
+ * muito→recomendada, recomendada→pouco — EXCETO quando o herói tem BÔNUS DE
+ * ESPECIALIZAÇÃO cobrindo a arma (`armasEspecializadas`: basenames vindos das
+ * habilidades tipo "Especialização em Arma (X)", grupoArma.armas dos
+ * Efeitos_Interativos — caso do Guerreiro com simples especializadas).
  */
 export function recomendacaoArma(
   arma: ArmaInfo,
   hero: { FOR: number; AGI: number },
   prof: ProficienciasArmas,
+  armasEspecializadas: ReadonlySet<string> = new Set(),
 ): { nivel: NivelRecomendacao; score: number } {
   // 6.1.4 — proficiência manda: sem proficiência NA arma, nada de recomendação.
   if (!proficienteNaArma(arma, prof)) return { nivel: null, score: 0 }
-  // Com proficiência marcial/específica disponível, as recomendações vão pra
-  // elas; as SIMPLES só recebem recomendação quando são o que há.
-  const temMelhor = prof.marciais || prof.especificas.length > 0
-  const ehSimples = arma.grupo === 'cac-simples' || arma.grupo === 'd-simples'
-  const ehEspecifica = prof.especificas.some(
-    (e) => e.toLowerCase() === arma.basename.toLowerCase(),
-  )
-  if (temMelhor && ehSimples && !ehEspecifica) return { nivel: null, score: 0 }
 
   const aDistancia = arma.grupo === 'd-simples' || arma.grupo === 'd-marcial'
   const agil = hero.AGI >= 2 && (arma.precisa || aDistancia)
@@ -115,16 +114,26 @@ export function recomendacaoArma(
   let score = 0
   if (arma.forca === hero.FOR) {
     nivel = 'muito' // 6.1.1
-    score = 2
+    score = 3
   } else if (arma.forca === hero.FOR - 1) {
     nivel = 'recomendada' // 6.1.2
-    score = 1
+    score = 2
   }
   if (agil) {
     // 6.1.3: precisa/a distância viram MUITO recomendadas; com Força==FOR são
     // as mais recomendadas de todas.
-    if (nivel !== 'muito') nivel = 'muito'
-    score = arma.forca === hero.FOR ? 3 : Math.max(score, 2)
+    nivel = 'muito'
+    score = arma.forca === hero.FOR ? 4 : Math.max(score, 3)
+  }
+
+  // #464 item 14 — arma não-marcial perde um degrau, salvo especialização.
+  const ehSimples = arma.grupo === 'cac-simples' || arma.grupo === 'd-simples'
+  const especializada = [...armasEspecializadas].some(
+    (e) => e.toLowerCase() === arma.basename.toLowerCase(),
+  )
+  if (ehSimples && !especializada && nivel) {
+    nivel = nivel === 'muito' ? 'recomendada' : nivel === 'recomendada' ? 'pouco' : null
+    score = Math.max(0, score - 1)
   }
   return { nivel, score }
 }

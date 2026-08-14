@@ -15,6 +15,7 @@ import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel, type HeroModel } from '../../data/useHeroModel'
+import { useDetail } from '../../data/detail-context'
 import { rederiveArmasAtributos } from './arma-atributo-sync'
 import { classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
@@ -742,7 +743,10 @@ export function ClasseNivelPanel({
   )
 }
 
-function AtributosPanel({ doc }: { doc: VaultDoc }) {
+/** Painel de ATRIBUTOS da aba COMPETÊNCIAS (4 células com swap em cascata +
+ *  restrição de Principal por regra + re-derive das armas Precisas). Exportado
+ *  pro WIZARD de criação (#463 item 10) — mesma mecânica da ficha. */
+export function AtributosPanel({ doc }: { doc: VaultDoc }) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
   const catalog = useCatalog()
@@ -1337,13 +1341,18 @@ export function PericiasProfPanel({
   doc,
   forceEdit,
   hideItemBonus,
+  abrirDetalhes,
 }: {
   doc: VaultDoc
   forceEdit?: boolean
   hideItemBonus?: boolean
+  /** Wizard (#465 item 16): clicar no NOME da perícia abre a regra nos
+   *  DETALHES (sidebar), independente da configuração de tooltip/clique. */
+  abrirDetalhes?: boolean
 }) {
   const model = useHeroModel(doc, 'habilidades')
   const rules = useHeroRules(model.fm)
+  const detail = useDetail()
   // FM DERIVADO (FM salvo + cascata de regras) pro render LIVE; fallback no
   // salvo enquanto a projeção resolve — espelho de vm.model do Editável.
   const fm = rules?.derivedFm ?? model.fm
@@ -1440,7 +1449,33 @@ export function PericiasProfPanel({
             <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
               <AttrBadge ic={ATTR_EMOJI[str(row.Atributo)] ?? ''} at={str(row.Atributo)} />
               {/* NOME da perícia → a REGRA do compêndio (corpo do doc), não a
-                  fonte nem o breakdown (#106). O breakdown fica no MODIFICADOR. */}
+                  fonte nem o breakdown (#106). O breakdown fica no MODIFICADOR.
+                  No wizard (abrirDetalhes) o clique abre a regra nos DETALHES. */}
+              {abrirDetalhes ? (
+                <button
+                  onClick={() => {
+                    const rd = ruleDoc(displayName(slugify(str(row.Nome))))
+                    if (rd) detail?.open({ kind: 'doc', id: rd.id })
+                  }}
+                  style={{
+                    fontWeight: 600,
+                    color: 'var(--text)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    minWidth: 0,
+                  }}
+                >
+                  {displayName(slugify(str(row.Nome)))}
+                </button>
+              ) : (
               <ItemHover doc={ruleDoc(displayName(slugify(str(row.Nome))))} fullBody style={{ minWidth: 0 }}>
                 <span
                   style={{
@@ -1454,6 +1489,7 @@ export function PericiasProfPanel({
                   {displayName(slugify(str(row.Nome)))}
                 </span>
               </ItemHover>
+              )}
             </span>
             {!edit ? (
               <span style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -2594,6 +2630,12 @@ export function TecnicasPanel({
     total: { A: num(slotsFmTec?.['A']), E: num(slotsFmTec?.['E']), M: num(slotsFmTec?.['M']) },
     used: { A: usedBy('A'), E: usedBy('E'), M: usedBy('M') },
   })
+  // #465 item 17: NADA pra escolher (sem técnica aprendida/concedida e zero
+  // slots) → esconde as colunas Aprendidas/Não Aprendidas e mostra só a barra
+  // de "Técnicas adicionais disponíveis" (zerada).
+  const semNada =
+    entries.length === 0 &&
+    num(slotsFmTec?.['A']) + num(slotsFmTec?.['E']) + num(slotsFmTec?.['M']) === 0
 
   // Escolhas de Escolha_Habilidades cujo PAI é uma técnica (ex.: Treinamento de
   // Classe Secundária → escolher a classe) — antes só o painel de Habilidades
@@ -2710,6 +2752,7 @@ export function TecnicasPanel({
         <span style={{ flex: 1 }} />
         {readOnly || forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
       </div>
+      {semNada ? null : (
       <div
         style={{
           display: 'grid',
@@ -2980,7 +3023,8 @@ export function TecnicasPanel({
           </div>
         ) : null}
       </div>
-      {edit ? (
+      )}
+      {edit || semNada ? (
         <div
           style={{
             display: 'flex',

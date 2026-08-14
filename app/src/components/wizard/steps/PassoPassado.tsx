@@ -139,9 +139,10 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
     <div>
       <WizSecao
         titulo="Onde você nasceu?"
+        pendente={bioStr(fm, 'Naturalidade') === ''}
         nota="Todo herói vem de algum lugar. Escolha o local no Atlas: o mapa foca no ponto e a nota do lugar abre nos detalhes — se o seu canto não estiver lá, use “Outro” e descreva."
       >
-        <label style={{ display: 'flex', flexDirection: 'column', gap: 5, maxWidth: 460 }}>
+        <label style={{ display: 'flex', flexDirection: 'column', gap: 5, width: '100%' }}>
           <span style={{ ...wizTitulo, fontSize: 10 }}>
             {tokens.emojis.biografia.Naturalidade} NATURALIDADE
           </span>
@@ -182,37 +183,33 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
 
       <WizSecao
         titulo="Qual seu contexto do passado?"
-        nota="O que você era antes da aventura? O contexto te dá uma perícia adepta e diz como você trabalhava (Ofício ou Atuação) — o ℹ️ de cada campo abre a regra."
+        pendente={
+          bioStr(fm, 'Passado') === '' || !rules?.passadoPericiaPick || !rules?.passadoOficioPick
+        }
+        nota="O que você era antes da aventura? O contexto te dá uma perícia adepta e diz como você trabalhava (Ofício ou Atuação)."
       >
         {/* Mecânica canônica de Passado/perícia/ofício/complemento (Biografia). */}
         <PassadoBox doc={doc} origem="wizard" />
       </WizSecao>
 
-      <WizSecao
-        titulo="Por que você decidiu virar aventureiro?"
-        nota="Opcional — dá pra escrever (ou mudar) depois, na Biografia."
-      >
-        <div style={{ maxWidth: 460 }}>
+      {/* #461 item 6: motivação + gênero numa linha; idade/altura/peso na de
+          baixo — tudo ocupando a horizontal. Sem asterisco = opcional. */}
+      <WizSecao titulo="Quem é esse aventureiro?">
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 12, alignItems: 'end' }}>
           <WizCampo
-            label={`${tokens.emojis.biografia.Motivacao} Motivação de aventureiro`}
+            label={`${tokens.emojis.biografia.Motivacao} Por que você decidiu virar aventureiro?`}
             value={bioStr(fm, 'Motivacao')}
             onChange={(v) => model.set('Biografia.Motivacao', v)}
             placeholder="Fugir do passado, fama, uma dívida…"
           />
-        </div>
-      </WizSecao>
-
-      <WizSecao
-        titulo="Identidade"
-        nota="Opcional — preencha o que já souber; o resto fica editável na Biografia."
-      >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 12 }}>
           <WizPills
             label={`${tokens.emojis.biografia.Genero} Gênero`}
             options={['M', 'F', 'Outro']}
             value={bioStr(fm, 'Genero')}
             onChange={(v) => model.set('Biografia.Genero', v)}
           />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12 }}>
           <WizCampo
             label={`${tokens.emojis.biografia.Idade} Idade`}
             value={bioStr(fm, 'Idade')}

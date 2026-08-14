@@ -1,16 +1,17 @@
-// PASSO 6 — EQUIPAMENTO INICIAL (#452 §6, issue #457).
+// PASSO 7 — EQUIPAMENTO INICIAL (#452 §6, #457; feedback r2 #464 itens 12-15).
 //
-// Grátis pro herói novo (decisão do usuário): SÓ as armas das mãos + armadura.
-// Duas MÃOS como slots: arma de 2 mãos ocupa ambas; mão secundária livre pode
-// receber ESCUDO; mão livre = manobras (hint); 2 armas de 1 mão exibem o aviso
-// do "Lutar com Duas Armas" apontando as notas de regra (nada de regra
-// re-escrita aqui — os docs são a fonte).
+// Grátis pro herói novo: SÓ as armas das mãos + armadura. As mãos nascem com
+// ATAQUE DESARMADO (o doc real de Armas Simples) — mão desarmada permite
+// manobras; a secundária também aceita ESCUDO (aba própria do picker). Duas
+// armas de verdade (1 mão cada) exibem o aviso do "Lutar com Duas Armas"
+// apontando as notas de regra; desarmado/escudo NÃO contam pra isso.
 //
-// Recomendações: `rules/equip-recomendacao.ts` (spec 6.1.1–6.1.4/6.2) sobre o
-// FM DERIVADO (proficiências cascateadas da classe). Só grupos simples/marciais
-// (nada de armas especiais/naturais). Writes espelham o InventarioTab
-// (Inventario.Armas.Lista shape + Fonte 'Manual'; Escudo.Nome; Armadura.Nome).
-import { useMemo, useState } from 'react'
+// Recomendações: `rules/equip-recomendacao.ts` sobre o FM DERIVADO — com o
+// STEP-DOWN das simples (#464 item 14), poupado pelas armas com BÔNUS DE
+// ESPECIALIZAÇÃO (grupoArma.armas dos Efeitos_Interativos das habilidades,
+// via interativa). A armadura RECOMENDADA já entra selecionada por default
+// (uma vez, marcador Wizard.equipInit). Writes espelham o InventarioTab.
+import { useEffect, useMemo, useState } from 'react'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
@@ -25,12 +26,19 @@ import {
 } from '../../../rules/equip-recomendacao'
 import { deriveArmaAtributo, fmPath, num, str, wikiTarget } from '../../ficha/hero-model'
 import { EQUIP_TYPES, tokens } from '../../ficha/registry'
+import { PROF_LABEL } from '../../ficha/tooltips'
 import { useAssetIndex } from '../../../data/assets'
 import { weaponImageUrl } from '../../../data/creature-image'
 import { escudoImageUrl } from '../../../data/equipment-image'
+import { useInterativaCtx } from '../../../interativa/useInterativaCtx'
+import { wikilinkBasename } from '../../../rules/wikilink'
 import { clip } from '../../ficha/bits'
-import { WizCardLista, WizPillBtn, WizSecao, wizTitulo, type WizCardItem } from '../bits'
+import { WizCardLista, WizPillBtn, WizSecao, WizThumb, wizTitulo, type WizCardItem } from '../bits'
 import type { WizardCtx } from '../steps'
+import type { RankLetter } from '../../ficha/registry'
+
+/** O doc canônico do golpe desarmado (Armas Simples/Corpo-a-Corpo). */
+const ATAQUE_DESARMADO = 'Ataque Desarmado'
 
 interface ArmaCatalogada extends ArmaInfo {
   id: string
@@ -38,11 +46,10 @@ interface ArmaCatalogada extends ArmaInfo {
   tipo: string
 }
 
-/** Gate: mão principal preenchida + armadura escolhida (Sem Armadura vale). */
+/** Gate: armadura escolhida (a recomendada entra por default; mãos podem
+ *  seguir desarmadas — Ataque Desarmado é equipamento válido). */
 export function equipamentoCompleto(ctx: WizardCtx): boolean {
-  const lista = (fmPath(ctx.fm, 'Inventario', 'Armas', 'Lista') ?? []) as unknown[]
-  const armadura = str(fmPath(ctx.fm, 'Inventario', 'Armadura', 'Nome')).trim()
-  return lista.length >= 1 && armadura !== ''
+  return str(fmPath(ctx.fm, 'Inventario', 'Armadura', 'Nome')).trim() !== ''
 }
 
 /** Chip de proficiência no idioma do card Equipamentos de COMPETÊNCIAS
@@ -72,21 +79,42 @@ function ProfChip({ ic, nome }: { ic: string; nome: string }) {
   )
 }
 
+const BADGE_POR_NIVEL: Record<string, string> = {
+  muito: 'MUITO RECOMENDADA',
+  recomendada: 'RECOMENDADA',
+  pouco: 'POUCO RECOMENDADA',
+}
+
 export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
-  const { fm, model, rules } = ctx
+  const { doc, fm, model, rules, refs } = ctx
   const catalog = useCatalog()
   const detail = useDetail()
   const assets = useAssetIndex()
   const derivado = (rules?.derivedFm ?? fm) as Record<string, unknown>
 
   // — Herói: atributos + proficiências (derivadas da classe) —
-  const at = (fm['Atributos'] ?? {}) as Record<string, unknown>
+  const at = (derivado['Atributos'] ?? {}) as Record<string, unknown>
   const hero = { FOR: num(at['FOR']), AGI: num(at['AGI']) }
   const atributos = { FOR: num(at['FOR']), AGI: num(at['AGI']), INT: num(at['INT']), PRE: num(at['PRE']) }
   const profArmas = proficienciasDoFm(derivado)
   const profArmadura = proficienciasArmaduraDoFm(derivado)
   const profEscudo = str(fmPath(derivado, 'Inventario', 'Escudo', 'Proficiencia')) === 'P'
-  const profAtaques = str(fmPath(derivado, 'Ataques', 'Proficiencia')) || 'N'
+  const profAtaques = (str(fmPath(derivado, 'Ataques', 'Proficiencia')) || 'N') as RankLetter
+
+  // — Bônus de ESPECIALIZAÇÃO em armas (#464 item 14): grupoArma.armas dos
+  //   Efeitos_Interativos das habilidades (ex.: Especialização em Arma (X)). —
+  const inter = useInterativaCtx(doc, refs)
+  const armasEspecializadas = useMemo(() => {
+    const out = new Set<string>()
+    for (const d of inter.descriptors) {
+      if (d.sharedFrom || !d.grupoArma) continue
+      for (const a of d.grupoArma.armas) {
+        const base = wikilinkBasename(a)
+        if (base) out.add(base)
+      }
+    }
+    return out
+  }, [inter.descriptors])
 
   // — Catálogo de armas dos 4 grupos do wizard (docs completos pra FM) —
   const armaEntryIds = useMemo(
@@ -117,6 +145,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     () => new Map(armas.map((a) => [a.basename.toLowerCase(), a])),
     [armas],
   )
+  const desarmado = armaPorNome.get(ATAQUE_DESARMADO.toLowerCase()) ?? null
 
   // — Estado dos slots a partir do FM (única fonte) —
   const lista = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
@@ -127,8 +156,41 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
   const duasMaos = !!principal && principal.maos >= 2
   const duasArmas = !!principal && !!secundaria && !duasMaos
 
-  const [maoAberta, setMaoAberta] = useState<'principal' | 'secundaria' | null>(null)
-  const [filtro, setFiltro] = useState<'cac' | 'dist'>('cac')
+  const [maoAberta, setMaoAbertaState] = useState<'principal' | 'secundaria' | null>(null)
+  const [filtro, setFiltro] = useState<'cac' | 'dist' | 'escudo'>('cac')
+  const setMaoAberta = (m: 'principal' | 'secundaria' | null) => {
+    setMaoAbertaState(m)
+    // a aba ESCUDO só existe pra mão secundária
+    if (m !== 'secundaria' && filtro === 'escudo') setFiltro('cac')
+  }
+
+  // — Escudos e armaduras do catálogo —
+  const escudos = useMemo(() => catalog.content.filter((e) => e.subtype === 'Escudo'), [catalog])
+  const escudoDocs = useDocs(useMemo(() => escudos.map((e) => e.id), [escudos]))
+  const armaduras = useMemo(() => catalog.content.filter((e) => e.subtype === 'Armadura'), [catalog])
+  const armaduraAtual = wikiTarget(str(fmPath(fm, 'Inventario', 'Armadura', 'Nome')))
+  const tipoRecomendado = recomendacaoArmadura(profArmadura, hero)
+  const tipoDe = (basename: string): 'Sem' | 'Leve' | 'Pesada' | null => {
+    const b = basename.toLowerCase()
+    if (b.includes('sem')) return 'Sem'
+    if (b.includes('leve')) return 'Leve'
+    if (b.includes('pesada')) return 'Pesada'
+    return null
+  }
+
+  // #464 item 13: a armadura RECOMENDADA já entra selecionada — UMA vez
+  // (marcador Wizard.equipInit persiste; re-entrar no passo não sobrescreve
+  // uma troca manual do jogador).
+  const equipInit = !!fmPath(fm, 'Wizard', 'equipInit')
+  useEffect(() => {
+    if (!rules || equipInit || !armaduras.length) return
+    model.set('Wizard.equipInit', true)
+    const alvo = armaduras.find((e) => tipoDe(e.basename ?? e.id) === tipoRecomendado)
+    if (alvo && (alvo.basename ?? '') !== armaduraAtual) {
+      model.set('Inventario.Armadura.Nome', `[[${alvo.basename ?? alvo.id}]]`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rules, equipInit, armaduras.length])
 
   const entradaArma = (a: ArmaCatalogada): Record<string, unknown> => ({
     // Espelho do addArma do InventarioTab (shape do FM + atributo derivado).
@@ -163,12 +225,18 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     setMaoAberta(null)
   }
 
-  // — Cards do picker (ordenados: muito > recomendada > resto; score desc) —
+  // — Cards do picker (ordenados: muito > recomendada > pouco > resto).
+  //   Ataque Desarmado fica FORA (é o default da mão vazia). —
   const cardsArmas: WizCardItem[] = useMemo(() => {
-    const doFiltro = armas.filter((a) =>
-      filtro === 'cac' ? a.grupo.startsWith('cac-') : a.grupo.startsWith('d-'),
+    const doFiltro = armas.filter(
+      (a) =>
+        a.basename.toLowerCase() !== ATAQUE_DESARMADO.toLowerCase() &&
+        (filtro === 'cac' ? a.grupo.startsWith('cac-') : a.grupo.startsWith('d-')),
     )
-    const comNivel = doFiltro.map((a) => ({ a, r: recomendacaoArma(a, hero, profArmas) }))
+    const comNivel = doFiltro.map((a) => ({
+      a,
+      r: recomendacaoArma(a, hero, profArmas, armasEspecializadas),
+    }))
     comNivel.sort(
       (x, y) => y.r.score - x.r.score || x.a.basename.localeCompare(y.a.basename, 'pt'),
     )
@@ -179,31 +247,17 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
         .filter(Boolean)
         .join(' · '),
       detalheId: a.id,
-      // Retrato da arma como nos cards de inventário (weaponImageUrl: thumb
-      // com fallback pro cheio — idioma do VaultImage).
+      // Retrato da arma como nos cards de inventário (thumb com fallback pro
+      // cheio — idioma do VaultImage).
       img: weaponImageUrl(armaDocs?.get(a.id), assets, true),
       imgFull: weaponImageUrl(armaDocs?.get(a.id), assets, false),
-      badge: r.nivel === 'muito' ? 'MUITO RECOMENDADA' : r.nivel === 'recomendada' ? 'RECOMENDADA' : undefined,
+      badge: r.nivel ? BADGE_POR_NIVEL[r.nivel] : undefined,
       badgeCor: r.nivel === 'muito' ? 'var(--accent)' : 'var(--muted)',
     }))
-  }, [armas, filtro, hero, profArmas, armaDocs, assets])
-
-  // — Escudos e armaduras do catálogo —
-  const escudos = useMemo(() => catalog.content.filter((e) => e.subtype === 'Escudo'), [catalog])
-  const escudoDocs = useDocs(useMemo(() => escudos.map((e) => e.id), [escudos]))
-  const armaduras = useMemo(() => catalog.content.filter((e) => e.subtype === 'Armadura'), [catalog])
-  const armaduraAtual = wikiTarget(str(fmPath(fm, 'Inventario', 'Armadura', 'Nome')))
-  const tipoRecomendado = recomendacaoArmadura(profArmadura, hero)
-  const tipoDe = (basename: string): 'Sem' | 'Leve' | 'Pesada' | null => {
-    const b = basename.toLowerCase()
-    if (b.includes('sem')) return 'Sem'
-    if (b.includes('leve')) return 'Leve'
-    if (b.includes('pesada')) return 'Pesada'
-    return null
-  }
+  }, [armas, filtro, hero, profArmas, armasEspecializadas, armaDocs, assets])
 
   // Aviso "Lutar com Duas Armas": as NOTAS são a fonte da regra (abre nos
-  // detalhes) — Lutando com Duas Armas (regra) e Ambidestria (técnica).
+  // detalhes) — desarmado/escudo NÃO contam (só 2 armas de verdade).
   const regraDuasArmas = catalog.resolve('Lutando com Duas Armas')
   const tecnicaAmbidestria = catalog.resolve('Ambidestria')
 
@@ -211,8 +265,30 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     const arma = mao === 'principal' ? principal : secundaria
     const ocupadaPor2Maos = mao === 'secundaria' && duasMaos
     const comEscudo = mao === 'secundaria' && !!escudoNome && !ocupadaPor2Maos
-    const livre = !arma && !ocupadaPor2Maos && !comEscudo
+    const desarmada = !arma && !ocupadaPor2Maos && !comEscudo
     const aberta = maoAberta === mao
+    // Retrato do que está NA mão (arma equipada, escudo, ou o desarmado default).
+    const escudoEntry = comEscudo
+      ? escudos.find((e) => (e.basename ?? e.id).toLowerCase() === escudoNome.toLowerCase())
+      : null
+    const docSlot = ocupadaPor2Maos
+      ? null
+      : comEscudo
+        ? (escudoEntry ? escudoDocs?.get(escudoEntry.id) : undefined)
+        : arma
+          ? armaDocs?.get(arma.id)
+          : desarmado
+            ? armaDocs?.get(desarmado.id)
+            : undefined
+    const imgSlot = docSlot ? weaponImageUrl(docSlot, assets, true) : null
+    const imgSlotFull = docSlot ? weaponImageUrl(docSlot, assets, false) : null
+    const rotulo = ocupadaPor2Maos
+      ? `${principal!.basename} (2 mãos)`
+      : comEscudo
+        ? escudoNome
+        : arma
+          ? arma.basename
+          : ATAQUE_DESARMADO
     return (
       <div style={{ flex: 1, minWidth: 220 }}>
         <button
@@ -222,8 +298,11 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
           disabled={ocupadaPor2Maos}
           style={{
             width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
             textAlign: 'left',
-            padding: '13px 14px',
+            padding: '11px 14px',
             background: aberta ? 'color-mix(in srgb,var(--accent) 10%,var(--card))' : 'var(--card)',
             border: `1px solid ${aberta ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
             color: 'var(--text)',
@@ -233,23 +312,18 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
             clipPath: clip(9),
           }}
         >
-          <span style={{ ...wizTitulo, fontSize: 9, display: 'block', marginBottom: 4 }}>
-            {mao === 'principal' ? '🤜 MÃO PRINCIPAL' : '🤛 MÃO SECUNDÁRIA'}
-          </span>
-          <span style={{ fontWeight: 700, fontSize: 14.5 }}>
-            {ocupadaPor2Maos
-              ? `${principal!.basename} (2 mãos)`
-              : comEscudo
-                ? `🛡️ ${escudoNome}`
-                : arma
-                  ? arma.basename
-                  : '— vazia —'}
-          </span>
-          {livre ? (
-            <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 3 }}>
-              Mão livre permite usar manobras.
+          {imgSlot ? <WizThumb img={imgSlot} imgFull={imgSlotFull} size={42} /> : null}
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ ...wizTitulo, fontSize: 9, display: 'block', marginBottom: 3 }}>
+              {mao === 'principal' ? '🤜 MÃO PRINCIPAL' : '🤛 MÃO SECUNDÁRIA'}
             </span>
-          ) : null}
+            <span style={{ fontWeight: 700, fontSize: 14.5 }}>{rotulo}</span>
+            {desarmada ? (
+              <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 2 }}>
+                Mão desarmada permite usar manobras.
+              </span>
+            ) : null}
+          </span>
         </button>
         {(arma || comEscudo) && !ocupadaPor2Maos ? (
           <button
@@ -264,12 +338,20 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
               cursor: 'pointer',
             }}
           >
-            ✕ esvaziar mão
+            ✕ voltar ao desarmado
           </button>
         ) : null}
       </div>
     )
   }
+
+  const abas: Array<['cac' | 'dist' | 'escudo', string]> = [
+    ['cac', '⚔️ CORPO-A-CORPO'],
+    ['dist', '🏹 A DISTÂNCIA'],
+    ...(maoAberta === 'secundaria'
+      ? ([['escudo', `${tokens.emojis.equipProf.Escudo} ESCUDOS`]] as Array<['escudo', string]>)
+      : []),
+  ]
 
   return (
     <div>
@@ -278,7 +360,11 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
         nota="O que a sua classe te ensinou a usar — as armas e armaduras recomendadas abaixo partem daqui."
       >
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-          <ProfChip ic={tokens.emojis.combate.Ataque} nome={`Ataques ${profAtaques}`} />
+          {/* #464 item 12: rank por extenso ("ATAQUES (ADEPTO)"), não a letra. */}
+          <ProfChip
+            ic={tokens.emojis.combate.Ataque}
+            nome={`Ataques (${PROF_LABEL[profAtaques] ?? profAtaques})`}
+          />
           {/* Registro EQUIP_TYPES (o mesmo do card Equipamentos de COMPETÊNCIAS):
               só as proficiências PRESENTES aparecem. */}
           {EQUIP_TYPES.filter((t) => str(fmPath(derivado, 'Inventario', ...t.path)) === 'P').map(
@@ -294,7 +380,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
 
       <WizSecao
         titulo="Selecione suas armas principais"
-        nota="Toque numa mão e escolha o que ela carrega — as MUITO RECOMENDADAS casam com os seus atributos. Arma de 2 mãos ocupa as duas; a mão secundária também aceita um escudo, e deixá-la livre libera manobras."
+        nota="Toque numa mão e escolha o que ela carrega — as MUITO RECOMENDADAS casam com os seus atributos e proficiências. Arma de 2 mãos ocupa as duas; a mão secundária também aceita um escudo; desarmado libera manobras."
       >
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <SlotMao mao="principal" />
@@ -341,52 +427,46 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
 
         {maoAberta ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 4 }}>
-            <div style={{ display: 'flex', gap: 6 }}>
-              {(
-                [
-                  ['cac', '⚔️ CORPO-A-CORPO'],
-                  ['dist', '🏹 A DISTÂNCIA'],
-                ] as const
-              ).map(([id, label]) => (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {abas.map(([id, label]) => (
                 <WizPillBtn key={id} on={filtro === id} onClick={() => setFiltro(id)}>
                   {label}
                 </WizPillBtn>
               ))}
             </div>
-            <WizCardLista
-              ariaLabel={`Armas pra mão ${maoAberta}`}
-              itens={cardsArmas}
-              selecionado={null}
-              onPick={(basename) => {
-                const a = armaPorNome.get(basename.toLowerCase())
-                if (a) equipar(maoAberta, a)
-              }}
-            />
-            {maoAberta === 'secundaria' && escudos.length ? (
-              <>
-                <span style={{ ...wizTitulo, fontSize: 10 }}>🛡️ OU UM ESCUDO</span>
-                <WizCardLista
-                  ariaLabel="Escudos"
-                  itens={escudos.map((e) => ({
-                    id: e.basename ?? e.id,
-                    titulo: e.basename ?? e.id,
-                    detalheId: e.id,
-                    img: escudoImageUrl(escudoDocs?.get(e.id), assets),
-                    imgFull: weaponImageUrl(escudoDocs?.get(e.id), assets, false),
-                    badge: profEscudo ? 'PROFICIENTE' : undefined,
-                  }))}
-                  selecionado={null}
-                  onPick={equiparEscudo}
-                />
-              </>
-            ) : null}
+            {filtro === 'escudo' ? (
+              <WizCardLista
+                ariaLabel="Escudos"
+                itens={escudos.map((e) => ({
+                  id: e.basename ?? e.id,
+                  titulo: e.basename ?? e.id,
+                  detalheId: e.id,
+                  img: escudoImageUrl(escudoDocs?.get(e.id), assets),
+                  imgFull: weaponImageUrl(escudoDocs?.get(e.id), assets, false),
+                  badge: profEscudo ? 'PROFICIENTE' : undefined,
+                }))}
+                selecionado={null}
+                onPick={equiparEscudo}
+              />
+            ) : (
+              <WizCardLista
+                ariaLabel={`Armas pra mão ${maoAberta}`}
+                itens={cardsArmas}
+                selecionado={null}
+                onPick={(basename) => {
+                  const a = armaPorNome.get(basename.toLowerCase())
+                  if (a) equipar(maoAberta, a)
+                }}
+              />
+            )}
           </div>
         ) : null}
       </WizSecao>
 
       <WizSecao
         titulo="Selecione sua armadura"
-        nota="A RECOMENDADA segue sua proficiência e seus atributos (FOR pesada, AGI leve). Sem Armadura também é uma escolha válida."
+        pendente={armaduraAtual === ''}
+        nota="A RECOMENDADA (já selecionada) segue sua proficiência e seus atributos — FOR pede pesada, AGI pede leve. Sem Armadura também é uma escolha válida."
       >
         <WizCardLista
           ariaLabel="Armaduras"

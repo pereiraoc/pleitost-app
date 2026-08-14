@@ -33,7 +33,8 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
   return (
     <WizSecao
       titulo="Escolha sua Sintonia Aparente"
-      nota="Clique numa sintonia pra ver os detalhes ao lado."
+      pendente={!sintoniaCompleta(ctx)}
+      nota="A sintonia é o elemento que corre no seu sangue — ela colore quem você é e pesa em algumas classes (o Monge, por exemplo, luta diferente em cada uma). Toque numa sintonia pra ler os detalhes antes de escolher."
     >
       <WizCardLista
         ariaLabel="Sintonias disponíveis"

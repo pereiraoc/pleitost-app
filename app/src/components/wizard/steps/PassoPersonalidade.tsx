@@ -149,7 +149,7 @@ export function PassoPersonalidade({ ctx }: { ctx: WizardCtx }) {
     <div>
       <WizSecao
         titulo="Ideais e Desprezos"
-        nota="Opcional — dá pra preencher depois na Biografia. Pense em pares: pra cada coisa em que você acredita e pela qual luta, o que você rejeita e combate?"
+        nota="Em que o seu herói acredita — e o que ele não tolera? Preencha em pares: pra cada causa que ele defende, a contraparte que ele combate. Ex.: “Liberdade acima de tudo” ↔ “Tiranos e correntes”."
       >
         <ParesEditor
           ctx={ctx}
@@ -165,7 +165,7 @@ export function PassoPersonalidade({ ctx }: { ctx: WizardCtx }) {
       </WizSecao>
       <WizSecao
         titulo="Qualidades e Defeitos"
-        nota="Opcional. Cada qualidade tem uma contrapartida que alguém poderia apontar — ex.: Confiante/Orgulhoso, Honesto/Tapado."
+        nota="Como o seu herói se comporta? Pra cada traço que ele considera uma vantagem, o outro lado da mesma moeda que alguém poderia apontar. Ex.: “Confiante” ↔ “Orgulhoso”, “Honesto” ↔ “Tapado”."
       >
         <ParesEditor
           ctx={ctx}

@@ -12,6 +12,7 @@ import { familiaOf, familiaTemPericia } from '../../../data/familia'
 import { fmPath, num, str } from '../../ficha/hero-model'
 import { slugify } from '../../ficha/registry'
 import { PericiasProfPanel } from '../../ficha/HabilidadesTab'
+import { TipProvider } from '../../ficha/tooltips'
 import { WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 
@@ -38,9 +39,14 @@ export function PassoPericias({ ctx }: { ctx: WizardCtx }) {
   return (
     <WizSecao
       titulo="Perícias"
-      nota="Gaste os slots disponíveis subindo os ranks — o saldo aparece no rodapé do painel."
+      pendente={!periciasCompletas(ctx)}
+      nota="Gaste os slots disponíveis subindo os ranks — o saldo aparece no rodapé. Toque no nome de uma perícia pra abrir a regra nos detalhes."
     >
-      <PericiasProfPanel doc={ctx.doc} forceEdit hideItemBonus />
+      {/* TipProvider: os tooltips do painel dependem do overlay singleton que
+          na aba COMPETÊNCIAS vive na raiz do tab (#465 item 16). */}
+      <TipProvider>
+        <PericiasProfPanel doc={ctx.doc} forceEdit hideItemBonus abrirDetalhes />
+      </TipProvider>
     </WizSecao>
   )
 }

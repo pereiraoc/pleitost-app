@@ -45,8 +45,10 @@ export interface WizardStep {
 }
 
 export const WIZARD_STEPS: WizardStep[] = [
-  { id: 'classe', titulo: 'Classe', Component: PassoClasse, complete: classeCompleta },
+  // Sintonia ANTES da classe (feedback r2 #461 item 1): classes sem subclasse
+  // (Monge) variam os papéis pela sintonia — escolhida de propósito primeiro.
   { id: 'sintonia', titulo: 'Sintonia', Component: PassoSintonia, complete: sintoniaCompleta },
+  { id: 'classe', titulo: 'Classe', Component: PassoClasse, complete: classeCompleta },
   { id: 'passado', titulo: 'Passado', Component: PassoPassado, complete: passadoCompleto },
   {
     id: 'personalidade',

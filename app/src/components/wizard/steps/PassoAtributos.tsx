@@ -1,18 +1,17 @@
-// PASSO 5 — ATRIBUTOS (#452 §5, issue #456).
+// PASSO 5 — ATRIBUTOS (#452 §5, #456; feedback r2 #463 itens 10-11).
 //
-// LEGENDA data-driven: os docs de `subcategoria: Atributo` da vault (Força/
-// Agilidade/Inteligência/Presença) são a fonte — a sigla vem do FM `alias`
-// ("FOR, Força (FOR)") e a lista "Contribui com:" do corpo vira a legenda.
-// Nada de strings inventadas no call-site (regra da casa).
+// A distribuição usa o PAINEL REAL da ficha (AtributosPanel de COMPETÊNCIAS —
+// 4 dropdowns em cascata 3/2/1/0, restrição de Principal dos elementos de
+// regra, swap determinístico e re-derive das armas Precisas). O herói novo já
+// NASCE com a distribuição default do skeleton — mesma lógica de hoje.
 //
-// DISTRIBUIÇÃO 3/2/1/0 em três perguntas (spec 5.1–5.3): atributo CHAVE (3 —
-// vira `Atributos.Principal`, FILTRADO por `rules.principalAllowed`, a
-// restrição `Escolher Atributos.Principal ...` dos elementos de regra),
-// SECUNDÁRIO (2) e depois quem fica com 1 (o restante recebe 0).
+// Abaixo, os CARDS do que cada atributo representa (legenda data-driven dos
+// docs de `subcategoria: Atributo` da vault — "Contribui com:"), na ORDEM das
+// seleções da esquerda pra direita (3 → 0).
 //
-// 5.4: preview imediato de defesas/resistências/sentidos/movimento — reusa o
-// `memberStats` (grupo/stats), a MESMA projeção de fórmulas usada no resto do
-// app, sobre o FM DERIVADO (proficiências da classe já cascateadas).
+// Preview (item 11): VIDA em cima + defesas/resistências/sentidos/movimento no
+// idioma da aba COMBATE (cards emoji/rótulo/valor preenchendo a horizontal) —
+// derivados via memberStats sobre o FM derivado, já ambientando o jogador.
 import { useMemo } from 'react'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
@@ -20,9 +19,10 @@ import { useDocs } from '../../../data/useDoc'
 import { ATRIBUTOS, type AtributoId } from '../../../rules/rules-model'
 import { memberStats, fmtPlain, fmtSigned } from '../../../grupo/stats'
 import { ATTR_EMOJI, defesaEmoji, tokens } from '../../ficha/registry'
+import { AtributosPanel } from '../../ficha/HabilidadesTab'
 import { fmPath, num, str } from '../../ficha/hero-model'
 import { clip } from '../../ficha/bits'
-import { WizPillBtn, WizSecao, wizTitulo } from '../bits'
+import { WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 
 function valores(fm: Record<string, unknown>): Record<AtributoId, number> {
@@ -31,12 +31,16 @@ function valores(fm: Record<string, unknown>): Record<AtributoId, number> {
 }
 
 /** Gate: 3/2/1/0 distribuídos (um de cada) + Principal = o atributo de valor 3
- *  e permitido pela restrição de regra (revalida se a classe mudou). */
+ *  e permitido pela restrição de regra. O default do skeleton já satisfaz; o
+ *  painel da ficha só permite swaps válidos — o gate é a rede de segurança
+ *  (ex.: classe trocada com restrição nova enquanto a projeção resolve). */
 export function atributosCompletos(ctx: WizardCtx): boolean {
-  const v = valores(ctx.fm)
+  // Valida sobre o DERIVADO (o swap de Principal por regra roda ao vivo).
+  const fm = (ctx.rules?.derivedFm ?? ctx.fm) as Record<string, unknown>
+  const v = valores(fm)
   const sorted = [...ATRIBUTOS.map((a) => v[a])].sort((x, y) => x - y)
   if (sorted.join(',') !== '0,1,2,3') return false
-  const principal = str(fmPath(ctx.fm, 'Atributos', 'Principal')) as AtributoId | ''
+  const principal = str(fmPath(fm, 'Atributos', 'Principal')) as AtributoId | ''
   if (!principal || v[principal as AtributoId] !== 3) return false
   const allowed = ctx.rules?.principalAllowed ?? null
   return allowed === null || allowed.includes(principal as AtributoId)
@@ -68,63 +72,39 @@ function siglaDoAlias(alias: unknown): AtributoId | null {
   return null
 }
 
-/** Chip de stat derivado (preview 5.4) — emoji do registro (defesaEmoji cobre
- *  defesas E sentidos; Movimento 👣 do subcategoria) + rótulo mono + valor. */
-function StatChip({ nome, valor, ic }: { nome: string; valor: string; ic: string }) {
+/** Card de stat derivado no idioma da aba COMBATE (emoji + rótulo mono +
+ *  valor grande, centralizado). */
+function CombateCard({ ic, nome, valor, largo }: { ic: string; nome: string; valor: string; largo?: boolean }) {
   return (
-    <span style={{ padding: '8px 12px', background: 'var(--card)', border: '1px solid var(--line2)', clipPath: clip(6), fontSize: 13 }}>
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)', display: 'block' }}>
-        {ic} {nome.toUpperCase()}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+        padding: '12px 10px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line)',
+        clipPath: clip(10),
+        ...(largo ? { gridColumn: 'span 2' } : null),
+      }}
+    >
+      <span style={{ fontSize: 18 }}>{ic}</span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 9, letterSpacing: '.1em', color: 'var(--muted)' }}>
+        {nome.toUpperCase()}
       </span>
-      <strong>{valor}</strong>
-    </span>
-  )
-}
-
-function EscolhaAttr({
-  pergunta,
-  opcoes,
-  atual,
-  onPick,
-  extra,
-}: {
-  pergunta: string
-  opcoes: AtributoId[]
-  atual: AtributoId | null
-  onPick: (a: AtributoId) => void
-  extra?: (a: AtributoId) => string | null
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <span style={{ ...wizTitulo, fontSize: 10 }}>{pergunta.toUpperCase()}</span>
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-        {ATRIBUTOS.map((a) => {
-          const habil = opcoes.includes(a)
-          return (
-            <WizPillBtn
-              key={a}
-              on={atual === a}
-              disabled={!habil}
-              onClick={() => onPick(a)}
-              title={extra?.(a) ?? undefined}
-            >
-              <span>{ATTR_EMOJI[a] ?? ''}</span>
-              <span>{a}</span>
-            </WizPillBtn>
-          )
-        })}
-      </div>
+      <span style={{ fontSize: 17, fontWeight: 700 }}>{valor}</span>
     </div>
   )
 }
 
 export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
-  const { fm, model, rules } = ctx
+  const { doc, fm, rules } = ctx
   const detail = useDetail()
   const catalog = useCatalog()
-  const v = valores(fm)
-  const principal = str(fmPath(fm, 'Atributos', 'Principal')) as AtributoId | ''
-  const allowed = rules?.principalAllowed ?? null
+  const derivado = (rules?.derivedFm ?? fm) as Record<string, unknown>
+  const v = valores(derivado)
 
   // Docs de Atributo da vault (legenda + detalhes) — mapeados pela sigla do alias.
   const attrEntryIds = useMemo(
@@ -143,35 +123,23 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
     return out
   }, [attrDocs, attrEntryIds])
 
-  // Escolhas derivadas dos VALORES salvos (o FM é a única fonte de estado).
-  const chave = (ATRIBUTOS.find((a) => v[a] === 3 && principal === a) ?? null) as AtributoId | null
-  const secundario = (ATRIBUTOS.find((a) => v[a] === 2) ?? null) as AtributoId | null
-  const terciario = (ATRIBUTOS.find((a) => v[a] === 1) ?? null) as AtributoId | null
+  // Ordem dos cards = ordem das seleções da esquerda pra direita (3 → 0).
+  const ordenados = [...ATRIBUTOS].sort((a, b) => v[b] - v[a])
 
-  /** Regrava a distribuição inteira a partir das três escolhas (determinístico:
-   *  não-escolhidos = 0; escolha posterior incompatível é descartada). */
-  const aplicar = (novoChave: AtributoId | null, novoSec: AtributoId | null, novoTer: AtributoId | null) => {
-    const sec = novoSec === novoChave ? null : novoSec
-    const ter = novoTer === novoChave || novoTer === sec ? null : novoTer
-    const next: Record<string, unknown> = { FOR: 0, AGI: 0, INT: 0, PRE: 0 }
-    if (novoChave) next[novoChave] = 3
-    if (sec) next[sec] = 2
-    if (ter) next[ter] = 1
-    next['Principal'] = novoChave ?? ''
-    model.set('Atributos', next)
-  }
-
-  // 5.4 — preview com o FM derivado (classe cascateada) — recalcula na hora.
-  const stats = memberStats((rules?.derivedFm ?? fm) as Record<string, unknown>)
+  // Preview no idioma do COMBATE — vida + derivados do memberStats.
+  const stats = memberStats(derivado)
 
   return (
     <div>
       <WizSecao
         titulo="Atributos"
-        nota="Clique no nome de um atributo pra abrir a regra completa nos detalhes."
+        pendente={!atributosCompletos(ctx)}
+        nota="Distribua 3 · 2 · 1 · 0 nos quatro atributos — o da esquerda (3) é o seu atributo-chave; a classe pode restringir quem pode ocupá-lo. Os cards embaixo mostram no que cada atributo contribui (toque pra abrir a regra)."
       >
+        {/* O painel REAL da ficha (4 dropdowns em cascata + Principal). */}
+        <AtributosPanel doc={doc} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(230px,1fr))', gap: 8 }}>
-          {ATRIBUTOS.map((a) => {
+          {ordenados.map((a) => {
             const info = porSigla.get(a)
             return (
               <button
@@ -195,7 +163,6 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
                     {v[a]}
                   </span>
                 </span>
-                {/* Legenda: no que o atributo contribui (corpo do doc da vault). */}
                 {info?.legenda ? (
                   <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 5, lineHeight: 1.45 }}>
                     {info.legenda}
@@ -207,46 +174,34 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
         </div>
       </WizSecao>
 
-      <WizSecao titulo="Distribua 3 · 2 · 1 · 0">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <EscolhaAttr
-            pergunta="Selecione seu atributo CHAVE (3)"
-            opcoes={(allowed ?? ATRIBUTOS) as AtributoId[]}
-            atual={chave}
-            onPick={(a) => aplicar(a, secundario, terciario)}
-            extra={(a) =>
-              allowed && !allowed.includes(a) ? 'A sua classe restringe o atributo chave' : null
-            }
+      <WizSecao
+        titulo="Como seu herói se defende"
+        nota="Derivado na hora da sua distribuição e das proficiências da classe — é assim que aparece na aba Combate."
+      >
+        {/* VIDA em cima (EV/EM), como a barra do Combate. */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 8 }}>
+          <CombateCard
+            ic={(tokens.emojis.subcategoria as Record<string, string>)['Vitalidade'] ?? ''}
+            nome="Energia Vital"
+            valor={String(stats.v ?? '—')}
           />
-          <EscolhaAttr
-            pergunta="Selecione seu atributo SECUNDÁRIO (2)"
-            opcoes={ATRIBUTOS.filter((a) => a !== chave)}
-            atual={secundario}
-            onPick={(a) => aplicar(chave, a, terciario)}
-          />
-          <EscolhaAttr
-            pergunta="Quem fica com 1? (o restante fica com 0)"
-            opcoes={ATRIBUTOS.filter((a) => a !== chave && a !== secundario)}
-            atual={terciario}
-            onPick={(a) => aplicar(chave, secundario, a)}
+          <CombateCard
+            ic={(tokens.emojis.subcategoria as Record<string, string>)['Moral'] ?? ''}
+            nome="Energia Heroica"
+            valor={String(stats.m ?? '—')}
           />
         </div>
-      </WizSecao>
-
-      <WizSecao
-        titulo="Defesas · Resistências · Sentidos · Movimento"
-        nota="Derivados na hora da sua distribuição (e das proficiências da classe)."
-      >
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {/* Defesas/resistências + sentidos + movimento preenchendo a horizontal. */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(104px,1fr))', gap: 8 }}>
           {Object.entries(stats.defs).map(([nome, valor]) => (
-            <StatChip key={nome} nome={nome} ic={defesaEmoji(nome)} valor={valor != null ? fmtPlain(valor) : '—'} />
+            <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtPlain(valor) : '—'} />
           ))}
           {Object.entries(stats.sns).map(([nome, valor]) => (
-            <StatChip key={nome} nome={nome} ic={defesaEmoji(nome)} valor={valor != null ? fmtSigned(valor) : '—'} />
+            <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtSigned(valor) : '—'} />
           ))}
-          <StatChip
-            nome="Movimento"
+          <CombateCard
             ic={(tokens.emojis.subcategoria as Record<string, string>)['Movimento'] ?? ''}
+            nome="Movimento"
             valor={stats.sp != null ? fmtPlain(stats.sp) : '—'}
           />
         </div>

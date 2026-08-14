@@ -1,26 +1,46 @@
-// PASSO 1 — CLASSE e SUBCLASSE (#452 §1, issue #454).
+// PASSO 2 — CLASSE e SUBCLASSE (#452 §1, #454; feedback r2 #461).
 //
-// 1.1 Lista de cards das classes (fonte: projeção de regras `rules.classes` —
-//     a MESMA do seletor da ficha; nada de varredura própria). Clique
-//     seleciona E abre o doc nos Detalhes; começa desselecionada.
-// 1.2 Subclasses "caso existam": `rules.subclassChoices` (Selecionar avaliado
-//     pelos elementos de regra) — cards por escolha; o write usa
-//     applySubclassPick (mecânica compartilhada com o ClasseNivelPanel).
+// Barras AUTOCONTIDAS (#461 item 2): cada classe é uma barra com IMAGEM
+// (creatureImageUrl — FM `Imagem` da nota), nome e as POSSIBILIDADES de papéis
+// (união máxima do bloco ```class-roles``` do início da nota — RoleToken, o
+// mesmo token do render do compêndio). Clicar seleciona + abre os Detalhes e
+// EXPANDE ali embaixo, indentado, as escolhas de subclasse — cada opção com as
+// estrelas da variante correspondente (class-roles-preview). Classe SEM
+// subclasse (Monge/Mago) mostra as estrelas na própria barra considerando a
+// SINTONIA (escolhida de propósito no passo anterior).
 //
-// TROCAR de classe dispara resetOnClasseChange (reset.ts): a fonte única
-// classChangeResets() + o reset do equipamento inicial do wizard — nenhuma
-// seleção órfã sobrevive (magias/subclasse/técnicas/escolhas/equipamento).
+// TROCAR de classe dispara resetOnClasseChange (reset.ts — classChangeResets
+// central + equipamento; preserva a Sintonia por decisão da nova ordem).
+import { useMemo } from 'react'
 import { useCatalog } from '../../../data/CatalogContext'
-import { str, wikiTarget } from '../../ficha/hero-model'
+import { useDetail } from '../../../data/detail-context'
+import { useDocs } from '../../../data/useDoc'
+import { useAssetIndex } from '../../../data/assets'
+import { creatureImageUrl } from '../../../data/creature-image'
+import { shortSintonia, str, wikiTarget } from '../../ficha/hero-model'
 import { applySubclassPick } from '../../ficha/HabilidadesTab'
 import { PAPEIS, papelValuesFromFm } from '../../../grupo/party'
 import { StarCell } from '../../../grupo/panel-ui'
 import { ROLE_META, type RoleName } from '../../../markdown/class-roles/role-meta'
+import { RoleToken } from '../../../markdown/class-roles/ClassRolesFence'
 import { slugify } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
 import { resetOnClasseChange } from '../reset'
-import { docIdOf, WizCardLista, WizSecao, wizTitulo } from '../bits'
+import {
+  aliasesDeCompose,
+  buildsDoCorpo,
+  papeisDaClasseSemSubclasse,
+  papeisDaOpcao,
+  uniaoMaxima,
+} from '../class-roles-preview'
+import { docIdOf, WizSecao, WizThumb, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
+import type { Build } from '../../../markdown/class-roles/parse'
+
+/** Ordem de exibição dos GRUPOS de classe (pedido do usuário: Conjuradores →
+ *  Marcialistas → Híbridos) — o valor é a `subcategoria` REAL dos docs de
+ *  classe da vault; grupos desconhecidos caem no fim. */
+const ORDEM_GRUPOS_CLASSE = ['Conjurador', 'Marcialista', 'Híbrido']
 
 /** Gate do passo: classe escolhida + todo choice de subclasse com pick.
  *  Enquanto a projeção resolve (rules undefined) o avanço fica barrado —
@@ -31,106 +51,226 @@ export function classeCompleta(ctx: WizardCtx): boolean {
   return ctx.rules.subclassChoices.every((c) => !!c.pick)
 }
 
-/** Ordem de exibição dos GRUPOS de classe (pedido do usuário: Conjuradores →
- *  Marcialistas → Híbridos) — o valor é a `subcategoria` REAL dos docs de
- *  classe da vault; grupos desconhecidos caem no fim. */
-const ORDEM_GRUPOS_CLASSE = ['Conjurador', 'Marcialista', 'Híbrido']
+/** Fileira compacta de RoleTokens (nome + ★×peso na cor do papel). */
+function Papeizinhos({ roles }: { roles: Partial<Record<RoleName, number>> }) {
+  const entries = Object.entries(roles) as [RoleName, number][]
+  if (!entries.length) return null
+  return (
+    <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'flex-end', fontSize: 11.5 }}>
+      {entries.map(([role, value]) => (
+        <RoleToken key={role} role={role} value={value} />
+      ))}
+    </span>
+  )
+}
+
+function Barra({
+  on,
+  indent,
+  onClick,
+  ariaLabel,
+  children,
+}: {
+  on: boolean
+  indent?: boolean
+  onClick: () => void
+  ariaLabel: string
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      role="option"
+      aria-selected={on}
+      aria-label={ariaLabel}
+      onClick={onClick}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '9px 12px',
+        marginLeft: indent ? 26 : 0,
+        textAlign: 'left',
+        fontFamily: 'inherit',
+        fontSize: 14,
+        color: 'var(--text)',
+        background: on ? 'color-mix(in srgb,var(--accent) 13%,var(--card))' : 'var(--card)',
+        border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
+        cursor: 'pointer',
+        clipPath: clip(8),
+      }}
+    >
+      {children}
+    </button>
+  )
+}
 
 export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   const { fm, model, rules } = ctx
   const catalog = useCatalog()
+  const detail = useDetail()
+  const assets = useAssetIndex()
   const classeAtual = wikiTarget(str(fm['Classe']))
-  const docIdDe = (wikilink: string) => docIdOf(catalog, wikilink)
+  const sintoniaCurta = shortSintonia(str(fm['Sintonia']))
+
+  // Classes da projeção agrupadas pela SUBCATEGORIA do doc (fonte: catálogo).
+  const grupos = useMemo(() => {
+    const out = new Map<string, { value: string; label: string; id: string | null }[]>()
+    for (const o of rules?.classes ?? []) {
+      const id = docIdOf(catalog, o.value)
+      const sub = (id ? catalog.entryById.get(id)?.subtype : null) ?? 'Outras'
+      if (!out.has(sub)) out.set(sub, [])
+      out.get(sub)!.push({ value: o.value, label: o.label, id })
+    }
+    const pos = (sub: string) => {
+      const i = ORDEM_GRUPOS_CLASSE.indexOf(sub)
+      return i === -1 ? ORDEM_GRUPOS_CLASSE.length : i
+    }
+    return [...out.entries()].sort((a, b) => pos(a[0]) - pos(b[0]))
+  }, [rules?.classes, catalog])
+
+  // Docs das classes (imagem + bloco class-roles do corpo).
+  const classIds = useMemo(
+    () => grupos.flatMap(([, itens]) => itens.map((i) => i.id)).filter((x): x is string => !!x),
+    [grupos],
+  )
+  const classDocs = useDocs(classIds)
+  const buildsDe = (id: string | null): Build[] =>
+    id ? buildsDoCorpo(classDocs?.get(id)?.body ?? '') : []
+
+  // Docs das OPÇÕES de subclasse — os builds do class-roles nomeiam pelas
+  // composições de alias ("Estudos do Vazio" compõe "Bruxo"); o match usa
+  // rótulo + aliases (aliasesDeCompose sobre os ruleElements da nota).
+  const escolhasAll = rules?.subclassChoices ?? []
+  const opcaoIds = useMemo(
+    () =>
+      escolhasAll
+        .flatMap((c) => c.options.map((o) => docIdOf(catalog, o.value)))
+        .filter((x): x is string => !!x),
+    [escolhasAll, catalog],
+  )
+  const opcaoDocs = useDocs(opcaoIds)
+  const textosDe = (valor: string, rotulo: string): string[] => {
+    const id = docIdOf(catalog, valor)
+    const d = id ? opcaoDocs?.get(id) : undefined
+    const aliases = aliasesDeCompose(
+      (d?.frontmatter as Record<string, unknown> | undefined)?.['Elementos_de_Regra'],
+    )
+    return [rotulo, ...aliases]
+  }
 
   const escolherClasse = (value: string) => {
     if (wikiTarget(value) !== classeAtual) resetOnClasseChange(model)
     model.set('Classe', value)
+    const id = docIdOf(catalog, value)
+    if (id) detail?.open({ kind: 'doc', id })
   }
 
-  // Agrupa as classes pela SUBCATEGORIA do doc (fonte: catálogo — nada
-  // hardcodado por classe).
-  const grupos = new Map<string, { value: string; label: string; detalheId: string | null }[]>()
-  for (const o of rules?.classes ?? []) {
-    const id = docIdDe(o.value)
-    const sub = (id ? catalog.entryById.get(id)?.subtype : null) ?? 'Outras'
-    if (!grupos.has(sub)) grupos.set(sub, [])
-    grupos.get(sub)!.push({ value: o.value, label: o.label, detalheId: id })
-  }
-  const posGrupo = (sub: string) => {
-    const i = ORDEM_GRUPOS_CLASSE.indexOf(sub)
-    return i === -1 ? ORDEM_GRUPOS_CLASSE.length : i
-  }
-  const gruposOrdenados = [...grupos.entries()].sort((a, b) => posGrupo(a[0]) - posGrupo(b[0]))
-  const selecionado =
-    (rules?.classes ?? []).find((o) => wikiTarget(o.value) === classeAtual)?.value ?? null
+  const pendente = !classeCompleta(ctx)
 
   return (
     <div>
       <WizSecao
         titulo="Escolha sua Classe"
-        nota="A classe é a espinha do personagem: define o que você sabe usar, suas habilidades e as escolhas dos próximos passos. Toque numa classe pra ler a descrição completa nos detalhes antes de decidir."
+        pendente={pendente}
+        nota="A classe é a espinha do personagem: define o que você sabe usar, suas habilidades e as escolhas dos próximos passos. Cada barra mostra os papéis que a classe pode assumir — toque pra ler os detalhes e abrir as subclasses."
       >
-        {gruposOrdenados.map(([sub, itens]) => (
+        {grupos.map(([sub, itens]) => (
           <div key={sub} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <span style={{ ...wizTitulo, fontSize: 10, marginTop: 4 }}>{sub.toUpperCase()}</span>
-            <WizCardLista
-              ariaLabel={`Classes — ${sub}`}
-              itens={itens.map((o) => ({ id: o.value, titulo: o.label, detalheId: o.detalheId }))}
-              selecionado={selecionado}
-              onPick={escolherClasse}
-            />
+            {itens.map((o) => {
+              const on = wikiTarget(o.value) === classeAtual
+              const doc = o.id ? classDocs?.get(o.id) : undefined
+              const builds = buildsDe(o.id)
+              const img = creatureImageUrl(doc, assets, true)
+              // Barra fechada: UNIÃO das possibilidades; selecionada SEM
+              // subclasses: a variante da SINTONIA (autocontido, #461 item 2).
+              const roles =
+                on && !escolhasAll.length && builds.length
+                  ? papeisDaClasseSemSubclasse(builds, sintoniaCurta)
+                  : uniaoMaxima(builds)
+              return (
+                <div key={o.value} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={o.label}>
+                    {img ? (
+                      <WizThumb
+                        img={img}
+                        imgFull={creatureImageUrl(doc, assets, false)}
+                        size={44}
+                        cover
+                      />
+                    ) : null}
+                    <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
+                      <span style={{ fontWeight: 700, marginRight: 'auto' }}>{o.label}</span>
+                      <Papeizinhos roles={roles} />
+                    </span>
+                    {on ? <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span> : null}
+                  </Barra>
+
+                  {/* Subclasses INDENTADAS logo abaixo da classe selecionada. */}
+                  {on
+                    ? escolhasAll.map((c) => (
+                        <div key={c.choiceKey} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>
+                            {c.parent.toUpperCase()}
+                          </span>
+                          {c.options.map((opt) => {
+                            const optOn = wikiTarget(opt.value) === wikiTarget(c.pick ?? '')
+                            const outras = escolhasAll
+                              .filter((e) => e.choiceKey !== c.choiceKey && e.pick)
+                              .map((e) => textosDe(e.pick!, e.pick!))
+                            const optRoles = papeisDaOpcao(builds, textosDe(opt.value, opt.label), outras)
+                            return (
+                              <Barra
+                                key={opt.value}
+                                on={optOn}
+                                indent
+                                ariaLabel={opt.label}
+                                onClick={() => {
+                                  applySubclassPick(model, fm, c.parent, opt.value)
+                                  const id = docIdOf(catalog, opt.value)
+                                  if (id) detail?.open({ kind: 'doc', id })
+                                }}
+                              >
+                                <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
+                                  <span style={{ fontWeight: 600, marginRight: 'auto' }}>{opt.label}</span>
+                                  {optRoles ? <Papeizinhos roles={optRoles} /> : null}
+                                </span>
+                                {optOn ? (
+                                  <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>
+                                ) : null}
+                              </Barra>
+                            )
+                          })}
+                        </div>
+                      ))
+                    : null}
+                </div>
+              )
+            })}
           </div>
         ))}
-        {!rules ? (
-          <span style={{ fontSize: 12, color: 'var(--muted)' }}>Carregando classes…</span>
-        ) : null}
+        {!rules ? <span style={{ fontSize: 12, color: 'var(--muted)' }}>Carregando classes…</span> : null}
       </WizSecao>
-
-      {rules?.subclassChoices.map((c) => (
-        <WizSecao
-          key={c.choiceKey}
-          titulo={`Escolha: ${c.parent}`}
-          nota="A subclasse especializa a sua classe — compare as opções nos detalhes e veja embaixo como cada uma muda o seu papel no grupo."
-        >
-          <WizCardLista
-            ariaLabel={`Opções de ${c.parent}`}
-            itens={c.options.map((o) => ({
-              id: o.value,
-              titulo: o.label,
-              detalheId: docIdDe(o.value),
-            }))}
-            selecionado={
-              c.options.find((o) => wikiTarget(o.value) === wikiTarget(c.pick ?? ''))?.value ?? null
-            }
-            onPick={(v) => applySubclassPick(model, fm, c.parent, v)}
-          />
-        </WizSecao>
-      ))}
 
       {classeAtual ? <PapeisPreview ctx={ctx} /> : null}
     </div>
   )
 }
 
-/** Estrelas de PAPÉIS da escolha atual (pedido do usuário: "depois que escolheu
- *  subclasse, mostrar embaixo as estrelas de abatedor/vanguarda/líder/
- *  controlador"). A MESMA lógica da aba PAPÉIS do grupo: `Somar Papel.X` dos
- *  elementos de regra da classe/subclasse cascateia no FM derivado
- *  (merge-calculated) e papelValuesFromFm lê; StarCell é a célula do design e
- *  ROLE_META a fonte de cor/descrição. Atualiza AO VIVO ao trocar a subclasse. */
 // Nome ACENTUADO de cada papel: as chaves do ROLE_META são a fonte de verdade
 // ("Líder"...); o id do FM.Papel é o slug ASCII ("Lider") — casa por slugify.
 const ROLE_NAME_BY_ID = new Map<string, RoleName>(
   (Object.keys(ROLE_META) as RoleName[]).map((n) => [slugify(n), n]),
 )
 
+/** Estrelas de PAPÉIS da escolha atual — a MESMA lógica da aba PAPÉIS do grupo
+ *  (`Somar Papel.X` dos elementos de regra cascateado no FM derivado →
+ *  papelValuesFromFm; StarCell do design; ROLE_META cor/descrição). Atualiza AO
+ *  VIVO ao trocar a subclasse. Direto ao ponto, sem nota (#461 item 4). */
 function PapeisPreview({ ctx }: { ctx: WizardCtx }) {
   const valores = papelValuesFromFm((ctx.rules?.derivedFm ?? ctx.fm) as Record<string, unknown>)
   return (
-    <WizSecao
-      titulo="Papéis no grupo"
-      nota="O que esta combinação de classe e subclasse contribui pro grupo — as mesmas estrelas da aba Papéis."
-    >
+    <WizSecao titulo="Papéis no grupo">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 8 }}>
         {PAPEIS.map((p) => {
           const nome = ROLE_NAME_BY_ID.get(p) ?? p
@@ -161,7 +301,7 @@ function PapeisPreview({ ctx }: { ctx: WizardCtx }) {
                   {nome.toUpperCase()}
                 </span>
                 <span style={{ marginLeft: 'auto' }}>
-                  <StarCell value={valores[p]} cor={meta?.color ?? 'var(--accent)'} />
+                  <StarCell value={valores[p]} cor={meta?.color ?? 'var(--accent)'} semGuia />
                 </span>
               </span>
               {meta ? (

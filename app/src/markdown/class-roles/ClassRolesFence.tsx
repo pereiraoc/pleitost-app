@@ -22,7 +22,7 @@ const box: React.CSSProperties = {
 
 /** Token de um papel: nome + ★ repetido pelo peso, na cor do papel; título nativo
  *  com a descrição (fonte de verdade role-meta). */
-function RoleToken({ role, value }: { role: RoleName; value: number }) {
+export function RoleToken({ role, value }: { role: RoleName; value: number }) {
   const meta = ROLE_META[role]
   return (
     <span

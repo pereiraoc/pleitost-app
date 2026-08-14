@@ -5,6 +5,7 @@
 // os da aba COMPETÊNCIAS, sem lógica própria.
 import { fmPath, str } from '../../ficha/hero-model'
 import { MagiasHabPanel } from '../../ficha/HabilidadesTab'
+import { TipProvider } from '../../ficha/tooltips'
 import { WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
 
@@ -44,8 +45,10 @@ export function PassoMagias({ ctx }: { ctx: WizardCtx }) {
       titulo="Magias"
       nota="Aprenda magias nos slots disponíveis — o catálogo à direita mostra o que as suas escolas oferecem."
     >
-      <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} forceEdit />
-      {temSec ? <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} sec forceEdit /> : null}
+      <TipProvider>
+        <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} forceEdit />
+        {temSec ? <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} sec forceEdit /> : null}
+      </TipProvider>
     </WizSecao>
   )
 }

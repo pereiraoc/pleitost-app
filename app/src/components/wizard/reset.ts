@@ -27,9 +27,16 @@ export function equipamentoResets(): Array<[string, unknown]> {
   ]
 }
 
-/** Aplica TODOS os resets de troca de classe no contexto do wizard. */
+/** Aplica TODOS os resets de troca de classe no contexto do wizard.
+ *
+ *  EXCEÇÃO deliberada (#461 item 1): a lista central zera `Sintonia` (na ficha
+ *  a classe pode redefini-la por regra), mas no wizard a Sintonia é escolhida
+ *  ANTES da classe por decisão do usuário — trocar de classe não pode descartar
+ *  essa escolha explícita. Se uma regra da nova classe DEFINIR a Sintonia,
+ *  o derivado/sintoniaRuleLocked prevalece na exibição de qualquer forma. */
 export function resetOnClasseChange(model: HeroModel): void {
   for (const [path, value] of [...classChangeResets(), ...equipamentoResets()]) {
+    if (path === 'Sintonia') continue
     model.set(path, value)
   }
 }
