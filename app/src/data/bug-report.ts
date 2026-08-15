@@ -74,9 +74,13 @@ function redactSecrets(s: string): string {
 async function inserirAnon(report: BugReport): Promise<void> {
   const sb = supabaseClient()
   if (!sb) throw new Error('Servidor de reportes indisponível — tenta de novo mais tarde.')
+  // Atribuição (pedido 2026-08-15): o canal anônimo agora carrega o LOGIN do
+  // GitHub do autor logado (contexto.reporter) — a triagem cita "Reportado
+  // por @fulano" na issue e dá pra medir quem contribui com reports.
+  const reporter = gitHubLogin()
   const { error } = await sb.from('bug_reports').insert({
     texto: report.texto,
-    contexto: report.contexto,
+    contexto: { ...report.contexto, ...(reporter ? { reporter } : {}) },
   })
   if (error) throw new Error(`Não deu pra enviar (${error.message}) — tenta de novo.`)
 }

@@ -22,15 +22,39 @@ const overlayStyle: CSSProperties = {
 
 type Estado = 'editando' | 'enviando' | 'enviado' | 'erro'
 
-export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void }) {
+/** Aparência por tipo — SUGERIR é botão próprio VERDE (pedido 2026-08-15;
+ *  antes a sugestão era um radio dentro do Reportar Bug). O verde vem do
+ *  registro de papéis (Líder) — não inventar cor nova. */
+const VISUAL: Record<TipoReport, { rotulo: string; ic: string; cor: string; titulo: string; dica: string }> = {
+  bug: {
+    rotulo: 'REPORTAR BUG',
+    ic: '🐞',
+    cor: 'var(--red)',
+    titulo: 'Reportar bug',
+    dica: 'Conta o que aconteceu (o que você fez, o que esperava e o que apareceu). A tela atual e a versão do app vão junto automaticamente.',
+  },
+  sugestao: {
+    rotulo: 'SUGERIR',
+    ic: '💡',
+    cor: '#1f9d55',
+    titulo: 'Sugerir melhoria',
+    dica: 'Conta a sua ideia pro sistema — o que facilitaria, o que falta, o que mudaria. A tela atual e a versão do app vão junto automaticamente.',
+  },
+}
+
+export function BugReportButton({
+  tipo = 'bug',
+  onOpenChange,
+}: {
+  tipo?: TipoReport
+  onOpenChange?: () => void
+}) {
   const [open, setOpen] = useState(false)
   const [texto, setTexto] = useState('')
   const [estado, setEstado] = useState<Estado>('editando')
   const [erro, setErro] = useState('')
   const [resultado, setResultado] = useState<ResultadoReport | null>(null)
-  // Tipo do report: bug (default) ou sugestão — vira a label da issue, pra
-  // priorização (bugs primeiro).
-  const [tipo, setTipo] = useState<TipoReport>('bug')
+  const visual = VISUAL[tipo]
   // Modo debug (persistido): quando ligado, o app captura logs dos pontos
   // instrumentados e eles vão ANEXADOS neste reporte.
   const [debug, setDebug] = useState(isDebugOn())
@@ -46,7 +70,6 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
     setEstado('editando')
     setErro('')
     setResultado(null)
-    setTipo('bug')
   }
 
   const enviar = async () => {
@@ -71,15 +94,15 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
           onOpenChange?.()
         }}
         style={{
-          background: 'var(--red)',
+          background: visual.cor,
           color: '#fff',
           fontWeight: 700,
         }}
       >
         <span aria-hidden style={{ width: 18, textAlign: 'center' }}>
-          🐞
+          {visual.ic}
         </span>
-        <span className="nav-label">REPORTAR BUG</span>
+        <span className="nav-label">{visual.rotulo}</span>
       </button>
       {/* #221: o modal renderiza num PORTAL no body — dentro da sidebar o
           overflow:hidden + transform do drawer prendem o position:fixed e a
@@ -89,7 +112,7 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
         <div style={overlayStyle} onClick={fechar}>
           <div
             role="dialog"
-            aria-label="Reportar bug"
+            aria-label={visual.titulo}
             onClick={(e) => e.stopPropagation()}
             style={{
               width: 'min(520px, 100%)',
@@ -103,8 +126,8 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span aria-hidden>🐞</span>
-              <span style={{ fontWeight: 700, fontSize: 15, flex: 1 }}>Reportar bug</span>
+              <span aria-hidden>{visual.ic}</span>
+              <span style={{ fontWeight: 700, fontSize: 15, flex: 1 }}>{visual.titulo}</span>
               <button
                 type="button"
                 aria-label="Fechar"
@@ -142,40 +165,7 @@ export function BugReportButton({ onOpenChange }: { onOpenChange?: () => void })
               </>
             ) : (
               <>
-                <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
-                  Conta o que aconteceu (o que você fez, o que esperava e o que apareceu). A tela
-                  atual e a versão do app vão junto automaticamente.
-                </div>
-                {/* Tipo do report: vira a label da issue (bug/enhancement). */}
-                <div role="radiogroup" aria-label="Tipo do reporte" style={{ display: 'flex', gap: 8 }}>
-                  {(
-                    [
-                      ['bug', '🐞 Bug'],
-                      ['sugestao', '💡 Sugestão'],
-                    ] as const
-                  ).map(([valor, rotulo]) => (
-                    <button
-                      key={valor}
-                      type="button"
-                      role="radio"
-                      aria-checked={tipo === valor}
-                      onClick={() => setTipo(valor)}
-                      style={{
-                        flex: 1,
-                        padding: '8px 10px',
-                        fontSize: 12.5,
-                        fontWeight: tipo === valor ? 700 : 400,
-                        background: tipo === valor ? 'rgba(255,85,71,.14)' : 'var(--card)',
-                        border: `1px solid ${tipo === valor ? 'var(--red)' : 'var(--line2)'}`,
-                        color: 'var(--text)',
-                        cursor: 'pointer',
-                        clipPath: clip(6),
-                      }}
-                    >
-                      {rotulo}
-                    </button>
-                  ))}
-                </div>
+                <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>{visual.dica}</div>
                 {canOpenGitHubIssue() ? (
                   <div style={{ fontSize: 12, color: 'var(--muted)' }}>
                     🔗 Sua issue será aberta no GitHub{gitHubLogin() ? ` como @${gitHubLogin()}` : ''}.

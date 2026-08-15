@@ -344,6 +344,8 @@ export function AppShell() {
               <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
             ))}
             {/* #308: report de bugs ABAIXO do CONFIG (fundo vermelho) */}
+            {/* SUGERIR (verde) separado do REPORTAR BUG (pedido 2026-08-15). */}
+            <BugReportButton tipo="sugestao" onOpenChange={closeDrawer} />
             <BugReportButton onOpenChange={closeDrawer} />
           </nav>
         </aside>

@@ -112,6 +112,26 @@ describe('botão REPORTAR BUG (#220)', () => {
     expect(enviados[0].contexto.userAgent).toBeTruthy()
   })
 
+  it('SUGERIR (verde, separado) envia com tipo sugestao (pedido 2026-08-15)', async () => {
+    const enviados: BugReport[] = []
+    __setBugSenderForTests(async (r) => {
+      enviados.push(r)
+    })
+    renderApp()
+    const btn = screen.getByRole('button', { name: /SUGERIR/ })
+    expect(btn).toBeTruthy()
+    fireEvent.click(btn)
+    const dialog = screen.getByRole('dialog', { name: 'Sugerir melhoria' })
+    // sem radio de tipo: o botão já define (sugestão)
+    expect(within(dialog).queryByRole('radiogroup')).toBeNull()
+    fireEvent.change(within(dialog).getByLabelText('Descrição do bug'), {
+      target: { value: 'quero um modo escuro do mapa' },
+    })
+    fireEvent.click(within(dialog).getByRole('button', { name: 'ENVIAR REPORTE' }))
+    expect(await within(dialog).findByText(/Reporte enviado/)).toBeTruthy()
+    expect(enviados[0].tipo).toBe('sugestao')
+  })
+
   it('falha de envio mostra o erro e mantém o texto pra tentar de novo', async () => {
     __setBugSenderForTests(async () => {
       throw new Error('Servidor de reportes indisponível — tenta de novo mais tarde.')

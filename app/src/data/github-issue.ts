@@ -28,14 +28,22 @@ function readStash(): void {
 /** Guarda o provider_token + login do GitHub assim que a sessão os expõe
  *  (chamado pelo auth-state no onAuthStateChange). null limpa (logout). */
 export function setGitHubToken(next: string | null, ghLogin?: string | null): void {
-  // O Supabase manda provider_token só no evento inicial; num TOKEN_REFRESHED
-  // ele vem null. Não sobrescreve um token bom por null — só o logout limpa.
+  // O LOGIN stasha SEMPRE que a sessão o expõe — mesmo sem provider_token
+  // (sessões antigas não re-emitem o token): é ele que ATRIBUI o report do
+  // canal anônimo ao autor (pedido 2026-08-15). O token segue a regra velha:
+  // não sobrescrever um token bom por null — só o logout limpa.
+  if (ghLogin) {
+    login = ghLogin
+    try {
+      sessionStorage.setItem(LOGIN_KEY, ghLogin)
+    } catch {
+      /* sem sessionStorage */
+    }
+  }
   if (next) {
     token = next
-    if (ghLogin) login = ghLogin
     try {
       sessionStorage.setItem(TOKEN_KEY, next)
-      if (ghLogin) sessionStorage.setItem(LOGIN_KEY, ghLogin)
     } catch {
       /* sem sessionStorage */
     }
