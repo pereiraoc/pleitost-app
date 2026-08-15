@@ -371,8 +371,16 @@ export function PassadoBox({
     options?: SelectOption[]
     onChange?: (v: string) => void
     ruleName?: string
+    /** Exemplos no campo vazio (pedido do usuário, wizard r14). */
+    placeholder?: string
   }[] = [
-    { ic: P.Passado, label: 'PASSADO', value: passado, onChange: setPassado },
+    {
+      ic: P.Passado,
+      label: 'PASSADO',
+      value: passado,
+      onChange: setPassado,
+      placeholder: 'Poeta Garçom, Cuidador de Ovelhas, etc',
+    },
     {
       ic: P.PericiaPassado,
       label: 'PERÍCIA',
@@ -391,7 +399,20 @@ export function PassadoBox({
       onChange: setOficioPick,
       ruleName: ofNome === 'Atuacao' ? 'Atuação' : ofNome ? 'Ofício' : undefined,
     },
-    { ic: P.TextoOficio, label: 'TEXTO DO OFÍCIO', value: ofTexto, onChange: setOficioTexto },
+    {
+      ic: P.TextoOficio,
+      label: 'TEXTO DO OFÍCIO',
+      value: ofTexto,
+      onChange: setOficioTexto,
+      // Exemplos conforme a SELEÇÃO do ofício (Atuação × Ofício); sem
+      // seleção, sem exemplo.
+      placeholder:
+        ofNome === 'Atuacao'
+          ? 'Poesia, Chula, Viola, etc'
+          : ofNome
+            ? 'Pecuária, Ferreiro, etc'
+            : undefined,
+    },
   ]
   // Regra do compêndio (perícia/ofício do Passado) pro tooltip do campo (#104).
   const ruleDoc = useNamedDocs([perNome, ofNome === 'Atuacao' ? 'Atuação' : 'Ofício'].filter(Boolean))
@@ -491,6 +512,7 @@ export function PassadoBox({
                 value={f.value}
                 onChange={f.onChange ? (e) => f.onChange!(e.target.value) : undefined}
                 readOnly={!f.onChange}
+                placeholder={f.placeholder}
                 style={{ ...inputStyle, marginTop: 'auto' }}
               />
             )}

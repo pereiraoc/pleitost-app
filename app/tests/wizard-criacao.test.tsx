@@ -7,7 +7,7 @@
 //    seleção órfã ao trocar de classe — pedido explícito do usuário);
 //  - gates puros dos passos (atributos/personalidade/equipamento/magias).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -172,6 +172,45 @@ describe('modo wizard na FichaPage (#453)', () => {
     expect(wizardPasso({ Wizard: { passo: 4 } })).toBe(4)
     expect(wizardPasso({ Wizard: {} })).toBe(1)
     expect(wizardPasso({})).toBe(1)
+  })
+})
+
+describe('passo PASSADO — campos de texto (bug do espaço + placeholders)', () => {
+  function heroiNoPassado(): string {
+    return createLocalEntity('Heroi', 'Novo Herói', {
+      ...emptyHeroFrontmatter(),
+      Wizard: { passo: 3 }, // registro: passado = idx 2
+    })
+  }
+
+  it('motivação ACEITA espaço no fim (o trim engolia o caractere recém-digitado)', async () => {
+    renderFicha(heroiNoPassado())
+    const campo = (await screen.findByLabelText(/por que você decidiu virar aventureiro/i)) as HTMLInputElement
+    fireEvent.change(campo, { target: { value: 'Fugir da guerra ' } })
+    expect(campo.value).toBe('Fugir da guerra ')
+    fireEvent.change(campo, { target: { value: 'Fugir da guerra e ' } })
+    expect(campo.value).toBe('Fugir da guerra e ')
+  })
+
+  it('caixa PASSADO tem exemplos no placeholder', async () => {
+    renderFicha(heroiNoPassado())
+    const campo = (await screen.findByLabelText('PASSADO')) as HTMLInputElement
+    expect(campo.placeholder).toBe('Poeta Garçom, Cuidador de Ovelhas, etc')
+  })
+
+  it('TEXTO DO OFÍCIO: placeholder por seleção — Ofício e Atuação', async () => {
+    renderFicha(heroiNoPassado())
+    const texto = (await screen.findByLabelText('TEXTO DO OFÍCIO')) as HTMLInputElement
+    expect(texto.placeholder).toBe('') // sem ofício escolhido, sem exemplo
+    const seletor = (await screen.findByLabelText('OFÍCIO')) as HTMLSelectElement
+    // opções vêm da projeção de regras (async) — espera o Ofício aparecer
+    await waitFor(() => {
+      expect([...seletor.options].some((o) => o.value === 'Oficio')).toBe(true)
+    })
+    fireEvent.change(seletor, { target: { value: 'Oficio' } })
+    await waitFor(() => expect(texto.placeholder).toBe('Pecuária, Ferreiro, etc'))
+    fireEvent.change(seletor, { target: { value: 'Atuacao' } })
+    await waitFor(() => expect(texto.placeholder).toBe('Poesia, Chula, Viola, etc'))
   })
 })
 

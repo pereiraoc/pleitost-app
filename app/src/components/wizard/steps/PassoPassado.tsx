@@ -27,6 +27,12 @@ import type { WizardCtx } from '../steps'
 const bioStr = (fm: Record<string, unknown>, campo: string): string =>
   str(fmPath(fm, 'Biografia', campo)).trim()
 
+/** Valor CRU pro input CONTROLADO — sem trim: o bioStr trimava o value e
+ *  engolia o espaço recém-digitado no fim do texto (bug "não aceita espaço").
+ *  O trim fica só nos gates/pendências. */
+const bioRaw = (fm: Record<string, unknown>, campo: string): string =>
+  str(fmPath(fm, 'Biografia', campo))
+
 /** Gate: naturalidade + contexto do passado + perícia + ofício. Motivação/
  *  gênero/idade/altura/peso são OPCIONAIS (decisão do usuário) — dá pra
  *  preencher depois na Biografia. */
@@ -198,7 +204,7 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 12, alignItems: 'end' }}>
           <WizCampo
             label={`${tokens.emojis.biografia.Motivacao} Por que você decidiu virar aventureiro?`}
-            value={bioStr(fm, 'Motivacao')}
+            value={bioRaw(fm, 'Motivacao')}
             onChange={(v) => model.set('Biografia.Motivacao', v)}
             placeholder="Fugir do passado, fama, uma dívida…"
           />
@@ -212,17 +218,17 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 12 }}>
           <WizCampo
             label={`${tokens.emojis.biografia.Idade} Idade`}
-            value={bioStr(fm, 'Idade')}
+            value={bioRaw(fm, 'Idade')}
             onChange={(v) => model.set('Biografia.Idade', v)}
           />
           <WizCampo
             label={`${tokens.emojis.biografia.Altura} Altura`}
-            value={bioStr(fm, 'Altura')}
+            value={bioRaw(fm, 'Altura')}
             onChange={(v) => model.set('Biografia.Altura', v)}
           />
           <WizCampo
             label={`${tokens.emojis.biografia.Peso} Peso`}
-            value={bioStr(fm, 'Peso')}
+            value={bioRaw(fm, 'Peso')}
             onChange={(v) => model.set('Biografia.Peso', v)}
           />
         </div>
