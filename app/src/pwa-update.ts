@@ -65,9 +65,43 @@ export function usePwaNeedRefresh(): boolean {
   return useSyncExternalStore(subscribe, () => needRefresh)
 }
 
-/** Aplica o update: ativa o SW em espera e recarrega a página. */
+/** Aplica o update: ativa o SW em espera e recarrega a página.
+ *
+ *  #191 follow-up (bug "Recarregar não recarrega"): NÃO confia no reload
+ *  interno do updateSW — o vite-plugin-pwa só recarrega se o evento
+ *  'controlling' do workbox-window vier com isUpdate, o que não acontece em
+ *  cenários reais: SW já em espera ANTES do register (app reaberto com o
+ *  update baixado na sessão anterior), update achado pelo check periódico
+ *  (>60s após o register = "externo" pro workbox-window) e página sem
+ *  controller (pós hard-reload). Aqui o ciclo fecha por conta própria:
+ *  SKIP_WAITING direto no waiting SW da registration (o generateSW sempre
+ *  instala esse listener no sw.js), reload no controllerchange (o
+ *  clientsClaim do SW novo dispara) e um fallback por timeout pro botão
+ *  nunca ficar morto. */
 export function applyPwaUpdate(): void {
   void updateSW?.(true)
+  const sw = navigator.serviceWorker
+  if (!sw) return
+  let done = false
+  const recarregar = () => {
+    if (done) return
+    done = true
+    ;(reloadForTests ?? (() => window.location.reload()))()
+  }
+  sw.addEventListener('controllerchange', recarregar, { once: true })
+  void sw
+    .getRegistration()
+    .then((reg) => reg?.waiting?.postMessage({ type: 'SKIP_WAITING' }))
+    .catch(() => {})
+  // Sem claim em 4s (SKIP_WAITING perdido / nada em espera): recarrega mesmo
+  // assim — pior caso é recarregar na versão atual, melhor que botão morto.
+  setTimeout(recarregar, 4000)
+}
+
+let reloadForTests: (() => void) | null = null
+
+export function __setPwaReloadForTests(fn: (() => void) | null): void {
+  reloadForTests = fn
 }
 
 export function __resetPwaUpdateForTests(): void {

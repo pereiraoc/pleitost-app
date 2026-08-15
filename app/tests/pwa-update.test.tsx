@@ -14,7 +14,7 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { AppShell } from '../src/components/layout/AppShell'
 import { ConfigPage } from '../src/components/config/ConfigPage'
-import { __resetPwaUpdateForTests } from '../src/pwa-update'
+import { __resetPwaUpdateForTests, __setPwaReloadForTests } from '../src/pwa-update'
 
 // mock do virtual:pwa-register (vite-plugin-pwa): captura o onNeedRefresh
 // passado pelo initPwaUpdate e devolve um updateSW espionável.
@@ -109,6 +109,68 @@ describe('toast de update do PWA (issue #191)', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: 'Recarregar' }))
     expect(updateSW).toHaveBeenCalledWith(true)
+  })
+
+  it('Recarregar fecha o ciclo SOZINHO: SKIP_WAITING direto + reload no controllerchange', async () => {
+    // Bug real: o reload interno do vite-plugin-pwa só roda se o evento
+    // 'controlling' vier com isUpdate — SW já em espera antes do register ou
+    // update "externo" (check periódico) deixavam o botão morto. O
+    // applyPwaUpdate agora escuta controllerchange e manda SKIP_WAITING
+    // direto pro waiting SW da registration.
+    const listeners = new Map<string, () => void>()
+    const postMessage = vi.fn()
+    Object.defineProperty(navigator, 'serviceWorker', {
+      configurable: true,
+      value: {
+        addEventListener: (ev: string, cb: () => void) => listeners.set(ev, cb),
+        getRegistration: async () => ({ waiting: { postMessage } }),
+      },
+    })
+    const reload = vi.fn()
+    __setPwaReloadForTests(reload)
+    try {
+      renderApp()
+      await waitFor(() => expect(captured.onNeedRefresh).toBeTruthy())
+      act(() => captured.onNeedRefresh!())
+      fireEvent.click(await screen.findByRole('button', { name: 'Recarregar' }))
+      expect(updateSW).toHaveBeenCalledWith(true)
+      // SKIP_WAITING direto na registration (não depende do workbox-window)
+      await waitFor(() => expect(postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' }))
+      // o SW novo assume (clientsClaim) → controllerchange → reload
+      expect(reload).not.toHaveBeenCalled()
+      listeners.get('controllerchange')!()
+      expect(reload).toHaveBeenCalledTimes(1)
+      // idempotente: um segundo disparo não recarrega de novo
+      listeners.get('controllerchange')!()
+      expect(reload).toHaveBeenCalledTimes(1)
+    } finally {
+      Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: undefined })
+      __setPwaReloadForTests(null)
+    }
+  })
+
+  it('fallback: sem controllerchange em 4s, recarrega mesmo assim (botão nunca morto)', async () => {
+    vi.useFakeTimers()
+    Object.defineProperty(navigator, 'serviceWorker', {
+      configurable: true,
+      value: {
+        addEventListener: () => {},
+        getRegistration: async () => undefined,
+      },
+    })
+    const reload = vi.fn()
+    __setPwaReloadForTests(reload)
+    try {
+      const { applyPwaUpdate } = await import('../src/pwa-update')
+      applyPwaUpdate()
+      expect(reload).not.toHaveBeenCalled()
+      vi.advanceTimersByTime(4100)
+      expect(reload).toHaveBeenCalledTimes(1)
+    } finally {
+      vi.useRealTimers()
+      Object.defineProperty(navigator, 'serviceWorker', { configurable: true, value: undefined })
+      __setPwaReloadForTests(null)
+    }
   })
 
   it('versão REAL do app no CONFIG (package.json via define)', async () => {
