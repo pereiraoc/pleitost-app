@@ -161,13 +161,13 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
               clipPath: clip(7),
             }}
           >
-            <option value="">—</option>
+            {/* naturalidadeLines JÁ traz "—" e "Outro (texto livre)" no topo
+                (naturalidadeSelectLines) — nada de opções extras aqui. */}
             {(rules?.naturalidadeLines ?? []).map((l, i) => (
               <option key={i} value={l.value ?? `__header_${i}`} disabled={l.disabled}>
                 {l.label}
               </option>
             ))}
-            <option value={NATURALIDADE_OUTRO}>Outro…</option>
           </select>
         </label>
         {outroMode || natIsOutro ? (
