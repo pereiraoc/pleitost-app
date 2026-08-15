@@ -15,6 +15,19 @@ import { VAULT_ROOT, OUT_DIR } from "./paths.mjs";
 import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 
+// Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
+// são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
+// vault. O extract NÃO re-extrai essas pastas: preserva os JSONs e as
+// entradas de índice da extração ANTERIOR (o rebuild é limpo — sem o
+// snapshot, o rm os deletaria).
+export const FROZEN_PREFIXES = [
+  "Sistema/Criaturas/Heróis",
+  "Sistema/Criaturas/Grupos de Criaturas",
+];
+export function isFrozenPath(relPosix) {
+  return FROZEN_PREFIXES.some((p) => relPosix === p || relPosix.startsWith(p + "/"));
+}
+
 async function writeJson(absPath, obj) {
   await mkdir(dirname(absPath), { recursive: true });
   await writeFile(absPath, JSON.stringify(obj, null, 2) + "\n", "utf8");
@@ -26,6 +39,19 @@ async function sha256(absPath) {
 }
 
 export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } = {}) {
+  // 0. Snapshot das subárvores congeladas da extração ANTERIOR (antes do wipe).
+  const frozen = [];
+  try {
+    const oldIndex = JSON.parse(await readFile(join(outDir, "index.json"), "utf8"));
+    for (const d of oldIndex.docs ?? []) {
+      if (d.kind !== "content" || !isFrozenPath(d.path)) continue;
+      const raw = await readFile(join(outDir, d.path.replace(/\.md$/i, ".json")), "utf8");
+      frozen.push({ entry: d, raw });
+    }
+  } catch {
+    // sem extração anterior (OUT_DIR vazio/corrompido) — nada a preservar
+  }
+
   // 1. Rebuild limpo.
   await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
@@ -39,9 +65,16 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   const assetRefs = new Map(); // target → Set(ids)
   const docLinks = new Map(); // id → targets crus dos wikilinks
 
+  let frozenSkipped = 0;
   for (const doc of docs) {
     if (doc.kind === "scaffolding") {
       index.push({ id: doc.relPath.replace(/\.md$/i, ""), path: doc.relPath, kind: "scaffolding" });
+      continue;
+    }
+    // Pasta congelada: a fonte é o app — o .md da vault é ignorado e a versão
+    // preservada (passo 3b) entra no lugar.
+    if (isFrozenPath(doc.relPath)) {
+      frozenSkipped += 1;
       continue;
     }
     const raw = await readFile(doc.absPath, "utf8");
@@ -64,6 +97,31 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     }
 
     docLinks.set(record.id, record.links.map((l) => l.target));
+  }
+
+  // 3b. Restaura as subárvores congeladas: JSON + entrada de índice + refs de
+  //     imagem + links (assets.json/links.json seguem consistentes com os
+  //     docs preservados — retratos de herói não viram "orphan").
+  for (const f of frozen) {
+    const abs = join(outDir, f.entry.path.replace(/\.md$/i, ".json"));
+    await mkdir(dirname(abs), { recursive: true });
+    await writeFile(abs, f.raw, "utf8");
+    index.push(f.entry);
+    const record = JSON.parse(f.raw);
+    for (const img of record.images ?? []) {
+      if (!assetRefs.has(img.target)) assetRefs.set(img.target, new Set());
+      assetRefs.get(img.target).add(record.id);
+    }
+    docLinks.set(record.id, (record.links ?? []).map((l) => l.target));
+  }
+  console.log(
+    `Congeladas (Heróis/Grupos): ${frozen.length} doc(s) preservados da extração anterior; ` +
+      `${frozenSkipped} .md da vault ignorados.`,
+  );
+  if (!frozen.length && frozenSkipped) {
+    console.warn(
+      "AVISO: pastas congeladas SEM snapshot anterior — Heróis/Grupos ficarão fora do output.",
+    );
   }
 
   // 4. Copia TODOS os binários de imagem da vault (referenciados E órfãos) e monta
@@ -172,6 +230,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
 
   return {
     content: contentDocs.length,
+    frozenPreserved: frozen.length,
     scaffolding: index.length - contentDocs.length,
     imagesCopied: assets.length,
     imagesReferenced: referenced,
