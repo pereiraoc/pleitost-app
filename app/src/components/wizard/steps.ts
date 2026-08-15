@@ -25,6 +25,7 @@ import { PassoPericias, periciasCompletas } from './steps/PassoPericias'
 import { PassoMagias, temMagias } from './steps/PassoMagias'
 import { PassoHabilidades } from './steps/PassoHabilidades'
 import { PassoNome } from './steps/PassoNome'
+import { PassoCompanheiro, companheiroCompleto, temCompanheiro } from './steps/PassoCompanheiro'
 
 export interface WizardCtx {
   doc: VaultDoc
@@ -82,5 +83,14 @@ export const WIZARD_STEPS: WizardStep[] = [
     titulo: 'Nome',
     Component: PassoNome,
     complete: (ctx) => str(fmPath(ctx.fm, 'nome')).trim() !== '',
+  },
+  // #452 r15: DEPOIS do nome (o Tutor do CA carimba o nome final do herói) —
+  // só aparece quando o herói comanda um animal (ação [[Comandar Animal]]).
+  {
+    id: 'companheiro',
+    titulo: 'Companheiro Animal',
+    Component: PassoCompanheiro,
+    complete: companheiroCompleto,
+    visible: temCompanheiro,
   },
 ]

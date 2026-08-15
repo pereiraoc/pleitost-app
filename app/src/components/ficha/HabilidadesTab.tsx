@@ -17,7 +17,7 @@ import { useDocs } from '../../data/useDoc'
 import { useHeroModel, type HeroModel } from '../../data/useHeroModel'
 import { useDetail } from '../../data/detail-context'
 import { rederiveArmasAtributos } from './arma-atributo-sync'
-import { classChangeResets } from '../../data/local-entities'
+import { isLocalId, classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { clip, AttrBadge, DetailInfoButton, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
@@ -378,6 +378,17 @@ export function ClasseNivelPanel({
     model.set('Classe', v)
   }
 
+  // TIPO do COMPANHEIRO ANIMAL local é escolhível (bug: CA criado no app
+  // nascia sem como escolher o Tipo — na vault o QuickAdd preenchia). Fonte:
+  // projeção tiposCompanheiro; a troca é só o wikilink (a cascata deriva o
+  // resto — CA não tem picks salvos pra resetar). CA da VAULT segue estático.
+  const caTipoLocal =
+    !caps.classe.editavel && caps.classe.rotulo === 'Tipo' && isLocalId(doc.id)
+  const tipoFmValue =
+    rules?.tiposCompanheiro.find((o) => wikiTarget(o.value) === wikiTarget(str(fm['Classe'])))
+      ?.value ?? str(fm['Classe'])
+  const setTipoCompanheiro = (v: string) => model.set('Classe', v)
+
   // #395: RAÇA do Monstro — grava o wikilink no FM `Raça`; a cascata concede as
   // habilidades raciais + Sintonia/Tamanho/Movimento. Opções da projeção
   // (notas de Sistema/Regras/Bestiário/Raças/).
@@ -426,7 +437,7 @@ export function ClasseNivelPanel({
       // estático (as classes do dropdown são de HERÓI; o Tipo do CA não é
       // editável no plugin).
       label: caps.classe.editavel ? 'CLASSE INICIAL' : caps.classe.rotulo.toUpperCase(),
-      value: classeFmValue,
+      value: caTipoLocal ? tipoFmValue : classeFmValue,
       // Opção em branco no topo — herói novo nasce SEM classe (Classe=''); sem
       // isso o <select> mostrava a 1ª opção (Animista) como se estivesse escolhida (#nc).
       options: caps.classe.editavel
@@ -434,9 +445,14 @@ export function ClasseNivelPanel({
             { value: '', label: '— Nenhuma —' },
             ...withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
           ]
-        : [{ value: classeFmValue, label: linkLabel(str(fm['Classe'])) || '—' }],
-      onChange: caps.classe.editavel ? setClasse : undefined,
-      boxTarget: classeFmValue,
+        : caTipoLocal
+          ? [
+              { value: '', label: '— Nenhum —' },
+              ...withCurrent(rules?.tiposCompanheiro ?? [], tipoFmValue, linkLabel(str(fm['Classe']))),
+            ]
+          : [{ value: classeFmValue, label: linkLabel(str(fm['Classe'])) || '—' }],
+      onChange: caps.classe.editavel ? setClasse : caTipoLocal ? setTipoCompanheiro : undefined,
+      boxTarget: caTipoLocal ? tipoFmValue : classeFmValue,
     },
     // #395: seletor de RAÇA do Monstro (Goblin/Orc/…) ao lado da Classe.
     // Opção em branco no topo (monstro novo nasce sem raça).

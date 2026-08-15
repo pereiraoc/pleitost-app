@@ -17,6 +17,7 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import type { VaultDoc } from '../../data/types'
 import type { HeroRefs } from '../ficha/useHeroRefs'
+import { fmPath, str } from '../ficha/hero-model'
 import { clip } from '../ficha/bits'
 import { wizardPasso } from './wizard-mode'
 import { WIZARD_STEPS, type WizardCtx } from './steps'
@@ -62,6 +63,10 @@ export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   }
   const descartar = () => {
     if (!window.confirm('Descartar a criação? O herói será apagado.')) return
+    // #452 r15: o Companheiro Animal criado no passo dele morre junto —
+    // senão fica órfão na lista de criaturas.
+    const caId = str(fmPath(model.fm, 'Wizard', 'companheiroId'))
+    if (caId) removeLocalEntity(caId)
     removeLocalEntity(doc.id)
     navigate('/herois', { replace: true })
   }

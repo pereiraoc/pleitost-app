@@ -214,6 +214,52 @@ describe('passo PASSADO — campos de texto (bug do espaço + placeholders)', ()
   })
 })
 
+describe('passo COMPANHEIRO ANIMAL (#452 r15) — gates e registro', () => {
+  it('temCompanheiro: a ação derivada [[Comandar Animal]] é o marcador', async () => {
+    const { temCompanheiro } = await import('../src/components/wizard/steps/PassoCompanheiro')
+    const com = ctxDe(
+      {},
+      {
+        derivedFm: {
+          Acoes: { Lista: [{ '[[Comandar Animal]]': 'Regra.[[Estratégia de Caça (Domador)]]' }] },
+        },
+      } as never,
+    )
+    expect(temCompanheiro(com)).toBe(true)
+    const sem = ctxDe({}, { derivedFm: { Acoes: { Lista: [{ '[[Mover]]': 'Regra.[[X]]' }] } } } as never)
+    expect(temCompanheiro(sem)).toBe(false)
+  })
+
+  it('companheiroCompleto: exige CA criado com Sintonia + Tipo + Nome', async () => {
+    const { companheiroCompleto } = await import('../src/components/wizard/steps/PassoCompanheiro')
+    // sem id → incompleto
+    expect(companheiroCompleto(ctxDe({}))).toBe(false)
+    // CA recém-criado (vazio) → incompleto
+    const { emptyCompanheiroFrontmatter: caFm } = await import('../src/data/local-entities')
+    const caId = createLocalEntity('CompanheiroAnimal', 'Novo Companheiro', {
+      ...caFm(''),
+      Tutor: '[[Fulano]]',
+    })
+    const ctx = ctxDe({ Wizard: { companheiroId: caId } })
+    expect(companheiroCompleto(ctx)).toBe(false)
+    setLocalEntityFm(caId, 'Sintonia', '[[Traço Elemental da Água|Água]]')
+    setLocalEntityFm(caId, 'Classe', '[[Companheiro Animal Canino]]')
+    expect(companheiroCompleto(ctx)).toBe(false) // falta o nome
+    setLocalEntityFm(caId, 'nome', 'Rex')
+    expect(companheiroCompleto(ctx)).toBe(true)
+    // renomear espelha o basename (o Tutor do CA usa wikilink por nome)
+    expect(getLocalDoc(caId)?.basename).toBe('Rex')
+  })
+
+  it('registro: o passo vem DEPOIS do Nome e é condicional', async () => {
+    const { WIZARD_STEPS } = await import('../src/components/wizard/steps')
+    const idx = WIZARD_STEPS.findIndex((s) => s.id === 'companheiro')
+    expect(idx).toBe(WIZARD_STEPS.length - 1)
+    expect(WIZARD_STEPS[idx - 1]!.id).toBe('nome')
+    expect(typeof WIZARD_STEPS[idx]!.visible).toBe('function')
+  })
+})
+
 describe('class-roles-preview (#452 r4) — somas e highlight', () => {
   const BUILDS: [string, Record<string, number>][] = [
     ['Arte Mágica Inspirador', { Líder: 3 }],

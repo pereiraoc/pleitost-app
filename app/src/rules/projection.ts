@@ -63,6 +63,10 @@ const BESTIARIO_CLASSES_PREFIX = 'Sistema/Regras/Bestiário/Classes de Bestiári
 /** #382: notas de Modificador de bestiário (Competente/Elite/Solo) — fonte do
  *  seletor de Modificador do Monstro (pills do plugin, perfil-card.ts:174-199). */
 const MODIFICADORES_PATH_PREFIX = 'Sistema/Regras/Bestiário/Modificadores/'
+
+// Tipos de COMPANHEIRO ANIMAL (Ave/Canino/Felino/Ursino) — docs de Habilidade
+// da pasta; a nota-base "Companheiro Animal" (regras comuns) não é um tipo.
+const COMPANHEIRO_TIPOS_PREFIX = 'Sistema/Criação de Personagem/Companheiro Animal/'
 /** #395: raças de bestiário (Goblin/Orc/Kobold/…) — fonte do seletor de Raça
  *  do Monstro. As notas são categoria Habilidade / subcategoria Raça. */
 const RACAS_PATH_PREFIX = 'Sistema/Regras/Bestiário/Raças/'
@@ -437,6 +441,10 @@ export interface HeroProjection {
   /** #395: opções de Raça do MONSTRO (Goblin/Orc/Kobold/…) — notas de
    *  Sistema/Regras/Bestiário/Raças/. Vazio fora da família Monstro. */
   racas: LinkedOption[]
+  /** Tipos de COMPANHEIRO ANIMAL (o FM.Classe do CA aponta pro doc do tipo,
+   *  ex.: [[Companheiro Animal Canino]]) — CA criado no app escolhe por aqui
+   *  (na vault o QuickAdd preenchia). Vazio fora da família CA. */
+  tiposCompanheiro: LinkedOption[]
   /** Dropdown de Sintonia — Traços raiz com alias curto (perfil-card.ts:514-522). */
   sintonias: LinkedOption[]
   /** True quando uma rule define Sintonia (metaRuleLocked, view-model.ts:362-364). */
@@ -794,6 +802,7 @@ export function buildHeroProjection(
     : null
 
   const isMonstro = String(savedFm['subcategoria'] ?? '').trim() === 'Monstro'
+  const isCompanheiro = String(savedFm['subcategoria'] ?? '').trim() === 'Companheiro Animal'
 
   return {
     // F5/#362: a família decide a FONTE das classes — Monstro usa as 8 classes
@@ -801,6 +810,11 @@ export function buildHeroProjection(
     classes: listNotesByCategoria(catalog, 'Classe', {
       pathPrefix: isMonstro ? BESTIARIO_CLASSES_PREFIX : CLASSES_PATH_PREFIX,
     }).map(linked),
+    tiposCompanheiro: isCompanheiro
+      ? listNotesByCategoria(catalog, 'Habilidade', { pathPrefix: COMPANHEIRO_TIPOS_PREFIX })
+          .filter((wl) => wl !== '[[Companheiro Animal]]')
+          .map(linked)
+      : [],
     // #382: Modificadores selecionáveis do Monstro — scan das notas da pasta
     // (categoria Habilidade) ∩ valores que o parseModificador aceita.
     modificadores: isMonstro

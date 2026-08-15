@@ -126,9 +126,6 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
   // Ordem dos cards = ordem das seleções da esquerda pra direita (3 → 0).
   const ordenados = [...ATRIBUTOS].sort((a, b) => v[b] - v[a])
 
-  // Preview no idioma do COMBATE — vida + derivados do memberStats.
-  const stats = memberStats(derivado)
-
   return (
     <div>
       <WizSecao
@@ -174,9 +171,32 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
         </div>
       </WizSecao>
 
-      <WizSecao
+      <PreviewCombate
+        derivado={derivado}
         titulo="Como seu herói se defende"
         nota="Derivado na hora da sua distribuição e das proficiências da classe — é assim que aparece na aba Combate."
+      />
+    </div>
+  )
+}
+
+/** Preview no idioma do COMBATE — vida (EV/EH) + defesas/resistências +
+ *  sentidos/movimento do memberStats sobre o FM DERIVADO. Compartilhado entre
+ *  o passo de Atributos do herói e o passo do Companheiro Animal (#452 r15). */
+export function PreviewCombate({
+  derivado,
+  titulo,
+  nota,
+}: {
+  derivado: Record<string, unknown>
+  titulo: string
+  nota?: string
+}) {
+  const stats = memberStats(derivado)
+  return (
+      <WizSecao
+        titulo={titulo}
+        nota={nota}
       >
         {/* VIDA em cima (EV/EM), como a barra do Combate. */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 8 }}>
@@ -226,6 +246,5 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
           </div>
         </div>
       </WizSecao>
-    </div>
   )
 }
