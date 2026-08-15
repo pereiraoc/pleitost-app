@@ -1,5 +1,6 @@
 import type { IndexDocEntry, IndexManifest } from './types'
 import { vaultUrl } from './base-url'
+import { ensureFreshVaultData } from './vault-cache'
 
 /**
  * Label que o extractor grava em byType para docs content sem `type`
@@ -131,9 +132,12 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
 
 let catalogPromise: Promise<Catalog> | undefined
 
-/** Carrega o índice uma vez por sessão e constrói o catálogo. */
+/** Carrega o índice uma vez por sessão e constrói o catálogo. Antes do
+ *  índice, o check de FRESCOR purga o cache do SW se a database mudou
+ *  (ensureFreshVaultData) — senão o deploy só aparecia na visita seguinte. */
 export function fetchCatalog(): Promise<Catalog> {
-  catalogPromise ??= fetch(vaultUrl('index.json'))
+  catalogPromise ??= ensureFreshVaultData()
+    .then(() => fetch(vaultUrl('index.json')))
     .then((res) => {
       if (!res.ok) throw new Error(`index.json: HTTP ${res.status}`)
       return res.json() as Promise<IndexManifest>
