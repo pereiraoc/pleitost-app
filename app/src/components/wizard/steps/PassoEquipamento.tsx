@@ -320,7 +320,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
             <span style={{ fontWeight: 700, fontSize: 14.5 }}>{rotulo}</span>
             {desarmada ? (
               <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 2 }}>
-                Mão desarmada permite usar manobras.
+                Uma mão livre é necessária para usar magias e manobras.
               </span>
             ) : null}
           </span>
@@ -380,7 +380,18 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
 
       <WizSecao
         titulo="Selecione suas armas principais"
-        nota="Toque numa mão e escolha o que ela carrega — as MUITO RECOMENDADAS casam com os seus atributos e proficiências. Arma de 2 mãos ocupa as duas; a mão secundária também aceita um escudo; desarmado libera manobras."
+        nota={
+          <>
+            <span style={{ display: 'block', marginBottom: 8 }}>
+              Nenhum aventureiro parte pro perigo de mãos abanando: seu herói começa com armas
+              básicas pra se defender na estrada. Toque numa mão pra escolher o que ela carrega —
+              uma arma de 2 mãos ocupa as duas, e a mão secundária também aceita um escudo.
+            </span>
+            <span style={{ display: 'block' }}>
+              Outras armas podem ser adicionadas depois da criação, na página de Inventário.
+            </span>
+          </>
+        }
       >
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <SlotMao mao="principal" />
@@ -466,7 +477,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
       <WizSecao
         titulo="Selecione sua armadura"
         pendente={armaduraAtual === ''}
-        nota="A RECOMENDADA (já selecionada) segue sua proficiência e seus atributos — FOR pede pesada, AGI pede leve. Sem Armadura também é uma escolha válida."
+        nota="O que fica entre você e o golpe? Personagens de mais FORÇA se defendem melhor com armadura pesada; os de mais AGILIDADE preferem armadura leve — ou nenhuma, confiando na esquiva."
       >
         <WizCardLista
           ariaLabel="Armaduras"
