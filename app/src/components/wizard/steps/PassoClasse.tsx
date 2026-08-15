@@ -24,6 +24,7 @@ import { StarCell } from '../../../grupo/panel-ui'
 import { ROLE_META, type RoleName } from '../../../markdown/class-roles/role-meta'
 import { slugify } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
+import { TIER_STYLE } from '../../item-card'
 import { resetOnClasseChange } from '../reset'
 import {
   aliasesDeCompose,
@@ -437,26 +438,45 @@ const ROLE_NAME_BY_ID = new Map<string, RoleName>(
 /** Estrelas de PAPÉIS da escolha atual — a MESMA lógica da aba PAPÉIS do grupo
  *  (`Somar Papel.X` dos elementos de regra cascateado no FM derivado →
  *  papelValuesFromFm; StarCell do design; ROLE_META cor/descrição). Atualiza AO
- *  VIVO ao trocar a subclasse. Direto ao ponto, sem nota (#461 item 4). */
+ *  VIVO ao trocar a subclasse. Direto ao ponto, sem nota (#461 item 4).
+ *  #452 r10: cards ORDENADOS pelo valor atual (maior primeiro; empate mantém a
+ *  ordem do registro — sort estável) e MOLDURA discreta do TIER_STYLE das
+ *  imbuições por estrelas: 1★ aço (Adepto), 2★ prata (Experiente), 3★ ouro
+ *  (Mestre); 0★ segue no card neutro. */
 function PapeisPreview({ ctx }: { ctx: WizardCtx }) {
   const valores = papelValuesFromFm((ctx.rules?.derivedFm ?? ctx.fm) as Record<string, unknown>)
+  const ordenados = [...PAPEIS].sort((a, b) => valores[b] - valores[a])
   return (
     <WizSecao titulo="Papel no Grupo">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 8 }}>
-        {PAPEIS.map((p) => {
+        {ordenados.map((p) => {
           const nome = ROLE_NAME_BY_ID.get(p) ?? p
           const meta = ROLE_NAME_BY_ID.has(p) ? ROLE_META[ROLE_NAME_BY_ID.get(p)!] : null
+          const valor = valores[p]
+          const tier = valor >= 3 ? 'M' : valor === 2 ? 'E' : valor === 1 ? 'A' : null
+          const t = tier ? TIER_STYLE[tier] : null
           return (
             <div
               key={p}
               style={{
+                // Moldura: gradiente do tier na borda (padding + card por cima),
+                // sem glow — o clipPath cortaria e o pedido é "nada exagerado".
+                padding: t ? 1.5 : 0,
+                background: t?.grad,
+                clipPath: clip(8),
+              }}
+            >
+            <div
+              style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 6,
+                height: '100%',
+                boxSizing: 'border-box',
                 padding: '10px 12px',
-                background: 'var(--card)',
-                border: '1px solid var(--line2)',
-                clipPath: clip(8),
+                background: t ? t.tint : 'var(--card)',
+                border: t ? 'none' : '1px solid var(--line2)',
+                clipPath: clip(t ? 7 : 8),
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -478,6 +498,7 @@ function PapeisPreview({ ctx }: { ctx: WizardCtx }) {
               {meta ? (
                 <span style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.45 }}>{meta.desc}</span>
               ) : null}
+            </div>
             </div>
           )
         })}
