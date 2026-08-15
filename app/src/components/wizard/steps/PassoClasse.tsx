@@ -171,13 +171,17 @@ function Barra({
   ariaLabel: string
   children: React.ReactNode
 }) {
+  // Barra INFORMATIVA (#452 r13): o idioma de "não clicável" do app é o do
+  // EmptySlot — borda TRACEJADA + tinta esmaecida, sem o card sólido, pra não
+  // parecer uma opção selecionável. A marcada mantém o tom de accent suave.
+  const informativa = !onClick
   return (
     <button
       role="option"
       aria-selected={on}
       aria-label={ariaLabel}
       onClick={onClick}
-      disabled={!onClick}
+      disabled={informativa}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -188,9 +192,17 @@ function Barra({
         fontFamily: 'inherit',
         fontSize: 14,
         color: 'var(--text)',
-        background: on ? 'color-mix(in srgb,var(--accent) 13%,var(--card))' : 'var(--card)',
-        border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
-        cursor: onClick ? 'pointer' : 'default',
+        background: informativa
+          ? on
+            ? 'color-mix(in srgb,var(--accent) 8%,transparent)'
+            : 'color-mix(in srgb,var(--muted) 7%,transparent)'
+          : on
+            ? 'color-mix(in srgb,var(--accent) 13%,var(--card))'
+            : 'var(--card)',
+        border: informativa
+          ? `1px dashed ${on ? 'color-mix(in srgb,var(--accent) 55%,transparent)' : 'color-mix(in srgb,var(--muted) 55%,transparent)'}`
+          : `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
+        cursor: informativa ? 'default' : 'pointer',
         clipPath: clip(8),
       }}
     >
