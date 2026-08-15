@@ -10,7 +10,7 @@
 // Os "mostra nos detalhes" de todos os passos usam o canal de Detalhes
 // existente (useDetail) — a sidebar direita fica só com a face DETALHES
 // enquanto o wizard está ativo (AppShell/RightSidebar).
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { removeLocalEntity } from '../../data/local-entities'
 import { useHeroModel } from '../../data/useHeroModel'
@@ -18,13 +18,16 @@ import { useHeroRules } from '../../rules/useHeroRules'
 import type { VaultDoc } from '../../data/types'
 import type { HeroRefs } from '../ficha/useHeroRefs'
 import { fmPath, str } from '../ficha/hero-model'
-import { clip } from '../ficha/bits'
+import { clip, useWheelScrollX } from '../ficha/bits'
 import { wizardPasso } from './wizard-mode'
 import { WIZARD_STEPS, type WizardCtx } from './steps'
 import { ForcarDetalhesContext } from '../item-card'
 
 export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const navigate = useNavigate()
+  // r16: roda vertical do mouse rola as ABAS de progresso de lado (#334).
+  const barraRef = useRef<HTMLDivElement>(null)
+  useWheelScrollX(barraRef)
   const model = useHeroModel(doc, 'wizard')
   const rules = useHeroRules(model.fm)
   const ctx: WizardCtx = useMemo(
@@ -107,7 +110,7 @@ export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
       {/* Barra de progresso — chips numerados; clicar VOLTA livre (nunca pula
           pra frente além do gate). */}
-      <div className="tabs-scroll" style={{ display: 'flex', gap: 6, paddingBottom: 2 }}>
+      <div ref={barraRef} className="tabs-scroll" style={{ display: 'flex', gap: 6, paddingBottom: 2 }}>
         {visiveis.map(({ s, i }, pos) => {
           const feito = pos < posAtual
           const ativo = i === atualIdx
@@ -140,7 +143,9 @@ export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 clipPath: clip(6),
               }}
             >
-              <span>{feito ? '✓' : pos + 1}</span>
+              {/* r16: sem NÚMERO nos chips (ocupava espaço à toa) — só o ✓
+                  dos passos feitos. */}
+              {feito ? <span>✓</span> : null}
               <span>{s.titulo.toUpperCase()}</span>
             </button>
           )

@@ -1,7 +1,7 @@
 // Fragmentos visuais compartilhados da ficha — estilos VERBATIM do design
 // puxado (design/pulled/Companion App.dc.html). Cada componente replica um
 // pedaço repetido do markup do design; dados chegam prontos por props.
-import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode , useEffect} from 'react'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
 import { TipHover, sourceTipHtml } from './tooltips'
 import { useDetail } from '../../data/detail-context'
@@ -515,4 +515,23 @@ export function EditToggle({ edit, onToggle }: { edit: boolean; onToggle: () => 
       {edit ? '✓ Concluir' : '✎ Alterar'}
     </button>
   )
+}
+
+
+/** Roda VERTICAL do mouse → rolagem HORIZONTAL de um container .tabs-scroll
+ *  (o mesmo comportamento das abas do GrupoView #334). Passe o ref do
+ *  container; listener non-passive pra segurar o scroll da página. */
+export function useWheelScrollX(ref: React.RefObject<HTMLElement | null>): void {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+      if (el.scrollWidth <= el.clientWidth) return
+      el.scrollLeft += e.deltaY
+      e.preventDefault()
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [ref])
 }

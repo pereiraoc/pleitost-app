@@ -18,7 +18,7 @@ import {
   setLocalEntityFm,
   useLocalStoreVersion,
 } from '../../../data/local-entities'
-import { saveEntityImage, useEntityImageUrl } from '../../../data/images'
+import { useEntityImageUrl } from '../../../data/images'
 import { useHeroModel } from '../../../data/useHeroModel'
 import { useHeroRules } from '../../../rules/useHeroRules'
 import { sintoniaEmojiDe } from '../../../grupo/party'
@@ -29,8 +29,16 @@ import { PROF_LABEL } from '../../ficha/tooltips'
 import type { RankLetter } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
 import { PreviewCombate } from './PassoAtributos'
+import { LocalImageUpload } from '../../ficha/PerfilTab'
 import { docIdOf, WizCampo, WizCardLista, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
+
+/** Lore de abertura — texto da nota [[Companheiro Animal]] da vault, verbatim
+ *  (sem os wikilinks), no tom dos demais passos. */
+const LORE_COMPANHEIRO = [
+  'Você recebe um companheiro animal. As características do animal são determinadas pelo tipo. O tipo de animal é determinado pela sua sintonia: Ave (Vento/Fogo), Canino (Fogo/Terra), Ursino (Terra/Água) ou Felino (Água/Vento).',
+  'Companheiros animais são parceiros de Domadores, tendo uma conexão forte com o caçador. Um companheiro animal tem nível igual ao nível de seu Domador. Um Domador pode comandar seu companheiro para realizar ações que condizem com a capacidade intelectual de um animal. Em combate, um Domador pode, uma vez por turno, Comandar Animal.',
+]
 
 /** O herói comanda um animal? (decide a visibilidade do passo — a ação
  *  derivada é a fonte, concedida pela habilidade de Domador.) */
@@ -121,7 +129,19 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
       <WizSecao
         titulo="Companheiro Animal"
         pendente={!companheiroCompleto(ctx)}
-        nota="Seu herói comanda um animal — monte o companheiro aqui. O tutor já está definido (é o seu herói) e os dois nascem juntos ao concluir a criação; o nível do companheiro acompanha o do tutor."
+        nota={
+          <>
+            {LORE_COMPANHEIRO.map((p) => (
+              <span key={p} style={{ display: 'block', marginBottom: 8 }}>
+                {p}
+              </span>
+            ))}
+            <span style={{ display: 'block' }}>
+              O tutor já está definido (é o seu herói) e os dois nascem juntos ao concluir a
+              criação.
+            </span>
+          </>
+        }
       >
         {/* TUTOR travado — só informação, sem edição neste passo. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -147,6 +167,51 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
               definido pela criação
             </span>
           </span>
+        </div>
+      </WizSecao>
+
+      {/* r16: RETRATO + NOME logo após o tutor (pedido do usuário) — o
+          quadrado é o MESMO idioma do retrato do herói (PassoNome), com o
+          pipeline local-first LocalImageUpload/useEntityImageUrl. */}
+      <WizSecao titulo="Quem é seu companheiro?" pendente={str(caFm['nome']).trim() === ''}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 14, flexWrap: 'wrap' }}>
+          <span
+            style={{
+              width: 84,
+              height: 84,
+              flex: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 30,
+              overflow: 'hidden',
+              background: 'var(--panel2)',
+              border: '1px solid var(--line2)',
+              clipPath: clip(10),
+            }}
+          >
+            {imgUrl ? (
+              <img
+                src={imgUrl}
+                alt="Retrato do companheiro"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              '🐾'
+            )}
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <span style={{ ...wizTitulo, fontSize: 10 }}>IMAGEM DO COMPANHEIRO</span>
+            <LocalImageUpload id={caId} />
+          </div>
+          <div style={{ flex: '1 1 220px', minWidth: 0 }}>
+            <WizCampo
+              label="Nome do companheiro"
+              value={str(caFm['nome'])}
+              onChange={(v) => caModel.set('nome', v)}
+              placeholder="Rex, Nimbus, Malha…"
+            />
+          </div>
         </div>
       </WizSecao>
 
@@ -186,54 +251,6 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
           }
           onPick={(v) => caModel.set('Classe', v)}
         />
-      </WizSecao>
-
-      <WizSecao titulo="Nome e imagem" pendente={str(caFm['nome']).trim() === ''}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 12, alignItems: 'end' }}>
-          <WizCampo
-            label="Nome do companheiro"
-            value={str(caFm['nome'])}
-            onChange={(v) => caModel.set('nome', v)}
-            placeholder="Rex, Nimbus, Malha…"
-          />
-          {/* Retrato local-first: o upload grava no store sob o id da ENTIDADE
-              (useCreaturePortrait resolve igual em toda lista/ficha). */}
-          <label
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              cursor: 'pointer',
-              padding: '7px 12px',
-              background: 'var(--card)',
-              border: '1px solid var(--line2)',
-              clipPath: clip(7),
-            }}
-          >
-            {imgUrl ? (
-              <img
-                src={imgUrl}
-                alt="Retrato do companheiro"
-                style={{ width: 44, height: 44, objectFit: 'cover', clipPath: clip(6) }}
-              />
-            ) : (
-              <span style={{ fontSize: 22 }}>🐾</span>
-            )}
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.08em', color: 'var(--muted)' }}>
-              {imgUrl ? 'TROCAR IMAGEM' : 'ENVIAR IMAGEM'}
-            </span>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const f = e.target.files?.[0]
-                if (f && caId) void saveEntityImage(caId, f)
-                e.target.value = ''
-              }}
-            />
-          </label>
-        </div>
       </WizSecao>
 
       {/* Perícias concedidas pela cascata (leitura — no nível 1 não há slot a
