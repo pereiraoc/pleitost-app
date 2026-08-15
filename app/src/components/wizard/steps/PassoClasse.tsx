@@ -329,8 +329,14 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                     ) : null}
                     <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                       <span style={{ fontWeight: 700, marginRight: 'auto' }}>{o.label}</span>
-                      <Possibilidades builds={builds} atuais={atuais} />
-                      <MaisEstrelas nome={o.label} roles={somaClasse} />
+                      {/* #452 r12: papéis (possibilidades + "+★") só na classe
+                          SELECIONADA — as demais barras ficam só imagem+nome. */}
+                      {on ? (
+                        <>
+                          <Possibilidades builds={builds} atuais={atuais} />
+                          <MaisEstrelas nome={o.label} roles={somaClasse} />
+                        </>
+                      ) : null}
                     </span>
                     {on ? <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span> : null}
                   </Barra>
