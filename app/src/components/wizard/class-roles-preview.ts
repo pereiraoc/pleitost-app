@@ -65,6 +65,33 @@ export function somaPapeis(ruleElements: unknown): Partial<Record<RoleName, numb
 }
 
 /**
+ * Somas CONDICIONAIS por sintonia (#452 r9): `Condicional Sintonia,[[X]] Somar
+ * Papel.<Id> <N>` no doc da CLASSE — o que cada sintonia adiciona de papéis
+ * pra esta classe (Monge/Animista). Chave = TARGET do wikilink da condição
+ * ("Traço Elemental da Água"). Vazio pra classes sem condicionais (Mago).
+ */
+export function somaPapeisPorSintonia(
+  ruleElements: unknown,
+): Map<string, Partial<Record<RoleName, number>>> {
+  const lista = Array.isArray(ruleElements) ? ruleElements : []
+  const out = new Map<string, Partial<Record<RoleName, number>>>()
+  for (const el of lista) {
+    const m =
+      /Condicional\s+Sintonia\s*,\s*\[\[([^\]|]+)(?:\|[^\]]*)?\]\]\s+Somar\s+Papel\.([A-Za-zÀ-ÿ]+)\s+(\d+)/i.exec(
+        String(el),
+      )
+    if (!m) continue
+    const role = ROLE_POR_SLUG.get(semAcento(m[2]!))
+    if (!role) continue
+    const alvo = m[1]!.trim()
+    const soma = out.get(alvo) ?? {}
+    soma[role] = (soma[role] ?? 0) + Number(m[3])
+    out.set(alvo, soma)
+  }
+  return out
+}
+
+/**
  * Índices dos builds compatíveis com o que JÁ está definido (#452 r4 —
  * highlight da possibilidade atual): cada grupo de textos (pick de uma escolha
  * com seus aliases, ou a sintonia curta) precisa casar no nome do build.

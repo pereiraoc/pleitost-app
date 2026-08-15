@@ -19,7 +19,7 @@ import { useAssetIndex } from '../../../data/assets'
 import { creatureImageUrl } from '../../../data/creature-image'
 import { shortSintonia, str, wikiTarget } from '../../ficha/hero-model'
 import { applySubclassPick } from '../../ficha/HabilidadesTab'
-import { PAPEIS, papelValuesFromFm } from '../../../grupo/party'
+import { PAPEIS, papelValuesFromFm, sintoniaEmojiDe } from '../../../grupo/party'
 import { StarCell } from '../../../grupo/panel-ui'
 import { ROLE_META, type RoleName } from '../../../markdown/class-roles/role-meta'
 import { slugify } from '../../ficha/registry'
@@ -30,6 +30,7 @@ import {
   buildsDoCorpo,
   indicesDoBuildAtual,
   somaPapeis,
+  somaPapeisPorSintonia,
 } from '../class-roles-preview'
 import { docIdOf, WizSecao, WizThumb, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
@@ -41,11 +42,12 @@ import type { Build } from '../../../markdown/class-roles/parse'
 const ORDEM_GRUPOS_CLASSE = ['Conjurador', 'Marcialista', 'Híbrido']
 
 /** Gate do passo: classe escolhida + todo choice de subclasse com pick.
- *  Enquanto a projeção resolve (rules undefined) o avanço fica barrado —
- *  melhor segurar meio segundo do que deixar passar sem subclasse. */
+ *  Enquanto a projeção resolve (rules undefined OU re-extração no ar após
+ *  trocar a classe — `stale`) o avanço fica barrado — melhor segurar meio
+ *  segundo do que deixar passar com as escolhas da classe anterior. */
 export function classeCompleta(ctx: WizardCtx): boolean {
   if (str(ctx.fm['Classe']).trim() === '') return false
-  if (!ctx.rules) return false
+  if (!ctx.rules || ctx.rules.stale) return false
   return ctx.rules.subclassChoices.every((c) => !!c.pick)
 }
 
@@ -229,7 +231,10 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   // Docs das OPÇÕES de subclasse — os builds do class-roles nomeiam pelas
   // composições de alias ("Estudos do Vazio" compõe "Bruxo"); o match usa
   // rótulo + aliases (aliasesDeCompose sobre os ruleElements da nota).
-  const escolhasAll = rules?.subclassChoices ?? []
+  // Com a re-extração NO AR (classe recém-trocada, `stale`) as escolhas ainda
+  // são da classe ANTERIOR — esconde em vez de piscar as opções erradas por
+  // um instante embaixo da nova classe (#452 r9).
+  const escolhasAll = rules && !rules.stale ? rules.subclassChoices : []
   const opcaoIds = useMemo(
     () =>
       escolhasAll
@@ -277,6 +282,12 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
               const img = creatureImageUrl(doc, assets, true)
               // O que a CLASSE adiciona (+★, Somar Papel dos elementos dela).
               const somaClasse = somaPapeis(
+                (doc?.frontmatter as Record<string, unknown> | undefined)?.['Elementos_de_Regra'],
+              )
+              // Papéis definidos TAMBÉM pela sintonia (Condicional Sintonia no
+              // doc — Monge/Animista): o que cada sintonia adiciona pra ESTA
+              // classe (#452 r9).
+              const somaSintonia = somaPapeisPorSintonia(
                 (doc?.frontmatter as Record<string, unknown> | undefined)?.['Elementos_de_Regra'],
               )
               // HIGHLIGHT da possibilidade mapeada pelas escolhas atuais: picks
@@ -361,6 +372,49 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                           })}
                         </div>
                       ))
+                    : null}
+
+                  {/* SINTONIA indentada (#452 r9): classe cujos papéis também
+                      dependem da sintonia mostra as opções como barras, com a
+                      escolhida no passo anterior já marcada e o "+★" que cada
+                      uma adiciona PRA ESTA classe. Clicar grava o MESMO
+                      FM.Sintonia do passo 1 (ficam em sincronia). */}
+                  {on && !escolhasAll.length && somaSintonia.size > 0 && !rules?.sintoniaRuleLocked
+                    ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>SINTONIA</span>
+                          {(rules?.sintonias ?? []).map((opt) => {
+                            const optOn =
+                              wikiTarget(opt.value) === wikiTarget(str(fm['Sintonia']))
+                            const soma = somaSintonia.get(wikiTarget(opt.value)) ?? {}
+                            const ic = sintoniaEmojiDe(opt.value)
+                            return (
+                              <Barra
+                                key={opt.value}
+                                on={optOn}
+                                indent
+                                ariaLabel={opt.label}
+                                onClick={() => {
+                                  model.set('Sintonia', opt.value)
+                                  const id = docIdOf(catalog, opt.value)
+                                  if (id) detail?.open({ kind: 'doc', id })
+                                }}
+                              >
+                                <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
+                                  <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                                    {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
+                                    {opt.label}
+                                  </span>
+                                  <MaisEstrelas nome={opt.label} roles={soma} />
+                                </span>
+                                {optOn ? (
+                                  <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>
+                                ) : null}
+                              </Barra>
+                            )
+                          })}
+                        </div>
+                      )
                     : null}
                 </div>
               )

@@ -421,6 +421,11 @@ export interface LinkedOption {
 }
 
 export interface HeroProjection {
+  /** #452 r9: a extração desta projeção veio de um SEED antigo (ex.: a classe
+   *  acabou de trocar e o BFS fresco ainda não aterrissou) — consumidores que
+   *  listam ESCOLHAS derivadas (subclasses do wizard) escondem em vez de
+   *  mostrar as da classe anterior por um frame. Setado pelo useHeroRules. */
+  stale?: boolean
   /** Dropdown de Classe — vault scan (process-yaml-vault-scans.ts:50-55). */
   classes: LinkedOption[]
   /** #382: opções de Modificador do MONSTRO (Competente/Elite/Solo) — notas

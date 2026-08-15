@@ -210,7 +210,9 @@ export function AppShell() {
   // bloqueadas (o conteúdo é o wizard) e a sidebar direita mostra só DETALHES.
   const emWizard = wizardAtivo(heroDoc)
   // #302: abas com pendência (algo a preencher) — ponto no botão da sidebar.
-  const pendingTabs = usePendingTabs(heroDoc)
+  // Em CRIAÇÃO (wizard) não: as abas estão bloqueadas e o próprio wizard guia
+  // o preenchimento — a bolinha só confundiria (pedido do usuário, #452 r9).
+  const pendingTabs = usePendingTabs(emWizard ? undefined : heroDoc)
   // #378: personagem sem grupo (FM) e fora da sessão viva → o botão GRUPO
   // fica desabilitado (pedido do report: "não deixe clicável" em vez de cair
   // na mesa de outra sessão). Enquanto o doc carrega, segue clicável.

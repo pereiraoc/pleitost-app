@@ -195,6 +195,23 @@ describe('class-roles-preview (#452 r4) — somas e highlight', () => {
     expect(somaPapeis(undefined)).toEqual({})
   })
 
+  it('somaPapeisPorSintonia: condicionais do doc da classe viram +★ por sintonia (Monge, #452 r9)', async () => {
+    const { somaPapeisPorSintonia } = await import('../src/components/wizard/class-roles-preview')
+    const monge = [
+      'Somar Papel.Vanguarda 2',
+      'Condicional Sintonia,[[Traço Elemental do Fogo]] Somar Papel.Vanguarda 1',
+      'Condicional Sintonia,[[Traço Elemental do Vento]] Somar Papel.Abatedor 1',
+      'Condicional Sintonia,[[Traço Elemental da Água]] Somar Papel.Controlador 1',
+    ]
+    const porSintonia = somaPapeisPorSintonia(monge)
+    expect(porSintonia.get('Traço Elemental da Água')).toEqual({ Controlador: 1 })
+    expect(porSintonia.get('Traço Elemental do Vento')).toEqual({ Abatedor: 1 })
+    // o incondicional NÃO entra (é o +★ da própria classe)
+    expect(porSintonia.size).toBe(3)
+    // Mago (só incondicionais) → vazio: a seção SINTONIA nem aparece
+    expect(somaPapeisPorSintonia(['Somar Papel.Abatedor 2']).size).toBe(0)
+  })
+
   it('indicesDoBuildAtual: pick único casa 2 variantes; os 2 picks cravam UMA (fim do bug das 4★)', async () => {
     const { indicesDoBuildAtual } = await import('../src/components/wizard/class-roles-preview')
     // só "Manipulador" definido → destaca as 2 possibilidades compatíveis

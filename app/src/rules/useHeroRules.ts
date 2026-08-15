@@ -110,6 +110,10 @@ export function useHeroRules(fm: Record<string, unknown>): HeroProjection | unde
   // hora sem re-extrair. Só devolve `undefined` no 1º load (nenhuma extração).
   return useMemo(() => {
     if (!extract) return undefined
-    return buildHeroProjection(model, extract.result, catalog, fm)
-  }, [extract, model, catalog, fm])
+    const projection = buildHeroProjection(model, extract.result, catalog, fm)
+    // Key nova com extract da key velha = re-extração NO AR (trocou um seed,
+    // ex.: a classe) — a projeção segue viva pela última boa (#59), mas fica
+    // MARCADA pra quem não pode mostrar escolhas da classe anterior (#452 r9).
+    return { ...projection, stale: extract.key !== ruleKey }
+  }, [extract, model, catalog, fm, ruleKey])
 }
