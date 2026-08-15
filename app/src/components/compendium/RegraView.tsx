@@ -9,6 +9,7 @@
 // Personagem (Técnicas/Habilidades/…, que são páginas-índice dataview) — a
 // coluna de leitura renderiza ambas bem (o MarkdownBody avalia o dataview).
 import type { VaultDoc } from '../../data/types'
+import { linkIconForEntry } from '../../markdown/link-icon'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
@@ -30,7 +31,10 @@ export function RegraView({
     <article className={embedded ? 'doc-page doc-reading' : 'doc-page doc-reading page'}>
       {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       <header className="doc-header">
-        <h1>📕 {doc.basename}</h1>
+        {/* Emoji pela FACETA (supercharged): subtype decide — "Potência
+            Mágica" 🌟, "Energia Mágica" 🔷, o mesmo dos chips/links (#452 r8);
+            sem faceta casada, 📕 (o padrão histórico das Regras). */}
+        <h1>{linkIconForEntry(doc) || '📕'} {doc.basename}</h1>
         <span className="doc-type">Regra{doc.subtype ? ` · ${doc.subtype}` : ''}</span>
       </header>
       <div className="doc-reading-body">

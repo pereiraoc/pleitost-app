@@ -3096,12 +3096,16 @@ export function MagiasHabPanel({
   refs,
   sec,
   forceEdit,
+  semRecursos,
 }: {
   doc: VaultDoc
   refs: HeroRefs
   sec?: boolean
   /** Wizard (#452): abre direto em modo edição, sem o toggle. */
   forceEdit?: boolean
+  /** Wizard (#452 r8): esconde o painel "Recursos Mágicos" — os chips
+   *  clicáveis de Potência/EM do passo já cobrem (ficava repetido). */
+  semRecursos?: boolean
 }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'habilidades')
@@ -3248,6 +3252,7 @@ export function MagiasHabPanel({
 
   return (
     <>
+      {semRecursos ? null : (
       <div style={panel}>
         <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>Recursos Mágicos</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
@@ -3299,6 +3304,7 @@ export function MagiasHabPanel({
           </div>
         </div>
       </div>
+      )}
 
       <div style={panel}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 13 }}>
@@ -3325,6 +3331,11 @@ export function MagiasHabPanel({
               const nome = str(escola.Nome)
               const entries = listaEntries(escola.Lista)
               const isTesouro = nome === 'Tesouros'
+              // Slots Vazios: o saldo é do POOL GLOBAL (Magias.Slots vale pra
+              // todas as escolas) — renderiza numa escola SÓ, senão Arcana
+              // Negra + Branca mostram o mesmo slot livre duplicado (#452 r8).
+              const mostraVazios =
+                escolaIdx === escolas.findIndex((e) => str(e.Nome) !== 'Tesouros')
               // Cabeçalho da subcategoria só quando muda (Arcana Negra + Branca
               // ficam sob um único "Magias Arcana", como no design — #165).
               const showH2 =
@@ -3343,7 +3354,9 @@ export function MagiasHabPanel({
               // slot livre — pra mostrar seus slots VAZIOS (#75).
               const groupKeys = isTesouro
                 ? ['']
-                : RANK_GROUP_ORDER.filter((g) => byRank.has(g) || emptyOfRank(g) > 0)
+                : RANK_GROUP_ORDER.filter(
+                    (g) => byRank.has(g) || (mostraVazios && emptyOfRank(g) > 0),
+                  )
               return (
                 <div key={nome} style={{ marginBottom: 13 }}>
                   {showH2 ? (
@@ -3491,7 +3504,7 @@ export function MagiasHabPanel({
                           )
                         })}
                         {/* Slots VAZIOS do rank (#75) — só magias (Tesouros não usa slot). */}
-                        {!isTesouro
+                        {!isTesouro && mostraVazios
                           ? Array.from({ length: emptyOfRank(g) }, (_, i) => (
                               <EmptySlot key={`empty-${i}`} />
                             ))

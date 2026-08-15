@@ -19,7 +19,13 @@ import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
 import { useDetail } from '../data/detail-context'
 import { useSettings } from '../settings'
+import { createContext, useContext } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
+
+/** #452 (wizard): força TODO ItemHover/ConsumivelHover da subárvore a abrir o
+ *  doc nos DETALHES no clique, independente da preferência clickDetalhes — o
+ *  wizard inteiro navega por detalhes (o toque no celular não tem hover). */
+export const ForcarDetalhesContext = createContext(false)
 
 /** Estilo "metal" por tier: gradiente da moldura (borda), brilho (glow) e tint
  *  do fundo. Adepto = aço escuro; Experiente = prata; Mestre = ouro. Usado na
@@ -643,6 +649,7 @@ export function ItemHover({
   // abre nos DETALHES (direita) em vez de só o tooltip. Central AQUI: vale
   // pra técnicas/habilidades/ações/magias/tesouros (todo ItemHover da ficha).
   const { clickDetalhes } = useSettings()
+  const forcarDetalhes = useContext(ForcarDetalhesContext)
   let html: string | null = null
   if (doc) {
     // Sem tier explícito (ex.: habilidade/técnica/magia), deriva do RANK do doc —
@@ -665,7 +672,7 @@ export function ItemHover({
   }
   // `always`: o doc pode chegar async (refs) — manter o mesmo wrapper evita
   // remontar os filhos (ex.: <select> do Perfil) quando o card aparece.
-  const canOpen = (clickToOpen || clickDetalhes) && detail && doc
+  const canOpen = (clickToOpen || clickDetalhes || forcarDetalhes) && detail && doc
   return (
     <TipHover
       html={html}
@@ -702,13 +709,14 @@ export function ConsumivelHover({
   const assets = useAssetIndex()
   const detail = useDetail()
   const { clickDetalhes } = useSettings()
+  const forcarDetalhes = useContext(ForcarDetalhesContext)
   const html = !doc
     ? null
     : tier
       ? `<div class="shc-wrap">${itemCardHtml(doc, tier, docImageUrl(doc, tier, assets), true)}</div>`
       : allTiersCardHtml(doc, assets)
   // Mesma preferência do ItemHover: clique abre o consumível nos DETALHES.
-  const canOpen = clickDetalhes && detail && doc
+  const canOpen = (clickDetalhes || forcarDetalhes) && detail && doc
   return (
     <TipHover
       html={html}

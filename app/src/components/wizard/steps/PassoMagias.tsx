@@ -132,8 +132,8 @@ export function PassoMagias({ ctx }: { ctx: WizardCtx }) {
         />
       </div>
       <TipProvider>
-        <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} forceEdit />
-        {temSec ? <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} sec forceEdit /> : null}
+        <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} forceEdit semRecursos />
+        {temSec ? <MagiasHabPanel doc={ctx.doc} refs={ctx.refs} sec forceEdit semRecursos /> : null}
       </TipProvider>
     </WizSecao>
   )

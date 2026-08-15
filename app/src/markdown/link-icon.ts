@@ -16,8 +16,11 @@ function norm(s: string): string {
   return s.normalize('NFC').trim()
 }
 
-/** Emoji do link a partir da entrada de índice do doc-alvo (síncrono). */
-export function linkIconForEntry(entry: IndexDocEntry | undefined): string {
+/** Emoji do link a partir das facetas do doc-alvo (síncrono) — aceita a
+ *  entrada de índice OU o VaultDoc inteiro (mesmas facetas). */
+export function linkIconForEntry(
+  entry: Pick<IndexDocEntry, 'type' | 'subtype' | 'grupo'> | undefined,
+): string {
   if (!entry) return ''
   // grupo de arma vem como string ("cac-marcial"); grupo-membership (lista de
   // wikilinks) não casa nenhuma chave e cai fora.

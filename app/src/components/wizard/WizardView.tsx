@@ -20,6 +20,7 @@ import type { HeroRefs } from '../ficha/useHeroRefs'
 import { clip } from '../ficha/bits'
 import { wizardPasso } from './wizard-mode'
 import { WIZARD_STEPS, type WizardCtx } from './steps'
+import { ForcarDetalhesContext } from '../item-card'
 
 export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const navigate = useNavigate()
@@ -141,10 +142,13 @@ export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
         })}
       </div>
 
-      {/* Corpo do passo */}
-      <div key={atual.id}>
-        <atual.Component ctx={ctx} />
-      </div>
+      {/* Corpo do passo — TODO ItemHover aqui dentro abre os DETALHES no
+          clique (#452: o wizard inteiro navega por detalhes). */}
+      <ForcarDetalhesContext.Provider value={true}>
+        <div key={atual.id}>
+          <atual.Component ctx={ctx} />
+        </div>
+      </ForcarDetalhesContext.Provider>
 
       {/* Rodapé de navegação */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 6, borderTop: '1px solid var(--line)' }}>
