@@ -387,7 +387,7 @@ const ROLE_NAME_BY_ID = new Map<string, RoleName>(
 function PapeisPreview({ ctx }: { ctx: WizardCtx }) {
   const valores = papelValuesFromFm((ctx.rules?.derivedFm ?? ctx.fm) as Record<string, unknown>)
   return (
-    <WizSecao titulo="Papéis no grupo">
+    <WizSecao titulo="Papel no Grupo">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 8 }}>
         {PAPEIS.map((p) => {
           const nome = ROLE_NAME_BY_ID.get(p) ?? p

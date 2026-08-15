@@ -150,7 +150,7 @@ describe('modo wizard na FichaPage (#453)', () => {
       Wizard: { passo: 2 }, // passo 2 = Classe (Sintonia veio antes, #461)
     })
     renderFicha(id)
-    await screen.findByText('// PAPÉIS NO GRUPO', undefined, { timeout: 15000 })
+    await screen.findByText('// PAPEL NO GRUPO', undefined, { timeout: 15000 })
     // os 4 papéis do registro aparecem (cores/descrições do ROLE_META)
     for (const nome of ['LÍDER', 'CONTROLADOR', 'ABATEDOR', 'VANGUARDA']) {
       expect(screen.getByText(nome)).toBeTruthy()
