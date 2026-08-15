@@ -191,19 +191,39 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
             valor={String(stats.m ?? '—')}
           />
         </div>
-        {/* Defesas/resistências + sentidos + movimento preenchendo a horizontal. */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(104px,1fr))', gap: 8 }}>
-          {Object.entries(stats.defs).map(([nome, valor]) => (
-            <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtPlain(valor) : '—'} />
-          ))}
-          {Object.entries(stats.sns).map(([nome, valor]) => (
-            <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtSigned(valor) : '—'} />
-          ))}
-          <CombateCard
-            ic={(tokens.emojis.subcategoria as Record<string, string>)['Movimento'] ?? ''}
-            nome="Movimento"
-            valor={stats.sp != null ? fmtPlain(stats.sp) : '—'}
-          />
+        {/* Como no COMBATE: defesas/resistências num BLOCO e Percepção/
+            Intuição/Movimento noutro — sem espaço, o segundo bloco quebra
+            INTEIRO pra linha de baixo (não card por card). */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div
+            style={{
+              flex: '99 1 340px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4,minmax(0,1fr))',
+              gap: 8,
+            }}
+          >
+            {Object.entries(stats.defs).map(([nome, valor]) => (
+              <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtPlain(valor) : '—'} />
+            ))}
+          </div>
+          <div
+            style={{
+              flex: '1 1 250px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+              gap: 8,
+            }}
+          >
+            {Object.entries(stats.sns).map(([nome, valor]) => (
+              <CombateCard key={nome} ic={defesaEmoji(nome)} nome={nome} valor={valor != null ? fmtSigned(valor) : '—'} />
+            ))}
+            <CombateCard
+              ic={(tokens.emojis.subcategoria as Record<string, string>)['Movimento'] ?? ''}
+              nome="Movimento"
+              valor={stats.sp != null ? fmtPlain(stats.sp) : '—'}
+            />
+          </div>
         </div>
       </WizSecao>
     </div>
