@@ -97,6 +97,15 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // Report do usuário: clicar "Recarregar" no toast de update não fazia
+        // NADA (só um refresh manual atualizava). O updateSW(true) manda o
+        // SKIP_WAITING e recarrega no `controllerchange` — mas sem
+        // clientsClaim o SW novo ativava SEM assumir a página aberta, o
+        // evento nunca disparava e o reload não rodava. clientsClaim fecha o
+        // ciclo; skipWaiting segue false (o prompt continua mandando — nada
+        // ativa sozinho no meio da mesa).
+        clientsClaim: true,
+        skipWaiting: false,
         // NUNCA precachear o conteúdo da vault (254MB) — cache em runtime,
         // doc a doc, conforme navegado
         globIgnores: ['vault-data/**'],
