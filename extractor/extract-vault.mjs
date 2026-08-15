@@ -23,6 +23,7 @@ import { parseDoc } from "./parse-doc.mjs";
 export const FROZEN_PREFIXES = [
   "Sistema/Criaturas/Heróis",
   "Sistema/Criaturas/Grupos de Criaturas",
+  "Sistema/Criaturas/Companheiros Animais",
 ];
 export function isFrozenPath(relPosix) {
   return FROZEN_PREFIXES.some((p) => relPosix === p || relPosix.startsWith(p + "/"));

@@ -86,12 +86,12 @@ async function seedPreviousOut(out) {
   );
 }
 
-test("isFrozenPath cobre Heróis e Grupos de Criaturas (e nada além)", () => {
+test("isFrozenPath cobre Heróis, Grupos e Companheiros Animais (e nada além)", () => {
   assert.ok(isFrozenPath(`${HERO_DIR}/Carlos.md`));
   assert.ok(isFrozenPath(`${GRUPO_DIR}/A, B, C.md`));
+  assert.ok(isFrozenPath("Sistema/Criaturas/Companheiros Animais/Mera.md"));
   assert.ok(!isFrozenPath("Sistema/Criaturas/Bestiário/Goblin.md"));
-  assert.ok(!isFrozenPath("Sistema/Criaturas/Companheiros Animais/Mera.md"));
-  assert.equal(FROZEN_PREFIXES.length, 2);
+  assert.equal(FROZEN_PREFIXES.length, 3);
 });
 
 test("extract preserva Heróis/Grupos do OUT_DIR anterior e ignora os .md da vault", async () => {
