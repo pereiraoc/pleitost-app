@@ -54,9 +54,9 @@ export function equipamentoCompleto(ctx: WizardCtx): boolean {
 
 
 const BADGE_POR_NIVEL: Record<string, string> = {
+  extremamente: 'EXTREMAMENTE RECOMENDADA',
   muito: 'MUITO RECOMENDADA',
   recomendada: 'RECOMENDADA',
-  pouco: 'POUCO RECOMENDADA',
 }
 
 export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
@@ -199,7 +199,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     setMaoAberta(null)
   }
 
-  // — Cards do picker (ordenados: muito > recomendada > pouco > resto).
+  // — Cards do picker (ordenados: extremamente > muito > recomendada > resto).
   //   Ataque Desarmado fica FORA (é o default da mão vazia). —
   const cardsArmas: WizCardItem[] = useMemo(() => {
     const doFiltro = armas.filter(
@@ -226,7 +226,12 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
       img: weaponImageUrl(armaDocs?.get(a.id), assets, true),
       imgFull: weaponImageUrl(armaDocs?.get(a.id), assets, false),
       badge: r.nivel ? BADGE_POR_NIVEL[r.nivel] : undefined,
-      badgeCor: r.nivel === 'muito' ? 'var(--accent)' : 'var(--muted)',
+      badgeCor:
+        r.nivel === 'extremamente'
+          ? 'var(--accent)'
+          : r.nivel === 'muito'
+            ? 'color-mix(in srgb,var(--accent) 55%,var(--muted))'
+            : 'var(--muted)',
     }))
   }, [armas, filtro, hero, profArmas, armasEspecializadas, armaDocs, assets])
 
