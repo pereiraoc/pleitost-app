@@ -165,7 +165,9 @@ function Barra({
 }: {
   on: boolean
   indent?: boolean
-  onClick: () => void
+  /** Sem onClick a barra é INFORMATIVA (sintonia sob a classe, #452 r11):
+   *  mesmo visual, mas não clicável nem focável. */
+  onClick?: () => void
   ariaLabel: string
   children: React.ReactNode
 }) {
@@ -175,6 +177,7 @@ function Barra({
       aria-selected={on}
       aria-label={ariaLabel}
       onClick={onClick}
+      disabled={!onClick}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -187,7 +190,7 @@ function Barra({
         color: 'var(--text)',
         background: on ? 'color-mix(in srgb,var(--accent) 13%,var(--card))' : 'var(--card)',
         border: `1px solid ${on ? 'color-mix(in srgb,var(--accent) 55%,var(--line2))' : 'var(--line2)'}`,
-        cursor: 'pointer',
+        cursor: onClick ? 'pointer' : 'default',
         clipPath: clip(8),
       }}
     >
@@ -375,11 +378,11 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                       ))
                     : null}
 
-                  {/* SINTONIA indentada (#452 r9): classe cujos papéis também
-                      dependem da sintonia mostra as opções como barras, com a
-                      escolhida no passo anterior já marcada e o "+★" que cada
-                      uma adiciona PRA ESTA classe. Clicar grava o MESMO
-                      FM.Sintonia do passo 1 (ficam em sincronia). */}
+                  {/* SINTONIA indentada (#452 r9/r11): classe cujos papéis
+                      também dependem da sintonia mostra as opções como barras
+                      INFORMATIVAS (não clicáveis — trocar é lá no passo 1),
+                      com a escolhida já marcada e o "+★" que cada uma
+                      adiciona PRA ESTA classe. */}
                   {on && !escolhasAll.length && somaSintonia.size > 0 && !rules?.sintoniaRuleLocked
                     ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -390,17 +393,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                             const soma = somaSintonia.get(wikiTarget(opt.value)) ?? {}
                             const ic = sintoniaEmojiDe(opt.value)
                             return (
-                              <Barra
-                                key={opt.value}
-                                on={optOn}
-                                indent
-                                ariaLabel={opt.label}
-                                onClick={() => {
-                                  model.set('Sintonia', opt.value)
-                                  const id = docIdOf(catalog, opt.value)
-                                  if (id) detail?.open({ kind: 'doc', id })
-                                }}
-                              >
+                              <Barra key={opt.value} on={optOn} indent ariaLabel={opt.label}>
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                                     {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
