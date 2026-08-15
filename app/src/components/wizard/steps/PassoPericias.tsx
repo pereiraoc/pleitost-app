@@ -35,12 +35,31 @@ export function periciasCompletas(ctx: WizardCtx): boolean {
   }).globalOk
 }
 
+/** Lore de abertura do passo (texto do usuário, verbatim). */
+const LORE_PERICIAS = [
+  'Cada personagem tem um conjunto de perícias determinados pelo seu nível, classe e INT. Perícias são usadas para determinar a chance de sucesso de certas ações durante o jogo, representando o treinamento e experiência do personagem em certas situações.',
+  'O nível de Proficiência do personagem na perícia define o quão treinado ou experiente ele é nesse ramo. Adicionalmente, cada perícia tem um atributo associado, que potencializa o efeito da perícia, como se fosse o “talento nato” do personagem para essa.',
+  'Um personagem pode ser Adepto, Experiente ou Mestre com uma perícia, assim como em ataques, Defesas e Sentidos. A Proficiência na perícia, somada ao atributo-chave da perícia, totalizam o modificador de perícia de um personagem.',
+]
+
 export function PassoPericias({ ctx }: { ctx: WizardCtx }) {
   return (
     <WizSecao
       titulo="Perícias"
       pendente={!periciasCompletas(ctx)}
-      nota="Gaste os slots disponíveis subindo os ranks — o saldo aparece no rodapé. Toque no nome de uma perícia pra abrir a regra nos detalhes."
+      nota={
+        <>
+          {LORE_PERICIAS.map((p) => (
+            <span key={p} style={{ display: 'block', marginBottom: 8 }}>
+              {p}
+            </span>
+          ))}
+          <span style={{ display: 'block' }}>
+            Gaste os slots disponíveis subindo os ranks — o saldo aparece no rodapé. Toque no nome
+            de uma perícia pra abrir a regra nos detalhes.
+          </span>
+        </>
+      }
     >
       {/* TipProvider: os tooltips do painel dependem do overlay singleton que
           na aba COMPETÊNCIAS vive na raiz do tab (#465 item 16). */}
