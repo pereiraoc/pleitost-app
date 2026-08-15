@@ -11,6 +11,7 @@ import { abaFichaVisivel, familiaOf } from '../../data/familia'
 import { useCatalog } from '../../data/CatalogContext'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
+import { useMaterializaAliasClasse } from './materialize-alias'
 import type { VaultDoc } from '../../data/types'
 import { GrupoView } from '../../grupo/GrupoView'
 import { MESA_GRUPO_ID, characterNaSessao, useLiveSession } from '../../data/session-repo/live-session'
@@ -181,6 +182,9 @@ export function FichaPage() {
   const model = useHeroModel(doc ?? STUB_DOC, 'refs')
   const rules = useHeroRules(model.fm)
   const refs = useHeroRefs(doc, rules?.derivedFm ?? model.fm)
+  // Alias composto da Classe materializa no FM SALVO do herói local (a lista
+  // lê o salvo — sem isso o título de nível 4/7 nunca aparece lá).
+  useMaterializaAliasClasse(doc ?? STUB_DOC, model, rules)
 
   // #305: herói LOCAL que não existe mais (deletado) → volta pra lista em vez de
   // um beco sem saída "não encontrado". Vault (read-only) mantém a mensagem —
