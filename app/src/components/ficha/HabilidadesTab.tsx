@@ -3230,9 +3230,10 @@ export function MagiasHabPanel({
     model.set(LISTA_KEY, removeMagiaFromEscola(savedEscolasOf(), escolaNome, target))
   }
 
-  // Regra do compêndio de Potência Mágica e EM (Energia Heroica) — tooltip do
-  // corpo no hover do rótulo (#112).
-  const emPotenciaDoc = useNamedDocs(['Potência Mágica', 'Energia Heroica'])
+  // Regra do compêndio de Potência Mágica e EM — tooltip do corpo no hover do
+  // rótulo (#112). Report do usuário (#452 r7): o EM Máximo apontava pra
+  // ENERGIA HEROICA (EH) por engano — a nota certa é ENERGIA MÁGICA.
+  const emPotenciaDoc = useNamedDocs(['Potência Mágica', 'Energia Mágica'])
 
   // Gate de conteúdo da Secundária — espelho de hasMagiasContent do plugin
   // (tab-magias.ts:83-88): prof ≠ N, magia aprendida, slot ou EM ≥ 1; Potência
@@ -3281,7 +3282,7 @@ export function MagiasHabPanel({
                 flex: 'none',
               }}
             />
-            <ItemHover doc={emPotenciaDoc('Energia Heroica')} fullBody>
+            <ItemHover doc={emPotenciaDoc('Energia Mágica')} fullBody>
               <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
                 EM Máximo
               </span>

@@ -99,6 +99,36 @@ export function WizThumb({
   )
 }
 
+/** Chip de proficiência no idioma do card Equipamentos de COMPETÊNCIAS
+ *  (emoji do registro + nome). `onClick` abre a nota nos DETALHES (magias,
+ *  #452 r7). Compartilhado entre os passos de Equipamento e Magias. */
+export function ProfChip({ ic, nome, onClick }: { ic: string; nome: string; onClick?: () => void }) {
+  const Tag = onClick ? 'button' : 'span'
+  return (
+    <Tag
+      onClick={onClick}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        fontFamily: 'var(--mono)',
+        fontSize: 10,
+        fontWeight: 700,
+        letterSpacing: '.06em',
+        padding: '5px 10px',
+        color: 'var(--accent)',
+        background: 'color-mix(in srgb,var(--accent) 10%,var(--card))',
+        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+        cursor: onClick ? 'pointer' : 'default',
+        clipPath: clip(5),
+      }}
+    >
+      <span style={{ fontSize: 12 }}>{ic}</span>
+      {nome.toUpperCase()}
+    </Tag>
+  )
+}
+
 export interface WizCardItem {
   id: string
   titulo: string

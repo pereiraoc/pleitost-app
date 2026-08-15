@@ -33,7 +33,7 @@ import { escudoImageUrl } from '../../../data/equipment-image'
 import { useInterativaCtx } from '../../../interativa/useInterativaCtx'
 import { wikilinkBasename } from '../../../rules/wikilink'
 import { clip } from '../../ficha/bits'
-import { WizCardLista, WizPillBtn, WizSecao, WizThumb, wizTitulo, type WizCardItem } from '../bits'
+import { ProfChip, WizCardLista, WizPillBtn, WizSecao, WizThumb, wizTitulo, type WizCardItem } from '../bits'
 import type { WizardCtx } from '../steps'
 import type { RankLetter } from '../../ficha/registry'
 
@@ -52,32 +52,6 @@ export function equipamentoCompleto(ctx: WizardCtx): boolean {
   return str(fmPath(ctx.fm, 'Inventario', 'Armadura', 'Nome')).trim() !== ''
 }
 
-/** Chip de proficiência no idioma do card Equipamentos de COMPETÊNCIAS
- *  (EQUIP_TYPES: emoji do registro + nome) — só as que o herói TEM aparecem
- *  (pedido do usuário: sem poluição com o que não é proficiente). */
-function ProfChip({ ic, nome }: { ic: string; nome: string }) {
-  return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        fontFamily: 'var(--mono)',
-        fontSize: 10,
-        fontWeight: 700,
-        letterSpacing: '.06em',
-        padding: '5px 10px',
-        color: 'var(--accent)',
-        background: 'color-mix(in srgb,var(--accent) 10%,var(--card))',
-        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-        clipPath: clip(5),
-      }}
-    >
-      <span style={{ fontSize: 12 }}>{ic}</span>
-      {nome.toUpperCase()}
-    </span>
-  )
-}
 
 const BADGE_POR_NIVEL: Record<string, string> = {
   muito: 'MUITO RECOMENDADA',
