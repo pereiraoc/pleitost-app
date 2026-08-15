@@ -22,16 +22,14 @@ import { applySubclassPick } from '../../ficha/HabilidadesTab'
 import { PAPEIS, papelValuesFromFm } from '../../../grupo/party'
 import { StarCell } from '../../../grupo/panel-ui'
 import { ROLE_META, type RoleName } from '../../../markdown/class-roles/role-meta'
-import { RoleToken } from '../../../markdown/class-roles/ClassRolesFence'
 import { slugify } from '../../ficha/registry'
 import { clip } from '../../ficha/bits'
 import { resetOnClasseChange } from '../reset'
 import {
   aliasesDeCompose,
   buildsDoCorpo,
-  papeisDaClasseSemSubclasse,
+  buildsFiltradosPorSintonia,
   papeisDaOpcao,
-  uniaoMaxima,
 } from '../class-roles-preview'
 import { docIdOf, WizSecao, WizThumb, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
@@ -51,14 +49,56 @@ export function classeCompleta(ctx: WizardCtx): boolean {
   return ctx.rules.subclassChoices.every((c) => !!c.pick)
 }
 
-/** Fileira compacta de RoleTokens (nome + ★×peso na cor do papel). */
-function Papeizinhos({ roles }: { roles: Partial<Record<RoleName, number>> }) {
-  const entries = Object.entries(roles) as [RoleName, number][]
+/** UMA possibilidade de combinação como ESTRELAS PURAS (sem nome de papel):
+ *  ★×peso na cor de cada papel (ROLE_META), pesos em ordem decrescente —
+ *  sempre 3 estrelas no total (os builds somam 3). O tooltip nativo explica de
+ *  onde vêm ("Monge (Água): Vanguarda ★★ · Controlador ★"). */
+function EstrelasPossibilidade({
+  nome,
+  roles,
+}: {
+  nome: string
+  roles: Partial<Record<RoleName, number>>
+}) {
+  const entries = (Object.entries(roles) as [RoleName, number][]).sort((a, b) => b[1] - a[1])
   if (!entries.length) return null
+  const tooltip = `${nome}: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
   return (
-    <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'flex-end', fontSize: 11.5 }}>
+    <span
+      title={tooltip}
+      aria-label={tooltip}
+      style={{ display: 'inline-flex', alignItems: 'center', letterSpacing: '1px', cursor: 'help', fontSize: 13 }}
+    >
       {entries.map(([role, value]) => (
-        <RoleToken key={role} role={role} value={value} />
+        <span key={role} style={{ color: ROLE_META[role].color }}>
+          {'★'.repeat(value)}
+        </span>
+      ))}
+    </span>
+  )
+}
+
+/** As POSSIBILIDADES da classe lado a lado, separadas por divisórias — uma por
+ *  build do bloco class-roles (Arcanista: ★★★ verdes | ★★★ roxas; Monge: 3
+ *  combinações; …). */
+function Possibilidades({ builds }: { builds: Build[] }) {
+  if (!builds.length) return null
+  return (
+    <span style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 7, justifyContent: 'flex-end' }}>
+      {builds.map(([nome, roles], i) => (
+        <span key={nome} style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+          {i > 0 ? (
+            <span
+              aria-hidden
+              style={{
+                width: 0,
+                alignSelf: 'stretch',
+                borderLeft: '1px solid color-mix(in srgb,var(--muted) 45%,transparent)',
+              }}
+            />
+          ) : null}
+          <EstrelasPossibilidade nome={nome} roles={roles} />
+        </span>
       ))}
     </span>
   )
@@ -169,6 +209,10 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
 
   return (
     <div>
+      {/* #452 r3: os PAPÉIS ficam NO TOPO e aparecem SEMPRE (zerados antes da
+          classe) — o jogador acompanha as estrelas enchendo conforme escolhe. */}
+      <PapeisPreview ctx={ctx} />
+
       <WizSecao
         titulo="Escolha sua Classe"
         pendente={pendente}
@@ -182,12 +226,13 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
               const doc = o.id ? classDocs?.get(o.id) : undefined
               const builds = buildsDe(o.id)
               const img = creatureImageUrl(doc, assets, true)
-              // Barra fechada: UNIÃO das possibilidades; selecionada SEM
-              // subclasses: a variante da SINTONIA (autocontido, #461 item 2).
-              const roles =
+              // Barra: as POSSIBILIDADES da classe (uma por build, divisórias);
+              // selecionada SEM subclasses (Monge/Mago) → restringe pela
+              // SINTONIA já escolhida (uma possibilidade só).
+              const buildsVisiveis =
                 on && !escolhasAll.length && builds.length
-                  ? papeisDaClasseSemSubclasse(builds, sintoniaCurta)
-                  : uniaoMaxima(builds)
+                  ? buildsFiltradosPorSintonia(builds, sintoniaCurta)
+                  : builds
               return (
                 <div key={o.value} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={o.label}>
@@ -201,7 +246,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                     ) : null}
                     <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                       <span style={{ fontWeight: 700, marginRight: 'auto' }}>{o.label}</span>
-                      <Papeizinhos roles={roles} />
+                      <Possibilidades builds={buildsVisiveis} />
                     </span>
                     {on ? <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span> : null}
                   </Barra>
@@ -233,7 +278,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                               >
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto' }}>{opt.label}</span>
-                                  {optRoles ? <Papeizinhos roles={optRoles} /> : null}
+                                  {optRoles ? <EstrelasPossibilidade nome={opt.label} roles={optRoles} /> : null}
                                 </span>
                                 {optOn ? (
                                   <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>
@@ -252,7 +297,6 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
         {!rules ? <span style={{ fontSize: 12, color: 'var(--muted)' }}>Carregando classes…</span> : null}
       </WizSecao>
 
-      {classeAtual ? <PapeisPreview ctx={ctx} /> : null}
     </div>
   )
 }

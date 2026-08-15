@@ -95,3 +95,14 @@ export function papeisDaClasseSemSubclasse(
   }
   return uniaoMaxima(builds)
 }
+
+/**
+ * Restringe as POSSIBILIDADES de uma classe sem subclasse pela sintonia (#452
+ * r3: Monge selecionado com Água mostra só "Monge (Água)") — sem match/sem
+ * sintonia mantém todas (o jogador ainda vê o leque).
+ */
+export function buildsFiltradosPorSintonia(builds: Build[], sintoniaCurta: string): Build[] {
+  if (builds.length <= 1 || !sintoniaCurta) return builds
+  const match = builds.filter(([nome]) => contem(nome, sintoniaCurta))
+  return match.length ? match : builds
+}
