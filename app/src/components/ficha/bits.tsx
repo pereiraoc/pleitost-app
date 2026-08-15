@@ -101,6 +101,10 @@ export function TabStrip({
   pad?: string
   right?: ReactNode
 }) {
+  // Roda vertical do mouse rola as abas de lado quando não cabem (pedido
+  // 2026-08-15 — algumas filas tinham, outras não; agora é do componente).
+  const stripRef = useRef<HTMLDivElement>(null)
+  useWheelScrollX(stripRef)
   return (
     <div
       style={{
@@ -113,6 +117,7 @@ export function TabStrip({
           lado — a FILA de abas é um scroller horizontal (arrastável no toque, sem
           barra visível); o `right` fica FIXO fora do scroll. */}
       <div
+        ref={stripRef}
         className="tabs-scroll"
         style={{ display: 'flex', alignItems: 'center', gap: 2, flex: '1 1 auto', minWidth: 0 }}
       >

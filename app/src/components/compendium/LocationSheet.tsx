@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
@@ -6,6 +6,7 @@ import { InlineFieldValue } from './InlineFieldValue'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
+import { useWheelScrollX } from '../ficha/bits'
 import { DocRuleElements } from './RuleElements'
 import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren, type AtlasRelations } from './AtlasNav'
 import { compendioKicker } from '../layout/design-nav'
@@ -666,6 +667,9 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   const prontaTab = prontaDe(subTab)
   const encomendaTab = encomendaDe(subTab)
 
+  // roda do mouse rola as sub-abas de lado (pedido 2026-08-15)
+  const shopTabsRef = useRef<HTMLDivElement>(null)
+  useWheelScrollX(shopTabsRef)
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
@@ -705,7 +709,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
 
       {/* Sub-abas ARMAS | EQUIPAMENTOS | POÇÕES. */}
       {shop ? (
-        <div role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
+        <div ref={shopTabsRef} role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
           <SubTabBtn active={subTab === 'armas'} onClick={() => setSubTab('armas')}>ARMAS</SubTabBtn>
           <SubTabBtn active={subTab === 'equip'} onClick={() => setSubTab('equip')}>EQUIPAMENTOS</SubTabBtn>
           <SubTabBtn active={subTab === 'pocoes'} onClick={() => setSubTab('pocoes')}>POÇÕES</SubTabBtn>
@@ -905,6 +909,9 @@ export function LocationSheet({
   const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
   const img = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
 
+  // roda do mouse rola a fila de abas de lado (pedido 2026-08-15)
+  const locTabsRef = useRef<HTMLDivElement>(null)
+  useWheelScrollX(locTabsRef)
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {/* Na sidebar/embutido o kicker "Compêndio do Sistema" só polui — some. */}
@@ -926,7 +933,7 @@ export function LocationSheet({
 
       {/* Fila de abas — mesmo padrão dos grupoTabs (mono/underline accent) com a
           convenção :disabled existente (opacity .38, cursor default). */}
-      <div role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
+      <div ref={locTabsRef} role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
         {tabs.map((t) => {
           // F7 (#347): Comércio gateado pela PARADA ATUAL do grupo — só a
           // posição libera a compra; mestre sempre pode. Informação do
