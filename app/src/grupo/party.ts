@@ -131,7 +131,12 @@ const strip = (s: string) =>
  */
 export function sintoniaEmoji(doc: VaultDoc | undefined): string | null {
   const raw = doc?.frontmatter['Sintonia']
-  if (typeof raw !== 'string') return null
+  return typeof raw === 'string' ? sintoniaEmojiDe(raw) : null
+}
+
+/** Variante por VALOR cru ("[[Traço Elemental do Fogo|Fogo]]") — o wizard de
+ *  criação usa nas barras de sintonia (registro tokens.emojis.sintonia). */
+export function sintoniaEmojiDe(raw: string): string | null {
   const target = WIKILINK.exec(raw)?.[1] ?? raw
   const normalized = strip(target)
   for (const [key, emoji] of Object.entries(tokens.emojis.sintonia)) {

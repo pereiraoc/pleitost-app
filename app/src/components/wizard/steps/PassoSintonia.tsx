@@ -1,13 +1,22 @@
-// PASSO 2 — SINTONIA APARENTE (#452 §2, issue #455).
+// PASSO 1 — SINTONIA APARENTE (#452 §2, #455; lore + emojis no r3).
 //
 // Cards das sintonias da projeção (`rules.sintonias` — Traços raiz com alias
-// curto, mesma fonte do dropdown da ficha). SEM o pareamento de atributos
-// (decisão do usuário: aquilo é legado). Se uma REGRA define a Sintonia
-// (sintoniaRuleLocked), o passo vira informativo e o gate libera.
+// curto, mesma fonte do dropdown da ficha), cada um com o emoji do ELEMENTO
+// do registro central (tokens.emojis.sintonia via sintoniaEmojiDe — o mesmo
+// da ficha de grupo). SEM o pareamento de atributos (decisão do usuário:
+// aquilo é legado). Se uma REGRA define a Sintonia (sintoniaRuleLocked), o
+// passo vira informativo e o gate libera.
 import { str, wikiTarget } from '../../ficha/hero-model'
 import { useCatalog } from '../../../data/CatalogContext'
+import { sintoniaEmojiDe } from '../../../grupo/party'
 import { docIdOf, WizCardLista, WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
+
+/** Lore de abertura do passo (texto do usuário, verbatim). */
+const LORE_SINTONIA = [
+  'Neste mundo, algumas pessoas nascem em sintonia com os elementos primordiais. Muitos acabam sendo os melhores em seus respectivos trabalhos, ou até mesmo utilizam essa abertura para aprender melhor sobre os elementos.',
+  'Aventureiros via de regra tem alguma sintonia aparente. Neste mundo perigoso, acaba-se tornando uma expectativa da sociedade que pessoas “abençoadas” por uma sintonia aparente façam os trabalhos mais arriscados, em nome do bem comum.',
+]
 
 export function sintoniaCompleta(ctx: WizardCtx): boolean {
   return str(ctx.fm['Sintonia']).trim() !== '' || !!ctx.rules?.sintoniaRuleLocked
@@ -34,13 +43,27 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
     <WizSecao
       titulo="Escolha sua Sintonia Aparente"
       pendente={!sintoniaCompleta(ctx)}
-      nota="A sintonia é o elemento que corre no seu sangue — ela colore quem você é e pesa em algumas classes (o Monge, por exemplo, luta diferente em cada uma). Toque numa sintonia pra ler os detalhes antes de escolher."
+      nota={
+        <>
+          {LORE_SINTONIA.map((p) => (
+            <span key={p} style={{ display: 'block', marginBottom: 8 }}>
+              {p}
+            </span>
+          ))}
+          <span style={{ display: 'block' }}>
+            A sintonia colore quem você é e pesa em algumas classes (o Monge, por exemplo, luta
+            diferente em cada uma). Toque numa sintonia pra ler os detalhes antes de escolher.
+          </span>
+        </>
+      }
     >
       <WizCardLista
         ariaLabel="Sintonias disponíveis"
         itens={(rules?.sintonias ?? []).map((o) => ({
           id: o.value,
           titulo: o.label,
+          // Emoji do ELEMENTO (registro central, o mesmo da ficha de grupo).
+          ic: sintoniaEmojiDe(o.value) ?? undefined,
           detalheId: docIdDe(o.value),
         }))}
         selecionado={
