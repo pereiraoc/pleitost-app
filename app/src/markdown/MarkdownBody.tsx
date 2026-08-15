@@ -14,6 +14,7 @@ import { linkIconForEntry } from './link-icon'
 import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
+import { truncarCorpoEmDesenvolvimento } from './em-desenvolvimento'
 import { stripLeadingTitle } from './strip-leading-title'
 import {
   FOLDER_NOTE_SUPPRESSED_FENCES,
@@ -43,7 +44,9 @@ export function MarkdownBody({
   const catalog = useCatalog()
   const { linkIcons } = useSettings()
   const body = useMemo(() => {
-    const stripped = stripComments(doc.body)
+    // Traços Elementais em desenvolvimento: corta o corpo na barra horizontal
+    // (ver em-desenvolvimento.ts — temporário).
+    const stripped = truncarCorpoEmDesenvolvimento(doc, stripComments(doc.body))
     const titled = hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
     // #275: colapsa a `#subpath` das transclusões de nota ANTES do parse (senão
     // o inline code da seção fragmenta o embed e nada casa).
