@@ -28,8 +28,8 @@ import { resetOnClasseChange } from '../reset'
 import {
   aliasesDeCompose,
   buildsDoCorpo,
-  buildsFiltradosPorSintonia,
-  papeisDaOpcao,
+  indicesDoBuildAtual,
+  somaPapeis,
 } from '../class-roles-preview'
 import { docIdOf, WizSecao, WizThumb, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
@@ -52,13 +52,16 @@ export function classeCompleta(ctx: WizardCtx): boolean {
 /** UMA possibilidade de combinação como ESTRELAS PURAS (sem nome de papel):
  *  ★×peso na cor de cada papel (ROLE_META), pesos em ordem decrescente —
  *  sempre 3 estrelas no total (os builds somam 3). O tooltip nativo explica de
- *  onde vêm ("Monge (Água): Vanguarda ★★ · Controlador ★"). */
+ *  onde vêm ("Monge (Água): Vanguarda ★★ · Controlador ★"). `on` destaca a
+ *  possibilidade MAPEADA pelas escolhas atuais (#452 r4). */
 function EstrelasPossibilidade({
   nome,
   roles,
+  on,
 }: {
   nome: string
   roles: Partial<Record<RoleName, number>>
+  on?: boolean
 }) {
   const entries = (Object.entries(roles) as [RoleName, number][]).sort((a, b) => b[1] - a[1])
   if (!entries.length) return null
@@ -67,7 +70,18 @@ function EstrelasPossibilidade({
     <span
       title={tooltip}
       aria-label={tooltip}
-      style={{ display: 'inline-flex', alignItems: 'center', letterSpacing: '1px', cursor: 'help', fontSize: 13 }}
+      data-possibilidade-atual={on ? '' : undefined}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        letterSpacing: '1px',
+        cursor: 'help',
+        fontSize: 13,
+        padding: '1px 5px',
+        borderRadius: 5,
+        background: on ? 'color-mix(in srgb,var(--accent) 22%,transparent)' : 'transparent',
+        boxShadow: on ? 'inset 0 0 0 1px color-mix(in srgb,var(--accent) 65%,transparent)' : 'none',
+      }}
     >
       {entries.map(([role, value]) => (
         <span key={role} style={{ color: ROLE_META[role].color }}>
@@ -78,15 +92,50 @@ function EstrelasPossibilidade({
   )
 }
 
-/** As POSSIBILIDADES da classe lado a lado, separadas por divisórias — uma por
- *  build do bloco class-roles (Arcanista: ★★★ verdes | ★★★ roxas; Monge: 3
- *  combinações; …). */
-function Possibilidades({ builds }: { builds: Build[] }) {
-  if (!builds.length) return null
+/** O que uma nota ADICIONA de papéis: "+" + estrelinhas coloridas (Somar
+ *  Papel.X dos elementos de regra). Tooltip explica a soma. */
+function MaisEstrelas({ nome, roles }: { nome: string; roles: Partial<Record<RoleName, number>> }) {
+  const entries = (Object.entries(roles) as [RoleName, number][]).sort((a, b) => b[1] - a[1])
+  if (!entries.length) return null
+  const tooltip = `${nome} adiciona: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
   return (
-    <span style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 7, justifyContent: 'flex-end' }}>
+    <span
+      title={tooltip}
+      aria-label={tooltip}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 1, cursor: 'help', fontSize: 13, letterSpacing: '1px' }}
+    >
+      <span style={{ color: 'var(--muted)', fontWeight: 700, fontSize: 12 }}>+</span>
+      {entries.map(([role, value]) => (
+        <span key={role} style={{ color: ROLE_META[role].color }}>
+          {'★'.repeat(value)}
+        </span>
+      ))}
+    </span>
+  )
+}
+
+/** As POSSIBILIDADES da classe num containerzinho, separadas por divisórias —
+ *  uma por build do class-roles, com HIGHLIGHT nas compatíveis com as escolhas
+ *  atuais (`atuais`). */
+function Possibilidades({ builds, atuais }: { builds: Build[]; atuais: number[] }) {
+  if (!builds.length) return null
+  const marcadas = new Set(atuais.length < builds.length ? atuais : [])
+  return (
+    <span
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: 6,
+        justifyContent: 'flex-end',
+        padding: '3px 7px',
+        border: '1px solid var(--line2)',
+        borderRadius: 7,
+        background: 'var(--panel2)',
+      }}
+    >
       {builds.map(([nome, roles], i) => (
-        <span key={nome} style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+        <span key={nome} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
           {i > 0 ? (
             <span
               aria-hidden
@@ -97,7 +146,7 @@ function Possibilidades({ builds }: { builds: Build[] }) {
               }}
             />
           ) : null}
-          <EstrelasPossibilidade nome={nome} roles={roles} />
+          <EstrelasPossibilidade nome={nome} roles={roles} on={marcadas.has(i)} />
         </span>
       ))}
     </span>
@@ -226,13 +275,32 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
               const doc = o.id ? classDocs?.get(o.id) : undefined
               const builds = buildsDe(o.id)
               const img = creatureImageUrl(doc, assets, true)
-              // Barra: as POSSIBILIDADES da classe (uma por build, divisórias);
-              // selecionada SEM subclasses (Monge/Mago) → restringe pela
-              // SINTONIA já escolhida (uma possibilidade só).
-              const buildsVisiveis =
-                on && !escolhasAll.length && builds.length
-                  ? buildsFiltradosPorSintonia(builds, sintoniaCurta)
-                  : builds
+              // O que a CLASSE adiciona (+★, Somar Papel dos elementos dela).
+              const somaClasse = somaPapeis(
+                (doc?.frontmatter as Record<string, unknown> | undefined)?.['Elementos_de_Regra'],
+              )
+              // HIGHLIGHT da possibilidade mapeada pelas escolhas atuais: picks
+              // (com aliases de Compor) nas classes com subclasse; SINTONIA nas
+              // sem (Monge). Só na classe selecionada.
+              const grupos: string[][] = on
+                ? escolhasAll.length
+                  ? escolhasAll
+                      .filter((c) => c.pick)
+                      .map((c) => {
+                        // o pick pode vir como wikilink/alias cru — casa a
+                        // OPÇÃO correspondente e usa rótulo + aliases dela.
+                        const optPicked = c.options.find(
+                          (o) => wikiTarget(o.value) === wikiTarget(c.pick!),
+                        )
+                        return optPicked
+                          ? textosDe(optPicked.value, optPicked.label)
+                          : [c.pick!]
+                      })
+                  : sintoniaCurta
+                    ? [[sintoniaCurta]]
+                    : []
+                : []
+              const atuais = grupos.length ? indicesDoBuildAtual(builds, grupos) : []
               return (
                 <div key={o.value} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={o.label}>
@@ -246,7 +314,8 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                     ) : null}
                     <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                       <span style={{ fontWeight: 700, marginRight: 'auto' }}>{o.label}</span>
-                      <Possibilidades builds={buildsVisiveis} />
+                      <Possibilidades builds={builds} atuais={atuais} />
+                      <MaisEstrelas nome={o.label} roles={somaClasse} />
                     </span>
                     {on ? <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span> : null}
                   </Barra>
@@ -260,10 +329,14 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                           </span>
                           {c.options.map((opt) => {
                             const optOn = wikiTarget(opt.value) === wikiTarget(c.pick ?? '')
-                            const outras = escolhasAll
-                              .filter((e) => e.choiceKey !== c.choiceKey && e.pick)
-                              .map((e) => textosDe(e.pick!, e.pick!))
-                            const optRoles = papeisDaOpcao(builds, textosDe(opt.value, opt.label), outras)
+                            const optId = docIdOf(catalog, opt.value)
+                            // #452 r4: a subclasse mostra o que ELA ADICIONA
+                            // (Somar Papel da própria nota), não o total.
+                            const optSoma = somaPapeis(
+                              (optId ? opcaoDocs?.get(optId)?.frontmatter : undefined)?.[
+                                'Elementos_de_Regra'
+                              ],
+                            )
                             return (
                               <Barra
                                 key={opt.value}
@@ -278,7 +351,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                               >
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto' }}>{opt.label}</span>
-                                  {optRoles ? <EstrelasPossibilidade nome={opt.label} roles={optRoles} /> : null}
+                                  <MaisEstrelas nome={opt.label} roles={optSoma} />
                                 </span>
                                 {optOn ? (
                                   <span style={{ flex: 'none', color: 'var(--accent)', fontWeight: 800 }}>✓</span>

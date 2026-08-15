@@ -175,6 +175,47 @@ describe('modo wizard na FichaPage (#453)', () => {
   })
 })
 
+describe('class-roles-preview (#452 r4) — somas e highlight', () => {
+  const BUILDS: [string, Record<string, number>][] = [
+    ['Arte Mágica Inspirador', { Líder: 3 }],
+    ['Arte Mágica Manipulador', { Líder: 2, Controlador: 1 }],
+    ['Luta Artística Inspirador', { Líder: 2, Abatedor: 1 }],
+    ['Luta Artística Manipulador', { Líder: 1, Abatedor: 1, Controlador: 1 }],
+  ]
+
+  it('somaPapeis: parse do `Somar Papel.X N` (classe base + opção)', async () => {
+    const { somaPapeis } = await import('../src/components/wizard/class-roles-preview')
+    expect(somaPapeis(['- Nivel 1 Definir Vida.Vitalidade 10', 'Somar Papel.Lider 1'])).toEqual({
+      Líder: 1,
+    })
+    expect(somaPapeis(['Somar Papel.Controlador 1', 'Somar Papel.Vanguarda 2'])).toEqual({
+      Controlador: 1,
+      Vanguarda: 2,
+    })
+    expect(somaPapeis(undefined)).toEqual({})
+  })
+
+  it('indicesDoBuildAtual: pick único casa 2 variantes; os 2 picks cravam UMA (fim do bug das 4★)', async () => {
+    const { indicesDoBuildAtual } = await import('../src/components/wizard/class-roles-preview')
+    // só "Manipulador" definido → destaca as 2 possibilidades compatíveis
+    expect(indicesDoBuildAtual(BUILDS as never, [['Manipulador']])).toEqual([1, 3])
+    // Manipulador + Luta Artística → exatamente "Luta Artística Manipulador"
+    expect(indicesDoBuildAtual(BUILDS as never, [['Manipulador'], ['Luta Artística']])).toEqual([3])
+    // nada definido → nada destacado
+    expect(indicesDoBuildAtual(BUILDS as never, [])).toEqual([])
+    // sintonia do Monge casa o build combinado "Fogo/Terra"
+    expect(
+      indicesDoBuildAtual(
+        [
+          ['Monge (Água)', { Vanguarda: 2, Controlador: 1 }],
+          ['Monge (Fogo/Terra)', { Vanguarda: 3 }],
+        ] as never,
+        [['Fogo']],
+      ),
+    ).toEqual([1])
+  })
+})
+
 describe('reset de dependentes ao trocar de CLASSE (#454)', () => {
   it('resetOnClasseChange = classChangeResets (menos Sintonia, #461) + equipamento do wizard', () => {
     const aplicados: Array<[string, unknown]> = []

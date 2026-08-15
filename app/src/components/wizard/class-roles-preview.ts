@@ -1,19 +1,12 @@
-// PREVIEW DE PAPÉIS por classe/subclasse no wizard (#461 item 2) — módulo PURO.
+// PREVIEW DE PAPÉIS por classe/subclasse no wizard (#461/#452 r4) — módulo PURO.
 //
-// Fonte de verdade: o bloco ```class-roles``` no INÍCIO de cada nota de classe
-// (parser existente markdown/class-roles/parse.ts; cor/descrição no ROLE_META).
-// Cada build é `[nome, {Papel: estrelas}]` — ex.: Arcanista tem
-// ["Espiritualista", {Líder:3}] / ["Bruxo", {Controlador:3}]; o Monge varia por
-// SINTONIA: ["Monge (Água)", {Vanguarda:2, Controlador:1}]…
-//
-// Política de match (exposta pra teste):
-//  - barra da CLASSE fechada → UNIÃO MÁXIMA dos builds (as possibilidades);
-//  - barra de OPÇÃO de subclasse → builds cujo nome contém o rótulo da opção,
-//    refinados pelos rótulos das OUTRAS escolhas já feitas (Bardo: 2 dimensões);
-//  - classe SEM subclasse → build casada pela SINTONIA curta ("Água" casa
-//    "Monge (Água)" e "Fogo" casa "Monge (Fogo/Terra)"); classe de build único
-//    (Mago) usa o próprio.
-//  Sem match → união máxima (nunca esconde as possibilidades).
+// Fontes de verdade:
+//  - bloco ```class-roles``` no INÍCIO da nota de classe (parser existente
+//    markdown/class-roles/parse.ts) — os TOTAIS de cada variante/build;
+//  - elementos de regra `Somar Papel.<Id> <N>` — o que a CLASSE (base) e cada
+//    OPÇÃO de subclasse ADICIONAM ("+★" das barras);
+//  - `Alias Classe Compor` — como os builds nomeiam as variantes ("Estudos do
+//    Vazio" compõe "Bruxo"), usado no HIGHLIGHT da possibilidade atual.
 import { parseClassRolesSource, type Build } from '../../markdown/class-roles/parse'
 import type { RoleName } from '../../markdown/class-roles/role-meta'
 
@@ -30,21 +23,62 @@ export function buildsDoCorpo(body: string): Build[] {
   }
 }
 
-/** União MÁXIMA por papel — o teto de estrelas que a classe alcança em cada. */
-export function uniaoMaxima(builds: Build[]): Partial<Record<RoleName, number>> {
-  const out: Partial<Record<RoleName, number>> = {}
-  for (const [, roles] of builds) {
-    for (const [role, valor] of Object.entries(roles) as [RoleName, number][]) {
-      out[role] = Math.max(out[role] ?? 0, valor)
-    }
-  }
-  return out
-}
 
 const contem = (nome: string, texto: string) =>
   nome.toLowerCase().includes(texto.trim().toLowerCase())
 const contemAlgum = (nome: string, textos: string[]) =>
   textos.some((t) => t.trim() && contem(nome, t))
+
+/** NFD-strip local (espelho do strip de grupo/party.ts) pro match de slug. */
+const semAcento = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+
+/** Slug ASCII do FM.Papel → RoleName acentuado (chaves do ROLE_META). */
+const ROLE_POR_SLUG = new Map<string, RoleName>(
+  (['Líder', 'Vanguarda', 'Abatedor', 'Controlador'] as RoleName[]).map((n) => [semAcento(n), n]),
+)
+
+/**
+ * O que uma nota ADICIONA de papéis (#452 r4): parse dos elementos de regra
+ * `Somar Papel.<Id> <N>` — a classe soma a base (Bardo: Lider 1) e cada opção
+ * de subclasse soma o resto (Método Manipulador: Controlador 1). É o "+★" das
+ * barras; os TOTAIS continuam sendo os builds do class-roles.
+ */
+export function somaPapeis(ruleElements: unknown): Partial<Record<RoleName, number>> {
+  const lista = Array.isArray(ruleElements) ? ruleElements : []
+  const out: Partial<Record<RoleName, number>> = {}
+  for (const el of lista) {
+    const texto = String(el)
+    // Só o INCONDICIONAL: o Monge tem `Condicional Sintonia,[[X]] Somar
+    // Papel.Y 1` por sintonia — somar tudo inflaria o "+" (a variante já
+    // aparece nas possibilidades/highlight).
+    if (/Condicional/i.test(texto)) continue
+    const m = /Somar\s+Papel\.([A-Za-zÀ-ÿ]+)\s+(\d+)/i.exec(texto)
+    if (!m) continue
+    const role = ROLE_POR_SLUG.get(semAcento(m[1]!))
+    if (role) out[role] = (out[role] ?? 0) + Number(m[2])
+  }
+  return out
+}
+
+/**
+ * Índices dos builds compatíveis com o que JÁ está definido (#452 r4 —
+ * highlight da possibilidade atual): cada grupo de textos (pick de uma escolha
+ * com seus aliases, ou a sintonia curta) precisa casar no nome do build.
+ * Grupos vazios são ignorados; sem grupo válido → [] (nada destacado).
+ */
+export function indicesDoBuildAtual(builds: Build[], grupos: string[][]): number[] {
+  const validos = grupos.filter((g) => g.some((t) => t.trim()))
+  if (!validos.length) return []
+  const out: number[] = []
+  builds.forEach(([nome], i) => {
+    if (validos.every((g) => contemAlgum(nome, g))) out.push(i)
+  })
+  return out
+}
 
 /** Aliases de classe COMPOSTOS pelos elementos de regra de uma nota
  *  (`Alias Classe Compor N "X"`) — é assim que os builds do class-roles nomeiam
@@ -59,50 +93,5 @@ export function aliasesDeCompose(ruleElements: unknown): string[] {
   return out
 }
 
-/**
- * Papéis previstos pra UMA opção de subclasse: builds cujo nome contém ALGUM
- * dos textos da opção (rótulo + aliases de Compor da nota dela); se as OUTRAS
- * escolhas têm pick, refina exigindo os textos delas (casa a variante exata do
- * Bardo). 1 build → estrelas dela; vários → união máxima; nenhum → null.
- */
-export function papeisDaOpcao(
-  builds: Build[],
-  textosDaOpcao: string[],
-  textosOutrasEscolhas: string[][],
-): Partial<Record<RoleName, number>> | null {
-  let candidatos = builds.filter(([nome]) => contemAlgum(nome, textosDaOpcao))
-  if (!candidatos.length) return null
-  for (const outro of textosOutrasEscolhas) {
-    const refinado = candidatos.filter(([nome]) => contemAlgum(nome, outro))
-    if (refinado.length) candidatos = refinado
-  }
-  return candidatos.length === 1 ? candidatos[0]![1] : uniaoMaxima(candidatos)
-}
 
-/**
- * Papéis da CLASSE SEM subclasse "considerando a sintonia" (#461: Monge) —
- * casa a sintonia curta no nome do build; classe de build único (Mago) usa o
- * próprio; sem match → união máxima.
- */
-export function papeisDaClasseSemSubclasse(
-  builds: Build[],
-  sintoniaCurta: string,
-): Partial<Record<RoleName, number>> {
-  if (builds.length === 1) return builds[0]![1]
-  if (sintoniaCurta) {
-    const match = builds.find(([nome]) => contem(nome, sintoniaCurta))
-    if (match) return match[1]
-  }
-  return uniaoMaxima(builds)
-}
 
-/**
- * Restringe as POSSIBILIDADES de uma classe sem subclasse pela sintonia (#452
- * r3: Monge selecionado com Água mostra só "Monge (Água)") — sem match/sem
- * sintonia mantém todas (o jogador ainda vê o leque).
- */
-export function buildsFiltradosPorSintonia(builds: Build[], sintoniaCurta: string): Build[] {
-  if (builds.length <= 1 || !sintoniaCurta) return builds
-  const match = builds.filter(([nome]) => contem(nome, sintoniaCurta))
-  return match.length ? match : builds
-}
