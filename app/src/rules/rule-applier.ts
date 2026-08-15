@@ -297,10 +297,22 @@ function deltaListAppend(deltas: Deltas, key: string, value: unknown): void {
 }
 
 /** Espelho de deltaAliasCompose (plugin rule-applier.ts:503-519). */
-function deltaAliasCompose(deltas: Deltas, target: string, order: number, fragment: string): void {
+function deltaAliasCompose(
+  deltas: Deltas,
+  target: string,
+  order: number,
+  fragment: string,
+  /** Gate `Nivel N` da rule (0 = sem gate) — o materializer resolve a colisão
+   *  de slot pelo MAIOR nível satisfeito (bug Carlos/Menestrel 2026-08-15). */
+  nivel: number,
+): void {
   const aliasKey = `__alias__${target}`
-  const cur = (deltas[aliasKey] as Array<{ order: number; fragment: string }> | undefined) ?? []
-  deltas[aliasKey] = [...cur, { order, fragment }].sort((a, b) => a.order - b.order)
+  const cur =
+    (deltas[aliasKey] as Array<{ order: number; fragment: string; nivel: number }> | undefined) ??
+    []
+  // sort ESTÁVEL por order (empates preservam a ordem de aplicação — o
+  // desempate fino por nível é do materializer).
+  deltas[aliasKey] = [...cur, { order, fragment, nivel }].sort((a, b) => a.order - b.order)
 }
 
 function parseNumber(s: string): number | null {
@@ -415,7 +427,14 @@ function applyAction(rule: ParsedRule, deltas: Deltas, ctx: ApplyContext, model:
       return { applied: true }
 
     case 'alias-compor':
-      deltaAliasCompose(deltas, action.targetRaw, action.order, action.fragment)
+      deltaAliasCompose(
+        deltas,
+        action.targetRaw,
+        action.order,
+        action.fragment,
+        rule.scope.find((s): s is Extract<RuleScope, { kind: 'nivel-min' }> => s.kind === 'nivel-min')
+          ?.min ?? 0,
+      )
       return { applied: true }
 
     case 'requisito':

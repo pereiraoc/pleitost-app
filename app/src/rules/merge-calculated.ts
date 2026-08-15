@@ -99,9 +99,17 @@ function maxRank(a: string, b: string): string {
 }
 
 /** Materializa `__alias__<Target>` → `<Target>` wikilink — espelho de
- *  materializeAliasDeltas (plugin merge-calculated-into-model.ts:301-391).
- *  Fragmentos ordenados viram `[[base|display]]` (base = 1º fragmento). */
-function materializeAlias(calc: Fm): Fm {
+ *  materializeAliasDeltas (plugin merge-calculated-into-model.ts:305-391), com
+ *  DUAS diferenças deliberadas (bug Carlos/Menestrel 2026-08-15):
+ *  1. o VENCEDOR de cada slot do display é o fragmento de MAIOR `Nivel`
+ *     satisfeito (N7 "Menestrel" vence N4 "Trovador" vence N1 "Bardo"), não o
+ *     último visitado pelo BFS — ordem de aplicação é acidente de travessia;
+ *     empate de nível mantém o último aplicado (specificity, como o plugin);
+ *  2. a BASE do wikilink prefere o TARGET SALVO no FM (guard do propMem do
+ *     plugin, :308-312): o fragmento 0 pode ser só o apelido ("Canino") e
+ *     corromperia o link canônico ("Companheiro Animal Canino"). Sem salvo,
+ *     cai no fragmento de menor (slot, nível) — o nome da classe-mãe. */
+function materializeAlias(calc: Fm, savedFm: Fm): Fm {
   const out: Fm = { ...calc }
   for (const key of Object.keys(out)) {
     if (!key.startsWith('__alias__')) continue
@@ -112,15 +120,26 @@ function materializeAlias(calc: Fm): Fm {
     if (typeof value === 'string') {
       wikilink = value
     } else if (Array.isArray(value)) {
-      const raw = (value as Array<{ order: number; fragment: string }>)
-        .filter((f) => f && f.fragment && f.fragment.length > 0)
-        .slice()
-        .sort((a, b) => a.order - b.order)
+      const raw = (value as Array<{ order: number; fragment: string; nivel?: number }>).filter(
+        (f) => f && f.fragment && f.fragment.length > 0,
+      )
       if (raw.length > 0) {
-        const base = raw[0]!.fragment
-        const perOrder = new Map<number, string>()
-        for (const f of raw) perOrder.set(f.order, f.fragment)
-        const display = [...perOrder.entries()].sort((a, b) => a[0] - b[0]).map(([, f]) => f).join(' ')
+        const perOrder = new Map<number, { fragment: string; nivel: number }>()
+        for (const f of raw) {
+          const nivel = f.nivel ?? 0
+          const cur = perOrder.get(f.order)
+          if (!cur || nivel >= cur.nivel) perOrder.set(f.order, { fragment: f.fragment, nivel })
+        }
+        const display = [...perOrder.entries()]
+          .sort((a, b) => a[0] - b[0])
+          .map(([, f]) => f.fragment)
+          .join(' ')
+        const ordenado = raw
+          .slice()
+          .sort((a, b) => a.order - b.order || (a.nivel ?? 0) - (b.nivel ?? 0))
+        const salvo = typeof savedFm[target] === 'string' ? (savedFm[target] as string) : ''
+        const mSalvo = /^\s*\[\[([^\]|]+)/.exec(salvo)
+        const base = mSalvo?.[1]?.trim() || ordenado[0]!.fragment
         wikilink = base === display ? `[[${base}]]` : `[[${base}|${display}]]`
       }
     }
@@ -397,7 +416,7 @@ export function mergeCalculatedIntoFm(
   appliedRules: ParsedRule[],
 ): Fm {
   const out = structuredClone(savedFm) as Fm
-  const calc = materializeAlias(calculated)
+  const calc = materializeAlias(calculated, savedFm)
   const byTarget = buildSourceByTarget(appliedRules)
   const sourceOf = (targetRaw: string, fallbackType: 'Regra' | 'Tesouro' = 'Regra'): string =>
     byTarget.get(targetRaw) ?? fallbackType
