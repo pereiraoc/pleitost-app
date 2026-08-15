@@ -53,35 +53,6 @@ export function CriacaoView({
     paddingLeft: 14,
   }
 
-  // Layout ESPECÍFICO da CLASSE (feedback do usuário — a imagem flutuada
-  // sobrepunha o NOME, porque o header é flex e flex ignora float): o nome
-  // ocupa a largura inteira; abaixo, uma FILEIRA com [família + chip
-  // empilhado] à esquerda e a imagem QUADRADA à direita, esticada do topo da
-  // família até a base do atributo-chave (altura da fileira = lado do
-  // quadrado, homogêneo porque o chip quebra linha entre rótulo e valor).
-  const ehClasse = doc.type === 'Classe'
-
-  const chipsEl = chips.length ? (
-    <div className="criacao-chips">
-      {chips.map((c) => (
-        <span key={c.label} className={ehClasse ? 'criacao-chip criacao-chip--stack' : 'criacao-chip'}>
-          <span className="criacao-chip-k">{c.label}</span>
-          <span className="criacao-chip-v" style={{ color: sub.cor }}>
-            <InlineFieldValue value={c.value!} />
-          </span>
-        </span>
-      ))}
-    </div>
-  ) : null
-
-  const subtitulo = (
-    <span className="doc-type" style={{ color: sub.cor, fontWeight: 700, letterSpacing: '.06em' }}>
-      {ehClasse && doc.subtype
-        ? doc.subtype
-        : `${doc.type}${doc.subtype ? ` · ${doc.subtype}` : ''}`}
-    </span>
-  )
-
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {sidebar || embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
@@ -89,7 +60,11 @@ export function CriacaoView({
           ela. O .doc-page é FLEX-column (float é ignorado num flex item), então
           o conteúdo vai num bloco flow-root (.criacao-body) onde o float vale. */}
       <div className="criacao-body">
-      {hero && !ehClasse ? <VaultImage target={hero.target} className="criacao-hero" zoom /> : null}
+      {/* Feedback do usuário (r6): SEM espaço pro retrato ao lado do NOME
+          (container estreito — sidebar/celular), a imagem desce pra altura do
+          ATRIBUTO-CHAVE. Mesma imagem em duas âncoras de float; o container
+          query (.criacao-body) mostra uma por vez. */}
+      {hero ? <VaultImage target={hero.target} className="criacao-hero criacao-hero--wide" zoom /> : null}
       <header style={headerStyle}>
         <span style={{ fontSize: '2rem', lineHeight: 1, flex: 'none' }} aria-hidden>
           {sub.icon}
@@ -97,27 +72,32 @@ export function CriacaoView({
         <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
           <h1 style={{ margin: 0 }}>{doc.basename}</h1>
           {/* #301: só na CLASSE o kicker mostra apenas a FAMÍLIA (subtype, ex.
-              "Marcialista") — o nome da classe já é o h1 (na fileira abaixo).
-              Nos demais (Magia · Arcana) o "Tipo · Subtipo" segue aqui. */}
-          {ehClasse ? null : subtitulo}
+              "Marcialista") — o nome da classe já é o h1. Nos demais (Magia ·
+              Arcana, Técnica · Adepta) o "Tipo · Subtipo" segue informativo. */}
+          <span className="doc-type" style={{ color: sub.cor, fontWeight: 700, letterSpacing: '.06em' }}>
+            {doc.type === 'Classe' && doc.subtype
+              ? doc.subtype
+              : `${doc.type}${doc.subtype ? ` · ${doc.subtype}` : ''}`}
+          </span>
         </div>
       </header>
 
-      {ehClasse ? (
-        <div className="classe-header-row">
-          <div className="classe-header-info">
-            {subtitulo}
-            {chipsEl}
-          </div>
-          {hero ? (
-            <span className="classe-hero-box">
-              <VaultImage target={hero.target} className="classe-hero-img" zoom />
+      {hero ? (
+        <VaultImage target={hero.target} className="criacao-hero criacao-hero--narrow" zoom />
+      ) : null}
+
+      {chips.length ? (
+        <div className="criacao-chips">
+          {chips.map((c) => (
+            <span key={c.label} className="criacao-chip">
+              <span className="criacao-chip-k">{c.label}</span>
+              <span className="criacao-chip-v" style={{ color: sub.cor }}>
+                <InlineFieldValue value={c.value!} />
+              </span>
             </span>
-          ) : null}
+          ))}
         </div>
-      ) : (
-        chipsEl
-      )}
+      ) : null}
 
       {resumo ? (
         <p className="criacao-resumo">

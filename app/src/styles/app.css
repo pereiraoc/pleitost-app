@@ -1597,49 +1597,24 @@ a {
   }
 }
 
-/* Layout de CLASSE (feedback do usuário): o nome ocupa a largura toda; a
-   fileira abaixo tem [família + chip de atributo-chave EMPILHADO] à esquerda e
-   a imagem QUADRADA à direita — o topo dela na altura da família e a base no
-   fim do chip (align stretch + aspect-ratio; altura homogênea porque o chip
-   quebra linha entre rótulo e valor). */
-.classe-header-row {
-  display: flex;
-  align-items: stretch;
-  gap: 16px;
-  margin-top: 12px;
+/* r6 (feedback do usuário): SEM espaço pro retrato ao lado do NOME (container
+   estreito — sidebar de detalhes/celular), a imagem desce pra ANCORAGEM de
+   baixo (altura do atributo-chave) em vez de sobrepor o título. Mesma imagem
+   em duas âncoras de float; o container query escolhe uma. Tela cheia larga
+   fica EXATAMENTE como antes (âncora de cima). */
+.criacao-body {
+  container-type: inline-size;
 }
-.classe-header-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: flex-start;
+.criacao-hero--narrow {
+  display: none;
 }
-.classe-header-info .criacao-chips {
-  margin: 0;
-}
-.criacao-chip--stack {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-}
-.classe-hero-box {
-  flex: none;
-  align-self: stretch;
-  aspect-ratio: 1 / 1;
-  min-height: 88px;
-  max-height: 140px;
-  overflow: hidden;
-  border: 1px solid var(--line2);
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-}
-.classe-hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  cursor: zoom-in;
+@container (max-width: 470px) {
+  .criacao-hero--wide {
+    display: none;
+  }
+  .criacao-hero--narrow {
+    display: block;
+  }
 }
 
 /* #302: ponto de pendência no botão da aba (algo a preencher). Discreto, no
