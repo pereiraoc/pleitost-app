@@ -754,134 +754,155 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
   )
 }
 
-/** MONSTRO — MEIA folha A4 paisagem (base: ficha resumo — mostrar pouco);
- *  linha de corte tracejada na metade. */
+/** MONSTRO — MEIA folha A4 paisagem com CORTE VERTICAL (preenche só a
+ *  metade ESQUERDA; a direita fica vazia pra cortar) — base: ficha resumo. */
 function PaginaMonstro({ dd, nome, tier }: { dd: DadosPapel; nome: string; tier: string }) {
   return (
-    <div className="pp-page" style={{ padding: 0 }}>
-      <div style={{ height: '105mm', padding: '5mm 8mm', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div className="pp-page" style={{ padding: 0, flexDirection: 'row' }}>
+      <div
+        style={{
+          width: '148.5mm',
+          height: '210mm',
+          padding: '5mm 6mm',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          borderRight: '.6pt dashed #999',
+        }}
+      >
         <div className="pp-hdr">
-          <span className="pp-nome">{nome}</span>
+          <span className="pp-nome" style={{ fontSize: '12pt' }}>
+            {nome}
+          </span>
           <span className="pp-classe">{dd.classe}</span>
           <span className="pp-nvl">
             <b>{tier}</b>
             <span>TIER</span>
           </span>
         </div>
-        <div className="pp-flex2" style={{ gap: '4mm', flex: 1, minHeight: 0 }}>
-          <div style={{ flex: 1 }}>
-            <div className="pp-sec">
-              <div className="pp-sec-t">{'// VIDA'}</div>
-              {dd.moral ? (
-                <div className="pp-vida-row">
-                  <span className="pp-vida-l">MORAL (EH) {dd.moral}</span>
-                  <span className="pp-vida-sq">
-                    <Quadrados n={dd.moral} />
-                  </span>
-                </div>
-              ) : null}
-              <div className="pp-vida-row">
-                <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
-                <span className="pp-vida-sq">
-                  <Quadrados n={dd.vitalidade} />
-                </span>
-              </div>
+        <div className="pp-sec">
+          <div className="pp-sec-t">{'// VIDA'}</div>
+          {dd.moral ? (
+            <div className="pp-vida-row">
+              <span className="pp-vida-l">MORAL (EH) {dd.moral}</span>
+              <span className="pp-vida-sq">
+                <Quadrados n={dd.moral} />
+              </span>
             </div>
-            <div className="pp-sec">
-              <div className="pp-sec-t">{'// ATRIBUTOS · DEFESAS · SENTIDOS · MOVIMENTO'}</div>
-              <div className="pp-row">
-                {dd.atributos.map((a) => (
-                  <span key={a.sigla} className="pp-box pp-stat">
-                    <i>{a.sigla}</i>
-                    <b>{a.valor}</b>
-                  </span>
-                ))}
-                {[...dd.defesas, ...dd.sentidos].map((s) => (
-                  <span key={s.nome} className="pp-box pp-stat">
-                    <i>{s.nome.slice(0, 4)}</i>
-                    <b>{s.valor}</b>
-                  </span>
-                ))}
-                <span className="pp-box pp-stat">
-                  <i>MOV</i>
-                  <b>{dd.movimento}q</b>
-                </span>
-              </div>
-            </div>
-            <div className="pp-sec">
-              <div className="pp-sec-t">
-                {'// ATAQUES · PROFICIÊNCIA '}
-                {PROF_NOME[dd.atkProf].toUpperCase()}
-              </div>
-              <table>
-                <tbody>
-                  {dd.ataques
-                    .filter((a) => a.nome !== 'Ataque Desarmado')
-                    .map((a) => (
-                      <tr key={a.nome}>
-                        <td style={{ width: '26mm' }}>
-                          <b>{a.nome}</b>
-                        </td>
-                        <td style={{ width: '9mm' }}>
-                          <b>{a.mod}</b>
-                        </td>
-                        <td style={{ width: '18mm' }}>{a.dano}</td>
-                        <td className="pp-mini">{a.propriedades}</td>
-                      </tr>
-                    ))}
-                  <tr>
-                    <td>
-                      <b>Manobras</b>
-                    </td>
-                    <td>
-                      <b>+{dd.manobrasMod}</b>
-                    </td>
-                    <td colSpan={2} className="pp-mini">
-                      Agarrar · Derrubar · Empurrar · Escapar
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          ) : null}
+          <div className="pp-vida-row">
+            <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
+            <span className="pp-vida-sq">
+              <Quadrados n={dd.vitalidade} />
+            </span>
           </div>
-          <div style={{ flex: 1 }}>
-            {dd.habilidades.length ? (
-              <div className="pp-sec">
-                <div className="pp-sec-t">{'// HABILIDADES'}</div>
-                {dd.habilidades.map((h) => (
-                  <Linha key={h.nome} it={h} />
+        </div>
+        <div className="pp-sec">
+          <div className="pp-sec-t">{'// ATRIBUTOS'}</div>
+          <div className="pp-row">
+            {dd.atributos.map((a) => (
+              <span key={a.sigla} className="pp-box pp-stat">
+                <i>{a.sigla}</i>
+                <b>{a.valor}</b>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="pp-sec">
+          <div className="pp-sec-t">{'// DEFESAS · SENTIDOS · MOVIMENTO'}</div>
+          <div className="pp-row">
+            {[...dd.defesas, ...dd.sentidos].map((s) => (
+              <span key={s.nome} className="pp-box pp-stat">
+                <i>{s.nome.slice(0, 4)}</i>
+                <b>{s.valor}</b>
+              </span>
+            ))}
+            <span className="pp-box pp-stat">
+              <i>MOV</i>
+              <b>{dd.movimento}q</b>
+            </span>
+          </div>
+        </div>
+        <div className="pp-sec">
+          <div className="pp-sec-t">
+            {'// ATAQUES · PROFICIÊNCIA '}
+            {PROF_NOME[dd.atkProf].toUpperCase()}
+          </div>
+          <table>
+            <tbody>
+              {dd.ataques
+                .filter((a) => a.nome !== 'Ataque Desarmado')
+                .map((a) => (
+                  <tr key={a.nome}>
+                    <td style={{ width: '24mm' }}>
+                      <b>{a.nome}</b>
+                    </td>
+                    <td style={{ width: '8mm' }}>
+                      <b>{a.mod}</b>
+                    </td>
+                    <td style={{ width: '17mm' }}>{a.dano}</td>
+                    <td className="pp-mini">{a.propriedades}</td>
+                  </tr>
                 ))}
-              </div>
-            ) : null}
-            {dd.escolas.length || dd.energiaMagica ? (
-              <div className="pp-sec">
-                <div className="pp-sec-t">
-                  {'// MAGIAS · POTÊNCIA '}
-                  {dd.potencia}
-                </div>
-                <div className="pp-kv">
-                  <b>ENERGIA MÁGICA</b> <Losangos n={dd.energiaMagica} />
-                </div>
-                {dd.escolas.flatMap((e) => e.grupos.flatMap((g) => g.magias)).map((m) => (
-                  <Linha key={m.nome} it={m} />
-                ))}
-              </div>
-            ) : null}
+              <tr>
+                <td>
+                  <b>Manobras</b>
+                </td>
+                <td>
+                  <b>+{dd.manobrasMod}</b>
+                </td>
+                <td colSpan={2} className="pp-mini">
+                  Agarrar · Derrubar · Empurrar · Escapar
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {dd.habilidades.length ? (
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// HABILIDADES'}</div>
+            {dd.habilidades.map((h) => (
+              <Linha key={h.nome} it={h} />
+            ))}
+          </div>
+        ) : null}
+        {dd.escolas.length || dd.energiaMagica ? (
+          <div className="pp-sec">
+            <div className="pp-sec-t">
+              {'// MAGIAS · POTÊNCIA '}
+              {dd.potencia}
+            </div>
+            <div className="pp-kv">
+              <b>ENERGIA MÁGICA</b> <Losangos n={dd.energiaMagica} />
+            </div>
+            {dd.escolas.flatMap((e) => e.grupos.flatMap((g) => g.magias)).map((m) => (
+              <Linha key={m.nome} it={m} />
+            ))}
+          </div>
+        ) : null}
+        <div className="pp-fill" style={{ flex: 1, minHeight: '8mm' }}>
+          <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
+          <div className="pp-linhas">
+            {[0, 1].map((i) => (
+              <div key={i} className="pp-linha-v" />
+            ))}
           </div>
         </div>
       </div>
       <div
         style={{
-          borderTop: '.6pt dashed #999',
-          textAlign: 'center',
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           fontSize: '5pt',
-          color: '#999',
+          color: '#bbb',
           fontFamily: 'Courier New, monospace',
           letterSpacing: '.2em',
-          paddingTop: '1mm',
+          writingMode: 'vertical-rl',
         }}
       >
-        ✂ MEIA FOLHA — CORTE AQUI
+        ✂ MEIA FOLHA — CORTE NA LINHA
       </div>
     </div>
   )
