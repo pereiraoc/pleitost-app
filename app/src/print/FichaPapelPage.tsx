@@ -99,26 +99,24 @@ export const PAPEL_CSS = `
 /** Blocos de condições pra COLUNAS (pedido 2026-08-16: quadrados sempre um
  *  embaixo do outro): POSITIVAS viram um bloco único; NEGATIVAS um bloco por
  *  categoria semântica. */
-function blocosCondicoes(grupos: DadosPapel['condicoes']): { titulo: string; itens: string[] }[] {
-  const out: { titulo: string; itens: string[] }[] = []
-  for (const g of grupos) {
-    if (g.titulo === 'POSITIVAS') {
-      out.push({ titulo: 'POSITIVAS', itens: g.categorias.flatMap((c) => c.itens) })
-    } else {
-      for (const c of g.categorias) out.push({ titulo: c.nome.toUpperCase(), itens: c.itens })
-    }
-  }
-  return out
-}
-
 function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']; colunas: number }) {
-  // POSITIVAS numa CAIXA separada à esquerda (pedido 2026-08-16: não misturar
-  // com as negativas); NEGATIVAS fluem nas colunas por categoria.
-  const blocos = blocosCondicoes(grupos)
-  const positivas = blocos.find((b) => b.titulo === 'POSITIVAS')
-  const negativas = blocos.filter((b) => b.titulo !== 'POSITIVAS')
+  // POSITIVAS à esquerda com os MESMOS subgrupos (Ações/Defesa) e uma
+  // divisória vertical; NEGATIVAS em colunas por categoria começando por
+  // Ações e Defesa — os subgrupos iguais ficam lado a lado (2026-08-16).
+  const positivas = grupos.find((g) => g.titulo === 'POSITIVAS')
+  const negativas = grupos.find((g) => g.titulo === 'NEGATIVAS')
+  const bloco = (titulo: string, itens: string[]) => (
+    <div key={titulo} className="pp-cond-bloco">
+      <div className="pp-rank-h">{titulo}</div>
+      {itens.map((c) => (
+        <span key={c} className="pp-chk" style={{ width: '100%' }}>
+          {c}
+        </span>
+      ))}
+    </div>
+  )
   return (
-    <div style={{ display: 'flex', gap: '3mm', alignItems: 'flex-start' }}>
+    <div style={{ display: 'flex', gap: '3mm', alignItems: 'stretch' }}>
       {positivas ? (
         <div
           style={{
@@ -131,11 +129,7 @@ function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']
           <div className="pp-rank-h" style={{ marginTop: 0 }}>
             POSITIVAS
           </div>
-          {positivas.itens.map((c) => (
-            <span key={c} className="pp-chk" style={{ width: '100%' }}>
-              {c}
-            </span>
-          ))}
+          {positivas.categorias.map((c) => bloco(c.nome.toUpperCase(), c.itens))}
         </div>
       ) : null}
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -143,16 +137,7 @@ function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']
           NEGATIVAS
         </div>
         <div style={{ columns: colunas, columnGap: '3mm' }}>
-          {negativas.map((b) => (
-            <div key={b.titulo} className="pp-cond-bloco">
-              <div className="pp-rank-h">{b.titulo}</div>
-              {b.itens.map((c) => (
-                <span key={c} className="pp-chk" style={{ width: '100%' }}>
-                  {c}
-                </span>
-              ))}
-            </div>
-          ))}
+          {(negativas?.categorias ?? []).map((c) => bloco(c.nome.toUpperCase(), c.itens))}
         </div>
       </div>
     </div>

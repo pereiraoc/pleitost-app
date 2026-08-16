@@ -330,12 +330,14 @@ export const COND_ACUMULAVEIS: ReadonlySet<string> = new Set(['Lento', 'Acelerad
  *  efeito (Ataque/Defesa/Sentidos/Mobilidade/Conjuração/Ações/Consciência).
  *  Usado na ficha de papel (agrupamento pedido 2026-08-16). */
 export const COND_CATEGORIAS_ORDEM = [
-  'Ataque',
+  // Ações e Defesa primeiro (decisão do usuário 2026-08-16: os subgrupos das
+  // POSITIVAS são Ações/Defesa e ficam lado a lado com os das negativas).
+  'Ações',
   'Defesa',
+  'Ataque',
   'Sentidos',
   'Mobilidade',
   'Conjuração',
-  'Ações',
   'Consciência',
 ] as const
 export const COND_CATEGORIA_POR_ID: Record<string, (typeof COND_CATEGORIAS_ORDEM)[number]> = {
@@ -358,7 +360,9 @@ export const COND_CATEGORIA_POR_ID: Record<string, (typeof COND_CATEGORIAS_ORDEM
   Inconsciente: 'Consciência',
   Morrendo: 'Consciência',
   'Vantagem de Combate': 'Ataque',
-  'Invisível': 'Sentidos',
+  // Invisível: o catálogo do plugin diz Sentidos; na FICHA DE PAPEL o usuário
+  // decidiu Defesa (2026-08-16) — par com o subgrupo Defesa das negativas.
+  'Invisível': 'Defesa',
   Acelerado: 'Ações',
 }
 
