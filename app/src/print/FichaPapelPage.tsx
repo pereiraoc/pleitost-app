@@ -11,6 +11,7 @@ import { useHeroModel } from '../data/useHeroModel'
 import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
+import { familiaOf } from '../data/familia'
 import {
   baseDoItem,
   montarDadosPapel,
@@ -585,6 +586,307 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
   )
 }
 
+/** CA — UMA folha A4 paisagem: combate + perícias + habilidades + anotações. */
+function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: string }) {
+  return (
+    <div className="pp-page">
+      <div className="pp-hdr">
+        <span className="pp-nome">{nome}</span>
+        <span className="pp-classe">
+          {dd.classe}
+          {dd.sintonia ? ` · Sintonia ${dd.sintonia}` : ''}
+          {tutor ? ` · Tutor: ${tutor}` : ''}
+        </span>
+        <span className="pp-nvl">
+          <b>{dd.nivel}</b>
+          <span>NÍVEL</span>
+        </span>
+      </div>
+      <div className="pp-flex2" style={{ gap: '4mm' }}>
+        <div style={{ flex: 1.1 }}>
+          <div className="pp-sec">
+            <div className="pp-sec-t">
+              {'// VIDA '}
+              <span className="pp-mini">(a Moral toma dano primeiro)</span>
+            </div>
+            <div className="pp-vida-row">
+              <span className="pp-vida-l">MORAL (EH) {dd.moral}</span>
+              <span className="pp-vida-sq">
+                <Quadrados n={dd.moral} />
+              </span>
+            </div>
+            <div className="pp-vida-row">
+              <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
+              <span className="pp-vida-sq">
+                <Quadrados n={dd.vitalidade} />
+              </span>
+            </div>
+          </div>
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// DEFESAS · RESISTÊNCIAS · SENTIDOS · MOVIMENTO'}</div>
+            <div className="pp-row">
+              {[...dd.defesas, ...dd.sentidos].map((s) => (
+                <span key={s.nome} className="pp-box pp-stat">
+                  <i>{s.nome}</i>
+                  <b>{s.valor}</b>
+                  <s>{s.legenda}</s>
+                </span>
+              ))}
+              <span className="pp-box pp-stat">
+                <i>MOVIMENTO</i>
+                <b>{dd.movimento}q</b>
+                <s>terrestre</s>
+              </span>
+            </div>
+          </div>
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// ATRIBUTOS'}</div>
+            <div className="pp-row">
+              {dd.atributos.map((a) => (
+                <span key={a.sigla} className="pp-box pp-stat">
+                  <i>{a.valor}</i>
+                  <b>{a.sigla}</b>
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="pp-sec">
+            <div className="pp-sec-t">
+              {'// ATAQUES & MANOBRAS · PROFICIÊNCIA '}
+              {PROF_NOME[dd.atkProf].toUpperCase()}
+            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th style={{ width: '26mm' }}>ATAQUE</th>
+                  <th style={{ width: '9mm' }}>MOD</th>
+                  <th style={{ width: '18mm' }}>DANO</th>
+                  <th>PROPRIEDADES</th>
+                </tr>
+                {dd.ataques
+                  .filter((a) => a.nome !== 'Ataque Desarmado')
+                  .map((a) => (
+                    <tr key={a.nome}>
+                      <td>
+                        <b>{a.nome}</b>
+                      </td>
+                      <td>
+                        <b>{a.mod}</b>
+                      </td>
+                      <td>{a.dano}</td>
+                      <td className="pp-mini">{a.propriedades}</td>
+                    </tr>
+                  ))}
+                <tr>
+                  <td>
+                    <b>Manobras</b>
+                  </td>
+                  <td>
+                    <b>+{dd.manobrasMod}</b>
+                  </td>
+                  <td colSpan={2} className="pp-mini">
+                    Agarrar · Derrubar · Empurrar · Escapar
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// PERÍCIAS'}</div>
+            <table>
+              <tbody>
+                <tr>
+                  <th>PERÍCIA</th>
+                  <th style={{ width: '8mm' }}>ATR</th>
+                  <th style={{ width: '9mm' }}>MOD</th>
+                  <th style={{ width: '7mm' }}>PRF</th>
+                </tr>
+                {dd.pericias.map((p) => (
+                  <tr key={p.nome}>
+                    <td>
+                      <b>{p.nome}</b>
+                    </td>
+                    <td>{p.atributo}</td>
+                    <td>
+                      <b>+{p.mod}</b>
+                    </td>
+                    <td>{p.prof}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style={{ flex: 1 }}>
+          {dd.habilidades.length ? (
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// HABILIDADES'}</div>
+              {dd.habilidades.map((h) => (
+                <Linha key={h.nome} it={h} />
+              ))}
+            </div>
+          ) : null}
+          <div className="pp-flex2" style={{ gap: '4mm' }}>
+            <div style={{ flex: 1.3 }}>
+              <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
+              {dd.condicoes.map((c) => (
+                <span key={c} className="pp-chk" style={{ width: '32%' }}>
+                  {c}
+                </span>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="pp-linha-v" />
+              ))}
+            </div>
+          </div>
+          <div className="pp-sec" style={{ marginTop: '2mm' }}>
+            <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="pp-linha-v" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** MONSTRO — MEIA folha A4 paisagem (base: ficha resumo — mostrar pouco);
+ *  linha de corte tracejada na metade. */
+function PaginaMonstro({ dd, nome, tier }: { dd: DadosPapel; nome: string; tier: string }) {
+  return (
+    <div className="pp-page" style={{ padding: 0 }}>
+      <div style={{ height: '105mm', padding: '5mm 8mm', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div className="pp-hdr">
+          <span className="pp-nome">{nome}</span>
+          <span className="pp-classe">{dd.classe}</span>
+          <span className="pp-nvl">
+            <b>{tier}</b>
+            <span>TIER</span>
+          </span>
+        </div>
+        <div className="pp-flex2" style={{ gap: '4mm', flex: 1, minHeight: 0 }}>
+          <div style={{ flex: 1 }}>
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// VIDA'}</div>
+              {dd.moral ? (
+                <div className="pp-vida-row">
+                  <span className="pp-vida-l">MORAL (EH) {dd.moral}</span>
+                  <span className="pp-vida-sq">
+                    <Quadrados n={dd.moral} />
+                  </span>
+                </div>
+              ) : null}
+              <div className="pp-vida-row">
+                <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
+                <span className="pp-vida-sq">
+                  <Quadrados n={dd.vitalidade} />
+                </span>
+              </div>
+            </div>
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// ATRIBUTOS · DEFESAS · SENTIDOS · MOVIMENTO'}</div>
+              <div className="pp-row">
+                {dd.atributos.map((a) => (
+                  <span key={a.sigla} className="pp-box pp-stat">
+                    <i>{a.sigla}</i>
+                    <b>{a.valor}</b>
+                  </span>
+                ))}
+                {[...dd.defesas, ...dd.sentidos].map((s) => (
+                  <span key={s.nome} className="pp-box pp-stat">
+                    <i>{s.nome.slice(0, 4)}</i>
+                    <b>{s.valor}</b>
+                  </span>
+                ))}
+                <span className="pp-box pp-stat">
+                  <i>MOV</i>
+                  <b>{dd.movimento}q</b>
+                </span>
+              </div>
+            </div>
+            <div className="pp-sec">
+              <div className="pp-sec-t">
+                {'// ATAQUES · PROFICIÊNCIA '}
+                {PROF_NOME[dd.atkProf].toUpperCase()}
+              </div>
+              <table>
+                <tbody>
+                  {dd.ataques
+                    .filter((a) => a.nome !== 'Ataque Desarmado')
+                    .map((a) => (
+                      <tr key={a.nome}>
+                        <td style={{ width: '26mm' }}>
+                          <b>{a.nome}</b>
+                        </td>
+                        <td style={{ width: '9mm' }}>
+                          <b>{a.mod}</b>
+                        </td>
+                        <td style={{ width: '18mm' }}>{a.dano}</td>
+                        <td className="pp-mini">{a.propriedades}</td>
+                      </tr>
+                    ))}
+                  <tr>
+                    <td>
+                      <b>Manobras</b>
+                    </td>
+                    <td>
+                      <b>+{dd.manobrasMod}</b>
+                    </td>
+                    <td colSpan={2} className="pp-mini">
+                      Agarrar · Derrubar · Empurrar · Escapar
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style={{ flex: 1 }}>
+            {dd.habilidades.length ? (
+              <div className="pp-sec">
+                <div className="pp-sec-t">{'// HABILIDADES'}</div>
+                {dd.habilidades.map((h) => (
+                  <Linha key={h.nome} it={h} />
+                ))}
+              </div>
+            ) : null}
+            {dd.escolas.length || dd.energiaMagica ? (
+              <div className="pp-sec">
+                <div className="pp-sec-t">
+                  {'// MAGIAS · POTÊNCIA '}
+                  {dd.potencia}
+                </div>
+                <div className="pp-kv">
+                  <b>ENERGIA MÁGICA</b> <Losangos n={dd.energiaMagica} />
+                </div>
+                {dd.escolas.flatMap((e) => e.grupos.flatMap((g) => g.magias)).map((m) => (
+                  <Linha key={m.nome} it={m} />
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          borderTop: '.6pt dashed #999',
+          textAlign: 'center',
+          fontSize: '5pt',
+          color: '#999',
+          fontFamily: 'Courier New, monospace',
+          letterSpacing: '.2em',
+          paddingTop: '1mm',
+        }}
+      >
+        ✂ MEIA FOLHA — CORTE AQUI
+      </div>
+    </div>
+  )
+}
+
 export function FichaPapelPage() {
   const params = useParams()
   const id = params['*'] ?? ''
@@ -640,6 +942,7 @@ export function FichaPapelPage() {
   if (error) return <p role="alert">Ficha não encontrada: {id}</p>
   if (!doc || !rules) return <p className="loading">Preparando a ficha…</p>
   const nome = str(model.fm['nome']).trim() || doc.basename
+  const familia = familiaOf(doc)
 
   return (
     <div className="pp-root">
@@ -650,10 +953,24 @@ export function FichaPapelPage() {
           🖨 IMPRIMIR / SALVAR PDF
         </button>
       </div>
-      <Pagina1 dd={dd} nome={nome} />
-      <Pagina2 dd={dd} nome={nome} />
+      {familia === 'CompanheiroAnimal' ? (
+        <PaginaCA dd={dd} nome={nome} tutor={linkLabelDe(str(derivado['Tutor']))} />
+      ) : familia === 'Monstro' ? (
+        <PaginaMonstro dd={dd} nome={nome} tier={String(derivado['Tier'] ?? 0)} />
+      ) : (
+        <>
+          <Pagina1 dd={dd} nome={nome} />
+          <Pagina2 dd={dd} nome={nome} />
+        </>
+      )}
     </div>
   )
+}
+
+/** Label de wikilink local (Tutor no header do CA). */
+function linkLabelDe(s: string): string {
+  const m = /\[\[([^\]|]+)\|?([^\]]*)\]\]/.exec(s)
+  return m ? (m[2] || m[1]!).trim() : s
 }
 
 // Stub pros hooks enquanto o doc carrega (idioma do use-pending-tabs).

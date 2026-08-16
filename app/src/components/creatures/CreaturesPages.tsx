@@ -1330,6 +1330,12 @@ function NpcCard({
               : []),
             ...(podeExportar
               ? [
+                  // Export #452: ficha A4 pra papel (CA = 1 folha; monstro =
+                  // meia folha, base ficha-resumo).
+                  {
+                    label: '🖨 Ficha pra papel',
+                    onClick: () => navigate(`/papel/${entry.id}`),
+                  },
                   {
                     label:
                       subtype === 'Monstro' ? '📤 Exportar criatura' : '📤 Exportar companheiro',
