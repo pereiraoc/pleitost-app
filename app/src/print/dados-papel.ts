@@ -74,6 +74,9 @@ export interface ItemResumo {
 }
 export interface PericiaLinha {
   nome: string
+  /** Nome da especialidade/maestria ESCOLHIDA ('' quando não há). */
+  especialidade: string
+  maestria: string
   atributo: string
   mod: number
   prof: RankLetter
@@ -213,6 +216,8 @@ export function montarDadosPapel(
     const pf = rank(r['Proficiencia'])
     return {
       nome: str(r['Nome']),
+      especialidade: linkLabel(str(r['Especializacao']).trim()),
+      maestria: linkLabel(str(r['Maestria']).trim()),
       atributo: str(r['Atributo']),
       mod: A(r['Atributo']) + PROF_BONUS[pf] + it + esp,
       prof: pf,
@@ -241,23 +246,37 @@ export function montarDadosPapel(
     const cat = CAT_RX.exec(linkLabel(str(t)))?.[1]
     return cat === 'Mestre' ? 0 : cat === 'Experiente' ? 1 : cat === 'Adepto' ? 2 : 3
   }
-  const usosDoTesouro = (t: string): number => {
-    const doc = docDe(t)
-    const cat = (CAT_RX.exec(linkLabel(str(t)))?.[1] ?? 'Adepto').toLowerCase()
-    const usos = (doc?.frontmatter?.['usos'] ?? {}) as Record<string, unknown>
-    const m = /^(\d+)/.exec(str(usos[cat]))
-    return m ? Number(m[1]) : 0
+  // Usos/cargas por tier: `usos` ('1/10min' → 1) OU `cargas` (número cru) —
+  // Implementos guardam cargas; imbuições/tesouros guardam usos.
+  const usosPorTier = (doc: VaultDoc | undefined, tier: string): number => {
+    const fmDoc = (doc?.frontmatter ?? {}) as Fm
+    const cat = tier.toLowerCase()
+    const u = (fmDoc['usos'] ?? {}) as Record<string, unknown>
+    const m = /^(\d+)/.exec(str(u[cat]))
+    if (m) return Number(m[1])
+    const c = (fmDoc['cargas'] ?? {}) as Record<string, unknown>
+    return num(c[cat])
   }
-  const tesouros: ItemResumo[] = [
+  const usosDoTesouro = (t: string): number =>
+    usosPorTier(docDe(t), CAT_RX.exec(linkLabel(str(t)))?.[1] ?? 'Adepto')
+  const IMPLEMENTOS_PREFIX = 'Sistema/Equipamento/Tesouros/Implementos/'
+  const tesourosRaw = [
     ...(Array.isArray(inv['Tesouros']) ? (inv['Tesouros'] as unknown[]).map(str) : []),
     ...(typeof inv['Tesouros_Especiais'] === 'string' && str(inv['Tesouros_Especiais']).trim()
       ? [str(inv['Tesouros_Especiais'])]
       : Array.isArray(inv['Tesouros_Especiais'])
         ? (inv['Tesouros_Especiais'] as unknown[]).map(str)
         : []),
-  ]
-    .sort((a, b) => pesoTesouro(a) - pesoTesouro(b))
-    .map((t) => ({ nome: linkLabel(str(t)), resumo: '', usos: usosDoTesouro(t) }))
+  ].sort((a, b) => pesoTesouro(a) - pesoTesouro(b))
+  const ehImplemento = (t: string): boolean =>
+    (docDe(t)?.path ?? '').startsWith(IMPLEMENTOS_PREFIX)
+  const itemUsos = (t: string): ItemResumo => ({
+    nome: linkLabel(str(t)),
+    resumo: '',
+    usos: usosDoTesouro(t),
+  })
+  const tesouros: ItemResumo[] = tesourosRaw.filter((t) => !ehImplemento(t)).map(itemUsos)
+  const implementos: ItemResumo[] = tesourosRaw.filter(ehImplemento).map(itemUsos)
 
   const marcas = rows(d, 'Experiencia', 'Marcas').map((m) => ({
     qtd: num(m['qtd']),
@@ -344,7 +363,13 @@ export function montarDadosPapel(
         categoria: [linkLabel(str(r['Categoria'])), linkLabel(str(r['Propriedade']))]
           .filter(Boolean)
           .join(' · '),
+        // Usos da IMBUIÇÃO da arma no tier da CATEGORIA da arma (report
+        // 2026-08-16: Relampejante tem 1/10min e não marcava bolinha).
+        usos: str(r['Propriedade']).trim()
+          ? usosPorTier(docDe(str(r['Propriedade'])), linkLabel(str(r['Categoria'])) || 'Adepto')
+          : 0,
       })),
+      implementos,
       tesouros,
     },
     marcas,
@@ -362,7 +387,10 @@ export function nomesReferenciados(d: Fm): string[] {
     const t = baseDoItem(str(v))
     if (t) out.add(t)
   }
-  for (const r of rows(d, 'Inventario', 'Armas', 'Lista')) add(r['Nome'])
+  for (const r of rows(d, 'Inventario', 'Armas', 'Lista')) {
+    add(r['Nome'])
+    add(r['Propriedade'])
+  }
   for (const r of rows(d, 'Ataques', 'Lista')) if (str(r['Nome']) !== 'Manobras') add(r['Nome'])
   for (const k of entradas((d['Habilidades'] as Fm | undefined)?.['Lista'])) add(k)
   for (const t of Array.isArray((d['Tecnicas'] as Fm | undefined)?.['Lista'])

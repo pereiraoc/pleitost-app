@@ -75,7 +75,7 @@ export const PAPEL_CSS = `
 .pp-kv { font-size: 7pt; margin-bottom: .45mm; }
 .pp-kv b { font-family: 'Courier New', monospace; font-size: 5.5pt; letter-spacing: .1em; color: #444; }
 .pp-kv2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .6mm 3mm; }
-.pp-kv4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .6mm 2mm; }
+.pp-kv4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .6mm 3mm; }
 .pp-id-campo { border: .7pt solid #999; padding: .6mm 1.2mm .4mm; min-height: 6.5mm; display: flex; flex-direction: column; }
 .pp-id-t { font-family: 'Courier New', monospace; font-size: 4.8pt; letter-spacing: .12em; color: #555; }
 .pp-id-v { font-size: 6.8pt; flex: 1; display: flex; align-items: center; }
@@ -204,17 +204,21 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
               <tbody>
                 <tr>
                   <th>PERÍCIA</th>
-                  <th style={{ width: '8mm' }}>ATR</th>
-                  <th style={{ width: '9mm' }}>MOD</th>
-                  <th style={{ width: '7mm' }}>PRF</th>
-                  <th style={{ width: '9mm' }}>B.ITEM</th>
-                  <th style={{ width: '9mm' }}>B.ESP</th>
+                  <th style={{ width: '22mm' }}>ESPECIALIDADE</th>
+                  <th style={{ width: '22mm' }}>MAESTRIA</th>
+                  <th style={{ width: '7mm' }}>ATR</th>
+                  <th style={{ width: '8mm' }}>MOD</th>
+                  <th style={{ width: '6mm' }}>PRF</th>
+                  <th style={{ width: '8mm' }}>B.ITEM</th>
+                  <th style={{ width: '8mm' }}>B.ESP</th>
                 </tr>
                 {dd.pericias.map((p) => (
                   <tr key={p.nome}>
                     <td>
                       <b>{p.nome}</b>
                     </td>
+                    <td className="pp-mini">{p.especialidade}</td>
+                    <td className="pp-mini">{p.maestria}</td>
                     <td>{p.atributo}</td>
                     <td>
                       <b>+{p.mod}</b>
@@ -515,9 +519,22 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
             {inv.armas.map((a) => (
               <div key={a.nome} className="pp-ln">
                 <b>{a.nome}</b>
-                <span className="pp-rs">{a.categoria ? ` — ${a.categoria}` : ''}</span>
+                <span className="pp-rs">{a.categoria ? ` — ${a.categoria}` : ''}</span>{' '}
+                {a.usos ? <Bolinhas n={a.usos} /> : null}
               </div>
             ))}
+            {inv.implementos.length ? (
+              <>
+                <div className="pp-rank-h" style={{ marginTop: '1.4mm' }}>
+                  IMPLEMENTOS
+                </div>
+                {inv.implementos.map((t) => (
+                  <div key={t.nome} className="pp-ln">
+                    <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+                  </div>
+                ))}
+              </>
+            ) : null}
             <div className="pp-rank-h" style={{ marginTop: '1.4mm' }}>
               TESOUROS
             </div>

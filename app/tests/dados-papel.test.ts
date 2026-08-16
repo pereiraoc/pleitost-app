@@ -73,6 +73,23 @@ describe('montarDadosPapel — Carlos (números do mock aprovado)', () => {
     const ampli = dd.inventario.tesouros.find((t) => t.nome.startsWith('Amplificador'))!
     expect(ampli.usos).toBe(1) // usos.experiente = '1/10min'
   })
+  it('IMPLEMENTOS separados dos tesouros, com CARGAS em bolinhas (2026-08-16)', () => {
+    const nomes = dd.inventario.implementos.map((t) => t.nome)
+    expect(nomes.some((n) => n.startsWith('Foco da Repetição'))).toBe(true)
+    expect(dd.inventario.tesouros.some((t) => t.nome.startsWith('Foco'))).toBe(false)
+    const rep = dd.inventario.implementos.find((t) => t.nome.startsWith('Foco da Repetição'))!
+    expect(rep.usos).toBe(4) // cargas.adepto = 4
+  })
+  it('arma com imbuição marca os USOS da imbuição no tier da arma', () => {
+    const punhal = dd.inventario.armas.find((a) => a.nome === 'Punhal')!
+    expect(punhal.usos).toBe(1) // Relampejante usos.experiente = '1/10min'
+  })
+  it('perícias carregam a especialidade/maestria escolhida (colunas da tabela)', () => {
+    const acro = dd.pericias.find((p) => p.nome === 'Acrobacia')!
+    expect(acro.especialidade).toBe('Estabilidade')
+    const atl = dd.pericias.find((p) => p.nome === 'Atletismo')!
+    expect(atl.especialidade).toBe('')
+  })
   it('habilidades sem o pai da escolha duplicado', () => {
     const nomes = dd.habilidades.map((h) => h.nome)
     expect(nomes).toContain('Método Artístico (Inspirador)')
