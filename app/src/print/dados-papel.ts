@@ -283,7 +283,18 @@ export function montarDadosPapel(
     usos: usosDoTesouro(t),
   })
   const tesouros: ItemResumo[] = tesourosRaw.filter((t) => !ehImplemento(t)).map(itemUsos)
-  const implementos: ItemResumo[] = tesourosRaw.filter(ehImplemento).map(itemUsos)
+  // Implementos vão pra PÁGINA 1, abaixo das magias, com o RESUMO da
+  // categoria EQUIPADA (descrição por tier do doc; pedido 2026-08-16).
+  const implementos: ItemResumo[] = tesourosRaw.filter(ehImplemento).map((t) => {
+    const doc = docDe(t)
+    const cat = (CAT_RX.exec(linkLabel(str(t)))?.[1] ?? 'Adepto').toLowerCase()
+    const desc = ((doc?.frontmatter ?? {})['descrição'] ?? {}) as Record<string, unknown>
+    return {
+      nome: linkLabel(str(t)),
+      resumo: str(desc[cat]) || resumoDoDoc(doc),
+      usos: usosDoTesouro(t),
+    }
+  })
 
   const marcas = rows(d, 'Experiencia', 'Marcas').map((m) => ({
     qtd: num(m['qtd']),

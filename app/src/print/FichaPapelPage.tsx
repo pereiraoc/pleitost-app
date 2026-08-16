@@ -58,20 +58,20 @@ export const PAPEL_CSS = `
 .pp-ci { display: inline-block; width: 3mm; height: 3mm; border: .8pt solid #111; border-radius: 50%; margin: 0 .6mm .3mm 0; vertical-align: middle; }
 .pp-di { display: inline-block; width: 4.4mm; height: 4.4mm; margin: 0 .5mm .3mm 0; vertical-align: middle; position: relative; }
 .pp-di > span { position: absolute; inset: .55mm; border: .8pt solid #111; transform: rotate(45deg); display: block; }
-.pp-chk { display: inline-flex; align-items: center; gap: .8mm; font-size: 6.8pt; width: 24%; margin-bottom: .7mm; }
-.pp-chk::before { content: ''; width: 2.7mm; height: 2.7mm; border: .8pt solid #111; flex: none; }
-.pp-cond-bloco { break-inside: avoid; margin-bottom: 1.4mm; }
-.pp-cond-bloco .pp-chk { margin-bottom: .5mm; }
+.pp-chk { display: inline-flex; align-items: center; gap: .8mm; font-size: 6.6pt; width: 24%; margin-bottom: .5mm; }
+.pp-chk::before { content: ''; width: 2.5mm; height: 2.5mm; border: .8pt solid #111; flex: none; }
+.pp-cond-bloco { break-inside: avoid; margin-bottom: 1mm; }
+.pp-cond-bloco .pp-chk { margin-bottom: .25mm; font-size: 6.5pt; }
 .pp-linha-v { border-bottom: .6pt solid #888; height: 4mm; }
 .pp-page table { border-collapse: collapse; width: 100%; }
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
 .pp-page td { font-size: 6.5pt; border-bottom: .5pt solid #bbb; padding: .35mm .9mm; vertical-align: top; }
 .pp-cons th.q, .pp-cons td.q { width: 8mm; text-align: center; border-left: .5pt solid #bbb; font-size: 8pt; }
-.pp-ln { font-size: 6.1pt; line-height: 1.3; margin-bottom: .3mm; break-inside: avoid; }
+.pp-ln { font-size: 6.1pt; line-height: 1.28; margin-bottom: .25mm; break-inside: avoid; }
 .pp-ln b { font-size: 6.3pt; }
 .pp-rs { color: #333; }
 .pp-tag { font-family: 'Courier New', monospace; font-size: 5.2pt; border: .6pt solid #111; padding: 0 .7mm; }
-.pp-rank-h { font-family: 'Courier New', monospace; font-size: 5.4pt; font-weight: 700; letter-spacing: .18em; color: #555; margin: .7mm 0 .3mm; }
+.pp-rank-h { font-family: 'Courier New', monospace; font-size: 5.4pt; font-weight: 700; letter-spacing: .18em; color: #555; margin: .5mm 0 .2mm; }
 .pp-cols2 { columns: 2; column-gap: 3.5mm; column-rule: .5pt solid #ccc; }
 .pp-cols4 { columns: 4; column-gap: 3.5mm; column-rule: .5pt solid #ccc; }
 .pp-cols4 .pp-ln { font-size: 5.7pt; line-height: 1.2; }
@@ -375,7 +375,9 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
                 <div key={e.nome}>
                   <div className="pp-kv">
                     <b>
-                      {e.nome.toUpperCase()} · {PROF_NOME[e.prof].toUpperCase()}
+                      {e.nome.toUpperCase()}
+                      {/* Tesouros não têm proficiência de escola — sem rótulo. */}
+                      {e.nome === 'Tesouros' ? '' : ` · ${PROF_NOME[e.prof].toUpperCase()}`}
                     </b>
                   </div>
                   {e.grupos.map((g) => (
@@ -390,13 +392,24 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
               ))}
             </div>
           ) : null}
+          {dd.inventario.implementos.length ? (
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// IMPLEMENTOS MÁGICOS'}</div>
+              {dd.inventario.implementos.map((t) => (
+                <div key={t.nome} className="pp-ln">
+                  <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+                  {t.resumo ? <span className="pp-rs"> — {t.resumo}</span> : null}
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="pp-flex2" style={{ gap: '4mm' }}>
         {/* mesma proporção do bloco de cima (1.1/1) — a divisa alinha. */}
         <div style={{ flex: 1.1 }}>
           <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-          <CondicoesColunas grupos={dd.condicoes} colunas={4} />
+          <CondicoesColunas grupos={dd.condicoes} colunas={5} />
         </div>
         <div style={{ flex: 1 }}>
           <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
@@ -521,7 +534,9 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                 <span className="pp-rs"> — {m.texto}</span>
               </div>
             ))}
-            <div className="pp-linha-v" />
+            {[0, 1, 2].map((i) => (
+              <div key={`v${i}`} className="pp-linha-v" />
+            ))}
           </div>
         </div>
         {/* 1/3 — técnicas e habilidades */}
@@ -621,18 +636,6 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                 {a.usos ? <Bolinhas n={a.usos} /> : null}
               </div>
             ))}
-            {inv.implementos.length ? (
-              <>
-                <div className="pp-rank-h" style={{ marginTop: '1.4mm' }}>
-                  IMPLEMENTOS
-                </div>
-                {inv.implementos.map((t) => (
-                  <div key={t.nome} className="pp-ln">
-                    <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
-                  </div>
-                ))}
-              </>
-            ) : null}
             <div className="pp-rank-h" style={{ marginTop: '1.4mm' }}>
               TESOUROS
             </div>
