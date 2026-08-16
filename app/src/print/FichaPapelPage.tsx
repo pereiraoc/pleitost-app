@@ -539,10 +539,22 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                   <th className="q">E</th>
                   <th className="q">M</th>
                 </tr>
-                {inv.consumiveisCatalogo.map((c) => (
-                  <tr key={c}>
+                {dd.consumiveisDetalhe.map((c) => (
+                  <tr key={c.nome}>
                     <td>
-                      <b>{c}</b>
+                      <b>{c.nome}</b>
+                      {c.tiers.length ? (
+                        <div className="pp-mini" style={{ marginTop: '.2mm' }}>
+                          {c.tiers.map((t) => (
+                            <div key={t.letra}>
+                              <b style={{ fontFamily: 'Courier New, monospace', fontSize: '4.8pt' }}>
+                                {t.letra}
+                              </b>{' '}
+                              {t.texto}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
                     </td>
                     <td className="q" />
                     <td className="q" />
@@ -1004,6 +1016,10 @@ export function FichaPapelPage() {
       const r = catalog.resolve(nome)
       if (r.kind === 'doc') ids.add(r.id)
     }
+    // catálogo de consumíveis inteiro (a tabela mostra TODAS as poções, com a
+    // descrição por tier — pedido 2026-08-16)
+    for (const e of catalog.content)
+      if (e.path.startsWith('Sistema/Equipamento/Tesouros/Consumíveis/')) ids.add(e.id)
     return [...ids]
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog, rules])

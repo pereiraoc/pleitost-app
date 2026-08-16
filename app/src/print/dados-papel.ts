@@ -339,6 +339,16 @@ export function montarDadosPapel(
     atributos: (['FOR', 'AGI', 'INT', 'PRE'] as const)
       .map((a) => ({ sigla: a, valor: A(a) }))
       .sort((x, y) => y.valor - x.valor),
+    consumiveisDetalhe: consumiveisCatalogo.map((nome) => {
+      const fmc = (docDe(nome)?.frontmatter ?? {}) as Fm
+      const desc = (fmc['descrição'] ?? {}) as Record<string, unknown>
+      return {
+        nome,
+        tiers: (['adepto', 'experiente', 'mestre'] as const)
+          .map((t) => ({ letra: t[0]!.toUpperCase(), texto: str(desc[t]) }))
+          .filter((t) => t.texto),
+      }
+    }),
     identidade: {
       passado: str(bio['Passado']),
       motivacao: str(bio['Motivacao']),
