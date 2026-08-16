@@ -12,7 +12,7 @@ import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
 import { familiaOf, familiaTemPericia } from '../data/familia'
-import { COND_CATEGORIA_POR_ID, COND_CATEGORIAS_ORDEM, COND_GRUPOS, slugify } from '../components/ficha/registry'
+import { COND_CATEGORIA_POR_ID, COND_CATEGORIAS_ORDEM, COND_GRUPOS, custoEmoji, slugify } from '../components/ficha/registry'
 import {
   baseDoItem,
   montarDadosPapel,
@@ -71,7 +71,6 @@ export const PAPEL_CSS = `
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
 .pp-page td { font-size: 6.5pt; border-bottom: .5pt solid #bbb; padding: .35mm .9mm; vertical-align: top; }
 .pp-cons th.q, .pp-cons td.q { width: 8mm; text-align: center; border-left: .5pt solid #bbb; font-size: 8pt; }
-.pp-cons th.im, .pp-cons td.im { width: 10.5mm; }
 .pp-ln { font-size: 6.1pt; line-height: 1.28; margin-bottom: .25mm; break-inside: avoid; }
 .pp-ln b { font-size: 6.3pt; }
 .pp-rs { color: #333; }
@@ -706,7 +705,9 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               <tbody>
                 <tr>
                   <th>CONSUMÍVEL</th>
-                  <th className="q im">IMUNIDADE</th>
+                  <th className="q" title="Imunidade">
+                    {custoEmoji('Min')}
+                  </th>
                   <th className="q">A</th>
                   <th className="q">E</th>
                   <th className="q">M</th>
@@ -728,7 +729,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                         </div>
                       ) : null}
                     </td>
-                    <td className="q im">
+                    <td className="q">
                       <span className="pp-sq" style={{ margin: 0 }} />
                     </td>
                     <td className="q" />
@@ -738,7 +739,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                 ))}
                 <tr>
                   <td style={{ height: '3.6mm' }}>&nbsp;</td>
-                  <td className="q im">
+                  <td className="q">
                     <span className="pp-sq" style={{ margin: 0 }} />
                   </td>
                   <td className="q" />
