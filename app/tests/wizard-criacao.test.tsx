@@ -297,6 +297,18 @@ describe('class-roles-preview (#452 r4) — somas e highlight', () => {
     expect(somaPapeisPorSintonia(['Somar Papel.Abatedor 2']).size).toBe(0)
   })
 
+  it('indicesDoBuildAtual: escolha fora dos builds (Círculo do Druida) não zera o highlight', async () => {
+    const { indicesDoBuildAtual } = await import('../src/components/wizard/class-roles-preview')
+    const builds: [string, Record<string, number>][] = [
+      ['Druida Guardião', { Vanguarda: 1, Abatedor: 1, Controlador: 1 }],
+      ['Druida Xamã', { Vanguarda: 1, Controlador: 2 }],
+    ]
+    // Círculo (não aparece em build nenhum) + Guardião → destaca só o Guardião
+    expect(indicesDoBuildAtual(builds as never, [['Círculo da Lua'], ['Guardião']])).toEqual([0])
+    // só o Círculo escolhido → nada discrimina ainda → sem highlight
+    expect(indicesDoBuildAtual(builds as never, [['Círculo da Lua']])).toEqual([])
+  })
+
   it('indicesDoBuildAtual: pick único casa 2 variantes; os 2 picks cravam UMA (fim do bug das 4★)', async () => {
     const { indicesDoBuildAtual } = await import('../src/components/wizard/class-roles-preview')
     // só "Manipulador" definido → destaca as 2 possibilidades compatíveis

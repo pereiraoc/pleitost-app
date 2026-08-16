@@ -96,9 +96,16 @@ export function somaPapeisPorSintonia(
  * highlight da possibilidade atual): cada grupo de textos (pick de uma escolha
  * com seus aliases, ou a sintonia curta) precisa casar no nome do build.
  * Grupos vazios são ignorados; sem grupo válido → [] (nada destacado).
+ *
+ * Report 2026-08-16 (Druida): escolha que NÃO aparece em NENHUM build (o
+ * Círculo Druídico não muda papel — os builds são "Druida Guardião"/"Druida
+ * Xamã") não pode zerar o highlight — grupo que não casa com build algum não
+ * discrimina nada e é IGNORADO.
  */
 export function indicesDoBuildAtual(builds: Build[], grupos: string[][]): number[] {
-  const validos = grupos.filter((g) => g.some((t) => t.trim()))
+  const validos = grupos
+    .filter((g) => g.some((t) => t.trim()))
+    .filter((g) => builds.some(([nome]) => contemAlgum(nome, g)))
   if (!validos.length) return []
   const out: number[] = []
   builds.forEach(([nome], i) => {

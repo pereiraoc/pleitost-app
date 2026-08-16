@@ -74,13 +74,13 @@ function renderApp() {
 describe('botão REPORTAR BUG (#220)', () => {
   it('fica ABAIXO do CONFIG no painel esquerdo, com fundo vermelho e ícone de bug (#308)', () => {
     renderApp()
-    const btn = screen.getByRole('button', { name: /REPORTAR BUG/ })
+    const btn = screen.getByRole('button', { name: /BUG\/SUGESTÃO/ })
     expect(btn.style.background).toContain('--red')
     expect(btn.textContent).toContain('🐞')
     // #308: REPORTAR BUG vem DEPOIS do link CONFIG (fim do grupo de navegação).
     const grupo = btn.closest('.nav-group')!
     const rotulos = [...grupo.querySelectorAll('.nav-item')].map((el) => el.textContent ?? '')
-    const iBug = rotulos.findIndex((t) => t.includes('REPORTAR BUG'))
+    const iBug = rotulos.findIndex((t) => t.includes('BUG/SUGESTÃO'))
     const iConfig = rotulos.findIndex((t) => t.includes('CONFIG'))
     expect(iConfig).toBeGreaterThanOrEqual(0)
     expect(iBug).toBeGreaterThan(iConfig)
@@ -92,8 +92,8 @@ describe('botão REPORTAR BUG (#220)', () => {
       enviados.push(r)
     })
     renderApp()
-    fireEvent.click(screen.getByRole('button', { name: /REPORTAR BUG/ }))
-    const dialog = screen.getByRole('dialog', { name: 'Reportar bug' })
+    fireEvent.click(screen.getByRole('button', { name: /BUG\/SUGESTÃO/ }))
+    const dialog = screen.getByRole('dialog', { name: 'Bug ou sugestão' })
     // #221: o modal fica POR CIMA da tela (portal no body), nunca preso
     // dentro do painel esquerdo (overflow/transform da sidebar)
     expect(dialog.closest('.sidebar')).toBeNull()
@@ -112,18 +112,15 @@ describe('botão REPORTAR BUG (#220)', () => {
     expect(enviados[0].contexto.userAgent).toBeTruthy()
   })
 
-  it('SUGERIR (verde, separado) envia com tipo sugestao (pedido 2026-08-15)', async () => {
+  it('botão único BUG/SUGESTÃO: radio no modal envia tipo sugestao (2026-08-16)', async () => {
     const enviados: BugReport[] = []
     __setBugSenderForTests(async (r) => {
       enviados.push(r)
     })
     renderApp()
-    const btn = screen.getByRole('button', { name: /SUGERIR/ })
-    expect(btn).toBeTruthy()
-    fireEvent.click(btn)
-    const dialog = screen.getByRole('dialog', { name: 'Sugerir melhoria' })
-    // sem radio de tipo: o botão já define (sugestão)
-    expect(within(dialog).queryByRole('radiogroup')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /BUG\/SUGESTÃO/ }))
+    const dialog = screen.getByRole('dialog', { name: 'Bug ou sugestão' })
+    fireEvent.click(within(dialog).getByRole('radio', { name: /Sugestão/ }))
     fireEvent.change(within(dialog).getByLabelText('Descrição do bug'), {
       target: { value: 'quero um modo escuro do mapa' },
     })
@@ -137,8 +134,8 @@ describe('botão REPORTAR BUG (#220)', () => {
       throw new Error('Servidor de reportes indisponível — tenta de novo mais tarde.')
     })
     renderApp()
-    fireEvent.click(screen.getByRole('button', { name: /REPORTAR BUG/ }))
-    const dialog = screen.getByRole('dialog', { name: 'Reportar bug' })
+    fireEvent.click(screen.getByRole('button', { name: /BUG\/SUGESTÃO/ }))
+    const dialog = screen.getByRole('dialog', { name: 'Bug ou sugestão' })
     fireEvent.change(within(dialog).getByLabelText('Descrição do bug'), {
       target: { value: 'algo quebrou' },
     })
