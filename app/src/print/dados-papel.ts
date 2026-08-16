@@ -283,11 +283,19 @@ export function montarDadosPapel(
   ].sort((a, b) => pesoTesouro(a) - pesoTesouro(b))
   const ehImplemento = (t: string): boolean =>
     (docDe(t)?.path ?? '').startsWith(IMPLEMENTOS_PREFIX)
-  const itemUsos = (t: string): ItemResumo => ({
-    nome: linkLabel(str(t)),
-    resumo: '',
-    usos: usosDoTesouro(t),
-  })
+  // Tesouro com RESUMO (pedido 2026-08-16): descrição do tier equipado
+  // quando o doc tem por-tier, senão o resumo geral — mesmo padrão dos
+  // implementos da pág. 1.
+  const itemUsos = (t: string): ItemResumo => {
+    const doc = docDe(t)
+    const cat = (CAT_RX.exec(linkLabel(str(t)))?.[1] ?? 'Adepto').toLowerCase()
+    const desc = ((doc?.frontmatter ?? {})['descrição'] ?? {}) as Record<string, unknown>
+    return {
+      nome: linkLabel(str(t)),
+      resumo: str(desc[cat]) || resumoDoDoc(doc),
+      usos: usosDoTesouro(t),
+    }
+  }
   const tesouros: ItemResumo[] = tesourosRaw.filter((t) => !ehImplemento(t)).map(itemUsos)
   // Implementos vão pra PÁGINA 1, abaixo das magias, com o RESUMO da
   // categoria EQUIPADA (descrição por tier do doc; pedido 2026-08-16).
@@ -439,5 +447,8 @@ export function nomesReferenciados(d: Fm): string[] {
   }
   const inv = (d['Inventario'] ?? {}) as Fm
   for (const t of Array.isArray(inv['Tesouros']) ? (inv['Tesouros'] as unknown[]) : []) add(t)
+  if (typeof inv['Tesouros_Especiais'] === 'string') add(inv['Tesouros_Especiais'])
+  else if (Array.isArray(inv['Tesouros_Especiais']))
+    for (const t of inv['Tesouros_Especiais'] as unknown[]) add(t)
   return [...out].filter(Boolean)
 }

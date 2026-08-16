@@ -755,6 +755,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
             {inv.tesouros.map((t) => (
               <div key={t.nome} className="pp-ln">
                 <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+                {t.resumo ? <span className="pp-rs"> — {t.resumo}</span> : null}
               </div>
             ))}
             <table style={{ marginTop: '1mm' }}>
@@ -949,6 +950,7 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
             {dd.inventario.tesouros.map((t) => (
               <div key={t.nome} className="pp-ln">
                 <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+                {t.resumo ? <span className="pp-rs"> — {t.resumo}</span> : null}
               </div>
             ))}
             <table style={{ marginTop: '.6mm' }}>
