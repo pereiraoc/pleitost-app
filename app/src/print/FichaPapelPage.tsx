@@ -120,7 +120,14 @@ function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']
   return (
     <div style={{ display: 'flex', gap: '3mm', alignItems: 'flex-start' }}>
       {positivas ? (
-        <div className="pp-box" style={{ flex: 'none', width: '26mm', padding: '1mm 1.5mm' }}>
+        <div
+          style={{
+            flex: 'none',
+            width: '26mm',
+            paddingRight: '3mm',
+            borderRight: '.6pt solid #999',
+          }}
+        >
           <div className="pp-rank-h" style={{ marginTop: 0 }}>
             POSITIVAS
           </div>
