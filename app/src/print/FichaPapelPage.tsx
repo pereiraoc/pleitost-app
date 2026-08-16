@@ -112,18 +112,42 @@ function blocosCondicoes(grupos: DadosPapel['condicoes']): { titulo: string; ite
 }
 
 function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']; colunas: number }) {
+  // POSITIVAS numa CAIXA separada à esquerda (pedido 2026-08-16: não misturar
+  // com as negativas); NEGATIVAS fluem nas colunas por categoria.
+  const blocos = blocosCondicoes(grupos)
+  const positivas = blocos.find((b) => b.titulo === 'POSITIVAS')
+  const negativas = blocos.filter((b) => b.titulo !== 'POSITIVAS')
   return (
-    <div style={{ columns: colunas, columnGap: '3mm' }}>
-      {blocosCondicoes(grupos).map((b) => (
-        <div key={b.titulo} className="pp-cond-bloco">
-          <div className="pp-rank-h">{b.titulo}</div>
-          {b.itens.map((c) => (
+    <div style={{ display: 'flex', gap: '3mm', alignItems: 'flex-start' }}>
+      {positivas ? (
+        <div className="pp-box" style={{ flex: 'none', width: '26mm', padding: '1mm 1.5mm' }}>
+          <div className="pp-rank-h" style={{ marginTop: 0 }}>
+            POSITIVAS
+          </div>
+          {positivas.itens.map((c) => (
             <span key={c} className="pp-chk" style={{ width: '100%' }}>
               {c}
             </span>
           ))}
         </div>
-      ))}
+      ) : null}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="pp-rank-h" style={{ marginTop: 0 }}>
+          NEGATIVAS
+        </div>
+        <div style={{ columns: colunas, columnGap: '3mm' }}>
+          {negativas.map((b) => (
+            <div key={b.titulo} className="pp-cond-bloco">
+              <div className="pp-rank-h">{b.titulo}</div>
+              {b.itens.map((c) => (
+                <span key={c} className="pp-chk" style={{ width: '100%' }}>
+                  {c}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
