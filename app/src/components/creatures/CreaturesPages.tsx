@@ -691,6 +691,12 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
               else if (doc) downloadPortable(portableFromDoc(doc, nome))
             },
           },
+          // Export #452: ficha A4 pra jogar de papel e caneta — abre a
+          // PRÉ-VISUALIZAÇÃO (imprimir/salvar PDF pelo navegador).
+          {
+            label: '🖨 Ficha pra papel',
+            onClick: () => navigate(`/papel/${entry.id}`),
+          },
           ...(canDelete
             ? [
                 {
