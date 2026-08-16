@@ -5,7 +5,7 @@
 // HeroCard tem desde #215. Mesmo padrão: confirmação in-app em 2 cliques,
 // removeLocalEntity (grava tombstone → some da conta toda, #366).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { within, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -75,12 +75,24 @@ function renderNpcs() {
   )
 }
 
+
+/** Card da criatura pelo nome (menus agora existem também nos cards da VAULT
+ *  — a ficha de papel vale pra todos — então o lookup escopa no card). */
+async function cardDe(nome: string): Promise<HTMLElement> {
+  const el = await waitFor(() => {
+    const hit = screen.getAllByText(nome).find((e) => e.classList.contains('npc-nome'))
+    expect(hit).toBeTruthy()
+    return hit!
+  })
+  return el.closest('.npc-card') as HTMLElement
+}
+
 describe('#375 — deletar companheiro animal pelo menu ⋮', () => {
   it('CA local: dois cliques (arma + confirma) removem a entidade', async () => {
     createLocalEntity('CompanheiroAnimal', 'Rex Deletável', emptyCompanheiroFrontmatter('Rex Deletável'))
     renderNpcs()
-    expect(await screen.findByText('Rex Deletável')).toBeTruthy()
-    fireEvent.click(screen.getByLabelText('Ações do companheiro'))
+    const cardRex = await cardDe('Rex Deletável')
+    fireEvent.click(within(cardRex).getByLabelText('Ações do companheiro'))
     fireEvent.click(await screen.findByText(/Deletar companheiro/))
     // 1º clique só ARMA
     expect(screen.getByText(/Confirmar\? Remove da sua conta/)).toBeTruthy()
@@ -94,8 +106,8 @@ describe('#375 — deletar companheiro animal pelo menu ⋮', () => {
   it('monstro local também ganha Deletar (mesmo menu)', async () => {
     createLocalEntity('Monstro', 'Ogro Temporário', emptyMonstroFrontmatter())
     renderNpcs()
-    expect(await screen.findByText('Ogro Temporário')).toBeTruthy()
-    fireEvent.click(screen.getByLabelText('Ações da criatura'))
+    const cardOgro = await cardDe('Ogro Temporário')
+    fireEvent.click(within(cardOgro).getByLabelText('Ações da criatura'))
     fireEvent.click(await screen.findByText(/Deletar criatura/))
     fireEvent.click(screen.getByText(/Confirmar\? Remove da sua conta/))
     await waitFor(() => expect(localEntitiesOfKind('Monstro')).toHaveLength(0))

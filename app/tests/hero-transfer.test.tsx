@@ -245,7 +245,13 @@ describe('importar/exportar companheiro animal (#205)', () => {
     const download = capturarDownload()
     renderNpcs()
     fireEvent.click(screen.getByRole('button', { name: 'COMPANHEIROS ANIMAIS' }))
-    fireEvent.click(await screen.findByLabelText('Ações do companheiro'))
+    // menus existem também nos cards da vault (ficha de papel) — escopa no Bidu
+    const cardBidu = await waitFor(() => {
+      const hit = screen.getAllByText('Bidu').find((e) => e.classList.contains('npc-nome'))
+      expect(hit).toBeTruthy()
+      return hit!.closest('.npc-card') as HTMLElement
+    })
+    fireEvent.click(within(cardBidu).getByLabelText('Ações do companheiro'))
     fireEvent.click(screen.getByText('📤 Exportar companheiro'))
     expect(download.temBlob()).toBe(true)
     const portable = parsePortable(await download.texto())

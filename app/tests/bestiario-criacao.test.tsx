@@ -149,8 +149,21 @@ describe('criação rápida de monstros no Bestiário (#185)', () => {
     vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
     renderNpcs()
     fireEvent.click(screen.getByRole('button', { name: 'BESTIÁRIO' }))
-    fireEvent.click(await screen.findByLabelText('Ações da criatura'))
-    fireEvent.click(screen.getByText('📤 Exportar criatura'))
+    // menus também nos monstros da vault (ficha de papel) — pega o LOCAL, que
+    // é o único com "Exportar criatura" no menu
+    const menus = await screen.findAllByLabelText('Ações da criatura')
+    let exportou = false
+    for (const m of menus) {
+      fireEvent.click(m)
+      const item = screen.queryByText('📤 Exportar criatura')
+      if (item) {
+        fireEvent.click(item)
+        exportou = true
+        break
+      }
+      fireEvent.click(m) // fecha e tenta o próximo
+    }
+    expect(exportou).toBe(true)
     expect(blob).toBeTruthy()
     const texto = await new Promise<string>((resolve, reject) => {
       const reader = new FileReader()

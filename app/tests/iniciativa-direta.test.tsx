@@ -211,8 +211,10 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     )
     fireEvent.click(screen.getByRole('button', { name: 'BESTIÁRIO' }))
     const card = await cardDoMonstro('Goblin Batedor')
-    // sem sala: monstro da vault segue sem menu (nada de item morto)
-    expect(within(card).queryByLabelText('Ações da criatura')).toBeNull()
+    // sem sala: o menu EXISTE (ficha de papel vale pra vault), mas sem o
+    // item de iniciativa (nada de item morto)
+    fireEvent.click(within(card).getByLabelText('Ações da criatura'))
+    expect(await screen.findByText('🖨 Ficha pra papel')).toBeTruthy()
     expect(screen.queryByText('⚔️ Adicionar à iniciativa')).toBeNull()
   })
 })
