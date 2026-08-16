@@ -3,7 +3,7 @@
 // diálogo do navegador (window.print — o print-to-PDF nativo é o canal de
 // download; @page A4 landscape margem 0). Rota FORA do AppShell (sem
 // sidebars); a barra de ações some no @media print.
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import { useDoc, useDocs } from '../data/useDoc'
@@ -62,6 +62,10 @@ export const PAPEL_CSS = `
 .pp-chk::before { content: ''; width: 2.5mm; height: 2.5mm; border: .8pt solid #111; flex: none; }
 .pp-cond-bloco { break-inside: avoid; margin-bottom: 1mm; }
 .pp-cond-bloco .pp-chk { margin-bottom: .25mm; font-size: 6.5pt; }
+.pp-cond-rod .pp-chk { margin-bottom: .05mm; font-size: 6pt; gap: .6mm; }
+.pp-cond-rod .pp-chk::before { width: 2.1mm; height: 2.1mm; }
+.pp-cond-rod .pp-rank-h { margin: 0 0 .15mm; font-size: 4.8pt; }
+.pp-cond-rod .pp-cond-bloco { margin-bottom: .4mm; }
 .pp-linha-v { border-bottom: .6pt solid #888; height: 4mm; }
 .pp-page table { border-collapse: collapse; width: 100%; }
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
@@ -70,6 +74,7 @@ export const PAPEL_CSS = `
 .pp-ln { font-size: 6.1pt; line-height: 1.28; margin-bottom: .25mm; break-inside: avoid; }
 .pp-ln b { font-size: 6.3pt; }
 .pp-rs { color: #333; }
+.pp-tag-custo { border: .4pt solid #555; border-radius: .6mm; padding: 0 .5mm; }
 .pp-tag { font-family: 'Courier New', monospace; font-size: 5.2pt; border: .6pt solid #111; padding: 0 .7mm; }
 .pp-rank-h { font-family: 'Courier New', monospace; font-size: 5.4pt; font-weight: 700; letter-spacing: .18em; color: #555; margin: .5mm 0 .2mm; }
 .pp-cols2 { columns: 2; column-gap: 3.5mm; column-rule: .5pt solid #ccc; }
@@ -86,6 +91,24 @@ export const PAPEL_CSS = `
 .pp-id-bloco { border: .7pt solid #999; padding: .5mm 1.2mm .3mm; }
 .pp-id-bloco .pp-id-item { height: 3.4mm; overflow: hidden; white-space: nowrap; border-bottom: .5pt solid #ccc; display: flex; align-items: center; }
 .pp-id-bloco .pp-id-item:last-child { border-bottom: none; }
+.pp-fit1 .pp-ln { font-size: 5.6pt; line-height: 1.16; }
+.pp-fit1 .pp-dense .pp-ln, .pp-fit1 .pp-cols4 .pp-ln { font-size: 5.35pt; line-height: 1.12; }
+.pp-fit2 .pp-ln { font-size: 5.2pt; line-height: 1.1; }
+.pp-fit2 .pp-dense .pp-ln, .pp-fit2 .pp-cols4 .pp-ln { font-size: 5pt; line-height: 1.06; }
+.pp-fit2 .pp-sec { margin-bottom: .6mm; }
+.pp-fit2 td { font-size: 6pt; }
+.pp-fit3 .pp-ln { font-size: 4.9pt; line-height: 1.06; }
+.pp-fit3 .pp-dense .pp-ln, .pp-fit3 .pp-cols4 .pp-ln { font-size: 4.65pt; line-height: 1; }
+.pp-fit3 .pp-sec { margin-bottom: .5mm; }
+.pp-fit3 .pp-sec-t { font-size: 5.4pt; margin-bottom: .7mm; }
+.pp-fit3 td { font-size: 5.6pt; padding: .25mm .8mm; }
+.pp-fit3 th { font-size: 4.7pt; }
+.pp-fit3 .pp-tag { font-size: 4.6pt; }
+.pp-fit3 .pp-hdr { margin-bottom: 1mm; padding-bottom: .5mm; }
+.pp-fit3 .pp-hdr .pp-nome { font-size: 11pt; }
+.pp-fit3 .pp-cond-rod .pp-chk { font-size: 5.4pt; }
+.pp-fit3 .pp-cond-rod .pp-chk::before { width: 1.9mm; height: 1.9mm; }
+.pp-fit3 .pp-linha-v { height: 3.2mm; }
 .pp-flex2 { display: flex; gap: 3mm; }
 .pp-flex2 > div { min-width: 0; }
 .pp-fill { display: flex; flex-direction: column; }
@@ -151,7 +174,7 @@ function CondicoesRodape({ grupos }: { grupos: DadosPapel['condicoes'] }) {
   const positivas = grupos.find((g) => g.titulo === 'POSITIVAS')
   const negativas = grupos.find((g) => g.titulo === 'NEGATIVAS')
   return (
-    <div style={{ display: 'flex', gap: '2mm', alignItems: 'stretch' }}>
+    <div className="pp-cond-rod" style={{ display: 'flex', gap: '2mm', alignItems: 'stretch' }}>
       {positivas ? (
         <div
           style={{
@@ -229,7 +252,15 @@ function Losangos({ n }: { n: number }) {
 function Linha({ it }: { it: ItemResumo }) {
   return (
     <div className="pp-ln">
-      {it.tag ? <span className="pp-tag">{it.tag}</span> : null}{' '}
+      {it.tag ? <span className="pp-tag">{it.tag}</span> : null}
+      {/* custo VERBATIM da vault (1A/2A/P/L/R...) — não existe registro de
+          rótulo textual, então nada de traduzir/inventar label aqui. */}
+      {it.custo ? (
+        <>
+          {' '}
+          <span className="pp-tag pp-tag-custo">{it.custo}</span>
+        </>
+      ) : null}{' '}
       <b>{it.nome}</b>
       {it.resumo ? <span className="pp-rs"> — {it.resumo}</span> : null}
     </div>
@@ -246,9 +277,35 @@ function CelulaFixa({ texto }: { texto: string }) {
   )
 }
 
+/** Auto-densidade por página: fichas grandes (conjurador com lista enorme de
+ *  magias, ex. Pind) não cabiam no A4 e o excesso era CLIPADO em silêncio.
+ *  Mede o overflow real e desce a fonte em degraus (fit1/fit2) até caber —
+ *  fichas que cabem (Carlos) ficam no tamanho cheio. Só aperta, nunca relaxa:
+ *  os docs chegam progressivamente e o conteúdo só cresce. */
+function usePaginaFit() {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [fit, setFit] = useState(0)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || fit >= 3) return
+    // A banda principal (.pp-clipa) clipa o excesso pra proteger o rodapé —
+    // então o estouro precisa ser medido NELA, não só na página.
+    const estoura =
+      el.scrollHeight > el.clientHeight + 1 ||
+      [...el.querySelectorAll('.pp-clipa')].some((c) => c.scrollHeight > c.clientHeight + 1)
+    if (estoura) setFit(fit + 1)
+  })
+  return { ref, fitClass: fit ? ` pp-fit${fit}` : '' }
+}
+
 function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
+  const { ref, fitClass } = usePaginaFit()
+  // No aperto máximo a coluna esquerda cede largura pra direita: os resumos
+  // longos de magia quebram menos linha (é a direita que estoura nas fichas
+  // de conjurador; a esquerda sobra).
+  const esqFlex = fitClass.includes('fit3') ? 0.84 : 1.1
   return (
-    <div className="pp-page">
+    <div className={'pp-page' + fitClass} ref={ref}>
       <div className="pp-hdr">
         <span className="pp-nome">{nome}</span>
         <span className="pp-classe">
@@ -259,8 +316,11 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
           <span>NÍVEL</span>
         </span>
       </div>
-      <div className="pp-flex2" style={{ gap: '4mm' }}>
-        <div style={{ flex: 1.1 }}>
+      <div
+        className="pp-flex2 pp-clipa"
+        style={{ gap: '4mm', flex: '1 1 auto', minHeight: 0, overflow: 'hidden' }}
+      >
+        <div style={{ flex: esqFlex }}>
           <div className="pp-sec">
             <div className="pp-sec-t">
               {'// VIDA '}
@@ -463,7 +523,7 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
       </div>
       {/* v18: rodapé COMPACTO — uma coluna por categoria (agrupamento
           preservado) + efeitos menores à direita. */}
-      <div className="pp-flex2" style={{ gap: '4mm' }}>
+      <div className="pp-flex2" style={{ gap: '4mm', flex: 'none', paddingTop: '.6mm' }}>
         <div style={{ flex: 2.6 }}>
           <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
           <CondicoesRodape grupos={dd.condicoes} />
@@ -489,8 +549,9 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
   ]
   const alvoLinhas = Math.max(...listas.map(([, v]) => v.length)) + 1
   const inv = dd.inventario
+  const { ref, fitClass } = usePaginaFit()
   return (
-    <div className="pp-page">
+    <div className={'pp-page' + fitClass} ref={ref}>
       <div className="pp-hdr">
         <span className="pp-nome">{nome}</span>
         <span className="pp-classe">{dd.classe}</span>
@@ -500,7 +561,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
         </span>
       </div>
       <div
-        className="pp-flex2"
+        className="pp-flex2 pp-clipa"
         style={{ gap: '4mm', flex: '1 1 auto', minHeight: 0, overflow: 'hidden' }}
       >
         {/* 1/3 — atributos · identidade · ofícios · reconhecimentos · marcas */}

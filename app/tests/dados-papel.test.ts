@@ -94,6 +94,12 @@ describe('montarDadosPapel — Carlos (números do mock aprovado)', () => {
     const atl = dd.pericias.find((p) => p.nome === 'Atletismo')!
     expect(atl.especialidade).toBe('')
   })
+  it('técnicas carregam o CUSTO verbatim do inline field (pedido 2026-08-16)', () => {
+    const entrada = dd.tecnicas.find((t) => t.nome === 'Entrada Dramática')!
+    expect(entrada.custo).toBe('L')
+    // e o resumo vem do inline `resumo` da técnica (sem as aspas), não do corpo
+    expect(entrada.resumo).toMatch(/^Ao rolar iniciativa/)
+  })
   it('habilidades sem o pai da escolha duplicado', () => {
     const nomes = dd.habilidades.map((h) => h.nome)
     expect(nomes).toContain('Método Artístico (Inspirador)')

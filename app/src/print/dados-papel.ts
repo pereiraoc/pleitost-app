@@ -71,6 +71,8 @@ export interface ItemResumo {
   resumo: string
   tag?: string
   usos?: number
+  /** Custo em ações (inline `custo` das técnicas: L=Livre, R=Reação, n=ações). */
+  custo?: string
 }
 export interface PericiaLinha {
   nome: string
@@ -192,7 +194,11 @@ export function montarDadosPapel(
     ? ((d['Tecnicas'] as Fm)['Lista'] as Row[])
     : []
   ).flatMap((t) =>
-    Object.entries(t).map(([k, v]) => item(k, str(v).split('.').pop() ?? '')),
+    Object.entries(t).map(([k, v]) => {
+      const doc = docDe(k)
+      const custo = str(doc?.inlineFields?.['custo']).trim()
+      return { ...item(k, str(v).split('.').pop() ?? ''), ...(custo ? { custo } : {}) }
+    }),
   )
   const acoes: ItemResumo[] = entradas((d['Acoes'] as Fm | undefined)?.['Lista']).map((a) =>
     item(a, 'AÇÃO'),

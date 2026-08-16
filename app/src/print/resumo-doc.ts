@@ -81,10 +81,15 @@ export function resumir(texto: string): string {
   return corte.slice(0, corte.lastIndexOf(' ')) + '…'
 }
 
-/** Resumo de um DOC: FM `resumo` quando existe (itens), senão o corpo. */
+/** Resumo de um DOC: FM `resumo` > inline field `resumo` (técnicas guardam
+ *  lá, entre aspas) > 1º parágrafo do corpo. */
 export function resumoDoDoc(doc: VaultDoc | undefined): string {
   if (!doc) return ''
   const fmr = doc.frontmatter?.['resumo']
   if (typeof fmr === 'string' && fmr.trim()) return limpaWikilinks(fmr).trim()
+  const inline = doc.inlineFields?.['resumo']
+  if (typeof inline === 'string' && inline.trim()) {
+    return limpaWikilinks(inline.trim().replace(/^"|"$/g, '')).trim()
+  }
   return resumoDoCorpo(doc.body ?? '')
 }
