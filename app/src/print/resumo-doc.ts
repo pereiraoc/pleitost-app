@@ -58,7 +58,27 @@ export function resumoDoCorpo(body: string): string {
   if (resto.length && (texto.trimEnd().endsWith(':') || texto.length < 90)) {
     texto += ' ' + resto.join(' ')
   }
-  return texto.replace(/\s+/g, ' ').trim()
+  return resumir(texto.replace(/\s+/g, ' ').trim())
+}
+
+/** RESUMO de verdade (report 2026-08-16: parágrafos enormes saíam inteiros):
+ *  acumula FRASES até ~240 chars — o corte é sempre em fim de frase (nada de
+ *  reticências no meio, reclamação da v5); uma frase única gigante cai no
+ *  corte por palavra com reticências (raro). */
+const ALVO = 240
+export function resumir(texto: string): string {
+  if (texto.length <= ALVO) return texto
+  const frases = texto.match(/[^.!?]+[.!?]+(?:\s|$)/g)
+  if (frases && frases.length > 1) {
+    let out = ''
+    for (const f of frases) {
+      if (out && out.length + f.length > ALVO) break
+      out += f
+    }
+    if (out.trim()) return out.trim()
+  }
+  const corte = texto.slice(0, ALVO)
+  return corte.slice(0, corte.lastIndexOf(' ')) + '…'
 }
 
 /** Resumo de um DOC: FM `resumo` quando existe (itens), senão o corpo. */

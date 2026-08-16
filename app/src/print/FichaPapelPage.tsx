@@ -11,7 +11,8 @@ import { useHeroModel } from '../data/useHeroModel'
 import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
-import { familiaOf } from '../data/familia'
+import { familiaOf, familiaTemPericia } from '../data/familia'
+import { slugify } from '../components/ficha/registry'
 import {
   baseDoItem,
   montarDadosPapel,
@@ -603,8 +604,11 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
   )
 }
 
-/** CA — UMA folha A4 paisagem: combate + perícias + habilidades + anotações. */
+/** CA — UMA folha A4 paisagem: combate + perícias (só as que a família tem)
+ *  + ações + habilidades + inventário + anotações. */
 function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: string }) {
+  // Report 2026-08-16: o CA só tem acesso ao subset de perícias da família.
+  const pericias = dd.pericias.filter((p) => familiaTemPericia('CompanheiroAnimal', slugify(p.nome)))
   return (
     <div className="pp-page">
       <div className="pp-hdr">
@@ -718,7 +722,7 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
                   <th style={{ width: '9mm' }}>MOD</th>
                   <th style={{ width: '7mm' }}>PRF</th>
                 </tr>
-                {dd.pericias.map((p) => (
+                {pericias.map((p) => (
                   <tr key={p.nome}>
                     <td>
                       <b>{p.nome}</b>
@@ -743,6 +747,42 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
               ))}
             </div>
           ) : null}
+          {dd.acoes.length ? (
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// AÇÕES'}</div>
+              <div style={{ fontSize: '6.2pt', lineHeight: 1.5 }}>
+                {dd.acoes.map((a) => a.nome).join(' · ')}
+              </div>
+            </div>
+          ) : null}
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// INVENTÁRIO'}</div>
+            {dd.inventario.implementos.length ? (
+              <>
+                <div className="pp-rank-h">IMPLEMENTOS</div>
+                {dd.inventario.implementos.map((t) => (
+                  <div key={t.nome} className="pp-ln">
+                    <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+                  </div>
+                ))}
+              </>
+            ) : null}
+            <div className="pp-rank-h">TESOUROS</div>
+            {dd.inventario.tesouros.map((t) => (
+              <div key={t.nome} className="pp-ln">
+                <b>{t.nome}</b> {t.usos ? <Bolinhas n={t.usos} /> : null}
+              </div>
+            ))}
+            <table style={{ marginTop: '.6mm' }}>
+              <tbody>
+                {[0, 1].map((i) => (
+                  <tr key={i}>
+                    <td style={{ height: '3.6mm' }}>&nbsp;</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="pp-flex2" style={{ gap: '4mm' }}>
             <div style={{ flex: 1.3 }}>
               <div className="pp-sec-t">{'// CONDIÇÕES'}</div>

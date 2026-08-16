@@ -1227,13 +1227,16 @@ function NpcCard({
   const catalog = useCatalog()
   const podeExportar =
     isLocalId(entry.id) && (subtype === 'Companheiro Animal' || subtype === 'Monstro')
+  // Ficha de PAPEL vale também pras criaturas da VAULT (render read-only) —
+  // report 2026-08-16: o bestiário não abria o modo papel.
+  const podePapel = subtype === 'Companheiro Animal' || subtype === 'Monstro'
   const podeIniciativa = isMonstro && mestre && !!repo && !!user && !!live
   // #413: Pessoa LOCAL edita/deleta pelo menu ⋯ — a página dela é DOC
   // read-only (KIND_INFO ficha:'doc') e os campos do #45 só existem no
   // PessoaForm (que sempre foi edit-ready via `initial`; faltava a entrada).
   const podePessoa = isLocalId(entry.id) && subtype === 'Pessoa'
   const [editPessoa, setEditPessoa] = useState(false)
-  const temMenu = podeExportar || podeIniciativa || podePessoa
+  const temMenu = podeExportar || podePapel || podeIniciativa || podePessoa
   // #241: CA CONHECIDA (vault, sem escrita) abre a ficha RESUMO nos detalhes
   // — o doc do compêndio só mostrava o fence cru. Sem contexto de detalhes,
   // cai na rota antiga.
@@ -1328,14 +1331,18 @@ function NpcCard({
                   },
                 ]
               : []),
-            ...(podeExportar
+            // Export #452: ficha A4 pra papel (CA = 1 folha; monstro = meia
+            // folha) — vault E local.
+            ...(podePapel
               ? [
-                  // Export #452: ficha A4 pra papel (CA = 1 folha; monstro =
-                  // meia folha, base ficha-resumo).
                   {
                     label: '🖨 Ficha pra papel',
                     onClick: () => navigate(`/papel/${entry.id}`),
                   },
+                ]
+              : []),
+            ...(podeExportar
+              ? [
                   {
                     label:
                       subtype === 'Monstro' ? '📤 Exportar criatura' : '📤 Exportar companheiro',

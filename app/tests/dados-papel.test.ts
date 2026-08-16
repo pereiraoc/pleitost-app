@@ -66,6 +66,10 @@ describe('montarDadosPapel — Carlos (números do mock aprovado)', () => {
     expect(branca.grupos[0]!.rank).toBe('BÁSICAS')
     const avivar = branca.grupos.flatMap((g) => g.magias).find((m) => m.nome === 'Avivar')!
     expect(avivar.resumo.length).toBeGreaterThan(40)
+    // report 2026-08-16: RESUMO de verdade — nada de parágrafo inteiro gigante
+    for (const it of [...dd.habilidades, ...dd.tecnicas]) {
+      expect(it.resumo.length).toBeLessThanOrEqual(300)
+    }
   })
   it('tesouros: mais caros primeiro e USOS numéricos viram bolinhas', () => {
     const nomes = dd.inventario.tesouros.map((t) => t.nome)
