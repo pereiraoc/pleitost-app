@@ -499,7 +499,10 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
           <span>NÍVEL</span>
         </span>
       </div>
-      <div className="pp-flex2" style={{ gap: '4mm', flex: 1, minHeight: 0 }}>
+      <div
+        className="pp-flex2"
+        style={{ gap: '4mm', flex: '1 1 auto', minHeight: 0, overflow: 'hidden' }}
+      >
         {/* 1/3 — atributos · identidade · ofícios · reconhecimentos · marcas */}
         <div style={{ flex: 1 }}>
           <div className="pp-sec">
@@ -705,14 +708,14 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
           </div>
         </div>
       </div>
-      {/* v18: ANOTAÇÕES no rodapé HORIZONTAL da página (como o da pág. 1). */}
-      <div className="pp-fill" style={{ flex: 1, minHeight: '12mm' }}>
+      {/* v18: ANOTAÇÕES no rodapé HORIZONTAL — altura FIXA (flex none) e a
+          banda de cima encolhe COM clip: nada sangra por cima (report
+          2026-08-16 "ficou por cima de um monte de coisa"). */}
+      <div style={{ flex: 'none', paddingTop: '1mm' }}>
         <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
-        <div className="pp-linhas">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="pp-linha-v" />
-          ))}
-        </div>
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="pp-linha-v" style={{ height: '5.2mm' }} />
+        ))}
       </div>
     </div>
   )
