@@ -54,6 +54,7 @@ export const PAPEL_CSS = `
 .pp-vida-sq { flex: 1; min-width: 0; line-height: 1; }
 .pp-sq { display: inline-block; width: 2.8mm; height: 2.8mm; border: .7pt solid #111; margin: 0 .45mm .45mm 0; vertical-align: middle; }
 .pp-sq.g { margin-right: 1.5mm; }
+.pp-meio { display: inline-block; width: 0; height: 3.6mm; border-left: 1pt solid #111; margin: 0 1.2mm .45mm .3mm; vertical-align: middle; }
 .pp-ci { display: inline-block; width: 3mm; height: 3mm; border: .8pt solid #111; border-radius: 50%; margin: 0 .6mm .3mm 0; vertical-align: middle; }
 .pp-di { display: inline-block; width: 4.4mm; height: 4.4mm; margin: 0 .5mm .3mm 0; vertical-align: middle; position: relative; }
 .pp-di > span { position: absolute; inset: .55mm; border: .8pt solid #111; transform: rotate(45deg); display: block; }
@@ -144,11 +145,17 @@ function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']
   )
 }
 
-function Quadrados({ n }: { n: number }) {
+function Quadrados({ n, divisorMeio }: { n: number; divisorMeio?: boolean }) {
+  // `divisorMeio` (Vitalidade, pedido 2026-08-16): risco vertical depois da
+  // PRIMEIRA METADE (ceil) — as regras de "metade da vida" leem direto.
+  const meio = divisorMeio ? Math.ceil(Math.max(0, n) / 2) : -1
   return (
     <>
       {Array.from({ length: Math.max(0, n) }, (_, i) => (
-        <span key={i} className={`pp-sq${i % 5 === 4 ? ' g' : ''}`} />
+        <span key={i} style={{ display: 'inline' }}>
+          <span className={`pp-sq${i % 5 === 4 ? ' g' : ''}`} />
+          {i + 1 === meio ? <span className="pp-meio" /> : null}
+        </span>
       ))}
     </>
   )
@@ -222,7 +229,7 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
             <div className="pp-vida-row">
               <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
               <span className="pp-vida-sq">
-                <Quadrados n={dd.vitalidade} />
+                <Quadrados n={dd.vitalidade} divisorMeio />
               </span>
             </div>
             {dd.escudo ? (
@@ -693,7 +700,7 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
             <div className="pp-vida-row">
               <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
               <span className="pp-vida-sq">
-                <Quadrados n={dd.vitalidade} />
+                <Quadrados n={dd.vitalidade} divisorMeio />
               </span>
             </div>
           </div>
@@ -900,7 +907,7 @@ function PaginaMonstro({ dd, nome, tier }: { dd: DadosPapel; nome: string; tier:
           <div className="pp-vida-row">
             <span className="pp-vida-l">VITALIDADE (EV) {dd.vitalidade}</span>
             <span className="pp-vida-sq">
-              <Quadrados n={dd.vitalidade} />
+              <Quadrados n={dd.vitalidade} divisorMeio />
             </span>
           </div>
         </div>
