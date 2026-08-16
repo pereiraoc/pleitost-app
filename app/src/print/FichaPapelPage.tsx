@@ -59,9 +59,8 @@ export const PAPEL_CSS = `
 .pp-di > span { position: absolute; inset: .55mm; border: .8pt solid #111; transform: rotate(45deg); display: block; }
 .pp-chk { display: inline-flex; align-items: center; gap: .8mm; font-size: 6.8pt; width: 24%; margin-bottom: .7mm; }
 .pp-chk::before { content: ''; width: 2.7mm; height: 2.7mm; border: .8pt solid #111; flex: none; }
-.pp-cond-cat { display: flex; align-items: baseline; gap: 1.5mm; flex-wrap: wrap; margin-bottom: .3mm; }
-.pp-cond-cat-l { flex: 0 0 14mm; font-family: 'Courier New', monospace; font-size: 4.8pt; letter-spacing: .1em; color: #666; }
-.pp-cond-cat .pp-chk { width: auto; margin-right: 3mm; }
+.pp-cond-bloco { break-inside: avoid; margin-bottom: 1.4mm; }
+.pp-cond-bloco .pp-chk { margin-bottom: .5mm; }
 .pp-linha-v { border-bottom: .6pt solid #888; height: 4mm; }
 .pp-page table { border-collapse: collapse; width: 100%; }
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
@@ -96,6 +95,38 @@ export const PAPEL_CSS = `
 .pp-ouro b { font-family: 'Courier New', monospace; font-size: 6pt; letter-spacing: .12em; }
 .pp-ouro-linha { flex: 1; border-bottom: .8pt solid #555; height: 5mm; }
 `
+
+/** Blocos de condições pra COLUNAS (pedido 2026-08-16: quadrados sempre um
+ *  embaixo do outro): POSITIVAS viram um bloco único; NEGATIVAS um bloco por
+ *  categoria semântica. */
+function blocosCondicoes(grupos: DadosPapel['condicoes']): { titulo: string; itens: string[] }[] {
+  const out: { titulo: string; itens: string[] }[] = []
+  for (const g of grupos) {
+    if (g.titulo === 'POSITIVAS') {
+      out.push({ titulo: 'POSITIVAS', itens: g.categorias.flatMap((c) => c.itens) })
+    } else {
+      for (const c of g.categorias) out.push({ titulo: c.nome.toUpperCase(), itens: c.itens })
+    }
+  }
+  return out
+}
+
+function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']; colunas: number }) {
+  return (
+    <div style={{ columns: colunas, columnGap: '3mm' }}>
+      {blocosCondicoes(grupos).map((b) => (
+        <div key={b.titulo} className="pp-cond-bloco">
+          <div className="pp-rank-h">{b.titulo}</div>
+          {b.itens.map((c) => (
+            <span key={c} className="pp-chk" style={{ width: '100%' }}>
+              {c}
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 function Quadrados({ n }: { n: number }) {
   return (
@@ -342,21 +373,7 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
         {/* mesma proporção do bloco de cima (1.1/1) — a divisa alinha. */}
         <div style={{ flex: 1.1 }}>
           <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-          {dd.condicoes.map((g) => (
-            <div key={g.titulo}>
-              <div className="pp-rank-h">{g.titulo}</div>
-              {g.categorias.map((cat) => (
-                <div key={cat.nome} className="pp-cond-cat">
-                  <span className="pp-cond-cat-l">{cat.nome}</span>
-                  {cat.itens.map((c) => (
-                    <span key={c} className="pp-chk">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ))}
+          <CondicoesColunas grupos={dd.condicoes} colunas={4} />
         </div>
         <div style={{ flex: 1 }}>
           <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
@@ -795,21 +812,7 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
           <div className="pp-flex2" style={{ gap: '4mm' }}>
             <div style={{ flex: 1.3 }}>
               <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-              {dd.condicoes.map((g) => (
-                <div key={g.titulo}>
-                  <div className="pp-rank-h">{g.titulo}</div>
-                  {g.categorias.map((cat) => (
-                    <div key={cat.nome} className="pp-cond-cat">
-                      <span className="pp-cond-cat-l">{cat.nome}</span>
-                      {cat.itens.map((c) => (
-                        <span key={c} className="pp-chk" style={{ width: '30%' }}>
-                          {c}
-                        </span>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ))}
+              <CondicoesColunas grupos={dd.condicoes} colunas={3} />
             </div>
             <div style={{ flex: 1 }}>
               <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
