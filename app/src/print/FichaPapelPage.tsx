@@ -71,6 +71,7 @@ export const PAPEL_CSS = `
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
 .pp-page td { font-size: 6.5pt; border-bottom: .5pt solid #bbb; padding: .35mm .9mm; vertical-align: top; }
 .pp-cons th.q, .pp-cons td.q { width: 8mm; text-align: center; border-left: .5pt solid #bbb; font-size: 8pt; }
+.pp-cons th.im, .pp-cons td.im { width: 10.5mm; }
 .pp-ln { font-size: 6.1pt; line-height: 1.28; margin-bottom: .25mm; break-inside: avoid; }
 .pp-ln b { font-size: 6.3pt; }
 .pp-rs { color: #333; }
@@ -109,6 +110,8 @@ export const PAPEL_CSS = `
 .pp-fit3 .pp-cond-rod .pp-chk { font-size: 5.4pt; }
 .pp-fit3 .pp-cond-rod .pp-chk::before { width: 1.9mm; height: 1.9mm; }
 .pp-fit3 .pp-linha-v { height: 3.2mm; }
+.pp-fit3 .pp-cons td, .pp-fit3 .pp-cons th { padding: .2mm .6mm; }
+.pp-fit3 .pp-mini { font-size: 4.4pt; }
 .pp-flex2 { display: flex; gap: 3mm; }
 .pp-flex2 > div { min-width: 0; }
 .pp-fill { display: flex; flex-direction: column; }
@@ -530,7 +533,15 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
         </div>
         <div style={{ flex: 1 }}>
           <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
-          {[0, 1, 2].map((i) => (
+          <div style={{ display: 'flex', gap: '3mm' }}>
+            <span className="pp-chk" style={{ width: 'auto' }}>
+              Ferimentos Tratáveis
+            </span>
+            <span className="pp-chk" style={{ width: 'auto' }}>
+              Encorajável
+            </span>
+          </div>
+          {[0, 1].map((i) => (
             <div key={i} className="pp-linha-v" />
           ))}
         </div>
@@ -550,6 +561,10 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
   const alvoLinhas = Math.max(...listas.map(([, v]) => v.length)) + 1
   const inv = dd.inventario
   const { ref, fitClass } = usePaginaFit()
+  // No aperto máximo o terço do INVENTÁRIO (o mais alto: tabela de consumíveis
+  // + tesouros com resumo) ganha largura dos outros dois.
+  const invFlex = fitClass.includes('fit3') ? 1.14 : 1
+  const outroFlex = fitClass.includes('fit3') ? 0.93 : 1
   return (
     <div className={'pp-page' + fitClass} ref={ref}>
       <div className="pp-hdr">
@@ -565,7 +580,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
         style={{ gap: '4mm', flex: '1 1 auto', minHeight: 0, overflow: 'hidden' }}
       >
         {/* 1/3 — atributos · identidade · ofícios · reconhecimentos · marcas */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: outroFlex }}>
           <div className="pp-sec">
             <div className="pp-sec-t">{'// ATRIBUTOS'}</div>
             <div className="pp-row">
@@ -661,7 +676,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
           </div>
         </div>
         {/* 1/3 — habilidades (técnicas foram pra pág. 1, sob as ações) */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: outroFlex }}>
           {dd.habilidades.length ? (
             <div className="pp-sec">
               <div className="pp-sec-t">{'// HABILIDADES'}</div>
@@ -672,7 +687,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
           ) : null}
         </div>
         {/* 1/3 — inventário e anotações */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: invFlex, display: 'flex', flexDirection: 'column' }}>
           <div className="pp-sec">
             <div className="pp-sec-t">
               {'// INVENTÁRIO '}
@@ -686,6 +701,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               <tbody>
                 <tr>
                   <th>CONSUMÍVEL</th>
+                  <th className="q im">IMUNIDADE</th>
                   <th className="q">A</th>
                   <th className="q">E</th>
                   <th className="q">M</th>
@@ -707,6 +723,9 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                         </div>
                       ) : null}
                     </td>
+                    <td className="q im">
+                      <span className="pp-sq" style={{ margin: 0 }} />
+                    </td>
                     <td className="q" />
                     <td className="q" />
                     <td className="q" />
@@ -714,6 +733,9 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
                 ))}
                 <tr>
                   <td style={{ height: '3.6mm' }}>&nbsp;</td>
+                  <td className="q im">
+                    <span className="pp-sq" style={{ margin: 0 }} />
+                  </td>
                   <td className="q" />
                   <td className="q" />
                   <td className="q" />
