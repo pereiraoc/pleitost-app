@@ -41,7 +41,7 @@ export const PAPEL_CSS = `
 .pp-nvl { border: 1.2pt solid #111; padding: .8mm 2.2mm; text-align: center; font-family: 'Courier New', monospace; }
 .pp-nvl b { font-size: 12pt; display: block; line-height: 1; }
 .pp-nvl span { font-size: 5pt; letter-spacing: .18em; }
-.pp-sec { margin-bottom: 1mm; }
+.pp-sec { margin-bottom: .9mm; }
 .pp-sec-t { font-family: 'Courier New', monospace; font-size: 6.2pt; font-weight: 700; letter-spacing: .2em; border-bottom: .6pt solid #999; margin-bottom: 1mm; padding-bottom: .3mm; }
 .pp-row { display: flex; gap: 2mm; }
 .pp-box { border: .8pt solid #111; padding: 1mm 1.5mm; }
@@ -74,7 +74,7 @@ export const PAPEL_CSS = `
 .pp-rank-h { font-family: 'Courier New', monospace; font-size: 5.4pt; font-weight: 700; letter-spacing: .18em; color: #555; margin: .5mm 0 .2mm; }
 .pp-cols2 { columns: 2; column-gap: 3.5mm; column-rule: .5pt solid #ccc; }
 .pp-cols4 { columns: 4; column-gap: 3.5mm; column-rule: .5pt solid #ccc; }
-.pp-cols4 .pp-ln { font-size: 5.7pt; line-height: 1.2; }
+.pp-cols4 .pp-ln, .pp-dense .pp-ln { font-size: 5.8pt; line-height: 1.22; }
 .pp-mini { font-size: 5.8pt; color: #555; font-family: Georgia, serif; letter-spacing: 0; font-weight: 400; }
 .pp-kv { font-size: 7pt; margin-bottom: .45mm; }
 .pp-kv b { font-family: 'Courier New', monospace; font-size: 5.5pt; letter-spacing: .1em; color: #444; }
@@ -141,6 +141,52 @@ function CondicoesColunas({ grupos, colunas }: { grupos: DadosPapel['condicoes']
           {(negativas?.categorias ?? []).map((c) => bloco(c.nome.toUpperCase(), c.itens))}
         </div>
       </div>
+    </div>
+  )
+}
+
+/** Rodapé compacto (v18): positivas numa coluna com divisória e UMA coluna
+ *  POR categoria negativa — altura = maior bloco (Ataque, 4 itens). */
+function CondicoesRodape({ grupos }: { grupos: DadosPapel['condicoes'] }) {
+  const positivas = grupos.find((g) => g.titulo === 'POSITIVAS')
+  const negativas = grupos.find((g) => g.titulo === 'NEGATIVAS')
+  return (
+    <div style={{ display: 'flex', gap: '2mm', alignItems: 'stretch' }}>
+      {positivas ? (
+        <div
+          style={{
+            flex: 'none',
+            width: '22mm',
+            paddingRight: '2mm',
+            borderRight: '.6pt solid #999',
+          }}
+        >
+          {positivas.categorias.map((c) => (
+            <div key={c.nome} className="pp-cond-bloco" style={{ marginBottom: '.6mm' }}>
+              <div className="pp-rank-h" style={{ marginTop: 0 }}>
+                {c.nome.toUpperCase()} +
+              </div>
+              {c.itens.map((cc) => (
+                <span key={cc} className="pp-chk" style={{ width: '100%' }}>
+                  {cc}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {(negativas?.categorias ?? []).map((c) => (
+        <div key={c.nome} className="pp-cond-bloco" style={{ flex: 1, minWidth: 0 }}>
+          <div className="pp-rank-h" style={{ marginTop: 0 }}>
+            {c.nome.toUpperCase()}
+          </div>
+          {c.itens.map((cc) => (
+            <span key={cc} className="pp-chk" style={{ width: '100%' }}>
+              {cc}
+            </span>
+          ))}
+        </div>
+      ))}
     </div>
   )
 }
@@ -302,7 +348,7 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
             </div>
           ) : null}
         </div>
-        <div style={{ flex: 1 }}>
+        <div className="pp-dense" style={{ flex: 1 }}>
           <div className="pp-sec">
             <div className="pp-sec-t">
               {'// ATAQUES & MANOBRAS · PROFICIÊNCIA '}
@@ -341,15 +387,13 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
                     Agarrar · Derrubar · Empurrar · Escapar
                   </td>
                 </tr>
-                {[0, 1].map((i) => (
-                  <tr key={`v${i}`}>
-                    <td style={{ height: '3.6mm' }}>&nbsp;</td>
-                    <td />
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                ))}
+                <tr>
+                  <td style={{ height: '3.6mm' }}>&nbsp;</td>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
               </tbody>
             </table>
           </div>
@@ -358,6 +402,14 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
               <div className="pp-sec-t">{'// AÇÕES DE HABILIDADE'}</div>
               {dd.acoes.map((a) => (
                 <Linha key={a.nome} it={a} />
+              ))}
+            </div>
+          ) : null}
+          {dd.tecnicas.length ? (
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// TÉCNICAS'}</div>
+              {dd.tecnicas.map((t) => (
+                <Linha key={t.nome} it={t} />
               ))}
             </div>
           ) : null}
@@ -373,6 +425,10 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
               </div>
               {dd.escolas.map((e) => (
                 <div key={e.nome}>
+                  {/* separador sutil antes das magias de TESOUROS (v18). */}
+                  {e.nome === 'Tesouros' ? (
+                    <div style={{ borderTop: '.5pt solid #ccc', margin: '1.2mm 0 1mm' }} />
+                  ) : null}
                   <div className="pp-kv">
                     <b>
                       {e.nome.toUpperCase()}
@@ -405,15 +461,16 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
           ) : null}
         </div>
       </div>
+      {/* v18: rodapé COMPACTO — uma coluna por categoria (agrupamento
+          preservado) + efeitos menores à direita. */}
       <div className="pp-flex2" style={{ gap: '4mm' }}>
-        {/* mesma proporção do bloco de cima (1.1/1) — a divisa alinha. */}
-        <div style={{ flex: 1.1 }}>
+        <div style={{ flex: 2.6 }}>
           <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-          <CondicoesColunas grupos={dd.condicoes} colunas={5} />
+          <CondicoesRodape grupos={dd.condicoes} />
         </div>
         <div style={{ flex: 1 }}>
           <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
-          {[0, 1, 2, 3].map((i) => (
+          {[0, 1, 2].map((i) => (
             <div key={i} className="pp-linha-v" />
           ))}
         </div>
@@ -539,16 +596,8 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
             ))}
           </div>
         </div>
-        {/* 1/3 — técnicas e habilidades */}
+        {/* 1/3 — habilidades (técnicas foram pra pág. 1, sob as ações) */}
         <div style={{ flex: 1 }}>
-          {dd.tecnicas.length ? (
-            <div className="pp-sec">
-              <div className="pp-sec-t">{'// TÉCNICAS'}</div>
-              {dd.tecnicas.map((t) => (
-                <Linha key={t.nome} it={t} />
-              ))}
-            </div>
-          ) : null}
           {dd.habilidades.length ? (
             <div className="pp-sec">
               <div className="pp-sec-t">{'// HABILIDADES'}</div>
@@ -654,14 +703,15 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               </tbody>
             </table>
           </div>
-          <div className="pp-fill" style={{ flex: 1, minHeight: '10mm' }}>
-            <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
-            <div className="pp-linhas">
-              {[0, 1, 2].map((i) => (
-                <div key={i} className="pp-linha-v" />
-              ))}
-            </div>
-          </div>
+        </div>
+      </div>
+      {/* v18: ANOTAÇÕES no rodapé HORIZONTAL da página (como o da pág. 1). */}
+      <div className="pp-fill" style={{ flex: 1, minHeight: '12mm' }}>
+        <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
+        <div className="pp-linhas">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="pp-linha-v" />
+          ))}
         </div>
       </div>
     </div>
