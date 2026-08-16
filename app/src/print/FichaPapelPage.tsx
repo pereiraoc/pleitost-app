@@ -533,6 +533,14 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
         </div>
         <div style={{ flex: 1 }}>
           <div className="pp-sec-t">{'// EFEITOS ATIVOS'}</div>
+          {[0, 1].map((i) => (
+            <div key={i} className="pp-linha-v" />
+          ))}
+          {/* Recuperáveis embaixo, em subseção própria (pedido 2026-08-16) —
+              nome e itens verbatim dos chips de Recuperação da ficha. */}
+          <div className="pp-rank-h" style={{ marginTop: '.7mm' }}>
+            RECUPERAÇÃO
+          </div>
           <div style={{ display: 'flex', gap: '3mm' }}>
             <span className="pp-chk" style={{ width: 'auto' }}>
               Ferimentos Tratáveis
@@ -541,9 +549,6 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
               Encorajável
             </span>
           </div>
-          {[0, 1].map((i) => (
-            <div key={i} className="pp-linha-v" />
-          ))}
         </div>
       </div>
     </div>
