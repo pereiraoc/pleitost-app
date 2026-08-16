@@ -325,6 +325,43 @@ export const COND_GRUPOS = [
  *  documenta como ideal (data/condicoes-catalog.ts:17). */
 export const COND_ACUMULAVEIS: ReadonlySet<string> = new Set(['Lento', 'Acelerado'])
 
+/** Categoria SEMÂNTICA de cada condição — VERBATIM do catálogo hardcoded do
+ *  plugin (data/condicoes-catalog.ts): agrupa as Negativas/Positivas por
+ *  efeito (Ataque/Defesa/Sentidos/Mobilidade/Conjuração/Ações/Consciência).
+ *  Usado na ficha de papel (agrupamento pedido 2026-08-16). */
+export const COND_CATEGORIAS_ORDEM = [
+  'Ataque',
+  'Defesa',
+  'Sentidos',
+  'Mobilidade',
+  'Conjuração',
+  'Ações',
+  'Consciência',
+] as const
+export const COND_CATEGORIA_POR_ID: Record<string, (typeof COND_CATEGORIAS_ORDEM)[number]> = {
+  Abalado: 'Ataque',
+  Enfraquecido: 'Ataque',
+  Fadigado: 'Ataque',
+  Nervoso: 'Ataque',
+  Desajeitado: 'Defesa',
+  Desprevenido: 'Defesa',
+  Cego: 'Sentidos',
+  Ensurdecido: 'Sentidos',
+  Escondido: 'Sentidos',
+  Agarrado: 'Mobilidade',
+  'Caído': 'Mobilidade',
+  Imobilizado: 'Mobilidade',
+  Preso: 'Mobilidade',
+  Pasmo: 'Conjuração',
+  Atordoado: 'Ações',
+  Lento: 'Ações',
+  Inconsciente: 'Consciência',
+  Morrendo: 'Consciência',
+  'Vantagem de Combate': 'Ataque',
+  'Invisível': 'Sentidos',
+  Acelerado: 'Ações',
+}
+
 /** Equipamentos com proficiência (aba COMPETÊNCIAS) — nomes do design, emojis
  *  do registro. `srcPath` = chave do ruleSourcesByPath pro tooltip de Fonte
  *  dos toggles N/P — VERBATIM dos equipRows do plugin

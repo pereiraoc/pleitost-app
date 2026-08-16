@@ -105,7 +105,9 @@ function entradas(lista: unknown): string[] {
 
 export interface GrupoCondicoes {
   titulo: string
-  itens: string[]
+  /** Sub-blocos por categoria semântica (Ataque/Defesa/… — registro do
+   *  plugin espelhado em COND_CATEGORIA_POR_ID). */
+  categorias: { nome: string; itens: string[] }[]
 }
 
 export function montarDadosPapel(

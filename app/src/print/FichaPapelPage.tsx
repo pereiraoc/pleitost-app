@@ -12,7 +12,7 @@ import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
 import { familiaOf, familiaTemPericia } from '../data/familia'
-import { COND_GRUPOS, slugify } from '../components/ficha/registry'
+import { COND_CATEGORIA_POR_ID, COND_CATEGORIAS_ORDEM, COND_GRUPOS, slugify } from '../components/ficha/registry'
 import {
   baseDoItem,
   montarDadosPapel,
@@ -59,6 +59,9 @@ export const PAPEL_CSS = `
 .pp-di > span { position: absolute; inset: .55mm; border: .8pt solid #111; transform: rotate(45deg); display: block; }
 .pp-chk { display: inline-flex; align-items: center; gap: .8mm; font-size: 6.8pt; width: 24%; margin-bottom: .7mm; }
 .pp-chk::before { content: ''; width: 2.7mm; height: 2.7mm; border: .8pt solid #111; flex: none; }
+.pp-cond-cat { display: flex; align-items: baseline; gap: 1.5mm; flex-wrap: wrap; margin-bottom: .3mm; }
+.pp-cond-cat-l { flex: 0 0 14mm; font-family: 'Courier New', monospace; font-size: 4.8pt; letter-spacing: .1em; color: #666; }
+.pp-cond-cat .pp-chk { width: auto; margin-right: 3mm; }
 .pp-linha-v { border-bottom: .6pt solid #888; height: 4mm; }
 .pp-page table { border-collapse: collapse; width: 100%; }
 .pp-page th { font-family: 'Courier New', monospace; font-size: 5.2pt; letter-spacing: .14em; text-align: left; border-bottom: .8pt solid #111; padding: .3mm .9mm; }
@@ -342,10 +345,15 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
           {dd.condicoes.map((g) => (
             <div key={g.titulo}>
               <div className="pp-rank-h">{g.titulo}</div>
-              {g.itens.map((c) => (
-                <span key={c} className="pp-chk">
-                  {c}
-                </span>
+              {g.categorias.map((cat) => (
+                <div key={cat.nome} className="pp-cond-cat">
+                  <span className="pp-cond-cat-l">{cat.nome}</span>
+                  {cat.itens.map((c) => (
+                    <span key={c} className="pp-chk">
+                      {c}
+                    </span>
+                  ))}
+                </div>
               ))}
             </div>
           ))}
@@ -790,10 +798,15 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
               {dd.condicoes.map((g) => (
                 <div key={g.titulo}>
                   <div className="pp-rank-h">{g.titulo}</div>
-                  {g.itens.map((c) => (
-                    <span key={c} className="pp-chk" style={{ width: '32%' }}>
-                      {c}
-                    </span>
+                  {g.categorias.map((cat) => (
+                    <div key={cat.nome} className="pp-cond-cat">
+                      <span className="pp-cond-cat-l">{cat.nome}</span>
+                      {cat.itens.map((c) => (
+                        <span key={c} className="pp-chk" style={{ width: '30%' }}>
+                          {c}
+                        </span>
+                      ))}
+                    </div>
                   ))}
                 </div>
               ))}
@@ -1002,9 +1015,8 @@ export function FichaPapelPage() {
   // condição — o mesmo agrupamento do Combate; pedido 2026-08-16).
   const condicoes = useMemo(
     () =>
-      COND_GRUPOS.map((g) => ({
-        titulo: g.titulo,
-        itens: catalog.content
+      COND_GRUPOS.map((g) => {
+        const nomes = catalog.content
           .filter(
             (e) =>
               e.subtype === 'Condição' &&
@@ -1013,8 +1025,15 @@ export function FichaPapelPage() {
           )
           .map((e) => e.basename ?? '')
           .filter(Boolean)
-          .sort((a, b) => a.localeCompare(b, 'pt')),
-      })).filter((g) => g.itens.length),
+        // sub-agrupamento SEMÂNTICO (registro do plugin): Ataque/Defesa/…
+        const categorias: { nome: string; itens: string[] }[] = COND_CATEGORIAS_ORDEM.map((cat) => ({
+          nome: cat as string,
+          itens: nomes.filter((n) => COND_CATEGORIA_POR_ID[n] === cat).sort((a, b) => a.localeCompare(b, 'pt')),
+        })).filter((c) => c.itens.length)
+        const semCategoria = nomes.filter((n) => !COND_CATEGORIA_POR_ID[n]).sort((a, b) => a.localeCompare(b, 'pt'))
+        if (semCategoria.length) categorias.push({ nome: 'Outras', itens: semCategoria })
+        return { titulo: g.titulo, categorias }
+      }).filter((g) => g.categorias.length),
     [catalog],
   )
   const consumiveisCatalogo = useMemo(
