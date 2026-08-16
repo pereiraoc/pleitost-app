@@ -103,10 +103,15 @@ function entradas(lista: unknown): string[] {
   return out
 }
 
+export interface GrupoCondicoes {
+  titulo: string
+  itens: string[]
+}
+
 export function montarDadosPapel(
   d: Fm,
   docDe: DocPorNome,
-  condicoes: string[],
+  condicoes: GrupoCondicoes[],
   consumiveisCatalogo: string[],
 ) {
   const attr = (d['Atributos'] ?? {}) as Record<string, unknown>

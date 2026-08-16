@@ -12,7 +12,7 @@ import { useHeroRules } from '../rules/useHeroRules'
 import type { VaultDoc } from '../data/types'
 import { str } from '../components/ficha/hero-model'
 import { familiaOf, familiaTemPericia } from '../data/familia'
-import { slugify } from '../components/ficha/registry'
+import { COND_GRUPOS, slugify } from '../components/ficha/registry'
 import {
   baseDoItem,
   montarDadosPapel,
@@ -336,12 +336,18 @@ function Pagina1({ dd, nome }: { dd: DadosPapel; nome: string }) {
         </div>
       </div>
       <div className="pp-flex2" style={{ gap: '4mm' }}>
-        <div style={{ flex: 1.4 }}>
+        {/* mesma proporção do bloco de cima (1.1/1) — a divisa alinha. */}
+        <div style={{ flex: 1.1 }}>
           <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-          {dd.condicoes.map((c) => (
-            <span key={c} className="pp-chk">
-              {c}
-            </span>
+          {dd.condicoes.map((g) => (
+            <div key={g.titulo}>
+              <div className="pp-rank-h">{g.titulo}</div>
+              {g.itens.map((c) => (
+                <span key={c} className="pp-chk">
+                  {c}
+                </span>
+              ))}
+            </div>
           ))}
         </div>
         <div style={{ flex: 1 }}>
@@ -375,7 +381,8 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
           <span>NÍVEL</span>
         </span>
       </div>
-      <div className="pp-flex2" style={{ gap: '4mm' }}>
+      <div className="pp-flex2" style={{ gap: '4mm', flex: 1, minHeight: 0 }}>
+        {/* 1/3 — atributos · identidade · ofícios · reconhecimentos · marcas */}
         <div style={{ flex: 1 }}>
           <div className="pp-sec">
             <div className="pp-sec-t">{'// ATRIBUTOS'}</div>
@@ -401,7 +408,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               ).map(([k, v]) => (
                 <div key={k} className="pp-id-campo">
                   <div className="pp-id-t">{k}</div>
-                  <div className="pp-id-v">{v || ' '}</div>
+                  <div className="pp-id-v">{v || ' '}</div>
                 </div>
               ))}
             </div>
@@ -416,7 +423,7 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               ).map(([k, v]) => (
                 <div key={k} className="pp-id-campo">
                   <div className="pp-id-t">{k}</div>
-                  <div className="pp-id-v">{v || ' '}</div>
+                  <div className="pp-id-v">{v || ' '}</div>
                 </div>
               ))}
             </div>
@@ -448,7 +455,28 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               ))}
             </div>
           ) : null}
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// RECONHECIMENTOS'}</div>
+            {dd.reconhecimentos.map((r, i) => (
+              <div key={i} className="pp-ln">
+                <b>{r.entidade}</b>
+                <span className="pp-rs"> — {r.texto}</span>
+              </div>
+            ))}
+            <div className="pp-linha-v" />
+          </div>
+          <div className="pp-sec">
+            <div className="pp-sec-t">{'// MARCAS'}</div>
+            {dd.marcas.map((m, i) => (
+              <div key={i} className="pp-ln">
+                <b>{m.qtd} marcas</b>
+                <span className="pp-rs"> — {m.texto}</span>
+              </div>
+            ))}
+            <div className="pp-linha-v" />
+          </div>
         </div>
+        {/* 1/3 — técnicas e habilidades */}
         <div style={{ flex: 1 }}>
           {dd.tecnicas.length ? (
             <div className="pp-sec">
@@ -458,8 +486,17 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               ))}
             </div>
           ) : null}
+          {dd.habilidades.length ? (
+            <div className="pp-sec">
+              <div className="pp-sec-t">{'// HABILIDADES'}</div>
+              {dd.habilidades.map((h) => (
+                <Linha key={h.nome} it={h} />
+              ))}
+            </div>
+          ) : null}
         </div>
-        <div style={{ flex: 1 }}>
+        {/* 1/3 — inventário e anotações */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div className="pp-sec">
             <div className="pp-sec-t">
               {'// INVENTÁRIO '}
@@ -554,49 +591,13 @@ function Pagina2({ dd, nome }: { dd: DadosPapel; nome: string }) {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-      {dd.habilidades.length ? (
-        <div className="pp-sec">
-          <div className="pp-sec-t">{'// HABILIDADES'}</div>
-          <div className="pp-cols4">
-            {dd.habilidades.map((h) => (
-              <Linha key={h.nome} it={h} />
-            ))}
-          </div>
-        </div>
-      ) : null}
-      <div className="pp-flex2" style={{ gap: '4mm', flex: 1, minHeight: '10mm' }}>
-        <div style={{ flex: 1 }}>
-          <div className="pp-sec-t">{'// MARCAS'}</div>
-          {dd.marcas.map((m, i) => (
-            <div key={i} className="pp-ln">
-              <b>{m.qtd} marcas</b>
-              <span className="pp-rs"> — {m.texto}</span>
+          <div className="pp-fill" style={{ flex: 1, minHeight: '10mm' }}>
+            <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
+            <div className="pp-linhas">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="pp-linha-v" />
+              ))}
             </div>
-          ))}
-          {[0, 1, 2].map((i) => (
-            <div key={`v${i}`} className="pp-linha-v" />
-          ))}
-        </div>
-        <div style={{ flex: 0.8 }}>
-          <div className="pp-sec-t">{'// RECONHECIMENTOS'}</div>
-          {dd.reconhecimentos.map((r, i) => (
-            <div key={i} className="pp-ln">
-              <b>{r.entidade}</b>
-              <span className="pp-rs"> — {r.texto}</span>
-            </div>
-          ))}
-          {[0, 1, 2].map((i) => (
-            <div key={`v${i}`} className="pp-linha-v" />
-          ))}
-        </div>
-        <div className="pp-fill" style={{ flex: 1 }}>
-          <div className="pp-sec-t">{'// ANOTAÇÕES'}</div>
-          <div className="pp-linhas">
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="pp-linha-v" />
-            ))}
           </div>
         </div>
       </div>
@@ -786,10 +787,15 @@ function PaginaCA({ dd, nome, tutor }: { dd: DadosPapel; nome: string; tutor: st
           <div className="pp-flex2" style={{ gap: '4mm' }}>
             <div style={{ flex: 1.3 }}>
               <div className="pp-sec-t">{'// CONDIÇÕES'}</div>
-              {dd.condicoes.map((c) => (
-                <span key={c} className="pp-chk" style={{ width: '32%' }}>
-                  {c}
-                </span>
+              {dd.condicoes.map((g) => (
+                <div key={g.titulo}>
+                  <div className="pp-rank-h">{g.titulo}</div>
+                  {g.itens.map((c) => (
+                    <span key={c} className="pp-chk" style={{ width: '32%' }}>
+                      {c}
+                    </span>
+                  ))}
+                </div>
               ))}
             </div>
             <div style={{ flex: 1 }}>
@@ -992,13 +998,23 @@ export function FichaPapelPage() {
     return m
   }, [refDocs])
 
+  // Condições AGRUPADAS por tipo (registro COND_GRUPOS + `grupo` do FM da
+  // condição — o mesmo agrupamento do Combate; pedido 2026-08-16).
   const condicoes = useMemo(
     () =>
-      catalog.content
-        .filter((e) => e.subtype === 'Condição' && e.basename !== 'Vantagem de Combate')
-        .map((e) => e.basename ?? '')
-        .filter(Boolean)
-        .sort((a, b) => a.localeCompare(b, 'pt')),
+      COND_GRUPOS.map((g) => ({
+        titulo: g.titulo,
+        itens: catalog.content
+          .filter(
+            (e) =>
+              e.subtype === 'Condição' &&
+              e.basename !== 'Vantagem de Combate' &&
+              String(e.grupo ?? '') === g.id,
+          )
+          .map((e) => e.basename ?? '')
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b, 'pt')),
+      })).filter((g) => g.itens.length),
     [catalog],
   )
   const consumiveisCatalogo = useMemo(
