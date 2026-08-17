@@ -189,7 +189,14 @@ describe('gating do jogador na exploração (report 2026-08-17)', () => {
     expect(desab.sort()).toEqual(['Magna Pátria', 'Pátria Aurora'])
   })
 
-  it('MESTRE segue vendo todas as vistas e sem overlay (preview livre)', async () => {
+  it('JOGADOR não troca a região — dropdown desabilitado (pedido r4)', async () => {
+    setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE, PATRIA_AURORA])
+    renderPanel()
+    const sel = await regiaoSelect()
+    expect(sel.disabled).toBe(true)
+  })
+
+  it('MESTRE segue vendo todas as vistas, sem overlay e trocando a região', async () => {
     window.localStorage.setItem('pleitost.settings.mestre', 'true')
     __resetSettingsForTests()
     setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE])
@@ -197,5 +204,6 @@ describe('gating do jogador na exploração (report 2026-08-17)', () => {
     const sel = await regiaoSelect()
     expect([...sel.options].map((o) => o.textContent)).toContain('Mundo Completo')
     expect(document.querySelector('[data-overlay-desabilitado]')).toBeNull()
+    expect(sel.disabled).toBe(false)
   })
 })

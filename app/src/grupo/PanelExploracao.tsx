@@ -1144,11 +1144,15 @@ export function PanelExploracao({
         {/* #68: seletor de REGIÃO — vistas do mapa-múndi (mapa-vistas.ts). */}
         <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={fieldLabelStyle}>REGIÃO</span>
+          {/* Pedido r4: só o MESTRE muda a região ativa do grupo (o valor é
+              COMPARTILHADO via estado da sessão — a troca de um jogador
+              mudava a vista de todo mundo). Jogador vê, não troca. */}
           <select
             aria-label="Região do grupo"
             value={regionId}
+            disabled={!mestre}
             onChange={(e) => setRegiaoAtiva(groupId, e.target.value)}
-            style={inputStyle}
+            style={{ ...inputStyle, ...(mestre ? {} : { opacity: 0.7, cursor: 'default' }) }}
           >
             {permitidas.map((v) => (
               <option key={v.id} value={v.id}>
