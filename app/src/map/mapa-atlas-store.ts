@@ -126,6 +126,14 @@ function hydrate(): MapaAtlasState {
     state = emptyState()
   }
   state ??= sanitize(seed)
+  // Blob local de versão PRÉ-GATING não tem `habilitadas` — sem baseline, o
+  // viewer resolvia enabled=[] e TUDO ficava coberto (report 2026-08-17 r2).
+  // Backfill do DEFAULT_VIEWER com o baseline do seed (anti-spoiler: Mundo
+  // Livre). Entrada explícita (mesmo []) é respeitada — só a AUSÊNCIA cura.
+  if (!(DEFAULT_VIEWER in state.habilitadas)) {
+    const base = sanitize(seed).habilitadas[DEFAULT_VIEWER]
+    if (base) state.habilitadas[DEFAULT_VIEWER] = base
+  }
   memory = state
   return state
 }

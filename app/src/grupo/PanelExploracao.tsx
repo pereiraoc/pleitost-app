@@ -94,6 +94,7 @@ import {
   setRegioesHabilitadasGrupo,
   useMapaAtlas,
 } from '../map/mapa-atlas-store'
+import { useMapaAtlasSync } from '../map/use-mapaatlas-sync'
 import { sectionTitleStyle } from './panel-ui'
 
 /** Cor do ponto/token ATUAL do grupo — AZUL (destaca de tudo que é accent). */
@@ -882,11 +883,15 @@ export function PanelExploracao({
   // Trilhas/lugares na grade ÚNICA do MUNDO (mapa:mundo) — a vista só recorta.
   const hexMapState = useHexMap(MAPA_MUNDO_ID)
   const hexMap = hexMapState.cells
-  const cfgAtlas = useMapaAtlas()
   // #430: jogador da mesa adota o mapa-múndi autorado pelo mestre (lugares/
   // áreas) — assim a exploração do grupo mostra o que o mestre marcou.
   const { mestre } = useSettings()
   useHexMapMundoSync(mestre)
+  // Report 2026-08-17 r2: a config do atlas é a EFETIVA do viewer (mesmo
+  // contrato do /mapa): jogador conectado lê a MESA; mestre/offline o local.
+  // Ler só o store local aqui deixava o jogador com blob velho sem
+  // `habilitadas` → tudo coberto e dropdown vazio.
+  const { cfg: cfgAtlas } = useMapaAtlasSync(mestre)
   // Report 2026-08-17: o gating (#40/#41) vale TAMBÉM na exploração — jogador
   // só escolhe vistas de regiões habilitadas e vê o overlay nas desabilitadas;
   // vista salva não-permitida cai na primeira permitida (clamp de leitura, sem

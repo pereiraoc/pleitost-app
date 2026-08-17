@@ -27,6 +27,7 @@ import { __resetGroupStoreMemoryForTests, setRegiaoAtiva } from '../src/data/gro
 import { __resetHexMapStoreMemoryForTests } from '../src/data/hexmap-store'
 import { __resetSettingsForTests } from '../src/settings'
 import { setLiveSession } from '../src/data/session-repo/live-session'
+import { DEFAULT_VIEWER } from '../src/map/mapa-atlas-store'
 import type { IndexManifest } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -132,6 +133,50 @@ describe('gating do jogador na exploração (report 2026-08-17)', () => {
     renderPanel()
     await regiaoSelect()
     expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
+  })
+
+  it('JOGADOR CONECTADO usa a config da MESA, não o blob local velho (report r2)', async () => {
+    // Device do jogador: blob local STALE sem `habilitadas` (versão antiga) —
+    // sozinho ele resolveria enabled=[] → tudo bloqueado + dropdown vazio.
+    window.localStorage.setItem(
+      'pleitost.mapaAtlas',
+      JSON.stringify({ regioes: getMapaAtlas().regioes, pins: [] }),
+    )
+    __resetMapaAtlasForTests()
+    // stale: baseline do seed cobre PA e Magna (a mesa é quem libera PA)
+    expect(regioesDesabilitadas(getMapaAtlas(), GROUP_ID)).toHaveLength(2)
+    // Mesa conectada com a config CERTA do GM (ML + PA habilitadas pro grupo)
+    setLiveSession({
+      sessionId: 'sess-1',
+      gmUserId: 'gm',
+      state: {
+        mapaAtlas: {
+          regioes: SEED_MAPA_ATLAS.regioes,
+          pins: [],
+          habilitadas: { [GROUP_ID]: [MUNDO_LIVRE, PATRIA_AURORA], default: [MUNDO_LIVRE] },
+        },
+      } as never,
+      characters: [],
+      members: [],
+      encounters: [],
+    })
+    renderPanel()
+    const sel = await regiaoSelect()
+    const opts = [...sel.options].map((o) => o.textContent)
+    expect(opts).toContain('Mundo Livre')
+    expect(opts).toContain('Pátria Aurora')
+    expect(opts).not.toContain('Magna Pátria')
+  })
+
+  it('blob local velho SEM habilitadas ganha o baseline do seed (não bloqueia tudo)', () => {
+    window.localStorage.setItem(
+      'pleitost.mapaAtlas',
+      JSON.stringify({ regioes: getMapaAtlas().regioes, pins: [] }),
+    )
+    __resetMapaAtlasForTests()
+    // baseline anti-spoiler do seed: Mundo Livre habilitado pro DEFAULT_VIEWER
+    const desab = regioesDesabilitadas(getMapaAtlas(), DEFAULT_VIEWER).map((r) => r.nome)
+    expect(desab.sort()).toEqual(['Magna Pátria', 'Pátria Aurora'])
   })
 
   it('MESTRE segue vendo todas as vistas e sem overlay (preview livre)', async () => {
