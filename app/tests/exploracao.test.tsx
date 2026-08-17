@@ -61,6 +61,7 @@ import {
   setHexArea,
   setHexLocal,
 } from '../src/data/hexmap-store'
+import { __resetSettingsForTests } from '../src/settings'
 import { docPath } from '../src/paths'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -782,6 +783,9 @@ describe('aba EXPLORAÇÃO (GrupoView, grupo real) — grade hexagonal', () => {
 // ── #68 seletor de região = VISTAS do mapa-múndi (trilha na grade única) ────
 describe('#68 GM define a região (vista) do grupo → recorte do mapa-múndi', () => {
   it('o seletor lista as vistas do mundo; hexmap/trilha na grade única mapa:mundo', async () => {
+    // Fluxo do MESTRE (gating 2026-08-17: jogador não vê todas as vistas)
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
     const { container } = renderGroup()
     await esperaMapa(container)
     // seletor de região (vistas do mapa-múndi: ML, Magna Pátria, PA, completo)

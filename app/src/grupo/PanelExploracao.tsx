@@ -74,6 +74,8 @@ import {
 import { locaisSelectLines, subcategoriaEmoji } from './exploracao'
 import {
   ATLAS_GRID_H,
+  ATLAS_GRID_W,
+  ATLAS_OVERLAY_ASSET,
   atlasHexCenter,
   atlasHexPolygonPoints,
   atlasPixelToHex,
@@ -83,7 +85,9 @@ import {
   MAPA_MUNDO_ASSET,
   MAPA_VISTAS,
   vistaCrop,
+  vistaEfetivaId,
   vistaGridPath,
+  vistasPermitidas,
 } from '../map/mapa-vistas'
 import {
   regioesDesabilitadas,
@@ -875,16 +879,25 @@ export function PanelExploracao({
     useCallback((cb: () => void) => subscribeGroup(groupId, cb), [groupId]),
     () => getGroupState(groupId),
   )
-  const regionId = activeRegionId(state)
   // Trilhas/lugares na grade ÚNICA do MUNDO (mapa:mundo) — a vista só recorta.
   const hexMapState = useHexMap(MAPA_MUNDO_ID)
   const hexMap = hexMapState.cells
   const cfgAtlas = useMapaAtlas()
-  const crop = useMemo(() => vistaCrop(regionId, cfgAtlas.regioes), [regionId, cfgAtlas])
   // #430: jogador da mesa adota o mapa-múndi autorado pelo mestre (lugares/
   // áreas) — assim a exploração do grupo mostra o que o mestre marcou.
   const { mestre } = useSettings()
   useHexMapMundoSync(mestre)
+  // Report 2026-08-17: o gating (#40/#41) vale TAMBÉM na exploração — jogador
+  // só escolhe vistas de regiões habilitadas e vê o overlay nas desabilitadas;
+  // vista salva não-permitida cai na primeira permitida (clamp de leitura, sem
+  // gravar). Mestre segue livre.
+  const desabilitadas = useMemo(
+    () => (mestre ? [] : regioesDesabilitadas(cfgAtlas, gatingKey ?? null)),
+    [mestre, cfgAtlas, gatingKey],
+  )
+  const permitidas = useMemo(() => vistasPermitidas(desabilitadas), [desabilitadas])
+  const regionId = vistaEfetivaId(activeRegionId(state), permitidas)
+  const crop = useMemo(() => vistaCrop(regionId, cfgAtlas.regioes), [regionId, cfgAtlas])
   // #89: havendo sidebar de detalhes, a info do local abre NELA (não no bloco
   // lateral do mapa); sem ela (testes) cai no RightBar #70.
   const detail = useDetail()
@@ -967,6 +980,7 @@ export function PanelExploracao({
   }
 
   const mapEntry = assets?.byPath.get(MAPA_MUNDO_ASSET) ?? null
+  const overlayEntry = assets?.byPath.get(ATLAS_OVERLAY_ASSET) ?? null
 
   /** Célula da grade sob o cursor (ou null fora da imagem). */
   const hexAtClient = (clientX: number, clientY: number): HexCell | null => {
@@ -1131,7 +1145,7 @@ export function PanelExploracao({
             onChange={(e) => setRegiaoAtiva(groupId, e.target.value)}
             style={inputStyle}
           >
-            {MAPA_VISTAS.map((v) => (
+            {permitidas.map((v) => (
               <option key={v.id} value={v.id}>
                 {catalog.entryById.get(v.id)?.basename ?? v.nome}
               </option>
@@ -1268,6 +1282,32 @@ export function PanelExploracao({
                     overflow: 'visible',
                   }}
                 >
+                  {overlayEntry && desabilitadas.length > 0 ? (
+                    <>
+                      <defs>
+                        <clipPath id="explo-regioes-off">
+                          {desabilitadas.flatMap((r) =>
+                            (r.aneis ?? [r.pontos]).map((anel, i) => (
+                              <polygon
+                                key={`${r.id}:${i}`}
+                                points={anel.map((p) => `${p.x},${p.y}`).join(' ')}
+                              />
+                            )),
+                          )}
+                        </clipPath>
+                      </defs>
+                      <image
+                        data-overlay-desabilitado=""
+                        href={assetUrl(overlayEntry)}
+                        x={0}
+                        y={0}
+                        width={ATLAS_GRID_W}
+                        height={ATLAS_GRID_H}
+                        clipPath="url(#explo-regioes-off)"
+                        style={{ pointerEvents: 'none' }}
+                      />
+                    </>
+                  ) : null}
                   <path
                     data-hexgrid=""
                     d={gridPath}

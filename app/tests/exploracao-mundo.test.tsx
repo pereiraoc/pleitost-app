@@ -41,6 +41,7 @@ import {
 } from '../src/map/mapa-vistas'
 import { getMapaAtlas, __resetMapaAtlasForTests } from '../src/map/mapa-atlas-store'
 import { __resetHexMapStoreMemoryForTests } from '../src/data/hexmap-store'
+import { __resetSettingsForTests } from '../src/settings'
 import type { IndexManifest } from '../src/data/types'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -211,6 +212,9 @@ describe('PanelExploracao — troca de vista recorta o mapa-múndi', () => {
     )
 
   it('Pátria Aurora dá zoom (viewBox = bbox) e Mundo Completo mostra tudo', async () => {
+    // Fluxo do MESTRE (gating 2026-08-17: jogador não vê todas as vistas)
+    window.localStorage.setItem('pleitost.settings.mestre', 'true')
+    __resetSettingsForTests()
     const { container } = renderPanel()
     await waitFor(() => expect(container.querySelector('[data-mapa]')).toBeTruthy())
     const sel = screen.getByLabelText('Região do grupo') as HTMLSelectElement

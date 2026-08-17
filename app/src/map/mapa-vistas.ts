@@ -38,6 +38,11 @@ export interface MapaVista {
   modo: 'direita-de' | 'esquerda-de' | 'bbox' | 'tudo'
   /** Nome da REGIÃO do mapa do mestre (mapa-atlas-store) que define o corte. */
   regiaoNome?: string
+  /** Nome da REGIÃO cuja HABILITAÇÃO (#40/#41) libera esta vista pro jogador —
+   *  difere de regiaoNome (a vista Mundo Livre CORTA pela Magna Pátria, mas é
+   *  liberada pela região Mundo Livre). Sem gatingNome = exige TODAS
+   *  habilitadas (Mundo Completo). */
+  gatingNome?: string
 }
 
 export const MAPA_VISTAS: MapaVista[] = [
@@ -46,16 +51,42 @@ export const MAPA_VISTAS: MapaVista[] = [
     nome: 'Mundo Livre',
     modo: 'direita-de',
     regiaoNome: 'Magna Pátria',
+    gatingNome: 'Mundo Livre',
   },
   {
     id: 'Atlas/Magna Pátria/Magna Pátria',
     nome: 'Magna Pátria',
     modo: 'esquerda-de',
     regiaoNome: 'Magna Pátria',
+    gatingNome: 'Magna Pátria',
   },
-  { id: 'vista:patria-aurora', nome: 'Pátria Aurora', modo: 'bbox', regiaoNome: 'Pátria Aurora' },
+  {
+    id: 'vista:patria-aurora',
+    nome: 'Pátria Aurora',
+    modo: 'bbox',
+    regiaoNome: 'Pátria Aurora',
+    gatingNome: 'Pátria Aurora',
+  },
   { id: VISTA_MUNDO_COMPLETO, nome: 'Mundo Completo', modo: 'tudo' },
 ]
+
+/** Vistas que o VIEWER pode usar, dado o conjunto de regiões DESABILITADAS
+ *  pra ele (regioesDesabilitadas do mapa-atlas-store). Report 2026-08-17: o
+ *  dropdown da exploração oferecia tudo. Vista com gatingNome desabilitado
+ *  some; Mundo Completo só com TODAS habilitadas. Sem regiões marcadas no
+ *  mapa do mestre (fase 1) → desabilitadas=[] → tudo permitido. */
+export function vistasPermitidas(desabilitadas: MapaRegiao[]): MapaVista[] {
+  const off = new Set(desabilitadas.map((r) => r.nome))
+  return MAPA_VISTAS.filter((v) => (v.gatingNome ? !off.has(v.gatingNome) : off.size === 0))
+}
+
+/** Vista EFETIVA do viewer: a salva quando permitida, senão a PRIMEIRA
+ *  permitida (Mundo Livre — o padrão anti-spoiler). Clamp de LEITURA: nunca
+ *  grava no estado do grupo. */
+export function vistaEfetivaId(regionId: string, permitidas: MapaVista[]): string {
+  if (permitidas.some((v) => v.id === regionId)) return regionId
+  return permitidas[0]?.id ?? VISTA_MUNDO_COMPLETO
+}
 
 /** Recorte do mapa em px da FONTE (atlas.webp 7440×5262). */
 export interface MapaCrop {
