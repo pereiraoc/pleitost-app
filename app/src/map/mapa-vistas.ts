@@ -73,16 +73,17 @@ export const MAPA_VISTAS: MapaVista[] = [
 /** Vistas que o VIEWER pode usar, dado o conjunto de regiões DESABILITADAS
  *  pra ele (regioesDesabilitadas do mapa-atlas-store). Report 2026-08-17: o
  *  dropdown da exploração oferecia tudo. Vista com gatingNome desabilitado
- *  some; Mundo Completo só com TODAS habilitadas. Sem regiões marcadas no
- *  mapa do mestre (fase 1) → desabilitadas=[] → tudo permitido. */
+ *  some (é o ZOOM detalhado da região); Mundo Completo é SEMPRE permitida —
+ *  o anti-spoiler dela é o OVERLAY por cima das regiões não liberadas
+ *  (pedido r3: liberar a visão do mundo é independente de liberar região). */
 export function vistasPermitidas(desabilitadas: MapaRegiao[]): MapaVista[] {
   const off = new Set(desabilitadas.map((r) => r.nome))
-  return MAPA_VISTAS.filter((v) => (v.gatingNome ? !off.has(v.gatingNome) : off.size === 0))
+  return MAPA_VISTAS.filter((v) => !v.gatingNome || !off.has(v.gatingNome))
 }
 
 /** Vista EFETIVA do viewer: a salva quando permitida, senão a PRIMEIRA
- *  permitida (Mundo Livre — o padrão anti-spoiler). Clamp de LEITURA: nunca
- *  grava no estado do grupo. */
+ *  permitida (Mundo Livre — o padrão anti-spoiler; só vistas de ZOOM são
+ *  bloqueáveis). Clamp de LEITURA: nunca grava no estado do grupo. */
 export function vistaEfetivaId(regionId: string, permitidas: MapaVista[]): string {
   if (permitidas.some((v) => v.id === regionId)) return regionId
   return permitidas[0]?.id ?? VISTA_MUNDO_COMPLETO

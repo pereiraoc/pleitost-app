@@ -1598,11 +1598,11 @@ function GatingRegioes({ grupoKey }: { grupoKey: string }) {
         <label style={{ ...chkStyle, fontWeight: 700 }}>
           <input
             type="checkbox"
-            aria-label="Mundo Completo (todas as regiões)"
+            aria-label="Todas as regiões"
             checked={todas}
             onChange={(e) => setTudo(e.target.checked)}
           />
-          Mundo Completo
+          Todas as regiões
         </label>
         <span aria-hidden style={{ borderLeft: '1px solid var(--line2)', alignSelf: 'stretch' }} />
         {cfg.regioes.map((r) => (

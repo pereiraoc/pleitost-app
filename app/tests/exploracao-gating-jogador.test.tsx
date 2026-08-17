@@ -95,37 +95,47 @@ async function regiaoSelect(): Promise<HTMLSelectElement> {
 }
 
 describe('gating do jogador na exploração (report 2026-08-17)', () => {
-  it('vistasPermitidas: região desabilitada some; Mundo Completo exige todas', () => {
-    // padrão anti-spoiler do seed: só Mundo Livre habilitada
+  it('vistasPermitidas: zoom de região desabilitada some; Mundo Completo é livre', () => {
+    // padrão anti-spoiler do seed: só Mundo Livre habilitada. Mundo Completo
+    // SEMPRE entra (pedido r3): o anti-spoiler é o OVERLAY nas regiões não
+    // liberadas, não o bloqueio da vista.
     const desab = regioesDesabilitadas(getMapaAtlas(), GROUP_ID)
     const nomes = vistasPermitidas(desab).map((v) => v.nome)
-    expect(nomes).toEqual(['Mundo Livre'])
-    // GM habilita Pátria Aurora também → entra ela; Mundo Completo segue fora
+    expect(nomes).toEqual(['Mundo Livre', 'Mundo Completo'])
+    // GM habilita Pátria Aurora também → entra o zoom dela
     setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE, PATRIA_AURORA])
     const nomes2 = vistasPermitidas(regioesDesabilitadas(getMapaAtlas(), GROUP_ID)).map((v) => v.nome)
-    expect(nomes2).toEqual(['Mundo Livre', 'Pátria Aurora'])
-    // tudo habilitado → todas as vistas, inclusive Mundo Completo
+    expect(nomes2).toEqual(['Mundo Livre', 'Pátria Aurora', 'Mundo Completo'])
     const todas = vistasPermitidas([]).map((v) => v.id)
     expect(todas).toEqual(MAPA_VISTAS.map((v) => v.id))
   })
 
-  it('dropdown do JOGADOR não oferece região desabilitada nem Mundo Completo', async () => {
+  it('dropdown do JOGADOR: sem zoom de região desabilitada; Mundo Completo fica', async () => {
     setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE, PATRIA_AURORA])
     renderPanel()
     const sel = await regiaoSelect()
     const opts = [...sel.options].map((o) => o.textContent)
     expect(opts).toContain('Mundo Livre')
     expect(opts).toContain('Pátria Aurora')
+    expect(opts).toContain('Mundo Completo')
     expect(opts).not.toContain('Magna Pátria')
-    expect(opts).not.toContain('Mundo Completo')
   })
 
-  it('vista salva NÃO-permitida (mundo completo) cai na primeira permitida', async () => {
+  it('vista salva NÃO-permitida (zoom da Magna Pátria) cai na primeira permitida', async () => {
     setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE, PATRIA_AURORA])
-    setRegiaoAtiva(GROUP_ID, VISTA_MUNDO_COMPLETO) // estado herdado de antes do gating
+    setRegiaoAtiva(GROUP_ID, 'Atlas/Magna Pátria/Magna Pátria')
     renderPanel()
     const sel = await regiaoSelect()
     expect(sel.value).toBe(VISTA_MUNDO_LIVRE)
+  })
+
+  it('Mundo Completo do jogador mostra o mundo COM overlay nas desabilitadas', async () => {
+    setRegioesHabilitadasGrupo(GROUP_ID, [MUNDO_LIVRE, PATRIA_AURORA])
+    setRegiaoAtiva(GROUP_ID, VISTA_MUNDO_COMPLETO)
+    renderPanel()
+    const sel = await regiaoSelect()
+    expect(sel.value).toBe(VISTA_MUNDO_COMPLETO) // permitida — não clampa
+    expect(document.querySelector('[data-overlay-desabilitado]')).toBeTruthy()
   })
 
   it('overlay clipado cobre as regiões desabilitadas no mapa da exploração', async () => {

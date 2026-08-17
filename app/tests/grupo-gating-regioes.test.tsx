@@ -125,10 +125,10 @@ describe('#41 — gating de regiões na ficha do grupo', () => {
     const sec = (await screen.findByText('// MAPAS VISÍVEIS PRO GRUPO')).closest(
       '[data-gating-grupo]',
     ) as HTMLElement
-    fireEvent.click(within(sec).getByLabelText('Mundo Completo (todas as regiões)'))
+    fireEvent.click(within(sec).getByLabelText('Todas as regiões'))
     expect(regioesDesabilitadas(getMapaAtlas(), gatingKey)).toHaveLength(0) // tudo visível
     // desmarca "Mundo Completo" → nada visível (escolha explícita do mestre)
-    fireEvent.click(within(sec).getByLabelText('Mundo Completo (todas as regiões)'))
+    fireEvent.click(within(sec).getByLabelText('Todas as regiões'))
     expect(regioesDesabilitadas(getMapaAtlas(), gatingKey)).toHaveLength(3)
   })
 
