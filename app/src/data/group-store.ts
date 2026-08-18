@@ -273,12 +273,19 @@ export function migrateGroupState(from: string, to: string): boolean {
   if (isEmpty(fromState)) return false
   const toState = hydrate(to)
   if (!isEmpty(toState)) return false // destino já tem dados — nunca sobrescreve
-  commit(to, {
-    hexes: fromState.hexes,
-    grade: fromState.grade,
-    ...(fromState.regiaoAtiva ? { regiaoAtiva: fromState.regiaoAtiva } : {}),
-    ...(fromState.atualId ? { atualId: fromState.atualId } : {}),
-  })
+  // Clobber 2026-08-18: migrar é MOVER, não editar — o carimbo de ORIGEM viaja
+  // junto. Carimbar "agora" fazia um blob velho vencer o remoto consolidado no
+  // sync ("local mais novo" → push) e apagar a trilha de todo mundo.
+  commit(
+    to,
+    {
+      hexes: fromState.hexes,
+      grade: fromState.grade,
+      ...(fromState.regiaoAtiva ? { regiaoAtiva: fromState.regiaoAtiva } : {}),
+      ...(fromState.atualId ? { atualId: fromState.atualId } : {}),
+    },
+    groupStateUpdatedAt(from) ?? undefined,
+  )
   commit(from, emptyState()) // remove a chave antiga
   return true
 }

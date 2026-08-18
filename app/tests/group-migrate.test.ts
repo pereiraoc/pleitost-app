@@ -8,6 +8,7 @@ import {
   addGroupHex,
   getGroupState,
   groupStateJson,
+  groupStateUpdatedAt,
   migrateGroupState,
   setGroupStateFull,
   __resetGroupStoreMemoryForTests,
@@ -63,6 +64,21 @@ describe('migrateGroupState — porta a exploração da mesa', () => {
     expect(getGroupState(NEW).hexes).toHaveLength(1)
     expect(getGroupState(NEW).hexes[0]!.label).toBe('Já existe')
     expect(getGroupState(OLD).hexes).toHaveLength(1) // antigo intacto
+  })
+
+  it('migração PRESERVA o carimbo de origem — dado velho não vira "mais novo" (clobber 2026-08-18)', () => {
+    // Device com trilha VELHA (carimbo 07-24) entra na mesa: a migração
+    // grupo→sessão não pode carimbar AGORA, senão o sync "local mais novo"
+    // empurra o dado velho por cima da trilha consolidada do servidor.
+    const CARIMBO_VELHO = '2026-07-24T01:04:21.000Z'
+    setGroupStateFull(OLD, {
+      hexes: [{ id: 'h1', col: 3, row: 4, data: '2026-07-20', kind: 'parada' }],
+      grade: 'mundo',
+      updatedAt: CARIMBO_VELHO,
+    } as never)
+    expect(groupStateUpdatedAt(OLD)).toBe(CARIMBO_VELHO)
+    expect(migrateGroupState(OLD, NEW)).toBe(true)
+    expect(groupStateUpdatedAt(NEW)).toBe(CARIMBO_VELHO)
   })
 
   it('no-op quando o antigo está vazio (nada a portar)', () => {
