@@ -111,6 +111,83 @@ function deepContains(a: unknown, b: unknown): boolean {
   return Object.keys(bo).every((k) => k in ao && deepContains(ao[k], bo[k]))
 }
 
+// ── Pessoas das anotações (report 2026-08-18: "não estão aparecendo todas as
+// pessoas") — o newer-wins POR ENTIDADE descartava a lista mais completa quando
+// outro device fazia uma edição qualquer (vida). Pessoas vira CONJUNTO com
+// merge por pessoa (OR-set): união por chave (Alvo ?? nome:Nome), a versão com
+// `addedAt` mais novo vence, e deleção = tombstone em `PessoasRemovidas`
+// (só mata a pessoa se for mais nova que o addedAt dela — re-add sobrevive).
+const PESSOAS_KEY = 'Pessoas'
+const PESSOAS_REMOVIDAS_KEY = 'PessoasRemovidas'
+
+function fmDe(ent: unknown): Record<string, unknown> | null {
+  if (!ent || typeof ent !== 'object') return null
+  const fm = (ent as Record<string, unknown>)['frontmatter']
+  return fm && typeof fm === 'object' && !Array.isArray(fm) ? (fm as Record<string, unknown>) : null
+}
+function pessoasDe(ent: unknown): Record<string, unknown>[] {
+  const raw = fmDe(ent)?.[PESSOAS_KEY]
+  return Array.isArray(raw)
+    ? raw.filter((p): p is Record<string, unknown> => !!p && typeof p === 'object')
+    : []
+}
+/** MESMA chave do painel (PessoasPanel `manuais`): Alvo quando aponta um doc,
+ *  senão o nome. */
+function pessoaChave(p: Record<string, unknown>): string {
+  const alvo = p['Alvo']
+  if (typeof alvo === 'string' && alvo) return alvo
+  return 'nome:' + String(p['Nome'] ?? '')
+}
+function pessoaAddedAt(p: Record<string, unknown>): number {
+  const t = typeof p['addedAt'] === 'string' ? Date.parse(p['addedAt']) : NaN
+  return Number.isFinite(t) ? t : 0
+}
+function remocoesDe(ent: unknown): Record<string, string> {
+  const raw = fmDe(ent)?.[PESSOAS_REMOVIDAS_KEY]
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {}
+  const out: Record<string, string> = {}
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (typeof v === 'string') out[k] = v
+  }
+  return out
+}
+
+/** Clone do `winner` com Pessoas = união das dos DOIS lados (e tombstones
+ *  unidas). Entidade sem Pessoas nos dois lados volta intocada (sem churn). */
+function comPessoasUnidas(winner: unknown, other: unknown): unknown {
+  const wp = pessoasDe(winner)
+  const op = pessoasDe(other)
+  const wrem = remocoesDe(winner)
+  const orem = remocoesDe(other)
+  if (!wp.length && !op.length && !Object.keys(wrem).length && !Object.keys(orem).length) {
+    return winner
+  }
+  // tombstones: união, ISO mais NOVO por chave
+  const tombs: Record<string, string> = { ...orem }
+  for (const [k, iso] of Object.entries(wrem)) {
+    if (!tombs[k] || Date.parse(iso) > Date.parse(tombs[k]!)) tombs[k] = iso
+  }
+  // união por pessoa: ordem do winner primeiro, exclusivas do other depois;
+  // mesma chave → addedAt mais novo vence (empate → versão do winner)
+  const porChave = new Map<string, Record<string, unknown>>()
+  for (const p of wp) porChave.set(pessoaChave(p), p)
+  for (const p of op) {
+    const k = pessoaChave(p)
+    const atual = porChave.get(k)
+    if (!atual || pessoaAddedAt(p) > pessoaAddedAt(atual)) porChave.set(k, p)
+  }
+  const vivos = [...porChave.entries()]
+    .filter(([k, p]) => {
+      const t = tombs[k]
+      return !t || Date.parse(t) <= pessoaAddedAt(p)
+    })
+    .map(([, p]) => p)
+  const fm = { ...(fmDe(winner) ?? {}) }
+  fm[PESSOAS_KEY] = vivos
+  if (Object.keys(tombs).length) fm[PESSOAS_REMOVIDAS_KEY] = tombs
+  return { ...(winner as Record<string, unknown>), frontmatter: fm }
+}
+
 /** Timestamp `updatedAt` de UMA entidade dentro do blob (0 se ausente). */
 function entUpdatedAt(v: unknown): number {
   if (!v || typeof v !== 'object') return 0
@@ -177,14 +254,17 @@ export const mergeRecordBlobsByUpdatedAt: CollectionMerger = (localRaw, remoteRa
     } else {
       const la = entUpdatedAt(l)
       const ra = entUpdatedAt(r)
+      // Winner por carimbo (empate → superset → local exibe/conta preserva),
+      // mas as PESSOAS fazem união por pessoa em cima do winner — a lista
+      // mais completa nunca é descartada por uma edição não-relacionada.
+      const decide = (winner: unknown, other: unknown): unknown =>
+        comPessoasUnidas(winner, other)
+      let vLocal: unknown
+      let vPush: unknown
       if (ra > la) {
-        mergedLocal[k] = r
-        mergedPush[k] = r
-        adopted = true // conta mais nova → adota
+        vLocal = vPush = decide(r, l)
       } else if (la > ra) {
-        mergedLocal[k] = l
-        mergedPush[k] = l
-        toPush = true // local mais novo → sobe
+        vLocal = vPush = decide(l, r)
       } else {
         // EMPATE de carimbo (dado legado). Se um lado é SUPERSET do outro, ele
         // vence (só acrescenta, nunca perde) — assim ficha antiga mais completa
@@ -193,18 +273,19 @@ export const mergeRecordBlobsByUpdatedAt: CollectionMerger = (localRaw, remoteRa
         const localSup = deepContains(l, r)
         const remoteSup = deepContains(r, l)
         if (remoteSup && !localSup) {
-          mergedLocal[k] = r
-          mergedPush[k] = r
-          adopted = true // conta mais completa → adota
+          vLocal = vPush = decide(r, l)
         } else if (localSup && !remoteSup) {
-          mergedLocal[k] = l
-          mergedPush[k] = l
-          toPush = true // local mais completo → sobe
+          vLocal = vPush = decide(l, r)
         } else {
-          mergedLocal[k] = l
-          mergedPush[k] = r
+          vLocal = decide(l, r)
+          vPush = decide(r, l)
         }
       }
+      mergedLocal[k] = vLocal
+      mergedPush[k] = vPush
+      // flags por COMPARAÇÃO (a união pode acrescentar dos dois lados)
+      if (JSON.stringify(vLocal) !== JSON.stringify(l)) adopted = true
+      if (JSON.stringify(vPush) !== JSON.stringify(r)) toPush = true
     }
   }
   if (Object.keys(tombs).length) {
