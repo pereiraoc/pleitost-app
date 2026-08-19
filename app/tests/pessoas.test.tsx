@@ -94,6 +94,27 @@ describe('Anotações PESSOAS (#178/#179) + resumo (#180)', () => {
     expect(pessoas[0]['Organização']).toBe('Taverna')
   })
 
+  it('OR-set (2026-08-18): criar carimba addedAt; deletar grava tombstone em PessoasRemovidas', async () => {
+    const id = createLocalEntity('Heroi', 'Meu Herói', emptyHeroFrontmatter())
+    renderAnotacoes(id)
+    fireEvent.click(await screen.findByText('PESSOAS'))
+    fireEvent.click(await screen.findByText('+ Nova Pessoa'))
+    const dialog = await screen.findByRole('dialog', { name: 'Adicionar Pessoa' })
+    fireEvent.change(within(dialog).getByLabelText('Nome'), { target: { value: 'Barba' } })
+    fireEvent.click(within(dialog).getByText(/Adicionar|Salvar|Criar/))
+    await waitFor(() => expect(screen.getByText('Barba')).toBeTruthy())
+    const fm = () => getLocalDoc(id)!.frontmatter as Record<string, unknown>
+    const pessoas = fm()['Pessoas'] as Array<Record<string, string>>
+    // carimbo de criação — é ele que protege a pessoa no merge entre devices
+    expect(typeof pessoas[0]!['addedAt']).toBe('string')
+    expect(Number.isFinite(Date.parse(pessoas[0]!['addedAt']!))).toBe(true)
+    // deletar → some da lista E deixa tombstone (deleção propaga no merge)
+    fireEvent.click(screen.getByLabelText('Remover Barba'))
+    await waitFor(() => expect((fm()['Pessoas'] as unknown[]).length).toBe(0))
+    const rem = fm()['PessoasRemovidas'] as Record<string, string>
+    expect(typeof rem['nome:Barba']).toBe('string')
+  })
+
   it('existente: picker escolhe herói do usuário; clique no nome abre a ficha RESUMO nos detalhes', async () => {
     const id = createLocalEntity('Heroi', 'Meu Herói', emptyHeroFrontmatter())
     createLocalEntity('Heroi', 'Aliado Conhecido', { ...emptyHeroFrontmatter(), Classe: '[[Bardo]]' })

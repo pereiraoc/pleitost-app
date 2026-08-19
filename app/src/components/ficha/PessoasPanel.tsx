@@ -20,6 +20,9 @@ export interface PessoaRow extends PessoaFields2 {
   /** Doc id de um personagem EXISTENTE (herói/companheiro/monstro) — habilita
    *  a ficha resumo no clique; ausente = pessoa "solta". */
   Alvo?: string
+  /** Carimbo de criação/edição — protege a pessoa no merge entre devices
+   *  (OR-set, collection-merge 2026-08-18). */
+  addedAt?: string
 }
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
@@ -351,6 +354,21 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
   })
 
   const save = (next: PessoaRow[]) => model.set('Pessoas', next)
+  // OR-set (2026-08-18): deletar grava TOMBSTONE em PessoasRemovidas — sem
+  // ela, a união do merge entre devices ressuscitava a pessoa deletada.
+  const chaveDe = (r: PessoaRow) => r.Alvo ?? `nome:${r.Nome}`
+  const removePessoa = (idx: number) => {
+    const r = rows[idx]
+    if (!r) return
+    const cur = fmPath(model.fm, 'PessoasRemovidas')
+    const rem =
+      cur && typeof cur === 'object' && !Array.isArray(cur)
+        ? { ...(cur as Record<string, string>) }
+        : {}
+    rem[chaveDe(r)] = new Date().toISOString()
+    model.set('PessoasRemovidas', rem)
+    save(rows.filter((_, i) => i !== idx))
+  }
   const abrirResumo = (id: string) => detail?.open({ kind: 'resumo', id })
 
   return (
@@ -411,7 +429,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
                   badge={g.badge}
                   onResumo={r.Alvo ? () => abrirResumo(r.Alvo!) : undefined}
                   onEdit={() => setModal({ t: 'editar', idx })}
-                  onDelete={() => save(rows.filter((_, i) => i !== idx))}
+                  onDelete={() => removePessoa(idx)}
                 />
               ))
         if (cards.length === 0) return null
@@ -435,7 +453,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
           withImage
           onClose={() => setModal(null)}
           onSubmit={(f) => {
-            save([...rows, f])
+            save([...rows, { ...f, addedAt: new Date().toISOString() }])
             setModal(null)
           }}
         />
@@ -453,7 +471,7 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
           lockNome
           onClose={() => setModal(null)}
           onSubmit={(f) => {
-            save([...rows, { ...f, Alvo: modal.alvo }])
+            save([...rows, { ...f, Alvo: modal.alvo, addedAt: new Date().toISOString() }])
             setModal(null)
           }}
         />
@@ -467,7 +485,12 @@ export function PessoasPanel({ doc }: { doc: VaultDoc }) {
           withImage={!rows[modal.idx]?.Alvo}
           onClose={() => setModal(null)}
           onSubmit={(f) => {
-            save(rows.map((r, i) => (i === modal.idx ? { ...r, ...f } : r)))
+            // re-carimba: a versão editada vence a união do merge entre devices
+            save(
+              rows.map((r, i) =>
+                i === modal.idx ? { ...r, ...f, addedAt: new Date().toISOString() } : r,
+              ),
+            )
             setModal(null)
           }}
         />
