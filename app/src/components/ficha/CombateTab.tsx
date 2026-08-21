@@ -756,6 +756,16 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
       [`${nome}::${desc.numericSelector!.label}`]: nextVal,
     })
   }
+  // #467 (paridade com o plugin condicoes-ativas.ts:182): efeito com
+  // aplicação ArmaSelecionada expõe/troca a ARMA alvo no chip.
+  const writeWeaponSelector = (nome: string, armaLink: string) => {
+    const state = interState.condicoes[nome]
+    const base = state && typeof state === 'object' ? (state as Record<string, unknown>) : { value: 1 }
+    model.setVolatile('Interativa.Condicoes_Ativas', {
+      ...interState.condicoes,
+      [nome]: { ...base, weaponSelector: armaLink },
+    })
+  }
   // Contagem de condição acumulável/escalável (plugin condicoes-ativas.ts:
   // 141-166; next<=0 remove a entry).
   const writeCondValue = (nome: string, nextVal: number) => {
@@ -1230,6 +1240,37 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                                 {tokens.emojis.ui.Increment}
                               </button>
                             </span>
+                          ) : null}
+                          {on === 1 && desc?.aplicacao === 'ArmaSelecionada' && armaNames.length > 0 ? (
+                            // #467: arma ALVO do encantamento (plugin
+                            // condicoes-ativas.ts:182) — mostra e troca.
+                            <select
+                              aria-label={`Arma de ${c.nome}`}
+                              value={(() => {
+                                const st = interState.condicoes[c.nome]
+                                const w =
+                                  st && typeof st === 'object'
+                                    ? str((st as Record<string, unknown>)['weaponSelector'])
+                                    : ''
+                                return w || armaNames[0]!
+                              })()}
+                              onChange={(e) => writeWeaponSelector(c.nome, e.target.value)}
+                              style={{
+                                maxWidth: 120,
+                                fontFamily: 'var(--mono)',
+                                fontSize: 11,
+                                background: 'var(--card)',
+                                border: '1px solid var(--line2)',
+                                color: 'var(--text)',
+                                padding: '2px 4px',
+                              }}
+                            >
+                              {armaNames.map((a) => (
+                                <option key={a} value={a}>
+                                  {linkLabel(a)}
+                                </option>
+                              ))}
+                            </select>
                           ) : null}
                           {on === 1 && acumulavel ? (
                             // Contagem `[N] − +` do plugin (condicoes-ativas

@@ -7,7 +7,7 @@
 // plugin) → efeito de MAGIA usa o emoji DA MAGIA (magiaEmoji do doc) →
 // fallback 🌟 (subcategoria.EfeitoInterativo). Carlos real como oráculo.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -90,6 +90,24 @@ const chipDe = (nome: string): HTMLElement | undefined =>
     .find((p) => p?.querySelector('button') && p.style.clipPath.includes('polygon'))
 
 describe('split Condições × Efeitos (pedido 2026-07-21)', () => {
+  it('#467: chip ativo de ArmaSelecionada mostra o SELETOR DE ARMA alvo', async () => {
+    renderCombate()
+    fireEvent.click(await screen.findByText('EFEITOS'))
+    const enc = await waitFor(
+      () => {
+        const c = chipDe('Encantar Arma')
+        expect(c).toBeTruthy()
+        return c!
+      },
+      { timeout: 15000 },
+    )
+    // paridade com o plugin (condicoes-ativas.ts:182): efeito com aplicação
+    // ArmaSelecionada expõe QUAL arma está encantada (e permite trocar)
+    const sel = enc.querySelector('select')
+    expect(sel, 'seletor de arma no chip').toBeTruthy()
+    expect([...sel!.options].some((o) => /Punhal/.test(o.textContent ?? ''))).toBe(true)
+  }, 30000)
+
   it('CONDIÇÕES: só as básicas do sistema — Enfraquecido sim, Encantar Arma não', async () => {
     renderCombate()
     fireEvent.click(await screen.findByText('CONDIÇÕES'))

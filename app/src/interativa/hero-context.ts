@@ -178,9 +178,12 @@ export function collectEffectTargets(fm: Record<string, unknown>): string[] {
   for (const entry of listaEntries(fmPath(fm, 'Habilidades', 'Lista'))) out.add(entry.target)
   for (const entry of listaEntries(fmPath(fm, 'Tecnicas', 'Lista'))) out.add(entry.target)
   for (const entry of listaEntries(fmPath(fm, 'Acoes', 'Lista'))) out.add(entry.target)
-  const escolas = fmPath(fm, 'Magias', 'Lista')
-  if (Array.isArray(escolas)) {
-    for (const escola of escolas as Record<string, unknown>[]) {
+  // #467: magias da SEGUNDA classe vivem em Magias.Secundaria.Lista — sem
+  // elas na coleta, o Efeito_Interativo (ex.: Encantar Arma de um Arcanista
+  // secundário) nunca virava toggle (mesma classe do gap #328).
+  for (const escolasPath of [fmPath(fm, 'Magias', 'Lista'), fmPath(fm, 'Magias', 'Secundaria', 'Lista')]) {
+    if (!Array.isArray(escolasPath)) continue
+    for (const escola of escolasPath as Record<string, unknown>[]) {
       for (const entry of listaEntries(escola['Lista'])) out.add(entry.target)
     }
   }
