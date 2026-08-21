@@ -212,7 +212,7 @@ function Losango() {
   )
 }
 
-function SelectBox({
+export function SelectBox({
   value,
   options,
   onChange,
@@ -228,6 +228,11 @@ function SelectBox({
   infoDocId?: string | null
 }) {
   const opts = withCurrent(options, value)
+  // Pedido 2026-08-21: clicar no TEXTO da escolha abre os DETALHES do doc
+  // escolhido (antes qualquer clique abria o dropdown e não dava pra "ver o
+  // que é"); a troca fica na zona da SETA à direita (e no teclado, que segue
+  // no <select> nativo). Sem pick/detalhes, o select todo abre o dropdown.
+  const detail = useDetail()
   return (
     <div style={{ display: 'flex', alignItems: 'stretch', gap: 6, minWidth: 0 }}>
       <div style={{ position: 'relative', minWidth: 0, flex: 1 }}>
@@ -269,6 +274,17 @@ function SelectBox({
         >
           ▾
         </span>
+        {detail && infoDocId && value ? (
+          <span
+            data-select-text-detalhes=""
+            role="button"
+            tabIndex={-1}
+            title="Ver detalhes — a seta à direita troca a escolha"
+            aria-label={ariaLabel ? `Ver detalhes de ${ariaLabel}` : 'Ver detalhes'}
+            onClick={() => detail.open({ kind: 'doc', id: infoDocId })}
+            style={{ position: 'absolute', left: 0, top: 0, bottom: 0, right: 40, cursor: 'pointer' }}
+          />
+        ) : null}
       </div>
       <DetailInfoButton docId={infoDocId} label={ariaLabel} />
     </div>
@@ -1941,7 +1957,7 @@ interface TreeItem {
  *  Experientes/Mestres na coluna errada (bug do Trovador). Espelho do
  *  bucketize-por-rank do plugin (habilidades-card.ts:119-139), onde o rank vem
  *  do `rank::` inline do body da nota alvo — indisponível até o doc resolver. */
-function habTree(
+export function habTree(
   entries: ListaEntry[],
   refDoc: HeroRefs['refDoc'],
   loaded: boolean,
@@ -1959,6 +1975,16 @@ function habTree(
     ents.push(e)
   }
   const targets = new Set(ents.map((e) => e.target))
+  // Report 2026-08-21 (Gaspar): alvo que é FONTE de outra entrada da lista —
+  // pular um pick assim derruba o GALHO inteiro (o filho fica órfão e some,
+  // junto com a escolha pendurada nele: Treinamento de Guerreiro → filho
+  // Especialização Menor em Arma → dropdown da variante nunca renderizava).
+  const comFilhos = new Set<string>()
+  for (const e of ents) {
+    if (e.fonte.target && targets.has(e.fonte.target) && e.fonte.target !== e.target) {
+      comFilhos.add(e.fonte.target)
+    }
+  }
   const byParent = new Map<string, ListaEntry[]>()
   const roots: ListaEntry[] = []
   for (const e of ents) {
@@ -1966,12 +1992,13 @@ function habTree(
     // (choicesByTarget) já é mostrado pela própria escolha — não duplicar como
     // filho na árvore (era isso que repetia as essências do Animista). EXCETO
     // quando o pick tem escolhas PRÓPRIAS (ex.: Treinamento de Animista, pick
-    // da técnica de Classe Secundária, que abre as essências Menores): aí o
-    // entry PRECISA estar na árvore pra pendurar os dropdowns dele.
+    // da técnica de Classe Secundária, que abre as essências Menores) OU tem
+    // FILHOS na lista: aí o entry PRECISA estar na árvore pra ancorar o galho.
     if (
       e.fonte.kind === 'Escolha' &&
       choicesByTarget.has(e.fonte.target) &&
-      !choicesByTarget.has(e.target)
+      !choicesByTarget.has(e.target) &&
+      !comFilhos.has(e.target)
     )
       continue
     if (e.fonte.target && targets.has(e.fonte.target) && e.fonte.target !== e.target) {
@@ -2216,6 +2243,7 @@ export function HabilidadesArvorePanel({
                           value={choicePickValue(c)}
                           options={choiceOptionsSiblingAware(c, it.choices)}
                           onChange={(v) => onChoiceChange(it.target, c, v)}
+                          infoDocId={refs.refDoc(choicePickValue(c))?.id ?? null}
                         />
                       ) : (
                         // Fora do Alterar: pick sutil (texto + tooltip), não dropdown.
