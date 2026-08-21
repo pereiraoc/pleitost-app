@@ -100,6 +100,8 @@ describe('toast de update do PWA (issue #191)', () => {
     act(() => captured.onNeedRefresh!())
     expect(await screen.findByText('Atualização disponível')).toBeTruthy()
     expect(screen.getByRole('button', { name: 'Recarregar' })).toBeTruthy()
+    // #472: overlay CENTRAL em tela cheia (era toast no canto e ninguém via)
+    expect(document.querySelector('[data-pwa-update-overlay]')).toBeTruthy()
   })
 
   it('Recarregar aplica o update: updateSW(true)', async () => {

@@ -112,52 +112,73 @@ function CharTabButton({
   )
 }
 
-/** Toast fixo de update do PWA (issue #191): aparece quando um deploy novo
- *  está em espera (onNeedRefresh, ver src/pwa-update.ts); "Recarregar" ativa
- *  o SW novo e recarrega. Inline styles no vocabulário do design (panel/line/
- *  mono + canto chanfrado), como as linhas do CONFIG. */
+/** Aviso de update do PWA (issue #191; #472: era um toast discreto no canto e
+ *  ninguém via — agora é um OVERLAY CENTRAL bem grande, pedido do jogador
+ *  "no meio da tela gigantescamente"). "Recarregar" ativa o SW novo e
+ *  recarrega (src/pwa-update.ts). Vocabulário do design (panel/line/mono +
+ *  canto chanfrado). */
 function PwaUpdateToast() {
   const needRefresh = usePwaNeedRefresh()
   if (!needRefresh) return null
   return (
     <div
-      role="status"
+      data-pwa-update-overlay=""
       style={{
         position: 'fixed',
-        bottom: 18,
-        right: 18,
+        inset: 0,
         zIndex: 1000,
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
-        padding: '12px 15px',
-        background: 'var(--panel)',
-        border: '1px solid var(--line)',
-        clipPath:
-          'polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))',
-        fontFamily: 'var(--mono)',
-        fontSize: 12,
-        letterSpacing: '.05em',
-        color: 'var(--text)',
+        justifyContent: 'center',
+        background: 'color-mix(in srgb, #000 62%, transparent)',
+        backdropFilter: 'blur(2px)',
       }}
     >
-      <span>Atualização disponível</span>
-      <button
-        onClick={applyPwaUpdate}
+      <div
+        role="status"
         style={{
-          padding: '7px 12px',
-          cursor: 'pointer',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 18,
+          padding: '34px 44px',
+          maxWidth: 'min(92vw, 520px)',
+          textAlign: 'center',
+          background: 'var(--panel)',
           border: '1px solid var(--accent)',
-          background: 'var(--accent)',
-          color: 'var(--ink)',
+          clipPath:
+            'polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))',
           fontFamily: 'var(--mono)',
-          fontSize: 11,
-          letterSpacing: '.08em',
-          clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+          color: 'var(--text)',
         }}
       >
-        Recarregar
-      </button>
+        <span style={{ fontSize: 30, lineHeight: 1 }} aria-hidden>
+          ⟳
+        </span>
+        <span style={{ fontSize: 19, fontWeight: 700, letterSpacing: '.06em' }}>
+          Atualização disponível
+        </span>
+        <span style={{ fontSize: 12.5, letterSpacing: '.04em', color: 'var(--muted)' }}>
+          Uma versão nova do app acabou de sair — recarrega pra jogar com ela.
+        </span>
+        <button
+          onClick={applyPwaUpdate}
+          style={{
+            padding: '13px 34px',
+            cursor: 'pointer',
+            border: '1px solid var(--accent)',
+            background: 'var(--accent)',
+            color: 'var(--ink)',
+            fontFamily: 'var(--mono)',
+            fontSize: 15,
+            fontWeight: 700,
+            letterSpacing: '.1em',
+            clipPath: 'polygon(0 0,100% 0,100% 100%,8px 100%,0 calc(100% - 8px))',
+          }}
+        >
+          Recarregar
+        </button>
+      </div>
     </div>
   )
 }
