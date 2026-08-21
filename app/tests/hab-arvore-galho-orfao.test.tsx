@@ -75,22 +75,24 @@ describe('habTree — pick com FILHOS ancora o galho (Gaspar 2026-08-21)', () =>
   })
 })
 
-describe('SelectBox — clique no texto abre DETALHES; zona da seta troca', () => {
+describe('SelectBox — dropdown inteiro clicável + ℹ️ abre os detalhes (r2)', () => {
   const opts = [{ value: '[[X]]', label: 'X' }]
-  it('com pick + doc: overlay de detalhes presente sobre o texto', () => {
+  it('com doc do pick: ℹ️ presente e NENHUM overlay rouba o clique do select', () => {
     render(
       <DetailProvider>
         <SelectBox value="[[X]]" options={opts} ariaLabel="Escolha" infoDocId={'Sistema/X' as VaultDoc['id']} />
       </DetailProvider>,
     )
-    expect(document.querySelector('[data-select-text-detalhes]')).toBeTruthy()
+    // r2: o overlay texto→detalhes atrapalhava abrir o dropdown — não existe mais
+    expect(document.querySelector('[data-select-text-detalhes]')).toBeNull()
+    expect(document.querySelector('[aria-label="Ver detalhes de Escolha"]')).toBeTruthy()
   })
-  it('sem pick (escolha vazia) o select todo abre o dropdown — sem overlay', () => {
+  it('sem doc (escolha vazia) não há ℹ️', () => {
     render(
       <DetailProvider>
-        <SelectBox value="" options={opts} ariaLabel="Escolha" infoDocId="Sistema/X" />
+        <SelectBox value="" options={opts} ariaLabel="Escolha" infoDocId={null} />
       </DetailProvider>,
     )
-    expect(document.querySelector('[data-select-text-detalhes]')).toBeNull()
+    expect(document.querySelector('[aria-label="Ver detalhes de Escolha"]')).toBeNull()
   })
 })

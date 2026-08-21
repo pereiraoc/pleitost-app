@@ -228,11 +228,6 @@ export function SelectBox({
   infoDocId?: string | null
 }) {
   const opts = withCurrent(options, value)
-  // Pedido 2026-08-21: clicar no TEXTO da escolha abre os DETALHES do doc
-  // escolhido (antes qualquer clique abria o dropdown e não dava pra "ver o
-  // que é"); a troca fica na zona da SETA à direita (e no teclado, que segue
-  // no <select> nativo). Sem pick/detalhes, o select todo abre o dropdown.
-  const detail = useDetail()
   return (
     <div style={{ display: 'flex', alignItems: 'stretch', gap: 6, minWidth: 0 }}>
       <div style={{ position: 'relative', minWidth: 0, flex: 1 }}>
@@ -274,18 +269,11 @@ export function SelectBox({
         >
           ▾
         </span>
-        {detail && infoDocId && value ? (
-          <span
-            data-select-text-detalhes=""
-            role="button"
-            tabIndex={-1}
-            title="Ver detalhes — a seta à direita troca a escolha"
-            aria-label={ariaLabel ? `Ver detalhes de ${ariaLabel}` : 'Ver detalhes'}
-            onClick={() => detail.open({ kind: 'doc', id: infoDocId })}
-            style={{ position: 'absolute', left: 0, top: 0, bottom: 0, right: 40, cursor: 'pointer' }}
-          />
-        ) : null}
       </div>
+      {/* Pedido 2026-08-21 r2: o select INTEIRO abre o dropdown (o overlay
+          texto→detalhes atrapalhava o clique); os detalhes do pick ficam no
+          ℹ️ ao lado — nas escolhas ele só existe no modo Alterar, que é onde
+          o SelectBox renderiza. */}
       <DetailInfoButton docId={infoDocId} label={ariaLabel} />
     </div>
   )
