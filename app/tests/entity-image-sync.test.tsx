@@ -20,6 +20,7 @@ import {
   saveEntityImage,
   deleteEntityImage,
   syncedImageDataUrl,
+  backfillImageSync,
   __resetImagesStoreForTests,
 } from '../src/data/images'
 import { buildCharacterSummary } from '../src/data/session-repo/publish'
@@ -121,6 +122,21 @@ describe('retrato sincronizado pela conta (r2)', () => {
       expect(el).toBeTruthy()
       expect(el!.style.backgroundImage).toContain('data:image')
     })
+  })
+
+  it('BACKFILL: seguro/idempotente (o caminho feliz é E2E — fake-indexeddb não devolve Blob real)', async () => {
+    const id = createLocalEntity('Heroi', 'Zé Legado', emptyHeroFrontmatter())
+    await saveEntityImage(id, fakePng())
+    // idempotente: chave existente nunca é re-carimbada (não vence a troca de
+    // outro device)
+    const antes = window.localStorage.getItem(KEY(id))
+    await backfillImageSync()
+    expect(window.localStorage.getItem(KEY(id))).toBe(antes)
+    // chave ausente + store degradado (clone não-Blob do fake-indexeddb):
+    // roda sem lançar e não inventa chave a partir de lixo
+    window.localStorage.removeItem(KEY(id))
+    await backfillImageSync()
+    expect(window.localStorage.getItem(KEY(id))).toBeNull()
   })
 
   it('publish: o summary leva o retrato da chave da conta (mesa vê)', async () => {

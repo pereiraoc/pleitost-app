@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import { initPersistence } from './data/remote-persist'
+import { backfillImageSync } from './data/images'
 import { getThemeSnapshot } from './theme'
 import './styles/theme.css'
 import './styles/tokens.css'
@@ -17,6 +18,10 @@ getThemeSnapshot()
 // instala o espelho que grava cada mudança de volta. Renderiza mesmo se a
 // persistência falhar (offline/deploy sem backend).
 initPersistence().finally(() => {
+  // Retratos pré-sync (2026-08-21): gera as chaves espelháveis das imagens
+  // que só existem no IndexedDB deste device — DEPOIS do espelho instalado,
+  // pra cada chave nova já fluir pra conta.
+  void backfillImageSync()
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />

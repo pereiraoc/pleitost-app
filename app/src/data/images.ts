@@ -146,6 +146,38 @@ async function blobParaDataUrlSync(blob: Blob): Promise<string | null> {
   }
 }
 
+/** Migração preguiçosa (2026-08-21): imagens subidas ANTES do sync por conta
+ *  existem só no IndexedDB deste device — gera a chave espelhável pra cada uma
+ *  que ainda não tem. Roda no boot (main.tsx), best-effort e idempotente:
+ *  chave existente nunca é re-carimbada (não vence uma troca de outro device). */
+export async function backfillImageSync(): Promise<void> {
+  try {
+    const keys = await withStore(
+      'readonly',
+      (store) => store.getAllKeys() as IDBRequest<IDBValidKey[]>,
+    )
+    for (const k of keys ?? []) {
+      const id = String(k)
+      if (syncStorage()?.getItem(IMAGE_SYNC_PREFIX + id)) continue
+      const blob = await getEntityImage(id)
+      // ambientes degradados (clone sem Blob real) não têm o que migrar
+      if (!blob || !(blob instanceof Blob)) continue
+      const dataUrl = await blobParaDataUrlSync(blob)
+      if (!dataUrl) continue
+      try {
+        syncStorage()?.setItem(
+          IMAGE_SYNC_PREFIX + id,
+          JSON.stringify({ dataUrl, updatedAt: new Date().toISOString() }),
+        )
+      } catch {
+        /* quota/sem storage */
+      }
+    }
+  } catch {
+    /* IndexedDB indisponível: nada a migrar */
+  }
+}
+
 /** Grava/substitui a imagem de uma entidade (blob como veio do input file). */
 export async function saveEntityImage(id: string, blob: Blob): Promise<void> {
   await withStore('readwrite', (store) => store.put(blob, id))
