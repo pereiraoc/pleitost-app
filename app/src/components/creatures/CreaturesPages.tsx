@@ -627,6 +627,14 @@ export function PessoaForm({
 function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
   const assets = useAssetIndex()
+  // #475: Abrir Resumo nos detalhes; #474: mestre em sessão adiciona o herói
+  // à iniciativa como INIMIGO (mesmo fluxo do bestiário, #229).
+  const detail = useDetail()
+  const { mestre } = useSettings()
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  const live = useLiveSession()
+  const catalog = useCatalog()
   const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
   const classe = plainLabel(doc?.frontmatter['Classe'])
@@ -681,6 +689,35 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
         setOpen={setMenuOpen}
         items={[
           { label: 'Abrir', onClick: abrir },
+          // #475: ficha RESUMO no painel de detalhes (mesmo destino do clique
+          // nas Pessoas das anotações) — sem sair da lista.
+          ...(detail
+            ? [
+                {
+                  label: '📑 Abrir Resumo',
+                  onClick: () => detail.open({ kind: 'resumo', id: entry.id }),
+                },
+              ]
+            : []),
+          // #474: mestre em sessão — o herói entra na iniciativa como INIMIGO
+          // (kind npc), reusando o caminho direto do bestiário (#229).
+          ...(mestre && repo && user && live
+            ? [
+                {
+                  label: '⚔️ Adicionar à iniciativa',
+                  onClick: () =>
+                    void addMonsterToInitiative({
+                      repo,
+                      catalog,
+                      live,
+                      memberId: user.id,
+                      // vault: path da nota (.md); local: o id é o path
+                      sourcePath: entry.path,
+                      label: nome,
+                    }),
+                },
+              ]
+            : []),
           // #205: exportação pelo menu "⋮" — arquivo .pleitost.json fácil de
           // importar de volta (local exporta o store; da vault exporta o doc).
           {
