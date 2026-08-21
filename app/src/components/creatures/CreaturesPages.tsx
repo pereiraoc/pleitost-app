@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSettings } from '../../settings'
 import { useAssetIndex } from '../../data/assets'
-import { creatureImageUrl, groupImageUrl } from '../../data/creature-image'
+import { groupImageUrl } from '../../data/creature-image'
 import {
   deleteEntityImage,
   newImageId,
@@ -626,7 +626,6 @@ export function PessoaForm({
 
 function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const navigate = useNavigate()
-  const assets = useAssetIndex()
   // #475: Abrir Resumo nos detalhes; #474: mestre em sessão adiciona o herói
   // à iniciativa como INIMIGO (mesmo fluxo do bestiário, #229).
   const detail = useDetail()
