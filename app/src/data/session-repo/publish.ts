@@ -5,6 +5,7 @@
 // Mapeamentos idênticos ao plugin: evasao = Reflexo (invocacao-resolver.ts:260);
 // state = Interativa.* volátil; fmBlob = FM completo menos campos locais.
 import type { VaultDoc } from '../types'
+import { syncedImageDataUrl } from '../images'
 import { fmPath, num, str } from '../../components/ficha/hero-model'
 import { linkLabel } from '../../markdown/dataview-value'
 import { memberStats } from '../../grupo/stats'
@@ -67,6 +68,10 @@ export function buildCharacterSummary(
       intuicao: stats.sns['Intuição'] ?? 0,
     },
   }
+  // Retrato da mesa (2026-08-21): a versão pequena sincronizada pela conta —
+  // é síncrona (localStorage) e já redimensionada pro tamanho de card.
+  const retrato = syncedImageDataUrl(doc.id)
+  if (retrato) summary.retrato = retrato
   const classe = linkLabel(str(fm['Classe']))
   if (classe) summary.classe = classe
   const sintonia = linkLabel(str(fm['Sintonia']))

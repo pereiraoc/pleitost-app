@@ -87,15 +87,90 @@ export function newImageId(): string {
   return `img:${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 }
 
+/* ── Sync entre devices (report 2026-08-21 r2) ─────────────────────────────
+ * O IndexedDB é POR NAVEGADOR — "abri em outro dispositivo e tá sem imagem".
+ * O upload também grava uma versão PEQUENA (≤384px JPEG, data URL) numa chave
+ * do localStorage espelhada pelo sync por conta (remote-persist; newer-wins
+ * por `updatedAt` — prefixo registrado em UPDATED_AT_PREFIXES). A leitura cai
+ * nela quando o blob local não existe, e o publish da MESA a leva no summary
+ * (jogadores da sessão veem os retratos uns dos outros). */
+const IMAGE_SYNC_PREFIX = 'pleitost.entityImage.'
+const SYNC_MAX_DATAURL = 200_000
+const SYNC_MAX_DIM = 384
+
+function syncStorage(): Storage | null {
+  return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
+}
+
+/** Data URL pequena do retrato sincronizado pela conta (null = sem). */
+export function syncedImageDataUrl(id: string | null | undefined): string | null {
+  if (!id) return null
+  try {
+    const raw = syncStorage()?.getItem(IMAGE_SYNC_PREFIX + id)
+    if (!raw) return null
+    const v = JSON.parse(raw) as { dataUrl?: unknown }
+    return typeof v.dataUrl === 'string' && v.dataUrl ? v.dataUrl : null
+  } catch {
+    return null
+  }
+}
+
+/** Reduz o blob pra uma data URL pequena. Sem canvas (jsdom/ambiente mínimo),
+ *  blob pequeno vai cru em base64; grande fica só local (sem sync). */
+async function blobParaDataUrlSync(blob: Blob): Promise<string | null> {
+  try {
+    const bmp = await createImageBitmap(blob)
+    const scale = Math.min(1, SYNC_MAX_DIM / Math.max(bmp.width, bmp.height))
+    const w = Math.max(1, Math.round(bmp.width * scale))
+    const h = Math.max(1, Math.round(bmp.height * scale))
+    const canvas = document.createElement('canvas')
+    canvas.width = w
+    canvas.height = h
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('sem canvas 2d')
+    ctx.drawImage(bmp, 0, 0, w, h)
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.82)
+    return dataUrl.length <= SYNC_MAX_DATAURL ? dataUrl : null
+  } catch {
+    if (blob.size > 150_000) return null
+    return await new Promise<string | null>((resolve) => {
+      try {
+        const fr = new FileReader()
+        fr.onload = () => resolve(typeof fr.result === 'string' ? fr.result : null)
+        fr.onerror = () => resolve(null)
+        fr.readAsDataURL(blob)
+      } catch {
+        resolve(null)
+      }
+    })
+  }
+}
+
 /** Grava/substitui a imagem de uma entidade (blob como veio do input file). */
 export async function saveEntityImage(id: string, blob: Blob): Promise<void> {
   await withStore('readwrite', (store) => store.put(blob, id))
+  const dataUrl = await blobParaDataUrlSync(blob)
+  if (dataUrl) {
+    try {
+      syncStorage()?.setItem(
+        IMAGE_SYNC_PREFIX + id,
+        JSON.stringify({ dataUrl, updatedAt: new Date().toISOString() }),
+      )
+    } catch {
+      /* quota/sem storage: segue só local */
+    }
+  }
   bump()
 }
 
 /** Remove a imagem — os retratos voltam ao fallback da vault/iniciais. */
 export async function deleteEntityImage(id: string): Promise<void> {
   await withStore('readwrite', (store) => store.delete(id))
+  try {
+    syncStorage()?.removeItem(IMAGE_SYNC_PREFIX + id)
+  } catch {
+    /* noop */
+  }
   bump()
 }
 
@@ -123,11 +198,16 @@ export function useEntityImageUrl(id: string | null | undefined): string | null 
     getEntityImage(id).then(
       (blob) => {
         if (!alive) return
-        objectUrl = blob ? URL.createObjectURL(blob) : null
-        setUrl(objectUrl)
+        if (blob) {
+          objectUrl = URL.createObjectURL(blob)
+          setUrl(objectUrl)
+        } else {
+          // outro device: sem blob local → data URL sincronizada pela conta
+          setUrl(syncedImageDataUrl(id))
+        }
       },
-      // indexedDB indisponível (private mode etc.) → sem imagem local, sem crash.
-      () => alive && setUrl(null),
+      // indexedDB indisponível (private mode etc.) → cai na versão da conta.
+      () => alive && setUrl(syncedImageDataUrl(id)),
     )
     return () => {
       alive = false

@@ -55,7 +55,13 @@ const COLLECTION_MERGERS: Record<string, CollectionMerger> = {
  *  são coleções de itens; a política é NEWER-WINS (report c85c98cf: "marquei
  *  num device e sumiu no outro" — a hidratação fill-only-missing nunca trazia a
  *  versão mais nova). Ambos gravam updatedAt no blob (hexmap-store/group-store). */
-const UPDATED_AT_PREFIXES = ['pleitost.hexMap.', 'pleitost.groupState.']
+const UPDATED_AT_PREFIXES = [
+  'pleitost.hexMap.',
+  'pleitost.groupState.',
+  // retrato sincronizado (images.ts, 2026-08-21): trocar a foto num device
+  // precisa VENCER a antiga nos outros — escalar fill-only nunca atualizaria.
+  'pleitost.entityImage.',
+]
 /** Chaves ÚNICAS (não-prefixo) versionadas por updatedAt: o mapa do mundo
  *  (regiões/habilitação por grupo). Mesma política newer-wins. */
 const UPDATED_AT_KEYS = new Set(['pleitost.mapaAtlas', 'pleitost.sessaoAtiva'])

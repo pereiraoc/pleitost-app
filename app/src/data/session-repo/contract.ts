@@ -23,6 +23,9 @@ export interface CharacterStats {
 }
 
 export interface CharacterSummary {
+  /** Retrato PEQUENO (data URL ≤384px, images.ts) — publicado pra mesa ver o
+   *  personagem dos outros; ausente = fallback vault/iniciais. */
+  retrato?: string
   nome: string
   family: CharacterFamily
   classe?: string

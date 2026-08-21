@@ -166,6 +166,19 @@ describe('espelho por conta (#239)', () => {
     expect(added).toContain('pleitost.localEntities')
   })
 
+  it('retrato (pleitost.entityImage.*): conta MAIS NOVA vence o local (2026-08-21)', async () => {
+    const KEY = 'pleitost.entityImage.local:Heroi:x'
+    window.localStorage.setItem(
+      KEY,
+      JSON.stringify({ dataUrl: 'data:velha', updatedAt: '2026-08-01T00:00:00.000Z' }),
+    )
+    const novo = JSON.stringify({ dataUrl: 'data:nova', updatedAt: '2026-08-21T00:00:00.000Z' })
+    fakeServer({ [KEY]: novo })
+    await connectUserStateSync('u1')
+    // newer-wins por carimbo: a foto trocada em outro device chega aqui
+    expect(window.localStorage.getItem(KEY)).toBe(novo)
+  })
+
   it('resyncUserState deslogado é no-op (não puxa nada)', async () => {
     const srv = fakeServer({ 'pleitost.settings.mestre': 'true' })
     // sem connectUserStateSync antes → sbUserId nulo

@@ -426,7 +426,10 @@ function LinhaPersonagem({
     moralTemp: 0,
   }
   // #280: avatar de combatente (pequeno) → thumb; imagem local é blob cru.
-  const portrait = localImg ?? creatureImageUrl(synthDocFromCharacter(c), assets, true)
+  // 2026-08-21: o summary.retrato (publicado pelo dono) cobre os OUTROS
+  // jogadores da mesa — antes só o device do dono via a imagem subida.
+  const portrait =
+    localImg ?? c.summary.retrato ?? creatureImageUrl(synthDocFromCharacter(c), assets, true)
   const av = ca ? 32 : 42
   const st = c.summary.stats
   const pills: Array<[string, string, unknown]> = [
@@ -1136,7 +1139,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const mostraReal = !npc || isGm || revelado
     const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
     const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
-    const portrait = mostraReal ? creatureImageUrl(synthDocFromCharacter(c), assets, true) : null
+    const portrait = mostraReal
+      ? (c.summary.retrato ?? creatureImageUrl(synthDocFromCharacter(c), assets, true))
+      : null
     // #400: indicador de drop — barra fina onde o combatente arrastado cairia.
     const dropAntes = !!dragId && dragId !== c.id && overRow?.id === c.id && overRow.before
     const dropDepois = !!dragId && dragId !== c.id && overRow?.id === c.id && !overRow.before
