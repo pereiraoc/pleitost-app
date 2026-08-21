@@ -641,7 +641,10 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>);
   // #280: card de lista (pequeno) → thumb.
-  const portrait = creatureImageUrl(doc, assets, true)
+  // Report 2026-08-21: retrato subido na ficha não aparecia na lista — o card
+  // lia só a vault; o hook local-first (o MESMO dos cards de criatura, #280)
+  // prioriza a imagem do IndexedDB e reage ao upload sem reload.
+  const portrait = useCreaturePortrait(doc, true)
   // Badge NVL com a cor do tier do herói (issue #17): tierFromLevel (espelho
   // de tier-from-level.ts) + registro partyTierBar (1-3 bronze, 4-6 prata,
   // 7-9 ouro, 10+ cristal). Sem Nível carregado, fica nas cores do design.
