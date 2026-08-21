@@ -44,6 +44,7 @@ import {
   tokens,
 } from './registry'
 import { armaduraBases, escudoBases } from './equipment-bases'
+import { tesouroAplicavelAoItem } from '../../rules/aplicavel-a'
 import {
   ARMA_OBRA_PRIMA,
   ARMADURA_OBRA_PRIMA,
@@ -361,19 +362,45 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
 
   // Dropdown de PROPRIEDADE da ARMA (issue #76) — só o que aplica a ARMA:
   // imbuições reais (Imbuições e Qualidade/Imbuições) + 'Arma Obra-prima' (a
-  // qualidade da arma). As obra-primas de armadura/escudo/broquel/ferramenta
-  // ficam de fora. Espelha o listImbuicoes do plugin (equipamentos-section.ts:
-  // 214-226 sobre yaml-block-deps-factory.ts:686-692).
-  const imbuicoes = useMemo(
-    () => [
-      ...catalog.content
+  // qualidade da arma). Report 2026-08-18: dava pra encaixar imbuição
+  // incompatível — agora a lista é filtrada POR ARMA pelo AplicavelA
+  // (tesouroAplicavelAoItem, o MESMO avaliador da loja/#288 e do bloqueio
+  // do plugin), não mais a pasta inteira.
+  const imbuicaoIds = useMemo(
+    () =>
+      catalog.content
         .filter((e: IndexDocEntry) => e.id.startsWith(IMBUICOES_ARMA_FOLDER))
-        .map((e) => e.basename ?? e.id)
-        .sort((a, b) => a.localeCompare(b, 'pt-BR')),
-      ARMA_OBRA_PRIMA_BASE,
-    ],
+        .map((e) => e.id),
     [catalog],
   )
+  const armaRowIds = useMemo(
+    () =>
+      lista.map((a) => {
+        const t = wikiTarget(a['Nome'])
+        if (!t) return ''
+        const r = catalog.resolve(t)
+        return r.kind === 'doc' ? r.id : ''
+      }),
+    [lista, catalog],
+  )
+  const imbuDocs = useDocs(
+    useMemo(() => [...imbuicaoIds, ...armaRowIds.filter(Boolean)], [imbuicaoIds, armaRowIds]),
+  )
+  /** Imbuições compatíveis com a arma da LINHA + a qualidade Arma Obra-prima.
+   *  Sem arma/doc ainda → só a Obra-prima (a linha nem tem o que imbuir). */
+  const imbuicoesDaLinha = (i: number): string[] => {
+    const armaDoc = armaRowIds[i] ? imbuDocs?.get(armaRowIds[i]!) : undefined
+    const out: string[] = []
+    if (armaDoc) {
+      for (const id of imbuicaoIds) {
+        const idoc = imbuDocs?.get(id)
+        if (idoc && tesouroAplicavelAoItem(idoc, armaDoc)) out.push(idoc.basename ?? id)
+      }
+      out.sort((a, b) => a.localeCompare(b, 'pt-BR'))
+    }
+    out.push(ARMA_OBRA_PRIMA_BASE)
+    return out
+  }
 
   // Qualidade A/E/M — espelha setArmaRank do plugin (apply-armas-edit.ts:139-160):
   // desselecionar zera categoria+bônus e some com a Obra-prima automática;
@@ -700,10 +727,12 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                         >
                           {/* vazio do design: ench '—' das armas adicionadas (pickArma) */}
                           <option value="">—</option>
-                          {propBase && !imbuicoes.includes(propBase) ? (
+                          {/* valor SALVO fora da lista (legado incompatível)
+                              continua visível — o filtro barra só escolha nova */}
+                          {propBase && !imbuicoesDaLinha(i).includes(propBase) ? (
                             <option value={propBase}>{ench}</option>
                           ) : null}
-                          {imbuicoes.map((nome) => (
+                          {imbuicoesDaLinha(i).map((nome) => (
                             <option key={nome} value={nome}>
                               {nome === propBase ? ench : nome}
                             </option>

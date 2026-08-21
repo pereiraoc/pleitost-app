@@ -294,12 +294,22 @@ describe('#76: propriedade da arma só lista o que aplica a ARMA', () => {
     )
     .map((d) => d.basename!)
 
-  it('dropdown = imbuições reais + Arma Obra-prima; sem Armadura/Escudo/Broquel/Ferramenta Obra-prima', async () => {
+  it('dropdown filtra por AplicavelA: só imbuições compatíveis com a ARMA da linha (report 2026-08-18)', async () => {
     expect(imbuicoesReais.length).toBeGreaterThan(0)
     renderFicha('inventario')
     const select = (await screen.findByLabelText('Propriedade da arma')) as HTMLSelectElement
+    // docs das imbuições carregam assíncrono — espera a lista filtrada montar
+    await waitFor(() => {
+      expect([...select.options].map((o) => o.value)).toContain('Imbuição Relampejante')
+    })
     const opts = [...select.options].map((o) => o.value).filter((v) => v !== '')
-    for (const nome of imbuicoesReais) expect(opts).toContain(nome)
+    // Punhal (cac-marcial, perfuração, Arremesso): Relampejante (Arremesso) e
+    // Aço Solar (cac-marcial) entram…
+    expect(opts).toContain('Imbuição de Aço Solar')
+    // …Hidratante (só d-marcial/d-simples) e Flamejante (exige Tipo CORTE;
+    // Punhal é perfuração) NÃO — era o vetor do report 2026-08-18
+    expect(opts).not.toContain('Imbuição Hidratante')
+    expect(opts).not.toContain('Imbuição Flamejante')
     // a qualidade da ARMA entra; as obra-primas de outras peças NÃO (issue #76)
     expect(opts).toContain('Arma Obra-prima')
     expect(opts).not.toContain('Armadura Obra-prima')
@@ -534,9 +544,14 @@ describe('#14: edição completa do inventário (espelho do Editável)', () => {
     renderFicha('inventario')
     await screen.findByLabelText('Arma')
     const select = screen.getByLabelText('Propriedade da arma') as HTMLSelectElement
-    fireEvent.change(select, { target: { value: 'Imbuição Flamejante' } })
+    // Aço Solar é compatível com o Punhal (Flamejante exige corte e saiu da
+    // lista com o filtro AplicavelA de 2026-08-18)
+    await waitFor(() =>
+      expect([...select.options].map((o) => o.value)).toContain('Imbuição de Aço Solar'),
+    )
+    fireEvent.change(select, { target: { value: 'Imbuição de Aço Solar' } })
     expect(overlaySalvo().fm['Inventario.Armas.Lista'][0].Propriedade).toBe(
-      '[[Imbuição Flamejante]]',
+      '[[Imbuição de Aço Solar]]',
     )
     fireEvent.change(select, { target: { value: '' } })
     expect(overlaySalvo().fm['Inventario.Armas.Lista'][0].Propriedade).toBe('')
