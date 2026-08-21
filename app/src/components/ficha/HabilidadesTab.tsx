@@ -1919,6 +1919,9 @@ interface HabChoice {
   /** Ocorrência 1-based da escolha dentro do MESMO pai (Escolha.NN.[[pai]]) —
    *  sem isso várias escolhas do mesmo pai (5 essências) colidiam num só pick. */
   occ?: number
+  /** Origem do pick (resolve-choices): 'default'/'none' = o app defaultou —
+   *  a pendência #302 fica acesa e o dropdown abre VAZIO (#473). */
+  source?: string
 }
 
 interface TreeItem {
@@ -2091,6 +2094,7 @@ export function HabilidadesArvorePanel({
         kind: c.kind,
         targetRaw: c.targetRaw,
         occ: c.occurrenceWithinParent,
+        source: c.source,
       })
       map.set(base, list)
     }
@@ -2470,9 +2474,14 @@ function choiceTargetList(targetRaw: string | undefined): { path: string[]; fmKe
 }
 
 /** Valor atual do dropdown de uma choice, no MESMO formato das options
- *  (wikilink pra complementar-sel; display cru pros demais kinds). */
-function choicePickValue(c: HabChoice): string {
+ *  (wikilink pra complementar-sel; display cru pros demais kinds).
+ *  #473: pick DEFAULTADO (source default/none — o mesmo critério da pendência
+ *  #302) abre VAZIO — mostrado como escolhido, a aba parecia completa com a
+ *  bolinha acesa, e re-selecionar o mesmo valor nem disparava onChange (a
+ *  pendência ficava impossível de limpar). */
+export function choicePickValue(c: HabChoice): string {
   if (!c.pick) return ''
+  if (c.source === 'default' || c.source === 'none') return ''
   return c.kind === 'complementar-sel' ? c.pick : `[[${c.pick}]]`
 }
 
@@ -2672,6 +2681,7 @@ export function TecnicasPanel({
         kind: c.kind,
         targetRaw: c.targetRaw,
         occ: c.occurrenceWithinParent,
+        source: c.source,
       })
       map.set(base, list)
     }
