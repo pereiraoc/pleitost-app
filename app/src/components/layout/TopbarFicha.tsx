@@ -14,8 +14,7 @@
 // 2026-07-05 — uma fonte compartilhada dentro do app, persistida).
 import { useMemo, useState, type CSSProperties } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useAssetIndex } from '../../data/assets'
-import { creatureImageUrl } from '../../data/creature-image'
+import { useCreaturePortrait } from '../../data/images'
 import { useDoc, useDocs } from '../../data/useDoc'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
 import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
@@ -220,6 +219,15 @@ function useSwitcherEntries(): {
 
 /** Slot de retrato no MESMO estilo dos cards (.hero-portrait/.hero-ini do
  *  design: fundo card, borda line2, canto cortado, iniciais mono no fallback). */
+/** Avatar LOCAL-FIRST (report 2026-08-21 r4: o topbar mostrava só a imagem da
+ *  vault — upload/sync da conta não apareciam aqui). Mesmo hook dos cards
+ *  (useCreaturePortrait); componente próprio porque o switcher renderiza numa
+ *  lista (hook não pode viver no map). */
+function AvatarHeroi({ doc, nome, size }: { doc?: VaultDoc; nome: string; size: number }) {
+  const portrait = useCreaturePortrait(doc, true)
+  return <AvatarBox portrait={portrait} nome={nome} size={size} />
+}
+
 function AvatarBox({
   portrait,
   nome,
@@ -278,7 +286,6 @@ const SWITCHER_GAP = 6
  *  evidência em tests/ficha-ca.test.tsx). */
 function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null }) {
   const [open, setOpen] = useState(false)
-  const assets = useAssetIndex()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   // #bug10: trocar de herói PRESERVA a aba atual (Combate → Combate), em vez de
@@ -324,7 +331,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
             {apelido}
           </span>
         ) : null}
-        <AvatarBox portrait={creatureImageUrl(doc, assets, true)} nome={heroNome(doc)} size={34} />
+        <AvatarHeroi doc={doc} nome={heroNome(doc)} size={34} />
       </button>
       {open ? (
         <>
@@ -388,11 +395,7 @@ function HeroSwitcher({ doc, apelido }: { doc: VaultDoc; apelido: string | null 
                       } as CSSProperties
                     }
                   >
-                    <AvatarBox
-                      portrait={creatureImageUrl(entryDoc, assets, true)}
-                      nome={nome}
-                      size={32}
-                    />
+                    <AvatarHeroi doc={entryDoc} nome={nome} size={32} />
                     <span
                       style={{
                         overflow: 'hidden',
