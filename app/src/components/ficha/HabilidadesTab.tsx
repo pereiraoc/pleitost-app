@@ -40,6 +40,8 @@ import {
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
 import { computeMagiaAtaque, lookupRota } from '../../interativa/invocacao'
 import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
+import { tecnicaRequisitosCumpridos } from '../../rules/extract'
+import { rulesModelFromFm } from '../../rules/rules-model'
 // #382: leitor do FM `Modificador` do Monstro — o MESMO parser do plugin
 // (frontmatter-helpers.ts:195, portado em encounter-compute) que a projeção
 // usa pra filtrar as opções; o select exibe/grava o valor plano.
@@ -2719,6 +2721,9 @@ export function TecnicasPanel({
     [catalog],
   )
   const tecnicaDocs = useDocs(edit ? tecnicaIds : [])
+  // RulesModel do FM derivado — pro gate de Requisito das opções (espelho do
+  // plugin computeTecnicasDerived, v2.0.45).
+  const rulesModelReq = useMemo(() => rulesModelFromFm(fm), [fm])
   const naoAprendidas = useMemo(() => {
     if (!edit || !tecnicaDocs) return []
     const learned = new Set(entries.map((e) => e.target))
@@ -2730,6 +2735,8 @@ export function TecnicasPanel({
       // senão precisa conter a classe atual.
       const classes = tecnicaClasses(d)
       if (classes.length > 0 && (!classeTarget || !classes.includes(classeTarget))) continue
+      // Requisito não cumprido ESCONDE a opção (plugin view-model.ts, v2.0.45).
+      if (!tecnicaRequisitosCumpridos(rulesModelReq, d)) continue
       const rank = docRankGroup(d)
       // Só ranks com slot na ficha (plugin tecnicas-card.ts:153 pula slots[rk]<=0).
       const letter = TEC_GROUP_LETTER[rank]
@@ -2747,7 +2754,7 @@ export function TecnicasPanel({
       rows: byRank.get(g)!.sort((a, b) => a.txt.localeCompare(b.txt)),
     }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [edit, tecnicaDocs, entries, classeTarget])
+  }, [edit, tecnicaDocs, entries, classeTarget, rulesModelReq])
 
   // Aprender/remover técnica por slot (#74): grava na lista SALVA (Tecnicas.Lista);
   // o merge reaplica as concessões de regra. Espelho de addTecnica/removeTecnica.

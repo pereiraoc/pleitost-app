@@ -493,10 +493,23 @@ function applyAction(rule: ParsedRule, deltas: Deltas, ctx: ApplyContext, model:
   }
 }
 
-/** Espelho de requisitoMatches (plugin rule-applier.ts:755-766). */
+/** Espelho de requisitoMatches (plugin rule-applier.ts:810-836, v2.0.45):
+ *  path `*.Proficiencia` resolve via lookupProfRank com semântica >= (mesma
+ *  tabela do prof-min); needle wikilink compara por basename (model guarda
+ *  formas com path/alias, ex: Sintonia = "[[Sintonias/Arcana|Arcana]]"). */
 function requisitoMatches(model: RulesModel, prop: string, expected: string): boolean {
+  if (/\.Proficiencia\b/.test(prop)) {
+    const cur = lookupProfRank(model, prop)
+    const min = PROF_RANK[expected.trim()]
+    return cur !== null && min !== undefined && cur >= min
+  }
   const v = lookupNamePath(model, prop)
-  if (typeof v === 'string') return v.trim() === expected.trim()
+  if (typeof v === 'string') {
+    if (isWikilink(expected)) {
+      return isWikilink(v) && wikilinkBasename(v) === wikilinkBasename(expected)
+    }
+    return v.trim() === expected.trim()
+  }
   const attr = lookupAttr(model, prop)
   if (attr !== null) {
     const n = parseNumber(expected)

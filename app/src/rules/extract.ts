@@ -552,10 +552,27 @@ export async function extractHeroRules(baseModel: RulesModel, resolver: DocResol
     injectPicks(editable, resolvedChoices)
     ctx.choicesObj = buildPicksRecord(resolvedChoices)
 
+    // Pré-pass de bloqueio por Requisito — espelho do plugin (rule-elements-
+    // extractor.ts:633-651, v2.0.45): requisito/requisito-contem avaliados
+    // contra o workingModel; não cumprido → TODAS as rules da nota podadas.
+    // Recomputado por iteração (Requisito Contem lê o workingModel — converge
+    // com o loop). AplicavelA segue no blockedTreasures (host é estático).
+    const blockedRequisito = new Set<string>()
+    for (const r of editable) {
+      const kind = r.action.kind
+      if (kind !== 'requisito' && kind !== 'requisito-contem') continue
+      const res = applyRule(r, workingModel, deltas, ctx)
+      if (res.applied && res.satisfied === false) blockedRequisito.add(r.sourceNote)
+    }
+
     for (const r of editable) {
       // #288 (profundo): pula rules de tesouro incompatível com o host equipado.
       if (blockedTreasures.has(r.sourceNote)) {
         rejectedRules.push({ rule: r, result: { applied: false, reason: 'aplicavel-a-bloqueado' } })
+        continue
+      }
+      if (blockedRequisito.has(r.sourceNote)) {
+        rejectedRules.push({ rule: r, result: { applied: false, reason: 'requisito-bloqueado' } })
         continue
       }
       const result = applyRule(r, workingModel, deltas, ctx)
@@ -607,6 +624,27 @@ export async function extractHeroRules(baseModel: RulesModel, resolver: DocResol
     appliedRules,
     rejectedRules,
   }
+}
+
+/** true quando TODOS os `Requisito*` do doc são cumpridos pelo model —
+ *  espelho de requisitoCumprido/computeTecnicasDerived do plugin
+ *  (view-model.ts, v2.0.45). Usado pelo painel "Não Aprendidas" pra
+ *  ESCONDER técnicas com requisito não cumprido. Rules com scope não
+ *  aplicável (ex: `Nivel 7 Requisito` num herói nível 5) não escondem
+ *  (applied=false), igual ao plugin. */
+export function tecnicaRequisitosCumpridos(model: RulesModel, doc: VaultDoc): boolean {
+  for (const r of parsedRulesOf(doc)) {
+    const kind = r.action.kind
+    if (kind !== 'requisito' && kind !== 'requisito-contem') continue
+    const res = applyRule(r, model, {}, {
+      level: model.meta.nivel,
+      tier: model.meta.tier,
+      categoria: null,
+      choicesObj: {},
+    })
+    if (res.applied && res.satisfied === false) return false
+  }
+  return true
 }
 
 export { wikilinkBasename }
