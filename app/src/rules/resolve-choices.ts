@@ -83,7 +83,14 @@ export function discoverChoices(
   const selGroups = new Map<string, ChoiceDescriptor[]>()
   for (const desc of descs.values()) {
     if (desc.kind !== 'complementar-sel') continue
-    const sig = `${desc.sourceNote}|${desc.label}|${[...desc.options].sort().join(',')}`
+    // #484: OPÇÕES fora da assinatura de irmãs — variantes condicionais (por
+    // sintonia, vault 35a51aec) têm listas diferentes de propósito, e com
+    // options na chave as irmãs viravam escolhas "únicas" SEM numeração:
+    // ambas gravavam a MESMA linha `Escolha.[[pai]]` e a segunda sobrescrevia
+    // a primeira (a Experiente apagava a Adepta). Divergência consciente do
+    // espelho do plugin (mesma família da nota em resolveChoice) até a
+    // próxima release dele acompanhar.
+    const sig = `${desc.sourceNote}|${desc.label}`
     const arr = selGroups.get(sig) ?? []
     arr.push(desc)
     selGroups.set(sig, arr)
