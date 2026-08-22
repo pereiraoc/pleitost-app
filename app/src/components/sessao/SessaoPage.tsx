@@ -10,7 +10,7 @@
 // estado) e PRÓXIMO/ANTERIOR só com combate ativo; o jogador só vê o bloco
 // durante combate ativo, e aí a lista da mesa some (todo mundo está na lista
 // do combate), como no plugin (gm-view.ts:85-91, player-view.ts:56-77/128-134).
-import { Fragment, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { Fragment, useEffect, useMemo, useReducer, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
@@ -855,6 +855,21 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
   // #390: alvo pendente do EV por NPC (acumula taps em rajada) — hook ANTES
   // do guard de early-return (Rules of Hooks).
   const evPendente = useRef(new Map<string, number>())
+  // #487: taps em rajada não podem esperar round-trip — o display mostra o alvo
+  // pendente na hora (evBump re-renderiza) e os writes coalescem num só, ~350ms
+  // depois do último clique (evTimers). A pendência só solta quando o LIVE
+  // alcança o alvo (soltar no ack faria o número piscar de volta pro stale).
+  const evTimers = useRef(new Map<string, ReturnType<typeof setTimeout>>())
+  const [, evBump] = useReducer((x: number) => x + 1, 0)
+  // #487: caixinha ±X ao lado dos steppers (texto por NPC; aplica no Enter).
+  const [evBox, setEvBox] = useState<Record<string, string>>({})
+  useEffect(() => {
+    for (const [id, alvo] of evPendente.current) {
+      if (evTimers.current.has(id)) continue
+      const cc = live?.characters.find((x) => x.id === id)
+      if (cc?.state.recursosRestantes?.vitalidade === alvo) evPendente.current.delete(id)
+    }
+  }, [live])
   const toggleStats = (id: string) =>
     setStatsView((s) => {
       const n = new Set(s)
@@ -1112,19 +1127,29 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const next = Math.max(0, Math.min(max, base + delta))
     if (next === base) return
     evPendente.current.set(c.id, next)
-    repo
-      .updateCharacterState(c.id, {
-        recursosRestantes: {
-          vitalidade: next,
-          moral: rr0?.moral ?? (c.summary.moralMax ?? 0),
-          em: rr0?.em ?? 0,
-          moralTemp: rr0?.moralTemp ?? 0,
-        },
-      })
-      .then(() => {
-        if (evPendente.current.get(c.id) === next) evPendente.current.delete(c.id)
-      })
-      .catch(() => evPendente.current.delete(c.id))
+    evBump() // display otimista: a linha mostra o alvo na hora
+    clearTimeout(evTimers.current.get(c.id))
+    evTimers.current.set(
+      c.id,
+      setTimeout(() => {
+        evTimers.current.delete(c.id)
+        const alvo = evPendente.current.get(c.id)
+        if (alvo == null) return
+        repo
+          .updateCharacterState(c.id, {
+            recursosRestantes: {
+              vitalidade: alvo,
+              moral: rr0?.moral ?? (c.summary.moralMax ?? 0),
+              em: rr0?.em ?? 0,
+              moralTemp: rr0?.moralTemp ?? 0,
+            },
+          })
+          .catch(() => {
+            evPendente.current.delete(c.id)
+            evBump()
+          })
+      }, 350),
+    )
   }
   // Linha de UM combatente (reusada dentro de cada bloco). `indent` = companheiro
   // animal exibido abaixo do tutor (#16).
@@ -1136,6 +1161,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const revelado = ativo?.revealedCharacterIds.includes(c.id) ?? false
     const status = vitaStatusOf(c)
     const rr = c.state.recursosRestantes
+    // #487: vida exibida = alvo pendente dos steppers (otimista) > live > max
+    const vitExib = evPendente.current.get(c.id) ?? rr?.vitalidade ?? c.summary.vitalidadeMax
     const mostraReal = !npc || isGm || revelado
     // #486: jogador só ABRE o resumo de NPC se o GM liberou a ficha (fmBlob
     // publicado pelo toggle 📖) — revelar identidade não libera a ficha.
@@ -1399,7 +1426,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               <>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
                   <span style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-                    {`❤️ ${rr?.vitalidade ?? c.summary.vitalidadeMax}/${c.summary.vitalidadeMax}`}
+                    {`❤️ ${vitExib}/${c.summary.vitalidadeMax}`}
                   </span>
                   {/* #388: número da MORAL ao lado do da vida (a barra tinha o
                       segmento azul mas sem número). Mesmo padrão do 💙 MOR do
@@ -1442,12 +1469,44 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                           {lbl}
                         </button>
                       ))}
+                      {/* #487: caixinha ±X — digite -12 ou +8 e Enter aplica no EV */}
+                      <input
+                        aria-label="Ajuste de EV (±X)"
+                        value={evBox[c.id] ?? ''}
+                        placeholder="±X"
+                        onChange={(e) => {
+                          const v = e.target.value
+                          if (/^[+-]?\d*$/.test(v)) setEvBox((m) => ({ ...m, [c.id]: v }))
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Escape') {
+                            setEvBox((m) => ({ ...m, [c.id]: '' }))
+                            return
+                          }
+                          if (e.key !== 'Enter') return
+                          const n = parseInt(evBox[c.id] ?? '', 10)
+                          if (Number.isFinite(n) && n !== 0) ajustaEvNpc(c, n)
+                          setEvBox((m) => ({ ...m, [c.id]: '' }))
+                        }}
+                        title="Digite -X ou +X e Enter pra remover/aumentar vida"
+                        style={mono({
+                          width: 30,
+                          background: 'var(--panel)',
+                          border: '1px solid var(--line2)',
+                          color: 'var(--text)',
+                          fontSize: 10,
+                          fontWeight: 700,
+                          padding: '1px 4px',
+                          clipPath: clip(4),
+                          textAlign: 'center',
+                        })}
+                      />
                     </span>
                   ) : null}
                 </div>
                 {c.summary.vitalidadeMax > 0 ? (
                   <VidaBarRemota
-                    vit={rr?.vitalidade ?? c.summary.vitalidadeMax}
+                    vit={vitExib}
                     vitMax={c.summary.vitalidadeMax}
                     moral={rr?.moral ?? (c.summary.moralMax ?? 0)}
                     moralMax={c.summary.moralMax ?? 0}
