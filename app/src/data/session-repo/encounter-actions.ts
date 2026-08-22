@@ -9,7 +9,7 @@ import type { Catalog } from '../catalog'
 import type { VaultDoc } from '../types'
 import { vaultUrl } from '../base-url'
 import { getLocalDoc } from '../local-entities'
-import { buildCharacterState, buildCharacterSummary, effectiveFmForPublish } from './publish'
+import { extractFmBlob, buildCharacterState, buildCharacterSummary, effectiveFmForPublish } from './publish'
 import { maskSummaryForDisguise } from './disguise'
 import { stashDisguiseSecret, readDisguiseSecret } from './disguise-secrets'
 import type { SpeedTier } from '../initiative-blocks'
@@ -31,6 +31,10 @@ export interface NpcInsertInput {
   characterPath: string
   summary: CharacterSummary
   state: CharacterState
+  /** Ficha completa (#486) — NUNCA vai pra linha publicada no insert (o
+   *  jogador não pode receber a ficha real); vive no SEGREDO do GM e só é
+   *  publicada pelo toggle "liberar resumo" da iniciativa. */
+  fmBlob: Record<string, unknown>
 }
 
 /** Placeholder do characterPath publicado pro NPC disfarçado — o path real tem
@@ -66,13 +70,14 @@ export async function insertNpc(
     encounterId,
     createdByEncounterId: encounterId,
   })
-  if (disfarcado) {
-    stashDisguiseSecret(sessionId, char.id, {
-      summary: npc.summary,
-      fmBlob: {},
-      characterPath: npc.characterPath,
-    })
-  }
+  // #486: o segredo guarda SEMPRE a identidade + a FICHA REAL (antes o
+  // fmBlob ia vazio e o resumo do GM nascia em branco) — revelado também
+  // precisa (o reveal publica só o nome; a ficha continua no segredo).
+  stashDisguiseSecret(sessionId, char.id, {
+    summary: npc.summary,
+    fmBlob: npc.fmBlob ?? {},
+    characterPath: npc.characterPath,
+  })
   return char
 }
 
@@ -286,6 +291,9 @@ export async function npcInputsFromRoster(
         characterPath: doc.id,
         summary: buildCharacterSummary(doc, efm),
         state: buildCharacterState(doc, efm),
+        // #486: a ficha real segue pro segredo do GM (resumo do mestre +
+        // toggle de liberar aos jogadores)
+        fmBlob: extractFmBlob(efm),
       })
     }
   }

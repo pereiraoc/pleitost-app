@@ -20,6 +20,7 @@ import { Fragment, useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useDoc } from '../../data/useDoc'
 import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
+import { readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
 import { useAssetIndex } from '../../data/assets'
 import { creatureImageUrl } from '../../data/creature-image'
 import { Lightbox } from '../Lightbox'
@@ -933,10 +934,22 @@ export function ResumoDetail({ id }: { id: string }) {
 }
 
 /** Resumo de personagem REMOTO da sala (#186): doc sintético do fmBlob +
- *  vida do state (live-session) — mesmo corpo do resumo local. */
+ *  vida do state (live-session) — mesmo corpo do resumo local. #486: pro GM,
+ *  a linha publicada de NPC é mascarada e SEM ficha — o segredo do disfarce
+ *  (só existe no storage do GM) devolve identidade + fmBlob reais; jogador
+ *  não tem o segredo e segue vendo só o que foi liberado. */
 export function ResumoSessaoDetail({ charId }: { charId: string }) {
   const live = useLiveSession()
   const c = live?.characters.find((x) => x.id === charId) ?? null
   if (!c) return <div className="detail-empty">Personagem fora da sala.</div>
-  return <ResumoBody doc={synthDocFromCharacter(c)} />
+  const secret = live ? readDisguiseSecret(live.sessionId, charId) : null
+  const efetivo = secret
+    ? {
+        ...c,
+        summary: secret.summary,
+        characterPath: secret.characterPath,
+        fmBlob: Object.keys(secret.fmBlob ?? {}).length ? secret.fmBlob : c.fmBlob,
+      }
+    : c
+  return <ResumoBody doc={synthDocFromCharacter(efetivo)} />
 }

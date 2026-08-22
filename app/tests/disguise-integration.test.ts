@@ -102,20 +102,24 @@ describe('#291: disfarce seguro no combate (data-layer)', () => {
     expect(pub.summary.nome).toBe('')
   })
 
-  it('invisível: publica hidden (a RLS nem entrega) — sem segredo', async () => {
+  // #486: o segredo é guardado SEMPRE (não só disfarçado) — é dele que o
+  // toggle 📖 tira a ficha real pra liberar o resumo; a LINHA publicada é que
+  // nunca leva nada sensível de graça.
+  it('invisível: publica hidden (a RLS nem entrega); segredo existe pro GM', async () => {
     const { repo, s, enc } = await setup()
     const char = await insertNpc(repo, s.id, enc.id, npc, { invisivel: true })
     const pub = await rowOf(repo, s.id, char.id)
     expect(pub.visibility).toBe('hidden')
-    expect(readDisguiseSecret(s.id, char.id)).toBeNull()
+    expect(readDisguiseSecret(s.id, char.id)?.summary.nome).toBe('Goblin Assassino')
   })
 
-  it('revelado de saída (disfarçado:false): publica o real direto, sem segredo', async () => {
+  it('revelado de saída (disfarçado:false): publica o real direto; ficha só no segredo', async () => {
     const { repo, s, enc } = await setup()
     const char = await insertNpc(repo, s.id, enc.id, npc, { disfarcado: false })
     const pub = await rowOf(repo, s.id, char.id)
     expect(pub.summary.nome).toBe('Goblin Assassino')
     expect(pub.characterPath).toBe('Sistema/Criaturas/Monstros/Goblin Assassino')
-    expect(readDisguiseSecret(s.id, char.id)).toBeNull()
+    expect(Object.keys(pub.fmBlob ?? {})).toHaveLength(0)
+    expect(readDisguiseSecret(s.id, char.id)?.summary.nome).toBe('Goblin Assassino')
   })
 })

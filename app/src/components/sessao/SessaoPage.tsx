@@ -46,7 +46,7 @@ import {
   startEncounterFromRoster,
   toggleRevealDisguisedNpc,
 } from '../../data/session-repo/encounter-actions'
-import { overlayDisguiseSecrets } from '../../data/session-repo/disguise-secrets'
+import { overlayDisguiseSecrets, readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
 import { abandonSession, disconnectSession, endSessionAsGm, isSessionCreator } from '../../data/session-repo/session-actions'
 import { MESA_GRUPO_ID, setLiveSession, synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { setConnectedUserIds, useConnectedUserIds } from '../../data/session-repo/session-presence'
@@ -1137,6 +1137,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     const status = vitaStatusOf(c)
     const rr = c.state.recursosRestantes
     const mostraReal = !npc || isGm || revelado
+    // #486: jogador só ABRE o resumo de NPC se o GM liberou a ficha (fmBlob
+    // publicado pelo toggle 📖) — revelar identidade não libera a ficha.
+    const abreResumo = !npc || isGm || Object.keys(c.fmBlob ?? {}).length > 0
     const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
     const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
     const portrait = mostraReal
@@ -1220,7 +1223,7 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
             {/* #329: nome clicável abre o resumo (mesma UX do card de membro) —
                 funcionava fora do combate, agora também dentro. NPC mascarado pro
                 jogador NÃO é clicável (não vaza identidade). */}
-            {mostraReal ? (
+            {mostraReal && abreResumo ? (
               <button
                 onClick={() => detail?.open({ kind: 'resumo-sessao', id: c.id })}
                 title="Ver resumo"
@@ -1326,6 +1329,43 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               >
                 {revelado ? '❗' : '❓'}
               </button>
+            ) : null}
+            {isGm && npc && editIniciativa ? (
+              // #486: liberar a FICHA RESUMO aos jogadores — copia o fmBlob
+              // real do segredo pra linha publicada (updateCharacterFmBlob);
+              // fechar volta a linha pra {} (o gate do clique é o blob).
+              (() => {
+                const liberado = Object.keys(c.fmBlob ?? {}).length > 0
+                const secretFm = readDisguiseSecret(live.sessionId, c.id)?.fmBlob ?? {}
+                const podeLiberar = liberado || Object.keys(secretFm).length > 0
+                return (
+                  <button
+                    onClick={() =>
+                      void (liberado
+                        ? repo.updateCharacterFmBlob(c.id, {})
+                        : repo.updateCharacterFmBlob(c.id, secretFm))
+                    }
+                    disabled={!podeLiberar}
+                    title={
+                      !podeLiberar
+                        ? 'Sem ficha guardada (re-adicione o combatente)'
+                        : liberado
+                          ? 'Fechar a ficha resumo dos jogadores'
+                          : 'Liberar a ficha resumo aos jogadores'
+                    }
+                    style={{
+                      flex: 'none',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: podeLiberar ? 'pointer' : 'default',
+                      opacity: podeLiberar ? 1 : 0.4,
+                      fontSize: 14,
+                    }}
+                  >
+                    {liberado ? '📖' : '📕'}
+                  </button>
+                )
+              })()
             ) : null}
           </div>
           {/* Linha 2: vida/defesas/tag — largura cheia, alinhada sob o retrato. */}
