@@ -112,6 +112,16 @@ export function applyPericiaRankEdit(
 
   row.Incrementos = incs
   row.Proficiencia = maxRank(incs)
+  // #481: rebaixar o rank LIMPA os picks que dependem dele (senão a linha
+  // ficava com Especialização/Maestria "válidas" penduradas) — < M perde a
+  // Maestria; < E perde a Especialização (e a Maestria junto: ela deriva da
+  // especialidade escolhida, #313). Padrão dos resets centrais do wizard.
+  const rankFinal = RANK_ORDER[row.Proficiencia as 'N' | 'A' | 'E' | 'M'] ?? 0
+  if (rankFinal < RANK_ORDER['M']!) row.Maestria = ''
+  if (rankFinal < RANK_ORDER['E']!) {
+    row.Especializacao = ''
+    row.Maestria = ''
+  }
   return out
 }
 

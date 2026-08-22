@@ -14,6 +14,11 @@ import { resolveVaultFile } from './fixtures/frozen-heroes'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ResumoDetail } from '../src/components/detail/ResumoDetail'
+import {
+  createLocalEntity,
+  emptyHeroFrontmatter,
+  __resetLocalStoreForTests,
+} from '../src/data/local-entities'
 import { tokens } from '../src/generated/tokens'
 import type { IndexManifest } from '../src/data/types'
 
@@ -37,6 +42,7 @@ beforeAll(() => {
 afterEach(() => {
   cleanup()
   window.localStorage?.clear()
+  __resetLocalStoreForTests()
 })
 
 async function renderResumo() {
@@ -118,6 +124,41 @@ describe('#199 resumo — perícias', () => {
     expect(enganacao).toBeTruthy()
     expect(enganacao).toContain('Mestre (+6)')
     expect(enganacao).toContain('Item (+1)')
+  })
+})
+
+describe('#483 resumo — magias da classe SECUNDÁRIA', () => {
+  it('lista as magias e a potência/EM secundárias (multiclasse)', async () => {
+    const id = createLocalEntity('Heroi', 'Zé Multiclasse', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Magias: {
+        Potencia: 4,
+        EM: 3,
+        Lista: [],
+        Secundaria: {
+          Potencia: 3,
+          EM: 2,
+          Slots: { B: 0, A: 1, E: 0, M: 0 },
+          Lista: [
+            {
+              Nome: 'Arcana Branca',
+              Atributo: 'INT',
+              Proficiencia: 'A',
+              Lista: [{ '[[Encantar Arma]]': 'Slot.A' }],
+            },
+          ],
+        },
+      },
+    })
+    render(
+      <CatalogProvider catalog={catalog}>
+        <ResumoDetail id={id} />
+      </CatalogProvider>,
+    )
+    // a magia aprendida pela SEGUNDA classe aparece no resumo
+    await screen.findByText('Encantar Arma')
+    // e o bloco é rotulado como secundário (potência/EM próprios)
+    expect(screen.getAllByText(/SECUNDÁRIA/).length).toBeGreaterThan(0)
   })
 })
 

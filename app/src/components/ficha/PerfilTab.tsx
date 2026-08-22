@@ -305,7 +305,22 @@ export function PassadoBox({
   const savedOficios = (fmPath(model.fm, 'Oficios', 'Lista') ?? []) as Record<string, unknown>[]
   // Edição persiste NA HORA: texto do passado e complemento do ofício
   // (a linha do ofício é regravada dentro da lista SALVA — write de container).
-  const setPassado = (v: string) => model.set('Biografia.Passado', v)
+  // #482: TROCAR o passado reseta o benefício — o incremento {A:'Passado'} do
+  // pick antigo saía só numa nova escolha e a perícia ficava amarela ("como se
+  // tivesse vindo do passado") indefinidamente. Strip nos dois containers
+  // (ranks de Slot ficam; perícia só-do-passado volta a N) e o jogador escolhe
+  // o benefício do passado novo. Digitar o MESMO texto não mexe em nada.
+  const setPassado = (v: string) => {
+    if (v.trim() !== passado.trim()) {
+      if (savedPericias.some(ehDoPassado)) {
+        model.set('Pericias.Lista', applyPassadoPickToRows(savedPericias, () => false))
+      }
+      if (savedOficios.some(ehDoPassado)) {
+        model.set('Oficios.Lista', applyPassadoPickToRows(savedOficios, () => false))
+      }
+    }
+    model.set('Biografia.Passado', v)
+  }
   const setOficioTexto = (v: string) => {
     if (!oficio) return
     const nome = str(oficio['Nome'])

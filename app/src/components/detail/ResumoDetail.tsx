@@ -354,6 +354,42 @@ function EspecializacoesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
   )
 }
 
+/** UM bloco de magias (primário ou o da SEGUNDA classe) — tipos proficientes,
+ *  chips de Potência/EM e grupos por rank. #483: o resumo só andava pelo
+ *  primário e as magias do multiclasse sumiam; o Combate já re-escopava o
+ *  mesmo magiaGroups (Magias ← Magias.Secundaria) — aqui idem. */
+function blocoMagias(
+  fm: Fm,
+  mfm: Fm,
+  refs: HeroRefs,
+  secundaria: boolean,
+): {
+  tipos: { rota: string; info: NonNullable<ReturnType<typeof computeMagiaAtaque>> }[]
+  grupos: ReturnType<typeof magiaGroups>
+  potencia: number
+  em: number
+  emMax: number
+} {
+  const escolas = (fmPath(mfm, 'Magias', 'Lista') ?? []) as Fm[]
+  const tipos = (Array.isArray(escolas) ? escolas : [])
+    .filter((e) => str(e['Nome']) && str(e['Nome']) !== 'Tesouros')
+    .map((e) => {
+      const rota = `Magia ${str(e['Nome'])}`
+      const info = computeMagiaAtaque(mfm, rota)
+      return info ? { rota, info } : null
+    })
+    .filter((t): t is NonNullable<typeof t> => t !== null)
+  const grupos = magiaGroups(mfm, refs.refDoc)
+  const potencia = num(fmPath(mfm, 'Magias', 'Potencia'))
+  const emMax = num(fmPath(mfm, 'Magias', 'EM'))
+  // EM restante volátil: o secundário tem canal próprio (EM_Secundaria, como
+  // no Combate — nunca mistura com o primário)
+  const rest = interativa(fm).restantes
+  const key = secundaria ? 'EM_Secundaria' : 'EM'
+  const em = rest[key] !== undefined ? num(rest[key]) : emMax
+  return { tipos, grupos, potencia, em, emMax }
+}
+
 function MagiasResumo({
   fm,
   refs,
@@ -365,31 +401,28 @@ function MagiasResumo({
 }) {
   // Escolas PROFICIENTES com o modificador de ataque mágico — mesmo filtro
   // implícito da MagiaInfoBar do Combate (computeMagiaAtaque → null pra N).
-  const escolas = (fmPath(fm, 'Magias', 'Lista') ?? []) as Fm[]
-  const tipos = (Array.isArray(escolas) ? escolas : [])
-    .filter((e) => str(e['Nome']) && str(e['Nome']) !== 'Tesouros')
-    .map((e) => {
-      const rota = `Magia ${str(e['Nome'])}`
-      const info = computeMagiaAtaque(fm, rota)
-      return info ? { rota, info } : null
-    })
-    .filter((t): t is NonNullable<typeof t> => t !== null)
-  const grupos = magiaGroups(fm, refs.refDoc)
-  if (tipos.length === 0 && grupos.length === 0) return null
+  const primario = blocoMagias(fm, fm, refs, false)
+  const secFm = (fmPath(fm, 'Magias', 'Secundaria') ?? {}) as Fm
+  const temSecFm = Array.isArray(secFm['Lista']) && (secFm['Lista'] as unknown[]).length > 0
+  const secundario = temSecFm
+    ? blocoMagias(fm, { ...fm, Magias: secFm } as Fm, refs, true)
+    : null
+  const vazio = (b: ReturnType<typeof blocoMagias> | null) =>
+    !b || (b.tipos.length === 0 && b.grupos.length === 0)
+  if (vazio(primario) && vazio(secundario)) return null
 
-  const potencia = num(fmPath(fm, 'Magias', 'Potencia'))
-  const emMax = num(fmPath(fm, 'Magias', 'EM'))
-  const rest = interativa(fm).restantes
-  const em = rest['EM'] !== undefined ? num(rest['EM']) : emMax
-
-  return (
-    <Section label="// MAGIAS">
+  const renderBloco = (b: ReturnType<typeof blocoMagias>, sec: boolean) => {
+    if (vazio(b)) return null
+    const { tipos, grupos, potencia, em, emMax } = b
+    const sufixo = sec ? ' SECUNDÁRIA' : ''
+    return (
+      <>
       {tipos.length ? (
         <>
           {/* Uma linha por escola proficiente (magias-block.ts headerRow):
               nome + modificador em var(--red) mono (.as-resumo-mod-num). */}
           {tipos.map((t) => (
-            <div key={t.rota} style={lineStyle}>
+            <div key={`${t.rota}${sec ? '-sec' : ''}`} style={lineStyle}>
               {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover,
                   como a MagiaInfoBar do Combate. */}
               <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
@@ -413,7 +446,7 @@ function MagiasResumo({
                 <span>
                   <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.PotenciaMagica}</span>{' '}
                   <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
-                    POTÊNCIA MÁGICA
+                    {`POTÊNCIA MÁGICA${sufixo}`}
                   </span>{' '}
                   <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--gold)' })}>{potencia}</span>
                 </span>
@@ -424,7 +457,7 @@ function MagiasResumo({
                 <span>
                   <span style={{ fontSize: 11 }}>{tokens.emojis.subcategoria.EnergiaMagica}</span>{' '}
                   <span style={mono({ fontSize: 9, letterSpacing: '.08em', color: 'var(--muted)' })}>
-                    ENERGIA MÁGICA
+                    {`ENERGIA MÁGICA${sufixo}`}
                   </span>{' '}
                   <span style={mono({ fontSize: 11, fontWeight: 800, color: 'var(--gold)' })}>{`${em}/${emMax}`}</span>
                 </span>
@@ -436,7 +469,10 @@ function MagiasResumo({
       {/* Grupos por rank (magias-block.ts RANK_BUCKETS): rótulo colorido em
           linha própria + itens embaixo — hierarquia tipográfica do plugin. */}
       {grupos.map((g) => (
-        <div key={g.titulo} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div
+          key={`${g.titulo}${sec ? '-sec' : ''}`}
+          style={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        >
           <div style={mono({ fontSize: 9, letterSpacing: '.12em', color: g.cor })}>{g.titulo}</div>
           <div style={lineStyle}>
             {g.magias.map((m, i) => (
@@ -450,6 +486,14 @@ function MagiasResumo({
           </div>
         </div>
       ))}
+      </>
+    )
+  }
+
+  return (
+    <Section label="// MAGIAS">
+      {renderBloco(primario, false)}
+      {secundario ? renderBloco(secundario, true) : null}
     </Section>
   )
 }
