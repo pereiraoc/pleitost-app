@@ -1296,7 +1296,13 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                 {statsView.has(c.id) ? '❤️' : '🛡️'}
               </button>
             ) : null}
-            {isGm && editIniciativa ? (
+          </div>
+          {/* #486: controles de EDIÇÃO numa linha própria com wrap — na linha 1,
+              o painel direito de 340px estourava e o clipPath do card cortava os
+              últimos botões (o 📕 de liberar a ficha renderizava FORA da área
+              visível, em qualquer largura de tela). */}
+          {isGm && editIniciativa ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap', paddingLeft: 39 }}>
               <button
                 onClick={() => cycleSpeed(c.id)}
                 title={`Velocidade: ${SPEED_LABEL[speedOf(c.id)]} (clica pra trocar)`}
@@ -1304,10 +1310,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               >
                 {SPEED_EMOJI[speedOf(c.id)]}
               </button>
-            ) : null}
-            {/* #391: ↑/↓ reordenam DENTRO do bloco (o drag só move entre
-                blocos); desabilitado no primeiro/último do bloco. */}
-            {isGm && editIniciativa ? (
+              {/* #391: ↑/↓ reordenam DENTRO do bloco (o drag só move entre
+                  blocos); desabilitado no primeiro/último do bloco. */}
               <span style={{ display: 'flex', gap: 3, flex: 'none' }}>
                 {(
                   [
@@ -1338,8 +1342,6 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   )
                 })}
               </span>
-            ) : null}
-            {isGm && editIniciativa ? (
               <button
                 onClick={() => void toggleHidden(c.id)}
                 title={escondido ? 'Mostrar aos jogadores' : 'Esconder dos jogadores'}
@@ -1347,21 +1349,20 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
               >
                 {escondido ? '🙈' : '👁️'}
               </button>
-            ) : null}
-            {isGm && npc && editIniciativa ? (
-              <button
-                onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}
+              {npc ? (
+                <button
+                  onClick={() => void toggleRevealDisguisedNpc(repo, live.sessionId, ativo!.id, c.id)}
                 title={revelado ? 'Esconder identidade dos players' : 'Revelar identidade aos players'}
                 style={{ flex: 'none', background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 14 }}
               >
-                {revelado ? '❗' : '❓'}
-              </button>
-            ) : null}
-            {isGm && npc && editIniciativa ? (
-              // #486: liberar a FICHA RESUMO aos jogadores — copia o fmBlob
-              // real do segredo pra linha publicada (updateCharacterFmBlob);
-              // fechar volta a linha pra {} (o gate do clique é o blob).
-              (() => {
+                  {revelado ? '❗' : '❓'}
+                </button>
+              ) : null}
+              {npc ? (
+                // #486: liberar a FICHA RESUMO aos jogadores — copia o fmBlob
+                // real do segredo pra linha publicada (updateCharacterFmBlob);
+                // fechar volta a linha pra {} (o gate do clique é o blob).
+                (() => {
                 const liberado = Object.keys(c.fmBlob ?? {}).length > 0
                 const secretFm = readDisguiseSecret(live.sessionId, c.id)?.fmBlob ?? {}
                 const podeLiberar = liberado || Object.keys(secretFm).length > 0
@@ -1393,8 +1394,9 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
                   </button>
                 )
               })()
-            ) : null}
-          </div>
+              ) : null}
+            </div>
+          ) : null}
           {/* Linha 2: vida/defesas/tag — largura cheia, alinhada sob o retrato. */}
           <div style={{ paddingLeft: 39, display: 'flex', flexDirection: 'column', gap: 3 }}>
             {statsView.has(c.id) && (isGm || !npc) ? (
