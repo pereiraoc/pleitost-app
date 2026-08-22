@@ -78,6 +78,8 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
   it('escolher Essência Flamejante Adepta pelo dropdown adiciona as magias no card', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
+    // #480: escolhas de essência são condicionais à Sintonia
+    setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
 
     // 1. Alterar no painel Habilidades
@@ -120,6 +122,8 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
   it('dropdowns irmãos nascem VAZIOS e a opção escolhida some das irmãs', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 2', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
+    // #480: escolhas de essência são condicionais à Sintonia
+    setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
     const heading = await screen.findByText('Habilidades')
     fireEvent.click(within(heading.parentElement!).getByText('✎ Alterar'))
@@ -157,6 +161,8 @@ describe('Animista LOCAL: pick de essência ao vivo → magias no card (bug #4c)
   it('classe SEM subclasse: o select de classe ocupa a linha inteira', { timeout: 30000 }, async () => {
     const id = createLocalEntity('Heroi', 'Animista Teste 3', emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Classe', '[[Animista]]')
+    // #480: escolhas de essência são condicionais à Sintonia
+    setLocalEntityFm(id, 'Sintonia', '[[Traço Elemental do Fogo|Fogo]]')
     renderHero(id)
     const classeSel = (await screen.findByLabelText('CLASSE INICIAL', undefined, {
       timeout: 8000,

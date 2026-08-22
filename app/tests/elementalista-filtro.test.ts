@@ -29,6 +29,8 @@ const loadFromDisk = async (id: string): Promise<VaultDoc> =>
 function animistaComElementalista(): Record<string, unknown> {
   const fm = emptyHeroFrontmatter() as any
   fm.Classe = '[[Animista]]'
+  // #480: as escolhas de essência agora são condicionais à Sintonia
+  fm.Sintonia = '[[Traço Elemental do Fogo|Fogo]]'
   fm.Habilidades.Lista = [
     { '[[Essência Flamejante Adepta]]': 'Escolha.01.[[Magias Anima]]' },
     { '[[Elementalista]]': 'Manual' },
@@ -60,11 +62,14 @@ describe('filtro de linhagem nas opções de essência Experiente (bug #5)', () 
     }
   })
 
-  it('as escolhas Adepta (Magias Anima) continuam com TODAS as opções', () => {
+  it('as escolhas Adepta (Magias Anima) excluem só o elemento OPOSTO (#480)', () => {
     const adeptas = choicesByLabel('Essência Elemental Adepta')
     expect(adeptas.length).toBeGreaterThanOrEqual(3)
     for (const c of adeptas) {
-      expect(c.options).toContain('[[Essência Congelante Adepta]]')
+      // sintonia Fogo → oposto Água fora; o resto fica (10 opções)
+      expect(c.options).not.toContain('[[Essência Congelante Adepta]]')
+      expect(c.options).toContain('[[Essência Flamejante Adepta]]')
+      expect(c.options).toContain('[[Essência de Criação Adepta]]')
       expect(c.options.length).toBeGreaterThanOrEqual(7)
     }
   })

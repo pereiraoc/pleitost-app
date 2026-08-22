@@ -116,7 +116,8 @@ describe('#193: Elementos de Regra no DocPage (Magias Anima real)', () => {
     expect(screen.getAllByText('Magias.Potencia').length).toBeGreaterThan(0)
     // escopo do parsed: "Nivel 2 Escolha_Habilidades ..." → badges Nível 2 e
     // escolha: <label> (valores vindos da AST, não re-parseados)
-    expect(screen.getByText('Nível 2')).toBeTruthy()
+    // #480: a regra de Nível 2 virou 4 variantes condicionais por sintonia
+    expect(screen.getAllByText('Nível 2').length).toBeGreaterThan(0)
     expect(screen.getAllByText('escolha: Essência Elemental Adepta').length).toBeGreaterThan(0)
   })
 
