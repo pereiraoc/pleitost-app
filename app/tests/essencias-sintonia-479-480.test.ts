@@ -101,29 +101,49 @@ describe('#480 — Treinamento de Animista (classe secundária)', () => {
   })
 })
 
-describe('#479/#485 — Essência Invertida: pontes do elemento OPOSTO por contexto', () => {
-  const tecnicas = {
-    Lista: [
-      { '[[Maestria em Classe Secundária]]': 'Slot.M' },
-      { '[[Essência Invertida]]': 'Escolha.[[Maestria em Classe Secundária]]' },
-    ],
-  }
-  it('sintonia Vento: escolha com as 3 PONTES de TERRA', async () => {
+describe('#479/#485 — Essência Invertida: nota ÚNICA, sintonia × contexto (Condicional empilhada, plugin v2.0.46)', () => {
+  it('PRIMÁRIO (Classe Animista, Vento): escolha com as 3 ADEPTA de Terra', async () => {
     const fm = {
-      Classe: '[[Guerreiro]]',
+      Classe: '[[Animista]]',
       Sintonia: '[[Traço Elemental do Vento|Vento]]',
       'Nível': 9,
-      Tecnicas: tecnicas,
+      Tecnicas: { Lista: [{ '[[Essência Invertida]]': 'Slot.E' }] },
     }
     const inv = await choicesDe(fm, 'Essência Invertida')
     expect(inv.length).toBe(1)
     const c = inv[0]!
     expect(c.options?.length).toBe(3)
-    expect(temOpcao(c, 'Enraizante Invertida')).toBe(true)
-    expect(temOpcao(c, 'Mineral Invertida')).toBe(true)
-    expect(temOpcao(c, 'Sísmica Invertida')).toBe(true)
+    expect(temOpcao(c, 'Enraizante Adepta')).toBe(true)
+    expect(temOpcao(c, 'Mineral Adepta')).toBe(true)
+    expect(temOpcao(c, 'Sísmica Adepta')).toBe(true)
+    expect(temOpcao(c, 'Menor')).toBe(false)
   })
-  it('#485 SECUNDÁRIO (Treinamento): a ponte concede a variante MENOR (bloco Secundaria)', async () => {
+  it('SECUNDÁRIO (Guerreiro + Treinamento de Animista, Vento): escolha com as 3 MENOR de Terra', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      Sintonia: '[[Traço Elemental do Vento|Vento]]',
+      'Nível': 9,
+      Habilidades: {
+        Lista: [{ '[[Treinamento de Animista]]': 'Escolha.[[Treinamento de Classe Secundária]]' }],
+      },
+      Tecnicas: {
+        Lista: [
+          { '[[Treinamento de Classe Secundária]]': 'Slot.A' },
+          { '[[Maestria em Classe Secundária]]': 'Slot.M' },
+          { '[[Essência Invertida]]': 'Escolha.[[Maestria em Classe Secundária]]' },
+        ],
+      },
+    }
+    const inv = await choicesDe(fm, 'Essência Invertida')
+    expect(inv.length).toBe(1)
+    const c = inv[0]!
+    expect(c.options?.length).toBe(3)
+    expect(temOpcao(c, 'Enraizante Menor')).toBe(true)
+    expect(temOpcao(c, 'Mineral Menor')).toBe(true)
+    expect(temOpcao(c, 'Sísmica Menor')).toBe(true)
+    expect(temOpcao(c, 'Adepta')).toBe(false)
+  })
+  it('pick SECUNDÁRIO: a Menor alimenta a lista SEGREGADA (Magias.Secundaria.Lista)', async () => {
     const fm = {
       Classe: '[[Guerreiro]]',
       Sintonia: '[[Traço Elemental do Vento|Vento]]',
@@ -131,37 +151,41 @@ describe('#479/#485 — Essência Invertida: pontes do elemento OPOSTO por conte
       Habilidades: {
         Lista: [
           { '[[Treinamento de Animista]]': 'Escolha.[[Treinamento de Classe Secundária]]' },
-          { '[[Essência Enraizante Invertida]]': 'Escolha.[[Essência Invertida]]' },
+          { '[[Essência Enraizante Menor]]': 'Escolha.[[Essência Invertida]]' },
         ],
       },
       Tecnicas: {
         Lista: [
           { '[[Treinamento de Classe Secundária]]': 'Slot.A' },
-          ...tecnicas.Lista,
+          { '[[Maestria em Classe Secundária]]': 'Slot.M' },
+          { '[[Essência Invertida]]': 'Escolha.[[Maestria em Classe Secundária]]' },
         ],
       },
     }
     const { projection } = await projectHeroRules(fm, catalog, async (id) => load(id))
     const d = projection.derivedFm as Record<string, unknown>
-    const hab = JSON.stringify((d['Habilidades'] as Record<string, unknown>)['Lista'])
-    expect(hab).toContain('Essência Enraizante Menor')
-    expect(hab).not.toContain('Essência Enraizante Adepta')
+    const magias = d['Magias'] as Record<string, unknown>
+    const sec = JSON.stringify((magias['Secundaria'] as Record<string, unknown>)['Lista'])
+    expect(sec).toContain('Vinhas Emaranhantes')
+    expect(sec).toContain('Enraizar')
+    expect(JSON.stringify(magias['Lista'] ?? '')).not.toContain('Vinhas Emaranhantes')
   })
-  it('#485 PRIMÁRIO (Classe Animista): a ponte concede a variante ADEPTA', async () => {
+  it('pick PRIMÁRIO: a Adepta alimenta a lista PRIMÁRIA (Magias.Lista)', async () => {
     const fm = {
       Classe: '[[Animista]]',
       Sintonia: '[[Traço Elemental do Vento|Vento]]',
       'Nível': 9,
       Habilidades: {
-        Lista: [{ '[[Essência Enraizante Invertida]]': 'Escolha.[[Essência Invertida]]' }],
+        Lista: [{ '[[Essência Enraizante Adepta]]': 'Escolha.[[Essência Invertida]]' }],
       },
       Tecnicas: { Lista: [{ '[[Essência Invertida]]': 'Slot.E' }] },
     }
     const { projection } = await projectHeroRules(fm, catalog, async (id) => load(id))
     const d = projection.derivedFm as Record<string, unknown>
-    const hab = JSON.stringify((d['Habilidades'] as Record<string, unknown>)['Lista'])
-    expect(hab).toContain('Essência Enraizante Adepta')
-    expect(hab).not.toContain('Essência Enraizante Menor')
+    const magias = d['Magias'] as Record<string, unknown>
+    expect(JSON.stringify(magias['Lista'])).toContain('Vinhas Emaranhantes')
+    const sec = (magias['Secundaria'] as Record<string, unknown> | undefined)?.['Lista']
+    expect(JSON.stringify(sec ?? '')).not.toContain('Vinhas Emaranhantes')
   })
 })
 

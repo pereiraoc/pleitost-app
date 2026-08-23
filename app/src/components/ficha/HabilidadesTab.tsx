@@ -2229,7 +2229,7 @@ export function HabilidadesArvorePanel({
                         <SelectBox
                           ariaLabel={c.label || `Escolha de ${it.txt}`}
                           value={choicePickValue(c)}
-                          options={choiceOptionsSiblingAware(c, it.choices)}
+                          options={choiceOptionsSiblingAware(c, it.choices, fm, it.target)}
                           onChange={(v) => onChoiceChange(it.target, c, v)}
                           infoDocId={refs.refDoc(choicePickValue(c))?.id ?? null}
                         />
@@ -2512,13 +2512,32 @@ function choiceOptions(c: HabChoice): SelectOption[] {
 /** Options do dropdown considerando as escolhas IRMÃS (mesmo pai): remove as
  *  opções já escolhidas pelas outras ocorrências ("se pegou uma em um, no
  *  outro não pode") e abre com a opção vazia — irmã sem pick mostra vazio
- *  (o resolve não defaulta mais irmãs, resolve-choices.ts). */
-function choiceOptionsSiblingAware(c: HabChoice, siblings: HabChoice[]): SelectOption[] {
+ *  (o resolve não defaulta mais irmãs, resolve-choices.ts).
+ *  Com `fm`+`parentTarget`, filtra também o "JÁ TEM": opção cujo alvo já está
+ *  na LISTA-ALVO (targetRaw) por outra fonte (outra escolha, regra, slot) some
+ *  — só a pick da própria escolha (fonte Escolha.[[parent]]) continua visível. */
+export function choiceOptionsSiblingAware(
+  c: HabChoice,
+  siblings: HabChoice[],
+  fm?: Record<string, unknown>,
+  parentTarget?: string,
+): SelectOption[] {
   const taken = new Set(
     siblings
       .filter((s) => s.choiceKey !== c.choiceKey && s.pick)
       .map((s) => wikiTarget(String(s.pick))),
   )
+  if (fm && parentTarget) {
+    const lista = listaEntries(fmPath(fm, ...(c.targetRaw ?? 'Habilidades.Lista').split('.')))
+    for (const e of lista) {
+      // "Própria" = o tag aponta pro PAI desta escolha — cobre o formato atual
+      // (Escolha.[[pai]] / Escolha.NN.[[pai]]) e o legado (picks antigos foram
+      // gravados como Regra.[[pai]], ex.: Especialista em Caçada do Drauzio).
+      const propria =
+        (e.fonte.kind === 'Escolha' || e.fonte.kind === 'Regra') && e.fonte.target === parentTarget
+      if (!propria) taken.add(e.target)
+    }
+  }
   return [
     { value: '', label: '—' },
     ...choiceOptions(c).filter((o) => !taken.has(wikiTarget(o.value))),
@@ -2971,7 +2990,7 @@ export function TecnicasPanel({
                           <SelectBox
                             ariaLabel={c.label || `Escolha de ${e.label}`}
                             value={choicePickValue(c)}
-                            options={choiceOptionsSiblingAware(c, choicesByTarget.get(e.target) ?? [])}
+                            options={choiceOptionsSiblingAware(c, choicesByTarget.get(e.target) ?? [], fm, e.target)}
                             onChange={(v) => onChoiceChange(e.target, c, v)}
                           />
                         ) : (

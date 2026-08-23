@@ -28,6 +28,8 @@ export type RuleCondition =
   | { kind: 'bonus-min'; prop: string; min: number }
   | { kind: 'props-contains'; slotProp: string; needle: string }
   | { kind: 'name-contains'; slotProp: string; needle: string }
+  /** Condicional EMPILHADA = conjunção — espelho do plugin v2.0.46 (§3.4.2). */
+  | { kind: 'and'; checks: RuleCondition[] }
   | { kind: 'unknown'; raw: string }
 
 export type RuleChannel = 'editable' | 'interactive-only'

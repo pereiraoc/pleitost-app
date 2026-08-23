@@ -86,6 +86,10 @@ function conditionText(cond: Record<string, unknown>): string | null {
       return `${s('slotProp')} contém ${s('needle')}`
     case 'name-contains':
       return `nome de ${s('slotProp')} contém ${s('needle')}`
+    case 'and':
+      return (Array.isArray(cond.checks) ? cond.checks.filter(isRecord) : [])
+        .map((c) => conditionText(c) ?? '?')
+        .join(' e ')
     case 'unknown':
       return s('raw')
     default:

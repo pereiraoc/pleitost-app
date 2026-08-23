@@ -208,6 +208,9 @@ export function conditionPasses(cond: RuleCondition, model: RulesModel, opts?: S
       const slot = lookupNamePath(viewFor(cond.slotProp), cond.slotProp)
       return listContainsToken(slot, cond.needle)
     }
+    // Condicional EMPILHADA = conjunção (plugin v2.0.46, spec §3.4.2)
+    case 'and':
+      return cond.checks.every((c) => conditionPasses(c, model, opts))
     case 'unknown':
       return false
   }
