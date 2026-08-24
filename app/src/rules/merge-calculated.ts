@@ -310,6 +310,12 @@ const EQUIP_ARMADURA_RX = /^Inventario\.Armadura\.Proficiencia\.(Sem|Leve|Pesada
 const ARMAS_LISTA_FIELD_RX =
   /^Inventario\.Armas\.Lista\.(\*|\{Desarmadas\}|\[\[[^\]]+\]\])\.(Bonus_Item|Bonus_Especial|Atributo)$/
 
+// Linhas de Ataques.Lista (Manobras/naturais/especiais — armas equipadas ficam
+// no handler de cima), espelho do registry (rule-target-registry.ts:157-182):
+// `*`, `{Desarmadas}` (mãos::0), `Manobras` e `[[Wikilink]]`/nome cru.
+const ATAQUES_LISTA_FIELD_RX =
+  /^Ataques\.Lista\.(\*|\{Desarmadas\}|\[\[[^\]]+\]\]|[^.]+)\.(Bonus_Item|Bonus_Especial|Atributo)$/
+
 const META_SCALARS = new Set(['Sintonia', 'Classe', 'Raça', 'Raca', 'Tutor', 'Tamanho'])
 const LIST_TARGETS: Record<string, string[]> = {
   'Habilidades.Lista': ['Habilidades', 'Lista'],
@@ -550,6 +556,29 @@ export function mergeCalculatedIntoFm(
     // `Sobrescrever Inventario.Armas.Lista.[[Arco Longo]].Bonus_Especial 1`
     // (Especialização em Arma) não chegava ao derivedFm e o +1 sumia do
     // modificador de ataque (#217).
+    // Campos por linha de Ataques.Lista — espelho de setAtaques (plugin
+    // merge-setters.ts:340-373). `{Desarmadas}` exige weaponMaosLookup no
+    // plugin; sem lookup filtra VAZIO (no-op), mesmo contrato do handler de
+    // armas abaixo. #488: `Categoria <tier> Definir
+    // Ataques.Lista.Manobras.Bonus_Item N` (Pulseira da Potência) não chegava
+    // ao derivedFm — o modificador de Manobras do Combate ficava sem o item.
+    const ataquesField = ATAQUES_LISTA_FIELD_RX.exec(key)
+    if (ataquesField) {
+      const [, alvo, field] = ataquesField as unknown as [string, string, string]
+      const rows = ensureListaRows(out, 'Ataques', 'Lista')
+      const matched =
+        alvo === '*'
+          ? rows
+          : alvo === '{Desarmadas}'
+            ? []
+            : rows.filter((r) => matchArmaNome(String(r.Nome ?? ''), alvo))
+      for (const row of matched) {
+        if (field === 'Atributo') row.Atributo = String(value)
+        else row[field] = num(value)
+      }
+      continue
+    }
+
     const armasField = ARMAS_LISTA_FIELD_RX.exec(key)
     if (armasField) {
       const [, alvo, field] = armasField as unknown as [string, string, string]
