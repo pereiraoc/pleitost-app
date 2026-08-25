@@ -100,6 +100,9 @@ export interface LevelCard {
   periciasElegiveis: Record<'A' | 'E' | 'M', string[]>
   /** Rank de cada perícia ENTRANDO no nível (contexto travado do popup). */
   periciasEntrando: Record<string, 'N' | 'A' | 'E' | 'M'>
+  /** Piso POR REGRA no nível (incrementos não-slot do snapshot) — a grade
+   *  pinta de amarelo (selRule/ruleSlot) o que veio de elemento de regra. */
+  periciasPisoRegra: Record<string, 'N' | 'A' | 'E' | 'M'>
   /** Escolas proficientes NESTE nível (snapshot derivado, sem Tesouros) —
    *  gate do picker de magias do nível. */
   escolasProfNivel: Array<{ nome: string; prof: string }>
@@ -432,6 +435,7 @@ export async function buildLevelTimeline(
       fonteDe,
       periciasElegiveis,
       periciasEntrando: {},
+      periciasPisoRegra: {},
       escolasProfNivel,
       tecnicasRegra: novos(['Tecnicas', 'Lista']).filter((l) => {
         // gastos de Slot ficam na atribuição — aqui só concessões de regra
@@ -598,6 +602,7 @@ export async function buildLevelTimeline(
     for (const card of cards) {
       const snap = snaps[card.nivel - 1]!
       const entrando: Record<string, 'N' | 'A' | 'E' | 'M'> = {}
+      const pisoRegra: Record<string, 'N' | 'A' | 'E' | 'M'> = {}
       for (const row of rowsOf(snap.derived, 'Pericias', 'Lista')) {
         const nome = String(row.Nome ?? '')
         let piso = 0
@@ -607,9 +612,11 @@ export async function buildLevelTimeline(
             if (typeof v === 'string' && !v.startsWith('Slot')) piso = Math.max(piso, RANK_N[r]!)
           }
         }
+        pisoRegra[nome] = LETRAS[piso]!
         entrando[nome] = LETRAS[Math.max(piso, acumulado.get(nome) ?? 0)]!
       }
       card.periciasEntrando = entrando
+      card.periciasPisoRegra = pisoRegra
       const gastouAqui = new Set(card.gastos.pericias.map((g) => `${g.nome}|${g.rank}`))
       for (const r of RANKS_AEM) {
         const degrau = RANK_N[r]! - 1

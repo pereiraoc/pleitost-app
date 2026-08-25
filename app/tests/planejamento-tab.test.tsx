@@ -136,8 +136,9 @@ describe('aba Planejamento — timeline 1..10', () => {
     )
     expect(botao, 'botão agregado de SELEÇÕES no N2').toBeTruthy()
     fireEvent.click(botao!)
+    // o editor agora abre em POPUP (portal no body)
     const sel = await waitFor(() => {
-      const s2 = [...card2.querySelectorAll('select')].find((x) =>
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
         [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Essência')),
       ) as HTMLSelectElement
       expect(s2).toBeTruthy()
@@ -225,15 +226,16 @@ describe('roadmap de GASTOS de slot', () => {
     )
     expect(botaoTec, 'botão de técnica no N4').toBeTruthy()
     fireEvent.click(botaoTec!)
-    // editor no estilo das competências: linha com ➕ verde "Aprender X"
+    // editor no estilo das competências abre em POPUP: linha com ➕ verde
     const addBrutal = await waitFor(() => {
-      const btn = [...card4.querySelectorAll('button')].find(
+      const btn = [...document.querySelectorAll('button')].find(
         (b) => b.getAttribute('aria-label') === 'Aprender Ataque Brutal',
       ) as HTMLElement
-      expect(btn, '➕ Aprender Ataque Brutal no editor do N4').toBeTruthy()
+      expect(btn, '➕ Aprender Ataque Brutal no popup do N4').toBeTruthy()
       return btn
     })
     fireEvent.click(addBrutal)
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
     await waitFor(() => {
       const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
       const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
