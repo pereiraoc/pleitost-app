@@ -105,15 +105,7 @@ describe('aba Planejamento — timeline 1..10', () => {
     }
     // marcador do nível atual no banner (◄)
     expect(cardDe(3).textContent).toContain('◄')
-    // GANHOS são colapsáveis (#493) — expande antes de assertar o conteúdo
-    const expandeGanhos = (n: number) => {
-      const btn = [...cardDe(n).querySelectorAll('button')].find((b) =>
-        (b.textContent ?? '').includes('GANHOS DO NÍVEL'),
-      )
-      expect(btn, `botão de ganhos do nível ${n}`).toBeTruthy()
-      fireEvent.click(btn!)
-    }
-    for (const n of [1, 4, 7, 10]) expandeGanhos(n)
+    // GANHOS visíveis direto no card (report 2026-08-25)
     expect(cardDe(4).textContent).toContain('Veterano')
     expect(cardDe(7).textContent).toContain('Campeão')
     expect(cardDe(10).textContent).toContain('Maestria em Arma')

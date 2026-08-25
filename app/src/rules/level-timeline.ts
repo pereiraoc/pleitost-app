@@ -101,6 +101,9 @@ export interface LevelCard {
   /** Notas que CONCEDERAM os slots deste nível (rastreabilidade): wikilinks
    *  novos no ruleSources de `<ns>.Slots.<rank>` vs o nível anterior. */
   slotFontes: { pericias: string[]; tecnicas: string[]; magias: string[] }
+  /** Detalhe por fonte: a nota X adicionou slot de <ns> (<rank>) NESTE nível
+   *  — pro "Evolução Básica → +Perícia (E)" sutil do card e o topo do popup. */
+  slotGrants: Array<{ link: string; ns: 'Perícia' | 'Técnica' | 'Magia'; rank: 'B' | 'A' | 'E' | 'M' }>
   /** Gastos atribuídos a este nível (registro explícito > earliest-fit;
    *  Passado sempre N1). */
   gastos: {
@@ -298,20 +301,44 @@ export async function buildLevelTimeline(
       }
       return { B: n('B'), A: n('A'), E: n('E'), M: n('M') }
     }
-    const slotFontesDe = (ns: string): string[] => {
-      const links = (snap: Snap | null): Set<string> => {
-        const out = new Set<string>()
-        if (!snap) return out
-        for (const rank of RANKS_BAEM) {
-          for (const f of snap.ruleSources[`${ns}.Slots.${rank}`] ?? []) {
-            const m = /^Regra\.(\[\[.+?\]\])$/.exec(f)
-            if (m) out.add(m[1]!)
-          }
-        }
-        return out
+    const linksDe = (snap: Snap | null, ns: string, rank: string): Set<string> => {
+      const out = new Set<string>()
+      if (!snap) return out
+      for (const f of snap.ruleSources[`${ns}.Slots.${rank}`] ?? []) {
+        const m = /^Regra\.(\[\[.+?\]\])$/.exec(f)
+        if (m) out.add(m[1]!)
       }
-      const antes = links(prev)
-      return [...links(cur)].filter((l) => !antes.has(l))
+      return out
+    }
+    const slotFontesDe = (ns: string): string[] => {
+      const out = new Set<string>()
+      for (const rank of RANKS_BAEM) {
+        const antes = linksDe(prev, ns, rank)
+        for (const l of linksDe(cur, ns, rank)) if (!antes.has(l)) out.add(l)
+      }
+      return [...out]
+    }
+    /** Fontes dos ranks com DELTA > 0 neste nível: a Evolução Básica aparece
+     *  no N4 E no N5 E no N6 (cada nível em que ela adiciona slot), não só
+     *  onde a regra dispara pela primeira vez. */
+    const slotGrantsDe = (deltas: {
+      pericias: SlotDelta
+      tecnicas: SlotDelta
+      magias: SlotDelta
+    }): LevelCard['slotGrants'] => {
+      const out: LevelCard['slotGrants'] = []
+      const NS: Array<['Pericias' | 'Tecnicas' | 'Magias', 'Perícia' | 'Técnica' | 'Magia', SlotDelta]> = [
+        ['Pericias', 'Perícia', deltas.pericias],
+        ['Tecnicas', 'Técnica', deltas.tecnicas],
+        ['Magias', 'Magia', deltas.magias],
+      ]
+      for (const [nsKey, nsLabel, delta] of NS) {
+        for (const rank of RANKS_BAEM) {
+          if (delta[rank] <= 0) continue
+          for (const l of linksDe(cur, nsKey, rank)) out.push({ link: l, ns: nsLabel, rank })
+        }
+      }
+      return out
     }
     const slotsDelta = (ns: string): SlotDelta => {
       const agora = slotsCalc(cur, ns)
@@ -380,6 +407,11 @@ export async function buildLevelTimeline(
       for (const r of RANKS_AEM) if (prof === degrau[r]) periciasElegiveis[r].push(String(row.Nome ?? ''))
     }
 
+    const slotsCard = {
+      pericias: slotsDelta('Pericias'),
+      tecnicas: slotsDelta('Tecnicas'),
+      magias: slotsDelta('Magias'),
+    }
     cards.push({
       nivel,
       habilidades: novos(['Habilidades', 'Lista']),
@@ -394,16 +426,13 @@ export async function buildLevelTimeline(
       }),
       acoesRegra: novos(['Acoes', 'Lista']),
       magiasRegra,
-      slots: {
-        pericias: slotsDelta('Pericias'),
-        tecnicas: slotsDelta('Tecnicas'),
-        magias: slotsDelta('Magias'),
-      },
+      slots: slotsCard,
       slotFontes: {
         pericias: slotFontesDe('Pericias'),
         tecnicas: slotFontesDe('Tecnicas'),
         magias: slotFontesDe('Magias'),
       },
+      slotGrants: slotGrantsDe(slotsCard),
       gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
       escolhas,
       escalares,
