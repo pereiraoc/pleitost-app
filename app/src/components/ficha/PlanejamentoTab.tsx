@@ -14,6 +14,7 @@
 //     nível futuro só registra (plano); o sync materializa ao subir e desfaz
 //     ao baixar (registro fica = restaura ao re-subir).
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
@@ -246,7 +247,10 @@ function PbRow({
  *  dentro: o MESMO painel do wizard de criação (PericiasProfPanel /
  *  MagiasHabPanel). */
 function Modal({ titulo, onClose, children }: { titulo: string; onClose: () => void; children: ReactNode }) {
-  return (
+  // PORTAL no body: o painel vive dentro do PanelTrack (transform) — um
+  // position:fixed ali vira relativo ao track e é CLIPADO pelos clip-path
+  // (no browser o popup nunca aparecia; jsdom não tem layout e passava).
+  return createPortal(
     <div
       onClick={onClose}
       style={{
@@ -288,7 +292,8 @@ function Modal({ titulo, onClose, children }: { titulo: string; onClose: () => v
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
@@ -712,9 +717,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     .filter((g) => g.fonte === 'Slot')
                     .map((g) => (
                       <div key={`${g.nome}|${g.rank}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                        <PlanChip wl={`[[${g.nome}]]`} refs={refs} sufixo={g.rank} />
+                        <PlanChip wl={`[[${g.nome}]]`} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
                         {removerBtn(`Remover ${g.nome} ${g.rank}`, () => {
-                          desfazPericia(g.nome, g.rank)
+                          if (!g.planejado) desfazPericia(g.nome, g.rank)
                           desregistrar('pericia', g.nome)
                         })}
                       </div>
@@ -757,9 +762,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {card.gastos.tecnicas.map((g) => (
               <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                <PlanChip wl={g.link} refs={refs} sufixo={g.rank} />
+                <PlanChip wl={g.link} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
                 {removerBtn(`Remover ${linkLabel(g.link)}`, () => {
-                  desfazTecnica(g.link)
+                  if (!g.planejado) desfazTecnica(g.link)
                   desregistrar('tecnica', g.link)
                 })}
               </div>
@@ -837,9 +842,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     .filter((g) => !g.secundaria)
                     .map((g) => (
                       <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                        <PlanChip wl={g.link} refs={refs} sufixo={`${g.rank} · ${g.escola}`} />
+                        <PlanChip wl={g.link} refs={refs} sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`} />
                         {removerBtn(`Remover ${linkLabel(g.link)}`, () => {
-                          desfazMagia(g.escola, g.link)
+                          if (!g.planejado) desfazMagia(g.escola, g.link)
                           desregistrar('magia', g.link)
                         })}
                       </div>
@@ -880,9 +885,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {card.gastos.especialidades.map((f) => (
               <div key={`${f.pericia}|${f.alvo}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                <PlanChip wl={f.alvo} refs={refs} sufixo={`${f.tipo} · ${f.pericia}`} />
+                <PlanChip wl={f.alvo} refs={refs} sufixo={`${f.tipo} · ${f.pericia}${f.planejado ? ' · plano' : ''}`} />
                 {removerBtn(`Remover ${linkLabel(f.alvo)}`, () => {
-                  aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
+                  if (!f.planejado)
+                    aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
                   desregistrar(f.tipo, f.alvo)
                 })}
               </div>
@@ -1166,18 +1172,23 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     key={`p|${g.nome}|${g.rank}`}
                     wl={`[[${g.nome}]]`}
                     refs={refs}
-                    sufixo={`${g.rank}${g.fonte === 'Passado' ? ' · Passado' : ''}`}
+                    sufixo={`${g.rank}${g.fonte === 'Passado' ? ' · Passado' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
                 ))}
                 {card.gastos.tecnicas.map((g) => (
-                  <PlanChip key={`t|${g.link}`} wl={g.link} refs={refs} sufixo={`Técnica ${g.rank}`} />
+                  <PlanChip
+                    key={`t|${g.link}`}
+                    wl={g.link}
+                    refs={refs}
+                    sufixo={`Técnica ${g.rank}${g.planejado ? ' · plano' : ''}`}
+                  />
                 ))}
                 {card.gastos.magias.map((g) => (
                   <PlanChip
                     key={`m|${g.escola}|${g.link}`}
                     wl={g.link}
                     refs={refs}
-                    sufixo={`Magia ${g.rank}${g.secundaria ? ' (2ª)' : ''}`}
+                    sufixo={`Magia ${g.rank}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
                 ))}
                 {card.gastos.especialidades.map((f) => (

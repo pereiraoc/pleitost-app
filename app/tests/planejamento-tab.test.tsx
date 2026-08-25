@@ -214,6 +214,9 @@ describe('roadmap de GASTOS de slot', () => {
       >
       expect(regs.some((r) => r['alvo'] === 'Furtividade' && r['nivel'] === 1)).toBe(true)
     })
+    // fecha o popup — o rebuild da timeline fica pausado enquanto ele está
+    // aberto (por design), e o resto do teste depende dos cards frescos
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
     // N4 (FUTURO): aprende técnica Experiente → só registro, lista intacta
     const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
     const botaoTec = [...card4.querySelectorAll('button')].find((b) =>
@@ -237,6 +240,16 @@ describe('roadmap de GASTOS de slot', () => {
       expect(regs.some((r) => String(r['alvo']).includes('Ataque Brutal') && r['nivel'] === 4)).toBe(true)
       expect(JSON.stringify(fm['Tecnicas'] ?? {})).not.toContain('Ataque Brutal')
     })
+    // o gasto planejado APARECE no card 4 como chip de plano (report: "não
+    // parece que é mantido") — rebuild da timeline após o registro
+    await waitFor(
+      () => {
+        const c4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+        expect(c4.textContent).toContain('Ataque Brutal')
+        expect(c4.textContent).toContain('plano')
+      },
+      { timeout: 45000 },
+    )
     // sobe pro nível 4 → o sync materializa a técnica na lista real
     cleanup()
     setLocalEntityFm(id, 'Nível', 4)
@@ -250,4 +263,31 @@ describe('roadmap de GASTOS de slot', () => {
       { timeout: 20000 },
     )
   }, 60000)
+})
+
+
+describe('popup via PORTAL (fixed dentro do PanelTrack era clipado)', () => {
+  it('o modal monta como filho direto do body', async () => {
+    const id = createLocalEntity('Heroi', 'Portalzeiro', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 2,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botao = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
+    )
+    expect(botao).toBeTruthy()
+    fireEvent.click(botao!)
+    await waitFor(() => {
+      const fechar = screen.getByLabelText('Fechar editor')
+      // sobe até o container do overlay: precisa ser filho DIRETO do body
+      let el: HTMLElement | null = fechar
+      while (el && el.parentElement !== document.body) el = el.parentElement
+      expect(el, 'overlay como filho do body (portal)').toBeTruthy()
+    })
+  }, 40000)
 })

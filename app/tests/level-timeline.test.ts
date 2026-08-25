@@ -146,3 +146,46 @@ describe('#493 — consequência herda o nível do PAI (cadeia de derivação)',
     expect(cards[0]!.habilidades.join(' ')).toContain('Ataque Furtivo Menor')
   })
 })
+
+describe('gastos PLANEJADOS (registro de nível futuro sem aplicação real)', () => {
+  it('registro de técnica futura vira gasto `planejado` no card do nível', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 4, tipo: 'tecnica', rank: 'E', alvo: '[[Ataque Brutal]]' },
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Furtividade' },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const c4 = cards[3]!
+    expect(c4.gastos.tecnicas.map((g) => `${g.link}${g.planejado ? '(plano)' : ''}`)).toContain(
+      '[[Ataque Brutal]](plano)',
+    )
+    expect(c4.gastos.pericias.map((g) => `${g.nome}${g.planejado ? '(plano)' : ''}`)).toContain(
+      'Furtividade(plano)',
+    )
+    // o slot E do nível 4 está consumido pelo plano (sem pendência dupla)
+    const livresE = c4.slots.tecnicas.E - c4.gastos.tecnicas.filter((g) => g.rank === 'E').length
+    expect(livresE).toBe(0)
+  })
+
+  it('registro JÁ aplicado não duplica (só o gasto real aparece)', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 5,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Tecnicas: { Lista: [{ '[[Ataque Brutal]]': 'Slot.E' }] },
+      Planejamento: {
+        gastosSlots: [{ nivel: 4, tipo: 'tecnica', rank: 'E', alvo: '[[Ataque Brutal]]' }],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const todas = cards.flatMap((c) => c.gastos.tecnicas)
+    expect(todas.filter((g) => g.link.includes('Ataque Brutal'))).toHaveLength(1)
+    expect(todas.find((g) => g.link.includes('Ataque Brutal'))?.planejado).toBeFalsy()
+  })
+})

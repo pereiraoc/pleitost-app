@@ -27,17 +27,21 @@ export interface SlotDelta {
 export interface GastoTecnica {
   link: string
   rank: 'A' | 'E' | 'M'
+  /** Registro de nível FUTURO ainda não aplicado nas listas (só plano). */
+  planejado?: boolean
 }
 export interface GastoPericia {
   nome: string
   rank: 'A' | 'E' | 'M'
   fonte: 'Slot' | 'Passado'
+  planejado?: boolean
 }
 export interface GastoMagia {
   escola: string
   link: string
   rank: 'B' | 'A' | 'E' | 'M'
   secundaria: boolean
+  planejado?: boolean
 }
 
 export interface TimelineChoice {
@@ -110,7 +114,12 @@ export interface LevelCard {
     tecnicas: GastoTecnica[]
     pericias: GastoPericia[]
     magias: GastoMagia[]
-    especialidades: Array<{ pericia: string; alvo: string; tipo: 'especialidade' | 'maestria' }>
+    especialidades: Array<{
+      pericia: string
+      alvo: string
+      tipo: 'especialidade' | 'maestria'
+      planejado?: boolean
+    }>
   }
   /** Escolhas cujo gate abre NESTE nível. */
   escolhas: TimelineChoice[]
@@ -529,6 +538,45 @@ export async function buildLevelTimeline(
           secundaria,
         })
       }
+    }
+  }
+
+  // ── gastos PLANEJADOS: registro cujo alvo NÃO está nas listas reais (nível
+  // futuro esperando materializar) vira gasto `planejado` no card do nível —
+  // sem isso a seleção futura "sumia" (nem chip nem contador; report
+  // 2026-08-25). O já-aplicado foi consumido pelos walks acima (dedup).
+  const atribuidos = new Set<string>()
+  for (const c of cards) {
+    for (const g of c.gastos.tecnicas) atribuidos.add(`tecnica|${wlBase(g.link)}`)
+    for (const g of c.gastos.pericias) atribuidos.add(`pericia|${g.nome}`)
+    for (const g of c.gastos.magias) atribuidos.add(`magia|${wlBase(g.link)}`)
+    for (const g of c.gastos.especialidades) atribuidos.add(`${g.tipo}|${wlBase(g.alvo)}`)
+  }
+  for (const r of registros) {
+    if (atribuidos.has(`${r.tipo}|${wlBase(r.alvo)}`)) continue
+    const card = cardDe(r.nivel)
+    if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
+      poolTec.takeAt(r.rank, r.nivel)
+      card.gastos.tecnicas.push({ link: r.alvo, rank: r.rank, planejado: true })
+    } else if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
+      poolPer.takeAt(r.rank, r.nivel)
+      card.gastos.pericias.push({ nome: r.alvo, rank: r.rank, fonte: 'Slot', planejado: true })
+    } else if (r.tipo === 'magia' && r.rank) {
+      poolMag.takeAt(r.rank, r.nivel)
+      card.gastos.magias.push({
+        escola: r.contexto ?? '',
+        link: r.alvo,
+        rank: r.rank,
+        secundaria: false,
+        planejado: true,
+      })
+    } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
+      card.gastos.especialidades.push({
+        pericia: r.contexto ?? '',
+        alvo: r.alvo,
+        tipo: r.tipo,
+        planejado: true,
+      })
     }
   }
 
