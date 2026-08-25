@@ -83,7 +83,9 @@ function renderBiografia(id: string) {
 
 async function abrirPlanejamento() {
   fireEvent.click(await screen.findByText('PLANEJAMENTO'))
-  await waitFor(() => expect(screen.getByText('NÍVEL 1')).toBeTruthy(), { timeout: 20000 })
+  await waitFor(() => expect(document.querySelector('[data-nivel="1"]')).toBeTruthy(), {
+    timeout: 20000,
+  })
 }
 
 describe('aba Planejamento — timeline 1..10', () => {
@@ -96,15 +98,19 @@ describe('aba Planejamento — timeline 1..10', () => {
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    for (let n = 1; n <= 10; n++) expect(screen.getByText(`NÍVEL ${n}`)).toBeTruthy()
-    expect(screen.getByText('← ATUAL')).toBeTruthy()
-    // ganhos por nível (regras reais): Veterano N4, Campeão N7, Maestria N10
-    const cardDe = (n: number) =>
-      document.querySelector(`[data-nivel="${n}"]`) as HTMLElement
+    const cardDe = (n: number) => document.querySelector(`[data-nivel="${n}"]`) as HTMLElement
+    for (let n = 1; n <= 10; n++) {
+      expect(cardDe(n), `card do nível ${n}`).toBeTruthy()
+      expect(cardDe(n).textContent).toContain(`NÍVEL ${n}`)
+    }
+    // marcador do nível atual no banner (◄) e ganhos por nível (regras reais)
+    expect(cardDe(3).textContent).toContain('◄')
     expect(cardDe(4).textContent).toContain('Veterano')
     expect(cardDe(7).textContent).toContain('Campeão')
     expect(cardDe(10).textContent).toContain('Maestria em Arma')
     expect(cardDe(1).textContent).toContain('Evolução Básica')
+    // slots não preenchidos viram botões-slot (⚙) no card
+    expect(cardDe(1).textContent).toContain('⚙')
   }, 40000)
 
   it('escolha FUTURA grava no bloco Planejamento; subir o nível materializa o pick', async () => {
@@ -120,11 +126,21 @@ describe('aba Planejamento — timeline 1..10', () => {
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    // N2 abre uma escolha de essência (Magias Anima, gate 2) — FUTURA no N1
+    // N2 abre uma escolha de essência (Magias Anima, gate 2) — FUTURA no N1:
+    // aparece como BOTÃO-SLOT pendente; clicar abre o picker
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
-    const selects = card2.querySelectorAll('select')
-    expect(selects.length).toBeGreaterThan(0)
-    const sel = selects[0] as HTMLSelectElement
+    const botao = [...card2.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('Magias Anima'),
+    )
+    expect(botao, 'botão-slot da seleção (Magias Anima) no N2').toBeTruthy()
+    fireEvent.click(botao!)
+    const sel = await waitFor(() => {
+      const s2 = [...card2.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Essência')),
+      ) as HTMLSelectElement
+      expect(s2).toBeTruthy()
+      return s2
+    })
     const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Essência'))
     expect(opcao).toBeTruthy()
     fireEvent.change(sel, { target: { value: opcao } })
@@ -146,6 +162,81 @@ describe('aba Planejamento — timeline 1..10', () => {
         expect(JSON.stringify(fm['Habilidades'] ?? {})).toContain(opcao!)
         const picks = ((fm['Planejamento'] as Record<string, unknown>)?.['picks'] ?? {}) as Record<string, string>
         expect(Object.values(picks)).not.toContain(opcao)
+      },
+      { timeout: 20000 },
+    )
+  }, 60000)
+})
+
+describe('roadmap de GASTOS de slot', () => {
+  it('perícia gasta no N1 (real+registro); técnica futura só registra e materializa ao subir', async () => {
+    const id = createLocalEntity('Heroi', 'Roadmapper', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // N1: gasta um slot de perícia Adepta em Atletismo
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botaoPer = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('PERÍCIA'),
+    )
+    expect(botaoPer, 'botão de perícia no N1').toBeTruthy()
+    fireEvent.click(botaoPer!)
+    const selPer = await waitFor(() => {
+      const s2 = [...card1.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => o.value === 'Furtividade'),
+      ) as HTMLSelectElement
+      expect(s2).toBeTruthy()
+      return s2
+    })
+    fireEvent.change(selPer, { target: { value: 'Furtividade' } })
+    await waitFor(() => {
+      const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const rows = ((fm['Pericias'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      const atl = rows.find((r) => r['Nome'] === 'Furtividade')
+      expect(JSON.stringify(atl?.['Incrementos'] ?? [])).toContain('Slot.A')
+      const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      expect(regs.some((r) => r['alvo'] === 'Furtividade' && r['nivel'] === 1)).toBe(true)
+    })
+    // N4 (FUTURO): aprende técnica Experiente → só registro, lista intacta
+    const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+    const botaoTec = [...card4.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('TÉCNICA'),
+    )
+    expect(botaoTec, 'botão de técnica no N4').toBeTruthy()
+    fireEvent.click(botaoTec!)
+    const selTec = await waitFor(() => {
+      const s2 = [...card4.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Ataque Brutal')),
+      ) as HTMLSelectElement
+      expect(s2).toBeTruthy()
+      return s2
+    })
+    fireEvent.change(selTec, { target: { value: '[[Ataque Brutal]]' } })
+    await waitFor(() => {
+      const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      expect(regs.some((r) => String(r['alvo']).includes('Ataque Brutal') && r['nivel'] === 4)).toBe(true)
+      expect(JSON.stringify(fm['Tecnicas'] ?? {})).not.toContain('Ataque Brutal')
+    })
+    // sobe pro nível 4 → o sync materializa a técnica na lista real
+    cleanup()
+    setLocalEntityFm(id, 'Nível', 4)
+    renderBiografia(id)
+    await abrirPlanejamento()
+    await waitFor(
+      () => {
+        const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        expect(JSON.stringify(fm['Tecnicas'] ?? {})).toContain('Ataque Brutal')
       },
       { timeout: 20000 },
     )

@@ -177,7 +177,7 @@ export function custoDigits(custo: unknown): string {
 }
 
 /** Rank (Adepta/Experiente/Mestre) de um doc: inline rank::, senão subcategoria. */
-function docRankGroup(doc: VaultDoc | undefined): string {
+export function docRankGroup(doc: VaultDoc | undefined): string {
   if (!doc) return ''
   const inline = linkLabel(str((doc.inlineFields as Record<string, unknown>)['rank']))
   return rankGroupLabel(inline || str(doc.subtype ?? ''))
@@ -2596,12 +2596,12 @@ const cardBox: CSSProperties = {
 }
 
 /** Grupo de rank de técnica → letra do slot (Tecnicas.Slots só tem A/E/M). */
-const TEC_GROUP_LETTER: Record<string, 'A' | 'E' | 'M'> = { Adepta: 'A', Experiente: 'E', Mestre: 'M' }
+export const TEC_GROUP_LETTER: Record<string, 'A' | 'E' | 'M'> = { Adepta: 'A', Experiente: 'E', Mestre: 'M' }
 
 /** Pasta-fonte das técnicas — espelho do PREFIX de listTecnicas (plugin
  *  cola/yaml-block-deps-factory.ts:255). A pasta NÃO decide elegibilidade
  *  por classe; isso é o `classe::` de cada nota (tecnicaClasses). */
-const TECNICAS_PATH_PREFIX = 'Sistema/Criação de Personagem/Técnicas/'
+export const TECNICAS_PATH_PREFIX = 'Sistema/Criação de Personagem/Técnicas/'
 
 const CLASSE_WIKILINK_RX = /\[\[([^\]|]+?)(?:\|[^\]]+)?\]\]/g
 
@@ -2609,7 +2609,7 @@ const CLASSE_WIKILINK_RX = /\[\[([^\]|]+?)(?:\|[^\]]+)?\]\]/g
  *  inline) — espelho de collectClasses (plugin yaml-block-deps-factory.ts:
  *  263-279): basenames dos wikilinks numa string/array CSV; fallback texto
  *  cru. Vazio = qualquer classe. */
-function tecnicaClasses(d: VaultDoc): string[] {
+export function tecnicaClasses(d: VaultDoc): string[] {
   const raw =
     (d.frontmatter as Record<string, unknown>)?.['classe'] ??
     (d.inlineFields as Record<string, unknown>)?.['classe']
@@ -3152,7 +3152,7 @@ const RANK_GROUP_SLOT: Record<string, 'B' | 'A' | 'E' | 'M'> = {
   Experiente: 'E',
   Mestre: 'M',
 }
-function escolaCobreRank(prof: string, rankGroup: string): boolean {
+export function escolaCobreRank(prof: string, rankGroup: string): boolean {
   return (MAGIA_PROF_NUM[prof] ?? 0) >= (MAGIA_RANK_IDX[rankGroup] ?? 99)
 }
 

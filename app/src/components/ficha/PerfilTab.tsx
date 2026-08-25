@@ -1453,7 +1453,13 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
                 {t.id === 'identidade' ? (
                   <IdentidadePanel doc={doc} />
                 ) : t.id === 'planejamento' ? (
-                  <PlanejamentoPanel doc={doc} refs={refs} />
+                  // Lazy: o PanelTrack monta TODOS os painéis; o Planejamento
+                  // roda 10 projeções + sync — só monta com a aba ATIVA.
+                  bioTab === 'planejamento' ? (
+                    <PlanejamentoPanel doc={doc} refs={refs} />
+                  ) : (
+                    <div />
+                  )
                 ) : (
                   <ExperienciaPanel doc={doc} />
                 )}

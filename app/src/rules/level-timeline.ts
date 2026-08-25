@@ -61,20 +61,51 @@ export interface EscalarDelta {
   label: string
   de: number
   para: number
+  /** Nota que causou a mudança (ruleSourcesByPath) — pro "via [[X]]" da tree. */
+  fonte?: string
+}
+
+/** Registro EXPLÍCITO de gasto de slot com nível (Planejamento.gastosSlots) —
+ *  gastos feitos pela aba gravam o nível; legados caem no earliest-fit. */
+export interface GastoRegistrado {
+  nivel: number
+  tipo: 'pericia' | 'tecnica' | 'magia' | 'especialidade' | 'maestria'
+  rank?: 'B' | 'A' | 'E' | 'M'
+  alvo: string
+  /** Magias: escola destino; especialidade/maestria: perícia dona. */
+  contexto?: string
+}
+
+export function gastosRegistrados(fm: Record<string, unknown>): GastoRegistrado[] {
+  const p = fm['Planejamento']
+  const g = p && typeof p === 'object' ? (p as Record<string, unknown>)['gastosSlots'] : null
+  return Array.isArray(g) ? (g as GastoRegistrado[]) : []
 }
 
 export interface LevelCard {
   nivel: number
   /** Wikilinks concedidos por regra NESTE nível (Habilidades.Lista). */
   habilidades: string[]
+  /** Fonte de cada ganho (link → tag `Regra.[[pai]]`/…) — pra tree view
+   *  (filho identado sob o pai que concedeu). */
+  fonteDe: Record<string, string>
+  /** Perícias elegíveis pra receber o slot de cada rank NESTE nível
+   *  (rank derivado no nível == degrau abaixo), pro editor da aba. */
+  periciasElegiveis: Record<'A' | 'E' | 'M', string[]>
   tecnicasRegra: string[]
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
   magiasRegra: Array<{ escola: string; link: string; secundaria: boolean }>
   /** Slots GANHOS neste nível (delta vs nível anterior). */
   slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta }
-  /** Gastos atribuídos a este nível (earliest-fit; Passado sempre N1). */
-  gastos: { tecnicas: GastoTecnica[]; pericias: GastoPericia[]; magias: GastoMagia[] }
+  /** Gastos atribuídos a este nível (registro explícito > earliest-fit;
+   *  Passado sempre N1). */
+  gastos: {
+    tecnicas: GastoTecnica[]
+    pericias: GastoPericia[]
+    magias: GastoMagia[]
+    especialidades: Array<{ pericia: string; alvo: string; tipo: 'especialidade' | 'maestria' }>
+  }
   /** Escolhas cujo gate abre NESTE nível. */
   escolhas: TimelineChoice[]
   /** Escalares que mudam neste nível (Vida/Potência/EM). */
@@ -147,6 +178,17 @@ class SlotPools {
     }
     return null
   }
+  /** Consome o slot de um NÍVEL específico (registro explícito); sem slot
+   *  naquele nível, consome o mais próximo (mantém contabilidade coerente). */
+  takeAt(rank: 'B' | 'A' | 'E' | 'M', nivel: number): void {
+    const pool = this.pools[rank]!
+    const exato = pool.indexOf(nivel)
+    if (exato !== -1) {
+      pool.splice(exato, 1)
+      return
+    }
+    this.take(rank, 1)
+  }
 }
 
 export async function buildLevelTimeline(
@@ -158,6 +200,7 @@ export async function buildLevelTimeline(
   interface Snap {
     derived: Fm
     choices: ChoiceDescriptor[]
+    ruleSources: Record<string, string[]>
   }
   const snaps: Snap[] = []
   for (let nivel = 1; nivel <= nivelMax; nivel++) {
@@ -166,6 +209,7 @@ export async function buildLevelTimeline(
     const p = projection as unknown as {
       derivedFm: Fm
       habilidadeChoices: ChoiceDescriptor[]
+      ruleSourcesByPath?: Record<string, string[]>
       subclassChoices: Array<{
         choiceKey: string
         parent: string
@@ -187,7 +231,11 @@ export async function buildLevelTimeline(
           isSubclass: true,
         }) as unknown as ChoiceDescriptor,
     )
-    snaps.push({ derived: p.derivedFm, choices: [...(p.habilidadeChoices ?? []), ...sub] })
+    snaps.push({
+      derived: p.derivedFm,
+      choices: [...(p.habilidadeChoices ?? []), ...sub],
+      ruleSources: p.ruleSourcesByPath ?? {},
+    })
   }
 
   // ── deltas por nível ──────────────────────────────────────────────────────
@@ -258,7 +306,10 @@ export async function buildLevelTimeline(
     const escalar = (label: string, ...path: string[]) => {
       const agora = Number(fmPathOf(cur.derived, ...path)) || 0
       const antes = prev ? Number(fmPathOf(prev.derived, ...path)) || 0 : 0
-      if (agora !== antes) escalares.push({ label, de: antes, para: agora })
+      if (agora !== antes) {
+        const fonte = (cur.ruleSources[path.join('.')] ?? [])[0]
+        escalares.push({ label, de: antes, para: agora, ...(fonte ? { fonte } : {}) })
+      }
     }
     escalar('Vitalidade', 'Vida', 'Vitalidade')
     escalar('Moral', 'Vida', 'Moral')
@@ -267,9 +318,31 @@ export async function buildLevelTimeline(
     escalar('Potência Secundária', 'Magias', 'Secundaria', 'Potencia')
     escalar('EM Secundária', 'Magias', 'Secundaria', 'EM')
 
+    // Fonte de cada ganho do nível (tree view) — mapa link→fonte da lista
+    // derivada ATUAL (Habilidades/Tecnicas/Acoes).
+    const fonteDe: Record<string, string> = {}
+    for (const path of [
+      ['Habilidades', 'Lista'],
+      ['Tecnicas', 'Lista'],
+      ['Acoes', 'Lista'],
+    ] as const) {
+      for (const e of fontedEntries(rowsOf(cur.derived, ...path))) fonteDe[e.link] = e.fonte
+    }
+
+    // Perícias elegíveis pro slot de cada rank NESTE nível: linha derivada
+    // cujo rank atual é o degrau imediatamente abaixo (N→A, A→E, E→M).
+    const periciasElegiveis: Record<'A' | 'E' | 'M', string[]> = { A: [], E: [], M: [] }
+    const degrau: Record<'A' | 'E' | 'M', string> = { A: 'N', E: 'A', M: 'E' }
+    for (const row of rowsOf(cur.derived, 'Pericias', 'Lista')) {
+      const prof = String(row.Proficiencia ?? 'N')
+      for (const r of RANKS_AEM) if (prof === degrau[r]) periciasElegiveis[r].push(String(row.Nome ?? ''))
+    }
+
     cards.push({
       nivel,
       habilidades: novos(['Habilidades', 'Lista']),
+      fonteDe,
+      periciasElegiveis,
       tecnicasRegra: novos(['Tecnicas', 'Lista']).filter((l) => {
         // gastos de Slot ficam na atribuição — aqui só concessões de regra
         const fonte = fontedEntries(rowsOf(cur.derived, 'Tecnicas', 'Lista')).find(
@@ -284,43 +357,79 @@ export async function buildLevelTimeline(
         tecnicas: slotsDelta('Tecnicas'),
         magias: slotsDelta('Magias'),
       },
-      gastos: { tecnicas: [], pericias: [], magias: [] },
+      gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
       escolhas,
       escalares,
     })
   }
 
-  // ── atribuição de gastos (earliest-fit sobre o ladder de slots) ──────────
+  // ── atribuição de gastos: registro explícito PRIMEIRO, earliest-fit no
+  // resto (legados sem nível gravado) ────────────────────────────────────────
   const poolTec = new SlotPools(cards.map((c) => c.slots.tecnicas))
   const poolPer = new SlotPools(cards.map((c) => c.slots.pericias))
   const poolMag = new SlotPools(cards.map((c) => c.slots.magias))
   const cardDe = (nivel: number | null): LevelCard => cards[Math.max(1, Math.min(nivelMax, nivel ?? nivelMax)) - 1]!
+  const registros = gastosRegistrados(fm)
+  const registroDe = (tipo: GastoRegistrado['tipo'], alvoBase: string, contexto?: string) =>
+    registros.find(
+      (r) =>
+        r.tipo === tipo &&
+        wlBase(r.alvo) === alvoBase &&
+        (contexto === undefined || r.contexto === undefined || wlBase(r.contexto) === wlBase(contexto)),
+    )
 
   // Técnicas com fonte Slot.<R>, na ordem da lista salva.
   for (const e of fontedEntries(rowsOf(fm, 'Tecnicas', 'Lista'))) {
     const m = /^Slot\.([AEM])$/.exec(e.fonte)
     if (!m) continue
     const rank = m[1] as 'A' | 'E' | 'M'
-    cardDe(poolTec.take(rank)).gastos.tecnicas.push({ link: e.link, rank })
+    const reg = registroDe('tecnica', wlBase(e.link))
+    if (reg) {
+      poolTec.takeAt(rank, reg.nivel)
+      cardDe(reg.nivel).gastos.tecnicas.push({ link: e.link, rank })
+    } else {
+      cardDe(poolTec.take(rank)).gastos.tecnicas.push({ link: e.link, rank })
+    }
   }
 
   // Perícias: incrementos por linha, na ordem (A antes de E antes de M na
   // mesma perícia — o E só pode nascer num nível ≥ o do A dela).
+  const nivelDoRank = new Map<string, number>() // `${nome}|${rank}` → nível
   for (const row of rowsOf(fm, 'Pericias', 'Lista')) {
     const incs = Array.isArray(row.Incrementos) ? (row.Incrementos as Row[]) : []
+    const nome = String(row.Nome ?? '')
     let minNivel = 1
     for (const rank of RANKS_AEM) {
       const inc = incs.find((i) => typeof i[rank] === 'string')
       if (!inc) continue
       const fonte = String(inc[rank])
       if (fonte.startsWith('Passado')) {
-        cards[0]!.gastos.pericias.push({ nome: String(row.Nome ?? ''), rank, fonte: 'Passado' })
+        cards[0]!.gastos.pericias.push({ nome, rank, fonte: 'Passado' })
+        nivelDoRank.set(`${nome}|${rank}`, 1)
         continue
       }
       if (!fonte.startsWith('Slot')) continue
-      const nivel = poolPer.take(rank, minNivel)
-      cardDe(nivel).gastos.pericias.push({ nome: String(row.Nome ?? ''), rank, fonte: 'Slot' })
-      if (nivel !== null) minNivel = nivel
+      const reg = registroDe('pericia', nome)
+      const nivel = reg && reg.rank === rank ? (poolPer.takeAt(rank, reg.nivel), reg.nivel) : poolPer.take(rank, minNivel)
+      cardDe(nivel).gastos.pericias.push({ nome, rank, fonte: 'Slot' })
+      if (nivel !== null) {
+        minNivel = nivel
+        nivelDoRank.set(`${nome}|${rank}`, nivel)
+      }
+    }
+    // Especialidade (exige E) e Maestria (exige M) da linha: registro explícito
+    // ou o nível onde o rank correspondente caiu.
+    const espec = String(row.Especializacao ?? '').trim()
+    if (espec) {
+      const reg = registroDe('especialidade', wlBase(espec), nome)
+      const nivel = reg?.nivel ?? nivelDoRank.get(`${nome}|E`) ?? null
+      cardDe(nivel).gastos.especialidades.push({ pericia: nome, alvo: espec, tipo: 'especialidade' })
+    }
+    const maes = String(row.Maestria ?? '').trim()
+    if (maes) {
+      const reg = registroDe('maestria', wlBase(maes), nome)
+      const nivel = reg?.nivel ?? nivelDoRank.get(`${nome}|M`) ?? null
+      cardDe(nivel).gastos.especialidades.push({ pericia: nome, alvo: maes, tipo: 'maestria' })
     }
   }
 
@@ -334,7 +443,9 @@ export async function buildLevelTimeline(
         const m = /^Slot\.([BAEM])$/.exec(e.fonte)
         if (!m) continue
         const rank = m[1] as 'B' | 'A' | 'E' | 'M'
-        cardDe(poolMag.take(rank)).gastos.magias.push({
+        const reg = registroDe('magia', wlBase(e.link), String(esc.Nome ?? ''))
+        const nivel = reg ? (poolMag.takeAt(rank, reg.nivel), reg.nivel) : poolMag.take(rank)
+        cardDe(nivel).gastos.magias.push({
           escola: String(esc.Nome ?? ''),
           link: e.link,
           rank,
