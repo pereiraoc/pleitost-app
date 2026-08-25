@@ -8,6 +8,7 @@ import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRefs } from './useHeroRefs'
+import { PlanejamentoPanel } from './PlanejamentoTab'
 // #309: reusa o painel de classe/subclasse das Competências na Biografia (2
 // lugares sincronizados pelo mesmo store, como o Passado). Os dois arquivos já
 // se acoplam (HabilidadesTab importa PerfilTab); o ciclo é só em runtime.
@@ -51,6 +52,9 @@ import {
 const BIO_TABS = [
   { id: 'identidade', label: 'IDENTIDADE' },
   { id: 'experiencia', label: 'EXPERIÊNCIA' },
+  // Planejamento por nível (docs/plano-planejamento-por-nivel.md) — timeline
+  // vertical 1..10 estilo Pathbuilder; mesma gate da Experiência (só Herói).
+  { id: 'planejamento', label: 'PLANEJAMENTO' },
 ]
 
 const mono10: CSSProperties = {
@@ -1446,7 +1450,13 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           <PanelTrack index={index}>
             {bioTabs.map((t) => (
               <TrackPanel key={t.id} pad="4px 1px 2px">
-                {t.id === 'identidade' ? <IdentidadePanel doc={doc} /> : <ExperienciaPanel doc={doc} />}
+                {t.id === 'identidade' ? (
+                  <IdentidadePanel doc={doc} />
+                ) : t.id === 'planejamento' ? (
+                  <PlanejamentoPanel doc={doc} refs={refs} />
+                ) : (
+                  <ExperienciaPanel doc={doc} />
+                )}
               </TrackPanel>
             ))}
           </PanelTrack>

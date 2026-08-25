@@ -1910,7 +1910,7 @@ function OficiosPanel({ doc }: { doc: VaultDoc }) {
 /** Escolha (`Escolha_Habilidades`) pedida POR uma habilidade — projeção
  *  `rules.habilidadeChoices` (espelho do ChoiceDescriptor do plugin). Só o
  *  necessário pra renderizar o dropdown indentado. */
-interface HabChoice {
+export interface HabChoice {
   choiceKey: string
   label: string
   /** Opções em wikilink (`[[X]]`) ou display (prop-map/perícia-especial). */
@@ -2426,7 +2426,7 @@ function HabilidadesEspeciaisSection({
  *  aninhada por escola), removendo o pick anterior — antes o alvo Magias caía no
  *  fallback Habilidades.Lista e trocar a magia "não fazia nada". Compartilhado
  *  pelos dois onChoiceChange (habilidade-pai e técnica-pai), idênticos. */
-function writeChoicePick(
+export function writeChoicePick(
   model: ReturnType<typeof useHeroModel>,
   catalog: Catalog,
   refs: HeroRefs,
