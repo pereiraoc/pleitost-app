@@ -188,20 +188,13 @@ describe('roadmap de GASTOS de slot', () => {
     )
     expect(botaoPer, 'botão de perícia no N1').toBeTruthy()
     fireEvent.click(botaoPer!)
-    const rankA = await waitFor(() => {
-      // menor div que contém Furtividade + Rank A = a LINHA dela no painel
-      const linha = [...document.querySelectorAll('div')]
-        .filter(
-          (d) =>
-            (d.textContent ?? '').includes('Furtividade') &&
-            d.querySelector('[aria-label="Rank A"]'),
-        )
-        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
-      const btn = linha?.querySelector('[aria-label="Rank A"]') as HTMLElement
-      expect(btn, 'Rank A da Furtividade no popup').toBeTruthy()
-      return btn
-    })
-    fireEvent.click(rankA)
+    // popup ESCOPADO: um select por slot livre do nível (elegíveis pelo rank
+    // entrando) — pega Furtividade no incremento A
+    const selA = (
+      await screen.findAllByLabelText('Incremento de Perícia A (nível 1)')
+    )[0] as HTMLSelectElement
+    expect([...selA.options].some((o) => o.value === 'Furtividade')).toBe(true)
+    fireEvent.change(selA, { target: { value: 'Furtividade' } })
     await waitFor(() => {
       const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
       const rows = ((fm['Pericias'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<

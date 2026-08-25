@@ -93,9 +93,16 @@ export interface LevelCard {
   /** Fonte de cada ganho (link → tag `Regra.[[pai]]`/…) — pra tree view
    *  (filho identado sob o pai que concedeu). */
   fonteDe: Record<string, string>
-  /** Perícias elegíveis pra receber o slot de cada rank NESTE nível
-   *  (rank derivado no nível == degrau abaixo), pro editor da aba. */
+  /** Perícias elegíveis pra receber o slot de cada rank NESTE nível: o rank
+   *  ENTRANDO no nível (piso de regra + gastos atribuídos a níveis
+   *  anteriores) é o degrau imediatamente abaixo. Recalculado APÓS a
+   *  atribuição (o derivado bruto incluía gastos de níveis futuros). */
   periciasElegiveis: Record<'A' | 'E' | 'M', string[]>
+  /** Rank de cada perícia ENTRANDO no nível (contexto travado do popup). */
+  periciasEntrando: Record<string, 'N' | 'A' | 'E' | 'M'>
+  /** Escolas proficientes NESTE nível (snapshot derivado, sem Tesouros) —
+   *  gate do picker de magias do nível. */
+  escolasProfNivel: Array<{ nome: string; prof: string }>
   tecnicasRegra: string[]
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
@@ -407,14 +414,12 @@ export async function buildLevelTimeline(
       for (const e of fontedEntries(rowsOf(cur.derived, ...path))) fonteDe[e.link] = e.fonte
     }
 
-    // Perícias elegíveis pro slot de cada rank NESTE nível: linha derivada
-    // cujo rank atual é o degrau imediatamente abaixo (N→A, A→E, E→M).
+    // periciasElegiveis/periciasEntrando são recalculados APÓS a atribuição
+    // (precisam do rank entrando no nível, não do derivado global).
     const periciasElegiveis: Record<'A' | 'E' | 'M', string[]> = { A: [], E: [], M: [] }
-    const degrau: Record<'A' | 'E' | 'M', string> = { A: 'N', E: 'A', M: 'E' }
-    for (const row of rowsOf(cur.derived, 'Pericias', 'Lista')) {
-      const prof = String(row.Proficiencia ?? 'N')
-      for (const r of RANKS_AEM) if (prof === degrau[r]) periciasElegiveis[r].push(String(row.Nome ?? ''))
-    }
+    const escolasProfNivel = rowsOf(cur.derived, 'Magias', 'Lista')
+      .filter((e) => String(e.Proficiencia ?? 'N') !== 'N' && String(e.Nome) !== 'Tesouros')
+      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N') }))
 
     const slotsCard = {
       pericias: slotsDelta('Pericias'),
@@ -426,6 +431,8 @@ export async function buildLevelTimeline(
       habilidades: novos(['Habilidades', 'Lista']),
       fonteDe,
       periciasElegiveis,
+      periciasEntrando: {},
+      escolasProfNivel,
       tecnicasRegra: novos(['Tecnicas', 'Lista']).filter((l) => {
         // gastos de Slot ficam na atribuição — aqui só concessões de regra
         const fonte = fontedEntries(rowsOf(cur.derived, 'Tecnicas', 'Lista')).find(
@@ -577,6 +584,43 @@ export async function buildLevelTimeline(
         tipo: r.tipo,
         planejado: true,
       })
+    }
+  }
+
+  // ── estado ENTRANDO por nível (contexto travado dos popups) ───────────────
+  // Rank de cada perícia ao ENTRAR no nível = piso de regra do snapshot
+  // (incrementos NÃO-slot — só regras ≤ L disparam nele) + gastos atribuídos
+  // a níveis ANTERIORES. Elegíveis do rank R = entrando no degrau abaixo.
+  {
+    const RANK_N: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
+    const LETRAS = ['N', 'A', 'E', 'M'] as const
+    const acumulado = new Map<string, number>()
+    for (const card of cards) {
+      const snap = snaps[card.nivel - 1]!
+      const entrando: Record<string, 'N' | 'A' | 'E' | 'M'> = {}
+      for (const row of rowsOf(snap.derived, 'Pericias', 'Lista')) {
+        const nome = String(row.Nome ?? '')
+        let piso = 0
+        for (const inc of (row.Incrementos ?? []) as Row[]) {
+          for (const r of RANKS_AEM) {
+            const v = inc[r]
+            if (typeof v === 'string' && !v.startsWith('Slot')) piso = Math.max(piso, RANK_N[r]!)
+          }
+        }
+        entrando[nome] = LETRAS[Math.max(piso, acumulado.get(nome) ?? 0)]!
+      }
+      card.periciasEntrando = entrando
+      const gastouAqui = new Set(card.gastos.pericias.map((g) => `${g.nome}|${g.rank}`))
+      for (const r of RANKS_AEM) {
+        const degrau = RANK_N[r]! - 1
+        card.periciasElegiveis[r] = Object.entries(entrando)
+          .filter(([nome, rk]) => RANK_N[rk] === degrau && !gastouAqui.has(`${nome}|${r}`))
+          .map(([nome]) => nome)
+      }
+      for (const g of card.gastos.pericias) {
+        if (g.fonte === 'Passado') continue
+        acumulado.set(g.nome, Math.max(acumulado.get(g.nome) ?? 0, RANK_N[g.rank]!))
+      }
     }
   }
 

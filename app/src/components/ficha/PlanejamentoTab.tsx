@@ -38,8 +38,6 @@ import {
   escolaCobreRank,
   TECNICAS_PATH_PREFIX,
   TEC_GROUP_LETTER,
-  PericiasProfPanel,
-  MagiasHabPanel,
   type HabChoice,
 } from './HabilidadesTab'
 import { rankGroupLabel } from './registry'
@@ -331,20 +329,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const [cards, setCards] = useState<LevelCard[] | null>(null)
   const [expandidos, setExpandidos] = useState<ReadonlySet<string>>(new Set())
   const [pickerAberto, setPickerAberto] = useState<string | null>(null)
-  // Popup por nível (Incrementos de Perícia / Magias — painéis do wizard).
-  // Enquanto aberto, o DIFF do FM atribui cada gasto novo ao nível do popup
-  // (Planejamento.gastosSlots); remoções derrubam o registro (e os ranks
-  // acima da perícia — cascata).
+  // Popup por nível (Incrementos de Perícia / Magias) — editor ESCOPADO: só
+  // os slots DAQUELE nível são editáveis; o passado aparece como contexto
+  // travado (report 2026-08-25).
   const [popup, setPopup] = useState<{ nivel: number; tipo: 'pericia' | 'magia' } | null>(null)
-  const snapPopup = useRef<Set<string>>(new Set())
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
   const buildSeq = useRef(0)
 
   useEffect(() => {
-    // Com o POPUP aberto, cada clique no painel mudava o FM e disparava as 10
-    // projeções de novo — a UI congelava ("nada acontece quando clico",
-    // report 2026-08-25). Pausa o rebuild enquanto edita; refaz ao fechar.
-    if (popup) return
     const seq = ++buildSeq.current
     let vivo = true
     void buildLevelTimeline(fm, catalog, loadDoc).then((c) => {
@@ -354,7 +346,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       vivo = false
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fmSig, catalog, popup])
+  }, [fmSig, catalog])
 
   const toggleRow = (rid: string) =>
     setExpandidos((s) => {
@@ -469,88 +461,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     model.set('Pericias.Lista', rows)
   }
 
-  // ── diff-registro do POPUP (atribuição de nível dos gastos do painel) ─────
-  const snapshotPericias = (): Set<string> => {
-    const out = new Set<string>()
-    for (const row of (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Row[]) {
-      const nome = String(row.Nome ?? '')
-      for (const inc of (row.Incrementos ?? []) as Row[]) {
-        for (const r of ['A', 'E', 'M'] as const) {
-          if (typeof inc[r] === 'string' && String(inc[r]).startsWith('Slot')) out.add(`inc|${nome}|${r}`)
-        }
-      }
-      if (String(row.Especializacao ?? '').trim()) out.add(`esp|${nome}|${String(row.Especializacao)}`)
-      if (String(row.Maestria ?? '').trim()) out.add(`mae|${nome}|${String(row.Maestria)}`)
-    }
-    return out
-  }
-  const snapshotMagias = (): Set<string> => {
-    const out = new Set<string>()
-    for (const sec of [false, true]) {
-      const escolas = sec
-        ? ((fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[])
-        : ((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[])
-      for (const esc of escolas) {
-        for (const row of Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []) {
-          const e = Object.entries(row)[0]
-          if (!e) continue
-          const m = /^Slot\.([BAEM])$/.exec(String(e[1]))
-          if (m) out.add(`mag|${String(esc.Nome)}|${wikiTarget(e[0])}|${m[1]}`)
-        }
-      }
-    }
-    return out
-  }
-  const snapshotDe = (tipo: 'pericia' | 'magia') => (tipo === 'pericia' ? snapshotPericias() : snapshotMagias())
-
-  useEffect(() => {
-    if (!popup) return
-    const agora = snapshotDe(popup.tipo)
-    const antes = snapPopup.current
-    let regs = [...registros]
-    let mudou = false
-    for (const key of agora) {
-      if (antes.has(key)) continue
-      const [kind, a, b, c] = key.split('|')
-      mudou = true
-      if (kind === 'inc') {
-        regs = regs.filter((x) => !(x.tipo === 'pericia' && x.alvo === a && x.rank === b))
-        regs.push({ nivel: popup.nivel, tipo: 'pericia', rank: b as 'A' | 'E' | 'M', alvo: a! })
-      } else if (kind === 'esp' || kind === 'mae') {
-        const tipo = kind === 'esp' ? 'especialidade' : 'maestria'
-        regs = regs.filter((x) => !(x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(b!)))
-        regs.push({ nivel: popup.nivel, tipo, alvo: b!, contexto: a })
-      } else if (kind === 'mag') {
-        regs = regs.filter((x) => !(x.tipo === 'magia' && wikiTarget(x.alvo) === b))
-        regs.push({ nivel: popup.nivel, tipo: 'magia', rank: c as 'B' | 'A' | 'E' | 'M', alvo: `[[${b}]]`, contexto: a })
-      }
-    }
-    for (const key of antes) {
-      if (agora.has(key)) continue
-      const [kind, a, b] = key.split('|')
-      mudou = true
-      if (kind === 'inc') {
-        // cascata: removeu o rank — caem os registros do MESMO rank e acima
-        const ordem: Record<string, number> = { A: 1, E: 2, M: 3 }
-        regs = regs.filter(
-          (x) => !(x.tipo === 'pericia' && x.alvo === a && (ordem[String(x.rank)] ?? 0) >= (ordem[b ?? ''] ?? 0)),
-        )
-      } else if (kind === 'esp' || kind === 'mae') {
-        const tipo = kind === 'esp' ? 'especialidade' : 'maestria'
-        regs = regs.filter((x) => !(x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(b!)))
-      } else if (kind === 'mag') {
-        regs = regs.filter((x) => !(x.tipo === 'magia' && wikiTarget(x.alvo) === b))
-      }
-    }
-    snapPopup.current = agora
-    if (mudou) setRegistros(regs)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fmSig, popup])
-
-  const abrePopup = (nivel: number, tipo: 'pericia' | 'magia') => {
-    snapPopup.current = snapshotDe(tipo)
-    setPopup({ nivel, tipo })
-  }
+  const abrePopup = (nivel: number, tipo: 'pericia' | 'magia') => setPopup({ nivel, tipo })
 
   // ── sync plano ⇄ real quando o nível muda (roadmap do Pathbuilder) ────────
   useEffect(() => {
@@ -684,6 +595,123 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     />
   )
 
+  const removerGasto = (aria: string, onClick: () => void) => (
+    <button
+      aria-label={aria}
+      onClick={onClick}
+      style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
+    >
+      ✕
+    </button>
+  )
+
+  /** Editor de PERÍCIAS escopado no nível: gastos DESTE nível (remover) +
+   *  um picker por slot livre, elegíveis pelo rank ENTRANDO no nível. */
+  const editorPericiasNivel = (card: LevelCard) => {
+    const ranks = (['A', 'E', 'M'] as const).filter((r) => card.slots.pericias[r] > 0)
+    const livresDe = (r: 'A' | 'E' | 'M') =>
+      card.slots.pericias[r] - card.gastos.pericias.filter((g) => g.rank === r && g.fonte === 'Slot').length
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {card.gastos.pericias
+          .filter((g) => g.fonte === 'Slot')
+          .map((g) => (
+            <div key={`${g.nome}|${g.rank}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+              <PlanChip wl={`[[${g.nome}]]`} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
+              {removerGasto(`Remover ${g.nome} ${g.rank}`, () => {
+                if (!g.planejado) desfazPericia(g.nome, g.rank)
+                desregistrar('pericia', g.nome)
+              })}
+            </div>
+          ))}
+        {ranks.flatMap((rank) =>
+          Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
+            <div key={`${rank}|${i}`}>
+              <span style={kicker}>INCREMENTO ({rank})</span>
+              {pickerSelect(
+                `Incremento de Perícia ${rank} (nível ${card.nivel})`,
+                card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
+                (nome) =>
+                  registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
+                    aplicaPericia(nome, rank),
+                  ),
+              )}
+            </div>
+          )),
+        )}
+      </div>
+    )
+  }
+
+  /** Magias conhecidas ANTES do nível (contexto) — gastos e concessões dos
+   *  cards anteriores. */
+  const magiasConhecidasAntes = (nivel: number): Set<string> => {
+    const out = new Set<string>()
+    for (const c of cards ?? []) {
+      if (c.nivel >= nivel) break
+      for (const g of c.gastos.magias) out.add(wikiTarget(g.link))
+      for (const m of c.magiasRegra) out.add(wikiTarget(m.link))
+    }
+    return out
+  }
+
+  /** Editor de MAGIAS escopado no nível. */
+  const editorMagiasNivel = (card: LevelCard) => {
+    const ranks = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
+    const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
+      card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
+    const conhecidas = magiasConhecidasAntes(card.nivel + 1) // inclui as deste nível
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {card.gastos.magias
+          .filter((g) => !g.secundaria)
+          .map((g) => (
+            <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+              <PlanChip
+                wl={g.link}
+                refs={refs}
+                sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`}
+              />
+              {removerGasto(`Remover ${linkLabel(g.link)}`, () => {
+                if (!g.planejado) desfazMagia(g.escola, g.link)
+                desregistrar('magia', g.link)
+              })}
+            </div>
+          ))}
+        {ranks.flatMap((rank) => {
+          const grupo = GROUP_OF[rank]!
+          const opcoes: Array<{ value: string; label: string }> = []
+          if (spellDocs) {
+            for (const esc of card.escolasProfNivel) {
+              if (!escolaCobreRank(esc.prof, grupo)) continue
+              for (const d of spellDocs.values()) {
+                if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
+                if (conhecidas.has(d.basename)) continue
+                if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
+                opcoes.push({ value: `${esc.nome}|[[${d.basename}]]`, label: `${d.basename} · ${esc.nome}` })
+              }
+            }
+          }
+          return Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
+            <div key={`${rank}|${i}`}>
+              <span style={kicker}>MAGIA ({rank})</span>
+              {pickerSelect(
+                `Magia ${rank} (nível ${card.nivel})`,
+                opcoes.sort((a, b) => a.label.localeCompare(b.label)),
+                (v) => {
+                  const [escola, wl] = v.split('|') as [string, string]
+                  registraEAplica({ nivel: card.nivel, tipo: 'magia', rank, alvo: wl, contexto: escola }, () =>
+                    aplicaMagia(escola, wl, rank),
+                  )
+                },
+              )}
+            </div>
+          ))
+        })}
+      </div>
+    )
+  }
+
   const pendenciasDe = (card: LevelCard): SlotPend[] => {
     const out: SlotPend[] = []
     const removerBtn = (aria: string, onClick: () => void) => (
@@ -710,38 +738,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         done: pendentes === 0,
         ...(card.nivel <= nivelAtual
           ? { onOpen: () => abrePopup(card.nivel, 'pericia') }
-          : {
-              picker: (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                  {card.gastos.pericias
-                    .filter((g) => g.fonte === 'Slot')
-                    .map((g) => (
-                      <div key={`${g.nome}|${g.rank}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                        <PlanChip wl={`[[${g.nome}]]`} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
-                        {removerBtn(`Remover ${g.nome} ${g.rank}`, () => {
-                          if (!g.planejado) desfazPericia(g.nome, g.rank)
-                          desregistrar('pericia', g.nome)
-                        })}
-                      </div>
-                    ))}
-                  {perTot.flatMap((rank) =>
-                    Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
-                      <div key={`${rank}|${i}`}>
-                        <span style={kicker}>INCREMENTO ({rank})</span>
-                        {pickerSelect(
-                          `Incremento de Perícia ${rank} (nível ${card.nivel})`,
-                          card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
-                          (nome) =>
-                            registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
-                              aplicaPericia(nome, rank),
-                            ),
-                        )}
-                      </div>
-                    )),
-                  )}
-                </div>
-              ),
-            }),
+          : { picker: editorPericiasNivel(card) }),
       })
     }
 
@@ -795,37 +792,6 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
         card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
       const pendentes = magTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0)
-      const pickerFuturo = (rank: 'B' | 'A' | 'E' | 'M', i: number) => {
-        const grupo = GROUP_OF[rank]!
-        const opcoes: Array<{ value: string; label: string }> = []
-        if (spellDocs) {
-          for (const esc of escolasProf) {
-            const nome = String(esc.Nome)
-            if (!escolaCobreRank(String(esc.Proficiencia ?? 'N'), grupo)) continue
-            for (const d of spellDocs.values()) {
-              if (!d.id.includes(`/Magia ${nome}/`)) continue
-              if (magiasAprendidas.has(d.basename)) continue
-              if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
-              opcoes.push({ value: `${nome}|[[${d.basename}]]`, label: `${d.basename} · ${nome}` })
-            }
-          }
-        }
-        return (
-          <div key={`${rank}|${i}`}>
-            <span style={kicker}>MAGIA ({rank})</span>
-            {pickerSelect(
-              `Magia ${rank} (nível ${card.nivel})`,
-              opcoes.sort((a, b) => a.label.localeCompare(b.label)),
-              (v) => {
-                const [escola, wl] = v.split('|') as [string, string]
-                registraEAplica({ nivel: card.nivel, tipo: 'magia', rank, alvo: wl, contexto: escola }, () =>
-                  aplicaMagia(escola, wl, rank),
-                )
-              },
-            )}
-          </div>
-        )
-      }
       out.push({
         pid: `${card.nivel}|mag`,
         label: magTot.length
@@ -835,26 +801,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         done: pendentes === 0,
         ...(card.nivel <= nivelAtual
           ? { onOpen: () => abrePopup(card.nivel, 'magia') }
-          : {
-              picker: (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                  {card.gastos.magias
-                    .filter((g) => !g.secundaria)
-                    .map((g) => (
-                      <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                        <PlanChip wl={g.link} refs={refs} sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`} />
-                        {removerBtn(`Remover ${linkLabel(g.link)}`, () => {
-                          if (!g.planejado) desfazMagia(g.escola, g.link)
-                          desregistrar('magia', g.link)
-                        })}
-                      </div>
-                    ))}
-                  {magTot.flatMap((rank) =>
-                    Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => pickerFuturo(rank, i)),
-                  )}
-                </div>
-              ),
-            }),
+          : { picker: editorMagiasNivel(card) }),
       })
     }
 
@@ -1225,21 +1172,46 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             ) : null
           })()}
           <div style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-            Gastos feitos aqui são atribuídos ao nível {popup.nivel} do planejamento. O painel é o
-            mesmo do wizard (orçamento total da ficha); os slots DESTE nível estão no card.
+            Só os slots DESTE nível são editáveis aqui — o que veio antes é contexto travado.
           </div>
-          {popup.tipo === 'pericia' ? (
-            <PericiasProfPanel doc={doc} forceEdit hideItemBonus />
-          ) : (
-            <>
-              <MagiasHabPanel doc={doc} refs={refs} forceEdit semRecursos />
-              {((fmPath(dfm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]).some(
-                (e) => String(e.Proficiencia ?? 'N') !== 'N',
-              ) ? (
-                <MagiasHabPanel doc={doc} refs={refs} sec forceEdit semRecursos />
-              ) : null}
-            </>
-          )}
+          {(() => {
+            const cardPopup = cards?.[popup.nivel - 1]
+            if (!cardPopup) return null
+            if (popup.tipo === 'pericia') {
+              const contexto = Object.entries(cardPopup.periciasEntrando).filter(([, rk]) => rk !== 'N')
+              return (
+                <>
+                  {contexto.length ? (
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                      <span style={kicker}>CONTEXTO (ATÉ O NÍVEL {popup.nivel - 1}) — TRAVADO</span>
+                      {contexto.map(([nome, rk]) => (
+                        <span key={nome} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                          {nome} {rk}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {editorPericiasNivel(cardPopup)}
+                </>
+              )
+            }
+            const conhecidas = [...magiasConhecidasAntes(popup.nivel)]
+            return (
+              <>
+                {conhecidas.length ? (
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <span style={kicker}>CONHECIDAS ATÉ O NÍVEL {popup.nivel - 1} — TRAVADO</span>
+                    {conhecidas.map((nome) => (
+                      <span key={nome} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+                        {nome}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {editorMagiasNivel(cardPopup)}
+              </>
+            )
+          })()}
         </Modal>
       ) : null}
     </div>
