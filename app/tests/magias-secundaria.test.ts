@@ -27,6 +27,11 @@ const loadFromDisk = async (id: string): Promise<VaultDoc> =>
 function multiclassFm(): Record<string, unknown> {
   const fm = emptyHeroFrontmatter() as any
   fm.Classe = '[[Guerreiro]]'
+  // #490: a cascata de picks órfãos exige o PAI da escolha vivo — sem a
+  // Sintonia, nenhuma condicional do Treinamento de Animista passa, a escolha
+  // não é descoberta e o pick da essência é podado (mesmo critério do plugin,
+  // prune-orphaned-choices). Herói multiclasse real sempre tem sintonia.
+  fm.Sintonia = '[[Traço Elemental do Fogo|Fogo]]'
   fm.Tecnicas.Lista = [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }]
   fm.Habilidades.Lista = [
     { '[[Treinamento de Animista]]': 'Escolha.01.[[Treinamento de Classe Secundária]]' },

@@ -1590,6 +1590,12 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const { values: attrs } = heroAtributos(fm)
   const profAtaque = str(fmPath(fm, 'Ataques', 'Proficiencia'))
   const armasFm = (fmPath(fm, 'Inventario', 'Armas', 'Lista') ?? []) as Record<string, unknown>[]
+  // #489: armas naturais/especiais de Ataques.Lista (Arte Marcial do Monge,
+  // Companheiro Animal…) entram na MESMA pipeline das equipadas (stats da nota
+  // via refDoc) — espelho de getAllAtaques do plugin (all-ataques.ts:16-23).
+  const naturaisFm = ((fmPath(fm, 'Ataques', 'Lista') ?? []) as Record<string, unknown>[]).filter(
+    (r) => str(r['Nome']) !== 'Manobras',
+  )
   // Ataques CUSTOM (efeito `tipo: Arma`, ex.: garras do Garras do Rei-Mago):
   // resolvidos pelo FOR do herói e injetados na lista como se fossem armas
   // (mesma pipeline de dano/AdO/tooltip). `__custom` carrega os stats inline.
@@ -1598,6 +1604,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   const customAtaques = collectCustomAtaques(inter.descriptors, attrs['FOR'] ?? 0, attrs['AGI'] ?? 0)
   const armas: Record<string, unknown>[] = [
     ...armasFm,
+    ...naturaisFm,
     ...customAtaques.map((c) => ({
       Nome: c.link,
       Atributo: c.atributo,
@@ -1613,7 +1620,9 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
   // doc-base ("Arremesso") tirando o número; o texto exibido mantém o parâmetro.
   const propBase = (p: string) => p.replace(/\s+\d+(\/\d+)?\s*$/, '').trim()
   const propRuleDoc = useNamedDocs([
-    ...armasFm.flatMap((a) => wikiLabels(docField(refs.refDoc(a['Nome']), 'propriedades')).map(propBase)),
+    ...[...armasFm, ...naturaisFm].flatMap((a) =>
+      wikiLabels(docField(refs.refDoc(a['Nome']), 'propriedades')).map(propBase),
+    ),
     ...customAtaques.flatMap((c) => wikiLabels(c.propriedades).map(propBase)),
   ])
   const interState = interativa(fm)

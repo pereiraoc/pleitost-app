@@ -15,6 +15,7 @@
 // saída antiga até um novo save materializar — trade-off aceitável porque o
 // FM salvo é a base autoritativa e o fluxo primário é CONSTRUIR a ficha.
 import type { ParsedRule } from './rule-types'
+import { wikilinkBasename } from './rule-applier'
 
 type Fm = Record<string, unknown>
 type IncEntry = Record<string, string>
@@ -420,6 +421,8 @@ export function mergeCalculatedIntoFm(
   savedFm: Fm,
   calculated: Fm,
   appliedRules: ParsedRule[],
+  /** #490: picks órfãos da cascata do extract — linhas removidas do derivado. */
+  orphanPicks?: Set<string>,
 ): Fm {
   const out = structuredClone(savedFm) as Fm
   const calc = materializeAlias(calculated, savedFm)
@@ -556,6 +559,33 @@ export function mergeCalculatedIntoFm(
     // `Sobrescrever Inventario.Armas.Lista.[[Arco Longo]].Bonus_Especial 1`
     // (Especialização em Arma) não chegava ao derivedFm e o +1 sumia do
     // modificador de ataque (#217).
+    // Append de armas naturais/especiais (`Complementar Ataques.Lista [[X]]`,
+    // ex.: Arte Marcial do Monge, Companheiro Animal) — espelho do calc
+    // `Ataques.Lista` do plugin (monge-arte-marcial-armas.test.ts). Linha
+    // FM-shaped derivada; dedup por basename (inclui não duplicar Manobras
+    // nem linha já salva). #489: sem este handler o monge adicionava as
+    // armas especiais na mão.
+    if (key === 'Ataques.Lista' && Array.isArray(value)) {
+      const rows = ensureListaRows(out, 'Ataques', 'Lista')
+      const present = new Set(rows.map((r) => wikiTarget(String(r.Nome ?? '')) || String(r.Nome ?? '')))
+      for (const v of value) {
+        const wl = String(v)
+        const alvo = wikiTarget(wl) || wl
+        if (present.has(alvo)) continue
+        present.add(alvo)
+        rows.push({
+          Nome: wl,
+          Atributo: 'FOR',
+          Bonus_Item: 0,
+          Bonus_Especial: 0,
+          Categoria: null,
+          Propriedade: null,
+          Fonte: sourceOf(key),
+        })
+      }
+      continue
+    }
+
     // Campos por linha de Ataques.Lista — espelho de setAtaques (plugin
     // merge-setters.ts:340-373). `{Desarmadas}` exige weaponMaosLookup no
     // plugin; sem lookup filtra VAZIO (no-op), mesmo contrato do handler de
@@ -652,6 +682,22 @@ export function mergeCalculatedIntoFm(
     if (key === 'Nível' || key === 'Nivel') {
       out['Nível'] = num(value)
       continue
+    }
+  }
+
+  // #490: remove as linhas dos PICKS ÓRFÃOS que a cascata do extract derrubou
+  // (pai sem escolha descoberta) — o prune #51 não as pega quando a lista
+  // ficou sem NENHUMA produção no calc (key ausente → branch nunca roda).
+  if (orphanPicks?.size) {
+    for (const [key, pathArr] of Object.entries(LIST_TARGETS)) {
+      if (!key.endsWith('.Lista')) continue // forma canônica (1 passada)
+      const ns = out[pathArr[0]!] as Fm | undefined
+      const rows = ns?.[pathArr[1]!]
+      if (!Array.isArray(rows)) continue
+      for (let i = rows.length - 1; i >= 0; i--) {
+        const entry = Object.entries((rows as Row[])[i]!)[0]
+        if (entry && orphanPicks.has(wikilinkBasename(String(entry[0])))) rows.splice(i, 1)
+      }
     }
   }
 

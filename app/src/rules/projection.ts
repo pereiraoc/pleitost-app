@@ -788,7 +788,7 @@ export function buildHeroProjection(
   // Principal` já rodou o swap em mergeCalculatedIntoFm, então o rank 3 e o
   // Principal refletem a classe AO VIVO — espelho de renderAttrBox lendo
   // vm.model (derivado), não o FM salvo (issue #58).
-  const derivedFm = mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules)
+  const derivedFm = mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules, result.orphanPicks)
   const dAt = (derivedFm.Atributos ?? {}) as Record<string, unknown>
   const derivedAtributos: Record<AtributoId, number> = {
     FOR: num(dAt.FOR),

@@ -443,6 +443,9 @@ export interface HeroRulesResult {
   visitedDocs: Map<string, VaultDoc>
   appliedRules: ParsedRule[]
   rejectedRules: Array<{ rule: ParsedRule; result: ApplyResult }>
+  /** #490: picks órfãos derrubados pela cascata (basenames) — a projeção
+   *  remove essas linhas do derivedFm (o FM salvo não é reescrito). */
+  orphanPicks?: Set<string>
 }
 
 /** CA satélite do tutor (#201) — espelho de extract/sync-ca-tutor-nivel.ts +
@@ -493,10 +496,62 @@ export async function computeBlockedTreasures(
   return blocked
 }
 
-/** Loop principal — espelho de extractAndApplyRules (plugin
+/** #490 — cascata de PICKS ÓRFÃOS: linha `Escolha[.NN].[[pai]]` cujo PAI não
+ *  tem mais NENHUMA escolha descoberta no extract (nota removida da ficha, ou
+ *  todas as suas condicionais falsas) é órfã. O plugin poda no SAVE
+ *  (prune-orphaned-choices, critério mais agressivo: só o pick ATUAL vive);
+ *  o app é projeção pura e DIVERGE de propósito pro lado conservador
+ *  (#479/480): pai VIVO preserva o pick salvo mesmo fora das options atuais.
+ *  Sem a cascata, a linha órfã mantinha condicionais
+ *  (`Contem([[Treinamento de Ladino]])`) verdadeiras — a técnica escolhida na
+ *  Especialização em Classe Secundária sobrevivia à remoção do Treinamento.
+ *  Re-extrai SEM as órfãs até estabilizar (remoção monotônica; cada passada
+ *  derruba um nível da cadeia). `Regra.`-sourced NUNCA entra aqui (linhas de
+ *  escrita única, ex. subclasse do Carlos, não são re-produzidas). */
+const ESCOLHA_TAG_RX = /^Escolha\.(?:\d+\.)?\[\[(.+?)\]\]$/
+
+function collectOrphanPicks(model: RulesModel, choices: ChoiceDescriptor[]): Set<string> {
+  const paisVivos = new Set(choices.map((c) => wikilinkBasename(c.sourceNote)))
+  const orphans = new Set<string>()
+  for (const lista of [model.habilidades.lista, model.tecnicas.lista, model.acoes]) {
+    for (const entry of lista) {
+      const m = ESCOLHA_TAG_RX.exec(entry.source)
+      if (!m) continue
+      if (!paisVivos.has(wikilinkBasename(m[1]!))) orphans.add(wikilinkBasename(entry.link))
+    }
+  }
+  return orphans
+}
+
+function stripOrphans(model: RulesModel, orphans: Set<string>): RulesModel {
+  const keep = (l: FontedLink[]) => l.filter((e) => !orphans.has(wikilinkBasename(e.link)))
+  return {
+    ...model,
+    habilidades: { ...model.habilidades, lista: keep(model.habilidades.lista) },
+    tecnicas: { ...model.tecnicas, lista: keep(model.tecnicas.lista) },
+    acoes: keep(model.acoes),
+  }
+}
+
+/** Loop principal + cascata de picks órfãos (#490). */
+export async function extractHeroRules(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+  let model = baseModel
+  let result = await extractHeroRulesOnce(model, resolver)
+  const orphansAcum = new Set<string>()
+  for (let pass = 0; pass < 3; pass++) {
+    const orphans = collectOrphanPicks(model, result.choices)
+    if (orphans.size === 0) break
+    for (const o of orphans) orphansAcum.add(o)
+    model = stripOrphans(model, orphans)
+    result = await extractHeroRulesOnce(model, resolver)
+  }
+  return { ...result, orphanPicks: orphansAcum }
+}
+
+/** Uma passada do extract — espelho de extractAndApplyRules (plugin
  *  rule-elements-extractor.ts:414-694): seeds → BFS → [discover(gate) →
  *  resolve → injectPicks → apply → constraints → signature] até convergir. */
-export async function extractHeroRules(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+async function extractHeroRulesOnce(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
   // Nível do CA vem do tutor ANTES de tudo (como o plugin injeta o Nível no
   // volatile antes do extractAndApplyRules): seeds/scopes/escala veem o
   // nível sincronizado.
