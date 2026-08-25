@@ -295,3 +295,81 @@ describe('popup via PORTAL (fixed dentro do PanelTrack era clipado)', () => {
     })
   }, 40000)
 })
+
+describe('espec/maestria destravam e M futuro é clicável', () => {
+  it('subir E abre a oportunidade de ESPECIALIDADE; plano E→M futuro clicável', async () => {
+    const id = createLocalEntity('Heroi', 'Especializador', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 5,
+      Atributos: { FOR: 1, AGI: 3, INT: 2, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            // ACENTUADA de propósito: o mapa de especializações é chaveado por
+            // slug ('Enganacao') — a consulta por display nunca achava
+            Nome: 'Enganação',
+            Atributo: 'PRE',
+            Proficiencia: 'A',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }],
+          },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // N4: sobe Atletismo pra E no popup de perícias
+    const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+    const botaoPer = [...card4.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
+    )
+    expect(botaoPer, 'botão de perícias no N4').toBeTruthy()
+    fireEvent.click(botaoPer!)
+    const rankE = await waitFor(() => {
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Enganação') &&
+            d.querySelector('[aria-label="Rank E"]:not([aria-disabled])'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      const btn = linha?.querySelector('[aria-label="Rank E"]:not([aria-disabled])') as HTMLElement
+      expect(btn, 'Rank E clicável da Enganação no popup N4').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(rankE)
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
+    // a oportunidade de ESPECIALIDADE aparece no card 4 (bug: mapa chaveado
+    // por slug — a consulta por nome com acento nunca achava)
+    await waitFor(
+      () => {
+        const c4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+        const btn = [...c4.querySelectorAll('button')].find((b) =>
+          (b.textContent ?? '').includes('ESPEC/MAESTRIAS'),
+        )
+        expect(btn, 'botão ESPEC/MAESTRIAS no N4').toBeTruthy()
+      },
+      { timeout: 45000 },
+    )
+    // N7 (nível FUTURO... 7 > 5): popup de perícias com o M da Enganação
+    // clicável (entrando E após o gasto do N4)
+    const card7 = document.querySelector('[data-nivel="7"]') as HTMLElement
+    const botaoPer7 = [...card7.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
+    )
+    expect(botaoPer7, 'botão de perícias no N7').toBeTruthy()
+    fireEvent.click(botaoPer7!)
+    await waitFor(() => {
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Enganação') &&
+            d.querySelector('[aria-label="Rank M"]:not([aria-disabled])'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      expect(linha, 'Rank M clicável da Enganação no popup N7').toBeTruthy()
+    })
+  }, 180000)
+})

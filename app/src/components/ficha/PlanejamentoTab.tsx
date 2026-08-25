@@ -1061,10 +1061,23 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       if (String(row?.[campo] ?? '').trim()) continue
       const opts =
         g.rank === 'E'
-          ? (espMaes.especializacoes[g.nome] ?? [])
+          ? // mapa chaveado por SLUG (projection listEspecializacoesByPericia) —
+            // consultar pelo display quebrava toda perícia acentuada (Enganação)
+            (espMaes.especializacoes[slugify(g.nome)] ?? [])
           : (() => {
-              const esp = String(row?.Especializacao ?? '')
-              return esp ? (espMaes.maestriasByEspecialidade[slugify(wikiTarget(esp))] ?? []) : []
+              // especialidade da perícia: linha do FM ou, se PLANEJADA, o
+              // registro atribuído nos cards ≤ nível
+              const esp =
+                String(row?.Especializacao ?? '') ||
+                ((cards ?? [])
+                  .filter((c) => c.nivel <= card.nivel)
+                  .flatMap((c) => c.gastos.especialidades)
+                  .find((e) => e.tipo === 'especialidade' && e.pericia === g.nome)?.alvo ??
+                  '')
+              // maestrias por ESPECIALIDADE: chave = basename display (como as
+              // competências, HabilidadesTab espBase)
+              const espBase = esp ? (wikiTarget(esp).split('/').pop() ?? '') : ''
+              return espBase ? (espMaes.maestriasByEspecialidade[espBase] ?? []) : []
             })()
       if (opts.length) out.push({ nome: g.nome, rank: g.rank, opts })
     }
