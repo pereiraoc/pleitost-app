@@ -40,7 +40,8 @@ import {
   TEC_GROUP_LETTER,
   type HabChoice,
 } from './HabilidadesTab'
-import { rankGroupLabel } from './registry'
+import { rankGroupLabel, type RankLetter, type RankStateKey } from './registry'
+import { RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
 import { listEspecializacoesByPericia } from '../../rules/projection'
@@ -595,50 +596,69 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     />
   )
 
-  const removerGasto = (aria: string, onClick: () => void) => (
-    <button
-      aria-label={aria}
-      onClick={onClick}
-      style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
-    >
-      ✕
-    </button>
-  )
-
-  /** Editor de PERÍCIAS escopado no nível: gastos DESTE nível (remover) +
-   *  um picker por slot livre, elegíveis pelo rank ENTRANDO no nível. */
+  /** Editor de PERÍCIAS escopado no nível — a MESMA grade das competências/
+   *  wizard (RankBtns N/A/E/M): passado travado (contexto), clicável só a
+   *  transição coberta por slot livre DESTE nível; clicar no rank gasto aqui
+   *  desfaz. */
   const editorPericiasNivel = (card: LevelCard) => {
-    const ranks = (['A', 'E', 'M'] as const).filter((r) => card.slots.pericias[r] > 0)
+    const LETRAS: RankLetter[] = ['N', 'A', 'E', 'M']
+    const RANK_N: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
     const livresDe = (r: 'A' | 'E' | 'M') =>
       card.slots.pericias[r] - card.gastos.pericias.filter((g) => g.rank === r && g.fonte === 'Slot').length
+    const nomes = Object.keys(card.periciasEntrando).sort((a, b) => a.localeCompare(b))
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-        {card.gastos.pericias
-          .filter((g) => g.fonte === 'Slot')
-          .map((g) => (
-            <div key={`${g.nome}|${g.rank}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-              <PlanChip wl={`[[${g.nome}]]`} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
-              {removerGasto(`Remover ${g.nome} ${g.rank}`, () => {
-                if (!g.planejado) desfazPericia(g.nome, g.rank)
-                desregistrar('pericia', g.nome)
-              })}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
+          {(['A', 'E', 'M'] as const)
+            .filter((r) => card.slots.pericias[r] > 0)
+            .map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.pericias[r]} livres`)
+            .join(' · ')}
+        </div>
+        {nomes.map((nome) => {
+          const entrando = card.periciasEntrando[nome]!
+          const gastoAqui = card.gastos.pericias.find((g) => g.nome === nome && g.fonte === 'Slot')
+          const atual = gastoAqui ? gastoAqui.rank : entrando
+          const proximo = LETRAS[RANK_N[atual]! + 1]
+          const podeSubir =
+            !gastoAqui && proximo && proximo !== 'N' && livresDe(proximo as 'A' | 'E' | 'M') > 0
+          const states = {} as Record<RankLetter, RankStateKey>
+          for (const l of LETRAS) {
+            const i = RANK_N[l]!
+            if (i < RANK_N[atual]!) states[l] = l === 'N' ? 'passN' : 'selSlot'
+            else if (i === RANK_N[atual]!) states[l] = l === 'N' ? 'selN' : gastoAqui ? 'sel' : 'selSlot'
+            else states[l] = 'off'
+          }
+          const clicaveis = new Set<RankLetter>()
+          if (gastoAqui) clicaveis.add(gastoAqui.rank)
+          if (podeSubir) clicaveis.add(proximo!)
+          return (
+            <div key={nome} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {nome}
+                {gastoAqui?.planejado ? (
+                  <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 6 })}>plano</span>
+                ) : null}
+              </span>
+              <RankBtns
+                states={states}
+                disabledRanks={LETRAS.filter((l) => !clicaveis.has(l))}
+                onPick={(letter) => {
+                  if (gastoAqui && letter === gastoAqui.rank) {
+                    if (!gastoAqui.planejado) desfazPericia(nome, gastoAqui.rank)
+                    desregistrar('pericia', nome)
+                    return
+                  }
+                  if (letter === proximo && podeSubir) {
+                    const rank = letter as 'A' | 'E' | 'M'
+                    registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
+                      aplicaPericia(nome, rank),
+                    )
+                  }
+                }}
+              />
             </div>
-          ))}
-        {ranks.flatMap((rank) =>
-          Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
-            <div key={`${rank}|${i}`}>
-              <span style={kicker}>INCREMENTO ({rank})</span>
-              {pickerSelect(
-                `Incremento de Perícia ${rank} (nível ${card.nivel})`,
-                card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
-                (nome) =>
-                  registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
-                    aplicaPericia(nome, rank),
-                  ),
-              )}
-            </div>
-          )),
-        )}
+          )
+        })}
       </div>
     )
   }
@@ -655,58 +675,98 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return out
   }
 
-  /** Editor de MAGIAS escopado no nível. */
+  /** Editor de MAGIAS escopado no nível — mesmo estilo das listas de magia
+   *  das competências (linhas com hover; aprender por linha), por escola,
+   *  limitado aos slots DESTE nível. */
   const editorMagiasNivel = (card: LevelCard) => {
-    const ranks = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
     const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
       card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
-    const conhecidas = magiasConhecidasAntes(card.nivel + 1) // inclui as deste nível
+    const ranksComSlot = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
+    const conhecidas = magiasConhecidasAntes(card.nivel + 1)
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-        {card.gastos.magias
-          .filter((g) => !g.secundaria)
-          .map((g) => (
-            <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-              <PlanChip
-                wl={g.link}
-                refs={refs}
-                sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`}
-              />
-              {removerGasto(`Remover ${linkLabel(g.link)}`, () => {
-                if (!g.planejado) desfazMagia(g.escola, g.link)
-                desregistrar('magia', g.link)
-              })}
-            </div>
-          ))}
-        {ranks.flatMap((rank) => {
-          const grupo = GROUP_OF[rank]!
-          const opcoes: Array<{ value: string; label: string }> = []
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+        <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
+          {ranksComSlot.map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.magias[r]} livres`).join(' · ')}
+        </div>
+        {card.gastos.magias.filter((g) => !g.secundaria).length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            <span style={kicker}>APRENDIDAS NESTE NÍVEL</span>
+            {card.gastos.magias
+              .filter((g) => !g.secundaria)
+              .map((g) => (
+                <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+                  <PlanChip
+                    wl={g.link}
+                    refs={refs}
+                    sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`}
+                  />
+                  <button
+                    aria-label={`Remover ${linkLabel(g.link)}`}
+                    onClick={() => {
+                      if (!g.planejado) desfazMagia(g.escola, g.link)
+                      desregistrar('magia', g.link)
+                    }}
+                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+          </div>
+        ) : null}
+        {card.escolasProfNivel.map((esc) => {
+          const linhas: ReactNode[] = []
           if (spellDocs) {
-            for (const esc of card.escolasProfNivel) {
+            for (const rank of ranksComSlot) {
+              if (livresDe(rank) <= 0) continue
+              const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
-              for (const d of spellDocs.values()) {
+              for (const d of [...spellDocs.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
                 if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
                 if (conhecidas.has(d.basename)) continue
                 if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
-                opcoes.push({ value: `${esc.nome}|[[${d.basename}]]`, label: `${d.basename} · ${esc.nome}` })
+                linhas.push(
+                  <div key={`${d.basename}|${rank}`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <ItemHover doc={d} fullBody>
+                      <span style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, color: 'var(--blue)', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {d.basename}
+                      </span>
+                    </ItemHover>
+                    <span style={mono({ fontSize: 9, color: 'var(--muted)', flex: 'none' })}>{grupo}</span>
+                    <button
+                      aria-label={`Aprender ${d.basename}`}
+                      onClick={() =>
+                        registraEAplica(
+                          { nivel: card.nivel, tipo: 'magia', rank, alvo: `[[${d.basename}]]`, contexto: esc.nome },
+                          () => aplicaMagia(esc.nome, `[[${d.basename}]]`, rank),
+                        )
+                      }
+                      style={mono({
+                        flex: 'none',
+                        fontSize: 10,
+                        fontWeight: 700,
+                        padding: '3px 10px',
+                        cursor: 'pointer',
+                        background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
+                        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+                        color: 'var(--accent)',
+                        clipPath: clip(5),
+                      })}
+                    >
+                      + APRENDER
+                    </button>
+                  </div>,
+                )
               }
             }
           }
-          return Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
-            <div key={`${rank}|${i}`}>
-              <span style={kicker}>MAGIA ({rank})</span>
-              {pickerSelect(
-                `Magia ${rank} (nível ${card.nivel})`,
-                opcoes.sort((a, b) => a.label.localeCompare(b.label)),
-                (v) => {
-                  const [escola, wl] = v.split('|') as [string, string]
-                  registraEAplica({ nivel: card.nivel, tipo: 'magia', rank, alvo: wl, contexto: escola }, () =>
-                    aplicaMagia(escola, wl, rank),
-                  )
-                },
-              )}
+          if (!linhas.length) return null
+          return (
+            <div key={esc.nome} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <span style={kicker}>{esc.nome.toUpperCase()}</span>
+              {linhas}
             </div>
-          ))
+          )
         })}
       </div>
     )
