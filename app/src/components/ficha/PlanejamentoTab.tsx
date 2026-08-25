@@ -38,9 +38,10 @@ import {
   escolaCobreRank,
   TECNICAS_PATH_PREFIX,
   TEC_GROUP_LETTER,
+  Losango,
   type HabChoice,
 } from './HabilidadesTab'
-import { rankGroupLabel, type RankLetter, type RankStateKey } from './registry'
+import { rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
 import { RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
@@ -581,19 +582,215 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     fontes?: string[]
   }
 
-  const pickerSelect = (
-    aria: string,
-    options: Array<{ value: string; label: string }>,
-    onPick: (v: string) => void,
-  ) => (
-    <SelectBox
-      ariaLabel={aria}
-      value=""
-      options={[{ value: '', label: '— escolher —' }, ...options]}
-      onChange={(v) => {
-        if (v) onPick(v)
+  /** ➕ circular verde — verbatim do estilo das competências
+   *  (HabilidadesTab não-aprendidas). */
+  const addCirc = (aria: string, enabled: boolean, onClick: () => void, size = 24) => (
+    <button
+      aria-label={aria}
+      disabled={!enabled}
+      title={enabled ? undefined : 'Sem slot disponível neste nível'}
+      onClick={() => enabled && onClick()}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        border: '1px solid color-mix(in srgb,#2f8f5b 55%,transparent)',
+        background: 'color-mix(in srgb,#2f8f5b 16%,transparent)',
+        color: '#4cc585',
+        fontSize: 15,
+        fontWeight: 700,
+        cursor: enabled ? 'pointer' : 'not-allowed',
+        opacity: enabled ? 1 : 0.4,
+        flex: 'none',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0,
+        lineHeight: 1,
       }}
-    />
+    >
+      +
+    </button>
+  )
+  const remCirc = (aria: string, onClick: () => void) => (
+    <button
+      aria-label={aria}
+      onClick={onClick}
+      style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12, flex: 'none' }}
+    >
+      ✕
+    </button>
+  )
+  const grupoLabel: CSSProperties = { fontSize: 13, fontStyle: 'italic', color: 'var(--muted)', marginBottom: 8 }
+
+  /** Editor de TÉCNICAS escopado — mesmas linhas das "Técnicas Não Aprendidas"
+   *  das competências (➕ verde, custo, emoji da categoria, nome com hover). */
+  const editorTecnicasNivel = (card: LevelCard) => {
+    const livresDe = (r: 'A' | 'E' | 'M') =>
+      card.slots.tecnicas[r] - card.gastos.tecnicas.filter((g) => g.rank === r).length
+    const ranks = (['A', 'E', 'M'] as const).filter((r) => card.slots.tecnicas[r] > 0)
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {card.gastos.tecnicas.length ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {card.gastos.tecnicas.map((g) => {
+              const d = refs.refDoc(g.link)
+              return (
+                <div key={g.link} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {remCirc(`Remover ${linkLabel(g.link)}`, () => {
+                    if (!g.planejado) desfazTecnica(g.link)
+                    desregistrar('tecnica', g.link)
+                  })}
+                  <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
+                  <ItemHover doc={d ?? undefined} fullBody>
+                    <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {linkLabel(g.link)}
+                    </span>
+                  </ItemHover>
+                  <span style={mono({ fontSize: 9, color: 'var(--muted)' })}>
+                    {g.rank}
+                    {g.planejado ? ' · plano' : ''}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        ) : null}
+        {ranks.map((rank) => {
+          const linhas = (tecnicasElegiveis.get(rank) ?? []).map((wl) => {
+            const d = refs.refDoc(wl) ?? (tecnicaDocs ? [...tecnicaDocs.values()].find((x) => x.basename === wikiTarget(wl)) : undefined)
+            const custo = d ? tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']) : ''
+            return { wl, d, custo }
+          })
+          if (!linhas.length) return null
+          const podeAdd = livresDe(rank) > 0
+          return (
+            <div key={rank}>
+              <div style={grupoLabel}>{GROUP_OF[rank]}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {linhas.map(({ wl, d, custo }) => (
+                  <div key={wl} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {addCirc(`Aprender ${linkLabel(wl)}`, podeAdd, () =>
+                      registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () =>
+                        aplicaTecnica(wl, rank),
+                      ),
+                    )}
+                    <span style={{ fontSize: 12, flex: 'none', width: 17, textAlign: 'center' }}>{custo}</span>
+                    <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
+                    <ItemHover doc={d ?? undefined} fullBody>
+                      <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {linkLabel(wl)}
+                      </span>
+                    </ItemHover>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  /** Editor de ESPEC/MAESTRIAS escopado — a MESMA seleção radial das
+   *  competências (Losango + radio-toggle + emoji + nome com hover). */
+  const editorEspecNivel = (
+    card: LevelCard,
+    oportunidades: Array<{ nome: string; rank: 'E' | 'M'; opts: string[] }>,
+  ) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {card.gastos.especialidades.map((f) => (
+        <div key={`${f.pericia}|${f.alvo}`}>
+          <div style={grupoLabel}>
+            {f.pericia} ({f.tipo === 'especialidade' ? 'E' : 'M'})
+          </div>
+          <div style={{ ['--on' as string]: 1, display: 'flex', alignItems: 'center', gap: 9 }}>
+            <Losango />
+            <button
+              onClick={() => {
+                if (!f.planejado)
+                  aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
+                desregistrar(f.tipo, f.alvo)
+              }}
+              aria-label={`${f.pericia}: ${linkLabel(f.alvo)}`}
+              aria-pressed
+              style={{
+                width: 15,
+                height: 15,
+                borderRadius: '50%',
+                border: '2px solid color-mix(in srgb,var(--red) 100%,var(--line2))',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 'none',
+                cursor: 'pointer',
+                background: 'transparent',
+                padding: 0,
+              }}
+            >
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--red)' }} />
+            </button>
+            <span style={{ fontSize: 13, flex: 'none' }}>
+              {f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
+            </span>
+            <ItemHover doc={refs.refDoc(f.alvo) ?? undefined} fullBody>
+              <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(f.alvo)}</span>
+            </ItemHover>
+            {f.planejado ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>plano</span> : null}
+          </div>
+        </div>
+      ))}
+      {oportunidades.map((o) => (
+        <div key={`${o.nome}|${o.rank}`}>
+          <div style={grupoLabel}>
+            {o.nome} ({o.rank})
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {o.opts.map((wl) => (
+              <div key={wl} style={{ ['--on' as string]: 0, display: 'flex', alignItems: 'center', gap: 9 }}>
+                <Losango />
+                <button
+                  onClick={() =>
+                    registraEAplica(
+                      {
+                        nivel: card.nivel,
+                        tipo: o.rank === 'E' ? 'especialidade' : 'maestria',
+                        alvo: wl,
+                        contexto: o.nome,
+                      },
+                      () => aplicaEspecialidade(o.nome, o.rank === 'E' ? 'Especializacao' : 'Maestria', wl),
+                    )
+                  }
+                  aria-label={`${o.nome}: ${linkLabel(wl)}`}
+                  aria-pressed={false}
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: '50%',
+                    border: '2px solid color-mix(in srgb,var(--red) 40%,var(--line2))',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 'none',
+                    cursor: 'pointer',
+                    background: 'transparent',
+                    padding: 0,
+                  }}
+                >
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'transparent' }} />
+                </button>
+                <span style={{ fontSize: 13, flex: 'none' }}>
+                  {o.rank === 'E' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
+                </span>
+                <ItemHover doc={refs.refDoc(wl) ?? undefined} fullBody>
+                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(wl)}</span>
+                </ItemHover>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   )
 
   /** Editor de PERÍCIAS escopado no nível — a MESMA grade das competências/
@@ -727,34 +924,38 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
                 linhas.push(
                   <div key={`${d.basename}|${rank}`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                    <ItemHover doc={d} fullBody>
-                      <span style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, color: 'var(--blue)', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {d.basename}
-                      </span>
-                    </ItemHover>
-                    <span style={mono({ fontSize: 9, color: 'var(--muted)', flex: 'none' })}>{grupo}</span>
-                    <button
-                      aria-label={`Aprender ${d.basename}`}
-                      onClick={() =>
+                    {addCirc(
+                      `Aprender ${d.basename}`,
+                      true,
+                      () =>
                         registraEAplica(
                           { nivel: card.nivel, tipo: 'magia', rank, alvo: `[[${d.basename}]]`, contexto: esc.nome },
                           () => aplicaMagia(esc.nome, `[[${d.basename}]]`, rank),
-                        )
-                      }
-                      style={mono({
+                        ),
+                      23,
+                    )}
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minWidth: 21,
+                        height: 21,
+                        padding: '0 4px',
+                        background: '#34425a',
+                        color: '#dbe4f0',
+                        fontFamily: 'var(--mono)',
+                        fontSize: 11.5,
                         flex: 'none',
-                        fontSize: 10,
-                        fontWeight: 700,
-                        padding: '3px 10px',
-                        cursor: 'pointer',
-                        background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
-                        border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
-                        color: 'var(--accent)',
-                        clipPath: clip(5),
-                      })}
+                      }}
                     >
-                      + APRENDER
-                    </button>
+                      {rank}
+                    </span>
+                    <ItemHover doc={d} fullBody>
+                      <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600, color: 'var(--blue)', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {d.basename}
+                      </span>
+                    </ItemHover>
                   </div>,
                 )
               }
@@ -762,9 +963,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           }
           if (!linhas.length) return null
           return (
-            <div key={esc.nome} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            <div key={esc.nome} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <span style={kicker}>{esc.nome.toUpperCase()}</span>
-              {linhas}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>{linhas}</div>
             </div>
           )
         })}
@@ -774,16 +975,6 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
 
   const pendenciasDe = (card: LevelCard): SlotPend[] => {
     const out: SlotPend[] = []
-    const removerBtn = (aria: string, onClick: () => void) => (
-      <button
-        aria-label={aria}
-        onClick={onClick}
-        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
-      >
-        ✕
-      </button>
-    )
-
     // Perícias: botão SEMPRE clicável — ≤ atual abre o POPUP do wizard;
     // futuro expande o editor de plano (gastos deste nível + pickers).
     const perTot = (['A', 'E', 'M'] as const).filter((r) => card.slots.pericias[r] > 0)
@@ -815,34 +1006,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           : 'TÉCNICAS',
         icon: TIPO_EMOJI.tecnica,
         done: pendentes === 0,
-        picker: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-            {card.gastos.tecnicas.map((g) => (
-              <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                <PlanChip wl={g.link} refs={refs} sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`} />
-                {removerBtn(`Remover ${linkLabel(g.link)}`, () => {
-                  if (!g.planejado) desfazTecnica(g.link)
-                  desregistrar('tecnica', g.link)
-                })}
-              </div>
-            ))}
-            {tecTot.flatMap((rank) =>
-              Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
-                <div key={`${rank}|${i}`}>
-                  <span style={kicker}>TÉCNICA ({rank})</span>
-                  {pickerSelect(
-                    `Técnica ${rank} (nível ${card.nivel})`,
-                    (tecnicasElegiveis.get(rank) ?? []).map((wl) => ({ value: wl, label: linkLabel(wl) })),
-                    (wl) =>
-                      registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () =>
-                        aplicaTecnica(wl, rank),
-                      ),
-                  )}
-                </div>
-              )),
-            )}
-          </div>
-        ),
+        picker: editorTecnicasNivel(card),
       })
     }
 
@@ -888,42 +1052,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         label: `ESPEC/MAESTRIAS (${card.gastos.especialidades.length + oportunidades.length})`,
         icon: TIPO_EMOJI.especialidade,
         done: oportunidades.length === 0,
-        picker: (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-            {card.gastos.especialidades.map((f) => (
-              <div key={`${f.pericia}|${f.alvo}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                <PlanChip wl={f.alvo} refs={refs} sufixo={`${f.tipo} · ${f.pericia}${f.planejado ? ' · plano' : ''}`} />
-                {removerBtn(`Remover ${linkLabel(f.alvo)}`, () => {
-                  if (!f.planejado)
-                    aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
-                  desregistrar(f.tipo, f.alvo)
-                })}
-              </div>
-            ))}
-            {oportunidades.map((o) => (
-              <div key={`${o.nome}|${o.rank}`}>
-                <span style={kicker}>
-                  {o.rank === 'E' ? 'ESPECIALIDADE' : 'MAESTRIA'} · {o.nome}
-                </span>
-                {pickerSelect(
-                  `${o.rank === 'E' ? 'Especialidade' : 'Maestria'} de ${o.nome} (nível ${card.nivel})`,
-                  o.opts.map((wl) => ({ value: wl, label: linkLabel(wl) })),
-                  (wl) =>
-                    registraEAplica(
-                      {
-                        nivel: card.nivel,
-                        tipo: o.rank === 'E' ? 'especialidade' : 'maestria',
-                        alvo: wl,
-                        contexto: o.nome,
-                      },
-                      () =>
-                        aplicaEspecialidade(o.nome, o.rank === 'E' ? 'Especializacao' : 'Maestria', wl),
-                    ),
-                )}
-              </div>
-            ))}
-          </div>
-        ),
+        picker: editorEspecNivel(card, oportunidades),
       })
     }
 

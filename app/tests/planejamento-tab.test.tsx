@@ -225,14 +225,15 @@ describe('roadmap de GASTOS de slot', () => {
     )
     expect(botaoTec, 'botão de técnica no N4').toBeTruthy()
     fireEvent.click(botaoTec!)
-    const selTec = await waitFor(() => {
-      const s2 = [...card4.querySelectorAll('select')].find((x) =>
-        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Ataque Brutal')),
-      ) as HTMLSelectElement
-      expect(s2).toBeTruthy()
-      return s2
+    // editor no estilo das competências: linha com ➕ verde "Aprender X"
+    const addBrutal = await waitFor(() => {
+      const btn = [...card4.querySelectorAll('button')].find(
+        (b) => b.getAttribute('aria-label') === 'Aprender Ataque Brutal',
+      ) as HTMLElement
+      expect(btn, '➕ Aprender Ataque Brutal no editor do N4').toBeTruthy()
+      return btn
     })
-    fireEvent.change(selTec, { target: { value: '[[Ataque Brutal]]' } })
+    fireEvent.click(addBrutal)
     await waitFor(() => {
       const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
       const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<

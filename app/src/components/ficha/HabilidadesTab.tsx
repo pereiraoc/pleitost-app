@@ -206,7 +206,7 @@ export function StarChip({ n, compact = false }: { n: number; compact?: boolean 
 }
 
 
-function Losango() {
+export function Losango() {
   return (
     <span style={{ width: 7, height: 7, background: 'var(--red)', transform: 'rotate(45deg)', flex: 'none' }} />
   )
