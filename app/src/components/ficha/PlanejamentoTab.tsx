@@ -305,6 +305,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const buildSeq = useRef(0)
 
   useEffect(() => {
+    // Com o POPUP aberto, cada clique no painel mudava o FM e disparava as 10
+    // projeções de novo — a UI congelava ("nada acontece quando clico",
+    // report 2026-08-25). Pausa o rebuild enquanto edita; refaz ao fechar.
+    if (popup) return
     const seq = ++buildSeq.current
     let vivo = true
     void buildLevelTimeline(fm, catalog, loadDoc).then((c) => {
@@ -314,7 +318,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       vivo = false
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fmSig, catalog])
+  }, [fmSig, catalog, popup])
 
   const toggleRow = (rid: string) =>
     setExpandidos((s) => {
@@ -630,9 +634,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     pid: string
     label: string
     icon: string
-    /** Editor inline (SelectBox) — ou popup (onOpen) pros painéis do wizard. */
+    /** Editor inline — ou popup (onOpen) pros painéis do wizard. */
     picker?: ReactNode
     onOpen?: () => void
+    /** Tudo preenchido → botão persiste com ✓ sutil (report 2026-08-25). */
+    done?: boolean
+    /** Notas que CONCEDERAM os slots (rastreabilidade — linha discreta acima). */
+    fontes?: string[]
   }
 
   const pickerSelect = (
@@ -652,84 +660,92 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
 
   const pendenciasDe = (card: LevelCard): SlotPend[] => {
     const out: SlotPend[] = []
-    // Perícias: UM botão "Incrementos de Perícia" com os slots livres do nível
-    // — abre o POPUP com o painel do wizard (nível ≤ atual). Futuro: per-slot
-    // no plano (SelectBox), como antes.
-    const perLivres = (['A', 'E', 'M'] as const)
-      .map((rank) => ({
-        rank,
-        livres:
-          card.slots.pericias[rank] -
-          card.gastos.pericias.filter((g) => g.rank === rank && g.fonte === 'Slot').length,
-      }))
-      .filter((x) => x.livres > 0)
-    if (perLivres.length && card.nivel <= nivelAtual) {
+    // Perícias: botão SEMPRE que o nível tem slot (✓ sutil quando tudo gasto);
+    // ≤ atual abre o POPUP do wizard; futuro expande pickers de plano.
+    const perTot = (['A', 'E', 'M'] as const).filter((r) => card.slots.pericias[r] > 0)
+    if (perTot.length) {
+      const livresDe = (r: 'A' | 'E' | 'M') =>
+        card.slots.pericias[r] - card.gastos.pericias.filter((g) => g.rank === r && g.fonte === 'Slot').length
+      const pendentes = perTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0)
       out.push({
         pid: `${card.nivel}|per`,
-        label: `INCREMENTOS DE PERÍCIA (${perLivres.map((x) => `${x.rank}×${x.livres}`).join(' ')})`,
+        label: `INCREMENTOS DE PERÍCIA (${perTot.map((r) => `${r}×${card.slots.pericias[r]}`).join(' ')})`,
         icon: TIPO_EMOJI.pericia,
-        onOpen: () => abrePopup(card.nivel, 'pericia'),
-      })
-    } else {
-      for (const { rank, livres } of perLivres) {
-        for (let i = 0; i < livres; i++) {
-          out.push({
-            pid: `${card.nivel}|per|${rank}|${i}`,
-            label: `INCREMENTO DE PERÍCIA (${rank})`,
-            icon: TIPO_EMOJI.pericia,
-            picker: pickerSelect(
-              `Incremento de Perícia ${rank} (nível ${card.nivel})`,
-              card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
-              (nome) =>
-                registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
-                  aplicaPericia(nome, rank),
+        done: pendentes === 0,
+        fontes: card.slotFontes.pericias,
+        ...(card.nivel <= nivelAtual
+          ? { onOpen: () => abrePopup(card.nivel, 'pericia') }
+          : pendentes > 0
+            ? {
+                picker: (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {perTot.flatMap((rank) =>
+                      Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
+                        <div key={`${rank}|${i}`}>
+                          <span style={kicker}>INCREMENTO ({rank})</span>
+                          {pickerSelect(
+                            `Incremento de Perícia ${rank} (nível ${card.nivel})`,
+                            card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
+                            (nome) =>
+                              registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
+                                aplicaPericia(nome, rank),
+                              ),
+                          )}
+                        </div>
+                      )),
+                    )}
+                  </div>
                 ),
-            ),
-          })
-        }
-      }
-    }
-    // Técnicas.
-    for (const rank of ['A', 'E', 'M'] as const) {
-      const usados = card.gastos.tecnicas.filter((g) => g.rank === rank).length
-      for (let i = usados; i < card.slots.tecnicas[rank]; i++) {
-        const pid = `${card.nivel}|tec|${rank}|${i}`
-        out.push({
-          pid,
-          label: `TÉCNICA (${rank})`,
-          icon: TIPO_EMOJI.tecnica,
-          picker: pickerSelect(
-            `Técnica ${rank} (nível ${card.nivel})`,
-            (tecnicasElegiveis.get(rank) ?? []).map((wl) => ({ value: wl, label: linkLabel(wl) })),
-            (wl) =>
-              registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () => aplicaTecnica(wl, rank)),
-          ),
-        })
-      }
-    }
-    // Magias: UM botão que abre o painel do wizard (nível ≤ atual).
-    const magLivres = (['B', 'A', 'E', 'M'] as const)
-      .map((rank) => ({
-        rank,
-        livres:
-          card.slots.magias[rank] -
-          card.gastos.magias.filter((g) => g.rank === rank && !g.secundaria).length,
-      }))
-      .filter((x) => x.livres > 0)
-    if (magLivres.length && card.nivel <= nivelAtual) {
-      out.push({
-        pid: `${card.nivel}|mag`,
-        label: `MAGIAS (${magLivres.map((x) => `${x.rank}×${x.livres}`).join(' ')})`,
-        icon: TIPO_EMOJI.magia,
-        onOpen: () => abrePopup(card.nivel, 'magia'),
+              }
+            : {}),
       })
     }
-    for (const rank of ['B', 'A', 'E', 'M'] as const) {
-      if (card.nivel <= nivelAtual) break // popup cobre; futuro cai no plano
-      const usados = card.gastos.magias.filter((g) => g.rank === rank && !g.secundaria).length
-      const grupo = GROUP_OF[rank]!
-      for (let i = usados; i < card.slots.magias[rank]; i++) {
-        const pid = `${card.nivel}|mag|${rank}|${i}`
+    // Técnicas: botão agregado por nível (✓ quando tudo gasto).
+    const tecTot = (['A', 'E', 'M'] as const).filter((r) => card.slots.tecnicas[r] > 0)
+    if (tecTot.length) {
+      const livresDe = (r: 'A' | 'E' | 'M') =>
+        card.slots.tecnicas[r] - card.gastos.tecnicas.filter((g) => g.rank === r).length
+      const pendentes = tecTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0)
+      out.push({
+        pid: `${card.nivel}|tec`,
+        label: `TÉCNICAS (${tecTot.map((r) => `${r}×${card.slots.tecnicas[r]}`).join(' ')})`,
+        icon: TIPO_EMOJI.tecnica,
+        done: pendentes === 0,
+        fontes: card.slotFontes.tecnicas,
+        ...(pendentes > 0
+          ? {
+              picker: (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {tecTot.flatMap((rank) =>
+                    Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => (
+                      <div key={`${rank}|${i}`}>
+                        <span style={kicker}>TÉCNICA ({rank})</span>
+                        {pickerSelect(
+                          `Técnica ${rank} (nível ${card.nivel})`,
+                          (tecnicasElegiveis.get(rank) ?? []).map((wl) => ({ value: wl, label: linkLabel(wl) })),
+                          (wl) =>
+                            registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () =>
+                              aplicaTecnica(wl, rank),
+                            ),
+                        )}
+                      </div>
+                    )),
+                  )}
+                </div>
+              ),
+            }
+          : {}),
+      })
+    }
+    // Magias: botão persistente por nível (✓ quando tudo gasto); ≤ atual abre
+    // o painel do wizard; futuro expande pickers de plano.
+    const magTot = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
+    if (magTot.length) {
+      const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
+        card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
+      const pendentes = magTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0)
+      const pickerFuturo = (rank: 'B' | 'A' | 'E' | 'M', i: number) => {
+        const grupo = GROUP_OF[rank]!
         const opcoes: Array<{ value: string; label: string }> = []
         if (spellDocs) {
           for (const esc of escolasProf) {
@@ -743,24 +759,46 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             }
           }
         }
-        out.push({
-          pid,
-          label: `MAGIA (${rank})`,
-          icon: TIPO_EMOJI.magia,
-          picker: pickerSelect(
-            `Magia ${rank} (nível ${card.nivel})`,
-            opcoes.sort((a, b) => a.label.localeCompare(b.label)),
-            (v) => {
-              const [escola, wl] = v.split('|') as [string, string]
-              registraEAplica({ nivel: card.nivel, tipo: 'magia', rank, alvo: wl, contexto: escola }, () =>
-                aplicaMagia(escola, wl, rank),
-              )
-            },
-          ),
-        })
+        return (
+          <div key={`${rank}|${i}`}>
+            <span style={kicker}>MAGIA ({rank})</span>
+            {pickerSelect(
+              `Magia ${rank} (nível ${card.nivel})`,
+              opcoes.sort((a, b) => a.label.localeCompare(b.label)),
+              (v) => {
+                const [escola, wl] = v.split('|') as [string, string]
+                registraEAplica({ nivel: card.nivel, tipo: 'magia', rank, alvo: wl, contexto: escola }, () =>
+                  aplicaMagia(escola, wl, rank),
+                )
+              },
+            )}
+          </div>
+        )
       }
+      out.push({
+        pid: `${card.nivel}|mag`,
+        label: `MAGIAS (${magTot.map((r) => `${r}×${card.slots.magias[r]}`).join(' ')})`,
+        icon: TIPO_EMOJI.magia,
+        done: pendentes === 0,
+        fontes: card.slotFontes.magias,
+        ...(card.nivel <= nivelAtual
+          ? { onOpen: () => abrePopup(card.nivel, 'magia') }
+          : pendentes > 0
+            ? {
+                picker: (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {magTot.flatMap((rank) =>
+                      Array.from({ length: Math.max(0, livresDe(rank)) }, (_, i) => pickerFuturo(rank, i)),
+                    )}
+                  </div>
+                ),
+              }
+            : {}),
+      })
     }
-    // Especialidades/Maestrias destravadas pelos ranks E/M atribuídos aqui.
+    // Especialidades/Maestrias destravadas pelos ranks E/M atribuídos aqui —
+    // botão agregado persistente (✓ quando todas definidas).
+    const oportunidades: Array<{ nome: string; rank: 'E' | 'M'; opts: string[] }> = []
     for (const g of card.gastos.pericias) {
       if (g.rank !== 'E' && g.rank !== 'M') continue
       const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((r) => String(r.Nome) === g.nome)
@@ -773,45 +811,96 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const esp = String(row?.Especializacao ?? '')
               return esp ? (espMaes.maestriasByEspecialidade[slugify(wikiTarget(esp))] ?? []) : []
             })()
-      if (!opts.length) continue
-      const tipo = g.rank === 'E' ? 'especialidade' : 'maestria'
+      if (opts.length) oportunidades.push({ nome: g.nome, rank: g.rank, opts })
+    }
+    if (oportunidades.length || card.gastos.especialidades.length) {
       out.push({
-        pid: `${card.nivel}|esp|${g.nome}|${g.rank}`,
-        label: `${g.rank === 'E' ? 'ESPECIALIDADE' : 'MAESTRIA'} · ${g.nome}`,
-        icon: g.rank === 'E' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria,
-        picker: pickerSelect(
-          `${g.rank === 'E' ? 'Especialidade' : 'Maestria'} de ${g.nome} (nível ${card.nivel})`,
-          opts.map((wl) => ({ value: wl, label: linkLabel(wl) })),
-          (wl) =>
-            registraEAplica({ nivel: card.nivel, tipo, alvo: wl, contexto: g.nome }, () =>
-              aplicaEspecialidade(g.nome, g.rank === 'E' ? 'Especializacao' : 'Maestria', wl),
-            ),
-        ),
+        pid: `${card.nivel}|esp`,
+        label: `ESPEC/MAESTRIAS (${card.gastos.especialidades.length + oportunidades.length})`,
+        icon: TIPO_EMOJI.especialidade,
+        done: oportunidades.length === 0,
+        ...(oportunidades.length
+          ? {
+              picker: (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {oportunidades.map((o) => (
+                    <div key={`${o.nome}|${o.rank}`}>
+                      <span style={kicker}>
+                        {o.rank === 'E' ? 'ESPECIALIDADE' : 'MAESTRIA'} · {o.nome}
+                      </span>
+                      {pickerSelect(
+                        `${o.rank === 'E' ? 'Especialidade' : 'Maestria'} de ${o.nome} (nível ${card.nivel})`,
+                        o.opts.map((wl) => ({ value: wl, label: linkLabel(wl) })),
+                        (wl) =>
+                          registraEAplica(
+                            {
+                              nivel: card.nivel,
+                              tipo: o.rank === 'E' ? 'especialidade' : 'maestria',
+                              alvo: wl,
+                              contexto: o.nome,
+                            },
+                            () =>
+                              aplicaEspecialidade(
+                                o.nome,
+                                o.rank === 'E' ? 'Especializacao' : 'Maestria',
+                                wl,
+                              ),
+                          ),
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ),
+            }
+          : {}),
       })
     }
-    // Seleções de habilidade sem pick (gate deste nível).
-    for (const c of card.escolhas) {
-      if (c.isSubclass) continue
-      const desbloqueada = c.gateLevel <= nivelAtual
-      const valor = desbloqueada ? c.pick : (plano[c.choiceKey] ?? null)
-      if (valor) continue
+    // Seleções de habilidade do nível — botão agregado persistente.
+    const escolhasNormais = card.escolhas.filter((c) => !c.isSubclass)
+    if (escolhasNormais.length) {
+      const pendentesSel = escolhasNormais.filter((c) => {
+        const desbloqueada = c.gateLevel <= nivelAtual
+        return !(desbloqueada ? c.pick : (plano[c.choiceKey] ?? null))
+      })
       out.push({
-        pid: `${card.nivel}|sel|${c.choiceKey}`,
-        label: `${(c.label || 'SELEÇÃO').toUpperCase()} · ${c.sourceNote}`,
+        pid: `${card.nivel}|sel`,
+        label: `SELEÇÕES (${escolhasNormais.length})`,
         icon: TIPO_EMOJI.selecao,
-        picker: (
-          <SelectBox
-            ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
-            value=""
-            options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
-            onChange={(v) => {
-              if (!v) return
-              if (desbloqueada) writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
-              else model.set('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
-              setPickerAberto(null)
-            }}
-          />
-        ),
+        done: pendentesSel.length === 0,
+        ...(pendentesSel.length
+          ? {
+              picker: (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {pendentesSel.map((c) => {
+                    const desbloqueada = c.gateLevel <= nivelAtual
+                    return (
+                      <div key={c.choiceKey}>
+                        <span style={kicker}>
+                          {(c.label || 'SELEÇÃO').toUpperCase()} · {c.sourceNote}
+                        </span>
+                        <SelectBox
+                          ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
+                          value=""
+                          options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
+                          onChange={(v) => {
+                            if (!v) return
+                            if (desbloqueada)
+                              writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
+                            else
+                              model.set('Planejamento.picks', {
+                                ...planPicks(model.fm),
+                                [c.choiceKey]: v,
+                              })
+                            setPickerAberto(null)
+                          }}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              ),
+            }
+          : {}),
       })
     }
     return out
@@ -1050,15 +1139,27 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             </div>
             {/* slots pendentes: botões destacados centrados */}
             {pendencias.length ? (
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', padding: '2px 0' }}>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', padding: '2px 0', alignItems: 'flex-end' }}>
                 {pendencias.map((p) => (
-                  <SlotButton
-                    key={p.pid}
-                    ativo={pickerAberto === p.pid}
-                    onClick={p.onOpen ?? (() => togglePicker(p.pid))}
-                  >
-                    {p.icon} {p.label}
-                  </SlotButton>
+                  <div key={p.pid} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                    {p.fontes?.length ? (
+                      // rastreabilidade discreta: a(s) nota(s) que CONCEDEM o slot
+                      <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
+                        via {p.fontes.map((f) => linkLabel(f)).join(', ')}
+                      </span>
+                    ) : null}
+                    <SlotButton
+                      ativo={pickerAberto === p.pid}
+                      onClick={
+                        p.onOpen ?? (p.picker ? () => togglePicker(p.pid) : undefined) ?? (() => {})
+                      }
+                    >
+                      {p.icon} {p.label}
+                      {p.done ? (
+                        <span style={{ color: 'var(--accent)', marginLeft: 6, opacity: 0.8 }}>✓</span>
+                      ) : null}
+                    </SlotButton>
+                  </div>
                 ))}
               </div>
             ) : null}

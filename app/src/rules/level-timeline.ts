@@ -98,6 +98,9 @@ export interface LevelCard {
   magiasRegra: Array<{ escola: string; link: string; secundaria: boolean; fonte?: string }>
   /** Slots GANHOS neste nível (delta vs nível anterior). */
   slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta }
+  /** Notas que CONCEDERAM os slots deste nível (rastreabilidade): wikilinks
+   *  novos no ruleSources de `<ns>.Slots.<rank>` vs o nível anterior. */
+  slotFontes: { pericias: string[]; tecnicas: string[]; magias: string[] }
   /** Gastos atribuídos a este nível (registro explícito > earliest-fit;
    *  Passado sempre N1). */
   gastos: {
@@ -267,10 +270,14 @@ export async function buildLevelTimeline(
           ? rowsOf(snap.derived, 'Magias', 'Secundaria', 'Lista')
           : rowsOf(snap.derived, 'Magias', 'Lista')
         for (const esc of escolas) {
+          // Tesouros ficam FORA do planejamento (magia de item não é escolha
+          // de nível — report 2026-08-25).
+          if (String(esc.Nome ?? '') === 'Tesouros') continue
           for (const e of fontedEntries(Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : [])) {
             // gasto de Slot NÃO é ganho por regra (vira gastos.magias) —
             // sem o filtro, Avivar/Celeridade do Carlos apareciam em dobro.
             if (e.fonte.startsWith('Slot')) continue
+            if (e.fonte.startsWith('Tesouro')) continue
             out.push({ escola: String(esc.Nome ?? ''), link: e.link, secundaria, fonte: e.fonte })
           }
         }
@@ -290,6 +297,21 @@ export async function buildLevelTimeline(
         return Number.isFinite(x) ? x : 0
       }
       return { B: n('B'), A: n('A'), E: n('E'), M: n('M') }
+    }
+    const slotFontesDe = (ns: string): string[] => {
+      const links = (snap: Snap | null): Set<string> => {
+        const out = new Set<string>()
+        if (!snap) return out
+        for (const rank of RANKS_BAEM) {
+          for (const f of snap.ruleSources[`${ns}.Slots.${rank}`] ?? []) {
+            const m = /^Regra\.(\[\[.+?\]\])$/.exec(f)
+            if (m) out.add(m[1]!)
+          }
+        }
+        return out
+      }
+      const antes = links(prev)
+      return [...links(cur)].filter((l) => !antes.has(l))
     }
     const slotsDelta = (ns: string): SlotDelta => {
       const agora = slotsCalc(cur, ns)
@@ -377,6 +399,11 @@ export async function buildLevelTimeline(
         tecnicas: slotsDelta('Tecnicas'),
         magias: slotsDelta('Magias'),
       },
+      slotFontes: {
+        pericias: slotFontesDe('Pericias'),
+        tecnicas: slotFontesDe('Tecnicas'),
+        magias: slotFontesDe('Magias'),
+      },
       gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
       escolhas,
       escalares,
@@ -459,6 +486,7 @@ export async function buildLevelTimeline(
       ? rowsOf(fm, 'Magias', 'Secundaria', 'Lista')
       : rowsOf(fm, 'Magias', 'Lista')
     for (const esc of escolas) {
+      if (String(esc.Nome ?? '') === 'Tesouros') continue
       for (const e of fontedEntries(Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : [])) {
         const m = /^Slot\.([BAEM])$/.exec(e.fonte)
         if (!m) continue

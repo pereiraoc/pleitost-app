@@ -140,9 +140,9 @@ describe('aba Planejamento — timeline 1..10', () => {
     // aparece como BOTÃO-SLOT pendente; clicar abre o picker
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
     const botao = [...card2.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('Magias Anima'),
+      (b.textContent ?? '').includes('SELEÇÕES'),
     )
-    expect(botao, 'botão-slot da seleção (Magias Anima) no N2').toBeTruthy()
+    expect(botao, 'botão agregado de SELEÇÕES no N2').toBeTruthy()
     fireEvent.click(botao!)
     const sel = await waitFor(() => {
       const s2 = [...card2.querySelectorAll('select')].find((x) =>
