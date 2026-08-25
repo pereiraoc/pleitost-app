@@ -130,12 +130,6 @@ function rowsOf(fm: Fm, ...path: string[]): Row[] {
   return Array.isArray(v) ? (v as Row[]) : []
 }
 
-function slotsOf(fm: Fm, ns: string): SlotDelta {
-  const s = (fmPathOf(fm, ns, 'Slots') ?? {}) as Record<string, unknown>
-  const n = (k: string) => (typeof s[k] === 'number' ? (s[k] as number) : Number(s[k]) || 0)
-  return { B: n('B'), A: n('A'), E: n('E'), M: n('M') }
-}
-
 const wlBase = (s: string): string =>
   s
     .replace(/^\[\[|\]\]$/g, '')
@@ -201,6 +195,11 @@ export async function buildLevelTimeline(
     derived: Fm
     choices: ChoiceDescriptor[]
     ruleSources: Record<string, string[]>
+    /** Deltas de regra da projeção NESTE nível — fonte dos SLOTS do ladder.
+     *  O derivado não serve: os Slots SALVOS do herói (materializados no
+     *  nível real) vazam pros snapshots de nível baixo quando o calc não
+     *  produz a chave (Carlos: per[E+3,M+1] no N1, deltas negativos). */
+    calculated: Record<string, unknown>
   }
   const snaps: Snap[] = []
   for (let nivel = 1; nivel <= nivelMax; nivel++) {
@@ -209,6 +208,7 @@ export async function buildLevelTimeline(
     const p = projection as unknown as {
       derivedFm: Fm
       habilidadeChoices: ChoiceDescriptor[]
+      calculated?: Record<string, unknown>
       ruleSourcesByPath?: Record<string, string[]>
       subclassChoices: Array<{
         choiceKey: string
@@ -235,6 +235,7 @@ export async function buildLevelTimeline(
       derived: p.derivedFm,
       choices: [...(p.habilidadeChoices ?? []), ...sub],
       ruleSources: p.ruleSourcesByPath ?? {},
+      calculated: p.calculated ?? {},
     })
   }
 
@@ -267,6 +268,9 @@ export async function buildLevelTimeline(
           : rowsOf(snap.derived, 'Magias', 'Lista')
         for (const esc of escolas) {
           for (const e of fontedEntries(Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : [])) {
+            // gasto de Slot NÃO é ganho por regra (vira gastos.magias) —
+            // sem o filtro, Avivar/Celeridade do Carlos apareciam em dobro.
+            if (e.fonte.startsWith('Slot')) continue
             out.push({ escola: String(esc.Nome ?? ''), link: e.link, secundaria, fonte: e.fonte })
           }
         }
@@ -278,10 +282,24 @@ export async function buildLevelTimeline(
       (m) => !magiasAntes.has(`${m.secundaria}|${m.escola}|${wlBase(m.link)}`),
     )
 
+    const slotsCalc = (snap: Snap | null, ns: string): SlotDelta => {
+      if (!snap) return ZERO_SLOTS()
+      const n = (rank: string) => {
+        const v = snap.calculated[`${ns}.Slots.${rank}`]
+        const x = typeof v === 'number' ? v : Number(v)
+        return Number.isFinite(x) ? x : 0
+      }
+      return { B: n('B'), A: n('A'), E: n('E'), M: n('M') }
+    }
     const slotsDelta = (ns: string): SlotDelta => {
-      const agora = slotsOf(cur.derived, ns)
-      const antes = prev ? slotsOf(prev.derived, ns) : ZERO_SLOTS()
-      return { B: agora.B - antes.B, A: agora.A - antes.A, E: agora.E - antes.E, M: agora.M - antes.M }
+      const agora = slotsCalc(cur, ns)
+      const antes = slotsCalc(prev, ns)
+      return {
+        B: Math.max(0, agora.B - antes.B),
+        A: Math.max(0, agora.A - antes.A),
+        E: Math.max(0, agora.E - antes.E),
+        M: Math.max(0, agora.M - antes.M),
+      }
     }
 
     // Escolhas cujo gate abre neste nível.

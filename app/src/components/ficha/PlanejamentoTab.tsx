@@ -37,6 +37,8 @@ import {
   escolaCobreRank,
   TECNICAS_PATH_PREFIX,
   TEC_GROUP_LETTER,
+  PericiasProfPanel,
+  MagiasHabPanel,
   type HabChoice,
 } from './HabilidadesTab'
 import { rankGroupLabel } from './registry'
@@ -209,6 +211,56 @@ function PbRow({
   )
 }
 
+/** Overlay modal dos editores por nível (Incrementos de Perícia / Magias) —
+ *  dentro: o MESMO painel do wizard de criação (PericiasProfPanel /
+ *  MagiasHabPanel). */
+function Modal({ titulo, onClose, children }: { titulo: string; onClose: () => void; children: ReactNode }) {
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,.55)',
+        zIndex: 200,
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: '4vh 12px',
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: 'var(--panel)',
+          border: '1px solid var(--line2)',
+          clipPath: clip(12),
+          width: 'min(920px, 100%)',
+          maxHeight: '88vh',
+          overflow: 'auto',
+          padding: '14px 18px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 10,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={mono({ fontSize: 11, fontWeight: 700, color: 'var(--accent)' })}>{titulo}</span>
+          <span style={{ flex: 1 }} />
+          <button
+            aria-label="Fechar editor"
+            onClick={onClose}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: 15 }}
+          >
+            ✕
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
 /** Botão-slot pendente (os "gears" do Pathbuilder): destaque centrado sob o
  *  banner do nível — some quando o slot é preenchido. */
 function SlotButton({ ativo, onClick, children }: { ativo: boolean; onClick: () => void; children: ReactNode }) {
@@ -243,6 +295,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const [cards, setCards] = useState<LevelCard[] | null>(null)
   const [expandidos, setExpandidos] = useState<ReadonlySet<string>>(new Set())
   const [pickerAberto, setPickerAberto] = useState<string | null>(null)
+  // Popup por nível (Incrementos de Perícia / Magias — painéis do wizard).
+  // Enquanto aberto, o DIFF do FM atribui cada gasto novo ao nível do popup
+  // (Planejamento.gastosSlots); remoções derrubam o registro (e os ranks
+  // acima da perícia — cascata).
+  const [popup, setPopup] = useState<{ nivel: number; tipo: 'pericia' | 'magia' } | null>(null)
+  const snapPopup = useRef<Set<string>>(new Set())
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
   const buildSeq = useRef(0)
 
@@ -371,6 +429,89 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     model.set('Pericias.Lista', rows)
   }
 
+  // ── diff-registro do POPUP (atribuição de nível dos gastos do painel) ─────
+  const snapshotPericias = (): Set<string> => {
+    const out = new Set<string>()
+    for (const row of (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Row[]) {
+      const nome = String(row.Nome ?? '')
+      for (const inc of (row.Incrementos ?? []) as Row[]) {
+        for (const r of ['A', 'E', 'M'] as const) {
+          if (typeof inc[r] === 'string' && String(inc[r]).startsWith('Slot')) out.add(`inc|${nome}|${r}`)
+        }
+      }
+      if (String(row.Especializacao ?? '').trim()) out.add(`esp|${nome}|${String(row.Especializacao)}`)
+      if (String(row.Maestria ?? '').trim()) out.add(`mae|${nome}|${String(row.Maestria)}`)
+    }
+    return out
+  }
+  const snapshotMagias = (): Set<string> => {
+    const out = new Set<string>()
+    for (const sec of [false, true]) {
+      const escolas = sec
+        ? ((fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[])
+        : ((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[])
+      for (const esc of escolas) {
+        for (const row of Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []) {
+          const e = Object.entries(row)[0]
+          if (!e) continue
+          const m = /^Slot\.([BAEM])$/.exec(String(e[1]))
+          if (m) out.add(`mag|${String(esc.Nome)}|${wikiTarget(e[0])}|${m[1]}`)
+        }
+      }
+    }
+    return out
+  }
+  const snapshotDe = (tipo: 'pericia' | 'magia') => (tipo === 'pericia' ? snapshotPericias() : snapshotMagias())
+
+  useEffect(() => {
+    if (!popup) return
+    const agora = snapshotDe(popup.tipo)
+    const antes = snapPopup.current
+    let regs = [...registros]
+    let mudou = false
+    for (const key of agora) {
+      if (antes.has(key)) continue
+      const [kind, a, b, c] = key.split('|')
+      mudou = true
+      if (kind === 'inc') {
+        regs = regs.filter((x) => !(x.tipo === 'pericia' && x.alvo === a && x.rank === b))
+        regs.push({ nivel: popup.nivel, tipo: 'pericia', rank: b as 'A' | 'E' | 'M', alvo: a! })
+      } else if (kind === 'esp' || kind === 'mae') {
+        const tipo = kind === 'esp' ? 'especialidade' : 'maestria'
+        regs = regs.filter((x) => !(x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(b!)))
+        regs.push({ nivel: popup.nivel, tipo, alvo: b!, contexto: a })
+      } else if (kind === 'mag') {
+        regs = regs.filter((x) => !(x.tipo === 'magia' && wikiTarget(x.alvo) === b))
+        regs.push({ nivel: popup.nivel, tipo: 'magia', rank: c as 'B' | 'A' | 'E' | 'M', alvo: `[[${b}]]`, contexto: a })
+      }
+    }
+    for (const key of antes) {
+      if (agora.has(key)) continue
+      const [kind, a, b] = key.split('|')
+      mudou = true
+      if (kind === 'inc') {
+        // cascata: removeu o rank — caem os registros do MESMO rank e acima
+        const ordem: Record<string, number> = { A: 1, E: 2, M: 3 }
+        regs = regs.filter(
+          (x) => !(x.tipo === 'pericia' && x.alvo === a && (ordem[String(x.rank)] ?? 0) >= (ordem[b ?? ''] ?? 0)),
+        )
+      } else if (kind === 'esp' || kind === 'mae') {
+        const tipo = kind === 'esp' ? 'especialidade' : 'maestria'
+        regs = regs.filter((x) => !(x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(b!)))
+      } else if (kind === 'mag') {
+        regs = regs.filter((x) => !(x.tipo === 'magia' && wikiTarget(x.alvo) === b))
+      }
+    }
+    snapPopup.current = agora
+    if (mudou) setRegistros(regs)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fmSig, popup])
+
+  const abrePopup = (nivel: number, tipo: 'pericia' | 'magia') => {
+    snapPopup.current = snapshotDe(tipo)
+    setPopup({ nivel, tipo })
+  }
+
   // ── sync plano ⇄ real quando o nível muda (roadmap do Pathbuilder) ────────
   useEffect(() => {
     if (!cards) return
@@ -489,7 +630,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     pid: string
     label: string
     icon: string
-    picker: ReactNode
+    /** Editor inline (SelectBox) — ou popup (onOpen) pros painéis do wizard. */
+    picker?: ReactNode
+    onOpen?: () => void
   }
 
   const pickerSelect = (
@@ -509,24 +652,41 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
 
   const pendenciasDe = (card: LevelCard): SlotPend[] => {
     const out: SlotPend[] = []
-    // Perícias: slots do nível menos gastos atribuídos aqui.
-    for (const rank of ['A', 'E', 'M'] as const) {
-      const usados = card.gastos.pericias.filter((g) => g.rank === rank && g.fonte === 'Slot').length
-      for (let i = usados; i < card.slots.pericias[rank]; i++) {
-        const pid = `${card.nivel}|per|${rank}|${i}`
-        out.push({
-          pid,
-          label: `PERÍCIA ${GROUP_OF[rank]}`,
-          icon: TIPO_EMOJI.pericia,
-          picker: pickerSelect(
-            `Perícia ${GROUP_OF[rank]} (nível ${card.nivel})`,
-            card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
-            (nome) =>
-              registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
-                aplicaPericia(nome, rank),
-              ),
-          ),
-        })
+    // Perícias: UM botão "Incrementos de Perícia" com os slots livres do nível
+    // — abre o POPUP com o painel do wizard (nível ≤ atual). Futuro: per-slot
+    // no plano (SelectBox), como antes.
+    const perLivres = (['A', 'E', 'M'] as const)
+      .map((rank) => ({
+        rank,
+        livres:
+          card.slots.pericias[rank] -
+          card.gastos.pericias.filter((g) => g.rank === rank && g.fonte === 'Slot').length,
+      }))
+      .filter((x) => x.livres > 0)
+    if (perLivres.length && card.nivel <= nivelAtual) {
+      out.push({
+        pid: `${card.nivel}|per`,
+        label: `INCREMENTOS DE PERÍCIA (${perLivres.map((x) => `${x.rank}×${x.livres}`).join(' ')})`,
+        icon: TIPO_EMOJI.pericia,
+        onOpen: () => abrePopup(card.nivel, 'pericia'),
+      })
+    } else {
+      for (const { rank, livres } of perLivres) {
+        for (let i = 0; i < livres; i++) {
+          out.push({
+            pid: `${card.nivel}|per|${rank}|${i}`,
+            label: `INCREMENTO DE PERÍCIA (${rank})`,
+            icon: TIPO_EMOJI.pericia,
+            picker: pickerSelect(
+              `Incremento de Perícia ${rank} (nível ${card.nivel})`,
+              card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
+              (nome) =>
+                registraEAplica({ nivel: card.nivel, tipo: 'pericia', rank, alvo: nome }, () =>
+                  aplicaPericia(nome, rank),
+                ),
+            ),
+          })
+        }
       }
     }
     // Técnicas.
@@ -536,10 +696,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         const pid = `${card.nivel}|tec|${rank}|${i}`
         out.push({
           pid,
-          label: `TÉCNICA ${GROUP_OF[rank]}`,
+          label: `TÉCNICA (${rank})`,
           icon: TIPO_EMOJI.tecnica,
           picker: pickerSelect(
-            `Técnica ${GROUP_OF[rank]} (nível ${card.nivel})`,
+            `Técnica ${rank} (nível ${card.nivel})`,
             (tecnicasElegiveis.get(rank) ?? []).map((wl) => ({ value: wl, label: linkLabel(wl) })),
             (wl) =>
               registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () => aplicaTecnica(wl, rank)),
@@ -547,8 +707,25 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         })
       }
     }
-    // Magias.
+    // Magias: UM botão que abre o painel do wizard (nível ≤ atual).
+    const magLivres = (['B', 'A', 'E', 'M'] as const)
+      .map((rank) => ({
+        rank,
+        livres:
+          card.slots.magias[rank] -
+          card.gastos.magias.filter((g) => g.rank === rank && !g.secundaria).length,
+      }))
+      .filter((x) => x.livres > 0)
+    if (magLivres.length && card.nivel <= nivelAtual) {
+      out.push({
+        pid: `${card.nivel}|mag`,
+        label: `MAGIAS (${magLivres.map((x) => `${x.rank}×${x.livres}`).join(' ')})`,
+        icon: TIPO_EMOJI.magia,
+        onOpen: () => abrePopup(card.nivel, 'magia'),
+      })
+    }
     for (const rank of ['B', 'A', 'E', 'M'] as const) {
+      if (card.nivel <= nivelAtual) break // popup cobre; futuro cai no plano
       const usados = card.gastos.magias.filter((g) => g.rank === rank && !g.secundaria).length
       const grupo = GROUP_OF[rank]!
       for (let i = usados; i < card.slots.magias[rank]; i++) {
@@ -568,10 +745,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         }
         out.push({
           pid,
-          label: `MAGIA ${grupo}`,
+          label: `MAGIA (${rank})`,
           icon: TIPO_EMOJI.magia,
           picker: pickerSelect(
-            `Magia ${grupo} (nível ${card.nivel})`,
+            `Magia ${rank} (nível ${card.nivel})`,
             opcoes.sort((a, b) => a.label.localeCompare(b.label)),
             (v) => {
               const [escola, wl] = v.split('|') as [string, string]
@@ -680,7 +857,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <PbRow
           key={rid}
           rid={rid}
-          kickerTxt={`Perícia ${GROUP_OF[g.rank]}`}
+          kickerTxt={`Incremento de Perícia (${g.rank})`}
           valor={g.nome}
           doc={refs.refDoc(`[[${g.nome}]]`)}
           icon={TIPO_EMOJI.pericia}
@@ -699,7 +876,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <PbRow
           key={rid}
           rid={rid}
-          kickerTxt={`Técnica ${GROUP_OF[g.rank]}`}
+          kickerTxt={`Técnica (${g.rank})`}
           valor={linkLabel(g.link)}
           doc={refs.refDoc(g.link)}
           icon={linkIconForEntry(refs.refDoc(g.link) ?? undefined) || TIPO_EMOJI.tecnica}
@@ -718,7 +895,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <PbRow
           key={rid}
           rid={rid}
-          kickerTxt={`Magia ${GROUP_OF[g.rank]} · ${g.escola}${g.secundaria ? ' (2ª)' : ''}`}
+          kickerTxt={`Magia (${g.rank}) · ${g.escola}${g.secundaria ? ' (2ª)' : ''}`}
           valor={linkLabel(g.link)}
           doc={refs.refDoc(g.link)}
           icon={linkIconForEntry(refs.refDoc(g.link) ?? undefined) || TIPO_EMOJI.magia}
@@ -875,14 +1052,18 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             {pendencias.length ? (
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', padding: '2px 0' }}>
                 {pendencias.map((p) => (
-                  <SlotButton key={p.pid} ativo={pickerAberto === p.pid} onClick={() => togglePicker(p.pid)}>
+                  <SlotButton
+                    key={p.pid}
+                    ativo={pickerAberto === p.pid}
+                    onClick={p.onOpen ?? (() => togglePicker(p.pid))}
+                  >
                     {p.icon} {p.label}
                   </SlotButton>
                 ))}
               </div>
             ) : null}
             {pendencias.map((p) =>
-              pickerAberto === p.pid ? (
+              p.picker && pickerAberto === p.pid ? (
                 <div
                   key={`picker|${p.pid}`}
                   style={{ border: '1px dashed var(--line2)', padding: '9px 12px', clipPath: clip(7) }}
@@ -931,6 +1112,29 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           </div>
         )
       })}
+      {popup ? (
+        <Modal
+          titulo={`${popup.tipo === 'pericia' ? `${TIPO_EMOJI.pericia} INCREMENTOS DE PERÍCIA` : `${TIPO_EMOJI.magia} MAGIAS`} — NÍVEL ${popup.nivel}`}
+          onClose={() => setPopup(null)}
+        >
+          <div style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
+            Gastos feitos aqui são atribuídos ao nível {popup.nivel} do planejamento. O painel é o
+            mesmo do wizard (orçamento total da ficha); os slots DESTE nível estão no card.
+          </div>
+          {popup.tipo === 'pericia' ? (
+            <PericiasProfPanel doc={doc} forceEdit hideItemBonus />
+          ) : (
+            <>
+              <MagiasHabPanel doc={doc} refs={refs} forceEdit semRecursos />
+              {((fmPath(dfm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]).some(
+                (e) => String(e.Proficiencia ?? 'N') !== 'N',
+              ) ? (
+                <MagiasHabPanel doc={doc} refs={refs} sec forceEdit semRecursos />
+              ) : null}
+            </>
+          )}
+        </Modal>
+      ) : null}
     </div>
   )
 }

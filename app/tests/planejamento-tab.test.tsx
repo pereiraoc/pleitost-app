@@ -188,21 +188,28 @@ describe('roadmap de GASTOS de slot', () => {
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    // N1: gasta um slot de perícia Adepta em Atletismo
+    // N1: o botão "INCREMENTOS DE PERÍCIA" abre o POPUP (painel do wizard);
+    // clicar no Rank A da Furtividade gasta o slot
     const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
     const botaoPer = [...card1.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('PERÍCIA'),
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
     )
     expect(botaoPer, 'botão de perícia no N1').toBeTruthy()
     fireEvent.click(botaoPer!)
-    const selPer = await waitFor(() => {
-      const s2 = [...card1.querySelectorAll('select')].find((x) =>
-        [...(x as HTMLSelectElement).options].some((o) => o.value === 'Furtividade'),
-      ) as HTMLSelectElement
-      expect(s2).toBeTruthy()
-      return s2
+    const rankA = await waitFor(() => {
+      // menor div que contém Furtividade + Rank A = a LINHA dela no painel
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Furtividade') &&
+            d.querySelector('[aria-label="Rank A"]'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      const btn = linha?.querySelector('[aria-label="Rank A"]') as HTMLElement
+      expect(btn, 'Rank A da Furtividade no popup').toBeTruthy()
+      return btn
     })
-    fireEvent.change(selPer, { target: { value: 'Furtividade' } })
+    fireEvent.click(rankA)
     await waitFor(() => {
       const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
       const rows = ((fm['Pericias'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
