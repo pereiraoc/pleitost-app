@@ -95,7 +95,7 @@ export interface LevelCard {
   tecnicasRegra: string[]
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
-  magiasRegra: Array<{ escola: string; link: string; secundaria: boolean }>
+  magiasRegra: Array<{ escola: string; link: string; secundaria: boolean; fonte?: string }>
   /** Slots GANHOS neste nível (delta vs nível anterior). */
   slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta }
   /** Gastos atribuídos a este nível (registro explícito > earliest-fit;
@@ -256,16 +256,18 @@ export async function buildLevelTimeline(
     }
 
     // Magias por regra: escolas primária + secundária.
-    const magiasDe = (snap: Snap | null): Array<{ escola: string; link: string; secundaria: boolean }> => {
+    const magiasDe = (
+      snap: Snap | null,
+    ): Array<{ escola: string; link: string; secundaria: boolean; fonte?: string }> => {
       if (!snap) return []
-      const out: Array<{ escola: string; link: string; secundaria: boolean }> = []
+      const out: Array<{ escola: string; link: string; secundaria: boolean; fonte?: string }> = []
       for (const secundaria of [false, true]) {
         const escolas = secundaria
           ? rowsOf(snap.derived, 'Magias', 'Secundaria', 'Lista')
           : rowsOf(snap.derived, 'Magias', 'Lista')
         for (const esc of escolas) {
           for (const e of fontedEntries(Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : [])) {
-            out.push({ escola: String(esc.Nome ?? ''), link: e.link, secundaria })
+            out.push({ escola: String(esc.Nome ?? ''), link: e.link, secundaria, fonte: e.fonte })
           }
         }
       }
@@ -453,6 +455,66 @@ export async function buildLevelTimeline(
         })
       }
     }
+  }
+
+  // ── #493: reatribuição por CADEIA DE DERIVAÇÃO ────────────────────────────
+  // Item comprado por slot (ou pick salvo) vive no FM em TODOS os snapshots →
+  // as regras dele rodam desde o nível 1 e os ganhos/escolhas derivados caíam
+  // no card 1. Nível efetivo de um derivado = max(nível em que apareceu,
+  // nível do PAI na cadeia). Itera até estabilizar (cadeias multi-nível).
+  const nivelDe = new Map<string, number>()
+  const anota = (wl: string, nivel: number) => {
+    const b = wlBase(wl)
+    nivelDe.set(b, Math.max(nivelDe.get(b) ?? 1, nivel))
+  }
+  for (const c of cards) {
+    for (const wl of [...c.habilidades, ...c.tecnicasRegra, ...c.acoesRegra]) anota(wl, c.nivel)
+    for (const g of c.gastos.tecnicas) anota(g.link, c.nivel)
+    for (const g of c.gastos.magias) anota(g.link, c.nivel)
+    for (const e of c.escolhas) if (e.pick) anota(e.pick, c.nivel)
+  }
+  const paiDaFonte = (fonte: string | undefined): string | null => {
+    const m = /^(?:Regra|Escolha)(?:\.\d+)?\.\[\[(.+?)\]\]$/.exec(fonte ?? '')
+    return m ? wlBase(`[[${m[1]}]]`) : null
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    let mudou = false
+    for (const card of cards) {
+      for (const key of ['habilidades', 'tecnicasRegra', 'acoesRegra'] as const) {
+        for (const wl of [...card[key]]) {
+          const pai = paiDaFonte(card.fonteDe[wl])
+          const alvo = pai ? (nivelDe.get(pai) ?? 1) : 1
+          if (alvo > card.nivel) {
+            card[key] = card[key].filter((x) => x !== wl)
+            const dest = cards[Math.min(nivelMax, alvo) - 1]!
+            dest[key].push(wl)
+            dest.fonteDe[wl] = card.fonteDe[wl]!
+            anota(wl, alvo)
+            mudou = true
+          }
+        }
+      }
+      for (const m of [...card.magiasRegra]) {
+        const pai = paiDaFonte(m.fonte)
+        const alvo = pai ? (nivelDe.get(pai) ?? 1) : 1
+        if (alvo > card.nivel) {
+          card.magiasRegra = card.magiasRegra.filter((x) => x !== m)
+          cards[Math.min(nivelMax, alvo) - 1]!.magiasRegra.push(m)
+          mudou = true
+        }
+      }
+      for (const e of [...card.escolhas]) {
+        const alvo = nivelDe.get(wlBase(e.sourceNote)) ?? e.gateLevel
+        if (alvo > card.nivel) {
+          card.escolhas = card.escolhas.filter((x) => x !== e)
+          e.gateLevel = alvo
+          cards[Math.min(nivelMax, alvo) - 1]!.escolhas.push(e)
+          if (e.pick) anota(e.pick, alvo)
+          mudou = true
+        }
+      }
+    }
+    if (!mudou) break
   }
 
   return cards

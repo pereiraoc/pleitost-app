@@ -51,6 +51,19 @@ import { fmPath, wikiTarget } from './hero-model'
 import { slugify } from './registry'
 import { linkLabel } from '../../markdown/dataview-value'
 import { ITEM_CARD_CSS, docImageUrl, docTier, itemCardHtml } from '../item-card'
+import { linkIconForEntry } from '../../markdown/link-icon'
+
+// Emojis por TIPO de slot — do registro supercharged (supercharged-icons.ts;
+// nunca inventar): Perícia 🧠, Energia Mágica 🔷 (slots de magia), Técnica 📘,
+// Especialização 🎖️, Maestria 🏆, Habilidade 📕.
+const TIPO_EMOJI = {
+  pericia: '🧠',
+  magia: '🔷',
+  tecnica: '📘',
+  especialidade: '🎖️',
+  maestria: '🏆',
+  selecao: '📕',
+} as const
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({
   fontFamily: 'var(--mono)',
@@ -109,6 +122,7 @@ function PbRow({
   kickerTxt,
   valor,
   doc,
+  icon,
   depth = 0,
   expanded,
   onToggle,
@@ -119,6 +133,8 @@ function PbRow({
   kickerTxt: string
   valor: string
   doc?: VaultDoc | null
+  /** Emoji do registro (linkIconForEntry do alvo, ou o do TIPO do slot). */
+  icon?: string
   depth?: number
   expanded: boolean
   onToggle: (rid: string) => void
@@ -139,6 +155,7 @@ function PbRow({
         }}
       >
         {depth > 0 ? <span style={{ color: 'var(--muted)', fontSize: 13 }}>↳</span> : null}
+        {icon ? <span style={{ fontSize: 15, flex: 'none' }}>{icon}</span> : null}
         <button
           onClick={() => onToggle(rid)}
           style={{
@@ -471,6 +488,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   interface SlotPend {
     pid: string
     label: string
+    icon: string
     picker: ReactNode
   }
 
@@ -499,6 +517,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         out.push({
           pid,
           label: `PERÍCIA ${GROUP_OF[rank]}`,
+          icon: TIPO_EMOJI.pericia,
           picker: pickerSelect(
             `Perícia ${GROUP_OF[rank]} (nível ${card.nivel})`,
             card.periciasElegiveis[rank].map((n) => ({ value: n, label: n })),
@@ -518,6 +537,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         out.push({
           pid,
           label: `TÉCNICA ${GROUP_OF[rank]}`,
+          icon: TIPO_EMOJI.tecnica,
           picker: pickerSelect(
             `Técnica ${GROUP_OF[rank]} (nível ${card.nivel})`,
             (tecnicasElegiveis.get(rank) ?? []).map((wl) => ({ value: wl, label: linkLabel(wl) })),
@@ -549,6 +569,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         out.push({
           pid,
           label: `MAGIA ${grupo}`,
+          icon: TIPO_EMOJI.magia,
           picker: pickerSelect(
             `Magia ${grupo} (nível ${card.nivel})`,
             opcoes.sort((a, b) => a.label.localeCompare(b.label)),
@@ -580,6 +601,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       out.push({
         pid: `${card.nivel}|esp|${g.nome}|${g.rank}`,
         label: `${g.rank === 'E' ? 'ESPECIALIDADE' : 'MAESTRIA'} · ${g.nome}`,
+        icon: g.rank === 'E' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria,
         picker: pickerSelect(
           `${g.rank === 'E' ? 'Especialidade' : 'Maestria'} de ${g.nome} (nível ${card.nivel})`,
           opts.map((wl) => ({ value: wl, label: linkLabel(wl) })),
@@ -599,6 +621,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       out.push({
         pid: `${card.nivel}|sel|${c.choiceKey}`,
         label: `${(c.label || 'SELEÇÃO').toUpperCase()} · ${c.sourceNote}`,
+        icon: TIPO_EMOJI.selecao,
         picker: (
           <SelectBox
             ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
@@ -633,6 +656,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           kickerTxt={`${c.label || 'Seleção'} · ${c.sourceNote}${desbloqueada ? '' : ' · plano'}`}
           valor={linkLabel(valor)}
           doc={refs.refDoc(valor)}
+          icon={linkIconForEntry(refs.refDoc(valor) ?? undefined) || TIPO_EMOJI.selecao}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
         >
@@ -659,6 +683,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           kickerTxt={`Perícia ${GROUP_OF[g.rank]}`}
           valor={g.nome}
           doc={refs.refDoc(`[[${g.nome}]]`)}
+          icon={TIPO_EMOJI.pericia}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
           right={removerX(`Remover ${g.nome} ${g.rank}`, () => {
@@ -677,6 +702,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           kickerTxt={`Técnica ${GROUP_OF[g.rank]}`}
           valor={linkLabel(g.link)}
           doc={refs.refDoc(g.link)}
+          icon={linkIconForEntry(refs.refDoc(g.link) ?? undefined) || TIPO_EMOJI.tecnica}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
           right={removerX(`Remover ${linkLabel(g.link)}`, () => {
@@ -695,6 +721,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           kickerTxt={`Magia ${GROUP_OF[g.rank]} · ${g.escola}${g.secundaria ? ' (2ª)' : ''}`}
           valor={linkLabel(g.link)}
           doc={refs.refDoc(g.link)}
+          icon={linkIconForEntry(refs.refDoc(g.link) ?? undefined) || TIPO_EMOJI.magia}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
           right={
@@ -717,6 +744,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           kickerTxt={`${f.tipo === 'especialidade' ? 'Especialidade' : 'Maestria'} · ${f.pericia}`}
           valor={linkLabel(f.alvo)}
           doc={refs.refDoc(f.alvo)}
+          icon={f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
           right={removerX(`Remover ${linkLabel(f.alvo)}`, () => {
@@ -729,9 +757,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return out
   }
 
-  // Tree view dos GANHOS automáticos (↳ sob quem concedeu).
+  // Tree view dos GANHOS automáticos (↳ sob quem concedeu). Itens com fonte
+  // Escolha.* ficam FORA (já aparecem como row de seleção) — os filhos deles
+  // entram como raiz com "via [pick]".
   const arvoreGanhos = (card: LevelCard): ReactNode => {
-    const todos = [...card.habilidades, ...card.tecnicasRegra, ...card.acoesRegra]
+    const todos = [...card.habilidades, ...card.tecnicasRegra, ...card.acoesRegra].filter(
+      (wl) => !String(card.fonteDe[wl] ?? '').startsWith('Escolha'),
+    )
     const nomes = new Set(todos.map((wl) => wikiTarget(wl)))
     const paiDe = (wl: string): string | null => {
       const m = /^Regra\.\[\[(.+?)\]\]$/.exec(card.fonteDe[wl] ?? '')
@@ -749,6 +781,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             kickerTxt={`Ganho do nível${via}`}
             valor={linkLabel(wl)}
             doc={refs.refDoc(wl)}
+            icon={linkIconForEntry(refs.refDoc(wl) ?? undefined) || undefined}
             depth={depth}
             expanded={expandidos.has(rid)}
             onToggle={toggleRow}
@@ -770,6 +803,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               kickerTxt={`Magia concedida · ${m.escola}${m.secundaria ? ' (2ª)' : ''}`}
               valor={linkLabel(m.link)}
               doc={refs.refDoc(m.link)}
+              icon={linkIconForEntry(refs.refDoc(m.link) ?? undefined) || TIPO_EMOJI.magia}
               expanded={expandidos.has(rid)}
               onToggle={toggleRow}
             />
@@ -842,7 +876,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', padding: '2px 0' }}>
                 {pendencias.map((p) => (
                   <SlotButton key={p.pid} ativo={pickerAberto === p.pid} onClick={() => togglePicker(p.pid)}>
-                    ⚙ {p.label}
+                    {p.icon} {p.label}
                   </SlotButton>
                 ))}
               </div>
@@ -859,7 +893,41 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               ) : null,
             )}
             {preenchidas}
-            {arvoreGanhos(card)}
+            {(() => {
+              const nGanhos =
+                [...card.habilidades, ...card.tecnicasRegra, ...card.acoesRegra].filter(
+                  (wl) => !String(card.fonteDe[wl] ?? '').startsWith('Escolha'),
+                ).length +
+                card.magiasRegra.length +
+                card.escalares.length
+              if (!nGanhos) return null
+              const rid = `ganhos|${card.nivel}`
+              const abertoG = expandidos.has(rid)
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <button
+                    onClick={() => toggleRow(rid)}
+                    style={mono({
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: 'var(--muted)',
+                      background: 'transparent',
+                      border: '1px dashed var(--line2)',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                      clipPath: clip(6),
+                    })}
+                  >
+                    <span>{abertoG ? '▾' : '▸'}</span>
+                    GANHOS DO NÍVEL ({nGanhos})
+                  </button>
+                  {abertoG ? arvoreGanhos(card) : null}
+                </div>
+              )
+            })()}
           </div>
         )
       })}

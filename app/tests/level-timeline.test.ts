@@ -117,3 +117,32 @@ describe('blindagem — bloco Planejamento é INERTE pra engine', () => {
     expect(JSON.stringify(comD)).toBe(JSON.stringify(semD))
   })
 })
+
+describe('#493 — consequência herda o nível do PAI (cadeia de derivação)', () => {
+  it('escolha de técnica comprada com slot E (N4) cai no card 4, não no 1', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 9,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Tecnicas: {
+        Lista: [
+          { '[[Treinamento de Classe Secundária]]': 'Slot.A' }, // 1º A → N1
+          { '[[Especialização em Classe Secundária]]': 'Slot.E' }, // 1º E → N4
+        ],
+      },
+      Habilidades: {
+        Lista: [{ '[[Treinamento de Ladino]]': 'Escolha.[[Treinamento de Classe Secundária]]' }],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const escolhasDe = (n: number) => cards[n - 1]!.escolhas.map((c) => c.sourceNote)
+    // a escolha da Especialização (técnica atribuída ao N4) pertence ao N4
+    expect(escolhasDe(4)).toContain('Especialização em Classe Secundária')
+    expect(escolhasDe(1)).not.toContain('Especialização em Classe Secundária')
+    // a do Treinamento (comprado no N1) segue no N1
+    expect(escolhasDe(1)).toContain('Treinamento de Classe Secundária')
+    // ganho derivado do pick do N1 (Ataque Furtivo Menor via Treinamento de
+    // Ladino) fica no N1
+    expect(cards[0]!.habilidades.join(' ')).toContain('Ataque Furtivo Menor')
+  })
+})

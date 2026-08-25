@@ -103,14 +103,24 @@ describe('aba Planejamento — timeline 1..10', () => {
       expect(cardDe(n), `card do nível ${n}`).toBeTruthy()
       expect(cardDe(n).textContent).toContain(`NÍVEL ${n}`)
     }
-    // marcador do nível atual no banner (◄) e ganhos por nível (regras reais)
+    // marcador do nível atual no banner (◄)
     expect(cardDe(3).textContent).toContain('◄')
+    // GANHOS são colapsáveis (#493) — expande antes de assertar o conteúdo
+    const expandeGanhos = (n: number) => {
+      const btn = [...cardDe(n).querySelectorAll('button')].find((b) =>
+        (b.textContent ?? '').includes('GANHOS DO NÍVEL'),
+      )
+      expect(btn, `botão de ganhos do nível ${n}`).toBeTruthy()
+      fireEvent.click(btn!)
+    }
+    for (const n of [1, 4, 7, 10]) expandeGanhos(n)
     expect(cardDe(4).textContent).toContain('Veterano')
     expect(cardDe(7).textContent).toContain('Campeão')
     expect(cardDe(10).textContent).toContain('Maestria em Arma')
     expect(cardDe(1).textContent).toContain('Evolução Básica')
-    // slots não preenchidos viram botões-slot (⚙) no card
-    expect(cardDe(1).textContent).toContain('⚙')
+    // slots não preenchidos viram botões-slot com o emoji do TIPO (registro)
+    expect(cardDe(1).textContent).toContain('🧠')
+    expect(cardDe(2).textContent).toContain('📘')
   }, 40000)
 
   it('escolha FUTURA grava no bloco Planejamento; subir o nível materializa o pick', async () => {
