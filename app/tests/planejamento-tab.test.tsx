@@ -968,3 +968,74 @@ describe('#507 — remover a ESPECIALIDADE derruba a maestria dependente (cascat
     )
   }, 90000)
 })
+
+describe('#509 — remover incremento de perícia PLANEJADO (nível futuro)', () => {
+  it('clicar o rank E selecionado no N4 (futuro) remove o registro e o chip', async () => {
+    const id = createLocalEntity('Heroi', 'Munro Caso', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'A',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }],
+          },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+          // E PLANEJADO pro N4 (herói é N3)
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+    const botaoPer = [...card4.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
+    )
+    expect(botaoPer, 'botão de perícia no N4').toBeTruthy()
+    fireEvent.click(botaoPer!)
+    const rankE = await waitFor(() => {
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Atletismo') &&
+            d.querySelector('[aria-label="Rank E"]:not([aria-disabled])'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      const btn = linha?.querySelector('[aria-label="Rank E"]:not([aria-disabled])') as HTMLElement
+      expect(btn, 'Rank E clicável do Atletismo no popup N4').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(rankE)
+    // o registro E@4 SOME e não volta (report Munro 2026-08-26: "tentei tirar
+    // no nivel 4 o Atletismo como experiente mas não mudou")
+    await waitFor(
+      () => {
+        const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        const regs = ((fmCur['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        expect(regs.some((r) => r['tipo'] === 'pericia' && r['rank'] === 'E')).toBe(false)
+        expect(regs.some((r) => r['tipo'] === 'pericia' && r['rank'] === 'A')).toBe(true)
+      },
+      { timeout: 20000 },
+    )
+    // e segue fora após o rebuild assentar (sem ressurreição por pin/sync)
+    await new Promise((r) => setTimeout(r, 300))
+    const regs2 = ((getLocalEntity(id)!.frontmatter as Record<string, unknown>)['Planejamento'] as Record<
+      string,
+      unknown
+    >)['gastosSlots'] as Array<Record<string, unknown>>
+    expect(regs2.some((r) => r['tipo'] === 'pericia' && r['rank'] === 'E')).toBe(false)
+  }, 90000)
+})

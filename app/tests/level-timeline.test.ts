@@ -494,3 +494,23 @@ describe('#508 — magias SECUNDÁRIAS caem onde os slots secundários nascem (S
     expect(g(1)).toContain('[[Aturdir]]:A(2ª)')
   })
 })
+
+describe('#509 — overflow de gastos sem slot cai no nível ATUAL, nunca no N10', () => {
+  it('mais técnicas do que slots: excedente fica no nível do herói', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Tecnicas: {
+        // 14 técnicas A — mais do que TODOS os slots de técnica do ladder do
+        // Guerreiro (A + fungibilidade em E/M): o resto transborda
+        Lista: Array.from({ length: 14 }, (_, i) => ({ [`[[Técnica Fictícia ${i}]]`]: 'Slot.A' })),
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    // O excedente sem slot pertence ao PRESENTE do herói (N3), não ao N10
+    // (report Munro 2026-08-26: "magias sendo colocadas no nivel 10").
+    expect(cards[9]!.gastos.tecnicas).toHaveLength(0)
+    expect(cards[2]!.gastos.tecnicas.length).toBeGreaterThanOrEqual(2)
+  })
+})

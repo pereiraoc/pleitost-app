@@ -630,7 +630,12 @@ export async function buildLevelTimeline(
   // gastos secundários consumiam o pool primário vazio e transbordavam pro
   // N10 (#508, report Simões)
   const poolMagSec = new SlotPools(cards.map((c) => c.slots.magiasSec ?? ZERO_SLOTS()))
-  const cardDe = (nivel: number | null): LevelCard => cards[Math.max(1, Math.min(nivelMax, nivel ?? nivelMax)) - 1]!
+  // Gasto sem slot explicável no ladder (pool esgotado/escopo desconhecido)
+  // pertence ao PRESENTE do herói — cair no N10 espalhava tudo no fim do
+  // roadmap (#509, report Munro).
+  const nivelHeroi = Math.max(1, Math.min(nivelMax, Number(fm['Nível'] ?? fm['Nivel']) || 1))
+  const cardDe = (nivel: number | null): LevelCard =>
+    cards[Math.max(1, Math.min(nivelMax, nivel ?? nivelHeroi)) - 1]!
   const registros = gastosRegistrados(fm)
   const registroDe = (
     tipo: GastoRegistrado['tipo'],

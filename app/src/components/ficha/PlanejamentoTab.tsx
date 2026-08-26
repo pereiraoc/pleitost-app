@@ -44,8 +44,8 @@ import {
   custoDigits,
   type HabChoice,
 } from './HabilidadesTab'
-import { magiaEmoji, rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
-import { RankBtns } from './bits'
+import { ATTR_EMOJI, magiaEmoji, rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
+import { AttrBadge, RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
 import { listEspecializacoesByPericia } from '../../rules/projection'
@@ -1069,7 +1069,17 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     const RANK_N: Record<string, number> = { N: 0, A: 1, E: 2, M: 3 }
     const livresDe = (r: 'A' | 'E' | 'M') =>
       card.slots.pericias[r] - card.gastos.pericias.filter((g) => g.rank === r && g.fonte === 'Slot').length
-    const nomes = Object.keys(card.periciasEntrando).sort((a, b) => a.localeCompare(b))
+    // ordem das COMPETÊNCIAS (FM Pericias.Lista), não alfabética; perícias
+    // fora da lista (raras) vão pro fim — e cada linha leva o badge do
+    // atributo como lá (report 2026-08-26)
+    const rowsFm = (fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]
+    const ordemFm = rowsFm.map((r) => String(r.Nome ?? ''))
+    const atributoDe = (nome: string) => String(rowsFm.find((r) => String(r.Nome) === nome)?.Atributo ?? '')
+    const nomes = Object.keys(card.periciasEntrando).sort((a, b) => {
+      const ia = ordemFm.indexOf(a)
+      const ib = ordemFm.indexOf(b)
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib) || a.localeCompare(b)
+    })
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
@@ -1104,6 +1114,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           if (podeSubir) clicaveis.add(proximo!)
           return (
             <div key={nome} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <AttrBadge ic={ATTR_EMOJI[atributoDe(nome)] ?? ''} at={atributoDe(nome)} />
               <ItemHover doc={docDe(`[[${nome}]]`)} fullBody style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {nome}
