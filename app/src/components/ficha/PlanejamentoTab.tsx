@@ -1283,11 +1283,17 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     // Elegibilidade RETROATIVA (mesma regra das perícias/técnicas): alvo
     // segurado por escolha de nível FUTURO é selecionável aqui — escolher
     // MOVE a linha (o writeChoicePick dedupa por alvo) e o futuro esvazia.
+    // pick EFETIVO de uma escolha: real quando desbloqueada, senão o PLANO —
+    // as duas fontes contam pra exclusão de irmãs e pra liberação (#504)
+    const efetivoDe = (e: TimelineChoice): string | null =>
+      e.gateLevel <= nivelAtual ? pickRealDe(e) : (plano[e.choiceKey] ?? null)
     const liberadas = new Set<string>()
     for (const cc of cards ?? []) {
       for (const e of cc.escolhas) {
         if (e.isSubclass || e.gateLevel <= card.nivel) continue
         if (e.pick) liberadas.add(wikiTarget(e.pick))
+        const efet = efetivoDe(e)
+        if (efet) liberadas.add(wikiTarget(efet))
       }
     }
     // Linha com tag Escolha de pai MORTO (formato antigo — ex.: a Espreitadora
@@ -1332,19 +1338,33 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   (cards ?? [])
                     .flatMap((cc) => cc.escolhas)
                     .filter((e) => !e.isSubclass && e.sourceNote === c.sourceNote && e.choiceKey !== c.choiceKey)
-                    .map(toHabChoice),
+                    .map((e) => ({ ...toHabChoice(e), pick: efetivoDe(e) })),
                   fm,
                   c.sourceNote,
                   liberadas,
                 )}
                 onChange={(v) => {
+                  // dedup do PLANO por alvo: escolher aqui um alvo planejado
+                  // em outra irmã MOVE o plano (nunca duplica, #504)
+                  const planoSem = (alvo: string) => {
+                    const p = { ...planPicks(model.fm) }
+                    for (const [k, val] of Object.entries(p)) {
+                      if (k !== c.choiceKey && wikiTarget(val) === wikiTarget(alvo)) delete p[k]
+                    }
+                    return p
+                  }
                   if (desbloqueada) {
                     // v vazio LIMPA (remove a linha do pick real; o display
                     // honra source e não re-preenche com default — #500)
                     writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
                     buildSeq.current += 1
+                    if (v) {
+                      const p = planoSem(v)
+                      if (JSON.stringify(p) !== JSON.stringify(planPicks(model.fm)))
+                        escreve('Planejamento.picks', p)
+                    }
                   } else if (v) {
-                    escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
+                    escreve('Planejamento.picks', { ...planoSem(v), [c.choiceKey]: v })
                   } else {
                     const p = { ...planPicks(model.fm) }
                     delete p[c.choiceKey]

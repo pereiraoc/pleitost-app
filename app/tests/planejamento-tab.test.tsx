@@ -854,3 +854,48 @@ describe('#502 — essência já escolhida por IRMÃ de nível anterior não re-
     expect(labels.some((l) => l.includes('Congelante'))).toBe(false)
   }, 90000)
 })
+
+describe('#504 — pick PLANEJADO de irmã (gate futuro) também exclui a oferta nas outras', () => {
+  it('Congelante Experiente escolhida no N7 (plano) some do N9; plano não duplica', async () => {
+    const id = createLocalEntity(
+      'Heroi',
+      'Leonel Experiente',
+      JSON.parse(
+        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+      ).frontmatter as Record<string, unknown>,
+    )
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const abreEss = async (nivel: number) => {
+      const card = document.querySelector(`[data-nivel="${nivel}"]`) as HTMLElement
+      const botao = [...card.querySelectorAll('button')].find((b) =>
+        (b.textContent ?? '').includes('ESSÊNCIA ELEMENTAL EXPERIENTE'),
+      )
+      expect(botao, `botão de essências experiente no N${nivel}`).toBeTruthy()
+      fireEvent.click(botao!)
+      return waitFor(() => {
+        const s2 = [...document.querySelectorAll('select')].find((x) =>
+          [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Experiente')),
+        ) as HTMLSelectElement
+        expect(s2, `select de essência experiente no N${nivel}`).toBeTruthy()
+        return s2
+      })
+    }
+    // N7 (futuro — Leonel é N3): escolhe Congelante Experiente → vai pro PLANO
+    const sel7 = await abreEss(7)
+    const opcao = [...sel7.options].map((o) => o.value).find((v) => v.includes('Congelante Experiente'))!
+    expect(opcao).toBeTruthy()
+    fireEvent.change(sel7, { target: { value: opcao } })
+    await waitFor(() => {
+      const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const picks = ((fmCur['Planejamento'] as Record<string, unknown>)?.['picks'] ?? {}) as Record<string, string>
+      expect(Object.values(picks).filter((v) => v.includes('Congelante Experiente'))).toHaveLength(1)
+    })
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
+    // N9: a MESMA essência não pode ser re-ofertada (report 2026-08-26)
+    const sel9 = await abreEss(9)
+    const labels9 = [...sel9.options].map((o) => o.textContent ?? '')
+    expect(labels9.some((l) => l.includes('Torrencial Experiente'))).toBe(true) // livres seguem
+    expect(labels9.some((l) => l.includes('Congelante Experiente'))).toBe(false)
+  }, 90000)
+})
