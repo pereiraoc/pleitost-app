@@ -353,7 +353,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   // Popup por nível (Incrementos de Perícia / Magias) — editor ESCOPADO: só
   // os slots DAQUELE nível são editáveis; o passado aparece como contexto
   // travado (report 2026-08-25).
-  const [popup, setPopup] = useState<{ nivel: number; tipo: TipoPopup } | null>(null)
+  const [popup, setPopup] = useState<{ nivel: number; tipo: TipoPopup; grupo?: string } | null>(null)
   const [confirmaLimpar, setConfirmaLimpar] = useState(false)
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
   const buildSeq = useRef(0)
@@ -581,7 +581,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     escreve('Pericias.Lista', rows)
   }
 
-  const abrePopup = (nivel: number, tipo: TipoPopup) => {
+  const abrePopup = (nivel: number, tipo: TipoPopup, grupo?: string) => {
     // Diagnóstico remoto: com o modo debug ligado, o bug report leva o estado
     // exato do nível (slots/gastos/entrando) — investigação do #493.
     const card = cards?.[nivel - 1]
@@ -612,7 +612,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           regs.map((r) => `${r.tipo}:${wikiTarget(r.alvo)}:${r.rank ?? ''}@${r.nivel}`).join(',').slice(0, 260),
       )
     }
-    setPopup({ nivel, tipo })
+    setPopup({ nivel, tipo, grupo })
   }
 
   // ── sync plano ⇄ real quando o nível muda (roadmap do Pathbuilder) ────────
@@ -1260,8 +1260,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return out
   }
 
-  const editorSelecoesNivel = (card: LevelCard) => {
-    const escolhasNormais = card.escolhas.filter((c) => !c.isSubclass)
+  const editorSelecoesNivel = (card: LevelCard, grupo?: string) => {
+    const escolhasNormais = card.escolhas.filter(
+      (c) => !c.isSubclass && (!grupo || (c.label || 'Seleção') === grupo),
+    )
     const valorDe = (c: TimelineChoice) =>
       c.gateLevel <= nivelAtual ? c.pick : (plano[c.choiceKey] ?? null)
     return (
@@ -1351,18 +1353,53 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         onOpen: () => abrePopup(card.nivel, 'espec'),
       })
     }
-    const escolhasNormais = card.escolhas.filter((c) => !c.isSubclass)
-    if (escolhasNormais.length) {
-      const valorDe = (c: TimelineChoice) =>
-        c.gateLevel <= nivelAtual ? c.pick : (plano[c.choiceKey] ?? null)
-      const pendentesSel = escolhasNormais.filter((c) => !valorDe(c))
+    // Um botão POR TIPO de seleção (label da própria regra): TÉCNICA, FORMA,
+    // ESSÊNCIA ELEMENTAL ADEPTA… — o "SELEÇÕES" único misturava tudo e ficava
+    // ruim de ver (Leonel, report 2026-08-25).
+    const valorDe = (c: TimelineChoice) =>
+      c.gateLevel <= nivelAtual ? c.pick : (plano[c.choiceKey] ?? null)
+    for (const [grupo, lista] of gruposEscolhasDe(card)) {
+      const pendentesSel = lista.filter((c) => !valorDe(c))
       out.push({
-        pid: `${card.nivel}|sel`,
-        label: `SELEÇÕES (${escolhasNormais.length})`,
+        pid: `${card.nivel}|sel|${grupo}`,
+        label: `${grupo.toUpperCase()} (${lista.length})`,
         icon: TIPO_EMOJI.selecao,
         done: pendentesSel.length === 0,
-        onOpen: () => abrePopup(card.nivel, 'selecoes'),
+        onOpen: () => abrePopup(card.nivel, 'selecoes', grupo),
       })
+    }
+    return out
+  }
+
+  /** Escolhas normais do card agrupadas pelo LABEL da regra (Essência
+   *  Elemental Adepta / Técnica / Forma…) — vocabulário da fonte, nada
+   *  inventado. */
+  const gruposEscolhasDe = (card: LevelCard): Map<string, TimelineChoice[]> => {
+    const grupos = new Map<string, TimelineChoice[]>()
+    for (const c of card.escolhas) {
+      if (c.isSubclass) continue
+      const g = c.label || 'Seleção'
+      grupos.set(g, [...(grupos.get(g) ?? []), c])
+    }
+    return grupos
+  }
+
+  /** Basename do alvo do wikilink (comparação estável path/alias). */
+  const baseDe = (wl: string): string => wikiTarget(wl).split('/').pop() ?? ''
+  /** Nota-fonte de um tag `Regra.[[X]]`/`Escolha(.NN).[[X]]` → basename. */
+  const fonteBaseDe = (fonte?: string): string | null => {
+    const m = fonte ? /\[\[(.+?)\]\]/.exec(fonte) : null
+    return m ? baseDe(`[[${m[1]}]]`) : null
+  }
+  /** Magias do card concedidas por um PICK de seleção do próprio card — elas
+   *  rendem IDENTADAS sob a essência na strip, não como row de "magia
+   *  concedida" no topo (report 2026-08-25). */
+  const magiasAninhadasDe = (card: LevelCard): Set<string> => {
+    const picks = new Set(escolhasPreenchidasDe(card).map((s) => baseDe(s.valor)))
+    const out = new Set<string>()
+    for (const m of card.magiasRegra) {
+      const f = fonteBaseDe(m.fonte)
+      if (f && picks.has(f)) out.add(`${m.escola}|${m.link}`)
     }
     return out
   }
@@ -1426,10 +1463,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       )
     }
     const raizes = todos.filter((wl) => !nomes.has(paiDe(wl) ?? ''))
+    const aninhadas = magiasAninhadasDe(card)
     return (
       <>
         {raizes.map((wl) => linha(wl, 0))}
-        {card.magiasRegra.map((m) => {
+        {card.magiasRegra.filter((m) => !aninhadas.has(`${m.escola}|${m.link}`)).map((m) => {
           const rid = `ganho|${card.nivel}|${m.escola}|${m.link}`
           return (
             <PbRow
@@ -1571,23 +1609,27 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               </div>
             ) : null}
             {arvoreGanhos(card)}
-            {selecoes.length ||
-            card.gastos.pericias.length ||
-            card.gastos.tecnicas.length ||
-            card.gastos.magias.length ||
-            card.gastos.especialidades.length ? (
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={kicker}>ESCOLHAS</span>
-                {selecoes.map((s) => (
-                  <PlanChip
-                    key={`s|${s.choiceKey}`}
-                    wl={s.valor}
-                    doc={docDe(s.valor)}
-                    fallbackIcon={TIPO_EMOJI.selecao}
-                    sufixo={`${s.label}${s.plano ? ' · plano' : ''}`}
-                  />
-                ))}
-                {card.gastos.pericias.map((g) => (
+            {(() => {
+              // ESCOLHAS agrupadas por TIPO, uma linha cada (report 2026-08-25):
+              // PERÍCIAS / TÉCNICAS / MAGIAS / ESPEC/MAESTRIAS + um grupo por
+              // label de seleção (essências com as magias concedidas identadas).
+              const linhas: ReactNode[] = []
+              const linha = (chave: string, kickerTxt: string, chips: ReactNode[], sub?: ReactNode) => {
+                if (!chips.length) return
+                linhas.push(
+                  <div key={chave} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                      <span style={kicker}>{kickerTxt}</span>
+                      {chips}
+                    </div>
+                    {sub}
+                  </div>,
+                )
+              }
+              linha(
+                'per',
+                'PERÍCIAS',
+                card.gastos.pericias.map((g) => (
                   <PlanChip
                     key={`p|${g.nome}|${g.rank}`}
                     wl={`[[${g.nome}]]`}
@@ -1595,17 +1637,25 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     fallbackIcon={TIPO_EMOJI.pericia}
                     sufixo={`${g.rank}${g.fonte === 'Passado' ? ' · Passado' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
-                ))}
-                {card.gastos.tecnicas.map((g) => (
+                )),
+              )
+              linha(
+                'tec',
+                'TÉCNICAS',
+                card.gastos.tecnicas.map((g) => (
                   <PlanChip
                     key={`t|${g.link}`}
                     wl={g.link}
                     doc={docDe(g.link)}
                     fallbackIcon={TIPO_EMOJI.tecnica}
-                    sufixo={`Técnica ${g.rank}${g.planejado ? ' · plano' : ''}`}
+                    sufixo={`${g.rank}${g.planejado ? ' · plano' : ''}`}
                   />
-                ))}
-                {card.gastos.magias.map((g) => (
+                )),
+              )
+              linha(
+                'mag',
+                'MAGIAS',
+                card.gastos.magias.map((g) => (
                   <PlanChip
                     key={`m|${g.escola}|${g.link}`}
                     wl={g.link}
@@ -1614,10 +1664,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       const d = docDe(g.link)
                       return d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia
                     })()}
-                    sufixo={`Magia ${g.rank}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
+                    sufixo={`${g.rank}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
-                ))}
-                {card.gastos.especialidades.map((f) => (
+                )),
+              )
+              linha(
+                'esp',
+                'ESPEC/MAESTRIAS',
+                card.gastos.especialidades.map((f) => (
                   <PlanChip
                     key={`e|${f.pericia}|${f.alvo}`}
                     wl={f.alvo}
@@ -1625,9 +1679,58 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     fallbackIcon={f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
                     sufixo={f.pericia}
                   />
-                ))}
-              </div>
-            ) : null}
+                ))
+              )
+              for (const [grupo] of gruposEscolhasDe(card)) {
+                const picks = selecoes.filter((s) => s.label === grupo)
+                const comMagias = picks
+                  .map((s) => ({
+                    s,
+                    magias: card.magiasRegra.filter((m) => fonteBaseDe(m.fonte) === baseDe(s.valor)),
+                  }))
+                  .filter((x) => x.magias.length)
+                linha(
+                  `sel|${grupo}`,
+                  grupo.toUpperCase(),
+                  picks.map((s) => (
+                    <PlanChip
+                      key={`s|${s.choiceKey}`}
+                      wl={s.valor}
+                      doc={docDe(s.valor)}
+                      fallbackIcon={TIPO_EMOJI.selecao}
+                      sufixo={s.plano ? 'plano' : undefined}
+                    />
+                  )),
+                  comMagias.length ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      {comMagias.map(({ s, magias }) => (
+                        <div
+                          key={`sub|${s.choiceKey}`}
+                          style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', paddingLeft: 18 }}
+                        >
+                          <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>↳ {linkLabel(s.valor)}</span>
+                          {magias.map((m) => (
+                            <PlanChip
+                              key={`sm|${m.escola}|${m.link}`}
+                              wl={m.link}
+                              doc={docDe(m.link)}
+                              fallbackIcon={(() => {
+                                const d = docDe(m.link)
+                                return d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia
+                              })()}
+                              sufixo={m.escola}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  ) : undefined,
+                )
+              }
+              return linhas.length ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>{linhas}</div>
+              ) : null
+            })()}
           </div>
         )
       })}
@@ -1642,7 +1745,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   ? `${TIPO_EMOJI.tecnica} TÉCNICAS`
                   : popup.tipo === 'espec'
                     ? `${TIPO_EMOJI.especialidade} ESPEC/MAESTRIAS`
-                    : `${TIPO_EMOJI.selecao} SELEÇÕES`
+                    : `${TIPO_EMOJI.selecao} ${(popup.grupo ?? 'Seleções').toUpperCase()}`
           } — NÍVEL ${popup.nivel}`}
           onClose={() => setPopup(null)}
         >
@@ -1697,7 +1800,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             }
             if (popup.tipo === 'tecnica') return editorTecnicasNivel(cardPopup)
             if (popup.tipo === 'espec') return editorEspecNivel(cardPopup, oportunidadesDe(cardPopup))
-            return editorSelecoesNivel(cardPopup)
+            return editorSelecoesNivel(cardPopup, popup.grupo)
           })()}
         </Modal>
       ) : null}

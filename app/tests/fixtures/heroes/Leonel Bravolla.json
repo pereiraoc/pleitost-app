@@ -1,0 +1,646 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Leonel Bravolla",
+  "path": "Sistema/Criaturas/Heróis/Leonel Bravolla.md",
+  "basename": "Leonel Bravolla",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Affonso, Assis, Leonel e Pind]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Affonso, Assis, Leonel e Pind]]"
+    ],
+    "Imagem": "[[Leonel Bravolla.png]]",
+    "Nível": 3,
+    "Classe": "[[Druida|Druida do Oceano]]",
+    "Sintonia": "[[Traço Elemental da Água]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 12,
+      "Moral": 24
+    },
+    "Atributos": {
+      "Principal": "INT",
+      "FOR": 1,
+      "AGI": 2,
+      "INT": 3,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Druida]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            },
+            {
+              "Bonus_Item": "Regra.[[Anel Mensageiro]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Herbalista",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Druida]]"
+        },
+        {
+          "[[Círculo Druídico]]": "Regra.[[Druida]]"
+        },
+        {
+          "[[Forma Feral]]": "Regra.[[Druida]]"
+        },
+        {
+          "[[Aspecto Feral]]": "Regra.[[Druida]]"
+        },
+        {
+          "[[Essência Torrencial Adepta]]": "Escolha.01.[[Círculo do Oceano (Água e Terra)]]"
+        },
+        {
+          "[[Essência Congelante Adepta]]": "Escolha.02.[[Círculo do Oceano (Água e Terra)]]"
+        },
+        {
+          "[[Círculo do Oceano (Água e Terra)]]": "Escolha.[[Círculo Druídico]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 2,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Aspecto Elemental]]": "Slot.A"
+        },
+        {
+          "[[Forma Adicional]]": "Slot.A"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 4,
+      "EM": 2,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Caminho de Gelo]]": "Regra.[[Essência Congelante Adepta]]"
+            },
+            {
+              "[[Esfera d'Água]]": "Regra.[[Essência Torrencial Adepta]]"
+            },
+            {
+              "[[Frio Instantâneo]]": "Regra.[[Essência Congelante Adepta]]"
+            },
+            {
+              "[[Rajada d'água]]": "Regra.[[Essência Torrencial Adepta]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": [
+            {
+              "[[Vento Mensageiro]]": "Tesouro.[[Anel Mensageiro]]"
+            }
+          ]
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Forma Espreitadora]]": "Escolha.[[Forma Feral]]"
+        },
+        {
+          "[[Forma Caçadora]]": "Escolha.[[Forma Feral]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "A",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "P",
+          "Pesada": "P"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Anel do Equilíbrio|Anel do Equilíbrio (Adepto)]]",
+        "[[Anel Mensageiro|Anel Mensageiro (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [
+        "[[Poção da Nutrição|Poção da Nutrição (Adepto) (x2)]]"
+      ],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "N",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Adaga]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Categoria": null,
+            "Propriedade": null,
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [
+        {
+          "qtd": 3,
+          "texto": "Goblins e Hobgoblins em Mina"
+        },
+        {
+          "qtd": 5,
+          "texto": "Rastrear Tribo de Hobgoblins e Recuperar Gemas Roubadas"
+        },
+        {
+          "qtd": 3,
+          "texto": "Resolução de Tremores na Escavação de Novo Prédio"
+        }
+      ],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "Heremita",
+      "Motivacao": "Explorar Culturas Diferentes",
+      "Genero": "M",
+      "Idade": "63",
+      "Naturalidade": "[[Floresta da Ordem]]",
+      "Altura": "1.79m",
+      "Peso": "76kg",
+      "Ideais": [
+        "Quem não é curioso, é suspeito",
+        "Proteção de culturas diferentes"
+      ],
+      "Desprezos": [
+        "Idosos Sedentários",
+        "Guerras"
+      ],
+      "Qualidades": [
+        "Empático"
+      ],
+      "Defeitos": [
+        "Temperamental"
+      ],
+      "Anotacoes": "11 MARCAS\n\nForma Caçadora: \nMovimentação 7q\nPresas - d8+4 perf, corpo-a-corpo\nAções de Perícia\nCambalhota\nSalto Longo\nRastrear\nDerrubar\n\nEstamos em pinga. Conhecida pela grande mata.\nTem bastante safira em uma mina, que pode ser usada para fazer poção e cura.\nDoutor Roger é o único doutor em safira.\n\nPind Band\nAfonso\nAssis\n\n# Quest 1: COMPLETA\nMissão: Descobrir e neutralizar o problema de monstros caso haja.\nLevantado pelo relato de uma pessoa.\nEntrada: Investiram 2 poções de cura de entrada.\nAo completar: 80 peças de ouro. 3 marcas (10 para próximo rank).\n\nFalar com responsável da mina.\n20min da mina até a cidade.\n\nDerrotamos orcs bebes, goblins e hobgoblins e liberamos os goblins.\nVovô goblin agradece.\nHobgoblin estava comandando goblins para comandar para ir pra outro lugar.\n\n# Quest 2: COMPLETA\nMissão: Rastrear Hobgoblins e recuperar gemas roubadas\nRecompensa: 2 a 5 marcas. 60 peças de ouro.\nEntrada: Cinto dos Ermos (consignado), 2x poções da nutrição\n\nTrilha tinha uma carroça, pelo menos 1 hobgoblin e dois goblin.\nHobgoblin mesmo puxava a carroça.\n\n2 horas de caminhada em linha reta (levamos 5h)\nChegamos em um pequeno bosque e uma trilha que leva pra dentro.\n\nderrotamos arqueiros\ntem 8 ocas e uma oca maior no meio (com uma fogueira azul).\nAtípico Goblin castar magia da água, em geral usa do fogo (e não pode usar de água).\n\nGoblin com lança cravada.\nSintonia artificial em uma criatura. Algum processo para esse goblin virar um elemental. Na minha opinião o processo foi concluído.\nEsse experimento já foi feito em insetos ou ratos, mas normalmente eles explodem.\n\nUma esmeralda e uma lança são dropadas.\nCiro é um linguista goblin da cidade.\n\nAlguém passou para os Goblins os materiais (implemento amarelo) (lança) para fazer esse processo de fazer um elemental (sintonia artificial).\n\nAlguém por traz que entende de propriedade mágica.\nEsse bem-feitor que deu esse implemento veio de baixo do chão.\nNa documentação tem um mapa, que parece ser desenhado de lado, que talvez indique a entrada para debaixo do chão.\n\nResultado: 5 marcas e 60 peças de ouro.\n\n# Quest 3: Solucionar Problema de Baratas Gigantes\nMissão: \nRecompensa: 2 a 5 marcas. 40 peças de ouro.\nEntrada: \n\n# Quest 4: COMPLETA\nMissão: Escavação de Novo Prédio que Está tendo Tremores\nRecompensa: 2 a 5 marcas. 70 peças de ouro.\nEntrada: \nChefe de Obras Valdir. Menos de 1 minuto de tremor quando acontece.\nPrefeitura deu beneficios fiscais.\nResultado: Resultado 3 marcas e 70 peças de ouro."
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 1,
+      "Abatedor": 1,
+      "Vanguarda": 1
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 7,
+        "Moral": 24,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "EM_Secundaria": 0,
+        "Escudo_Dano": 0
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Affonso, Assis, Leonel e Pind",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Leonel Bravolla.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "Druida do Oceano"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel Mensageiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo do Oceano (Água e Terra)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo Druídico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Torrencial Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink",
+      "alias": "Anel do Equilíbrio (Adepto)"
+    },
+    {
+      "target": "Anel Mensageiro",
+      "kind": "wikilink",
+      "alias": "Anel Mensageiro (Adepto)"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink",
+      "alias": "Poção da Nutrição (Adepto) (x2)"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Floresta da Ordem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Leonel Bravolla.png",
+      "from": "frontmatter:Imagem"
+    }
+  ],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

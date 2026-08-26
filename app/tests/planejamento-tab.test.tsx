@@ -132,9 +132,9 @@ describe('aba Planejamento — timeline 1..10', () => {
     // aparece como BOTÃO-SLOT pendente; clicar abre o picker
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
     const botao = [...card2.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('SELEÇÕES'),
+      (b.textContent ?? '').includes('ESSÊNCIA'),
     )
-    expect(botao, 'botão agregado de SELEÇÕES no N2').toBeTruthy()
+    expect(botao, 'botão do grupo de essências no N2').toBeTruthy()
     fireEvent.click(botao!)
     // o editor agora abre em POPUP (portal no body)
     const sel = await waitFor(() => {
@@ -587,12 +587,12 @@ describe('escolhas preenchidas como CHIPS + auto-seed do planejamento', () => {
     })
     renderBiografia(id)
     await abrirPlanejamento()
-    // escolhe a essência FUTURA (N2) pelo popup de SELEÇÕES
+    // escolhe a essência FUTURA (N2) pelo popup do grupo (label da regra)
     const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
     const botao = [...card2.querySelectorAll('button')].find((b) =>
-      (b.textContent ?? '').includes('SELEÇÕES'),
+      (b.textContent ?? '').includes('ESSÊNCIA'),
     )
-    expect(botao, 'botão SELEÇÕES no N2').toBeTruthy()
+    expect(botao, 'botão do grupo de essências no N2').toBeTruthy()
     fireEvent.click(botao!)
     const sel = await waitFor(() => {
       const s2 = [...document.querySelectorAll('select')].find((x) =>
@@ -607,8 +607,10 @@ describe('escolhas preenchidas como CHIPS + auto-seed do planejamento', () => {
     // o pick vira CHIP na strip ESCOLHAS do card 2 (com marcador de plano)…
     await waitFor(() => {
       const c2 = document.querySelector('[data-nivel="2"]') as HTMLElement
-      const strip = [...c2.querySelectorAll('span')].find((s) => s.textContent === 'ESCOLHAS')
-      expect(strip, 'strip ESCOLHAS no card 2').toBeTruthy()
+      const strip = [...c2.querySelectorAll('span')].find((s) =>
+        (s.textContent ?? '').includes('ESSÊNCIA ELEMENTAL'),
+      )
+      expect(strip, 'linha do grupo de essências no card 2').toBeTruthy()
       expect(strip!.parentElement!.textContent).toContain('plano')
     })
     // …e NÃO existe mais row expansível de seleção no corpo do card (o
@@ -618,4 +620,71 @@ describe('escolhas preenchidas como CHIPS + auto-seed do planejamento', () => {
     const kickers = [...c2.querySelectorAll('span')].map((el) => el.textContent ?? '')
     expect(kickers.some((t) => / · .+ · plano$/.test(t))).toBe(false)
   }, 60000)
+})
+
+describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, sem colchetes', () => {
+  const leonelFm = () =>
+    JSON.parse(
+      fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+    ).frontmatter as Record<string, unknown>
+
+  it('card 1: botões por grupo; essências com magias identadas; sem row de magia concedida duplicada', async () => {
+    const id = createLocalEntity('Heroi', 'Leonel Teste', leonelFm())
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botoes = [...card1.querySelectorAll('button')].map((b) => b.textContent ?? '')
+    // um botão POR TIPO de seleção (label da regra), não um "SELEÇÕES" único
+    expect(botoes.some((t) => t.includes('ESSÊNCIA ELEMENTAL ADEPTA'))).toBe(true)
+    expect(botoes.some((t) => t.includes('TÉCNICA ('))).toBe(true)
+    expect(botoes.some((t) => t.includes('FORMA ('))).toBe(true)
+    expect(botoes.some((t) => t.includes('SELEÇÕES'))).toBe(false)
+    // linha do grupo de essências com os DOIS picks
+    const linhaEss = [...card1.querySelectorAll('span')].find((s) =>
+      s.textContent === 'ESSÊNCIA ELEMENTAL ADEPTA',
+    )
+    expect(linhaEss, 'kicker do grupo de essências').toBeTruthy()
+    const grupoEl = linhaEss!.closest('div')!.parentElement!
+    expect(grupoEl.textContent).toContain('Essência Torrencial Adepta')
+    expect(grupoEl.textContent).toContain('Essência Congelante Adepta')
+    // magias concedidas IDENTADAS sob cada essência (↳)
+    expect(grupoEl.textContent).toContain("Esfera d'Água")
+    expect(grupoEl.textContent).toContain('Caminho de Gelo')
+    // …e NÃO aparecem mais como row "Magia concedida" no topo do card
+    const rowsMagia = [...card1.querySelectorAll('span')].filter((s) =>
+      (s.textContent ?? '').startsWith('Magia concedida'),
+    )
+    expect(rowsMagia).toHaveLength(0)
+    // sem valor cru com colchetes em lugar nenhum do card
+    expect(card1.textContent).not.toContain('[[')
+  }, 90000)
+
+  it('popup do grupo FORMA mostra o pick sem colchetes', async () => {
+    const id = createLocalEntity('Heroi', 'Leonel Popup', leonelFm())
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botaoForma = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('FORMA ('),
+    )
+    expect(botaoForma, 'botão FORMA no N1').toBeTruthy()
+    fireEvent.click(botaoForma!)
+    // o select da Forma lista o pick atual como opção LIMPA (sem [[ ]])
+    await waitFor(() => {
+      const sel = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Forma')),
+      ) as HTMLSelectElement
+      expect(sel, 'select de Forma no popup').toBeTruthy()
+      const labels = [...sel.options].map((o) => o.textContent ?? '')
+      expect(labels).toContain('Forma Caçadora')
+      expect(labels.some((l) => l.includes('[['))).toBe(false)
+      // só as escolhas do GRUPO Forma neste popup (essências ficam no delas)
+      const selects = [...document.querySelectorAll('select')]
+      expect(
+        selects.some((x) =>
+          [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Essência')),
+        ),
+      ).toBe(false)
+    })
+  }, 90000)
 })

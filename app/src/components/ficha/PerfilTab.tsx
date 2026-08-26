@@ -208,7 +208,9 @@ export interface SelectOption {
  *  ou valor órfão) — mesmo guard do SelectBox de COMPETÊNCIAS. */
 export function withCurrent(options: SelectOption[], value: string, label?: string): SelectOption[] {
   if (!value || options.some((o) => o.value === value)) return options
-  return [...options, { value, label: label ?? value }]
+  // órfão de verdade ainda mostra o LABEL do wikilink, nunca o valor cru com
+  // colchetes (#497)
+  return [...options, { value, label: label ?? (linkLabel(value) || value) }]
 }
 
 /** Caixa do design com <select> nativo invisível por cima — mesmo padrão do

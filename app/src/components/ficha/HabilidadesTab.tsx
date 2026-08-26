@@ -2538,6 +2538,11 @@ export function choiceOptionsSiblingAware(
       if (!propria) taken.add(e.target)
     }
   }
+  // O pick ATUAL desta escolha nunca é "taken": no Leonel, [[Forma Caçadora]]
+  // está gravada com pai divergente (Escolha.[[Forma Feral]] vs sourceNote
+  // Tradição Druídica) — a opção sumia e o withCurrent reapresentava o valor
+  // cru com colchetes (#497).
+  if (c.pick) taken.delete(wikiTarget(String(c.pick)))
   return [
     { value: '', label: '—' },
     ...choiceOptions(c).filter((o) => !taken.has(wikiTarget(o.value))),

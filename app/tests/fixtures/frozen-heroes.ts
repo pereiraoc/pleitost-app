@@ -16,6 +16,7 @@ const heroesDir = path.join(here, 'heroes')
 const FROZEN: Record<string, string> = {
   'Sistema/Criaturas/Heróis/Carlos Facão de Andradas': 'Carlos Facão de Andradas.json',
   'Sistema/Criaturas/Heróis/Pind Bund': 'Pind Bund.json',
+  'Sistema/Criaturas/Heróis/Leonel Bravolla': 'Leonel Bravolla.json',
 }
 
 /** Resolve um caminho relativo da vault-data (com ou sem `.json`) para o arquivo
