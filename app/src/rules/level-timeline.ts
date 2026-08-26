@@ -221,6 +221,21 @@ export function sanitizarRegistros(
   cards: LevelCard[],
   registros: GastoRegistrado[],
 ): { mudou: boolean; registros: GastoRegistrado[] } {
+  // passada 0: DUPLICATAS exatas (clique repetido gravou o mesmo alvo N
+  // vezes, #495) — fica a primeira; a chave espelha a semântica do registrar
+  // (perícia é por rank; os demais tipos têm uma instância por alvo).
+  const vistos = new Set<string>()
+  const unicos = registros.filter((r) => {
+    const chave =
+      r.tipo === 'pericia'
+        ? `pericia|${wlBase(r.alvo)}|${r.rank}`
+        : `${r.tipo}|${wlBase(r.alvo)}`
+    if (vistos.has(chave)) return false
+    vistos.add(chave)
+    return true
+  })
+  const dedupou = unicos.length !== registros.length
+  registros = unicos
   const pools: Record<string, SlotPools> = {
     pericia: new SlotPools(cards.map((c) => c.slots.pericias)),
     tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),
@@ -235,7 +250,7 @@ export function sanitizarRegistros(
     return { r, ok: JSON.stringify(pool) !== antes }
   })
   // passada 2: deslocados vão pro primeiro nível livre do MESMO rank
-  let mudou = false
+  let mudou = dedupou
   const out = claims.map(({ r, ok }) => {
     if (ok || !r.rank || !(r.tipo in pools)) return r
     const novo = pools[r.tipo]!.takeSameRank(r.rank)
@@ -613,6 +628,9 @@ export async function buildLevelTimeline(
     const chave =
       r.tipo === 'pericia' ? `pericia|${wlBase(r.alvo)}|${r.rank}` : `${r.tipo}|${wlBase(r.alvo)}`
     if (atribuidos.has(chave)) continue
+    // marca o consumo: registros DUPLICADOS no FM (clique repetido, #495)
+    // rendem UM gasto, não um por duplicata
+    atribuidos.add(chave)
     const card = cardDe(r.nivel)
     if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
       poolTec.takeAt(r.rank, r.nivel)

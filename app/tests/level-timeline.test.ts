@@ -303,3 +303,53 @@ describe('#494 — registro de perícia é POR RANK (A/E/M da mesma perícia coe
     expect(g(4)).toContain('Atletismo:E')
   })
 })
+
+describe('#495 — registros duplicados de espec/maestria não multiplicam gastos', () => {
+  const fm = {
+    Classe: '[[Guerreiro]]',
+    'Nível': 8,
+    Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    Pericias: {
+      Lista: [
+        {
+          Nome: 'Acrobacia',
+          Atributo: 'AGI',
+          Proficiencia: 'E',
+          Bonus_Item: 0,
+          Bonus_Especial: 0,
+          Especializacao: '[[Estabilidade]]',
+          Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+        },
+      ],
+    },
+    Planejamento: {
+      gastosSlots: [
+        { nivel: 9, tipo: 'pericia', rank: 'M', alvo: 'Acrobacia' },
+        // clique repetido gravou o MESMO alvo 3× (report ERRO REPETIÇÃO BASE FIRME)
+        { nivel: 9, tipo: 'maestria', alvo: '[[Base Firme]]', contexto: 'Acrobacia' },
+        { nivel: 9, tipo: 'maestria', alvo: '[[Base Firme]]', contexto: 'Acrobacia' },
+        { nivel: 9, tipo: 'maestria', alvo: '[[Base Firme]]', contexto: 'Acrobacia' },
+      ],
+    },
+  }
+
+  it('o card mostra UM gasto planejado por alvo, não um por registro duplicado', async () => {
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const baseFirme = cards[8]!.gastos.especialidades.filter((g) => g.alvo.includes('Base Firme'))
+    expect(baseFirme).toHaveLength(1)
+    expect(baseFirme[0]!.planejado).toBe(true)
+  })
+
+  it('sanitizarRegistros DROPA duplicatas exatas (auto-heal limpa o FM)', async () => {
+    const { sanitizarRegistros } = await import('../src/rules/level-timeline')
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const { mudou, registros } = sanitizarRegistros(
+      cards,
+      (fm.Planejamento.gastosSlots as never[]) ?? [],
+    )
+    expect(mudou).toBe(true)
+    expect(registros.filter((r) => String((r as { alvo: string }).alvo).includes('Base Firme'))).toHaveLength(1)
+    // o registro de perícia legítimo fica intacto
+    expect(registros.some((r) => (r as { alvo: string }).alvo === 'Acrobacia')).toBe(true)
+  })
+})

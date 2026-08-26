@@ -738,6 +738,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           ...(planejado ? { planejado } : {}),
         })
       } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
+        // dedup como o registrar: uma instância por (tipo, alvo) — clique
+        // repetido não empilha a linha (#495)
+        for (const c of cs)
+          c.gastos.especialidades = c.gastos.especialidades.filter(
+            (g) => !(g.tipo === r.tipo && wikiTarget(g.alvo) === wikiTarget(r.alvo)),
+          )
         card.gastos.especialidades.push({
           pericia: r.contexto ?? '',
           alvo: r.alvo,
@@ -1236,6 +1242,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((r) => String(r.Nome) === g.nome)
       const campo = g.rank === 'E' ? 'Especializacao' : 'Maestria'
       if (String(row?.[campo] ?? '').trim()) continue
+      // espec/maestria PLANEJADA da perícia também fecha a oportunidade — sem
+      // isso a oferta continuava embaixo da escolha e empilhava a cada clique
+      // (#495 "ERRO REPETIÇÃO BASE FIRME")
+      const tipoAlvo = g.rank === 'E' ? 'especialidade' : 'maestria'
+      const jaAtribuida = (cards ?? []).some((c) =>
+        c.gastos.especialidades.some((e) => e.tipo === tipoAlvo && e.pericia === g.nome),
+      )
+      if (jaAtribuida) continue
       const opts =
         g.rank === 'E'
           ? // mapa chaveado por SLUG (projection listEspecializacoesByPericia) —

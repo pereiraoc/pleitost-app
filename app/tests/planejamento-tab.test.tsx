@@ -452,3 +452,80 @@ describe('#494 — registro de perícia POR RANK no popup (não apaga os outros 
     await waitFor(() => expect(regsDe()).toEqual(['A@1', 'E@4']))
   }, 60000)
 })
+
+describe('#495 — maestria escolhida não é re-ofertada nem empilha (Base Firme)', () => {
+  it('clicar a oportunidade grava UMA vez, remove a oferta e não duplica a linha', async () => {
+    const id = createLocalEntity('Heroi', 'Equilibrista', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 8,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Acrobacia',
+            Atributo: 'AGI',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Especializacao: '[[Estabilidade]]',
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [{ nivel: 9, tipo: 'pericia', rank: 'M', alvo: 'Acrobacia' }],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card9 = document.querySelector('[data-nivel="9"]') as HTMLElement
+    const botao = [...card9.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('ESPEC/MAESTRIAS'),
+    )
+    expect(botao, 'botão ESPEC/MAESTRIAS no N9').toBeTruthy()
+    fireEvent.click(botao!)
+    // a oportunidade "Acrobacia (M)" oferece Base Firme (radio vazio)
+    const oferta = await waitFor(() => {
+      const btn = [...document.querySelectorAll('button[aria-pressed="false"]')].find((b) =>
+        (b.getAttribute('aria-label') ?? '').includes('Base Firme'),
+      ) as HTMLElement
+      expect(btn, 'oferta de Base Firme no popup').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(oferta)
+    const regsBaseFirme = () => {
+      const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      return regs.filter((r) => String(r['alvo']).includes('Base Firme'))
+    }
+    // gravou UM registro e a linha selecionada aparece
+    await waitFor(() => {
+      expect(regsBaseFirme()).toHaveLength(1)
+      const sel = [...document.querySelectorAll('button[aria-pressed="true"]')].filter((b) =>
+        (b.getAttribute('aria-label') ?? '').includes('Base Firme'),
+      )
+      expect(sel, 'linha selecionada única').toHaveLength(1)
+    })
+    // a OFERTA some (report: "fui clicando e foi aparecendo novas seleções") —
+    // sem re-oferta não há como empilhar
+    const ofertasDepois = [...document.querySelectorAll('button[aria-pressed="false"]')].filter((b) =>
+      (b.getAttribute('aria-label') ?? '').includes('Base Firme'),
+    )
+    expect(ofertasDepois).toHaveLength(0)
+    // desfazer pelo radio selecionado: registro sai, oferta volta
+    const sel = [...document.querySelectorAll('button[aria-pressed="true"]')].find((b) =>
+      (b.getAttribute('aria-label') ?? '').includes('Base Firme'),
+    ) as HTMLElement
+    fireEvent.click(sel)
+    await waitFor(() => {
+      expect(regsBaseFirme()).toHaveLength(0)
+      const oferta2 = [...document.querySelectorAll('button[aria-pressed="false"]')].filter((b) =>
+        (b.getAttribute('aria-label') ?? '').includes('Base Firme'),
+      )
+      expect(oferta2, 'oferta de volta após desfazer').toHaveLength(1)
+    })
+  }, 60000)
+})
