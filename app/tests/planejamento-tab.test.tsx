@@ -777,3 +777,47 @@ describe('#500 — Forma do Leonel: mover do futuro, limpar com — e ícone por
     expect(botaoForma!.textContent).toContain('📕')
   }, 90000)
 })
+
+describe('#501 — linha com tag de pai MORTO fica selecionável (Forma Espreitadora)', () => {
+  it('Espreitadora (Escolha.[[Forma Feral]], pai sem escolha viva) aparece e escolher retagueia', async () => {
+    const id = createLocalEntity(
+      'Heroi',
+      'Leonel Espreita',
+      JSON.parse(
+        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+      ).frontmatter as Record<string, unknown>,
+    )
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botaoForma = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('FORMA ('),
+    )
+    fireEvent.click(botaoForma!)
+    const sel = await waitFor(() => {
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Forma')),
+      ) as HTMLSelectElement
+      expect(s2, 'select de Forma').toBeTruthy()
+      return s2
+    })
+    // a linha existe nas Ações com tag legado de pai morto — mesmo assim é
+    // selecionável (report 2026-08-25: "não ta aparecendo a forma espreitadora")
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Espreitadora'))
+    expect(opcao, 'Forma Espreitadora nas opções').toBeTruthy()
+    fireEvent.change(sel, { target: { value: opcao } })
+    await waitFor(() => {
+      const cur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const lista = ((cur['Acoes'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      const espreitas = lista
+        .flatMap((r) => Object.entries(r))
+        .filter(([k]) => k.includes('Espreitadora'))
+        .map(([, v]) => String(v))
+      // moveu/retagueou: UMA linha, agora com o pai canônico da escolha
+      expect(espreitas).toHaveLength(1)
+      expect(espreitas[0]).toContain('Tradição Druídica')
+    })
+  }, 90000)
+})

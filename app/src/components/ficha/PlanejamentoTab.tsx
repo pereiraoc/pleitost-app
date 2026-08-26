@@ -1290,6 +1290,25 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         if (e.pick) liberadas.add(wikiTarget(e.pick))
       }
     }
+    // Linha com tag Escolha de pai MORTO (formato antigo — ex.: a Espreitadora
+    // do Leonel com Escolha.[[Forma Feral]], que não é pai de escolha viva):
+    // ninguém a reivindica, então também fica selecionável; escolher MOVE e
+    // retagueia a linha pro pai canônico (#501).
+    const paisVivos = new Set<string>()
+    for (const cc of cards ?? []) for (const e of cc.escolhas) paisVivos.add(baseDe(`[[${e.sourceNote}]]`))
+    const alvosVistos = new Set<string>()
+    for (const c of escolhasNormais) {
+      const t = c.targetRaw ?? 'Habilidades.Lista'
+      if (alvosVistos.has(t)) continue
+      alvosVistos.add(t)
+      for (const row of (fmPath(fm, ...t.split('.')) ?? []) as Row[]) {
+        const ent = Object.entries(row)
+        if (ent.length !== 1) continue
+        const [alvo, fonte] = ent[0]!
+        const m = typeof fonte === 'string' ? /^Escolha(?:\.\d+)?\.\[\[(.+?)\]\]$/.exec(fonte) : null
+        if (m && !paisVivos.has(baseDe(`[[${m[1]}]]`))) liberadas.add(wikiTarget(alvo))
+      }
+    }
     const valorDe = (c: TimelineChoice) =>
       c.gateLevel <= nivelAtual ? pickRealDe(c) : (plano[c.choiceKey] ?? null)
     return (
