@@ -693,50 +693,87 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
   }, 90000)
 })
 
-describe('#499 — trocar a Forma do N1 com tag legado (Escolha.[[Forma Feral]])', () => {
-  it('selecionar outra forma REMOVE a linha do pick atual e a troca persiste', async () => {
-    const fm = JSON.parse(
-      fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
-    ).frontmatter as Record<string, unknown>
-    const id = createLocalEntity('Heroi', 'Leonel Forma', fm)
-    renderBiografia(id)
-    await abrirPlanejamento()
+describe('#500 — Forma do Leonel: mover do futuro, limpar com — e ícone por tipo', () => {
+  const leonelHeroi = () =>
+    createLocalEntity(
+      'Heroi',
+      'Leonel Formas',
+      JSON.parse(
+        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+      ).frontmatter as Record<string, unknown>,
+    )
+  const formasDe = (id: string) => {
+    const cur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+    const lista = ((cur['Acoes'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+      Record<string, unknown>
+    >
+    return lista
+      .flatMap((r) => Object.entries(r))
+      .filter(([k]) => k.includes('Forma '))
+      .map(([k, v]) => `${k}=${String(v)}`)
+  }
+  const abreFormaN1 = async () => {
     const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
     const botaoForma = [...card1.querySelectorAll('button')].find((b) =>
       (b.textContent ?? '').includes('FORMA ('),
     )
     expect(botaoForma, 'botão FORMA no N1').toBeTruthy()
     fireEvent.click(botaoForma!)
-    const sel = await waitFor(() => {
+    return waitFor(() => {
       const s2 = [...document.querySelectorAll('select')].find((x) =>
         [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Forma')),
       ) as HTMLSelectElement
       expect(s2, 'select de Forma').toBeTruthy()
       return s2
     })
-    const atual = sel.value // pick resolvido hoje (tag legado)
-    const alvoNovo = [...sel.options].map((o) => o.value).find((v) => v.includes('Forma') && v !== atual)!
-    expect(alvoNovo, 'opção de forma diferente da atual').toBeTruthy()
-    fireEvent.change(sel, { target: { value: alvoNovo } })
-    const formasDe = () => {
-      const cur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
-      const lista = ((cur['Acoes'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
-        Record<string, unknown>
-      >
-      return lista
-        .flatMap((r) => Object.entries(r))
-        .filter(([k]) => k.includes('Forma '))
-        .map(([k, v]) => `${k}=${String(v)}`)
-    }
+  }
+
+  it('selecionar no N1 a forma segurada pelo nível futuro MOVE a linha; limpar (—) esvazia e NÃO re-preenche', async () => {
+    const id = leonelHeroi()
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const sel = await abreFormaN1()
+    // pick default NÃO conta como escolha: select abre VAZIO (espelho #473)
+    expect(sel.value).toBe('')
+    // Caçadora está segurada pela escolha do N3 (Forma Adicional) — mesmo
+    // assim aparece aqui (elegibilidade retroativa) e selecionar MOVE a linha
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Caçadora'))
+    expect(opcao, 'Forma Caçadora selecionável no N1 (report 2026-08-25)').toBeTruthy()
+    fireEvent.change(sel, { target: { value: opcao } })
     await waitFor(() => {
-      const formas = formasDe()
-      // a nova entra com o tag canônico do pai da escolha…
-      expect(formas.some((f) => f.startsWith(alvoNovo) && f.includes('Tradição Druídica'))).toBe(true)
-      // …e a linha do pick ANTERIOR sai (sem isso a troca nunca pegava —
-      // report 2026-08-25: "não consigo selecionar forma caçadora no level 1")
-      expect(formas.some((f) => f.startsWith(atual))).toBe(false)
-      // total de formas não cresce (troca, não acúmulo)
-      expect(formas).toHaveLength(2)
+      const formas = formasDe(id)
+      const cacadoras = formas.filter((f) => f.includes('Caçadora'))
+      expect(cacadoras).toHaveLength(1) // moveu, não duplicou
+      expect(cacadoras[0]).toContain('Tradição Druídica') // tag canônico
+      expect(formas.some((f) => f.includes('Espreitadora'))).toBe(true) // intacta
     })
+    // fecha e reabre: o pick agora é REAL (inferência estrita) e persiste
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
+    const sel2 = await abreFormaN1()
+    await waitFor(() => expect(sel2.value).toContain('Caçadora'))
+    // LIMPAR com — : a linha canônica sai e o select FICA vazio
+    fireEvent.change(sel2, { target: { value: '' } })
+    await waitFor(() => {
+      expect(formasDe(id).some((f) => f.includes('Caçadora'))).toBe(false)
+    })
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
+    const sel3 = await abreFormaN1()
+    expect(sel3.value).toBe('')
+  }, 120000)
+
+  it('botão do grupo TÉCNICA usa o emoji de técnica (registro), não o livrinho de seleção', async () => {
+    const id = leonelHeroi()
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botaoTec = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('TÉCNICA ('),
+    )
+    expect(botaoTec, 'botão TÉCNICA no N1').toBeTruthy()
+    expect(botaoTec!.textContent).toContain('📘')
+    const botaoForma = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('FORMA ('),
+    )
+    expect(botaoForma!.textContent).toContain('📕')
   }, 90000)
 })

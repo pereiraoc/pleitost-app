@@ -97,12 +97,30 @@ function planPicks(fm: Record<string, unknown>): Record<string, string> {
   return p && typeof p === 'object' ? (p as Record<string, string>) : {}
 }
 
+/** Pick REAL da escolha — 'default'/'none' é o app defaultando, não escolha
+ *  do usuário: exibe VAZIO com a pendência acesa (espelho de #473 nas
+ *  Competências; sem isso "limpar" nunca pegava — o default reaparecia). */
+function pickRealDe(c: TimelineChoice): string | null {
+  return c.source === 'default' || c.source === 'none' ? null : c.pick
+}
+
+/** Emoji do grupo de seleção pela LISTA-ALVO da regra (registro central):
+ *  escolha que alimenta Tecnicas.Lista é técnica (📘), Magias é magia. */
+function emojiDoAlvo(targetRaw?: string): string {
+  const t = (targetRaw ?? '').toLowerCase()
+  if (t.startsWith('tecnicas') || t.startsWith('técnicas')) return TIPO_EMOJI.tecnica
+  if (t.startsWith('magias')) return TIPO_EMOJI.magia
+  return TIPO_EMOJI.selecao
+}
+
 function toHabChoice(c: TimelineChoice): HabChoice {
   return {
     choiceKey: c.choiceKey,
     label: c.label,
     options: c.options,
-    pick: c.pick,
+    // pick REAL: default não conta como escolha — o writeChoicePick não pode
+    // remover a linha de um "pick" que o usuário nunca fez (#500)
+    pick: pickRealDe(c),
     kind: (c.kind ?? 'complementar-sel') as HabChoice['kind'],
     targetRaw: c.targetRaw,
     occ: c.occ,
@@ -625,15 +643,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         if (c.isSubclass) continue
         if (c.gateLevel <= nivelAtual) {
           const planejado = plano[c.choiceKey]
-          if (!c.pick && planejado && c.options.some((o) => wikiTarget(o) === wikiTarget(planejado))) {
+          if (!pickRealDe(c) && planejado && c.options.some((o) => wikiTarget(o) === wikiTarget(planejado))) {
             writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), planejado)
             buildSeq.current += 1
             planoNovo = planoNovo ?? { ...plano }
             delete planoNovo[c.choiceKey]
           }
-        } else if (c.pick && plano[c.choiceKey] !== c.pick) {
+        } else if (pickRealDe(c) && plano[c.choiceKey] !== pickRealDe(c)) {
           planoNovo = planoNovo ?? { ...plano }
-          planoNovo[c.choiceKey] = c.pick
+          planoNovo[c.choiceKey] = pickRealDe(c)!
         }
       }
     }
@@ -1262,8 +1280,18 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     const escolhasNormais = card.escolhas.filter(
       (c) => !c.isSubclass && (!grupo || (c.label || 'Seleção') === grupo),
     )
+    // Elegibilidade RETROATIVA (mesma regra das perícias/técnicas): alvo
+    // segurado por escolha de nível FUTURO é selecionável aqui — escolher
+    // MOVE a linha (o writeChoicePick dedupa por alvo) e o futuro esvazia.
+    const liberadas = new Set<string>()
+    for (const cc of cards ?? []) {
+      for (const e of cc.escolhas) {
+        if (e.isSubclass || e.gateLevel <= card.nivel) continue
+        if (e.pick) liberadas.add(wikiTarget(e.pick))
+      }
+    }
     const valorDe = (c: TimelineChoice) =>
-      c.gateLevel <= nivelAtual ? c.pick : (plano[c.choiceKey] ?? null)
+      c.gateLevel <= nivelAtual ? pickRealDe(c) : (plano[c.choiceKey] ?? null)
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
         {escolhasNormais.map((c) => {
@@ -1277,13 +1305,20 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <SelectBox
                 ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
                 value={valorDe(c) ?? ''}
-                options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
+                options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote, liberadas)}
                 onChange={(v) => {
-                  if (!v) return
                   if (desbloqueada) {
+                    // v vazio LIMPA (remove a linha do pick real; o display
+                    // honra source e não re-preenche com default — #500)
                     writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
                     buildSeq.current += 1
-                  } else escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
+                  } else if (v) {
+                    escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
+                  } else {
+                    const p = { ...planPicks(model.fm) }
+                    delete p[c.choiceKey]
+                    escreve('Planejamento.picks', p)
+                  }
                 }}
                 infoDocId={valorDe(c) ? (docDe(valorDe(c)!)?.id ?? null) : null}
               />
@@ -1355,13 +1390,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     // ESSÊNCIA ELEMENTAL ADEPTA… — o "SELEÇÕES" único misturava tudo e ficava
     // ruim de ver (Leonel, report 2026-08-25).
     const valorDe = (c: TimelineChoice) =>
-      c.gateLevel <= nivelAtual ? c.pick : (plano[c.choiceKey] ?? null)
+      c.gateLevel <= nivelAtual ? pickRealDe(c) : (plano[c.choiceKey] ?? null)
     for (const [grupo, lista] of gruposEscolhasDe(card)) {
       const pendentesSel = lista.filter((c) => !valorDe(c))
       out.push({
         pid: `${card.nivel}|sel|${grupo}`,
         label: `${grupo.toUpperCase()} (${lista.length})`,
-        icon: TIPO_EMOJI.selecao,
+        icon: emojiDoAlvo(lista[0]?.targetRaw),
         done: pendentesSel.length === 0,
         onOpen: () => abrePopup(card.nivel, 'selecoes', grupo),
       })
@@ -1412,7 +1447,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     for (const c of card.escolhas) {
       if (c.isSubclass) continue
       const desbloqueada = c.gateLevel <= nivelAtual
-      const valor = desbloqueada ? c.pick : (plano[c.choiceKey] ?? null)
+      const valor = desbloqueada ? pickRealDe(c) : (plano[c.choiceKey] ?? null)
       if (!valor) continue
       out.push({ choiceKey: c.choiceKey, valor, label: c.label || 'Seleção', plano: !desbloqueada })
     }

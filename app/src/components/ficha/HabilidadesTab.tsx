@@ -2445,9 +2445,9 @@ export function writeChoicePick(
   choice: HabChoice,
   newWl: string,
 ): void {
-  if (!newWl) return
   const t = (choice.targetRaw ?? '').toLowerCase()
-  const newTarget = wikiTarget(newWl)
+  if (!newWl && t.startsWith('magias')) return // limpar magia: fora de escopo
+  const newTarget = newWl ? wikiTarget(newWl) : ''
   const nn = choice.occ !== undefined ? String(choice.occ).padStart(2, '0') : null
   const source = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
   if (t.startsWith('magias')) {
@@ -2482,9 +2482,16 @@ export function writeChoicePick(
     const [alvoRow, src] = entriesRow[0]!
     if (typeof src !== 'string') return true
     if (thisTagRx.test(src)) return false
-    return !(oldTarget !== null && wikiTarget(alvoRow) === oldTarget && src.startsWith('Escolha'))
+    if (!src.startsWith('Escolha')) return true
+    const alvoT = wikiTarget(alvoRow)
+    if (oldTarget !== null && alvoT === oldTarget) return false
+    // dedup por ALVO: escolher algo que outra escolha segura MOVE a linha
+    // (elegibilidade retroativa no planejamento, #500) — nunca duplica
+    if (newTarget && alvoT === newTarget) return false
+    return true
   })
-  kept.push({ [`[[${newTarget}]]`]: source })
+  // newWl vazio = LIMPAR: só remove (o display honra source e fica vazio)
+  if (newWl) kept.push({ [`[[${newTarget}]]`]: source })
   model.set(target.fmKey, kept)
 }
 
@@ -2539,6 +2546,9 @@ export function choiceOptionsSiblingAware(
   siblings: HabChoice[],
   fm?: Record<string, unknown>,
   parentTarget?: string,
+  /** Alvos LIBERADOS do filtro "já tem" (planejamento: segurados por escolha
+   *  de nível futuro — selecionar move a linha, #500). */
+  liberar?: ReadonlySet<string>,
 ): SelectOption[] {
   const taken = new Set(
     siblings
@@ -2561,6 +2571,7 @@ export function choiceOptionsSiblingAware(
   // Tradição Druídica) — a opção sumia e o withCurrent reapresentava o valor
   // cru com colchetes (#497).
   if (c.pick) taken.delete(wikiTarget(String(c.pick)))
+  if (liberar) for (const alvo of liberar) taken.delete(alvo)
   return [
     { value: '', label: '—' },
     ...choiceOptions(c).filter((o) => !taken.has(wikiTarget(o.value))),
