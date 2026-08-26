@@ -11,6 +11,8 @@ import type { Catalog } from '../data/catalog'
 import type { VaultDoc } from '../data/types'
 import { projectHeroRules } from './useHeroRules'
 import type { ChoiceDescriptor } from './resolve-choices'
+import { addTecnicaToLista } from './apply-tecnica-edit'
+import { addMagiaToEscola } from './apply-magia-edit'
 
 export const NIVEL_MAX_PLANEJAMENTO = 10
 
@@ -311,9 +313,61 @@ export async function buildLevelTimeline(
      *  produz a chave (Carlos: per[E+3,M+1] no N1, deltas negativos). */
     calculated: Record<string, unknown>
   }
+  // PLANEJADOS materializados por nível: técnica/magia/espec registrada pro
+  // futuro entra no FM da projeção a partir do SEU nível — sem isso as
+  // escolhas internas do item (ex.: "Classe Secundária" do Treinamento) nunca
+  // eram descobertas pra níveis futuros (#505, report 2026-08-26).
+  const regsPlanejados = gastosRegistrados(fm)
+  const materializaPlanejados = (base: Fm, nivel: number): Fm => {
+    let out = base
+    const emLista = (rows: Row[], alvo: string) =>
+      fontedEntries(rows).some((e) => wlBase(e.link) === wlBase(alvo))
+    const magiaAprendida = (alvo: string) =>
+      rowsOf(out, 'Magias', 'Lista').some((esc) =>
+        (Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []).some((r) =>
+          Object.keys(r).some((k) => wlBase(k) === wlBase(alvo)),
+        ),
+      )
+    for (const r of regsPlanejados) {
+      if (r.nivel > nivel) continue
+      if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
+        const lista = rowsOf(out, 'Tecnicas', 'Lista')
+        if (!emLista(lista, r.alvo))
+          out = {
+            ...out,
+            Tecnicas: {
+              ...((out['Tecnicas'] as Record<string, unknown>) ?? {}),
+              Lista: addTecnicaToLista(lista as never, r.alvo, r.rank as 'A' | 'E' | 'M'),
+            },
+          }
+      } else if (r.tipo === 'magia' && r.rank && r.contexto) {
+        if (!magiaAprendida(r.alvo))
+          out = {
+            ...out,
+            Magias: {
+              ...((out['Magias'] as Record<string, unknown>) ?? {}),
+              Lista: addMagiaToEscola(rowsOf(out, 'Magias', 'Lista') as never, r.contexto, r.alvo, r.rank),
+            },
+          }
+      } else if ((r.tipo === 'especialidade' || r.tipo === 'maestria') && r.contexto) {
+        const campo = r.tipo === 'especialidade' ? 'Especializacao' : 'Maestria'
+        const rows = rowsOf(out, 'Pericias', 'Lista')
+        const row = rows.find((x) => String(x.Nome) === r.contexto)
+        if (row && !String(row[campo] ?? '').trim())
+          out = {
+            ...out,
+            Pericias: {
+              ...((out['Pericias'] as Record<string, unknown>) ?? {}),
+              Lista: rows.map((x) => (x === row ? { ...x, [campo]: r.alvo } : x)),
+            },
+          }
+      }
+    }
+    return out
+  }
   const snaps: Snap[] = []
   for (let nivel = 1; nivel <= nivelMax; nivel++) {
-    const fmNivel = { ...fm, ['Nível']: nivel, Nivel: nivel }
+    const fmNivel = materializaPlanejados({ ...fm, ['Nível']: nivel, Nivel: nivel }, nivel)
     const { projection } = await projectHeroRules(fmNivel, catalog, load)
     const p = projection as unknown as {
       derivedFm: Fm

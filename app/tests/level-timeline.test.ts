@@ -385,3 +385,27 @@ describe('#503 — pick de escolha irmã com gate FUTURO materializa no gate (ER
     expect(magias(3)).toContain('Frio Instantâneo')
   })
 })
+
+describe('#505 — técnica PLANEJADA expõe as escolhas internas no card do nível futuro', () => {
+  it('Treinamento de Classe Secundária planejado pro N5 abre a escolha "Classe Secundária" no card 5', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 5, tipo: 'tecnica', rank: 'A', alvo: '[[Treinamento de Classe Secundária]]' },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const escolhasDe = (n: number) =>
+      cards[n - 1]!.escolhas.map((e) => `${e.label}·${e.sourceNote}`)
+    // a escolha interna da técnica planejada nasce NO NÍVEL DO PLANO…
+    expect(escolhasDe(5)).toContain('Classe Secundária·Treinamento de Classe Secundária')
+    // …e não antes (a técnica ainda não existe nos níveis 1..4)
+    for (const n of [1, 2, 3, 4]) {
+      expect(escolhasDe(n).join(' ')).not.toContain('Classe Secundária')
+    }
+  })
+})
