@@ -649,9 +649,57 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   }
 
   const plano = planPicks(fm)
+  /** Patch OTIMISTA dos cards: no celular as 10 projeções do rebuild levam
+   *  segundos — sem isso o clique parecia morto (logs do Carlos N8: estado
+   *  perfeito, cliques chegando, grade parada). O rebuild real confirma. */
+  const otimista = (fn: (cs: LevelCard[]) => void) =>
+    setCards((prev) => {
+      if (!prev) return prev
+      const clone = structuredClone(prev)
+      fn(clone)
+      return clone
+    })
+  const otimistaRemove = (tipo: GastoRegistrado['tipo'], alvo: string) =>
+    otimista((cs) => {
+      const base = wikiTarget(alvo)
+      for (const c of cs) {
+        if (tipo === 'pericia') c.gastos.pericias = c.gastos.pericias.filter((g) => g.nome !== base)
+        else if (tipo === 'tecnica') c.gastos.tecnicas = c.gastos.tecnicas.filter((g) => wikiTarget(g.link) !== base)
+        else if (tipo === 'magia') c.gastos.magias = c.gastos.magias.filter((g) => wikiTarget(g.link) !== base)
+        else c.gastos.especialidades = c.gastos.especialidades.filter((g) => wikiTarget(g.alvo) !== base)
+      }
+    })
   const registraEAplica = (r: GastoRegistrado, aplica: () => void) => {
     registrar(r)
     if (r.nivel <= nivelAtual) aplica()
+    otimista((cs) => {
+      const card = cs[Math.min(NIVEL_MAX_PLANEJAMENTO, Math.max(1, r.nivel)) - 1]!
+      const planejado = r.nivel > nivelAtual
+      const base = wikiTarget(r.alvo)
+      if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
+        for (const c of cs) c.gastos.pericias = c.gastos.pericias.filter((g) => g.nome !== base)
+        card.gastos.pericias.push({ nome: base, rank: r.rank, fonte: 'Slot', ...(planejado ? { planejado } : {}) })
+      } else if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
+        for (const c of cs) c.gastos.tecnicas = c.gastos.tecnicas.filter((g) => wikiTarget(g.link) !== base)
+        card.gastos.tecnicas.push({ link: r.alvo, rank: r.rank, ...(planejado ? { planejado } : {}) })
+      } else if (r.tipo === 'magia' && r.rank) {
+        for (const c of cs) c.gastos.magias = c.gastos.magias.filter((g) => wikiTarget(g.link) !== base)
+        card.gastos.magias.push({
+          escola: r.contexto ?? '',
+          link: r.alvo,
+          rank: r.rank,
+          secundaria: false,
+          ...(planejado ? { planejado } : {}),
+        })
+      } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
+        card.gastos.especialidades.push({
+          pericia: r.contexto ?? '',
+          alvo: r.alvo,
+          tipo: r.tipo,
+          ...(planejado ? { planejado } : {}),
+        })
+      }
+    })
   }
   // ── bloco-base (topo, estilo Ancestry/Background/Class do Pathbuilder) ────
   const subclasseRow = cards[0]!.escolhas.find((c) => c.isSubclass)
@@ -787,6 +835,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   {remCirc(`Remover ${linkLabel(g.link)}`, () => {
                     if (!g.planejado) desfazTecnica(g.link)
                     desregistrar('tecnica', g.link)
+                    otimistaRemove('tecnica', g.link)
                   })}
                   <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
                   <ItemHover doc={d ?? undefined} fullBody>
@@ -860,6 +909,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 if (!f.planejado)
                   aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
                 desregistrar(f.tipo, f.alvo)
+                otimistaRemove(f.tipo, f.alvo)
               }}
               aria-label={`${f.pericia}: ${linkLabel(f.alvo)}`}
               aria-pressed
@@ -1001,6 +1051,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   if (gastoAqui && letter === gastoAqui.rank) {
                     if (!gastoAqui.planejado) desfazPericia(nome, gastoAqui.rank)
                     desregistrar('pericia', nome)
+                    otimistaRemove('pericia', nome)
                     return
                   }
                   if (letter === proximo && podeSubir) {
@@ -1060,6 +1111,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     onClick={() => {
                       if (!g.planejado) desfazMagia(g.escola, g.link)
                       desregistrar('magia', g.link)
+                      otimistaRemove('magia', g.link)
                     }}
                     style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
                   >
