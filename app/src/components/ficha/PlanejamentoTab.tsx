@@ -56,6 +56,7 @@ import { fmPath, wikiTarget } from './hero-model'
 import { slugify } from './registry'
 import { linkLabel } from '../../markdown/dataview-value'
 import { ITEM_CARD_CSS, ItemHover, docImageUrl, docTier, itemCardHtml } from '../item-card'
+import { pushLog } from '../../data/debug-log'
 import { linkIconForEntry } from '../../markdown/link-icon'
 
 // Emojis por TIPO de slot — do registro supercharged (supercharged-icons.ts;
@@ -559,7 +560,39 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     model.set('Pericias.Lista', rows)
   }
 
-  const abrePopup = (nivel: number, tipo: TipoPopup) => setPopup({ nivel, tipo })
+  const abrePopup = (nivel: number, tipo: TipoPopup) => {
+    // Diagnóstico remoto: com o modo debug ligado, o bug report leva o estado
+    // exato do nível (slots/gastos/entrando) — investigação do #493.
+    const card = cards?.[nivel - 1]
+    if (card) {
+      const s = (d: Record<string, number>) =>
+        (['B', 'A', 'E', 'M'] as const).filter((r) => d[r]).map((r) => `${r}${d[r]}`).join('') || '-'
+      pushLog(
+        'plan',
+        `popup ${tipo} N${nivel} slots per=${s(card.slots.pericias as never)} tec=${s(card.slots.tecnicas as never)} mag=${s(card.slots.magias as never)}`,
+      )
+      pushLog(
+        'plan',
+        `N${nivel} gastosPer=` +
+          card.gastos.pericias.map((g) => `${g.nome}:${g.rank}${g.planejado ? '*' : ''}`).join(','),
+      )
+      pushLog(
+        'plan',
+        `entrando≠N=` +
+          Object.entries(card.periciasEntrando)
+            .filter(([, rk]) => rk !== 'N')
+            .map(([n, rk]) => `${n}:${rk}`)
+            .join(','),
+      )
+      const regs = gastosRegistrados(model.fm)
+      pushLog(
+        'plan',
+        `registros(${regs.length})=` +
+          regs.map((r) => `${r.tipo}:${wikiTarget(r.alvo)}:${r.rank ?? ''}@${r.nivel}`).join(',').slice(0, 260),
+      )
+    }
+    setPopup({ nivel, tipo })
+  }
 
   // ── sync plano ⇄ real quando o nível muda (roadmap do Pathbuilder) ────────
   useEffect(() => {
