@@ -757,7 +757,11 @@ export async function buildLevelTimeline(
       for (const key of ['habilidades', 'tecnicasRegra', 'acoesRegra'] as const) {
         for (const wl of [...card[key]]) {
           const pai = paiDaFonte(card.fonteDe[wl])
-          const alvo = pai ? (nivelDe.get(pai) ?? 1) : 1
+          // nível efetivo = max(pai na cadeia, o PRÓPRIO item): pick de
+          // escolha irmã com gate futuro (Escolha.03 → N3) tem nivelDe
+          // anotado pela escolha, mas o pai (a nota da subclasse) é N1 —
+          // sem o próprio, a Congelante e as magias dela caíam no N1 (#503)
+          const alvo = Math.max(pai ? (nivelDe.get(pai) ?? 1) : 1, nivelDe.get(wlBase(wl)) ?? 1)
           if (alvo > card.nivel) {
             card[key] = card[key].filter((x) => x !== wl)
             const dest = cards[Math.min(nivelMax, alvo) - 1]!
