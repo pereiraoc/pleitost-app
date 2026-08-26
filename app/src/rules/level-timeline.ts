@@ -197,16 +197,13 @@ class SlotPools {
     }
     return null
   }
-  /** Consome o slot de um NÍVEL específico (registro explícito); sem slot
-   *  naquele nível, consome o mais próximo (mantém contabilidade coerente). */
+  /** Consome o slot do NÍVEL EXATO do registro. Sem slot naquele nível
+   *  (registro deslocado de versões antigas), NÃO consome nada — roubar o
+   *  slot de outro nível travava os botões de N8/N9 sem explicação. */
   takeAt(rank: 'B' | 'A' | 'E' | 'M', nivel: number): void {
     const pool = this.pools[rank]!
     const exato = pool.indexOf(nivel)
-    if (exato !== -1) {
-      pool.splice(exato, 1)
-      return
-    }
-    this.take(rank, 1)
+    if (exato !== -1) pool.splice(exato, 1)
   }
 }
 

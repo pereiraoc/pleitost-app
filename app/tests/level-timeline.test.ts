@@ -189,3 +189,39 @@ describe('gastos PLANEJADOS (registro de nível futuro sem aplicação real)', (
     expect(todas.find((g) => g.link.includes('Ataque Brutal'))?.planejado).toBeFalsy()
   })
 })
+
+describe('registro deslocado NÃO rouba slot de outro nível', () => {
+  it('registro M@N1 (sem slot M no N1) não consome o M do N8', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 7,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Enganação',
+            Atributo: 'PRE',
+            Proficiencia: 'M',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }, { M: 'Slot.M' }],
+          },
+        ],
+      },
+      Planejamento: {
+        // registro PODRE (era das atribuições no N1): não pode comer o slot
+        // M de N7/N8 — sem slot M no N1, o gasto fica no N1 e pronto
+        gastosSlots: [{ nivel: 1, tipo: 'pericia', rank: 'M', alvo: 'Enganação' }],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    // slots M dos níveis 7/8/9 (Evolução/classe) continuam LIVRES
+    for (const n of [7, 8, 9]) {
+      const c = cards[n - 1]!
+      const livres = c.slots.pericias.M - c.gastos.pericias.filter((g) => g.rank === 'M').length
+      if (c.slots.pericias.M > 0) expect(livres, `M livre no N${n}`).toBe(c.slots.pericias.M)
+    }
+    // o gasto aparece no nível registrado (N1), mesmo sem slot lá
+    expect(cards[0]!.gastos.pericias.some((g) => g.nome === 'Enganação' && g.rank === 'M')).toBe(true)
+  })
+})

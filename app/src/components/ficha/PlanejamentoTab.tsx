@@ -338,6 +338,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   // os slots DAQUELE nível são editáveis; o passado aparece como contexto
   // travado (report 2026-08-25).
   const [popup, setPopup] = useState<{ nivel: number; tipo: TipoPopup } | null>(null)
+  const [confirmaLimpar, setConfirmaLimpar] = useState(false)
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
   const buildSeq = useRef(0)
 
@@ -894,7 +895,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
           {(['A', 'E', 'M'] as const)
             .filter((r) => card.slots.pericias[r] > 0)
-            .map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.pericias[r]} livres`)
+            .map((r) => {
+              const usados = card.gastos.pericias.filter((g) => g.rank === r && g.fonte === 'Slot')
+              const quem = usados.length ? ` (${usados.map((g) => g.nome).join(', ')})` : ''
+              return `${r}: ${Math.max(0, livresDe(r))}/${card.slots.pericias[r]} livres${quem}`
+            })
             .join(' · ')}
         </div>
         {nomes.map((nome) => {
@@ -1309,10 +1314,37 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={mono({ fontSize: 10, color: 'var(--muted)' })}>
-        Roadmap até o nível {NIVEL_MAX_PLANEJAMENTO} — nível atual{' '}
-        <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{nivelAtual}</span>. Slots e escolhas
-        de níveis futuros ficam no plano e entram sozinhos quando o nível subir.
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+        <div style={mono({ fontSize: 10, color: 'var(--muted)', flex: 1, minWidth: 200 })}>
+          Roadmap até o nível {NIVEL_MAX_PLANEJAMENTO} — nível atual{' '}
+          <span style={{ color: 'var(--accent)', fontWeight: 700 }}>{nivelAtual}</span>. Slots e escolhas
+          de níveis futuros ficam no plano e entram sozinhos quando o nível subir.
+        </div>
+        {/* Reset do PLANO (picks + registros de nível) — a ficha real fica
+            intocada; a atribuição volta pro earliest-fit limpo. Two-step. */}
+        <button
+          onClick={() => {
+            if (!confirmaLimpar) {
+              setConfirmaLimpar(true)
+              return
+            }
+            model.set('Planejamento', {})
+            setConfirmaLimpar(false)
+          }}
+          onBlur={() => setConfirmaLimpar(false)}
+          style={mono({
+            fontSize: 9,
+            fontWeight: 700,
+            padding: '4px 10px',
+            cursor: 'pointer',
+            background: confirmaLimpar ? 'color-mix(in srgb,var(--red) 18%,transparent)' : 'transparent',
+            border: `1px solid ${confirmaLimpar ? 'var(--red)' : 'var(--line2)'}`,
+            color: confirmaLimpar ? 'var(--red)' : 'var(--muted)',
+            clipPath: clip(5),
+          })}
+        >
+          {confirmaLimpar ? 'CONFIRMAR LIMPEZA DO PLANO?' : 'LIMPAR PLANO'}
+        </button>
       </div>
 
       {/* bloco-base (Classe/Subclasse/Sintonia/Passado) */}
