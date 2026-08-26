@@ -225,3 +225,24 @@ describe('registro deslocado NÃO rouba slot de outro nível', () => {
     expect(cards[0]!.gastos.pericias.some((g) => g.nome === 'Enganação' && g.rank === 'M')).toBe(true)
   })
 })
+
+describe('sanitizarRegistros — auto-heal sem perder informação', () => {
+  it('registro M@N1 (deslocado) move pro primeiro nível com slot M; legítimo fica', async () => {
+    const { sanitizarRegistros } = await import('../src/rules/level-timeline')
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 9,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const { mudou, registros } = sanitizarRegistros(cards, [
+      { nivel: 1, tipo: 'pericia', rank: 'M', alvo: 'Enganação' }, // podre
+      { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Acrobacia' }, // legítimo
+    ])
+    expect(mudou).toBe(true)
+    const m = registros.find((r) => r.alvo === 'Enganação')!
+    expect(m.nivel).toBe(7) // primeiro slot M de perícia (Evolução N7)
+    expect(m.rank).toBe('M') // nada além do nível muda
+    expect(registros.find((r) => r.alvo === 'Acrobacia')!.nivel).toBe(4)
+  })
+})

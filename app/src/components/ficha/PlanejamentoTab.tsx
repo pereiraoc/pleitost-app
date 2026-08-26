@@ -24,6 +24,7 @@ import { useAssetIndex } from '../../data/assets'
 import {
   buildLevelTimeline,
   gastosRegistrados,
+  sanitizarRegistros,
   NIVEL_MAX_PLANEJAMENTO,
   type GastoRegistrado,
   type LevelCard,
@@ -39,9 +40,10 @@ import {
   TECNICAS_PATH_PREFIX,
   TEC_GROUP_LETTER,
   Losango,
+  custoDigits,
   type HabChoice,
 } from './HabilidadesTab'
-import { rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
+import { magiaEmoji, rankGroupLabel, tecnicaCustoEmoji, tokens, type RankLetter, type RankStateKey } from './registry'
 import { RankBtns } from './bits'
 import { tecnicaRequisitosCumpridos } from '../../rules/extract'
 import { rulesModelFromFm } from '../../rules/rules-model'
@@ -123,8 +125,20 @@ function DocInline({ doc }: { doc: VaultDoc }) {
  *  clickDetalhes — o ItemHover cuida) + ícone do registro. O doc vem do
  *  resolver do PLANO (docDe) — refs.refDoc não cobre itens de nível futuro
  *  (não estão nas listas do herói) e o clique não abria nada. */
-function PlanChip({ wl, doc, sufixo }: { wl: string; doc?: VaultDoc | null; sufixo?: string }) {
-  const icone = linkIconForEntry(doc ?? undefined)
+function PlanChip({
+  wl,
+  doc,
+  sufixo,
+  fallbackIcon,
+}: {
+  wl: string
+  doc?: VaultDoc | null
+  sufixo?: string
+  /** Emoji do REGISTRO quando o linkIcon não cobre a categoria (magias por
+   *  elemento/escola, ações pelo custo, etc). */
+  fallbackIcon?: string
+}) {
+  const icone = linkIconForEntry(doc ?? undefined) || fallbackIcon || ''
   const chip = (
     <span
       style={{
@@ -346,7 +360,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     const seq = ++buildSeq.current
     let vivo = true
     void buildLevelTimeline(fm, catalog, loadDoc).then((c) => {
-      if (vivo && buildSeq.current === seq) setCards(c)
+      if (!vivo || buildSeq.current !== seq) return
+      setCards(c)
+      // AUTO-HEAL: registros com nível deslocado (gravados pelas versões
+      // antigas) são movidos pro primeiro nível com slot do rank — alvo/rank
+      // preservados, nada se perde (pedido: sem "limpar plano" na mão).
+      const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(model.fm))
+      if (mudou) model.set('Planejamento.gastosSlots', sane)
     })
     return () => {
       vivo = false
@@ -609,15 +629,22 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     }
     return null
   })()
-  const baseRows: Array<{ rid: string; kicker: string; valor: string; doc?: VaultDoc | null }> = [
-    { rid: 'base|classe', kicker: 'Classe', valor: linkLabel(String(fm['Classe'] ?? '')), doc: refs.refDoc(String(fm['Classe'] ?? '')) },
+  const baseRows: Array<{ rid: string; kicker: string; valor: string; doc?: VaultDoc | null; icon?: string }> = [
+    {
+      rid: 'base|classe',
+      kicker: 'Classe',
+      valor: linkLabel(String(fm['Classe'] ?? '')),
+      doc: docDe(String(fm['Classe'] ?? '')),
+      icon: tokens.emojis.perfil.Classe,
+    },
     ...(subclasseRow
       ? [
           {
             rid: 'base|subclasse',
             kicker: `Subclasse · ${subclasseRow.sourceNote}`,
             valor: linkLabel(subclasseRow.pick ?? '') || '(não definida)',
-            doc: subclasseRow.pick ? refs.refDoc(subclasseRow.pick) : null,
+            doc: subclasseRow.pick ? docDe(subclasseRow.pick) : null,
+            icon: tokens.emojis.perfil.Subclasse,
           },
         ]
       : []),
@@ -627,7 +654,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             rid: 'base|sintonia',
             kicker: 'Sintonia',
             valor: linkLabel(String(fm['Sintonia'])),
-            doc: refs.refDoc(String(fm['Sintonia'])),
+            doc: docDe(String(fm['Sintonia'])),
+            icon: tokens.emojis.perfil.Sintonia,
           },
         ]
       : []),
@@ -637,7 +665,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             rid: 'base|passado',
             kicker: `Passado${passadoPericia ? ` · perícia ${passadoPericia}` : ''}`,
             valor: linkLabel(String(fm['Passado'])),
-            doc: refs.refDoc(String(fm['Passado'])),
+            doc: docDe(String(fm['Passado'])),
+            icon: tokens.emojis.perfil.Passado,
           },
         ]
       : []),
@@ -1268,7 +1297,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             kickerTxt={`Ganho do nível${via}`}
             valor={linkLabel(wl)}
             doc={docDe(wl)}
-            icon={linkIconForEntry(docDe(wl)) || undefined}
+            icon={(() => {
+              const d = docDe(wl)
+              const viaRegistro = linkIconForEntry(d)
+              if (viaRegistro) return viaRegistro
+              // Ações não têm categoria no mapa — usam o badge de CUSTO,
+              // como as Ações de Habilidade da ficha
+              const custo = d ? custoDigits((d.frontmatter as Record<string, unknown>)['custo']) : ''
+              return custo || undefined
+            })()}
             depth={depth}
             expanded={expandidos.has(rid)}
             onToggle={toggleRow}
@@ -1289,8 +1326,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               rid={rid}
               kickerTxt={`Magia concedida · ${m.escola}${m.secundaria ? ' (2ª)' : ''}`}
               valor={linkLabel(m.link)}
-              doc={refs.refDoc(m.link)}
-              icon={linkIconForEntry(refs.refDoc(m.link) ?? undefined) || TIPO_EMOJI.magia}
+              doc={docDe(m.link)}
+              icon={(() => {
+                const d = docDe(m.link)
+                return (
+                  linkIconForEntry(d) ||
+                  (d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia)
+                )
+              })()}
               expanded={expandidos.has(rid)}
               onToggle={toggleRow}
             />
@@ -1356,6 +1399,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             kickerTxt={r.kicker}
             valor={r.valor}
             doc={r.doc}
+            icon={linkIconForEntry(r.doc ?? undefined) || r.icon}
             expanded={expandidos.has(r.rid)}
             onToggle={toggleRow}
           />
@@ -1428,6 +1472,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     key={`p|${g.nome}|${g.rank}`}
                     wl={`[[${g.nome}]]`}
                     doc={docDe(`[[${g.nome}]]`)}
+                    fallbackIcon={TIPO_EMOJI.pericia}
                     sufixo={`${g.rank}${g.fonte === 'Passado' ? ' · Passado' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
                 ))}
@@ -1436,6 +1481,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     key={`t|${g.link}`}
                     wl={g.link}
                     doc={docDe(g.link)}
+                    fallbackIcon={TIPO_EMOJI.tecnica}
                     sufixo={`Técnica ${g.rank}${g.planejado ? ' · plano' : ''}`}
                   />
                 ))}
@@ -1444,6 +1490,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     key={`m|${g.escola}|${g.link}`}
                     wl={g.link}
                     doc={docDe(g.link)}
+                    fallbackIcon={(() => {
+                      const d = docDe(g.link)
+                      return d ? magiaEmoji(d.frontmatter as Record<string, unknown>) : TIPO_EMOJI.magia
+                    })()}
                     sufixo={`Magia ${g.rank}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                   />
                 ))}
@@ -1452,7 +1502,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     key={`e|${f.pericia}|${f.alvo}`}
                     wl={f.alvo}
                     doc={docDe(f.alvo)}
-                    sufixo={`${f.tipo === 'especialidade' ? '🎖️' : '🏆'} ${f.pericia}`}
+                    fallbackIcon={f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
+                    sufixo={f.pericia}
                   />
                 ))}
               </div>

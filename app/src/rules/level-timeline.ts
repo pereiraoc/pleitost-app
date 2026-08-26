@@ -197,6 +197,11 @@ class SlotPools {
     }
     return null
   }
+  /** Primeiro nível livre do PRÓPRIO rank (sem fungibilidade). */
+  takeSameRank(rank: 'B' | 'A' | 'E' | 'M'): number | null {
+    const pool = this.pools[rank]!
+    return pool.length ? pool.splice(0, 1)[0]! : null
+  }
   /** Consome o slot do NÍVEL EXATO do registro. Sem slot naquele nível
    *  (registro deslocado de versões antigas), NÃO consome nada — roubar o
    *  slot de outro nível travava os botões de N8/N9 sem explicação. */
@@ -205,6 +210,40 @@ class SlotPools {
     const exato = pool.indexOf(nivel)
     if (exato !== -1) pool.splice(exato, 1)
   }
+}
+
+/** Sanitiza registros DESLOCADOS (versões antigas gravaram níveis errados —
+ *  ex.: "tudo no N1"): registro cujo nível não tem slot do rank é MOVIDO pro
+ *  primeiro nível com slot livre daquele rank. Alvo/rank/tipo preservados —
+ *  nada se perde; só o nível é corrigido. Especialidades/maestrias não usam
+ *  slot e ficam como estão. */
+export function sanitizarRegistros(
+  cards: LevelCard[],
+  registros: GastoRegistrado[],
+): { mudou: boolean; registros: GastoRegistrado[] } {
+  const pools: Record<string, SlotPools> = {
+    pericia: new SlotPools(cards.map((c) => c.slots.pericias)),
+    tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),
+    magia: new SlotPools(cards.map((c) => c.slots.magias)),
+  }
+  // passada 1: quem tem slot no próprio nível reivindica primeiro
+  const claims = registros.map((r) => {
+    if (!r.rank || !(r.tipo in pools)) return { r, ok: true }
+    const pool = pools[r.tipo]!
+    const antes = JSON.stringify(pool)
+    pool.takeAt(r.rank, r.nivel)
+    return { r, ok: JSON.stringify(pool) !== antes }
+  })
+  // passada 2: deslocados vão pro primeiro nível livre do MESMO rank
+  let mudou = false
+  const out = claims.map(({ r, ok }) => {
+    if (ok || !r.rank || !(r.tipo in pools)) return r
+    const novo = pools[r.tipo]!.takeSameRank(r.rank)
+    if (novo === null || novo === r.nivel) return r
+    mudou = true
+    return { ...r, nivel: novo }
+  })
+  return { mudou, registros: out }
 }
 
 export async function buildLevelTimeline(
