@@ -438,17 +438,27 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         ...c.acoesRegra,
         ...c.magiasRegra.map((m) => m.link),
         ...c.escolhas.flatMap((e) => (e.pick ? [e.pick] : [])),
+        ...c.escolhas.flatMap((e) => e.options),
         ...Object.values(planPicks(fm)),
         ...c.slotGrants.map((g) => g.link),
+        ...Object.keys(c.periciasEntrando).map((n) => `[[${n}]]`),
       ]
       for (const wl of alvos) {
         const r = catalog.resolve(wikiTarget(wl))
         if (r.kind === 'doc') ids.add(r.id)
       }
     }
+    // opções de especialidade/maestria da vault (o popup precisa do hover)
+    for (const wl of [
+      ...Object.values(espMaes.especializacoes).flat(),
+      ...Object.values(espMaes.maestriasByEspecialidade).flat(),
+    ]) {
+      const r = catalog.resolve(wikiTarget(wl))
+      if (r.kind === 'doc') ids.add(r.id)
+    }
     return [...ids]
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards, catalog, fmSig])
+  }, [cards, catalog, fmSig, espMaes])
   const planDocs = useDocs(planDocIds)
   const docDe = (wl: string): VaultDoc | undefined => {
     const viaRefs = refs.refDoc(wl)
@@ -734,7 +744,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           const linhas = (tecnicasElegiveisNivel.get(rank) ?? [])
             .filter((wl) => !conhecidas.has(wikiTarget(wl)))
             .map((wl) => {
-              const d = refs.refDoc(wl) ?? (tecnicaDocs ? [...tecnicaDocs.values()].find((x) => x.basename === wikiTarget(wl)) : undefined)
+              const d = docDe(wl) ?? (tecnicaDocs ? [...tecnicaDocs.values()].find((x) => x.basename === wikiTarget(wl)) : undefined)
               const custo = d ? tecnicaCustoEmoji((d.inlineFields as Record<string, unknown>)['custo']) : ''
               return { wl, d, custo }
             })
@@ -809,7 +819,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             <span style={{ fontSize: 13, flex: 'none' }}>
               {f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
             </span>
-            <ItemHover doc={refs.refDoc(f.alvo) ?? undefined} fullBody>
+            <ItemHover doc={docDe(f.alvo)} fullBody>
               <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(f.alvo)}</span>
             </ItemHover>
             {f.planejado ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>plano</span> : null}
@@ -858,7 +868,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 <span style={{ fontSize: 13, flex: 'none' }}>
                   {o.rank === 'E' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
                 </span>
-                <ItemHover doc={refs.refDoc(wl) ?? undefined} fullBody>
+                <ItemHover doc={docDe(wl)} fullBody>
                   <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(wl)}</span>
                 </ItemHover>
               </div>
@@ -909,12 +919,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           if (podeSubir) clicaveis.add(proximo!)
           return (
             <div key={nome} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {nome}
-                {gastoAqui?.planejado ? (
-                  <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 6 })}>plano</span>
-                ) : null}
-              </span>
+              <ItemHover doc={docDe(`[[${nome}]]`)} fullBody style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {nome}
+                  {gastoAqui?.planejado ? (
+                    <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 6 })}>plano</span>
+                  ) : null}
+                </span>
+              </ItemHover>
               <RankBtns
                 states={states}
                 disabledRanks={LETRAS.filter((l) => !clicaveis.has(l))}
@@ -1107,6 +1119,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   if (desbloqueada) writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
                   else model.set('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
                 }}
+                infoDocId={valorDe(c) ? (docDe(valorDe(c)!)?.id ?? null) : null}
               />
             </div>
           )
@@ -1205,8 +1218,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           rid={rid}
           kickerTxt={`${c.label || 'Seleção'} · ${c.sourceNote}${desbloqueada ? '' : ' · plano'}`}
           valor={linkLabel(valor)}
-          doc={refs.refDoc(valor)}
-          icon={linkIconForEntry(refs.refDoc(valor) ?? undefined) || TIPO_EMOJI.selecao}
+          doc={docDe(valor)}
+          icon={linkIconForEntry(docDe(valor)) || TIPO_EMOJI.selecao}
           expanded={expandidos.has(rid)}
           onToggle={toggleRow}
         >
@@ -1249,8 +1262,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             rid={rid}
             kickerTxt={`Ganho do nível${via}`}
             valor={linkLabel(wl)}
-            doc={refs.refDoc(wl)}
-            icon={linkIconForEntry(refs.refDoc(wl) ?? undefined) || undefined}
+            doc={docDe(wl)}
+            icon={linkIconForEntry(docDe(wl)) || undefined}
             depth={depth}
             expanded={expandidos.has(rid)}
             onToggle={toggleRow}
@@ -1457,24 +1470,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           {(() => {
             const cardPopup = cards?.[popup.nivel - 1]
             if (!cardPopup) return null
-            if (popup.tipo === 'pericia') {
-              const contexto = Object.entries(cardPopup.periciasEntrando).filter(([, rk]) => rk !== 'N')
-              return (
-                <>
-                  {contexto.length ? (
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                      <span style={kicker}>CONTEXTO (ATÉ O NÍVEL {popup.nivel - 1}) — TRAVADO</span>
-                      {contexto.map(([nome, rk]) => (
-                        <span key={nome} style={mono({ fontSize: 9.5, color: 'var(--muted)' })}>
-                          {nome} {rk}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  {editorPericiasNivel(cardPopup)}
-                </>
-              )
-            }
+            // sem linha de "contexto travado" — a própria grade mostra os
+            // ranks passados travados; a FONTE dos slots do nível está no
+            // cabeçalho "SLOTS DESTE NÍVEL VÊM DE" acima
+            if (popup.tipo === 'pericia') return editorPericiasNivel(cardPopup)
             if (popup.tipo === 'magia') {
               const conhecidas = [...magiasConhecidasAntes(popup.nivel)]
               return (
