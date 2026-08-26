@@ -409,3 +409,88 @@ describe('#505 — técnica PLANEJADA expõe as escolhas internas no card do ní
     }
   })
 })
+
+describe('#507 — maestria órfã (perícia sem especialidade) cai no auto-heal', () => {
+  it('registro de maestria sem NENHUMA espec da perícia é dropado; com espec fica', async () => {
+    const { sanitizarRegistros } = await import('../src/rules/level-timeline')
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 4,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    // maestria planejada @8 SEM espec em lugar nenhum (user tirou a espec)
+    const { mudou, registros } = sanitizarRegistros(cards, [
+      { nivel: 8, tipo: 'maestria', alvo: '[[Inércia]]', contexto: 'Atletismo' },
+      { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+    ])
+    expect(mudou).toBe(true)
+    expect(registros.some((r) => r.alvo.includes('Inércia'))).toBe(false)
+    expect(registros.some((r) => r.alvo === 'Atletismo')).toBe(true)
+    // COM espec registrada, a maestria sobrevive
+    const ok = sanitizarRegistros(cards, [
+      { nivel: 4, tipo: 'especialidade', alvo: '[[Impulso]]', contexto: 'Atletismo' },
+      { nivel: 8, tipo: 'maestria', alvo: '[[Inércia]]', contexto: 'Atletismo' },
+    ])
+    expect(ok.registros.some((r) => r.alvo.includes('Inércia'))).toBe(true)
+  })
+})
+
+describe('#508 — magias SECUNDÁRIAS caem onde os slots secundários nascem (Simões)', () => {
+  it('Escola Arcana Menor: gastos secundários não transbordam pro N10', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Tecnicas: {
+        Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }],
+      },
+      Habilidades: {
+        Lista: [
+          { '[[Treinamento de Arcanista]]': 'Escolha.[[Treinamento de Classe Secundária]]' },
+          { '[[Escola Arcana Menor]]': 'Regra.[[Treinamento de Arcanista]]' },
+          { '[[Escola Arcana Menor (Estudos do Vazio)]]': 'Escolha.[[Escola Arcana Menor]]' },
+        ],
+      },
+      Magias: {
+        Lista: [],
+        Secundaria: {
+          Lista: [
+            {
+              Nome: 'Arcana Negra',
+              Proficiencia: 'A',
+              Lista: [
+                { '[[Choque Mental]]': 'Slot.B' },
+                { '[[Drenar]]': 'Slot.B' },
+                { '[[Aturdir]]': 'Slot.A' },
+              ],
+            },
+          ],
+        },
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const g = (n: number) =>
+      cards[n - 1]!.gastos.magias.map((m) => `${m.link}:${m.rank}${m.secundaria ? '(2ª)' : ''}`)
+    // NADA empilhado no N10 (report Simões 2026-08-26: "um monte de magia
+    // selecionada aparentemente no nivel 10")
+    expect(g(10)).toHaveLength(0)
+    // os gastos caem no nível em que os slots SECUNDÁRIOS nascem (Estudos do
+    // Vazio: B×2 + A×1 — sem gate de nível → N1)
+    expect(g(1)).toContain('[[Choque Mental]]:B(2ª)')
+    expect(g(1)).toContain('[[Drenar]]:B(2ª)')
+    expect(g(1)).toContain('[[Aturdir]]:A(2ª)')
+  })
+})

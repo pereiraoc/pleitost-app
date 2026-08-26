@@ -963,6 +963,21 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   aplicaEspecialidade(f.pericia, f.tipo === 'especialidade' ? 'Especializacao' : 'Maestria', '')
                 desregistrar(f.tipo, f.alvo)
                 otimistaRemove(f.tipo, f.alvo)
+                // CASCATA (#507): maestria depende da especialidade da
+                // perícia — tirar a espec derruba a maestria junto (real e
+                // planejada), senão ela ficava "selecionada" pro futuro
+                if (f.tipo === 'especialidade') {
+                  const dependentes = (cards ?? []).flatMap((cc) =>
+                    cc.gastos.especialidades.filter(
+                      (m) => m.tipo === 'maestria' && m.pericia === f.pericia,
+                    ),
+                  )
+                  for (const m of dependentes) {
+                    if (!m.planejado) aplicaEspecialidade(f.pericia, 'Maestria', '')
+                    desregistrar('maestria', m.alvo)
+                    otimistaRemove('maestria', m.alvo)
+                  }
+                }
               }}
               aria-label={`${f.pericia}: ${linkLabel(f.alvo)}`}
               aria-pressed

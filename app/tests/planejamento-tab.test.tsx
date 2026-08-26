@@ -899,3 +899,72 @@ describe('#504 — pick PLANEJADO de irmã (gate futuro) também exclui a oferta
     expect(labels9.some((l) => l.includes('Congelante Experiente'))).toBe(false)
   }, 90000)
 })
+
+describe('#507 — remover a ESPECIALIDADE derruba a maestria dependente (cascata)', () => {
+  it('tirar a espec no popup remove também o registro da maestria futura', async () => {
+    const id = createLocalEntity('Heroi', 'Cascateador', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 4,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Especializacao: '[[Impulso]]',
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+          { nivel: 4, tipo: 'especialidade', alvo: '[[Impulso]]', contexto: 'Atletismo' },
+          { nivel: 8, tipo: 'pericia', rank: 'M', alvo: 'Atletismo' },
+          // maestria de Impulso PLANEJADA pro N8 — depende da espec
+          { nivel: 8, tipo: 'maestria', alvo: '[[Inércia]]', contexto: 'Atletismo' },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card4 = document.querySelector('[data-nivel="4"]') as HTMLElement
+    const botao = [...card4.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('ESPEC/MAESTRIAS'),
+    )
+    expect(botao, 'botão ESPEC/MAESTRIAS no N4').toBeTruthy()
+    fireEvent.click(botao!)
+    // remove a ESPECIALIDADE pelo radio selecionado
+    const radio = await waitFor(() => {
+      const b = [...document.querySelectorAll('button[aria-pressed="true"]')].find((x) =>
+        (x.getAttribute('aria-label') ?? '').includes('Impulso'),
+      ) as HTMLElement
+      expect(b, 'radio da espec Impulso').toBeTruthy()
+      return b
+    })
+    fireEvent.click(radio)
+    await waitFor(
+      () => {
+        const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        const rows = ((fmCur['Pericias'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        expect(String(rows[0]?.['Especializacao'] ?? '')).toBe('')
+        const regs = ((fmCur['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        // a espec saiu E a maestria dependente saiu junto (report 2026-08-26)
+        expect(regs.some((r) => String(r['alvo']).includes('Impulso'))).toBe(false)
+        expect(regs.some((r) => String(r['alvo']).includes('Inércia'))).toBe(false)
+        // os demais registros ficam
+        expect(regs.some((r) => r['tipo'] === 'pericia' && r['rank'] === 'M')).toBe(true)
+      },
+      { timeout: 20000 },
+    )
+  }, 90000)
+})

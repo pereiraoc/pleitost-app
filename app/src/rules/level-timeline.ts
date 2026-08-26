@@ -112,8 +112,10 @@ export interface LevelCard {
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
   magiasRegra: Array<{ escola: string; link: string; secundaria: boolean; fonte?: string }>
-  /** Slots GANHOS neste nível (delta vs nível anterior). */
-  slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta }
+  /** Slots GANHOS neste nível (delta vs nível anterior). `magiasSec` é o
+   *  escopo SECUNDÁRIO (Magias.Secundaria.Slots — Escola Arcana Menor etc.);
+   *  a UI de slots primários ignora, mas a atribuição de gastos usa (#508). */
+  slots: { pericias: SlotDelta; tecnicas: SlotDelta; magias: SlotDelta; magiasSec?: SlotDelta }
   /** Notas que CONCEDERAM os slots deste nível (rastreabilidade): wikilinks
    *  novos no ruleSources de `<ns>.Slots.<rank>` vs o nível anterior. */
   slotFontes: { pericias: string[]; tecnicas: string[]; magias: string[] }
@@ -272,6 +274,24 @@ export function sanitizarRegistros(
   })
   const dedupou = unicos.length !== registros.length
   registros = unicos
+  // passada 0.5: MAESTRIA ÓRFÃ (#507) — maestria depende da especialidade da
+  // perícia; se a espec sumiu de TODO lugar (nem gasto real/planejado nos
+  // cards, nem registro), o registro de maestria cai junto. Sem isso, tirar
+  // a espec deixava a maestria "selecionada" pro nível futuro pra sempre.
+  const periciasComEspec = new Set<string>()
+  for (const c of cards) {
+    for (const g of c.gastos.especialidades) {
+      if (g.tipo === 'especialidade') periciasComEspec.add(g.pericia)
+    }
+  }
+  for (const r of registros) {
+    if (r.tipo === 'especialidade' && r.contexto) periciasComEspec.add(r.contexto)
+  }
+  const comEspec = registros.filter(
+    (r) => !(r.tipo === 'maestria' && r.contexto && !periciasComEspec.has(r.contexto)),
+  )
+  const dropouOrfa = comEspec.length !== registros.length
+  registros = comEspec
   const pools: Record<string, SlotPools> = {
     pericia: new SlotPools(cards.map((c) => c.slots.pericias)),
     tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),
@@ -286,7 +306,7 @@ export function sanitizarRegistros(
     return { r, ok: JSON.stringify(pool) !== antes }
   })
   // passada 2: deslocados vão pro primeiro nível livre do MESMO rank
-  let mudou = dedupou
+  let mudou = dedupou || dropouOrfa
   const out = claims.map(({ r, ok }) => {
     if (ok || !r.rank || !(r.tipo in pools)) return r
     const novo = pools[r.tipo]!.takeSameRank(r.rank)
@@ -483,12 +503,14 @@ export async function buildLevelTimeline(
       pericias: SlotDelta
       tecnicas: SlotDelta
       magias: SlotDelta
+      magiasSec?: SlotDelta
     }): LevelCard['slotGrants'] => {
       const out: LevelCard['slotGrants'] = []
-      const NS: Array<['Pericias' | 'Tecnicas' | 'Magias', 'Perícia' | 'Técnica' | 'Magia', SlotDelta]> = [
+      const NS: Array<[string, 'Perícia' | 'Técnica' | 'Magia', SlotDelta]> = [
         ['Pericias', 'Perícia', deltas.pericias],
         ['Tecnicas', 'Técnica', deltas.tecnicas],
         ['Magias', 'Magia', deltas.magias],
+        ['Magias.Secundaria', 'Magia', deltas.magiasSec ?? ZERO_SLOTS()],
       ]
       for (const [nsKey, nsLabel, delta] of NS) {
         for (const rank of RANKS_BAEM) {
@@ -567,6 +589,7 @@ export async function buildLevelTimeline(
       pericias: slotsDelta('Pericias'),
       tecnicas: slotsDelta('Tecnicas'),
       magias: slotsDelta('Magias'),
+      magiasSec: slotsDelta('Magias.Secundaria'),
     }
     cards.push({
       nivel,
@@ -589,7 +612,7 @@ export async function buildLevelTimeline(
       slotFontes: {
         pericias: slotFontesDe('Pericias'),
         tecnicas: slotFontesDe('Tecnicas'),
-        magias: slotFontesDe('Magias'),
+        magias: [...new Set([...slotFontesDe('Magias'), ...slotFontesDe('Magias.Secundaria')])],
       },
       slotGrants: slotGrantsDe(slotsCard),
       gastos: { tecnicas: [], pericias: [], magias: [], especialidades: [] },
@@ -603,6 +626,10 @@ export async function buildLevelTimeline(
   const poolTec = new SlotPools(cards.map((c) => c.slots.tecnicas))
   const poolPer = new SlotPools(cards.map((c) => c.slots.pericias))
   const poolMag = new SlotPools(cards.map((c) => c.slots.magias))
+  // Slots SECUNDÁRIOS (Escola Arcana Menor etc.): pool separado — sem ele os
+  // gastos secundários consumiam o pool primário vazio e transbordavam pro
+  // N10 (#508, report Simões)
+  const poolMagSec = new SlotPools(cards.map((c) => c.slots.magiasSec ?? ZERO_SLOTS()))
   const cardDe = (nivel: number | null): LevelCard => cards[Math.max(1, Math.min(nivelMax, nivel ?? nivelMax)) - 1]!
   const registros = gastosRegistrados(fm)
   const registroDe = (
@@ -688,7 +715,8 @@ export async function buildLevelTimeline(
         if (!m) continue
         const rank = m[1] as 'B' | 'A' | 'E' | 'M'
         const reg = registroDe('magia', wlBase(e.link), String(esc.Nome ?? ''))
-        const nivel = reg ? (poolMag.takeAt(rank, reg.nivel), reg.nivel) : poolMag.take(rank)
+        const pool = secundaria ? poolMagSec : poolMag
+        const nivel = reg ? (pool.takeAt(rank, reg.nivel), reg.nivel) : pool.take(rank)
         cardDe(nivel).gastos.magias.push({
           escola: String(esc.Nome ?? ''),
           link: e.link,
