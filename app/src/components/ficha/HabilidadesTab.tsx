@@ -345,6 +345,7 @@ export function ClasseNivelPanel({
   // do FM) — espelho do vm.derived + choices do Editável do plugin
   // (render/view-model.ts + render/groups/perfil-card.ts).
   const rules = useHeroRules(fm)
+  const catalogEscolhas = useCatalog()
   // Delta por família (#201): CA mostra "Tipo" estático (perfil-card.ts:
   // 322-331) e o nível satélite do tutor (sync-ca-tutor-nivel.ts) — sem
   // stepper. Flags centrais de FICHA_FAMILIA.
@@ -410,8 +411,18 @@ export function ClasseNivelPanel({
 
   // Fallback enquanto a projeção resolve: escolhas do FM (fonte Escolha.[[X]]),
   // sem opções — slot renderiza o valor salvo.
+  // Fallback (rules ainda carregando): SÓ entradas cujo PAI é doc de
+  // subcategoria Subclasse (catálogo). Sem o filtro, as essências do Druida
+  // (Escolha.NN.[[Círculo do Oceano]]) apareciam como selects de subclasse
+  // no lugar de Círculo/Tradição Druídica (#498).
+  const paiSubclasse = (target: string) => {
+    const base = target.split('/').pop() ?? target
+    return catalogEscolhas.content.some(
+      (x) => (x.basename ?? x.id.split('/').pop()) === base && x.subtype === 'Subclasse',
+    )
+  }
   const escolhasFallback = listaEntries(fmPath(fm, 'Habilidades', 'Lista'))
-    .filter((e) => e.fonte.kind === 'Escolha')
+    .filter((e) => e.fonte.kind === 'Escolha' && paiSubclasse(e.fonte.target))
     .map((e) => ({
       ic: tokens.emojis.categoria.Habilidade,
       label: e.fonte.target.toUpperCase(),

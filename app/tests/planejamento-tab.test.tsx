@@ -657,6 +657,10 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
     expect(rowsMagia).toHaveLength(0)
     // sem valor cru com colchetes em lugar nenhum do card
     expect(card1.textContent).not.toContain('[[')
+    // bloco-base mostra as DUAS subclasses do Druida (#498: o find() escondia
+    // a Tradição Druídica)
+    expect(document.body.textContent).toContain('SUBCLASSE · CÍRCULO DRUÍDICO')
+    expect(document.body.textContent).toContain('SUBCLASSE · TRADIÇÃO DRUÍDICA')
   }, 90000)
 
   it('popup do grupo FORMA mostra o pick sem colchetes', async () => {

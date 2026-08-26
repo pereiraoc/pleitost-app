@@ -739,7 +739,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     })
   }
   // ── bloco-base (topo, estilo Ancestry/Background/Class do Pathbuilder) ────
-  const subclasseRow = cards[0]!.escolhas.find((c) => c.isSubclass)
+  // TODAS as escolhas de subclasse (Druida tem duas: Círculo Druídico e
+  // Tradição Druídica — o find() escondia a segunda, #498).
+  const subclasseRows = cards[0]!.escolhas.filter((c) => c.isSubclass)
   const passadoPericia = (() => {
     for (const row of (fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]) {
       const incs = (row.Incrementos ?? []) as Row[]
@@ -755,17 +757,13 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       doc: docDe(String(fm['Classe'] ?? '')),
       icon: tokens.emojis.perfil.Classe,
     },
-    ...(subclasseRow
-      ? [
-          {
-            rid: 'base|subclasse',
-            kicker: `Subclasse · ${subclasseRow.sourceNote}`,
-            valor: linkLabel(subclasseRow.pick ?? '') || '(não definida)',
-            doc: subclasseRow.pick ? docDe(subclasseRow.pick) : null,
-            icon: tokens.emojis.perfil.Subclasse,
-          },
-        ]
-      : []),
+    ...subclasseRows.map((sub) => ({
+      rid: `base|subclasse|${sub.choiceKey}`,
+      kicker: `Subclasse · ${sub.sourceNote}`,
+      valor: linkLabel(sub.pick ?? '') || '(não definida)',
+      doc: sub.pick ? docDe(sub.pick) : null,
+      icon: tokens.emojis.perfil.Subclasse,
+    })),
     ...(fm['Sintonia']
       ? [
           {
