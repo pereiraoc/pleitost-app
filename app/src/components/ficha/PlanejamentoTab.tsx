@@ -356,18 +356,34 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const [confirmaLimpar, setConfirmaLimpar] = useState(false)
   const fmSig = useMemo(() => JSON.stringify(fm), [fm])
   const buildSeq = useRef(0)
+  const cardsRef = useRef<LevelCard[] | null>(null)
+  /** Toda escrita de FM desta aba passa aqui: o bump SÍNCRONO do seq invalida
+   *  builds em voo ANTES do próximo effect rodar — sem isso um build iniciado
+   *  antes da edição aterrissava depois, passava no guard e o auto-heal
+   *  escrevia gastosSlots do FM velho por cima do registro recém-gravado
+   *  (#494: o clique "não pegava" e o valor sumia). */
+  const escreve = (path: string, value: unknown) => {
+    buildSeq.current += 1
+    model.set(path, value)
+  }
+  const commitCards = (c: LevelCard[]) => {
+    cardsRef.current = c
+    setCards(c)
+  }
 
   useEffect(() => {
     const seq = ++buildSeq.current
     let vivo = true
     void buildLevelTimeline(fm, catalog, loadDoc).then((c) => {
       if (!vivo || buildSeq.current !== seq) return
-      setCards(c)
+      commitCards(c)
       // AUTO-HEAL: registros com nível deslocado (gravados pelas versões
       // antigas) são movidos pro primeiro nível com slot do rank — alvo/rank
       // preservados, nada se perde (pedido: sem "limpar plano" na mão).
-      const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(model.fm))
-      if (mudou) model.set('Planejamento.gastosSlots', sane)
+      // Registros lidos do MESMO fm que gerou o build (o guard de seq garante
+      // que nenhuma escrita aconteceu no meio — par consistente).
+      const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm))
+      if (mudou) escreve('Planejamento.gastosSlots', sane)
     })
     return () => {
       vivo = false
@@ -491,23 +507,43 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
 
   // ── registros (nível explícito dos gastos) ────────────────────────────────
   const registros = gastosRegistrados(fm)
-  const setRegistros = (next: GastoRegistrado[]) => model.set('Planejamento.gastosSlots', next)
+  // Ref sempre à frente do render: setRegistros grava aqui SÍNCRONO — um
+  // clique em handler de render velho (celular com a thread ocupada pelas 10
+  // projeções) lê o estado real, não a closure (#494: o segundo registro
+  // reconstruía a lista sem o primeiro e clobberava o FM).
+  const regsRef = useRef<GastoRegistrado[]>(registros)
+  regsRef.current = registros
+  const setRegistros = (next: GastoRegistrado[]) => {
+    regsRef.current = next
+    escreve('Planejamento.gastosSlots', next)
+  }
+  /** Perícia casa POR RANK (A/E/M são gastos independentes — registrar o M
+   *  não pode engolir o E); os demais tipos têm uma instância por alvo. */
+  const casaRegistro = (
+    x: GastoRegistrado,
+    tipo: GastoRegistrado['tipo'],
+    alvo: string,
+    rank?: GastoRegistrado['rank'],
+  ) =>
+    x.tipo === tipo &&
+    wikiTarget(x.alvo) === wikiTarget(alvo) &&
+    (tipo !== 'pericia' || x.rank === rank)
   /** PIN: antes de qualquer edição, congela a atribuição ATUAL de todos os
    *  gastos sem registro. Sem isso, remover uma magia do N2 fazia o
    *  earliest-fit puxar as de níveis superiores pro buraco ("suprindo o slot
    *  com magias de slots superiores" — report 2026-08-25). Com o pin, o slot
    *  liberado fica VAZIO e o resto não se move. */
   const pinBase = (): GastoRegistrado[] => {
-    const out = [...registros]
-    const tem = (tipo: GastoRegistrado['tipo'], alvo: string) =>
-      out.some((x) => x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(alvo))
-    for (const c of cards ?? []) {
+    const out = [...regsRef.current]
+    const tem = (tipo: GastoRegistrado['tipo'], alvo: string, rank?: GastoRegistrado['rank']) =>
+      out.some((x) => casaRegistro(x, tipo, alvo, rank))
+    for (const c of cardsRef.current ?? []) {
       for (const g of c.gastos.tecnicas) {
         if (!g.planejado && !tem('tecnica', g.link))
           out.push({ nivel: c.nivel, tipo: 'tecnica', rank: g.rank, alvo: g.link })
       }
       for (const g of c.gastos.pericias) {
-        if (g.fonte === 'Slot' && !g.planejado && !tem('pericia', g.nome))
+        if (g.fonte === 'Slot' && !g.planejado && !tem('pericia', g.nome, g.rank))
           out.push({ nivel: c.nivel, tipo: 'pericia', rank: g.rank, alvo: g.nome })
       }
       for (const g of c.gastos.magias) {
@@ -522,12 +558,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return out
   }
   const registrar = (r: GastoRegistrado) =>
-    setRegistros([
-      ...pinBase().filter((x) => !(x.tipo === r.tipo && wikiTarget(x.alvo) === wikiTarget(r.alvo))),
-      r,
-    ])
-  const desregistrar = (tipo: GastoRegistrado['tipo'], alvo: string) =>
-    setRegistros(pinBase().filter((x) => !(x.tipo === tipo && wikiTarget(x.alvo) === wikiTarget(alvo))))
+    setRegistros([...pinBase().filter((x) => !casaRegistro(x, r.tipo, r.alvo, r.rank)), r])
+  const desregistrar = (
+    tipo: GastoRegistrado['tipo'],
+    alvo: string,
+    rank?: GastoRegistrado['rank'],
+  ) => setRegistros(pinBase().filter((x) => !casaRegistro(x, tipo, alvo, rank)))
 
   // ── aplicadores (caminhos existentes) ─────────────────────────────────────
   const savedPericias = () => (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Row[]
@@ -536,19 +572,19 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return (row?.Incrementos ?? []) as Row[]
   }
   const aplicaPericia = (nome: string, rank: RankAEM) =>
-    model.set('Pericias.Lista', applyPericiaRankEdit(savedPericias(), derivedIncsDe(nome), nome, rank))
+    escreve('Pericias.Lista', applyPericiaRankEdit(savedPericias(), derivedIncsDe(nome), nome, rank))
   const desfazPericia = (nome: string, rank: RankAEM) => {
     const abaixo: Record<RankAEM, 'N' | 'A' | 'E'> = { A: 'N', E: 'A', M: 'E' }
-    model.set('Pericias.Lista', applyPericiaRankEdit(savedPericias(), derivedIncsDe(nome), nome, abaixo[rank]))
+    escreve('Pericias.Lista', applyPericiaRankEdit(savedPericias(), derivedIncsDe(nome), nome, abaixo[rank]))
   }
   const aplicaTecnica = (alvo: string, rank: RankAEM) =>
-    model.set('Tecnicas.Lista', addTecnicaToLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo, rank))
+    escreve('Tecnicas.Lista', addTecnicaToLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo, rank))
   const desfazTecnica = (alvo: string) =>
-    model.set('Tecnicas.Lista', removeTecnicaFromLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo))
+    escreve('Tecnicas.Lista', removeTecnicaFromLista((fmPath(model.fm, 'Tecnicas', 'Lista') ?? []) as Row[], alvo))
   const aplicaMagia = (escola: string, alvo: string, rank: RankBAEM) =>
-    model.set('Magias.Lista', addMagiaToEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo, rank))
+    escreve('Magias.Lista', addMagiaToEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo, rank))
   const desfazMagia = (escola: string, alvo: string) =>
-    model.set('Magias.Lista', removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo))
+    escreve('Magias.Lista', removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo))
   const aplicaEspecialidade = (pericia: string, campo: 'Especializacao' | 'Maestria', alvo: string) => {
     const rows = savedPericias().map((r) => ({ ...r }))
     let row = rows.find((r) => String(r.Nome) === pericia)
@@ -557,7 +593,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       rows.push(row)
     }
     row[campo] = alvo
-    model.set('Pericias.Lista', rows)
+    escreve('Pericias.Lista', rows)
   }
 
   const abrePopup = (nivel: number, tipo: TipoPopup) => {
@@ -606,6 +642,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           const planejado = plano[c.choiceKey]
           if (!c.pick && planejado && c.options.some((o) => wikiTarget(o) === wikiTarget(planejado))) {
             writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), planejado)
+            buildSeq.current += 1
             planoNovo = planoNovo ?? { ...plano }
             delete planoNovo[c.choiceKey]
           }
@@ -615,7 +652,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         }
       }
     }
-    if (planoNovo) model.set('Planejamento.picks', planoNovo)
+    if (planoNovo) escreve('Planejamento.picks', planoNovo)
 
     for (const r of registros) {
       const alvoBase = wikiTarget(r.alvo)
@@ -651,19 +688,26 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
   const plano = planPicks(fm)
   /** Patch OTIMISTA dos cards: no celular as 10 projeções do rebuild levam
    *  segundos — sem isso o clique parecia morto (logs do Carlos N8: estado
-   *  perfeito, cliques chegando, grade parada). O rebuild real confirma. */
-  const otimista = (fn: (cs: LevelCard[]) => void) =>
-    setCards((prev) => {
-      if (!prev) return prev
-      const clone = structuredClone(prev)
-      fn(clone)
-      return clone
-    })
-  const otimistaRemove = (tipo: GastoRegistrado['tipo'], alvo: string) =>
+   *  perfeito, cliques chegando, grade parada). O rebuild real confirma.
+   *  Parte do cardsRef (não da closure): cliques encadeados em renders
+   *  atrasados não desfazem o patch anterior (#494). */
+  const otimista = (fn: (cs: LevelCard[]) => void) => {
+    const prev = cardsRef.current
+    if (!prev) return
+    const clone = structuredClone(prev)
+    fn(clone)
+    commitCards(clone)
+  }
+  const otimistaRemove = (
+    tipo: GastoRegistrado['tipo'],
+    alvo: string,
+    rank?: GastoRegistrado['rank'],
+  ) =>
     otimista((cs) => {
       const base = wikiTarget(alvo)
       for (const c of cs) {
-        if (tipo === 'pericia') c.gastos.pericias = c.gastos.pericias.filter((g) => g.nome !== base)
+        if (tipo === 'pericia')
+          c.gastos.pericias = c.gastos.pericias.filter((g) => !(g.nome === base && g.rank === rank))
         else if (tipo === 'tecnica') c.gastos.tecnicas = c.gastos.tecnicas.filter((g) => wikiTarget(g.link) !== base)
         else if (tipo === 'magia') c.gastos.magias = c.gastos.magias.filter((g) => wikiTarget(g.link) !== base)
         else c.gastos.especialidades = c.gastos.especialidades.filter((g) => wikiTarget(g.alvo) !== base)
@@ -677,7 +721,9 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       const planejado = r.nivel > nivelAtual
       const base = wikiTarget(r.alvo)
       if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
-        for (const c of cs) c.gastos.pericias = c.gastos.pericias.filter((g) => g.nome !== base)
+        // dedup POR RANK: mover o M de nível não pode apagar o A/E da perícia
+        for (const c of cs)
+          c.gastos.pericias = c.gastos.pericias.filter((g) => !(g.nome === base && g.rank === r.rank))
         card.gastos.pericias.push({ nome: base, rank: r.rank, fonte: 'Slot', ...(planejado ? { planejado } : {}) })
       } else if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
         for (const c of cs) c.gastos.tecnicas = c.gastos.tecnicas.filter((g) => wikiTarget(g.link) !== base)
@@ -1050,8 +1096,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 onPick={(letter) => {
                   if (gastoAqui && letter === gastoAqui.rank) {
                     if (!gastoAqui.planejado) desfazPericia(nome, gastoAqui.rank)
-                    desregistrar('pericia', nome)
-                    otimistaRemove('pericia', nome)
+                    desregistrar('pericia', nome, gastoAqui.rank)
+                    otimistaRemove('pericia', nome, gastoAqui.rank)
                     return
                   }
                   if (letter === proximo && podeSubir) {
@@ -1235,8 +1281,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
                 onChange={(v) => {
                   if (!v) return
-                  if (desbloqueada) writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
-                  else model.set('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
+                  if (desbloqueada) {
+                    writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
+                    buildSeq.current += 1
+                  } else escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
                 }}
                 infoDocId={valorDe(c) ? (docDe(valorDe(c)!)?.id ?? null) : null}
               />
@@ -1348,8 +1396,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
             onChange={(v) => {
               if (!v) return
-              if (desbloqueada) writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
-              else model.set('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
+              if (desbloqueada) {
+                writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
+                buildSeq.current += 1
+              } else escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
             }}
           />
         </PbRow>,
@@ -1456,7 +1506,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               setConfirmaLimpar(true)
               return
             }
-            model.set('Planejamento', {})
+            escreve('Planejamento', {})
             setConfirmaLimpar(false)
           }}
           onBlur={() => setConfirmaLimpar(false)}

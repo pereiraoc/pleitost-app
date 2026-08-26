@@ -502,11 +502,17 @@ export async function buildLevelTimeline(
   const poolMag = new SlotPools(cards.map((c) => c.slots.magias))
   const cardDe = (nivel: number | null): LevelCard => cards[Math.max(1, Math.min(nivelMax, nivel ?? nivelMax)) - 1]!
   const registros = gastosRegistrados(fm)
-  const registroDe = (tipo: GastoRegistrado['tipo'], alvoBase: string, contexto?: string) =>
+  const registroDe = (
+    tipo: GastoRegistrado['tipo'],
+    alvoBase: string,
+    contexto?: string,
+    rank?: GastoRegistrado['rank'],
+  ) =>
     registros.find(
       (r) =>
         r.tipo === tipo &&
         wlBase(r.alvo) === alvoBase &&
+        (rank === undefined || r.rank === rank) &&
         (contexto === undefined || r.contexto === undefined || wlBase(r.contexto) === wlBase(contexto)),
     )
 
@@ -541,8 +547,10 @@ export async function buildLevelTimeline(
         continue
       }
       if (!fonte.startsWith('Slot')) continue
-      const reg = registroDe('pericia', nome)
-      const nivel = reg && reg.rank === rank ? (poolPer.takeAt(rank, reg.nivel), reg.nivel) : poolPer.take(rank, minNivel)
+      // POR RANK: cada degrau (A/E/M) da perícia é um gasto independente —
+      // o registro do E não pode desviar a atribuição do A (#494)
+      const reg = registroDe('pericia', nome, undefined, rank)
+      const nivel = reg ? (poolPer.takeAt(rank, reg.nivel), reg.nivel) : poolPer.take(rank, minNivel)
       cardDe(nivel).gastos.pericias.push({ nome, rank, fonte: 'Slot' })
       if (nivel !== null) {
         minNivel = nivel
@@ -592,15 +600,19 @@ export async function buildLevelTimeline(
   // futuro esperando materializar) vira gasto `planejado` no card do nível —
   // sem isso a seleção futura "sumia" (nem chip nem contador; report
   // 2026-08-25). O já-aplicado foi consumido pelos walks acima (dedup).
+  // Perícia entra na chave COM o rank: o A/E real da mesma perícia não pode
+  // deduplicar o M futuro registrado (#494 — o M* sumia no rebuild).
   const atribuidos = new Set<string>()
   for (const c of cards) {
     for (const g of c.gastos.tecnicas) atribuidos.add(`tecnica|${wlBase(g.link)}`)
-    for (const g of c.gastos.pericias) atribuidos.add(`pericia|${g.nome}`)
+    for (const g of c.gastos.pericias) atribuidos.add(`pericia|${g.nome}|${g.rank}`)
     for (const g of c.gastos.magias) atribuidos.add(`magia|${wlBase(g.link)}`)
     for (const g of c.gastos.especialidades) atribuidos.add(`${g.tipo}|${wlBase(g.alvo)}`)
   }
   for (const r of registros) {
-    if (atribuidos.has(`${r.tipo}|${wlBase(r.alvo)}`)) continue
+    const chave =
+      r.tipo === 'pericia' ? `pericia|${wlBase(r.alvo)}|${r.rank}` : `${r.tipo}|${wlBase(r.alvo)}`
+    if (atribuidos.has(chave)) continue
     const card = cardDe(r.nivel)
     if (r.tipo === 'tecnica' && r.rank && r.rank !== 'B') {
       poolTec.takeAt(r.rank, r.nivel)

@@ -373,3 +373,82 @@ describe('espec/maestria destravam e M futuro é clicável', () => {
     })
   }, 180000)
 })
+
+describe('#494 — registro de perícia POR RANK no popup (não apaga os outros ranks)', () => {
+  it('registrar M@7 preserva A@1/E@4; desfazer o M remove SÓ o M', async () => {
+    const id = createLocalEntity('Heroi', 'Escalador', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 7,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const regsDe = () => {
+      const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      return regs
+        .filter((r) => r['alvo'] === 'Atletismo')
+        .map((r) => `${String(r['rank'])}@${String(r['nivel'])}`)
+        .sort()
+    }
+    // N7 tem o slot M de perícia (Evolução) — abre o popup escopado
+    const card7 = document.querySelector('[data-nivel="7"]') as HTMLElement
+    const botaoPer = [...card7.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('INCREMENTOS DE PERÍCIA'),
+    )
+    expect(botaoPer, 'botão de perícia no N7').toBeTruthy()
+    fireEvent.click(botaoPer!)
+    const rankM = await waitFor(() => {
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Atletismo') &&
+            d.querySelector('[aria-label="Rank M"]:not([aria-disabled])'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      const btn = linha?.querySelector('[aria-label="Rank M"]:not([aria-disabled])') as HTMLElement
+      expect(btn, 'Rank M clicável do Atletismo no popup').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(rankM)
+    // o M entra SEM engolir o A@1 e o E@4 (report 2026-08-25: "perde o valor
+    // do nível anterior")
+    await waitFor(() => expect(regsDe()).toEqual(['A@1', 'E@4', 'M@7']))
+    // desfazer: clicar o rank selecionado remove SÓ o registro do M
+    const rankMSel = await waitFor(() => {
+      const linha = [...document.querySelectorAll('div')]
+        .filter(
+          (d) =>
+            (d.textContent ?? '').includes('Atletismo') &&
+            d.querySelector('[aria-label="Rank M"]:not([aria-disabled])'),
+        )
+        .sort((a, b) => (a.textContent ?? '').length - (b.textContent ?? '').length)[0]
+      const btn = linha?.querySelector('[aria-label="Rank M"]:not([aria-disabled])') as HTMLElement
+      expect(btn).toBeTruthy()
+      return btn
+    })
+    fireEvent.click(rankMSel)
+    await waitFor(() => expect(regsDe()).toEqual(['A@1', 'E@4']))
+  }, 60000)
+})

@@ -246,3 +246,60 @@ describe('sanitizarRegistros — auto-heal sem perder informação', () => {
     expect(registros.find((r) => r.alvo === 'Acrobacia')!.nivel).toBe(4)
   })
 })
+
+describe('#494 — registro de perícia é POR RANK (A/E/M da mesma perícia coexistem)', () => {
+  const fmBase = {
+    Classe: '[[Guerreiro]]',
+    'Nível': 5,
+    Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    Pericias: {
+      Lista: [
+        {
+          Nome: 'Atletismo',
+          Atributo: 'FOR',
+          Proficiencia: 'E',
+          Bonus_Item: 0,
+          Bonus_Especial: 0,
+          Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+        },
+      ],
+    },
+  }
+
+  it('M futuro registrado aparece planejado mesmo com A/E reais já atribuídos', async () => {
+    const fm = {
+      ...fmBase,
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+          { nivel: 7, tipo: 'pericia', rank: 'M', alvo: 'Atletismo' }, // futuro
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const g = (n: number) =>
+      cards[n - 1]!.gastos.pericias.map((x) => `${x.nome}:${x.rank}${x.planejado ? '*' : ''}`)
+    expect(g(1)).toContain('Atletismo:A')
+    expect(g(4)).toContain('Atletismo:E')
+    // o registro M NÃO pode ser deduplicado pelo A/E real da mesma perícia
+    expect(g(7)).toContain('Atletismo:M*')
+  })
+
+  it('registroDe respeita o rank pedido (registro de outro rank não desvia o A)', async () => {
+    const fm = {
+      ...fmBase,
+      Planejamento: {
+        // E vem PRIMEIRO na lista — o lookup do A não pode casar com ele
+        gastosSlots: [
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+          { nivel: 2, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const g = (n: number) => cards[n - 1]!.gastos.pericias.map((x) => `${x.nome}:${x.rank}`)
+    expect(g(2)).toContain('Atletismo:A') // honra o registro A@2 (não earliest-fit N1)
+    expect(g(4)).toContain('Atletismo:E')
+  })
+})
