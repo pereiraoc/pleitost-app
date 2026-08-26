@@ -692,3 +692,51 @@ describe('#497 — Leonel: grupos por tipo, magias identadas sob a essência, se
     })
   }, 90000)
 })
+
+describe('#499 — trocar a Forma do N1 com tag legado (Escolha.[[Forma Feral]])', () => {
+  it('selecionar outra forma REMOVE a linha do pick atual e a troca persiste', async () => {
+    const fm = JSON.parse(
+      fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+    ).frontmatter as Record<string, unknown>
+    const id = createLocalEntity('Heroi', 'Leonel Forma', fm)
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botaoForma = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('FORMA ('),
+    )
+    expect(botaoForma, 'botão FORMA no N1').toBeTruthy()
+    fireEvent.click(botaoForma!)
+    const sel = await waitFor(() => {
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Forma')),
+      ) as HTMLSelectElement
+      expect(s2, 'select de Forma').toBeTruthy()
+      return s2
+    })
+    const atual = sel.value // pick resolvido hoje (tag legado)
+    const alvoNovo = [...sel.options].map((o) => o.value).find((v) => v.includes('Forma') && v !== atual)!
+    expect(alvoNovo, 'opção de forma diferente da atual').toBeTruthy()
+    fireEvent.change(sel, { target: { value: alvoNovo } })
+    const formasDe = () => {
+      const cur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const lista = ((cur['Acoes'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      return lista
+        .flatMap((r) => Object.entries(r))
+        .filter(([k]) => k.includes('Forma '))
+        .map(([k, v]) => `${k}=${String(v)}`)
+    }
+    await waitFor(() => {
+      const formas = formasDe()
+      // a nova entra com o tag canônico do pai da escolha…
+      expect(formas.some((f) => f.startsWith(alvoNovo) && f.includes('Tradição Druídica'))).toBe(true)
+      // …e a linha do pick ANTERIOR sai (sem isso a troca nunca pegava —
+      // report 2026-08-25: "não consigo selecionar forma caçadora no level 1")
+      expect(formas.some((f) => f.startsWith(atual))).toBe(false)
+      // total de formas não cresce (troca, não acúmulo)
+      expect(formas).toHaveLength(2)
+    })
+  }, 90000)
+})

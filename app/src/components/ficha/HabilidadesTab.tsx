@@ -2471,11 +2471,18 @@ export function writeChoicePick(
   const thisTagRx = nn
     ? new RegExp(`^Escolha\\.${nn}\\.\\[\\[${esc}\\]\\]$`)
     : new RegExp(`^Escolha\\.\\[\\[${esc}\\]\\]$`)
+  // O pick ATUAL também sai, mesmo com tag de pai LEGADO (Leonel: formas
+  // gravadas como Escolha.[[Forma Feral]] enquanto a escolha é da Tradição
+  // Druídica) — sem isso a linha antiga ficava e a troca nunca pegava (#499).
+  // Espelho do ramo de magias (placeMagiaChoicePick remove o oldTarget).
+  const oldTarget = choice.pick ? wikiTarget(choice.pick) : null
   const kept = savedList.filter((row) => {
     const entriesRow = Object.entries(row)
     if (entriesRow.length !== 1) return true
-    const src = entriesRow[0]![1]
-    return !(typeof src === 'string' && thisTagRx.test(src))
+    const [alvoRow, src] = entriesRow[0]!
+    if (typeof src !== 'string') return true
+    if (thisTagRx.test(src)) return false
+    return !(oldTarget !== null && wikiTarget(alvoRow) === oldTarget && src.startsWith('Escolha'))
   })
   kept.push({ [`[[${newTarget}]]`]: source })
   model.set(target.fmKey, kept)
