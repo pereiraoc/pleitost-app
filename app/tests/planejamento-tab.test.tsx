@@ -821,3 +821,36 @@ describe('#501 — linha com tag de pai MORTO fica selecionável (Forma Espreita
     })
   }, 90000)
 })
+
+describe('#502 — essência já escolhida por IRMÃ de nível anterior não re-oferece', () => {
+  it('a essência do N3 não lista Torrencial/Congelante (picks das irmãs do N1)', async () => {
+    const id = createLocalEntity(
+      'Heroi',
+      'Leonel Essencias',
+      JSON.parse(
+        fs.readFileSync(path.join(appDir, 'tests/fixtures/heroes/Leonel Bravolla.json'), 'utf8'),
+      ).frontmatter as Record<string, unknown>,
+    )
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card3 = document.querySelector('[data-nivel="3"]') as HTMLElement
+    const botao = [...card3.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('ESSÊNCIA ELEMENTAL ADEPTA'),
+    )
+    expect(botao, 'botão de essências no N3').toBeTruthy()
+    fireEvent.click(botao!)
+    const sel = await waitFor(() => {
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Essência')),
+      ) as HTMLSelectElement
+      expect(s2, 'select de essência no popup do N3').toBeTruthy()
+      return s2
+    })
+    const labels = [...sel.options].map((o) => o.textContent ?? '')
+    // livres seguem ofertadas…
+    expect(labels.some((l) => l.includes('Hidratante'))).toBe(true)
+    // …mas as escolhidas pelas IRMÃS do N1 não repetem (report 2026-08-26)
+    expect(labels.some((l) => l.includes('Torrencial'))).toBe(false)
+    expect(labels.some((l) => l.includes('Congelante'))).toBe(false)
+  }, 90000)
+})

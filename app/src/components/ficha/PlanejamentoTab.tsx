@@ -1324,7 +1324,19 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <SelectBox
                 ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
                 value={valorDe(c) ?? ''}
-                options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote, liberadas)}
+                options={choiceOptionsSiblingAware(
+                  toHabChoice(c),
+                  // IRMÃS (mesmo pai) de TODA a timeline: essência escolhida
+                  // no N1 não re-oferece no N3 (#502) — mesmo filtro das
+                  // Competências; as de gate futuro seguem liberáveis (mover)
+                  (cards ?? [])
+                    .flatMap((cc) => cc.escolhas)
+                    .filter((e) => !e.isSubclass && e.sourceNote === c.sourceNote && e.choiceKey !== c.choiceKey)
+                    .map(toHabChoice),
+                  fm,
+                  c.sourceNote,
+                  liberadas,
+                )}
                 onChange={(v) => {
                   if (desbloqueada) {
                     // v vazio LIMPA (remove a linha do pick real; o display
