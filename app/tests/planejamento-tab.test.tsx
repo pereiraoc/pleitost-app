@@ -529,3 +529,93 @@ describe('#495 — maestria escolhida não é re-ofertada nem empilha (Base Firm
     })
   }, 60000)
 })
+
+describe('escolhas preenchidas como CHIPS + auto-seed do planejamento', () => {
+  it('abrir a aba materializa gastosSlots do que JÁ está gasto (sem clique)', async () => {
+    const id = createLocalEntity('Heroi', 'Veterano', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 3,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Tecnicas: {
+        Lista: [
+          { '[[Ataque Poderoso]]': 'Slot.A' },
+          { '[[Aparar]]': 'Slot.A' },
+        ],
+      },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'A',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }],
+          },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // o seed roda no fim do build — SEM nenhuma edição os gastos reais já
+    // têm registro explícito com o nível da atribuição
+    await waitFor(() => {
+      const fm = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+      const regs = ((fm['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+        Record<string, unknown>
+      >
+      const chave = (r: Record<string, unknown>) => `${String(r['tipo'])}:${String(r['alvo'])}@${String(r['nivel'])}`
+      expect(regs.map(chave)).toEqual(
+        expect.arrayContaining([
+          'tecnica:[[Ataque Poderoso]]@1',
+          'tecnica:[[Aparar]]@2',
+          'pericia:Atletismo@1',
+        ]),
+      )
+    })
+  }, 60000)
+
+  it('escolha preenchida aparece como CHIP na strip ESCOLHAS, não como row', async () => {
+    const id = createLocalEntity('Heroi', 'Chipado', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Animista]]',
+      'Nível': 1,
+      Sintonia: '[[Traço Elemental do Fogo|Fogo]]',
+      Atributos: { FOR: 1, AGI: 2, INT: 3, PRE: 4 },
+      Planejamento: { picks: {} },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // escolhe a essência FUTURA (N2) pelo popup de SELEÇÕES
+    const card2 = document.querySelector('[data-nivel="2"]') as HTMLElement
+    const botao = [...card2.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('SELEÇÕES'),
+    )
+    expect(botao, 'botão SELEÇÕES no N2').toBeTruthy()
+    fireEvent.click(botao!)
+    const sel = await waitFor(() => {
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => o.value.includes('Essência')),
+      ) as HTMLSelectElement
+      expect(s2).toBeTruthy()
+      return s2
+    })
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Essência'))!
+    fireEvent.change(sel, { target: { value: opcao } })
+    fireEvent.click(screen.getByLabelText('Fechar editor'))
+    // o pick vira CHIP na strip ESCOLHAS do card 2 (com marcador de plano)…
+    await waitFor(() => {
+      const c2 = document.querySelector('[data-nivel="2"]') as HTMLElement
+      const strip = [...c2.querySelectorAll('span')].find((s) => s.textContent === 'ESCOLHAS')
+      expect(strip, 'strip ESCOLHAS no card 2').toBeTruthy()
+      expect(strip!.parentElement!.textContent).toContain('plano')
+    })
+    // …e NÃO existe mais row expansível de seleção no corpo do card (o
+    // kicker antigo era `label · sourceNote · plano`; o chip novo não traz o
+    // separador com a fonte)
+    const c2 = document.querySelector('[data-nivel="2"]') as HTMLElement
+    const kickers = [...c2.querySelectorAll('span')].map((el) => el.textContent ?? '')
+    expect(kickers.some((t) => / · .+ · plano$/.test(t))).toBe(false)
+  }, 60000)
+})

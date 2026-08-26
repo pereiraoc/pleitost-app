@@ -212,6 +212,40 @@ class SlotPools {
   }
 }
 
+/** Pins FALTANTES: gastos reais atribuídos nos cards que ainda não têm
+ *  registro explícito. Materializa o planejamento do que já está feito —
+ *  a atribuição atual congela (earliest-fit não re-embaralha o passado em
+ *  edições futuras) e a aba fica coerente pra qualquer herói aberto. */
+export function pinsFaltantes(cards: LevelCard[], registros: GastoRegistrado[]): GastoRegistrado[] {
+  const out: GastoRegistrado[] = []
+  const tem = (tipo: GastoRegistrado['tipo'], alvo: string, rank?: GastoRegistrado['rank']) =>
+    [...registros, ...out].some(
+      (x) =>
+        x.tipo === tipo &&
+        wlBase(x.alvo) === wlBase(alvo) &&
+        (tipo !== 'pericia' || x.rank === rank),
+    )
+  for (const c of cards) {
+    for (const g of c.gastos.tecnicas) {
+      if (!g.planejado && !tem('tecnica', g.link))
+        out.push({ nivel: c.nivel, tipo: 'tecnica', rank: g.rank, alvo: g.link })
+    }
+    for (const g of c.gastos.pericias) {
+      if (g.fonte === 'Slot' && !g.planejado && !tem('pericia', g.nome, g.rank))
+        out.push({ nivel: c.nivel, tipo: 'pericia', rank: g.rank, alvo: g.nome })
+    }
+    for (const g of c.gastos.magias) {
+      if (!g.secundaria && !g.planejado && !tem('magia', g.link))
+        out.push({ nivel: c.nivel, tipo: 'magia', rank: g.rank, alvo: g.link, contexto: g.escola })
+    }
+    for (const g of c.gastos.especialidades) {
+      if (!g.planejado && !tem(g.tipo, g.alvo))
+        out.push({ nivel: c.nivel, tipo: g.tipo, alvo: g.alvo, contexto: g.pericia })
+    }
+  }
+  return out
+}
+
 /** Sanitiza registros DESLOCADOS (versões antigas gravaram níveis errados —
  *  ex.: "tudo no N1"): registro cujo nível não tem slot do rank é MOVIDO pro
  *  primeiro nível com slot livre daquele rank. Alvo/rank/tipo preservados —

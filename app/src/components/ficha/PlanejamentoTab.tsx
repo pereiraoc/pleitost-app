@@ -24,6 +24,7 @@ import { useAssetIndex } from '../../data/assets'
 import {
   buildLevelTimeline,
   gastosRegistrados,
+  pinsFaltantes,
   sanitizarRegistros,
   NIVEL_MAX_PLANEJAMENTO,
   type GastoRegistrado,
@@ -383,7 +384,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       // Registros lidos do MESMO fm que gerou o build (o guard de seq garante
       // que nenhuma escrita aconteceu no meio — par consistente).
       const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm))
-      if (mudou) escreve('Planejamento.gastosSlots', sane)
+      // AUTO-SEED: materializa o registro do que JÁ está gasto (atribuição
+      // atual dos cards) — abrir a aba já grava o planejamento do herói até
+      // o nível dele, sem exigir uma primeira edição (pedido 2026-08-25).
+      const pins = pinsFaltantes(c, sane)
+      if (mudou || pins.length) escreve('Planejamento.gastosSlots', [...sane, ...pins])
     })
     return () => {
       vivo = false
@@ -533,30 +538,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
    *  earliest-fit puxar as de níveis superiores pro buraco ("suprindo o slot
    *  com magias de slots superiores" — report 2026-08-25). Com o pin, o slot
    *  liberado fica VAZIO e o resto não se move. */
-  const pinBase = (): GastoRegistrado[] => {
-    const out = [...regsRef.current]
-    const tem = (tipo: GastoRegistrado['tipo'], alvo: string, rank?: GastoRegistrado['rank']) =>
-      out.some((x) => casaRegistro(x, tipo, alvo, rank))
-    for (const c of cardsRef.current ?? []) {
-      for (const g of c.gastos.tecnicas) {
-        if (!g.planejado && !tem('tecnica', g.link))
-          out.push({ nivel: c.nivel, tipo: 'tecnica', rank: g.rank, alvo: g.link })
-      }
-      for (const g of c.gastos.pericias) {
-        if (g.fonte === 'Slot' && !g.planejado && !tem('pericia', g.nome, g.rank))
-          out.push({ nivel: c.nivel, tipo: 'pericia', rank: g.rank, alvo: g.nome })
-      }
-      for (const g of c.gastos.magias) {
-        if (!g.secundaria && !g.planejado && !tem('magia', g.link))
-          out.push({ nivel: c.nivel, tipo: 'magia', rank: g.rank, alvo: g.link, contexto: g.escola })
-      }
-      for (const g of c.gastos.especialidades) {
-        if (!g.planejado && !tem(g.tipo, g.alvo))
-          out.push({ nivel: c.nivel, tipo: g.tipo, alvo: g.alvo, contexto: g.pericia })
-      }
-    }
-    return out
-  }
+  const pinBase = (): GastoRegistrado[] => [
+    ...regsRef.current,
+    ...pinsFaltantes(cardsRef.current ?? [], regsRef.current),
+  ]
   const registrar = (r: GastoRegistrado) =>
     setRegistros([...pinBase().filter((x) => !casaRegistro(x, r.tipo, r.alvo, r.rank)), r])
   const desregistrar = (
@@ -1382,42 +1367,19 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     return out
   }
 
-  // Rows das ESCOLHAS preenchidas (expansão mostra a descrição + re-picker).
-  // Gastos de slot NÃO são rows — viram a linha de chips do card (edição pelo
-  // botão do tipo, report 2026-08-25).
-  const rowsPreenchidas = (card: LevelCard): ReactNode[] => {
-    const out: ReactNode[] = []
+  // ESCOLHAS preenchidas viram CHIPS na strip do card (mesma apresentação dos
+  // gastos de slot — Leonel: 4 rows gigantes de essência/forma incoerentes com
+  // o resto); a edição é pelo botão SELEÇÕES, como os demais tipos.
+  const escolhasPreenchidasDe = (
+    card: LevelCard,
+  ): Array<{ choiceKey: string; valor: string; label: string; plano: boolean }> => {
+    const out: Array<{ choiceKey: string; valor: string; label: string; plano: boolean }> = []
     for (const c of card.escolhas) {
       if (c.isSubclass) continue
       const desbloqueada = c.gateLevel <= nivelAtual
       const valor = desbloqueada ? c.pick : (plano[c.choiceKey] ?? null)
       if (!valor) continue
-      const rid = `sel|${c.choiceKey}`
-      out.push(
-        <PbRow
-          key={rid}
-          rid={rid}
-          kickerTxt={`${c.label || 'Seleção'} · ${c.sourceNote}${desbloqueada ? '' : ' · plano'}`}
-          valor={linkLabel(valor)}
-          doc={docDe(valor)}
-          icon={linkIconForEntry(docDe(valor)) || TIPO_EMOJI.selecao}
-          expanded={expandidos.has(rid)}
-          onToggle={toggleRow}
-        >
-          <SelectBox
-            ariaLabel={`${c.label || 'Escolha'} (nível ${c.gateLevel})`}
-            value={valor}
-            options={choiceOptionsSiblingAware(toHabChoice(c), [], fm, c.sourceNote)}
-            onChange={(v) => {
-              if (!v) return
-              if (desbloqueada) {
-                writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), v)
-                buildSeq.current += 1
-              } else escreve('Planejamento.picks', { ...planPicks(model.fm), [c.choiceKey]: v })
-            }}
-          />
-        </PbRow>,
-      )
+      out.push({ choiceKey: c.choiceKey, valor, label: c.label || 'Seleção', plano: !desbloqueada })
     }
     return out
   }
@@ -1559,7 +1521,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         const atual = card.nivel === nivelAtual
         const futuro = card.nivel > nivelAtual
         const pendencias = pendenciasDe(card)
-        const preenchidas = rowsPreenchidas(card)
+        const selecoes = escolhasPreenchidasDe(card)
         return (
           <div key={card.nivel} data-nivel={card.nivel} style={{ display: 'flex', flexDirection: 'column', gap: 6, opacity: futuro ? 0.8 : 1 }}>
             {/* banner do nível (largura cheia, como no Pathbuilder) */}
@@ -1591,7 +1553,6 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 ))}
               </div>
             ) : null}
-            {preenchidas}
             {card.slotGrants.length ? (
               // rastreabilidade sutil: quem adicionou slot NESTE nível (a
               // Evolução Básica aparece no N4, N5, N6…)
@@ -1610,12 +1571,22 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               </div>
             ) : null}
             {arvoreGanhos(card)}
-            {card.gastos.pericias.length ||
+            {selecoes.length ||
+            card.gastos.pericias.length ||
             card.gastos.tecnicas.length ||
             card.gastos.magias.length ||
             card.gastos.especialidades.length ? (
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={kicker}>ESCOLHAS</span>
+                {selecoes.map((s) => (
+                  <PlanChip
+                    key={`s|${s.choiceKey}`}
+                    wl={s.valor}
+                    doc={docDe(s.valor)}
+                    fallbackIcon={TIPO_EMOJI.selecao}
+                    sufixo={`${s.label}${s.plano ? ' · plano' : ''}`}
+                  />
+                ))}
                 {card.gastos.pericias.map((g) => (
                   <PlanChip
                     key={`p|${g.nome}|${g.rank}`}
