@@ -1252,11 +1252,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const podeAdd = livresDe(rank) > 0
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
+              // agrupado por RANK com cabeçalho (como nas Competências) —
+              // lista plana misturava os ranks e ficava difícil de achar
+              const doRank: ReactNode[] = []
               for (const d of [...spellDocs.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
                 if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
                 if (conhecidas.has(d.basename)) continue
                 if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
-                linhas.push(
+                doRank.push(
                   <div key={`${d.basename}|${rank}`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     {addCirc(
                       `Aprender ${d.basename}`,
@@ -1293,6 +1296,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   </div>,
                 )
               }
+              if (doRank.length) {
+                linhas.push(
+                  <div key={`hdr|${grupo}`} style={grupoLabel}>
+                    {grupo}
+                  </div>,
+                  ...doRank,
+                )
+              }
             }
           }
           if (!linhas.length) return null
@@ -1316,11 +1327,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const podeAdd = livresSecDe(rank) > 0
               const grupo = GROUP_OF[rank]!
               if (!escolaCobreRank(esc.prof, grupo)) continue
+              const doRank: ReactNode[] = []
               for (const d of [...spellDocsSec.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
                 if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
                 if (conhecidas.has(d.basename)) continue
                 if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
-                linhas.push(
+                doRank.push(
                   <div key={`${d.basename}|${rank}|sec`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     {addCirc(
                       `Aprender ${d.basename} (secundária)`,
@@ -1362,6 +1374,14 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       </span>
                     </ItemHover>
                   </div>,
+                )
+              }
+              if (doRank.length) {
+                linhas.push(
+                  <div key={`hdr|${grupo}|sec`} style={grupoLabel}>
+                    {grupo}
+                  </div>,
+                  ...doRank,
                 )
               }
             }

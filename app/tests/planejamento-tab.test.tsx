@@ -1161,6 +1161,11 @@ describe('#516 — popup MAGIAS oferece a escola SECUNDÁRIA e aprende nela', ()
       expect(btn, 'aprender Choque Mental na secundária').toBeTruthy()
       return btn
     })
+    // magias AGRUPADAS por rank com cabeçalho (report 2026-08-27: "não ta
+    // agrupada pelo rank, ai fica dificil")
+    const modal = add.closest('[role="dialog"]') ?? document.body
+    expect(modal.textContent).toContain('Básica')
+    expect(modal.textContent).toContain('Adepta')
     fireEvent.click(add)
     await waitFor(
       () => {
