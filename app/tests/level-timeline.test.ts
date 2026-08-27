@@ -589,3 +589,42 @@ describe('#514 — perícia M planejada no N7 conta como subida no contexto do N
     expect(cards[8]!.periciasEntrando['Atletismo']).toBe('M')
   })
 })
+
+describe('#516 — escolas SECUNDÁRIAS no card e registro sec de magia planejada', () => {
+  const fmCacadorArc = {
+    Classe: '[[Caçador]]',
+    'Nível': 4,
+    Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+    Tecnicas: { Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }] },
+    Habilidades: {
+      Lista: [
+        { '[[Treinamento de Arcanista]]': 'Escolha.[[Treinamento de Classe Secundária]]' },
+        { '[[Escola Arcana Menor]]': 'Regra.[[Treinamento de Arcanista]]' },
+        { '[[Escola Arcana Menor (Estudos do Vazio)]]': 'Escolha.[[Escola Arcana Menor]]' },
+      ],
+    },
+  }
+
+  it('card expõe a escola secundária proficiente (nome canônico + prof)', async () => {
+    const cards = await buildLevelTimeline(fmCacadorArc, catalog, load)
+    const comEscola = cards.find((c) => (c.escolasSecNivel ?? []).length > 0)
+    expect(comEscola, 'algum card com escola secundária').toBeTruthy()
+    expect(comEscola!.escolasSecNivel).toEqual(
+      expect.arrayContaining([expect.objectContaining({ nome: 'Arcana Negra', prof: 'A' })]),
+    )
+  })
+
+  it('registro de magia com sec vira gasto secundário planejado no nível registrado', async () => {
+    const fm = {
+      ...fmCacadorArc,
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 5, tipo: 'magia', rank: 'B', alvo: '[[Choque Mental]]', contexto: 'Arcana Negra', sec: true },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const g5 = cards[4]!.gastos.magias.map((m) => `${m.link}:${m.rank}${m.secundaria ? '(2ª)' : ''}${m.planejado ? '*' : ''}`)
+    expect(g5).toContain('[[Choque Mental]]:B(2ª)*')
+  })
+})

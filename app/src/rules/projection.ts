@@ -508,7 +508,7 @@ export interface HeroProjection {
 
 /** Nome do grupo de escola no FM (com espaços, como o save do plugin) por
  *  destino resolvido — espelho do escolaId→label do serialize-to-fm. */
-const MAGIA_ESCOLA_NOME: Record<string, string> = {
+export const MAGIA_ESCOLA_NOME: Record<string, string> = {
   Anima: 'Anima',
   Tesouros: 'Tesouros',
   ArcanaNegra: 'Arcana Negra',

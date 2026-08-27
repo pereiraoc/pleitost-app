@@ -476,9 +476,26 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     [catalog, escolasProf],
   )
   const spellDocs = useDocs(spellIds)
+  const spellSecIds = useMemo(() => {
+    const nomes = new Set<string>()
+    for (const c of cards ?? []) for (const e of c.escolasSecNivel ?? []) nomes.add(e.nome)
+    if (!nomes.size) return []
+    return catalog.content
+      .filter((e) => e.type === 'Magia' && [...nomes].some((n) => e.id.includes(`/Magia ${n}/`)))
+      .map((e) => e.id)
+  }, [catalog, cards])
+  const spellDocsSec = useDocs(spellSecIds)
   const magiasAprendidas = useMemo(() => {
     const out = new Set<string>()
     for (const esc of (fmPath(dfm, 'Magias', 'Lista') ?? []) as Row[]) {
+      for (const e of (Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []).flatMap((r) => Object.keys(r)))
+        out.add(wikiTarget(e))
+    }
+    return out
+  }, [dfm])
+  const magiasAprendidasSec = useMemo(() => {
+    const out = new Set<string>()
+    for (const esc of (fmPath(dfm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]) {
       for (const e of (Array.isArray(esc.Lista) ? (esc.Lista as Row[]) : []).flatMap((r) => Object.keys(r)))
         out.add(wikiTarget(e))
     }
@@ -548,10 +565,12 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     tipo: GastoRegistrado['tipo'],
     alvo: string,
     rank?: GastoRegistrado['rank'],
+    sec?: boolean,
   ) =>
     x.tipo === tipo &&
     wikiTarget(x.alvo) === wikiTarget(alvo) &&
-    (tipo !== 'pericia' || x.rank === rank)
+    (tipo !== 'pericia' || x.rank === rank) &&
+    (tipo !== 'magia' || !!x.sec === !!sec)
   /** PIN: antes de qualquer edição, congela a atribuição ATUAL de todos os
    *  gastos sem registro. Sem isso, remover uma magia do N2 fazia o
    *  earliest-fit puxar as de níveis superiores pro buraco ("suprindo o slot
@@ -562,7 +581,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     ...pinsFaltantes(cardsRef.current ?? [], regsRef.current),
   ]
   const registrar = (r: GastoRegistrado) =>
-    setRegistros([...pinBase().filter((x) => !casaRegistro(x, r.tipo, r.alvo, r.rank)), r])
+    setRegistros([...pinBase().filter((x) => !casaRegistro(x, r.tipo, r.alvo, r.rank, r.sec)), r])
   const desregistrar = (
     tipo: GastoRegistrado['tipo'],
     alvo: string,
@@ -589,6 +608,18 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     escreve('Magias.Lista', addMagiaToEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo, rank))
   const desfazMagia = (escola: string, alvo: string) =>
     escreve('Magias.Lista', removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Lista') ?? []) as Row[], escola, alvo))
+  // SECUNDÁRIAS (#516): a Lista da escola secundária pode nem existir no FM
+  // (o derivado só materializa Slots/Potencia/EM) — garante a row antes.
+  const aplicaMagiaSec = (escola: string, alvo: string, rank: RankBAEM) => {
+    let lista = (fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as Row[]
+    if (!lista.some((e) => String(e.Nome) === escola)) lista = [...lista, { Nome: escola, Proficiencia: 'N', Lista: [] }]
+    escreve('Magias.Secundaria.Lista', addMagiaToEscola(lista as never, escola, alvo, rank))
+  }
+  const desfazMagiaSec = (escola: string, alvo: string) =>
+    escreve(
+      'Magias.Secundaria.Lista',
+      removeMagiaFromEscola((fmPath(model.fm, 'Magias', 'Secundaria', 'Lista') ?? []) as never, escola, alvo),
+    )
   const aplicaEspecialidade = (pericia: string, campo: 'Especializacao' | 'Maestria', alvo: string) => {
     const rows = savedPericias().map((r) => ({ ...r }))
     let row = rows.find((r) => String(r.Nome) === pericia)
@@ -668,9 +699,10 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         if (r.nivel <= nivelAtual && !tem && r.rank && r.rank !== 'B') aplicaTecnica(r.alvo, r.rank)
         if (r.nivel > nivelAtual && tem) desfazTecnica(r.alvo)
       } else if (r.tipo === 'magia' && r.contexto) {
-        const tem = magiasAprendidas.has(alvoBase)
-        if (r.nivel <= nivelAtual && !tem && r.rank) aplicaMagia(r.contexto, r.alvo, r.rank)
-        if (r.nivel > nivelAtual && tem) desfazMagia(r.contexto, r.alvo)
+        const tem = (r.sec ? magiasAprendidasSec : magiasAprendidas).has(alvoBase)
+        if (r.nivel <= nivelAtual && !tem && r.rank)
+          (r.sec ? aplicaMagiaSec : aplicaMagia)(r.contexto, r.alvo, r.rank)
+        if (r.nivel > nivelAtual && tem) (r.sec ? desfazMagiaSec : desfazMagia)(r.contexto, r.alvo)
       } else if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
         const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((x) => String(x.Nome) === r.alvo)
         const incs = (row?.Incrementos ?? []) as Row[]
@@ -736,12 +768,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         for (const c of cs) c.gastos.tecnicas = c.gastos.tecnicas.filter((g) => wikiTarget(g.link) !== base)
         card.gastos.tecnicas.push({ link: r.alvo, rank: r.rank, ...(planejado ? { planejado } : {}) })
       } else if (r.tipo === 'magia' && r.rank) {
-        for (const c of cs) c.gastos.magias = c.gastos.magias.filter((g) => wikiTarget(g.link) !== base)
+        for (const c of cs)
+          c.gastos.magias = c.gastos.magias.filter(
+            (g) => !(wikiTarget(g.link) === base && g.secundaria === !!r.sec),
+          )
         card.gastos.magias.push({
           escola: r.contexto ?? '',
           link: r.alvo,
           rank: r.rank,
-          secundaria: false,
+          secundaria: !!r.sec,
           ...(planejado ? { planejado } : {}),
         })
       } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {
@@ -1177,31 +1212,37 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         <div style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>
           {ranksComSlot.map((r) => `${r}: ${Math.max(0, livresDe(r))}/${card.slots.magias[r]} livres`).join(' · ')}
         </div>
-        {card.gastos.magias.filter((g) => !g.secundaria).length ? (
+        {card.gastos.magias.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
             <span style={kicker}>APRENDIDAS NESTE NÍVEL</span>
-            {card.gastos.magias
-              .filter((g) => !g.secundaria)
-              .map((g) => (
-                <div key={g.link} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                  <PlanChip
-                    wl={g.link}
-                    doc={docDe(g.link)}
-                    sufixo={`${g.rank} · ${g.escola}${g.planejado ? ' · plano' : ''}`}
-                  />
-                  <button
-                    aria-label={`Remover ${linkLabel(g.link)}`}
-                    onClick={() => {
-                      if (!g.planejado) desfazMagia(g.escola, g.link)
-                      desregistrar('magia', g.link)
-                      otimistaRemove('magia', g.link)
-                    }}
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
+            {card.gastos.magias.map((g) => (
+              <div key={`${g.link}|${g.secundaria ? '2' : '1'}`} style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+                <PlanChip
+                  wl={g.link}
+                  doc={docDe(g.link)}
+                  sufixo={`${g.rank} · ${g.escola}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
+                />
+                <button
+                  aria-label={`Remover ${linkLabel(g.link)}`}
+                  onClick={() => {
+                    if (!g.planejado) (g.secundaria ? desfazMagiaSec : desfazMagia)(g.escola, g.link)
+                    // desregistrar por instância: magia casa também o flag sec
+                    setRegistros(
+                      pinBase().filter((x) => !casaRegistro(x, 'magia', g.link, undefined, g.secundaria)),
+                    )
+                    otimista((cs) => {
+                      for (const c of cs)
+                        c.gastos.magias = c.gastos.magias.filter(
+                          (m) => !(wikiTarget(m.link) === wikiTarget(g.link) && m.secundaria === g.secundaria),
+                        )
+                    })
+                  }}
+                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--red)', fontSize: 12 }}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
           </div>
         ) : null}
         {card.escolasProfNivel.map((esc) => {
@@ -1258,6 +1299,77 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           return (
             <div key={esc.nome} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <span style={kicker}>{esc.nome.toUpperCase()}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>{linhas}</div>
+            </div>
+          )
+        })}
+        {(card.escolasSecNivel ?? []).map((esc) => {
+          // Escola SECUNDÁRIA (Escola Arcana Menor etc., #516): slots do
+          // escopo Magias.Secundaria — mesmo markup da primária, com (2ª)
+          const livresSecDe = (r: 'B' | 'A' | 'E' | 'M') =>
+            (card.slots.magiasSec?.[r] ?? 0) -
+            card.gastos.magias.filter((g) => g.rank === r && g.secundaria).length
+          const ranksSec = (['B', 'A', 'E', 'M'] as const).filter((r) => (card.slots.magiasSec?.[r] ?? 0) > 0)
+          const linhas: ReactNode[] = []
+          if (spellDocsSec) {
+            for (const rank of ranksSec) {
+              const podeAdd = livresSecDe(rank) > 0
+              const grupo = GROUP_OF[rank]!
+              if (!escolaCobreRank(esc.prof, grupo)) continue
+              for (const d of [...spellDocsSec.values()].sort((a, b) => a.basename.localeCompare(b.basename))) {
+                if (!d.id.includes(`/Magia ${esc.nome}/`)) continue
+                if (conhecidas.has(d.basename)) continue
+                if (rankGroupLabel(String(d.frontmatter['rank'] ?? '')) !== grupo) continue
+                linhas.push(
+                  <div key={`${d.basename}|${rank}|sec`} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {addCirc(
+                      `Aprender ${d.basename} (secundária)`,
+                      podeAdd,
+                      () =>
+                        registraEAplica(
+                          {
+                            nivel: card.nivel,
+                            tipo: 'magia',
+                            rank,
+                            alvo: `[[${d.basename}]]`,
+                            contexto: esc.nome,
+                            sec: true,
+                          },
+                          () => aplicaMagiaSec(esc.nome, `[[${d.basename}]]`, rank),
+                        ),
+                      23,
+                    )}
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minWidth: 21,
+                        height: 21,
+                        padding: '0 4px',
+                        background: '#34425a',
+                        color: '#dbe4f0',
+                        fontFamily: 'var(--mono)',
+                        fontSize: 11.5,
+                        flex: 'none',
+                      }}
+                    >
+                      {rank}
+                    </span>
+                    <ItemHover doc={d} fullBody>
+                      <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600, color: 'var(--blue)', cursor: 'pointer', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {d.basename}
+                      </span>
+                    </ItemHover>
+                  </div>,
+                )
+              }
+            }
+          }
+          if (!linhas.length) return null
+          return (
+            <div key={`sec|${esc.nome}`} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <span style={kicker}>{esc.nome.toUpperCase()} · SECUNDÁRIA</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>{linhas}</div>
             </div>
           )
@@ -1443,15 +1555,24 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       })
     }
     const magTot = (['B', 'A', 'E', 'M'] as const).filter((r) => card.slots.magias[r] > 0)
-    if (magTot.length || card.gastos.magias.length) {
+    const magSecTot = (['B', 'A', 'E', 'M'] as const).filter((r) => (card.slots.magiasSec?.[r] ?? 0) > 0)
+    if (magTot.length || magSecTot.length || card.gastos.magias.length) {
       const livresDe = (r: 'B' | 'A' | 'E' | 'M') =>
         card.slots.magias[r] - card.gastos.magias.filter((g) => g.rank === r && !g.secundaria).length
-      const pendentes = magTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0)
+      const livresSecDe = (r: 'B' | 'A' | 'E' | 'M') =>
+        (card.slots.magiasSec?.[r] ?? 0) - card.gastos.magias.filter((g) => g.rank === r && g.secundaria).length
+      const pendentes =
+        magTot.reduce((n, r) => n + Math.max(0, livresDe(r)), 0) +
+        magSecTot.reduce((n, r) => n + Math.max(0, livresSecDe(r)), 0)
       out.push({
         pid: `${card.nivel}|mag`,
-        label: magTot.length
-          ? `MAGIAS (${magTot.map((r) => `${r}×${card.slots.magias[r]}`).join(' ')})`
-          : 'MAGIAS',
+        label:
+          magTot.length || magSecTot.length
+            ? `MAGIAS (${[
+                ...magTot.map((r) => `${r}×${card.slots.magias[r]}`),
+                ...magSecTot.map((r) => `${r}×${card.slots.magiasSec![r]} 2ª`),
+              ].join(' ')})`
+            : 'MAGIAS',
         icon: TIPO_EMOJI.magia,
         done: pendentes === 0,
         onOpen: () => abrePopup(card.nivel, 'magia'),

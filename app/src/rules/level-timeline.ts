@@ -13,6 +13,7 @@ import { projectHeroRules } from './useHeroRules'
 import type { ChoiceDescriptor } from './resolve-choices'
 import { addTecnicaToLista } from './apply-tecnica-edit'
 import { addMagiaToEscola } from './apply-magia-edit'
+import { MAGIA_ESCOLA_NOME } from './projection'
 
 export const NIVEL_MAX_PLANEJAMENTO = 10
 
@@ -81,6 +82,8 @@ export interface GastoRegistrado {
   alvo: string
   /** Magias: escola destino; especialidade/maestria: perícia dona. */
   contexto?: string
+  /** Magia da lista SECUNDÁRIA (Escola Arcana Menor etc., #516). */
+  sec?: boolean
 }
 
 export function gastosRegistrados(fm: Record<string, unknown>): GastoRegistrado[] {
@@ -109,6 +112,10 @@ export interface LevelCard {
   /** Escolas proficientes NESTE nível (snapshot derivado, sem Tesouros) —
    *  gate do picker de magias do nível. */
   escolasProfNivel: Array<{ nome: string; prof: string }>
+  /** Escolas SECUNDÁRIAS proficientes no nível (Escola Arcana Menor etc.) —
+   *  o derivado não materializa as rows; vem do CALC com o nome canônico do
+   *  registro MAGIA_ESCOLA_NOME (#516). */
+  escolasSecNivel: Array<{ nome: string; prof: string }>
   tecnicasRegra: string[]
   acoesRegra: string[]
   /** Magias concedidas por regra neste nível (escola → links). */
@@ -240,8 +247,15 @@ export function pinsFaltantes(cards: LevelCard[], registros: GastoRegistrado[]):
         out.push({ nivel: c.nivel, tipo: 'pericia', rank: g.rank, alvo: g.nome })
     }
     for (const g of c.gastos.magias) {
-      if (!g.secundaria && !g.planejado && !tem('magia', g.link))
-        out.push({ nivel: c.nivel, tipo: 'magia', rank: g.rank, alvo: g.link, contexto: g.escola })
+      if (!g.planejado && !tem('magia', g.link))
+        out.push({
+          nivel: c.nivel,
+          tipo: 'magia',
+          rank: g.rank,
+          alvo: g.link,
+          contexto: g.escola,
+          ...(g.secundaria ? { sec: true } : {}),
+        })
     }
     for (const g of c.gastos.especialidades) {
       if (!g.planejado && !tem(g.tipo, g.alvo))
@@ -362,7 +376,24 @@ export async function buildLevelTimeline(
             },
           }
       } else if (r.tipo === 'magia' && r.rank && r.contexto) {
-        if (!magiaAprendida(r.alvo))
+        if (r.sec) {
+          const secObj = (out['Magias'] as Record<string, unknown>)?.['Secundaria'] as
+            | Record<string, unknown>
+            | undefined
+          let lista = rowsOf(out, 'Magias', 'Secundaria', 'Lista')
+          if (!lista.some((e) => String(e.Nome) === r.contexto))
+            lista = [...lista, { Nome: r.contexto, Proficiencia: 'N', Lista: [] }]
+          out = {
+            ...out,
+            Magias: {
+              ...((out['Magias'] as Record<string, unknown>) ?? {}),
+              Secundaria: {
+                ...(secObj ?? {}),
+                Lista: addMagiaToEscola(lista as never, r.contexto, r.alvo, r.rank),
+              },
+            },
+          }
+        } else if (!magiaAprendida(r.alvo))
           out = {
             ...out,
             Magias: {
@@ -593,6 +624,23 @@ export async function buildLevelTimeline(
     const escolasProfNivel = rowsOf(cur.derived, 'Magias', 'Lista')
       .filter((e) => String(e.Proficiencia ?? 'N') !== 'N' && String(e.Nome) !== 'Tesouros')
       .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N') }))
+    // Secundárias: rows salvas ∪ proficiências do CALC (o merge não
+    // materializa a Lista secundária — só Slots/Potencia/EM)
+    const escolasSecNivel: Array<{ nome: string; prof: string }> = rowsOf(
+      cur.derived,
+      'Magias',
+      'Secundaria',
+      'Lista',
+    )
+      .filter((e) => String(e.Proficiencia ?? 'N') !== 'N')
+      .map((e) => ({ nome: String(e.Nome ?? ''), prof: String(e.Proficiencia ?? 'N') }))
+    for (const [k, v] of Object.entries(cur.calculated)) {
+      const m = /^Magias\.Secundaria\.Lista\.(.+)\.Proficiencia$/.exec(k)
+      if (!m || String(v) === 'N') continue
+      const nome = MAGIA_ESCOLA_NOME[m[1]!] ?? m[1]!
+      if (!escolasSecNivel.some((e) => e.nome === nome))
+        escolasSecNivel.push({ nome, prof: String(v) })
+    }
 
     const slotsCard = {
       pericias: slotsDelta('Pericias'),
@@ -608,6 +656,7 @@ export async function buildLevelTimeline(
       periciasEntrando: {},
       periciasPisoRegra: {},
       escolasProfNivel,
+      escolasSecNivel,
       tecnicasRegra: novos(['Tecnicas', 'Lista']).filter((l) => {
         // gastos de Slot ficam na atribuição — aqui só concessões de regra
         const fonte = fontedEntries(rowsOf(cur.derived, 'Tecnicas', 'Lista')).find(
@@ -651,12 +700,14 @@ export async function buildLevelTimeline(
     alvoBase: string,
     contexto?: string,
     rank?: GastoRegistrado['rank'],
+    sec?: boolean,
   ) =>
     registros.find(
       (r) =>
         r.tipo === tipo &&
         wlBase(r.alvo) === alvoBase &&
         (rank === undefined || r.rank === rank) &&
+        (tipo !== 'magia' || !!r.sec === !!sec) &&
         (contexto === undefined || r.contexto === undefined || wlBase(r.contexto) === wlBase(contexto)),
     )
 
@@ -728,7 +779,7 @@ export async function buildLevelTimeline(
         const m = /^Slot\.([BAEM])$/.exec(e.fonte)
         if (!m) continue
         const rank = m[1] as 'B' | 'A' | 'E' | 'M'
-        const reg = registroDe('magia', wlBase(e.link), String(esc.Nome ?? ''))
+        const reg = registroDe('magia', wlBase(e.link), String(esc.Nome ?? ''), undefined, secundaria)
         const pool = secundaria ? poolMagSec : poolMag
         const nivel = reg ? (pool.takeAt(rank, reg.nivel), reg.nivel) : pool.take(rank)
         cardDe(nivel).gastos.magias.push({
@@ -769,12 +820,12 @@ export async function buildLevelTimeline(
       poolPer.takeAt(r.rank, r.nivel)
       card.gastos.pericias.push({ nome: r.alvo, rank: r.rank, fonte: 'Slot', planejado: true })
     } else if (r.tipo === 'magia' && r.rank) {
-      poolMag.takeAt(r.rank, r.nivel)
+      ;(r.sec ? poolMagSec : poolMag).takeAt(r.rank, r.nivel)
       card.gastos.magias.push({
         escola: r.contexto ?? '',
         link: r.alvo,
         rank: r.rank,
-        secundaria: false,
+        secundaria: !!r.sec,
         planejado: true,
       })
     } else if (r.tipo === 'especialidade' || r.tipo === 'maestria') {

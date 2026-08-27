@@ -1125,3 +1125,59 @@ describe('#513 — coluna de maestrias vazia não mostra "Nenhuma cadastrada"', 
     expect((document.body.textContent?.match(/Maestrias/g) ?? []).length).toBe(1)
   }, 60000)
 })
+
+describe('#516 — popup MAGIAS oferece a escola SECUNDÁRIA e aprende nela', () => {
+  it('Caçador+Arcanista: Choque Mental entra em Magias.Secundaria.Lista com registro sec', async () => {
+    const id = createLocalEntity('Heroi', 'Cacador Arcano', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Caçador]]',
+      'Nível': 4,
+      Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+      Tecnicas: { Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }] },
+      Habilidades: {
+        Lista: [
+          { '[[Treinamento de Arcanista]]': 'Escolha.[[Treinamento de Classe Secundária]]' },
+          { '[[Escola Arcana Menor]]': 'Regra.[[Treinamento de Arcanista]]' },
+          { '[[Escola Arcana Menor (Estudos do Vazio)]]': 'Escolha.[[Escola Arcana Menor]]' },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // acha o card com o botão MAGIAS de slots secundários (2ª no label)
+    const botao = await waitFor(() => {
+      const b = [...document.querySelectorAll('button')].find((x) =>
+        (x.textContent ?? '').includes('MAGIAS') && (x.textContent ?? '').includes('2ª'),
+      ) as HTMLElement
+      expect(b, 'botão MAGIAS com slots secundários').toBeTruthy()
+      return b
+    })
+    fireEvent.click(botao)
+    // seção da escola secundária com Choque Mental aprendível
+    const add = await waitFor(() => {
+      const btn = [...document.querySelectorAll('button')].find((x) =>
+        (x.getAttribute('aria-label') ?? '') === 'Aprender Choque Mental (secundária)',
+      ) as HTMLElement
+      expect(btn, 'aprender Choque Mental na secundária').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(add)
+    await waitFor(
+      () => {
+        const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        const sec = ((fmCur['Magias'] as Record<string, unknown>)?.['Secundaria'] ?? {}) as Record<string, unknown>
+        expect(JSON.stringify(sec['Lista'] ?? [])).toContain('[[Choque Mental]]')
+        const regs = ((fmCur['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        const r = regs.find((x) => String(x['alvo']).includes('Choque Mental'))
+        expect(r?.['sec']).toBe(true)
+        // e NÃO entrou na lista primária
+        expect(JSON.stringify((fmCur['Magias'] as Record<string, unknown>)?.['Lista'] ?? [])).not.toContain(
+          'Choque Mental',
+        )
+      },
+      { timeout: 20000 },
+    )
+  }, 90000)
+})
