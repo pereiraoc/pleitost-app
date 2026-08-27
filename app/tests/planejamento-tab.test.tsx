@@ -1039,3 +1039,89 @@ describe('#509 — remover incremento de perícia PLANEJADO (nível futuro)', ()
     expect(regs2.some((r) => r['tipo'] === 'pericia' && r['rank'] === 'E')).toBe(false)
   }, 90000)
 })
+
+describe('#512 — escolha de perícia (prop-map) grava o incremento tagueado', () => {
+  it('selecionar Atletismo na PERÍCIA ADEPTA do Domador persiste e o pick resolve', async () => {
+    const id = createLocalEntity('Heroi', 'Domador', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Caçador]]',
+      'Nível': 3,
+      Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    const botao = [...card1.querySelectorAll('button')].find((b) =>
+      (b.textContent ?? '').includes('PERÍCIA ADEPTA'),
+    )
+    expect(botao, 'botão PERÍCIA ADEPTA no N1').toBeTruthy()
+    fireEvent.click(botao!)
+    const sel = await waitFor(() => {
+      const s2 = [...document.querySelectorAll('select')].find((x) =>
+        [...(x as HTMLSelectElement).options].some((o) => (o.textContent ?? '').includes('Atletismo')),
+      ) as HTMLSelectElement
+      expect(s2, 'select da Perícia Adepta').toBeTruthy()
+      return s2
+    })
+    const opcao = [...sel.options].map((o) => o.value).find((v) => v.includes('Atletismo'))!
+    fireEvent.change(sel, { target: { value: opcao } })
+    // o pick persiste como INCREMENTO tagueado na perícia (report 2026-08-27:
+    // "eu Clico e não seleciona" — o write caía em Habilidades.Lista)
+    await waitFor(
+      () => {
+        const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        const rows = ((fmCur['Pericias'] as Record<string, unknown>)?.['Lista'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        const atl = rows.find((r) => r['Nome'] === 'Atletismo')
+        const incs = JSON.stringify(atl?.['Incrementos'] ?? [])
+        expect(incs).toContain('Estratégia de Caça (Domador)')
+        // e NÃO vazou pra Habilidades.Lista
+        const habs = JSON.stringify((fmCur['Habilidades'] as Record<string, unknown>)?.['Lista'] ?? [])
+        expect(habs).not.toContain('[[Atletismo]]')
+      },
+      { timeout: 20000 },
+    )
+  }, 90000)
+})
+
+describe('#513 — coluna de maestrias vazia não mostra "Nenhuma cadastrada"', () => {
+  it('herói sem perícia M elegível não renderiza o placeholder nas Competências', async () => {
+    const id = createLocalEntity('Heroi', 'Sem Maestria', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Guerreiro]]',
+      'Nível': 2,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+    })
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[heroPath(id, 'habilidades')]}>
+          <Routes>
+            <Route path="/heroi/*" element={<FichaPage />} />
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    await waitFor(() => expect(document.body.textContent).toContain('Especialidades'), {
+      timeout: 20000,
+    })
+    // com E elegível a coluna de Especialidades existe; a de Maestrias (sem
+    // M elegível nem escolhida) SOME — e o placeholder morreu (Érico 2026-08-27)
+    expect(document.body.textContent).not.toContain('Nenhuma Maestria cadastrada')
+    expect(document.body.textContent).not.toContain('Nenhuma Especialidade cadastrada')
+    // 'Maestrias' só no header "Especialidades e Maestrias" — a COLUNA sumiu
+    expect((document.body.textContent?.match(/Maestrias/g) ?? []).length).toBe(1)
+  }, 60000)
+})

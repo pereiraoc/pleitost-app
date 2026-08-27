@@ -15,13 +15,20 @@ export interface ChoiceDescriptor {
   kind: 'complementar-sel' | 'escolha-prop-map' | 'escolha-pericia-especial'
   options: string[]
   pick: string | null
-  source: 'persisted' | 'inferred' | 'default' | 'none'
+  /** 'transiente' = pick veio dos transientPicks (Planejamento.picks via
+   *  timeline) — NÃO está persistido no FM; o sync usa pra saber que ainda
+   *  precisa materializar (#511). A ficha real nunca produz esse valor. */
+  source: 'persisted' | 'inferred' | 'default' | 'none' | 'transiente'
   sourceNote: string
   /** Anotado pela projeção (espelho de annotateSubclassChoices, plugin
    *  cola/enrichments.ts:152-164): sourceNote com subcategoria Subclasse. */
   isSubclass?: boolean
   occurrenceWithinParent?: number
   targetRaw?: string
+  /** Valor do Definir da regra (prop-map: rank do incremento persistido —
+   *  ex.: 'A' da Perícia Adepta) — o writeChoicePick usa como chave do
+   *  incremento tagueado (#512). */
+  valorRaw?: string
   /** App-side (bug #5): metadados de cada option (pasta da linha + rank da
    *  nota, lidos do doc via resolver no extract) pro filtro de elegibilidade
    *  por linhagem na projeção. Ausente = sem filtro. */
@@ -52,6 +59,7 @@ export function discoverChoices(
       })
     } else if (a.kind === 'escolha-prop-map') {
       descs.set(escolha.choiceKey, {
+        valorRaw: (a as { valueRaw?: string }).valueRaw,
         choiceKey: escolha.choiceKey,
         label: a.label,
         kind: 'escolha-prop-map',
@@ -115,10 +123,10 @@ export function resolveChoice(
   }
   const transient = transientPicks[desc.choiceKey]
   if (transient) {
-    if (desc.options.length === 0) return { ...desc, pick: transient, source: 'persisted' }
+    if (desc.options.length === 0) return { ...desc, pick: transient, source: 'transiente' }
     const tTarget = wikilinkTarget(transient)
     const matched = desc.options.find((opt) => wikilinkTarget(opt) === tTarget)
-    if (matched) return { ...desc, pick: matched, source: 'persisted' }
+    if (matched) return { ...desc, pick: matched, source: 'transiente' }
   }
 
   if (desc.kind === 'complementar-sel') {
@@ -195,7 +203,7 @@ function distributeSiblingPicks(
   discovered: Map<string, ChoiceDescriptor>,
   model: RulesModel,
   transientPicks: Record<string, string>,
-): Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' }> {
+): Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' | 'transiente' }> {
   const activeParents = new Set<string>()
   for (const it of [...model.habilidades.lista, ...model.tecnicas.lista, ...model.acoes]) {
     activeParents.add(wikilinkTarget(it.link))
@@ -213,7 +221,7 @@ function distributeSiblingPicks(
     arr.push(desc)
     groups.set(sig, arr)
   }
-  const out = new Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' }>()
+  const out = new Map<string, { pick: string; source: 'persisted' | 'inferred' | 'default' | 'transiente' }>()
   for (const group of groups.values()) {
     if (group.length <= 1) continue
     const claimed = new Set<string>()
@@ -224,7 +232,7 @@ function distributeSiblingPicks(
         const tTarget = wikilinkTarget(transient)
         const matched = desc.options.find((opt) => wikilinkTarget(opt) === tTarget)
         if (matched) {
-          out.set(desc.choiceKey, { pick: matched, source: 'persisted' })
+          out.set(desc.choiceKey, { pick: matched, source: 'transiente' })
           claimed.add(wikilinkTarget(matched))
           continue
         }

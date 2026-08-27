@@ -534,16 +534,24 @@ function stripOrphans(model: RulesModel, orphans: Set<string>): RulesModel {
 }
 
 /** Loop principal + cascata de picks órfãos (#490). */
-export async function extractHeroRules(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+export async function extractHeroRules(
+  baseModel: RulesModel,
+  resolver: DocResolver,
+  /** Picks TRANSIENTES por choiceKey (Planejamento.picks) — a timeline usa
+   *  pra materializar a escolha do PLANO nas projeções em vez do default
+   *  alfabético (#511: Caçador+Arcanista secundária mostrava essências de
+   *  Animista). O caminho da ficha real passa vazio. */
+  transientPicks?: Record<string, string>,
+): Promise<HeroRulesResult> {
   let model = baseModel
-  let result = await extractHeroRulesOnce(model, resolver)
+  let result = await extractHeroRulesOnce(model, resolver, transientPicks)
   const orphansAcum = new Set<string>()
   for (let pass = 0; pass < 3; pass++) {
     const orphans = collectOrphanPicks(model, result.choices)
     if (orphans.size === 0) break
     for (const o of orphans) orphansAcum.add(o)
     model = stripOrphans(model, orphans)
-    result = await extractHeroRulesOnce(model, resolver)
+    result = await extractHeroRulesOnce(model, resolver, transientPicks)
   }
   return { ...result, orphanPicks: orphansAcum }
 }
@@ -551,7 +559,11 @@ export async function extractHeroRules(baseModel: RulesModel, resolver: DocResol
 /** Uma passada do extract — espelho de extractAndApplyRules (plugin
  *  rule-elements-extractor.ts:414-694): seeds → BFS → [discover(gate) →
  *  resolve → injectPicks → apply → constraints → signature] até convergir. */
-async function extractHeroRulesOnce(baseModel: RulesModel, resolver: DocResolver): Promise<HeroRulesResult> {
+async function extractHeroRulesOnce(
+  baseModel: RulesModel,
+  resolver: DocResolver,
+  transientPicks?: Record<string, string>,
+): Promise<HeroRulesResult> {
   // Nível do CA vem do tutor ANTES de tudo (como o plugin injeta o Nível no
   // volatile antes do extractAndApplyRules): seeds/scopes/escala veem o
   // nível sincronizado.
@@ -603,7 +615,7 @@ async function extractHeroRulesOnce(baseModel: RulesModel, resolver: DocResolver
     })
     // Inferência sobre o MODEL ORIGINAL (FM salvo), nunca o workingModel —
     // plugin rule-elements-extractor.ts:575-580.
-    resolvedChoices = resolveAllChoices(discovered, model, {})
+    resolvedChoices = resolveAllChoices(discovered, model, transientPicks ?? {})
     injectPicks(editable, resolvedChoices)
     ctx.choicesObj = buildPicksRecord(resolvedChoices)
 

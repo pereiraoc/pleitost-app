@@ -39,9 +39,10 @@ export async function projectHeroRules(
   fm: Record<string, unknown>,
   catalog: Catalog,
   load: (id: string) => Promise<VaultDoc>,
+  transientPicks?: Record<string, string>,
 ): Promise<{ model: RulesModel; projection: HeroProjection }> {
   const model = rulesModelFromFm(fm)
-  const result = await extractHeroRules(model, catalogDocResolver(catalog, load))
+  const result = await extractHeroRules(model, catalogDocResolver(catalog, load), transientPicks)
   return { model, projection: buildHeroProjection(model, result, catalog, fm) }
 }
 

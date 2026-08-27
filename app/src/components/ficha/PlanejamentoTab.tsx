@@ -125,6 +125,7 @@ function toHabChoice(c: TimelineChoice): HabChoice {
     targetRaw: c.targetRaw,
     occ: c.occ,
     source: c.source,
+    valorRaw: c.valorRaw,
   }
 }
 
@@ -641,17 +642,20 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     for (const card of cards) {
       for (const c of card.escolhas) {
         if (c.isSubclass) continue
+        // pick DO FM (persisted/inferred): 'transiente' veio do próprio plano
+        // e ainda precisa materializar (#511)
+        const pickFm = c.source === 'transiente' ? null : pickRealDe(c)
         if (c.gateLevel <= nivelAtual) {
           const planejado = plano[c.choiceKey]
-          if (!pickRealDe(c) && planejado && c.options.some((o) => wikiTarget(o) === wikiTarget(planejado))) {
+          if (!pickFm && planejado && c.options.some((o) => wikiTarget(o) === wikiTarget(planejado))) {
             writeChoicePick(model, catalog, refs, c.sourceNote, toHabChoice(c), planejado)
             buildSeq.current += 1
             planoNovo = planoNovo ?? { ...plano }
             delete planoNovo[c.choiceKey]
           }
-        } else if (pickRealDe(c) && plano[c.choiceKey] !== pickRealDe(c)) {
+        } else if (pickFm && plano[c.choiceKey] !== pickFm) {
           planoNovo = planoNovo ?? { ...plano }
-          planoNovo[c.choiceKey] = pickRealDe(c)!
+          planoNovo[c.choiceKey] = pickFm
         }
       }
     }

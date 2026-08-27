@@ -514,3 +514,78 @@ describe('#509 — overflow de gastos sem slot cai no nível ATUAL, nunca no N10
     expect(cards[2]!.gastos.tecnicas.length).toBeGreaterThanOrEqual(2)
   })
 })
+
+describe('#511 — pick do PLANO alimenta as projeções (Caçador + Arcanista secundária)', () => {
+  it('com Arcanista escolhido no plano, o default Animista não materializa essências', async () => {
+    const base = {
+      Classe: '[[Caçador]]',
+      'Nível': 3,
+      Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 4, tipo: 'tecnica', rank: 'A', alvo: '[[Treinamento de Classe Secundária]]' },
+        ],
+        picks: {} as Record<string, string>,
+      },
+    }
+    const semPick = await buildLevelTimeline(base, catalog, load)
+    const escolha = semPick
+      .flatMap((c) => c.escolhas)
+      .find((e) => e.sourceNote.includes('Classe Secundária'))
+    expect(escolha, 'escolha Classe Secundária na timeline').toBeTruthy()
+    const cards = await buildLevelTimeline(
+      {
+        ...base,
+        Planejamento: {
+          ...base.Planejamento,
+          picks: { [escolha!.choiceKey]: '[[Treinamento de Arcanista]]' },
+        },
+      },
+      catalog,
+      load,
+    )
+    const escolhaCom = cards
+      .flatMap((c) => c.escolhas)
+      .find((e) => e.sourceNote.includes('Classe Secundária'))!
+    // o pick do PLANO vale nas projeções — não o default alfabético (Animista)
+    expect(escolhaCom.pick).toContain('Arcanista')
+    // e NENHUMA essência de Animista vaza pros cards (report 2026-08-27)
+    const labels = cards.flatMap((c) => c.escolhas.map((e) => e.label)).join(' ')
+    expect(labels).not.toContain('Essência')
+  })
+})
+
+describe('#514 — perícia M planejada no N7 conta como subida no contexto do N8 (Érico)', () => {
+  it('entrando do N8 reflete o M@7 planejado', async () => {
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 4,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+      Pericias: {
+        Lista: [
+          {
+            Nome: 'Atletismo',
+            Atributo: 'FOR',
+            Proficiencia: 'E',
+            Bonus_Item: 0,
+            Bonus_Especial: 0,
+            Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+          },
+        ],
+      },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'pericia', rank: 'A', alvo: 'Atletismo' },
+          { nivel: 4, tipo: 'pericia', rank: 'E', alvo: 'Atletismo' },
+          { nivel: 7, tipo: 'pericia', rank: 'M', alvo: 'Atletismo' },
+        ],
+      },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    // report Érico 2026-08-27: "coloquei mestre no 7 e no 8 não apareceu como
+    // subida já" — o gasto planejado conta pro contexto dos níveis seguintes
+    expect(cards[6]!.periciasEntrando['Atletismo']).toBe('E')
+    expect(cards[7]!.periciasEntrando['Atletismo']).toBe('M')
+    expect(cards[8]!.periciasEntrando['Atletismo']).toBe('M')
+  })
+})

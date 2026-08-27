@@ -1715,12 +1715,19 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
   }
 
   // Uma coluna (Especialidades | Maestrias) — mesma seleção radial do design.
-  const renderColuna = (titulo: string, emoji: string, grupos: typeof gruposEsp, vazio: string) => (
+  // Coluna VAZIA some (nada escolhível nem escolhido) — o placeholder
+  // "Nenhuma X cadastrada" só poluía (#513, Érico 2026-08-27).
+  // Rank ELEGÍVEL decide a existência da coluna/painel (#513): coluna sem
+  // nada escolhível NEM escolhido some; painel some quando nenhuma perícia
+  // é E/M (não há o que editar).
+  const temElegivelEsp = pericias.some((p) => eligivel(p, 'E'))
+  const temElegivelMae = pericias.some((p) => eligivel(p, 'M'))
+  if (!temElegivelEsp && !temElegivelMae) return null
+
+  const renderColuna = (titulo: string, emoji: string, grupos: typeof gruposEsp, temElegivel: boolean) =>
+    grupos.length === 0 && !temElegivel ? null : (
     <div style={{ flex: 1, minWidth: 0 }}>
       <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 11 }}>{titulo}</div>
-      {grupos.length === 0 ? (
-        <div style={{ fontSize: 13, fontStyle: 'italic', color: 'var(--muted)' }}>{vazio}</div>
-      ) : null}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {grupos.map((grp) => (
           <div key={grp.skill}>
@@ -1788,8 +1795,8 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
         <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />
       </div>
       <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-        {renderColuna('Especialidades', ESPECIALIDADE_EMOJI, gruposEsp, 'Nenhuma Especialidade cadastrada')}
-        {renderColuna('Maestrias', MAESTRIA_EMOJI, gruposMae, 'Nenhuma Maestria cadastrada')}
+        {renderColuna('Especialidades', ESPECIALIDADE_EMOJI, gruposEsp, temElegivelEsp)}
+        {renderColuna('Maestrias', MAESTRIA_EMOJI, gruposMae, temElegivelMae)}
       </div>
     </div>
   )
@@ -1936,7 +1943,8 @@ export interface HabChoice {
   occ?: number
   /** Origem do pick (resolve-choices): 'default'/'none' = o app defaultou —
    *  a pendência #302 fica acesa e o dropdown abre VAZIO (#473). */
-  source?: string
+  source?: string  /** Valor do Definir (prop-map) — chave do incremento tagueado (#512). */
+  valorRaw?: string
 }
 
 interface TreeItem {
@@ -2121,6 +2129,7 @@ export function HabilidadesArvorePanel({
         targetRaw: c.targetRaw,
         occ: c.occurrenceWithinParent,
         source: c.source,
+        valorRaw: c.valorRaw,
       })
       map.set(base, list)
     }
@@ -2464,6 +2473,38 @@ export function writeChoicePick(
     model.set(fmKey, placeMagiaChoicePick(grupos, oldTarget, newTarget, escola, source))
     return
   }
+  // Escolha de PERÍCIA (prop-map/pericia-especial): o pick persiste como
+  // INCREMENTO tagueado na linha da perícia — é o que o resolvedor lê
+  // (inferPickFromIncrementos) e o formato que o plugin sempre gravou
+  // (Drauzio: {A: 'Regra.[[Estratégia de Caça (Rastreador)]]'}). Antes o
+  // write caía em Habilidades.Lista e o clique "não selecionava" (#512).
+  if (choice.kind === 'escolha-prop-map' || choice.kind === 'escolha-pericia-especial') {
+    const tag = nn ? `Escolha.${nn}.[[${parentTarget}]]` : `Escolha.[[${parentTarget}]]`
+    const casaTag = (v: unknown) =>
+      typeof v === 'string' && /^(Escolha|Regra)[.]/.test(v) && v.includes(`[[${parentTarget}]]`)
+    const rows: Record<string, unknown>[] = (
+      (fmPath(model.fm, 'Pericias', 'Lista') ?? []) as Record<string, unknown>[]
+    ).map((r) => ({
+      ...r,
+      Incrementos: ((r['Incrementos'] ?? []) as Record<string, unknown>[]).filter((i) => {
+        const ent = Object.entries(i)
+        return !(ent.length === 1 && casaTag(ent[0]![1]))
+      }),
+    }))
+    if (newWl) {
+      const nomePick = linkLabel(newWl) || newWl
+      let row = rows.find((r) => String(r['Nome']) === nomePick)
+      if (!row) {
+        row = { Nome: nomePick, Atributo: '', Proficiencia: 'N', Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] }
+        rows.push(row)
+      }
+      const campo = choice.kind === 'escolha-prop-map' ? (choice.valorRaw ?? 'A') : 'Bonus_Especial'
+      row['Incrementos'] = [...(row['Incrementos'] as Record<string, unknown>[]), { [campo]: tag }]
+    }
+    model.set('Pericias.Lista', rows)
+    return
+  }
+
   // Alvo PLANO (Tecnicas/Acoes/Habilidades) — grava a linha tagueada na lista.
   const target = choiceTargetList(choice.targetRaw)
   const savedList = (fmPath(model.fm, ...target.path) ?? []) as Record<string, unknown>[]
@@ -2751,6 +2792,7 @@ export function TecnicasPanel({
         targetRaw: c.targetRaw,
         occ: c.occurrenceWithinParent,
         source: c.source,
+        valorRaw: c.valorRaw,
       })
       map.set(base, list)
     }

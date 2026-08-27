@@ -61,6 +61,7 @@ export interface TimelineChoice {
   targetRaw?: string
   kind?: string
   source?: string
+  valorRaw?: string
 }
 
 export interface EscalarDelta {
@@ -385,10 +386,17 @@ export async function buildLevelTimeline(
     }
     return out
   }
+  // picks do PLANO viram transients nas projeções: a escolha planejada
+  // materializa o que o USUÁRIO escolheu, não o default alfabético (#511)
+  const picksPlano = ((): Record<string, string> => {
+    const p = fm['Planejamento']
+    const raw = p && typeof p === 'object' ? (p as Record<string, unknown>)['picks'] : null
+    return raw && typeof raw === 'object' ? (raw as Record<string, string>) : {}
+  })()
   const snaps: Snap[] = []
   for (let nivel = 1; nivel <= nivelMax; nivel++) {
     const fmNivel = materializaPlanejados({ ...fm, ['Nível']: nivel, Nivel: nivel }, nivel)
-    const { projection } = await projectHeroRules(fmNivel, catalog, load)
+    const { projection } = await projectHeroRules(fmNivel, catalog, load, picksPlano)
     const p = projection as unknown as {
       derivedFm: Fm
       habilidadeChoices: ChoiceDescriptor[]
@@ -548,6 +556,7 @@ export async function buildLevelTimeline(
         targetRaw: (c as unknown as { targetRaw?: string }).targetRaw,
         kind: c.kind,
         source: c.source,
+        valorRaw: (c as unknown as { valorRaw?: string }).valorRaw,
       })
     }
 
