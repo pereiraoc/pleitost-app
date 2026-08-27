@@ -354,15 +354,18 @@ function inferPickFromIncrementos(
     }
     return incSource.includes(`[[${wantedSourceBasename}]]`)
   }
+  // Incrementos de RANK (A/E/M) não têm `field` no parse (rules-model
+  // parseIncrementos) — o guard antigo `!inc.field` pulava exatamente os
+  // picks de prop-map (Domador: {A: 'Escolha.[[Estratégia de Caça…]]'}) e o
+  // pick nunca resolvia de volta (#512). O match pela TAG basta: Slot/Passado
+  // nunca casam com `[[pai]]`.
   for (const [pid, p] of Object.entries(model.pericias)) {
     for (const inc of p.incrementos) {
-      if (!inc.field) continue
       if (matches(inc.source)) return pid
     }
   }
   for (const o of model.oficios) {
     for (const inc of o.incrementos) {
-      if (!inc.field) continue
       if (matches(inc.source)) return o.nome
     }
   }
