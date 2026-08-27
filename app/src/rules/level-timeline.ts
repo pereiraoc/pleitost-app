@@ -305,8 +305,16 @@ export function sanitizarRegistros(
   const comEspec = registros.filter(
     (r) => !(r.tipo === 'maestria' && r.contexto && !periciasComEspec.has(r.contexto)),
   )
-  const dropouOrfa = comEspec.length !== registros.length
-  registros = comEspec
+  // passada 0.6: MAGIA SECUNDÁRIA ÓRFÃ (#518) — a escola secundária vem de
+  // uma cadeia (técnica de multiclasse → escola); se a cadeia foi removida,
+  // nenhum card tem a escola viva e o registro sec cai junto.
+  const escolasSecVivas = new Set<string>()
+  for (const c of cards) for (const e of c.escolasSecNivel ?? []) escolasSecVivas.add(e.nome)
+  const comEscolaSec = comEspec.filter(
+    (r) => !(r.tipo === 'magia' && r.sec && r.contexto && !escolasSecVivas.has(r.contexto)),
+  )
+  const dropouOrfa = comEscolaSec.length !== registros.length
+  registros = comEscolaSec
   const pools: Record<string, SlotPools> = {
     pericia: new SlotPools(cards.map((c) => c.slots.pericias)),
     tecnica: new SlotPools(cards.map((c) => c.slots.tecnicas)),

@@ -1186,3 +1186,74 @@ describe('#516 — popup MAGIAS oferece a escola SECUNDÁRIA e aprende nela', ()
     )
   }, 90000)
 })
+
+describe('#518 — remover a técnica de multiclasse derruba TODOS os derivados', () => {
+  it('tirar o Treinamento limpa magia sec real, registro sec e picks do plano', async () => {
+    const id = createLocalEntity('Heroi', 'Ex Multiclasse', {
+      ...(emptyHeroFrontmatter() as Record<string, unknown>),
+      Classe: '[[Caçador]]',
+      'Nível': 4,
+      Atributos: { FOR: 2, AGI: 3, INT: 1, PRE: 1 },
+      Tecnicas: { Lista: [{ '[[Treinamento de Classe Secundária]]': 'Slot.A' }] },
+      Habilidades: {
+        Lista: [
+          { '[[Treinamento de Arcanista]]': 'Escolha.[[Treinamento de Classe Secundária]]' },
+          { '[[Escola Arcana Menor]]': 'Regra.[[Treinamento de Arcanista]]' },
+          { '[[Escola Arcana Menor (Estudos do Vazio)]]': 'Escolha.[[Escola Arcana Menor]]' },
+        ],
+      },
+      Magias: {
+        Lista: [],
+        Secundaria: {
+          Lista: [
+            { Nome: 'Arcana Negra', Proficiencia: 'N', Lista: [{ '[[Choque Mental]]': 'Slot.B' }] },
+          ],
+        },
+      },
+      Planejamento: {
+        gastosSlots: [
+          { nivel: 1, tipo: 'tecnica', rank: 'A', alvo: '[[Treinamento de Classe Secundária]]' },
+          { nivel: 1, tipo: 'magia', rank: 'B', alvo: '[[Choque Mental]]', contexto: 'Arcana Negra', sec: true },
+        ],
+      },
+    })
+    renderBiografia(id)
+    await abrirPlanejamento()
+    // remove o Treinamento pelo popup de TÉCNICAS do N1
+    const card1 = document.querySelector('[data-nivel="1"]') as HTMLElement
+    // o gasto da técnica pode ter caído em outro nível — acha o card com o
+    // botão TÉCNICAS
+    const botaoTec = [...document.querySelectorAll('[data-nivel] button')].find((b) =>
+      (b.textContent ?? '').includes('TÉCNICAS'),
+    )
+    expect(botaoTec, 'botão TÉCNICAS em algum card').toBeTruthy()
+    fireEvent.click(botaoTec!)
+    const remover = await waitFor(() => {
+      const btn = [...document.querySelectorAll('button')].find((x) =>
+        (x.getAttribute('aria-label') ?? '').includes('Remover Treinamento de Classe Secundária'),
+      ) as HTMLElement
+      expect(btn, 'remover do Treinamento no popup').toBeTruthy()
+      return btn
+    })
+    fireEvent.click(remover)
+    // TUDO derivado cai (report 2026-08-27: "as magias e coisas que vieram
+    // derivadas dela continuam no planejamento, ta muito errado")
+    await waitFor(
+      () => {
+        const fmCur = getLocalEntity(id)!.frontmatter as Record<string, unknown>
+        expect(JSON.stringify((fmCur['Tecnicas'] as Record<string, unknown>)?.['Lista'] ?? [])).not.toContain(
+          'Treinamento',
+        )
+        const regs = ((fmCur['Planejamento'] as Record<string, unknown>)?.['gastosSlots'] ?? []) as Array<
+          Record<string, unknown>
+        >
+        expect(regs.some((r) => String(r['alvo']).includes('Choque Mental'))).toBe(false)
+        const sec = JSON.stringify(
+          ((fmCur['Magias'] as Record<string, unknown>)?.['Secundaria'] as Record<string, unknown>)?.['Lista'] ?? [],
+        )
+        expect(sec).not.toContain('Choque Mental')
+      },
+      { timeout: 30000 },
+    )
+  }, 120000)
+})

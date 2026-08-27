@@ -403,6 +403,15 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       // Registros lidos do MESMO fm que gerou o build (o guard de seq garante
       // que nenhuma escrita aconteceu no meio — par consistente).
       const { mudou, registros: sane } = sanitizarRegistros(c, gastosRegistrados(fm))
+      // picks do PLANO órfãos (#518): a escolha sumiu da timeline (cadeia
+      // removida) → a entrada sai do Planejamento.picks
+      const keysVivas = new Set(c.flatMap((card) => card.escolhas.map((e) => e.choiceKey)))
+      const picksAtuais = planPicks(fm)
+      const picksLimpos = Object.fromEntries(
+        Object.entries(picksAtuais).filter(([k]) => keysVivas.has(k)),
+      )
+      if (Object.keys(picksLimpos).length !== Object.keys(picksAtuais).length)
+        escreve('Planejamento.picks', picksLimpos)
       // AUTO-SEED: materializa o registro do que JÁ está gasto (atribuição
       // atual dos cards) — abrir a aba já grava o planejamento do herói até
       // o nível dele, sem exigir uma primeira edição (pedido 2026-08-25).
@@ -700,9 +709,18 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         if (r.nivel > nivelAtual && tem) desfazTecnica(r.alvo)
       } else if (r.tipo === 'magia' && r.contexto) {
         const tem = (r.sec ? magiasAprendidasSec : magiasAprendidas).has(alvoBase)
-        if (r.nivel <= nivelAtual && !tem && r.rank)
-          (r.sec ? aplicaMagiaSec : aplicaMagia)(r.contexto, r.alvo, r.rank)
-        if (r.nivel > nivelAtual && tem) (r.sec ? desfazMagiaSec : desfazMagia)(r.contexto, r.alvo)
+        // escola secundária ÓRFÃ (cadeia de multiclasse removida, #518):
+        // nunca re-aplica, e desfaz a magia real que sobrou; o heal dropa o
+        // registro no próximo build
+        const escolaViva =
+          !r.sec || (cards ?? []).some((c) => (c.escolasSecNivel ?? []).some((e) => e.nome === r.contexto))
+        if (!escolaViva) {
+          if (tem) desfazMagiaSec(r.contexto, r.alvo)
+        } else {
+          if (r.nivel <= nivelAtual && !tem && r.rank)
+            (r.sec ? aplicaMagiaSec : aplicaMagia)(r.contexto, r.alvo, r.rank)
+          if (r.nivel > nivelAtual && tem) (r.sec ? desfazMagiaSec : desfazMagia)(r.contexto, r.alvo)
+        }
       } else if (r.tipo === 'pericia' && r.rank && r.rank !== 'B') {
         const row = ((fmPath(dfm, 'Pericias', 'Lista') ?? []) as Row[]).find((x) => String(x.Nome) === r.alvo)
         const incs = (row?.Incrementos ?? []) as Row[]

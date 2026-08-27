@@ -628,3 +628,24 @@ describe('#516 — escolas SECUNDÁRIAS no card e registro sec de magia planejad
     expect(g5).toContain('[[Choque Mental]]:B(2ª)*')
   })
 })
+
+describe('#518 — derivados da multiclasse REMOVIDA caem no auto-heal', () => {
+  it('registro de magia sec sem escola secundária viva é dropado', async () => {
+    const { sanitizarRegistros } = await import('../src/rules/level-timeline')
+    // Guerreiro SEM cadeia de classe secundária — nenhuma escola sec viva
+    const fm = {
+      Classe: '[[Guerreiro]]',
+      'Nível': 4,
+      Atributos: { FOR: 3, AGI: 2, INT: 1, PRE: 1 },
+    }
+    const cards = await buildLevelTimeline(fm, catalog, load)
+    const { mudou, registros } = sanitizarRegistros(cards, [
+      { nivel: 1, tipo: 'tecnica', rank: 'A', alvo: '[[Ataque Poderoso]]' },
+      // órfã: a técnica de multiclasse que dava a escola foi removida
+      { nivel: 4, tipo: 'magia', rank: 'B', alvo: '[[Choque Mental]]', contexto: 'Arcana Negra', sec: true },
+    ])
+    expect(mudou).toBe(true)
+    expect(registros.some((r) => r.alvo.includes('Choque Mental'))).toBe(false)
+    expect(registros.some((r) => r.alvo.includes('Ataque Poderoso'))).toBe(true)
+  })
+})
