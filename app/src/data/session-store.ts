@@ -11,6 +11,7 @@
 // SessionRec é o payload que o servidor replica por sala.
 import { useSyncExternalStore } from 'react'
 import { createStoreChannel } from './store-kit'
+import { activeWorld, onWorldChange, type WorldId } from './world'
 
 export interface SessionRec {
   codigo: string
@@ -34,6 +35,9 @@ export interface SessionRec {
   /** ISO da última vez que o usuário DESCONECTOU desta sessão (feedback do
    *  mestre) — mostrado como "Última Conexão" na lista. */
   ultimaConexao?: string
+  /** MUNDO da sessão (#519 C4): ausente = fantasia (legado). A listagem
+   *  filtra pelo mundo ativo. */
+  world?: WorldId
 }
 
 const KEY = 'pleitost.sessoes'
@@ -116,8 +120,11 @@ function persist(next: SessionRec[]): void {
   channel.emit()
 }
 
+/** Sessões do MUNDO ativo (#519 C4: mesa de um mundo não aparece no outro;
+ *  sem campo = fantasia/legado). */
 export function listSessions(): SessionRec[] {
-  return load()
+  const mundo = activeWorld()
+  return load().filter((s) => (s.world ?? 'fantasia') === mundo)
 }
 
 export function getSession(codigo: string): SessionRec | undefined {
@@ -135,6 +142,7 @@ export function genSessionCode(): string {
 export function createSession(nome: string, grupoId: string | null, mestre: string): SessionRec {
   const rec: SessionRec = {
     codigo: genSessionCode(),
+    world: activeWorld(),
     nome,
     grupoId,
     mestre,
@@ -263,3 +271,9 @@ export function __resetSessionStoreForTests(): void {
     /* noop */
   }
 }
+
+// Trocar de MUNDO desconecta a sessão ativa naturalmente (#519 C4 — pedido
+// explícito): a mesa pertence ao mundo em que foi criada.
+onWorldChange(() => {
+  if (getActiveSessionCode() !== null) setActiveSessionCode(null)
+})

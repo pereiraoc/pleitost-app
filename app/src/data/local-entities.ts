@@ -21,6 +21,7 @@
 // pra ficha e abas renderizarem sem crash.
 import { useMemo, useSyncExternalStore } from 'react'
 import type { Catalog } from './catalog'
+import { activeWorld, type WorldId } from './world'
 import type { IndexDocEntry, VaultDoc } from './types'
 import { groupMembers } from '../grupo/party'
 import {
@@ -83,6 +84,9 @@ export interface StoredEntity {
    *  sem ele, edições de conteúdo (ex.: Pessoas nas anotações) não propagavam
    *  entre dispositivos. Ausente = legado (0, mais antigo); a 1ª edição carimba. */
   updatedAt?: string
+  /** MUNDO da entidade (#519 C3): ausente = fantasia (legado). Listagens
+   *  filtram pelo mundo ativo; o blob inteiro segue sincando entre devices. */
+  world?: WorldId
 }
 
 interface Membership {
@@ -586,6 +590,7 @@ export function createLocalEntity(
   const id = `${LOCAL_PREFIX}${kind}:${randomId()}`
   const rec: StoredEntity = {
     id,
+    world: activeWorld(),
     kind,
     type: info.type,
     subtype: info.subtype,
@@ -605,9 +610,13 @@ export function getLocalEntity(id: string): StoredEntity | undefined {
   return hydrateEntities().get(id)
 }
 
-/** Todas as entidades de uma família (pra mesclar nas listas). */
+/** Todas as entidades de uma família NO MUNDO ATIVO (#519 C3: herói de um
+ *  mundo não aparece nas listas do outro; sem campo = fantasia/legado). */
 export function localEntitiesOfKind(kind: LocalKind): StoredEntity[] {
-  return [...hydrateEntities().values()].filter((r) => r.kind === kind)
+  const mundo = activeWorld()
+  return [...hydrateEntities().values()].filter(
+    (r) => r.kind === kind && (r.world ?? 'fantasia') === mundo,
+  )
 }
 
 function replaceEntity(id: string, next: StoredEntity): void {

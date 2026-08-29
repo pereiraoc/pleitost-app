@@ -19,6 +19,7 @@
 
 import { SEED_HEXMAPS } from './seed-hexmaps'
 import { createKeyedStoreChannel } from './store-kit'
+import { activeWorld, onWorldChange } from './world'
 export interface HexMapCell {
   /** Coluna da grade hexagonal sobreposta ao mapa (ver exploracao.ts). */
   col: number
@@ -39,6 +40,11 @@ const STORE_PREFIX = 'pleitost.hexMap.'
 
 const memory = new Map<string, HexMapState>()
 const channel = createKeyedStoreChannel()
+// memória é keyada por regionId; trocar de MUNDO limpa (re-hidrata das
+// chaves do mundo novo — #519 C5)
+onWorldChange(() => {
+  memory.clear()
+})
 
 function emptyState(): HexMapState {
   return { cells: [] }
@@ -79,8 +85,13 @@ function safeRemove(key: string): void {
   }
 }
 
+/** Chave POR MUNDO (#519 C5): fantasia usa o namespace legado (sem sufixo —
+ *  dados existentes intactos); cyberpunk grava em
+ *  `pleitost.hexMap.cyberpunk.<regiao>`. A memória usa a MESMA chave, então
+ *  a troca de mundo isola os mapas sem reset. */
 function storageKey(regionId: string): string {
-  return STORE_PREFIX + regionId
+  const mundo = activeWorld()
+  return mundo === 'fantasia' ? STORE_PREFIX + regionId : `${STORE_PREFIX}${mundo}.${regionId}`
 }
 
 /** Normaliza uma célula do localStorage: (col,row) finitos + PELO MENOS um eixo
@@ -123,7 +134,7 @@ function hydrate(regionId: string): HexMapState {
     } catch {
       state = emptyState()
     }
-  } else if (seeds[regionId]) {
+  } else if (activeWorld() === 'fantasia' && seeds[regionId]) {
     // #214: sem estado salvo NESTE navegador, o mapa nasce do mapeamento
     // canônico versionado — hexes nomeados (Safira etc.) resolvem em qualquer
     // dispositivo. A primeira edição do usuário persiste o estado inteiro
@@ -358,7 +369,7 @@ export function importAllHexMaps(json: string): number {
     if (!k.startsWith(STORE_PREFIX) || typeof v !== 'string') continue
     safeSet(k, v)
     const regionId = k.slice(STORE_PREFIX.length)
-    memory.delete(regionId) // força rehidratar (e migrar areaId→areaIds)
+    memory.clear() // força rehidratar (chaves podem ser de outro mundo)
     notify(regionId)
     n++
   }
