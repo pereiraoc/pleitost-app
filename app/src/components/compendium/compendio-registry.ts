@@ -113,6 +113,38 @@ export const NAV_ICON_PATHS: Record<string, string> = {
   'Sistema/Regras': `<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>`,
 }
 
+// ── #519: árvore de navegação POR MUNDO ─────────────────────────────────────
+// A vault POA 1987 organiza diferente: Campanhas/Pessoas vivem DENTRO de
+// Contexto, e o contexto histórico chama "Passado". Overrides mínimos; o que
+// não é citado herda a árvore da fantasia.
+import { activeWorld } from '../../data/world'
+
+const NAV_CHILDREN_CYBERPUNK: Record<string, string[]> = {
+  '': ['Atlas', 'Contexto', 'Sistema'],
+  Contexto: [
+    'Contexto/Organizações',
+    'Contexto/Pessoas',
+    'Contexto/Histórias',
+    'Contexto/Campanhas',
+  ],
+  'Contexto/Histórias': [
+    'Contexto/Histórias/Contexto Atual',
+    'Contexto/Histórias/Passado',
+  ],
+}
+const NAV_META_CYBERPUNK: Record<string, CompendioMeta> = {
+  'Contexto/Pessoas': { icon: '🧑' },
+  'Contexto/Campanhas': { icon: '📜' },
+  'Contexto/Histórias/Passado': { icon: '📚' },
+}
+
+function childrenTree(): Record<string, string[]> {
+  return activeWorld() === 'cyberpunk' ? { ...NAV_CHILDREN, ...NAV_CHILDREN_CYBERPUNK } : NAV_CHILDREN
+}
+function metaTree(): Record<string, CompendioMeta> {
+  return activeWorld() === 'cyberpunk' ? { ...NAV_META, ...NAV_META_CYBERPUNK } : NAV_META
+}
+
 /** PATH interno do ícone <svg> daquele path da navegação, ou undefined. */
 export function navIconPath(path: string): string | undefined {
   return NAV_ICON_PATHS[path]
@@ -120,22 +152,22 @@ export function navIconPath(path: string): string | undefined {
 
 /** É um nó de navegação (mostra botões dos filhos), não uma folha? */
 export function isNavNode(path: string): boolean {
-  return path in NAV_CHILDREN
+  return path in childrenTree()
 }
 
 /** Filhos de um nó de navegação (paths), ou [] se for folha. */
 export function navChildren(path: string): string[] {
-  return NAV_CHILDREN[path] ?? []
+  return childrenTree()[path] ?? []
 }
 
 /** Meta (ícone/label) de um path da navegação, ou undefined pra folhas puras. */
 export function navMeta(path: string): CompendioMeta | undefined {
-  return NAV_META[path]
+  return metaTree()[path]
 }
 
 /** Rótulo exibível de um path: override do registro, senão o basename da pasta. */
 export function navLabel(path: string): string {
-  return NAV_META[path]?.label ?? path.split('/').pop() ?? path
+  return metaTree()[path]?.label ?? path.split('/').pop() ?? path
 }
 
 /**
@@ -147,8 +179,9 @@ export function navLabel(path: string): string {
  * algum (aí o call-site sobe um segmento de pasta cru — ver navAncestors).
  */
 export function navParent(path: string): string | undefined {
-  for (const parent of Object.keys(NAV_CHILDREN)) {
-    if (NAV_CHILDREN[parent]!.includes(path)) return parent
+  const tree = childrenTree()
+  for (const parent of Object.keys(tree)) {
+    if (tree[parent]!.includes(path)) return parent
   }
   return undefined
 }

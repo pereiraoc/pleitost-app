@@ -98,7 +98,17 @@ export interface LocationBody {
   populacao: string | null
   descricao: string | null
   aparencia: string | null
+  /** Contexto histórico do callout abstract (template POA/fantasia, #519). */
+  contexto?: string | null
+  organizacoesInfluentes?: string | null
+  acontecimentoRecente?: string | null
   locaisInteresse: string | null
+  /** Bloco leaflet do template POA: mapa da localização (#519). */
+  leaflet?: {
+    image: string
+    bounds: [[number, number], [number, number]] | null
+    markers: Array<{ tipo: string; lat: number; long: number; nome: string }>
+  } | null
 }
 
 export interface AssetEntry {

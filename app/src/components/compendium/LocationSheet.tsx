@@ -70,7 +70,7 @@ function clip(n: number): NonNullable<CSSProperties['clipPath']> {
  *  (o template da vault escreve a prosa dentro de um callout do body — o
  *  FM tem placeholder vazio, o parser popula `locationBody`). Campos
  *  ausentes/vazios são omitidos. */
-type DetailField = { kind: 'text'; label: string; key: string; fallback?: keyof LocationBody }
+type DetailField = { kind: 'text'; label: string; key: string; fallback?: Exclude<keyof LocationBody, 'leaflet'> }
 
 // Feedback do mestre: Tipo e Geolocalização NÃO entram nos detalhes (já aparecem
 // no topo). Recursos viraram uma grade de mini-cards com imagem + tooltip
@@ -82,9 +82,10 @@ const DETAIL_FIELDS: DetailField[] = [
   { kind: 'text', label: 'População', key: 'População', fallback: 'populacao' },
   { kind: 'text', label: 'Descrição', key: 'Descrição', fallback: 'descricao' },
   { kind: 'text', label: 'Aparência do Local', key: 'Aparência_do_Local', fallback: 'aparencia' },
-  { kind: 'text', label: 'Contexto', key: 'Contexto' },
-  { kind: 'text', label: 'Organizações Influentes', key: 'Organizações_Influentes' },
-  { kind: 'text', label: 'Acontecimento Recente', key: 'Acontecimento_Recente' },
+  // #519: a prosa destes três também vive nos callouts (template POA 1987)
+  { kind: 'text', label: 'Contexto', key: 'Contexto', fallback: 'contexto' },
+  { kind: 'text', label: 'Organizações Influentes', key: 'Organizações_Influentes', fallback: 'organizacoesInfluentes' },
+  { kind: 'text', label: 'Acontecimento Recente', key: 'Acontecimento_Recente', fallback: 'acontecimentoRecente' },
 ]
 
 /** Valor escalar exibível de um FM (string/número/boolean não-vazio) ou null. */
@@ -218,6 +219,61 @@ function RecursosGrid({ recursos }: { recursos: string[] }) {
   )
 }
 
+/** Mapa da localização (#519): bloco leaflet do template POA — imagem do
+ *  mapa com os markers posicionados pelos bounds (lat cresce pra CIMA no
+ *  leaflet; top% = 1 − lat/latMax). */
+function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']> }) {
+  const assets = useAssetIndex()
+  if (!assets) return null
+  const entry = resolveAsset(assets, leaflet.image)
+  if (!entry) return null
+  const latMax = leaflet.bounds ? leaflet.bounds[1][0] - leaflet.bounds[0][0] : null
+  const longMax = leaflet.bounds ? leaflet.bounds[1][1] - leaflet.bounds[0][1] : null
+  return (
+    <section style={{ position: 'relative', maxWidth: 620, alignSelf: 'center', width: '100%' }}>
+      <img
+        src={assetUrl(entry)}
+        alt={`Mapa: ${leaflet.image}`}
+        style={{ width: '100%', display: 'block', clipPath: clip(10) }}
+      />
+      {latMax && longMax
+        ? leaflet.markers.map((m) => (
+            <span
+              key={`${m.nome}|${m.lat}|${m.long}`}
+              title={`${m.tipo}: ${m.nome}`}
+              style={{
+                position: 'absolute',
+                left: `${(m.long / longMax) * 100}%`,
+                top: `${(1 - m.lat / latMax) * 100}%`,
+                transform: 'translate(-50%, -100%)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                lineHeight: 1,
+                pointerEvents: 'auto',
+              }}
+            >
+              <span style={{ fontSize: 13, textShadow: '0 1px 2px rgba(0,0,0,.8)' }}>📍</span>
+              <span
+                style={{
+                  fontFamily: 'var(--mono)',
+                  fontSize: 7.5,
+                  fontWeight: 700,
+                  letterSpacing: '.04em',
+                  color: '#fff',
+                  textShadow: '0 1px 2px rgba(0,0,0,.9)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {m.nome}
+              </span>
+            </span>
+          ))
+        : null}
+    </section>
+  )
+}
+
 function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
   const recursos = locationRecursos(doc)
   const blocks: ReactNode[] = []
@@ -236,11 +292,13 @@ function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
       )
     }
   }
-  const vazio = !blocks.length && !recursos.length && rel.children.length === 0
+  const vazio =
+    !blocks.length && !recursos.length && rel.children.length === 0 && !doc.locationBody?.leaflet
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+        {doc.locationBody?.leaflet ? <MapaLocal leaflet={doc.locationBody.leaflet} /> : null}
         {blocks.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>{blocks}</div>
         ) : null}

@@ -7,12 +7,19 @@
 // é durável (espelhada no servidor pelo #84).
 import { useSyncExternalStore } from 'react'
 import { createStoreChannel } from './store-kit'
+import { onWorldChange } from './world'
 
 const KEY = 'pleitost.selectedCreature'
 
 // undefined = ainda não hidratado; null = ninguém selecionado; string = id.
 let memory: string | null | undefined
 const channel = createStoreChannel()
+// Trocar de MUNDO limpa a seleção (#519/#520 follow-up): o personagem da
+// fantasia seguia "ativo" (topbar/abas) dentro do cyberpunk mesmo fora das
+// listas — mundo novo começa sem seleção.
+onWorldChange(() => {
+  setSelectedCreature(null)
+})
 
 function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null

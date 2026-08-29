@@ -133,7 +133,7 @@ export async function parseDoc({ raw, relPath }) {
     body,
   };
   if (type === LOCALIZACAO_CATEGORIA) {
-    record.locationBody = parseLocationBody(body);
+    record.locationBody = parseLocationBody(body, record.frontmatter ?? null);
   }
   if (fm.frontmatterError) {
     record.frontmatterError = fm.frontmatterError;

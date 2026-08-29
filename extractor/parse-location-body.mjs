@@ -24,6 +24,17 @@ const INFO_FIELDS = [
   { emoji: "👥", label: "População", key: "populacao" },
   { emoji: "ℹ️", label: "Descrição", key: "descricao" },
   { emoji: "👁️", label: "Aparência do Local", key: "aparencia" },
+  // Template POA 1987 (#519): campos extras do callout de informações.
+  { emoji: "🛡️", label: "Organizações Influentes", key: "organizacoesInfluentes" },
+  { emoji: "📖", label: "Acontecimento Recente", key: "acontecimentoRecente" },
+];
+
+/** Campos do callout ABSTRACT ("Contexto do/da ..."): o contexto histórico
+ *  da localização (template fantasia usa "Contexto Histórico"; o POA usa
+ *  "Contexto"). */
+const ABSTRACT_FIELDS = [
+  { emoji: "📖", label: "Contexto Histórico", key: "contexto" },
+  { emoji: "📖", label: "Contexto", key: "contexto" },
 ];
 
 /** Retira o prefixo `> `/`>` do callout. Preserva o resto (pode ter `- `,
@@ -62,8 +73,8 @@ function isBlankCalloutLine(line) {
 /** Encontra o campo (emoji + **Label:**) no início de uma linha de callout
  *  (já sem o `> `). Retorna { key, rest } ou null. `rest` é o texto após o
  *  `:` da label. */
-function matchFieldStart(stripped) {
-  for (const f of INFO_FIELDS) {
+function matchFieldStart(stripped, fields = INFO_FIELDS) {
+  for (const f of fields) {
     // Emoji pode estar colado ou separado por espaço do **Label:**. O regex
     // aceita zero-width joiners e variação (o 👁️ tem VS-16), então checamos
     // por prefixo textual em vez de regex complexa.
@@ -82,8 +93,9 @@ function matchFieldStart(stripped) {
 /** Extrai campos do callout "Informações" (População/Descrição/Aparência).
  *  Um campo termina quando: linha vazia do callout, próximo campo, ou fim
  *  das linhas. Concatena continuações com \n (raro, mas suportado). */
-function parseInfoCallout(calloutLines) {
-  const out = { populacao: null, descricao: null, aparencia: null };
+function parseInfoCallout(calloutLines, fields = INFO_FIELDS) {
+  const out = {};
+  for (const f of fields) out[f.key] = null;
   let cur = null;
   let buf = [];
   const flush = () => {
@@ -99,7 +111,7 @@ function parseInfoCallout(calloutLines) {
       flush();
       continue;
     }
-    const start = matchFieldStart(line);
+    const start = matchFieldStart(line, fields);
     if (start) {
       flush();
       cur = start.key;
@@ -131,12 +143,57 @@ function headerTitleMatches(headerLine, needle) {
 /** Extrai os blocos da Localização a partir do body. Devolve
  *  { populacao, descricao, aparencia, locaisInteresse } — todos podem ser
  *  null. Nunca inventa: se o callout ou o campo não estão lá, é null. */
-export function parseLocationBody(body) {
+/** Resolve refs dataview inline `\`= this.Campo\`` pelo valor do FM: campo
+ *  vazio some (o template POA referencia FM placeholder — mostrar o snippet
+ *  cru era lixo visual); lista vira "a, b, c". Aplica em substrings. */
+function resolveDataviewRefs(texto, fm) {
+  if (typeof texto !== "string" || !fm) return texto;
+  const resolvido = texto.replace(/`=\s*this\.([\wÀ-ÿ_]+)`/g, (_, campo) => {
+    const v = fm[campo];
+    if (v == null) return "";
+    if (Array.isArray(v)) return v.filter((x) => x != null && String(x).trim() !== "").join(", ");
+    return String(v).trim();
+  });
+  const limpo = resolvido.trim();
+  return limpo === "" ? null : limpo;
+}
+
+/** Bloco \`\`\`leaflet do template POA (#519): imagem do mapa + bounds +
+ *  markers `marker: tipo,lat,long,nome,...`. */
+function parseLeafletBlock(body) {
+  const m = /```leaflet\r?\n([\s\S]*?)```/.exec(body);
+  if (!m) return null;
+  const out = { image: null, bounds: null, markers: [] };
+  for (const raw of m[1].split(/\r?\n/)) {
+    const linha = raw.trim();
+    const img = /^image:\s*\[\[(.+?)\]\]/.exec(linha);
+    if (img) out.image = img[1].trim();
+    const b = /^bounds:\s*\[\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\s*,\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\]/.exec(linha);
+    if (b) out.bounds = [[Number(b[1]), Number(b[2])], [Number(b[3]), Number(b[4])]];
+    const mk = /^marker:\s*(.+)$/.exec(linha);
+    if (mk) {
+      const partes = mk[1].split(",");
+      const lat = Number(partes[1]);
+      const long = Number(partes[2]);
+      const nome = (partes[3] ?? "").trim();
+      if (Number.isFinite(lat) && Number.isFinite(long) && nome !== "") {
+        out.markers.push({ tipo: (partes[0] ?? "").trim(), lat, long, nome });
+      }
+    }
+  }
+  return out.image ? out : null;
+}
+
+export function parseLocationBody(body, frontmatter = null) {
   const out = {
     populacao: null,
     descricao: null,
     aparencia: null,
+    contexto: null,
+    organizacoesInfluentes: null,
+    acontecimentoRecente: null,
     locaisInteresse: null,
+    leaflet: null,
   };
   if (typeof body !== "string" || body === "") return out;
   const lines = body.split(/\r?\n/);
@@ -145,13 +202,21 @@ export function parseLocationBody(body) {
     const calloutLines = collectCalloutLines(lines, i);
     if (headerTitleMatches(lines[i], "informações")) {
       const info = parseInfoCallout(calloutLines);
-      if (info.populacao != null) out.populacao = info.populacao;
-      if (info.descricao != null) out.descricao = info.descricao;
-      if (info.aparencia != null) out.aparencia = info.aparencia;
+      for (const k of ["populacao", "descricao", "aparencia", "organizacoesInfluentes", "acontecimentoRecente"]) {
+        if (info[k] != null) out[k] = info[k];
+      }
+    } else if (headerTitleMatches(lines[i], "contexto")) {
+      const abs = parseInfoCallout(calloutLines, ABSTRACT_FIELDS);
+      if (abs.contexto != null) out.contexto = abs.contexto;
     } else if (headerTitleMatches(lines[i], "distritos e locais de interesse")) {
       out.locaisInteresse = parseLocaisInteresseCallout(calloutLines);
     }
     i += calloutLines.length;
   }
+  // refs dataview `= this.X` → valor do FM (vazio some)
+  for (const k of ["populacao", "descricao", "aparencia", "contexto", "organizacoesInfluentes", "acontecimentoRecente"]) {
+    if (out[k] != null) out[k] = resolveDataviewRefs(out[k], frontmatter);
+  }
+  out.leaflet = parseLeafletBlock(body);
   return out;
 }
