@@ -92,15 +92,20 @@ function walk(dir) {
 async function main() {
   const scriptDir = path.dirname(fileURLToPath(import.meta.url))
   const repoRoot = path.dirname(scriptDir)
-  const vaultDataDir = path.join(repoRoot, 'app', 'dist', 'vault-data')
-  const assetsDir = path.join(vaultDataDir, 'assets')
-
-  if (!fs.existsSync(assetsDir)) {
-    console.error(
-      `[gen-thumbs] ${assetsDir} não existe — rode \`npm run build\` (o build copia vault-data pro dist).`,
-    )
-    process.exit(1)
-  }
+  // #519 C8: thumbs pros DOIS datasets — fantasia (obrigatório) e cyberpunk
+  // (quando publicado). Cada um espelha assets/ → assets-thumb/ no próprio dir.
+  const datasets = ['vault-data', 'vault-data-cyberpunk']
+    .map((d) => path.join(repoRoot, 'app', 'dist', d))
+    .filter((dir, i) => {
+      const ok = fs.existsSync(path.join(dir, 'assets'))
+      if (!ok && i === 0) {
+        console.error(
+          `[gen-thumbs] ${dir}/assets não existe — rode \`npm run build\` (o build copia vault-data pro dist).`,
+        )
+        process.exit(1)
+      }
+      return ok
+    })
 
   // sharp fica em node_modules (devDependency do app, hoisted pro root pelo
   // workspace). Import dinâmico pra dar uma mensagem clara se faltar.
@@ -114,20 +119,22 @@ async function main() {
     process.exit(1)
   }
 
-  const files = walk(assetsDir)
   let generated = 0
   let skipped = 0
   let passed = 0 // não-raster (svg/gif) — sem thumb, seguem no cheio
   let stripped = 0 // #283: imagens com frontmatter mascarado no dist
 
-  for (const abs of files) {
-    const relFromVaultData = path.relative(vaultDataDir, abs)
+  const files = datasets.flatMap((dir) =>
+    walk(path.join(dir, 'assets')).map((abs) => ({ abs, datasetDir: dir })),
+  )
+  for (const { abs, datasetDir } of files) {
+    const relFromVaultData = path.relative(datasetDir, abs)
     const destRel = thumbDestFor(relFromVaultData)
     if (!destRel) {
       passed++
       continue
     }
-    const destAbs = path.join(vaultDataDir, destRel)
+    const destAbs = path.join(datasetDir, destRel)
 
     // #283: mascara o frontmatter colado no binário — reescreve o cheio LIMPO no
     // dist (nunca na vault) ANTES de tudo, pra a imagem cheia renderizar e o sharp

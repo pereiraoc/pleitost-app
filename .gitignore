@@ -15,6 +15,7 @@ Thumbs.db
 
 # Dados extraídos da vault (regenerável: npm run extract)
 vault-data/
+vault-data-cyberpunk/
 
 # Parsers do plugin empacotados pro browser (regenerável: npm run parsers) —
 # fonte de verdade é o plugin na vault; não versionar código do plugin no repo
