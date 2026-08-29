@@ -5,6 +5,8 @@ import { VaultImage } from './VaultImage'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
+import { FieldBlock } from './FieldBlock'
+import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { calloutTemplateFields } from './callout-template-fields'
 
 // Visualizador de PESSOA (report 2026-08-29, Emílio Garrastazu Médici) — o
@@ -74,35 +76,6 @@ function EmptyPanel({ children }: { children: ReactNode }) {
   )
 }
 
-function FieldCard({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div
-      style={{
-        padding: '14px 18px',
-        background: 'var(--card)',
-        border: '1px solid var(--line2)',
-        clipPath: clip(10),
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 6,
-      }}
-    >
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: 10.5,
-          letterSpacing: '.14em',
-          textTransform: 'uppercase',
-          color: 'var(--muted)',
-        }}
-      >
-        {label}
-      </span>
-      <span style={{ fontFamily: 'var(--body)', fontSize: 15, lineHeight: 1.5 }}>{children}</span>
-    </div>
-  )
-}
-
 export function PessoaView({
   doc,
   sidebar,
@@ -122,17 +95,21 @@ export function PessoaView({
     if (text == null) continue
     rotulosExibidos.add(field.label.toLowerCase())
     cards.push(
-      <FieldCard key={field.key} label={field.label}>
+      <FieldBlock key={field.key} label={field.label}>
         <InlineFieldValue value={text} />
-      </FieldCard>,
+      </FieldBlock>,
     )
   }
   // Prosa literal no callout do corpo (template POA) → cards, como na OrgView.
   for (const f of calloutTemplateFields(doc.body, rotulosExibidos)) {
     cards.push(
-      <FieldCard key={`callout:${f.label}`} label={f.label}>
-        <InlineFieldValue value={f.value} />
-      </FieldCard>,
+      <FieldBlock key={`callout:${f.label}`} label={f.label}>
+        {f.value.includes('\n') ? (
+          <MarkdownBody doc={{ ...doc, body: f.value }} />
+        ) : (
+          <InlineFieldValue value={f.value} />
+        )}
+      </FieldBlock>,
     )
   }
 
@@ -164,13 +141,7 @@ export function PessoaView({
       ) : null}
 
       {cards.length ? (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))',
-            gap: 12,
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: '46rem' }}>
           {cards}
         </div>
       ) : funcao ? null : (

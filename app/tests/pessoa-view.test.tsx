@@ -69,7 +69,7 @@ describe('PessoaView (doc real da POA)', () => {
     expect(screen.queryByText(/#Pessoa/)).toBeNull()
     expect(screen.queryByText(/= this\./)).toBeNull()
     // campos PREENCHIDOS: rótulo + valor, cada um no seu card
-    expect(screen.getByText('Organização')).toBeTruthy()
+    expect(screen.getByText('ORGANIZAÇÃO')).toBeTruthy()
     expect(screen.getByText('Governo Militar Brasileiro')).toBeTruthy()
     expect(screen.getAllByText('Presidente do Brasil').length).toBeGreaterThan(0)
   })
@@ -77,9 +77,9 @@ describe('PessoaView (doc real da POA)', () => {
   it('campos VAZIOS não mostram rótulos soltos', () => {
     renderDoc(medici)
     // Personalidade/Aparência/Objetivos estão vazios no FM do Médici
-    expect(screen.queryByText('Personalidade')).toBeNull()
-    expect(screen.queryByText('Aparência')).toBeNull()
-    expect(screen.queryByText(/Objetivo de Longo Prazo/)).toBeNull()
+    expect(screen.queryByText(/personalidade/i)).toBeNull()
+    expect(screen.queryByText(/aparência/i)).toBeNull()
+    expect(screen.queryByText(/objetivo de longo prazo/i)).toBeNull()
   })
 
   it('pessoa sem nada preenchido mostra empty state honesto', () => {

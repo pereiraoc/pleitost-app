@@ -59,10 +59,10 @@ describe('OrgView lê os campos literais do callout (template POA)', () => {
     expect(screen.getByText('Especialista em vestuário industrial e uniformes.')).toBeTruthy()
     expect(screen.getByText('Eduardo Renner')).toBeTruthy()
     // callout literal — rótulo da própria nota + valor
-    expect(screen.getByText('Objetivo de Longo Prazo')).toBeTruthy()
+    expect(screen.getByText('OBJETIVO DE LONGO PRAZO')).toBeTruthy()
     expect(screen.getByText('Exportar equipamentos táticos.')).toBeTruthy()
-    expect(screen.getByText('Objetivo Imediato')).toBeTruthy()
-    expect(screen.getByText('Influência')).toBeTruthy()
+    expect(screen.getByText('OBJETIVO IMEDIATO')).toBeTruthy()
+    expect(screen.getByText('INFLUÊNCIA')).toBeTruthy()
     expect(screen.getByText(/Fornece fardas a escolas técnicas/)).toBeTruthy()
     expect(screen.getByText(/Produz tecidos anti-perfuração/)).toBeTruthy()
     // nada de template cru nem empty state
@@ -73,5 +73,24 @@ describe('OrgView lê os campos literais do callout (template POA)', () => {
   it('não duplica campo que o FM já forneceu (Resumo aparece uma vez)', () => {
     renderDoc(renner)
     expect(screen.getAllByText(/Especialista em vestuário industrial/).length).toBe(1)
+  })
+
+  it('layout de LEITURA: blocos empilhados no estilo da Localização, não grade de cards', () => {
+    const { container } = renderDoc(renner)
+    // mesmo vocabulário visual dos Detalhes da Localização (label mono + prosa)
+    expect(container.querySelectorAll('.local-field-label').length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('aventura com fence bounty mostra o CORPO da one-shot abaixo do card', async () => {
+    const posGrenal = readDoc('Campanhas/Aventuras/Pós Grenal')
+    expect(posGrenal.body).toContain('```bounty')
+    renderDoc(posGrenal)
+    // o card do bounty segue
+    expect(screen.getByText(/Recuperação de Carga do Consórcio das Bandeiras/)).toBeTruthy()
+    // e o roteiro da one-shot aparece (antes era descartado — report 2026-08-29)
+    expect(screen.getByText(/Gre-Nal de Sangue Frio/)).toBeTruthy()
+    expect(screen.getByText(/Casa da Drenagem/)).toBeTruthy()
+    // o fence bounty NÃO vaza como <pre> cru
+    expect(screen.queryByText(/Titulo: Recuperação/)).toBeNull()
   })
 })

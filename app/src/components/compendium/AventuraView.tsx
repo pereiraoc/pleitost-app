@@ -105,6 +105,11 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
   const data = bountyDataForDoc(doc)
   const meta = bountyMetaFromDoc(doc)
   const disponivel = disponivelDe(doc)
+  // Report 2026-08-29 (Pós Grenal): o corpo da aventura (roteiro da one-shot)
+  // vem DEPOIS do fence ```bounty``` e era descartado — só o card aparecia.
+  // Renderiza o restante como coluna de leitura abaixo do card; o fence sai
+  // (o card já o visualiza).
+  const roteiro = doc.body.replace(/```bounty\r?\n[\s\S]*?```/, '').trim()
   return (
     <section className="page aventura-page">
       <div className="kicker">{COMPENDIO_KICKER}</div>
@@ -132,6 +137,11 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
               </span>
             ))}
           </div>
+        </div>
+      ) : null}
+      {roteiro !== '' ? (
+        <div className="doc-reading-body" style={{ marginTop: 20 }}>
+          <MarkdownBody doc={{ ...doc, body: roteiro }} />
         </div>
       ) : null}
       <DocRuleElements doc={doc} />
