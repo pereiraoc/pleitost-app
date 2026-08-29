@@ -10,3 +10,13 @@ export function stripPrintArtifacts(body: string): string {
     '',
   )
 }
+
+/**
+ * Remove linhas que são SÓ tags do Obsidian (`#Pessoa`, `#Contexto` — sem
+ * espaço após o #, então não é heading): metadado da vault, não conteúdo; o
+ * markdown as vazava como texto literal (report 2026-08-29). Tags no MEIO de
+ * uma linha de prosa ficam intactas.
+ */
+export function stripTagLines(body: string): string {
+  return body.replace(/^[ \t]*(#[^\s#]\S*[ \t]*)+$/gm, '')
+}

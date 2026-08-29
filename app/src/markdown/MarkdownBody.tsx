@@ -14,7 +14,7 @@ import { linkIconForEntry } from './link-icon'
 import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
-import { stripPrintArtifacts } from './strip-print-artifacts'
+import { stripPrintArtifacts, stripTagLines } from './strip-print-artifacts'
 import { stripContextoOculto } from './strip-oculto'
 import { truncarCorpoEmDesenvolvimento } from './em-desenvolvimento'
 import { stripLeadingTitle } from './strip-leading-title'
@@ -50,7 +50,7 @@ export function MarkdownBody({
     // (ver em-desenvolvimento.ts — temporário).
     const stripped = truncarCorpoEmDesenvolvimento(
       doc,
-      stripPrintArtifacts(stripComments(doc.body)),
+      stripTagLines(stripPrintArtifacts(stripComments(doc.body))),
     )
     // Seção "Contexto Oculto" (segredo de campanha, convenção da vault) só
     // aparece em Modo Mestre — report 2026-08-29.

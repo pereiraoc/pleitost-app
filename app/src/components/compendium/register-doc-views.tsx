@@ -5,6 +5,7 @@
 import { registerDocView } from './doc-view-registry'
 import { LocationSheet, isLocation } from './LocationSheet'
 import { OrgView, isOrg } from './OrgView'
+import { PessoaView, isPessoa } from './PessoaView'
 import { HistoriaView, isHistoria } from './HistoriaView'
 import { CriacaoView, isCriacao } from './CriacaoView'
 import { RegraView, isRegra } from './RegraView'
@@ -35,6 +36,14 @@ registerDocView({
   id: 'organizacao',
   match: isOrg,
   view: (doc, { sidebar, embedded }) => <OrgView doc={doc} sidebar={sidebar} embedded={embedded} />,
+})
+
+// Report 2026-08-29 — Pessoa: mesmo tratamento da Organização (o corpo é só o
+// template Dataview; a view lê o FM).
+registerDocView({
+  id: 'pessoa',
+  match: isPessoa,
+  view: (doc, { sidebar, embedded }) => <PessoaView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F3 (#247) — História / Contexto (Atual + Histórico): corpo em coluna de leitura.
