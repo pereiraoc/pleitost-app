@@ -12,6 +12,8 @@ export interface IndexDocEntry {
   basename?: string
   type?: string | null
   subtype?: string | null
+  /** Primeiro alias do FM (#519) — display do mundo (ex.: Guerrilheiro). */
+  alias?: string | null
   /** Frontmatter `grupo`: string ("cac-simples") ou lista de wikilinks. */
   grupo?: string | string[] | null
 }

@@ -78,7 +78,7 @@ const RACAS_PATH_PREFIX = 'Sistema/Regras/Bestiário/Raças/'
 function listNotesByCategoria(
   catalog: Catalog,
   categoria: string,
-  opts?: { pathPrefix?: string; subcategoria?: string | null },
+  opts?: { pathPrefix?: string; subcategoria?: string | null; comAlias?: boolean },
 ): string[] {
   const out: string[] = []
   for (const entry of catalog.docsByType.get(categoria) ?? []) {
@@ -91,7 +91,11 @@ function listNotesByCategoria(
       } else if (String(raw ?? '').trim() !== opts.subcategoria) continue
     }
     const base = entry.basename ?? entry.id.split('/').pop() ?? ''
-    if (base) out.push(`[[${base}]]`)
+    if (!base) continue
+    // #519: alias do índice no wikilink — o valor gravado no FM carrega o
+    // display do mundo ([[Guerreiro|Guerrilheiro]]) e propaga via linkLabel
+    if (opts?.comAlias && entry.alias) out.push(`[[${base}|${entry.alias}]]`)
+    else out.push(`[[${base}]]`)
   }
   out.sort((a, b) => a.localeCompare(b, 'pt-BR'))
   return out
@@ -809,6 +813,7 @@ export function buildHeroProjection(
     // de bestiário; demais, as classes de aventureiro.
     classes: listNotesByCategoria(catalog, 'Classe', {
       pathPrefix: isMonstro ? BESTIARIO_CLASSES_PREFIX : CLASSES_PATH_PREFIX,
+      comAlias: true,
     }).map(linked),
     tiposCompanheiro: isCompanheiro
       ? listNotesByCategoria(catalog, 'Habilidade', { pathPrefix: COMPANHEIRO_TIPOS_PREFIX })

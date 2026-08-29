@@ -82,6 +82,15 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     const record = await parseDoc({ raw, relPath: doc.relPath });
     await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), record);
 
+    // #519: primeiro alias do FM no índice — o dropdown de classes exibe o
+    // nome do MUNDO (Guerrilheiro etc.) sem carregar o doc inteiro.
+    const aliasRaw = record.frontmatter?.aliases ?? record.frontmatter?.alias;
+    const alias = Array.isArray(aliasRaw)
+      ? (aliasRaw.find((a) => typeof a === "string" && a.trim() !== "") ?? null)
+      : typeof aliasRaw === "string" && aliasRaw.trim() !== ""
+        ? aliasRaw.trim()
+        : null;
+
     index.push({
       id: record.id,
       path: record.path,
@@ -89,6 +98,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       type: record.type,
       subtype: record.subtype,
       grupo: record.grupo,
+      ...(alias ? { alias } : {}),
       kind: "content",
     });
 

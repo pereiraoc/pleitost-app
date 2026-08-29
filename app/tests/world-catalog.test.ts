@@ -152,6 +152,8 @@ describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
       // mundo roteia pro dataset do mundo
       const guerreiro = [...cat.entryById.keys()].find((id) => id.endsWith('/Guerreiro'))!
       expect(vaultUrl(`${guerreiro}.json`)).toContain('vault-data-cyberpunk/')
+      // alias do mundo no índice (classes exibem Guerrilheiro etc. — #519)
+      expect(cat.entryById.get(guerreiro)?.alias).toBe('Guerrilheiro')
       // heróis da fantasia NÃO existem no catálogo do mundo (exclusividade)
       expect([...cat.entryById.keys()].some((id) => id.includes('Carlos Facão'))).toBe(false)
     })
