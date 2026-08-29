@@ -1,4 +1,5 @@
 import type { AssetsManifest, IndexDocEntry, IndexManifest } from './types'
+import { linkLabel as linkLabelDv } from '../markdown/dataview-value'
 import { withBase } from './base-url'
 import { ensureFreshVaultData } from './vault-cache'
 import { WORLD_DATA_DIR, type WorldId } from './world'
@@ -226,6 +227,24 @@ export function fetchCatalogForWorld(world: WorldId): Promise<Catalog> {
   )
   catalogPromises.set(world, p)
   return p
+}
+
+/** Display de um wikilink de CLASSE no mundo ativo (#519/#522): alias do
+ *  índice quando o doc é Classe e tem alias (Guerrilheiro etc.); wikilink com
+ *  alias explícito vence; demais casos = linkLabel normal. Restrito a Classe
+ *  de propósito: outras notas usam aliases como termos de busca. */
+export function classeDisplay(catalog: Catalog, wl: unknown): string {
+  const raw = typeof wl === 'string' ? wl : ''
+  const label = linkLabelDv(raw)
+  if (raw.includes('|')) return label
+  const alvo = raw.replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim()
+  if (!alvo) return label
+  const res = catalog.resolve(alvo)
+  if (res.kind === 'doc') {
+    const entry = catalog.entryById.get(res.id)
+    if (entry?.type === 'Classe' && entry.alias) return entry.alias
+  }
+  return label
 }
 
 /** SÓ testes: limpa o cache de catálogos por mundo. */

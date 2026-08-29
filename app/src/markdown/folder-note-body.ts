@@ -10,6 +10,7 @@ import { visit } from 'unist-util-visit'
 import type { VaultDoc } from '../data/types'
 import { stripComments } from './strip-comments'
 import { stripLeadingTitle } from './strip-leading-title'
+import { stripPrintArtifacts } from './strip-print-artifacts'
 import { IMAGE_EXTENSIONS } from '../data/assets'
 
 /** Fences que a folder-note NÃO deve renderizar (a listagem da pasta já cobre a
@@ -72,13 +73,20 @@ export function cleanFolderNoteBody(doc: VaultDoc): string {
   return noTitle.replace(fenceRe, '')
 }
 
-/** true quando, removidos título + fences suprimidos, ainda há prosa/embeds úteis
- *  no corpo da folder-note. Só separadores (`---`), HEADINGS (rótulos de seção
- *  de queries removidas), âncoras de bloco (`^id`) e espaços contam como vazio —
- *  uma nota-índice que é só isso (ex.: Campanhas/Aventuras: headings + dataview +
- *  botão QuickAdd) não tem corpo útil, a grade da pasta já é a lista. */
+/** true quando, removidos título + fences suprimidos, ainda há prosa/imagens
+ *  úteis no corpo da folder-note. Só separadores (`---`), HEADINGS (rótulos de
+ *  seção de queries removidas), âncoras de bloco (`^id`), TRANSCLUSÕES DE NOTA
+ *  (rendem null no contexto folder-note desde #282 — a nota-alvo já é card da
+ *  listagem), artefatos de impressão e espaços contam como vazio — uma
+ *  nota-índice que é só isso (ex.: Contexto Atual da POA: título + embeds +
+ *  page-breaks) não tem corpo útil, a grade da pasta já é a lista. Embeds de
+ *  IMAGEM continuam contando (esses renderizam). */
 export function folderNoteHasBody(doc: VaultDoc): boolean {
-  const clean = cleanFolderNoteBody(doc)
+  const clean = stripPrintArtifacts(cleanFolderNoteBody(doc))
+    .replace(/!\[\[([^\]|#]+?)(#[^\]|]*)?(\|[^\]]*)?\]\]/g, (match, target: string) => {
+      const ext = /\.([a-z0-9]+)$/i.exec(target.trim())?.[1]?.toLowerCase()
+      return ext && IMAGE_EXTENSIONS.has(ext) ? match : ''
+    })
     .replace(/^-{3,}\s*$/gm, '') // separadores horizontais soltos
     .replace(/^#{1,6}\s.*$/gm, '') // headings soltos (rótulo de seção sem prosa)
     .replace(/^\^[\w-]+\s*$/gm, '') // âncoras de bloco (^id) — metadado, não conteúdo

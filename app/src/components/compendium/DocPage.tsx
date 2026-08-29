@@ -56,7 +56,10 @@ export function DocView({
         ))}
       </header>
       <InlineFieldsTable fields={doc.inlineFields} />
-      <MarkdownBody doc={doc} heroTarget={hero?.target} />
+      {/* hideLeadingTitle: o header acima já mostra o nome — um corpo que abre
+          com `# Título`/`# = this.file.name` duplicava o título (report
+          2026-08-29, notas-índice da POA). */}
+      <MarkdownBody doc={doc} heroTarget={hero?.target} hideLeadingTitle />
       <DocRuleElements doc={doc} />
     </article>
   )

@@ -14,6 +14,7 @@ import { linkIconForEntry } from './link-icon'
 import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
+import { stripPrintArtifacts } from './strip-print-artifacts'
 import { truncarCorpoEmDesenvolvimento } from './em-desenvolvimento'
 import { stripLeadingTitle } from './strip-leading-title'
 import {
@@ -46,7 +47,10 @@ export function MarkdownBody({
   const body = useMemo(() => {
     // Traços Elementais em desenvolvimento: corta o corpo na barra horizontal
     // (ver em-desenvolvimento.ts — temporário).
-    const stripped = truncarCorpoEmDesenvolvimento(doc, stripComments(doc.body))
+    const stripped = truncarCorpoEmDesenvolvimento(
+      doc,
+      stripPrintArtifacts(stripComments(doc.body)),
+    )
     const titled = hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
     // #275: colapsa a `#subpath` das transclusões de nota ANTES do parse (senão
     // o inline code da seção fragmenta o embed e nada casa).

@@ -14,6 +14,7 @@ import { PlanejamentoPanel } from './PlanejamentoTab'
 // se acoplam (HabilidadesTab importa PerfilTab); o ciclo é só em runtime.
 import { ClasseNivelPanel } from './HabilidadesTab'
 import { useCatalog } from '../../data/CatalogContext'
+import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel } from '../../markdown/dataview-value'
 import {
@@ -1196,8 +1197,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   // calculated["Nível"] (#201, plugin sync-ca-tutor-nivel.ts); pro herói o
   // merge só repassa o FM salvo — mesmo valor.
   const nivel = num(dfm['Nível'])
+  const catalog = useCatalog()
   const ci = classeAventureiro(nivel)
-  const classe = linkLabel(str(dfm['Classe']))
+  const classe = classeDisplay(catalog, dfm['Classe'])
   const sintonia = shortSintonia(dfm['Sintonia'])
   const sintoniaIc = sintoniaEmojiFromValue(str(dfm['Sintonia']))
   // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
@@ -1209,7 +1211,6 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   // 333-342; header-ca.ts: Classe | Sintonia | Tutor). Valor = FM `Tutor`
   // (wikilink "[[Mera]]"); opções = heróis conhecidos (vault + locais), o
   // mesmo universo da tela HERÓIS.
-  const catalog = useCatalog()
   const localVersion = useLocalStoreVersion()
   const tutor = str(dfm['Tutor'])
   const tutorOptions = useMemo(() => {

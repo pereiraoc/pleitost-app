@@ -18,6 +18,10 @@ import './CombateView'
 // objetivos) no doc + grade de cartas na folha Campanhas/Aventuras; registra
 // por side-effect o doc-view 'aventura' e o leaf-view 'Aventura'.
 import './AventuraView'
+// Report 2026-08-29 (#519) — folha de Contexto: linha do tempo (notas com FM
+// `Data`, ex.: Passado da POA) ou índice em botões; registra por side-effect
+// o leaf-view 'Contexto'.
+import './ContextoLeafView'
 
 // Localização (#66) — ficha com abas + Hexploração.
 registerDocView({

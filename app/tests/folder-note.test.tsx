@@ -110,8 +110,9 @@ describe('#272 — nota-índice genérica NÃO é embutida (Atlas raiz)', () => 
     })
     // não há ficha de Localização embutida (nenhum "Localização ·" de tipo)
     expect(screen.queryByText(/^Localização/)).toBeNull()
-    // o título linkável de sempre continua (h1 com link pra folder-note)
+    // report 2026-08-29: folder-note índice PURO (só dataview) → título vira
+    // TEXTO (a página da nota só re-renderizava o índice; antes era linkável)
     const h1 = container.querySelector('h1')
-    expect(within(h1 as HTMLElement).queryByRole('link')).toBeTruthy()
+    expect(within(h1 as HTMLElement).queryByRole('link')).toBeNull()
   })
 })

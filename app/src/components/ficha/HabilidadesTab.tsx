@@ -13,6 +13,7 @@ import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
+import { classeDisplay } from '../../data/catalog'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel, type HeroModel } from '../../data/useHeroModel'
 import { useDetail } from '../../data/detail-context'
@@ -460,14 +461,14 @@ export function ClasseNivelPanel({
       options: caps.classe.editavel
         ? [
             { value: '', label: '— Nenhuma —' },
-            ...withCurrent(rules?.classes ?? [], classeFmValue, linkLabel(str(fm['Classe']))),
+            ...withCurrent(rules?.classes ?? [], classeFmValue, classeDisplay(catalogEscolhas, fm['Classe'])),
           ]
         : caTipoLocal
           ? [
               { value: '', label: '— Nenhum —' },
               ...withCurrent(rules?.tiposCompanheiro ?? [], tipoFmValue, linkLabel(str(fm['Classe']))),
             ]
-          : [{ value: classeFmValue, label: linkLabel(str(fm['Classe'])) || '—' }],
+          : [{ value: classeFmValue, label: classeDisplay(catalogEscolhas, fm['Classe']) || '—' }],
       onChange: caps.classe.editavel ? setClasse : caTipoLocal ? setTipoCompanheiro : undefined,
       boxTarget: caTipoLocal ? tipoFmValue : classeFmValue,
     },

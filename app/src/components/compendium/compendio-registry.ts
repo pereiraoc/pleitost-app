@@ -118,28 +118,30 @@ export const NAV_ICON_PATHS: Record<string, string> = {
 // Contexto, e o contexto histórico chama "Passado". Overrides mínimos; o que
 // não é citado herda a árvore da fantasia.
 import { activeWorld } from '../../data/world'
+import { isDesenvolvedor } from '../../settings'
 
+// Pessoas NÃO entra aqui: no cyberpunk elas aparecem em Criaturas/Pessoas
+// (pedido 2026-08-29); Campanhas só aparece em modo DESENVOLVEDOR.
 const NAV_CHILDREN_CYBERPUNK: Record<string, string[]> = {
   '': ['Atlas', 'Contexto', 'Sistema'],
-  Contexto: [
-    'Contexto/Organizações',
-    'Contexto/Pessoas',
-    'Contexto/Histórias',
-    'Contexto/Campanhas',
-  ],
+  Contexto: ['Contexto/Organizações', 'Contexto/Histórias', 'Contexto/Campanhas'],
   'Contexto/Histórias': [
     'Contexto/Histórias/Contexto Atual',
     'Contexto/Histórias/Passado',
   ],
 }
 const NAV_META_CYBERPUNK: Record<string, CompendioMeta> = {
-  'Contexto/Pessoas': { icon: '🧑' },
   'Contexto/Campanhas': { icon: '📜' },
   'Contexto/Histórias/Passado': { icon: '📚' },
 }
 
 function childrenTree(): Record<string, string[]> {
-  return activeWorld() === 'cyberpunk' ? { ...NAV_CHILDREN, ...NAV_CHILDREN_CYBERPUNK } : NAV_CHILDREN
+  if (activeWorld() !== 'cyberpunk') return NAV_CHILDREN
+  const tree = { ...NAV_CHILDREN, ...NAV_CHILDREN_CYBERPUNK }
+  if (!isDesenvolvedor()) {
+    tree.Contexto = tree.Contexto!.filter((p) => p !== 'Contexto/Campanhas')
+  }
+  return tree
 }
 function metaTree(): Record<string, CompendioMeta> {
   return activeWorld() === 'cyberpunk' ? { ...NAV_META, ...NAV_META_CYBERPUNK } : NAV_META

@@ -709,6 +709,32 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+/* linha do tempo do Contexto (notas com FM `Data`, ex.: Passado da POA) */
+.ctx-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  max-width: 46rem;
+}
+
+.ctx-tl-item {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 55%, var(--line2));
+  padding-left: 1rem;
+}
+
+.ctx-tl-date {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.ctx-tl-title {
+  margin: 0.15rem 0 0.35rem;
+}
+
 /* Botões GRANDES de seção do compêndio (#244) — mesma linguagem do type-card,
    maiores, com ícone em destaque; grid mais folgado. */
 .sec-grid {

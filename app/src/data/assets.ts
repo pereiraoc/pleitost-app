@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { AssetEntry, AssetsManifest } from './types'
-import { onWorldChange } from './world'
-import { vaultUrl } from './base-url'
+import { activeWorld, onWorldChange } from './world'
+import { vaultUrl, withBase } from './base-url'
 
 /** Extensões de imagem reconhecidas em embeds ![[...]]. */
 export const IMAGE_EXTENSIONS = new Set([
@@ -106,17 +106,34 @@ onWorldChange(() => {
   indexPromise = undefined
 })
 
+/** Índice de assets do MUNDO (#519): no cyberpunk é a UNIÃO — assets do
+ *  dataset do mundo vencem por path; o resto herda da fantasia (imagens de
+ *  sistema). URLs explícitas: o assets.json não passa pelo vaultUrl ambiente
+ *  (senão o mapa da POA nunca entrava no índice — report 2026-08-29). */
+async function carregarIndice(): Promise<AssetIndex> {
+  const baseRes = await fetch(withBase('vault-data/assets.json'))
+  if (!baseRes.ok) throw new Error(`assets.json: HTTP ${baseRes.status}`)
+  const base = (await baseRes.json()) as AssetsManifest
+  if (activeWorld() === 'fantasia') return buildAssetIndex(base)
+  try {
+    const res = await fetch(withBase('vault-data-cyberpunk/assets.json'))
+    if (res.ok) {
+      const mundo = (await res.json()) as AssetsManifest
+      const porPath = new Map(base.assets.map((a) => [a.path, a]))
+      for (const a of mundo.assets ?? []) porPath.set(a.path, a)
+      return buildAssetIndex({ ...base, assets: [...porPath.values()] })
+    }
+  } catch {
+    /* dataset do mundo ausente — índice da fantasia basta */
+  }
+  return buildAssetIndex(base)
+}
+
 export function fetchAssetIndex(): Promise<AssetIndex> {
-  indexPromise ??= fetch(vaultUrl('assets.json'))
-    .then((res) => {
-      if (!res.ok) throw new Error(`assets.json: HTTP ${res.status}`)
-      return res.json() as Promise<AssetsManifest>
-    })
-    .then(buildAssetIndex)
-    .catch((err: unknown) => {
-      indexPromise = undefined
-      throw err
-    })
+  indexPromise ??= carregarIndice().catch((err: unknown) => {
+    indexPromise = undefined
+    throw err
+  })
   return indexPromise
 }
 

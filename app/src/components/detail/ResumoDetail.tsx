@@ -22,6 +22,8 @@ import { useDoc } from '../../data/useDoc'
 import { synthDocFromCharacter, useLiveSession } from '../../data/session-repo/live-session'
 import { readDisguiseSecret } from '../../data/session-repo/disguise-secrets'
 import { useAssetIndex } from '../../data/assets'
+import { useCatalog } from '../../data/CatalogContext'
+import { classeDisplay } from '../../data/catalog'
 import { creatureImageUrl } from '../../data/creature-image'
 import { Lightbox } from '../Lightbox'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
@@ -637,6 +639,7 @@ function inventarioItens(
 
 function ResumoBody({ doc }: { doc: VaultDoc }) {
   const assets = useAssetIndex()
+  const catalog = useCatalog()
   const vida = useVidaLocal(doc, 'resumo')
   const stats = memberStats(doc.frontmatter)
   const fm = doc.frontmatter as Fm
@@ -658,7 +661,7 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
   const { values: attrs } = useMemo(() => heroAtributos(fm), [fm])
   // #280: mini-retrato do card de resumo (pequeno) → thumb.
   const portrait = creatureImageUrl(doc, assets, true)
-  const classe = linkLabel(str(fm['Classe']))
+  const classe = classeDisplay(catalog, fm['Classe'])
   const nivel = num(fm['Nível'])
   const tier = fm['Tier']
 

@@ -17,6 +17,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNod
 import { createPortal } from 'react-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
+import { classeDisplay } from '../../data/catalog'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
@@ -828,7 +829,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     {
       rid: 'base|classe',
       kicker: 'Classe',
-      valor: linkLabel(String(fm['Classe'] ?? '')),
+      valor: classeDisplay(catalog, fm['Classe']),
       doc: docDe(String(fm['Classe'] ?? '')),
       icon: tokens.emojis.perfil.Classe,
     },

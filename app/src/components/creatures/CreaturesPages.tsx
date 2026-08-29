@@ -15,6 +15,7 @@ import {
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
+import { useWorld } from '../../data/world'
 import { docPath, heroPath } from '../../paths'
 import {
   getSelectedCreature,
@@ -1621,6 +1622,7 @@ function PessoaDeAnotacaoCard({
 }
 
 export function NpcsPage() {
+  const world = useWorld()
   // #249: deep-link de aba via `?tab=` (mesmo padrão do FichaPage/SessaoFicha) —
   // ex.: o "criar combate" da tela de Combates do compêndio abre `?tab=combate`.
   // #381: a aba ativa VIVE na URL (não em useState) — abrir uma criatura e usar
@@ -1689,11 +1691,13 @@ export function NpcsPage() {
         {NPC_TABS.map((t) => (
           <NpcPanel
             key={t.id}
-            folder={t.folder}
+            // #519: no cyberpunk as Pessoas da VAULT (Contexto/Pessoas da POA)
+            // aparecem AQUI (saíram do compêndio — pedido 2026-08-29)
+            folder={t.id === 'pessoas' && world === 'cyberpunk' ? 'Contexto/Pessoas' : t.folder}
             tierOf={t.tierOf}
             tierNumerico={t.tierNumerico}
             localKind={t.localKind}
-            includeVault={t.id !== 'pessoas'}
+            includeVault={t.id !== 'pessoas' || world === 'cyberpunk'}
             vaultReadonly={t.id === 'companheiros'}
             prepend={t.id === 'pessoas' ? <PessoasDeAnotacoes /> : undefined}
           />
