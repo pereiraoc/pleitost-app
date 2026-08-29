@@ -5,6 +5,7 @@ import { VaultImage } from './VaultImage'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
+import { calloutTemplateFields } from './callout-template-fields'
 
 // Visualizador de ORGANIZAÇÃO (issue #247, F3 do épico #243) — substitui o
 // markdown genérico (template Dataview) por uma leitura BONITA das infos da
@@ -40,6 +41,8 @@ const ORG_FIELDS: OrgField[] = [
   { key: 'Objetivo_de_Longo_Prazo', label: 'Objetivo de Longo Prazo' },
   { key: 'Objetivo_Imediato', label: 'Objetivo Imediato' },
   { key: 'Influência', label: 'Influência' },
+  // variante do FM do template POA 1987 (#519)
+  { key: 'Influência_em_Porto_Alegre', label: 'Influência em Porto Alegre' },
   { key: 'Descrição', label: 'Descrição' },
 ]
 
@@ -124,12 +127,24 @@ export function OrgView({
   const resumo = fieldText(doc.frontmatter[RESUMO_KEY])
 
   const cards: ReactNode[] = []
+  const rotulosExibidos = new Set<string>([RESUMO_KEY.toLowerCase()])
   for (const field of ORG_FIELDS) {
     const text = fieldText(doc.frontmatter[field.key])
     if (text == null) continue
+    rotulosExibidos.add(field.label.toLowerCase())
     cards.push(
       <FieldCard key={field.key} label={field.label}>
         <InlineFieldValue value={text} />
+      </FieldCard>,
+    )
+  }
+  // Template POA (report 2026-08-29): parte das infos vive como prosa LITERAL
+  // no callout do corpo (FM vazio) — entra como card com o rótulo da própria
+  // nota, sem duplicar o que o FM já forneceu.
+  for (const f of calloutTemplateFields(doc.body, rotulosExibidos)) {
+    cards.push(
+      <FieldCard key={`callout:${f.label}`} label={f.label}>
+        <InlineFieldValue value={f.value} />
       </FieldCard>,
     )
   }

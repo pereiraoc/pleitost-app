@@ -26,6 +26,10 @@ const INFO_FIELDS = [
   { emoji: "👁️", label: "Aparência do Local", key: "aparencia" },
   // Template POA 1987 (#519): campos extras do callout de informações.
   { emoji: "🛡️", label: "Organizações Influentes", key: "organizacoesInfluentes" },
+  // Variante dos templates de bairro (POA) e região (fantasia): o rótulo é
+  // "Influências" e o VALOR vem nas linhas seguintes (bullets `- [[Org]] …` /
+  // sub-entradas `**[[Org]]:** …`) — capturadas pela continuação de campo.
+  { emoji: "🛡️", label: "Influências", key: "organizacoesInfluentes" },
   { emoji: "📖", label: "Acontecimento Recente", key: "acontecimentoRecente" },
 ];
 
@@ -216,6 +220,16 @@ export function parseLocationBody(body, frontmatter = null) {
   // refs dataview `= this.X` → valor do FM (vazio some)
   for (const k of ["populacao", "descricao", "aparencia", "contexto", "organizacoesInfluentes", "acontecimentoRecente"]) {
     if (out[k] != null) out[k] = resolveDataviewRefs(out[k], frontmatter);
+  }
+  // sub-entradas PLACEHOLDER do template (`- **[[Org]]:**` sem texto — o
+  // template fantasia as traz não-preenchidas em massa) não são conteúdo:
+  // caem da lista; lista só de placeholders vira null (campo omitido).
+  if (out.organizacoesInfluentes != null) {
+    const linhas = out.organizacoesInfluentes
+      .split("\n")
+      .filter((l) => !/^-?\s*\*\*\[\[[^\]]+\]\]:?\*\*:?\s*$/.test(l.trim()));
+    const limpo = linhas.join("\n").trim();
+    out.organizacoesInfluentes = limpo === "" ? null : limpo;
   }
   out.leaflet = parseLeafletBlock(body);
   return out;

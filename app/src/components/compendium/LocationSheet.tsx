@@ -285,9 +285,17 @@ function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
     const bodyText = field.fallback ? doc.locationBody?.[field.fallback] ?? null : null
     const text = fmText ?? bodyText
     if (text != null && text !== '') {
+      // Valor MULTILINHA (ex.: Influências como bullets `- [[Org]] …` do
+      // template, report 2026-08-29) renderiza como markdown — mesma via do
+      // LocaisInteresseTab (lista de verdade, wikilinks navegáveis); valor de
+      // uma linha segue inline.
       blocks.push(
         <DetailBlock key={field.key} label={field.label}>
-          <InlineFieldValue value={text} />
+          {text.includes('\n') ? (
+            <MarkdownBody doc={{ ...doc, body: text }} />
+          ) : (
+            <InlineFieldValue value={text} />
+          )}
         </DetailBlock>,
       )
     }

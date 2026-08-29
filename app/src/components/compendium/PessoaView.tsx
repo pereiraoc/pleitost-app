@@ -5,6 +5,7 @@ import { VaultImage } from './VaultImage'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
+import { calloutTemplateFields } from './callout-template-fields'
 
 // Visualizador de PESSOA (report 2026-08-29, Emílio Garrastazu Médici) — o
 // corpo dessas notas é SÓ o template Dataview (tag #Pessoa + callout `= this.X`)
@@ -115,12 +116,22 @@ export function PessoaView({
   const funcao = fieldText(doc.frontmatter[FUNCAO_KEY])
 
   const cards: ReactNode[] = []
+  const rotulosExibidos = new Set<string>([FUNCAO_KEY.toLowerCase()])
   for (const field of PESSOA_FIELDS) {
     const text = fieldText(doc.frontmatter[field.key])
     if (text == null) continue
+    rotulosExibidos.add(field.label.toLowerCase())
     cards.push(
       <FieldCard key={field.key} label={field.label}>
         <InlineFieldValue value={text} />
+      </FieldCard>,
+    )
+  }
+  // Prosa literal no callout do corpo (template POA) → cards, como na OrgView.
+  for (const f of calloutTemplateFields(doc.body, rotulosExibidos)) {
+    cards.push(
+      <FieldCard key={`callout:${f.label}`} label={f.label}>
+        <InlineFieldValue value={f.value} />
       </FieldCard>,
     )
   }
