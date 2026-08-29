@@ -93,3 +93,57 @@ describe('catálogo por mundo (C2)', () => {
     expect(vaultUrl('Sistema/Outro Doc.json')).toContain('vault-data/')
   })
 })
+
+// C9 — união com o DATASET REAL da POA 1987 (skip quando não extraído:
+// vault-data-cyberpunk é gitignored como o da fantasia)
+const cybDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
+describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
+  'invariantes com o dataset real (C9)',
+  () => {
+    beforeEach(() => {
+      globalThis.fetch = (async (input: unknown) => {
+        const url = String(input)
+        const m = url.match(/(vault-data(?:-cyberpunk)?)\/(.+)$/)
+        if (!m) return { ok: false, status: 404, json: async () => ({}) }
+        const root = m[1] === 'vault-data-cyberpunk' ? cybDir : vaultDataDir
+        const rel = m[2]!.split('/').map((s) => {
+          try {
+            return decodeURIComponent(s)
+          } catch {
+            return s
+          }
+        }).join('/')
+        const file = path.join(root, rel)
+        const ok = fs.existsSync(file)
+        return {
+          ok,
+          status: ok ? 200 : 404,
+          json: async () => JSON.parse(fs.readFileSync(file, 'utf8')),
+        }
+      }) as typeof fetch
+    })
+
+    it('cyberpunk real: Porto Alegre no catálogo, sistema herdado, roteamento certo', async () => {
+      setContext('cyberpunk')
+      const cat = await fetchCatalogForWorld('cyberpunk')
+      expect(cat.worldDatasetAusente).toBeUndefined()
+      // Atlas POA presente
+      expect(cat.entryById.has('Atlas/Porto Alegre/Porto Alegre')).toBe(true)
+      // heróis da FANTASIA não vazam? Eles EXISTEM no catálogo união (docs),
+      // mas o dataset POA tem os próprios docs de sistema — Guerreiro do
+      // mundo roteia pro dataset do mundo
+      const guerreiro = [...cat.entryById.keys()].find((id) => id.endsWith('/Guerreiro'))!
+      expect(vaultUrl(`${guerreiro}.json`)).toContain('vault-data-cyberpunk/')
+      // e um doc SÓ da fantasia (herói de lá) cai no fallback base
+      const carlos = [...cat.entryById.keys()].find((id) => id.includes('Carlos Facão'))
+      if (carlos) expect(vaultUrl(`${carlos}.json`)).toContain('vault-data/')
+    })
+
+    it('fantasia segue byte-idêntica com o eixo introduzido', async () => {
+      const cat = await fetchCatalogForWorld('fantasia')
+      expect(cat.worldDatasetAusente).toBeUndefined()
+      expect(vaultUrl('index.json')).toContain('vault-data/')
+      expect(vaultUrl('index.json')).not.toContain('cyberpunk')
+    })
+  },
+)
