@@ -71,8 +71,21 @@ function renderEditor(d: VaultDoc) {
 }
 
 describe('DocContentEditor (#253, F9)', () => {
+  it('começa COLAPSADO (pedido 2026-08-29) e expande no clique em EDITAR', () => {
+    renderEditor(doc('Texto original.'))
+    // colapsado: sem textarea nem preview, só a barra com o botão
+    expect(document.querySelector('[data-content-body]')).toBeNull()
+    expect(document.querySelector('[data-content-preview]')).toBeNull()
+    fireEvent.click(screen.getByText('EDITAR'))
+    expect(document.querySelector('[data-content-body]')).toBeTruthy()
+    // e recolhe de novo
+    fireEvent.click(screen.getByText('RECOLHER'))
+    expect(document.querySelector('[data-content-body]')).toBeNull()
+  })
+
   it('preview ao vivo reflete o texto digitado', () => {
     renderEditor(doc('Texto original.'))
+    fireEvent.click(screen.getByText('EDITAR'))
     const ta = screen.getByDisplayValue('Texto original.')
     fireEvent.change(ta, { target: { value: 'Texto **editado** ao vivo.' } })
     const preview = document.querySelector('[data-content-preview]')!
@@ -81,6 +94,7 @@ describe('DocContentEditor (#253, F9)', () => {
 
   it('Salvar texto grava patch.body no rascunho local; disabled sem mudança', () => {
     renderEditor(doc('base'))
+    fireEvent.click(screen.getByText('EDITAR'))
     const save = screen.getByText('Salvar texto') as HTMLButtonElement
     expect(save.disabled).toBe(true) // nada mudou
     fireEvent.change(screen.getByDisplayValue('base'), { target: { value: 'novo texto' } })

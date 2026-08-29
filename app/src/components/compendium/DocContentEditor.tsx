@@ -51,6 +51,9 @@ export function DocContentEditor({ doc }: { doc: VaultDoc }) {
   useLocalDraftVersion() // re-render ao salvar/reverter
   const seed = doc.body ?? ''
   const [body, setBody] = useState(seed)
+  // Pedido 2026-08-29: começa COLAPSADO (só a barra) — expandido ocupava
+  // demais a página; clicar EDITAR abre, RECOLHER fecha.
+  const [aberto, setAberto] = useState(false)
 
   // Re-semeia quando o corpo EFETIVO muda por fora (revert/publish); durante a
   // digitação o doc não muda, então não atrapalha.
@@ -62,14 +65,37 @@ export function DocContentEditor({ doc }: { doc: VaultDoc }) {
   // Preview ao vivo com o MESMO renderer das views (o rascunho ainda não salvo).
   const previewDoc = useMemo<VaultDoc>(() => ({ ...doc, body }), [doc, body])
 
+  const header = (
+    <div className="kicker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <span>{'// EDITAR TEXTO'}</span>
+      <span style={{ color: 'var(--accent)', fontSize: 9 }}>MODO DEV</span>
+      <span style={{ flex: 1 }} />
+      {dirty ? <span style={{ color: 'var(--muted)', fontSize: 10 }}>alterado (não salvo)</span> : null}
+      {!aberto && hasBodyDraft ? (
+        <span style={{ color: 'var(--muted)', fontSize: 10 }}>rascunho salvo</span>
+      ) : null}
+      <button
+        type="button"
+        aria-expanded={aberto}
+        onClick={() => setAberto((v) => !v)}
+        style={{ ...btn, borderColor: 'var(--accent)', color: 'var(--accent)' }}
+      >
+        {aberto ? 'RECOLHER' : 'EDITAR'}
+      </button>
+    </div>
+  )
+
+  if (!aberto) {
+    return (
+      <section data-content-editor="" style={boxStyle}>
+        {header}
+      </section>
+    )
+  }
+
   return (
     <section data-content-editor="" style={boxStyle}>
-      <div className="kicker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span>{'// EDITAR TEXTO'}</span>
-        <span style={{ color: 'var(--accent)', fontSize: 9 }}>MODO DEV</span>
-        <span style={{ flex: 1 }} />
-        {dirty ? <span style={{ color: 'var(--muted)', fontSize: 10 }}>alterado (não salvo)</span> : null}
-      </div>
+      {header}
 
       <textarea
         data-content-body=""
