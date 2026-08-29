@@ -12,6 +12,12 @@ export const WORLD_DATA_DIR: Record<WorldId, string> = {
   cyberpunk: 'vault-data-cyberpunk',
 }
 
+/** Marca da topbar por mundo (pedido do usuário: POA1987 no cyberpunk). */
+export const WORLD_BRAND: Record<WorldId, string> = {
+  fantasia: 'PE',
+  cyberpunk: 'POA1987',
+}
+
 /** Mundo ativo (não-reativo — módulos de dados). */
 export function activeWorld(): WorldId {
   return getThemeSnapshot().context

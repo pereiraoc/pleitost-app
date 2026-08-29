@@ -123,8 +123,7 @@ function persist(next: SessionRec[]): void {
 /** Sessões do MUNDO ativo (#519 C4: mesa de um mundo não aparece no outro;
  *  sem campo = fantasia/legado). */
 export function listSessions(): SessionRec[] {
-  const mundo = activeWorld()
-  return load().filter((s) => (s.world ?? 'fantasia') === mundo)
+  return sessoesDoMundo()
 }
 
 export function getSession(codigo: string): SessionRec | undefined {
@@ -242,8 +241,21 @@ const subscribe = channel.subscribe
 let snapCache: { sessions: SessionRec[]; active: string | null } | null = null
 
 /** Snapshot estável (mesma referência até mudar) pro useSyncExternalStore. */
+let filtroMundo: { fonte: SessionRec[]; mundo: string; lista: SessionRec[] } | null = null
+/** Sessões do mundo ativo com IDENTIDADE ESTÁVEL (useSyncExternalStore). O
+ *  useSessions lia o load() cru e as mesas da fantasia vazavam pro cyberpunk
+ *  (report 2026-08-29). */
+function sessoesDoMundo(): SessionRec[] {
+  const fonte = load()
+  const mundo = activeWorld()
+  if (!filtroMundo || filtroMundo.fonte !== fonte || filtroMundo.mundo !== mundo) {
+    filtroMundo = { fonte, mundo, lista: fonte.filter((s) => (s.world ?? 'fantasia') === mundo) }
+  }
+  return filtroMundo.lista
+}
+
 function snapshot(): { sessions: SessionRec[]; active: string | null } {
-  const sessions = load()
+  const sessions = sessoesDoMundo()
   const active = getActiveSessionCode()
   if (!snapCache || snapCache.sessions !== sessions || snapCache.active !== active) {
     snapCache = { sessions, active }

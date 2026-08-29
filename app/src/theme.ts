@@ -266,4 +266,7 @@ export function __resetThemeForTests(): void {
     s.removeProperty('--accent2')
     s.removeProperty('--sb')
   }
+  // Notifica os observadores (trackers de MUNDO em data/world.ts) — sem isso
+  // o `anterior` deles atravessava testes e o onWorldChange perdia trocas.
+  for (const cb of listeners) cb()
 }

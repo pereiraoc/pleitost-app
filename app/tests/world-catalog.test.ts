@@ -123,6 +123,24 @@ describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
       }) as typeof fetch
     })
 
+    it('conteúdo de MUNDO não herda: bestiário/organizações/contexto da fantasia ficam fora', async () => {
+      setContext('cyberpunk')
+      const cat = await fetchCatalogForWorld('cyberpunk')
+      // organizações da fantasia (report: Sociedade Aberta/Ordem Bestial)
+      const orgs = (cat.docsByType.get('Organização') ?? []).map((d) => d.basename)
+      expect(orgs).not.toContain('Sociedade Aberta')
+      expect(orgs).not.toContain('Ordem Bestial')
+      // bestiário/heróis/grupos da fantasia fora; Atlas fantasia fora
+      const criaturas = (cat.docsByType.get('Criatura') ?? []).map((d) => d.id)
+      expect(criaturas.some((id) => id.includes('Carlos Facão'))).toBe(false)
+      expect(cat.entryById.has('Atlas/Mundo Livre/Mundo Livre')).toBe(false)
+      // conteúdo do MUNDO presente (Contexto próprio da POA)
+      expect((cat.docsByType.get('Contexto') ?? []).length).toBeGreaterThan(0)
+      expect((cat.docsByType.get('Organização') ?? []).length).toBeGreaterThan(0)
+      // e o SISTEMA segue herdável/unido
+      expect((cat.docsByType.get('Classe') ?? []).length).toBeGreaterThan(0)
+    })
+
     it('cyberpunk real: Porto Alegre no catálogo, sistema herdado, roteamento certo', async () => {
       setContext('cyberpunk')
       const cat = await fetchCatalogForWorld('cyberpunk')
@@ -134,9 +152,8 @@ describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
       // mundo roteia pro dataset do mundo
       const guerreiro = [...cat.entryById.keys()].find((id) => id.endsWith('/Guerreiro'))!
       expect(vaultUrl(`${guerreiro}.json`)).toContain('vault-data-cyberpunk/')
-      // e um doc SÓ da fantasia (herói de lá) cai no fallback base
-      const carlos = [...cat.entryById.keys()].find((id) => id.includes('Carlos Facão'))
-      if (carlos) expect(vaultUrl(`${carlos}.json`)).toContain('vault-data/')
+      // heróis da fantasia NÃO existem no catálogo do mundo (exclusividade)
+      expect([...cat.entryById.keys()].some((id) => id.includes('Carlos Facão'))).toBe(false)
     })
 
     it('fantasia segue byte-idêntica com o eixo introduzido', async () => {

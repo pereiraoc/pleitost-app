@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useWorld, WORLD_BRAND } from '../../data/world'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
@@ -193,6 +194,17 @@ export function AppShell() {
   // Colapso da sidebar DIREITA no desktop (feedback do mestre) — vira trilho.
   const [rightCollapsed, setRightCollapsed] = useState(false)
   const location = useLocation()
+  // MUNDO ativo (#519): marca da topbar e saída da rota de herói na troca —
+  // sem isso o herói da fantasia seguia aberto (abas + avatar) no cyberpunk
+  // (report 2026-08-29).
+  const world = useWorld()
+  const mundoAnterior = useRef(world)
+  useEffect(() => {
+    if (mundoAnterior.current === world) return
+    mundoAnterior.current = world
+    if (location.pathname.startsWith('/heroi')) navigate('/', { replace: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world])
   const { pathname } = location
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -310,7 +322,7 @@ export function AppShell() {
         >
           ☰
         </button>
-        <span className="brand-badge">PE</span>
+        <span className="brand-badge">{WORLD_BRAND[world]}</span>
         <span className="topbar-title">{title}</span>
         <div className="topbar-spacer" />
         {/* #307: toggle claro/escuro saiu do topo (já está no CONFIG) — o espaço

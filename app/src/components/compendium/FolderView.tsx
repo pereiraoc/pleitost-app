@@ -1,5 +1,6 @@
 import { Fragment, useMemo, useState, type ReactNode } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
+import { useWorld } from '../../data/world'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDoc } from '../../data/useDoc'
 import { DocView } from './DocPage'
@@ -163,6 +164,7 @@ function FolderNote({
 export function FolderView() {
   const splat = useParams()['*'] ?? ''
   const catalog = useCatalog()
+  const world = useWorld()
   // #192: Modo Mestre pode alternar a lista pra visão TABELA por tipo
   const { mestre } = useSettings()
   const [tabela, setTabela] = useState(false)
@@ -176,6 +178,13 @@ export function FolderView() {
     () => (node ? node.docs.filter((d) => d.basename !== node.name) : []),
     [node],
   )
+
+  // #519: no CYBERPUNK, o Atlas abre DIRETO em Porto Alegre (a raiz prática
+  // do mundo — pedido 2026-08-29); "Fora de Porto Alegre" fica no botão do
+  // rodapé da pasta.
+  if (path === 'Atlas' && world === 'cyberpunk') {
+    return <Navigate to="/compendio/Atlas/Porto Alegre" replace />
+  }
 
   // #441: pasta SÓ do mestre (Campanhas) — jogador nem navega direto (vale pra
   // nós de nav E pastas comuns; o card/nav já some, isto barra a URL direta).
@@ -259,7 +268,7 @@ export function FolderView() {
           Compêndio/Atlas já mostra o mapa, sem card intermediário; os lugares
           do Atlas seguem listados abaixo). Traz junto as FERRAMENTAS DO MESTRE
           (regiões/habilitação por grupo) — onde antes "não se achava" o gating. */}
-      {path === 'Atlas' ? (
+      {path === 'Atlas' && world === 'fantasia' ? (
         <div style={{ marginBottom: 16 }}>
           <AtlasMapaPage />
         </div>
@@ -267,6 +276,28 @@ export function FolderView() {
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
           categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
       {useSubtree ? null : <FolderCards folders={visibleFolders(node, mestre)} />}
+      {/* #519: navegação pro resto do mundo cyberpunk, embaixo da lista de
+          bairros de Porto Alegre. */}
+      {world === 'cyberpunk' && path === 'Atlas/Porto Alegre' ? (
+        <div style={{ margin: '14px 0' }}>
+          <Link
+            to="/compendio/Atlas/Fora de Porto Alegre"
+            style={{
+              display: 'inline-block',
+              padding: '8px 16px',
+              fontFamily: 'var(--mono)',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '.08em',
+              color: 'var(--accent)',
+              border: '1px solid color-mix(in srgb,var(--accent) 45%,var(--line2))',
+              textDecoration: 'none',
+            }}
+          >
+            🌐 FORA DE PORTO ALEGRE
+          </Link>
+        </div>
+      ) : null}
       {/* #192: toggle da visão TABELA — só pro Mestre e quando há lista */}
       {mestre && docsVisiveis.length > 0 ? (
         <div style={{ margin: '10px 0' }}>

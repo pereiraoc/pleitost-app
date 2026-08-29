@@ -183,7 +183,25 @@ async function fetchCyberpunkCatalog(): Promise<Catalog> {
     /* sem assets.json no mundo — imagens caem todas na fantasia */
   }
   setWorldDataset('cyberpunk', rels)
-  const porId = new Map(base.docs.map((d) => [d.id, d]))
+  // Só o SISTEMA herda da fantasia — conteúdo de MUNDO (bestiário/heróis/
+  // grupos, organizações, contexto, pessoas, lugares, aventuras) é exclusivo
+  // do dataset do mundo (report 2026-08-29: Sociedade Aberta/Ordem Bestial e
+  // o bestiário da fantasia vazavam pro cyberpunk).
+  const TIPOS_DE_MUNDO = new Set([
+    'Criatura',
+    'Grupo',
+    'Pessoa',
+    'Organização',
+    'Contexto',
+    'Localização',
+    'Aventura',
+    'Combate',
+  ])
+  const PASTAS_DE_MUNDO = ['Atlas/', 'Contexto/', 'Campanhas/']
+  const deMundo = (d: IndexDocEntry) =>
+    (d.type != null && TIPOS_DE_MUNDO.has(d.type)) ||
+    PASTAS_DE_MUNDO.some((pfx) => d.id.startsWith(pfx))
+  const porId = new Map(base.docs.filter((d) => !deMundo(d)).map((d) => [d.id, d]))
   for (const d of mundo.docs) porId.set(d.id, d)
   const docs = [...porId.values()]
   const byType: Record<string, number> = {}

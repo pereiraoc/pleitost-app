@@ -11,6 +11,7 @@ import {
   __resetSessionStoreForTests,
 } from '../src/data/session-store'
 import { useTheme, __resetThemeForTests } from '../src/theme'
+import { useSessions } from '../src/data/session-store'
 
 function makeStorage(): Storage {
   const data = new Map<string, string>()
@@ -54,6 +55,15 @@ describe('sessões por mundo (C4)', () => {
 
     setContext('fantasia')
     expect(listSessions().map((s) => s.codigo)).toEqual([fant.codigo])
+  })
+
+  it('useSessions (snapshot da UI) também filtra pelo mundo', () => {
+    const fant = createSession('Mesa UI', null, 'GM')
+    const { result, rerender } = renderHook(() => useSessions())
+    expect(result.current.sessions.map((s) => s.codigo)).toContain(fant.codigo)
+    setContext('cyberpunk')
+    rerender()
+    expect(result.current.sessions).toHaveLength(0)
   })
 
   it('trocar de mundo DESCONECTA a sessão ativa', () => {
