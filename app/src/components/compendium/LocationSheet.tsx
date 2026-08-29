@@ -973,7 +973,15 @@ export function LocationSheet({
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
   const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
-  const img = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
+  // Report 2026-08-29 (Porto Alegre): se a imagem-hero é a MESMA do bloco
+  // leaflet, ela some — o MapaLocal logo abaixo já a mostra (com os pins);
+  // duas cópias da mesma imagem só empurravam o conteúdo. Retrato próprio
+  // (imagem distinta do mapa) continua aparecendo.
+  const heroCandidate = doc.images.find((i) => i.from === 'body') ?? doc.images[0]
+  const img =
+    heroCandidate && heroCandidate.target === doc.locationBody?.leaflet?.image
+      ? undefined
+      : heroCandidate
 
   // roda do mouse rola a fila de abas de lado (pedido 2026-08-15)
   const locTabsRef = useRef<HTMLDivElement>(null)
