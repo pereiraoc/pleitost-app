@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { AssetEntry, AssetsManifest } from './types'
+import { onWorldChange } from './world'
 import { vaultUrl } from './base-url'
 
 /** Extensões de imagem reconhecidas em embeds ![[...]]. */
@@ -100,6 +101,10 @@ export function resolveAsset(index: AssetIndex, target: string): AssetEntry | nu
 }
 
 let indexPromise: Promise<AssetIndex> | undefined
+// troca de MUNDO invalida o índice (#519 G4): o assets.json efetivo muda
+onWorldChange(() => {
+  indexPromise = undefined
+})
 
 export function fetchAssetIndex(): Promise<AssetIndex> {
   indexPromise ??= fetch(vaultUrl('assets.json'))

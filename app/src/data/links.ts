@@ -1,11 +1,16 @@
 // Grafo de wikilinks resolvidos (links.json do extractor): id → ids de saída.
 // Usado pelo avaliador dataview pra FROM [[]] (inlinks) e outgoing([[]]).
 import { vaultUrl } from './base-url'
+import { onWorldChange } from './world'
 
 
 export type LinkEdges = Record<string, string[]>
 
 let edgesPromise: Promise<LinkEdges> | undefined
+// troca de MUNDO invalida o grafo (#519 G4)
+onWorldChange(() => {
+  edgesPromise = undefined
+})
 
 export function fetchEdges(): Promise<LinkEdges> {
   edgesPromise ??= fetch(vaultUrl('links.json'))

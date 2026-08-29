@@ -4,14 +4,18 @@
 // por aqui; nenhum call site concatena base na mão. Em dev/raiz BASE_URL é '/'
 // e as URLs ficam idênticas às de antes.
 
+import { dataDirFor } from './world-dataset'
+
 /** Prefixa um caminho relativo (sem barra inicial) com a base do build. */
 export function withBase(rel: string, base: string = import.meta.env.BASE_URL): string {
   return (base.endsWith('/') ? base : `${base}/`) + rel
 }
 
-/** URL de um arquivo do vault-data (rel já com segmentos encodados). */
+/** URL de um arquivo de DADOS no mundo ativo (#519): rel presente no dataset
+ *  do mundo resolve pro diretório dele; ausente cai na FANTASIA (fallback em
+ *  camadas — vale pra docs E imagens). Fantasia = comportamento de sempre. */
 export function vaultUrl(rel: string): string {
-  return withBase(`vault-data/${rel}`)
+  return withBase(`${dataDirFor(rel)}/${rel}`)
 }
 
 /** Endpoint da persistência server-side (#84) — só existe no dev server. */

@@ -70,6 +70,11 @@ export default defineConfig({
   plugins: [
     react(),
     vaultData(path.resolve(dirname, '..', 'vault-data')),
+    // Dataset do mundo CYBERPUNK (#519) — opcional até o 1º extract:cyberpunk
+    vaultData(path.resolve(dirname, '..', 'vault-data-cyberpunk'), {
+      mount: 'vault-data-cyberpunk',
+      optional: true,
+    }),
     // Persistência server-side (#84): caminhos/fichas/personagens no disco.
     appState(path.resolve(dirname, '..', 'app-state.json')),
     spaFallback404(),
@@ -108,13 +113,14 @@ export default defineConfig({
         skipWaiting: false,
         // NUNCA precachear o conteúdo da vault (254MB) — cache em runtime,
         // doc a doc, conforme navegado
-        globIgnores: ['vault-data/**'],
+        globIgnores: ['vault-data/**', 'vault-data-cyberpunk/**'],
         navigateFallback: 'index.html',
         // /app-state e /vault-data NUNCA caem no fallback SPA nem em cache.
         // Prefixados pela `base` (#189): sob /pleitost-app/ os pathnames são
         // /pleitost-app/vault-data/... — o padrão precisa acompanhar.
         navigateFallbackDenylist: [
           new RegExp(`^${baseRe}vault-data/`),
+          new RegExp(`^${baseRe}vault-data-cyberpunk/`),
           new RegExp(`^${baseRe}app-state`),
         ],
         runtimeCaching: [
@@ -128,6 +134,16 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'vault-data',
+              expiration: { maxEntries: 2000 },
+            },
+          },
+          {
+            // dataset do mundo cyberpunk (#519) — bucket próprio: o purge por
+            // stamp de um mundo não derruba o cache do outro
+            urlPattern: ({ url }) => url.pathname.startsWith(`${base}vault-data-cyberpunk/`),
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'vault-data-cyberpunk',
               expiration: { maxEntries: 2000 },
             },
           },

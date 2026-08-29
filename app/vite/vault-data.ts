@@ -53,12 +53,17 @@ function serveVaultData(root: string) {
   }
 }
 
-export function vaultData(root: string): Plugin {
+export function vaultData(
+  root: string,
+  opts: { mount?: string; optional?: boolean } = {},
+): Plugin {
+  const mount = opts.mount ?? 'vault-data'
+  const optional = opts.optional ?? false
   let outDir = ''
   let isBuild = false
 
   return {
-    name: 'pleitost:vault-data',
+    name: `pleitost:${mount}`,
 
     configResolved(config) {
       outDir = path.resolve(config.root, config.build.outDir)
@@ -72,25 +77,31 @@ export function vaultData(root: string): Plugin {
           `[vault-data] ${root} não existe — rode \`npm run extract\` na raiz do repo`,
         )
       }
-      server.middlewares.use('/vault-data', serveVaultData(root))
+      server.middlewares.use(`/${mount}`, serveVaultData(root))
     },
 
     // PREVIEW (build servido): o estático do sirv NÃO serve nomes com vírgula
     // (%2C) — usa o mesmo middleware do dev, que decodifica e lê o arquivo.
     configurePreviewServer(server) {
-      server.middlewares.use('/vault-data', serveVaultData(root))
+      server.middlewares.use(`/${mount}`, serveVaultData(root))
     },
 
     closeBundle() {
       if (!isBuild) return
       if (!fs.existsSync(path.join(root, 'index.json'))) {
+        // dataset OPCIONAL (#519: vault-data-cyberpunk antes do 1º extract):
+        // build segue sem ele — o app cai no fallback fantasia com banner
+        if (optional) {
+          console.log(`[${mount}] ${root} ausente — build segue sem o dataset`)
+          return
+        }
         throw new Error(
-          `[vault-data] ${root} sem index.json — rode \`npm run extract\` antes do build`,
+          `[${mount}] ${root} sem index.json — rode \`npm run extract\` antes do build`,
         )
       }
-      const dest = path.join(outDir, 'vault-data')
+      const dest = path.join(outDir, mount)
       fs.cpSync(root, dest, { recursive: true })
-      console.log(`[vault-data] copiado para ${dest}`)
+      console.log(`[${mount}] copiado para ${dest}`)
     },
   }
 }

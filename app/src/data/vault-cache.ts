@@ -6,23 +6,31 @@
 // buscado DIRETO na rede (no-store); mudou desde a última visita → purga o
 // cache 'vault-data' inteiro, e a MESMA visita já lê a database nova.
 // Offline/erro de rede → mantém o cache (offline-first intacto).
-import { vaultUrl } from './base-url'
+import { withBase } from './base-url'
+import { WORLD_DATA_DIR, type WorldId } from './world'
 
 const DB_VERSION_KEY = 'pleitost.dbVersionVista'
 
-export async function ensureFreshVaultData(): Promise<void> {
+/** Stamp/purge POR MUNDO (#519 G2): cada dataset tem seu db-version e seu
+ *  bucket de cache no SW — deploy de um mundo não derruba o cache do outro.
+ *  Fantasia usa chave/bucket legados (sem sufixo). URL explícita do diretório
+ *  (não passa pelo vaultUrl ambiente: o registro do dataset ainda não
+ *  carregou neste ponto do boot). */
+export async function ensureFreshVaultData(world: WorldId = 'fantasia'): Promise<void> {
+  const dir = WORLD_DATA_DIR[world]
+  const stampKey = world === 'fantasia' ? DB_VERSION_KEY : `${DB_VERSION_KEY}.${world}`
   try {
-    const res = await fetch(vaultUrl('db-version.json'), { cache: 'no-store' })
+    const res = await fetch(withBase(`${dir}/db-version.json`), { cache: 'no-store' })
     if (!res.ok) return
     const stamp = (await res.json()) as { extractedAt?: unknown }
     const atual = typeof stamp.extractedAt === 'string' ? stamp.extractedAt : ''
     if (!atual) return
     const ls = typeof window !== 'undefined' ? window.localStorage : undefined
-    if (ls?.getItem(DB_VERSION_KEY) === atual) return
+    if (ls?.getItem(stampKey) === atual) return
     if (typeof caches !== 'undefined') {
-      await caches.delete('vault-data').catch(() => {})
+      await caches.delete(dir).catch(() => {})
     }
-    ls?.setItem(DB_VERSION_KEY, atual)
+    ls?.setItem(stampKey, atual)
   } catch {
     /* rede fora — o cache atual segue valendo */
   }
