@@ -709,30 +709,71 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-/* linha do tempo do Contexto (notas com FM `Data`, ex.: Passado da POA) */
+/* linha do tempo do Contexto (notas com FM `Data`, ex.: Passado da POA):
+   linha vertical contínua + uma bolinha por data (pedido 2026-08-29) */
 .ctx-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 0.75rem;
+  position: relative;
+  margin-top: 1rem;
   max-width: 46rem;
 }
 
+.ctx-timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(
+    color-mix(in srgb, var(--accent) 55%, var(--line2)),
+    var(--line2)
+  );
+}
+
 .ctx-tl-item {
-  border-left: 2px solid color-mix(in srgb, var(--accent) 55%, var(--line2));
-  padding-left: 1rem;
+  position: relative;
+  padding-left: 28px;
+}
+
+.ctx-tl-item + .ctx-tl-item {
+  margin-top: 1.75rem;
+}
+
+/* a bolinha: centrada na linha (x=6), com anel do painel + brilho do accent */
+.ctx-tl-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.25em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--panel);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent),
+    0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .ctx-tl-date {
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--accent);
 }
 
 .ctx-tl-title {
-  margin: 0.15rem 0 0.35rem;
+  margin: 0.1rem 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.ctx-tl-body {
+  font-size: 0.95rem;
+}
+
+.ctx-tl-body > :first-child {
+  margin-top: 0;
 }
 
 /* Botões GRANDES de seção do compêndio (#244) — mesma linguagem do type-card,

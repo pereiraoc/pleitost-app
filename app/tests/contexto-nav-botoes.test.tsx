@@ -100,16 +100,52 @@ describe('seção com notas (Tecnologia e Conectividade)', () => {
   })
 })
 
-describe('Passado — linha do tempo', () => {
+describe('Contexto Histórico (Passado da POA) — linha do tempo', () => {
+  it('estrutura de linha+bolinhas, sem o template da vault vazando', async () => {
+    const { container } = renderFolder('Contexto/Histórias/Contexto Histórico')
+    await waitFor(() => {
+      expect(screen.getByText('01/04/1964')).toBeTruthy()
+    })
+    // uma bolinha (item) por nota da pasta
+    const itens = container.querySelectorAll('.ctx-tl-item')
+    expect(itens.length).toBe(10)
+    expect(container.querySelector('.ctx-timeline')).toBeTruthy()
+    // o CALLOUT-TEMPLATE das notas ("Contexto Histórico: …/📅Data/ℹ️Descrição")
+    // não vaza — a data/título já são o frame da entrada
+    expect(container.textContent).not.toContain('Descrição:')
+    expect(container.textContent).not.toContain('Contexto Histórico:')
+    expect(container.textContent).not.toContain('this.file.name')
+    // a tag #Contexto da vault não vira heading "Contexto" repetido
+    const headingsContexto = [...container.querySelectorAll('h1,h2,h3')].filter(
+      (h) => h.textContent?.trim() === 'Contexto',
+    )
+    expect(headingsContexto.length).toBe(0)
+  })
+
+  it('nota só-template mostra a Descrição do FM como acontecimento', async () => {
+    renderFolder('Contexto/Histórias/Contexto Histórico')
+    // PIRA: corpo é só o template; a prosa vive no FM Descrição
+    await waitFor(() => {
+      expect(screen.getByText(/Programa com grande adesão promete 10 anos/)).toBeTruthy()
+    })
+    // Descoberta de Selênica TEM prosa real no corpo — é ela que aparece
+    expect(screen.getByText(/Descoberta do ET morto na Lua/)).toBeTruthy()
+  })
+
+  it('ícone do Contexto Histórico na navegação é SVG do registro, não emoji', async () => {
+    const { navIconPath } = await import('../src/components/compendium/compendio-registry')
+    expect(navIconPath('Contexto/Histórias/Contexto Histórico')).toBeTruthy()
+  })
+
   it('mostra datas, conteúdo inline e ordena por Data', async () => {
-    const { container } = renderFolder('Contexto/Histórias/Passado')
+    const { container } = renderFolder('Contexto/Histórias/Contexto Histórico')
     // datas do FM visíveis (Instauração da Ditadura 1964-04-01, AI-5 1968-12-13)
     await waitFor(() => {
       expect(screen.getByText('01/04/1964')).toBeTruthy()
     })
     expect(screen.getByText('13/12/1968')).toBeTruthy()
     // conteúdo da nota INLINE (prosa do corpo, não só o título)
-    const selenica = readDoc('Contexto/Histórias/Passado/Descoberta de Selênica')
+    const selenica = readDoc('Contexto/Histórias/Contexto Histórico/Descoberta de Selênica')
     expect(selenica.body.length).toBeGreaterThan(0)
     // um trecho de texto do corpo aparece na página
     const trecho = /Selênica|selênic/i

@@ -167,7 +167,7 @@ export function FolderView() {
   const catalog = useCatalog()
   const world = useWorld()
   // #192: Modo Mestre pode alternar a lista pra visão TABELA por tipo
-  const { mestre, desenvolvedor } = useSettings()
+  const { mestre } = useSettings()
   const [tabela, setTabela] = useState(false)
   // #248: entidades locais (aventuras criadas no app) reagem ao store local.
   const localVersion = useLocalStoreVersion()
@@ -185,21 +185,6 @@ export function FolderView() {
   // rodapé da pasta.
   if (path === 'Atlas' && world === 'cyberpunk') {
     return <Navigate to="/compendio/Atlas/Porto Alegre" replace />
-  }
-
-  // #519: Campanhas do cyberpunk só em modo DESENVOLVEDOR (pedido
-  // 2026-08-29) — a nav já esconde; isto barra a URL direta.
-  if (
-    world === 'cyberpunk' &&
-    (path === 'Contexto/Campanhas' || path.startsWith('Contexto/Campanhas/')) &&
-    !desenvolvedor
-  ) {
-    return (
-      <section className="page">
-        <div className="kicker">{COMPENDIO_KICKER}</div>
-        <p>Pasta não encontrada: {path}</p>
-      </section>
-    )
   }
 
   // #441: pasta SÓ do mestre (Campanhas) — jogador nem navega direto (vale pra
