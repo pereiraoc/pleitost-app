@@ -46,15 +46,20 @@ export function visibleFolders(node: FolderNode, mestre = true): FolderNode[] {
 }
 
 /** Contagem exibida: subárvore menos os docs em pastas ocultas (as exceções
- *  visíveis dentro delas contam). */
+ *  visíveis dentro delas contam) e menos as FOLDER-NOTES de cada nível — a
+ *  nota-índice homônima é a página da pasta, não um item (report 2026-08-29:
+ *  os cards contavam o índice junto, "em vários casos"). Mesma régua da
+ *  listagem/subtreeDocs. */
 export function visibleCount(node: FolderNode): number {
-  let hiddenDocs = 0
+  let count = 0
   const walk = (n: FolderNode) => {
-    if (isHidden(n.path)) hiddenDocs += n.docs.length
+    if (!isHidden(n.path)) {
+      for (const d of n.docs) if (d.basename !== n.name) count++
+    }
     for (const f of n.folders) walk(f)
   }
   walk(node)
-  return node.count - hiddenDocs
+  return count
 }
 
 /** Seções de topo do compêndio, na ordem do registro. */

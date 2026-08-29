@@ -15,6 +15,7 @@ import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
 import { stripComments } from './strip-comments'
 import { stripPrintArtifacts } from './strip-print-artifacts'
+import { stripContextoOculto } from './strip-oculto'
 import { truncarCorpoEmDesenvolvimento } from './em-desenvolvimento'
 import { stripLeadingTitle } from './strip-leading-title'
 import {
@@ -43,7 +44,7 @@ export function MarkdownBody({
   heroTarget?: string
 }) {
   const catalog = useCatalog()
-  const { linkIcons } = useSettings()
+  const { linkIcons, mestre } = useSettings()
   const body = useMemo(() => {
     // Traços Elementais em desenvolvimento: corta o corpo na barra horizontal
     // (ver em-desenvolvimento.ts — temporário).
@@ -51,11 +52,14 @@ export function MarkdownBody({
       doc,
       stripPrintArtifacts(stripComments(doc.body)),
     )
-    const titled = hideLeadingTitle ? stripLeadingTitle(stripped, doc.basename ?? '') : stripped
+    // Seção "Contexto Oculto" (segredo de campanha, convenção da vault) só
+    // aparece em Modo Mestre — report 2026-08-29.
+    const publico = mestre ? stripped : stripContextoOculto(stripped)
+    const titled = hideLeadingTitle ? stripLeadingTitle(publico, doc.basename ?? '') : publico
     // #275: colapsa a `#subpath` das transclusões de nota ANTES do parse (senão
     // o inline code da seção fragmenta o embed e nada casa).
     return normalizeNoteEmbeds(titled)
-  }, [doc.body, doc.basename, hideLeadingTitle])
+  }, [doc.body, doc.basename, hideLeadingTitle, mestre])
 
   const plugins = useMemo(
     () => [
