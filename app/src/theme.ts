@@ -7,8 +7,9 @@
 //     do tema).
 //
 // Paletas em styles/theme.css: [data-theme='X'][data-mode='Y']. Estado de módulo
-// via useSyncExternalStore; persiste em `pleitost.theme` (sincroniza por conta
-// via remote-persist #239); migra shapes antigos.
+// via useSyncExternalStore; persiste em `pleitost.theme` — POR DEVICE
+// (DEVICE_LOCAL no remote-persist: preferência de aparência/MUNDO não viaja
+// entre devices; #519 G1); migra shapes antigos.
 import { useSyncExternalStore } from 'react'
 
 export type ThemeName = 'aco-solar' | 'ferro-frio' | 'safira' | 'rubi' | 'ambar' | 'esmeralda'
@@ -249,6 +250,11 @@ export function useTheme() {
 /** Snapshot não-reativo (para módulos fora de React). */
 export function getThemeSnapshot(): ThemeState {
   return getTheme()
+}
+
+/** Subscribe não-React (módulos como data/world.ts observarem mudanças). */
+export function subscribeTheme(cb: () => void): () => void {
+  return subscribe(cb)
 }
 
 /** SÓ testes: zera o cache em memória e limpa overrides do DOM. */
