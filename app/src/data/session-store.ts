@@ -216,10 +216,26 @@ function parseActiveCode(raw: string | null): string | null {
   return raw
 }
 
-export function getActiveSessionCode(): string | null {
+/** Ponteiro CRU da sessão ativa (sem validação de mundo) — uso interno do
+ *  clear de troca de mundo, que precisa ver o valor mesmo quando a leitura
+ *  filtrada diz null. */
+function rawActiveCode(): string | null {
   if (activeCache !== undefined) return activeCache
   activeCache = parseActiveCode(storage()?.getItem(ACTIVE_KEY) ?? null)
   return activeCache
+}
+
+export function getActiveSessionCode(): string | null {
+  const code = rawActiveCode()
+  if (!code) return null
+  // Report 2026-08-29 (#519): o ponteiro é espelhado no servidor e pode chegar
+  // de outro device apontando pra sessão de OUTRO MUNDO sem evento de troca
+  // (boot/pull do sync). Sessão conhecida de mundo diferente lê como
+  // desconectado; sessão desconhecida localmente segue o fluxo normal (o
+  // useSessions já a trata como ausente).
+  const rec = getSession(code)
+  if (rec && (rec.world ?? 'fantasia') !== activeWorld()) return null
+  return code
 }
 
 export function setActiveSessionCode(codigo: string | null): void {
@@ -285,7 +301,9 @@ export function __resetSessionStoreForTests(): void {
 }
 
 // Trocar de MUNDO desconecta a sessão ativa naturalmente (#519 C4 — pedido
-// explícito): a mesa pertence ao mundo em que foi criada.
+// explícito): a mesa pertence ao mundo em que foi criada. Decide pelo ponteiro
+// CRU — a leitura filtrada já diz null depois da troca, mas o raw precisa ser
+// apagado (senão voltar ao mundo antigo reconectaria sozinho).
 onWorldChange(() => {
-  if (getActiveSessionCode() !== null) setActiveSessionCode(null)
+  if (rawActiveCode() !== null) setActiveSessionCode(null)
 })

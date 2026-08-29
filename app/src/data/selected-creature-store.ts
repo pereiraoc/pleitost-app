@@ -7,51 +7,75 @@
 // é durável (espelhada no servidor pelo #84).
 import { useSyncExternalStore } from 'react'
 import { createStoreChannel } from './store-kit'
-import { onWorldChange } from './world'
+import { activeWorld, onWorldChange, type WorldId } from './world'
 
 const KEY = 'pleitost.selectedCreature'
 
-// undefined = ainda não hidratado; null = ninguém selecionado; string = id.
-let memory: string | null | undefined
+interface Selecao {
+  id: string
+  /** MUNDO em que a seleção foi feita (#519). Ausente no blob = legado =
+   *  fantasia. A LEITURA filtra pelo mundo ativo — o blob é espelhado no
+   *  servidor (#84) e pode chegar de outro device/mundo sem evento algum
+   *  (report 2026-08-29: boot no poa1987 com o Carlos da fantasia ativo). */
+  world: WorldId
+}
+
+// undefined = ainda não hidratado; null = ninguém selecionado.
+let memory: Selecao | null | undefined
 const channel = createStoreChannel()
-// Trocar de MUNDO limpa a seleção (#519/#520 follow-up): o personagem da
-// fantasia seguia "ativo" (topbar/abas) dentro do cyberpunk mesmo fora das
-// listas — mundo novo começa sem seleção.
+// Trocar de MUNDO AO VIVO limpa a seleção (#519/#520 follow-up — decisão
+// explícita: mundo novo começa sem seleção; não restaura ao voltar). O emit é
+// incondicional: mesmo quando a leitura filtrada já era null, os consumidores
+// precisam re-ler (o valor visível pode ter mudado com o mundo).
 onWorldChange(() => {
-  setSelectedCreature(null)
+  memory = null
+  try {
+    storage()?.removeItem(KEY)
+  } catch {
+    /* noop */
+  }
+  channel.emit()
 })
 
 function storage(): Storage | null {
   return typeof window !== 'undefined' && window.localStorage ? window.localStorage : null
 }
 
-function hydrate(): string | null {
+function hydrate(): Selecao | null {
   if (memory !== undefined) return memory
-  let id: string | null = null
+  let sel: Selecao | null = null
   try {
     const raw = storage()?.getItem(KEY)
     if (raw) {
-      const parsed = JSON.parse(raw) as { id?: unknown }
-      if (parsed && typeof parsed.id === 'string' && parsed.id) id = parsed.id
+      const parsed = JSON.parse(raw) as { id?: unknown; world?: unknown }
+      if (parsed && typeof parsed.id === 'string' && parsed.id) {
+        sel = {
+          id: parsed.id,
+          world: parsed.world === 'cyberpunk' ? 'cyberpunk' : 'fantasia',
+        }
+      }
     }
   } catch {
     /* sem storage → memória */
   }
-  memory = id
-  return id
+  memory = sel
+  return sel
 }
 
-/** Id do herói/NPC selecionado, ou null. */
+/** Id do herói/NPC selecionado NO MUNDO ATIVO, ou null. Seleção carimbada de
+ *  outro mundo lê como null (o raw fica intacto — pode ter vindo do sync). */
 export function getSelectedCreature(): string | null {
-  return hydrate()
+  const sel = hydrate()
+  return sel && sel.world === activeWorld() ? sel.id : null
 }
 
-/** Define (ou limpa, com null) o personagem selecionado. */
+/** Define (ou limpa, com null) o personagem selecionado — carimbado com o
+ *  mundo ativo. */
 export function setSelectedCreature(id: string | null): void {
-  if (hydrate() === id) return
-  memory = id
+  if (getSelectedCreature() === id && (id !== null || hydrate() === null)) return
+  memory = id ? { id, world: activeWorld() } : null
   try {
-    if (id) storage()?.setItem(KEY, JSON.stringify({ id }))
+    if (id) storage()?.setItem(KEY, JSON.stringify({ id, world: activeWorld() }))
     else storage()?.removeItem(KEY)
   } catch {
     /* noop */
