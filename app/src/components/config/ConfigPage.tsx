@@ -761,12 +761,110 @@ function DatabaseLine() {
   )
 }
 
+/** SHA-256 (hex) da senha do modo desenvolvedor (#519 C6). GATE DE UI: as
+ *  escritas publicadas (doc_overlays) continuam atrás do auth Supabase — a
+ *  senha só esconde as afordâncias de edição de quem não é editor. */
+const DEV_SENHA_SHA256 = 'eb43409811a48b57e7ece1e3e0e95b3c1f17c8f1d797e7a26be3c05fd53b781a'
+
+async function sha256Hex(texto: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto))
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+function DevModeSection({
+  desenvolvedor,
+  setDesenvolvedor,
+}: {
+  desenvolvedor: boolean
+  setDesenvolvedor: (v: boolean) => void
+}) {
+  const [senha, setSenha] = useState('')
+  const [erro, setErro] = useState(false)
+  const ativar = async () => {
+    try {
+      if ((await sha256Hex(senha)) === DEV_SENHA_SHA256) {
+        setDesenvolvedor(true)
+        setSenha('')
+        setErro(false)
+      } else setErro(true)
+    } catch {
+      setErro(true)
+    }
+  }
+  if (desenvolvedor) {
+    return (
+      <ConfigRow ic="🛠️" label="MODO DESENVOLVEDOR">
+        <button
+          onClick={() => setDesenvolvedor(false)}
+          style={{
+            padding: '7px 14px',
+            background: 'transparent',
+            border: '1px solid var(--line2)',
+            color: 'var(--red)',
+            cursor: 'pointer',
+            fontSize: 12.5,
+          }}
+        >
+          DESATIVAR
+        </button>
+      </ConfigRow>
+    )
+  }
+  return (
+    <ConfigRow ic="🛠️" label="MODO DESENVOLVEDOR">
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+        <input
+          type="password"
+          aria-label="Senha do modo desenvolvedor"
+          value={senha}
+          onChange={(e) => {
+            setSenha(e.target.value)
+            setErro(false)
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') void ativar()
+          }}
+          placeholder="senha"
+          style={{
+            padding: '7px 10px',
+            background: 'var(--card)',
+            border: `1px solid ${erro ? 'var(--red)' : 'var(--line2)'}`,
+            color: 'var(--text)',
+            fontSize: 12.5,
+            width: 140,
+          }}
+        />
+        <button
+          onClick={() => void ativar()}
+          disabled={!senha}
+          style={{
+            padding: '7px 14px',
+            background: 'transparent',
+            border: '1px solid var(--line2)',
+            color: senha ? 'var(--accent)' : 'var(--muted)',
+            cursor: senha ? 'pointer' : 'not-allowed',
+            fontSize: 12.5,
+          }}
+        >
+          ATIVAR
+        </button>
+        {erro ? (
+          <span role="alert" style={{ fontSize: 11.5, color: 'var(--red)' }}>
+            senha incorreta
+          </span>
+        ) : null}
+      </div>
+    </ConfigRow>
+  )
+}
+
 export function ConfigPage() {
   const { theme, mode, context, setTheme, setMode, setContext } = useTheme()
   const {
     mestre,
     setMestre,
     desenvolvedor,
+    setDesenvolvedor,
     linkIcons,
     setLinkIcons,
     clickDetalhes,
@@ -888,8 +986,10 @@ export function ConfigPage() {
           <div style={configNoteStyle}>
             Detalhes faz a nota completa abrir na barra lateral de detalhes.
           </div>
-          {/* Modo Dev (#252): sem toggle de ativação por ora (liga via
-              localStorage); quando ligado, expõe Publicar/Exportar. */}
+          {/* Modo Dev (#252/#519 C6): ativação por SENHA — o hash embutido é
+              só gate de UI; as escritas publicadas continuam atrás do auth
+              Supabase. Ativo, o usuário pode desativar quando quiser. */}
+          <DevModeSection desenvolvedor={desenvolvedor} setDesenvolvedor={setDesenvolvedor} />
           {desenvolvedor ? <DevPublishPanel /> : null}
         </>
       ) : mestre ? (
