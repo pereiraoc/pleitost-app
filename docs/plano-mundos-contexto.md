@@ -1,11 +1,12 @@
-# Mundos por Contexto (Fantasia | Cyberpunk POA 1987) — infraestrutura
+# Mundos por Contexto (Fantasia | Cyberpunk POA 1987) — plano de implementação v3
 
-> Pedido (2026-08-27): o CONTEXTO do config deixa de ser só vibe/fontes e vira
-> um **mundo completo** — sessões, heróis, conteúdo, imagens e mapa próprios.
-> Trocar contexto ≈ entrar em outra versão do app; sessão ativa desconecta.
-> Cenário cyberpunk: **Porto Alegre 1987** (vault `/data/vaults/POA 1987/`).
-> Decisões do usuário: cyberpunk ANTES do conteúdo = funcional com catálogo
-> vazio/banner; **imagem sem versão cyberpunk cai na da fantasia**.
+> Pedido (2026-08-27/28): o CONTEXTO do config vira um MUNDO completo —
+> sessões, heróis, conteúdo, imagens e mapa próprios; trocar contexto
+> desconecta a sessão ativa. Cenário: **Porto Alegre 1987**
+> (`/data/vaults/POA 1987/`). A vault POA vira **fork git do pleitost-vault**
+> pra puxar updates da fantasia e evoluir separada.
+> Decisões já tomadas: cyberpunk pré-dataset = funcional (fallback + banner);
+> imagem sem versão cyberpunk usa a da fantasia.
 
 ## 1. Princípio
 
@@ -13,97 +14,101 @@
 
 ```
 conteúdo efetivo (cyberpunk) =
-  dataset cyberpunk (só o que é REALMENTE diferente: Atlas/Contexto/imagens)
-  ⊕ fallback fantasia (tudo que o cyberpunk não redefine — inclusive imagens)
-  ⊕ overrides do mundo (renomes/desabilitações/re-descrições, editados no
-    modo dev e publicados via a infra de overlay JÁ EXISTENTE do #243)
+  vault-data-cyberpunk/ (extract completo da vault POA 1987)
+  ⊕ fallback fantasia por rel (doc/imagem ausente no dataset do mundo)
+  ⊕ overrides publicados do mundo (ajuste fino via overlay #243, opcional)
 ```
 
-Cada superfície consulta o mundo num único ponto de costura; conteúdo novo
-entra como dados, nunca como código.
+Cada superfície consulta o mundo num ponto de costura único; conteúdo entra
+como dados. `world.ts` + `world-dataset.ts` (já rascunhados): `WorldId`,
+`activeWorld()`/`useWorld()` derivados de `theme.context`, `onWorldChange()`,
+e o registro de rels do dataset do mundo que o `vaultUrl` consulta.
 
-- `world.ts` (novo): `WorldId = 'fantasia' | 'cyberpunk'`; `activeWorld()` /
-  `useWorld()` derivados de `theme.context`; `onWorldChange(cb)`.
-- Fantasia = default e formato legado (dado sem marca de mundo = fantasia).
+## 2. F0 — Fork git da vault POA 1987 (pré-requisito de tudo)
 
-## 2. Organização das VAULTS (proposta)
+A pleitost é git (remote `sfynz/pleitost.git`, .git 591MB). A POA não tem git.
+**Fork com HISTÓRIA COMPARTILHADA** (merge 3-way real ao puxar updates):
 
-**Duas vaults, cada uma coerente pro Obsidian; o app funde por fallback:**
+1. `git clone /data/vaults/pleitost <tmp>` (local, hardlinks — barato).
+2. No clone: remote `upstream` → `https://github.com/sfynz/pleitost.git`
+   (origin fica pro repo próprio da POA quando existir).
+3. Substituir o working tree pelo conteúdo ATUAL da POA 1987 (rm tracked +
+   copiar; preservar o `.obsidian/` da POA — os itens sensíveis já estão no
+   .gitignore herdado) e commit único `fork: Porto Alegre 1987`.
+4. Trocar os diretórios: `/data/vaults/POA 1987` passa a ser o clone.
+5. Update flow: `git fetch upstream && git merge upstream/main` — mudanças da
+   fantasia em `Sistema/` entram de graça onde a POA não divergiu; onde os
+   DOIS mexeram (classe renomeada etc.) dá conflito — que é a semântica certa
+   (decisão humana). Atlas/Contexto/heróis da fantasia foram deletados no fork
+   → updates deles chegam como modify/delete, resolve-se com `git rm` (ruído
+   conhecido, documentado no README do fork).
 
-1. **pleitost (atual)** — intocada, segue 100% fantasia. Nenhuma pasta
-   cyberpunk dentro dela: colidiria basenames de wikilink (classes renomeadas),
-   sujaria os dataviews/QuickAdd e arriscaria o plugin.
-2. **POA 1987** — vira a fonte SÓ de **Atlas + Contexto + mídia curada** do
-   cyberpunk. O `Sistema/` antigo (953 md, sistema defasado) fica FORA do
-   extract (ignore list) — não é migrado nem apagado; o Obsidian da vault segue
-   funcionando como está.
-3. **Sistema cyberpunk NÃO vive em vault nenhuma por ora**: deriva do sistema
-   fantasia via OVERRIDES por mundo (renomear/desabilitar/re-descrever armas,
-   equipamentos, tesouros, consumíveis, classes…) editados no app em modo dev
-   e publicados no Supabase. Quando/SE o cyberpunk ganhar notas de sistema
-   próprias na vault, elas entram no dataset e vencem o fallback — o formato já
-   está pronto.
+Por que história compartilhada e não repo novo: o Sistema da POA é CÓPIA
+byte-idêntica do da pleitost de hoje (verificado) — o merge-base perfeito.
+Sem isso, todo update da fantasia seria copy-paste manual.
 
-Compatibilidade verificada: as notas de Atlas da POA 1987 usam as MESMAS
-convenções (categoria: Localização, subcategoria, cadeia `Geolocalização`) —
-o extractor e os leitores do app (naturalidade, Atlas, mapa) funcionam nelas
-sem mudança. A raiz prática do mundo é **Porto Alegre** (equivalente ao Mundo
-Livre): árvore de bairros (Restinga, Centro Histórico, Delta Radioativo, …) e
-mapa próprio `Mapa de Porto Alegre RPG.png` (a nota de Porto Alegre já tem até
-o bloco leaflet com bounds).
+**Renomes de classes** (Compiladão.md §Classes: Sabotador, Hacker, Ressonante,
+Nóia, Pirata, Agente, Estrategista, Guerrilheiro, Meliante, Artista Marcial —
+10 pra 10): fazer NA VAULT via Obsidian (rename propaga wikilinks) DEPOIS do
+fork (git dá rede de segurança). Falta o usuário definir o MAPEAMENTO
+fantasia→cyberpunk de cada classe.
 
-**Extract:** `npm run extract` ganha o alvo cyberpunk →
-`vault-data-cyberpunk/` (mesmo formato), varrendo SÓ Atlas/Contexto/imagens
-curadas da POA 1987.
-
-## 3. As superfícies e o ponto de costura de cada uma
+## 3. As superfícies e o ponto de costura
 
 | Superfície | Costura |
 |---|---|
-| **Conteúdo/catálogo** | `vaultUrl()` resolve pelo mundo com FALLBACK: cyberpunk tenta `vault-data-cyberpunk/`, cai em `vault-data/` no miss (vale pra docs E imagens — decisão do usuário). `CatalogProvider` remonta na troca; manifest cyberpunk = união (Atlas/Contexto próprios + sistema fantasia herdado). |
-| **Overrides por mundo** | Reusa `doc_overlays`/overlay do #243 com escopo de mundo: patch ganha `world`; jogador no cyberpunk lê base(fallback) ⊕ overlay publicado do mundo. `disabled: true` no patch → o catálogo/listas filtram o doc. Editor de overrides (renomear/desabilitar/re-descrever) = os editores F9 já existentes + campo de mundo + toggle de desabilitar, visíveis SÓ em modo dev. |
-| **Heróis locais** | `StoredEntity.world` (ausente = fantasia); criação grava o mundo ativo; listagem filtra. |
-| **Sessões** | `sessions.state.world` na criação; listagem/entrada filtram; trocar contexto limpa `pleitost.sessaoAtiva` (desconecta). |
-| **Mapa** | chaves `pleitost.hexMap.<world>.*` (legado = fantasia); mapa cyberpunk = Porto Alegre (imagem + lugares do Atlas POA). |
-| **Imagens** | resolvem pelo dataset do mundo com fallback fantasia (mesma costura do vaultUrl). |
+| **Conteúdo/catálogo** | `vaultUrl(rel)` consulta o registro do dataset do mundo: rel presente → `vault-data-cyberpunk/`; ausente → `vault-data/` (fallback, vale pra docs E imagens). `CatalogProvider` carrega o manifest do mundo (união com fantasia) e REMONTA na troca (`key={world}`); dataset ausente → catálogo fantasia + banner "dataset em preparação". |
+| **Heróis locais** | `StoredEntity.world` (ausente = fantasia); criação grava o mundo ativo; listagens filtram. |
+| **Sessões** | `sessions.state.world` na criação; listagem/entrada filtram; `onWorldChange` limpa `pleitost.sessaoAtiva` + unsubscribe dos channels realtime. |
+| **Mapa** | chaves `pleitost.hexMap.<world>.*` (legado = fantasia); mapa cyberpunk = `Mapa de Porto Alegre RPG.png` + Atlas POA (leitores de raiz já são genéricos — verificado). |
+| **Imagens** | mesmo registro do vaultUrl (fallback fantasia — decisão do usuário). |
+| **Overrides (opcional)** | `doc_overlays` ganha escopo `world` (registros antigos = fantasia); `disabled` filtra do catálogo; editor só em modo dev. |
+| **Modo dev** | já existe (#243); falta ativação por SENHA no Config (hash client-side = gate de UI; segurança real = auth Supabase nas escritas) + editor de overrides. |
 
-## 4. Modo desenvolvedor (estado real + o que falta)
+## 4. Gaps encontrados na revisão (e tratamento)
 
-**Já implementado (épico #243 F8/F9, fechado):** flag
-`pleitost.settings.desenvolvedor` (settings.ts), overlay em 3 camadas no
-choke-point `loadDoc` (base ⊕ publicado ⊕ rascunho local), editores de
-doc/regras com validação viva, Publicar → Supabase `doc_overlays`, export
-round-trip pro Obsidian. **Sem UI de ativação** (decisão da época).
+- **G1 · Sincronização do contexto entre devices**: `pleitost.theme` sincroniza
+  por conta — trocar de mundo no celular trocaria no desktop e DESCONECTARIA a
+  sessão de lá. Proposta: **`context` vira local-do-device** (sai do payload
+  sincado do tema; os outros eixos seguem sincando). PRECISA DE DECISÃO.
+- **G2 · Service worker/cache**: bucket único 'vault-data' + stamp
+  `db-version.json`. Tratar: regra de runtime-caching pro
+  `vault-data-cyberpunk/*` + stamp por mundo (`pleitost.dbVersionVista.<world>`)
+  + purge por mundo.
+- **G3 · Deploy**: `scripts/deploy-pages.sh` trata vault-data especialmente —
+  incluir `vault-data-cyberpunk/` no mesmo tratamento.
+- **G4 · Caches de módulo** (assets.ts indexPromise, links.ts edgesPromise):
+  resetar em `onWorldChange` (ou keyar por mundo).
+- **G5 · Plugin na POA**: pro Obsidian da POA editar fichas, o autosheet
+  precisa estar na `.obsidian` de lá (passo manual do usuário; symlink de
+  node_modules NUNCA — regra da casa).
+- **G6 · extract:cyberpunk**: envs já existem (`PLEITOST_VAULT_ROOT`,
+  `PLEITOST_EXTRACT_OUT`, `PLEITOST_PLUGIN_ROOT`→pleitost); path com espaço →
+  script quoted.
+- **G7 · Testes**: default fantasia; suíte atual roda inalterada (world só
+  muda por opt-in do teste). Invariante final: fluxo fantasia byte-idêntico.
 
-**Falta (este plano):**
-- **Ativação por SENHA** no Config: campo de senha → confere hash → liga a
-  flag; usuário pode desligar depois (a flag persiste por conta como as demais
-  settings). Verificação client-side por hash embutido (gate de UI; as
-  ESCRITAS publicadas continuam atrás do auth Supabase — a senha não é a
-  fronteira de segurança, o auth é).
-- **Editor de overrides por mundo** (renomear/desabilitar/re-descrever itens
-  por contexto) montado sobre os editores existentes, habilitado só em modo
-  dev.
-
-## 5. Commits sequenciais
+## 5. Fases de implementação (cada uma shippável, fantasia sempre verde)
 
 | # | Entrega |
 |---|---|
-| C1 | `world.ts` + testes (derivação, default, onWorldChange) |
-| C2 | `vaultUrl`/CatalogProvider por mundo com FALLBACK fantasia (docs+imagens); cyberpunk sem dataset = funcional com banner |
+| F0 | Fork git da POA 1987 (história compartilhada + upstream) + README do update-flow |
+| C1 | `world.ts`/`world-dataset.ts` + testes (já rascunhados) |
+| C2 | `vaultUrl` via registro + CatalogProvider por mundo (união/fallback/banner) + reset de caches de módulo (G4) + SW/stamp por mundo (G2) |
 | C3 | `StoredEntity.world` + criação/listagem filtradas |
-| C4 | Sessões: world na criação, filtro, desconexão na troca |
-| C5 | hexMap por mundo + fallback legado; mapa cyberpunk = Porto Alegre quando o dataset chegar |
-| C6 | Modo dev: ativação por senha no Config (liga/desliga) |
-| C7 | Overrides por mundo: escopo world no overlay + `disabled` filtrando catálogo + editor em modo dev |
-| C8 | Extract da POA 1987 (Atlas/Contexto/mídia curada) → `vault-data-cyberpunk/` |
-| C9 | Invariantes: fluxo fantasia byte-idêntico com o eixo introduzido; suíte nos dois mundos |
+| C4 | Sessões: world na criação, filtro, desconexão limpa na troca (G1 conforme decisão) |
+| C5 | hexMap por mundo + mapa Porto Alegre |
+| C6 | Modo dev por senha no Config |
+| C7 | Overrides por mundo (`doc_overlays.world` + `disabled` + editor em modo dev) |
+| C8 | `extract:cyberpunk` + deploy do dataset (G3, G6) |
+| C9 | Invariantes: fantasia byte-idêntica; suíte de mundo |
 
-## 6. Garantias de não-quebra
+## 6. Decisões pendentes do usuário
 
-- Vault pleitost intocada; POA 1987 intocada (extract é read-only, com ignore
-  do Sistema antigo).
-- Nenhum rename de chave existente; dado legado = fantasia.
-- Cyberpunk sem dataset/overrides = app funcional (fallback total na fantasia
-  + banners).
-- Overlay por mundo NUNCA se aplica na fantasia (world scoping estrito).
+1. **G1**: contexto/mundo sincroniza entre devices (comportamento atual do
+   tema) ou vira preferência POR DEVICE (recomendado — trocar de mundo no
+   celular não desconecta a sessão do desktop)?
+2. **Fork remoto**: criar repo GitHub pra POA (qual conta/nome — sfynz como a
+   pleitost?) ou por ora só git local com upstream no GitHub da pleitost?
+3. **Mapeamento das classes** fantasia→cyberpunk (Compiladão lista as 10 novas
+   com atributos, mas não diz qual vira qual).
