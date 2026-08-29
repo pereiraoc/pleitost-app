@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useWorld, WORLD_BRAND } from '../../data/world'
+import { useTheme } from '../../theme'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
 import { setSelectedCreature, useSelectedCreature } from '../../data/selected-creature-store'
@@ -262,10 +263,17 @@ export function AppShell() {
   // #440: conectado a uma sessão, o Modo Mestre é DEFINIDO pelo papel (GM →
   // ligado; jogador → desligado). Fora da sessão o usuário mexe livremente.
   const { locked: mestreLocked, roleMestre } = useIsSessionMestre()
-  const { mestre, setMestre } = useSettings()
+  const { mestre, setMestre, desenvolvedor } = useSettings()
   useEffect(() => {
     if (mestreLocked && mestre !== roleMestre) setMestre(roleMestre)
   }, [mestreLocked, roleMestre, mestre, setMestre])
+  // Pedido 2026-08-29: o mundo CYBERPUNK fica BLOQUEADO sem modo desenvolvedor
+  // (por ora). Guard reativo — cobre o boot com contexto salvo e o DESATIVAR
+  // no Config; o seletor de Contexto também só aparece lá com dev ativo.
+  const { setContext } = useTheme()
+  useEffect(() => {
+    if (!desenvolvedor && world === 'cyberpunk') setContext('fantasia')
+  }, [desenvolvedor, world, setContext])
   // #259: gesto de swipe pra abrir/fechar as sidebars no mobile — puxar da
   // borda esquerda→direita abre a esquerda; direita→esquerda abre a direita
   // (e o gesto oposto sobre um drawer aberto fecha).

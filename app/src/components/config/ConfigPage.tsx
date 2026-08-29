@@ -913,11 +913,17 @@ export function ConfigPage() {
               <OptPill key={o.id} ic={o.ic} label={o.label} on={mode === o.id} onClick={() => setMode(o.id)} />
             ))}
           </ConfigRow>
-          <ConfigRow ic="🌐" label="Contexto">
-            {CONTEXTS.map((o) => (
-              <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />
-            ))}
-          </ConfigRow>
+          {/* Pedido 2026-08-29: o mundo CYBERPUNK fica atrás do modo
+              desenvolvedor por ora — sem ele só existe fantasia, então a
+              linha inteira some (o AppShell reseta o contexto salvo se
+              for cyberpunk sem dev). */}
+          {desenvolvedor ? (
+            <ConfigRow ic="🌐" label="Contexto">
+              {CONTEXTS.map((o) => (
+                <OptPill key={o.id} ic={o.ic} label={o.label} on={context === o.id} onClick={() => setContext(o.id)} />
+              ))}
+            </ConfigRow>
+          ) : null}
           <div style={{ ...rowStyle, flexDirection: 'column', alignItems: 'stretch', gap: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: 19, flex: 'none' }}>🎨</span>

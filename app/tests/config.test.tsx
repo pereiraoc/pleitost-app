@@ -14,6 +14,7 @@ import { CatalogProvider } from '../src/data/CatalogContext'
 import { AppShell } from '../src/components/layout/AppShell'
 import { ConfigPage } from '../src/components/config/ConfigPage'
 import { NpcsPage } from '../src/components/creatures/CreaturesPages'
+import { __resetSettingsForTests } from '../src/settings'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const vaultDataDir = path.join(path.dirname(appDir), 'vault-data')
@@ -86,7 +87,9 @@ describe('tela CONFIG (issue #35)', () => {
     expect(await screen.findByText('// CONFIGURAÇÕES DO SISTEMA')).toBeTruthy()
     expect(screen.getByText('Tema')).toBeTruthy()
     expect(screen.getByText('Modo de Exibição')).toBeTruthy()
-    expect(screen.getByText('Contexto')).toBeTruthy()
+    // Pedido 2026-08-29: a linha Contexto (mundo cyberpunk) só existe com o
+    // modo DESENVOLVEDOR ativo — sem ele, nem aparece.
+    expect(screen.queryByText('Contexto')).toBeNull()
     expect(screen.getByText('Cor de Destaque')).toBeTruthy()
     expect(screen.getByText('Modo Mestre')).toBeTruthy()
     // #191: a versão do rodapé é a REAL do app (package.json via define). #285: o
@@ -96,12 +99,15 @@ describe('tela CONFIG (issue #35)', () => {
     // Tema/Cor de Destaque compartilham os 6 nomes (AÇO SOLAR aparece nos DOIS) →
     // getAllByRole. Contexto tem rótulos únicos (FANTASIA/CYBERPUNK).
     expect(screen.getAllByRole('button', { name: /AÇO SOLAR/ }).length).toBeGreaterThanOrEqual(2)
-    expect(screen.getByRole('button', { name: /FANTASIA/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /CYBERPUNK/ })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: /FANTASIA/ })).toBeNull()
+    expect(screen.queryByRole('button', { name: /CYBERPUNK/ })).toBeNull()
     expect(screen.getByText('PERSONALIZADA')).toBeTruthy() // <label> do input de cor
   })
 
   it('seletor de TEMA ligado ao theme.ts real: data-theme aplicado e persistido', async () => {
+    // o seletor de Contexto (asserções de ortogonalidade abaixo) requer modo dev
+    window.localStorage.setItem('pleitost.settings.desenvolvedor', 'true')
+    __resetSettingsForTests()
     renderApp('/config')
     await screen.findAllByRole('button', { name: /AÇO SOLAR/ })
     // Tema e Cor de Destaque têm os mesmos rótulos; a pill do TEMA vem 1º no DOM.
