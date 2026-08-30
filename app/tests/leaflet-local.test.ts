@@ -3,7 +3,7 @@
 // aparecem só no zoom afastado, pontos de interesse com minZoom -0.1 só no
 // aproximado. O viewer converte escala→zoom ancorado no defaultZoom (-1).
 import { describe, it, expect } from 'vitest'
-import { leafletZoom, markerVisivel, markerIcon } from '../src/map/leaflet-local'
+import { leafletZoom, markerVisivel, markerGlyph } from '../src/map/leaflet-local'
 
 const BAIRRO = { minZoom: null, maxZoom: -0.1 }
 const POI = { minZoom: -0.1, maxZoom: null }
@@ -31,9 +31,11 @@ describe('camadas por zoom do mapa local', () => {
     expect(markerVisivel({ minZoom: null, maxZoom: null }, 3)).toBe(true)
   })
 
-  it('ícone por tipo do registro; desconhecido cai no 📍', () => {
-    expect(markerIcon('Radioativo')).toBe('☢️')
-    expect(markerIcon('Bairro')).toBe('🏙️')
-    expect(markerIcon('TipoNovo')).toBe('📍')
+  it('glifo mono por tipo do registro; desconhecido cai no pin genérico', () => {
+    for (const tipo of ['Bairro', 'Bar', 'Mercado', 'Parque', 'Industrial', 'Porto', 'Hotel', 'Radioativo']) {
+      expect(markerGlyph(tipo).length, tipo).toBeGreaterThan(0)
+    }
+    // fallback: tipo fora do registro usa o pin de gota
+    expect(markerGlyph('TipoNovo')[0]).toContain('M12 21s-6.5-6')
   })
 })

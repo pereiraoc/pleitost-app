@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { docPath } from '../../paths'
 import { reskinName } from '../../data/reskin'
 import { useDetail } from '../../data/detail-context'
-import { leafletZoom, markerVisivel, markerIcon } from '../../map/leaflet-local'
+import { leafletZoom, markerVisivel, markerGlyph } from '../../map/leaflet-local'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
@@ -250,11 +250,33 @@ function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['loc
     markerVisivel({ minZoom: m.minZoom ?? null, maxZoom: m.maxZoom ?? null }, zoom),
   )
   const abrir = (nome: string) => {
-    if (map.consumeMoved()) return
     const r = catalog.resolve(nome)
     if (r.kind !== 'doc') return
     if (detail) detail.open({ kind: 'doc', id: r.id })
     else navigate(docPath(r.id))
+  }
+  // Clique tratado no VIEWPORT com hit-test por coordenada (padrão do
+  // onMapClick do mapa-múndi): o useMapView captura o ponteiro
+  // (setPointerCapture), então o click sintetizado nunca chega no span do
+  // marker — onClick no marker era código morto.
+  const onViewportClick = (e: React.MouseEvent) => {
+    if (map.consumeMoved()) return
+    if (!latMax || !longMax) return
+    const rect = map.mapRef.current?.getBoundingClientRect()
+    if (!rect) return
+    let melhor: string | null = null
+    let melhorD = Infinity
+    for (const m of visiveis) {
+      const mx = rect.left + (m.long / longMax) * rect.width
+      const my = rect.top + (1 - m.lat / latMax) * rect.height
+      // âncora é a BASE do marker (ícone+label ficam acima dela)
+      const d = Math.hypot(mx - e.clientX, my - 10 - e.clientY)
+      if (d < melhorD) {
+        melhorD = d
+        melhor = m.nome
+      }
+    }
+    if (melhor && melhorD <= 22) abrir(melhor)
   }
   return (
     <section
@@ -280,6 +302,7 @@ function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['loc
         onPointerMove={map.onPointerMove}
         onPointerUp={map.onPointerUp}
         onPointerCancel={map.onPointerUp}
+        onClick={onViewportClick}
         style={{
           height: map.fullscreen ? '100%' : 'min(64vh, 560px)',
           display: 'flex',
@@ -312,10 +335,6 @@ function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['loc
                   key={`${m.tipo}|${m.nome}|${m.lat}|${m.long}`}
                   data-marker={m.nome}
                   title={`${m.tipo}: ${reskinName(m.nome)}`}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    abrir(m.nome)
-                  }}
                   style={{
                     position: 'absolute',
                     left: `${(m.long / longMax) * 100}%`,
@@ -330,9 +349,24 @@ function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['loc
                     cursor: 'pointer',
                   }}
                 >
-                  <span style={{ fontSize: 13, textShadow: '0 1px 2px rgba(0,0,0,.8)' }}>
-                    {markerIcon(m.tipo)}
-                  </span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width={14}
+                    height={14}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      color: 'rgba(235,235,235,.95)',
+                      filter: 'drop-shadow(0 1px 1.5px rgba(0,0,0,.9))',
+                    }}
+                  >
+                    {markerGlyph(m.tipo).map((d, i) => (
+                      <path key={i} d={d} />
+                    ))}
+                  </svg>
                   <span
                     style={{
                       fontFamily: 'var(--mono)',
