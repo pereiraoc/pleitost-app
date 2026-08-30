@@ -38,8 +38,14 @@ export interface ContextoDef {
     /** basename → onde/como se obtém (fornecedor, tarja, região). */
     restritos: Record<string, string>
   }
-  /** Garantias do Contexto Base — itens que nenhum mundo pode excluir. */
-  base: { sempreDisponiveis: string[] }
+  /** Garantias e limites do Contexto Base. */
+  base: {
+    /** Itens que nenhum mundo pode excluir. */
+    sempreDisponiveis: string[]
+    /** Pastas/tipos cujo conteúdo é EXCLUSIVO de cada mundo (a fantasia não
+     *  vaza pro cyberpunk nem vice-versa). Vazio → fallback interno do app. */
+    conteudoDeMundo?: { pastas: string[]; tipos: string[] }
+  }
 }
 
 const cache = new Map<WorldId, Promise<ContextoDef | null>>()

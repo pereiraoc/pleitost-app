@@ -125,6 +125,14 @@ export function compileContexto({ worldId, defs, basenames }) {
     "base.sempre_disponiveis",
     problems,
   );
+  // Conteúdo POR MUNDO (Base declara o que NÃO é sistema compartilhado):
+  // pastas/tipos cujo conteúdo é exclusivo de cada mundo — a fantasia não
+  // vaza pro cyberpunk nem vice-versa. Vazio → o app usa o fallback interno.
+  const cdmIn = isPlainObject(baseDef.conteudo_de_mundo) ? baseDef.conteudo_de_mundo : {};
+  const conteudoDeMundo = {
+    pastas: asStringArray(cdmIn.pastas, "base.conteudo_de_mundo.pastas", problems),
+    tipos: asStringArray(cdmIn.tipos, "base.conteudo_de_mundo.tipos", problems),
+  };
   for (const b of sempreDisponiveis) {
     if (!basenames.has(b)) problems.push(`base.sempre_disponiveis: "${b}" não existe na vault`);
   }
@@ -151,6 +159,6 @@ export function compileContexto({ worldId, defs, basenames }) {
     pericias,
     reskin: { notas, notasFuturas, termos, excecoes },
     disponibilidade: { padrao, indisponiveis, restritos },
-    base: { sempreDisponiveis },
+    base: { sempreDisponiveis, conteudoDeMundo },
   };
 }

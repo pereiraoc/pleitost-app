@@ -37,10 +37,14 @@ function defPoa(overrides = {}) {
   };
 }
 
-function defBase(sempre = []) {
+function defBase(sempre = [], conteudoDeMundo = undefined) {
   return {
     relPath: "Contexto/Contexto Base.md",
-    contexto: { id: "base", sempre_disponiveis: sempre },
+    contexto: {
+      id: "base",
+      sempre_disponiveis: sempre,
+      ...(conteudoDeMundo ? { conteudo_de_mundo: conteudoDeMundo } : {}),
+    },
   };
 }
 
@@ -58,6 +62,30 @@ test("compila o artefato do mundo com base embutida", () => {
   assert.equal(art.reskin.notasFuturas.Avatar, "Catalisador");
   assert.deepEqual(art.disponibilidade.indisponiveis, ["Garras do Rei-Mago"]);
   assert.deepEqual(art.base.sempreDisponiveis, ["Espada Longa"]);
+});
+
+test("base.conteudo_de_mundo (pastas/tipos de conteúdo POR MUNDO) embute no artefato", () => {
+  const art = compileContexto({
+    worldId: "poa-1987",
+    defs: [
+      defPoa(),
+      defBase([], { pastas: ["Atlas/", "Contexto/"], tipos: ["Criatura", "Pessoa"] }),
+    ],
+    basenames: BASENAMES,
+  });
+  assert.deepEqual(art.base.conteudoDeMundo, {
+    pastas: ["Atlas/", "Contexto/"],
+    tipos: ["Criatura", "Pessoa"],
+  });
+});
+
+test("sem conteudo_de_mundo no base → listas vazias (app usa fallback)", () => {
+  const art = compileContexto({
+    worldId: "poa-1987",
+    defs: [defPoa(), defBase()],
+    basenames: BASENAMES,
+  });
+  assert.deepEqual(art.base.conteudoDeMundo, { pastas: [], tipos: [] });
 });
 
 test("sem nota do mundo → null (caller avisa)", () => {
