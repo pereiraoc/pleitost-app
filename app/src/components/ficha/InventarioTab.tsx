@@ -9,6 +9,7 @@
 // design (invData: allArmas = I.armas+extraArmas; tesouros ganham o grupo
 // ADICIONADOS) e no plugin (addArma/addTesouro).
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -631,7 +632,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
                               {g.entries.map((e) => (
                                 <option key={e.id} value={e.id}>
-                                  {e.basename}
+                                  {reskinName(e.basename ?? e.id)}
                                 </option>
                               ))}
                             </optgroup>
@@ -1739,7 +1740,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
             // filterCaTesouros do plugin (tabs/ca/tab-completa.ts:39-41).
             (!caps.tesourosPermitidos || caps.tesourosPermitidos.has(e.basename ?? e.id)),
         )
-        .map((e) => ({ ic: tokens.emojis.bonusType.Item, nm: e.basename ?? e.id, key: e.id })),
+        .map((e) => ({ ic: tokens.emojis.bonusType.Item, nm: reskinName(e.basename ?? e.id), key: e.id })),
     [catalog, caps],
   )
 

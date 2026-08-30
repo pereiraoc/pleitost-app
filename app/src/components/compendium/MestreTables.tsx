@@ -5,6 +5,7 @@
 // columnValue (inline → FM, mesma regra do DocTable); célula sem valor no
 // doc mostra '—' e ordena sempre pro fim — nunca se inventa dado.
 import { useMemo, useState, type CSSProperties } from 'react'
+import { reskinName } from '../../data/reskin'
 import { Link } from 'react-router-dom'
 import { useDocs } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
@@ -136,7 +137,7 @@ function MestreTypeTable({
           {rows.map((entry) => (
             <tr key={entry.id}>
               <td>
-                <Link to={docPath(entry.id)}>{entry.basename ?? entry.id}</Link>
+                <Link to={docPath(entry.id)}>{reskinName(entry.basename ?? entry.id)}</Link>
               </td>
               {group.columns.map((col) => {
                 const value = columnValue(docs?.get(entry.id), col)

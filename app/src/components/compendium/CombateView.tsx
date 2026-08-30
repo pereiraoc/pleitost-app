@@ -174,7 +174,7 @@ function CombateCard({
   const entries = roster.entries
   return (
     <Link to={docPath(entry.id)} className="combat-grid-cell" data-enc-dif={total}>
-      <span className="combat-card-name">{entry.basename ?? entry.id}</span>
+      <span className="combat-card-name">{reskinName(entry.basename ?? entry.id)}</span>
       {/* #398: com a mesa ativa selecionada, mostra a dificuldade REAL pro grupo
           da sessão; senão, as barrinhas por nível (o padrão). */}
       {mesaBadge ? (

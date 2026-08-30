@@ -3,6 +3,7 @@
 // Substitui o bloco lateral do mapa (RightBar #70): a info aparece na sidebar
 // global; e dá pra abrir o COMÉRCIO ali mesmo, ou o doc completo.
 import { useDoc } from '../../data/useDoc'
+import { reskinName } from '../../data/reskin'
 import { useDetail } from '../../data/detail-context'
 import { localTypeFromSubtype } from '../../data/commerce'
 import { InlineFieldValue } from '../compendium/InlineFieldValue'
@@ -24,7 +25,7 @@ export function LocalDetail({ id }: { id: string }) {
 
   return (
     <div className="local-detail">
-      <div className="local-detail-nome">{doc.basename}</div>
+      <div className="local-detail-nome">{reskinName(doc.basename)}</div>
       {tipo ? (
         <div className="local-field">
           <span className="local-field-label">TIPO</span>

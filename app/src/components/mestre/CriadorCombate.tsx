@@ -6,6 +6,7 @@
 // data/session-repo é só importado, nunca modificado).
 // A tela mora numa aba mestre-gated da página CRIATURAS (vide CreaturesPages).
 import { useMemo, useState } from 'react'
+import { reskinName } from '../../data/reskin'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
@@ -217,7 +218,7 @@ export function CriadorCombate() {
                       .sort((a, b) => (a.basename ?? a.id).localeCompare(b.basename ?? b.id, 'pt'))
                       .map((e) => (
                         <option key={e.id} value={e.id}>
-                          {e.basename ?? e.id}
+                          {reskinName(e.basename ?? e.id)}
                         </option>
                       ))}
                   </optgroup>

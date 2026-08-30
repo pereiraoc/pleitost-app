@@ -1,4 +1,5 @@
 import type { VaultDoc } from '../../data/types'
+import { reskinName } from '../../data/reskin'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { VaultImage } from './VaultImage'
 import { DocRuleElements } from './RuleElements'
@@ -46,7 +47,7 @@ export function HistoriaView({
       {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
-        <h1>{doc.basename}</h1>
+        <h1>{reskinName(doc.basename)}</h1>
         {doc.type ? (
           <span className="doc-type">
             {doc.type}

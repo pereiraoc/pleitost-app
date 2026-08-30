@@ -10,6 +10,7 @@
 // registerLeafView('Item', subtree:true) pro FolderView — o FolderView achata a
 // subárvore da pasta e passa TODOS os Items; este arquivo agrupa e filtra.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { reskinName } from '../../data/reskin'
 import { Link } from 'react-router-dom'
 import type { VaultDoc } from '../../data/types'
 import type { IndexDocEntry } from '../../data/types'
@@ -150,7 +151,7 @@ function ItemCell({
           }}
         />
       ) : (
-        <span className="item-grid-loading">{cell.entry.basename ?? cell.entry.id}</span>
+        <span className="item-grid-loading">{reskinName(cell.entry.basename ?? cell.entry.id)}</span>
       )}
     </Link>
   )

@@ -5,9 +5,9 @@ numa **nota de Contexto-Def** (frontmatter `Contexto:`) na própria vault:
 
 | Mundo | Nota-fonte | Artefato compilado |
 |---|---|---|
-| fantasia | `pleitost-vault: Contexto/Contexto Fantasia.md` | `vault-data/contexto.json` |
-| poa-1987 (cyberpunk) | `vault POA 1987: Contexto/Reskin/Contexto POA 1987.md` | `vault-data-cyberpunk/contexto.json` |
-| base (garantias) | `pleitost-vault: Contexto/Contexto Base.md` | embutido nos artefatos (`base.sempreDisponiveis`) |
+| fantasia | `pleitost-vault: Recursos e Mídia/Configurações de Contextos/Contexto Fantasia.md` | `vault-data/contexto.json` |
+| poa-1987 (cyberpunk) | `vault POA 1987: Recursos e Mídia/Configurações de Contextos/Contexto POA 1987.md` | `vault-data-cyberpunk/contexto.json` |
+| base (garantias) | `pleitost-vault: Recursos e Mídia/Configurações de Contextos/Contexto Base.md` | embutido nos artefatos (`base.sempreDisponiveis` + `base.conteudoDeMundo`) |
 
 ## Pipeline
 

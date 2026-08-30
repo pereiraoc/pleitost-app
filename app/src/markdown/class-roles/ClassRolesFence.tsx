@@ -5,6 +5,7 @@
 // não conhecia a fence → o JSON cru vazava num <pre> (feio). Vars Obsidian
 // mapeadas pros tokens do app; cores dos papéis são a fonte de verdade (role-meta).
 import type { FenceProps } from '../fence-registry'
+import { reskinText } from '../../data/reskin'
 import { ROLE_META, type RoleName } from './role-meta'
 import { parseClassRolesSource, type Build } from './parse'
 
@@ -61,7 +62,7 @@ function Row({ build, index }: { build: Build; index: number }) {
         borderTop: index === 0 ? 'none' : '1px solid var(--line)',
       }}
     >
-      <span style={{ fontWeight: 700 }}>{name}</span>
+      <span style={{ fontWeight: 700 }}>{reskinText(name)}</span>
       <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
         <span style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>{top}</span>
         {bottom.length ? (

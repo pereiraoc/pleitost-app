@@ -15,6 +15,8 @@
 // grandes dos filhos). Um path ausente é uma FOLHA (cai na listagem/visualizador
 // da pasta — refinada pelas fases F1–F6). '' é a home do compêndio.
 
+import { reskinText } from '../../data/reskin'
+
 export interface CompendioMeta {
   /** Emoji do botão grande (fonte de verdade da navegação do app). */
   icon: string
@@ -138,9 +140,10 @@ export function navMeta(path: string): CompendioMeta | undefined {
   return NAV_META[path]
 }
 
-/** Rótulo exibível de um path: override do registro, senão o basename da pasta. */
+/** Rótulo exibível de um path: override do registro, senão o basename da
+ *  pasta — sempre pelo reskin do mundo ativo (display puro). */
 export function navLabel(path: string): string {
-  return NAV_META[path]?.label ?? path.split('/').pop() ?? path
+  return reskinText(NAV_META[path]?.label ?? path.split('/').pop() ?? path)
 }
 
 /**

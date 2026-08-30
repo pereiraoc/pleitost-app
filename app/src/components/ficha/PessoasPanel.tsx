@@ -6,6 +6,7 @@
 // RESUMO nos DETALHES (req 2). Adicionar = nova pessoa OU existente (heróis
 // locais, companheiros, bestiário) — campos sempre pessoais (req 3).
 import { useMemo, useState, type CSSProperties } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useHeroModel } from '../../data/useHeroModel'
@@ -284,7 +285,7 @@ function ExistentePicker({
               <optgroup key={g.label} label={g.label}>
                 {g.entries.map((e) => (
                   <option key={e.id} value={e.id}>
-                    {e.basename}
+                    {reskinName(e.basename ?? e.id)}
                   </option>
                 ))}
               </optgroup>

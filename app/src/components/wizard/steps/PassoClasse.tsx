@@ -12,6 +12,7 @@
 // TROCAR de classe dispara resetOnClasseChange (reset.ts — classChangeResets
 // central + equipamento; preserva a Sintonia por decisão da nova ordem).
 import { useMemo } from 'react'
+import { reskinName } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
@@ -330,7 +331,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
               const atuais = grupos.length ? indicesDoBuildAtual(builds, grupos) : []
               return (
                 <div key={o.value} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={o.label}>
+                  <Barra on={on} onClick={() => escolherClasse(o.value)} ariaLabel={reskinName(o.label)}>
                     {img ? (
                       <WizThumb
                         img={img}
@@ -340,7 +341,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                       />
                     ) : null}
                     <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
-                      <span style={{ fontWeight: 700, marginRight: 'auto' }}>{o.label}</span>
+                      <span style={{ fontWeight: 700, marginRight: 'auto' }}>{reskinName(o.label)}</span>
                       {/* #452 r12: papéis (possibilidades + "+★") só na classe
                           SELECIONADA — as demais barras ficam só imagem+nome. */}
                       {on ? (
@@ -375,7 +376,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                                 key={opt.value}
                                 on={optOn}
                                 indent
-                                ariaLabel={opt.label}
+                                ariaLabel={reskinName(opt.label)}
                                 onClick={() => {
                                   applySubclassPick(model, fm, c.parent, opt.value)
                                   const id = docIdOf(catalog, opt.value)
@@ -383,7 +384,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                                 }}
                               >
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
-                                  <span style={{ fontWeight: 600, marginRight: 'auto' }}>{opt.label}</span>
+                                  <span style={{ fontWeight: 600, marginRight: 'auto' }}>{reskinName(opt.label)}</span>
                                   <MaisEstrelas nome={opt.label} roles={optSoma} />
                                 </span>
                                 {optOn ? (
@@ -411,11 +412,11 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                             const soma = somaSintonia.get(wikiTarget(opt.value)) ?? {}
                             const ic = sintoniaEmojiDe(opt.value)
                             return (
-                              <Barra key={opt.value} on={optOn} indent ariaLabel={opt.label}>
+                              <Barra key={opt.value} on={optOn} indent ariaLabel={reskinName(opt.label)}>
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                                     {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
-                                    {opt.label}
+                                    {reskinName(opt.label)}
                                   </span>
                                   <MaisEstrelas nome={opt.label} roles={soma} />
                                 </span>

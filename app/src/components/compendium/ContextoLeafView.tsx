@@ -8,6 +8,7 @@
 // Registra por side-effect o leaf-view 'Contexto' (mesmo padrão do ItemView);
 // o FolderView não conhece o tipo por nome.
 import { Link } from 'react-router-dom'
+import { reskinName } from '../../data/reskin'
 import type { IndexDocEntry } from '../../data/types'
 import { useDocs } from '../../data/useDoc'
 import { docPath } from '../../paths'
@@ -38,7 +39,7 @@ function ContextoFolha({ entries }: { entries: IndexDocEntry[] }) {
           return (
             <article key={e.id} className="ctx-tl-item">
               {data ? <span className="ctx-tl-date">{dataDisplay(data)}</span> : null}
-              <h2 className="ctx-tl-title">{e.basename ?? e.id}</h2>
+              <h2 className="ctx-tl-title">{reskinName(e.basename ?? e.id)}</h2>
               {doc && corpo !== '' ? (
                 <div className="ctx-tl-body">
                   <MarkdownBody doc={{ ...doc, body: corpo }} hideLeadingTitle />
@@ -62,7 +63,7 @@ function ContextoFolha({ entries }: { entries: IndexDocEntry[] }) {
         return (
           <details key={e.id} className="ctx-acc">
             <summary className="ctx-acc-head">
-              <span className="ctx-acc-title">{e.basename ?? e.id}</span>
+              <span className="ctx-acc-title">{reskinName(e.basename ?? e.id)}</span>
               {assunto ? <span className="ctx-acc-assunto">{assunto}</span> : null}
             </summary>
             <div className="ctx-acc-body">
