@@ -13,6 +13,7 @@
 //
 // Registro: registerDocView({id:'aventura'}) + registerLeafView('Aventura').
 import { Link } from 'react-router-dom'
+import { reskinName } from '../../data/reskin'
 import type { CSSProperties } from 'react'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { useDocs } from '../../data/useDoc'
@@ -89,7 +90,7 @@ export function AventuraSheet({ doc }: { doc: VaultDoc }) {
       <article className="doc-page page aventura-page">
         <div className="kicker">{COMPENDIO_KICKER}</div>
         <header className="doc-header">
-          <h1>{doc.basename}</h1>
+          <h1>{reskinName(doc.basename)}</h1>
           {doc.type ? (
             <span className="doc-type">
               {doc.type}

@@ -87,14 +87,22 @@ describe('pasta-índice de Contexto (Contexto Atual)', () => {
 })
 
 describe('seção com notas (Tecnologia e Conectividade)', () => {
-  it('filhos aparecem como BOTÕES pro doc, não tabela', async () => {
+  it('filhos são CARDS EMPILHADOS EXPANSÍVEIS (report 2026-08-30), não tabela', async () => {
     const { container } = renderFolder(
       'Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade',
     )
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: /Acesso a Tecnologia/ })).toBeTruthy()
+      expect(screen.getAllByText('Acesso a Tecnologia').length).toBeGreaterThan(0)
     })
     expect(container.querySelector('table')).toBeNull()
+    // pilha de <details> — um card por nota, título + Assunto no summary
+    const cards = container.querySelectorAll('.ctx-stack details.ctx-acc')
+    expect(cards.length).toBeGreaterThan(1)
+    const primeiro = cards[0]! as HTMLElement
+    expect(primeiro.querySelector('.ctx-acc-title')?.textContent).toBeTruthy()
+    // o corpo expande ALI MESMO (dentro do card) + link discreto pra página
+    expect(primeiro.querySelector('.ctx-acc-body')).toBeTruthy()
+    expect(within(primeiro).getByRole('link', { name: /abrir página/ })).toBeTruthy()
     const h1 = container.querySelector('h1')!
     expect(within(h1).queryByRole('link')).toBeNull()
   })

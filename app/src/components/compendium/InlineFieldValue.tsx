@@ -3,6 +3,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { DetailLink } from '../DetailLink'
 
 import { unquote } from '../../markdown/dataview-value'
+import { reskinName, reskinText } from '../../data/reskin'
 
 const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
 
@@ -20,9 +21,10 @@ export function InlineFieldValue({ value }: { value: string }) {
   // evita estado compartilhado mutável durante o render (react-hooks/immutability).
   for (const match of text.matchAll(WIKILINK)) {
     const idx = match.index
-    if (idx > last) parts.push(text.slice(last, idx))
+    if (idx > last) parts.push(reskinText(text.slice(last, idx)))
     const [, target, alias] = match
-    const label = alias ?? target
+    // #519: rótulo exibido passa pelo reskin do mundo (target segue canônico).
+    const label = reskinName(alias ?? target!)
     const res = catalog.resolve(target!)
     parts.push(
       res.kind === 'doc' ? (
@@ -36,6 +38,6 @@ export function InlineFieldValue({ value }: { value: string }) {
     )
     last = idx + match[0].length
   }
-  if (last < text.length) parts.push(text.slice(last))
+  if (last < text.length) parts.push(reskinText(text.slice(last)))
   return <>{parts}</>
 }

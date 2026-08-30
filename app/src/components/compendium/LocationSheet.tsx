@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
@@ -991,7 +992,7 @@ export function LocationSheet({
       {/* Na sidebar/embutido o kicker "Compêndio do Sistema" só polui — some. */}
       {sidebar || embedded ? null : <div className="kicker">{compendioKicker(LOCATION_CATEGORY)}</div>}
       <header className="doc-header">
-        <h1>{doc.basename}</h1>
+        <h1>{reskinName(doc.basename)}</h1>
         {/* Feedback do mestre: só o subtype ("Nação"), sem "Localização · " (a
             categoria já vai no kicker). */}
         <span className="doc-type">{doc.subtype || LOCATION_CATEGORY}</span>

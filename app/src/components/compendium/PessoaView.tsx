@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { InlineFieldValue } from './InlineFieldValue'
 import { VaultImage } from './VaultImage'
@@ -118,7 +119,7 @@ export function PessoaView({
       {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
       {img ? <VaultImage target={img.target} style={HERO_STYLE} zoom /> : null}
       <header className="doc-header">
-        <h1>{doc.basename}</h1>
+        <h1>{reskinName(doc.basename)}</h1>
         <span className="doc-type">
           {PESSOA_CATEGORY}
           {doc.subtype ? ` · ${doc.subtype}` : ''}

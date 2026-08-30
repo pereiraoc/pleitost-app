@@ -2264,3 +2264,80 @@ a[data-link-icon]::before {
     order: 6;
   } /* −10 */
 }
+
+/* ── Contexto Atual: pilha de cards expansíveis (report 2026-08-30) ──
+   Um card horizontal por nota — summary = título + Assunto; expande o corpo
+   ali mesmo (details nativo). Mesma linguagem de painel do type-card. */
+.ctx-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ctx-acc {
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.ctx-acc[open] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line2));
+}
+.ctx-acc-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  list-style: none;
+}
+.ctx-acc-head::-webkit-details-marker {
+  display: none;
+}
+.ctx-acc-head::before {
+  content: '▸';
+  color: var(--accent);
+  flex: none;
+  transition: transform 0.15s;
+}
+.ctx-acc[open] > .ctx-acc-head::before {
+  transform: rotate(90deg);
+}
+.ctx-acc-title {
+  font-weight: 800;
+  white-space: nowrap;
+}
+.ctx-acc-assunto {
+  color: var(--muted);
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ctx-acc[open] .ctx-acc-assunto {
+  white-space: normal;
+}
+.ctx-acc-body {
+  padding: 4px 14px 12px 34px;
+  font-size: 0.95rem;
+}
+.ctx-acc-body > :first-child {
+  margin-top: 0;
+}
+.ctx-acc-vazio {
+  color: var(--muted);
+  font-style: italic;
+}
+.ctx-acc-abrir {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+/* Lead do header de nota de Contexto (Assunto do FM) */
+.doc-lead {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 70ch;
+}

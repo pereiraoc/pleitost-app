@@ -3,6 +3,7 @@ import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { VaultImage } from './VaultImage'
 import { DocRuleElements } from './RuleElements'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
+import { corpoContexto, dataDisplay, fmAssunto, fmData } from './contexto-template'
 
 // Visualizador de HISTÓRIA / CONTEXTO (issue #247, F3 do épico #243) — docs de
 // "Contexto Atual" e "Contexto Histórico". O corpo desses docs é markdown REAL
@@ -33,6 +34,12 @@ export function HistoriaView({
   embedded?: boolean
 }) {
   const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
+  // Report 2026-08-30: o corpo passa pelo strip do TEMPLATE da vault — o
+  // callout `> [!quote] Contexto …` só re-declara o FM e vazava na página
+  // como "Contexto Atual ❔". Assunto/Data viram o lead do header.
+  const assunto = fmAssunto(doc)
+  const data = fmData(doc)
+  const corpo = corpoContexto(doc)
 
   return (
     <article className={embedded ? 'doc-page doc-reading' : 'doc-page doc-reading page'}>
@@ -44,11 +51,13 @@ export function HistoriaView({
           <span className="doc-type">
             {doc.type}
             {doc.subtype ? ` · ${doc.subtype}` : ''}
+            {data ? ` · ${dataDisplay(data)}` : ''}
           </span>
         ) : null}
+        {assunto ? <p className="doc-lead">{assunto}</p> : null}
       </header>
       <div className="doc-reading-body">
-        <MarkdownBody doc={doc} hideLeadingTitle />
+        <MarkdownBody doc={{ ...doc, body: corpo }} hideLeadingTitle />
       </div>
       <DocRuleElements doc={doc} />
     </article>

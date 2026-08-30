@@ -37,7 +37,10 @@ export function setActiveContexto(def: ContextoDef | null): void {
   const notas = new Map<string, string>()
   for (const [k, v] of Object.entries(def.reskin.notas)) notas.set(k, v)
   for (const [k, v] of Object.entries(def.reskin.notasFuturas)) notas.set(k, v)
-  const chaves = Object.keys(def.reskin.termos).sort((a, b) => b.length - a.length)
+  // A cascata de texto cobre termos ⊕ nomes de nota — menções em PROSA a uma
+  // nota renomeada ("Imune a Poção de Cura…") também exibem o nome do mundo.
+  const mapa = new Map<string, string>([...notas, ...Object.entries(def.reskin.termos)])
+  const chaves = [...mapa.keys()].sort((a, b) => b.length - a.length)
   ativo = {
     notas,
     // Uma alternância única, chaves longas primeiro (o motor de regex casa a
@@ -48,7 +51,7 @@ export function setActiveContexto(def: ContextoDef | null): void {
           'gu',
         )
       : null,
-    mapa: new Map(Object.entries(def.reskin.termos)),
+    mapa,
     excecoes: [...def.reskin.excecoes].sort((a, b) => b.length - a.length),
     pericias: def.pericias,
   }

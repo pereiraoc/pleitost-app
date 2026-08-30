@@ -68,6 +68,11 @@ describe('reskinText — cascata de termos', () => {
     setActiveContexto(def())
     expect(reskinText('custa 60 PO em POA 1987')).toBe('custa 60 Cz$ em POA 1987')
   })
+
+  it('menção em PROSA a nota renomeada também troca (notas ⊕ termos na cascata)', () => {
+    setActiveContexto(def())
+    expect(reskinText('Imune a Poção de Cura por 1 hora')).toBe('Imune a Cicatrilênico por 1 hora')
+  })
 })
 
 describe('reskinName — nomes de nota', () => {

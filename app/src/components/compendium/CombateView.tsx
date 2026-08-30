@@ -16,6 +16,7 @@
 //
 // Registro: registerDocView({id:'combate'}) + registerLeafView('Combate').
 import { useMemo, useState } from 'react'
+import { reskinName } from '../../data/reskin'
 import { Link } from 'react-router-dom'
 import type { Catalog } from '../../data/catalog'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
@@ -122,7 +123,7 @@ export function CombateSheet({ doc }: { doc: VaultDoc }) {
     <section className="page combate-page">
       <div className="kicker">{COMPENDIO_KICKER}</div>
       <header className="combate-header">
-        <h1>{doc.basename}</h1>
+        <h1>{reskinName(doc.basename)}</h1>
         <span className="doc-type">{COMBATE_CATEGORY}</span>
       </header>
       {roster.entries.length ? (
