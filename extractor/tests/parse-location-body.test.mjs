@@ -78,7 +78,18 @@ test("Localização (região): sem callout de Distritos → locaisInteresse = nu
 
 test("Localização sem body: tudo null", () => {
   const r = parseLocationBody("");
-  assert.deepEqual(r, { populacao: null, descricao: null, aparencia: null, locaisInteresse: null });
+  // Shape completo do parser atual (725def2 adicionou os campos de
+  // callout-prosa; leaflet veio do mapa #418) — tudo null sem body.
+  assert.deepEqual(r, {
+    populacao: null,
+    descricao: null,
+    aparencia: null,
+    locaisInteresse: null,
+    acontecimentoRecente: null,
+    contexto: null,
+    organizacoesInfluentes: null,
+    leaflet: null,
+  });
 });
 
 test("Body sem callout de Informações: campos null (não erra)", () => {

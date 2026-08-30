@@ -11,9 +11,10 @@ import { rm, mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 
-import { VAULT_ROOT, OUT_DIR } from "./paths.mjs";
+import { VAULT_ROOT, OUT_DIR, WORLD_ID } from "./paths.mjs";
 import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
+import { compileContexto } from "./compile-contexto.mjs";
 
 // Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
 // são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
@@ -67,6 +68,8 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   const docLinks = new Map(); // id → targets crus dos wikilinks
 
   let frozenSkipped = 0;
+  const contextoDefs = []; // notas com FM `Contexto:` (Contexto-Def, #519)
+  const contentBasenames = new Set();
   for (const doc of docs) {
     if (doc.kind === "scaffolding") {
       index.push({ id: doc.relPath.replace(/\.md$/i, ""), path: doc.relPath, kind: "scaffolding" });
@@ -81,6 +84,11 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     const raw = await readFile(doc.absPath, "utf8");
     const record = await parseDoc({ raw, relPath: doc.relPath });
     await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), record);
+
+    contentBasenames.add(record.basename);
+    if (record.frontmatter?.Contexto && typeof record.frontmatter.Contexto === "object") {
+      contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto });
+    }
 
     // #519: primeiro alias do FM no índice — o dropdown de classes exibe o
     // nome do MUNDO (Guerrilheiro etc.) sem carregar o doc inteiro.
@@ -133,6 +141,29 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     console.warn(
       "AVISO: pastas congeladas SEM snapshot anterior — Heróis/Grupos ficarão fora do output.",
     );
+  }
+
+  // 3c. Contexto do mundo (#519): compila e valida a Contexto-Def do WORLD_ID
+  //     (basenames incluem os docs congelados). Def inválida QUEBRA o extract.
+  for (const f of frozen) {
+    if (f.entry.basename) contentBasenames.add(f.entry.basename);
+  }
+  const contexto = compileContexto({
+    worldId: WORLD_ID,
+    defs: contextoDefs,
+    basenames: contentBasenames,
+  });
+  if (contexto) {
+    await writeJson(join(outDir, "contexto.json"), contexto);
+    console.log(
+      `Contexto "${WORLD_ID}" compilado de ${contexto.fonte}: ` +
+        `${Object.keys(contexto.reskin.notas).length} renames de nota, ` +
+        `${Object.keys(contexto.reskin.termos).length} termos, ` +
+        `${contexto.disponibilidade.indisponiveis.length} indisponíveis, ` +
+        `${contexto.base.sempreDisponiveis.length} sempre-disponíveis (Base).`,
+    );
+  } else {
+    console.warn(`AVISO: nenhuma nota de Contexto-Def com id "${WORLD_ID}" — contexto.json não gerado.`);
   }
 
   // 4. Copia TODOS os binários de imagem da vault (referenciados E órfãos) e monta

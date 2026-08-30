@@ -25,6 +25,10 @@ export const OUT_DIR = process.env.PLEITOST_EXTRACT_OUT
   ? resolve(process.env.PLEITOST_EXTRACT_OUT)
   : resolve(REPO_ROOT, "vault-data");
 
+// Mundo sendo extraído (#519) — seleciona a nota de Contexto-Def (FM
+// `Contexto.id`) que o compile-contexto valida e emite como contexto.json.
+export const WORLD_ID = process.env.PLEITOST_WORLD_ID ?? "fantasia";
+
 // Caminho do parser de DSL (fonte de verdade da gramática de rule elements).
 export const RULE_PARSER_TS = resolve(PLUGIN_ROOT, "src", "extract", "rule-parser.ts");
 

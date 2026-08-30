@@ -21,7 +21,7 @@
     "tokens": "npm run tokens -w app",
     "test:app": "npm run test -w app",
     "e2e": "npm run e2e -w app",
-    "extract:cyberpunk": "PLEITOST_VAULT_ROOT='/data/vaults/POA 1987' PLEITOST_PLUGIN_ROOT='/data/vaults/pleitost/.obsidian/plugins/pleitost-autosheet' PLEITOST_EXTRACT_OUT=vault-data-cyberpunk node extractor/extract-vault.mjs"
+    "extract:cyberpunk": "PLEITOST_VAULT_ROOT='/data/vaults/POA 1987' PLEITOST_WORLD_ID='poa-1987' PLEITOST_PLUGIN_ROOT='/data/vaults/pleitost/.obsidian/plugins/pleitost-autosheet' PLEITOST_EXTRACT_OUT=vault-data-cyberpunk node extractor/extract-vault.mjs"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
