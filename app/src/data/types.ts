@@ -105,11 +105,22 @@ export interface LocationBody {
   organizacoesInfluentes?: string | null
   acontecimentoRecente?: string | null
   locaisInteresse: string | null
-  /** Bloco leaflet do template POA: mapa da localização (#519). */
+  /** Bloco leaflet do template POA: mapa da localização (#519). minZoom/
+   *  maxZoom dos markers = gates de CAMADA da nota (Bairros no zoom afastado,
+   *  pontos de interesse no aproximado); defaultZoom ancora a conversão
+   *  escala→zoom do viewer. Opcionais: dataset antigo não os tem. */
   leaflet?: {
     image: string
     bounds: [[number, number], [number, number]] | null
-    markers: Array<{ tipo: string; lat: number; long: number; nome: string }>
+    defaultZoom?: number | null
+    markers: Array<{
+      tipo: string
+      lat: number
+      long: number
+      nome: string
+      minZoom?: number | null
+      maxZoom?: number | null
+    }>
   } | null
 }
 

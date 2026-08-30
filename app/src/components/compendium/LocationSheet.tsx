@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { docPath } from '../../paths'
 import { reskinName } from '../../data/reskin'
+import { useDetail } from '../../data/detail-context'
+import { leafletZoom, markerVisivel, markerIcon } from '../../map/leaflet-local'
+import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
+import { useMapView } from '../../map/useMapView'
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
@@ -220,57 +226,132 @@ function RecursosGrid({ recursos }: { recursos: string[] }) {
   )
 }
 
-/** Mapa da localização (#519): bloco leaflet do template POA — imagem do
- *  mapa com os markers posicionados pelos bounds (lat cresce pra CIMA no
- *  leaflet; top% = 1 − lat/latMax). */
+/** Mapa da localização (#519): bloco leaflet do template POA — viewer com
+ *  pan/pinça/zoom/fullscreen (useMapView/MapControls, os mesmos do mapa do
+ *  mundo) e CAMADAS POR ZOOM (report 2026-08-31): a nota já define os gates
+ *  no formato do obsidian-leaflet — Bairros (maxZoom) só no zoom afastado,
+ *  pontos de interesse (minZoom) só no aproximado. Ícone por tipo no registro
+ *  map/leaflet-local; clicar num marker abre a nota correspondente quando o
+ *  catálogo a resolve. Posições em % dos bounds (lat cresce pra CIMA;
+ *  top% = 1 − lat/latMax); labels contra-escalam pra manter o tamanho. */
 function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']> }) {
   const assets = useAssetIndex()
+  const catalog = useCatalog()
+  const detail = useDetail()
+  const navigate = useNavigate()
+  const map = useMapView()
   if (!assets) return null
   const entry = resolveAsset(assets, leaflet.image)
   if (!entry) return null
   const latMax = leaflet.bounds ? leaflet.bounds[1][0] - leaflet.bounds[0][0] : null
   const longMax = leaflet.bounds ? leaflet.bounds[1][1] - leaflet.bounds[0][1] : null
+  const zoom = leafletZoom(leaflet.defaultZoom ?? null, map.view.scale)
+  const visiveis = leaflet.markers.filter((m) =>
+    markerVisivel({ minZoom: m.minZoom ?? null, maxZoom: m.maxZoom ?? null }, zoom),
+  )
+  const abrir = (nome: string) => {
+    if (map.consumeMoved()) return
+    const r = catalog.resolve(nome)
+    if (r.kind !== 'doc') return
+    if (detail) detail.open({ kind: 'doc', id: r.id })
+    else navigate(docPath(r.id))
+  }
   return (
-    <section style={{ position: 'relative', maxWidth: 620, alignSelf: 'center', width: '100%' }}>
-      <img
-        src={assetUrl(entry)}
-        alt={`Mapa: ${leaflet.image}`}
-        style={{ width: '100%', display: 'block', clipPath: clip(10) }}
-      />
-      {latMax && longMax
-        ? leaflet.markers.map((m) => (
-            <span
-              key={`${m.nome}|${m.lat}|${m.long}`}
-              title={`${m.tipo}: ${m.nome}`}
-              style={{
-                position: 'absolute',
-                left: `${(m.long / longMax) * 100}%`,
-                top: `${(1 - m.lat / latMax) * 100}%`,
-                transform: 'translate(-50%, -100%)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                lineHeight: 1,
-                pointerEvents: 'auto',
-              }}
-            >
-              <span style={{ fontSize: 13, textShadow: '0 1px 2px rgba(0,0,0,.8)' }}>📍</span>
-              <span
-                style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: 7.5,
-                  fontWeight: 700,
-                  letterSpacing: '.04em',
-                  color: '#fff',
-                  textShadow: '0 1px 2px rgba(0,0,0,.9)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {m.nome}
-              </span>
-            </span>
-          ))
-        : null}
+    <section
+      ref={map.containerRef}
+      style={fullscreenContainerStyle(
+        {
+          position: 'relative',
+          maxWidth: 620,
+          alignSelf: 'center',
+          width: '100%',
+          background: 'var(--panel)',
+          border: '1px solid var(--line2)',
+          clipPath: map.fullscreen ? 'none' : clip(10),
+          overflow: 'hidden',
+        },
+        map.fullscreen,
+      )}
+    >
+      <div
+        ref={map.viewportRef}
+        data-mapa-local-viewport=""
+        onPointerDown={map.onPointerDown}
+        onPointerMove={map.onPointerMove}
+        onPointerUp={map.onPointerUp}
+        onPointerCancel={map.onPointerUp}
+        style={{
+          height: map.fullscreen ? '100%' : 'min(64vh, 560px)',
+          display: 'flex',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          touchAction: 'none',
+          cursor: map.dragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
+        }}
+      >
+        <div
+          ref={map.mapRef}
+          style={{
+            position: 'relative',
+            height: '100%',
+            flex: 'none',
+            transform: map.transform,
+            transformOrigin: '0 0',
+          }}
+        >
+          <img
+            src={assetUrl(entry)}
+            alt={`Mapa: ${leaflet.image}`}
+            draggable={false}
+            style={{ height: '100%', width: 'auto', display: 'block' }}
+          />
+          {latMax && longMax
+            ? visiveis.map((m) => (
+                <span
+                  key={`${m.tipo}|${m.nome}|${m.lat}|${m.long}`}
+                  data-marker={m.nome}
+                  title={`${m.tipo}: ${reskinName(m.nome)}`}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    abrir(m.nome)
+                  }}
+                  style={{
+                    position: 'absolute',
+                    left: `${(m.long / longMax) * 100}%`,
+                    top: `${(1 - m.lat / latMax) * 100}%`,
+                    transform: `translate(-50%, -100%) scale(${1 / map.view.scale})`,
+                    transformOrigin: '50% 100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    lineHeight: 1,
+                    pointerEvents: 'auto',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <span style={{ fontSize: 13, textShadow: '0 1px 2px rgba(0,0,0,.8)' }}>
+                    {markerIcon(m.tipo)}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--mono)',
+                      fontSize: 7.5,
+                      fontWeight: 700,
+                      letterSpacing: '.04em',
+                      color: '#fff',
+                      textShadow: '0 1px 2px rgba(0,0,0,.9)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {reskinName(m.nome)}
+                  </span>
+                </span>
+              ))
+            : null}
+        </div>
+      </div>
+      <MapControls map={map} />
     </section>
   )
 }

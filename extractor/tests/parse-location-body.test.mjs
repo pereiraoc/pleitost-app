@@ -108,3 +108,26 @@ test("Emoji com VS-16 (👁️) reconhecido — Aparência não vira null", () =
   const r = parseLocationBody(body);
   assert.equal(r.aparencia, "teste");
 });
+
+test("leaflet: captura defaultZoom e os gates minZoom/maxZoom dos markers", () => {
+  // Linhas REAIS do bloco da nota Porto Alegre (POA 1987): Bairro tem
+  // maxZoom (só no zoom afastado), ponto de interesse tem minZoom (só no
+  // aproximado), Padre Chagas com minZoom 0.
+  const body = [
+    "```leaflet",
+    "image: [[Mapa de Porto Alegre RPG.png]]",
+    "bounds: [[0,0], [1170,850]]",
+    "defaultZoom: -1",
+    "marker: Bairro,990.078125,405.5,Nova Sarandi,,,-0.1",
+    "marker: Mercado,876,258,Mercado Público,,-0.1,",
+    "marker: Bar,883,343,Padre Chagas,,0,",
+    "```",
+  ].join("\n");
+  const r = parseLocationBody(body);
+  assert.equal(r.leaflet.defaultZoom, -1);
+  assert.deepEqual(r.leaflet.markers, [
+    { tipo: "Bairro", lat: 990.078125, long: 405.5, nome: "Nova Sarandi", minZoom: null, maxZoom: -0.1 },
+    { tipo: "Mercado", lat: 876, long: 258, nome: "Mercado Público", minZoom: -0.1, maxZoom: null },
+    { tipo: "Bar", lat: 883, long: 343, nome: "Padre Chagas", minZoom: 0, maxZoom: null },
+  ]);
+});
