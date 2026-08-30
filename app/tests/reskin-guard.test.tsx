@@ -36,7 +36,7 @@ const PROIBIDOS = [
   // ficam FORA de propósito: são vocabulário legítimo nos dois mundos
   // (Presas = arma natural/dentes; Abater/Esmagar Presa = registro de
   // predador do Nóia em Forma Mutante — a leva meta é só do Executivo).
-  'Caçada', 'Emboscada',
+  'Caçada', 'Emboscada', 'Conjuração',
 ]
 const RE_PROIBIDO = new RegExp(
   `(?<![\\p{L}\\p{N}])(${PROIBIDOS.join('|')})(?![\\p{L}\\p{N}])`,
