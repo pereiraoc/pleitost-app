@@ -90,14 +90,15 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto });
     }
 
-    // #519: primeiro alias do FM no índice — o dropdown de classes exibe o
-    // nome do MUNDO (Guerrilheiro etc.) sem carregar o doc inteiro.
+    // #519: aliases do FM no índice — `alias` (o primeiro) alimenta displays
+    // baratos (dropdown de classes); `aliases` (todos) alimenta o RESOLVE de
+    // wikilink do app (report 2026-08-31: [[Brigada Militar]] etc. resolvem
+    // por alias no Obsidian e ficavam mortos no app).
     const aliasRaw = record.frontmatter?.aliases ?? record.frontmatter?.alias;
-    const alias = Array.isArray(aliasRaw)
-      ? (aliasRaw.find((a) => typeof a === "string" && a.trim() !== "") ?? null)
-      : typeof aliasRaw === "string" && aliasRaw.trim() !== ""
-        ? aliasRaw.trim()
-        : null;
+    const aliases = (Array.isArray(aliasRaw) ? aliasRaw : [aliasRaw])
+      .filter((a) => typeof a === "string" && a.trim() !== "")
+      .map((a) => a.trim());
+    const alias = aliases[0] ?? null;
 
     index.push({
       id: record.id,
@@ -107,6 +108,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       subtype: record.subtype,
       grupo: record.grupo,
       ...(alias ? { alias } : {}),
+      ...(aliases.length ? { aliases } : {}),
       kind: "content",
     });
 

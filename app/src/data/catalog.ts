@@ -58,6 +58,10 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
   const entryById = new Map<string, IndexDocEntry>()
   const idsByBasename = new Map<string, string[]>()
   const idsByBasenameLower = new Map<string, string[]>()
+  // Aliases do FM resolvem como no Obsidian, com precedência MENOR que
+  // basename (report 2026-08-31: [[Brigada Militar]]/[[CEEE]] mortos no app).
+  const idsByAlias = new Map<string, string[]>()
+  const idsByAliasLower = new Map<string, string[]>()
 
   const push = (map: Map<string, string[]>, key: string, id: string) => {
     const ids = map.get(key)
@@ -95,6 +99,10 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
       push(idsByBasename, doc.basename, doc.id)
       push(idsByBasenameLower, doc.basename.toLowerCase(), doc.id)
     }
+    for (const a of doc.aliases ?? []) {
+      push(idsByAlias, a, doc.id)
+      push(idsByAliasLower, a.toLowerCase(), doc.id)
+    }
 
     const cut = doc.id.lastIndexOf('/')
     ensureFolder(cut === -1 ? '' : doc.id.slice(0, cut)).docs.push(doc)
@@ -121,7 +129,11 @@ export function buildCatalog(manifest: IndexManifest): Catalog {
     }
 
     const ids =
-      idsByBasename.get(clean) ?? idsByBasenameLower.get(clean.toLowerCase()) ?? []
+      idsByBasename.get(clean) ??
+      idsByBasenameLower.get(clean.toLowerCase()) ??
+      idsByAlias.get(clean) ??
+      idsByAliasLower.get(clean.toLowerCase()) ??
+      []
     if (ids.length === 1) return { kind: 'doc', id: ids[0]! }
     if (ids.length > 1) return { kind: 'ambiguous', candidates: ids }
     return { kind: 'missing' }

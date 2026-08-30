@@ -14,6 +14,9 @@ export interface IndexDocEntry {
   subtype?: string | null
   /** Primeiro alias do FM (#519) — display do mundo (ex.: Guerrilheiro). */
   alias?: string | null
+  /** TODOS os aliases do FM — o resolve de wikilink os considera (report
+   *  2026-08-31: [[Brigada Militar]] resolve por alias como no Obsidian). */
+  aliases?: string[]
   /** Frontmatter `grupo`: string ("cac-simples") ou lista de wikilinks. */
   grupo?: string | string[] | null
 }
