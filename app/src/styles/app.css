@@ -674,6 +674,16 @@ a {
   gap: 0.75rem;
 }
 
+/* Report 2026-08-30: pastas de mundo (Contexto/**) — botões em largura cheia,
+   um abaixo do outro (leitura vertical, não grade). */
+.type-grid--stack {
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+.type-grid--stack .type-card {
+  justify-content: space-between;
+}
+
 .type-card {
   display: flex;
   align-items: center;
@@ -2283,9 +2293,7 @@ a[data-link-icon]::before {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--line2));
 }
 .ctx-acc-head {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
+  display: block;
   padding: 10px 14px;
   cursor: pointer;
   list-style: none;
@@ -2296,7 +2304,8 @@ a[data-link-icon]::before {
 .ctx-acc-head::before {
   content: '▸';
   color: var(--accent);
-  flex: none;
+  display: inline-block;
+  margin-right: 8px;
   transition: transform 0.15s;
 }
 .ctx-acc[open] > .ctx-acc-head::before {
@@ -2304,17 +2313,13 @@ a[data-link-icon]::before {
 }
 .ctx-acc-title {
   font-weight: 800;
-  white-space: nowrap;
 }
 .ctx-acc-assunto {
+  display: block;
+  margin-top: 3px;
+  margin-left: 20px;
   color: var(--muted);
   font-size: 0.9rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ctx-acc[open] .ctx-acc-assunto {
-  white-space: normal;
 }
 .ctx-acc-body {
   padding: 4px 14px 12px 34px;

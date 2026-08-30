@@ -74,11 +74,13 @@ function SectionButtons({ paths }: { paths: string[] }) {
   )
 }
 
-/** Cards menores das subpastas de uma FOLHA (ex.: Items → Armas, Armaduras…). */
-function FolderCards({ folders }: { folders: FolderNode[] }) {
+/** Cards menores das subpastas de uma FOLHA (ex.: Items → Armas, Armaduras…).
+ *  `stack` (report 2026-08-30): botões de LARGURA CHEIA um abaixo do outro —
+ *  leitura vertical das pastas de mundo (Contexto Atual, Organizações…). */
+function FolderCards({ folders, stack }: { folders: FolderNode[]; stack?: boolean }) {
   if (!folders.length) return null
   return (
-    <div className="type-grid">
+    <div className={stack ? 'type-grid type-grid--stack' : 'type-grid'}>
       {folders.map((folder) => (
         <Link key={folder.path} to={compendiumFolderPath(folder.path)} className="type-card">
           <span className="type-card-name">{navLabel(folder.path)}</span>
@@ -276,7 +278,14 @@ export function FolderView() {
       ) : null}
       {/* #267: na grade agrupada por subárvore (Items), o agrupamento por
           categoria/grupo/subgrupo SUBSTITUI os cards de subpasta. */}
-      {useSubtree ? null : <FolderCards folders={visibleFolders(node, mestre)} />}
+      {useSubtree ? null : (
+        <FolderCards
+          folders={visibleFolders(node, mestre)}
+          // Report 2026-08-30: pastas de MUNDO (Contexto/**) empilham os
+          // botões em largura cheia — leitura vertical, não grade.
+          stack={path === 'Contexto' || path.startsWith('Contexto/')}
+        />
+      )}
       {/* #519: navegação pro resto do mundo cyberpunk, embaixo da lista de
           bairros de Porto Alegre. */}
       {world === 'cyberpunk' && path === 'Atlas/Porto Alegre' ? (
