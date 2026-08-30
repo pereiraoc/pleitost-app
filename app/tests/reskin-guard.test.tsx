@@ -32,6 +32,11 @@ const PROIBIDOS = [
   'Entropista', 'Teurgo', 'Bruxo', 'Espiritualista', 'Domador', 'Rastreador',
   'Companheiro Animal', 'Poção', 'Magia', 'Magias', 'Mágica', 'Mágico',
   'Feral', 'Ferais', 'Imbuição', 'Pergaminho',
+  // leva caçada→meta do Executivo (aprovada 2026-08-30). 'Presa'/'Presas'
+  // ficam FORA de propósito: são vocabulário legítimo nos dois mundos
+  // (Presas = arma natural/dentes; Abater/Esmagar Presa = registro de
+  // predador do Nóia em Forma Mutante — a leva meta é só do Executivo).
+  'Caçada', 'Emboscada',
 ]
 const RE_PROIBIDO = new RegExp(
   `(?<![\\p{L}\\p{N}])(${PROIBIDOS.join('|')})(?![\\p{L}\\p{N}])`,
