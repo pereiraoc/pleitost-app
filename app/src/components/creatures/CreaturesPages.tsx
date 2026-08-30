@@ -57,6 +57,7 @@ import { addMonsterToInitiative } from '../../data/session-repo/encounter-action
 import { useSessions } from '../../data/session-store'
 import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
+import { reskinText } from '../../data/reskin'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -76,7 +77,7 @@ function mesaResumo(live: { characters: { kind: string }[] }): string {
   const herois = vivos.length - cas
   const h = `${herois} ${herois === 1 ? 'Herói' : 'Heróis'}`
   if (!cas) return h
-  return `${h} e ${cas} ${cas === 1 ? 'Companheiro Animal' : 'Companheiros Animais'}`
+  return `${h} e ${cas} ${reskinText(cas === 1 ? 'Companheiro Animal' : 'Companheiros Animais')}`
 }
 
 // ── Agrupamento por tier (issue #31) ──────────────────────────────────────
@@ -1114,7 +1115,7 @@ export function HeroisPage() {
               if (t.id === 'grupos') selectGroup(null)
             }}
           >
-            {t.label}
+            {reskinText(t.label)}
           </button>
         ))}
       </div>
@@ -1683,7 +1684,7 @@ export function NpcsPage() {
             disabled={MESTRE_GATED_IDS.has(t.id) && !mestre}
             onClick={() => setTab(t.id)}
           >
-            {t.label}
+            {reskinText(t.label)}
           </button>
         ))}
       </div>
@@ -1709,7 +1710,7 @@ export function NpcsPage() {
         <CreateFab label="+ Adicionar Pessoa" onClick={() => setPessoaOpen(true)} />
       ) : activeTab === 'companheiros' ? (
         <>
-          <CreateFab label="+ Adicionar Companheiro Animal" onClick={criarCompanheiro} />
+          <CreateFab label={`+ Adicionar ${reskinText('Companheiro Animal')}`} onClick={criarCompanheiro} />
           {/* #205: "o mesmo pra companheiro animal" — importar de arquivo/compêndio */}
           <CreateFab
             label="📥 Importar Companheiro"

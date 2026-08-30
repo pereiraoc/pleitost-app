@@ -15,6 +15,7 @@ import { usePessoaPortrait } from '../../data/images'
 import { clip } from './bits'
 import { fmPath, wikiTarget } from './hero-model'
 import { initials, PessoaForm, type PessoaFields2 } from '../creatures/CreaturesPages'
+import { reskinText } from '../../data/reskin'
 
 export interface PessoaRow extends PessoaFields2 {
   /** Doc id de um personagem EXISTENTE (herói/companheiro/monstro) — habilita
@@ -233,7 +234,7 @@ function ExistentePicker({
         entries: localEntriesOfKind('Heroi').filter((e) => e.id !== currentHeroId),
       },
       { label: 'Pessoas', entries: localEntriesOfKind('Pessoa') },
-      { label: 'Companheiros Animais', entries: localEntriesOfKind('CompanheiroAnimal') },
+      { label: reskinText('Companheiros Animais'), entries: localEntriesOfKind('CompanheiroAnimal') },
       { label: 'Monstros', entries: localEntriesOfKind('Monstro') },
     ].filter((g) => g.entries.length > 0)
   }, [currentHeroId])

@@ -10,6 +10,7 @@
 // wizard do herói — os dois personagens ficam na base; Descartar apaga os dois
 // (WizardView). O nível do CA espelha o do tutor (nivelDoTutor, familia.ts).
 import { useEffect, useMemo } from 'react'
+import { reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import {
   createLocalEntity,
@@ -127,7 +128,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
   return (
     <div>
       <WizSecao
-        titulo="Companheiro Animal"
+        titulo={reskinText('Companheiro Animal')}
         pendente={!companheiroCompleto(ctx)}
         nota={
           <>

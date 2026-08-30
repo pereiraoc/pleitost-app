@@ -7,6 +7,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { fetchCatalogForWorld, __resetCatalogForTests } from '../src/data/catalog'
+import { __resetContextoDefForTests } from '../src/data/context-def'
 import { vaultUrl } from '../src/data/base-url'
 import { __resetWorldDatasetForTests } from '../src/data/world-dataset'
 import { useTheme, __resetThemeForTests } from '../src/theme'
@@ -23,6 +24,7 @@ beforeEach(() => {
   __resetThemeForTests()
   __resetWorldDatasetForTests()
   __resetCatalogForTests()
+  __resetContextoDefForTests()
   cyberpunkIndex = null
   globalThis.fetch = (async (input: unknown) => {
     const url = String(input)
@@ -101,6 +103,8 @@ describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
   'invariantes com o dataset real (C9)',
   () => {
     beforeEach(() => {
+      // O beforeEach global já resetou os caches (inclusive o do Contexto-Def
+      // — sem isso o 404 do stub C2 envenenava o def do C9 como null).
       globalThis.fetch = (async (input: unknown) => {
         const url = String(input)
         const m = url.match(/(vault-data(?:-cyberpunk)?)\/(.+)$/)
@@ -152,8 +156,10 @@ describe.skipIf(!fs.existsSync(path.join(cybDir, 'index.json')))(
       // mundo roteia pro dataset do mundo
       const guerreiro = [...cat.entryById.keys()].find((id) => id.endsWith('/Guerreiro'))!
       expect(vaultUrl(`${guerreiro}.json`)).toContain('vault-data-cyberpunk/')
-      // alias do mundo no índice (classes exibem Guerrilheiro etc. — #519)
-      expect(cat.entryById.get(guerreiro)?.alias).toBe('Guerrilheiro')
+      // alias do mundo vem do MAPA do Contexto-Def, não mais de FM na vault
+      // (2026-08-30: Sistema/Classes revertido ao byte-idêntico da fantasia;
+      // aplicarContextoAosDocs injeta o rename de notas do contexto.json)
+      expect(cat.entryById.get(guerreiro)?.alias).toBe('Soldado')
       // heróis da fantasia NÃO existem no catálogo do mundo (exclusividade)
       expect([...cat.entryById.keys()].some((id) => id.includes('Carlos Facão'))).toBe(false)
     })

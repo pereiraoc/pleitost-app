@@ -17,6 +17,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel } from '../../markdown/dataview-value'
+import { reskinText } from '../../data/reskin'
 import {
   deleteEntityImage,
   saveEntityImage,
@@ -1387,9 +1388,9 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               e header-ca.ts (info grid Classe | Sintonia | Tutor). Emoji do
               registro central (tokens.emojis.perfil.Tutor). */}
           {caps.tutor ? (
-            <Field label="TUTOR">
+            <Field label={reskinText('Tutor').toUpperCase()}>
               <BoxSelect
-                ariaLabel="Tutor"
+                ariaLabel={reskinText('Tutor')}
                 display={
                   <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
                     {tokens.emojis.perfil.Tutor} {linkLabel(tutor) || '—'}
