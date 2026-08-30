@@ -15,6 +15,7 @@ import {
 import { tokens } from './ficha/registry'
 import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data/commerce'
 import { isArtefatoId, precoPO } from '../grupo/wealth'
+import { reskinName, reskinText } from '../data/reskin'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
 import { useDetail } from '../data/detail-context'
@@ -477,7 +478,9 @@ export function itemCardHtml(
     }
     return val(`${field}_${word}`)
   }
-  const row = (label: string, v: string) => (v ? `<div class="shc-row"><b>${label}</b>${esc(v)}</div>` : '')
+  // #519: valores de campo passam pelo reskin do mundo (PO→Cz$, termos).
+  const row = (label: string, v: string) =>
+    v ? `<div class="shc-row"><b>${label}</b>${esc(reskinText(v))}</div>` : ''
   const kind = docKind(doc)
   // Preço com o MULTIPLICADOR de qualidade (#122/#127): itens cuja qualidade é
   // própria (tesouro/imbuição/poção — showTier) custam preço_base × TIER_PRICE_MULT
@@ -517,7 +520,8 @@ export function itemCardHtml(
   // fullBody (#110/#117/#125): a PROSA completa da regra (HTML) em vez do resumo.
   const descHtml = fullBody
     ? bodyHtml(doc, assets, { cutAfterTable })
-    : esc(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc)) + abilitiesHtml
+    : esc(reskinText(tierVal('descrição') || val('descrição') || val('resumo') || bodyDesc(doc))) +
+      abilitiesHtml
   const tierSpan = showTier ? `<span class="shc-tier">(${TIER_COLUNA[tier]})</span>` : ''
   // Borda: itens de rank (magia/hab/téc/ação) básicos → azul (tier-B); os demais
   // seguem a qualidade/tier (aço/prata/ouro).
@@ -527,7 +531,7 @@ export function itemCardHtml(
   const hasTable = fullBody && descHtml.includes('shc-tbl')
   const cardCls = `shc-card tier-${borderTier}${fullBody ? ' shc-card--wide' : ''}${hasTable ? ' shc-card--table' : ''}`
   const descCls = `shc-desc${fullBody ? ' shc-body' : ''}`
-  return `<div class="${cardCls}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(doc.basename)}${tierSpan}</div>${rows}${descHtml ? `<div class="${descCls}">${descHtml}</div>` : ''}</div>`
+  return `<div class="${cardCls}">${imgUrl ? `<img class="shc-img" src="${esc(imgUrl)}" alt=""/>` : ''}<div class="shc-name">${esc(reskinName(doc.basename))}${tierSpan}</div>${rows}${descHtml ? `<div class="${descCls}">${descHtml}</div>` : ''}</div>`
 }
 
 /** HTML do hover de uma entrada: combo = carta da ARMA + carta da PROPRIEDADE lado

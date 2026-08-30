@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { fetchCatalogForWorld, type Catalog } from './catalog'
+import { setActiveContexto } from './reskin'
 import { useWorld } from './world'
 
 const CatalogContext = createContext<Catalog | null>(null)
@@ -17,11 +18,21 @@ export function CatalogProvider({ children, catalog }: Props) {
   )
 
   useEffect(() => {
-    if (catalog) return
+    if (catalog) {
+      // Injeção de teste: reskin acompanha o catálogo injetado (default: off).
+      setActiveContexto(catalog.contextoDef ?? null)
+      return
+    }
     let alive = true
     setState({})
     fetchCatalogForWorld(world).then(
-      (loaded) => alive && setState({ catalog: loaded }),
+      (loaded) => {
+        if (!alive) return
+        // #519: ativa o reskin do mundo ANTES dos filhos renderizarem —
+        // funciona também em cache-hit (o def viaja dentro do Catalog).
+        setActiveContexto(loaded.contextoDef ?? null)
+        setState({ catalog: loaded })
+      },
       (error: Error) => alive && setState({ error }),
     )
     return () => {

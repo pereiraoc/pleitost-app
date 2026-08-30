@@ -6,6 +6,7 @@
 //   - Regras numéricas (bônus de proficiência, classe de aventureiro por
 //     nível) espelham o plugin pleitost-autosheet (fonte de verdade).
 import { tokens } from '../../generated/tokens'
+import { reskinPericia } from '../../data/reskin'
 
 export type RankLetter = 'N' | 'A' | 'E' | 'M'
 export const RANK_ORDER: RankLetter[] = ['N', 'A', 'E', 'M']
@@ -113,7 +114,9 @@ const SLUG_TO_DISPLAY: Record<string, string> = {
   ArcanaBranca: 'Arcana Branca',
 }
 export function displayName(slug: string): string {
-  return SLUG_TO_DISPLAY[slug] ?? slug
+  // #519: perícias com display próprio do mundo (Arcana → "Trônicos") —
+  // aplica DEPOIS da tabela slug→display; no-op sem contexto ativo.
+  return reskinPericia(SLUG_TO_DISPLAY[slug] ?? slug)
 }
 
 /** Emoji de perícia (registro pericia do plugin, chave slugada). */

@@ -2,6 +2,7 @@ import type { PhrasingContent, Root } from 'mdast'
 import { findAndReplace } from 'mdast-util-find-and-replace'
 import { IMAGE_EXTENSIONS } from '../data/assets'
 import type { WikiResolution } from '../data/catalog'
+import { reskinName } from '../data/reskin'
 import { docPath } from '../paths'
 
 const WIKILINK = /!?\[\[([^\][|]+?)(?:\|([^\][]+?))?\]\]/g
@@ -61,9 +62,11 @@ export function remarkWikilinks({ resolve, iconFor }: Options) {
               },
             }
           }
-          return { type: 'text', value: alias ?? target }
+          return { type: 'text', value: reskinName(alias ?? target) }
         }
-        const label = alias ?? target
+        // #519: rótulo passa pelo reskin do mundo (display puro — o TARGET
+        // segue canônico pra resolução).
+        const label = reskinName(alias ?? target)
         const res = resolve(target)
         if (res.kind !== 'doc') return { type: 'text', value: label }
         // #303: ícone (supercharged) do doc-alvo como ATRIBUTO — CSS o prepende

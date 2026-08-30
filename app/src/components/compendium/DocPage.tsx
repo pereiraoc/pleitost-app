@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useDoc } from '../../data/useDoc'
 import type { VaultDoc } from '../../data/types'
 import { linkIconForEntry } from '../../markdown/link-icon'
+import { reskinName, reskinText } from '../../data/reskin'
 import { tokens } from '../ficha/registry'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
@@ -45,10 +46,10 @@ export function DocView({
       {embedded ? null : <div className="kicker">{compendioKicker(doc.type)}</div>}
       {hero ? <VaultImage target={hero.target} className="doc-hero" zoom /> : null}
       <header className="doc-header">
-        <h1>{icone ? `${icone} ` : ''}{doc.basename}</h1>
+        <h1>{icone ? `${icone} ` : ''}{reskinName(doc.basename)}</h1>
         {/* Feedback do mestre: a categoria (doc.type) foi pro kicker; aqui fica
             só o subtype quando existe (ex.: "Arcana Negra"). */}
-        {doc.subtype ? <span className="doc-type">{doc.subtype}</span> : null}
+        {doc.subtype ? <span className="doc-type">{reskinText(doc.subtype)}</span> : null}
         {grupos.map((grupo) => (
           <span key={grupo} className="grupo-chip">
             <InlineFieldValue value={grupo} />

@@ -9,6 +9,7 @@ import { DetailLink } from '../components/DetailLink'
 import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
 import { remarkInlineDataview } from './remark-inline-dataview'
+import { remarkReskinText } from './remark-reskin-text'
 import { remarkWikilinks } from './remark-wikilinks'
 import { linkIconForEntry } from './link-icon'
 import { useSettings } from '../settings'
@@ -72,6 +73,9 @@ export function MarkdownBody({
           // #303: ícones supercharged nos links (toggle do CONFIG, default on).
           iconFor: linkIcons ? (id) => linkIconForEntry(catalog.entryById.get(id)) : undefined,
         }),
+      // #519: cascata de termos do mundo na prosa (depois dos wikilinks —
+      // labels já saem reskinados de lá; aqui é o texto solto).
+      remarkReskinText,
       // eleva as transclusões de nota a blocos (evita <div> aninhado em <p>)
       remarkLiftNoteEmbeds,
       // #275: no contexto folder-note, a grade da pasta já é a listagem —

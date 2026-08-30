@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { loadDoc } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { docPath } from '../../paths'
+import { reskinName } from '../../data/reskin'
 import { InlineFieldValue } from './InlineFieldValue'
 
 function grupoValues(entry: IndexDocEntry): string[] {
@@ -53,7 +54,7 @@ export function DocTable({ entries, columns }: Props) {
 
   const name = (entry: IndexDocEntry) => (
     <>
-      <Link to={docPath(entry.id)}>{entry.basename ?? entry.id}</Link>
+      <Link to={docPath(entry.id)}>{reskinName(entry.basename ?? entry.id)}</Link>
       {grupoValues(entry).map((chip) => (
         <span key={chip} className="grupo-chip">
           <InlineFieldValue value={chip} />

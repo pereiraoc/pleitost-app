@@ -5,6 +5,7 @@ import { ensureFreshVaultData } from './vault-cache'
 import { WORLD_DATA_DIR, type WorldId } from './world'
 import { setWorldDataset } from './world-dataset'
 import { thumbCopiedTo } from './assets'
+import { loadContextoDef, type ContextoDef } from './context-def'
 
 /**
  * Label que o extractor grava em byType para docs content sem `type`
@@ -44,6 +45,10 @@ export interface Catalog {
   /** #519: mundo ativo sem dataset publicado (banner "em preparação";
    *  conteúdo = fallback total na fantasia). */
   worldDatasetAusente?: boolean
+  /** #519: Contexto-Def compilado do mundo (contexto.json) — viaja com o
+   *  catálogo pra que o CatalogProvider reative o reskin mesmo em cache-hit
+   *  na troca de mundo. null/ausente = sem reskin. */
+  contextoDef?: ContextoDef | null
 }
 
 export function buildCatalog(manifest: IndexManifest): Catalog {
@@ -145,11 +150,36 @@ async function fetchManifest(dir: string): Promise<IndexManifest | null> {
   return (await res.json()) as IndexManifest
 }
 
+/** #519: aplica o Contexto-Def do mundo aos docs do índice ANTES do
+ *  buildCatalog — display/disponibilidade puros, identidade intocada:
+ *  - `disponibilidade.indisponiveis` saem do catálogo (o doc segue
+ *    resolvível por URL — só não é listado/oferecido);
+ *  - `reskin.notas` viram `alias` da entrada (as superfícies que já exibem
+ *    alias — dropdown de classes etc. — pegam o nome do mundo de graça). */
+function aplicarContextoAosDocs(
+  docs: IndexDocEntry[],
+  def: ContextoDef | null,
+): IndexDocEntry[] {
+  if (!def) return docs
+  const fora = new Set(def.disponibilidade.indisponiveis)
+  const notas = def.reskin.notas
+  return docs
+    .filter((d) => !(d.kind === 'content' && d.basename && fora.has(d.basename)))
+    .map((d) => {
+      const novo = d.basename ? notas[d.basename] : undefined
+      return novo ? { ...d, alias: novo } : d
+    })
+}
+
 async function fetchFantasiaCatalog(): Promise<Catalog> {
   await ensureFreshVaultData('fantasia')
-  const manifest = await fetchManifest(WORLD_DATA_DIR.fantasia)
+  const [manifest, def] = await Promise.all([
+    fetchManifest(WORLD_DATA_DIR.fantasia),
+    loadContextoDef('fantasia'),
+  ])
   if (!manifest) throw new Error('index.json: dataset da fantasia indisponível')
-  return buildCatalog(manifest)
+  const docs = aplicarContextoAosDocs(manifest.docs, def)
+  return { ...buildCatalog({ ...manifest, docs }), contextoDef: def }
 }
 
 /** Catálogo do CYBERPUNK (#519): UNIÃO — docs do dataset do mundo vencem por
@@ -159,14 +189,15 @@ async function fetchFantasiaCatalog(): Promise<Catalog> {
  *  com worldDatasetAusente (banner). */
 async function fetchCyberpunkCatalog(): Promise<Catalog> {
   await Promise.all([ensureFreshVaultData('fantasia'), ensureFreshVaultData('cyberpunk')])
-  const [base, mundo] = await Promise.all([
+  const [base, mundo, def] = await Promise.all([
     fetchManifest(WORLD_DATA_DIR.fantasia),
     fetchManifest(WORLD_DATA_DIR.cyberpunk),
+    loadContextoDef('cyberpunk'),
   ])
   if (!base) throw new Error('index.json: dataset da fantasia indisponível')
   if (!mundo) {
     setWorldDataset('cyberpunk', null)
-    return { ...buildCatalog(base), worldDatasetAusente: true }
+    return { ...buildCatalog(base), worldDatasetAusente: true, contextoDef: def }
   }
   const rels = new Set<string>(['links.json', 'db-version.json'])
   for (const d of mundo.docs) rels.add(`${d.id}.json`)
@@ -204,14 +235,14 @@ async function fetchCyberpunkCatalog(): Promise<Catalog> {
     PASTAS_DE_MUNDO.some((pfx) => d.id.startsWith(pfx))
   const porId = new Map(base.docs.filter((d) => !deMundo(d)).map((d) => [d.id, d]))
   for (const d of mundo.docs) porId.set(d.id, d)
-  const docs = [...porId.values()]
+  const docs = aplicarContextoAosDocs([...porId.values()], def)
   const byType: Record<string, number> = {}
   for (const d of docs) {
     if (d.kind !== 'content') continue
     const t = d.type ?? SEM_CATEGORIA
     byType[t] = (byType[t] ?? 0) + 1
   }
-  return buildCatalog({ ...mundo, docs, byType, counts: base.counts })
+  return { ...buildCatalog({ ...mundo, docs, byType, counts: base.counts }), contextoDef: def }
 }
 
 /** Catálogo do MUNDO (cacheado por mundo/sessão). Antes do índice, o check de
