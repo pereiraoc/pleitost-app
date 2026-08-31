@@ -5,22 +5,23 @@
 // O compile-contexto confere o bloco no extract e FALHA se estiver
 // desatualizado — edite o FM, rode este script, pronto.
 import { readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
-import { VAULT_ROOT, OUT_DIR } from "./paths.mjs";
+import { VAULT_ROOT } from "./paths.mjs";
 import { walkVault } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 import { renderContextoDoc, aplicarBlocoAuto, AUTO_INI } from "./contexto-doc.mjs";
 
 const { docs } = await walkVault(VAULT_ROOT);
 
-// tipo por basename (agrupamento das tabelas) — do índice extraído se houver,
-// senão do parse ao vivo.
+// tipo por basename (agrupamento das tabelas) — lido AO VIVO da vault
+// (usar o índice extraído criava galinha-e-ovo: nota nova ainda sem extract
+// agrupava errado e a auditoria do compile reprovava o bloco recém-gerado).
 const typeByBasename = new Map();
-try {
-  const idx = JSON.parse(await readFile(join(OUT_DIR, "index.json"), "utf8"));
-  for (const d of idx.docs) if (d.kind === "content" && d.basename) typeByBasename.set(d.basename, d.type ?? "Outros");
-} catch {
-  /* sem extração anterior — tabelas agrupam em "Outros" */
+for (const d of docs) {
+  if (d.kind === "scaffolding") continue;
+  const raw = await readFile(d.absPath, "utf8");
+  const m = /^---\r?\n[\s\S]*?\bcategoria:\s*([^\r\n#]+)/.exec(raw);
+  const base = d.relPath.split("/").pop().replace(/\.md$/i, "");
+  typeByBasename.set(base, m ? m[1].trim().replace(/^["']|["']$/g, "") : "Outros");
 }
 
 let n = 0;
