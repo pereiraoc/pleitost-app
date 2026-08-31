@@ -5,7 +5,7 @@
 import { useDoc } from '../../data/useDoc'
 import { reskinName } from '../../data/reskin'
 import { useDetail } from '../../data/detail-context'
-import { localTypeFromSubtype } from '../../data/commerce'
+import { localTypeOfDoc } from '../../data/commerce'
 import { InlineFieldValue } from '../compendium/InlineFieldValue'
 
 export function LocalDetail({ id }: { id: string }) {
@@ -21,7 +21,7 @@ export function LocalDetail({ id }: { id: string }) {
         (r): r is string => typeof r === 'string' && r.trim() !== '',
       )
     : []
-  const temComercio = localTypeFromSubtype(doc.subtype) != null
+  const temComercio = localTypeOfDoc(doc) != null
 
   return (
     <div className="local-detail">

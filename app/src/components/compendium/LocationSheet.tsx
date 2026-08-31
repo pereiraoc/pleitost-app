@@ -29,7 +29,7 @@ import { podeComerciar, useGroupStoreVersion } from '../../data/group-store'
 import {
   TIER_COLUNA,
   DEFAULT_ENCOMENDA_MATRIX,
-  localTypeFromSubtype,
+  localTypeOfDoc,
   rollShop2,
   type LocalType,
   type ProntaEntry,
@@ -682,7 +682,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
 
   // Tipo de local efetivo: o guardado na rolagem (permite override "Iluminada"
   // do GM persistido) ou a projeção da subcategoria.
-  const subtypeLocalType = localTypeFromSubtype(doc.subtype)
+  const subtypeLocalType = localTypeOfDoc(doc)
   const localType: LocalType | null = shop?.localType ?? subtypeLocalType
 
   // Candidatos da loja (#93): TODOS os tesouros simples + combos das ARMAS

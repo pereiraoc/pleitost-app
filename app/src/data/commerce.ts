@@ -280,6 +280,20 @@ export function localTypeFromSubtype(subtype: string | null | undefined): LocalT
   return found ?? null
 }
 
+/** Tipo de comércio EFETIVO de uma Localização: a subcategoria (fantasia:
+ *  Pequena/Grande Cidade, Capital) ou o FM `Comércio:` (POA 1987, aprovado
+ *  2026-08-31: bairros carregam a MESMA régua canônica — Mercado Público =
+ *  Iluminada, Moinhos/Petrópolis/Centro = Capital etc.). */
+export function localTypeOfDoc(doc: {
+  subtype?: string | null
+  frontmatter?: Record<string, unknown>
+}): LocalType | null {
+  const porSubtipo = localTypeFromSubtype(doc.subtype)
+  if (porSubtipo) return porSubtipo
+  const fm = doc.frontmatter?.['Comércio']
+  return typeof fm === 'string' ? localTypeFromSubtype(fm.trim()) : null
+}
+
 /** RNG injetável: () => número em [0,1). Default = Math.random (browser). */
 export type Rng = () => number
 
