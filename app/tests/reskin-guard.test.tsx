@@ -37,6 +37,12 @@ const PROIBIDOS = [
   // (Presas = arma natural/dentes; Abater/Esmagar Presa = registro de
   // predador do Nóia em Forma Mutante — a leva meta é só do Executivo).
   'Caçada', 'Emboscada', 'Conjuração',
+  // armas (proposta aprovada 2026-09-01 — Decreto das Armas Frias). 'Lança',
+  // 'Machado', 'Arco' ficam FORA: sobrevivem em nomes mantidos (Lança de
+  // Andaime, Machado de Bombeiro, Arco de Caça).
+  'Espada', 'Adaga', 'Besta', 'Bestas', 'Rapieira', 'Punhal', 'Montante',
+  'Alabarda', 'Azagaia', 'Alfange', 'Bordão', 'Manopla', 'Tacape', 'Broquel',
+  'Malho', 'Funda', 'Obra-prima',
 ]
 const RE_PROIBIDO = new RegExp(
   `(?<![\\p{L}\\p{N}])(${PROIBIDOS.join('|')})(?![\\p{L}\\p{N}])`,

@@ -16,7 +16,7 @@ import { ClasseNivelPanel } from './HabilidadesTab'
 import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
-import { linkLabel } from '../../markdown/dataview-value'
+import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { reskinText } from '../../data/reskin'
 import {
   deleteEntityImage,
@@ -1393,7 +1393,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
                 ariaLabel={reskinText('Tutor')}
                 display={
                   <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
-                    {tokens.emojis.perfil.Tutor} {linkLabel(tutor) || '—'}
+                    {tokens.emojis.perfil.Tutor} {linkLabelDisplay(tutor) || '—'}
                   </div>
                 }
                 options={withCurrent(

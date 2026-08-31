@@ -17,7 +17,7 @@
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
-import { linkLabel, unquote } from '../../markdown/dataview-value'
+import { linkLabel, unquote, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDetail } from '../../data/detail-context'
 import { useAssetIndex } from '../../data/assets'
@@ -1267,7 +1267,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                             >
                               {armaNames.map((a) => (
                                 <option key={a} value={a}>
-                                  {linkLabel(a)}
+                                  {linkLabelDisplay(a)}
                                 </option>
                               ))}
                             </select>

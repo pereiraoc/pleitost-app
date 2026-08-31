@@ -56,7 +56,7 @@ import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia
 import type { HeroRefs } from './useHeroRefs'
 import { fmPath, wikiTarget } from './hero-model'
 import { slugify } from './registry'
-import { linkLabel } from '../../markdown/dataview-value'
+import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { ITEM_CARD_CSS, ItemHover, docImageUrl, docTier, itemCardHtml } from '../item-card'
 import { pushLog } from '../../data/debug-log'
 import { linkIconForEntry } from '../../markdown/link-icon'
@@ -176,7 +176,7 @@ function PlanChip({
       }}
     >
       {icone ? <span style={{ marginRight: 5 }}>{icone}</span> : null}
-      {linkLabel(wl) || wl}
+      {linkLabelDisplay(wl) || wl}
       {sufixo ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 5 })}>{sufixo}</span> : null}
     </span>
   )
@@ -943,7 +943,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               const d = refs.refDoc(g.link)
               return (
                 <div key={g.link} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {remCirc(`Remover ${linkLabel(g.link)}`, () => {
+                  {remCirc(`Remover ${linkLabelDisplay(g.link)}`, () => {
                     if (!g.planejado) desfazTecnica(g.link)
                     desregistrar('tecnica', g.link)
                     otimistaRemove('tecnica', g.link)
@@ -951,7 +951,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
                   <ItemHover doc={d ?? undefined} fullBody>
                     <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {linkLabel(g.link)}
+                      {linkLabelDisplay(g.link)}
                     </span>
                   </ItemHover>
                   <span style={mono({ fontSize: 9, color: 'var(--muted)' })}>
@@ -979,7 +979,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {linhas.map(({ wl, d, custo }) => (
                   <div key={wl} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    {addCirc(`Aprender ${linkLabel(wl)}`, podeAdd, () =>
+                    {addCirc(`Aprender ${linkLabelDisplay(wl)}`, podeAdd, () =>
                       registraEAplica({ nivel: card.nivel, tipo: 'tecnica', rank, alvo: wl }, () =>
                         aplicaTecnica(wl, rank),
                       ),
@@ -988,7 +988,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                     <span style={{ fontSize: 13, flex: 'none' }}>{tokens.emojis.categoria.Tecnica}</span>
                     <ItemHover doc={d ?? undefined} fullBody>
                       <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {linkLabel(wl)}
+                        {linkLabelDisplay(wl)}
                       </span>
                     </ItemHover>
                   </div>
@@ -1037,7 +1037,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   }
                 }
               }}
-              aria-label={`${f.pericia}: ${linkLabel(f.alvo)}`}
+              aria-label={`${f.pericia}: ${linkLabelDisplay(f.alvo)}`}
               aria-pressed
               style={{
                 width: 15,
@@ -1059,7 +1059,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               {f.tipo === 'especialidade' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
             </span>
             <ItemHover doc={docDe(f.alvo)} fullBody>
-              <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(f.alvo)}</span>
+              <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabelDisplay(f.alvo)}</span>
             </ItemHover>
             {f.planejado ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>plano</span> : null}
           </div>
@@ -1086,7 +1086,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       () => aplicaEspecialidade(o.nome, o.rank === 'E' ? 'Especializacao' : 'Maestria', wl),
                     )
                   }
-                  aria-label={`${o.nome}: ${linkLabel(wl)}`}
+                  aria-label={`${o.nome}: ${linkLabelDisplay(wl)}`}
                   aria-pressed={false}
                   style={{
                     width: 15,
@@ -1108,7 +1108,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   {o.rank === 'E' ? TIPO_EMOJI.especialidade : TIPO_EMOJI.maestria}
                 </span>
                 <ItemHover doc={docDe(wl)} fullBody>
-                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabel(wl)}</span>
+                  <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{linkLabelDisplay(wl)}</span>
                 </ItemHover>
               </div>
             ))}
@@ -1242,7 +1242,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   sufixo={`${g.rank} · ${g.escola}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                 />
                 <button
-                  aria-label={`Remover ${linkLabel(g.link)}`}
+                  aria-label={`Remover ${linkLabelDisplay(g.link)}`}
                   onClick={() => {
                     if (!g.planejado) (g.secundaria ? desfazMagiaSec : desfazMagia)(g.escola, g.link)
                     // desregistrar por instância: magia casa também o flag sec
@@ -1717,7 +1717,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           <PbRow
             rid={rid}
             kickerTxt={`Ganho do nível${via}`}
-            valor={linkLabel(wl)}
+            valor={linkLabelDisplay(wl)}
             doc={docDe(wl)}
             icon={(() => {
               const d = docDe(wl)
@@ -1748,7 +1748,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               key={rid}
               rid={rid}
               kickerTxt={`Magia concedida · ${m.escola}${m.secundaria ? ' (2ª)' : ''}`}
-              valor={linkLabel(m.link)}
+              valor={linkLabelDisplay(m.link)}
               doc={docDe(m.link)}
               icon={(() => {
                 const d = docDe(m.link)
@@ -1768,7 +1768,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <span key={e.label} style={mono({ fontSize: 10, color: 'var(--muted)' })}>
                 {e.label} {e.de} → <span style={{ color: 'var(--text)', fontWeight: 700 }}>{e.para}</span>
                 {e.fonte && /^Regra\.\[\[/.test(e.fonte)
-                  ? ` · ${linkLabel(e.fonte.replace(/^Regra\./, ''))}`
+                  ? ` · ${linkLabelDisplay(e.fonte.replace(/^Regra\./, ''))}`
                   : ''}
               </span>
             ))}
@@ -1982,7 +1982,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                           key={`sub|${s.choiceKey}`}
                           style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', paddingLeft: 18 }}
                         >
-                          <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>↳ {linkLabel(s.valor)}</span>
+                          <span style={mono({ fontSize: 8.5, color: 'var(--muted)' })}>↳ {linkLabelDisplay(s.valor)}</span>
                           {magias.map((m) => (
                             <PlanChip
                               key={`sm|${m.escola}|${m.link}`}

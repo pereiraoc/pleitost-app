@@ -11,7 +11,7 @@
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
-import { linkLabel } from '../../markdown/dataview-value'
+import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
 import { useDocs } from '../../data/useDoc'
@@ -1676,7 +1676,7 @@ function EspecializacoesPanel({ doc }: { doc: VaultDoc }) {
             // as matérias derivam ("Atletismo ← Impulso"), deixando claro o vínculo.
             skill:
               field === 'Maestria' && espBase
-                ? `${displayName(slug)} ← ${linkLabel(espPick)}`
+                ? `${displayName(slug)} ← ${linkLabelDisplay(espPick)}`
                 : `${displayName(slug)} (${minRank})`,
             items: opts.map((opt) => ({
               on: pick === opt,
@@ -2265,7 +2265,7 @@ export function HabilidadesArvorePanel({
                               fontStyle: choicePickValue(c) ? 'normal' : 'italic',
                             }}
                           >
-                            {linkLabel(choicePickValue(c)) || '(não definido)'}
+                            {linkLabelDisplay(choicePickValue(c)) || '(não definido)'}
                           </span>
                         </ItemHover>
                       )}
@@ -3080,7 +3080,7 @@ export function TecnicasPanel({
                                 fontStyle: choicePickValue(c) ? 'normal' : 'italic',
                               }}
                             >
-                              {linkLabel(choicePickValue(c)) || '(não definido)'}
+                              {linkLabelDisplay(choicePickValue(c)) || '(não definido)'}
                             </span>
                           </ItemHover>
                         )}
