@@ -4,6 +4,7 @@
 // (mod = atributo + bônus de proficiência + bônus de item + bônus especial;
 // defesas = 10 + mod; movimento = 4 + mod), as mesmas do script do design.
 import type { VaultDoc } from '../../data/types'
+import { reskinName } from '../../data/reskin'
 import { linkLabel } from '../../markdown/dataview-value'
 import { PROF_BONUS, RANK_ORDER, TIER_NOME, type RankLetter, type RankStateKey } from './registry'
 
@@ -456,6 +457,15 @@ export function interativa(fm: Record<string, unknown>): {
     condicoes: (inter['Condicoes_Ativas'] ?? {}) as Record<string, unknown>,
     imunidades: (inter['Imunidades'] ?? {}) as Record<string, unknown>,
   }
+}
+
+/** Display de sintonia no MUNDO ativo (report c6cc276c): se o Contexto
+ *  renomeia a nota ("Traço Elemental do Fogo" → "Fator O+"), usa o nome do
+ *  mundo por inteiro; senão cai no nome curto da fantasia ("Fogo"). */
+export function sintoniaDisplay(value: unknown): string {
+  const full = linkLabel(str(value))
+  const mundo = reskinName(full)
+  return mundo !== full ? mundo : shortSintonia(value)
 }
 
 /** Nome curto de sintonia — espelha shortSintoniaName do plugin. */

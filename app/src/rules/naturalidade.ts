@@ -27,12 +27,23 @@ const SUBCATEGORIA_ICON: Record<string, string> = {
 }
 
 /** Espelho de SELECTABLE (plugin naturalidade-picker.ts:42). */
-const SELECTABLE = new Set<string>(['Capital', 'Pequena Cidade', 'Grande Cidade'])
+const SELECTABLE = new Set<string>([
+  'Capital',
+  'Pequena Cidade',
+  'Grande Cidade',
+  // POA 1987 (report de50ef5d): o Atlas urbano usa Bairro/Cidade — sem eles o
+  // dropdown ficava vazio no mundo cyberpunk. Fantasia não tem essas
+  // subcategorias, então nada muda lá.
+  'Bairro',
+  'Cidade',
+])
 
 /** Espelho de SUBCATEGORIA_ORDER (plugin naturalidade-picker.ts:48-52). */
 const SUBCATEGORIA_ORDER: Record<string, number> = {
   Capital: 0,
+  Cidade: 0,
   'Grande Cidade': 1,
+  Bairro: 1,
   'Pequena Cidade': 2,
 }
 
@@ -99,6 +110,9 @@ function buildTree(opts: NaturalidadeOption[]): TreeNode {
 
 /** Espelho de hasCityDescendant (plugin naturalidade-picker.ts:152-160). */
 function hasCityDescendant(node: TreeNode): boolean {
+  // POA 1987 (report de50ef5d): bairro é FOLDER-NOTE (Restinga/Restinga.md) —
+  // a própria nota-índice selecionável conta como "cidade" do ramo.
+  if (node.indexNote && SELECTABLE.has(node.indexNote.subcategoria)) return true
   for (const leaf of node.leaves) {
     if (SELECTABLE.has(leaf.subcategoria)) return true
   }
@@ -123,7 +137,15 @@ function flattenTree(node: TreeNode, depth: number): NaturalidadeLine[] {
   const indent = '  '.repeat(Math.max(0, depth))
   if (depth >= 0 && node.indexNote) {
     const icon = SUBCATEGORIA_ICON[node.indexNote.subcategoria] ?? ''
-    out.push({ value: null, label: `${indent}${icon ? `${icon} ` : ''}${node.indexNote.nome}`, disabled: true })
+    // Folder-note SELECIONÁVEL (Bairro/Cidade do POA): vira opção de verdade,
+    // não header morto — na fantasia as notas-índice são Região/Nação e
+    // seguem como header desabilitado.
+    const selecionavel = SELECTABLE.has(node.indexNote.subcategoria)
+    out.push({
+      value: selecionavel ? `[[${node.indexNote.nome}]]` : null,
+      label: `${indent}${icon ? `${icon} ` : ''}${node.indexNote.nome}`,
+      disabled: !selecionavel,
+    })
   } else if (depth >= 0 && node.segment) {
     out.push({ value: null, label: `${indent}${node.segment}`, disabled: true })
   }

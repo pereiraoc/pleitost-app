@@ -12,6 +12,7 @@
 // via interativa). A armadura RECOMENDADA já entra selecionada por default
 // (uma vez, marcador Wizard.equipInit). Writes espelham o InventarioTab.
 import { useEffect, useMemo, useState } from 'react'
+import { reskinName } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
@@ -216,7 +217,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     )
     return comNivel.map(({ a, r }) => ({
       id: a.basename,
-      titulo: a.basename,
+      titulo: reskinName(a.basename),
       sub: [a.dano, a.tipo, a.maos >= 2 ? '2 mãos' : '1 mão', a.forca ? `Força ${a.forca}` : null, a.precisa ? 'Precisa' : null]
         .filter(Boolean)
         .join(' · '),
@@ -429,7 +430,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
                 ariaLabel="Escudos"
                 itens={escudos.map((e) => ({
                   id: e.basename ?? e.id,
-                  titulo: e.basename ?? e.id,
+                  titulo: reskinName(e.basename ?? e.id),
                   detalheId: e.id,
                   img: escudoImageUrl(escudoDocs?.get(e.id), assets),
                   imgFull: weaponImageUrl(escudoDocs?.get(e.id), assets, false),
@@ -467,7 +468,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
               tipo === 'Sem' ? profArmadura.sem : tipo === 'Leve' ? profArmadura.leve : tipo === 'Pesada' ? profArmadura.pesada : false
             return {
               id: nome,
-              titulo: nome,
+              titulo: reskinName(nome),
               detalheId: e.id,
               badge: tipo && tipo === tipoRecomendado ? 'RECOMENDADA' : profOk ? undefined : 'SEM PROFICIÊNCIA',
               badgeCor: tipo === tipoRecomendado ? 'var(--accent)' : 'var(--muted)',

@@ -18,7 +18,7 @@ import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
 import { useAssetIndex } from '../../../data/assets'
 import { creatureImageUrl } from '../../../data/creature-image'
-import { shortSintonia, str, wikiTarget } from '../../ficha/hero-model'
+import { sintoniaDisplay, str, wikiTarget } from '../../ficha/hero-model'
 import { applySubclassPick } from '../../ficha/HabilidadesTab'
 import { PAPEIS, papelValuesFromFm, sintoniaEmojiDe } from '../../../grupo/party'
 import { StarCell } from '../../../grupo/panel-ui'
@@ -218,7 +218,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
   const detail = useDetail()
   const assets = useAssetIndex()
   const classeAtual = wikiTarget(str(fm['Classe']))
-  const sintoniaCurta = shortSintonia(str(fm['Sintonia']))
+  const sintoniaCurta = sintoniaDisplay(str(fm['Sintonia']))
 
   // Classes da projeção agrupadas pela SUBCATEGORIA do doc (fonte: catálogo).
   const grupos = useMemo(() => {
@@ -416,7 +416,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                                 <span style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', columnGap: 10, rowGap: 4 }}>
                                   <span style={{ fontWeight: 600, marginRight: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                                     {ic ? <span style={{ fontSize: 15 }}>{ic}</span> : null}
-                                    {reskinName(opt.label)}
+                                    {sintoniaDisplay(opt.value)}
                                   </span>
                                   <MaisEstrelas nome={opt.label} roles={soma} />
                                 </span>

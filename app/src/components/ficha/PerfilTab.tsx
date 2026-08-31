@@ -46,7 +46,7 @@ import {
   heroNome,
   num,
   parseFonte,
-  shortSintonia,
+  sintoniaDisplay,
   str,
   wikiTarget,
 } from './hero-model'
@@ -635,7 +635,7 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
             />
           </div>
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
-            <span style={{ ...mono10, letterSpacing: '.14em' }}>🖼️ NATURALIDADE</span>
+            <span style={{ ...mono10, letterSpacing: '.14em' }}>🖼️ {reskinText('Naturalidade').toUpperCase()}</span>
             <BoxSelect
               ariaLabel="Naturalidade"
               display={
@@ -1201,7 +1201,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
   const ci = classeAventureiro(nivel)
   const classe = classeDisplay(catalog, dfm['Classe'])
-  const sintonia = shortSintonia(dfm['Sintonia'])
+  const sintonia = sintoniaDisplay(dfm['Sintonia'])
   const sintoniaIc = sintoniaEmojiFromValue(str(dfm['Sintonia']))
   // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
   // match por target do wikilink, como o linkedDropdown do plugin).
@@ -1365,16 +1365,19 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           ) : null}
           {/* #7: SINTONIA como dropdown dos Traços Elementais reais —
               opções da projeção de regras (mesmas do Editável do plugin). */}
-          <Field label="SINTONIA">
+          <Field label={reskinText('Sintonia').toUpperCase()}>
             <BoxSelect
-              ariaLabel="Sintonia"
+              ariaLabel={reskinText('Sintonia')}
               display={
                 <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
                   {sintoniaIc} {sintonia || '—'}
                 </div>
               }
               options={withCurrent(
-                [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+                [
+                  { value: '', label: '—' },
+                  ...(rules?.sintonias ?? []).map((o) => ({ ...o, label: o.value ? sintoniaDisplay(o.value) : o.label })),
+                ],
                 sintoniaFmValue,
                 sintonia,
               )}
