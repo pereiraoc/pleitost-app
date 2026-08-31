@@ -1,4 +1,5 @@
 import type { AssetsManifest, IndexDocEntry, IndexManifest } from './types'
+import { loadGmBundle } from './gm-bundle'
 import { linkLabel as linkLabelDv } from '../markdown/dataview-value'
 import { withBase } from './base-url'
 import { ensureFreshVaultData } from './vault-cache'
@@ -258,16 +259,27 @@ async function fetchCyberpunkCatalog(): Promise<Catalog> {
 
 /** Catálogo do MUNDO (cacheado por mundo/sessão). Antes do índice, o check de
  *  FRESCOR purga o cache do SW se a database daquele mundo mudou. */
-export function fetchCatalogForWorld(world: WorldId): Promise<Catalog> {
-  const cached = catalogPromises.get(world)
+export function fetchCatalogForWorld(world: WorldId, gm = false): Promise<Catalog> {
+  const key = (gm ? `${world}:gm` : world) as WorldId
+  const cached = catalogPromises.get(key)
   if (cached) return cached
-  const p = (world === 'fantasia' ? fetchFantasiaCatalog() : fetchCyberpunkCatalog()).catch(
+  const base = (world === 'fantasia' ? fetchFantasiaCatalog() : fetchCyberpunkCatalog()).catch(
     (err: unknown) => {
-      catalogPromises.delete(world)
+      catalogPromises.delete(key)
       throw err
     },
   )
-  catalogPromises.set(world, p)
+  // Modo Mestre (2026-08-31): as notas GM:true vivem só no espelho gm.json —
+  // com ele carregado, o catálogo do mestre as inclui (união pós-fetch).
+  const p = !gm
+    ? base
+    : base.then(async (cat) => {
+        const bundle = await loadGmBundle(world)
+        if (!bundle?.notas.length) return cat
+        const docs = [...cat.manifest.docs, ...bundle.notas]
+        return { ...buildCatalog({ ...cat.manifest, docs }), contextoDef: cat.contextoDef }
+      })
+  catalogPromises.set(key, p)
   return p
 }
 

@@ -1607,6 +1607,24 @@ a {
   background: var(--panel);
 }
 
+/* Segredo de campanha (2026-08-31): bloco `> [!gm]` — só existe no corpo do
+ * MESTRE (o extract corta do dataset público), então o estilo marca "isto o
+ * jogador não vê". */
+.callout-gm {
+  border-left-color: var(--red);
+  background: color-mix(in srgb, var(--red) 7%, var(--panel));
+}
+.callout-gm::before {
+  content: '🔒 MESTRE';
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+
 .fence-dataview summary {
   cursor: pointer;
   font-family: var(--mono);

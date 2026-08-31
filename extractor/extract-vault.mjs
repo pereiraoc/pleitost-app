@@ -15,6 +15,7 @@ import { VAULT_ROOT, OUT_DIR, WORLD_ID } from "./paths.mjs";
 import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 import { compileContexto } from "./compile-contexto.mjs";
+import { gmSplit, gmConfigFromBase } from "./gm-split.mjs";
 
 // Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
 // são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
@@ -62,8 +63,29 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   const { docs, images } = await walkVault(vaultRoot);
   const imgIndex = indexImagesByBasename(images);
 
+  // 2b. Config MESTRE×JOGADOR da Contexto-Def base (gm-split precisa dela
+  //     ANTES do loop de escrita). Descoberta por FM; caminho conhecido
+  //     primeiro, varredura completa como fallback.
+  let gmConfig = gmConfigFromBase(null);
+  {
+    const candidatos = [
+      ...docs.filter((d) => d.kind !== "scaffolding" && d.relPath.includes("Configurações de Contextos")),
+      ...docs.filter((d) => d.kind !== "scaffolding" && !d.relPath.includes("Configurações de Contextos")),
+    ];
+    for (const d of candidatos) {
+      const raw = await readFile(d.absPath, "utf8");
+      if (!/^---[\s\S]*?\bid:\s*base\b/.test(raw)) continue;
+      const rec = await parseDoc({ raw, relPath: d.relPath });
+      if (rec.frontmatter?.Contexto?.id === "base") {
+        gmConfig = gmConfigFromBase(rec.frontmatter.Contexto);
+        break;
+      }
+    }
+  }
+
   // 3. Extrai docs de conteúdo; lista scaffolding sem extrair.
   const index = [];
+  const gmEspelho = { notas: [], docs: {} }; // espelho do MESTRE (gm.json)
   const assetRefs = new Map(); // target → Set(ids)
   const docLinks = new Map(); // id → targets crus dos wikilinks
 
@@ -83,7 +105,29 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     }
     const raw = await readFile(doc.absPath, "utf8");
     const record = await parseDoc({ raw, relPath: doc.relPath });
-    await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), record);
+
+    // Corte mestre×jogador (2026-08-31): o JSON público sai SEM segredos; o
+    // espelho gm.json guarda a versão completa (só docs afetados).
+    const { publico, gmDoc, notaGm } = gmSplit(record, gmConfig);
+    if (gmDoc) gmEspelho.docs[record.id] = gmDoc;
+    if (notaGm) {
+      // Nota inteira do mestre: fora do índice e da árvore públicos.
+      gmEspelho.notas.push({
+        id: record.id,
+        path: record.path,
+        basename: record.basename,
+        type: record.type,
+        subtype: record.subtype,
+        grupo: record.grupo,
+        kind: "content",
+      });
+      contentBasenames.add(record.basename);
+      if (record.frontmatter?.Contexto && typeof record.frontmatter.Contexto === "object") {
+        contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto });
+      }
+      continue;
+    }
+    await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), publico);
 
     contentBasenames.add(record.basename);
     if (record.frontmatter?.Contexto && typeof record.frontmatter.Contexto === "object") {
@@ -155,6 +199,14 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     defs: contextoDefs,
     basenames: contentBasenames,
   });
+  // 3d. Espelho do MESTRE: gm.json (docs completos dos que tiveram corte +
+  //     índice das notas GM:true). O app só o busca em Modo Mestre.
+  await writeJson(join(outDir, "gm.json"), gmEspelho);
+  console.log(
+    `GM: ${Object.keys(gmEspelho.docs).length} docs com corte, ` +
+      `${gmEspelho.notas.length} notas só-mestre → gm.json`,
+  );
+
   if (contexto) {
     await writeJson(join(outDir, "contexto.json"), contexto);
     console.log(

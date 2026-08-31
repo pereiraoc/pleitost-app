@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { gmDoc } from './gm-bundle'
 import type { VaultDoc } from './types'
 import { getLocalDoc, isLocalId, useLocalStoreVersion } from './local-entities'
 import { liveCharacter, synthDocFromCharacter, useLiveSession } from './session-repo/live-session'
@@ -36,6 +37,11 @@ export function loadDoc(id: string): Promise<VaultDoc> {
     const doc = getSessaoDoc(id)
     return doc ? Promise.resolve(doc) : Promise.reject(new Error(`personagem da sala "${id}" ausente`))
   }
+  // Espelho do MESTRE (gm-bundle): quando carregado, a versão completa do
+  // doc vence a pública — sem tocar o cache público (desligar o modo volta
+  // ao dataset limpo na hora).
+  const secreto = gmDoc(id)
+  if (secreto) return Promise.resolve(secreto)
   let promise = cache.get(id)
   if (!promise) {
     promise = fetch(docJsonUrl(id)).then((res) => {

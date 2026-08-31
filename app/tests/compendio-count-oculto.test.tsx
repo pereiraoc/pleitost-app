@@ -18,6 +18,7 @@ import { CatalogProvider } from '../src/data/CatalogContext'
 import { FolderView } from '../src/components/compendium/FolderView'
 import { visibleCount, subtreeDocs } from '../src/components/compendium/sections'
 import { stripContextoOculto } from '../src/markdown/strip-oculto'
+import { __setGmBundleForTests } from '../src/data/gm-bundle'
 import { __resetSettingsForTests } from '../src/settings'
 import { compendiumFolderPath } from '../src/paths'
 import type { IndexManifest } from '../src/data/types'
@@ -133,14 +134,20 @@ describe('seções "Contexto Oculto" são só do mestre', () => {
     expect(screen.queryByText(/simbionte consciente/)).toBeNull()
   })
 
-  it('COM modo mestre: a seção aparece', async () => {
+  it('COM modo mestre (espelho gm carregado): o segredo aparece', async () => {
+    // 2026-08-31: a seção legada virou callout [!gm] e o conteúdo vive só no
+    // espelho gm.json — o mestre o vê via override do loadDoc (gm-bundle).
     window.localStorage.setItem('pleitost.settings.mestre', 'true')
     __resetSettingsForTests()
+    const gm = JSON.parse(
+      fs.readFileSync(path.join(repoDir, 'vault-data-cyberpunk', 'gm.json'), 'utf8'),
+    ) as import('../src/data/gm-bundle').GmBundle
+    __setGmBundleForTests(gm)
     renderPassado()
     await waitFor(() => {
       expect(screen.getByText(/Descoberta do ET morto na Lua/)).toBeTruthy()
     })
-    expect(screen.getAllByText(/Contexto Oculto/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/simbionte consciente/).length).toBeGreaterThan(0)
+    __setGmBundleForTests(null)
   })
 })

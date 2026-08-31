@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { fetchCatalogForWorld, type Catalog } from './catalog'
 import { setActiveContexto } from './reskin'
 import { useWorld } from './world'
+import { useSettings } from '../settings'
+import { loadGmBundle, clearGmBundle } from './gm-bundle'
 
 const CatalogContext = createContext<Catalog | null>(null)
 
@@ -13,6 +15,7 @@ interface Props {
 
 export function CatalogProvider({ children, catalog }: Props) {
   const world = useWorld()
+  const { mestre } = useSettings()
   const [state, setState] = useState<{ catalog?: Catalog; error?: Error }>(
     catalog ? { catalog } : {},
   )
@@ -25,7 +28,12 @@ export function CatalogProvider({ children, catalog }: Props) {
     }
     let alive = true
     setState({})
-    fetchCatalogForWorld(world).then(
+    // Espelho do MESTRE antes do catálogo: loadDoc consulta gmDoc() síncrono,
+    // então o bundle precisa estar residente quando os filhos montarem.
+    const preparo = mestre ? loadGmBundle(world) : (clearGmBundle(), Promise.resolve(null))
+    preparo
+      .then(() => fetchCatalogForWorld(world, mestre))
+      .then(
       (loaded) => {
         if (!alive) return
         // #519: ativa o reskin do mundo ANTES dos filhos renderizarem —
@@ -38,7 +46,7 @@ export function CatalogProvider({ children, catalog }: Props) {
     return () => {
       alive = false
     }
-  }, [catalog, world])
+  }, [catalog, world, mestre])
 
   if (state.error) {
     return <p role="alert">Falha ao carregar o índice da vault: {state.error.message}</p>
