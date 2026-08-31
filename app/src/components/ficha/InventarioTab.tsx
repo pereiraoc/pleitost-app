@@ -14,7 +14,7 @@ import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
-import { ConsumivelHover, ItemHover, ITEM_CARD_CSS } from '../item-card'
+import { ConsumivelHover, ForcarDetalhesContext, ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { TipProvider } from './tooltips'
 import { weaponImageUrl } from '../../data/creature-image'
 import {
@@ -1444,6 +1444,7 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
   }
 
   return (
+    <ForcarDetalhesContext.Provider value={true}>
     <div style={panelStyle()}>
       <PanelLabel>CONSUMÍVEIS</PanelLabel>
       {/* Report b56bd3d0 (mobile): sem espaço, o NOME da poção ocupa a linha
@@ -1532,6 +1533,7 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
         </div>
       ))}
     </div>
+    </ForcarDetalhesContext.Provider>
   )
 }
 
