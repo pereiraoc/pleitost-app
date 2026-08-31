@@ -338,6 +338,10 @@ export function bodyHtml(
   })
   b = b.replace(/```[\s\S]*?```/g, '') // fences (dataview/rules/carta-item)
   b = resolveInlineDv(doc, b)
+  // #519 (report 2026-09-01: "Sintonia Aparente nas descrições"): a PROSA
+  // completa da carta passa pelo reskin do mundo — embeds/fences já saíram e
+  // a única URL (figura) foi extraída antes, então é texto puro de markdown.
+  b = reskinText(b)
   const out: string[] = []
   let inList = false
   let para: string[] = []
@@ -513,7 +517,7 @@ export function itemCardHtml(
       ? bodyAbilities(doc)
           .map(
             (a) =>
-              `<div class="shc-ability"><b>${esc(a.label)}</b>${a.text ? ` ${esc(a.text)}` : ''}</div>`,
+              `<div class="shc-ability"><b>${esc(reskinText(a.label))}</b>${a.text ? ` ${esc(reskinText(a.text))}` : ''}</div>`,
           )
           .join('')
       : ''

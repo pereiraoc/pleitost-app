@@ -2,6 +2,7 @@
 // puxado (design/pulled/Companion App.dc.html). Cada componente replica um
 // pedaço repetido do markup do design; dados chegam prontos por props.
 import { useLayoutEffect, useRef, type CSSProperties, type ReactNode , useEffect} from 'react'
+import { reskinText } from '../../data/reskin'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
 import { TipHover, sourceTipHtml } from './tooltips'
 import { useDetail } from '../../data/detail-context'
@@ -88,6 +89,15 @@ export interface TabDef {
 }
 
 /** Fila de abas internas do design (bioTabs/invTabs/habTabs/combate.tabs). */
+
+/** Label de aba pelo reskin do mundo: as TABS vêm em UPPERCASE ('MAGIAS'),
+ *  a cascata é case-sensitive — title-case → reskin → volta a uppercase. */
+function reskinTabLabel(label: string): string {
+  const titulo = label.charAt(0) + label.slice(1).toLowerCase()
+  const mundo = reskinText(titulo)
+  return mundo === titulo ? label : mundo.toUpperCase()
+}
+
 export function TabStrip({
   tabs,
   active,
@@ -142,7 +152,7 @@ export function TabStrip({
                 fontFamily: 'var(--body)',
               }}
             >
-              {t.label}
+              {reskinTabLabel(t.label)}
             </button>
           )
         })}

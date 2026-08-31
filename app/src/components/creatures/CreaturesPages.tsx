@@ -638,7 +638,7 @@ function HeroCard({ entry, doc }: { entry: IndexDocEntry; doc?: VaultDoc }) {
   const catalog = useCatalog()
   const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
-  const classe = plainLabel(doc?.frontmatter['Classe'])
+  const classe = reskinText(plainLabel(doc?.frontmatter['Classe']))
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   // hierarquia de imagem do plugin (Imagem → Retratos/<nome> → Classes/<classe>);
   // #280: card de lista (pequeno) → thumb.

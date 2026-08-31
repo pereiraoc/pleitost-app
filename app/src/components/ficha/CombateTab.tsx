@@ -16,6 +16,7 @@
 // REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { useMemo, useState, type CSSProperties } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -324,7 +325,7 @@ function EscudoRow({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               textOverflow: 'ellipsis',
             }}
           >
-            {nome}
+            {reskinName(nome)}
           </span>
           <span style={{ flex: 1 }} />
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, flex: 'none' }} title="Dureza">
@@ -1197,7 +1198,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                               cursor: c.resumo ? 'help' : undefined,
                             }}
                           >
-                            {c.rotulo ?? c.nome}
+                            {reskinName(c.rotulo ?? c.nome)}
                           </span>
                           {on === 1 && sel && desc ? (
                             // Counter `− 🌟 N +` do plugin (condicoes-selectors
@@ -2647,7 +2648,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 cursor: t.doc ? 'pointer' : undefined,
               }}
             >
-              {t.nome}
+              {reskinName(t.nome)}
             </span>
             {/* Botão de usos IDENTADO abaixo do nome + resumo do que faz (#166).
                 Passivo (sem max) mostra só o resumo; CARGAS iniciam em 0. */}

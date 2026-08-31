@@ -1929,7 +1929,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               )
               linha(
                 'mag',
-                'MAGIAS',
+                reskinText('Magias').toUpperCase(),
                 card.gastos.magias.map((g) => (
                   <PlanChip
                     key={`m|${g.escola}|${g.link}`}

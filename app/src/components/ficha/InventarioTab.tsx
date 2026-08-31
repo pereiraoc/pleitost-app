@@ -1522,7 +1522,7 @@ export function ConsumiveisPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs 
                   whiteSpace: 'nowrap',
                 }}
               >
-                {c.nome}
+                {reskinName(c.nome)}
               </span>
             </ConsumivelHover>
           </span>

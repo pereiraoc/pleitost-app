@@ -254,7 +254,7 @@ export function SelectBox({
         >
           {(opts.length ? opts : [{ value: '', label: '—' }]).map((o, i) => (
             <option key={`${o.value}-${i}`} value={o.value}>
-              {o.label || '—'}
+              {reskinName(o.label) || '—'}
             </option>
           ))}
         </select>
@@ -499,7 +499,7 @@ export function ClasseNivelPanel({
           // data-link-categoria="Habilidade") — o livrinho vermelho vem do
           // registro categoria.Habilidade (📕), não do perfil.Subclasse (📘).
           ic: tokens.emojis.categoria.Habilidade,
-          label: c.parent.toUpperCase(),
+          label: reskinName(c.parent).toUpperCase(),
           value: c.pick ?? '',
           options: c.options,
           onChange: (v: string) => setSubclassPick(c.parent, v),
