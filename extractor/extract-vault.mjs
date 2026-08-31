@@ -91,6 +91,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
 
   let frozenSkipped = 0;
   const contextoDefs = []; // notas com FM `Contexto:` (Contexto-Def, #519)
+  const typeByBasename = new Map(); // agrupamento das tabelas auto (contexto-doc)
   const contentBasenames = new Set();
   for (const doc of docs) {
     if (doc.kind === "scaffolding") {
@@ -122,16 +123,18 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
         kind: "content",
       });
       contentBasenames.add(record.basename);
+      typeByBasename.set(record.basename, record.type ?? "Outros");
       if (record.frontmatter?.Contexto && typeof record.frontmatter.Contexto === "object") {
-        contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto });
+        contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto, body: record.body });
       }
       continue;
     }
     await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), publico);
 
     contentBasenames.add(record.basename);
+    typeByBasename.set(record.basename, record.type ?? "Outros");
     if (record.frontmatter?.Contexto && typeof record.frontmatter.Contexto === "object") {
-      contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto });
+      contextoDefs.push({ relPath: doc.relPath, contexto: record.frontmatter.Contexto, body: record.body });
     }
 
     // #519: aliases do FM no índice — `alias` (o primeiro) alimenta displays
@@ -195,6 +198,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     if (f.entry.basename) contentBasenames.add(f.entry.basename);
   }
   const contexto = compileContexto({
+    typeByBasename,
     worldId: WORLD_ID,
     defs: contextoDefs,
     basenames: contentBasenames,

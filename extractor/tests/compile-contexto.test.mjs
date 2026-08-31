@@ -163,3 +163,20 @@ test("fantasia mínima (sem reskin) compila com defaults", () => {
   assert.equal(art.disponibilidade.padrao, "disponivel");
   assert.deepEqual(art.base.sempreDisponiveis, []);
 });
+
+test("bloco auto:contexto desatualizado QUEBRA o compile (auditoria corpo↔FM)", () => {
+  const def = { ...defPoa(), body: "prosa\n<!-- auto:contexto -->\ntabela velha\n<!-- /auto:contexto -->\n" };
+  assert.throws(
+    () => compileContexto({ worldId: "poa-1987", defs: [def, defBase()], basenames: BASENAMES }),
+    /DESATUALIZADO/,
+  );
+});
+
+test("bloco auto:contexto em dia passa", async () => {
+  const { renderContextoDoc } = await import("../contexto-doc.mjs");
+  const d = defPoa();
+  const bloco = renderContextoDoc(d.contexto, new Map());
+  const def = { ...d, body: `prosa\n<!-- auto:contexto -->\n${bloco}\n<!-- /auto:contexto -->\n` };
+  const art = compileContexto({ worldId: "poa-1987", defs: [def, defBase()], basenames: BASENAMES });
+  assert.equal(art.id, "poa-1987");
+});

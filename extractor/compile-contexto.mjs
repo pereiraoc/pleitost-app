@@ -1,3 +1,4 @@
+import { renderContextoDoc, blocoAutoAtual, AUTO_INI } from "./contexto-doc.mjs";
 // Compilador de contexto (#519 — arquitetura de mundos, Opção 1).
 //
 // Fonte: notas de Contexto-Def na vault (frontmatter `Contexto:` — ver
@@ -63,7 +64,7 @@ function asStringArray(v, label, problems) {
  * @returns {object|null}             artefato contexto.json, ou null se não há def do mundo
  * @throws {Error}                    def inválida (mensagem lista TODOS os problemas)
  */
-export function compileContexto({ worldId, defs, basenames }) {
+export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   const doMundo = defs.filter((d) => d.contexto?.id === worldId);
   if (doMundo.length === 0) return null;
   if (doMundo.length > 1) {
@@ -140,6 +141,20 @@ export function compileContexto({ worldId, defs, basenames }) {
     if (sempreDisponiveis.includes(b)) {
       problems.push(
         `disponibilidade.indisponiveis: "${b}" é sempre_disponivel do Contexto Base — não pode ser excluído`,
+      );
+    }
+  }
+
+  // Auditoria corpo↔FM (report 2026-09-01): notas Contexto-Def com bloco
+  // <!-- auto:contexto --> precisam estar em dia com o próprio FM — regenere
+  // com `npm run contexto:doc` (ou :cyberpunk). Falha = corpo divergente.
+  for (const d of defs) {
+    if (typeof d.body !== "string" || !d.body.includes(AUTO_INI)) continue;
+    const atual = blocoAutoAtual(d.body);
+    const esperado = renderContextoDoc(d.contexto, typeByBasename);
+    if (atual !== null && atual !== esperado.trim()) {
+      problems.push(
+        `${d.relPath}: bloco auto:contexto DESATUALIZADO em relação ao FM — rode npm run contexto:doc`,
       );
     }
   }
