@@ -30,6 +30,17 @@ export interface ContextoDef {
     termos: Record<string, string>
     /** Strings onde a cascata de termos NÃO se aplica. */
     excecoes: string[]
+    /** Corpo do MUNDO por nota (#538): substitui o display do corpo canônico
+     *  (Sistema/ segue byte-idêntico). Markdown; fences sobrevivem. */
+    descricoes?: Record<string, string>
+  }
+  /** Ajustes de REGRA do mundo (#544 — semente do C7). */
+  regras?: {
+    companheiroAnimal?: {
+      tamanho: string | null
+      semArmasNaturais: boolean
+      arma: { grupos: string[]; maos: number | null } | null
+    }
   }
   disponibilidade: {
     padrao: 'disponivel' | 'indisponivel'

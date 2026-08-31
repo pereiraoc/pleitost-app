@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { reskinDescricao } from '../data/reskin'
 import ReactMarkdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
@@ -49,9 +50,12 @@ export function MarkdownBody({
   const body = useMemo(() => {
     // Traços Elementais em desenvolvimento: corta o corpo na barra horizontal
     // (ver em-desenvolvimento.ts — temporário).
+    // #538: mundo com corpo próprio pra esta nota (reskin.descricoes) —
+    // substitui o display; Sistema/ segue byte-idêntico na vault.
+    const corpoFonte = reskinDescricao(doc.basename) ?? doc.body
     const stripped = truncarCorpoEmDesenvolvimento(
       doc,
-      stripTagLines(stripPrintArtifacts(stripComments(doc.body))),
+      stripTagLines(stripPrintArtifacts(stripComments(corpoFonte))),
     )
     // Seção "Contexto Oculto" (segredo de campanha, convenção da vault) só
     // aparece em Modo Mestre — report 2026-08-29.

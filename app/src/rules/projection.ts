@@ -4,6 +4,7 @@
 // (src/cola/yaml-block-deps-factory.ts / process-yaml-vault-scans.ts).
 // Componentes só leem daqui; nenhum call-site inventa opção/label.
 import type { Catalog } from '../data/catalog'
+import { aplicarRegrasDoMundo } from './mundo-ajustes'
 import type { VaultDoc } from '../data/types'
 import type { RulesModel, AtributoId } from './rules-model'
 import { ATRIBUTOS } from './rules-model'
@@ -793,6 +794,9 @@ export function buildHeroProjection(
   // Principal refletem a classe AO VIVO — espelho de renderAttrBox lendo
   // vm.model (derivado), não o FM salvo (issue #58).
   const derivedFm = mergeCalculatedIntoFm(savedFm, calculated, result.appliedRules, result.orphanPicks)
+  // #544: ajustes de REGRA do mundo ativo (Contexto-Def `regras`) — pós-
+  // processo puro no derivado; fantasia (sem bloco) passa reto.
+  aplicarRegrasDoMundo(derivedFm as Record<string, unknown>, catalog)
   const dAt = (derivedFm.Atributos ?? {}) as Record<string, unknown>
   const derivedAtributos: Record<AtributoId, number> = {
     FOR: num(dAt.FOR),

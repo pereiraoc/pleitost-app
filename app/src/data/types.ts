@@ -19,6 +19,8 @@ export interface IndexDocEntry {
   aliases?: string[]
   /** Frontmatter `grupo`: string ("cac-simples") ou lista de wikilinks. */
   grupo?: string | string[] | null
+  /** Mãos da arma (#544 — só docs subtype Arma; filtro do Empregado). */
+  maos?: number
 }
 
 export interface IndexManifest {

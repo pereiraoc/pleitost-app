@@ -159,6 +159,36 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     }
   }
 
+  // Corpo do MUNDO por nota (#538): valida os basenames como as notas.
+  const descricoes = {};
+  for (const [de, texto] of Object.entries(reskinIn.descricoes ?? {})) {
+    if (typeof texto !== "string" || texto.trim() === "") continue;
+    if (!basenames.has(de)) {
+      problems.push(`reskin.descricoes: "${de}" não existe como basename na vault`);
+      continue;
+    }
+    descricoes[de] = texto;
+  }
+
+  // Ajustes de regra do mundo (#544 — semente do C7). Shape validado leve;
+  // fantasia sem o bloco mantém o comportamento canônico.
+  const regrasIn = isPlainObject(def.regras) ? def.regras : {};
+  const caIn = isPlainObject(regrasIn.companheiro_animal) ? regrasIn.companheiro_animal : null;
+  const regras = caIn
+    ? {
+        companheiroAnimal: {
+          tamanho: typeof caIn.tamanho === "string" ? caIn.tamanho : null,
+          semArmasNaturais: caIn.sem_armas_naturais === true,
+          arma: isPlainObject(caIn.arma)
+            ? {
+                grupos: asStringArray(caIn.arma.grupos, "regras.companheiro_animal.arma.grupos", problems),
+                maos: typeof caIn.arma.maos === "number" ? caIn.arma.maos : null,
+              }
+            : null,
+        },
+      }
+    : {};
+
   if (problems.length > 0) {
     throw new Error(
       `contexto "${worldId}" inválido (${fonte}):\n  - ` + problems.join("\n  - "),
@@ -172,8 +202,9 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     moeda: { simbolo: moeda.simbolo, nome: moeda.nome },
     atlas: { raiz: atlas.raiz, mapa: atlas.mapa ?? null },
     pericias,
-    reskin: { notas, notasFuturas, termos, excecoes },
+    reskin: { notas, notasFuturas, termos, excecoes, descricoes },
     disponibilidade: { padrao, indisponiveis, restritos },
     base: { sempreDisponiveis, conteudoDeMundo },
+    regras,
   };
 }

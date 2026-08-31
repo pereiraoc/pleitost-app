@@ -22,6 +22,8 @@ interface Compilado {
    *  qualquer exceção que seja substring dela. */
   excecoes: string[]
   pericias: Record<string, string>
+  /** Def completo — descricoes (#538) e regras do mundo (#544). */
+  def: ContextoDef
 }
 
 let ativo: Compilado | null = null
@@ -54,6 +56,7 @@ export function setActiveContexto(def: ContextoDef | null): void {
     mapa,
     excecoes: [...def.reskin.excecoes].sort((a, b) => b.length - a.length),
     pericias: def.pericias,
+    def,
   }
 }
 
@@ -91,4 +94,14 @@ export function reskinName(nome: string): string {
 /** Display de perícia no mundo ativo (ex.: Arcana → "Trônicos"). */
 export function reskinPericia(display: string): string {
   return ativo?.pericias[display] ?? display
+}
+
+/** Corpo do MUNDO pra uma nota (#538) — null = usa o canônico. */
+export function reskinDescricao(basename: string): string | null {
+  return ativo?.def?.reskin.descricoes?.[basename] ?? null
+}
+
+/** Ajustes de regra do mundo ativo (#544). */
+export function contextoRegras(): NonNullable<ContextoDef['regras']> {
+  return ativo?.def?.regras ?? {}
 }

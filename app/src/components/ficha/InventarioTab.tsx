@@ -9,7 +9,7 @@
 // design (invData: allArmas = I.armas+extraArmas; tesouros ganham o grupo
 // ADICIONADOS) e no plugin (addArma/addTesouro).
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import { reskinName } from '../../data/reskin'
+import { contextoRegras, reskinName } from '../../data/reskin'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -28,7 +28,7 @@ import { TIER_PRICE_MULT, resaleRefund } from '../../data/commerce'
 import { sistemaConfig } from '../../data/system-config'
 import { precoPO } from '../../grupo/wealth'
 import { useHeroModel } from '../../data/useHeroModel'
-import { fichaFamiliaOf } from '../../data/familia'
+import { familiaOf, fichaFamiliaOf } from '../../data/familia'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip, EditToggle, GoldDots, PanelTrack, TabStrip, TrackPanel } from './bits'
 import { itemCategoria } from '../compendium/item-taxonomy'
@@ -353,10 +353,17 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       list.push(e)
       byGrupo.set(g, list)
     }
-    return GRUPO_ARMA_ORDER.filter((g) => byGrupo.has(g.key)).map((g) => ({
+    // #544: Empregado (família CA) no mundo com `regras.companheiro_animal.
+    // arma` só escolhe dos grupos/mãos do Contexto (POA: simples de 1 mão) —
+    // a escolha em si fica LIVRE pro jogador.
+    const armaCa = familiaOf(doc) === 'CompanheiroAnimal' ? contextoRegras().companheiroAnimal?.arma : null
+    return GRUPO_ARMA_ORDER.filter(
+      (g) => byGrupo.has(g.key) && (!armaCa || armaCa.grupos.includes(g.key)),
+    ).map((g) => ({
       ...g,
       entries: byGrupo
         .get(g.key)!
+        .filter((e) => !armaCa || armaCa.maos == null || (e.maos != null && e.maos <= armaCa.maos))
         .sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR')),
     }))
   }, [catalog])

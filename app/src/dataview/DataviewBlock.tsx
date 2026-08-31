@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { reskinName, reskinText } from '../data/reskin'
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import { fetchEdges } from '../data/links'
@@ -26,12 +27,15 @@ function Cell({ value }: { value: DvValue }) {
   }
   if (isDvLink(value)) {
     const res = catalog.resolve(value.target)
-    const label =
-      value.label ?? (res.kind === 'doc' ? res.id.split('/').pop()! : value.target)
+    // Report 7b0fc989: a tabela dataview no fim da página de Classes mostrava
+    // nome de fantasia — o label do link passa pelo reskin do mundo.
+    const label = reskinName(
+      value.label ?? (res.kind === 'doc' ? res.id.split('/').pop()! : value.target),
+    )
     if (res.kind === 'doc') return <Link to={docPath(res.id)}>{label}</Link>
     return <span>{label}</span>
   }
-  return <>{String(value)}</>
+  return <>{reskinText(String(value))}</>
 }
 
 /** Fallback quando a query não é suportada: o bloco colapsado com a query crua. */

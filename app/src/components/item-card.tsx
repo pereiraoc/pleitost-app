@@ -15,7 +15,7 @@ import {
 import { tokens } from './ficha/registry'
 import { TIER_COLUNA, TIER_PRICE_MULT, type Tier, type EntryMeta } from '../data/commerce'
 import { isArtefatoId, precoPO } from '../grupo/wealth'
-import { reskinName, reskinText } from '../data/reskin'
+import { reskinDescricao, reskinName, reskinText } from '../data/reskin'
 import type { VaultDoc } from '../data/types'
 import { TipHover } from './ficha/tooltips'
 import { useDetail } from '../data/detail-context'
@@ -261,7 +261,7 @@ export function docImageUrl(
  *  tabela, headings, hr e dataview inline; resolve wikilinks. Vazio se não tiver
  *  prosa (ex.: Azagaia). */
 export function bodyDesc(doc: VaultDoc): string {
-  let b = doc.body ?? ''
+  let b = reskinDescricao(doc.basename) ?? doc.body ?? ''
   b = b.replace(/%%[\s\S]*?%%/g, '') // bloco meta
   b = b.replace(/```[\s\S]*?```/g, '') // fences (dataview/rules/carta-item)
   b = b.replace(/^\s*\|.*$/gm, '') // linhas de tabela
@@ -321,7 +321,7 @@ export function bodyHtml(
   assets?: ReturnType<typeof useAssetIndex>,
   opts?: { cutAfterTable?: boolean },
 ): string {
-  let b = doc.body ?? ''
+  let b = reskinDescricao(doc.basename) ?? doc.body ?? ''
   b = b.replace(/%%[\s\S]*?%%/g, '') // meta
   // Embeds `![[X|...]]`: 1ª imagem resolvível → figura flutuante; resto some.
   let floatImg = ''

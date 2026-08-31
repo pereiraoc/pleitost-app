@@ -81,6 +81,24 @@ export function renderContextoDoc(contexto, typeByBasename) {
   const exc = (c.reskin?.excecoes ?? []).map((e) => [e, "cascata NÃO se aplica"]);
   out.push(...tabela("Exceções", exc, ["String", "Regra"]));
 
+  out.push(
+    ...tabela(
+      "Descrições do mundo (corpo de display substituído; Sistema/ intocado)",
+      Object.keys(c.reskin?.descricoes ?? {}).sort((a, b) => a.localeCompare(b, "pt-BR")).map((k) => [k, "corpo próprio do mundo"]),
+      ["Nota", "Display"],
+    ),
+  );
+
+  // Ajustes de regra do mundo (#544)
+  if (c.regras?.companheiro_animal) {
+    const ca = c.regras.companheiro_animal;
+    const linhas = [];
+    if (ca.tamanho) linhas.push(["tamanho fixo", ca.tamanho]);
+    if (ca.sem_armas_naturais) linhas.push(["armas naturais", "removidas (desarmado + manobras + arma)"]);
+    if (ca.arma) linhas.push(["arma do Empregado", `${(ca.arma.grupos ?? []).join(", ")} · ${ca.arma.maos ?? "?"} mão`]);
+    out.push(...tabela("Regras do mundo — Companheiro Animal", linhas, ["Ajuste", "Valor"]));
+  }
+
   // Disponibilidade
   if (c.disponibilidade) {
     const d = c.disponibilidade;
