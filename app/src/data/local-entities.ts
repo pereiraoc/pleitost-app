@@ -719,6 +719,14 @@ function buildDoc(rec: StoredEntity): VaultDoc {
 }
 
 /** Doc (formato VaultDoc) de uma entidade local, ou undefined se não existe. */
+/** Mundo da entidade local (ausente = fantasia, legado). null = não existe.
+ *  Gate de rota (2026-08-31): recarregar em /heroi/<id> de OUTRO mundo não
+ *  pode render a ficha — o loadDoc consulta isto e trata como ausente. */
+export function localEntityWorld(id: string): WorldId | null {
+  const rec = getLocalEntity(id)
+  return rec ? (rec.world ?? 'fantasia') : null
+}
+
 export function getLocalDoc(id: string): VaultDoc | undefined {
   const rec = getLocalEntity(id)
   if (!rec) return undefined

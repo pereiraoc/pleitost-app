@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { gmDoc } from './gm-bundle'
+import { localEntityWorld } from './local-entities'
+import { activeWorld } from './world'
 import type { VaultDoc } from './types'
 import { getLocalDoc, isLocalId, useLocalStoreVersion } from './local-entities'
 import { liveCharacter, synthDocFromCharacter, useLiveSession } from './session-repo/live-session'
@@ -30,6 +32,12 @@ const cache = new Map<string, Promise<VaultDoc>>()
 export function loadDoc(id: string): Promise<VaultDoc> {
   // Entidade local (issues #42–#47): sem fetch — vem do store local.
   if (isLocalId(id)) {
+    // Entidade de OUTRO mundo = ausente (report: reload em /heroi/<id> da
+    // fantasia estando no cyberpunk renderizava a ficha — a FichaPage trata o
+    // erro de local ausente devolvendo pra /herois do mundo ativo).
+    if (localEntityWorld(id) !== null && localEntityWorld(id) !== activeWorld()) {
+      return Promise.reject(new Error(`entidade local "${id}" é de outro mundo`))
+    }
     const doc = getLocalDoc(id)
     return doc ? Promise.resolve(doc) : Promise.reject(new Error(`entidade local "${id}" ausente`))
   }
@@ -95,7 +103,15 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     const byId = new Map<string, VaultDoc>()
     for (const [id, doc] of vaultDocs ?? []) byId.set(id, effectiveDoc(doc))
     for (const id of ids) {
-      const doc = isLocalId(id) ? getLocalDoc(id) : isSessaoId(id) ? getSessaoDoc(id) : undefined
+      // Mesmo gate de mundo do loadDoc: entidade local de OUTRO mundo é
+      // ausente também no fast-path síncrono.
+      const doc = isLocalId(id)
+        ? localEntityWorld(id) === activeWorld()
+          ? getLocalDoc(id)
+          : undefined
+        : isSessaoId(id)
+          ? getSessaoDoc(id)
+          : undefined
       if (doc) byId.set(id, doc)
     }
     return byId
@@ -136,7 +152,10 @@ export function useDoc(id: string): DocState {
   }
   if (local) {
     void localVersion // re-render quando a entidade local muda
-    const doc = getLocalDoc(id)
+    // Gate de mundo (report: reload em /heroi/<id> da fantasia estando no
+    // cyberpunk renderizava a ficha): entidade de outro mundo = não
+    // encontrada — a FichaPage devolve pra /herois do mundo ativo.
+    const doc = localEntityWorld(id) === activeWorld() ? getLocalDoc(id) : undefined
     return doc ? { doc } : { error: new Error(`entidade local "${id}" não encontrada`) }
   }
   // Doc da vault: projeta base ⊕ overlay (#252/#47). draftVersion/publishedVersion/

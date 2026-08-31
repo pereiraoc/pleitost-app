@@ -128,3 +128,102 @@ function __resetMemSessionStore() {
   if (sess) window.localStorage.setItem('pleitost.sessoes', sess)
   if (ativa) window.localStorage.setItem('pleitost.sessaoAtiva', ativa)
 }
+
+// 2026-08-31 (pedido: "recarregar já no cyberpunk não pode vazar herói"):
+// mesmo cenário de BOOT para as ENTIDADES — heróis da fantasia (carimbados ou
+// legados sem carimbo) escritos direto no storage, como o sync entre devices
+// faz, não podem aparecer nas listagens do cyberpunk.
+describe('heróis por mundo no BOOT (não só no evento de troca)', () => {
+  const seedEntidades = (blob: object) =>
+    window.localStorage.setItem('pleitost.localEntities', JSON.stringify(blob))
+  // shape real do StoredEntity (basename/frontmatter/session/extras)
+  const ent = (id: string, nome: string) => ({
+    id,
+    kind: 'Heroi',
+    type: 'Criatura',
+    subtype: 'Heroi',
+    basename: nome,
+    frontmatter: {},
+    session: {},
+    extras: {},
+  })
+
+  it('BOOT no cyberpunk: herói LEGADO (sem carimbo) e herói da fantasia ficam fora', async () => {
+    const { localEntriesOfKind, __resetLocalStoreForTests } = await import(
+      '../src/data/local-entities'
+    )
+    seedEntidades({
+      'local:carlos': ent('local:carlos', 'Carlos Facão'),
+      'local:pind': { ...ent('local:pind', 'Pind'), world: 'fantasia' },
+      'local:neo': { ...ent('local:neo', 'Neo da Restinga'), world: 'cyberpunk' },
+    })
+    __resetLocalStoreForTests()
+    setContext('cyberpunk')
+    const herois = localEntriesOfKind('Heroi').map((e) => e.basename)
+    expect(herois).toEqual(['Neo da Restinga'])
+  })
+
+  it('mesmos blobs na fantasia: legado + carimbado aparecem; o do cyberpunk não', async () => {
+    const { localEntriesOfKind, __resetLocalStoreForTests } = await import(
+      '../src/data/local-entities'
+    )
+    seedEntidades({
+      'local:carlos': ent('local:carlos', 'Carlos Facão'),
+      'local:neo': { ...ent('local:neo', 'Neo da Restinga'), world: 'cyberpunk' },
+    })
+    __resetLocalStoreForTests()
+    setContext('fantasia')
+    const herois = localEntriesOfKind('Heroi')
+      .map((e) => e.basename)
+      .sort()
+    expect(herois).toEqual(['Carlos Facão'])
+  })
+
+  it('BOOT no cyberpunk com seleção apontando herói da fantasia: seleção nula E herói fora da lista', async () => {
+    const { localEntriesOfKind, __resetLocalStoreForTests } = await import(
+      '../src/data/local-entities'
+    )
+    seedEntidades({
+      'local:carlos': { ...ent('local:carlos', 'Carlos Facão'), world: 'fantasia' },
+    })
+    seedSelecao({ id: 'local:carlos', world: 'fantasia' })
+    __resetLocalStoreForTests()
+    __resetSelectedCreatureForTests()
+    setContext('cyberpunk')
+    expect(getSelectedCreature()).toBeNull()
+    expect(localEntriesOfKind('Heroi')).toEqual([])
+  })
+})
+
+// Rota direta: recarregar em /heroi/<id> de outro mundo — o loadDoc trata a
+// entidade como ausente (a FichaPage devolve pra /herois do mundo ativo).
+describe('loadDoc de entidade local respeita o mundo (rota /heroi no reload)', () => {
+  it('herói da fantasia via loadDoc no cyberpunk → rejeita como ausente', async () => {
+    const { localEntriesOfKind, __resetLocalStoreForTests } = await import(
+      '../src/data/local-entities'
+    )
+    void localEntriesOfKind
+    window.localStorage.setItem(
+      'pleitost.localEntities',
+      JSON.stringify({
+        'local:carlos': {
+          id: 'local:carlos',
+          kind: 'Heroi',
+          type: 'Criatura',
+          subtype: 'Heroi',
+          basename: 'Carlos Facão',
+          frontmatter: {},
+          session: {},
+          extras: {},
+          world: 'fantasia',
+        },
+      }),
+    )
+    __resetLocalStoreForTests()
+    setContext('cyberpunk')
+    const { loadDoc } = await import('../src/data/useDoc')
+    await expect(loadDoc('local:carlos')).rejects.toThrow(/outro mundo/)
+    setContext('fantasia')
+    await expect(loadDoc('local:carlos')).resolves.toMatchObject({ basename: 'Carlos Facão' })
+  })
+})

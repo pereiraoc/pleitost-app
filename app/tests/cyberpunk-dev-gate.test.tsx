@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
-// Pedido 2026-08-29: o mundo CYBERPUNK fica BLOQUEADO por trás do modo
-// desenvolvedor (senha 'poa1987', #519 C6) por ora:
-//   - o seletor de Contexto do Config só aparece com o modo dev ativo;
-//   - se o contexto salvo é cyberpunk e o modo dev NÃO está ativo, o app
-//     volta pra fantasia sozinho (guard no AppShell — cobre boot e DESATIVAR).
+// LIBERADO 2026-08-31 (pós corte mestre×jogador e95dcc1): o cyberpunk saiu
+// de trás do modo desenvolvedor — o seletor de Contexto aparece pra todo
+// mundo e o contexto salvo SOBREVIVE ao reload sem a flag (o guard #528 do
+// AppShell foi removido).
 import { beforeAll, beforeEach, afterEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -74,19 +73,8 @@ const salvarContextoCyberpunk = () =>
     JSON.stringify({ theme: 'ember', mode: 'dark', context: 'cyberpunk' }),
   )
 
-describe('seletor de Contexto gated pelo modo desenvolvedor', () => {
-  it('sem modo dev: a linha Contexto (e o pill CYBERPUNK) não aparece', () => {
-    render(
-      <MemoryRouter>
-        <ConfigPage />
-      </MemoryRouter>,
-    )
-    expect(screen.queryByText('CYBERPUNK')).toBeNull()
-    expect(screen.queryByText('Contexto')).toBeNull()
-  })
-
-  it('com modo dev: pills FANTASIA/CYBERPUNK aparecem e trocam o contexto', () => {
-    ligarDev()
+describe('seletor de Contexto liberado (sem modo desenvolvedor)', () => {
+  it('SEM modo dev: pills FANTASIA/CYBERPUNK aparecem e trocam o contexto', () => {
     render(
       <MemoryRouter>
         <ConfigPage />
@@ -97,7 +85,7 @@ describe('seletor de Contexto gated pelo modo desenvolvedor', () => {
   })
 })
 
-describe('guard do AppShell: cyberpunk sem modo dev volta pra fantasia', () => {
+describe('reload no cyberpunk SEM modo dev: o contexto sobrevive', () => {
   function renderShell() {
     return render(
       <CatalogProvider catalog={catalog}>
@@ -112,15 +100,16 @@ describe('guard do AppShell: cyberpunk sem modo dev volta pra fantasia', () => {
     )
   }
 
-  it('contexto salvo cyberpunk + dev OFF → reset pra fantasia no boot', async () => {
+  it('contexto salvo cyberpunk + dev OFF → PERMANECE cyberpunk no boot', async () => {
     salvarContextoCyberpunk()
     __resetThemeForTests()
     expect(getThemeSnapshot().context).toBe('cyberpunk')
     renderShell()
-    await waitFor(() => expect(getThemeSnapshot().context).toBe('fantasia'))
+    await new Promise((r) => setTimeout(r, 50))
+    expect(getThemeSnapshot().context).toBe('cyberpunk')
   })
 
-  it('contexto cyberpunk + dev ON → permanece cyberpunk', async () => {
+  it('contexto cyberpunk + dev ON → idem (a flag não interfere mais)', async () => {
     ligarDev()
     salvarContextoCyberpunk()
     __resetThemeForTests()
