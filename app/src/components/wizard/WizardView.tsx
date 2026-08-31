@@ -11,6 +11,7 @@
 // existente (useDetail) — a sidebar direita fica só com a face DETALHES
 // enquanto o wizard está ativo (AppShell/RightSidebar).
 import { useMemo, useRef } from 'react'
+import { reskinText } from '../../data/reskin'
 import { useNavigate } from 'react-router-dom'
 import { removeLocalEntity } from '../../data/local-entities'
 import { useHeroModel } from '../../data/useHeroModel'
@@ -146,7 +147,7 @@ export function WizardView({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               {/* r16: sem NÚMERO nos chips (ocupava espaço à toa) — só o ✓
                   dos passos feitos. */}
               {feito ? <span>✓</span> : null}
-              <span>{s.titulo.toUpperCase()}</span>
+              <span>{reskinText(s.titulo).toUpperCase()}</span>
             </button>
           )
         })}

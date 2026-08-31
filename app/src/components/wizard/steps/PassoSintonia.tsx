@@ -6,7 +6,8 @@
 // da ficha de grupo). SEM o pareamento de atributos (decisão do usuário:
 // aquilo é legado). Se uma REGRA define a Sintonia (sintoniaRuleLocked), o
 // passo vira informativo e o gate libera.
-import { str, wikiTarget } from '../../ficha/hero-model'
+import { sintoniaDisplay, str, wikiTarget } from '../../ficha/hero-model'
+import { reskinName, reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { sintoniaEmojiDe } from '../../../grupo/party'
 import { docIdOf, WizCardLista, WizSecao } from '../bits'
@@ -16,6 +17,10 @@ import type { WizardCtx } from '../steps'
 const LORE_SINTONIA = [
   'Neste mundo, algumas pessoas nascem em sintonia com os elementos primordiais. Muitos acabam sendo os melhores em seus respectivos trabalhos, ou até mesmo utilizam essa abertura para aprender melhor sobre os elementos.',
   'Aventureiros via de regra tem alguma sintonia aparente. Neste mundo perigoso, acaba-se tornando uma expectativa da sociedade que pessoas “abençoadas” por uma sintonia aparente façam os trabalhos mais arriscados, em nome do bem comum.',
+]
+const LORE_TIPAGEM = [
+  'Neste mundo, o sangue decide quem opera a selênica: a cristalização depende dos antígenos, e o laudo de Reatividade Selênica — obrigatório na PIRA, vendido em qualquer Panvel — carimba o seu Fator no RG.',
+  'O RH das megacorps trata o Fator como destino: signo prevê, sangue confirma. Escolher a Tipagem Aparente é escolher como a cidade te lê — e que linha de reagente responde a você.',
 ]
 
 export function sintoniaCompleta(ctx: WizardCtx): boolean {
@@ -31,37 +36,41 @@ export function PassoSintonia({ ctx }: { ctx: WizardCtx }) {
   if (rules?.sintoniaRuleLocked) {
     return (
       <WizSecao
-        titulo="Sintonia Aparente"
+        titulo={reskinText('Sintonia Aparente')}
         nota="A sua Sintonia é definida por uma regra da classe/raça — nada a escolher aqui."
       >
-        <span style={{ fontSize: 14, fontWeight: 700 }}>{str(fm['Sintonia']) || '—'}</span>
+        <span style={{ fontSize: 14, fontWeight: 700 }}>{sintoniaDisplay(fm['Sintonia']) || '—'}</span>
       </WizSecao>
     )
   }
 
   return (
     <WizSecao
-      titulo="Escolha sua Sintonia Aparente"
+      titulo={reskinText('Escolha sua Sintonia Aparente')}
       pendente={!sintoniaCompleta(ctx)}
       nota={
         <>
-          {LORE_SINTONIA.map((p) => (
+          {(reskinName('Traço Elemental do Fogo') !== 'Traço Elemental do Fogo'
+            ? LORE_TIPAGEM
+            : LORE_SINTONIA
+          ).map((p) => (
             <span key={p} style={{ display: 'block', marginBottom: 8 }}>
-              {p}
+              {reskinText(p)}
             </span>
           ))}
           <span style={{ display: 'block' }}>
-            A sintonia colore quem você é e pesa em algumas classes (o Monge, por exemplo, luta
-            diferente em cada uma). Toque numa sintonia pra ler os detalhes antes de escolher.
+            {reskinText(
+              'A sintonia colore quem você é e pesa em algumas classes (o Monge, por exemplo, luta diferente em cada uma). Toque numa sintonia pra ler os detalhes antes de escolher.',
+            )}
           </span>
         </>
       }
     >
       <WizCardLista
-        ariaLabel="Sintonias disponíveis"
+        ariaLabel={reskinText('Sintonias disponíveis')}
         itens={(rules?.sintonias ?? []).map((o) => ({
           id: o.value,
-          titulo: o.label,
+          titulo: sintoniaDisplay(o.value),
           // Emoji do ELEMENTO (registro central, o mesmo da ficha de grupo).
           ic: sintoniaEmojiDe(o.value) ?? undefined,
           detalheId: docIdDe(o.value),

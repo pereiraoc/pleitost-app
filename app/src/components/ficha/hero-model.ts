@@ -462,10 +462,26 @@ export function interativa(fm: Record<string, unknown>): {
 /** Display de sintonia no MUNDO ativo (report c6cc276c): se o Contexto
  *  renomeia a nota ("Traço Elemental do Fogo" → "Fator O+"), usa o nome do
  *  mundo por inteiro; senão cai no nome curto da fantasia ("Fogo"). */
+const TRACO_POR_ELEMENTO: Record<string, string> = {
+  Fogo: 'Traço Elemental do Fogo',
+  Terra: 'Traço Elemental da Terra',
+  Vento: 'Traço Elemental do Vento',
+  Água: 'Traço Elemental da Água',
+}
+
 export function sintoniaDisplay(value: unknown): string {
   const full = linkLabel(str(value))
   const mundo = reskinName(full)
-  return mundo !== full ? mundo : shortSintonia(value)
+  if (mundo !== full) return mundo
+  // Valor é o ELEMENTO cru (wizard "Sintonia Aparente"): o elemento não
+  // renomeia (é exceção da cascata), mas a TIPAGEM correspondente sim — o
+  // nome do mundo vem da nota do Traço ("Água" → "Fator AB+" no POA).
+  const traco = TRACO_POR_ELEMENTO[full]
+  if (traco) {
+    const mundoTraco = reskinName(traco)
+    if (mundoTraco !== traco) return mundoTraco
+  }
+  return shortSintonia(value)
 }
 
 /** Nome curto de sintonia — espelha shortSintoniaName do plugin. */

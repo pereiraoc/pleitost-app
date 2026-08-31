@@ -263,11 +263,11 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
     const imgSlot = docSlot ? weaponImageUrl(docSlot, assets, true) : null
     const imgSlotFull = docSlot ? weaponImageUrl(docSlot, assets, false) : null
     const rotulo = ocupadaPor2Maos
-      ? `${principal!.basename} (2 mãos)`
+      ? `${reskinName(principal!.basename)} (2 mãos)`
       : comEscudo
-        ? escudoNome
+        ? reskinName(escudoNome)
         : arma
-          ? arma.basename
+          ? reskinName(arma.basename)
           : ATAQUE_DESARMADO
     return (
       <div style={{ flex: 1, minWidth: 220 }}>

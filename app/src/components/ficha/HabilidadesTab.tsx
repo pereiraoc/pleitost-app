@@ -10,6 +10,7 @@
 //   move (4+attr+item+especial, SEM PB), none (Combate); flags showProf/
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { reskinName } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -2573,7 +2574,7 @@ export function choicePickValue(c: HabChoice): string {
  *  habilidades-card.ts:428). */
 function choiceOptions(c: HabChoice): SelectOption[] {
   const wl = c.kind === 'complementar-sel' ? c.options : c.options.map((o) => `[[${o}]]`)
-  return wl.map((o) => ({ value: o, label: linkLabel(o) }))
+  return wl.map((o) => ({ value: o, label: linkLabelDisplay(o) }))
 }
 
 /** Options do dropdown considerando as escolhas IRMÃS (mesmo pai): remove as
@@ -2989,7 +2990,7 @@ export function TecnicasPanel({
                             whiteSpace: 'nowrap',
                           }}
                         >
-                          {e.label}
+                          {reskinName(e.label)}
                         </span>
                       </ItemHover>
                     </div>
@@ -3018,11 +3019,11 @@ export function TecnicasPanel({
                         </span>
                         {edit ? (
                           <SelectBox
-                            ariaLabel={`Benefício de ${e.label}`}
+                            ariaLabel={`Benefício de ${reskinName(e.label)}`}
                             value={bene}
                             options={[
                               { value: '', label: '—' },
-                              ...beneOpts.map((o) => ({ value: o.nome, label: o.nome })),
+                              ...beneOpts.map((o) => ({ value: o.nome, label: reskinName(o.nome) })),
                             ]}
                             onChange={(v) => setBeneficio(e.target, v)}
                           />
@@ -3042,7 +3043,7 @@ export function TecnicasPanel({
                                 fontStyle: bene ? 'normal' : 'italic',
                               }}
                             >
-                              {bene || '(não definido)'}
+                              {reskinName(bene) || '(não definido)'}
                             </span>
                           </TipHover>
                         )}
@@ -3060,7 +3061,7 @@ export function TecnicasPanel({
                           <span
                             style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
                           >
-                            {c.label}
+                            {reskinName(c.label)}
                           </span>
                         ) : null}
                         {edit ? (
@@ -3156,7 +3157,7 @@ export function TecnicasPanel({
                             whiteSpace: 'nowrap',
                           }}
                         >
-                          {row.txt}
+                          {reskinName(row.txt)}
                         </span>
                       </ItemHover>
                     </div>

@@ -10,7 +10,8 @@
 // wizard do herói — os dois personagens ficam na base; Descartar apaga os dois
 // (WizardView). O nível do CA espelha o do tutor (nivelDoTutor, familia.ts).
 import { useEffect, useMemo } from 'react'
-import { reskinText } from '../../../data/reskin'
+import { reskinName, reskinText } from '../../../data/reskin'
+import { linkLabelDisplay } from '../../../markdown/dataview-value'
 import { useCatalog } from '../../../data/CatalogContext'
 import {
   createLocalEntity,
@@ -24,7 +25,7 @@ import { useHeroModel } from '../../../data/useHeroModel'
 import { useHeroRules } from '../../../rules/useHeroRules'
 import { sintoniaEmojiDe } from '../../../grupo/party'
 import type { VaultDoc } from '../../../data/types'
-import { fmPath, listaEntries, str, wikiTarget } from '../../ficha/hero-model'
+import { fmPath, listaEntries, sintoniaDisplay, str, wikiTarget } from '../../ficha/hero-model'
 import { displayName, periciaEmoji, slugify, tokens } from '../../ficha/registry'
 import { PROF_LABEL } from '../../ficha/tooltips'
 import type { RankLetter } from '../../ficha/registry'
@@ -34,11 +35,17 @@ import { LocalImageUpload } from '../../ficha/PerfilTab'
 import { docIdOf, WizCampo, WizCardLista, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
 
-/** Lore de abertura — texto da nota [[Companheiro Animal]] da vault, verbatim
- *  (sem os wikilinks), no tom dos demais passos. */
+/** Lore de abertura — fantasia: texto da nota [[Companheiro Animal]] da
+ *  vault, verbatim (sem os wikilinks). POA 1987: cópia própria no registro
+ *  do Empregado (Contexto POA §3) — o passo escolhe pela presença do rename
+ *  no mundo ativo. */
 const LORE_COMPANHEIRO = [
   'Você recebe um companheiro animal. As características do animal são determinadas pelo tipo. O tipo de animal é determinado pela sua sintonia: Ave (Vento/Fogo), Canino (Fogo/Terra), Ursino (Terra/Água) ou Felino (Água/Vento).',
   'Companheiros animais são parceiros de Domadores, tendo uma conexão forte com o caçador. Um companheiro animal tem nível igual ao nível de seu Domador. Um Domador pode comandar seu companheiro para realizar ações que condizem com a capacidade intelectual de um animal. Em combate, um Domador pode, uma vez por turno, Comandar Animal.',
+]
+const LORE_EMPREGADO = [
+  'Você recebe um Empregado na folha. As características dele são determinadas pelo tipo de contrato, que combina com a Tipagem: Zangão (Vento/Fogo — drone pilotado por link neural), Segurança (Fogo/Terra), Capanga (Terra/Água) ou Espião (Água/Vento).',
+  'Empregados respondem a Gestores — o Plano de Carreira de quem administra gente. Um Empregado tem nível igual ao do seu Empregador, e cumpre ordens que caibam no contrato. Em combate, o Gestor pode, uma vez por turno, Dar Ordens.',
 ]
 
 /** O herói comanda um animal? (decide a visibilidade do passo — a ação
@@ -81,13 +88,17 @@ const STUB_DOC = {
 export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
   const catalog = useCatalog()
   const heroNome = str(ctx.fm['nome']).trim() || ctx.doc.basename
+  // Mundo com rename (POA: Empregado) → cópia, emoji e rótulos do mundo.
+  const mundoEmpregado = reskinName('Companheiro Animal') !== 'Companheiro Animal'
+  const bicho = reskinText('companheiro animal') // 'companheiro animal' | 'empregado'
+  const lore = mundoEmpregado ? LORE_EMPREGADO : LORE_COMPANHEIRO
   const caId = str(fmPath(ctx.fm, 'Wizard', 'companheiroId'))
 
   // Cria o CA na PRIMEIRA entrada; nas seguintes re-carimba o Tutor (o herói
   // pode ter sido renomeado ao voltar). O Tutor não é editável aqui.
   useEffect(() => {
     if (!caId) {
-      const id = createLocalEntity('CompanheiroAnimal', 'Novo Companheiro', {
+      const id = createLocalEntity('CompanheiroAnimal', mundoEmpregado ? 'Novo Empregado' : 'Novo Companheiro', {
         ...emptyCompanheiroFrontmatter(''),
         Tutor: `[[${heroNome}]]`,
       })
@@ -111,7 +122,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
   const imgUrl = useEntityImageUrl(caId || null)
 
   if (!caDoc) {
-    return <span style={{ fontSize: 13, color: 'var(--muted)' }}>Criando o companheiro…</span>
+    return <span style={{ fontSize: 13, color: 'var(--muted)' }}>Criando o {bicho}…</span>
   }
 
   const sintoniaAtual = wikiTarget(str(caFm['Sintonia']))
@@ -132,14 +143,13 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
         pendente={!companheiroCompleto(ctx)}
         nota={
           <>
-            {LORE_COMPANHEIRO.map((p) => (
+            {lore.map((p) => (
               <span key={p} style={{ display: 'block', marginBottom: 8 }}>
                 {p}
               </span>
             ))}
             <span style={{ display: 'block' }}>
-              O tutor já está definido (é o seu herói) e os dois nascem juntos ao concluir a
-              criação.
+              {`O ${reskinText('Tutor').toLowerCase()} já está definido (é o seu herói) e os dois nascem juntos ao concluir a criação.`}
             </span>
           </>
         }
@@ -147,7 +157,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
         {/* TUTOR travado — só informação, sem edição neste passo. */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           <span style={{ ...wizTitulo, fontSize: 10 }}>
-            {tokens.emojis.perfil.Tutor} TUTOR
+            {tokens.emojis.perfil.Tutor} {reskinText('Tutor').toUpperCase()}
           </span>
           <span
             style={{
@@ -174,7 +184,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
       {/* r16: RETRATO + NOME logo após o tutor (pedido do usuário) — o
           quadrado é o MESMO idioma do retrato do herói (PassoNome), com o
           pipeline local-first LocalImageUpload/useEntityImageUrl. */}
-      <WizSecao titulo="Quem é seu companheiro?" pendente={str(caFm['nome']).trim() === ''}>
+      <WizSecao titulo={`Quem é seu ${bicho}?`} pendente={str(caFm['nome']).trim() === ''}>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 14, flexWrap: 'wrap' }}>
           <span
             style={{
@@ -194,34 +204,35 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
             {imgUrl ? (
               <img
                 src={imgUrl}
-                alt="Retrato do companheiro"
+                alt={`Retrato do ${bicho}`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             ) : (
-              '🐾'
+              // POA: Empregado é gente (ou drone) — nada de patinhas.
+              mundoEmpregado ? '👤' : '🐾'
             )}
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span style={{ ...wizTitulo, fontSize: 10 }}>IMAGEM DO COMPANHEIRO</span>
+            <span style={{ ...wizTitulo, fontSize: 10 }}>{`IMAGEM DO ${bicho.toUpperCase()}`}</span>
             <LocalImageUpload id={caId} />
           </div>
           <div style={{ flex: '1 1 220px', minWidth: 0 }}>
             <WizCampo
-              label="Nome do companheiro"
+              label={`Nome do ${bicho}`}
               value={str(caFm['nome'])}
               onChange={(v) => caModel.set('nome', v)}
-              placeholder="Rex, Nimbus, Malha…"
+              placeholder={mundoEmpregado ? 'Neide, Índio, Sombra…' : 'Rex, Nimbus, Malha…'}
             />
           </div>
         </div>
       </WizSecao>
 
-      <WizSecao titulo="Sintonia do companheiro" pendente={sintoniaAtual === ''}>
+      <WizSecao titulo={`${reskinText('Sintonia')} do ${bicho}`} pendente={sintoniaAtual === ''}>
         <WizCardLista
-          ariaLabel="Sintonias do companheiro"
+          ariaLabel={`${reskinText('Sintonia')} do ${bicho}`}
           itens={(caRules?.sintonias ?? []).map((o) => ({
             id: o.value,
-            titulo: o.label,
+            titulo: sintoniaDisplay(o.value),
             ic: sintoniaEmojiDe(o.value) ?? undefined,
             detalheId: docIdOf(catalog, o.value),
           }))}
@@ -236,13 +247,15 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
       <WizSecao
         titulo="Tipo"
         pendente={tipoAtual === ''}
-        nota="O tipo define atributos, ataques, movimento e perícias do companheiro — toque pra ler a regra nos detalhes."
+        nota={`O tipo define atributos, ataques, movimento e perícias do ${bicho} — toque pra ler a regra nos detalhes.`}
       >
         <WizCardLista
-          ariaLabel="Tipos de companheiro animal"
+          ariaLabel={`Tipos de ${bicho}`}
           itens={(caRules?.tiposCompanheiro ?? []).map((o) => ({
             id: o.value,
-            titulo: o.label,
+            // POA: o card mostra o nome do CONTRATO (Segurança/Espião/Zangão/
+            // Capanga); fantasia segue o curto (Canino/Felino/Ave/Ursino).
+            titulo: mundoEmpregado ? linkLabelDisplay(o.value) : o.label,
             ic: tokens.emojis.categoria.Habilidade,
             detalheId: docIdOf(catalog, o.value),
           }))}
@@ -257,7 +270,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
       {/* Perícias concedidas pela cascata (leitura — no nível 1 não há slot a
           gastar; os slots do CA chegam com o nível do tutor). */}
       <WizSecao
-        titulo="Perícias do companheiro"
+        titulo={`Perícias do ${bicho}`}
         nota="Concedidas pelo tipo e pela regra base — sem escolhas no nível 1."
       >
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -297,8 +310,8 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
 
       <PreviewCombate
         derivado={caDerivado}
-        titulo="Como seu companheiro se defende"
-        nota="Derivado do tipo escolhido e do nível do tutor — é assim que aparece na ficha do companheiro."
+        titulo={`Como seu ${bicho} se defende`}
+        nota={`Derivado do tipo escolhido e do nível do ${reskinText('Tutor').toLowerCase()} — é assim que aparece na ficha do ${bicho}.`}
       />
     </div>
   )

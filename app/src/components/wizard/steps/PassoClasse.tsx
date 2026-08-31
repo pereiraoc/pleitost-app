@@ -101,7 +101,7 @@ function EstrelasPossibilidade({
 function MaisEstrelas({ nome, roles }: { nome: string; roles: Partial<Record<RoleName, number>> }) {
   const entries = (Object.entries(roles) as [RoleName, number][]).sort((a, b) => b[1] - a[1])
   if (!entries.length) return null
-  const tooltip = `${nome} adiciona: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
+  const tooltip = `${reskinName(nome)} adiciona: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
   return (
     <span
       title={tooltip}
