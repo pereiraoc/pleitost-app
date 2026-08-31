@@ -17,6 +17,7 @@ import { useHexMap } from '../../../data/useHexMap'
 import { MAPA_MUNDO_ID } from '../../../data/seed-hexmaps'
 import { atlasHexCenter, ATLAS_MAPA_ASSET } from '../../../map/atlas-grid'
 import { NATURALIDADE_OUTRO } from '../../../rules/naturalidade'
+import { reskinText } from '../../../data/reskin'
 import { fmPath, str } from '../../ficha/hero-model'
 import { tokens } from '../../ficha/registry'
 import { PassadoBox } from '../../ficha/PerfilTab'
@@ -200,10 +201,10 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
 
       {/* #461 item 6: motivação + gênero numa linha; idade/altura/peso na de
           baixo — tudo ocupando a horizontal. Sem asterisco = opcional. */}
-      <WizSecao titulo="Quem é esse aventureiro?">
+      <WizSecao titulo={reskinText('Quem é esse aventureiro?')}>
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 12, alignItems: 'end' }}>
           <WizCampo
-            label={`${tokens.emojis.biografia.Motivacao} Por que você decidiu virar aventureiro?`}
+            label={`${tokens.emojis.biografia.Motivacao} ${reskinText('Por que você decidiu virar aventureiro?')}`}
             value={bioRaw(fm, 'Motivacao')}
             onChange={(v) => model.set('Biografia.Motivacao', v)}
             placeholder="Fugir do passado, fama, uma dívida…"

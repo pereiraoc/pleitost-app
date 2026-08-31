@@ -95,7 +95,10 @@ export function renderContextoDoc(contexto, typeByBasename) {
     const linhas = [];
     if (ca.tamanho) linhas.push(["tamanho fixo", ca.tamanho]);
     if (ca.sem_armas_naturais) linhas.push(["armas naturais", "removidas (desarmado + manobras + arma)"]);
-    if (ca.arma) linhas.push(["arma do Empregado", `${(ca.arma.grupos ?? []).join(", ")} · ${ca.arma.maos ?? "?"} mão`]);
+    if (ca.arma) {
+      const req = ca.arma.forca_max != null ? ` · Força ≤ ${ca.arma.forca_max}` : "";
+      linhas.push(["arma do Empregado", `${(ca.arma.grupos ?? []).join(", ")} · ${ca.arma.maos ?? "?"} mão${req}`]);
+    }
     out.push(...tabela("Regras do mundo — Companheiro Animal", linhas, ["Ajuste", "Valor"]));
   }
 

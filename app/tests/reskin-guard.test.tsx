@@ -43,6 +43,8 @@ const PROIBIDOS = [
   'Espada', 'Adaga', 'Besta', 'Bestas', 'Rapieira', 'Montante',
   'Alabarda', 'Azagaia', 'Alfange', 'Bordão', 'Manopla', 'Tacape', 'Broquel',
   'Malho', 'Funda', 'Obra-prima',
+  // #540 — A Caixinha: o freelancer do POA é Contratado.
+  'Aventureiro', 'Aventureiros',
 ]
 const RE_PROIBIDO = new RegExp(
   `(?<![\\p{L}\\p{N}])(${PROIBIDOS.join('|')})(?![\\p{L}\\p{N}])`,

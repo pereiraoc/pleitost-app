@@ -21,6 +21,8 @@ export interface IndexDocEntry {
   grupo?: string | string[] | null
   /** Mãos da arma (#544 — só docs subtype Arma; filtro do Empregado). */
   maos?: number
+  /** Requisito de Força da arma (propriedade "Força N") — idem. */
+  forca?: number
 }
 
 export interface IndexManifest {

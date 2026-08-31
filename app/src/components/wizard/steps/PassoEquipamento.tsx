@@ -12,7 +12,7 @@
 // via interativa). A armadura RECOMENDADA já entra selecionada por default
 // (uma vez, marcador Wizard.equipInit). Writes espelham o InventarioTab.
 import { useEffect, useMemo, useState } from 'react'
-import { reskinName } from '../../../data/reskin'
+import { reskinName, reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
@@ -363,8 +363,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
         nota={
           <>
             <span style={{ display: 'block', marginBottom: 8 }}>
-              Nenhum aventureiro parte pro perigo de mãos abanando: seu herói começa com armas
-              básicas pra se defender na estrada. Toque numa mão pra escolher o que ela carrega —
+              {reskinText('Nenhum aventureiro parte pro perigo de mãos abanando: seu herói começa com armas básicas pra se defender na estrada.')} Toque numa mão pra escolher o que ela carrega —
               uma arma de 2 mãos ocupa as duas, e a mão secundária também aceita um escudo.
             </span>
             <span style={{ display: 'block' }}>

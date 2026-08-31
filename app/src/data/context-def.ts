@@ -39,7 +39,7 @@ export interface ContextoDef {
     companheiroAnimal?: {
       tamanho: string | null
       semArmasNaturais: boolean
-      arma: { grupos: string[]; maos: number | null } | null
+      arma: { grupos: string[]; maos: number | null; forcaMax: number | null } | null
     }
   }
   disponibilidade: {

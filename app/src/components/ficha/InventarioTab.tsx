@@ -363,7 +363,12 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
       ...g,
       entries: byGrupo
         .get(g.key)!
-        .filter((e) => !armaCa || armaCa.maos == null || (e.maos != null && e.maos <= armaCa.maos))
+        .filter(
+          (e) =>
+            !armaCa ||
+            ((armaCa.maos == null || (e.maos != null && e.maos <= armaCa.maos)) &&
+              (armaCa.forcaMax == null || e.forca == null || e.forca <= armaCa.forcaMax)),
+        )
         .sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR')),
     }))
   }, [catalog])

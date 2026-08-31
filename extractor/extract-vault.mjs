@@ -161,6 +161,19 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       ...(record.subtype === "Arma" && typeof record.frontmatter?.["mãos"] === "number"
         ? { maos: record.frontmatter["mãos"] }
         : {}),
+      // #544: requisito de Força da arma (propriedade "[[Força X|Força N]]").
+      ...(record.subtype === "Arma"
+        ? (() => {
+            const props = Array.isArray(record.frontmatter?.propriedades)
+              ? record.frontmatter.propriedades
+              : [];
+            for (const pr of props) {
+              const m = /Força (\d)/.exec(String(pr));
+              if (m) return { forca: Number(m[1]) };
+            }
+            return {};
+          })()
+        : {}),
       kind: "content",
     });
 

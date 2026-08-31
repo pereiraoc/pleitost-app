@@ -97,6 +97,14 @@ export function reskinPericia(display: string): string {
 }
 
 /** Corpo do MUNDO pra uma nota (#538) — null = usa o canônico. */
+/** Labels UPPERCASE (banners/tabs) — a cascata de termos é case-sensitive,
+ *  então title-caseia, reskina e devolve maiúsculo só se o mundo mudou algo. */
+export function reskinUpper(label: string): string {
+  const titulo = label.charAt(0) + label.slice(1).toLowerCase()
+  const mundo = reskinText(titulo)
+  return mundo === titulo ? label : mundo.toUpperCase()
+}
+
 export function reskinDescricao(basename: string): string | null {
   return ativo?.def?.reskin.descricoes?.[basename] ?? null
 }

@@ -17,7 +17,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
-import { reskinText } from '../../data/reskin'
+import { reskinText, reskinUpper } from '../../data/reskin'
 import {
   deleteEntityImage,
   saveEntityImage,
@@ -626,9 +626,9 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
       >
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
-            <span style={{ ...mono10, letterSpacing: '.14em' }}>🧭 MOTIVAÇÃO DE AVENTUREIRO</span>
+            <span style={{ ...mono10, letterSpacing: '.14em' }}>🧭 {reskinUpper('MOTIVAÇÃO DE AVENTUREIRO')}</span>
             <input
-              aria-label="Motivação de aventureiro"
+              aria-label={reskinText('Motivação de aventureiro')}
               value={str(bio['Motivacao'])}
               onChange={(e) => setBio('Motivacao', e.target.value)}
               style={{ ...boxStyle('12px 14px', 14), width: '100%', fontFamily: 'var(--body)' }}
@@ -884,7 +884,7 @@ function ExperienciaPanel({ doc }: { doc: VaultDoc }) {
           <span
             style={{ fontSize: 15.5, fontWeight: 700, color: 'var(--text)', letterSpacing: '.01em' }}
           >
-            Aventureiro Classe {ci.classe}
+            {reskinText('Aventureiro')} Classe {ci.classe}
           </span>
         </div>
         {pill(
@@ -1266,7 +1266,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
             clipPath: clip(10),
           }}
         >
-          AVENTUREIRO CLASSE {ci.classe}
+          {reskinUpper('AVENTUREIRO CLASSE')} {ci.classe}
         </div>
       ) : null}
 
@@ -1431,7 +1431,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
         {/* #309: sem classe (herói novo) → "Aventureiro"; botão ao lado expande
             os seletores de classe/subclasse (mesmos das Competências).
             #409: pra Monstro sem classe o rótulo é "Criatura". */}
-        <span>{classe || (caps.tier ? 'Criatura' : 'Aventureiro')}</span>
+        <span>{classe || (caps.tier ? 'Criatura' : reskinText('Aventureiro'))}</span>
         <button
           onClick={() => setClasseAberta((v) => !v)}
           aria-expanded={classeAberta}

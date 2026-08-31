@@ -183,6 +183,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
             ? {
                 grupos: asStringArray(caIn.arma.grupos, "regras.companheiro_animal.arma.grupos", problems),
                 maos: typeof caIn.arma.maos === "number" ? caIn.arma.maos : null,
+                forcaMax: typeof caIn.arma.forca_max === "number" ? caIn.arma.forca_max : null,
               }
             : null,
         },

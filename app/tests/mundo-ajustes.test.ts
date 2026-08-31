@@ -53,6 +53,14 @@ describe.skipIf(!defPoa)('aplicarRegrasDoMundo com o def REAL do POA', () => {
     expect(lista).toEqual([{ '[[Ataque Desarmado]]': 'Base' }])
   })
 
+  it('#544: arma do Empregado no def real — só cac-simples, 1 mão, Força ≤ 2', () => {
+    expect(defPoa!.regras?.companheiroAnimal?.arma).toEqual({
+      grupos: ['cac-simples'],
+      maos: 1,
+      forcaMax: 2,
+    })
+  })
+
   it('herói comum passa reto (só família CA)', () => {
     setActiveContexto(defPoa)
     const fm: Record<string, unknown> = {
