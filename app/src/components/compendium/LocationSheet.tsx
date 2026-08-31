@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { docPath } from '../../paths'
-import { reskinName } from '../../data/reskin'
+import { reskinName, reskinText } from '../../data/reskin'
 import { useDetail } from '../../data/detail-context'
 import { leafletZoom, markerVisivel, markerGlyph } from '../../map/leaflet-local'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
@@ -181,7 +181,7 @@ function RecursoCard({ name, doc }: { name: string; doc: VaultDoc | undefined })
           WebkitBoxOrient: 'vertical',
         }}
       >
-        {name}
+        {reskinName(name)}
       </span>
     </span>
   )
@@ -189,7 +189,7 @@ function RecursoCard({ name, doc }: { name: string; doc: VaultDoc | undefined })
   // valor/propriedades) + a descrição curta. fullBody trazia também a PROSA do
   // corpo com uma tabela (shc-tbl) que REPETIA mãos/valor já mostrados em cima —
   // redundante no contexto de recurso da Localização. Feedback do mestre.
-  return doc ? <ItemHover doc={doc}>{cell}</ItemHover> : <TipHover html={esc(name)}>{cell}</TipHover>
+  return doc ? <ItemHover doc={doc}>{cell}</ItemHover> : <TipHover html={esc(reskinName(name))}>{cell}</TipHover>
 }
 
 /** Grade de recursos: resolve os wikilinks (arma/imbuição/foco/tesouro) pros
@@ -519,7 +519,7 @@ const TIER_MEDAL_LETTER: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
 /** Ícone de COMPRAR com tooltip (formato do app). */
 function BuyButton({ label, preco, canBuy, onBuy }: { label: string; preco: number; canBuy: boolean; onBuy: () => void }) {
   const html = canBuy
-    ? `<div class="dv-tooltip-head-row">Comprar</div>${esc(label)} · ${preco} PO`
+    ? `<div class="dv-tooltip-head-row">Comprar</div>${esc(reskinName(label))} · ${preco} ${esc(reskinText('PO'))}`
     : 'Ouro insuficiente ou nenhum herói selecionado'
   return (
     <TipHover html={html}>
@@ -570,11 +570,11 @@ function ProntaRow({
       </TipHover>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
         <span style={{ fontWeight: 600, fontSize: 13.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {entry.label} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
+          {reskinName(entry.label)} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>×{entry.quantidade}</span>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{entry.preco} PO</span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{entry.preco} {reskinText('PO')}</span>
         </div>
       </div>
       <BuyButton label={entry.label} preco={entry.preco} canBuy={canBuy} onBuy={onBuy} />
@@ -592,9 +592,9 @@ function EncomendaRow({ entry, docsById }: { entry: EncomendaEntry; docsById: Ma
       </TipHover>
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
         <span style={{ fontSize: 12.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {entry.label} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
+          {reskinName(entry.label)} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
         </span>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{entry.preco} PO</span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{entry.preco} {reskinText('PO')}</span>
       </div>
     </div>
   )
@@ -794,7 +794,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
         return
       }
       decrementProntaEntry(doc.id, entry.key, entry.tier)
-      setAviso(`Comprado: ${entry.label} (${TIER_COLUNA[entry.tier]}). Ouro restante: ${r.ouroRestante} PO.`)
+      setAviso(`Comprado: ${reskinName(entry.label)} (${TIER_COLUNA[entry.tier]}). Saldo: ${r.ouroRestante} ${reskinText('PO')}.`)
     }
     const pb = entry.propriedadeBase ?? ''
     // Poção → Consumíveis (soma quantidade), não Tesouros.
@@ -894,7 +894,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
         <div ref={shopTabsRef} role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
           <SubTabBtn active={subTab === 'armas'} onClick={() => setSubTab('armas')}>ARMAS</SubTabBtn>
           <SubTabBtn active={subTab === 'equip'} onClick={() => setSubTab('equip')}>EQUIPAMENTOS</SubTabBtn>
-          <SubTabBtn active={subTab === 'pocoes'} onClick={() => setSubTab('pocoes')}>POÇÕES</SubTabBtn>
+          <SubTabBtn active={subTab === 'pocoes'} onClick={() => setSubTab('pocoes')}>{reskinText('Poções').toUpperCase()}</SubTabBtn>
         </div>
       ) : null}
 

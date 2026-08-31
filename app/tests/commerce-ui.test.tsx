@@ -194,6 +194,6 @@ describe('loja: comprar debita ouro, adiciona ao herói e decrementa disponibili
     const tesouros = getHeroEdits(ZUKO_ID).fm['Inventario.Tesouros'] as string[]
     expect(tesouros).toContain('[[Anel Canário|Anel Canário (Adepto)]]')
     // aviso de sucesso com o ouro restante
-    expect(await screen.findByText(/Ouro restante: 460 PO/)).toBeTruthy()
+    expect(await screen.findByText(/Saldo: 460 PO/)).toBeTruthy()
   })
 })
