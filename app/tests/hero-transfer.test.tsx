@@ -251,7 +251,7 @@ describe('importar/exportar companheiro animal (#205)', () => {
       expect(hit).toBeTruthy()
       return hit!.closest('.npc-card') as HTMLElement
     })
-    fireEvent.click(within(cardBidu).getByLabelText('Ações do companheiro'))
+    fireEvent.click(within(cardBidu).getByLabelText('Ações do companheiro animal'))
     fireEvent.click(screen.getByText('📤 Exportar companheiro'))
     expect(download.temBlob()).toBe(true)
     const portable = parsePortable(await download.texto())
