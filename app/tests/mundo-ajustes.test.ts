@@ -83,6 +83,29 @@ describe.skipIf(!defPoa)('aplicarRegrasDoMundo com o def REAL do POA', () => {
     }
   })
 
+  it('#538: todo Item RENOMEADO do Sistema tem corpo do mundo (redação 2026-08-31)', () => {
+    const cybIdx = path.join(path.dirname(appDir), 'vault-data-cyberpunk', 'index.json')
+    const idx = JSON.parse(fs.readFileSync(cybIdx, 'utf8')) as {
+      docs: { id: string; kind: string; basename?: string; type?: string | null }[]
+    }
+    const notas = defPoa!.reskin.notas
+    const desc = defPoa!.reskin.descricoes ?? {}
+    const fora = new Set(defPoa!.disponibilidade.indisponiveis)
+    const sem = idx.docs
+      .filter(
+        (d) =>
+          d.kind === 'content' &&
+          d.type === 'Item' &&
+          d.basename &&
+          d.id.startsWith('Sistema/') &&
+          notas[d.basename] &&
+          !fora.has(d.basename),
+      )
+      .filter((d) => !desc[d.basename!])
+      .map((d) => d.basename)
+    expect(sem).toEqual([])
+  })
+
   it('fantasia (sem contexto): nada muda', () => {
     const fm: Record<string, unknown> = {
       subcategoria: 'Companheiro Animal',
