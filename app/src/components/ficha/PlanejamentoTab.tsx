@@ -14,6 +14,7 @@
 //     nível futuro só registra (plano); o sync materializa ao subir e desfaz
 //     ao baixar (registro fica = restaura ao re-subir).
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { reskinName, reskinPericia, reskinText } from '../../data/reskin'
 import { createPortal } from 'react-dom'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
@@ -320,7 +321,7 @@ function Modal({ titulo, onClose, children }: { titulo: string; onClose: () => v
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={mono({ fontSize: 11, fontWeight: 700, color: 'var(--accent)' })}>{titulo}</span>
+          <span style={mono({ fontSize: 11, fontWeight: 700, color: 'var(--accent)' })}>{reskinText(titulo)}</span>
           <span style={{ flex: 1 }} />
           <button
             aria-label="Fechar editor"
@@ -1011,7 +1012,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       {card.gastos.especialidades.map((f) => (
         <div key={`${f.pericia}|${f.alvo}`}>
           <div style={grupoLabel}>
-            {f.pericia} ({f.tipo === 'especialidade' ? 'E' : 'M'})
+            {reskinPericia(f.pericia)} ({f.tipo === 'especialidade' ? 'E' : 'M'})
           </div>
           <div style={{ ['--on' as string]: 1, display: 'flex', alignItems: 'center', gap: 9 }}>
             <Losango />
@@ -1037,7 +1038,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   }
                 }
               }}
-              aria-label={`${f.pericia}: ${linkLabelDisplay(f.alvo)}`}
+              aria-label={`${reskinPericia(f.pericia)}: ${linkLabelDisplay(f.alvo)}`}
               aria-pressed
               style={{
                 width: 15,
@@ -1068,7 +1069,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       {oportunidades.map((o) => (
         <div key={`${o.nome}|${o.rank}`}>
           <div style={grupoLabel}>
-            {o.nome} ({o.rank})
+            {reskinPericia(o.nome)} ({o.rank})
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {o.opts.map((wl) => (
@@ -1086,7 +1087,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                       () => aplicaEspecialidade(o.nome, o.rank === 'E' ? 'Especializacao' : 'Maestria', wl),
                     )
                   }
-                  aria-label={`${o.nome}: ${linkLabelDisplay(wl)}`}
+                  aria-label={`${reskinPericia(o.nome)}: ${linkLabelDisplay(wl)}`}
                   aria-pressed={false}
                   style={{
                     width: 15,
@@ -1175,7 +1176,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
               <AttrBadge ic={ATTR_EMOJI[atributoDe(nome)] ?? ''} at={atributoDe(nome)} />
               <ItemHover doc={docDe(`[[${nome}]]`)} fullBody style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontSize: 13, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {nome}
+                  {reskinPericia(reskinName(nome))}
                   {gastoAqui?.planejado ? (
                     <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 6 })}>plano</span>
                   ) : null}
@@ -1239,7 +1240,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                 <PlanChip
                   wl={g.link}
                   doc={docDe(g.link)}
-                  sufixo={`${g.rank} · ${g.escola}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
+                  sufixo={`${g.rank} · ${reskinText(g.escola)}${g.secundaria ? ' (2ª)' : ''}${g.planejado ? ' · plano' : ''}`}
                 />
                 <button
                   aria-label={`Remover ${linkLabelDisplay(g.link)}`}
@@ -1328,7 +1329,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           if (!linhas.length) return null
           return (
             <div key={esc.nome} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <span style={kicker}>{esc.nome.toUpperCase()}</span>
+              <span style={kicker}>{reskinText(esc.nome).toUpperCase()}</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>{linhas}</div>
             </div>
           )
@@ -1408,7 +1409,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           if (!linhas.length) return null
           return (
             <div key={`sec|${esc.nome}`} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <span style={kicker}>{esc.nome.toUpperCase()} · SECUNDÁRIA</span>
+              <span style={kicker}>{reskinText(esc.nome).toUpperCase()} · SECUNDÁRIA</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>{linhas}</div>
             </div>
           )
@@ -1607,11 +1608,11 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
         pid: `${card.nivel}|mag`,
         label:
           magTot.length || magSecTot.length
-            ? `MAGIAS (${[
+            ? `${reskinText('Magias').toUpperCase()} (${[
                 ...magTot.map((r) => `${r}×${card.slots.magias[r]}`),
                 ...magSecTot.map((r) => `${r}×${card.slots.magiasSec![r]} 2ª`),
               ].join(' ')})`
-            : 'MAGIAS',
+            : reskinText('Magias').toUpperCase(),
         icon: TIPO_EMOJI.magia,
         done: pendentes === 0,
         onOpen: () => abrePopup(card.nivel, 'magia'),

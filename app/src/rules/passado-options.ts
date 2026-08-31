@@ -98,7 +98,40 @@ export function applyPassadoPickToRows(
   return rows.map((row) => {
     const incs = (Array.isArray(row['Incrementos']) ? row['Incrementos'] : []) as Record<string, unknown>[]
     const semPassado = incs.filter((inc) => !Object.values(inc).some((v) => v === 'Passado'))
-    const next = isPickRow(row) ? [...semPassado, { A: 'Passado' }] : semPassado
+    let next = isPickRow(row) ? [...semPassado, { A: 'Passado' }] : semPassado
+    if (isPickRow(row)) {
+      // Report 6f010c01: trocar o Passado pra perícia que o usuário JÁ tinha
+      // pago com Slot.<rank> engolia o incremento (o piso passa a cobrir o
+      // rank, mas o slot seguia gasto). DEVOLVE: remove pares Slot.* com rank
+      // <= piso não-slot da linha nova — o slot-accounting lê do FM, então
+      // sumir daqui é reembolsar.
+      let piso = 0
+      for (const inc of next) {
+        for (const key of Object.keys(inc)) {
+          if (
+            (key === 'A' || key === 'E' || key === 'M') &&
+            !(typeof inc[key] === 'string' && (inc[key] as string).startsWith('Slot'))
+          ) {
+            piso = Math.max(piso, RANK_ORDER[key]!)
+          }
+        }
+      }
+      next = next
+        .map((inc) => {
+          const out: Record<string, unknown> = { ...inc }
+          for (const key of ['A', 'E', 'M'] as const) {
+            if (
+              typeof out[key] === 'string' &&
+              (out[key] as string).startsWith('Slot') &&
+              RANK_ORDER[key]! <= piso
+            ) {
+              delete out[key]
+            }
+          }
+          return out
+        })
+        .filter((inc) => Object.keys(inc).length > 0)
+    }
     // refreshDerivedProficiencias: max rank dos incrementos SEM field
     // (chaves A/E/M puras; field-based como Bonus_Item ficam de fora).
     let max = 0

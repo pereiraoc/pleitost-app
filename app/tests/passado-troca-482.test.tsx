@@ -128,3 +128,42 @@ describe('#482 — trocar o passado reseta o benefício', () => {
     expect(JSON.stringify(diplomacia['Incrementos'])).toContain('Passado')
   })
 })
+
+// Report 6f010c01 (2026-09-01): trocar o Passado pra perícia que o usuário JÁ
+// tinha como Adepto via Slot.A ENGOLIA o incremento — o piso do Passado passa
+// a cobrir o rank e o slot deve ser DEVOLVIDO (removido da linha; o
+// slot-accounting lê do FM). Slot acima do piso novo (E/M) permanece.
+describe('refund de Slot coberto pelo Passado (report 6f010c01)', () => {
+  it('Slot.A some quando o Passado passa a conceder A; Slot.E fica', async () => {
+    const { applyPassadoPickToRows } = await import('../src/rules/passado-options')
+    const rows = [
+      {
+        Nome: '[[Sobrevivência]]',
+        Proficiencia: 'E',
+        Incrementos: [{ A: 'Slot.A' }, { E: 'Slot.E' }],
+      },
+      { Nome: '[[Atletismo]]', Proficiencia: 'A', Incrementos: [{ A: 'Slot.A' }] },
+    ]
+    const out = applyPassadoPickToRows(rows, (r) => String(r.Nome).includes('Sobrevivência'))
+    const sob = out[0]!
+    // Slot.A devolvido; Passado cobre o A; Slot.E preservado → segue E
+    expect(sob.Incrementos).toEqual([{ E: 'Slot.E' }, { A: 'Passado' }])
+    expect(sob.Proficiencia).toBe('E')
+    // linha NÃO escolhida fica intocada (slot do usuário preservado)
+    expect(out[1]!.Incrementos).toEqual([{ A: 'Slot.A' }])
+  })
+
+  it('objeto de incremento com par misto perde só o par redundante', async () => {
+    const { applyPassadoPickToRows } = await import('../src/rules/passado-options')
+    const rows = [
+      {
+        Nome: '[[Furtividade]]',
+        Proficiencia: 'E',
+        Incrementos: [{ A: 'Slot.A', E: 'Slot.E' }],
+      },
+    ]
+    const out = applyPassadoPickToRows(rows, () => true)
+    expect(out[0]!.Incrementos).toEqual([{ E: 'Slot.E' }, { A: 'Passado' }])
+    expect(out[0]!.Proficiencia).toBe('E')
+  })
+})

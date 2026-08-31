@@ -626,7 +626,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                               limpa a arma e volta o atributo pra FOR. */}
                           <option value="">Selecionar arma</option>
                           {armaId && !armaNoCatalogo ? (
-                            <option value={armaId}>{arma.nome}</option>
+                            <option value={armaId}>{reskinName(arma.nome)}</option>
                           ) : null}
                           {armaGroups.map((g) => (
                             <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
@@ -731,11 +731,11 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                           {/* valor SALVO fora da lista (legado incompatível)
                               continua visível — o filtro barra só escolha nova */}
                           {propBase && !imbuicoesDaLinha(i).includes(propBase) ? (
-                            <option value={propBase}>{ench}</option>
+                            <option value={propBase}>{reskinName(ench)}</option>
                           ) : null}
                           {imbuicoesDaLinha(i).map((nome) => (
                             <option key={nome} value={nome}>
-                              {nome === propBase ? ench : nome}
+                              {reskinName(nome === propBase ? ench : nome)}
                             </option>
                           ))}
                         </select>
@@ -896,7 +896,7 @@ function GearCard({
               whiteSpace: 'nowrap',
             }}
           >
-            {base}
+            {reskinName(base)}
           </span>
           {rankOn && ench ? (
             <span
@@ -908,7 +908,7 @@ function GearCard({
                 flex: 'none',
               }}
             >
-              {ench} ({tier})
+              {reskinName(ench)} ({tier})
             </span>
           ) : null}
           <span style={{ flex: 1 }} />
@@ -1254,7 +1254,7 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             whiteSpace: 'nowrap',
                           }}
                         >
-                          {r.nome}
+                          {reskinName(r.nome)}
                         </span>
                       </ItemHover>
                       {/* Fora do Alterar, a qualidade vira sufixo (A)/(E)/(M) no

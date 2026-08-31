@@ -208,7 +208,7 @@ describe('importar/exportar companheiro animal (#205)', () => {
   it('aba COMPANHEIROS: FAB Importar lista os exemplos da vault e importa cópia local', async () => {
     renderNpcs()
     fireEvent.click(screen.getByRole('button', { name: 'COMPANHEIROS ANIMAIS' }))
-    fireEvent.click(await screen.findByText('📥 Importar Companheiro'))
+    fireEvent.click(await screen.findByText('📥 Importar Companheiro Animal'))
     const dialog = screen.getByRole('dialog', { name: 'Importar Companheiro Animal' })
     const metis = await within(dialog).findByRole('button', { name: /Metis, a Graxaim/ })
     await waitFor(() => expect((metis as HTMLButtonElement).disabled).toBe(false))
@@ -233,7 +233,7 @@ describe('importar/exportar companheiro animal (#205)', () => {
     )
     renderNpcs()
     fireEvent.click(screen.getByRole('button', { name: 'COMPANHEIROS ANIMAIS' }))
-    fireEvent.click(await screen.findByText('📥 Importar Companheiro'))
+    fireEvent.click(await screen.findByText('📥 Importar Companheiro Animal'))
     uploadArquivo(heroi, 'errado.pleitost.json')
     expect(await screen.findByRole('alert')).toBeTruthy()
     expect(screen.getByText(/é de Heroi/)).toBeTruthy()

@@ -92,7 +92,7 @@ describe('#375 — deletar companheiro animal pelo menu ⋮', () => {
     createLocalEntity('CompanheiroAnimal', 'Rex Deletável', emptyCompanheiroFrontmatter('Rex Deletável'))
     renderNpcs()
     const cardRex = await cardDe('Rex Deletável')
-    fireEvent.click(within(cardRex).getByLabelText('Ações do companheiro'))
+    fireEvent.click(within(cardRex).getByLabelText('Ações do companheiro animal'))
     fireEvent.click(await screen.findByText(/Deletar companheiro/))
     // 1º clique só ARMA
     expect(screen.getByText(/Confirmar\? Remove da sua conta/)).toBeTruthy()

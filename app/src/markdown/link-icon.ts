@@ -9,6 +9,7 @@
 // espaços — o que quebrava valores multi-palavra (ex.: "Companheiro Animal" não
 // batia "CompanheiroAnimal") e não cobria categorias como Combate/Grupo/Aventura.
 import type { IndexDocEntry } from '../data/types'
+import { reskinName } from '../data/reskin'
 import { SC_CATEGORIA, SC_GRUPO, SC_SUBCATEGORIA } from './supercharged-icons'
 
 /** NFC + trim — bate com as chaves do mapa (valores exatos da vault). */
@@ -27,7 +28,12 @@ export function linkIconForEntry(
   const grupo = typeof entry.grupo === 'string' ? SC_GRUPO[norm(entry.grupo)] : undefined
   if (grupo) return grupo
   if (entry.subtype) {
-    const sub = SC_SUBCATEGORIA[norm(entry.subtype)]
+    // Mundo com Empregado (POA): patinhas não — o CA vira gente/drone.
+    const subKey = norm(entry.subtype)
+    const sub =
+      subKey === 'Companheiro Animal' && reskinName('Companheiro Animal') !== 'Companheiro Animal'
+        ? SC_SUBCATEGORIA['Heroi']
+        : SC_SUBCATEGORIA[subKey]
     if (sub) return sub
   }
   if (entry.type) {

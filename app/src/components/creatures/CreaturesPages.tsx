@@ -57,7 +57,7 @@ import { addMonsterToInitiative } from '../../data/session-repo/encounter-action
 import { useSessions } from '../../data/session-store'
 import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
-import { reskinText } from '../../data/reskin'
+import { reskinName, reskinText } from '../../data/reskin'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -1316,7 +1316,7 @@ function NpcCard({
         {/* Selo FORA do .npc-nome — testes/design leem o nome puro ali. */}
         {readonly ? (
           <span
-            title="Companheiro conhecido (sem direito de escrita)"
+            title={`${reskinText('Companheiro Animal')} conhecido (sem direito de escrita)`}
             style={{
               fontFamily: 'var(--mono)',
               fontSize: 8.5,
@@ -1353,7 +1353,7 @@ function NpcCard({
               ? 'Ações da criatura'
               : podePessoa
                 ? 'Ações da pessoa'
-                : 'Ações do companheiro'
+                : `Ações do ${reskinText('companheiro animal')}`
           }
           open={menuOpen}
           setOpen={setMenuOpen}
@@ -1656,10 +1656,11 @@ export function NpcsPage() {
   // #46: Companheiro Animal local → ficha (família CA: Tutor). #47: Monstro
   // local → ficha formato herói (família Monstro: Tier/Raça).
   const criarCompanheiro = () => {
+    const nomeNovo = reskinName('Companheiro Animal') !== 'Companheiro Animal' ? 'Novo Empregado' : 'Novo Companheiro'
     const id = createLocalEntity(
       'CompanheiroAnimal',
-      'Novo Companheiro',
-      emptyCompanheiroFrontmatter('Novo Companheiro'),
+      nomeNovo,
+      emptyCompanheiroFrontmatter(nomeNovo),
     )
     navigate(heroPath(id))
   }
@@ -1713,7 +1714,7 @@ export function NpcsPage() {
           <CreateFab label={`+ Adicionar ${reskinText('Companheiro Animal')}`} onClick={criarCompanheiro} />
           {/* #205: "o mesmo pra companheiro animal" — importar de arquivo/compêndio */}
           <CreateFab
-            label="📥 Importar Companheiro"
+            label={`📥 Importar ${reskinText('Companheiro Animal')}`}
             secondary
             bottom={74}
             onClick={() => setImportCAOpen(true)}

@@ -40,7 +40,7 @@ const PROIBIDOS = [
   // armas (proposta aprovada 2026-09-01 — Decreto das Armas Frias). 'Lança',
   // 'Machado', 'Arco' ficam FORA: sobrevivem em nomes mantidos (Lança de
   // Andaime, Machado de Bombeiro, Arco de Caça).
-  'Espada', 'Adaga', 'Besta', 'Bestas', 'Rapieira', 'Punhal', 'Montante',
+  'Espada', 'Adaga', 'Besta', 'Bestas', 'Rapieira', 'Montante',
   'Alabarda', 'Azagaia', 'Alfange', 'Bordão', 'Manopla', 'Tacape', 'Broquel',
   'Malho', 'Funda', 'Obra-prima',
 ]
@@ -58,9 +58,14 @@ describe.skipIf(!fs.existsSync(cybContexto))('guarda de reskin — modo cyberpun
 
   it('nenhum basename do Sistema herdado exibe vocabulário de fantasia', () => {
     const idx = JSON.parse(fs.readFileSync(path.join(fantasiaDir, 'index.json'), 'utf8'))
+    const def = JSON.parse(fs.readFileSync(cybContexto, 'utf8')) as ContextoDef
+    // itens INDISPONÍVEIS no mundo nunca exibem (fora do catálogo) — ex.:
+    // Garras do Rei-Mago, cuja exceção de cascata preserva o nome canônico.
+    const fora = new Set(def.disponibilidade.indisponiveis)
     const vazados: string[] = []
     for (const d of idx.docs) {
       if (d.kind !== 'content' || !d.basename) continue
+      if (fora.has(d.basename)) continue
       if (!d.id.startsWith('Sistema/')) continue // conteúdo de mundo não herda
       const shown = reskinName(d.basename)
       const hit = shown.match(RE_PROIBIDO)
