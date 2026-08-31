@@ -55,7 +55,7 @@ import { applyPericiaRankEdit } from '../../rules/apply-pericia-rank-edit'
 import { addTecnicaToLista, removeTecnicaFromLista } from '../../rules/apply-tecnica-edit'
 import { addMagiaToEscola, removeMagiaFromEscola } from '../../rules/apply-magia-edit'
 import type { HeroRefs } from './useHeroRefs'
-import { fmPath, wikiTarget } from './hero-model'
+import { sintoniaDisplay, fmPath, wikiTarget } from './hero-model'
 import { slugify } from './registry'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { ITEM_CARD_CSS, ItemHover, docImageUrl, docTier, itemCardHtml } from '../item-card'
@@ -836,8 +836,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     },
     ...subclasseRows.map((sub) => ({
       rid: `base|subclasse|${sub.choiceKey}`,
-      kicker: `Subclasse · ${sub.sourceNote}`,
-      valor: linkLabel(sub.pick ?? '') || '(não definida)',
+      kicker: `Subclasse · ${reskinName(sub.sourceNote)}`,
+      valor: linkLabelDisplay(sub.pick ?? '') || '(não definida)',
       doc: sub.pick ? docDe(sub.pick) : null,
       icon: tokens.emojis.perfil.Subclasse,
     })),
@@ -845,8 +845,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       ? [
           {
             rid: 'base|sintonia',
-            kicker: 'Sintonia',
-            valor: linkLabel(String(fm['Sintonia'])),
+            kicker: reskinText('Sintonia'),
+            valor: sintoniaDisplay(fm['Sintonia']),
             doc: docDe(String(fm['Sintonia'])),
             icon: tokens.emojis.perfil.Sintonia,
           },
@@ -856,8 +856,8 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       ? [
           {
             rid: 'base|passado',
-            kicker: `Passado${passadoPericia ? ` · perícia ${passadoPericia}` : ''}`,
-            valor: linkLabel(String(fm['Passado'])),
+            kicker: `Passado${passadoPericia ? ` · perícia ${reskinPericia(linkLabel(passadoPericia))}` : ''}`,
+            valor: linkLabelDisplay(String(fm['Passado'])),
             doc: docDe(String(fm['Passado'])),
             icon: tokens.emojis.perfil.Passado,
           },
@@ -1712,7 +1712,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
     const linha = (wl: string, depth: number): ReactNode => {
       const rid = `ganho|${card.nivel}|${wl}`
       const pai = paiDe(wl)
-      const via = depth === 0 && pai && pai !== classeTarget ? ` · via ${pai}` : ''
+      const via = depth === 0 && pai && pai !== classeTarget ? ` · via ${reskinName(pai)}` : ''
       return (
         <div key={wl} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           <PbRow
@@ -1748,7 +1748,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
             <PbRow
               key={rid}
               rid={rid}
-              kickerTxt={`Magia concedida · ${m.escola}${m.secundaria ? ' (2ª)' : ''}`}
+              kickerTxt={`${reskinText('Magia')} concedida · ${reskinText(m.escola)}${m.secundaria ? ' (2ª)' : ''}`}
               valor={linkLabelDisplay(m.link)}
               doc={docDe(m.link)}
               icon={(() => {

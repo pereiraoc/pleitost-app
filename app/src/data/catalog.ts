@@ -1,5 +1,6 @@
 import type { AssetsManifest, IndexDocEntry, IndexManifest } from './types'
 import { loadGmBundle } from './gm-bundle'
+import { reskinText } from './reskin'
 import { linkLabel as linkLabelDv } from '../markdown/dataview-value'
 import { withBase } from './base-url'
 import { ensureFreshVaultData } from './vault-cache'
@@ -289,7 +290,10 @@ export function fetchCatalogForWorld(world: WorldId, gm = false): Promise<Catalo
  *  de propósito: outras notas usam aliases como termos de busca. */
 export function classeDisplay(catalog: Catalog, wl: unknown): string {
   const raw = typeof wl === 'string' ? wl : ''
-  const label = linkLabelDv(raw)
+  // Report 2026-09-01: alias explícito é o COMPOSTO canônico materializado no
+  // FM ("Caçador Domador") — display passa pela cascata do mundo
+  // ("Executivo Gestor"). Idem o fallback de label.
+  const label = reskinText(linkLabelDv(raw))
   if (raw.includes('|')) return label
   const alvo = raw.replace(/^\[\[|\]\]$/g, '').split('|')[0]!.trim()
   if (!alvo) return label
