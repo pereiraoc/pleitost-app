@@ -130,6 +130,17 @@ export default defineConfig({
             handler: 'NetworkOnly',
           },
           {
+            // db-version.json é o STAMP de frescor do purge (vault-cache.ts).
+            // PRECISA vir antes das rotas vault-data* e ir na REDE: servido
+            // stale, o ensureFreshVaultData comparava com o stamp velho e o
+            // purge só disparava na SEGUNDA recarga — deploy de conteúdo
+            // parecia não chegar (report 2026-09-02, ilustrações da POA).
+            // NetworkFirst (não Only): offline cai no cache e a mesa segue.
+            urlPattern: ({ url }) => url.pathname.endsWith('/db-version.json'),
+            handler: 'NetworkFirst',
+            options: { cacheName: 'db-version' },
+          },
+          {
             urlPattern: ({ url }) => url.pathname.startsWith(`${base}vault-data/`),
             handler: 'StaleWhileRevalidate',
             options: {
