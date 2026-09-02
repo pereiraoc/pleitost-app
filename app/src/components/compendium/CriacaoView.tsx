@@ -5,6 +5,8 @@
 // regra no fim (mestre). Registrado no barrel; não toca o DocView.
 import type { CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
+import { useAssetIndex } from '../../data/assets'
+import { worldClassHeroTarget } from '../../data/creature-image'
 import { reskinName, reskinText } from '../../data/reskin'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
@@ -40,7 +42,12 @@ export function CriacaoView({
 }) {
   // dispatch por `match: isCriacao` garante que doc.type é chave do registro
   const sub: SubtipoCriacao = CRIACAO_SUBTIPOS[doc.type as string]!
-  const hero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
+  const assets = useAssetIndex()
+  const fmHero = doc.images.find((img) => img.from.startsWith('frontmatter:'))
+  // #519: nota de Classe no mundo com arte própria mostra a arte do MUNDO —
+  // o FM Imagem aponta pra arte da fantasia (Sistema/ é compartilhado).
+  const worldHero = worldClassHeroTarget(doc, assets)
+  const hero = worldHero ? { target: worldHero } : fmHero
   const resumo = (doc.inlineFields as Record<string, string> | undefined)?.['resumo']
   const chips = sub.campos
     .map((c) => ({ label: c.label, value: campoValor(doc, c.keys) }))
@@ -108,8 +115,10 @@ export function CriacaoView({
         </p>
       ) : null}
 
-      {/* heroTarget: o embed da mesma imagem no corpo é suprimido (não duplica). */}
-      <MarkdownBody doc={doc} hideLeadingTitle heroTarget={hero?.target} />
+      {/* heroTarget: o embed da mesma imagem no corpo é suprimido (não duplica).
+          Sempre o slot do FM — com hero do mundo por cima, o embed da arte de
+          fantasia no corpo também é redundante. */}
+      <MarkdownBody doc={doc} hideLeadingTitle heroTarget={fmHero?.target} />
       </div>
 
       <DocRuleElements doc={doc} />

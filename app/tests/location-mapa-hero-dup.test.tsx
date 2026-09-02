@@ -45,12 +45,17 @@ beforeAll(() => {
 afterEach(cleanup)
 
 describe('hero duplicado do mapa (Porto Alegre)', () => {
-  it('sanidade: a única imagem do doc É a imagem do leaflet', () => {
-    expect(portoAlegre.images.length).toBe(1)
-    expect(portoAlegre.images[0]!.target).toBe(portoAlegre.locationBody?.leaflet?.image)
+  // 2026-09-02 (puxão das ilustrações da POA): a nota ganhou uma SEGUNDA
+  // imagem — a ilustração do mundo (Porto Alegre.png), embedada no corpo.
+  // Ela é ≠ do mapa, então coexiste como hero em cima do MapaLocal; a imagem
+  // DO MAPA continua aparecendo uma única vez (o cerne do report original).
+  it('sanidade: o doc embeda o mapa do leaflet (e a ilustração do mundo)', () => {
+    const targets = portoAlegre.images.map((i) => i.target)
+    expect(targets).toContain(portoAlegre.locationBody?.leaflet?.image)
+    expect(targets).toContain('Porto Alegre.png')
   })
 
-  it('a imagem do mapa aparece UMA vez (só no MapaLocal, com pins)', async () => {
+  it('a imagem do mapa aparece UMA vez (só no MapaLocal, com pins); o hero é a ilustração', async () => {
     const { container } = render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter>
@@ -63,5 +68,11 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
     })
     // os pins do leaflet estão presentes (é o MapaLocal, não o hero)
     expect(container.textContent).toContain('Moinhos de Vento')
+    // o hero é a ilustração do mundo (distinta do mapa) — mostrada uma vez
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('img[src*="Recursos%20de%20Contextos%2FLocais"], img[src*="Recursos%20de%20Contextos/Locais"]').length,
+      ).toBe(1)
+    })
   })
 })

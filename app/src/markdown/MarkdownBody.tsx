@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { reskinDescricao } from '../data/reskin'
-import ReactMarkdown, { type Components } from 'react-markdown'
+import ReactMarkdown, { defaultUrlTransform, type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
@@ -184,9 +184,18 @@ export function MarkdownBody({
     // #275: empilha o id deste doc na cadeia de transclusão — as NoteTransclusion
     // filhas usam pra detectar ciclo (nota que embute a si mesma).
     <TransclusionScope id={doc.id}>
-      <ReactMarkdown remarkPlugins={plugins} components={components}>
+      <ReactMarkdown remarkPlugins={plugins} components={components} urlTransform={vaultUrlTransform}>
         {body}
       </ReactMarkdown>
     </TransclusionScope>
   )
+}
+
+/** O sanitizador default do react-markdown v10 esvazia URLs de protocolo fora
+ *  da lista segura (http/mailto/…) ANTES dos overrides de componente — e os
+ *  embeds de imagem do remark-wikilinks usam o esquema interno `vault:` (o
+ *  <img> override resolve contra assets.json). Preserva `vault:`; o resto
+ *  segue no default. */
+function vaultUrlTransform(url: string): string {
+  return url.startsWith('vault:') ? url : defaultUrlTransform(url)
 }

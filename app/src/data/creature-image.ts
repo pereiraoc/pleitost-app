@@ -5,6 +5,7 @@
 //   Monstro: FM Imagem → Monstros/<nome> → Raças/<raça> → Monstros/<classe> → null
 // null = caller usa fallback (iniciais/emoji), como no plugin.
 import { assetUrlFor, resolveAsset, type AssetIndex } from './assets'
+import { reskinName } from './reskin'
 import type { VaultDoc } from './types'
 
 const RETRATOS = 'Recursos e Mídia/Imagens/Retratos'
@@ -12,6 +13,11 @@ const CLASSES_HEROI = 'Recursos e Mídia/Imagens/Classes'
 const CLASSES_CA = 'Recursos e Mídia/Imagens/Companheiros Animais'
 const MONSTROS = 'Recursos e Mídia/Imagens/Monstros'
 const RACAS = 'Recursos e Mídia/Imagens/Raças'
+// #519: arte PRÓPRIA do mundo ativo (ex.: POA 1987) — pastas só existem no
+// índice de assets do mundo; na fantasia o lookup falha e cai na hierarquia
+// clássica. O basename vem do registro de reskin (Bardo → Ressonante).
+const CTX_CLASSES = 'Recursos e Mídia/Recursos de Contextos/Classes'
+const CTX_COMPANHEIROS = 'Recursos e Mídia/Recursos de Contextos/Companheiros'
 const EXTS = ['.png', '.jpg', '.jpeg', '.webp']
 
 // `small` (#280): contexto pequeno (retrato de LISTA) — usa o thumb. Retrato
@@ -38,6 +44,21 @@ function wikiBase(value: unknown): string | null {
   return target.split('/').pop()!.trim() || null
 }
 
+/** #519: target do HERO de uma nota de Classe no MUNDO ativo (pro VaultImage
+ *  do DocView e afins) — Recursos de Contextos/Classes/<reskinName(basename)>.
+ *  null quando não é nota de Classe ou o mundo não tem a arte (fantasia). */
+export function worldClassHeroTarget(
+  doc: VaultDoc | undefined,
+  assets: AssetIndex | undefined,
+): string | null {
+  if (!doc || !assets || doc.frontmatter['categoria'] !== 'Classe') return null
+  for (const ext of EXTS) {
+    const p = `${CTX_CLASSES}/${reskinName(doc.basename)}${ext}`.normalize('NFC')
+    if (assets.byPath.has(p)) return p
+  }
+  return null
+}
+
 export function creatureImageUrl(
   doc: VaultDoc | undefined,
   assets: AssetIndex | undefined,
@@ -46,6 +67,11 @@ export function creatureImageUrl(
 ): string | null {
   if (!doc || !assets) return null
   const fm = doc.frontmatter
+
+  // 0. nota de CLASSE com arte do mundo (#519) — vence o FM Imagem (que
+  //    aponta pra arte da fantasia compartilhada no Sistema/).
+  const worldClasse = worldClassHeroTarget(doc, assets)
+  if (worldClasse) return assetUrlFor(assets.byPath.get(worldClasse)!, small)
 
   // 1. property Imagem (wikilink/nome de arquivo)
   const imagem = fm['Imagem']
@@ -63,10 +89,16 @@ export function creatureImageUrl(
   switch (doc.subtype) {
     case 'Heroi':
       return (
-        tryFolder(assets, RETRATOS, nome, small) ?? tryFolder(assets, CLASSES_HEROI, classe, small)
+        tryFolder(assets, RETRATOS, nome, small) ??
+        tryFolder(assets, CTX_CLASSES, classe && reskinName(classe), small) ??
+        tryFolder(assets, CLASSES_HEROI, classe, small)
       )
     case 'Companheiro Animal':
-      return tryFolder(assets, RETRATOS, nome, small) ?? tryFolder(assets, CLASSES_CA, classe, small)
+      return (
+        tryFolder(assets, RETRATOS, nome, small) ??
+        tryFolder(assets, CTX_COMPANHEIROS, classe && reskinName(classe), small) ??
+        tryFolder(assets, CLASSES_CA, classe, small)
+      )
     case 'Monstro':
       return (
         tryFolder(assets, MONSTROS, nome, small) ??
