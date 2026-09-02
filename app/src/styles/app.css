@@ -491,12 +491,19 @@ body {
   background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-/* telas largas: a sidebar direita vira COLUNA FIXA e o toggle some */
+/* telas largas: a sidebar direita vira COLUNA FIXA e o toggle some.
+   Report 40e680f8: 320px fixos viravam um tubinho de leitura em monitor
+   ultrawide — a largura escala com a viewport (24vw cruza os 320px em
+   ~1333px; teto 520px pra linha de texto não ficar longa demais). Os FABs
+   ancorados à esquerda do painel acompanham pela MESMA var (calc abaixo). */
 @media (min-width: 1100px) {
+  :root {
+    --sidebar-right-w: clamp(320px, 24vw, 520px);
+  }
   .sidebar-right {
     position: static;
     transform: none;
-    width: 320px;
+    width: var(--sidebar-right-w);
     z-index: auto;
     transition: width 0.16s ease;
   }
@@ -550,9 +557,9 @@ body {
 }
 
 @media (min-width: 1100px) {
-  /* painel direito fixo = 320px; FAB gruda na borda esquerda dele (+26 de gap) */
+  /* painel direito fixo (--sidebar-right-w); FAB gruda na borda esquerda dele (+26 de gap) */
   .create-fab {
-    right: 346px;
+    right: calc(var(--sidebar-right-w) + 26px);
   }
 }
 
@@ -565,7 +572,7 @@ body {
 }
 @media (min-width: 1100px) {
   .inv-fab {
-    right: 346px;
+    right: calc(var(--sidebar-right-w) + 26px);
   }
 }
 

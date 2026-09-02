@@ -91,10 +91,11 @@ describe('FAB criar/importar herói (#258)', () => {
     // bloco base: fixed + no canto (right:26px)
     expect(css).toMatch(/\.create-fab\s*\{[^}]*position:\s*fixed/)
     expect(css).toMatch(/\.create-fab\s*\{[^}]*right:\s*26px/)
-    // na coluna fixa (>=1100px), recua pra ficar À ESQUERDA do painel de 320px:
-    // o override do FAB (right:346px) precisa estar DENTRO de um @media 1100px
+    // na coluna fixa (>=1100px), recua pra ficar À ESQUERDA do painel
+    // (largura responsiva --sidebar-right-w desde o report 40e680f8):
+    // o override do FAB precisa estar DENTRO de um @media 1100px
     const fabOverride = css.match(
-      /@media \(min-width: 1100px\)\s*\{[^@]*?\.create-fab\s*\{[^}]*right:\s*346px[^}]*\}/,
+      /@media \(min-width: 1100px\)\s*\{[^@]*?\.create-fab\s*\{[^}]*right:\s*calc\(var\(--sidebar-right-w\) \+ 26px\)[^}]*\}/,
     )
     expect(fabOverride).toBeTruthy()
   })
