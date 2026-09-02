@@ -44,6 +44,40 @@ export function getAttr(fm: Fm | undefined, attr: unknown): number {
   return typeof v === 'number' && !Number.isNaN(v) ? v : Number(v) || 0
 }
 
+/** Espelha RESISTENCIA_ALT_ATTR (util/modificadores.ts:148-152): Vigor/
+ *  Reflexo/Ímpeto usam o MAIOR entre dois atributos; Defesa NÃO entra
+ *  (rule de armadura decide AGI vs FOR via o atributo cadastrado). */
+const RESISTENCIA_ALT_ATTR: Record<string, readonly [string, string]> = {
+  vigor: ['FOR', 'PRE'],
+  reflexo: ['AGI', 'INT'],
+  impeto: ['INT', 'PRE'],
+}
+
+/** Espelha resolveResistenciaAttr (util/modificadores.ts:154-167): o atributo
+ *  EFETIVO da resistência em runtime — empate preserva o cadastrado no FM
+ *  (não muda label desnecessariamente). O FM guarda só um placeholder
+ *  inicializador (herói local do wizard fica com o default Vigor→FOR;
+ *  report dd26e913: herói de PRE via o Vigor sem a Presença). */
+export function resolveResistenciaAttr(
+  nome: unknown,
+  cadastrado: unknown,
+  attrs: Record<string, number>,
+): string {
+  const key = String(nome ?? '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+  const fallback = String(cadastrado ?? '')
+  const pair = RESISTENCIA_ALT_ATTR[key]
+  if (!pair) return fallback
+  const [a, b] = pair
+  const va = attrs[a] ?? 0
+  const vb = attrs[b] ?? 0
+  if (va > vb) return a
+  if (vb > va) return b
+  return fallback
+}
+
 /** Espelha findNamedRow (aggregates.ts). */
 export function findNamedRow(list: unknown, name: string): NamedRow | null {
   const target = String(name).toLowerCase()
@@ -121,6 +155,13 @@ export function memberStats(fm: Fm | undefined): MemberStats {
   const v = rest?.['Vitalidade'] ?? (f as { Vida?: { Vitalidade?: unknown } })?.Vida?.Vitalidade ?? '—'
   const m = rest?.['Moral'] ?? (f as { Vida?: { Moral?: unknown } })?.Vida?.Moral ?? '—'
   const defs: Record<string, number | null> = {}
+  // Atributo EFETIVO por resistência (Vigor: max(FOR, PRE), …) — report dd26e913.
+  const attrsRec = {
+    FOR: getAttr(f, 'FOR'),
+    AGI: getAttr(f, 'AGI'),
+    INT: getAttr(f, 'INT'),
+    PRE: getAttr(f, 'PRE'),
+  }
   for (const name of DEFENSE_NAMES) {
     const row = findNamedRow(
       (f as { Defesas_Resistencias?: { Lista?: unknown } })?.Defesas_Resistencias?.Lista,
@@ -128,7 +169,7 @@ export function memberStats(fm: Fm | undefined): MemberStats {
     )
     defs[name] = row
       ? RESISTENCIA_BASE +
-        getAttr(f, row.Atributo) +
+        getAttr(f, resolveResistenciaAttr(name, row.Atributo, attrsRec)) +
         profMod(row.Proficiencia) +
         (Number(row.Bonus_Item) || 0) +
         (Number(row.Bonus_Especial) || 0)

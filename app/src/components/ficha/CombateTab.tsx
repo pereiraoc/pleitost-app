@@ -97,6 +97,7 @@ import {
   parseItemAlias,
   profLetter,
   PROF_DICE,
+  resistenciaRow,
   rowMod,
   signed,
   str,
@@ -876,7 +877,7 @@ function DefesasRow({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inter
                       color: toneColor(valueTone(applied.entries)) ?? 'var(--text)',
                     }}
                   >
-                    {10 + rowMod(d, attrs) + applied.delta}
+                    {10 + rowMod(resistenciaRow(d, attrs), attrs) + applied.delta}
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

@@ -5,6 +5,7 @@
 // defesas = 10 + mod; movimento = 4 + mod), as mesmas do script do design.
 import type { VaultDoc } from '../../data/types'
 import { reskinName } from '../../data/reskin'
+import { resolveResistenciaAttr } from '../../grupo/stats'
 import { linkLabel } from '../../markdown/dataview-value'
 import { PROF_BONUS, RANK_ORDER, TIER_NOME, type RankLetter, type RankStateKey } from './registry'
 
@@ -87,6 +88,16 @@ export function rowMod(row: ProfRow, attrs: Record<string, number>): number {
     num(row.Bonus_Item) +
     num(row.Bonus_Especial)
   )
+}
+
+/** Linha de Defesas_Resistencias com o atributo EFETIVO resolvido em runtime
+ *  (Vigor: max(FOR, PRE), Reflexo: max(AGI, INT), Ímpeto: max(INT, PRE) —
+ *  resolveResistenciaAttr, espelho do plugin). O FM guarda só o placeholder;
+ *  herói local do wizard ficava com Vigor→FOR mesmo em herói de PRE
+ *  (report dd26e913). */
+export function resistenciaRow(row: ProfRow, attrs: Record<string, number>): ProfRow {
+  const efetivo = resolveResistenciaAttr(row.Nome, row.Atributo ?? '', attrs)
+  return efetivo === (row.Atributo ?? '') ? row : { ...row, Atributo: efetivo }
 }
 
 /** Mod de OFÍCIO (#33): como rowMod, mas o atributo SÓ conta com prof ≥ A —

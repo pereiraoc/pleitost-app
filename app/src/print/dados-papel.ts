@@ -11,7 +11,7 @@
 // item + especial.
 import { PROF_BONUS, type RankLetter } from '../components/ficha/registry'
 import { shortSintonia, str, wikiTarget } from '../components/ficha/hero-model'
-import { MOVIMENTO_BASE, RESISTENCIA_BASE } from '../grupo/stats'
+import { MOVIMENTO_BASE, RESISTENCIA_BASE, resolveResistenciaAttr } from '../grupo/stats'
 import type { VaultDoc } from '../data/types'
 import { resumoDoDoc } from './resumo-doc'
 
@@ -129,13 +129,18 @@ export function montarDadosPapel(
   })
 
   // — defesas/sentidos/movimento —
-  const defesas: StatBox[] = rows(d, 'Defesas_Resistencias', 'Lista').map((r) => ({
-    nome: str(r['Nome']).toUpperCase(),
-    valor: String(
-      RESISTENCIA_BASE + A(r['Atributo']) + PROF_BONUS[rank(r['Proficiencia'])] + num(r['Bonus_Item']) + num(r['Bonus_Especial']),
-    ),
-    legenda: `${str(r['Atributo'])}·${str(r['Proficiencia'])}`,
-  }))
+  // Atributo EFETIVO da resistência (Vigor: max(FOR, PRE), …) — report dd26e913.
+  const attrsRec = { FOR: A('FOR'), AGI: A('AGI'), INT: A('INT'), PRE: A('PRE') }
+  const defesas: StatBox[] = rows(d, 'Defesas_Resistencias', 'Lista').map((r) => {
+    const atributo = resolveResistenciaAttr(r['Nome'], str(r['Atributo']), attrsRec)
+    return {
+      nome: str(r['Nome']).toUpperCase(),
+      valor: String(
+        RESISTENCIA_BASE + A(atributo) + PROF_BONUS[rank(r['Proficiencia'])] + num(r['Bonus_Item']) + num(r['Bonus_Especial']),
+      ),
+      legenda: `${atributo}·${str(r['Proficiencia'])}`,
+    }
+  })
   const sentidos: StatBox[] = rows(d, 'Sentidos', 'Lista').map((r) => ({
     nome: str(r['Nome']).toUpperCase(),
     valor: `+${A(r['Atributo']) + PROF_BONUS[rank(r['Proficiencia'])] + num(r['Bonus_Item']) + num(r['Bonus_Especial'])}`,

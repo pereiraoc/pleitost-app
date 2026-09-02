@@ -104,6 +104,7 @@ import {
   profLetter,
   rankStates,
   oficioMod,
+  resistenciaRow,
   rowMod,
   shortSubclass,
   signed,
@@ -1003,9 +1004,11 @@ function StacksPanel({ doc }: { doc: VaultDoc }) {
       showDots: 1,
       showStar: 1,
       breakdown: resistenciaBreakdown,
+      // Linha com o atributo EFETIVO (Vigor: max(FOR, PRE), …) — badge, valor
+      // e breakdown mostram o que a regra usa, não o placeholder do FM.
       rows: defesas.map((row) => ({
         lead: (tokens.emojis.defesa as Record<string, string>)[slugify(str(row.Nome))] ?? '',
-        row,
+        row: resistenciaRow(row, attrs),
         hasDots: true,
         starOp: 1 as const,
         showMedal: true,

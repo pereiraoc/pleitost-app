@@ -24,7 +24,7 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
-import { num, profLetter, str, type ProfRow } from './hero-model'
+import { num, profLetter, resistenciaRow, str, type ProfRow } from './hero-model'
 import { stripSharedFrom } from '../../interativa/apply'
 import type { BonusInfo } from '../../interativa/invocacao'
 
@@ -267,7 +267,9 @@ export function sentidoBreakdown(row: ProfRow, attrs: Record<string, number>): B
  *  crua + 4 linhas sempre; título slugado ("Impeto"); header = emoji da
  *  defesa (registro defesa); total SEM sinal. */
 export function resistenciaBreakdown(row: ProfRow, attrs: Record<string, number>): BreakdownResult {
-  const input = rowInput(row, attrs)
+  // Atributo EFETIVO (Vigor: max(FOR, PRE), …) como o resistenciaInput do
+  // plugin — o FM guarda só o placeholder (report dd26e913).
+  const input = rowInput(resistenciaRow(row, attrs), attrs)
   const total = RESISTENCIA_BASE + input.attr + PROF_BONUS[input.prof] + input.item + input.especial
   const nome = slugify(str(row.Nome))
   const parts: BreakdownPart[] = []
