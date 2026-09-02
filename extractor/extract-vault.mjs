@@ -90,6 +90,11 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   const docLinks = new Map(); // id → targets crus dos wikilinks
 
   let frozenSkipped = 0;
+  // FM que não parseou (YAML inválido, ex.: valor com ": " sem aspas) — o doc
+  // sai com frontmatter VAZIO (type null → view genérica no app, report
+  // 2026-09-02 "Aliança dos Fundadores"). GRITA por nota e conta no sumário:
+  // erro silencioso vira nota quebrada no ar.
+  const fmErrors = [];
   const contextoDefs = []; // notas com FM `Contexto:` (Contexto-Def, #519)
   const typeByBasename = new Map(); // agrupamento das tabelas auto (contexto-doc)
   const contentBasenames = new Set();
@@ -106,6 +111,11 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     }
     const raw = await readFile(doc.absPath, "utf8");
     const record = await parseDoc({ raw, relPath: doc.relPath });
+    if (record.frontmatterError) {
+      const resumoErro = record.frontmatterError.split("\n")[0];
+      fmErrors.push({ path: doc.relPath, error: resumoErro });
+      console.warn(`AVISO frontmatter inválido (doc sai SEM FM): ${doc.relPath} — ${resumoErro}`);
+    }
 
     // Corte mestre×jogador (2026-08-31): o JSON público sai SEM segredos; o
     // espelho gm.json guarda a versão completa (só docs afetados).
@@ -290,6 +300,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       imagesReferenced: referenced,
       imagesOrphan: orphan,
       imagesMissing: missing.length,
+      frontmatterErrors: fmErrors.length,
     },
     byType,
     docs: index,
