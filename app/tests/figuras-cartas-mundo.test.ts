@@ -25,8 +25,16 @@ const defPoa = JSON.parse(
 
 afterEach(() => setActiveContexto(null))
 
+// COM embed da figura de fantasia no corpo, como os docs reais de arma do
+// Sistema/ — a arte do mundo tem que vencer o embed (regressão do probe live:
+// o embed resolvia por basename e o desempate caía na Figura da fantasia).
 const armaDoc = (basename: string): VaultDoc =>
-  ({ id: `Armas/${basename}`, basename, frontmatter: {}, images: [] }) as unknown as VaultDoc
+  ({
+    id: `Armas/${basename}`,
+    basename,
+    frontmatter: {},
+    images: [{ target: `${basename}.png`, from: 'body' }],
+  }) as unknown as VaultDoc
 
 describe('cartas do mundo (cyberpunk): armas, consumíveis, imbuições', () => {
   it('arma: Arco de Caça resolve pra Recursos de Contextos/Armas', () => {

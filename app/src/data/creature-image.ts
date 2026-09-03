@@ -148,13 +148,6 @@ export function weaponImageUrl(
 ): string | null {
   if (!doc || !assets) return null
 
-  const embed = doc.images[0]?.target
-  if (embed) {
-    const entry =
-      resolveAsset(assets, embed) ?? resolveAsset(assets, embed.split('/').pop() ?? embed)
-    if (entry) return assetUrlFor(entry, small)
-  }
-
   const imageRaw = doc.frontmatter['image']
   let fileName = `${doc.basename}.png`
   if (imageRaw && typeof imageRaw === 'object') {
@@ -163,10 +156,20 @@ export function weaponImageUrl(
   } else if (typeof imageRaw === 'string' && imageRaw.trim()) {
     fileName = imageRaw
   }
-  // arte do MUNDO primeiro (#519 r4) — nome via registro de reskin
+  // arte do MUNDO primeiro (#519 r4), ANTES do embed: o doc de arma é
+  // Sistema/ compartilhado — o embed dele aponta pra figura da FANTASIA
+  // (e o desempate por basename do resolveAsset também cai nela).
   const base = fileName.replace(/\.png$/i, '')
   const mundo = assets.byPath.get(`${CTX_ARMAS}/${reskinName(base)}.png`.normalize('NFC'))
   if (mundo) return assetUrlFor(mundo, small)
+
+  const embed = doc.images[0]?.target
+  if (embed) {
+    const entry =
+      resolveAsset(assets, embed) ?? resolveAsset(assets, embed.split('/').pop() ?? embed)
+    if (entry) return assetUrlFor(entry, small)
+  }
+
   const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`.normalize('NFC'))
   return figura ? assetUrlFor(figura, small) : null
 }
