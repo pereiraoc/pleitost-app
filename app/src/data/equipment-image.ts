@@ -13,6 +13,7 @@
 //     têm nomes genéricos, sem carta) ⇒ null (placeholder), como pediu a issue.
 import { assetUrlFor, type AssetIndex } from './assets'
 import { weaponImageUrl } from './creature-image'
+import { reskinName } from './reskin'
 import type { VaultDoc } from './types'
 
 const FIGURA_IMBUICOES = 'Recursos e Mídia/Imagens/Cartas/Figura/Imbuições e Têmperas'
@@ -20,6 +21,13 @@ const FIGURA_EQUIPAMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Equipamento
 const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
 const FIGURA_IMPLEMENTOS = 'Recursos e Mídia/Imagens/Cartas/Figura/Implementos'
 const FIGURA_CONSUMIVEIS = 'Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis'
+// #519 r4: arte de carta PRÓPRIA do mundo ativo — pastas só existem no índice
+// do mundo; na fantasia o lookup falha e cai nas Figuras clássicas. O nome do
+// arquivo é o do MUNDO (registro de reskin aplicado ao nome completo com
+// sufixo de tier — "Anel da Resistência Adepto" → "Implante Subdérmico
+// Adepto"), como o gen-context-figures nomeia no ingest.
+const CTX_EQUIPAMENTOS = 'Recursos e Mídia/Recursos de Contextos/Equipamentos'
+const CTX_IMPLEMENTOS = 'Recursos e Mídia/Recursos de Contextos/Implementos'
 
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
@@ -108,6 +116,15 @@ export function tesouroImageUrl(
 ): string | null {
   const base = nome.trim()
   if (!base || !assets) return null
+  // arte do MUNDO primeiro (#519 r4) — com tier no nome, depois sem
+  if (tier) {
+    const mundoTier = byPath(assets, `${CTX_EQUIPAMENTOS}/${reskinName(`${base} ${TIER_MASC[tier]}`)}.png`)
+    if (mundoTier) return mundoTier
+  }
+  const mundo =
+    byPath(assets, `${CTX_EQUIPAMENTOS}/${reskinName(base)}.png`) ??
+    byPath(assets, `${CTX_IMPLEMENTOS}/${reskinName(base)}.png`)
+  if (mundo) return mundo
   if (tier) {
     const tiered = byPath(assets, `${FIGURA_EQUIPAMENTOS}/${base} ${TIER_MASC[tier]}.png`)
     if (tiered) return tiered
