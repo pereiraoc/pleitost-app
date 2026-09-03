@@ -127,6 +127,8 @@ export function groupImageUrl(
 // retrato do header); a fonte de imagem por item na família de plugins é o
 // render de cartas do pleitost-views.
 const FIGURA_ARMAS = 'Recursos e Mídia/Imagens/Cartas/Figura/Armas'
+// #519 r4: cartas de ARMA do mundo ativo (mesma mecânica de CTX_CLASSES).
+const CTX_ARMAS = 'Recursos e Mídia/Recursos de Contextos/Armas'
 
 /**
  * Imagem do slot de arma do INVENTÁRIO (issue #12). Ordem:
@@ -161,6 +163,10 @@ export function weaponImageUrl(
   } else if (typeof imageRaw === 'string' && imageRaw.trim()) {
     fileName = imageRaw
   }
+  // arte do MUNDO primeiro (#519 r4) — nome via registro de reskin
+  const base = fileName.replace(/\.png$/i, '')
+  const mundo = assets.byPath.get(`${CTX_ARMAS}/${reskinName(base)}.png`.normalize('NFC'))
+  if (mundo) return assetUrlFor(mundo, small)
   const figura = assets.byPath.get(`${FIGURA_ARMAS}/${fileName}`.normalize('NFC'))
   return figura ? assetUrlFor(figura, small) : null
 }

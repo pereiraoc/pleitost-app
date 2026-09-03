@@ -28,6 +28,9 @@ const FIGURA_CONSUMIVEIS = 'Recursos e Mídia/Imagens/Cartas/Figura/Consumíveis
 // Adepto"), como o gen-context-figures nomeia no ingest.
 const CTX_EQUIPAMENTOS = 'Recursos e Mídia/Recursos de Contextos/Equipamentos'
 const CTX_IMPLEMENTOS = 'Recursos e Mídia/Recursos de Contextos/Implementos'
+const CTX_IMBUICOES = 'Recursos e Mídia/Recursos de Contextos/Imbuições e Têmperas'
+const CTX_ARMAS = 'Recursos e Mídia/Recursos de Contextos/Armas'
+const CTX_CONSUMIVEIS = 'Recursos e Mídia/Recursos de Contextos/Consumíveis'
 
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
@@ -61,7 +64,11 @@ export function propriedadeImageUrl(
 ): string | null {
   const b = base.trim()
   if (!b || !tier || !assets) return null
-  return byPath(assets, `${FIGURA_IMBUICOES}/${b} ${TIER_FEM[tier]}.png`)
+  return (
+    // arte do MUNDO primeiro (#519 r4) — módulos e selos Premium
+    byPath(assets, `${CTX_IMBUICOES}/${reskinName(`${b} ${TIER_FEM[tier]}`)}.png`) ??
+    byPath(assets, `${FIGURA_IMBUICOES}/${b} ${TIER_FEM[tier]}.png`)
+  )
 }
 
 /** true quando a propriedade é a Obra-prima automática (selo), não uma imbuição
@@ -102,7 +109,10 @@ export function escudoImageUrlByName(
 ): string | null {
   const base = wikiBasename(nome)
   if (!base || base === 'Sem Escudo' || !assets) return null
-  return byPath(assets, `${FIGURA_ARMAS}/${base}.png`)
+  return (
+    byPath(assets, `${CTX_ARMAS}/${reskinName(base)}.png`) ??
+    byPath(assets, `${FIGURA_ARMAS}/${base}.png`)
+  )
 }
 
 /** Figura do TESOURO — Figura/Equipamentos/<Nome>[ <TierMasc>].png. Tenta COM
@@ -145,5 +155,8 @@ export function consumivelImageUrl(
 ): string | null {
   const base = nome.trim()
   if (!base || !tier || !assets) return null
-  return byPath(assets, `${FIGURA_CONSUMIVEIS}/${base} ${TIER_FEM[tier]}.png`)
+  return (
+    byPath(assets, `${CTX_CONSUMIVEIS}/${reskinName(`${base} ${TIER_FEM[tier]}`)}.png`) ??
+    byPath(assets, `${FIGURA_CONSUMIVEIS}/${base} ${TIER_FEM[tier]}.png`)
+  )
 }
