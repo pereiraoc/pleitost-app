@@ -49,3 +49,21 @@ export function worldDatasetDisponivel(): boolean {
   if (world === 'fantasia') return true
   return mundoCarregado === world && rels !== null
 }
+
+/** Chave do CARIMBO de frescor visto (db-version) por mundo — fonte única;
+ *  o ensureFreshVaultData grava, o vaultUrl lê pra versionar URLs. */
+export function dbStampKey(world: WorldId): string {
+  return world === 'fantasia' ? 'pleitost.dbVersionVista' : `pleitost.dbVersionVista.${world}`
+}
+
+/** Carimbo visto do dataset que serve `dir` ('vault-data'/'vault-data-cyberpunk'),
+ *  ou null (1ª visita / sem storage). */
+export function stampForDir(dir: string): string | null {
+  const world = (Object.keys(WORLD_DATA_DIR) as WorldId[]).find((w) => WORLD_DATA_DIR[w] === dir)
+  if (!world) return null
+  try {
+    return localStorage.getItem(dbStampKey(world))
+  } catch {
+    return null
+  }
+}

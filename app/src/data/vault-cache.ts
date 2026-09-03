@@ -8,8 +8,7 @@
 // Offline/erro de rede → mantém o cache (offline-first intacto).
 import { withBase } from './base-url'
 import { WORLD_DATA_DIR, type WorldId } from './world'
-
-const DB_VERSION_KEY = 'pleitost.dbVersionVista'
+import { dbStampKey } from './world-dataset'
 
 /** Stamp/purge POR MUNDO (#519 G2): cada dataset tem seu db-version e seu
  *  bucket de cache no SW — deploy de um mundo não derruba o cache do outro.
@@ -18,7 +17,7 @@ const DB_VERSION_KEY = 'pleitost.dbVersionVista'
  *  carregou neste ponto do boot). */
 export async function ensureFreshVaultData(world: WorldId = 'fantasia'): Promise<void> {
   const dir = WORLD_DATA_DIR[world]
-  const stampKey = world === 'fantasia' ? DB_VERSION_KEY : `${DB_VERSION_KEY}.${world}`
+  const stampKey = dbStampKey(world)
   try {
     const res = await fetch(withBase(`${dir}/db-version.json`), { cache: 'no-store' })
     if (!res.ok) return
