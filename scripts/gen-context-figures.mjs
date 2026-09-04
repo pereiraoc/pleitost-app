@@ -404,6 +404,13 @@ const CONCEITO_MODULO = {
   // não pode morar numa lâmina — vai pro CABO genérico como os de cima.
   'Imbuição Congelante': CABO_COMPACTO, // todo grupo (cac e distância)
   'Imbuição Torrencial': CABO_COMPACTO, // corte OU perfuração
+  // r12 (validação 2026-09-04): a tentativa de "ponta de lâmina" pros
+  // corte-only não convenceu — TODA família sem modelo aprovado vai de CABO,
+  // mesma lógica do resto.
+  'Imbuição Ciclonal': CABO_COMPACTO,
+  'Imbuição da Ventania': CABO_COMPACTO,
+  'Imbuição Flamejante': CABO_COMPACTO,
+  'Imbuição Mineral': CABO_COMPACTO,
 }
 const RODAPE_PECAS = RODAPE_T.replace('Objeto único isolado', 'Somente as peças descritas, isoladas')
 
