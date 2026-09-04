@@ -48,12 +48,16 @@ const SRC_FIG = join(IMAGENS, 'Cartas/Figura')
 // o final. Regeração é dirigida por Inbox de Imagens/regerar.json (lista de
 // chaves) — o ingest remove da lista o que entra.
 const CTX_ROOT = join(VAULT, 'Recursos e Mídia/Recursos de Contextos')
+// O inbox é só zona de ENTREGA (recriado sob demanda pelo --chatgpt/--manifest
+// e apagável depois do ingest — r13); o controle da geração vive junto do
+// resultado, em Recursos de Contextos/_geracao.
 const INBOX = join(VAULT, 'Recursos e Mídia/Rascunhos/Inbox de Imagens')
-const REGERAR_PATH = join(INBOX, 'regerar.json')
+const GERACAO = join(CTX_ROOT, '_geracao')
+const REGERAR_PATH = join(GERACAO, 'regerar.json')
 const REGERAR = new Set(existsSync(REGERAR_PATH) ? JSON.parse(readFileSync(REGERAR_PATH, 'utf8')) : [])
 // Chaves SEM arte própria DE PROPÓSITO (decisão 2026-09-03: armas naturais/
 // especiais seguem com a Figura da fantasia por fallback) — fora do pendente.
-const MANTER_FANTASIA_PATH = join(INBOX, 'manter-fantasia.json')
+const MANTER_FANTASIA_PATH = join(GERACAO, 'manter-fantasia.json')
 const MANTER_FANTASIA = new Set(existsSync(MANTER_FANTASIA_PATH) ? JSON.parse(readFileSync(MANTER_FANTASIA_PATH, 'utf8')) : [])
 const SUBS_FIG = ['Armas', 'Consumíveis', 'Equipamentos', 'Implementos', 'Imbuições e Têmperas']
 
@@ -356,9 +360,10 @@ const RODAPE_T =
   ' O objeto INTEIRO dentro do quadro, centralizado, com FOLGA generosa em todas as bordas — nunca encostando nem cortado pelas bordas (nada de zoom cortado: a silhueta fecha completa no meio da imagem).' +
   ' Gere em PNG, proporção paisagem 3:2 (1536×1024), com fundo transparente de verdade (canal alfa).'
 
-// r6: imagens APROVADAS pelo user viram MODELO (snapshot em _estilo/) — os
-// tiers irmãos seguem a MESMA lógica visual, trocando só cor/acabamento.
-const ESTILO = join(INBOX, '_estilo')
+// r6: imagens APROVADAS pelo user viram MODELO — os tiers irmãos seguem a
+// MESMA lógica visual, trocando só cor/acabamento. r13: o modelo é o PRÓPRIO
+// arquivo final em Recursos de Contextos (o snapshot _estilo era duplicata).
+const ESTILO = join(CTX_ROOT, 'Imbuições e Têmperas')
 const MODELO_SELO = {
   Arma: { icone: 'um FACÃO dentro do emblema — o símbolo do governo para armas, IDÊNTICO nos três tiers' },
   Armadura: { icone: 'o MESMO colete/peitoral blindado do modelo, IDÊNTICO nos três tiers' },
@@ -418,11 +423,13 @@ const RODAPE_PECAS = RODAPE_T.replace('Objeto único isolado', 'Somente as peça
 // ADICIONAL anexada sempre que o prompt pede o logotipo real da marca — o
 // gerador não conhece as marcas gaúchas de cor (report 2026-09-04: Charrua
 // e Panvel saíram inventados).
-const LOGOS_DIR = join(INBOX, '_logos')
+const LOGOS_DIR = join(GERACAO, 'logos')
+// Arquivos prefixados com "logo-" pra NUNCA colidirem por basename com as
+// imagens das organizações homônimas (Charrua.png etc. — r13).
 const LOGO_FILES = ['Charrua', 'Gradiente', 'Panvel', 'Tramontina']
 function logosDoPrompt(prompt) {
   if (!/logotipos? REA/i.test(prompt)) return []
-  return LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => join(LOGOS_DIR, `${n}.png`)).filter(existsSync)
+  return LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => join(LOGOS_DIR, `logo-${n}.png`)).filter(existsSync)
 }
 
 function promptFigura(sub, orig, novo) {
@@ -752,7 +759,7 @@ function add(item) {
   if (extras.length) {
     item.refsExtra = extras
     item.prompt += ` ANEXADOS como referência adicional: os logotipos REAIS de ${extras
-      .map((f) => basename(f, '.png'))
+      .map((f) => basename(f, '.png').replace(/^logo-/, ''))
       .join(' e ')} — reproduza cada logotipo FIELMENTE como na referência, sem redesenhar nem estilizar.`
   }
   const alvo = item.out
