@@ -2,7 +2,9 @@
 // Gera as imagens do MUNDO (reskin #519) a partir do material da vault:
 //
 //  - Figura:        cartas de item — referência = arte da fantasia, nome do
-//                    mundo via reskin, fundo TRANSPARENTE, 590×420 no ingest.
+//                    mundo via reskin, fundo TRANSPARENTE. O arquivo salvo é o
+//                    ORIGINAL gerado (tamanho cheio, arquivo único — thumbnail,
+//                    se precisar, é problema do app; decisão 2026-09-04).
 //  - Classes:       retratos das 10 classes — referência = Imagens/Classes/
 //                    (fantasia), nome do mundo, quadrado, opaco.
 //  - Companheiros:  os 4 tipos de Empregado — referência = Imagens/
@@ -30,7 +32,7 @@
 //   node scripts/gen-context-figures.mjs --force --only "Figura/Adaga" --quality high
 //
 // Credencial (só pro caminho API): OPENAI_API_KEY ou ~/.secrets/openai.key.
-import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, renameSync } from 'node:fs'
+import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlinkSync } from 'node:fs'
 import { join, basename, dirname } from 'node:path'
 import { homedir } from 'node:os'
 import sharp from 'sharp'
@@ -54,7 +56,6 @@ const REGERAR = new Set(existsSync(REGERAR_PATH) ? JSON.parse(readFileSync(REGER
 const MANTER_FANTASIA_PATH = join(INBOX, 'manter-fantasia.json')
 const MANTER_FANTASIA = new Set(existsSync(MANTER_FANTASIA_PATH) ? JSON.parse(readFileSync(MANTER_FANTASIA_PATH, 'utf8')) : [])
 const SUBS_FIG = ['Armas', 'Consumíveis', 'Equipamentos', 'Implementos', 'Imbuições e Têmperas']
-const W = 590, H = 420
 
 const args = process.argv.slice(2)
 const flag = (f) => args.includes(f)
@@ -335,11 +336,17 @@ function amostraModulo(familia) {
   if (arremesso) return 'uma arma CURTA de ARREMESSO do mundo (vergalhão, machadinha ou punhal), com o módulo fundido no corpo/cabo dela — NADA de espada grande'
   if (dist && !cac) return 'a seção ESTRUTURAL de uma arma de DISPARO — trecho de coronha/cilindro de uma carabina de pressão ou braço (haste) de um arco — com o módulo fundido como um colar/bloco soldado envolvendo essa estrutura; o módulo fica na ARMA, então NADA de munição, dardos ou flechas na imagem, e NADA de lâmina'
   let host
-  if (tipos.includes('corte')) host = 'um segmento curto de LÂMINA genérica'
+  const caboGen =
+    'uma seção de CABO/EMPUNHADURA genérica e CURTA (o módulo serve em armas de vários tipos — se instala no cabo) — NADA de lâmina'
+  if (tipos.length >= 2) return caboGen // multi-tipo (corte|perfuração)
+  if (cac && dist) return caboGen // serve em TODO grupo de arma
+  if (tipos.includes('corte'))
+    host =
+      'apenas a PONTA — o terço final — de uma lâmina genérica CURTA, pequena e discreta no quadro (r11: a lâmina NÃO domina a imagem; o protagonista é o MÓDULO, a lâmina é só contexto de encaixe)'
   else if (tipos.includes('perfuração')) host = 'uma PONTA PERFURANTE — de arpão, vergalhão, picareta ou faca — com o destaque na PONTA, não no fio de corte; NADA de espada'
   else if (tipos.includes('contusão')) host = 'uma extremidade de IMPACTO em metal bruto — ponta de barra de ferro, cano pesado ou massa de martelo (as armas de contusão do mundo vão de cassetete a pedaço de trilho) — NADA de lâmina'
   else host = 'uma seção de CABO/EMPUNHADURA genérica (o módulo serve em QUALQUER arma corpo-a-corpo, se instala no cabo) — NADA de lâmina'
-  if (duasMaos) host += ', de arma GRANDE de duas mãos'
+  if (duasMaos) host += ', com perfil um pouco mais robusto (arma de duas mãos) mas ainda SÓ a ponta'
   if (cac && dist) host += ' (serve em armas corpo-a-corpo e de disparo)'
   return host
 }
@@ -393,6 +400,10 @@ const CONCEITO_MODULO = {
   'Imbuição Explosiva': CABO_COMPACTO,
   'Imbuição Enraizante': CABO_COMPACTO,
   'Imbuição Hidratante': CABO_COMPACTO,
+  // r11 (report 2026-09-04): módulo que serve em vários tipos/grupos de arma
+  // não pode morar numa lâmina — vai pro CABO genérico como os de cima.
+  'Imbuição Congelante': CABO_COMPACTO, // todo grupo (cac e distância)
+  'Imbuição Torrencial': CABO_COMPACTO, // corte OU perfuração
 }
 const RODAPE_PECAS = RODAPE_T.replace('Objeto único isolado', 'Somente as peças descritas, isoladas')
 
@@ -665,7 +676,34 @@ function promptOrganizacao(nome, sub, excerto) {
   )
 }
 
+// r11 (report 2026-09-04): o nível d'água canônico não estava segurando só
+// pelo excerto da nota — o Centro Histórico foi SEPULTADO pela enchente de
+// 1986 (1,5–2 andares de água) e um novo piso flutuante foi inaugurado em
+// 1987 POR CIMA. Cena escrita à mão pros locais onde isso é estrutural.
+const AGUA_CENTRO =
+  'NÍVEL DA ÁGUA CANÔNICO: o centro antigo está afundado — a água cobre TODO o térreo e chega ao meio do segundo andar dos prédios antigos (1,5 a 2 andares); NENHUMA rua seca, NENHUM carro ou ônibus circulando: a circulação é por passarela, deck e barco.'
+const CENA_LOCAL = {
+  'Centro Histórico':
+    `${AGUA_CENTRO} A cena: o "novo piso" flutuante inaugurado em 1987 sobre o centro afundado — calçadões e passarelas de madeira tratada sobre pontões de metal, seções de piso de VIDRO deixando ver as arcadas coloniais e letreiros submersos lá embaixo, postes com néon discreto, guarda-corpos de correntes navais; edificações novas sobre estacas; ao fundo, os prédios antigos emergindo da água só dos andares altos pra cima.`,
+  'Mercado Público':
+    `${AGUA_CENTRO} A cena: o Mercado Público ERGUIDO SOBRE BASES ELEVADAS acima da água — os arcos e pavilhões históricos preservados no alto de uma plataforma de fundações reforçadas; a água escura cobre a antiga praça em volta; rampas e escadarias de madeira descem a decks flutuantes onde barcos e canoas atracam pra descarregar; bancas visíveis sob o telhado, gente subindo com caixas; NENHUM táxi, ônibus ou rua de pedra seca.`,
+  'Duque de Caxias':
+    `NÍVEL DA ÁGUA CANÔNICO: bairro PARCIALMENTE inundado — a água cobre o térreo dos palacetes (1 a 2 metros), sem rua seca visível. A cena: palacetes coloniais de pedra e mármore desgastados pela água, barcos amarrados em antigas garagens e sacadas, passarelas de madeira ligando varandas, varandas adaptadas em guaritas de milícia armada, casas flutuantes de luxo ao fundo; circulação SÓ por barco e passarela.`,
+  'Camelódromo':
+    `${AGUA_CENTRO} A cena: a feira de sucata tecnológica ocupando um DECK/pontão do novo piso flutuante do Centro — lonas escuras, bancas improvisadas de eletrônica usada, fumaça de solda, fios pendurados; a água escura aparece entre as tábuas e nas bordas do deck, com barcos de carga amarrados descarregando caixotes; NENHUM carro ou ônibus.`,
+  'Viaduto da Borges':
+    `${AGUA_CENTRO} A cena: o viaduto emergindo da água como PASSARELA entre duas "ilhas" de prédios — a estrutura metálica corroída, tábuas soltas remendando o tabuleiro, pedestres e bancas ocupando a pista morta; embaixo, onde era a avenida, água escura com barcos passando entre os pilares; NENHUM carro.`,
+}
+
 function promptLocal(nome, sub, bairro, excerto) {
+  const cena = CENA_LOCAL[nome]
+  if (cena)
+    return (
+      `Imagem do local "${nome}" (${sub || 'local'} de Porto Alegre) como era em 1987 no RPG "Porto Alegre 1987" — Brasil sob regime militar, cyberpunk analógico-tropical.` +
+      ` Baseie-se na aparência REAL de Porto Alegre da época — arquitetura e atmosfera verdadeiras do lugar — e componha a cena canônica: ${cena}` +
+      ` Estilo: fotografia de época, filme colorido granulado dos anos 80, luz natural, enquadramento de rua.` +
+      ` Fundo completo (SEM transparência), sem texto legível, proporção paisagem 3:2 (1536×1024).`
+    )
   const onde = bairro && bairro !== nome ? `, em ${bairro}` : ''
   return (
     `Imagem do local "${nome}" (${sub || 'local'} de Porto Alegre${onde}) como era em 1987 no RPG "Porto Alegre 1987" — Brasil sob regime militar, cyberpunk analógico-tropical.` +
@@ -879,16 +917,10 @@ if (INGEST) {
       const meta = await img.metadata()
       if (t.transparente && !meta.hasAlpha) avisos.push(`${t.chave}: SEM canal alfa — fundo provavelmente opaco, refazer?`)
       mkdirSync(dirname(t.out), { recursive: true })
-      if (t.cat === 'Figura') {
-        // Sobra do contain vira alfa nas cartas transparentes e preto nas
-        // opacas (consumíveis, fundo preto).
-        await img.resize(W, H, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: t.transparente ? 0 : 1 } }).png().toFile(t.out)
-      } else {
-        await img.png().toFile(t.out)
-      }
-      const proc = join(dir, '_processado')
-      mkdirSync(proc, { recursive: true })
-      renameSync(join(dir, f), join(proc, f))
+      // ARQUIVO ÚNICO: o original gerado É o final (sem resize e sem cópia
+      // arquivada — thumbnail é responsabilidade do app, decisão 2026-09-04).
+      await img.png().toFile(t.out)
+      unlinkSync(join(dir, f))
       REGERAR.delete(t.chave)
       console.log(`ok: ${t.chave} → ${t.novo}.png`)
       ok++
@@ -959,13 +991,8 @@ async function worker(lote) {
     try {
       const png = await gerar(key, t)
       mkdirSync(dirname(t.out), { recursive: true })
-      if (t.cat === 'Figura') {
-        // 1536×1024 → contain em 590×420 (nunca corta; sobra vira alfa ou
-        // preto conforme a transparência do item).
-        await sharp(png).resize(W, H, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: t.transparente ? 0 : 1 } }).png().toFile(t.out)
-      } else {
-        await sharp(png).png().toFile(t.out)
-      }
+      // ARQUIVO ÚNICO: original gerado direto no destino (sem resize).
+      writeFileSync(t.out, png)
       console.log(`ok ${++feitos}/${fila.length}: ${t.chave}`)
     } catch (e) {
       erros.push({ chave: t.chave, erro: String(e) })
