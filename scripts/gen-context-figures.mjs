@@ -475,6 +475,7 @@ function promptFigura(sub, orig, novo) {
       ` mostre ${amostraModulo(semTier(orig))} (amostra de balcão de oficina, como um mostruário) com o módulo já FUNDIDO —` +
       ` uma placa/gomo de aço soldada e rebitada no corpo da amostra, com o NÚCLEO embutido numa janela de resina: exatamente o material/efeito da imagem de referência, preservando o polimento da original.` +
       ` Fiação curta enrolada e terminada no próprio enxerto — NADA de encaixe, trava, contato ou pegador: a peça é IRREVERSÍVEL, não sai mais da arma.` +
+      ` Na imagem aparecem SOMENTE a amostra descrita e o módulo — nenhuma outra peça, arma, ferramenta ou fundo de cenário.` +
       `${acabamento ? ` Acabamento do tier: ${acabamento}.` : ''} Sem logotipo estampado — a origem aparece no acabamento.${obtencao}${RODAPE_T}`
     )
   }
@@ -614,19 +615,19 @@ function promptCompanheiro(tipo, mundo, perfil) {
 // história. Mata a lista de logos no prompt (era o que enchia toda imagem de
 // megacorporação) — marca só quando a própria cena pede, no máximo uma.
 const CENA_CONTEXTO = {
-  'Adaptações Urbanas': 'rua do Centro alagada; moradores atravessam numa passarela improvisada de tábuas e caixotes; "gatos" de fios elétricos cruzam de poste a poste; sacos de areia empilhados nas portas das lojas.',
+  'Adaptações Urbanas': 'rua de bairro baixo FORA do Centro (Azenha/Menino Deus), alagada na altura da canela; moradores atravessam numa passarela improvisada de tábuas e caixotes; "gatos" de fios elétricos cruzam de poste a poste; sacos de areia empilhados nas portas das lojas.',
   'Degradação Ambiental': 'orla do Guaíba ao entardecer: céu laranja-fuligem, espuma química na beira, um pescador parado olhando a rede vazia; chaminés fumegando na silhueta da margem oposta.',
-  'Desastres Ignorados': 'família toma chimarrão no segundo andar de um sobrado com o térreo alagado, móveis empilhados; na rua, um ônibus passa abrindo marola e ninguém se espanta.',
+  'Desastres Ignorados': 'num bairro alagadiço FORA do Centro, família toma chimarrão no segundo andar de um sobrado com o térreo alagado, móveis empilhados; na rua, um ônibus passa abrindo marola e ninguém se espanta.',
   'Escassez de Recursos': 'fila diante de uma loja de componentes de esquina; prateleiras quase vazias vistas pela vitrine; um técnico sai carregando uma única válvula embrulhada em jornal como se fosse ouro.',
-  'Comércio Ilegal e Experimentação Química': 'porão de casarão no Centro Histórico: bancada de laboratório improvisada, vidraria borbulhando líquido iridescente, um químico de avental anotando; escada ao fundo com um vigia.',
+  'Comércio Ilegal e Experimentação Química': 'porão de casarão do Bom Fim: bancada de laboratório improvisada, vidraria borbulhando líquido iridescente, um químico de avental anotando; escada ao fundo com um vigia.',
   'Impactos na Saúde e Estratégias de Controle': 'corredor de posto de saúde lotado sob luz fluorescente; um homem com tremor nas mãos segura a senha; cartaz desbotado de campanha na parede descascada.',
   'Reatividade Selênica e Tipagem': 'balcão de farmácia: a atendente carimba o RG de um jovem; fila atrás esperando o exame de sangue, expressões tensas; luz fria de balcão.',
   'Tipos de Substâncias e Legalidade': 'vitrine de farmácia à noite: caixas de remédio com tarjas coloridas organizadas por linha (verde, amarela, vermelha, azul) atrás do vidro gradeado; neon refletido na vitrine.',
   'Uso Cotidiano e Normalização Social': 'parada de ônibus de manhã cedo: trabalhadores de macacão aplicam autoinjetores no antebraço com a naturalidade de quem toma café; um deles lê jornal enquanto pressiona o injetor.',
   'Acesso a Recursos Básicos': 'fila do caminhão-pipa numa vila: mulheres e crianças com baldes e galões; um soldado marca os galões com giz; sol forte, sombras longas.',
   'Divisão de Classes': 'muro alto com concertina separando dois mundos: de um lado torres envidraçadas de Moinhos de Vento, do outro telhados de zinco e palafitas; uma criança olha pelo vão do portão de serviço.',
-  'Mercado de Trabalho': 'mural de classificados numa parede do Centro: dezenas de pessoas apinhadas lendo papéis pregados; um homem de terno gasto copia um número num caderninho.',
-  'Moeda e Sistemas de Troca': 'banca do Camelódromo: um relógio de pulso passa de mão em troca de um maço de cruzeiros amarrotados E duas ampolas; o vendedor confere a nota contra a luz.',
+  'Mercado de Trabalho': 'mural de classificados numa EMPENA junto ao calçadão do novo piso flutuante do Centro: dezenas de pessoas apinhadas na passarela de tábuas lendo papéis pregados, água escura visível sob o deck; um homem de terno gasto copia um número num caderninho. NENHUMA rua seca, NENHUM carro ou ônibus.',
+  'Moeda e Sistemas de Troca': 'banca do Camelódromo sobre o DECK de tábuas do novo piso flutuante do Centro — a água escura aparece entre as tábuas e ao fundo, com barcos amarrados: um relógio de pulso passa de mão em troca de um maço de cruzeiros amarrotados E duas ampolas; o vendedor confere a nota contra a luz. NENHUMA praça seca, NENHUM carro.',
   'Energia e Saneamento': 'apagão no bairro à noite: o quarteirão inteiro escuro com UMA janela iluminada a gerador; ao fundo, a usina a carvão com as chaminés acesas trabalhando.',
   'Moradia e Ocupação': 'palafitas sobre a água na beira do Guaíba ao amanhecer: passarelas de tábua ligando as casas, roupa no varal, antena de TV improvisada em cada telhado.',
   'Redes de Comunicação': 'telhado noturno no Bom Fim: dois jovens ajustam uma antena pirata caseira apontada pro Centro; abaixo, a cidade acesa; um deles segura um rádio de mão remendado com fita isolante.',
@@ -641,7 +642,7 @@ const CENA_CONTEXTO = {
   'Sistema Penal': 'pátio de presídio-fábrica: detentos de uniforme montando placas de circuito em bancadas enfileiradas sob o olhar de guardas numa passarela elevada; relógio de ponto na parede.',
   'Educação e Conhecimento': 'aula clandestina num galpão: vinte pessoas sentadas em caixotes ao redor de um professor com um retroprojetor ligado num gerador; janelas tapadas com jornal.',
   'Entretenimento e Escapismo': 'show punk num galpão do Quarto Distrito: banda no palco improvisado de pallets, plateia em roda de pogo sob UMA lâmpada pendurada, suor e fumaça no ar.',
-  'Expressão Artística': 'madrugada no Centro Histórico: um grafiteiro encapuzado termina um mural gigante numa fachada colonial enquanto o parceiro vigia a esquina; tinta ainda escorrendo.',
+  'Expressão Artística': 'madrugada no Centro afundado: de cima de um barco a remo, um grafiteiro encapuzado termina um mural gigante na parte EMERSA de uma fachada colonial — a linha d`água corta o prédio no meio do segundo andar e o reflexo do mural treme na água escura; o parceiro vigia de uma passarela flutuante. NENHUMA rua seca.',
   'Subculturas e Grupos Marginalizados': 'tarde no Parcão: roda de punks trocando fitas cassete sob as árvores, jaquetas de couro pintadas à mão, um radinho no meio da roda; ao longe, um casal engomadinho observa desconfiado.',
   'Acesso a Tecnologia': 'vitrine de revenda de eletrônicos em Moinhos de Vento: um executivo experimenta um visor novo atendido por vendedor de gravata; do lado de fora, dois guris colados no vidro olhando.',
   'Hacking e Guerra Digital': 'quarto escuro atulhado: um jovem de fone diante de três monitores de fósforo verde empilhados, modem acústico com o telefone acoplado, paredes forradas de anotações; a única luz vem das telas.',
@@ -657,7 +658,7 @@ function promptContextoAtual(nome, assunto, excerto) {
       ? ` A cena, como um fotógrafo de 1987 esperando o momento exato que conta a história: ${cena}`
       : ` Tema: "${nome}"${assunto ? ` — ${assunto}` : ''}. Componha UMA cena forte que sintetize o tema a partir deste contexto do mundo: ${excerto}`) +
     ` O lugar é Porto Alegre de verdade — arquitetura, clima e atmosfera reconhecíveis da cidade.` +
-    ` UMA cena, UM momento: não encher o quadro de elementos; NO MÁXIMO UMA marca/logotipo real, e só se a própria cena pedir — nada de vitrines cheias de megacorporações.` +
+    ` UMA cena, UM momento: não encher o quadro de elementos; SOMENTE os elementos descritos na cena — NÃO invente extras; NO MÁXIMO UMA marca/logotipo real, e só se a própria cena pedir — nada de vitrines cheias de megacorporações.` +
     ` Estilo: pintura digital cinematográfica SEMIRREALISTA — o MESMO estilo das demais ilustrações do sistema (não é foto realista) — com leve textura de época: grão de filme, cores anos 80, luz natural.` +
     ` Nenhum texto legível. Proporção paisagem 3:2 (1536×1024).`
   )
@@ -693,21 +694,32 @@ const CENA_LOCAL = {
     `${AGUA_CENTRO} A cena: a feira de sucata tecnológica ocupando um DECK/pontão do novo piso flutuante do Centro — lonas escuras, bancas improvisadas de eletrônica usada, fumaça de solda, fios pendurados; a água escura aparece entre as tábuas e nas bordas do deck, com barcos de carga amarrados descarregando caixotes; NENHUM carro ou ônibus.`,
   'Viaduto da Borges':
     `${AGUA_CENTRO} A cena: o viaduto emergindo da água como PASSARELA entre duas "ilhas" de prédios — a estrutura metálica corroída, tábuas soltas remendando o tabuleiro, pedestres e bancas ocupando a pista morta; embaixo, onde era a avenida, água escura com barcos passando entre os pilares; NENHUM carro.`,
+  'Salgado Filho':
+    `${AGUA_CENTRO} A cena: a avenida virou CANAL — os prédios ecléticos e o casario emergem da água escura só do segundo andar pra cima; barcos a remo e uma lancha de carga navegam onde era a pista; passarelas de tábua ligam sacadas de um lado ao outro; roupa no varal numa janela alta.`,
+  'Galeria Malcom':
+    `${AGUA_CENTRO} A cena: a entrada da galeria comercial vista de uma passarela de tábuas — o TÉRREO original está submerso (vitrines afundadas visíveis sob a água escura na base) e o comércio migrou pro MEZANINO e andares altos, iluminados e funcionando; uma escada de madeira improvisada sobe da passarela flutuante direto pro segundo piso.`,
+  'Galeria do Rosário':
+    `${AGUA_CENTRO} A cena: o espaço expositivo REMONTADO num pavilhão do novo piso flutuante — salão de paredes brancas com trilhos de iluminação e painéis de madeira reaproveitada pendurados por cabos de aço, aberto pra um deck de tábuas; pela abertura vê-se a água escura e os prédios afundados do Centro; um ou dois visitantes olhando as obras.`,
 }
+// Filhos do Centro Histórico SEM cena própria ainda ganham o nível d'água
+// canônico automaticamente (a pasta do Atlas diz o bairro).
+const AGUA_POR_PASTA = { 'Centro Histórico': AGUA_CENTRO }
 
-function promptLocal(nome, sub, bairro, excerto) {
+function promptLocal(nome, sub, bairro, excerto, pasta) {
   const cena = CENA_LOCAL[nome]
   if (cena)
     return (
       `Imagem do local "${nome}" (${sub || 'local'} de Porto Alegre) como era em 1987 no RPG "Porto Alegre 1987" — Brasil sob regime militar, cyberpunk analógico-tropical.` +
       ` Baseie-se na aparência REAL de Porto Alegre da época — arquitetura e atmosfera verdadeiras do lugar — e componha a cena canônica: ${cena}` +
+      ` A cena contém SOMENTE os elementos descritos — NÃO invente elementos extras (nenhum personagem, veículo, embarcação, letreiro ou construção além dos citados); detalhe de época entra só como textura discreta de fundo.` +
       ` Estilo: fotografia de época, filme colorido granulado dos anos 80, luz natural, enquadramento de rua.` +
       ` Fundo completo (SEM transparência), sem texto legível, proporção paisagem 3:2 (1536×1024).`
     )
   const onde = bairro && bairro !== nome ? `, em ${bairro}` : ''
+  const agua = nome !== pasta && AGUA_POR_PASTA[pasta] ? ` ${AGUA_POR_PASTA[pasta]}` : ''
   return (
     `Imagem do local "${nome}" (${sub || 'local'} de Porto Alegre${onde}) como era em 1987 no RPG "Porto Alegre 1987" — Brasil sob regime militar, cyberpunk analógico-tropical.` +
-    ` Baseie-se na aparência REAL de Porto Alegre da época — arquitetura, ruas e atmosfera verdadeiras do lugar, como em fotografias antigas da cidade — e aplique o contexto do mundo: ${excerto}` +
+    ` Baseie-se na aparência REAL de Porto Alegre da época — arquitetura, ruas e atmosfera verdadeiras do lugar, como em fotografias antigas da cidade — e aplique o contexto do mundo: ${excerto}${agua}` +
     ` Estilo: fotografia de época, filme colorido granulado dos anos 80, luz natural, enquadramento de rua.` +
     ` Fundo completo (SEM transparência), sem texto legível, proporção paisagem 3:2 (1536×1024).`
   )
@@ -813,7 +825,7 @@ for (const path of walk(join(VAULT, 'Atlas/Porto Alegre'))) {
     inbox: join(INBOX, 'Locais', `${base}.png`),
     out: join(CTX_ROOT, 'Locais', `${base}.png`),
     size: '1536x1024', transparente: false,
-    prompt: promptLocal(base, fm.subcategoria, fm.Geolocalização, cap(limpar(corpo), 650)),
+    prompt: promptLocal(base, fm.subcategoria, fm.Geolocalização, cap(limpar(corpo), 650), basename(dirname(path))),
   })
 }
 
