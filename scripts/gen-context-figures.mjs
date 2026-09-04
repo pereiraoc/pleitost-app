@@ -186,7 +186,7 @@ const CONCEITO_EQUIP = {
   'Luvas do Punguista': { desc: 'luvas de pelica finas e justas, pretas, com gazuas e ferramentas de precisão costuradas na face interna do punho. Feitio do Quarto Distrito: costura irregular, couro macio de uso.' },
   'Modulador de Voz': { desc: 'MODULADOR DE GARGANTA: banda/colar que envolve a laringe com o módulo modulador sobre a garganta e UM cartucho de idioma pequeno encaixado nele (slot visível, cartucho rotulado por cor). Linha executiva Gradiente: plástico bege, logotipo REAL da Gradiente.' },
   'Projetor de Presença': { desc: 'PROJETOR VESTÍVEL DE PRESENÇA (arco de cabeça/ombros): luz de recorte vermelha que projeta a sombra do usuário maior, mini-subgraves gêmeos e um difusor químico de feromônio agressivo com reservatório visível. Feitio pirata do Quarto Distrito: solda exposta, carcaça remendada, luz acesa e dura.' },
-  'Sensor Canário': { desc: 'SENSOR DE LAPELA em forma de GAIOLINHA de canário estilizada em latão polido (broche-gaiola com mini alto-falante dentro e microfone de leitura ambiente) — homenagem ao canário de mina: lê o ambiente e emite sons calibrados. Artesanato de bancada lênica.' },
+  'Sensor Canário': { desc: 'SENSOR DE LAPELA de áudio da linha Gradiente (r12): caixinha compacta de clipe de lapela em plástico bege/cinza com grade metálica de mini alto-falante direcional, microfone de leitura ambiente, seletor mecânico de trilhas sonoras e mini medidor VU de agulha — o aparelho lê o ambiente e emite sons calibrados pra tranquilizar ou distrair. Um CANÁRIO amarelo PINTADO em serigrafia na carcaça é a marca da linha (homenagem ao canário de mina). NÃO é gaiola: NENHUM pássaro vivo, NENHUMA gaiola, nada de latão/steampunk — eletrônica de 1987 com o logotipo REAL da Gradiente.' },
   'Sensor Trônico': { desc: 'varinha-detector de sinais trônicos com galvanômetro de agulha (VU) no cabo, fone único de ouvido e cabo espiralado. Instrumento de bancada Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
   'Servo-atuador de Pulso': { desc: 'IMPLANTE de punho avulso, pronto pra cirurgia: braçadeira interna de titânio com servo-atuadores e eletrodos de sincronização muscular, pinos de ancoragem e um ALOJAMENTO vazio pra enxerto de módulo no dorso — leitura claramente MÉDICA/invasiva. Linha Gradiente: acabamento bege/cinza cirúrgico.' },
 }
@@ -299,7 +299,7 @@ const CONSUMIVEL = {
   'Taurilênico': {
     forma: 'uma LATA (ou garrafinha) de refrigerante ULTRACONCENTRADO — energético de taurina selênica com ERVA-MATE',
     nome: 'Mate Touro',
-    rotulo: 'co-branding: o logotipo REAL da Panvel junto com a ervateira gaúcha Charrua; a CABEÇA DE TOURO da marca como símbolo central (sem copiar marca real de energético) e folhas de erva-mate no rótulo',
+    rotulo: 'co-branding com os logotipos REAIS de Panvel e da erva-mate Charrua (o da Charrua é o wordmark CHARRUA amarelo de contorno preto com "ERVA-MATE" em cima e duas folhas verdes — exatamente como na referência anexada); a CABEÇA DE TOURO própria da marca Mate Touro como símbolo central (sem copiar marca real de energético) e folhas de erva-mate no rótulo',
   },
 }
 // Identidade Mate Touro (r9): mesma cabeça de touro em todas as versões; o
@@ -413,6 +413,17 @@ const CONCEITO_MODULO = {
   'Imbuição Mineral': CABO_COMPACTO,
 }
 const RODAPE_PECAS = RODAPE_T.replace('Objeto único isolado', 'Somente as peças descritas, isoladas')
+
+// r12: logotipos REAIS baixados (Inbox de Imagens/_logos) viram REFERÊNCIA
+// ADICIONAL anexada sempre que o prompt pede o logotipo real da marca — o
+// gerador não conhece as marcas gaúchas de cor (report 2026-09-04: Charrua
+// e Panvel saíram inventados).
+const LOGOS_DIR = join(INBOX, '_logos')
+const LOGO_FILES = ['Charrua', 'Gradiente', 'Panvel', 'Tramontina']
+function logosDoPrompt(prompt) {
+  if (!/logotipos? REA/i.test(prompt)) return []
+  return LOGO_FILES.filter((n) => prompt.includes(n)).map((n) => join(LOGOS_DIR, `${n}.png`)).filter(existsSync)
+}
 
 function promptFigura(sub, orig, novo) {
   const obtencao = restritoDe(orig) ? ` Contexto de obtenção: ${restritoDe(orig)}.` : ''
@@ -532,7 +543,8 @@ function promptFigura(sub, orig, novo) {
   if (orig === 'Escudo') {
     return (
       `${cabecalho} A imagem anexada é o escudo da versão fantasia; recrie na mesma composição como "Escudo de Choque":` +
-      ` o escudo de TROPA DE CHOQUE da Brigada Militar em 1987 — retangular, policarbonato/acrílico translúcido com armação e rebites metálicos, janela de visão, alças de antebraço e marcas reais de uso.${obtencao}${RODAPE_T}`
+      ` o escudo de TROPA DE CHOQUE em 1987 — retangular, policarbonato/acrílico translúcido com armação e rebites metálicos, janela de visão, alças de antebraço e marcas reais de uso.` +
+      ` Fabricação civil registrada: estampe o logotipo REAL da Tramontina discreto na face inferior do escudo. NENHUM emblema, brasão, insígnia ou símbolo inventado (r12: o emblema de capacete espartano da versão anterior não existe no mundo).${obtencao}${RODAPE_T}`
     )
   }
   if (orig === 'Broquel') {
@@ -736,6 +748,13 @@ function promptLocal(nome, sub, bairro, excerto, pasta) {
 const trabalho = []
 const alvos = new Map()
 function add(item) {
+  const extras = logosDoPrompt(item.prompt)
+  if (extras.length) {
+    item.refsExtra = extras
+    item.prompt += ` ANEXADOS como referência adicional: os logotipos REAIS de ${extras
+      .map((f) => basename(f, '.png'))
+      .join(' e ')} — reproduza cada logotipo FIELMENTE como na referência, sem redesenhar nem estilizar.`
+  }
   const alvo = item.out
   if (alvos.has(alvo)) throw new Error(`colisão de alvo: ${alvos.get(alvo)} e ${item.base} → ${alvo}`)
   alvos.set(alvo, item.base)
@@ -900,6 +919,7 @@ if (MANIFEST) {
     origem: t.base,
     novo: t.novo,
     referencia: t.ref,
+    referencias_extras: t.refsExtra ?? [],
     destino: t.inbox,
     tamanho: t.size,
     transparente: t.transparente,
@@ -968,6 +988,8 @@ async function gerar(key, t) {
       const fd = new FormData()
       fd.append('model', 'gpt-image-1')
       fd.append('image[]', new Blob([readFileSync(t.ref)], { type: 'image/png' }), 'ref.png')
+      for (const [i, extra] of (t.refsExtra ?? []).entries())
+        fd.append('image[]', new Blob([readFileSync(extra)], { type: 'image/png' }), `logo${i}.png`)
       fd.append('prompt', t.prompt)
       if (t.transparente) fd.append('background', 'transparent')
       fd.append('size', t.size)
