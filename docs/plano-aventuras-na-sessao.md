@@ -1,10 +1,16 @@
-# Formato de Aventura + uso na sessão — proposta v2 (2026-09-05)
+# Formato de Aventura + uso na sessão — proposta v2.1 (2026-09-05)
 
 > v1 (derivar estrutura de headings livres) foi REJEITADA pelo user: "quero um
 > formato de aventura que consigamos fazer várias aventuras da mesma forma,
 > mas complementando com coisas diferentes". Esta v2 é **formato-first**: um
 > template fixo, com seções numeradas e registros com campos nomeados, que o
 > app renderiza seção a seção. Nada implementado; campos em aberto na §6.
+>
+> **v2.1** (mesmo dia, decisões do user): PDF do mapa SEMPRE leva os `[!gm]`;
+> aventura tem **senha própria** (Pós Grenal: `poa1987grenal`), quem está em
+> Modo Mestre vê a LISTA com uma **chamada sem spoiler** e destrava cada uma
+> pela senha; Modo Desenvolvedor acessa tudo sem senha; **combates de uma
+> aventura vivem dentro dela** — a lista geral de Combates é só dos reutilizáveis.
 
 ## 0. Ideia em uma frase
 
@@ -31,6 +37,8 @@ disponivel: ["[[Porto Alegre]]"]
 Duração: "3h a 4h30"
 Jogadores: {min: 3, max: 5}
 Tom: ["thriller urbano", "sátira política", "violência de rua"]
+Chamada: "Uma noite de Gre-Nal em Porto Alegre, 1987 — dois gremistas, dois colorados e uma saída de estádio que dá errado."   # SEM spoiler: é o que a lista mostra trancada
+Senha: poa1987grenal                   # NUNCA sai em claro do extract (ver §2.5)
 Completo: false
 ---
 ```bounty
@@ -213,6 +221,76 @@ markers da aventura numerados; página 2+ = legenda (nº · Local · 🔊 · Des
 · Zonas). Tudo lido do registro 2.4 e do bloco `leaflet`. Escolha do mestre:
 com ou sem os `[!gm]`.
 
+### 2.5 Senha por aventura e lista sem spoiler
+
+**Comportamento (decisão do user):**
+- Fora do Modo Mestre: Campanhas segue invisível (#441).
+- Em Modo Mestre: a lista de Aventuras mostra TODAS, cada uma **trancada**
+  com 🔒 e só os campos públicos-de-lista: nome da nota, `Chamada`, `rank`,
+  `Formato`, `Duração`, `Jogadores`, `Tom`. **Nada do bounty** (título,
+  contratante e objetivo são spoiler), nada do corpo. Abrir pede a senha da
+  aventura; certa → página completa; "lembrar neste aparelho" (como o modo
+  dev) + botão `🔒 bloquear`.
+- Em Modo Desenvolvedor: tudo destravado sem senha (aventuras e combates).
+- Combates gerais (`Campanhas/Combates`) não têm senha; os de aventura herdam
+  a da aventura (estão dentro dela). Um combate geral PODE declarar `Senha:`
+  — mesmo mecanismo, custo zero; por padrão não tem.
+
+**Onde a senha vive:** FM `Senha:` na nota (a vault é privada; o fork da POA
+é repo privado). O que NÃO pode acontecer é a senha ou o conteúdo saírem em
+claro pro dataset publicado no GitHub Pages — que é público.
+
+**Dois jeitos de implementar — recomendo o segundo:**
+
+| | A. Gate por hash (como o modo dev) | B. Cifra no extract (recomendado) |
+|---|---|---|
+| Extract | grava `senhaHash` (SHA-256) e mantém o corpo em claro no JSON | gera uma chave K por aventura; cifra a **parte privada** (corpo + FM não-público) com AES-256-GCM(K); grava K "embrulhada" duas vezes — pela senha da aventura (PBKDF2) e pela senha do modo dev — e **remove `Senha` e o corpo** do JSON |
+| App | compara o hash e libera a página | deriva a chave da senha digitada (WebCrypto, já usado no `sha256Hex` do Config), desembrulha K, decifra em memória; dev mode desembrulha com a chave do dev (derivada quando a senha do dev é digitada no Config) |
+| Proteção real | nenhuma — o corpo está a uma URL de distância no `vault-data*/` | sim — sem senha só existe cifra no dataset |
+| Obsidian | igual | igual (a nota fica em claro na vault) |
+| Custo extra | ~0 | 1 módulo no extractor (Node `crypto`) + 1 no app (`SubtleCrypto`) + 2 testes de ida-e-volta |
+
+Como o pedido é "senha pra poder acessar", e o dataset é público, o gate por
+hash seria uma tranca de porta de vidro: a senha existiria só na interface.
+Com a cifra, a senha é o que de fato guarda o texto. O mesmo mecanismo cobre
+`GM: true`/`[!gm]` de graça no futuro, se quiser trancar segredos do Contexto.
+
+**Declaração (Contexto Base, como o `gm.campos_publicos`):**
+```yaml
+aventura:
+  campos_lista_trancada: [Chamada, rank, Formato, Duração, Jogadores, Tom]
+```
+Tudo que não está na lista faz parte da parte privada cifrada.
+
+**Módulos:** `extractor/cifra-doc.mjs` (docs com `Senha:` → `{frontmatter:
+<públicos>, protegido: {alg, salt, iv, cifra, chaves: {senha, dev}}}`; senha
+do dev via `PLEITOST_DEV_SENHA` ou `~/.secrets/pleitost-dev.key`, nunca no
+repo) · `app/src/data/doc-lock.ts` (`isLocked(doc)`, `unlock(id, senha)`,
+`unlockWithDevKey`, memória por aparelho, `lock(id)`) · `DocLockGate`
+(prompt de senha, envolve a `AventuraSheet`) · `AventuraGrid` (card trancado
+× carta completa) · `useDoc` devolve o doc já decifrado quando destravado
+(ponto único; `loadDoc` não muda).
+
+### 2.6 Combates da aventura × combates gerais
+
+- **Da aventura** = fences `combat-marker(-small)` dentro das Cenas (§1).
+  Renderizam DENTRO da cena com o bloco de combate (roster, dificuldade,
+  `Preparar`, `+ Iniciativa`); prep por monstro chaveado por
+  `<docId>#Cena N#k`. **Nunca aparecem na lista de Combates** — não são notas
+  daquela pasta. Herdam a senha da aventura.
+- **Gerais** = notas em `Campanhas/Combates` (`type: Combate`) — o que se
+  reaproveita entre aventuras e mesas. É a lista de Combates de hoje, intacta.
+  Uma cena pode **referenciar** um combate geral (`[[Emboscada Goblin]]`) e o
+  app mostra o mesmo bloco ali dentro, lendo o roster e o prep da nota geral.
+- Na Sessão, combate preparado a partir de uma aventura aparece no card
+  "▶ INICIAR" com o nome `<Aventura> · Cena N — Fase k` (é a sessão, não o
+  compêndio).
+
+### 2.7 PDF do mapa
+
+Sempre completo: markers + legenda com 🔊, Descrição, Zonas **e os `[!gm]`**
+(decisão do user). É documento do mestre.
+
 ## 3. Sessão (mantido da v1 — não foi contestado)
 
 - `SessionState.aventura` `{docId, titulo, cenaAtual, concluidas, iniciadaEm}`
@@ -232,7 +310,8 @@ com ou sem os `[!gm]`.
 | `app/src/aventura/parse-aventura.ts` (puro) | corpo → `AventuraModel {resumo, estrutura, roteiro, contexto, notasMestre, personagens[], locais[], mapa, abertura, cenas[], desfecho}`; seções pelos H1/H2 declarados; registros por `###` + callout; refs `[[#…]]` resolvidas; combates por fence dentro da cena | `calloutTemplateFields`, `parseLeafletBlock` (portar do extractor ou expor no doc), `combat-marker.ts`, `doc.headings` |
 | `aventura/registros.ts` | ordem/ícone dos campos-núcleo de Personagem/Local/Cena/Abertura/Desfecho + vocabulário de `Tipo` de cena (registro central, `tokens`) | — |
 | `components/compendium/AventuraSheet.tsx` (rework) | as seções da §2; cards de registro com `FieldBlock`; expand inline (`<details>`) | `PessoaView`, `OrgView`, `LocationSheet` (pedaços reutilizáveis), `MapaLocal`, `CombatMarkerBlock`, `BountyCard` |
-| `print/MapaPapelPage.tsx` | mapa + legenda em A4 | `FichaPapelPage` (shell/CSS) |
+| `print/MapaPapelPage.tsx` | mapa + legenda em A4, com `[!gm]` | `FichaPapelPage` (shell/CSS) |
+| `extractor/cifra-doc.mjs` + `app/src/data/doc-lock.ts` + `DocLockGate` | senha por aventura (§2.5) | `sha256Hex`/`SubtleCrypto` do Config; `gm-split` (whitelist de campos) |
 | `aventura/session-actions.ts` | iniciar/avançar/mural | `SessionRepo`, `encounter-actions` |
 | extractor | nada obrigatório (`headings`/`links`/corpo já saem); Contexto Base ganha `aventura.secoes` e `aventura.tipos_de_cena` | `compile-contexto` |
 
@@ -268,19 +347,26 @@ Combate — Fase N).
 
 **Abertura** — Situação, Gancho, Contrato, Início. **Desfecho** — Decide.
 
-**Estrutura (FM)** — Formato, Duração, Jogadores, Tom (+ rank/subcategoria/
-disponivel que já existem).
+**Estrutura (FM)** — Formato, Duração, Jogadores, Tom, **Chamada**, **Senha**
+(+ rank/subcategoria/disponivel que já existem).
 
 Perguntas: (1) esses núcleos servem ou tiro/adiciono algo? (2) `Papel` do
 personagem é texto livre ou vocabulário fixo (Patrão · Aliado · Contato ·
 Antagonista · Testemunha · Vítima)? (3) `Tipo` de cena: a lista acima serve?
 (4) mapa: um por aventura (seção 2.4) basta, ou também mapa por Local (planta
 da oficina)? (5) `subcategoria: One-Shot` da Pós Grenal → vira `Formato` e
-ganha um tipo de missão? (6) o PDF do mapa leva os segredos `[!gm]` ou nunca?
+ganha um tipo de missão? (6) ~~PDF com `[!gm]`~~ → **sempre** (decidido).
+(7) senha: cifra no extract (recomendado) ou gate por hash? (8) a `Chamada`
+proposta pra Pós Grenal serve? (9) `campos_lista_trancada` — `subcategoria`
+(tipo de missão) e `disponivel` ficam fora por padrão; quer algum deles na
+lista?
 
 ## 7. Fases (depois do OK nos campos)
 
-F0 template + Contexto Base + Pós Grenal no formato · F1 parser puro + testes ·
-F2 AventuraSheet por seção (sem sessão) + expand inline · F3 mapa + PDF ·
-F4 combates com Preparar/+Iniciativa e `state.aventura` · F5 painel AVENTURA na
-Sessão (após design) · F6 mural. Cada fase verde → push → deploy.
+F0 template + Contexto Base + Pós Grenal no formato (com `Chamada`/`Senha`) ·
+F1 parser puro + testes · **F1.5 senha** (cifra no extract + `doc-lock` +
+lista trancada + dev sem senha) · F2 AventuraSheet por seção + expand inline ·
+F3 mapa + PDF (com `[!gm]`) · F4 combates com Preparar/+Iniciativa e
+`state.aventura` · F5 painel AVENTURA na Sessão (após design) · F6 mural.
+Cada fase verde → push → deploy. F1.5 antes de F2 de propósito: a página
+completa só vai pro ar já trancada.
