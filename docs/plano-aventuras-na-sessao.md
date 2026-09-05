@@ -1,328 +1,286 @@
-# Aventuras na sessão — estudo de arquitetura (v1, 2026-09-05)
+# Formato de Aventura + uso na sessão — proposta v2 (2026-09-05)
 
-> Pedido (AS-IS): "uma forma boa de conseguir usar a nota de campanha dentro
-> do pleitost-app, de uma forma que também mostre na prática as fases, os
-> combates, de forma que eu tenha o botão de adicionar ele na sessão e coisas
-> do tipo. […] uma arquitetura boa pra aventuras genéricas, considerando quais
-> são bons campos […] não ficar refém apenas dessa aventura especificamente
-> que é um one-shot com alguns sistemas adicionais […] funcional pro sistema
-> no modo fantasia também."
->
-> Status: **PROPOSTA — nada implementado.** Decisões abertas na §9.
+> v1 (derivar estrutura de headings livres) foi REJEITADA pelo user: "quero um
+> formato de aventura que consigamos fazer várias aventuras da mesma forma,
+> mas complementando com coisas diferentes". Esta v2 é **formato-first**: um
+> template fixo, com seções numeradas e registros com campos nomeados, que o
+> app renderiza seção a seção. Nada implementado; campos em aberto na §6.
 
-## TL;DR
+## 0. Ideia em uma frase
 
-1. **A nota continua sendo a fonte.** Uma Aventura é markdown Obsidian-first:
-   o que já existe (fence `bounty`, fences `combat-marker`, callouts, wikilinks,
-   headings) vira a estrutura que o app lê. **Uma única convenção nova**: a
-   seção `## Roteiro`, cujos filhos `###` são as **Cenas**, em ordem. Metadados
-   de cena usam **inline fields** (`Tipo:: Social`), mecanismo que a vault já
-   usa e o extractor já parseia. Nenhum DSL novo pra objetivos/papéis/relógio —
-   isso é prosa e continua prosa (vira handout, não dado).
-2. **Modelo: Aventura → Cena → anexos** (combates, leituras 🔊, referências a
-   Pessoa/Localização/Combate). Tudo opcional: uma aventura da fantasia que é
-   só bounty continua válida; um "Encontro" com um `combat-marker` continua
-   válido; a one-shot completa usa tudo. Nada é específico de mundo.
-3. **Sessão: um `aventura` no `SessionState`** (jsonb aditivo, RLS gm-only já
-   existente) guarda qual aventura está rodando e a cena atual; **combates
-   viram `session_encounters` preparados por cena** (fluxo que já existe:
-   `insertEncounter` → card "▶ INICIAR" na Sessão); um **mural** opcional
-   deixa o mestre "mostrar pra mesa" uma leitura 🔊, o bounty ou uma imagem.
-4. **Duas telas**: a página da Aventura no compêndio vira **roteiro navegável**
-   (cenas como stepper vertical, combates com `Preparar` / `+ Iniciativa`,
-   chips de elenco/locais); a Sessão ganha o painel **AVENTURA** (mestre:
-   runner ◀ ▶; jogador: cena atual + mural). As duas precisam de passe no
-   Claude Design antes de codar (§7).
-5. **Reuso, nada reimplementado**: `parseBountyBlock`, `parseCombatMarkerBlocks`
-   /`CombatMarkerBlock`, `addRosterToInitiative`, `insertEncounter`,
-   `updateSessionState`, `encounter-speeds`, `remarkCallouts`, `doc.headings`,
-   `doc.links`, gm-split. Módulo novo e puro: `app/src/aventura/`.
+A Aventura é uma nota com **esqueleto fixo** (Resumo · Contexto · Cenas) e
+**registros com campos** (Personagem, Local, Cena) escritos do jeito que a
+vault já escreve Pessoa/Organização/Localização: callout `[!info]` com
+`**Rótulo:** valor`. O app lê os rótulos (parser que já existe:
+`calloutTemplateFields`), mostra cada seção com o componente certo, expande
+contexto referenciado ali mesmo, desenha o mapa (`leaflet`, como a
+Localização), exporta o mapa em PDF (como a ficha de papel) e coloca combate
+na sessão (bloco que já existe). **Campos-núcleo são fixos; qualquer rótulo
+extra vira campo também** — é assim que uma aventura complementa a outra sem
+quebrar o formato.
 
-## 1. O que já existe (base do plano)
+## 1. O esqueleto (template)
 
-| Peça | Onde | O que faz hoje |
+```markdown
+---
+categoria: Aventura
+subcategoria: Recuperação de Relíquia   # TIPO DE MISSÃO (registro do bounty)
+Formato: One-Shot                      # One-Shot · Arco · Encontro
+rank: C
+disponivel: ["[[Porto Alegre]]"]
+Duração: "3h a 4h30"
+Jogadores: {min: 3, max: 5}
+Tom: ["thriller urbano", "sátira política", "violência de rua"]
+Completo: false
+---
+```bounty
+Titulo: …            ← o CONTRATO (inalterado)
+Recompensa: …
+Objetivo: …
+Local: …
+Contato: …
+Financiador: …
+```
+
+# 1. Resumo
+> [!abstract] Resumo
+> Um ou dois parágrafos. (prosa)
+
+> [!info] Estrutura da sessão
+> **Duração:** `= this.Duração`
+> **Jogadores:** `= this.Jogadores`
+> **Rank:** `= this.rank`
+> **Formato:** `= this.Formato`
+> **Tom:** `= this.Tom`
+
+## Roteiro em uma página
+1. **[[#Cena 1 — Título]]** — uma linha
+2. …
+
+# 2. Contexto
+## 2.1 Contexto da Aventura
+### Premissa do grupo
+(prosa: formação, vínculos, perguntas pra mesa)
+### Verdades não contadas
+> [!gm] …o que só o mestre sabe…
+
+## 2.2 Notas para o Mestre
+### Dicas de condução
+### Papéis e objetivos
+(callouts [!info] de objetivo público/secreto, distribuição — como já é)
+### Frases úteis
+(vozes SEM registro próprio: cânticos, "anti-selênico de botequim"…)
+
+## 2.3 Personagens
+### Nome do Personagem
+> [!info] Personagem
+> **Nota:** [[Pessoa da vault]]            ← opcional: liga ao compêndio (expande)
+> **Organização:** [[…]]
+> **Função:** …
+> **Papel:** Patrão relutante                ← papel NA AVENTURA (livre)
+> **Personalidade:** …
+> **Aparência:** …
+> **Objetivo de Longo Prazo:** …
+> **Objetivo Imediato:** …
+> **O que sabe:** …
+> **Como usar:** …
+> **Entrada:** [[#Cena 3 — Casa da Drenagem]]
+> **Frases:**
+> - "…"
+> - "…"
+
+> [!quote] 🔊 Como descrever
+> (visão · som · cheiro · tato — 3 a 5 frases, "vocês")
+
+> [!gm] Segredo
+> …
+
+## 2.4 Locais
+### Nome do Local
+> [!info] Local
+> **Atlas:** [[Passo D'Areia]]                ← opcional: nota do Atlas (expande)
+> **Contexto:** …
+> **Descrição:** …
+> **Aparência:** …
+> **Influências:**
+> - **[[Org]]:** …
+> **Quem está lá:** …
+> **Zonas:** (1) … (2) …
+> **Elementos de cena:** …
+> **Cenas:** [[#Cena 6 — Retífica Sertório]]
+
+> [!quote] 🔊 Como descrever
+> …
+
+> [!gm] Segredo
+> …
+
+### Mapa
+```leaflet
+image: [[Mapa de Porto Alegre RPG.png]]
+bounds: [[0,0], [1170,850]]
+defaultZoom: -1
+marker: Local,790,256,Casa da Drenagem,,,
+marker: Local,942,446,Retífica Sertório,,,
+marker: Bairro,852,248,Centro Histórico,,,-0.1
+```
+
+# 3. Cenas
+## Abertura
+> [!info] Abertura
+> **Situação:** o que aconteceu antes da 1ª cena
+> **Gancho:** como os personagens entram
+> **Contrato:** quem pede, o que paga (aponta pro bounty)
+> **Início:** a primeira imagem da mesa
+### (subseções livres: Contexto do incidente, A carga, O acordo…)
+
+## Cena 1 — Título
+> [!info] Cena
+> **Tipo:** Social                     ← registro: Social · Exploração · Investigação · Combate · Interlúdio · Epílogo
+> **Local:** [[#Casa da Drenagem]]     ← registro 2.4 (ou nota do Atlas)
+> **Personagens:** [[#Arlindo “Bomba” Fagundes]], [[#Nico “Faixa Preta” Ferraz]]
+> **Objetivo:** …
+> **Duração:** ~30 min
+
+> [!quote] 🔊 Ler pra mesa
+> …
+
+#### O que acontece
+#### Interações e testes
+#### Saídas
+#### Combate — Fase 1                  ← opcional, quantos precisar
+```combat-marker-small
+- 4 [[Arruaceiro]]
+- 1 [[Guarda]]
+```
+
+## Cena 2 — …
+
+## Desfecho
+> [!info] Desfecho
+> **Decide:** o que define o final (ex.: quem fica com a Matriz)
+### Desfechos possíveis
+### Consequências
+### Ganchos
+```
+
+Regras do formato:
+
+- **H1 fixos** (`1. Resumo`, `2. Contexto`, `3. Cenas`) e **H2 fixos** (`2.1`…
+  `2.4`, `Abertura`, `Desfecho`). Cenas são `## Cena N — Título`, na ordem.
+  Os nomes ficam declarados no Contexto Base (`aventura.secoes`), como o
+  `gm.campos_publicos` — nunca heurística no render.
+- **Registro** = `### Nome` + callout `[!info] <Tipo>` com campos
+  `**Rótulo:** valor` (+ bullets de continuação), opcionalmente seguido de
+  `[!quote] 🔊` (descrever) e `[!gm]` (segredo). É o MESMO parser dos
+  templates de Pessoa/Org (`calloutTemplateFields`).
+- **Campos-núcleo × livres**: os núcleo têm lugar fixo no render (ordem,
+  ícone, destaque); qualquer outro `**Rótulo:**` aparece como campo comum, na
+  ordem da nota. É o "complementando com coisas diferentes": a Pós Grenal
+  põe `**Onde ele está (A/B/C):**` no Juninho e isso rende sem schema novo.
+- **Referência interna** `[[#Nome]]` liga cena→registro e registro→cena
+  (Obsidian resolve; o app resolve contra os `###` da própria nota).
+- **Referência externa** `[[Nota]]` em `Nota:`/`Atlas:`/`Organização:` liga ao
+  compêndio e habilita o "expandir contexto".
+- Tudo que não é registro é prosa livre (H3/H4, tabelas, listas) — renderiza
+  como hoje.
+
+## 2. Como o app mostra cada parte
+
+Página `AventuraSheet` com **sub-nav fixa** (Resumo · Contexto · Personagens ·
+Locais · Cenas) e conteúdo empilhado (leitura vertical, `FieldBlock` label
+mono + prosa — padrão aprovado do Local/Org/Pessoa).
+
+| Seção | Render |
+|---|---|
+| Bounty | `BountyCard` (existe) + Disponível em |
+| 1. Resumo | prosa + **Estrutura** como bloco de campos lidos do FM (Duração/Jogadores/Rank/Formato/Tom) + contagens derivadas (cenas, combates, personagens, locais) + Roteiro em uma página com links que rolam até a cena |
+| 2.1 / 2.2 | prosa; `[!gm]` no estilo de segredo (já existe); objetivos (callouts) como cards |
+| 2.3 Personagens | um **card por registro**: retrato (da `Nota:` se houver, senão iniciais), campos-núcleo em ordem fixa, campos livres depois, **Frases** como lista de balões destacada, 🔊 como bloco "ler pra mesa", Segredo. Botão `Nota ↗ expandir` abre a `PessoaView` do compêndio ALI DENTRO (`<details>`, como os cards do Contexto Atual) |
+| 2.4 Locais | idem: campos, 🔊, segredo, `Atlas ↗ expandir` (LocationSheet: Descrição/Aparência/Influências/Acontecimento) e, no fim da seção, o **Mapa** |
+| Mapa | o bloco `leaflet` renderizado pelo `MapaLocal` (viewer com pan/zoom que a Localização já usa); marker cujo nome = `### Local` → clique expande o registro; demais markers linkam a nota do Atlas. Botão **Imprimir mapa** → `/papel/mapa/<docId>` |
+| 3 Abertura | campos (Situação/Gancho/Contrato/Início) + prosa |
+| 3 Cenas | **stepper vertical** (número, título, chip de Tipo, chips de Local/Personagens); cena aberta mostra 🔊, corpo, e os **combates como bloco de combate** (roster + dificuldade + `Preparar` / `+ Iniciativa`), um por fence, com `encounterPath = <docId>#Cena N#k` pra prep por monstro. Chips **expandem contexto inline**: `Local` → registro 2.4 (e dali, Atlas); `Personagens` → registro 2.3 (e dali, Pessoa); orgs citadas → OrgView |
+| 3 Desfecho | campos + prosa (tabela de consequências renderiza como tabela) |
+
+Sem sessão viva ou sem Modo Mestre os botões somem; a página segue de leitura.
+
+### Mapa em PDF (`/papel/mapa/<docId>`)
+
+Mesmo padrão da ficha de papel (`FichaPapelPage`: rota fora do AppShell,
+pré-visualização A4 paisagem, `window.print`): página 1 = mapa com os
+markers da aventura numerados; página 2+ = legenda (nº · Local · 🔊 · Descrição
+· Zonas). Tudo lido do registro 2.4 e do bloco `leaflet`. Escolha do mestre:
+com ou sem os `[!gm]`.
+
+## 3. Sessão (mantido da v1 — não foi contestado)
+
+- `SessionState.aventura` `{docId, titulo, cenaAtual, concluidas, iniciadaEm}`
+  e `SessionState.mural` (o que o mestre "mostrou pra mesa": 🔊, bounty,
+  imagem). Aditivos no jsonb; RLS gm-only (`updateSessionState`); sem migração.
+- Combate de cena → `insertEncounter` **prepared** com `sourceNotePath =
+  "<docId>#Cena N#k"` (idempotente) → card "▶ INICIAR" da Sessão (existe).
+  `+ Iniciativa` = `addRosterToInitiative` (existe).
+- Painel AVENTURA na Sessão: mestre (cena ◀ ▶, 🔊 com "mostrar pra mesa",
+  combates da cena); jogador (título, cena atual, mural). Precisa de desenho
+  no Claude Design (a Sessão é tela desenhada).
+
+## 4. Módulos
+
+| Módulo | Faz | Reusa |
 |---|---|---|
-| Doc `type: Aventura` | extractor (`categoria`) · `AventuraView.tsx` | `BountyCard` (fence `bounty` ou FM da aventura local) + "Disponível em" + **corpo renderizado como coluna de leitura** (report Pós Grenal) |
-| Aventura LOCAL | `local-entities.ts` kind `Aventura` · `AventuraForm.tsx` · `criador-aventura-doc.ts` | criada no Modo Mestre, só FM (sem corpo) |
-| Combate | `CombateView.tsx` · `mestre/CombatMarkerBlock.tsx` · `mestre/combat-marker.ts` | roster + dificuldade; **`+ Adicionar à sessão`** (mestre + sala viva) via `addRosterToInitiative`; prep por monstro (velocidade/escondido/disfarçado) em `encounter-speeds.ts` chaveado por `encounterPath` |
-| Fence dentro de QUALQUER corpo | `markdown/fence-registry.tsx` | `combat-marker(-small)` já renderiza `CombatMarkerBlock` inline — **na Pós Grenal os dois rosters já aparecem com o botão**, mas sem `encounterPath` (sem prep por monstro) e sem "preparar" (só "adicionar agora") |
-| Encounters da sala | `session-repo/contract.ts` · `encounter-actions.ts` · `SessaoPage.tsx` §"combate da sala" | `prepared` → card com ▶ INICIAR; `active` → iniciativa por blocos; `insertEncounter` (Criador de Combate), `startEncounterFromRoster`, `addRosterToInitiative` |
-| State da sessão | `SessionState` (jsonb, merge por chave de topo) | `exploracao`, `inventarioGrupo`, `mapaAtlas`, `hexMapMundo` — **chaves aditivas; o pleitost-sync ignora extras**. Escrita gm-only (RLS) via `updateSessionState`; membro só via RPC (`exploracao`) |
-| Segredo mestre×jogador | `extractor/gm-split.mjs` · `gm-bundle.ts` · `MarkdownBody` | `[!gm]` cortado do dataset público; `GM: true` tira a nota do índice; **pasta Campanhas é só-mestre no app (#441)** — jogador não vê Aventura nem Combate |
-| Headings/links do doc | `extractor/parse-doc.mjs` → `VaultDoc.headings`, `links`, `inlineFields` | já extraídos — o parser de cenas não precisa de extract novo |
-| Callouts | `markdown/remark-callouts.ts` | `[!x]` → classe `callout-x` (sem título inventado) |
-| Design | `design/pulled/Companion App.dc.html` | SESSÃO tem painéis Iniciativa + Detalhes ("⚙ FERRAMENTAS DE MESTRE — EM BREVE"); **não há tela de Aventura nem de runner** |
+| `app/src/aventura/parse-aventura.ts` (puro) | corpo → `AventuraModel {resumo, estrutura, roteiro, contexto, notasMestre, personagens[], locais[], mapa, abertura, cenas[], desfecho}`; seções pelos H1/H2 declarados; registros por `###` + callout; refs `[[#…]]` resolvidas; combates por fence dentro da cena | `calloutTemplateFields`, `parseLeafletBlock` (portar do extractor ou expor no doc), `combat-marker.ts`, `doc.headings` |
+| `aventura/registros.ts` | ordem/ícone dos campos-núcleo de Personagem/Local/Cena/Abertura/Desfecho + vocabulário de `Tipo` de cena (registro central, `tokens`) | — |
+| `components/compendium/AventuraSheet.tsx` (rework) | as seções da §2; cards de registro com `FieldBlock`; expand inline (`<details>`) | `PessoaView`, `OrgView`, `LocationSheet` (pedaços reutilizáveis), `MapaLocal`, `CombatMarkerBlock`, `BountyCard` |
+| `print/MapaPapelPage.tsx` | mapa + legenda em A4 | `FichaPapelPage` (shell/CSS) |
+| `aventura/session-actions.ts` | iniciar/avançar/mural | `SessionRepo`, `encounter-actions` |
+| extractor | nada obrigatório (`headings`/`links`/corpo já saem); Contexto Base ganha `aventura.secoes` e `aventura.tipos_de_cena` | `compile-contexto` |
 
-## 2. Princípio
+Testes: parser sobre a Pós Grenal reescrita no formato (fixture congelada) +
+uma aventura da fantasia só-bounty (só seção 0) + um "Encontro"; jsdom pra
+expand inline, mapa com markers ligados, botões gated; InMemory pra sessão.
 
-1. **Obsidian-first, app lê.** A nota tem que continuar boa de ler e mestrar no
-   Obsidian sem plugin novo. O app deriva estrutura do que o markdown já tem;
-   quando precisa de dado de máquina, usa mecanismos que a vault já declara
-   (fence, inline field, wikilink, callout). Nunca heurística de texto
-   ("se o heading contém 'Cena'…"): o que é estrutura é **declarado** — pelo
-   nome fixo de seção da família Aventura, registrado no Contexto Base
-   (`aventura.roteiro`), como o `gm.campos_publicos`.
-2. **Tudo opcional, nada de mundo.** O modelo degrada: bounty só → carta;
-   bounty + combate → carta + roster com botões; roteiro → runner. Reskin,
-   bestiário, moeda e Marcas já vêm do mundo ativo; o runner não sabe se é
-   Pencas ou Porto Alegre.
-3. **Sistemas extras são conteúdo, não schema.** Objetivos secretos, papéis-
-   base, relógio, pistas: prosa/callout/tabela na nota. O app não modela; no
-   máximo deixa o mestre **mostrar** um bloco pra mesa (mural). Se um dia um
-   desses virar mecânica recorrente, ganha fence própria no registro — não
-   antes.
+## 5. O que acontece com as aventuras que existem
 
-## 3. Modelo de dados
+- **Fantasia (só bounty)**: continuam válidas — seções ausentes não aparecem.
+  Ao ganhar conteúdo, seguem o template. Template `TEMPLATE
+  categoria=Aventura.md` (nas duas vaults) passa a trazer o esqueleto.
+- **Pós Grenal**: reorganizar pro esqueleto (mover seções, converter os 7
+  perfis e os 5 locais em registros `[!info]`, mover os 🔊 pra dentro dos
+  registros/cenas, o combate final pra dentro da Cena 6, Desfechos+Ganchos em
+  `## Desfecho`, adicionar o `leaflet` com Casa da Drenagem e Retífica). Texto
+  intacto; só forma.
 
-```
-Aventura (doc type Aventura)
-├─ contrato        ← fence bounty (ou FM da local)        [existe]
-├─ ficha técnica   ← FM opcional (Formato/Duração/Jogadores) [novo, opcional]
-├─ roteiro         ← seção `## Roteiro`                     [novo, opcional]
-│   └─ Cena[]      ← headings `###` filhos, em ordem
-│       ├─ meta    ← inline fields no corpo da cena (Tipo::, Local::, Duração::)
-│       ├─ leituras← callouts `[!quote]` (🔊 Ler pra mesa)
-│       ├─ combates← fences combat-marker(-small) NA cena  +  wikilinks pra docs `type: Combate`
-│       ├─ refs    ← wikilinks resolvidos por tipo: Pessoa · Localização · Organização
-│       └─ corpo   ← o resto do markdown da cena (render normal)
-├─ combates soltos ← fences/links fora do roteiro (ex.: "Encontro" da fantasia)
-└─ referência      ← todas as outras seções (Elenco, Mapa, Desfechos, Objetivos…) — leitura vertical
-```
+## 6. Campos a decidir (proposta)
 
-### 3.1 Campos da Aventura
+**Personagem** — núcleo: Nota, Organização, Função, Papel, Personalidade,
+Aparência, Objetivo de Longo Prazo, Objetivo Imediato, O que sabe, Como usar,
+Entrada, Frases (+ 🔊 Como descrever, [!gm] Segredo). Livres: o que a história
+pedir (ex.: "Onde ele está").
 
-| Campo | Onde vive | Estado | Por quê |
-|---|---|---|---|
-| Titulo, Recompensa (Marcas/Ouro/Extra/Promoção/Reconhecimento), Objetivo, Local, Contato, Financiador | fence `bounty` / FM da local | existe | contrato — a carta que a mesa vê |
-| `categoria: Aventura`, `subcategoria` (tipo de missão), `rank`, `disponivel`, `aliases` | FM | existe | catálogo, grade por rank/tipo, quadro por local |
-| `Formato` | FM | **novo, opcional** | `One-Shot` · `Arco` · `Encontro`. Hoje "One-Shot" está em `subcategoria` da Pós Grenal, que é o eixo de TIPO DE MISSÃO (Neutralização/Resgate/…) — ver decisão §9.2 |
-| `Duração`, `Jogadores` (`{min,max}`), `Nível` (se diferente do rank) | FM | **novo, opcional** | ficha técnica na página; filtro futuro ("cabe numa noite?") |
-| `Combates` | FM (lista de wikilinks pra `Campanhas/Combates/*`) | **novo, opcional** | ordem explícita + "Preparar todos"; sem ele, derivado dos links/fences do roteiro |
-| `Elenco`, `Locais` | FM (wikilinks) | **novo, opcional** | ordem/curadoria explícita; sem eles, derivados dos links do roteiro por tipo |
-| Cenas | **derivado** de `## Roteiro` + `###` | novo | nunca FM: a cena é prosa com anexos, e a ordem é a do texto |
-| Meta de cena (`Tipo::`, `Local::`, `Duração::`, `Pistas::` …) | inline fields dentro da cena | novo | mecanismo já existente (templates usam `up::/prev::/next::`; extractor parseia) — chips na cena, sem heurística |
-| Leituras 🔊 | callout `[!quote]` dentro da cena | existe (convenção adotada 2026-09-05) | render "ler pra mesa" + botão "mostrar pra mesa" |
-| Segredos | `[!gm]` / `GM: true` | existe | irrelevante no app enquanto Campanhas for só-mestre; continua valendo pro dataset (§9.5) |
+**Local** — núcleo: Atlas, Contexto, Descrição, Aparência, Influências, Quem
+está lá, Zonas, Elementos de cena, Cenas (+ 🔊, [!gm]). Livres: ex.: "Pontos
+úteis", "Como chegar".
 
-Fora do schema de propósito: objetivos público/secreto, papéis-base, relógio,
-tabela de pistas, desfechos. Continuam seções livres da referência.
+**Cena** — núcleo: Tipo, Local, Personagens, Objetivo, Duração (+ 🔊). Corpo
+livre em H4 (sugestão: O que acontece · Interações e testes · Saídas ·
+Combate — Fase N).
 
-### 3.2 As três formas que precisam funcionar
+**Abertura** — Situação, Gancho, Contrato, Início. **Desfecho** — Decide.
 
-| Forma | Exemplo real | O que o app mostra |
-|---|---|---|
-| **Só bounty** | `Covil dos Orcs (Safira)`, todas as da fantasia | carta + Disponível em + `Mostrar contrato pra mesa` (mural). Sem roteiro, sem runner. Igual a hoje + 1 botão |
-| **Bounty (ou nada) + combate** | `Emboscada de Goblins (Exemplo Sync)`; qualquer aventura com `Combates:` ou fence solta | carta (se houver) + bloco de combate com `Preparar` e `+ Iniciativa`; "Iniciar na sessão" = preparar os combates |
-| **Roteiro completo** | `Pós Grenal` (com `## Roteiro` e combates dentro da Cena 6) | tudo acima + stepper de cenas + runner na Sessão + mural |
+**Estrutura (FM)** — Formato, Duração, Jogadores, Tom (+ rank/subcategoria/
+disponivel que já existem).
 
-## 4. Convenções de nota (o que muda na vault)
+Perguntas: (1) esses núcleos servem ou tiro/adiciono algo? (2) `Papel` do
+personagem é texto livre ou vocabulário fixo (Patrão · Aliado · Contato ·
+Antagonista · Testemunha · Vítima)? (3) `Tipo` de cena: a lista acima serve?
+(4) mapa: um por aventura (seção 2.4) basta, ou também mapa por Local (planta
+da oficina)? (5) `subcategoria: One-Shot` da Pós Grenal → vira `Formato` e
+ganha um tipo de missão? (6) o PDF do mapa leva os segredos `[!gm]` ou nunca?
 
-Mudanças mínimas, todas legíveis no Obsidian sem plugin:
+## 7. Fases (depois do OK nos campos)
 
-1. **`## Roteiro`** — nome fixo da seção de cenas, declarado no Contexto Base
-   (`Contexto.aventura.roteiro: Roteiro`; um mundo pode sobrescrever — o POA
-   não precisa). Filhos `###` = cenas, na ordem do texto; `####` dentro da
-   cena = subpartes (fases de combate, pistas, saídas).
-2. **Meta de cena por inline field** (opcional, 1 linha logo abaixo do `###`):
-   `Tipo:: Social` · `Local:: [[Estádio Beira-Rio]]` · `Duração:: 30min`.
-   Vocabulário de `Tipo` registrado no Contexto Base
-   (`aventura.tipos_de_cena: [Social, Exploração, Investigação, Combate,
-   Interlúdio, Epílogo]`) — ícone/cor por tipo vêm de um registro central no
-   app (`tokens`), nunca de `if tipo === …` no render.
-3. **Combates**: dois jeitos, ambos válidos.
-   - inline: fence `combat-marker-small` dentro da cena (one-shot, sem reuso);
-     chave de prep = `<docId>#<cena>#<n>`.
-   - por nota: wikilink pra `Campanhas/Combates/<Nome>` na cena (ou em
-     `Combates:` do FM) — reaproveitável entre aventuras; o prep por monstro
-     fica na nota do combate (já existe).
-4. **Elenco/Locais**: wikilinks. Um NPC só vira card se for nota
-   (`Contexto/Pessoas`, ou Pessoa local). Perfis inline (como os 7 da Pós
-   Grenal) continuam prosa — decisão §9.3.
-5. **Template** `Recursos e Mídia/Templates/Templates de Campanhas/TEMPLATE
-   categoria=Aventura.md` (nas DUAS vaults) ganha, comentado, o esqueleto
-   opcional: `## Roteiro` → `### Cena 1 — Título` → `Tipo::` → `> [!quote]
-   🔊 Ler pra mesa —` → corpo.
-6. **Pós Grenal**: `## Cenas da one-shot` → `## Roteiro`; a seção "Combate
-   final em 2 fases" passa a ser `####` dentro da Cena 6 (os dois fences já
-   estão lá); "Desfechos" vira `### Epílogo` com `Tipo:: Epílogo`. Só mover
-   headings — o texto não muda.
-
-## 5. Sessão
-
-### 5.1 State (aditivo no jsonb — `contract.ts`)
-
-```ts
-interface SessionState {
-  // … existentes …
-  /** Aventura em curso na mesa. Só o MESTRE escreve (updateSessionState, RLS
-   *  gm-only). Jogadores leem: título + cena atual. */
-  aventura?: {
-    docId: string          // id do doc (vault ou local)
-    titulo: string
-    cenaAtual: string | null   // slug da cena (heading → slug estável)
-    concluidas: string[]
-    iniciadaEm: string
-  }
-  /** MURAL: o que o mestre "mostrou pra mesa". Mapa id→item (mesmo padrão do
-   *  inventarioGrupo). Jogadores leem; só o mestre escreve. */
-  mural?: Record<string, MuralItem>
-}
-type MuralItem =
-  | { kind: 'leitura'; texto: string; cena: string; em: string }
-  | { kind: 'bounty'; docId: string; em: string }
-  | { kind: 'imagem'; rel: string; legenda?: string; em: string }
-  | { kind: 'texto'; texto: string; em: string }
-```
-
-Sem migração: `sessions.state` é jsonb e o merge por chave de topo já existe.
-O pleitost-sync ignora chaves extras (comentário do contrato). Nenhuma RPC
-nova: tudo é escrita do mestre.
-
-### 5.2 Combates por cena → `session_encounters`
-
-- **Preparar** (novo botão no bloco de combate dentro de uma aventura):
-  `repo.insertEncounter({ sourceNotePath: '<docId>#<cenaSlug>#<n>', name:
-  '<Cena> — <título do bloco>', roster, difficulty })` → status `prepared` →
-  aparece no card "▶ INICIAR" da Sessão (fluxo existente). O fragmento em
-  `sourceNotePath` é string livre (sem schema) e permite o runner agrupar
-  "combates desta cena".
-- **+ Iniciativa** = o `addRosterToInitiative` de hoje (mantido).
-- **Iniciar aventura** (página da aventura, mestre + sala viva): grava
-  `state.aventura` com `cenaAtual` = primeira cena e prepara TODOS os combates
-  do roteiro de uma vez (idempotente: não duplica `prepared` com o mesmo
-  `sourceNotePath`).
-- Prep por monstro (`encounter-speeds`) passa a receber `encounterPath` também
-  nos fences inline (hoje só a CombateSheet passa) — chave `<docId>#<cena>#<n>`.
-
-### 5.3 Ações do runner (mestre)
-
-`aventura/session-actions.ts` (puro sobre `SessionRepo`, testável com o
-InMemory): `iniciarAventura`, `irParaCena(slug)`, `concluirCena(slug)`,
-`encerrarAventura`, `mostrarNoMural(item)`, `limparMural(id)`. Cada ação = 1
-`updateSessionState` com patch mínimo. Opcional: `insertEvent({type:
-'aventura.cena', payload})` pra histórico — `session_events` existe e está sem
-uso no app; entra só se o user quiser log.
-
-### 5.4 O que o jogador vê
-
-- Painel AVENTURA (Sessão): título + "Cena atual: …" (só o título) + mural.
-- Nada do corpo da nota (Campanhas segue só-mestre). O bounty só aparece se o
-  mestre mostrou no mural — resolve o "spoiler do quadro" sem `GM: true`.
-
-## 6. Módulo novo — `app/src/aventura/` (puro, sem React)
-
-| Arquivo | Responsabilidade | Reusa |
-|---|---|---|
-| `parse-aventura.ts` | `parseAventura(doc, ctx) → AventuraModel` — fatia o corpo em seções pelos headings (`doc.headings` + offsets no `body`), acha `## Roteiro` pelo nome declarado, monta `Cena[]` com slug, corpo, leituras, combates, refs | `doc.headings`, `doc.links` (kind/target por seção), gramática de inline field do extractor (portar 1:1, como `parse-bounty.ts` portou o pleitost-views), `parseCombatMarkerBlocks`/`extract` do `combat-marker.ts` |
-| `cena-slug.ts` | slug estável do título (chave em `state.aventura` e em `sourceNotePath`) | — |
-| `aventura-config.ts` | lê `Contexto.aventura` do `contexto.json` do mundo com fallback base (`roteiro`, `tipos_de_cena`) | `context-def.ts` |
-| `session-actions.ts` | ações §5.3 | `SessionRepo`, `encounter-actions.ts` |
-| `types.ts` | `AventuraModel`, `Cena`, `CenaCombate`, `MuralItem` | `contract.ts` |
-
-Regras: sem `fetch`, sem DOM; toda função pura testada sobre docs REAIS
-(fixture congelada da Pós Grenal adaptada + uma aventura da fantasia só-bounty
-+ o "Encontro"). A UI só consome `AventuraModel`.
-
-## 7. Telas
-
-### 7.1 Página da Aventura (compêndio, `AventuraSheet`) — rework
-
-Leitura vertical (preferência registrada do user), sem grade de cards:
-
-```
-[kicker COMPÊNDIO]
-[BountyCard]                                  ← existe
-Disponível em: 📌 …                           ← existe
-// FICHA   Formato · Duração · Jogadores · Rank · N cenas · N combates
-[▶ Iniciar na sessão] [Preparar combates]     ← mestre + sala viva; senão some
-// ROTEIRO (stepper vertical; cena atual da sessão marcada)
- ● 1 Saída do Gre-Nal          Social · 📍 Beira-Rio
- ○ 2 Fuga subterrânea          Exploração
- ○ 6 Retífica Sertório         Combate
-      ⚔ Fase 1 — 4× Arruaceiro · 1× Guarda   [Preparar] [+ Iniciativa]
-      ⚔ Fase 2 — Guarda Oficial · Guarda       [Preparar] [+ Iniciativa]
-// CENA (expandida ao clicar; a atual expande sozinha)
- 🔊 Ler pra mesa … [Mostrar pra mesa]
- corpo da cena (markdown normal, [!gm] etc.)
- chips: 📍 locais · 👤 pessoas · 🛡 organizações (links pro compêndio)
-// REFERÊNCIA — demais seções, como hoje (coluna de leitura)
-```
-
-Sem roteiro: some o stepper, fica ficha + carta + combates soltos +
-referência. É a página de hoje com mais duas faixas.
-
-### 7.2 Painel AVENTURA na Sessão (`SessaoPage`)
-
-Mestre: título · "cena 3/6" · `◀ ▶` · 🔊 da cena com `Mostrar pra mesa` ·
-combates preparados desta cena (▶ INICIAR, os mesmos cards) · `Abrir no
-compêndio` · `Encerrar aventura`.
-Jogador: título · cena atual · mural (leituras/bounty/imagens na ordem).
-Sem aventura: o painel não aparece (mestre vê "Iniciar uma aventura → abre
-Campanhas/Aventuras").
-
-### 7.3 Design
-
-O design puxado não tem nenhuma das duas. Regra do projeto (memória): tela
-nova = desenhar no Claude Design ("Companion App") e copiar verbatim; enquanto
-não houver, usar a linguagem visual (kicker/painéis/vars) e sinalizar. Proposta:
-**F2 (página) sai na linguagem visual** — é extensão de uma página que já
-existe fora do design; **F3 (painel AVENTURA na Sessão) espera o desenho**, porque
-a Sessão É desenhada e o painel entra no slot "⚙ FERRAMENTAS DE MESTRE — EM
-BREVE". Decisão §9.6.
-
-## 8. Extractor / dataset
-
-- **MVP: nada.** `headings`, `links`, `inlineFields` e `body` já saem.
-- Contexto Base ganha `aventura: { roteiro: Roteiro, tipos_de_cena: [...] }`
-  → `compile-contexto` leva pro `contexto.json` (mesmo caminho do `gm`).
-- Opcional (§9.5): `gm.pastas_mestre: [Campanhas]` no Contexto Base → gm-split
-  move `Campanhas/**` inteiro pro `gm.json` (hoje o corpo das aventuras vai
-  no dataset público, só escondido pela UI).
-
-## 9. Decisões abertas (pro user)
-
-1. **Nome da seção de cenas**: `## Roteiro` (proposta) — declarado no Contexto
-   Base. Alternativa: `## Cenas`.
-2. **`subcategoria: One-Shot`** da Pós Grenal: (a) manter e aceitar "One-Shot"
-   como tipo de missão (entra no registro `BOUNTY_SUBCAT` com ícone) ou (b)
-   mover pra `Formato: One-Shot` e dar um tipo de missão real (ex.:
-   "Recuperação de Relíquia"). Proposta: (b).
-3. **NPCs de aventura**: só inline (como está) ou notas de Pessoa numa subpasta
-   (`Contexto/Pessoas/Pós Grenal/`) pra virarem cards/links no app. Proposta:
-   promover só os que voltam em outras aventuras (Arlindo, Brum); o resto fica
-   inline.
-4. **Mural pros jogadores** no MVP (F4) ou depois. Proposta: F4 — é o que dá
-   "mostrar pra mesa" e substitui o `GM: true` do bounty.
-5. **Campanhas no `gm.json`** (dataset público sem corpo de aventura): sim/não.
-   Proposta: sim, é 1 chave declarada + 1 filtro no gm-split.
-6. **Design**: F3 espera desenho no Claude Design; F2 sai na linguagem visual.
-7. **Log em `session_events`** ("cena avançou"): adiar.
-8. **Editor de roteiro pra aventura LOCAL** (criada no app): adiar — hoje a
-   local é só FM; a autoria de cena continua na vault.
-
-## 10. Fases / commits (verde a verde, deploy por fase — padrão do repo)
-
-| Fase | Entrega | DoD (teste) |
-|---|---|---|
-| **F0** | este doc aprovado; Contexto Base com `aventura.*`; template + Pós Grenal adaptados nas vaults (headings e inline fields, texto intacto) | extract das duas vaults verde; `contexto.json` com `aventura` |
-| **F1** | `app/src/aventura/` puro | vitest sobre fixtures reais: Pós Grenal → 7 cenas (6 + Epílogo), Cena 6 com 2 combates, refs por tipo; fantasia só-bounty → `roteiro: null`; "Encontro" → 1 combate solto; slug estável; roteiro sob nome sobrescrito pelo mundo |
-| **F2** | `AventuraSheet` rework (ficha, stepper, cena expandida, `Preparar`/`+ Iniciativa` com `encounterPath`, chips) | jsdom: botões só com mestre + sala viva (InMemory); `Preparar` cria `prepared` com `sourceNotePath` fragmentado e não duplica; fence inline sem aventura continua igual (regressão `combate-encontro-266`) |
-| **F3** | `state.aventura` + ações + painel AVENTURA (mestre/jogador) | InMemory: iniciar → cenaAtual = 1ª; ▶ avança; combates da cena listados; jogador vê só título/cena; troca de mundo desconecta (já existe) |
-| **F4** | mural (`Mostrar pra mesa` em 🔊/bounty/imagem) | jogador recebe item; mestre limpa; sanitize no consumo |
-| **F5** (opc.) | `gm.pastas_mestre`; log de eventos; editor de roteiro local | — |
-
-Cada fase: `tsc` + vitest + build verdes → push main → `npm run deploy`
-(regra do pleitost-app). Vault: commits de conteúdo separados, sem tag.
-
-## 11. Riscos e limites
-
-- **Headings como estrutura**: renomear um `###` muda o slug → `cenaAtual`
-  aponta pro nada. Mitigação: o runner cai pra "cena não encontrada, volte
-  pra 1ª" e o slug ignora numeração/emoji ("Cena 1 — Saída…" → `saida-do-gre-nal`).
-- **Fences inline vs. `parseCombatMarkerBlocks`** (regra MVP do sync: nota com
-  2+ blocos é rejeitada): o parser de cena usa a extração por bloco, não a
-  função de nota inteira — a regra do sync fica intacta pra `type: Combate`.
-- **Duplicidade de combate preparado**: idempotência por `sourceNotePath`.
-- **Aventura local sem corpo**: continua carta-only até F5 — dito de saída.
-- **Mundo**: nada de específico; o reskin entra em nomes (já), bestiário do
-  mundo resolve o roster (já), Marcas/Cz$ pelo bounty (já).
+F0 template + Contexto Base + Pós Grenal no formato · F1 parser puro + testes ·
+F2 AventuraSheet por seção (sem sessão) + expand inline · F3 mapa + PDF ·
+F4 combates com Preparar/+Iniciativa e `state.aventura` · F5 painel AVENTURA na
+Sessão (após design) · F6 mural. Cada fase verde → push → deploy.
