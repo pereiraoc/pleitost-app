@@ -119,6 +119,9 @@ function lerNota(path) {
 
 function limpar(md) {
   let s = md
+  // linha-tag do Obsidian (#Pessoa/#Local) — remover INTEIRA antes do strip de
+  // chars, senão vira a palavra solta "Pessoa" no excerto do prompt
+  s = md.replace(/^ *#[^\s#]\S*(?: +#[^\s#]\S*)* *$/gm, ' ')
   s = s.replace(/%%[\s\S]*?%%/g, ' ')
   s = s.replace(/```[\s\S]*?```/g, ' ')
   // callouts de GM inteiros (a linha [!gm] e as linhas citadas seguintes)
@@ -731,6 +734,25 @@ const CENA_LOCAL = {
 // canônico automaticamente (a pasta do Atlas diz o bairro).
 const AGUA_POR_PASTA = { 'Centro Histórico': AGUA_CENTRO }
 
+// Pessoas do Contexto (retratos de NPC): grounded SÓ no público — Função/
+// Organização/Aparência do FM + corpo limpo (o `limpar` já corta [!gm];
+// Personalidade/Objetivos são campos de MESTRE e ficam fora do prompt).
+// Rosto VISÍVEL de propósito: são NPCs nomeados (≠ Empregados anônimos).
+function promptPessoa(nome, fm, excerto) {
+  const jaCitada = fm['Organização'] && (fm['Função'] ?? '').includes(fm['Organização'])
+  const org = fm['Organização'] && !jaCitada ? ` — ligada a ${fm['Organização']}` : ''
+  return (
+    `Retrato de personagem (NPC) para o RPG, ${MUNDO}.` +
+    ` "${nome}"${fm['Função'] ? `: ${fm['Função']}` : ''}${org}.` +
+    (fm['Aparência'] ? ` Aparência: ${fm['Aparência']}` : '') +
+    (excerto ? ` Contexto do personagem: ${excerto}` : '') +
+    ` Meio-corpo, rosto visível e expressivo, pose e cenário que contam a função — Porto Alegre reconhecível ao fundo quando couber.` +
+    ` Figurino, cabelo e objetos verossímeis do Brasil de 1987 (nada medieval).` +
+    ` Estilo: pintura digital cinematográfica SEMIRREALISTA — o MESMO estilo das demais ilustrações do sistema.` +
+    ` Sem texto legível. Formato retrato 1024×1536.`
+  )
+}
+
 function promptLocal(nome, sub, bairro, excerto, pasta) {
   const cena = CENA_LOCAL[nome]
   if (cena)
@@ -845,6 +867,21 @@ for (const path of walk(join(VAULT, 'Contexto/Organizações'))) {
     out: join(CTX_ROOT, 'Organizações', `${base}.png`),
     size: '1536x1024', transparente: false,
     prompt: promptOrganizacao(base, fm.subcategoria, excerto),
+  })
+}
+
+// Pessoas (Contexto/Pessoas) — nomes já são do mundo (notas nativas da POA)
+for (const path of walk(join(VAULT, 'Contexto/Pessoas'))) {
+  const base = basename(path, '.md')
+  if (base === basename(dirname(path))) continue
+  const { fm, corpo } = lerNota(path)
+  add({
+    cat: 'Pessoas', sub: 'Pessoas', chave: `Pessoas/${base}`, base, novo: base,
+    ref: null,
+    inbox: join(INBOX, 'Pessoas', `${base}.png`),
+    out: join(CTX_ROOT, 'Pessoas', `${base}.png`),
+    size: '1024x1536', transparente: false,
+    prompt: promptPessoa(base, fm, cap(limpar(corpo), 450)),
   })
 }
 
