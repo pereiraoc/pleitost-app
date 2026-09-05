@@ -119,6 +119,45 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     if (!basenames.has(b)) problems.push(`disponibilidade.restritos: "${b}" não existe na vault`);
   }
 
+  // Régua da LOJA por mundo (#72 no mundo): linhas CANÔNICAS (o FM Comércio
+  // dos locais aponta pra elas) com rótulo do mundo + % por tier. Célula
+  // "33%"/33 → número; "—"/null → indisponível.
+  const LINHAS_MATRIZ = ["Pequena Cidade", "Grande Cidade", "Capital", "Iluminada"];
+  const TIERS_MATRIZ = [["Adepto", "A"], ["Experiente", "E"], ["Mestre", "M"]];
+  let matriz = null;
+  if (dispIn.matriz !== undefined) {
+    if (!isPlainObject(dispIn.matriz)) {
+      problems.push("disponibilidade.matriz: esperado mapa linha → células");
+    } else {
+      matriz = {};
+      for (const [linha, celulas] of Object.entries(dispIn.matriz)) {
+        if (!LINHAS_MATRIZ.includes(linha)) {
+          problems.push(`disponibilidade.matriz: linha "${linha}" não é canônica (${LINHAS_MATRIZ.join("/")})`);
+          continue;
+        }
+        if (!isPlainObject(celulas)) {
+          problems.push(`disponibilidade.matriz.${linha}: esperado mapa de células`);
+          continue;
+        }
+        const row = { rotulo: typeof celulas.rotulo === "string" && celulas.rotulo.trim() ? celulas.rotulo.trim() : linha };
+        for (const [col, key] of TIERS_MATRIZ) {
+          const raw = celulas[col];
+          if (raw === undefined || raw === null || String(raw).trim() === "—" || String(raw).trim() === "") {
+            row[key] = null;
+          } else {
+            const n = Number(String(raw).replace("%", "").trim());
+            if (Number.isFinite(n)) row[key] = n;
+            else { problems.push(`disponibilidade.matriz.${linha}.${col}: "${raw}" não é % nem "—"`); row[key] = null; }
+          }
+        }
+        matriz[linha] = row;
+      }
+      for (const linha of LINHAS_MATRIZ) {
+        if (!matriz[linha]) problems.push(`disponibilidade.matriz: linha canônica "${linha}" ausente`);
+      }
+    }
+  }
+
   // Garantia do Base: sempre_disponiveis não podem ser excluídos por contexto.
   const baseDef = doBase[0]?.contexto ?? {};
   const sempreDisponiveis = asStringArray(
@@ -204,7 +243,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     atlas: { raiz: atlas.raiz, mapa: atlas.mapa ?? null },
     pericias,
     reskin: { notas, notasFuturas, termos, excecoes, descricoes },
-    disponibilidade: { padrao, indisponiveis, restritos },
+    disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
     base: { sempreDisponiveis, conteudoDeMundo },
     regras,
   };

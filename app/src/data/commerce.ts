@@ -264,6 +264,29 @@ export function matrixFromNote(noteBody: string | undefined | null): Availabilit
   return parsed ?? cloneMatrix(DEFAULT_MATRIX)
 }
 
+/** Régua da loja definida pelo MUNDO no Contexto (disponibilidade.matriz,
+ *  aprovado 2026-09-05): linhas CANÔNICAS com rótulo do mundo + % por tier.
+ *  null quando o def não define (fantasia → DEFAULT_MATRIX/nota). */
+export interface MatrizMundo {
+  valores: AvailabilityMatrix
+  rotulos: Record<LocalType, string>
+}
+export function matrizDoContexto(
+  def: Pick<import('./context-def').ContextoDef, 'disponibilidade'> | null | undefined,
+): MatrizMundo | null {
+  const m = def?.disponibilidade?.matriz
+  if (!m) return null
+  const valores = {} as AvailabilityMatrix
+  const rotulos = {} as Record<LocalType, string>
+  for (const lt of LOCAL_TYPES) {
+    const row = m[lt]
+    if (!row) return null
+    valores[lt] = { A: row.A ?? null, E: row.E ?? null, M: row.M ?? null }
+    rotulos[lt] = row.rotulo?.trim() || lt
+  }
+  return { valores, rotulos }
+}
+
 export function cloneMatrix(m: AvailabilityMatrix): AvailabilityMatrix {
   const out = {} as AvailabilityMatrix
   for (const t of LOCAL_TYPES) out[t] = { ...m[t] }

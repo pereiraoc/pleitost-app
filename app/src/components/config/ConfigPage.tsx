@@ -15,6 +15,7 @@ import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, MODES, type ThemeName } from
 import { useCatalog } from '../../data/CatalogContext'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
+import { activeContextoDef } from '../../data/reskin'
 import { useIsSessionMestre } from '../../data/session-mestre'
 import { DevPublishPanel } from './DevPublishPanel'
 import { tokens } from '../ficha/registry'
@@ -22,6 +23,7 @@ import { useSyncExternalStore } from 'react'
 import {
   COMBO_MULT,
   LOCAL_TYPES,
+  matrizDoContexto,
   POCAO_DICE,
   RARIDADE_MULT,
   TESOUROS_BASICOS,
@@ -310,6 +312,9 @@ function MatrixCell({
  *  Mestre ATIVADO (é config de GM). Default = a tabela da nota real. */
 function DisponibilidadeSection() {
   const { disponibilidade, setDisponibilidadeCell, resetDisponibilidade } = useSettings()
+  // Rótulos do MUNDO pras linhas canônicas (Contexto POA: Boca de Bairro,
+  // Rua de Comércio, Centro, Mercadão) — fantasia mostra o nome canônico.
+  const rotulosMatriz = matrizDoContexto(activeContextoDef())?.rotulos
   const th: CSSProperties = {
     fontFamily: 'var(--mono)',
     fontSize: 10,
@@ -356,7 +361,7 @@ function DisponibilidadeSection() {
           {LOCAL_TYPES.map((lt: LocalType) => (
             <tr key={lt}>
               <td style={{ fontSize: 12.5, fontWeight: 600, padding: '4px 8px', whiteSpace: 'nowrap' }}>
-                {lt}
+                {rotulosMatriz?.[lt] ?? lt}
               </td>
               {TIERS.map((t: Tier) => (
                 <td key={t} style={{ padding: '3px 4px', textAlign: 'center' }}>
@@ -440,6 +445,7 @@ function MultiplicadoresSection() {
  *  disponível). Informativo: é a lógica que a loja usa. */
 function PocoesSection() {
   useSistemaVersion()
+  const rotulosMatriz = matrizDoContexto(activeContextoDef())?.rotulos
   const th: CSSProperties = {
     fontFamily: 'var(--mono)',
     fontSize: 10,
@@ -471,7 +477,7 @@ function PocoesSection() {
           {LOCAL_TYPES.map((lt: LocalType) => (
             <tr key={lt}>
               <td style={{ fontSize: 12.5, fontWeight: 600, padding: '4px 8px', whiteSpace: 'nowrap' }}>
-                {lt}
+                {rotulosMatriz?.[lt] ?? lt}
               </td>
               {TIERS.map((t: Tier) => (
                 <td key={t} style={{ padding: '3px 4px', textAlign: 'center' }}>

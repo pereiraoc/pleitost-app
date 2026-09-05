@@ -30,6 +30,12 @@ let ativo: Compilado | null = null
 
 const escRx = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+/** ContextoDef ATIVO (sync) — consumidores fora do React (settings/loja)
+ *  leem a camada de mundo daqui; null = fantasia. */
+export function activeContextoDef(): ContextoDef | null {
+  return ativo?.def ?? null
+}
+
 /** CatalogProvider seta ao trocar/carregar o mundo; null = sem reskin. */
 export function setActiveContexto(def: ContextoDef | null): void {
   if (!def) {

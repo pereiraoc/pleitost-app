@@ -8,11 +8,14 @@ import {
   cloneMatrix,
   DEFAULT_MATRIX,
   LOCAL_TYPES,
+  matrizDoContexto,
   TIERS,
   type AvailabilityMatrix,
   type LocalType,
   type Tier,
 } from './data/commerce'
+import { activeContextoDef } from './data/reskin'
+import { activeWorld } from './data/world'
 
 const MESTRE_KEY = 'pleitost.settings.mestre'
 // Modo Desenvolvedor (#252, F8): libera as afordâncias de EDIÇÃO do compêndio
@@ -25,6 +28,17 @@ const DESENVOLVEDOR_KEY = 'pleitost.settings.desenvolvedor'
 // body); quando o GM edita, o override completo é persistido aqui e a rolagem
 // da loja passa a usá-lo.
 const DISPONIBILIDADE_KEY = 'pleitost.settings.disponibilidade'
+/** Override do GM guardado POR MUNDO (fantasia usa a chave legada). */
+function dispKey(): string {
+  const w = activeWorld()
+  return w === 'fantasia' ? DISPONIBILIDADE_KEY : `${DISPONIBILIDADE_KEY}.${w}`
+}
+/** BASE da matriz no mundo ativo: a `disponibilidade.matriz` do Contexto
+ *  (aprovado 2026-09-05) quando o mundo define; senão a régua da fantasia. */
+function baseDisponibilidade(): AvailabilityMatrix {
+  const mundo = matrizDoContexto(activeContextoDef())
+  return mundo ? cloneMatrix(mundo.valores) : cloneMatrix(DEFAULT_MATRIX)
+}
 // #303: ícones "supercharged" nos wikilinks (emoji do tipo do doc-alvo). Default
 // LIGADO — como na vault; o usuário pode desligar no CONFIG.
 const LINK_ICONS_KEY = 'pleitost.settings.linkIcons'
@@ -47,9 +61,9 @@ export interface Settings {
 /** Carrega o override da matriz do localStorage, tolerante a chaves ausentes/
  *  corrompidas — cai no DEFAULT_MATRIX por célula, nunca crasha. */
 function loadDisponibilidade(): AvailabilityMatrix {
-  const base = cloneMatrix(DEFAULT_MATRIX)
+  const base = baseDisponibilidade()
   try {
-    const raw = localStorage.getItem(DISPONIBILIDADE_KEY)
+    const raw = localStorage.getItem(dispKey())
     if (!raw) return base
     const parsed = JSON.parse(raw) as Partial<Record<LocalType, Partial<Record<Tier, unknown>>>>
     for (const lt of LOCAL_TYPES) {
@@ -149,7 +163,7 @@ function setDisponibilidadeCell(localType: LocalType, tier: Tier, value: number 
   next[localType][tier] = value
   state = { ...cur, disponibilidade: next }
   try {
-    localStorage.setItem(DISPONIBILIDADE_KEY, JSON.stringify(next))
+    localStorage.setItem(dispKey(), JSON.stringify(next))
   } catch {
     /* memória continua a fonte da sessão */
   }
@@ -159,9 +173,9 @@ function setDisponibilidadeCell(localType: LocalType, tier: Tier, value: number 
 /** Restaura a matriz de disponibilidade para os defaults da nota. */
 function resetDisponibilidade() {
   const cur = getSettings()
-  state = { ...cur, disponibilidade: cloneMatrix(DEFAULT_MATRIX) }
+  state = { ...cur, disponibilidade: baseDisponibilidade() }
   try {
-    localStorage.removeItem(DISPONIBILIDADE_KEY)
+    localStorage.removeItem(dispKey())
   } catch {
     /* noop */
   }
@@ -191,6 +205,15 @@ export function useSettings() {
 /** Snapshot não-reativo da matriz (para módulos fora de React, ex. rolagem). */
 export function getDisponibilidadeMatrix(): AvailabilityMatrix {
   return getSettings().disponibilidade
+}
+
+/** Recarrega a matriz de disponibilidade do MUNDO ativo — o CatalogProvider
+ *  chama após setActiveContexto (o def chega async depois do boot; sem isso a
+ *  loja do cyberpunk rolava com a régua da fantasia). */
+export function reloadDisponibilidade(): void {
+  if (state === null) return // ainda não carregado — o load inicial já resolve
+  state = { ...state, disponibilidade: loadDisponibilidade() }
+  for (const cb of listeners) cb()
 }
 
 /** SÓ testes: zera o cache em memória (simula reload). */

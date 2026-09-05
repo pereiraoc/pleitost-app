@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { docPath } from '../../paths'
-import { reskinName, reskinText } from '../../data/reskin'
+import { activeContextoDef, reskinName, reskinText } from '../../data/reskin'
 import { useDetail } from '../../data/detail-context'
 import { leafletZoom, markerVisivel, markerGlyph } from '../../map/leaflet-local'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
@@ -27,6 +27,7 @@ import {
 import { useSettings } from '../../settings'
 import { podeComerciar, useGroupStoreVersion } from '../../data/group-store'
 import {
+  matrizDoContexto,
   TIER_COLUNA,
   DEFAULT_ENCOMENDA_MATRIX,
   localTypeOfDoc,
@@ -762,10 +763,15 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   }, [shop, localType, built, disponibilidade, doc.id])
 
   // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não
-  // têm loja de tesouros — mostra o empty state honesto.
+  // têm loja de tesouros — mostra o empty state honesto, com os RÓTULOS do
+  // mundo ativo quando o Contexto define a régua (Boca de Bairro etc.).
   if (!localType) {
+    const rotulos = matrizDoContexto(activeContextoDef())?.rotulos
+    const tipos = rotulos
+      ? [rotulos['Pequena Cidade'], rotulos['Grande Cidade'], rotulos['Capital']].join(', ')
+      : 'Pequena Cidade, Grande Cidade, Capital'
     return (
-      <EmptyPanel note="Só cidades (Pequena Cidade, Grande Cidade, Capital) têm disponibilidade de tesouros na nota de regras.">
+      <EmptyPanel note={`Só locais com comércio marcado (${tipos}) têm disponibilidade de tesouros na régua do mundo.`}>
         {'// SEM COMÉRCIO DE TESOUROS'}
       </EmptyPanel>
     )

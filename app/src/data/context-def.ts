@@ -48,6 +48,10 @@ export interface ContextoDef {
     indisponiveis: string[]
     /** basename → onde/como se obtém (fornecedor, tarja, região). */
     restritos: Record<string, string>
+    /** Régua da LOJA do mundo (aprovado 2026-09-05): linhas CANÔNICAS
+     *  (Pequena/Grande Cidade, Capital, Iluminada — o FM Comércio dos locais
+     *  aponta pra elas) com rótulo do mundo + % por tier (null = "—"). */
+    matriz?: Record<string, { rotulo?: string; A: number | null; E: number | null; M: number | null }>
   }
   /** Garantias e limites do Contexto Base. */
   base: {

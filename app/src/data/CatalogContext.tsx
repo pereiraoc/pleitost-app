@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { fetchCatalogForWorld, type Catalog } from './catalog'
 import { setActiveContexto } from './reskin'
 import { useWorld } from './world'
-import { useSettings } from '../settings'
+import { reloadDisponibilidade, useSettings } from '../settings'
 import { loadGmBundle, clearGmBundle } from './gm-bundle'
 
 const CatalogContext = createContext<Catalog | null>(null)
@@ -24,6 +24,7 @@ export function CatalogProvider({ children, catalog }: Props) {
     if (catalog) {
       // Injeção de teste: reskin acompanha o catálogo injetado (default: off).
       setActiveContexto(catalog.contextoDef ?? null)
+      reloadDisponibilidade()
       return
     }
     let alive = true
@@ -39,6 +40,8 @@ export function CatalogProvider({ children, catalog }: Props) {
         // #519: ativa o reskin do mundo ANTES dos filhos renderizarem —
         // funciona também em cache-hit (o def viaja dentro do Catalog).
         setActiveContexto(loaded.contextoDef ?? null)
+        // matriz da loja acompanha o mundo (base do Contexto, #72 no mundo)
+        reloadDisponibilidade()
         setState({ catalog: loaded })
       },
       (error: Error) => alive && setState({ error }),
