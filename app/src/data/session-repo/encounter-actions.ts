@@ -22,7 +22,7 @@ import type {
   SessionCharacter,
   SessionRepo,
 } from './contract'
-import type { LiveSession } from './live-session'
+import { setLiveSession, type LiveSession } from './live-session'
 
 /** Input de criação de NPC (shape do startEncounter/insertCharacter). */
 export interface NpcInsertInput {
@@ -406,6 +406,33 @@ export async function addMonsterToInitiative(opts: {
       ? { ...ts, order: [...ts.order, ...novos] }
       : { order: novos, currentIndex: 0, round: 1, started: true },
   )
+}
+
+/** FORMATO DE AVENTURA (2026-09-05): PREPARA um combate na sessão (status
+ *  `prepared` → card "▶ INICIAR" da Sessão) a partir do roster de um bloco de
+ *  cena. IDEMPOTENTE por `sourceNotePath` (`<docId>#<cena>#<n>`): preparar de
+ *  novo não duplica. Atualiza a sessão viva localmente (o compêndio não assina
+ *  o realtime — só a página da Sessão). */
+export async function prepareEncounterFromRoster(opts: {
+  repo: SessionRepo
+  live: LiveSession
+  name: string
+  sourceNotePath: string
+  entries: readonly EncounterRosterEntry[]
+  difficulty: Encounter['difficulty']
+}): Promise<'created' | 'exists'> {
+  const { repo, live, name, sourceNotePath, entries, difficulty } = opts
+  const existente = live.encounters.find((e) => e.status === 'prepared' && e.sourceNotePath === sourceNotePath)
+  if (existente) return 'exists'
+  const enc = await repo.insertEncounter({
+    sessionId: live.sessionId,
+    sourceNotePath,
+    name,
+    roster: { entries: entries.map((e) => ({ ...e })) },
+    difficulty,
+  })
+  setLiveSession({ ...live, encounters: [...live.encounters, enc] })
+  return 'created'
 }
 
 /** #266: ROSTER inteiro (visualizador de combate) → iniciativa da sessão

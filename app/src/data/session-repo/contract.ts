@@ -211,6 +211,19 @@ export interface SessionState {
    *  GM (mapa-atlas-store). O MESTRE empurra o blob; jogadores só leem
    *  (sanitize no consumo). Replace por chave, como a exploração. */
   mapaAtlas?: unknown
+  /** AVENTURA EM CURSO na mesa (formato de aventura, 2026-09-05): qual nota
+   *  está rodando e a cena atual. Só o MESTRE escreve (updateSessionState,
+   *  RLS gm-only); jogadores leem título + cena atual. Replace por chave, como
+   *  a exploração. Ausente = nenhuma aventura iniciada. */
+  aventura?: {
+    /** id do doc (vault ou local). */
+    docId: string
+    titulo: string
+    /** slug da cena atual (parse-aventura/slug) — null = ainda na Abertura. */
+    cenaAtual: string | null
+    concluidas: string[]
+    iniciadaEm: string
+  }
   /** #430: LUGARES/ÁREAS do hexmap mapa:mundo autorados pelo GM (hexmap-store).
    *  Antes viviam só no user_state por-conta → jogadores não viam. O MESTRE
    *  empurra as células editadas; jogadores adotam no store local. Replace por

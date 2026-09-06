@@ -2371,3 +2371,383 @@ a[data-link-icon]::before {
   font-size: 0.95rem;
   max-width: 70ch;
 }
+
+/* ═══════════ FORMATO DE AVENTURA (2026-09-05) — página por seção ═══════════ */
+.av-formato {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 46rem;
+}
+.av-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.av-titulo {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+}
+.av-header-acoes {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.av-btn,
+.av-btn-mini {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 8px 14px;
+  cursor: pointer;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  text-decoration: none;
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+}
+.av-btn-mini {
+  padding: 5px 10px;
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid var(--line2);
+  color: var(--text);
+}
+.av-btn-mini.is-red {
+  color: var(--red);
+  border-color: var(--red);
+}
+.av-nav {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line2);
+}
+.av-nav button {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  color: var(--muted);
+  cursor: pointer;
+}
+.av-nav button:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line2));
+}
+.av-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-margin-top: 56px;
+}
+.av-sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--line2);
+  padding-bottom: 6px;
+}
+.av-sub-titulo {
+  margin: 8px 0 4px;
+  font-size: 17px;
+  font-weight: 800;
+}
+.av-estrutura,
+.av-roteiro,
+.av-mapa,
+.av-abertura,
+.av-desfecho {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+}
+.av-totais {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.av-roteiro-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.av-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 3px 9px;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  color: var(--text);
+  clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));
+}
+.av-chip.is-cena {
+  cursor: pointer;
+  color: var(--accent);
+}
+.av-chip.is-tipo {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.av-chip.is-atual {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.av-chip.is-morto {
+  color: var(--muted);
+}
+/* registros (personagem/local) */
+.av-registros {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.av-registro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+}
+.av-registro.is-embedded {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.is-destacado > .av-registro {
+  border-color: var(--accent);
+}
+.av-registro-nome {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+.av-refrow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.av-refrow-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.av-ref {
+  background: var(--card);
+}
+.av-ref > .av-chip-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+}
+.av-chip-tipo {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.av-frases-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.av-frase {
+  padding: 8px 12px;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-radius: 12px 12px 12px 2px;
+  font-style: italic;
+}
+.av-frase p {
+  margin: 0;
+}
+/* 🔊 ler pra mesa */
+.av-leitura {
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+}
+.av-leitura-titulo {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.av-leitura-texto {
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.av-leitura-texto p {
+  margin: 0.3em 0;
+}
+.callout-quote {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.av-segredo {
+  margin: 0;
+}
+/* cenas */
+.av-cenas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.av-cena {
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+  scroll-margin-top: 56px;
+}
+.av-cena.is-atual {
+  border-color: var(--accent);
+}
+.av-cena-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 0 0;
+}
+.av-cena-toggle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.av-cena-n {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: 12px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line2);
+  border-radius: 50%;
+  color: var(--accent);
+}
+.av-cena.is-aberta .av-cena-n {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
+}
+.av-cena-titulo {
+  font-weight: 800;
+  font-size: 15px;
+}
+.av-cena-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 16px 16px;
+  border-top: 1px solid var(--line2);
+}
+.av-combate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--red) 40%, var(--line2));
+  border-radius: 10px;
+}
+.combat-roster-add.is-preparar {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  margin-right: 8px;
+}
+/* trancada */
+.av-chamada {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  font-style: italic;
+}
+.av-trancado-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.av-trancado-chip {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 12px;
+  padding: 3px 9px;
+  background: var(--card);
+  border: 1px solid var(--line2);
+}
+.av-trancado-chip-k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.aventura-locked-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  color: var(--text);
+}
+.aventura-locked-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.aventura-locked-nome {
+  font-weight: 800;
+  font-size: 16px;
+}

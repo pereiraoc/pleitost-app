@@ -13,11 +13,15 @@ export interface CalloutField {
 }
 
 /** Casa `**Rótulo:** valor` no início de uma linha de callout já sem o `> `
- *  (tolera emoji/decoração antes do negrito). Rótulos que são wikilinks
- *  (`**[[Org]]:**` — sub-entradas de lista) NÃO viram campo próprio; ficam
- *  como continuação do campo anterior. */
+ *  (tolera emoji/decoração antes do negrito). MESMA regra do gm-split do
+ *  extractor (CAMPO_RE, 2026-09-05): o DOIS-PONTOS junto do negrito é
+ *  obrigatório — nome em negrito na prosa ("**(A)** pego…", "**Largo** *(…)*")
+ *  não é campo — e linha que começa com bullet é CONTINUAÇÃO do campo
+ *  corrente (sub-entradas `- **[[Org]]:**`, opções `- **(A)** …`). Rótulo
+ *  começa com letra. */
 function matchLabel(stripped: string): { label: string; rest: string } | null {
-  const m = /^[^\w[\]*]*\*\*([^*[\]]+?):?\*\*:?\s*(.*)$/.exec(stripped)
+  if (/^\s*[-*+]\s/.test(stripped)) return null
+  const m = /^[^\w[\]*]*\*\*(\p{L}[^:*[\]]*?)(?::\*\*|\*\*:)\s*(.*)$/u.exec(stripped)
   if (!m) return null
   return { label: m[1]!.trim(), rest: m[2]! }
 }

@@ -15,6 +15,7 @@ import { useTheme, ACCENT_COLORS, THEMES, CONTEXTS, MODES, type ThemeName } from
 import { useCatalog } from '../../data/CatalogContext'
 import { APP_VERSION } from '../../pwa-update'
 import { useSettings } from '../../settings'
+import { clearDevKey, setDevSenha } from '../../data/doc-lock'
 import { activeContextoDef } from '../../data/reskin'
 import { useIsSessionMestre } from '../../data/session-mestre'
 import { DevPublishPanel } from './DevPublishPanel'
@@ -789,6 +790,9 @@ function DevModeSection({
   const ativar = async () => {
     try {
       if ((await sha256Hex(senha)) === DEV_SENHA_SHA256) {
+        // SENHA POR AVENTURA: a chave do dev (derivada, não a senha) destrava
+        // toda aventura trancada enquanto o modo estiver ligado (doc-lock).
+        await setDevSenha(senha)
         setDesenvolvedor(true)
         setSenha('')
         setErro(false)
@@ -801,7 +805,10 @@ function DevModeSection({
     return (
       <ConfigRow ic="🛠️" label="MODO DESENVOLVEDOR">
         <button
-          onClick={() => setDesenvolvedor(false)}
+          onClick={() => {
+            clearDevKey()
+            setDesenvolvedor(false)
+          }}
           style={{
             padding: '7px 14px',
             background: 'transparent',

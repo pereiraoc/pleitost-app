@@ -49,7 +49,7 @@ import {
 } from '../data/encounter-speeds'
 import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useLiveSession } from '../data/session-repo/live-session'
-import { addRosterToInitiative } from '../data/session-repo/encounter-actions'
+import { addRosterToInitiative, prepareEncounterFromRoster } from '../data/session-repo/encounter-actions'
 
 /** Parseia o roster de um fence combat-marker cru (só o conteúdo entre as
  *  cercas). Reusa splitBlockSource + parseRosterLine (combat-marker.ts): o
@@ -79,13 +79,20 @@ export function CombatMarkerBlock({
   code,
   roster: rosterProp,
   encounterPath,
+  nome,
 }: {
   code?: string
   roster?: EncounterRoster
   /** Caminho do doc do encontro (doc.id) — chave do prep de velocidade/estado
    *  por monstro. Só a página de Combate passa; no fence cru fica undefined
-   *  (aí a atribuição do GM não aparece). */
+   *  (aí a atribuição do GM não aparece). Formato de Aventura: `<docId>#<cena>#<n>`
+   *  — também vira o sourceNotePath do combate PREPARADO. */
   encounterPath?: string
+  /** Nome do combate na sessão (Formato de Aventura: "<Aventura> · Cena N —
+   *  Fase k"). Com `nome` + `encounterPath`, o bloco ganha o botão PREPARAR
+   *  (combate `prepared` → card "▶ INICIAR" da Sessão), além do "+ Adicionar
+   *  à sessão" (iniciativa agora). Sem nome, o nome do encounter é "Combate". */
+  nome?: string
 }) {
   const catalog = useCatalog()
   const detail = useDetail()
@@ -175,13 +182,32 @@ export function CombatMarkerBlock({
       catalog,
       live,
       memberId: user.id,
-      name: 'Combate',
+      name: nome ?? 'Combate',
       entries: roster.entries,
       mask: { invisivel, disfarcado },
       preps,
     })
     const total = roster.entries.reduce((n, e) => n + Math.max(1, e.qty), 0)
     setStatus(`${total} combatente${total === 1 ? '' : 's'} adicionado${total === 1 ? '' : 's'} à iniciativa.`)
+  }
+
+  // Formato de Aventura: PREPARAR (status prepared) — o card "▶ INICIAR" da
+  // Sessão faz o resto. Idempotente por encounterPath.
+  const podePreparar = podeAdicionar && !!nome && !!encounterPath
+  const preparar = async () => {
+    if (!repo || !live || !nome || !encounterPath) return
+    const heroSnapshot = (live.characters ?? [])
+      .filter((c) => c.kind === 'heroi')
+      .map((h) => ({ nome: h.summary.nome, nivel: h.summary.nivel }))
+    const r = await prepareEncounterFromRoster({
+      repo,
+      live,
+      name: nome,
+      sourceNotePath: encounterPath,
+      entries: roster.entries,
+      difficulty: partyDif ? { ...partyDif.result, ...(heroSnapshot.length ? { heroSnapshot } : {}) } : null,
+    })
+    setStatus(r === 'created' ? `Combate "${nome}" preparado na sessão.` : `Combate "${nome}" já estava preparado.`)
   }
 
   return (
@@ -355,6 +381,16 @@ export function CombatMarkerBlock({
                 <span>Iniciar disfarçado</span>
               </label>
             </div>
+            {podePreparar ? (
+              <button
+                type="button"
+                className="combat-roster-add is-preparar"
+                onClick={() => void preparar()}
+                title="Deixa o combate preparado na Sessão (card ▶ INICIAR)"
+              >
+                ⏳ Preparar na sessão
+              </button>
+            ) : null}
             <button
               type="button"
               className="combat-roster-add"

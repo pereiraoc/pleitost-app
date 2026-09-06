@@ -26,6 +26,9 @@ const AtlasMapaPage = lazy(() =>
 const FichaPapelPage = lazy(() =>
   import('./print/FichaPapelPage').then((m) => ({ default: m.FichaPapelPage })),
 )
+const MapaPapelPage = lazy(() =>
+  import('./print/MapaPapelPage').then((m) => ({ default: m.MapaPapelPage })),
+)
 
 /** Fallback discreto enquanto o chunk da rota carrega. */
 function RouteFallback() {
@@ -70,6 +73,8 @@ const router = createBrowserRouter(
     },
     // FICHA DE PAPEL (export #452): rota IRMÃ do AppShell — a pré-visualização
     // A4 não tem sidebars e o print pega só as folhas.
+    // MAPA DA AVENTURA em papel (formato de aventura): mesma família de rota.
+    { path: '/papel/mapa/*', element: L(<MapaPapelPage />) },
     { path: '/papel/*', element: L(<FichaPapelPage />) },
     // #210: sob GitHub Pages de projeto o app vive em /pleitost-app/ — sem o
     // basename o router 404-eia a própria home.

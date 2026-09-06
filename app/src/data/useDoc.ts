@@ -10,6 +10,7 @@ import { effectiveDoc } from './effective-doc'
 import { useLocalDraftVersion } from './local-draft-store'
 import { usePublishedOverlayVersion } from './published-overlay-store'
 import { useSettings } from '../settings'
+import { unlockedDoc, useDocLockVersion } from './doc-lock'
 
 /** Doc SINTÉTICO de personagem remoto (#231): ids `sessao:<charId>` resolvem
  *  da sala viva — mesmo canal do resumo/#188, agora disponível pra QUALQUER
@@ -59,7 +60,10 @@ export function loadDoc(id: string): Promise<VaultDoc> {
     cache.set(id, promise)
     promise.catch(() => cache.delete(id))
   }
-  return promise
+  // SENHA POR AVENTURA (doc-lock): o cache guarda o ENVELOPE público; a
+  // decifra roda a cada leitura com a chave do momento (destravar/trancar
+  // muda o resultado sem invalidar o cache). Doc sem envelope passa direto.
+  return promise.then(unlockedDoc)
 }
 
 export interface DocState {
@@ -76,6 +80,7 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const { desenvolvedor } = useSettings() // toggle do Modo Dev re-projeta
+  const lockVersion = useDocLockVersion() // destravar/trancar uma aventura re-lê
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
   const allKey = ids.join('\n')
   const vaultKey = ids.filter((id) => !isLocalId(id) && !isSessaoId(id)).join('\n')
@@ -92,7 +97,7 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     return () => {
       alive = false
     }
-  }, [vaultKey])
+  }, [vaultKey, lockVersion])
 
   return useMemo(() => {
     // Enquanto os docs da vault não chegam, preserva o estado de loading
@@ -125,6 +130,7 @@ export function useDoc(id: string): DocState {
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
   const { desenvolvedor } = useSettings()
+  const lockVersion = useDocLockVersion() // destravar/trancar uma aventura re-lê
   const local = isLocalId(id)
   const sessao = isSessaoId(id)
   const [state, setState] = useState<DocState>({})
@@ -142,7 +148,7 @@ export function useDoc(id: string): DocState {
     return () => {
       alive = false
     }
-  }, [id, local, sessao])
+  }, [id, local, sessao, lockVersion])
 
   if (!id) return {}
   if (sessao) {

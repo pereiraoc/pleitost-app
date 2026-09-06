@@ -23,6 +23,9 @@ export interface IndexDocEntry {
   maos?: number
   /** Requisito de Força da arma (propriedade "Força N") — idem. */
   forca?: number
+  /** SENHA POR AVENTURA (2026-09-05): doc publicado CIFRADO (extractor/cifra-doc)
+   *  — a lista mostra só os campos da lista trancada + 🔒. */
+  protegido?: boolean
 }
 
 export interface IndexManifest {
@@ -101,6 +104,10 @@ export interface VaultDoc {
    *  placeholders vazios; a fonte-de-verdade da prosa vive aqui (populado
    *  pelo extractor/parse-location-body.mjs). */
   locationBody?: LocationBody
+  /** SENHA POR AVENTURA: envelope cifrado (extractor/cifra-doc.mjs). Presente =
+   *  doc TRANCADO (corpo/FM privado ausentes); data/doc-lock.ts decifra com a
+   *  senha ou a chave do dev e devolve o doc completo SEM este campo. */
+  protegido?: import('./doc-lock').Envelope
 }
 
 export interface LocationBody {

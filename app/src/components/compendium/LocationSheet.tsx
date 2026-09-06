@@ -235,7 +235,16 @@ function RecursosGrid({ recursos }: { recursos: string[] }) {
  *  map/leaflet-local; clicar num marker abre a nota correspondente quando o
  *  catálogo a resolve. Posições em % dos bounds (lat cresce pra CIMA;
  *  top% = 1 − lat/latMax); labels contra-escalam pra manter o tamanho. */
-function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']> }) {
+export function MapaLocal({
+  leaflet,
+  onMarker,
+}: {
+  leaflet: NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']>
+  /** Formato de Aventura (2026-09-05): a aventura reusa o viewer com markers
+   *  que são REGISTROS da própria nota (não docs). Devolve true quando tratou
+   *  o clique; senão cai no resolve do catálogo (abre a nota). */
+  onMarker?: (nome: string) => boolean
+}) {
   const assets = useAssetIndex()
   const catalog = useCatalog()
   const detail = useDetail()
@@ -251,6 +260,7 @@ function MapaLocal({ leaflet }: { leaflet: NonNullable<NonNullable<VaultDoc['loc
     markerVisivel({ minZoom: m.minZoom ?? null, maxZoom: m.maxZoom ?? null }, zoom),
   )
   const abrir = (nome: string) => {
+    if (onMarker?.(nome)) return
     const r = catalog.resolve(nome)
     if (r.kind !== 'doc') return
     if (detail) detail.open({ kind: 'doc', id: r.id })

@@ -13,6 +13,7 @@ import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { DocView } from '../src/components/compendium/DocPage'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
+import { parseFrontmatter } from '../../extractor/parse-frontmatter.mjs'
 import '../src/components/compendium/register-doc-views'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -89,14 +90,35 @@ describe('OrgView lê os campos literais do callout (template POA)', () => {
   })
 
   it('aventura com fence bounty mostra o CORPO da one-shot abaixo do card', async () => {
-    const posGrenal = readDoc('Campanhas/Aventuras/Pós Grenal')
-    expect(posGrenal.body).toContain('```bounty')
+    // A Pós Grenal REAL sai CIFRADA do extract (senha por aventura, 2026-09-05)
+    // — o corpo em claro vive na fixture congelada; o render é o da página por
+    // seção (formato de aventura), que segue mostrando o roteiro (report
+    // 2026-08-29: antes o corpo era descartado).
+    const raw = fs.readFileSync(path.join(appDir, 'tests', 'fixtures', 'aventuras', 'Pós Grenal.md'), 'utf8')
+    const { frontmatter, body } = parseFrontmatter(raw) as { frontmatter: Record<string, unknown>; body: string }
+    expect(readDoc('Campanhas/Aventuras/Pós Grenal').protegido).toBeTruthy() // o dataset publicado é cifrado
+    expect(body).toContain('```bounty')
+    const posGrenal: VaultDoc = {
+      id: 'Campanhas/Aventuras/Pós Grenal',
+      path: 'Campanhas/Aventuras/Pós Grenal.md',
+      basename: 'Pós Grenal',
+      type: 'Aventura',
+      subtype: String(frontmatter['subcategoria']),
+      grupo: null,
+      frontmatter,
+      inlineFields: {},
+      ruleElements: [],
+      links: [],
+      images: [],
+      headings: [],
+      body,
+    }
     renderDoc(posGrenal)
     // o card do bounty segue
-    expect(screen.getByText(/Recuperação de Carga do Consórcio das Bandeiras/)).toBeTruthy()
+    expect(screen.getAllByText(/Recuperação de Carga do Consórcio das Bandeiras/).length).toBeGreaterThan(0)
     // e o roteiro da one-shot aparece (antes era descartado — report 2026-08-29)
-    expect(screen.getByText(/Gre-Nal de Sangue Frio/)).toBeTruthy()
-    expect(screen.getByText(/Casa da Drenagem/)).toBeTruthy()
+    expect(screen.getAllByText(/Gre-Nal de Sangue Frio/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Casa da Drenagem/).length).toBeGreaterThan(0)
     // o fence bounty NÃO vaza como <pre> cru
     expect(screen.queryByText(/Titulo: Recuperação/)).toBeNull()
   })

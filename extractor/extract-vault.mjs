@@ -16,6 +16,7 @@ import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 import { compileContexto } from "./compile-contexto.mjs";
 import { gmSplit, gmConfigFromBase } from "./gm-split.mjs";
+import { cifrarDoc, senhaDevDoAmbiente } from "./cifra-doc.mjs";
 
 // Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
 // são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
@@ -67,6 +68,9 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   //     ANTES do loop de escrita). Descoberta por FM; caminho conhecido
   //     primeiro, varredura completa como fallback.
   let gmConfig = gmConfigFromBase(null);
+  // Formato de Aventura (2026-09-05): campos que ficam PÚBLICOS numa aventura
+  // trancada por `Senha:` (o resto sai cifrado — cifra-doc.mjs).
+  let camposListaTrancada = [];
   {
     const candidatos = [
       ...docs.filter((d) => d.kind !== "scaffolding" && d.relPath.includes("Configurações de Contextos")),
@@ -78,10 +82,24 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       const rec = await parseDoc({ raw, relPath: d.relPath });
       if (rec.frontmatter?.Contexto?.id === "base") {
         gmConfig = gmConfigFromBase(rec.frontmatter.Contexto);
+        const av = rec.frontmatter.Contexto.aventura;
+        if (av && Array.isArray(av.campos_lista_trancada)) {
+          camposListaTrancada = av.campos_lista_trancada.filter((c) => typeof c === "string");
+        }
         break;
       }
     }
   }
+
+  // 2c. Senha do Modo Desenvolvedor pro embrulho da chave dos docs cifrados
+  //     (env PLEITOST_DEV_SENHA ou ~/.secrets/pleitost-dev.key — nunca no repo).
+  const senhaDev = senhaDevDoAmbiente();
+  if (!senhaDev) {
+    console.warn(
+      "AVISO: sem senha do modo dev (PLEITOST_DEV_SENHA ou ~/.secrets/pleitost-dev.key) — docs com `Senha:` só abrem pela própria senha.",
+    );
+  }
+  let protegidos = 0;
 
   // 3. Extrai docs de conteúdo; lista scaffolding sem extrair.
   const index = [];
@@ -115,6 +133,40 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       const resumoErro = record.frontmatterError.split("\n")[0];
       fmErrors.push({ path: doc.relPath, error: resumoErro });
       console.warn(`AVISO frontmatter inválido (doc sai SEM FM): ${doc.relPath} — ${resumoErro}`);
+    }
+
+    // SENHA POR AVENTURA (2026-09-05): doc com FM `Senha:` sai CIFRADO inteiro
+    // (corpo + FM fora da lista trancada + derivados); nada dele vai pro gm.json
+    // nem pro grafo de links público. As imagens que ele referencia seguem
+    // copiadas (o mapa da aventura precisa existir no dataset).
+    if (typeof record.frontmatter?.Senha === "string" && record.frontmatter.Senha.trim()) {
+      const publico = cifrarDoc(record, { camposPublicos: camposListaTrancada, senhaDev });
+      await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), publico);
+      contentBasenames.add(record.basename);
+      typeByBasename.set(record.basename, record.type ?? "Outros");
+      const aliasRaw = record.frontmatter?.aliases ?? record.frontmatter?.alias;
+      const aliases = (Array.isArray(aliasRaw) ? aliasRaw : [aliasRaw])
+        .filter((a) => typeof a === "string" && a.trim() !== "")
+        .map((a) => a.trim());
+      index.push({
+        id: record.id,
+        path: record.path,
+        basename: record.basename,
+        type: record.type,
+        subtype: record.subtype,
+        grupo: record.grupo,
+        ...(aliases[0] ? { alias: aliases[0] } : {}),
+        ...(aliases.length ? { aliases } : {}),
+        protegido: true,
+        kind: "content",
+      });
+      for (const img of record.images) {
+        if (!assetRefs.has(img.target)) assetRefs.set(img.target, new Set());
+        assetRefs.get(img.target).add(record.id);
+      }
+      docLinks.set(record.id, []);
+      protegidos += 1;
+      continue;
     }
 
     // Corte mestre×jogador (2026-08-31): o JSON público sai SEM segredos; o
@@ -234,6 +286,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   // 3d. Espelho do MESTRE: gm.json (docs completos dos que tiveram corte +
   //     índice das notas GM:true). O app só o busca em Modo Mestre.
   await writeJson(join(outDir, "gm.json"), gmEspelho);
+  if (protegidos) console.log(`Senha: ${protegidos} doc(s) cifrado(s) (aventuras trancadas).`);
   console.log(
     `GM: ${Object.keys(gmEspelho.docs).length} docs com corte, ` +
       `${gmEspelho.notas.length} notas só-mestre → gm.json`,

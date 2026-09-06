@@ -60,6 +60,15 @@ export interface ContextoDef {
     /** Pastas/tipos cujo conteúdo é EXCLUSIVO de cada mundo (a fantasia não
      *  vaza pro cyberpunk nem vice-versa). Vazio → fallback interno do app. */
     conteudoDeMundo?: { pastas: string[]; tipos: string[] }
+    /** FORMATO DE AVENTURA (2026-09-05): nomes de seção que o parser de
+     *  aventura lê (`app/src/aventura`), tipos de cena e campos que a lista
+     *  mostra de uma aventura TRANCADA por senha. Ausente = dataset antigo →
+     *  o parser usa o fallback interno com os mesmos nomes. */
+    aventura?: {
+      secoes: Record<string, string>
+      tiposDeCena: string[]
+      camposListaTrancada: string[]
+    }
   }
 }
 

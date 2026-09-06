@@ -4,7 +4,22 @@
 > formato de aventura que consigamos fazer várias aventuras da mesma forma,
 > mas complementando com coisas diferentes". Esta v2 é **formato-first**: um
 > template fixo, com seções numeradas e registros com campos nomeados, que o
-> app renderiza seção a seção. Nada implementado; campos em aberto na §6.
+> app renderiza seção a seção.
+>
+> **Status (2026-09-05, aprovado "servem, pode dale"): F0–F4 SHIPADAS** —
+> Contexto Base `aventura.*` (as duas vaults), template, Pós Grenal no formato
+> (com `Chamada`/`Senha`), parser puro (`app/src/aventura/`), senha por
+> aventura com CIFRA no extract (`extractor/cifra-doc.mjs` ⇄
+> `app/src/data/doc-lock.ts`), lista trancada + portão de senha, página por
+> seção com expand inline, mapa (viewer da Localização) + `/papel/mapa/<id>`
+> com `[!gm]`, combates por cena com PREPARAR/+ INICIATIVA (`sourceNotePath =
+> <docId>#<cena>#<n>`), `state.aventura` + iniciar/marcar cena/encerrar na
+> página da aventura. **Pendentes:** F5 painel AVENTURA na tela de Sessão
+> (espera desenho no Claude Design) e F6 mural ("mostrar pra mesa").
+> Defaults assumidos nas perguntas sem resposta: `Papel` texto livre; um mapa
+> por aventura; `subcategoria` da Pós Grenal → "Recuperação de Relíquia" +
+> `Formato: One-Shot`; cifra (não hash); Chamada como proposta; lista trancada
+> sem `subcategoria`/`disponivel`.
 >
 > **v2.1** (mesmo dia, decisões do user): PDF do mapa SEMPRE leva os `[!gm]`;
 > aventura tem **senha própria** (Pós Grenal: `poa1987grenal`), quem está em

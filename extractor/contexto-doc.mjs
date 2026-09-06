@@ -133,6 +133,18 @@ export function renderContextoDoc(contexto, typeByBasename) {
       ),
     );
   }
+  if (c.aventura) {
+    const a = c.aventura;
+    out.push(
+      ...tabela(
+        "Formato de Aventura: seções (nomes lidos pelo app)",
+        Object.entries(a.secoes ?? {}).map(([k, v]) => [k, `\`${v}\``]),
+        ["Chave", "Heading"],
+      ),
+    );
+    out.push(...tabela("Formato de Aventura: tipos de cena", (a.tipos_de_cena ?? []).map((t) => [t, "registro"]), ["Tipo", "Status"]));
+    out.push(...tabela("Formato de Aventura: campos da lista TRANCADA", (a.campos_lista_trancada ?? []).map((t) => [t, "público na lista"]), ["Campo", "Visibilidade"]));
+  }
   if (c.gm?.campos_publicos) {
     out.push(
       ...tabela(

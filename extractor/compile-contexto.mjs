@@ -176,6 +176,22 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   for (const b of sempreDisponiveis) {
     if (!basenames.has(b)) problems.push(`base.sempre_disponiveis: "${b}" não existe na vault`);
   }
+  // FORMATO DE AVENTURA (2026-09-05): nomes das seções que o app lê, tipos
+  // de cena e campos visíveis na lista trancada. Declarado no Base; um
+  // mundo NÃO sobrescreve (formato é do sistema, não do mundo).
+  const avIn = isPlainObject(baseDef.aventura) ? baseDef.aventura : null;
+  let aventura = null;
+  if (avIn) {
+    const secoes = asStringMap(avIn.secoes, "base.aventura.secoes", problems);
+    for (const k of ["resumo", "roteiro", "contexto", "contexto_aventura", "notas_mestre", "personagens", "locais", "mapa", "cenas", "abertura", "cena", "desfecho"]) {
+      if (!secoes[k]) problems.push(`base.aventura.secoes.${k}: obrigatório`);
+    }
+    aventura = {
+      secoes,
+      tiposDeCena: asStringArray(avIn.tipos_de_cena, "base.aventura.tipos_de_cena", problems),
+      camposListaTrancada: asStringArray(avIn.campos_lista_trancada, "base.aventura.campos_lista_trancada", problems),
+    };
+  }
   for (const b of indisponiveis) {
     if (sempreDisponiveis.includes(b)) {
       problems.push(
@@ -244,7 +260,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     pericias,
     reskin: { notas, notasFuturas, termos, excecoes, descricoes },
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
-    base: { sempreDisponiveis, conteudoDeMundo },
+    base: { sempreDisponiveis, conteudoDeMundo, ...(aventura ? { aventura } : {}) },
     regras,
   };
 }

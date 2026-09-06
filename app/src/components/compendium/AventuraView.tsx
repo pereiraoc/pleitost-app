@@ -12,6 +12,7 @@
 //     do FM nos dois casos (bountyMetaFromDoc).
 //
 // Registro: registerDocView({id:'aventura'}) + registerLeafView('Aventura').
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { reskinName } from '../../data/reskin'
 import type { CSSProperties } from 'react'
@@ -30,6 +31,11 @@ import { AventuraForm } from '../mestre/AventuraForm'
 import { registerDocView } from './doc-view-registry'
 import { registerLeafView } from './leaf-view-registry'
 import { DocRuleElements } from './RuleElements'
+import { useCatalog } from '../../data/CatalogContext'
+import { parseAventura } from '../../aventura/parse-aventura'
+import { aventuraConfig } from '../../aventura/config'
+import { DocLockGate, TrancadoMeta, valorTrancado } from './DocLockGate'
+import { AventuraFormatoSheet } from './aventura/AventuraFormatoSheet'
 
 export const AVENTURA_TYPE = 'Aventura'
 
@@ -83,6 +89,26 @@ const availStyle: CSSProperties = {
 // ─────────────────────────── página de uma Aventura ───────────────────────────
 
 export function AventuraSheet({ doc }: { doc: VaultDoc }) {
+  // SENHA POR AVENTURA: doc trancado → portão de senha (o useDoc entrega o doc
+  // completo depois de destravar; o portão some sozinho).
+  if (doc.protegido) return <DocLockGate doc={doc}>{null}</DocLockGate>
+  return <AventuraSheetAberta doc={doc} />
+}
+
+function AventuraSheetAberta({ doc }: { doc: VaultDoc }) {
+  const catalog = useCatalog()
+  // FORMATO DE AVENTURA (2026-09-05): nota no esqueleto fixo → página por seção.
+  const model = useMemo(() => parseAventura(doc, aventuraConfig(catalog.contextoDef)), [doc, catalog.contextoDef])
+  if (model.temFormato) {
+    return (
+      <AventuraFormatoSheet
+        doc={doc}
+        model={model}
+        bounty={hasBountyContent(doc) ? bountyDataForDoc(doc) : null}
+        disponivel={disponivelDe(doc)}
+      />
+    )
+  }
   // Nota da pasta que NÃO é bounty (ex.: "Encontro") → leitura normal do corpo,
   // sem forçar a carta vazia (finding do review: não perder o corpo real).
   if (!hasBountyContent(doc)) {
@@ -162,6 +188,22 @@ function isExemplo(doc: VaultDoc): boolean {
   return /\bexemplo\b/i.test(doc.basename ?? '')
 }
 
+/** SENHA POR AVENTURA: card TRANCADO na grade — só nome, Chamada e os campos
+ *  da lista trancada (nada do bounty: título/contratante/objetivo são spoiler). */
+function AventuraLockedCard({ doc }: { doc: VaultDoc }) {
+  const chamada = valorTrancado(doc.frontmatter['Chamada'])
+  return (
+    <span className="aventura-locked-card" data-aventura-trancada="">
+      <span className="aventura-locked-head">
+        <span className="aventura-locked-nome">{reskinName(doc.basename)}</span>
+        <span className="aventura-locked-cadeado" aria-label="trancada">🔒</span>
+      </span>
+      {chamada ? <span className="av-chamada">{chamada}</span> : null}
+      <TrancadoMeta doc={doc} />
+    </span>
+  )
+}
+
 /** Célula de carta de uma aventura (com ou sem bounty). */
 function AventuraCell({ doc, id }: { doc: VaultDoc | undefined; id: string }) {
   return (
@@ -170,7 +212,9 @@ function AventuraCell({ doc, id }: { doc: VaultDoc | undefined; id: string }) {
       className="aventura-grid-cell"
       style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
     >
-      {doc && hasBountyContent(doc) ? (
+      {doc?.protegido ? (
+        <AventuraLockedCard doc={doc} />
+      ) : doc && hasBountyContent(doc) ? (
         <BountyCard data={bountyDataForDoc(doc)} meta={bountyMetaFromDoc(doc)} />
       ) : (
         <span
