@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Genéricas/Manobras Potentes",
+  "path": "Sistema/Criação de Personagem/Técnicas/Genéricas/Manobras Potentes.md",
+  "basename": "Manobras Potentes",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você ignora a -2 de [[Penalidades|penalidade de circunstância]] ao [[Agarrar]], [[Derrubar]], [[Empurrar]] e [[Desarmar]] criaturas 1 categoria de tamanho maior. Você pode usar essas manobras contra criaturas 2 categorias maiores com -2 de [[Penalidades|penalidade de circunstância]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você ignora a -2 de [[Penalidades|penalidade de circunstância]] ao [[Agarrar]], [[Derrubar]], [[Empurrar]] e [[Desarmar]] criaturas 1 categoria de tamanho maior. Você pode usar essas manobras contra criaturas 2 categorias maiores com -2 de [[Penalidades|penalidade de circunstância]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê não recebe -2 de [[Penalidades|penalidade de circunstância]] para [[Agarrar]], [[Derrubar]], [[Empurrar]] e [[Desarmar]] criaturas de uma categoria de tamanho maior.\nVocê pode [[Agarrar]], [[Derrubar]], [[Empurrar]] e [[Desarmar]] criaturas de duas categorias de tamanho maior recebendo -2 de [[Penalidades|penalidade de circunstância]].\n\n```autosheet-rules\n```\n"
+}

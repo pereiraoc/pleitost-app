@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Mercado Flutuante",
+  "path": "Atlas/Porto Alegre/Restinga/Mercado Flutuante.md",
+  "basename": "Mercado Flutuante",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Flutuante.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado Flutuante.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mercado Flutuante.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bancas sobre palafitas vendendo comida e remédios.\n> \n> 👁️**Aparência do Local:** Tabuleiros coloridos, odor de frutos do mar e álcool gel.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bancas sobre palafitas vendendo comida e remédios.",
+    "aparencia": "Tabuleiros coloridos, odor de frutos do mar e álcool gel.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia e Sobrevivência",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Economia e Sobrevivência.md",
+  "basename": "Economia e Sobrevivência",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acesso a Recursos Básicos",
+      "kind": "embed"
+    },
+    {
+      "target": "Divisão de Classes",
+      "kind": "embed"
+    },
+    {
+      "target": "Mercado de Trabalho",
+      "kind": "embed"
+    },
+    {
+      "target": "Moeda e Sistemas de Troca",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Acesso a Recursos Básicos]]\n![[Divisão de Classes]]\n![[Mercado de Trabalho]]\n![[Moeda e Sistemas de Troca]]"
+}

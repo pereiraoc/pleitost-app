@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Magia",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Magia.md",
+  "basename": "Magia",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Magias, Ataque Mágico, Ataques Mágicos",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Agressivas]]",
+    "prev": "[[Teste]]",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magias"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Agressivas]]\nprev:: [[Teste]]\nnext:: \n%%\n### Magias\nMagias são utilizadas também em todos os pilares do jogo, sendo igualmente efetivas em combate. Magias que afetam seus inimigos muitas vezes fazem Ataques Mágicos. Esses Ataques Mágicos geralmente tem como alvo uma das defesas do inimigo, tendo diversos efeitos dependendo do resultado. Diferentemente de [[Ataques|Ataques]], Ataques Mágicos não sofrem de [[Penalidade por Ataque Múltiplo|PAM]] nem progridem a [[Penalidade por Ataque Múltiplo|PAM]] de um personagem, a não ser que explicitamente descrito.\n\n```autosheet-rules\n```\n"
+}

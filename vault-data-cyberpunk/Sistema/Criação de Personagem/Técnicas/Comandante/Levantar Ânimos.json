@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Comandante/Levantar Ânimos",
+  "path": "Sistema/Criação de Personagem/Técnicas/Comandante/Levantar Ânimos.md",
+  "basename": "Levantar Ânimos",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Comandante]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "1A",
+    "resumo": "\"Escolha um aliado dentro da sua área de influência que consegue te ouvir e está [[Abalado]] ou [[Nervoso]]. Esse aliado faz um teste para remover a condição de [[Ímpeto]] contra o a CD do efeito que causou a condição usando a sua [[Inteligência|INT]] ou [[Presença|PRE]] (o que for maior) no lugar do atributo normalmente usado na [[Ímpeto]] do aliado.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Comandante]]\nrank:: [[Adepto|Adepta]]\ncusto:: 1A\n\nresumo:: \"Escolha um aliado dentro da sua área de influência que consegue te ouvir e está [[Abalado]] ou [[Nervoso]]. Esse aliado faz um teste para remover a condição de [[Ímpeto]] contra o a CD do efeito que causou a condição usando a sua [[Inteligência|INT]] ou [[Presença|PRE]] (o que for maior) no lugar do atributo normalmente usado na [[Ímpeto]] do aliado.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Levantar Ânimos.\n\n**Levantar Ânimos - 1A**\nCom um chamado para razão ou um frase inspiradora, você tenta trazer um aliado de volta aos seus sentidos. Escolha um aliado dentro da sua área de influência que consegue te ouvir e está [[Abalado]] ou [[Nervoso]]. Esse aliado faz um teste de [[Ímpeto]] contra o a CD do efeito que causou a condição usando a sua [[Inteligência|INT]] ou [[Presença|PRE]] (o que for maior) no lugar do atributo normalmente usado na [[Ímpeto]] do aliado. No caso de sucesso, remove a condição [[Abalado]] ou [[Nervoso]].\n\n```autosheet-rules\n```\n"
+}

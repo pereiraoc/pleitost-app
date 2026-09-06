@@ -1,0 +1,2682 @@
+{
+  "id": "Sistema/Regras/Bestiário/Modificadores/Competente",
+  "path": "Sistema/Regras/Bestiário/Modificadores/Competente.md",
+  "basename": "Competente",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Alias Classe Compor 1 \"Competente\"",
+      "Tier 0 Definir Ataques.Lista.*.Bonus_Item 0",
+      "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+      "Tier 0 Definir Movimento.Lista.*.Bonus_Item 0",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+      "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+      "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+      "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+      "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+      "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+      "Tier 0 Definir Magias.Lista.Anima.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+      "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+      "Tier 1 Definir Ataques.Lista.*.Bonus_Item 1",
+      "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+      "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "Tier 2 Definir Ataques.Lista.*.Bonus_Item 2",
+      "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+      "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "Tier 3 Definir Ataques.Lista.*.Bonus_Item 3",
+      "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 3",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+      "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 3",
+      "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+      "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 3",
+      "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+      "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+      "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 3",
+      "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"Você é competente.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Alias Classe Compor 1 \"Competente\"",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Competente"
+          },
+          "raw": "Alias Classe Compor 1 \"Competente\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Ataques.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Ataques.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Inventario.Armas.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Movimento.Lista.*.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Movimento.Lista.*.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Movimento.Lista.*.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Sentidos.Lista.Percepcao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 9,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Sentidos.Lista.Intuicao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 10,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaNegra.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 11,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.ArcanaBranca.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 12,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Magias.Lista.Anima.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 13,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 14,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Acrobacia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 15,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Furtividade.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 16,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Ladinagem.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 17,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Arcana.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 18,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Sociedades.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 19,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Guerra.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 20,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Medicina.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 21,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 22,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Anima.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 23,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Diplomacia.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 24,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Enganacao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 25,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 0
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "0"
+          },
+          "raw": "Tier 0 Definir Pericias.Lista.Intimidacao.Bonus_Item 0",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Ataques.Lista.*.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 26,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Ataques.Lista.*.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 27,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Inventario.Armas.Lista.*.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 28,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 29,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 30,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 31,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 32,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Sentidos.Lista.Percepcao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 33,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Sentidos.Lista.Intuicao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 34,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaNegra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 35,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.ArcanaBranca.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 36,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Magias.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 37,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Atletismo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 38,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Acrobacia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 39,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Furtividade.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 40,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Ladinagem.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 41,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Arcana.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 42,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 43,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Guerra.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 44,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Medicina.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 45,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 46,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Anima.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 47,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Diplomacia.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 48,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Enganacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 49,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Tier 1 Definir Pericias.Lista.Intimidacao.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Ataques.Lista.*.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 50,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Ataques.Lista.*.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 51,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Inventario.Armas.Lista.*.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 52,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 53,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 54,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 55,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 56,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Percepcao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 57,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Sentidos.Lista.Intuicao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 58,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaNegra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 59,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.ArcanaBranca.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 60,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Magias.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 61,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Atletismo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 62,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Acrobacia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 63,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Furtividade.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 64,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Ladinagem.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 65,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Arcana.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 66,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 67,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Guerra.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 68,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Medicina.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 69,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 70,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Anima.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 71,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Diplomacia.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 72,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Enganacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 73,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 2
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Tier 2 Definir Pericias.Lista.Intimidacao.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Ataques.Lista.*.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 74,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Ataques.Lista.*.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Ataques.Lista.*.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 75,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Inventario.Armas.Lista.*.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Inventario.Armas.Lista.*.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 76,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 77,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 78,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 79,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 80,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Percepcao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Percepcao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 81,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Sentidos.Lista.Intuicao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Sentidos.Lista.Intuicao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 82,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaNegra.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaNegra.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 83,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.ArcanaBranca.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.ArcanaBranca.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 84,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Lista.Anima.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Magias.Lista.Anima.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 85,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Atletismo.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Atletismo.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 86,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Acrobacia.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Acrobacia.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 87,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Furtividade.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Furtividade.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 88,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Ladinagem.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Ladinagem.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 89,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Arcana.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Arcana.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 90,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 91,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Guerra.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Guerra.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 92,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Medicina.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Medicina.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 93,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Sobrevivencia.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 94,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Anima.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Anima.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 95,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Diplomacia.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Diplomacia.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 96,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Enganacao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Enganacao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Competente",
+          "occurrenceIndex": 97,
+          "scope": [
+            {
+              "kind": "tier-min",
+              "min": 3
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Intimidacao.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Tier 3 Definir Pericias.Lista.Intimidacao.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"Você é competente.\"\n%%\n##### `= this.file.name`\nVocê é competente.\n\n```autosheet-rules\n```\n"
+}

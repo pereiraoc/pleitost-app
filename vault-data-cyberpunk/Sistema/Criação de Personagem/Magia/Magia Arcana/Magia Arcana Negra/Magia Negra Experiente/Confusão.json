@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Confusão",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Confusão.md",
+  "basename": "Confusão",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Confusão (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Ímpeto]] de criatura em 6q para deixar criatura confusa por 10t. Criatura confusa ataca aleatoriamente alvos próximos a critério do Mestre. Criatura confusa faz teste de [[Ímpeto]] para acabar a confusão no final de seus turnos (-4 no teste se decisivo). Aplica [[Atordoado|Atordoado 1]] na falha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Ímpeto]] de criatura em 6q para deixar criatura confusa por 10t. Criatura confusa ataca aleatoriamente alvos próximos a critério do Mestre. Criatura confusa faz teste de [[Ímpeto]] para acabar a confusão no final de seus turnos (-4 no teste se decisivo). Aplica [[Atordoado|Atordoado 1]] na falha.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Ímpeto]] de uma criatura em até 6q.\n\n**Sucesso:** A criatura fica confusa por 10 turnos.\n**Sucesso Decisivo:** Como sucesso, mas a criatura recebe -4 de [[Penalidades|penalidade de circunstância]] nos testes para terminar a confusão.\n**Falha:** A criatura fica [[Atordoado|Atordoada 1]].\n**Falha Decisiva:** A criatura não é afetada.\n\nUma criatura confusa usa todas suas ações para atacar alvos aleatórios, decididos pelo Mestre, tipicamente de forma aleatória. No fim de cada turno da criatura ou quando ela recebe dano, ela faz um teste de [[Ímpeto]] contra sua [[CD]], terminando a confusão no caso de sucesso.\n\n```autosheet-rules\n```\n"
+}

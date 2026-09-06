@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Lago Dilúvio",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Lago Dilúvio.md",
+  "basename": "Lago Dilúvio",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lago Dilúvio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lago Dilúvio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lago Dilúvio.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Depósito tóxico disfarçado de lago ornamenta.\n> \n> 👁️**Aparência do Local:** Águas esverdeadas, reflexo metálico, odor doce-corrosivo.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Depósito tóxico disfarçado de lago ornamenta.",
+    "aparencia": "Águas esverdeadas, reflexo metálico, odor doce-corrosivo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

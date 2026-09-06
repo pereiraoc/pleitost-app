@@ -1,0 +1,46 @@
+{
+  "id": "Contexto/Organizações/Facções/Círculo das Ligas",
+  "path": "Contexto/Organizações/Facções/Círculo das Ligas.md",
+  "basename": "Círculo das Ligas",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Vicente “Relojoeiro” Almeida]]",
+    "Descrição": null,
+    "Resumo": "Sabotagem industrial, mercado negro de próteses e espionagem corporativa em Petrópolis.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Círculo das Ligas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vicente “Relojoeiro” Almeida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Círculo das Ligas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Círculo das Ligas.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Artesãos do desvio: infiltram as oficinas da [[Tramontina]], desviam ligas metálicas e fazem “jailbreak” de implantes físicos para vender upgrades clandestinos. Rivais do [[Clã da Ferrugem]] no discurso, sócios quando o alvo é externo.\n\n"
+}

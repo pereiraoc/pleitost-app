@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Decretação do AI-5",
+  "path": "Contexto/Histórias/Contexto Histórico/Decretação do AI-5.md",
+  "basename": "Decretação do AI-5",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1968-12-13",
+    "Descrição": "O Ato Institucional nº 5 fecha o Congresso, suspende garantias e institucionaliza a censura e o toque de recolher. É o instrumento jurídico que mais tarde viabiliza a PIRA e o controle químico da força de trabalho.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

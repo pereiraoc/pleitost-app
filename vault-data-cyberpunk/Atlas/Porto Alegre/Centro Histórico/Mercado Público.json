@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Mercado Público",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Mercado Público.md",
+  "basename": "Mercado Público",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Comércio": "Iluminada",
+    "Recursos": [
+      "[[Poção de Cura]]",
+      "[[Poção da Nutrição]]",
+      "[[Poção da Velocidade]]"
+    ],
+    "Completo": true,
+    "markerTag": "Mercado"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado Público.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Velocidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado Público.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mercado Público.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Complexo de pavilhões metálicos e arcos de ferro inaugurado no século XIX, coração do comércio de alimentos e artesanato de Porto Alegre. Em 1987, segue vibrante, reunindo bancas de verduras, peixarias, açougues e pequenas cantinas. Nos fundos do pavilhão leste funciona o balcão mais conhecido da [[A Caixinha|Caixinha]] — quem procura serviço, ou serviço procura, começa por ali.\n> \n> 👁️**Aparência do Local:** Estrutura de ferro aparente com telhado de vidro reforçado, bancas de madeira pintada, balanças mecânicas, letreiros de néon discreto e o misto de aromas de frutas frescas, peixes e especiarias.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo de pavilhões metálicos e arcos de ferro inaugurado no século XIX, coração do comércio de alimentos e artesanato de Porto Alegre. Em 1987, segue vibrante, reunindo bancas de verduras, peixarias, açougues e pequenas cantinas. Nos fundos do pavilhão leste funciona o balcão mais conhecido da [[A Caixinha|Caixinha]] — quem procura serviço, ou serviço procura, começa por ali.",
+    "aparencia": "Estrutura de ferro aparente com telhado de vidro reforçado, bancas de madeira pintada, balanças mecânicas, letreiros de néon discreto e o misto de aromas de frutas frescas, peixes e especiarias.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

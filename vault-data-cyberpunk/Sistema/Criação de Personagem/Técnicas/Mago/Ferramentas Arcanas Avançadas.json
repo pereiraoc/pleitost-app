@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Ferramentas Arcanas Avançadas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Ferramentas Arcanas Avançadas.md",
+  "basename": "Ferramentas Arcanas Avançadas",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Você aprende 1 [[Magia Essencial Experiente|Magia Arcana Essencial Experiente]] (não conta como Branca ou Negra para seu limite). Você pode conjurá-la 1 vez por dia sem consumir recursos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Essencial Experiente",
+      "kind": "wikilink",
+      "alias": "Magia Arcana Essencial Experiente"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Você aprende 1 [[Magia Essencial Experiente|Magia Arcana Essencial Experiente]] (não conta como Branca ou Negra para seu limite). Você pode conjurá-la 1 vez por dia sem consumir recursos.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende uma  [[Magia Essencial Experiente|Magia Arcana Essencial Experiente]] de sua escolha. Essa magia não conta como Branca ou Negra para sua restrição de magias conhecidas.\n*Requer Ferramentas Arcanas*\n\n```autosheet-rules\n```\n"
+}

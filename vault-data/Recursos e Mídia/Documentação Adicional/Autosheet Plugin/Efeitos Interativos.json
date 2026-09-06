@@ -1,0 +1,365 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Efeitos Interativos",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Efeitos Interativos.md",
+  "basename": "Efeitos Interativos",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Visualizador de Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras do Rei-Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mão livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duas armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização Menor em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementos de Regra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Bloco `Efeitos_Interativos:`"
+    },
+    {
+      "level": 2,
+      "text": "O que é"
+    },
+    {
+      "level": 2,
+      "text": "Os 9 tipos"
+    },
+    {
+      "level": 2,
+      "text": "Schema dos campos"
+    },
+    {
+      "level": 3,
+      "text": "`tipo: AçãoDePericia` — conceder ação a outra perícia"
+    },
+    {
+      "level": 3,
+      "text": "`tipo: Arma` — ataque customizado (interativa-only)"
+    },
+    {
+      "level": 2,
+      "text": "Painéis de ancoragem (`visual.ancorar`)"
+    },
+    {
+      "level": 2,
+      "text": "Primitivas de escalonamento"
+    },
+    {
+      "level": 2,
+      "text": "Tipos de bônus (`tipoBonus:`)"
+    },
+    {
+      "level": 2,
+      "text": "Catálogo de targets (`somar: <X>`)"
+    },
+    {
+      "level": 3,
+      "text": "Resistências, sentidos, combate (number-targets globais)"
+    },
+    {
+      "level": 3,
+      "text": "Perícias (3 escopos diferentes — escolha pelo escopo desejado)"
+    },
+    {
+      "level": 1,
+      "text": "Todas as perícias (Heroísmo: +2 em todas)"
+    },
+    {
+      "level": 1,
+      "text": "Todas as perícias DE UM atributo (Celeridade: +1 nas perícias de AGI)"
+    },
+    {
+      "level": 1,
+      "text": "Todas as perícias DE UM atributo dinâmico (Melhorar Habilidade: user escolhe)"
+    },
+    {
+      "level": 1,
+      "text": "UMA perícia específica (sintaxe parametrizada)"
+    },
+    {
+      "level": 3,
+      "text": "Ataques (2 escopos)"
+    },
+    {
+      "level": 1,
+      "text": "Bônus em todos os ataques"
+    },
+    {
+      "level": 1,
+      "text": "Bônus nos ataques DE UM atributo"
+    },
+    {
+      "level": 3,
+      "text": "Dano e dado de arma"
+    },
+    {
+      "level": 3,
+      "text": "Outros"
+    },
+    {
+      "level": 2,
+      "text": "Catálogo de guards (`quando:`)"
+    },
+    {
+      "level": 3,
+      "text": "`grupoArma:` valores aceitos"
+    },
+    {
+      "level": 3,
+      "text": "`grupoEspecializado:` (booleano)"
+    },
+    {
+      "level": 3,
+      "text": "`proficiencia:` sintaxe"
+    },
+    {
+      "level": 3,
+      "text": "`recurso:` sintaxe"
+    },
+    {
+      "level": 2,
+      "text": "Exemplos completos por arquétipo"
+    },
+    {
+      "level": 3,
+      "text": "Passivo"
+    },
+    {
+      "level": 4,
+      "text": "Passivo simples com guard de recurso"
+    },
+    {
+      "level": 4,
+      "text": "Passivo com guard de Estado (cascade — Auto-Confiança)"
+    },
+    {
+      "level": 4,
+      "text": "Passivo de propriedade com requer + guard de propriedade ([Apunhalante.md](Sistema/Regras/Propriedades/Apunhalante.md))"
+    },
+    {
+      "level": 4,
+      "text": "Passivo com guard composto + escala por nível ([Ataque Furtivo.md](Sistema/Criação%20de%20Personagem/Habilidades/Ladino/Ataque%20Furtivo.md))"
+    },
+    {
+      "level": 3,
+      "text": "Estado"
+    },
+    {
+      "level": 4,
+      "text": "Estado puro sem modifier ([Vantagem de Combate.md](Sistema/Regras/Condições/Vantagem%20de%20Combate.md))"
+    },
+    {
+      "level": 4,
+      "text": "Estado com modifier direto ([Erguer Escudo.md](Sistema/Regras/Ações/Ações%20Especiais/Erguer%20Escudo.md))"
+    },
+    {
+      "level": 4,
+      "text": "Estado por grupo de arma ([Fúria.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Monge/Fúria.md))"
+    },
+    {
+      "level": 4,
+      "text": "Estado com selector numérico (Aspecto Sagaz)"
+    },
+    {
+      "level": 4,
+      "text": "Estado com selector + guard composto ([Aparar.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Aparar.md))"
+    },
+    {
+      "level": 4,
+      "text": "Estado de Ataque de Oportunidade — técnica ([Oportunidade Feral.md](Sistema/Criação%20de%20Personagem/Técnicas/Druida/Oportunidade%20Feral.md))"
+    },
+    {
+      "level": 3,
+      "text": "Condição"
+    },
+    {
+      "level": 4,
+      "text": "Condição compartilhada simples ([Inspiração.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Inspiração.md))"
+    },
+    {
+      "level": 4,
+      "text": "Duas Condições no mesmo efeito (positivo + negativo)"
+    },
+    {
+      "level": 4,
+      "text": "Condição com selector numérico ([Encantar Arma.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Encantar%20Arma.md))"
+    },
+    {
+      "level": 4,
+      "text": "Condição com selector discreto e atributo dinâmico ([Melhorar Habilidade.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Melhorar%20Habilidade.md))"
+    },
+    {
+      "level": 4,
+      "text": "Condição negativa pura (sem modifier — só serve como gatilho)"
+    },
+    {
+      "level": 3,
+      "text": "Forma"
+    },
+    {
+      "level": 4,
+      "text": "Forma \"pai\" (sem stats — só agrupa filhos)"
+    },
+    {
+      "level": 4,
+      "text": "Forma \"filha\" com stats ([Forma Caçadora.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Druida/Forma%20Caçadora.md))"
+    },
+    {
+      "level": 3,
+      "text": "AçãoLocal"
+    },
+    {
+      "level": 4,
+      "text": "AçãoLocal compartilhada ([Ato Inspirador.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Ato%20Inspirador.md))"
+    },
+    {
+      "level": 4,
+      "text": "AçãoLocal com guard de grupo ([Ataque Brutal.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Brutal.md))"
+    },
+    {
+      "level": 3,
+      "text": "AtaqueLocal"
+    },
+    {
+      "level": 4,
+      "text": "AtaqueLocal com escala por proficiência + empunhadura ([Ataque Poderoso.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Poderoso.md))"
+    },
+    {
+      "level": 4,
+      "text": "AtaqueLocal com selector numérico negativo (penalidade) ([Alcance.md](Sistema/Regras/Propriedades/Alcance.md))"
+    },
+    {
+      "level": 3,
+      "text": "Invocação"
+    },
+    {
+      "level": 4,
+      "text": "Invocação completa ([Servo das Sombras.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Negra/Magia%20Negra%20Adepta/Servo%20das%20Sombras.md))"
+    },
+    {
+      "level": 2,
+      "text": "Patterns recorrentes"
+    },
+    {
+      "level": 3,
+      "text": "`compartilharGrupo: true`"
+    },
+    {
+      "level": 3,
+      "text": "`links.requer: [...]` vs `links.ativa: [...]`"
+    },
+    {
+      "level": 3,
+      "text": "`visual.realceEspecial: performance-bardica | aspecto-elemental`"
+    },
+    {
+      "level": 3,
+      "text": "`visual.oculto: true`"
+    },
+    {
+      "level": 3,
+      "text": "`visual.ancorar: <Painel>`"
+    },
+    {
+      "level": 3,
+      "text": "`visual.nucleo: true`"
+    },
+    {
+      "level": 3,
+      "text": "`selectores[*].oculto: true`"
+    },
+    {
+      "level": 3,
+      "text": "Ataque de Oportunidade (`DadoOportunidade`)"
+    },
+    {
+      "level": 2,
+      "text": "Convenções obrigatórias"
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Bloco `Efeitos_Interativos:`\n\nDoc pra quem precisa declarar um efeito interativo (estado, condição,\nforma, ação local, etc.) numa nota da vault. Pra **lista completa de\ntargets/guards/verbos suportados** (catálogo do runtime), ver\n[reference/interativa-catalogos.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md).\nPra **spec técnica completa** + parser, ver [reference/rule-elements.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements.md).\n\n> Pra **conferir** os efeitos parseados de uma nota, adicione um bloco\n> `autosheet-rules` nela — ver [[Visualizador de Regras]].\n\n## O que é\n\nBloco YAML estruturado no frontmatter de notas (habilidades, magias,\ntécnicas, propriedades, itens). Cada efeito vira UM objeto autocontido\nque o modo Interativa consome — vira toggle, dropdown, painel ancorado,\ncondição, etc.\n\n```yaml\nEfeitos_Interativos:\n  - label: <nome do efeito>\n    tipo: <Passivo|Estado|Condição|Forma|AçãoLocal|AtaqueLocal|Invocação|AçãoDePericia|Arma>\n    ...\n```\n\nMúltiplos efeitos numa mesma nota = múltiplos objetos no array.\n\n## Os 9 tipos\n\n| `tipo` | Quando usar | UI no modo Interativa |\n|---|---|---|\n| **Passivo** | Modifier que aplica condicionalmente sem o user mexer (ex: Auto-Confiança +2 quando Vit ≥ 50%). | Sem UI — modifier roda quando guards casam. |\n| **Estado** | Toggle on/off explícito (ex: Escudo Erguido, Performance Bárdica Ativa). | Botão `+`/`−` na Lista de Efeitos ou no painel ancorado. |\n| **Condição** | Status que afeta a criatura (ex: Vantagem de Combate, Atordoado, Heroísmo). | Chip na Lista de Condições, agrupado por grupo (Positiva/Negativa) + categoria. |\n| **Forma** | Transformação mutex (ex: Forma Brutal/Caçadora/etc do Druida). | Botão de Forma com cascade automático (mutex com outras Formas). |\n| **AçãoLocal** | Ação que aplica modifier durante seu uso (ex: Ato Inspirador). | Toggle ao lado do nome da ação no painel Ataques. |\n| **AtaqueLocal** | Ataque com modifier próprio (ex: Atacar Além do Alcance, Ataque Brutal). | Toggle abaixo da arma específica no painel Ataques. |\n| **Invocação** | Stats da criatura invocada (ex: Servo das Sombras). | Card de Companheiro inline dentro da seção da escola que invoca (ex: Magia Arcana Negra), no cluster Magias. |\n| **AçãoDePericia** | **Declarativo** — concede ação(ões) à lista de ações de uma perícia (ex: Especialização *Animais* mostra Assustar/Distrair/Finta sob Sobrevivência). Não gera modificador. | A ação aparece na lista de ações da perícia (painel Atributo + Modo Leitura), com o `detalhe` opcional ao lado (ex: \"(contra animais)\"). |\n| **Arma** | **Interativa-only** — ataque **CUSTOM** injetado na lista de ataques, com dano/propriedades escalados por FOR (ex: os 2 ataques do artefato *Garras do Rei-Mago*). NÃO materializa no FM nem aparece no editável. | Aparece como um ataque na seção Ataques (só na Interativa), com nome/link próprios, dano por FOR, item-bônus e linha `(AdO:)`. |\n\n## Schema dos campos\n\n```yaml\n- label: <string obrigatório>\n  tipo: <obrigatório — um dos 9 acima>\n  grupo: Positiva|Negativa            # OBRIGATÓRIO se tipo: Condição\n  origem: Habilidade|Magia|Técnica|Propriedade|Item|Maestria|Especialização\n  acoes: [\"[[X]]\", ...]               # SÓ se tipo: AçãoDePericia (≥1)\n  detalhe: \"(anotação)\"               # opcional, acompanha acoes\n\n  # --- SÓ se tipo: Arma (ataque custom interativa-only) ---\n  link: \"[[Garras do Rei-Mago]]\"      # wikilink de preview do ataque (ex: nota do tesouro)\n  bonusItem: 3                        # item-bônus FIXO (ex: artefato cujas armas são Mestre → 3)\n  grupoAtaque: cac-marcial            # grupo de arma canônico p/ elegibilidade de AdO\n  porFor:                             # stats por FOR (chaves 1/2/3; FOR fora do range clampa)\n    1: { dano: \"d6+3\", tipo: corte, propriedades: [\"[[Precisa]]\"] }\n    2: { dano: \"d6+3\", tipo: corte, propriedades: [\"[[Precisa]]\", \"[[Apunhalante]]\"] }\n    3: { dano: \"d8+4\", tipo: corte, propriedades: [] }\n\n  escopo:\n    aplicaEm: Próprio|Aliados|Ambos   # default: Próprio\n    compartilharGrupo: true|false     # se true, aliados podem ativar\n    arma: Nenhuma|TodasAsArmas|ArmaSelecionada|AtaqueNatural\n\n  visual:\n    iconeLigado: 🎵\n    iconeDesligado: 🚫\n    oculto: true                      # esconde da Lista de Efeitos\n    nucleo: true                      # toggle \"núcleo\" — regra de engine universal\n    realceEspecial: performance-bardica|aspecto-elemental\n    ancorar: <Painel>                 # toggle aparece no painel indicado\n\n  selectores:\n    - kind: numerico\n      label: \"Potência Mágica\"\n      min: 0\n      max: 11\n    - kind: discreto\n      label: \"Modo\"\n      opcoes: [\"[[Mão livre]]\", \"[[Duas armas]]\"]\n\n  links:\n    pai: \"Forma Feral\"                # label do efeito-pai\n    filhos: [\"Forma Brutal\", ...]\n    ativa: [\"Performance Bárdica Ativa\"]   # ativar este → ativa Y\n    requer: [\"Performance Bárdica Ativa\"]  # só ativa se Y ativo\n    mutex: [...]                      # auto-derivado pra Formas irmãs\n\n  modificadores:\n    - somar: <stat>                   # OU multiplicar / sobrescrever\n      valor: <num | tabela | string>\n      quando:\n        - {recurso: \"EM>=1\"}\n        - {estado: \"Performance Bárdica Ativa\"}\n        - {condicao: \"Vantagem de Combate\"}\n        - {forma: \"Forma Brutal\"}\n        - {propriedade: \"Apunhalante\"}\n        - {grupoArma: \"corpo-a-corpo\"}\n        - {empunhadura: 1}\n        - {seletor: {label: \"Modo\", valor: \"Mão livre\"}}\n        - {proficiencia: \">=E\"}\n      aplicaEm: Próprio|Aliados|Ambos # opcional, sobrescreve escopo\n\n  forma:                              # SÓ se tipo: Forma\n    movimento: 4\n    ataques: [\"Mordida\", \"Garras\"]\n    manobra: \"[[Agarrar]]\"\n    resistencia: \"[[Vigor]]\"\n    pericias: [...]\n    habilidades: [...]\n    beneficios: \"Criaturas Abaladas...\"\n\n  invocacao:                          # SÓ se tipo: Invocação\n    porProficienciaEm: \"Magia Arcana\"\n    proficienciaMinima: A\n    stats:\n      ev: { porSeletor: \"Potência Mágica\", multiplicador: 5 }\n      defesa: { porProficiencia: { A: 14, E: 16, M: 18 } }\n      ...\n    ataques: [...]\n    habilidadesEspeciais: [...]\n    notas: [\"...\"]\n\n  grupoArma:                          # habilidades de Especialização em Arma\n    armas:                            # armas-membro do grupo (declarativo)\n      - \"[[Espada Curta]]\"\n      - \"[[Espada Longa]]\"\n```\n\nO bloco `grupoArma` é **declarativo** — não gera modificador. Usado pelas habilidades `Especialização em Arma (X)` e `Especialização Menor em Arma (X)` (`tipo: Passivo`) pra armazenar as armas do grupo. O runtime reúne esses blocos num conjunto que o guard `{ grupoEspecializado: true }` consulta — é assim que Oportunidade Especializada só soma o dado de AdO quando a arma usada pertence a um grupo de Especialização do herói.\n\n### `tipo: AçãoDePericia` — conceder ação a outra perícia\n\n```yaml\nEfeitos_Interativos:\n  - label: Ações contra animais\n    tipo: AçãoDePericia\n    origem: Especialização            # ou Maestria\n    acoes:                            # ≥1 wikilink de ação (declarativo)\n      - \"[[Assustar]]\"\n      - \"[[Distrair]]\"\n      - \"[[Finta]]\"\n    detalhe: \"(contra animais)\"       # opcional — anotação ao lado\n```\n\nTambém **declarativo** (não gera modificador nem toggle). Usado em notas de Maestria/Especialização pra fazer uma ação que normalmente pertence a outra perícia aparecer na lista de ações **desta** perícia. A **perícia-alvo é derivada do caminho da nota** (`Especialização e Maestria/<Perícia>/…`) — não se declara no bloco. O gating é automático: a ação só aparece pra quem tem a Maestria/Especialização (o BFS de extração só alcança a nota se o personagem a possui). Ações fora do scan de perícia (ex.: `Ajudar`, que é Ação Básica de Combate) renderizam como link puro, sem custo.\n\n### `tipo: Arma` — ataque customizado (interativa-only)\n\nInjeta um **ataque próprio** na lista de ataques, com dano/propriedades **escalados por FOR** — usado por **artefatos** (ex.: os 2 ataques das *Garras do Rei-Mago*). É **interativa-only**: aparece só na Interativa e NÃO materializa no FM nem entra na lista de ataques do editável (lá só o efeito aparece nos Elementos de Regra).\n\n```yaml\nEfeitos_Interativos:\n  - label: Garras do Rei-Mago (Mão Primária)\n    tipo: Arma\n    origem: Item\n    link: \"[[Garras do Rei-Mago]]\"    # preview linka a nota do tesouro\n    bonusItem: 3                       # espadas Mestre → +3 de item (fixo)\n    grupoAtaque: cac-marcial           # habilita a linha (AdO:) na Interativa\n    porFor:\n      1: { dano: \"d6+3\", tipo: corte, propriedades: [\"[[Precisa]]\"] }\n      2: { dano: \"d6+3\", tipo: corte, propriedades: [\"[[Precisa]]\", \"[[Apunhalante]]\"] }\n      3: { dano: \"d8+4\", tipo: corte, propriedades: [] }\n```\n\n- `porFor` (**obrigatório**): mapa `{1,2,3}` → `{dano, tipo, propriedades}`. FOR abaixo de 1 clampa em 1, acima de 3 em 3; usa o maior degrau ≤ FOR.\n- `link` (opcional): preview do ataque (ex.: a nota do tesouro), desacoplado do nome/stats.\n- `bonusItem` (opcional): item-bônus **fixo** do ataque (derivado do tier do item — Mestre = 3). Não editável na ficha.\n- `grupoAtaque` (opcional): grupo de arma canônico (`cac-marcial`/`cac-simples`/`natural`/`especial`/`d-*`). Sem ele, a linha `(AdO:)` não aparece.\n\n> **Convenção de artefato:** o tesouro declara `subcategoria: Artefato` no FM e vive em `Tesouros/Artefatos/`. É sempre **Mestre** (qualidade derivada, não editável) e adicionável no grupo \"Artefatos\" da seção Tesouros.\n\n`label` e `tipo` são os únicos campos obrigatórios em todos os efeitos.\n`grupo` é obrigatório só pra `tipo: Condição`. Tudo mais é opcional.\n\nSchema TypeScript completo em [`src/extract/interativa/types.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/extract/interativa/types.ts).\n\n## Painéis de ancoragem (`visual.ancorar`)\n\nQuando declarado, o toggle do efeito aparece NO FIM do painel indicado\nem vez de na Lista de Efeitos genérica:\n\n| Valor | Painel |\n|---|---|\n| `AtaquesEAcoes` | \"🔺 Ataques e Ações\" |\n| `MagiaArcanaAnima` | \"✨ Magia Anima\" |\n| `MagiaArcanaNegra` | \"✨ Magia Negra\" |\n| `MagiaArcanaBranca` | \"✨ Magia Branca\" |\n| `MagiaArcanaTesouros` | \"✨ Magia (Tesouros)\" |\n\nA ancoragem também é **inferida automaticamente** pelo path da nota\n(`Sistema/.../Magia Arcana Branca/<X>.md` → `MagiaArcanaBranca`). Só\ndeclare `ancorar` explicitamente quando quiser sobrescrever.\n\n## Primitivas de escalonamento\n\n3 formas de \"este valor escala com X\" usadas em\n`modificadores[*].valor`, `invocacao.stats.*`, e\n`invocacao.ataques[*].dano`:\n\n| Forma | Sintaxe | Exemplo de uso |\n|---|---|---|\n| Por nível | `{porNivel: {1: ..., 4: ..., 7: ...}}` | Ataque Furtivo, Aspecto Elemental |\n| Por valor de selector | `{porSeletor: \"<label>\", tabela: {1: ..., 11: ...}}` ou `{porSeletor: \"<label>\", multiplicador: 5}` | Encantar Arma, Servo das Sombras (EV) |\n| Por proficiência em rota | `{porProficiencia: {A: ..., E: ..., M: ...}}` | Servo das Sombras (Defesa, Dano) |\n\n## Tipos de bônus (`tipoBonus:`)\n\nCampo opcional em modifiers `Somar` que muda como o bônus stacka com\noutros bônus do mesmo target. Implementa o sistema clássico de [bônus\nde condição](Sistema/Regras/Bônus%20%26%20Penalidades/Bônus%20de%20Condição.md)\ne [bônus de circunstância](Sistema/Regras/Bônus%20%26%20Penalidades/Bônus%20de%20Circunstância.md)\ndo Pleitost: dois bônus do mesmo tipo no mesmo alvo **não devem somar**\nentre si — só o maior conta.\n\n```yaml\nmodificadores:\n  - somar: Defesa\n    valor: 2\n    tipoBonus: Condicao      # Condicao | Circunstancia | Especializacao | Item | Unico\n    quando:\n      - {estado: \"Heroísmo Ativo\"}\n```\n\n**Stacking por tipo**:\n- Bônus de **Condição** (`+2 Condicao` + `+1 Condicao` no mesmo target)\n  → só o **maior** conta (`+2`). O `+1` é suprimido.\n- Penalidade de **Condição** (`-1 Condicao` + `-2 Condicao`) → só a\n  **mais negativa** (`-2`).\n- **Circunstância** funciona igual, em paralelo (max +/min − próprio).\n- **Tipos diferentes somam entre si**: `+2 Condicao` + `+1 Circunstancia`\n  no mesmo target = +3 total.\n- Sem `tipoBonus` (untyped, padrão atual): acumula linearmente como sempre.\n\n**Exemplo combinado** (Defesa):\n\n| Fonte | Tipo | Valor |\n|---|---|---|\n| Heroísmo | Condição | +2 |\n| Acelerar | Condição | +1 (suprimido pelo Heroísmo) |\n| Cobertura | Circunstância | +1 |\n| Cego | Circunstância | −2 |\n| Magia Pequena | (untyped) | +1 |\n\nResultado em Defesa: `+2 (Condição) + (+1 + −2 Circunstância) + +1 (untyped) = +2`.\n\n**Restrições**:\n- Só vale com verbo `Somar`. Declarar com `Definir`/`Multiplicar`/\n  `Sobrescrever` emite warning e o campo é ignorado.\n- Valores aceitos (case + acento-insensitive): `Condicao`/`Condição`,\n  `Circunstancia`/`Circunstância`, `Especializacao`/`Especialização`,\n  `Item`, `Unico`/`Único`. Convenção do registry usa formas sem\n  acento, mas ambas são equivalentes.\n- Outros valores (ex: `Status`, `Inerente`) viram warning + campo ignorado.\n- **`Unico`** é especial — semanticamente uma categoria (aparece com\n  prefix \"Único:\" no tooltip), mas o stacking é **soma direta** (igual\n  ao untyped). Útil pra modificadores que NÃO são \"bônus tipados\"\n  tradicionais (dano de precisão do Ataque Furtivo, propriedade de\n  arma como Apunhalante/Duas-mãos/Propulsão, dano de habilidade de\n  classe como Ataque Poderoso/Aspectos druídicos) mas precisam de\n  classificação explícita pra display.\n\n## Catálogo de targets (`somar: <X>`)\n\nLista do que pode ir no campo `somar:` (idem `multiplicar:` / `sobrescrever:` / `definir:`, mas esses só valem pros 12 number-targets top-level + 2 grupos — vide [interativa-catalogos.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md#modifier_targets) pra restrição).\n\n### Resistências, sentidos, combate (number-targets globais)\n\n| Target | Aplica em | Exemplo (literal do vault) |\n|---|---|---|\n| `Defesa` | `model.defesas.Defesa` | `{ somar: Defesa, valor: 2 }` ([Heroísmo.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Experiente/Heroísmo.md)) |\n| `Vigor` | `model.defesas.Vigor` | `{ somar: Vigor, valor: 1 }` |\n| `Impeto` | `model.defesas.Impeto` | `{ somar: Impeto, valor: 1 }` ([Despertar.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Despertar.md)) |\n| `Reflexo` | `model.defesas.Reflexo` | `{ somar: Reflexo, valor: 1 }` ([Celeridade.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Celeridade.md)) |\n| `Resistencias` | grupo: Defesa+Vigor+Impeto+Reflexo | `{ somar: Resistencias, valor: 2 }` (Heroísmo) |\n| `Percepcao` | `model.sentidos.Percepcao` | `{ somar: Percepcao, valor: 1 }` |\n| `Intuicao` | `model.sentidos.Intuicao` | `{ somar: Intuicao, valor: 1 }` |\n| `Sentidos` | grupo: Percepcao+Intuicao | `{ somar: Sentidos, valor: 1 }` |\n| `Movimento` | `model.movimento.*` | `{ somar: Movimento, valor: 1 }` ([Acelerar.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Acelerar.md)) |\n| `Ataque` | bônus em ataques | `{ somar: Ataque, valor: 1 }` ([Inspiração.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Inspiração.md)) |\n| `Manobra` | bônus em manobras | `{ somar: Manobra, valor: 1 }` (com `porSeletor` em [Aspecto Sagaz.md](Sistema/Criação%20de%20Personagem/Técnicas/Druida/Aspecto%20Sagaz.md)) |\n| `MagiaAtaque` | bônus em ataques mágicos | `{ somar: MagiaAtaque, valor: 1 }` ([Despertar.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Despertar.md)) |\n| `MagiaCD` | CD das magias | `{ somar: MagiaCD, valor: 1 }` |\n| `PotenciaMagica` | Potência mágica | `{ somar: PotenciaMagica, valor: 1 }` |\n\n### Perícias (3 escopos diferentes — escolha pelo escopo desejado)\n\n```yaml\n# Todas as perícias (Heroísmo: +2 em todas)\n- { somar: Pericias, valor: 2 }\n\n# Todas as perícias DE UM atributo (Celeridade: +1 nas perícias de AGI)\n- { somar: PericiasDeAtributo, porAtributo: AGI, valor: 1 }\n\n# Todas as perícias DE UM atributo dinâmico (Melhorar Habilidade: user escolhe)\n- somar: PericiasDeAtributo\n  porAtributo: { doSeletor: Atributo }\n  valor: 2\n\n# UMA perícia específica (sintaxe parametrizada)\n- { somar: Pericia(Intimidação), valor: 1 }\n- { somar: Pericia(Atletismo),   valor: 1 }\n```\n\n⚠️ **Erro comum**: `somar: Intimidação` (nome solto) **não funciona** — parser não reconhece. Tem que ser `Pericia(Intimidação)`. Aceita acentuado.\n\nExiste `Pericia(<Nome>)` como sintaxe paramétrica em [parse-condition-rule.ts:181-185](.obsidian/plugins/pleitost-autosheet/src/runtime/condicoes/parse-condition-rule.ts#L181-L185); slug é gerado via `slugify(nome)`.\n\n### Ataques (2 escopos)\n\n```yaml\n# Bônus em todos os ataques\n- { somar: Ataques, valor: 1 }\n\n# Bônus nos ataques DE UM atributo\n- { somar: AtaquesDeAtributo, porAtributo: AGI, valor: 1 }   # Celeridade\n```\n\n### Dano e dado de arma\n\n| Target | O que faz | Exemplo |\n|---|---|---|\n| `DanoArmaFixo` | Soma valor fixo no dano (ex: +1) | `{ somar: DanoArmaFixo, valor: 1 }` ([Ato Inspirador.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Ato%20Inspirador.md)) |\n| `DanoArmaPorDado` | Soma valor POR DADO de dano (ex: +1 cada `dN`) | `{ somar: DanoArmaPorDado, valor: 1 }` |\n| `PassoDeDado` | Aumenta passo (d4→d6→d8→d10→d12) | `{ somar: PassoDeDado, valor: 1 }` ([Fúria.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Monge/Fúria.md), [Apunhalante.md](Sistema/Regras/Propriedades/Apunhalante.md)) |\n| `DadoExtra` | Adiciona dado extra (ex: `d6` → rolagem ganha +1d6) | `{ somar: DadoExtra, valor: d6 }` ([Aspecto Elemental.md](Sistema/Criação%20de%20Personagem/Técnicas/Druida/Aspecto%20Elemental.md)) |\n| `DadoExtraDaArma` | Dado extra do TIPO da arma (ex: arma d8 → +1d8) | `{ somar: DadoExtraDaArma, valor: 1 }` ([Ataque Poderoso.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Poderoso.md)) |\n| `DadoExtraPorNivel` | Dado extra com tabela por nível | `{ somar: DadoExtraPorNivel, valor: { porNivel: { 1: d6, 4: d10, 7: d12 } } }` ([Ataque Furtivo.md](Sistema/Criação%20de%20Personagem/Habilidades/Ladino/Ataque%20Furtivo.md)) |\n| `DadoExtraPorSeletor` | Dado extra com tabela por valor de seletor | (vide Aspecto Elemental) |\n| `DadoOportunidade` | Dado extra no **Ataque de Oportunidade** (canal próprio — não toca no dano normal da arma) | `{ somar: DadoOportunidade, valor: 1 }` ([Oportunidade Especializada.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Oportunidade%20Especializada.md)) |\n| `OportunidadeFixo` | Bônus **fixo** (offset) só no Ataque de Oportunidade — pro dano de AdO \"simplificado\" pra um número | `{ somar: OportunidadeFixo, valor: { porSeletor: \"Potência Mágica\", tabela: {...} } }` ([Encantar Arma.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Encantar%20Arma.md)) |\n\n### Outros\n\n| Target | Notas | Exemplo |\n|---|---|---|\n| `BonusEscudo` | Lê escudo equipado + Obra-prima e adiciona em Defesa | `{ somar: BonusEscudo, valor: 1 }` ([Erguer Escudo.md](Sistema/Regras/Ações/Ações%20Especiais/Erguer%20Escudo.md)) |\n| `ManobrasPorItemDaArma` | +N manobras pra arma do grupo selecionado | `{ somar: ManobrasPorItemDaArma, valor: 1, quando: [{grupoArma: \"corpo-a-corpo\"}] }` ([Ataque Brutal.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Brutal.md)) |\n\n> **Catálogo completo + status** (implemented/deferred): [interativa-catalogos.md#modifier_targets](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md#modifier_targets).\n\n## Catálogo de guards (`quando:`)\n\nCada item do array `quando:` é um objeto com UMA chave (kind do guard).\nTODOS precisam casar pra modifier aplicar (AND lógico).\n\n```yaml\nquando:\n  - { estado:        \"Performance Bárdica Ativa\" }   # toggle de Estado ATIVO\n  - { condicao:      \"Vantagem de Combate\" }         # condição ativa\n  - { forma:         \"Forma Brutal\" }                # Forma específica ativa\n  - { propriedade:   \"Apunhalante\" }                 # arma alvo TEM propriedade\n  - { naoPropriedade: \"Ágil\" }                       # arma alvo NÃO tem\n  - { grupoArma:     \"corpo-a-corpo\" }               # arma é do grupo (ver mapa)\n  - { grupoEspecializado: true }                     # arma ∈ grupo de Especialização do herói\n  - { empunhadura:   1 }                             # arma usa N mão(s)\n  - { proficiencia:  \">=E\" }                         # proficiência ≥ rank\n  - { recurso:       \"EM>=1\" }                       # recurso atende expressão\n  - { seletor:       { label: \"Modo\", valor: \"Mão livre\" } }   # selector value\n```\n\n`Condição` e `Estado` fazem dual-check ([guard-evaluator.ts:100-121](.obsidian/plugins/pleitost-autosheet/src/runtime/condicoes/guard-evaluator.ts#L100-L121)) — `{ estado: X }` casa se X estiver ativo seja como Estado-toggle ou como Condição catalog (Vantagem de Combate funciona como ambos).\n\n### `grupoArma:` valores aceitos\n\n| Valor | Cobre grupos do FM |\n|---|---|\n| `corpo-a-corpo` | `cac-simples`, `cac-marcial`, `natural` |\n| `distância` | `d-simples`, `d-marcial` |\n| `simples` | `cac-simples`, `d-simples` |\n| `marcial` | `cac-marcial`, `d-marcial` |\n| `natural` | `natural` |\n| `especial` | `especial` |\n\n### `grupoEspecializado:` (booleano)\n\n`{ grupoEspecializado: true }` passa quando a arma usada pertence a um grupo de [[Especialização em Arma]] do herói — principal **ou** [[Especialização Menor em Arma]]. O runtime monta o conjunto de armas a partir dos blocos `grupoArma` declarados (`tipo: Passivo`) nas habilidades de Especialização que o herói possui. É o guard que gateia Oportunidade Especializada.\n\n### `proficiencia:` sintaxe\n\n`<op><rank>` onde `op ∈ { =, ==, >=, <=, >, < }` e `rank ∈ { N, A, E, M }`.\nEx: `\">=E\"` (Experiente ou maior), `\"=M\"` (exatamente Mestre), `\">A\"` (acima de Adepto, ou seja E/M).\n\n⚠️ Sintaxe legada `\">=4\"`/`\">=6\"` (numérica) **NÃO é aceita**. Migrar pra rank-letter.\n\n### `recurso:` sintaxe\n\n`<RECURSO><op><N>`. Recursos implementados hoje em [`recursoValue` (guard-evaluator.ts:275-290)](../../../.obsidian/plugins/pleitost-autosheet/src/runtime/condicoes/guard-evaluator.ts#L275-L290):\n\n| Nome canônico | Aliases (case-insensitive, NFD) |\n|---|---|\n| `EM` | `em` |\n| `VITALIDADE` | `vit` |\n| `MORAL` | `moral` |\n| `MORAL_TEMPORARIA` | `moraltemp` |\n| `ESCUDO` | `escudodano` |\n\nRecursos não listados retornam `null` → guard sempre falha. Exemplos QUE NÃO FUNCIONAM hoje: `Recurso,Foco>=1`, `Recurso,Mana<5`, `Recurso,ARMAS_CAC>=2` (este último aparece em [Aparar.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Aparar.md) — efeito está parcialmente quebrado até implementação dos recursos derivados de inventário).\n\n## Exemplos completos por arquétipo\n\n### Passivo\n\nModifier sempre ativo enquanto a habilidade/magia/etc estiver no model. Sem UI no Interativa — só corre quando os `quando:` casam.\n\n#### Passivo simples com guard de recurso\n\n[Proteção Elemental.md](Sistema/Criação%20de%20Personagem/Habilidades/Animista/Proteção%20Elemental.md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Proteção Elemental\n    tipo: Passivo\n    origem: Habilidade\n    modificadores:\n      - somar: Defesa\n        valor: 1\n        quando: [{ recurso: \"EM>=1\" }]\n```\n\n#### Passivo com guard de Estado (cascade — Auto-Confiança)\n\n[Auto-Confiança.md](Sistema/Criação%20de%20Personagem/Habilidades/Bardo/Auto-Confiança.md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Auto-Confiança\n    tipo: Passivo\n    origem: Habilidade\n    modificadores:\n      - somar: Ataque\n        valor: 1\n        quando: [{ estado: \"Performance Bárdica Ativa\" }]\n      - somar: Defesa\n        valor: 1\n        quando: [{ estado: \"Performance Bárdica Ativa\" }]\n```\n\n#### Passivo de propriedade com requer + guard de propriedade ([Apunhalante.md](Sistema/Regras/Propriedades/Apunhalante.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Apunhalante (VC)\n    tipo: Passivo\n    origem: Propriedade\n    escopo: { arma: TodasAsArmas }\n    links:\n      requer: [\"Vantagem de Combate\"]\n    modificadores:\n      - somar: PassoDeDado\n        valor: 1\n        quando: [{ propriedade: \"Apunhalante\" }]\n      - somar: DanoArmaFixo\n        valor: 1\n        quando: [{ propriedade: \"Apunhalante\" }]\n```\n\n`links.requer` faz o efeito SÓ rodar se \"Vantagem de Combate\" estiver ativo. `escopo.arma: TodasAsArmas` itera por arma; `propriedade: \"Apunhalante\"` filtra só as que têm essa propriedade.\n\n#### Passivo com guard composto + escala por nível ([Ataque Furtivo.md](Sistema/Criação%20de%20Personagem/Habilidades/Ladino/Ataque%20Furtivo.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Ataque Furtivo\n    tipo: Passivo\n    origem: Habilidade\n    escopo: { arma: TodasAsArmas }\n    links:\n      requer: [\"Vantagem de Combate\"]\n    modificadores:\n      - somar: DadoExtraPorNivel\n        valor: { porNivel: { 1: d6, 4: d10, 7: d12 } }\n        quando: [{ propriedade: \"Precisa\" }]\n      - somar: DadoExtraPorNivel\n        valor: { porNivel: { 1: d6, 4: d10, 7: d12 } }\n        quando: [{ grupoArma: \"distância\" }]\n```\n\n### Estado\n\nToggle on/off explícito. Aparece como botão na Lista de Efeitos (ou no painel ancorado).\n\n#### Estado puro sem modifier ([Vantagem de Combate.md](Sistema/Regras/Condições/Vantagem%20de%20Combate.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Vantagem de Combate\n    tipo: Estado\n    origem: Habilidade\n    visual:\n      iconeLigado: ⚔️\n      iconeDesligado: 🚫\n      ancorar: AtaquesEAcoes\n```\n\nSem `modificadores` — só serve como gatilho pra OUTROS efeitos `requer:`/`quando:`. `ancorar: AtaquesEAcoes` faz o toggle aparecer no painel \"🔺 Ataques e Ações\" em vez da Lista geral.\n\n#### Estado com modifier direto ([Erguer Escudo.md](Sistema/Regras/Ações/Ações%20Especiais/Erguer%20Escudo.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Escudo Erguido\n    tipo: Estado\n    origem: Habilidade\n    visual: { iconeLigado: 🛡️, iconeDesligado: 🚫 }\n    modificadores:\n      - { somar: BonusEscudo, valor: 1 }\n```\n\n#### Estado por grupo de arma ([Fúria.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Monge/Fúria.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Fúria\n    tipo: Estado\n    origem: Habilidade\n    escopo: { arma: TodasAsArmas }\n    visual: { iconeLigado: 🔥, iconeDesligado: 🚫 }\n    modificadores:\n      - { somar: PassoDeDado,  valor: 1, quando: [{ grupoArma: \"corpo-a-corpo\" }] }\n      - { somar: DanoArmaFixo, valor: 1, quando: [{ grupoArma: \"corpo-a-corpo\" }] }\n      - { somar: PassoDeDado,  valor: 1, quando: [{ grupoArma: \"especial\" }] }\n      - { somar: DanoArmaFixo, valor: 1, quando: [{ grupoArma: \"especial\" }] }\n```\n\n#### Estado com selector numérico (Aspecto Sagaz)\n\n[Aspecto Sagaz.md](Sistema/Criação%20de%20Personagem/Técnicas/Druida/Aspecto%20Sagaz.md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Aspecto Sagaz\n    tipo: Estado\n    origem: Habilidade\n    escopo: { arma: AtaqueNatural }\n    visual: { iconeLigado: 👹, iconeDesligado: 🚫 }\n    selectores:\n      - kind: numerico\n        label: \"EM Investido\"\n        min: 1\n        max: 4\n        step: 1\n    modificadores:\n      - somar: Pericias\n        valor:\n          porSeletor: \"EM Investido\"\n          tabela: { 1: 1, 2: 2, 3: 2, 4: 2 }\n      - somar: Manobra\n        valor:\n          porSeletor: \"EM Investido\"\n          tabela: { 2: 1, 3: 1, 4: 2 }\n```\n\n`selectores` cria um spinner numérico no toggle. `valor.porSeletor` lê o número escolhido e mapeia via `tabela`. Ausência da chave (ex: EM=1 em Manobra) = sem efeito naquele tier.\n\n#### Estado com selector + guard composto ([Aparar.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Aparar.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Aparar\n    tipo: Estado\n    origem: Técnica\n    escopo:\n      arma: ArmaSelecionada\n    visual:\n      iconeLigado: 🛡️\n      iconeDesligado: 🚫\n    selectores:\n      - kind: discreto\n        label: \"Modo\"\n        opcoes: [\"[[Mão livre]]\", \"[[Duas armas]]\"]\n    modificadores:\n      - somar: Defesa\n        valor: 2\n        quando:\n          - { grupoArma: \"corpo-a-corpo\" }\n          - { empunhadura: 1 }\n          - { seletor: { label: \"Modo\", valor: \"Mão livre\" } }\n          - { recurso: \"ESCUDO=0\" }\n      - somar: Defesa\n        valor: 2\n        quando:\n          - { grupoArma: \"corpo-a-corpo\" }\n          - { empunhadura: 1 }\n          - { seletor: { label: \"Modo\", valor: \"Duas armas\" } }\n          - { recurso: \"ARMAS_CAC>=2\" }\n          - { recurso: \"ARMAS_CAC_AGEIS>=1\" }\n```\n\n`kind: discreto` cria dropdown. Note que `ArmaSelecionada` requer escolha de arma alvo; o painel ancorado da Interativa expõe o seletor.\n\n#### Estado de Ataque de Oportunidade — técnica ([Oportunidade Feral.md](Sistema/Criação%20de%20Personagem/Técnicas/Druida/Oportunidade%20Feral.md))\n\nTécnicas de [[Ataque de Oportunidade]] com condição in-fiction **transiente** (recebeu dado de comando no último turno, Forma Feral ativa, contra o alvo de caça, gastou as 2 reações) são um toggle `Estado` ancorado em \"Ataques e Ações\" com o target `DadoOportunidade` — o jogador liga quando a condição vale:\n\n```yaml\nEfeitos_Interativos:\n  - label: Oportunidade Feral\n    tipo: Estado\n    origem: Técnica\n    visual:\n      iconeLigado: 🎯\n      iconeDesligado: 🚫\n      ancorar: AtaquesEAcoes\n    modificadores:\n      - somar: DadoOportunidade\n        valor: 1\n```\n\n`origem: Técnica` é o que ativa o **não-acúmulo**: se o personagem tiver duas técnicas de AdO ligadas, só a de maior valor conta (ver [pattern Ataque de Oportunidade](#ataque-de-oportunidade-dadooportunidade)). 4 das 5 técnicas — Oportunidade Prevista (Comandante), Oportunidade Feral (Druida), Caçada Oportuna (Caçador), Instintos Aprimorados (Monge) — usam esse MESMO bloco; só muda o `label`.\n\n[Oportunidade Especializada](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Oportunidade%20Especializada.md) (Guerreiro) é a **exceção**: sua condição (arma com Especialização em Arma) não é transiente, então é `tipo: Passivo` — sempre ativa, sem toggle, sem `visual`. Contribui o mesmo `somar: DadoOportunidade`, mas o render do AdO mostra a contribuição em **neutro** (faz parte do AdO-base, não é buff):\n\n```yaml\nEfeitos_Interativos:\n  - label: Oportunidade Especializada\n    tipo: Passivo\n    origem: Técnica\n    modificadores:\n      - somar: DadoOportunidade\n        valor: 1\n```\n\n### Condição\n\nStatus ativo na criatura — chip na Lista de Condições. `grupo:` é OBRIGATÓRIO (Positiva/Negativa).\n\n#### Condição compartilhada simples ([Inspiração.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Inspiração.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Inspiração\n    tipo: Condição\n    grupo: Positiva\n    origem: Habilidade\n    escopo: { aplicaEm: Aliados, compartilharGrupo: true }\n    visual: { iconeLigado: 🎵, iconeDesligado: 🚫, realceEspecial: performance-bardica }\n    links:\n      ativa: [\"Performance Bárdica Ativa\"]\n    modificadores:\n      - { somar: Ataque, valor: 1 }\n```\n\n`escopo.aplicaEm: Aliados` + `compartilharGrupo: true` → cada aliado pode ativar individualmente. `links.ativa: [...]` = ATIVAR este efeito também ativa \"Performance Bárdica Ativa\" em cascade.\n\n#### Duas Condições no mesmo efeito (positivo + negativo)\n\n[Heroísmo.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Experiente/Heroísmo.md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Heroísmo\n    tipo: Condição\n    grupo: Positiva\n    origem: Magia\n    escopo: { compartilharGrupo: true }\n    modificadores:\n      - { somar: Pericias,     valor: 2 }\n      - { somar: Ataque,       valor: 2 }\n      - { somar: MagiaAtaque,  valor: 2 }\n      - { somar: Defesa,       valor: 2 }\n      - { somar: Resistencias, valor: 2 }\n  - label: Heroísmo (Exaustão)\n    tipo: Condição\n    grupo: Negativa\n    origem: Magia\n    escopo: { compartilharGrupo: true }\n    modificadores:\n      - { somar: Pericias,     valor: -2 }\n      - { somar: Ataque,       valor: -2 }\n      - { somar: MagiaAtaque,  valor: -2 }\n      - { somar: Defesa,       valor: -2 }\n      - { somar: Resistencias, valor: -2 }\n```\n\nMesma nota define DUAS condições — o buff e o debuff que vem depois.\n\n#### Condição com selector numérico ([Encantar Arma.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Encantar%20Arma.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Encantar Arma\n    tipo: Condição\n    grupo: Positiva\n    origem: Magia\n    escopo:\n      compartilharGrupo: true\n      arma: ArmaSelecionada\n    selectores:\n      - kind: numerico\n        label: \"Potência Mágica\"\n        min: 0\n        max: 11\n        step: 1\n    modificadores:\n      - somar: DadoExtra            # dano da arma — dado extra por potência\n        valor:\n          porSeletor: \"Potência Mágica\"\n          tabela: { 1: d2, 2: d4, 3: d6, 4: d8, 5: d10, 6: d12, 7: d12+1, 8: d12+2, 9: d12+3, 10: d12+4, 11: d12+5 }\n        tipoBonus: Unico\n      - somar: OportunidadeFixo      # Ataque de Oportunidade — valor FIXO simplificado\n        valor:\n          porSeletor: \"Potência Mágica\"\n          tabela: { 1: 1, 2: 1, 3: 2, 4: 2, 5: 3, 6: 3, 7: 4, 8: 4, 9: 5, 10: 5, 11: 6 }\n```\n\nEncantar Arma dá dois bônus por potência: um **dado** ao dano da arma (`DadoExtra`) e um valor **fixo** ao Ataque de Oportunidade (`OportunidadeFixo` — o dano de AdO é \"simplificado\" pra um número, conforme a coluna AdO da tabela da nota).\n\n#### Condição com selector discreto e atributo dinâmico ([Melhorar Habilidade.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Melhorar%20Habilidade.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Melhorar Habilidade\n    tipo: Condição\n    grupo: Positiva\n    origem: Magia\n    escopo: { compartilharGrupo: true }\n    selectores:\n      - kind: discreto\n        label: Atributo\n        opcoes: [FOR, AGI, INT, PRE]\n    modificadores:\n      - somar: PericiasDeAtributo\n        porAtributo: { doSeletor: Atributo }\n        valor: 2\n```\n\n`{ doSeletor: Atributo }` lê o valor escolhido pelo user no selector \"Atributo\" e usa como parâmetro do target.\n\n#### Condição negativa pura (sem modifier — só serve como gatilho)\n\n[Enervar.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Enervar.md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Enervar\n    tipo: Condição\n    grupo: Negativa\n    origem: Técnica\n    escopo: { proprio: true }\n    visual: { iconeLigado: 🎵, iconeDesligado: 🚫, realceEspecial: performance-bardica }\n    links:\n      ativa: [\"Performance Bárdica Ativa\"]\n```\n\nOutras técnicas (`Performance Enervante.md`) têm Passivo que checa `quando: [{ condicao: \"Enervar\" }]` pra somar bônus.\n\n### Forma\n\nTransformação mutex (ex: Druida só pode ter UMA Forma ativa). Estrutura pai-filhos com `links.pai`/`links.filhos`.\n\n#### Forma \"pai\" (sem stats — só agrupa filhos)\n\n[Guardião.md](Sistema/Criação%20de%20Personagem/Habilidades/Druida/Tradição%20Druídica/Tradição%20Druídica%20(Guardião).md):\n\n```yaml\nEfeitos_Interativos:\n  - label: Forma Feral\n    tipo: Forma\n    origem: Habilidade\n    escopo: { proprio: true }\n    visual: { oculto: true }\n    links:\n      filhos: [\"Forma Caçadora\", \"Forma Espreitadora\", \"Forma Brutal\", \"Forma Fortificada\"]\n```\n\n`visual.oculto: true` = não aparece no Lista de Efeitos. `links.filhos` define mutex automático entre os 4 filhos.\n\n#### Forma \"filha\" com stats ([Forma Caçadora.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Druida/Forma%20Caçadora.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Forma Caçadora\n    tipo: Forma\n    origem: Habilidade\n    escopo: { proprio: true }\n    visual: { iconeLigado: 🐺, iconeDesligado: 🚫 }\n    links:\n      pai: Forma Feral\n    forma:\n      movimento: 5\n      ataques: [\"Presas\", \"Garras\"]\n      manobras: [\"Derrubar\"]\n      resistencia: Evasão\n      pericias: [Cambalhota, Nadar, Salto Longo, Rastrear, Finta]\n      habilidades: [Abater Presa]\n      beneficios: \"Ataques com Presas contra criaturas Caídas tem seu dado de dano aumentado em 1 passo e o dano base aumentado em 1.\"\n```\n\n`forma:` é o bloco específico do tipo Forma — define stats que sobrescrevem ou adicionam ao herói enquanto a Forma estiver ativa.\n\n### AçãoLocal\n\nAção que aplica modifier durante seu uso. Toggle aparece **ao lado do nome da ação** no painel Ataques.\n\n#### AçãoLocal compartilhada ([Ato Inspirador.md](Sistema/Regras/Ações/Ações%20de%20Habilidade-Técnica/Bardo/Ato%20Inspirador.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Ato Inspirador\n    tipo: AçãoLocal\n    origem: Habilidade\n    escopo: { aplicaEm: Ambos, compartilharGrupo: true, arma: TodasAsArmas }\n    visual: { iconeLigado: 🎶, iconeDesligado: 🚫 }\n    links:\n      requer: [\"Inspiração\"]\n    modificadores:\n      - { somar: DanoArmaFixo,    valor: 1 }\n      - { somar: DanoArmaPorDado, valor: 1 }\n```\n\n`requer: [\"Inspiração\"]` = só pode ativar se \"Inspiração\" estiver ativo.\n\n#### AçãoLocal com guard de grupo ([Ataque Brutal.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Brutal.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Ataque Brutal\n    tipo: AçãoLocal\n    origem: Técnica\n    escopo: { arma: ArmaSelecionada }\n    visual: { iconeLigado: ⚔️, iconeDesligado: 🚫 }\n    modificadores:\n      - { somar: ManobrasPorItemDaArma, valor: 1, quando: [{ grupoArma: \"corpo-a-corpo\" }] }\n```\n\n### AtaqueLocal\n\nAtaque com modifier próprio. Toggle aparece **abaixo da arma específica**.\n\n#### AtaqueLocal com escala por proficiência + empunhadura ([Ataque Poderoso.md](Sistema/Criação%20de%20Personagem/Técnicas/Guerreiro/Ataque%20Poderoso.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Ataque Poderoso\n    tipo: AtaqueLocal\n    origem: Técnica\n    escopo: { arma: ArmaSelecionada }\n    visual: { iconeLigado: ⚔️, iconeDesligado: 🚫 }\n    modificadores:\n      - somar: DadoExtraDaArma\n        valor: 1\n        quando: [{ grupoArma: \"corpo-a-corpo\" }, { naoPropriedade: \"Ágil\" }]\n      - somar: DanoArmaFixo\n        valor: 2\n        quando: [{ grupoArma: \"corpo-a-corpo\" }, { naoPropriedade: \"Ágil\" }, { proficiencia: \">=E\" }]\n      - somar: DanoArmaFixo\n        valor: 2\n        quando: [{ grupoArma: \"corpo-a-corpo\" }, { naoPropriedade: \"Ágil\" }, { proficiencia: \">=M\" }]\n      - somar: DanoArmaFixo\n        valor: 1\n        quando: [{ grupoArma: \"corpo-a-corpo\" }, { naoPropriedade: \"Ágil\" }, { proficiencia: \">=E\" }, { empunhadura: 2 }]\n      - somar: DanoArmaFixo\n        valor: 2\n        quando: [{ grupoArma: \"corpo-a-corpo\" }, { naoPropriedade: \"Ágil\" }, { proficiencia: \">=M\" }, { empunhadura: 2 }]\n```\n\nCada bloco `quando:` é AND. Modifiers diferentes COM os mesmos guards somam.\n\n#### AtaqueLocal com selector numérico negativo (penalidade) ([Alcance.md](Sistema/Regras/Propriedades/Alcance.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Atacar Além do Alcance\n    tipo: Estado\n    origem: Propriedade\n    escopo: { proprio: true, arma: ArmaSelecionada }\n    visual: { iconeLigado: 🎯, iconeDesligado: 🚫 }\n    selectores:\n      - kind: numerico\n        label: \"Passos Além\"\n        min: 1\n        max: 10\n        step: 1\n    modificadores:\n      - somar: Ataque\n        valor:\n          porSeletor: \"Passos Além\"\n          multiplicador: -2\n        quando: [{ propriedade: \"Alcance\" }]\n```\n\n`multiplicador: -2` = `valor = seletor × -2`. Útil pra penalidades escaladas.\n\n### Invocação\n\nStats da criatura invocada. Card aparece INLINE dentro da seção da escola que invoca a criatura, no cluster Magias (ex: Servo das Sombras → seção Magia Arcana Negra). Roteamento via `companheiroSchool(efeito)` que mapeia `porProficienciaEm` → EscolaId.\n\n#### Invocação completa ([Servo das Sombras.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Negra/Magia%20Negra%20Adepta/Servo%20das%20Sombras.md))\n\n```yaml\nEfeitos_Interativos:\n  - label: Servo das Sombras\n    tipo: Invocação\n    origem: Magia\n    invocacao:\n      porProficienciaEm: Magia Arcana Negra\n      proficienciaMinima: A\n      stats:                          # keys CAPITALIZADAS (Defesa, não defesa)\n        EV: { porNivel: { 1: \"5×potência\" } }\n        Defesa:    { porProficiencia: { A: 14, E: 16, M: 18 }, porProficienciaEm: \"Magia Arcana\" }\n        Vigor:     { porProficiencia: { A: 12, E: 14, M: 16 }, porProficienciaEm: \"Magia Arcana\" }\n        Evasão:    { porProficiencia: { A: 12, E: 14, M: 16 }, porProficienciaEm: \"Magia Arcana\" }\n        Impeto:    { porProficiencia: { A: 12, E: 14, M: 16 }, porProficienciaEm: \"Magia Arcana\" }\n        Percepção: { porProficiencia: { A: 2, E: 2, M: 4 },    porProficienciaEm: \"Magia Arcana\" }\n        Movimento: 5\n      ataques:\n        - nome: Ataque Mental\n          tipo: corpo-a-corpo\n          bonus: { doInvocador: MagiaAtaque }\n          dano:  { porProficiencia: { A: \"1d4+2\", E: \"2d4+2\", M: \"3d4+2\" }, porProficienciaEm: \"Magia Arcana Negra\" }\n      habilidadesEspeciais:\n        - label: Toque Aterrorizante\n          descricao: \"Ataque Mental com sucesso deixa o alvo Nervoso por 1 turno.\"\n      notas:\n        - \"Você pode comandar a criatura uma vez por turno com uma ação, dando duas ações para ela. Pode dissipá-la como ação livre.\"\n```\n\n`bonus: { doInvocador: <target> }` = ataque herda esse target do invocador (NÃO `AtaqueMagico` — é `MagiaAtaque`, vide catálogo).\n\n## Patterns recorrentes\n\n### `compartilharGrupo: true`\nPermite que aliados ativem o efeito individualmente quando a criatura origem inicia (Inspiração, Heroísmo, Reforçar, Acelerar). Sem isso, aliados ficam dependentes do toggle do origem.\n\n### `links.requer: [...]` vs `links.ativa: [...]`\n- `requer:` = só pode ATIVAR se Y já está ativo (gating).\n- `ativa:` = ativar este TAMBÉM ativa Y em cascade.\n\nExemplos: Inspiração tem `ativa: [\"Performance Bárdica Ativa\"]`; Ato Inspirador tem `requer: [\"Inspiração\"]`.\n\n### `visual.realceEspecial: performance-bardica | aspecto-elemental`\nAplica destaque visual no chip/toggle (ex: cor amarela pra performance bárdica, gradiente elemental pro aspecto). Pipes na coluna do schema = literalmente \"OR\" entre os valores aceitos, NÃO sintaxe a copiar.\n\n### `visual.oculto: true`\nEsconde da Lista de Efeitos genérica. Útil pra nodes pai (Forma Feral) que não devem ser togglados diretamente.\n\n### `visual.ancorar: <Painel>`\nMove o toggle pro painel indicado em vez da Lista. Painéis hoje: `AtaquesEAcoes`, `MagiaArcanaAnima`, `MagiaArcanaNegra`, `MagiaArcanaBranca`, `MagiaArcanaTesouros`. Inferido por path da nota se omitido.\n\n### `visual.nucleo: true`\nMarca o efeito como toggle **núcleo** — regra de engine UNIVERSAL, sempre presente na ficha (Vantagem de Combate, Acerto Decisivo), não conteúdo de classe. No painel, os toggles núcleo de um mesmo painel renderizam **lado a lado** numa row própria, com visual distinto dos toggles de classe (mais estreitos, borda tracejada, amarelo quando ligados em vez de verde). Vantagem de Combate fica à esquerda (ordem de `pickAncorados`).\n\n### `selectores[*].oculto: true`\nSelector existe (pra ser referenciado por `valor.porSeletor` ou `quando: [{seletor: ...}]`) mas não aparece na UI. Usado em [Passos Rápidos.md](Sistema/Criação%20de%20Personagem/Magia/Magia%20Arcana/Magia%20Arcana%20Branca/Magia%20Branca%20Adepta/Passos%20Rápidos.md) pra graduação automática de magia.\n\n### Ataque de Oportunidade (`DadoOportunidade`)\n\nO target `DadoOportunidade` adiciona dados ao dano de um **Ataque de Oportunidade** — exibido no painel Ataques como `2d4+2 🪡 (AdO: 2 🪡)`. Cai num canal PRÓPRIO (`AttackDamageContext.ado`): **não** mexe no dano normal da arma.\n\n- **Não-acúmulo entre técnicas**: efeitos `origem: Técnica` que somam `DadoOportunidade` NÃO acumulam entre si — vale o de maior valor (regra \"Técnicas que aumentam o dano do AdO não acumulam\"). As demais origens (`Habilidade`/`Magia`/`Propriedade`) acumulam normalmente, assim como o dado de Mestre (regra base do sistema).\n- **Acerto Decisivo** é um efeito-núcleo **embutido no plugin** (não uma nota do vault) — toggle universal do Sucesso Decisivo de [[Atacar]]. Adiciona 1 dado em DOIS canais: `DadoDecisivo` (dano da arma — um dado de dano da arma de verdade, conta pro `DanoArmaPorDado`) E `DadoOportunidade` (AdO). `origem: Habilidade` → acumula com técnicas e com o dado de Mestre. Aparece ancorado em \"Ataques e Ações\", logo após Vantagem de Combate.\n- **`OportunidadeFixo`** é o irmão de `DadoOportunidade`: adiciona um bônus **fixo** (offset) ao AdO em vez de um dado. Usado quando o dano de AdO de um efeito é \"simplificado\" pra um número — caso do **Encantar Arma**, cuja tabela tem uma coluna \"AdO\" própria por potência. Soma direta, sem não-acúmulo.\n- **Elegibilidade**: só armas corpo-a-corpo (`cac-*`/`natural`) ou `especial`, com proficiência ≥ Adepto, mostram a linha `(AdO:)`. Armas à distância ficam de fora.\n- **O que entra no AdO.** Bônus de `DanoArmaFixo`/`DanoArmaPorDado`/`PassoDeDado` (Apunhalante, Ato Inspirador, Fúria…) entram no AdO. A exceção são efeitos `tipo: AtaqueLocal` — ataques ESPECÍFICOS (ex: Ataque Poderoso) cujo dano não se aplica a um Ataque de Oportunidade (que é outra ação). Os canais de DADO EXTRA (`DadoExtra`, `DadoExtraDaArma`, `DadoDecisivo`) nunca entram no AdO — pra contribuir um dado/valor de propósito use os canais explícitos `DadoOportunidade`/`OportunidadeFixo`.\n- **`DanoArmaPorDado` no AdO** escala com o nº de dados do AdO — que inclui o dado do Mestre e os dados de `DadoOportunidade` (técnicas, Oportunidade Especializada). Ex: Ato Inspirador num AdO com 2 dados → +2 no AdO.\n\nSpec do cálculo (fórmula, offset, tooltip): [spec-modificadores.md §6.4](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/spec-modificadores.md).\n\n## Convenções obrigatórias\n\n🚩 **Properties YAML SEMPRE em PT-BR.** O vault inteiro está em\nportuguês. Use `tipo`/`grupo`/`origem`/`escopo`/`aplicaEm`/`selectores`/\n`links`/`modificadores`/`proprio`/`compartilharGrupo`/`aliados`. NÃO\nuse `type`/`group`/`scope`/`aplicacao` — o parser não reconhece.\n\nValores também: `Estado`/`Condição`/`Forma`/`AçãoLocal`/`AtaqueLocal`/\n`Invocação`/`Passivo`, `Positiva`/`Negativa`, `Habilidade`/`Magia`/\n`Técnica`/`Propriedade`/`Item`, `Próprio`/`Aliados`/`Ambos`,\n`TodasAsArmas`/`ArmaSelecionada`/`AtaqueNatural`/`Nenhuma`.\n\n## Ver também\n\n- [[Elementos de Regra]] — `Elementos_de_Regra` (sistema legacy mais geral)\n- [[Como Funciona]] — fluxos\n- [reference/interativa-catalogos.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md) — catálogo de targets/guards/verbos\n- [reference/rule-elements.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements.md) — spec técnica completa\n- [archived/plano-rule-elements-interativa.md](../../../.obsidian/plugins/pleitost-autosheet/docs/archived/plano-rule-elements-interativa.md) — histórico de design\n"
+}

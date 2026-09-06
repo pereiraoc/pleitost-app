@@ -1,0 +1,68 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Praia de Belas",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Praia de Belas.md",
+  "basename": "Praia de Belas",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Poção da Velocidade]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Praia de Belas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Avenida Júlio de Castilhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Olímpico Monumental",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Velocidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Praia de Belas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Praia de Belas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Praia de Belas é uma zona portuária em pleno vapor, onde terminais de contêineres e galpões industriais dividem espaço com praças públicas que se tornaram pontos de encontro para torcidas organizadas. Nos dias de clássico, caravanas de ônibus carregados de torcedores descem pela [[Avenida Júlio de Castilhos]], transformando armazéns abandonados em áreas de concentração antes de seguirem para o [[Beira-Rio]] ou [[Olímpico Monumental]].\n> \n> 👁️**Aparência do Local:** Ao longo dos cais, guindastes pintados com as cores dos clubes (vermelho e branco ou azul e preto) contrastam com vagões enferrujados; containers grafitados exibem grandes escudos, e bandeiras rasgadas tremulam ao vento salgado. O cheiro de óleo diesel e salitre mistura-se ao som de cânticos e tambores — um prelúdio das batalhas de torcida que acontecem ali antes de cada Gre-Nal.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Praia de Belas é uma zona portuária em pleno vapor, onde terminais de contêineres e galpões industriais dividem espaço com praças públicas que se tornaram pontos de encontro para torcidas organizadas. Nos dias de clássico, caravanas de ônibus carregados de torcedores descem pela [[Avenida Júlio de Castilhos]], transformando armazéns abandonados em áreas de concentração antes de seguirem para o [[Beira-Rio]] ou [[Olímpico Monumental]].",
+    "aparencia": "Ao longo dos cais, guindastes pintados com as cores dos clubes (vermelho e branco ou azul e preto) contrastam com vagões enferrujados; containers grafitados exibem grandes escudos, e bandeiras rasgadas tremulam ao vento salgado. O cheiro de óleo diesel e salitre mistura-se ao som de cânticos e tambores — um prelúdio das batalhas de torcida que acontecem ali antes de cada Gre-Nal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

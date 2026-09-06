@@ -1,0 +1,60 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Costa e Silva",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Costa e Silva.md",
+  "basename": "Costa e Silva",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Recursos": [
+      "[[Poção da Coragem]]",
+      "[[Porrete]]"
+    ],
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Costa e Silva.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Coragem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porrete",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Costa e Silva.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Costa e Silva.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Área militarizada com vilas e torres de comunicação.\n>\n> 👁️**Aparência do Local:** Alambrados, torres de rádio, cheiro de óleo e metal, silêncio tenso.\n>\n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Área militarizada com vilas e torres de comunicação.",
+    "aparencia": "Alambrados, torres de rádio, cheiro de óleo e metal, silêncio tenso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

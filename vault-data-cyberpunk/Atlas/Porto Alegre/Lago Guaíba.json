@@ -1,0 +1,62 @@
+{
+  "id": "Atlas/Porto Alegre/Lago Guaíba",
+  "path": "Atlas/Porto Alegre/Lago Guaíba.md",
+  "basename": "Lago Guaíba",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Guaíba"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lago Guaíba.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lago Guaíba.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lago Guaíba.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** O grande lago que abraça Porto Alegre pelo oeste. Depois da enchente, é estrada, fronteira e despensa: rotas de balsa da [[Zaffari]], canoas da [[Aliança Livre das Palafitas]] e patrulhas fluviais da [[Brigada Militar Metropolitana|Brigada Militar]].\n> \n> 👁️**Aparência do Local:** Água barrenta de correnteza lenta, palafitas e decks na margem, guindastes do porto ao norte e o vulto das torres da cidade refletido no fim da tarde.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "O grande lago que abraça Porto Alegre pelo oeste. Depois da enchente, é estrada, fronteira e despensa: rotas de balsa da [[Zaffari]], canoas da [[Aliança Livre das Palafitas]] e patrulhas fluviais da [[Brigada Militar Metropolitana|Brigada Militar]].",
+    "aparencia": "Água barrenta de correnteza lenta, palafitas e decks na margem, guindastes do porto ao norte e o vulto das torres da cidade refletido no fim da tarde.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

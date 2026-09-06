@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Megacorporações/Gradiente",
+  "path": "Contexto/Organizações/Megacorporações/Gradiente.md",
+  "basename": "Gradiente",
+  "type": "Organização",
+  "subtype": "Megacorporação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Megacorporação",
+    "Líder": "[[Dra. Elisa Monteiro]]",
+    "Descrição": null,
+    "Resumo": "Empresa líder em implantes cognitivos e sociais, oferecendo soluções de espionagem e controle mental.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gradiente.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Dra. Elisa Monteiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Gradiente.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Gradiente.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n\n>**Descrição:** Fabricante dos chips e implantes cognitivos que movem a cidade, com assistências credenciadas e as Escolas Trônicas que formam operadores.\n"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Desastres Ignorados",
+  "path": "Contexto/Histórias/Contexto Atual/Ambiente e Sustentabilidade/Desastres Ignorados.md",
+  "basename": "Desastres Ignorados",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Catástrofes recorrentes tratadas como \"normais\" pelo poder estabelecido.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Desastres Ignorados.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Desastres Ignorados.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Enchentes Recorrentes"
+    },
+    {
+      "level": 4,
+      "text": "Vazamentos Radioativos"
+    },
+    {
+      "level": 4,
+      "text": "Colapsos de Infraestrutura"
+    },
+    {
+      "level": 4,
+      "text": "Epidemias Cíclicas"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Desastres Ignorados.png]]\n\nEm Porto Alegre de 1987, a população convive regularmente com desastres que, devido à repetição e à falta de ações efetivas por parte das autoridades, tornaram-se trivializados e aceitos como parte do cotidiano urbano.\n#### Enchentes Recorrentes\n- As enchentes anuais, agravadas pela infraestrutura deficiente e pela poluição acumulada, são sistematicamente redirecionadas para áreas periféricas como a [[Zona Deserta]], intensificando ainda mais a precariedade das condições de vida nesses locais. O governo trata essas ocorrências como eventos naturais inevitáveis, e as medidas adotadas são mínimas, geralmente limitadas a paliativos superficiais.\n\n#### Vazamentos Radioativos\n- Vazamentos frequentes de materiais radioativos das instalações industriais e laboratórios clandestinos, especialmente próximos ao [[Delta Radioativo]], são banalizados pelas autoridades. A população é mantida no escuro sobre os riscos reais e frequentemente é exposta a altos níveis de contaminação sem que ações efetivas sejam tomadas para resolver o problema ou proteger adequadamente os moradores.\n\n#### Colapsos de Infraestrutura\n- Colapsos estruturais, especialmente de viadutos e pontes, são vistos como ocorrências rotineiras devido ao abandono da manutenção preventiva pelo poder público. Moradores se habituaram a evitar áreas conhecidas por riscos estruturais, e rachaduras nas paredes das edificações são toleradas como inevitáveis.\n\n#### Epidemias Cíclicas\n- Epidemias sazonais provocadas por condições sanitárias precárias, como surtos recorrentes de doenças transmitidas pela água contaminada ou vetores urbanos, são tratadas como inevitáveis pelo regime, sem iniciativas sérias para resolvê-las. A população, por sua vez, se adapta, desenvolvendo rotinas próprias para evitar áreas e práticas de risco."
+}

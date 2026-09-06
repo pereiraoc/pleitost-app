@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Congelante/Essência Congelante",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Água/Essência Congelante/Essência Congelante.md",
+  "basename": "Essência Congelante",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Frio Instantâneo]], adepta [[Caminho de Gelo]], experiente [[Cristalização Gélida]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frio Instantâneo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caminho de Gelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cristalização Gélida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Congelante Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Congelante Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Frio Instantâneo]], adepta [[Caminho de Gelo]], experiente [[Cristalização Gélida]]\"\n%%\n### `= this.file.name`\n![[Essência Congelante Adepta#`= this.file.name`]]\n![[Essência Congelante Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

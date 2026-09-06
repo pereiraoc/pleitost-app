@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estação Férrea de Belas",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estação Férrea de Belas.md",
+  "basename": "Estação Férrea de Belas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estação Férrea de Belas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estação Férrea de Belas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estação Férrea de Belas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga estação de carga e passageiros.\n> \n> 👁️**Aparência do Local:** Trilhos enferrujados, plataforma de madeira, som de rajadas de vento.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga estação de carga e passageiros.",
+    "aparencia": "Trilhos enferrujados, plataforma de madeira, som de rajadas de vento.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

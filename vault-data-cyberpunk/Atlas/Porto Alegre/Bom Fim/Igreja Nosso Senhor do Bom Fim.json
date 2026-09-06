@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Igreja Nosso Senhor do Bom Fim",
+  "path": "Atlas/Porto Alegre/Bom Fim/Igreja Nosso Senhor do Bom Fim.md",
+  "basename": "Igreja Nosso Senhor do Bom Fim",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Igreja Nosso Senhor do Bom Fim.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Igreja Nosso Senhor do Bom Fim.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Igreja Nosso Senhor do Bom Fim.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Templo centenário frequentado por fieis e refugiados de enchentes.\n> \n> 👁️**Aparência do Local:** Fachada branca com vitrais, cheiro de incenso e madeiras antigas ecoando cânticos.",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Templo centenário frequentado por fieis e refugiados de enchentes.",
+    "aparencia": "Fachada branca com vitrais, cheiro de incenso e madeiras antigas ecoando cânticos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

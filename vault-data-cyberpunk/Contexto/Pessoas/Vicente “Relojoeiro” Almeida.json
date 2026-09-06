@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Vicente “Relojoeiro” Almeida",
+  "path": "Contexto/Pessoas/Vicente “Relojoeiro” Almeida.md",
+  "basename": "Vicente “Relojoeiro” Almeida",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Vicente Almeida",
+      "Relojoeiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Círculo das Ligas]]",
+    "Função": "Chefe do Círculo das Ligas",
+    "Aparência": "Lupa de joalheiro na testa, colete de ferramentas finas, relógio de bolso que ele mesmo montou de peças desviadas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Círculo das Ligas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

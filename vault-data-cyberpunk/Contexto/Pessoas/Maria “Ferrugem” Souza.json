@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Maria “Ferrugem” Souza",
+  "path": "Contexto/Pessoas/Maria “Ferrugem” Souza.md",
+  "basename": "Maria “Ferrugem” Souza",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Maria Souza",
+      "Ferrugem"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Clã da Ferrugem]]",
+    "Função": "Matriarca do Clã da Ferrugem",
+    "Aparência": "Mãos calejadas de forja, avental de couro, aparenta vinte anos a mais do que tem — e usa isso como argumento.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

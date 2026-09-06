@@ -1,0 +1,32 @@
+{
+  "id": "Campanhas/Aventuras/Expedição e Limpeza de Tumba Selada com Magia do Vazio",
+  "path": "Campanhas/Aventuras/Expedição e Limpeza de Tumba Selada com Magia do Vazio.md",
+  "basename": "Expedição e Limpeza de Tumba Selada com Magia do Vazio",
+  "type": "Aventura",
+  "subtype": "Neutralização",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Neutralização",
+    "rank": "B",
+    "disponivel": [
+      "[[Canto Alto]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Neutralização de Tumba Selada com Magia do Vazio\n\nRecompensa:\n- Marcas: {min: 10, max: 15}\n- Ouro: {min: 60, max: 80}\nObjetivo:\n- \"Encontrar e neutralizar o foco de energia negativa em Tumba Selada.\"\nLocal:\n- \"[[Canto Alto]]\"\nContato: \"Cavaleiros da Ordem Solar em [[Manilha]]\"\nFinanciador: Ordem Solar\n```"
+}

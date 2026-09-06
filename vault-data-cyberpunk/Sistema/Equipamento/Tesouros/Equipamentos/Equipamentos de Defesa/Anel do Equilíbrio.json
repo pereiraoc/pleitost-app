@@ -1,0 +1,152 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Defesa/Anel do Equilíbrio",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Defesa/Anel do Equilíbrio.md",
+  "basename": "Anel do Equilíbrio",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus de [[Defesa]] quando sem armadura.",
+    "preço": "50 PO",
+    "bonus_tipo": "defesa",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Defesa quando sem armadura.",
+      "experiente": "+2 de bônus de item em Defesa quando sem armadura.",
+      "mestre": "+3 de bônus de item em Defesa quando sem armadura."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Anel do Equilíbrio",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Anel do Equilíbrio",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Anel do Equilíbrio",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Defesa.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - anel*\nEste anel amplifica seu equilíbrio, facilitando evitar ataques caso não esteja limitado por uma armadura.\n* Adepto: +1 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n* Experiente: +2 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n* Mestre: +3 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: equipamentos-defesa\n```\n\n```autosheet-rules\n```\n"
+}

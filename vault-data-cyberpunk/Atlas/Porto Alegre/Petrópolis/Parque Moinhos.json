@@ -1,0 +1,51 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Parque Moinhos",
+  "path": "Atlas/Porto Alegre/Petrópolis/Parque Moinhos.md",
+  "basename": "Parque Moinhos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Parque Moinhos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Parque Moinhos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Parque Moinhos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pequeno parque de lazer para funcionários da [[Tramontina]].\n> \n> 👁️**Aparência do Local:** Árvores podadas, bancos de concreto, cheiro de grama recém cortada.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pequeno parque de lazer para funcionários da [[Tramontina]].",
+    "aparencia": "Árvores podadas, bancos de concreto, cheiro de grama recém cortada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

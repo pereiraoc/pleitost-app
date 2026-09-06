@@ -1,0 +1,60 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Jardim Botânico",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Jardim Botânico.md",
+  "basename": "Jardim Botânico",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Poção de Cura]]",
+      "[[Poção da Nutrição]]"
+    ],
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Jardim Botânico.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Jardim Botânico.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Jardim Botânico.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** “Cinturão verde” contra poluição, rodeado por indústrias.\n> \n> 👁️**Aparência do Local:** Árvores antigas, cheiro de terra molhada, canto de pássaros forçados a adaptar-se.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "“Cinturão verde” contra poluição, rodeado por indústrias.",
+    "aparencia": "Árvores antigas, cheiro de terra molhada, canto de pássaros forçados a adaptar-se.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

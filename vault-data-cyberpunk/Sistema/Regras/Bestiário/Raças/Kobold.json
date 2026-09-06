@@ -1,0 +1,176 @@
+{
+  "id": "Sistema/Regras/Bestiário/Raças/Kobold",
+  "path": "Sistema/Regras/Bestiário/Raças/Kobold.md",
+  "basename": "Kobold",
+  "type": "Habilidade",
+  "subtype": "Raça",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Raça",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Tamanho Pequeno",
+      "Alias Raça Compor 0 \"Kobold\"",
+      "Alias Raça Compor 1 \"(Pequeno)\"",
+      "Complementar Movimento.Lista Terrestre",
+      "Definir Movimento.Lista.Terrestre.Atributo AGI"
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Você é um Kobold.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Tamanho Pequeno",
+      "parsed": [
+        {
+          "sourceNote": "Kobold",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Tamanho",
+            "valueRaw": "Pequeno"
+          },
+          "raw": "Definir Tamanho Pequeno",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 0 \"Kobold\"",
+      "parsed": [
+        {
+          "sourceNote": "Kobold",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 0,
+            "fragment": "Kobold"
+          },
+          "raw": "Alias Raça Compor 0 \"Kobold\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Raça Compor 1 \"(Pequeno)\"",
+      "parsed": [
+        {
+          "sourceNote": "Kobold",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Raça",
+            "order": 1,
+            "fragment": "(Pequeno)"
+          },
+          "raw": "Alias Raça Compor 1 \"(Pequeno)\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Movimento.Lista Terrestre",
+      "parsed": [
+        {
+          "sourceNote": "Kobold",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-complementar",
+            "nome": "Terrestre"
+          },
+          "raw": "Complementar Movimento.Lista Terrestre",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+      "parsed": [
+        {
+          "sourceNote": "Kobold",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "movimento-lista-definir",
+            "nome": "Terrestre",
+            "field": "Atributo",
+            "valueRaw": "AGI"
+          },
+          "raw": "Definir Movimento.Lista.Terrestre.Atributo AGI",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Táticas Kobold",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Líder",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Batedor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Artilharia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Você é um Kobold.\"\n%%\n##### `= this.file.name`\nKobolds são uma das raças monstruosas encontradas no mundo. Com uma estrutura social coesa, eles invadem ruínas e outras estruturas, montando uma base de operações - o que muitas vezes causa insegurança nos moradores próximos. Kobolds podem ter qualquer sintonia, e quando usam magia, tendem ao uso de Magia Anima relativa a essa sintonia.\n\nKobolds tem [[Inteligência|INT]] como atributo primário (3) ou secundário (2), geralmente negligenciando [[Força|FOR]]. Kobolds lutam táticamente, se beneficiando de aliados, com a habilidade [[Táticas Kobold]].\nPapéis típicos são [[Soldado]], [[Líder]], [[Batedor]] e [[Artilharia]].\n\n```autosheet-rules\n```\n"
+}

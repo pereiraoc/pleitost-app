@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Arcano Mestre",
+  "path": "Sistema/Criação de Personagem/Habilidades/Multidisciplinar/Conhecimento Arcano Mestre.md",
+  "basename": "Conhecimento Arcano Mestre",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você aprende uma Magia Arcana Mestre.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Mestre]]\n\nresumo:: \"Você aprende uma Magia Arcana Mestre.\"\n%%\n####  `= this.file.name`\nVocê aprende uma Magia Arcana Mestre.\n\n```autosheet-rules\n```\n"
+}

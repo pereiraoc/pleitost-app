@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Mentir",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Mentir.md",
+  "basename": "Mentir",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Enganação]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta enganar alguém com uma mentira.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Enganação]]\"\npropriedades:: \nresumo:: \"Tenta enganar alguém com uma mentira.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Enganação]] vs [[CD]] da tarefa (tipicamente[[Percepção]]/[[Intuição]] de uma ou mais criaturas)\n\n```autosheet-rules\n```\n"
+}

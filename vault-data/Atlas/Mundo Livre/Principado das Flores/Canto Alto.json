@@ -1,0 +1,143 @@
+{
+  "id": "Atlas/Mundo Livre/Principado das Flores/Canto Alto",
+  "path": "Atlas/Mundo Livre/Principado das Flores/Canto Alto.md",
+  "basename": "Canto Alto",
+  "type": "Localização",
+  "subtype": "Capital",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Capital",
+    "Geolocalização": "[[Principado das Flores]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "[[Adaga]]",
+      "[[Rapieira]]",
+      "[[Punhal]]",
+      "[[Adaga de Duelo]]",
+      "[[Arco Curto]]",
+      "[[Espada Curta]]",
+      "[[Besta de Mão]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Armadura Obra-prima|Armadura Leve]]",
+      "[[Anel Canário]]",
+      "[[Capa Discreta]]",
+      "[[Botas Fluídicas]]",
+      "[[Broche Artístico]]",
+      "[[Broquel Obra-prima|Broquel]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Canto Alto.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Riqueza",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade Aberta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Punhal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta de Mão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Obra-prima",
+      "kind": "wikilink",
+      "alias": "Armadura Leve"
+    },
+    {
+      "target": "Anel Canário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capa Discreta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Botas Fluídicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broche Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Broquel Obra-prima",
+      "kind": "wikilink",
+      "alias": "Broquel"
+    }
+  ],
+  "images": [
+    {
+      "target": "Canto Alto.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Canto Alto.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Capital do [[Principado das Flores]] e sede de todo o seu governo: do Palácio dos Altos Ventos, residência do príncipe, e do Conselho Local no alto da Colina do Plenário se administra a nação inteira. É o grande porto do sul do [[Mundo Livre]] — pelos seus cais escoam o vinho, o grão e o gado do interior, e dali se cruza o estreito até a ilha de [[Riqueza]]. Aqui as disputas se resolvem na peleia, na argumentação, no grito e no truco: a Arena da Peleia lota para a luta por esporte, e as tabernas fervem de bardos noite adentro. A [[Sociedade Aberta]] mantém presença respeitável, mas sem sede gigantesca — e catedral, a cidade não tem nenhuma.\n>\n> 👁️**Aparência do Local:** Cidade circular murada à beira-mar: muralha alta de pedra cinzenta com torres redondas ameadas, aberta ao sul para uma baía enorme cheia de naus e trapiches. O casario é holandês — fileiras de casas altas e estreitas de empenas escalonadas em tijolo ocre, marrom e dourado — enquanto os edifícios cívicos sobem em gótico de pináculos; a torre do Carrilhão, no exato centro, é a estrutura mais alta da cidade. Canais descem da base da Colina do Plenário pelo Entrecanais até o porto, cruzados por dezenas de pontes de pedra em arco. Cada distrito se reconhece de longe pela cor do casario, dos telhados dourados das Fachadas Douradas ao vermelho-tijolo dos Ancoradouros. Fora das muralhas, a vida continua: aldeola e lavouras cercadas a noroeste, vinhedos em terraço colados à muralha leste e mata fechada descendo para a costa rochosa a sudoeste.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Praça do Carrilhão** *(centro)* — praça no exato centro da cidade, ao pé sul da Colina do Plenário, dominada pela torre-carrilhão de pedra clara com coroamento gótico — a estrutura mais alta de Canto Alto, de onde o casario irradia.\n>\n> **Colina do Plenário** *(verde — centro-norte)* — o morro cívico da capital: terraços ajardinados murados coroados pelos edifícios do poder.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "150.000 (20% Classe Baixa,  60% Classe Média, 20% Classe Alta)",
+    "descricao": "Capital do [[Principado das Flores]] e sede de todo o seu governo: do Palácio dos Altos Ventos, residência do príncipe, e do Conselho Local no alto da Colina do Plenário se administra a nação inteira. É o grande porto do sul do [[Mundo Livre]] — pelos seus cais escoam o vinho, o grão e o gado do interior, e dali se cruza o estreito até a ilha de [[Riqueza]]. Aqui as disputas se resolvem na peleia, na argumentação, no grito e no truco: a Arena da Peleia lota para a luta por esporte, e as tabernas fervem de bardos noite adentro. A [[Sociedade Aberta]] mantém presença respeitável, mas sem sede gigantesca — e catedral, a cidade não tem nenhuma.",
+    "aparencia": "Cidade circular murada à beira-mar: muralha alta de pedra cinzenta com torres redondas ameadas, aberta ao sul para uma baía enorme cheia de naus e trapiches. O casario é holandês — fileiras de casas altas e estreitas de empenas escalonadas em tijolo ocre, marrom e dourado — enquanto os edifícios cívicos sobem em gótico de pináculos; a torre do Carrilhão, no exato centro, é a estrutura mais alta da cidade. Canais descem da base da Colina do Plenário pelo Entrecanais até o porto, cruzados por dezenas de pontes de pedra em arco. Cada distrito se reconhece de longe pela cor do casario, dos telhados dourados das Fachadas Douradas ao vermelho-tijolo dos Ancoradouros. Fora das muralhas, a vida continua: aldeola e lavouras cercadas a noroeste, vinhedos em terraço colados à muralha leste e mata fechada descendo para a costa rochosa a sudoeste.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Praça do Carrilhão** *(centro)* — praça no exato centro da cidade, ao pé sul da Colina do Plenário, dominada pela torre-carrilhão de pedra clara com coroamento gótico — a estrutura mais alta de Canto Alto, de onde o casario irradia.\n\n**Colina do Plenário** *(verde — centro-norte)* — o morro cívico da capital: terraços ajardinados murados coroados pelos edifícios do poder.",
+    "leaflet": null
+  }
+}

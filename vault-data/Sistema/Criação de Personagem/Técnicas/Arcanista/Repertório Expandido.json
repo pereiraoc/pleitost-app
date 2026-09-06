@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Repertório Expandido",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Repertório Expandido.md",
+  "basename": "Repertório Expandido",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Escolha entre aprender duas Magias podendo ser tanto Básicas quanto Adeptas."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Escolha entre aprender duas Magias podendo ser tanto Básicas quanto Adeptas.\n%%\n#### `= this.file.name` - `= this.rank`\nEscolha um benefício:\n* Você aprende duas Magias Básicas de sua escolha.\n* Você aprende duas Magias Adeptas de sua escolha.\n* Você aprende uma Magia Adepta e uma Magia Básica de sua escolha.\n\n```autosheet-rules\n```\n"
+}

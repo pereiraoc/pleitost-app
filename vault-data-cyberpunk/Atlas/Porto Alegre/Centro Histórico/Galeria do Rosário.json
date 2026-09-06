@@ -1,0 +1,51 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Galeria do Rosário",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Galeria do Rosário.md",
+  "basename": "Galeria do Rosário",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Galeria do Rosário.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Galeria do Rosário.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Galeria do Rosário.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Espaço expositivo fundado em 1985 por ex-alunos do [[Colégio Rosário]], dedicado à arte moderna e intervenções urbanas, servindo de vitrine para talentosos jovens artistas porto-alegrenses.\n> \n> 👁️**Aparência do Local:** Salas amplas com paredes brancas, iluminação de trilhos direcionáveis, painéis de madeira reaproveitada pendurados por cabos de aço e uma abertura pra um deck de tábuas sobre a água, com vista pros prédios afundados do Centro.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Espaço expositivo fundado em 1985 por ex-alunos do [[Colégio Rosário]], dedicado à arte moderna e intervenções urbanas, servindo de vitrine para talentosos jovens artistas porto-alegrenses.",
+    "aparencia": "Salas amplas com paredes brancas, iluminação de trilhos direcionáveis, painéis de madeira reaproveitada pendurados por cabos de aço e uma abertura pra um deck de tábuas sobre a água, com vista pros prédios afundados do Centro.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

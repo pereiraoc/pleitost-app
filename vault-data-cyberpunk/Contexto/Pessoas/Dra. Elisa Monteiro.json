@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Dra. Elisa Monteiro",
+  "path": "Contexto/Pessoas/Dra. Elisa Monteiro.md",
+  "basename": "Dra. Elisa Monteiro",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Elisa Monteiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Gradiente]]",
+    "Função": "Diretora-Presidente da Gradiente",
+    "Aparência": "Tailleur cinza impecável, implante temporal discreto atrás da orelha e óculos de leitura que ninguém nunca viu ela usar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Eduardo “Senador” Pires",
+  "path": "Contexto/Pessoas/Eduardo “Senador” Pires.md",
+  "basename": "Eduardo “Senador” Pires",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Eduardo Pires",
+      "Senador"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Geral do Grêmio]]",
+    "Função": "Presidente da Geral do Grêmio",
+    "Aparência": "Blazer azul-preto com lenço branco e emblema “GDG” bordado, anel de formatura que ele gira quando negocia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Geral do Grêmio",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

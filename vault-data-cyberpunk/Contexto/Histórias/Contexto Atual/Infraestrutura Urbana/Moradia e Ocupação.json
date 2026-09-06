@@ -1,0 +1,129 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Moradia e Ocupação",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Moradia e Ocupação.md",
+  "basename": "Moradia e Ocupação",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A divisão entre áreas residenciais de elite, zonas degradadas e ocupações ilegais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Moradia e Ocupação.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink",
+      "alias": "Guaíba"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria do Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Moradia e Ocupação.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Ocupações Precárias e Resistência Popular"
+    },
+    {
+      "level": 4,
+      "text": "Edifícios Abandonados e Galerias Subterrâneas"
+    },
+    {
+      "level": 4,
+      "text": "Enclaves de Elite e Fortificação"
+    },
+    {
+      "level": 4,
+      "text": "Infraestrutura Improvisada e Economia Informal"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Moradia e Ocupação.png]]\n\nA moradia em Porto Alegre de 1987 reflete fortemente a tensão entre desenvolvimento desigual, precariedade ambiental e influência corporativa, dividindo a cidade de maneira brutalmente nítida entre áreas elitizadas, bairros degradados e zonas de ocupação improvisada.\n#### Ocupações Precárias e Resistência Popular\nNos bairros mais afetados pela grande enchente de 1986, especialmente na **[[Cidade Baixa]]**, famílias desalojadas construíram redes improvisadas de palafitas sobre o solo alagadiço do [[Lago Guaíba|Guaíba]], com passarelas de madeira arqueadas conectando casas improvisadas feitas de tábuas recicladas. Aqui, a influência da **[[Tramontina]]**, fornecedora de materiais reaproveitados, e da **[[Resistência Urbana Gaúcha]]**, que organiza mutirões e promove solidariedade comunitária, disputa espaço com as incursões frequentes e agressivas da **[[Brigada Militar Metropolitana]]**, resultando em demolições periódicas e protestos comunitários.\n\nNa **[[Restinga]]**, uma ocupação anarco-capitalista autodenominada [[Movimento Restinga Livre]] estabeleceu-se com palafitas de metal reciclado, operando um mercado flutuante de alimentos e medicamentos. Suas torres improvisadas de vigilância, feitas de peças recicladas, monitoram constantemente a aproximação de forças estatais, mantendo uma relativa autonomia diante do governo e das megacorporações.\n#### Edifícios Abandonados e Galerias Subterrâneas\nO centro histórico, após a enchente, permanece parcialmente submerso, onde edifícios históricos agora sustentam estruturas flutuantes improvisadas, formando corredores comerciais e residenciais elevados. Sob essas estruturas, as galerias subterrâneas abandonadas, especialmente na região das **[[Galeria Malcom]]** e **[[Galeria do Rosário]]**, tornaram-se refúgios para coletivos artísticos clandestinos e comunidades marginalizadas que buscam escapar das patrulhas constantes da [[Brigada Militar Metropolitana|Brigada Militar]].\n#### Enclaves de Elite e Fortificação\nEm contraste extremo, bairros como **[[Ipanema]]** e **[[Moinhos de Vento]]** representam a segurança ostensiva da elite corporativa e militar. Condomínios luxuosos, com muros eletrificados, câmeras de segurança avançadas e patrulhamento particular financiado por corporações como **[[Gradiente]]** e **[[Zaffari]]**, isolam completamente seus moradores do caos urbano ao redor. Em **[[Ipanema]]**, por exemplo, condomínios abrigam altos oficiais militares e executivos corporativos que frequentam espaços exclusivos como o Clube de Golfe ou o [[Resort Nova Porto Alegre]], onde se reúnem para conferências estratégicas protegidas por sistemas avançados de segurança e vigilância fornecidos pela [[Gradiente]].\n#### Infraestrutura Improvisada e Economia Informal\nEm bairros operários como **Passo D’Areia** e **[[Nova Sarandi]]**, trabalhadores adaptaram suas residências para enfrentar as recorrentes crises de infraestrutura, utilizando calhas para captar água da chuva, hortas verticais e ligações clandestinas à rede elétrica da [[Companhia Estadual de Energia Elétrica|CEEE]]. Oficinas improvisadas, abastecidas pela [[Tramontina]] e pelo [[Clã da Ferrugem]], sustentam uma economia informal vibrante, onde empregos formais são escassos e o mercado negro de peças e selênicos impera.\n\nEssa fragmentação urbana reflete diretamente o desequilíbrio socioeconômico e político imposto pelas megacorporações e pelo regime militar, transformando a moradia e a ocupação em campos permanentes de conflito e resistência na Porto Alegre distópica de 1987."
+}

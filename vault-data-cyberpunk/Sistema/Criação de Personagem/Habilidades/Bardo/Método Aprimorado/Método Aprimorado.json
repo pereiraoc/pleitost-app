@@ -1,0 +1,130 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Aprimorado/Método Aprimorado.md",
+  "basename": "Método Aprimorado",
+  "type": "Habilidade",
+  "subtype": "Subclasse",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Subclasse",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Manipulador)]]",
+      "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Inspirador)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "resumo": "Aprende Magia Experiente do [[Método Artístico]]. [[Experiente]] com Magia."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Manipulador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Método Artístico (Manipulador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Método Aprimorado (Manipulador)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Manipulador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Manipulador)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Inspirador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Método Aprimorado",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Método Artístico (Inspirador)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Método Aprimorado (Inspirador)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Método Artístico (Inspirador)]]) Complementar Habilidades.Lista [[Método Aprimorado (Inspirador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Aprimorado (Manipulador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Método Aprimorado (Inspirador)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Método Artístico (Manipulador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Aprimorado (Manipulador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Inspirador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Aprimorado (Inspirador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\n\nresumo:: Aprende Magia Experiente do [[Método Artístico]]. [[Experiente]] com Magia.\n%%\n#### `= this.file.name`\nVocê avança na magia do seu método:\n\n![[Método Aprimorado (Manipulador)#`= this.file.name`]]\n![[Método Aprimorado (Inspirador)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

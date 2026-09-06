@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Resistências/Ímpeto",
+  "path": "Sistema/Regras/Defesas e Resistências/Resistências/Ímpeto.md",
+  "basename": "Ímpeto",
+  "type": "Regra",
+  "subtype": "Defesas-e-Resistências",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Defesas-e-Resistências",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Resistências]]",
+    "prev": "[[Evasão]]",
+    "next": "[[Sentidos|Sentidos]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Ímpeto"
+    }
+  ],
+  "body": "%%\nup:: [[Resistências]]\nprev:: [[Evasão]]\nnext:: [[Sentidos|Sentidos]]\n%%\n### Ímpeto\nÍmpeto permite ao personagem resistir efeitos que afetam sua mente, seus sentidos e sua capacidade de agência.\nSeu Ímpeto é calculado como: 10 + [[Proficiência|Proficiência]] + [[Inteligência|INT]] ou [[Presença|PRE]]."
+}

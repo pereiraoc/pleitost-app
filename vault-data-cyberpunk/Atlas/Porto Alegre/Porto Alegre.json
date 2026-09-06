@@ -1,0 +1,270 @@
+{
+  "id": "Atlas/Porto Alegre/Porto Alegre",
+  "path": "Atlas/Porto Alegre/Porto Alegre.md",
+  "basename": "Porto Alegre",
+  "type": "Localização",
+  "subtype": "Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Grande Porto Alegre"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Cidade",
+    "Geolocalização": "[[Rio Grande do Sul]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mapa de Porto Alegre RPG.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Rio Grande do Sul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Porto Alegre.png",
+      "from": "body"
+    },
+    {
+      "target": "Mapa de Porto Alegre RPG.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Bairros de Porto Alegre"
+    }
+  ],
+  "body": "#Local\n![[Porto Alegre.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n> 📖**Contexto** `= this.Contexto`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** `= this.Descrição`\n\n```leaflet\nid: leaflet-map\nimage: [[Mapa de Porto Alegre RPG.png]]\nbounds: [[0,0], [1170,850]]\nheight: 585px\nwidth: 425px\nlat: 585\nlong: 425\nminZoom: -1\nmaxZoom: 0.1\ndefaultZoom: -1\nzoomDelta: 0.5\nunit: meters\nscale: 45.6\nrecenter: true\ndarkMode: false\nmarker: Bairro,990.078125,405.5,Nova Sarandi,,,-0.1\nmarker: Bairro,928,309,Quarto Distrito,,,-0.1\nmarker: Bairro,885,335,Moinhos de Vento,,,-0.1\nmarker: Bairro,861,295,Bom Fim,,,-0.1\nmarker: Bairro,852,248,Centro Histórico,,,-0.1\nmarker: Bairro,642.078125,247.5,Ipanema,,,-0.1\nmarker: Bairro,578,436,Restinga,,,-0.1\nmarker: Bar,846,255,Cidade Baixa,,-0.1,\nmarker: Bairro,788,256,Praia de Belas,,,-0.1\nmarker: Mercado,876,258,Mercado Público,,-0.1,\nmarker: Parque,845,299,Redenção,,-0.1,\nmarker: Bar,883,343,Padre Chagas,,0,\nmarker: Parque,863,338,Parcão,,-0.1,\nmarker: Mercado,858,272,Camelódromo,,-0.1,\nmarker: Industrial,937.46875,315.5,Velha Indústria,,-0.1,\nmarker: Bairro,416,524,Zona Deserta,,,-0.1\nmarker: Porto,797,234,Porto Novo,,-0.1,\nmarker: Hotel,621,260,Resort Nova Porto Alegre,,-0.1,\nmarker: Radioativo,953,197,Delta Radioativo,,,-0.1\nmarker: Bairro,952,548,Costa e Silva,,,-0.1\nmarker: Bairro,942,446,Passo D'Areia,,,-0.1\nmarker: Bairro,900,422,Jardim Itu,,,-0.1\nmarker: Bairro,864,466,Petrópolis,,,-0.1\nmarker: Bairro,820,402,Jardim Botânico,,,-0.1\n\n```\n\n\n## Bairros de Porto Alegre\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Localização\" and subcategoria=\"Bairro\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": null,
+    "aparencia": null,
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": {
+      "image": "Mapa de Porto Alegre RPG.png",
+      "bounds": [
+        [
+          0,
+          0
+        ],
+        [
+          1170,
+          850
+        ]
+      ],
+      "defaultZoom": -1,
+      "markers": [
+        {
+          "tipo": "Bairro",
+          "lat": 990.078125,
+          "long": 405.5,
+          "nome": "Nova Sarandi",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 928,
+          "long": 309,
+          "nome": "Quarto Distrito",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 885,
+          "long": 335,
+          "nome": "Moinhos de Vento",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 861,
+          "long": 295,
+          "nome": "Bom Fim",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 852,
+          "long": 248,
+          "nome": "Centro Histórico",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 642.078125,
+          "long": 247.5,
+          "nome": "Ipanema",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 578,
+          "long": 436,
+          "nome": "Restinga",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bar",
+          "lat": 846,
+          "long": 255,
+          "nome": "Cidade Baixa",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 788,
+          "long": 256,
+          "nome": "Praia de Belas",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 876,
+          "long": 258,
+          "nome": "Mercado Público",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 845,
+          "long": 299,
+          "nome": "Redenção",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bar",
+          "lat": 883,
+          "long": 343,
+          "nome": "Padre Chagas",
+          "minZoom": 0,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Parque",
+          "lat": 863,
+          "long": 338,
+          "nome": "Parcão",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Mercado",
+          "lat": 858,
+          "long": 272,
+          "nome": "Camelódromo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Industrial",
+          "lat": 937.46875,
+          "long": 315.5,
+          "nome": "Velha Indústria",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 416,
+          "long": 524,
+          "nome": "Zona Deserta",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Porto",
+          "lat": 797,
+          "long": 234,
+          "nome": "Porto Novo",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Hotel",
+          "lat": 621,
+          "long": 260,
+          "nome": "Resort Nova Porto Alegre",
+          "minZoom": -0.1,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Radioativo",
+          "lat": 953,
+          "long": 197,
+          "nome": "Delta Radioativo",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 952,
+          "long": 548,
+          "nome": "Costa e Silva",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 942,
+          "long": 446,
+          "nome": "Passo D'Areia",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 900,
+          "long": 422,
+          "nome": "Jardim Itu",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 864,
+          "long": 466,
+          "nome": "Petrópolis",
+          "minZoom": null,
+          "maxZoom": -0.1
+        },
+        {
+          "tipo": "Bairro",
+          "lat": 820,
+          "long": 402,
+          "nome": "Jardim Botânico",
+          "minZoom": null,
+          "maxZoom": -0.1
+        }
+      ]
+    }
+  }
+}

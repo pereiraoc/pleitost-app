@@ -1,0 +1,50 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Proteção Natural",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Proteção Natural.md",
+  "basename": "Proteção Natural",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"Você recebe +2 [[bônus de circunstância]] na [[Defesa]] até o inicio de seu próximo turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"Você recebe +2 [[bônus de circunstância]] na [[Defesa]] até o inicio de seu próximo turno.\"\n%%\n### `= this.file.name` - `= this.custo`\nVocê recebe +2 [[bônus de circunstância]] na [[Defesa]] até o inicio de seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Contexto/Organizações/Empresas/Fruki",
+  "path": "Contexto/Organizações/Empresas/Fruki.md",
+  "basename": "Fruki",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Otto Kirst]]",
+    "Descrição": null,
+    "Resumo": "Engarrafadora de refrigerantes do Vale do Taquari que vende o guaraná com taurilênicos — a versão jovem e doce do energético, em parceria com a Panvel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Fruki.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tipos de Substâncias e Legalidade",
+      "kind": "wikilink",
+      "alias": "tarja"
+    },
+    {
+      "target": "Otto Kirst",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Fruki.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Fruki.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Engarrafadora familiar do interior que cresceu vendendo refrigerante doce e barato pro varejo de bairro. O **guaraná com taurilênicos** — gelado, açucarado e com tarja amarela impressa no rótulo — é a aposta da casa pra roubar o público jovem do Mate Touro: quem acha o gosto de mate forte demais toma Fruki. A rede de entrega da empresa alcança mercearia, cantina de colégio e bar de esquina, o que preocupa tanto a [[Charrua]] quanto os fiscais de [[Tipos de Substâncias e Legalidade|tarja]], que já flagraram menor de idade colecionando tampinha.\n"
+}

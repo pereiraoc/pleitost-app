@@ -1,0 +1,155 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Mercado de Trabalho",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Mercado de Trabalho.md",
+  "basename": "Mercado de Trabalho",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As oportunidades (ou falta delas) de emprego formal e informal.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado de Trabalho.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Oficina de Sucata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado de Trabalho.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Profissões Mais Valorizadas"
+    },
+    {
+      "level": 4,
+      "text": "Profissões Menos Valorizadas"
+    },
+    {
+      "level": 4,
+      "text": "Mercados Formais"
+    },
+    {
+      "level": 4,
+      "text": "Mercados Informais"
+    },
+    {
+      "level": 4,
+      "text": "O Trabalho de Caixinha"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Mercado de Trabalho.png]]\n\n#### Profissões Mais Valorizadas\nO mercado de trabalho formal é dominado por profissões estratégicas para o governo e megacorporações, com alta valorização dos profissionais vinculados ao programa PIRA:\n- **Engenharia:** Fundamental para o desenvolvimento e manutenção da infraestrutura urbana após as enchentes de 1986, engenheiros ligados ao PIRA têm alta demanda em projetos da [[Gurgel]] (veículos anfíbios e blindados) e da [[Tramontina]] (implantes físicos para trabalhadores industriais).\n- **Medicina:** Médicos selênicos são essenciais, especialmente os especializados em implantes cognitivos e físicos realizados em clínicas autorizadas pela [[Gradiente]] e [[Panvel]]. Aqueles que não aderem ao PIRA trabalham informalmente em clínicas clandestinas nos bairros [[Centro Histórico]] e [[Cidade Baixa]].\n- **Militares e Advogados:** Após a integração das carreiras jurídicas às forças armadas, militares desfrutam de salários elevados, porém precisam lidar diretamente com operações repressivas e conflitos urbanos.\n#### Profissões Menos Valorizadas\n- **Cultura e Arte:** Profissionais culturais, frequentemente vistos com desconfiança pelo regime, operam informalmente em locais como o [[Teatro Quarto Distrito]] e [[Galeria Malcom]], enfrentando censura e repressão constante da [[Brigada Militar Metropolitana]] e [[Embratel]].\n- **Serviços Básicos:** Trabalhadores como faxineiras, pintores e serviços gerais têm pouco acesso ao mercado formal, dependendo de \"bicos\" e contratos temporários nos bairros periféricos como [[Restinga]] e [[Cidade Baixa]], onde são mais vulneráveis às ações policiais e exploração.\n#### Mercados Formais\n- **Industrial:** Dominado por megacorporações ([[Tramontina]], [[Gurgel]], [[Marcopolo]]) nos bairros [[Petrópolis]], [[Nova Sarandi]] e [[Passo D'Areia]], oferecendo empregos estáveis, porém altamente controlados e exigentes.\n- **Varejo:** Controlado por [[Zaffari]], com ampla distribuição logística e pontos comerciais nos bairros como [[Moinhos de Vento]] e [[Centro Histórico]]. Apesar de formal, o setor é afetado por frequentes greves e ações de resistência urbana.\n- **Tecnologia e Telecomunicações:** Setor liderado pela [[Gradiente]] e [[Embratel]], com rígido controle militar e frequentes auditorias internas, oferecendo altos salários, mas exigindo adesão total às políticas governamentais.\n#### Mercados Informais\n- **Contrabando e Sucata:** Atividades intensas especialmente em [[Restinga]], [[Zona Deserta]] e [[Centro Histórico]], com o [[Clã da Ferrugem]] dominando o mercado de metais reciclados e equipamentos \"jailbreak\".\n- **Coleta de Sucata:** Operada principalmente pelo [[Sindicato dos Catadores]] e informalmente em mercados como [[Camelódromo]] e [[Oficina de Sucata]] na [[Restinga]], oferecendo oportunidades precárias, porém essenciais.\n- **Oficinas Mecânicas e Clínicas Clandestinas:** Amplamente presentes em [[Cidade Baixa]] e [[Bom Fim]], oferecendo serviços de reparo de implantes e veículos que não passam pelo controle oficial da [[Gurgel]] ou [[Tramontina]].\n\n#### O Trabalho de Caixinha\nPra quem vive fora da carteira assinada e da PIRA, o ganha-pão é a\n[[A Caixinha|Caixinha]]: serviços avulsos pagos por depósito anônimo, do\nfrete arriscado à cobrança delicada. O despachante garante o pagamento, a\n**Marca de Respeito** garante o próximo trabalho — e os melhores Contratados\nda cidade nunca assinaram nada.\n"
+}

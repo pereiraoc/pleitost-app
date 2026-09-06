@@ -1,0 +1,28 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Medici Mantido Vivo por Aparelhos",
+  "path": "Contexto/Histórias/Contexto Histórico/Medici Mantido Vivo por Aparelhos.md",
+  "basename": "Medici Mantido Vivo por Aparelhos",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1985-12-04",
+    "Descrição": "[[Emílio Garrastazu Médici|Médici]]",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Emílio Garrastazu Médici",
+      "kind": "wikilink",
+      "alias": "Médici"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

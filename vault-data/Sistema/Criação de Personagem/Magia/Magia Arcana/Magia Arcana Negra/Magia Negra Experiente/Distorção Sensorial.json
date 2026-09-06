@@ -1,0 +1,75 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Distorção Sensorial",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Experiente/Distorção Sensorial.md",
+  "basename": "Distorção Sensorial",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Distorção Sensorial (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Ímpeto]] de criatura em 6q para aplicar [[Enfraquecido]], [[Pasmo]] e [[Desajeitado]] por 3t (1t na falha, adicionalmente [[Atordoado|Atordoado 1]] se decisivo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desajeitado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink",
+      "alias": "Enfraquecida"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink",
+      "alias": "Pasma"
+    },
+    {
+      "target": "Desajeitado",
+      "kind": "wikilink",
+      "alias": "Desajeitada"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoada 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Ímpeto]] de criatura em 6q para aplicar [[Enfraquecido]], [[Pasmo]] e [[Desajeitado]] por 3t (1t na falha, adicionalmente [[Atordoado|Atordoado 1]] se decisivo).\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Ímpeto]] de uma criatura em até 6q.\n\n**Sucesso:** A criatura fica [[Enfraquecido|Enfraquecida]], [[Pasmo|Pasma]] e [[Desajeitado|Desajeitada]] por 3 turnos.\n**Sucesso Decisivo:** Como sucesso, e a criatura fica [[Atordoado|Atordoada 1]].\n**Falha:** A criatura fica [[Enfraquecido|Enfraquecida]], [[Pasmo|Pasma]] e [[Desajeitado|Desajeitada]] por 1 turno.\n**Falha Decisiva:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

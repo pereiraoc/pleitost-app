@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Deboche/Provocação",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Intimidação/Deboche/Provocação.md",
+  "basename": "Provocação",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Intimidação]]",
+    "resumo": "\"Inimigo tem dificuldade de não te alvejar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Intimidação]]\nresumo:: \"Inimigo tem dificuldade de não te alvejar.\"\n%%\n### `= this.file.name`\n* Ao debochar com sucesso, penalidade de ataque aumenta para -3 se inimigo alvejar criatura que não é você.\n\n*Requer Deboche*\n\n```autosheet-rules\n```\n"
+}

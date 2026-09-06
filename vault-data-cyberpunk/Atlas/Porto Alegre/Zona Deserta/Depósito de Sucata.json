@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata.md",
+  "basename": "Depósito de Sucata",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Depósito de Sucata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Depósito de Sucata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Depósito de Sucata.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Acúmulo de carcaças de máquinas e veículos.\n> \n> 👁️**Aparência do Local:** Montanhas de metal, poeira densa, som de metal batendo.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Acúmulo de carcaças de máquinas e veículos.",
+    "aparencia": "Montanhas de metal, poeira densa, som de metal batendo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

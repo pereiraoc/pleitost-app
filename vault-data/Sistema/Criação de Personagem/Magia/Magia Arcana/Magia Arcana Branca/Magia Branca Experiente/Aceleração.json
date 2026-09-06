@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Aceleração",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Aceleração.md",
+  "basename": "Aceleração",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Aceleração (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Criatura em 6q fica [[Acelerado|Acelerada 1]] por 10t. Ação extra só pode ser usada para atividades de 1 ação.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acelerado",
+      "kind": "wikilink",
+      "alias": "Acelerada 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Criatura em 6q fica [[Acelerado|Acelerada 1]] por 10t. Ação extra só pode ser usada para atividades de 1 ação.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Criatura fica [[Acelerado|Acelerada 1]] por 10 turnos, recebendo uma ação extra por turno. Essa ação só pode ser usada para atividades de uma ação, não podendo ser combinada com outras ações em atividades maiores.\n\n```autosheet-rules\n```\n"
+}

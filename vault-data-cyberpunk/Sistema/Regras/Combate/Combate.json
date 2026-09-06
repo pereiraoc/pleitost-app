@@ -1,0 +1,73 @@
+{
+  "id": "Sistema/Regras/Combate/Combate",
+  "path": "Sistema/Regras/Combate/Combate.md",
+  "basename": "Combate",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Combate",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Ações|Ações]]",
+    "next": "[[Condições|Condições]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Condições",
+      "kind": "wikilink",
+      "alias": "Condições"
+    },
+    {
+      "target": "Iniciativa",
+      "kind": "embed",
+      "subpath": "Iniciativa"
+    },
+    {
+      "target": "Turno",
+      "kind": "embed",
+      "subpath": "Turno"
+    },
+    {
+      "target": "Ações Agressivas",
+      "kind": "embed",
+      "subpath": "Ações Agressivas (Ataques, Magias e Testes)"
+    },
+    {
+      "target": "Resolução",
+      "kind": "embed",
+      "subpath": "Resolução"
+    },
+    {
+      "target": "Morte",
+      "kind": "embed",
+      "subpath": "Morte"
+    },
+    {
+      "target": "Recuperação",
+      "kind": "embed",
+      "subpath": "Recuperação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Combate"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Ações|Ações]]\nnext:: [[Condições|Condições]]\n%%\n# Combate\nAventurar-se não é algo pacífico, muitas vezes as coisas acabam tendo que ser \"resolvidas na mão\". Quando um combate começa, o Mestre declara a iniciativa, a primeira rodada começa, cada personagem e NPC realiza até 3 ações e quantas ações livres quiser durante seu turno e uma reação por rodada. Depois que todas as criaturas tiverem seu turno, a próxima rodada começa.\n\n![[Iniciativa#Iniciativa]]\n![[Turno#Turno]]\n![[Ações Agressivas#Ações Agressivas (Ataques, Magias e Testes)]]\n![[Resolução#Resolução]]\n![[Morte#Morte]]\n![[Recuperação#Recuperação]]\n\n```autosheet-rules\n```\n"
+}

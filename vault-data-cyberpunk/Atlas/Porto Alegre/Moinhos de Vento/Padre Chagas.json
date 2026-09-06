@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Padre Chagas",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Padre Chagas.md",
+  "basename": "Padre Chagas",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Moinhos de Vento]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Padre Chagas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Padre Chagas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Padre Chagas.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Corredor gastronômico e de clínicas de luxo.\n> \n> 👁️**Aparência do Local:** Fachadas de vidro, mesas ao ar livre, cheiro de brisa e cozinha contemporânea.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Corredor gastronômico e de clínicas de luxo.",
+    "aparencia": "Fachadas de vidro, mesas ao ar livre, cheiro de brisa e cozinha contemporânea.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

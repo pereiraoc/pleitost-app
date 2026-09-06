@@ -1,0 +1,82 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Aprimorada/Estratégia Aprimorada (Rastreador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Aprimorada/Estratégia Aprimorada (Rastreador).md",
+  "basename": "Estratégia Aprimorada (Rastreador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"O dano adicional da [[Marca do Caçador]] aumenta para 1d10. O bônus para [[rastrear]] seu alvo aumenta para +3.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Aprimorada (Rastreador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratégia de Caça (Domador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratégia de Caça (Domador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estratégia de Caça (Domador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\n\nresumo:: \"O dano adicional da [[Marca do Caçador]] aumenta para 1d10. O bônus para [[rastrear]] seu alvo aumenta para +3.\"\n%%\n##### `= this.file.name`\nO dano adicional da [[Marca do Caçador]] aumenta para 1d10. O bônus para [[rastrear]] seu alvo aumenta para +3.\n\n```autosheet-rules\n```\n"
+}

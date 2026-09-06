@@ -1,0 +1,314 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Defesa/Anel da Resistência",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Defesa/Anel da Resistência.md",
+  "basename": "Anel da Resistência",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus nas [[Resistências]].",
+    "preço": "60 PO",
+    "bonus_tipo": "resistência",
+    "descrição": {
+      "adepto": "+1 de bônus de item nas Resistências.",
+      "experiente": "+2 de bônus de item nas Resistências.",
+      "mestre": "+3 de bônus de item nas Resistências."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "passivo",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "Categoria Adepto Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "Categoria Adepto Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "Categoria Experiente Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "Categoria Experiente Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "Categoria Experiente Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "Categoria Mestre Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+      "Categoria Mestre Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+      "Categoria Mestre Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 4"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 4,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 5,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 6,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Vigor.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 7,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Impeto.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 4",
+      "parsed": [
+        {
+          "sourceNote": "Anel da Resistência",
+          "occurrenceIndex": 8,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Defesas_Resistencias.Lista.Reflexo.Bonus_Item",
+            "valueRaw": "4"
+          },
+          "raw": "Categoria Mestre Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 4",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - anel*\nEste anel organiza o fluxo energético no seu corpo, ampliando suas resistências.\n* Adepto: +1 de [[bônus de item]] nas [[Resistências]].\n* Experiente: +2 de [[bônus de item]] nas [[Resistências]].\n* Mestre: +3 de [[bônus de item]] nas [[Resistências]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n\n```carta-item\ntipo: equipamentos-defesa\n```\n\n```autosheet-rules\n```\n"
+}

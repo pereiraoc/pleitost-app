@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Coronel Luciana Prado",
+  "path": "Contexto/Pessoas/Coronel Luciana Prado.md",
+  "basename": "Coronel Luciana Prado",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Luciana Prado"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Brigada Militar Metropolitana]]",
+    "Função": "Comandante da Brigada Militar Metropolitana",
+    "Aparência": "Farda impecável, luvas táticas mesmo no gabinete, cicatriz fina no queixo que ninguém pergunta de onde veio.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

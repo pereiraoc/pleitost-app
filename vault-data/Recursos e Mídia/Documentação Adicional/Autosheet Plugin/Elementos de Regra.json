@@ -1,0 +1,593 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Elementos de Regra",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Elementos de Regra.md",
+  "basename": "Elementos de Regra",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Visualizador de Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inspiração Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência ao Frio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duas-mãos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "X",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arremesso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Conhecimento Arcano Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Trovador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Refinado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre-Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inspiração",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ato Inspirador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga de Duelo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Curto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Compreender Idiomas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chave Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Refinado (Luta Artística)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Refinado (Arte Mágica)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Inspirador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico (Manipulador)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ambidestria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento com Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialista em Caçada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Efeitos Interativos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Frontmatter",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Como Funciona",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Rule Elements (`Elementos_de_Regra`)"
+    },
+    {
+      "level": 2,
+      "text": "O que é um rule element"
+    },
+    {
+      "level": 2,
+      "text": "Estrutura geral"
+    },
+    {
+      "level": 2,
+      "text": "Wrappers"
+    },
+    {
+      "level": 2,
+      "text": "Verbos que mutam o modelo"
+    },
+    {
+      "level": 3,
+      "text": "Interação Definir / Somar / Sobrescrever"
+    },
+    {
+      "level": 1,
+      "text": "final = max(0, 3) + 1 = 4 — independente da ordem do BFS"
+    },
+    {
+      "level": 1,
+      "text": "se Forma Brutal ativa → Defesa = 8 (Somar 2 wipada)"
+    },
+    {
+      "level": 1,
+      "text": "se não → Defesa = base + 2"
+    },
+    {
+      "level": 2,
+      "text": "Verbos que NÃO mutam o modelo"
+    },
+    {
+      "level": 2,
+      "text": "Forma abreviada com `Categoria`"
+    },
+    {
+      "level": 1,
+      "text": "= Categoria Adepto Complementar Habilidades.Lista [[Resistência ao Frio]]"
+    },
+    {
+      "level": 2,
+      "text": "`AplicavelA` — aplicabilidade de tesouro ao item"
+    },
+    {
+      "level": 1,
+      "text": "↑ só encaixa em arma corpo-a-corpo (simples ou marcial) de dano cortante"
+    },
+    {
+      "level": 1,
+      "text": "↑ só em arma com a propriedade Arremesso"
+    },
+    {
+      "level": 2,
+      "text": "`Condicional` — 6 famílias de check"
+    },
+    {
+      "level": 2,
+      "text": "`Senao` — branch alternativa pra `Condicional`"
+    },
+    {
+      "level": 2,
+      "text": "Movimento (sintaxe especial)"
+    },
+    {
+      "level": 2,
+      "text": "`Escolha_Habilidades` — 3 subpadrões"
+    },
+    {
+      "level": 3,
+      "text": "`complementar-sel` — escolha entre wikilinks"
+    },
+    {
+      "level": 3,
+      "text": "`escolha-prop-map` — escolha de label que mapeia pra prop"
+    },
+    {
+      "level": 3,
+      "text": "`escolha-pericia-especial` — escolha de perícia"
+    },
+    {
+      "level": 2,
+      "text": "Onde os rule elements rodam"
+    },
+    {
+      "level": 2,
+      "text": "Targets típicos"
+    },
+    {
+      "level": 2,
+      "text": "Catálogo de casos reais"
+    },
+    {
+      "level": 3,
+      "text": "1. Stats base de classe (Vida, Atributos)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Classes/Bardo.md"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Trovador.md"
+    },
+    {
+      "level": 1,
+      "text": "Habilidade Experiente que SOMA na vida base do Bardo"
+    },
+    {
+      "level": 3,
+      "text": "2. Proficiências de defesa, sentido, perícia, ofício"
+    },
+    {
+      "level": 1,
+      "text": "Bardo confere proficiência base (Adepto) em várias áreas"
+    },
+    {
+      "level": 1,
+      "text": "Trovador (habilidade Experiente do Bardo) PROMOVE proficiências"
+    },
+    {
+      "level": 3,
+      "text": "3. Slots de perícia / técnica / magia"
+    },
+    {
+      "level": 1,
+      "text": "Bardo"
+    },
+    {
+      "level": 3,
+      "text": "4. Adicionar habilidade à lista (Complementar)"
+    },
+    {
+      "level": 1,
+      "text": "Bardo adiciona suas habilidades base + as de cada nível"
+    },
+    {
+      "level": 3,
+      "text": "5. Adicionar ação à lista"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Performance Bárdica.md"
+    },
+    {
+      "level": 3,
+      "text": "6. Proficiência de equipamento (binária N/P)"
+    },
+    {
+      "level": 1,
+      "text": "Bardo"
+    },
+    {
+      "level": 1,
+      "text": "Estilo de Combate (Luta Artística) — adiciona armas específicas"
+    },
+    {
+      "level": 1,
+      "text": "Treinamento de Guerreiro (Classe Secundária) — promove de Leve pra"
+    },
+    {
+      "level": 1,
+      "text": "Pesada se já era proficiente em Leve, senão ganha Leve."
+    },
+    {
+      "level": 3,
+      "text": "7. Composição de classe (Alias Compor)"
+    },
+    {
+      "level": 1,
+      "text": "Bardo (base)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Trovador.md"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/"
+    },
+    {
+      "level": 1,
+      "text": "Método Artístico (Inspirador).md"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/"
+    },
+    {
+      "level": 1,
+      "text": "Estilo de Combate (Luta Artística).md"
+    },
+    {
+      "level": 3,
+      "text": "8. Papel (Líder/Controlador/Abatedor/Vanguarda)"
+    },
+    {
+      "level": 1,
+      "text": "Bardo"
+    },
+    {
+      "level": 1,
+      "text": "Druida"
+    },
+    {
+      "level": 1,
+      "text": "Estilo de Combate (Luta Artística)"
+    },
+    {
+      "level": 3,
+      "text": "9. Movimento (sintaxe especial)"
+    },
+    {
+      "level": 1,
+      "text": "Companheiro Animal Canino (CA com Aéreo bonus)"
+    },
+    {
+      "level": 1,
+      "text": "Forma Brutal (Druida) — reduz movimento terrestre"
+    },
+    {
+      "level": 3,
+      "text": "10. Wrapper `Tier` (Bestiário)"
+    },
+    {
+      "level": 1,
+      "text": "Modificador Competente (aplicado em Monstro Tier 1+)"
+    },
+    {
+      "level": 3,
+      "text": "11. Wrapper `Categoria` (Tesouros + Imbuições por tier)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Equipamento/Tesouros/Equipamentos/.../Anel da Resistência.md"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Equipamento/Tesouros/.../Escudo Obra-prima.md"
+    },
+    {
+      "level": 3,
+      "text": "12. Forma abreviada com Categoria (Complementar implícito)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Equipamento/Tesouros/.../Tesouros Mágicos de Magia/..."
+    },
+    {
+      "level": 3,
+      "text": "13. `Condicional` — comparações de atributo"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Regras/Atributos/..."
+    },
+    {
+      "level": 3,
+      "text": "14. `Condicional` — gating por habilidade já no model"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado.md"
+    },
+    {
+      "level": 1,
+      "text": "Habilidade variant é INFERIDA do que o Heroi já tem"
+    },
+    {
+      "level": 3,
+      "text": "15. `Condicional` — bonus de arma específica"
+    },
+    {
+      "level": 1,
+      "text": "Estilo Aprimorado (Perito) — bonus quando user equipou arma específica"
+    },
+    {
+      "level": 3,
+      "text": "16. `Escolha_Habilidades` — escolha entre wikilinks (`complementar-sel`)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico.md"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Druida/Forma Feral.md"
+    },
+    {
+      "level": 1,
+      "text": "Forma sem wrapper (label vazio)"
+    },
+    {
+      "level": 3,
+      "text": "17. `Escolha_Habilidades` — escolha de label que mapeia pra prop (`escolha-prop-map`)"
+    },
+    {
+      "level": 1,
+      "text": "User escolhe entre \"Atletismo\"/\"Diplomacia\" → seta proficiência"
+    },
+    {
+      "level": 1,
+      "text": "da perícia correspondente em Adepto"
+    },
+    {
+      "level": 3,
+      "text": "18. `Escolha_Habilidades` — escolha de perícia (`escolha-pericia-especial`)"
+    },
+    {
+      "level": 1,
+      "text": "Estilo de Ladino (Perito) — user escolhe 1 perícia treinada"
+    },
+    {
+      "level": 3,
+      "text": "19. `Requisito` — habilidade só vale se atributo bate"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/.../habilidade que precisa de FOR alto"
+    },
+    {
+      "level": 3,
+      "text": "20. `Requisito Contem` — habilidade só vale se OUTRA habilidade ativa"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Luta Artística).md"
+    },
+    {
+      "level": 3,
+      "text": "21. `Restringir` — limita Atributo Principal por classe"
+    },
+    {
+      "level": 1,
+      "text": "Druida força INT"
+    },
+    {
+      "level": 1,
+      "text": "Guerreiro permite FOR ou AGI"
+    },
+    {
+      "level": 1,
+      "text": "Bestiário Tier 0 (escolha entre INT e PRE)"
+    },
+    {
+      "level": 3,
+      "text": "22. Magia (Potência, EM, Slots, Escolas)"
+    },
+    {
+      "level": 1,
+      "text": "Trovador (4º nível Bardo) define potência mágica + EM"
+    },
+    {
+      "level": 1,
+      "text": "Método Artístico (Inspirador) treina Magia Arcana Branca + Diplomacia"
+    },
+    {
+      "level": 3,
+      "text": "23. `Multiplicar` (raro — Companheiro Animal grande)"
+    },
+    {
+      "level": 1,
+      "text": "Companheiro Animal Médio dobra vitalidade (porte)"
+    },
+    {
+      "level": 1,
+      "text": "Grande triplica"
+    },
+    {
+      "level": 3,
+      "text": "24. Habilidade-pai com variants (subclasses)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/.../Bardo/Estilo de Combate/Estilo de Combate.md"
+    },
+    {
+      "level": 1,
+      "text": "Habilidade-pai (subcategoria: Subclasse no FM da nota)"
+    },
+    {
+      "level": 1,
+      "text": "Sistema/.../Estilo de Combate/Estilo de Combate (Luta Artística).md"
+    },
+    {
+      "level": 1,
+      "text": "Variant — adiciona armas específicas + papel"
+    },
+    {
+      "level": 3,
+      "text": "25. Sistema legacy `Interativa Efeito` (deprecated, migre pra `Efeitos_Interativos:`)"
+    },
+    {
+      "level": 1,
+      "text": "Formato VELHO (ainda funciona com warning)"
+    },
+    {
+      "level": 1,
+      "text": "Formato NOVO (preferido — ver Efeitos Interativos)"
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Rule Elements (`Elementos_de_Regra`)\n\nDoc pra quem precisa adicionar regras a uma nota da vault (classe,\nsintonia, raça, habilidade, técnica, magia, propriedade, item, condição).\nPra **spec técnica completa** (parser, AST, applier internals), ver\n[reference/rule-elements.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements.md).\n\n> Pra **conferir** como uma nota foi parseada, adicione um bloco\n> `autosheet-rules` nela — ver [[Visualizador de Regras]].\n\n## O que é um rule element\n\nLinha do array YAML `Elementos_de_Regra` no frontmatter de qualquer nota\nem `Sistema/`:\n\n```yaml\n---\nElementos_de_Regra:\n  - Definir Vida.Vitalidade 10\n  - Nivel 3 Complementar Habilidades.Lista [[Inspiração Bárdica]]\n  - Condicional (FOR>AGI) Sobrescrever Pericias.Lista.Atletismo.Atributo FOR\n  - Escolha_Habilidades \"Especialidade\" Complementar Habilidades.Lista Selecionar([[Foco Arcano]], [[Foco Marcial]])\n---\n```\n\nCada linha é independente. A ordem não importa pra semântica final\n(exceto onde explicitamente indicado — ex.: `Alias Compor N` usa `N`\ncomo índice de ordenação textual).\n\n## Estrutura geral\n\n```\n[Wrapper]* <Verbo> <Target> <Valor>\n```\n\n- **Wrappers** são opcionais e podem empilhar.\n- **Verbo + Target + Valor** é obrigatório (exceto sintaxes especiais —\n  Movimento, Escolha_Habilidades).\n\n## Wrappers\n\n| Wrapper | Forma | Quando aplicar |\n|---|---|---|\n| `Nivel` | `Nivel N` | Aplica se nível do Heroi/CA `>= N`. |\n| `Tier` | `Tier N` | Aplica se Tier do Monstro `>= N` (sticky — `Definir` com max-merge cobre \"promoções por tier\"; `Somar` é cumulativo). |\n| `Categoria` | `Categoria Adepto\\|Experiente\\|Mestre` | Aplica se categoria do owner casa. |\n| `Condicional` | `Condicional <check>` | Aplica se `<check>` avalia true (ver §Condicional). Aceita `Senao` (§Senao) pra emitir branch IF/ELSE pareados numa linha. |\n| `Escolha_Habilidades` | `Escolha_Habilidades \"Label\"` | Grupo de escolha nomeado — usuário seleciona 1 opção. |\n\nWrappers podem empilhar:\n`Nivel 1 Condicional (FOR>AGI) Sobrescrever Pericias.Lista.Atletismo.Atributo FOR`\n\n## Verbos que mutam o modelo\n\n| Verbo | Forma | Semântica |\n|---|---|---|\n| `Definir` | `Definir <prop> <value>` | Set com **MAX-MERGE**: múltiplas `Definir` no mesmo target → maior valor ganha. Independente da ordem. |\n| `Sobrescrever` | `Sobrescrever <prop> <value>` | Set com **last-wins**. Wipa qualquer Somar acumulada antes. Use sob `Condicional` quando precisar override absoluto. |\n| `Somar` | `Somar <prop> <number\\|Propriedade(X)>` | Increment numérico **ortogonal** ao Definir. Sobrevive ao max-merge: final = `max(curBase, Definir) + Σ(Somar)`. |\n| `Multiplicar` | `Multiplicar <prop> <factor>` | Multiply numérico. |\n| `Complementar` | `Complementar <prop> <value>` | Append à lista em `prop`. |\n| `Escolher` | `Escolher <prop> <csv-list>` | Restringe valores possíveis (ex: `Atributos.Principal`). |\n\n**`Propriedade(X)` em `Somar`**: `X` pode ser `FOR`/`AGI`/`INT`/`PRE`/\n`Nivel`/`Tier`. Resolve a partir do model em runtime.\n\n### Interação Definir / Somar / Sobrescrever\n\n```yaml\n- Somar Magias.EM 1                    # Estilo de Combate Arte Mágica\n- Definir Magias.EM 3                  # Trovador\n# final = max(0, 3) + 1 = 4 — independente da ordem do BFS\n```\n\n`Sobrescrever` wipa Somar acumulada:\n```yaml\n- Somar Defesa 2\n- Condicional (Forma=Brutal) Sobrescrever Defesa 8\n# se Forma Brutal ativa → Defesa = 8 (Somar 2 wipada)\n# se não → Defesa = base + 2\n```\n\n## Verbos que NÃO mutam o modelo\n\n| Verbo | Forma | Semântica |\n|---|---|---|\n| `Alias` | `Alias <prop> <text>` | Apelido textual puro. |\n| `Alias Compor` | `Alias <prop> Compor <N> \"<text>\"` | Fragmento `N` (ordem) da composição do alias. Útil pra Classe composta (Bardo + Trovador + Inspirador + Luta Artística). |\n| `Requisito` | `Requisito <prop> <value>` | Ability-gate — habilidade só vale se `sheet[<prop>]` bate. |\n| `Requisito Contem` | `Requisito Contem(<prop>) <value>` | Ability-gate — `sheet[<prop>]` (lista) contém `<value>`. |\n| `AplicavelA` | `AplicavelA <termo> <termo>…` | Onde um tesouro (imbuição/qualidade) pode ser encaixado (ver §AplicavelA). Encaixe em item incompatível → efeitos **não aplicam** + aviso. |\n| `Restringir` | `Restringir <prop> <csv-list>` | Restringe valores possíveis (intersecção quando múltiplos). |\n\n## Forma abreviada com `Categoria`\n\nQuando há wrapper `Categoria` + valor wikilink, o verbo `Complementar`\nfica implícito:\n\n```yaml\n- Categoria Adepto Habilidades.Lista [[Resistência ao Frio]]\n# = Categoria Adepto Complementar Habilidades.Lista [[Resistência ao Frio]]\n```\n\nUsado em notas de tesouros que concedem habilidades por categoria.\n\n## `AplicavelA` — aplicabilidade de tesouro ao item\n\nNuma nota de imbuição/qualidade, declara em quais itens ela pode ser encaixada.\nSe você encaixar (via `Propriedade` da arma/escudo/armadura) num item que **não\ncasa**, os efeitos do tesouro **não são aplicados** e aparece um aviso no painel\nℹ️ da ficha.\n\n- Cada **termo** (separado por espaço) é uma condição que precisa valer (**E**).\n- Dentro de um termo, `|` é **OU** — `Grupo,cac-marcial|cac-simples` (grupo é um\n  OU o outro), ou entre condições: `Maos,2|Propriedades,Contem([[Duas-mãos]])`.\n- Slots (checados contra o item onde foi encaixado): `Subcategoria` (Arma/Escudo/\n  Armadura), `Grupo` (cac-marcial/cac-simples/d-marcial/d-simples/escudo/broquel),\n  `Tipo` (corte/contusão/perfuração), `Maos` (número), `Propriedades,Contem([[X]])`.\n\n```yaml\nElementos_de_Regra:\n- AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte\n# ↑ só encaixa em arma corpo-a-corpo (simples ou marcial) de dano cortante\n- AplicavelA Subcategoria,Arma Propriedades,Contem([[Arremesso]])\n# ↑ só em arma com a propriedade Arremesso\n```\n\n> Não confundir com `Requisito` (acima): `Requisito` gateia uma **habilidade**\n> pelo que o personagem tem; `AplicavelA` gateia um **tesouro** pelo item hospedeiro.\n\n## `Condicional` — 6 famílias de check\n\n| Família | Forma | Quando aplica |\n|---|---|---|\n| `attr-compare` | `(FOR>AGI)`, `(PRE>=INT)`, `(INT==PRE)` | Compara dois atributos. |\n| `attr-min` | `FOR,3` | Atributo `FOR` >= 3. |\n| `prof-min` | `Pericias.Lista.Atletismo.Proficiencia,A` | Proficiência em `prop` >= rank `A`. Aceita listas de N/A/E/M (`<Namespace>.Lista.<X>.Proficiencia`) E paths binários de equipamento (`Inventario.Armadura.Proficiencia.{Sem\\|Leve\\|Pesada}`, `Inventario.Escudo.Proficiencia`) com `<rank>` ∈ `N\\|P`. |\n| `bonus-min` | `Pericias.Lista.Enganacao.Bonus_Especial,2` | `bonusEspecial` em `prop` >= `min`. Usado por Estilo Aprimorado/Próprio (Perito) pra checar se a perícia recebeu o +2. |\n| `props-contains` | `Propriedades(Slot),Contem(Needle)` | Campo-lista `Slot` contém `Needle`. |\n| `name-contains` | `Nome(Slot),Contem(Needle)` ou `Slot,Value` | `sheet[Slot]` é string que bate `Value`. |\n\n## `Senao` — branch alternativa pra `Condicional`\n\nForma autocontida em uma linha:\n\n```\n<wrappers> Condicional <check> <verbo-if> Senao <verbo-else>\n```\n\nEmite duas rules pareadas: a primeira aplica quando `<check>` é true, a segunda quando false. Os wrappers ficam no início e valem pra ambas.\n\n**Exemplo — Treinamento de Guerreiro como classe secundária:** \"se já é proficiente em armadura leve, vira pesada; senão, ganha leve\":\n\n```yaml\n- Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P\n```\n\n| Personagem | Resultado |\n|---|---|\n| Não tem Leve por outra fonte | Ganha Leve (ELSE aplica) |\n| Bardo (cujo Estilo Refinado dá Leve) pega Guerreiro de secundária | Vira Pesada (IF aplica, porque Leve já vem do Bardo) |\n\n**Importante — limitação:** o `Senao` desativa o cascade-no-mesmo-arquivo pra esse path. Se o IF/ELSE precisa de path que **a própria nota também escreve em rule separada**, o check ignora esse próprio write. Pra cascade entre rules da mesma nota, use `Condicional` puro (sem `Senao`).\n\n## Movimento (sintaxe especial)\n\n`Movimento.Lista` tem verbos próprios:\n\n```yaml\n- Complementar Movimento.Lista Voo            # registra novo movimento \"Voo\"\n- Definir Movimento.Lista.Voo.Atributo AGI    # atributo base\n- Definir Movimento.Lista.Voo.Bonus_Item 1\n- Definir Movimento.Lista.Voo.Bonus_Especial 2\n- Definir Movimento.Lista.*.Bonus_Item 1      # wildcard pra TODOS os movs\n```\n\n## `Escolha_Habilidades` — 3 subpadrões\n\n### `complementar-sel` — escolha entre wikilinks\n\n```yaml\n- Escolha_Habilidades \"Estilo de Combate\" Complementar Habilidades.Lista Selecionar([[Estilo de Combate (Luta Artística)]], [[Estilo de Combate (Arte Mágica)]])\n```\n\nUser escolhe 1 das opções; o escolhido vira seed pro BFS continuar\nprocessando rules.\n\n**Forma sem wrapper** também funciona — quando o parser vê\n`Complementar X Selecionar(opt1, opt2)` direto, sintetiza\nautomaticamente um scope `escolha` com label vazio:\n\n```yaml\n- Complementar Habilidades.Lista Selecionar([[Foco Arcano]], [[Foco Marcial]])\n```\n\n### `escolha-prop-map` — escolha de label que mapeia pra prop\n\n```yaml\n- Escolha_Habilidades \"Atributo de Magia\" Definir (\"Inteligência\": Magias.Lista.ArcanaBranca.Atributo, \"Presença\": Magias.Lista.ArcanaBranca.Atributo) <value>\n```\n\nUser escolhe 1 label; a `Prop` correspondente recebe `<value>`.\n\n### `escolha-pericia-especial` — escolha de perícia\n\n```yaml\n- Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2\n```\n\nUser escolhe 1 perícia treinada; `<Perícia>.Bonus_Especial` recebe 2.\nUsado por Estilo de Ladino (Perito).\n\n## Onde os rule elements rodam\n\nO plugin faz BFS pelas notas referenciadas (Classe → Habilidades →\nTesouros → etc.) e aplica os rules de cada nota visitada. Order do BFS\nnão afeta o resultado final pra `Definir`/`Somar`/`Sobrescrever`\n(idempotente por design).\n\n`Categoria` em propriedades de equipamento herda do owner (Obra-prima\nde armadura/escudo/arma) — você não precisa repetir tier em cada\nproperty. Ver `categoriaPorNota` em [`src/extract/rule-elements-extractor.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/extract/rule-elements-extractor.ts).\n\n## Targets típicos\n\nLista parcial (mais comuns). Catálogo completo de targets aceitos pelo\nruntime de Interativa: ver [reference/interativa-catalogos.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md).\n\n| Target | Aceita | Usado em |\n|---|---|---|\n| `Vida.Vitalidade` | número | base de classe |\n| `Vida.Moral` | número | base de classe |\n| `Atributos.Principal` | `FOR\\|AGI\\|INT\\|PRE` | restrição de classe |\n| `Pericias.Lista.<X>.Proficiencia` | `N\\|A\\|E\\|M` | classe/habilidade que treina |\n| `Pericias.Lista.<X>.Bonus_Item` | número | tesouros |\n| `Pericias.Lista.<X>.Bonus_Especial` | número | especializações |\n| `Pericias.Slots.{A,E,M}` | número | base de classe |\n| `Defesas_Resistencias.Lista.<X>.{Atributo,Proficiencia,Bonus_Item,Bonus_Especial}` | varia | base + tesouros |\n| `Sentidos.Lista.<X>.<field>` | varia | sentidos especiais |\n| `Movimento.Lista.<X>.<field>` | varia | velocidades especiais |\n| `Habilidades.Lista` | wikilink (Complementar) | classe/raça que dá habilidade |\n| `Tecnicas.{Slots.X, Lista}` | número/wikilink | classe |\n| `Magias.{Potencia, EM, Slots.X, Lista.<Escola>.<field>}` | varia | classe/sintonia |\n| `Acoes.Lista` | wikilink (Complementar) | habilidades que dão ação |\n| `Ataques.Proficiencia.{Ataque, Armas.Simples, Armas.Marciais, Armas.Especificas}` | varia | base de classe |\n| `Inventario.Armadura.Proficiencia.{Sem,Leve,Pesada}` | `N\\|P` | base de classe |\n| `Inventario.Escudo.Proficiencia` | `N\\|P` | base de classe |\n| `Papel.{Lider,Controlador,Abatedor,Vanguarda}` | número | habilidades |\n| `__alias__Classe` | string (Compor) | composição da classe |\n\nTargets `Inventario.Escudo.Bonus_Item` / `.Bonus_Especial` e\n`Ataques.Lista.<X>.Proficiencia` são silenciosos hoje (ver\n[reference/rule-elements-unsupported.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements-unsupported.md)).\n\n## Catálogo de casos reais\n\nExemplos extraídos do vault, organizados por situação. Use como modelo\nquando criar uma habilidade/classe/tesouro/propriedade nova.\n\n### 1. Stats base de classe (Vida, Atributos)\n\n```yaml\n# Sistema/Criação de Personagem/Classes/Bardo.md\nElementos_de_Regra:\n  - Nivel 1 Definir Vida.Vitalidade 12\n  - Nivel 1 Definir Vida.Moral 24\n  - Nivel 1 Definir Atributos.Principal PRE\n  - Nivel 1 Escolher Atributos.Principal PRE\n```\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Bardo/Trovador.md\n# Habilidade Experiente que SOMA na vida base do Bardo\nElementos_de_Regra:\n  - Somar Vida.Vitalidade 6\n  - Somar Vida.Moral 12\n```\n\n`Definir` na classe = base. `Somar` em habilidade Experiente acumula\nortogonalmente (final = `max(base, Definir) + Σ(Somar)`).\n\n### 2. Proficiências de defesa, sentido, perícia, ofício\n\n```yaml\n# Bardo confere proficiência base (Adepto) em várias áreas\nElementos_de_Regra:\n  - Nivel 1 Definir Defesas_Resistencias.Lista.Defesa.Proficiencia A\n  - Nivel 1 Definir Defesas_Resistencias.Lista.Impeto.Proficiencia A\n  - Nivel 1 Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia A\n  - Nivel 1 Definir Sentidos.Lista.Percepcao.Proficiencia A\n  - Nivel 1 Definir Sentidos.Lista.Intuicao.Proficiencia A\n  - Nivel 1 Definir Oficios.Lista.Atuacao.Atributo PRE\n  - Nivel 1 Definir Oficios.Lista.Atuacao.Proficiencia A\n```\n\n```yaml\n# Trovador (habilidade Experiente do Bardo) PROMOVE proficiências\nElementos_de_Regra:\n  - Definir Defesas_Resistencias.Lista.Defesa.Proficiencia E\n  - Definir Defesas_Resistencias.Lista.Reflexo.Proficiencia E\n  - Definir Defesas_Resistencias.Lista.Impeto.Proficiencia E\n  - Definir Defesas_Resistencias.Lista.Vigor.Proficiencia A\n  - Definir Sentidos.Lista.Percepcao.Proficiencia E\n  - Definir Sentidos.Lista.Intuicao.Proficiencia E\n  - Definir Oficios.Lista.Atuacao.Proficiencia E\n```\n\n`Definir` faz max-merge: se Bardo deu A e Trovador deu E, fica E.\n\n### 3. Slots de perícia / técnica / magia\n\n```yaml\n# Bardo\nElementos_de_Regra:\n  - Nivel 1 Somar Pericias.Slots.A 3\n  - Nivel 3 Somar Magias.Slots.A 1\n  - Nivel 5 Somar Magias.Slots.A 1\n```\n\n`Somar` em slots porque queremos ACUMULAR (cada nível adiciona). Se\nfosse `Definir`, max-merge não acumularia — só pegaria o maior.\n\n### 4. Adicionar habilidade à lista (Complementar)\n\n```yaml\n# Bardo adiciona suas habilidades base + as de cada nível\nElementos_de_Regra:\n  - Nivel 1 Complementar Habilidades.Lista [[Evolução Básica]]\n  - Nivel 1 Complementar Habilidades.Lista [[Método Artístico]]\n  - Nivel 1 Complementar Habilidades.Lista [[Performance Bárdica]]\n  - Nivel 1 Complementar Habilidades.Lista [[Estilo de Combate]]\n  - Nivel 3 Complementar Habilidades.Lista [[Conhecimento Arcano Adepto]]\n  - Nivel 4 Complementar Habilidades.Lista [[Trovador]]\n  - Nivel 4 Complementar Habilidades.Lista [[Estilo Refinado]]\n  - Nivel 7 Complementar Habilidades.Lista [[Mestre-Bardo]]\n```\n\nA nota `[[X]]` referenciada vira seed do BFS — suas próprias rules\nrodam em cascata.\n\n### 5. Adicionar ação à lista\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Bardo/Performance Bárdica.md\nElementos_de_Regra:\n  - Complementar Acoes.Lista [[Inspiração]]\n  - Complementar Acoes.Lista [[Ato Inspirador]]\n```\n\n### 6. Proficiência de equipamento (binária N/P)\n\n```yaml\n# Bardo\nElementos_de_Regra:\n  - Nivel 1 Definir Inventario.Armadura.Proficiencia.Leve P\n  - Nivel 1 Definir Ataques.Proficiencia.Ataque A\n```\n\n```yaml\n# Estilo de Combate (Luta Artística) — adiciona armas específicas\nElementos_de_Regra:\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Adaga de Duelo]]\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Espada Curta]]\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Rapieira]]\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Arco Curto]]\n```\n\nCada entrada em `Especificas` é \"P implícito\" — proficiência só com\nessas armas específicas.\n\n```yaml\n# Treinamento de Guerreiro (Classe Secundária) — promove de Leve pra\n# Pesada se já era proficiente em Leve, senão ganha Leve.\nElementos_de_Regra:\n  - Nivel 1 Definir Ataques.Proficiencia.Armas.Marciais P\n  - Nivel 1 Condicional Inventario.Armadura.Proficiencia.Leve,P Definir Inventario.Armadura.Proficiencia.Pesada P Senao Definir Inventario.Armadura.Proficiencia.Leve P\n```\n\nPadrão `Condicional + Senao` (ver §Senao): UMA linha cobre ambos os branches.\n\n### 7. Composição de classe (Alias Compor)\n\n```yaml\n# Bardo (base)\nElementos_de_Regra:\n  - Nivel 1 Alias Classe Compor 0 \"Bardo\"\n\n# Sistema/Criação de Personagem/Habilidades/Bardo/Trovador.md\nElementos_de_Regra:\n  - Nivel 4 Alias Classe Compor 0 \"Trovador\"\n\n# Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico/\n# Método Artístico (Inspirador).md\nElementos_de_Regra:\n  - Alias Classe Compor 1 \"Inspirador\"\n\n# Sistema/Criação de Personagem/Habilidades/Bardo/Estilo de Combate/\n# Estilo de Combate (Luta Artística).md\nElementos_de_Regra:\n  - Alias Classe Compor 2 \"de Luta Artística\"\n```\n\n`Compor N` define ordem dos fragmentos. Resultado renderizado:\n`\"Trovador Inspirador de Luta Artística\"`.\n\n### 8. Papel (Líder/Controlador/Abatedor/Vanguarda)\n\n```yaml\n# Bardo\nElementos_de_Regra:\n  - Somar Papel.Lider 1\n\n# Druida\nElementos_de_Regra:\n  - Somar Papel.Vanguarda 1\n\n# Estilo de Combate (Luta Artística)\nElementos_de_Regra:\n  - Somar Papel.Abatedor 1\n```\n\nValores acumulam — Heroi Bardo+Trovador+Inspirador+Luta Artística vira\n`{ Lider: 2, Controlador: 1, Abatedor: 1 }` (somando das fontes).\n\n### 9. Movimento (sintaxe especial)\n\n```yaml\n# Companheiro Animal Canino (CA com Aéreo bonus)\nElementos_de_Regra:\n  - Complementar Movimento.Lista Aereo\n  - Definir Movimento.Lista.Aereo.Atributo AGI\n  - Definir Movimento.Lista.Aereo.Bonus_Especial 3\n```\n\n```yaml\n# Forma Brutal (Druida) — reduz movimento terrestre\nElementos_de_Regra:\n  - Definir Movimento.Lista.Terrestre.Bonus_Especial -2\n```\n\n### 10. Wrapper `Tier` (Bestiário)\n\n```yaml\n# Modificador Competente (aplicado em Monstro Tier 1+)\nElementos_de_Regra:\n  - Tier 0 Definir Defesas_Resistencias.Lista.Defesa.Bonus_Item 0\n  - Tier 0 Definir Movimento.Lista.*.Bonus_Item 0\n  - Tier 0 Definir Pericias.Lista.Atletismo.Bonus_Item 0\n  # ... +N entries similares\n```\n\nWildcard `*` aceita TODOS os movimentos cadastrados.\n\n### 11. Wrapper `Categoria` (Tesouros + Imbuições por tier)\n\n```yaml\n# Sistema/Equipamento/Tesouros/Equipamentos/.../Anel da Resistência.md\nElementos_de_Regra:\n  - Categoria Adepto Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 1\n  - Categoria Adepto Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 1\n  - Categoria Adepto Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 1\n  - Categoria Experiente Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 2\n  - Categoria Experiente Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 2\n  - Categoria Experiente Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 2\n  - Categoria Mestre Definir Defesas_Resistencias.Lista.Vigor.Bonus_Item 3\n  - Categoria Mestre Definir Defesas_Resistencias.Lista.Impeto.Bonus_Item 3\n  - Categoria Mestre Definir Defesas_Resistencias.Lista.Reflexo.Bonus_Item 4\n```\n\n```yaml\n# Sistema/Equipamento/Tesouros/.../Escudo Obra-prima.md\nElementos_de_Regra:\n  - Categoria Adepto Definir Inventario.Escudo.Dureza 5\n  - Categoria Experiente Definir Inventario.Escudo.Dureza 7\n  - Categoria Mestre Definir Inventario.Escudo.Dureza 10\n```\n\n`Categoria` casa com a categoria do tesouro/imbuição como equipado pelo\nHeroi. **`categoriaPorNota`** propaga a categoria do tesouro pra rules\ndas propriedades intrínsecas (Obra-prima de armadura/escudo/arma).\n\n### 12. Forma abreviada com Categoria (Complementar implícito)\n\n```yaml\n# Sistema/Equipamento/Tesouros/.../Tesouros Mágicos de Magia/...\nElementos_de_Regra:\n  - Categoria Adepto Magias.Lista.Tesouros.Lista [[Compreender Idiomas]]\n  - Categoria Adepto Complementar Magias.Lista.Tesouros.Lista [[Chave Arcana]]\n  # As 2 formas acima são EQUIVALENTES — a 1ª omite \"Complementar\"\n```\n\n### 13. `Condicional` — comparações de atributo\n\n```yaml\n# Sistema/Regras/Atributos/...\nElementos_de_Regra:\n  - Condicional (FOR>AGI) Sobrescrever Defesas_Resistencias.Lista.Defesa.Atributo FOR\n```\n\nQuando FOR > AGI, Defesa usa FOR como atributo (em vez do default AGI).\n\n### 14. `Condicional` — gating por habilidade já no model\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado.md\n# Habilidade variant é INFERIDA do que o Heroi já tem\nElementos_de_Regra:\n  - Condicional Habilidades.Lista,Contem([[Estilo de Combate (Luta Artística)]]) Complementar Habilidades.Lista [[Estilo Refinado (Luta Artística)]]\n  - Condicional Habilidades.Lista,Contem([[Estilo de Combate (Arte Mágica)]]) Complementar Habilidades.Lista [[Estilo Refinado (Arte Mágica)]]\n```\n\nA escolha do user em `Estilo de Combate` propaga automaticamente pra\nvariant correta de `Estilo Refinado` no mesmo ciclo do extract — sem\nprecisar salvar entre as fases.\n\n### 15. `Condicional` — bonus de arma específica\n\n```yaml\n# Estilo Aprimorado (Perito) — bonus quando user equipou arma específica\nElementos_de_Regra:\n  - Condicional Armas.Arma,[[Espada Curta]] Sobrescrever Ataques.Lista.[[Espada Curta]].Bonus_Especial 1\n  - Condicional Armas.Arma,[[Rapieira]] Sobrescrever Ataques.Lista.[[Rapieira]].Bonus_Especial 1\n  # ... entries pra cada arma do estilo\n```\n\n### 16. `Escolha_Habilidades` — escolha entre wikilinks (`complementar-sel`)\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Bardo/Método Artístico.md\nElementos_de_Regra:\n  - Escolha_Habilidades \"Método Artístico\" Complementar Habilidades.Lista Selecionar([[Método Artístico (Inspirador)]], [[Método Artístico (Manipulador)]])\n```\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Druida/Forma Feral.md\nElementos_de_Regra:\n  - Escolha_Habilidades \"Forma\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])\n```\n\nForma sem wrapper `Escolha_Habilidades` também funciona — parser\nsintetiza scope `escolha` automaticamente:\n\n```yaml\n# Forma sem wrapper (label vazio)\nElementos_de_Regra:\n  - Complementar Tecnicas.Lista Selecionar ([[Ambidestria]], [[Treinamento com Escudo]], [[Especialista em Caçada]])\n```\n\n### 17. `Escolha_Habilidades` — escolha de label que mapeia pra prop (`escolha-prop-map`)\n\n```yaml\n# User escolhe entre \"Atletismo\"/\"Diplomacia\" → seta proficiência\n# da perícia correspondente em Adepto\nElementos_de_Regra:\n  - Escolha_Habilidades \"Perícia Adepta\" Definir (\"Atletismo\":Pericias.Lista.Atletismo.Proficiencia,\"Diplomacia\":Pericias.Lista.Diplomacia.Proficiencia) A\n```\n\n### 18. `Escolha_Habilidades` — escolha de perícia (`escolha-pericia-especial`)\n\n```yaml\n# Estilo de Ladino (Perito) — user escolhe 1 perícia treinada\nElementos_de_Regra:\n  - Escolha_Habilidades \"Bônus de Especialização\" Perícia Especial Definir 2\n```\n\nA perícia escolhida recebe `Bonus_Especial: 2` com source\n`Escolha.NN.[[Estilo de Ladino (Perito)]]`.\n\n### 19. `Requisito` — habilidade só vale se atributo bate\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/.../habilidade que precisa de FOR alto\nElementos_de_Regra:\n  - Requisito Atributos.FOR 3\n  - ... (resto das rules da habilidade)\n```\n\nSe Heroi não tem FOR>=3, a habilidade fica INVALIDA — não aplica seus\nefeitos.\n\n### 20. `Requisito Contem` — habilidade só vale se OUTRA habilidade ativa\n\n```yaml\n# Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Refinado/Estilo Refinado (Luta Artística).md\nElementos_de_Regra:\n  - Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]\n  - ... (resto das rules)\n```\n\nVariant de Estilo Refinado só vale se a variant correspondente de\nEstilo de Combate estiver na lista do Heroi.\n\n### 21. `Restringir` — limita Atributo Principal por classe\n\n```yaml\n# Druida força INT\nElementos_de_Regra:\n  - Nivel 1 Restringir Atributos.Principal INT\n\n# Guerreiro permite FOR ou AGI\nElementos_de_Regra:\n  - Nivel 1 Restringir Atributos.Principal FOR, AGI\n\n# Bestiário Tier 0 (escolha entre INT e PRE)\nElementos_de_Regra:\n  - Tier 0 Escolher Atributos.Principal INT, PRE\n```\n\n### 22. Magia (Potência, EM, Slots, Escolas)\n\n```yaml\n# Trovador (4º nível Bardo) define potência mágica + EM\nElementos_de_Regra:\n  - Definir Magias.Potencia 6\n  - Definir Magias.EM 3\n```\n\n```yaml\n# Método Artístico (Inspirador) treina Magia Arcana Branca + Diplomacia\nElementos_de_Regra:\n  - Definir Magias.Lista.ArcanaBranca.Proficiencia A\n  - Definir Magias.Lista.ArcanaBranca.Atributo PRE\n  - Somar Magias.Slots.B 2\n  - Somar Magias.Slots.A 2\n  - Definir Pericias.Lista.Diplomacia.Proficiencia A   # treina em Adepto\n  - Alias Classe Compor 1 \"Inspirador\"                 # vide §7\n```\n\n### 23. `Multiplicar` (raro — Companheiro Animal grande)\n\n```yaml\n# Companheiro Animal Médio dobra vitalidade (porte)\nElementos_de_Regra:\n  - Multiplicar Vida.Vitalidade 2\n\n# Grande triplica\nElementos_de_Regra:\n  - Multiplicar Vida.Vitalidade 3\n```\n\n### 24. Habilidade-pai com variants (subclasses)\n\n```yaml\n# Sistema/.../Bardo/Estilo de Combate/Estilo de Combate.md\n# Habilidade-pai (subcategoria: Subclasse no FM da nota)\n---\nsubcategoria: Subclasse\nElementos_de_Regra:\n  - Complementar Habilidades.Lista Selecionar ([[Estilo de Combate (Luta Artística)]], [[Estilo de Combate (Arte Mágica)]])\n---\n\n# Sistema/.../Estilo de Combate/Estilo de Combate (Luta Artística).md\n# Variant — adiciona armas específicas + papel\nElementos_de_Regra:\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Adaga de Duelo]]\n  - Complementar Ataques.Proficiencia.Armas.Especificas [[Espada Curta]]\n  - Alias Classe Compor 2 \"de Luta Artística\"\n  - Somar Papel.Abatedor 1\n```\n\nA nota-pai (`Estilo de Combate.md`) tem `subcategoria: Subclasse` — as\nchoices dela vão pra aba **Perfil** em vez de Habilidades. As variants\n(filhas) aparecem indentadas abaixo do pai na Lista de Habilidades\nquando picadas.\n\n### 25. Sistema legacy `Interativa Efeito` (deprecated, migre pra `Efeitos_Interativos:`)\n\n```yaml\n# Formato VELHO (ainda funciona com warning)\nElementos_de_Regra:\n  - Interativa Efeito \"Escudo Erguido\" Definir Tipo Estado\n  - Interativa Efeito \"Escudo Erguido\" Definir Parâmetro IconeLigado 🛡️\n  - Interativa Efeito \"Escudo Erguido\" Somar BonusEscudo 1\n```\n\nMigrado pra bloco YAML novo:\n\n```yaml\n# Formato NOVO (preferido — ver Efeitos Interativos)\nEfeitos_Interativos:\n  - label: Escudo Erguido\n    tipo: Estado\n    origem: Habilidade\n    visual: { iconeLigado: 🛡️, iconeDesligado: 🚫 }\n    modificadores:\n      - somar: BonusEscudo\n        valor: 1\n```\n\nPipeline aceita os DOIS formatos. Recomendado: usar bloco novo\n`Efeitos_Interativos:` (esquema mais estruturado, menos linhas).\nVer [[Efeitos Interativos]].\n\n## Ver também\n\n- [[Efeitos Interativos]] — bloco `Efeitos_Interativos:` (sistema novo, mais estruturado)\n- [[Frontmatter]] — outras chaves do FM\n- [[Como Funciona]] — fluxos\n- [reference/rule-elements.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements.md) — spec técnica completa (parser, ParsedRule, applier)\n- [reference/interativa-catalogos.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/interativa-catalogos.md) — catálogo de targets/guards/verbos\n- [reference/rule-elements-unsupported.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements-unsupported.md) — targets que silenciosamente não escrevem\n"
+}

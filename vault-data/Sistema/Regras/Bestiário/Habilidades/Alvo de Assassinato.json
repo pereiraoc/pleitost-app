@@ -1,0 +1,30 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Alvo de Assassinato",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Alvo de Assassinato.md",
+  "basename": "Alvo de Assassinato",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Marca criatura para a morte.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Marca criatura para a morte.\"\n%%\n##### `= this.file.name`\nCriatura pode usar Alvo de Assassinato.\n\n**Alvo de Assassinato - 1A**\nCriatura que consegue ver é marcada. Alvos marcados recebem 1d6/1d10/1d12 de dano adicional no primeiro ataque de sucesso no turno. Só pode ter uma criatura marcada.\n\n```autosheet-rules\n```\n"
+}

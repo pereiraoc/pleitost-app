@@ -1,0 +1,86 @@
+{
+  "id": "Sistema/Regras/Proficiência/Proficiência",
+  "path": "Sistema/Regras/Proficiência/Proficiência.md",
+  "basename": "Proficiência",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Proficiência",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Atributos|Atributos]]",
+    "next": "[[Vitalidade|Vitalidade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atributos",
+      "kind": "wikilink",
+      "alias": "Atributos"
+    },
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink",
+      "alias": "Vitalidade"
+    },
+    {
+      "target": "ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "embed",
+      "subpath": "Adepto"
+    },
+    {
+      "target": "Experiente",
+      "kind": "embed",
+      "subpath": "Experiente"
+    },
+    {
+      "target": "Mestre",
+      "kind": "embed",
+      "subpath": "Mestre"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Proficiência"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Atributos|Atributos]]\nnext:: [[Vitalidade|Vitalidade]]\n%%\n# Proficiência\nVocê pode ser proficiente ou não para seus [[ataques]], [[defesa]], [[resistências]] e [[Perícias]]. Nenhuma proficiência não garante nenhum bônus, essa habilidade então acaba dependendo unicamente do atributo referente. Já quando proficiente, existem 3 níveis de proficiência: [[Adepto]], [[Experiente]] e [[Mestre]]. \n![[Adepto#Adepto]]\n![[Experiente#Experiente]]\n![[Mestre#Mestre]]\n\n```autosheet-rules\n```\n"
+}

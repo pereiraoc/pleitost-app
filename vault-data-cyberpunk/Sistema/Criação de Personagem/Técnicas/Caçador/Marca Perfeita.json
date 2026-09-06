@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Marca Perfeita",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Marca Perfeita.md",
+  "basename": "Marca Perfeita",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Sempre sabe fraquezas e resistências da marca.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Sempre sabe fraquezas e resistências da marca.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê sempre sabe as fraquezas e resistências do seu alvo de caça.\n*Requer Estratégia de Caça Rastreador*\n```autosheet-rules\n```\n"
+}

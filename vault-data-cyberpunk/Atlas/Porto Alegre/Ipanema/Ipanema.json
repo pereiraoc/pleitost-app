@@ -1,0 +1,56 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Ipanema.md",
+  "basename": "Ipanema",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Poção da Nutrição]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Enclave de elites com condomínios fortificados.\n> \n> 👁️**Aparência do Local:** Muros altos, portarias blindadas, jardins sintéticos, silêncio cerimonial.\n> \n\n\n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Enclave de elites com condomínios fortificados.",
+    "aparencia": "Muros altos, portarias blindadas, jardins sintéticos, silêncio cerimonial.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

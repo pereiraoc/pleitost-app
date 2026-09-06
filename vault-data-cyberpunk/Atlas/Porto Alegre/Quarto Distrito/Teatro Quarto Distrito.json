@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Teatro Quarto Distrito",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Teatro Quarto Distrito.md",
+  "basename": "Teatro Quarto Distrito",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Teatro Quarto Distrito.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Teatro Quarto Distrito.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Teatro Quarto Distrito.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Espaço cultural subterrâneo para peças de resistência.\n> \n> 👁️**Aparência do Local:** Cortinas rasgadas, luzes de emergência, cheiro de madeira envelhecida.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Espaço cultural subterrâneo para peças de resistência.",
+    "aparencia": "Cortinas rasgadas, luzes de emergência, cheiro de madeira envelhecida.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita (Domador)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Caçador/Estratégia Perfeita/Estratégia Perfeita (Domador).md",
+  "basename": "Estratégia Perfeita (Domador)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Domador)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Seu [[Companheiro Animal]] se torna [[Mestre]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Domador)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estratégia Perfeita (Domador)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estratégia Aprimorada (Domador)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estratégia Aprimorada (Domador)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Mandíbula",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink",
+      "alias": "Espreite"
+    },
+    {
+      "target": "Presas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink",
+      "alias": "Voe"
+    },
+    {
+      "target": "Estratégia Aprimorada (Domador)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Mestre]]\n\nresumo:: \"Seu [[Companheiro Animal]] se torna [[Mestre]].\"\n%%\n##### `= this.file.name`\nSeu [[Companheiro Animal]] se torna [[Mestre]].\nAdicionalmente, seu companheiro animal aprende uma habilidade, dependendo da espécie dele.\n\n**Derrubada (Canino) - 1A**\nPode ser usado se sua ultima ação foi um [[Atacar|Ataque]] de [[Mandíbula]] com sucesso. Tente [[Derrubar]] o alvo do ataque. Você faz a tentativa de Derrubar com a mesma [[Penalidade por Ataque Múltiplo|PAM]] do ataque anterior.\n\n**Bote (Felino) - 2A**\n[[Mover|Mova]] ou [[Espreitar|Espreite]] e então faça um [[Atacar|Ataque]] com [[Presas]] seguido de um [[Atacar|Ataque]] com [[Garras]] contra o mesmo alvo. A [[Penalidade por Ataque Múltiplo|PAM]] progride normalmente para esses ataques.\n\n**Abraço de Urso (Ursino) - 1A**\nPode ser usado se sua ultima ação foi um [[Atacar|Ataque]] de [[Garras]] com sucesso. Tente [[Agarrar]] o alvo do ataque. Você faz a tentativa de Agarrar com a mesma [[Penalidade por Ataque Múltiplo|PAM]] do ataque anterior.\n\n**Ataque Aéreo (Ave) - 2A** \n[[Voar|Voe]], durante o voo, você pode fazer um [[Atacar|Ataque]] com [[Garras]] a qualquer momento durante o movimento.\n\n```autosheet-rules\n```\n"
+}

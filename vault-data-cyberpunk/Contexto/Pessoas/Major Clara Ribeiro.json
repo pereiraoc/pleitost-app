@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Major Clara Ribeiro",
+  "path": "Contexto/Pessoas/Major Clara Ribeiro.md",
+  "basename": "Major Clara Ribeiro",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Clara Ribeiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Embratel]]",
+    "Função": "Comandante da Embratel",
+    "Aparência": "Uniforme de comunicações, fone de um lado só, sempre com uma lista de frequências anotada à mão.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

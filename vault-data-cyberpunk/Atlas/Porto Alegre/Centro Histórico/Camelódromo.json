@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Camelódromo",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Camelódromo.md",
+  "basename": "Camelódromo",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Camelódromo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Camelódromo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Camelódromo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Feira de sucata tecnológica e implantes ilegais.\n> \n> 👁️**Aparência do Local:** Lonas escuras, bancas improvisadas, cheiro de solda e miasmas de óleo.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Feira de sucata tecnológica e implantes ilegais.",
+    "aparencia": "Lonas escuras, bancas improvisadas, cheiro de solda e miasmas de óleo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

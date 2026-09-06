@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor (Aplicações da Luz)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor (Aplicações da Luz).md",
+  "basename": "Escola Arcana Menor (Aplicações da Luz)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+      "Somar Magias.Secundaria.Slots.B 2",
+      "Somar Magias.Secundaria.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Treinamento de Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e aprende uma [[Magia Branca Adepta]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Aplicações da Luz)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaBranca.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Secundaria.Lista.ArcanaBranca.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Secundaria.Slots.B 2",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Aplicações da Luz)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.B",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Secundaria.Slots.B 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Aplicações da Luz)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Básica",
+      "kind": "wikilink",
+      "alias": "Magias Brancas Básicas"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Treinamento de Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e aprende uma [[Magia Branca Adepta]] de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Branca]], aprende duas [[Magia Branca Básica|Magias Brancas Básicas]] e aprende uma [[Magia Branca Adepta]] de sua escolha.\n\n```autosheet-rules\n```\n"
+}

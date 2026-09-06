@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Pedir Favor",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Pedir Favor.md",
+  "basename": "Pedir Favor",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Diplomacia]]\"",
+    "propriedades": "",
+    "resumo": "\"Pede um favor de uma criatura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Diplomacia]]\"\npropriedades:: \nresumo:: \"Pede um favor de uma criatura.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Diplomacia]] vs [[CD]] da tarefa (tipicamente a [[Intuição]] ou [[Ímpeto]] de uma criatura).\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Rapidez Marcial",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Rapidez Marcial.md",
+  "basename": "Rapidez Marcial",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"A cada turno, você recebe 1 ação extra que só pode ser usada para fazer um [[Atacar|Ataque]] com uma arma que se beneficia de [[Especialização em Arma]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"A cada turno, você recebe 1 ação extra que só pode ser usada para fazer um [[Atacar|Ataque]] com uma arma que se beneficia de [[Especialização em Arma]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê recebe uma ação extra todo turno para fazer um [[Atacar|Ataque]] com uma arma que se beneficia de [[Especialização em Arma]].\n\n```autosheet-rules\n```\n"
+}

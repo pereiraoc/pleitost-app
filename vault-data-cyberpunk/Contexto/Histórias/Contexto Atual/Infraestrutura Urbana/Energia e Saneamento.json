@@ -1,0 +1,127 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Energia e Saneamento",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Energia e Saneamento.md",
+  "basename": "Energia e Saneamento",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A distribuição (ou falta) de recursos básicos como eletricidade e água potável.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia e Saneamento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duque de Caxias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Energia e Saneamento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Distribuição Energética e Sobrecarga Industrial"
+    },
+    {
+      "level": 4,
+      "text": "Colapso Sanitário e Ruínas de Infraestrutura"
+    },
+    {
+      "level": 4,
+      "text": "Saneamento Improvisado e Resistência Comunitária"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Energia e Saneamento.png]]\n\n#### Distribuição Energética e Sobrecarga Industrial\nPorto Alegre depende quase exclusivamente das usinas a carvão operadas pela **[[Companhia Estadual de Energia Elétrica|CEEE]]**, situadas em regiões industriais como [[Nova Sarandi]] e Passo D’Areia. As instalações, antigas e mal mantidas, trabalham constantemente em regime de sobrecarga, gerando frequentes apagões nos bairros periféricos e fumaça tóxica que cobre diariamente áreas como [[Petrópolis]] e [[Jardim Itu]]. Cortes programados atingem especialmente a [[Cidade Baixa]], [[Restinga]] e zonas menos favorecidas, priorizando indústrias e megacorporações como a [[Tramontina]] e [[Gurgel]].\n#### Colapso Sanitário e Ruínas de Infraestrutura\nO saneamento básico colapsou com a [[Grande Enchente de 1986]], transformando bairros como [[Cidade Baixa]], [[Duque de Caxias]] e [[Galeria Malcom]] em redes de palafitas improvisadas e ruas permanentemente alagadas com esgotos a céu aberto. Iniciativas como o [[Mercado Flutuante]] na [[Restinga]] ou as soluções provisórias da [[Resistência Urbana Gaúcha]] nas palafitas da [[Cidade Baixa]] amenizam parcialmente a crise, mas são insuficientes.\n#### Saneamento Improvisado e Resistência Comunitária\nFrente à negligência estatal, comunidades e facções locais improvisam soluções emergenciais. Moradores da [[Restinga]] e do [[Quarto Distrito]] instalam cisternas e sistemas clandestinos de filtragem, enquanto o [[Clã da Ferrugem]] adapta antigos contêineres e sucata para sistemas precários de distribuição de água. Já em regiões privilegiadas como [[Moinhos de Vento]] e [[Ipanema]], enclaves corporativos mantidos por [[Gradiente]] e [[Zaffari]] possuem sistemas exclusivos de tratamento, contrastando dramaticamente com a precariedade das zonas populares."
+}

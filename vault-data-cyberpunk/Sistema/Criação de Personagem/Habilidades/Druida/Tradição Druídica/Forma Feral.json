@@ -1,0 +1,115 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Forma Feral",
+  "path": "Sistema/Criação de Personagem/Habilidades/Druida/Tradição Druídica/Forma Feral.md",
+  "basename": "Forma Feral",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Formas Ferais",
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Druida",
+      "kind": "wikilink",
+      "alias": "Druidas"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "embed",
+      "subpath": "`= this.file.name` - `= this.custo`"
+    },
+    {
+      "target": "Presas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas Letais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presas Grandes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras Afiadas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Garras Grandes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mandíbula",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mandíbula Afiada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mandíbula Grande",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chifres",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chifres Letais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chifres Grandes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Formas Ferais"
+    },
+    {
+      "level": 5,
+      "text": "Ataques Naturais"
+    }
+  ],
+  "body": "###  `= this.file.name`\nFormas que [[Druida|Druidas]] assumem ou invocam.\n\n#### Formas Ferais\n\n![[Forma Caçadora#`= this.file.name` - `= this.custo`]]\n![[Forma Espreitadora#`= this.file.name` - `= this.custo`]]\n![[Forma Brutal#`= this.file.name` - `= this.custo`]]\n![[Forma Fortificada#`= this.file.name` - `= this.custo`]]\n\n##### Ataques Naturais\n\n| Presas             | FOR | Dano |    Tipo    | Propriedades                 |\n| ------------------ | --- |:----:|:----------:| ---------------------------- |\n| [[Presas]]   | 0   | d4+2 | perfuração | [[Precisa]], [[Apunhalante]] |\n| [[Presas Letais]] | 1   | d6+3 | perfuração | [[Precisa]]                  |\n| [[Presas Grandes]]  | 2   | d6+3 | perfuração | [[Precisa]], [[Apunhalante]] |\n\n| Garras             | FOR | Dano | Tipo  | Propriedades                 |\n| ------------------ |:---:|:----:|:-----:| ---------------------------- |\n| [[Garras]]   |  0  | d4+2 | corte | [[Precisa]]                  |\n| [[Garras Afiadas]] |  1  | d4+2 | corte | [[Precisa]], [[Apunhalante]] |\n| [[Garras Grandes]]  |  2  | d6+3 | corte | [[Precisa]]                  |\n\n| Mordida            | FOR | Dano |    Tipo    | Propriedades    |\n| ------------------ |:---:|:----:|:----------:| --------------- |\n| [[Mandíbula]]   |  0  | d6+3 | perfuração |                 |\n| [[Mandíbula Afiada]] |  1  | d6+3 | perfuração | [[Apunhalante]] |\n| [[Mandíbula Grande]] |  2  | d8+4 | perfuração |                 |\n\n| Pancada            | FOR | Dano |   Tipo   | Propriedades |\n| ------------------ |:---:|:----:|:--------:| ------------ |\n| [[Chifres]]   |  0  | d4+2 | contusão |              |\n| [[Chifres Letais]] |  1  | d6+3 | contusão |              |\n| [[Chifres Grandes]]  |  2  | d8+4 | contusão |              |\n\n```autosheet-rules\n```\n"
+}

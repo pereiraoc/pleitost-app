@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Arma Natural",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Arma Natural.md",
+  "basename": "Arma Natural",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "P",
+    "resumo": "\"Você pode realizar um ritual de 10 minutos que cria uma arma feita de energia natural. Esta arma pode ser qualquer arma da lista de armas, conta como uma arma simples para você e desaparece se deixar de estar em sua posse. No 4º nível, a arma causa 1d6 de dano adicional caso você não seja [[Experiente]] com ela. No 7º nível, o dano adicional é aplicado caso você não seja [[Mestre]] com a arma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: P\n\nresumo:: \"Você pode realizar um ritual de 10 minutos que cria uma arma feita de energia natural. Esta arma pode ser qualquer arma da lista de armas, conta como uma arma simples para você e desaparece se deixar de estar em sua posse. No 4º nível, a arma causa 1d6 de dano adicional caso você não seja [[Experiente]] com ela. No 7º nível, o dano adicional é aplicado caso você não seja [[Mestre]] com a arma.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode realizar um ritual de 10 minutos que cria uma arma feita de energia natural. Esta arma pode ser qualquer arma da lista de armas, conta como uma arma simples para você e desaparece se deixar de estar em sua posse. Ao criar a arma, escolha um dos 4 elementos, o tipo de dano da arma é determinado pelo elemento. Fogo causa dano de fogo, Vento causa dano de corte, Água causa dano de frio e Terra causa dano de contusão ou perfuração a sua escolha ao criar a arma.\n\nNo 4º nível, a arma causa 1d6 de dano adicional caso você não seja [[Experiente]] com ela. No 7º nível, o dano adicional é aplicado caso você não seja [[Mestre]] com a arma.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "Atlas/Porto Alegre/Delta Radioativo/Rua do Rato",
+  "path": "Atlas/Porto Alegre/Delta Radioativo/Rua do Rato.md",
+  "basename": "Rua do Rato",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Delta Radioativo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rua do Rato.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rua do Rato.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rua do Rato.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Atalho alagado entre [[Delta Radioativo]] e [[Centro Histórico|Centro]].\n> \n> 👁️**Aparência do Local:** Poças ácidas, resíduos plásticos, goteiras.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Atalho alagado entre [[Delta Radioativo]] e [[Centro Histórico|Centro]].",
+    "aparencia": "Poças ácidas, resíduos plásticos, goteiras.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

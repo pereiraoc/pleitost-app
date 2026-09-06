@@ -1,0 +1,104 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Druida/Forma Adicional",
+  "path": "Sistema/Criação de Personagem/Técnicas/Druida/Forma Adicional.md",
+  "basename": "Forma Adicional",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Escolha_Habilidades \"Forma Adicional\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Druida]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "Você aprende uma nova [[Forma Feral]]."
+  },
+  "ruleElements": [
+    {
+      "raw": "Escolha_Habilidades \"Forma Adicional\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+      "parsed": [
+        {
+          "sourceNote": "Forma Adicional",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "escolha",
+              "label": "Forma Adicional",
+              "choiceKey": "__esc_h_f1aa67a7",
+              "pick": null
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar-sel",
+            "targetRaw": "Acoes.Lista",
+            "options": [
+              "[[Forma Caçadora]]",
+              "[[Forma Espreitadora]]",
+              "[[Forma Brutal]]",
+              "[[Forma Fortificada]]"
+            ],
+            "label": "Forma Adicional"
+          },
+          "raw": "Escolha_Habilidades \"Forma Adicional\" Complementar Acoes.Lista Selecionar ([[Forma Caçadora]], [[Forma Espreitadora]], [[Forma Brutal]], [[Forma Fortificada]])",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Forma Feral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Caçadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Espreitadora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Brutal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Forma Fortificada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Druida]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: Você aprende uma nova [[Forma Feral]].\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a manifestar uma nova [[Forma Feral]].\n\n```autosheet-rules\n```\n"
+}

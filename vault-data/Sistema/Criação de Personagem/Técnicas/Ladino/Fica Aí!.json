@@ -1,0 +1,63 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Fica Aí!",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Fica Aí!.md",
+  "basename": "Fica Aí!",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Pode reagir para manter [[Caído|Caída]] uma criatura que tenta [[Levantar]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink",
+      "alias": "Levanta"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Pode reagir para manter [[Caído|Caída]] uma criatura que tenta [[Levantar]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê puxa o pé daqueles que tentam se levantar, hoje, eles vão ficar no chão. Você aprende a habilidade Fica Aí!.\n\n**Fica Aí! - R**\nPode ser usado quando um inimigo adjacente [[Levantar|Levanta]]. Você tenta [[Derrubar]] a criatura.\n\n```autosheet-rules\n```\n"
+}

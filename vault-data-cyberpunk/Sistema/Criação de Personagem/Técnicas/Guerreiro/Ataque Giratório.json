@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Giratório",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Ataque Giratório.md",
+  "basename": "Ataque Giratório",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] corpo-a-corpo contra todas as criaturas no seu alcance usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]] e você fica [[Atordoado|Atordoado 1]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Atordoado",
+      "kind": "wikilink",
+      "alias": "Atordoado 1"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] corpo-a-corpo contra todas as criaturas no seu alcance usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]] e você fica [[Atordoado|Atordoado 1]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Giratório.\n*Requer Trespassar*\n\n**Ataque Giratório - 2A**\nFaça um [[Atacar|Ataque]] corpo-a-corpo contra todas as criaturas que estejam no seu alcance na [[Penalidade por Ataque Múltiplo|PAM]] atual, conta como dois ataques para progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Você fica [[Atordoado|Atordoado 1]].\n\n```autosheet-rules\n```\n"
+}

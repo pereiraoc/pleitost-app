@@ -1,0 +1,258 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Lâminas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Lâminas).md",
+  "basename": "Especialização em Arma (Lâminas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização em Arma (Lâminas)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Espada Curta]]",
+            "[[Espada Curva]]",
+            "[[Espada Longa]]",
+            "[[Espada Bastarda]]",
+            "[[Montante]]"
+          ]
+        }
+      }
+    ],
+    "Elementos_de_Regra": [
+      "Condicional Inventario.Armas.Lista,[[Espada Curta]] Sobrescrever Inventario.Armas.Lista.[[Espada Curta]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Espada Curva]] Sobrescrever Inventario.Armas.Lista.[[Espada Curva]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Espada Longa]] Sobrescrever Inventario.Armas.Lista.[[Espada Longa]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Espada Bastarda]] Sobrescrever Inventario.Armas.Lista.[[Espada Bastarda]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Montante]] Sobrescrever Inventario.Armas.Lista.[[Montante]].Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Espadachim\"",
+      "Somar Papel.Vanguarda 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Lâminas."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Espada Curta]] Sobrescrever Inventario.Armas.Lista.[[Espada Curta]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Espada Curta]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Espada Curta]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Espada Curta]] Sobrescrever Inventario.Armas.Lista.[[Espada Curta]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Espada Curva]] Sobrescrever Inventario.Armas.Lista.[[Espada Curva]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Espada Curva]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Espada Curva]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Espada Curva]] Sobrescrever Inventario.Armas.Lista.[[Espada Curva]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Espada Longa]] Sobrescrever Inventario.Armas.Lista.[[Espada Longa]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Espada Longa]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Espada Longa]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Espada Longa]] Sobrescrever Inventario.Armas.Lista.[[Espada Longa]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Espada Bastarda]] Sobrescrever Inventario.Armas.Lista.[[Espada Bastarda]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Espada Bastarda]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Espada Bastarda]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Espada Bastarda]] Sobrescrever Inventario.Armas.Lista.[[Espada Bastarda]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Montante]] Sobrescrever Inventario.Armas.Lista.[[Montante]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Montante]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Montante]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Montante]] Sobrescrever Inventario.Armas.Lista.[[Montante]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Espadachim\"",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Espadachim"
+          },
+          "raw": "Alias Classe Compor 1 \"Espadachim\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Lâminas)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Vanguarda 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Montante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Lâminas.\n%%\n#### `= this.file.name`\nVocê recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Lâminas.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Lâminas        | [[Espada Curta]], [[Espada Curva]], [[Espada Longa]], [[Espada Bastarda]], [[Montante]]                |\n\n```autosheet-rules\n```\n"
+}

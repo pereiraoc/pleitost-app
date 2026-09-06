@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Lufada de Vento",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Adepta/Lufada de Vento.md",
+  "basename": "Lufada de Vento",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] em cone de 5q para empurrar (2q sucesso, 3q decisivo, 1q falha) e aplicar [[Caído]] no sucesso (1d4×potência de dano de contusão se decisivo).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] em cone de 5q para empurrar (2q sucesso, 3q decisivo, 1q falha) e aplicar [[Caído]] no sucesso (1d4×potência de dano de contusão se decisivo).\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Vigor]] das criaturas em um cone de 4q.\n\n**Sucesso:** A criatura é empurrada 2q e fica [[Caído|Caída]].\n**Sucesso Decisivo:** A criatura é empurrada 3q, fica [[Caído|Caída]] e recebe 1d4×potência de dano de contusão.\n**Falha:** A criatura é empurrada 1q.\n**Falha Decisiva:** A criatura não é afetada."
+}

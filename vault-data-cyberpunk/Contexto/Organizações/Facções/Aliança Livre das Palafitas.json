@@ -1,0 +1,42 @@
+{
+  "id": "Contexto/Organizações/Facções/Aliança Livre das Palafitas",
+  "path": "Contexto/Organizações/Facções/Aliança Livre das Palafitas.md",
+  "basename": "Aliança Livre das Palafitas",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Tereza “Maré” Fontoura]]",
+    "Descrição": null,
+    "Resumo": "Anarco-contrabando aquático: rotas de fuga, drogas experimentais e refúgio para dissidentes nas palafitas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aliança Livre das Palafitas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tereza “Maré” Fontoura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Aliança Livre das Palafitas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Aliança Livre das Palafitas.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Confederação frouxa de barqueiros, contrabandistas e dissidentes que domina o [[Mercado Flutuante]] e as rotas aquáticas. Especialistas em burlar bloqueios, oferecem rota de fuga e refúgio a quem o regime procura — por princípio e por preço.\n\n"
+}

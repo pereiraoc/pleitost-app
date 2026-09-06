@@ -1,0 +1,110 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Lutando com Duas Armas",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Lutando com Duas Armas.md",
+  "basename": "Lutando com Duas Armas",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Duas Armas",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Agressivas]]",
+    "prev": "[[Penalidade por Ataque Múltiplo]]",
+    "next": "[[Teste]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Força X",
+      "kind": "wikilink",
+      "alias": "Força"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Espada Curta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adaga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rapieira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink",
+      "alias": "VdC"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Ferro Frio",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Lutando com Duas Armas"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Agressivas]]\nprev:: [[Penalidade por Ataque Múltiplo]]\nnext:: [[Teste]]\n%%\n### Lutando com Duas Armas\nSe você estiver empunhando duas armas de uma mão que você tem proficiência mínima [[Adepto]], e ao menos uma delas é [[Ágil]], quando você faz um ataque corpo-a-corpo no seu turno, você pode escolher atacar com as duas armas. Ao fazer esta escolha, determine sua arma primária (tipicamente a arma empunhada pela mão dominante do personagem) e sua arma secundária. Você pode fazer essa escolha livremente, desde que a arma secundária seja uma arma [[ágil]] e você tenha 1 de [[Força|FOR]] a mais que a propriedade [[Força X|Força]] da arma secundária (ou FOR 1 caso ela não tenha propriedade Força).\n\nQuando você ataca com duas armas, você recebe -2 de [[Penalidades|penalidade de especialização]] na jogada de ataque. Você faz o ataque usando seu modificador da arma primária como normalmente. Ao ter sucesso, role o número de dados definido pela sua proficiência e grau de sucesso no ataque, tanto para sua arma primária como para a secundária, então escolha, entre esses dados rolados, os maiores até satisfazer o número de dados necessários e então somá-los junto com o dano base da arma primária.\n\nPor exemplo, um personagem [[Adepto]] em ataques faz um ataque com sua [[Espada Curta]] enquanto tem uma [[Adaga]] como arma secundária. Obtendo um sucesso, ele rola 1d6 e 1d4, escolhendo a maior rolagem entre eles e soma 3 do dano base da espada curta. Se o d6 rolou 3 e o d4 rolou 4, o dano final então é 7 (4+3). Se ele tivesse tido um sucesso decisivo, teria rolado 2d6 e 2d4, selecionado os 2 maiores entre esses e então somado junto com o dano base. Se esse mesmo personagem fosse [[Experiente]] em ataques, rolaria 2d6 e 2d4 (3d6 e 3d4 no sucesso decisivo), escolhendo os 2 (3 se decisivo) maiores e somando-os com os 3 de dano base da arma primária.\n\nCaso as duas armas tenham tipo de dano diferente, considere que seu ataque é dos dois tipos, mas só aplique uma fraqueza e uma resistência (aos tipos relacionados as armas) para cada rolagem de dano. Como exemplo, atacar com uma [[Espada Curva]] (corte) e uma [[Adaga]] (perfuração) uma criatura que tem fraqueza 5 a corte e perfuração só causaria 5 de dano extra. Uma criatura com fraqueza 5 a corte e resistência 5 a perfuração receberia dano normal (fraqueza anulando a resistência) e uma criatura com resistência 5 a corte e perfuração só mitigaria 5 de dano.\n\nCaso uma das armas tenha a propriedade [[Apunhalante]], o aumento de dado e dano base só se aplica a arma que possui a propriedade, alterando somente os dados que ela contribui, sem afetar os dados da outra arma. Um personagem [[Experiente]] em ataques, atacando com uma [[Rapieira]] e uma [[Espada Curta]] como arma secundária rola 4d6 (2 de cada arma) e escolhe os 2 melhores e soma 3 (dano base da Rapieira), se tiver [[Vantagem de Combate|VdC]], os d6 da Rapieira e o dano base aumentam, fazendo uma rolagem de 2d8 e 2d6, pegando os 2 melhores entre esses 4 e somando 4 (dano base aumentado da Rapieira).\n\nMesmo que seja um ataque com duas armas, isto conta somente como um ataque para a progressão de [[Penalidade por Ataque Múltiplo|PAM]] como normalmente. Se ambas as armas tiverem alguma propriedade que ativa no ataque, como uma [[Imbuição Explosiva]] ou [[Imbuição de Ferro Frio]], você escolhe, ao ter sucesso no ataque, uma das duas armas para ter seu efeito aplicado.\n\n```autosheet-rules\n```\n"
+}

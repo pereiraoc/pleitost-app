@@ -1,0 +1,215 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Congelante",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Congelante.md",
+  "basename": "Imbuição Congelante",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental da Água|Água]]"
+    ],
+    "resumo": "Arma que dificulta a movimentação.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 2) nesta arma: dano extra vira frio e aplica -1q de Movimentação por 1 turno.",
+      "experiente": "+2 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 3) nesta arma: dano extra vira frio (1d6) e aplica -1q de Movimentação por 2 turnos (renova e acumula até -2q).",
+      "mestre": "+3 de bônus de item em Ataques. 1/10 min, Encantar Arma (potência 4) nesta arma: dano extra vira frio e aplica -1q de Movimentação por 2 turnos (renova e acumula até -3q)."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-marcial|d-simples Tipo,corte"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Imbuição Congelante Ativa",
+        "tier": "Adepto",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "💧"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d4",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 1,
+            "tipoBonus": "Unico"
+          }
+        ]
+      },
+      {
+        "label": "Imbuição Congelante Ativa",
+        "tier": "Experiente",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "💧"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d6",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 2,
+            "tipoBonus": "Unico"
+          }
+        ]
+      },
+      {
+        "label": "Imbuição Congelante Ativa",
+        "tier": "Mestre",
+        "tipo": "Condição",
+        "grupo": "Positiva",
+        "origem": "Propriedade",
+        "escopo": {
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "💧"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtra",
+            "valor": "1d8",
+            "tipoBonus": "Unico"
+          },
+          {
+            "somar": "OportunidadeFixo",
+            "valor": 2,
+            "tipoBonus": "Unico"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-marcial|d-simples Tipo,corte",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Congelante",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "d-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples|d-marcial|d-simples Tipo,corte",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Encantar Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Água) - arma*\nUma arma carregada do poder da água, com uma gema gélida em sua base. Quando ativada, seus ataques congelam e atrasam os inimigos.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 2. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 1 turno.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 3. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 2 turnos. Aplicações repetidas renovam a duração e acumulam a redução de movimentação até 2q.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 4. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 2 turnos. Aplicações repetidas renovam a duração e acumulam a redução de movimentação até 3q.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Perícia Ampla",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Perícia Ampla.md",
+  "basename": "Perícia Ampla",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Escolha 2 [[Perícias]] em que você é [[Experiente]]; você recebe as [[Especialização e Maestria|especializações]] dessas perícias que ainda não tinha. Se escolher [[Arcana]] ou [[Anima]], você aprende 1 Magia Básica adicional (Essencial para Arcana; da sua sintonia para Anima).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização e Maestria",
+      "kind": "wikilink",
+      "alias": "especializações"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Escolha 2 [[Perícias]] em que você é [[Experiente]]; você recebe as [[Especialização e Maestria|especializações]] dessas perícias que ainda não tinha. Se escolher [[Arcana]] ou [[Anima]], você aprende 1 Magia Básica adicional (Essencial para Arcana; da sua sintonia para Anima).\"\n%%\n#### `= this.file.name` - `= this.rank`\nEscolha duas [[Perícias]] que você é [[Experiente]]. Você recebe as [[Especialização e Maestria|especializações]] que você não havia selecionado para essas perícias. Como [[Arcana]] e [[Anima]] só possuem uma especialização, caso escolha estas, aprenda uma Magia Básica adicional (Essencial para Arcana e da sua sintonia para Anima).\n*Requer Estilo Perito*\n\n```autosheet-rules\n```\n"
+}

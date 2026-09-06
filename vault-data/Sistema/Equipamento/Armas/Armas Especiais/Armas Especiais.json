@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Especiais/Armas Especiais",
+  "path": "Sistema/Equipamento/Armas/Armas Especiais/Armas Especiais.md",
+  "basename": "Armas Especiais",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armas Especiais"
+    }
+  ],
+  "body": "# Armas Especiais\nArmas especiais são usadas em ataques específicos garantidos por certas classes, habilidades ou itens.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"especial\"\n```"
+}

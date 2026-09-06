@@ -1,0 +1,28 @@
+{
+  "id": "Campanhas/Aventuras/Energia Negativa em Construção de Estrada (Redenção - Manilha)",
+  "path": "Campanhas/Aventuras/Energia Negativa em Construção de Estrada (Redenção - Manilha).md",
+  "basename": "Energia Negativa em Construção de Estrada (Redenção - Manilha)",
+  "type": "Aventura",
+  "subtype": "Neutralização",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Aventura",
+    "subcategoria": "Neutralização",
+    "rank": "C",
+    "disponivel": [
+      "[[Manilha]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```bounty\nTitulo: Neutralização de Energia Negativa em Construção de Estrada\n\nRecompensa:\n- Marcas: {min: 2, max: 4}\n- Ouro: {min: 60, max: 80}\nObjetivo:\n- \"Encontrar e neutralizar o foco de energia negativa.\"\n- \"Garantir que a estrada continue a construção.\"\nLocal:\n- \"[[Manilha]] (Estrada entre cidade e a Redenção)\"\nContato: \"Cavaleiros da Ordem Solar em [[Manilha]]\"\nFinanciador: Ordem Solar\n```\n"
+}

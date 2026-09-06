@@ -1,0 +1,143 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Policiamento",
+  "path": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Policiamento.md",
+  "basename": "Policiamento",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As táticas e prioridades das forças de segurança no patrulhamento urbano.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Policiamento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coronel Luciana Prado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quartel-General do Exército",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    }
+  ],
+  "images": [
+    {
+      "target": "Policiamento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Prioridades Estratégicas"
+    },
+    {
+      "level": 4,
+      "text": "Táticas e Modos de Ação"
+    },
+    {
+      "level": 4,
+      "text": "Zonas de Patrulha Prioritárias"
+    },
+    {
+      "level": 4,
+      "text": "Integração com Corporativo Militar"
+    },
+    {
+      "level": 4,
+      "text": "O Decreto das Armas Frias"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Policiamento.png]]\n\n#### Prioridades Estratégicas\n- **Combate à dissidência urbana:** A **[[Brigada Militar Metropolitana]]**, sob o comando da [[Coronel Luciana Prado]], foca em operações de choque contra movimentos clandestinos como a [[Resistência Urbana Gaúcha]], executando ações como a “Operação Silêncio” para desmantelar saraus e feiras de panfletagem no **[[Centro Histórico]]** e no **[[Bom Fim]]**.\n- **Proteção de enclaves corporativos:** Patrulhas reforçadas garantem a segurança de megacorporações como a **[[Gradiente]]** em **[[Moinhos de Vento]]** e a **[[Zaffari]]** no **[[Porto Novo]]**, com vigilância ostensiva de drones e torres de escuta instaladas pela própria [[Gradiente]] nas áreas nobres.\n#### Táticas e Modos de Ação\n- **Tocaia flutuante:** Em bairros alagados como **[[Cidade Baixa]]**, unidades móveis em veículos anfíbios da **[[Gurgel]]** realizam incursões-surpresa nas palafitas para apreender contrabando de selênicos ou materiais de resistência.\n- **Bloqueios corporativos:** As equipes de policiamento colaboram com a **[[Embratel]]**, que bloqueia transmissões de rádios piratas antes de operações policiais no **[[Quarto Distrito]]**, isolando a área durante batidas a bares alternativos e oficinas clandestinas.\n#### Zonas de Patrulha Prioritárias\n- **[[Centro Histórico]] e [[Camelódromo]]:** Patrulhas a pé e em carros anfíbios concentram-se nas passarelas flutuantes e bancas de sucata, visando desarticular o mercado negro de implantes e selênicos .\n- **[[Restinga]] e [[Cidade Baixa]]:** Operações fluviais em lanchas blindadas visam coibir a distribuição de selênicos piratas no [[Mercado Flutuante]] e limpar “guaritas” improvisadas pelo [[Movimento Restinga Livre]].\n#### Integração com Corporativo Militar\n- **Bope corporativo:** Pelotões de choque equipados com exoesqueletos da **[[Tramontina]]** e comunicadores da [[Gradiente]] executam ações de contenção em zonas industriais como **[[Petrópolis]]** e **Passo d’Areia**, onde oficinas e galpões abrigam potenciais focos de resistência.\n- **[[Quartel-General do Exército]]:** Serve de hub logístico para operações de largo espectro, coordenando toques de recolher e fornecendo suporte aéreo e de drones telecomandados pela [[Embratel]] em todas as frentes urbanas .\n\n#### O Decreto das Armas Frias\nDesde o pacote do AI-5, pólvora é monopólio do Estado: arma de fogo civil é\ncrime contra a segurança nacional, e até réplica dá cadeia. A rua se armou\ncom o que a indústria gaúcha produz — lâmina [[Tramontina]], ferramenta de\nobra, pressão de ar e dardo selênico. A [[Brigada Militar Metropolitana|Brigada]]\ngosta do arranjo: bala é cara, escândalo é pior, e cassetete resolve. Andar\nde motosserra na rua é porte proibido por definição — \"arma de maluco\".\n"
+}

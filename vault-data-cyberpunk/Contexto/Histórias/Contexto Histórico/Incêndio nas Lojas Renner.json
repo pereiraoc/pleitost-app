@@ -1,0 +1,27 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Incêndio nas Lojas Renner",
+  "path": "Contexto/Histórias/Contexto Histórico/Incêndio nas Lojas Renner.md",
+  "basename": "Incêndio nas Lojas Renner",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1976-04-27",
+    "Descrição": "Lojas [[Renner]]",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Renner",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

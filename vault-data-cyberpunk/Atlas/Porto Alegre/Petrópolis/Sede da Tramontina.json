@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Petrópolis/Sede da Tramontina",
+  "path": "Atlas/Porto Alegre/Petrópolis/Sede da Tramontina.md",
+  "basename": "Sede da Tramontina",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Petrópolis]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sede da Tramontina.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sede da Tramontina.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Sede da Tramontina.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Principal fábrica de ferramentas e utensílios.\n> \n> 👁️**Aparência do Local:** Galpões amplos, máquinas em operação, cheiro de metal.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Principal fábrica de ferramentas e utensílios.",
+    "aparencia": "Galpões amplos, máquinas em operação, cheiro de metal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

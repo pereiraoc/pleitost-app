@@ -1,0 +1,66 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Sistema Penal",
+  "path": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Sistema Penal.md",
+  "basename": "Sistema Penal",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O tratamento dado a criminosos e dissidentes políticos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sistema Penal.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sistema Penal.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Presídios Corporativos"
+    },
+    {
+      "level": 4,
+      "text": "Julgamentos Sumários"
+    },
+    {
+      "level": 4,
+      "text": "Penas de Exílio Interno"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Sistema Penal.png]]\n\nO sistema penal em Porto Alegre em 1987 é dominado pela colaboração entre o regime autoritário e as megacorporações, criando um ambiente onde os direitos individuais são frequentemente negligenciados.\n#### Presídios Corporativos\nCriminosos e dissidentes políticos considerados ameaças ao regime são enviados a presídios corporativos, geridos por megacorporações como **[[Panvel]]** e **[[Tramontina]]**. Nesses locais, os detentos são submetidos ao trabalho compulsório nas fábricas de produção de **selênicos**, substâncias simbióticas alienígenas altamente valorizadas. As condições precárias resultam frequentemente em danos físicos e psicológicos graves aos detentos.\n#### Julgamentos Sumários\nO sistema judicial simplificou radicalmente seus processos, realizando julgamentos rápidos, muitas vezes em tribunais militares ou corporativos improvisados. As sentenças são frequentemente predeterminadas, com escassa possibilidade de defesa, visando principalmente silenciar a oposição.\n#### Penas de Exílio Interno\nOutra punição comum é o exílio interno, onde os condenados são abandonados em áreas perigosas e contaminadas como o **[[Delta Radioativo]]** ou a **[[Zona Deserta]]**. Sem acesso a recursos básicos, os exilados enfrentam condições extremas que resultam em alta mortalidade, servindo como advertência severa para desencorajar qualquer dissidência."
+}

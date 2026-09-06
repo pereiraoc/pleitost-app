@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Fluxo Ajustável",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Fluxo Ajustável.md",
+  "basename": "Fluxo Ajustável",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Luz",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Quando você conjura [[Fluxo de Vida]] estando em até 2q de todos os alvos, role d8 no lugar dos d6 para o valor de cura. Alternativamente, você pode conjurar [[Fluxo de Vida]] com alcance 10q, mas role d4 no lugar dos d6 para o valor de cura.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Fluxo de Vida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Luz\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Quando você conjura [[Fluxo de Vida]] estando em até 2q de todos os alvos, role d8 no lugar dos d6 para o valor de cura. Alternativamente, você pode conjurar [[Fluxo de Vida]] com alcance 10q, mas role d4 no lugar dos d6 para o valor de cura.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você conjura [[Fluxo de Vida]] estando em até 2q de todos os alvos, role d8 no lugar dos d6 para o valor de cura. Alternativamente, você pode conjurar [[Fluxo de Vida]] com alcance 10q, mas role d4 no lugar dos d6 para o valor de cura.\n*Requer Escola Arcana (Aplicações da Luz) e Fluxo de Vida*\n\n```autosheet-rules\n```\n"
+}

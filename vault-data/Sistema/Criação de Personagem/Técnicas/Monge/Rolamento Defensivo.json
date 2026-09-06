@@ -1,0 +1,66 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Rolamento Defensivo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Rolamento Defensivo.md",
+  "basename": "Rolamento Defensivo",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "R",
+    "resumo": "\"Quando uma criatura que você vê fizer um ataque contra sua [[Defesa]] ou [[Evasão]], você pode reagir para ganhar +2 de [[bônus de circunstância]] nessa defesa; depois do ataque, você pode [[Mover|Mover-se]] 2q sem provocar reações do atacante.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mover-se"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: R\n\nresumo:: \"Quando uma criatura que você vê fizer um ataque contra sua [[Defesa]] ou [[Evasão]], você pode reagir para ganhar +2 de [[bônus de circunstância]] nessa defesa; depois do ataque, você pode [[Mover|Mover-se]] 2q sem provocar reações do atacante.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Rolamento Defensivo.\n*Requer Sintonia Água ou Vento*\n\n**Rolamento Defensivo - R**\nQuando você é alvejado por um ataque contra [[Defesa]] ou [[Evasão]] de uma criatura que você consegue ver, você pode usar uma reação para receber +2 de [[bônus de circunstância]] na [[Defesa]] ou [[Evasão]]. Após o ataque ser resolvido, você pode [[Mover]] 2q. Esse movimento não provoca reações da criatura que está fazendo o ataque.\n\n```autosheet-rules\n```\n"
+}

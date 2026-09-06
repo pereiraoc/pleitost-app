@@ -1,0 +1,148 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Acesso a Tecnologia",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Acesso a Tecnologia.md",
+  "basename": "Acesso a Tecnologia",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A disponibilidade de dispositivos tecnológicos para diferentes classes.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acesso a Tecnologia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duque de Caxias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Químicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Acesso a Tecnologia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "📈 Elites e Tecnocratas"
+    },
+    {
+      "level": 4,
+      "text": "🧱 Classes Trabalhadoras e Oficinas"
+    },
+    {
+      "level": 4,
+      "text": "🕳 Periferias e Subproletariado"
+    },
+    {
+      "level": 4,
+      "text": "💻 Alternativas Populares e Resistência"
+    },
+    {
+      "level": 4,
+      "text": "📉 Barreiras de Acesso"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Acesso a Tecnologia.png]]\n\n#### 📈 Elites e Tecnocratas\nNos bairros como **[[Ipanema]]**, **[[Moinhos de Vento]]** e a zona executiva do **[[Centro Histórico]]**, o acesso à tecnologia é total — mas enviesado. Executivos da **[[Gradiente]]**, diretores da **[[Panvel]]** e oficiais do **[[Governo Militar Brasileiro|Governo Militar]]** usam implantes cognitivos de última geração, com assistentes neurais, tradução instantânea e conexão criptografada à **[[Embratel]]**. Ambientes como o _Resort Nova Porto Alegre_ contam com salas de realidade virtual para simulação de fusões e treinamentos táticos.\n\n#### 🧱 Classes Trabalhadoras e Oficinas\nEm zonas como **Passo D’Areia**, **[[Petrópolis]]** e **[[Nova Sarandi]]**, operários usam próteses físicas da **[[Tramontina]]**, como braços hidráulicos e exoesqueletos para carga pesada — muitas vezes compradas com descontos em ferros-velhos do **[[Clã da Ferrugem]]** ou recebidas via programas compulsórios do trabalho. A instalação é feita em oficinas improvisadas, muitas vezes com peças de segunda mão vendidas no **[[Camelódromo]]**.\n\n#### 🕳 Periferias e Subproletariado\nNa **[[Cidade Baixa]]**, **[[Restinga]]** e áreas inundadas de **[[Duque de Caxias]]**, o acesso à tecnologia se dá por gambiarras e reciclagem. Rádios de cristal, televisores analógicos convertidos em scanners, próteses de sucata e circuitos desmontados da **[[Gradiente]]** circulam como relíquias. O uso é muitas vezes limitado por blecautes da **[[Companhia Estadual de Energia Elétrica|CEEE]]** ou bloqueios de sinal impostos pela **[[Embratel]]**.\n\n#### 💻 Alternativas Populares e Resistência\nGrupos como a **[[Resistência Urbana Gaúcha]]** e o **[[Clã da Ferrugem]]** promovem _jailbreaks_ de chips, feiras de firmware, rádios piratas e impressoras 3D de peças mecânicas nos porões da **[[Galeria Malcom]]**, **[[Teatro Quarto Distrito]]** e **[[Clube dos Químicos]]**. Em bairros mais politizados como o **[[Bom Fim]]**, estudantes do **[[Colégio Rosário]]** constroem microcomputadores artesanais com peças recuperadas.\n\n#### 📉 Barreiras de Acesso\n- O custo de implantes e chips selênicos é inatingível sem patrocínio militar ou corporativo.\n- A **[[Embratel]]** bloqueia sinais não autorizados e realiza blitzes em áreas de pirataria.\n- Falhas nos chips da **[[Gradiente]]** são camufladas como “problemas do usuário”."
+}

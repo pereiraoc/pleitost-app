@@ -1,0 +1,96 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Convite para Duelo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Convite para Duelo.md",
+  "basename": "Convite para Duelo",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"Da passo depois de acertar ataque e inimigo recebe -2 para atacar outras criaturas.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]",
+      "parsed": [
+        {
+          "sourceNote": "Convite para Duelo",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Combate (Luta Artística)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Combate (Luta Artística)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Mágico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"Da passo depois de acertar ataque e inimigo recebe -2 para atacar outras criaturas.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê manipula seus inimigos a te atacarem com pura irreverência. Você aprende a habilidade Convite para Duelo.\n*Requer Luta Artística*\n\n**Convite para Duelo - 1A**\nPode ser usado se sua última ação foi ter sucesso em um [[Atacar|Ataque]] corpo-a-corpo contra uma criatura. Você dá um [[Passo de Ajuste]] para longe da criatura, a criatura recebe -2 de [[Penalidades|penalidade de circunstância]] em [[Ataques]] e [[Ataque Mágico]] contra criaturas que não são você até o início do seu próximo turno. Essa penalidade expira caso você se distancie mais de 6q da criatura.\n\n```autosheet-rules\n```\n"
+}

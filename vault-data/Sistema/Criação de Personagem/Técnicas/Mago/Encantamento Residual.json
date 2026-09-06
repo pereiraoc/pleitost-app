@@ -1,0 +1,81 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Encantamento Residual",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Encantamento Residual.md",
+  "basename": "Encantamento Residual",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "L",
+    "resumo": "\"Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] para identificar/criar [[Imbuição de Aço Solar|Armas de Aço Solar]] e [[Imbuição de Ferro Frio|Armas de Ferro Frio]]. Após usar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode imbuir sua [[Arma Arcana]] por 10 turnos: Magia Branca dá +2 dano vs criaturas do vazio (como [[Imbuição de Aço Solar]]), Magia Negra dá +2 dano vs criaturas com sintonia aparente (como [[Imbuição de Ferro Frio]]); no 7º nível vira +4. Reativar substitui o efeito anterior.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Especialização",
+      "kind": "wikilink",
+      "alias": "bônus de especialização"
+    },
+    {
+      "target": "Imbuição de Aço Solar",
+      "kind": "wikilink",
+      "alias": "Armas de Aço Solar"
+    },
+    {
+      "target": "Imbuição de Ferro Frio",
+      "kind": "wikilink",
+      "alias": "Armas de Ferro Frio"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Aço Solar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Ferro Frio",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: L\n\nresumo:: \"Você recebe +2 de [[Bônus de Especialização|bônus de especialização]] para identificar/criar [[Imbuição de Aço Solar|Armas de Aço Solar]] e [[Imbuição de Ferro Frio|Armas de Ferro Frio]]. Após usar [[Combinação Arcana]] ou [[Melhoramento Arcano]], você pode imbuir sua [[Arma Arcana]] por 10 turnos: Magia Branca dá +2 dano vs criaturas do vazio (como [[Imbuição de Aço Solar]]), Magia Negra dá +2 dano vs criaturas com sintonia aparente (como [[Imbuição de Ferro Frio]]); no 7º nível vira +4. Reativar substitui o efeito anterior.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Encantamento Residual. Adicionalmente, você recebe +2 de [[Bônus de Especialização|bônus de especialização]] em testes de perícia para identificar e criar [[Imbuição de Aço Solar|Armas de Aço Solar]] e [[Imbuição de Ferro Frio|Armas de Ferro Frio]].\n\n**Encantamento Residual - L**\nPode ser usado se sua última ação foi ativar [[Combinação Arcana]] ou [[Melhoramento Arcano]]. Você encanta sua [[Arma Arcana]] com energia residual, dando o efeito de uma forja arcana por 10 turnos, dependendo da escola da magia previamente conjurada:\n* Magia Branca - causa 2 de dano adicional contra criaturas do vazio, como uma [[Imbuição de Aço Solar]].\n* Magia Negra - causa 2 de dano adicional contra criaturas com sintonia aparente, como uma [[Imbuição de Ferro Frio]].\n\nO dano extra de ambos os casos aumenta para 4 quando você chega ao 7º nível. Se você usar Encantamento Residual novamente enquanto tiver esse efeito ativo, o efeito anterior é dissipado.\n\n```autosheet-rules\n```\n"
+}

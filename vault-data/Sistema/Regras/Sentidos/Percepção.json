@@ -1,0 +1,49 @@
+{
+  "id": "Sistema/Regras/Sentidos/Percepção",
+  "path": "Sistema/Regras/Sentidos/Percepção.md",
+  "basename": "Percepção",
+  "type": "Regra",
+  "subtype": "Sentido",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Sentido",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Sentidos|Sentidos]]",
+    "prev": "[[Sentidos|Sentidos]]",
+    "next": "[[Intuição]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "Proficiência"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Percepção"
+    }
+  ],
+  "body": "%%\nup:: [[Sentidos|Sentidos]]\nprev:: [[Sentidos|Sentidos]]\nnext:: [[Intuição]]\n%%\n### Percepção\nPercepção é a capacidade de estar ciente do ambiente ao seu redor. Testes de Percepção são necessários para enxergar algo escondido, ouvir um som discreto e detectar movimentos estranhos.\nSeu modificador de Percepção é sua [[Proficiência|Proficiência]] em Percepção + [[Inteligência|INT]]."
+}

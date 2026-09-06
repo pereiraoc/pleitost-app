@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Carla “Vermelha” Paredes",
+  "path": "Contexto/Pessoas/Carla “Vermelha” Paredes.md",
+  "basename": "Carla “Vermelha” Paredes",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Carla Paredes",
+      "Vermelha"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Resistência Urbana Gaúcha]]",
+    "Função": "Editora e porta-voz da Resistência Urbana Gaúcha",
+    "Aparência": "Jaqueta surrada com bottons, dedos sujos de tinta de mimeógrafo, olheiras de transmissão pirata.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

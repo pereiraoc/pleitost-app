@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Acrobacia/Estabilidade/Estabilidade",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Acrobacia/Estabilidade/Estabilidade.md",
+  "basename": "Estabilidade",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Acrobacia]]",
+    "resumo": "\"Reduz dano de queda em 3q. [[Levantar]] não provoca. Melhora [[Equilibrar-se]] em um grau.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Levantar",
+      "kind": "wikilink",
+      "alias": "Levanta"
+    },
+    {
+      "target": "Equilibrar-se",
+      "kind": "wikilink",
+      "alias": "Equilibra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Acrobacia]]\nresumo:: \"Reduz dano de queda em 3q. [[Levantar]] não provoca. Melhora [[Equilibrar-se]] em um grau.\"\n%%\n### `= this.file.name`\n* Quando você recebe dano de queda, considere a queda como 3q menor.\n* Quando você [[Levantar|Levanta]], você não provoca reações.\n* Quando você se [[Equilibrar-se|Equilibra]], considere o resultado um grau maior.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Galeria Malcom",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Galeria Malcom.md",
+  "basename": "Galeria Malcom",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Galeria Malcom.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Galeria Malcom.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Galeria Malcom.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Centro comercial vertical do Centro alagado: o térreo original está submerso e as lojas funcionam do mezanino pra cima, acessadas por escadas de madeira que sobem direto das passarelas flutuantes.\n> \n> 👁️**Aparência do Local:** Vitrines afundadas visíveis sob a água escura na base, mezanino iluminado de lojinhas apertadas, escadas rangendo sobre a água e letreiros de néon refletidos no corredor.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Centro comercial vertical do Centro alagado: o térreo original está submerso e as lojas funcionam do mezanino pra cima, acessadas por escadas de madeira que sobem direto das passarelas flutuantes.",
+    "aparencia": "Vitrines afundadas visíveis sob a água escura na base, mezanino iluminado de lojinhas apertadas, escadas rangendo sobre a água e letreiros de néon refletidos no corredor.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

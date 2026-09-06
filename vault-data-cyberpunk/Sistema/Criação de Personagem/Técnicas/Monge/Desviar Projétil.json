@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Desviar Projétil",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Desviar Projétil.md",
+  "basename": "Desviar Projétil",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "R",
+    "resumo": "\"Quando um [[Atacar|Ataque]] à distância (projétil/arremesso) te alvejar e o atacante não tiver [[Vantagem de Combate]], você pode reagir para ganhar +4 de [[bônus de circunstância]] na [[Defesa]]; se ele errar, você pode contra-atacar com o projétil (como ataque desarmado, alcance 6q).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arte Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Adepto|Adepta]]\ncusto:: R\n\nresumo:: \"Quando um [[Atacar|Ataque]] à distância (projétil/arremesso) te alvejar e o atacante não tiver [[Vantagem de Combate]], você pode reagir para ganhar +4 de [[bônus de circunstância]] na [[Defesa]]; se ele errar, você pode contra-atacar com o projétil (como ataque desarmado, alcance 6q).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Desviar Projétil.\n\n**Desviar Projétil - R**\nQuando você é alvejado por um [[Atacar|Ataque]] a distância usando um projétil ou arma arremessada e o atacante não tem [[Vantagem de Combate]] sobre você, você pode usar uma reação para receber +4 de [[bônus de circunstância]] na [[Defesa]] contra este ataque. Caso o ataque erre, você pode contra-atacar com o projétil, fazendo um [[Atacar|Ataque]] idêntico a um de seus ataques desarmados (incluindo [[Arte Marcial]]), na 1º [[Penalidade por Ataque Múltiplo|PAM]], com alcance 6q contra um inimigo a sua escolha.\n\n```autosheet-rules\n```\n"
+}

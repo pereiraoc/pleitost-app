@@ -1,0 +1,59 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Leste",
+  "path": "Atlas/Porto Alegre/Zona Leste.md",
+  "basename": "Zona Leste",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Recursos": [
+      "[[Maça Estrela]]"
+    ],
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zona Leste.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça Estrela",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Zona Leste.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Zona Leste.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** A leste dos bairros nobres, a Zona Leste é o colchão popular da cidade — vilas, oficinas e botecos onde a [[Camisa 12]] recruta e o mercado negro de selênicos gira no varejo.\n> \n> 👁️**Aparência do Local:** Ruas de paralelepípedo e terra, muros grafitados de vermelho, antenas improvisadas e o barulho de oficina em cada quadra.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "A leste dos bairros nobres, a Zona Leste é o colchão popular da cidade — vilas, oficinas e botecos onde a [[Camisa 12]] recruta e o mercado negro de selênicos gira no varejo.",
+    "aparencia": "Ruas de paralelepípedo e terra, muros grafitados de vermelho, antenas improvisadas e o barulho de oficina em cada quadra.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

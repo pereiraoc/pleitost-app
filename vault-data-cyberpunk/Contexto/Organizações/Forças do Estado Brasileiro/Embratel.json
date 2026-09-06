@@ -1,0 +1,42 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Embratel",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Embratel.md",
+  "basename": "Embratel",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Major Clara Ribeiro]]",
+    "Descrição": null,
+    "Resumo": "Rede de telecomunicações controlada pelo Exército.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embratel.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Governo Americano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Major Clara Ribeiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Embratel.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Embratel.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Gerencia satélites e linhas fixas em parceria com o [[Governo Americano]]."
+}

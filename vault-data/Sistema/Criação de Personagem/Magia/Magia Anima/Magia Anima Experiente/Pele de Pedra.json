@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Pele de Pedra",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Pele de Pedra.md",
+  "basename": "Pele de Pedra",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Pele de Pedra (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Terra",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Alcance 2q. Criatura recebe [[Energia Heroica|EH]] temporária igual a [3+(MOD/2)]×potência por 10 turnos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Alcance 2q. Criatura recebe [[Energia Heroica|EH]] temporária igual a [3+(MOD/2)]×potência por 10 turnos.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 2q. Criatura recebe [[Energia Heroica|EH]] temporária igual a [3+(MOD/2)]×potência por 10 turnos."
+}

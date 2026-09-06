@@ -1,0 +1,83 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Sintonia",
+  "path": "Sistema/Criação de Personagem/Sintonia/Sintonia.md",
+  "basename": "Sintonia",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Sintonia, Sintonias",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Perícias|Perícias]]",
+    "next": "[[Evolução Básica|Evolução Básica]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink",
+      "alias": "Evolução Básica"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink",
+      "alias": "Fogo"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Presença",
+      "kind": "wikilink",
+      "alias": "PRE"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink",
+      "alias": "Água"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    },
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink",
+      "alias": "Terra"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Sintonia"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Perícias|Perícias]]\nnext:: [[Evolução Básica|Evolução Básica]]\n%%\n# Sintonia\nNeste mundo, algumas pessoas nascem em sintonia com os elementos primordiais. Muitos acabam sendo os melhores em seus respectivos trabalhos, ou até mesmo utilizam essa abertura para aprender melhor sobre os elementos.\n\nAventureiros via de regra tem alguma sintonia aparente. Neste mundo perigoso, acaba-se tornando uma expectativa da sociedade que pessoas \"abençoadas\" por uma sintonia aparente façam os trabalhos mais arriscados, em nome do bem comum.\n\nNa criação de personagem, escolha a sintonia que o melhor descreve. Sintonias trazem ajuste de atributos além de outros benefícios. Ao selecionar a sintonia, escolha um dos ajustes de atributo listados.\n\n* [[Traço Elemental do Fogo|Fogo]] - [[Força|FOR]] ou [[Presença|PRE]]\n* [[Traço Elemental da Água|Água]] - [[Agilidade|AGI]] ou [[Inteligência|INT]]\n* [[Traço Elemental do Vento|Vento]] - [[Agilidade|AGI]] ou [[Presença|PRE]]\n* [[Traço Elemental da Terra|Terra]] - [[Força|FOR]] ou [[Inteligência|INT]]\n\n```autosheet-rules\n```\n"
+}

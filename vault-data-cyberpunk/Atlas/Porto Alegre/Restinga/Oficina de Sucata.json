@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Oficina de Sucata",
+  "path": "Atlas/Porto Alegre/Restinga/Oficina de Sucata.md",
+  "basename": "Oficina de Sucata",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Restinga]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Oficina de Sucata.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Oficina de Sucata.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Oficina de Sucata.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Ateliê de reaproveitamento de metal e eletrônicos.\n> \n> 👁️**Aparência do Local:** Pilhas de peças, cheiro de graxa e poeira, música alta.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ateliê de reaproveitamento de metal e eletrônicos.",
+    "aparencia": "Pilhas de peças, cheiro de graxa e poeira, música alta.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

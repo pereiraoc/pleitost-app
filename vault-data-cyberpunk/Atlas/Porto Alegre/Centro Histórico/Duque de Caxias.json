@@ -1,0 +1,51 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Duque de Caxias",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Duque de Caxias.md",
+  "basename": "Duque de Caxias",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Duque de Caxias.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Duque de Caxias.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Duque de Caxias.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Conjunto de palacetes coloniais do final do século XIX, parcialmente inundados pela enchente de 1986 e hoje ocupados tanto por casas flutuantes de luxo quanto por grupos paramilitares que controlam as margens do [[Guaíba]].\n> \n> 👁️**Aparência do Local:** Fachadas de pedra com detalhes de mármore agora desgastados pela água, varandas adaptadas como guaritas improvisadas, jardins alagados com passarelas de madeira, barcos atracados em antigos garagens e bandeiras amarradas em mastros improvisados.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Conjunto de palacetes coloniais do final do século XIX, parcialmente inundados pela enchente de 1986 e hoje ocupados tanto por casas flutuantes de luxo quanto por grupos paramilitares que controlam as margens do [[Guaíba]].",
+    "aparencia": "Fachadas de pedra com detalhes de mármore agora desgastados pela água, varandas adaptadas como guaritas improvisadas, jardins alagados com passarelas de madeira, barcos atracados em antigos garagens e bandeiras amarradas em mastros improvisados.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

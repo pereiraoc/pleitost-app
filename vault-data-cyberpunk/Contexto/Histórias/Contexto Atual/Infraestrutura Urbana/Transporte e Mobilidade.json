@@ -1,0 +1,121 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Transporte e Mobilidade",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Transporte e Mobilidade.md",
+  "basename": "Transporte e Mobilidade",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A eficiência, segurança e acesso aos meios de locomoção na cidade.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Transporte e Mobilidade.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink",
+      "alias": "Aeromóvel"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Transporte e Mobilidade.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Eficiência e Acesso"
+    },
+    {
+      "level": 4,
+      "text": "Programa PIRA e Transporte Gratuito"
+    },
+    {
+      "level": 4,
+      "text": "Precariedade do Transporte Popular"
+    },
+    {
+      "level": 4,
+      "text": "Segurança e Vigilância"
+    },
+    {
+      "level": 4,
+      "text": "Sistema TRI (Transporte Integrado de Porto Alegre)"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Transporte e Mobilidade.png]]\n\n#### Eficiência e Acesso\nPorto Alegre vive uma dualidade intensa em sua rede de transporte urbano. O sistema [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], inaugurado em 1983 após jornadas exaustivas de trabalho forçado, é o símbolo máximo de modernidade e eficiência. Contudo, permanece elitizado: a linha executiva do [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]] atravessa rapidamente a cidade, com paradas exclusivamente projetadas para bairros de classe alta como [[Moinhos de Vento]] e [[Ipanema]], priorizando o deslocamento de executivos e funcionários de alto escalão das megacorporações [[Gradiente]] e [[Tramontina]], bem como oficiais do [[Governo Militar Brasileiro|Governo Militar]].\n\nAs lotações VIP representam outra camada desse sistema de transporte privilegiado. Equipadas com tecnologia avançada da [[Embratel]], elas conseguem interagir com as sinaleiras da cidade, garantindo deslocamentos rápidos e seguros. O preço proibitivo restringe seu uso aos mais ricos ou membros destacados do programa PIRA, aumentando ainda mais a segregação urbana.\n#### Programa PIRA e Transporte Gratuito\nA população aderente ao Programa Integrado de Redução da Atividade (PIRA) recebe acesso gratuito ao [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], causando superlotação constante nas poucas linhas acessíveis às classes mais baixas, criando um cenário paradoxal: um transporte futurista abarrotado e desconfortável, símbolo do preço pago pelos trabalhadores sob o regime exaustivo do PIRA.\n#### Precariedade do Transporte Popular\nPara quem não aderiu ao PIRA ou não pode pagar pelo [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]], restam alternativas precárias: ônibus superlotados, lentos e perigosos operados pela [[Marcopolo]] e pequenas cooperativas clandestinas. Muitos trabalhadores optam por bicicletas improvisadas ou longas caminhadas, enfrentando ruas alagadas e perigos urbanos constantes. Os ônibus operam frequentemente com falhas técnicas devido à escassez de peças e manutenção, agravada por cortes sistemáticos de energia pela [[Companhia Estadual de Energia Elétrica|CEEE]], especialmente em bairros mais afastados como [[Restinga]], [[Jardim Itu]] e [[Cidade Baixa]].\n#### Segurança e Vigilância\nA segurança pública nos transportes reflete claramente a segregação social e política. Nos ônibus, o risco de assaltos é constante, especialmente nas paradas dos bairros periféricos como [[Cidade Baixa]] e [[Nova Sarandi]], onde gangues locais, como a [[Camisa 12]], frequentemente disputam território.\n\nEm contraste, os Aeromóveis e as lotações VIP são protegidos pela [[Brigada Militar Metropolitana]] com uma postura ostensiva. Assaltantes flagrados nessas áreas são imediatamente tratados como \"vagabundos\", \"subversivos\" ou \"comunistas\", podendo ser executados em flagrante como exemplo máximo do controle repressivo estatal. Esta política de tolerância zero mantém essas modalidades como vitrines para o governo ditatorial, projetando uma imagem de eficiência e segurança para investidores nacionais e internacionais.\n#### Sistema TRI (Transporte Integrado de Porto Alegre)\nTodos os meios de transporte adotam o sistema de pagamento TRI, controlado rigidamente por terminais automatizados administrados por Trensurb e monitorados pela [[Embratel]]. Os créditos TRI frequentemente são inseridos pelos empregadores das megacorporações, ampliando ainda mais o controle e monitoramento sobre o deslocamento dos trabalhadores.\nA combinação de tecnologia, repressão seletiva e elitização torna o transporte público de Porto Alegre uma expressão física das desigualdades profundas que permeiam a cidade no ano de 1987."
+}

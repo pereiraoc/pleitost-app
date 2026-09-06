@@ -1,0 +1,45 @@
+{
+  "id": "Sistema/Regras/Combate/Resolução",
+  "path": "Sistema/Regras/Combate/Resolução.md",
+  "basename": "Resolução",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Resoluções",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Ações Agressivas]]",
+    "next": "[[Morte]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Resolução"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Ações Agressivas]]\nnext:: [[Morte]]\n%%\n## Resolução\nA grande maioria dos combates é resolvida quando um dos lados é derrotado. Isso é tipicamente feito causando dano aos adversários até que seus [[Energia Vital]] esgotem.\n\n```autosheet-rules\n```\n"
+}

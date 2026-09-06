@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Praça das Nogueiras",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Praça das Nogueiras.md",
+  "basename": "Praça das Nogueiras",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Praça das Nogueiras.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Praça das Nogueiras.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Praça das Nogueiras.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pequeno parque residencial com bancos de concreto.\n> \n> 👁️**Aparência do Local:** Árvores frondosas, chão coberto de folhas, sons de crianças brincando.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pequeno parque residencial com bancos de concreto.",
+    "aparencia": "Árvores frondosas, chão coberto de folhas, sons de crianças brincando.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

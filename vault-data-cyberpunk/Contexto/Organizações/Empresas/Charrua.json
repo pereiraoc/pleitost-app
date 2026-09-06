@@ -1,0 +1,50 @@
+{
+  "id": "Contexto/Organizações/Empresas/Charrua",
+  "path": "Contexto/Organizações/Empresas/Charrua.md",
+  "basename": "Charrua",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Argemiro Fontoura]]",
+    "Descrição": null,
+    "Resumo": "Ervateira gaúcha dona do Mate Touro — o taurilênico mais vendido de Porto Alegre, erva-mate com taurina selênica em parceria com a Panvel.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Charrua.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Argemiro Fontoura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Charrua.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Charrua.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** A ervateira que pôs taurina selênica dentro da cuia. O **Mate Touro** — refrigerante ultraconcentrado de erva-mate com taurina selênica — é o taurilênico mais vendido da cidade: lata com tarja amarela impressa, vendida em farmácia [[Panvel]], armazém e banca de jornal. A Charrua mantém a linha tradicional de erva pro chimarrão (da qual o gaúcho não abre mão) e usa essa rede capilar pra fazer a versão energética chegar em qualquer esquina. Nos fundos das bancas do [[Mercado Público]], diz-se que circula também o \"Touro Preto\", uma dose reforçada fora de tarja que a [[Brigada Militar Metropolitana]] finge não ver.\n"
+}

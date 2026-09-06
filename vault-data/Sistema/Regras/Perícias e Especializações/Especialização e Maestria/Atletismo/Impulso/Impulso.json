@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Impulso/Impulso",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Atletismo/Impulso/Impulso.md",
+  "basename": "Impulso",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Atletismo]]",
+    "resumo": "\"[[Salto Longo]] e [[Salto Alto]] como uma única ação. Pode mover 1q antes de [[Empurrar]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Salto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Atletismo]]\nresumo:: \"[[Salto Longo]] e [[Salto Alto]] como uma única ação. Pode mover 1q antes de [[Empurrar]].\"\n%%\n### `= this.file.name`\n* Você pode usar [[Salto Longo]] e [[Salto Alto]] como uma única ação; nesse caso não realize a ação [[Mover]] como parte do Salto e ignore a necessidade direcional de movimento anterior.\n* Quando você realiza [[Empurrar]], pode [[Mover]] 1q como ação livre antes de realizar o teste.\n\n```autosheet-rules\n```\n"
+}

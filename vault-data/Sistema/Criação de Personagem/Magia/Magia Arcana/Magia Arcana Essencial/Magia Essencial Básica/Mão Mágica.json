@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Básica/Mão Mágica",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Básica/Mão Mágica.md",
+  "basename": "Mão Mágica",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Básica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria uma mão mágica invisível em até 6q; você pode controlá-la para flutuar até 4q ou apanhar um item de tamanho/peso X. Dissipa se você não a controlar por 1 turno.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria uma mão mágica invisível em até 6q; você pode controlá-la para flutuar até 4q ou apanhar um item de tamanho/peso X. Dissipa se você não a controlar por 1 turno.\"\n%%\n# `= this.file.name` - `= this.custo`\nCria uma mão mágica invisível em até 6q de distância. Você pode usar uma ação para controlar a mão, fazendo-a flutuar por até 4q ou fazendo-a apanhar um item de tamanho/peso X. A mão mágica dissipa se você nao controlá-la por um turno.\n\n```autosheet-rules\n```\n"
+}

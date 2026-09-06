@@ -1,0 +1,1075 @@
+{
+  "id": "Recursos e Mídia/Configurações de Contextos/Contexto POA 1987",
+  "path": "Recursos e Mídia/Configurações de Contextos/Contexto POA 1987.md",
+  "basename": "Contexto POA 1987",
+  "type": "Contexto-Def",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Contexto-Def",
+    "dg-publish": false,
+    "Contexto": {
+      "id": "poa-1987",
+      "nome": "Porto Alegre 1987",
+      "moeda": {
+        "simbolo": "Cz$",
+        "nome": "Cruzado"
+      },
+      "atlas": {
+        "raiz": "Atlas",
+        "mapa": "Mapa de Porto Alegre RPG.png"
+      },
+      "pericias": {
+        "Arcana": "Trônicos",
+        "Anima": "Lênicos"
+      },
+      "reskin": {
+        "notas": {
+          "Animista": "Químico",
+          "Arcanista": "Tecnologista",
+          "Bardo": "Ressonante",
+          "Caçador": "Executivo",
+          "Comandante": "Articulador",
+          "Druida": "Nóia",
+          "Guerreiro": "Soldado",
+          "Ladino": "Malandro",
+          "Mago": "Pirata",
+          "Monge": "Artista Marcial",
+          "Elementalista": "Sabotador",
+          "Arcanologista": "Engenheiro",
+          "Grão-Arcanista": "Arquiteto",
+          "Avatar": "Catalisador",
+          "Trovador": "Astro",
+          "Menestrel": "Ídolo",
+          "Desbravador": "Gerente",
+          "Sentinela": "Diretor",
+          "Senhor-da-Guerra": "Capitão",
+          "Hierofante": "Guru",
+          "Arquidruida": "Profeta",
+          "Entropista": "Falsificador",
+          "Teurgo": "Barão",
+          "Proteção Elemental": "Proteção Reativa",
+          "Performance Bárdica": "Performance Ressonante",
+          "Estilo de Ladino": "Estilo de Malandro",
+          "Estratégia de Caça": "Plano de Carreira",
+          "Círculo Druídico": "Círculo da Doutrina",
+          "Tradição Druídica": "Doutrina Simbiótica",
+          "Tradição Duradoura": "Doutrina Firmada",
+          "Tradição Eterna": "Doutrina Eterna",
+          "Forma Feral": "Forma Mutante",
+          "Aspecto Feral": "Aspecto Mutante",
+          "Forma Feral Menor": "Forma Mutante Menor",
+          "Espírito Feral Menor": "Espírito Mutante Menor",
+          "Companheiro Animal": "Empregado",
+          "Companheiro Animal Canino": "Segurança",
+          "Companheiro Animal Felino": "Espião",
+          "Companheiro Animal Ave": "Zangão",
+          "Companheiro Animal Ursino": "Capanga",
+          "Marca do Caçador": "Designar Meta",
+          "Comandar Animal": "Dar Ordens",
+          "Arma Natural": "Arma Sintética",
+          "Criar Runa": "Gravar Cartucho",
+          "Familiar Anima": "Mascote Sintético",
+          "Conservar Invocação": "Conservar Construto",
+          "Magia para o Espírito": "Telemetria Aliada",
+          "Manifestação Pseudo-Natural": "Emulação Lênica",
+          "Jeitinho de Bardo": "Jeitinho Brasileiro",
+          "Realizar Magia": "Patrocinar",
+          "Herbalismo Prático": "Farmácia de Campo",
+          "Conhecimento de Monstros": "Conhecimento de Mutantes",
+          "Investida Feral": "Investida Mutante",
+          "Oportunidade Feral": "Oportunidade Mutante",
+          "Magia Feral": "Rotina Mutante",
+          "Acompanhar Marca": "Acompanhar Meta",
+          "Adrenalina da Caça": "Bônus por Desempenho",
+          "Caçada Oportuna": "Cobrança Oportuna",
+          "Emboscada": "Reunião Surpresa",
+          "Especialista em Caçada": "Especialista em Aquisições",
+          "Jornada Intransponível": "Trânsito Livre",
+          "Olho do Caçador": "Olho Clínico",
+          "Sentir a Presa": "Faro de Mercado",
+          "Um Olho para cada Presa": "Carteira de Clientes",
+          "Explorador Nato": "Homem de Campo",
+          "Bainha Mágica": "Bainha Magnética",
+          "Encantamento Residual": "Carga Residual",
+          "Magia Escrita em Arma": "Rotina Gravada em Arma",
+          "Conjuração Móvel": "Execução Móvel",
+          "Conjuração Mista": "Execução Mista",
+          "Marca Perfeita": "Meta Perfeita",
+          "Parceria Indomável": "Vínculo Empregatício",
+          "Servo das Sombras": "Servo Sintético",
+          "Chave Arcana": "Chave Mestra",
+          "Encantar Arma": "Induzir Arma",
+          "Míssil Mágico": "Dardo Teleguiado",
+          "Força Mental": "Comando Remoto",
+          "Bússola Mágica": "Localizador",
+          "Detectar Magia": "Varredura Selênica",
+          "Mão Mágica": "Braço Remoto",
+          "Sussuro Sombrio": "Sussurro de Estática",
+          "Amálgama das Sombras": "Amálgama de Construtos",
+          "Névoa Sombria": "Cortina de Estática",
+          "Onda Vampírica": "Onda de Sifão",
+          "Prisão Dimensional": "Contenção Estática",
+          "Projétil Telecinético": "Projétil Eletromagnético",
+          "Vinhas Emaranhantes": "Espuma Expansiva",
+          "Enraizar": "Ancorar",
+          "Invocar Elemental Menor": "Invocar Construto Menor",
+          "Forma Elemental": "Forma Sintética",
+          "Adaga": "Navalha",
+          "Azagaia": "Vergalhão",
+          "Bordão": "Cano Longo",
+          "Lança": "Arpão",
+          "Maça": "Chave de Grifo",
+          "Manopla": "Soco Inglês",
+          "Porrete": "Cassetete",
+          "Tacape": "Pedaço de Trilho",
+          "Funda": "Estilingue",
+          "Besta de Mão": "Pistola de Dardos",
+          "Besta Leve": "Carabina de Pressão",
+          "Besta": "Rifle de Dardos",
+          "Besta Pesada": "Arpoadora",
+          "Adaga de Duelo": "Faca Borboleta",
+          "Alfange": "Cutelo",
+          "Alabarda": "Croque de Estivador",
+          "Espada Bastarda": "Katana",
+          "Espada Curta": "Faca Militar",
+          "Espada Curva": "Facão",
+          "Espada Longa": "Facão de Cana",
+          "Maça Estrela": "Corrente com Cadeado",
+          "Machado de Batalha": "Machado de Bombeiro",
+          "Malho": "Marreta de Demolição",
+          "Martelo de Guerra": "Martelo de Estaleiro",
+          "Montante": "Motosserra",
+          "Picareta de Guerra": "Picareta",
+          "Pique": "Lança de Andaime",
+          "Rapieira": "Florete",
+          "Especialização em Arma (Bestas)": "Especialização em Arma (Pressão)",
+          "Especialização Menor em Arma (Bestas)": "Especialização Menor em Arma (Pressão)",
+          "Arco Curto": "Arco Recurvo",
+          "Arco de Guerra": "Arco de Polias",
+          "Arco Longo": "Arco de Competição",
+          "Cauda de Dragão": "Rabo de Arraia",
+          "Faro": "Farejador Químico",
+          "Escudo": "Escudo de Choque",
+          "Broquel": "Escudo de Braço",
+          "Armadura Leve": "Jaqueta Reforçada",
+          "Armadura Pesada": "Colete de Placas",
+          "Imbuição Ciclonal": "Módulo Ciclonal",
+          "Imbuição Congelante": "Módulo Congelante",
+          "Imbuição da Ventania": "Módulo de Ventania",
+          "Imbuição de Aço Solar": "Módulo Ultravioleta",
+          "Imbuição de Ferro Frio": "Módulo Inibidor",
+          "Imbuição Enraizante": "Módulo Enraizante",
+          "Imbuição Explosiva": "Módulo Explosivo",
+          "Imbuição Flamejante": "Módulo Flamejante",
+          "Imbuição Hidratante": "Módulo Hidratante",
+          "Imbuição Incendiária": "Módulo Incendiário",
+          "Imbuição Mineral": "Módulo Mineral",
+          "Imbuição Relampejante": "Módulo Relampejante",
+          "Imbuição Sísmica": "Módulo Sísmico",
+          "Imbuição Torrencial": "Módulo Torrencial",
+          "Luvas do Ladrão": "Luvas do Punguista",
+          "Cinto dos Ermos": "Cinto de Campo",
+          "Anel da Resistência": "Implante Subdérmico",
+          "Anel do Equilíbrio": "Estabilizador Vestibular",
+          "Anel Mensageiro": "Comunicador de Pulso",
+          "Anel Canário": "Sensor Canário",
+          "Botas Fluídicas": "Botas Hidráulicas",
+          "Braceletes de Pedra": "Braceletes de Polímero",
+          "Brasão Tático": "HUD Tático",
+          "Colar da Eloquência": "Modulador de Voz",
+          "Diadema da Ameaça": "Projetor de Presença",
+          "Luvas Purificadas": "Luvas Assépticas",
+          "Broche Artístico": "Amplificador de Palco",
+          "Pulseira da Potência": "Servo-atuador de Pulso",
+          "Bracelete Elemental": "Bracelete de Reagentes",
+          "Diapasão Elemental": "Diapasão Lênico",
+          "Poção de Cura": "Cicatrilênico",
+          "Poção da Velocidade": "Taurilênico",
+          "Poção da Coragem": "Adrenalênico",
+          "Poção da Nutrição": "Vitalênico",
+          "Traço Elemental do Fogo": "Fator O+",
+          "Traço Elemental da Terra": "Fator A+",
+          "Traço Elemental do Vento": "Fator B+",
+          "Traço Elemental da Água": "Fator AB+"
+        },
+        "termos": {
+          "Círculo do Sol": "Círculo da Brasa",
+          "Círculo da Lua": "Círculo do Minuano",
+          "Círculo das Estrelas": "Círculo do Bafo",
+          "Círculo do Oceano": "Círculo da Lama",
+          "Magia Arcana Branca": "Positrônica",
+          "Magia Arcana Negra": "Negatrônica",
+          "Magia Arcana Essencial": "Utilitrônica",
+          "Magia Arcana Especial": "Trônicos Especiais",
+          "Magia Arcana": "Trônica",
+          "Arcana Branca": "Positrônica",
+          "Arcana Negra": "Negatrônica",
+          "Arcana Essencial": "Utilitrônica",
+          "Arcana Especial": "Trônicos Especiais",
+          "Magia Anima": "Lênica",
+          "Aplicações da Luz": "Aplicações Positrônicas",
+          "Estudos do Vazio": "Estudos Negatrônicos",
+          "Energia Mágica": "Energia Metabólica",
+          "Potência Mágica": "Potência Metabólica",
+          "Ataque Mágico": "Ataque Técnico",
+          "Contra-mágica": "Contra-medida",
+          "Imbuição": "Módulo",
+          "imbuição": "módulo",
+          "Imbuições": "Módulos",
+          "imbuições": "módulos",
+          "Peças de Ouro": "Cruzados",
+          "PO": "Cz$",
+          "Bruxo": "Invasor",
+          "Espiritualista": "Programador",
+          "Sintonia": "Tipagem",
+          "Domador": "Gestor",
+          "Naturalidade": "Bairro de Cria",
+          "Aventureiro": "Contratado",
+          "aventureiro": "contratado",
+          "Aventureiros": "Contratados",
+          "aventureiros": "contratados",
+          "alvo de caça": "meta designada",
+          "alvos de caça": "metas designadas",
+          "Alvo de Caça": "Meta Designada",
+          "Rastreador": "Auditor",
+          "Tutor": "Empregador",
+          "Canino": "Segurança",
+          "Felino": "Espião",
+          "Ursino": "Capanga",
+          "Ave": "Zangão",
+          "Companheiros Animais": "Empregados",
+          "companheiros animais": "empregados",
+          "companheiro animal": "empregado",
+          "Magia": "Tecnologia",
+          "magia": "tecnologia",
+          "Magias": "Tecnologias",
+          "magias": "tecnologias",
+          "Arcano": "Trônico",
+          "Arcana": "Trônica",
+          "Arcanos": "Trônicos",
+          "Arcanas": "Trônicas",
+          "arcano": "trônico",
+          "arcana": "trônica",
+          "arcanos": "trônicos",
+          "arcanas": "trônicas",
+          "Anima": "Lênica",
+          "anima": "lênica",
+          "Mágico": "Técnico",
+          "Mágica": "Técnica",
+          "Mágicos": "Técnicos",
+          "Mágicas": "Técnicas",
+          "mágico": "tecnológico",
+          "mágica": "tecnológica",
+          "mágicos": "tecnológicos",
+          "mágicas": "tecnológicas",
+          "Feral": "Mutante",
+          "Ferais": "Mutantes",
+          "feral": "mutante",
+          "ferais": "mutantes",
+          "Conjurar": "Executar",
+          "conjurar": "executar",
+          "Conjuração": "Execução",
+          "conjuração": "execução",
+          "Conjurações": "Execuções",
+          "conjurações": "execuções",
+          "Magia Branca": "Positrônica",
+          "Magia Negra": "Negatrônica",
+          "Conjurador": "Operador",
+          "conjurador": "operador",
+          "conjuradores": "operadores",
+          "Poção": "Selênico",
+          "poção": "selênico",
+          "Poções": "Selênicos",
+          "poções": "selênicos",
+          "Obra-prima": "Premium",
+          "obra-prima": "premium",
+          "Pergaminho": "Cartucho",
+          "pergaminho": "cartucho",
+          "pergaminhos": "cartuchos",
+          "Encantamento": "Rotina",
+          "encantamento": "rotina",
+          "encantar": "induzir",
+          "artesão": "técnico",
+          "Arcanistas": "Tecnologistas",
+          "Animistas": "Químicos",
+          "Bardos": "Ressonantes",
+          "Caçadores": "Executivos",
+          "Comandantes": "Articuladores",
+          "Druidas": "Nóias",
+          "Guerreiros": "Soldados",
+          "Ladinos": "Malandros",
+          "Magos": "Piratas",
+          "Monges": "Artistas Marciais"
+        },
+        "excecoes": [
+          "Garras do Rei-Mago",
+          "Corpo em Sintonia",
+          "Sintonia Profunda",
+          "Sintonia Ascendida",
+          "Essência",
+          "Fogo",
+          "Água",
+          "Terra",
+          "Vento"
+        ],
+        "notas_futuras": {},
+        "descricoes": {
+          "Poção da Velocidade": "## `= this.file.name`\n*Lênico (Vento) - consumível*\nLata gelada de taurilênico: taurina sintética e selênica volátil. O energético que faz a cidade correr — literalmente.\n* Adepto: Garante +1 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 10 minutos.\n* Experiente: Garante +2 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 10 minutos.\n* Mestre: Garante +2 de [[Bônus de Condição|bônus de condição]] na [[Movimentação]] terrestre por 1 hora.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Traço Elemental do Fogo": "### Fator O+\nPositivos de tipo O são a linha de frente do RH: enérgicos, competitivos e dedicados — e impulsivos como convém a quem queima combustível puro. O laudo de Reatividade Selênica marca a reação: sem antígenos que segurem a cristalização, a selênica queima livre e exotérmica — a linha termoquímica responde a você.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Traços Elemental\",\n  nível AS \"Nível\",\n  sintonia AS \"Sintonia\"\nSORT nível,file.name ASC\nWHERE subcategoria = \"Traço-Elemental\" and sintonia = \"Fogo\"\n```",
+          "Traço Elemental da Terra": "### Fator A+\nPositivos de tipo A carregam fama de metódicos, contidos e confiáveis — o carimbo favorito das megacorps pra cargos de precisão. O laudo de Reatividade Selênica marca a reação: os antígenos ancoram a cristalização e o composto polimeriza estável — a linha de materiais e polímeros responde a você.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Traços Elemental\",\n  nível AS \"Nível\",\n  sintonia AS \"Sintonia\"\nSORT nível,file.name ASC\nWHERE subcategoria = \"Traço-Elemental\" and sintonia = \"Terra\"\n```",
+          "Traço Elemental do Vento": "### Fator B+\nPositivos de tipo B são os criativos e imprevisíveis do laudo — o RH desconfia, a cena underground disputa. O laudo de Reatividade Selênica marca a reação: a liga cristaliza instável e volatiliza fácil — a linha de gases, aerossóis e descargas responde a você.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Traços Elemental\",\n  nível AS \"Nível\",\n  sintonia AS \"Sintonia\"\nSORT nível,file.name ASC\nWHERE subcategoria = \"Traço-Elemental\" and sintonia = \"Vento\"\n```",
+          "Traço Elemental da Água": "### Fator AB+\nPositivos de tipo AB têm fama de adaptáveis e de duas caras — dissolvem-se em qualquer ambiente, e ninguém sabe pra quem trabalham de verdade. O laudo de Reatividade Selênica marca a reação: anfótera, a selênica dissolve e absorve no seu sangue — a linha de fluidos e criogenia responde a você.\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Traços Elemental\",\n  nível AS \"Nível\",\n  sintonia AS \"Sintonia\"\nSORT nível,file.name ASC\nWHERE subcategoria = \"Traço-Elemental\" and sintonia = \"Água\"\n```",
+          "Adaga": "## `= this.file.name`\n\nA navalha de barbeiro: dobrável, cabo de osso, fio de estrofe. Some na palma, aparece no reflexo — cartão de visita do Malandro e ferramenta honesta até a hora em que deixa de ser.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Adaga de Duelo": "## `= this.file.name`\n\nFaca borboleta de camelô caro: o floreio de abrir e fechar é intimidação, defesa e arte. Quem gira bem, apara bem.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: Permite usar uma ação para aparar com essa arma, garantindo +1 de [[bônus de circunstância]] na [[Defesa]]. Você pode realizar [[Desarmar]] com a mão ocupada por essa arma, caso faça, pode aplicar o [[Bônus de Item|bônus de item]]  em [[Atacar|Ataque]] dessa arma para [[Desarmar]].\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Alabarda": "## `= this.file.name`\n\nO croque do estivador: cabo longo com gancho e ponta de ferro, feito pra puxar fardo no cais — e pra manter valentão fora do alcance do braço.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: arma longa com peça cortante na ponta. Aumenta seu alcance corpo-a-corpo em 1q, porém quando usada para atacar alvos adjacentes seu dano muda para d6+3 contusão, visto que é usada a haste para bater.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Alfange": "## `= this.file.name`\n\nCutelo de açougue do Mercado Público, chapa larga de aço-carbono com fio de profissional. Corta osso no balcão e coragem na rua.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Arco Curto": "## `= this.file.name`\n\nArco recurvo de fibra de vidro, vendido como material esportivo com carimbo da FGF. Leve, rápido de armar e fácil de esconder atrás do banco do Fusca.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Arco de Caça": "## `= this.file.name`\n\nArco de caça do interior, madeira de guajuvira e corda de nylon. Arma de quem aprendeu a mirar antes de aprender a ler — e não confia em pressão de ar.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Arco Longo": "## `= this.file.name`\n\nArco de competição de porte olímpico, altura de um homem. Potência séria a longa distância — desde que ninguém chegue perto.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: arco grande e pesado, díficil de manejar em espaços pequenos e curtas distâncias. Não pode ser usado montado. Recebe -2 nos [[Atacar|Ataques]] contra inimigos em até 5q de distância.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Arco de Guerra": "## `= this.file.name`\n\nArco de polias importado, catálogo de loja de caça americana. As roldanas seguram a tração no ponto: potência de rifle, silêncio de biblioteca.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Azagaia": "## `= this.file.name`\n\nVergalhão de obra apontado no esmeril e balanceado no olho. O ferro de arremesso mais barato da cidade — em qualquer caçamba tem munição.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Besta": "## `= this.file.name`\n\nRifle de pressão de dardos selênicos, coronha de madeira e êmbolo de ar comprimido. A arma longa que o Decreto das Armas Frias deixou sobrar.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Besta Leve": "## `= this.file.name`\n\nA carabina de chumbinho da banca de tiro, retrabalhada pra dardo selênico. Leve, discreta, engatilha rápido — a porta de entrada do tiro na rua.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Besta Pesada": "## `= this.file.name`\n\nArpoadora de pesca submarina, elástico duplo e gatilho de metal. Desenhada pro Guaíba, adotada pelo porto — perfura chapa de zinco a vinte passos.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Besta de Mão": "## `= this.file.name`\n\nPistola de pressão de dardos que cabe no coldre de axila. O ferro de bolso da era das Armas Frias — o clique do êmbolo é a nova ameaça de esquina.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Bordão": "## `= this.file.name`\n\nCano de ferro galvanizado, metro e meio, rosca nas pontas. Sai de qualquer obra e não deve nada a ninguém — a arma mais inocente do inquérito.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Espada Bastarda": "## `= this.file.name`\n\nKatana de contrabando, desembarcada em engradado pelo Clube dos Sete Portos. Lâmina longa de aço dobrado, empunhadura pra uma ou duas mãos — artigo de colecionador que corta de verdade.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Espada Curta": "## `= this.file.name`\n\nFaca militar de caserna, lâmina fosca de um palmo com serrilha no dorso. Sai do Exército por baixo do pano e nunca volta.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Espada Curva": "## `= this.file.name`\n\nO facão Tramontina de aço-carbono, cabo de madeira, vendido com registro na ferragem. A lâmina padrão do POA 1987 — todo mundo luta de facão, e ninguém acha estranho.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Espada Longa": "## `= this.file.name`\n\nFacão de cana comprido, o aço de safra que voltou do interior com a leva de despejados. Alcance de braço e meio e memória de trabalho — pesa mais do que parece.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Funda": "## `= this.file.name`\n\nEstilingue de forquilha com borracha de câmara de ar. Brinquedo de guri na praça, fratura exposta na mão de quem cresceu usando.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Lança": "## `= this.file.name`\n\nArpão de haste única, ponta farpada de pesca grossa. Se compra em loja de pesca sem ninguém olhar torto — e alcança onde o facão não chega.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Machadinha": "## `= this.file.name`\n\nMachadinha de paiol, de rachar lenha e abrir caixote. Uma mão, peso honesto, nota fiscal de ferragem.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Machado de Batalha": "## `= this.file.name`\n\nMachado de bombeiro de cabo longo, pintura vermelha descascada. Some de quartel, aparece em ocorrência — abre porta, capô e caminho.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Machadão": "## `= this.file.name`\n\nMachadão de lenhador de duas mãos, órfão de serraria fechada. Onde ele acerta, não precisa acertar de novo.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Malho": "## `= this.file.name`\n\nMarreta de demolição de dez quilos, cabo de eucalipto. Ferramenta de botar parede abaixo — parede, portão, o que estiver na frente.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Manopla": "## `= this.file.name`\n\nFerragem fundida que veste os dedos: o soco inglês clássico da noite portoalegrense, polido de tanto uso.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: Ferragem que veste a mão e a transforma em arma. Não pode ser [[Desarmar|Desarmada]]. Você ainda pode empunhar e segurar objetos com a mão que veste o Soco Inglês, mas não pode realizar ataques com ela caso a mão esteja ocupada. Se você tiver algum efeito ou técnica que precise de ataque desarmado, pode usá-los com o Soco Inglês. Caso tenha ataques desarmados especiais (como em [[Arte Marcial]]), efeitos (como [[Encantar Arma]]) e módulos (como [[Imbuição Sísmica]]) em um Soco Inglês, eles afetam esses ataques, se a mão que o veste for usada para fazê-los.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Martelo de Guerra": "## `= this.file.name`\n\nMartelo de estaleiro de cabeça quadrada, feito pra assentar chapa naval. De um lado do cabo resolve rebite; do outro, resolve discussão.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Maça": "## `= this.file.name`\n\nChave de grifo industrial: quilo e meio de ferro ajustável. Ferramenta de encanador até o momento em que deixa de ser — e o registro nunca prova nada.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Maça Estrela": "## `= this.file.name`\n\nCorrente de moto com cadeado na ponta, enrolada no punho até precisar. A arma de arquibancada que desce pro asfalto nos clássicos.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Montante": "## `= this.file.name`\n\nMotosserra a motor dois-tempos, órfã de serraria. O porte é EXPRESSAMENTE PROIBIDO pelo Decreto das Armas Frias: ligar uma na rua é autorização por escrito pra Brigada atirar primeiro. Ainda assim, tem quem ande com ela — arma de maluco, fama de maluco.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Picareta de Guerra": "## `= this.file.name`\n\nPicareta de obra, bico duplo de aço temperado. Abre valeta, abre bloqueio, abre o que precisar abrir.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Pique": "## `= this.file.name`\n\nTubo de andaime com ponta esmerilada, três metros de alcance coletivo. Nasceu nos piquetes segurando cavalaria — e nunca mais saiu do repertório.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n[[Especial]]: `=this.especial`\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Porrete": "## `= this.file.name`\n\nCassetete de madeira de lei, torneado no padrão da Brigada. Cai de um cinto num tumulto, aparece noutro cinto na semana seguinte.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Punhal": "## `= this.file.name`\n\nPunhal de lâmina fixa, comprado em loja de pesca como faca de campo. Aponta, equilibra e não trava na hora errada.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Rapieira": "## `= this.file.name`\n\nFlorete de esgrima com a ponta esmerilada além do regulamento. Elegância de clube, alcance de agulha — o duelo virou moda na noite da Cidade Baixa.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Tacape": "## `= this.file.name`\n\nPedaço de trilho de bonde soldado num cabo de ferro. Pesa o que promete: onde assenta, assenta de vez.\n\n| Mãos          | Dano          | Tipo          | Propriedades          | Preço          |\n| ------------- | ------------- | ------------- | --------------------- | -------------- |\n| `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Garras": "## `= this.file.name`\n\nCanivete de bolso, fio curto e abertura rápida. O mínimo que todo Empregado de rua carrega.\n\n| Dano          | Tipo          | Propriedades          |\n| ------------- | ------------- | --------------------- |\n| `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Mandíbula": "## `= this.file.name`\n\nA faca militar do coldre de serviço — o dente padrão do Empregado de segurança.\n\n| Dano          | Tipo          | Propriedades          |\n| ------------- | ------------- | --------------------- |\n| `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Presas": "## `= this.file.name`\n\nEstilete de mola, lâmina fina que entra fácil e some mais fácil ainda. Ferramenta de espião.\n\n| Dano          | Tipo          | Propriedades          |\n| ------------- | ------------- | --------------------- |\n| `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Cauda de Dragão": "## `= this.file.name`\n\nO rabo de arraia da capoeira: giro completo, calcanhar na altura da orelha. Golpe de roda que derruba sem aviso.\n\n| FOR | Mãos          | Dano          | Tipo          | Propriedades          |\n| --- | ------------- | ------------- | ------------- | --------------------- |\n| 3   | `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Garra de Tigre": "## `= this.file.name`\n\nA garra de tigre das academias de kung fu do Bom Fim: dedos em gancho, ataque de tendão e ponto fraco.\n\n| FOR | Mãos          | Dano          | Tipo          | Propriedades          |\n| --- | ------------- | ------------- | ------------- | --------------------- |\n| 1   | `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Pontos de Pressão": "## `= this.file.name`\n\nA leitura dos pontos nervosos — o toque preciso que o mestre da academia jura que derruba boi. Contra gente, funciona.\n\n| FOR | Mãos          | Dano          | Tipo          | Propriedades          |\n| --- | ------------- | ------------- | ------------- | --------------------- |\n| 0   | `= this.mãos` | `= this.dano` | `= this.tipo` | `= this.propriedades` |",
+          "Armadura Leve": "## `= this.file.name`\nA jaqueta reforçada — couro com placa polimérica costurada no forro — é a proteção de quem trabalha de [[Agilidade]]. [[Bardo|Ressonantes]] e [[Ladino|Malandros]] praticamente fazem dela uniforme, e [[Guerreiro|Soldados]] e [[Caçador|Executivos]] focados em mobilidade também aderem. Sua [[Defesa]] ainda depende da [[Agilidade]] como se estivesse sem proteção, mas materiais melhores e módulos podem ser aplicados na jaqueta, expandindo o leque de opções.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Armadura Pesada": "## `= this.file.name`\nO colete de placas — aço e cerâmica sobre lona, herança de caserna — é a escolha de quem aguenta peso: a proteção clássica do [[Guerreiro|Soldado]], do [[Comandante|Articulador]] e do [[Mago|Pirata]] de abordagem. Assume-se que quem veste placa usa o máximo da força física e da capacidade de carga pra se defender, portanto sua [[Defesa]] passa a depender da [[Força]] — representando todas as camadas que o corpo tolera carregar.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Sem Armadura": "## `= this.file.name`\nQuem anda sem proteção é tipicamente operador de bancada e de bloco ([[Arcanista|Hackers]], [[Animista|Químicos]]) e [[Monge|Artistas Marciais]]: roupa de rua, jaqueta fina, e a [[Agilidade]] pra desviar do que vier. Um [[Anel do Equilíbrio]] é a maneira de melhorar a [[Defesa]] assim.",
+          "Broquel": "## `= this.file.name`\nEscudo pequeno de chapa e couro preso ao antebraço, padrão de sindicato e piquete. Não pesa, não atrapalha, e segura o primeiro golpe — que costuma ser o que importa.\n\n| Danos          | Bônus Defesa          | Dureza          | Propriedades          | Preço          |\n| -------------- | --------------------- | --------------- | --------------------- | -------------- |\n| `= this.danos` | `= this[\"bonus-defesa\"]` | `= this.dureza` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Escudo": "## `= this.file.name`\nO escudo de acrílico da tropa de choque, fabricação Tramontina sob contrato público — pegada dupla e borda de borracha. Sai da Brigada por baixa de material e aparece na linha de frente dos dois lados. Pode usar para [[Escudada]].\n\n| Danos          | Bônus Defesa          | Dureza          | Propriedades          | Preço          |\n| -------------- | --------------------- | --------------- | --------------------- | -------------- |\n| `= this.danos` | `= this[\"bonus-defesa\"]` | `= this.dureza` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Amplificador Audiovisual": "## `= this.file.name`\n*Trônico - visor*\nVisor transparente de policarbonato que cobre os olhos e envolve uma orelha, com ganho de imagem e microfone direcional. Deixa as cores mais vívidas e amplifica o som.\n* Adepto: +1 de [[bônus de item]] em [[Percepção]]. Uma vez a cada 10 minutos, você pode [[Interagir]] com o amplificador, recebendo os efeitos de [[Visão no Escuro]] por 3 turnos.\n* Experiente: +2 de [[bônus de item]] em [[Percepção]]. Uma vez a cada 10 minutos, você pode [[Interagir]] com o amplificador, recebendo os efeitos de [[Visão no Escuro]] por 1 minuto.\n* Mestre: +3 de [[bônus de item]] em [[Percepção]]. Você fica permanentemente sob efeito de [[Visão no Escuro]]. Se o efeito for dissipado, volta após 10 minutos.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Anel Canário": "## `= this.file.name`\n*Lênico (Vento) - sensor*\nSensor de lapela da linha de áudio Gradiente, apelidado de canário como os das minas: mini alto-falante direcional, microfone de leitura ambiente e seletor de trilhas — ruído de fundo pra tranquilizar, estalo direcional pra distrair. O canário amarelo em serigrafia na carcaça é a marca da linha.\n* Adepto: +1 de [[bônus de item]] em testes de [[Enganação]]. Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura adjacente a você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque.\n* Experiente: +2 de [[bônus de item]] em testes de [[Enganação]]. Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura em até 2q de você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque. Alternativamente, você também pode ativar esse item quando um aliado em 2q é alvejado com um [[Atacar|Ataque]] de um inimigo, você garante 50% de chance de falha para esse ataque.\n* Mestre: +3 de [[bônus de item]] em testes de [[Enganação]].  Uma vez a cada 10 minutos, quando um aliado faz um [[Atacar|Ataque]] contra uma criatura em até 6q de você, você pode usar uma reação para garantir [[Vantagem de Combate]] para esse ataque. Alternativamente, você também pode ativar esse item quando um inimigo tem sucesso em um [[Atacar|Ataque]] contra um aliado em 6q, o que garante 50% de chance do ataque ter acertado uma imagem falsa, negando o dano.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Anel Mensageiro": "## `= this.file.name`\n*Lênico (Vento) - comunicador*\nRádio de pulso com canal pareado e criptografia simples — o suficiente pra rua. Mantém a tua voz no ouvido certo.\n* Adepto: +1 de [[bônus de item]] em testes de [[Diplomacia]]. No início do dia, escolha um aliado, você pode conjurar [[Vento Mensageiro]] tendo esse aliado como alvo até o próximo dia.\n* Experiente: +2 de [[bônus de item]] em testes de [[Diplomacia]]. No início do dia, escolha um aliado, você pode conjurar [[Vento Mensageiro]] tendo esse aliado como alvo com alcance aumentado para 1km até o próximo dia.\n* Mestre: +3 de [[bônus de item]] em testes de [[Diplomacia]]. No início do dia, escolha até 4 aliados, você pode conjurar [[Vento Mensageiro]] tendo esses aliados como alvo com alcance aumentado para 1km até o próximo dia.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Anel da Resistência": "## `= this.file.name`\n*Trônico - implante*\nMalha polimérica instalada sob a pele que regula as respostas do corpo — febre, veneno, choque. O seguro de vida de quem apanha por profissão.\n* Adepto: +1 de [[bônus de item]] nas [[Resistências]].\n* Experiente: +2 de [[bônus de item]] nas [[Resistências]].\n* Mestre: +3 de [[bônus de item]] nas [[Resistências]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Anel do Equilíbrio": "## `= this.file.name`\n*Trônico - implante*\nCorretor vestibular que ajusta o equilíbrio em tempo real — arco externo na linha de entrada, implante de ouvido interno nas melhores. Com ele, esquivar deixa de ser reflexo e vira rotina — desde que nenhuma armadura atrapalhe.\n* Adepto: +1 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n* Experiente: +2 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n* Mestre: +3 de [[bônus de item]] em [[Defesa]] quando sem armadura.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Arma Obra-prima": "## `= this.file.name`\n*Mundano - arma*\nLinha premium de fábrica: aço selecionado, balanceamento de precisão e acabamento que justifica o preço na etiqueta. Quem trabalha com a ferramenta certa erra menos.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]].\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]].\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Armadura Obra-prima": "## `= this.file.name`\n*Mundano - proteção*\nLinha premium: costura reforçada, placa bem distribuída e ajuste de alfaiate. Cobre melhor porque foi feita pra ti, não pro cabide.\n* Adepto: +1 de [[bônus de item]] em [[Defesa]].\n* Experiente: +2 de [[bônus de item]] em [[Defesa]].\n* Mestre: +3 de [[bônus de item]] em [[Defesa]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Broquel Obra-prima": "## `= this.file.name`\n*Mundano - escudo*\nEscudo de braço da linha premium: liga melhor, rebite duplo e absorção calculada. Segura o que a versão de sindicato não seguraria.\n* Adepto: Dureza 3.\n* Experiente: Dureza 4.\n* Mestre: Dureza 6.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Escudo Obra-prima": "## `= this.file.name`\n*Mundano - escudo*\nEscudo de choque da linha premium: policarbonato aeronáutico e pegada anatômica. Aguenta mais e devolve melhor.\n* Adepto: Dureza 5, +1 de bônus de item em Ataques com [[Escudada]].\n* Experiente: Dureza 7, +2 de bônus de item em Ataques com [[Escudada]].\n* Mestre: Dureza 10, +3 de bônus de item em Ataques com [[Escudada]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Ferramenta Obra-prima": "## `= this.file.name`\n*Mundano - ferramenta*\nFerramenta de linha premium, feita pra uma atividade específica de perícia: gazua de chaveiro alemão que garante bônus em [[Destrancar]] usando [[Ladinagem]], ou bússola de topógrafo que garante bônus em [[Intuir Direção]] usando [[Sobrevivência]].\n* Adepto: +1 de [[bônus de item]] para a atividade de perícia.\n* Experiente: +2 de [[bônus de item]] para a atividade de perícia.\n* Mestre: +3 de [[bônus de item]] para a atividade de perícia.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Botas Fluídicas": "## `= this.file.name`\n*Lênico (Água) - botas*\nBotas com pistão hidráulico no calcanhar e amortecimento de fluido. Cada passo devolve o impulso — o chão vira trampolim discreto.\n* Adepto: +1 de [[bônus de item]] em testes de [[Acrobacia]]. Você recebe +1 de [[bônus de circunstância]] em Acrobacia para [[Cambalhota]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Acrobacia]]. Você recebe +2 de [[bônus de circunstância]] em Acrobacia para [[Cambalhota]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Acrobacia]]. Você recebe +2 de [[bônus de circunstância]] em Acrobacia para [[Cambalhota]]. Quando você realiza uma Cambalhota, os pistões descarregam e te jogam fora da linha do golpe, recebendo +4 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] contra [[Ataque de Oportunidade|Ataques de Oportunidade]] em resposta a Cambalhota.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Bracelete Elemental": "## `= this.file.name`\n*Lênico - implemento*\nBracelete com cartuchos de reagentes lênicos encaixados em torno do pulso — quando a execução pede, o reagente certo já está na veia do braço. Tecnologias Lênicas executadas enquanto a mão do braço que veste esse bracelete está livre ou empunhando um implemento são empoderadas.\n* Adepto: +1 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n* Experiente: +2 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n* Mestre: +3 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Anima]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Braceletes de Pedra": "## `= this.file.name`\n*Lênico (Terra) - braceletes*\nPar de braceletes de polímero denso, gelados ao toque, com microporos de pega. Garantem punho firme e estável em qualquer superfície.\n* Adepto: +1 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +1 de [[bônus de circunstância]] em Atletismo para [[Escalar]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +2 de [[bônus de circunstância]] em Atletismo para [[Escalar]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Atletismo]]. Você recebe +2 de [[bônus de circunstância]] em Atletismo para [[Escalar]]. Você tem uma [[Movimentação]] de escalada igual a metade da sua [[Movimentação]] terrestre enquanto estiver usando este item.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Brasão Tático": "## `= this.file.name`\n*Trônico - visor*\nMonóculo tático com telemetria da equipe e leitura de terreno — o mapa da guerra atualizado em tempo real no teu campo de visão.\n* Adepto: +1 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre.\n* Experiente: +2 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre e, em caso de sucesso, o aliado Coordenado recebe 4 de [[Energia Heroica|EH]] temporária por 1 turno.\n* Mestre: +3 de [[bônus de item]] em testes de [[Guerra]]. Uma vez a cada 10 minutos, você pode [[Coordenar]] como ação livre e, em caso de sucesso, o aliado Coordenado recebe 6 de [[Energia Heroica|EH]] temporária por 1 turno. Para essa ativação, o resultado de Coordenar é aumentado em um grau de sucesso.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Broche Artístico": "## `= this.file.name`\n*Trônico - implemento*\nMicrofone de palco com caixa amplificadora dedicada e equalização automática. Bota a tua performance dois palcos acima do que a acústica permite.\n* Adepto: +1 de [[Bônus de Item|bônus de item]] em [[Atuação]]. Adicionalmente, +1 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Bardo]].\n* Experiente: +2 de [[Bônus de Item|bônus de item]] em [[Atuação]]. Adicionalmente, +2 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Bardo]].\n* Mestre: +3 de [[Bônus de Item|bônus de item]] em [[Atuação]]. Adicionalmente, +3 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Bardo]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Capa Discreta": "## `= this.file.name`\n*Lênico (Vento) - capa*\nCapa de chuva cinza de tecido tratado: não farfalha, não reflete e quebra a silhueta. Em Porto Alegre ninguém estranha capa de chuva — nem repara.\n* Adepto: +1 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 1 turno.\n* Experiente: +2 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 2 turnos ou [[Manto Translúcido]] por 1 turno.\n* Mestre: +3 de [[bônus de item]] em testes de [[Furtividade]]. Uma vez a cada 10 minutos, você pode ativar a capa com uma ação, recebendo os efeitos de  [[Ofuscação]] por 3 turnos, [[Manto Translúcido]] por 2 turnos ou [[Invisibilidade]] por 1 turno.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Cinto dos Ermos": "## `= this.file.name`\n*Lênico (Terra) - cinto*\nCinto utilitário de lona militar com bolsos selados de recursos de campo. Amplifica teu instinto de sobrevivência e carrega o essencial de quem se vira fora do asfalto.\n* Adepto: +1 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 24 horas, Concentrado recupera 2 [[Energia Vital|EV]] e Bússola garante bônus de +1.\n* Experiente: +2 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 7 dias, Concentrado recupera 4 [[Energia Vital|EV]] e Bússola garante bônus de +2.\n* Mestre: +3 de [[bônus de item]] em testes de [[Sobrevivência]]. Você pode usar um dos recursos listados uma a cada 10 minutos. Marcador dura 30 dias, Concentrado recupera 6 [[Energia Vital|EV]] e Bússola garante bônus de +3.\n\n### Recursos\n* Marcador Químico: [[Interagir]] - Você arremessa um spray marcador numa criatura adjacente a você. A [[CD]] para [[Rastrear]] essa criatura é reduzida em 2 por uma duração ou até que ela se lave.\n* Concentrado Nutritivo: [[Interagir]] - Você obtém uma pasta concentrada que nutre e restaura. Uma criatura pode consumi-la usando 1 ação para recuperar [[Energia Vital|EV]] e se saciar nutricionalmente. Uma criatura só pode ser afetada pelo Concentrado Nutritivo uma vez por dia. O concentrado perde a validade e se degrada em 10 minutos após aberto.\n* Bússola de Campo: [[Interagir]] - Você obtém uma bússola de campanha que auxilia na navegação, garantindo [[Bônus de Circunstância|bônus de circunstância]] para [[Intuir Direção]]. A bússola descalibra 1 hora depois de obtida.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Colar da Eloquência": "## `= this.file.name`\n*Trônico - implante*\nModulador de garganta com cartuchos de idioma pendurados no colar — um encaixado por vez. O cartucho ativo afina sotaque, dicção e vocabulário no idioma dele.\n* Adepto: +1 de [[bônus de item]] em testes de [[Sociedades]]. Você recebe +1 de [[bônus de circunstância]] em Sociedades para decifrar o significado de frases no idioma do cartucho.\n* Experiente: +2 de [[bônus de item]] em testes de [[Sociedades]]. Uma vez por dia, pode conjurar [[Compreender Idiomas]] tendo você mesmo como alvo, mas somente para entender e falar o idioma do cartucho.\n* Mestre: +3 de [[bônus de item]] em testes de [[Sociedades]]. Você entende e sabe falar o idioma do cartucho enquanto usa o modulador.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Diadema da Ameaça": "## `= this.file.name`\n*Lênico (Fogo) - projetor*\nProjetor vestível de presença: subgraves, luz de recorte e um difusor de feromônio agressivo. Faz a tua sombra parecer maior do que a parede aguenta.\n* Adepto: +1 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] por 1 turno. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] e [[Desprevenido|Desprevenida]] por 1 turno. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em testes de [[Intimidação]]. Se na sua ultima ação você causou dano a ao menos uma criatura, você pode usar uma ação para ativar este item. Ao fazer isso, uma criatura a sua escolha que recebeu dano seu fica [[Abalado|Abalada]] e [[Desprevenido|Desprevenida]] por 1 turno e deve usar sua reação (caso tenha) para [[Mover]] (ou [[Nadar]]/[[Voar]]) o máximo possível para longe de você. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Diapasão Elemental": "## `= this.file.name`\n*Lênico - broche*\nDiapasão com um par de hastes calibradas na frequência do teu Fator. Ressoa junto com a linha da tua tipagem e amortece o que te agride por ela.\n* Adepto: +1 de [[bônus de item]] em testes de [[Anima]]. Você recebe resistência 3 ao elemento da sua [[Sintonia]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Anima]]. Você recebe resistência 6 ao elemento da sua [[Sintonia]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Anima]]. Você recebe resistência 9 ao elemento da sua [[Sintonia]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Luva do Arcanista": "## `= this.file.name`\n*Trônico - implemento*\nLuva com trilhas condutoras costuradas e conectores nos dedos — interface direta entre a mão e o bloco. Tecnologias Trônicas executadas enquanto a mão que veste essa luva está livre ou empunhando um implemento são empoderadas.\n* Adepto: +1 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n* Experiente: +2 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n* Mestre: +3 de [[Bônus de Item|bônus de item]] em Ataques Mágicos e CDs de [[Magia Arcana|Magias Arcanas]] de [[Arcanista]] e [[Mago]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Luvas Purificadas": "## `= this.file.name`\n*Lênico (Água) - luvas*\nLuvas cirúrgicas de polímero autoesterilizante — sempre limpas, mesmo onde nada mais é. Tratam ferimento com precisão de ambulatório.\n* Adepto: +1 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura adjacente a você, fazendo com que ela recupere 1d6+3 [[Energia Heroica|EH]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura em até 2q, fazendo com que ela recupere 2d6+3 [[Energia Heroica|EH]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Medicina]]. Uma vez a cada 10 minutos, você pode [[Interagir]] para curar uma criatura em até 6q, fazendo com que ela recupere 3d6+3 [[Energia Heroica|EH]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Luvas do Ladrão": "## `= this.file.name`\n*Lênico (Água) - luvas*\nLuvas finas que vestem como segunda pele, sem roubar o tato. O kit de mão do punguista profissional: precisão nos dedos e ferramenta de infiltração embutida.\n* Adepto: +1 de [[bônus de item]] em testes de [[Ladinagem]]. Você pode conjurar [[Chave Arcana]].\n* Experiente: +2 de [[bônus de item]] em testes de [[Ladinagem]]. Você pode conjurar [[Chave Arcana]] e [[Visor Arcano]].\n* Mestre: +3 de [[bônus de item]] em testes de [[Ladinagem]]. Pode conjurar [[Chave Arcana]] como uma ação ou [[Visor Arcano]] como duas ações.\n\nQuando você conjura [[Chave Arcana]] por esse item, seu ataque mágico é igual a seu modificador de [[Ladinagem]] e você perde 4 [[Energia Vital|EV]].\nQuando você conjura [[Visor Arcano]] por esse item, o visor deve ser criado imediatamente atrás de uma porta que você está adjacente e você perde 6 [[Energia Vital|EV]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Poção da Coragem": "## `= this.file.name`\n*Lênico (Fogo) - consumível*\nAmpola de adrenalênico: descarga de briga-ou-fuga engarrafada. O medo sai de linha por umas horas — a conta chega depois.\n* Adepto: Você ganha 10 [[Energia Heroica|EH]] temporário por 10 minutos.\n* Experiente: Você ganha 15 [[Energia Heroica|EH]] temporário por 1 hora.\n* Mestre: Você ganha 20 [[Energia Heroica|EH]] temporário por 8 horas.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Poção da Nutrição": "## `= this.file.name`\n*Lênico (Terra) - consumível*\nO shake que a Panvel vende como suplemento. Entrega os nutrientes que o corpo precisa pra cicatrizar, acelerando a recuperação — e sacia por 1 dia.\n* Adepto: Recupera 1d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]]. Você não pode ser afetado por outro Vitalênico por 1 hora.\n* Experiente: Recupera 2d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]]. Você não pode ser afetado por outro Vitalênico por 10 minutos.\n* Mestre: Recupera 3d8+4 [[Energia Vital|EV]] se consumir enquanto [[Descansar|Descansa]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Poção de Cura": "## `= this.file.name`\n*Lênico (Água) - consumível*\nAmpola de cicatrilênico: coagulante e regenerador de tecido em suspensão. Fecha ferida e segura sangramento no meio da ocorrência.\n* Adepto: Recupera 1d8+4 [[Energia Vital|EV]]. Você não pode ser afetado por outro Cicatrilênico por 1 hora.\n* Experiente: Recupera 2d8+4 [[Energia Vital|EV]]. Você não pode ser afetado por outro Cicatrilênico por 10 minutos.\n* Mestre: Recupera 3d8+4 [[Energia Vital|EV]].\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |",
+          "Pulseira da Potência": "## `= this.file.name`\n*Trônico - implante*\nServo-atuador instalado no punho: sincroniza a musculatura do braço e multiplica o torque do golpe.\n* Adepto: +1 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n* Experiente: +2 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n* Mestre: +3 de [[bônus de item]] em Ataques desarmados e [[Ataques#Manobras de Ataque|Manobras de Ataque]].\n\nUm Servo-atuador de Pulso pode conter um módulo Lênico de arma de mesma categoria. Nesse caso, os efeitos do módulo se aplicam a ataques desarmados que satisfaçam as condições exigidas por ele (tipo de dano e afins), e o preço do servo-atuador aumenta para a soma do preço do implante e do módulo.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Sensor Arcano": "## `= this.file.name`\n*Trônico - bracelete*\nBracelete detector de assinatura trônica — um frequencímetro de campo que acusa execução ativa por perto e aponta a fonte.\n* Adepto: +1 de [[bônus de item]] em [[Arcana]]. Pode conjurar [[Detectar Magia]] uma vez a cada 10 minutos. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q.\n* Experiente: +2 de [[bônus de item]] em [[Arcana]]. Você pode ativar o sensor uma vez a cada 10 minutos, permitindo que você conjure [[Detectar Magia]] por 1 minuto. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q e você sabe o espaço com maior fonte de magia.\n* Mestre: +3 de [[bônus de item]] em [[Arcana]]. Pode conjurar [[Detectar Magia]]. Se você sabe conjurar [[Detectar Magia]], aumente seu alcance para 10q, você sabe o espaço com maior fonte de magia e seu efeito dura por 1 minuto, continuamente te informando a presença ou não de magia, e sua posição mais intensa.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Ciclonal": "## `= this.file.name`\n*Lênico (Vento) - arma corpo-a-corpo que causa dano cortante*\nMódulo com cápsulas verdes de gás comprimido acoplado no cabo da arma. Quando ativado, cada golpe descarrega uma rajada cortante de ar.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Caso você obtenha uma falha (não decisiva) com o ataque adicional, você pode dar um [[Passo de Ajuste]] como ação livre.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Caso você obtenha uma falha (não decisiva) com o ataque adicional, você pode [[Mover]] até metade do seu movimento sem provocar reações como ação livre.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Congelante": "## `= this.file.name`\n*Lênico (Água) - arma*\nMódulo com célula criogênica azulada acoplada no cabo da arma. Quando ativado, os golpes congelam e atrasam o inimigo.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 2. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 1 turno.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 3. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 2 turnos. Aplicações repetidas renovam a duração e acumulam a redução de movimentação até 2q.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 4. O dano adicional é convertido para frio. Criaturas que receberem esse dano adicional de frio tem sua [[Movimentação]] reduzida em 1q por 2 turnos. Aplicações repetidas renovam a duração e acumulam a redução de movimentação até 3q.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Enraizante": "## `= this.file.name`\n*Lênico (Terra) - arma que causa dano perfurante*\nMódulo com reservatório âmbar de espuma polimérica expansiva. Quando ativado, o golpe enreda o alvo e trava a movimentação.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Se sua ultima ação foi ter sucesso com um ataque contra uma criatura com essa arma, você pode usar uma ação para ativá-la. Ao ativar, a criatura recebe -3q de [[Penalidades|penalidade de condição]] na [[Movimentação]] por 1 turno. Você pode ativar esse efeito uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Se sua ultima ação foi ter sucesso com um ataque contra uma criatura com essa arma, você pode usar uma ação para ativá-la. Ao ativar, a criatura fica [[Preso|Presa]] por 1 turno. Você pode ativar esse efeito uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Se sua ultima ação foi ter sucesso com um ataque contra uma criatura com essa arma, você pode usar uma ação para ativá-la. Ao ativar, a criatura fica [[Preso|Presa]] por 1 turno e [[Desprevenido|Desprevenida]] enquanto estiver [[Preso|Presa]]. Você pode ativar esse efeito uma vez a cada 10 minutos.\n\nUma criatura com movimentação reduzida ou [[Preso|Presa]] por esse módulo pode tentar [[Escapar]] contra uma [[CD]] igual a 10 + seu modificador de Ataque com a arma.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Explosiva": "## `= this.file.name`\n*Lênico (Fogo) - arma que causa dano perfurante ou de contusão*\nMódulo com cargas vermelhas de detonação acoplado no cabo da arma. Depois de conectar o golpe, o estouro pode ser acionado.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d4 de dano de fogo adicional. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d6 de dano de fogo adicional e, a sua escolha, 2 de dano de fogo nas criaturas adjacentes ao alvo (excluindo você). Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você tem sucesso em um ataque com essa arma, pode usar uma reação para gastar uma carga e causar um estouro no alvo, causando 2d8 de dano de fogo adicional e, a sua escolha, 4 de dano de fogo nas criaturas em até 1q ou 2q do alvo (excluindo você). Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Flamejante": "## `= this.file.name`\n*Lênico (Fogo) - arma corpo-a-corpo que causa dano cortante*\nMódulo com célula térmica vermelha acoplada no cabo da arma. Pode ser ativado pra desenhar um corte flamejante no ar.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 2, mas área reduzida para um cone de 3q. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 3. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Cone de Fogo]], usando seu modificador de ataque corpo-a-corpo como ataque mágico, potência mágica 4 e área aumentada para um cone de 6q. Se sua ultima ação foi fazer um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, desde que dispare o cone na direção do alvo do ataque.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Hidratante": "## `= this.file.name`\n*Lênico (Água) - arma de distância*\nMódulo com reservatório azul de suspensão restauradora acoplado no cabo da arma. Quando ativado, dispara um tiro que remenda em vez de rasgar.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Caso tenha sucesso, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam). No sucesso decisivo, além do efeito do sucesso, o alvo recebe 4 [[Energia Heroica|EH]] temporária por 1 turno.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Caso tenha sucesso, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam). No sucesso decisivo, além do efeito do sucesso, o alvo recebe 6 [[Energia Heroica|EH]] temporária por 1 turno. Na falha, o aliado recupera [[Energia Heroica|EH]] igual a metade do valor.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode realizar um [[Atacar|Ataque]] a distância com [[Vantagem de Combate]] contra um aliado usando uma ação. Exceto na falha decisiva, o aliado não recebe dano e recupera [[Energia Heroica|EH]] igual ao seu dano com a arma (aumentos condicionais como [[Ataque Furtivo]] ou [[Marca do Caçador]] não contam), acrescido de um dado de dano da arma em caso de sucesso. No sucesso decisivo, além do efeito do sucesso, o alvo recebe 8 [[Energia Heroica|EH]] temporária por 1 turno.\n\nFora de combate, o tiro restaurador sempre tem sucesso.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Incendiária": "## `= this.file.name`\n*Lênico (Fogo) - arma corpo-a-corpo*\nMódulo com célula térmica vermelha na base da arma. Pode ser ativado pra envolver o ferro em chamas.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 2. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno adjacentes a você recebem 2 de dano de fogo.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 3. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno adjacentes a você recebem 3 de dano de fogo.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, fazendo ela receber os efeitos de [[Encantar Arma]] com potência mágica 4. O dano adicional é convertido para fogo e, enquanto esse efeito durar, criaturas que começarem seu turno em até 2q de você recebem 4 de dano de fogo.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Mineral": "## `= this.file.name`\n*Lênico (Terra) - arma corpo-a-corpo de duas-mãos ou com propriedade [[Duas-mãos]]*\nMódulo com núcleo âmbar de cerâmica balística acoplado no cabo da arma de duas mãos. Quando ativado, o próprio ferro te protege do impacto.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação para reduzir o dano recebido em 5.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação reduzir o dano recebido em 7. Após receber o dano, você recebe 4 de [[Energia Heroica|EH]] temporária por 1 minuto.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você recebe dano de corte, contusão ou perfuração, você pode usar uma reação para reduzir o dano recebido em 10. Após receber o dano, você recebe 6 de [[Energia Heroica|EH]] temporária por 1 minuto e tem +1 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] enquanto a [[Energia Heroica|EH]] temporária persistir.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Relampejante": "## `= this.file.name`\n*Lênico (Vento) - arma com propriedade [[Arremesso]]*\nMódulo com cabo-guia verde e recolhedor de impulso. Quando ativado, a arma volta pra mão — e te puxa junto até o alvo.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Aumente o alcance da propriedade [[Arremesso]] para 6. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo e seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]]. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Aumente o alcance da propriedade [[Arremesso]] para 10. Quando você arremessa essa arma, ela teleporta para sua mão após o ataque. Quando você tem sucesso em um ataque a distância usando essa arma, pode usar uma reação para teleportar-se para o espaço mais próximo de você adjacente ao alvo e seu próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno contra a criatura tem [[Vantagem de Combate]]. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Sísmica": "## `= this.file.name`\n*Lênico (Terra) - arma corpo-a-corpo que causa dano de contusão*\nMódulo com massa âmbar de percussão na cabeça da arma. Quando ativado, cada golpe dispara ondas de choque no chão.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Tremor]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 2, mas área alterada para os espaços adjacentes a você. Se sua ultima ação foi ter sucesso em um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, nesse caso a área inclui o alvo e os espaços adjacentes ao alvo do ataque (excluindo você).\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Tremor]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 3, mas área alterada para os espaços adjacentes a você. Se sua ultima ação foi ter sucesso em um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, nesse caso a área inclui o alvo e os espaços adjacentes ao alvo do ataque (excluindo você). Você pode optar por aumentar a área de efeito para 2q de si (para 2A) e 2q do alvo (para 1A).\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode ativar a arma com duas ações, replicando os efeitos de [[Tremor]], usando seu modificador de ataque corpo-a-corpo como ataque mágico e potência mágica 4, mas área alterada para os espaços adjacentes a você. Se sua ultima ação foi ter sucesso em um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode realizar a ativação com somente uma ação, nesse caso a área inclui o alvo e os espaços adjacentes ao alvo do ataque (excluindo você). Você pode optar por aumentar a área de efeito para 2q ou 3q de si (para 2A) e 2q ou 3q do alvo (para 1A).\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição Torrencial": "## `= this.file.name`\n*Lênico (Água) - arma corpo-a-corpo que causa dano cortante ou perfurante*\nMódulo com propulsor fluido azul acoplado no cabo da arma. Quando ativado, o golpe te leva através do alvo.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você tem sucesso em um [[Atacar|Ataque]] corpo-a-corpo com essa arma, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você faz um [[Atacar|Ataque]] corpo-a-corpo com essa arma, antes de realizar a rolagem, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, quando você faz um [[Atacar|Ataque]] corpo-a-corpo com essa arma, antes de realizar a rolagem, você pode teleportar para qualquer espaço adjacente ao alvo que não esteja ocupado. Caso ative essa arma, você pode declarar o ataque estando em até 4q de distância do alvo.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição da Ventania": "## `= this.file.name`\n*Lênico (Vento) - arma corpo-a-corpo que causa dano cortante*\nMódulo com compressor verde de ar acoplado no cabo da arma. Quando ativado, dispara uma onda de ar cortante à distância.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Usando uma ação, você pode realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 6q usando seu modificador e dano corpo-a-corpo. Esse ataque pode ser realizado uma vez a cada 10 minutos.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Usando uma ação, você pode realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 10q usando seu modificador e dano corpo-a-corpo. Esse ataque pode ser realizado uma vez a cada 10 minutos.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Como uma ação livre no seu turno, você pode ativar essa arma até o final do seu turno. Enquanto estiver ativada, você pode usar uma ação para realizar um [[Atacar|Ataque]] a distância com essa arma com alcance 10q usando seu modificador e dano corpo-a-corpo. Esse efeito pode ser ativado uma vez a cada 10 minutos.\n\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição de Aço Solar": "## `= this.file.name`\n*Trônico - arma corpo-a-corpo*\nArma de liga tratada por sobrecarga positrônica — entropia positiva gravada no metal. Causa dano adicional em criaturas distantes dos elementos.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. +2 de dano adicional contra criaturas do vazio.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. +3 de dano adicional contra criaturas do vazio.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. +4 de dano adicional contra criaturas do vazio.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```",
+          "Imbuição de Ferro Frio": "## `= this.file.name`\n*Trônico - arma corpo-a-corpo*\nArma de liga tratada por supressão negatrônica — entropia negativa gravada no metal. Causa dano adicional em criaturas muito conectadas aos elementos.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. +2 de dano adicional contra elementais ou criaturas com sintonia aparente.\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. +3 de dano adicional contra elementais ou criaturas com sintonia aparente.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. +4 de dano adicional contra elementais ou criaturas com sintonia aparente.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```"
+        }
+      },
+      "regras": {
+        "companheiro_animal": {
+          "tamanho": "Médio",
+          "sem_armas_naturais": true,
+          "arma": {
+            "grupos": [
+              "cac-simples"
+            ],
+            "maos": 1,
+            "forca_max": 2
+          }
+        }
+      },
+      "disponibilidade": {
+        "padrao": "disponivel",
+        "matriz": {
+          "Pequena Cidade": {
+            "rotulo": "Boca de Bairro",
+            "Adepto": "33%",
+            "Experiente": "—",
+            "Mestre": "—"
+          },
+          "Grande Cidade": {
+            "rotulo": "Rua de Comércio",
+            "Adepto": "50%",
+            "Experiente": "10%",
+            "Mestre": "—"
+          },
+          "Capital": {
+            "rotulo": "Centro",
+            "Adepto": "100%",
+            "Experiente": "25%",
+            "Mestre": "2%"
+          },
+          "Iluminada": {
+            "rotulo": "Mercadão",
+            "Adepto": "150%",
+            "Experiente": "50%",
+            "Mestre": "5%"
+          }
+        },
+        "indisponiveis": [
+          "Garras do Rei-Mago"
+        ],
+        "restritos": {
+          "Poção de Cura": "Farmácias Panvel — venda comum de Cicatrilênicos; tarja conforme Tipos de Substâncias e Legalidade",
+          "Poção da Velocidade": "Farmácias Panvel — Taurilênicos de balcão em várias marcas parceiras: Mate Touro (Charrua, o mais vendido), guaraná com taurilênicos (Fruki) e cerveja com taurilênicos (Polar, só com liberação); uso massivo entre trabalhadores da PIRA",
+          "Poção da Coragem": "Panvel sob controle — Adrenalênicos com liberação; laboratórios clandestinos do Quarto Distrito vendem sem receita por preço maior",
+          "Poção da Nutrição": "Farmácias Panvel e mercados Zaffari — Vitalênicos de prateleira",
+          "Montante": "porte EXPRESSAMENTE PROIBIDO (arma de maluco) — circula desmontada por serralherias e ferros-velhos",
+          "Escudo": "fabricação Tramontina sob contrato público, porte restrito à Brigada Militar; mercado cinza via Consórcio das Bandeiras",
+          "Espada Longa": "contrabando asiático — Clube dos Sete Portos",
+          "Adaga de Duelo": "contrabando asiático — Clube dos Sete Portos",
+          "Besta": "pressão com registro de clube (Gradiente esportiva); sem registro no Quarto Distrito",
+          "Foco da Consistência": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Foco da Intensificação": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Foco da Penetração": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Foco da Repetição": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Amplificador Audiovisual": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Sensor Arcano": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Luva do Arcanista": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Broche Artístico": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Pulseira da Potência": "revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo",
+          "Bracelete Elemental": "bancada lênica — encomenda a Químicos (Jardim Itu)",
+          "Diapasão Elemental": "bancada lênica — encomenda a Químicos (Jardim Itu)",
+          "Anel Canário": "linha de áudio Gradiente — revenda oficial (Moinhos de Vento) ou segunda mão no Camelódromo",
+          "Anel Mensageiro": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Anel da Resistência": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Anel do Equilíbrio": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Botas Fluídicas": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Braceletes de Pedra": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Brasão Tático": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Capa Discreta": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Cinto dos Ermos": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Colar da Eloquência": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Diadema da Ameaça": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Luvas do Ladrão": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Luvas Purificadas": "importados e segunda mão — Camelódromo e brechós do Bom Fim",
+          "Imbuição Ciclonal": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Congelante": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição da Ventania": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição de Aço Solar": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição de Ferro Frio": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Enraizante": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Explosiva": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Flamejante": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Hidratante": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Incendiária": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Mineral": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Relampejante": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Sísmica": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Imbuição Torrencial": "Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem)",
+          "Arma Obra-prima": "linha Premium Tramontina — lojas próprias (Petrópolis), com nota",
+          "Armadura Obra-prima": "linha Premium Tramontina — lojas próprias (Petrópolis), com nota",
+          "Escudo Obra-prima": "linha Premium Tramontina — lojas próprias (Petrópolis), com nota",
+          "Broquel Obra-prima": "linha Premium Tramontina — lojas próprias (Petrópolis), com nota",
+          "Ferramenta Obra-prima": "linha Premium Tramontina — lojas próprias (Petrópolis), com nota",
+          "Armadura Pesada": "linha Tramontina com registro (Petrópolis)"
+        }
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tipos de Substâncias e Legalidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Charrua",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fruki",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Polar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Base",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Condição",
+      "kind": "wikilink",
+      "alias": "bônus de condição"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink",
+      "alias": "Desarmada"
+    },
+    {
+      "target": "Arte Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encantar Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink",
+      "alias": "Ressonantes"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink",
+      "alias": "Malandros"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink",
+      "alias": "Soldados"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink",
+      "alias": "Executivos"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink",
+      "alias": "Soldado"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink",
+      "alias": "Articulador"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink",
+      "alias": "Pirata"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink",
+      "alias": "Hackers"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "Químicos"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink",
+      "alias": "Artistas Marciais"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Interagir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visão no Escuro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enganação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vento Mensageiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Destrancar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuir Direção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sobrevivência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acrobacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "Ataques de Oportunidade"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coordenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Magias Arcanas"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ofuscação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manto Translúcido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Invisibilidade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Compreender Idiomas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intimidação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Voar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chave Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Visor Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descansa"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Detectar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink",
+      "alias": "Presa"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cone de Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque Furtivo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duas-mãos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arremesso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tremor",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Contexto POA 1987"
+    },
+    {
+      "level": 2,
+      "text": "1. Mundo"
+    },
+    {
+      "level": 3,
+      "text": "1.1 Fundamentos"
+    },
+    {
+      "level": 3,
+      "text": "1.2 Disciplinas"
+    },
+    {
+      "level": 3,
+      "text": "1.3 Tipagem Sanguínea (ex-Sintonia)"
+    },
+    {
+      "level": 3,
+      "text": "1.4 A Caixinha e as Marcas de Respeito"
+    },
+    {
+      "level": 2,
+      "text": "2. Classes"
+    },
+    {
+      "level": 3,
+      "text": "2.1 Arsenal típico"
+    },
+    {
+      "level": 3,
+      "text": "2.2 Identidades"
+    },
+    {
+      "level": 2,
+      "text": "3. Empregado (ex-Companheiro Animal)"
+    },
+    {
+      "level": 2,
+      "text": "4. Magias — tratamentos especiais"
+    },
+    {
+      "level": 2,
+      "text": "5. Consumíveis, marcas e vocabulário"
+    },
+    {
+      "level": 2,
+      "text": "6. Comércio e acesso a itens"
+    },
+    {
+      "level": 2,
+      "text": "7. Dados de máquina"
+    },
+    {
+      "level": 4,
+      "text": "Identidade"
+    },
+    {
+      "level": 4,
+      "text": "Perícias (display do mundo)"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Item"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Sintonia"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Classe"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Habilidade"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Técnica"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Regra"
+    },
+    {
+      "level": 4,
+      "text": "Renames — Magia"
+    },
+    {
+      "level": 4,
+      "text": "Termos (vocabulário em textos — chave mais longa primeiro, case-sensitive)"
+    },
+    {
+      "level": 4,
+      "text": "Exceções"
+    },
+    {
+      "level": 4,
+      "text": "Descrições do mundo (corpo de display substituído; Sistema/ intocado)"
+    },
+    {
+      "level": 4,
+      "text": "Regras do mundo — Companheiro Animal"
+    },
+    {
+      "level": 4,
+      "text": "Disponibilidade"
+    },
+    {
+      "level": 4,
+      "text": "Itens indisponíveis neste mundo"
+    },
+    {
+      "level": 4,
+      "text": "Itens restritos (onde/como se obtém)"
+    },
+    {
+      "level": 2,
+      "text": "8. Pendências"
+    }
+  ],
+  "body": "# Contexto POA 1987\n\n> [!info] Contexto-Def do mundo POA 1987\n> O frontmatter `Contexto:` é a única fonte de máquina desta nota. O extract\n> do pleitost-app (`npm run extract:cyberpunk`) valida cada entrada contra os\n> basenames reais da vault, compila `contexto.json` e **falha** se a seção\n> [Dados de máquina](#7-dados-de-máquina) estiver dessincronizada do\n> frontmatter (regenerá-la: `npm run contexto:doc:cyberpunk`).\n> **Princípio:** `Sistema/` é byte-idêntico à vault fantasia; o reskin é\n> apresentação pura — regras, wikilinks e lookups operam para sempre nos\n> nomes canônicos. O Obsidian exibe os nomes de fantasia; o jogo acontece no\n> app, que exibe os do mundo.\n\n## 1. Mundo\n\n### 1.1 Fundamentos\n\n| Conceito | Na fantasia | No POA 1987 |\n|---|---|---|\n| Moeda | PO (Peças de Ouro) | Cz$ (Cruzado) — números intactos, só rótulo |\n| Magia | magia / conjurar / conjurador | tecnologia / executar / operador |\n| Energia | Energia Mágica (EM) | Energia Metabólica (sigla EM preservada) |\n| Ataque | Ataque Mágico | Ataque Técnico |\n| EV / EH | mantêm | mantêm |\n\n**O Decreto das Armas Frias.** Junto do AI-5, o regime baniu a pólvora\ncivil — arma de fogo é exclusividade do Exército e da Brigada, e o porte\nilegal é crime contra a segurança nacional. A rua se armou com o que a\nindústria gaúcha produz: lâmina Tramontina, ferramenta de obra, pressão de\nar e dardo selênico. Por isso todo mundo luta de facão — e ninguém acha\nestranho.\n\n### 1.2 Disciplinas\n\n| Disciplina | Origem (fantasia) | Natureza | Escolas / linhas |\n|---|---|---|---|\n| **Trônica** | Magia Arcana | selênicos eletrônicos (chips, implantes) | Positrônica (estímulo) · Negatrônica (supressão) · Utilitrônica (protocolos) · Trônicos Especiais |\n| **Lênica** | Magia Anima | selênicos químicos (reagentes, doses) | linhas de reagente por elemento (abaixo) |\n\n**Elementos e Essências não renomeiam** — Fogo/Água/Terra/Vento são palavras\nfísicas normais; o que muda é a teoria: cada elemento é uma **linha de\nreagente** da Lênica.\n\n| Elemento | Linha de reagente |\n|---|---|\n| Fogo | termoquímica |\n| Água | fluidos e criogenia |\n| Terra | materiais e polímeros |\n| Vento | gases e aerossóis + eletroquímica (raios = descarga de capacitor) |\n\nEm nomes compostos de técnica, \"Magia X\" → \"Rotina X\".\n\n### 1.3 Tipagem Sanguínea (ex-Sintonia)\n\nA selênica é biofarmacêutica: a cristalização depende dos antígenos ABO. A\npseudociência da época — personalidade por tipo sanguíneo (Masahiko Nomi,\nanos 70) — virou doutrina de RH das megacorps. O laudo de **Reatividade\nSelênica** é exame barato, obrigatório na PIRA, vendido em qualquer Panvel.\nO, A, B e AB são normais na população; quem REAGE à selênica é o **Fator\npositivo** — os operadores de Lênica, os Artistas Marciais, os \"sensitivos\".\n\n| Fator | Linha | Perfil (Nomi) | Reação |\n|---|---|---|---|\n| O+ (Fogo) | Termoquímica | expansivo, competitivo | sem antígenos — queima livre, exotérmica |\n| A+ (Terra) | Materiais | metódico, contido | ancora — polimeriza estável |\n| B+ (Vento) | Gases | criativo, imprevisível | liga instável — volatiliza, descarrega |\n| AB+ (Água) | Fluidos | adaptável, \"duas caras\" | anfótero — dissolve, absorve |\n\n**Horóscopo (\"signo prevê, sangue confirma\").** Os 12 signos dividem-se nos\nmesmos 4 elementos (Fogo→O, Terra→A, Ar→B, Água→AB). Mecânica: nenhuma —\nsigno é bio; o RH usa mapa astral na pré-triagem grátis e o exame pago\nconfirma. Quando discordam nasce o **Contrariado** — a rua diz que dá azar,\na megacorp marca o RG. \"Corpo em Sintonia\" mantém o nome (sintonia de\nrádio).\n\n| Conceito derivado | No POA 1987 |\n|---|---|\n| criatura com sintonia aparente | criatura de Fator positivo (o Módulo Inibidor é anti-Fator+) |\n| criatura do vazio | simbionte, positrônico ou negatrônico (o Módulo Ultravioleta é anti-simbionte) |\n\n### 1.4 A Caixinha e as Marcas de Respeito\n\nO \"aventureiro\" do POA 1987 é o **Contratado** — freelancer agenciado pela\n**[[A Caixinha]]**, a instituição informal que ninguém sabe quem inventou\n(e é por isso que funciona). Qualquer um com Cruzados \"faz uma caixinha\":\ndeposita o pagamento com um **despachante** — no balcão dos fundos do\n[[Mercado Público]], num recado do [[Sindicato dos Catadores]] ou nos\nclassificados cifrados da rádio pirata — e descreve o serviço. O\ndespachante garante as duas pontas: o contratante não aparece (megacorp\ndeposita por laranja; a rua só vê \"caixinha graúda\") e o contratado só\nrecebe com serviço fechado. **Marcas de Respeito** são o livro-caixa\nsocial: cada trabalho fechado carimba a Marca de quem fez, e caixinhas\npesadas só abrem pra quem tem Marca suficiente. O regime tolera porque\ntambém usa.\n\n## 2. Classes\n\nOs renames de nota estão nos [Dados de máquina](#7-dados-de-máquina);\nesta tabela é o mapa conceitual (nomes sem seta mantêm o canônico).\n\n| Fantasia | POA 1987 | nv4 | nv7 | Subclasses |\n|---|---|---|---|---|\n| Animista | Químico | Elementalista → Sabotador | Avatar → Catalisador | — |\n| Arcanista | Tecnologista | Arcanologista → Engenheiro | Grão-Arcanista → Arquiteto | Bruxo → Invasor · Espiritualista → Programador |\n| Bardo | Ressonante | Trovador → Astro | Menestrel → Ídolo | Arte Mágica → Arte Técnica · Luta Artística |\n| Caçador | Executivo | Desbravador → Gerente | Sentinela → Diretor | Domador → Gestor · Rastreador → Auditor |\n| Comandante | Articulador | Senhor-da-Guerra → Capitão | Marechal | Combatente · Estrategista |\n| Druida | Nóia | Hierofante → Guru | Arquidruida → Profeta | Guardião · Xamã |\n| Guerreiro | Soldado | Veterano | Campeão | grupos de arma (passe de armas) |\n| Ladino | Malandro | Agente | (título vem da subclasse) | Sombra · Especialista · Vigilante |\n| Mago | Pirata | Entropista → Falsificador | Teurgo → Barão | — |\n| Monge | Artista Marcial | Asceta | Transcendente | Fatores (§1.3) |\n\n### 2.1 Arsenal típico\n\n| Classe | Armas típicas | Proteção | Onde arma |\n|---|---|---|---|\n| Soldado | Facão, Machado de Bombeiro | Colete de Placas, Escudo de Choque | Tramontina (registro) / caserna |\n| Malandro | Navalha, Faca Borboleta, Estilingue | Jaqueta Reforçada | Camelódromo, sem nota fiscal |\n| Executivo | Pistola de Dardos, Faca Militar, Florete | Jaqueta Reforçada | catálogo corporativo (+ Zangão) |\n| Artista Marcial | Garra de Tigre, Rabo de Arraia, Pontos de Pressão, Cano Longo | — | academia: não se compra, se aprende |\n| Articulador | Cassetete, Carabina de Pressão | Escudo de Braço, Jaqueta | sindicato / pelotão |\n| Ressonante | Navalha, Estilingue | Jaqueta Reforçada | brechó do Bom Fim |\n| Pirata | Katana, Arpoadora | Jaqueta ou Colete | Clube dos Sete Portos (contrabando) |\n| Tecnologista | Pistola de Dardos, Navalha | — | revenda Gradiente |\n| Nóia | Arpão, Cano Longo | colete de brechó | palafitas / doação do Círculo |\n| Químico | Vergalhão, Navalha | — | ferro-velho + bancada própria |\n\n### 2.2 Identidades\n\n**Químico (Animista).** O químico de bancada do submundo: reagentes lênicos\nem laboratórios improvisados no Jardim Itu e no Quarto Distrito; vive de\nencomenda. PRE de quem negocia com fornecedor e comanda reação sob pressão.\n*Guia:* Proteção Reativa = reagente que endurece sob impacto; Arma Sintética\n= preparo de bancada; Gravar Cartucho = rotina química que qualquer um\ndispara; Mascote Sintético = bichinho de reagente vivo conforme o Fator.\n\n**Tecnologista (Arcanista).** Operador de Trônica com adaptador de primeira\nlinha, formado numa Escola Trônica (credenciada Gradiente ou clandestina).\nRoda rotinas pelo implante: estímulo (Positrônica), supressão (Negatrônica).\nCarreira compõe com a escola (\"Engenheiro Invasor\", \"Arquiteto Programador\").\n*Guia:* Telemetria Aliada = HUD marca biometria dos aliados através de\nparede; Emulação Lênica = o chip sintetiza a reação química da Tipagem;\nrotinas usam vocabulário de execução (rodar, compilar, injetar).\n\n**Ressonante (Bardo).** Artista da cena de POA — palco do Ocidente, rádio\npirata, som de porta-malas. A performance carrega rotinas moduladas no som:\nInspirador = Positrônica, Manipulador = Negatrônica. Sob toque de recolher,\ntodo show é ato político.\n*Guia:* Performance Ressonante = o som carrega a rotina, Atos são os drops;\nPatrocinar = o Ressonante banca a conta (transfere a própria carga\nmetabólica pro equipamento do aliado); Sentido Artístico = lê a sala.\n\n**Executivo (Caçador).** O homem da corporação: crachá, metas e um\nEmpregado na folha. Não caça na mata — **designa metas** (concorrentes,\ninadimplentes, contratos) e executa com recursos da empresa. Gestor =\ngerencia um Empregado; Auditor = fecha as metas pessoalmente.\n*Guia:* Designar Meta = colocar o alvo na planilha; Dar Ordens = comando por\nvoz/link; Lado a Lado = você e seu Empregado flanqueiam.\n\n**Articulador (Comandante).** O quadro que organiza gente — célula,\nsindicato, quadrilha ou pelotão; o lado varia, o ofício não. Dados de\ncomando = leitura tática virando vantagem dos companheiros.\n\n**Nóia (Druida).** Usa fundo DE PROPÓSITO: o corpo é o laboratório e ele\nsurfa o surto — onde a rua vê alucinação, ele contata a mente coletiva do\nsimbionte (verdade de mestre; os \"espíritos\" do Xamã são reais). A cultura\né a das doutrinas de culto com sacramento dos anos 80: a **Doutrina\nSimbiótica**, com **Círculos** — células litúrgicas que guardam um par de\nlinhas de reagente (Lua = Fluidos+Gases · Estrelas = Termoquímica+Gases ·\nOceano = Fluidos+Materiais · Sol = Termoquímica+Materiais).\n*Guia:* Forma Mutante = mutação de dose profunda (cada Forma é uma receita);\nEspírito Mutante = o simbionte manifestado fora do corpo; Guardião = \"o\ncorpo é o templo\", Xamã = \"a voz do simbionte\".\n\n**Soldado (Guerreiro).** Linha de frente profissional: colete Tramontina,\narma na mão, sangue frio — caserna, segurança privada ou boca. A prova de\nque ferro e treino ainda resolvem.\n\n**Malandro (Ladino).** A ginga de POA — navalha, lábia e mãos rápidas; vive\ndos vãos do sistema (bicho, contrabando, golpe). O Artista Sombrio flerta\ncom Negatrônica de rua.\n*Guia:* Passo das Sombras = some no breu entre postes (apagão da CEEE).\n\n**Pirata (Mago).** O guerreiro-tecnologista prático: pirateia tecnologia pra\npotencializar combate físico e à distância — a Arma Trônica é o ritual que\nsolda o link corpo-arma. Carreira do contrabando: Falsificador → Barão.\n*Guia:* Bainha Magnética = coldre eletroímã; Rotina Gravada em Arma =\ncartucho no soquete; Carga Residual = sobra de execução na lâmina.\n\n**Artista Marcial (Monge).** O corpo como técnica — academias de kung-fu e\ncapoeira dos anos 80; treino que alinha o metabolismo à própria Tipagem até\ndispensar injetor: usa a selênica do próprio sangue.\n\n## 3. Empregado (ex-Companheiro Animal)\n\nMecânica intocada. Chaves que NUNCA mudam: `meta.family =\n\"CompanheiroAnimal\"`, FM `subcategoria`, campo FM `Tutor`, basenames das\nnotas de tipo. O Empregado não tem nível próprio — espelha o Empregador via\n`Tutor`; o Plano de Carreira (Gestor) o sobe de tier.\n\n| Tipo (fantasia) | POA 1987 | Perfil mecânico |\n|---|---|---|\n| Companheiro Animal (nota-mãe) | Empregado | — |\n| … Canino | Segurança | FOR 3/AGI 2, Sobrevivência, Faca Militar — o guarda-costas leal |\n| … Felino | Espião | AGI 3/INT 2, Furtividade — infiltração discreta |\n| … Ave | Zangão | AGI 3, voo 10 — drone pilotado remotamente pelo Executivo via módulo de link neural |\n| … Ursino | Capanga | FOR 3/PRE 2, +EV, Intimidação — o tanque de porta |\n\nDisplay: Tutor → Empregador; Comandar Animal → Dar Ordens. Retratos seguem\nchaveados pelos nomes canônicos (versões cyberpunk entram no dataset do\nmundo depois; o fallback cobre).\n\n## 4. Magias — tratamentos especiais\n\nRenames no mapa de máquina; reinterpretações (nenhuma magia removida):\n\n| Magia (display POA) | Reinterpretação |\n|---|---|\n| Induzir Arma | campo induzido na lâmina/cano de arma comum |\n| Reanimar *(mantém)* | desfibrilação selênica; o -2 é sequela neuroquímica do choque |\n| Comando Remoto | hack de implante motor; sem implante, indução eletromagnética nos nervos |\n| Servo Sintético · Amálgama de Construtos | simbiontes semi-autônomos cultivados em cristal negatrônico |\n| Contenção Estática | estase negatrônica; as \"duas trancas\" = dois circuitos rompidos separadamente |\n| Chave Mestra | micro-sonda que destrava fechaduras eletrônicas e mecânicas |\n| Imagem do Medo · Sifão Vital · Manifestação Básica *(mantêm)* | projeção no córtex via implante · transferência de bioenergia · moldar reagente vivo |\n| Espuma Expansiva · Ancorar | polímero adesivo; a segunda dose cola no chão |\n| Forma Sintética · Invocar Construto Menor | saturar o corpo com o reagente · construto da linha |\n\nAs demais (~85) usam só a cascata de termos + descrição livre no tom da\ndisciplina.\n\n## 5. Consumíveis, marcas e vocabulário\n\nEsquema canônico dos consumíveis: **[base real] + Selênica → \"-lênico\"**.\nTarjas e legalidade em [[Tipos de Substâncias e Legalidade]].\n\n| Item (fantasia) | POA 1987 | Base real |\n|---|---|---|\n| Poção de Cura | Cicatrilênico | cicatrizante (cura EV) |\n| Poção da Velocidade | Taurilênico | taurina — o composto dos energéticos |\n| Poção da Coragem | Adrenalênico | adrenalina — o rush que suprime medo |\n| Poção da Nutrição | Vitalênico | vitamínico |\n\n| Marca | Portfólio |\n|---|---|\n| Panvel | injetores, drogas, laudos da PIRA |\n| Gradiente | chips, rotinas, focos, sensores |\n| Tramontina | próteses, armas brancas, coletes |\n| Zaffari | logística, alimentos, equipamento de campo |\n| Charrua | erva-mate selênica; Mate Touro — o taurilênico líder (parceria Panvel) |\n| Fruki | refrigerantes; guaraná com taurilênicos (parceria Panvel) |\n| Polar | cerveja; versão com taurilênicos sob liberação (parceria Panvel) |\n| Quarto Distrito (sem marca) | módulos piratas, jailbreak |\n\n**Taurilênicos de marca (canônico).** O Taurilênico não é um produto único:\né uma categoria de energéticos selênicos vendidos por marcas parceiras da\n[[Panvel]]. O líder absoluto é o **Mate Touro** da [[Charrua]] (erva-mate\ncom taurina selênica, lata de tarja amarela); a [[Fruki]] vende a versão\ncom guaraná pro público jovem, e a [[Polar]] a versão com cerveja — tarja\nvermelha, só com liberação. Mecânica idêntica em todas; muda o rótulo, o\ngosto e a fila do balcão.\n\n**Lâminas tecnológicas (canônico).** A Motosserra é a motor, de verdade —\ne por isso o porte é expressamente proibido. Nas oficinas premium existem\nvariantes de gume tecnológico: **indução embutida** (campo trônico\npermanente no fio, especialidade de Falsificador) e **fio térmico**\n(termoquímica da linha Fogo) — descrições pra itens Premium e módulos, sem\nmecânica nova.\n\nVocabulário de equipamento: gemas → cristal selênico da linha; elemental\n(criatura) → Construto de [Elemento]; buff temporário de arma = Indução;\nfabricação com cristal = Módulo (verbo acoplar/modular). Simetria: o\nMódulo Ultravioleta (ex-Aço Solar) esteriliza simbiontes e construtos com\nluz UV; o Módulo Inibidor (ex-Ferro Frio) bloqueia a reação selênica dos\nFator+.\n\n## 6. Comércio e acesso a itens\n\nA régua é a canônica do sistema, aplicada por BAIRRO via FM `Comércio:` da\nnota de Localização (fonte de máquina — o app lê `localTypeOfDoc`); o FM\n`Recursos:` lista os itens **típicos** do lugar (na loja: típico = fácil de\nachar; o resto é incomum).\n\n| Nível | Significado no POA 1987 | Acesso |\n|---|---|---|\n| Iluminada | o ponto onde se acha de tudo (Mercado Público) | melhor tabela de rolagem |\n| Capital | bairro rico/central com comércio forte | tabela alta |\n| Grande Cidade | bairro médio, comércio estabelecido | tabela média |\n| Pequena Cidade | periferia — comércio de sobrevivência | tabela baixa |\n| *(sem `Comércio`)* | sem loja — escambo narrativo (Zona Deserta) | aba desabilitada |\n\nCritérios: (1) riqueza descrita na nota do bairro; (2) sede/polo de marca\npuxa o nível e define os Recursos típicos; (3) **mercado ilegal de facção\nnão sobe o nível** — varejo da Camisa 12 é narrativa, não loja; (4) POI\npode ter nível próprio (Mercado Público dentro do Centro).\n\nRetrato das atribuições (fonte = FM das notas): Iluminada — Mercado\nPúblico · Capital — Moinhos de Vento, Petrópolis, Centro Histórico ·\nGrande — Bom Fim, Praia de Belas, Passo D'Areia, Quarto Distrito, Jardim\nBotânico, Ipanema · Pequena — Restinga, Costa e Silva, Jardim Itu, Nova\nSarandi, Zona Leste · sem comércio — Zona Deserta.\n\n## 7. Dados de máquina\n\nTabelas geradas do frontmatter — **não editar à mão** (regenerar:\n`npm run contexto:doc:cyberpunk`; o extract falha se divergirem).\n\n<!-- auto:contexto -->\n#### Identidade\n\n| Campo | Valor |\n|---|---|\n| id | `poa-1987` |\n| nome | Porto Alegre 1987 |\n| moeda | Cz$ (Cruzado) |\n| atlas | raiz `Atlas` · mapa `Mapa de Porto Alegre RPG.png` |\n\n#### Perícias (display do mundo)\n\n| Fantasia | POA 1987 |\n|---|---|\n| Arcana | Trônicos |\n| Anima | Lênicos |\n\n#### Renames — Item\n\n| Fantasia | POA 1987 |\n|---|---|\n| Adaga | Navalha |\n| Adaga de Duelo | Faca Borboleta |\n| Alabarda | Croque de Estivador |\n| Alfange | Cutelo |\n| Anel Canário | Sensor Canário |\n| Anel da Resistência | Implante Subdérmico |\n| Anel do Equilíbrio | Estabilizador Vestibular |\n| Anel Mensageiro | Comunicador de Pulso |\n| Arco Curto | Arco Recurvo |\n| Arco de Guerra | Arco de Polias |\n| Arco Longo | Arco de Competição |\n| Armadura Leve | Jaqueta Reforçada |\n| Armadura Pesada | Colete de Placas |\n| Azagaia | Vergalhão |\n| Besta | Rifle de Dardos |\n| Besta de Mão | Pistola de Dardos |\n| Besta Leve | Carabina de Pressão |\n| Besta Pesada | Arpoadora |\n| Bordão | Cano Longo |\n| Botas Fluídicas | Botas Hidráulicas |\n| Bracelete Elemental | Bracelete de Reagentes |\n| Braceletes de Pedra | Braceletes de Polímero |\n| Brasão Tático | HUD Tático |\n| Broche Artístico | Amplificador de Palco |\n| Broquel | Escudo de Braço |\n| Cauda de Dragão | Rabo de Arraia |\n| Cinto dos Ermos | Cinto de Campo |\n| Colar da Eloquência | Modulador de Voz |\n| Diadema da Ameaça | Projetor de Presença |\n| Diapasão Elemental | Diapasão Lênico |\n| Escudo | Escudo de Choque |\n| Espada Bastarda | Katana |\n| Espada Curta | Faca Militar |\n| Espada Curva | Facão |\n| Espada Longa | Facão de Cana |\n| Funda | Estilingue |\n| Imbuição Ciclonal | Módulo Ciclonal |\n| Imbuição Congelante | Módulo Congelante |\n| Imbuição da Ventania | Módulo de Ventania |\n| Imbuição de Aço Solar | Módulo Ultravioleta |\n| Imbuição de Ferro Frio | Módulo Inibidor |\n| Imbuição Enraizante | Módulo Enraizante |\n| Imbuição Explosiva | Módulo Explosivo |\n| Imbuição Flamejante | Módulo Flamejante |\n| Imbuição Hidratante | Módulo Hidratante |\n| Imbuição Incendiária | Módulo Incendiário |\n| Imbuição Mineral | Módulo Mineral |\n| Imbuição Relampejante | Módulo Relampejante |\n| Imbuição Sísmica | Módulo Sísmico |\n| Imbuição Torrencial | Módulo Torrencial |\n| Lança | Arpão |\n| Luvas do Ladrão | Luvas do Punguista |\n| Luvas Purificadas | Luvas Assépticas |\n| Maça | Chave de Grifo |\n| Maça Estrela | Corrente com Cadeado |\n| Machado de Batalha | Machado de Bombeiro |\n| Malho | Marreta de Demolição |\n| Manopla | Soco Inglês |\n| Martelo de Guerra | Martelo de Estaleiro |\n| Montante | Motosserra |\n| Picareta de Guerra | Picareta |\n| Pique | Lança de Andaime |\n| Poção da Coragem | Adrenalênico |\n| Poção da Nutrição | Vitalênico |\n| Poção da Velocidade | Taurilênico |\n| Poção de Cura | Cicatrilênico |\n| Porrete | Cassetete |\n| Pulseira da Potência | Servo-atuador de Pulso |\n| Rapieira | Florete |\n| Tacape | Pedaço de Trilho |\n\n#### Renames — Sintonia\n\n| Fantasia | POA 1987 |\n|---|---|\n| Traço Elemental da Água | Fator AB+ |\n| Traço Elemental da Terra | Fator A+ |\n| Traço Elemental do Fogo | Fator O+ |\n| Traço Elemental do Vento | Fator B+ |\n\n#### Renames — Classe\n\n| Fantasia | POA 1987 |\n|---|---|\n| Animista | Químico |\n| Arcanista | Tecnologista |\n| Bardo | Ressonante |\n| Caçador | Executivo |\n| Comandante | Articulador |\n| Druida | Nóia |\n| Guerreiro | Soldado |\n| Ladino | Malandro |\n| Mago | Pirata |\n| Monge | Artista Marcial |\n\n#### Renames — Habilidade\n\n| Fantasia | POA 1987 |\n|---|---|\n| Arcanologista | Engenheiro |\n| Arquidruida | Profeta |\n| Aspecto Feral | Aspecto Mutante |\n| Avatar | Catalisador |\n| Círculo Druídico | Círculo da Doutrina |\n| Companheiro Animal | Empregado |\n| Companheiro Animal Ave | Zangão |\n| Companheiro Animal Canino | Segurança |\n| Companheiro Animal Felino | Espião |\n| Companheiro Animal Ursino | Capanga |\n| Desbravador | Gerente |\n| Elementalista | Sabotador |\n| Entropista | Falsificador |\n| Especialização em Arma (Bestas) | Especialização em Arma (Pressão) |\n| Especialização Menor em Arma (Bestas) | Especialização Menor em Arma (Pressão) |\n| Espírito Feral Menor | Espírito Mutante Menor |\n| Estilo de Ladino | Estilo de Malandro |\n| Estratégia de Caça | Plano de Carreira |\n| Explorador Nato | Homem de Campo |\n| Faro | Farejador Químico |\n| Forma Feral | Forma Mutante |\n| Forma Feral Menor | Forma Mutante Menor |\n| Grão-Arcanista | Arquiteto |\n| Hierofante | Guru |\n| Menestrel | Ídolo |\n| Performance Bárdica | Performance Ressonante |\n| Proteção Elemental | Proteção Reativa |\n| Senhor-da-Guerra | Capitão |\n| Sentinela | Diretor |\n| Teurgo | Barão |\n| Tradição Druídica | Doutrina Simbiótica |\n| Tradição Duradoura | Doutrina Firmada |\n| Tradição Eterna | Doutrina Eterna |\n| Trovador | Astro |\n\n#### Renames — Técnica\n\n| Fantasia | POA 1987 |\n|---|---|\n| Acompanhar Marca | Acompanhar Meta |\n| Adrenalina da Caça | Bônus por Desempenho |\n| Arma Natural | Arma Sintética |\n| Bainha Mágica | Bainha Magnética |\n| Caçada Oportuna | Cobrança Oportuna |\n| Conhecimento de Monstros | Conhecimento de Mutantes |\n| Conjuração Mista | Execução Mista |\n| Conjuração Móvel | Execução Móvel |\n| Conservar Invocação | Conservar Construto |\n| Criar Runa | Gravar Cartucho |\n| Emboscada | Reunião Surpresa |\n| Encantamento Residual | Carga Residual |\n| Especialista em Caçada | Especialista em Aquisições |\n| Familiar Anima | Mascote Sintético |\n| Herbalismo Prático | Farmácia de Campo |\n| Investida Feral | Investida Mutante |\n| Jeitinho de Bardo | Jeitinho Brasileiro |\n| Jornada Intransponível | Trânsito Livre |\n| Magia Escrita em Arma | Rotina Gravada em Arma |\n| Magia Feral | Rotina Mutante |\n| Magia para o Espírito | Telemetria Aliada |\n| Manifestação Pseudo-Natural | Emulação Lênica |\n| Marca Perfeita | Meta Perfeita |\n| Olho do Caçador | Olho Clínico |\n| Oportunidade Feral | Oportunidade Mutante |\n| Parceria Indomável | Vínculo Empregatício |\n| Realizar Magia | Patrocinar |\n| Sentir a Presa | Faro de Mercado |\n| Um Olho para cada Presa | Carteira de Clientes |\n\n#### Renames — Regra\n\n| Fantasia | POA 1987 |\n|---|---|\n| Comandar Animal | Dar Ordens |\n| Marca do Caçador | Designar Meta |\n\n#### Renames — Magia\n\n| Fantasia | POA 1987 |\n|---|---|\n| Amálgama das Sombras | Amálgama de Construtos |\n| Bússola Mágica | Localizador |\n| Chave Arcana | Chave Mestra |\n| Detectar Magia | Varredura Selênica |\n| Encantar Arma | Induzir Arma |\n| Enraizar | Ancorar |\n| Força Mental | Comando Remoto |\n| Forma Elemental | Forma Sintética |\n| Invocar Elemental Menor | Invocar Construto Menor |\n| Mão Mágica | Braço Remoto |\n| Míssil Mágico | Dardo Teleguiado |\n| Névoa Sombria | Cortina de Estática |\n| Onda Vampírica | Onda de Sifão |\n| Prisão Dimensional | Contenção Estática |\n| Projétil Telecinético | Projétil Eletromagnético |\n| Servo das Sombras | Servo Sintético |\n| Sussuro Sombrio | Sussurro de Estática |\n| Vinhas Emaranhantes | Espuma Expansiva |\n\n#### Termos (vocabulário em textos — chave mais longa primeiro, case-sensitive)\n\n| Fantasia | POA 1987 |\n|---|---|\n| Círculo do Sol | Círculo da Brasa |\n| Círculo da Lua | Círculo do Minuano |\n| Círculo das Estrelas | Círculo do Bafo |\n| Círculo do Oceano | Círculo da Lama |\n| Magia Arcana Branca | Positrônica |\n| Magia Arcana Negra | Negatrônica |\n| Magia Arcana Essencial | Utilitrônica |\n| Magia Arcana Especial | Trônicos Especiais |\n| Magia Arcana | Trônica |\n| Arcana Branca | Positrônica |\n| Arcana Negra | Negatrônica |\n| Arcana Essencial | Utilitrônica |\n| Arcana Especial | Trônicos Especiais |\n| Magia Anima | Lênica |\n| Aplicações da Luz | Aplicações Positrônicas |\n| Estudos do Vazio | Estudos Negatrônicos |\n| Energia Mágica | Energia Metabólica |\n| Potência Mágica | Potência Metabólica |\n| Ataque Mágico | Ataque Técnico |\n| Contra-mágica | Contra-medida |\n| Imbuição | Módulo |\n| imbuição | módulo |\n| Imbuições | Módulos |\n| imbuições | módulos |\n| Peças de Ouro | Cruzados |\n| PO | Cz$ |\n| Bruxo | Invasor |\n| Espiritualista | Programador |\n| Sintonia | Tipagem |\n| Domador | Gestor |\n| Naturalidade | Bairro de Cria |\n| Aventureiro | Contratado |\n| aventureiro | contratado |\n| Aventureiros | Contratados |\n| aventureiros | contratados |\n| alvo de caça | meta designada |\n| alvos de caça | metas designadas |\n| Alvo de Caça | Meta Designada |\n| Rastreador | Auditor |\n| Tutor | Empregador |\n| Canino | Segurança |\n| Felino | Espião |\n| Ursino | Capanga |\n| Ave | Zangão |\n| Companheiros Animais | Empregados |\n| companheiros animais | empregados |\n| companheiro animal | empregado |\n| Magia | Tecnologia |\n| magia | tecnologia |\n| Magias | Tecnologias |\n| magias | tecnologias |\n| Arcano | Trônico |\n| Arcana | Trônica |\n| Arcanos | Trônicos |\n| Arcanas | Trônicas |\n| arcano | trônico |\n| arcana | trônica |\n| arcanos | trônicos |\n| arcanas | trônicas |\n| Anima | Lênica |\n| anima | lênica |\n| Mágico | Técnico |\n| Mágica | Técnica |\n| Mágicos | Técnicos |\n| Mágicas | Técnicas |\n| mágico | tecnológico |\n| mágica | tecnológica |\n| mágicos | tecnológicos |\n| mágicas | tecnológicas |\n| Feral | Mutante |\n| Ferais | Mutantes |\n| feral | mutante |\n| ferais | mutantes |\n| Conjurar | Executar |\n| conjurar | executar |\n| Conjuração | Execução |\n| conjuração | execução |\n| Conjurações | Execuções |\n| conjurações | execuções |\n| Magia Branca | Positrônica |\n| Magia Negra | Negatrônica |\n| Conjurador | Operador |\n| conjurador | operador |\n| conjuradores | operadores |\n| Poção | Selênico |\n| poção | selênico |\n| Poções | Selênicos |\n| poções | selênicos |\n| Obra-prima | Premium |\n| obra-prima | premium |\n| Pergaminho | Cartucho |\n| pergaminho | cartucho |\n| pergaminhos | cartuchos |\n| Encantamento | Rotina |\n| encantamento | rotina |\n| encantar | induzir |\n| artesão | técnico |\n| Arcanistas | Tecnologistas |\n| Animistas | Químicos |\n| Bardos | Ressonantes |\n| Caçadores | Executivos |\n| Comandantes | Articuladores |\n| Druidas | Nóias |\n| Guerreiros | Soldados |\n| Ladinos | Malandros |\n| Magos | Piratas |\n| Monges | Artistas Marciais |\n\n#### Exceções\n\n| String | Regra |\n|---|---|\n| Garras do Rei-Mago | cascata NÃO se aplica |\n| Corpo em Sintonia | cascata NÃO se aplica |\n| Sintonia Profunda | cascata NÃO se aplica |\n| Sintonia Ascendida | cascata NÃO se aplica |\n| Essência | cascata NÃO se aplica |\n| Fogo | cascata NÃO se aplica |\n| Água | cascata NÃO se aplica |\n| Terra | cascata NÃO se aplica |\n| Vento | cascata NÃO se aplica |\n\n#### Descrições do mundo (corpo de display substituído; Sistema/ intocado)\n\n| Nota | Display |\n|---|---|\n| Adaga | corpo próprio do mundo |\n| Adaga de Duelo | corpo próprio do mundo |\n| Alabarda | corpo próprio do mundo |\n| Alfange | corpo próprio do mundo |\n| Amplificador Audiovisual | corpo próprio do mundo |\n| Anel Canário | corpo próprio do mundo |\n| Anel da Resistência | corpo próprio do mundo |\n| Anel do Equilíbrio | corpo próprio do mundo |\n| Anel Mensageiro | corpo próprio do mundo |\n| Arco Curto | corpo próprio do mundo |\n| Arco de Caça | corpo próprio do mundo |\n| Arco de Guerra | corpo próprio do mundo |\n| Arco Longo | corpo próprio do mundo |\n| Arma Obra-prima | corpo próprio do mundo |\n| Armadura Leve | corpo próprio do mundo |\n| Armadura Obra-prima | corpo próprio do mundo |\n| Armadura Pesada | corpo próprio do mundo |\n| Azagaia | corpo próprio do mundo |\n| Besta | corpo próprio do mundo |\n| Besta de Mão | corpo próprio do mundo |\n| Besta Leve | corpo próprio do mundo |\n| Besta Pesada | corpo próprio do mundo |\n| Bordão | corpo próprio do mundo |\n| Botas Fluídicas | corpo próprio do mundo |\n| Bracelete Elemental | corpo próprio do mundo |\n| Braceletes de Pedra | corpo próprio do mundo |\n| Brasão Tático | corpo próprio do mundo |\n| Broche Artístico | corpo próprio do mundo |\n| Broquel | corpo próprio do mundo |\n| Broquel Obra-prima | corpo próprio do mundo |\n| Capa Discreta | corpo próprio do mundo |\n| Cauda de Dragão | corpo próprio do mundo |\n| Cinto dos Ermos | corpo próprio do mundo |\n| Colar da Eloquência | corpo próprio do mundo |\n| Diadema da Ameaça | corpo próprio do mundo |\n| Diapasão Elemental | corpo próprio do mundo |\n| Escudo | corpo próprio do mundo |\n| Escudo Obra-prima | corpo próprio do mundo |\n| Espada Bastarda | corpo próprio do mundo |\n| Espada Curta | corpo próprio do mundo |\n| Espada Curva | corpo próprio do mundo |\n| Espada Longa | corpo próprio do mundo |\n| Ferramenta Obra-prima | corpo próprio do mundo |\n| Funda | corpo próprio do mundo |\n| Garra de Tigre | corpo próprio do mundo |\n| Garras | corpo próprio do mundo |\n| Imbuição Ciclonal | corpo próprio do mundo |\n| Imbuição Congelante | corpo próprio do mundo |\n| Imbuição da Ventania | corpo próprio do mundo |\n| Imbuição de Aço Solar | corpo próprio do mundo |\n| Imbuição de Ferro Frio | corpo próprio do mundo |\n| Imbuição Enraizante | corpo próprio do mundo |\n| Imbuição Explosiva | corpo próprio do mundo |\n| Imbuição Flamejante | corpo próprio do mundo |\n| Imbuição Hidratante | corpo próprio do mundo |\n| Imbuição Incendiária | corpo próprio do mundo |\n| Imbuição Mineral | corpo próprio do mundo |\n| Imbuição Relampejante | corpo próprio do mundo |\n| Imbuição Sísmica | corpo próprio do mundo |\n| Imbuição Torrencial | corpo próprio do mundo |\n| Lança | corpo próprio do mundo |\n| Luva do Arcanista | corpo próprio do mundo |\n| Luvas do Ladrão | corpo próprio do mundo |\n| Luvas Purificadas | corpo próprio do mundo |\n| Maça | corpo próprio do mundo |\n| Maça Estrela | corpo próprio do mundo |\n| Machadão | corpo próprio do mundo |\n| Machadinha | corpo próprio do mundo |\n| Machado de Batalha | corpo próprio do mundo |\n| Malho | corpo próprio do mundo |\n| Mandíbula | corpo próprio do mundo |\n| Manopla | corpo próprio do mundo |\n| Martelo de Guerra | corpo próprio do mundo |\n| Montante | corpo próprio do mundo |\n| Picareta de Guerra | corpo próprio do mundo |\n| Pique | corpo próprio do mundo |\n| Poção da Coragem | corpo próprio do mundo |\n| Poção da Nutrição | corpo próprio do mundo |\n| Poção da Velocidade | corpo próprio do mundo |\n| Poção de Cura | corpo próprio do mundo |\n| Pontos de Pressão | corpo próprio do mundo |\n| Porrete | corpo próprio do mundo |\n| Presas | corpo próprio do mundo |\n| Pulseira da Potência | corpo próprio do mundo |\n| Punhal | corpo próprio do mundo |\n| Rapieira | corpo próprio do mundo |\n| Sem Armadura | corpo próprio do mundo |\n| Sensor Arcano | corpo próprio do mundo |\n| Tacape | corpo próprio do mundo |\n| Traço Elemental da Água | corpo próprio do mundo |\n| Traço Elemental da Terra | corpo próprio do mundo |\n| Traço Elemental do Fogo | corpo próprio do mundo |\n| Traço Elemental do Vento | corpo próprio do mundo |\n\n#### Regras do mundo — Companheiro Animal\n\n| Ajuste | Valor |\n|---|---|\n| tamanho fixo | Médio |\n| armas naturais | removidas (desarmado + manobras + arma) |\n| arma do Empregado | cac-simples · 1 mão · Força ≤ 2 |\n\n#### Disponibilidade\n\n| Campo | Valor |\n|---|---|\n| padrão | disponivel |\n\n#### Itens indisponíveis neste mundo\n\n| Item | Status |\n|---|---|\n| Garras do Rei-Mago | fora do catálogo |\n\n#### Itens restritos (onde/como se obtém)\n\n| Item | Obtenção |\n|---|---|\n| Poção de Cura | Farmácias Panvel — venda comum de Cicatrilênicos; tarja conforme Tipos de Substâncias e Legalidade |\n| Poção da Velocidade | Farmácias Panvel — Taurilênicos de balcão em várias marcas parceiras: Mate Touro (Charrua, o mais vendido), guaraná com taurilênicos (Fruki) e cerveja com taurilênicos (Polar, só com liberação); uso massivo entre trabalhadores da PIRA |\n| Poção da Coragem | Panvel sob controle — Adrenalênicos com liberação; laboratórios clandestinos do Quarto Distrito vendem sem receita por preço maior |\n| Poção da Nutrição | Farmácias Panvel e mercados Zaffari — Vitalênicos de prateleira |\n| Montante | porte EXPRESSAMENTE PROIBIDO (arma de maluco) — circula desmontada por serralherias e ferros-velhos |\n| Escudo | fabricação Tramontina sob contrato público, porte restrito à Brigada Militar; mercado cinza via Consórcio das Bandeiras |\n| Espada Longa | contrabando asiático — Clube dos Sete Portos |\n| Adaga de Duelo | contrabando asiático — Clube dos Sete Portos |\n| Besta | pressão com registro de clube (Gradiente esportiva); sem registro no Quarto Distrito |\n| Foco da Consistência | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Foco da Intensificação | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Foco da Penetração | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Foco da Repetição | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Amplificador Audiovisual | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Sensor Arcano | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Luva do Arcanista | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Broche Artístico | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Pulseira da Potência | revenda credenciada Gradiente (Moinhos de Vento); usado no Camelódromo |\n| Bracelete Elemental | bancada lênica — encomenda a Químicos (Jardim Itu) |\n| Diapasão Elemental | bancada lênica — encomenda a Químicos (Jardim Itu) |\n| Anel Canário | linha de áudio Gradiente — revenda oficial (Moinhos de Vento) ou segunda mão no Camelódromo |\n| Anel Mensageiro | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Anel da Resistência | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Anel do Equilíbrio | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Botas Fluídicas | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Braceletes de Pedra | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Brasão Tático | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Capa Discreta | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Cinto dos Ermos | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Colar da Eloquência | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Diadema da Ameaça | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Luvas do Ladrão | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Luvas Purificadas | importados e segunda mão — Camelódromo e brechós do Bom Fim |\n| Imbuição Ciclonal | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Congelante | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição da Ventania | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição de Aço Solar | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição de Ferro Frio | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Enraizante | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Explosiva | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Flamejante | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Hidratante | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Incendiária | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Mineral | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Relampejante | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Sísmica | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Imbuição Torrencial | Módulo: oficial na Gradiente (com registro) ou pirata no Quarto Distrito (sem) |\n| Arma Obra-prima | linha Premium Tramontina — lojas próprias (Petrópolis), com nota |\n| Armadura Obra-prima | linha Premium Tramontina — lojas próprias (Petrópolis), com nota |\n| Escudo Obra-prima | linha Premium Tramontina — lojas próprias (Petrópolis), com nota |\n| Broquel Obra-prima | linha Premium Tramontina — lojas próprias (Petrópolis), com nota |\n| Ferramenta Obra-prima | linha Premium Tramontina — lojas próprias (Petrópolis), com nota |\n| Armadura Pesada | linha Tramontina com registro (Petrópolis) |\n<!-- /auto:contexto -->\n\n## 8. Pendências\n\n1. **Redação contínua**: descrições longas in-world (magias restantes,\n   itens) conforme forem entrando em jogo — a cascata de termos cobre o\n   grosso; os hubs de teoria já existem no Contexto Atual.\n2. **Base**: popular `sempre_disponiveis` no [[Contexto Base]] (decisão de\n   design: o que é inegociável em qualquer mundo?).\n"
+}

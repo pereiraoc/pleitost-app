@@ -1,0 +1,81 @@
+{
+  "id": "Contexto/Histórias/Histórias",
+  "path": "Contexto/Histórias/Histórias.md",
+  "basename": "Histórias",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Instauração da Ditadura no Brasil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Decretação do AI-5",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Descoberta de Selênica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Incêndio nas Lojas Renner",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Decadência no Uso de Selênicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medici Mantido Vivo por Aparelhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Emílio Garrastazu Médici",
+      "kind": "wikilink",
+      "alias": "Médici"
+    },
+    {
+      "target": "Megacorporações",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Acidente de Chernobyl",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Enchente de 1986",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto Atual",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```timeline\n[line-3, body-2]\n+ 1964\n+ [[Instauração da Ditadura no Brasil]]\n+ Inicio do governo militar.\n\n+ 1968\n+ [[Decretação do AI-5]]\n+ Descrição.\n\n+ 1969\n+ [[Descoberta de Selênica]]\n+ ET morto trazido para a terra acelera drasticamente a tecnologia de industria farmaceutica e de próteses com proteínas aliens facilmente replicáveis e transmutaveis em selênica para fabricação de drogas ou sistemas de controle e automação.\n\n+ 1975\n+ [[Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)]]\n+ Programa com grande adesão promete 10 anos de trabalho para o estado em um regime de 130 horas semanais em troca de uma aposentadoria ao final do período. Selênicos (drogas que utilizam selênica) são utilizado para garantir que os trabalhadores se mantenham acordados e produtivos.\n\n+ 1976\n+ [[Incêndio nas Lojas Renner]]\n+ Descrição.\n\n+ 1980\n+ [[Decadência no Uso de Selênicos]]\n+ Pessoas de 5 anos de uso de selenicos começam a ter efeitos adversos graves. Pessoas começam a querer parar de usar selenicos. Empresas começam a trabalhar para mitigar efeitos colaterias e opinião pública para gerar tecnologias mais seguras. Tecnologia alternativa começa a ganhar tração.\n\n+ 1983\n+ [[Inauguração da Malha de Transporte Aeromóvel]]\n+ Malha de transportes aeromóvel é inaugurada em sua totalidade em [[Porto Alegre]], após quase 2 anos de foco e jornadas de trabalho abusivas.\n\n+ 1985\n+ [[Medici Mantido Vivo por Aparelhos]]\n+ Por meio de uso exagerado de selenicos e maquinas, [[Emílio Garrastazu Médici|Médici]] é mantido vivo, e estabiliza a ditadura militar por meio de descentralização do poder, com megacidades autônomas, parcerias com [[Megacorporações]] que buscam poder a troco de tudo.\n\n+ 1986\n+ [[Acidente de Chernobyl]] e [[Grande Enchente de 1986]]\n+ O [[Acidente de Chernobyl]] tem consequências dramáticas no mundo todo, e gera uma reação em cadeia culminando na [[Grande Enchente de 1986]], que inundou o [[Centro Histórico]] e transformou o Jacuí em [[Delta Radioativo]]. Um novo [[Centro Histórico]] começa a ser construído acima do submerso.\n\n+ 1987\n+ [[Contexto Atual]]\n+ Descrição.\n\n```\n\n\n\n\n"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Magia Escrita em Arma",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Magia Escrita em Arma.md",
+  "basename": "Magia Escrita em Arma",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Com um ritual de 10 minutos, você pode guardar a magia de um pergaminho na sua [[arma arcana]] (1 por vez) e conjurá-la pela arma, inclusive em [[Combinação Arcana]] e [[Melhoramento Arcano]]; ao conjurar, o pergaminho é consumido e a magia sai da arma (você pode reverter com o mesmo ritual).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "arma arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Com um ritual de 10 minutos, você pode guardar a magia de um pergaminho na sua [[arma arcana]] (1 por vez) e conjurá-la pela arma, inclusive em [[Combinação Arcana]] e [[Melhoramento Arcano]]; ao conjurar, o pergaminho é consumido e a magia sai da arma (você pode reverter com o mesmo ritual).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode transferir a magia de um pergaminho para sua [[arma arcana]] com um ritual de 10 minutos. Uma magia contida na arma pode ser conjurada empunhando a arma, como se estivesse empunhando o pergaminho. Você também pode conjurar a magia do pergaminho como parte de [[Combinação Arcana]] e [[Melhoramento Arcano]]. Conjurar a magia dessas formas consome o pergaminho normalmente e remove a magia da arma. Você pode retornar a magia para o pergaminho com o mesmo ritual. Uma arma só pode conter uma magia de pergaminho por vez.\n\n```autosheet-rules\n```\n"
+}

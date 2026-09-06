@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Coordenar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Coordenar.md",
+  "basename": "Coordenar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Guerra]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta agilizar a tática do grupo, adiantando ações dos aliados .\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Guerra]]\"\npropriedades:: \nresumo:: \"Tenta agilizar a tática do grupo, adiantando ações dos aliados .\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de Guerra contra a [[CD|CD-Nível]] da maior criatura em conflito com o grupo. No sucesso, você pode indicar um aliado em 4q para realizar uma ação do próximo turno dele de forma imediata (até duas ações se decisivo). O aliado tem seu turno normalmente quando a iniciativa dele chegar, porém com ações a menos e [[Penalidade por Ataque Múltiplo|PAM]] progredida caso as ações adiantada tenha contribuído para a [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

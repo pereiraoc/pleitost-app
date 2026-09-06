@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Embarcadouro do Guaíba",
+  "path": "Atlas/Porto Alegre/Ipanema/Embarcadouro do Guaíba.md",
+  "basename": "Embarcadouro do Guaíba",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Embarcadouro do Guaíba.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Embarcadouro do Guaíba.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Embarcadouro do Guaíba.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pequeno píer fechado para transporte executivo.\n> \n> 👁️**Aparência do Local:** Tábuas envernizadas, barcos reforçados, cheiro de óleo diesel.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pequeno píer fechado para transporte executivo.",
+    "aparencia": "Tábuas envernizadas, barcos reforçados, cheiro de óleo diesel.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

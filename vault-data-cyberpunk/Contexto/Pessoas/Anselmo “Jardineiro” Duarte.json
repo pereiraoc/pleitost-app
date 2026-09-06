@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Anselmo “Jardineiro” Duarte",
+  "path": "Contexto/Pessoas/Anselmo “Jardineiro” Duarte.md",
+  "basename": "Anselmo “Jardineiro” Duarte",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Anselmo Duarte",
+      "Jardineiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Liga da Estufa]]",
+    "Função": "Chefe da Liga da Estufa",
+    "Aparência": "Chapéu de aba larga, unhas de terra, bolsos cheios de sementes e frascos sem rótulo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Liga da Estufa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

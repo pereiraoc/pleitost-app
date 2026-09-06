@@ -1,0 +1,53 @@
+{
+  "id": "Sistema/Regras/Defesas e Resistências/Defesas e Resistências",
+  "path": "Sistema/Regras/Defesas e Resistências/Defesas e Resistências.md",
+  "basename": "Defesas e Resistências",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Defesas e Resistências",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Vitalidade|Vitalidade]]",
+    "next": "[[Sentidos|Sentidos]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vitalidade",
+      "kind": "wikilink",
+      "alias": "Vitalidade"
+    },
+    {
+      "target": "Sentidos",
+      "kind": "wikilink",
+      "alias": "Sentidos"
+    },
+    {
+      "target": "Defesa",
+      "kind": "embed",
+      "subpath": "Defesa"
+    },
+    {
+      "target": "Resistências",
+      "kind": "embed",
+      "subpath": "Resistências"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Defesas e Resistências"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Vitalidade|Vitalidade]]\nnext:: [[Sentidos|Sentidos]]\n%%\n# Defesas e Resistências\n![[Defesa#Defesa]]\n![[Resistências#Resistências]]\n\n---\n```dataview\nLIST\nWHERE subcategoria = \"Defesas-e-Resistências\"\n```\n\n```autosheet-rules\n```\n"
+}

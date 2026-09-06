@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Força Mental",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Adepta/Força Mental.md",
+  "basename": "Força Mental",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Força Mental (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Vigor]] de criatura em 6q para aplicar [[Agarrado]] por 1t (e  1d6×potência de dano de contusão se decisivo). No sucesso, pode [[Sustentar]] no próximo turno para repetir os efeitos.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink",
+      "alias": "Agarrada"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustenta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Vigor]] de criatura em 6q para aplicar [[Agarrado]] por 1t (e  1d6×potência de dano de contusão se decisivo). No sucesso, pode [[Sustentar]] no próximo turno para repetir os efeitos.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Vigor]] de uma criatura em até 6q.\n\n**Sucesso:** A criatura fica [[Agarrado|Agarrada]] até o final do seu próximo turno e você pode [[Sustentar]] Força Mental no próximo turno.\n**Sucesso Decisivo:** Como sucesso e a criatura recebe 1d6×potência de dano de contusão.\n**Falha:** A criatura fica [[Agarrado|Agarrada]] até o início do seu próximo turno.\n**Falha Decisiva:** A criatura não é afetada.\n\nQuando você [[Sustentar|Sustenta]] Força Mental, faça novamente o Ataque Mágico contra a mesma criatura, com os mesmos efeitos.\n\n```autosheet-rules\n```\n"
+}

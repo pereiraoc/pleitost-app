@@ -1,0 +1,394 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Artefatos/Garras do Rei-Mago",
+  "path": "Sistema/Equipamento/Tesouros/Artefatos/Garras do Rei-Mago.md",
+  "basename": "Garras do Rei-Mago",
+  "type": "Item",
+  "subtype": "Artefato",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Artefato",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Par de lâminas que buscam equilibrio absoluto.",
+    "preço": "1750 PO",
+    "usos": {
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista.Tesouros.Lista [[Avivar]]",
+      "Complementar Magias.Lista.Tesouros.Lista [[Aturdir]]",
+      "Complementar Magias.Lista.Tesouros.Lista [[Empoderar]]",
+      "Complementar Magias.Lista.Tesouros.Lista [[Celeridade]]",
+      "Complementar Magias.Lista.Tesouros.Lista [[Enfraquecer]]",
+      "Complementar Magias.Lista.Tesouros.Lista [[Entorpecer]]"
+    ],
+    "Efeitos_Interativos": [
+      {
+        "label": "Garras do Rei-Mago (Mão Primária)",
+        "tipo": "Arma",
+        "origem": "Item",
+        "link": "[[Garras do Rei-Mago]]",
+        "bonusItem": 3,
+        "grupoAtaque": "cac-marcial",
+        "porFor": {
+          "1": {
+            "dano": "d6+3",
+            "tipo": "corte",
+            "propriedades": [
+              "[[Precisa]]"
+            ]
+          },
+          "2": {
+            "dano": "d6+3",
+            "tipo": "corte",
+            "propriedades": [
+              "[[Precisa]]",
+              "[[Apunhalante]]"
+            ]
+          },
+          "3": {
+            "dano": "d8+4",
+            "tipo": "corte",
+            "propriedades": []
+          }
+        }
+      },
+      {
+        "label": "Garras do Rei-Mago (Mão Secundária)",
+        "tipo": "Arma",
+        "origem": "Item",
+        "link": "[[Garras do Rei-Mago]]",
+        "bonusItem": 3,
+        "grupoAtaque": "cac-marcial",
+        "porFor": {
+          "1": {
+            "dano": "d4+2",
+            "tipo": "corte",
+            "propriedades": [
+              "[[Precisa]]",
+              "[[Ágil]]"
+            ]
+          },
+          "2": {
+            "dano": "d6+3",
+            "tipo": "corte",
+            "propriedades": [
+              "[[Precisa]]",
+              "[[Ágil]]"
+            ]
+          },
+          "3": {
+            "dano": "d6+3",
+            "tipo": "corte",
+            "propriedades": [
+              "[[Precisa]]",
+              "[[Ágil]]"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Avivar]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Avivar]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Avivar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Aturdir]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Aturdir]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Aturdir]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Empoderar]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Empoderar]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Empoderar]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Celeridade]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Celeridade]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Celeridade]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Enfraquecer]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Enfraquecer]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Enfraquecer]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista.Tesouros.Lista [[Entorpecer]]",
+      "parsed": [
+        {
+          "sourceNote": "Garras do Rei-Mago",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Entorpecer]]"
+          },
+          "raw": "Complementar Magias.Lista.Tesouros.Lista [[Entorpecer]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink",
+      "alias": "Espadas Curvas"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Aço Solar",
+      "kind": "wikilink",
+      "alias": "de Aço Solar"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição de Ferro Frio",
+      "kind": "wikilink",
+      "alias": "de Ferro Frio"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Magias Arcanas"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Magia",
+      "kind": "wikilink",
+      "alias": "Ataque Mágico"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avivar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aturdir",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empoderar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Celeridade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Entorpecer",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink",
+      "alias": "lutar com duas armas"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desajeitado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "AdO"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink",
+      "alias": "Negras"
+    },
+    {
+      "target": "Magia Arcana Branca",
+      "kind": "wikilink",
+      "alias": "Brancas"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Força\\",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Precisa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ágil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Apunhalante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    },
+    {
+      "target": "Garras do Rei-Mago",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - par de [[Espada Curva|Espadas Curvas]]*\nEsse par de espadas curvas foi criado das garras do falecido Rei Dragão Mago, elas carregam uma pequena centelha da sua origem e buscam equilíbrio absoluto entre entropia positiva e negativa. Esse artefato é composto por 2 itens:\n* Uma [[Espada Curva]] [[Imbuição de Aço Solar|de Aço Solar]] [[Mestre]]\n* Uma [[Espada Curva]] [[Imbuição de Ferro Frio|de Ferro Frio]] [[Mestre]]\n\nUm herói sintonizado com esse artefato pode conjurar certas [[Magia Arcana|Magias Arcanas]] quando empunha ambas as espadas. Magias básicas podem ser conjuradas livremente. As espadas se carregam com 2 [[Energia Mágica|EM]] a cada 10 minutos para as demais magias. Se você possuir [[Energia Mágica|EM]] para Magias Arcanas, pode usar seu EM para pagar o custo das magias. Magias conjuradas pelo artefato tem [[Magia|Ataque Mágico]] +9 e [[CD]] 19 ([[Experiente]]). As magias conhecidas pelo artefato são:\n\n| Categoria  | Branca                        | Negra                           |\n| ---------- | ----------------------------- | ------------------------------- |\n| Básica     | [[Avivar]]                    | [[Aturdir]]                     |\n| Adepta     | [[Empoderar]], [[Celeridade]] | [[Enfraquecer]], [[Entorpecer]] |\n\nEsse artefato é inteligente e capaz de se comunicar telepaticamente com criaturas em até 6q dele. Apesar de serem duas armas, a personalidade é uma só, como se fosse um único ser. As Garras do Rei-Mago tem uma personalidade calma e ponderada, mas requerem que seu uso seja perfeitamente equilibrado e exigem que a entropia na sua proximidade seja simétrica, impondo as seguintes restrições:\n* Você deve [[Lutando com Duas Armas|lutar com duas armas]] usando ambas as espadas.\n\t* Caso faça um [[Atacar|Ataque]] no seu turno sem lutar com duas armas, as espadas brigam contra sua empunhadura e forçam seus músculos, te deixando [[Enfraquecido]] e [[Desajeitado]] até o final do seu próximo turno.\n\t* Ataques de reação (como [[Ataque de Oportunidade|AdO]]) devem ser feitos intercalando entre uma e outra espada, causando a mesma penalidade caso 2 sejam feitos com a mesma arma de forma sucessiva.\n\t* As penalidades podem ocorrer mesmo que você só tenha uma das armas empunhadas ou em sua posse.\n* O número de Magias Arcanas [[Magia Arcana Negra|Negras]] e [[Magia Arcana Branca|Brancas]] conjuradas na sua proximidade (alvo, conjurador ou área afetada está em até 20q de você) deve se manter igual.\n\t* Se no final do seu turno o número de magias de cada escola for diferente, você fica [[Pasmo]] até que a diferença acabe.\n\t* Se você começar um turno [[Pasmo]] por conta deste efeito, a entropia deve ser compensada até o final dele. No final do turno, para cada magia de uma escola em excesso, você perde 4 [[Energia Vital|EV]] e a entropia é compensada. Se você não tiver mais [[Energia Vital|EV]] para perder, as Garras do Rei-Mago fazem um Ataque Mágico (+14) contra seu [[Ímpeto]] no início dos seus turnos, tomando controle das suas ações em caso de sucesso e te obrigando a conjurar magias de escolha delas (a critério do Mestre) até compensar o número de magias de cada escola. Na falha, você fica [[Enfraquecido]], [[Desajeitado]], [[Pasmo]] e [[Desprevenido]] até o início do seu próximo turno.\n\nQuando você se sintoniza com esse artefato, as espadas se ajustam a sua empunhadura. Dependendo da sua [[Força|FOR]] e mão empunhando a espada, as características das armas mudam. As Garras do Rei-Mago se recusam a sintonizar com alguém com [[Força|FOR]] abaixo de 1, considerando-o inapto para sua missão, visto que não possui a firmeza necessária para empunhar ambas espadas com maestria.\n\n| [[Força\\|FOR]] | Mão Primária | Mão Secundária |\n|:--------------:|:-------------- |:-------------- |\n| 1 | Dano d6+3 corte, [[Precisa]] | Dano d4+2 corte, [[Precisa]], [[Ágil]] | \n| 2 | Dano d6+3 corte, [[Precisa]], [[Apunhalante]] | Dano d6+3 corte, [[Precisa]], [[Ágil]] | \n| 3 | Dano d8+4 corte | Dano d6+3 corte, [[Precisa]], [[Ágil]] | \n\nDado sua origem, esse artefato busca manter os interesses do equilíbrio entrópico no mundo. As Garras do Rei-Mago buscam manter Dragões Entrópicos sempre em pares, muitas vezes optando por exterminar dragões que criam entropia em excesso em uma única direção, junto com criaturas do vazio e aberrações entrópicas que surgem de desequilíbrios mágicos. Fora isso, sua maior prioridade é manter suas duas partes, as duas espadas, juntas. Avançar essa causa pode acabar empoderando as Garras do Rei-Mago, melhorando suas características.\n\nUm herói que se mostre ativamente interessado na causa, efetivamente buscando e trabalhando pra manter o equilíbrio entrópico, constrói uma boa relação com esse artefato. A critério do Mestre do jogo, esse artefato pode dar margem para um herói com bom relacionamento, mitigando suas restrições impostas: tipicamente permitindo que o número de magias conjuradas de cada escola fique desequilibrado por 1 turno e/ou consumindo [[Energia Mágica|EM]] (das armas ou do herói) em vez de [[Energia Vital|EV]] para compensar.\n\nCaso um herói se mostre desinteressado ou contra manter o equilíbrio entrópico, elas vão tentar convencê-lo da nobreza desse objetivo. Não tendo sucesso, o artefato vai buscar ser passado para alguém que satisfaça seus anseios e para isso pode acabar tendo que utilizar das suas habilidades de deixar o portador [[Enfraquecido]], [[Desajeitado]] e [[Pasmo]] ou, em casos críticos, tentar tomar controle até que as passe a diante ou as abandone.\n\n---\n\n```carta-item\ntipo: artefato\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Desativar Mecanismo",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Desativar Mecanismo.md",
+  "basename": "Desativar Mecanismo",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Ladinagem]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta desativar um mecanismo, máquina, armadilha ou similar.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Ladinagem]]\"\npropriedades:: \nresumo:: \"Tenta desativar um mecanismo, máquina, armadilha ou similar.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Ladinagem]] contra a [[CD]] do mecanismo. Em caso de sucesso você desabilita o mecanismo. Na falha decisiva você ativa o mecanismo e é alvejado por ele.\n\n```autosheet-rules\n```\n"
+}

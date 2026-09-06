@@ -1,0 +1,70 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Estratégia/Presciência Militar",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Estratégia/Presciência Militar.md",
+  "basename": "Presciência Militar",
+  "type": "Regra",
+  "subtype": "Maestria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Maestria",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Presciência Militar",
+        "tipo": "Estado",
+        "origem": "Maestria",
+        "visual": {
+          "iconeLigado": "🛡️",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "Resistencias",
+            "valor": 2,
+            "tipoBonus": "Circunstancia"
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Guerra]]",
+    "resumo": "\"Move ao avaliar campo e preve ataques de inimigos identificados.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Estratégia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Avaliar Campo de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Guerra]]\nresumo:: \"Move ao avaliar campo e preve ataques de inimigos identificados.\"\n%%\n### `= this.file.name`\n* No sucesso em [[Identificar Estratégia]], recebe +2 circ [[Defesa]]/[[Resistências]] contra criatura por 1t.\n* No sucesso em [[Avaliar Campo de Batalha]], move metade como ação livre.\n\n*Requer Estratégia*\n\n```autosheet-rules\n```\n"
+}

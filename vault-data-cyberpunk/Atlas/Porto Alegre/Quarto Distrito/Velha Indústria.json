@@ -1,0 +1,52 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Velha Indústria",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Velha Indústria.md",
+  "basename": "Velha Indústria",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Velha Indústria.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Maria “Ferrugem” Souza",
+      "kind": "wikilink",
+      "alias": "Ferrugem"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Velha Indústria.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Velha Indústria.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antigas fundições transformadas em clubes subterrâneos.\n> \n> 👁️**Aparência do Local:** [[Maria “Ferrugem” Souza|Ferrugem]] aparente, iluminação fraca, cheiro de fumaça e álcool.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antigas fundições transformadas em clubes subterrâneos.",
+    "aparencia": "[[Maria “Ferrugem” Souza|Ferrugem]] aparente, iluminação fraca, cheiro de fumaça e álcool.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

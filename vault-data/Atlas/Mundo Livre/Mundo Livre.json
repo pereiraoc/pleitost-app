@@ -1,0 +1,368 @@
+{
+  "id": "Atlas/Mundo Livre/Mundo Livre",
+  "path": "Atlas/Mundo Livre/Mundo Livre.md",
+  "basename": "Mundo Livre",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Atlas]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "[[Espada Longa]]",
+      "[[Arco de Caça]]",
+      "[[Besta Leve]]",
+      "[[Besta]]",
+      "[[Maça]]",
+      "[[Funda]]",
+      "[[Porrete]]",
+      "[[Tacape]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grande Muro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Pátria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria",
+      "kind": "wikilink",
+      "alias": "Guerra dos 100 Anos"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ilha das Cinzas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Baar'Shava",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedra Fina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mapa do Mundo Livre.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "Atlas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco de Caça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Funda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porrete",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mapa do Mundo Livre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:**  `= this.Recursos`.\n> \n> ℹ️**Descrição:** O Mundo Livre é o conjunto das terras livres a leste do [[Grande Muro]] — tudo o que resistiu à [[Magna Pátria]] na [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. Compõem-no a [[Federação Áurea]], união de três regiões sob um só governo, o [[Principado das Flores]] no sul, a [[Ilha das Cinzas]] no mar do sudeste e, além-mar, a ilha-nação da [[Pátria Aurora]]. Uma única grande estrada norte–sul costura o continente de ponta a ponta, ligando quatro capitais — de [[Baar'Shava]], no deserto, a [[Canto Alto]], na costa sul. \n> \n> 👁️**Aparência do Local:** Um continente compacto cercado de oceano por todos os lados, que muda de rosto conforme se viaja para o sul: dunas amarelas e escrube no deserto de [[Pedra Fina]], planícies verdes de lavoura no [[Campos do Provento]], campos arborizados na [[Planaltina]] e colinas de arbustos mediterrâneos no [[Principado das Flores]]. A oeste a paisagem termina em pedra: as Montanhas de Vidro descem do litoral norte e emendam no [[Grande Muro]], que segue até a cordilheira escura do sudoeste, fechando o continente contra a [[Magna Pátria]]. O Rio Raio da Luz, único rio dessas terras, corre de leste a oeste pelo centro do continente e passa por baixo do próprio Muro. No mar do sudeste ergue-se a [[Ilha das Cinzas]], reconhecível de longe pela coluna de fumaça de seu vulcão em erupção. \n> \n\n---\n\n```leaflet\nid: mapa-mundo-livre\nimage: [[Mapa do Mundo Livre.png]]\nheight: 575px\nwidth: 425px\n\nminZoom: -6.5\nmaxZoom: -2\ndefaultZoom: -6.5\nzoomDelta: 0.5\n\nlat: -25331\nlong: 14599\n\nunit: meters\nscale: 45.6\nrecenter: true\ndarkMode: false\n\nmarker: Ponto de Interesse,-12880,2992,Primeiro Contato,,,\nmarker: Ponto de Interesse,-8224,7408,Ruínas de Luxor,,,\nmarker: Ponto de Interesse,-8752,13616,Última Parada,,,\nmarker: Capital,-8752,18960,Baar'Shava,,,\nmarker: Ponto de Interesse,-12288,26944,Palácio de Ja'ar,,,\nmarker: Cidade Pequena,-21696,26960,Lilá,,,\nmarker: Cidade Grande,-19088,24288,Rharos,,,\nmarker: Capital,-20560,21616,Iluminada,,,\nmarker: Ponto de Interesse,-19257,14580,Torre dos Magos,,,\nmarker: Ponto de Interesse,-19833,11860,Meteorito,,,\nmarker: Ponto de Interesse,-24000,9344,Rio Raio da Luz,,,\nmarker: Ponto de Interesse,-22114,4776,Forte Norte,,,\nmarker: Ponto de Interesse,-26130,4792,Forte Sul,,,\nmarker: Cidade Grande,-27612,14516,Manilha,,,\nmarker: Cidade Grande,-25624,14528,Líciae,,,\nmarker: Ponto de Interesse,-28696,26944,Grande Mata,,,\nmarker: Ponto de Interesse,-32768,23416,Campo de Mineradores,,,\nmarker: Capital,-33888,19856,Safira,,,\nmarker: Capital,-38016,16304,Canto Alto,,,\nmarker: Cidade Pequena,-38560,20720,Riqueza,,,\nmarker: Ponto de Interesse,-40416,26112,Floresta da Ordem,,,\nmarker: Cidade Pequena,-41600,11840,Varadas,,,\nmarker: Cidade Pequena,-39552,8288,Pencas,,,\nmarker: Cidade Pequena,-34992,9200,Vinhedos,,,\nmarker: Cidade Pequena,-32928,9216,Pedrita,,,\nmarker: Cidade Pequena,-33376,3008,Chama Céu,,,\nmarker: Ponto de Interesse,-16562.606329906324,1672.882061765899,Montanhas de Vidro,,,\nmarker: Cidade Pequena,-12342.283700568241,2098.9290891780456,Krasnogor,,,\n\n```\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "O Mundo Livre é o conjunto das terras livres a leste do [[Grande Muro]] — tudo o que resistiu à [[Magna Pátria]] na [[História da Federação Áurea e a Guerra dos 100 Anos contra a Magna Pátria|Guerra dos 100 Anos]]. Compõem-no a [[Federação Áurea]], união de três regiões sob um só governo, o [[Principado das Flores]] no sul, a [[Ilha das Cinzas]] no mar do sudeste e, além-mar, a ilha-nação da [[Pátria Aurora]]. Uma única grande estrada norte–sul costura o continente de ponta a ponta, ligando quatro capitais — de [[Baar'Shava]], no deserto, a [[Canto Alto]], na costa sul.",
+    "aparencia": "Um continente compacto cercado de oceano por todos os lados, que muda de rosto conforme se viaja para o sul: dunas amarelas e escrube no deserto de [[Pedra Fina]], planícies verdes de lavoura no [[Campos do Provento]], campos arborizados na [[Planaltina]] e colinas de arbustos mediterrâneos no [[Principado das Flores]]. A oeste a paisagem termina em pedra: as Montanhas de Vidro descem do litoral norte e emendam no [[Grande Muro]], que segue até a cordilheira escura do sudoeste, fechando o continente contra a [[Magna Pátria]]. O Rio Raio da Luz, único rio dessas terras, corre de leste a oeste pelo centro do continente e passa por baixo do próprio Muro. No mar do sudeste ergue-se a [[Ilha das Cinzas]], reconhecível de longe pela coluna de fumaça de seu vulcão em erupção.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": {
+      "image": "Mapa do Mundo Livre.png",
+      "bounds": null,
+      "defaultZoom": -6.5,
+      "markers": [
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -12880,
+          "long": 2992,
+          "nome": "Primeiro Contato",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -8224,
+          "long": 7408,
+          "nome": "Ruínas de Luxor",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -8752,
+          "long": 13616,
+          "nome": "Última Parada",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Capital",
+          "lat": -8752,
+          "long": 18960,
+          "nome": "Baar'Shava",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -12288,
+          "long": 26944,
+          "nome": "Palácio de Ja'ar",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -21696,
+          "long": 26960,
+          "nome": "Lilá",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Grande",
+          "lat": -19088,
+          "long": 24288,
+          "nome": "Rharos",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Capital",
+          "lat": -20560,
+          "long": 21616,
+          "nome": "Iluminada",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -19257,
+          "long": 14580,
+          "nome": "Torre dos Magos",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -19833,
+          "long": 11860,
+          "nome": "Meteorito",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -24000,
+          "long": 9344,
+          "nome": "Rio Raio da Luz",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -22114,
+          "long": 4776,
+          "nome": "Forte Norte",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -26130,
+          "long": 4792,
+          "nome": "Forte Sul",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Grande",
+          "lat": -27612,
+          "long": 14516,
+          "nome": "Manilha",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Grande",
+          "lat": -25624,
+          "long": 14528,
+          "nome": "Líciae",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -28696,
+          "long": 26944,
+          "nome": "Grande Mata",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -32768,
+          "long": 23416,
+          "nome": "Campo de Mineradores",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Capital",
+          "lat": -33888,
+          "long": 19856,
+          "nome": "Safira",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Capital",
+          "lat": -38016,
+          "long": 16304,
+          "nome": "Canto Alto",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -38560,
+          "long": 20720,
+          "nome": "Riqueza",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -40416,
+          "long": 26112,
+          "nome": "Floresta da Ordem",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -41600,
+          "long": 11840,
+          "nome": "Varadas",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -39552,
+          "long": 8288,
+          "nome": "Pencas",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -34992,
+          "long": 9200,
+          "nome": "Vinhedos",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -32928,
+          "long": 9216,
+          "nome": "Pedrita",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -33376,
+          "long": 3008,
+          "nome": "Chama Céu",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Ponto de Interesse",
+          "lat": -16562.606329906324,
+          "long": 1672.882061765899,
+          "nome": "Montanhas de Vidro",
+          "minZoom": null,
+          "maxZoom": null
+        },
+        {
+          "tipo": "Cidade Pequena",
+          "lat": -12342.283700568241,
+          "long": 2098.9290891780456,
+          "nome": "Krasnogor",
+          "minZoom": null,
+          "maxZoom": null
+        }
+      ]
+    }
+  }
+}

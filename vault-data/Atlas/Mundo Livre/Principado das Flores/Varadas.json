@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Mundo Livre/Principado das Flores/Varadas",
+  "path": "Atlas/Mundo Livre/Principado das Flores/Varadas.md",
+  "basename": "Varadas",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Principado das Flores]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Gado"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Varadas.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pencas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Varadas.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Varadas.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade pecuária do [[Principado das Flores]], que vive do gado pastando nas coxilhas ao redor e das tropas que os tropeiros conduzem pelas estradas — Varadas é o entroncamento entre [[Pencas]], [[Canto Alto]] e o caminho do norte rumo à fronteira. A feira de gado e os currais movem a economia; o Galpão de Chimarrão e as estâncias guardam o coração campeiro da nação. Fica à beira do mar, mas de costas para ele: não há porto, apenas praias e costões a sudoeste do casario.\n>\n> 👁️**Aparência do Local:** Núcleo de casas de tijolo com empenas escalonadas holandesas em ocre, marrom e vermelho, que vai virando galpão de madeira, curral e rancho conforme se afasta do centro. Sem muralhas, a malha irregular de ruas de terra se esparrama entre cercas de pastagem, e as estradas saem para todos os lados por potreiros pontilhados de gado e cavalos. O skyline é baixo: só a torrezinha com coruchéu da Casa do Conselho Local, o monumento da praça circular e o lanternim do Galpão de Chimarrão se destacam. Ao norte, o casario rareia até virar sedes de estância; a sudoeste, o terreno desce em gramados costeiros e dunas para praias de areia clara em enseadas, com costões rochosos, arrebentação e mar aberto sem um único cais.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Largo do Laço** *(vermelho — centro)* — o coração da cidade, com o casario mais denso em volta da praça.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade pecuária do [[Principado das Flores]], que vive do gado pastando nas coxilhas ao redor e das tropas que os tropeiros conduzem pelas estradas — Varadas é o entroncamento entre [[Pencas]], [[Canto Alto]] e o caminho do norte rumo à fronteira. A feira de gado e os currais movem a economia; o Galpão de Chimarrão e as estâncias guardam o coração campeiro da nação. Fica à beira do mar, mas de costas para ele: não há porto, apenas praias e costões a sudoeste do casario.",
+    "aparencia": "Núcleo de casas de tijolo com empenas escalonadas holandesas em ocre, marrom e vermelho, que vai virando galpão de madeira, curral e rancho conforme se afasta do centro. Sem muralhas, a malha irregular de ruas de terra se esparrama entre cercas de pastagem, e as estradas saem para todos os lados por potreiros pontilhados de gado e cavalos. O skyline é baixo: só a torrezinha com coruchéu da Casa do Conselho Local, o monumento da praça circular e o lanternim do Galpão de Chimarrão se destacam. Ao norte, o casario rareia até virar sedes de estância; a sudoeste, o terreno desce em gramados costeiros e dunas para praias de areia clara em enseadas, com costões rochosos, arrebentação e mar aberto sem um único cais.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Largo do Laço** *(vermelho — centro)* — o coração da cidade, com o casario mais denso em volta da praça.",
+    "leaflet": null
+  }
+}

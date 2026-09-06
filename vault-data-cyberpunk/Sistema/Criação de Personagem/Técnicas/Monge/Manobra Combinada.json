@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Manobra Combinada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Manobra Combinada.md",
+  "basename": "Manobra Combinada",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Escolha 2 entre [[Agarrar]], [[Derrubar]] e [[Desarmar]] e faça as duas manobras contra o mesmo alvo usando a mesma [[Penalidade por Ataque Múltiplo|PAM]]; conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Escolha 2 entre [[Agarrar]], [[Derrubar]] e [[Desarmar]] e faça as duas manobras contra o mesmo alvo usando a mesma [[Penalidade por Ataque Múltiplo|PAM]]; conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Manobra Combinada.\n\n**Manobra Combinada - 2A**\nVocê combina duas manobras de combate num único movimento complexo. Escolha dois entre [[Agarrar]], [[Derrubar]] e [[Desarmar]]. Você realiza as duas manobras simultaneamente contra o mesmo alvo, na mesma [[Penalidade por Ataque Múltiplo|PAM]]. Manobra combinada conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

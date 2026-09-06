@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Proteção Rochosa",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Terra/Proteção Rochosa.md",
+  "basename": "Proteção Rochosa",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Terra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Terra]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Terra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escudo Rochoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Proteção Rochosa"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Terra]]\nprev::\nnext::\n%%\n### Proteção Rochosa\nVocê aprende a Magia Anima Básica [[Escudo Rochoso]] e pode conjurar ela mesmo com as mãos ocupadas. Para esta magia, você é considerado [[Adepto]] em Magia Anima e seu atributo chave é [[Força]]."
+}

@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante Experiente Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Terra/Essência Enraizante/Essência Enraizante Experiente Menor.md",
+  "basename": "Essência Enraizante Experiente Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Terra",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Rocha Empaladora]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Experiente]]",
+    "resumo": "\"experiente [[Rocha Empaladora]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Rocha Empaladora]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Enraizante Experiente Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Rocha Empaladora]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Rocha Empaladora]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rocha Empaladora",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Experiente]]\n\nresumo:: \"experiente [[Rocha Empaladora]]\"\n%%\n#### `= this.file.name`\n* experiente [[Rocha Empaladora]]\n\n```autosheet-rules\n```\n"
+}

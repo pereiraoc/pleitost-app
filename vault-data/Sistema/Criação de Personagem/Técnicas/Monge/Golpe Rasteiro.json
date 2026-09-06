@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Golpe Rasteiro",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Golpe Rasteiro.md",
+  "basename": "Golpe Rasteiro",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça um [[Atacar|Ataque]] desarmado contra um alvo em que você tenha [[Vantagem de Combate]] (sem aplicar o benefício neste ataque); se acertar, além do dano, o alvo fica [[Caído|Caído]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caído"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink",
+      "alias": "Caída"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça um [[Atacar|Ataque]] desarmado contra um alvo em que você tenha [[Vantagem de Combate]] (sem aplicar o benefício neste ataque); se acertar, além do dano, o alvo fica [[Caído|Caído]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Golpe Rasteiro.\n\n**Golpe Rasteiro - 2A**\nFaça um [[Atacar|Ataque]] desarmado contra uma criatura que você tem [[Vantagem de Combate]]. Você não recebe o benefício de Vantagem de Combate neste ataque. Caso tenha sucesso, além do dano normal, a criatura fica [[Caído|Caída]].\n\n```autosheet-rules\n```\n"
+}

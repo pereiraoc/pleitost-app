@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Ressonância Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Ressonância Elemental.md",
+  "basename": "Ressonância Elemental",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "R",
+    "resumo": "\"Quando você sofre dano de fogo, frio, raio ou dano causado por um efeito com a propriedade Fogo, Água, Vento ou Terra, você pode gastar 1 [[Energia Mágica|EM]] para reduzi-lo a metade. No 4º nível você pode gastar 2 [[Energia Mágica|EM]] para negar o dano completamente. No 7º nível você pode gastar 3 [[Energia Mágica|EM]] para absorver metade do dano como [[Energia Heroica|EH]] temporária por 1 turno.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Mágica",
+      "kind": "wikilink",
+      "alias": "EM"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: R\n\nresumo:: \"Quando você sofre dano de fogo, frio, raio ou dano causado por um efeito com a propriedade Fogo, Água, Vento ou Terra, você pode gastar 1 [[Energia Mágica|EM]] para reduzi-lo a metade. No 4º nível você pode gastar 2 [[Energia Mágica|EM]] para negar o dano completamente. No 7º nível você pode gastar 3 [[Energia Mágica|EM]] para absorver metade do dano como [[Energia Heroica|EH]] temporária por 1 turno.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ressonância Elemental.\n\n**Ressonância Elemental - R**\nQuando você sofre dano de fogo, frio, raio ou dano causado por um efeito com a propriedade Fogo, Água, Vento ou Terra, você pode gastar 1 [[Energia Mágica|EM]] para reduzi-lo a metade. No 4º nível você pode gastar 2 [[Energia Mágica|EM]] para negar o dano completamente. No 7º nível você pode gastar 3 [[Energia Mágica|EM]] para absorver metade do dano como [[Energia Heroica|EH]] temporária por 1 turno.\n\n```autosheet-rules\n```\n"
+}

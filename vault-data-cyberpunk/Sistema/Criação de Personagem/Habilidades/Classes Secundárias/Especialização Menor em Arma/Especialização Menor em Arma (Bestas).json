@@ -1,0 +1,76 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Bestas)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Especialização Menor em Arma/Especialização Menor em Arma (Bestas).md",
+  "basename": "Especialização Menor em Arma (Bestas)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização Menor em Arma (Bestas)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Besta de Mão]]",
+            "[[Besta Leve]]",
+            "[[Besta]]",
+            "[[Besta Pesada]]"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Você se torna especializado em armas do grupo Bestas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro."
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta de Mão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Leve",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Besta Pesada",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Você se torna especializado em armas do grupo Bestas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro.\n%%\n#### `= this.file.name`\nVocê se torna especializado em armas do grupo Bestas para fins de requisito e condicionais de técnicas e habilidades de Guerreiro, não recebendo o bônus nas jogadas de ataque como parte disso.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Bestas         | [[Besta de Mão]], [[Besta Leve]], [[Besta]], [[Besta Pesada]]                  |\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Vila Militar do Paraguassu",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Vila Militar do Paraguassu.md",
+  "basename": "Vila Militar do Paraguassu",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Vila Militar do Paraguassu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Vila Militar do Paraguassu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Vila Militar do Paraguassu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Residências padronizadas para suboficiais.\n> \n> 👁️**Aparência do Local:** Casas cinzentas, jardins secos, portões sempre trancados.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Residências padronizadas para suboficiais.",
+    "aparencia": "Casas cinzentas, jardins secos, portões sempre trancados.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

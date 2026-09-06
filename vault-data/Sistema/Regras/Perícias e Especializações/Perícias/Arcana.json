@@ -1,0 +1,52 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Arcana",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Arcana.md",
+  "basename": "Arcana",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Ladinagem]]",
+    "next": "[[Sociedades]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Detectar Resistência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Arcana ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Ladinagem]]\nnext:: [[Sociedades]]\n%%\n## Arcana ([[Inteligência|INT]])\n[[Detectar Resistência]]. Arcana rege o quão versado é o personagem na \"matemática\" da magia."
+}

@@ -1,0 +1,62 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Espreitar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Espreitar.md",
+  "basename": "Espreitar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Furtividade]]\"",
+    "propriedades": "",
+    "resumo": "\"Move-se escondido.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "escondido"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink",
+      "alias": "Cobertura Média"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Furtividade]]\"\npropriedades:: \nresumo:: \"Move-se escondido.\"\n%%\n### `= this.file.name` - `= this.custo`\n[[Mover|Mova]] metade do seu movimento e faça um teste de [[Furtividade]] vs [[Percepção]] das criaturas que você você está [[Escondido|escondido]] para. Em caso de sucesso, as criaturas deixam de saber sua localização. Em caso de falha, você se mantém [[Escondido|escondido]] mas sua localização é conhecida. Na falha decisiva, você é detectado. Você precisa terminar o movimento com [[Cobertura|Cobertura Média]] contra as criaturas ou o resultado do teste é uma falha decisiva para estas que você não tem cobertura.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Nova Sarandi",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Nova Sarandi.md",
+  "basename": "Nova Sarandi",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Recursos": [
+      "[[Tacape]]",
+      "[[Maça]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Nova Sarandi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ferrovia Federal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tacape",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Maça",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Nova Sarandi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Nova Sarandi.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Polo industrial controlado pela [[Zaffari]] e [[Ferrovia Federal]].\n> \n> 👁️**Aparência do Local:** Trilhos enferrujados, galpões cinzentos, cheiro de graxa e carvão.\n> \n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Polo industrial controlado pela [[Zaffari]] e [[Ferrovia Federal]].",
+    "aparencia": "Trilhos enferrujados, galpões cinzentos, cheiro de graxa e carvão.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Renato “Livre” Costa",
+  "path": "Contexto/Pessoas/Renato “Livre” Costa.md",
+  "basename": "Renato “Livre” Costa",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Renato Costa"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Movimento Restinga Livre]]",
+    "Função": "Líder do Movimento Restinga Livre",
+    "Aparência": "Colete de lona cheio de ferramentas, chapéu de palha, aperto de mão que sela contrato melhor que cartório.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

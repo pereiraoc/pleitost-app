@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Facções/Liga da Estufa",
+  "path": "Contexto/Organizações/Facções/Liga da Estufa.md",
+  "basename": "Liga da Estufa",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Anselmo “Jardineiro” Duarte]]",
+    "Descrição": null,
+    "Resumo": "Tráfico de drogas naturais, biopirataria e sabotagem de pesquisas a partir do Jardim Botânico.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Liga da Estufa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Anselmo “Jardineiro” Duarte",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Liga da Estufa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Liga da Estufa.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Nasceu entre estufas e virou cartel botânico: infiltra laboratórios, sabota cultivo rival e vende o que a natureza — com uma ajudinha química — ainda produz fora do catálogo das megacorps.\n\n"
+}

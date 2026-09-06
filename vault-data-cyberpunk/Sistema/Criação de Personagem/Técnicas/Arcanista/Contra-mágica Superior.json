@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Contra-mágica Superior",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Contra-mágica Superior.md",
+  "basename": "Contra-mágica Superior",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "subclasse": "Vazio",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Quando você usa [[Contra-mágica Flexível]] pode também dissipar Magias Anima. Você pode utilizar [[Arcana]] para o teste de [[Identificar Magia]] para Contra-mágica Flexível, mesmo que a magia seja Anima, com -2 de [[Penalidades|penalidade de especialização]]. Quando usa Arcana desta forma para identificar uma magia Anima e tem sucesso, você pode dissipá-la mas não identifica qual magia era.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contra-mágica Flexível",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nsubclasse:: Vazio\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Quando você usa [[Contra-mágica Flexível]] pode também dissipar Magias Anima. Você pode utilizar [[Arcana]] para o teste de [[Identificar Magia]] para Contra-mágica Flexível, mesmo que a magia seja Anima, com -2 de [[Penalidades|penalidade de especialização]]. Quando usa Arcana desta forma para identificar uma magia Anima e tem sucesso, você pode dissipá-la mas não identifica qual magia era.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê entende e consegue suprimir qualquer tipo de manifestação mágica. Quando você usa [[Contra-mágica Flexível]] pode também dissipar Magias Anima. Você pode utilizar [[Arcana]] para o teste de [[Identificar Magia]] para Contra-mágica Flexível, mesmo que a magia seja Anima, com -2 de [[Penalidades|penalidade de especialização]]. Quando usa Arcana desta forma para identificar uma magia Anima e tem sucesso, você pode dissipá-la mas não identifica qual magia era.\n*Requer Contra-mágica Flexível, Arcana Experiente e Escola Arcana (Estudos do Vazio)*\n\n```autosheet-rules\n```\n"
+}

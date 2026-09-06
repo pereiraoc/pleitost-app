@@ -1,0 +1,81 @@
+{
+  "id": "fantasia",
+  "nome": "Fantasia",
+  "fonte": "Recursos e Mídia/Configurações de Contextos/Contexto Fantasia.md",
+  "moeda": {
+    "simbolo": "PO",
+    "nome": "Peças de Ouro"
+  },
+  "atlas": {
+    "raiz": "Atlas",
+    "mapa": null
+  },
+  "pericias": {},
+  "reskin": {
+    "notas": {},
+    "notasFuturas": {},
+    "termos": {},
+    "excecoes": [],
+    "descricoes": {}
+  },
+  "disponibilidade": {
+    "padrao": "disponivel",
+    "indisponiveis": [],
+    "restritos": {}
+  },
+  "base": {
+    "sempreDisponiveis": [],
+    "conteudoDeMundo": {
+      "pastas": [
+        "Atlas/",
+        "Contexto/",
+        "Campanhas/",
+        "Recursos e Mídia/Notas de Mudanças/",
+        "Recursos e Mídia/Ferramentas de GM/"
+      ],
+      "tipos": [
+        "Criatura",
+        "Grupo",
+        "Pessoa",
+        "Organização",
+        "Contexto",
+        "Localização",
+        "Aventura",
+        "Combate"
+      ]
+    },
+    "aventura": {
+      "secoes": {
+        "resumo": "1. Resumo",
+        "roteiro": "Roteiro em uma página",
+        "contexto": "2. Contexto",
+        "contexto_aventura": "2.1 Contexto da Aventura",
+        "notas_mestre": "2.2 Notas para o Mestre",
+        "personagens": "2.3 Personagens",
+        "locais": "2.4 Locais",
+        "mapa": "Mapa",
+        "cenas": "3. Cenas",
+        "abertura": "Abertura",
+        "cena": "Cena",
+        "desfecho": "Desfecho"
+      },
+      "tiposDeCena": [
+        "Social",
+        "Exploração",
+        "Investigação",
+        "Combate",
+        "Interlúdio",
+        "Epílogo"
+      ],
+      "camposListaTrancada": [
+        "Chamada",
+        "rank",
+        "Formato",
+        "Duração",
+        "Jogadores",
+        "Tom"
+      ]
+    }
+  },
+  "regras": {}
+}

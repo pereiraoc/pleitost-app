@@ -1,0 +1,33 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Básica/Detectar Magia",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Essencial/Magia Essencial Básica/Detectar Magia.md",
+  "basename": "Detectar Magia",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Essencial",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Detecta se há ou não algum efeito ou objeto mágico em até 6q de distância.\""
+  },
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Detecta se há ou não algum efeito ou objeto mágico em até 6q de distância.\"\n%%\n# `= this.file.name` - `= this.custo`\nDetecta se há ou não algum efeito ou objeto mágico em até 6q de distância.\n\n```autosheet-rules\n```\n"
+}

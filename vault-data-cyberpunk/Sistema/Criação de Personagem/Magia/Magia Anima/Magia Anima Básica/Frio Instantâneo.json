@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Frio Instantâneo",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Básica/Frio Instantâneo.md",
+  "basename": "Frio Instantâneo",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Água",
+    "rank": "Básica",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 10q para causar dano de frio 1d6+3 (2d6+3 se [[Experiente]] em [[Magia Anima]], 3d6+3 se [[Mestre]]) e reduzir a [[Movimentação]] em 1q por 1 turno. No sucesso decisivo, +1d6; na falha não afeta.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 10q para causar dano de frio 1d6+3 (2d6+3 se [[Experiente]] em [[Magia Anima]], 3d6+3 se [[Mestre]]) e reduzir a [[Movimentação]] em 1q por 1 turno. No sucesso decisivo, +1d6; na falha não afeta.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 10q.\n\n**Sucesso:** A criatura recebe 1d6+3 de dano de frio e a criatura tem sua [[Movimentação]] reduzida em 1q por 1 turno.\n**Sucesso Decisivo:** Como sucesso, mas aumente o dano em 1d6.\n**Falha:** A criatura não é afetada.\n\nO dano no sucesso aumenta para 2d6+3 ao se tornar [[Experiente]] com [[Magia Anima]] e 3d6+3 ao se tornar [[Mestre]]."
+}

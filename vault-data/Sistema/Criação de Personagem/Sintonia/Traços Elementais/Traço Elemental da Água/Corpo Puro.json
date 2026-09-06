@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Corpo Puro",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental da Água/Corpo Puro.md",
+  "basename": "Corpo Puro",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 1,
+    "sintonia": "Água",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental da Água]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistências",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Corpo Puro"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental da Água]]\nprev::\nnext::\n%%\n### Corpo Puro\nSeu corpo é internamente mais limpo e lida melhor com impurezas e ferimentos. Você recebe +2 de [[bônus de especialização]] nas [[Resistências]] contra efeitos com os descritores Veneno, Doença e Ácido. Quando você é alvo de [[Tratar Ferimentos]], role 1 dado a mais para o valor de cura, para todos os resultados."
+}

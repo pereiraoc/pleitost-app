@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Comendador Artur Fontes",
+  "path": "Contexto/Pessoas/Comendador Artur Fontes.md",
+  "basename": "Comendador Artur Fontes",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Artur Fontes",
+      "Comendador"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Aliança dos Fundadores]]",
+    "Função": "Comendador da Aliança dos Fundadores",
+    "Aparência": "Terno de linho antigo impecável, bengala de castão de prata, anel de brasão de família.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

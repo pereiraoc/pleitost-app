@@ -1,0 +1,66 @@
+{
+  "id": "Atlas/Porto Alegre/Moinhos de Vento/Moinhos de Vento",
+  "path": "Atlas/Porto Alegre/Moinhos de Vento/Moinhos de Vento.md",
+  "basename": "Moinhos de Vento",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Capital",
+    "Recursos": [
+      "[[Foco da Intensificação]]",
+      "[[Foco da Consistência]]",
+      "[[Amplificador Audiovisual]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Moinhos de Vento.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Intensificação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Foco da Consistência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Amplificador Audiovisual",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Moinhos de Vento.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Moinhos de Vento.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Área nobre com mansões e sedes corporativas.\n> \n> 👁️**Aparência do Local:** Ruas limpas, jardins bem cuidados, aroma de flores importadas.\n> \n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Área nobre com mansões e sedes corporativas.",
+    "aparencia": "Ruas limpas, jardins bem cuidados, aroma de flores importadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

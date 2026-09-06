@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Companhia Estadual de Energia Elétrica",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Companhia Estadual de Energia Elétrica.md",
+  "basename": "Companhia Estadual de Energia Elétrica",
+  "type": "Organização",
+  "subtype": "Força do Estado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": "CEEE",
+    "categoria": "Organização",
+    "subcategoria": "Força do Estado",
+    "Líder": "[[Paulo Menezes]]",
+    "Descrição": null,
+    "Resumo": "Monopólio estatal de distribuição de energia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Companhia Estadual de Energia Elétrica.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Paulo Menezes",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Companhia Estadual de Energia Elétrica.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Companhia Estadual de Energia Elétrica.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Opera usinas a carvão e redes de transmissão sobrecarregadas."
+}

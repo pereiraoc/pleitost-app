@@ -1,0 +1,205 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Frontmatter",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Frontmatter.md",
+  "basename": "Frontmatter",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "X.png",
+      "kind": "wikilink",
+      "isImage": true
+    },
+    {
+      "target": "parent",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Link",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Localização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Efeitos Interativos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Humano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Incomum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Método Artístico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Auto-Confiança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Soldado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Fogo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Goblin",
+      "kind": "wikilink",
+      "alias": "Goblin (Pequeno)"
+    },
+    {
+      "target": "Companheiro Animal Canino",
+      "kind": "wikilink",
+      "alias": "Canino Médio"
+    },
+    {
+      "target": "Mera",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companheiro Animal Canino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mordida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Elementos de Regra",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "X.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Contrato do Frontmatter"
+    },
+    {
+      "level": 2,
+      "text": "Visão geral"
+    },
+    {
+      "level": 2,
+      "text": "Famílias"
+    },
+    {
+      "level": 2,
+      "text": "Chaves do FM"
+    },
+    {
+      "level": 2,
+      "text": "Diferenças por família"
+    },
+    {
+      "level": 2,
+      "text": "Proficiência binária N/P"
+    },
+    {
+      "level": 2,
+      "text": "Exemplos de FM completo"
+    },
+    {
+      "level": 3,
+      "text": "Heroi (mínimo após 1º save, nível 1, Bardo)"
+    },
+    {
+      "level": 3,
+      "text": "Monstro (mínimo, Tier 1, Goblin Soldado)"
+    },
+    {
+      "level": 1,
+      "text": "Sem Moral em Monstro"
+    },
+    {
+      "level": 1,
+      "text": "(Sentidos/Movimento/Pericias/Habilidades... preenchidos analogamente)"
+    },
+    {
+      "level": 1,
+      "text": "Habilidades_Especiais é o jeito Monstro de declarar habilidades"
+    },
+    {
+      "level": 1,
+      "text": "texto-livre que não vêm de uma nota com Elementos_de_Regra."
+    },
+    {
+      "level": 3,
+      "text": "Companheiro Animal (mínimo, nível 5, Canino)"
+    },
+    {
+      "level": 1,
+      "text": "Atributos / Defesas / Sentidos / Movimento / Pericias preenchidos analogamente"
+    },
+    {
+      "level": 1,
+      "text": "CA NÃO tem: Magias, Ofícios completos, Subclasses"
+    },
+    {
+      "level": 2,
+      "text": "Idempotência (R-IDEM)"
+    },
+    {
+      "level": 2,
+      "text": "Compatibilidade legada (chaves aceitas mas não geradas)"
+    },
+    {
+      "level": 2,
+      "text": "Ver também"
+    }
+  ],
+  "body": "# Contrato do Frontmatter\n\nDoc para quem precisa saber o que o plugin lê e grava no YAML.\n\n## Visão geral\n\nO plugin lê o frontmatter de uma nota Obsidian e renderiza a ficha. O save\ngrava de volta. Chaves não conhecidas vão pra `rawKept` e voltam intactas\n(round-trip-safe).\n\nFonte de verdade do shape interno:\n- [`src/types/model.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/types/model.ts) (tipos)\n- [`src/extract/frontmatter-extractor.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/extract/frontmatter-extractor.ts) (leitura)\n- [`src/extract/serialize-to-fm.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/extract/serialize-to-fm.ts) (escrita)\n\n## Famílias\n\n| Família | `subcategoria` no FM | Path canônico |\n|---|---|---|\n| Heroi | `Heroi` (canônico) ou `Jogador` (legado, aceito via shim) | `Criaturas/Heróis/...` |\n| Monstro | `Monstro` | `Criaturas/Bestiário/...` |\n| CompanheiroAnimal | `Companheiro Animal` | `Criaturas/Companheiros Animais/...` |\n\nResolução: `resolveFamilyFromFrontmatter(fm) ?? resolveFamilyFromPath(filePath) ?? 'Heroi'`.\nShim em [`src/data/family-compat.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/data/family-compat.ts).\nO plugin **preserva** o valor original de `subcategoria` ao gravar.\n\n## Chaves do FM\n\nChaves conhecidas pelo extractor (em [src/extract/frontmatter-extractor.ts](../../../.obsidian/plugins/pleitost-autosheet/src/extract/frontmatter-extractor.ts)):\n\n| Chave YAML | Path no model | Notas |\n|---|---|---|\n| `Imagem` | `meta.imagem` | Aceita string `\"[[X.png]]\"` ou objeto `{link, path, original}`. **NÃO gravada no save** (preservada manualmente). |\n| `Nível` | `meta.nivel` | Heroi/CA only |\n| `Tier` | `meta.tier` | Monstro only |\n| `Classe` | `meta.classe` | Wikilink |\n| `Subclasses` | `meta.subclasses` | Array de wikilinks. **NÃO gravada como property separada** — vivem em `Habilidades.Lista` com `source=Escolha.[[parent]]`. Lida pra retrocompat. |\n| `Sintonia`, `Raça`, `Tutor` | `meta.{sintonia,raca,tutor}` | Wikilinks |\n| `Tamanho` | `meta.tamanho` | String |\n| `Passado` | `meta.passado` | Texto livre |\n| `Modificador` | `meta.modificador` | Monstro: `Competente`/`Elite`/`Solo`/null |\n| `Vida` | `vida.{vitalidade,moral}` | `Moral` ausente em Monstro |\n| `Atributos` | `atributos.{FOR,AGI,INT,PRE}` + `atributoPrincipal` | `Atributos.Principal` mapeia pra top-level `atributoPrincipal` |\n| `Defesas_Resistencias.Lista` | `defesasResistencias[]` | `{Nome, Atributo, Proficiencia, Bonus_Item, Bonus_Especial}` |\n| `Sentidos.Lista` | `sentidos[]` | idem |\n| `Movimento.Lista` | `movimento[]` | idem (sem proficiência — só Atributo + Bonus_*) |\n| `Pericias.Slots` | `pericasSlots.{A,E,M}` | |\n| `Pericias.Lista[]` | `pericias.<X>` | `{Nome, Atributo, Proficiencia, Bonus_Item, Bonus_Especial, Especializacao, Maestria, Incrementos}` |\n| `Oficios.Lista[]` | `oficios[]` | `{Nome, Complemento, Atributo, Proficiencia, Bonus_Item, Bonus_Especial, Incrementos}` |\n| `Habilidades.Lista` | `habilidades.lista` | `[{ \"[[Link]]\": \"Source\" }]` |\n| `Habilidades.Especiais` | `habilidades.especiais` | Array `{nome, texto}` (Monstro) |\n| `Tecnicas.Slots`, `Tecnicas.Lista` | `tecnicas.{slots, lista}` | |\n| `Magias.{Potencia, EM, Slots}` | `magias.{potencia, em, slots}` | |\n| `Magias.Lista[]` | `magias.proficiencias.<Escola>` + `magias.listas.{aprendidas,tesouros}` | Cada escola é um item `{Nome, Atributo, Proficiencia, Bonus_Item, Bonus_Especial, Lista}`. |\n| `Magias.Secundaria.{Potencia, EM, EM_Secundaria, Lista}` | `magias.secundaria.*` | Pra herói multiclasse com prof mágica secundária (ex.: Guerreiro + Arcanista). Mesma shape de `Magias.Lista[]` em `Magias.Secundaria.Lista[]`. EM_Secundaria é o recurso 🌀 independente do EM Primária — Descansar/Dormir restauram ambos. |\n| `Acoes.Lista` | `acoes` | FontedLink list |\n| `Ataques.Proficiencia.{Ataque, Armas.{Simples,Marciais,Especificas}}` | `ataques.proficiencia.*` | |\n| `Ataques.Lista[]` | `ataques.lista[]` | `{Nome, Atributo, Bonus_Item, Bonus_Especial, Categoria?, Propriedade?, Fonte?}` |\n| `Inventario.{Ouro, Armadura, Escudo, Armas, Tesouros, Tesouros_Especiais, Consumiveis}` | `inventario.*` | |\n| `Experiencia.{Marcas, Reconhecimentos}` | `experiencia.*` | |\n| `Biografia.{Passado, Motivacao, Genero, Idade, Naturalidade, Altura, Peso, Ideais, Desprezos, Qualidades, Defeitos, Anotacoes}` | `biografia.*` | Chaves ausentes vão pra `missingFromFm` → entries DEFAULT no painel ℹ️. `Naturalidade` aceita wikilink `[[Localização]]` (escolhido via dropdown de cidades do Atlas/) ou texto livre (opção \"Outro\" no picker). |\n| `Papel.{Lider, Controlador, Abatedor, Vanguarda}` | `papel.*` | **Rule-derived em Heroi** (Método Artístico, Estilo de Combate, etc). Wipado pre-merge. |\n| `Interativa.Imunidades` | `interativa.imunidades.{Medicina,Encorajar}` | |\n| `Interativa.Recursos_Restantes` | `interativa.recursosRestantes.{vitalidade, moral, moralTemporaria, em, escudoDano}` | |\n| `Interativa.Condicoes_Ativas` | `interativa.condicoesAtivas` | Map `<label>::<sharedFrom>` → `{value, weaponSelector?, numericSelector?}`. Aceita variante acentuada `Condições_Ativas` legacy. |\n| `Interativa.Efeitos_Ativos` | `interativa.efeitosAtivos` | Map `<label>::<sharedFrom>` → `{on:true, sharedFrom?}` |\n| `Interativa.Usos_Recursos` | `interativa.usosRecursos` | Map `<id>` → `{used: N}` |\n| `Interativa.Seletores` | `interativa.seletores` | Map `<label>::<seletor>` → `string \\| number` |\n| `Interativa.Invocacoes_Ativas` | `interativa.invocacoesAtivas` | Map `<label>` → `Array<{id, potencia, vitalidade, moralTemporaria}>`. Aceita variante acentuada `Invocações_Ativas` legacy. |\n| `Efeitos_Interativos` | (não vai pro model — parseado em paralelo via `parse-bloco`) | Bloco YAML estruturado. Lista de `EfeitoInterativo` que vira `EffectDescriptor[]` consumido pela Interativa. Schema: ver [[Efeitos Interativos]]. |\n\n**Chaves silenciadas** (lidas mas ignoradas na renderização):\n- `aliases`, `categoria`, `subcategoria`, `grupo` — metadados do Obsidian\n- `Regras_Escolhas` — débito legado; pick é INFERIDO do estado real ([resolve-choices.ts](../../../.obsidian/plugins/pleitost-autosheet/src/extract/resolve-choices.ts))\n\n**Chaves desconhecidas** vão pra `rawKept` e voltam intactas no save.\n\n## Diferenças por família\n\n| Property | Heroi | Monstro | CA |\n|---|---|---|---|\n| `Nível` | default 1 | sempre vazio | default 1 |\n| `Tier` | sempre vazio | default 0 | sempre vazio |\n| `Modificador` | sempre vazio | opcional (Competente/Elite/Solo) | sempre vazio |\n| `Tutor` | sempre vazio | sempre vazio | obrigatório |\n| `Raça` | default `[[Humano]]` | obrigatório (default `[[Incomum]]`) | default `[[Incomum]]` |\n| `Classe`, `Sintonia` | obrigatórios | obrigatórios | (Sintonia opcional) |\n| `Passado` | default vazio | sempre vazio | sempre vazio |\n| `Vida.Moral` | obrigatório | sempre vazio | obrigatório |\n\n`validateSave` em [src/data/validate-save.ts](../../../.obsidian/plugins/pleitost-autosheet/src/data/validate-save.ts) bloqueia o save quando required field está vazio.\n\n## Proficiência binária N/P\n\nEquipamento usa `N` (não proficiente) ou `P` (proficiente), nunca NAEM.\nAparece em:\n\n- `Inventario.Armadura.Proficiencia.{Sem,Leve,Pesada}`\n- `Inventario.Escudo.Proficiencia`\n- `Ataques.Proficiencia.Armas.{Simples,Marciais}`\n- `Ataques.Proficiencia.Armas.Especificas[]` (lista de wikilinks; cada entrada é \"P implícito\")\n\nEscudo (rank do escudo, distinto da proficiência binária) usa NAEM via\n`Inventario.Escudo.Categoria` (`[[Adepto]]` / `[[Experiente]]` / `[[Mestre]]`).\n\n## Exemplos de FM completo\n\nOs exemplos abaixo são FMs já populados pelo plugin (depois do 1º save).\nQuando você cria uma nova ficha pelo template, o YAML começa **mínimo**\n(só `categoria`, `subcategoria`, `Imagem`, `dg-publish`) — o plugin\npreenche o resto no 1º save automaticamente, baseado em defaults da\nfamília + rules da Classe/Sintonia/Raça/Habilidades escolhidas.\n\n### Heroi (mínimo após 1º save, nível 1, Bardo)\n\n```yaml\n---\naliases: []\ncategoria: Criatura\nsubcategoria: Heroi\ngrupo: []\nImagem: \"\"\nNível: 1\nClasse: \"[[Bardo]]\"\nSintonia: \"[[Traço Elemental do Vento]]\"\nRaça: \"[[Humano]]\"\nTamanho: Médio\nVida:\n  Vitalidade: 12\n  Moral: 24\nAtributos:\n  Principal: PRE\n  FOR: 0\n  AGI: 2\n  INT: 1\n  PRE: 3\nDefesas_Resistencias:\n  Lista:\n    - { Nome: Defesa,  Atributo: AGI, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Vigor,   Atributo: PRE, Proficiencia: N, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Ímpeto,  Atributo: PRE, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Reflexo, Atributo: AGI, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\nSentidos:\n  Lista:\n    - { Nome: Percepção, Atributo: INT, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Intuição,  Atributo: PRE, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\nMovimento:\n  Lista:\n    - { Nome: Terrestre, Atributo: AGI, Bonus_Item: 0, Bonus_Especial: 0 }\nPericias:\n  Slots: { A: 3, E: 0, M: 0 }\n  Lista: []   # 13 perícias com defaults (Atributo + Proficiencia: N)\nOficios:\n  Lista:\n    - { Nome: Oficio,       Complemento: \"\", Atributo: INT, Proficiencia: N, Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] }\n    - { Nome: Atuacao,      Complemento: \"\", Atributo: PRE, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [{ A: \"Regra.[[Bardo]]\" }] }\n    - { Nome: Conhecimento, Complemento: \"\", Atributo: INT, Proficiencia: N, Bonus_Item: 0, Bonus_Especial: 0, Incrementos: [] }\nHabilidades:\n  Lista:\n    - \"[[Evolução Básica]]\": \"Regra.[[Bardo]]\"\n    - \"[[Método Artístico]]\": \"Regra.[[Bardo]]\"\n    - \"[[Performance Bárdica]]\": \"Regra.[[Bardo]]\"\n    - \"[[Estilo de Combate]]\": \"Regra.[[Bardo]]\"\n    - \"[[Auto-Confiança]]\": \"Regra.[[Bardo]]\"\nTecnicas:\n  Slots: { A: 0, E: 0, M: 0 }\n  Lista: []\nMagias:\n  Potencia: 0\n  EM: 0\n  Slots: { B: 2, A: 0, E: 0, M: 0 }\n  Lista:\n    - { Nome: ArcanaBranca, Atributo: PRE, Proficiencia: N, Bonus_Item: 0, Bonus_Especial: 0, Lista: [] }\nAcoes:\n  Lista: []\nAtaques:\n  Proficiencia:\n    Ataque: A\n    Armas: { Simples: P, Marciais: N, Especificas: [] }\n  Lista: []\nInventario:\n  Ouro: 0\n  Armadura: { nome: null, propriedade: null, Proficiencia: { Sem: P, Leve: P, Pesada: N } }\n  Escudo: { nome: null, propriedade: null, Proficiencia: P, Categoria: null }\n  Armas: []\n  Tesouros: []\n  Tesouros_Especiais: []\n  Consumiveis: []\nExperiencia:\n  Marcas: []\n  Reconhecimentos: []\nBiografia:\n  Passado: \"\"\n  Motivacao: \"\"\n  Genero: \"\"\n  Idade: \"\"\n  Naturalidade: \"\"\n  Altura: \"\"\n  Peso: \"\"\n  Ideais: []\n  Desprezos: []\n  Qualidades: []\n  Defeitos: []\n  Anotacoes: \"\"\nPapel:\n  Lider: 1\n  Controlador: 0\n  Abatedor: 0\n  Vanguarda: 0\nInterativa:\n  Imunidades: { Medicina: false, Encorajar: false }\n  Recursos_Restantes: { vitalidade: 12, moral: 24, moralTemporaria: 0, em: 0, escudoDano: 0 }\n  Condicoes_Ativas: {}\n  Efeitos_Ativos: {}\n  Usos_Recursos: {}\n  Seletores: {}\n---\n\n\\`\\`\\`autosheet-yaml\n\\`\\`\\`\n```\n\n> Real Heroi de jogo (Carlos Facão lvl 6 com tesouros, magias aprendidas,\n> escolhas resolvidas) tem ~600 linhas de FM. Esta versão mostra a\n> ESTRUTURA — edite valores via Editável, não direto no YAML.\n\n### Monstro (mínimo, Tier 1, Goblin Soldado)\n\n```yaml\n---\naliases: []\ncategoria: Criatura\nsubcategoria: Monstro\ngrupo: []\nImagem: \"\"\nTier: 1\nClasse: \"[[Soldado]]\"\nSintonia: \"[[Traço Elemental do Fogo]]\"\nRaça: \"[[Goblin|Goblin (Pequeno)]]\"\nTamanho: Pequeno\nVida:\n  Vitalidade: 45\n# Sem Moral em Monstro\nAtributos:\n  Principal: FOR\n  FOR: 3\n  AGI: 1\n  INT: 0\n  PRE: 2\nDefesas_Resistencias:\n  Lista:\n    - { Nome: Defesa,  Atributo: FOR, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Vigor,   Atributo: FOR, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Ímpeto,  Atributo: PRE, Proficiencia: A, Bonus_Item: 0, Bonus_Especial: 0 }\n    - { Nome: Reflexo, Atributo: AGI, Proficiencia: N, Bonus_Item: 0, Bonus_Especial: 0 }\n# (Sentidos/Movimento/Pericias/Habilidades... preenchidos analogamente)\nHabilidades:\n  Especiais:\n    - { nome: \"Mira Apurada\", texto: \"Recebe +1 Ataque com armas à distância.\" }\n# Habilidades_Especiais é o jeito Monstro de declarar habilidades\n# texto-livre que não vêm de uma nota com Elementos_de_Regra.\n---\n\n\\`\\`\\`autosheet-yaml\n\\`\\`\\`\n```\n\n### Companheiro Animal (mínimo, nível 5, Canino)\n\n```yaml\n---\naliases: []\ncategoria: Criatura\nsubcategoria: Companheiro Animal\ngrupo: []\nImagem: \"\"\nNível: 5\nClasse: \"[[Companheiro Animal Canino|Canino Médio]]\"\nSintonia: \"[[Traço Elemental do Vento]]\"\nTutor: \"[[Mera]]\"     # OBRIGATÓRIO em CA\nTamanho: Médio\nVida:\n  Vitalidade: 20\n  Moral: 30\n# Atributos / Defesas / Sentidos / Movimento / Pericias preenchidos analogamente\n# CA NÃO tem: Magias, Ofícios completos, Subclasses\nHabilidades:\n  Lista:\n    - \"[[Evolução Básica]]\": \"Regra.[[Companheiro Animal Canino]]\"\n    - \"[[Mordida]]\": \"Regra.[[Canino]]\"\n---\n\n\\`\\`\\`autosheet-yaml\n\\`\\`\\`\n```\n\n## Idempotência (R-IDEM)\n\nSave é **noop** quando a ficha já está coerente (R-IDEM-1). FM cru → 1º\nsave normaliza (preenche keys default) → reload + 2º save é noop\n(R-IDEM-2 forte). Cobertura: [`tests/integration/save-roundtrip.test.ts`](../../../.obsidian/plugins/pleitost-autosheet/tests/integration/save-roundtrip.test.ts).\n\nSe `mtime` mudar sem você ter clicado em Salvar, é bug.\n\n## Compatibilidade legada (chaves aceitas mas não geradas)\n\n- **`Magias.RM` / `Recursos_Restantes.RM`**: lidas e ignoradas. Save NÃO\n  recria; o `processFrontMatter` do Obsidian faz merge field-a-field —\n  as keys físicas no arquivo permanecem inertes até você apagar manualmente.\n- **`Subclasses` (property top-level)**: lida pra retrocompat mas\n  serialize NÃO recria. Fonte de verdade vive em `Habilidades.Lista`\n  com `source=Escolha.[[parent]]`.\n- **`subcategoria: \"Jogador\"`**: aceita via shim em\n  [`src/data/family-compat.ts`](../../../.obsidian/plugins/pleitost-autosheet/src/data/family-compat.ts) →\n  `family: Heroi`. Gravação preserva o valor original.\n\n## Ver também\n\n- [[Efeitos Interativos]] — schema do bloco `Efeitos_Interativos:`\n- [[Elementos de Regra]] — como escrever `Elementos_de_Regra`\n- [architecture/data-model.md](../../../.obsidian/plugins/pleitost-autosheet/docs/architecture/data-model.md) — modelo interno\n- [reference/rule-elements-unsupported.md](../../../.obsidian/plugins/pleitost-autosheet/docs/reference/rule-elements-unsupported.md) — targets que não escrevem (RE-UNSUP-*)\n"
+}

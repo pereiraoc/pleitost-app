@@ -1,0 +1,36 @@
+{
+  "id": "Contexto/Organizações/Facções/A Caixinha",
+  "path": "Contexto/Organizações/Facções/A Caixinha.md",
+  "basename": "A Caixinha",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Caixinha"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": "A instituição informal do trabalho de rua — caixinhas de pagamento anônimo, despachantes que garantem as duas pontas e as Marcas de Respeito como livro-caixa social.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "A Caixinha.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "A Caixinha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[A Caixinha.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Ninguém fundou a Caixinha e ninguém a comanda — ela é um costume com regras. Quem precisa de um serviço deposita o pagamento com um despachante e descreve o trabalho; quem fecha o serviço recebe o depósito e uma **Marca de Respeito** no nome. Contratante não aparece se não quiser; contratado não recebe se não entregar. Caixinhas pesadas exigem Marca — ninguém confia um serviço grande a um desconhecido. O regime tolera porque também usa.\n\n"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Infraestrutura Urbana",
+  "path": "Contexto/Histórias/Contexto Atual/Infraestrutura Urbana/Infraestrutura Urbana.md",
+  "basename": "Infraestrutura Urbana",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia e Saneamento",
+      "kind": "embed"
+    },
+    {
+      "target": "Moradia e Ocupação",
+      "kind": "embed"
+    },
+    {
+      "target": "Redes de Comunicação",
+      "kind": "embed"
+    },
+    {
+      "target": "Transporte e Mobilidade",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Energia e Saneamento]]\n![[Moradia e Ocupação]]\n![[Redes de Comunicação]]\n![[Transporte e Mobilidade]]"
+}

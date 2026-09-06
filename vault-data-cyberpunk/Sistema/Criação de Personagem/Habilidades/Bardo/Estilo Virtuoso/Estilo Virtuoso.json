@@ -1,0 +1,122 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Virtuoso/Estilo Virtuoso",
+  "path": "Sistema/Criação de Personagem/Habilidades/Bardo/Estilo Virtuoso/Estilo Virtuoso.md",
+  "basename": "Estilo Virtuoso",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Luta Artística)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Luta Artística)]]",
+      "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Arte Mágica)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Arte Mágica)]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você chega ao ápice de sua arte, se tornando um virtuoso artista.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Luta Artística)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Luta Artística)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Combate (Luta Artística)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Virtuoso (Luta Artística)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Luta Artística)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Luta Artística)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Arte Mágica)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Arte Mágica)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Virtuoso",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Estilo de Combate (Arte Mágica)]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Habilidades.Lista",
+            "valueRaw": "[[Estilo Virtuoso (Arte Mágica)]]"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Estilo de Combate (Arte Mágica)]]) Complementar Habilidades.Lista [[Estilo Virtuoso (Arte Mágica)]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Virtuoso (Luta Artística)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo Virtuoso (Arte Mágica)",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Estilo de Combate (Luta Artística)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Virtuoso (Luta Artística)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Combate (Arte Mágica)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo Virtuoso (Arte Mágica)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Mestre]]\n\nresumo:: \"Você chega ao ápice de sua arte, se tornando um virtuoso artista.\"\n%%\n#### `= this.file.name`\nVocê chega ao ápice de sua arte, se tornando um virtuoso artista. Você complementa suas habilidades dependendo do seu estilo de combate:\n![[Estilo Virtuoso (Luta Artística)#`= this.file.name`]]\n![[Estilo Virtuoso (Arte Mágica)#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Sentir a Presa",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Sentir a Presa.md",
+  "basename": "Sentir a Presa",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Detecta mesmo ao falhar em [[Procurar]], [[Marca do Caçador|Marca]] como ação livre no sucesso. +2 em [[Percepção]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Procurar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink",
+      "alias": "Marca"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escondido",
+      "kind": "wikilink",
+      "alias": "Escondida"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink",
+      "alias": "marcá-la"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Detecta mesmo ao falhar em [[Procurar]], [[Marca do Caçador|Marca]] como ação livre no sucesso. +2 em [[Percepção]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você falha (exceto falha decisiva) em [[Procurar]] para detectar uma criatura [[Escondido|Escondida]], você detecta a criatura mesmo assim. Quando você tem sucesso em [[Procurar]] para detectar uma criatura, você pode [[Marca do Caçador|marcá-la]] como ação livre. Adicionalmente, você recebe +2 de [[bônus de especialização]] em [[Percepção]].\n\n```autosheet-rules\n```\n"
+}

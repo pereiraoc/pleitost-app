@@ -1,0 +1,54 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Reatividade Selênica e Tipagem",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Reatividade Selênica e Tipagem.md",
+  "basename": "Reatividade Selênica e Tipagem",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O exame que divide a cidade: quem reage à selênica, quem só consome — e o que o RH faz com isso.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Reatividade Selênica e Tipagem.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Reatividade Selênica e Tipagem.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "O laudo"
+    },
+    {
+      "level": 4,
+      "text": "Signo prevê, sangue confirma"
+    },
+    {
+      "level": 4,
+      "text": "O que isso compra (e cobra)"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Reatividade Selênica e Tipagem.png]]\n\n#### O laudo\nA selênica cristaliza conforme os antígenos do sangue. O exame de\n**Reatividade Selênica** — obrigatório na PIRA, vendido em qualquer\n[[Panvel]] — carimba o RG com o Fator: O, A, B, AB, e o sinal. **Fator\npositivo reage**: são os operadores de Lênica, os Artistas Marciais que\ndispensam injetor, os \"sensitivos\". Negativo consome industrializado e\nsegue a vida.\n\n| Fator | Linha | Fama (doutrina Nomi) |\n|---|---|---|\n| O+ | termoquímica | expansivo, competitivo — \"queima livre\" |\n| A+ | materiais | metódico, contido — \"polimeriza estável\" |\n| B+ | gases | criativo, imprevisível — \"liga instável\" |\n| AB+ | fluidos | adaptável, duas caras — \"dissolve tudo\" |\n\n#### Signo prevê, sangue confirma\nA febre japonesa de personalidade por tipo sanguíneo virou doutrina de RH\ndas megacorps — e o horóscopo entrou de carona: os doze signos se dividem\nnos mesmos quatro elementos, então a pré-triagem grátis é o mapa astral e o\nexame pago confirma. Quando discordam, nasce o **Contrariado**: a rua diz\nque dá azar, a megacorp marca o registro, e ninguém contrata sem pensar\nduas vezes.\n\n#### O que isso compra (e cobra)\nFator positivo abre porta: bolsa em Escola Trônica, vaga em programa de\nteste da Panvel, cacife nos Círculos da Doutrina. Também fecha: positivos\nsão os primeiros convocados quando o Estado precisa de \"voluntários\" — e os\nprimeiros suspeitos quando algo selênico dá errado."
+}

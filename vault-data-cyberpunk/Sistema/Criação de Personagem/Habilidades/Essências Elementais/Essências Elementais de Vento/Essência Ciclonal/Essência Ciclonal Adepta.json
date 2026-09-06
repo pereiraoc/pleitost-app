@@ -1,0 +1,97 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ciclonal/Essência Ciclonal Adepta",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Vento/Essência Ciclonal/Essência Ciclonal Adepta.md",
+  "basename": "Essência Ciclonal Adepta",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Vento",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Lista [[Corte de Vento]]",
+      "Complementar Magias.Lista [[Lufada de Vento]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Adepto]]",
+    "resumo": "\"basica [[Corte de Vento]], adepta [[Lufada de Vento]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Lista [[Corte de Vento]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Ciclonal Adepta",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Corte de Vento]]"
+          },
+          "raw": "Complementar Magias.Lista [[Corte de Vento]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Magias.Lista [[Lufada de Vento]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Ciclonal Adepta",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista",
+            "valueRaw": "[[Lufada de Vento]]"
+          },
+          "raw": "Complementar Magias.Lista [[Lufada de Vento]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corte de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lufada de Vento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Adepto]]\n\nresumo:: \"basica [[Corte de Vento]], adepta [[Lufada de Vento]]\"\n%%\n#### `= this.file.name`\n* basica [[Corte de Vento]]\n* adepta [[Lufada de Vento]]\n\n```autosheet-rules\n```\n"
+}

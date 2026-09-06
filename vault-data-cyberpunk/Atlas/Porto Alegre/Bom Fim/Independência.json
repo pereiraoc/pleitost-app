@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Independência",
+  "path": "Atlas/Porto Alegre/Bom Fim/Independência.md",
+  "basename": "Independência",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Independência.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Independência.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Independência.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Ladeiras arborizadas, casarões do final do século XIX e pequenas praças de convívio.\n> \n> 👁️**Aparência do Local:** Ruas de paralelepípedo contornadas por laranjeiras em flor, fachadas em tons pastel desgastados, aroma suave de madeira antiga, canto esporádico de pássaros urbanos e o tato firme das pedras sob os pés.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Ladeiras arborizadas, casarões do final do século XIX e pequenas praças de convívio.",
+    "aparencia": "Ruas de paralelepípedo contornadas por laranjeiras em flor, fachadas em tons pastel desgastados, aroma suave de madeira antiga, canto esporádico de pássaros urbanos e o tato firme das pedras sob os pés.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Usina do Gasômetro",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Usina do Gasômetro.md",
+  "basename": "Usina do Gasômetro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Usina do Gasômetro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Usina do Gasômetro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Usina do Gasômetro.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga termoelétrica agora corroída.\n> \n> 👁️**Aparência do Local:** Chaminés enferrujadas, caldeiras estouradas, fumaça fantasma.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga termoelétrica agora corroída.",
+    "aparencia": "Chaminés enferrujadas, caldeiras estouradas, fumaça fantasma.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

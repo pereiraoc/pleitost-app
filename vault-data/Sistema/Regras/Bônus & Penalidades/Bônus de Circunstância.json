@@ -1,0 +1,42 @@
+{
+  "id": "Sistema/Regras/Bônus & Penalidades/Bônus de Circunstância",
+  "path": "Sistema/Regras/Bônus & Penalidades/Bônus de Circunstância.md",
+  "basename": "Bônus de Circunstância",
+  "type": "Regra",
+  "subtype": "Bônus",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "bônus de circunstância",
+    "categoria": "Regra",
+    "subcategoria": "Bônus",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Bônus & Penalidades]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bônus & Penalidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cobertura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Bônus & Penalidades]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\nBônus de circunstância são melhorias em rolagens de ataques ou testes garantidas pela situação na qual a criatura se encontra. Por exemplo, estar atrás de uma pedra grande o suficiente pode melhorar sua [[Defesa]] ([[Cobertura]]) ou uma técnica sua pode te dar um bônus em certas situações.\n\nQuando o Mestre do jogo quiser dar um benefício aos jogadores por uma ideia boa ou plano interessante, o bônus de circunstância é geralmente a melhor opção."
+}

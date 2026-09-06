@@ -1,0 +1,395 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Perito)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Ladino/Estilo Aprimorado/Estilo Aprimorado (Perito).md",
+  "basename": "Estilo Aprimorado (Perito)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Estilo de Ladino (Perito)]]",
+      "Condicional Pericias.Lista.Atletismo.Bonus_Especial,2 Sobrescrever Pericias.Lista.Atletismo.Proficiencia E",
+      "Condicional Pericias.Lista.Acrobacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Acrobacia.Proficiencia E",
+      "Condicional Pericias.Lista.Furtividade.Bonus_Especial,2 Sobrescrever Pericias.Lista.Furtividade.Proficiencia E",
+      "Condicional Pericias.Lista.Ladinagem.Bonus_Especial,2 Sobrescrever Pericias.Lista.Ladinagem.Proficiencia E",
+      "Condicional Pericias.Lista.Arcana.Bonus_Especial,2 Sobrescrever Pericias.Lista.Arcana.Proficiencia E",
+      "Condicional Pericias.Lista.Sociedades.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sociedades.Proficiencia E",
+      "Condicional Pericias.Lista.Guerra.Bonus_Especial,2 Sobrescrever Pericias.Lista.Guerra.Proficiencia E",
+      "Condicional Pericias.Lista.Anima.Bonus_Especial,2 Sobrescrever Pericias.Lista.Anima.Proficiencia E",
+      "Condicional Pericias.Lista.Medicina.Bonus_Especial,2 Sobrescrever Pericias.Lista.Medicina.Proficiencia E",
+      "Condicional Pericias.Lista.Sobrevivencia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sobrevivencia.Proficiencia E",
+      "Condicional Pericias.Lista.Diplomacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Diplomacia.Proficiencia E",
+      "Condicional Pericias.Lista.Enganacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Enganacao.Proficiencia E",
+      "Condicional Pericias.Lista.Intimidacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Intimidacao.Proficiencia E"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "resumo": "\"Você se torna [[Experiente]] nas duas perícias que você escolheu no seu [[Estilo de Ladino|estilo]] para receber o [[bônus de especialização]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Perito)]]",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Estilo de Ladino (Perito)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Estilo de Ladino (Perito)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Atletismo.Bonus_Especial,2 Sobrescrever Pericias.Lista.Atletismo.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Atletismo.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Atletismo.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Atletismo.Bonus_Especial,2 Sobrescrever Pericias.Lista.Atletismo.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Acrobacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Acrobacia.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Acrobacia.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Acrobacia.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Acrobacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Acrobacia.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Furtividade.Bonus_Especial,2 Sobrescrever Pericias.Lista.Furtividade.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Furtividade.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Furtividade.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Furtividade.Bonus_Especial,2 Sobrescrever Pericias.Lista.Furtividade.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Ladinagem.Bonus_Especial,2 Sobrescrever Pericias.Lista.Ladinagem.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Ladinagem.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Ladinagem.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Ladinagem.Bonus_Especial,2 Sobrescrever Pericias.Lista.Ladinagem.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Arcana.Bonus_Especial,2 Sobrescrever Pericias.Lista.Arcana.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Arcana.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Arcana.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Arcana.Bonus_Especial,2 Sobrescrever Pericias.Lista.Arcana.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Sociedades.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sociedades.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 6,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Sociedades.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sociedades.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Sociedades.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sociedades.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Guerra.Bonus_Especial,2 Sobrescrever Pericias.Lista.Guerra.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 7,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Guerra.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Guerra.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Guerra.Bonus_Especial,2 Sobrescrever Pericias.Lista.Guerra.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Anima.Bonus_Especial,2 Sobrescrever Pericias.Lista.Anima.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 8,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Anima.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Anima.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Anima.Bonus_Especial,2 Sobrescrever Pericias.Lista.Anima.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Medicina.Bonus_Especial,2 Sobrescrever Pericias.Lista.Medicina.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 9,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Medicina.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Medicina.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Medicina.Bonus_Especial,2 Sobrescrever Pericias.Lista.Medicina.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Sobrevivencia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sobrevivencia.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 10,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Sobrevivencia.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Sobrevivencia.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Sobrevivencia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Sobrevivencia.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Diplomacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Diplomacia.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 11,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Diplomacia.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Diplomacia.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Diplomacia.Bonus_Especial,2 Sobrescrever Pericias.Lista.Diplomacia.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Enganacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Enganacao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 12,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Enganacao.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Enganacao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Enganacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Enganacao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Pericias.Lista.Intimidacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Intimidacao.Proficiencia E",
+      "parsed": [
+        {
+          "sourceNote": "Estilo Aprimorado (Perito)",
+          "occurrenceIndex": 13,
+          "scope": [],
+          "condition": {
+            "kind": "bonus-min",
+            "prop": "Pericias.Lista.Intimidacao.Bonus_Especial",
+            "min": 2
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Pericias.Lista.Intimidacao.Proficiencia",
+            "valueRaw": "E"
+          },
+          "raw": "Condicional Pericias.Lista.Intimidacao.Bonus_Especial,2 Sobrescrever Pericias.Lista.Intimidacao.Proficiencia E",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino",
+      "kind": "wikilink",
+      "alias": "estilo"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estilo de Ladino (Perito)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\n\nresumo:: \"Você se torna [[Experiente]] nas duas perícias que você escolheu no seu [[Estilo de Ladino|estilo]] para receber o [[bônus de especialização]].\"\n%%\n##### `= this.file.name`\nVocê se torna [[Experiente]] nas duas perícias que você escolheu no seu [[Estilo de Ladino|estilo]] para receber o [[bônus de especialização]].\n\n```autosheet-rules\n```\n"
+}

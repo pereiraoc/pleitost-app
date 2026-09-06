@@ -1,0 +1,44 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Regeneração",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Regeneração.md",
+  "basename": "Regeneração",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Regeneração (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cura [1d6+(MOD/2)]×potência [[Energia Vital|EV]] ou [[Energia Heroica|EH]], alcance 6q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cura [1d6+(MOD/2)]×potência [[Energia Vital|EV]] ou [[Energia Heroica|EH]], alcance 6q.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. [1d6+(MOD/2)]×potência de cura de [[Energia Vital|EV]] ou [[Energia Heroica|EH]]. Escolha um valor de [[Energia Vital|EV]] para perder, até o máximo rolado. Você recupera [[Energia Vital|EV]] do alvo igual ao valor perdido e o restante do valor rolado é recuperado como [[Energia Heroica|EH]].\n\n```autosheet-rules\n```\n"
+}

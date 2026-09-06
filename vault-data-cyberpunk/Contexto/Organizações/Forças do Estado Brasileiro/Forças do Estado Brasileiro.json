@@ -1,0 +1,26 @@
+{
+  "id": "Contexto/Organizações/Forças do Estado Brasileiro/Forças do Estado Brasileiro",
+  "path": "Contexto/Organizações/Forças do Estado Brasileiro/Forças do Estado Brasileiro.md",
+  "basename": "Forças do Estado Brasileiro",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Forças do Estado Brasileiro.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Forças do Estado Brasileiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "![[Forças do Estado Brasileiro.png]]\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Organização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nwhere categoria=\"Organização\" and subcategoria=\"Força do Estado\"\nsort subcategoria asc\n```"
+}

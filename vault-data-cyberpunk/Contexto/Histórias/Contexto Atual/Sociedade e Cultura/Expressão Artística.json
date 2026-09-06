@@ -1,0 +1,111 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Expressão Artística",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Expressão Artística.md",
+  "basename": "Expressão Artística",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A relação entre arte, censura e resistência cultural.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Expressão Artística.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bar Ocidente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velha Indústria",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Parcão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    }
+  ],
+  "images": [
+    {
+      "target": "Expressão Artística.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Grafites e Arte Urbana"
+    },
+    {
+      "level": 4,
+      "text": "Teatro e Resistência"
+    },
+    {
+      "level": 4,
+      "text": "Música e Censura"
+    },
+    {
+      "level": 4,
+      "text": "Eventos Culturais e Intervenções"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Expressão Artística.png]]\n\n#### Grafites e Arte Urbana\nA fachada dos casarões coloniais do [[Centro Histórico]] transformou-se numa galeria aberta de protestos através de grafites ousados que desafiam diariamente as equipes de limpeza financiadas pela [[Embratel]]. As inscrições trazem mensagens codificadas, críticas afiadas à opressão do governo e referências ao impacto destrutivo do uso desenfreado dos selênicos.\n#### Teatro e Resistência\nTeatros subterrâneos, como o [[Teatro Quarto Distrito]], montam peças clandestinas denunciando abusos cometidos pelo regime, com ingressos distribuídos secretamente entre estudantes do [[Colégio Rosário]] e frequentadores do [[Bar Ocidente]], no [[Bom Fim]]. Esses eventos evocam a resistência histórica da cena cultural gaúcha, semelhante à maneira como artistas locais como Nei Lisboa e Vitor Ramil burlam a censura oficial através de metáforas engenhosas em suas composições.\n#### Música e Censura\nMúsicas críticas, especialmente de bandas emergentes do [[Quarto Distrito]] e da [[Velha Indústria]], são frequentemente censuradas pela [[Brigada Militar Metropolitana]]. Entretanto, canções inteligentes e com múltiplas camadas de interpretação conseguem driblar a censura, circulando em fitas cassete clandestinas vendidas nos camelôs e nas bancas do [[Mercado Flutuante]] da [[Restinga]]. Artistas gaúchos se utilizam de alegorias e subterfúgios literários para comunicar mensagens de resistência, fortalecendo a oposição silenciosa e instigando a população a questionar o sistema dominante.\n#### Eventos Culturais e Intervenções\nEventos improvisados em espaços públicos, como na Praça da Encol e no [[Parcão]], organizados pela [[Resistência Urbana Gaúcha]], utilizam intervenções performáticas e poesia ao ar livre para atrair a juventude e desafiar simbolicamente o controle estatal. A censura reage rapidamente, mas cada interrupção pela [[Brigada Militar Metropolitana|Brigada Militar]] apenas reforça o apelo dessas manifestações, transformando atos culturais em poderosos símbolos de resistência."
+}

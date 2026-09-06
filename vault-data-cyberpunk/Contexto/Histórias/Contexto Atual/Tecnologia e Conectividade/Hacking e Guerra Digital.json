@@ -1,0 +1,145 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Hacking e Guerra Digital",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Hacking e Guerra Digital.md",
+  "basename": "Hacking e Guerra Digital",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Conflitos invisíveis em redes de dados e sistemas corporativos.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Hacking e Guerra Digital.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estados Unidos",
+      "kind": "wikilink",
+      "alias": "EUA"
+    },
+    {
+      "target": "China",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Complexo de Testes Orion",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Base Aérea de Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Base Aérea de Canoas",
+      "kind": "wikilink",
+      "alias": "BACO"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    }
+  ],
+  "images": [
+    {
+      "target": "Hacking e Guerra Digital.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Ataques Relâmpago e Ilhas de Silêncio"
+    },
+    {
+      "level": 4,
+      "text": "Espionagem Internacional e Local"
+    },
+    {
+      "level": 4,
+      "text": "Controle e Vigilância Corporativa"
+    },
+    {
+      "level": 4,
+      "text": "Comunicações Subterrâneas"
+    },
+    {
+      "level": 4,
+      "text": "Contramedidas e Retaliações"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Hacking e Guerra Digital.png]]\n\n#### Ataques Relâmpago e Ilhas de Silêncio\nGrupos clandestinos como a **[[Resistência Urbana Gaúcha]]** e o **[[Movimento Restinga Livre]]** realizam ataques digitais relâmpago contra servidores estratégicos de megacorporações como a **[[Gradiente]]** e a **[[Tramontina]]**, interrompendo temporariamente a comunicação e controle sobre implantes selênicos. Antenas da **[[Embratel]]**, especialmente nas regiões do [[Centro Histórico]] e em bairros periféricos como [[Restinga]] e Passo D’Areia, frequentemente são alvos de sabotagem, criando zonas isoladas de comunicação conhecidas localmente como \"ilhas de silêncio\".\n\n#### Espionagem Internacional e Local\nGrandes potências como [[Estados Unidos|EUA]], União Soviética e [[China]] utilizam a guerra digital como ferramenta de espionagem, especialmente em locais estratégicos como o **[[Complexo de Testes Orion]]** na [[Zona Deserta]] e na **[[Base Aérea de Canoas]]** ([[Base Aérea de Canoas|BACO]]). Informações sensíveis frequentemente escapam do controle oficial e chegam às mãos dos grupos hackers locais, alimentando as redes clandestinas de rádio operadas pela Resistência Urbana em bairros como o [[Bom Fim]] e [[Cidade Baixa]].\n\n#### Controle e Vigilância Corporativa\nMegacorporações como a **[[Gradiente]]** usam ataques digitais para monitorar e suprimir empresas emergentes que possam ameaçar seu monopólio tecnológico em implantes neurais e cognitivos. Hackers contratados frequentemente sabotam laboratórios menores em [[Jardim Itu]] e [[Canoas]], impedindo o desenvolvimento de tecnologias alternativas aos selênicos.\n\n#### Comunicações Subterrâneas\nA **[[Galeria Malcom]]** no [[Centro Histórico]] e os túneis abandonados do [[Quarto Distrito]] tornaram-se hubs clandestinos de hackers, onde servidores improvisados operam protegidos das ações da [[Brigada Militar Metropolitana]]. Estas galerias são palco de trocas frequentes de informações sobre pontos fracos nas redes corporativas e estratégias de contra-vigilância digital.\n\n#### Contramedidas e Retaliações\nA **[[Embratel]]**, sob controle militar, aplica regularmente operações repressivas digitais, cortando comunicações inteiras de bairros insurgentes como [[Restinga]] e [[Quarto Distrito]] durante operações de repressão física da [[Brigada Militar Metropolitana|Brigada Militar]]. Em resposta, hackers locais desenvolvem constantemente novas técnicas de \"jailbreak\" de implantes selênicos da [[Gradiente]] e [[Tramontina]], disseminando manuais clandestinos de libertação tecnológica nos bairros mais controlados."
+}

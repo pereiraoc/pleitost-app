@@ -1,0 +1,71 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Congelante/Essência Congelante Experiente Menor",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Essências Elementais Menores/Essências Elementais de Água/Essência Congelante/Essência Congelante Experiente Menor.md",
+  "basename": "Essência Congelante Experiente Menor",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "elemento": "Água",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Complementar Magias.Secundaria.Lista [[Cristalização Gélida]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "[[Experiente]]",
+    "resumo": "\"experiente [[Cristalização Gélida]]\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Complementar Magias.Secundaria.Lista [[Cristalização Gélida]]",
+      "parsed": [
+        {
+          "sourceNote": "Essência Congelante Experiente Menor",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Secundaria.Lista",
+            "valueRaw": "[[Cristalização Gélida]]"
+          },
+          "raw": "Complementar Magias.Secundaria.Lista [[Cristalização Gélida]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cristalização Gélida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: [[Experiente]]\n\nresumo:: \"experiente [[Cristalização Gélida]]\"\n%%\n#### `= this.file.name`\n* experiente [[Cristalização Gélida]]\n\n```autosheet-rules\n```\n"
+}

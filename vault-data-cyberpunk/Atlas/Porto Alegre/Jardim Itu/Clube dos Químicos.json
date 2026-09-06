@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Clube dos Químicos",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Clube dos Químicos.md",
+  "basename": "Clube dos Químicos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clube dos Químicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clube dos Químicos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Clube dos Químicos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Espaço de convivência para técnicos e engenheiros.\n> \n> 👁️**Aparência do Local:** Sofás de vinil gasto, cartazes de normas de segurança, cheiro de bebidas.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Espaço de convivência para técnicos e engenheiros.",
+    "aparencia": "Sofás de vinil gasto, cartazes de normas de segurança, cheiro de bebidas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

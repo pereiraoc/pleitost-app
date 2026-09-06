@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Sísmica/Essência Sísmica",
+  "path": "Sistema/Criação de Personagem/Habilidades/Essências Elementais/Essências Elementais de Terra/Essência Sísmica/Essência Sísmica.md",
+  "basename": "Essência Sísmica",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "",
+    "rank": "",
+    "resumo": "\"basica [[Pulso Sísmico]], adepta [[Onda de Choque]], experiente [[Tremor]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulso Sísmico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Onda de Choque",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tremor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Essência Sísmica Adepta",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    },
+    {
+      "target": "Essência Sísmica Experiente",
+      "kind": "embed",
+      "subpath": "`= this.file.name`"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: \nrank:: \n\nresumo:: \"basica [[Pulso Sísmico]], adepta [[Onda de Choque]], experiente [[Tremor]]\"\n%%\n### `= this.file.name`\n![[Essência Sísmica Adepta#`= this.file.name`]]\n![[Essência Sísmica Experiente#`= this.file.name`]]\n\n```autosheet-rules\n```\n"
+}

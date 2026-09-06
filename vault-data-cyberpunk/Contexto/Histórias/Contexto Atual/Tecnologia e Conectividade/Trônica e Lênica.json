@@ -1,0 +1,80 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Trônica e Lênica",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Trônica e Lênica.md",
+  "basename": "Trônica e Lênica",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "As duas disciplinas selênicas — eletrônica e química — como a rua as conhece e usa.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Trônica e Lênica.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Reatividade Selênica e Tipagem",
+      "kind": "wikilink",
+      "alias": "Tipagem"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada"
+    }
+  ],
+  "images": [
+    {
+      "target": "Trônica e Lênica.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Trônica — a selênica eletrônica"
+    },
+    {
+      "level": 4,
+      "text": "Lênica — a selênica química"
+    },
+    {
+      "level": 4,
+      "text": "Na prática"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Trônica e Lênica.png]]\n\n#### Trônica — a selênica eletrônica\nChips e implantes que rodam **rotinas**: estímulo (Positrônica), supressão\n(Negatrônica) e protocolos utilitários (Utilitrônica). Operar exige\nadaptador — o implante de interface que as Escolas Trônicas credenciadas da\n[[Gradiente]] instalam com nota fiscal, e as clandestinas do\n[[Quarto Distrito]] instalam sem. O operador de verdade (Tecnologista) roda\npelo próprio implante; o resto do mundo dispara **cartuchos**: rotinas\ngravadas que qualquer um pluga e executa uma vez.\n\n#### Lênica — a selênica química\nReagentes e doses: a disciplina dos preparadores. Cada elemento é uma\n**linha de reagente** — termoquímica (Fogo), fluidos e criogenia (Água),\nmateriais e polímeros (Terra), gases e eletroquímica (Vento). Operar Lênica\nde verdade exige **Fator positivo** ([[Reatividade Selênica e Tipagem|Tipagem]]);\nquem não tem compra o efeito pronto: os -lênicos da [[Panvel]] e os\npreparos de bancada dos Químicos do [[Jardim Itu]].\n\n#### Na prática\n- **Rotina** é software; **Módulo** é hardware acoplável (oficial Gradiente\n  ou pirata); **Indução** é buff de campo em arma comum.\n- Cristal selênico é a matéria-prima de tudo — cada linha tem o seu.\n- A [[Embratel]] escuta o espectro: rodar rotina de supressão perto de\n  torre de vigilância é convite pra visita da [[Brigada Militar Metropolitana|Brigada]]."
+}

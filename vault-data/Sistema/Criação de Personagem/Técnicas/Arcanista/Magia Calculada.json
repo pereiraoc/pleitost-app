@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Calculada",
+  "path": "Sistema/Criação de Personagem/Técnicas/Arcanista/Magia Calculada.md",
+  "basename": "Magia Calculada",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Arcanista]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Se sua próxima ação é conjurar uma magia que tenha uma rolagem de dados para valor de dano ou cura, use um valor fixo para o resultado. Os d4 se tornam 3, d6 se tornam 4, d8 se tornam 5, d10 se tornam 6 e d12 se tornam 7.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Arcanista]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Se sua próxima ação é conjurar uma magia que tenha uma rolagem de dados para valor de dano ou cura, use um valor fixo para o resultado. Os d4 se tornam 3, d6 se tornam 4, d8 se tornam 5, d10 se tornam 6 e d12 se tornam 7.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Magia Calculada.\n\n**Magia Calculada - 1A**\nSe sua próxima ação é conjurar uma magia que tenha uma rolagem de dados para valor de dano ou cura, use um valor fixo para o resultado. Os d4 se tornam 3, d6 se tornam 4, d8 se tornam 5, d10 se tornam 6 e d12 se tornam 7.\n\n```autosheet-rules\n```\n"
+}

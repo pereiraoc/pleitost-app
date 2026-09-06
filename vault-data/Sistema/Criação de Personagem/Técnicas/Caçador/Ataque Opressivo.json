@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Caçador/Ataque Opressivo",
+  "path": "Sistema/Criação de Personagem/Técnicas/Caçador/Ataque Opressivo.md",
+  "basename": "Ataque Opressivo",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Caçador]]",
+    "rank": "[[Experiente]]",
+    "custo": "2A",
+    "resumo": "\"Faça dois [[Atacar|Ataques]] contra alvo de caça. Se ao menos um sucesso, a criatura fica [[Desprevenido|Desprevenida]] por 1t.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caçador",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink",
+      "alias": "Desprevenida"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Caçador]]\nrank:: [[Experiente]]\ncusto:: 2A\n\nresumo:: \"Faça dois [[Atacar|Ataques]] contra alvo de caça. Se ao menos um sucesso, a criatura fica [[Desprevenido|Desprevenida]] por 1t.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Ataque Opressivo.\n\n**Ataque Opressivo - 2A**\nVocê foca no seu alvo de caça e desfere uma miríade de ataques consecutivos deixando seu alvo confuso. Faça dois [[Atacar|Ataques]] contra seu alvo de caça. Caso tenha sucesso em pelo menos um dos ataques, a criatura fica [[Desprevenido|Desprevenida]] até o início do seu próximo turno.\n\n```autosheet-rules\n```\n"
+}

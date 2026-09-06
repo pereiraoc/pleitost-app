@@ -1,0 +1,131 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Comércio Ilegal e Experimentação Química",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Comércio Ilegal e Experimentação Química.md",
+  "basename": "Comércio Ilegal e Experimentação Química",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A produção, distribuição e aprimoramento clandestino de substâncias psicoativas, incluindo o papel das corporações.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Comércio Ilegal e Experimentação Química.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Clube dos Químicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camelódromo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duque de Caxias",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Comércio Ilegal e Experimentação Química.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Laboratórios Clandestinos no Centro Histórico"
+    },
+    {
+      "level": 4,
+      "text": "Rotas de Contrabando"
+    },
+    {
+      "level": 4,
+      "text": "Papel das Megacorporações"
+    },
+    {
+      "level": 4,
+      "text": "Conflitos e Fiscalização"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Comércio Ilegal e Experimentação Química.png]]\n\nEm Porto Alegre de 1987, o tráfico e o aprimoramento de substâncias psicoativas — sobretudo as variantes ilegais de selênicos — formam uma teia complexa que mescla corporações, facções e espaços urbanos.\n\n#### Laboratórios Clandestinos no Centro Histórico\nTúneis sob o “novo piso” flutuante abrigam instalações improvisadas onde químicos do **[[Clube dos Químicos]]** e técnicos renegados da **[[Gradiente]]** sintetizam _Ritalênicos_ e _Adrenalênicos_ de tarja preta sem controle estatal. Esses laboratórios utilizam insumos desviados de fábricas do **[[Jardim Itu]]** e reagentes contrabandeados via **[[Porto Novo]]**, aproveitando a cobertura de graffiti e entrepostos abandonados para driblar fiscalizações da **[[Brigada Militar Metropolitana]]**.\n\n#### Rotas de Contrabando\nAs substâncias fluem por três corredores principais:\n1. **[[Praia de Belas]] → [[Restinga]]**: carregamentos de _Omega-S_ partem de galpões na [[Praia de Belas]], vigiados pela **[[Camisa 12]]**, e chegam em lanchas da **[[Restinga]] Livre**, que garantem desembarque sigiloso nas palafitas do [[Mercado Flutuante]].\n2. **[[Camelódromo]]**: ponto de fusão entre sucata tecnológica e insumos farmacêuticos, onde o **[[Clã da Ferrugem]]** refina metais contaminados para criar novas cápsulas de selênicos “jailbreak” .\n3. **[[Delta Radioativo]] → [[Cidade Baixa]]**: carretas da **[[Panvel]]** descarregam cristais mutagênicos extraídos da lama do Delta em laboratórios flutuantes, que produzem variantes experimentais supostamente mais potentes.\n\n#### Papel das Megacorporações\n- **[[Gradiente]]** investe em laboratórios-satélite em porões do **[[Centro Histórico]]**, testando implantes neurais que funcionem como “droga de performance” personalizada para clientes VIP, mas também replica essas moléculas em pequena escala para alimentar o mercado negro.\n\n#### Conflitos e Fiscalização\nO crescimento dessas práticas gera atritos constantes: operações “Ferro Velho” da **[[Brigada Militar Metropolitana|Brigada Militar]]** visam destruir bancas no [[Camelódromo]], enquanto hackers da **[[Resistência Urbana Gaúcha]]** sabotar transmissões da **[[Embratel]]** para acionar sistemas de alarme nos depósitos de [[Panvel]]; o resultado são prisões arbitrárias, explosões acidentais de selênicos mutados e surtos psicóticos em massa em bairros como **[[Cidade Baixa]]** e **[[Duque de Caxias]]**, onde a vigilância estatal é mais intensa."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Dra. Beatriz Salgado",
+  "path": "Contexto/Pessoas/Dra. Beatriz Salgado.md",
+  "basename": "Dra. Beatriz Salgado",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Beatriz Salgado"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sociedade dos Jardins]]",
+    "Função": "Presidente da Sociedade dos Jardins",
+    "Aparência": "Scrubs de grife sob casaco de cashmere, prontuários que valem mais que cofres.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sociedade dos Jardins",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

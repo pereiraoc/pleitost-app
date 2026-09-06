@@ -1,0 +1,59 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Cambalhota Estratégica",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Cambalhota Estratégica.md",
+  "basename": "Cambalhota Estratégica",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Se você usar [[Cambalhota]] com sucesso para atravessar o espaço de uma criatura, você tem [[Vantagem de Combate]] no próximo [[Atacar|Ataque]] corpo-a-corpo neste turno contra ela.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Se você usar [[Cambalhota]] com sucesso para atravessar o espaço de uma criatura, você tem [[Vantagem de Combate]] no próximo [[Atacar|Ataque]] corpo-a-corpo neste turno contra ela.\"\n%%\n#### `= this.file.name` - `= this.rank`\nQuando você usa uma [[Cambalhota]] com sucesso para passar pelo espaço ocupado por uma criatura, você tem [[Vantagem de Combate]] no próximo [[Atacar|Ataque]] corpo-a-corpo que você fizer neste turno caso seja contra a criatura.\n\n```autosheet-rules\n```\n"
+}

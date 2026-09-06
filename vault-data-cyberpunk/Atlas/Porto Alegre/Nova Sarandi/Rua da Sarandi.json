@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Rua da Sarandi",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Rua da Sarandi.md",
+  "basename": "Rua da Sarandi",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rua da Sarandi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rua da Sarandi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rua da Sarandi.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Eixo comercial e residencial em expansão.\n> \n> 👁️**Aparência do Local:** Lojas de autopeças, casas geminadas, tráfego intenso.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Eixo comercial e residencial em expansão.",
+    "aparencia": "Lojas de autopeças, casas geminadas, tráfego intenso.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/João “Borracheiro” Dias",
+  "path": "Contexto/Pessoas/João “Borracheiro” Dias.md",
+  "basename": "João “Borracheiro” Dias",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "João Dias",
+      "Borracheiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Camisa 12]]",
+    "Função": "Chefe da Camisa 12",
+    "Aparência": "Jaqueta vermelha com faixa branca e “12” grafitado, mãos pretas de graxa que nunca saiu.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

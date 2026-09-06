@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Arte Mágica Distante",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Arte Mágica Distante.md",
+  "basename": "Arte Mágica Distante",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"O alcance de [[Ruído Estridente]], [[Palavras Cortantes]] e [[Projétil Telecinético]] aumenta para 10q.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ruído Estridente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palavras Cortantes",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Projétil Telecinético",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"O alcance de [[Ruído Estridente]], [[Palavras Cortantes]] e [[Projétil Telecinético]] aumenta para 10q.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê consegue propagar seus truques de combate mais longe. O alcance de [[Ruído Estridente]], [[Palavras Cortantes]] e [[Projétil Telecinético]] aumenta para 10q.\n*Requer Arte Mágica*\n\n```autosheet-rules\n```\n"
+}

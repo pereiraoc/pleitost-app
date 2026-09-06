@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Gilberto Medeiros",
+  "path": "Contexto/Pessoas/Gilberto Medeiros.md",
+  "basename": "Gilberto Medeiros",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Presidente Gilberto Medeiros"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sport Club Internacional]]",
+    "Função": "Presidente do Sport Club Internacional",
+    "Aparência": "Blazer vermelho, distintivo na lapela, voz rouca de quem discursa sem microfone.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

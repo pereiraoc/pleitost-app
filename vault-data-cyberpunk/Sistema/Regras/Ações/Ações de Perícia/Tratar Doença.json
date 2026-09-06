@@ -1,0 +1,47 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Tratar Doença",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Tratar Doença.md",
+  "basename": "Tratar Doença",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "60 Min",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Medicina]]\"",
+    "propriedades": "",
+    "resumo": "\"Auxilia uma criatura a se recuperar de uma doença.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Medicina]]\"\npropriedades:: \nresumo:: \"Auxilia uma criatura a se recuperar de uma doença.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça um teste de [[Medicina]] contra uma [[CD]] da doença.\n\n```autosheet-rules\n```\n"
+}

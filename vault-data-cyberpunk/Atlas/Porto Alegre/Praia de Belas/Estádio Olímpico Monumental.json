@@ -1,0 +1,71 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estádio Olímpico Monumental",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estádio Olímpico Monumental.md",
+  "basename": "Estádio Olímpico Monumental",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Estádio Olímpico",
+      "Olímpico",
+      "Olímpico Monumental"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estádio Olímpico Monumental.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guaíba",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estádio Olímpico Monumental.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estádio Olímpico Monumental.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Imensa arena de concreto e aço erguida sobre as margens do [[Guaíba]], sede oficial do [[Grêmio Foot-Ball Porto Alegrense]] e palco não só dos grandes clássicos futebolísticos como também de manifestações políticas e eventos corporativos. Sua forma circular exibe arquibancadas inclinadas que engolem o público, transformando o rugido da torcida em pulsação ensurdecedora.\n> \n> 👁️**Aparência do Local:** Do lado externo, muralhas de concreto riscadas por graffiti esportivo e painéis metálicos com patrocínios de [[Tramontina]] e [[Gradiente]]; no interior, cadeiras em azul-preto contrastam com o verde do campo, iluminado por torres de refletores que se erguem como guardiões em cada vértice. Corredores subterrâneos e túneis de manutenção, herança das fábricas vizinhas do [[Quarto Distrito]], conectam camarotes e vestiários.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Imensa arena de concreto e aço erguida sobre as margens do [[Guaíba]], sede oficial do [[Grêmio Foot-Ball Porto Alegrense]] e palco não só dos grandes clássicos futebolísticos como também de manifestações políticas e eventos corporativos. Sua forma circular exibe arquibancadas inclinadas que engolem o público, transformando o rugido da torcida em pulsação ensurdecedora.",
+    "aparencia": "Do lado externo, muralhas de concreto riscadas por graffiti esportivo e painéis metálicos com patrocínios de [[Tramontina]] e [[Gradiente]]; no interior, cadeiras em azul-preto contrastam com o verde do campo, iluminado por torres de refletores que se erguem como guardiões em cada vértice. Corredores subterrâneos e túneis de manutenção, herança das fábricas vizinhas do [[Quarto Distrito]], conectam camarotes e vestiários.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Brutal",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Forma Brutal.md",
+  "basename": "Forma Brutal",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Brutal",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "visual": {
+          "iconeLigado": "🐻",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "pai": "Forma Feral"
+        },
+        "forma": {
+          "movimento": 4,
+          "ataques": [
+            "Mordida",
+            "Garras"
+          ],
+          "manobra": "[[Agarrar]]",
+          "resistencia": "[[Vigor]]",
+          "pericias": [
+            "[[Empurrar]]",
+            "[[Escalar]]",
+            "[[Nadar]]",
+            "[[Rastrear]]",
+            "[[Assustar]]"
+          ],
+          "habilidades": [
+            "[[Esmagar Presa]]"
+          ],
+          "beneficios": "Criaturas [[Abalado|Abaladas]] recebem -2 de [[Penalidades|penalidade de condição]] para [[Escapar]] quando [[Agarrado|Agarradas]] por você."
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Garras); [[Agarrar]]; resistência [[Vigor]]; ações: [[Empurrar]], [[Escalar]], [[Nadar]], [[Rastrear]], [[Assustar]]; habilidade [[Esmagar Presa]]; alvos [[Abalado|Abalados]] sofrem -2 de [[Penalidades|penalidade de condição]] para [[Escapar]] quando [[Agarrado|Agarradas]] por você.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Agarrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Empurrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rastrear",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esmagar Presa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalados"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de condição"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink",
+      "alias": "Agarradas"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abaladas"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"[[Movimentação]] 4+[[Agilidade|AGI]]; ataques naturais (Mordida, Garras); [[Agarrar]]; resistência [[Vigor]]; ações: [[Empurrar]], [[Escalar]], [[Nadar]], [[Rastrear]], [[Assustar]]; habilidade [[Esmagar Presa]]; alvos [[Abalado|Abalados]] sofrem -2 de [[Penalidades|penalidade de condição]] para [[Escapar]] quando [[Agarrado|Agarradas]] por você.\"\n%%\n### `= this.file.name` - `= this.custo`\n* [[Movimentação]] 4+[[Agilidade|AGI]]\n* Ataques naturais \n\t* Mordida\n\t* Garras\n* Manobras de ataque\n\t* [[Agarrar]]\n* Resistência\n\t* [[Vigor]]\n* Ações de Perícia\n\t* [[Empurrar]]\n\t* [[Escalar]]\n\t* [[Nadar]]\n\t* [[Rastrear]]\n\t* [[Assustar]]\n* Habilidades\n\t* [[Esmagar Presa]]\n\t* Criaturas [[Abalado|Abaladas]] recebem -2 de [[Penalidades|penalidade de condição]] para [[Escapar]] quando [[Agarrado|Agarradas]] por você.\n\n```autosheet-rules\n```\n"
+}

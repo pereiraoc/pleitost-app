@@ -1,0 +1,28 @@
+{
+  "id": "Contexto/Pessoas/Márcia Zaffari",
+  "path": "Contexto/Pessoas/Márcia Zaffari.md",
+  "basename": "Márcia Zaffari",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Zaffari]]",
+    "Função": "Presidente da Zaffari",
+    "Aparência": "Blazer escuro, rádio de logística sempre no cinto, botas de quem visita o terminal sem avisar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

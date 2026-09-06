@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Relâmpago em Cascata",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Relâmpago em Cascata.md",
+  "basename": "Relâmpago em Cascata",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Relâmpago em Cascata (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Vento",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 10q com 1d8×potência de dano de raio (metade na falha). Então, ataca [[Evasão]] de criatura em 3q do alvo principal com 1d4×potência de dano de raio (metade na falha). \""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 10q com 1d8×potência de dano de raio (metade na falha). Então, ataca [[Evasão]] de criatura em 3q do alvo principal com 1d4×potência de dano de raio (metade na falha). \"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 10q:\n\n**Sucesso:** A criatura recebe 1d8×potência de dano de raio.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\nCaso o resultado não seja uma falha decisiva, faça um Ataque Mágico contra [[Evasão]] de uma criatura em 3q do alvo inicial:\n\n**Sucesso:** A criatura recebe 1d4×potência de dano de raio.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Identificar Magia",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Identificar Magia.md",
+  "basename": "Identificar Magia",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "R",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Arcana]]\", \"[[Anima]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta identificar uma magia sendo conjurada.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Identificar Magia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Arcana]]\", \"[[Anima]]\"\npropriedades:: \nresumo:: \"Tenta identificar uma magia sendo conjurada.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Anima]]/[[Arcana]] (dependendo do tipo de Magia) vs [[CD]] da magia conjurada. Caso sucesso, identifica a magia sendo conjurada. Magias que você sabe conjurar são automaticamente identificadas e não requerem teste ou reação para identificar. Se um efeito pedir um teste de [[Identificar Magia]] e o alvo estiver conjurando uma magia que você sabe conjurar, você tem sucesso automático.\n\n```autosheet-rules\n```\n"
+}

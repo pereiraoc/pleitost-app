@@ -1,0 +1,57 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Ferramentas Arcanas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Ferramentas Arcanas.md",
+  "basename": "Ferramentas Arcanas",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "P",
+    "resumo": "\"Você aprende 1 [[Magia Essencial Básica|Magia Arcana Essencial Básica]] e 1 [[Magia Essencial Adepta|Magia Arcana Essencial Adepta]] (não contam como Brancas ou Negras para seu limite).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Magia Essencial Básica",
+      "kind": "wikilink",
+      "alias": "Magia Arcana Essencial Básica"
+    },
+    {
+      "target": "Magia Essencial Adepta",
+      "kind": "wikilink",
+      "alias": "Magia Arcana Essencial Adepta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Adepto|Adepta]]\ncusto:: P\n\nresumo:: \"Você aprende 1 [[Magia Essencial Básica|Magia Arcana Essencial Básica]] e 1 [[Magia Essencial Adepta|Magia Arcana Essencial Adepta]] (não contam como Brancas ou Negras para seu limite).\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende uma [[Magia Essencial Básica|Magia Arcana Essencial Básica]] e uma [[Magia Essencial Adepta|Magia Arcana Essencial Adepta]] de sua escolha. Elas não contam como Brancas ou Negras para sua restrição de magias conhecidas.\n\n```autosheet-rules\n```\n"
+}

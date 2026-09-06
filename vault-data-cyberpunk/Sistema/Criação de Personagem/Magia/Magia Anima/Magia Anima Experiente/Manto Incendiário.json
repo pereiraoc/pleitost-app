@@ -1,0 +1,48 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Manto Incendiário",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima Experiente/Manto Incendiário.md",
+  "basename": "Manto Incendiário",
+  "type": "Magia",
+  "subtype": "Anima",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Anima",
+    "elemento": "Fogo",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Aura de 2q em si. [[Sustentar|Sustentado]] por 10t. Ataca [[Evasão]] de criaturas na área com 1d4×potência de dano de fogo (metade na falha) ao conjurar e sustentar. Criaturas que te toquem ou tenham sucesso em ataque ou manobra corpo-a-corpo recebem 1×potência dano de fogo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustentado"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustenta"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Aura de 2q em si. [[Sustentar|Sustentado]] por 10t. Ataca [[Evasão]] de criaturas na área com 1d4×potência de dano de fogo (metade na falha) ao conjurar e sustentar. Criaturas que te toquem ou tenham sucesso em ataque ou manobra corpo-a-corpo recebem 1×potência dano de fogo.\"\n%%\n# `= this.file.name` - `= this.custo`\nVocê cria uma aura de fogo ao seu redor. Manto Incendiário pode ser [[Sustentar|Sustentado]] por até 10 turnos. Quando você conjura a magia e, uma vez por turno, quando [[Sustentar|Sustenta]] a magia, as chamas se fortalecem e giram: Faça um Ataque Mágico contra [[Evasão]] das criaturas em até 2q de você.\n\n**Sucesso:** A criatura recebe 1d4×potência de dano de fogo.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\nAdicionalmente, enquanto a magia estiver em efeito, criaturas adjacentes que tenham sucesso com um ataque corpo-a-corpo, manobra de combate ou tocarem-te de qualquer forma recebem 1×potência dano de fogo."
+}

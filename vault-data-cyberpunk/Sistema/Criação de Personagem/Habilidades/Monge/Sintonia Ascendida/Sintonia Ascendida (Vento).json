@@ -1,0 +1,102 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Vento)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Monge/Sintonia Ascendida/Sintonia Ascendida (Vento).md",
+  "basename": "Sintonia Ascendida (Vento)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Requisito Contem(Habilidades) [[Sintonia Profunda (Vento)]]",
+      [
+        "Complementar Acoes.Lista [[Saque Relâmpago]]"
+      ]
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Aprende Saque Relâmpago.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Vento)]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida (Vento)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "requisito-contem",
+            "targetRaw": "Habilidades",
+            "valueRaw": "[[Sintonia Profunda (Vento)]]"
+          },
+          "raw": "Requisito Contem(Habilidades) [[Sintonia Profunda (Vento)]]",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Complementar Acoes.Lista [[Saque Relâmpago]]",
+      "parsed": [
+        {
+          "sourceNote": "Sintonia Ascendida (Vento)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Saque Relâmpago]]"
+          },
+          "raw": "Complementar Acoes.Lista [[Saque Relâmpago]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Saque Relâmpago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sintonia Profunda (Vento)",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Mestre]]\n\nresumo:: \"Aprende Saque Relâmpago.\"\n%%\n##### `= this.file.name`\nUma tempestade é destrutiva e imprevisível, mesmo quando anunciada. Você aprende a habilidade [[Saque Relâmpago]].\n\n```autosheet-rules\n```\n"
+}

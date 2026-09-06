@@ -1,0 +1,74 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Tática/Tática",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Guerra/Tática/Tática.md",
+  "basename": "Tática",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Finta e Distrair via Guerra",
+        "tipo": "AçãoDePericia",
+        "origem": "Especialização",
+        "acoes": [
+          "[[Finta]]",
+          "[[Distrair]]"
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Guerra]]",
+    "resumo": "\"Pode [[Coordenar]] em 6q. +2 para [[Coordenar]] aliados escolhidos. Pode [[Finta|Fintar]] e [[Distrair]] usando [[Guerra]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Coordenar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink",
+      "alias": "Fintar"
+    },
+    {
+      "target": "Distrair",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Guerra]]\nresumo:: \"Pode [[Coordenar]] em 6q. +2 para [[Coordenar]] aliados escolhidos. Pode [[Finta|Fintar]] e [[Distrair]] usando [[Guerra]].\"\n%%\n### `= this.file.name`\n* Você pode [[Coordenar]] aliados em até 6q.\n* No início do dia escolha um número de aliados igual a sua [[Inteligência|INT]] (mínimo 1), Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] para [[Coordenar]] estes.\n* Você pode [[Finta|Fintar]] e [[Distrair]] usando seu modificador de  [[Guerra]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Dilacerar",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Druida/Dilacerar.md",
+  "basename": "Dilacerar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"Faça 2 [[Atacar|Ataques]] com Garras contra o mesmo alvo usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; se ambos acertarem, cause +6 de dano de precisão (+9 se [[Experiente]] com [[ataques]]; +12 se [[Mestre]]). Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"Faça 2 [[Atacar|Ataques]] com Garras contra o mesmo alvo usando a [[Penalidade por Ataque Múltiplo|PAM]] atual; se ambos acertarem, cause +6 de dano de precisão (+9 se [[Experiente]] com [[ataques]]; +12 se [[Mestre]]). Conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\"\n%%\n### `= this.file.name` - `= this.custo`\nFaça dois [[Atacar|Ataques]] com Garras contra o mesmo alvo na [[Penalidade por Ataque Múltiplo|PAM]] atual. Caso tenha sucesso nos dois ataques, você causa 6 de dano adicional como dano de precisão. O dano adicional aumenta para 9 caso seja [[Experiente]] com [[ataques]] e para 12 caso seja [[Mestre]]. Dilacerar conta como dois ataques para a progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n\n```autosheet-rules\n```\n"
+}

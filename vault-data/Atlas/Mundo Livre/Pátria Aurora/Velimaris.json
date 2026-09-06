@@ -1,0 +1,116 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Velimaris",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Velimaris.md",
+  "basename": "Velimaris",
+  "type": "Localização",
+  "subtype": "Grande Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Grande Cidade",
+    "Geolocalização": "[[Pátria Aurora]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Velimaris.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Pátria Aurora",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Velimaris.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Velimaris.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 50.000 (30% Classe Baixa, 60% Classe Média, 10% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Grande cidade portuária da costa leste da [[Pátria Aurora]] e superpotência mercante da nação — a \"cidade das velas\", cujo comércio com o continente do [[Mundo Livre]] é o mais forte da ilha. Seu porto vive da exportação de imbuições prontas: a cidade recebe matéria-prima de outras sintonias, refina-a internamente em suas oficinas e revende o produto acabado ao mundo. Do refino nas Officinae Refinariae à venda no Forum Exportationis e ao embarque nas docas, Velimaris inteira é a engrenagem de um único circuito mercantil.\n>\n> 👁️**Aparência do Local:** Cidade sem muralhas, em anfiteatro sobre um promontório com o mar a norte, leste e sul — e o mar é uma floresta de mastros: dezenas de naus mercantes de velas quadradas ancoradas ou em manobra por toda a água, entre botes e barcos a remo. O casario de telhados vermelho-terracota desce da colina noroeste, coroada pelos pavilhões de telhados dourados em camadas do Monasterium Ventorum, até uma beira-mar contínua de cais, armazéns e estaleiros. O estilo é o mesmo de [[Lucerna]] — colunatas, arcadas e basílicas romanas com coroamentos dourados de pagode —, mas aberto ao mar em três frentes de porto: os longos píeres da Doca das Naus a leste, o molhe monumental da Doca Magna ao sul e os canais do Portus Velaris a nordeste, guardados pelo farol altíssimo da Torre dos Faróis. A oeste, o casario simplesmente se esvai em colinas de mato mediterrâneo, sem portões nem torres.\n> \n\n> [!info] Distritos e Locais de Interesse\n> **Portus Velaris** *(vermelho-ferrugem — nordeste e leste)* — o distrito portuário: casario denso de telhados vermelho-terracota sobre canais e docas.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "50.000 (30% Classe Baixa, 60% Classe Média, 10% Classe Alta)",
+    "descricao": "Grande cidade portuária da costa leste da [[Pátria Aurora]] e superpotência mercante da nação — a \"cidade das velas\", cujo comércio com o continente do [[Mundo Livre]] é o mais forte da ilha. Seu porto vive da exportação de imbuições prontas: a cidade recebe matéria-prima de outras sintonias, refina-a internamente em suas oficinas e revende o produto acabado ao mundo. Do refino nas Officinae Refinariae à venda no Forum Exportationis e ao embarque nas docas, Velimaris inteira é a engrenagem de um único circuito mercantil.",
+    "aparencia": "Cidade sem muralhas, em anfiteatro sobre um promontório com o mar a norte, leste e sul — e o mar é uma floresta de mastros: dezenas de naus mercantes de velas quadradas ancoradas ou em manobra por toda a água, entre botes e barcos a remo. O casario de telhados vermelho-terracota desce da colina noroeste, coroada pelos pavilhões de telhados dourados em camadas do Monasterium Ventorum, até uma beira-mar contínua de cais, armazéns e estaleiros. O estilo é o mesmo de [[Lucerna]] — colunatas, arcadas e basílicas romanas com coroamentos dourados de pagode —, mas aberto ao mar em três frentes de porto: os longos píeres da Doca das Naus a leste, o molhe monumental da Doca Magna ao sul e os canais do Portus Velaris a nordeste, guardados pelo farol altíssimo da Torre dos Faróis. A oeste, o casario simplesmente se esvai em colinas de mato mediterrâneo, sem portões nem torres.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Portus Velaris** *(vermelho-ferrugem — nordeste e leste)* — o distrito portuário: casario denso de telhados vermelho-terracota sobre canais e docas.",
+    "leaflet": null
+  }
+}

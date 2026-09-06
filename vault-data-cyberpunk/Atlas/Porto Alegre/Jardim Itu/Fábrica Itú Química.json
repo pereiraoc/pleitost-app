@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Fábrica Itú Química",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Fábrica Itú Química.md",
+  "basename": "Fábrica Itú Química",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Itu]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Fábrica Itú Química.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Fábrica Itú Química.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Fábrica Itú Química.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga indústria de remédios genéricos.\n> \n> 👁️**Aparência do Local:** Estruturas de metal enferrujado, tubulações visíveis, cheiro de éter.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga indústria de remédios genéricos.",
+    "aparencia": "Estruturas de metal enferrujado, tubulações visíveis, cheiro de éter.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

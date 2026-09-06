@@ -1,0 +1,84 @@
+{
+  "id": "Sistema/Regras/Combate/Recuperação",
+  "path": "Sistema/Regras/Combate/Recuperação.md",
+  "basename": "Recuperação",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Recuperações",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Combate]]",
+    "prev": "[[Morte]]",
+    "next": "[[Condições]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Morte",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Condições",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    },
+    {
+      "target": "Medicina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tratar Ferimentos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    },
+    {
+      "target": "Descansar",
+      "kind": "wikilink",
+      "alias": "Descanso"
+    },
+    {
+      "target": "Diplomacia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Encorajar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Fluxo de Vida",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Recuperação"
+    },
+    {
+      "level": 3,
+      "text": "Inimigos e Recuperação"
+    }
+  ],
+  "body": "%%\nup:: [[Combate]]\nprev:: [[Morte]]\nnext:: [[Condições]]\n%%\n## Recuperação\n[[Energia Vital]] pode ser recuperada com descanso longo, tratamento ou magia. Descansar pela noite recupera 6/9/12 (níveis 1/4/7) [[Energia Vital|EV]]. Uma vez por dia, uma criatura pode ter [[Energia Vital|EV]] curada pela ação de [[Medicina]] [[Tratar Ferimentos]]. Magia ou consumíveis mágicos de cura podem recuperar [[Energia Vital|EV]], mas normalmente em quantias menores que sua contraparte [[Energia Heroica|EH]].\n\nEnergia Heroica pode ser recuperada com descanso rápido, motivação ou magia. Descansar por 10 minutos recupera completamente sua [[Energia Heroica|EH]]. Uma vez por [[Descansar|Descanso]], uma criatura pode ter [[Energia Heroica|EH]] curado pela ação de [[Diplomacia]] [[Encorajar]]. Magia ou consumíveis mágicos de cura podem recuperar [[Energia Heroica|EH]].\n\n%%\nCaso um personagem receba um efeito de cura de [[Energia Heroica|EH]] que possa ser convertido em [[Energia Vital|EV]] tendo [[Energia Vital|EV]] 0 ou inferior, a [[Energia Vital|EV]] deve ser recuperada até 1 antes que a [[Energia Heroica|EH]] possa ser recuperada. Por exemplo, ao receber um [[Fluxo de Vida]] que restaura 20 [[Energia Heroica|EH]] tendo -5 [[Energia Vital|EV]], primeiro a [[Energia Vital|EV]] é restaurada em 6 pontos, até 1, consumindo 12 pontos dessa cura de 20 (pois [[Fluxo de Vida]] recupera [[Energia Vital|EV]] em metade do valor) e então os restantes 8 recuperam [[Energia Heroica|EH]], restando no final 1 [[Energia Vital|EV]] e 8 [[Energia Heroica|EH]] para o personagem. Efeitos que recuperam somente [[Energia Heroica|EH]] não tem efeito em personagens com [[Energia Vital|EV]] 0 ou inferior.\n%%\n\n### Inimigos e Recuperação\nAdversários dos heróis não possuem [[Energia Heroica|EH]], porém pode fazer sentido usar efeitos que recuperam [[Energia Heroica|EH]], como [[Fluxo de Vida]] ou [[Encorajar]]. Nesses casos, permita que esses efeitos recuperem o [[Energia Vital|EV]] dos adversários, desde que não supere o [[Energia Vital|EV]] máximo após a recuperação, limitando até um máximo de 2/3 do [[Energia Vital|EV]] máximo sendo recuperado.\n\n```autosheet-rules\n```\n"
+}

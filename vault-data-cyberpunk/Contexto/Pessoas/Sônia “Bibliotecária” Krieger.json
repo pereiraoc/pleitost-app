@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Sônia “Bibliotecária” Krieger",
+  "path": "Contexto/Pessoas/Sônia “Bibliotecária” Krieger.md",
+  "basename": "Sônia “Bibliotecária” Krieger",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Sônia Krieger",
+      "Bibliotecária"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Irmandade do Café Preto]]",
+    "Função": "Chefe da Irmandade do Café Preto",
+    "Aparência": "Cardigã surrado, óculos de corrente, caderno de apostas que parece caderno de biblioteca.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Irmandade do Café Preto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

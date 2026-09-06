@@ -1,0 +1,94 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Saque Relâmpago",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Saque Relâmpago.md",
+  "basename": "Saque Relâmpago",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Monge]]\"",
+    "resumo": "\"[[Sacar|Saque]] uma arma de monge, [[Mover|Mova]] e faça um [[Atacar|Ataque]] com dano adicional.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Saque"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink",
+      "alias": "Mova"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Curva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Longa",
+      "kind": "wikilink",
+      "alias": "Longa"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink",
+      "alias": "Bastarda"
+    },
+    {
+      "target": "Distância Marcial",
+      "kind": "wikilink",
+      "alias": "Arco"
+    },
+    {
+      "target": "Guardar",
+      "kind": "wikilink",
+      "alias": "Guarda"
+    },
+    {
+      "target": "Sacar",
+      "kind": "wikilink",
+      "alias": "Sacada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Monge]]\"\n\nresumo:: \"[[Sacar|Saque]] uma arma de monge, [[Mover|Mova]] e faça um [[Atacar|Ataque]] com dano adicional.\"\n%%\n\n### `= this.file.name` - `= this.custo`\n[[Sacar|Saque]] uma arma previamente preparada para essa habilidade, [[Mover|Mova]] sem provocar reações e podendo passar livremente por aliados e inimigos ignorando [[Terreno Difícil]] causado por passar por criaturas e faça um [[Atacar|Ataque]] com a arma previamente Sacada. Esse [[Atacar|Ataque]] tem [[Vantagem de Combate]] e causa 2d6 de dano de raio adicional no sucesso. Essa habilidade não pode ser utilizada se você não tem uma arma preparada previamente em sua posse.\n\nVocê pode preparar uma [[Espada Curva]], [[Espada Longa|Longa]], [[Espada Bastarda|Bastarda]] ou um  [[Distância Marcial|Arco]] para utilizar com essa habilidade usando 3A, onde você [[Guardar|Guarda]] a arma energizada com vento. Se a arma for [[Sacar|Sacada]] normalmente, os efeitos dessa preparação são perdidos. Você só pode ter uma arma preparada dessa forma, caso prepare outra, a primeira perde os efeitos da preparação.\n\n```autosheet-rules\n```\n"
+}

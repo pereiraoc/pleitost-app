@@ -1,0 +1,113 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Mago/Repertório Diverso",
+  "path": "Sistema/Criação de Personagem/Técnicas/Mago/Repertório Diverso.md",
+  "basename": "Repertório Diverso",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Condicional Habilidades.Lista,Contem([[Magia Arcana Mista Limitada]]) Somar Magias.Slots.A 2",
+      "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Somar Magias.Secundaria.Slots.A 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]].\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Magia Arcana Mista Limitada]]) Somar Magias.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Diverso",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Magia Arcana Mista Limitada]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Magia Arcana Mista Limitada]]) Somar Magias.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Somar Magias.Secundaria.Slots.A 2",
+      "parsed": [
+        {
+          "sourceNote": "Repertório Diverso",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "props-contains",
+            "slotProp": "Habilidades.Lista",
+            "needle": "[[Treinamento de Mago]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "2"
+          },
+          "raw": "Condicional Habilidades.Lista,Contem([[Treinamento de Mago]]) Somar Magias.Secundaria.Slots.A 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Branca Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Mista Limitada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Mago",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende uma [[Magia Branca Adepta]] e uma [[Magia Negra Adepta]].\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Furtividade/Escolta/Escolta",
+  "path": "Sistema/Regras/Perícias e Especializações/Especialização e Maestria/Furtividade/Escolta/Escolta.md",
+  "basename": "Escolta",
+  "type": "Regra",
+  "subtype": "Especialização",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Especialização",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "pericia": "[[Furtividade]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Furtividade",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de especialização"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink",
+      "alias": "Espreita"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\npericia:: [[Furtividade]]\n%%\n### `= this.file.name`\n* Você pode guiar seu grupo furtivamente com um único teste de Furtividade com -1 de [[Penalidades|penalidade de especialização]] para cada membro do grupo.\n* Quando você [[Espreitar|Espreita]], escolha uma criatura que você pode ver. Essa criatura recebe -2 de [[Penalidades|penalidade de circunstância]] na [[Percepção]] para te detectar.\n\n```autosheet-rules\n```\n"
+}

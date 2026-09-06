@@ -1,0 +1,40 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Visualizador de Regras",
+  "path": "Recursos e Mídia/Documentação Adicional/Autosheet Plugin/Visualizador de Regras.md",
+  "basename": "Visualizador de Regras",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Visualizador de Regras"
+    },
+    {
+      "level": 2,
+      "text": "Onde usar"
+    },
+    {
+      "level": 2,
+      "text": "Sintaxe do bloco"
+    },
+    {
+      "level": 2,
+      "text": "O que mostra"
+    },
+    {
+      "level": 2,
+      "text": "Erros — quando algo não é suportado"
+    },
+    {
+      "level": 2,
+      "text": "Settings"
+    }
+  ],
+  "body": "# Visualizador de Regras\n\nBloco `autosheet-rules` numa nota — o plugin renderiza, de forma visual,\n**os `Elementos_de_Regra` e `Efeitos_Interativos` que aquela nota declara**\nno frontmatter, separados em duas seções.\n\nServe pra **conferir**: como o viewer usa exatamente os mesmos parsers que a\nFicha Editável e a Ficha Interativa, o que ele mostra é o que as fichas\nenxergam daquela nota. Se aparecer certo, a extração está certa; se aparecer\num aviso ou \"não parseado\", o problema está visível na hora.\n\n## Onde usar\n\nEm **notas-fonte de regras** — as que declaram `Elementos_de_Regra` ou\n`Efeitos_Interativos` no próprio frontmatter: habilidades, técnicas, magias,\npropriedades de arma, condições, regras, traços…\n\n**Não** use numa ficha de criatura (Herói / Monstro / Companheiro Animal).\nA ficha não declara regras próprias — ela **consome** as regras das notas que\nreferencia. Num ficha, o bloco simplesmente mostraria as duas seções vazias.\n\n## Sintaxe do bloco\n\n````markdown\n```autosheet-rules\n```\n````\n\nO conteúdo do bloco fica vazio — o plugin lê o frontmatter da própria nota.\n\n## O que mostra\n\nDois containers **colapsáveis** — clique no cabeçalho pra abrir/fechar. Os\nícones espelham os modos da ficha: **📝 Elementos de Regra** (modo Editável),\n**🎲 Efeitos Interativos** (modo Interativa).\n\n- **📝 Elementos de Regra** — as linhas de `Elementos_de_Regra` parseadas e\n  **agrupadas pela árvore de properties**: regras que mexem em `Vida.Moral`\n  e `Vida.Vitalidade` aparecem juntas sob **Vida**. Dentro de cada grupo,\n  sub-agrupa por **nível** (Base / Nível N / Tier / categoria) e ordena por\n  verbo (Definir / Somar / Sobrescrever / …). Cada linha mostra o verbo, o\n  alvo e o valor; condição, canal e escolha viram badges. O RAW original\n  aparece num **tooltip** ao passar o mouse (ou sempre visível — ver\n  settings).\n- **🎲 Efeitos Interativos** — cada efeito vira um grupo (mesmo padrão visual\n  dos Elementos de Regra): label + badges de tipo/origem no cabeçalho, e os\n  campos (escopo, visual, selectores, links, modificadores com guards,\n  forma, invocação…) como linhas compactas.\n\nSe a nota não declara um dos blocos, a seção mostra \"_Esta nota não declara…_\"\n— deixando claro que foi conferido e está vazio.\n\n## Erros — quando algo não é suportado\n\nSe você declarar um Elemento de Regra ou Efeito Interativo que o sistema\n**não suporta**, ele **não aparece como se estivesse funcionando** — porque\nnão funcionaria. Em vez disso, vira um **erro**:\n\n- Os erros de cada bloco ficam num grupo de **cabeçalho vermelho \"Erros\"**,\n  **no topo** da seção — fácil de achar e corrigir.\n- Quando há erro, o cabeçalho do container ganha um **⚠️**, visível mesmo\n  com o container fechado.\n- A contagem do container conta só o que foi **detectado de fato** (regras /\n  efeitos válidos) — os erros não entram nela.\n\nQuando o Visualizador está oculto (ver Settings), o tooltip do ícone de info\njá mostra essa contagem: `Elementos de Regra: 10 (Erros: 3)`.\n\n## Settings\n\nEm **Settings → Pleitost Autosheet → Visualizador de Regras**:\n\n- **Mostrar Visualizador de Regras** — desligado, os blocos `autosheet-rules`\n  viram só um **ícone de info (ℹ️)** discreto. Passe o mouse pra ver a\n  contagem (`Elementos de Regra: N (Erros: M)`) e como reativar; **clique no\n  ícone pra abrir o viewer só ali** — é temporário, não fica salvo (reabrir a\n  nota volta pro ícone).\n- **Começar Colapsado** (padrão: ligado) — os dois containers aparecem\n  fechados, pra o preview da nota ficar compacto.\n- **Mostrar RAW Sempre** (padrão: desligado) — a linha RAW de cada Elemento\n  de Regra fica sempre visível em vez de no tooltip. Útil pra debug.\n\nAs mudanças valem na hora, sem reabrir as notas.\n"
+}

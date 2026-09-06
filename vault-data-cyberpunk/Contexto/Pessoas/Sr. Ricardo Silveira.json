@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Sr. Ricardo Silveira",
+  "path": "Contexto/Pessoas/Sr. Ricardo Silveira.md",
+  "basename": "Sr. Ricardo Silveira",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Ricardo Silveira"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Panvel]]",
+    "Função": "Presidente da Panvel",
+    "Aparência": "Terno claro, lenço no bolso, mãos de quem nunca abriu uma caixa — sempre com amostra grátis pra oferecer.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

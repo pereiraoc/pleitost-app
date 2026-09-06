@@ -1,0 +1,31 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas",
+  "path": "Sistema/Equipamento/Armas/Armas.md",
+  "basename": "Armas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Proficiência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Armas"
+    }
+  ],
+  "body": "# Armas\n\nExistem 2 categorias que representam os tipos de arma existentes: simples e marcial.\nVocê perde seu bônus de [[Proficiência]] nos [[Ataques]] se usar um tipo de arma que não é proficiente.\n\n----\nMãos: 1 = uma mão, 2 = duas mãos, 1+ = empunha com uma mão, ataca com duas mãos\nDano: Inclui o dano base (número estático) e o dado de dano. Como exemplo, uma Adaga tem dano base 2 e dado de dano d4.\n\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT grupo DESC, ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"cac-simples\"\n```\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT grupo DESC, ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"cac-marcial\"\n```\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT grupo DESC, ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"d-simples\"\n```\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT grupo DESC, ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"d-marcial\"\n```"
+}

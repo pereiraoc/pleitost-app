@@ -1,0 +1,61 @@
+{
+  "id": "Atlas/Porto Alegre/Restinga/Restinga",
+  "path": "Atlas/Porto Alegre/Restinga/Restinga.md",
+  "basename": "Restinga",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Recursos": [
+      "[[Lança]]",
+      "[[Poção da Nutrição]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Restinga.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção da Nutrição",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Restinga.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Restinga.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Enclave separatista anarco-capitalista com palafitas de metal reciclado.\n> \n> 👁️**Aparência do Local:** Estruturas improvisadas, lixo acumulado, barulho de geradores.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Enclave separatista anarco-capitalista com palafitas de metal reciclado.",
+    "aparencia": "Estruturas improvisadas, lixo acumulado, barulho de geradores.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

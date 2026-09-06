@@ -1,0 +1,56 @@
+{
+  "id": "Atlas/Porto Alegre/Quarto Distrito/Farrapos",
+  "path": "Atlas/Porto Alegre/Quarto Distrito/Farrapos.md",
+  "basename": "Farrapos",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Quarto Distrito]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Farrapos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro"
+    },
+    {
+      "target": "Farrapos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Farrapos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Farrapos.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** [[Centro Histórico|Centro]] de botequins e casas de entretenimento adulto.\n> \n> 👁️**Aparência do Local:** Muros grafitados, som de música alta, cheiro de cerveja e tabaco.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "[[Centro Histórico|Centro]] de botequins e casas de entretenimento adulto.",
+    "aparencia": "Muros grafitados, som de música alta, cheiro de cerveja e tabaco.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

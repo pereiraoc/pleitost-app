@@ -1,0 +1,53 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Cidade Baixa.md",
+  "basename": "Cidade Baixa",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": true,
+    "markerTag": "Bar"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cidade Baixa.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink",
+      "alias": "Guaíba"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Cidade Baixa.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Cidade Baixa.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Rede de palafitas e casebres erguidos sobre o solo alagadiço às margens do [[Lago Guaíba|Guaíba]], lar de famílias trabalhadoras que prosperam na economia informal de selênicos.\n> \n> 👁️**Aparência do Local:** Tábuas arqueadas sobre águas barrentas, casas de madeira improvisada interligadas por passarelas estreitas, lanternas a óleo tremeluzindo e o cheiro de barro e óleo de cozinha no ar.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Rede de palafitas e casebres erguidos sobre o solo alagadiço às margens do [[Lago Guaíba|Guaíba]], lar de famílias trabalhadoras que prosperam na economia informal de selênicos.",
+    "aparencia": "Tábuas arqueadas sobre águas barrentas, casas de madeira improvisada interligadas por passarelas estreitas, lanternas a óleo tremeluzindo e o cheiro de barro e óleo de cozinha no ar.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

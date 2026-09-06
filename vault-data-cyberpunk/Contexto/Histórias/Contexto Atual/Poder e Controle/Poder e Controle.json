@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Poder e Controle/Poder e Controle",
+  "path": "Contexto/Histórias/Contexto Atual/Poder e Controle/Poder e Controle.md",
+  "basename": "Poder e Controle",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governo e Influência Corporativa",
+      "kind": "embed"
+    },
+    {
+      "target": "Propaganda e Controle da Informação",
+      "kind": "embed"
+    },
+    {
+      "target": "Sistema Legal",
+      "kind": "embed"
+    },
+    {
+      "target": "Vigilância e Mecanismos de Repressão",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Governo e Influência Corporativa]]\n![[Propaganda e Controle da Informação]]\n![[Sistema Legal]]\n![[Vigilância e Mecanismos de Repressão]]"
+}

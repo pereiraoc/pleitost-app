@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Waldemar “Papeleiro” Nunes",
+  "path": "Contexto/Pessoas/Waldemar “Papeleiro” Nunes.md",
+  "basename": "Waldemar “Papeleiro” Nunes",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Waldemar Nunes",
+      "Papeleiro"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Sindicato dos Catadores]]",
+    "Função": "Presidente do Sindicato dos Catadores",
+    "Aparência": "Colete de brim sobre camisa suada, luvas de lona penduradas no cinto, caderno de rotas ensebado que vale um mapa da cidade.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sindicato dos Catadores",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

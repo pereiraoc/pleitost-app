@@ -1,0 +1,30 @@
+{
+  "id": "Sistema/Regras/Regra Básica/Tempo",
+  "path": "Sistema/Regras/Regra Básica/Tempo.md",
+  "basename": "Tempo",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": "Tempo",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Abalado",
+      "kind": "wikilink",
+      "alias": "Abalada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Tempo"
+    }
+  ],
+  "body": "## Tempo\n1 turno = 6 segundos\n10 turnos = 1 minuto\n\nEfeitos que duram X turnos, terminam no início do mesmo turno que ele foi criado. Se uma criatura fica [[Abalado|Abalada]] por 1 turno, quando chegar novamente no turno onde esse efeito foi aplicado (a criatura que Assustou, por exemplo) o efeito é encerrado.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações",
+  "path": "Sistema/Regras/Ações/Ações.md",
+  "basename": "Ações",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ações, Ação",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Regras]]",
+    "prev": "[[Evolução Básica|Evolução Básica]]",
+    "next": "[[Combate|Combate]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Regras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink",
+      "alias": "Evolução Básica"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink",
+      "alias": "Combate"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Ações"
+    }
+  ],
+  "body": "%%\nup:: [[Regras]]\nprev:: [[Evolução Básica|Evolução Básica]]\nnext:: [[Combate|Combate]]\n%%\n# Ações\nAções são a base do jogo momento a momento. Todas as criaturas podem usar as ações básicas, exceto se tiver algo impedindo-as. Muitas ações mais complexas usam as ações básicas como base.\nCertas ações tem um \"custo de ação\" diferente de 1, podendo ser 2 ou 3. Também existem reações (R) e ações livres (L).\n\n---\n```dataview\nLIST\nFROM \"Sistema/Regras/Ações\"\nSORT file.name ASC\nWHERE categoria = \"Regra\" and subcategoria = null and file.name != this.file.name\n```"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "Recursos e Mídia/Configurações de Contextos/Contexto Base",
+  "path": "Recursos e Mídia/Configurações de Contextos/Contexto Base.md",
+  "basename": "Contexto Base",
+  "type": "Contexto-Def",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Contexto-Def",
+    "dg-publish": false,
+    "Contexto": {
+      "id": "base",
+      "sempre_disponiveis": [],
+      "conteudo_de_mundo": {
+        "pastas": [
+          "Atlas/",
+          "Contexto/",
+          "Campanhas/",
+          "Recursos e Mídia/Notas de Mudanças/",
+          "Recursos e Mídia/Ferramentas de GM/"
+        ],
+        "tipos": [
+          "Criatura",
+          "Grupo",
+          "Pessoa",
+          "Organização",
+          "Contexto",
+          "Localização",
+          "Aventura",
+          "Combate"
+        ]
+      },
+      "gm": {
+        "campos_publicos": {
+          "Organização": [
+            "Resumo",
+            "Descrição",
+            "Líder"
+          ],
+          "Pessoa": [
+            "Função",
+            "Organização",
+            "Aparência"
+          ],
+          "Localização": [
+            "População",
+            "Descrição",
+            "Aparência_do_Local",
+            "Locais_de_Interesse",
+            "Distritos_e_Locais_de_Interesse",
+            "Geolocalização",
+            "Recursos",
+            "Comércio"
+          ]
+        }
+      },
+      "aventura": {
+        "secoes": {
+          "resumo": "1. Resumo",
+          "roteiro": "Roteiro em uma página",
+          "contexto": "2. Contexto",
+          "contexto_aventura": "2.1 Contexto da Aventura",
+          "notas_mestre": "2.2 Notas para o Mestre",
+          "personagens": "2.3 Personagens",
+          "locais": "2.4 Locais",
+          "mapa": "Mapa",
+          "cenas": "3. Cenas",
+          "abertura": "Abertura",
+          "cena": "Cena",
+          "desfecho": "Desfecho"
+        },
+        "tipos_de_cena": [
+          "Social",
+          "Exploração",
+          "Investigação",
+          "Combate",
+          "Interlúdio",
+          "Epílogo"
+        ],
+        "campos_lista_trancada": [
+          "Chamada",
+          "rank",
+          "Formato",
+          "Duração",
+          "Jogadores",
+          "Tom"
+        ]
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Contexto Fantasia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Contexto POA 1987",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Contexto Base"
+    },
+    {
+      "level": 2,
+      "text": "1. O modelo"
+    },
+    {
+      "level": 2,
+      "text": "2. Dados de máquina"
+    },
+    {
+      "level": 4,
+      "text": "Identidade"
+    },
+    {
+      "level": 4,
+      "text": "Conteúdo POR MUNDO (não herda entre mundos)"
+    },
+    {
+      "level": 4,
+      "text": "Formato de Aventura: seções (nomes lidos pelo app)"
+    },
+    {
+      "level": 4,
+      "text": "Formato de Aventura: tipos de cena"
+    },
+    {
+      "level": 4,
+      "text": "Formato de Aventura: campos da lista TRANCADA"
+    },
+    {
+      "level": 4,
+      "text": "Visibilidade: campos PÚBLICOS por categoria (o resto é do mestre)"
+    }
+  ],
+  "body": "# Contexto Base\n\n> [!info] Garantias e limites trans-contexto\n> Enquanto [[Contexto Fantasia]] e [[Contexto POA 1987]] definem o delta de\n> cada mundo, esta nota define o que vale para TODOS. Vive na vault-fonte do\n> sistema e chega aos forks pelo merge — um só lugar para editar. O\n> frontmatter é a única fonte de máquina; a seção\n> [Dados de máquina](#2-dados-de-máquina) é gerada dele e o extract falha se\n> divergirem.\n\n## 1. O modelo\n\n- **BASE (herda entre mundos):** `Sistema/` inteiro e a documentação\n  compartilhada (`Recursos e Mídia/Documentação Adicional/`).\n- **DE MUNDO (cada contexto carrega o seu):** Atlas, Contexto, Campanhas e\n  as partes de mundo de Recursos e Mídia — lista de máquina em\n  `conteudo_de_mundo`.\n- **Visibilidade mestre×jogador:** o que o jogador vê é whitelist\n  (`gm.campos_publicos`); segredos em prosa usam callout `> [!gm]`; nota\n  inteira secreta usa FM `GM: true`. O extract corta tudo isso do dataset\n  público e escreve o espelho `gm.json`, carregado só em Modo Mestre.\n- **Garantia `sempre_disponiveis`:** itens que NENHUM contexto pode marcar\n  indisponíveis (o extract quebra se tentar). A preencher.\n\n## 2. Dados de máquina\n\nGerado do frontmatter — não editar à mão (`npm run contexto:doc`).\n\n<!-- auto:contexto -->\n#### Identidade\n\n| Campo | Valor |\n|---|---|\n| id | `base` |\n\n#### Conteúdo POR MUNDO (não herda entre mundos)\n\n| Espécie | Valor |\n|---|---|\n| pasta | `Atlas/` |\n| pasta | `Contexto/` |\n| pasta | `Campanhas/` |\n| pasta | `Recursos e Mídia/Notas de Mudanças/` |\n| pasta | `Recursos e Mídia/Ferramentas de GM/` |\n| tipo | Criatura |\n| tipo | Grupo |\n| tipo | Pessoa |\n| tipo | Organização |\n| tipo | Contexto |\n| tipo | Localização |\n| tipo | Aventura |\n| tipo | Combate |\n\n#### Formato de Aventura: seções (nomes lidos pelo app)\n\n| Chave | Heading |\n|---|---|\n| resumo | `1. Resumo` |\n| roteiro | `Roteiro em uma página` |\n| contexto | `2. Contexto` |\n| contexto_aventura | `2.1 Contexto da Aventura` |\n| notas_mestre | `2.2 Notas para o Mestre` |\n| personagens | `2.3 Personagens` |\n| locais | `2.4 Locais` |\n| mapa | `Mapa` |\n| cenas | `3. Cenas` |\n| abertura | `Abertura` |\n| cena | `Cena` |\n| desfecho | `Desfecho` |\n\n#### Formato de Aventura: tipos de cena\n\n| Tipo | Status |\n|---|---|\n| Social | registro |\n| Exploração | registro |\n| Investigação | registro |\n| Combate | registro |\n| Interlúdio | registro |\n| Epílogo | registro |\n\n#### Formato de Aventura: campos da lista TRANCADA\n\n| Campo | Visibilidade |\n|---|---|\n| Chamada | público na lista |\n| rank | público na lista |\n| Formato | público na lista |\n| Duração | público na lista |\n| Jogadores | público na lista |\n| Tom | público na lista |\n\n#### Visibilidade: campos PÚBLICOS por categoria (o resto é do mestre)\n\n| Categoria | Campos públicos |\n|---|---|\n| Organização | Resumo, Descrição, Líder |\n| Pessoa | Função, Organização, Aparência |\n| Localização | População, Descrição, Aparência_do_Local, Locais_de_Interesse, Distritos_e_Locais_de_Interesse, Geolocalização, Recursos, Comércio |\n<!-- /auto:contexto -->\n"
+}

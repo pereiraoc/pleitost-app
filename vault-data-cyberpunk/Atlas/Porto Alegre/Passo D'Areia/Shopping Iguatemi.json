@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Shopping Iguatemi",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Shopping Iguatemi.md",
+  "basename": "Shopping Iguatemi",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Shopping Iguatemi.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Shopping Iguatemi.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Shopping Iguatemi.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Gigante centro de compras com cinema de rua.\n> \n> 👁️**Aparência do Local:** Fachada de azulejos, letreiros luminosos coloridos, cheiro de pipoca.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Gigante centro de compras com cinema de rua.",
+    "aparencia": "Fachada de azulejos, letreiros luminosos coloridos, cheiro de pipoca.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

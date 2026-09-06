@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Rádio Farroupilha",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Rádio Farroupilha.md",
+  "basename": "Rádio Farroupilha",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Rádio Farroupilha.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Rádio Farroupilha.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Rádio Farroupilha.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Estação AM de propaganda governamental.\n> \n> 👁️**Aparência do Local:** Torre de ferro alta, cabine iluminada, cheiro de papel velho e fumaça.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Estação AM de propaganda governamental.",
+    "aparencia": "Torre de ferro alta, cabine iluminada, cheiro de papel velho e fumaça.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

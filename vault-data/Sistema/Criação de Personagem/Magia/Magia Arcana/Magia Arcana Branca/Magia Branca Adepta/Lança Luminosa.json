@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Lança Luminosa",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Adepta/Lança Luminosa.md",
+  "basename": "Lança Luminosa",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Adepta",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Ataca [[Evasão]] de criatura em 10q com 1d6×potência de dano de força (metade na falha). Aumenta para d10 contra criaturas do vazio.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Ataca [[Evasão]] de criatura em 10q com 1d6×potência de dano de força (metade na falha). Aumenta para d10 contra criaturas do vazio.\"\n%%\n# `= this.file.name` - `= this.custo`\nFaça um Ataque Mágico contra [[Evasão]] de uma criatura em 10q:\n\n**Sucesso:** A criatura recebe 1d6×potência de dano de força, o dano aumenta para 1d10×potência contra criaturas do vazio.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

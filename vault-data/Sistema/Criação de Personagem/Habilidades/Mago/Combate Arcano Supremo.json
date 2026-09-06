@@ -1,0 +1,69 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano Supremo",
+  "path": "Sistema/Criação de Personagem/Habilidades/Mago/Combate Arcano Supremo.md",
+  "basename": "Combate Arcano Supremo",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      null
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Mago]]",
+    "rank": "[[Mestre]]",
+    "resumo": "\"Você aperfeiçoa suas técnicas de [[Combate Arcano]]: [[Sequência Arcana]], [[Melhoramento Arcano]], [[Combinação Arcana]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mago",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sequência Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Melhoramento Arcano",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combinação Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Mago]]\nrank:: [[Mestre]]\n\nresumo:: \"Você aperfeiçoa suas técnicas de [[Combate Arcano]]: [[Sequência Arcana]], [[Melhoramento Arcano]], [[Combinação Arcana]].\"\n%%\n#### `= this.file.name`\nVocê aperfeiçoa suas técnicas de [[Combate Arcano]], recebendo os seguintes benefícios para elas: \n* [[Sequência Arcana]] - O dano do ataque adicional aumenta para 3d6+3 quando a arma é corpo-a-corpo e 3d4+2 quando é um arco.\n* [[Melhoramento Arcano]] - A [[Energia Heroica|EH]] temporária recebida aumenta para 8.\n* [[Combinação Arcana]] - Caso você faça o Ataque antes da Magia e o Ataque tenha sucesso, você pode ignorar até 8 de resistência que a criatura tenha ao dano da sua Magia conjurada como parte de Combinação Arcana.\n\n```autosheet-rules\n```\n"
+}

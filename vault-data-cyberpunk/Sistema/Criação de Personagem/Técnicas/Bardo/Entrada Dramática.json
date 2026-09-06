@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Bardo/Entrada Dramática",
+  "path": "Sistema/Criação de Personagem/Técnicas/Bardo/Entrada Dramática.md",
+  "basename": "Entrada Dramática",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Bardo]]",
+    "rank": "[[Adepto|Adepta]]",
+    "custo": "L",
+    "resumo": "\"Ao rolar iniciativa, faz um teste de [[Atuação]] vs CD-Nível do conflito. Recebe +2 (+4 se decisivo) na iniciativa e pode ativar uma [[Performance Bárdica]] como ação livre no primeiro turno se tiver sucesso.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bardo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Atuação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Performance Bárdica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink",
+      "alias": "CD-Nível"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Bardo]]\nrank:: [[Adepto|Adepta]]\ncusto:: L\n\nresumo:: \"Ao rolar iniciativa, faz um teste de [[Atuação]] vs CD-Nível do conflito. Recebe +2 (+4 se decisivo) na iniciativa e pode ativar uma [[Performance Bárdica]] como ação livre no primeiro turno se tiver sucesso.\"\n%%\n#### `= this.file.name` - `= this.rank`\nAntes de rolar iniciativa, faça um teste de [[Atuação]] vs [[CD|CD-Nível]] da maior criatura em conflito com o grupo. Caso tenha sucesso, você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] (+4 para sucesso decisivo) no teste de iniciativa e pode ativar uma [[Performance Bárdica]] como ação livre no início do seu primeiro turno neste combate.\n\n```autosheet-rules\n```\n"
+}

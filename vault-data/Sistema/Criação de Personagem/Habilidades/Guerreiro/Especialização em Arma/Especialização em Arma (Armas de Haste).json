@@ -1,0 +1,229 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Armas de Haste)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Guerreiro/Especialização em Arma/Especialização em Arma (Armas de Haste).md",
+  "basename": "Especialização em Arma (Armas de Haste)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Especialização em Arma (Armas de Haste)",
+        "tipo": "Passivo",
+        "origem": "Habilidade",
+        "grupoArma": {
+          "armas": [
+            "[[Azagaia]]",
+            "[[Lança]]",
+            "[[Alabarda]]",
+            "[[Pique]]"
+          ]
+        }
+      }
+    ],
+    "Elementos_de_Regra": [
+      "Condicional Inventario.Armas.Lista,[[Azagaia]] Sobrescrever Inventario.Armas.Lista.[[Azagaia]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Lança]] Sobrescrever Inventario.Armas.Lista.[[Lança]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Alabarda]] Sobrescrever Inventario.Armas.Lista.[[Alabarda]].Bonus_Especial 1",
+      "Condicional Inventario.Armas.Lista,[[Pique]] Sobrescrever Inventario.Armas.Lista.[[Pique]].Bonus_Especial 1",
+      "Alias Classe Compor 1 \"Lanceiro\"",
+      "Somar Papel.Vanguarda 2"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Adepto]]",
+    "resumo": "Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Haste."
+  },
+  "ruleElements": [
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Azagaia]] Sobrescrever Inventario.Armas.Lista.[[Azagaia]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Azagaia]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Azagaia]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Azagaia]] Sobrescrever Inventario.Armas.Lista.[[Azagaia]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Lança]] Sobrescrever Inventario.Armas.Lista.[[Lança]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Lança]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Lança]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Lança]] Sobrescrever Inventario.Armas.Lista.[[Lança]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Alabarda]] Sobrescrever Inventario.Armas.Lista.[[Alabarda]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Alabarda]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Alabarda]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Alabarda]] Sobrescrever Inventario.Armas.Lista.[[Alabarda]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Condicional Inventario.Armas.Lista,[[Pique]] Sobrescrever Inventario.Armas.Lista.[[Pique]].Bonus_Especial 1",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 3,
+          "scope": [],
+          "condition": {
+            "kind": "name-contains",
+            "slotProp": "Inventario.Armas.Lista",
+            "needle": "[[Pique]]"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "sobrescrever",
+            "targetRaw": "Inventario.Armas.Lista.[[Pique]].Bonus_Especial",
+            "valueRaw": "1"
+          },
+          "raw": "Condicional Inventario.Armas.Lista,[[Pique]] Sobrescrever Inventario.Armas.Lista.[[Pique]].Bonus_Especial 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Alias Classe Compor 1 \"Lanceiro\"",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 4,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 1,
+            "fragment": "Lanceiro"
+          },
+          "raw": "Alias Classe Compor 1 \"Lanceiro\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Papel.Vanguarda 2",
+      "parsed": [
+        {
+          "sourceNote": "Especialização em Arma (Armas de Haste)",
+          "occurrenceIndex": 5,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Papel.Vanguarda",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Papel.Vanguarda 2",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de especialização",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Azagaia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lança",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Alabarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pique",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Adepto]]\n\nresumo:: Recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Haste.\n%%\n#### `= this.file.name`\nVocê recebe +1 de [[bônus de especialização]] em rolagens de [[Atacar|Ataque]] usando armas do grupo Haste.\n\n| Grupo          | Armas                                                                          |\n| -------------- | ------------------------------------------------------------------------------ |\n| Armas de Haste | [[Azagaia]], [[Lança]], [[Alabarda]], [[Pique]]                                |\n\n```autosheet-rules\n```\n"
+}

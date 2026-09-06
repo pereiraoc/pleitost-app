@@ -1,0 +1,77 @@
+{
+  "id": "Contexto/Organizações/Facções/Movimento Restinga Livre",
+  "path": "Contexto/Organizações/Facções/Movimento Restinga Livre.md",
+  "basename": "Movimento Restinga Livre",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Restinga Livre"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": "[[Renato “Livre” Costa]]",
+    "Descrição": null,
+    "Resumo": "Sindicato anarco-capitalista radical que controla a Restinga como enclave livre de toda intervenção estatal.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Movimento Restinga Livre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Renato “Livre” Costa",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Movimento Restinga Livre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Movimento Restinga Livre.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** O Movimento Restinga Livre ergueu, já em 1985, uma cerca improvisada ao redor das palafitas de metal reciclado, equipada com sensores mecânicos e armadilhas caseiras para repelir incursões da [[Brigada Militar]]. Dentro do perímetro, usam veículos anfíbios adaptados (baseados em modelos da [[Gurgel]]) e câmeras de vigilância alimentadas por geradores roubados da [[Companhia Estadual de Energia Elétrica|CEEE]]. Rotas clandestinas – por canaletas alagadas na [[Zona Deserta]] – permitem trocas de alimentos, remédios e munição com aliados na [[Cidade Baixa]] e abastecimento de selênicos piratas do [[Centro Histórico]]. Paralelamente, recrutam entusiastas do livre mercado pela distribuição noturna de folhetos criptografados (‘Carta da Liberdade Total’) em [[Costa e Silva]], [[Petrópolis]] e [[Bom Fim]]. Defendem o comércio absolutamente livre e a liberdade de expressão irrestrita, o que gera tensões internas: células neonazistas, pedófilas ou xenófobas já foram expedidas para além da cerca – algumas pessoas exiladas ou banidas – mas o Movimento mantém seu princípio de “todo discurso é válido, por pior que seja”. Ao mesmo tempo, promove cursos de selvageria econômica e workshops secretos de defesa urbana, atraindo operários descontentes, antigos catadores e jovens idealistas dispostos a viver sem Estado."
+}

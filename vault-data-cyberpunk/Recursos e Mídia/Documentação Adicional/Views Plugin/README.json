@@ -1,0 +1,33 @@
+{
+  "id": "Recursos e Mídia/Documentação Adicional/Views Plugin/README",
+  "path": "Recursos e Mídia/Documentação Adicional/Views Plugin/README.md",
+  "basename": "README",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cartas do Sistema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Documentação — Pleitost Views (vault user)"
+    },
+    {
+      "level": 2,
+      "text": "Blocos suportados hoje"
+    },
+    {
+      "level": 2,
+      "text": "Quer mexer no plugin?"
+    }
+  ],
+  "body": "# Documentação — Pleitost Views (vault user)\n\nDoc voltada pra quem **usa o plugin no Obsidian** — imprime cartas,\nconfigura blocos `class-roles` ou `bounty`, ou cria conteúdo novo que\nvai virar carta impressa.\n\n| Doc | Quando ler |\n|---|---|\n| [[Cartas do Sistema]] | Tipos de carta existentes, como imprimir, FM por tipo, paths de imagem, roadmap de migração `dataviewjs` → fence do plugin |\n\n## Blocos suportados hoje\n\n- `class-roles` — quadro de combinações de classe + roles (Líder / Vanguarda / Abatedor / Controlador) com tooltip.\n- `bounty` — card estilizado de aventura/missão (rank, subcategoria, recompensa, objetivo).\n\nDocumentação detalhada desses dois blocos está no\n[`README.md` do plugin](../../../.obsidian/plugins/pleitost-views/README.md)\n(não acessível via Obsidian — fica no sistema de arquivos / GitHub).\n\n## Quer mexer no plugin?\n\nA documentação técnica (arquitetura, planos de migração, decisões de\ndesign) vive em\n`.obsidian/plugins/pleitost-views/docs/` — não acessível via Obsidian\n(a pasta `.obsidian/` é oculta), mas acessível pelo sistema de\narquivos / GitHub.\n"
+}

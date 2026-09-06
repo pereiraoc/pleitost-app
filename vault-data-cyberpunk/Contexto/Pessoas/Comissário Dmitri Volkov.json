@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Comissário Dmitri Volkov",
+  "path": "Contexto/Pessoas/Comissário Dmitri Volkov.md",
+  "basename": "Comissário Dmitri Volkov",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Dmitri Volkov"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Partido Comunista Soviético]]",
+    "Função": "Comissário cultural soviético em Porto Alegre",
+    "Aparência": "Sobretudo pesado fora de época, broche discreto da foice, sotaque que engrossa quando mente.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Partido Comunista Soviético",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

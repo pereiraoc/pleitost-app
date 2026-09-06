@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Redenção",
+  "path": "Atlas/Porto Alegre/Bom Fim/Redenção.md",
+  "basename": "Redenção",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Redenção.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Redenção.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Redenção.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Antiga praça de eventos ao ar livre, usada para feiras de tecnologia clandestina e manifestações estudantis.\n> \n> 👁️**Aparência do Local:** Gramado irregular pontuado por quiosques de ferro forjado, odor de mato recém-cortado misturado a spray de tinta fresca, palmas e cânticos ecoando no coreto central, bancos de madeira descascados.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Antiga praça de eventos ao ar livre, usada para feiras de tecnologia clandestina e manifestações estudantis.",
+    "aparencia": "Gramado irregular pontuado por quiosques de ferro forjado, odor de mato recém-cortado misturado a spray de tinta fresca, palmas e cânticos ecoando no coreto central, bancos de madeira descascados.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

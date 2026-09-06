@@ -1,0 +1,59 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia.md",
+  "basename": "Passo D'Areia",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Grande Cidade",
+    "Recursos": [
+      "[[Armadura Leve]]"
+    ],
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Passo D'Areia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aeromóvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Armadura Leve",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Passo D'Areia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Passo D'Areia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Trecho operário-industrial desenvolvido em torno da via elevada de [[Aeromóvel]], onde protótipos de veículos suspensos e oficinas convivem com botequinhos frequentados por trabalhadores.\n> \n> 👁️**Aparência do Local:** Estações modulares de concreto aparente apoiadas em pilares metálicos, trilhos-guia suspensos com vagões de teste estacionados, galpões de alvenaria com janelas gradeadas, letreiros artesanais e mesas de madeira bruta em botecos à sombra da estrutura.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Trecho operário-industrial desenvolvido em torno da via elevada de [[Aeromóvel]], onde protótipos de veículos suspensos e oficinas convivem com botequinhos frequentados por trabalhadores.",
+    "aparencia": "Estações modulares de concreto aparente apoiadas em pilares metálicos, trilhos-guia suspensos com vagões de teste estacionados, galpões de alvenaria com janelas gradeadas, letreiros artesanais e mesas de madeira bruta em botecos à sombra da estrutura.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

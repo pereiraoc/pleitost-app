@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Resort Nova Porto Alegre",
+  "path": "Atlas/Porto Alegre/Ipanema/Resort Nova Porto Alegre.md",
+  "basename": "Resort Nova Porto Alegre",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Resort Nova Porto Alegre.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Resort Nova Porto Alegre.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Resort Nova Porto Alegre.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Complexo de lazer e conferências para altos escalões.\n> \n> 👁️**Aparência do Local:** Piscinas aquecidas, espelhos d’água, aroma de spa, murmúrios discretos.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo de lazer e conferências para altos escalões.",
+    "aparencia": "Piscinas aquecidas, espelhos d’água, aroma de spa, murmúrios discretos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

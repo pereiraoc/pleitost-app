@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Delta Radioativo/Lagoa do Pinheiro",
+  "path": "Atlas/Porto Alegre/Delta Radioativo/Lagoa do Pinheiro.md",
+  "basename": "Lagoa do Pinheiro",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Delta Radioativo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Lagoa do Pinheiro.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Lagoa do Pinheiro.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Lagoa do Pinheiro.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Depósito tóxico a céu aberto.\n> \n> 👁️**Aparência do Local:** Água turva, crostas químicas, odor acre.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Depósito tóxico a céu aberto.",
+    "aparencia": "Água turva, crostas químicas, odor acre.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

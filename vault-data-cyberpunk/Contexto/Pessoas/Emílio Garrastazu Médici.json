@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Emílio Garrastazu Médici",
+  "path": "Contexto/Pessoas/Emílio Garrastazu Médici.md",
+  "basename": "Emílio Garrastazu Médici",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Médici"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Governo Militar Brasileiro]]",
+    "Função": "Presidente do Brasil",
+    "Aparência": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n\n"
+}

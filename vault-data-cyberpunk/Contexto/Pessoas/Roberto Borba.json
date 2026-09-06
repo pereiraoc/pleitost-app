@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Roberto Borba",
+  "path": "Contexto/Pessoas/Roberto Borba.md",
+  "basename": "Roberto Borba",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Presidente Roberto Borba"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Grêmio Foot-Ball Porto Alegrense]]",
+    "Função": "Presidente do Grêmio Foot-Ball Porto Alegrense",
+    "Aparência": "Blazer azul-preto de corte fino, lenço branco, caneta-tinteiro pra assinar convênio em jantar de gala.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Grêmio Foot-Ball Porto Alegrense",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

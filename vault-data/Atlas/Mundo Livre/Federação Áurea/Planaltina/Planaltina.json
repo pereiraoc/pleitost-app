@@ -1,0 +1,80 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Planaltina",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Planaltina.md",
+  "basename": "Planaltina",
+  "type": "Localização",
+  "subtype": "Região",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Região",
+    "Geolocalização": "[[Federação Áurea]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      ""
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campo de Mineradores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Grande Mata",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pedrita",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manilha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Chama Céu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Campos do Provento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Principado das Flores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Iluminada",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Canto Alto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** \n> \n> ℹ️**Descrição:** Região mineradora da [[Federação Áurea]], estendida pelos planaltos do sul do país e governada de sua capital costeira, [[Safira]] — uma das três cidades fundadoras da Federação. Sua riqueza sai da pedra: as safiras extraídas no [[Campo de Mineradores]], no coração da [[Grande Mata]], o âmbar de [[Pedrita]] e as oficinas de imbuição e forja que os transformam. O interior rural completa a economia com o queijo de [[Manilha]] e os bodes serranos de [[Chama Céu]]. Ao norte faz divisa com os [[Campos do Provento]]; ao sul, sua fronteira é a própria fronteira nacional com o [[Principado das Flores]]. \n> \n> 👁️**Aparência do Local:** Planaltos de planície e planície arborizada, salpicados de afloramentos rochosos, que sobem a oeste para uma cordilheira escura correndo de norte a sul até a costa sudoeste. A leste, o promontório coberto pela [[Grande Mata]] avança sobre o mar entre uma baía funda ao norte e um canal raso ao sul; na costa sudeste, [[Safira]] se ergue murada sobre seu platô, com porto e farol. Estradas costuram a região: o grande eixo norte–sul que desce de [[Iluminada]] a Safira e segue rumo a [[Canto Alto]], e a transversal que amarra [[Chama Céu]], [[Pedrita]] e [[Manilha]] à capital. Serras de bodes a oeste, pastos e pomares no centro, minas e mata fechada a leste — a paisagem muda de cara a cada dia de viagem. \n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Federação Áurea/Planaltina\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Região mineradora da [[Federação Áurea]], estendida pelos planaltos do sul do país e governada de sua capital costeira, [[Safira]] — uma das três cidades fundadoras da Federação. Sua riqueza sai da pedra: as safiras extraídas no [[Campo de Mineradores]], no coração da [[Grande Mata]], o âmbar de [[Pedrita]] e as oficinas de imbuição e forja que os transformam. O interior rural completa a economia com o queijo de [[Manilha]] e os bodes serranos de [[Chama Céu]]. Ao norte faz divisa com os [[Campos do Provento]]; ao sul, sua fronteira é a própria fronteira nacional com o [[Principado das Flores]].",
+    "aparencia": "Planaltos de planície e planície arborizada, salpicados de afloramentos rochosos, que sobem a oeste para uma cordilheira escura correndo de norte a sul até a costa sudoeste. A leste, o promontório coberto pela [[Grande Mata]] avança sobre o mar entre uma baía funda ao norte e um canal raso ao sul; na costa sudeste, [[Safira]] se ergue murada sobre seu platô, com porto e farol. Estradas costuram a região: o grande eixo norte–sul que desce de [[Iluminada]] a Safira e segue rumo a [[Canto Alto]], e a transversal que amarra [[Chama Céu]], [[Pedrita]] e [[Manilha]] à capital. Serras de bodes a oeste, pastos e pomares no centro, minas e mata fechada a leste — a paisagem muda de cara a cada dia de viagem.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

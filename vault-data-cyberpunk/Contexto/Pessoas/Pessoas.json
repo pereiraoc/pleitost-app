@@ -1,0 +1,15 @@
+{
+  "id": "Contexto/Pessoas/Pessoas",
+  "path": "Contexto/Pessoas/Pessoas.md",
+  "basename": "Pessoas",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Pessoa\",\n  categoria as \"Categoria\",\n  subcategoria as \"Pessoa\"\nwhere categoria=\"Pessoa\"\nsort subcategoria asc\n```"
+}

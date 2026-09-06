@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Abatimento Rápido",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Comandante/Abatimento Rápido.md",
+  "basename": "Abatimento Rápido",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Técnica",
+  "frontmatter": {
+    "alias": "Abatimento Rápido",
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Técnica",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Comandante]]\"",
+    "resumo": "\"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele faz um [[Atacar|Ataque]] na 1ª [[Penalidade por Ataque Múltiplo|PAM]] e, se acertar, causa dano adicional igual ao resultado do dado. Não pode usar no mesmo turno em que o aliado foi alvo de [[Abater]] (e vice-versa).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Abater",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comandos de Batalha",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Comandante]]\"\n\nresumo:: \"Role o dado de comando e escolha 1 aliado na sua área de influência que te ouça; como reação, ele faz um [[Atacar|Ataque]] na 1ª [[Penalidade por Ataque Múltiplo|PAM]] e, se acertar, causa dano adicional igual ao resultado do dado. Não pode usar no mesmo turno em que o aliado foi alvo de [[Abater]] (e vice-versa).\"\n%%\n### `= this.file.name` - `= this.custo`\nRole o dado de comando e escolha um aliado dentro da sua área de influência que consegue te ouvir. Esse aliado pode, como uma reação, realizar um [[Atacar|Ataque]] na 1º [[Penalidade por Ataque Múltiplo|PAM]]. Esse ataque causa dano adicional igual ao resultado do dado caso tenha sucesso. Um aliado que foi alvo de [[Abater]] não pode ser alvo de Abatimento Rápido no mesmo turno e vice-versa. Abatimento Rápido conta como uma habilidade de [[Comandos de Batalha]].\n\n```autosheet-rules\n```\n"
+}

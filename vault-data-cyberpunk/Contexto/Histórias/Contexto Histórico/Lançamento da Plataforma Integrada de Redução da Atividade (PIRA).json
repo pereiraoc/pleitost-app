@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+  "path": "Contexto/Histórias/Contexto Histórico/Lançamento da Plataforma Integrada de Redução da Atividade (PIRA).md",
+  "basename": "Lançamento da Plataforma Integrada de Redução da Atividade (PIRA)",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1975-05-01",
+    "Descrição": "Programa com grande adesão promete 10 anos de trabalho para o estado em um regime de 130 horas semanais em troca de uma aposentadoria ao final do período. Superdrogas são usadas para garantir que os trabalhadores se mantenham acordados e produtivos.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n"
+}

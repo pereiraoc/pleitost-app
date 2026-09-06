@@ -1,0 +1,575 @@
+{
+  "id": "Sistema/Criaturas/Heróis/Kenji",
+  "path": "Sistema/Criaturas/Heróis/Kenji.md",
+  "basename": "Kenji",
+  "type": "Criatura",
+  "subtype": "Heroi",
+  "grupo": [
+    "[[Adriann, Carlos, Kenji, Zuko]]"
+  ],
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Criatura",
+    "subcategoria": "Heroi",
+    "grupo": [
+      "[[Adriann, Carlos, Kenji, Zuko]]"
+    ],
+    "Imagem": "",
+    "Nível": 2,
+    "Classe": "[[Monge|Monge]]",
+    "Sintonia": "[[Traço Elemental da Água]]",
+    "Tamanho": "Médio",
+    "Vida": {
+      "Vitalidade": 15,
+      "Moral": 30
+    },
+    "Atributos": {
+      "Principal": "AGI",
+      "FOR": 1,
+      "AGI": 3,
+      "INT": 2,
+      "PRE": 0
+    },
+    "Defesas_Resistencias": {
+      "Lista": [
+        {
+          "Nome": "Defesa",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Vigor",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Ímpeto",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Reflexo",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Sentidos": {
+      "Lista": [
+        {
+          "Nome": "Percepção",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        },
+        {
+          "Nome": "Intuição",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Movimento": {
+      "Lista": [
+        {
+          "Nome": "Terrestre",
+          "Atributo": "AGI",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0
+        }
+      ]
+    },
+    "Pericias": {
+      "Slots": {
+        "A": 4,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Atletismo",
+          "Atributo": "FOR",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Acrobacia",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Regra.[[Monge]]"
+            }
+          ]
+        },
+        {
+          "Nome": "Furtividade",
+          "Atributo": "AGI",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Ladinagem",
+          "Atributo": "AGI",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Arcana",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sociedades",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Guerra",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Medicina",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Sobrevivência",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": [
+            {
+              "A": "Slot.A"
+            }
+          ]
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Diplomacia",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Enganação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        },
+        {
+          "Nome": "Intimidação",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Especializacao": "",
+          "Maestria": "",
+          "Incrementos": []
+        }
+      ]
+    },
+    "Oficios": {
+      "Lista": [
+        {
+          "Nome": "Oficio",
+          "Complemento": "Artesão",
+          "Atributo": "INT",
+          "Proficiencia": "A",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": [
+            {
+              "A": "Passado"
+            }
+          ]
+        },
+        {
+          "Nome": "Atuacao",
+          "Complemento": "",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        },
+        {
+          "Nome": "Conhecimento",
+          "Complemento": "",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Incrementos": []
+        }
+      ]
+    },
+    "Habilidades": {
+      "Lista": [
+        {
+          "[[Evolução Básica]]": "Regra.[[Monge]]"
+        },
+        {
+          "[[Arte Marcial]]": "Regra.[[Monge]]"
+        },
+        {
+          "[[Corpo em Sintonia]]": "Regra.[[Monge]]"
+        },
+        {
+          "[[Pontos de Pressão]]": "Regra.[[Arte Marcial]]"
+        },
+        {
+          "[[Garra de Tigre]]": "Regra.[[Arte Marcial]]"
+        },
+        {
+          "[[Presas de Lobo]]": "Regra.[[Arte Marcial]]"
+        },
+        {
+          "[[Cauda de Dragão]]": "Regra.[[Arte Marcial]]"
+        },
+        {
+          "[[Corpo em Sintonia (Água)|Corpo em Sintonia]]": "Regra.[[Corpo em Sintonia]]"
+        }
+      ],
+      "Especiais": []
+    },
+    "Tecnicas": {
+      "Slots": {
+        "A": 1,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "[[Desviar Projétil]]": "Slot.A"
+        }
+      ]
+    },
+    "Magias": {
+      "Potencia": 0,
+      "EM": 0,
+      "Slots": {
+        "B": 0,
+        "A": 0,
+        "E": 0,
+        "M": 0
+      },
+      "Lista": [
+        {
+          "Nome": "Arcana Negra",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Arcana Branca",
+          "Atributo": "INT",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Anima",
+          "Atributo": "PRE",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        },
+        {
+          "Nome": "Tesouros",
+          "Atributo": "",
+          "Proficiencia": "N",
+          "Bonus_Item": 0,
+          "Bonus_Especial": 0,
+          "Lista": []
+        }
+      ],
+      "Secundaria": {
+        "Potencia": 0,
+        "EM": 0,
+        "Slots": {
+          "B": 0,
+          "A": 0,
+          "E": 0,
+          "M": 0
+        },
+        "Lista": [
+          {
+            "Nome": "Arcana Negra",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Arcana Branca",
+            "Atributo": "INT",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          },
+          {
+            "Nome": "Anima",
+            "Atributo": "PRE",
+            "Proficiencia": "N",
+            "Bonus_Item": 0,
+            "Bonus_Especial": 0,
+            "Lista": []
+          }
+        ]
+      }
+    },
+    "Acoes": {
+      "Lista": [
+        {
+          "[[Maré de Combate]]": "Regra.[[Corpo em Sintonia (Água)]]"
+        }
+      ]
+    },
+    "Ataques": {
+      "Proficiencia": "A",
+      "Lista": [
+        {
+          "Nome": "Manobras",
+          "Atributo": "FOR",
+          "Bonus_Item": 1,
+          "Bonus_Especial": 0,
+          "Categoria": null,
+          "Propriedade": null,
+          "Fonte": "Padrao"
+        }
+      ]
+    },
+    "Inventario": {
+      "Ouro": 0,
+      "Armadura": {
+        "Nome": "",
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": {
+          "Sem": "P",
+          "Leve": "N",
+          "Pesada": "N"
+        }
+      },
+      "Escudo": {
+        "Nome": "",
+        "Dano": 0,
+        "Dureza": 0,
+        "Categoria": "",
+        "Propriedade": "",
+        "Proficiencia": "N"
+      },
+      "Tesouros": [
+        "[[Pulseira da Potência|Pulseira da Potência (Adepto)]]",
+        "[[Anel do Equilíbrio|Anel do Equilíbrio (Adepto)]]"
+      ],
+      "Tesouros_Especiais": "",
+      "Consumiveis": [],
+      "Armas": {
+        "Proficiencia": {
+          "Simples": "P",
+          "Marciais": "N",
+          "Especificas": []
+        },
+        "Lista": [
+          {
+            "Nome": "[[Garra de Tigre]]",
+            "Atributo": "AGI",
+            "Bonus_Item": 1,
+            "Bonus_Especial": 0,
+            "Categoria": "[[Adepto]]",
+            "Propriedade": "[[Arma Obra-prima|Obra-prima]]",
+            "Fonte": "Manual"
+          }
+        ]
+      }
+    },
+    "Experiencia": {
+      "Marcas": [],
+      "Reconhecimentos": []
+    },
+    "Biografia": {
+      "Passado": "Discípulo",
+      "Motivacao": "",
+      "Genero": "",
+      "Idade": "",
+      "Naturalidade": "",
+      "Altura": "",
+      "Peso": "",
+      "Ideais": [],
+      "Desprezos": [],
+      "Qualidades": [],
+      "Defeitos": [],
+      "Anotacoes": ""
+    },
+    "Papel": {
+      "Lider": 0,
+      "Controlador": 1,
+      "Abatedor": 0,
+      "Vanguarda": 2
+    },
+    "Interativa": {
+      "Imunidades": {
+        "Medicina": false,
+        "Encorajar": false
+      },
+      "Recursos_Restantes": {
+        "Vitalidade": 15,
+        "Moral": 30,
+        "Moral_Temporaria": 0,
+        "EM": 0,
+        "Escudo_Dano": 0
+      }
+    }
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Adriann, Carlos, Kenji, Zuko",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink",
+      "alias": "Monge"
+    },
+    {
+      "target": "Traço Elemental da Água",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arte Marcial",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Corpo em Sintonia (Água)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink",
+      "alias": "Pulseira da Potência (Adepto)"
+    },
+    {
+      "target": "Anel do Equilíbrio",
+      "kind": "wikilink",
+      "alias": "Anel do Equilíbrio (Adepto)"
+    },
+    {
+      "target": "Garra de Tigre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arma Obra-prima",
+      "kind": "wikilink",
+      "alias": "Obra-prima"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-yaml\nModo: Interativa\n```"
+}

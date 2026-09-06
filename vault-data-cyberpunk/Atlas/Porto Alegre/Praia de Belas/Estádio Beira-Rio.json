@@ -1,0 +1,58 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Estádio Beira-Rio",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Estádio Beira-Rio.md",
+  "basename": "Estádio Beira-Rio",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Beira-Rio"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estádio Beira-Rio.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Lago Guaíba",
+      "kind": "wikilink",
+      "alias": "Guaíba"
+    },
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estádio Beira-Rio.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estádio Beira-Rio.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Estádio do [[Sport Club Internacional]], em frente ao [[Lago Guaíba|Guaíba]] e ao lado do [[Porto Novo]]. Além dos jogos, sedia assembleias de sócios, shows e feiras populares.\n> \n> 👁️**Aparência do Local:** Anel de concreto armado escurecido pela maresia, holofotes altos, faixas vermelhas e o vaivém constante de vendedores ambulantes nas rampas.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Estádio do [[Sport Club Internacional]], em frente ao [[Lago Guaíba|Guaíba]] e ao lado do [[Porto Novo]]. Além dos jogos, sedia assembleias de sócios, shows e feiras populares.",
+    "aparencia": "Anel de concreto armado escurecido pela maresia, holofotes altos, faixas vermelhas e o vaivém constante de vendedores ambulantes nas rampas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

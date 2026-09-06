@@ -1,0 +1,54 @@
+{
+  "id": "Atlas/Porto Alegre/Costa e Silva/Quartel-General do Exército",
+  "path": "Atlas/Porto Alegre/Costa e Silva/Quartel-General do Exército.md",
+  "basename": "Quartel-General do Exército",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Exército"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Costa e Silva]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Quartel-General do Exército.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Quartel-General do Exército.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Quartel-General do Exército.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** [[Centro Histórico|Centro]] de comando da repressão urbana.\n> \n> 👁️**Aparência do Local:** Prédios fortificados, pátio de concreto, bandeiras hasteadas.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "[[Centro Histórico|Centro]] de comando da repressão urbana.",
+    "aparencia": "Prédios fortificados, pátio de concreto, bandeiras hasteadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

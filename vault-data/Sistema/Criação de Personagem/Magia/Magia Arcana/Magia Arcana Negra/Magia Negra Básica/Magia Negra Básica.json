@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Magia Negra Básica",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Básica/Magia Negra Básica.md",
+  "basename": "Magia Negra Básica",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Negra Básica"
+    }
+  ],
+  "body": "### Magia Negra Básica\n\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Negra\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Negra\" and rank=\"Básica\"\n```"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Praia de Belas/Mercado de Frutos do Mar",
+  "path": "Atlas/Porto Alegre/Praia de Belas/Mercado de Frutos do Mar.md",
+  "basename": "Mercado de Frutos do Mar",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Porto Novo]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercado de Frutos do Mar.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Mercado de Frutos do Mar.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Mercado de Frutos do Mar.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Boxes especiais para peixes e crustáceos.\n> \n> 👁️**Aparência do Local:** Gelo, caixas plásticas, cheiro forte de pescado.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Boxes especiais para peixes e crustáceos.",
+    "aparencia": "Gelo, caixas plásticas, cheiro forte de pescado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

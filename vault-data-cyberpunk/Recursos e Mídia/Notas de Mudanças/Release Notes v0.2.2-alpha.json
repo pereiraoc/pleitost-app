@@ -1,0 +1,68 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.2.2-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.2.2-alpha.md",
+  "basename": "Release Notes v0.2.2-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.2.1-alpha"
+    },
+    {
+      "level": 2,
+      "text": "✨ Destaques"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas nesta versão"
+    },
+    {
+      "level": 2,
+      "text": "🧾 Autosheet (DataviewJS + Meta-Bind)"
+    },
+    {
+      "level": 3,
+      "text": "Adicionado / Melhorado"
+    },
+    {
+      "level": 3,
+      "text": "Corrigido"
+    },
+    {
+      "level": 2,
+      "text": "🐾 Companheiros Animais"
+    },
+    {
+      "level": 2,
+      "text": "🧙 Magia"
+    },
+    {
+      "level": 2,
+      "text": "⚔️ Itens & Cartas"
+    },
+    {
+      "level": 2,
+      "text": "🗺️ Mapas"
+    },
+    {
+      "level": 2,
+      "text": "🧹 Organização & Regras"
+    },
+    {
+      "level": 2,
+      "text": "🗂️ Mudança relevante na estrutura do vault"
+    },
+    {
+      "level": 2,
+      "text": "👥 Commits (visão geral)"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.1.0-alpha...v0.2.2-alpha\n\n# 📦 Release Notes — Pleitost v0.2.1-alpha\n\n**Período coberto:** 08/out/2025 → 15/dez/2025  \n**Foco:** refino pós-playtest + padronização de resumos + evolução grande do autosheet interativo + base de companheiros animais + mapas.\n\n---\n\n## ✨ Destaques\n\n- **Autosheet (modo Interativa) agora tem visão integrada de “Usos/Recursos”**, com melhorias gerais de usabilidade e salvamento.\n- **Resumos padronizados** adicionados em larga escala para **Habilidades**, **Técnicas**, **Ações de Habilidade-Técnica** e **parte das Magias**.\n- **Companheiro Animal** ganhou **primeira versão de autosheet (Editável)** e melhorias incrementais.\n- **Mapas**: primeira versão com notas + pins.\n- **Limpeza e reorganização de regras** + correções de links e estrutura.\n- **Bardo**: correções em recursos mágicos (incluindo ajuste de EM) e ajustes de mecânica/pós-playtest.\n\n---\n\n## ✅ Issues fechadas nesta versão\n\n- **#39** — Add *Usos* property to notes for tracking on autosheet  \n- **#36** — Bardo has bad magic resources, add EM  \n- **#38** — Rework Bardo *Entrada Dramática* (inspirar como ação livre no 1º turno)  \n- **#20** — Ajustar descrições de imbuições para caber nas cartas  \n- **#28** — Corrigir “Resumo” para todas as notas  \n- **#33** — Flag “Já Medicinado” na Ficha Interativa  \n- **#34** — Autosheet não estava salvando poções  \n- **#35** — Técnicas compartilhadas por mais de uma classe não apareciam para seleção  \n- **#37** — Adicionar técnicas genéricas ao autosheet  \n- **#30** — Update armas to autosheet\n\n---\n\n## 🧾 Autosheet (DataviewJS + Meta-Bind)\n\n### Adicionado / Melhorado\n- Visão **“Usos Diários de Recursos”**.\n- **Integração** do painel de **Usos** dentro da ficha **modo Interativa**.\n- **Rastreamento de usos**: base para tesouros (e preparação para habilidades/técnicas com recurso).\n- **Anotações** e **Tesouros Especiais**: fluxo aprimorado (edição + salvamento mais consistente).\n- **Tabela de Perícias** melhorada.\n- **Correções gerais** de consistência após playtests.\n\n### Corrigido\n- Salvamento de **poções/consumíveis** no autosheet.\n- Seleção de **técnicas genéricas** e **técnicas compartilhadas entre classes**.\n- Correções de *re-linking* quebrado e problemas de estrutura em técnicas multi-ação.\n\n---\n\n## 🐾 Companheiros Animais\n\n- Primeiro teste do **autosheet de Companheiro Animal (Editável)**.\n- Melhorias sucessivas na ficha de companheiro animal.\n\n---\n\n## 🧙 Magia\n\n- Adição de **resumos** para um conjunto grande de magias.\n- Ajustes:\n  - Clarificação menor sobre conjuração (mãos).\n  - **Novo rank para invocações**.\n  - Remoção de magia deprecated.\n- **Bardo**: ajuste de recursos mágicos e opção/valor de EM corrigida.\n\n---\n\n## ⚔️ Itens & Cartas\n\n- Ajuste de descrições de **Imbuições** para aderir ao layout das **cartas**.\n- Nova imagem adicionada: **Broche Artístico**.\n\n---\n\n## 🗺️ Mapas\n\n- Primeira versão de **mapa com notas**.\n- **Pins** adicionados.  \nLocal: `Recursos e Mídia/Imagens/Mapas/`\n\n---\n\n## 🧹 Organização & Regras\n\n- **Rules clean-up** (limpeza e padronização).\n- Adição de **Especializações** que estavam faltando para algumas perícias.\n- Ajustes pós-playtest em múltiplas áreas.\n\n---\n\n## 🗂️ Mudança relevante na estrutura do vault\n\nO projeto agora está consolidado em três macro-blocos, com maior clareza de navegação:\n\n- `Sistema/` (regras + criação de personagem + equipamento + criaturas)\n- `Recursos e Mídia/` (imagens, mapas, templates, excalidraw)\n- `Atlas/` e `Contexto/` (mundo, histórias, pessoas e organizações)\n\n---\n\n## 👥 Commits (visão geral)\n\n- **Out/2025:** README, atualização de fichas de jogadores, Issue #30, início de autosheet de companheiro animal, limpeza de regras.  \n- **Nov/2025:** especializações faltantes, mapas (notas + pins), ajustes pós-playtest.  \n- **Dez/2025:** resumos (habilidades/técnicas/açoes/magias), fixes de links, reestruturação de técnicas multi-ação, grande evolução do autosheet Interativo e rastreamento de recursos/usos.\n\n---"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Técnicas",
+  "path": "Sistema/Criação de Personagem/Técnicas/Técnicas.md",
+  "basename": "Técnicas",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Técnica",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Classe Secundária",
+      "kind": "embed",
+      "subpath": "Classe Secundária"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Técnicas"
+    },
+    {
+      "level": 1,
+      "text": "Técnicas Genéricas"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n%%\n# Técnicas\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  classe AS \"Classes\",\n  rank AS \"Categoria\"\nFROM \"Sistema/Criação de Personagem/Técnicas\"\nSORT rank, classe, file.name ASC\nWHERE categoria=\"Técnica\" AND classe!=NULL\n```\n\n# Técnicas Genéricas\n\nTécnicas genéricas podem ser obtidas por qualquer classe, desde que respeitando os pré-requisitos.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Técnica\",\n  rank AS \"Categoria\"\nFROM \"Sistema/Criação de Personagem/Técnicas\"\nSORT file.name ASC\nWHERE categoria=\"Técnica\" AND classe=NULL\n```\n\n![[Classe Secundária#Classe Secundária]]"
+}

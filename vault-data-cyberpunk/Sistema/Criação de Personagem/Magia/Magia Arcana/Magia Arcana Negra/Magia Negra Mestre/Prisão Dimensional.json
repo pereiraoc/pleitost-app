@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Mestre/Prisão Dimensional",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Mestre/Prisão Dimensional.md",
+  "basename": "Prisão Dimensional",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Prisão Dimensional (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Mestre",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Em 6q, você prende uma criatura em uma Prisão Dimensional com 2 trancas por até 10 turnos ([[Sustentar|sustentável]]); ela só sai ao destruir as 2 trancas (reaparece no espaço original ou no mais próximo). 1 vez por turno, o alvo pode tentar destruir tranca com [[Arcana]], [[Ladinagem]], [[Percepção]] ou [[Intuição]] vs sua [[CD]] (sucesso: 1 tranca, decisivo: 2, falha: nada, falha decisiva: nada e uma tranca destruída pode voltar).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "sustentável"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Percepção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Intuição",
+      "kind": "wikilink"
+    },
+    {
+      "target": "CD",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustentada"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Em 6q, você prende uma criatura em uma Prisão Dimensional com 2 trancas por até 10 turnos ([[Sustentar|sustentável]]); ela só sai ao destruir as 2 trancas (reaparece no espaço original ou no mais próximo). 1 vez por turno, o alvo pode tentar destruir tranca com [[Arcana]], [[Ladinagem]], [[Percepção]] ou [[Intuição]] vs sua [[CD]] (sucesso: 1 tranca, decisivo: 2, falha: nada, falha decisiva: nada e uma tranca destruída pode voltar).\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 6q. Você transporta uma criatura para uma prisão extra-dimensional, prendendo-a sozinha com duas trancas arcanas. A criatura se liberta de Prisão Dimensional ao destruir as duas trancas, aparecendo no espaço que ela ocupava quando foi alvo desse efeito, ou o mais próximo caso já esteja ocupado. Prisão Dimensional pode ser [[Sustentar|Sustentada]] por até 10 turnos.\n\nUma vez por turno dessa criatura, ela pode usar uma ação para tentar livrar-se de uma das trancas, fazendo um teste de [[Arcana]], [[Ladinagem]], [[Percepção]] ou [[Intuição]] contra a [[CD]] da sua magia, com os seguintes resultados.\n\n**Sucesso:** A criatura destrói uma das trancas.\n**Sucesso Decisivo:** A criatura destrói duas trancas.\n**Falha:** A criatura falha em destruir trancas.\n**Falha Decisiva:** A criatura falha e, se uma tranca tiver sido destruída, ela reaparece.\n\n```autosheet-rules\n```\n"
+}

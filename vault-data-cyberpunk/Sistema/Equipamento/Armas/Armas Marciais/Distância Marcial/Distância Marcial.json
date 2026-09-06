@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Distância Marcial",
+  "path": "Sistema/Equipamento/Armas/Armas Marciais/Distância Marcial/Distância Marcial.md",
+  "basename": "Distância Marcial",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "Distância Marcial"
+    }
+  ],
+  "body": "# Distância Marcial\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\"\nFROM \"Sistema/Equipamento/Armas\"\nSORT ordem, file.name ASC\nWHERE subcategoria=\"Arma\" and grupo=\"d-marcial\"\n```"
+}

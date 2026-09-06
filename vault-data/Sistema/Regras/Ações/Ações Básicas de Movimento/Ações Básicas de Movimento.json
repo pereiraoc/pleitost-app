@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Movimento/Ações Básicas de Movimento",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Movimento/Ações Básicas de Movimento.md",
+  "basename": "Ações Básicas de Movimento",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação Básica de Movimento, Movimento",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações|Ações]]",
+    "prev": "[[Ações|Ações]]",
+    "next": "[[Ações Básicas de Manipulação]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações Básicas de Movimento"
+    }
+  ],
+  "body": "%%\nup:: [[Ações|Ações]]\nprev:: [[Ações|Ações]]\nnext:: [[Ações Básicas de Manipulação]]\n%%\n## Ações Básicas de Movimento\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  custo AS \"Ações\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações Básicas de Movimento\"\nSORT file.name ASC\nWHERE subcategoria = \"Ação\"\n```\n\n```autosheet-rules\n```\n"
+}

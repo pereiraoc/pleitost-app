@@ -1,0 +1,31 @@
+{
+  "id": "Contexto/Pessoas/Tereza “Maré” Fontoura",
+  "path": "Contexto/Pessoas/Tereza “Maré” Fontoura.md",
+  "basename": "Tereza “Maré” Fontoura",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Tereza Fontoura",
+      "Maré"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Aliança Livre das Palafitas]]",
+    "Função": "Chefe da Aliança Livre das Palafitas",
+    "Aparência": "Capa de chuva remendada, pés descalços na canoa, apito de osso pendurado no pescoço pra avisar as palafitas.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

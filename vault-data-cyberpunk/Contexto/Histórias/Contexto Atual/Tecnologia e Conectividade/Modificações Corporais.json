@@ -1,0 +1,113 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Modificações Corporais",
+  "path": "Contexto/Histórias/Contexto Atual/Tecnologia e Conectividade/Modificações Corporais.md",
+  "basename": "Modificações Corporais",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A integração de implantes cibernéticos e seus impactos sociais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Modificações Corporais.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Diagrama-Adaptador-Selênicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Oficina-Modificações-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    },
+    {
+      "target": "Embratel-trabalhadores.png",
+      "kind": "embed",
+      "alias": "500",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Modificações Corporais.png",
+      "from": "body"
+    },
+    {
+      "target": "Diagrama-Adaptador-Selênicos.png",
+      "from": "body"
+    },
+    {
+      "target": "Oficina-Modificações-trabalhadores.png",
+      "from": "body"
+    },
+    {
+      "target": "Gurgel-trabalhadores.png",
+      "from": "body"
+    },
+    {
+      "target": "Embratel-trabalhadores.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "💎 Implantes Selênicos"
+    },
+    {
+      "level": 5,
+      "text": "🏢 Empresas principais de implantes"
+    },
+    {
+      "level": 5,
+      "text": "🦿 Tipos de próteses:"
+    },
+    {
+      "level": 6,
+      "text": "🛠️ Prótese Física"
+    },
+    {
+      "level": 6,
+      "text": "🧠 Prótese Neural/Sensorial"
+    },
+    {
+      "level": 5,
+      "text": "🧍‍♂️ Conhecimento Público"
+    },
+    {
+      "level": 4,
+      "text": "🛠 Alternativas de Baixa Tecnologia"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Modificações Corporais.png]]\n\n#### 💎 Implantes Selênicos\n\nA tecnologia do implante selênico funciona em duas etapas:\n\n1. **Instalação do Adaptador (ambiente hospitalar ou clínica clandestina):**\n\t- Um adaptador é implantado em contato com os nervos do corpo.\n\t- Ele contém um processador baseado em selênica, capaz de interpretar impulsos neurais com enorme plasticidade.\n\t- Esse processador se ajusta organicamente à biologia do usuário, criando uma ponte silenciosa entre o cérebro e o implante.\n\t- Durante o primeiro ou segundo ano, usuários relatam fadiga acima do normal para operar o implante — conhecida como *fase de adaptação*.\n\t- Após esse período, o controle passa a ser praticamente natural.\n2. **Instalação do Implante (em casa ou até na rua):**\n- O implante se conecta de forma mecânica e elétrica ao adaptador já instalado.\n- A instalação pode ser feita por técnicos comuns ou até de maneira improvisada, como a colocação de uma prótese externa.\n\n![[Diagrama-Adaptador-Selênicos.png]]\n\n> 🧯 Existem boatos entre técnicos e usuários experientes de que, em alguns casos graves de alteração de comportamento, ao abrir o adaptador foi observado que o chip selênico havia \"vazado\" pela placa, como se estivesse se expandindo ou tentando crescer fora do espaço original. Não há confirmação oficial sobre isso, e especialistas ligados ao governo tratam como histeria coletiva ou erro de manutenção.\n\n> 🔓 Algumas pessoas realizam *jailbreaks* no adaptador, substituindo o chip selênico por uma versão eletrônica muito inferior — que demanda maior esforço mental e motor, e não oferece as mesmas respostas rápidas.\n\n![[Oficina-Modificações-trabalhadores.png|500]]\n##### 🏢 Empresas principais de implantes\n- **[[Tramontina]]**  Foca em implantes voltados para trabalho braçal. Possui contratos com a ditadura para produção de armamentos e próteses militares.\n- **[[Gradiente]]:**  Especializada em implantes cognitivos e sociais. Produz versões voltadas para espionagem e comunicação avançada, também com apoio do regime.\n\n##### 🦿 Tipos de próteses:\nAs próteses são classificadas por dois eixos principais: **uso (civil ou militar)** e **função (física ou neural/sensorial)**.\n###### 🛠️ Prótese Física\n- **Cívica:**  Braços hidráulicos industriais, pernas com reforço estrutural para longas jornadas, exoesqueletos agrícolas.\n- **Militar:**  Membros com força ampliada para combate corpo a corpo, exoesqueletos de mobilidade rápida, braços com ferramentas integradas (ex: maçaricos, lâminas retráteis).\n\n![[Gurgel-trabalhadores.png|500]]\n###### 🧠 Prótese Neural/Sensorial\n- **Cívica:**  Implantes oculares com filtros visuais, próteses auditivas com capacidade de tradução em tempo real, assistentes cognitivos de memória e foco.\n- **Militar:**  Interfaces de comando por pensamento, links neurais de comunicação direta (voz sem fala), sensores de variação térmica e emocional — todos com monitoramento constante pelas forças armadas ou setores de inteligência.\n\n![[Embratel-trabalhadores.png|500]]\n\n> ⚠️ Muitos dos implantes considerados \"cognitivos\" têm suas comunicações interceptadas e gravadas pelo governo ou empresas terceirizadas, o que levanta preocupações entre usuários críticos do regime.\n\n##### 🧍‍♂️ Conhecimento Público\n> A população sabe dos riscos, mas o sistema os minimiza.\n\n- **Boatos populares:**  “O chip que sussurra”, “A droga que olha de volta”, “Gente que some depois do terceiro Omega.\n- **Empresas e governo:**  Divulgam estudos sobre “casos isolados”, sugerem moderação, mas aumentam metas e cargas horárias.\n- **Campanhas públicas:** \"selênico é produtividade”, “Quem avança não dorme.”\n\n#### 🛠 Alternativas de Baixa Tecnologia\n> Para quem recusa os selênicos, a vida é mais difícil, mas possível.\n\n- **Café ultraconcentrado e drogas pré-selênicas** são usados por “selênico-céticos”.\n- **Próteses analógicas:** braços hidráulicos, engrenagens ruidosas, controle manual — exigem manutenção constante.\n- **Comunidades alternativas** desenvolvem tecnologias limitadas porém “limpas”, vivendo às margens da megacidade."
+}

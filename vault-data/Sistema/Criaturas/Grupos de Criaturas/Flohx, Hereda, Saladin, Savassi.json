@@ -1,0 +1,21 @@
+{
+  "id": "Sistema/Criaturas/Grupos de Criaturas/Flohx, Hereda, Saladin, Savassi",
+  "path": "Sistema/Criaturas/Grupos de Criaturas/Flohx, Hereda, Saladin, Savassi.md",
+  "basename": "Flohx, Hereda, Saladin, Savassi",
+  "type": "Grupo",
+  "subtype": "Aventureiros",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Grupo",
+    "subcategoria": "Aventureiros",
+    "grupo": null,
+    "dg-publish": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "```autosheet-grupo\ngrupo\n```\n"
+}

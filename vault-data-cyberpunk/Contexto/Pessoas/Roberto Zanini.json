@@ -1,0 +1,28 @@
+{
+  "id": "Contexto/Pessoas/Roberto Zanini",
+  "path": "Contexto/Pessoas/Roberto Zanini.md",
+  "basename": "Roberto Zanini",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Marcopolo]]",
+    "Função": "Diretor industrial da Marcopolo",
+    "Aparência": "Camisa de manga curta com caneta no bolso, régua de cálculo que se recusa a aposentar.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

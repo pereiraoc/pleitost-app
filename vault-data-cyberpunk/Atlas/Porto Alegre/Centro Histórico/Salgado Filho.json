@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Salgado Filho",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Salgado Filho.md",
+  "basename": "Salgado Filho",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Centro Histórico]]",
+    "Descrição": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Salgado Filho.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Salgado Filho.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Salgado Filho.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Avenida-canal do Centro afundado: os prédios ecléticos emergem da água do segundo andar pra cima, e o vaivém de barcos faz dela a \"rua\" mais movimentada sobre a água.\n> \n> 👁️**Aparência do Local:** Água escura entre duas fileiras de fachadas cortadas na linha do segundo andar, passarelas de tábua ligando sacadas, varais entre janelas altas e barcos amarrados em balcões que viraram atracadouros.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Avenida-canal do Centro afundado: os prédios ecléticos emergem da água do segundo andar pra cima, e o vaivém de barcos faz dela a \"rua\" mais movimentada sobre a água.",
+    "aparencia": "Água escura entre duas fileiras de fachadas cortadas na linha do segundo andar, passarelas de tábua ligando sacadas, varais entre janelas altas e barcos amarrados em balcões que viraram atracadouros.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

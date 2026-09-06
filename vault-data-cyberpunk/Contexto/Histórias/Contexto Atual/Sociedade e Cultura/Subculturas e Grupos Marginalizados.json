@@ -1,0 +1,123 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Subculturas e Grupos Marginalizados",
+  "path": "Contexto/Histórias/Contexto Atual/Sociedade e Cultura/Subculturas e Grupos Marginalizados.md",
+  "basename": "Subculturas e Grupos Marginalizados",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Tribos urbanas, gangues e coletivos fora do mainstream.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Subculturas e Grupos Marginalizados.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Parcão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Delta Radioativo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Teatro Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Biblioteca Verde",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Químicos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Subculturas e Grupos Marginalizados.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Tribos Urbanas Alternativas"
+    },
+    {
+      "level": 4,
+      "text": "Coletivos Artísticos Clandestinos"
+    },
+    {
+      "level": 4,
+      "text": "Comunidades Tradicionais e Quilombolas Urbanos"
+    },
+    {
+      "level": 4,
+      "text": "Facções de Guerra Digital e Bioquímica"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Subculturas e Grupos Marginalizados.png]]\n\n#### Tribos Urbanas Alternativas\n- **Punks e Anarcopunks do [[Parcão]]:** reúnem-se sob as copas das árvores no [[Parcão]], trocando fitas cassete de hardcore e espalhando cartazes da **[[Resistência Urbana Gaúcha]]**, que financia pequenos “mutirões” de grafite antifascista nas proximidades .\n- **Góticos do [[Quarto Distrito]]:** circulam pelas galerias abandonadas do **[[Delta Radioativo]]**, exibindo pinturas corporais e promovendo performances de teatro expressionista nas instalações da **[[Galeria Malcom]]** .\n#### Coletivos Artísticos Clandestinos\n- **Cia. Teatral [[Quarto Distrito]]:** monta peças de rua e poesia política no subsolo do **[[Teatro Quarto Distrito]]**, com zines e manifestos produzidos em parceria com a **[[Biblioteca Verde]]** .\n- **Grafiteiros da Malcom:** pequenos grupos organizam “sessões noturnas” de stencil e projeções de vídeo nas paredes dos túneis da **[[Galeria Malcom]]**, escapando das patrulhas da [[Brigada Militar Metropolitana|Brigada Militar]] .\n#### Comunidades Tradicionais e Quilombolas Urbanos\n- **Quilombolas da [[Restinga]]:** famílias de origem rural que ocupam palafitas junto ao **[[Mercado Flutuante]]**, cultivando hortas aquáticas e promovendo celebrações de Iemanjá, ao mesmo tempo em que resistem às fiscalizações periódicas da [[Brigada Militar Metropolitana|Brigada Militar]] .\n- **[[Movimento Restinga Livre]] (núcleo autônomo):** célula menor e mais radical do sindicato anarco-capitalista, controla setores do bairro com torres de vigilância improvisadas e abriga debates secretos sobre livre mercado e autodefesa urbana .\n#### Facções de Guerra Digital e Bioquímica\n- **Hackers da [[Resistência Urbana Gaúcha]]:** invadem micro-antenas da **[[Embratel]]** no [[Centro Histórico]], montam “ilhas de silêncio” no **[[Bom Fim]]** e na **[[Cidade Baixa]]** para planejar operações de contraespionagem e driblar a vigilância corporativa .\n- **[[Clube dos Químicos]]:** ex-técnicos da **[[Gradiente]]** operam laboratórios improvisados em túneis sob o piso flutuante do [[Centro Histórico]], sintetizando _Ritalênicos_ vendidos clandestinamente em encontros no [[Teatro Quarto Distrito]] e na [[Biblioteca Verde]] ."
+}

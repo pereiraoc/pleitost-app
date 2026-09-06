@@ -1,0 +1,107 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Classe Secundária/Forma Espreitadora Menor",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Classe Secundária/Forma Espreitadora Menor.md",
+  "basename": "Forma Espreitadora Menor",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "aliases": [],
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Forma Espreitadora Menor",
+        "tipo": "Forma",
+        "origem": "Habilidade",
+        "escopo": {
+          "proprio": true
+        },
+        "visual": {
+          "iconeLigado": "🐯",
+          "iconeDesligado": "🚫"
+        },
+        "links": {
+          "pai": "Forma Feral Menor"
+        },
+        "forma": {
+          "movimento": 5,
+          "ataques": [
+            "Presas",
+            "Garras"
+          ],
+          "pericias": [
+            "Cambalhota",
+            "Nadar",
+            "Esconder-se",
+            "Espreitar",
+            "Escalar",
+            "Finta"
+          ]
+        }
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Druida]]\"",
+    "resumo": "\"[[Movimentação]] 5+[[Agilidade|AGI]]; ataques naturais (Presas, Garras); ações: [[Cambalhota]], [[Nadar]], [[Esconder-se]], [[Espreitar]], [[Escalar]], [[Finta]]\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Druida",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimentação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nadar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Esconder-se",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espreitar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escalar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Finta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Druida]]\"\n\nresumo:: \"[[Movimentação]] 5+[[Agilidade|AGI]]; ataques naturais (Presas, Garras); ações: [[Cambalhota]], [[Nadar]], [[Esconder-se]], [[Espreitar]], [[Escalar]], [[Finta]]\"\n%%\n### `= this.file.name` - `= this.custo`\n* [[Movimentação]] 5+[[Agilidade|AGI]]\n* Ataques naturais \n\t* Presas\n\t* Garras\n* Ações de Perícia\n\t* [[Cambalhota]]\n\t* [[Nadar]]\n\t* [[Esconder-se]]\n\t* [[Espreitar]]\n\t* [[Escalar]]\n\t* [[Finta]]\n\n```autosheet-rules\n```\n"
+}

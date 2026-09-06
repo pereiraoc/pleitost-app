@@ -1,0 +1,92 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Moeda e Sistemas de Troca",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Moeda e Sistemas de Troca.md",
+  "basename": "Moeda e Sistemas de Troca",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O meio monetário oficial e alternativas paralelas de comércio.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Moeda e Sistemas de Troca.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Shopping Iguatemi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Estados Unidos",
+      "kind": "wikilink",
+      "alias": "EUA"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "A Caixinha",
+      "kind": "wikilink",
+      "alias": "Caixinha"
+    }
+  ],
+  "images": [
+    {
+      "target": "Moeda e Sistemas de Troca.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "💵 Moeda Oficial: Cruzeiro"
+    },
+    {
+      "level": 4,
+      "text": "🔖 Créditos de Produtividade"
+    },
+    {
+      "level": 4,
+      "text": "🗽 Dólar na Restinga"
+    },
+    {
+      "level": 4,
+      "text": "Marcas de Respeito"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Moeda e Sistemas de Troca.png]]\n\n#### 💵 Moeda Oficial: Cruzeiro\nO **Cruzeiro**, moeda oficial do Brasil, vive um período de inflação acelerada e perda constante de valor. Notas altas, frequentemente estampadas com imagens do regime militar e das megacorporações parceiras, circulam predominantemente nas zonas comerciais centrais, como o **[[Mercado Público]]** e o **[[Shopping Iguatemi]]**.\n#### 🔖 Créditos de Produtividade\nParalelamente, a Plataforma Integrada de Redução da Atividade (**PIRA**) implementou um sistema de \"**Créditos de Produtividade**\" para remunerar trabalhadores sob jornadas exaustivas de até 130 horas semanais. Estes créditos são restritos ao uso dentro das empresas patrocinadoras, como a **[[Gurgel]]**, **[[Tramontina]]** e **[[Panvel]]**, para aquisição de produtos básicos, entretenimento limitado e doses suplementares de selênicos durante os escassos períodos de descanso. Locais específicos, como clínicas afiliadas à **[[Panvel]]** e oficinas autorizadas pela **[[Tramontina]]**, aceitam estes créditos.\n#### 🗽 Dólar na Restinga\nNa região da **[[Restinga]]**, território autônomo e anarco-capitalista controlado pelo movimento **[[Restinga]] Livre**, prevalece o uso informal do **Dólar** americano, introduzido pelo comércio clandestino com intermediários estrangeiros, sobretudo dos [[Estados Unidos|EUA]]. A adoção informal do dólar é um reflexo direto da estabilidade relativa dessa moeda frente ao Cruzeiro. Neste contexto, 1 Dólar equivale aproximadamente a 1.000 Cruzeiros—um multiplicador que reflete claramente a crise inflacionária da economia oficial brasileira.\n\nA [[Restinga]] torna-se, assim, um ponto de atração para comerciantes e indivíduos das regiões vizinhas que buscam proteger-se da desvalorização galopante do Cruzeiro, trocando clandestinamente bens, selênicos e sucatas por dólares. Oficinas de sucata locais e o famoso **[[Mercado Flutuante]]** operam com naturalidade utilizando esta moeda alternativa, consolidando uma economia paralela robusta que desafia diretamente a ordem monetária oficial de Porto Alegre em 1987.\n\n#### Marcas de Respeito\nAlém do Cruzado e do dólar de esquina, a rua contabiliza **Marcas de\nRespeito** — o crédito social carimbado pela [[A Caixinha|Caixinha]] a cada\nserviço fechado. Marca não compra pão, mas abre caixinha pesada, destrava\nfiado e faz porta difícil se abrir. Perder Marca é pior que perder dinheiro:\ndinheiro se recupera num serviço — respeito, só numa vida.\n"
+}

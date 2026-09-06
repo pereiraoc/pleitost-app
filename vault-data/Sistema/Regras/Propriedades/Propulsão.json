@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Regras/Propriedades/Propulsão",
+  "path": "Sistema/Regras/Propriedades/Propulsão.md",
+  "basename": "Propulsão",
+  "type": "Regra",
+  "subtype": "Propriedade",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Propriedade",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Atacar Além do Alcance Propulsão",
+        "tipo": "Estado",
+        "origem": "Propriedade",
+        "escopo": {
+          "proprio": true,
+          "arma": "ArmaSelecionada"
+        },
+        "visual": {
+          "iconeLigado": "🏹",
+          "iconeDesligado": "🚫"
+        },
+        "modificadores": [
+          {
+            "somar": "PassoDeDado",
+            "valor": -1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Propulsão"
+              }
+            ]
+          },
+          {
+            "somar": "DanoArmaFixo",
+            "valor": -1,
+            "tipoBonus": "Unico",
+            "quando": [
+              {
+                "propriedade": "Propulsão"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Propriedades]]",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Dano reduz após alcance efetivo.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Propriedades",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Propriedades]]\nprev:: \nnext:: \n\nresumo:: \"Dano reduz após alcance efetivo.\"\n%%\n## `= this.file.name`\nDano desta arma é reduzido ao fazer um ataque contra um alvo a uma distância maior que o valor desta propriedade. Neste caso, o dado de dano é reduzido em 1 passo e o dano base é reduzido em 1. Por exemplo, uma arma com dano d6+3 seria reduzida para d4+2.\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Arma\",\n  dano AS \"Dano\",\n  tipo AS \"Tipo\",\n  mãos AS \"Mãos\",\n  propriedades AS \"Propriedades\",\n  up as \"Grupo\"\nFROM [[]] AND !outgoing([[]])\nwhere categoria=\"Item\"\nsort file.name asc\nWHERE subcategoria=\"Arma\" and grupo!=\"natural\" and grupo!=\"especial\"\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Perícia/Empurrar",
+  "path": "Sistema/Regras/Ações/Ações de Perícia/Empurrar.md",
+  "basename": "Empurrar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Perícia",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Perícia",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Perícia]]",
+    "prev": "",
+    "next": "",
+    "perícia": "\"[[Atletismo]]\"",
+    "propriedades": "",
+    "resumo": "\"Tenta empurrar uma criatura, forçando um posicionamento pior.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Perícia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atletismo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vigor",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Penalidades",
+      "kind": "wikilink",
+      "alias": "penalidade de circunstância"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Perícia]]\nprev:: \nnext:: \n\nperícia:: \"[[Atletismo]]\"\npropriedades:: \nresumo:: \"Tenta empurrar uma criatura, forçando um posicionamento pior.\"\n%%\n### `= this.file.name` - `= this.custo`\nFaz um teste de [[Atletismo]] vs [[Vigor]] de uma criatura adjacente. Você recebe -2 de [[Penalidades|penalidade de circunstância]] para alvejar uma criatura uma categoria de tamanho maior que você e não pode alvejar uma criatura duas ou mais categorias de tamanho maior. Empurrar provoca [[Ataque de Oportunidade]] da criatura alvejada por essa ação.\n\n**Sucesso:** A criatura é empurrada 1q. Você pode optar por mover-se para o local onde a criatura estava após o empurrão.\n**Sucesso Decisivo:** Como sucesso, mas a criatura é empurrada 2q.\n**Falha:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

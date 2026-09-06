@@ -1,0 +1,161 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Divisão de Classes",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Divisão de Classes.md",
+  "basename": "Divisão de Classes",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "O abismo socioeconômico entre diferentes grupos da população.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Divisão de Classes.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube de Golfe de Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resort Nova Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink",
+      "alias": "Aeromóvel"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Duque de Caxias",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Galeria Malcom",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Divisão de Classes.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Elites Corporativas: Enclaves Fortificados & Privilégios"
+    },
+    {
+      "level": 4,
+      "text": "Tecno-burocratas e Funcionários Médios: Dependentes do Selênico"
+    },
+    {
+      "level": 4,
+      "text": "Subproletariado & Marginais: O Abismo dos Esquecidos"
+    },
+    {
+      "level": 4,
+      "text": "Margens & Dissidentes: Vida Fora da Lei e do Sistema"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Divisão de Classes.png]]\n\n#### Elites Corporativas: Enclaves Fortificados & Privilégios\nAs elites de Porto Alegre vivem cercadas de muros, guardas armados e tecnologia de ponta, isolando-se dos problemas da cidade. Seus enclaves são bairros como **[[Ipanema]]** e **[[Moinhos de Vento]]**, onde predominam condomínios fortificados, jardins sintéticos e clubes exclusivos como o **[[Clube de Golfe de Ipanema]]** e o **[[Resort Nova Porto Alegre]]**.\n\n- **Organizações-chave**: Executivos e famílias ligadas a megacorporações como **[[Gradiente]]**, **[[Panvel]]**, **[[Tramontina]]** e **[[Zaffari]]**.\n- **Recursos**: Acesso irrestrito a selênicos de alto grau, próteses de última geração e todo tipo de serviço médico, transporte blindado e comunicação criptografada.\n- **Estilo de vida**: Festas, eventos diplomáticos, spas de imersão selênica, clínicas de rejuvenescimento e refeições exclusivas (muitas vezes fornecidas pela [[Zaffari]]).\n- **Segurança**: Forças privadas financiadas pelas próprias corporações e apoio direto do [[Governo Militar Brasileiro|Governo Militar]]; vigilância 24h, drones e sensores de intrusão.\n- **Exemplo**: O [[Resort Nova Porto Alegre]], onde executivos tomam decisões em ambientes de realidade virtual enquanto consomem doses “boutique” de selênicos.\n\n#### Tecno-burocratas e Funcionários Médios: Dependentes do Selênico\nA classe média urbana — composta por tecnocratas, engenheiros, médicos, professores, funcionários de escritório e pequenos empreendedores — vive num equilíbrio precário.\n\n- **Onde vivem**: Bairros como **[[Bom Fim]]**, **[[Independência]]**, **[[Petrópolis]]**, **[[Jardim Botânico]]** e partes do **[[Centro Histórico]]** flutuante.\n- **Condições**: Acesso moderado a selênicos, porém geralmente fornecidos em doses de qualidade inferior ou reprocessadas. Muitos já apresentam efeitos colaterais, como surtos psicóticos e problemas cardíacos, mas dependem do medicamento para manter produtividade e emprego.\n- **Vínculo com as corporações**: Grande parte trabalha em laboratórios, oficinas, repartições ou escolas controladas direta ou indiretamente por megacorporações ([[Tramontina]], [[Gradiente]], [[Panvel]], [[Zaffari]]). São pressionados a manter alto desempenho e vigilância constante.\n- **Infraestrutura**: Vivem em edifícios mais antigos adaptados para as enchentes, transportam-se por linhas de [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]] (quando disponíveis) e enfrentam blecautes frequentes nas periferias industriais.\n- **Mobilidade**: Dificuldade crescente para ascender socialmente; dependência do acesso regular a próteses de manutenção e upgrades tecnológicos impostos pelas empresas.\n\n#### Subproletariado & Marginais: O Abismo dos Esquecidos\nA base da pirâmide social vive em condições extremas, marcada pela precariedade, ausência de direitos e alta vulnerabilidade social.\n\n- **Onde estão**: Bairros como **[[Cidade Baixa]]** (palafitas improvisadas), **[[Restinga]]** (enclave anarco-capitalista), **[[Zona Deserta]]** (território de sucateiros), e áreas inundadas da **[[Duque de Caxias]]**.\n- **Condições**: Acesso praticamente nulo a selênicos de boa qualidade — quando muito, recebem resíduos ou versões adulteradas. Muitos sobrevivem de empregos informais, tráfico de sucata, venda clandestina de drogas e participação em economias paralelas controladas por facções como o **[[Clã da Ferrugem]]** ou o **[[Movimento Restinga Livre]]**.\n- **Relação com as megacorporações**: Servem de mão de obra barata, recicladores e cobaias involuntários de experimentos. São alvo frequente de operações da **[[Brigada Militar Metropolitana]]**, que patrulha, reprime e desmonta iniciativas autônomas.\n- **Organização social**: Resistência organizada, como a **[[Resistência Urbana Gaúcha]]** e sindicatos alternativos, busca criar redes de solidariedade, feiras de troca, mutirões de autoconstrução e imprensa alternativa.\n- **Infraestrutura**: Ausente ou degradada; dependem de ligações clandestinas de energia (da [[Companhia Estadual de Energia Elétrica|CEEE]]), acesso precário a água potável e saúde, sofrendo mais com enchentes, poluição e doenças.\n\n#### Margens & Dissidentes: Vida Fora da Lei e do Sistema\nAlém dos estratos convencionais, existe toda uma rede de comunidades alternativas, dissidentes e minorias políticas ou sociais, que buscam sobreviver “fora do radar” do Estado e das corporações.\n\n- **Onde atuam**: Túnel dos esgotos ([[Galeria Malcom]]), oficinas de sucata ([[Restinga]] e [[Zona Deserta]]), feiras alternativas (Praça da Encol), clubes underground ([[Quarto Distrito]]).\n- **Quem são**: Artistas perseguidos, hackers, mutantes, usuários de selênicos “despertos”, catadores autônomos, pequenos comerciantes, ativistas e exilados políticos.\n- **Privilégios/Desafios**: Apesar do sofrimento extremo, muitos desenvolvem redes de solidariedade únicas, experimentam novos modelos econômicos e desafiam ativamente o controle centralizado."
+}

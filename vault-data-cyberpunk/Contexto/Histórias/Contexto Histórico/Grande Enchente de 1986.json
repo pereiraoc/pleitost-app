@@ -1,0 +1,22 @@
+{
+  "id": "Contexto/Histórias/Contexto Histórico/Grande Enchente de 1986",
+  "path": "Contexto/Histórias/Contexto Histórico/Grande Enchente de 1986.md",
+  "basename": "Grande Enchente de 1986",
+  "type": "Contexto",
+  "subtype": "Passado",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Passado",
+    "Data": "1986-04-30",
+    "Descrição": "O Guaíba engole as zonas baixas da cidade e redesenha o mapa — palafitas, mercados flutuantes e transporte anfíbio viram norma, a Zona Deserta fica permanentemente alagável e o Governo encomenda às pressas frotas anfíbias da Gurgel e da Marcopolo.",
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [],
+  "body": "#Contexto \n> [!quote] Contexto Histórico: `= this.file.name`\n> \n> 📅**Data**: `= this.Data`\n> ℹ️**Descrição:** `= this.Descrição`\n\n- Doença fodida, mutantes."
+}

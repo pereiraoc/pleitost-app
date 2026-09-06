@@ -1,0 +1,42 @@
+{
+  "id": "Contexto/Organizações/Governos Internacionais/Governo Americano",
+  "path": "Contexto/Organizações/Governos Internacionais/Governo Americano.md",
+  "basename": "Governo Americano",
+  "type": "Organização",
+  "subtype": "Governo Internacional",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Governo Internacional",
+    "Líder": "[[Embaixadora Patricia Carter]]",
+    "Descrição": null,
+    "Resumo": "Potência estrangeira que comercializa interfaces de alta tecnologia.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Governo Americano.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embaixadora Patricia Carter",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Governo Americano.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Governo Americano.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Fornecedor de adaptadores selênicos diversos. Oferece subsídios a projetos de IA em [[Moinhos de Vento]]."
+}

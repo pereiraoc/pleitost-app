@@ -1,0 +1,70 @@
+{
+  "id": "Contexto/Organizações/Empresas/Sport Club Internacional",
+  "path": "Contexto/Organizações/Empresas/Sport Club Internacional.md",
+  "basename": "Sport Club Internacional",
+  "type": "Organização",
+  "subtype": "Empresa",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Internacional",
+      "Inter"
+    ],
+    "categoria": "Organização",
+    "subcategoria": "Empresa",
+    "Líder": "[[Presidente Gilberto Medeiros]]",
+    "Descrição": null,
+    "Resumo": "Associação social, cultural e esportiva sediada no Estádio Beira-Rio, no bairro Praia de Belas, em frente ao Guaíba e ao lado do Porto Novo.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sport Club Internacional.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Beira-Rio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sport Club Internacional",
+      "kind": "wikilink",
+      "alias": "Internacional"
+    },
+    {
+      "target": "Gilberto Medeiros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Presidente Gilberto Medeiros",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Sport Club Internacional.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Sport Club Internacional.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Fundado em 4 de abril de 1909 na Ilha da Pintada, o [[Sport Club Internacional|Internacional]] já dispõe em 1987 de departamentos profissionais e de base, além de um setor dedicado ao licenciamento de produtos oficiais. Sob [[Gilberto Medeiros]], o clube promove escolinhas em [[Restinga]] e [[Nova Sarandi]], organiza feiras culturais no estacionamento do [[Beira-Rio]] e negocia transmissões com rádios do [[Centro Histórico]]. A facção [[Camisa 12]] atua como grupo de pressão em dias de clássico, coordenando caravanas populares e distribuindo selênicos entre torcedores de classe média para baixo."
+}

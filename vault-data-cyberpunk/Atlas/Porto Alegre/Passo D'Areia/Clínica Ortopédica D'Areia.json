@@ -1,0 +1,52 @@
+{
+  "id": "Atlas/Porto Alegre/Passo D'Areia/Clínica Ortopédica D'Areia",
+  "path": "Atlas/Porto Alegre/Passo D'Areia/Clínica Ortopédica D'Areia.md",
+  "basename": "Clínica Ortopédica D'Areia",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Passo D'Areia]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clínica Ortopédica D'Areia.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink",
+      "alias": "Centro"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clínica Ortopédica D'Areia.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Clínica Ortopédica D'Areia.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** [[Centro Histórico|Centro]] de fabricação e ajuste de próteses.\n> \n> 👁️**Aparência do Local:** Bancadas cheias de ferramentas, odor de resina e metal.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "[[Centro Histórico|Centro]] de fabricação e ajuste de próteses.",
+    "aparencia": "Bancadas cheias de ferramentas, odor de resina e metal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

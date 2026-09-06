@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Soltar",
+  "path": "Sistema/Regras/Ações/Ações Básicas de Manipulação/Soltar.md",
+  "basename": "Soltar",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação Básica de Manipulação",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação Básica de Manipulação",
+    "custo": "L",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Básicas de Manipulação]]",
+    "prev": "",
+    "next": "",
+    "propriedades": "[[Ações Básicas de Manipulação|Manipulação]]",
+    "resumo": "\"Solta um objeto de sua mão.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ações Básicas de Manipulação",
+      "kind": "wikilink",
+      "alias": "Manipulação"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Básicas de Manipulação]]\nprev:: \nnext:: \n\npropriedades:: [[Ações Básicas de Manipulação|Manipulação]]\nresumo:: \"Solta um objeto de sua mão.\"\n\n%%\n### `= this.file.name` - `= this.custo`\nSolta um objeto de sua mão, que cai no chão, ou solta uma mão de um objeto que está ocupando duas mãos. Soltar não ativa reações que são ativadas por ações de [[Ações Básicas de Manipulação|Manipulação]].\n\n```autosheet-rules\n```\n"
+}

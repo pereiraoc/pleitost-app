@@ -1,0 +1,187 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Colar da Eloquência",
+  "path": "Sistema/Equipamento/Tesouros/Equipamentos/Equipamentos de Perícia/Colar da Eloquência.md",
+  "basename": "Colar da Eloquência",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Magia Arcana|Arcano]]"
+    ],
+    "resumo": "Bônus de [[Sociedades]]. Entender um idioma.",
+    "preço": "40 PO",
+    "bonus_tipo": "pericia",
+    "descrição": {
+      "adepto": "+1 de bônus de item em testes de Sociedades. Você recebe +1 de bônus de circunstância em Sociedades para decifrar o significado de frases no idioma do colar.",
+      "experiente": "+2 de bônus de item em testes de Sociedades. Uma vez por dia, pode conjurar Compreender Idiomas tendo você mesmo como alvo, mas somente para entender e falar o idioma do colar.",
+      "mestre": "+3 de bônus de item em testes de Sociedades. Você entende e sabe falar o idioma do colar enquanto veste-o."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "passivo",
+      "experiente": "1/dia",
+      "mestre": "passivo"
+    },
+    "Elementos_de_Regra": [
+      "Categoria Adepto Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "Categoria Experiente Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "Categoria Mestre Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+      "Categoria Experiente Magias.Lista.Tesouros.Lista [[Compreender Idiomas]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "Categoria Adepto Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+      "parsed": [
+        {
+          "sourceNote": "Colar da Eloquência",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Adepto"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "1"
+          },
+          "raw": "Categoria Adepto Definir Pericias.Lista.Sociedades.Bonus_Item 1",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+      "parsed": [
+        {
+          "sourceNote": "Colar da Eloquência",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "2"
+          },
+          "raw": "Categoria Experiente Definir Pericias.Lista.Sociedades.Bonus_Item 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Mestre Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+      "parsed": [
+        {
+          "sourceNote": "Colar da Eloquência",
+          "occurrenceIndex": 2,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Mestre"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Pericias.Lista.Sociedades.Bonus_Item",
+            "valueRaw": "3"
+          },
+          "raw": "Categoria Mestre Definir Pericias.Lista.Sociedades.Bonus_Item 3",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Categoria Experiente Magias.Lista.Tesouros.Lista [[Compreender Idiomas]]",
+      "parsed": [
+        {
+          "sourceNote": "Colar da Eloquência",
+          "occurrenceIndex": 3,
+          "scope": [
+            {
+              "kind": "categoria",
+              "value": "Experiente"
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Magias.Lista.Tesouros.Lista",
+            "valueRaw": "[[Compreender Idiomas]]"
+          },
+          "raw": "Categoria Experiente Magias.Lista.Tesouros.Lista [[Compreender Idiomas]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Compreender Idiomas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana",
+      "kind": "wikilink",
+      "alias": "Arcano"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Arcano - colar*\nEste colar tem pingentes com letras de um idioma misturadas com letras do idioma humano. Amplifica suas sensibilidades culturais e dá clareza ao lembrar de fatos históricos. Um Colar da Eloquência é criado contendo magia relacionada a um idioma não-humano.\n* Adepto: +1 de [[bônus de item]] em testes de [[Sociedades]]. Você recebe +1 de [[bônus de circunstância]] em Sociedades para decifrar o significado de frases no idioma do colar.\n* Experiente: +2 de [[bônus de item]] em testes de [[Sociedades]]. Uma vez por dia, pode conjurar [[Compreender Idiomas]] tendo você mesmo como alvo, mas somente para entender e falar o idioma do colar.\n* Mestre: +3 de [[bônus de item]] em testes de [[Sociedades]]. Você entende e sabe falar o idioma do colar enquanto veste-o.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: equipamentos-pericia\n```\n\n```autosheet-rules\n```\n"
+}

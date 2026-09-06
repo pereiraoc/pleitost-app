@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Depósito Zaffari",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Depósito Zaffari.md",
+  "basename": "Depósito Zaffari",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Depósito Zaffari.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Depósito Zaffari.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Depósito Zaffari.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Grande armazém de alimentos e insumos industriais.\n> \n> 👁️**Aparência do Local:** Prateleiras metálicas, empilhadeiras, cheiro de grãos e metal.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Grande armazém de alimentos e insumos industriais.",
+    "aparencia": "Prateleiras metálicas, empilhadeiras, cheiro de grãos e metal.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

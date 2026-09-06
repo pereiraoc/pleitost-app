@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Ipanema/Clube de Golfe de Ipanema",
+  "path": "Atlas/Porto Alegre/Ipanema/Clube de Golfe de Ipanema.md",
+  "basename": "Clube de Golfe de Ipanema",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Ipanema]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Clube de Golfe de Ipanema.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Clube de Golfe de Ipanema.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Clube de Golfe de Ipanema.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Campo privativo de golfe e tênis.\n> \n> 👁️**Aparência do Local:** Grama aparada, cercas de arbustos, cheiro de terra recém-preparada.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Campo privativo de golfe e tênis.",
+    "aparencia": "Grama aparada, cercas de arbustos, cheiro de terra recém-preparada.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "Sistema/Regras/Combate/Ações Agressivas/Penalidade por Ataque Múltiplo",
+  "path": "Sistema/Regras/Combate/Ações Agressivas/Penalidade por Ataque Múltiplo.md",
+  "basename": "Penalidade por Ataque Múltiplo",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "PAM, Penalidade Por Ataque Múltiplo (PAM)",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações Agressivas]]",
+    "prev": "[[Ataques]]",
+    "next": "[[Lutando com Duas Armas]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações Agressivas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lutando com Duas Armas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Penalidade por Ataque Múltiplo (PAM)"
+    }
+  ],
+  "body": "%%\nup:: [[Ações Agressivas]]\nprev:: [[Ataques]]\nnext:: [[Lutando com Duas Armas]]\n%%\n### Penalidade por Ataque Múltiplo (PAM)\nQuanto mais ataques você faz em um turno, menos preciso você é, isso é a Penalidade por Ataque Múltiplo. O seu primeiro [[Ataques|Ataque]] no turno não sofre PAM. Já o segundo [[Ataques|Ataque]] no turno sofre de uma PAM. Se um terceiro [[Ataques|Ataque]] for feito no mesmo turno, esse sofre de duas PAMs. Caso alguma técnica ou efeito permita fazer mais de 3 [[Ataques|Ataques]] em um turno, demais ataques depois do terceiro sofrem de duas PAMs. Quando você faz um ataque com uma PAM, role 2 d20 e use o pior resultado, com duas PAMs role 3 d20 e use o pior resultado entre eles. Certas técnicas ou efeitos podem fazer um único ataque contar como dois para a progressão de PAM - fazendo ataques subsequentes já terem 2 PAMs, e/ou permitir mais de um ataque na mesma PAM - efetivamente mitigando a penalidade.\n\nAtaques feitos como ações livres fora do seu turno ou reações não sofrem nem contribuem com a Penalidade por Ataque Múltiplo.\n\n```autosheet-rules\n```\n"
+}

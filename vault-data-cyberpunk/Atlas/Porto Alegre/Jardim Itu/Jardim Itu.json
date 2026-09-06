@@ -1,0 +1,55 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Itu/Jardim Itu",
+  "path": "Atlas/Porto Alegre/Jardim Itu/Jardim Itu.md",
+  "basename": "Jardim Itu",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Pequena Cidade",
+    "Recursos": [
+      "[[Poção de Cura]]"
+    ],
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Jardim Itu.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Jardim Itu.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Jardim Itu.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Zona mista de residências e pequenas fábricas de medicamentos pré-selênicos.\n> \n> 👁️**Aparência do Local:** Ruas estreitas, odor de solventes, máquinas de latas batendo.\n> \n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Zona mista de residências e pequenas fábricas de medicamentos pré-selênicos.",
+    "aparencia": "Ruas estreitas, odor de solventes, máquinas de latas batendo.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

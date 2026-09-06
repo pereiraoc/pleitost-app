@@ -1,0 +1,36 @@
+{
+  "id": "Sistema/Regras/Bestiário/Habilidades/Vigor Bruto",
+  "path": "Sistema/Regras/Bestiário/Habilidades/Vigor Bruto.md",
+  "basename": "Vigor Bruto",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Recebe 4/6/8 [[Energia Heroica|EH]] temporário ao rolar iniciativa.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Energia Heroica",
+      "kind": "wikilink",
+      "alias": "EH"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: \nprev:: \nnext:: \n\nresumo:: \"Recebe 4/6/8 [[Energia Heroica|EH]] temporário ao rolar iniciativa.\"\n%%\n##### `= this.file.name`\nRecebe 4/6/8 [[Energia Heroica|EH]] temporário ao rolar iniciativa.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "Contexto/Pessoas/Ana Mercur",
+  "path": "Contexto/Pessoas/Ana Mercur.md",
+  "basename": "Ana Mercur",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Mercur]]",
+    "Função": "Diretora da Mercur",
+    "Aparência": "Jaleco por cima da roupa social, dedos manchados de reagente, prancheta com amostras de selante.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Mercur",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

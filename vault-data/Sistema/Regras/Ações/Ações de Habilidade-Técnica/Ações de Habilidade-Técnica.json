@@ -1,0 +1,43 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ações de Habilidade-Técnica",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Ações de Habilidade-Técnica.md",
+  "basename": "Ações de Habilidade-Técnica",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Ação de Habilidade-Técnica",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações|Ações]]",
+    "prev": "[[Ações Especiais]]",
+    "next": "[[Combate|Combate]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações",
+      "kind": "wikilink",
+      "alias": "Ações"
+    },
+    {
+      "target": "Ações Especiais",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Combate",
+      "kind": "wikilink",
+      "alias": "Combate"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Ações de Habilidade ou Técnica"
+    }
+  ],
+  "body": "%%\nup:: [[Ações|Ações]]\nprev:: [[Ações Especiais]]\nnext:: [[Combate|Combate]]\n%%\n## Ações de Habilidade ou Técnica\n\n---\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Nome\",\n  classe AS \"Classe\",\n  propriedades AS \"Propriedades\",\n  resumo AS \"Descrição\"\nFROM \"Sistema/Regras/Ações/Ações de Habilidade-Técnica\"\nSORT classe ASC\nWHERE subcategoria = \"Ação\"\n```\n\n```autosheet-rules\n```\n"
+}

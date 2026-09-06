@@ -1,0 +1,39 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traços Elementais",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traços Elementais.md",
+  "basename": "Traços Elementais",
+  "type": "Regra",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Traço Elemental",
+    "categoria": "Regra",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Sintonia|Sintonia]]",
+    "prev": "[[Sintonia|Sintonia]]",
+    "next": "[[Evolução Básica|Evolução Básica]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sintonia",
+      "kind": "wikilink",
+      "alias": "Sintonia"
+    },
+    {
+      "target": "Evolução Básica",
+      "kind": "wikilink",
+      "alias": "Evolução Básica"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Traços Elementais"
+    }
+  ],
+  "body": "%%\nup:: [[Sintonia|Sintonia]]\nprev:: [[Sintonia|Sintonia]]\nnext:: [[Evolução Básica|Evolução Básica]]\n%%\n## Traços Elementais\nNo 1º, 4º e 7º nível você escolhe um traço elemental referente a sua [[Sintonia|Sintonia]]. Estes traços são manifestações da sua sintonia no seu ser, exaltando as características regidas pelo elemento aparente.\n\n```dataview\nLIST\nFROM \"Sistema/Criação de Personagem/Sintonia\"\nSORT file.name ASC\nWHERE subcategoria = \"traço-elemental\" and sintonia = null\n```\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,148 @@
+{
+  "id": "Atlas/Mundo Livre/Pátria Aurora/Pátria Aurora",
+  "path": "Atlas/Mundo Livre/Pátria Aurora/Pátria Aurora.md",
+  "basename": "Pátria Aurora",
+  "type": "Localização",
+  "subtype": "Nação",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Nação",
+    "Geolocalização": "[[Mundo Livre]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Esmeralda",
+      "[[Manopla]]",
+      "[[Bordão]]",
+      "[[Arco Longo]]",
+      "[[Espada Bastarda]]",
+      "[[Pulseira da Potência]]",
+      "[[Imbuição Ciclonal]]",
+      "[[Imbuição da Ventania]]",
+      "[[Imbuição Relampejante]]",
+      "[[Imbuição Sísmica|Imbuição Sísmica (especificamente para Bordão e Manopla)]]",
+      "[[Imbuição Explosiva|Imbuição Explosiva (especificamente para Arco Longo)]]",
+      "[[Imbuição Torrencial|Imbuição Torrencial (especificamente para Espada Bastarda)]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pátria Aurora.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Mundo Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cúpula dos Céus",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mosteiro dos Mares",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Palácio das Pedras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Torre das Tochas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lucerna",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magna Vigilia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Velimaris",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Prasinarium",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Firmamentum",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Manopla",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bordão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Arco Longo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Espada Bastarda",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Ciclonal",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição da Ventania",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Relampejante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink",
+      "alias": "Imbuição Sísmica (especificamente para Bordão e Manopla)"
+    },
+    {
+      "target": "Imbuição Explosiva",
+      "kind": "wikilink",
+      "alias": "Imbuição Explosiva (especificamente para Arco Longo)"
+    },
+    {
+      "target": "Imbuição Torrencial",
+      "kind": "wikilink",
+      "alias": "Imbuição Torrencial (especificamente para Espada Bastarda)"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pátria Aurora.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pátria Aurora.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** \n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Nação insular do [[Mundo Livre]], separada da [[Federação Áurea]], erguida numa grande ilha montanhosa cercada de mar por todos os lados. Sua espinha é a tradição monástica-elemental: quatro mosteiros-fortaleza irmãos guardam as artes do Ar ([[Cúpula dos Céus]]), da Água ([[Mosteiro dos Mares]]), da Terra ([[Palácio das Pedras]]) e do Fogo ([[Torre das Tochas]]), e seus mestres formam a elite da nação. No mar, é uma potência dupla: a fachada oeste é militar — a capital [[Lucerna]] e a fortaleza naval de [[Magna Vigilia]] blindam a costa —, enquanto as fachadas leste e norte são mercantes, com [[Velimaris]] exportando as imbuições refinadas na ilha e [[Prasinarium]] embarcando o minério da serra.\n> \n> 👁️**Aparência do Local:** Ilha de contorno losangular dominada por um maciço de picos escarpados cinzentos no centro e no nordeste — o mais alto coroado pela [[Cúpula dos Céus]] —, com floresta densa cobrindo as encostas baixas e o sul; a costa é quase toda de falésias, com pequenas enseadas ao sul e ilhotas rochosas ao norte. Não há rio grande: cachoeiras despencam das falésias do leste sob o [[Mosteiro dos Mares]] e um curso d'água desce em cascatas rumo à baía de [[Velimaris]]. Estradas de terra irradiam de [[Firmamentum]], no sul, subindo a serra em escadarias até o [[Palácio das Pedras]] e descendo em zigue-zague aos portos; a [[Torre das Tochas]] arde num penhasco da costa noroeste, entre [[Lucerna]] — cidade murada de pedra clara em terraços sobre o promontório oeste, emendada nos cais fortificados de [[Magna Vigilia]] — e o porto de palafitas de [[Prasinarium]], ao norte. Navios cercam a ilha inteira: galeões de guerra a oeste e sudoeste, velames mercantes a leste e ao norte.\n> \n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Localização\",\n  categoria as \"Categoria\",\n  subcategoria as \"Subcategoria\"\nFROM \"Atlas/Mundo Livre/Pátria Aurora\"\nwhere categoria=\"Localização\"\nsort subcategoria asc\n```",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Nação insular do [[Mundo Livre]], separada da [[Federação Áurea]], erguida numa grande ilha montanhosa cercada de mar por todos os lados. Sua espinha é a tradição monástica-elemental: quatro mosteiros-fortaleza irmãos guardam as artes do Ar ([[Cúpula dos Céus]]), da Água ([[Mosteiro dos Mares]]), da Terra ([[Palácio das Pedras]]) e do Fogo ([[Torre das Tochas]]), e seus mestres formam a elite da nação. No mar, é uma potência dupla: a fachada oeste é militar — a capital [[Lucerna]] e a fortaleza naval de [[Magna Vigilia]] blindam a costa —, enquanto as fachadas leste e norte são mercantes, com [[Velimaris]] exportando as imbuições refinadas na ilha e [[Prasinarium]] embarcando o minério da serra.",
+    "aparencia": "Ilha de contorno losangular dominada por um maciço de picos escarpados cinzentos no centro e no nordeste — o mais alto coroado pela [[Cúpula dos Céus]] —, com floresta densa cobrindo as encostas baixas e o sul; a costa é quase toda de falésias, com pequenas enseadas ao sul e ilhotas rochosas ao norte. Não há rio grande: cachoeiras despencam das falésias do leste sob o [[Mosteiro dos Mares]] e um curso d'água desce em cascatas rumo à baía de [[Velimaris]]. Estradas de terra irradiam de [[Firmamentum]], no sul, subindo a serra em escadarias até o [[Palácio das Pedras]] e descendo em zigue-zague aos portos; a [[Torre das Tochas]] arde num penhasco da costa noroeste, entre [[Lucerna]] — cidade murada de pedra clara em terraços sobre o promontório oeste, emendada nos cais fortificados de [[Magna Vigilia]] — e o porto de palafitas de [[Prasinarium]], ao norte. Navios cercam a ilha inteira: galeões de guerra a oeste e sudoeste, velames mercantes a leste e ao norte.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

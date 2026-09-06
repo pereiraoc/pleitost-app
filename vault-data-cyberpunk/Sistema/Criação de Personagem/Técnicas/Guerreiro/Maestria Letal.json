@@ -1,0 +1,78 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Maestria Letal",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Maestria Letal.md",
+  "basename": "Maestria Letal",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true,
+    "Efeitos_Interativos": [
+      {
+        "label": "Maestria Letal",
+        "tipo": "Passivo",
+        "origem": "Técnica",
+        "escopo": {
+          "arma": "TodasAsArmas"
+        },
+        "modificadores": [
+          {
+            "somar": "DadoExtraDaArma",
+            "valor": 1,
+            "quando": [
+              {
+                "grupoEspecializado": true
+              },
+              {
+                "estado": "Acerto Decisivo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "P",
+    "resumo": "\"Com armas que se beneficiam de [[Especialização em Arma]], seus [[Atacar|Ataques]] têm sucesso crítico com 19–20 no d20; sucessos decisivos nesses ataques causam dano adicional igual a 1 dado de dano da arma.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Especialização em Arma",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: P\n\nresumo:: \"Com armas que se beneficiam de [[Especialização em Arma]], seus [[Atacar|Ataques]] têm sucesso crítico com 19–20 no d20; sucessos decisivos nesses ataques causam dano adicional igual a 1 dado de dano da arma.\"\n%%\n#### `= this.file.name` - `= this.rank`\nSeus [[Atacar|Ataques]] com armas que se beneficiam de [[Especialização em Arma]] são um sucesso crítico rolando 19 ou 20 no d20. Adicionalmente, sucessos decisivos em [[Atacar|Ataques]] com armas que se beneficiam de [[Especialização em Arma]] causam dano adicional igual a um dado de dano da arma.\n\n```autosheet-rules\n```\n"
+}

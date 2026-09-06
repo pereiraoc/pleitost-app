@@ -1,0 +1,41 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Segurança e Crime",
+  "path": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Segurança e Crime.md",
+  "basename": "Segurança e Crime",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "cssclasses": [
+      "clean-embeds"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Crimes Cotidianos",
+      "kind": "embed"
+    },
+    {
+      "target": "Criminalidade Organizada",
+      "kind": "embed"
+    },
+    {
+      "target": "Policiamento",
+      "kind": "embed"
+    },
+    {
+      "target": "Sistema Penal",
+      "kind": "embed"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "## `= this.file.name`\n![[Crimes Cotidianos]]\n![[Criminalidade Organizada]]\n![[Policiamento]]\n![[Sistema Penal]]"
+}

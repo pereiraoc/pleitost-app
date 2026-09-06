@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Nova Sarandi/Ferroviária Nacional",
+  "path": "Atlas/Porto Alegre/Nova Sarandi/Ferroviária Nacional.md",
+  "basename": "Ferroviária Nacional",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Nova Sarandi]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ferroviária Nacional.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Ferroviária Nacional.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Ferroviária Nacional.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Complexo de manobras e carga de vagões.\n> \n> 👁️**Aparência do Local:** Trens parados, fumaça de locomotivas, som de apitos e guinchos.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Complexo de manobras e carga de vagões.",
+    "aparencia": "Trens parados, fumaça de locomotivas, som de apitos e guinchos.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Monge/Urro Atormentador",
+  "path": "Sistema/Criação de Personagem/Técnicas/Monge/Urro Atormentador.md",
+  "basename": "Urro Atormentador",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Monge]]",
+    "rank": "[[Experiente]]",
+    "custo": "1A",
+    "resumo": "\"Todas as criaturas em até 6q de você são alvejadas pela sua ação [[Assustar]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Assustar",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Monge]]\nrank:: [[Experiente]]\ncusto:: 1A\n\nresumo:: \"Todas as criaturas em até 6q de você são alvejadas pela sua ação [[Assustar]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Urro Atormentador.\n*Requer Sintonia Fogo ou Vento*\n\n**Urro Atormentador - 1A**\nVocê manifesta a raiva da tempestade ou a erupção de um vulcão com sua voz. Todas as criaturas em até 6q de você são alvejadas por sua ação [[Assustar]].\n\n```autosheet-rules\n```\n"
+}

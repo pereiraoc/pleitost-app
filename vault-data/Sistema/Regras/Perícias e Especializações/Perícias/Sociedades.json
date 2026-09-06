@@ -1,0 +1,56 @@
+{
+  "id": "Sistema/Regras/Perícias e Especializações/Perícias/Sociedades",
+  "path": "Sistema/Regras/Perícias e Especializações/Perícias/Sociedades.md",
+  "basename": "Sociedades",
+  "type": "Regra",
+  "subtype": "Perícia",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Perícia",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Perícias|Perícias]]",
+    "prev": "[[Arcana]]",
+    "next": "[[Guerra]]"
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Perícias",
+      "kind": "wikilink",
+      "alias": "Perícias"
+    },
+    {
+      "target": "Arcana",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inteligência",
+      "kind": "wikilink",
+      "alias": "INT"
+    },
+    {
+      "target": "Decifrar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Obter Sustento",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Sociedades ([[Inteligência|INT]])"
+    }
+  ],
+  "body": "%%\nup:: [[Perícias|Perícias]]\nprev:: [[Arcana]]\nnext:: [[Guerra]]\n%%\n## Sociedades ([[Inteligência|INT]])\n[[Decifrar]], [[Obter Sustento]]. Sociedades rege o quão versado é o personagem na história da vida inteligente e como sociedades funcionam.\n"
+}

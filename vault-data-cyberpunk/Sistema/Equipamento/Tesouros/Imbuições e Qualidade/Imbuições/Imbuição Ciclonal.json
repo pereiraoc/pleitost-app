@@ -1,0 +1,142 @@
+{
+  "id": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Ciclonal",
+  "path": "Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/Imbuição Ciclonal.md",
+  "basename": "Imbuição Ciclonal",
+  "type": "Item",
+  "subtype": "Tesouro",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Item",
+    "subcategoria": "Tesouro",
+    "dg-publish": true,
+    "propriedades": [
+      "[[Traço Elemental do Vento|Vento]]"
+    ],
+    "resumo": "Arma com ataques extras.",
+    "preço": "60 PO",
+    "bonus_tipo": "ataque",
+    "descrição": {
+      "adepto": "+1 de bônus de item em Ataques. 1/10 min, após atacar com esta arma, faça 1 ataque extra como ação livre (conta PAM).",
+      "experiente": "+2 de bônus de item em Ataques. 1/10 min, após atacar com esta arma, faça 1 ataque extra como ação livre (conta PAM), se errar pode dar Passo.",
+      "mestre": "+3 de bônus de item em Ataques. 1/10 min, após atacar com esta arma, faça 1 ataque extra como ação livre (conta PAM), se errar pode Mover metade sem AdO."
+    },
+    "bonus": {
+      "adepto": "+1",
+      "experiente": "+2",
+      "mestre": "+3"
+    },
+    "usos": {
+      "adepto": "1/10min",
+      "experiente": "1/10min",
+      "mestre": "1/10min"
+    },
+    "Elementos_de_Regra": [
+      "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Tesouros]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [
+    {
+      "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+      "parsed": [
+        {
+          "sourceNote": "Imbuição Ciclonal",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "aplicavel-a",
+            "predicates": [
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Subcategoria",
+                  "needle": "Arma"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-marcial"
+                },
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Grupo",
+                  "needle": "cac-simples"
+                }
+              ],
+              [
+                {
+                  "kind": "name-contains",
+                  "slotProp": "Tipo",
+                  "needle": "corte"
+                }
+              ]
+            ]
+          },
+          "raw": "AplicavelA Subcategoria,Arma Grupo,cac-marcial|cac-simples Tipo,corte",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Tesouros",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de item",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataques"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Atacar",
+      "kind": "wikilink",
+      "alias": "Ataque"
+    },
+    {
+      "target": "Penalidade por Ataque Múltiplo",
+      "kind": "wikilink",
+      "alias": "PAM"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink",
+      "alias": "Vento"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Tesouros]]\nprev:: \nnext:: \n%%\n## `= this.file.name`\n*Anima (Vento) - arma corpo-a-corpo que causa dano cortante*\nUma arma com fluxo continuo de vento, portando gemas verdes em sua extensão. Quando ativada, seus ataques criam uma rajada de vento cortante.\n* Adepto: +1 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]].\n* Experiente: +2 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Caso você obtenha uma falha (não decisiva) com o ataque adicional, você pode dar um [[Passo de Ajuste]] como ação livre.\n* Mestre: +3 de [[bônus de item]] em [[Atacar|Ataques]]. Uma vez a cada 10 minutos, você pode [[Atacar]] com a arma como ação livre caso tenha feito ao menos um [[Atacar|Ataque]] com essa arma durante o turno. Este ataque conta normalmente para progressão de [[Penalidade por Ataque Múltiplo|PAM]]. Caso você obtenha uma falha (não decisiva) com o ataque adicional, você pode [[Mover]] até metade do seu movimento sem provocar reações como ação livre.\n\n| Descrição       | Propriedades          | Preço          |\n| --------------- | --------------------- | -------------- |\n| `= this.resumo` | `= this.propriedades` | `= this.preço` |\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Local Típico\",\n  subcategoria AS \"Tipo\"\nFROM \"Atlas\"\nWHERE categoria = \"Localização\" and contains(Recursos, this.file.link)\nSORT file.name ASC\n```\n\n---\n```carta-item\ntipo: imbuicoes\n```\n\n```autosheet-rules\n```\n"
+}

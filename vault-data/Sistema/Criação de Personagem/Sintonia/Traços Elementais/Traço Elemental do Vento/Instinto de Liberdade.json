@@ -1,0 +1,61 @@
+{
+  "id": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Instinto de Liberdade",
+  "path": "Sistema/Criação de Personagem/Sintonia/Traços Elementais/Traço Elemental do Vento/Instinto de Liberdade.md",
+  "basename": "Instinto de Liberdade",
+  "type": "Sintonia",
+  "subtype": "Traço-Elemental",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Sintonia",
+    "subcategoria": "Traço-Elemental",
+    "nível": 4,
+    "sintonia": "Vento",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Traço Elemental do Vento]]",
+    "prev": "",
+    "next": ""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Traço Elemental do Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Escapar",
+      "kind": "wikilink",
+      "alias": "Escapa"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mover",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo de Ajuste",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Instinto de Liberdade"
+    }
+  ],
+  "body": "%%\nup:: [[Traço Elemental do Vento]]\nprev::\nnext::\n%%\n### Instinto de Liberdade\nQuando você [[Escapar|Escapa]] com sucesso de um efeito que te deixou [[Agarrado]], [[Preso]] ou [[Imobilizado]], você pode [[Mover]] ou dar um [[Passo de Ajuste]] como ação livre."
+}

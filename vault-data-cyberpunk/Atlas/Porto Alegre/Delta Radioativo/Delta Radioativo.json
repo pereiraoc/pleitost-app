@@ -1,0 +1,48 @@
+{
+  "id": "Atlas/Porto Alegre/Delta Radioativo/Delta Radioativo",
+  "path": "Atlas/Porto Alegre/Delta Radioativo/Delta Radioativo.md",
+  "basename": "Delta Radioativo",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Delta Radioativo.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Delta Radioativo.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Delta Radioativo.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Pântanos tóxicos expostos à chuva ácida, fauna mutante.\n> \n> 👁️**Aparência do Local:** Lama verde, névoa ácida, odor sulfúrico, silêncio pesado.\n> \n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Pântanos tóxicos expostos à chuva ácida, fauna mutante.",
+    "aparencia": "Lama verde, névoa ácida, odor sulfúrico, silêncio pesado.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

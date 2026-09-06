@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Zona Deserta/Complexo de Testes Orion",
+  "path": "Atlas/Porto Alegre/Zona Deserta/Complexo de Testes Orion.md",
+  "basename": "Complexo de Testes Orion",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Zona Deserta]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Complexo de Testes Orion.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Zona Deserta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Complexo de Testes Orion.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Complexo de Testes Orion.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Instalação subterrânea para armamentos experimentais.\n> \n> 👁️**Aparência do Local:** Corredores de concreto bruto, luzes piscantes, cheiro químico.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Instalação subterrânea para armamentos experimentais.",
+    "aparencia": "Corredores de concreto bruto, luzes piscantes, cheiro químico.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

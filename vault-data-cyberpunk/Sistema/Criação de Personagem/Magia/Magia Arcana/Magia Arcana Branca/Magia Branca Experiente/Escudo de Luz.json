@@ -1,0 +1,64 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Escudo de Luz",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Experiente/Escudo de Luz.md",
+  "basename": "Escudo de Luz",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Escudo de Luz (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Branca",
+    "rank": "Experiente",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Cria escudo em criatura em 10q. Pode [[Sustentar]] para [[Erguer Escudo]] (+2 [[Defesa]]) por até 10t. Pode [[Bloquear com Escudo]], Dureza 1×potência e limite de danos 1+MOD.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Sustentar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bloquear com Escudo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "bônus de circunstância",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Erguer Escudo",
+      "kind": "wikilink",
+      "alias": "Erguido um Escudo"
+    },
+    {
+      "target": "Sustentar",
+      "kind": "wikilink",
+      "alias": "Sustentado"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Cria escudo em criatura em 10q. Pode [[Sustentar]] para [[Erguer Escudo]] (+2 [[Defesa]]) por até 10t. Pode [[Bloquear com Escudo]], Dureza 1×potência e limite de danos 1+MOD.\"\n%%\n# `= this.file.name` - `= this.custo`\nAlcance 10q. Cria um escudo de força que orbita uma criatura. Garante +2 de [[bônus de circunstância]] na [[Defesa]] da criatura até o início do seu próximo turno, como se tivesse [[Erguer Escudo|Erguido um Escudo]]. [[Sustentar|Sustentado]] por até 10 turnos, mantem o Escudo Erguido ao [[Sustentar]]. Você pode usar uma reação para [[Bloquear com Escudo]] quando a criatura recebe dano de corte, perfuração ou contusão. O Escudo de Luz tem dureza igual a 1×potência e limite de danos igual a 1+MOD.\n\n```autosheet-rules\n```\n"
+}

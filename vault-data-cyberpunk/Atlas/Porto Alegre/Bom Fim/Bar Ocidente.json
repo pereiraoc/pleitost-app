@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Bom Fim/Bar Ocidente",
+  "path": "Atlas/Porto Alegre/Bom Fim/Bar Ocidente.md",
+  "basename": "Bar Ocidente",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Bom Fim]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Bar Ocidente.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Bar Ocidente.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Bar Ocidente.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Bar cultural alternativo inaugurado em 1982 no segundo piso de um casarão no [[Bom Fim]], reduto de músicos, artistas plásticos e ativistas durante a Ditadura.\n> \n> 👁️**Aparência do Local:** Piso de tábuas gastas, luminárias pendentes com luz amarelada, palco improvisado no canto, bancos de madeira simples e cartazes colados anunciando shows e debates.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Bar cultural alternativo inaugurado em 1982 no segundo piso de um casarão no [[Bom Fim]], reduto de músicos, artistas plásticos e ativistas durante a Ditadura.",
+    "aparencia": "Piso de tábuas gastas, luminárias pendentes com luz amarelada, palco improvisado no canto, bancos de madeira simples e cartazes colados anunciando shows e debates.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

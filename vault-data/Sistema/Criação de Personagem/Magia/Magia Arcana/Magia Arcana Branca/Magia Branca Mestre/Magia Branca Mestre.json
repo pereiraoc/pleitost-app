@@ -1,0 +1,22 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Mestre/Magia Branca Mestre",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Branca/Magia Branca Mestre/Magia Branca Mestre.md",
+  "basename": "Magia Branca Mestre",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "Magia Branca Mestre"
+    }
+  ],
+  "body": "### Magia Branca Mestre\n----\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Magia Branca\",\n  rank AS \"Rank\",\n  custo AS \"Ações\"\nFROM \"Sistema/Criação de Personagem/Magia\"\nSORT file.name ASC\nWHERE categoria=\"Magia\" and escola=\"Branca\" and rank=\"Mestre\"\n```"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "Contexto/Pessoas/Helena Gurgel",
+  "path": "Contexto/Pessoas/Helena Gurgel.md",
+  "basename": "Helena Gurgel",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Gurgel]]",
+    "Função": "Presidente da Gurgel",
+    "Aparência": "Macacão de fábrica sobre camisa de seda, capacete embaixo do braço, sempre coberta de uma poeira fina de linha de montagem.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

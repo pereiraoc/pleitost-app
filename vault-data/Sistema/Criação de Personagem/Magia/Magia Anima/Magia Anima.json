@@ -1,0 +1,60 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Anima/Magia Anima.md",
+  "basename": "Magia Anima",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "dg-publish": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Magia Anima",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink",
+      "alias": "Animistas"
+    },
+    {
+      "target": "Sintonia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Anima Básica",
+      "kind": "embed",
+      "subpath": "Magia Anima Básica"
+    },
+    {
+      "target": "Magia Anima Adepta",
+      "kind": "embed",
+      "subpath": "Magia Anima Adepta"
+    },
+    {
+      "target": "Magia Anima Experiente",
+      "kind": "embed",
+      "subpath": "Magia Anima Experiente"
+    },
+    {
+      "target": "Magia Anima Mestre",
+      "kind": "embed",
+      "subpath": "Magia Anima Mestre"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 2,
+      "text": "Magia Anima"
+    },
+    {
+      "level": 1,
+      "text": "Lista de Magias Anima"
+    }
+  ],
+  "body": "## Magia Anima\n[[Magia Anima]] é a forma mais crua de manifestar os elementos e as sintonias. Bolas de fogo, água purificante, escudos de pedra e rajadas de vento são encontradas nesse tipo de Magia. A Magia Anima é crua mas seu poder não pode ser desconsiderado. [[Animista|Animistas]] são os principais conjuradores de Magia Anima, mas muitas vezes sua [[Sintonia]] é capaz de providenciar algumas dessas magias.\n\n# Lista de Magias Anima\n![[Magia Anima Básica#Magia Anima Básica]]\n![[Magia Anima Adepta#Magia Anima Adepta]]\n![[Magia Anima Experiente#Magia Anima Experiente]]\n![[Magia Anima Mestre#Magia Anima Mestre]]"
+}

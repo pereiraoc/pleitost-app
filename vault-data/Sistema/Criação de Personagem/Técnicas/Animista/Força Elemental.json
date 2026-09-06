@@ -1,0 +1,46 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Animista/Força Elemental",
+  "path": "Sistema/Criação de Personagem/Técnicas/Animista/Força Elemental.md",
+  "basename": "Força Elemental",
+  "type": "Técnica",
+  "subtype": "Adepta",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Técnica",
+    "subcategoria": "Adepta",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Animista]]",
+    "rank": "[[Adepto]]",
+    "custo": "1A",
+    "resumo": "\"Se sua próxima ação é conjurar uma magia que causa dano, você pode ignorar a resistência a esse tipo de dano dos alvos em até 8. Esse valor aumenta para 12 no 4º nível e para 16 no 7º nível.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Animista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Animista]]\nrank:: [[Adepto]]\ncusto:: 1A\n\nresumo:: \"Se sua próxima ação é conjurar uma magia que causa dano, você pode ignorar a resistência a esse tipo de dano dos alvos em até 8. Esse valor aumenta para 12 no 4º nível e para 16 no 7º nível.\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Força Elemental.\n\n**Força Elemental - 1A**\nSe sua próxima ação é conjurar uma magia que causa dano, você pode ignorar a resistência a esse tipo de dano dos alvos em até 8. Esse valor aumenta para 12 no 4º nível e para 16 no 7º nível.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,127 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor (Estudos do Vazio)",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Escola Arcana Menor/Escola Arcana Menor (Estudos do Vazio).md",
+  "basename": "Escola Arcana Menor (Estudos do Vazio)",
+  "type": "Habilidade",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": null,
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+      "Somar Magias.Secundaria.Slots.B 2",
+      "Somar Magias.Secundaria.Slots.A 1"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Treinamento de Arcanista]]",
+    "rank": "[[Adepto]]",
+    "resumo": "\"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende uma [[Magia Negra Adepta]] de sua escolha.\""
+  },
+  "ruleElements": [
+    {
+      "raw": "Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Estudos do Vazio)",
+          "occurrenceIndex": 0,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "definir",
+            "targetRaw": "Magias.Secundaria.Lista.ArcanaNegra.Proficiencia",
+            "valueRaw": "A"
+          },
+          "raw": "Definir Magias.Secundaria.Lista.ArcanaNegra.Proficiencia A",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Secundaria.Slots.B 2",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Estudos do Vazio)",
+          "occurrenceIndex": 1,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.B",
+            "valueRaw": "2"
+          },
+          "raw": "Somar Magias.Secundaria.Slots.B 2",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Somar Magias.Secundaria.Slots.A 1",
+      "parsed": [
+        {
+          "sourceNote": "Escola Arcana Menor (Estudos do Vazio)",
+          "occurrenceIndex": 2,
+          "scope": [],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "somar",
+            "targetRaw": "Magias.Secundaria.Slots.A",
+            "valueRaw": "1"
+          },
+          "raw": "Somar Magias.Secundaria.Slots.A 1",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Treinamento de Arcanista",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Arcana Negra",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Magia Negra Básica",
+      "kind": "wikilink",
+      "alias": "Magias Negras Básicas"
+    },
+    {
+      "target": "Magia Negra Adepta",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 5,
+      "text": "`= this.file.name`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Treinamento de Arcanista]]\nrank:: [[Adepto]]\n\nresumo:: \"Você se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende uma [[Magia Negra Adepta]] de sua escolha.\"\n%%\n#####  `= this.file.name`\nVocê se torna [[Adepto]] em [[Magia Arcana Negra]], aprende duas [[Magia Negra Básica|Magias Negras Básicas]] e aprende uma [[Magia Negra Adepta]] de sua escolha.\n\n```autosheet-rules\n```\n"
+}

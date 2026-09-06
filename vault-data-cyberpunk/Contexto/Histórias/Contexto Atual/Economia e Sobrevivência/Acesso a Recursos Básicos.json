@@ -1,0 +1,167 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Acesso a Recursos Básicos",
+  "path": "Contexto/Histórias/Contexto Atual/Economia e Sobrevivência/Acesso a Recursos Básicos.md",
+  "basename": "Acesso a Recursos Básicos",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A disponibilidade de água, energia, alimentos naturais, medicamentos e outros itens essenciais.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Acesso a Recursos Básicos.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Cidade Baixa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Prefeitura de Porto Alegre",
+      "kind": "wikilink",
+      "alias": "Prefeitura"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Resistência Urbana Gaúcha",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Movimento Restinga Livre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Colégio Rosário",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Igreja Nosso Senhor do Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Independência",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Inauguração da Malha de Transporte Aeromóvel",
+      "kind": "wikilink",
+      "alias": "Aeromóvel"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Público",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Brigada Militar Metropolitana",
+      "kind": "wikilink",
+      "alias": "Brigada Militar"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Porto Novo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mercado Flutuante",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Redenção",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Depósito Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Acesso a Recursos Básicos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Água potável"
+    },
+    {
+      "level": 4,
+      "text": "Energia Elétrica"
+    },
+    {
+      "level": 4,
+      "text": "Alimentos Naturais"
+    },
+    {
+      "level": 4,
+      "text": "Medicamentos Essenciais"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Acesso a Recursos Básicos.png]]\n\nNo cenário de Porto Alegre em 1987, a escassez de recursos básicos se manifesta de forma aguda em três frentes principais: água potável, energia elétrica e alimentos naturais.\n#### Água potável  \nO [[Governo Militar Brasileiro|Governo Militar]] decretou um rígido **racionamento de água**, concedendo apenas **duas horas diárias** de abastecimento para a população de baixa renda, especialmente em bairros periféricos como [[Cidade Baixa]] e [[Restinga]]. Esse controle é executado pela [[Companhia Estadual de Energia Elétrica|CEEE]] em parceria com a [[Prefeitura de Porto Alegre|Prefeitura]], que prioriza o fornecimento a zonas industriais ([[Nova Sarandi]], [[Petrópolis]]) em detrimento das áreas residenciais de classe média-baixa. Para driblar a falta de água encanada, a **[[Resistência Urbana Gaúcha]]** e o **[[Movimento Restinga Livre]]** organizam mutirões para instalar **cisternas e bombonas** em casas, colégios e igrejas (p. ex., [[Colégio Rosário]] e [[Igreja Nosso Senhor do Bom Fim]]), captando água de chuva e mantendo hortas verticais em fachadas de casarões históricos ([[Independência]], [[Bom Fim]]) .\n\n#### Energia Elétrica\nA **[[Companhia Estadual de Energia Elétrica|CEEE]]**, sob orientação do [[Governo Militar Brasileiro|Governo Militar]], promove **apagões semanais** e **cortes programados** de energia nas periferias para priorizar o funcionamento das indústrias e da malha [[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]] (Passo D’Areia). Em bairros como [[Moinhos de Vento]] e [[Centro Histórico]], essa oscilação afeta o [[Mercado Público]] e as passarelas flutuantes, obrigando feirantes a improvisar lonas e geradores a diesel. Nas áreas mais pobres, as ligações clandestinas e gambiarras elétricas se multiplicam — frequentemente organizadas pelo [[Clã da Ferrugem]]  — mas expõem as moradias a riscos maiores de incêndio e prisões pela [[Brigada Militar Metropolitana|Brigada Militar]].\n\n#### Alimentos Naturais  \nO **controle logístico** da [[Zaffari]] sobre os trilhos da Ferrovia Federal e os terminais do [[Porto Novo]] concentrou em elites o acesso a **cortes especiais de carne**, grãos importados e rações industrializadas, enquanto o subproletariado depende de **feiras livres** e **cooperativas solidárias** para obter alimentos enlatados e água filtrada. Em [[Restinga]], o [[Mercado Flutuante]] sustenta a população ribeirinha com pescado local, mas sofre com fiscalizações da [[Brigada Militar Metropolitana|Brigada Militar]]. Já em [[Redenção]] e Praça da Encol, a [[Resistência Urbana Gaúcha]] promove feiras de hortaliças caseiras, muitas vezes sabotadas pela [[Embratel]] e pela [[Brigada Militar Metropolitana|Brigada Militar]].\n\n#### Medicamentos Essenciais\n- **Controle e cotas corporativas:** [[Zaffari]] define cotas de remédios genéricos e especiais via [[Depósito Zaffari]] e transporte ferroviário, priorizando clientes corporativos e elites, enquanto hospitais públicos (Santa Casa, [[Nova Sarandi]]) ficam à mercê de lotes esporádicos .\n- **Farmácias [[Panvel]]:** os quiosques de primeiros socorros do [[Mercado Público]] e o posto avançado no [[Jardim Itu]] formam filas que se estendem por quarteirões, em busca de antibióticos, analgésicos e insulina — mas os estoques são insuficientes e chegam a acabar antes do final do dia .\n- **Mercado negro e feiras solidárias:** doses vencidas, genéricos contrabandeados e “kits de descontaminação” vindos de laboratórios clandestinos são trocados por comida ou trabalho informal em oficinas; a [[Brigada Militar Metropolitana|Brigada Militar]] não raro fecha barracas e recolhe remédios sob acusação de contrabando ."
+}

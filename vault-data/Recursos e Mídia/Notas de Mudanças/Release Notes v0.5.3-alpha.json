@@ -1,0 +1,81 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.3-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.3-alpha.md",
+  "basename": "Release Notes v0.5.3-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Carlos, Dante, Mera, Pind, Thoren",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Incendiária (Experiente)",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mera",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.3-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🌐 A ficha inteira sincroniza agora — Inventário, Magias, Perícias, Habilidades"
+    },
+    {
+      "level": 3,
+      "text": "🔥💧 Imbuição Incendiária e Congelante como toggles ativáveis com auto-tier"
+    },
+    {
+      "level": 3,
+      "text": "🛠️ Correções de bugs trazidas pela mesa 2026-06-08"
+    },
+    {
+      "level": 3,
+      "text": "🛠️ Correções de bugs trazidas pelas mesas 2026-06-14 e 2026-06-15 (sessão 6HMBEY)"
+    },
+    {
+      "level": 2,
+      "text": "📝 Pra você que cria notas / regras no vault"
+    },
+    {
+      "level": 3,
+      "text": "Campo `tier:` em `Efeitos_Interativos:` filtra por tier comprado"
+    },
+    {
+      "level": 3,
+      "text": "`Tutor:` propaga `grupo:` pra criatura com `grupo: []`"
+    },
+    {
+      "level": 3,
+      "text": "Conteúdo novo / atualizado"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    },
+    {
+      "level": 2,
+      "text": "🐛 Issues abertas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Releases dos plugins"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.2-alpha...v0.5.3-alpha\n\n# 📦 Release Notes — Pleitost v0.5.3-alpha\n\n**Período coberto:** 2026-06-08 → 2026-06-15\n\n**Foco:** **ficha inteira agora sincroniza** (Inventário, Magias, Perícias, Habilidades — antes só vida/atributos), **Imbuição Incendiária e Congelante viraram toggles ativáveis na arma**, **dois fixes na criação de heroi novo** (cascades convergem em 1 save), **vita negativa agora funciona** (no autosheet e propaga pro painel sync), e **bugfixes das mesas 2026-06-08 e 6HMBEY**.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🌐 A ficha inteira sincroniza agora — Inventário, Magias, Perícias, Habilidades\n\nAntes da v0.5.3 o sync só carregava o estado de jogo (vida, moral, condições, recursos restantes, EM) e um resumo curto (nível, atributos, classe, sintonia, raça, imagem). Tudo mais — Inventário, Magias, Perícias, Habilidades, Técnicas, Ações — ficava só na ficha local de cada jogador. Resultado: quando alguém subia de nível e a ficha mudava de verdade, os outros jogadores nem viam.\n\nAgora isso tudo propaga em tempo real. Cada cliente recebe os updates dos outros sem reload.\n\n> **Op step pro GM:** quem já tem mesa rodando precisa rodar o `install.sql` atualizado uma vez no Supabase. Mesa que não rodar isso continua funcionando — só sem a feature nova.\n\n### 🔥💧 Imbuição Incendiária e Congelante como toggles ativáveis com auto-tier\n\nAntes essas imbuições eram propriedades passivas anotadas na arma; o jogador precisava lembrar de somar o dado/dano extra no roll. Agora viraram **toggle no painel Interativa da arma**: 🔥 (ou 💧) clicável que liga/desliga o efeito.\n\nE mais — a potência é **auto-pickada pelo tier que o personagem comprou da imbuição** no inventário:\n\n| Tier | Incendiária | Congelante |\n|---|---|---|\n| Adepto | +1d4 dano + 1 oportunidade | +1d4 dano + 1 oportunidade |\n| Experiente | +1d6 dano + 2 oportunidades | +1d6 dano + 2 oportunidades |\n| Mestre | +1d8 dano + 2 oportunidades | +1d8 dano + 2 oportunidades |\n\n### 🛠️ Correções de bugs trazidas pela mesa 2026-06-08\n\nA mesa 2026-06-08 expôs vários bugs reais de uso na v0.5.2:\n\n**Sincronização**\n\n- **Vita virou 0 em situações de combate pesado.** Race entre o handshake de claim (quando você assume controle da sua ficha após reload) e um edit no mesmo segundo: um dano legítimo seu era revertido pra um snapshot antigo. Agora o sync re-confirma se a ficha é sua antes de reverter qualquer edit.\n- **Encantar Arma saía sozinho no 1º click. Moral_Temporária intermitente.** Mesma causa: quando o autosheet recalcula a ficha depois de uma ação, ele faz vários writes em sequência rápida e em algum momento entre eles o estado podia ficar momentaneamente errado. O sync publicava esse estado intermediário pro DB → realtime broadcast → outros clientes viam por minutos. Agora o publish coalesce writes na mesma janela curta e só o estado final viaja.\n- **Condições padrão sumiam do painel sync.** Abalado, Atordoado, Cego, Cansado, Confuso, Drenado, Exausto, Imobilizado, Lento, Prono, Restrito, Sangrando, Surdo e outras condições \"Standard\" ficavam invisíveis no painel sync mesmo com claim ativo. Agora aparecem.\n- **Sync escrevia `nome:` fantasma no FM.** Quando adicionava uma ficha à sessão, o sync escrevia `nome: <nome do arquivo>` na ficha mesmo quando o campo não existia originalmente. Generalizado também pra Nível, Atributos e Vida — nenhum desses campos é mais inventado no FM se não estava lá antes.\n- **\"Adicionar à Sessão\" do combat-tracker silencioso quando o roster era ambíguo.** Wikilink-grupo tipo `[[Carlos, Dante, Mera, Pind, Thoren]]` (Escudo do Mestre) não resolvia pra arquivos individuais e o botão simplesmente não fazia nada visível. Agora aparece um aviso explicando quantas entradas do roster não foram resolvidas.\n\n**Regras (autosheet)**\n\n- **Inspiração do Bardo não chegava no Companheiro Animal.** \"Compartilhar Grupo\" precisava saber quem é aliado do Bardo pra propagar — mas Companheiro Animal não tem grupo declarado, só tem o tutor. O sistema não fazia o vínculo, então o Metis (Graxaim da Mera) nunca aparecia como aliado e a Inspiração compartilhada não pegava. Agora herda o grupo pelo tutor automaticamente.\n- **Painel \"Efeitos de Grupo\" não aparecia em Companheiro Animal.** Mesmo cenário: a section estava escondida pra Companheiro Animal junto com \"Ações de Habilidade-Técnica\" (que de fato não faz sentido pra ele). Agora as duas são independentes — Efeitos de Grupo renderiza, Ações continua escondida.\n\n**Heroi novo (criação)**\n\nDois bugs do fluxo \"criar heroi do template → escolher classe → adicionar armas → 1 save\" que faziam o painel \"Detalhes\" mostrar pendências mesmo após salvar — exigindo um segundo save pra convergir:\n\n- **Bônus especial das armas que você acabou de adicionar não aplicava no 1º save.** Cenário: heroi novo → Classe Comandante → adiciona Punhal e Sabre pela UI → escolhe sub-habilidade Estratagema (Estrategista) → salva. A regra do Estrategista que dá +1 de Bônus Especial pra todas as armas não pegava as armas recém-adicionadas naquele save. Só pegava no 2º save.\n- **Slots de Perícia Adepta ficavam 2 a menos em classes que restringem o Atributo Principal.** Cenário concreto: Comandante Estrategista força INT como Atributo Principal — então o INT deveria automaticamente assumir o valor do rank mais alto. A Evolução Básica soma \"valor do INT\" em Perícias Adeptas, e nessa hora ela lia o INT pré-troca (1) em vez do pós-troca (3). Resultado: +1 em vez de +3 em Adeptas. Só convergia no 2º save.\n\nAgora os dois cascateiam em 1 save só.\n\n### 🛠️ Correções de bugs trazidas pelas mesas 2026-06-14 e 2026-06-15 (sessão 6HMBEY)\n\nA mesa 6HMBEY testou tudo de novo com sync ativo + GM + 2 jogadores. Expôs bugs que escaparam dos fixes anteriores:\n\n**Painel sync — combate**\n\n- **Ordem de turno não atualizava no painel do jogador.** Mestre reorderava a iniciativa no painel sync e o jogador continuava vendo os cards na ordem default. Mesmo problema apagava o destaque visual do \"card de quem joga agora\" e escondia o contador \"Turno N\" inteiro pro jogador. A v0.5.2 corrigiu o lado servidor desse bug, mas o player-view do painel sync nunca lia o estado de turno do encounter. Agora player vê a mesma ordem que o GM vê, com destaque em quem tá jogando e o round atual no header.\n- **Intercalação Mestre↔NPC sumia do painel do jogador.** Quando o Mestre intercalava monstros entre heróis na ordem de iniciativa (ex.: Carlos → Goblin → Dante → Mera → Goblin), o jogador continuava vendo os heróis primeiro, NPCs no fim. O painel do GM mostrava certo, mas o player-view bagunçava a ordem. Agora intercala respeitando a iniciativa.\n- **NPC no turno atual não tinha destaque visual no painel do jogador.** Quando era a vez de um NPC anônimo (Goblin (Pequeno) 2, por exemplo), o jogador via o card sem o destaque `Turno Atual`. Só o card de heróis/companheiros ganhava o highlight. Agora qualquer card (anônimo ou não) ganha o destaque quando é a vez dele.\n- **Combate encerrado pelo GM persistia no painel do jogador** (parcial — issue [#228 \"Combate Zumbi\"](https://github.com/sfynz/pleitost/issues/228) rastreia o resto). Mestre clicava \"Encerrar Combate\", mas o jogador continuava vendo \"COMBATE ATIVO\" com os monstros até dar reload do plugin. A v0.5.3 introduz arquitetura resiliente de conexão realtime: quando a comunicação cai (timeout, erro de canal, drop de rede), o cliente detecta sozinho, reconecta com backoff exponencial, e ao recuperar dispara um re-sync completo. Cobre 90% dos cenários — mas no caso específico de \"encerrar combate\", a conexão fica viva e mesmo assim a notificação não chega. Investigação em andamento na issue.\n- **Ordem das properties em Defesas / Sentidos / Perícias / Movimento mudava após sincronizar.** `Bonus_Item` aparecia antes de `Proficiencia` em vez da ordem canonical do autosheet, mesmo quando o jogador não tinha mexido. A v0.5.3 corrige: o sync agora preserva a ordem original do autosheet ao receber mudanças via realtime; fichas com ordem errada legacy ficam corrigidas automaticamente no próximo sync.\n\n**Heroi (autosheet)**\n\n- **Vita negativa não salvava na ficha.** Cenário: Carlos com vita 8, jogador aplica 10 de dano via botão `🩸-10`. Display mostrava `-2` momentaneamente, mas no save a vita virava `0` no FM. Reload exibia `0`. Painel sync (que lê do FM) também mostrava `0`. Causa: o autosheet clampava vita em `[0, vidaMax]` antes de gravar, ignorando que a regra de Heroi/Companheiro Animal permite vita negativa até `-vidaMax`. Agora respeita a família: Heroi e Companheiro Animal vão até `-vidaMax`; Monstro continua com piso em 0.\n\n---\n\n## 📝 Pra você que cria notas / regras no vault\n\n### Campo `tier:` em `Efeitos_Interativos:` filtra por tier comprado\n\nSchema novo: uma nota de imbuição/habilidade/etc pode declarar várias entries em `Efeitos_Interativos:` com `tier: Adepto|Experiente|Mestre`. O runtime filtra qual entry passa baseado no tier que o personagem comprou da nota no inventário/lista. Permite uma só nota cobrir os 3 níveis de uma habilidade tieirada com potências fixas, sem precisar de expressões `Tier(...)` dinâmicas no FM.\n\nConcretamente, `Imbuição Incendiária.md` e `Imbuição Congelante.md` agora têm 3 entries (Adepto/Experiente/Mestre) com `valor: 1d4/1d6/1d8` e dose de oportunidades fixos. Quando o personagem tem `[[Imbuição Incendiária (Experiente)]]` na arma, o runtime carrega só a entry tier-Experiente.\n\n### `Tutor:` propaga `grupo:` pra criatura com `grupo: []`\n\n`Sistema/Criaturas/Companheiros Animais/*.md` (e qualquer outra criatura com `Tutor:` setado e `grupo:` vazio) agora herda automaticamente o grupo do tutor. Não precisa duplicar `grupo: [...]` no FM da criatura — `Tutor: [[Mera]]` resolve.\n\n### Conteúdo novo / atualizado\n\n- **`Imbuição Incendiária.md`** + **`Imbuição Congelante.md`** — blocos `Efeitos_Interativos:` novos cobrindo Adepto/Experiente/Mestre + `visual.iconeLigado` (🔥 / 💧).\n- **Estado de jogo**: ajustes nas fichas dos heróis (Carlos Facão, Dante, Mera, Thoren) + Companheiro Animal (Metis) reflexo das mesas 2026-06-08, 2026-06-14 e 6HMBEY.\n\n---\n\n## ✅ Issues fechadas\n\n- **#6 / #209** — Ficha inteira sincroniza (Inventário, Magias, Perícias, Habilidades).\n- **#5 / #219** — Condições padrão (Abalado etc.) aparecem no painel sync.\n- **#13 / #220** — Sync não escreve mais `nome:` fantasma em FM.\n- **#221** — Inspiração compartilhada do Bardo chega no Companheiro Animal.\n- **#222** — \"Adicionar à Sessão\" do combat-tracker avisa quando o roster não resolve.\n- **#223** — Imbuição Incendiária e Congelante como toggles auto-tier.\n- **#224** — Moral_Temporária consistente entre clientes.\n- **#225** — Vita negativa não vira 0 no sync.\n- **#226** — Encantar Arma fica ativo no 1º click.\n\n## 🐛 Issues abertas\n\n- **#228 — Combate Zumbi**: combate encerrado pelo GM persiste no painel do jogador. Self-healing resolveu a categoria geral de falha de conexão; o caso específico precisa investigação Supabase-side (RLS, replica identity). Workaround: re-focar a tab dispara refetch.\n\n---\n\n## 🛠️ Releases dos plugins\n\n| Plugin | Versão | Highlights |\n|---|---|---|\n| `pleitost-autosheet` | **2.0.13 → 2.0.19** | 6 patches: Inspiração do Bardo chega no Companheiro Animal, botão \"Adicionar à Sessão\" mais defensivo, Imbuição Incendiária e Congelante como toggles tier-filtrados, dois fixes do fluxo de heroi novo (bônus de armas + slots de Perícia Adepta cascateiam em 1 save), e vita negativa salva corretamente na ficha. [`CHANGELOG`](.obsidian/plugins/pleitost-autosheet/CHANGELOG.md) |\n| `pleitost-sync` | **0.3.1 → 0.3.14** | 13 patches: bugfixes da mesa 2026-06-08 (condições padrão, nome fantasma, claim race, transient publish, \"Adicionar à Sessão\" defensivo), ficha inteira sincroniza, ordem de turno propaga no painel do jogador, NPC intercalado entre heróis no player-view, framework completo de testes sync multi-cliente (Fases 0+2+3 do plano), self-healing subscriptions com backoff exponencial, e deep merge preservando ordem canonical do autosheet em Defesas/Sentidos/Perícias/Movimento. Detalhes técnicos em [`docs/architecture/`](.obsidian/plugins/pleitost-sync/docs/architecture/) e [`docs/reference/debug-logs.md`](.obsidian/plugins/pleitost-sync/docs/reference/debug-logs.md). [`CHANGELOG`](.obsidian/plugins/pleitost-sync/CHANGELOG.md) |\n| `pleitost-views` | 0.4.1 (sem bump) | Estável. |\n"
+}

@@ -1,0 +1,73 @@
+{
+  "id": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Pedrita",
+  "path": "Atlas/Mundo Livre/Federação Áurea/Planaltina/Pedrita.md",
+  "basename": "Pedrita",
+  "type": "Localização",
+  "subtype": "Pequena Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Pequena Cidade",
+    "Geolocalização": "[[Planaltina]]",
+    "Descrição": null,
+    "Completo": false,
+    "Recursos": [
+      "Âmbar",
+      "[[Imbuição Mineral]]",
+      "[[Imbuição Sísmica]]",
+      "[[Imbuição Enraizante]]"
+    ]
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Pedrita.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Planaltina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Safira",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Federação Áurea",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Mineral",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Sísmica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imbuição Enraizante",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Pedrita.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Pedrita.png]]\n> [!abstract] Contexto da `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações da `= this.subcategoria`: `= this.file.name`\n> 👥**População:** 20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)\n> \n> 💰**Recursos:** `= this.Recursos`.\n> \n> ℹ️**Descrição:** Pequena cidade do âmbar de [[Planaltina]], assentada num planalto rochoso sobre um rio de corredeiras. Vive da extração do âmbar nas encostas escavadas ao redor e de tudo o que se segue — lapidação, pesagem e, sobretudo, as imbuições que fazem a fama de suas oficinas muradas. Pelo Pátio das Caravanas, a leste, o âmbar bruto e imbuído escoa em carroças pela estrada rumo a [[Safira]] e ao resto da [[Federação Áurea]]. \n>\n> 👁️**Aparência do Local:** Cidade acomodada em terraços com muros de arrimo sobre afloramentos de pedra — não há muralha defensiva contínua nem portões; os únicos recintos fechados são o muro baixo da Rua das Oficinas e os pátios murados de armazéns e balança. O casario é de estilo português, de paredes claras e telha, com a cor dos telhados por distrito: vermelho na colina norte, dourado no centro, violeta a oeste, verde a sudoeste, azul ao sul, marrom a leste. Um rio encachoeirado desce do noroeste entre barrancos de pedra, corre em corredeiras de espuma branca pela borda oeste, passa sob a Ponte da Estrada e some por uma garganta rochosa ao sul. O skyline é modesto: a Casa do Governador nos terraços da colina e, ao sul, os brilhos dourado-âmbar que escapam das portas e fornos das Oficinas de Imbuição, entre chaminés fumegando. \n> \n\n> [!info] Distritos e Locais de Interesse\n> **Colina do Governo** *(vermelho-ferrugem — norte)* — colina em terraços de casario nobre de telhados vermelhos.\n\n---\n\n```dataview\nTABLE WITHOUT ID\n  link(file.link, title) AS \"Aventuras\",\n  rank AS \"Classe\"\nFROM \"Campanhas/Aventuras\"\nWHERE categoria = \"Aventura\" and contains(disponivel, this.file.link)\nSORT rank ASC, file.name ASC\n```",
+  "locationBody": {
+    "populacao": "20.000 (40% Classe Baixa,  55% Classe Média, 5% Classe Alta)",
+    "descricao": "Pequena cidade do âmbar de [[Planaltina]], assentada num planalto rochoso sobre um rio de corredeiras. Vive da extração do âmbar nas encostas escavadas ao redor e de tudo o que se segue — lapidação, pesagem e, sobretudo, as imbuições que fazem a fama de suas oficinas muradas. Pelo Pátio das Caravanas, a leste, o âmbar bruto e imbuído escoa em carroças pela estrada rumo a [[Safira]] e ao resto da [[Federação Áurea]].",
+    "aparencia": "Cidade acomodada em terraços com muros de arrimo sobre afloramentos de pedra — não há muralha defensiva contínua nem portões; os únicos recintos fechados são o muro baixo da Rua das Oficinas e os pátios murados de armazéns e balança. O casario é de estilo português, de paredes claras e telha, com a cor dos telhados por distrito: vermelho na colina norte, dourado no centro, violeta a oeste, verde a sudoeste, azul ao sul, marrom a leste. Um rio encachoeirado desce do noroeste entre barrancos de pedra, corre em corredeiras de espuma branca pela borda oeste, passa sob a Ponte da Estrada e some por uma garganta rochosa ao sul. O skyline é modesto: a Casa do Governador nos terraços da colina e, ao sul, os brilhos dourado-âmbar que escapam das portas e fornos das Oficinas de Imbuição, entre chaminés fumegando.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": "**Colina do Governo** *(vermelho-ferrugem — norte)* — colina em terraços de casario nobre de telhados vermelhos.",
+    "leaflet": null
+  }
+}

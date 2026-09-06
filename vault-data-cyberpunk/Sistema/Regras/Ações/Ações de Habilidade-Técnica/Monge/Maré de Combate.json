@@ -1,0 +1,101 @@
+{
+  "id": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Maré de Combate",
+  "path": "Sistema/Regras/Ações/Ações de Habilidade-Técnica/Monge/Maré de Combate.md",
+  "basename": "Maré de Combate",
+  "type": "Regra",
+  "subtype": "Ação",
+  "grupo": "Ação de Habilidade",
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Regra",
+    "subcategoria": "Ação",
+    "grupo": "Ação de Habilidade",
+    "custo": "1A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Ações de Habilidade-Técnica]]",
+    "prev": "",
+    "next": "",
+    "classe": "\"[[Monge]]\"",
+    "resumo": "\"Escolha Quebra da Onda ou Repuxo e faça um ataque vs [[Evasão]] (mod = proficiência + [[Agilidade|AGI]]); se acertar, você se move atravessando o espaço do alvo (como [[Cambalhota]], sem provocar reações do alvo) e aplica [[Derrubar]] (Repuxo) ou [[Desarmar]] (Quebra da Onda). Você ganha +2 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] contra [[Ataque de Oportunidade|Ataques de Oportunidade]] durante esse movimento; se não conseguir mover como exigido, falha.\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ações de Habilidade-Técnica",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Monge",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Evasão",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Cambalhota",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Derrubar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Circunstância",
+      "kind": "wikilink",
+      "alias": "bônus de circunstância"
+    },
+    {
+      "target": "Defesa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataque de Oportunidade",
+      "kind": "wikilink",
+      "alias": "Ataques de Oportunidade"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "ataque"
+    },
+    {
+      "target": "Proficiência",
+      "kind": "wikilink",
+      "alias": "proficiência"
+    },
+    {
+      "target": "Terreno Difícil",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ataques",
+      "kind": "wikilink",
+      "alias": "Manobras de Ataque",
+      "subpath": "Manobras de Ataque"
+    },
+    {
+      "target": "Pulseira da Potência",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: [[Ações de Habilidade-Técnica]]\nprev:: \nnext:: \n\nclasse:: \"[[Monge]]\"\n\nresumo:: \"Escolha Quebra da Onda ou Repuxo e faça um ataque vs [[Evasão]] (mod = proficiência + [[Agilidade|AGI]]); se acertar, você se move atravessando o espaço do alvo (como [[Cambalhota]], sem provocar reações do alvo) e aplica [[Derrubar]] (Repuxo) ou [[Desarmar]] (Quebra da Onda). Você ganha +2 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] contra [[Ataque de Oportunidade|Ataques de Oportunidade]] durante esse movimento; se não conseguir mover como exigido, falha.\"\n%%\n\n### `= this.file.name` - `= this.custo`\nEscolha entre Quebra da Onda ou Repuxo e faça um [[Ataques|ataque]] contra a [[Evasão]] de uma criatura adjacente. Para esse ataque, utilize sua [[Proficiência|proficiência]] em ataques somada da sua [[Agilidade|AGI]] como modificador. Em caso de sucesso ou melhor:\n* **Repuxo:** Mova, passando pelo espaço ocupado pelo alvo (que contam como [[Terreno Difícil]], como em [[Cambalhota]]), para uma posição adjacente ao alvo diretamente oposta a qual você estava no início da ação. O alvo sofre os efeitos de [[Derrubar]] equivalente ao resultado do ataque.\n* **Quebra da Onda:** Mova, passando pelo espaço ocupado pelo alvo (que contam como [[Terreno Difícil]], como em [[Cambalhota]]), para uma posição adjacente perpendicular a uma linha reta entre você e o alvo. O alvo sofre os efeitos de [[Desarmar]] equivalente ao resultado do ataque.\n\nO movimento realizado como parte dessa habilidade não provoca reações do alvo. Você recebe +2 de [[Bônus de Circunstância|bônus de circunstância]] na [[Defesa]] contra [[Ataque de Oportunidade|Ataques de Oportunidade]] durante o movimento dessa habilidade. Se você não puder mover como descrito (por falta de movimento, imobilização, não haver espaço, etc), a habilidade falha.\n\nMaré de Combate se beneficia de bônus que se aplicam em [[Ataques#Manobras de Ataque|Manobras de Ataque]] (como [[Pulseira da Potência]]).\n\n```autosheet-rules\n```\n"
+}

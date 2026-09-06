@@ -1,0 +1,72 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Ladino/Desarmamento Astuto",
+  "path": "Sistema/Criação de Personagem/Técnicas/Ladino/Desarmamento Astuto.md",
+  "basename": "Desarmamento Astuto",
+  "type": "Técnica",
+  "subtype": "Experiente",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Experiente",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Ladino]]",
+    "rank": "[[Experiente]]",
+    "custo": "P",
+    "resumo": "\"Você pode usar [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Desarmar]] e pode somar seu [[Bônus de Item|bônus de item]] de [[Ladinagem]] nessas tentativas. Se tiver sucesso em [[Desarmar]] usando [[Agilidade|AGI]], seu próximo ataque corpo-a-corpo neste turno contra esse alvo tem [[Vantagem de Combate]].\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ladino",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Experiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agilidade",
+      "kind": "wikilink",
+      "alias": "AGI"
+    },
+    {
+      "target": "Força",
+      "kind": "wikilink",
+      "alias": "FOR"
+    },
+    {
+      "target": "Desarmar",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bônus de Item",
+      "kind": "wikilink",
+      "alias": "bônus de item"
+    },
+    {
+      "target": "Ladinagem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Vantagem de Combate",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Ladino]]\nrank:: [[Experiente]]\ncusto:: P\n\nresumo:: \"Você pode usar [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Desarmar]] e pode somar seu [[Bônus de Item|bônus de item]] de [[Ladinagem]] nessas tentativas. Se tiver sucesso em [[Desarmar]] usando [[Agilidade|AGI]], seu próximo ataque corpo-a-corpo neste turno contra esse alvo tem [[Vantagem de Combate]].\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê pode usar sua [[Agilidade|AGI]] no lugar de [[Força|FOR]] para [[Desarmar]]. Quando você tem sucesso em [[Desarmar]] usando [[Agilidade|AGI]], o próximo ataque corpo-a-corpo que você fizer neste turno contra a criatura alvejada por [[Desarmar]] tem [[Vantagem de Combate]]. Se você tiver algum [[Bônus de Item|bônus de item]] para [[Ladinagem]], pode adicioná-lo a tentativas de [[Desarmar]] usando [[Agilidade|AGI]].\n\n```autosheet-rules\n```\n"
+}

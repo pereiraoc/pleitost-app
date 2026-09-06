@@ -1,0 +1,34 @@
+{
+  "id": "Contexto/Organizações/Facções/Cartel dos Eixos",
+  "path": "Contexto/Organizações/Facções/Cartel dos Eixos.md",
+  "basename": "Cartel dos Eixos",
+  "type": "Organização",
+  "subtype": "Facção",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Facção",
+    "Líder": null,
+    "Descrição": null,
+    "Resumo": null,
+    "Completo": false
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Cartel dos Eixos.png",
+      "kind": "embed",
+      "isImage": true
+    }
+  ],
+  "images": [
+    {
+      "target": "Cartel dos Eixos.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Cartel dos Eixos.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** \n\n"
+}

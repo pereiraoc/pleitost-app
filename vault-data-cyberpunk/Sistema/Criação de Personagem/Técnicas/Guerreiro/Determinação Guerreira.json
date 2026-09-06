@@ -1,0 +1,98 @@
+{
+  "id": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Determinação Guerreira",
+  "path": "Sistema/Criação de Personagem/Técnicas/Guerreiro/Determinação Guerreira.md",
+  "basename": "Determinação Guerreira",
+  "type": "Técnica",
+  "subtype": "Mestre",
+  "grupo": null,
+  "frontmatter": {
+    "categoria": "Técnica",
+    "subcategoria": "Mestre",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "[[Técnicas]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Guerreiro]]",
+    "rank": "[[Mestre]]",
+    "custo": "1A",
+    "resumo": "\"Remova de você as condições [[Caído]], [[Preso]], [[Imobilizado]], [[Enfraquecido]], [[Desajeitado]], [[Pasmo]], [[Desprevenido]], [[Agarrado]], [[Abalado]], [[Nervoso]], [[Cego]] e [[Lento]]. Custa 10 EV\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Técnicas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Guerreiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Mestre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Caído",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Preso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Imobilizado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Enfraquecido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desajeitado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Pasmo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Desprevenido",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Agarrado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Abalado",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nervoso",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cego",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Lento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Energia Vital",
+      "kind": "wikilink",
+      "alias": "EV"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Técnicas]]\nprev:: \nnext:: \n\nclasse:: [[Guerreiro]]\nrank:: [[Mestre]]\ncusto:: 1A\n\nresumo:: \"Remova de você as condições [[Caído]], [[Preso]], [[Imobilizado]], [[Enfraquecido]], [[Desajeitado]], [[Pasmo]], [[Desprevenido]], [[Agarrado]], [[Abalado]], [[Nervoso]], [[Cego]] e [[Lento]]. Custa 10 EV\"\n%%\n#### `= this.file.name` - `= this.rank`\nVocê aprende a habilidade Determinação Guerreira.\n\n**Determinação Guerreira - 1A**\nRemova as condições [[Caído]], [[Preso]], [[Imobilizado]], [[Enfraquecido]], [[Desajeitado]], [[Pasmo]], [[Desprevenido]], [[Agarrado]], [[Abalado]], [[Nervoso]], [[Cego]] e [[Lento]] de você. Você perde 10 [[Energia Vital|EV]] para ativar Determinação Guerreira.\n\n```autosheet-rules\n```\n"
+}

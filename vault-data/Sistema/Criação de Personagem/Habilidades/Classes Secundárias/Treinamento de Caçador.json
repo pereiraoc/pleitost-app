@@ -1,0 +1,107 @@
+{
+  "id": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Caçador",
+  "path": "Sistema/Criação de Personagem/Habilidades/Classes Secundárias/Treinamento de Caçador.md",
+  "basename": "Treinamento de Caçador",
+  "type": "Habilidade",
+  "subtype": "Secundaria",
+  "grupo": null,
+  "frontmatter": {
+    "alias": null,
+    "categoria": "Habilidade",
+    "subcategoria": "Secundaria",
+    "dg-publish": true,
+    "Elementos_de_Regra": [
+      "Nivel 1 Alias Classe Compor 3 \"Vigilante\"",
+      "Nivel 1 Complementar Acoes.Lista [[Marca do Caçador]]"
+    ]
+  },
+  "inlineFields": {
+    "up": "[[Habilidades]]",
+    "prev": "",
+    "next": "",
+    "classe": "[[Classe Secundária]]",
+    "rank": "[[Adepto|Adepta]]"
+  },
+  "ruleElements": [
+    {
+      "raw": "Nivel 1 Alias Classe Compor 3 \"Vigilante\"",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Caçador",
+          "occurrenceIndex": 0,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "alias-compor",
+            "targetRaw": "Classe",
+            "order": 3,
+            "fragment": "Vigilante"
+          },
+          "raw": "Nivel 1 Alias Classe Compor 3 \"Vigilante\"",
+          "provenance": []
+        }
+      ]
+    },
+    {
+      "raw": "Nivel 1 Complementar Acoes.Lista [[Marca do Caçador]]",
+      "parsed": [
+        {
+          "sourceNote": "Treinamento de Caçador",
+          "occurrenceIndex": 1,
+          "scope": [
+            {
+              "kind": "nivel-min",
+              "min": 1
+            }
+          ],
+          "condition": {
+            "kind": "none"
+          },
+          "channel": "editable",
+          "action": {
+            "kind": "complementar",
+            "targetRaw": "Acoes.Lista",
+            "valueRaw": "[[Marca do Caçador]]"
+          },
+          "raw": "Nivel 1 Complementar Acoes.Lista [[Marca do Caçador]]",
+          "provenance": []
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "target": "Habilidades",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Classe Secundária",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Adepto",
+      "kind": "wikilink",
+      "alias": "Adepta"
+    },
+    {
+      "target": "Marca do Caçador",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 4,
+      "text": "`= this.file.name` - `= this.rank`"
+    }
+  ],
+  "body": "%%\nup:: [[Habilidades]]\nprev:: \nnext:: \n\nclasse:: [[Classe Secundária]]\nrank:: [[Adepto|Adepta]]\n%%\n#### `= this.file.name` - `= this.rank`\n*Requer FOR 2 ou AGI 2, conta como Técnica Adepta para outras classes*\n\nVocê adiciona ao seu repertório as técnicas sagazes de sobrevivência de um Caçador.\n\nVocê aprende a habilidade [[Marca do Caçador]].\n\nVocê pode escolher Técnicas Adeptas de Caçador no lugar de Técnicas Experientes da sua classe e pode escolher Técnicas Experientes de Caçador no lugar de Técnicas Mestre da sua classe.\n\n```autosheet-rules\n```\n"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Tipos de Substâncias e Legalidade",
+  "path": "Contexto/Histórias/Contexto Atual/Cultura de Substâncias e Dependência/Tipos de Substâncias e Legalidade.md",
+  "basename": "Tipos de Substâncias e Legalidade",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "A classificação das drogas por tarja e liberação de uso, e consequências.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tipos de Substâncias e Legalidade.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Carla “Vermelha” Paredes",
+      "kind": "wikilink",
+      "alias": "Vermelha"
+    }
+  ],
+  "images": [
+    {
+      "target": "Tipos de Substâncias e Legalidade.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 3,
+      "text": "💎 Drogas Selênicas:"
+    },
+    {
+      "level": 4,
+      "text": "💊 Classificação por Tarja:"
+    },
+    {
+      "level": 4,
+      "text": "🚨 Situação Legal:"
+    },
+    {
+      "level": 4,
+      "text": "🧪 Incentivos:"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n![[Tipos de Substâncias e Legalidade.png]]\n\n### 💎 Drogas Selênicas:\nDrogas aprimoradoras baseadas em selênica. Variações incluem:\n\n- **Ritalênicos (Ritalina + Selênica):** Foco, percepção e tempo de reação.\n- **Taurilênicos (Taurina + Selênica):** Velocidade, vigor físico e supressão de sono.\n- **Adrenalênicos (Adrenalina + Selênica):** Destemor, ímpeto e explosão de adrenalina.\n- **Omega-S (Desconhecido):** Euforia controlada e obediência passiva (usado para controle civil/militar).\n\n#### 💊 Classificação por Tarja:\n- **Sem Tarja:** Drogas leves para trabalho contínuo. De uso comum e livre, com poucos efeitos colaterais.\n- **Tarja Amarela:** Uso permitido sem receita médica, mas com alerta de segurança. Vendida em farmácias e mercados populares.\n- **Tarja [[Carla “Vermelha” Paredes|Vermelha]]:** Uso apenas com liberação médica. Alguns laboratórios clandestinos vendem sem exigência de receita, por um preço maior.\n- **Tarja Preta:** Requer receita de especialista e cadastro biométrico. Algumas versões são vendidas ilegalmente como insumos para produção caseira insegura.\n\n#### 🚨 Situação Legal:\n- **Legais:** Já testadas, aprovadas, possuem bula e registro público.\n- **Ilegais:** Proibidas por riscos à saúde, uso militar exclusivo ou razões políticas.\n- **Experimentais:** Em fase de testes. Requerem cadastro no programa de teste voluntário, com aceitação de termos que incluem risco de morte ou incapacidade.\n\n#### 🧪 Incentivos:\n- **Uso estatal massivo:** Programa PIRA (1980) usa os selênicos para permitir jornadas de 130h semanais em troca de aposentadoria precoce.\n- **Dependência social:** Trabalhar sem eles é inviável. Há competições entre trabalhadores por quem usa doses maiores."
+}

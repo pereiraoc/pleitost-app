@@ -1,0 +1,47 @@
+{
+  "id": "Atlas/Porto Alegre/Jardim Botânico/Estufa Histórica",
+  "path": "Atlas/Porto Alegre/Jardim Botânico/Estufa Histórica.md",
+  "basename": "Estufa Histórica",
+  "type": "Localização",
+  "subtype": "Ponto de Interesse",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Ponto de Interesse",
+    "Geolocalização": "[[Jardim Botânico]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Estufa Histórica.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Estufa Histórica.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Estufa Histórica.png]]\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Galeria de plantas tropicais e medicinais.\n> \n> 👁️**Aparência do Local:** Vidraças embaçadas, cheiro de umidade e vegetação densa.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Galeria de plantas tropicais e medicinais.",
+    "aparencia": "Vidraças embaçadas, cheiro de umidade e vegetação densa.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

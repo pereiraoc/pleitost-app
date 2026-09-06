@@ -1,0 +1,204 @@
+{
+  "id": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Criminalidade Organizada",
+  "path": "Contexto/Histórias/Contexto Atual/Segurança e Crime/Criminalidade Organizada.md",
+  "basename": "Criminalidade Organizada",
+  "type": "Contexto",
+  "subtype": "Atualidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Contexto",
+    "subcategoria": "Atualidade",
+    "Assunto": "Facções que dominam atividades ilegais e suas áreas de influência.",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Criminalidade Organizada.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Bom Fim",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Irmandade do Café Preto",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Centro Histórico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança dos Fundadores",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Costa e Silva",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio Paraguassu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ipanema",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Clube dos Sete Portos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Botânico",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Liga da Estufa",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Jardim Itu",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Comando Itu-Química",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Moinhos de Vento",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Sociedade dos Jardins",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Nova Sarandi",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Confraria dos Trilhos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Passo D'Areia",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Cartel dos Eixos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Petrópolis",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Círculo das Ligas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Praia de Belas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Consórcio das Bandeiras",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Quarto Distrito",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Ordem dos Subsolos",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Restinga",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Aliança Livre das Palafitas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Panvel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gradiente",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Embratel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Companhia Estadual de Energia Elétrica",
+      "kind": "wikilink",
+      "alias": "CEEE"
+    },
+    {
+      "target": "Governo Militar Brasileiro",
+      "kind": "wikilink",
+      "alias": "Governo Militar"
+    },
+    {
+      "target": "Clã da Ferrugem",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Geral do Grêmio",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Zaffari",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Marcopolo",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Camisa 12",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Criminalidade Organizada.png",
+      "from": "body"
+    }
+  ],
+  "headings": [
+    {
+      "level": 3,
+      "text": "`= this.file.name`"
+    },
+    {
+      "level": 4,
+      "text": "Dinâmica de Poder"
+    },
+    {
+      "level": 4,
+      "text": "Áreas de Influência — Mapa Resumido"
+    },
+    {
+      "level": 4,
+      "text": "Observações"
+    }
+  ],
+  "body": "### `= this.file.name`\n> [!quote] Contexto Atual\n> ❔**Assunto**: `= this.Assunto`\n\n![[Criminalidade Organizada.png]]\n\nO **Grupo dos 13** é um cartel multifacetado que reúne bicheiros, chefes de prostíbulos, agiotas, operadores de milícias privadas e técnicos dissidentes — cada um dominando um bairro-chave de [[Porto Alegre]]. Sua existência é tolerada (e por vezes utilizada) tanto pelo regime militar quanto pelas megacorporações, que enxergam no crime organizado uma válvula de controle social, além de um mercado de experimentação de drogas, tecnologia e manipulação política. A seguir, o perfil e o domínio de cada uma das 13 facções, sempre entrelaçadas ao cotidiano distópico da cidade:\n\n- [[Bom Fim]] — \"[[Irmandade do Café Preto]]\"\n- [[Centro Histórico]] — \"[[Aliança dos Fundadores]]\"\n- [[Costa e Silva]] — \"[[Consórcio Paraguassu]]\"\n- [[Ipanema]] — \"[[Clube dos Sete Portos]]\"\n- [[Jardim Botânico]] — \"[[Liga da Estufa]]\"\n- [[Jardim Itu]] — \"[[Comando Itu-Química]]\"\n- [[Moinhos de Vento]] — \"[[Sociedade dos Jardins]]\"\n- [[Nova Sarandi]] — \"[[Confraria dos Trilhos]]\"\n- [[Passo D'Areia]] — \"[[Cartel dos Eixos]]\"\n- [[Petrópolis]] — \"[[Círculo das Ligas]]\"\n- [[Praia de Belas]] — \"[[Consórcio das Bandeiras]]\"\n- [[Quarto Distrito]] — \"[[Ordem dos Subsolos]]\"\n- [[Restinga]] — \"[[Aliança Livre das Palafitas]]\"\n\n#### Dinâmica de Poder\n- **Interações e Conflitos:**  \n    O **Grupo dos 13** age como um conselho de guerra criminal: alianças mudam conforme interesses e pressões externas (intervenção estatal, ações de megacorporações, bloqueios logísticos). Conflitos internos são resolvidos com “negociações armadas” e, às vezes, execuções exemplares. Alguns bairros como [[Praia de Belas]] e [[Quarto Distrito]] presenciam confrontos frequentes entre facções rivais ligados às torcidas organizadas ou ao mercado de selênicos.\n- **Relação com Estado e Corporações:**  \n    O regime militar tolera a presença do grupo desde que recebam sua parte ou utilizem as facções para serviços “sujos” (espionagem, controle de dissidência, sabotagem industrial). Megacorporações como [[Panvel]] e [[Gradiente]] terceirizam tarefas ilícitas (descarte de resíduos tóxicos, testes de drogas) para facções, pagando em créditos de produtividade ou proteção política.\n#### Áreas de Influência — Mapa Resumido\n\n|Bairro|Facção Dominante|Especialidade|Relações-Chave|\n|---|---|---|---|\n|[[Bom Fim]]|[[Irmandade do Café Preto]]|Contrabando cultural, apostas|[[Panvel]], Resistência Urbana|\n|[[Centro Histórico]]|[[Aliança dos Fundadores]]|Lavagem e extorsão|[[Panvel]], [[Embratel]], [[Companhia Estadual de Energia Elétrica|CEEE]]|\n|[[Costa e Silva]]|[[Consórcio Paraguassu]]|Milícia, tráfico de armas|[[Gradiente]], ex-militares|\n|[[Ipanema]]|[[Clube dos Sete Portos]]|Máfia da segurança privada|[[Gradiente]], [[Governo Militar Brasileiro|Governo Militar]]|\n|[[Jardim Botânico]]|[[Liga da Estufa]]|Biopirataria, sabotagem química|[[Panvel]], [[Gradiente]]|\n|[[Jardim Itu]]|[[Comando Itu-Química]]|Drogas pré-selênicas, refino clandestino|[[Clã da Ferrugem]], [[Centro Histórico]]|\n|[[Moinhos de Vento]]|[[Sociedade dos Jardins]]|Colarinho branco, chantagem, lavagem|[[Gradiente]], [[Geral do Grêmio]], [[Zaffari]]|\n|[[Nova Sarandi]]|[[Confraria dos Trilhos]]|Roubos ferroviários, extorsão industrial|[[Zaffari]], Sindicato Metalúrgicos|\n|Passo D’Areia|[[Cartel dos Eixos]]|Tráfico de próteses, apostas, corridas|[[Marcopolo]], [[Tramontina]], botecos|\n|[[Petrópolis]]|[[Círculo das Ligas]]|Mercado negro de próteses, espionagem|[[Tramontina]], [[Clã da Ferrugem]]|\n|[[Praia de Belas]]|[[Consórcio das Bandeiras]]|Contrabando portuário, controle de torcidas|[[Zaffari]], [[Camisa 12]], [[Geral do Grêmio]]|\n|[[Quarto Distrito]]|[[Ordem dos Subsolos]]|Prostíbulos, tráfico de artistas|[[Panvel]] Underground, Resistência Urbana|\n|[[Restinga]]|[[Aliança Livre das Palafitas]]|Contrabando, rotas de fuga, drogas|[[Restinga]] Livre, [[Clã da Ferrugem]]|\n\n#### Observações\n- A criminalidade organizada se mistura ao tecido social da cidade e é fundamental para a dinâmica de sobrevivência e rebeldia de [[Porto Alegre]] 1987. A polícia é parte do jogo, a corporação se aproveita do caos e, muitas vezes, tudo é regulado à bala, suborno ou chantagem.\n- Os “13” são temidos, mas também admirados por muitos moradores — vistos como símbolo da Porto Alegre que resiste, sobrevive e sempre encontra um novo jeito de burlar o sistema.\n"
+}

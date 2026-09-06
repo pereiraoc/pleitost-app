@@ -1,0 +1,38 @@
+{
+  "id": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Mestre/Condenar",
+  "path": "Sistema/Criação de Personagem/Magia/Magia Arcana/Magia Arcana Negra/Magia Negra Mestre/Condenar.md",
+  "basename": "Condenar",
+  "type": "Magia",
+  "subtype": "Arcana",
+  "grupo": null,
+  "frontmatter": {
+    "alias": "Condenar (2A)",
+    "categoria": "Magia",
+    "subcategoria": "Arcana",
+    "escola": "Negra",
+    "rank": "Mestre",
+    "custo": "2A",
+    "dg-publish": true
+  },
+  "inlineFields": {
+    "up": "",
+    "prev": "",
+    "next": "",
+    "resumo": "\"Condena criatura em 6q. Ela pode usar 3 ações para dissipar Condenar, se não, ataca [[Ímpeto]] com 1d10×potência de dano de força (metade na falha).\""
+  },
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Ímpeto",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "`= this.file.name` - `= this.custo`"
+    }
+  ],
+  "body": "%%\nup:: \nprev::\nnext::\n\nresumo:: \"Condena criatura em 6q. Ela pode usar 3 ações para dissipar Condenar, se não, ataca [[Ímpeto]] com 1d10×potência de dano de força (metade na falha).\"\n%%\n# `= this.file.name` - `= this.custo`\nVocê condena o futuro de uma criatura em 6q. Durante o próximo turno da criatura, ela pode optar por usar 3 ações para Dissipar Condenar. Se ela não fizer isso, no final do turno dela faça um Ataque Mágico contra [[Ímpeto]] dela.\n\n**Sucesso:** A criatura recebe 1d10×potência de dano de força.\n**Sucesso Decisivo:** Como sucesso, mas considere sua potência mágica 2 maior.\n**Falha:** Como sucesso, mas reduza o dano a metade.\n**Falha Decisiva:** A criatura não é afetada.\n\n```autosheet-rules\n```\n"
+}

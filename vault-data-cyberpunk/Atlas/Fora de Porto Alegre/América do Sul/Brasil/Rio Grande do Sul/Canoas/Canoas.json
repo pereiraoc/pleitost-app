@@ -1,0 +1,45 @@
+{
+  "id": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Canoas",
+  "path": "Atlas/Fora de Porto Alegre/América do Sul/Brasil/Rio Grande do Sul/Canoas/Canoas.md",
+  "basename": "Canoas",
+  "type": "Localização",
+  "subtype": "Cidade",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Localização",
+    "subcategoria": "Cidade",
+    "Geolocalização": "[[Rio Grande do Sul]]",
+    "Descrição": null,
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Base Aérea de Canoas",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Gurgel",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Rio Grande do Sul",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Local\n> [!abstract] Contexto do `= this.subcategoria`: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Município-pólo industrial-musical marcado pela presença da [[Base Aérea de Canoas]], cujas atividades militares e experimentos com selênicos definem a economia local e geram tensões civis.\n> \n> 👁️**Aparência do Local:** Conjunto de galpões e oficinas (muitos da [[Gurgel]]) intercalados por vilas operárias e residências oficiais; cercas de arame farpado e torres de vigilância contornam o perímetro da Base, enquanto botecos e trailers de comida rápida atendem militares e trabalhadores.\n> ",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Município-pólo industrial-musical marcado pela presença da [[Base Aérea de Canoas]], cujas atividades militares e experimentos com selênicos definem a economia local e geram tensões civis.",
+    "aparencia": "Conjunto de galpões e oficinas (muitos da [[Gurgel]]) intercalados por vilas operárias e residências oficiais; cercas de arame farpado e torres de vigilância contornam o perímetro da Base, enquanto botecos e trailers de comida rápida atendem militares e trabalhadores.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}

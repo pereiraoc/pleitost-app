@@ -1,0 +1,38 @@
+{
+  "id": "Contexto/Organizações/Governos Internacionais/Partido Comunista Chinês",
+  "path": "Contexto/Organizações/Governos Internacionais/Partido Comunista Chinês.md",
+  "basename": "Partido Comunista Chinês",
+  "type": "Organização",
+  "subtype": "Governo Internacional",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": null,
+    "categoria": "Organização",
+    "subcategoria": "Governo Internacional",
+    "Líder": "[[Secretário Xie Feng]]",
+    "Descrição": null,
+    "Resumo": "Estado estrangeiro investindo em adaptadores físicos para simbiontes.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Partido Comunista Chinês.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Secretário Xie Feng",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Partido Comunista Chinês.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Organização\n![[Partido Comunista Chinês.png]]\n> [!info] `= this.subcategoria`: `= this.file.name`\n> **Resumo:** `= this.Resumo`\n> **Líder:** `= this.Líder`\n\n>**Descrição:** Fornecedor de adaptadores selênicos de uso para implantes físicos, e financia cooperativas de sucata."
+}

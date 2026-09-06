@@ -1,0 +1,60 @@
+{
+  "id": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.6-alpha",
+  "path": "Recursos e Mídia/Notas de Mudanças/Release Notes v0.5.6-alpha.md",
+  "basename": "Release Notes v0.5.6-alpha",
+  "type": null,
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {},
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [],
+  "images": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": "📦 Release Notes — Pleitost v0.5.6-alpha"
+    },
+    {
+      "level": 2,
+      "text": "🎮 Pra você que joga / mestra"
+    },
+    {
+      "level": 3,
+      "text": "🧤 Luvas Purificadas não concedem mais Remover Aflição — e o bug que isso expôs (#261)"
+    },
+    {
+      "level": 3,
+      "text": "💰 Autosave da Interativa cobria só `interativa.*` (#255)"
+    },
+    {
+      "level": 3,
+      "text": "✏️ \"+\" de marcas/reconhecimentos estava inerte na Editável (#256)"
+    },
+    {
+      "level": 3,
+      "text": "🐾 CA não precisa mais salvar 2x (#257)"
+    },
+    {
+      "level": 3,
+      "text": "📊 Modos Interativa/Resumo/Leitura mostravam estado pendente da Editável (#259)"
+    },
+    {
+      "level": 3,
+      "text": "💡 Tooltip de stat da ficha de grupo não alargava na seção de Riqueza (#260)"
+    },
+    {
+      "level": 3,
+      "text": "🎲 Estado das fichas"
+    },
+    {
+      "level": 2,
+      "text": "🛠️ Housekeeping da vault"
+    },
+    {
+      "level": 2,
+      "text": "✅ Issues fechadas"
+    }
+  ],
+  "body": "**Full Changelog**: https://github.com/sfynz/pleitost/compare/v0.5.5-alpha...v0.5.6-alpha\n\n# 📦 Release Notes — Pleitost v0.5.6-alpha\n\n**Período coberto:** 2026-07-01 → 2026-07-06\n\n**Foco:** **follow-up da mesa 2026-07-01** — três bugs de fichas diagnosticados durante e após a sessão (autosave com buraco, \"+\" inerte na Editável, CA precisando salvar 2x), mais o follow-up arquitetural do CA (modos não-Editável não podem vazar estado pendente). No caminho, uma **mudança de regra** (Luvas Purificadas perdem Remover Aflição) expôs um **bug arquitetural de magias de tesouro órfãs** — corrigido na v2.0.33. Fechou também um bug visual de tooltip na ficha de grupo descoberto na captura do design-system.\n\n---\n\n## 🎮 Pra você que joga / mestra\n\n### 🧤 Luvas Purificadas não concedem mais Remover Aflição — e o bug que isso expôs (#261)\n\nMudança de regra: o tesouro **Luvas Purificadas** deixou de conceder a magia **Remover Aflição** (os bônus de Medicina continuam). Só que ao aplicar a mudança, a magia **não saía das fichas** de quem tem as Luvas — continuava listada nas magias de tesouro, com o tooltip ainda apontando o item, e sem nenhuma pendência na Editável. Salvar não limpava; a magia tinha virado permanente.\n\nA causa era arquitetural: magias de tesouro são itens **derivados** — regenerados a cada leitura da ficha a partir dos `Elementos_de_Regra` dos tesouros do inventário — mas o merge só descartava itens não-regenerados com origem `Regra.*`. A origem `Tesouro.*` (que existe pro tooltip mostrar \"Tesouro · Luvas Purificadas\") caía no caminho de preservação feito pra entradas manuais, e o rótulo presentacional acabou vazando pra semântica do merge. O fix ([#261](https://github.com/sfynz/pleitost/issues/261), autosheet v2.0.33) introduz a classificação central de **item derivado** (`Regra.*` + `Tesouro.*`): magia de tesouro que a regra não emite mais é descartada no merge, a pendência aparece na Editável e o save materializa a remoção — o fluxo que devia ter acontecido desde o início. Cobre também o caso do último tesouro que concedia magia deixar de conceder.\n\n### 💰 Autosave da Interativa cobria só `interativa.*` (#255)\n\nNa Ficha Interativa, edits de **moeda** (`inventario.ouro`), **reconhecimentos e marcas** (`experiencia.*`) e **nível** (`meta.nivel`) iam pro rascunho mas nunca agendavam o salvamento automático — a Interativa não tem botão Salvar, então um re-mount apagava essas mudanças silenciosamente. Fix: allowlist `INTERATIVA_AUTOSAVE_PREFIXES` cobre os quatro namespaces relevantes; campos exclusivos da Editável continuam no save manual.\n\n### ✏️ \"+\" de marcas/reconhecimentos estava inerte na Editável (#256)\n\nNa aba de anotações da Editável, clicar em \"+\" para adicionar uma **nova marca ou reconhecimento** não fazia nada visível — a otimização que preserva o rascunho do textarea (`skipRerender`) também suprimia o re-render que criaria a nova linha. A aba agora mantém estado local de marcas/reconhecimentos e atualiza a linha na hora sem desmontar o textarea em edição.\n\n### 🐾 CA não precisa mais salvar 2x (#257)\n\nO **Companheiro Animal** exigia salvar a ficha da tutora duas vezes para a escala do CA recomputar no nível correto. Causa: o extract lia o nível do tutor do FM, mas esse valor só era injetado depois do loop convergente. O nível do tutor agora é resolvido uma vez antes do loop e propagado em todas as iterações, igual ao padrão do `__constraint__Atributos.Principal`.\n\n### 📊 Modos Interativa/Resumo/Leitura mostravam estado pendente da Editável (#259)\n\nO princípio do sistema: **cada modo é uma view do mesmo YAML salvo**; só a Editável tem regras ativas e pendências. Na prática, Interativa/Resumo/Leitura estavam mesclando o `calculatedRuleElements` do estado live da Editável no modelo exibido — no caso da Metis (CA, FM nível 6, tutor Mera nível 7), os três modos mostravam **nível 7 + escala do 7** mesmo sem ter salvo.\n\nFix: `recomputeSavedVolatile` define o **modelo salvo** (FM como-está, `calculated = {}`); `modelForMode()` é o único ponto de decisão — Editável recebe o modelo live, os outros três recebem o modelo salvo. O chrome do shell (badge de nível, accent, nome) também é reatualizado ao trocar de modo.\n\n### 💡 Tooltip de stat da ficha de grupo não alargava na seção de Riqueza (#260)\n\nO tooltip de estatísticas na seção de **Riqueza** da ficha de grupo deveria usar uma largura maior (220px / min(92vw, 400px)), mas sempre mostrava o tamanho padrão (200px/300px). O problema era que o utilitário de tooltip reaplicava os defaults de largura em todo `el()`, anulando qualquer `setWidth()` feito antes. Agora os defaults só se aplicam na criação do elemento.\n\n### 🎲 Estado das fichas\n\n- **Grupo de Carlos, Dante, Mera, Thoren e Pind Bund upado para o nível 7** (rank Mestre), com evolução de subclasses e escalas — Metis, a Graxaim, acompanha a tutora.\n- Marcas e reconhecimentos da campanha registrados nas fichas: **Expedição com Príncipe Anão**, **Resgate das 12 cargas em Magna Pátria**, **Desbravador Real** (Reino dos Anões) e **Salvador da Pátria** (Pátria Aurora).\n- Fichas dos quatro heróis com as Luvas Purificadas salvas pós-fix — Remover Aflição removida do FM.\n\n---\n\n## 🛠️ Housekeeping da vault\n\n- **Capitalização de `categoria`**: quatro notas do Sistema tinham `categoria: regra` (minúsculo) em vez de `categoria: Regra` — alinhado com o valor canônico das queries Dataview (Habilidades, Técnicas, Ações, Resistências).\n- **Excalidraw**: autosave aumentado de 10s para 15s para reduzir escrita desnecessária.\n- **Debug mode do autosheet**: religado temporariamente para captura de logs da sessão e **desligado de novo** — a release sai com ele off.\n\n---\n\n## ✅ Issues fechadas\n\n**Correções (autosheet):**\n\n- **[#255](https://github.com/sfynz/pleitost/issues/255)** — autosave da Interativa agora cobre moeda, marcas/reconhecimentos e nível (allowlist `INTERATIVA_AUTOSAVE_PREFIXES`).\n- **[#256](https://github.com/sfynz/pleitost/issues/256)** — \"+\" de marcas/reconhecimentos funciona na Editável sem desmontar o textarea (estado local + `card.update()`).\n- **[#257](https://github.com/sfynz/pleitost/issues/257)** — CA recomputa escala no primeiro save ao subir nível do tutor.\n- **[#259](https://github.com/sfynz/pleitost/issues/259)** — Interativa/Resumo/Leitura exibem o modelo salvo (FM materializado), nunca o estado pendente da Editável.\n- **[#260](https://github.com/sfynz/pleitost/issues/260)** — tooltip de stat da seção Riqueza usa largura correta (220px / min(92vw, 400px)).\n- **[#261](https://github.com/sfynz/pleitost/issues/261)** — magia de tesouro órfã: remover o `Complementar` do `Elementos_de_Regra` do tesouro agora propaga pra ficha (classificação central `isDerivedSource` no merge + sweep pra delta ausente).\n\n**Em aberto (investigação):**\n\n- **[#258](https://github.com/sfynz/pleitost/issues/258)** — bug de ordem da iniciativa no tracker: reproduz na mesa mas não no core do autosheet (core ordena DESC corretamente); suspeita na camada de exibição/sync.\n"
+}

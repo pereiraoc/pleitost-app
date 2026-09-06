@@ -1,0 +1,30 @@
+{
+  "id": "Contexto/Pessoas/Coronel Augusto Tramit",
+  "path": "Contexto/Pessoas/Coronel Augusto Tramit.md",
+  "basename": "Coronel Augusto Tramit",
+  "type": "Pessoa",
+  "subtype": null,
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Augusto Tramit"
+    ],
+    "categoria": "Pessoa",
+    "subcategoria": null,
+    "Organização": "[[Tramontina]]",
+    "Função": "Presidente da Tramontina (coronel reformado)",
+    "Aparência": "Porte militar, cabelo branco rente, prótese de mão da própria linha — faz questão de apertar a mão com ela.",
+    "Completo": true
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Tramontina",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [],
+  "headings": [],
+  "body": "#Pessoa\n> [!info] `= this.Função`: `= this.file.name`\n> **Organização:** `= this.Organização`\n> **Função:** `= this.Função`\n> \n> **Aparência:** `= this.Aparência`\n> \n"
+}

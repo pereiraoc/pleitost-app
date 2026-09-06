@@ -1,0 +1,68 @@
+{
+  "id": "Atlas/Porto Alegre/Centro Histórico/Centro Histórico",
+  "path": "Atlas/Porto Alegre/Centro Histórico/Centro Histórico.md",
+  "basename": "Centro Histórico",
+  "type": "Localização",
+  "subtype": "Bairro",
+  "grupo": null,
+  "frontmatter": {
+    "aliases": [
+      "Centro"
+    ],
+    "categoria": "Localização",
+    "subcategoria": "Bairro",
+    "Geolocalização": "[[Porto Alegre]]",
+    "Descrição": null,
+    "Comércio": "Capital",
+    "Recursos": [
+      "[[Capa Discreta]]",
+      "[[Anel Mensageiro]]",
+      "[[Poção de Cura]]"
+    ],
+    "Completo": true,
+    "markerTag": "Bairro"
+  },
+  "inlineFields": {},
+  "ruleElements": [],
+  "links": [
+    {
+      "target": "Centro Histórico.png",
+      "kind": "embed",
+      "isImage": true
+    },
+    {
+      "target": "Porto Alegre",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Capa Discreta",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Anel Mensageiro",
+      "kind": "wikilink"
+    },
+    {
+      "target": "Poção de Cura",
+      "kind": "wikilink"
+    }
+  ],
+  "images": [
+    {
+      "target": "Centro Histórico.png",
+      "from": "body"
+    }
+  ],
+  "headings": [],
+  "body": "#Local\n![[Centro Histórico.png]]\n> [!abstract] Contexto do Bairro: `= this.file.name`\n> 🗺️**Geolocalização:** `= this.Geolocalização`\n\n> [!info] Informações do `= this.subcategoria`: `= this.file.name`\n> ℹ️**Descrição:** Conjunto de edificações modernas erguidas sobre estacas e pontões, flutuando nas águas que ainda cobrem as ruínas do antigo centro comercial. Calçadões suspensos, pontes de madeira e vidro e flutuantes conectam cafés, lojas de artesanato e workshops a mirantes sobre os escombros submersos.\n> \n> 👁️**Aparência do Local:** Passarelas de madeira tratada apoiadas em pontões de metal, seções de piso em vidro transparente que permitem avistar as arcadas inundadas abaixo, postes ornamentais com iluminação em néon discreto e guarda-corpos feitos de correntes marítimas reaproveitadas.\n> \n\n",
+  "locationBody": {
+    "populacao": null,
+    "descricao": "Conjunto de edificações modernas erguidas sobre estacas e pontões, flutuando nas águas que ainda cobrem as ruínas do antigo centro comercial. Calçadões suspensos, pontes de madeira e vidro e flutuantes conectam cafés, lojas de artesanato e workshops a mirantes sobre os escombros submersos.",
+    "aparencia": "Passarelas de madeira tratada apoiadas em pontões de metal, seções de piso em vidro transparente que permitem avistar as arcadas inundadas abaixo, postes ornamentais com iluminação em néon discreto e guarda-corpos feitos de correntes marítimas reaproveitadas.",
+    "contexto": null,
+    "organizacoesInfluentes": null,
+    "acontecimentoRecente": null,
+    "locaisInteresse": null,
+    "leaflet": null
+  }
+}
