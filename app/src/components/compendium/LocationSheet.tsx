@@ -49,6 +49,7 @@ import { useSelectedCreature } from '../../data/selected-creature-store'
 import { TipProvider, TipHover } from '../ficha/tooltips'
 import { ItemFigura, useItemFigura, ITEM_CARD_CSS, esc, ItemHover, docTier, docImageUrl } from '../item-card'
 import { useAssetIndex, resolveAsset, assetUrl } from '../../data/assets'
+import { formatMoeda } from '../../data/moeda'
 
 // Ficha de Localização do compêndio (issue #66). Substitui o markdown genérico
 // (DocView) por uma ficha com abas Detalhes/Comércio/Hexploração na linguagem
@@ -530,7 +531,7 @@ const TIER_MEDAL_LETTER: Record<Tier, string> = { A: 'A', E: 'E', M: 'M' }
 /** Ícone de COMPRAR com tooltip (formato do app). */
 function BuyButton({ label, preco, canBuy, onBuy }: { label: string; preco: number; canBuy: boolean; onBuy: () => void }) {
   const html = canBuy
-    ? `<div class="dv-tooltip-head-row">Comprar</div>${esc(reskinName(label))} · ${preco} ${esc(reskinText('PO'))}`
+    ? `<div class="dv-tooltip-head-row">Comprar</div>${esc(reskinName(label))} · ${esc(formatMoeda(preco))}`
     : 'Ouro insuficiente ou nenhum herói selecionado'
   return (
     <TipHover html={html}>
@@ -585,7 +586,7 @@ function ProntaRow({
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>×{entry.quantidade}</span>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{entry.preco} {reskinText('PO')}</span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{formatMoeda(entry.preco)}</span>
         </div>
       </div>
       <BuyButton label={entry.label} preco={entry.preco} canBuy={canBuy} onBuy={onBuy} />
@@ -605,7 +606,7 @@ function EncomendaRow({ entry, docsById }: { entry: EncomendaEntry; docsById: Ma
         <span style={{ fontSize: 12.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {reskinName(entry.label)} <span style={{ color: 'var(--muted)', fontWeight: 700 }}>{tierLabel(entry.tier)}</span>
         </span>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{entry.preco} {reskinText('PO')}</span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)' }}>{formatMoeda(entry.preco)}</span>
       </div>
     </div>
   )
@@ -813,7 +814,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
         return
       }
       decrementProntaEntry(doc.id, entry.key, entry.tier)
-      setAviso(`Comprado: ${reskinName(entry.label)} (${TIER_COLUNA[entry.tier]}). Saldo: ${r.ouroRestante} ${reskinText('PO')}.`)
+      setAviso(`Comprado: ${reskinName(entry.label)} (${TIER_COLUNA[entry.tier]}). Saldo: ${formatMoeda(r.ouroRestante)}.`)
     }
     const pb = entry.propriedadeBase ?? ''
     // Poção → Consumíveis (soma quantidade), não Tesouros.

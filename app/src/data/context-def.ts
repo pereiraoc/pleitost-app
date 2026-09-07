@@ -16,7 +16,9 @@ export interface ContextoDef {
   nome: string
   /** relPath da nota-fonte na vault do mundo (rastreabilidade). */
   fonte: string
-  moeda: { simbolo: string; nome: string }
+  /** `fator` (2026-09-07): valor do mundo = PO × fator (POA: 1000 → Cz$);
+   *  ausente = 1. Exibição pura — o sistema segue contando em PO. */
+  moeda: { simbolo: string; nome: string; fator?: number }
   atlas: { raiz: string; mapa: string | null }
   /** Display próprio de perícias no mundo (ex.: Arcana → "Trônicos"). */
   pericias: Record<string, string>

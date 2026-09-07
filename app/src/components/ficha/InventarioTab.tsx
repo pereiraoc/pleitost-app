@@ -11,6 +11,7 @@
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { contextoRegras, reskinName } from '../../data/reskin'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
+import { formatMoeda, moedaNumero } from '../../data/moeda'
 import { linkLabel } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
 import { useAssetIndex } from '../../data/assets'
@@ -214,7 +215,7 @@ function TrashBtn({ onClick }: { onClick: () => void }) {
  *  o valor de revenda no rótulo (ou tooltip, no modo `compact` dos tesouros).
  *  refund 0 (item sem valor de mercado) → vende mesmo assim, sem creditar. */
 function SellBtn({ refund, onClick, compact }: { refund: number; onClick: () => void; compact?: boolean }) {
-  const title = refund > 0 ? `Vender por ${refund} PO` : 'Vender (sem valor de revenda)'
+  const title = refund > 0 ? `Vender por ${formatMoeda(refund)}` : 'Vender (sem valor de revenda)'
   return (
     <button
       onClick={onClick}
@@ -289,7 +290,7 @@ function CoinsButton({ coins, onChange }: { coins: number; onChange: (n: number)
         }}
       >
         <span style={{ fontSize: 15 }}>{tokens.emojis.inv.Moeda}</span>
-        <span style={{ color: 'var(--accent)' }}>{coins}</span>
+        <span style={{ color: 'var(--accent)' }}>{moedaNumero(coins)}</span>
       </button>
       {open ? <CoinsDropdown coins={coins} onChange={onChange} onClose={() => setOpen(false)} /> : null}
     </span>

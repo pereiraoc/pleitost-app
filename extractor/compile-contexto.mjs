@@ -89,6 +89,14 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   if (typeof moeda.simbolo !== "string" || typeof moeda.nome !== "string") {
     problems.push("moeda: {simbolo, nome} obrigatórios");
   }
+  // FATOR de exibição da moeda (2026-09-07): valor do mundo = PO × fator,
+  // inteiro ≥ 1 (POA: 1000 → Cz$). Ausente = 1 (fantasia: só o rótulo muda).
+  let fator = 1;
+  if (moeda.fator !== undefined && moeda.fator !== null) {
+    const n = Number(moeda.fator);
+    if (Number.isInteger(n) && n >= 1) fator = n;
+    else problems.push(`moeda.fator: "${moeda.fator}" (esperado inteiro ≥ 1)`);
+  }
   const atlas = isPlainObject(def.atlas) ? def.atlas : {};
   if (typeof atlas.raiz !== "string" || !atlas.raiz.trim()) problems.push("atlas.raiz: obrigatório");
 
@@ -267,7 +275,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     id: worldId,
     nome: def.nome,
     fonte,
-    moeda: { simbolo: moeda.simbolo, nome: moeda.nome },
+    moeda: { simbolo: moeda.simbolo, nome: moeda.nome, fator },
     atlas: { raiz: atlas.raiz, mapa: atlas.mapa ?? null },
     pericias,
     reskin: { notas, notasFuturas, termos, excecoes, descricoes },

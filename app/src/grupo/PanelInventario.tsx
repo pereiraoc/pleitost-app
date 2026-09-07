@@ -31,6 +31,7 @@ import { sectionTitleStyle } from './panel-ui'
 import { itemValorPO, pullItemToFm, normalizeGroupItem } from './inventario-item'
 import type { GroupInventoryItem } from '../data/session-repo/contract'
 import type { VaultDoc } from '../data/types'
+import { deMoeda, formatMoeda, moedaSimbolo } from '../data/moeda'
 
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas/'
 const IMBUICOES_ARMA_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/'
@@ -344,7 +345,8 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       return { kind: 'tesouro', docId: impSel, nome: e?.nome ?? '', tier: impTier || 'A', ...base }
     }
     if (tipo === 'ouro') {
-      const q = Math.max(0, Math.floor(Number(ouroQtd) || 0))
+      // digitado na moeda do mundo → PO inteiro (POA: múltiplos de Cz$ 1.000)
+      const q = Math.max(0, deMoeda(Math.floor(Number(ouroQtd) || 0)))
       if (q <= 0) return null
       return { kind: 'ouro', qtd: q, ...base }
     }
@@ -635,7 +637,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             aria-label="Quantidade de ouro"
             type="number"
             min={1}
-            placeholder="Quantidade (PO)"
+            placeholder={`Quantidade (${moedaSimbolo()})`}
             value={ouroQtd}
             onChange={(e) => setOuroQtd(e.target.value)}
             style={selStyle}
@@ -663,7 +665,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
         {tipo ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             <span style={mono({ fontSize: 12, color: 'var(--muted)' })}>
-              Valor: <b style={{ color: 'var(--accent)' }}>{valorAtual}</b> PO
+              Valor: <b style={{ color: 'var(--accent)' }}>{formatMoeda(valorAtual)}</b>
             </span>
             <span style={{ flex: 1 }} />
             <button
@@ -782,7 +784,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                   ) : null}
                 </span>
                 <span style={mono({ fontSize: 9.5, color: 'var(--muted)', flex: 'none', textAlign: 'right', whiteSpace: 'nowrap' })}>
-                  {vDisplay ? `${vDisplay} PO` : ''}
+                  {vDisplay ? formatMoeda(vDisplay) : ''}
                   {paraChar ? <span style={{ color: 'var(--accent)' }}> · ⏳ pendente → {nomePorChar.get(paraChar) ?? '—'}</span> : null}
                 </span>
                 {/* JOGADOR: puxa pra própria ficha (só itens LIVRES, não endereçados). */}
@@ -942,5 +944,5 @@ function PreviewChip({
 /** Nome exibível de um item do pool (ouro = "N PO"). */
 function itemNome(it: GroupInventoryItem): string {
   const n = normalizeGroupItem(it)
-  return n.kind === 'ouro' ? `${n.qtd} PO` : (n as { nome?: string }).nome ?? '—'
+  return n.kind === 'ouro' ? formatMoeda(n.qtd) : (n as { nome?: string }).nome ?? '—'
 }

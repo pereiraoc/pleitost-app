@@ -8,7 +8,8 @@
 // DADOS vêm do inventário real (itemize* em wealth.ts — a MESMA precificação
 // dos totais, sem drift soma↔detalhe).
 import { emojis } from '../generated/tokens'
-import { fmtPlain, fmtSigned } from './stats'
+import { fmtPlain } from './stats'
+import { moedaNumero, moedaSimbolo } from '../data/moeda'
 import type { GtipEntry } from './gtips'
 import type { WealthLine } from './wealth'
 
@@ -40,7 +41,7 @@ function tipLine(label: string, value: string): string {
   return (
     `<div style="${LINE_GRID}line-height:1.35;"><span style="min-width:0;">${esc(label)}</span>` +
     `<strong style="justify-self:end;">${esc(value)}</strong>` +
-    `<span style="opacity:.75;white-space:nowrap;">PO</span></div>`
+    `<span style="opacity:.75;white-space:nowrap;">${esc(moedaSimbolo())}</span></div>`
   )
 }
 
@@ -50,7 +51,7 @@ function tipSum(value: string): string {
     `<div style="${LINE_GRID}margin-top:4px;border-top:1px solid var(--line);padding-top:4px;` +
     `font-weight:800;line-height:1.35;"><span>Σ</span>` +
     `<strong style="justify-self:end;">${esc(value)}</strong>` +
-    `<span style="opacity:.75;white-space:nowrap;">PO</span></div>`
+    `<span style="opacity:.75;white-space:nowrap;">${esc(moedaSimbolo())}</span></div>`
   )
 }
 
@@ -66,14 +67,14 @@ function tipWrap(gap: number, head: string, body: string): string {
 
 /** Célula CNS do membro: linhas na ordem do FM (como no design) + Σ. */
 export function riqTipConsumiveis(lines: WealthLine[]): GtipEntry {
-  const body = lines.map((l) => tipLine(l.label, fmtPlain(l.value))).join('')
+  const body = lines.map((l) => tipLine(l.label, moedaNumero(l.value))).join('')
   const sum = lines.reduce((s, l) => s + l.value, 0)
-  return { h: tipWrap(5, `${EM_CONSUMIVEL} Consumíveis`, body + tipSum(fmtPlain(sum))), w: W }
+  return { h: tipWrap(5, `${EM_CONSUMIVEL} Consumíveis`, body + tipSum(moedaNumero(sum))), w: W }
 }
 
 /** Célula ORO do membro. */
 export function riqTipOuro(ouro: number): GtipEntry {
-  return { h: tipWrap(5, `${EM_OURO} Ouro`, tipLine('Ouro no inventário', fmtPlain(ouro))), w: W }
+  return { h: tipWrap(5, `${EM_OURO} Ouro`, tipLine('Ouro no inventário', moedaNumero(ouro))), w: W }
 }
 
 /** Origens das linhas da célula TSR (mesma partição do pricing). */
@@ -93,20 +94,20 @@ export function riqTipTesouros(t: TesouroLines): GtipEntry {
     ...t.tesouros.map((l) => ({ ...l, label: `${EM_TESOURO} ${l.label}` })),
   ]
   all.sort((a, b) => b.value - a.value)
-  const body = all.map((l) => tipLine(l.label, fmtPlain(l.value))).join('')
+  const body = all.map((l) => tipLine(l.label, moedaNumero(l.value))).join('')
   const sum = all.reduce((s, l) => s + l.value, 0)
   const note =
     '<div style="font-size:0.88em;color:var(--muted);margin-top:6px;border-top:1px solid var(--line);' +
     'padding-top:6px;line-height:1.35;">Tesouros do inventário, armadura, escudo e armas ' +
     '(sem ouro nem consumíveis).</div>'
-  return { h: tipWrap(5, `${EM_TESOURO} Tesouros`, body + tipSum(fmtPlain(sum)) + note), w: W }
+  return { h: tipWrap(5, `${EM_TESOURO} Tesouros`, body + tipSum(moedaNumero(sum)) + note), w: W }
 }
 
 /** Célula Δ do membro: esperado pelo nível DELE + diferença. */
 export function riqTipDelta(nivel: number, expected: number, delta: number): GtipEntry {
   const body =
-    tipLine(`📌 Esperado (economia · nível ${fmtPlain(nivel)})`, fmtPlain(expected)) +
-    tipLine('➡️ Diferença (vs esperado)', fmtSigned(delta))
+    tipLine(`📌 Esperado (economia · nível ${fmtPlain(nivel)})`, moedaNumero(expected)) +
+    tipLine('➡️ Diferença (vs esperado)', `${delta >= 0 ? '+' : ''}${moedaNumero(delta)}`)
   return { h: tipWrap(6, '📊 Δ de riqueza', body), w: W }
 }
 
@@ -126,9 +127,9 @@ function riqTipPorIntegrante(titulo: string, rows: WealthLine[]): GtipEntry {
   const sorted = [...rows].sort(
     (a, b) => b.value - a.value || a.label.localeCompare(b.label, 'pt'),
   )
-  const body = sorted.map((r) => tipLine(r.label, fmtPlain(r.value))).join('')
+  const body = sorted.map((r) => tipLine(r.label, moedaNumero(r.value))).join('')
   const sum = rows.reduce((s, r) => s + r.value, 0)
-  return { h: tipWrap(5, esc(titulo), body + tipSum(fmtPlain(sum))), w: W }
+  return { h: tipWrap(5, esc(titulo), body + tipSum(moedaNumero(sum))), w: W }
 }
 
 // Títulos verbatim do design (riq:r5c2/c3/c4).

@@ -201,3 +201,10 @@ test("matriz.preco: multiplicador por linha (número, '0,7', '×1,5', '70%'); au
   assert.equal(m["Capital"].preco, 1.5);
   assert.equal(m["Iluminada"].preco, 1.2);
 });
+
+test("moeda.fator: inteiro ≥ 1 vira fator; ausente = 1; inválido quebra", () => {
+  const base = (moeda) => ({ relPath: "Ctx/M.md", contexto: { id: "m", nome: "M", moeda, atlas: { raiz: "Atlas" } } });
+  assert.equal(compileContexto({ worldId: "m", defs: [base({ simbolo: "Cz$", nome: "Cruzado", fator: 1000 })], basenames: new Set(), typeByBasename: new Map() }).moeda.fator, 1000);
+  assert.equal(compileContexto({ worldId: "m", defs: [base({ simbolo: "PO", nome: "Ouro" })], basenames: new Set(), typeByBasename: new Map() }).moeda.fator, 1);
+  assert.throws(() => compileContexto({ worldId: "m", defs: [base({ simbolo: "$", nome: "d", fator: 0.5 })], basenames: new Set(), typeByBasename: new Map() }), /moeda\.fator/);
+});

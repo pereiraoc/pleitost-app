@@ -38,7 +38,8 @@ import {
   riqTipTesouros,
 } from './riq-tips'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
-import { fmtPlain, nivelOf } from './stats'
+import { nivelOf } from './stats'
+import { formatMoeda } from '../data/moeda'
 import {
   DELTA_COLORS,
   deltaKind,
@@ -126,7 +127,7 @@ export function PanelRiqueza({
     return res.kind === 'doc' && isArtefatoId(res.id)
   }
 
-  const deltaStr = (delta: number) => `${delta >= 0 ? '+' : ''}${Math.round(delta)} PO`
+  const deltaStr = (delta: number) => `${delta >= 0 ? '+' : ''}${formatMoeda(delta)}`
 
   // Lista original na ordem do plugin (delta desc — a ordem de G.riqRows).
   // #236: as linhas vêm de wealthMemberRows — o Companheiro Animal sai da
@@ -147,9 +148,9 @@ export function PanelRiqueza({
     nome: r.name,
     cells: [
       String(r.nivel),
-      `${Math.round(r.parts.consumiveis)} PO`,
-      `${Math.round(r.parts.ouro)} PO`,
-      `${Math.round(r.parts.itensSemConsumiveis)} PO`,
+      formatMoeda(r.parts.consumiveis),
+      formatMoeda(r.parts.ouro),
+      formatMoeda(r.parts.itensSemConsumiveis),
       deltaStr(r.delta),
     ],
     grupo: false,
@@ -179,9 +180,9 @@ export function PanelRiqueza({
       nome: 'Grupo',
       cells: [
         String(maxNivel),
-        `${Math.round(computed.reduce((a, r) => a + r.parts.consumiveis, 0))} PO`,
-        `${Math.round(computed.reduce((a, r) => a + r.parts.ouro, 0))} PO`,
-        `${Math.round(computed.reduce((a, r) => a + r.parts.itensSemConsumiveis, 0))} PO`,
+        formatMoeda(computed.reduce((a, r) => a + r.parts.consumiveis, 0)),
+        formatMoeda(computed.reduce((a, r) => a + r.parts.ouro, 0)),
+        formatMoeda(computed.reduce((a, r) => a + r.parts.itensSemConsumiveis, 0)),
         deltaStr(computed.reduce((a, r) => a + r.delta, 0)),
       ],
       grupo: true,
@@ -285,7 +286,7 @@ export function PanelRiqueza({
         </span>
         <span style={{ flex: 1 }} />
         <span style={{ fontSize: 20, fontWeight: 800, color: 'var(--accent)' }}>
-          {ready ? `${fmtPlain(sumTotal)} PO` : '—'}
+          {ready ? formatMoeda(sumTotal) : '—'}
         </span>
       </div>
     </div>

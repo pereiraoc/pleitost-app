@@ -50,7 +50,7 @@ export function renderContextoDoc(contexto, typeByBasename) {
   const ident = [];
   if (c.id) ident.push(["id", `\`${c.id}\``]);
   if (c.nome) ident.push(["nome", c.nome]);
-  if (c.moeda) ident.push(["moeda", `${c.moeda.simbolo} (${c.moeda.nome})`]);
+  if (c.moeda) ident.push(["moeda", `${c.moeda.simbolo} (${c.moeda.nome})${c.moeda.fator && Number(c.moeda.fator) !== 1 ? ` — ×${c.moeda.fator} sobre PO` : ""}`]);
   if (c.atlas) ident.push(["atlas", `raiz \`${c.atlas.raiz}\`${c.atlas.mapa ? ` · mapa \`${c.atlas.mapa}\`` : ""}`]);
   out.push(...tabela("Identidade", ident, ["Campo", "Valor"]));
 

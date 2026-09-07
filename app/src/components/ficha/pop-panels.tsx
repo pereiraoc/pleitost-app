@@ -15,6 +15,7 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
 import { clip } from './bits'
 import { tokens } from './registry'
+import { moedaNumero } from '../../data/moeda'
 import { fmPath, interativa, num } from './hero-model'
 
 /* ===================== vida ===================== */
@@ -308,7 +309,7 @@ export function CoinsDropdown({
               clipPath: 'polygon(0 0,100% 0,100% 100%,5px 100%,0 calc(100% - 5px))',
             }}
           >
-            {coins}
+            {moedaNumero(coins)}
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 6, marginBottom: 7 }}>
@@ -328,7 +329,7 @@ export function CoinsDropdown({
                 clipPath: 'polygon(0 0,100% 0,100% 100%,4px 100%,0 calc(100% - 4px))',
               }}
             >
-              +{n}
+              +{moedaNumero(n)}
             </button>
           ))}
         </div>
@@ -349,7 +350,7 @@ export function CoinsDropdown({
                 clipPath: 'polygon(0 0,100% 0,100% 100%,4px 100%,0 calc(100% - 4px))',
               }}
             >
-              -{n}
+              -{moedaNumero(n)}
             </button>
           ))}
         </div>

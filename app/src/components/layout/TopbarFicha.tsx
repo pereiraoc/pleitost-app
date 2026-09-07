@@ -20,6 +20,7 @@ import { localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entit
 import { fichaFamiliaOf, type FichaFamilia } from '../../data/familia'
 import { useHeroModel } from '../../data/useHeroModel'
 import { useHeroRules } from '../../rules/useHeroRules'
+import { moedaNumero } from '../../data/moeda'
 import { heroPath } from '../../paths'
 import { tierFromLevel } from '../../grupo/party'
 import { useViewportWidth } from '../../viewport'
@@ -177,7 +178,7 @@ function CoinsChip({ doc }: { doc: VaultDoc }) {
         style={{ ...chipStyle, border: 'none', cursor: 'pointer' }}
       >
         <span style={{ fontSize: 13 }}>{tokens.emojis.inv.Moeda}</span>
-        <span>{coins}</span>
+        <span>{moedaNumero(coins)}</span>
       </button>
       {open ? <CoinsDropdown coins={coins} onChange={setCoins} onClose={() => setOpen(false)} /> : null}
     </span>
