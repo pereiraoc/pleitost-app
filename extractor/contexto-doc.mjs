@@ -52,7 +52,10 @@ export function renderContextoDoc(contexto, typeByBasename) {
   if (c.nome) ident.push(["nome", c.nome]);
   if (c.moeda) ident.push(["moeda", `${c.moeda.simbolo} (${c.moeda.nome})${c.moeda.fator && Number(c.moeda.fator) !== 1 ? ` — ×${c.moeda.fator} sobre PO` : ""}`]);
   if (c.atlas) ident.push(["atlas", `raiz \`${c.atlas.raiz}\`${c.atlas.mapa ? ` · mapa \`${c.atlas.mapa}\`` : ""}`]);
-  if (c.recursos) ident.push(["recursos", `raiz \`${c.recursos.raiz}\` · abas ${(c.recursos.abas ?? []).map((a) => (typeof a === "string" ? a : `${a.nome} (${a.papel})`)).join(" · ")} · níveis ${(c.recursos.niveis ?? []).map((n, i) => `${i + 1} ${n}`).join(" · ") || "—"} · tipos passagem \`${c.recursos.tipos?.passagem ?? "—"}\` estilo \`${c.recursos.tipos?.estilo ?? "—"}\` · preço em ${c.recursos.preco_em ?? c.recursos.precoEm ?? "moeda"}`]);
+  if (c.recursos) ident.push(["recursos", `raiz \`${c.recursos.raiz}\` · abas ${(c.recursos.abas ?? []).map((a) => (typeof a === "string" ? a : `${a.nome} (${a.papel})`)).join(" · ")} · níveis ${(c.recursos.niveis ?? []).map((n, i) => `${i + 1} ${n}`).join(" · ") || "—"} · tipos passagem \`${c.recursos.tipos?.passagem ?? "—"}\` estilo \`${c.recursos.tipos?.estilo ?? "—"}\` recarga \`${c.recursos.tipos?.recarga ?? "—"}\` · ofertas FM \`${c.recursos.ofertas?.campo ?? "—"}\` aba \`${c.recursos.ofertas?.aba ?? "—"}\` · preço em ${c.recursos.preco_em ?? c.recursos.precoEm ?? "moeda"}`]);
+  if (c.recursos?.disponibilidade) {
+    out.push(...tabela("Recursos: disponibilidade das ofertas por linha da régua", Object.entries(c.recursos.disponibilidade).map(([k, v]) => [k, `níveis ${(v.niveis ?? []).join("–")} · quantidade ×${v.quantidade ?? 1}`]), ["Linha", "Regra"]));
+  }
   out.push(...tabela("Identidade", ident, ["Campo", "Valor"]));
 
   // Perícias com display próprio

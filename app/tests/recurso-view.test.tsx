@@ -55,7 +55,7 @@ describe('RecursoView (Gurgel Carajás real)', () => {
     expect(screen.getByText('PREÇO')).toBeTruthy()
     expect(screen.getByText('Cz$ 400.000 · única')).toBeTruthy()
     expect(screen.getByText('Cz$ 150.000')).toBeTruthy() // Usado
-    expect(screen.getByText('Cz$ 3.000 por mês')).toBeTruthy() // Manutenção
+    expect(screen.getByText('NÍVEL')).toBeTruthy() // classe da nota (v2: manutenção vive no estilo de vida)
     expect(screen.getByText('// ESPECIFICAÇÃO')).toBeTruthy()
     expect(screen.getByText('MODELO')).toBeTruthy()
     expect(screen.getByText(/carroceria de fibra Plasteel/)).toBeTruthy()

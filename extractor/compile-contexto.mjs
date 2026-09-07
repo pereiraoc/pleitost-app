@@ -119,16 +119,38 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       }
     }
     const tiposIn = isPlainObject(r.tipos) ? r.tipos : {};
-    const tipos = { passagem: tiposIn.passagem, estilo: tiposIn.estilo };
-    for (const k of ["passagem", "estilo"]) {
+    const tipos = { passagem: tiposIn.passagem, estilo: tiposIn.estilo, recarga: tiposIn.recarga };
+    for (const k of ["passagem", "estilo", "recarga"]) {
       if (typeof tipos[k] !== "string" || !tipos[k].trim()) problems.push(`recursos.tipos.${k}: obrigatório (nome do Tipo nas notas)`);
+    }
+    // ONDE se compra (2026-09-07b): campo FM das Localizações com as ofertas
+    // + rótulo da aba no local. Obrigatório — sem isso a ficha não tem de
+    // onde comprar.
+    const ofIn = isPlainObject(r.ofertas) ? r.ofertas : {};
+    const ofertas = { campo: ofIn.campo, aba: ofIn.aba };
+    for (const k of ["campo", "aba"]) {
+      if (typeof ofertas[k] !== "string" || !ofertas[k].trim()) problems.push(`recursos.ofertas.${k}: obrigatório`);
+    }
+    // Disponibilidade por linha da régua (opcional): {niveis: [min, max], quantidade}.
+    const disponibilidade = {};
+    if (r.disponibilidade !== undefined && r.disponibilidade !== null) {
+      if (!isPlainObject(r.disponibilidade)) problems.push("recursos.disponibilidade: mapa linha → {niveis, quantidade}");
+      else {
+        for (const [linha, v] of Object.entries(r.disponibilidade)) {
+          const niv = Array.isArray(v?.niveis) ? v.niveis.map(Number) : [];
+          const q = Number(v?.quantidade ?? 1);
+          if (niv.length !== 2 || !niv.every((n) => Number.isInteger(n) && n >= 1) || niv[0] > niv[1]) problems.push(`recursos.disponibilidade.${linha}.niveis: esperado [min, max] inteiros`);
+          if (!(q > 0)) problems.push(`recursos.disponibilidade.${linha}.quantidade: esperado > 0`);
+          disponibilidade[linha] = { niveis: [niv[0] ?? 1, niv[1] ?? 6], quantidade: q > 0 ? q : 1 };
+        }
+      }
     }
     const precoEm = r.preco_em ?? "moeda";
     if (precoEm !== "moeda" && precoEm !== "po") problems.push(`recursos.preco_em: "${precoEm}" (esperado moeda|po)`);
     const temRecurso = [...typeByBasename.values()].some((t) => t === "Recurso");
     if (!temRecurso) problems.push("recursos: nenhuma nota `categoria: Recurso` na vault");
     const niveis = asStringArray(r.niveis, "recursos.niveis", problems);
-    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos };
+    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade };
   }
 
   const pericias = asStringMap(def.pericias, "pericias", problems);

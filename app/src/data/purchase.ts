@@ -30,7 +30,7 @@ const ARMA_OBRA_PRIMA_BASE = wikiTarget(ARMA_OBRA_PRIMA)
 /** FM salvo corrente de um herói (local: FM da entidade; vault: extraído +
  *  overlay), a partir do doc extraído passado (vault) — para o local o doc é
  *  ignorado e vale o store. */
-function currentFm(heroId: string, vaultDoc: VaultDoc | undefined): Record<string, unknown> {
+export function currentFm(heroId: string, vaultDoc: VaultDoc | undefined): Record<string, unknown> {
   if (isLocalId(heroId)) {
     return (getLocalDoc(heroId)?.frontmatter ?? {}) as Record<string, unknown>
   }
@@ -38,7 +38,7 @@ function currentFm(heroId: string, vaultDoc: VaultDoc | undefined): Record<strin
   return applyFmEdits(base, getHeroEdits(heroId).fm)
 }
 
-function ouroDe(fm: Record<string, unknown>): number {
+export function ouroDe(fm: Record<string, unknown>): number {
   const inv = (fm['Inventario'] ?? {}) as Record<string, unknown>
   return Number(inv['Ouro']) || 0
 }
@@ -60,7 +60,7 @@ function consumiveisDe(fm: Record<string, unknown>): unknown[] {
 }
 
 /** Grava um path do FM do herói pela API de store correta (local vs vault). */
-function writeHero(
+export function writeHero(
   heroId: string,
   vaultDoc: VaultDoc | undefined,
   path: string,

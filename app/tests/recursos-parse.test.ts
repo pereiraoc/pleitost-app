@@ -75,7 +75,8 @@ describe('parseRecurso', () => {
     expect(r.tipo).toBe('Veículo')
     expect(r.preco).toBe(400000)
     expect(r.usado).toBe(150000)
-    expect(r.manutencao).toBe(3000)
+    expect(r.manutencao).toBeUndefined() // v2: manutenção vive no estilo de vida de transporte
+    expect(r.nivel).toBe(5)
     expect(r.onde).toContain("Passo D'Areia")
   })
 })

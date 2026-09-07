@@ -16,6 +16,7 @@ import { HexMapEditor } from './HexMapEditor'
 import { useWheelScrollX } from '../ficha/bits'
 import { DocRuleElements } from './RuleElements'
 import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren, type AtlasRelations } from './AtlasNav'
+import { ServicosTab } from './ServicosTab'
 import { compendioKicker } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
@@ -480,7 +481,7 @@ const HEROIS_FOLDER = 'Sistema/Criaturas/Heróis'
 
 /** Herói disponível pro seletor de compra: entry (vault/local) + doc carregado
  *  (para ler/escrever o Inventario). */
-interface HeroOption {
+export interface HeroOption {
   entry: IndexDocEntry
   doc: VaultDoc | undefined
 }
@@ -488,7 +489,7 @@ interface HeroOption {
 /** Carrega os heróis disponíveis (pasta de Heróis da vault + heróis locais)
  *  para o seletor de compra. Espelha o useFolderDocs das telas de criatura,
  *  reduzido ao que a loja precisa (id/nome/doc). */
-function useHeroOptions(): HeroOption[] {
+export function useHeroOptions(): HeroOption[] {
   const catalog = useCatalog()
   const version = useLocalStoreVersion()
   const node = catalog.folderByPath.get(HEROIS_FOLDER)
@@ -1057,7 +1058,7 @@ function HexploracaoTab({ doc }: { doc: VaultDoc }) {
 // ───────────────────────────── Abas ─────────────────────────────
 
 interface LocTab {
-  id: 'detalhes' | 'comercio' | 'locais-interesse' | 'hexploracao'
+  id: 'detalhes' | 'comercio' | 'servicos' | 'locais-interesse' | 'hexploracao'
   label: string
   /** Predicado de habilitação; ausente = sempre habilitada. */
   enabled?: (doc: VaultDoc) => boolean
@@ -1092,6 +1093,9 @@ const LOCAIS_INTERESSE_DISABLED_NOTE =
 const LOCATION_TABS: LocTab[] = [
   { id: 'detalhes', label: 'Detalhes' },
   { id: 'comercio', label: 'Comércio' },
+  // SERVIÇOS (2026-09-07b): vitrine dos estabelecimentos (recursos do mundo);
+  // rótulo vem do contexto (`recursos.ofertas.aba`); só existe em mundo com recursos.
+  { id: 'servicos', label: 'Serviços' },
   { id: 'locais-interesse', label: 'Locais de Interesse', enabled: hasLocaisInteresse },
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
@@ -1119,7 +1123,10 @@ export function LocationSheet({
   )
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
-  const tabs = sidebar ? LOCATION_TABS.filter((t) => t.id !== 'hexploracao') : LOCATION_TABS
+  const recursosCfg = activeContextoDef()?.recursos
+  const tabs = LOCATION_TABS.filter((t) => (sidebar ? t.id !== 'hexploracao' : true) && (t.id !== 'servicos' || !!recursosCfg)).map((t) =>
+    t.id === 'servicos' && recursosCfg ? { ...t, label: recursosCfg.ofertas.aba } : t,
+  )
   // Report 2026-08-29 (Porto Alegre): se a imagem-hero é a MESMA do bloco
   // leaflet, ela some — o MapaLocal logo abaixo já a mostra (com os pins);
   // duas cópias da mesma imagem só empurravam o conteúdo. Retrato próprio
@@ -1159,7 +1166,7 @@ export function LocationSheet({
           // F7 (#347): Comércio gateado pela PARADA ATUAL do grupo — só a
           // posição libera a compra; mestre sempre pode. Informação do
           // compêndio segue aberta (só a AÇÃO é gateada).
-          const gateComercio = t.id === 'comercio' && !podeComerciarAqui
+          const gateComercio = (t.id === 'comercio' || t.id === 'servicos') && !podeComerciarAqui
           const enabled = (t.enabled ? t.enabled(doc) : true) && !gateComercio
           const on = t.id === tab
           return (
@@ -1202,6 +1209,7 @@ export function LocationSheet({
       <div style={{ marginTop: 4 }}>
         {tab === 'detalhes' ? <DetalhesTab doc={doc} rel={rel} /> : null}
         {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
+        {tab === 'servicos' ? <ServicosTab doc={doc} /> : null}
         {tab === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}
         {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>

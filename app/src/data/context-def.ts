@@ -66,8 +66,15 @@ export interface ContextoDef {
     precoEm: 'moeda' | 'po'
     /** Nome de cada nível de estilo de vida (índice 0 = Nível 1). */
     niveis: string[]
-    /** Tipos (FM `Tipo`) com semântica própria: passagem = TRI; estilo = pacote mensal. */
-    tipos: { passagem: string; estilo: string }
+    /** Tipos (FM `Tipo`) com semântica própria: passagem = paga no TRI;
+     *  estilo = pacote mensal de um eixo; recarga = crédito no TRI. */
+    tipos: { passagem: string; estilo: string; recarga: string }
+    /** ONDE se compra: campo FM das Localizações com as ofertas (wikilinks,
+     *  sufixo `usado`) e rótulo da aba do local. */
+    ofertas: { campo: string; aba: string }
+    /** Disponibilidade das ofertas por linha da régua (chave canônica):
+     *  faixa de níveis atendida de cara + fator de quantidade. */
+    disponibilidade: Record<string, { niveis: [number, number]; quantidade: number }>
   }
   /** Garantias e limites do Contexto Base. */
   base: {

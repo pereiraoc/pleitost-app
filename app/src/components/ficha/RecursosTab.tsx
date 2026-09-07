@@ -1,49 +1,40 @@
-// Aba RECURSOS da ficha (2026-09-07) — transporte, moradia e alimentação do
-// mundo, "o que você tem" e "o que tem pra comprar", na linguagem visual das
-// outras abas (TabStrip, painéis cortados, rótulos mono). Não há tela no
-// design pra isto; a composição é própria e os DADOS vêm inteiros da vault:
-// notas `categoria: Recurso` (via catálogo + useDocs) e a config do mundo
-// (contexto.json `recursos`: abas/papéis, tipos, nomes dos níveis). O estado
-// do herói vive no FM salvo (`Recursos_do_Mundo`) e o ouro em Inventario.Ouro;
-// toda regra de dinheiro está em src/recursos/hero-recursos.ts (puro).
+// Aba RECURSOS da ficha (2026-09-07b) — em cima o CUSTO DE VIDA: três eixos
+// (transporte, moradia, alimentação) escolhidos entre os estilos do mundo
+// (notas `Tipo = cfg.tipos.estilo`, uma por classe), com o total do mês bem
+// claro; embaixo, por aba, SÓ o que o herói tem (TRI, veículos, moradia,
+// estoque). Comprar é nos estabelecimentos (aba Serviços dos locais).
+// Linguagem visual das outras abas (TabStrip, painéis cortados, rótulos
+// mono); dados inteiros da vault; regra de dinheiro em src/recursos.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
-import { activeContextoDef, reskinName } from '../../data/reskin'
+import { activeContextoDef } from '../../data/reskin'
 import { formatValorMoeda, moedaFator, moedaNumero } from '../../data/moeda'
-import { localTypeOfDoc, matrizDoContexto, type LocalType } from '../../data/commerce'
 import { DetailLink } from '../DetailLink'
-import { InlineFieldValue } from '../compendium/InlineFieldValue'
 import { clip, TabStrip } from './bits'
 import { fmPath, num } from './hero-model'
 import { parseRecurso } from '../../recursos/parse-recurso'
-import type { Recurso, RecursosCfg } from '../../recursos/types'
+import type { Papel, Recurso, RecursosCfg } from '../../recursos/types'
 import {
   OURO_FM,
+  PAPEIS,
   RECURSOS_FM,
+  abaDoPapel,
   acaoDe,
-  alugarMoradia,
-  assinarPasse,
-  comprarImovel,
-  comprarVeiculo,
-  custoEmOuro,
+  consumirItem,
   custoMensal,
-  escolherAlimentacao,
+  escolherEstilo,
   fecharMes,
-  hospedar,
+  isEstilo,
   morarNoProprio,
-  nivelDoHeroi,
   nomeNivel,
-  pagarAvista,
   papelDaAba,
-  precoNaRegua,
-  recarregarTri,
   recursosDoFm,
   sairDaMoradia,
   usarPassagem,
-  venderVeiculo,
+  venderItem,
   type RecursosDoHeroi,
   type Resultado,
 } from '../../recursos/hero-recursos'
@@ -51,12 +42,7 @@ import {
 /* ───────────────────────── estilos ───────────────────────── */
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
-const BOX: CSSProperties = {
-  padding: '12px 16px',
-  background: 'var(--panel)',
-  border: '1px solid var(--line2)',
-  clipPath: clip(12),
-}
+const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
 
 function SectionHead({ label }: { label: string }) {
   return (
@@ -67,19 +53,7 @@ function SectionHead({ label }: { label: string }) {
   )
 }
 
-function Botao({
-  children,
-  onClick,
-  disabled,
-  title,
-  tom = 'accent',
-}: {
-  children: ReactNode
-  onClick: () => void
-  disabled?: boolean
-  title?: string
-  tom?: 'accent' | 'muted'
-}) {
+function Botao({ children, onClick, disabled, title, tom = 'accent', ativo }: { children: ReactNode; onClick: () => void; disabled?: boolean; title?: string; tom?: 'accent' | 'muted'; ativo?: boolean }) {
   const cor = tom === 'accent' ? 'var(--accent)' : 'var(--muted)'
   return (
     <button
@@ -87,6 +61,7 @@ function Botao({
       onClick={onClick}
       disabled={disabled}
       title={title}
+      aria-pressed={ativo}
       style={{
         fontFamily: 'var(--mono)',
         fontSize: 10.5,
@@ -94,9 +69,9 @@ function Botao({
         textTransform: 'uppercase',
         padding: '5px 9px',
         whiteSpace: 'nowrap',
-        background: disabled ? 'transparent' : `color-mix(in srgb,${cor} 14%,transparent)`,
-        border: `1px solid ${disabled ? 'var(--line2)' : `color-mix(in srgb,${cor} 45%,transparent)`}`,
-        color: disabled ? 'var(--muted)' : cor,
+        background: ativo ? `color-mix(in srgb,${cor} 28%,transparent)` : disabled ? 'transparent' : `color-mix(in srgb,${cor} 10%,transparent)`,
+        border: `1px solid ${ativo ? cor : disabled ? 'var(--line2)' : `color-mix(in srgb,${cor} 45%,transparent)`}`,
+        color: disabled ? 'var(--muted)' : ativo ? 'var(--text)' : cor,
         clipPath: clip(5),
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.55 : 1,
@@ -106,70 +81,36 @@ function Botao({
     </button>
   )
 }
-
 function Chip({ children }: { children: ReactNode }) {
-  return (
-    <span
-      style={{
-        ...MONO,
-        fontSize: 10,
-        padding: '2px 6px',
-        border: '1px solid var(--line2)',
-        color: 'var(--muted)',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {children}
-    </span>
-  )
+  return <span style={{ ...MONO, fontSize: 10, padding: '2px 6px', border: '1px solid var(--line2)', whiteSpace: 'nowrap' }}>{children}</span>
 }
-
 function Vazio({ children }: { children: ReactNode }) {
-  return (
-    <div style={{ ...MONO, padding: '10px 0', color: 'var(--muted)' }}>{children}</div>
-  )
+  return <div style={{ ...MONO, padding: '10px 0' }}>{children}</div>
 }
 
 /* ───────────────────────── dados ───────────────────────── */
 
-/** Régua do bairro: opções = bairros do catálogo com FM Comércio. */
-interface OpcaoBairro {
-  id: string
-  nome: string
-  linha: LocalType
-}
-
 function useRecursosDoMundo(cfg: RecursosCfg) {
   const catalog = useCatalog()
   const entradas = catalog.docsByType.get('Recurso') ?? []
-  const bairros = (catalog.docsByType.get('Localização') ?? []).filter((d) => d.subtype === 'Bairro')
-  const ids = useMemo(() => [...entradas.map((e) => e.id), ...bairros.map((b) => b.id)], [entradas, bairros])
+  const ids = useMemo(() => entradas.map((e) => e.id), [entradas])
   const docs = useDocs(ids)
   return useMemo(() => {
     const recursos: Recurso[] = []
-    const opcoes: OpcaoBairro[] = []
-    if (!docs) return { carregando: true, recursos, opcoes, porNome: new Map<string, Recurso>() }
+    if (!docs) return { carregando: true, recursos, porNome: new Map<string, Recurso>() }
     for (const e of entradas) {
       const d = docs.get(e.id)
       const r = d ? parseRecurso(d) : null
       if (r && cfg.abas.some((a) => a.nome === r.aba)) recursos.push(r)
     }
-    for (const b of bairros) {
-      const d = docs.get(b.id)
-      const linha = d ? localTypeOfDoc(d) : null
-      if (linha) opcoes.push({ id: b.id, nome: d!.basename, linha })
-    }
-    opcoes.sort((a, b) => a.nome.localeCompare(b.nome, 'pt'))
-    const porNome = new Map(recursos.map((r) => [r.nome, r]))
-    return { carregando: false, recursos, opcoes, porNome }
-  }, [docs, entradas, bairros, cfg])
+    return { carregando: false, recursos, porNome: new Map(recursos.map((r) => [r.nome, r])) }
+  }, [docs, entradas, cfg])
 }
 
 /* ───────────────────────── aba ───────────────────────── */
 
 export function RecursosTab({ doc }: { doc: VaultDoc }) {
-  const def = activeContextoDef()
-  const cfg = def?.recursos
+  const cfg = activeContextoDef()?.recursos
   if (!cfg) {
     return (
       <div style={{ ...BOX, textAlign: 'center', padding: 44, border: '1px dashed var(--line2)' }}>
@@ -180,26 +121,20 @@ export function RecursosTab({ doc }: { doc: VaultDoc }) {
   return <RecursosCorpo doc={doc} cfg={cfg} />
 }
 
+type Aplicar = (res: Resultado | null, msg: string, falha?: string) => void
+
 function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const model = useHeroModel(doc, 'recursos')
   const fm = model.fm
   const ouro = num(fmPath(fm, 'Inventario', 'Ouro'))
   const estado = useMemo(() => recursosDoFm(fm), [fm])
   const fator = moedaFator()
-  const { carregando, recursos, opcoes, porNome } = useRecursosDoMundo(cfg)
+  const { carregando, recursos, porNome } = useRecursosDoMundo(cfg)
   const [aba, setAba] = useState(cfg.abas[0]?.nome ?? '')
-  const [bairroId, setBairroId] = useState('')
   const [aviso, setAviso] = useState<string | null>(null)
+  const custo = useMemo(() => custoMensal(estado, porNome, fator, cfg), [estado, porNome, fator, cfg])
 
-  const matriz = useMemo(() => matrizDoContexto(activeContextoDef()), [])
-  const bairro = opcoes.find((o) => o.id === bairroId) ?? null
-  const mult = bairro ? (matriz?.precos[bairro.linha] ?? 1) : 1
-  const rotuloLinha = bairro ? (matriz?.rotulos[bairro.linha] ?? bairro.linha) : null
-
-  const custo = useMemo(() => custoMensal(estado, porNome, fator), [estado, porNome, fator])
-  const nivel = useMemo(() => nivelDoHeroi(estado, porNome), [estado, porNome])
-
-  const aplicar = (res: Resultado | null, msg: string, falha = 'Ouro insuficiente.') => {
+  const aplicar: Aplicar = (res, msg, falha = 'Ouro insuficiente.') => {
     if (!res) {
       setAviso(falha)
       return
@@ -209,240 +144,195 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     setAviso(msg)
   }
 
-  const daAba = recursos.filter((r) => r.aba === aba)
-  const papel = papelDaAba(cfg, aba)
-  const grupos = useMemo(() => {
-    const m = new Map<string, Recurso[]>()
-    for (const r of daAba) {
-      const g = m.get(r.tipo) ?? []
-      g.push(r)
-      m.set(r.tipo, g)
+  const estilosPorPapel = useMemo(() => {
+    const m = new Map<Papel, Recurso[]>()
+    for (const p of PAPEIS) m.set(p, [])
+    for (const r of recursos) {
+      if (!isEstilo(cfg, r)) continue
+      const p = papelDaAba(cfg, r.aba)
+      if (p) m.get(p)!.push(r)
     }
-    for (const g of m.values()) g.sort((a, b) => (a.nivel ?? 0) - (b.nivel ?? 0) || a.preco - b.preco || a.nome.localeCompare(b.nome, 'pt'))
-    return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0], 'pt'))
-  }, [daAba])
+    for (const l of m.values()) l.sort((a, b) => (a.nivel ?? 0) - (b.nivel ?? 0))
+    return m
+  }, [recursos, cfg])
+
+  const papelDaAbaAtual = papelDaAba(cfg, aba)
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <TabStrip tabs={cfg.abas.map((a) => ({ id: a.nome, label: a.nome.toUpperCase() }))} active={aba} onSelect={setAba} pad="10px 16px" />
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 300px', gap: 18, alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, minWidth: 0 }}>
-          <section>
-            <SectionHead label="// O QUE VOCÊ TEM" />
-            <div style={BOX}>
-              {papel === 'transporte' ? (
-                <TemTransporte estado={estado} porNome={porNome} ouro={ouro} fator={fator} aplicar={aplicar} />
-              ) : papel === 'moradia' ? (
-                <TemMoradia estado={estado} porNome={porNome} cfg={cfg} aplicar={aplicar} />
-              ) : papel === 'alimentacao' ? (
-                <TemAlimentacao estado={estado} porNome={porNome} cfg={cfg} aplicar={aplicar} />
-              ) : (
-                <Vazio>{'// ABA SEM PAPEL DECLARADO NO CONTEXTO'}</Vazio>
-              )}
-            </div>
-          </section>
-
-          <section>
-            <SectionHead label={`// PRA COMPRAR${rotuloLinha ? ` — ${rotuloLinha.toUpperCase()} ×${String(mult).replace('.', ',')}` : ''}`} />
-            {carregando ? (
-              <Vazio>{'// CARREGANDO RECURSOS…'}</Vazio>
-            ) : grupos.length === 0 ? (
-              <Vazio>{'// NENHUMA NOTA DE RECURSO NESTA ABA'}</Vazio>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {grupos.map(([tipo, lista]) => (
-                  <div key={tipo} style={BOX}>
-                    <div style={{ ...MONO, marginBottom: 6 }}>{tipo.toUpperCase()}</div>
+      <section>
+        <SectionHead label="// CUSTO DE VIDA" />
+        <div style={{ ...BOX, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {carregando ? <Vazio>{'// CARREGANDO ESTILOS…'}</Vazio> : null}
+          {PAPEIS.map((papel) => {
+            const eixo = custo.eixos.find((e) => e.papel === papel)!
+            const lista = estilosPorPapel.get(papel) ?? []
+            const nomeAba = abaDoPapel(cfg, papel) ?? papel
+            const especifica = papel === 'moradia' && estado.moradia
+            const escolhido = eixo.nome ? porNome.get(eixo.nome) : undefined
+            return (
+              <div key={papel} data-eixo={papel} style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingBottom: 10, borderBottom: '1px solid var(--line)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <span style={{ ...MONO, color: 'var(--text)', minWidth: 110 }}>{nomeAba.toUpperCase()}</span>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5, color: 'var(--accent)' }} data-eixo-valor={eixo.valor}>
+                    {formatValorMoeda(eixo.valor)} / mês
+                  </span>
+                  <Chip>
+                    classe {eixo.nivel} · {nomeNivel(cfg, eixo.nivel)}
+                  </Chip>
+                  {especifica ? (
+                    <>
+                      <Chip>
+                        {estado.moradia!.modo === 'propria' ? 'imóvel próprio' : estado.moradia!.modo === 'hotel' ? 'hotel · 30 noites' : 'aluguel'}
+                      </Chip>
+                      {escolhido ? <DetailLink id={escolhido.id}>{escolhido.nome}</DetailLink> : <span>{estado.moradia!.nome}</span>}
+                      <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — volta ao estilo escolhido.')}>
+                        Sair
+                      </Botao>
+                    </>
+                  ) : null}
+                </div>
+                {!especifica ? (
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     {lista.map((r) => (
-                      <LinhaRecurso
+                      <Botao
                         key={r.id}
-                        r={r}
-                        cfg={cfg}
-                        estado={estado}
-                        ouro={ouro}
-                        fator={fator}
-                        mult={mult}
-                        nivelAtual={nivel}
-                        aplicar={aplicar}
-                      />
+                        ativo={estado.estilos[papel] === r.nome}
+                        onClick={() => aplicar(escolherEstilo(estado, papel, estado.estilos[papel] === r.nome ? null : r), `${nomeAba}: ${nomeNivel(cfg, r.nivel ?? 1)}.`)}
+                        title={r.resumo}
+                      >
+                        {nomeNivel(cfg, r.nivel ?? 1)} · {moedaNumero(r.preco / fator) === '0' ? formatValorMoeda(r.preco) : formatValorMoeda(r.preco)}
+                      </Botao>
                     ))}
                   </div>
-                ))}
+                ) : null}
+                {escolhido && !especifica ? (
+                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                    <DetailLink id={escolhido.id}>{escolhido.nome}</DetailLink> — {escolhido.resumo.replace(/^Nível \d · [^:]+: /, '')}
+                  </span>
+                ) : !especifica ? (
+                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>sem estilo escolhido — vive de nada neste eixo (classe 1)</span>
+                ) : null}
               </div>
-            )}
-          </section>
-        </div>
-
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: 14, position: 'sticky', top: 12 }}>
-          <div style={BOX}>
-            <div style={{ ...MONO, marginBottom: 8 }}>{'// CUSTO DO MÊS'}</div>
-            <LinhaCusto label={cfg.abas.find((a) => a.papel === 'moradia')?.nome ?? 'Moradia'} valor={custo.moradia} />
-            <LinhaCusto label={cfg.abas.find((a) => a.papel === 'alimentacao')?.nome ?? 'Alimentação'} valor={custo.alimentacao} />
-            <LinhaCusto label={cfg.abas.find((a) => a.papel === 'transporte')?.nome ?? 'Transporte'} valor={custo.transporte} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--line)', marginTop: 6, paddingTop: 6 }}>
-              <span style={{ ...MONO, color: 'var(--text)' }}>TOTAL</span>
-              <b style={{ fontFamily: 'var(--mono)', fontSize: 13, color: 'var(--accent)' }} data-custo-mes={custo.total}>
-                {formatValorMoeda(custo.total)}
-              </b>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, gap: 8 }}>
-              <span style={MONO} title="O menor dos eixos (moradia × alimentação)">
-                NÍVEL {nivel.nivel} · {nomeNivel(cfg, nivel.nivel).toUpperCase()}
-              </span>
-              <Botao
-                onClick={() => aplicar(fecharMes(estado, porNome, ouro, fator), `Mês fechado: −${formatValorMoeda(custo.ouro * fator)}.`, 'Ouro insuficiente pra fechar o mês.')}
-                disabled={custo.total <= 0}
-                title={`Desconta ${custo.ouro} de ouro (arredondado pro milhar)`}
-              >
-                Fechar o mês −{moedaNumero(custo.ouro)}
-              </Botao>
-            </div>
-            <div style={{ ...MONO, fontSize: 10, marginTop: 8 }}>
-              OURO NA FICHA: <b style={{ color: 'var(--text)' }}>{formatValorMoeda(ouro * fator)}</b>
-            </div>
-          </div>
-
-          <div style={BOX}>
-            <div style={{ ...MONO, marginBottom: 8 }}>{'// ONDE VOCÊ ESTÁ'}</div>
-            <select
-              value={bairroId}
-              onChange={(e) => setBairroId(e.target.value)}
-              aria-label="Bairro onde está comprando"
-              style={{
-                width: '100%',
-                padding: '7px 8px',
-                background: 'var(--bg)',
-                border: '1px solid var(--line2)',
-                color: 'var(--text)',
-                fontFamily: 'var(--mono)',
-                fontSize: 12,
-              }}
+            )
+          })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <span style={{ ...MONO, color: 'var(--text)' }}>TOTAL DO MÊS</span>
+            <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
+              {formatValorMoeda(custo.total)}
+            </b>
+            <Chip>
+              classe {custo.classe} · {nomeNivel(cfg, custo.classe)}
+            </Chip>
+            <span style={{ flex: 1 }} />
+            <span style={{ ...MONO, fontSize: 10 }}>
+              OURO NA FICHA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(ouro * fator)}</b>
+            </span>
+            <Botao
+              onClick={() => aplicar(fecharMes(estado, porNome, cfg, ouro, fator), `Mês fechado: −${formatValorMoeda(custo.ouro * fator)}.`, 'Ouro insuficiente pra fechar o mês.')}
+              disabled={custo.total <= 0}
+              title={`Desconta ${custo.ouro} de ouro (arredondado pro milhar)`}
             >
-              <option value="">— preço da nota (×1) —</option>
-              {opcoes.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {reskinName(o.nome)} · {matriz?.rotulos[o.linha] ?? o.linha} ×{String(matriz?.precos[o.linha] ?? 1).replace('.', ',')}
-                </option>
-              ))}
-            </select>
-            <div style={{ ...MONO, fontSize: 10, marginTop: 8, lineHeight: 1.5 }}>
-              A régua do bairro vale pro que você compra agora. O mês fechado usa o preço da nota.
-            </div>
+              Fechar o mês −{moedaNumero(custo.ouro)}
+            </Botao>
           </div>
-
           {aviso ? (
-            <div style={{ ...BOX, ...MONO, color: 'var(--text)', fontSize: 11.5, lineHeight: 1.5 }} role="status">
+            <div role="status" style={{ ...MONO, color: 'var(--text)', fontSize: 11.5 }}>
               {aviso}
             </div>
           ) : null}
-        </aside>
-      </div>
-    </div>
-  )
-}
+        </div>
+      </section>
 
-function LinhaCusto({ label, valor }: { label: string; valor: number }) {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
-      <span style={MONO}>{label.toUpperCase()}</span>
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 12 }}>{formatValorMoeda(valor)}</span>
+      <section>
+        <SectionHead label="// O QUE VOCÊ TEM" />
+        <TabStrip tabs={cfg.abas.map((a) => ({ id: a.nome, label: a.nome.toUpperCase() }))} active={aba} onSelect={setAba} pad="10px 16px" />
+        <div style={{ ...BOX, marginTop: 12 }}>
+          {papelDaAbaAtual === 'transporte' ? (
+            <TemTransporte estado={estado} recursos={recursos} porNome={porNome} cfg={cfg} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} />
+          ) : papelDaAbaAtual === 'moradia' ? (
+            <TemMoradia estado={estado} porNome={porNome} cfg={cfg} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} />
+          ) : (
+            <TemItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} vazio="// nada comprado — o que se come no mês está no estilo de vida" />
+          )}
+        </div>
+        <div style={{ ...MONO, fontSize: 10, marginTop: 8, lineHeight: 1.5 }}>
+          Compra-se nos estabelecimentos: aba {cfg.ofertas.aba.toUpperCase()} de cada lugar do Atlas.
+        </div>
+      </section>
     </div>
   )
 }
 
 /* ───────────────────────── "o que você tem" ───────────────────────── */
 
-type Aplicar = (res: Resultado | null, msg: string, falha?: string) => void
-
-function TemTransporte({
-  estado,
-  porNome,
-  ouro,
-  fator,
-  aplicar,
-}: {
-  estado: RecursosDoHeroi
-  porNome: Map<string, Recurso>
-  ouro: number
-  fator: number
-  aplicar: Aplicar
-}) {
-  const passe = estado.passe ? porNome.get(estado.passe) : null
+function ListaItens({ estado, porNome, aba, ouro, fator, aplicar, acao }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; aba: string; ouro: number; fator: number; aplicar: Aplicar; acao: 'vender' | 'consumir' }) {
+  const itens = estado.itens.map((it, i) => ({ it, i })).filter(({ it }) => it.aba === aba)
+  if (!itens.length) return null
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div>
+      {itens.map(({ it, i }, k) => {
+        const r = porNome.get(it.nome)
+        return (
+          <div key={`${it.nome}:${i}`} data-item={it.nome} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', borderTop: k ? '1px solid var(--line)' : undefined, flexWrap: 'wrap' }}>
+            {r ? <DetailLink id={r.id}>{it.nome}</DetailLink> : <span>{it.nome}</span>}
+            {it.estado ? <Chip>{it.estado}</Chip> : null}
+            <Chip>×{it.qtd}</Chip>
+            {r?.cobranca === 'única' ? <Chip>pagou {formatValorMoeda(it.pago)}</Chip> : null}
+            <span style={{ flex: 1 }} />
+            {acao === 'vender' ? (
+              <Botao tom="muted" onClick={() => aplicar(venderItem(estado, i, ouro, fator), `${it.nome} vendido pela metade do que pagou.`)} title={`Devolve ${Math.floor(it.pago / 2 / fator)} de ouro`}>
+                Vender +{moedaNumero(Math.floor(it.pago / 2 / fator))}
+              </Botao>
+            ) : (
+              <Botao tom="muted" onClick={() => aplicar(consumirItem(estado, i), `${it.nome}: −1.`)}>
+                Consumir
+              </Botao>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function TemItens({ estado, porNome, aba, ouro, fator, aplicar, vazio }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; aba: string; ouro: number; fator: number; aplicar: Aplicar; vazio: string }) {
+  const tem = estado.itens.some((it) => it.aba === aba)
+  return tem ? <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="consumir" /> : <Vazio>{vazio}</Vazio>
+}
+
+function TemTransporte({ estado, recursos, porNome, cfg, aba, ouro, fator, aplicar }: { estado: RecursosDoHeroi; recursos: Recurso[]; porNome: Map<string, Recurso>; cfg: RecursosCfg; aba: string; ouro: number; fator: number; aplicar: Aplicar }) {
+  // o cartão TRI é do herói: as passagens do mundo se USAM daqui (o saldo se recarrega no guichê)
+  const passagens = recursos.filter((r) => r.aba === aba && acaoDe(cfg, r, fator) === 'tri').sort((a, b) => a.preco - b.preco)
+  const temItens = estado.itens.some((it) => it.aba === aba)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span style={MONO}>TRI</span>
+        <span style={MONO}>CARTÃO TRI</span>
         <b style={{ fontFamily: 'var(--mono)', fontSize: 14, color: 'var(--accent)' }} data-tri={estado.tri}>
           {formatValorMoeda(estado.tri)}
         </b>
-        <span style={{ flex: 1 }} />
-        {[1, 5].map((k) => (
-          <Botao
-            key={k}
-            onClick={() => aplicar(recarregarTri(estado, k * fator, ouro, fator), `TRI recarregado: +${formatValorMoeda(k * fator)}.`)}
-            disabled={ouro < k}
-            title={`Sai ${k} de ouro`}
-          >
-            +{moedaNumero(k)}
-          </Botao>
-        ))}
+        <span style={{ ...MONO, fontSize: 10 }}>recarrega no guichê</span>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span style={MONO}>PASSE</span>
-        {passe ? (
-          <>
-            <DetailLink id={passe.id}>{passe.nome}</DetailLink>
-            <Chip>{formatValorMoeda(passe.preco)} / {passe.cobranca}</Chip>
-            <span style={{ flex: 1 }} />
-            <Botao tom="muted" onClick={() => aplicar(assinarPasse(estado, null), 'Passe cancelado.')}>
-              Cancelar
+      {passagens.length ? (
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+          <span style={MONO}>USAR</span>
+          {passagens.map((r) => (
+            <Botao key={r.id} onClick={() => aplicar(usarPassagem(estado, r.preco), `${r.nome}: −${formatValorMoeda(r.preco)} do TRI.`, 'TRI insuficiente — recarregue no guichê.')} disabled={estado.tri < r.preco} title={r.resumo}>
+              {r.nome} −{formatValorMoeda(r.preco)}
             </Botao>
-          </>
-        ) : (
-          <span style={{ ...MONO, color: 'var(--muted)' }}>nenhum — passagens saem do TRI</span>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : null}
       <div>
-        <div style={{ ...MONO, marginBottom: 4 }}>VEÍCULOS</div>
-        {estado.veiculos.length === 0 ? (
-          <Vazio>{'// a pé, de ônibus ou de carona'}</Vazio>
-        ) : (
-          estado.veiculos.map((v, i) => {
-            const r = porNome.get(v.nome)
-            return (
-              <div key={`${v.nome}:${i}`} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', borderTop: i ? '1px solid var(--line)' : undefined }}>
-                {r ? <DetailLink id={r.id}>{v.nome}</DetailLink> : <span>{v.nome}</span>}
-                <Chip>{v.estado}</Chip>
-                {r?.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês</Chip> : null}
-                <span style={{ flex: 1 }} />
-                <Botao
-                  tom="muted"
-                  onClick={() => aplicar(venderVeiculo(estado, i, ouro, fator), `${v.nome} vendido pela metade do que pagou.`)}
-                  title={`Devolve ${Math.floor(v.pago / 2 / fator)} de ouro`}
-                >
-                  Vender +{moedaNumero(Math.floor(v.pago / 2 / fator))}
-                </Botao>
-              </div>
-            )
-          })
-        )}
+        <div style={{ ...MONO, marginBottom: 4 }}>VEÍCULOS E AFINS</div>
+        {temItens ? <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="vender" /> : <Vazio>{'// a pé, de ônibus ou de carona — compre numa concessionária ou ferro-velho'}</Vazio>}
       </div>
     </div>
   )
 }
 
-function TemMoradia({
-  estado,
-  porNome,
-  cfg,
-  aplicar,
-}: {
-  estado: RecursosDoHeroi
-  porNome: Map<string, Recurso>
-  cfg: RecursosCfg
-  aplicar: Aplicar
-}) {
+function TemMoradia({ estado, porNome, cfg, aba, ouro, fator, aplicar }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; cfg: RecursosCfg; aba: string; ouro: number; fator: number; aplicar: Aplicar }) {
   const m = estado.moradia
   const r = m ? porNome.get(m.nome) : null
   return (
@@ -453,25 +343,21 @@ function TemMoradia({
           <>
             {r ? <DetailLink id={r.id}>{m.nome}</DetailLink> : <span>{m.nome}</span>}
             <Chip>{m.modo === 'propria' ? 'própria' : m.modo}</Chip>
-            {r ? (
-              <Chip>
-                {m.modo === 'propria' ? 'sem aluguel' : m.modo === 'hotel' ? `${formatValorMoeda(r.preco)} / noite · ${formatValorMoeda(r.preco * 30)} / mês` : `${formatValorMoeda(r.preco)} / mês`}
-              </Chip>
-            ) : null}
-            {r?.nivel ? <Chip>nível {r.nivel} · {nomeNivel(cfg, r.nivel)}</Chip> : null}
+            {r ? <Chip>{m.modo === 'propria' ? 'sem aluguel' : m.modo === 'hotel' ? `${formatValorMoeda(r.preco)} / noite` : `${formatValorMoeda(r.preco)} / mês`}</Chip> : null}
+            {r?.nivel ? <Chip>classe {r.nivel} · {nomeNivel(cfg, r.nivel)}</Chip> : null}
             <span style={{ flex: 1 }} />
-            <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — está na rua.')}>
+            <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — volta ao estilo escolhido.')}>
               Sair
             </Botao>
           </>
         ) : (
-          <span style={{ ...MONO, color: 'var(--muted)' }}>na rua — nível 1 · {nomeNivel(cfg, 1)}</span>
+          <span style={{ ...MONO, color: 'var(--text)' }}>nenhuma específica — vale o estilo escolhido no custo de vida</span>
         )}
       </div>
       <div>
         <div style={{ ...MONO, marginBottom: 4 }}>IMÓVEIS</div>
         {estado.imoveis.length === 0 ? (
-          <Vazio>{'// nenhum — a cidade é de quem aluga'}</Vazio>
+          <Vazio>{'// nenhum — compra-se numa imobiliária'}</Vazio>
         ) : (
           estado.imoveis.map((nome, i) => {
             const im = porNome.get(nome)
@@ -481,192 +367,13 @@ function TemMoradia({
                 {im ? <DetailLink id={im.id}>{nome}</DetailLink> : <span>{nome}</span>}
                 {morando ? <Chip>morando</Chip> : null}
                 <span style={{ flex: 1 }} />
-                {!morando ? (
-                  <Botao onClick={() => aplicar(morarNoProprio(estado, nome), `Morando em ${nome}.`)}>Morar aqui</Botao>
-                ) : null}
+                {!morando ? <Botao onClick={() => aplicar(morarNoProprio(estado, nome), `Morando em ${nome}.`)}>Morar aqui</Botao> : null}
               </div>
             )
           })
         )}
       </div>
-    </div>
-  )
-}
-
-function TemAlimentacao({
-  estado,
-  porNome,
-  cfg,
-  aplicar,
-}: {
-  estado: RecursosDoHeroi
-  porNome: Map<string, Recurso>
-  cfg: RecursosCfg
-  aplicar: Aplicar
-}) {
-  const r = estado.alimentacao ? porNome.get(estado.alimentacao) : null
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-      <span style={MONO}>ESTILO</span>
-      {estado.alimentacao ? (
-        <>
-          {r ? <DetailLink id={r.id}>{estado.alimentacao}</DetailLink> : <span>{estado.alimentacao}</span>}
-          {r ? <Chip>{formatValorMoeda(r.preco)} / {r.cobranca}</Chip> : null}
-          {r?.nivel ? <Chip>nível {r.nivel} · {nomeNivel(cfg, r.nivel)}</Chip> : null}
-          <span style={{ flex: 1 }} />
-          <Botao tom="muted" onClick={() => aplicar(escolherAlimentacao(estado, null), 'Sem estilo — come o que sobra.')}>
-            Largar
-          </Botao>
-        </>
-      ) : (
-        <span style={{ ...MONO, color: 'var(--muted)' }}>come o que sobra — nível 1 · {nomeNivel(cfg, 1)}</span>
-      )}
-    </div>
-  )
-}
-
-/* ───────────────────────── "pra comprar" ───────────────────────── */
-
-function LinhaRecurso({
-  r,
-  cfg,
-  estado,
-  ouro,
-  fator,
-  mult,
-  nivelAtual,
-  aplicar,
-}: {
-  r: Recurso
-  cfg: RecursosCfg
-  estado: RecursosDoHeroi
-  ouro: number
-  fator: number
-  mult: number
-  nivelAtual: { moradia: number; alimentacao: number; nivel: number }
-  aplicar: Aplicar
-}) {
-  const acao = acaoDe(cfg, r, fator)
-  const preco = precoNaRegua(r.preco, mult)
-  const papel = papelDaAba(cfg, r.aba)
-  const emUso =
-    (acao === 'assinar' && estado.passe === r.nome) ||
-    ((acao === 'alugar' || acao === 'hospedar') && estado.moradia?.nome === r.nome) ||
-    (acao === 'escolher' && estado.alimentacao === r.nome)
-
-  let acoes: ReactNode = null
-  switch (acao) {
-    case 'tri':
-      acoes = (
-        <Botao onClick={() => aplicar(usarPassagem(estado, r, mult), `${r.nome}: −${formatValorMoeda(preco)} do TRI.`, 'TRI insuficiente — recarregue.')} disabled={estado.tri < preco} title="Sai do saldo TRI">
-          Usar −{moedaNumero(preco / fator * 1) === '0' ? formatValorMoeda(preco) : formatValorMoeda(preco)}
-        </Botao>
-      )
-      break
-    case 'assinar':
-      acoes = emUso ? (
-        <Chip>assinado</Chip>
-      ) : (
-        <Botao onClick={() => aplicar(assinarPasse(estado, r), `${r.nome} assinado — entra no mês.`)}>Assinar</Botao>
-      )
-      break
-    case 'comprar': {
-      const usado = r.usado !== undefined ? precoNaRegua(r.usado, mult) : null
-      acoes = (
-        <>
-          <Botao onClick={() => aplicar(comprarVeiculo(estado, r, 'novo', ouro, fator, mult), `${r.nome} novo comprado.`)} disabled={ouro < custoEmOuro(preco, fator)}>
-            Novo −{formatValorMoeda(preco)}
-          </Botao>
-          {usado !== null ? (
-            <Botao onClick={() => aplicar(comprarVeiculo(estado, r, 'usado', ouro, fator, mult), `${r.nome} usado comprado.`)} disabled={ouro < custoEmOuro(usado, fator)}>
-              Usado −{formatValorMoeda(usado)}
-            </Botao>
-          ) : null}
-        </>
-      )
-      break
-    }
-    case 'diaria':
-      acoes = (
-        <Botao onClick={() => aplicar(pagarAvista(estado, r.preco, ouro, fator, mult), `${r.nome}: um dia pago.`)} disabled={ouro < custoEmOuro(preco, fator)}>
-          1 dia −{formatValorMoeda(preco)}
-        </Botao>
-      )
-      break
-    case 'alugar':
-      acoes = (
-        <>
-          {emUso ? (
-            <Chip>{estado.moradia?.modo === 'propria' ? 'sua' : 'morando'}</Chip>
-          ) : (
-            <Botao onClick={() => aplicar(alugarMoradia(estado, r), `Alugou ${r.nome} — entra no mês.`)}>Alugar</Botao>
-          )}
-          {r.compra !== undefined && !estado.imoveis.includes(r.nome) ? (
-            <Botao onClick={() => aplicar(comprarImovel(estado, r, ouro, fator, mult), `${r.nome} comprado — é seu.`)} disabled={ouro < custoEmOuro(precoNaRegua(r.compra, mult), fator)}>
-              Comprar −{formatValorMoeda(precoNaRegua(r.compra, mult))}
-            </Botao>
-          ) : null}
-        </>
-      )
-      break
-    case 'hospedar':
-      acoes = emUso ? (
-        <Chip>hospedado</Chip>
-      ) : (
-        <Botao onClick={() => aplicar(hospedar(estado, r), `Hospedado em ${r.nome} — ${formatValorMoeda(r.preco * 30)} por mês.`)}>Hospedar</Botao>
-      )
-      break
-    case 'escolher':
-      acoes = emUso ? (
-        <Chip>seu estilo</Chip>
-      ) : (
-        <Botao onClick={() => aplicar(escolherAlimentacao(estado, r), `Estilo: ${r.nome}.`)}>Escolher</Botao>
-      )
-      break
-    case 'avista':
-      acoes = (
-        <Botao onClick={() => aplicar(pagarAvista(estado, r.preco, ouro, fator, mult), `${r.nome}: −${formatValorMoeda(preco)}.`)} disabled={ouro < custoEmOuro(preco, fator)}>
-          Pagar −{formatValorMoeda(preco)}
-        </Botao>
-      )
-      break
-    case 'miudeza': {
-      // abaixo de um milhar: não entra na ficha — está (ou não) no estilo do mês
-      const eixo = papel === 'alimentacao' ? nivelAtual.alimentacao : nivelAtual.nivel
-      const dentro = r.nivel !== undefined && r.nivel <= eixo
-      acoes = <Chip>{dentro ? 'no seu estilo' : 'miudeza · fora do estilo'}</Chip>
-      break
-    }
-  }
-
-  const unidade = r.cobranca && r.cobranca !== 'única' ? ` / ${r.cobranca}` : ''
-  const extras: string[] = []
-  if (r.porKm) extras.push(`+${formatValorMoeda(precoNaRegua(r.porKm, mult))} por km`)
-  if (r.longa) extras.push(`longa ${formatValorMoeda(precoNaRegua(r.longa, mult))}`)
-  if (r.volume) extras.push(`volume ${formatValorMoeda(precoNaRegua(r.volume, mult))}`)
-  if (r.manutencao) extras.push(`manutenção ${formatValorMoeda(r.manutencao)} / mês`)
-
-  return (
-    <div
-      data-recurso={r.nome}
-      style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '7px 0', borderTop: '1px solid var(--line)', flexWrap: 'wrap' }}
-    >
-      <div style={{ flex: '1 1 260px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
-        <span style={{ fontWeight: 600, fontSize: 13.5, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-          <DetailLink id={r.id}>{r.nome}</DetailLink>
-          {r.nivel !== undefined ? <Chip>nível {r.nivel}</Chip> : null}
-        </span>
-        <span style={{ fontSize: 12, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis' }} title={r.resumo}>
-          {r.marca ? <InlineFieldValue value={r.marca} /> : null}
-          {r.marca && r.resumo ? ' — ' : ''}
-          {r.resumo}
-        </span>
-      </div>
-      <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5, whiteSpace: 'nowrap' }} title={extras.join(' · ') || undefined}>
-        {formatValorMoeda(preco)}
-        <span style={{ color: 'var(--muted)' }}>{unidade}</span>
-      </span>
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>{acoes}</div>
+      <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="consumir" />
     </div>
   )
 }
