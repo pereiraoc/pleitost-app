@@ -2751,3 +2751,71 @@ a[data-link-icon]::before {
   font-weight: 800;
   font-size: 16px;
 }
+
+/* Formato de aventura (2026-09-07): seções e registros colapsáveis; objetivos em dupla */
+.av-sec > .av-sec-head {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 0;
+}
+.av-sec > .av-sec-head::-webkit-details-marker {
+  display: none;
+}
+.av-sec > .av-sec-head .kicker::before {
+  content: '▸ ';
+  color: var(--accent);
+}
+.av-sec[open] > .av-sec-head .kicker::before {
+  content: '▾ ';
+}
+.av-sec-extra {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+.av-sec-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+details.av-registro {
+  padding: 0;
+}
+details.av-registro > .av-registro-head {
+  padding: 12px 16px;
+}
+details.av-registro > .av-registro-head .ctx-acc-title {
+  font-size: 16px;
+}
+.av-registro-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px 16px 34px;
+}
+.av-combate-reg {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--red) 40%, var(--line2));
+  border-radius: 10px;
+}
+.av-combate-reg.is-embedded {
+  padding: 12px;
+}
+.callout-dupla {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+}
+.callout-dupla::before {
+  content: '🔗 SÓ EM DUPLA';
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}

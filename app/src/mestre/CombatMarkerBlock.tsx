@@ -16,7 +16,7 @@
 import { useMemo, useState, type KeyboardEvent } from 'react'
 import { useCatalog } from '../data/CatalogContext'
 import { useDocs } from '../data/useDoc'
-import { parseCombatMarkerBlocks, splitBlockSource } from './combat-marker'
+import { rosterFromFence } from '../aventura/roster-speeds'
 import {
   computeEncounterDifficulty,
   computeEncounterDifficultyByLevel,
@@ -55,13 +55,10 @@ import { addRosterToInitiative, prepareEncounterFromRoster } from '../data/sessi
  *  cercas). Reusa splitBlockSource + parseRosterLine (combat-marker.ts): o
  *  state @estado/linhas de iniciativa são ignorados, como no sync. */
 function parseFenceRoster(code: string): EncounterRoster {
-  // parseCombatMarkerBlocks espera markdown com as cercas; aqui já temos só o
-  // corpo do fence, então split direto (o markdown renderer entrega sem cercas).
-  const { rosterLines } = splitBlockSource(code)
-  // reusa o pipeline do parser embrulhando de volta num bloco pra 1 caminho só
-  const wrapped = ['```combat-marker', ...rosterLines, '```'].join('\n')
-  const parsed = parseCombatMarkerBlocks(wrapped)
-  return parsed.ok ? parsed.roster : { entries: [] }
+  // Formato de aventura (2026-09-07): o sufixo de velocidade por instância
+  // ("- 3 [[X]] lento") vem junto; rosterFromFence reusa splitBlockSource +
+  // parseRosterLine do combat-marker.ts (o roster em si é o mesmo do sync).
+  return rosterFromFence(code)
 }
 
 /** Níveis dos HERÓIS da mesa atual (sem companheiro animal nem NPC) — pra a
@@ -131,28 +128,42 @@ export function CombatMarkerBlock({
   }, [mestre, live, resolvidas])
 
   // Instâncias INDIVIDUAIS de monstro (qty → N banners), com a chave estável do
-  // prep (encounter-speeds) e vida/imagem lidas do doc do bestiário.
-  const instances = useMemo(
-    () =>
-      resolvidas.flatMap((r) => {
-        const item = r.item
-        const doc = item?.sourceId ? monsterDocs?.get(item.sourceId) : undefined
-        const base = item?.sourcePath ?? r.entry.label
-        const qty = Math.max(1, r.entry.qty)
-        return Array.from({ length: qty }, (_, i) => ({
-          key: `${base}#${i + 1}`,
+  // prep (encounter-speeds) e vida/imagem lidas do doc do bestiário. A
+  // numeração é POR BASE, contínua entre entradas do mesmo alvo ("1 rápido +
+  // 3 lentos" = Arruaceiro #1..#4, chaves distintas). `noteSpeed` = velocidade
+  // escrita na nota (formato de aventura) — default do prep quando o GM não
+  // definiu outra.
+  const instances = useMemo(() => {
+    const contador = new Map<string, number>()
+    const totalPorBase = new Map<string, number>()
+    for (const r of resolvidas) {
+      const base = r.item?.sourcePath ?? r.entry.label
+      totalPorBase.set(base, (totalPorBase.get(base) ?? 0) + Math.max(1, r.entry.qty))
+    }
+    return resolvidas.flatMap((r) => {
+      const item = r.item
+      const doc = item?.sourceId ? monsterDocs?.get(item.sourceId) : undefined
+      const base = item?.sourcePath ?? r.entry.label
+      const qty = Math.max(1, r.entry.qty)
+      const speeds = r.entry.speeds
+      return Array.from({ length: qty }, (_, i) => {
+        const n = (contador.get(base) ?? 0) + 1
+        contador.set(base, n)
+        return {
+          key: `${base}#${n}`,
           label: r.entry.label,
-          n: i + 1,
-          qty,
+          n,
+          qty: totalPorBase.get(base) ?? qty,
           tier: item?.tier ?? null,
           modificador: item?.modificador ?? null,
           docId: item?.sourceId ?? null,
           img: doc ? creatureImageUrl(doc, assets, true) : null,
           vit: doc ? num(fmPath(doc.frontmatter, 'Vida', 'Vitalidade')) : 0,
-        }))
-      }),
-    [resolvidas, monsterDocs, assets],
-  )
+          noteSpeed: (speeds?.length === 1 ? speeds[0] : speeds?.[i]) ?? null,
+        }
+      })
+    })
+  }, [resolvidas, monsterDocs, assets])
 
   // #266: pré-seleção de máscara dos NPCs ao adicionar à sessão. "disfarçado"
   // é o DEFAULT do combat-tracker (NPC nasce mascarado), então o toggle começa
@@ -164,6 +175,9 @@ export function CombatMarkerBlock({
   // Gate do "Adicionar à sessão": Modo Mestre + servidor + sala ativa (mesmo
   // gate do Criador de Combate / #229). Sem isso, o bloco fica só de leitura.
   const podeAdicionar = mestre && !!repo && !!user && !!live
+  // Com combate ATIVO na sala, "adicionar" injeta nele (é assim que a Fase 2
+  // de uma aventura entra no combate da Fase 1); sem ativo, cria e inicia.
+  const combateAtivo = !!live?.encounters.some((e) => e.status === 'active')
 
   if (roster.entries.length === 0) return null
 
@@ -175,7 +189,7 @@ export function CombatMarkerBlock({
     // NPCs criados. Sem encounterPath (fence cru) os preps ficam no default.
     const preps = instances.map((m) => {
       const p = getMonsterPrep(encounterPath ?? '', m.key)
-      return { speed: p.tier, escondido: p.escondido, disfarcado: p.disfarcado }
+      return { speed: p.tier ?? m.noteSpeed, escondido: p.escondido, disfarcado: p.disfarcado }
     })
     await addRosterToInitiative({
       repo,
@@ -247,7 +261,8 @@ export function CombatMarkerBlock({
         <div className="kicker">{'// MONSTROS'}</div>
         <div className="combate-monstros">
           {instances.map((m) => {
-            const prep = getMonsterPrep(encounterPath ?? '', m.key)
+            const prepGm = getMonsterPrep(encounterPath ?? '', m.key)
+            const prep = { ...prepGm, tier: prepGm.tier ?? m.noteSpeed }
             const docId = m.docId
             const abrir = docId && detail ? () => detail.open({ kind: 'resumo', id: docId }) : null
             const podeEditar = mestre && !!encounterPath
@@ -395,8 +410,9 @@ export function CombatMarkerBlock({
               type="button"
               className="combat-roster-add"
               onClick={() => void adicionar()}
+              title={combateAtivo ? 'Entra no combate que está rolando agora' : 'Cria e inicia um combate com este roster'}
             >
-              + Adicionar à sessão
+              {combateAtivo ? '+ Adicionar ao combate ativo' : '+ Adicionar à sessão'}
             </button>
           </div>
         ) : null}

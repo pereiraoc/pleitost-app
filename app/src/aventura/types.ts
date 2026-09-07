@@ -37,6 +37,23 @@ export interface Registro {
   corpo: string
 }
 
+/** Registro de COMBATE (2.5): heading `###` + `[!info] Combate` + o fence do
+ *  roster (com as velocidades por instância). A cena referencia por
+ *  `**Combates:** [[#Nome]]` e o app mostra o mesmo bloco dentro dela. */
+export interface Combate {
+  slug: string
+  nome: string
+  campos: CalloutField[]
+  leituras: Leitura[]
+  segredos: string[]
+  /** Markdown fora dos callouts e do fence. */
+  corpo: string
+  roster: EncounterRoster
+  code: string
+  /** `<docId>#<slug>` — chave do prep por monstro e sourceNotePath do encounter. */
+  encounterPath: string
+}
+
 export type Segmento =
   | { kind: 'md'; md: string }
   | {
@@ -61,6 +78,8 @@ export interface Cena {
   tipo: string | null
   locais: Ref[]
   personagens: Ref[]
+  /** Refs `[[#Nome]]` do campo Combates → registros de 2.5. */
+  combates: Ref[]
   leituras: Leitura[]
   /** Corpo da cena em ordem, com os fences de combate destacados. */
   segmentos: Segmento[]
@@ -87,6 +106,7 @@ export interface AventuraModel {
   personagens: Registro[]
   locais: Registro[]
   mapa: LeafletBlock | null
+  combates: Combate[]
   abertura: { campos: CalloutField[]; corpo: string } | null
   cenas: Cena[]
   desfecho: { campos: CalloutField[]; corpo: string; leituras: Leitura[] } | null

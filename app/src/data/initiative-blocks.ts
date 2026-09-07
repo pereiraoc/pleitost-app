@@ -15,6 +15,19 @@ export const SPEED_LABEL: Record<SpeedTier, string> = {
   superLento: 'Super Lento',
 }
 
+/** Velocidade a partir do RÓTULO escrito na nota (formato de aventura: sufixo
+ *  do roster, "- 1 [[Guarda]] rápido"): casa os labels do registro SPEED_LABEL
+ *  (sem acento, sem caixa) ou a chave interna. null = não é velocidade. */
+export function speedFromLabel(texto: string): SpeedTier | null {
+  const n = texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim()
+  if (!n) return null
+  for (const t of SPEED_ORDER) {
+    const label = SPEED_LABEL[t].normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    if (n === label || n === t.toLowerCase()) return t
+  }
+  return null
+}
+
 /** Super Lento só existe pro lado JOGADOR; inimigos ficam nos 3 primeiros. */
 export function tiersFor(lado: Lado): SpeedTier[] {
   return lado === 'jogador' ? SPEED_ORDER : SPEED_ORDER.filter((t) => t !== 'superLento')

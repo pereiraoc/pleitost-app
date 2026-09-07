@@ -303,6 +303,22 @@ export async function npcInputsFromRoster(
 /** INICIAR do CombateDaSala: prepared → active criando os NPCs do roster, e
  *  turnState inicial do plugin (heróis primeiro, NPCs depois; round 1).
  *  `mask` (#266) pré-seleciona invisível/disfarçado dos NPCs de saída. */
+/** FORMATO DE AVENTURA: preps por instância a partir das velocidades escritas
+ *  no roster (`EncounterRosterEntry.speeds`), na MESMA ordem de expansão de
+ *  npcInputsFromRoster (entrada × qty). undefined = nenhuma entrada declara. */
+export function prepsFromEntries(entries: readonly EncounterRosterEntry[]): RosterInstancePrep[] | undefined {
+  if (!entries.some((e) => e.speeds?.length)) return undefined
+  const out: RosterInstancePrep[] = []
+  for (const e of entries) {
+    const qty = Math.max(1, e.qty)
+    for (let i = 0; i < qty; i++) {
+      const sp = e.speeds?.length === 1 ? e.speeds[0] : e.speeds?.[i]
+      out.push(sp ? { speed: sp } : {})
+    }
+  }
+  return out
+}
+
 export async function startEncounterFromRoster(
   repo: SessionRepo,
   catalog: Catalog,
@@ -311,6 +327,9 @@ export async function startEncounterFromRoster(
   mask?: NpcMaskOptions,
   preps?: readonly RosterInstancePrep[],
 ): Promise<void> {
+  // Combate PREPARADO a partir de uma aventura: as velocidades vieram no
+  // roster (nota) — sem preps explícitos, derivam dali.
+  if (!preps) preps = prepsFromEntries(encounter.roster.entries)
   const npcs = await npcInputsFromRoster(catalog, encounter.roster.entries, memberId)
   // #291: startEncounter só ATIVA (move heróis/companheiros); os NPCs entram um a
   // um por insertNpc (mascarados quando disfarçados), pra o real nunca ir pra a

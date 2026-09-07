@@ -14,6 +14,7 @@ export interface AventuraConfig {
     personagens: string
     locais: string
     mapa: string
+    combates: string
     cenas: string
     abertura: string
     cena: string
@@ -33,6 +34,7 @@ export const AVENTURA_CONFIG_DEFAULT: AventuraConfig = {
     personagens: '2.3 Personagens',
     locais: '2.4 Locais',
     mapa: 'Mapa',
+    combates: '2.5 Combates',
     cenas: '3. Cenas',
     abertura: 'Abertura',
     cena: 'Cena',

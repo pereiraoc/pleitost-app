@@ -8,7 +8,7 @@
 // parse-leaflet (mapa).
 import type { VaultDoc } from '../data/types'
 import type { CalloutField } from '../components/compendium/callout-template-fields'
-import { parseCombatMarkerBlocks } from '../mestre/combat-marker'
+import { rosterFromFence } from './roster-speeds'
 import { parseLeafletBlock } from '../map/parse-leaflet'
 import { AVENTURA_CONFIG_DEFAULT, type AventuraConfig } from './config'
 import {
@@ -22,7 +22,7 @@ import {
 } from './callouts'
 import { childHeadings, findHeading, scanHeadings, sectionBody, type HeadingLine } from './markdown-sections'
 import { slugify } from './slug'
-import type { AventuraModel, Cena, Ref, Registro, Segmento } from './types'
+import type { AventuraModel, Cena, Combate, Ref, Registro, Segmento } from './types'
 
 const FENCE_OPEN_RE = /^```\s*(combat-marker|combat-marker-small|combat-tracker|combat-tracker-small)\s*$/
 const FENCE_CLOSE_RE = /^```\s*$/
@@ -87,6 +87,35 @@ function registroDe(nome: string, lines: readonly string[]): Registro {
   }
 }
 
+/** Registro de COMBATE (2.5): campos/leituras/segredos como um registro + o
+ *  1º fence combat-marker do trecho (roster com velocidades). */
+function combateDe(nome: string, lines: readonly string[], docId: string): Combate {
+  const reg = registroDe(nome, lines)
+  const slug = slugify(nome)
+  const segs = segmentosDe(lines, docId, slug, null)
+  const fence = segs.find((x): x is Extract<Segmento, { kind: 'combate' }> => x.kind === 'combate')
+  const corpo = segs
+    .filter((x): x is Extract<Segmento, { kind: 'md' }> => x.kind === 'md')
+    .map((x) => x.md)
+    .join('\n')
+  // o corpo do registro já tirou os callouts; aqui tira também o fence
+  const corpoSemCallouts = withoutBlocks(corpo.split('\n'), extractCallouts(corpo.split('\n')))
+    .filter((l) => !/^\s*(---|\*\*\*|___)\s*$/.test(l)) // hr separador de seção não é conteúdo
+    .join('\n')
+    .trim()
+  return {
+    slug,
+    nome,
+    campos: reg.campos,
+    leituras: reg.leituras,
+    segredos: reg.segredos,
+    corpo: corpoSemCallouts,
+    roster: fence?.roster ?? { entries: [] },
+    code: fence?.code ?? '',
+    encounterPath: `${docId}#${slug}`,
+  }
+}
+
 /** Corpo de uma cena em segmentos: markdown + fences de combate (com o `####`
  *  mais próximo acima como título). O callout `[!info]` da cena sai do md (a
  *  view mostra os campos como chips); leituras e segredos ficam no fluxo. */
@@ -115,13 +144,11 @@ function segmentosDe(lines: readonly string[], docId: string, cenaSlug: string, 
       }
       flushMd()
       n += 1
-      const wrapped = ['```combat-marker', ...code, '```'].join('\n')
-      const parsed = parseCombatMarkerBlocks(wrapped)
       out.push({
         kind: 'combate',
         n,
         titulo: ultimoH4,
-        roster: parsed.ok ? parsed.roster : { entries: [] },
+        roster: rosterFromFence(code.join('\n')),
         code: code.join('\n'),
         encounterPath: `${docId}#${cenaSlug}#${n}`,
       })
@@ -153,6 +180,7 @@ function cenaDe(h: HeadingLine, lines: readonly string[], headings: readonly Hea
     tipo: campo(campos, 'Tipo'),
     locais: refsDe(campo(campos, 'Local')),
     personagens: refsDe(campo(campos, 'Personagens')),
+    combates: refsDe(campo(campos, 'Combates')),
     leituras,
     segmentos: segmentosDe(body, docId, slug, info),
   }
@@ -191,6 +219,7 @@ export function parseAventura(doc: Pick<VaultDoc, 'id' | 'body'>, cfg: AventuraC
     locais: [],
     mapa: null,
     abertura: null,
+    combates: [],
     cenas: [],
     desfecho: null,
     combatesSoltos: [],
@@ -232,6 +261,8 @@ export function parseAventura(doc: Pick<VaultDoc, 'id' | 'body'>, cfg: AventuraC
           if (r.text === S.mapa) model.mapa = parseLeafletBlock(rb.join('\n'))
           else model.locais.push(registroDe(r.text, rb))
         }
+      } else if (h.text === S.combates) {
+        model.combates = childHeadings(headings, h).map((r) => combateDe(r.text, sectionBody(lines, headings, r), doc.id))
       }
     }
   }

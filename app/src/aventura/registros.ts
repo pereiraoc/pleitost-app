@@ -33,12 +33,13 @@ export const LOCAL_NUCLEO = [
   'Cenas',
 ] as const
 
-export const CENA_NUCLEO = ['Tipo', 'Local', 'Personagens', 'Objetivo', 'Duração'] as const
+export const CENA_NUCLEO = ['Tipo', 'Local', 'Personagens', 'Objetivo', 'Duração', 'Combates'] as const
+export const COMBATE_NUCLEO = ['Cena', 'Quando', 'Inimigos', 'Velocidades', 'Função dramática', 'Elementos de cenário', 'Preparar'] as const
 export const ABERTURA_NUCLEO = ['Situação', 'Gancho', 'Contrato', 'Início'] as const
 export const DESFECHO_NUCLEO = ['Decide'] as const
 
 /** Campos que a UI renderiza por conta própria (chips/refs), fora da pilha. */
-export const CAMPOS_REF: ReadonlySet<string> = new Set(['nota', 'atlas', 'local', 'personagens', 'cenas', 'entrada'])
+export const CAMPOS_REF: ReadonlySet<string> = new Set(['nota', 'atlas', 'local', 'personagens', 'cenas', 'entrada', 'combates', 'cena'])
 
 function norm(s: string): string {
   return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[\s_]+/g, ' ').trim()

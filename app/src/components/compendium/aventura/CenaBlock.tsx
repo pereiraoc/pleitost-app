@@ -12,6 +12,7 @@ import { FieldBlock } from '../FieldBlock'
 import type { AventuraModel, Cena } from '../../../aventura/types'
 import { CAMPOS_REF, CENA_NUCLEO, ordenarCampos } from '../../../aventura/registros'
 import { RefRow, cenaAnchorId } from './RefChip'
+import { CombateCard } from './CombateCard'
 
 export function CenaBlock({
   cena,
@@ -53,6 +54,15 @@ export function CenaBlock({
         <div className="av-cena-body">
           <RefRow label="Local" refs={cena.locais} model={model} doc={doc} />
           <RefRow label="Personagens" refs={cena.personagens} model={model} doc={doc} />
+          {/* combates REFERENCIADOS (2.5 Combates): o mesmo card, puxado pra cá */}
+          {cena.combates.map((r, i) => {
+            const c = r.interno ? model.combates.find((x) => x.nome === r.alvo) : null
+            return c ? (
+              <CombateCard key={`${c.slug}-${i}`} combate={c} model={model} doc={doc} embedded />
+            ) : (
+              <span key={`morto-${i}`} className="av-chip is-morto">⚔ {r.label} (sem registro em Combates)</span>
+            )
+          })}
           {campos.map((c) => (
             <FieldBlock key={c.label} label={c.label}>
               {c.value.includes('\n') ? <MarkdownBody doc={{ ...doc, body: c.value }} /> : <InlineFieldValue value={c.value} />}

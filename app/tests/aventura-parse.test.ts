@@ -33,7 +33,7 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     expect(m.resumo.comoLer).toContain('Ler pra mesa')
     expect(m.resumo.roteiro).toMatch(/^1\. \*\*\[\[#Cena 1 — Saída do Gre-Nal\]\]\*\*/)
     // Estrutura: os `= this.X` são do FM e NÃO viram campo; a regra da casa sim
-    expect(m.resumo.estruturaExtra.map((c) => c.label)).toEqual(['Regra da casa desta noite'])
+    expect(m.resumo.estruturaExtra.map((c) => c.label)).toEqual(['CDs desta aventura', 'Regra da casa desta noite'])
     expect(m.contextoAventura).toContain('### Premissa do grupo')
     expect(m.contextoAventura).toContain('[!gm]')
     expect(m.notasMestre).toContain('### Papéis e objetivos')
@@ -119,6 +119,7 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     expect(c1.leituras.map((l) => l.titulo)).toEqual(['🔊 Ler pra mesa — a caixa'])
     // o [!info] Cena sai do markdown; o resto fica no fluxo
     const md1 = c1.segmentos.filter((s) => s.kind === 'md').map((s) => (s as { md: string }).md).join('\n')
+    expect(md1).toContain('| Situação | Teste | CD |') // briga de torcida com CDs
     expect(md1).not.toContain('[!info] Cena')
     expect(md1).toContain('#### Menu de mini-cenas')
     expect(md1).toContain('[!quote] 🔊 Ler pra mesa — a caixa')
@@ -127,24 +128,42 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     expect(m.desfecho!.corpo).toContain('### Ganchos')
   })
 
-  it('Cena 6: dois combates com roster real e encounterPath por cena', () => {
-    const c6 = m.cenas[5]!
-    const combates = c6.segmentos.filter((s) => s.kind === 'combate')
-    expect(combates).toHaveLength(2)
-    const [f1, f2] = combates as Extract<(typeof combates)[number], { kind: 'combate' }>[]
-    expect(f1!.titulo).toBe('Combate — Fase 1: Capangas e operadores')
+  it('2.5 Combates: dois registros com roster + velocidades por instância; a Cena 6 os referencia', () => {
+    expect(m.combates.map((c) => c.nome)).toEqual(['Fase 1 — Capangas e operadores', 'Fase 2 — Chega o mais forte'])
+    const [f1, f2] = m.combates
+    expect(f1!.slug).toBe('fase-1-capangas-e-operadores')
+    expect(f1!.encounterPath).toBe('Campanhas/Aventuras/Pós Grenal#fase-1-capangas-e-operadores')
+    expect(campo(f1!.campos, 'Velocidades')).toContain('rápidos')
+    expect(refsDe(campo(f1!.campos, 'Cena'))[0]!.alvo).toBe('Cena 6 — Retífica Sertório')
+    // sufixo de velocidade lido contra o registro (initiative-blocks); 1 rápido + 3 lentos = 2 entradas
     expect(f1!.roster.entries).toEqual([
-      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 4 },
-      { sourcePath: 'Guarda', label: 'Guarda', qty: 1 },
+      { sourcePath: 'Guarda', label: 'Guarda', qty: 1, speeds: ['rapido'] },
+      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 1, speeds: ['rapido'] },
+      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 3, speeds: ['lento'] },
     ])
-    expect(f2!.titulo).toBe('Combate — Fase 2: Chega o mais forte')
-    expect(f2!.roster.entries.map((e) => e.label)).toEqual(['Guarda Oficial', 'Guarda'])
-    expect(f1!.encounterPath).toBe('Campanhas/Aventuras/Pós Grenal#retifica-sertorio#1')
-    expect(f2!.encounterPath).toBe('Campanhas/Aventuras/Pós Grenal#retifica-sertorio#2')
-    // markdown entre os fences preservado, em ordem
-    const kinds = c6.segmentos.map((s) => s.kind)
-    expect(kinds).toEqual(['md', 'combate', 'md', 'combate', 'md'])
+    expect(f2!.roster.entries).toEqual([
+      { sourcePath: 'Guarda Oficial', label: 'Guarda Oficial', qty: 1, speeds: ['super'] },
+      { sourcePath: 'Guarda', label: 'Guarda', qty: 1, speeds: ['rapido'] },
+    ])
+    expect(f2!.corpo).toBe('') // callouts e fence saem do corpo do registro
+    const c6 = m.cenas[5]!
+    expect(c6.combates.map((r) => r.alvo)).toEqual(['Fase 1 — Capangas e operadores', 'Fase 2 — Chega o mais forte'])
+    // a cena não tem mais fence inline — só markdown
+    expect(c6.segmentos.map((s) => s.kind)).toEqual(['md'])
     expect(m.combatesSoltos).toHaveLength(0)
+  })
+
+  it('fence inline numa cena continua valendo (com velocidades)', () => {
+    const doc = {
+      id: 'X',
+      body: '# 1. Resumo\n# 3. Cenas\n## Cena 1 — T\n#### Combate — A\n```combat-marker-small\n- 2 [[Goblin]] rápido, lento\n- 1 [[Orc]]\n```\n',
+    }
+    const seg = parseAventura(doc).cenas[0]!.segmentos.find((x) => x.kind === 'combate')
+    expect(seg && seg.kind === 'combate' ? seg.roster.entries : null).toEqual([
+      { sourcePath: 'Goblin', label: 'Goblin', qty: 2, speeds: ['rapido', 'lento'] },
+      { sourcePath: 'Orc', label: 'Orc', qty: 1 },
+    ])
+    expect(seg && seg.kind === 'combate' ? seg.encounterPath : null).toBe('X#t#1')
   })
 
   it('nomes de seção vêm do contexto.json quando declarados', () => {

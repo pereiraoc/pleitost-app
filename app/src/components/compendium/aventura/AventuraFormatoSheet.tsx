@@ -32,6 +32,7 @@ import { aventuraAtual, encerrarAventura, iniciarAventura, irParaCena } from '..
 import { CenaBlock } from './CenaBlock'
 import { LeituraBlock } from './LeituraBlock'
 import { RegistroCard } from './RegistroCard'
+import { CombateCard } from './CombateCard'
 import { cenaAnchorId } from './RefChip'
 
 const NAV: { id: string; label: string }[] = [
@@ -39,6 +40,7 @@ const NAV: { id: string; label: string }[] = [
   { id: 'av-contexto', label: 'Contexto' },
   { id: 'av-personagens', label: 'Personagens' },
   { id: 'av-locais', label: 'Locais' },
+  { id: 'av-combates', label: 'Combates' },
   { id: 'av-cenas', label: 'Cenas' },
 ]
 
@@ -62,15 +64,31 @@ const ESTRUTURA_FM: { key: string; label: string }[] = [
   { key: 'Tom', label: 'Tom' },
 ]
 
-function Secao({ id, titulo, children, extra }: { id: string; titulo: string; children: ReactNode; extra?: ReactNode }) {
+/** Seção COLAPSÁVEL (pedido 2026-09-07: tudo começa fechado menos o Resumo,
+ *  pra facilitar a navegação). <details> nativo; o conteúdo fica no DOM. */
+function Secao({
+  id,
+  titulo,
+  children,
+  extra,
+  open,
+  onToggle,
+}: {
+  id: string
+  titulo: string
+  children: ReactNode
+  extra?: ReactNode
+  open: boolean
+  onToggle: (open: boolean) => void
+}) {
   return (
-    <section className="av-sec" id={id} data-av-sec={id}>
-      <div className="av-sec-head">
-        <div className="kicker">{`// ${titulo.toUpperCase()}`}</div>
-        {extra}
-      </div>
-      {children}
-    </section>
+    <details className="av-sec" id={id} data-av-sec={id} open={open} onToggle={(e) => onToggle((e.currentTarget as HTMLDetailsElement).open)}>
+      <summary className="av-sec-head">
+        <span className="kicker">{`// ${titulo.toUpperCase()}`}</span>
+      </summary>
+      {extra ? <div className="av-sec-extra">{extra}</div> : null}
+      <div className="av-sec-body">{children}</div>
+    </details>
   )
 }
 
@@ -99,6 +117,21 @@ export function AventuraFormatoSheet({
 
   const [abertas, setAbertas] = useState<Set<string>>(() => new Set(cenaAtualSlug ? [cenaAtualSlug] : model.cenas[0] ? [model.cenas[0].slug] : []))
   const [localAberto, setLocalAberto] = useState<string | null>(null)
+  // seções abertas — só o Resumo de saída
+  const [secoes, setSecoes] = useState<Set<string>>(() => new Set(['av-resumo']))
+  const secOpen = (id: string) => secoes.has(id)
+  const setSec = (id: string, open: boolean) =>
+    setSecoes((s) => {
+      const n = new Set(s)
+      if (open) n.add(id)
+      else n.delete(id)
+      return n
+    })
+  const irParaSecao = (id: string) => {
+    setSec(id, true)
+    // espera o details abrir antes de rolar
+    setTimeout(() => irPara(id), 0)
+  }
   const toggleCena = (slug: string) =>
     setAbertas((s) => {
       const n = new Set(s)
@@ -110,7 +143,7 @@ export function AventuraFormatoSheet({
   const totais = useMemo(
     () => ({
       cenas: model.cenas.length,
-      combates: model.cenas.reduce((n, c) => n + c.segmentos.filter((s) => s.kind === 'combate').length, 0),
+      combates: model.combates.length + model.cenas.reduce((n, c) => n + c.segmentos.filter((s) => s.kind === 'combate').length, 0),
       personagens: model.personagens.length,
       locais: model.locais.length,
     }),
@@ -123,7 +156,8 @@ export function AventuraFormatoSheet({
     const reg = model.locais.find((l) => l.nome === nomeMarker)
     if (!reg) return false
     setLocalAberto(reg.slug)
-    document.getElementById(`av-reg-${reg.slug}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setSec('av-locais', true)
+    setTimeout(() => document.getElementById(`av-reg-${reg.slug}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
     return true
   }
 
@@ -153,14 +187,14 @@ export function AventuraFormatoSheet({
       </header>
       <nav className="av-nav" aria-label="Seções da aventura">
         {NAV.map((n) => (
-          <button key={n.id} type="button" onClick={() => irPara(n.id)}>
+          <button key={n.id} type="button" onClick={() => irParaSecao(n.id)}>
             {n.label}
           </button>
         ))}
       </nav>
 
       {/* ── 1. Resumo ── */}
-      <Secao id="av-resumo" titulo={cfg.secoes.resumo}>
+      <Secao id="av-resumo" open={secOpen('av-resumo')} onToggle={(o) => setSec('av-resumo', o)} titulo={cfg.secoes.resumo}>
         {bounty ? <BountyCard data={bounty} meta={bountyMetaFromDoc(doc)} /> : null}
         {disponivel.length ? (
           <div className="aventura-disponivel">
@@ -218,7 +252,7 @@ export function AventuraFormatoSheet({
             {model.cenas.length ? (
               <div className="av-roteiro-links">
                 {model.cenas.map((c) => (
-                  <button key={c.slug} type="button" className="av-chip is-cena" onClick={() => { setAbertas((s) => new Set(s).add(c.slug)); irPara(cenaAnchorId(c.slug)) }}>
+                  <button key={c.slug} type="button" className="av-chip is-cena" onClick={() => { setSec('av-cenas', true); setAbertas((s) => new Set(s).add(c.slug)); setTimeout(() => irPara(cenaAnchorId(c.slug)), 0) }}>
                     {c.n}. {c.titulo}
                   </button>
                 ))}
@@ -229,7 +263,7 @@ export function AventuraFormatoSheet({
       </Secao>
 
       {/* ── 2. Contexto ── */}
-      <Secao id="av-contexto" titulo={cfg.secoes.contexto}>
+      <Secao id="av-contexto" open={secOpen('av-contexto')} onToggle={(o) => setSec('av-contexto', o)} titulo={cfg.secoes.contexto}>
         {model.contextoAventura ? (
           <div className="av-sub" data-av-sub="contexto-aventura">
             <h2 className="av-sub-titulo">{cfg.secoes.contexto_aventura}</h2>
@@ -245,7 +279,7 @@ export function AventuraFormatoSheet({
       </Secao>
 
       {/* ── 2.3 Personagens ── */}
-      <Secao id="av-personagens" titulo={cfg.secoes.personagens}>
+      <Secao id="av-personagens" open={secOpen('av-personagens')} onToggle={(o) => setSec('av-personagens', o)} titulo={cfg.secoes.personagens}>
         {model.personagens.length ? (
           <div className="av-registros">
             {model.personagens.map((p) => (
@@ -260,6 +294,8 @@ export function AventuraFormatoSheet({
       {/* ── 2.4 Locais + Mapa ── */}
       <Secao
         id="av-locais"
+        open={secOpen('av-locais')}
+        onToggle={(o) => setSec('av-locais', o)}
         titulo={cfg.secoes.locais}
         extra={
           model.mapa ? (
@@ -273,7 +309,7 @@ export function AventuraFormatoSheet({
           <div className="av-registros">
             {model.locais.map((l) => (
               <div key={l.slug} className={localAberto === l.slug ? 'is-destacado' : undefined}>
-                <RegistroCard reg={l} tipo="local" model={model} doc={doc} />
+                <RegistroCard reg={l} tipo="local" model={model} doc={doc} aberto={localAberto === l.slug} />
               </div>
             ))}
           </div>
@@ -288,8 +324,21 @@ export function AventuraFormatoSheet({
         ) : null}
       </Secao>
 
+      {/* ── 2.5 Combates ── */}
+      <Secao id="av-combates" titulo={cfg.secoes.combates} open={secOpen('av-combates')} onToggle={(o) => setSec('av-combates', o)}>
+        {model.combates.length ? (
+          <div className="av-registros">
+            {model.combates.map((c) => (
+              <CombateCard key={c.slug} combate={c} model={model} doc={doc} />
+            ))}
+          </div>
+        ) : (
+          <p className="ctx-acc-vazio">Sem combates registrados — os fences dentro das cenas continuam valendo.</p>
+        )}
+      </Secao>
+
       {/* ── 3. Cenas ── */}
-      <Secao id="av-cenas" titulo={cfg.secoes.cenas}>
+      <Secao id="av-cenas" open={secOpen('av-cenas')} onToggle={(o) => setSec('av-cenas', o)} titulo={cfg.secoes.cenas}>
         {model.abertura ? (
           <div className="av-sub av-abertura" data-av-sub="abertura">
             <h2 className="av-sub-titulo">{cfg.secoes.abertura}</h2>

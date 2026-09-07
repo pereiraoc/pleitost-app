@@ -3,6 +3,7 @@
 // Pessoa). Ordem: refs (Nota/Atlas/Entrada/Cenas como chips expansíveis) →
 // campos-núcleo na ordem do registro → extras na ordem da nota → Frases em
 // balões → 🔊 leituras → segredos [!gm].
+import { useEffect, useState } from 'react'
 import type { VaultDoc } from '../../../data/types'
 import { MarkdownBody } from '../../../markdown/MarkdownBody'
 import { InlineFieldValue } from '../InlineFieldValue'
@@ -24,21 +25,28 @@ export function RegistroCard({
   model,
   doc,
   embedded,
+  aberto,
 }: {
   reg: Registro
   tipo: 'personagem' | 'local'
   model: AventuraModel
   doc: VaultDoc
-  /** Dentro de um chip expandido: sem o heading grande. */
+  /** Dentro de um chip expandido: sem o heading grande, sempre aberto. */
   embedded?: boolean
+  /** Abre o card (ex.: clique no marker do mapa). */
+  aberto?: boolean
 }) {
+  const [open, setOpen] = useState(!!aberto)
+  useEffect(() => {
+    if (aberto) setOpen(true)
+  }, [aberto])
   const nucleo = tipo === 'personagem' ? PERSONAGEM_NUCLEO : LOCAL_NUCLEO
   const omitir = new Set<string>([...CAMPOS_REF, PERSONAGEM_FRASES.toLowerCase()])
   const campos = ordenarCampos(reg.campos, nucleo, omitir)
   const frases = tipo === 'personagem' ? itensDe(campo(reg.campos, PERSONAGEM_FRASES)) : []
-  return (
-    <article className={`av-registro is-${tipo}${embedded ? ' is-embedded' : ''}`} id={`av-reg-${reg.slug}`} data-av-registro={reg.nome}>
-      {embedded ? null : <h3 className="av-registro-nome">{reg.nome}</h3>}
+  const hint = tipo === 'personagem' ? campo(reg.campos, 'Papel') : campo(reg.campos, 'Atlas')
+  const conteudo = (
+    <>
       {REF_LABELS[tipo].map((label) => (
         <RefRow key={label} label={label} refs={refsDe(campo(reg.campos, label))} model={model} doc={doc} />
       ))}
@@ -66,6 +74,30 @@ export function RegistroCard({
         <SegredoBlock key={i} segredo={s} doc={doc} />
       ))}
       {reg.corpo ? <MarkdownBody doc={{ ...doc, body: reg.corpo }} /> : null}
-    </article>
+    </>
+  )
+  if (embedded) {
+    return (
+      <article className={`av-registro is-${tipo} is-embedded`} data-av-registro={reg.nome}>
+        {conteudo}
+      </article>
+    )
+  }
+  // Colapsado por padrão (pedido 2026-09-07: facilitar a navegação) — <details>
+  // nativo, mesma linguagem dos cards do Contexto Atual; o conteúdo fica no DOM.
+  return (
+    <details
+      className={`av-registro is-${tipo} ctx-acc`}
+      id={`av-reg-${reg.slug}`}
+      data-av-registro={reg.nome}
+      open={open}
+      onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}
+    >
+      <summary className="ctx-acc-head av-registro-head">
+        <span className="ctx-acc-title">{reg.nome}</span>
+        {hint ? <span className="ctx-acc-assunto"><InlineFieldValue value={hint} /></span> : null}
+      </summary>
+      <div className="av-registro-body">{conteudo}</div>
+    </details>
   )
 }

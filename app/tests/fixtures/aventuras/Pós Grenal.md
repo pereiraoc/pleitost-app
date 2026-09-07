@@ -43,7 +43,8 @@ Financiador: "[[Consórcio das Bandeiras]]"
 > [!info] Estrutura da sessão
 > **Duração:** `= this.Duração`
 > **Jogadores:** `= this.Jogadores`
-> **Rank:** `= this.rank` (nível 0–1; use a linha correspondente da tabela de [[CD]] — Fácil 11–12 · Base 13–14 · Difícil 15–16)
+> **Rank:** `= this.rank` (nível 0–1)
+> **CDs desta aventura:** nível 1 — Fácil **12** · Base **14** · Difícil **16** (nível 0: 11 · 13 · 15 — tabela de [[CD]]). Sucesso decisivo = CD+10, falha decisiva = CD−10 ([[Regra Básica]]). Os testes das cenas citam a classe e o número do nível 1.
 > **Formato:** `= this.Formato`
 > **Tom:** `= this.Tom`
 > **Regra da casa desta noite:** nenhum PC tem arma de fogo. Vale o [[Policiamento|Decreto das Armas Frias]] — a rua briga de facão, cassetete, vergalhão e pistola de dardos. Quem tem pólvora é a Brigada, e isso importa no final.
@@ -51,6 +52,8 @@ Financiador: "[[Consórcio das Bandeiras]]"
 > [!info] Como ler esta nota
 > - 🔊 **Ler pra mesa** — bloco pra ler ou parafrasear em voz alta quando a cena começa ou o personagem entra. Curto, sensorial, sem floreio: o que se vê, o que se ouve, o que cheira, o que o pé pisa. Adapte o nome do PC e o placar. Os de PERSONAGEM e de LOCAL ficam nos registros da seção 2; os de MOMENTO ficam nas cenas.
 > - **[!gm]** — segredo de mestre; nunca sai da tela.
+> - **[!dupla]** — par de objetivos que só entra junto, em jogadores diferentes.
+> - Os combates vivem em **2.5 Combates** (roster, velocidades, elementos de cenário); a cena só aponta pra eles — no app o bloco aparece dentro da cena.
 > - Cada cena segue a mesma ordem: ficha da cena → o que acontece → interações e testes → saídas.
 
 ## Roteiro em uma página
@@ -125,10 +128,10 @@ Menores, mas úteis: [[Embratel]] (ouve tudo, inclusive o rádio de Brum), [[Ali
 ## 2.2 Notas para o Mestre
 ### Preparação
 - [ ] Ler as notas: [[Consórcio das Bandeiras]], [[Cartel dos Eixos]], [[Panvel]], [[Brigada Militar Metropolitana]], [[Camisa 12]], [[Geral do Grêmio]], [[Estádio Beira-Rio]], [[Praia de Belas]], [[Passo D'Areia]], [[Tipos de Substâncias e Legalidade]].
-- [ ] Decidir a **opção dramática de Brum** (Cena 6 → Fase 2) e, junto, **onde está o courier** (registro de [[#Juninho “Isopor”]]). As duas decisões se casam.
+- [ ] Ler as 4 **opções dramáticas de Brum** e as 3 posições do courier (registro de [[#Juninho “Isopor”]]) — **não decida agora**: a escolha é na mesa, pela tabela da [[#Cena 6 — Retífica Sertório]], conforme o que os PCs fizeram até a investigação.
 - [ ] Rolar (ou escolher) o resultado do Gre-Nal antes de começar.
 - [ ] Distribuir os 4 papéis-base e os objetivos público/secreto (1 par por jogador).
-- [ ] Montar os rosters do combate final no tracker e conferir a barra de dificuldade com as fichas da mesa.
+- [ ] Os rosters já estão prontos em **2.5 Combates**, com as velocidades de iniciativa definidas. Na sessão, **Preparar** a Fase 1 antes de começar; a Fase 2 não se prepara — entra no combate ativo quando Brum chega. Conferir a barra de dificuldade contra as fichas da mesa.
 - [ ] Ter na mão a tabela do que há na caixa e a tabela de efeitos colaterais experimentais (Abertura).
 - [ ] Passar o olho nos blocos 🔊 (são 20) e marcar os que você vai ler de fato — pule os que a mesa já viu.
 
@@ -200,6 +203,9 @@ Os secretos são a camada oculta que complica a noite.
 
 Distribua 1 par por jogador (os 4 papéis-base sugerem pares, mas deixe escolher). Objetivo cumprido = vale contar na cena de epílogo — e uma Marca extra se o Mestre achar que rendeu mesa.
 
+**Duplas.** Três objetivos só fazem sentido com o par na mesa — o secreto de um depende do outro. Eles vêm marcados como **[!dupla]** e entram **juntos, em jogadores diferentes**: quem pega um obriga alguém a pegar o outro. Numa mesa de 4, no máximo duas duplas.
+
+#### Objetivos simples
 >[!info] O Malandro
 >**Público:** Sair da noite com dinheiro no bolso.
 >**Secreto:** Vender algo que você roubou.
@@ -212,33 +218,9 @@ Distribua 1 par por jogador (os 4 papéis-base sugerem pares, mas deixe escolher
 >**Público:** Conquistar o coração de alguém.
 >**Secreto:** Se embebedar em algum momento.
 
->[!info] O Brigão
->**Público:** Bater em alguém do time rival.
->**Secreto:** Tomar pelo menos 1 dose de droga experimental.
-
 >[!info] O Aproveitador
 >**Público:** Roubar algo de alguém.
 >**Secreto:** Fazer alguém te dever dinheiro.
-
->[!info] O Profeta de Botequim
->**Público:** Fazer alguém comprar uma ideia ridícula tua.
->**Secreto:** Impedir que o colega viciado tome a 3ª dose de taurilênico.
-
->[!info] O Purista Político
->**Público:** Não encostar em selênico nem com ordem judicial.
->**Secreto:** Converter pelo menos 1 pessoa pra tua cruzada anti-selênica e fazer ela repetir que “selênico é coleira de corporação”.
-
->[!info] O Protetor Interesseiro
->**Público:** Fazer alguém te dever um favor.
->**Secreto:** Garantir que o colega X não tenha sua Vitalidade reduzida a 0 em nenhum momento.
-
->[!info] O Taurilênico
->**Público:** Sair da noite com algum item valioso.
->**Secreto:** Tomar 3 doses de taurilênico, com ao menos 10 minutos entre elas.
-
->[!info] O Apostador
->**Público:** Ganhar uma aposta.
->**Secreto:** Convencer alguém a usar um selênico.
 
 >[!info] O Torcedor de Verdade
 >**Público:** Cantar o hino do teu time num lugar onde não deveria.
@@ -248,6 +230,40 @@ Distribua 1 par por jogador (os 4 papéis-base sugerem pares, mas deixe escolher
 >**Público:** Pagar a dívida com o bicheiro antes do amanhecer.
 >**Secreto:** A dívida é com o Consórcio das Bandeiras. Arlindo sabe teu nome — e vai lembrar na hora errada.
 
+#### Objetivos em dupla
+> [!dupla] Dupla — O Taurilênico + O Profeta de Botequim
+> Um é o viciado, o outro é quem tenta segurar. Os dois secretos disputam a mesma noite — e as mesmas latas.
+>
+> **O Taurilênico**
+> **Público:** Sair da noite com algum item valioso.
+> **Secreto:** Tomar 3 doses de taurilênico, com ao menos 10 minutos entre elas.
+>
+> **O Profeta de Botequim**
+> **Público:** Fazer alguém comprar uma ideia ridícula tua.
+> **Secreto:** Impedir que o colega viciado (O Taurilênico) tome a 3ª dose.
+
+> [!dupla] Dupla — O Brigão + O Protetor Interesseiro
+> O Brigão vai se meter em confusão; o Protetor precisa que ele saia inteiro — e cobra por isso.
+>
+> **O Brigão**
+> **Público:** Bater em alguém do time rival.
+> **Secreto:** Tomar pelo menos 1 dose de droga experimental.
+>
+> **O Protetor Interesseiro**
+> **Público:** Fazer alguém te dever um favor.
+> **Secreto:** Garantir que o colega Brigão não tenha sua Vitalidade reduzida a 0 em nenhum momento.
+
+> [!dupla] Dupla — O Apostador + O Purista Político
+> Cabo de guerra: os dois miram a **mesma** pessoa (um NPC ou um PC, escolhido em segredo na hora) — um quer que ela use, o outro quer que ela jure nunca mais.
+>
+> **O Apostador**
+> **Público:** Ganhar uma aposta.
+> **Secreto:** Convencer alguém a usar um selênico.
+>
+> **O Purista Político**
+> **Público:** Não encostar em selênico nem com ordem judicial.
+> **Secreto:** Converter pelo menos 1 pessoa pra tua cruzada anti-selênica e fazer ela repetir que “selênico é coleira de corporação”.
+
 #### Distribuição dos papéis-base
 Sem travar classe ou gênero. As classes são só sugestões — o nome entre parênteses é como o mundo chama.
 
@@ -256,7 +272,7 @@ Sem travar classe ou gênero. As classes são só sugestões — o nome entre pa
 - fácil de comprar briga
 - protetor da família
 - *classes que rendem:* [[Guerreiro|Soldado]], [[Monge|Artista Marcial]], [[Druida|Nóia]]
-- *pares de objetivo que combinam:* O Brigão, O Protetor Interesseiro, O Torcedor de Verdade
+- *pares de objetivo que combinam:* O Brigão (dupla com O Protetor), O Torcedor de Verdade
 
 **Personagem 2 — Gremista / irmão**
 - mais frio
@@ -269,13 +285,13 @@ Sem travar classe ou gênero. As classes são só sugestões — o nome entre pa
 - conhece fluxo de barraca, carga, ambulante, caixa e atalho
 - ótimo pra ser o acusado ou o que percebe a caixa errada
 - *classes que rendem:* [[Comandante|Articulador]], [[Animista|Químico]], [[Guerreiro|Soldado]]
-- *pares:* O Taurilênico, O Profeta de Botequim, O Purista Político
+- *pares:* O Taurilênico (dupla com O Profeta), O Purista Político (dupla com O Apostador)
 
 **Personagem 4 — Gremista / colega de trabalho**
 - lábia, trato, contato, cambista, oficina, brique
 - ótimo pra empurrar investigação e favores
 - *classes que rendem:* [[Bardo|Ressonante]], [[Caçador|Executivo]], [[Ladino|Malandro]]
-- *pares:* O Negociante, O Apostador, O Romântico
+- *pares:* O Negociante, O Romântico, O Protetor Interesseiro (dupla com O Brigão)
 
 ### Frases úteis
 Vozes sem registro próprio (as dos personagens estão nos registros da seção 2.3).
@@ -583,6 +599,40 @@ marker: Local,952,434,Boteco da Rua Sertório,,,
 marker: Local,936,454,Praça das Nogueiras,,,
 ```
 
+## 2.5 Combates
+Rosters do bestiário da vault, com a velocidade de iniciativa do app já definida por instância (sufixo depois do wikilink; o Obsidian ignora). No app, cada registro tem o bloco com dificuldade, PREPARAR e adicionar à sessão — e a cena que referencia o combate mostra o mesmo bloco.
+
+### Fase 1 — Capangas e operadores
+> [!info] Combate
+> **Cena:** [[#Cena 6 — Retífica Sertório]]
+> **Quando:** os PCs entram na Retífica — pelo portão (barulho, fase completa) ou pelo vagão (surpresa: metade dos capangas está na frente).
+> **Inimigos:** seguranças improvisados da oficina (chapas com vergalhão e cassetete), o operador de carga (com o solvente na mão), o **brigadiano de bico** — o homem de jaqueta cinza, à paisana, com pistola de dardos — e um torcedor comprado (guri da Camisa 12 que o Cartel pagou).
+> **Velocidades:** o brigadiano de bico (Guarda) e um Arruaceiro são **rápidos**; os outros três Arruaceiros são **lentos**.
+> **Função dramática:** travar o grupo, desgastar recurso, espalhar o combate pelo cenário e dar tempo pra chegada do chefe.
+> **Elementos de cenário:** empilhar/derrubar caixa; derrubar a luz de mercúrio (chave no escritório de vidro — escuro total, quem tem [[Furtividade]] agradece); freezer como cobertura; solvente no chão (e alguém acender um cigarro); acertar ferramentas; ameaça de quebrar frascos — e de quebrar **a Matriz**, que cristaliza e brilha azul se levar choque (um cabo do gerador basta); soltar a trava do elevador com o Gurgel em cima. Zonas no registro [[#Retífica Sertório]].
+> **Preparar:** sim — antes da sessão começar, deixe preparado (o card ▶ INICIAR da Sessão faz o resto).
+
+```combat-marker-small
+- 1 [[Guarda]] rápido
+- 1 [[Arruaceiro]] rápido
+- 3 [[Arruaceiro]] lento
+```
+
+### Fase 2 — Chega o mais forte
+> [!info] Combate
+> **Cena:** [[#Cena 6 — Retífica Sertório]]
+> **Quando:** com a Fase 1 quase resolvida. Brum entra **no combate ativo** — use "adicionar ao combate ativo" neste bloco; não prepare à parte. Qual versão de Brum entra é decidido na mesa (tabela da Cena 6).
+> **Inimigos:** [[#Sargento Valdir Brum]] (ficha de [[Guarda Oficial]]; narre a arma como o revólver de serviço — mesmo ataque, outro sabor: a única arma de fogo da noite, **quatro balas**, cada tiro é um evento e a oficina inteira congela) e o motorista dele (Guarda) — corte o motorista se a mesa estiver sofrendo.
+> **Velocidades:** Brum é **super rápido**; o motorista é **rápido**.
+> **Perfil:** brutal, pragmático, sabe demais; quer a Cápsula-Matriz ou quer apagar ponta solta; pode estar com o courier sob sua proteção, morto ou já traído.
+> **Brum negocia:** se estiver perdendo (ou se um PC oferecer antes), propõe a Matriz por "nunca vi vocês". Aceitar entrega a peça mais valiosa pro homem mais perigoso — e resolve o problema dos PCs com a Brigada. Recusar é combate até o fim. Um PC com [[Intuição]] (CD Base 14) percebe que ele está contando as balas.
+> **Função:** elevar o combate, amarrar a acusação inicial ao final e permitir o confronto pessoal com quem os marcou na saída do estádio.
+
+```combat-marker-small
+- 1 [[Guarda Oficial]] super rápido
+- 1 [[Guarda]] rápido
+```
+
 ---
 
 # 3. Cenas
@@ -726,8 +776,19 @@ A confusão começa como:
 - boato de facada
 - correria
 
-**Não entra combate formal aqui.**
-É caos social: testes de [[Atletismo]] pra se manter em pé, [[Intimidação]] pra abrir caminho, [[Enganação]] pra passar por torcedor do outro lado, [[Percepção]] pra ver de onde vem o rojão. Quem falha não morre: perde alguém de vista, leva uma cotovelada, fica com a jaqueta rasgada.
+**Não entra combate formal aqui.** É caos social — cada situação é um teste contra a CD do nível (tabela na Estrutura; aqui, nível 1). Quem falha não morre: perde alguém de vista, leva uma cotovelada, fica com a jaqueta rasgada.
+
+| Situação | Teste | CD | Na falha | Falha decisiva (CD−10) |
+|---|---|---|---|---|
+| ficar em pé no empurra-empurra | [[Atletismo]] | Fácil (12) | leva uma cotovelada e perde o par de vista por 1 rodada | vai ao chão: pisoteado, [[Fadigado]] até a Casa da Drenagem |
+| abrir caminho na muvuca | [[Intimidação]] | Base (14) | não passa; quem estava atrás cola | um grandão da torcida rival decide que foi provocação |
+| passar por torcedor do outro lado (camisa errada) | [[Enganação]] | Base (14) | é reconhecido: um guri da Camisa 12 (ou um blazer) grava o rosto | apanha rápido antes de sumir na multidão |
+| ver de onde vem o rojão / onde a Brigada está fechando | [[Percepção]] | Difícil (16) | só percebe a linha de choque quando ela já fechou a rampa sul | vai na direção errada: direto pro posto da Brigada |
+| segurar a caixa térmica no tumulto | [[Atletismo]] ou [[Acrobacia]] | Base (14) | a caixa cai: 1 item quebra (o Mestre escolhe) | a caixa abre no chão e metade da rampa vê o fundo falso |
+| convencer um brigadiano a olhar pro outro lado | [[Diplomacia]] | Difícil (16) | revista rápida — perde 1 dose ou o dinheiro do bolso | revista completa: a caixa é apreendida (vai pra saída "entregar a caixa") |
+| grudar num cambista/ambulante pra sair no fluxo dele | [[Ladinagem]] | Fácil (12) | ele nota e cobra passagem | ele grita "ladrão" e a Brigada olha |
+
+Sucesso decisivo (CD+10) em qualquer linha: o PC ainda ganha uma informação de graça — onde Juninho foi parar, ou que a "ambulância" da Panvel não tem maca.
 
 #### O gatilho do incidente
 - O ambulante (Juninho) percebe a batida se formando — a linha de choque fecha a rampa sul
@@ -764,30 +825,28 @@ Nico surge puxando o grupo (leia o 🔊 do registro dele) e, antes que a linha d
 > **Objetivo:** tirar o grupo do estádio e levar até a base da facção com sensação de cidade podre e clandestina.
 > **Duração:** 20 min
 
-#### O caminho
-Nico leva os PCs por:
-- grade lateral da rampa sul (emperrada — [[Atletismo]] CD Fácil, ou a ferramenta certa)
-- corredor de serviço com as caixas da Zaffari
-- poço de manutenção dos diques
-- galeria de drenagem antiga, água na canela, ecoando a sirene
-- a Casa da Drenagem
+#### O caminho (role 1d10 por trecho)
+Nico leva os PCs pela grade lateral da rampa sul, pelo corredor de serviço das caixas da Zaffari, pelo poço de manutenção dos diques e pela galeria de drenagem até a Casa da Drenagem. Divida em **2 ou 3 trechos**; em cada um, role 1d10 (ou escolha) e aplique o obstáculo. Repetiu? Role de novo. CDs do nível 1 (Estrutura).
 
-A cidade já carrega enchente, ruína de infraestrutura e reaproveitamento clandestino de espaços abandonados — veja [[Grande Enchente de 1986]] e [[Cidade Baixa]].
+| d10 | Obstáculo | Teste | CD | Na falha |
+|---|---|---|---|---|
+| 1 | Grade lateral emperrada de ferrugem | [[Atletismo]] (forçar) ou [[Ladinagem]] (a lingueta) | Fácil (12) | 1 rodada a mais na rampa — a lanterna do brigadiano chega (aplique o 2) |
+| 2 | Brigadiano varrendo o corredor de serviço com a lanterna | [[Furtividade]] (em grupo — o pior resultado vale) | Base (14) | perseguição curta: alguém leva cassetete nas costas e larga o que estava carregando |
+| 3 | Escada de ferro do poço, molhada e sem dois degraus | [[Acrobacia]] | Fácil (12) | escorrega 3 m de altura: dano de queda, e o barulho ecoa lá em cima |
+| 4 | Água na canela que vira água na cintura, gelada | [[Vigor]] | Base (14) | tremedeira: fica [[Fadigado]] até secar na Casa da Drenagem |
+| 5 | Bifurcação onde Nico hesita ("era pra esquerda… acho") | [[Sobrevivência]] ou [[Intuição]] | Base (14) | 20 minutos a mais no relógio da desmontagem |
+| 6 | Torcedor rival ferido, sentado na água, pedindo ajuda | decisão + [[Medicina]] (estancar) | Fácil (12) | ele desmaia; carregar custa [[Atletismo]] Base (14) pelo resto do trajeto — o Protetor e o Purista têm opinião |
+| 7 | Sirene em cima e um cachorro da Brigada farejando o bueiro | [[Furtividade]] (ficar parado no escuro) | Difícil (16) | o cachorro marca o ponto: brigadianos descem pela Estação Férrea — a rota B fecha |
+| 8 | A caixa térmica quase cai na água num degrau submerso | [[Acrobacia]] de quem carrega | Base (14) | duas latas de Taurilênico afundam e o bilhete molha mais (Pista 3 vira Difícil) |
+| 9 | Boca de lobo trancada com corrente e cadeado | [[Ladinagem]] (abrir) ou [[Atletismo]] (arrombar, com barulho) | Base (14) / Difícil (16) | volta pro trecho anterior e role de novo; arrombar com falha decisiva = aplique o 7 |
+| 10 | Trecho desabado desde 86 — entulho até o teto, com a marca d'água na altura do peito | [[Atletismo]] (escalar o entulho) | Difícil (16) | 30 minutos contornando pela margem do Guaíba (rota C) |
+
+Falha decisiva (CD−10) em qualquer trecho: além do efeito, alguém fica pra trás (veja abaixo). A cidade já carrega enchente, ruína de infraestrutura e reaproveitamento clandestino de espaços abandonados — veja [[Grande Enchente de 1986]] e [[Cidade Baixa]].
 
 #### Escolha de rota (Nico oferece, com a voz tremendo)
 - **Galeria direta** — mais rápida, mais escura, um trecho com água na cintura. É a que ele conhece. Leia o 🔊 do registro do local.
 - **Pela Estação Férrea** — mais seca, passa pela ocupação dos refugiados e **por baixo do posto da Brigada**. Quem sobe ali vê a van do Cartel indo embora (Pista 2 de graça, se alguém olhar).
 - **Pela margem do Guaíba** — pra quem não quer túnel: passa pelo [[Mercado de Frutos do Mar]] fechado e pelas lanchas da Aliança. Mais longa, mais fria, com patrulha fluvial.
-
-#### Obstáculos rápidos
-Use 2 ou 3:
-- grade emperrada
-- brigadiano iluminando o corredor com lanterna (Furtividade em grupo, CD Base)
-- torcedor rival ferido pedindo ajuda (deixar ou carregar? — o Protetor e o Purista têm opinião)
-- água pela canela, depois pela cintura, gelada
-- sirene ecoando no túnel, um cachorro da Brigada latindo lá em cima
-- a caixa quase caindo na água (quem segura? o que quebra?)
-- uma bifurcação onde Nico hesita — um PC com [[Sobrevivência]] ou [[Intuição]] (CD Base) escolhe certo; erro custa 20 minutos no relógio
 
 #### Se alguém ficar pra trás
 Foi pego: acorda amarrado numa caldeira do [[Usina do Gasômetro|Gasômetro]] com Brum perguntando pela caixa (🔊 no registro [[#Usina do Gasômetro]]). Isso vira uma cena de resgate ou de troca — e Brum vira a Fase 2 mais cedo.
@@ -944,9 +1003,10 @@ Nenhuma das duas precisa ser aceita. As duas mudam o desfecho se forem.
 > **Personagens:** [[#Ademar “Cardã” Lemos]], [[#Sargento Valdir Brum]], [[#Juninho “Isopor”]]
 > **Objetivo:** impedir a redistribuição, recuperar o que restou da carga, lidar com o responsável final e decidir o que será devolvido, escondido ou desviado.
 > **Duração:** 60–75 min
+> **Combates:** [[#Fase 1 — Capangas e operadores]], [[#Fase 2 — Chega o mais forte]]
 
 #### Chegada
-Leia os dois 🔊 do registro [[#Retífica Sertório]] (a frente ao chegar; o galpão ao entrar). Fichas do bestiário da vault nos rosters abaixo — confira a barra de dificuldade contra as fichas da mesa e ajuste o número de [[Arruaceiro|Arruaceiros]] pra cima ou pra baixo.
+Leia os dois 🔊 do registro [[#Retífica Sertório]] (a frente ao chegar; o galpão ao entrar). Os dois combates estão em 2.5 Combates (roster, velocidades, elementos de cenário) — no app, os blocos aparecem aqui embaixo; confira a barra de dificuldade contra as fichas da mesa e ajuste o número de [[Arruaceiro|Arruaceiros]] pra cima ou pra baixo.
 
 #### Como chegar (a mesa escolhe)
 - **Invadir pelo portão** — direto, barulhento, Fase 1 completa.
@@ -955,67 +1015,20 @@ Leia os dois 🔊 do registro [[#Retífica Sertório]] (a frente ao chegar; o ga
 - **Chamar a Brigada de verdade** — ligar pro batalhão da [[Coronel Luciana Prado]] com o nome de Brum. Funciona **se** os PCs tiverem a gravação da Embratel ou o brigadiano jovem como testemunha. Senão, quem chega é gente do Brum.
 - **Esperar Brum chegar e seguir ele** — o jeito de pegar os dois juntos: a Fase 1 e a Fase 2 viram uma só, mais dura, mas com a Matriz garantida em cena.
 
-#### Combate — Fase 1: Capangas e operadores
-3 a 5 inimigos mais fracos:
-- seguranças improvisados da oficina (chapas com vergalhão e cassetete)
-- operador de carga (com o solvente na mão)
-- **brigadiano de bico** — o homem de jaqueta cinza, à paisana, com pistola de dardos
-- torcedor comprado (um guri da Camisa 12 que o Cartel pagou)
+#### Fase 1 — Capangas e operadores
+Registro [[#Fase 1 — Capangas e operadores]]: roster, velocidades e elementos de cenário. Na condução, o que muda a cena é **o Cardã**: ele **não luta** — fica no escritório de vidro com a mão protética no telefone. Se a mesa o ignorar, ele liga pro Brum e antecipa a Fase 2. Se alguém fala com ele no meio da briga, ele negocia: é a última chance da porta sem sangue.
 
-```combat-marker-small
-- 4 [[Arruaceiro]]
-- 1 [[Guarda]]
-```
+#### Fase 2 — Brum entra (decida NA MESA)
+Quando a Fase 1 estiver quase resolvida, Brum entra **no combate ativo** — registro [[#Fase 2 — Chega o mais forte]], botão "adicionar ao combate ativo"; não prepare à parte. **Qual Brum entra** depende do que aconteceu até aqui — por isso não se decide na preparação:
 
-**Função dramática**
-- travar o grupo
-- desgastar recurso
-- espalhar o combate pelo cenário
-- dar tempo pra chegada do chefe
+| Se até aqui… | Entra assim | Juninho está… |
+|---|---|---|
+| os PCs passaram batido — nenhuma pista humana, Brum não sabe que estão soltos | **1. Brum chega com reforço** — pela frente, com o motorista e uma lanterna, pra buscar o guri e a Matriz | amarrado no galpão (A) |
+| a Camisa 12 ficou sabendo da caixa (caravana, oferta aceita, guri que viu os PCs voltando) | **2. Brum chega já ferido, mas perigoso** — a Camisa 12 o pegou na Zona Leste; vem pelo vagão do Aeromóvel, sozinho, sangrando, com o revólver na mão | amarrado no galpão (A) |
+| os PCs chegaram cedo (até 3h no relógio) ou entraram pelo vagão, com surpresa | **3. Brum já está negociando** no escritório de vidro com o Cardã; Fase 1 e Fase 2 acontecem juntas e o Cardã pode virar o jogo pra qualquer lado | negociando, vendendo a Matriz pros dois (B) |
+| os PCs demoraram (5h ou mais) ou avisaram Brum que estão soltos (Pista 5 com o próprio Brum) | **4. Brum matou o courier e já tem a Matriz** — chega pra vender ao Cardã; se foge pelo vagão, a Matriz some e a noite termina no gancho | no Guaíba (C) |
 
-**Elementos de cenário** (zonas no registro do local)
-- empilhar/derrubar caixa
-- derrubar a luz de mercúrio (chave no escritório de vidro — escuro total, quem tem [[Furtividade]] agradece)
-- usar o freezer como cobertura
-- jogar solvente no chão (e alguém acender um cigarro)
-- acertar ferramentas
-- ameaça de quebrar frascos — e de quebrar **a Matriz**, que cristaliza e brilha azul se levar choque (um cabo do gerador basta)
-- soltar a trava do elevador com o Gurgel em cima
-
-**O Cardã na Fase 1**
-Ele **não luta**. Fica no escritório de vidro, com a mão protética no telefone. Se a mesa o ignorar, ele liga pro Brum e antecipa a Fase 2. Se alguém fala com ele no meio da briga, ele negocia — é a última chance da porta sem sangue.
-
-#### Combate — Fase 2: Chega o mais forte
-Quando a Fase 1 estiver quase resolvida, entra o **Sargento Valdir Brum** — o mesmo brigadiano da acusação inicial, agora revelado como peça relevante da interceptação (🔊 “Brum chega” no registro dele).
-
-```combat-marker-small
-- 1 [[Guarda Oficial]]
-- 1 [[Guarda]]
-```
-
-O segundo é o motorista dele — corte se a mesa estiver sofrendo. Use a ficha de [[Guarda Oficial]] pro Brum; **narre a arma dele como o revólver de serviço** (mesmo ataque da ficha, outro sabor): é a única arma de fogo da noite, tem **quatro balas**, e cada tiro é um evento — a oficina inteira congela quando ele dispara.
-
-**Perfil**
-- brutal
-- pragmático
-- sabe demais
-- quer a Cápsula-Matriz ou quer apagar ponta solta
-- pode estar com o courier sob sua proteção, morto ou já traído
-
-**Opções dramáticas (casadas com “onde está Juninho”)**
-Escolha uma:
-1. **Brum chega com reforço** — pela frente, com o motorista e uma lanterna. Juninho está amarrado no galpão (opção A). Brum quer o guri e a Matriz.
-2. **Brum chega já ferido, mas perigoso** — a Camisa 12 o pegou na Zona Leste no caminho (o recado do Borracheiro chegou). Vem pelo vagão do Aeromóvel, sozinho, sangrando, com o revólver na mão. Juninho amarrado (opção A).
-3. **Brum está negociando a carga quando os PCs invadem** — ele e o Cardã no escritório de vidro, Juninho (opção B) vendendo a Matriz pros dois ao mesmo tempo. A Fase 1 e a Fase 2 acontecem juntas; o Cardã pode virar o jogo pra qualquer lado.
-4. **Brum matou o courier e já tomou a Matriz** — Juninho no Guaíba (opção C). Brum chega pra vender a Matriz ao Cardã. Se os PCs o derrotam, têm a Matriz e um sargento morto ou preso; se ele foge pelo vagão, a Matriz some — e a noite termina com o gancho.
-
-**Brum negocia**
-Se estiver perdendo (ou se um PC oferecer antes), ele propõe: a Matriz por “nunca vi vocês”. Aceitar entrega a peça mais valiosa pro homem mais perigoso — e resolve o problema dos PCs com a Brigada. Recusar é combate até o fim. Um PC com [[Intuição]] (CD Base) percebe que ele está contando as balas.
-
-**Função**
-- elevar o combate
-- amarrar a acusação inicial ao final
-- permitir confronto pessoal com quem os marcou na saída do estádio
+Empate entre linhas: prevalece a mais baixa da tabela (a noite piora com o tempo). Perfil de Brum, como ele negocia e a função dramática da entrada estão no registro dele e no registro da Fase 2.
 
 ---
 

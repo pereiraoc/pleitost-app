@@ -183,7 +183,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   let aventura = null;
   if (avIn) {
     const secoes = asStringMap(avIn.secoes, "base.aventura.secoes", problems);
-    for (const k of ["resumo", "roteiro", "contexto", "contexto_aventura", "notas_mestre", "personagens", "locais", "mapa", "cenas", "abertura", "cena", "desfecho"]) {
+    for (const k of ["resumo", "roteiro", "contexto", "contexto_aventura", "notas_mestre", "personagens", "locais", "mapa", "combates", "cenas", "abertura", "cena", "desfecho"]) {
       if (!secoes[k]) problems.push(`base.aventura.secoes.${k}: obrigatório`);
     }
     aventura = {

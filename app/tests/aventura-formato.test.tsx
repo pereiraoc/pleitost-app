@@ -22,6 +22,7 @@ import { FolderView } from '../src/components/compendium/FolderView'
 import { SessionRepoProvider } from '../src/data/session-repo/provider'
 import { InMemorySessionRepo } from '../src/data/session-repo/in-memory'
 import { setLiveSession, getLiveSession } from '../src/data/session-repo/live-session'
+import { prepsFromEntries, startEncounterFromRoster } from '../src/data/session-repo/encounter-actions'
 import { __resetDocLocksForTests, setDevSenha, unlockWithSenha } from '../src/data/doc-lock'
 import { __resetLocalStoreForTests } from '../src/data/local-entities'
 import { __resetSettingsForTests, useSettings } from '../src/settings'
@@ -196,9 +197,18 @@ describe('página por seção (formato de aventura)', () => {
   it('renderiza as 5 seções, estrutura do FM, registros e cenas com combates', async () => {
     const { container } = renderDoc()
     await waitFor(() => expect(container.querySelector('[data-av-formato]')).toBeTruthy())
-    for (const id of ['av-resumo', 'av-contexto', 'av-personagens', 'av-locais', 'av-cenas']) {
+    for (const id of ['av-resumo', 'av-contexto', 'av-personagens', 'av-locais', 'av-combates', 'av-cenas']) {
       expect(container.querySelector(`#${id}`), id).toBeTruthy()
     }
+    // colapsadas de saída, menos o Resumo (pedido 2026-09-07)
+    expect((container.querySelector('#av-resumo') as HTMLDetailsElement).open).toBe(true)
+    expect((container.querySelector('#av-personagens') as HTMLDetailsElement).open).toBe(false)
+    expect((container.querySelector('#av-cenas') as HTMLDetailsElement).open).toBe(false)
+    // registros colapsados (details fechado), conteúdo no DOM
+    expect((container.querySelector('[data-av-registro="Arlindo “Bomba” Fagundes"]') as HTMLDetailsElement).open).toBe(false)
+    // 2.5 Combates: 2 registros com bloco de roster
+    expect(container.querySelectorAll('#av-combates [data-av-combate-reg]').length).toBe(2)
+    expect(container.querySelector('#av-combates [data-av-combate="fase-1-capangas-e-operadores"]')).toBeTruthy()
     // estrutura lida do FM + contagens derivadas
     const est = container.querySelector('[data-av-estrutura]') as HTMLElement
     expect(est.textContent).toContain('3h a 4h30')
@@ -222,10 +232,14 @@ describe('página por seção (formato de aventura)', () => {
     expect(container.querySelector('[data-av-cena="1"] .av-cena-body')).toBeTruthy()
     expect(container.querySelector('[data-av-cena="6"] .av-cena-body')).toBeNull()
     fireEvent.click(within(container.querySelector('[data-av-cena="6"]') as HTMLElement).getByRole('button', { name: /Retífica Sertório/ }))
-    await waitFor(() => expect(container.querySelectorAll('[data-av-cena="6"] [data-av-combate]').length).toBe(2))
-    const f1 = container.querySelector('[data-av-cena="6"] [data-av-combate="1"]') as HTMLElement
-    expect(f1.textContent).toContain('Fase 1')
+    // a cena PUXA os dois combates referenciados de 2.5 (mesmo card)
+    await waitFor(() => expect(container.querySelectorAll('[data-av-cena="6"] [data-av-combate-reg]').length).toBe(2))
+    const f1 = container.querySelector('[data-av-cena="6"] [data-av-combate="fase-1-capangas-e-operadores"]') as HTMLElement
     expect(f1.textContent).toContain('Arruaceiro')
+    // velocidades da nota aparecem no banner (Guarda rápido; Arruaceiro #4 lento)
+    expect(f1.textContent).toContain('Rápido')
+    expect(f1.textContent).toContain('Lento')
+    expect(f1.textContent).toContain('Arruaceiro #4')
   })
 
   it('chip de Local/Personagem da cena expande o registro ali mesmo', async () => {
@@ -257,18 +271,32 @@ describe('página por seção (formato de aventura)', () => {
     await waitFor(() => expect(container.querySelector('[data-av-iniciar]')).toBeTruthy())
     // abre a cena 6 e prepara a Fase 1
     fireEvent.click(within(container.querySelector('[data-av-cena="6"]') as HTMLElement).getByRole('button', { name: /Retífica Sertório/ }))
-    const f1 = await waitFor(() => container.querySelector('[data-av-cena="6"] [data-av-combate="1"]') as HTMLElement)
+    const f1 = await waitFor(() => container.querySelector('[data-av-cena="6"] [data-av-combate="fase-1-capangas-e-operadores"]') as HTMLElement)
+    // sem combate ativo, o outro botão é "adicionar à sessão"
+    expect(within(f1).getByRole('button', { name: /\+ Adicionar à sessão/ })).toBeTruthy()
     fireEvent.click(within(f1).getByRole('button', { name: /Preparar na sessão/ }))
     await waitFor(async () => expect((await repo.listEncountersBySession(sess.id)).length).toBe(1))
     const [enc] = await repo.listEncountersBySession(sess.id)
     expect(enc!.status).toBe('prepared')
-    expect(enc!.sourceNotePath).toBe(`${ID}#retifica-sertorio#1`)
-    expect(enc!.name).toContain('Cena 6')
-    expect(enc!.roster.entries.map((e) => `${e.qty}× ${e.label}`)).toEqual(['4× Arruaceiro', '1× Guarda'])
+    expect(enc!.sourceNotePath).toBe(`${ID}#fase-1-capangas-e-operadores`)
+    expect(enc!.name).toContain('Fase 1')
+    expect(enc!.roster.entries.map((e) => `${e.qty}× ${e.label}`)).toEqual(['1× Guarda', '1× Arruaceiro', '3× Arruaceiro'])
+    // as velocidades da nota viajam no roster e viram preps por instância
+    expect(prepsFromEntries(enc!.roster.entries)!.map((p) => p.speed)).toEqual(['rapido', 'rapido', 'lento', 'lento', 'lento'])
     // de novo → não duplica
     fireEvent.click(within(f1).getByRole('button', { name: /Preparar na sessão/ }))
     await screen.findByText(/já estava preparado/)
     expect((await repo.listEncountersBySession(sess.id)).length).toBe(1)
+    // ▶ INICIAR o preparado (mesmo caminho da Sessão, sem preps explícitos) → speeds do turno vêm da nota
+    await startEncounterFromRoster(repo, catalog, enc!, 'gm-1')
+    const [ativo] = await repo.listEncountersBySession(sess.id)
+    expect(ativo!.status).toBe('active')
+    const npcs = ativo!.turnState!.order
+    expect(npcs.map((id) => ativo!.turnState!.speeds?.[id])).toEqual(['rapido', 'rapido', 'lento', 'lento', 'lento'])
+    // com combate ATIVO na sala, o bloco da Fase 2 oferece "adicionar ao combate ativo"
+    setLiveSession({ ...getLiveSession()!, encounters: [ativo!] })
+    const f2 = await waitFor(() => container.querySelector('[data-av-cena="6"] [data-av-combate="fase-2-chega-o-mais-forte"]') as HTMLElement)
+    await waitFor(() => expect(within(f2).getByRole('button', { name: /Adicionar ao combate ativo/ })).toBeTruthy())
   })
 
   it('Iniciar na sessão grava state.aventura; marcar cena atualiza cenaAtual', async () => {

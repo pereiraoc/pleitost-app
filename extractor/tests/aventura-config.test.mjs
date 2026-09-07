@@ -12,7 +12,7 @@ const mundo = {
 const secoes = {
   resumo: "1. Resumo", roteiro: "Roteiro em uma página", contexto: "2. Contexto",
   contexto_aventura: "2.1 Contexto da Aventura", notas_mestre: "2.2 Notas para o Mestre",
-  personagens: "2.3 Personagens", locais: "2.4 Locais", mapa: "Mapa", cenas: "3. Cenas",
+  personagens: "2.3 Personagens", locais: "2.4 Locais", mapa: "Mapa", combates: "2.5 Combates", cenas: "3. Cenas",
   abertura: "Abertura", cena: "Cena", desfecho: "Desfecho",
 };
 

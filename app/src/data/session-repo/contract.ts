@@ -80,6 +80,11 @@ export interface EncounterRosterEntry {
   /** #395: raça de bestiário do genérico (Goblin/Orc/…) — concede habilidades
    *  raciais + Sintonia/Tamanho/Movimento. Ausente → Incomum (default). */
   raca?: string | null
+  /** FORMATO DE AVENTURA (2026-09-07): velocidade de iniciativa por INSTÂNCIA
+   *  escrita na nota (sufixo do roster). 1 valor = todas as instâncias;
+   *  N valores = uma por instância (qty). Vira turnState.speeds ao iniciar;
+   *  aditivo no jsonb (o pleitost-sync ignora). */
+  speeds?: ('super' | 'rapido' | 'lento' | 'superLento')[]
 }
 
 export interface EncounterRoster {
