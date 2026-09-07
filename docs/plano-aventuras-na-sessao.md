@@ -16,6 +16,17 @@
 > <docId>#<cena>#<n>`), `state.aventura` + iniciar/marcar cena/encerrar na
 > página da aventura. **Pendentes:** F5 painel AVENTURA na tela de Sessão
 > (espera desenho no Claude Design) e F6 mural ("mostrar pra mesa").
+> **Rodada 2026-09-07 (pedido do user):** seção **2.5 Combates** (registro
+> `### Nome` + `[!info] Combate` + fence; a cena referencia por
+> `**Combates:** [[#Nome]]` e o app mostra o mesmo card dentro dela);
+> **velocidade por instância no roster** (sufixo depois do wikilink —
+> `- 3 [[Arruaceiro]] lento`, `- 1 [[Guarda Oficial]] super rápido` — lido
+> contra `SPEED_LABEL`; o plugin ignora), que vira default do prep e
+> `turnState.speeds` ao iniciar; **adicionar ao combate ativo** (Fase 2 entra
+> na Fase 1); seções e registros **colapsados** de saída; callout
+> **`[!dupla]`** pra objetivos que só entram em par; Pós Grenal com decisão de
+> Brum NA MESA (tabela), briga de torcida com CDs e fuga em d10 com testes.
+>
 > Defaults assumidos nas perguntas sem resposta: `Papel` texto livre; um mapa
 > por aventura; `subcategoria` da Pós Grenal → "Recuperação de Relíquia" +
 > `Formato: One-Shot`; cifra (não hash); Chamada como proposta; lista trancada
