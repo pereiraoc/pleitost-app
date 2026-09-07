@@ -92,3 +92,17 @@ describe('rollShop2 — pronta (estoque) + encomenda (boolean)', () => {
     expect(shop.encomenda).toHaveLength(0)
   })
 })
+
+describe('preço por bairro (2026-09-07) — multiplicador da régua do mundo', () => {
+  it('multiplica o preço final (base × tier × bairro), arredondado; 1 = como sempre foi', () => {
+    const cands = [tesouro('Anel Canário', RARIDADE_MULT['tipico'], 40)]
+    const base = rollShop2(cands, [], 'Capital', DEFAULT_MATRIX, DEFAULT_ENCOMENDA_MATRIX, () => 0.99)
+    const nobre = rollShop2(cands, [], 'Capital', DEFAULT_MATRIX, DEFAULT_ENCOMENDA_MATRIX, () => 0.99, 1.5)
+    const periferia = rollShop2(cands, [], 'Capital', DEFAULT_MATRIX, DEFAULT_ENCOMENDA_MATRIX, () => 0.99, 0.7)
+    expect(base.pronta.find((e) => e.tier === 'A')!.preco).toBe(40)
+    expect(nobre.pronta.find((e) => e.tier === 'A')!.preco).toBe(60)
+    expect(periferia.pronta.find((e) => e.tier === 'A')!.preco).toBe(28)
+    // a encomenda usa o mesmo preço
+    expect(nobre.encomenda.find((e) => e.tier === 'A')!.preco).toBe(60)
+  })
+})

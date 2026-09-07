@@ -695,6 +695,9 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   // do GM persistido) ou a projeção da subcategoria.
   const subtypeLocalType = localTypeOfDoc(doc)
   const localType: LocalType | null = shop?.localType ?? subtypeLocalType
+  // PREÇO POR BAIRRO (2026-09-07): a linha da régua do mundo pode multiplicar o
+  // preço (POA: 0,7 periferia · 1,5 nobre); a fantasia não declara → 1.
+  const precoMult = localType ? (matrizDoContexto(activeContextoDef())?.precos[localType] ?? 1) : 1
 
   // Candidatos da loja (#93): TODOS os tesouros simples + combos das ARMAS
   // TÍPICAS × imbuições + obra-primas + poções, montados do catálogo. Carrega os
@@ -767,10 +770,10 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     if (shop || !localType || !built) return
     setShopRoll(
       doc.id,
-      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random),
+      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random, precoMult),
       localType,
     )
-  }, [shop, localType, built, disponibilidade, doc.id])
+  }, [shop, localType, built, disponibilidade, doc.id, precoMult])
 
   // Locais sem regra de disponibilidade (Ponto de Interesse/Região/Nação) não
   // têm loja de tesouros — mostra o empty state honesto, com os RÓTULOS do
@@ -791,7 +794,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     if (!built) return
     setShopRoll(
       doc.id,
-      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random),
+      rollShop2(built.candidates, built.pocoes, localType, disponibilidade, DEFAULT_ENCOMENDA_MATRIX, Math.random, precoMult),
       localType,
     )
     setAviso(null)
@@ -902,6 +905,17 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
               <ModeBtn active={effMode === 'encomenda'} onClick={() => setMode('encomenda')}>ENCOMENDA</ModeBtn>
             </>
           ) : null}
+        </div>
+      ) : null}
+
+      {/* PREÇO POR BAIRRO (2026-09-07): a régua do mundo pode multiplicar o
+          preço nesta linha — mostra o fator com o rótulo do mundo. */}
+      {shop && precoMult !== 1 ? (
+        <div
+          data-preco-bairro={precoMult}
+          style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--muted)', padding: '4px 0' }}
+        >
+          {`// PREÇOS DO BAIRRO ×${precoMult.toLocaleString('pt-BR')} (${matrizDoContexto(activeContextoDef())?.rotulos[localType] ?? localType})`}
         </div>
       ) : null}
 

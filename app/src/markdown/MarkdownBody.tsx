@@ -9,6 +9,7 @@ import { VaultImage } from '../components/compendium/VaultImage'
 import { DetailLink } from '../components/DetailLink'
 import { FENCES, FenceFallback } from './fence-registry'
 import { remarkCallouts } from './remark-callouts'
+import { remarkSoftBreaks } from './remark-soft-breaks'
 import { remarkInlineDataview } from './remark-inline-dataview'
 import { remarkReskinText } from './remark-reskin-text'
 import { remarkWikilinks } from './remark-wikilinks'
@@ -88,6 +89,8 @@ export function MarkdownBody({
         ? [() => remarkStripFences(FOLDER_NOTE_SUPPRESSED_FENCES)]
         : []),
       remarkCallouts,
+      // quebra simples = <br>, como o Obsidian sem "Strict line breaks" (2026-09-07)
+      remarkSoftBreaks,
     ],
     [doc, catalog, context, linkIcons],
   )

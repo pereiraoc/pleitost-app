@@ -209,6 +209,16 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       .map((a) => a.trim());
     const alias = aliases[0] ?? null;
 
+    // Facetas que os seletores do supercharged-links leem (FM ou inline field,
+    // `getFromInlineField`): custo (Ações), escola/elemento (Magias), sintonia
+    // (Traços). No índice pra o app dar o MESMO ícone do Obsidian sem carregar
+    // o doc (report 2026-09-07).
+    const facetas = {};
+    for (const k of ["custo", "escola", "elemento", "sintonia"]) {
+      const v = record.frontmatter?.[k] ?? record.inlineFields?.[k];
+      if (typeof v === "string" && v.trim()) facetas[k] = v.trim();
+    }
+
     index.push({
       id: record.id,
       path: record.path,
@@ -218,6 +228,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       grupo: record.grupo,
       ...(alias ? { alias } : {}),
       ...(aliases.length ? { aliases } : {}),
+      ...facetas,
       // #544: mãos da arma no índice — o filtro de arma do Empregado
       // (regras.companheiro_animal.arma.maos) lê daqui sem carregar o doc.
       ...(record.subtype === "Arma" && typeof record.frontmatter?.["mãos"] === "number"

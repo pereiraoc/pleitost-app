@@ -738,17 +738,36 @@ Ela só sobrevive porque sabe roubar pouco, devolver o bastante e nunca humilhar
 > **Objetivo:** abrir com energia, torcida, cidade e tensão sem combate formal. Deixar os jogadores **brincarem** por 20–30 minutos antes de o incidente cair.
 > **Duração:** 30–40 min
 
-#### O jogo
-Role 1d6 (ou escolha) — o resultado dá o clima da saída:
+#### O jogo (cada jogador rola 1d4−1)
+O placar e o clima da saída saem da mesa, não do Mestre. Cada jogador rola **1d4 e subtrai 1** (resultado de 0 a 3) — dois dados por lado:
 
-| d6 | Resultado | Clima na rua |
-|---|---|---|
-| 1 | Grêmio goleia | colorados calados e perigosos; a Camisa 12 quer briga |
-| 2 | Grêmio vence apertado | provocação de blazer, gremista bêbado de alegria |
-| 3 | Empate sem gol | todo mundo frustrado; a briga começa por nada |
-| 4 | Empate com gol no fim | euforia e revolta ao mesmo tempo; rojão |
-| 5 | Inter vence apertado | Camisa 12 em festa; a Geral some rápido |
-| 6 | Inter goleia | caravanas tomam a avenida; a Brigada nervosa |
+| Quem rola | O que o dado diz |
+|---|---|
+| gremista 1 | **gols do Grêmio** |
+| gremista 2 | **expulsões do Grêmio** |
+| colorado 1 | **gols do Inter** |
+| colorado 2 | **expulsões do Inter** |
+
+Com 5 jogadores, o quinto rola de novo o dado que quiser e vale o maior; com 3, o Mestre rola o que faltou.
+
+**O placar** — diferença de 2 ou mais gols é goleada; 1 é vitória apertada; 0 é empate (0×0 é empate sem gol: todo mundo frustrado, a briga começa por nada).
+
+| Resultado | Clima na rua |
+|---|---|
+| goleada do Grêmio | colorados calados e perigosos; a Camisa 12 quer briga |
+| Grêmio apertado | provocação de blazer, gremista bêbado de alegria |
+| empate | frustração dos dois lados — ou euforia e revolta, se teve gol no fim |
+| Inter apertado | Camisa 12 em festa; a Geral some rápido |
+| goleada do Inter | caravanas tomam a avenida; a Brigada nervosa |
+
+**As expulsões** dizem o quão caótica é a saída (some as dos dois lados; anote também de que lado saíram — o lado com mais expulso é o que sai bufando):
+
+| Expulsões (total) | Saída do estádio |
+|---|---|
+| 0 | morna: a Brigada abre a rampa cedo, Brum tem que **inventar** a batida (a acusação vem mais crua) |
+| 1–2 | tensa: provocação e rojão; a briga de torcida como está descrita |
+| 3–4 | briga generalizada: **um teste a mais** na briga de torcida pra cada PC, e os testes de [[Enganação]] pra passar pelo outro lado sobem uma classe (Base → Difícil) |
+| 5–6 | guerra: a Brigada fecha a rampa sul mais cedo; **todos** os testes da briga sobem uma classe, e Nico aparece antes da acusação — o caos ajuda a fuga (Cena 2 começa com um trecho a menos) |
 
 #### O que acontece
 - Leia o 🔊 do registro [[#Estádio Beira-Rio e entorno]] (a saída do Beira-Rio)

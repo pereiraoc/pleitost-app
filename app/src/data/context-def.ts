@@ -51,7 +51,7 @@ export interface ContextoDef {
     /** Régua da LOJA do mundo (aprovado 2026-09-05): linhas CANÔNICAS
      *  (Pequena/Grande Cidade, Capital, Iluminada — o FM Comércio dos locais
      *  aponta pra elas) com rótulo do mundo + % por tier (null = "—"). */
-    matriz?: Record<string, { rotulo?: string; A: number | null; E: number | null; M: number | null }>
+    matriz?: Record<string, { rotulo?: string; A: number | null; E: number | null; M: number | null; preco?: number }>
   }
   /** Garantias e limites do Contexto Base. */
   base: {

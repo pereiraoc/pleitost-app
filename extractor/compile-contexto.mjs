@@ -140,6 +140,18 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
           continue;
         }
         const row = { rotulo: typeof celulas.rotulo === "string" && celulas.rotulo.trim() ? celulas.rotulo.trim() : linha };
+        // PREÇO POR BAIRRO (2026-09-07): multiplicador do preço da loja nessa
+        // linha da régua (ex.: 0.7 na periferia, 1.5 no bairro nobre). Aceita
+        // número ou string "0,7" / "×0,7" / "70%". Ausente = 1 (fantasia).
+        if (celulas.preco !== undefined && celulas.preco !== null && String(celulas.preco).trim() !== "") {
+          const raw = String(celulas.preco).replace("×", "").replace("x", "").trim();
+          const pct = raw.endsWith("%");
+          const n = Number(raw.replace("%", "").replace(",", "."));
+          if (Number.isFinite(n) && n > 0) row.preco = pct ? n / 100 : n;
+          else problems.push(`disponibilidade.matriz.${linha}.preco: "${celulas.preco}" não é multiplicador`);
+        } else {
+          row.preco = 1;
+        }
         for (const [col, key] of TIERS_MATRIZ) {
           const raw = celulas[col];
           if (raw === undefined || raw === null || String(raw).trim() === "—" || String(raw).trim() === "") {

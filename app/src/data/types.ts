@@ -23,6 +23,12 @@ export interface IndexDocEntry {
   maos?: number
   /** Requisito de Força da arma (propriedade "Força N") — idem. */
   forca?: number
+  /** Facetas dos seletores do supercharged-links (FM ou inline field) — o app
+   *  dá o mesmo ícone do Obsidian sem carregar o doc (2026-09-07). */
+  custo?: string
+  escola?: string
+  elemento?: string
+  sintonia?: string
   /** SENHA POR AVENTURA (2026-09-05): doc publicado CIFRADO (extractor/cifra-doc)
    *  — a lista mostra só os campos da lista trancada + 🔒. */
   protegido?: boolean

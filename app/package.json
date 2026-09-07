@@ -14,7 +14,8 @@
     "lint:fix": "eslint . --fix",
     "e2e": "playwright test",
     "parsers": "node scripts/gen-parsers.mjs",
-    "prebuild": "npm run parsers"
+    "prebuild": "npm run parsers",
+    "icons": "node scripts/gen-supercharged-icons.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

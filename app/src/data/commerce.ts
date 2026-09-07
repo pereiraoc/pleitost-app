@@ -270,6 +270,10 @@ export function matrixFromNote(noteBody: string | undefined | null): Availabilit
 export interface MatrizMundo {
   valores: AvailabilityMatrix
   rotulos: Record<LocalType, string>
+  /** PREÇO POR BAIRRO (2026-09-07): multiplicador do preço da loja por linha
+   *  da régua (0.7 periferia · 1 bairro médio · 1.5 nobre). 1 quando o mundo
+   *  não declara (fantasia: preço igual em todo lugar, como sempre foi). */
+  precos: Record<LocalType, number>
 }
 export function matrizDoContexto(
   def: Pick<import('./context-def').ContextoDef, 'disponibilidade'> | null | undefined,
@@ -278,13 +282,15 @@ export function matrizDoContexto(
   if (!m) return null
   const valores = {} as AvailabilityMatrix
   const rotulos = {} as Record<LocalType, string>
+  const precos = {} as Record<LocalType, number>
   for (const lt of LOCAL_TYPES) {
     const row = m[lt]
     if (!row) return null
     valores[lt] = { A: row.A ?? null, E: row.E ?? null, M: row.M ?? null }
     rotulos[lt] = row.rotulo?.trim() || lt
+    precos[lt] = typeof row.preco === 'number' && row.preco > 0 ? row.preco : 1
   }
-  return { valores, rotulos }
+  return { valores, rotulos, precos }
 }
 
 export function cloneMatrix(m: AvailabilityMatrix): AvailabilityMatrix {
@@ -485,6 +491,12 @@ function pctEfetiva(cell: number | null, mult: number): number | null {
 /** Rola a loja v2 (#93): PRONTA (estoque via rollStock) + ENCOMENDA (boolean via
  *  1 rolagem na % de encomenda) para tesouros/combos; poções pela tabela de
  *  dados (só pronta). Determinístico dado o `rng`. */
+/** Preço final: base × tier × multiplicador do bairro, inteiro (PO/Cz$ não
+ *  têm centavo na loja). */
+export function precoFinal(precoBase: number, tier: Tier, precoMult: number): number {
+  return Math.round(precoBase * TIER_PRICE_MULT[tier] * precoMult)
+}
+
 export function rollShop2(
   candidates: ShopCandidate[],
   pocoes: PocaoCandidate[],
@@ -492,6 +504,9 @@ export function rollShop2(
   prontaMatrix: AvailabilityMatrix,
   encomendaMatrix: AvailabilityMatrix,
   rng: Rng,
+  /** PREÇO POR BAIRRO (2026-09-07): multiplicador da linha da régua do mundo
+   *  (matrizDoContexto(...).precos[localType]); 1 = igual em todo lugar. */
+  precoMult = 1,
 ): RolledShop {
   const prontaRow = prontaMatrix[localType]
   const encomendaRow = encomendaMatrix[localType]
@@ -506,7 +521,7 @@ export function rollShop2(
       thumbBasename: c.thumbBasename,
     }
     for (const tier of c.tiers) {
-      const preco = c.precoBase * TIER_PRICE_MULT[tier]
+      const preco = precoFinal(c.precoBase, tier, precoMult)
       // PRONTA: quantidade em estoque (mesma % por unidade, teto 100%, até 4).
       const qtd = rollStock(pctEfetiva(prontaRow[tier], c.mult), rng)
       if (qtd > 0) {
@@ -529,7 +544,7 @@ export function rollShop2(
           label: p.label,
           tier,
           quantidade: qtd,
-          preco: p.precoBase * TIER_PRICE_MULT[tier],
+          preco: precoFinal(p.precoBase, tier, precoMult),
           isPocao: true,
         })
       }
@@ -547,6 +562,7 @@ export function rollShop(
   localType: LocalType,
   matrix: AvailabilityMatrix,
   rng: Rng,
+  precoMult = 1,
 ): ShopEntry[] {
   const row = matrix[localType]
   const out: ShopEntry[] = []
@@ -560,7 +576,7 @@ export function rollShop(
         nome: item.nome,
         tier,
         quantidade: qtd,
-        preco: item.precoBase * TIER_PRICE_MULT[tier],
+        preco: precoFinal(item.precoBase, tier, precoMult),
       })
     }
   }

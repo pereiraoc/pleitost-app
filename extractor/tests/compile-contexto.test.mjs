@@ -180,3 +180,24 @@ test("bloco auto:contexto em dia passa", async () => {
   const art = compileContexto({ worldId: "poa-1987", defs: [def, defBase()], basenames: BASENAMES });
   assert.equal(art.id, "poa-1987");
 });
+
+test("matriz.preco: multiplicador por linha (número, '0,7', '×1,5', '70%'); ausente = 1", () => {
+  const mundo = {
+    relPath: "Ctx/M.md",
+    contexto: {
+      id: "m", nome: "M", moeda: { simbolo: "$", nome: "d" }, atlas: { raiz: "Atlas" },
+      disponibilidade: { matriz: {
+        "Pequena Cidade": { Adepto: "33%", Experiente: "—", Mestre: "—", preco: "0,7" },
+        "Grande Cidade": { Adepto: "50%", Experiente: "10%", Mestre: "—" },
+        "Capital": { Adepto: "100%", Experiente: "25%", Mestre: "2%", preco: "×1,5" },
+        "Iluminada": { Adepto: "150%", Experiente: "50%", Mestre: "5%", preco: "120%" },
+      } },
+    },
+  };
+  const out = compileContexto({ worldId: "m", defs: [mundo], basenames: new Set(), typeByBasename: new Map() });
+  const m = out.disponibilidade.matriz;
+  assert.equal(m["Pequena Cidade"].preco, 0.7);
+  assert.equal(m["Grande Cidade"].preco, 1);
+  assert.equal(m["Capital"].preco, 1.5);
+  assert.equal(m["Iluminada"].preco, 1.2);
+});
