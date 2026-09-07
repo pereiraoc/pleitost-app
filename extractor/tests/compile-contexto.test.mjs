@@ -215,16 +215,16 @@ test("recursos: compila raiz/abas/precoEm e valida a existência de notas Recurs
   const typeByBasename = new Map([["Gurgel Carajás", "Recurso"]]);
   const out = compileContexto({
     worldId: "poa-1987",
-    defs: [defPoa({ recursos: { raiz: "Contexto/Recursos/", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida", recarga: "Recarga" }, ofertas: { campo: "Serviços", aba: "Serviços" }, disponibilidade: { Capital: { niveis: [3, 6], quantidade: 1 } } } }), defBase()],
+    defs: [defPoa({ recursos: { raiz: "Contexto/Recursos/", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" }, ofertas: { campo: "Serviços", aba: "Serviços" }, disponibilidade: { Capital: { niveis: [3, 6], quantidade: 1 } } } }), defBase()],
     basenames: BASENAMES,
     typeByBasename,
   });
-  assert.deepEqual(out.recursos, { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], precoEm: "moeda", niveis: [], tipos: { passagem: "Passagem", estilo: "Estilo de Vida", recarga: "Recarga" }, ofertas: { campo: "Serviços", aba: "Serviços" }, disponibilidade: { Capital: { niveis: [3, 6], quantidade: 1 } } });
+  assert.deepEqual(out.recursos, { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], precoEm: "moeda", niveis: [], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" }, ofertas: { campo: "Serviços", aba: "Serviços" }, disponibilidade: { Capital: { niveis: [3, 6], quantidade: 1 } } });
   assert.throws(
     () =>
       compileContexto({
         worldId: "poa-1987",
-        defs: [defPoa({ recursos: { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida", recarga: "Recarga" }, ofertas: { campo: "Serviços", aba: "Serviços" } } }), defBase()],
+        defs: [defPoa({ recursos: { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" }, ofertas: { campo: "Serviços", aba: "Serviços" } } }), defBase()],
         basenames: BASENAMES,
         typeByBasename: new Map(),
       }),

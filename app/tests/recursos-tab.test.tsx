@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
-// Aba RECURSOS v2 (2026-09-07b): custo de vida em cima (três eixos por
-// classe, escolhidos entre os estilos da vault), total do mês claro, fechar o
-// mês; embaixo só o que o herói TEM. Compra é nos estabelecimentos (ver
-// servicos-tab.test). Dataset REAL da POA como oráculo (pula se ausente).
+// Aba RECURSOS v3 (2026-09-08): custo de vida numa tela só — três seções
+// colapsáveis (ordem do contexto) que mostram o total do eixo mesmo fechadas;
+// dentro, os planos em lista vertical (linha-rádio, valor alinhado) e a
+// POSSE com a manutenção da nota; total do mês + fechar o mês no topo. Sem
+// "ouro", sem número de classe, sem estoque, sem saldo de TRI. Dataset REAL
+// da POA como oráculo (pula se ausente).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -24,7 +26,7 @@ import { RECURSOS_FM } from '../src/recursos/hero-recursos'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
-const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/Transporte Classe Média.json'))
+const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Popular.json'))
 
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
@@ -84,6 +86,7 @@ function montar() {
 }
 const custoMes = () => (document.querySelector('[data-custo-mes]') as HTMLElement).dataset.custoMes
 const eixo = (papel: string) => document.querySelector(`[data-eixo="${papel}"]`) as HTMLElement
+const valorEixo = (papel: string) => (eixo(papel).querySelector('[data-eixo-valor]') as HTMLElement).dataset.eixoValor
 
 describe('gate da aba RECURSOS', () => {
   it('CHAR_TABS/TITLES declaram a aba logo abaixo de ANOTAÇÕES; visível só com recursos no contexto', () => {
@@ -99,35 +102,42 @@ describe('gate da aba RECURSOS', () => {
   })
 })
 
-describe('RecursosTab v2 (dataset real da POA)', () => {
-  it('custo de vida em cima: três eixos com as seis classes do contexto; total soma; classe = menor eixo', async () => {
+describe('RecursosTab v3 (dataset real da POA)', () => {
+  it('três seções na ordem do contexto com o total no sumário; planos em linhas-rádio; classe só pelo nome; fechar o mês', async () => {
     if (!temDataset) return
     setActiveContexto(def)
     writeHeroEdit(CARLOS_ID, 'fm', 'Inventario.Ouro', 50, { channel: 'imediato', origem: 'test' })
     montar()
     await screen.findAllByRole('radio', {}, { timeout: 15000 })
-    // lista VERTICAL por eixo: 6 linhas-rádio, nome à esquerda e dinheiro na coluna da direita
-    const transp = eixo('transporte')
-    const linhas = within(transp).getAllByRole('radio')
+    // ordem do contexto: Moradia, Transporte, Alimentação — cada uma um <details> com valor no sumário
+    const secoes = [...document.querySelectorAll('details[data-eixo]')].map((d) => d.getAttribute('data-eixo'))
+    expect(secoes).toEqual(['moradia', 'transporte', 'alimentacao'])
+    expect(valorEixo('transporte')).toBe('0')
+    // seis planos de transporte (planos TRI) com nome de classe SEM número
+    const linhas = within(eixo('transporte')).getAllByRole('radio')
     expect(linhas.map((l) => l.getAttribute('data-classe'))).toEqual(['1', '2', '3', '4', '5', '6'])
-    expect(within(linhas[0]!).getByText('Miserável')).toBeTruthy()
-    expect(within(linhas[0]!).getByText('Cz$ 100')).toBeTruthy()
-    expect(within(linhas[5]!).getByText('Cz$ 20.000')).toBeTruthy()
-    fireEvent.click(linhas[2]!) // Classe Média Baixa — a linha inteira seleciona
+    expect(within(linhas[1]!).getByText(/Classe Baixa/)).toBeTruthy()
+    expect(within(linhas[1]!).getByText(/TRI Vale-Transporte/)).toBeTruthy()
+    expect(within(linhas[1]!).getByText('Cz$ 1.500')).toBeTruthy()
+    expect(screen.queryByText(/classe 2/i)).toBeNull()
+    expect(screen.queryByText(/Humilde/)).toBeNull()
+    fireEvent.click(linhas[2]!) // TRI Popular — Classe Média Baixa
     expect(linhas[2]!.getAttribute('aria-checked')).toBe('true')
-    expect(custoMes()).toBe('2000')
+    expect(valorEixo('transporte')).toBe('2500')
+    expect(custoMes()).toBe('2500')
     fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Classe Média
-    expect(custoMes()).toBe('8000')
+    expect(valorEixo('moradia')).toBe('6000')
     fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Classe Média Alta
-    expect(custoMes()).toBe('17000')
-    expect(screen.getAllByText(/classe 3 · Classe Média Baixa/i).length).toBeGreaterThan(0)
+    expect(custoMes()).toBe('17500')
+    // fechar o mês: 17.500 → 18 (pra cima) — 50 → 32
     fireEvent.click(screen.getByText(/Fechar o mês/))
-    expect(screen.getByText(/OURO NA FICHA/).textContent).toContain('Cz$ 33.000')
-    expect(screen.getByText(/a pé, de ônibus ou de carona/)).toBeTruthy()
-    expect(screen.queryByText('Gurgel Carajás')).toBeNull()
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 32.000')
+    // nenhum "ouro" à mostra, nenhum saldo de TRI, nenhum estoque
+    expect(document.body.textContent).not.toMatch(/\bouro\b/i)
+    expect(document.querySelector('[data-tri]')).toBeNull()
   }, 30000)
 
-  it('o que o herói tem aparece por aba: veículo comprado (vender), moradia alugada substitui o eixo, estoque consome', async () => {
+  it('posse dentro do eixo com a manutenção da nota; vender devolve metade', async () => {
     if (!temDataset) return
     setActiveContexto(def)
     writeHeroEdit(CARLOS_ID, 'fm', 'Inventario.Ouro', 20, { channel: 'imediato', origem: 'test' })
@@ -136,38 +146,28 @@ describe('RecursosTab v2 (dataset real da POA)', () => {
       'fm',
       RECURSOS_FM,
       {
-        estilos: { transporte: 'Transporte Classe Média', moradia: 'Moradia Classe Média', alimentacao: null },
-        tri: 1000,
+        estilos: { transporte: 'TRI Integrado', moradia: 'Moradia Classe Média', alimentacao: null },
         itens: [
           { nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, estado: 'usado', pago: 150000 },
-          { nome: 'Uísque de Contrabando', aba: 'Alimentação', qtd: 2, pago: 4000 },
+          { nome: 'Kitnet do Aeromóvel', aba: 'Moradia', qtd: 1, pago: 600000 },
         ],
-        moradia: { nome: 'Kitnet do Aeromóvel', modo: 'aluguel' },
-        imoveis: [],
       },
       { channel: 'imediato', origem: 'test' },
     )
     montar()
     await screen.findByText('Gurgel Carajás', {}, { timeout: 15000 })
-    expect(within(eixo('moradia')).getByText('aluguel')).toBeTruthy()
-    expect(within(eixo('moradia')).getAllByRole('radio').length).toBe(1) // só a moradia específica, marcada
-    expect(custoMes()).toBe('10000')
-    expect((document.querySelector('[data-tri]') as HTMLElement).dataset.tri).toBe('1000')
-    fireEvent.click(screen.getByText(/Passagem de Ônibus −Cz\$ 50/))
-    expect((document.querySelector('[data-tri]') as HTMLElement).dataset.tri).toBe('950')
+    // transporte: plano 5.000 + Carajás 3.000 de manutenção; moradia: plano 6.000 + kitnet 1.500 (condomínio/IPTU)
+    expect(valorEixo('transporte')).toBe('8000')
+    expect(valorEixo('moradia')).toBe('7500')
+    expect(custoMes()).toBe('15500')
     const carro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
     expect(within(carro).getByText('usado')).toBeTruthy()
-    fireEvent.click(within(carro).getByText(/Vender \+75/))
+    expect(within(carro).getByText('Cz$ 3.000')).toBeTruthy()
+    fireEvent.click(within(carro).getByText(/Vender \+Cz\$ 75\.000/))
     expect(screen.queryByText('Gurgel Carajás')).toBeNull()
-    expect(screen.getByText(/OURO NA FICHA/).textContent).toContain('Cz$ 95.000')
-    fireEvent.click(screen.getAllByRole('button').find((b) => b.textContent === 'ALIMENTAÇÃO')!)
-    const uisque = (await screen.findByText('Uísque de Contrabando')).closest('[data-item]') as HTMLElement
-    expect(within(uisque).getByText('×2')).toBeTruthy()
-    fireEvent.click(within(uisque).getByText('Consumir'))
-    expect(within(screen.getByText('Uísque de Contrabando').closest('[data-item]') as HTMLElement).getByText('×1')).toBeTruthy()
-    fireEvent.click(within(eixo('moradia')).getByText('Sair'))
-    expect(custoMes()).toBe('10000')
-    expect(within(eixo('moradia')).getAllByRole('radio').length).toBe(6)
-    expect(within(eixo('moradia')).getAllByRole('radio')[3]!.getAttribute('aria-checked')).toBe('true')
+    expect(valorEixo('transporte')).toBe('5000')
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 95.000')
+    // alimentação não tem posse nem estoque
+    expect(within(eixo('alimentacao')).queryByText(/POSSE/)).toBeNull()
   }, 30000)
 })

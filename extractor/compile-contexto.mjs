@@ -119,8 +119,8 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       }
     }
     const tiposIn = isPlainObject(r.tipos) ? r.tipos : {};
-    const tipos = { passagem: tiposIn.passagem, estilo: tiposIn.estilo, recarga: tiposIn.recarga };
-    for (const k of ["passagem", "estilo", "recarga"]) {
+    const tipos = { passagem: tiposIn.passagem, estilo: tiposIn.estilo };
+    for (const k of ["passagem", "estilo"]) {
       if (typeof tipos[k] !== "string" || !tipos[k].trim()) problems.push(`recursos.tipos.${k}: obrigatório (nome do Tipo nas notas)`);
     }
     // ONDE se compra (2026-09-07b): campo FM das Localizações com as ofertas

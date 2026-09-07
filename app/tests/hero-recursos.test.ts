@@ -1,68 +1,57 @@
-// RECURSOS DO MUNDO v2 (2026-09-07b): custo de vida em três eixos escolhidos
-// entre os estilos (uma nota por classe), moradia específica substitui o
-// eixo, itens tidos (veículo/estoque), dinheiro inteiro (régua à dezena,
-// ouro pra cima ao milhar), semântica da nota pela CONFIG + Cobrança.
+// RECURSOS DO MUNDO v3 (2026-09-08): custo de vida = três PLANOS mensais
+// (uma nota por classe) + MANUTENÇÃO da posse (da nota do item); nada avulso
+// se controla; dinheiro inteiro (régua à dezena, ficha pra cima ao milhar);
+// semântica da nota pela CONFIG + Cobrança, nunca por rótulo inventado.
 import { describe, expect, it } from 'vitest'
-import { aluguelDia, carajas, cesta, cfg, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, recarga, uisque } from './fixtures/recursos-fixtures'
+import { aluguelDia, carajas, cesta, cfg, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, uisque } from './fixtures/recursos-fixtures'
 import {
   RECURSOS_VAZIO,
   acaoDe,
-  alugarMoradia,
-  comprarImovel,
   comprarItem,
-  consumirItem,
   custoEmOuro,
   custoMensal,
   escolherEstilo,
   fecharMes,
-  hospedar,
-  loteDeMiudeza,
   nomeNivel,
+  pagarAvista,
+  precoDeCompra,
   precoNaRegua,
-  recarregarTri,
   recursosDoFm,
-  usarPassagem,
   venderItem,
 } from '../src/recursos/hero-recursos'
 
 const FATOR = 1000
 
 describe('acaoDe — semântica pela config + Cobrança', () => {
-  it('estilo=escolher, recarga=recarga, passagem=tri, única=comprar, dia=diária, litro=miudeza', () => {
+  it('plano=escolher; tarifa avulsa=info; única=comprar (posse); dia/noite=diária; consumo por valor', () => {
     expect(acaoDe(cfg, estilos.t3, FATOR)).toBe('escolher')
-    expect(acaoDe(cfg, recarga, FATOR)).toBe('recarga')
-    expect(acaoDe(cfg, onibus, FATOR)).toBe('tri')
+    expect(acaoDe(cfg, onibus, FATOR)).toBe('info')
     expect(acaoDe(cfg, carajas, FATOR)).toBe('comprar')
     expect(acaoDe(cfg, aluguelDia, FATOR)).toBe('diaria')
+    expect(acaoDe(cfg, pensao, FATOR)).toBe('diaria')
     expect(acaoDe(cfg, gasolina, FATOR)).toBe('miudeza')
-  })
-  it('moradia: mês=alugar, noite=hospedar; alimentação: por valor', () => {
-    expect(acaoDe(cfg, kitnet, FATOR)).toBe('alugar')
-    expect(acaoDe(cfg, pensao, FATOR)).toBe('hospedar')
     expect(acaoDe(cfg, polar, FATOR)).toBe('miudeza')
     expect(acaoDe(cfg, uisque, FATOR)).toBe('avista')
     expect(acaoDe(cfg, cesta, FATOR)).toBe('avista')
   })
+  it('moradia por mês: com `Compra` vira posse (imóvel); sem, é só referência', () => {
+    expect(acaoDe(cfg, kitnet, FATOR)).toBe('comprar')
+    expect(acaoDe(cfg, { ...kitnet, compra: undefined }, FATOR)).toBe('info')
+    expect(precoDeCompra(kitnet)).toBe(600000)
+    expect(precoDeCompra(carajas, 'usado')).toBe(150000)
+    expect(precoDeCompra(carajas)).toBe(400000)
+  })
 })
 
 describe('dinheiro inteiro', () => {
-  it('régua à dezena (mín. 10); ouro pra cima ao milhar; lote de miudeza fecha um milhar', () => {
+  it('régua à dezena (mín. 10); ficha pra cima ao milhar', () => {
     expect(precoNaRegua(50, 0.7)).toBe(40)
     expect(precoNaRegua(10, 0.7)).toBe(10)
     expect(precoNaRegua(4000, 1.5)).toBe(6000)
     expect(custoEmOuro(2800, FATOR)).toBe(3)
     expect(custoEmOuro(0, FATOR)).toBe(0)
-    expect(loteDeMiudeza(40, FATOR)).toBe(25)
-    expect(loteDeMiudeza(600, FATOR)).toBe(1)
   })
-  it('TRI recarrega em milhares 1:1; passagem sai do TRI', () => {
-    expect(recarregarTri(RECURSOS_VAZIO, 500, 10, FATOR)).toBeNull()
-    const r1 = recarregarTri(RECURSOS_VAZIO, 1000, 10, FATOR)!
-    expect(r1.ouro).toBe(9)
-    expect(usarPassagem(r1.recursos, 50)!.recursos.tri).toBe(950)
-    expect(usarPassagem(RECURSOS_VAZIO, 50)).toBeNull()
-  })
-  it('item tido: veículo usado com régua; venda devolve metade; estoque soma quantidade e consome', () => {
+  it('posse: compra com régua, venda devolve metade (pra baixo); à vista só desconta', () => {
     expect(comprarItem(RECURSOS_VAZIO, carajas, { preco: 150000, estado: 'usado' }, 100, FATOR)).toBeNull()
     const c = comprarItem(RECURSOS_VAZIO, carajas, { preco: precoNaRegua(150000, 0.7), estado: 'usado' }, 200, FATOR)!
     expect(c.ouro).toBe(95)
@@ -70,48 +59,34 @@ describe('dinheiro inteiro', () => {
     const v = venderItem(c.recursos, 0, c.ouro!, FATOR)!
     expect(v.ouro).toBe(95 + 52)
     expect(v.recursos.itens).toEqual([])
-    const e1 = comprarItem(RECURSOS_VAZIO, uisque, { preco: 4000 }, 10, FATOR)!
-    const e2 = comprarItem(e1.recursos, uisque, { preco: 4000 }, e1.ouro!, FATOR)!
-    expect(e2.ouro).toBe(2)
-    expect(e2.recursos.itens).toEqual([{ nome: 'Uísque de Contrabando', aba: 'Alimentação', qtd: 2, pago: 4000 }])
-    expect(consumirItem(e2.recursos, 0)!.recursos.itens[0]!.qtd).toBe(1)
-    const lote = comprarItem(RECURSOS_VAZIO, polar, { preco: 25 * 40, qtd: 25 }, 3, FATOR)!
-    expect(lote.ouro).toBe(2)
-    expect(lote.recursos.itens[0]).toMatchObject({ nome: 'Polar Tradicional', qtd: 25, pago: 40 })
+    expect(pagarAvista(RECURSOS_VAZIO, 4000, 3, FATOR)).toBeNull()
+    expect(pagarAvista(RECURSOS_VAZIO, 4000, 4, FATOR)!.ouro).toBe(0)
   })
 })
 
-describe('custo de vida em três eixos', () => {
-  it('soma os estilos escolhidos; sem estilo = 0 e classe 1; classe do herói = menor eixo', () => {
+describe('custo de vida: planos + manutenção da posse', () => {
+  it('soma os planos; posse entra no eixo da aba com a manutenção da nota; classe = menor eixo', () => {
     let r = escolherEstilo(RECURSOS_VAZIO, 'transporte', estilos.t3).recursos
     r = escolherEstilo(r, 'moradia', estilos.m4).recursos
     r = escolherEstilo(r, 'alimentacao', estilos.a5).recursos
+    r = comprarItem(r, carajas, { preco: 400000, estado: 'novo' }, 500, FATOR)!.recursos
+    r = comprarItem(r, kitnet, { preco: 600000 }, 700, FATOR)!.recursos
     const c = custoMensal(r, porNome, FATOR, cfg)
-    expect(c.total).toBe(2000 + 6000 + 9000)
-    expect(c.ouro).toBe(17)
+    const por = Object.fromEntries(c.eixos.map((e) => [e.papel, e]))
+    expect(por.moradia).toMatchObject({ planoValor: 6000, posseValor: 1500, total: 7500, nivel: 4 })
+    expect(por.transporte).toMatchObject({ planoValor: 2500, posseValor: 3000, total: 5500, nivel: 3 })
+    expect(por.alimentacao).toMatchObject({ planoValor: 9000, posseValor: 0, total: 9000, nivel: 5 })
+    expect(por.moradia!.posse[0]!.item.nome).toBe('Kitnet do Aeromóvel')
+    expect(c.total).toBe(22000)
+    expect(c.ouro).toBe(22)
     expect(c.classe).toBe(3)
-    expect(c.eixos.map((e) => [e.papel, e.origem, e.nivel])).toEqual([
-      ['transporte', 'estilo', 3],
-      ['moradia', 'estilo', 4],
-      ['alimentacao', 'estilo', 5],
-    ])
+    expect(c.eixos.map((e) => e.papel)).toEqual(['moradia', 'transporte', 'alimentacao'])
     const vazio = custoMensal(RECURSOS_VAZIO, porNome, FATOR, cfg)
     expect(vazio.total).toBe(0)
     expect(vazio.classe).toBe(1)
-    expect(nomeNivel(cfg, 3)).toBe('Classe Média Baixa')
+    expect(nomeNivel(cfg, 2)).toBe('Classe Baixa')
   })
-  it('moradia específica substitui o eixo: aluguel = preço da nota, hotel ×30, própria 0', () => {
-    const base = escolherEstilo(RECURSOS_VAZIO, 'moradia', estilos.m4).recursos
-    const al = custoMensal(alugarMoradia(base, kitnet).recursos, porNome, FATOR, cfg).eixos[1]!
-    expect(al).toMatchObject({ origem: 'aluguel', valor: 6000, nivel: 4 })
-    const ho = custoMensal(hospedar(base, pensao).recursos, porNome, FATOR, cfg).eixos[1]!
-    expect(ho).toMatchObject({ origem: 'hotel', valor: 4500, nivel: 2 })
-    const pr = comprarImovel(base, kitnet, 600000, 700, FATOR)!
-    expect(pr.ouro).toBe(100)
-    expect(custoMensal(pr.recursos, porNome, FATOR, cfg).eixos[1]).toMatchObject({ origem: 'propria', valor: 0, nivel: 4 })
-    expect(comprarImovel(base, kitnet, 600000, 500, FATOR)).toBeNull()
-  })
-  it('fechar o mês desconta o total em ouro (ou nega)', () => {
+  it('fechar o mês desconta planos + posse (ou nega)', () => {
     const r = escolherEstilo(escolherEstilo(RECURSOS_VAZIO, 'moradia', estilos.m4).recursos, 'alimentacao', estilos.a2).recursos
     expect(fecharMes(r, porNome, cfg, 7, FATOR)).toBeNull()
     expect(fecharMes(r, porNome, cfg, 8, FATOR)!.ouro).toBe(0)
@@ -121,6 +96,6 @@ describe('custo de vida em três eixos', () => {
     expect(recursosDoFm({ Recursos_do_Mundo: 'x' })).toEqual(RECURSOS_VAZIO)
     const r = comprarItem(escolherEstilo(RECURSOS_VAZIO, 'transporte', estilos.t4).recursos, carajas, { preco: 400000, estado: 'novo' }, 500, FATOR)!.recursos
     expect(recursosDoFm({ Recursos_do_Mundo: JSON.parse(JSON.stringify(r)) })).toEqual(r)
-    expect(recursosDoFm({ Recursos_do_Mundo: { tri: '250', moradia: { nome: 'X', modo: 'errado' }, itens: [{ nome: '' }] } })).toEqual({ ...RECURSOS_VAZIO, tri: 250 })
+    expect(recursosDoFm({ Recursos_do_Mundo: { tri: 250, estilos: { moradia: 'X' }, itens: [{ nome: '' }] } })).toEqual({ ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, moradia: 'X' } })
   })
 })

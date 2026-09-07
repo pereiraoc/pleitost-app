@@ -1,10 +1,12 @@
-// Aba SERVIÇOS de uma Localização (2026-09-07b): a vitrine dos
-// ESTABELECIMENTOS — este lugar (se lista ofertas no FM `cfg.ofertas.campo`)
-// e os lugares-filhos que listam. Cada oferta é rolada por semente
-// (estabelecimento + dia) com quantidade e disponibilidade conforme a linha
-// da régua do bairro (Contexto `recursos.disponibilidade`), e o preço leva a
-// régua (`matriz.preco`). Comprar grava no herói selecionado (topo direito)
-// — o que se compra passa a aparecer na aba RECURSOS da ficha.
+// Aba SERVIÇOS de uma Localização (v3, 2026-09-08): a vitrine do que se
+// vende ABAIXO deste lugar, colapsável POR LUGAR (como o Comércio da cidade
+// empilha as lojas dos bairros) e, dentro de cada lugar, POR ESTABELECIMENTO
+// — um Ponto de Interesse com FM `Serviços` ou um tipo genérico do comércio
+// de rua do bairro (Boteco de esquina, Banca de jornal…). Cada oferta é rolada
+// por semente (estabelecimento + dia) com quantidade e disponibilidade
+// conforme a linha da régua (`recursos.disponibilidade`); o preço leva a régua.
+// O plano de custo de vida garante o mínimo: tudo aqui pode ser consumido
+// como extra. Transporte avulso não se vende (o plano TRI cobre).
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
@@ -13,7 +15,7 @@ import { activeContextoDef, reskinName } from '../../data/reskin'
 import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { localTypeOfDoc, matrizDoContexto, type LocalType } from '../../data/commerce'
 import { useSelectedCreature } from '../../data/selected-creature-store'
-import { currentFm, heroOuro } from '../../data/purchase'
+import { heroOuro } from '../../data/purchase'
 import { DetailLink } from '../DetailLink'
 import { clip } from '../ficha/bits'
 import { InlineFieldValue } from './InlineFieldValue'
@@ -21,15 +23,16 @@ import { useAtlasRelations } from './AtlasNav'
 import { useHeroOptions } from './LocationSheet'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import type { Recurso, RecursosCfg } from '../../recursos/types'
-import { parseOfertas, rollOfertas, type OfertaRolada } from '../../recursos/ofertas'
-import { comprarNoEstabelecimento, precoCompraImovel } from '../../recursos/comprar'
+import { parseOfertasAgrupadas, rollOfertas, type OfertaRolada } from '../../recursos/ofertas'
+import { comprarNoEstabelecimento } from '../../recursos/comprar'
 import { diaDeHoje, registrarVenda, useVendidasHoje } from '../../recursos/ofertas-store'
-import { custoEmOuro, custoMensal, loteDeMiudeza, nomeNivel, recursosDoFm } from '../../recursos/hero-recursos'
+import { custoEmOuro } from '../../recursos/hero-recursos'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
 
-function Botao({ children, onClick, disabled, title }: { children: ReactNode; onClick: () => void; disabled?: boolean; title?: string }) {
+function Botao({ children, onClick, disabled, title, tom = 'accent' }: { children: ReactNode; onClick: () => void; disabled?: boolean; title?: string; tom?: 'accent' | 'muted' }) {
+  const cor = tom === 'accent' ? 'var(--accent)' : 'var(--muted)'
   return (
     <button
       type="button"
@@ -43,9 +46,9 @@ function Botao({ children, onClick, disabled, title }: { children: ReactNode; on
         textTransform: 'uppercase',
         padding: '5px 9px',
         whiteSpace: 'nowrap',
-        background: disabled ? 'transparent' : 'color-mix(in srgb,var(--accent) 14%,transparent)',
-        border: `1px solid ${disabled ? 'var(--line2)' : 'color-mix(in srgb,var(--accent) 45%,transparent)'}`,
-        color: disabled ? 'var(--muted)' : 'var(--accent)',
+        background: disabled ? 'transparent' : `color-mix(in srgb,${cor} 14%,transparent)`,
+        border: `1px solid ${disabled ? 'var(--line2)' : `color-mix(in srgb,${cor} 45%,transparent)`}`,
+        color: disabled ? 'var(--muted)' : cor,
         clipPath: clip(5),
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.55 : 1,
@@ -70,26 +73,38 @@ export function ServicosTab({ doc }: { doc: VaultDoc }) {
   return <ServicosCorpo doc={doc} cfg={cfg} />
 }
 
+/** Uma vitrine: um PoI com Serviços, ou um tipo genérico do comércio de rua. */
 interface Estabelecimento {
+  /** Lugar do Atlas que declara a oferta (PoI ou bairro). */
   doc: VaultDoc
+  /** Nome exibido: o PoI, ou "Boteco de esquina" (comércio de rua). */
+  nome: string
+  generico: boolean
   linha: LocalType | null
   ofertas: OfertaRolada[]
 }
+/** Lugar (bairro/nota-pasta) que agrupa estabelecimentos — colapsável. */
+interface Lugar {
+  id: string
+  nome: string
+  estabelecimentos: Estabelecimento[]
+}
+
+/** Pasta (dirname) de um id do Atlas. */
+const dirDe = (id: string) => id.slice(0, id.lastIndexOf('/'))
+/** Nota-pasta: `.../X/X`. */
+const ehPasta = (id: string, basename: string) => dirDe(id).split('/').pop() === basename
 
 function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const catalog = useCatalog()
   const rel = useAtlasRelations(doc)
   const fator = moedaFator()
   const matriz = useMemo(() => matrizDoContexto(activeContextoDef()), [])
-  // docs: este lugar + TODOS os lugares abaixo dele (estabelecimentos — o
-  // mestre abre a cidade e vê tudo; um bairro mostra seus pontos e os pontos
-  // dentro deles) + ancestrais (linha da régua) + todas as notas de Recurso.
   const recursoIds = useMemo(() => (catalog.docsByType.get('Recurso') ?? []).map((e) => e.id), [catalog])
+  // todos os lugares abaixo deste (ids são caminhos — descendentes por prefixo)
   const descendentes = useMemo(() => {
-    const dir = doc.id.slice(0, doc.id.lastIndexOf('/'))
-    const pastaPropria = dir.split('/').pop() === doc.basename // nota-pasta: X/X
-    if (!pastaPropria) return []
-    const prefixo = dir + '/'
+    if (!ehPasta(doc.id, doc.basename)) return []
+    const prefixo = dirDe(doc.id) + '/'
     return (catalog.docsByType.get('Localização') ?? [])
       .map((e) => e.id)
       .filter((id) => id !== doc.id && id.startsWith(prefixo))
@@ -108,48 +123,57 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     return m
   }, [docs, recursoIds])
 
-  const linhaDeFallback = useMemo<LocalType | null>(() => {
-    const propria = localTypeOfDoc(doc)
-    if (propria) return propria
-    if (!docs) return null
-    for (let i = rel.crumbs.length - 1; i >= 0; i--) {
-      const d = docs.get(rel.crumbs[i]!.id)
-      const l = d ? localTypeOfDoc(d) : null
-      if (l) return l
-    }
-    return null
-  }, [doc, docs, rel])
-
-  const estabelecimentos = useMemo<Estabelecimento[]>(() => {
+  const lugares = useMemo<Lugar[]>(() => {
     if (!docs) return []
     const dia = diaDeHoje()
-    const out: Estabelecimento[] = []
-    // linha da régua de um descendente: a dele, senão a do bairro-pasta mais
-    // próximo acima (ids são caminhos — o ancestral é prefixo), senão a daqui.
+    // linha da régua: a do lugar, senão a da nota-pasta mais próxima acima, senão a de um ancestral
     const linhaDe = (d: VaultDoc): LocalType | null => {
       const propria = localTypeOfDoc(d)
       if (propria) return propria
-      let dir = d.id.slice(0, d.id.lastIndexOf('/'))
+      let dir = dirDe(d.id)
       while (dir.includes('/')) {
         const nome = dir.split('/').pop()!
         const anc = docs.get(`${dir}/${nome}`)
         const l = anc ? localTypeOfDoc(anc) : null
         if (l) return l
-        dir = dir.slice(0, dir.lastIndexOf('/'))
+        dir = dirDe(dir)
       }
-      return linhaDeFallback
+      for (let i = rel.crumbs.length - 1; i >= 0; i--) {
+        const a = docs.get(rel.crumbs[i]!.id)
+        const l = a ? localTypeOfDoc(a) : null
+        if (l) return l
+      }
+      return null
     }
+    // lugar que agrupa: a nota-pasta mais próxima acima do doc (ou ele mesmo, se for pasta)
+    const lugarDe = (d: VaultDoc): { id: string; nome: string } => {
+      if (ehPasta(d.id, d.basename)) return { id: d.id, nome: d.basename }
+      const dir = dirDe(d.id)
+      const nome = dir.split('/').pop()!
+      const anc = docs.get(`${dir}/${nome}`)
+      return anc ? { id: anc.id, nome: anc.basename } : { id: doc.id, nome: doc.basename }
+    }
+    const mapa = new Map<string, Lugar>()
     for (const id of [doc.id, ...descendentes]) {
       const d = id === doc.id ? doc : docs.get(id)
       if (!d) continue
-      const ofertas = parseOfertas((d.frontmatter ?? {}) as Record<string, unknown>, cfg.ofertas.campo)
-      if (!ofertas.length) continue
+      const grupos = parseOfertasAgrupadas((d.frontmatter ?? {}) as Record<string, unknown>, cfg.ofertas.campo)
+      if (!grupos.length) continue
       const linha = linhaDe(d)
       const mult = linha ? (matriz?.precos[linha] ?? 1) : 1
-      out.push({ doc: d, linha, ofertas: rollOfertas(ofertas, porNome, linha, cfg, fator, mult, `${d.id}|${dia}`) })
+      const lugar = lugarDe(d)
+      const l = mapa.get(lugar.id) ?? { id: lugar.id, nome: lugar.nome, estabelecimentos: [] }
+      for (const g of grupos) {
+        const ofertas = rollOfertas(g.ofertas, porNome, linha, cfg, fator, mult, `${d.id}|${g.estabelecimento ?? ''}|${dia}`)
+        if (!ofertas.length) continue
+        l.estabelecimentos.push({ doc: d, nome: g.estabelecimento ?? d.basename, generico: g.estabelecimento !== null, linha, ofertas })
+      }
+      if (l.estabelecimentos.length) mapa.set(lugar.id, l)
     }
-    return out
-  }, [docs, doc, descendentes, cfg, porNome, linhaDeFallback, matriz, fator])
+    const out = [...mapa.values()]
+    for (const l of out) l.estabelecimentos.sort((a, b) => Number(a.generico) - Number(b.generico) || a.nome.localeCompare(b.nome, 'pt'))
+    return out.sort((a, b) => (a.id === doc.id ? -1 : b.id === doc.id ? 1 : a.nome.localeCompare(b.nome, 'pt')))
+  }, [docs, doc, descendentes, cfg, porNome, matriz, fator, rel])
 
   // comprador = herói selecionado no topo direito (mesma regra da loja)
   const heroes = useHeroOptions()
@@ -157,65 +181,74 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const hero = heroes.find((h) => h.entry.id === selectedCreatureId)
   const [aviso, setAviso] = useState<string | null>(null)
   const [tick, setTick] = useState(0)
+  void tick
   const ouro = hero ? heroOuro(hero.entry.id, hero.doc) : null
-  const classeAlimentacao = useMemo(() => {
-    if (!hero) return 1
-    void tick
-    const r = recursosDoFm(currentFm(hero.entry.id, hero.doc))
-    return custoMensal(r, porNome, fator, cfg).eixos.find((e) => e.papel === 'alimentacao')?.nivel ?? 1
-  }, [hero, porNome, fator, cfg, tick])
 
   if (!docs) return <div style={{ ...MONO, padding: 12 }}>{'// CARREGANDO SERVIÇOS…'}</div>
-  if (!estabelecimentos.length) {
+  if (!lugares.length) {
     return (
       <div style={{ ...BOX, border: '1px dashed var(--line2)', textAlign: 'center', padding: 36 }}>
-        <span style={MONO}>{`// NENHUM ESTABELECIMENTO COM ${cfg.ofertas.campo.toUpperCase()} AQUI`}</span>
+        <span style={MONO}>{`// NENHUM LUGAR COM ${cfg.ofertas.campo.toUpperCase()} AQUI`}</span>
       </div>
     )
   }
-  // acima do bairro (cidade), agrupa por bairro pra ler a vitrine da cidade inteira
-  const geoDe = (e: Estabelecimento) => String(e.doc.frontmatter?.['Geolocalização'] ?? '')
-  const varios = new Set(estabelecimentos.map(geoDe)).size > 1
+  const comprador = hero ? { id: hero.entry.id, doc: hero.doc, ouro: ouro ?? 0 } : null
+  const onResultado = (msg: string) => {
+    setAviso(msg)
+    setTick((t) => t + 1)
+  }
+  const totalEst = lugares.reduce((a, l) => a + l.estabelecimentos.length, 0)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
         <span style={MONO}>COMPRADOR</span>
         {hero ? (
           <>
             <b style={{ fontSize: 13 }}>{reskinName(hero.entry.basename ?? hero.entry.id)}</b>
-            <Chip>{formatValorMoeda((ouro ?? 0) * fator)}</Chip>
-            <Chip>alimentação classe {classeAlimentacao} · {nomeNivel(cfg, classeAlimentacao)}</Chip>
+            <Chip>{formatValorMoeda((ouro ?? 0) * fator)} na ficha</Chip>
           </>
         ) : (
           <span style={{ ...MONO, color: 'var(--text)' }}>escolha um herói no topo direito pra comprar</span>
         )}
+        <span style={{ flex: 1 }} />
+        <span style={{ ...MONO, fontSize: 10 }}>
+          {lugares.length} {lugares.length === 1 ? 'lugar' : 'lugares'} · {totalEst} estabelecimentos
+        </span>
         {aviso ? (
-          <span role="status" style={{ ...MONO, color: 'var(--text)', marginLeft: 'auto' }}>
+          <span role="status" style={{ ...MONO, color: 'var(--text)', flexBasis: '100%' }}>
             {aviso}
           </span>
         ) : null}
       </div>
-      {varios ? (
-        <div style={{ ...MONO, fontSize: 10 }}>
-          {estabelecimentos.length} estabelecimentos abaixo de {reskinName(doc.basename)} — tudo que a cidade tem à venda hoje, agrupado por onde fica.
-        </div>
-      ) : null}
-      {[...estabelecimentos].sort((a, b) => geoDe(a).localeCompare(geoDe(b), 'pt') || a.doc.basename.localeCompare(b.doc.basename, 'pt')).map((e) => (
-        <EstabelecimentoBox
-          key={e.doc.id}
-          e={e}
-          cfg={cfg}
-          fator={fator}
-          rotulo={e.linha ? (matriz?.rotulos[e.linha] ?? e.linha) : null}
-          mult={e.linha ? (matriz?.precos[e.linha] ?? 1) : 1}
-          comprador={hero ? { id: hero.entry.id, doc: hero.doc, ouro: ouro ?? 0 } : null}
-          classeAlimentacao={classeAlimentacao}
-          onResultado={(msg) => {
-            setAviso(msg)
-            setTick((t) => t + 1)
-          }}
-        />
+      {lugares.map((l) => (
+        <details key={l.id} open={lugares.length === 1} data-lugar={l.nome} style={{ border: '1px solid var(--line2)', padding: '6px 12px' }}>
+          <summary style={{ cursor: 'pointer', display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+            <b style={{ fontSize: 14 }}>{reskinName(l.nome)}</b>
+            <span style={{ ...MONO, fontSize: 10 }}>
+              {l.estabelecimentos.length} {l.estabelecimentos.length === 1 ? 'estabelecimento' : 'estabelecimentos'}
+            </span>
+            {l.id !== doc.id ? (
+              <span style={{ fontSize: 11 }}>
+                <DetailLink id={l.id}>abrir</DetailLink>
+              </span>
+            ) : null}
+          </summary>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+            {l.estabelecimentos.map((e) => (
+              <EstabelecimentoBox
+                key={`${e.doc.id}|${e.nome}`}
+                e={e}
+                cfg={cfg}
+                fator={fator}
+                rotulo={e.linha ? (matriz?.rotulos[e.linha] ?? e.linha) : null}
+                mult={e.linha ? (matriz?.precos[e.linha] ?? 1) : 1}
+                comprador={comprador}
+                onResultado={onResultado}
+              />
+            ))}
+          </div>
+        </details>
       ))}
     </div>
   )
@@ -228,7 +261,6 @@ function EstabelecimentoBox({
   rotulo,
   mult,
   comprador,
-  classeAlimentacao,
   onResultado,
 }: {
   e: Estabelecimento
@@ -237,10 +269,10 @@ function EstabelecimentoBox({
   rotulo: string | null
   mult: number
   comprador: { id: string; doc: VaultDoc | undefined; ouro: number } | null
-  classeAlimentacao: number
   onResultado: (msg: string) => void
 }) {
-  const vendidas = useVendidasHoje(e.doc.id)
+  const chaveVendas = `${e.doc.id}|${e.generico ? e.nome : ''}`
+  const vendidas = useVendidasHoje(chaveVendas)
   const geo = (e.doc.frontmatter?.['Geolocalização'] as string | undefined) ?? ''
   const grupos = useMemo(() => {
     const m = new Map<string, OfertaRolada[]>()
@@ -252,23 +284,23 @@ function EstabelecimentoBox({
     return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0], 'pt'))
   }, [e.ofertas])
 
-  const comprar = (o: OfertaRolada, opts: { comprarImovel?: boolean } = {}) => {
+  const comprar = (o: OfertaRolada) => {
     if (!comprador) {
       onResultado('Escolha um herói no topo direito pra comprar.')
       return
     }
-    const r = comprarNoEstabelecimento(comprador.id, comprador.doc, cfg, fator, o, { mult, classeAlimentacao, ...opts })
-    if (r.ok && r.vendidas > 0 && o.qtd !== null) registrarVenda(e.doc.id, o.key, r.vendidas)
+    const r = comprarNoEstabelecimento(comprador.id, comprador.doc, cfg, fator, o)
+    if (r.ok && r.vendidas > 0 && o.qtd !== null) registrarVenda(chaveVendas, o.key, r.vendidas)
     onResultado(r.msg)
   }
 
   return (
-    <section style={BOX} data-estabelecimento={e.doc.basename}>
+    <section style={BOX} data-estabelecimento={e.nome}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 6 }}>
-        <b style={{ fontSize: 14 }}>
-          <DetailLink id={e.doc.id}>{reskinName(e.doc.basename)}</DetailLink>
-        </b>
-        {geo ? (
+        <b style={{ fontSize: 13.5 }}>{e.generico ? e.nome : <DetailLink id={e.doc.id}>{reskinName(e.doc.basename)}</DetailLink>}</b>
+        {e.generico ? (
+          <span style={{ fontSize: 12, color: 'var(--muted)' }}>comércio de rua · <DetailLink id={e.doc.id}>{reskinName(e.doc.basename)}</DetailLink></span>
+        ) : geo ? (
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>
             <InlineFieldValue value={geo} />
           </span>
@@ -277,57 +309,31 @@ function EstabelecimentoBox({
         {rotulo ? <Chip>{rotulo} ×{String(mult).replace('.', ',')}</Chip> : null}
       </div>
       {grupos.map(([tipo, lista]) => (
-        <div key={tipo} style={{ marginTop: 6 }}>
+        <div key={tipo} style={{ marginTop: 4 }}>
           <div style={{ ...MONO, margin: '6px 0 2px' }}>{tipo.toUpperCase()}</div>
           {lista.map((o) => {
             const restante = o.qtd === null ? null : Math.max(0, o.qtd - (vendidas[o.key] ?? 0))
             const esgotado = !o.disponivel || restante === 0
             const r = o.recurso
-            const unidade = r.cobranca && r.cobranca !== 'única' ? ` / ${r.cobranca}` : ''
-            const pc = o.acao === 'alugar' ? precoCompraImovel(o, mult) : null
-            let botoes: ReactNode = null
+            const unidade = o.acao === 'comprar' ? '' : r.cobranca && r.cobranca !== 'única' ? ` / ${r.cobranca}` : ''
+            const semSaldo = !comprador || comprador.ouro < custoEmOuro(o.preco, fator)
+            let botao: ReactNode = null
             if (!esgotado) {
               switch (o.acao) {
-                case 'recarga':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador || comprador.ouro < custoEmOuro(o.preco, fator)}>Recarregar TRI +{formatValorMoeda(o.preco)}</Botao>
-                  break
-                case 'tri':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador} title="Sai do saldo TRI do herói">Usar TRI −{formatValorMoeda(o.preco)}</Botao>
-                  break
                 case 'comprar':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador || comprador.ouro < custoEmOuro(o.preco, fator)}>Comprar{o.estado ? ` ${o.estado}` : ''} −{formatValorMoeda(o.preco)}</Botao>
+                  botao = <Botao onClick={() => comprar(o)} disabled={semSaldo}>Comprar{o.estado ? ` ${o.estado}` : ''} −{formatValorMoeda(o.preco)}</Botao>
                   break
                 case 'diaria':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador || comprador.ouro < custoEmOuro(o.preco, fator)}>1 dia −{formatValorMoeda(o.preco)}</Botao>
-                  break
-                case 'alugar':
-                  botoes = (
-                    <>
-                      <Botao onClick={() => comprar(o)} disabled={!comprador}>Alugar {formatValorMoeda(o.preco)} / mês</Botao>
-                      {pc !== null ? (
-                        <Botao onClick={() => comprar(o, { comprarImovel: true })} disabled={!comprador || comprador.ouro < custoEmOuro(pc, fator)}>Comprar −{formatValorMoeda(pc)}</Botao>
-                      ) : null}
-                    </>
-                  )
-                  break
-                case 'hospedar':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador}>Hospedar {formatValorMoeda(o.preco)} / noite</Botao>
+                  botao = <Botao onClick={() => comprar(o)} disabled={semSaldo}>{r.cobranca === 'noite' ? '1 noite' : '1 dia'} −{formatValorMoeda(o.preco)}</Botao>
                   break
                 case 'avista':
-                  botoes = <Botao onClick={() => comprar(o)} disabled={!comprador || comprador.ouro < custoEmOuro(o.preco, fator)}>Comprar −{formatValorMoeda(o.preco)}</Botao>
+                  botao = <Botao onClick={() => comprar(o)} disabled={semSaldo}>Pagar −{formatValorMoeda(o.preco)}</Botao>
                   break
-                case 'miudeza': {
-                  const dentro = r.nivel !== undefined && r.nivel <= classeAlimentacao && cfg.abas.find((a) => a.nome === r.aba)?.papel === 'alimentacao'
-                  const lote = loteDeMiudeza(o.preco, fator)
-                  botoes = dentro ? (
-                    <Botao onClick={() => comprar(o)} disabled={!comprador} title="Está no seu estilo de vida">No seu estilo</Botao>
-                  ) : (
-                    <Botao onClick={() => comprar(o)} disabled={!comprador || comprador.ouro < 1} title={`Lote de ${lote} por ${formatValorMoeda(lote * o.preco)}`}>Lote de {lote} −{formatValorMoeda(lote * o.preco)}</Botao>
-                  )
+                case 'miudeza':
+                  botao = <Botao tom="muted" onClick={() => comprar(o)} disabled={!comprador} title="Abaixo de um milhar: sai do bolso, sem registro na ficha">Consumir · do bolso</Botao>
                   break
-                }
                 default:
-                  botoes = null
+                  botao = null
               }
             }
             return (
@@ -336,7 +342,7 @@ function EstabelecimentoBox({
                   <span style={{ fontWeight: 600, fontSize: 13.5, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                     <DetailLink id={r.id}>{r.nome}</DetailLink>
                     {o.estado ? <Chip>{o.estado}</Chip> : null}
-                    {r.nivel !== undefined ? <Chip>classe {r.nivel}</Chip> : null}
+                    {o.acao === 'comprar' && r.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês de manutenção</Chip> : null}
                   </span>
                   <span style={{ fontSize: 12, color: 'var(--muted)' }} title={r.resumo}>
                     {r.marca ? <InlineFieldValue value={r.marca} /> : null}
@@ -349,7 +355,7 @@ function EstabelecimentoBox({
                   <span style={{ color: 'var(--muted)' }}>{unidade}</span>
                 </span>
                 {esgotado ? <Chip tom="off">{o.disponivel ? 'esgotou hoje' : 'não tem hoje'}</Chip> : <Chip tom="accent">{restante === null ? '∞' : `×${restante}`}</Chip>}
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>{botoes}</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>{botao}</div>
               </div>
             )
           })}

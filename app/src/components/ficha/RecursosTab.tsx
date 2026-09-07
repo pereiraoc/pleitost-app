@@ -1,40 +1,36 @@
-// Aba RECURSOS da ficha (2026-09-07b) — em cima o CUSTO DE VIDA: três eixos
-// (transporte, moradia, alimentação) escolhidos entre os estilos do mundo
-// (notas `Tipo = cfg.tipos.estilo`, uma por classe), com o total do mês bem
-// claro; embaixo, por aba, SÓ o que o herói tem (TRI, veículos, moradia,
-// estoque). Comprar é nos estabelecimentos (aba Serviços dos locais).
-// Linguagem visual das outras abas (TabStrip, painéis cortados, rótulos
-// mono); dados inteiros da vault; regra de dinheiro em src/recursos.
+// Aba RECURSOS da ficha (v3, 2026-09-08) — o CUSTO DE VIDA do herói numa
+// tela só: três seções colapsáveis (moradia, transporte, alimentação — a
+// ordem vem do contexto) que mostram o total do eixo mesmo fechadas. Dentro
+// de cada uma, a lista VERTICAL de planos (uma linha por classe: seletor,
+// nome + o que garante, valor alinhado) e a POSSE daquele eixo (carro,
+// imóvel) com a manutenção mensal que a nota do item define. No topo, o
+// total do mês e o botão de fechar o mês (tudo pago adiantado). Não há
+// estoque de comida nem saldo de transporte: o que é avulso se paga na hora
+// nos estabelecimentos (aba Serviços dos locais).
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { activeContextoDef } from '../../data/reskin'
-import { formatValorMoeda, moedaFator, moedaNumero } from '../../data/moeda'
+import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
-import { clip, TabStrip } from './bits'
+import { clip } from './bits'
 import { fmPath, num } from './hero-model'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import type { Papel, Recurso, RecursosCfg } from '../../recursos/types'
 import {
   OURO_FM,
-  PAPEIS,
   RECURSOS_FM,
-  abaDoPapel,
-  acaoDe,
-  consumirItem,
   custoMensal,
   escolherEstilo,
   fecharMes,
   isEstilo,
-  morarNoProprio,
   nomeNivel,
   papelDaAba,
   recursosDoFm,
-  sairDaMoradia,
-  usarPassagem,
   venderItem,
+  type EixoDoMes,
   type RecursosDoHeroi,
   type Resultado,
 } from '../../recursos/hero-recursos'
@@ -43,10 +39,8 @@ import {
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
-
-/** Linha da tabela de estilos: [seletor] [nome + descrição] [dinheiro]. A
- *  coluna do dinheiro tem largura fixa → valores alinhados em todos os
- *  eixos; a linha inteira é clicável e a marcada ganha fundo e borda. */
+/** Linha da tabela de planos: [seletor] [nome + o que garante] [dinheiro]; a
+ *  coluna do dinheiro tem largura fixa → valores alinhados em todos os eixos. */
 const LINHA: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: '22px minmax(0,1fr) 120px',
@@ -57,10 +51,7 @@ const LINHA: CSSProperties = {
   borderLeft: '3px solid transparent',
   cursor: 'pointer',
 }
-const LINHA_MARCADA: CSSProperties = {
-  background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
-  borderLeft: '3px solid var(--accent)',
-}
+const LINHA_MARCADA: CSSProperties = { background: 'color-mix(in srgb,var(--accent) 12%,transparent)', borderLeft: '3px solid var(--accent)' }
 const DINHEIRO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 12.5, textAlign: 'right', whiteSpace: 'nowrap' }
 
 function Radio({ marcado }: { marcado: boolean }) {
@@ -78,17 +69,7 @@ function Radio({ marcado }: { marcado: boolean }) {
     />
   )
 }
-
-function SectionHead({ label }: { label: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '0 0 9px' }}>
-      <span style={{ ...MONO, letterSpacing: '.16em' }}>{label}</span>
-      <span style={{ flex: 1, height: 1, background: 'var(--line)' }} />
-    </div>
-  )
-}
-
-function Botao({ children, onClick, disabled, title, tom = 'accent', ativo }: { children: ReactNode; onClick: () => void; disabled?: boolean; title?: string; tom?: 'accent' | 'muted'; ativo?: boolean }) {
+function Botao({ children, onClick, disabled, title, tom = 'accent' }: { children: ReactNode; onClick: () => void; disabled?: boolean; title?: string; tom?: 'accent' | 'muted' }) {
   const cor = tom === 'accent' ? 'var(--accent)' : 'var(--muted)'
   return (
     <button
@@ -96,7 +77,6 @@ function Botao({ children, onClick, disabled, title, tom = 'accent', ativo }: { 
       onClick={onClick}
       disabled={disabled}
       title={title}
-      aria-pressed={ativo}
       style={{
         fontFamily: 'var(--mono)',
         fontSize: 10.5,
@@ -104,9 +84,9 @@ function Botao({ children, onClick, disabled, title, tom = 'accent', ativo }: { 
         textTransform: 'uppercase',
         padding: '5px 9px',
         whiteSpace: 'nowrap',
-        background: ativo ? `color-mix(in srgb,${cor} 28%,transparent)` : disabled ? 'transparent' : `color-mix(in srgb,${cor} 10%,transparent)`,
-        border: `1px solid ${ativo ? cor : disabled ? 'var(--line2)' : `color-mix(in srgb,${cor} 45%,transparent)`}`,
-        color: disabled ? 'var(--muted)' : ativo ? 'var(--text)' : cor,
+        background: disabled ? 'transparent' : `color-mix(in srgb,${cor} 10%,transparent)`,
+        border: `1px solid ${disabled ? 'var(--line2)' : `color-mix(in srgb,${cor} 45%,transparent)`}`,
+        color: disabled ? 'var(--muted)' : cor,
         clipPath: clip(5),
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.55 : 1,
@@ -118,9 +98,6 @@ function Botao({ children, onClick, disabled, title, tom = 'accent', ativo }: { 
 }
 function Chip({ children }: { children: ReactNode }) {
   return <span style={{ ...MONO, fontSize: 10, padding: '2px 6px', border: '1px solid var(--line2)', whiteSpace: 'nowrap' }}>{children}</span>
-}
-function Vazio({ children }: { children: ReactNode }) {
-  return <div style={{ ...MONO, padding: '10px 0' }}>{children}</div>
 }
 
 /* ───────────────────────── dados ───────────────────────── */
@@ -161,15 +138,14 @@ type Aplicar = (res: Resultado | null, msg: string, falha?: string) => void
 function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const model = useHeroModel(doc, 'recursos')
   const fm = model.fm
-  const ouro = num(fmPath(fm, 'Inventario', 'Ouro'))
+  const saldo = num(fmPath(fm, 'Inventario', 'Ouro'))
   const estado = useMemo(() => recursosDoFm(fm), [fm])
   const fator = moedaFator()
   const { carregando, recursos, porNome } = useRecursosDoMundo(cfg)
-  const [aba, setAba] = useState(cfg.abas[0]?.nome ?? '')
   const [aviso, setAviso] = useState<string | null>(null)
   const custo = useMemo(() => custoMensal(estado, porNome, fator, cfg), [estado, porNome, fator, cfg])
 
-  const aplicar: Aplicar = (res, msg, falha = 'Ouro insuficiente.') => {
+  const aplicar: Aplicar = (res, msg, falha = 'Saldo insuficiente.') => {
     if (!res) {
       setAviso(falha)
       return
@@ -179,253 +155,177 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     setAviso(msg)
   }
 
-  const estilosPorPapel = useMemo(() => {
+  const planosPorPapel = useMemo(() => {
     const m = new Map<Papel, Recurso[]>()
-    for (const p of PAPEIS) m.set(p, [])
     for (const r of recursos) {
       if (!isEstilo(cfg, r)) continue
       const p = papelDaAba(cfg, r.aba)
-      if (p) m.get(p)!.push(r)
+      if (!p) continue
+      const l = m.get(p) ?? []
+      l.push(r)
+      m.set(p, l)
     }
     for (const l of m.values()) l.sort((a, b) => (a.nivel ?? 0) - (b.nivel ?? 0))
     return m
   }, [recursos, cfg])
 
-  const papelDaAbaAtual = papelDaAba(cfg, aba)
-
   return (
-    <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <section>
-        <SectionHead label="// CUSTO DE VIDA" />
-        <div style={{ ...BOX, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {carregando ? <Vazio>{'// CARREGANDO ESTILOS…'}</Vazio> : null}
-          {PAPEIS.map((papel) => {
-            const eixo = custo.eixos.find((e) => e.papel === papel)!
-            const lista = estilosPorPapel.get(papel) ?? []
-            const nomeAba = abaDoPapel(cfg, papel) ?? papel
-            const especifica = papel === 'moradia' && estado.moradia
-            const escolhido = eixo.nome ? porNome.get(eixo.nome) : undefined
+    <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ ...BOX, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{'// CUSTO DE VIDA'}</span>
+        <span style={{ ...MONO, fontSize: 10 }}>planos + manutenção da posse, pagos adiantado</span>
+        <span style={{ flex: 1 }} />
+        <span style={MONO}>TOTAL DO MÊS</span>
+        <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
+          {formatValorMoeda(custo.total)}
+        </b>
+        <Chip>{nomeNivel(cfg, custo.classe)}</Chip>
+        <Botao
+          onClick={() => aplicar(fecharMes(estado, porNome, cfg, saldo, fator), `Mês fechado: −${formatValorMoeda(custo.ouro * fator)}.`, 'Saldo insuficiente pra fechar o mês.')}
+          disabled={custo.total <= 0}
+          title={`Desconta ${formatValorMoeda(custo.ouro * fator)} (arredondado pro milhar)`}
+        >
+          Fechar o mês −{formatValorMoeda(custo.ouro * fator)}
+        </Botao>
+        <span style={{ ...MONO, fontSize: 10, flexBasis: '100%' }}>
+          NA FICHA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(saldo * fator)}</b>
+          {aviso ? (
+            <span role="status" style={{ marginLeft: 14, color: 'var(--text)' }}>
+              {aviso}
+            </span>
+          ) : null}
+        </span>
+      </div>
+
+      {cfg.abas.map((a) => {
+        const eixo = custo.eixos.find((e) => e.papel === a.papel)
+        if (!eixo) return null
+        return (
+          <SecaoEixo
+            key={a.nome}
+            nomeAba={a.nome}
+            eixo={eixo}
+            planos={planosPorPapel.get(a.papel) ?? []}
+            estado={estado}
+            cfg={cfg}
+            saldo={saldo}
+            fator={fator}
+            carregando={carregando}
+            aplicar={aplicar}
+          />
+        )
+      })}
+      <div style={{ ...MONO, fontSize: 10, lineHeight: 1.5 }}>
+        O plano garante o mínimo daquele padrão; o que for extra (uma janta melhor, um táxi, uma diária) se paga na hora nos estabelecimentos — aba {cfg.ofertas.aba.toUpperCase()} de cada lugar do Atlas. Posse (carro, imóvel) se compra lá também e entra aqui com a manutenção do mês.
+      </div>
+    </div>
+  )
+}
+
+function SecaoEixo({
+  nomeAba,
+  eixo,
+  planos,
+  estado,
+  cfg,
+  saldo,
+  fator,
+  carregando,
+  aplicar,
+}: {
+  nomeAba: string
+  eixo: EixoDoMes
+  planos: Recurso[]
+  estado: RecursosDoHeroi
+  cfg: RecursosCfg
+  saldo: number
+  fator: number
+  carregando: boolean
+  aplicar: Aplicar
+}) {
+  const papel = eixo.papel
+  const escolher = (r: Recurso, sel: boolean) => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${sel ? 'sem plano' : nomeNivel(cfg, r.nivel ?? 1)}.`)
+  return (
+    <details data-eixo={papel} style={{ ...BOX, padding: 0 }}>
+      <summary style={{ ...LINHA, borderTop: 'none', cursor: 'pointer', padding: '10px 14px', listStyle: 'none' }}>
+        <span style={{ ...MONO, color: 'var(--muted)' }}>▸</span>
+        <span style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', minWidth: 0 }}>
+          <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{nomeAba.toUpperCase()}</span>
+          <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+            {eixo.plano ? `${nomeNivel(cfg, eixo.nivel)} · ${eixo.plano.nome}` : 'sem plano'}
+            {eixo.posse.length ? ` · ${eixo.posse.length} de posse` : ''}
+          </span>
+        </span>
+        <span style={{ ...DINHEIRO, color: 'var(--accent)', fontWeight: 700 }} data-eixo-valor={eixo.total}>
+          {formatValorMoeda(eixo.total)}
+        </span>
+      </summary>
+      <div style={{ padding: '0 6px 10px' }}>
+        <div style={{ ...MONO, padding: '6px 10px 2px' }}>PLANO DO MÊS</div>
+        <div role="radiogroup" aria-label={nomeAba}>
+          {planos.map((r) => {
+            const sel = estado.estilos[papel] === r.nome
+            const n = r.nivel ?? 1
             return (
-              <div key={papel} data-eixo={papel} style={{ display: 'flex', flexDirection: 'column', gap: 0, paddingBottom: 6 }}>
-                {/* cabeçalho do eixo: nome à esquerda, valor do mês na coluna do dinheiro */}
-                <div style={{ ...LINHA, borderTop: 'none', background: 'transparent', cursor: 'default' }}>
-                  <span />
-                  <span style={{ ...MONO, color: 'var(--text)' }}>
-                    {nomeAba.toUpperCase()} <span style={{ color: 'var(--muted)' }}>· classe {eixo.nivel} · {nomeNivel(cfg, eixo.nivel)}</span>
+              <div
+                key={r.id}
+                role="radio"
+                aria-checked={sel}
+                tabIndex={0}
+                data-classe={n}
+                title={r.resumo}
+                onClick={() => escolher(r, sel)}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault()
+                    escolher(r, sel)
+                  }
+                }}
+                style={{ ...LINHA, ...(sel ? LINHA_MARCADA : {}) }}
+              >
+                <Radio marcado={sel} />
+                <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>
+                    {nomeNivel(cfg, n)}
+                    {papel === 'transporte' ? <span style={{ color: 'var(--muted)', fontWeight: 500 }}> · {r.nome}</span> : null}
                   </span>
-                  <span style={{ ...DINHEIRO, color: 'var(--accent)', fontWeight: 700 }} data-eixo-valor={eixo.valor}>
-                    {formatValorMoeda(eixo.valor)}
+                  <span style={{ fontSize: 11.5, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {r.resumo.replace(/^[^:]+: /, '')}
                   </span>
-                </div>
-                {especifica ? (
-                  <div style={{ ...LINHA, ...LINHA_MARCADA }} aria-checked="true" role="radio">
-                    <Radio marcado />
-                    <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
-                      {escolhido ? <DetailLink id={escolhido.id}>{escolhido.nome}</DetailLink> : <span>{estado.moradia!.nome}</span>}
-                      <Chip>{estado.moradia!.modo === 'propria' ? 'imóvel próprio' : estado.moradia!.modo === 'hotel' ? 'hotel · 30 noites' : 'aluguel'}</Chip>
-                      <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — volta ao estilo escolhido.')}>
-                        Sair
-                      </Botao>
-                    </span>
-                    <span style={DINHEIRO}>{formatValorMoeda(eixo.valor)}</span>
-                  </div>
-                ) : (
-                  <div role="radiogroup" aria-label={nomeAba}>
-                    {lista.map((r) => {
-                      const sel = estado.estilos[papel] === r.nome
-                      const n = r.nivel ?? 1
-                      return (
-                        <div
-                          key={r.id}
-                          role="radio"
-                          aria-checked={sel}
-                          tabIndex={0}
-                          data-classe={n}
-                          title={r.resumo}
-                          onClick={() => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${nomeNivel(cfg, n)}.`)}
-                          onKeyDown={(e) => {
-                            if (e.key === ' ' || e.key === 'Enter') {
-                              e.preventDefault()
-                              aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${nomeNivel(cfg, n)}.`)
-                            }
-                          }}
-                          style={{ ...LINHA, ...(sel ? LINHA_MARCADA : {}) }}
-                        >
-                          <Radio marcado={sel} />
-                          <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>{nomeNivel(cfg, n)}</span>
-                            <span style={{ fontSize: 11.5, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {r.resumo.replace(/^Nível \d · [^:]+: /, '')}
-                            </span>
-                          </span>
-                          <span style={DINHEIRO}>{formatValorMoeda(r.preco)}</span>
-                        </div>
-                      )
-                    })}
-                    {!lista.length && !carregando ? <Vazio>{'// sem estilos deste eixo na vault'}</Vazio> : null}
-                  </div>
-                )}
+                </span>
+                <span style={DINHEIRO}>{formatValorMoeda(r.preco)}</span>
               </div>
             )
           })}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <span style={{ ...MONO, color: 'var(--text)' }}>TOTAL DO MÊS</span>
-            <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
-              {formatValorMoeda(custo.total)}
-            </b>
-            <Chip>
-              classe {custo.classe} · {nomeNivel(cfg, custo.classe)}
-            </Chip>
-            <span style={{ flex: 1 }} />
-            <span style={{ ...MONO, fontSize: 10 }}>
-              OURO NA FICHA <b style={{ color: 'var(--text)' }}>{formatValorMoeda(ouro * fator)}</b>
-            </span>
-            <Botao
-              onClick={() => aplicar(fecharMes(estado, porNome, cfg, ouro, fator), `Mês fechado: −${formatValorMoeda(custo.ouro * fator)}.`, 'Ouro insuficiente pra fechar o mês.')}
-              disabled={custo.total <= 0}
-              title={`Desconta ${custo.ouro} de ouro (arredondado pro milhar)`}
-            >
-              Fechar o mês −{moedaNumero(custo.ouro)}
-            </Botao>
-          </div>
-          {aviso ? (
-            <div role="status" style={{ ...MONO, color: 'var(--text)', fontSize: 11.5 }}>
-              {aviso}
-            </div>
-          ) : null}
+          {!planos.length ? <div style={{ ...MONO, padding: '8px 10px' }}>{carregando ? '// CARREGANDO PLANOS…' : '// sem planos deste eixo na vault'}</div> : null}
         </div>
-      </section>
-
-      <section>
-        <SectionHead label="// O QUE VOCÊ TEM" />
-        <TabStrip tabs={cfg.abas.map((a) => ({ id: a.nome, label: a.nome.toUpperCase() }))} active={aba} onSelect={setAba} pad="10px 16px" />
-        <div style={{ ...BOX, marginTop: 12 }}>
-          {papelDaAbaAtual === 'transporte' ? (
-            <TemTransporte estado={estado} recursos={recursos} porNome={porNome} cfg={cfg} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} />
-          ) : papelDaAbaAtual === 'moradia' ? (
-            <TemMoradia estado={estado} porNome={porNome} cfg={cfg} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} />
-          ) : (
-            <TemItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} vazio="// nada comprado — o que se come no mês está no estilo de vida" />
-          )}
-        </div>
-        <div style={{ ...MONO, fontSize: 10, marginTop: 8, lineHeight: 1.5 }}>
-          Compra-se nos estabelecimentos: aba {cfg.ofertas.aba.toUpperCase()} de cada lugar do Atlas.
-        </div>
-      </section>
-    </div>
-  )
-}
-
-/* ───────────────────────── "o que você tem" ───────────────────────── */
-
-function ListaItens({ estado, porNome, aba, ouro, fator, aplicar, acao }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; aba: string; ouro: number; fator: number; aplicar: Aplicar; acao: 'vender' | 'consumir' }) {
-  const itens = estado.itens.map((it, i) => ({ it, i })).filter(({ it }) => it.aba === aba)
-  if (!itens.length) return null
-  return (
-    <div>
-      {itens.map(({ it, i }, k) => {
-        const r = porNome.get(it.nome)
-        return (
-          <div key={`${it.nome}:${i}`} data-item={it.nome} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', borderTop: k ? '1px solid var(--line)' : undefined, flexWrap: 'wrap' }}>
-            {r ? <DetailLink id={r.id}>{it.nome}</DetailLink> : <span>{it.nome}</span>}
-            {it.estado ? <Chip>{it.estado}</Chip> : null}
-            <Chip>×{it.qtd}</Chip>
-            {r?.cobranca === 'única' ? <Chip>pagou {formatValorMoeda(it.pago)}</Chip> : null}
-            <span style={{ flex: 1 }} />
-            {acao === 'vender' ? (
-              <Botao tom="muted" onClick={() => aplicar(venderItem(estado, i, ouro, fator), `${it.nome} vendido pela metade do que pagou.`)} title={`Devolve ${Math.floor(it.pago / 2 / fator)} de ouro`}>
-                Vender +{moedaNumero(Math.floor(it.pago / 2 / fator))}
-              </Botao>
-            ) : (
-              <Botao tom="muted" onClick={() => aplicar(consumirItem(estado, i), `${it.nome}: −1.`)}>
-                Consumir
-              </Botao>
-            )}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function TemItens({ estado, porNome, aba, ouro, fator, aplicar, vazio }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; aba: string; ouro: number; fator: number; aplicar: Aplicar; vazio: string }) {
-  const tem = estado.itens.some((it) => it.aba === aba)
-  return tem ? <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="consumir" /> : <Vazio>{vazio}</Vazio>
-}
-
-function TemTransporte({ estado, recursos, porNome, cfg, aba, ouro, fator, aplicar }: { estado: RecursosDoHeroi; recursos: Recurso[]; porNome: Map<string, Recurso>; cfg: RecursosCfg; aba: string; ouro: number; fator: number; aplicar: Aplicar }) {
-  // o cartão TRI é do herói: as passagens do mundo se USAM daqui (o saldo se recarrega no guichê)
-  const passagens = recursos.filter((r) => r.aba === aba && acaoDe(cfg, r, fator) === 'tri').sort((a, b) => a.preco - b.preco)
-  const temItens = estado.itens.some((it) => it.aba === aba)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span style={MONO}>CARTÃO TRI</span>
-        <b style={{ fontFamily: 'var(--mono)', fontSize: 14, color: 'var(--accent)' }} data-tri={estado.tri}>
-          {formatValorMoeda(estado.tri)}
-        </b>
-        <span style={{ ...MONO, fontSize: 10 }}>recarrega no guichê</span>
-      </div>
-      {passagens.length ? (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={MONO}>USAR</span>
-          {passagens.map((r) => (
-            <Botao key={r.id} onClick={() => aplicar(usarPassagem(estado, r.preco), `${r.nome}: −${formatValorMoeda(r.preco)} do TRI.`, 'TRI insuficiente — recarregue no guichê.')} disabled={estado.tri < r.preco} title={r.resumo}>
-              {r.nome} −{formatValorMoeda(r.preco)}
-            </Botao>
-          ))}
-        </div>
-      ) : null}
-      <div>
-        <div style={{ ...MONO, marginBottom: 4 }}>VEÍCULOS E AFINS</div>
-        {temItens ? <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="vender" /> : <Vazio>{'// a pé, de ônibus ou de carona — compre numa concessionária ou ferro-velho'}</Vazio>}
-      </div>
-    </div>
-  )
-}
-
-function TemMoradia({ estado, porNome, cfg, aba, ouro, fator, aplicar }: { estado: RecursosDoHeroi; porNome: Map<string, Recurso>; cfg: RecursosCfg; aba: string; ouro: number; fator: number; aplicar: Aplicar }) {
-  const m = estado.moradia
-  const r = m ? porNome.get(m.nome) : null
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-        <span style={MONO}>MORADIA</span>
-        {m ? (
+        {papel !== 'alimentacao' ? (
           <>
-            {r ? <DetailLink id={r.id}>{m.nome}</DetailLink> : <span>{m.nome}</span>}
-            <Chip>{m.modo === 'propria' ? 'própria' : m.modo}</Chip>
-            {r ? <Chip>{m.modo === 'propria' ? 'sem aluguel' : m.modo === 'hotel' ? `${formatValorMoeda(r.preco)} / noite` : `${formatValorMoeda(r.preco)} / mês`}</Chip> : null}
-            {r?.nivel ? <Chip>classe {r.nivel} · {nomeNivel(cfg, r.nivel)}</Chip> : null}
-            <span style={{ flex: 1 }} />
-            <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — volta ao estilo escolhido.')}>
-              Sair
-            </Botao>
+            <div style={{ ...MONO, padding: '12px 10px 2px' }}>POSSE · manutenção por mês</div>
+            {eixo.posse.length ? (
+              eixo.posse.map((p) => (
+                <div key={`${p.item.nome}:${p.indice}`} data-item={p.item.nome} style={{ ...LINHA, cursor: 'default' }}>
+                  <span />
+                  <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
+                    {p.recurso ? <DetailLink id={p.recurso.id}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
+                    {p.item.estado ? <Chip>{p.item.estado}</Chip> : null}
+                    {p.item.qtd > 1 ? <Chip>×{p.item.qtd}</Chip> : null}
+                    <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>
+                    <Botao tom="muted" onClick={() => aplicar(venderItem(estado, p.indice, saldo, fator), `${p.item.nome} vendido pela metade do que pagou.`)} title={`Devolve ${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}>
+                      Vender +{formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}
+                    </Botao>
+                  </span>
+                  <span style={DINHEIRO}>{formatValorMoeda(p.valor)}</span>
+                </div>
+              ))
+            ) : (
+              <div style={{ ...MONO, padding: '6px 10px' }}>{papel === 'transporte' ? '// nenhum veículo — compra-se numa concessionária ou ferro-velho' : '// nenhum imóvel — compra-se numa imobiliária'}</div>
+            )}
           </>
         ) : (
-          <span style={{ ...MONO, color: 'var(--text)' }}>nenhuma específica — vale o estilo escolhido no custo de vida</span>
+          <div style={{ ...MONO, padding: '12px 10px 2px', fontSize: 10 }}>comida se consome na hora — nada fica guardado aqui</div>
         )}
       </div>
-      <div>
-        <div style={{ ...MONO, marginBottom: 4 }}>IMÓVEIS</div>
-        {estado.imoveis.length === 0 ? (
-          <Vazio>{'// nenhum — compra-se numa imobiliária'}</Vazio>
-        ) : (
-          estado.imoveis.map((nome, i) => {
-            const im = porNome.get(nome)
-            const morando = m?.modo === 'propria' && m.nome === nome
-            return (
-              <div key={nome} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', borderTop: i ? '1px solid var(--line)' : undefined }}>
-                {im ? <DetailLink id={im.id}>{nome}</DetailLink> : <span>{nome}</span>}
-                {morando ? <Chip>morando</Chip> : null}
-                <span style={{ flex: 1 }} />
-                {!morando ? <Botao onClick={() => aplicar(morarNoProprio(estado, nome), `Morando em ${nome}.`)}>Morar aqui</Botao> : null}
-              </div>
-            )
-          })
-        )}
-      </div>
-      <ListaItens estado={estado} porNome={porNome} aba={aba} ouro={ouro} fator={fator} aplicar={aplicar} acao="consumir" />
-    </div>
+    </details>
   )
 }

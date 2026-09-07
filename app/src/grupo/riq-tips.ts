@@ -10,6 +10,7 @@
 import { emojis } from '../generated/tokens'
 import { fmtPlain } from './stats'
 import { moedaNumero, moedaSimbolo } from '../data/moeda'
+import { reskinText } from '../data/reskin'
 import type { GtipEntry } from './gtips'
 import type { WealthLine } from './wealth'
 
@@ -74,7 +75,7 @@ export function riqTipConsumiveis(lines: WealthLine[]): GtipEntry {
 
 /** Célula ORO do membro. */
 export function riqTipOuro(ouro: number): GtipEntry {
-  return { h: tipWrap(5, `${EM_OURO} Ouro`, tipLine('Ouro no inventário', moedaNumero(ouro))), w: W }
+  return { h: tipWrap(5, `${EM_OURO} ${reskinText('Ouro')}`, tipLine(`${reskinText('Ouro')} no inventário`, moedaNumero(ouro))), w: W }
 }
 
 /** Origens das linhas da célula TSR (mesma partição do pricing). */
@@ -136,6 +137,6 @@ function riqTipPorIntegrante(titulo: string, rows: WealthLine[]): GtipEntry {
 export const riqTipGrupoConsumiveis = (rows: WealthLine[]): GtipEntry =>
   riqTipPorIntegrante('Consumíveis por integrante', rows)
 export const riqTipGrupoOuro = (rows: WealthLine[]): GtipEntry =>
-  riqTipPorIntegrante('Ouro por integrante', rows)
+  riqTipPorIntegrante(`${reskinText('Ouro')} por integrante`, rows)
 export const riqTipGrupoTesouros = (rows: WealthLine[]): GtipEntry =>
   riqTipPorIntegrante('Tesouros (sem ouro) por integrante', rows)

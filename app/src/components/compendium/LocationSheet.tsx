@@ -740,7 +740,9 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     for (const e of catalog.content) {
       if (!e.id.startsWith('Sistema/Equipamento/Armas/') || e.subtype !== 'Arma') continue
       const g = (typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()
-      if (g !== 'natural' && g !== 'especial') armaIds.push(e.id)
+      // Report 2026-09-07: "Ataque Desarmado" (mãos: 0, sem preço) não é
+      // mercadoria — arma sem mão pra segurar não vai pra vitrine.
+      if (g !== 'natural' && g !== 'especial' && e.maos !== 0) armaIds.push(e.id)
     }
     const load = (arr: string[]) =>
       Promise.all(arr.map((id) => loadDoc(id).catch(() => null))).then((ds) =>
@@ -857,7 +859,7 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     const hdoc = selectedHero.doc
     const finish = (r: PurchaseResult) => {
       if (!r.ok) {
-        setAviso('Ouro insuficiente.')
+        setAviso('Saldo insuficiente.')
         return
       }
       decrementProntaEntry(doc.id, entry.key, entry.tier)

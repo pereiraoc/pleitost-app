@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
-// Aba SERVIÇOS de um local (2026-09-07b): vitrine dos estabelecimentos com
-// quantidade/disponibilidade pela régua e compra no herói selecionado; a
-// compra pura (comprarNoEstabelecimento) grava no store do herói. Dataset
-// REAL da POA como oráculo (pula se ausente).
+// Aba SERVIÇOS de um local (v3): colapsável POR LUGAR (a cidade mostra cada
+// bairro) e, dentro, POR ESTABELECIMENTO — PoI com Serviços ou tipo genérico
+// do comércio de rua; transporte avulso não aparece; comprar grava no herói.
+// Dataset REAL da POA como oráculo (pula se ausente).
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
@@ -20,7 +20,7 @@ import { heroOuro, currentFm } from '../src/data/purchase'
 import { ServicosTab } from '../src/components/compendium/ServicosTab'
 import { LocationSheet } from '../src/components/compendium/LocationSheet'
 import { parseRecurso } from '../src/recursos/parse-recurso'
-import { parseOfertas, rollOfertas } from '../src/recursos/ofertas'
+import { parseOfertas, parseOfertasAgrupadas, rollOfertas } from '../src/recursos/ofertas'
 import { comprarNoEstabelecimento } from '../src/recursos/comprar'
 import { recursosDoFm } from '../src/recursos/hero-recursos'
 import { __resetOfertasStoreForTests } from '../src/recursos/ofertas-store'
@@ -30,7 +30,9 @@ const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
 const CONCESSIONARIA = "Atlas/Porto Alegre/Passo D'Areia/Concessionária Gurgel"
 const SUCATA = 'Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata'
-const temDataset = fs.existsSync(path.join(cyberDir, `${CONCESSIONARIA}.json`))
+const BAIRRO = "Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia"
+const CIDADE = 'Atlas/Porto Alegre/Porto Alegre'
+const temDataset = fs.existsSync(path.join(cyberDir, `${CONCESSIONARIA}.json`)) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Popular.json'))
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
 const readDoc = (id: string): VaultDoc => JSON.parse(fs.readFileSync(path.join(cyberDir, `${id}.json`), 'utf8')) as VaultDoc
@@ -79,93 +81,106 @@ afterEach(() => {
   setActiveContexto(null)
 })
 
+function montar(doc: VaultDoc, Comp: typeof ServicosTab | typeof LocationSheet = ServicosTab) {
+  return render(
+    <MemoryRouter>
+      <CatalogProvider catalog={catalog}>
+        <DetailProvider>
+          <Comp doc={doc} />
+        </DetailProvider>
+      </CatalogProvider>
+    </MemoryRouter>,
+  )
+}
+
 describe('estabelecimentos da vault', () => {
-  it('a concessionária lista Gurgel novos; o ferro-velho lista usados; a linha vem do bairro', () => {
+  it('a concessionária lista Gurgel novos; o ferro-velho lista usados; o bairro lista comércio de rua por tipo', () => {
     if (!temDataset) return
+    const campo = def.recursos!.ofertas.campo
     const conc = readDoc(CONCESSIONARIA)
-    const of = parseOfertas(conc.frontmatter as Record<string, unknown>, def.recursos!.ofertas.campo)
+    const of = parseOfertas(conc.frontmatter as Record<string, unknown>, campo)
     expect(of.map((o) => o.nome)).toContain('Gurgel Carajás')
     expect(of.every((o) => o.estado !== 'usado')).toBe(true)
-    const suc = parseOfertas(readDoc(SUCATA).frontmatter as Record<string, unknown>, def.recursos!.ofertas.campo)
+    const suc = parseOfertas(readDoc(SUCATA).frontmatter as Record<string, unknown>, campo)
     expect(suc.find((o) => o.nome === 'Gurgel Carajás')?.estado).toBe('usado')
-    // rolagem sobre as notas reais
+    const rua = parseOfertasAgrupadas(readDoc(BAIRRO).frontmatter as Record<string, unknown>, campo)
+    expect(rua.map((g) => g.estabelecimento)).toEqual(['Lancheria', 'Banca de jornal'])
     const porNome = new Map(of.map((o) => o.nome).map((n) => [n, parseRecurso(readDoc(`Contexto/Recursos/Transporte/${n}`))!]))
     const rolado = rollOfertas(of, porNome, 'Grande Cidade', def.recursos!, 1000, 1, `${conc.id}|dia`)
     const carajas = rolado.find((o) => o.recurso.nome === 'Gurgel Carajás')!
     expect(carajas.preco).toBe(400000)
     expect(carajas.acao).toBe('comprar')
-    expect(carajas.disponivel).toBe(true) // nível 5 em Grande Cidade [2,5]
+    expect(carajas.disponivel).toBe(true)
   })
 
-  it('comprarNoEstabelecimento grava o item e o ouro no herói (vault id + store)', () => {
+  it('comprarNoEstabelecimento grava a posse e o saldo no herói; miudeza não registra', () => {
     if (!temDataset) return
     setActiveContexto(def)
     writeHeroEdit(CARLOS_ID, 'fm', 'Inventario.Ouro', 200, { channel: 'imediato', origem: 'test' })
-    const suc = readDoc(SUCATA)
-    const of = parseOfertas(suc.frontmatter as Record<string, unknown>, def.recursos!.ofertas.campo)
+    const campo = def.recursos!.ofertas.campo
+    const of = parseOfertas(readDoc(SUCATA).frontmatter as Record<string, unknown>, campo)
     const porNome = new Map(of.map((o) => o.nome).map((n) => [n, parseRecurso(readDoc(`Contexto/Recursos/Transporte/${n}`))!]))
     const oferta = rollOfertas(of, porNome, 'Pequena Cidade', def.recursos!, 1000, 0.7, 'x').find((o) => o.key === 'Gurgel Carajás#usado')!
     expect(oferta.preco).toBe(105000)
-    const r = comprarNoEstabelecimento(CARLOS_ID, carlos, def.recursos!, 1000, oferta, { mult: 0.7 })
+    const r = comprarNoEstabelecimento(CARLOS_ID, carlos, def.recursos!, 1000, oferta)
     expect(r.ok).toBe(true)
     expect(heroOuro(CARLOS_ID, carlos)).toBe(200 - 105)
     expect(recursosDoFm(currentFm(CARLOS_ID, carlos)).itens).toEqual([{ nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, estado: 'usado', pago: 105000 }])
-    // sem ouro: nega sem gravar
-    const r2 = comprarNoEstabelecimento(CARLOS_ID, carlos, def.recursos!, 1000, { ...oferta, preco: 400000 }, { mult: 1 })
+    const r2 = comprarNoEstabelecimento(CARLOS_ID, carlos, def.recursos!, 1000, { ...oferta, preco: 400000 })
     expect(r2.ok).toBe(false)
     expect(heroOuro(CARLOS_ID, carlos)).toBe(95)
+    // miudeza: sai do bolso, sem registro
+    const polar = parseRecurso(readDoc('Contexto/Recursos/Alimentação/Polar Tradicional'))!
+    const r3 = comprarNoEstabelecimento(CARLOS_ID, carlos, def.recursos!, 1000, { key: 'Polar Tradicional#', recurso: polar, qtd: 5, preco: 40, acao: 'miudeza', disponivel: true })
+    expect(r3.ok).toBe(true)
+    expect(heroOuro(CARLOS_ID, carlos)).toBe(95)
+    expect(recursosDoFm(currentFm(CARLOS_ID, carlos)).itens.length).toBe(1)
   })
 
-  it('ServicosTab renderiza a vitrine com quantidade, preço e pedido de comprador; LocationSheet ganha a aba', async () => {
+  it('num PoI: vitrine com quantidade e preço; sem comprador o botão fica desabilitado; LocationSheet ganha a aba', async () => {
     if (!temDataset) return
     setActiveContexto(def)
     const conc = readDoc(CONCESSIONARIA)
-    render(
-      <MemoryRouter>
-        <CatalogProvider catalog={catalog}>
-          <DetailProvider>
-            <ServicosTab doc={conc} />
-          </DetailProvider>
-        </CatalogProvider>
-      </MemoryRouter>,
-    )
+    montar(conc)
     const linha = await screen.findByText('Gurgel Carajás', {}, { timeout: 15000 })
     const row = linha.closest('[data-oferta]') as HTMLElement
     expect(within(row).getByText('Cz$ 400.000')).toBeTruthy()
     expect(within(row).getByText(/^×\d+$/)).toBeTruthy()
+    expect(within(row).getByText(/Cz\$ 3\.000 \/ mês de manutenção/)).toBeTruthy()
     expect(screen.getByText(/escolha um herói no topo direito/)).toBeTruthy()
     expect((within(row).getByText(/Comprar −Cz\$ 400\.000/).closest('button') as HTMLButtonElement).disabled).toBe(true)
     cleanup()
-    render(
-      <MemoryRouter>
-        <CatalogProvider catalog={catalog}>
-          <DetailProvider>
-            <LocationSheet doc={conc} />
-          </DetailProvider>
-        </CatalogProvider>
-      </MemoryRouter>,
-    )
+    montar(conc, LocationSheet)
     expect(screen.getByRole('tab', { name: def.recursos!.ofertas.aba })).toBeTruthy()
   }, 30000)
 
-  it('num bairro, a vitrine lista o comércio de rua do bairro e TODOS os estabelecimentos dentro dele', async () => {
+  it('num bairro: um lugar com o comércio de rua (por tipo) e os estabelecimentos dentro; nada de transporte avulso', async () => {
     if (!temDataset) return
     setActiveContexto(def)
-    const bairro = readDoc("Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia")
-    render(
-      <MemoryRouter>
-        <CatalogProvider catalog={catalog}>
-          <DetailProvider>
-            <ServicosTab doc={bairro} />
-          </DetailProvider>
-        </CatalogProvider>
-      </MemoryRouter>,
-    )
+    montar(readDoc(BAIRRO))
     await screen.findByText('Concessionária Gurgel', {}, { timeout: 15000 })
+    const lugares = [...document.querySelectorAll('details[data-lugar]')].map((d) => d.getAttribute('data-lugar'))
+    expect(lugares).toEqual(["Passo D'Areia"])
     const caixas = [...document.querySelectorAll('[data-estabelecimento]')].map((e) => e.getAttribute('data-estabelecimento'))
-    expect(caixas).toContain("Passo D'Areia") // o comércio de rua do próprio bairro
+    expect(caixas).toContain('Lancheria')
+    expect(caixas).toContain('Banca de jornal')
     expect(caixas).toContain('Concessionária Gurgel')
-    expect(caixas).toContain('Zaffari do Passo D\'Areia')
-    expect(caixas).toContain('Shopping Iguatemi')
+    expect(caixas).toContain("Zaffari do Passo D'Areia")
+    expect(screen.queryByText(/Usar TRI/)).toBeNull()
+    expect(screen.queryByText('Passagem de Ônibus')).toBeNull()
+    expect(screen.queryByText('Aeromóvel Linha Popular')).toBeNull()
   }, 30000)
+
+  it('na cidade: um <details> por bairro (colapsado), com os estabelecimentos dentro', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar(readDoc(CIDADE))
+    await screen.findByText(/lugares · /, {}, { timeout: 20000 })
+    const lugares = [...document.querySelectorAll('details[data-lugar]')]
+    expect(lugares.length).toBeGreaterThan(10)
+    expect(lugares.every((d) => !(d as HTMLDetailsElement).open)).toBe(true)
+    const bomFim = lugares.find((d) => d.getAttribute('data-lugar') === 'Bom Fim') as HTMLElement
+    expect(within(bomFim).getByText('Padaria de esquina')).toBeTruthy()
+    expect(within(bomFim).getByText('Pensão Farroupilha')).toBeTruthy()
+  }, 40000)
 })

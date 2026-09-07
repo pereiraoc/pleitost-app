@@ -1,22 +1,26 @@
-// OFERTAS de um estabelecimento (2026-09-07b): uma Localização lista no FM
+// OFERTAS de um lugar (2026-09-07b/v3): uma Localização lista no FM
 // (`cfg.ofertas.campo`, POA: `Serviços`) o que vende ou aluga — wikilinks pra
-// notas de Recurso, com sufixo `usado` quando é o preço de usado. O app rola
-// QUANTIDADE e DISPONIBILIDADE conforme a linha da régua do bairro
-// (`cfg.disponibilidade`): fora da faixa de níveis da linha a chance cai;
-// a quantidade escala pelo fator da linha. Rolagem DETERMINÍSTICA por
-// semente (estabelecimento + dia) — a vitrine não muda a cada render.
+// notas de Recurso, com sufixo `usado` quando é o preço de usado. Duas formas:
+//   - LISTA: o próprio lugar é o estabelecimento (Concessionária Gurgel);
+//   - MAPA "tipo de estabelecimento" → lista: o comércio de RUA de um bairro
+//     (Boteco de esquina, Banca de jornal…) — cada chave vira uma vitrine.
+// O app rola QUANTIDADE e DISPONIBILIDADE conforme a linha da régua do bairro
+// (`cfg.disponibilidade`) com semente determinística (lugar + dia).
 import type { Recurso, RecursosCfg } from './types'
-import { acaoDe, precoNaRegua, type Acao } from './hero-recursos'
+import { acaoDe, precoDeCompra, precoNaRegua, type Acao } from './hero-recursos'
 import { linkTarget } from './parse-recurso'
 
 export interface Oferta {
   nome: string
   estado?: 'novo' | 'usado'
 }
+export interface OfertaGrupo {
+  /** null = o próprio lugar; string = tipo de estabelecimento genérico do bairro. */
+  estabelecimento: string | null
+  ofertas: Oferta[]
+}
 
-/** Lê a lista de ofertas do FM de uma Localização. */
-export function parseOfertas(fm: Record<string, unknown>, campo: string): Oferta[] {
-  const raw = fm[campo]
+function parseLista(raw: unknown): Oferta[] {
   const arr = Array.isArray(raw) ? raw : typeof raw === 'string' && raw.trim() ? [raw] : []
   const out: Oferta[] = []
   for (const x of arr) {
@@ -31,14 +35,34 @@ export function parseOfertas(fm: Record<string, unknown>, campo: string): Oferta
   return out
 }
 
+/** Ofertas AGRUPADAS por estabelecimento (lista → um grupo do próprio lugar). */
+export function parseOfertasAgrupadas(fm: Record<string, unknown>, campo: string): OfertaGrupo[] {
+  const raw = fm[campo]
+  if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const out: OfertaGrupo[] = []
+    for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+      const ofertas = parseLista(v)
+      if (ofertas.length && k.trim()) out.push({ estabelecimento: k.trim(), ofertas })
+    }
+    return out
+  }
+  const ofertas = parseLista(raw)
+  return ofertas.length ? [{ estabelecimento: null, ofertas }] : []
+}
+
+/** Todas as ofertas do lugar, sem agrupar. */
+export function parseOfertas(fm: Record<string, unknown>, campo: string): Oferta[] {
+  return parseOfertasAgrupadas(fm, campo).flatMap((g) => g.ofertas)
+}
+
 export interface OfertaRolada {
   /** `${nome}#${estado ?? ''}` — chave estável pra contar vendas. */
   key: string
   recurso: Recurso
   estado?: 'novo' | 'usado'
-  /** null = ilimitado (passagens, recarga, diária de serviço). */
+  /** null = ilimitado (serviço por dia, corrida). */
   qtd: number | null
-  /** Preço unitário JÁ com a régua do bairro (moeda do mundo). */
+  /** Preço da AÇÃO já com a régua (compra = `Compra`/`Usado`; consumo = unidade). */
   preco: number
   acao: Acao
   /** false = o estabelecimento não tem hoje (fica na vitrine, riscado). */
@@ -69,18 +93,14 @@ export function rngDe(seed: string): () => number {
 
 /** Quantidade-base por forma de cobrança (antes do fator da linha e do dado). */
 function qtdBase(r: Recurso, estado: 'novo' | 'usado' | undefined, acao: Acao): number | null {
-  if (acao === 'tri' || acao === 'recarga' || acao === 'diaria') return null
+  if (acao === 'diaria' || r.cobranca === 'viagem') return null
   switch (r.cobranca) {
-    case 'viagem':
-      return null
     case 'unidade':
       return 8
     case 'litro':
       return 20
-    case 'noite':
-      return 3
     case 'mês':
-      return 2 // vagas
+      return 1 // um imóvel à venda
     case 'única':
       return estado === 'usado' ? 2 : 1
     default:
@@ -106,8 +126,10 @@ export function rollOfertas(
   const out: OfertaRolada[] = []
   for (const o of ofertas) {
     const r = porNome.get(o.nome)
-    if (!r || r.tipo === cfg.tipos.estilo) continue
+    if (!r) continue
     const acao = acaoDe(cfg, r, fator)
+    // planos e tarifas de referência não se vendem em lugar nenhum
+    if (acao === 'escolher' || acao === 'info') continue
     const nivel = Math.max(1, (r.nivel ?? 3) - (o.estado === 'usado' ? 1 : 0))
     const [min, max] = disp.niveis
     const dist = nivel < min ? min - nivel : nivel > max ? nivel - max : 0
@@ -116,7 +138,7 @@ export function rollOfertas(
     const disponivel = sorte < chance
     const base = qtdBase(r, o.estado, acao)
     const qtd = base === null ? null : Math.max(1, Math.round(base * disp.quantidade * (0.5 + rng())))
-    const precoBase = o.estado === 'usado' ? (r.usado ?? r.preco) : r.preco
+    const precoBase = acao === 'comprar' ? precoDeCompra(r, o.estado) : r.preco
     out.push({
       key: `${o.nome}#${o.estado ?? ''}`,
       recurso: r,
