@@ -44,6 +44,41 @@ import {
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
 
+/** Linha da tabela de estilos: [seletor] [nome + descrição] [dinheiro]. A
+ *  coluna do dinheiro tem largura fixa → valores alinhados em todos os
+ *  eixos; a linha inteira é clicável e a marcada ganha fundo e borda. */
+const LINHA: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '22px minmax(0,1fr) 120px',
+  alignItems: 'center',
+  gap: 10,
+  padding: '7px 10px',
+  borderTop: '1px solid var(--line)',
+  borderLeft: '3px solid transparent',
+  cursor: 'pointer',
+}
+const LINHA_MARCADA: CSSProperties = {
+  background: 'color-mix(in srgb,var(--accent) 12%,transparent)',
+  borderLeft: '3px solid var(--accent)',
+}
+const DINHEIRO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 12.5, textAlign: 'right', whiteSpace: 'nowrap' }
+
+function Radio({ marcado }: { marcado: boolean }) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        width: 14,
+        height: 14,
+        borderRadius: '50%',
+        border: `2px solid ${marcado ? 'var(--accent)' : 'var(--line2)'}`,
+        background: marcado ? 'radial-gradient(circle, var(--accent) 45%, transparent 50%)' : 'transparent',
+        display: 'inline-block',
+      }}
+    />
+  )
+}
+
 function SectionHead({ label }: { label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '0 0 9px' }}>
@@ -171,48 +206,65 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
             const especifica = papel === 'moradia' && estado.moradia
             const escolhido = eixo.nome ? porNome.get(eixo.nome) : undefined
             return (
-              <div key={papel} data-eixo={papel} style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingBottom: 10, borderBottom: '1px solid var(--line)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <span style={{ ...MONO, color: 'var(--text)', minWidth: 110 }}>{nomeAba.toUpperCase()}</span>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5, color: 'var(--accent)' }} data-eixo-valor={eixo.valor}>
-                    {formatValorMoeda(eixo.valor)} / mês
+              <div key={papel} data-eixo={papel} style={{ display: 'flex', flexDirection: 'column', gap: 0, paddingBottom: 6 }}>
+                {/* cabeçalho do eixo: nome à esquerda, valor do mês na coluna do dinheiro */}
+                <div style={{ ...LINHA, borderTop: 'none', background: 'transparent', cursor: 'default' }}>
+                  <span />
+                  <span style={{ ...MONO, color: 'var(--text)' }}>
+                    {nomeAba.toUpperCase()} <span style={{ color: 'var(--muted)' }}>· classe {eixo.nivel} · {nomeNivel(cfg, eixo.nivel)}</span>
                   </span>
-                  <Chip>
-                    classe {eixo.nivel} · {nomeNivel(cfg, eixo.nivel)}
-                  </Chip>
-                  {especifica ? (
-                    <>
-                      <Chip>
-                        {estado.moradia!.modo === 'propria' ? 'imóvel próprio' : estado.moradia!.modo === 'hotel' ? 'hotel · 30 noites' : 'aluguel'}
-                      </Chip>
+                  <span style={{ ...DINHEIRO, color: 'var(--accent)', fontWeight: 700 }} data-eixo-valor={eixo.valor}>
+                    {formatValorMoeda(eixo.valor)}
+                  </span>
+                </div>
+                {especifica ? (
+                  <div style={{ ...LINHA, ...LINHA_MARCADA }} aria-checked="true" role="radio">
+                    <Radio marcado />
+                    <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
                       {escolhido ? <DetailLink id={escolhido.id}>{escolhido.nome}</DetailLink> : <span>{estado.moradia!.nome}</span>}
+                      <Chip>{estado.moradia!.modo === 'propria' ? 'imóvel próprio' : estado.moradia!.modo === 'hotel' ? 'hotel · 30 noites' : 'aluguel'}</Chip>
                       <Botao tom="muted" onClick={() => aplicar(sairDaMoradia(estado), 'Saiu da moradia — volta ao estilo escolhido.')}>
                         Sair
                       </Botao>
-                    </>
-                  ) : null}
-                </div>
-                {!especifica ? (
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {lista.map((r) => (
-                      <Botao
-                        key={r.id}
-                        ativo={estado.estilos[papel] === r.nome}
-                        onClick={() => aplicar(escolherEstilo(estado, papel, estado.estilos[papel] === r.nome ? null : r), `${nomeAba}: ${nomeNivel(cfg, r.nivel ?? 1)}.`)}
-                        title={r.resumo}
-                      >
-                        {nomeNivel(cfg, r.nivel ?? 1)} · {moedaNumero(r.preco / fator) === '0' ? formatValorMoeda(r.preco) : formatValorMoeda(r.preco)}
-                      </Botao>
-                    ))}
+                    </span>
+                    <span style={DINHEIRO}>{formatValorMoeda(eixo.valor)}</span>
                   </div>
-                ) : null}
-                {escolhido && !especifica ? (
-                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-                    <DetailLink id={escolhido.id}>{escolhido.nome}</DetailLink> — {escolhido.resumo.replace(/^Nível \d · [^:]+: /, '')}
-                  </span>
-                ) : !especifica ? (
-                  <span style={{ fontSize: 12, color: 'var(--muted)' }}>sem estilo escolhido — vive de nada neste eixo (classe 1)</span>
-                ) : null}
+                ) : (
+                  <div role="radiogroup" aria-label={nomeAba}>
+                    {lista.map((r) => {
+                      const sel = estado.estilos[papel] === r.nome
+                      const n = r.nivel ?? 1
+                      return (
+                        <div
+                          key={r.id}
+                          role="radio"
+                          aria-checked={sel}
+                          tabIndex={0}
+                          data-classe={n}
+                          title={r.resumo}
+                          onClick={() => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${nomeNivel(cfg, n)}.`)}
+                          onKeyDown={(e) => {
+                            if (e.key === ' ' || e.key === 'Enter') {
+                              e.preventDefault()
+                              aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${nomeNivel(cfg, n)}.`)
+                            }
+                          }}
+                          style={{ ...LINHA, ...(sel ? LINHA_MARCADA : {}) }}
+                        >
+                          <Radio marcado={sel} />
+                          <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>{nomeNivel(cfg, n)}</span>
+                            <span style={{ fontSize: 11.5, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {r.resumo.replace(/^Nível \d · [^:]+: /, '')}
+                            </span>
+                          </span>
+                          <span style={DINHEIRO}>{formatValorMoeda(r.preco)}</span>
+                        </div>
+                      )
+                    })}
+                    {!lista.length && !carregando ? <Vazio>{'// sem estilos deste eixo na vault'}</Vazio> : null}
+                  </div>
+                )}
               </div>
             )
           })}
