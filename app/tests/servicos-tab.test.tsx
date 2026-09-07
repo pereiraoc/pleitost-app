@@ -147,4 +147,25 @@ describe('estabelecimentos da vault', () => {
     )
     expect(screen.getByRole('tab', { name: def.recursos!.ofertas.aba })).toBeTruthy()
   }, 30000)
+
+  it('num bairro, a vitrine lista o comércio de rua do bairro e TODOS os estabelecimentos dentro dele', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    const bairro = readDoc("Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia")
+    render(
+      <MemoryRouter>
+        <CatalogProvider catalog={catalog}>
+          <DetailProvider>
+            <ServicosTab doc={bairro} />
+          </DetailProvider>
+        </CatalogProvider>
+      </MemoryRouter>,
+    )
+    await screen.findByText('Concessionária Gurgel', {}, { timeout: 15000 })
+    const caixas = [...document.querySelectorAll('[data-estabelecimento]')].map((e) => e.getAttribute('data-estabelecimento'))
+    expect(caixas).toContain("Passo D'Areia") // o comércio de rua do próprio bairro
+    expect(caixas).toContain('Concessionária Gurgel')
+    expect(caixas).toContain('Zaffari do Passo D\'Areia')
+    expect(caixas).toContain('Shopping Iguatemi')
+  }, 30000)
 })

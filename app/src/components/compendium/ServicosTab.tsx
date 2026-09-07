@@ -81,9 +81,21 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const rel = useAtlasRelations(doc)
   const fator = moedaFator()
   const matriz = useMemo(() => matrizDoContexto(activeContextoDef()), [])
-  // docs: este lugar + filhos (estabelecimentos) + ancestrais (linha da régua) + todas as notas de Recurso
+  // docs: este lugar + TODOS os lugares abaixo dele (estabelecimentos — o
+  // mestre abre a cidade e vê tudo; um bairro mostra seus pontos e os pontos
+  // dentro deles) + ancestrais (linha da régua) + todas as notas de Recurso.
   const recursoIds = useMemo(() => (catalog.docsByType.get('Recurso') ?? []).map((e) => e.id), [catalog])
-  const ids = useMemo(() => [...new Set([doc.id, ...rel.children, ...rel.crumbs.map((c) => c.id), ...recursoIds])], [doc.id, rel, recursoIds])
+  const descendentes = useMemo(() => {
+    const dir = doc.id.slice(0, doc.id.lastIndexOf('/'))
+    const pastaPropria = dir.split('/').pop() === doc.basename // nota-pasta: X/X
+    if (!pastaPropria) return []
+    const prefixo = dir + '/'
+    return (catalog.docsByType.get('Localização') ?? [])
+      .map((e) => e.id)
+      .filter((id) => id !== doc.id && id.startsWith(prefixo))
+      .sort((a, b) => a.localeCompare(b, 'pt'))
+  }, [catalog, doc.id, doc.basename])
+  const ids = useMemo(() => [...new Set([doc.id, ...descendentes, ...rel.crumbs.map((c) => c.id), ...recursoIds])], [doc.id, descendentes, rel, recursoIds])
   const docs = useDocs(ids)
   const porNome = useMemo(() => {
     const m = new Map<string, Recurso>()
@@ -112,17 +124,32 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     if (!docs) return []
     const dia = diaDeHoje()
     const out: Estabelecimento[] = []
-    for (const id of [doc.id, ...rel.children]) {
+    // linha da régua de um descendente: a dele, senão a do bairro-pasta mais
+    // próximo acima (ids são caminhos — o ancestral é prefixo), senão a daqui.
+    const linhaDe = (d: VaultDoc): LocalType | null => {
+      const propria = localTypeOfDoc(d)
+      if (propria) return propria
+      let dir = d.id.slice(0, d.id.lastIndexOf('/'))
+      while (dir.includes('/')) {
+        const nome = dir.split('/').pop()!
+        const anc = docs.get(`${dir}/${nome}`)
+        const l = anc ? localTypeOfDoc(anc) : null
+        if (l) return l
+        dir = dir.slice(0, dir.lastIndexOf('/'))
+      }
+      return linhaDeFallback
+    }
+    for (const id of [doc.id, ...descendentes]) {
       const d = id === doc.id ? doc : docs.get(id)
       if (!d) continue
       const ofertas = parseOfertas((d.frontmatter ?? {}) as Record<string, unknown>, cfg.ofertas.campo)
       if (!ofertas.length) continue
-      const linha = localTypeOfDoc(d) ?? linhaDeFallback
+      const linha = linhaDe(d)
       const mult = linha ? (matriz?.precos[linha] ?? 1) : 1
       out.push({ doc: d, linha, ofertas: rollOfertas(ofertas, porNome, linha, cfg, fator, mult, `${d.id}|${dia}`) })
     }
     return out
-  }, [docs, doc, rel, cfg, porNome, linhaDeFallback, matriz, fator])
+  }, [docs, doc, descendentes, cfg, porNome, linhaDeFallback, matriz, fator])
 
   // comprador = herói selecionado no topo direito (mesma regra da loja)
   const heroes = useHeroOptions()
@@ -146,6 +173,9 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
       </div>
     )
   }
+  // acima do bairro (cidade), agrupa por bairro pra ler a vitrine da cidade inteira
+  const geoDe = (e: Estabelecimento) => String(e.doc.frontmatter?.['Geolocalização'] ?? '')
+  const varios = new Set(estabelecimentos.map(geoDe)).size > 1
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -166,7 +196,12 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
           </span>
         ) : null}
       </div>
-      {estabelecimentos.map((e) => (
+      {varios ? (
+        <div style={{ ...MONO, fontSize: 10 }}>
+          {estabelecimentos.length} estabelecimentos abaixo de {reskinName(doc.basename)} — tudo que a cidade tem à venda hoje, agrupado por onde fica.
+        </div>
+      ) : null}
+      {[...estabelecimentos].sort((a, b) => geoDe(a).localeCompare(geoDe(b), 'pt') || a.doc.basename.localeCompare(b.doc.basename, 'pt')).map((e) => (
         <EstabelecimentoBox
           key={e.doc.id}
           e={e}

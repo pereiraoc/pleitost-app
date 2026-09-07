@@ -685,6 +685,11 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
   const { mestre, disponibilidade } = useSettings()
   const shop = useShopState(doc.id)
   const heroes = useHeroOptions()
+  // Pedido do mestre (2026-09-07b): ver o comércio "o tempo todo", mesmo sem
+  // estar lá — um ponto de interesse mostra a LOJA DO BAIRRO que o contém; a
+  // cidade (Modo Mestre) empilha as lojas de todos os bairros.
+  const rel = useAtlasRelations(doc)
+  const docsRel = useDocs(useMemo(() => [...rel.children, ...rel.crumbs.map((c) => c.id)], [rel]))
   // #89: na sidebar, o comprador default = herói selecionado (se for opção).
   const selectedCreatureId = useSelectedCreature()
   // Comprador = herói selecionado globalmente (topo direito). Sem seletor aqui.
@@ -785,6 +790,47 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     const tipos = rotulos
       ? [rotulos['Pequena Cidade'], rotulos['Grande Cidade'], rotulos['Capital']].join(', ')
       : 'Pequena Cidade, Grande Cidade, Capital'
+    if (docsRel) {
+      // cidade/região: lojas dos filhos com régua, empilhadas (só o mestre — é
+      // a visão "tudo que a cidade vende"; o jogador compra onde está)
+      const filhos = rel.children.map((id) => docsRel.get(id)).filter((d): d is VaultDoc => !!d && !!localTypeOfDoc(d))
+      if (mestre && filhos.length) {
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
+              {`// LOJAS DOS ${filhos.length} LUGARES COM COMÉRCIO ABAIXO DE ${reskinName(doc.basename).toUpperCase()}`}
+            </div>
+            {filhos.map((f) => (
+              <details key={f.id} style={{ border: '1px solid var(--line2)', padding: '6px 12px' }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
+                  {reskinName(f.basename)}{' '}
+                  <span style={{ color: 'var(--muted)', fontFamily: 'var(--mono)', fontSize: 10.5 }}>
+                    {rotulos?.[localTypeOfDoc(f)!] ?? localTypeOfDoc(f)}
+                  </span>
+                </summary>
+                <div style={{ marginTop: 8 }}>
+                  <ComercioTab doc={f} defaultHeroId={defaultHeroId} />
+                </div>
+              </details>
+            ))}
+          </div>
+        )
+      }
+      // ponto de interesse: a loja do bairro que o contém (o comércio da rua)
+      for (let i = rel.crumbs.length - 1; i >= 0; i--) {
+        const anc = docsRel.get(rel.crumbs[i]!.id)
+        if (anc && localTypeOfDoc(anc)) {
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
+                {`// LOJA DO BAIRRO — ${reskinName(anc.basename).toUpperCase()}`}
+              </div>
+              <ComercioTab doc={anc} defaultHeroId={defaultHeroId} />
+            </div>
+          )
+        }
+      }
+    }
     return (
       <EmptyPanel note={`Só locais com comércio marcado (${tipos}) têm disponibilidade de tesouros na régua do mundo.`}>
         {'// SEM COMÉRCIO DE TESOUROS'}
