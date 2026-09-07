@@ -13,6 +13,7 @@ import { HabilidadesTab } from '../ficha/HabilidadesTab'
 import { InventarioTab } from '../ficha/InventarioTab'
 import { CombateTab } from '../ficha/CombateTab'
 import { CHAR_TABS } from '../layout/design-nav'
+import { abaFichaVisivel } from '../../data/familia'
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 
@@ -61,7 +62,7 @@ export function SessaoFichaPage() {
         </span>
         <span style={{ fontSize: 14, fontWeight: 700 }}>{char.summary.nome}</span>
         <span style={{ flex: 1 }} />
-        {CHAR_TABS.filter((t) => t.id !== 'grupos').map((t) => (
+        {CHAR_TABS.filter((t) => t.id !== 'grupos' && abaFichaVisivel('Heroi', t.id)).map((t) => (
           <button
             key={t.id}
             onClick={() => setSearchParams({ tab: t.id })}

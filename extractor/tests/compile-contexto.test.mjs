@@ -208,3 +208,38 @@ test("moeda.fator: inteiro ≥ 1 vira fator; ausente = 1; inválido quebra", () 
   assert.equal(compileContexto({ worldId: "m", defs: [base({ simbolo: "PO", nome: "Ouro" })], basenames: new Set(), typeByBasename: new Map() }).moeda.fator, 1);
   assert.throws(() => compileContexto({ worldId: "m", defs: [base({ simbolo: "$", nome: "d", fator: 0.5 })], basenames: new Set(), typeByBasename: new Map() }), /moeda\.fator/);
 });
+
+// RECURSOS (2026-09-07): bloco opcional do mundo → contexto.json `recursos`
+// {raiz, abas, precoEm}; exige ao menos uma nota `categoria: Recurso`.
+test("recursos: compila raiz/abas/precoEm e valida a existência de notas Recurso", () => {
+  const typeByBasename = new Map([["Gurgel Carajás", "Recurso"]]);
+  const out = compileContexto({
+    worldId: "poa-1987",
+    defs: [defPoa({ recursos: { raiz: "Contexto/Recursos/", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" } } }), defBase()],
+    basenames: BASENAMES,
+    typeByBasename,
+  });
+  assert.deepEqual(out.recursos, { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }, { nome: "Moradia", papel: "moradia" }], precoEm: "moeda", niveis: [], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" } });
+  assert.throws(
+    () =>
+      compileContexto({
+        worldId: "poa-1987",
+        defs: [defPoa({ recursos: { raiz: "Contexto/Recursos", abas: [{ nome: "Transporte", papel: "transporte" }], tipos: { passagem: "Passagem", estilo: "Estilo de Vida" } } }), defBase()],
+        basenames: BASENAMES,
+        typeByBasename: new Map(),
+      }),
+    /nenhuma nota `categoria: Recurso`/,
+  );
+  assert.throws(
+    () =>
+      compileContexto({
+        worldId: "poa-1987",
+        defs: [defPoa({ recursos: { raiz: "Contexto/Recursos", abas: [{ nome: "X", papel: "outro" }], preco_em: "dolar" } }), defBase()],
+        basenames: BASENAMES,
+        typeByBasename,
+      }),
+    /recursos\.abas.*|recursos\.preco_em/,
+  );
+  // sem o bloco: sem `recursos` no artefato
+  assert.equal("recursos" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES, typeByBasename }), false);
+});

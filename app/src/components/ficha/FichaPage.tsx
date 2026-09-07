@@ -21,6 +21,7 @@ import { str } from './hero-model'
 import { useHeroRefs } from './useHeroRefs'
 import { PerfilTab } from './PerfilTab'
 import { AnotacoesTab } from './AnotacoesTab'
+import { RecursosTab } from './RecursosTab'
 import { HabilidadesTab } from './HabilidadesTab'
 import { InventarioTab } from './InventarioTab'
 import { CombateTab } from './CombateTab'
@@ -210,6 +211,7 @@ export function FichaPage() {
     <div key={doc.id}>
       {tab === 'perfil' ? <PerfilTab doc={doc} /> : null}
       {tab === 'anotacoes' ? <AnotacoesTab doc={doc} /> : null}
+      {tab === 'recursos' ? <RecursosTab doc={doc} /> : null}
       {tab === 'grupos' ? <GruposTab doc={doc} /> : null}
       {tab === 'habilidades' ? <HabilidadesTab doc={doc} refs={refs} /> : null}
       {tab === 'inventario' ? <InventarioTab doc={doc} refs={refs} /> : null}

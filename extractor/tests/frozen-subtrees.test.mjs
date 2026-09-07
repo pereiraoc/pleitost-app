@@ -144,3 +144,44 @@ test("sem snapshot anterior: pastas congeladas ficam fora (com aviso), sem quebr
     await rm(out, { recursive: true, force: true });
   }
 });
+
+// 2026-09-07: um extract que QUEBRA depois do wipe (ex.: Contexto-Def
+// inválida) perdia o snapshot das congeladas — o index.json final nunca era
+// escrito e a rodada seguinte não achava nada pra preservar (29 heróis/grupos
+// sumiram assim). Agora as congeladas voltam ao disco com um index PROVISÓRIO
+// logo após o wipe, e a rodada seguinte preserva do mesmo jeito.
+test("extract que falha depois do wipe NÃO perde as congeladas pra rodada seguinte", async () => {
+  const vault = await mkdtemp(join(tmpdir(), "pleitost-vault-"));
+  const out = await mkdtemp(join(tmpdir(), "pleitost-out-"));
+  try {
+    await makeFakeVault(vault);
+    await seedPreviousOut(out);
+    // Contexto-Def do mundo INVÁLIDA (sem nome/moeda) → compileContexto quebra
+    // no passo 3c, depois do rm do OUT_DIR.
+    await mkdir(join(vault, "Contexto"), { recursive: true });
+    await writeFile(
+      join(vault, "Contexto/Contexto Quebrado.md"),
+      "---\nContexto:\n  id: fantasia\n---\nquebrado\n",
+      "utf8",
+    );
+    await assert.rejects(() => extractVault({ vaultRoot: vault, outDir: out }), /inválido/);
+    // Snapshot provisório sobreviveu ao crash
+    assert.ok(existsSync(join(out, `${HERO_DIR}/Fulano.json`)), "herói congelado segue no disco");
+    const prov = JSON.parse(await readFile(join(out, "index.json"), "utf8"));
+    assert.equal(prov.provisional, true);
+    assert.equal(prov.docs.length, 2);
+
+    // Conserta a def e roda de novo: as congeladas continuam lá.
+    await rm(join(vault, "Contexto/Contexto Quebrado.md"));
+    const summary = await extractVault({ vaultRoot: vault, outDir: out });
+    assert.equal(summary.frozenPreserved, 2, "herói + grupo preservados após o crash");
+    const heroJson = JSON.parse(await readFile(join(out, `${HERO_DIR}/Fulano.json`), "utf8"));
+    assert.equal(heroJson.frontmatter["Nível"], 7);
+    const index = JSON.parse(await readFile(join(out, "index.json"), "utf8"));
+    assert.ok(!index.provisional);
+    assert.equal(index.counts.content, 3);
+  } finally {
+    await rm(vault, { recursive: true, force: true });
+    await rm(out, { recursive: true, force: true });
+  }
+});

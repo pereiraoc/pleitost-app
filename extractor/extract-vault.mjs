@@ -59,6 +59,18 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   // 1. Rebuild limpo.
   await rm(outDir, { recursive: true, force: true });
   await mkdir(outDir, { recursive: true });
+  // 1b. Snapshot PROVISÓRIO das congeladas já no disco (JSON + index.json só
+  //     com elas): se o extract quebrar daqui pra frente (ex.: Contexto-Def
+  //     inválida — 2026-09-07 perdeu os 29 heróis/grupos assim), a próxima
+  //     rodada ainda encontra o que preservar. O index.json final sobrescreve.
+  for (const f of frozen) {
+    const abs = join(outDir, f.entry.path.replace(/\.md$/i, ".json"));
+    await mkdir(dirname(abs), { recursive: true });
+    await writeFile(abs, f.raw, "utf8");
+  }
+  if (frozen.length) {
+    await writeJson(join(outDir, "index.json"), { provisional: true, docs: frozen.map((f) => f.entry) });
+  }
 
   // 2. Descoberta.
   const { docs, images } = await walkVault(vaultRoot);

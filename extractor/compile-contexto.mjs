@@ -100,6 +100,37 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
   const atlas = isPlainObject(def.atlas) ? def.atlas : {};
   if (typeof atlas.raiz !== "string" || !atlas.raiz.trim()) problems.push("atlas.raiz: obrigatório");
 
+  // RECURSOS (2026-09-07): notas `categoria: Recurso` (transporte/moradia/
+  // alimentação) que a aba RECURSOS da ficha vende/mostra. `abas` = subcategorias
+  // na ordem da aba; `preco_em` diz em que unidade o FM `Preço` está (moeda do
+  // mundo, inteiro — ou po). Mundo sem o bloco = sem aba.
+  let recursos = null;
+  if (def.recursos !== undefined && def.recursos !== null) {
+    const r = isPlainObject(def.recursos) ? def.recursos : {};
+    if (typeof r.raiz !== "string" || !r.raiz.trim()) problems.push("recursos.raiz: obrigatório");
+    const PAPEIS = ["transporte", "moradia", "alimentacao"];
+    const abas = [];
+    if (!Array.isArray(r.abas) || r.abas.length === 0) problems.push("recursos.abas: lista de {nome, papel} obrigatória");
+    else {
+      for (const a of r.abas) {
+        if (!isPlainObject(a) || typeof a.nome !== "string" || !a.nome.trim()) { problems.push("recursos.abas: cada aba precisa de `nome`"); continue; }
+        if (!PAPEIS.includes(a.papel)) problems.push(`recursos.abas: "${a.nome}" papel "${a.papel}" (esperado ${PAPEIS.join("|")})`);
+        abas.push({ nome: a.nome.trim(), papel: String(a.papel ?? "") });
+      }
+    }
+    const tiposIn = isPlainObject(r.tipos) ? r.tipos : {};
+    const tipos = { passagem: tiposIn.passagem, estilo: tiposIn.estilo };
+    for (const k of ["passagem", "estilo"]) {
+      if (typeof tipos[k] !== "string" || !tipos[k].trim()) problems.push(`recursos.tipos.${k}: obrigatório (nome do Tipo nas notas)`);
+    }
+    const precoEm = r.preco_em ?? "moeda";
+    if (precoEm !== "moeda" && precoEm !== "po") problems.push(`recursos.preco_em: "${precoEm}" (esperado moeda|po)`);
+    const temRecurso = [...typeByBasename.values()].some((t) => t === "Recurso");
+    if (!temRecurso) problems.push("recursos: nenhuma nota `categoria: Recurso` na vault");
+    const niveis = asStringArray(r.niveis, "recursos.niveis", problems);
+    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos };
+  }
+
   const pericias = asStringMap(def.pericias, "pericias", problems);
 
   const reskinIn = isPlainObject(def.reskin) ? def.reskin : {};
@@ -280,6 +311,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     pericias,
     reskin: { notas, notasFuturas, termos, excecoes, descricoes },
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
+    ...(recursos ? { recursos } : {}),
     base: { sempreDisponiveis, conteudoDeMundo, ...(aventura ? { aventura } : {}) },
     regras,
   };

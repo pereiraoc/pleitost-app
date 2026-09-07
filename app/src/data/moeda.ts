@@ -54,3 +54,16 @@ export function formatMoeda(po: number): string {
 export function moedaSimbolo(): string {
   return moedaAtiva().simbolo
 }
+export function moedaFator(): number {
+  return moedaAtiva().fator
+}
+
+/** Valor JÁ na moeda do mundo (ex.: FM `Preço` das notas de Recurso, Cz$
+ *  inteiro) → "Cz$ 4.000"; fantasia (fator 1) → "40 PO". Não multiplica. */
+export function formatValorMoeda(valor: number): string {
+  const m = moedaAtiva()
+  const v = Math.round(valor)
+  const n = m.fator === 1 ? String(v) : v.toLocaleString('pt-BR')
+  return m.fator === 1 ? `${n} ${m.simbolo}` : `${m.simbolo} ${n}`
+}
+

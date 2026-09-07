@@ -22,6 +22,7 @@
 //   - render/groups/perfil-card.ts:315-342 — CA mostra Tipo/Tutor/Nível.
 //   - extract/sync-ca-tutor-nivel.ts — nível do CA é satélite do tutor.
 import type { VaultDoc } from './types'
+import { activeContextoDef } from './reskin'
 
 /** Famílias canônicas das fichas — VERBATIM do plugin types/family.ts:4. */
 export type SheetFamily = 'Heroi' | 'Monstro' | 'CompanheiroAnimal'
@@ -265,5 +266,8 @@ export function fichaFamiliaOf(doc: VaultDoc): FichaFamilia {
  *  AppShell (sidebar) e FichaPage (rota) consomem o MESMO predicado. */
 export function abaFichaVisivel(familia: SheetFamily, tabId: string): boolean {
   if (tabId === 'anotacoes') return FICHA_FAMILIA[familia].anotacoes
+  // RECURSOS (2026-09-07): mesma família das Anotações (Heroi) E só em mundo
+  // que declara `recursos` no contexto (POA 1987; a fantasia não tem aba).
+  if (tabId === 'recursos') return FICHA_FAMILIA[familia].anotacoes && !!activeContextoDef()?.recursos
   return true
 }

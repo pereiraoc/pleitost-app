@@ -10,6 +10,7 @@ describe('CHAR_TABS order (#310)', () => {
       'habilidades', // Competências
       'inventario', // Inventário
       'anotacoes', // Anotações
+      'recursos', // Recursos (2026-09-07: transporte/moradia/alimentação do mundo — só visível com `recursos` no contexto)
       'grupos', // Grupo
       'combate', // Combate
     ])

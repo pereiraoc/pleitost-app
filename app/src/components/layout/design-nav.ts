@@ -19,6 +19,8 @@ export interface NavItem {
 export const NAV_ICON_PATHS: Record<string, string> = {
   perfil: `<path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/>`,
   anotacoes: `<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>`,
+  // recibo (RECURSOS — desenhado aqui, o design não tem esta tela)
+  recursos: `<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/>`,
   habilidades: `<path d="M15 11.5h-4.5"/><path d="M15 8h-4.5"/><path d="M18.5 16.5V5.5a2 2 0 0 0-2-2H4.2"/><path d="M8 20.5h10.5a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5.5a2 2 0 1 0-4 0v1.6a1 1 0 0 0 1 1h2.8"/>`,
   inventario: `<rect x="3.5" y="9" width="17" height="10.5" rx="1.5"/><path d="M3.5 13h17"/><path d="M4.5 9V7.5A2.5 2.5 0 0 1 7 5h10a2.5 2.5 0 0 1 2.5 2.5V9"/><rect x="10.5" y="11.5" width="3" height="3.6" rx="0.6"/>`,
   combate: `<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="4" y2="20"/>`,
@@ -36,6 +38,9 @@ export const CHAR_TABS: NavItem[] = [
   { id: 'habilidades', ic: '📕', label: 'COMPETÊNCIAS' },
   { id: 'inventario', ic: '🎒', label: 'INVENTÁRIO' },
   { id: 'anotacoes', ic: '🪶', label: 'ANOTAÇÕES' },
+  // RECURSOS (2026-09-07): transporte/moradia/alimentação do mundo — só
+  // aparece quando o contexto declara `recursos` (abaFichaVisivel).
+  { id: 'recursos', ic: '🧾', label: 'RECURSOS' },
   { id: 'grupos', ic: '👥', label: 'GRUPO' },
   { id: 'combate', ic: '🥊', label: 'COMBATE' },
 ]
@@ -54,6 +59,7 @@ export const TITLES: Record<string, string> = {
   habilidades: 'COMPETÊNCIAS',
   inventario: 'INVENTÁRIO',
   anotacoes: 'ANOTAÇÕES',
+  recursos: 'RECURSOS',
   combate: 'COMBATE',
   grupos: 'GRUPO',
   herois: 'HERÓIS',

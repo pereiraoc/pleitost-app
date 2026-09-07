@@ -55,6 +55,20 @@ export interface ContextoDef {
      *  aponta pra elas) com rótulo do mundo + % por tier (null = "—"). */
     matriz?: Record<string, { rotulo?: string; A: number | null; E: number | null; M: number | null; preco?: number }>
   }
+  /** RECURSOS do mundo (2026-09-07): notas `categoria: Recurso` sob `raiz`
+   *  (transporte/moradia/alimentação) — `abas` são as subcategorias na ordem
+   *  da aba RECURSOS da ficha; `precoEm` diz a unidade do FM `Preço` (moeda
+   *  do mundo, inteiro, ou PO). Ausente = mundo sem aba de recursos. */
+  recursos?: {
+    raiz: string
+    /** Abas na ordem da ficha; `papel` = eixo do mês que a aba representa. */
+    abas: { nome: string; papel: 'transporte' | 'moradia' | 'alimentacao' }[]
+    precoEm: 'moeda' | 'po'
+    /** Nome de cada nível de estilo de vida (índice 0 = Nível 1). */
+    niveis: string[]
+    /** Tipos (FM `Tipo`) com semântica própria: passagem = TRI; estilo = pacote mensal. */
+    tipos: { passagem: string; estilo: string }
+  }
   /** Garantias e limites do Contexto Base. */
   base: {
     /** Itens que nenhum mundo pode excluir. */

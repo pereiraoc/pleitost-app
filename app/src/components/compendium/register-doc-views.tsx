@@ -6,6 +6,7 @@ import { registerDocView } from './doc-view-registry'
 import { LocationSheet, isLocation } from './LocationSheet'
 import { OrgView, isOrg } from './OrgView'
 import { PessoaView, isPessoa } from './PessoaView'
+import { RecursoView, isRecurso } from './RecursoView'
 import { HistoriaView, isHistoria } from './HistoriaView'
 import { CriacaoView, isCriacao } from './CriacaoView'
 import { RegraView, isRegra } from './RegraView'
@@ -44,6 +45,14 @@ registerDocView({
   id: 'pessoa',
   match: isPessoa,
   view: (doc, { sidebar, embedded }) => <PessoaView doc={doc} sidebar={sidebar} embedded={embedded} />,
+})
+
+// RECURSOS (2026-09-07) — nota de Recurso (transporte/moradia/alimentação):
+// campos do FM como cards + descrição + Especificação (callout literal).
+registerDocView({
+  id: 'recurso',
+  match: isRecurso,
+  view: (doc, { sidebar, embedded }) => <RecursoView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F3 (#247) — História / Contexto (Atual + Histórico): corpo em coluna de leitura.

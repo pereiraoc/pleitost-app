@@ -52,6 +52,7 @@ export function renderContextoDoc(contexto, typeByBasename) {
   if (c.nome) ident.push(["nome", c.nome]);
   if (c.moeda) ident.push(["moeda", `${c.moeda.simbolo} (${c.moeda.nome})${c.moeda.fator && Number(c.moeda.fator) !== 1 ? ` — ×${c.moeda.fator} sobre PO` : ""}`]);
   if (c.atlas) ident.push(["atlas", `raiz \`${c.atlas.raiz}\`${c.atlas.mapa ? ` · mapa \`${c.atlas.mapa}\`` : ""}`]);
+  if (c.recursos) ident.push(["recursos", `raiz \`${c.recursos.raiz}\` · abas ${(c.recursos.abas ?? []).map((a) => (typeof a === "string" ? a : `${a.nome} (${a.papel})`)).join(" · ")} · níveis ${(c.recursos.niveis ?? []).map((n, i) => `${i + 1} ${n}`).join(" · ") || "—"} · tipos passagem \`${c.recursos.tipos?.passagem ?? "—"}\` estilo \`${c.recursos.tipos?.estilo ?? "—"}\` · preço em ${c.recursos.preco_em ?? c.recursos.precoEm ?? "moeda"}`]);
   out.push(...tabela("Identidade", ident, ["Campo", "Valor"]));
 
   // Perícias com display próprio
