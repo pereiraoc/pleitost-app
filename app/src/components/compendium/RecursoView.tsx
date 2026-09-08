@@ -9,6 +9,7 @@ import { reskinName } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { formatValorMoeda } from '../../data/moeda'
 import { InlineFieldValue } from './InlineFieldValue'
+import { VaultImage } from './VaultImage'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
 import { FieldBlock } from './FieldBlock'
@@ -48,10 +49,13 @@ function fieldText(value: unknown): string | null {
 function prosaDoCorpo(body: string): string {
   return body
     .split('\n')
-    .filter((l) => !/^\s*#Recurso\s*$/.test(l) && !/^\s*>/.test(l))
+    .filter((l) => !/^\s*#Recurso\s*$/.test(l) && !/^\s*>/.test(l) && !/^\s*!\[\[[^\]]+\]\]\s*$/.test(l))
     .join('\n')
     .trim()
 }
+
+/** Figura da nota (embed `![[Nome.png]]`): capa recortada, clique amplia. */
+const RECURSO_HERO_STYLE: CSSProperties = { width: '100%', maxHeight: 300, objectFit: 'cover', objectPosition: 'center 40%', display: 'block', border: '1px solid var(--line2)', clipPath: clip(14) }
 
 const PANEL: CSSProperties = {
   padding: '14px 16px',
@@ -93,6 +97,7 @@ export function RecursoView({
   }
   const espec = calloutTemplateFields(doc.body, rotulosExibidos)
   const prosa = prosaDoCorpo(doc.body)
+  const figura = doc.images[0]
 
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
@@ -104,6 +109,7 @@ export function RecursoView({
           {rec?.aba ?? doc.subtype ? ` · ${rec?.aba ?? doc.subtype}` : ''}
         </span>
       </header>
+      {figura ? <VaultImage target={figura.target} style={RECURSO_HERO_STYLE} zoom /> : null}
 
       {resumo ? (
         <p

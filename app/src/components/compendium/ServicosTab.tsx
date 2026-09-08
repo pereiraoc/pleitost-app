@@ -17,6 +17,8 @@ import { localTypeOfDoc, matrizDoContexto, type LocalType } from '../../data/com
 import { useSelectedCreature } from '../../data/selected-creature-store'
 import { heroOuro } from '../../data/purchase'
 import { DetailLink } from '../DetailLink'
+import { RecursoCardStyle, RecursoThumb } from '../ficha/RecursoThumb'
+import { TipProvider } from '../ficha/tooltips'
 import { clip } from '../ficha/bits'
 import { InlineFieldValue } from './InlineFieldValue'
 import { useAtlasRelations } from './AtlasNav'
@@ -206,7 +208,9 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const totalEst = lugares.reduce((a, l) => a + l.estabelecimentos.length, 0)
 
   return (
+    <TipProvider>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <RecursoCardStyle />
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
         <span style={MONO}>COMPRADOR</span>
         {hero ? (
@@ -257,6 +261,7 @@ function ServicosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
         </details>
       ))}
     </div>
+    </TipProvider>
   )
 }
 
@@ -356,6 +361,7 @@ function EstabelecimentoBox({
             }
             return (
               <div key={o.key} data-oferta={o.key} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '6px 0', borderTop: '1px solid var(--line)', flexWrap: 'wrap', opacity: esgotado ? 0.55 : 1 }}>
+                <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
                 <div style={{ flex: '1 1 240px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <span style={{ fontWeight: 600, fontSize: 13.5, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                     <DetailLink id={r.id} dataLinkIcon={iconeDe(r)}>{r.nome}</DetailLink>

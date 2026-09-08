@@ -35,4 +35,6 @@ export interface Recurso {
   /** Alvos dos wikilinks de FM `Onde`. */
   onde: string[]
   resumo: string
+  /** Alvo do primeiro embed `![[…png]]` da nota (figura do recurso), se houver. */
+  imagem?: string
 }

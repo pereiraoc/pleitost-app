@@ -57,5 +57,6 @@ export function parseRecurso(doc: VaultDoc): Recurso | null {
     volume: inteiro(fm['Volume']),
     onde: lista(fm['Onde']),
     resumo: texto(fm['Resumo']),
+    ...(doc.images?.[0] ? { imagem: doc.images[0].target } : {}),
   }
 }

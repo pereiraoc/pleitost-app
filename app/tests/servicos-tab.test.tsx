@@ -184,6 +184,8 @@ describe('estabelecimentos da vault', () => {
     const lugares = [...document.querySelectorAll('details[data-lugar]')]
     expect(lugares.length).toBeGreaterThan(10)
     expect(lugares.every((d) => !(d as HTMLDetailsElement).open)).toBe(true)
+    // figura do recurso (ou emoji do Tipo) ao lado de cada oferta, como no Comércio
+    expect(document.querySelectorAll('[data-oferta] [data-recurso-figura]').length).toBeGreaterThan(20)
     const bomFim = lugares.find((d) => d.getAttribute('data-lugar') === 'Bom Fim') as HTMLElement
     expect(within(bomFim).getByText('Bicicletaria do Alemão')).toBeTruthy()
     // a pensão aparece como estabelecimento E como marca da oferta de pernoite

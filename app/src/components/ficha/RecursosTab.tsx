@@ -15,6 +15,8 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { activeContextoDef } from '../../data/reskin'
 import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
+import { RecursoCardStyle, RecursoThumb } from './RecursoThumb'
+import { TipProvider } from './tooltips'
 import { linkIconForEntry } from '../../markdown/link-icon'
 
 /** Emoji do recurso pela MESMA cascata dos links (seletores do Obsidian). */
@@ -57,6 +59,8 @@ const LINHA: CSSProperties = {
   borderLeft: '3px solid transparent',
   cursor: 'pointer',
 }
+/** Linha com FIGURA do recurso (planos, posse, catálogo): coluna a mais pra miniatura. */
+const LINHA_FIG: CSSProperties = { ...LINHA, gridTemplateColumns: '22px 40px minmax(0,1fr) 120px' }
 const LINHA_MARCADA: CSSProperties = { background: 'color-mix(in srgb,var(--accent) 12%,transparent)', borderLeft: '3px solid var(--accent)' }
 const DINHEIRO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 12.5, textAlign: 'right', whiteSpace: 'nowrap' }
 
@@ -161,6 +165,23 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     setAviso(msg)
   }
 
+  // CATÁLOGO (2026-09-08b): o que dá pra ter de posse em cada eixo e onde
+  // comprar — veículos (preço de novo) e imóveis (compra e/ou aluguel de
+  // referência); as notas de Recurso são a fonte, `Onde` diz o lugar.
+  const catalogoPorPapel = useMemo(() => {
+    const m = new Map<Papel, Recurso[]>()
+    for (const r of recursos) {
+      if (isEstilo(cfg, r)) continue
+      const p = papelDaAba(cfg, r.aba)
+      if (!p) continue
+      const entra = p === 'transporte' ? r.cobranca === 'única' : p === 'moradia' ? r.cobranca === 'mês' : false
+      if (!entra) continue
+      m.set(p, [...(m.get(p) ?? []), r])
+    }
+    for (const l of m.values()) l.sort((a, b) => (a.compra ?? a.preco) - (b.compra ?? b.preco) || a.nome.localeCompare(b.nome, 'pt-BR'))
+    return m
+  }, [recursos, cfg])
+
   const planosPorPapel = useMemo(() => {
     const m = new Map<Papel, Recurso[]>()
     for (const r of recursos) {
@@ -176,7 +197,9 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   }, [recursos, cfg])
 
   return (
+    <TipProvider>
     <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <RecursoCardStyle />
       <div style={{ ...BOX, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{'// CUSTO DE VIDA'}</span>
         <span style={{ flex: 1 }} />
@@ -211,6 +234,7 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
             nomeAba={a.nome}
             eixo={eixo}
             planos={planosPorPapel.get(a.papel) ?? []}
+            catalogo={catalogoPorPapel.get(a.papel) ?? []}
             estado={estado}
             cfg={cfg}
             saldo={saldo}
@@ -221,6 +245,7 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
         )
       })}
     </div>
+    </TipProvider>
   )
 }
 
@@ -228,6 +253,7 @@ function SecaoEixo({
   nomeAba,
   eixo,
   planos,
+  catalogo,
   estado,
   cfg,
   saldo,
@@ -238,6 +264,8 @@ function SecaoEixo({
   nomeAba: string
   eixo: EixoDoMes
   planos: Recurso[]
+  /** o que dá pra ter de posse neste eixo (veículos novos / imóveis) — vazio = eixo sem posse. */
+  catalogo: Recurso[]
   estado: RecursosDoHeroi
   cfg: RecursosCfg
   saldo: number
@@ -247,6 +275,20 @@ function SecaoEixo({
 }) {
   const papel = eixo.papel
   const escolher = (r: Recurso, sel: boolean) => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${sel ? 'sem plano' : nomeNivel(cfg, r.nivel ?? 1)}.`)
+  const [verCatalogo, setVerCatalogo] = useState(false)
+  const catalog = useCatalog()
+  const idDe = (nome: string): string | null => {
+    const res = catalog.resolve(nome)
+    return res.kind === 'doc' ? res.id : null
+  }
+  const rotuloPosse = papel === 'transporte' ? 'VEÍCULOS PRÓPRIOS' : papel === 'moradia' ? 'IMÓVEIS PRÓPRIOS' : 'POSSE'
+  // ONDE COMPRAR = os estabelecimentos que listam o recurso em `Serviços`
+  // (faceta `vende` do índice); sem vendedor, o `Onde` da própria nota.
+  const vendedores = useMemo(() => {
+    const m = new Map<string, { id: string; nome: string }[]>()
+    for (const e of catalog.docsByType.get('Localização') ?? []) for (const n of e.vende ?? []) m.set(n, [...(m.get(n) ?? []), { id: e.id, nome: e.basename ?? e.id.split('/').pop() ?? e.id }])
+    return m
+  }, [catalog])
   return (
     <details data-eixo={papel} style={{ ...BOX, padding: 0 }}>
       <summary style={{ ...LINHA, borderTop: 'none', cursor: 'pointer', padding: '10px 14px', listStyle: 'none' }}>
@@ -283,13 +325,14 @@ function SecaoEixo({
                     escolher(r, sel)
                   }
                 }}
-                style={{ ...LINHA, ...(sel ? LINHA_MARCADA : {}) }}
+                style={{ ...LINHA_FIG, ...(sel ? LINHA_MARCADA : {}) }}
               >
                 <Radio marcado={sel} />
+                <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
                 <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>
                     {nomeNivel(cfg, n)}
-                    {papel === 'transporte' ? <span style={{ color: 'var(--muted)', fontWeight: 500 }}> · {r.nome}</span> : null}
+                    {papel === 'transporte' && !r.nome.startsWith(nomeNivel(cfg, n)) ? <span style={{ color: 'var(--muted)', fontWeight: 500 }}> · {r.nome}</span> : null}
                   </span>
                   <span style={{ fontSize: 11.5, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {r.resumo.replace(/^[^:]+: /, '')}
@@ -301,24 +344,69 @@ function SecaoEixo({
           })}
           {!planos.length ? <div style={{ ...MONO, padding: '8px 10px' }}>{carregando ? '// CARREGANDO PLANOS…' : '// sem planos deste eixo na vault'}</div> : null}
         </div>
-        {eixo.posse.length ? (
+        {eixo.posse.length || catalogo.length ? (
           <>
-            <div style={{ ...MONO, padding: '12px 10px 2px' }}>POSSE · manutenção por mês</div>
+            <div style={{ ...MONO, padding: '12px 10px 2px', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }} data-posse={papel}>
+              <span>{rotuloPosse} · manutenção por mês</span>
+              {catalogo.length ? (
+                <Botao tom="muted" onClick={() => setVerCatalogo((v) => !v)} title="Tudo que dá pra ter de posse neste eixo e onde comprar">
+                  {verCatalogo ? 'fechar catálogo' : 'ver catálogo'}
+                </Botao>
+              ) : null}
+            </div>
             {eixo.posse.map((p) => (
-                <div key={`${p.item.nome}:${p.indice}`} data-item={p.item.nome} style={{ ...LINHA, cursor: 'default' }}>
-                  <span />
-                  <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
-                    {p.recurso ? <DetailLink id={p.recurso.id} dataLinkIcon={iconeDe(p.recurso)}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
-                    {p.item.estado ? <Chip>{p.item.estado}</Chip> : null}
-                    {p.item.qtd > 1 ? <Chip>×{p.item.qtd}</Chip> : null}
-                    <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>
-                    <Botao tom="muted" onClick={() => aplicar(venderItem(estado, p.indice, saldo, fator), `${p.item.nome} vendido pela metade do que pagou.`)} title={`Devolve ${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}>
-                      Vender +{formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}
-                    </Botao>
-                  </span>
-                  <span style={DINHEIRO}>{formatValorMoeda(p.valor)}</span>
-                </div>
-              ))}
+              <div key={`${p.item.nome}:${p.indice}`} data-item={p.item.nome} style={{ ...LINHA_FIG, cursor: 'default' }}>
+                <span />
+                {p.recurso ? <RecursoThumb r={p.recurso} icone={iconeDe(p.recurso)} size={36} /> : <span />}
+                <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
+                  {p.recurso ? <DetailLink id={p.recurso.id} dataLinkIcon={iconeDe(p.recurso)}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
+                  {p.item.estado ? <Chip>{p.item.estado}</Chip> : null}
+                  {p.item.qtd > 1 ? <Chip>×{p.item.qtd}</Chip> : null}
+                  <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>
+                  <Botao tom="muted" onClick={() => aplicar(venderItem(estado, p.indice, saldo, fator), `${p.item.nome} vendido pela metade do que pagou.`)} title={`Devolve ${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}>
+                    Vender +{formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}
+                  </Botao>
+                </span>
+                <span style={DINHEIRO}>{formatValorMoeda(p.valor)}</span>
+              </div>
+            ))}
+            {!eixo.posse.length ? <div style={{ ...MONO, padding: '4px 10px' }}>—</div> : null}
+            {verCatalogo ? (
+              <div data-catalogo={papel} style={{ margin: '8px 6px 0', border: '1px dashed var(--line2)', padding: '4px 0' }}>
+                <div style={{ ...MONO, padding: '6px 10px 2px' }}>{papel === 'transporte' ? 'CATÁLOGO · veículos novos e onde comprar' : 'CATÁLOGO · imóveis e onde alugar ou comprar'}</div>
+                {catalogo.map((r) => {
+                  const vend = vendedores.get(r.nome) ?? []
+                  const onde = vend.length
+                    ? vend.map((v) => <DetailLink key={v.id} id={v.id}>{v.nome}</DetailLink>)
+                    : r.onde.map((n) => {
+                        const id = idDe(n)
+                        return id ? <DetailLink key={n} id={id}>{n}</DetailLink> : <span key={n}>{n}</span>
+                      })
+                  return (
+                    <div key={r.id} data-catalogo-item={r.nome} style={{ ...LINHA_FIG, cursor: 'default' }}>
+                      <span />
+                      <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
+                      <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                          <DetailLink id={r.id} dataLinkIcon={iconeDe(r)}>{r.nome}</DetailLink>
+                          <Chip>{r.tipo}</Chip>
+                          {r.nivel ? <Chip>{nomeNivel(cfg, r.nivel)}</Chip> : null}
+                          {r.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês</Chip> : null}
+                        </span>
+                        <span style={{ fontSize: 11.5, color: 'var(--muted)', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                          <span style={MONO}>ONDE</span>
+                          {onde.length ? onde.map((el, i) => <span key={i}>{el}{i < onde.length - 1 ? ' · ' : ''}</span>) : <span>—</span>}
+                        </span>
+                      </span>
+                      <span style={{ ...DINHEIRO, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 2 }}>
+                        {papel === 'moradia' && r.compra !== undefined ? <span>compra {formatValorMoeda(r.compra)}</span> : null}
+                        <span>{papel === 'moradia' ? `${formatValorMoeda(r.preco)} / mês` : formatValorMoeda(r.preco)}</span>
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : null}
           </>
         ) : null}
       </div>

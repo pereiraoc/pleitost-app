@@ -236,6 +236,19 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       const v = record.frontmatter?.["Tipo"];
       if (typeof v === "string" && v.trim()) facetas.tipo = v.trim();
     }
+    // `Serviços` (Localizações que VENDEM recursos do mundo, 2026-09-08b): os
+    // alvos dos wikilinks (sem o sufixo usado/novo) no índice como `vende` —
+    // o catálogo da ficha lista onde comprar sem carregar o Atlas inteiro.
+    {
+      const raw = record.frontmatter?.["Serviços"];
+      const itens = Array.isArray(raw) ? raw : raw && typeof raw === "object" ? Object.values(raw).flat() : [];
+      const vende = [];
+      for (const x of itens) {
+        const m = typeof x === "string" ? /^\s*\[\[([^\]|#]+)/.exec(x) : null;
+        if (m && !vende.includes(m[1].trim())) vende.push(m[1].trim());
+      }
+      if (vende.length) facetas.vende = vende;
+    }
 
     index.push({
       id: record.id,

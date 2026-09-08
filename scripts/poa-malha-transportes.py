@@ -32,6 +32,11 @@ def y(v):
     if v is None: return ""
     return json.dumps(v, ensure_ascii=False)
 
+IMG_REC = os.path.join(ROOT, "Recursos e Mídia", "Recursos de Contextos", "Recursos")
+def embed_recurso(nome):
+    """`![[Nome.png]]` logo abaixo da tag quando a figura existe (layout flat de Recursos de Contextos)."""
+    return [f"![[{nome}.png]]"] if os.path.exists(os.path.join(IMG_REC, f"{nome}.png")) else []
+
 escritos = []
 def escrever(path, texto):
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -60,7 +65,7 @@ def poi(pasta, nome, geo, dono, contexto, descricao, aparencia, influencias, aco
 def noite(nome, marca, preco, nivel, onde, resumo, desc, espec):
     fm = ["aliases: ", "categoria: Recurso", "subcategoria: Moradia", 'Tipo: "Hotel"', f"Marca: {y(marca)}", f"Preço: {preco}", 'Cobrança: "noite"',
           f"Nível: {nivel}", f"Onde: {y(onde)}", f"Resumo: {y(resumo)}", "Completo: true"]
-    header = ["#Recurso", "> [!info] `= this.Tipo`: `= this.file.name`", "> 🏷️**Marca:** `= this.Marca`", "> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`",
+    header = ["#Recurso"] + embed_recurso(nome) + ["> [!info] `= this.Tipo`: `= this.file.name`", "> 🏷️**Marca:** `= this.Marca`", "> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`",
               "> 📶**Nível:** `= this.Nível`", "> 📍**Onde:** `= this.Onde`", "> 📝**Resumo:** `= this.Resumo`"]
     body = "\n".join(header) + "\n\n" + desc.strip() + "\n\n> [!info] Especificação\n" + "\n".join(f"> **{k}:** {v}" for k, v in espec) + "\n"
     escrever(os.path.join(REC, "Moradia", f"{nome}.md"), "---\n" + "\n".join(fm) + "\n---\n" + body)
@@ -333,16 +338,22 @@ for pasta, nome, geo, dono, ctx, desc, apar, infl, acont in SAUDE:
 # TRI = Transporte Integrado, um cartão em quatro metais (Bronze · Prata · Ouro ·
 # Platina); a ponta de baixo não tem cartão (A Pé) e a de cima não pega linha
 # (Carro com Motorista). Regra do mestre 2026-09-08.
-def plano(nome, nivel, preco, marca, classe, resumo, desc, espec):
-    fm = ["aliases: ", "categoria: Recurso", "subcategoria: Transporte", 'Tipo: "Estilo de Vida"', f"Marca: {y(marca)}", f"Preço: {preco}", 'Cobrança: "mês"',
+def plano(nome, nivel, preco, marca, classe, resumo, desc, espec, aba="Transporte"):
+    fm = ["aliases: ", "categoria: Recurso", f"subcategoria: {aba}", 'Tipo: "Estilo de Vida"', f"Marca: {y(marca)}", f"Preço: {preco}", 'Cobrança: "mês"',
           f"Nível: {nivel}", "Onde: ", f"Resumo: {y(classe + ': ' + resumo)}", "Completo: true"]
-    header = ["#Recurso", "> [!info] `= this.Tipo`: `= this.file.name`", "> 🏷️**Marca:** `= this.Marca`", "> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`",
+    header = ["#Recurso"] + embed_recurso(nome) + ["> [!info] `= this.Tipo`: `= this.file.name`", "> 🏷️**Marca:** `= this.Marca`", "> 💰**Preço:** Cz$ `= this.Preço` · `= this.Cobrança`",
               "> 📶**Nível:** `= this.Nível`", "> 📍**Onde:** `= this.Onde`", "> 📝**Resumo:** `= this.Resumo`"]
     body = "\n".join(header) + "\n\n" + desc.strip() + "\n\n> [!info] Especificação\n" + "\n".join(f"> **{k}:** {v}" for k, v in espec + [("Classe", classe)]) + "\n"
-    escrever(os.path.join(REC, "Transporte", f"{nome}.md"), "---\n" + "\n".join(fm) + "\n---\n" + body)
-plano("A Pé", 1, 0, "", "Miserável", "Sem cartão: anda a pé, pega carona e paga tarifa avulsa quando não tem jeito.",
+    escrever(os.path.join(REC, aba, f"{nome}.md"), "---\n" + "\n".join(fm) + "\n---\n" + body)
+plano("Sem Plano Mensal de Transporte", 1, 0, "", "Sem Plano Mensal", "Sem cartão: anda a pé, pega carona e paga tarifa avulsa quando não tem jeito.",
       """Nenhum cartão TRI. Anda a pé, atravessa o alagado pela passarela quando a Aliança deixa, pega carona no caminhão do [[Sindicato dos Catadores]], uma Kombi ou o [[Lancha do Barqueiro|barqueiro]] na mão. Quando precisa MESMO de um ônibus, paga a tarifa avulsa do bolso — e o Mestre desconta da ficha.""",
       [("Cartão", "nenhum"), ("Dá acesso a", "nada — passarela, carona, Kombi e barqueiro pagos na mão"), ("Quem usa", "catador, palafita, quem perdeu o emprego")])
+plano("Sem Plano Mensal de Moradia", 1, 0, "", "Sem Plano Mensal", "Sem teto fixo: dorme onde der — palafita, barraco, rede de bar — e paga a noite avulsa quando precisa.",
+      """Nenhum aluguel no mês. Dorme onde der: na palafita de um conhecido, num barraco do [[Clã da Ferrugem]], na rede do [[Bar da Balsa]], no chão da [[Igreja Nosso Senhor do Bom Fim]] quando chove. Quando precisa MESMO de uma cama, paga a noite avulsa numa pensão — e o Mestre desconta da ficha.""",
+      [("Teto", "nenhum fixo"), ("Dá direito a", "nada — cada noite se paga na hora, se pagar"), ("Quem vive assim", "catador, desempregado, quem fugiu de casa ou da Brigada")], aba="Moradia")
+plano("Sem Plano Mensal de Alimentação", 1, 0, "", "Sem Plano Mensal", "Sem padrão do mês: come o que aparece — ração PIRA vencida, resto de barraca, peixe da Aliança — e paga a refeição avulsa quando dá.",
+      """Nenhum padrão do mês. Come o que aparece: [[Ração PIRA]] vencida da barraca de escambo, resto de churrasquinho, peixe frito no [[Bar da Balsa]] em troca de serviço. Quando precisa MESMO comer, paga a refeição avulsa num boteco — e o Mestre desconta da ficha.""",
+      [("Refeições garantidas", "nenhuma"), ("Dá direito a", "nada — cada refeição se paga na hora, se pagar"), ("Quem vive assim", "catador, palafita, criança da vila")], aba="Alimentação")
 plano("TRI Bronze", 2, 1500, "Trensurb", "Classe Baixa", "O cartão de bronze que o patrão desconta em folha: ônibus de ida e volta no horário do turno, mais nada.",
       """O cartão TRI de bronze vem descontado em folha: duas viagens de [[Passagem de Ônibus|ônibus]] por dia útil, no horário do turno, nas linhas da [[Marcopolo]] que a fábrica cadastrou. Fora do horário, fora da linha, fora do plano — o resto é a pé. A [[Embratel]] registra cada validação e o RH lê.""",
       [("Cartão", "TRI Bronze (Trensurb / [[Embratel]])"), ("Dá acesso a", "ônibus nas linhas do turno, ida e volta em dia útil"), ("Não cobre", "Aeromóvel, anfíbio, lotação, fora do turno"), ("Quem usa", "operário de fábrica, empregada, cobrador")])
@@ -594,7 +605,7 @@ Cada linha é uma nota em [[Malha de Transportes]] (paradas em ordem, acesso, ta
 Ao sul da Praia de Belas **não há malha**: a Restinga, a Zona Deserta e a orla se alcançam a pé, de carona no caminhão do Sindicato ([[Carona no Caminhão do Sindicato]]) ou de barco pago na mão — só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]].
 | De \\ Para | Centro | Moinhos / Ipanema | Nova Sarandi / Passo | Zona Leste / Costa e Silva | Cidade Baixa / Porto |
 |---|---|---|---|---|---|
-| [[A Pé]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DA ZONA LESTE\\|Kombi da Zona Leste]] | [[Lancha do Barqueiro\\|barqueiro]] (dose) |
+| [[Sem Plano Mensal de Transporte\\|Sem plano]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DA ZONA LESTE\\|Kombi da Zona Leste]] | [[Lancha do Barqueiro\\|barqueiro]] (dose) |
 | [[TRI Bronze]] | [[SARANDI — CENTRO\\|SARANDI]] / [[ITU — CENTRO\\|ITU]] / [[ASSIS BRASIL — CENTRO\\|ASSIS BRASIL]] / [[NAVEGANTES — CENTRO\\|NAVEGANTES]] / [[ZONA LESTE — CENTRO\\|ZONA LESTE]] no turno | não | SARANDI, [[T3 VILA MILITAR — SARANDI\\|T3]], [[T1 SARANDI — PORTO NOVO\\|T1]] no turno | [[T2 ZONA LESTE — BEIRA-RIO\\|T2]] / ZONA LESTE / [[B23 ZONA LESTE\\|B23]] no turno | [[A2 CIDADE BAIXA — CENTRO\\|A2]] / [[A3 LINHA DO CAIS\\|A3]] / T1 no turno |
 | [[TRI Prata]] | ônibus + [[L1 POPULAR NORTE\\|L1]] / [[L2 POPULAR SUL\\|L2]] + [[A1 CENTRO ALAGADO\\|A1]] | [[T4 SARANDI — MOINHOS\\|T4]] / [[T6 CIRCULAR NOBRE\\|T6]] (com cara feia); Ipanema não | L1, ASSIS BRASIL, [[T1 SARANDI — PORTO NOVO\\|T1]] | T2 / T3 | [[A2 CIDADE BAIXA — CENTRO\\|A2]], [[343 BEIRA-RIO\\|343]], [[UFRGS — BARRA\\|UFRGS]], L2 |
 | [[TRI Ouro]] | + [[VIP NORTE]] / [[VIP PORTO]] / [[VIP LESTE]] | VIP Norte; Ipanema não | VIP Norte | VIP Leste, T2 / T3 | VIP Porto |
@@ -616,7 +627,7 @@ if alvo in s and "[[Malha de Transportes]]" not in s:
     s = s.replace(alvo, "o contexto em [[Transporte e Mobilidade]]; as linhas, parada a parada, em [[Malha de Transportes]].")
     open(CV, "w", encoding="utf-8").write(s)
 for plano, frase in [
-    ("A Pé", "Sem TRI, o coletivo que roda é o que não aceita TRI: as Kombis ([[Lotação]]) e a [[BALSA ZAFFARI]]; barqueiro e caminhão do Sindicato são corrida ([[Lancha do Barqueiro]], [[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]]."),
+    ("Sem Plano Mensal de Transporte", "Sem TRI, o coletivo que roda é o que não aceita TRI: as Kombis ([[Lotação]]) e a [[BALSA ZAFFARI]]; barqueiro e caminhão do Sindicato são corrida ([[Lancha do Barqueiro]], [[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]]."),
     ("TRI Bronze", "As linhas onde o bronze funciona no turno — [[SARANDI — CENTRO]], [[ASSIS BRASIL — CENTRO]], [[ITU — CENTRO]], [[NAVEGANTES — CENTRO]], [[ZONA LESTE — CENTRO]], [[T1 SARANDI — PORTO NOVO]], [[T2 ZONA LESTE — BEIRA-RIO]], [[T3 VILA MILITAR — SARANDI]], [[B23 ZONA LESTE]], [[A2 CIDADE BAIXA — CENTRO]], [[A3 LINHA DO CAIS]] — estão em [[Malha de Transportes]]."),
     ("TRI Prata", "Todas as linhas de [[Ônibus]] (inclusive anfíbios) e o [[Aeromóvel]] popular ([[L1 POPULAR NORTE]], [[L2 POPULAR SUL]]): [[Malha de Transportes]]."),
     ("TRI Ouro", "Além de tudo do Prata, as lotações [[VIP NORTE]], [[VIP PORTO]] e [[VIP LESTE]]: [[Malha de Transportes]]."),
@@ -834,6 +845,19 @@ if "\n  transporte:\n" not in c:
     assert "    preco_em: moeda\n" in c
     c = c.replace("    preco_em: moeda\n", bloco_cfg, 1)
     open(CTX, "w", encoding="utf-8").write(c)
+
+# ═══════════════════════ 6c. FIGURAS DOS RECURSOS ═══════════════════════
+# `![[Nome.png]]` logo abaixo de `#Recurso` em toda nota de Recurso cuja figura
+# existe em Recursos de Contextos/Recursos (layout flat). Idempotente.
+n_emb = 0
+for p in glob.glob(os.path.join(REC, "*", "*.md")):
+    nome = os.path.basename(p)[:-3]
+    if not os.path.exists(os.path.join(IMG_REC, f"{nome}.png")): continue
+    t = open(p, encoding="utf-8").read()
+    if f"![[{nome}.png]]" in t or "\n#Recurso\n" not in t: continue
+    t = t.replace("\n#Recurso\n", f"\n#Recurso\n![[{nome}.png]]\n", 1)
+    open(p, "w", encoding="utf-8").write(t); n_emb += 1
+print("embeds de figura adicionados:", n_emb)
 
 # ═══════════════════════ 7. CHECAGENS ═══════════════════════
 names = {os.path.splitext(os.path.basename(p))[0] for p in glob.glob(os.path.join(ROOT, "**", "*.md"), recursive=True) if "/.obsidian/" not in p}

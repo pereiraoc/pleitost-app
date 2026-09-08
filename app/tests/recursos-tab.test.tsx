@@ -116,6 +116,12 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     // seis planos de transporte (planos TRI) com nome de classe SEM número
     const linhas = within(eixo('transporte')).getAllByRole('radio')
     expect(linhas.map((l) => l.getAttribute('data-classe'))).toEqual(['1', '2', '3', '4', '5', '6'])
+    // nível 1 = "Sem Plano Mensal", Cz$ 0 (o nome da nota não repete o rótulo)
+    expect(within(linhas[0]!).getByText(/Sem Plano Mensal/)).toBeTruthy()
+    expect(within(linhas[0]!).getByText('Cz$ 0')).toBeTruthy()
+    expect(within(linhas[0]!).queryByText(/de Transporte/)).toBeNull()
+    // figura do recurso (embed da nota) ou o emoji do Tipo em cada linha de plano
+    expect(within(eixo('transporte')).getAllByRole('radio').every((l) => l.querySelector('[data-recurso-figura]'))).toBe(true)
     expect(within(linhas[1]!).getByText(/Classe Baixa/)).toBeTruthy()
     expect(within(linhas[1]!).getByText(/TRI Bronze/)).toBeTruthy()
     expect(within(linhas[1]!).getByText('Cz$ 1.500')).toBeTruthy()
@@ -169,5 +175,34 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 95.000')
     // alimentação não tem posse nem estoque
     expect(within(eixo('alimentacao')).queryByText(/POSSE/)).toBeNull()
+  }, 30000)
+})
+
+describe('catálogo de posse (veículos e imóveis, com onde comprar)', () => {
+  it('VEÍCULOS PRÓPRIOS / IMÓVEIS PRÓPRIOS aparecem mesmo sem posse; ver catálogo lista os recursos com preço e onde', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const transporte = eixo('transporte')
+    expect(within(transporte).getByText(/VEÍCULOS PRÓPRIOS/)).toBeTruthy()
+    expect(within(eixo('moradia')).getByText(/IMÓVEIS PRÓPRIOS/)).toBeTruthy()
+    expect(within(eixo('alimentacao')).queryByText(/POSSE|PRÓPRIOS/)).toBeNull()
+    fireEvent.click(within(transporte).getByText('ver catálogo'))
+    const itens = transporte.querySelectorAll('[data-catalogo="transporte"] [data-catalogo-item]')
+    expect(itens.length).toBeGreaterThan(20)
+    const carajas = transporte.querySelector('[data-catalogo-item="Gurgel Carajás"]') as HTMLElement
+    expect(within(carajas).getByText('Cz$ 400.000')).toBeTruthy() // preço de NOVO, sem usado
+    expect(within(carajas).queryByText(/usado/)).toBeNull()
+    expect(within(carajas).getByText('Concessionária Gurgel').closest('a')).not.toBeNull() // onde comprar
+    expect(carajas.querySelector('[data-recurso-figura]')).not.toBeNull()
+    // ordem por preço, do mais barato
+    const precos = Array.from(itens).map((el) => el.textContent ?? '')
+    expect(precos[0]).not.toContain('Cz$ 400.000')
+    const moradia = eixo('moradia')
+    fireEvent.click(within(moradia).getByText('ver catálogo'))
+    const kitnet = moradia.querySelector('[data-catalogo-item="Kitnet do Aeromóvel"]') as HTMLElement
+    expect(within(kitnet).getByText(/compra Cz\$ 600\.000/)).toBeTruthy()
+    expect(within(kitnet).getByText(/Cz\$ 1\.500 \/ mês/)).toBeTruthy()
   }, 30000)
 })

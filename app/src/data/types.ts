@@ -31,6 +31,8 @@ export interface IndexDocEntry {
   sintonia?: string
   /** FM `Tipo` (Recursos do mundo) — seletor de ícone por tipo de recurso. */
   tipo?: string
+  /** Localização que vende recursos do mundo: alvos do FM `Serviços` (sem sufixo usado/novo). */
+  vende?: string[]
   /** SENHA POR AVENTURA (2026-09-05): doc publicado CIFRADO (extractor/cifra-doc)
    *  — a lista mostra só os campos da lista trancada + 🔒. */
   protegido?: boolean
