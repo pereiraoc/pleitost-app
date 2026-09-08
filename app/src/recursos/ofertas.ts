@@ -93,7 +93,7 @@ export function rngDe(seed: string): () => number {
 
 /** Quantidade-base por forma de cobrança (antes do fator da linha e do dado). */
 function qtdBase(r: Recurso, estado: 'novo' | 'usado' | undefined, acao: Acao): number | null {
-  if (acao === 'diaria' || r.cobranca === 'viagem') return null
+  if (acao === 'diaria' || acao === 'referencia' || r.cobranca === 'viagem') return null
   switch (r.cobranca) {
     case 'unidade':
       return 8

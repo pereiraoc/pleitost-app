@@ -90,7 +90,8 @@ export function isEstilo(cfg: RecursosCfg, r: Recurso): boolean {
 /** O que se pode FAZER com uma nota — derivado da config + Cobrança. */
 export type Acao =
   | 'escolher' // plano do mês (só na ficha)
-  | 'info' // tarifa avulsa / aluguel de referência: só informa, não se vende
+  | 'info' // tarifa avulsa: nem aparece nos lugares (o plano TRI cobre)
+  | 'referencia' // aluguel de moradia sem `Compra`: aparece na vitrine só como preço de referência
   | 'comprar' // vira POSSE (Cobrança única, ou imóvel com `Compra`)
   | 'diaria' // por dia/noite: paga na hora
   | 'avista' // consumo que fecha um milhar: paga na hora, sem registro
@@ -102,7 +103,7 @@ export function acaoDe(cfg: RecursosCfg, r: Recurso, fator: number): Acao {
   if (r.cobranca === 'única') return 'comprar'
   if (r.cobranca === 'dia' || r.cobranca === 'noite') return 'diaria'
   const papel = papelDaAba(cfg, r.aba)
-  if (papel === 'moradia' && r.cobranca === 'mês') return r.compra !== undefined ? 'comprar' : 'info'
+  if (papel === 'moradia' && r.cobranca === 'mês') return r.compra !== undefined ? 'comprar' : 'referencia'
   return r.preco >= fator ? 'avista' : 'miudeza'
 }
 

@@ -54,6 +54,7 @@ export function comprarNoEstabelecimento(
       // abaixo de um milhar: sai do bolso — sem registro na ficha
       return { ok: true, msg: `${rec.nome}: ${o.preco} do bolso, sem registro.`, vendidas: 1 }
     case 'info':
+    case 'referencia':
       return { ok: false, msg: 'Só referência de preço — o plano do mês cobre.', vendidas: 0 }
     case 'escolher':
       return { ok: false, msg: 'Plano de custo de vida se escolhe na ficha.', vendidas: 0 }

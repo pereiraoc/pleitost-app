@@ -36,7 +36,7 @@ describe('acaoDe — semântica pela config + Cobrança', () => {
   })
   it('moradia por mês: com `Compra` vira posse (imóvel); sem, é só referência', () => {
     expect(acaoDe(cfg, kitnet, FATOR)).toBe('comprar')
-    expect(acaoDe(cfg, { ...kitnet, compra: undefined }, FATOR)).toBe('info')
+    expect(acaoDe(cfg, { ...kitnet, compra: undefined }, FATOR)).toBe('referencia')
     expect(precoDeCompra(kitnet)).toBe(600000)
     expect(precoDeCompra(carajas, 'usado')).toBe(150000)
     expect(precoDeCompra(carajas)).toBe(400000)

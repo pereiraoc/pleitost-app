@@ -105,8 +105,14 @@ export function creatureImageUrl(
         tryFolder(assets, RACAS, raca, small) ??
         tryFolder(assets, MONSTROS, classe, small)
       )
-    default:
-      return null
+    default: {
+      // Pessoa/Organização/Local do mundo (2026-09-08): o retrato é o EMBED do
+      // corpo (`![[Nome.png]]` após a linha-tag) — sem FM Imagem nem pasta de
+      // retratos. Mesma fonte que as views de Org/Pessoa usam.
+      const embed = doc.images.find((i) => i.from.startsWith('frontmatter:')) ?? doc.images[0]
+      const entry = embed ? resolveAsset(assets, embed.target) : null
+      return entry ? assetUrlFor(entry, small) : null
+    }
   }
 }
 

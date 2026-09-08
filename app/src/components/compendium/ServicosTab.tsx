@@ -280,6 +280,7 @@ function EstabelecimentoBox({
   const chaveVendas = `${e.doc.id}|${e.generico ? e.nome : ''}`
   const vendidas = useVendidasHoje(chaveVendas)
   const geo = (e.doc.frontmatter?.['Geolocalização'] as string | undefined) ?? ''
+  const dono = typeof e.doc.frontmatter?.['Dono'] === 'string' ? (e.doc.frontmatter['Dono'] as string) : ''
   const grupos = useMemo(() => {
     const m = new Map<string, OfertaRolada[]>()
     for (const o of e.ofertas) {
@@ -309,6 +310,11 @@ function EstabelecimentoBox({
         ) : geo ? (
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>
             <InlineFieldValue value={geo} />
+          </span>
+        ) : null}
+        {!e.generico && dono ? (
+          <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+            · dono: <InlineFieldValue value={dono} />
           </span>
         ) : null}
         <span style={{ flex: 1 }} />
@@ -341,6 +347,9 @@ function EstabelecimentoBox({
                 case 'miudeza':
                   botao = <Botao tom="muted" onClick={() => comprar(o)} disabled={!comprador} title="Abaixo de um milhar: sai do bolso, sem registro na ficha">Consumir · do bolso</Botao>
                   break
+                case 'referencia':
+                  botao = <Chip>aluguel de referência · o plano do mês cobre</Chip>
+                  break
                 default:
                   botao = null
               }
@@ -363,7 +372,7 @@ function EstabelecimentoBox({
                   {formatValorMoeda(o.preco)}
                   <span style={{ color: 'var(--muted)' }}>{unidade}</span>
                 </span>
-                {esgotado ? <Chip tom="off">{o.disponivel ? 'esgotou hoje' : 'não tem hoje'}</Chip> : <Chip tom="accent">{restante === null ? '∞' : `×${restante}`}</Chip>}
+                {o.acao === 'referencia' ? null : esgotado ? <Chip tom="off">{o.disponivel ? 'esgotou hoje' : 'não tem hoje'}</Chip> : <Chip tom="accent">{restante === null ? '∞' : `×${restante}`}</Chip>}
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>{botao}</div>
               </div>
             )
