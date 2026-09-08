@@ -97,6 +97,11 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     expect(document.querySelector('[data-cartao=""]')?.textContent).toContain('sem cartão')
     expect(document.querySelector('[data-veiculos]')).toBeNull()
     expect(screen.queryByText(/A Pé/)).toBeNull()
+    // mapa com viewport compartilhada: zoom −/+, TUDO (enquadrar) e tela cheia
+    expect(document.querySelector('[data-malha-mapa] [data-zoom-out]')).not.toBeNull()
+    expect(document.querySelector('[data-malha-mapa] [data-zoom-in]')).not.toBeNull()
+    expect(document.querySelector('[data-malha-mapa] [data-mostrar-tudo]')).not.toBeNull()
+    expect(document.querySelector('[data-malha-mapa] [data-fullscreen-toggle]')).not.toBeNull()
     expect(screen.queryByText('L1 POPULAR NORTE')).toBeNull()
     expect(document.querySelector('[data-malha-mapa] svg')?.getAttribute('data-paleta')).toBe('papel')
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
@@ -116,6 +121,10 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     await screen.findByText('// VISTA', {}, { timeout: 20000 })
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
     const legenda = document.querySelector('[data-legenda]') as HTMLElement
+    // agrupada por modo, na ordem do contexto (Aeromóvel antes de Ônibus…)
+    const modos = Array.from(legenda.querySelectorAll('[data-modo]')).map((g) => g.getAttribute('data-modo'))
+    expect(modos.slice(0, 3)).toEqual(['Aeromóvel', 'Ônibus', 'Ônibus Anfíbio'])
+    expect(within(legenda.querySelector('[data-modo="Aeromóvel"]') as HTMLElement).getByText('L1 POPULAR NORTE')).toBeTruthy()
     const l1 = within(legenda).getByText('L1 POPULAR NORTE').closest('button') as HTMLButtonElement
     fireEvent.click(l1)
     const bloco = document.querySelector('[data-parada-a-parada]') as HTMLElement

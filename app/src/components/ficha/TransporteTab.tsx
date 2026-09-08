@@ -101,6 +101,10 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
   }
   const linhaSel = selecionada ? malha.linhas.find((l) => l.id === selecionada) ?? null : null
   const fechadas = malha.linhas.filter((l) => l.fechada)
+  // legenda AGRUPADA por modo, na ordem dos modos do contexto
+  const ordemModo = new Map(cfg.modos.map((m, i) => [m.nome, i]))
+  const grupos = [...visiveis.reduce((acc, l) => acc.set(l.modo, [...(acc.get(l.modo) ?? []), l]), new Map<string, LinhaMalha[]>())]
+    .sort((a, b) => (ordemModo.get(a[0]) ?? 99) - (ordemModo.get(b[0]) ?? 99))
   // o cartão TRI do herói = a maior vista que o plano dele alcança (o plano
   // pode ser "a pé" ou "carro com motorista" — isso não é cartão)
   const cartao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual) ?? null
@@ -115,11 +119,11 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
           {cartao ? (
             <span data-cartao={cartao.nome}>
               <DetailLink id={cartao.id}>{cartao.nome}</DetailLink>
-              {planoAtual && planoAtual !== cartao.nome ? <span style={{ ...CHIP, marginLeft: 8 }}>{planoAtual}</span> : null}
+              {planoAtual && planoAtual !== cartao.nome && dados.planos.has(planoAtual) ? <span style={{ ...CHIP, marginLeft: 8 }}>{planoAtual}</span> : null}
             </span>
           ) : (
             <span style={{ color: 'var(--muted)' }} data-cartao="">
-              sem cartão{planoAtual ? ` · ${planoAtual}` : ''}
+              sem cartão{planoAtual && dados.planos.has(planoAtual) ? ` · ${planoAtual}` : ''}
             </span>
           )}
         </div>
@@ -162,39 +166,47 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
       {/* LEGENDA */}
       <section style={BOX}>
         <div style={MONO}>{'// LINHAS NA VISTA'}</div>
-        <ul style={{ listStyle: 'none', margin: '8px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 4 }} data-legenda="">
-          {visiveis.map((l) => {
-            const ativa = selecionada === l.id
-            return (
-              <li key={l.id}>
-                <button
-                  type="button"
-                  data-linha={l.id}
-                  aria-pressed={ativa}
-                  onClick={() => setSelecionada(ativa ? null : l.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    width: '100%',
-                    textAlign: 'left',
-                    background: ativa ? 'color-mix(in srgb,var(--accent) 12%,transparent)' : 'transparent',
-                    border: 'none',
-                    borderLeft: `3px solid ${ativa ? 'var(--accent)' : 'transparent'}`,
-                    padding: '5px 8px',
-                    color: 'inherit',
-                    cursor: 'pointer',
-                    font: 'inherit',
-                  }}
-                >
-                  <Swatch l={l} />
-                  <b style={{ fontSize: 13 }}>{l.nome}</b>
-                  <span style={MONO}>{l.modo}</span>
-                  <span style={{ ...CHIP, marginLeft: 'auto' }}>{l.acessoPlano ?? l.acesso}</span>
-                </button>
-              </li>
-            )
-          })}
+        <div data-legenda="" style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+          {grupos.map(([modo, ls]) => (
+            <div key={modo} data-modo={modo}>
+              <div style={{ ...MONO, fontSize: 10, margin: '0 0 3px 8px' }}>{`${modo.toUpperCase()} · ${ls.length}`}</div>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {ls.map((l) => {
+                  const ativa = selecionada === l.id
+                  return (
+                    <li key={l.id}>
+                      <button
+                        type="button"
+                        data-linha={l.id}
+                        aria-pressed={ativa}
+                        onClick={() => setSelecionada(ativa ? null : l.id)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 10,
+                          width: '100%',
+                          textAlign: 'left',
+                          background: ativa ? 'color-mix(in srgb,var(--accent) 12%,transparent)' : 'transparent',
+                          border: 'none',
+                          borderLeft: `3px solid ${ativa ? 'var(--accent)' : 'transparent'}`,
+                          padding: '5px 8px',
+                          color: 'inherit',
+                          cursor: 'pointer',
+                          font: 'inherit',
+                        }}
+                      >
+                        <Swatch l={l} />
+                        <b style={{ fontSize: 13 }}>{l.nome}</b>
+                        <span style={{ ...CHIP, marginLeft: 'auto' }}>{l.acessoPlano ?? l.acesso}</span>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <ul style={{ listStyle: 'none', margin: '6px 0 0', padding: 0 }}>
           {fechadas.map((l) => (
             <li key={l.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 8px', color: 'var(--muted)' }} data-linha-fechada={l.id}>
               <Swatch l={l} />

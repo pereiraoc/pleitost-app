@@ -447,7 +447,7 @@ linha("Ônibus", "Ônibus", "T5 PETRÓPOLIS — QUARTO DISTRITO", "T5 PETRÓPOLI
       """A linha do artista que mora em Petrópolis e finge que não. Da [[Galeteria de Petrópolis]] pelo Bom Fim — [[Pensão Farroupilha]], [[Redenção]], [[Estação Independência]] — até a [[Farrapos]] e o [[Teatro Quarto Distrito]], sem tocar o Centro. Enche às dezenove com gente de casaco preto e volta vazia; depois do toque, só a Kombi da Voluntários faz o caminho.""", ONIBUS_APAR, cor="#5d4037")
 linha("Ônibus", "Ônibus", "T6 CIRCULAR NOBRE", "T6 CIRCULAR NOBRE", MARCOPOLO, PRATA, PASS, 4, "6h–22h",
       ["Estação Moinhos", "Padre Chagas", "Parque Moinhos", "Estação Jardim Botânico", "Estação Praia de Belas"],
-      "O ônibus dos bairros nobres: novo, com ar, acompanhado pela Brigada — e o motorista 'não vê' o TRI popular nos Moinhos.",
+      "O ônibus dos bairros nobres: novo, com ar, acompanhado pela Brigada — e o motorista 'não vê' o TRI Prata nos Moinhos.",
       """O ônibus dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Estação Moinhos]] pela [[Padre Chagas]], pela Bento Gonçalves no [[Parque Moinhos]], pela [[Estação Jardim Botânico]] até a [[Estação Praia de Belas]], e volta pelo mesmo caminho. A Brigada acompanha de moto; o motorista "não vê" o TRI Prata quando o passageiro sobe nos Moinhos.""",
       "Marcopolo Torino novo, branco e verde, com cortina e ar-condicionado, motorista de gravata, moto da Brigada escoltando, árvores da Padre Chagas.", cor="#b8860b")
 # Ônibus — circulares de bairro
