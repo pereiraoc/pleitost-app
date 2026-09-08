@@ -101,6 +101,56 @@ poi("Centro Histórico", "Praça da Alfândega", "Centro Histórico", "[[Alianç
     ["[[Aliança dos Fundadores]] — cobra a passarela", "[[Gradiente]] — o deck de vidro é seu", "[[Brigada Militar Metropolitana]] — revista quem sobe do lado errado"],
     "A Aliança dobrou o pedágio depois que a lancha executiva passou a encostar do lado de vidro.")
 
+# ── lugares citados no Contexto Atual (Educação e Conhecimento, Expressão Artística…) que não existiam no Atlas
+poi("Bom Fim", "Campus Centro da UFRGS", "Bom Fim", "Reitoria da UFRGS (vigiada pela [[Brigada Militar Metropolitana]])",
+    "O campus da Av. Paulo Gama, entre a Redenção e o Centro alagado: Engenharia, Direito, Filosofia, Economia e a administração central da universidade, sob vigilância desde o AI-5.",
+    "Prédios de 1930 e 1960 em volta do pátio; detector de selênicos na porta de cada sala, brigadiano na guarita, cartaz de matrícula com o selo do regime; o ônibus do estudante sai da esquina.",
+    "Portão de ferro com guarita, prédio de tijolo à vista com colunas, estudantes de mochila e livro embrulhado, viaduto ao fundo e a água do Centro afundado no fim da rua.",
+    ["[[Brigada Militar Metropolitana]] — supervisão das salas", "[[Resistência Urbana Gaúcha]] — recruta no pátio", "[[Embratel]] — grava as chamadas do DCE"],
+    "Um professor de Filosofia foi levado da sala em outubro; a turma inteira faltou na semana seguinte.")
+poi("Bom Fim", "Campus Saúde da UFRGS", "Bom Fim", "Faculdade de Medicina da UFRGS (diretor Dr. Ivo Kruel)",
+    "O campus da Ipiranga com a Ramiro Barcelos, colado ao Hospital de Clínicas: Medicina, Odontologia, Enfermagem e Farmácia — e as clínicas universitárias de que a cidade desconfia.",
+    "Prédios altos de concreto, corredor até o hospital, laboratório de farmácia com fila de laudo; o residente aprende no paciente e a Panvel paga a bolsa.",
+    "Bloco de concreto de dez andares com passarela até o hospital, jaleco branco na escadaria, ambulância na rampa e a Redenção verde ao fundo.",
+    ["[[Panvel]] — paga as bolsas", "[[Brigada Militar Metropolitana]] — posto no PS vizinho"],
+    "Uma turma de Farmácia foi transferida inteira pra um laboratório da Panvel 'pra estágio' e não voltou.")
+poi("Zona Leste", "Campus do Vale da UFRGS", "Zona Leste", "Diretório dos estudantes (o Vale se governa sozinho à noite)",
+    "O campus da Bento Gonçalves, no fim da cidade: Agronomia, Zootecnia, Biologia, Letras e Veterinária num vale de mato — o ponto de encontro dos dissidentes e dos debates clandestinos.",
+    "Prédios baixos espalhados no mato, ônibus de turno na entrada, a rádio pirata do diretório e a Brigada que só entra de dia; o veterinário atende gente também.",
+    "Vale verde com prédios baixos de concreto e vidro quebrado, estrada de chão, ônibus lotado na entrada, antena improvisada no telhado, mato fechado em volta.",
+    ["[[Resistência Urbana Gaúcha]] — os debates", "[[Camisa 12]] — meio time estuda aqui", "[[Brigada Militar Metropolitana]] — batida de madrugada"],
+    "A Brigada cercou o Vale numa madrugada; o diretório tirou todo mundo pelo mato até a Zona Leste.")
+poi("Jardim Botânico", "Campus Central da PUCRS", "Jardim Botânico", "Reitoria da PUCRS (Irmão Norberto Rauch)",
+    "A universidade católica na Av. Ipiranga, ao lado do Jardim Botânico: Direito, Filosofia e Teologia monitorados por comissões de 'moral e bons costumes', e a biblioteca de crachá biométrico.",
+    "Campus murado de prédios modernos e capela, estacionamento cheio de Chevette, biblioteca central com catraca; todo empréstimo vai pra Embratel.",
+    "Muro branco com o brasão, prédios de tijolo e vidro fumê, capela de concreto, estudantes de blazer, a estação do Aeromóvel na frente do portão.",
+    ["[[Embratel]] — os registros da biblioteca", "[[Gradiente]] — financia o laboratório", "[[Igreja Nosso Senhor do Bom Fim]] — o clero"],
+    "A comissão de moral vetou uma tese inteira; o orientador foi pra Escola Técnica Gradiente dar aula de sigilo.")
+poi("Jardim Botânico", "Estação PUCRS", "Jardim Botânico", TRENSURB,
+    "Estação da Linha 2 do Aeromóvel na frente do portão da PUCRS: a estação do estudante de blazer e do professor com crachá.",
+    "Plataforma coberta com catraca dupla, banca de jornal e a fila do vestibular; a Brigada revista mochila em época de prova.",
+    "Viaduto de concreto passando na frente do muro branco da universidade, plataforma com estudantes de blazer, banca de jornal, capela ao fundo.",
+    ["[[Brigada Militar Metropolitana]] — revista de mochila", "[[Embratel]] — cada validação vira registro"],
+    "Um cartaz do diretório apareceu na plataforma e a estação fechou por uma manhã.")
+poi("Moinhos de Vento", "Escola Técnica Gradiente", "Moinhos de Vento", "[[Gradiente]] (diretor Eng. Sílvio Wanderley)",
+    "A escola técnica da megacorp, atrás do Edifício Concorde: currículo obrigatório em Integração Bio-Digital e Programação de Chips Selênicos, laboratórios de P&D e acordo de sigilo militar na matrícula.",
+    "Prédio de vidro fumê com laboratório no subsolo, crachá biométrico, aluno bolsista de laudo positivo; quem se forma já sai contratado — e vigiado.",
+    "Prédio baixo de vidro fumê e aço com o logo da Gradiente, alunos de jaleco cinza, guarita, laboratório iluminado no subsolo visível pela grade.",
+    ["[[Gradiente]] — dona", "[[Sociedade dos Jardins]] — os pais dos alunos"],
+    "Um aluno bolsista sumiu depois de um projeto de chip; a escola diz que foi 'transferido pra matriz'.")
+poi("Petrópolis", "Instituto Técnico Tramontina", "Petrópolis", "[[Tramontina]] (coordenador Sr. Elói Benvenutti)",
+    "O instituto da fábrica, na Rua das Indústrias: Metalurgia de Ligas Selênicas e Mecânica de Exoesqueletos, com estágio automático nas linhas de prótese e armamento.",
+    "Galpão-escola com torno, forno e bancada de prótese; o aluno entra às sete com o turno e sai com o crachá da fábrica no fim do curso.",
+    "Galpão de tijolo com o logo da Tramontina, alunos de macacão em volta de um braço protético na bancada, forno de liga ao fundo, ônibus na porta.",
+    ["[[Tramontina]] — dona", "[[Cartel dos Eixos]] — compra o que sai do torno por fora"],
+    "Uma turma inteira foi realocada pra linha de armamento antes de terminar o curso.")
+poi("Moinhos de Vento", "Praça da Encol", "Moinhos de Vento", "[[Resistência Urbana Gaúcha]] (a feira é deles)",
+    "A praça chique da Bela Vista, entre os Moinhos e a Escola Técnica: de dia jardim de babá e cachorro, de noite feira alternativa, poesia e performance da Resistência.",
+    "Feira de sábado com artesanato, livro por baixo e selênico de laudo; palco improvisado pra poesia; a Brigada ronda mas não entra quando tem gente dos Moinhos.",
+    "Praça arborizada com chafariz seco, barracas de lona, gente de casaco lendo poesia num banco, prédios de vidro dos Moinhos ao fundo, Carajás da Brigada parado na esquina.",
+    ["[[Resistência Urbana Gaúcha]] — a feira e as performances", "[[Sociedade dos Jardins]] — tolera porque é chique"],
+    "Uma performance terminou com a Brigada levando o poeta e a feira do sábado seguinte dobrou de tamanho.")
+
 ESTACOES = [
  # (pasta, nome, bairro, contexto, descricao, aparencia, influencias, acontecimento)
  ("Nova Sarandi", "Estação Zaffari", "Nova Sarandi", "Ponta norte da Linha 1 do Aeromóvel, colada ao Depósito Zaffari: a estação que a megacorp pediu pra embarcar o turno das cinco.",
@@ -170,6 +220,7 @@ ESTACOES = [
 ]
 EXECUTIVAS = {"Estação Moinhos", "Estação Concorde", "Estação Centro Corporativo", "Estação Praia de Belas", "Estação Ipanema"}
 DONO_ESTACAO = {"Estação Quartel": "[[Governo Militar Brasileiro|Exército]] (sentinela do QG)"}
+# (a Estação PUCRS é escrita com os PoIs de educação, acima)
 for pasta, nome, geo, ctx, desc, apar, infl, acont in ESTACOES:
     dono = DONO_ESTACAO.get(nome) or ("Trensurb + segurança [[Gradiente]]" if nome in EXECUTIVAS else TRENSURB)
     poi(pasta, nome, geo.split("/")[-1], dono, ctx, desc, apar, infl, acont)
@@ -391,9 +442,9 @@ linha("Aeromóvel", "Aeromóvel", "L1 POPULAR NORTE", "L1 POPULAR NORTE", "Trens
       """A linha do turno. Enche às cinco na [[Estação Zaffari]] e na [[Estação Sarandi]] com macacão da [[Tramontina]] e da [[Marcopolo]], para nos condomínios da [[Estação Nogueiras]], cruza a [[Estação Independência]] cheia de estudante e desce na [[Estação Central]] em doze minutos — volta às dezoito, mais cheia ainda. Brigadiano em cada plataforma: flagrante é "subversão". A carteira PIRA abre a catraca de graça; o resto passa o cartão TRI. Quando a CEEE corta a periferia, o trilho continua — prioridade absoluta do regime. Baldeação com todo ônibus da Assis Brasil nas estações Nogueiras, Passo D'Areia e Independência.""",
       AERO_APAR, cor="#1f5fbf")
 linha("Aeromóvel", "Aeromóvel", "L2 POPULAR SUL", "L2 POPULAR SUL", "Trensurb; energia da [[Companhia Estadual de Energia Elétrica|CEEE]]", PRATA, W("Aeromóvel Linha Popular"), 3, "5h–23h",
-      ["Estação Central", "Estação Cidade Baixa", "Estação Porto Novo", "Estação Estádios", "Estação Jardim Botânico"],
+      ["Estação Central", "Estação Cidade Baixa", "Estação Porto Novo", "Estação Estádios", "Estação PUCRS", "Estação Jardim Botânico"],
       "A linha do jogo e do porto: passa por cima do alagado da Cidade Baixa, deixa o estivador no Porto Novo e a torcida nos estádios; termina no Jardim Botânico.",
-      """A linha do jogo e do porto. Sai da [[Estação Central]] por cima da água barrenta da [[Estação Cidade Baixa]], deixa o estivador na [[Estação Porto Novo]] (onde a balsa da Zaffari encosta embaixo), a torcida na [[Estação Estádios]] e termina entre árvores na [[Estação Jardim Botânico]]. Em dia de Gre-Nal a Brigada fecha a Estação Estádios uma hora antes e depois do apito e o [[Consórcio das Bandeiras]] vende ingresso na escada. Mesmo vagão da L1, menos lotado — menos gente de crachá mora no sul. É a última linha popular: ao sul da Praia de Belas não há trilho nem ônibus.""",
+      """A linha do jogo e do porto. Sai da [[Estação Central]] por cima da água barrenta da [[Estação Cidade Baixa]], deixa o estivador na [[Estação Porto Novo]] (onde a balsa da Zaffari encosta embaixo), a torcida na [[Estação Estádios]], o estudante de blazer na [[Estação PUCRS]] e termina entre árvores na [[Estação Jardim Botânico]]. Em dia de Gre-Nal a Brigada fecha a Estação Estádios uma hora antes e depois do apito e o [[Consórcio das Bandeiras]] vende ingresso na escada. Mesmo vagão da L1, menos lotado — menos gente de crachá mora no sul. É a última linha popular: ao sul da Praia de Belas não há trilho nem ônibus.""",
       "Viaduto de concreto passando por cima de água barrenta e palafita, estação com grade anti-invasão, torcedores de bandeira na plataforma, guindaste do porto atrás.", cor="#1f8f3f")
 linha("Aeromóvel", "Aeromóvel", "LINHA EXECUTIVA", "LINHA EXECUTIVA", "Trensurb; segurança [[Gradiente]]", PLATINA, W("Aeromóvel Linha Executiva"), 5, "6h–1h",
       ["Estação Concorde", "Estação Moinhos", "Estação Centro Corporativo", "Estação Praia de Belas", "Estação Ipanema"],
@@ -420,9 +471,9 @@ linha("Ônibus", "Ônibus", "ITU — CENTRO", "ITU", MARCOPOLO, BRONZE, PASS, 1,
       "A linha mais quebrada: dois ônibus pra linha inteira, cheiro de éter e o operário da Itú Química dormindo em pé.",
       """Dois ônibus pra linha inteira. Sai do portão da [[Fábrica Itú Química]], desce a [[Rua da Antiga Indústria]], cruza os condomínios da [[Estação Nogueiras]] e chega ao Centro pela [[Estação Independência]] — quando chega. TRI Bronze no turno da fábrica; o operário que perde o último dorme na [[Pensão do Itu]]. O cheiro de éter fica no estofado.""", ONIBUS_APAR, cor="#8d5a2b")
 linha("Ônibus", "Ônibus", "PETRÓPOLIS — CENTRO", "PETRÓPOLIS", MARCOPOLO, PRATA, PASS, 3, "5h–23h",
-      ["Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Armazém Sarmento Leite", "Estação Central"],
+      ["Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Campus Centro da UFRGS", "Estação Central"],
       "O ônibus de classe média: inteiro, com rádio, pela Bento Gonçalves da sede da Tramontina até o Centro.",
-      """O ônibus "de classe média": inteiro, com rádio na Farroupilha e cobrador de uniforme. Desce a Bento Gonçalves da [[Sede da Tramontina]] e do [[Parque Moinhos]], passa na [[Galeteria de Petrópolis]], contorna a [[Redenção]] e chega à [[Estação Central]] pela esquina do [[Armazém Sarmento Leite]]. Prata pra cima; a Brigada sobe pouco — o passageiro tem crachá.""", ONIBUS_APAR, cor="#7b2cbf")
+      """O ônibus "de classe média": inteiro, com rádio na Farroupilha e cobrador de uniforme. Desce a Bento Gonçalves da [[Sede da Tramontina]] e do [[Parque Moinhos]], passa na [[Galeteria de Petrópolis]], contorna a [[Redenção]], para no portão do [[Campus Centro da UFRGS]] e chega à [[Estação Central]]. Prata pra cima; a Brigada sobe pouco — o passageiro tem crachá.""", ONIBUS_APAR, cor="#7b2cbf")
 linha("Ônibus", "Ônibus", "NAVEGANTES — CENTRO", "NAVEGANTES", MARCOPOLO, BRONZE, PASS, 2, "5h–22h50",
       ["Velha Indústria", "Teatro Quarto Distrito", "Farrapos", "Galeria do Rosário", "Estação Central"],
       "A linha do Quarto Distrito pela Voluntários da Pátria: operário de dia, artista de noite, o último sai às 22h50 cheio.",
@@ -432,22 +483,22 @@ linha("Ônibus", "Ônibus", "343 BEIRA-RIO", "343 BEIRA-RIO", MARCOPOLO, PRATA, 
       "O 343 pela orla: Centro, Cidade Baixa, estádios e o mercado de peixe — a última parada antes do nada.",
       """A orla do Guaíba até onde a cidade ainda vai. Sai da [[Estação Central]], encosta na [[Estação Cidade Baixa]] pra quem vem de barco, para na [[Estação Férrea de Belas]], lota na [[Estação Estádios]] em dia de jogo e acaba no [[Mercado de Frutos do Mar]], de onde só se segue a pé, de barco ou de carona. Prata pra cima. É o 3xx da zona sul que sobrou: os outros foram cortados quando a Restinga virou enclave.""", ONIBUS_APAR, cor="#d81b8a")
 linha("Ônibus", "Ônibus", "UFRGS — BARRA", "UFRGS — BARRA", MARCOPOLO, PRATA, PASS, 2, "6h–23h",
-      ["Colégio Rosário", "Armazém Sarmento Leite", "Redenção", "Estação Férrea de Belas", "Estação Porto Novo"],
+      ["Colégio Rosário", "Campus Centro da UFRGS", "Armazém Sarmento Leite", "Redenção", "Estação Férrea de Belas", "Estação Porto Novo"],
       "O ônibus do estudante: do campus à 'Barra' do Porto Novo, cheio de livro proibido, com a Brigada subindo na Redenção.",
-      """O ônibus do estudante — a única linha com dois nomes e nenhum número. Sai do campus, na porta do [[Colégio Rosário]], desce pela esquina do [[Armazém Sarmento Leite]], contorna a [[Redenção]] e vai até a "Barra": a [[Estação Férrea de Belas]] e a [[Estação Porto Novo]]. Cheio de livro embrulhado em jornal; a Brigada sobe na Redenção pra ver o que tem no embrulho.""", ONIBUS_APAR, cor="#00897b")
+      """O ônibus do estudante — a única linha com dois nomes e nenhum número. Sai do [[Colégio Rosário]], para no portão do [[Campus Centro da UFRGS]], desce pela esquina do [[Armazém Sarmento Leite]], contorna a [[Redenção]] e vai até a "Barra": a [[Estação Férrea de Belas]] e a [[Estação Porto Novo]]. Cheio de livro embrulhado em jornal; a Brigada sobe na Redenção pra ver o que tem no embrulho.""", ONIBUS_APAR, cor="#00897b")
 linha("Ônibus", "Ônibus", "ZONA LESTE — CENTRO", "ZONA LESTE", MARCOPOLO, BRONZE, PASS, 1, "5h–23h",
-      ["Sede da Camisa 12", "Venda da Zona Leste", "Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Armazém Sarmento Leite", "Estação Central"],
+      ["Campus do Vale da UFRGS", "Venda da Zona Leste", "Sede da Camisa 12", "Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Campus Centro da UFRGS", "Estação Central"],
       "O radial das vilas: da Zona Leste ao portão da Tramontina e, pela Bento Gonçalves, até o Centro — o ônibus do turno de quem mora de costas pra cidade.",
-      """O radial das vilas. Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]] antes das cinco, deixa metade do ônibus no portão da [[Sede da Tramontina]] e segue pela Bento Gonçalves — [[Parque Moinhos]], [[Galeteria de Petrópolis]] — até a [[Redenção]], a esquina do [[Armazém Sarmento Leite]] e a [[Estação Central]]. [[TRI Bronze]] no turno; lota tanto que o cobrador viaja na porta. É a única forma da Zona Leste chegar ao Centro sem pagar Kombi.""", ONIBUS_APAR, cor="#a0522d")
+      """O radial das vilas. Sai do [[Campus do Vale da UFRGS]] antes das cinco com estudante e catador, enche na [[Venda da Zona Leste]] e na porta da [[Sede da Camisa 12]], deixa metade do ônibus no portão da [[Sede da Tramontina]] e segue pela Bento Gonçalves — [[Parque Moinhos]], [[Galeteria de Petrópolis]] — até a [[Redenção]], o portão do [[Campus Centro da UFRGS]] e a [[Estação Central]]. [[TRI Bronze]] no turno; lota tanto que o cobrador viaja na porta. É a única forma da Zona Leste chegar ao Centro sem pagar Kombi.""", ONIBUS_APAR, cor="#a0522d")
 # Ônibus — transversais
 linha("Ônibus", "Ônibus", "T1 SARANDI — PORTO NOVO", "T1 SARANDI — PORTO NOVO", MARCOPOLO, BRONZE, PASS, 2, "5h–23h",
       ["Rua da Sarandi", "Estação Nogueiras", "Estação Independência", "Redenção", "Estação Férrea de Belas", "Estação Porto Novo"],
       "A transversal grande: uma hora e meia de Nova Sarandi ao porto sem entrar no Centro.",
       """A transversal grande: uma hora e meia de ponta a ponta sem entrar no Centro. Da [[Rua da Sarandi]] pelos condomínios da [[Estação Nogueiras]], pela [[Estação Independência]], pela [[Redenção]] e pela [[Estação Férrea de Belas]] até a [[Estação Porto Novo]]. Leva o estivador do norte pro cais — TRI Bronze no turno do porto — e volta vazia depois das dezenove.""", ONIBUS_APAR, cor="#3949ab")
 linha("Ônibus", "Ônibus", "T2 ZONA LESTE — BEIRA-RIO", "T2 ZONA LESTE — BEIRA-RIO", MARCOPOLO, BRONZE, PASS, 1, "5h–23h; em dia de jogo até o fim",
-      ["Sede da Camisa 12", "Venda da Zona Leste", "Estação Jardim Botânico", "Estação Estádios", "Estação Porto Novo"],
+      ["Sede da Camisa 12", "Venda da Zona Leste", "Estação PUCRS", "Estação Jardim Botânico", "Estação Estádios", "Estação Porto Novo"],
       "A 'linha da torcida': da Zona Leste aos estádios, em dia de jogo vira caravana e a Brigada sobe armada.",
-      """A "linha da torcida". Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]], cruza a [[Estação Jardim Botânico]] e desce até a [[Estação Estádios]] e a [[Estação Porto Novo]]. TRI Bronze no turno; em dia de jogo vira caravana, com bandeira na janela e a Brigada armada na porta de trás. O motorista é colorado e para onde a torcida grita.""", ONIBUS_APAR, cor="#c62828")
+      """A "linha da torcida". Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]], passa na [[Estação PUCRS]] e na [[Estação Jardim Botânico]] e desce até a [[Estação Estádios]] e a [[Estação Porto Novo]]. TRI Bronze no turno; em dia de jogo vira caravana, com bandeira na janela e a Brigada armada na porta de trás. O motorista é colorado e para onde a torcida grita.""", ONIBUS_APAR, cor="#c62828")
 linha("Ônibus", "Ônibus", "T3 VILA MILITAR — SARANDI", "T3 VILA MILITAR — SARANDI", MARCOPOLO, BRONZE, PASS, 2, "5h–23h",
       ["Vila Militar do Paraguassu", "Hospital de Guarnição", "Rádio Farroupilha", "Motel Assis Brasil", "Rua da Sarandi"],
       "A 'linha da farda': funciona porque leva soldado da Vila Militar à Assis Brasil e a Nova Sarandi.",
@@ -461,15 +512,15 @@ linha("Ônibus", "Ônibus", "T5 PETRÓPOLIS — QUARTO DISTRITO", "T5 PETRÓPOLI
       "A linha do artista que mora em Petrópolis e finge que não: da Bento ao Bom Fim e à Farrapos, sem passar pelo Centro.",
       """A linha do artista que mora em Petrópolis e finge que não. Da [[Galeteria de Petrópolis]] pelo Bom Fim — [[Pensão Farroupilha]], [[Estação Independência]] — até a [[Farrapos]] e o [[Teatro Quarto Distrito]], sem tocar o Centro. Enche às dezenove com gente de casaco preto e volta vazia; depois do toque, só a Kombi da Voluntários faz o caminho.""", ONIBUS_APAR, cor="#5d4037")
 linha("Ônibus", "Ônibus", "T6 CIRCULAR NOBRE", "T6 CIRCULAR NOBRE", MARCOPOLO, PRATA, PASS, 4, "6h–22h",
-      ["Padre Chagas", "Estação Moinhos", "Estação Independência", "Colégio Rosário", "Armazém Sarmento Leite", "Redenção", "Estação Centro Corporativo"],
-      "O anel dos bairros nobres: Padre Chagas, Moinhos, Bom Fim e o deck do Centro Corporativo, ônibus novo com ar e a Brigada de moto atrás.",
-      """O anel dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Padre Chagas]] pela [[Estação Moinhos]] e pela [[Estação Independência]], pelo campus do [[Colégio Rosário]], pela esquina do [[Armazém Sarmento Leite]] e pela [[Redenção]] até o deck da [[Estação Centro Corporativo]] — e volta pelo mesmo caminho, sem entrar nem no Passo nem na Petrópolis. A Brigada acompanha de moto; o motorista "não vê" o TRI Prata quando o passageiro sobe nos Moinhos.""",
+      ["Praça da Encol", "Estação Moinhos", "Padre Chagas", "Estação Independência", "Colégio Rosário", "Campus Centro da UFRGS", "Armazém Sarmento Leite", "Estação Centro Corporativo"],
+      "O anel dos bairros nobres: Praça da Encol, Moinhos, Padre Chagas, Bom Fim, UFRGS e o deck do Centro Corporativo, ônibus novo com ar e a Brigada de moto atrás.",
+      """O anel dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Praça da Encol]] pela [[Estação Moinhos]], pela [[Padre Chagas]] e pela [[Estação Independência]], pelo [[Colégio Rosário]], pelo portão do [[Campus Centro da UFRGS]] e pela esquina do [[Armazém Sarmento Leite]] até o deck da [[Estação Centro Corporativo]] — e volta pelo mesmo caminho, sem entrar nem no Passo nem na Petrópolis. A Brigada acompanha de moto; o motorista "não vê" o TRI Prata quando o passageiro sobe nos Moinhos.""",
       "Marcopolo Torino novo, branco e verde, com cortina e ar-condicionado, motorista de gravata, moto da Brigada escoltando, árvores da Padre Chagas.", cor="#b8860b")
 # Ônibus — circulares de bairro
 linha("Ônibus", "Ônibus", "B05 BOM FIM", "B05 BOM FIM", MARCOPOLO, PRATA, PASS, 3, "6h–23h",
-      ["Redenção", "Estação Independência", "Armazém Sarmento Leite", "Bar Ocidente", "Pensão Farroupilha", "Hospital de Clínicas"],
+      ["Redenção", "Estação Independência", "Campus Centro da UFRGS", "Armazém Sarmento Leite", "Bar Ocidente", "Pensão Farroupilha", "Hospital de Clínicas", "Campus Saúde da UFRGS"],
       "O microônibus do Bom Fim: vinte minutos a volta, da Redenção ao Ocidente e de volta.",
-      """Um microônibus, vinte minutos a volta. Da [[Redenção]] sobe à [[Estação Independência]], desce pela esquina do [[Armazém Sarmento Leite]], para na porta do [[Bar Ocidente]], na [[Pensão Farroupilha]] e na rampa do [[Hospital de Clínicas]] e recomeça. É o ônibus do estudante sem pressa e do professor com sacola; o cobrador conhece todo mundo pelo nome — e a Brigada, pelo cobrador.""",
+      """Um microônibus, vinte minutos a volta. Da [[Redenção]] sobe à [[Estação Independência]], desce pelo portão do [[Campus Centro da UFRGS]] e pela esquina do [[Armazém Sarmento Leite]], para na porta do [[Bar Ocidente]], na [[Pensão Farroupilha]], na rampa do [[Hospital de Clínicas]] e no [[Campus Saúde da UFRGS]] e recomeça. É o ônibus do estudante sem pressa e do professor com sacola; o cobrador conhece todo mundo pelo nome — e a Brigada, pelo cobrador.""",
       "Microônibus Marcopolo branco com faixa verde, letreiro 'B05 BOM FIM', cheio de estudante com mochila, árvores da Redenção passando na janela.", cor="#26a69a", circular=True)
 linha("Ônibus", "Ônibus", "B12 PASSO D'AREIA", "B12 PASSO D'AREIA", MARCOPOLO, PRATA, PASS, 2, "5h–23h",
       ["Estação Passo D'Areia", "Boteco Embaixo da Via", "Estação Nogueiras", "Shopping Iguatemi", "Hospital Cristo Redentor", "Posto Ipiranga da Assis Brasil"],
@@ -519,9 +570,9 @@ linha("Lotação", "Kombi", "KOMBI DA VOLUNTÁRIOS", "KOMBI DA VOLUNTÁRIOS", KO
       "A única linha da madrugada: do Quarto Distrito ao Centro e ao Passo D'Areia depois do toque, com a Ordem dos Subsolos cobrando o ponto.",
       """A única linha da madrugada. Sai do [[Ponto da Kombi da Voluntários]] com quem saiu da rave da [[Farrapos]], passa na [[Galeria do Rosário]] e deixa na [[Estação Central]] às escuras; de lá, quem vai pro Passo D'Areia espera a mesma Kombi voltar. Depois do toque é ela ou o barqueiro; a [[Ordem dos Subsolos]] cobra o ponto e a Brigada cobra o motorista.""", KOMBI_APAR, cor="#e76f51")
 linha("Lotação", "Kombi", "KOMBI DA ZONA LESTE", "KOMBI DA ZONA LESTE", KOMBI_OP + "; a [[Camisa 12]] escolhe o motorista", "dinheiro ou dose", PKOMBI, 1, "sai quando enche",
-      ["Sede da Camisa 12", "Venda da Zona Leste", "Estação Jardim Botânico", "Redenção", "Estação Central"],
+      ["Sede da Camisa 12", "Venda da Zona Leste", "Campus do Vale da UFRGS", "Estação Jardim Botânico", "Redenção", "Campus Centro da UFRGS", "Estação Central"],
       "As Kombis da Zona Leste ao Centro: sai da sede da Camisa 12, para na Redenção e cobra em dinheiro ou dose.",
-      """As Kombis da Zona Leste. Saem da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]], cortam pela [[Estação Jardim Botânico]], param na [[Redenção]] e chegam à [[Estação Central]] quando o T2 já não roda. Dinheiro ou dose; em dia de jogo viram caravana miúda com bandeira na antena.""", KOMBI_APAR, cor="#e9c46a")
+      """As Kombis da Zona Leste. Saem da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]], pegam estudante no [[Campus do Vale da UFRGS]], cortam pela [[Estação Jardim Botânico]], param na [[Redenção]] e no portão do [[Campus Centro da UFRGS]] e chegam à [[Estação Central]] quando o T2 já não roda. Dinheiro ou dose; em dia de jogo viram caravana miúda com bandeira na antena.""", KOMBI_APAR, cor="#e9c46a")
 # Água
 linha("Água", "Balsa", "BALSA ZAFFARI", "BALSA ZAFFARI", W("Zaffari"), "Cz$ 100 a pessoa em cima da carga, Cz$ 1.000 o volume — não é TRI", W("Balsa de Carga Zaffari"), 3, "6h e 18h em ponto",
       ["Estação Zaffari", "Delta Radioativo", "Usina do Gasômetro", "Estação Porto Novo"],
@@ -545,10 +596,10 @@ POSICOES = [
  ("Usina do Gasômetro", -3, -4, "esquerda"), ("Delta Radioativo", -5, 3, "esquerda"), ("Trapiche da Aliança", 0, -4, "direita"), ("Lancheria da Cidade Baixa", 0, -3, "esquerda"),
  ("Estação Cidade Baixa", 1, -4, "direita"), ("Estação Férrea de Belas", 1, -5, "direita"), ("Estação Porto Novo", -1, -5, "esquerda"), ("Estação Praia de Belas", -2, -6, "esquerda"),
  ("Estação Estádios", 1, -7, "direita"), ("Estádio Beira-Rio", 2, -8, "direita"), ("Mercado de Frutos do Mar", 0, -8, "esquerda"), ("Estação Ipanema", -2, -10, "esquerda"),
- ("Estação Jardim Botânico", 6, -7, "esquerda"),
+ ("Estação Jardim Botânico", 6, -7, "esquerda"), ("Estação PUCRS", 5, -8, "direita"), ("Campus do Vale da UFRGS", 8, -9, "esquerda"),
  ("Galeria do Rosário", 1, 1, "direita"), ("Ponto da Kombi da Voluntários", 0, 2, "esquerda"), ("Farrapos", 1, 2, "direita"), ("Teatro Quarto Distrito", 2, 3, "direita"), ("Velha Indústria", 3, 4, "direita"),
- ("Estação Independência", 3, 0, "direita"), ("Colégio Rosário", 3, 1, "direita"), ("Armazém Sarmento Leite", 2, -3, "direita"), ("Redenção", 3, -3, "direita"), ("Bar Ocidente", 2, -5, "esquerda"), ("Pensão Farroupilha", 4, -5, "direita"), ("Hospital de Clínicas", 4, -6, "direita"),
- ("Estação Moinhos", 6, 0, "direita"), ("Estação Concorde", 6, 1, "inclinado"), ("Padre Chagas", 5, 1, "esquerda"),
+ ("Estação Independência", 3, 0, "direita"), ("Colégio Rosário", 3, 1, "direita"), ("Armazém Sarmento Leite", 2, -3, "direita"), ("Redenção", 3, -3, "direita"), ("Bar Ocidente", 2, -5, "esquerda"), ("Pensão Farroupilha", 4, -5, "direita"), ("Hospital de Clínicas", 4, -6, "direita"), ("Campus Saúde da UFRGS", 5, -6, "direita"), ("Campus Centro da UFRGS", 2, -2, "esquerda"),
+ ("Estação Moinhos", 6, 0, "direita"), ("Praça da Encol", 7, 0, "direita"), ("Estação Concorde", 6, 1, "inclinado"), ("Padre Chagas", 5, 1, "esquerda"),
  ("Parque Moinhos", 8, -2, "direita"), ("Galeteria de Petrópolis", 6, -4, "direita"), ("Sede da Tramontina", 9, -2, "direita"),
  ("Sede da Camisa 12", 10, -7, "direita"), ("Venda da Zona Leste", 9, -7, "esquerda"), ("Oficina do Borracheiro", 10, -8, "direita"), ("Padaria da Vila", 9, -8, "esquerda"),
  ("Vila Militar do Paraguassu", 15, 5, "direita"), ("Rádio Farroupilha", 14, 4, "direita"), ("Hospital de Guarnição", 14, 5, "esquerda"),
@@ -717,7 +768,7 @@ COORDS = {
  "Oficina do Borracheiro": (-30.0640, -51.0975),
  "Padaria da Vila": (-30.0625, -51.1030),
  "Zona Leste": (-30.0600, -51.1030),
- "Hospital de Clínicas": (-30.0390, -51.2075), "Santa Casa": (-30.0322, -51.2228), "Hospital Cristo Redentor": (-29.9990, -51.1560), "Hospital de Guarnição": (-30.0010, -51.0930),
+ "Hospital de Clínicas": (-30.0390, -51.2075), "Campus Centro da UFRGS": (-30.0339, -51.2190), "Campus Saúde da UFRGS": (-30.0385, -51.2085), "Campus do Vale da UFRGS": (-30.0730, -51.1200), "Campus Central da PUCRS": (-30.0596, -51.1735), "Estação PUCRS": (-30.0590, -51.1755), "Escola Técnica Gradiente": (-30.0245, -51.1965), "Instituto Técnico Tramontina": (-30.0400, -51.1265), "Praça da Encol": (-30.0245, -51.1935), "Santa Casa": (-30.0322, -51.2228), "Hospital Cristo Redentor": (-29.9990, -51.1560), "Hospital de Guarnição": (-30.0010, -51.0930),
  "Depósito Zaffari": (-29.9740, -51.1240), "Ferroviária Nacional": (-29.9805, -51.1300), "Praça das Nogueiras": (-30.0090, -51.1745),
  "Independência": (-30.0300, -51.2150), "Edifício Concorde": (-30.0258, -51.1950), "Ponto do Caminhão do Sindicato": (-30.2120, -51.1060),
  "Quartel-General do Exército": (-29.9995, -51.0875), "Oficina de Sucata": (-30.1510, -51.1440), "Mercado Flutuante": (-30.1480, -51.1480),
@@ -732,7 +783,7 @@ MARKERS = [
  ("Estação", 874, 252, "Estação Central"), ("Estação", 864, 242, "Estação Centro Corporativo"), ("Estação", 840, 254, "Estação Cidade Baixa"),
  # Bom Fim
  ("Ponto de Interesse", 868, 282, "Independência"), ("Ponto de Interesse", 872, 276, "Colégio Rosário"), ("Mercado", 854, 286, "Armazém Sarmento Leite"),
- ("Bar", 850, 302, "Bar Ocidente"), ("Hotel", 858, 308, "Pensão Farroupilha"), ("Estação", 866, 286, "Estação Independência"), ("Hospital", 0, 0, "Hospital de Clínicas"), ("Hospital", 0, 0, "Santa Casa"), ("Hospital", 0, 0, "Hospital Cristo Redentor"), ("Hospital", 0, 0, "Hospital de Guarnição"),
+ ("Bar", 850, 302, "Bar Ocidente"), ("Hotel", 858, 308, "Pensão Farroupilha"), ("Estação", 866, 286, "Estação Independência"), ("Hospital", 0, 0, "Hospital de Clínicas"), ("Ponto de Interesse", 0, 0, "Campus Centro da UFRGS"), ("Ponto de Interesse", 0, 0, "Campus Saúde da UFRGS"), ("Ponto de Interesse", 0, 0, "Campus do Vale da UFRGS"), ("Ponto de Interesse", 0, 0, "Campus Central da PUCRS"), ("Estação", 0, 0, "Estação PUCRS"), ("Ponto de Interesse", 0, 0, "Escola Técnica Gradiente"), ("Ponto de Interesse", 0, 0, "Instituto Técnico Tramontina"), ("Parque", 0, 0, "Praça da Encol"), ("Hospital", 0, 0, "Santa Casa"), ("Hospital", 0, 0, "Hospital Cristo Redentor"), ("Hospital", 0, 0, "Hospital de Guarnição"),
  # Moinhos
  ("Ponto de Interesse", 890, 338, "Edifício Concorde"), ("Estação", 866, 342, "Estação Moinhos"), ("Estação", 892, 332, "Estação Concorde"),
  # Quarto Distrito
