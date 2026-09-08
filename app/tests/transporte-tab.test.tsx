@@ -91,8 +91,12 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     expect(vistas.map((v) => v.textContent)).toEqual(['TRI Bronze', 'TRI Prata', 'TRI Ouro', 'TRI Platina'])
     expect(vistas[0]!.getAttribute('aria-checked')).toBe('true')
     const linhasBronze = document.querySelectorAll('[data-malha-mapa] path[data-linha]')
-    // na mão (Kombis 3, balsa, barqueiro, caravana) + as 6 linhas do turno
-    expect(linhasBronze.length).toBe(12)
+    // na mão (Kombis 3, balsa, caravana — barqueiro e lancha não são coletivo) + as 6 linhas do turno
+    expect(linhasBronze.length).toBe(11)
+    // sem plano: sem cartão; nada de veículos, táxi ou "a pé" na aba
+    expect(document.querySelector('[data-cartao=""]')?.textContent).toContain('sem cartão')
+    expect(document.querySelector('[data-veiculos]')).toBeNull()
+    expect(screen.queryByText(/A Pé/)).toBeNull()
     expect(screen.queryByText('L1 POPULAR NORTE')).toBeNull()
     expect(document.querySelector('[data-malha-mapa] svg')?.getAttribute('data-paleta')).toBe('papel')
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))

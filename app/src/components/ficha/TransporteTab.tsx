@@ -1,9 +1,10 @@
 // Aba TRANSPORTE (2026-09-08, POA 1987) — a malha de transportes como mapa de
-// metrô: uma VISTA por plano TRI (as linhas que aquele plano abre, mais as
-// que se pagam na mão), o plano e os veículos do herói, a legenda das linhas
-// e a lista parada a parada da linha escolhida, com as baldeações. Tudo vem da
-// vault: notas de Linha, bloco ```malha``` da nota do mapa, planos (Estilo de
-// Vida do eixo transporte) e o estado `Recursos_do_Mundo` do herói.
+// metrô: uma VISTA por cartão TRI (as linhas que aquele cartão abre, mais as
+// que se pagam na mão), o cartão do herói, a legenda das linhas e a lista
+// parada a parada da linha escolhida, com as baldeações. É transporte
+// COLETIVO: carro, táxi, barqueiro e "a pé" não entram (report 2026-09-08).
+// Tudo vem da vault: notas de Linha, bloco ```malha``` da nota do mapa,
+// planos (Estilo de Vida do eixo transporte) e o `Recursos_do_Mundo` do herói.
 import { useMemo, useState, type CSSProperties } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
@@ -14,7 +15,7 @@ import { useDetail } from '../../data/detail-context'
 import { DetailLink } from '../DetailLink'
 import { clip } from './bits'
 import { parseRecurso } from '../../recursos/parse-recurso'
-import { abaDoPapel, nomeNivel, recursosDoFm } from '../../recursos/hero-recursos'
+import { abaDoPapel, recursosDoFm } from '../../recursos/hero-recursos'
 import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, type LinhaMalha, type Malha } from '../../transporte/malha'
 import { MalhaMap } from './MalhaMap'
 
@@ -55,19 +56,16 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     const abaTransporte = abaDoPapel(rcfg, 'transporte')
     const planos = new Map<string, number>()
     const planosLista: { nome: string; nivel: number; id: string }[] = []
-    const veiculos = new Map<string, string>() // nome → id
     for (const d of docs.values()) {
       if (d.type !== 'Recurso') continue
       const r = parseRecurso(d)
-      if (!r || r.aba !== abaTransporte) continue
-      if (r.tipo === rcfg.tipos.estilo && r.nivel) {
-        planos.set(r.nome, r.nivel)
-        planosLista.push({ nome: r.nome, nivel: r.nivel, id: d.id })
-      } else veiculos.set(r.nome, d.id)
+      if (!r || r.aba !== abaTransporte || r.tipo !== rcfg.tipos.estilo || !r.nivel) continue
+      planos.set(r.nome, r.nivel)
+      planosLista.push({ nome: r.nome, nivel: r.nivel, id: d.id })
     }
     planosLista.sort((a, b) => a.nivel - b.nivel)
     const malha = montarMalha(docs.values(), cfg, (nome) => planos.get(nome) ?? null)
-    return { malha, planos, planosLista, veiculos, abaTransporte }
+    return { malha, planos, planosLista }
   }, [cfg, rcfg, docs])
 
   const planoAtual = estado.estilos.transporte
@@ -102,49 +100,28 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     if (id && detail) detail.open({ kind: 'doc', id })
   }
   const linhaSel = selecionada ? malha.linhas.find((l) => l.id === selecionada) ?? null : null
-  const veiculosDoHeroi = estado.itens.filter((i) => i.aba === dados.abaTransporte)
   const fechadas = malha.linhas.filter((l) => l.fechada)
+  // o cartão TRI do herói = a maior vista que o plano dele alcança (o plano
+  // pode ser "a pé" ou "carro com motorista" — isso não é cartão)
+  const cartao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual) ?? null
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      {/* NA FICHA: plano + veículos */}
+      {/* NA FICHA: o cartão TRI (transporte coletivo — carro e táxi ficam na aba Recursos) */}
       <section style={BOX} data-transporte-ficha="">
         <div style={MONO}>{'// NA FICHA'}</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
-            <span style={{ ...MONO, minWidth: 90 }}>PLANO</span>
-            {planoAtual ? (
-              <span data-plano={planoAtual}>
-                {idDe(planoAtual) ? <DetailLink id={idDe(planoAtual)!}>{planoAtual}</DetailLink> : planoAtual}
-                <span style={{ ...CHIP, marginLeft: 8 }}>{nomeNivel(rcfg, nivelAtual)}</span>
-              </span>
-            ) : (
-              <span style={{ color: 'var(--muted)' }} data-plano="">
-                {dados.planosLista[0]?.nome ?? nomeNivel(rcfg, 1)}
-              </span>
-            )}
-          </div>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
-            <span style={{ ...MONO, minWidth: 90 }}>VEÍCULOS</span>
-            {veiculosDoHeroi.length ? (
-              <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 2 }} data-veiculos="">
-                {veiculosDoHeroi.map((v, i) => {
-                  const id = dados.veiculos.get(v.nome)
-                  return (
-                    <li key={`${i}:${v.nome}`}>
-                      {id ? <DetailLink id={id}>{v.nome}</DetailLink> : v.nome}
-                      {v.estado ? <span style={{ ...CHIP, marginLeft: 8 }}>{v.estado}</span> : null}
-                      {v.qtd > 1 ? <span style={{ ...MONO, marginLeft: 8 }}>×{v.qtd}</span> : null}
-                    </li>
-                  )
-                })}
-              </ul>
-            ) : (
-              <span style={{ color: 'var(--muted)' }} data-veiculos="">
-                —
-              </span>
-            )}
-          </div>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', marginTop: 8 }}>
+          <span style={{ ...MONO, minWidth: 90 }}>CARTÃO TRI</span>
+          {cartao ? (
+            <span data-cartao={cartao.nome}>
+              <DetailLink id={cartao.id}>{cartao.nome}</DetailLink>
+              {planoAtual && planoAtual !== cartao.nome ? <span style={{ ...CHIP, marginLeft: 8 }}>{planoAtual}</span> : null}
+            </span>
+          ) : (
+            <span style={{ color: 'var(--muted)' }} data-cartao="">
+              sem cartão{planoAtual ? ` · ${planoAtual}` : ''}
+            </span>
+          )}
         </div>
       </section>
 

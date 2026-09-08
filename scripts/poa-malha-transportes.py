@@ -341,7 +341,7 @@ def plano(nome, nivel, preco, marca, classe, resumo, desc, espec):
     body = "\n".join(header) + "\n\n" + desc.strip() + "\n\n> [!info] Especificação\n" + "\n".join(f"> **{k}:** {v}" for k, v in espec + [("Classe", classe)]) + "\n"
     escrever(os.path.join(REC, "Transporte", f"{nome}.md"), "---\n" + "\n".join(fm) + "\n---\n" + body)
 plano("A Pé", 1, 0, "", "Miserável", "Sem cartão: anda a pé, pega carona e paga tarifa avulsa quando não tem jeito.",
-      """Nenhum cartão TRI. Anda a pé, atravessa o alagado pela passarela quando a Aliança deixa, pega carona no caminhão do [[Sindicato dos Catadores]] ou uma Kombi na mão. Quando precisa MESMO de um ônibus, paga a tarifa avulsa do bolso — e o Mestre desconta da ficha.""",
+      """Nenhum cartão TRI. Anda a pé, atravessa o alagado pela passarela quando a Aliança deixa, pega carona no caminhão do [[Sindicato dos Catadores]], uma Kombi ou o [[Lancha do Barqueiro|barqueiro]] na mão. Quando precisa MESMO de um ônibus, paga a tarifa avulsa do bolso — e o Mestre desconta da ficha.""",
       [("Cartão", "nenhum"), ("Dá acesso a", "nada — passarela, carona, Kombi e barqueiro pagos na mão"), ("Quem usa", "catador, palafita, quem perdeu o emprego")])
 plano("TRI Bronze", 2, 1500, "Trensurb", "Classe Baixa", "O cartão de bronze que o patrão desconta em folha: ônibus de ida e volta no horário do turno, mais nada.",
       """O cartão TRI de bronze vem descontado em folha: duas viagens de [[Passagem de Ônibus|ônibus]] por dia útil, no horário do turno, nas linhas da [[Marcopolo]] que a fábrica cadastrou. Fora do horário, fora da linha, fora do plano — o resto é a pé. A [[Embratel]] registra cada validação e o RH lê.""",
@@ -353,11 +353,11 @@ plano("TRI Ouro", 4, 5000, "Trensurb + concessionárias", "Classe Média", "Tudo
       """O cartão de ouro é o da classe média: tudo do [[TRI Prata]] mais a [[Lotação VIP]] ilimitada, com o rádio da [[Embratel]] abrindo as sinaleiras. É o cartão dourado que o motorista respeita e o porteiro do prédio aceita como identidade.""",
       [("Cartão", "TRI Ouro (Trensurb + concessionárias)"), ("Dá acesso a", "tudo do Prata + lotação VIP ilimitada"), ("Não cobre", "linha executiva, táxi"), ("Quem usa", "técnico graduado, gerente de loja, funcionário público")])
 plano("TRI Platina", 5, 10000, "Trensurb + [[Gradiente]]", "Classe Média Alta", "Linha executiva do Aeromóvel e táxi conveniado inclusos. O cartão de quem tem crachá.",
-      """O cartão de platina é o de quem tem crachá de megacorp: [[Aeromóvel Linha Executiva]] e lotação VIP ilimitadas, [[Táxi Gurgel]] conveniado (a corrida vai na conta do plano), a [[LANCHA EXECUTIVA]] com convite e prioridade na plataforma. A [[Embratel]] sabe cada trecho — e o RH também.""",
-      [("Cartão", "TRI Platina ([[Gradiente]] / Trensurb)"), ("Dá acesso a", "linha executiva, lotação VIP, táxi conveniado, lancha com convite"), ("Não cobre", "motorista particular"), ("Quem usa", "executivo, médico de clínica, oficial")])
+      """O cartão de platina é o de quem tem crachá de megacorp: [[Aeromóvel Linha Executiva]] e lotação VIP ilimitadas, [[Táxi Gurgel]] conveniado (a corrida vai na conta do plano), a lancha da Gradiente com convite e prioridade na plataforma. A [[Embratel]] sabe cada trecho — e o RH também.""",
+      [("Cartão", "TRI Platina ([[Gradiente]] / Trensurb)"), ("Dá acesso a", "linha executiva, lotação VIP, táxi conveniado, lancha da Gradiente com convite"), ("Não cobre", "motorista particular"), ("Quem usa", "executivo, médico de clínica, oficial")])
 plano("Carro com Motorista", 6, 20000, "a empresa (crachá de diretoria)", "Classe Alta", "Carro da empresa com motorista na porta, escolta quando precisa e o TRI Platina no bolso. Ninguém da rua vê você andar.",
-      """O plano da diretoria: carro da empresa com motorista à disposição, escolta da [[Gradiente]] quando o destino é feio, e um [[TRI Platina]] no bolso pra [[LINHA EXECUTIVA]] e [[LANCHA EXECUTIVA]] quando a rua não presta. Não se paga: a empresa desconta — e sabe onde você dormiu.""",
-      [("Cartão", "TRI Platina de cortesia + carro da empresa"), ("Dá acesso a", "motorista, escolta, linha executiva, lancha, táxi sem limite"), ("Não cobre", "nada — cobre até o que não devia"), ("Quem usa", "diretor, coronel, dono de rede")])
+      """O plano da diretoria: carro da empresa com motorista à disposição, escolta da [[Gradiente]] quando o destino é feio, e um [[TRI Platina]] no bolso pra [[LINHA EXECUTIVA]] quando a rua não presta. Não se paga: a empresa desconta — e sabe onde você dormiu.""",
+      [("Cartão", "TRI Platina de cortesia + carro da empresa"), ("Dá acesso a", "motorista, escolta, linha executiva, lancha da Gradiente, táxi sem limite"), ("Não cobre", "nada — cobre até o que não devia"), ("Quem usa", "diretor, coronel, dono de rede")])
 
 # ═══════════════════════ 4. LINHAS ═══════════════════════
 # Regra do mestre (2026-09-08): NADA de transporte ao sul da Praia de Belas —
@@ -513,16 +513,6 @@ linha("Água", "Balsa", "BALSA ZAFFARI", "BALSA ZAFFARI", W("Zaffari"), "Cz$ 100
       "A balsa de carga da Zaffari: do cais do depósito, pelo rio e pelo Delta, até o Porto Novo.",
       """Balsa de 20 m com empurrador, 40 toneladas. Sai do cais embaixo da [[Estação Zaffari]] às seis e às dezoito em ponto, desce o rio rente ao [[Delta Radioativo]] (para no cais do Sindicato só de dia), contorna a ponta da [[Usina do Gasômetro]] e descarrega no cais da [[Estação Porto Novo]]. Não desce mais: a Restinga e a orla sul ficaram fora da rota desde que o enclave parou de pagar. Gente viaja em cima dos sacos de arroz: Cz$ 100 a pessoa, Cz$ 1.000 o volume, fiscal de prancheta e brigadiano contando caixa.""",
       "Balsa de chapa cinza cheia de contêiner com o esquilo da Zaffari, fiscal de prancheta, brigadiano contando caixa, gente sentada em cima dos sacos de arroz, guindaste do porto atrás.", cor="#2a9d8f")
-linha("Água", "Lancha", "LANCHA EXECUTIVA", "LANCHA EXECUTIVA", "[[Gradiente]] (píer do [[Embarcadouro do Guaíba]])", PLATINA, "convite — não há avulso", 5, "sob demanda, 6h–1h",
-      ["Estação Ipanema", "Estação Praia de Belas", "Estação Centro Corporativo"],
-      "A lancha de fibra da Gradiente: do píer de Ipanema ao deck de vidro do Centro Corporativo, sem pisar na rua.",
-      """[[Lancha de Fibra]] branca com listra dourada, piloto de uniforme e segurança da [[Gradiente]]. Sai do píer do [[Embarcadouro do Guaíba]], ao lado da [[Estação Ipanema]], encosta no porto administrativo da [[Estação Praia de Belas]] e atraca no deck de vidro da [[Estação Centro Corporativo]]. [[TRI Platina]] com convite da Gradiente; a patrulha fluvial abre caminho.""",
-      "Lancha de fibra branca com listra dourada cortando o Guaíba barrento, piloto de uniforme, executivo de óculos escuros, o casco limpo contrastando com a água suja.", cor="#c9a227")
-linha("Água", "Barqueiro", "ROTA DO BARQUEIRO", "ROTA DO BARQUEIRO", W("Aliança Livre das Palafitas"), "cruzado, dólar redondo ou dose — não é TRI", W("Lancha do Barqueiro"), 2, "qualquer hora; o Delta só de dia",
-      ["Delta Radioativo", "Usina do Gasômetro", "Trapiche da Aliança", "Duque de Caxias", "Praça da Alfândega"],
-      "O bote de alumínio da Aliança: canais da Cidade Baixa e Centro alagado por Cz$ 200; o Delta por Cz$ 1.000, só de dia.",
-      """Bote de alumínio de 5 m com Yamaha 15 HP de contrabando e lanterna a querosene. Chega em qualquer lugar que tenha água no Centro: os canais entre o [[Trapiche da Aliança]], a [[Duque de Caxias]] e a [[Praça da Alfândega]] por Cz$ 200; a ponta da [[Usina do Gasômetro]] e as ilhas do [[Delta Radioativo]] por Cz$ 1.000 — o Delta só de dia. Pra Restinga o barqueiro vai por conta própria, sem rota e sem preço fixo. A patrulha fluvial dobrou desde os ataques ao [[Porto Novo]], e o preço também.""",
-      "Bote de alumínio amassado com lanterna a querosene, barqueiro de capa de chuva, motor com o nome lixado, passageiro agachado, palafita passando de um lado e prédio alagado do outro.", cor="#264653")
 # Informal
 linha("Informal", "Caravana", "CARAVANA DA TORCIDA", "CARAVANA DA TORCIDA", W("Camisa 12"), "Cz$ 200, uma dose ou o hino inteiro — não é TRI", W("Caravana da Camisa 12"), 1, "três horas antes do jogo",
       ["Sede da Camisa 12", "Venda da Zona Leste", "Estação Jardim Botânico", "Estádio Beira-Rio"],
@@ -568,7 +558,7 @@ Porto Alegre 1987 linha a linha: cada linha é uma nota (`categoria: Linha`) com
 - [[Aeromóvel]] — o trilho elevado da Trensurb (Linhas 1 e 2, Executiva, ramal morto)
 - [[Ônibus]] — radiais, transversais (T), circulares de bairro (B) e anfíbios (A) da Marcopolo
 - [[Lotação]] — as vans VIP com rádio Embratel e as Kombis clandestinas
-- [[Água]] — balsa da Zaffari, lancha da Gradiente e o barqueiro da Aliança
+- [[Água]] — a balsa de carga da Zaffari (o barqueiro e a lancha da Gradiente não são coletivo: estão em [[Transporte]] como corrida)
 - [[Informal]] — a caravana da torcida (o que mais roda sem letreiro está nas notas de [[Transporte]])
 
 {dv("Contexto/Malha de Transportes")}
@@ -577,7 +567,7 @@ for pasta, titulo, texto in [
     ("Aeromóvel", "Aeromóvel", "Viaduto de concreto de 1983 com vagões leves empurrados por ar comprimido (projeto Coester, demonstração de 1978 no [[Passo D'Areia]]; [[Inauguração da Malha de Transporte Aeromóvel]]). Compressores da [[Companhia Estadual de Energia Elétrica|CEEE]] em subestações ao longo da via — prioridade absoluta: corta a periferia antes de cortar o trilho. Duas linhas populares, uma executiva e um ramal morto; cada estação é um [[Porto Alegre|Ponto de Interesse]] no mapa da cidade."),
     ("Ônibus", "Ônibus", "Carroceria Marcopolo Torino de 1983 sobre chassi Mercedes OF-1313, sem peça de reposição há dois anos (a [[Marcopolo]] prioriza os 50 anfíbios contratados pra malha). Cobrador com validador TRI na roleta; quem paga em dinheiro paga pro cobrador e viaja em pé na porta. **Como as linhas se chamam:** radiais levam o nome do bairro de ponta (SARANDI, PETRÓPOLIS, NAVEGANTES, ITU) ou o número da zona (3xx = zona sul pelo Guaíba: 343, 353); **D** na frente é a direta (D43); **T** são as transversais que cruzam a cidade sem passar pelo Centro; **B** é o circular de bairro; **A** é o anfíbio; UFRGS–BARRA é a única linha com dois nomes. O ponto de ônibus é uma placa torta com o nome da linha pintado à mão e um banco de concreto."),
     ("Lotação", "Lotação", "Duas lotações que não se cruzam: a **VIP** das concessionárias — van Marcopolo de doze poltronas, ar-condicionado e rádio [[Embratel]] que abre a sinaleira, [[TRI Ouro]] pra cima — e a **Kombi clandestina** das cooperativas de bairro, que sai quando enche, para onde gritam e não aceita TRI ([[Lotação Clandestina]]: Cz$ 80 na mão, o dobro depois das 23h). Depois do toque de recolher, só a Kombi roda."),
-    ("Água", "Água", "O [[Lago Guaíba]] é estrada, fronteira e despensa: a balsa de carga da [[Zaffari]] (fiscalizada, pontual, sem banco), a lancha executiva da [[Gradiente]] (convite) e o bote de alumínio da [[Aliança Livre das Palafitas]] (chega em qualquer lugar, cobra em cruzado, dólar ou dose). A patrulha fluvial da [[Brigada Militar Metropolitana]] — lanchas verde-oliva com holofote, duas por turno desde os ataques ao [[Porto Novo]] — não é transporte, mas está na água: para barqueiro, revista bote, cobra."),
+    ("Água", "Água", "O [[Lago Guaíba]] é estrada, fronteira e despensa. Coletivo mesmo, só a balsa de carga da [[Zaffari]] (fiscalizada, pontual, sem banco). O bote de alumínio da [[Aliança Livre das Palafitas]] ([[Lancha do Barqueiro]]: chega em qualquer lugar, cobra em cruzado, dólar ou dose) e a lancha da [[Gradiente]] (convite) são corrida, não linha. A patrulha fluvial da [[Brigada Militar Metropolitana]] — lanchas verde-oliva com holofote, duas por turno desde os ataques ao [[Porto Novo]] — não é transporte, mas está na água: para barqueiro, revista bote, cobra."),
     ("Informal", "Informal", "O que roda sem letreiro: a caravana da [[Camisa 12]] em dia de jogo — a única com rota fixa. O resto não é linha: a carona no caminhão de coleta do [[Sindicato dos Catadores]] ([[Carona no Caminhão do Sindicato]], Zona Deserta e Restinga, fora da malha), as [[Carroça com Cavalo|carroças]] do [[Curral do Sindicato]] por onde caminhão não passa, o [[Táxi Gurgel]] dos pontos de táxi (Cz$ 300 + Cz$ 100/km, noite ×1,5, Gre-Nal ×3, [[TRI Platina]] conveniado) e a bicicleta de quem não tem plano — a ladeira da Independência é o inimigo."),
 ]:
     escrever(os.path.join(MALHA, pasta, f"{titulo}.md"), f"# {titulo}\n\n{texto}\n\n" + dv(f"Contexto/Malha de Transportes/{pasta}") + "\n")
@@ -600,12 +590,12 @@ Cada linha é uma nota em [[Malha de Transportes]] (paradas em ordem, acesso, ta
 Ao sul da Praia de Belas **não há malha**: a Restinga, a Zona Deserta e a orla se alcançam a pé, de carona no caminhão do Sindicato ([[Carona no Caminhão do Sindicato]]) ou de barco pago na mão — só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]].
 | De \\ Para | Centro | Moinhos / Ipanema | Nova Sarandi / Passo | Zona Leste / Costa e Silva | Cidade Baixa / Porto |
 |---|---|---|---|---|---|
-| [[A Pé]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DA ZONA LESTE\\|Kombi da Zona Leste]] | [[ROTA DO BARQUEIRO\\|barqueiro]] (dose) |
+| [[A Pé]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DA ZONA LESTE\\|Kombi da Zona Leste]] | [[Lancha do Barqueiro\\|barqueiro]] (dose) |
 | [[TRI Bronze]] | [[SARANDI — CENTRO\\|SARANDI]] / [[ITU — CENTRO\\|ITU]] / [[ASSIS BRASIL — CENTRO\\|ASSIS BRASIL]] no turno | não | SARANDI, [[T3 VILA MILITAR — SARANDI\\|T3]] no turno | [[T2 ZONA LESTE — BEIRA-RIO\\|T2]] / T3 / [[B23 ZONA LESTE\\|B23]] no turno | não |
 | [[TRI Prata]] | ônibus + [[L1 POPULAR NORTE\\|L1]] / [[L2 POPULAR SUL\\|L2]] + [[A1 CENTRO ALAGADO\\|A1]] | [[T4 SARANDI — MOINHOS\\|T4]] / [[T6 CIRCULAR NOBRE\\|T6]] (com cara feia); Ipanema não | L1, ASSIS BRASIL, [[T1 SARANDI — PORTO NOVO\\|T1]] | T2 / T3 | [[A2 CIDADE BAIXA — CENTRO\\|A2]], [[343 BEIRA-RIO\\|343]], [[UFRGS — BARRA\\|UFRGS]], L2 |
 | [[TRI Ouro]] | + [[VIP NORTE]] / [[VIP PORTO]] / [[VIP LESTE]] | VIP Norte; Ipanema não | VIP Norte | VIP Leste, T2 / T3 | VIP Porto |
 | [[TRI Platina]] | [[LINHA EXECUTIVA]] + [[Táxi Gurgel\\|táxi]] | Linha Executiva até Ipanema | táxi | táxi (o motorista reclama) | Linha Executiva (Praia de Belas) |
-| [[Carro com Motorista]] | motorista (e o TRI Platina no bolso) | motorista ou [[LANCHA EXECUTIVA]] | motorista com escolta | motorista com escolta | motorista |
+| [[Carro com Motorista]] | motorista (e o TRI Platina no bolso) | motorista ou a lancha da Gradiente | motorista com escolta | motorista com escolta | motorista |
 {FIM}"""
 s = open(TM, encoding="utf-8").read()
 if INI in s:
@@ -622,12 +612,12 @@ if alvo in s and "[[Malha de Transportes]]" not in s:
     s = s.replace(alvo, "o contexto em [[Transporte e Mobilidade]]; as linhas, parada a parada, em [[Malha de Transportes]].")
     open(CV, "w", encoding="utf-8").write(s)
 for plano, frase in [
-    ("A Pé", "Sem TRI, o que roda é o que não aceita TRI: as Kombis ([[Lotação]]), a [[ROTA DO BARQUEIRO]] e a carona no caminhão do Sindicato ([[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]]."),
+    ("A Pé", "Sem TRI, o coletivo que roda é o que não aceita TRI: as Kombis ([[Lotação]]) e a [[BALSA ZAFFARI]]; barqueiro e caminhão do Sindicato são corrida ([[Lancha do Barqueiro]], [[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]]."),
     ("TRI Bronze", "As linhas onde o bronze funciona no turno — [[SARANDI — CENTRO]], [[ASSIS BRASIL — CENTRO]], [[ITU — CENTRO]], [[T2 ZONA LESTE — BEIRA-RIO]], [[T3 VILA MILITAR — SARANDI]], [[B23 ZONA LESTE]] — estão em [[Malha de Transportes]]."),
     ("TRI Prata", "Todas as linhas de [[Ônibus]] (inclusive anfíbios) e o [[Aeromóvel]] popular ([[L1 POPULAR NORTE]], [[L2 POPULAR SUL]]): [[Malha de Transportes]]."),
     ("TRI Ouro", "Além de tudo do Prata, as lotações [[VIP NORTE]], [[VIP PORTO]] e [[VIP LESTE]]: [[Malha de Transportes]]."),
-    ("TRI Platina", "Abre a [[LINHA EXECUTIVA]] do Aeromóvel, a [[LANCHA EXECUTIVA]] (com convite) e o táxi conveniado; o resto da malha em [[Malha de Transportes]]."),
-    ("Carro com Motorista", "Quem tem motorista não pega linha — mas o [[TRI Platina]] vem no bolso: [[LINHA EXECUTIVA]], [[LANCHA EXECUTIVA]] e o resto em [[Malha de Transportes]]."),
+    ("TRI Platina", "Abre a [[LINHA EXECUTIVA]] do Aeromóvel (e o táxi conveniado, que não é linha); o resto da malha em [[Malha de Transportes]]."),
+    ("Carro com Motorista", "Quem tem motorista não pega linha — mas o [[TRI Platina]] vem no bolso: [[LINHA EXECUTIVA]] e o resto em [[Malha de Transportes]]."),
 ]:
     p = os.path.join(REC, "Transporte", f"{plano}.md"); s = open(p, encoding="utf-8").read()
     if "[[Malha de Transportes]]" in s:
@@ -699,7 +689,7 @@ if not any(i.get("type") == "Estação" for i in d["markerIcons"]):
 
 
 # ═══════════════════════ 6b. REMOÇÕES (revisão do mestre) ═══════════════════════
-for rel in ["Ônibus/D43 IPANEMA DIRETA", "Ônibus/353 RESTINGA", "Ônibus/SERRARIA — CENTRO", "Ônibus/PONTA GROSSA — RESTINGA", "Ônibus/343 IPANEMA", "Ônibus/T1 SARANDI — IPANEMA", "Lotação/VIP SUL", "Informal/CAMINHÃO DO SINDICATO"]:
+for rel in ["Água/LANCHA EXECUTIVA", "Água/ROTA DO BARQUEIRO", "Ônibus/D43 IPANEMA DIRETA", "Ônibus/353 RESTINGA", "Ônibus/SERRARIA — CENTRO", "Ônibus/PONTA GROSSA — RESTINGA", "Ônibus/343 IPANEMA", "Ônibus/T1 SARANDI — IPANEMA", "Lotação/VIP SUL", "Informal/CAMINHÃO DO SINDICATO"]:
     p = os.path.join(MALHA, rel + ".md")
     if os.path.exists(p): os.remove(p); print("removida:", rel)
 for rel in ["Restinga/Serraria", "Zona Deserta/Ponta Grossa"]:
@@ -716,7 +706,7 @@ bloco = "```malha\n" + "".join(f"parada: {n}, {x}, {y}, {r}\n" for n, x, y, r in
 INI2, FIM2 = "<!-- malha-mapa:inicio -->", "<!-- malha-mapa:fim -->"
 secao2 = f"""{INI2}
 ## Mapa esquemático
-O app desenha a malha como mapa de metrô a partir das **posições** abaixo (grade: x cresce pro leste, y pro norte; entre duas paradas consecutivas o traço faz a parte diagonal e a parte reta). Parada compartilhada por duas linhas = **baldeação**. Ao sul da Praia de Belas não há malha: só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]].
+O app desenha a malha como mapa de metrô a partir das **posições** abaixo (grade: x cresce pro leste, y pro norte; entre duas paradas consecutivas o traço faz a parte diagonal e a parte reta). Parada compartilhada por duas linhas = **baldeação**. Ao sul da Praia de Belas não há malha: só a [[LINHA EXECUTIVA]] desce até [[Estação Ipanema|Ipanema]]. Táxi, carro, barqueiro e a lancha da Gradiente não entram — isto é o transporte coletivo.
 {bloco}
 {FIM2}"""
 if INI2 in h: h = re.sub(re.escape(INI2) + r".*?" + re.escape(FIM2), lambda _: secao2, h, flags=re.S)
