@@ -171,13 +171,12 @@ export interface Desenho {
   tracos: TracoDesenhado[]
   paradas: ParadaDesenhada[]
 }
-/** Zona de um bairro: caixa que envolve as paradas dele (px). */
+/** Zona de um bairro: as CÉLULAS da grade (centros em px) que ficam mais
+ *  perto de uma parada dele — território sem sobreposição — e onde vai o nome. */
 export interface ZonaBairro {
   nome: string
-  x: number
-  y: number
-  w: number
-  h: number
+  celulas: { x: number; y: number }[]
+  rotulo: { x: number; y: number }
   paradas: string[]
 }
 
@@ -290,26 +289,51 @@ export function desenharMalha(
   }
 }
 
-/** Bairros no mapa esquemático: uma zona por bairro envolvendo as paradas
- *  dele (caixa das paradas + folga de meia célula). `bairroDe` vem do Atlas
- *  (a pasta/Geolocalização da parada); parada sem bairro fica fora. */
-export function zonasDeBairro(desenho: Desenho, bairroDe: (parada: string) => string | null, folga = 0.5): ZonaBairro[] {
-  const grupos = new Map<string, ParadaDesenhada[]>()
-  for (const p of desenho.paradas) {
-    const b = bairroDe(p.nome)
-    if (!b) continue
-    grupos.set(b, [...(grupos.get(b) ?? []), p])
+/** Bairros no mapa esquemático (2026-09-08b): cada célula da grade num raio
+ *  de `alcance` células de alguma parada pertence ao bairro da parada MAIS
+ *  PRÓXIMA — territórios contíguos, sem sobreposição (antes eram caixas em
+ *  volta das paradas: uma caixa grande engolia paradas de outro bairro e um
+ *  bairro de uma parada só ficava invisível). `bairroDe` vem do Atlas (a
+ *  pasta da parada); parada sem bairro não reivindica célula. O nome vai no
+ *  centro das células. */
+export function zonasDeBairro(desenho: Desenho, bairroDe: (parada: string) => string | null, alcance = 1.5): ZonaBairro[] {
+  const u = desenho.unidade
+  if (!u || !desenho.paradas.length) return []
+  const paradas = desenho.paradas.map((p) => ({ p, bairro: bairroDe(p.nome) })).filter((x): x is { p: ParadaDesenhada; bairro: string } => !!x.bairro)
+  if (!paradas.length) return []
+  // grade em px: as paradas estão em centros de célula (cx = origem + i·u)
+  const x0 = Math.min(...paradas.map((x) => x.p.cx))
+  const y0 = Math.min(...paradas.map((x) => x.p.cy))
+  const cols = Math.round((Math.max(...paradas.map((x) => x.p.cx)) - x0) / u)
+  const rows = Math.round((Math.max(...paradas.map((x) => x.p.cy)) - y0) / u)
+  const zonas = new Map<string, ZonaBairro>()
+  for (let i = -1; i <= cols + 1; i++) {
+    for (let j = -1; j <= rows + 1; j++) {
+      const cx = x0 + i * u
+      const cy = y0 + j * u
+      let melhor: { p: ParadaDesenhada; bairro: string } | null = null
+      let d0 = Infinity
+      for (const x of paradas) {
+        const d = Math.hypot(x.p.cx - cx, x.p.cy - cy) / u
+        if (d < d0) {
+          d0 = d
+          melhor = x
+        }
+      }
+      if (!melhor || d0 > alcance) continue
+      const z = zonas.get(melhor.bairro) ?? { nome: melhor.bairro, celulas: [], rotulo: { x: 0, y: 0 }, paradas: [] }
+      z.celulas.push({ x: cx, y: cy })
+      zonas.set(melhor.bairro, z)
+    }
   }
-  const f = desenho.unidade * folga
-  return [...grupos]
-    .map(([nome, ps]) => {
-      const xs = ps.map((p) => p.cx)
-      const ys = ps.map((p) => p.cy)
-      const x = Math.min(...xs) - f
-      const y = Math.min(...ys) - f
-      return { nome, x, y, w: Math.max(...xs) + f - x, h: Math.max(...ys) + f - y, paradas: ps.map((p) => p.nome) }
-    })
-    .sort((a, b) => b.w * b.h - a.w * a.h) // maiores por baixo
+  for (const z of zonas.values()) {
+    z.paradas = paradas.filter((x) => x.bairro === z.nome).map((x) => x.p.nome)
+    // rótulo: a célula mais alta (menor y) e, entre elas, a mais à esquerda
+    const topo = Math.min(...z.celulas.map((c) => c.y))
+    const linhaTopo = z.celulas.filter((c) => c.y === topo)
+    z.rotulo = { x: Math.min(...linhaTopo.map((c) => c.x)) - u / 2 + 6, y: topo - u / 2 + 14 }
+  }
+  return [...zonas.values()].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
 }
 
 /** Parada a parada de uma linha, com as outras linhas de cada parada (baldeação). */

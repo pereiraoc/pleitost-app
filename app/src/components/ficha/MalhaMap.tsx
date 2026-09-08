@@ -141,8 +141,10 @@ export function MalhaMap({
                   const tom = tomDoBairro(i)
                   return (
                     <g key={z.nome} data-bairro={z.nome}>
-                      <rect x={z.x} y={z.y} width={z.w} height={z.h} rx={14} fill={tom.fill} fillOpacity={0.55} stroke={tom.stroke} strokeWidth={1.2} strokeDasharray="5 4" />
-                      <text x={z.x + 9} y={z.y + 15} fontSize={10.5} fontWeight={700} letterSpacing=".12em" fill={PAPEL.bairro} style={{ paintOrder: 'stroke', stroke: PAPEL.halo, strokeWidth: 3, strokeLinejoin: 'round' }}>
+                      {z.celulas.map((c) => (
+                        <rect key={`${c.x},${c.y}`} x={c.x - desenho.unidade / 2} y={c.y - desenho.unidade / 2} width={desenho.unidade + 0.6} height={desenho.unidade + 0.6} fill={tom.fill} fillOpacity={0.6} />
+                      ))}
+                      <text x={z.rotulo.x} y={z.rotulo.y} fontSize={10.5} fontWeight={700} letterSpacing=".12em" fill={tom.stroke} style={{ paintOrder: 'stroke', stroke: PAPEL.halo, strokeWidth: 3, strokeLinejoin: 'round' }}>
                         {z.nome.toUpperCase()}
                       </text>
                     </g>

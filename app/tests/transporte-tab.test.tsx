@@ -105,7 +105,8 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     // bairros: por trás das linhas, ligados pelo botão
     expect(document.querySelector('[data-malha-mapa] g[data-bairro]')).toBeNull()
     fireEvent.click(document.querySelector('[data-malha-mapa] [data-bairros]') as HTMLElement)
-    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Nova Sarandi"]')).not.toBeNull()
+    expect(document.querySelectorAll('[data-malha-mapa] g[data-bairro="Nova Sarandi"] rect').length).toBeGreaterThan(3)
+    expect(document.querySelectorAll('[data-malha-mapa] g[data-bairro="Jardim Botânico"] rect').length).toBeGreaterThan(3) // uma parada só, mas visível
     expect(document.querySelector('[data-malha-mapa] g[data-bairro="Zona Leste"] text')?.textContent).toBe('ZONA LESTE')
     // legenda: a Kombi mostra o traço pontilhado, o VALOR como chip e a nota de pagamento embaixo
     const kombi = document.querySelector('[data-legenda] [data-modo="Kombi"]') as HTMLElement

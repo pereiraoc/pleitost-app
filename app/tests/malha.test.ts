@@ -3,7 +3,7 @@
 // baldeação = parada com ≥ 2 linhas visíveis, filtro por nível do plano.
 import { describe, expect, it } from 'vitest'
 import type { VaultDoc } from '../src/data/types'
-import { caminhoDaLinha, desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, tracarPasso, type TransporteCfg } from '../src/transporte/malha'
+import { caminhoDaLinha, desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, tracarPasso, zonasDeBairro, type TransporteCfg } from '../src/transporte/malha'
 
 const cfg: TransporteCfg = {
   categoria: 'Linha',
@@ -86,5 +86,23 @@ describe('montarMalha + desenho', () => {
   it('paradasComBaldeacao lista as outras linhas de cada parada', () => {
     const L1 = malha.linhas.find((l) => l.nome === 'L1')!
     expect(paradasComBaldeacao(malha, L1).map((p) => [p.nome, p.baldeacoes.map((b) => b.nome)])).toEqual([['A', ['KOMBI']], ['B', ['KOMBI', 'VIP']], ['C', ['VIP']]])
+  })
+})
+
+describe('zonasDeBairro', () => {
+  it('células vão pro bairro da parada mais próxima: sem sobreposição; bairro de uma parada tem área', () => {
+    const malha = montarMalha([mapa, l1, kombi, vip, ramal], cfg, nivel)
+    const d = desenharMalha(malha, linhasDoNivel(malha, 6), { unidade: 10, margem: 0, margemRotulo: 0 })
+    // A e B (3 células de distância) em bairros diferentes; C sozinho no seu
+    const zonas = zonasDeBairro(d, (n) => (n === 'A' ? 'Oeste' : n === 'B' || n === 'E' ? 'Leste' : n === 'C' ? 'Norte' : null))
+    expect(zonas.map((z) => z.nome)).toEqual(['Leste', 'Norte', 'Oeste'])
+    const todas = zonas.flatMap((z) => z.celulas.map((c) => `${c.x},${c.y}`))
+    expect(new Set(todas).size).toBe(todas.length) // nenhuma célula em dois bairros
+    const norte = zonas.find((z) => z.nome === 'Norte')!
+    expect(norte.celulas.length).toBeGreaterThanOrEqual(5) // uma parada só, mas com território
+    expect(norte.paradas).toEqual(['C'])
+    // a célula da própria parada é do bairro dela
+    const A = d.paradas.find((p) => p.nome === 'A')!
+    expect(zonas.find((z) => z.nome === 'Oeste')!.celulas.some((c) => c.x === A.cx && c.y === A.cy)).toBe(true)
   })
 })
