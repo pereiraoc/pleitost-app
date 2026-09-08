@@ -162,8 +162,18 @@ describe('planejador de trajeto', () => {
     montar()
     await screen.findByText('// TRAJETO', {}, { timeout: 20000 })
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
-    fireEvent.change(document.querySelector('[data-origem]') as HTMLInputElement, { target: { value: 'Estação Zaffari' } })
-    fireEvent.change(document.querySelector('[data-destino]') as HTMLInputElement, { target: { value: 'Estação Jardim Botânico' } })
+    // seletores hierárquicos (como a naturalidade): cabeçalho do bairro desabilitado, parada indentada embaixo
+    const de = screen.getByLabelText('De onde') as HTMLSelectElement
+    const opcoes = Array.from(de.options)
+    const iSarandi = opcoes.findIndex((o) => o.textContent?.trim() === 'Nova Sarandi' && o.disabled)
+    const iZaffari = opcoes.findIndex((o) => o.value === 'Estação Zaffari')
+    expect(iSarandi).toBeGreaterThan(0)
+    expect(iZaffari).toBeGreaterThan(iSarandi)
+    expect(opcoes[iZaffari]!.textContent!.startsWith('\u00a0\u00a0')).toBe(true)
+    expect(opcoes.some((o) => o.textContent?.trim() === 'Porto Alegre' && o.disabled)).toBe(true)
+    expect(opcoes.some((o) => o.value === 'Estação Ipanema')).toBe(false) // fora da vista Prata
+    fireEvent.change(de, { target: { value: 'Estação Zaffari' } })
+    fireEvent.change(screen.getByLabelText('Pra onde') as HTMLSelectElement, { target: { value: 'Estação Jardim Botânico' } })
     const rotas = document.querySelectorAll('[data-rotas] > li')
     expect(rotas.length).toBeGreaterThan(0)
     expect(rotas.length).toBeLessThanOrEqual(3)
@@ -175,6 +185,11 @@ describe('planejador de trajeto', () => {
     expect(primeira.textContent).toContain('L1 POPULAR NORTE')
     expect(primeira.textContent).toContain('L2 POPULAR SUL')
     expect(primeira.textContent).toContain('1 baldeação')
+    // itinerário passo a passo: A, perna por perna com "desce em", baldeação, B
+    expect(primeira.querySelectorAll('[data-itinerario] [data-perna]').length).toBe(2)
+    expect(primeira.querySelectorAll('[data-passo="baldeacao"]').length).toBe(1)
+    expect(primeira.textContent).toContain('desce em Estação Central')
+    expect(primeira.textContent).toContain('espera')
     // as rotas vêm em ordem de tempo
     const tempos = Array.from(document.querySelectorAll('[data-rotas] [data-minutos]')).map((e) => Number(e.getAttribute('data-minutos')))
     expect([...tempos].sort((a, b) => a - b)).toEqual(tempos)

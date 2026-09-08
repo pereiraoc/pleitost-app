@@ -19,6 +19,8 @@ import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, zonasDe
 import { MalhaMap, TracoAmostra, type Destaque } from './MalhaMap'
 import { formatValorMoeda } from '../../data/moeda'
 import { calcularRotas, formatarMinutos, type PosicaoReal, type Rota } from '../../transporte/rotas'
+import { paradasSelectLines } from '../../transporte/paradas-select'
+import { BoxSelect } from './PerfilTab'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
@@ -38,6 +40,63 @@ function AcessoNota({ l }: { l: LinhaMalha }) {
     <div data-nota-acesso="" style={{ ...MONO, fontSize: 10, letterSpacing: '.06em', textTransform: 'none', marginTop: 2 }}>
       {l.acesso}
     </div>
+  )
+}
+
+/** Itinerário passo a passo de uma rota (estilo Google Maps): embarque e
+ *  espera, a linha com os trechos e o tempo, onde descer, baldeação. Cada
+ *  perna tem a barra na cor da linha; as paradas intermediárias vão em nota. */
+function Itinerario({ rota, origem, destino }: { rota: Rota; origem: string | null; destino: string | null }) {
+  const passo: CSSProperties = { display: 'flex', gap: 10, alignItems: 'flex-start' }
+  const ponta = (letra: string) => (
+    <span aria-hidden style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--text)', color: 'var(--panel)', fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flex: 'none', marginTop: 1 }}>
+      {letra}
+    </span>
+  )
+  return (
+    <ol data-itinerario="" style={{ listStyle: 'none', margin: '8px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <li style={passo} data-passo="embarque">
+        {ponta('A')}
+        <span>
+          <b style={{ fontSize: 12.5 }}>{origem}</b>
+          <span style={{ ...MONO, marginLeft: 8 }}>{`espera ${formatarMinutos(rota.pernas[0]?.espera ?? 0)}`}</span>
+        </span>
+      </li>
+      {rota.pernas.map((pe, k) => {
+        const meio = pe.paradas.slice(1, -1)
+        const desce = pe.paradas[pe.paradas.length - 1]
+        return (
+          <li key={`${k}:${pe.linha.id}`} data-perna={pe.linha.id} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ ...passo, borderLeft: `5px solid ${pe.linha.cor}`, paddingLeft: 10, marginLeft: 6 }}>
+              <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+                <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <TracoAmostra cor={pe.linha.cor} traco={pe.linha.traco} largura={pe.linha.largura} />
+                  <b style={{ fontSize: 12.5 }}>{pe.linha.nome}</b>
+                  <span style={MONO}>{pe.linha.modo}</span>
+                </span>
+                <span style={{ fontSize: 12.5 }}>
+                  {`${pe.paradas.length - 1} ${pe.paradas.length - 1 === 1 ? 'trecho' : 'trechos'} · ${formatarMinutos(pe.viagem)}`}
+                  {meio.length ? <span style={{ color: 'var(--muted)' }}>{` · via ${meio.join(', ')}`}</span> : null}
+                </span>
+                <span style={{ fontSize: 12.5 }}>
+                  {'desce em '}
+                  <b>{desce}</b>
+                </span>
+              </span>
+            </div>
+            {k < rota.pernas.length - 1 ? (
+              <div style={{ ...passo, marginLeft: 6, paddingLeft: 10, borderLeft: '5px dotted var(--line2)' }} data-passo="baldeacao">
+                <span style={{ ...MONO, textTransform: 'none' }}>{`baldeação ${formatarMinutos(rota.pernas[k + 1]!.baldeacao)} · espera ${formatarMinutos(rota.pernas[k + 1]!.espera)} pela ${rota.pernas[k + 1]!.linha.nome}`}</span>
+              </div>
+            ) : null}
+          </li>
+        )
+      })}
+      <li style={passo} data-passo="chegada">
+        {ponta('B')}
+        <b style={{ fontSize: 12.5 }}>{destino}</b>
+      </li>
+    </ol>
   )
 }
 
@@ -148,7 +207,14 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
       setDestino(null)
     } else if (nome !== origem) setDestino(nome)
   }
-  const nomesParadas = desenho.paradas.map((p) => p.nome).sort((a, b) => a.localeCompare(b, 'pt-BR'))
+  // DE/PARA: seletor hierárquico do Atlas (como a naturalidade), só com as paradas da vista
+  const opcoesSelect = paradasSelectLines(desenho.paradas.map((p) => ({ nome: p.nome, id: idDe(p.nome) ?? p.nome }))).map((l, i) => ({ value: l.value === null ? `__h${i}` : l.value, label: l.label, disabled: l.disabled }))
+  const caixa = (icone: string, valor: string | null) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(8) }}>
+      <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${icone} ${valor || '—'}`}</span>
+      <span style={{ color: 'var(--muted)' }}>▾</span>
+    </div>
+  )
   const linhaSel = selecionada ? malha.linhas.find((l) => l.id === selecionada) ?? null : null
   const fechadas = malha.linhas.filter((l) => l.fechada)
   // legenda AGRUPADA por modo, na ordem dos modos do contexto
@@ -216,19 +282,14 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         <section style={BOX} data-planejador="">
           <div style={MONO}>{'// TRAJETO'}</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginTop: 8 }}>
-            <label style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 200px' }}>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 220px', minWidth: 0 }} data-origem="">
               <span style={{ ...MONO, minWidth: 36 }}>DE</span>
-              <input list="malha-paradas" data-origem="" value={origem ?? ''} placeholder="parada de origem" onChange={(e) => { setOrigem(e.target.value || null); setRotaSel(0) }} style={{ flex: 1, minWidth: 0, font: 'inherit', padding: '5px 8px', background: 'transparent', border: '1px solid var(--line2)', color: 'inherit' }} />
-            </label>
-            <label style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 200px' }}>
+              <BoxSelect ariaLabel="De onde" display={caixa('🚏', origem)} options={opcoesSelect} value={origem ?? ''} onChange={(v) => { setOrigem(v || null); setRotaSel(0) }} />
+            </div>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 220px', minWidth: 0 }} data-destino="">
               <span style={{ ...MONO, minWidth: 36 }}>PARA</span>
-              <input list="malha-paradas" data-destino="" value={destino ?? ''} placeholder="parada de destino" onChange={(e) => { setDestino(e.target.value || null); setRotaSel(0) }} style={{ flex: 1, minWidth: 0, font: 'inherit', padding: '5px 8px', background: 'transparent', border: '1px solid var(--line2)', color: 'inherit' }} />
-            </label>
-            <datalist id="malha-paradas">
-              {nomesParadas.map((n) => (
-                <option key={n} value={n} />
-              ))}
-            </datalist>
+              <BoxSelect ariaLabel="Pra onde" display={caixa('🏁', destino)} options={opcoesSelect} value={destino ?? ''} onChange={(v) => { setDestino(v || null); setRotaSel(0) }} />
+            </div>
             <button type="button" data-inverter="" aria-label="Inverter origem e destino" onClick={() => { setOrigem(destino); setDestino(origem); setRotaSel(0) }} style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent' }}>
               ⇄
             </button>
@@ -271,16 +332,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                           <span style={MONO}>{baldeacoes === 0 ? 'direto' : baldeacoes === 1 ? '1 baldeação' : `${baldeacoes} baldeações`}</span>
                           <span style={MONO}>{`${r.km.toLocaleString('pt-BR')} km`}</span>
                         </div>
-                        <ol style={{ margin: '6px 0 0', paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                          {r.pernas.map((pe, k) => (
-                            <li key={`${k}:${pe.linha.id}`} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                              <TracoAmostra cor={pe.linha.cor} traco={pe.linha.traco} largura={pe.linha.largura} />
-                              <b style={{ fontSize: 12.5 }}>{pe.linha.nome}</b>
-                              <span style={{ fontSize: 12.5 }}>{`${pe.paradas[0]} → ${pe.paradas[pe.paradas.length - 1]}`}</span>
-                              <span style={MONO}>{`${pe.paradas.length - 1} ${pe.paradas.length - 1 === 1 ? 'trecho' : 'trechos'} · ${formatarMinutos(pe.viagem)} · espera ${formatarMinutos(pe.espera)}${pe.baldeacao ? ` · baldeação ${formatarMinutos(pe.baldeacao)}` : ''}`}</span>
-                            </li>
-                          ))}
-                        </ol>
+                        <Itinerario rota={r} origem={origem} destino={destino} />
                       </button>
                     </li>
                   )

@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import type { VaultDoc } from '../src/data/types'
 import { montarMalha } from '../src/transporte/malha'
 import { calcularRotas, distanciaKm, formatarMinutos, tempoNaLinha, type Parametros, type TransporteCfg } from '../src/transporte/rotas'
+import { paradasSelectLines } from '../src/transporte/paradas-select'
 
 const cfg: TransporteCfg = {
   categoria: 'Linha',
@@ -79,5 +80,26 @@ describe('calcularRotas', () => {
   it('formatarMinutos', () => {
     expect(formatarMinutos(35)).toBe('35 min')
     expect(formatarMinutos(65)).toBe('1h05')
+  })
+})
+
+describe('paradasSelectLines', () => {
+  it('árvore do Atlas só com paradas: cabeçalhos desabilitados, nota de lugar que é parada selecionável, ramo vazio some', () => {
+    const linhas = paradasSelectLines([
+      { nome: 'Estação Central', id: 'Atlas/Porto Alegre/Centro Histórico/Estação Central' },
+      { nome: 'Trapiche', id: 'Atlas/Porto Alegre/Centro Histórico/Cidade Baixa/Trapiche' },
+      { nome: 'Delta Radioativo', id: 'Atlas/Porto Alegre/Delta Radioativo/Delta Radioativo' },
+    ])
+    // indentação com NBSP (2 por nível), como no seletor de naturalidade — o <option> preserva
+    const i = (n: number) => '\u00a0\u00a0'.repeat(n)
+    expect(linhas.map((l) => [l.label, l.value, l.disabled])).toEqual([
+      ['—', '', false],
+      ['Porto Alegre', null, true],
+      [`${i(1)}Centro Histórico`, null, true],
+      [`${i(2)}Cidade Baixa`, null, true],
+      [`${i(3)}Trapiche`, 'Trapiche', false],
+      [`${i(2)}Estação Central`, 'Estação Central', false],
+      [`${i(1)}Delta Radioativo`, 'Delta Radioativo', false],
+    ])
   })
 })
