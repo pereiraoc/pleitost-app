@@ -627,7 +627,86 @@ for plano, frase in [
     open(p, "w", encoding="utf-8").write(s)
 
 # ═══════════════════════ 6. MARCADORES NO MAPA DA CIDADE ═══════════════════════
-# (tipo, lat, long, nome) — lat cresce pro NORTE, long pro LESTE (bounds [[0,0],[1170,850]]).
+
+# ── COORDENADAS REAIS (latitude, longitude) de cada parada ──
+# O mapa da vault é o município real com a grade desenhada; georreferência da
+# imagem (850×1170): 51°10'W em x=390, 51°0'W em x=752 (2172 px/grau);
+# 30°0'S em y=218, 30°10'S em y=634, 30°20'S em y=1052 (2502 px/grau).
+# Marco REAL (Mercado Público, Beira-Rio, Iguatemi, Parcão, Redenção, Usina…)
+# fica na coordenada real; lugar FICTÍCIO fica dentro da zona colorida que o
+# mestre desenhou pro bairro dele (Petrópolis, Jardim Itu, Costa e Silva e
+# Nova Sarandi do mestre não coincidem com os bairros reais). O planejador
+# mede distância por estes marcadores × scale (45,6 m/unidade).
+GEO_LON0, GEO_X0, GEO_PXLON = -51.0, 752.0, 2172.0
+GEO_LAT0, GEO_Y0, GEO_PXLAT = -30.0, 218.0, 2502.0
+def geo_px(lat, lon):
+    x = GEO_X0 + (lon - GEO_LON0) * GEO_PXLON
+    y = GEO_Y0 + (GEO_LAT0 - lat) * GEO_PXLAT
+    return round(1170 - y, 1), round(x, 1)   # (lat do leaflet = y pra cima, long = x)
+COORDS = {
+ "Estação Central": (-30.0272, -51.2295),
+ "Praça da Alfândega": (-30.0302, -51.2300),
+ "Estação Centro Corporativo": (-30.0306, -51.2310),
+ "Galeria Malcom": (-30.0290, -51.2265),
+ "Galeria do Rosário": (-30.0283, -51.2245),
+ "Duque de Caxias": (-30.0330, -51.2300),
+ "Salgado Filho": (-30.0305, -51.2255),
+ "Viaduto da Borges": (-30.0322, -51.2275),
+ "Trapiche da Aliança": (-30.0405, -51.2230),
+ "Lancheria da Cidade Baixa": (-30.0385, -51.2195),
+ "Estação Cidade Baixa": (-30.0398, -51.2215),
+ "Estação Independência": (-30.0300, -51.2155),
+ "Colégio Rosário": (-30.0298, -51.2175),
+ "Armazém Sarmento Leite": (-30.0355, -51.2225),
+ "Redenção": (-30.0378, -51.2199),
+ "Bar Ocidente": (-30.0348, -51.2135),
+ "Pensão Farroupilha": (-30.0335, -51.2110),
+ "Estação Moinhos": (-30.0270, -51.2020),
+ "Padre Chagas": (-30.0255, -51.2058),
+ "Estação Concorde": (-30.0258, -51.1945),
+ "Farrapos": (-30.0115, -51.2065),
+ "Teatro Quarto Distrito": (-30.0075, -51.2010),
+ "Velha Indústria": (-30.0020, -51.1960),
+ "Ponto da Kombi da Voluntários": (-30.0060, -51.2030),
+ "Estação Zaffari": (-29.9745, -51.1250),
+ "Estação Sarandi": (-29.9800, -51.1295),
+ "Rua da Sarandi": (-29.9835, -51.1350),
+ "Estação Passo D'Areia": (-30.0055, -51.1700),
+ "Estação Nogueiras": (-30.0090, -51.1740),
+ "Boteco Embaixo da Via": (-30.0070, -51.1715),
+ "Posto Ipiranga da Assis Brasil": (-30.0010, -51.1600),
+ "Shopping Iguatemi": (-30.0254, -51.1623),
+ "Concessionária Gurgel": (-29.9975, -51.1480),
+ "Motel Assis Brasil": (-29.9940, -51.1420),
+ "Rua da Antiga Indústria": (-30.0185, -51.1525),
+ "Fábrica Itú Química": (-30.0160, -51.1480),
+ "Ponto da Kombi do Itu": (-30.0215, -51.1560),
+ "Parque Moinhos": (-30.0345, -51.1350),
+ "Galeteria de Petrópolis": (-30.0330, -51.1410),
+ "Sede da Tramontina": (-30.0380, -51.1280),
+ "Estação Jardim Botânico": (-30.0515, -51.1760),
+ "Usina do Gasômetro": (-30.0340, -51.2415),
+ "Estação Férrea de Belas": (-30.0445, -51.2300),
+ "Estação Praia de Belas": (-30.0480, -51.2320),
+ "Estação Porto Novo": (-30.0615, -51.2385),
+ "Estação Estádios": (-30.0600, -51.2270),
+ "Estádio Beira-Rio": (-30.0656, -51.2361),
+ "Mercado de Frutos do Mar": (-30.0680, -51.2420),
+ "Estação Ipanema": (-30.1250, -51.2310),
+ "Delta Radioativo": (-29.9950, -51.2600),
+ "Vila Militar do Paraguassu": (-29.9975, -51.0905),
+ "Rádio Farroupilha": (-30.0030, -51.0960),
+ "Estação Quartel": (-29.9990, -51.0880),
+ "Sede da Camisa 12": (-30.0585, -51.1000),
+ "Venda da Zona Leste": (-30.0605, -51.1060),
+ "Oficina do Borracheiro": (-30.0640, -51.0975),
+ "Padaria da Vila": (-30.0625, -51.1030),
+ "Zona Leste": (-30.0600, -51.1030),
+ "Depósito Zaffari": (-29.9740, -51.1240), "Ferroviária Nacional": (-29.9805, -51.1300), "Praça das Nogueiras": (-30.0090, -51.1745),
+ "Independência": (-30.0300, -51.2150), "Edifício Concorde": (-30.0258, -51.1950), "Ponto do Caminhão do Sindicato": (-30.2120, -51.1060),
+ "Quartel-General do Exército": (-29.9995, -51.0875), "Oficina de Sucata": (-30.1510, -51.1440), "Mercado Flutuante": (-30.1480, -51.1480),
+}
+# (tipo, lat, long, nome) — lat/long abaixo são SUBSTITUÍDOS pelos de COORDS quando o nome está lá.
 MARKERS = [
  ("Bairro", 805, 545, "Zona Leste"),
  # Centro Histórico / Cidade Baixa
@@ -672,13 +751,21 @@ POA = os.path.join(ATLAS, "Porto Alegre.md")
 s = open(POA, encoding="utf-8").read()
 m = re.search(r"```leaflet\n(.*?)```", s, re.S)
 bloco = m.group(1)
+def marker_line(t, lat, lng, n):
+    if n in COORDS: lat, lng = geo_px(*COORDS[n])
+    return f"marker: {t},{lat},{lng},{n},,-0.1," if t != "Bairro" else f"marker: Bairro,{lat},{lng},{n},,,-0.1"
 existentes = set(re.findall(r"^marker: [^,]*,[^,]*,[^,]*,([^,]*),", bloco, re.M))
-novos = [f"marker: {t},{lat},{lng},{n},,-0.1," if t != "Bairro" else f"marker: Bairro,{lat},{lng},{n},,,-0.1" for t, lat, lng, n in MARKERS if n not in existentes]
-if novos:
-    bloco2 = bloco.rstrip("\n") + "\n" + "\n".join(novos) + "\n"
-    s = s.replace(m.group(0), "```leaflet\n" + bloco2 + "```", 1)
-    open(POA, "w", encoding="utf-8").write(s)
-print("marcadores novos:", len(novos))
+novos = [marker_line(t, lat, lng, n) for t, lat, lng, n in MARKERS if n not in existentes]
+atualizados = 0
+for t, lat, lng, n in MARKERS:
+    if n in existentes and n in COORDS:
+        novo = marker_line(t, lat, lng, n)
+        bloco2, k = re.subn(r"^marker: [^,]*,[^,]*,[^,]*," + re.escape(n) + r",[^\n]*$", novo, bloco, count=1, flags=re.M)
+        if k and bloco2 != bloco: atualizados += 1; bloco = bloco2
+if novos: bloco = bloco.rstrip("\n") + "\n" + "\n".join(novos) + "\n"
+s = s.replace(m.group(0), "```leaflet\n" + bloco + "```", 1)
+open(POA, "w", encoding="utf-8").write(s)
+print("marcadores novos:", len(novos), "; reposicionados:", atualizados)
 
 # ícone "Estação" no plugin leaflet (o app tem o registro próprio em leaflet-local.ts)
 LEAF = os.path.join(ROOT, ".obsidian", "plugins", "obsidian-leaflet-plugin", "data.json")
