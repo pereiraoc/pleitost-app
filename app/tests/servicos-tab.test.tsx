@@ -147,6 +147,8 @@ describe('estabelecimentos da vault', () => {
     expect(within(row).getByText('Cz$ 400.000')).toBeTruthy()
     expect(within(row).getByText(/^×\d+$/)).toBeTruthy()
     expect(within(row).getByText(/Cz\$ 3\.000 \/ mês de manutenção/)).toBeTruthy()
+    // emoji por Tipo pela cascata dos links (seletor Tipo=Veículo do Obsidian)
+    expect(linha.closest('a')?.getAttribute('data-link-icon')).toBe('🚗')
     expect(screen.getByText(/escolha um herói no topo direito/)).toBeTruthy()
     expect((within(row).getByText(/Comprar −Cz\$ 400\.000/).closest('button') as HTMLButtonElement).disabled).toBe(true)
     cleanup()

@@ -50,7 +50,7 @@ const banner = `// GERADO por app/scripts/gen-supercharged-icons.mjs a partir da
 
 export interface ScSelector {
   tipo: 'attribute' | 'path'
-  /** atributo (categoria/subcategoria/grupo/custo/escola/elemento/sintonia) ou 'path'. */
+  /** atributo (categoria/subcategoria/grupo/custo/escola/elemento/sintonia/Tipo) ou 'path'. */
   nome: string
   valor: string
   match: 'exact' | 'endswith' | 'startswith' | 'contains' | string

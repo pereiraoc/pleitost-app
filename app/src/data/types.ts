@@ -29,6 +29,8 @@ export interface IndexDocEntry {
   escola?: string
   elemento?: string
   sintonia?: string
+  /** FM `Tipo` (Recursos do mundo) — seletor de ícone por tipo de recurso. */
+  tipo?: string
   /** SENHA POR AVENTURA (2026-09-05): doc publicado CIFRADO (extractor/cifra-doc)
    *  — a lista mostra só os campos da lista trancada + 🔒. */
   protegido?: boolean

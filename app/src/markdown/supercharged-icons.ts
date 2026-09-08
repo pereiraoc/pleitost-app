@@ -8,7 +8,7 @@
 
 export interface ScSelector {
   tipo: 'attribute' | 'path'
-  /** atributo (categoria/subcategoria/grupo/custo/escola/elemento/sintonia) ou 'path'. */
+  /** atributo (categoria/subcategoria/grupo/custo/escola/elemento/sintonia/Tipo) ou 'path'. */
   nome: string
   valor: string
   match: 'exact' | 'endswith' | 'startswith' | 'contains' | string
@@ -624,6 +624,118 @@ export const SC_SELECTORS: ScSelector[] = [
     "match": "exact",
     "caseSensitive": false,
     "icone": "🧾"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Veículo",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🚗"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Aluguel de Veículo",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🔑"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Combustível",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "⛽"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Corrida",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🚕"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Passagem",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🎫"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Estilo de Vida",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "📋"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Aluguel",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🏠"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Hotel",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🛏️"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Refeição",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🍛"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Mantimento",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🛒"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Bebida",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🍺"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Refrigerante",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🥤"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Salgado",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🥟"
+  },
+  {
+    "tipo": "attribute",
+    "nome": "Tipo",
+    "valor": "Guloseima",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🍬"
   }
 ]
 

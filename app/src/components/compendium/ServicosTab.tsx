@@ -27,6 +27,12 @@ import { parseOfertasAgrupadas, rollOfertas, type OfertaRolada } from '../../rec
 import { comprarNoEstabelecimento } from '../../recursos/comprar'
 import { diaDeHoje, registrarVenda, useVendidasHoje } from '../../recursos/ofertas-store'
 import { custoEmOuro } from '../../recursos/hero-recursos'
+import { linkIconForEntry } from '../../markdown/link-icon'
+
+/** Emoji do recurso pela MESMA cascata dos links (seletores do Obsidian: categoria/subcategoria/Tipo). */
+function iconeDe(r: Recurso): string {
+  return linkIconForEntry({ type: 'Recurso', subtype: r.aba, grupo: null, path: `${r.id}.md`, tipo: r.tipo })
+}
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
@@ -310,7 +316,10 @@ function EstabelecimentoBox({
       </div>
       {grupos.map(([tipo, lista]) => (
         <div key={tipo} style={{ marginTop: 4 }}>
-          <div style={{ ...MONO, margin: '6px 0 2px' }}>{tipo.toUpperCase()}</div>
+          <div style={{ ...MONO, margin: '6px 0 2px' }}>
+            {lista[0] ? <span aria-hidden style={{ marginRight: 6 }}>{iconeDe(lista[0].recurso)}</span> : null}
+            {tipo.toUpperCase()}
+          </div>
           {lista.map((o) => {
             const restante = o.qtd === null ? null : Math.max(0, o.qtd - (vendidas[o.key] ?? 0))
             const esgotado = !o.disponivel || restante === 0
@@ -340,7 +349,7 @@ function EstabelecimentoBox({
               <div key={o.key} data-oferta={o.key} style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '6px 0', borderTop: '1px solid var(--line)', flexWrap: 'wrap', opacity: esgotado ? 0.55 : 1 }}>
                 <div style={{ flex: '1 1 240px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <span style={{ fontWeight: 600, fontSize: 13.5, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <DetailLink id={r.id}>{r.nome}</DetailLink>
+                    <DetailLink id={r.id} dataLinkIcon={iconeDe(r)}>{r.nome}</DetailLink>
                     {o.estado ? <Chip>{o.estado}</Chip> : null}
                     {o.acao === 'comprar' && r.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês de manutenção</Chip> : null}
                   </span>

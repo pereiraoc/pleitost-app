@@ -230,6 +230,12 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       const v = record.frontmatter?.[k] ?? record.inlineFields?.[k];
       if (typeof v === "string" && v.trim()) facetas[k] = v.trim();
     }
+    // `Tipo` (Recursos do mundo: Veículo/Bebida/…) — seletor por Tipo dá o
+    // emoji por categoria de recurso (2026-09-08); no índice como `tipo`.
+    {
+      const v = record.frontmatter?.["Tipo"];
+      if (typeof v === "string" && v.trim()) facetas.tipo = v.trim();
+    }
 
     index.push({
       id: record.id,

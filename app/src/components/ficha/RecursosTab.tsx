@@ -15,6 +15,12 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { activeContextoDef } from '../../data/reskin'
 import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
+import { linkIconForEntry } from '../../markdown/link-icon'
+
+/** Emoji do recurso pela MESMA cascata dos links (seletores do Obsidian). */
+function iconeDe(r: Recurso): string {
+  return linkIconForEntry({ type: 'Recurso', subtype: r.aba, grupo: null, path: `${r.id}.md`, tipo: r.tipo })
+}
 import { clip } from './bits'
 import { fmPath, num } from './hero-model'
 import { parseRecurso } from '../../recursos/parse-recurso'
@@ -173,7 +179,6 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ ...BOX, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{'// CUSTO DE VIDA'}</span>
-        <span style={{ ...MONO, fontSize: 10 }}>planos + manutenção da posse, pagos adiantado</span>
         <span style={{ flex: 1 }} />
         <span style={MONO}>TOTAL DO MÊS</span>
         <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
@@ -215,9 +220,6 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
           />
         )
       })}
-      <div style={{ ...MONO, fontSize: 10, lineHeight: 1.5 }}>
-        O plano garante o mínimo daquele padrão; o que for extra (uma janta melhor, um táxi, uma diária) se paga na hora nos estabelecimentos — aba {cfg.ofertas.aba.toUpperCase()} de cada lugar do Atlas. Posse (carro, imóvel) se compra lá também e entra aqui com a manutenção do mês.
-      </div>
     </div>
   )
 }
@@ -299,15 +301,14 @@ function SecaoEixo({
           })}
           {!planos.length ? <div style={{ ...MONO, padding: '8px 10px' }}>{carregando ? '// CARREGANDO PLANOS…' : '// sem planos deste eixo na vault'}</div> : null}
         </div>
-        {papel !== 'alimentacao' ? (
+        {eixo.posse.length ? (
           <>
             <div style={{ ...MONO, padding: '12px 10px 2px' }}>POSSE · manutenção por mês</div>
-            {eixo.posse.length ? (
-              eixo.posse.map((p) => (
+            {eixo.posse.map((p) => (
                 <div key={`${p.item.nome}:${p.indice}`} data-item={p.item.nome} style={{ ...LINHA, cursor: 'default' }}>
                   <span />
                   <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', minWidth: 0 }}>
-                    {p.recurso ? <DetailLink id={p.recurso.id}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
+                    {p.recurso ? <DetailLink id={p.recurso.id} dataLinkIcon={iconeDe(p.recurso)}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
                     {p.item.estado ? <Chip>{p.item.estado}</Chip> : null}
                     {p.item.qtd > 1 ? <Chip>×{p.item.qtd}</Chip> : null}
                     <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>
@@ -317,14 +318,9 @@ function SecaoEixo({
                   </span>
                   <span style={DINHEIRO}>{formatValorMoeda(p.valor)}</span>
                 </div>
-              ))
-            ) : (
-              <div style={{ ...MONO, padding: '6px 10px' }}>{papel === 'transporte' ? '// nenhum veículo — compra-se numa concessionária ou ferro-velho' : '// nenhum imóvel — compra-se numa imobiliária'}</div>
-            )}
+              ))}
           </>
-        ) : (
-          <div style={{ ...MONO, padding: '12px 10px 2px', fontSize: 10 }}>comida se consome na hora — nada fica guardado aqui</div>
-        )}
+        ) : null}
       </div>
     </details>
   )

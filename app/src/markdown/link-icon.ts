@@ -12,7 +12,7 @@ import { reskinName } from '../data/reskin'
 import { SC_SELECTORS, type ScSelector } from './supercharged-icons'
 
 export type IconEntry = Pick<IndexDocEntry, 'type' | 'subtype' | 'grupo'> &
-  Partial<Pick<IndexDocEntry, 'path' | 'custo' | 'escola' | 'elemento' | 'sintonia'>>
+  Partial<Pick<IndexDocEntry, 'path' | 'custo' | 'escola' | 'elemento' | 'sintonia' | 'tipo'>>
 
 /** NFC + trim (+ minúsculas quando o seletor é case-insensitive). */
 function norm(s: string, caseSensitive: boolean): string {
@@ -23,7 +23,9 @@ function norm(s: string, caseSensitive: boolean): string {
 /** Valor da faceta `nome` do doc-alvo (o atributo que o supercharged lê do
  *  FM/inline field: categoria/subcategoria/grupo/custo/escola/elemento/sintonia). */
 function faceta(entry: IconEntry, nome: string): string | null {
-  switch (nome) {
+  // o nome do atributo vem da config do Obsidian ("Tipo" com maiúscula) — o
+  // DOM baixa a caixa de data-link-*, e aqui também.
+  switch (nome.toLowerCase()) {
     case 'categoria':
       return entry.type ?? null
     case 'subcategoria':
@@ -40,6 +42,8 @@ function faceta(entry: IconEntry, nome: string): string | null {
       return entry.elemento ?? null
     case 'sintonia':
       return entry.sintonia ?? null
+    case 'tipo':
+      return entry.tipo ?? null
     default:
       return null
   }
