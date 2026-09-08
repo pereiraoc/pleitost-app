@@ -83,24 +83,25 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     expect(abaFichaVisivel('Heroi', 'transporte')).toBe(true)
   })
 
-  it('vista padrão = plano do herói (sem plano: A Pé → só o que se paga na mão); trocar de vista muda o mapa', async () => {
+  it('vistas = só os TRI que alguma linha pede (sem A Pé, sem motorista); padrão = a menor sem plano; trocar de vista muda o mapa', async () => {
     if (!temDataset) return
     montar()
     await screen.findByText('// VISTA', {}, { timeout: 20000 })
     const vistas = screen.getAllByRole('radio')
-    expect(vistas.map((v) => v.textContent)).toEqual(['A Pé', 'TRI Vale-Transporte', 'TRI Popular', 'TRI Integrado', 'TRI Executivo', 'TRI Corporativo'])
+    expect(vistas.map((v) => v.textContent)).toEqual(['TRI Bronze', 'TRI Prata', 'TRI Ouro', 'TRI Platina'])
     expect(vistas[0]!.getAttribute('aria-checked')).toBe('true')
-    const linhasNaMao = document.querySelectorAll('[data-malha-mapa] path[data-linha]')
-    // Kombis (3), balsa, barqueiro, caravana — nada de TRI
-    expect(linhasNaMao.length).toBe(6)
+    const linhasBronze = document.querySelectorAll('[data-malha-mapa] path[data-linha]')
+    // na mão (Kombis 3, balsa, barqueiro, caravana) + as 6 linhas do turno
+    expect(linhasBronze.length).toBe(12)
     expect(screen.queryByText('L1 POPULAR NORTE')).toBeNull()
-    fireEvent.click(screen.getByRole('radio', { name: 'TRI Popular' }))
+    expect(document.querySelector('[data-malha-mapa] svg')?.getAttribute('data-paleta')).toBe('papel')
+    fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
     const linhasPopular = document.querySelectorAll('[data-malha-mapa] path[data-linha]')
     expect(linhasPopular.length).toBeGreaterThan(20)
     expect(document.querySelectorAll('[data-malha-mapa] g[data-baldeacao]').length).toBeGreaterThan(8)
     // nada ao sul: Ipanema só na Executiva
     expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Ipanema"]')).toBeNull()
-    fireEvent.click(screen.getByRole('radio', { name: 'TRI Executivo' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'TRI Platina' }))
     expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Ipanema"]')).not.toBeNull()
     expect(document.querySelectorAll('[data-malha-mapa] path[data-linha]').length).toBeGreaterThan(linhasPopular.length)
   })
@@ -109,7 +110,7 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     if (!temDataset) return
     montar()
     await screen.findByText('// VISTA', {}, { timeout: 20000 })
-    fireEvent.click(screen.getByRole('radio', { name: 'TRI Popular' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
     const legenda = document.querySelector('[data-legenda]') as HTMLElement
     const l1 = within(legenda).getByText('L1 POPULAR NORTE').closest('button') as HTMLButtonElement
     fireEvent.click(l1)

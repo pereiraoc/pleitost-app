@@ -2,10 +2,13 @@
 // por linha (cor/traço da vault), bolinha por parada (branca com anel escuro =
 // baldeação; anel na cor da linha = parada simples), rótulos inclinados onde
 // há vizinha na mesma fileira. Só desenha o que `desenharMalha` projetou.
+// PALETA FIXA de papel (report 2026-09-08: no tema escuro as cores das linhas
+// e os nomes sumiam) — mapa de metrô é peça impressa, não segue o tema.
 import type { CSSProperties } from 'react'
 import type { Desenho, Traco } from '../../transporte/malha'
 
 const DASH: Record<Traco, string | undefined> = { cheio: undefined, tracejado: '12 7', pontilhado: '1 8' }
+export const PAPEL = { fundo: '#f4f0e6', parada: '#ffffff', tinta: '#161616', halo: '#f4f0e6', grade: '#e7e1d3' } as const
 
 export function MalhaMap({
   desenho,
@@ -22,7 +25,7 @@ export function MalhaMap({
   if (!desenho.tracos.length) return null
   const wrap: CSSProperties = {
     overflow: 'auto',
-    background: 'var(--panel)',
+    background: PAPEL.fundo,
     border: '1px solid var(--line2)',
     maxHeight: 'min(72vh, 760px)',
   }
@@ -32,7 +35,8 @@ export function MalhaMap({
         width={desenho.largura}
         height={desenho.altura}
         viewBox={`0 0 ${desenho.largura} ${desenho.altura}`}
-        style={{ display: 'block', fontFamily: 'var(--body)' }}
+        style={{ display: 'block', fontFamily: 'var(--body)', background: PAPEL.fundo }}
+        data-paleta="papel"
         onClick={(e) => {
           if (e.target === e.currentTarget) onSelecionar(null)
         }}
@@ -75,15 +79,16 @@ export function MalhaMap({
                 onParada(p.nome)
               }}
             >
-              <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill="var(--panel)" stroke={p.cor ?? 'var(--ink)'} strokeWidth={p.baldeacao ? 3 : 2.5} />
+              <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill={PAPEL.parada} stroke={p.cor ?? PAPEL.tinta} strokeWidth={p.baldeacao ? 3 : 2.5} />
               <text
                 x={p.rotulo.x}
                 y={p.rotulo.y}
-                fontSize={11}
-                fill="var(--ink)"
+                fontSize={11.5}
+                fontWeight={p.baldeacao ? 600 : 400}
+                fill={PAPEL.tinta}
                 textAnchor={p.rotulo.anchor}
                 transform={p.rotulo.rotacao ? `rotate(${p.rotulo.rotacao} ${p.cx} ${p.cy})` : undefined}
-                style={{ paintOrder: 'stroke', stroke: 'var(--panel)', strokeWidth: 3, strokeLinejoin: 'round' }}
+                style={{ paintOrder: 'stroke', stroke: PAPEL.halo, strokeWidth: 4, strokeLinejoin: 'round' }}
               >
                 {p.nome}
               </text>

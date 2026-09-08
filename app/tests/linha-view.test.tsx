@@ -76,7 +76,7 @@ describe('LinhaView (343 BEIRA-RIO real)', () => {
     expect(screen.queryByText(/#Linha/)).toBeNull()
     expect(screen.getByText('Linha · Ônibus')).toBeTruthy()
     expect(screen.getByText('ACESSO')).toBeTruthy()
-    expect(screen.getByText('TRI Popular')).toBeTruthy()
+    expect(screen.getByText('TRI Prata')).toBeTruthy()
     expect(container.querySelector('[data-qualidade="2"]')?.textContent).toBe('★★☆☆☆')
     const paradas = Array.from(container.querySelectorAll('ol[data-paradas] li')).map((li) => li.textContent?.trim())
     expect(paradas).toEqual(['Estação Central', 'Estação Cidade Baixa', 'Estação Férrea de Belas', 'Estação Estádios', 'Mercado de Frutos do Mar'])

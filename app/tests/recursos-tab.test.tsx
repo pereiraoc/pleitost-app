@@ -26,7 +26,7 @@ import { RECURSOS_FM } from '../src/recursos/hero-recursos'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
-const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Popular.json'))
+const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Prata.json'))
 
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
@@ -117,11 +117,11 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     const linhas = within(eixo('transporte')).getAllByRole('radio')
     expect(linhas.map((l) => l.getAttribute('data-classe'))).toEqual(['1', '2', '3', '4', '5', '6'])
     expect(within(linhas[1]!).getByText(/Classe Baixa/)).toBeTruthy()
-    expect(within(linhas[1]!).getByText(/TRI Vale-Transporte/)).toBeTruthy()
+    expect(within(linhas[1]!).getByText(/TRI Bronze/)).toBeTruthy()
     expect(within(linhas[1]!).getByText('Cz$ 1.500')).toBeTruthy()
     expect(screen.queryByText(/classe 2/i)).toBeNull()
     expect(screen.queryByText(/Humilde/)).toBeNull()
-    fireEvent.click(linhas[2]!) // TRI Popular — Classe Média Baixa
+    fireEvent.click(linhas[2]!) // TRI Prata — Classe Média Baixa
     expect(linhas[2]!.getAttribute('aria-checked')).toBe('true')
     expect(valorEixo('transporte')).toBe('2500')
     expect(custoMes()).toBe('2500')
@@ -146,7 +146,7 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
       'fm',
       RECURSOS_FM,
       {
-        estilos: { transporte: 'TRI Integrado', moradia: 'Moradia Classe Média', alimentacao: null },
+        estilos: { transporte: 'TRI Ouro', moradia: 'Moradia Classe Média', alimentacao: null },
         itens: [
           { nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, estado: 'usado', pago: 150000 },
           { nome: 'Kitnet do Aeromóvel', aba: 'Moradia', qtd: 1, pago: 600000 },

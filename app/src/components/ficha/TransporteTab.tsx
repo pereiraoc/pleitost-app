@@ -24,7 +24,11 @@ const CHIP: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 10, letterSpa
 
 function Swatch({ l }: { l: LinhaMalha }) {
   const dash = l.traco === 'tracejado' ? 'dashed' : l.traco === 'pontilhado' ? 'dotted' : 'solid'
-  return <span aria-hidden style={{ display: 'inline-block', width: 26, borderTop: `${Math.max(3, l.largura)}px ${dash} ${l.cor}`, verticalAlign: 'middle' }} />
+  return (
+    <span aria-hidden style={{ display: 'inline-block', width: 30, padding: '3px 2px', background: '#f4f0e6', borderRadius: 3, verticalAlign: 'middle', lineHeight: 0 }}>
+      <span style={{ display: 'block', borderTop: `${Math.max(3, l.largura)}px ${dash} ${l.cor}` }} />
+    </span>
+  )
 }
 
 export function TransporteTab({ doc }: { doc: VaultDoc }) {
@@ -68,8 +72,17 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
 
   const planoAtual = estado.estilos.transporte
   const nivelAtual = (planoAtual && dados?.planos.get(planoAtual)) || 1
+  // VISTAS = só os planos que alguma linha pede no `Acesso` (o TRI de verdade;
+  // "A Pé" e o carro com motorista não são vistas de transporte público).
+  const vistas = useMemo(() => {
+    if (!dados) return []
+    const pedidos = new Set(dados.malha.linhas.map((l) => l.nivel).filter((n): n is number => n !== null))
+    return dados.planosLista.filter((p) => pedidos.has(p.nivel))
+  }, [dados])
   const [vista, setVista] = useState<number | null>(null)
-  const nivelVista = vista ?? nivelAtual
+  // padrão: a maior vista que o plano do herói alcança; sem plano, a menor
+  const vistaPadrao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual)?.nivel ?? vistas[0]?.nivel ?? 1
+  const nivelVista = vista ?? vistaPadrao
   const [selecionada, setSelecionada] = useState<string | null>(null)
 
   const visiveis = useMemo(() => (dados ? linhasDoNivel(dados.malha, nivelVista) : []), [dados, nivelVista])
@@ -139,7 +152,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
       <section style={BOX}>
         <div style={MONO}>{'// VISTA'}</div>
         <div role="radiogroup" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
-          {dados.planosLista.map((p) => {
+          {vistas.map((p) => {
             const ativa = p.nivel === nivelVista
             return (
               <button
@@ -157,7 +170,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                   cursor: 'pointer',
                   background: ativa ? 'color-mix(in srgb,var(--accent) 18%,transparent)' : 'transparent',
                   borderColor: ativa ? 'var(--accent)' : 'var(--line2)',
-                  color: 'var(--ink)',
+                  color: 'inherit',
                 }}
               >
                 {p.nome}
@@ -192,7 +205,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                     border: 'none',
                     borderLeft: `3px solid ${ativa ? 'var(--accent)' : 'transparent'}`,
                     padding: '5px 8px',
-                    color: 'var(--ink)',
+                    color: 'inherit',
                     cursor: 'pointer',
                     font: 'inherit',
                   }}
@@ -237,7 +250,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                       data-baldeacao={b.id}
                       onClick={() => setSelecionada(b.id)}
                       title={b.nome}
-                      style={{ ...CHIP, cursor: 'pointer', color: 'var(--ink)', background: 'transparent', borderColor: b.cor, borderLeftWidth: 6 }}
+                      style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent', borderColor: b.cor, borderLeftWidth: 6 }}
                     >
                       {b.nome}
                     </button>

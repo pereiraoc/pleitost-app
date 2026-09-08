@@ -32,7 +32,7 @@ const CONCESSIONARIA = "Atlas/Porto Alegre/Passo D'Areia/Concessionária Gurgel"
 const SUCATA = 'Atlas/Porto Alegre/Zona Deserta/Depósito de Sucata'
 const BAIRRO = "Atlas/Porto Alegre/Passo D'Areia/Passo D'Areia"
 const CIDADE = 'Atlas/Porto Alegre/Porto Alegre'
-const temDataset = fs.existsSync(path.join(cyberDir, `${CONCESSIONARIA}.json`)) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Popular.json'))
+const temDataset = fs.existsSync(path.join(cyberDir, `${CONCESSIONARIA}.json`)) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Prata.json'))
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
 const readDoc = (id: string): VaultDoc => JSON.parse(fs.readFileSync(path.join(cyberDir, `${id}.json`), 'utf8')) as VaultDoc
