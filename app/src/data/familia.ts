@@ -269,5 +269,8 @@ export function abaFichaVisivel(familia: SheetFamily, tabId: string): boolean {
   // RECURSOS (2026-09-07): mesma família das Anotações (Heroi) E só em mundo
   // que declara `recursos` no contexto (POA 1987; a fantasia não tem aba).
   if (tabId === 'recursos') return FICHA_FAMILIA[familia].anotacoes && !!activeContextoDef()?.recursos
+  // TRANSPORTE (2026-09-08): mapa da malha — só onde há Recursos E o contexto
+  // declara `transporte` (as linhas, o mapa e os modos vêm da vault).
+  if (tabId === 'transporte') return FICHA_FAMILIA[familia].anotacoes && !!activeContextoDef()?.recursos && !!activeContextoDef()?.transporte
   return true
 }

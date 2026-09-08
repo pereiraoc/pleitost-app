@@ -11,6 +11,7 @@ describe('CHAR_TABS order (#310)', () => {
       'inventario', // Inventário
       'anotacoes', // Anotações
       'recursos', // Recursos (2026-09-07: transporte/moradia/alimentação do mundo — só visível com `recursos` no contexto)
+      'transporte', // Transporte (2026-09-08: mapa da malha — só visível com `transporte` no contexto)
       'grupos', // Grupo
       'combate', // Combate
     ])

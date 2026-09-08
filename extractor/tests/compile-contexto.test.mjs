@@ -243,3 +243,31 @@ test("recursos: compila raiz/abas/precoEm e valida a existência de notas Recurs
   // sem o bloco: sem `recursos` no artefato
   assert.equal("recursos" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames: BASENAMES, typeByBasename }), false);
 });
+
+// MALHA DE TRANSPORTES (2026-09-08): bloco opcional `transporte` → contexto.json
+// {categoria, mapa (basename), modos[{nome,traco,largura}]}; exige a nota do
+// mapa na vault e ao menos uma nota da categoria.
+test("transporte: compila categoria/mapa/modos e valida nota do mapa e categoria", () => {
+  const basenames = new Set([...BASENAMES, "Malha de Transportes"]);
+  const typeByBasename = new Map([["Gurgel Carajás", "Recurso"], ["343 BEIRA-RIO", "Linha"]]);
+  const out = compileContexto({
+    worldId: "poa-1987",
+    defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Malha de Transportes]]", modos: [{ nome: "Aeromóvel", traco: "cheio", largura: 7 }, { nome: "Kombi", traco: "pontilhado" }] } }), defBase()],
+    basenames,
+    typeByBasename,
+  });
+  assert.deepEqual(out.transporte, { categoria: "Linha", mapa: "Malha de Transportes", modos: [{ nome: "Aeromóvel", traco: "cheio", largura: 7 }, { nome: "Kombi", traco: "pontilhado", largura: 4 }] });
+  assert.throws(
+    () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Nota Que Não Existe]]", modos: [{ nome: "Ônibus" }] } }), defBase()], basenames, typeByBasename }),
+    /transporte\.mapa/,
+  );
+  assert.throws(
+    () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Malha de Transportes]]", modos: [{ nome: "Ônibus", traco: "ondulado" }] } }), defBase()], basenames, typeByBasename }),
+    /traco "ondulado"/,
+  );
+  assert.throws(
+    () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Malha de Transportes]]", modos: [{ nome: "Ônibus" }] } }), defBase()], basenames, typeByBasename: new Map() }),
+    /nenhuma nota `categoria: Linha`/,
+  );
+  assert.equal("transporte" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames, typeByBasename }), false);
+});

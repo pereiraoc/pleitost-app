@@ -152,6 +152,36 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     const niveis = asStringArray(r.niveis, "recursos.niveis", problems);
     recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade };
   }
+  // MALHA DE TRANSPORTES (2026-09-08): notas `categoria: <transporte.categoria>`
+  // (Paradas em ordem, Acesso, Cor) + a nota `mapa` com o bloco ```malha```
+  // (posições esquemáticas). `modos` diz o traço de cada subcategoria.
+  let transporte = null;
+  if (def.transporte !== undefined && def.transporte !== null) {
+    const t = isPlainObject(def.transporte) ? def.transporte : {};
+    if (typeof t.categoria !== "string" || !t.categoria.trim()) problems.push("transporte.categoria: obrigatório (categoria das notas de linha)");
+    const mapaRaw = typeof t.mapa === "string" ? t.mapa.trim() : "";
+    const mapa = mapaRaw.replace(/^\[\[/, "").replace(/\]\]$/, "").split("|")[0].trim();
+    if (!mapa) problems.push("transporte.mapa: obrigatório (wikilink da nota com o bloco ```malha```)");
+    else if (!basenames.has(mapa)) problems.push(`transporte.mapa: "${mapa}" não existe na vault`);
+    const TRACOS = ["cheio", "tracejado", "pontilhado"];
+    const modos = [];
+    if (!Array.isArray(t.modos) || t.modos.length === 0) problems.push("transporte.modos: lista de {nome, traco, largura} obrigatória");
+    else {
+      for (const m of t.modos) {
+        if (!isPlainObject(m) || typeof m.nome !== "string" || !m.nome.trim()) { problems.push("transporte.modos: cada modo precisa de `nome`"); continue; }
+        const traco = m.traco ?? "cheio";
+        if (!TRACOS.includes(traco)) problems.push(`transporte.modos: "${m.nome}" traco "${traco}" (esperado ${TRACOS.join("|")})`);
+        const largura = Number(m.largura ?? 4);
+        if (!(largura > 0)) problems.push(`transporte.modos: "${m.nome}" largura esperada > 0`);
+        modos.push({ nome: m.nome.trim(), traco, largura });
+      }
+    }
+    if (typeof t.categoria === "string" && t.categoria.trim()) {
+      const temLinha = [...typeByBasename.values()].some((x) => x === t.categoria.trim());
+      if (!temLinha) problems.push(`transporte: nenhuma nota \`categoria: ${t.categoria.trim()}\` na vault`);
+    }
+    transporte = { categoria: String(t.categoria ?? "").trim(), mapa, modos };
+  }
 
   const pericias = asStringMap(def.pericias, "pericias", problems);
 
@@ -334,6 +364,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     reskin: { notas, notasFuturas, termos, excecoes, descricoes },
     disponibilidade: { padrao, indisponiveis, restritos, ...(matriz ? { matriz } : {}) },
     ...(recursos ? { recursos } : {}),
+    ...(transporte ? { transporte } : {}),
     base: { sempreDisponiveis, conteudoDeMundo, ...(aventura ? { aventura } : {}) },
     regras,
   };

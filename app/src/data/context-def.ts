@@ -76,6 +76,15 @@ export interface ContextoDef {
      *  faixa de níveis atendida de cara + fator de quantidade. */
     disponibilidade: Record<string, { niveis: [number, number]; quantidade: number }>
   }
+  /** MALHA DE TRANSPORTES (2026-09-08): notas `categoria` (= linhas, com
+   *  Paradas em ordem, Acesso, Cor) e a nota `mapa` com o bloco ```malha```
+   *  (posições esquemáticas das paradas). `modos` diz o traço de cada
+   *  subcategoria de linha. Ausente = mundo sem aba TRANSPORTE. */
+  transporte?: {
+    categoria: string
+    mapa: string
+    modos: { nome: string; traco: 'cheio' | 'tracejado' | 'pontilhado'; largura: number }[]
+  }
   /** Garantias e limites do Contexto Base. */
   base: {
     /** Itens que nenhum mundo pode excluir. */

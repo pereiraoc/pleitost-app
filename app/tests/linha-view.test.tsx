@@ -22,7 +22,7 @@ import '../src/components/compendium/register-doc-views'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
-const docFile = path.join(cyberDir, 'Contexto/Malha de Transportes/Ônibus/343 IPANEMA.json')
+const docFile = path.join(cyberDir, 'Contexto/Malha de Transportes/Ônibus/343 BEIRA-RIO.json')
 const tem = fs.existsSync(docFile)
 
 beforeAll(() => {
@@ -57,7 +57,7 @@ describe('parseLinha', () => {
   })
 })
 
-describe('LinhaView (343 IPANEMA real)', () => {
+describe('LinhaView (343 BEIRA-RIO real)', () => {
   it('blocos do FM, paradas numeradas na ordem, sem template cru', () => {
     if (!tem) return
     const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
@@ -79,7 +79,7 @@ describe('LinhaView (343 IPANEMA real)', () => {
     expect(screen.getByText('TRI Popular')).toBeTruthy()
     expect(container.querySelector('[data-qualidade="2"]')?.textContent).toBe('★★☆☆☆')
     const paradas = Array.from(container.querySelectorAll('ol[data-paradas] li')).map((li) => li.textContent?.trim())
-    expect(paradas).toEqual(['Mercado Público', 'Estação Cidade Baixa', 'Estádio Beira-Rio', 'Porto Novo', 'Mercado de Frutos do Mar', 'Ipanema'])
+    expect(paradas).toEqual(['Estação Central', 'Estação Cidade Baixa', 'Estação Férrea de Belas', 'Estação Estádios', 'Mercado de Frutos do Mar'])
     expect(screen.getByText('APARÊNCIA')).toBeTruthy()
   })
 })

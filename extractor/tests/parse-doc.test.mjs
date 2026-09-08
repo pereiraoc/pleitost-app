@@ -107,3 +107,11 @@ test("parseDoc: doc sem categoria/regra não quebra", async () => {
   assert.equal(r.links[0].target, "X");
   assert.deepEqual(r.headings, [{ level: 1, text: "Só prosa" }]);
 });
+
+// Bloco ```malha``` (2026-09-08): posições esquemáticas das paradas.
+test("parseMalhaBlock: lê parada: nome, x, y[, rótulo]; ignora linha torta; null sem bloco", async () => {
+  const { parseMalhaBlock } = await import("../parse-malha.mjs");
+  const body = "texto\n```malha\nparada: Estação Central, 0, 0, esquerda\nparada: Redenção, 3, -3\nparada: Torta, x, 1\ncomentario\n```\n";
+  assert.deepEqual(parseMalhaBlock(body), { paradas: [{ nome: "Estação Central", x: 0, y: 0, rotulo: "esquerda" }, { nome: "Redenção", x: 3, y: -3 }] });
+  assert.equal(parseMalhaBlock("sem bloco"), null);
+});

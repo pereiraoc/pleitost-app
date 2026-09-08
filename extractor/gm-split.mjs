@@ -11,6 +11,7 @@
 //  3. Seção "Contexto Oculto" (convenção legada) e FM `GM: true` (nota
 //     inteira do mestre — fora do índice público).
 import { parseLocationBody } from "./parse-location-body.mjs";
+import { parseMalhaBlock } from "./parse-malha.mjs";
 
 /** Chaves estruturais que NUNCA saem do FM público (navegação/identidade). */
 const ESTRUTURAIS = new Set([
@@ -175,6 +176,11 @@ export function gmSplit(record, cfg) {
   // Deriva de novo o que nasce do corpo: locationBody e links do público.
   if (record.locationBody !== undefined) {
     publico.locationBody = parseLocationBody(bodyPublico, fmPublico);
+  }
+  if (record.malha !== undefined) {
+    const malha = parseMalhaBlock(bodyPublico);
+    if (malha) publico.malha = malha;
+    else delete publico.malha;
   }
   // Links públicos = os que sobrevivem no corpo OU no FM público (Líder etc.).
   const palheiro = bodyPublico + "\n" + JSON.stringify(fmPublico);

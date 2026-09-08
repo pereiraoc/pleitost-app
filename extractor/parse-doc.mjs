@@ -11,6 +11,7 @@ import { parseLinks } from "./parse-links.mjs";
 import { parseRuleElements } from "./load-rule-parser.mjs";
 import { parseConditionElements } from "./load-condition-parser.mjs";
 import { parseLocationBody } from "./parse-location-body.mjs";
+import { parseMalhaBlock } from "./parse-malha.mjs";
 
 const HEADING_RE = /^(#{1,6})[ \t]+(.+?)[ \t]*#*$/;
 
@@ -135,6 +136,9 @@ export async function parseDoc({ raw, relPath }) {
   if (type === LOCALIZACAO_CATEGORIA) {
     record.locationBody = parseLocationBody(body, record.frontmatter ?? null);
   }
+  // Mapa esquemático da malha de transportes (bloco ```malha```, qualquer nota).
+  const malha = parseMalhaBlock(body);
+  if (malha) record.malha = malha;
   if (fm.frontmatterError) {
     record.frontmatterError = fm.frontmatterError;
     record.frontmatterRaw = fm.frontmatterRaw;

@@ -112,6 +112,8 @@ export interface VaultDoc {
    *  placeholders vazios; a fonte-de-verdade da prosa vive aqui (populado
    *  pelo extractor/parse-location-body.mjs). */
   locationBody?: LocationBody
+  /** Bloco ```malha``` (posições esquemáticas das paradas da malha de transportes). */
+  malha?: { paradas: { nome: string; x: number; y: number; rotulo?: string }[] }
   /** SENHA POR AVENTURA: envelope cifrado (extractor/cifra-doc.mjs). Presente =
    *  doc TRANCADO (corpo/FM privado ausentes); data/doc-lock.ts decifra com a
    *  senha ou a chave do dev e devolve o doc completo SEM este campo. */
