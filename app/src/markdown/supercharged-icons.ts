@@ -627,6 +627,14 @@ export const SC_SELECTORS: ScSelector[] = [
   },
   {
     "tipo": "attribute",
+    "nome": "categoria",
+    "valor": "Linha",
+    "match": "exact",
+    "caseSensitive": false,
+    "icone": "🚌"
+  },
+  {
+    "tipo": "attribute",
     "nome": "Tipo",
     "valor": "Veículo",
     "match": "exact",
@@ -802,5 +810,6 @@ export const SC_CATEGORIA: Record<string, string> = {
   "Aventura": "📜",
   "Combate": "🥊",
   "Pessoa": "🧑",
-  "Recurso": "🧾"
+  "Recurso": "🧾",
+  "Linha": "🚌"
 }

@@ -7,6 +7,7 @@ import { LocationSheet, isLocation } from './LocationSheet'
 import { OrgView, isOrg } from './OrgView'
 import { PessoaView, isPessoa } from './PessoaView'
 import { RecursoView, isRecurso } from './RecursoView'
+import { LinhaView, isLinha } from './LinhaView'
 import { HistoriaView, isHistoria } from './HistoriaView'
 import { CriacaoView, isCriacao } from './CriacaoView'
 import { RegraView, isRegra } from './RegraView'
@@ -53,6 +54,14 @@ registerDocView({
   id: 'recurso',
   match: isRecurso,
   view: (doc, { sidebar, embedded }) => <RecursoView doc={doc} sidebar={sidebar} embedded={embedded} />,
+})
+
+// MALHA DE TRANSPORTES (2026-09-08) — nota de Linha (ônibus, Aeromóvel,
+// lotação, balsa…): campos do FM em blocos + paradas em ordem + aparência.
+registerDocView({
+  id: 'linha',
+  match: isLinha,
+  view: (doc, { sidebar, embedded }) => <LinhaView doc={doc} sidebar={sidebar} embedded={embedded} />,
 })
 
 // F3 (#247) — História / Contexto (Atual + Histórico): corpo em coluna de leitura.

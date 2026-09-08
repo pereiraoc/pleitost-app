@@ -186,6 +186,7 @@ describe('estabelecimentos da vault', () => {
     expect(lugares.every((d) => !(d as HTMLDetailsElement).open)).toBe(true)
     const bomFim = lugares.find((d) => d.getAttribute('data-lugar') === 'Bom Fim') as HTMLElement
     expect(within(bomFim).getByText('Bicicletaria do Alemão')).toBeTruthy()
-    expect(within(bomFim).getByText('Pensão Farroupilha')).toBeTruthy()
+    // a pensão aparece como estabelecimento E como marca da oferta de pernoite
+    expect(within(bomFim).getAllByText('Pensão Farroupilha').length).toBeGreaterThan(0)
   }, 40000)
 })

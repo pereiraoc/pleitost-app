@@ -48,10 +48,13 @@ function fieldText(value: unknown): string | null {
   return null
 }
 
-const HERO_STYLE: CSSProperties = {
+// Retrato de capa: recorte ancorado no TERÇO SUPERIOR — o rosto fica visível
+// na visão reduzida (report 2026-09-07: `center` cortava a cabeça fora).
+export const PESSOA_HERO_STYLE: CSSProperties = {
   width: '100%',
   maxHeight: 320,
   objectFit: 'cover',
+  objectPosition: 'center 18%',
   display: 'block',
   border: '1px solid var(--line2)',
   clipPath: clip(14),
@@ -117,7 +120,7 @@ export function PessoaView({
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
       {sidebar || embedded ? null : <div className="kicker">{COMPENDIO_KICKER}</div>}
-      {img ? <VaultImage target={img.target} style={HERO_STYLE} zoom /> : null}
+      {img ? <VaultImage target={img.target} style={PESSOA_HERO_STYLE} zoom /> : null}
       <header className="doc-header">
         <h1>{reskinName(doc.basename)}</h1>
         <span className="doc-type">
