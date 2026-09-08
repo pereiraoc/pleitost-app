@@ -385,9 +385,9 @@ linha("Aeromóvel", "Aeromóvel", "L2 POPULAR SUL", "L2 POPULAR SUL", "Trensurb;
       """A linha do jogo e do porto. Sai da [[Estação Central]] por cima da água barrenta da [[Estação Cidade Baixa]], deixa o estivador na [[Estação Porto Novo]] (onde a balsa da Zaffari encosta embaixo), a torcida na [[Estação Estádios]] e termina entre árvores na [[Estação Jardim Botânico]]. Em dia de Gre-Nal a Brigada fecha a Estação Estádios uma hora antes e depois do apito e o [[Consórcio das Bandeiras]] vende ingresso na escada. Mesmo vagão da L1, menos lotado — menos gente de crachá mora no sul. É a última linha popular: ao sul da Praia de Belas não há trilho nem ônibus.""",
       "Viaduto de concreto passando por cima de água barrenta e palafita, estação com grade anti-invasão, torcedores de bandeira na plataforma, guindaste do porto atrás.", cor="#1f8f3f")
 linha("Aeromóvel", "Aeromóvel", "LINHA EXECUTIVA", "LINHA EXECUTIVA", "Trensurb; segurança [[Gradiente]]", PLATINA, W("Aeromóvel Linha Executiva"), 5, "6h–1h",
-      ["Estação Moinhos", "Estação Concorde", "Estação Centro Corporativo", "Estação Praia de Belas", "Estação Ipanema"],
+      ["Estação Concorde", "Estação Moinhos", "Estação Centro Corporativo", "Estação Praia de Belas", "Estação Ipanema"],
       "A vitrine do regime: 24 poltronas, vidro fumê, telefone a bordo, dos Moinhos a Ipanema sem cruzar com ninguém da rua — o único transporte que desce até o enclave.",
-      """A vitrine do regime. Vagão preto de 24 poltronas com telefone [[Embratel]] a bordo: sai da [[Estação Moinhos]] com guarita da Gradiente, para dentro do [[Edifício Concorde]] na [[Estação Concorde]], cruza o Centro pelo deck de vidro da [[Estação Centro Corporativo]] — separada da popular por uma catraca de crachá —, deixa o executivo no escritório do porto pela [[Estação Praia de Belas]] e segue sozinha pelo lago até a porta dos condomínios, na [[Estação Ipanema]]: nenhum ônibus, lotação ou balsa desce até lá. Crachá de megacorp abre a catraca; quem entra sem ele paga Cz$ 1.000, é fotografado e sai escoltado.""",
+      """A vitrine do regime. Vagão preto de 24 poltronas com telefone [[Embratel]] a bordo: sai de dentro do [[Edifício Concorde]], na [[Estação Concorde]], para na [[Estação Moinhos]] com guarita da Gradiente, cruza o Centro pelo deck de vidro da [[Estação Centro Corporativo]] — separada da popular por uma catraca de crachá —, deixa o executivo no escritório do porto pela [[Estação Praia de Belas]] e segue sozinha pelo lago até a porta dos condomínios, na [[Estação Ipanema]]: nenhum ônibus, lotação ou balsa desce até lá. Crachá de megacorp abre a catraca; quem entra sem ele paga Cz$ 1.000, é fotografado e sai escoltado.""",
       "Vagão preto fosco com friso dourado e logo da Gradiente, plataforma de mármore com carpete, segurança de terno com radinho, executivo de pasta lendo jornal censurado, vista do Guaíba pelo vidro.", cor="#111111")
 linha("Aeromóvel", "Aeromóvel", "RAMAL COSTA E SILVA", "RAMAL COSTA E SILVA", "Exército; Trensurb só mantém o trilho", "só o Exército — fechado ao público desde 1985", "", 2, "sem horário; roda de madrugada",
       ["Estação Central", "Estação Quartel"],
@@ -401,9 +401,9 @@ linha("Ônibus", "Ônibus", "SARANDI — CENTRO", "SARANDI", MARCOPOLO, BRONZE, 
       "O radial do turno pela Assis Brasil: lota às cinco, quebra na subida da Independência e é a linha mais assaltada da cidade.",
       """O corredor da [[Rua da Sarandi]]. Sai do pátio da [[Estação Zaffari]], recolhe o turno na [[Estação Sarandi]] e na [[Rua da Sarandi]], pega a Assis Brasil no [[Posto Ipiranga da Assis Brasil]] e desce pela [[Estação Nogueiras]] e pela [[Estação Independência]] até a [[Estação Central]]. O [[TRI Bronze]] vale no horário do turno; fora dele, Prata pra cima ou dinheiro pro cobrador. Motor que apaga na subida, cobrador de sacola, camelô de amendoim pela porta de trás — e assalto na parada de [[Nova Sarandi]] como rotina ([[Crimes Cotidianos]]).""", ONIBUS_APAR, cor="#e6a100")
 linha("Ônibus", "Ônibus", "ASSIS BRASIL — CENTRO", "ASSIS BRASIL", MARCOPOLO, BRONZE, PASS, 2, "5h–23h",
-      ["Motel Assis Brasil", "Concessionária Gurgel", "Shopping Iguatemi", "Estação Passo D'Areia", "Estação Nogueiras", "Estação Independência", "Estação Central"],
+      ["Motel Assis Brasil", "Concessionária Gurgel", "Hospital Cristo Redentor", "Estação Passo D'Areia", "Estação Nogueiras", "Estação Independência", "Estação Central"],
       "A linha mais cheia da cidade: um a cada cinco minutos pela Assis Brasil, do motel ao Centro.",
-      """A mais cheia da cidade, um a cada cinco minutos. Vem da ponta leste da Assis Brasil — [[Motel Assis Brasil]], [[Concessionária Gurgel]], [[Shopping Iguatemi]] — para embaixo da [[Estação Passo D'Areia]] e da [[Estação Nogueiras]] pra quem não quer pagar Aeromóvel e desce pela [[Estação Independência]] até a [[Estação Central]]. TRI Bronze no turno, Prata o dia inteiro. É o ônibus que a [[Marcopolo]] mais conserta e menos conserta: tem peça, mas nunca sobra.""", ONIBUS_APAR, cor="#e63946")
+      """A mais cheia da cidade, um a cada cinco minutos. Vem da ponta leste da Assis Brasil — [[Motel Assis Brasil]], [[Concessionária Gurgel]], a porta do [[Hospital Cristo Redentor]] — para embaixo da [[Estação Passo D'Areia]] e da [[Estação Nogueiras]] pra quem não quer pagar Aeromóvel e desce pela [[Estação Independência]] até a [[Estação Central]]. TRI Bronze no turno, Prata o dia inteiro. É o ônibus que a [[Marcopolo]] mais conserta e menos conserta: tem peça, mas nunca sobra.""", ONIBUS_APAR, cor="#e63946")
 linha("Ônibus", "Ônibus", "ITU — CENTRO", "ITU", MARCOPOLO, BRONZE, PASS, 1, "5h–23h",
       ["Fábrica Itú Química", "Rua da Antiga Indústria", "Estação Nogueiras", "Estação Independência", "Estação Central"],
       "A linha mais quebrada: dois ônibus pra linha inteira, cheiro de éter e o operário da Itú Química dormindo em pé.",
@@ -412,10 +412,10 @@ linha("Ônibus", "Ônibus", "PETRÓPOLIS — CENTRO", "PETRÓPOLIS", MARCOPOLO, 
       ["Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Armazém Sarmento Leite", "Estação Central"],
       "O ônibus de classe média: inteiro, com rádio, pela Bento Gonçalves da sede da Tramontina até o Centro.",
       """O ônibus "de classe média": inteiro, com rádio na Farroupilha e cobrador de uniforme. Desce a Bento Gonçalves da [[Sede da Tramontina]] e do [[Parque Moinhos]], passa na [[Galeteria de Petrópolis]], contorna a [[Redenção]] e chega à [[Estação Central]] pela esquina do [[Armazém Sarmento Leite]]. Prata pra cima; a Brigada sobe pouco — o passageiro tem crachá.""", ONIBUS_APAR, cor="#7b2cbf")
-linha("Ônibus", "Ônibus", "NAVEGANTES — CENTRO", "NAVEGANTES", MARCOPOLO, PRATA, PASS, 2, "5h–22h50",
+linha("Ônibus", "Ônibus", "NAVEGANTES — CENTRO", "NAVEGANTES", MARCOPOLO, BRONZE, PASS, 2, "5h–22h50",
       ["Velha Indústria", "Teatro Quarto Distrito", "Farrapos", "Galeria do Rosário", "Estação Central"],
       "A linha do Quarto Distrito pela Voluntários da Pátria: operário de dia, artista de noite, o último sai às 22h50 cheio.",
-      """A Voluntários da Pátria de ponta a ponta. De dia leva o operário da [[Velha Indústria]]; de noite leva o artista do [[Teatro Quarto Distrito]] e quem sai dos bares da [[Farrapos]] antes do toque. Para na [[Galeria do Rosário]] e acaba na [[Estação Central]]. O último sai às 22h50 cheio de artista — e a [[Ordem dos Subsolos]] sabe quem estava nele.""", ONIBUS_APAR, cor="#ff7f0e")
+      """A Voluntários da Pátria de ponta a ponta. De dia leva o operário da [[Velha Indústria]]; de noite leva o artista do [[Teatro Quarto Distrito]] e quem sai dos bares da [[Farrapos]] antes do toque. Para na [[Galeria do Rosário]] e acaba na [[Estação Central]]. TRI Bronze no turno da Velha Indústria, Prata o resto do dia. O último sai às 22h50 cheio de artista — e a [[Ordem dos Subsolos]] sabe quem estava nele.""", ONIBUS_APAR, cor="#ff7f0e")
 linha("Ônibus", "Ônibus", "343 BEIRA-RIO", "343 BEIRA-RIO", MARCOPOLO, PRATA, PASS, 2, "5h–23h",
       ["Estação Central", "Estação Cidade Baixa", "Estação Férrea de Belas", "Estação Estádios", "Mercado de Frutos do Mar"],
       "O 343 pela orla: Centro, Cidade Baixa, estádios e o mercado de peixe — a última parada antes do nada.",
@@ -424,42 +424,46 @@ linha("Ônibus", "Ônibus", "UFRGS — BARRA", "UFRGS — BARRA", MARCOPOLO, PRA
       ["Colégio Rosário", "Armazém Sarmento Leite", "Redenção", "Estação Férrea de Belas", "Estação Porto Novo"],
       "O ônibus do estudante: do campus à 'Barra' do Porto Novo, cheio de livro proibido, com a Brigada subindo na Redenção.",
       """O ônibus do estudante — a única linha com dois nomes e nenhum número. Sai do campus, na porta do [[Colégio Rosário]], desce pela esquina do [[Armazém Sarmento Leite]], contorna a [[Redenção]] e vai até a "Barra": a [[Estação Férrea de Belas]] e a [[Estação Porto Novo]]. Cheio de livro embrulhado em jornal; a Brigada sobe na Redenção pra ver o que tem no embrulho.""", ONIBUS_APAR, cor="#00897b")
+linha("Ônibus", "Ônibus", "ZONA LESTE — CENTRO", "ZONA LESTE", MARCOPOLO, BRONZE, PASS, 1, "5h–23h",
+      ["Sede da Camisa 12", "Venda da Zona Leste", "Sede da Tramontina", "Parque Moinhos", "Galeteria de Petrópolis", "Redenção", "Armazém Sarmento Leite", "Estação Central"],
+      "O radial das vilas: da Zona Leste ao portão da Tramontina e, pela Bento Gonçalves, até o Centro — o ônibus do turno de quem mora de costas pra cidade.",
+      """O radial das vilas. Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]] antes das cinco, deixa metade do ônibus no portão da [[Sede da Tramontina]] e segue pela Bento Gonçalves — [[Parque Moinhos]], [[Galeteria de Petrópolis]] — até a [[Redenção]], a esquina do [[Armazém Sarmento Leite]] e a [[Estação Central]]. [[TRI Bronze]] no turno; lota tanto que o cobrador viaja na porta. É a única forma da Zona Leste chegar ao Centro sem pagar Kombi.""", ONIBUS_APAR, cor="#a0522d")
 # Ônibus — transversais
-linha("Ônibus", "Ônibus", "T1 SARANDI — PORTO NOVO", "T1 SARANDI — PORTO NOVO", MARCOPOLO, PRATA, PASS, 2, "5h–23h",
+linha("Ônibus", "Ônibus", "T1 SARANDI — PORTO NOVO", "T1 SARANDI — PORTO NOVO", MARCOPOLO, BRONZE, PASS, 2, "5h–23h",
       ["Rua da Sarandi", "Estação Nogueiras", "Estação Independência", "Redenção", "Estação Férrea de Belas", "Estação Porto Novo"],
       "A transversal grande: uma hora e meia de Nova Sarandi ao porto sem entrar no Centro.",
-      """A transversal grande: uma hora e meia de ponta a ponta sem entrar no Centro. Da [[Rua da Sarandi]] pelos condomínios da [[Estação Nogueiras]], pela [[Estação Independência]], pela [[Redenção]] e pela [[Estação Férrea de Belas]] até a [[Estação Porto Novo]]. Leva o estivador do norte pro cais e volta vazia depois das dezenove.""", ONIBUS_APAR, cor="#3949ab")
+      """A transversal grande: uma hora e meia de ponta a ponta sem entrar no Centro. Da [[Rua da Sarandi]] pelos condomínios da [[Estação Nogueiras]], pela [[Estação Independência]], pela [[Redenção]] e pela [[Estação Férrea de Belas]] até a [[Estação Porto Novo]]. Leva o estivador do norte pro cais — TRI Bronze no turno do porto — e volta vazia depois das dezenove.""", ONIBUS_APAR, cor="#3949ab")
 linha("Ônibus", "Ônibus", "T2 ZONA LESTE — BEIRA-RIO", "T2 ZONA LESTE — BEIRA-RIO", MARCOPOLO, BRONZE, PASS, 1, "5h–23h; em dia de jogo até o fim",
       ["Sede da Camisa 12", "Venda da Zona Leste", "Estação Jardim Botânico", "Estação Estádios", "Estação Porto Novo"],
       "A 'linha da torcida': da Zona Leste aos estádios, em dia de jogo vira caravana e a Brigada sobe armada.",
       """A "linha da torcida". Sai da porta da [[Sede da Camisa 12]] e da [[Venda da Zona Leste]], cruza a [[Estação Jardim Botânico]] e desce até a [[Estação Estádios]] e a [[Estação Porto Novo]]. TRI Bronze no turno; em dia de jogo vira caravana, com bandeira na janela e a Brigada armada na porta de trás. O motorista é colorado e para onde a torcida grita.""", ONIBUS_APAR, cor="#c62828")
 linha("Ônibus", "Ônibus", "T3 VILA MILITAR — SARANDI", "T3 VILA MILITAR — SARANDI", MARCOPOLO, BRONZE, PASS, 2, "5h–23h",
-      ["Vila Militar do Paraguassu", "Rádio Farroupilha", "Motel Assis Brasil", "Rua da Sarandi"],
+      ["Vila Militar do Paraguassu", "Hospital de Guarnição", "Rádio Farroupilha", "Motel Assis Brasil", "Rua da Sarandi"],
       "A 'linha da farda': funciona porque leva soldado da Vila Militar à Assis Brasil e a Nova Sarandi.",
-      """A "linha da farda". Sai da [[Vila Militar do Paraguassu]], passa na [[Rádio Farroupilha]], pega a Assis Brasil no [[Motel Assis Brasil]] e vai até a [[Rua da Sarandi]]. Funciona — tem peça, tem horário — porque leva soldado sem farda pra casa. TRI Bronze no turno; ninguém assalta.""", ONIBUS_APAR, cor="#4e6e2e")
+      """A "linha da farda". Sai da [[Vila Militar do Paraguassu]], passa no [[Hospital de Guarnição]] e na [[Rádio Farroupilha]], pega a Assis Brasil no [[Motel Assis Brasil]] e vai até a [[Rua da Sarandi]]. Funciona — tem peça, tem horário — porque leva soldado sem farda pra casa. TRI Bronze no turno; ninguém assalta.""", ONIBUS_APAR, cor="#4e6e2e")
 linha("Ônibus", "Ônibus", "T4 SARANDI — MOINHOS", "T4 SARANDI — MOINHOS", MARCOPOLO, PRATA, PASS, 2, "5h–23h",
-      ["Rua da Sarandi", "Estação Nogueiras", "Rua da Antiga Indústria", "Estação Moinhos"],
+      ["Rua da Sarandi", "Rua da Antiga Indústria", "Estação Nogueiras", "Estação Moinhos"],
       "O operário que limpa os Moinhos: de Nova Sarandi, pelo Passo e pelo Itu, até a estação dos Moinhos — onde a guarita olha feio.",
-      """O ônibus do operário que limpa os Moinhos. Da [[Rua da Sarandi]] pelos condomínios da [[Estação Nogueiras]], pela [[Rua da Antiga Indústria]] do [[Jardim Itu]] e até a esquina da [[Estação Moinhos]], onde a guarita da Gradiente olha feio pra quem desce de macacão. Prata pra cima; volta às dezoito com a mesma gente e cheiro de cera.""", ONIBUS_APAR, cor="#9c6b1f")
+      """O ônibus do operário que limpa os Moinhos. Da [[Rua da Sarandi]] pela [[Rua da Antiga Indústria]] do [[Jardim Itu]], pelos condomínios da [[Estação Nogueiras]] e até a esquina da [[Estação Moinhos]], onde a guarita da Gradiente olha feio pra quem desce de macacão. Prata pra cima; volta às dezoito com a mesma gente e cheiro de cera.""", ONIBUS_APAR, cor="#9c6b1f")
 linha("Ônibus", "Ônibus", "T5 PETRÓPOLIS — QUARTO DISTRITO", "T5 PETRÓPOLIS — QUARTO DISTRITO", MARCOPOLO, PRATA, PASS, 2, "6h–23h",
-      ["Galeteria de Petrópolis", "Pensão Farroupilha", "Redenção", "Estação Independência", "Farrapos", "Teatro Quarto Distrito"],
+      ["Galeteria de Petrópolis", "Pensão Farroupilha", "Estação Independência", "Farrapos", "Teatro Quarto Distrito"],
       "A linha do artista que mora em Petrópolis e finge que não: da Bento ao Bom Fim e à Farrapos, sem passar pelo Centro.",
-      """A linha do artista que mora em Petrópolis e finge que não. Da [[Galeteria de Petrópolis]] pelo Bom Fim — [[Pensão Farroupilha]], [[Redenção]], [[Estação Independência]] — até a [[Farrapos]] e o [[Teatro Quarto Distrito]], sem tocar o Centro. Enche às dezenove com gente de casaco preto e volta vazia; depois do toque, só a Kombi da Voluntários faz o caminho.""", ONIBUS_APAR, cor="#5d4037")
+      """A linha do artista que mora em Petrópolis e finge que não. Da [[Galeteria de Petrópolis]] pelo Bom Fim — [[Pensão Farroupilha]], [[Estação Independência]] — até a [[Farrapos]] e o [[Teatro Quarto Distrito]], sem tocar o Centro. Enche às dezenove com gente de casaco preto e volta vazia; depois do toque, só a Kombi da Voluntários faz o caminho.""", ONIBUS_APAR, cor="#5d4037")
 linha("Ônibus", "Ônibus", "T6 CIRCULAR NOBRE", "T6 CIRCULAR NOBRE", MARCOPOLO, PRATA, PASS, 4, "6h–22h",
-      ["Estação Moinhos", "Padre Chagas", "Parque Moinhos", "Estação Jardim Botânico", "Estação Praia de Belas"],
-      "O ônibus dos bairros nobres: novo, com ar, acompanhado pela Brigada — e o motorista 'não vê' o TRI Prata nos Moinhos.",
-      """O ônibus dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Estação Moinhos]] pela [[Padre Chagas]], pela Bento Gonçalves no [[Parque Moinhos]], pela [[Estação Jardim Botânico]] até a [[Estação Praia de Belas]], e volta pelo mesmo caminho. A Brigada acompanha de moto; o motorista "não vê" o TRI Prata quando o passageiro sobe nos Moinhos.""",
+      ["Padre Chagas", "Estação Moinhos", "Estação Independência", "Colégio Rosário", "Armazém Sarmento Leite", "Redenção", "Estação Centro Corporativo"],
+      "O anel dos bairros nobres: Padre Chagas, Moinhos, Bom Fim e o deck do Centro Corporativo, ônibus novo com ar e a Brigada de moto atrás.",
+      """O anel dos bairros nobres, o único Torino novo da frota, com ar-condicionado e cortina. Da [[Padre Chagas]] pela [[Estação Moinhos]] e pela [[Estação Independência]], pelo campus do [[Colégio Rosário]], pela esquina do [[Armazém Sarmento Leite]] e pela [[Redenção]] até o deck da [[Estação Centro Corporativo]] — e volta pelo mesmo caminho, sem entrar nem no Passo nem na Petrópolis. A Brigada acompanha de moto; o motorista "não vê" o TRI Prata quando o passageiro sobe nos Moinhos.""",
       "Marcopolo Torino novo, branco e verde, com cortina e ar-condicionado, motorista de gravata, moto da Brigada escoltando, árvores da Padre Chagas.", cor="#b8860b")
 # Ônibus — circulares de bairro
 linha("Ônibus", "Ônibus", "B05 BOM FIM", "B05 BOM FIM", MARCOPOLO, PRATA, PASS, 3, "6h–23h",
-      ["Redenção", "Estação Independência", "Armazém Sarmento Leite", "Bar Ocidente", "Pensão Farroupilha"],
+      ["Redenção", "Estação Independência", "Armazém Sarmento Leite", "Bar Ocidente", "Pensão Farroupilha", "Hospital de Clínicas"],
       "O microônibus do Bom Fim: vinte minutos a volta, da Redenção ao Ocidente e de volta.",
-      """Um microônibus, vinte minutos a volta. Da [[Redenção]] sobe à [[Estação Independência]], desce pela esquina do [[Armazém Sarmento Leite]], para na porta do [[Bar Ocidente]] e na [[Pensão Farroupilha]] e recomeça. É o ônibus do estudante sem pressa e do professor com sacola; o cobrador conhece todo mundo pelo nome — e a Brigada, pelo cobrador.""",
+      """Um microônibus, vinte minutos a volta. Da [[Redenção]] sobe à [[Estação Independência]], desce pela esquina do [[Armazém Sarmento Leite]], para na porta do [[Bar Ocidente]], na [[Pensão Farroupilha]] e na rampa do [[Hospital de Clínicas]] e recomeça. É o ônibus do estudante sem pressa e do professor com sacola; o cobrador conhece todo mundo pelo nome — e a Brigada, pelo cobrador.""",
       "Microônibus Marcopolo branco com faixa verde, letreiro 'B05 BOM FIM', cheio de estudante com mochila, árvores da Redenção passando na janela.", cor="#26a69a", circular=True)
 linha("Ônibus", "Ônibus", "B12 PASSO D'AREIA", "B12 PASSO D'AREIA", MARCOPOLO, PRATA, PASS, 2, "5h–23h",
-      ["Estação Passo D'Areia", "Estação Nogueiras", "Boteco Embaixo da Via", "Posto Ipiranga da Assis Brasil", "Shopping Iguatemi"],
+      ["Estação Passo D'Areia", "Boteco Embaixo da Via", "Estação Nogueiras", "Shopping Iguatemi", "Hospital Cristo Redentor", "Posto Ipiranga da Assis Brasil"],
       "A circular do Passo: da estação aos condomínios do Aeromóvel, ao posto e ao shopping, embaixo da via o tempo inteiro.",
-      """A circular do bairro, embaixo do viaduto do Aeromóvel o tempo inteiro. Da [[Estação Passo D'Areia]] pelos condomínios da [[Estação Nogueiras]], pelo [[Boteco Embaixo da Via]], pelo [[Posto Ipiranga da Assis Brasil]] e pelo [[Shopping Iguatemi]], de volta à estação. Leva o técnico da [[Marcopolo]] pra casa e a criança pro shopping; o vagão passa por cima a cada oito minutos.""",
+      """A circular do bairro, embaixo do viaduto do Aeromóvel o tempo inteiro. Da [[Estação Passo D'Areia]] pelo [[Boteco Embaixo da Via]] e pelos condomínios da [[Estação Nogueiras]], desce ao [[Shopping Iguatemi]] e volta pela Assis Brasil — [[Hospital Cristo Redentor]], [[Posto Ipiranga da Assis Brasil]] — até a estação. Leva o técnico da [[Marcopolo]] pra casa e a criança pro shopping; o vagão passa por cima a cada oito minutos.""",
       "Microônibus amarelo passando por baixo do viaduto de concreto do Aeromóvel, prédios de kitnet, boteco aceso, o vagão branco cruzando por cima.", cor="#8e24aa", circular=True)
 linha("Ônibus", "Ônibus", "B23 ZONA LESTE", "B23 ZONA LESTE", MARCOPOLO, BRONZE, PASS, 1, "5h–23h",
       ["Sede da Camisa 12", "Oficina do Borracheiro", "Padaria da Vila", "Venda da Zona Leste"],
@@ -468,17 +472,17 @@ linha("Ônibus", "Ônibus", "B23 ZONA LESTE", "B23 ZONA LESTE", MARCOPOLO, BRONZ
       "Torino velho pintado de vermelho por baixo do amarelo, bandeira do Inter no retrovisor, rua de chão, vila de tijolo sem reboco, criança correndo atrás.", cor="#ef6c00", circular=True)
 # Anfíbios
 linha("Ônibus", "Ônibus Anfíbio", "A1 CENTRO ALAGADO", "A1 CENTRO ALAGADO", MARCOPOLO, PRATA, PANF, 2, "6h–22h",
-      ["Estação Central", "Praça da Alfândega", "Galeria Malcom", "Duque de Caxias", "Salgado Filho", "Viaduto da Borges"],
+      ["Estação Central", "Praça da Alfândega", "Galeria Malcom", "Duque de Caxias", "Santa Casa", "Salgado Filho", "Viaduto da Borges"],
       "A circular das passarelas: o único que chega ao Centro afundado sem barqueiro, boiando de galeria em galeria.",
-      """A circular do Centro afundado, o único jeito de chegar às passarelas sem pagar barqueiro. Sai da passarela da [[Estação Central]], boia até a [[Praça da Alfândega]], encosta na escada da [[Galeria Malcom]], passa entre os palacetes afogados da [[Duque de Caxias]], desce o canal da [[Salgado Filho]] e volta pelo [[Viaduto da Borges]]. Torino cortado ao meio com casco de fibra da [[Gurgel]]: 15 km/h na rua, 6 na água, calado de 1,2 m. Rodam oito dos cinquenta contratados.""", ANF_APAR, cor="#0288d1", circular=True)
-linha("Ônibus", "Ônibus Anfíbio", "A2 CIDADE BAIXA — CENTRO", "A2 CIDADE BAIXA — CENTRO", MARCOPOLO, PRATA, PANF, 1, "6h–22h",
+      """A circular do Centro afundado, o único jeito de chegar às passarelas sem pagar barqueiro. Sai da passarela da [[Estação Central]], boia até a [[Praça da Alfândega]], encosta na escada da [[Galeria Malcom]], passa entre os palacetes afogados da [[Duque de Caxias]], encosta no portão do segundo andar da [[Santa Casa]], desce o canal da [[Salgado Filho]] e volta pelo [[Viaduto da Borges]]. Torino cortado ao meio com casco de fibra da [[Gurgel]]: 15 km/h na rua, 6 na água, calado de 1,2 m. Rodam oito dos cinquenta contratados.""", ANF_APAR, cor="#0288d1", circular=True)
+linha("Ônibus", "Ônibus Anfíbio", "A2 CIDADE BAIXA — CENTRO", "A2 CIDADE BAIXA — CENTRO", MARCOPOLO, BRONZE, PANF, 1, "6h–22h",
       ["Trapiche da Aliança", "Lancheria da Cidade Baixa", "Estação Cidade Baixa", "Estação Central"],
       "O anfíbio das palafitas: do Trapiche da Aliança ao Centro; quando quebra fica boiando e a Aliança reboca — e cobra.",
-      """O anfíbio das palafitas. Sai do [[Trapiche da Aliança]], encosta na [[Lancheria da Cidade Baixa]] e na escada da [[Estação Cidade Baixa]] e chega à passarela da [[Estação Central]]. Quando quebra fica boiando no meio do canal até a [[Aliança Livre das Palafitas]] rebocar — e cobrar de cada passageiro. A Brigada não sobe nele; revista na chegada.""", ANF_APAR, cor="#039be5")
-linha("Ônibus", "Ônibus Anfíbio", "A3 LINHA DO CAIS", "A3 LINHA DO CAIS", MARCOPOLO, PRATA, PANF, 2, "5h–22h",
-      ["Usina do Gasômetro", "Estação Porto Novo", "Estação Férrea de Belas", "Mercado de Frutos do Mar"],
+      """O anfíbio das palafitas. Sai do [[Trapiche da Aliança]], encosta na [[Lancheria da Cidade Baixa]] e na escada da [[Estação Cidade Baixa]] e chega à passarela da [[Estação Central]]. Quando quebra fica boiando no meio do canal até a [[Aliança Livre das Palafitas]] rebocar — e cobrar de cada passageiro. É o ônibus das palafitas: TRI Bronze no turno, e o cobrador aceita peixe. A Brigada não sobe nele; revista na chegada.""", ANF_APAR, cor="#039be5")
+linha("Ônibus", "Ônibus Anfíbio", "A3 LINHA DO CAIS", "A3 LINHA DO CAIS", MARCOPOLO, BRONZE, PANF, 2, "5h–22h",
+      ["Usina do Gasômetro", "Estação Porto Novo", "Mercado de Frutos do Mar"],
       "A linha do cais: da Usina ao porto, à estação velha e ao mercado de peixe, meio na rua, meio na água.",
-      """A linha do cais, meio na rua, meio na água. Da [[Usina do Gasômetro]] pelo cais da [[Estação Porto Novo]] e pela [[Estação Férrea de Belas]] até o [[Mercado de Frutos do Mar]], entrando na água onde o cais afundou. Leva estivador, peixeira e o ferido do porto pra Santa Casa. Prata pra cima; o cobrador tem remo.""", ANF_APAR, cor="#00acc1")
+      """A linha do cais, meio na rua, meio na água. Da [[Usina do Gasômetro]] pelo cais da [[Estação Porto Novo]] até o [[Mercado de Frutos do Mar]], entrando na água onde o cais afundou. Leva estivador, peixeira e o ferido do porto pra [[Santa Casa]]. TRI Bronze no turno do porto; o cobrador tem remo.""", ANF_APAR, cor="#00acc1")
 # Lotações VIP
 VIP_OP = "concessionárias privadas com rádio [[Embratel]]"
 linha("Lotação", "Lotação", "VIP NORTE", "VIP NORTE", VIP_OP, OURO, PVIP, 4, "6h–23h",
@@ -490,19 +494,19 @@ linha("Lotação", "Lotação", "VIP PORTO", "VIP PORTO", VIP_OP, OURO, PVIP, 4,
       "A lotação do Centro Corporativo ao escritório do porto e ao cais, sem parar em sinal.",
       """De baixo do deck da [[Estação Centro Corporativo]] ao escritório do porto na [[Estação Praia de Belas]] e ao cais da [[Estação Porto Novo]], sem parar em sinal. Leva o gerente que não tem crachá de Linha Executiva e o despachante da Zaffari com a pasta na mão. Ouro pra cima; a guarita do porto conhece a van.""", VIP_APAR, cor="#5f5f5f")
 linha("Lotação", "Lotação", "VIP LESTE", "VIP LESTE", VIP_OP, OURO, PVIP, 4, "6h–23h",
-      ["Estação Centro Corporativo", "Estação Independência", "Parque Moinhos", "Estação Jardim Botânico"],
+      ["Estação Centro Corporativo", "Estação Independência", "Redenção", "Estação Jardim Botânico", "Parque Moinhos"],
       "A lotação da Bento Gonçalves: do Centro Corporativo à sede da Tramontina e aos prédios do Jardim Botânico.",
-      """De baixo do deck da [[Estação Centro Corporativo]] pela [[Estação Independência]] até a Bento Gonçalves — [[Parque Moinhos]], na porta da [[Sede da Tramontina]] — e os prédios da [[Estação Jardim Botânico]]. É a van do técnico graduado e do gerente de fábrica; a [[Tramontina]] paga o plano Integrado de quem tem cargo e a Embratel registra cada validação.""", VIP_APAR, cor="#b0b0b0")
+      """De baixo do deck da [[Estação Centro Corporativo]] pela [[Estação Independência]] e pela [[Redenção]], pelos prédios da [[Estação Jardim Botânico]] e pela Bento Gonçalves até o [[Parque Moinhos]], na porta da [[Sede da Tramontina]]. É a van do técnico graduado e do gerente de fábrica; a [[Tramontina]] paga o plano Integrado de quem tem cargo e a Embratel registra cada validação.""", VIP_APAR, cor="#b0b0b0")
 # Kombis clandestinas
 KOMBI_OP = "cooperativas de bairro (motorista paga a própria propina)"
 linha("Lotação", "Kombi", "KOMBI DO ITU", "KOMBI DO ITU", KOMBI_OP, "dinheiro na mão — Cz$ 80, o dobro depois das 23h", PKOMBI, 1, "sai quando enche; roda depois do toque",
-      ["Ponto da Kombi do Itu", "Rua da Antiga Indústria", "Estação Nogueiras", "Estação Independência", "Estação Central"],
+      ["Rua da Sarandi", "Ponto da Kombi do Itu", "Estação Nogueiras", "Estação Independência", "Estação Central"],
       "A Kombi de nove lugares (doze na prática) do Itu ao Centro: sai quando enche, para onde gritam, não aceita TRI.",
-      """[[Volkswagen Kombi]] de nove lugares, doze na prática. Sai do [[Ponto da Kombi do Itu]] quando enche, desce a [[Rua da Antiga Indústria]], corta pela [[Estação Nogueiras]] e pela [[Estação Independência]] e deixa na [[Estação Central]] — para onde gritam. Não aceita TRI: Cz$ 80 na mão, o dobro depois das 23h. A Brigada apreende uma por semana e deixa os passageiros na rua.""", KOMBI_APAR, cor="#f4a261")
+      """[[Volkswagen Kombi]] de nove lugares, doze na prática. Desce da [[Rua da Sarandi]], enche no [[Ponto da Kombi do Itu]], corta pela [[Estação Nogueiras]] e pela [[Estação Independência]] e deixa na [[Estação Central]] — para onde gritam. Não aceita TRI: Cz$ 80 na mão, o dobro depois das 23h. A Brigada apreende uma por semana e deixa os passageiros na rua.""", KOMBI_APAR, cor="#f4a261")
 linha("Lotação", "Kombi", "KOMBI DA VOLUNTÁRIOS", "KOMBI DA VOLUNTÁRIOS", KOMBI_OP + "; a [[Ordem dos Subsolos]] cobra o ponto", "dinheiro na mão — Cz$ 80, o dobro depois das 23h", PKOMBI, 1, "a única linha da madrugada",
-      ["Ponto da Kombi da Voluntários", "Farrapos", "Galeria do Rosário", "Estação Central", "Estação Independência", "Estação Nogueiras"],
+      ["Ponto da Kombi da Voluntários", "Farrapos", "Galeria do Rosário", "Estação Central"],
       "A única linha da madrugada: do Quarto Distrito ao Centro e ao Passo D'Areia depois do toque, com a Ordem dos Subsolos cobrando o ponto.",
-      """A única linha da madrugada. Sai do [[Ponto da Kombi da Voluntários]] com quem saiu da rave da [[Farrapos]], passa na [[Galeria do Rosário]], cruza a [[Estação Central]] às escuras, sobe a [[Estação Independência]] e deixa nos condomínios da [[Estação Nogueiras]]. Depois do toque é ela ou o barqueiro; a [[Ordem dos Subsolos]] cobra o ponto e a Brigada cobra o motorista.""", KOMBI_APAR, cor="#e76f51")
+      """A única linha da madrugada. Sai do [[Ponto da Kombi da Voluntários]] com quem saiu da rave da [[Farrapos]], passa na [[Galeria do Rosário]] e deixa na [[Estação Central]] às escuras; de lá, quem vai pro Passo D'Areia espera a mesma Kombi voltar. Depois do toque é ela ou o barqueiro; a [[Ordem dos Subsolos]] cobra o ponto e a Brigada cobra o motorista.""", KOMBI_APAR, cor="#e76f51")
 linha("Lotação", "Kombi", "KOMBI DA ZONA LESTE", "KOMBI DA ZONA LESTE", KOMBI_OP + "; a [[Camisa 12]] escolhe o motorista", "dinheiro ou dose", PKOMBI, 1, "sai quando enche",
       ["Sede da Camisa 12", "Venda da Zona Leste", "Estação Jardim Botânico", "Redenção", "Estação Central"],
       "As Kombis da Zona Leste ao Centro: sai da sede da Camisa 12, para na Redenção e cobra em dinheiro ou dose.",
@@ -526,21 +530,21 @@ linha("Informal", "Caravana", "CARAVANA DA TORCIDA", "CARAVANA DA TORCIDA", W("C
 # Rótulo: direita (padrão) | esquerda | inclinado; em fila horizontal o app inclina.
 POSICOES = [
  ("Estação Central", 0, 0, "esquerda"), ("Praça da Alfândega", -1, 0, "esquerda"), ("Galeria Malcom", -2, 0, "esquerda"), ("Duque de Caxias", -3, -1, "esquerda"),
- ("Salgado Filho", -3, -2, "esquerda"), ("Viaduto da Borges", -1, -1, "direita"), ("Estação Centro Corporativo", 0, -1, "direita"),
+ ("Salgado Filho", -3, -2, "esquerda"), ("Santa Casa", -4, -2, "esquerda"), ("Viaduto da Borges", -1, -1, "direita"), ("Estação Centro Corporativo", 0, -1, "direita"),
  ("Usina do Gasômetro", -3, -4, "esquerda"), ("Delta Radioativo", -5, 3, "esquerda"), ("Trapiche da Aliança", 0, -4, "direita"), ("Lancheria da Cidade Baixa", 0, -3, "esquerda"),
  ("Estação Cidade Baixa", 1, -4, "direita"), ("Estação Férrea de Belas", 1, -5, "direita"), ("Estação Porto Novo", -1, -5, "esquerda"), ("Estação Praia de Belas", -2, -6, "esquerda"),
  ("Estação Estádios", 1, -7, "direita"), ("Estádio Beira-Rio", 2, -8, "direita"), ("Mercado de Frutos do Mar", 0, -8, "esquerda"), ("Estação Ipanema", -2, -10, "esquerda"),
  ("Estação Jardim Botânico", 6, -7, "esquerda"),
  ("Galeria do Rosário", 1, 1, "direita"), ("Ponto da Kombi da Voluntários", 0, 2, "esquerda"), ("Farrapos", 1, 2, "direita"), ("Teatro Quarto Distrito", 2, 3, "direita"), ("Velha Indústria", 3, 4, "direita"),
- ("Estação Independência", 3, 0, "direita"), ("Colégio Rosário", 3, 1, "direita"), ("Armazém Sarmento Leite", 2, -3, "direita"), ("Redenção", 3, -3, "direita"), ("Bar Ocidente", 2, -5, "esquerda"), ("Pensão Farroupilha", 3, -5, "direita"),
- ("Estação Moinhos", 6, 0, "direita"), ("Estação Concorde", 6, 1, "inclinado"), ("Padre Chagas", 7, 1, "direita"),
- ("Parque Moinhos", 8, -2, "direita"), ("Galeteria de Petrópolis", 6, -3, "direita"), ("Sede da Tramontina", 9, -2, "direita"),
+ ("Estação Independência", 3, 0, "direita"), ("Colégio Rosário", 3, 1, "direita"), ("Armazém Sarmento Leite", 2, -3, "direita"), ("Redenção", 3, -3, "direita"), ("Bar Ocidente", 2, -5, "esquerda"), ("Pensão Farroupilha", 4, -5, "direita"), ("Hospital de Clínicas", 4, -6, "direita"),
+ ("Estação Moinhos", 6, 0, "direita"), ("Estação Concorde", 6, 1, "inclinado"), ("Padre Chagas", 5, 1, "esquerda"),
+ ("Parque Moinhos", 8, -2, "direita"), ("Galeteria de Petrópolis", 6, -4, "direita"), ("Sede da Tramontina", 9, -2, "direita"),
  ("Sede da Camisa 12", 10, -7, "direita"), ("Venda da Zona Leste", 9, -7, "esquerda"), ("Oficina do Borracheiro", 10, -8, "direita"), ("Padaria da Vila", 9, -8, "esquerda"),
- ("Vila Militar do Paraguassu", 15, 5, "direita"), ("Rádio Farroupilha", 14, 4, "direita"),
- ("Estação Zaffari", 7, 7, "direita"), ("Estação Sarandi", 7, 6, "esquerda"), ("Rua da Sarandi", 8, 6, "direita"), ("Posto Ipiranga da Assis Brasil", 10, 5, "direita"),
+ ("Vila Militar do Paraguassu", 15, 5, "direita"), ("Rádio Farroupilha", 14, 4, "direita"), ("Hospital de Guarnição", 14, 5, "esquerda"),
+ ("Estação Zaffari", 7, 7, "direita"), ("Estação Sarandi", 7, 6, "esquerda"), ("Rua da Sarandi", 8, 6, "direita"), ("Posto Ipiranga da Assis Brasil", 9, 5, "direita"),
  ("Estação Nogueiras", 9, 3, "esquerda"), ("Estação Passo D'Areia", 10, 3, "direita"), ("Boteco Embaixo da Via", 10, 4, "direita"), ("Shopping Iguatemi", 11, 2, "direita"),
- ("Concessionária Gurgel", 12, 3, "direita"), ("Motel Assis Brasil", 13, 3, "direita"),
- ("Rua da Antiga Indústria", 9, 1, "direita"), ("Fábrica Itú Química", 10, 1, "direita"), ("Ponto da Kombi do Itu", 10, 0, "direita"),
+ ("Concessionária Gurgel", 12, 3, "direita"), ("Motel Assis Brasil", 13, 3, "direita"), ("Hospital Cristo Redentor", 11, 4, "direita"),
+ ("Rua da Antiga Indústria", 9, 1, "direita"), ("Fábrica Itú Química", 10, 1, "direita"), ("Ponto da Kombi do Itu", 8, 1, "esquerda"),
 ]
 
 # ═══════════════════════ 5. NOTAS DE PASTA + CONTEXTO ═══════════════════════
@@ -591,7 +595,7 @@ Ao sul da Praia de Belas **não há malha**: a Restinga, a Zona Deserta e a orla
 | De \\ Para | Centro | Moinhos / Ipanema | Nova Sarandi / Passo | Zona Leste / Costa e Silva | Cidade Baixa / Porto |
 |---|---|---|---|---|---|
 | [[A Pé]] | a pé pela passarela (pedágio) | não chega (a guarita barra) | [[KOMBI DO ITU\\|Kombi do Itu]] / [[KOMBI DA VOLUNTÁRIOS\\|da Voluntários]] na mão | [[KOMBI DA ZONA LESTE\\|Kombi da Zona Leste]] | [[Lancha do Barqueiro\\|barqueiro]] (dose) |
-| [[TRI Bronze]] | [[SARANDI — CENTRO\\|SARANDI]] / [[ITU — CENTRO\\|ITU]] / [[ASSIS BRASIL — CENTRO\\|ASSIS BRASIL]] no turno | não | SARANDI, [[T3 VILA MILITAR — SARANDI\\|T3]] no turno | [[T2 ZONA LESTE — BEIRA-RIO\\|T2]] / T3 / [[B23 ZONA LESTE\\|B23]] no turno | não |
+| [[TRI Bronze]] | [[SARANDI — CENTRO\\|SARANDI]] / [[ITU — CENTRO\\|ITU]] / [[ASSIS BRASIL — CENTRO\\|ASSIS BRASIL]] / [[NAVEGANTES — CENTRO\\|NAVEGANTES]] / [[ZONA LESTE — CENTRO\\|ZONA LESTE]] no turno | não | SARANDI, [[T3 VILA MILITAR — SARANDI\\|T3]], [[T1 SARANDI — PORTO NOVO\\|T1]] no turno | [[T2 ZONA LESTE — BEIRA-RIO\\|T2]] / ZONA LESTE / [[B23 ZONA LESTE\\|B23]] no turno | [[A2 CIDADE BAIXA — CENTRO\\|A2]] / [[A3 LINHA DO CAIS\\|A3]] / T1 no turno |
 | [[TRI Prata]] | ônibus + [[L1 POPULAR NORTE\\|L1]] / [[L2 POPULAR SUL\\|L2]] + [[A1 CENTRO ALAGADO\\|A1]] | [[T4 SARANDI — MOINHOS\\|T4]] / [[T6 CIRCULAR NOBRE\\|T6]] (com cara feia); Ipanema não | L1, ASSIS BRASIL, [[T1 SARANDI — PORTO NOVO\\|T1]] | T2 / T3 | [[A2 CIDADE BAIXA — CENTRO\\|A2]], [[343 BEIRA-RIO\\|343]], [[UFRGS — BARRA\\|UFRGS]], L2 |
 | [[TRI Ouro]] | + [[VIP NORTE]] / [[VIP PORTO]] / [[VIP LESTE]] | VIP Norte; Ipanema não | VIP Norte | VIP Leste, T2 / T3 | VIP Porto |
 | [[TRI Platina]] | [[LINHA EXECUTIVA]] + [[Táxi Gurgel\\|táxi]] | Linha Executiva até Ipanema | táxi | táxi (o motorista reclama) | Linha Executiva (Praia de Belas) |
@@ -613,7 +617,7 @@ if alvo in s and "[[Malha de Transportes]]" not in s:
     open(CV, "w", encoding="utf-8").write(s)
 for plano, frase in [
     ("A Pé", "Sem TRI, o coletivo que roda é o que não aceita TRI: as Kombis ([[Lotação]]) e a [[BALSA ZAFFARI]]; barqueiro e caminhão do Sindicato são corrida ([[Lancha do Barqueiro]], [[Carona no Caminhão do Sindicato]]) — a malha em [[Malha de Transportes]]."),
-    ("TRI Bronze", "As linhas onde o bronze funciona no turno — [[SARANDI — CENTRO]], [[ASSIS BRASIL — CENTRO]], [[ITU — CENTRO]], [[T2 ZONA LESTE — BEIRA-RIO]], [[T3 VILA MILITAR — SARANDI]], [[B23 ZONA LESTE]] — estão em [[Malha de Transportes]]."),
+    ("TRI Bronze", "As linhas onde o bronze funciona no turno — [[SARANDI — CENTRO]], [[ASSIS BRASIL — CENTRO]], [[ITU — CENTRO]], [[NAVEGANTES — CENTRO]], [[ZONA LESTE — CENTRO]], [[T1 SARANDI — PORTO NOVO]], [[T2 ZONA LESTE — BEIRA-RIO]], [[T3 VILA MILITAR — SARANDI]], [[B23 ZONA LESTE]], [[A2 CIDADE BAIXA — CENTRO]], [[A3 LINHA DO CAIS]] — estão em [[Malha de Transportes]]."),
     ("TRI Prata", "Todas as linhas de [[Ônibus]] (inclusive anfíbios) e o [[Aeromóvel]] popular ([[L1 POPULAR NORTE]], [[L2 POPULAR SUL]]): [[Malha de Transportes]]."),
     ("TRI Ouro", "Além de tudo do Prata, as lotações [[VIP NORTE]], [[VIP PORTO]] e [[VIP LESTE]]: [[Malha de Transportes]]."),
     ("TRI Platina", "Abre a [[LINHA EXECUTIVA]] do Aeromóvel (e o táxi conveniado, que não é linha); o resto da malha em [[Malha de Transportes]]."),
@@ -702,6 +706,7 @@ COORDS = {
  "Oficina do Borracheiro": (-30.0640, -51.0975),
  "Padaria da Vila": (-30.0625, -51.1030),
  "Zona Leste": (-30.0600, -51.1030),
+ "Hospital de Clínicas": (-30.0390, -51.2075), "Santa Casa": (-30.0322, -51.2228), "Hospital Cristo Redentor": (-29.9990, -51.1560), "Hospital de Guarnição": (-30.0010, -51.0930),
  "Depósito Zaffari": (-29.9740, -51.1240), "Ferroviária Nacional": (-29.9805, -51.1300), "Praça das Nogueiras": (-30.0090, -51.1745),
  "Independência": (-30.0300, -51.2150), "Edifício Concorde": (-30.0258, -51.1950), "Ponto do Caminhão do Sindicato": (-30.2120, -51.1060),
  "Quartel-General do Exército": (-29.9995, -51.0875), "Oficina de Sucata": (-30.1510, -51.1440), "Mercado Flutuante": (-30.1480, -51.1480),
@@ -716,7 +721,7 @@ MARKERS = [
  ("Estação", 874, 252, "Estação Central"), ("Estação", 864, 242, "Estação Centro Corporativo"), ("Estação", 840, 254, "Estação Cidade Baixa"),
  # Bom Fim
  ("Ponto de Interesse", 868, 282, "Independência"), ("Ponto de Interesse", 872, 276, "Colégio Rosário"), ("Mercado", 854, 286, "Armazém Sarmento Leite"),
- ("Bar", 850, 302, "Bar Ocidente"), ("Hotel", 858, 308, "Pensão Farroupilha"), ("Estação", 866, 286, "Estação Independência"),
+ ("Bar", 850, 302, "Bar Ocidente"), ("Hotel", 858, 308, "Pensão Farroupilha"), ("Estação", 866, 286, "Estação Independência"), ("Hospital", 0, 0, "Hospital de Clínicas"), ("Hospital", 0, 0, "Santa Casa"), ("Hospital", 0, 0, "Hospital Cristo Redentor"), ("Hospital", 0, 0, "Hospital de Guarnição"),
  # Moinhos
  ("Ponto de Interesse", 890, 338, "Edifício Concorde"), ("Estação", 866, 342, "Estação Moinhos"), ("Estação", 892, 332, "Estação Concorde"),
  # Quarto Distrito
@@ -770,9 +775,11 @@ print("marcadores novos:", len(novos), "; reposicionados:", atualizados)
 # ícone "Estação" no plugin leaflet (o app tem o registro próprio em leaflet-local.ts)
 LEAF = os.path.join(ROOT, ".obsidian", "plugins", "obsidian-leaflet-plugin", "data.json")
 d = json.load(open(LEAF, encoding="utf-8"))
-if not any(i.get("type") == "Estação" for i in d["markerIcons"]):
-    d["markerIcons"].append({"type": "Estação", "iconName": "train", "color": "#dddddd", "alpha": 1, "layer": False, "transform": {"size": 6, "x": 0, "y": -2}, "isImage": False, "tags": [], "minZoom": None, "maxZoom": None})
-    json.dump(d, open(LEAF, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+mudou = False
+for tipo, icone in [("Estação", "train"), ("Hospital", "plus-square")]:
+    if not any(i.get("type") == tipo for i in d["markerIcons"]):
+        d["markerIcons"].append({"type": tipo, "iconName": icone, "color": "#dddddd", "alpha": 1, "layer": False, "transform": {"size": 6, "x": 0, "y": -2}, "isImage": False, "tags": [], "minZoom": None, "maxZoom": None}); mudou = True
+if mudou: json.dump(d, open(LEAF, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
 
 # ═══════════════════════ 6b. REMOÇÕES (revisão do mestre) ═══════════════════════
@@ -856,6 +863,32 @@ for p in glob.glob(os.path.join(MALHA, "**", "*.md"), recursive=True):
     if not t.startswith("---\n") or "\ncategoria: Linha\n" not in t or "\nFechada: true\n" in t: continue
     usadas |= set(re.findall(r'^  - "\[\[([^\]|]+)', t, re.M))
 print("paradas sem posição no mapa:", sorted(usadas - pos) or "nenhuma", "; posições sem linha:", sorted(pos - usadas) or "nenhuma")
+POS = {n: (x, y) for n, x, y, *_ in POSICOES}
+def _passo(a, b, ocup):
+    (x0, y0), (x1, y1) = a, b; dx, dy = x1 - x0, y1 - y0; d = min(abs(dx), abs(dy)); r = max(abs(dx), abs(dy)) - d
+    sg = lambda v: (v > 0) - (v < 0)
+    def rota(diag1):
+        seq = (["d"] * d + ["r"] * r) if diag1 else (["r"] * r + ["d"] * d); x, y = x0, y0; pts = []
+        for st in seq:
+            if st == "d": x += sg(dx); y += sg(dy)
+            elif abs(dx) > abs(dy): x += sg(dx)
+            else: y += sg(dy)
+            pts.append((x, y))
+        return pts[:-1]
+    for pref in (True, False):
+        if not any(pt in ocup for pt in rota(pref)): return None
+    return [n for n, q in POS.items() if q in rota(True)]
+conflitos = []
+for p in glob.glob(os.path.join(MALHA, "**", "*.md"), recursive=True):
+    t = open(p, encoding="utf-8").read()
+    if not t.startswith("---\n") or "\ncategoria: Linha\n" not in t or "\nFechada: true\n" in t: continue
+    par = re.findall(r'^  - "\[\[([^\]|]+)', t, re.M); seq = par + ([par[0]] if "Circular: true" in t else [])
+    for i in range(len(seq) - 1):
+        if seq[i] not in POS or seq[i + 1] not in POS: continue
+        ocup = set(POS.values()) - {POS[seq[i]], POS[seq[i + 1]]}
+        c = _passo(POS[seq[i]], POS[seq[i + 1]], ocup)
+        if c: conflitos.append(f"{os.path.basename(p)[:-3]}: {seq[i]} → {seq[i+1]} atravessa {c}")
+print("conflitos de traçado no esquemático:", conflitos or "nenhum")
 print(n_linhas, "linhas; paradas fora do Atlas:", sorted(nao_local) or "nenhuma", "; paradas sem marcador:", sorted(sem_marker) or "nenhuma")
 
 # cobertura por bairro: pernoite (Recurso noite ofertado) e saúde (PoI da lista)

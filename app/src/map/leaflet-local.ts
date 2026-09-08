@@ -47,6 +47,8 @@ export const MARKER_GLYPHS: Record<string, string[]> = {
   Porto: ['M12 7a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4', 'M12 7v15', 'M8.5 10h7', 'M5 14a7 7 0 0 0 14 0'],
   // cama
   Hotel: ['M2 19v-9', 'M2 15h20v4', 'M2 12h11a4 4 0 0 1 4 3', 'M6.5 10a1.8 1.8 0 1 0 0 .01'],
+  // cruz num quadrado (hospitais e postos, 2026-09-08b)
+  Hospital: ['M4 4h16v16H4z', 'M12 8v8', 'M8 12h8'],
   // vagão sobre trilho (estações do Aeromóvel, 2026-09-08)
   Estação: ['M6 3h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2', 'M4 10h16', 'M8.5 13.5h.01', 'M15.5 13.5h.01', 'M7 16l-2 4', 'M17 16l2 4', 'M3 21h18'],
   // trifólio: círculo + núcleo + três raios
