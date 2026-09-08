@@ -155,3 +155,42 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     expect(document.querySelectorAll('[data-malha-mapa] path[data-linha$="RAMAL COSTA E SILVA"]').length).toBe(0)
   })
 })
+
+describe('planejador de trajeto', () => {
+  it('de onde pra onde → até 3 rotas ranqueadas, com pernas, no cartão da vista; a rota escolhida acende no mapa', async () => {
+    if (!temDataset) return
+    montar()
+    await screen.findByText('// TRAJETO', {}, { timeout: 20000 })
+    fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
+    fireEvent.change(document.querySelector('[data-origem]') as HTMLInputElement, { target: { value: 'Estação Zaffari' } })
+    fireEvent.change(document.querySelector('[data-destino]') as HTMLInputElement, { target: { value: 'Estação Jardim Botânico' } })
+    const rotas = document.querySelectorAll('[data-rotas] > li')
+    expect(rotas.length).toBeGreaterThan(0)
+    expect(rotas.length).toBeLessThanOrEqual(3)
+    const primeira = rotas[0]!.querySelector('button') as HTMLButtonElement
+    const minutos = Number(primeira.querySelector('[data-minutos]')!.getAttribute('data-minutos'))
+    expect(minutos).toBeGreaterThan(10)
+    expect(minutos).toBeLessThan(180)
+    // Zaffari→Central pela L1 e Central→Jardim Botânico pela L2: uma baldeação, e é a mais rápida
+    expect(primeira.textContent).toContain('L1 POPULAR NORTE')
+    expect(primeira.textContent).toContain('L2 POPULAR SUL')
+    expect(primeira.textContent).toContain('1 baldeação')
+    // as rotas vêm em ordem de tempo
+    const tempos = Array.from(document.querySelectorAll('[data-rotas] [data-minutos]')).map((e) => Number(e.getAttribute('data-minutos')))
+    expect([...tempos].sort((a, b) => a - b)).toEqual(tempos)
+    // no mapa: A/B marcados e só as linhas da rota acesas
+    expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Zaffari"]')?.getAttribute('data-ponta')).toBe('A')
+    expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Jardim Botânico"]')?.getAttribute('data-ponta')).toBe('B')
+    const acesas = Array.from(document.querySelectorAll('[data-malha-mapa] path[data-na-rota]')).map((p) => p.getAttribute('data-linha'))
+    expect(acesas.some((id) => id?.endsWith('L1 POPULAR NORTE'))).toBe(true)
+    expect(acesas.length).toBe(2)
+    // no pico, ônibus demora mais; o aeromóvel não — a rota de trilho segue na frente
+    fireEvent.change(document.querySelector('[data-periodo]') as HTMLSelectElement, { target: { value: '0' } })
+    expect((document.querySelector('[data-rotas] button') as HTMLElement).textContent).toContain('L1 POPULAR NORTE')
+    // com o Bronze (sem Aeromóvel) a viagem precisa de ônibus, ou não existe
+    fireEvent.click(screen.getByRole('radio', { name: 'TRI Bronze' }))
+    const depois = document.querySelectorAll('[data-rotas] > li')
+    if (depois.length) expect(depois[0]!.textContent).not.toContain('L1 POPULAR NORTE')
+    else expect(document.querySelector('[data-sem-rota]')).not.toBeNull()
+  })
+})

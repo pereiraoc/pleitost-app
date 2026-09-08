@@ -137,6 +137,9 @@ export interface LocationBody {
     image: string
     bounds: [[number, number], [number, number]] | null
     defaultZoom?: number | null
+    /** `scale`/`unit` do obsidian-leaflet: metros (unit) por unidade do bounds. */
+    scale?: number | null
+    unit?: string | null
     markers: Array<{
       tipo: string
       lat: number

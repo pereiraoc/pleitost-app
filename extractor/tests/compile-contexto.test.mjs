@@ -271,3 +271,20 @@ test("transporte: compila categoria/mapa/modos e valida nota do mapa e categoria
   );
   assert.equal("transporte" in compileContexto({ worldId: "poa-1987", defs: [defPoa(), defBase()], basenames, typeByBasename }), false);
 });
+
+// PLANEJADOR (2026-09-08b): parâmetros de tempo opcionais no bloco transporte.
+test("transporte: parâmetros de tempo (cidade, sinuosidade, atraso, períodos, velocidade/espera/rua por modo)", () => {
+  const basenames = new Set([...BASENAMES, "Malha de Transportes", "Porto Alegre"]);
+  const typeByBasename = new Map([["343 BEIRA-RIO", "Linha"]]);
+  const out = compileContexto({
+    worldId: "poa-1987",
+    defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Malha de Transportes]]", cidade: "[[Porto Alegre]]", sinuosidade: 1.3, parada: 0.5, baldeacao: 5, atraso_por_qualidade: [1.6, 1.35, 1.15, 1.05, 1], periodos: [{ nome: "Pico", transito: 1.5 }], modos: [{ nome: "Ônibus", velocidade: 18, espera: 10, rua: true }] } }), defBase()],
+    basenames,
+    typeByBasename,
+  });
+  assert.deepEqual(out.transporte, { categoria: "Linha", mapa: "Malha de Transportes", cidade: "Porto Alegre", sinuosidade: 1.3, parada: 0.5, baldeacao: 5, atrasoPorQualidade: [1.6, 1.35, 1.15, 1.05, 1], periodos: [{ nome: "Pico", transito: 1.5 }], modos: [{ nome: "Ônibus", traco: "cheio", largura: 4, velocidade: 18, espera: 10, rua: true }] });
+  assert.throws(
+    () => compileContexto({ worldId: "poa-1987", defs: [defPoa({ transporte: { categoria: "Linha", mapa: "[[Malha de Transportes]]", cidade: "[[Cidade Que Não Existe]]", atraso_por_qualidade: [1, 2], modos: [{ nome: "Ônibus", velocidade: -3 }] } }), defBase()], basenames, typeByBasename }),
+    /transporte\.cidade|atraso_por_qualidade|velocidade/,
+  );
+});

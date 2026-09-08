@@ -176,11 +176,16 @@ function parseLeafletBlock(body) {
     const n = Number(t);
     return t !== "" && Number.isFinite(n) ? n : null;
   };
-  const out = { image: null, bounds: null, defaultZoom: null, markers: [] };
+  const out = { image: null, bounds: null, defaultZoom: null, scale: null, unit: null, markers: [] };
   for (const raw of m[1].split(/\r?\n/)) {
     const linha = raw.trim();
     const img = /^image:\s*\[\[(.+?)\]\]/.exec(linha);
     if (img) out.image = img[1].trim();
+    // escala do mapa (obsidian-leaflet): `scale: 45.6` + `unit: meters` = metros por unidade do bounds
+    const sc = /^scale:\s*([\d.]+)/.exec(linha);
+    if (sc) out.scale = Number(sc[1]);
+    const un = /^unit:\s*(\S+)/.exec(linha);
+    if (un) out.unit = un[1];
     const b = /^bounds:\s*\[\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\s*,\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\]/.exec(linha);
     if (b) out.bounds = [[Number(b[1]), Number(b[2])], [Number(b[3]), Number(b[4])]];
     const dz = /^defaultZoom:\s*(-?[\d.]+)/.exec(linha);

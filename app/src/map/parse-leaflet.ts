@@ -15,11 +15,15 @@ export function parseLeafletBlock(body: string): LeafletBlock | null {
     const n = Number(t)
     return t !== '' && Number.isFinite(n) ? n : null
   }
-  const out: LeafletBlock = { image: '', bounds: null, defaultZoom: null, markers: [] }
+  const out: LeafletBlock = { image: '', bounds: null, defaultZoom: null, scale: null, unit: null, markers: [] }
   for (const raw of m[1]!.split(/\r?\n/)) {
     const linha = raw.trim()
     const img = /^image:\s*\[\[(.+?)\]\]/.exec(linha)
     if (img) out.image = img[1]!.trim()
+    const sc = /^scale:\s*([\d.]+)/.exec(linha)
+    if (sc) out.scale = Number(sc[1])
+    const un = /^unit:\s*(\S+)/.exec(linha)
+    if (un) out.unit = un[1]!
     const b =
       /^bounds:\s*\[\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\s*,\s*\[\s*([\d.]+)\s*,\s*([\d.]+)\s*\]\]/.exec(linha)
     if (b) out.bounds = [[Number(b[1]), Number(b[2])], [Number(b[3]), Number(b[4])]]

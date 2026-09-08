@@ -1,0 +1,196 @@
+// PLANEJADOR DE TRAJETO (2026-09-08b) — modelo puro: dado de onde e pra onde,
+// as linhas que o cartão abre e os parâmetros de tempo do contexto, enumera
+// os trajetos possíveis com até DUAS baldeações e estima os minutos de cada um.
+//
+// Tempo de uma perna numa linha = Σ por segmento (distância real entre paradas
+// consecutivas pelo mapa da cidade × sinuosidade ÷ velocidade do modo × atraso
+// pela Qualidade da linha × trânsito do período, só pra modos de rua) + parada
+// por parada intermediária; embarcar custa a espera média do modo; trocar de
+// linha custa a baldeação + a espera da próxima. Nada disto é inventado aqui:
+// velocidades, esperas, fatores e a escala do mapa vêm do Contexto e da vault.
+import type { ContextoDef } from '../data/context-def'
+import type { LinhaMalha, Malha } from './malha'
+
+export type TransporteCfg = NonNullable<ContextoDef['transporte']>
+
+/** Posição real de uma parada (unidades do bounds do mapa da cidade). */
+export interface PosicaoReal {
+  lat: number
+  long: number
+}
+
+export interface Perna {
+  linha: LinhaMalha
+  /** Paradas percorridas, inclusive as pontas, na ordem da viagem. */
+  paradas: string[]
+  /** Minutos em movimento (+ paradas intermediárias). */
+  viagem: number
+  /** Minutos esperando a linha (embarque). */
+  espera: number
+  /** Minutos de baldeação ANTES desta perna (0 na primeira). */
+  baldeacao: number
+}
+export interface Rota {
+  pernas: Perna[]
+  /** Total em minutos (arredondado). */
+  minutos: number
+  /** Quilômetros percorridos (aproximado). */
+  km: number
+  /** ids das linhas, na ordem. */
+  linhas: string[]
+  /** Todas as paradas do trajeto, na ordem. */
+  paradas: string[]
+}
+
+export interface Parametros {
+  cfg: TransporteCfg
+  /** metros por unidade do mapa da cidade (scale do leaflet). */
+  metrosPorUnidade: number
+  posicoes: Map<string, PosicaoReal>
+  /** fator de trânsito do período escolhido (1 = normal). */
+  transito: number
+}
+
+/** Quilômetros em linha reta entre duas paradas pelo mapa da cidade (× sinuosidade). */
+export function distanciaKm(a: string, b: string, p: Parametros): number | null {
+  const pa = p.posicoes.get(a)
+  const pb = p.posicoes.get(b)
+  if (!pa || !pb) return null
+  const metros = Math.hypot(pa.lat - pb.lat, pa.long - pb.long) * p.metrosPorUnidade
+  return (metros / 1000) * (p.cfg.sinuosidade ?? 1)
+}
+
+function modoDe(cfg: TransporteCfg, l: LinhaMalha) {
+  return cfg.modos.find((m) => m.nome === l.modo)
+}
+
+/** Minutos pra ir da parada i à j numa linha (índices na ordem da nota).
+ *  Circular anda nos dois sentidos; linha comum também (ida e volta). */
+export function tempoNaLinha(l: LinhaMalha, i: number, j: number, p: Parametros): { minutos: number; km: number; paradas: string[] } | null {
+  if (i === j) return null
+  const modo = modoDe(p.cfg, l)
+  if (!modo?.velocidade) return null
+  const n = l.paradas.length
+  const fatorQ = p.cfg.atrasoPorQualidade?.[Math.max(1, Math.min(5, l.qualidade || 3)) - 1] ?? 1
+  const fatorT = modo.rua ? p.transito : 1
+  const caminhoIdx = (de: number, ate: number, passo: 1 | -1): number[] => {
+    const out = [de]
+    let k = de
+    while (k !== ate) {
+      k = (k + passo + n) % n
+      out.push(k)
+    }
+    return out
+  }
+  const opcoes: number[][] = l.circular ? [caminhoIdx(i, j, 1), caminhoIdx(i, j, -1)] : [i < j ? caminhoIdx(i, j, 1) : caminhoIdx(i, j, -1)]
+  let melhor: { minutos: number; km: number; paradas: string[] } | null = null
+  for (const idx of opcoes) {
+    let km = 0
+    let ok = true
+    for (let k = 0; k < idx.length - 1; k++) {
+      const d = distanciaKm(l.paradas[idx[k]!]!, l.paradas[idx[k + 1]!]!, p)
+      if (d === null) {
+        ok = false
+        break
+      }
+      km += d
+    }
+    if (!ok) continue
+    const minutos = (km / modo.velocidade) * 60 * fatorQ * fatorT + (idx.length - 2) * (p.cfg.parada ?? 0)
+    if (!melhor || minutos < melhor.minutos) melhor = { minutos, km, paradas: idx.map((k) => l.paradas[k]!) }
+  }
+  return melhor
+}
+
+function espera(l: LinhaMalha, cfg: TransporteCfg): number {
+  return modoDe(cfg, l)?.espera ?? 0
+}
+
+/** Todas as posições de uma parada numa linha (circular pode repetir; aqui, a primeira). */
+function indice(l: LinhaMalha, parada: string): number {
+  return l.paradas.indexOf(parada)
+}
+
+/** Enumera trajetos de `origem` a `destino` com até duas baldeações entre as
+ *  `linhas` dadas, devolve os `quantos` mais rápidos com sequências de linhas
+ *  DISTINTAS. */
+export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: string, destino: string, p: Parametros, quantos = 3): Rota[] {
+  if (!origem || !destino || origem === destino) return []
+  const usaveis = linhas.filter((l) => !l.fechada && l.paradas.length >= 2)
+  const porParada = new Map<string, LinhaMalha[]>()
+  for (const l of usaveis) for (const s of l.paradas) porParada.set(s, [...(porParada.get(s) ?? []), l])
+  const baldeacaoMin = p.cfg.baldeacao ?? 0
+  const candidatas: Rota[] = []
+  type PernaKm = Perna & { km: number }
+  const fechar = (pernas: PernaKm[]) => {
+    const minutos = pernas.reduce((a, x) => a + x.viagem + x.espera + x.baldeacao, 0)
+    const km = pernas.reduce((a, x) => a + x.km, 0)
+    const paradas = pernas.flatMap((x, i) => (i === 0 ? x.paradas : x.paradas.slice(1)))
+    candidatas.push({ pernas: pernas.map(({ km: _k, ...r }) => r), minutos: Math.round(minutos), km: Math.round(km * 10) / 10, linhas: pernas.map((x) => x.linha.id), paradas })
+  }
+  const perna = (l: LinhaMalha, de: string, ate: string, primeira: boolean): PernaKm | null => {
+    const t = tempoNaLinha(l, indice(l, de), indice(l, ate), p)
+    if (!t) return null
+    return { linha: l, paradas: t.paradas, viagem: t.minutos, espera: espera(l, p.cfg), baldeacao: primeira ? 0 : baldeacaoMin, km: t.km }
+  }
+  const linhasO = porParada.get(origem) ?? []
+  const linhasD = new Set(porParada.get(destino) ?? [])
+  // direto
+  for (const A of linhasO) if (linhasD.has(A)) {
+    const pa = perna(A, origem, destino, true)
+    if (pa) fechar([pa])
+  }
+  // uma baldeação: A (origem→X) + B (X→destino)
+  for (const A of linhasO) {
+    for (const X of A.paradas) {
+      if (X === origem) continue
+      for (const B of porParada.get(X) ?? []) {
+        if (B === A || !linhasD.has(B) || X === destino) continue
+        const p1 = perna(A, origem, X, true)
+        const p2 = perna(B, X, destino, false)
+        if (p1 && p2) fechar([p1, p2])
+      }
+    }
+  }
+  // duas baldeações: A (origem→X) + B (X→Y) + C (Y→destino)
+  for (const A of linhasO) {
+    for (const X of A.paradas) {
+      if (X === origem || X === destino) continue
+      for (const B of porParada.get(X) ?? []) {
+        if (B === A) continue
+        for (const Y of B.paradas) {
+          if (Y === X || Y === origem || Y === destino) continue
+          for (const C of porParada.get(Y) ?? []) {
+            if (C === B || C === A || !linhasD.has(C)) continue
+            const p1 = perna(A, origem, X, true)
+            const p2 = perna(B, X, Y, false)
+            const p3 = perna(C, Y, destino, false)
+            if (p1 && p2 && p3) fechar([p1, p2, p3])
+          }
+        }
+      }
+    }
+  }
+  // ranking: menor tempo; uma rota por sequência de linhas; sem repetir parada
+  candidatas.sort((a, b) => a.minutos - b.minutos || a.pernas.length - b.pernas.length)
+  const vistas = new Set<string>()
+  const out: Rota[] = []
+  for (const r of candidatas) {
+    if (new Set(r.paradas).size !== r.paradas.length) continue
+    const k = r.linhas.join('>')
+    if (vistas.has(k)) continue
+    vistas.add(k)
+    out.push(r)
+    if (out.length >= quantos) break
+  }
+  return out
+}
+
+/** Formata minutos como "1h05" / "35 min". */
+export function formatarMinutos(min: number): string {
+  const m = Math.max(0, Math.round(min))
+  if (m < 60) return `${m} min`
+  const h = Math.floor(m / 60)
+  const r = m % 60
+  return `${h}h${String(r).padStart(2, '0')}`
+}

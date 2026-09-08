@@ -11,14 +11,14 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { useHeroModel } from '../../data/useHeroModel'
 import { activeContextoDef } from '../../data/reskin'
-import { useDetail } from '../../data/detail-context'
 import { DetailLink } from '../DetailLink'
 import { clip } from './bits'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import { abaDoPapel, recursosDoFm } from '../../recursos/hero-recursos'
 import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
-import { MalhaMap, TracoAmostra } from './MalhaMap'
+import { MalhaMap, TracoAmostra, type Destaque } from './MalhaMap'
 import { formatValorMoeda } from '../../data/moeda'
+import { calcularRotas, formatarMinutos, type PosicaoReal, type Rota } from '../../transporte/rotas'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
@@ -46,7 +46,6 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
   const cfg = def?.transporte
   const rcfg = def?.recursos
   const catalog = useCatalog()
-  const detail = useDetail()
   const model = useHeroModel(doc, 'transporte')
   const estado = useMemo(() => recursosDoFm(model.fm), [model.fm])
 
@@ -56,6 +55,10 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     const out = [...(catalog.docsByType.get(cfg.categoria) ?? []), ...(catalog.docsByType.get('Recurso') ?? [])].map((e) => e.id)
     const mapa = catalog.resolve(cfg.mapa)
     if (mapa.kind === 'doc') out.push(mapa.id)
+    if (cfg.cidade) {
+      const cidade = catalog.resolve(cfg.cidade)
+      if (cidade.kind === 'doc') out.push(cidade.id)
+    }
     return out
   }, [catalog, cfg])
   const docs = useDocs(ids)
@@ -77,7 +80,16 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     }
     planosLista.sort((a, b) => a.nivel - b.nivel)
     const malha = montarMalha(docs.values(), cfg, (nome) => planos.get(nome) ?? null)
-    return { malha, planos, planosLista, tarifas }
+    // planejador: posição real das paradas = marcadores do mapa da cidade
+    const posicoes = new Map<string, PosicaoReal>()
+    let metrosPorUnidade = 0
+    if (cfg.cidade) {
+      const cidade = [...docs.values()].find((d) => d.basename === cfg.cidade)
+      const leaflet = cidade?.locationBody?.leaflet
+      if (leaflet?.scale) metrosPorUnidade = leaflet.scale
+      for (const m of leaflet?.markers ?? []) if (!posicoes.has(m.nome)) posicoes.set(m.nome, { lat: m.lat, long: m.long })
+    }
+    return { malha, planos, planosLista, tarifas, posicoes, metrosPorUnidade }
   }, [cfg, rcfg, docs])
 
   const planoAtual = estado.estilos.transporte
@@ -94,9 +106,23 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
   const vistaPadrao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual)?.nivel ?? vistas[0]?.nivel ?? 1
   const nivelVista = vista ?? vistaPadrao
   const [selecionada, setSelecionada] = useState<string | null>(null)
+  // planejador: de onde, pra onde, período do dia, rota escolhida
+  const [origem, setOrigem] = useState<string | null>(null)
+  const [destino, setDestino] = useState<string | null>(null)
+  const [periodo, setPeriodo] = useState<number | null>(null)
+  const [rotaSel, setRotaSel] = useState(0)
 
   const visiveis = useMemo(() => (dados ? linhasDoNivel(dados.malha, nivelVista) : []), [dados, nivelVista])
   const desenho = useMemo(() => (dados ? desenharMalha(dados.malha, visiveis) : null), [dados, visiveis])
+  const periodos = cfg?.periodos ?? []
+  const periodoIdx = periodo ?? Math.max(0, periodos.findIndex((p) => p.transito === 1))
+  const podePlanejar = !!dados && dados.metrosPorUnidade > 0 && dados.posicoes.size > 0
+  const rotas = useMemo<Rota[]>(() => {
+    if (!dados || !cfg || !podePlanejar || !origem || !destino) return []
+    return calcularRotas(dados.malha, visiveis, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
+  }, [dados, cfg, podePlanejar, origem, destino, visiveis, periodos, periodoIdx])
+  const rota = rotas[Math.min(rotaSel, Math.max(0, rotas.length - 1))] ?? null
+  const destaque: Destaque | null = origem || destino ? { linhas: rota?.linhas ?? [], paradas: rota?.paradas ?? [origem, destino].filter((x): x is string => !!x), origem, destino } : null
 
   if (!cfg || !rcfg) return null
   if (!dados || !desenho) {
@@ -114,10 +140,15 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     return partes.length >= 2 ? partes[partes.length - 2]! : null
   }
   const bairros = zonasDeBairro(desenho, bairroDe)
-  const abrirParada = (nome: string) => {
-    const id = idDe(nome)
-    if (id && detail) detail.open({ kind: 'doc', id })
+  /** Clique numa parada do mapa: primeiro marca DE, depois PARA; o terceiro recomeça. */
+  const marcarParada = (nome: string) => {
+    setRotaSel(0)
+    if (!origem || (origem && destino)) {
+      setOrigem(nome)
+      setDestino(null)
+    } else if (nome !== origem) setDestino(nome)
   }
+  const nomesParadas = desenho.paradas.map((p) => p.nome).sort((a, b) => a.localeCompare(b, 'pt-BR'))
   const linhaSel = selecionada ? malha.linhas.find((l) => l.id === selecionada) ?? null : null
   const fechadas = malha.linhas.filter((l) => l.fechada)
   // legenda AGRUPADA por modo, na ordem dos modos do contexto
@@ -180,7 +211,91 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         </div>
       </section>
 
-      <MalhaMap desenho={desenho} bairros={bairros} selecionada={selecionada} onSelecionar={setSelecionada} onParada={abrirParada} />
+      {/* PLANEJADOR: de onde pra onde, no cartão da vista, no período escolhido */}
+      {podePlanejar ? (
+        <section style={BOX} data-planejador="">
+          <div style={MONO}>{'// TRAJETO'}</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginTop: 8 }}>
+            <label style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 200px' }}>
+              <span style={{ ...MONO, minWidth: 36 }}>DE</span>
+              <input list="malha-paradas" data-origem="" value={origem ?? ''} placeholder="parada de origem" onChange={(e) => { setOrigem(e.target.value || null); setRotaSel(0) }} style={{ flex: 1, minWidth: 0, font: 'inherit', padding: '5px 8px', background: 'transparent', border: '1px solid var(--line2)', color: 'inherit' }} />
+            </label>
+            <label style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 200px' }}>
+              <span style={{ ...MONO, minWidth: 36 }}>PARA</span>
+              <input list="malha-paradas" data-destino="" value={destino ?? ''} placeholder="parada de destino" onChange={(e) => { setDestino(e.target.value || null); setRotaSel(0) }} style={{ flex: 1, minWidth: 0, font: 'inherit', padding: '5px 8px', background: 'transparent', border: '1px solid var(--line2)', color: 'inherit' }} />
+            </label>
+            <datalist id="malha-paradas">
+              {nomesParadas.map((n) => (
+                <option key={n} value={n} />
+              ))}
+            </datalist>
+            <button type="button" data-inverter="" aria-label="Inverter origem e destino" onClick={() => { setOrigem(destino); setDestino(origem); setRotaSel(0) }} style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent' }}>
+              ⇄
+            </button>
+            <button type="button" data-limpar="" onClick={() => { setOrigem(null); setDestino(null); setRotaSel(0) }} style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent' }}>
+              limpar
+            </button>
+            {periodos.length ? (
+              <label style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                <span style={MONO}>HORA</span>
+                <select data-periodo="" value={periodoIdx} onChange={(e) => setPeriodo(Number(e.target.value))} style={{ font: 'inherit', padding: '4px 6px', background: 'var(--panel)', border: '1px solid var(--line2)', color: 'inherit' }}>
+                  {periodos.map((p, i) => (
+                    <option key={p.nome} value={i}>
+                      {p.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
+          </div>
+          <div style={{ ...MONO, fontSize: 10, marginTop: 6, textTransform: 'none', letterSpacing: '.06em' }}>
+            clique numa parada do mapa pra marcar de onde (A) e pra onde (B) · com o cartão {vistas.find((v) => v.nivel === nivelVista)?.nome ?? ''}
+          </div>
+          {origem && destino ? (
+            rotas.length ? (
+              <ol data-rotas="" style={{ listStyle: 'none', margin: '10px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {rotas.map((r, i) => {
+                  const ativa = i === rotaSel
+                  const baldeacoes = r.pernas.length - 1
+                  return (
+                    <li key={r.linhas.join('>')}>
+                      <button
+                        type="button"
+                        data-rota={i}
+                        aria-pressed={ativa}
+                        onClick={() => setRotaSel(i)}
+                        style={{ display: 'block', width: '100%', textAlign: 'left', font: 'inherit', color: 'inherit', cursor: 'pointer', padding: '8px 10px', background: ativa ? 'color-mix(in srgb,var(--accent) 12%,transparent)' : 'transparent', border: '1px solid var(--line2)', borderLeft: `3px solid ${ativa ? 'var(--accent)' : 'var(--line2)'}` }}
+                      >
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                          <b style={{ fontSize: 15 }} data-minutos={r.minutos}>{formatarMinutos(r.minutos)}</b>
+                          <span style={MONO}>{baldeacoes === 0 ? 'direto' : baldeacoes === 1 ? '1 baldeação' : `${baldeacoes} baldeações`}</span>
+                          <span style={MONO}>{`${r.km.toLocaleString('pt-BR')} km`}</span>
+                        </div>
+                        <ol style={{ margin: '6px 0 0', paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                          {r.pernas.map((pe, k) => (
+                            <li key={`${k}:${pe.linha.id}`} style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                              <TracoAmostra cor={pe.linha.cor} traco={pe.linha.traco} largura={pe.linha.largura} />
+                              <b style={{ fontSize: 12.5 }}>{pe.linha.nome}</b>
+                              <span style={{ fontSize: 12.5 }}>{`${pe.paradas[0]} → ${pe.paradas[pe.paradas.length - 1]}`}</span>
+                              <span style={MONO}>{`${pe.paradas.length - 1} ${pe.paradas.length - 1 === 1 ? 'trecho' : 'trechos'} · ${formatarMinutos(pe.viagem)} · espera ${formatarMinutos(pe.espera)}${pe.baldeacao ? ` · baldeação ${formatarMinutos(pe.baldeacao)}` : ''}`}</span>
+                            </li>
+                          ))}
+                        </ol>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ol>
+            ) : (
+              <p data-sem-rota="" style={{ ...MONO, marginTop: 10, textTransform: 'none' }}>
+                sem trajeto com este cartão — troque a vista ou os pontos
+              </p>
+            )
+          ) : null}
+        </section>
+      ) : null}
+
+      <MalhaMap desenho={desenho} bairros={bairros} selecionada={selecionada} destaque={destaque} onSelecionar={setSelecionada} onParada={marcarParada} />
 
       {/* LEGENDA */}
       <section style={BOX}>

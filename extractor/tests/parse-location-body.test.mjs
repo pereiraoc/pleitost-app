@@ -131,3 +131,13 @@ test("leaflet: captura defaultZoom e os gates minZoom/maxZoom dos markers", () =
     { tipo: "Bar", lat: 883, long: 343, nome: "Padre Chagas", minZoom: 0, maxZoom: null },
   ]);
 });
+
+// Escala do mapa (2026-09-08b): `scale` + `unit` do obsidian-leaflet viram
+// metros por unidade — o planejador de trajeto mede a distância entre paradas.
+test("leaflet: scale e unit entram no bloco", async () => {
+  const { parseLocationBody } = await import("../parse-location-body.mjs");
+  const body = "```leaflet\nimage: [[Mapa.png]]\nbounds: [[0,0], [100,100]]\nunit: meters\nscale: 45.6\nmarker: Bairro,10,20,X,,,-0.1\n```";
+  const lb = parseLocationBody(body, null);
+  assert.equal(lb.leaflet.scale, 45.6);
+  assert.equal(lb.leaflet.unit, "meters");
+});

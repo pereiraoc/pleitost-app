@@ -83,7 +83,22 @@ export interface ContextoDef {
   transporte?: {
     categoria: string
     mapa: string
-    modos: { nome: string; traco: 'cheio' | 'tracejado' | 'pontilhado'; largura: number }[]
+    /** Modo (subcategoria da Linha): traço no mapa e, pro planejador, velocidade
+     *  (km/h), espera média (min) e se anda na rua (sofre trânsito). */
+    modos: { nome: string; traco: 'cheio' | 'tracejado' | 'pontilhado'; largura: number; velocidade?: number; espera?: number; rua?: boolean }[]
+    /** PLANEJADOR (opcional): Localização cujo leaflet dá a distância real
+     *  entre paradas (marcadores + scale). Sem ela, não há planejador. */
+    cidade?: string
+    /** Fator sobre a distância em linha reta (rua não é reta). */
+    sinuosidade?: number
+    /** Minutos parado em cada parada intermediária. */
+    parada?: number
+    /** Minutos pra trocar de linha (fora a espera da próxima). */
+    baldeacao?: number
+    /** Fator de atraso por Qualidade da linha (índice 0 = ★1). */
+    atrasoPorQualidade?: number[]
+    /** Períodos do dia e o fator de trânsito de cada um (modos `rua`). */
+    periodos?: { nome: string; transito: number }[]
   }
   /** Garantias e limites do Contexto Base. */
   base: {

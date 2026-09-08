@@ -73,10 +73,20 @@ const botaoTudo: CSSProperties = {
   cursor: 'pointer',
 }
 
+/** Trajeto em destaque no mapa: só as linhas/paradas dele ficam acesas;
+ *  origem e destino ganham marcador. */
+export interface Destaque {
+  linhas: string[]
+  paradas: string[]
+  origem?: string | null
+  destino?: string | null
+}
+
 export function MalhaMap({
   desenho,
   bairros = [],
   selecionada,
+  destaque = null,
   onSelecionar,
   onParada,
 }: {
@@ -85,6 +95,8 @@ export function MalhaMap({
   bairros?: ZonaBairro[]
   /** id da linha em destaque (as outras esmaecem). */
   selecionada: string | null
+  /** trajeto planejado (tem precedência sobre `selecionada`). */
+  destaque?: Destaque | null
   onSelecionar: (id: string | null) => void
   onParada: (nome: string) => void
 }) {
@@ -152,29 +164,40 @@ export function MalhaMap({
                 })
               : null}
             {desenho.tracos.map((t) => {
-              const apagada = selecionada !== null && selecionada !== t.id
+              const naRota = destaque ? destaque.linhas.includes(t.id) : null
+              const apagada = naRota === null ? selecionada !== null && selecionada !== t.id : !naRota
+              const grossa = naRota === null ? selecionada === t.id : naRota
               return (
                 <path
                   key={t.id}
                   data-linha={t.id}
+                  data-na-rota={naRota ? '' : undefined}
                   d={t.d}
                   fill="none"
                   stroke={t.cor}
-                  strokeWidth={selecionada === t.id ? t.largura + 2 : t.largura}
+                  strokeWidth={grossa ? t.largura + 2 : t.largura}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeDasharray={DASH[t.traco]}
-                  opacity={apagada ? 0.18 : 1}
+                  opacity={apagada ? 0.12 : 1}
                 >
                   <title>{t.nome}</title>
                 </path>
               )
             })}
             {desenho.paradas.map((p) => {
-              const apagada = selecionada !== null && !p.linhas.includes(selecionada)
+              const naRota = destaque ? destaque.paradas.includes(p.nome) : null
+              const apagada = naRota === null ? selecionada !== null && !p.linhas.includes(selecionada) : !naRota
+              const ponta = destaque?.origem === p.nome ? 'A' : destaque?.destino === p.nome ? 'B' : null
               return (
-                <g key={p.nome} data-parada={p.nome} data-baldeacao={p.baldeacao ? '' : undefined} opacity={apagada ? 0.25 : 1}>
-                  <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill={PAPEL.parada} stroke={p.cor ?? PAPEL.tinta} strokeWidth={p.baldeacao ? 3 : 2.5} />
+                <g key={p.nome} data-parada={p.nome} data-baldeacao={p.baldeacao ? '' : undefined} data-ponta={ponta ?? undefined} opacity={apagada ? 0.2 : 1}>
+                  {ponta ? <circle cx={p.cx} cy={p.cy} r={13} fill={PAPEL.tinta} opacity={0.92} /> : null}
+                  {ponta ? (
+                    <text x={p.cx} y={p.cy + 4.5} fontSize={12} fontWeight={800} fill={PAPEL.parada} textAnchor="middle">
+                      {ponta}
+                    </text>
+                  ) : null}
+                  {ponta ? null : <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill={PAPEL.parada} stroke={p.cor ?? PAPEL.tinta} strokeWidth={p.baldeacao ? 3 : 2.5} />}
                   <text
                     x={p.rotulo.x}
                     y={p.rotulo.y}

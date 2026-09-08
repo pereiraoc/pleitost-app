@@ -173,7 +173,12 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
         if (!TRACOS.includes(traco)) problems.push(`transporte.modos: "${m.nome}" traco "${traco}" (esperado ${TRACOS.join("|")})`);
         const largura = Number(m.largura ?? 4);
         if (!(largura > 0)) problems.push(`transporte.modos: "${m.nome}" largura esperada > 0`);
-        modos.push({ nome: m.nome.trim(), traco, largura });
+        const modo = { nome: m.nome.trim(), traco, largura };
+        // tempo de viagem (planejador): velocidade km/h, espera média min, rua = sofre trânsito
+        if (m.velocidade !== undefined) { if (!(Number(m.velocidade) > 0)) problems.push(`transporte.modos: "${m.nome}" velocidade esperada > 0 (km/h)`); modo.velocidade = Number(m.velocidade); }
+        if (m.espera !== undefined) { if (!(Number(m.espera) >= 0)) problems.push(`transporte.modos: "${m.nome}" espera esperada ≥ 0 (min)`); modo.espera = Number(m.espera); }
+        if (m.rua !== undefined) modo.rua = m.rua === true;
+        modos.push(modo);
       }
     }
     if (typeof t.categoria === "string" && t.categoria.trim()) {
@@ -181,6 +186,33 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       if (!temLinha) problems.push(`transporte: nenhuma nota \`categoria: ${t.categoria.trim()}\` na vault`);
     }
     transporte = { categoria: String(t.categoria ?? "").trim(), mapa, modos };
+    // PLANEJADOR DE TRAJETO (2026-09-08b): cidade = Localização cujo leaflet dá
+    // a distância real entre paradas; sinuosidade, parada, baldeação, atraso por
+    // qualidade (★1..★5) e períodos de trânsito — todos opcionais; sem `cidade`
+    // o app não planeja.
+    if (t.cidade !== undefined) {
+      const cidade = String(t.cidade).trim().replace(/^\[\[/, "").replace(/\]\]$/, "").split("|")[0].trim();
+      if (!cidade) problems.push("transporte.cidade: wikilink da Localização com o mapa da cidade");
+      else if (!basenames.has(cidade)) problems.push(`transporte.cidade: "${cidade}" não existe na vault`);
+      transporte.cidade = cidade;
+    }
+    for (const k of ["sinuosidade", "parada", "baldeacao"]) {
+      if (t[k] !== undefined) { if (!(Number(t[k]) >= 0)) problems.push(`transporte.${k}: número ≥ 0`); transporte[k] = Number(t[k]); }
+    }
+    if (t.atraso_por_qualidade !== undefined) {
+      const a = Array.isArray(t.atraso_por_qualidade) ? t.atraso_por_qualidade.map(Number) : [];
+      if (a.length !== 5 || a.some((x) => !(x > 0))) problems.push("transporte.atraso_por_qualidade: 5 fatores > 0 (★1..★5)");
+      transporte.atrasoPorQualidade = a;
+    }
+    if (t.periodos !== undefined) {
+      const ps = [];
+      if (!Array.isArray(t.periodos) || t.periodos.length === 0) problems.push("transporte.periodos: lista de {nome, transito}");
+      else for (const pr of t.periodos) {
+        if (!isPlainObject(pr) || typeof pr.nome !== "string" || !pr.nome.trim() || !(Number(pr.transito) > 0)) { problems.push("transporte.periodos: cada período precisa de nome e transito > 0"); continue; }
+        ps.push({ nome: pr.nome.trim(), transito: Number(pr.transito) });
+      }
+      transporte.periodos = ps;
+    }
   }
 
   const pericias = asStringMap(def.pericias, "pericias", problems);
