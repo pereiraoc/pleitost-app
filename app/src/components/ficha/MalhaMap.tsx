@@ -8,13 +8,29 @@
 // Localização): escala 1 = o mapa inteiro cabe na janela ("TUDO"); pan,
 // pinça, roda, +/− e tela cheia. O clique é hit-test por coordenada no
 // viewport (o hook captura o ponteiro; o onClick dos filhos nunca dispara).
-import type { CSSProperties } from 'react'
-import type { Desenho, Traco } from '../../transporte/malha'
+import { useState, type CSSProperties } from 'react'
+import type { Desenho, Traco, ZonaBairro } from '../../transporte/malha'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
 
 const DASH: Record<Traco, string | undefined> = { cheio: undefined, tracejado: '12 7', pontilhado: '1 8' }
-export const PAPEL = { fundo: '#f4f0e6', parada: '#ffffff', tinta: '#161616', halo: '#f4f0e6', grade: '#e7e1d3' } as const
+export const PAPEL = { fundo: '#f4f0e6', parada: '#ffffff', tinta: '#161616', halo: '#f4f0e6', grade: '#e7e1d3', bairro: '#6b6157' } as const
+
+/** Amostra do traço de uma linha — o MESMO traço do mapa (cor, largura,
+ *  tracejado), sobre o papel; usada na legenda. */
+export function TracoAmostra({ cor, traco, largura }: { cor: string; traco: Traco; largura: number }) {
+  return (
+    <svg width={38} height={14} viewBox="0 0 38 14" aria-hidden data-swatch={traco} style={{ background: PAPEL.fundo, borderRadius: 3, flex: 'none' }}>
+      <line x1={4} y1={7} x2={34} y2={7} stroke={cor} strokeWidth={Math.max(3, largura)} strokeLinecap="round" strokeDasharray={DASH[traco]} />
+    </svg>
+  )
+}
+
+/** Tom de cada zona de bairro: matiz pela ordem, sempre claro sobre o papel. */
+function tomDoBairro(i: number): { fill: string; stroke: string } {
+  const h = (i * 47) % 360
+  return { fill: `hsl(${h} 45% 82%)`, stroke: `hsl(${h} 35% 55%)` }
+}
 
 /** Ponto do viewBox sob um cliente, dado o <svg> contido (`meet`) e sua caixa
  *  já pós-transform. null fora do desenho. Sem getScreenCTM (jsdom). */
@@ -59,17 +75,21 @@ const botaoTudo: CSSProperties = {
 
 export function MalhaMap({
   desenho,
+  bairros = [],
   selecionada,
   onSelecionar,
   onParada,
 }: {
   desenho: Desenho
+  /** zonas de bairro (por trás das linhas), ligadas pelo botão BAIRROS. */
+  bairros?: ZonaBairro[]
   /** id da linha em destaque (as outras esmaecem). */
   selecionada: string | null
   onSelecionar: (id: string | null) => void
   onParada: (nome: string) => void
 }) {
   const map = useMapView()
+  const [mostrarBairros, setMostrarBairros] = useState(false)
   if (!desenho.tracos.length) return null
   const onViewportClick = (e: React.MouseEvent) => {
     if (map.consumeMoved()) return
@@ -116,6 +136,19 @@ export function MalhaMap({
             style={{ display: 'block', fontFamily: 'var(--body)' }}
             data-paleta="papel"
           >
+            {mostrarBairros
+              ? bairros.map((z, i) => {
+                  const tom = tomDoBairro(i)
+                  return (
+                    <g key={z.nome} data-bairro={z.nome}>
+                      <rect x={z.x} y={z.y} width={z.w} height={z.h} rx={14} fill={tom.fill} fillOpacity={0.55} stroke={tom.stroke} strokeWidth={1.2} strokeDasharray="5 4" />
+                      <text x={z.x + 9} y={z.y + 15} fontSize={10.5} fontWeight={700} letterSpacing=".12em" fill={PAPEL.bairro} style={{ paintOrder: 'stroke', stroke: PAPEL.halo, strokeWidth: 3, strokeLinejoin: 'round' }}>
+                        {z.nome.toUpperCase()}
+                      </text>
+                    </g>
+                  )
+                })
+              : null}
             {desenho.tracos.map((t) => {
               const apagada = selecionada !== null && selecionada !== t.id
               return (
@@ -161,9 +194,23 @@ export function MalhaMap({
       <MapControls
         map={map}
         extra={
-          <button type="button" data-mostrar-tudo="" aria-label="Mostrar o mapa inteiro" onClick={() => map.resetView()} style={botaoTudo}>
-            TUDO
-          </button>
+          <>
+            {bairros.length ? (
+              <button
+                type="button"
+                data-bairros=""
+                aria-pressed={mostrarBairros}
+                aria-label="Mostrar os bairros"
+                onClick={() => setMostrarBairros((v) => !v)}
+                style={{ ...botaoTudo, borderColor: mostrarBairros ? 'var(--accent)' : 'var(--line2)', background: mostrarBairros ? 'color-mix(in srgb,var(--accent) 18%,var(--panel))' : botaoTudo.background }}
+              >
+                BAIRROS
+              </button>
+            ) : null}
+            <button type="button" data-mostrar-tudo="" aria-label="Mostrar o mapa inteiro" onClick={() => map.resetView()} style={botaoTudo}>
+              TUDO
+            </button>
+          </>
         }
       />
     </section>

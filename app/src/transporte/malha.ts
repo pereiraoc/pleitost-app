@@ -166,8 +166,19 @@ export interface ParadaDesenhada {
 export interface Desenho {
   largura: number
   altura: number
+  /** px por célula da grade (pra desenhar zonas e folgas). */
+  unidade: number
   tracos: TracoDesenhado[]
   paradas: ParadaDesenhada[]
+}
+/** Zona de um bairro: caixa que envolve as paradas dele (px). */
+export interface ZonaBairro {
+  nome: string
+  x: number
+  y: number
+  w: number
+  h: number
+  paradas: string[]
 }
 
 /** Onde vai o nome da parada. Sem vizinha na mesma fileira: horizontal, do
@@ -215,7 +226,7 @@ export function desenharMalha(
   const linhas = visiveis.filter((l) => desenhavel(malha, l))
   const usadas = new Set(linhas.flatMap((l) => l.paradas))
   const paradas = [...malha.paradas.values()].filter((p) => usadas.has(p.nome))
-  if (paradas.length === 0) return { largura: 0, altura: 0, tracos: [], paradas: [] }
+  if (paradas.length === 0) return { largura: 0, altura: 0, unidade, tracos: [], paradas: [] }
   const minX = Math.min(...paradas.map((p) => p.x))
   const maxX = Math.max(...paradas.map((p) => p.x))
   const minY = Math.min(...paradas.map((p) => p.y))
@@ -273,9 +284,32 @@ export function desenharMalha(
   return {
     largura: (maxX - minX) * unidade + 2 * margemRotulo,
     altura: (maxY - minY) * unidade + 2 * margem + 40,
+    unidade,
     tracos,
     paradas: desenhadas,
   }
+}
+
+/** Bairros no mapa esquemático: uma zona por bairro envolvendo as paradas
+ *  dele (caixa das paradas + folga de meia célula). `bairroDe` vem do Atlas
+ *  (a pasta/Geolocalização da parada); parada sem bairro fica fora. */
+export function zonasDeBairro(desenho: Desenho, bairroDe: (parada: string) => string | null, folga = 0.5): ZonaBairro[] {
+  const grupos = new Map<string, ParadaDesenhada[]>()
+  for (const p of desenho.paradas) {
+    const b = bairroDe(p.nome)
+    if (!b) continue
+    grupos.set(b, [...(grupos.get(b) ?? []), p])
+  }
+  const f = desenho.unidade * folga
+  return [...grupos]
+    .map(([nome, ps]) => {
+      const xs = ps.map((p) => p.cx)
+      const ys = ps.map((p) => p.cy)
+      const x = Math.min(...xs) - f
+      const y = Math.min(...ys) - f
+      return { nome, x, y, w: Math.max(...xs) + f - x, h: Math.max(...ys) + f - y, paradas: ps.map((p) => p.nome) }
+    })
+    .sort((a, b) => b.w * b.h - a.w * a.h) // maiores por baixo
 }
 
 /** Parada a parada de uma linha, com as outras linhas de cada parada (baldeação). */

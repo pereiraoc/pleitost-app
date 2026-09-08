@@ -102,6 +102,18 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     expect(document.querySelector('[data-malha-mapa] [data-zoom-in]')).not.toBeNull()
     expect(document.querySelector('[data-malha-mapa] [data-mostrar-tudo]')).not.toBeNull()
     expect(document.querySelector('[data-malha-mapa] [data-fullscreen-toggle]')).not.toBeNull()
+    // bairros: por trás das linhas, ligados pelo botão
+    expect(document.querySelector('[data-malha-mapa] g[data-bairro]')).toBeNull()
+    fireEvent.click(document.querySelector('[data-malha-mapa] [data-bairros]') as HTMLElement)
+    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Nova Sarandi"]')).not.toBeNull()
+    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Zona Leste"] text')?.textContent).toBe('ZONA LESTE')
+    // legenda: a Kombi mostra o traço pontilhado, o VALOR como chip e a nota de pagamento embaixo
+    const kombi = document.querySelector('[data-legenda] [data-modo="Kombi"]') as HTMLElement
+    expect(kombi.querySelector('svg[data-swatch="pontilhado"]')).not.toBeNull()
+    expect(within(kombi).getAllByText('Cz$ 80 · viagem').length).toBeGreaterThan(0)
+    expect(within(kombi).getAllByText(/o dobro depois das 23h/).length).toBeGreaterThan(0)
+    const balsa = document.querySelector('[data-legenda] [data-modo="Balsa"]') as HTMLElement
+    expect(balsa.querySelector('svg[data-swatch="tracejado"]')).not.toBeNull()
     expect(screen.queryByText('L1 POPULAR NORTE')).toBeNull()
     expect(document.querySelector('[data-malha-mapa] svg')?.getAttribute('data-paleta')).toBe('papel')
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))

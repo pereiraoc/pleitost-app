@@ -16,19 +16,28 @@ import { DetailLink } from '../DetailLink'
 import { clip } from './bits'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import { abaDoPapel, recursosDoFm } from '../../recursos/hero-recursos'
-import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, type LinhaMalha, type Malha } from '../../transporte/malha'
-import { MalhaMap } from './MalhaMap'
+import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
+import { MalhaMap, TracoAmostra } from './MalhaMap'
+import { formatValorMoeda } from '../../data/moeda'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '12px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
 const CHIP: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.1em', padding: '2px 7px', border: '1px solid var(--line2)', borderRadius: 3, whiteSpace: 'nowrap' }
 
-function Swatch({ l }: { l: LinhaMalha }) {
-  const dash = l.traco === 'tracejado' ? 'dashed' : l.traco === 'pontilhado' ? 'dotted' : 'solid'
+/** Chip do que abre a linha: o cartão TRI, ou o VALOR da tarifa avulsa quando
+ *  se paga na mão (a observação de pagamento vai como nota embaixo). */
+function AcessoChip({ l, tarifas }: { l: LinhaMalha; tarifas: Map<string, { preco: number; cobranca: string }> }) {
+  if (l.acessoPlano) return <span style={CHIP}>{l.acessoPlano}</span>
+  const t = l.tarifa ? tarifas.get(l.tarifa) : undefined
+  return <span style={CHIP} data-valor={t ? t.preco : ''}>{t ? `${formatValorMoeda(t.preco)} · ${t.cobranca}` : 'na mão'}</span>
+}
+/** Nota de pagamento (texto livre do `Acesso`) — só quando não é cartão. */
+function AcessoNota({ l }: { l: LinhaMalha }) {
+  if (l.acessoPlano || !l.acesso) return null
   return (
-    <span aria-hidden style={{ display: 'inline-block', width: 30, padding: '3px 2px', background: '#f4f0e6', borderRadius: 3, verticalAlign: 'middle', lineHeight: 0 }}>
-      <span style={{ display: 'block', borderTop: `${Math.max(3, l.largura)}px ${dash} ${l.cor}` }} />
-    </span>
+    <div data-nota-acesso="" style={{ ...MONO, fontSize: 10, letterSpacing: '.06em', textTransform: 'none', marginTop: 2 }}>
+      {l.acesso}
+    </div>
   )
 }
 
@@ -56,16 +65,19 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     const abaTransporte = abaDoPapel(rcfg, 'transporte')
     const planos = new Map<string, number>()
     const planosLista: { nome: string; nivel: number; id: string }[] = []
+    const tarifas = new Map<string, { preco: number; cobranca: string }>()
     for (const d of docs.values()) {
       if (d.type !== 'Recurso') continue
       const r = parseRecurso(d)
-      if (!r || r.aba !== abaTransporte || r.tipo !== rcfg.tipos.estilo || !r.nivel) continue
-      planos.set(r.nome, r.nivel)
-      planosLista.push({ nome: r.nome, nivel: r.nivel, id: d.id })
+      if (!r || r.aba !== abaTransporte) continue
+      if (r.tipo === rcfg.tipos.estilo && r.nivel) {
+        planos.set(r.nome, r.nivel)
+        planosLista.push({ nome: r.nome, nivel: r.nivel, id: d.id })
+      } else tarifas.set(r.nome, { preco: r.preco, cobranca: r.cobranca })
     }
     planosLista.sort((a, b) => a.nivel - b.nivel)
     const malha = montarMalha(docs.values(), cfg, (nome) => planos.get(nome) ?? null)
-    return { malha, planos, planosLista }
+    return { malha, planos, planosLista, tarifas }
   }, [cfg, rcfg, docs])
 
   const planoAtual = estado.estilos.transporte
@@ -95,6 +107,13 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     const r = catalog.resolve(nome)
     return r.kind === 'doc' ? r.id : null
   }
+  // bairro da parada = a pasta dela no Atlas (a nota de bairro é a pasta dela mesma)
+  const bairroDe = (nome: string): string | null => {
+    const id = idDe(nome)
+    const partes = id?.split('/') ?? []
+    return partes.length >= 2 ? partes[partes.length - 2]! : null
+  }
+  const bairros = zonasDeBairro(desenho, bairroDe)
   const abrirParada = (nome: string) => {
     const id = idDe(nome)
     if (id && detail) detail.open({ kind: 'doc', id })
@@ -161,7 +180,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         </div>
       </section>
 
-      <MalhaMap desenho={desenho} selecionada={selecionada} onSelecionar={setSelecionada} onParada={abrirParada} />
+      <MalhaMap desenho={desenho} bairros={bairros} selecionada={selecionada} onSelecionar={setSelecionada} onParada={abrirParada} />
 
       {/* LEGENDA */}
       <section style={BOX}>
@@ -195,9 +214,14 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                           font: 'inherit',
                         }}
                       >
-                        <Swatch l={l} />
-                        <b style={{ fontSize: 13 }}>{l.nome}</b>
-                        <span style={{ ...CHIP, marginLeft: 'auto' }}>{l.acessoPlano ?? l.acesso}</span>
+                        <TracoAmostra cor={l.cor} traco={l.traco} largura={l.largura} />
+                        <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                          <b style={{ fontSize: 13 }}>{l.nome}</b>
+                          <AcessoNota l={l} />
+                        </span>
+                        <span style={{ marginLeft: 'auto' }}>
+                          <AcessoChip l={l} tarifas={dados.tarifas} />
+                        </span>
                       </button>
                     </li>
                   )
@@ -209,7 +233,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         <ul style={{ listStyle: 'none', margin: '6px 0 0', padding: 0 }}>
           {fechadas.map((l) => (
             <li key={l.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 8px', color: 'var(--muted)' }} data-linha-fechada={l.id}>
-              <Swatch l={l} />
+              <TracoAmostra cor={l.cor} traco={l.traco} largura={l.largura} />
               <span style={{ fontSize: 13 }}>{l.nome}</span>
               <span style={{ ...CHIP, marginLeft: 'auto' }}>{l.acesso}</span>
             </li>
@@ -224,9 +248,10 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', margin: '6px 0 4px', flexWrap: 'wrap' }}>
             <DetailLink id={linhaSel.id}>{linhaSel.letreiro}</DetailLink>
             <span style={CHIP}>{linhaSel.modo}</span>
-            <span style={CHIP}>{linhaSel.acessoPlano ?? linhaSel.acesso}</span>
+            <AcessoChip l={linhaSel} tarifas={dados.tarifas} />
             {linhaSel.horario ? <span style={MONO}>{linhaSel.horario}</span> : null}
           </div>
+          <AcessoNota l={linhaSel} />
           <ol style={{ margin: 0, paddingLeft: 22, display: 'flex', flexDirection: 'column', gap: 5 }} data-paradas="">
             {paradasComBaldeacao(malha, linhaSel, visiveis).map((p, i) => (
               <li key={`${i}:${p.nome}`}>
