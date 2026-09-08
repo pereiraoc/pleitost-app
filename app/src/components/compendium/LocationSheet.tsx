@@ -907,8 +907,12 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     finish(buyTreasure(hid, hdoc, entry.nome, entry.tier, entry.preco))
   }
 
-  const pronta = shop?.pronta ?? []
-  const encomenda = shop?.encomenda ?? []
+  // Report 2026-09-08: lojas ROLADAS antes do filtro de armas sem mão
+  // ("Ataque Desarmado", mãos 0) ficaram salvas por local — o filtro também
+  // vale na LEITURA, senão o combo velho segue na vitrine até re-rolar.
+  const vendavel = (e: { armaTarget?: string }) => !e.armaTarget || catalog.entryById.get(e.armaTarget)?.maos !== 0
+  const pronta = (shop?.pronta ?? []).filter(vendavel)
+  const encomenda = (shop?.encomenda ?? []).filter(vendavel)
   // Jogador fica travado em pronta entrega; só o GM alterna p/ encomenda. Poção
   // é sempre pronta entrega (sem encomenda).
   const effMode: 'pronta' | 'encomenda' = mestre && subTab !== 'pocoes' ? mode : 'pronta'
