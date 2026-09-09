@@ -126,6 +126,9 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     // OPCIONAL (2026-09-08): fontes de crédito. Mundo sem `emprestimo` não tem
     // empréstimo — a ficha simplesmente não oferece dívida.
     if (typeof tiposIn.emprestimo === "string" && tiposIn.emprestimo.trim()) tipos.emprestimo = tiposIn.emprestimo.trim();
+    // REGALIAS DE CLASSE (2026-09-08): nota que descreve o que cada classe
+    // ganha de terceiro. Opcional — mundo sem ela não mostra a seção.
+    const regalias = typeof r.regalias === "string" && r.regalias.trim() ? r.regalias.trim() : null;
     // ONDE se compra (2026-09-07b): campo FM das Localizações com as ofertas
     // + rótulo da aba no local. Obrigatório — sem isso a ficha não tem de
     // onde comprar.
@@ -153,7 +156,7 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     const temRecurso = [...typeByBasename.values()].some((t) => t === "Recurso");
     if (!temRecurso) problems.push("recursos: nenhuma nota `categoria: Recurso` na vault");
     const niveis = asStringArray(r.niveis, "recursos.niveis", problems);
-    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade };
+    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade, ...(regalias ? { regalias } : {}) };
   }
   // MALHA DE TRANSPORTES (2026-09-08): notas `categoria: <transporte.categoria>`
   // (Paradas em ordem, Acesso, Cor) + a nota `mapa` com o bloco ```malha```

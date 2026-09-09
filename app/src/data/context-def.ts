@@ -73,6 +73,10 @@ export interface ContextoDef {
     /** ONDE se compra: campo FM das Localizações com as ofertas (wikilinks,
      *  sufixo `usado`) e rótulo da aba do local. */
     ofertas: { campo: string; aba: string }
+    /** REGALIAS DE CLASSE (2026-09-08): basename da nota que descreve o que
+     *  cada classe ganha de terceiro no custo de vida, por nível. Ausente =
+     *  mundo sem regalia (a ficha não mostra a seção). */
+    regalias?: string
     /** Disponibilidade das ofertas por linha da régua (chave canônica):
      *  faixa de níveis atendida de cara + fator de quantidade. */
     disponibilidade: Record<string, { niveis: [number, number]; quantidade: number }>

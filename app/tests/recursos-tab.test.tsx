@@ -299,3 +299,23 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     expect(within(segundo).getByText(/na rua: sem vaga/)).toBeTruthy()
   }, 30000)
 })
+
+describe('regalia da classe no topo do custo de vida', () => {
+  it('mostra o que a classe do herói ganha de terceiro, com os degraus alcançados', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    writeHeroEdit(CARLOS_ID, 'fm', RECURSOS_FM, { estilos: { transporte: null, moradia: null, alimentacao: null } }, { channel: 'imediato', origem: 'test' })
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    // Carlos é Bardo nível 7 → no mundo, o Ressonante
+    const bloco = document.querySelector('[data-secao="regalia"]') as HTMLElement
+    expect(bloco).not.toBeNull()
+    expect(within(bloco).getAllByText(/Ressonante/).length).toBeGreaterThan(0)
+    // três degraus, todos alcançados no nível 7
+    const degraus = bloco.querySelectorAll('[data-regalia-degrau]')
+    expect(Array.from(degraus).map((d) => d.getAttribute('data-regalia-degrau'))).toEqual(['1', '4', '7'])
+    expect(Array.from(degraus).every((d) => d.getAttribute('data-alcancado') === 'sim')).toBe(true)
+    // o preço escondido aparece na versão completa (custo de vida)
+    expect(within(bloco).getAllByText(/PREÇO/).length).toBeGreaterThan(0)
+  }, 30000)
+})

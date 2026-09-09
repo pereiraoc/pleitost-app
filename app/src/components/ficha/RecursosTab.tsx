@@ -20,6 +20,7 @@ import { activeContextoDef } from '../../data/reskin'
 import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
 import { RecursoCardStyle, RecursoThumb } from './RecursoThumb'
+import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
 import { TipProvider } from './tooltips'
 import { linkIconForEntry } from '../../markdown/link-icon'
 
@@ -28,7 +29,7 @@ function iconeDe(r: Recurso): string {
   return linkIconForEntry({ type: 'Recurso', subtype: r.aba, grupo: null, path: `${r.id}.md`, tipo: r.tipo })
 }
 import { clip } from './bits'
-import { fmPath, num } from './hero-model'
+import { fmPath, num, str } from './hero-model'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import type { Papel, Recurso, RecursosCfg } from '../../recursos/types'
 import {
@@ -167,6 +168,9 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   const { carregando, recursos, porNome } = useRecursosDoMundo(cfg)
   const [aviso, setAviso] = useState<string | null>(null)
   const custo = useMemo(() => custoMensal(estado, porNome, fator, cfg), [estado, porNome, fator, cfg])
+  // O que a CLASSE do herói ganha de terceiro (nota `recursos.regalias`): fica
+  // no topo do custo de vida porque é o que explica um eixo pago por outro.
+  const regalia = useRegaliaDaClasse(str(fm['Classe']))
 
   const aplicar: Aplicar = (res, msg, falha = 'Saldo insuficiente.') => {
     if (!res) {
@@ -257,6 +261,23 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
           ) : null}
         </span>
       </div>
+
+      {regalia ? (
+        <details data-secao="regalia" style={{ ...BOX, padding: 0 }}>
+          <summary style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', cursor: 'pointer', flexWrap: 'wrap' }}>
+            <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>O QUE A TUA CLASSE GANHA</span>
+            <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+              {regalia.regalia.nome}
+              {regalia.regalia.subtitulo ? ` · ${regalia.regalia.subtitulo}` : ''}
+            </span>
+            <span style={{ flex: 1 }} />
+            <Chip>marque o eixo como pago por terceiro</Chip>
+          </summary>
+          <div style={{ padding: '0 16px 12px', borderTop: '1px solid var(--line)' }}>
+            <RegaliaBloco regalia={regalia.regalia} doc={regalia.doc} nivel={num(fm['Nível'])} completo />
+          </div>
+        </details>
+      ) : null}
 
       {cfg.abas.map((a) => {
         const eixo = custo.eixos.find((e) => e.papel === a.papel)

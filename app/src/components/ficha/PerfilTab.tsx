@@ -14,6 +14,7 @@ import { PlanejamentoPanel } from './PlanejamentoTab'
 // se acoplam (HabilidadesTab importa PerfilTab); o ciclo é só em runtime.
 import { ClasseNivelPanel } from './HabilidadesTab'
 import { useCatalog } from '../../data/CatalogContext'
+import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
 import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
@@ -1201,6 +1202,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
   const catalog = useCatalog()
   const ci = classeAventureiro(nivel)
   const classe = classeDisplay(catalog, dfm['Classe'])
+  const regalia = useRegaliaDaClasse(str(dfm['Classe']))
   const sintonia = sintoniaDisplay(dfm['Sintonia'])
   const sintoniaIc = sintoniaEmojiFromValue(str(dfm['Sintonia']))
   // Valor do FM mapeado pra opção do dropdown (opções vêm com alias curto —
@@ -1350,6 +1352,18 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
             />
           </Field>
+          {/* CONTEXTO (2026-09-08): o que o MUNDO dá à classe deste herói —
+              um eixo do custo de vida pago por terceiro, em degraus de nível
+              (nota `recursos.regalias` do contexto). Mundo sem regalias não
+              renderiza nada. O controle é manual: quem marca "pago por" na
+              aba RECURSOS é o jogador. */}
+          {regalia ? (
+            <Field label="CONTEXTO">
+              <div style={{ ...boxStyle('11px 15px', 13), width: '100%' }}>
+                <RegaliaBloco regalia={regalia.regalia} doc={regalia.doc} nivel={nivel} />
+              </div>
+            </Field>
+          ) : null}
           {/* #2: mesma largura/estilo do NOME, editável e persistido.
               Apelido vive em Biografia.Apelido → só famílias com biografia
               (plugin biografia-card.ts:20; CA não renderiza, #201). */}
