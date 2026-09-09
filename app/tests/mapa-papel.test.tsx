@@ -10,6 +10,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseFrontmatter } from '../../extractor/parse-frontmatter.mjs'
+import { cifrarBytes, cifrarDoc, nomeCifrado } from '../../extractor/cifra-doc.mjs'
+import { __resetDocLocksForTests, unlockWithSenha } from '../src/data/doc-lock'
+import { __resetArquivosCifradosForTests } from '../src/data/arquivos-cifrados'
 import { buildCatalog } from '../src/data/catalog'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { MapaPapelPage } from '../src/print/MapaPapelPage'
@@ -105,6 +108,38 @@ describe('imprimir mapas da aventura', () => {
     await waitFor(() => expect(container.querySelector('[data-mapa-papel="mapa"]')).toBeTruthy())
     expect(container.querySelector('[data-mapa-papel="mesa"]')).toBeNull()
     globalThis.fetch = antes
+  })
+
+  it('destravada: as figuras cifradas dos mapas chegam ao papel sem precisar rolar', async () => {
+    // caminho REAL: a aventura sai cifrada do extract e o papel só existe
+    // depois de destravar; as figuras carregam eager (a página 7 vai pro
+    // papel mesmo sem ninguém ter rolado até ela).
+    const ID4 = 'Campanhas/Aventuras/Cifrada'
+    const PNG = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 9, 9])
+    const K = Buffer.alloc(32, 5)
+    const alvo = '07 — Retífica Sertório — térreo.png'
+    const enc = `assets-cifrados/${nomeCifrado(ID4, `Mapas/${alvo}`)}.enc`
+    const blob = new Uint8Array(cifrarBytes(K, Buffer.from(PNG)))
+    const cifrada = cifrarDoc(
+      { ...doc, id: ID4, path: `${ID4}.md`, frontmatter: { ...frontmatter, Senha: 'abre' }, images: [], inlineFields: {}, ruleElements: [], links: [], headings: [] },
+      { camposPublicos: ['Chamada'], senhaDev: null, chave: K, privadoExtra: { arquivos: [{ target: alvo, path: `Mapas/${alvo}`, copiedTo: enc }] } },
+    ) as unknown as VaultDoc
+    const antes = globalThis.fetch
+    globalThis.fetch = (async (input: unknown) => {
+      const rel = decodeURIComponent(String(input).replace(/^\/vault-data\//, '').replace(/\?.*$/, ''))
+      if (rel === `${ID4}.json`) return { ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(cifrada)) }
+      if (rel === enc) return { ok: true, status: 200, arrayBuffer: async () => blob.buffer.slice(0) }
+      return antes(input as RequestInfo)
+    }) as typeof fetch
+    __resetDocLocksForTests()
+    __resetArquivosCifradosForTests()
+    expect(await unlockWithSenha(cifrada, 'abre', false)).toBe(true)
+    const { container } = renderPapel(ID4)
+    await waitFor(() => expect(container.querySelectorAll('[data-mapa-papel="mesa"]').length).toBe(10))
+    // o mapa cujo arquivo existe cifrado aparece; os outros ficam sem imagem
+    await waitFor(() => expect(container.querySelectorAll('img').length).toBe(1))
+    globalThis.fetch = antes
+    __resetDocLocksForTests()
   })
 
   it('aventura trancada não imprime — manda destravar', async () => {
