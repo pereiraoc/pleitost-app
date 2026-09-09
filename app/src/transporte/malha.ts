@@ -103,6 +103,21 @@ export function linhasDoFiltro(malha: Malha, f: FiltroMalha): LinhaMalha[] {
   })
 }
 
+/** Modos da malha na ordem do BOLSO: primeiro o que não pede cartão (se paga
+ *  na mão), depois pelo cartão mais barato que o modo aceita. É a ordem em
+ *  que o filtro os mostra — do que qualquer um paga ao que só o cartão caro
+ *  abre. Linha fechada não conta. */
+export function modosPorPreco(malha: Malha): string[] {
+  const menor = new Map<string, number>()
+  for (const l of malha.linhas) {
+    if (l.fechada) continue
+    const n = l.nivel ?? 0 // sem cartão = mais barato que qualquer cartão
+    const atual = menor.get(l.modo)
+    if (atual === undefined || n < atual) menor.set(l.modo, n)
+  }
+  return [...menor.entries()].sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0], 'pt-BR')).map(([m]) => m)
+}
+
 /** Luminância relativa (WCAG) de um hex `#rrggbb`. */
 function luminancia(hex: string): number {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim())

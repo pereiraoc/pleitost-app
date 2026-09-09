@@ -21,6 +21,12 @@ const SCAFFOLDING_PREFIXES = [
   "Recursos e Mídia/Excalidraw",
 ];
 
+// Backups do gerador de figuras: ele guarda a versão ANTIGA aqui antes de
+// sobrescrever. É lixo de processo — se entrar no dataset, passam a existir
+// DUAS imagens com o mesmo basename (a nova e a que ela substituiu) e o app,
+// que resolve embed por basename, pode mostrar a velha (2026-09-09).
+const IGNORED_PATH_PARTS = ["Recursos de Contextos/_geracao/backups/"];
+
 const IMG_EXT = /\.(png|jpe?g|webp|gif|svg|bmp|avif)$/i;
 
 function toPosix(p) {
@@ -51,6 +57,7 @@ export async function walkVault(vaultRoot) {
       } else if (ent.isFile()) {
         const abs = join(dir, ent.name);
         const rel = toPosix(relative(vaultRoot, abs));
+        if (IGNORED_PATH_PARTS.some((parte) => rel.includes(parte))) continue;
         if (/\.md$/i.test(ent.name)) {
           docs.push({ absPath: abs, relPath: rel, kind: isScaffolding(rel) ? "scaffolding" : "content" });
         } else if (IMG_EXT.test(ent.name)) {

@@ -30,8 +30,26 @@ export interface Perna {
   /** Minutos de baldeação ANTES desta perna (0 na primeira). */
   baldeacao: number
 }
+/** Pedaço do caminho que o cartão do jogador NÃO abre: a linha existe e faria
+ *  o trecho, mas ele não pode embarcar. Resolve-se a pé ou de táxi, e a tela
+ *  mostra os dois tempos pra ele escolher (ou entender o que perde). */
+export interface TrechoSemAcesso {
+  de: string
+  ate: string
+  /** id da linha que faria o trecho, se o cartão abrisse. */
+  bloqueada: string
+  /** Cartão que ela pede (pra dizer o que faltou). */
+  nivel: number | null
+  aPe: number
+  taxi: number
+  km: number
+}
+
 export interface Rota {
   pernas: Perna[]
+  /** Trechos sem acesso, na ordem — a rota é MISTA (parte de transporte,
+   *  parte a pé ou de táxi). Vazio numa rota que o cartão abre inteira. */
+  trechos?: TrechoSemAcesso[]
   /** Trecho feito A PÉ: não há caminho com as linhas do filtro. Sem pernas. */
   aPe?: true
   /** Total em minutos (arredondado). */
@@ -211,6 +229,52 @@ export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p:
     linhas: [],
     paradas: [origem, destino],
   }
+}
+
+/** ROTA MISTA (2026-09-09) — o que o jogador vê quando o cartão dele não abre
+ *  o caminho inteiro. Tenta primeiro só com as linhas do FILTRO; não achando,
+ *  refaz com a malha inteira e converte cada perna que ele não pode pegar num
+ *  TRECHO a pé ou de táxi, estimado pelo tempo daquela mesma perna (× o fator
+ *  de cada um, do contexto). O total conta a alternativa mais rápida.
+ *
+ *  É o pedido do mestre: "se tiver um TRI ruim, mostra que algumas partes tem
+ *  que caminhar (X min) ou pegar táxi (Y min)". */
+export function calcularRotasComAcesso(
+  filtradas: LinhaMalha[],
+  todas: LinhaMalha[],
+  origem: string,
+  destino: string,
+  p: Parametros,
+  quantos = 3,
+): Rota[] {
+  const comFiltro = calcularRotas({} as Malha, filtradas, origem, destino, p, quantos)
+  if (comFiltro.length) return comFiltro
+  const aPeCfg = p.cfg.aPe
+  const taxiCfg = p.cfg.taxi
+  if (!aPeCfg || !taxiCfg) return []
+  const abertas = new Set(filtradas.map((l) => l.id))
+  const completas = calcularRotas({} as Malha, todas, origem, destino, p, quantos)
+  const out: Rota[] = []
+  for (const r of completas) {
+    const pernas: Perna[] = []
+    const trechos: TrechoSemAcesso[] = []
+    let minutos = 0
+    for (const perna of r.pernas) {
+      if (abertas.has(perna.linha.id)) {
+        pernas.push(perna)
+        minutos += perna.viagem + perna.espera + perna.baldeacao
+        continue
+      }
+      const de = perna.paradas[0]!
+      const ate = perna.paradas[perna.paradas.length - 1]!
+      const aPe = Math.round(perna.viagem * aPeCfg.fator)
+      const taxi = Math.round(perna.viagem * taxiCfg.fator)
+      trechos.push({ de, ate, bloqueada: perna.linha.id, nivel: perna.linha.nivel, aPe, taxi, km: Math.round((distanciaKm(de, ate, p) ?? 0) * 10) / 10 })
+      minutos += Math.min(aPe, taxi)
+    }
+    out.push({ ...r, pernas, trechos, minutos: Math.round(minutos) })
+  }
+  return out
 }
 
 /** Formata minutos como "1h05" / "35 min". */

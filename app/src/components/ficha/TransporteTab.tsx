@@ -15,10 +15,10 @@ import { DetailLink } from '../DetailLink'
 import { clip } from './bits'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import { abaDoPapel, recursosDoFm } from '../../recursos/hero-recursos'
-import { desenharMalha, linhasDoFiltro, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
+import { desenharMalha, linhasDoFiltro, modosPorPreco, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
 import { MalhaMap, TracoAmostra, type Destaque } from './MalhaMap'
 import { formatValorMoeda } from '../../data/moeda'
-import { calcularRotas, formatarMinutos, rotaAPe, type PosicaoReal, type Rota } from '../../transporte/rotas'
+import { calcularRotasComAcesso, formatarMinutos, rotaAPe, type PosicaoReal, type Rota } from '../../transporte/rotas'
 import { paradasSelectLines } from '../../transporte/paradas-select'
 import { BoxSelect } from './PerfilTab'
 
@@ -166,6 +166,9 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
   // O mapa e o TRAJETO leem o mesmo filtro — é o ponto do pedido.
   const [modos, setModos] = useState<string[]>([])
   const [exato, setExato] = useState(false)
+  // Ver o que o cartão NÃO abre: as linhas de fora entram no mapa esmaecidas,
+  // pra enxergar aonde daria pra ir com um cartão melhor.
+  const [verBloqueadas, setVerBloqueadas] = useState(false)
   // padrão: a maior vista que o plano do herói alcança; sem plano, a menor
   const vistaPadrao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual)?.nivel ?? vistas[0]?.nivel ?? 1
   const nivelVista = vista ?? vistaPadrao
@@ -180,19 +183,27 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     () => (dados ? linhasDoFiltro(dados.malha, { modos, nivel: nivelVista, exato }) : []),
     [dados, nivelVista, modos, exato],
   )
-  /** Modos que a malha tem, na ordem que o contexto declara. */
-  const modosDaMalha = useMemo(() => {
+  /** Modos da malha na ordem do BOLSO: do que qualquer um paga ao que só o
+   *  cartão caro abre (pedido do mestre). */
+  const modosDaMalha = useMemo(() => (dados ? modosPorPreco(dados.malha) : []), [dados])
+  /** O que o filtro deixou de fora — some no mapa quando o botão está ligado. */
+  const bloqueadas = useMemo(() => {
     if (!dados) return []
-    const tem = new Set(dados.malha.linhas.filter((l) => !l.fechada).map((l) => l.modo))
-    return (cfg?.modos ?? []).map((m) => m.nome).filter((n) => tem.has(n))
-  }, [dados, cfg])
-  const desenho = useMemo(() => (dados ? desenharMalha(dados.malha, visiveis) : null), [dados, visiveis])
+    const dentro = new Set(visiveis.map((l) => l.id))
+    return dados.malha.linhas.filter((l) => !l.fechada && !dentro.has(l.id))
+  }, [dados, visiveis])
+  const desenho = useMemo(
+    () => (dados ? desenharMalha(dados.malha, verBloqueadas ? [...visiveis, ...bloqueadas] : visiveis) : null),
+    [dados, visiveis, bloqueadas, verBloqueadas],
+  )
   const periodos = cfg?.periodos ?? []
   const periodoIdx = periodo ?? Math.max(0, periodos.findIndex((p) => p.transito === 1))
   const podePlanejar = !!dados && dados.metrosPorUnidade > 0 && dados.posicoes.size > 0
   const rotas = useMemo<Rota[]>(() => {
     if (!dados || !cfg || !podePlanejar || !origem || !destino) return []
-    return calcularRotas(dados.malha, visiveis, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
+    const p = { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 }
+    const todas = dados.malha.linhas.filter((l) => !l.fechada)
+    return calcularRotasComAcesso(visiveis, todas, origem, destino, p)
   }, [dados, cfg, podePlanejar, origem, destino, visiveis, periodos, periodoIdx])
   // Sem caminho NO FILTRO, o trecho se faz a pé — estimado pelo que a malha
   // inteira levaria (ver rotaAPe). Só entra quando não há rota nenhuma.
@@ -341,6 +352,20 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
             ) : null}
           </div>
         ) : null}
+        {bloqueadas.length ? (
+          <div style={{ marginTop: 8 }}>
+            <button
+              type="button"
+              data-ver-bloqueadas={verBloqueadas ? 'sim' : 'nao'}
+              aria-pressed={verBloqueadas}
+              onClick={() => setVerBloqueadas((v) => !v)}
+              title="Desenha, esmaecidas, as linhas que este cartão não abre — pra ver aonde daria pra ir com um cartão melhor"
+              style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: verBloqueadas ? 'color-mix(in srgb,var(--accent) 14%,transparent)' : 'transparent', borderColor: verBloqueadas ? 'var(--accent)' : 'var(--line2)' }}
+            >
+              {verBloqueadas ? 'escondendo o que não abre' : `mostrar o que não abre (${bloqueadas.length})`}
+            </button>
+          </div>
+        ) : null}
       </section>
 
       {/* PLANEJADOR: de onde pra onde, no cartão da vista, no período escolhido */}
@@ -385,7 +410,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
               <ol data-rotas="" style={{ listStyle: 'none', margin: '10px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {rotas.map((r, i) => {
                   const ativa = i === rotaSel
-                  const baldeacoes = r.pernas.length - 1
+                  const baldeacoes = Math.max(0, r.pernas.length - 1)
                   return (
                     <li key={r.linhas.join('>')}>
                       <button
@@ -401,6 +426,17 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                           <span style={MONO}>{`${r.km.toLocaleString('pt-BR')} km`}</span>
                         </div>
                         <Itinerario rota={r} origem={origem} destino={destino} />
+                        {r.trechos?.length ? (
+                          <div data-trechos="" style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                            {r.trechos.map((t) => (
+                              <div key={`${t.de}>${t.ate}`} data-trecho={t.bloqueada} style={{ ...MONO, fontSize: 10, textTransform: 'none', letterSpacing: '.06em', color: 'var(--muted)' }}>
+                                {`de ${t.de} a ${t.ate}: o teu cartão não abre a ${t.bloqueada}`}
+                                {t.nivel ? ` (pede ${dados.planosLista.find((pl) => pl.nivel === t.nivel)?.nome ?? `nível ${t.nivel}`})` : ''}
+                                {` — caminhar ${formatarMinutos(t.aPe)} ou táxi ${formatarMinutos(t.taxi)}`}
+                              </div>
+                            ))}
+                          </div>
+                        ) : null}
                       </button>
                     </li>
                   )
@@ -429,7 +465,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         </section>
       ) : null}
 
-      <MalhaMap desenho={desenho} bairros={bairros} selecionada={selecionada} destaque={destaque} onSelecionar={setSelecionada} onParada={marcarParada} />
+      <MalhaMap desenho={desenho} bairros={bairros} selecionada={selecionada} destaque={destaque} bloqueadas={verBloqueadas ? new Set(bloqueadas.map((l) => l.id)) : undefined} onSelecionar={setSelecionada} onParada={marcarParada} />
 
       {/* LEGENDA */}
       <section style={BOX}>

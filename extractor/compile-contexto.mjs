@@ -214,6 +214,11 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
       if (!(fator > 0) || !(velocidade > 0)) problems.push("transporte.a_pe: { fator > 0, velocidade > 0 }");
       else transporte.aPe = { fator, velocidade };
     }
+    if (t.taxi !== undefined) {
+      const fator = Number(isPlainObject(t.taxi) ? t.taxi.fator : NaN);
+      if (!(fator > 0)) problems.push("transporte.taxi: { fator > 0 }");
+      else transporte.taxi = { fator };
+    }
     if (t.atraso_por_qualidade !== undefined) {
       const a = Array.isArray(t.atraso_por_qualidade) ? t.atraso_por_qualidade.map(Number) : [];
       if (a.length !== 5 || a.some((x) => !(x > 0))) problems.push("transporte.atraso_por_qualidade: 5 fatores > 0 (★1..★5)");

@@ -104,6 +104,9 @@ export interface ContextoDef {
      *  tempo é o da rota na malha inteira × `fator`; sem rota nem assim, a
      *  distância direta a `velocidade` km/h. */
     aPe?: { fator: number; velocidade: number }
+    /** TÁXI (2026-09-09): alternativa paga do trecho sem acesso — fator sobre
+     *  o tempo da linha que faria o mesmo caminho (não para, não espera). */
+    taxi?: { fator: number }
     /** Fator de atraso por Qualidade da linha (índice 0 = ★1). */
     atrasoPorQualidade?: number[]
     /** Períodos do dia e o fator de trânsito de cada um (modos `rua`). */

@@ -100,6 +100,7 @@ export function MalhaMap({
   bairros = [],
   selecionada,
   destaque = null,
+  bloqueadas,
   onSelecionar,
   onParada,
 }: {
@@ -110,6 +111,9 @@ export function MalhaMap({
   selecionada: string | null
   /** trajeto planejado (tem precedência sobre `selecionada`). */
   destaque?: Destaque | null
+  /** Linhas que o cartão do jogador NÃO abre: entram no desenho, mas em meio
+   *  tom e tracejadas — servem pra ver aonde daria pra ir com um cartão melhor. */
+  bloqueadas?: Set<string>
   onSelecionar: (id: string | null) => void
   onParada: (nome: string) => void
 }) {
@@ -179,6 +183,7 @@ export function MalhaMap({
               : null}
             {desenho.tracos.map((t) => {
               const naRota = destaque ? destaque.linhas.includes(t.id) : null
+              const semAcesso = bloqueadas?.has(t.id) ?? false
               const apagada = naRota === null ? selecionada !== null && selecionada !== t.id : !naRota
               const grossa = naRota === null ? selecionada === t.id : naRota
               return (
@@ -193,7 +198,8 @@ export function MalhaMap({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeDasharray={DASH[t.traco]}
-                  opacity={apagada ? 0.12 : 1}
+                  opacity={apagada ? 0.12 : semAcesso ? 0.42 : 1}
+                  data-sem-acesso={semAcesso ? '' : undefined}
                 >
                   <title>{t.nome}</title>
                 </path>
