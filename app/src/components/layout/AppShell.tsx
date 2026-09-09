@@ -22,7 +22,9 @@ import {
   APP_NAV,
   CHAR_TABS,
   NAV_ICON_PATHS,
+  NAV_MUNDOS,
   NAV_ROUTES,
+  navSection,
   TITLES,
   type NavItem,
 } from './design-nav'
@@ -46,7 +48,7 @@ function NavIcon({ id }: { id: string }) {
   )
 }
 
-function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+function NavButton({ item, onNavigate, secao }: { item: NavItem; onNavigate: () => void; secao: string | null }) {
   const route = NAV_ROUTES[item.id]
   // itens sem tela implementada ficam desenhados porém disabled
   if (route) {
@@ -54,7 +56,9 @@ function NavButton({ item, onNavigate }: { item: NavItem; onNavigate: () => void
       <NavLink
         to={route}
         onClick={onNavigate}
-        className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+        // Ativo pelo prefixo MAIS LONGO (navSection), não pelo `isActive` do
+        // NavLink: /compendio/Atlas acenderia COMPÊNDIO e ATLAS ao mesmo tempo.
+        className={secao === item.id ? 'nav-item active' : 'nav-item'}
       >
         <span className="nav-ic" aria-hidden>
           <NavIcon id={item.id} />
@@ -282,17 +286,9 @@ export function AppShell() {
     },
   )
 
-  const section = fichaOpen
-    ? fichaTab
-    : pathname.startsWith('/herois')
-      ? 'herois'
-      : pathname.startsWith('/npcs')
-        ? 'npcs'
-        : pathname.startsWith('/config')
-          ? 'config'
-          : pathname.startsWith('/compendio') || pathname.startsWith('/doc')
-            ? 'compendio'
-            : null
+  // Seção ativa (destaque da sidebar + título da topbar): o registro central
+  // resolve pelo prefixo mais longo, então /compendio/Atlas é ATLAS.
+  const section = fichaOpen ? fichaTab : navSection(pathname)
   const title = section ? TITLES[section] : ''
   const closeDrawer = () => setDrawerOpen(false)
 
@@ -370,15 +366,17 @@ export function AppShell() {
                   disabled={emWizard || (item.id === 'grupos' && !grupoDisponivel)}
                 />
               ) : (
-                <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
+                <NavButton key={item.id} item={item} onNavigate={closeDrawer} secao={section} />
               ),
             )}
           </nav>
           <div className="sidebar-spacer" />
           <nav className="nav-group">
-            {APP_NAV.map((item) => (
-              <NavButton key={item.id} item={item} onNavigate={closeDrawer} />
-            ))}
+            {APP_NAV.filter((item) => (NAV_MUNDOS[item.id] ?? [world]).includes(world)).map(
+              (item) => (
+                <NavButton key={item.id} item={item} onNavigate={closeDrawer} secao={section} />
+              ),
+            )}
             {/* #308: report de bugs ABAIXO do CONFIG (fundo vermelho) */}
             <BugReportButton onOpenChange={closeDrawer} />
           </nav>

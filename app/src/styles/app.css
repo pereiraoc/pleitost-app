@@ -2861,3 +2861,136 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   color: var(--muted);
   line-height: 1.3;
 }
+
+/* ── TELA CONTEXTO (2026-09-09) ──────────────────────────────────────────
+   Grupos empilhados (leitura vertical, não grade), cada dossiê num card
+   com a figura contida à direita. A linha do tempo do passado vem antes,
+   fechada. Reaproveita .ctx-stack/.ctx-timeline/.ctx-tl-* já existentes. */
+.ctx-page {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* botão que abre a linha do tempo */
+.ctx-tl-box {
+  border: 1px solid var(--line2);
+  background: var(--panel);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.ctx-tl-box[open] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line2));
+}
+.ctx-tl-botao {
+  display: block;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.ctx-tl-botao::-webkit-details-marker {
+  display: none;
+}
+.ctx-tl-botao::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.15s;
+}
+.ctx-tl-box[open] > .ctx-tl-botao::before {
+  transform: rotate(90deg);
+}
+.ctx-tl-box > .ctx-timeline {
+  padding: 6px 20px 22px 24px;
+}
+
+/* grupo de dossiês */
+.ctx-grupo-titulo {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line2);
+}
+
+/* card de dossiê: texto à esquerda, figura contida à direita */
+.ctx-card {
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.ctx-card[open] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line2));
+}
+.ctx-card-head {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+.ctx-card-head::-webkit-details-marker {
+  display: none;
+}
+.ctx-card-texto {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 4px 11px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.ctx-card-texto::before {
+  content: '▸';
+  color: var(--accent);
+  position: absolute;
+  margin-left: -12px;
+  transition: transform 0.15s;
+}
+.ctx-card[open] .ctx-card-texto::before {
+  transform: rotate(90deg);
+}
+.ctx-card-title {
+  font-weight: 800;
+}
+.ctx-card-assunto {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* a figura é PARTE do card: encosta na borda direita e ocupa a altura toda */
+.ctx-card-fig {
+  flex: none;
+  width: 108px;
+  align-self: stretch;
+  display: block;
+  cursor: zoom-in;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  border-left: 1px solid var(--line2);
+}
+.ctx-card-fig img {
+  width: 100%;
+  height: 100%;
+  min-height: 76px;
+  object-fit: cover;
+  /* o interesse da figura fica em cima, nunca no meio (token único) */
+  object-position: var(--enquadramento-retrato);
+  display: block;
+}
+.ctx-card-body {
+  padding: 4px 16px 14px 26px;
+  font-size: 0.95rem;
+}
+.ctx-card-body > :first-child {
+  margin-top: 0;
+}
+@media (max-width: 560px) {
+  .ctx-card-fig {
+    width: 84px;
+  }
+}

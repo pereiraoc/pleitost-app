@@ -17,6 +17,12 @@
 
 import { reskinText } from '../../data/reskin'
 
+/** Pastas do CONTEXTO que têm tela própria (a tela CONTEXTO agrupa os dossiês
+ *  do presente e abre a linha do tempo do passado). Declaradas aqui, junto da
+ *  árvore de navegação — call site nenhum escreve o caminho na mão. */
+export const CONTEXTO_ATUAL_PATH = 'Contexto/Histórias/Contexto Atual'
+export const CONTEXTO_HISTORICO_PATH = 'Contexto/Histórias/Contexto Histórico'
+
 export interface CompendioMeta {
   /** Emoji do botão grande (fonte de verdade da navegação do app). */
   icon: string
@@ -29,10 +35,7 @@ export const NAV_CHILDREN: Record<string, string[]> = {
   '': ['Atlas', 'Campanhas', 'Contexto', 'Sistema'],
   Campanhas: ['Campanhas/Aventuras', 'Campanhas/Combates'],
   Contexto: ['Contexto/Organizações', 'Contexto/Histórias'],
-  'Contexto/Histórias': [
-    'Contexto/Histórias/Contexto Atual',
-    'Contexto/Histórias/Contexto Histórico',
-  ],
+  'Contexto/Histórias': [CONTEXTO_ATUAL_PATH, CONTEXTO_HISTORICO_PATH],
   Sistema: ['Sistema/Criação de Personagem', 'Sistema/Equipamento', 'Sistema/Regras'],
   // #245: "Items" ACHATA as 7 categorias que o usuário pediu — as 4 subpastas
   // de Tesouros (Consumíveis/Equipamentos/Imbuições e Qualidade/Implementos)

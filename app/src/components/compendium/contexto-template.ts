@@ -64,6 +64,16 @@ export function semTemplate(body: string): string {
   return out.join('\n')
 }
 
+/** Corpo SEM os embeds de imagem soltos (linhas que são só `![[figura.png]]`).
+ *  O card da tela CONTEXTO já mostra a figura à direita — repeti-la dentro do
+ *  corpo aberto só empurra o texto pra baixo (pedido 2026-09-09). */
+export function semFiguras(body: string): string {
+  return String(body ?? '')
+    .split('\n')
+    .filter((l) => !/^!\[\[[^\]]+\.(png|jpe?g|gif|webp|svg|avif|bmp)(\|[^\]]*)?\]\]\s*$/i.test(l.trim()))
+    .join('\n')
+}
+
 /** Corpo exibido de uma nota de Contexto: a prosa REAL (sem o template),
  *  senão a `Descrição` do FM (wikilinks resolvem no markdown), senão vazio —
  *  título/data/assunto já são o frame. */

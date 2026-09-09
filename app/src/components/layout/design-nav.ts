@@ -1,3 +1,5 @@
+import type { WorldId } from '../../data/world'
+
 // Registro central da navegação DESENHADA — fonte: design/pulled/Companion
 // App.dc.html (CHAR_TABS/APP_NAV/TITLES do script do design). Itens sem tela
 // implementada renderizam disabled; ao implementar uma tela, ligue a rota no
@@ -8,6 +10,14 @@ export interface NavItem {
   /** Emoji do script do design (STUB_ICONS/telas stub) — a sidebar usa NAV_ICON_PATHS. */
   ic: string
   label: string
+}
+
+/** Mundos em que um item da nav aparece; ausente = todos. ATLAS e CONTEXTO
+ *  (pedido 2026-09-09) são atalhos pro conteúdo de MUNDO da POA — na fantasia
+ *  o Atlas já abre com o mapa embutido e não há dossiê de contexto por grupo. */
+export const NAV_MUNDOS: Record<string, readonly WorldId[]> = {
+  atlas: ['cyberpunk'],
+  contexto: ['cyberpunk'],
 }
 
 /**
@@ -30,6 +40,9 @@ export const NAV_ICON_PATHS: Record<string, string> = {
   npcs: `<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10.5" r="2.2"/><path d="M6.4 15.5a3 3 0 0 1 5.2 0"/><line x1="14" y1="9.5" x2="18" y2="9.5"/><line x1="14" y1="13.5" x2="18" y2="13.5"/>`,
   sessao: `<rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.1"/><circle cx="15.5" cy="8.5" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="8.5" cy="15.5" r="1.1"/><circle cx="15.5" cy="15.5" r="1.1"/>`,
   compendio: `<path d="M6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M9 6.5h6"/>`,
+  // globo com meridianos (ATLAS) e camadas empilhadas (CONTEXTO)
+  atlas: `<path d="m9 5-6 2.5v13L9 18l6 3 6-2.5v-13L15 8 9 5Z"/><path d="M9 5v13"/><path d="M15 8v13"/>`,
+  contexto: `<circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19"/><path d="M12 2.5a15 15 0 0 1 4 9.5 15 15 0 0 1-4 9.5 15 15 0 0 1-4-9.5 15 15 0 0 1 4-9.5z"/>`,
   config: `<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>`,
 }
 
@@ -50,9 +63,15 @@ export const CHAR_TABS: NavItem[] = [
 
 // SESSÃO saiu da sidebar ESQUERDA (decisão do usuário, 2026-07-12): a Sessão
 // vive inteira no PAINEL DIREITO (face SESSÃO do RightSidebar).
+// ATLAS e CONTEXTO (pedido 2026-09-09) NÃO vêm do design: são atalhos pro
+// conteúdo de mundo da POA 1987 — o mapa dos bairros e os dossiês do presente
+// —, que antes só se alcançava abrindo o compêndio. Ficam logo acima de
+// COMPÊNDIO e só aparecem no mundo que os tem (NAV_MUNDOS).
 export const APP_NAV: NavItem[] = [
   { id: 'herois', ic: '👤', label: 'HERÓIS' },
   { id: 'npcs', ic: '👤', label: 'CRIATURAS' },
+  { id: 'atlas', ic: '🗺️', label: 'ATLAS' },
+  { id: 'contexto', ic: '🌍', label: 'CONTEXTO' },
   { id: 'compendio', ic: '📖', label: 'COMPÊNDIO' },
   { id: 'config', ic: '⚙️', label: 'CONFIG' },
 ]
@@ -70,6 +89,8 @@ export const TITLES: Record<string, string> = {
   npcs: 'CRIATURAS',
   sessao: 'SESSÃO',
   compendio: 'COMPÊNDIO',
+  atlas: 'ATLAS',
+  contexto: 'CONTEXTO',
   config: 'CONFIG',
 }
 
@@ -86,7 +107,32 @@ export function compendioKicker(category?: string | null): string {
 /** Rotas implementadas por item de nav; itens fora daqui renderizam disabled. */
 export const NAV_ROUTES: Record<string, string> = {
   compendio: '/compendio',
+  // o Atlas do mundo é a raiz do compêndio de lugares — a rota redireciona
+  // pro lugar-raiz do mundo (Porto Alegre), então o atalho leva direto lá
+  atlas: '/compendio/Atlas',
+  contexto: '/contexto',
   herois: '/herois',
   npcs: '/npcs',
   config: '/config',
+}
+
+/** Rotas EXTRAS que também acendem um item (a nota aberta é do compêndio). */
+const NAV_ROTAS_IRMAS: Record<string, readonly string[]> = {
+  compendio: ['/doc'],
+}
+
+/**
+ * Item de nav (ou aba) ativo pra um pathname: vence o prefixo MAIS LONGO, pra
+ * `/compendio/Atlas/...` acender ATLAS e não COMPÊNDIO. Fonte única do
+ * destaque da sidebar e do título da topbar.
+ */
+export function navSection(pathname: string): string | null {
+  let melhor: { id: string; tamanho: number } | null = null
+  for (const [id, rota] of Object.entries(NAV_ROUTES)) {
+    for (const prefixo of [rota, ...(NAV_ROTAS_IRMAS[id] ?? [])]) {
+      if (pathname !== prefixo && !pathname.startsWith(`${prefixo}/`)) continue
+      if (!melhor || prefixo.length > melhor.tamanho) melhor = { id, tamanho: prefixo.length }
+    }
+  }
+  return melhor?.id ?? null
 }
