@@ -107,7 +107,10 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
     fireEvent.click(document.querySelector('[data-malha-mapa] [data-bairros]') as HTMLElement)
     expect(document.querySelectorAll('[data-malha-mapa] g[data-bairro="Nova Sarandi"] rect').length).toBeGreaterThan(3)
     expect(document.querySelectorAll('[data-malha-mapa] g[data-bairro="Jardim Botânico"] rect').length).toBeGreaterThan(3) // uma parada só, mas visível
-    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Zona Leste"] text')?.textContent).toBe('ZONA LESTE')
+    // "Zona Leste" não é bairro (2026-09-09): o mapa dos bairros põe a região
+    // leste dentro do Jardim Botânico, e a vila operária é parte dele.
+    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Zona Leste"]')).toBeNull()
+    expect(document.querySelector('[data-malha-mapa] g[data-bairro="Jardim Botânico"] text')?.textContent).toBe('JARDIM BOTÂNICO')
     // legenda: a Kombi mostra o traço pontilhado, o VALOR como chip e a nota de pagamento embaixo
     const kombi = document.querySelector('[data-legenda] [data-modo="Kombi"]') as HTMLElement
     expect(kombi.querySelector('svg[data-swatch="pontilhado"]')).not.toBeNull()

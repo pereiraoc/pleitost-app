@@ -122,7 +122,7 @@ Isso resolve:
 | [[Panvel]] (Underground) | A Matriz e o Omega-S de volta **sem escândalo** | Apagar o relatório; “amostras grátis”; um cartão que abre farmácia | Um laudo da PIRA que vira ficha suja; a Brigada oficial |
 | [[Brigada Militar Metropolitana]] (Brum) | Fechar a noite sem ponta solta | Nada — ou “esquecer” os PCs se ficar com a Matriz | Porão do Gasômetro; a única arma de fogo da noite |
 | [[Cartel dos Eixos]] | A Matriz pra vender aos [[Cartéis de Selênicos]] | Comprar dos PCs; virar contra Brum se a conta fechar | Capangas de oficina; o Aeromóvel como pista de fuga |
-| [[Camisa 12]] | Qualquer selênico que apareça na Zona Leste | Carona na caravana; comprar o lote; proteção de rampa | Espalhar que os PCs “tão com a caixa” |
+| [[Camisa 12]] | Qualquer selênico que apareça na vila do Botânico | Carona na caravana; comprar o lote; proteção de rampa | Espalhar que os PCs “tão com a caixa” |
 | [[Geral do Grêmio]] | Ficar longe do escândalo — ou lucrar com ele | Um advogado, um nome no camarote, um telefonema pra [[Prefeitura de Porto Alegre\|Prefeitura]] | Entregar os PCs à Brigada com sorriso |
 | [[A Caixinha]] | Que o serviço feche | Marca de Respeito ao fim da noite | Marca perdida se o grupo trair o contratante |
 
@@ -309,7 +309,7 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > “Tarja é só coleira com outro nome.”
 
 **Cânticos e cor**
-- a caravana: *“É o Inter, é o Inter, é a fúria da Zona Leste”* (tambor no compasso)
+- a caravana: *“É o Inter, é o Inter, é a fúria da vila”* (tambor no compasso)
 - o blazer, baixinho: *“Até a pé nós iremos…”*
 - o rádio pirata da Resistência, no fundo da galeria: *“…e a Brigada fechou a rampa sul, companheiros. Se tu tá lá embaixo, corre.”*
 
@@ -550,7 +550,7 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 ![[04 — Travessia — caminhão dos catadores.png|Travessia — caminhão dos catadores]]
 
 > [!quote] 🔊 Como descrever (caravana da Camisa 12)
-> Ônibus lotado, vidro embaçado, tambor batendo no fundo. Cheira a Polar quente e a jaqueta molhada. Alguém puxa um canto e o ônibus inteiro responde; o gremista da mesa aprende a olhar pro chão. Pela janela, a Zona Leste passa em muros vermelhos e antenas tortas.
+> Ônibus lotado, vidro embaçado, tambor batendo no fundo. Cheira a Polar quente e a jaqueta molhada. Alguém puxa um canto e o ônibus inteiro responde; o gremista da mesa aprende a olhar pro chão. Pela janela, a vila do Botânico passa em muros vermelhos e antenas tortas.
 
 > [!quote] 🔊 Como descrever (caminhão do Sindicato dos Catadores)
 > Vocês viajam sentados em saco de lixo, no escuro da caçamba, com o cheiro de resto de feira e papelão molhado entrando pelo nariz e ficando. O caminhão para duas vezes; nas duas, vocês ouvem voz de brigadiano do lado de fora e o motorista rindo. Ninguém abre a caçamba de um caminhão de lixo.
@@ -1070,7 +1070,7 @@ Escolha 1:
 - alguém quase ser reconhecido (o cambista, o brigadiano jovem, um guri da Camisa 12)
 
 #### As duas ofertas (uma ou as duas, no meio do interlúdio)
-- **Camisa 12:** três jaquetas vermelhas sentam na mesa. “O Borracheiro quer a caixa. Paga bem, paga em dose, e a Zona Leste vira casa de vocês.” Se um dos PCs é gremista, eles fingem que não viram. Recusar é seguro **hoje**; aceitar entrega o lote pra quem vai revender na rampa — e o Consórcio cobra.
+- **Camisa 12:** três jaquetas vermelhas sentam na mesa. “O Borracheiro quer a caixa. Paga bem, paga em dose, e a vila do Botânico vira casa de vocês.” Se um dos PCs é gremista, eles fingem que não viram. Recusar é seguro **hoje**; aceitar entrega o lote pra quem vai revender na rampa — e o Consórcio cobra.
 - **Geral do Grêmio:** um blazer com lenço branco, sozinho, educadíssimo, “em nome do Senador”. Não quer a caixa: quer que **o nome do Grêmio não apareça**. Oferece um advogado e um nome no camarote se os PCs entregarem tudo pra Panvel e disserem que a briga foi “coisa de colorado”. Aceitar compra proteção de verdade — e um inimigo na Camisa 12.
 
 Nenhuma das duas precisa ser aceita. As duas mudam o desfecho se forem.
@@ -1107,7 +1107,7 @@ Quando a Fase 1 estiver quase resolvida, Brum entra **no combate ativo** — reg
 | Se até aqui… | Entra assim | Juninho está… |
 |---|---|---|
 | os PCs passaram batido — nenhuma pista humana, Brum não sabe que estão soltos | **1. Brum chega com reforço** — pela frente, com o motorista e uma lanterna, pra buscar o guri e a Matriz | amarrado no galpão (A) |
-| a Camisa 12 ficou sabendo da caixa (caravana, oferta aceita, guri que viu os PCs voltando) | **2. Brum chega já ferido, mas perigoso** — a Camisa 12 o pegou na Zona Leste; vem pelo vagão do Aeromóvel, sozinho, sangrando, com o revólver na mão | amarrado no galpão (A) |
+| a Camisa 12 ficou sabendo da caixa (caravana, oferta aceita, guri que viu os PCs voltando) | **2. Brum chega já ferido, mas perigoso** — a Camisa 12 o pegou na vila do Botânico; vem pelo vagão do Aeromóvel, sozinho, sangrando, com o revólver na mão | amarrado no galpão (A) |
 | os PCs chegaram cedo (até 3h no relógio) ou entraram pelo vagão, com surpresa | **3. Brum já está negociando** no escritório de vidro com o Cardã; Fase 1 e Fase 2 acontecem juntas e o Cardã pode virar o jogo pra qualquer lado | negociando, vendendo a Matriz pros dois (B) |
 | os PCs demoraram (5h ou mais) ou avisaram Brum que estão soltos (Pista 5 com o próprio Brum) | **4. Brum matou o courier e já tem a Matriz** — chega pra vender ao Cardã; se foge pelo vagão, a Matriz some e a noite termina no gancho | no Guaíba (C) |
 
@@ -1142,7 +1142,7 @@ Eles resolvem o caso, se ferram moralmente, lucram mal e saem vivos — que em P
 | Panvel (direto) | nomes limpos; o Consórcio cobra; Arlindo cai em desgraça com Nelson |
 | Consórcio (escondida) | Nelson “Estivador” ganha uma arma contra a Panvel — e a Panvel percebe em uma semana |
 | Cartel dos Eixos | os [[Cartéis de Selênicos]] começam a fabricar; a Panvel manda a Brigada de verdade pro Passo D'Areia |
-| Camisa 12 | a Zona Leste tem lote experimental na rua; surtos no domingo seguinte; a Brigada culpa os PCs |
+| Camisa 12 | a vila do Botânico tem lote experimental na rua; surtos no domingo seguinte; a Brigada culpa os PCs |
 | Brum | ele some com ela pra Restinga; ninguém limpa o nome dos PCs |
 | quebrada | ninguém ganha; a Panvel abre investigação; o Consórcio cobra os PCs pelo prejuízo |
 | os PCs | a coisa mais valiosa e mais perigosa da cidade no bolso — campanha |
