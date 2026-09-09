@@ -547,6 +547,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 ![[03 — Caravana — interior do ônibus.png|Caravana — interior do ônibus]]
 ![[14 — Barqueira da Aliança.png|Barqueira da Aliança]]
 
+![[04 — Travessia — caminhão dos catadores.png|Travessia — caminhão dos catadores]]
+
 > [!quote] 🔊 Como descrever (caravana da Camisa 12)
 > Ônibus lotado, vidro embaçado, tambor batendo no fundo. Cheira a Polar quente e a jaqueta molhada. Alguém puxa um canto e o ônibus inteiro responde; o gremista da mesa aprende a olhar pro chão. Pela janela, a Zona Leste passa em muros vermelhos e antenas tortas.
 
@@ -870,6 +872,8 @@ Sucesso decisivo (CD+10) em qualquer linha: o PC ainda ganha uma informação de
 > [!quote] 🔊 Ler pra mesa — a caixa
 > Um guri de boné, magro, cara de quem correu, esbarra em [PC] e enfia uma caixa de isopor nas mãos dele. É mais pesada do que parece e gelada — o barbante da alça corta os dedos. “Segura aí, campeão, já volto.” Quando vocês levantam a cabeça, ele já é só um boné vermelho entrando no meio da caravana. Trinta metros à frente, um sargento de bigode levanta o cassetete na direção de vocês.
 
+![[04 — Caixa térmica — exterior fechado.png|Caixa térmica — exterior fechado]]
+
 #### A acusação
 Brum aponta:
 > “Esse aí! Pega esse grupo! Eu vi com a caixa!”
@@ -997,6 +1001,8 @@ Diga o relógio pros jogadores. Pressão sem trilho: eles escolhem o que vale o 
 - **Revela:** a carga saiu do armazém do Consórcio e tinha destino “QP-SUL” (quiosque Panvel sul). Confirma a **Panvel** como dona — e que a batida tinha que ser antes do quiosque.
 - **Custo:** nenhum. É a pista de graça.
 
+![[01 — Etiqueta de transporte — pista 1.png|Etiqueta de transporte — pista 1]]
+
 #### Pista 2 — Testemunha de rua (Dona Zilá)
 - **Onde:** de volta ao entorno do estádio, ou no depósito das barracas. Leia o 🔊 do registro [[#Dona Zilá]].
 - **Teste:** [[Diplomacia]] (CD Fácil, se a dupla de trabalho for junto) ou um favor
@@ -1009,6 +1015,8 @@ Diga o relógio pros jogadores. Pressão sem trilho: eles escolhem o que vale o 
 - **Teste:** [[Percepção]] (CD Fácil) pra ler o que sobrou da tinta
 - **Revela:** “23h — MP — Cardã” e um número de telefone com prefixo da zona norte. **MP** não é Mercado Público: é “motor pronto”, o código do Cartel pra carga desmontada. O nome Cardã aponta pro receptor; o telefone, pro Passo D'Areia.
 - **Custo:** discutir “MP” pode levar a mesa ao [[Mercado Público]] por engano — deixe. Lá o despachante da [[A Caixinha|Caixinha]] corrige o erro por um preço (uma hora e uma dívida).
+
+![[02 — Bilhete molhado — pista 3.png|Bilhete molhado — pista 3]]
 
 #### Pista 4 — Ligação de rádio
 - **Onde:** na Casa da Drenagem (o rádio da Zaffari do Arlindo pega a frequência da Brigada, porque o Consórcio tem gente na [[Embratel]]) ou num rádio roubado
@@ -1077,6 +1085,8 @@ Nenhuma das duas precisa ser aceita. As duas mudam o desfecho se forem.
 > **Objetivo:** impedir a redistribuição, recuperar o que restou da carga, lidar com o responsável final e decidir o que será devolvido, escondido ou desviado.
 > **Duração:** 60–75 min
 > **Combates:** [[#Fase 1 — Capangas e operadores]], [[#Fase 2 — Chega o mais forte]]
+
+![[03 — Cápsula-Matriz — revelar quando encontrada.png|Cápsula-Matriz — revelar quando encontrada]]
 
 #### Chegada
 Leia os dois 🔊 do registro [[#Retífica Sertório]] (a frente ao chegar; o galpão ao entrar). Os dois combates estão em 2.5 Combates (roster, velocidades, elementos de cenário) — no app, os blocos aparecem aqui embaixo; confira a barra de dificuldade contra as fichas da mesa e ajuste o número de [[Arruaceiro|Arruaceiros]] pra cima ou pra baixo.

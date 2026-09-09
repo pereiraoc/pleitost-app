@@ -119,7 +119,8 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     const mesa = m.locais.flatMap((l) => l.mapas)
     expect(mesa).toHaveLength(10)
     expect(mesa.every((f) => f.legenda)).toBe(true)
-    // figurantes da saída do Gre-Nal ficam na cena, não no meio do texto
+    // figurantes da saída do Gre-Nal + a caixa térmica ficam na cena, não no
+    // meio do texto (a caixa entra no beat em que o courier a empurra)
     const c1 = m.cenas[0]!
     expect(c1.figuras.map((f) => f.legenda)).toEqual([
       'Cambista das rampas',
@@ -127,7 +128,24 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
       'Enfermeira do quiosque',
       'Representante da Camisa 12',
       'Representante da Geral',
+      'Caixa térmica — exterior fechado',
     ])
+    // pistas de mesa entram na cena de investigação; a Matriz, na Retífica
+    expect(m.cenas[3]!.figuras.map((f) => f.legenda)).toEqual([
+      'Despachante da Caixinha',
+      'Etiqueta de transporte — pista 1',
+      'Bilhete molhado — pista 3',
+    ])
+    expect(m.cenas[5]!.figuras.map((f) => f.legenda)).toEqual(['Cápsula-Matriz — revelar quando encontrada'])
+    // a travessia mostra as três formas ilustradas de atravessar a cidade
+    expect(m.locais[4]!.figuras.map((f) => f.legenda)).toEqual([
+      'Caravana — interior do ônibus',
+      'Barqueira da Aliança',
+      'Travessia — caminhão dos catadores',
+    ])
+    // 35 figuras da campanha na nota (10 mapas de mesa + 25 no corpo)
+    const todas = [...m.personagens, ...m.locais, ...m.combates].flatMap((r) => [...r.figuras, ...r.mapas])
+    expect(todas.length + m.cenas.flatMap((c) => c.figuras).length).toBe(35)
     const md1 = c1.segmentos.filter((x) => x.kind === 'md').map((x) => (x as { md: string }).md).join('\n')
     expect(md1).not.toContain('![[')
     expect(m.combates[0]!.figuras.map((f) => f.legenda)).toEqual(['Homem de jaqueta cinza'])
