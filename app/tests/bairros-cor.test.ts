@@ -78,6 +78,14 @@ describe('indexarBairros', () => {
     expect(bairroEmFracao(idx, 1.4, 0.5)).toBeNull()
   })
 
+  it('a caixa da área diz onde ela começa e quanto ocupa (é o que decide se o nome cabe)', () => {
+    const idx = indexarBairros(px, largura, altura, sementes)
+    // rosa: colunas 0..3, linhas 0..2
+    expect(areaDeBairro(idx, 'Rosa')!.caixa).toEqual({ x: 0, y: 0, largura: 4, altura: 3 })
+    // verde: colunas 4..7, linhas 2..3
+    expect(areaDeBairro(idx, 'Verde')!.caixa).toEqual({ x: 4, y: 2, largura: 4, altura: 2 })
+  })
+
   it('o realce pinta só os px da área', () => {
     const idx = indexarBairros(px, largura, altura, sementes)
     const rgba = realceDaArea(idx, 'Verde', [255, 0, 0, 128])!
@@ -164,6 +172,13 @@ describe.skipIf(!leaflet || !mapaPng)('mapa REAL de Porto Alegre', () => {
     const f = fracao(restinga)
     expect(bairroEmFracao(idx, f.fx, f.fy)).toBe('Restinga')
     expect(bairroEmFracao(idx, f.fx, f.fy + 0.09)).toBe('Zona Deserta')
+    // a caixa de cada área é o que decide se o nome cabe na tela: a Zona
+    // Deserta tem espaço de sobra no mapa inteiro; o Bom Fim, um punhado de px
+    // (é por isso que o nome dele só aparece aproximado).
+    const zona = idx.areas.find((a) => a.nome === 'Zona Deserta')!
+    const bomFim = idx.areas.find((a) => a.nome === 'Bom Fim')!
+    expect(zona.caixa.largura).toBeGreaterThan(200)
+    expect(bomFim.caixa.largura).toBeLessThan(60)
     // fora da cidade (canto de cima à esquerda, o Guaíba) não há bairro
     expect(bairroEmFracao(idx, 0.02, 0.02)).toBeNull()
   })

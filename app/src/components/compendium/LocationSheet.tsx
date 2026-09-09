@@ -1138,7 +1138,9 @@ export function LocationSheet({
           <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
         ) : null}
         {tab === 'mapa' && doc.locationBody?.leaflet ? (
-          <MapaLocal leaflet={doc.locationBody.leaflet} />
+          // na aba própria o mapa é o conteúdo: vale a altura toda (a imagem é
+          // retrato, então altura é o que virou largura de mapa)
+          <MapaLocal leaflet={doc.locationBody.leaflet} altura="min(82vh, 900px)" />
         ) : null}
         {tab === 'transporte' && doc.locationBody?.leaflet ? (
           <TransporteNoMapa leaflet={doc.locationBody.leaflet} />

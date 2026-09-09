@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useWorld, WORLD_BRAND } from '../../data/world'
 import { applyPwaUpdate, initPwaUpdate, usePwaNeedRefresh } from '../../pwa-update'
 import { heroPath } from '../../paths'
@@ -52,19 +52,22 @@ function NavButton({ item, onNavigate, secao }: { item: NavItem; onNavigate: () 
   const route = NAV_ROUTES[item.id]
   // itens sem tela implementada ficam desenhados porém disabled
   if (route) {
+    // `Link`, não `NavLink`: o NavLink casa por PREFIXO e acendia COMPÊNDIO
+    // junto de ATLAS em /compendio/Atlas (e ainda somava a classe `active`
+    // dele à minha). Quem decide é o registro central, pelo prefixo mais
+    // longo (navSection).
     return (
-      <NavLink
+      <Link
         to={route}
         onClick={onNavigate}
-        // Ativo pelo prefixo MAIS LONGO (navSection), não pelo `isActive` do
-        // NavLink: /compendio/Atlas acenderia COMPÊNDIO e ATLAS ao mesmo tempo.
         className={secao === item.id ? 'nav-item active' : 'nav-item'}
+        aria-current={secao === item.id ? 'page' : undefined}
       >
         <span className="nav-ic" aria-hidden>
           <NavIcon id={item.id} />
         </span>
         <span className="nav-label">{item.label}</span>
-      </NavLink>
+      </Link>
     )
   }
   return (

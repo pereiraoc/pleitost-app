@@ -24,6 +24,8 @@ export interface AreaBairro {
   cor: string
   /** Quantos px da fonte a área ocupa. */
   px: number
+  /** Retângulo que a contém, em px da fonte — diz se cabe um rótulo dentro. */
+  caixa: { x: number; y: number; largura: number; altura: number }
 }
 
 export interface IndiceBairros {
@@ -100,15 +102,40 @@ export function indexarBairros(
       continue
     }
     daCor.set(chave, areas.length)
-    areas.push({ nome: s.nome, cor: hex(r, g, b), px: quantos.get(chave) ?? 0 })
+    areas.push({
+      nome: s.nome,
+      cor: hex(r, g, b),
+      px: quantos.get(chave) ?? 0,
+      caixa: { x: 0, y: 0, largura: 0, altura: 0 },
+    })
   }
 
-  // 3. índice px → área
+  // 3. índice px → área + caixa de cada uma
   const indice = new Int16Array(largura * altura).fill(-1)
+  const x0 = new Int32Array(areas.length).fill(largura)
+  const x1 = new Int32Array(areas.length).fill(-1)
+  const y0 = new Int32Array(areas.length).fill(altura)
+  const y1 = new Int32Array(areas.length).fill(-1)
   for (let p = 0, i = 0; p < indice.length; p++, i += 4) {
     const chave = ((pixels[i] ?? 0) << 16) | ((pixels[i + 1] ?? 0) << 8) | (pixels[i + 2] ?? 0)
     const a = daCor.get(chave)
-    if (a !== undefined) indice[p] = a
+    if (a === undefined) continue
+    indice[p] = a
+    const x = p % largura
+    const y = (p - x) / largura
+    if (x < x0[a]!) x0[a] = x
+    if (x > x1[a]!) x1[a] = x
+    if (y < y0[a]!) y0[a] = y
+    if (y > y1[a]!) y1[a] = y
+  }
+  for (let a = 0; a < areas.length; a++) {
+    if (x1[a]! < 0) continue
+    areas[a]!.caixa = {
+      x: x0[a]!,
+      y: y0[a]!,
+      largura: x1[a]! - x0[a]! + 1,
+      altura: y1[a]! - y0[a]! + 1,
+    }
   }
   return { largura, altura, indice, areas, semArea }
 }

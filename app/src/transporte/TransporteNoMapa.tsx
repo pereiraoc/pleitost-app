@@ -15,6 +15,9 @@ import type { PosicaoReal } from './rotas'
 /** Da escala em que os rótulos e pontos param de contra-escalar (o mapa real
  *  ganha detalhe ao aproximar; a linha, não deve engrossar). */
 const ESCALA_ROTULO = 3
+/** Escala de tela a partir da qual o ícone de cada parada entra (o mesmo
+ *  limiar do nome do pino no MapaLocal). */
+const ESCALA_PARADA = 0.85
 
 export function TransporteNoMapa({ leaflet }: { leaflet: Leaflet }) {
   return (
@@ -22,10 +25,18 @@ export function TransporteNoMapa({ leaflet }: { leaflet: Leaflet }) {
       mapa={(ctx) => (
         <MapaLocal
           leaflet={leaflet}
-          altura="min(70vh, 640px)"
-          // No mapa da malha os pinos são as PARADAS das linhas desenhadas, em
-          // qualquer zoom (o gate da nota esconderia todas no afastado).
-          marcadores={(m) => paradasDesenhadas(ctx).has(m.nome)}
+          altura="min(82vh, 900px)"
+          // No mapa da malha os pinos são as PARADAS das linhas desenhadas (o
+          // gate da nota esconderia todas no afastado). Afastado, 68 ícones
+          // viram um borrão: só entram as paradas em foco, e o resto aparece
+          // ao aproximar — quem marca a posição de todas é o ponto do SVG.
+          marcadores={(m, { escalaTela }) =>
+            paradasDesenhadas(ctx).has(m.nome) &&
+            (emFoco(ctx).has(m.nome) || escalaTela >= ESCALA_PARADA)
+          }
+          // o nome da parada só é obrigatório em quem está na rota/linha
+          // escolhida; o resto ganha nome ao aproximar
+          nomearMarcador={(m) => emFoco(ctx).has(m.nome)}
           // clicar numa parada marca DE e depois PARA, como no esquemático
           onMarker={(nome) => {
             if (!paradasDesenhadas(ctx).has(nome)) return false
@@ -37,6 +48,16 @@ export function TransporteNoMapa({ leaflet }: { leaflet: Leaflet }) {
       )}
     />
   )
+}
+
+/** Paradas que precisam de nome em qualquer zoom: as do trajeto escolhido e as
+ *  da linha selecionada na legenda. */
+function emFoco(ctx: ContextoMapaMalha): Set<string> {
+  const out = new Set(ctx.destaque?.paradas ?? [])
+  if (ctx.selecionada) {
+    for (const p of ctx.malha.linhas.find((l) => l.id === ctx.selecionada)?.paradas ?? []) out.add(p)
+  }
+  return out
 }
 
 /** Paradas das linhas que estão no mapa (com posição real conhecida). */
@@ -137,6 +158,27 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
           </path>
         )
       })}
+      {[...paradasDesenhadas(ctx)]
+        .filter((nome) => !emDestaque.has(nome) && !daSelecionada.has(nome))
+        .map((nome) => {
+          const p = ponto(nome)
+          if (!p) return null
+          // em unidades da FONTE: o ponto encolhe junto com o mapa, então
+          // afastado ele só marca o lugar e não vira mancha
+          return (
+            <circle
+              key={`p:${nome}`}
+              data-parada-ponto={nome}
+              cx={p.x}
+              cy={p.y}
+              r={3.2}
+              fill="#fff"
+              stroke="#3a3a3a"
+              strokeWidth={1.4}
+              opacity={0.9}
+            />
+          )
+        })}
       {[...emDestaque, ...daSelecionada].map((nome) => {
         const p = ponto(nome)
         if (!p) return null

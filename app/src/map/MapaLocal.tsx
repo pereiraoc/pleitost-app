@@ -42,6 +42,13 @@ function clip(n: number): NonNullable<CSSProperties['clipPath']> {
 /** Realce da área sob o ponteiro: accent do tema em meio tom. */
 const REALCE: readonly [number, number, number, number] = [255, 122, 0, 92]
 
+/** Largura aproximada de um caractere do rótulo de bairro (mono 9.5px). */
+const CHAR_PX = 6
+/** Escala DE TELA (px renderizado ÷ px da fonte) a partir da qual o nome do
+ *  ponto de interesse aparece. Abaixo disso são dezenas de nomes empilhados —
+ *  fica só o ícone, e o nome volta ao aproximar. */
+const ESCALA_NOME_PINO = 0.85
+
 /** Ponto de uma coordenada do bloco, em fração da imagem (0..1). */
 export interface Enquadramento {
   latMax: number
@@ -72,6 +79,7 @@ export function MapaLocal({
   leaflet,
   onMarker,
   marcadores,
+  nomearMarcador,
   overlay,
   altura,
 }: {
@@ -80,10 +88,17 @@ export function MapaLocal({
    *  que são REGISTROS da própria nota (não docs). Devolve true quando tratou
    *  o clique; senão cai no resolve do catálogo (abre a nota). */
   onMarker?: (nome: string) => boolean
-  /** Quais marcadores entram no mapa. Recebe o marcador e se o gate de zoom da
-   *  NOTA (minZoom/maxZoom) o deixaria passar; ausente = só o gate da nota. A
-   *  aba TRANSPORTE ignora o gate e mostra só as paradas da malha. */
-  marcadores?: (m: MarcadorLeaflet, gateDeZoom: boolean) => boolean
+  /** Quais marcadores entram no mapa. Recebe o marcador, se o gate de zoom da
+   *  NOTA (minZoom/maxZoom) o deixaria passar e a escala DE TELA (px na tela ÷
+   *  px da fonte); ausente = só o gate da nota. A aba TRANSPORTE ignora o gate
+   *  e mostra as paradas da malha conforme a aproximação. */
+  marcadores?: (
+    m: MarcadorLeaflet,
+    ctx: { gateDeZoom: boolean; escalaTela: number },
+  ) => boolean
+  /** Marcadores que mostram o NOME em qualquer zoom (a rota escolhida, a linha
+   *  selecionada). Os outros só ganham nome quando o mapa está aproximado. */
+  nomearMarcador?: (m: MarcadorLeaflet) => boolean
   /** Camada extra por cima do mapa, em coordenadas do bloco. */
   overlay?: (camada: CamadaMapa) => ReactNode
   /** Altura do viewport fora da tela cheia. */
@@ -95,8 +110,24 @@ export function MapaLocal({
   const navigate = useNavigate()
   const map = useMapView()
   const [realce, setRealce] = useState<string | null>(null)
+  // Largura de LAYOUT da camada do mapa (sem o transform): com ela sai a
+  // escala de tela real (px na tela ÷ px da fonte), que decide o que cabe de
+  // rótulo. Sem medir, o mapa retrato desenhado a 0,48× parecia ter espaço.
+  const [larguraNaTela, setLarguraNaTela] = useState(0)
   const entry = assets ? resolveAsset(assets, leaflet.image) : null
   const url = entry ? assetUrl(entry) : null
+  useEffect(() => {
+    const el = map.mapRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(([e]) => setLarguraNaTela(e?.contentRect.width ?? 0))
+    ro.observe(el)
+    setLarguraNaTela(el.getBoundingClientRect().width)
+    return () => ro.disconnect()
+    // `url` como dep: no primeiro render o mapa ainda não montou (o índice de
+    // assets está carregando) e o ref é nulo — sem isto o efeito media zero e
+    // nunca mais rodava, e aí nenhum rótulo passava do teste de espaço.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map.mapRef, url])
   const quadro = enquadramento(leaflet)
 
   // SEMENTES das áreas: os marcadores `Bairro` do próprio bloco.
@@ -113,12 +144,14 @@ export function MapaLocal({
     [idxBairros],
   )
 
+  // px na tela por px da fonte, já com o zoom do viewer
+  const escalaTela = idxBairros && larguraNaTela ? (larguraNaTela / idxBairros.largura) * map.view.scale : 0
   const zoom = leafletZoom(leaflet.defaultZoom ?? null, map.view.scale)
   const visiveis = leaflet.markers.filter((m) => {
     // bairro com área não vira pino: a mancha de cor + o nome são o bairro
     if (m.tipo === 'Bairro' && comArea.has(m.nome)) return false
     const gate = markerVisivel({ minZoom: m.minZoom ?? null, maxZoom: m.maxZoom ?? null }, zoom)
-    return marcadores ? marcadores(m, gate) : gate
+    return marcadores ? marcadores(m, { gateDeZoom: gate, escalaTela }) : gate
   })
 
   const abrir = (nome: string) => {
@@ -234,7 +267,14 @@ export function MapaLocal({
           {quadro && overlay ? overlay({ ...quadro, escala: map.view.scale }) : null}
           {quadro && idxBairros
             ? sementes
-                .filter((s) => comArea.has(s.nome))
+                .filter((s) => {
+                  const area = idxBairros.areas.find((a) => a.nome === s.nome)
+                  if (!area) return false
+                  // o nome só entra quando CABE na mancha (ou quando é o
+                  // bairro sob o ponteiro) — senão viram nomes empilhados
+                  if (realce === s.nome) return true
+                  return area.caixa.largura * escalaTela >= reskinName(s.nome).length * CHAR_PX
+                })
                 .map((s) => (
                   <NomeDoBairro
                     key={s.nome}
@@ -256,12 +296,39 @@ export function MapaLocal({
                     fx={p.fx}
                     fy={p.fy}
                     escala={map.view.scale}
+                    comNome={
+                      escalaTela === 0 ||
+                      escalaTela >= ESCALA_NOME_PINO ||
+                      (nomearMarcador?.(m) ?? false)
+                    }
                   />
                 )
               })
             : null}
         </div>
       </div>
+      {realce ? (
+        <span
+          data-bairro-sob-ponteiro={realce}
+          style={{
+            position: 'absolute',
+            left: 10,
+            top: 10,
+            padding: '5px 10px',
+            background: 'color-mix(in srgb,var(--panel) 92%,transparent)',
+            border: '1px solid color-mix(in srgb,var(--accent) 55%,var(--line2))',
+            fontFamily: 'var(--mono)',
+            fontSize: 10.5,
+            fontWeight: 700,
+            letterSpacing: '.12em',
+            color: 'var(--text)',
+            pointerEvents: 'none',
+            clipPath: clip(6),
+          }}
+        >
+          {reskinName(realce).toUpperCase()}
+        </span>
+      ) : null}
       <MapControls map={map} />
     </section>
   )
@@ -351,11 +418,13 @@ function Pino({
   fx,
   fy,
   escala,
+  comNome,
 }: {
   marcador: MarcadorLeaflet
   fx: number
   fy: number
   escala: number
+  comNome: boolean
 }) {
   return (
     <span
@@ -393,19 +462,21 @@ function Pino({
           <path key={i} d={d} />
         ))}
       </svg>
-      <span
-        style={{
-          fontFamily: 'var(--mono)',
-          fontSize: 7.5,
-          fontWeight: 700,
-          letterSpacing: '.04em',
-          color: '#fff',
-          textShadow: '0 1px 2px rgba(0,0,0,.9)',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {reskinName(marcador.nome)}
-      </span>
+      {comNome ? (
+        <span
+          style={{
+            fontFamily: 'var(--mono)',
+            fontSize: 7.5,
+            fontWeight: 700,
+            letterSpacing: '.04em',
+            color: '#fff',
+            textShadow: '0 1px 2px rgba(0,0,0,.9)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {reskinName(marcador.nome)}
+        </span>
+      ) : null}
     </span>
   )
 }

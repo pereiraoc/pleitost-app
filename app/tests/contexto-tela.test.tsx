@@ -6,11 +6,13 @@
 // botão fechado lá em cima. Dataset REAL da POA como oráculo.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildCatalog } from '../src/data/catalog'
+import { AppShell } from '../src/components/layout/AppShell'
+import { __resetThemeForTests } from '../src/theme'
 import { CatalogProvider } from '../src/data/CatalogContext'
 import { ContextoPage } from '../src/components/compendium/ContextoPage'
 import { semFiguras } from '../src/components/compendium/contexto-template'
@@ -149,5 +151,78 @@ describe('atalhos ATLAS e CONTEXTO na sidebar', () => {
     expect(navSection('/contexto')).toBe('contexto')
     expect(navSection('/herois')).toBe('herois')
     expect(navSection('/qualquer-outra')).toBeNull()
+  })
+})
+
+// A sidebar de verdade: o acendimento duplo (ATLAS e COMPÊNDIO juntos) só
+// aparecia no DOM montado — o NavLink casa por prefixo e somava a classe
+// `active` dele à do registro. Por isso o teste renderiza o AppShell.
+describe('sidebar montada', () => {
+  function makeStorage(): Storage {
+    const data = new Map<string, string>()
+    return {
+      get length() {
+        return data.size
+      },
+      clear: () => data.clear(),
+      getItem: (k: string) => (data.has(k) ? data.get(k)! : null),
+      key: (i: number) => [...data.keys()][i] ?? null,
+      removeItem: (k: string) => void data.delete(k),
+      setItem: (k: string, v: string) => void data.set(k, String(v)),
+    }
+  }
+  beforeAll(() => {
+    if (!window.localStorage) {
+      Object.defineProperty(window, 'localStorage', { value: makeStorage(), configurable: true })
+    }
+  })
+  /** O MUNDO vem do tema salvo (theme.ts lê no primeiro acesso). */
+  const mundo = (context: 'fantasia' | 'cyberpunk') => {
+    window.localStorage.setItem(
+      'pleitost.theme',
+      JSON.stringify({ theme: 'aco-solar', mode: 'light', context }),
+    )
+    __resetThemeForTests()
+  }
+
+  function montarShell(rota: string) {
+    return render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter initialEntries={[rota]}>
+          <Routes>
+            <Route element={<AppShell />}>
+              <Route path="*" element={<span />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+  }
+  const acesos = (c: HTMLElement) =>
+    [...c.querySelectorAll('.sidebar .nav-item.active')].map((e) => e.textContent?.trim())
+
+  it('dentro do Atlas acende SÓ o ATLAS (nunca ele e o COMPÊNDIO)', async () => {
+    mundo('cyberpunk')
+    const { container } = montarShell('/compendio/Atlas/Porto Alegre')
+    await waitFor(() => expect(container.querySelector('.sidebar')).not.toBeNull())
+    expect(acesos(container)).toEqual(['ATLAS'])
+    expect(container.querySelectorAll('.sidebar [aria-current="page"]').length).toBe(1)
+    cleanup()
+    const b = montarShell('/compendio/Sistema')
+    expect(acesos(b.container)).toEqual(['COMPÊNDIO'])
+    cleanup()
+    const c = montarShell('/contexto')
+    expect(acesos(c.container)).toEqual(['CONTEXTO'])
+  })
+
+  it('na fantasia os dois atalhos de mundo não existem', async () => {
+    mundo('fantasia')
+    const { container } = montarShell('/compendio')
+    await waitFor(() => expect(container.querySelector('.sidebar')).not.toBeNull())
+    const nomes = [...container.querySelectorAll('.sidebar .nav-item')].map((e) => e.textContent?.trim())
+    expect(nomes).toContain('COMPÊNDIO')
+    expect(nomes).not.toContain('ATLAS')
+    expect(nomes).not.toContain('CONTEXTO')
+    mundo('cyberpunk')
   })
 })
