@@ -135,8 +135,8 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     expect(valorEixo('moradia')).toBe('6000')
     fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Classe Média Alta
     expect(custoMes()).toBe('17500')
-    // fechar o mês: 17.500 → 18 (pra cima) — 50 → 32
-    fireEvent.click(screen.getByText(/Fechar o mês/))
+    // abrir o mês: 17.500 → 18 (pra cima) — 50 → 32
+    fireEvent.click(screen.getByText(/Abrir o mês/))
     expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 32.000')
     // nenhum "ouro" à mostra, nenhum saldo de TRI, nenhum estoque
     expect(document.body.textContent).not.toMatch(/\bouro\b/i)
@@ -162,13 +162,15 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     )
     montar()
     await screen.findByText('Gurgel Carajás', {}, { timeout: 15000 })
-    // transporte: plano 5.000 + Carajás 3.000 de manutenção; moradia: plano 6.000 + kitnet 1.500 (condomínio/IPTU)
-    expect(valorEixo('transporte')).toBe('8000')
+    // transporte: plano 5.000 + Carajás USADO 4.500 (a nota diz 3.000; usado
+    // paga ×1,5 — peça pirata e álcool do mercado negro); moradia: plano
+    // 6.000 + kitnet 1.500 (condomínio/IPTU)
+    expect(valorEixo('transporte')).toBe('9500')
     expect(valorEixo('moradia')).toBe('7500')
-    expect(custoMes()).toBe('15500')
+    expect(custoMes()).toBe('17000')
     const carro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
     expect(within(carro).getByText('usado')).toBeTruthy()
-    expect(within(carro).getByText('Cz$ 3.000')).toBeTruthy()
+    expect(within(carro).getByText('Cz$ 4.500')).toBeTruthy()
     fireEvent.click(within(carro).getByText(/Vender \+Cz\$ 75\.000/))
     expect(screen.queryByText('Gurgel Carajás')).toBeNull()
     expect(valorEixo('transporte')).toBe('5000')
@@ -232,5 +234,65 @@ describe('catálogo de posse (veículos e imóveis, com onde comprar)', () => {
     expect(nomes.indexOf('Gurgel Carajás')).toBeLessThan(nomes.indexOf('Chevrolet Monza'))
     // o chip de classe sai da linha: a classe é o cabeçalho
     expect(within(carajas).queryByText(niveis[4])).toBeNull()
+  }, 30000)
+})
+
+/* v4 (2026-09-08): abrir o mês na entrada, dívida nas fontes da vault, eixo
+ * pago por terceiro e o que a garagem guarda. Dataset REAL da POA. */
+describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
+  const montarCom = (fmRecursos: Record<string, unknown>, ouro = 500) => {
+    setActiveContexto(def)
+    writeHeroEdit(CARLOS_ID, 'fm', 'Inventario.Ouro', ouro, { channel: 'imediato', origem: 'test' })
+    writeHeroEdit(CARLOS_ID, 'fm', RECURSOS_FM, fmRecursos, { channel: 'imediato', origem: 'test' })
+    montar()
+  }
+
+  it('o plano cedido por terceiro aparece e não sai do bolso', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: 'TRI Ouro', moradia: 'Moradia Classe Média', alimentacao: null }, pagoPor: { moradia: 'a firma' } })
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const moradia = eixo('moradia')
+    expect(within(moradia).getByText(/plano pago por a firma/)).toBeTruthy()
+    // o eixo mostra o que sai do bolso (0), mas guarda o custo cheio no atributo
+    expect(moradia.querySelector('[data-eixo-valor]')!.getAttribute('data-eixo-valor')).toBe('6000')
+    expect(moradia.querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
+    expect(custoMes()).toBe('5000') // só o TRI Ouro
+  }, 30000)
+
+  it('pega empréstimo numa fonte da vault, mostra a parcela e quita', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: null, moradia: 'Moradia Classe Média', alimentacao: null } }, 0)
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const dividas = document.querySelector('[data-secao="dividas"]') as HTMLElement
+    expect(dividas).not.toBeNull()
+    fireEvent.change(within(dividas).getByLabelText('Fonte de crédito'), { target: { value: 'Agiota da Facção' } })
+    fireEvent.change(within(dividas).getByLabelText('Quanto pegar'), { target: { value: '150000' } })
+    fireEvent.click(within(dividas).getByText(/Pegar Cz\$ 150\.000/))
+    // o principal entra na ficha e a parcela do mês aparece: 20% de 150.000 + um décimo
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 150.000')
+    const linha = document.querySelector('[data-divida="Agiota da Facção"]') as HTMLElement
+    expect(within(linha).getByText('juros Cz$ 30.000')).toBeTruthy()
+    expect(within(linha).getByText('amortiza Cz$ 15.000')).toBeTruthy()
+    // e entra no total do mês, junto do plano de moradia
+    expect(custoMes()).toBe('51000') // 6.000 + 45.000
+    fireEvent.click(within(linha).getByText('Quitar'))
+    expect(document.querySelector('[data-divida="Agiota da Facção"]')).toBeNull()
+    expect(custoMes()).toBe('6000')
+  }, 30000)
+
+  it('veículo sem vaga na moradia dorme na rua', async () => {
+    if (!temDataset) return
+    montarCom({
+      estilos: { transporte: null, moradia: 'Moradia Classe Média', alimentacao: null }, // uma vaga
+      itens: [
+        { nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, pago: 400000 },
+        { nome: 'Chevrolet Monza', aba: 'Transporte', qtd: 1, pago: 700000 },
+      ],
+    })
+    await screen.findByText('Chevrolet Monza', {}, { timeout: 15000 })
+    const primeiro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
+    const segundo = screen.getByText('Chevrolet Monza').closest('[data-item]') as HTMLElement
+    expect(within(primeiro).queryByText(/na rua/)).toBeNull()
+    expect(within(segundo).getByText(/na rua: sem vaga/)).toBeTruthy()
   }, 30000)
 })

@@ -9,6 +9,15 @@
 // — notas `Tipo = cfg.tipos.estilo`, uma por classe — mais a MANUTENÇÃO
 // mensal do que se tem de posse (carro, imóvel), definida na nota do item.
 // Nada avulso se controla aqui (sem saldo de TRI, sem estoque de comida).
+//
+// v4 (2026-09-08): o mês se paga NA ENTRADA — `abrirMes` cobra os planos, a
+// manutenção da posse e a parcela das dívidas antes de o mês contar, e é onde
+// os veículos rolam o d6 de pane. Um eixo pode ser PAGO POR TERCEIRO (regalia
+// de classe): aparece na ficha e não sai do saldo. EMPRÉSTIMO é uma lógica só
+// (notas `Tipo = cfg.tipos.emprestimo`): principal vira dívida, todo mês juros
+// sobre o saldo mais um décimo do principal, amortização livre. Regra em
+// `Custo de Vida` na vault — nada aqui é número inventado.
+import { rngDe } from './ofertas'
 import type { Papel, Recurso, RecursosCfg } from './types'
 
 export const RECURSOS_FM = 'Recursos_do_Mundo'
@@ -24,17 +33,38 @@ export interface ItemTido {
   estado?: 'novo' | 'usado'
   /** Quanto pagou por unidade (moeda do mundo) — a venda devolve metade. */
   pago: number
+  /** Cedido por terceiro (regalia de classe): não paga manutenção nem vende. */
+  pagoPor?: string
+  /** Em pane NESTE mês (rolado ao abrir o mês); consertar custa em dobro. */
+  pane?: boolean
+}
+/** Dívida contraída numa fonte de crédito (nota `Tipo = cfg.tipos.emprestimo`). */
+export interface Divida {
+  /** Nome da nota da fonte. */
+  fonte: string
+  /** Principal original — a amortização mínima é um décimo dele. */
+  principal: number
+  /** Saldo devedor (moeda do mundo). */
+  saldo: number
 }
 export interface RecursosDoHeroi {
   /** Plano (nome da nota) escolhido em cada eixo; null = classe 1 sem plano. */
   estilos: Record<Papel, string | null>
+  /** Eixos cujo PLANO é pago por terceiro (regalia): papel → quem paga. */
+  pagoPor: Partial<Record<Papel, string>>
   /** Posse: veículos, imóveis e afins (Cobrança única). */
   itens: ItemTido[]
+  dividas: Divida[]
+  /** Meses já abertos — conta o calendário e semeia o d6 de pane. */
+  mes: number
 }
 
 export const RECURSOS_VAZIO: RecursosDoHeroi = {
   estilos: { transporte: null, moradia: null, alimentacao: null },
+  pagoPor: {},
   itens: [],
+  dividas: [],
+  mes: 0,
 }
 
 function num(v: unknown): number {
@@ -61,13 +91,37 @@ export function recursosDoFm(fm: Record<string, unknown>): RecursosDoHeroi {
           if (!nome || !aba) return null
           const it: ItemTido = { nome, aba, qtd: Math.max(0, Math.round(num(o.qtd) || 1)), pago: Math.max(0, Math.round(num(o.pago))) }
           if (o.estado === 'novo' || o.estado === 'usado') it.estado = o.estado
+          const quem = str(o.pagoPor)
+          if (quem) it.pagoPor = quem
+          if (o.pane === true) it.pane = true
           return it
         })
         .filter((v): v is ItemTido => v !== null && v.qtd > 0)
     : []
+  const pp = r.pagoPor && typeof r.pagoPor === 'object' ? (r.pagoPor as Record<string, unknown>) : {}
+  const pagoPor: Partial<Record<Papel, string>> = {}
+  for (const papel of PAPEIS) {
+    const quem = str(pp[papel])
+    if (quem) pagoPor[papel] = quem
+  }
+  const dividas = Array.isArray(r.dividas)
+    ? (r.dividas as unknown[])
+        .map((v) => {
+          if (!v || typeof v !== 'object') return null
+          const o = v as Record<string, unknown>
+          const fonte = str(o.fonte)
+          const principal = Math.max(0, Math.round(num(o.principal)))
+          const saldo = Math.max(0, Math.round(num(o.saldo)))
+          return fonte && principal > 0 && saldo > 0 ? { fonte, principal, saldo } : null
+        })
+        .filter((v): v is Divida => v !== null)
+    : []
   return {
     estilos: { transporte: str(est.transporte), moradia: str(est.moradia), alimentacao: str(est.alimentacao) },
+    pagoPor,
     itens,
+    dividas,
+    mes: Math.max(0, Math.round(num(r.mes))),
   }
 }
 
@@ -86,6 +140,10 @@ export function nomeNivel(cfg: RecursosCfg, n: number): string {
 export function isEstilo(cfg: RecursosCfg, r: Recurso): boolean {
   return r.tipo === cfg.tipos.estilo
 }
+/** Fonte de crédito. Mundo sem `tipos.emprestimo` não tem empréstimo. */
+export function isEmprestimo(cfg: RecursosCfg, r: Recurso): boolean {
+  return cfg.tipos.emprestimo !== undefined && r.tipo === cfg.tipos.emprestimo
+}
 
 /** O que se pode FAZER com uma nota — derivado da config + Cobrança. */
 export type Acao =
@@ -99,6 +157,9 @@ export type Acao =
 
 export function acaoDe(cfg: RecursosCfg, r: Recurso, fator: number): Acao {
   if (r.tipo === cfg.tipos.estilo) return 'escolher'
+  // Crédito não se compra: contrai dívida na ficha, e por isso não entra na
+  // vitrine dos lugares (como a tarifa avulsa).
+  if (isEmprestimo(cfg, r)) return 'info'
   if (r.tipo === cfg.tipos.passagem) return 'info'
   if (r.cobranca === 'única') return 'comprar'
   if (r.cobranca === 'dia' || r.cobranca === 'noite') return 'diaria'
@@ -127,25 +188,78 @@ export function custoEmOuro(valorMoeda: number, fator: number): number {
   return Math.ceil(valorMoeda / Math.max(1, fator))
 }
 
+/** Manutenção mensal de um item de posse: o USADO custa ×1,5 (peça pirata,
+ *  oficina de bairro, combustível do mercado negro), à centena pra cima; o
+ *  cedido por terceiro não custa nada. */
+export function manutencaoDoItem(rec: Recurso | undefined, item: ItemTido): number {
+  if (item.pagoPor) return 0
+  const base = rec?.manutencao ?? 0
+  const unidade = item.estado === 'usado' ? Math.ceil((base * 1.5) / 100) * 100 : base
+  return unidade * item.qtd
+}
+
+/** Vagas de veículo que o plano de moradia garante (FM `Vagas` da nota). */
+export function vagasDe(r: RecursosDoHeroi, porNome: Map<string, Recurso>, cfg: RecursosCfg): number {
+  const nome = r.estilos.moradia
+  const plano = nome ? porNome.get(nome) : undefined
+  return plano && isEstilo(cfg, plano) ? (plano.vagas ?? 0) : 0
+}
+
+/** Índices dos veículos que não couberam na garagem — dormem na rua e rolam
+ *  o d6 de pane mesmo sendo novos (roubo de carro é o crime que mais paga). */
+export function naRua(r: RecursosDoHeroi, porNome: Map<string, Recurso>, cfg: RecursosCfg): number[] {
+  const aba = abaDoPapel(cfg, 'transporte')
+  const vagas = vagasDe(r, porNome, cfg)
+  const fora: number[] = []
+  let usadas = 0
+  r.itens.forEach((item, indice) => {
+    if (item.aba !== aba) return
+    for (let k = 0; k < item.qtd; k++) {
+      if (usadas < vagas) usadas++
+      else if (!fora.includes(indice)) fora.push(indice)
+    }
+  })
+  return fora
+}
+
 export interface PosseDoMes {
   indice: number
   item: ItemTido
   recurso: Recurso | undefined
-  /** Manutenção mensal (nota × qtd). */
+  /** Manutenção mensal (nota × qtd; usado ×1,5; cedido = 0). */
   valor: number
+  /** Sem vaga na moradia: dorme na rua e rola pane. */
+  naRua: boolean
 }
 export interface EixoDoMes {
   papel: Papel
   /** Plano escolhido (nota) ou null. */
   plano: Recurso | null
   planoValor: number
+  /** Quem banca o plano (regalia de classe) — então ele não sai do saldo. */
+  pagoPor?: string
   posse: PosseDoMes[]
   posseValor: number
+  /** Plano + manutenção da posse (o que o eixo custa, pago por quem for). */
   total: number
+  /** O que sai do bolso do herói (exclui o plano cedido). */
+  doBolso: number
   nivel: number
+}
+/** Parcela de uma dívida no mês: juros do saldo + amortização mínima. */
+export interface ParcelaDoMes {
+  indice: number
+  divida: Divida
+  fonte: Recurso | undefined
+  juros: number
+  amortizacao: number
+  total: number
 }
 export interface CustoMensal {
   eixos: EixoDoMes[]
+  parcelas: ParcelaDoMes[]
+  parcelasTotal: number
+  /** O que sai do bolso no mês (eixos do bolso + parcelas). */
   total: number
   /** Total em unidades da ficha (milhares, pra cima). */
   ouro: number
@@ -153,8 +267,16 @@ export interface CustoMensal {
   classe: number
 }
 
-/** Custo do mês por eixo = plano + manutenção da posse daquela aba. */
+/** Arredonda pra cima na unidade da ficha (POA: o milhar). */
+function aoMilhar(v: number, fator: number): number {
+  const u = Math.max(1, fator)
+  return Math.ceil(v / u) * u
+}
+
+/** Custo do mês: por eixo (plano + manutenção da posse) e as parcelas das
+ *  dívidas. O plano cedido por terceiro aparece, mas não sai do bolso. */
 export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, fator: number, cfg: RecursosCfg): CustoMensal {
+  const fora = new Set(naRua(r, porNome, cfg))
   const eixos: EixoDoMes[] = []
   for (const papel of PAPEIS) {
     const aba = abaDoPapel(cfg, papel)
@@ -165,14 +287,32 @@ export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, f
     r.itens.forEach((item, indice) => {
       if (item.aba !== aba) return
       const rec = porNome.get(item.nome)
-      posse.push({ indice, item, recurso: rec, valor: (rec?.manutencao ?? 0) * item.qtd })
+      posse.push({ indice, item, recurso: rec, valor: manutencaoDoItem(rec, item), naRua: fora.has(indice) })
     })
     const planoValor = plano?.preco ?? 0
+    const pagoPor = r.pagoPor[papel]
     const posseValor = posse.reduce((a, p) => a + p.valor, 0)
-    eixos.push({ papel, plano, planoValor, posse, posseValor, total: planoValor + posseValor, nivel: plano?.nivel ?? 1 })
+    eixos.push({
+      papel,
+      plano,
+      planoValor,
+      ...(pagoPor ? { pagoPor } : {}),
+      posse,
+      posseValor,
+      total: planoValor + posseValor,
+      doBolso: (pagoPor ? 0 : planoValor) + posseValor,
+      nivel: plano?.nivel ?? 1,
+    })
   }
-  const total = eixos.reduce((a, e) => a + e.total, 0)
-  return { eixos, total, ouro: custoEmOuro(total, fator), classe: Math.min(...eixos.map((e) => e.nivel)) }
+  const parcelas = r.dividas.map((divida, indice) => {
+    const fonte = porNome.get(divida.fonte)
+    const juros = aoMilhar((divida.saldo * (fonte?.juros ?? 0)) / 100, fator)
+    const amortizacao = Math.min(divida.saldo, aoMilhar(divida.principal / 10, fator))
+    return { indice, divida, fonte, juros, amortizacao, total: juros + amortizacao }
+  })
+  const parcelasTotal = parcelas.reduce((a, p) => a + p.total, 0)
+  const total = eixos.reduce((a, e) => a + e.doBolso, 0) + parcelasTotal
+  return { eixos, parcelas, parcelasTotal, total, ouro: custoEmOuro(total, fator), classe: Math.min(...eixos.map((e) => e.nivel)) }
 }
 
 /* ─────────────────────────── operações ───────────────────────────
@@ -191,6 +331,15 @@ function pagar(ouro: number, valorMoeda: number, fator: number): number | null {
 
 export function escolherEstilo(r: RecursosDoHeroi, papel: Papel, rec: Recurso | null): Resultado {
   return { recursos: { ...r, estilos: { ...r.estilos, [papel]: rec ? rec.nome : null } } }
+}
+
+/** Marca (ou tira) o TERCEIRO que banca o plano de um eixo — a regalia de
+ *  classe. Texto vazio volta a sair do bolso do herói. */
+export function marcarPagoPor(r: RecursosDoHeroi, papel: Papel, quem: string): Resultado {
+  const pagoPor = { ...r.pagoPor }
+  if (quem.trim()) pagoPor[papel] = quem.trim()
+  else delete pagoPor[papel]
+  return { recursos: { ...r, pagoPor } }
 }
 
 /** Compra que vira POSSE (veículo novo/usado, imóvel). `preco` já com a régua. */
@@ -223,9 +372,78 @@ export function pagarAvista(r: RecursosDoHeroi, preco: number, ouro: number, fat
   return { recursos: r, ouro: novoOuro }
 }
 
-/** Fecha o mês: desconta planos + manutenção da posse (pra cima ao milhar). */
-export function fecharMes(r: RecursosDoHeroi, porNome: Map<string, Recurso>, cfg: RecursosCfg, ouro: number, fator: number): Resultado | null {
+/* ─────────────────────────── empréstimo ───────────────────────────
+ * Uma lógica só: o principal vira dívida, todo mês paga juros sobre o saldo
+ * mais um décimo do principal, e amortiza-se livremente. Sem financiamento. */
+
+/** Teto da fonte: `Teto_Meses` × o mês do herói, ou o teto fixo da nota.
+ *  `null` = fonte sem teto no sistema (agiota, penhor, dólar): a mesa decide. */
+export function tetoDoEmprestimo(fonte: Recurso, custoMes: number): number | null {
+  if (fonte.tetoMeses !== undefined) return fonte.tetoMeses * custoMes
+  return fonte.preco > 0 ? fonte.preco : null
+}
+
+/** Pega o principal à vista e abre a dívida. Nega acima do teto da fonte. */
+export function pegarEmprestimo(
+  r: RecursosDoHeroi,
+  fonte: Recurso,
+  valor: number,
+  ouro: number,
+  fator: number,
+  custoMes: number,
+): Resultado | null {
+  if (valor <= 0) return null
+  const teto = tetoDoEmprestimo(fonte, custoMes)
+  if (teto !== null && valor > teto) return null
+  const divida: Divida = { fonte: fonte.nome, principal: valor, saldo: valor }
+  return { recursos: { ...r, dividas: [...r.dividas, divida] }, ouro: ouro + Math.floor(valor / Math.max(1, fator)) }
+}
+
+/** Abate o saldo (qualquer valor até o saldo); quitou, a dívida some. */
+export function amortizar(r: RecursosDoHeroi, indice: number, valor: number, ouro: number, fator: number): Resultado | null {
+  const d = r.dividas[indice]
+  if (!d || valor <= 0 || valor > d.saldo) return null
+  const novoOuro = pagar(ouro, valor, fator)
+  if (novoOuro === null) return null
+  const saldo = d.saldo - valor
+  const dividas = saldo > 0 ? r.dividas.map((x, k) => (k === indice ? { ...x, saldo } : x)) : r.dividas.filter((_, k) => k !== indice)
+  return { recursos: { ...r, dividas }, ouro: novoOuro }
+}
+
+/** Conserta um veículo em pane pagando a manutenção EM DOBRO (oficina de
+ *  sucata) — vale pelo mês corrente; o mês seguinte rola o d6 de novo. */
+export function consertar(r: RecursosDoHeroi, indice: number, porNome: Map<string, Recurso>, ouro: number, fator: number): Resultado | null {
+  const it = r.itens[indice]
+  if (!it?.pane) return null
+  const novoOuro = pagar(ouro, manutencaoDoItem(porNome.get(it.nome), it) * 2, fator)
+  if (novoOuro === null) return null
+  const itens = r.itens.map((x, k) => (k === indice ? { ...x, pane: false } : x))
+  return { recursos: { ...r, itens }, ouro: novoOuro }
+}
+
+/** ABRE o mês: paga adiantado os planos que saem do bolso, a manutenção da
+ *  posse e a parcela das dívidas; rola o d6 de pane dos veículos usados e dos
+ *  que dormem na rua; e vira o calendário. Nega quando falta saldo — quem não
+ *  paga cai de classe (decisão do jogador, na virada). */
+export function abrirMes(
+  r: RecursosDoHeroi,
+  porNome: Map<string, Recurso>,
+  cfg: RecursosCfg,
+  ouro: number,
+  fator: number,
+  heroi: string,
+): Resultado | null {
   const custo = custoMensal(r, porNome, fator, cfg)
   if (ouro < custo.ouro) return null
-  return { recursos: r, ouro: ouro - custo.ouro }
+  const dividas = custo.parcelas
+    .map((p) => ({ ...p.divida, saldo: p.divida.saldo - p.amortizacao }))
+    .filter((d) => d.saldo > 0)
+  const mes = r.mes + 1
+  const fora = new Set(naRua(r, porNome, cfg))
+  const itens = r.itens.map((item, indice) => {
+    const arrisca = item.aba === abaDoPapel(cfg, 'transporte') && (item.estado === 'usado' || fora.has(indice))
+    const pane = arrisca && Math.floor(rngDe(`${heroi}|${mes}|${indice}|${item.nome}`)() * 6) + 1 === 1
+    return pane ? { ...item, pane: true } : item.pane ? { ...item, pane: false } : item
+  })
+  return { recursos: { ...r, itens, dividas, mes }, ouro: ouro - custo.ouro }
 }

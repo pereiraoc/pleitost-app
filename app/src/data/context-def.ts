@@ -67,8 +67,9 @@ export interface ContextoDef {
     /** Nome de cada nível de estilo de vida (índice 0 = Nível 1). */
     niveis: string[]
     /** Tipos (FM `Tipo`) com semântica própria: estilo = plano mensal de um
-     *  eixo (pago adiantado); passagem = tarifa avulsa, só informativa. */
-    tipos: { passagem: string; estilo: string }
+     *  eixo (pago adiantado); passagem = tarifa avulsa, só informativa;
+     *  emprestimo = fonte de crédito (não se compra, contrai dívida). */
+    tipos: { passagem: string; estilo: string; emprestimo?: string }
     /** ONDE se compra: campo FM das Localizações com as ofertas (wikilinks,
      *  sufixo `usado`) e rótulo da aba do local. */
     ofertas: { campo: string; aba: string }

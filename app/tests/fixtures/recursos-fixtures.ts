@@ -11,7 +11,7 @@ export const cfg: RecursosCfg = {
   ],
   precoEm: 'moeda',
   niveis: ['Miserável', 'Classe Baixa', 'Classe Média Baixa', 'Classe Média', 'Classe Média Alta', 'Classe Alta'],
-  tipos: { passagem: 'Passagem', estilo: 'Estilo de Vida' },
+  tipos: { passagem: 'Passagem', estilo: 'Estilo de Vida', emprestimo: 'Empréstimo' },
   ofertas: { campo: 'Serviços', aba: 'Serviços' },
   disponibilidade: {
     'Pequena Cidade': { niveis: [1, 3], quantidade: 0.6 },
@@ -37,9 +37,19 @@ export const cesta = rec({ nome: 'Cesta Básica Zaffari', aba: 'Alimentação', 
 export const estilos = {
   t3: rec({ nome: 'TRI Popular', aba: 'Transporte', tipo: 'Estilo de Vida', preco: 2500, cobranca: 'mês', nivel: 3 }),
   t4: rec({ nome: 'TRI Integrado', aba: 'Transporte', tipo: 'Estilo de Vida', preco: 5000, cobranca: 'mês', nivel: 4 }),
-  m4: rec({ nome: 'Moradia Classe Média', aba: 'Moradia', tipo: 'Estilo de Vida', preco: 6000, cobranca: 'mês', nivel: 4 }),
+  m4: rec({ nome: 'Moradia Classe Média', aba: 'Moradia', tipo: 'Estilo de Vida', preco: 6000, cobranca: 'mês', nivel: 4, vagas: 1 }),
+  m6: rec({ nome: 'Moradia Classe Alta', aba: 'Moradia', tipo: 'Estilo de Vida', preco: 50000, cobranca: 'mês', nivel: 6, vagas: 4 }),
   a2: rec({ nome: 'Alimentação Classe Baixa', aba: 'Alimentação', tipo: 'Estilo de Vida', preco: 1500, cobranca: 'mês', nivel: 2 }),
   a5: rec({ nome: 'Alimentação Classe Média Alta', aba: 'Alimentação', tipo: 'Estilo de Vida', preco: 9000, cobranca: 'mês', nivel: 5 }),
 }
-export const porNome = new Map([onibus, carajas, aluguelDia, gasolina, kitnet, pensao, polar, uisque, cesta, ...Object.values(estilos)].map((r) => [r.nome, r]))
+/** Fontes de crédito (Tipo `emprestimo`): juro ao mês, teto em meses do plano
+ *  ou fixo em `preco`, `nivel` = classe mínima. */
+export const credito = {
+  fiado: rec({ nome: 'Fiado do Bairro', aba: 'Crédito', tipo: 'Empréstimo', preco: 5000, cobranca: 'mês', juros: 0, nivel: 2 }),
+  agiota: rec({ nome: 'Agiota da Facção', aba: 'Crédito', tipo: 'Empréstimo', preco: 0, cobranca: 'mês', juros: 20, nivel: 1 }),
+  banrisul: rec({ nome: 'Crédito Banrisul', aba: 'Crédito', tipo: 'Empréstimo', preco: 0, cobranca: 'mês', juros: 8, tetoMeses: 12, nivel: 4 }),
+}
+export const porNome = new Map(
+  [onibus, carajas, aluguelDia, gasolina, kitnet, pensao, polar, uisque, cesta, ...Object.values(estilos), ...Object.values(credito)].map((r) => [r.nome, r]),
+)
 

@@ -27,8 +27,14 @@ export interface Recurso {
   compra?: number
   /** Cz$ por mês (veículos) — entra no custo mensal de transporte. */
   manutencao?: number
-  /** Nível de estilo de vida 1..6. */
+  /** Nível de estilo de vida 1..6 — nas fontes de crédito, a classe MÍNIMA. */
   nivel?: number
+  /** Fonte de crédito: juro ao mês, em % sobre o saldo devedor. */
+  juros?: number
+  /** Fonte de crédito: teto = este número de meses do custo do herói. */
+  tetoMeses?: number
+  /** Plano de moradia: veículos que cabem guardados (o resto dorme na rua). */
+  vagas?: number
   porKm?: number
   longa?: number
   volume?: number

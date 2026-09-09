@@ -3,7 +3,7 @@
 // se controla; dinheiro inteiro (régua à dezena, ficha pra cima ao milhar);
 // semântica da nota pela CONFIG + Cobrança, nunca por rótulo inventado.
 import { describe, expect, it } from 'vitest'
-import { aluguelDia, carajas, cesta, cfg, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, uisque } from './fixtures/recursos-fixtures'
+import { aluguelDia, carajas, cesta, cfg, credito, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, uisque } from './fixtures/recursos-fixtures'
 import {
   RECURSOS_VAZIO,
   acaoDe,
@@ -11,13 +11,20 @@ import {
   custoEmOuro,
   custoMensal,
   escolherEstilo,
-  fecharMes,
   nomeNivel,
   pagarAvista,
   precoDeCompra,
   precoNaRegua,
   recursosDoFm,
   venderItem,
+  abrirMes,
+  amortizar,
+  consertar,
+  manutencaoDoItem,
+  naRua,
+  pegarEmprestimo,
+  tetoDoEmprestimo,
+  vagasDe,
 } from '../src/recursos/hero-recursos'
 
 const FATOR = 1000
@@ -86,10 +93,10 @@ describe('custo de vida: planos + manutenção da posse', () => {
     expect(vazio.classe).toBe(1)
     expect(nomeNivel(cfg, 2)).toBe('Classe Baixa')
   })
-  it('fechar o mês desconta planos + posse (ou nega)', () => {
+  it('abrir o mês desconta planos + posse (ou nega)', () => {
     const r = escolherEstilo(escolherEstilo(RECURSOS_VAZIO, 'moradia', estilos.m4).recursos, 'alimentacao', estilos.a2).recursos
-    expect(fecharMes(r, porNome, cfg, 7, FATOR)).toBeNull()
-    expect(fecharMes(r, porNome, cfg, 8, FATOR)!.ouro).toBe(0)
+    expect(abrirMes(r, porNome, cfg, 7, FATOR, 'Carlos')).toBeNull()
+    expect(abrirMes(r, porNome, cfg, 8, FATOR, 'Carlos')!.ouro).toBe(0)
   })
   it('recursosDoFm tolera lixo e round-trips', () => {
     expect(recursosDoFm({})).toEqual(RECURSOS_VAZIO)
@@ -97,5 +104,132 @@ describe('custo de vida: planos + manutenção da posse', () => {
     const r = comprarItem(escolherEstilo(RECURSOS_VAZIO, 'transporte', estilos.t4).recursos, carajas, { preco: 400000, estado: 'novo' }, 500, FATOR)!.recursos
     expect(recursosDoFm({ Recursos_do_Mundo: JSON.parse(JSON.stringify(r)) })).toEqual(r)
     expect(recursosDoFm({ Recursos_do_Mundo: { tri: 250, estilos: { moradia: 'X' }, itens: [{ nome: '' }] } })).toEqual({ ...RECURSOS_VAZIO, estilos: { ...RECURSOS_VAZIO.estilos, moradia: 'X' } })
+  })
+})
+
+/* ── v4 (2026-09-08): abrir o mês, dívida, eixo pago por terceiro, manutenção
+ *    do usado, vaga de garagem e d6 de pane. Regra em Custo de Vida. ── */
+
+describe('manutenção: usado custa mais, item cedido não custa nada', () => {
+  it('usado paga ×1,5 à centena pra cima; novo paga a nota; item de terceiro é de graça', () => {
+    expect(manutencaoDoItem(carajas, { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 })).toBe(3000)
+    expect(manutencaoDoItem(carajas, { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 150000, estado: 'usado' })).toBe(4500)
+    // ×1,5 quebrado sobe pra centena: 1.000 → 1.500; 700 → 1.050 → 1.100
+    expect(manutencaoDoItem({ ...carajas, manutencao: 700 }, { nome: 'x', aba: 'Transporte', qtd: 1, pago: 0, estado: 'usado' })).toBe(1100)
+    expect(manutencaoDoItem(carajas, { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 0, pagoPor: 'o sindicato' })).toBe(0)
+    // qtd multiplica
+    expect(manutencaoDoItem(carajas, { nome: carajas.nome, aba: 'Transporte', qtd: 2, pago: 0 })).toBe(6000)
+  })
+})
+
+describe('eixo pago por terceiro (regalia de classe)', () => {
+  const base = { ...RECURSOS_VAZIO, estilos: { transporte: estilos.t4.nome, moradia: estilos.m4.nome, alimentacao: estilos.a2.nome } }
+  it('o plano cedido conta pra classe mas não sai do bolso', () => {
+    const semRegalia = custoMensal(base, porNome, FATOR, cfg)
+    expect(semRegalia.total).toBe(5000 + 6000 + 1500)
+    const comRegalia = custoMensal({ ...base, pagoPor: { moradia: 'a firma' } }, porNome, FATOR, cfg)
+    const moradia = comRegalia.eixos.find((e) => e.papel === 'moradia')!
+    expect(moradia.planoValor).toBe(6000) // aparece na ficha
+    expect(moradia.pagoPor).toBe('a firma')
+    expect(comRegalia.total).toBe(5000 + 1500) // mas não no total do bolso
+    expect(comRegalia.classe).toBe(2) // a classe segue sendo o menor eixo (alimentação 2)
+  })
+  it('a regalia cobre o PLANO, não a manutenção do que o herói comprou', () => {
+    const comCarro = { ...base, pagoPor: { transporte: 'a firma' }, itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }] }
+    const c = custoMensal(comCarro, porNome, FATOR, cfg)
+    expect(c.total).toBe(6000 + 1500 + 3000) // plano de transporte cedido; a manutenção do Carajás continua sendo dele
+  })
+})
+
+describe('vaga de garagem', () => {
+  const comMoradia = (plano: string, veiculos: number) => ({
+    ...RECURSOS_VAZIO,
+    estilos: { transporte: null, moradia: plano, alimentacao: null },
+    itens: Array.from({ length: veiculos }, () => ({ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 })),
+  })
+  it('as vagas vêm do plano de moradia; o que não cabe fica na rua', () => {
+    expect(vagasDe(comMoradia(estilos.m4.nome, 0), porNome, cfg)).toBe(1)
+    expect(vagasDe(comMoradia(estilos.m6.nome, 0), porNome, cfg)).toBe(4)
+    expect(vagasDe(RECURSOS_VAZIO, porNome, cfg)).toBe(0) // sem plano, nenhuma vaga
+    expect(naRua(comMoradia(estilos.m4.nome, 3), porNome, cfg)).toEqual([1, 2]) // o primeiro tem vaga
+    expect(naRua(comMoradia(estilos.m6.nome, 3), porNome, cfg)).toEqual([])
+  })
+})
+
+describe('d6 de pane ao abrir o mês', () => {
+  const comCarro = (estado: 'novo' | 'usado', plano: string | null) => ({
+    ...RECURSOS_VAZIO,
+    estilos: { transporte: null, moradia: plano, alimentacao: null },
+    itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000, estado }],
+  })
+  it('novo com vaga nunca pana; usado e sem vaga rolam d6 (1 = pane), determinístico por herói e mês', () => {
+    const seguro = comCarro('novo', estilos.m4.nome)
+    for (let mes = 0; mes < 24; mes++) {
+      expect(abrirMes({ ...seguro, mes }, porNome, cfg, 999, FATOR, 'Carlos')!.recursos.itens[0]!.pane).toBeFalsy()
+    }
+    // usado: pana em algum mês da janela, e o MESMO mês dá sempre o mesmo resultado
+    const usado = comCarro('usado', estilos.m4.nome)
+    const panes = Array.from({ length: 24 }, (_, mes) => !!abrirMes({ ...usado, mes }, porNome, cfg, 999, FATOR, 'Carlos')!.recursos.itens[0]!.pane)
+    expect(panes.some(Boolean)).toBe(true)
+    expect(panes.every(Boolean)).toBe(false)
+    const repetido = Array.from({ length: 24 }, (_, mes) => !!abrirMes({ ...usado, mes }, porNome, cfg, 999, FATOR, 'Carlos')!.recursos.itens[0]!.pane)
+    expect(repetido).toEqual(panes)
+    // herói diferente, sorte diferente (a semente inclui o nome)
+    const outro = Array.from({ length: 24 }, (_, mes) => !!abrirMes({ ...usado, mes }, porNome, cfg, 999, FATOR, 'Pind')!.recursos.itens[0]!.pane)
+    expect(outro).not.toEqual(panes)
+  })
+  it('consertar custa a manutenção em dobro e limpa a pane', () => {
+    const emPane = { ...RECURSOS_VAZIO, itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 150000, estado: 'usado' as const, pane: true }] }
+    expect(consertar(emPane, 0, porNome, 8, FATOR)).toBeNull() // 4.500 × 2 = 9.000 → 9 na ficha
+    const ok = consertar(emPane, 0, porNome, 9, FATOR)!
+    expect(ok.ouro).toBe(0)
+    expect(ok.recursos.itens[0]!.pane).toBeFalsy()
+  })
+})
+
+describe('empréstimo: dívida, juros ao mês e amortização', () => {
+  const rico = { ...RECURSOS_VAZIO, estilos: { transporte: estilos.t4.nome, moradia: estilos.m4.nome, alimentacao: estilos.a2.nome } }
+  it('teto = Teto_Meses × o mês do herói, ou o teto fixo da nota', () => {
+    const mes = custoMensal(rico, porNome, FATOR, cfg).total // 12.500
+    expect(tetoDoEmprestimo(credito.banrisul, mes)).toBe(12 * mes)
+    expect(tetoDoEmprestimo(credito.fiado, mes)).toBe(5000)
+    expect(tetoDoEmprestimo(credito.agiota, mes)).toBeNull() // sem teto no sistema: a mesa decide
+  })
+  it('pegar credita o principal e abre a dívida; acima do teto, nega', () => {
+    expect(pegarEmprestimo(rico, credito.fiado, 6000, 0, FATOR, 12500)).toBeNull()
+    const r = pegarEmprestimo(rico, credito.agiota, 150000, 2, FATOR, 12500)!
+    expect(r.ouro).toBe(152) // 2 + 150
+    expect(r.recursos.dividas).toEqual([{ fonte: credito.agiota.nome, principal: 150000, saldo: 150000 }])
+  })
+  it('a parcela é juros do saldo (ao milhar pra cima) + um décimo do principal — a tabela de Custo de Vida', () => {
+    const div = (saldo: number) => ({ ...RECURSOS_VAZIO, dividas: [{ fonte: credito.agiota.nome, principal: 150000, saldo }] })
+    const parcela = (saldo: number, fonte = credito.agiota.nome) =>
+      custoMensal({ ...div(saldo), dividas: [{ fonte, principal: 150000, saldo }] }, porNome, FATOR, cfg).parcelas[0]!
+    expect(parcela(150000)).toMatchObject({ juros: 30000, amortizacao: 15000, total: 45000 })
+    expect(parcela(90000)).toMatchObject({ juros: 18000, total: 33000 })
+    expect(parcela(15000)).toMatchObject({ juros: 3000, amortizacao: 15000, total: 18000 })
+    // juro quebrado sobe ao milhar: Sicredi 6% de 90.000 = 5.400 → 6.000
+    expect(parcela(90000, credito.banrisul.nome).juros).toBe(8000) // 8% de 90.000 = 7.200 → 8.000
+    // último mês: amortiza só o que falta
+    expect(parcela(10000)).toMatchObject({ amortizacao: 10000, total: 12000 })
+  })
+  it('abrir o mês paga plano + manutenção + parcela, e a dívida diminui', () => {
+    const comDivida = { ...rico, dividas: [{ fonte: credito.agiota.nome, principal: 150000, saldo: 150000 }] }
+    const c = custoMensal(comDivida, porNome, FATOR, cfg)
+    expect(c.total).toBe(12500 + 45000)
+    expect(abrirMes(comDivida, porNome, cfg, 57, FATOR, 'Carlos')).toBeNull() // falta 1 (57.500 → 58)
+    const r = abrirMes(comDivida, porNome, cfg, 100, FATOR, 'Carlos')!
+    expect(r.ouro).toBe(100 - 58)
+    expect(r.recursos.dividas[0]!.saldo).toBe(135000)
+    expect(r.recursos.mes).toBe(1)
+  })
+  it('amortizar abate o saldo e quitar remove a dívida', () => {
+    const d = { ...RECURSOS_VAZIO, dividas: [{ fonte: credito.agiota.nome, principal: 150000, saldo: 150000 }] }
+    expect(amortizar(d, 0, 200000, 200, FATOR)).toBeNull() // não paga mais que o saldo
+    const meio = amortizar(d, 0, 50000, 60, FATOR)!
+    expect(meio.ouro).toBe(10)
+    expect(meio.recursos.dividas[0]!.saldo).toBe(100000)
+    const quitado = amortizar(meio.recursos, 0, 100000, 100, FATOR)!
+    expect(quitado.recursos.dividas).toEqual([])
   })
 })

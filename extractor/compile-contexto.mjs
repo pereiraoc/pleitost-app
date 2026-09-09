@@ -123,6 +123,9 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     for (const k of ["passagem", "estilo"]) {
       if (typeof tipos[k] !== "string" || !tipos[k].trim()) problems.push(`recursos.tipos.${k}: obrigatório (nome do Tipo nas notas)`);
     }
+    // OPCIONAL (2026-09-08): fontes de crédito. Mundo sem `emprestimo` não tem
+    // empréstimo — a ficha simplesmente não oferece dívida.
+    if (typeof tiposIn.emprestimo === "string" && tiposIn.emprestimo.trim()) tipos.emprestimo = tiposIn.emprestimo.trim();
     // ONDE se compra (2026-09-07b): campo FM das Localizações com as ofertas
     // + rótulo da aba no local. Obrigatório — sem isso a ficha não tem de
     // onde comprar.
