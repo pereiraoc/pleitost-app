@@ -4,11 +4,23 @@
 // aqui a senha é o que de fato guarda o texto.
 //
 // Esquema (envelope):
-//   K            = chave aleatória de 32 bytes por doc
+//   K            = chave de 32 bytes DERIVADA da senha e do id do doc
 //   privado      = JSON {frontmatter (sem Senha), body, inlineFields, …}
 //   cifra        = AES-256-GCM(K, privado)
 //   chaves.senha = AES-256-GCM(PBKDF2(senha, salt), K)        ← a senha da aventura
 //   chaves.dev   = AES-256-GCM(PBKDF2(senhaDev, SALT_DEV), K) ← Modo Desenvolvedor destrava tudo
+//
+// TUDO DETERMINÍSTICO (report 2026-09-08: "não salva que eu liberei a
+// aventura"): K vinha de randomBytes a cada extract, então o aparelho que
+// guardou a chave ("lembrar neste aparelho") perdia o acesso a cada
+// publicação — senha de novo a cada deploy. Agora K = PBKDF2(senha, id do
+// doc), o salt do embrulho sai do id e cada iv sai do hash do próprio
+// conteúdo. Duas extrações da MESMA nota com a MESMA senha dão bytes
+// idênticos: a chave lembrada continua valendo, o dataset não muda à toa (o
+// cache do navegador aproveita) e a promessa de extract reproduzível volta a
+// valer. Trade consciente: sem rotação de chave por extract — a chave só muda
+// quando a senha (ou o id da nota) muda. O iv NUNCA repete pra conteúdos
+// diferentes, porque deriva do hash do conteúdo.
 // O público mantém só os campos declarados no Contexto Base
 // (`aventura.campos_lista_trancada`) + estruturais (categoria, aliases).
 // O app (data/doc-lock.ts) desembrulha K com SubtleCrypto (mesmos parâmetros)
@@ -37,9 +49,17 @@ export function deriveKey(senha, salt) {
   return pbkdf2Sync(String(senha), Buffer.isBuffer(salt) ? salt : Buffer.from(salt, "utf8"), PBKDF2_ITER, 32, "sha256");
 }
 
-/** AES-256-GCM: iv (12 bytes) + ciphertext‖tag (base64). */
-export function encryptGcm(key, plaintext) {
-  const iv = randomBytes(12);
+/** iv DETERMINÍSTICO de 12 bytes: hash do contexto (quem/onde) + do conteúdo.
+ *  Mesmo conteúdo → mesmo iv (saída reproduzível); conteúdo diferente → iv
+ *  diferente (nunca reusa iv com a mesma chave). */
+export function ivDeterministico(contexto, plaintext) {
+  return createHash("sha256").update(`iv-v1:${contexto}\n`).update(plaintext).digest().subarray(0, 12);
+}
+
+/** AES-256-GCM: iv (12 bytes) + ciphertext‖tag (base64). Sem `contexto` o iv é
+ *  aleatório; o extract SEMPRE passa contexto (saída reproduzível). */
+export function encryptGcm(key, plaintext, contexto = null) {
+  const iv = contexto == null ? randomBytes(12) : ivDeterministico(contexto, plaintext);
   const c = createCipheriv("aes-256-gcm", key, iv);
   const ct = Buffer.concat([c.update(plaintext), c.final()]);
   return { iv: b64(iv), cifra: b64(Buffer.concat([ct, c.getAuthTag()])) };
@@ -54,11 +74,22 @@ export function decryptGcm(key, { iv, cifra }) {
   return Buffer.concat([d.update(ct), d.final()]);
 }
 
-/** Embrulha K com uma senha (salt aleatório de 16 bytes, ou fixo pro dev). */
-export function wrapKey(contentKey, senha, saltFixo = null) {
-  const salt = saltFixo ? Buffer.from(saltFixo, "utf8") : randomBytes(16);
-  const kek = deriveKey(senha, salt);
-  return { salt: b64(salt), ...encryptGcm(kek, contentKey) };
+/** Salt do embrulho pela senha: sai do id do doc (determinístico, público). */
+export function saltDoDoc(docId) {
+  return createHash("sha256").update(`wrap-v1:${docId}`).digest().subarray(0, 16);
+}
+
+/** CHAVE DO DOC: derivada da senha + id da nota. Estável entre extrações — é o
+ *  que faz "lembrar neste aparelho" sobreviver a uma publicação nova. */
+export function chaveDeterministica(senha, docId) {
+  return pbkdf2Sync(String(senha), Buffer.from(`chave-v1:${docId}`, "utf8"), PBKDF2_ITER, 32, "sha256");
+}
+
+/** Embrulha K com uma senha, com o salt dado (do doc, ou o fixo do dev). */
+export function wrapKey(contentKey, senha, salt) {
+  const s = Buffer.isBuffer(salt) ? salt : Buffer.from(salt, "utf8");
+  const kek = deriveKey(senha, s);
+  return { salt: b64(s), ...encryptGcm(kek, contentKey, `wrap:${b64(s)}`) };
 }
 
 export function unwrapKey(wrapped, senha) {
@@ -81,9 +112,11 @@ export function senhaDevDoAmbiente() {
 }
 
 /** Bytes de um ARQUIVO (imagem) cifrados com a chave K do doc: iv (12) ‖
- *  ciphertext ‖ tag (16) — um único blob, o app lê o iv do próprio arquivo. */
-export function cifrarBytes(K, bytes) {
-  const iv = randomBytes(12);
+ *  ciphertext ‖ tag (16) — um único blob, o app lê o iv do próprio arquivo.
+ *  Com `contexto` (doc + caminho) o blob é reproduzível: arquivo inalterado sai
+ *  byte a byte igual e o cache do navegador aproveita. */
+export function cifrarBytes(K, bytes, contexto = null) {
+  const iv = contexto == null ? randomBytes(12) : ivDeterministico(contexto, bytes);
   const c = createCipheriv("aes-256-gcm", K, iv);
   const ct = Buffer.concat([c.update(bytes), c.final()]);
   return Buffer.concat([iv, ct, c.getAuthTag()]);
@@ -141,8 +174,8 @@ export function cifrarDoc(record, { camposPublicos = [], senhaDev = null, chave 
   void _fm;
   const privado = Buffer.from(JSON.stringify({ frontmatter: fmPrivado, ...resto, ...(privadoExtra ?? {}) }), "utf8");
 
-  const K = chave ?? randomBytes(32);
-  const chaves = { senha: wrapKey(K, senha.trim()) };
+  const K = chave ?? chaveDeterministica(senha.trim(), id);
+  const chaves = { senha: wrapKey(K, senha.trim(), saltDoDoc(id)) };
   if (senhaDev) chaves.dev = wrapKey(K, senhaDev, SALT_DEV);
 
   const publico = {
@@ -166,7 +199,7 @@ export function cifrarDoc(record, { camposPublicos = [], senhaDev = null, chave 
       alg: "AES-256-GCM",
       kdf: "PBKDF2-SHA256",
       iter: PBKDF2_ITER,
-      ...encryptGcm(K, privado),
+      ...encryptGcm(K, privado, `doc:${id}`),
       chaves,
     },
   };

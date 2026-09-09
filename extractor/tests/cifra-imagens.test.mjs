@@ -75,3 +75,29 @@ test("imagem só de doc trancado sai cifrada e fora do manifesto; a compartilhad
     await rm(out, { recursive: true, force: true });
   }
 });
+
+test("duas extrações da mesma vault dão bytes IDÊNTICOS (chave lembrada continua valendo)", async () => {
+  const root = await mkdtemp(join(tmpdir(), "pleitost-vault-"));
+  const outA = await mkdtemp(join(tmpdir(), "pleitost-outA-"));
+  const outB = await mkdtemp(join(tmpdir(), "pleitost-outB-"));
+  try {
+    await makeFakeVault(root);
+    await extractVault({ vaultRoot: root, outDir: outA });
+    await extractVault({ vaultRoot: root, outDir: outB });
+    const docA = await readFile(join(outA, "Campanhas/Aventuras/Secreta.json"), "utf8");
+    const docB = await readFile(join(outB, "Campanhas/Aventuras/Secreta.json"), "utf8");
+    assert.equal(docA, docB, "o envelope do doc trancado tem que ser reproduzível");
+    const nome = `${nomeCifrado("Campanhas/Aventuras/Secreta", "Imagens/secreta.png")}.enc`;
+    assert.deepEqual(
+      await readFile(join(outA, "assets-cifrados", nome)),
+      await readFile(join(outB, "assets-cifrados", nome)),
+      "o blob da figura tem que ser reproduzível",
+    );
+    // e a chave da PRIMEIRA extração abre a SEGUNDA (o report do user)
+    const K = chaveDoDoc(JSON.parse(docA), { senha: "s3nha" });
+    assert.deepEqual(decifrarBytes(K, await readFile(join(outB, "assets-cifrados", nome))), SECRETA);
+    assert.equal(decifrarDoc(JSON.parse(docB), { senha: "s3nha" }).body.includes("Vilão"), true);
+  } finally {
+    for (const d of [root, outA, outB]) await rm(d, { recursive: true, force: true });
+  }
+});

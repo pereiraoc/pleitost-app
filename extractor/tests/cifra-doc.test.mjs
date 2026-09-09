@@ -99,3 +99,41 @@ test("nomeCifrado: opaco, determinístico por (doc, caminho), sem o nome do arqu
   assert.equal(a, nomeCifrado("Campanhas/Aventuras/X", "Recursos/Segredo.png"));
   assert.notEqual(a, nomeCifrado("Campanhas/Aventuras/Y", "Recursos/Segredo.png"));
 });
+
+// ── DETERMINISMO (report 2026-09-08: "não salva que eu liberei a aventura") ──
+// K vinha de randomBytes por extract: o aparelho guardava a chave, o deploy
+// seguinte trocava a chave e o app esquecia — senha de novo a cada publicação.
+import { chaveDeterministica } from "../cifra-doc.mjs";
+
+test("mesma nota + mesma senha = MESMA chave e MESMOS bytes em extracts diferentes", () => {
+  const a = cifrarDoc(record, { camposPublicos, senhaDev: "dev!" });
+  const b = cifrarDoc(record, { camposPublicos, senhaDev: "dev!" });
+  assert.deepEqual(chaveDoDoc(a, { senha: "abc123" }), chaveDoDoc(b, { senha: "abc123" }));
+  assert.deepEqual(a, b); // saída reproduzível: o dataset não muda à toa
+  assert.deepEqual(chaveDoDoc(a, { senha: "abc123" }), chaveDeterministica("abc123", record.id));
+});
+
+test("chave muda quando a SENHA ou a NOTA mudam (nunca duas notas com a mesma chave)", () => {
+  const outraSenha = cifrarDoc({ ...record, frontmatter: { ...record.frontmatter, Senha: "outra" } }, { camposPublicos });
+  const outraNota = cifrarDoc({ ...record, id: "Campanhas/Aventuras/Y", path: "Campanhas/Aventuras/Y.md" }, { camposPublicos });
+  const k = chaveDoDoc(cifrarDoc(record, { camposPublicos }), { senha: "abc123" });
+  assert.notDeepEqual(chaveDoDoc(outraSenha, { senha: "outra" }), k);
+  assert.notDeepEqual(chaveDoDoc(outraNota, { senha: "abc123" }), k);
+});
+
+test("corpo diferente = iv diferente (nunca repete iv com a mesma chave)", () => {
+  const a = cifrarDoc(record, { camposPublicos });
+  const b = cifrarDoc({ ...record, body: "# 1. Resumo\nOUTRO TEXTO" }, { camposPublicos });
+  assert.notEqual(a.protegido.iv, b.protegido.iv);
+  assert.notEqual(a.protegido.cifra, b.protegido.cifra);
+});
+
+test("cifrarBytes: mesmo arquivo = mesmos bytes; arquivo diferente = iv diferente", () => {
+  const K = chaveDeterministica("abc123", record.id);
+  const ctx = `${record.id}\nImagens/a.png`;
+  const png = Buffer.from("PNG-A".repeat(20));
+  assert.deepEqual(cifrarBytes(K, png, ctx), cifrarBytes(K, png, ctx));
+  const outro = cifrarBytes(K, Buffer.from("PNG-B".repeat(20)), ctx);
+  assert.notEqual(outro.subarray(0, 12).toString("hex"), cifrarBytes(K, png, ctx).subarray(0, 12).toString("hex"));
+  assert.deepEqual(decifrarBytes(K, cifrarBytes(K, png, ctx)), png);
+});

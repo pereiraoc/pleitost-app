@@ -8,7 +8,7 @@
 // output — EXCETO db-version.json, o stamp de versão da database (#190).
 
 import { rm, mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
-import { createHash, randomBytes } from "node:crypto";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 
 import { VAULT_ROOT, OUT_DIR, WORLD_ID } from "./paths.mjs";
@@ -16,7 +16,7 @@ import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 import { compileContexto } from "./compile-contexto.mjs";
 import { gmSplit, gmConfigFromBase } from "./gm-split.mjs";
-import { cifrarBytes, cifrarDoc, nomeCifrado, senhaDevDoAmbiente } from "./cifra-doc.mjs";
+import { chaveDeterministica, cifrarBytes, cifrarDoc, nomeCifrado, senhaDevDoAmbiente } from "./cifra-doc.mjs";
 
 // Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
 // são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
@@ -370,7 +370,9 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
   const blobsCifrados = []; // copiedTo dos blobs (nomes opacos) pro roteamento do app
   let arquivosCifrados = 0;
   for (const { relPath, record } of pendentesCifra) {
-    const K = randomBytes(32);
+    // chave DERIVADA da senha + id (estável entre extrações): o aparelho que
+    // destravou continua destravado depois de publicar de novo.
+    const K = chaveDeterministica(String(record.frontmatter.Senha).trim(), record.id);
     const arquivos = [];
     for (const img of record.images) {
       const f = resolverImagem(img.target);
@@ -382,7 +384,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       if (arquivos.some((a) => a.path === f.relPath)) continue;
       const destRel = `assets-cifrados/${nomeCifrado(record.id, f.relPath)}.enc`;
       await mkdir(join(outDir, "assets-cifrados"), { recursive: true });
-      await writeFile(join(outDir, destRel), cifrarBytes(K, await readFile(f.absPath)));
+      await writeFile(join(outDir, destRel), cifrarBytes(K, await readFile(f.absPath), `${record.id}\n${f.relPath}`));
       arquivos.push({ target: img.target, path: f.relPath, copiedTo: destRel });
       imagensCifradas.add(f.relPath);
       blobsCifrados.push(destRel);

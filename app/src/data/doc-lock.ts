@@ -5,7 +5,9 @@
 // decifra em memória); (2) destravar tudo com a CHAVE DO DEV, derivada UMA vez
 // quando a senha do Modo Desenvolvedor é digitada no Config (salt fixo, igual
 // ao extractor) e guardada por aparelho; (3) lembrar K por doc neste aparelho
-// ("lembrar neste aparelho") e trancar de volta. Reativo via useSyncExternalStore
+// ("lembrar neste aparelho") e trancar de volta. K é DERIVADO da senha + id da
+// nota (extractor: chaveDeterministica), então publicar o dataset de novo NÃO
+// desfaz o que já foi destravado — só mudar a senha da aventura desfaz. Reativo via useSyncExternalStore
 // (mesmo store-kit dos outros stores). Parâmetros ESPELHAM o extractor —
 // paridade garantida por teste de ida-e-volta com a saída real do cifrarDoc.
 import { useSyncExternalStore } from 'react'
@@ -217,7 +219,8 @@ export async function unlockedDoc(pub: VaultDoc): Promise<VaultDoc> {
   try {
     return await decryptDoc(pub, k)
   } catch {
-    // K inválido (dataset re-extraído com chave nova) → esquece e fica trancado
+    // K não abre mais (a SENHA da aventura mudou — o extract sozinho não muda
+    // a chave) → esquece e fica trancado, pedindo a senha nova
     lock(pub.id)
     return pub
   }
