@@ -223,7 +223,10 @@ describe('catálogo de posse (veículos e imóveis, com onde comprar)', () => {
     const idx = grupos.map((g) => niveis.indexOf(g))
     expect(idx.every((i) => i >= 0)).toBe(true)
     expect(idx).toEqual([...idx].sort((a, b) => a - b))
-    expect(grupos[0]).toBe(niveis[0]) // Carroça com Cavalo é nível 1
+    // "Sem Plano Mensal" (nível 1) é a AUSÊNCIA de mensalidade, não uma faixa
+    // de produto: o catálogo começa em Classe Baixa (Carroça com Cavalo).
+    expect(grupos[0]).toBe(niveis[1])
+    expect(grupos).not.toContain(niveis[0])
     // cada item fica embaixo do cabeçalho da SUA classe: o Carajás (Nível 5) sob Classe Média Alta
     const carajas = cat.querySelector('[data-catalogo-item="Gurgel Carajás"]') as HTMLElement
     let cab: Element | null = carajas

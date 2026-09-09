@@ -80,3 +80,32 @@ describe('parseRecurso', () => {
     expect(r.onde).toContain("Passo D'Areia")
   })
 })
+
+/* Guarda de DADOS (2026-09-08): o nível 1 dos recursos é o rótulo "Sem Plano
+ * Mensal", que descreve a AUSÊNCIA de mensalidade — não uma faixa de produto.
+ * Não existe veículo, moradia ou comida "de Sem Plano Mensal": item começa em
+ * Classe Baixa. Só os três planos (e o crédito que atende quem não tem plano
+ * nenhum) ficam no nível 1. Varre o dataset real. */
+describe('nível 1 é só dos planos e do crédito de porta aberta', () => {
+  it('nenhum item comprável ou consumível está no nível 1', () => {
+    const raiz = path.join(cyberDir, 'Contexto/Recursos')
+    if (!fs.existsSync(raiz)) return
+    const arquivos: string[] = []
+    const anda = (dir: string) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const p = path.join(dir, e.name)
+        if (e.isDirectory()) anda(p)
+        else if (e.name.endsWith('.json')) arquivos.push(p)
+      }
+    }
+    anda(raiz)
+    expect(arquivos.length).toBeGreaterThan(100)
+    const nivel1: string[] = []
+    for (const f of arquivos) {
+      const doc = JSON.parse(fs.readFileSync(f, 'utf8')) as VaultDoc
+      const r = parseRecurso(doc)
+      if (r?.nivel === 1 && r.tipo !== 'Estilo de Vida' && r.tipo !== 'Empréstimo') nivel1.push(`${r.tipo}: ${r.nome}`)
+    }
+    expect(nivel1).toEqual([])
+  })
+})
