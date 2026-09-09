@@ -21,7 +21,19 @@ import { CHAR_TABS } from '../src/components/layout/design-nav'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
-const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Atlas/Porto Alegre/Malha de Transportes/Malha de Transportes.json'))
+// Guard do dataset: a nota do mapa é achada pelo BASENAME no index.json, não
+// por caminho fixo — a malha já mudou de pasta uma vez (Atlas → Contexto/
+// Recursos/Transporte) e o guard antigo, apontando pro caminho velho, deixou
+// estes 4 testes passando VAZIOS. Pelo basename, mover a pasta não os mata.
+const docPathPorBasename = (basename: string): string | null => {
+  const idx = path.join(cyberDir, 'index.json')
+  if (!fs.existsSync(idx)) return null
+  const m = JSON.parse(fs.readFileSync(idx, 'utf8')) as IndexManifest
+  const achado = m.docs.find((d) => d.basename === basename)
+  return achado ? path.join(cyberDir, `${achado.id}.json`) : null
+}
+const mapaJson = docPathPorBasename('Malha de Transportes')
+const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && !!mapaJson && fs.existsSync(mapaJson)
 
 function makeStorage(): Storage {
   const data = new Map<string, string>()
@@ -86,7 +98,7 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
   it('vistas = só os TRI que alguma linha pede (sem A Pé, sem motorista); padrão = a menor sem plano; trocar de vista muda o mapa', async () => {
     if (!temDataset) return
     montar()
-    await screen.findByText('// VISTA', {}, { timeout: 20000 })
+    await screen.findByText('// FILTRO', {}, { timeout: 20000 })
     const vistas = screen.getAllByRole('radio')
     expect(vistas.map((v) => v.textContent)).toEqual(['TRI Bronze', 'TRI Prata', 'TRI Ouro', 'TRI Platina'])
     expect(vistas[0]!.getAttribute('aria-checked')).toBe('true')
@@ -134,7 +146,7 @@ describe('aba TRANSPORTE (dataset real da POA)', () => {
   it('legenda seleciona a linha → parada a parada na ordem, com as baldeações como botões', async () => {
     if (!temDataset) return
     montar()
-    await screen.findByText('// VISTA', {}, { timeout: 20000 })
+    await screen.findByText('// FILTRO', {}, { timeout: 20000 })
     fireEvent.click(screen.getByRole('radio', { name: 'TRI Prata' }))
     const legenda = document.querySelector('[data-legenda]') as HTMLElement
     // agrupada por modo, na ordem do contexto (Aeromóvel antes de Ônibus…)

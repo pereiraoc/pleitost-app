@@ -22,8 +22,16 @@ import '../src/components/compendium/register-doc-views'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
-const docFile = path.join(cyberDir, 'Atlas/Porto Alegre/Malha de Transportes/Ônibus/343 BEIRA-RIO.json')
-const tem = fs.existsSync(docFile)
+// Acha a nota da linha pelo BASENAME (index.json) — a pasta da malha já mudou
+// de lugar uma vez e um caminho fixo aqui deixa o describe passando VAZIO.
+const idxFile = path.join(cyberDir, 'index.json')
+const docFile = (() => {
+  if (!fs.existsSync(idxFile)) return null
+  const m = JSON.parse(fs.readFileSync(idxFile, 'utf8')) as IndexManifest
+  const achado = m.docs.find((d) => d.basename === '343 BEIRA-RIO')
+  return achado ? path.join(cyberDir, `${achado.id}.json`) : null
+})()
+const tem = !!docFile && fs.existsSync(docFile)
 
 beforeAll(() => {
   globalThis.fetch = (async (input: unknown) => {
