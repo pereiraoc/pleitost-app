@@ -61,6 +61,11 @@ const ESTRUTURA_FM: { key: string; label: string }[] = [
   { key: 'Jogadores', label: 'Jogadores' },
   { key: 'rank', label: 'Rank' },
   { key: 'Formato', label: 'Formato' },
+  // 2026-09-08: `Prazo` é quanto o serviço leva NO MUNDO (dias no rank C,
+  // semanas no B, meses no A) e `Sinal`, quanto a caixinha adianta — quem
+  // passa meses em serviço fecha meses antes de receber (Custo de Vida).
+  { key: 'Prazo', label: 'Prazo' },
+  { key: 'Sinal', label: 'Sinal' },
   { key: 'Tom', label: 'Tom' },
 ]
 

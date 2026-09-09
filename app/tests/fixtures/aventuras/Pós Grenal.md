@@ -8,6 +8,8 @@ disponivel:
 - "[[Porto Alegre]]"
 Formato: One-Shot
 Duração: "3h a 4h30"
+Prazo: "uma noite (1 a 5 dias é a janela do rank C)"
+Sinal: "nenhum — rank C paga na entrega"
 Jogadores: {min: 4, max: 4}
 Tom:
   - thriller urbano
@@ -44,6 +46,7 @@ Financiador: "[[Consórcio das Bandeiras]]"
 > **Duração:** `= this.Duração`
 > **Jogadores:** `= this.Jogadores`
 > **Rank:** `= this.rank` (nível 1–3)
+> **Prazo:** `= this.Prazo` · **Sinal:** `= this.Sinal` (o que a caixinha adianta — [[Mercado de Trabalho#O Trabalho de Caixinha]])
 > **CDs desta aventura:** nível 1 — Fácil **12** · Base **14** · Difícil **16** (nível 0: 11 · 13 · 15 — tabela de [[CD]]). Sucesso decisivo = CD+10, falha decisiva = CD−10 ([[Regra Básica]]). Os testes das cenas citam a classe e o número do nível 1.
 > **Formato:** `= this.Formato`
 > **Tom:** `= this.Tom`
