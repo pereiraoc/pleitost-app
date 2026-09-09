@@ -16,7 +16,12 @@ import { DetailProvider } from '../src/data/detail-context'
 import { FolderView } from '../src/components/compendium/FolderView'
 import { compendiumFolderPath } from '../src/paths'
 import type { IndexManifest } from '../src/data/types'
+import type { ContextoDef } from '../src/data/context-def'
+import { setActiveContexto } from '../src/data/reskin'
+import { setSelectedCreature, __resetSelectedCreatureForTests } from '../src/data/selected-creature-store'
 import '../src/components/compendium/register-doc-views'
+
+const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
@@ -30,7 +35,11 @@ beforeAll(() => {
     return { ok, status: ok ? 200 : 404, json: async () => JSON.parse(fs.readFileSync(file, 'utf8')) }
   }) as typeof fetch
 })
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  setActiveContexto(null)
+  __resetSelectedCreatureForTests()
+})
 
 function renderFolder(folderPath: string) {
   const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
@@ -67,5 +76,28 @@ describe('Malha de Transportes dentro de Porto Alegre', () => {
     const cards = Array.from(container.querySelectorAll('.type-card-name')).map((el) => el.textContent)
     expect(cards).toContain('Aeromóvel')
     expect(cards).toContain('Ônibus')
+  }, 30000)
+})
+
+describe('a pasta da malha manda pra aba TRANSPORTE', () => {
+  it('abrir Malha de Transportes no Atlas leva à aba do herói selecionado, não à lista de linhas', async () => {
+    if (!temDataset) return
+    const def = JSON.parse(fs.readFileSync(path.join(cyberDir, 'contexto.json'), 'utf8')) as ContextoDef
+    setActiveContexto(def)
+    setSelectedCreature(CARLOS_ID)
+    const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
+    const { container } = render(
+      <CatalogProvider catalog={buildCatalog(manifest)}>
+        <DetailProvider>
+          <MemoryRouter initialEntries={[compendiumFolderPath('Atlas/Porto Alegre/Malha de Transportes')]}>
+            <Routes>
+              <Route path="/compendio/*" element={<FolderView />} />
+              <Route path="/heroi/*" element={<div data-rota-heroi>{window.location.search}</div>} />
+            </Routes>
+          </MemoryRouter>
+        </DetailProvider>
+      </CatalogProvider>,
+    )
+    await waitFor(() => expect(container.querySelector('[data-rota-heroi]')).not.toBeNull(), { timeout: 15000 })
   }, 30000)
 })

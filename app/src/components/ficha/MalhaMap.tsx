@@ -14,7 +14,18 @@ import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
 
 const DASH: Record<Traco, string | undefined> = { cheio: undefined, tracejado: '12 7', pontilhado: '1 8' }
-export const PAPEL = { fundo: '#f4f0e6', parada: '#ffffff', tinta: '#161616', halo: '#f4f0e6', grade: '#e7e1d3', bairro: '#6b6157' } as const
+/** Paleta do mapa. Os valores vêm do TEMA (styles/theme.css): no claro é o
+ *  papel de sempre; no escuro vira tinta clara sobre o fundo do tema. Manter
+ *  como var() e não como hex — o SVG aceita, e assim o mapa acompanha os dois
+ *  modos sem ramo em JS. */
+export const PAPEL = {
+  fundo: 'var(--malha-fundo)',
+  parada: 'var(--malha-parada)',
+  tinta: 'var(--malha-tinta)',
+  halo: 'var(--malha-halo)',
+  grade: 'var(--malha-grade)',
+  bairro: 'var(--malha-bairro)',
+} as const
 
 /** Amostra do traço de uma linha — o MESMO traço do mapa (cor, largura,
  *  tracejado), sobre o papel; usada na legenda. */

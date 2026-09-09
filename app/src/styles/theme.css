@@ -268,3 +268,25 @@
   --text-muted: var(--muted);
   --text-faint: color-mix(in srgb, var(--muted) 65%, transparent);
 }
+
+/* MALHA DE TRANSPORTES (2026-09-09) — a aba TRANSPORTE desenha um mapa de
+   metrô. No claro ele é PAPEL (paleta fixa, escolhida pelo mestre); no escuro
+   o mesmo desenho passa a ser tinta clara sobre o fundo do tema, senão a
+   folha branca cega e as cores das linhas somem. Deriva das vars do tema, e
+   por isso vale pra todos eles de uma vez. */
+:root {
+  --malha-fundo: #f4f0e6;
+  --malha-parada: #ffffff;
+  --malha-tinta: #161616;
+  --malha-halo: #f4f0e6;
+  --malha-grade: #e7e1d3;
+  --malha-bairro: #6b6157;
+}
+:root[data-mode='dark'] {
+  --malha-fundo: var(--bg);
+  --malha-parada: var(--panel2);
+  --malha-tinta: var(--text);
+  --malha-halo: var(--bg);
+  --malha-grade: var(--line);
+  --malha-bairro: var(--muted);
+}

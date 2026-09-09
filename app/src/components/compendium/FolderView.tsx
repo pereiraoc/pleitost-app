@@ -7,7 +7,9 @@ import { DocView } from './DocPage'
 import { resolveDocView } from './doc-view-registry'
 import { isLocation, LOCATION_CATEGORY } from './LocationSheet'
 import type { FolderNode } from '../../data/catalog'
-import { compendiumFolderPath, docPath } from '../../paths'
+import { compendiumFolderPath, heroPath, docPath } from '../../paths'
+import { activeContextoDef } from '../../data/reskin'
+import { useSelectedCreature } from '../../data/selected-creature-store'
 import { useSettings } from '../../settings'
 import { COMPENDIO_KICKER, compendioKicker, TITLES } from '../layout/design-nav'
 import { DocTable } from './DocTable'
@@ -187,6 +189,17 @@ export function FolderView() {
     () => (node ? node.docs.filter((d) => d.basename !== node.name) : []),
     [node],
   )
+
+  // MALHA DE TRANSPORTES (2026-09-09): a pasta das linhas não é uma lista pra
+  // ler — quem a abre quer o MAPA. Manda pra aba TRANSPORTE do herói
+  // selecionado. Reconhecida pela config (a folder-note é a nota do mapa,
+  // `transporte.mapa`), nunca por caminho fixo; sem herói escolhido, cai na
+  // listagem normal.
+  const notaDoMapa = activeContextoDef()?.transporte?.mapa
+  const heroiAtual = useSelectedCreature()
+  if (notaDoMapa && heroiAtual && node?.docs.some((d) => d.basename === notaDoMapa)) {
+    return <Navigate to={heroPath(heroiAtual, 'transporte')} replace />
+  }
 
   // #519: no CYBERPUNK, o Atlas abre DIRETO em Porto Alegre (a raiz prática
   // do mundo — pedido 2026-08-29); "Fora de Porto Alegre" fica no botão do
