@@ -834,6 +834,13 @@ s = s.replace(m.group(0), "```leaflet\n" + bloco + "```", 1)
 open(POA, "w", encoding="utf-8").write(s)
 print("marcadores novos:", len(novos), "; reposicionados:", atualizados)
 
+# COORDS são as coordenadas REAIS de POA, e as regiões que o mestre pintou no
+# mapa não seguem o desenho real dos bairros — quem cai fora do bairro da
+# própria nota é puxado pra dentro (scripts/poa_mapa_bairros.py). Sem isto,
+# rodar este gerador desfaz a correção.
+import poa_mapa_bairros
+poa_mapa_bairros.rodar(escrever=True)
+
 # ícone "Estação" no plugin leaflet (o app tem o registro próprio em leaflet-local.ts)
 LEAF = os.path.join(ROOT, ".obsidian", "plugins", "obsidian-leaflet-plugin", "data.json")
 d = json.load(open(LEAF, encoding="utf-8"))
