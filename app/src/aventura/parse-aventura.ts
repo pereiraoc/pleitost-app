@@ -21,6 +21,7 @@ import {
   type CalloutBlock,
 } from './callouts'
 import { childHeadings, findHeading, scanHeadings, sectionBody, type HeadingLine } from './markdown-sections'
+import { LOCAL_MAPAS } from './registros'
 import { slugify } from './slug'
 import type { AventuraModel, Cena, Combate, Figura, Ref, Registro, Segmento } from './types'
 
@@ -66,6 +67,16 @@ function ehFigura(l: string): boolean {
   return FIGURA_RE.test(l.trim())
 }
 
+/** Figuras declaradas num CAMPO do callout (um embed por bullet). */
+export function figurasDoCampo(valor: string | null): Figura[] {
+  const out: Figura[] = []
+  for (const item of itensDe(valor)) {
+    const m = FIGURA_RE.exec(item.trim())
+    if (m) out.push({ target: m[1]!.trim(), legenda: m[2]?.trim() || null })
+  }
+  return out
+}
+
 /** Itens de um campo-lista (`**Frases:**` com bullets): uma entrada por bullet;
  *  sem bullets, o valor inteiro é o único item. */
 export function itensDe(valor: string | null): string[] {
@@ -98,6 +109,7 @@ function registroDe(nome: string, lines: readonly string[]): Registro {
     nome,
     campos,
     figuras: figurasDe(lines),
+    mapas: figurasDoCampo(campo(campos, LOCAL_MAPAS)),
     leituras,
     segredos,
     // as figuras saem do corpo (a UI mostra a tira, não o embed solto)
@@ -126,6 +138,7 @@ function combateDe(nome: string, lines: readonly string[], docId: string): Comba
     nome,
     campos: reg.campos,
     figuras: reg.figuras,
+    mapas: reg.mapas,
     leituras: reg.leituras,
     segredos: reg.segredos,
     corpo: corpoSemCallouts,

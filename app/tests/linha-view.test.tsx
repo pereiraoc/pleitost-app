@@ -88,8 +88,16 @@ describe('registros centrais tocados pela malha', () => {
   it('marker "Estação" tem glifo próprio (não cai no pin genérico)', () => {
     expect(markerGlyph('Estação')).not.toEqual(markerGlyph('tipo-que-não-existe'))
   })
-  it('retrato de capa da Pessoa ancora no terço superior (rosto visível na visão reduzida)', () => {
+  it('retrato ancora no terço superior por UM token (Pessoa, hero e figura de aventura)', () => {
+    // report 2026-09-08: a miniatura da figura de campanha cortava a cara no
+    // meio. O enquadramento é um token só — quem recorta gente usa ele.
+    const css = fs.readFileSync(path.join(appDir, 'src', 'styles', 'app.css'), 'utf8')
+    expect(/--enquadramento-retrato:\s*center 18%/.test(css)).toBe(true)
     expect(PESSOA_HERO_STYLE.objectFit).toBe('cover')
-    expect(PESSOA_HERO_STYLE.objectPosition).toBe('center 18%')
+    expect(PESSOA_HERO_STYLE.objectPosition).toBe('var(--enquadramento-retrato)')
+    for (const regra of ['.hero-portrait', '.av-figura-img']) {
+      const bloco = css.slice(css.indexOf(regra + ' {'))
+      expect(bloco.slice(0, bloco.indexOf('}'))).toContain('var(--enquadramento-retrato)')
+    }
   })
 })

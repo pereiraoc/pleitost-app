@@ -475,10 +475,10 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** Juninho, Brum e a linha de choque, Nico, Dona Zilá, os guris da Camisa 12, um blazer da Geral, Pacheco no quiosque.
 > **Pontos úteis:** as barracas (a de Dona Zilá), o quiosque da Panvel, o portão de serviço da rampa sul (grade emperrada → galeria), o estacionamento (vans, Gurgel, caravanas), o posto da Brigada na Estação Férrea.
 > **Cenas:** [[#Cena 1 — Saída do Gre-Nal]] · [[#Cena 4 — Investigação]] (Pista 2)
-
-![[01 — Beira-Rio — orientação sem spoilers.png|Beira-Rio — orientação sem spoilers]]
-![[02 — Rampa sul — barracas e estacionamento.png|Rampa sul — barracas e estacionamento]]
-![[06 — Quiosque de primeiros socorros — interior.png|Quiosque de primeiros socorros — interior]]
+> **Mapas de mesa:**
+> - ![[01 — Beira-Rio — orientação sem spoilers.png|Beira-Rio — orientação sem spoilers]]
+> - ![[02 — Rampa sul — barracas e estacionamento.png|Rampa sul — barracas e estacionamento]]
+> - ![[06 — Quiosque de primeiros socorros — interior.png|Quiosque de primeiros socorros — interior]]
 
 > [!quote] 🔊 Como descrever (a saída do Beira-Rio)
 > O apito final ainda está no ar quando a rampa sul vira um rio de gente. Vocês descem apertados, ombro com ombro, o concreto grudento de cerveja embaixo do tênis e um frio úmido que vem do Guaíba e entra pela gola. Cheira a churrasquinho, pólvora de rojão e cigarro barato. Um tambor de caravana bate em algum lugar atrás; um canto começa forte e morre numa vaia. Os holofotes do estádio ainda estão acesos — e lá embaixo, na boca da rampa, tem uma fileira de capacetes da Brigada que não estava ali na hora do jogo.
@@ -490,8 +490,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** brigadianos de Brum; técnicos da [[Gradiente]] nas antenas; enfermeiros da [[Panvel]] — gente que **não** é da Brigada e pode ser usada.
 > **Como usar:** é pra cá que Brum levaria os PCs. Se alguém for pego, é aqui que o grupo tem que buscar. Uma fuga do Gasômetro é uma cena inteira; se acontecer, use os obstáculos da Cena 2 ao contrário.
 > **Cenas:** [[#Cena 2 — Fuga subterrânea]] (se alguém ficar pra trás)
-
-![[09 — Gasômetro — sala de caldeiras.png|Gasômetro — sala de caldeiras]]
+> **Mapas de mesa:**
+> - ![[09 — Gasômetro — sala de caldeiras.png|Gasômetro — sala de caldeiras]]
 
 > [!quote] 🔊 Como descrever (acordar no Gasômetro)
 > Escuro, ferro e um cheiro de fuligem velha que faz tossir. Tu estás sentado no chão de uma caldeira aberta, as costas contra chapa gelada, os pulsos presos com fita de embalagem. Em algum lugar acima, o zumbido de uma antena e passos em grade de metal. Uma lanterna acende na tua cara e, atrás dela, o bigode.
@@ -504,9 +504,9 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** refugiados; um posto da Brigada em cima; a van do Cartel esperava aqui.
 > **Como usar:** é o caminho da Cena 2 e é onde a van do Cartel esperava. Quem sobe pra superfície na estação cai no posto de controle.
 > **Cenas:** [[#Cena 2 — Fuga subterrânea]]
-
-![[03 — Galerias dos diques — trecho de exploração.png|Galerias dos diques — trecho de exploração]]
-![[04 — Estação Férrea de Belas — plataforma.png|Estação Férrea de Belas — plataforma]]
+> **Mapas de mesa:**
+> - ![[03 — Galerias dos diques — trecho de exploração.png|Galerias dos diques — trecho de exploração]]
+> - ![[04 — Estação Férrea de Belas — plataforma.png|Estação Férrea de Belas — plataforma]]
 
 > [!quote] 🔊 Como descrever (a galeria dos diques)
 > A grade range e cede. Do outro lado é escuro, e um cheiro de mofo, esgoto velho e ferrugem gruda no fundo da garganta. Os primeiros passos são em concreto; depois a água entra pelo tênis, gelada, na altura da canela, e cada passo faz um barulho que o túnel devolve dobrado. Lá em cima, abafada pela terra, a sirene ainda toca. Um pingo cai da laje na nuca de alguém. O isqueiro do Nico mostra a parede: uma marca de água na altura do peito, de 86.
@@ -523,8 +523,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - **[[Embratel]]:** uma escuta instalada que Arlindo sabe que existe e usa pra passar informação falsa.
 > **Quem está lá:** Arlindo, dois estivadores do Consórcio (use a ficha de [[Arruaceiro]] se precisar), um rádio, um telefone que **não** funciona.
 > **Cenas:** [[#Cena 3 — Casa da Drenagem]]
-
-![[05 — Casa da Drenagem — interior.png|Casa da Drenagem — interior]]
+> **Mapas de mesa:**
+> - ![[05 — Casa da Drenagem — interior.png|Casa da Drenagem — interior]]
 
 > [!quote] 🔊 Como descrever (chegando)
 > O túnel termina numa escada de ferro molhada e num alçapão. Em cima, uma casa de máquinas de concreto: duas bombas enormes e mortas, lâmpadas nuas em fio esticado, um rádio de pilha tocando o pós-jogo baixinho. Bandeiras do Inter e do Grêmio penduradas lado a lado, desbotadas. Cheira a cigarro, óleo e roupa molhada. O chão vibra de leve — não é bomba, é caminhão passando na estação lá em cima. Um homem de flanela aberta, ombros largos, está sentado numa caixa térmica igual à de vocês. Ele não levanta.
@@ -572,9 +572,10 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Elementos de cena:** empilhar/derrubar caixas, apagar a luz de mercúrio (chave no escritório), freezer como cobertura, solvente no chão, ferramentas como arma improvisada, o Gurgel no elevador (soltar a trava), e o vagão lá em cima como rota de fuga ou de chegada do Brum.
 > **Quem está lá:** Cardã, os capangas, o brigadiano de bico, o que sobrou da carga (ver relógio), e Juninho (se a opção A ou B).
 > **Cenas:** [[#Cena 6 — Retífica Sertório]]
+> **Mapas de mesa:**
+> - ![[07 — Retífica Sertório — térreo.png|Retífica Sertório — térreo]]
+> - ![[08 — Retífica Sertório — vagão e passarela.png|Retífica Sertório — vagão e passarela]]
 
-![[07 — Retífica Sertório — térreo.png|Retífica Sertório — térreo]]
-![[08 — Retífica Sertório — vagão e passarela.png|Retífica Sertório — vagão e passarela]]
 ![[15 — Trabalhador da oficina.png|Trabalhador da oficina]]
 
 > [!quote] 🔊 Como descrever (a frente)
@@ -589,8 +590,9 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Descrição:** botequinho de trabalhador embaixo da via do Aeromóvel. Balcão de fórmica, TV de tubo com o resumo do jogo, latas de Mate Touro — uma delas com a tampa preta (o **Touro Preto** que o boteco vende por baixo) —, um cambista que reconhece o rosto de alguém.
 > **Quem está lá:** o dono, apostadores, um cambista das rampas, e — se você quiser — três jaquetas vermelhas ou um blazer com lenço branco.
 > **Cenas:** [[#Cena 5 — Interlúdio]]
+> **Mapas de mesa:**
+> - ![[10 — Boteco da Rua Sertório — interior.png|Boteco da Rua Sertório — interior]]
 
-![[10 — Boteco da Rua Sertório — interior.png|Boteco da Rua Sertório — interior]]
 ![[16 — Dono do boteco.png|Dono do boteco]]
 
 > [!quote] 🔊 Como descrever

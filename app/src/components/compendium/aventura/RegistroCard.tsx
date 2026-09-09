@@ -10,7 +10,7 @@ import { InlineFieldValue } from '../InlineFieldValue'
 import { FieldBlock } from '../FieldBlock'
 import type { AventuraModel, Registro } from '../../../aventura/types'
 import { campo, itensDe, refsDe } from '../../../aventura/parse-aventura'
-import { CAMPOS_REF, LOCAL_NUCLEO, PERSONAGEM_FRASES, PERSONAGEM_NUCLEO, ordenarCampos } from '../../../aventura/registros'
+import { CAMPOS_REF, LOCAL_MAPAS, LOCAL_NUCLEO, PERSONAGEM_FRASES, PERSONAGEM_NUCLEO, ordenarCampos } from '../../../aventura/registros'
 import { FiguraStrip } from './FiguraStrip'
 import { LeituraBlock, SegredoBlock } from './LeituraBlock'
 import { RefRow } from './RefChip'
@@ -42,13 +42,13 @@ export function RegistroCard({
     if (aberto) setOpen(true)
   }, [aberto])
   const nucleo = tipo === 'personagem' ? PERSONAGEM_NUCLEO : LOCAL_NUCLEO
-  const omitir = new Set<string>([...CAMPOS_REF, PERSONAGEM_FRASES.toLowerCase()])
+  const omitir = new Set<string>([...CAMPOS_REF, PERSONAGEM_FRASES.toLowerCase(), LOCAL_MAPAS.toLowerCase()])
   const campos = ordenarCampos(reg.campos, nucleo, omitir)
   const frases = tipo === 'personagem' ? itensDe(campo(reg.campos, PERSONAGEM_FRASES)) : []
   const hint = tipo === 'personagem' ? campo(reg.campos, 'Papel') : campo(reg.campos, 'Atlas')
   const conteudo = (
     <>
-      <FiguraStrip figuras={reg.figuras} />
+      <FiguraStrip figuras={[...reg.mapas, ...reg.figuras]} />
       {REF_LABELS[tipo].map((label) => (
         <RefRow key={label} label={label} refs={refsDe(campo(reg.campos, label))} model={model} doc={doc} />
       ))}

@@ -40,6 +40,8 @@ export interface Registro {
   campos: CalloutField[]
   /** Embeds de imagem do registro, na ordem da nota. */
   figuras: Figura[]
+  /** Mapas de mesa declarados no campo do callout (imprimíveis). */
+  mapas: Figura[]
   leituras: Leitura[]
   /** Blocos `[!gm]` (título + corpo, markdown). */
   segredos: string[]
@@ -55,6 +57,7 @@ export interface Combate {
   nome: string
   campos: CalloutField[]
   figuras: Figura[]
+  mapas: Figura[]
   leituras: Leitura[]
   segredos: string[]
   /** Markdown fora dos callouts e do fence. */

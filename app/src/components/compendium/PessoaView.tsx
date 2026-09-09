@@ -54,7 +54,7 @@ export const PESSOA_HERO_STYLE: CSSProperties = {
   width: '100%',
   maxHeight: 320,
   objectFit: 'cover',
-  objectPosition: 'center 18%',
+  objectPosition: 'var(--enquadramento-retrato)',
   display: 'block',
   border: '1px solid var(--line2)',
   clipPath: clip(14),

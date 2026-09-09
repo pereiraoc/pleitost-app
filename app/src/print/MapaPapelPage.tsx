@@ -1,14 +1,20 @@
-// MAPA DA AVENTURA EM PAPEL (formato de aventura, 2026-09-05) — mesmo padrão
+// MAPAS DA AVENTURA EM PAPEL (formato de aventura, 2026-09-05) — mesmo padrão
 // da ficha de papel (#452): rota irmã do AppShell, pré-visualização A4
-// paisagem em tela, `window.print` pra PDF. Página 1 = o mapa com os markers
-// da aventura NUMERADOS; páginas seguintes = legenda (nº · Local · 🔊 · campos)
-// — SEMPRE com os segredos `[!gm]` (decisão do user: é documento do mestre).
-// Aventura trancada → pede pra destravar na página dela.
+// paisagem em tela, `window.print` pra PDF. O que vai pro papel são os MAPAS
+// DE MESA declarados nos Locais (`**Mapas de mesa:**`), um por página — é o
+// que se usa na mesa (report 2026-09-08: saía o mapa da cidade inteira, que
+// serve pra achar o bairro, não pra jogar o combate). Sem mapa de mesa
+// declarado, cai no mapa da cidade com os markers NUMERADOS (aventura da
+// fantasia). A última página é a legenda (Local · 🔊 · campos) — SEMPRE com os
+// segredos `[!gm]` (decisão do user: é documento do mestre). Aventura trancada
+// → pede pra destravar na página dela (as figuras são cifradas com ela).
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCatalog } from '../data/CatalogContext'
 import { useDoc } from '../data/useDoc'
 import { resolveAsset, assetUrl, useAssetIndex } from '../data/assets'
+import { ArquivosCifradosProvider } from '../data/arquivos-cifrados'
+import { VaultImage } from '../components/compendium/VaultImage'
 import { reskinName } from '../data/reskin'
 import { parseAventura, campo } from '../aventura/parse-aventura'
 import { aventuraConfig } from '../aventura/config'
@@ -28,6 +34,8 @@ const MAPA_CSS = `
 .mp-pin-n { width: 5.5mm; height: 5.5mm; border-radius: 50%; background: #111; color: #fff; font: 700 8pt 'Courier New', monospace; display: flex; align-items: center; justify-content: center; border: 1.5pt solid #fff; box-shadow: 0 0 0 1pt #111; }
 .mp-pin-l { font: 700 6.5pt 'Courier New', monospace; color: #111; background: rgba(255,255,255,.85); padding: 0 1mm; white-space: nowrap; }
 .mp-pin.is-bairro .mp-pin-l { font-weight: 400; color: #444; background: transparent; }
+.mp-mesa { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.mp-mesa img, .mp-mesa .vault-image { max-height: 100%; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block; }
 .mp-legenda { columns: 2; column-gap: 8mm; font-size: 9pt; line-height: 1.35; }
 .mp-item { break-inside: avoid; margin-bottom: 3mm; }
 .mp-item-t { font-weight: 700; font-size: 10.5pt; margin-bottom: 1mm; }
@@ -92,6 +100,8 @@ export function MapaPapelPage() {
   if (error) return <p role="alert">Aventura não encontrada: {id}</p>
   if (!doc) return <p className="loading">Preparando o mapa…</p>
   if (doc.protegido) return <p role="alert">Aventura trancada — destrave na página dela antes de imprimir o mapa.</p>
+  // MAPAS DE MESA: declarados por Local (campo do callout), na ordem da nota.
+  const mesa = (model?.locais ?? []).flatMap((l) => l.mapas.map((figura) => ({ local: l, figura })))
   const mapa = model?.mapa ?? null
   const entry = mapa && assets ? resolveAsset(assets, mapa.image) : null
   const latMax = mapa?.bounds ? mapa.bounds[1][0] - mapa.bounds[0][0] : null
@@ -102,6 +112,7 @@ export function MapaPapelPage() {
   const nome = reskinName(doc.basename)
 
   return (
+    <ArquivosCifradosProvider doc={doc}>
     <div className="pp-root">
       <style>{PAPEL_CSS + MAPA_CSS}</style>
       <div className="pp-bar">
@@ -110,6 +121,20 @@ export function MapaPapelPage() {
           🖨 IMPRIMIR / SALVAR PDF
         </button>
       </div>
+      {mesa.map(({ local, figura }, i) => (
+        <div className="mp-page" data-mapa-papel="mesa" data-mapa-mesa={figura.target} key={`${figura.target}-${i}`}>
+          <div className="mp-hdr">
+            <span className="mp-nome">{figura.legenda ?? reskinName(local.nome)}</span>
+            <span className="mp-sub">
+              {nome} · {reskinName(local.nome)}
+            </span>
+          </div>
+          <div className="mp-mesa">
+            <VaultImage target={figura.target} eager />
+          </div>
+        </div>
+      ))}
+      {mesa.length ? null : (
       <div className="mp-page" data-mapa-papel="mapa">
         <div className="mp-hdr">
           <span className="mp-nome">{nome}</span>
@@ -138,6 +163,7 @@ export function MapaPapelPage() {
           )}
         </div>
       </div>
+      )}
       <div className="mp-page" data-mapa-papel="legenda">
         <div className="mp-hdr">
           <span className="mp-nome">{nome}</span>
@@ -145,10 +171,11 @@ export function MapaPapelPage() {
         </div>
         <div className="mp-legenda">
           {(model?.locais ?? []).map((l, i) => (
-            <ItemLegenda key={l.slug} n={i + 1} reg={l} />
+            <ItemLegenda key={l.slug} n={mesa.length ? null : i + 1} reg={l} />
           ))}
         </div>
       </div>
     </div>
+    </ArquivosCifradosProvider>
   )
 }

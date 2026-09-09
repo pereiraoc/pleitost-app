@@ -18,9 +18,12 @@ interface Props {
    * zoom seguem sempre no cheio/nítido.
    */
   thumb?: boolean
+  /** Carrega já, sem esperar entrar em tela (impressão: a página inteira vai
+   *  pro papel mesmo sem rolar até ela). Só afeta figura cifrada. */
+  eager?: boolean
 }
 
-export function VaultImage({ target, width, className, style, zoom, thumb }: Props) {
+export function VaultImage({ target, width, className, style, zoom, thumb, eager }: Props) {
   const index = useAssetIndex()
   // FIGURA DA CAMPANHA: alvo que só um doc TRANCADO embute não está no
   // manifesto público — vem cifrado e só existe depois de destravar.
@@ -32,7 +35,7 @@ export function VaultImage({ target, width, className, style, zoom, thumb }: Pro
     if (cifrado.url) return <Figura src={cifrado.url} full={cifrado.url} alt={target} width={width} className={className} style={style} zoom={zoom} open={open} setOpen={setOpen} />
     // alvo cifrado ainda sem bytes: reserva o espaço e só baixa quando entra em
     // tela (as figuras de aventura são PNGs de mesa, pesados).
-    if (cifrado.conhecido) return <EsperaFigura pedir={cifrado.pedir} className={className} style={style} />
+    if (cifrado.conhecido) return <EsperaFigura pedir={cifrado.pedir} imediato={eager} className={className} style={style} />
     if (!index) return null
     console.warn(`[assets] alvo não resolvido (ambíguo ou inexistente): ${target}`)
     return null
@@ -66,10 +69,10 @@ export function VaultImage({ target, width, className, style, zoom, thumb }: Pro
 
 /** Espaço reservado da figura cifrada: pede os bytes quando entra em tela
  *  (sem IntersectionObserver — jsdom dos testes — pede na hora). */
-function EsperaFigura({ pedir, className, style }: { pedir: () => void; className?: string; style?: CSSProperties }) {
+function EsperaFigura({ pedir, imediato, className, style }: { pedir: () => void; imediato?: boolean; className?: string; style?: CSSProperties }) {
   const ref = useRef<HTMLSpanElement>(null)
   useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') {
+    if (imediato || typeof IntersectionObserver === 'undefined') {
       pedir()
       return
     }
@@ -83,7 +86,7 @@ function EsperaFigura({ pedir, className, style }: { pedir: () => void; classNam
     })
     io.observe(el)
     return () => io.disconnect()
-  }, [pedir])
+  }, [pedir, imediato])
   return <span ref={ref} className={className ?? 'vault-image'} style={{ display: 'block', ...style }} data-figura-cifrada="" aria-hidden />
 }
 

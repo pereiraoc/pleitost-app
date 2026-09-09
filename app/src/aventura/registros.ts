@@ -21,6 +21,10 @@ export const PERSONAGEM_NUCLEO = [
 /** Campo de LISTA renderizado em destaque (balões), fora da pilha de campos. */
 export const PERSONAGEM_FRASES = 'Frases'
 
+/** Campo de LISTA com os MAPAS DE MESA do local (embeds de imagem): rende como
+ *  figura, não como texto, e é o que a página de impressão leva pro papel. */
+export const LOCAL_MAPAS = 'Mapas de mesa'
+
 export const LOCAL_NUCLEO = [
   'Atlas',
   'Contexto',

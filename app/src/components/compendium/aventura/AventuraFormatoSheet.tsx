@@ -298,9 +298,11 @@ export function AventuraFormatoSheet({
         onToggle={(o) => setSec('av-locais', o)}
         titulo={cfg.secoes.locais}
         extra={
-          model.mapa ? (
+          // o papel leva os MAPAS DE MESA dos locais; sem eles, o mapa da
+          // cidade com os markers (aventura sem mapa de mesa declarado)
+          model.mapa || model.locais.some((l) => l.mapas.length) ? (
             <Link className="av-btn-mini" to={`/papel/mapa/${doc.id.split('/').map(encodeURIComponent).join('/')}`} data-av-imprimir-mapa="">
-              🖨 imprimir mapa
+              🖨 imprimir mapas
             </Link>
           ) : null
         }

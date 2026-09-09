@@ -101,12 +101,24 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
       { target: '01 — Nico “Faixa Preta” Ferraz.png', legenda: 'Nico “Faixa Preta” Ferraz' },
     ])
     expect(nico.corpo).not.toContain('![[')
-    // o estádio abre com o mapa de orientação, a rampa e o quiosque
-    expect(m.locais[0]!.figuras.map((f) => f.target)).toEqual([
+    // MAPAS DE MESA são campo declarado do Local (é o que vai pro papel)
+    expect(m.locais[0]!.mapas.map((f) => f.target)).toEqual([
       '01 — Beira-Rio — orientação sem spoilers.png',
       '02 — Rampa sul — barracas e estacionamento.png',
       '06 — Quiosque de primeiros socorros — interior.png',
     ])
+    expect(m.locais[0]!.figuras).toEqual([]) // o estádio só tem mapas
+    // o registro guarda os dois: mapa declarado no campo, arte solta no corpo
+    const retifica = m.locais[6]!
+    expect(retifica.mapas.map((f) => f.legenda)).toEqual([
+      'Retífica Sertório — térreo',
+      'Retífica Sertório — vagão e passarela',
+    ])
+    expect(retifica.figuras.map((f) => f.legenda)).toEqual(['Trabalhador da oficina'])
+    // 10 mapas de mesa no total, todos com legenda
+    const mesa = m.locais.flatMap((l) => l.mapas)
+    expect(mesa).toHaveLength(10)
+    expect(mesa.every((f) => f.legenda)).toBe(true)
     // figurantes da saída do Gre-Nal ficam na cena, não no meio do texto
     const c1 = m.cenas[0]!
     expect(c1.figuras.map((f) => f.legenda)).toEqual([
