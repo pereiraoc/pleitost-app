@@ -205,4 +205,32 @@ describe('catálogo de posse (veículos e imóveis, com onde comprar)', () => {
     expect(within(kitnet).getByText(/compra Cz\$ 600\.000/)).toBeTruthy()
     expect(within(kitnet).getByText(/Cz\$ 1\.500 \/ mês/)).toBeTruthy()
   }, 30000)
+
+  it('catálogo agrupado por classe social, de baixo pra cima (ordem dos níveis do contexto), preço crescente dentro do grupo', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const transporte = eixo('transporte')
+    fireEvent.click(within(transporte).getByText('ver catálogo'))
+    const cat = transporte.querySelector('[data-catalogo="transporte"]') as HTMLElement
+    const niveis = def.recursos!.niveis
+    // cabeçalhos = classes do contexto, em ordem crescente, só as que têm item
+    const grupos = Array.from(cat.querySelectorAll('[data-catalogo-grupo]')).map((el) => el.getAttribute('data-catalogo-grupo') ?? '')
+    expect(grupos.length).toBeGreaterThan(2)
+    const idx = grupos.map((g) => niveis.indexOf(g))
+    expect(idx.every((i) => i >= 0)).toBe(true)
+    expect(idx).toEqual([...idx].sort((a, b) => a - b))
+    expect(grupos[0]).toBe(niveis[0]) // Carroça com Cavalo é nível 1
+    // cada item fica embaixo do cabeçalho da SUA classe: o Carajás (Nível 5) sob Classe Média Alta
+    const carajas = cat.querySelector('[data-catalogo-item="Gurgel Carajás"]') as HTMLElement
+    let cab: Element | null = carajas
+    while (cab && !cab.hasAttribute('data-catalogo-grupo')) cab = cab.previousElementSibling
+    expect(cab?.getAttribute('data-catalogo-grupo')).toBe(niveis[4])
+    // dentro do grupo, preço crescente: Carajás (400.000) antes da Monza (700.000)
+    const nomes = Array.from(cat.querySelectorAll('[data-catalogo-item]')).map((el) => el.getAttribute('data-catalogo-item'))
+    expect(nomes.indexOf('Gurgel Carajás')).toBeLessThan(nomes.indexOf('Chevrolet Monza'))
+    // o chip de classe sai da linha: a classe é o cabeçalho
+    expect(within(carajas).queryByText(niveis[4])).toBeNull()
+  }, 30000)
 })

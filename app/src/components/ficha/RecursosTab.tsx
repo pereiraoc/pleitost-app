@@ -7,7 +7,7 @@
 // total do mês e o botão de fechar o mês (tudo pago adiantado). Não há
 // estoque de comida nem saldo de transporte: o que é avulso se paga na hora
 // nos estabelecimentos (aba Serviços dos locais).
-import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode, Fragment } from 'react'
 import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
@@ -168,6 +168,8 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   // CATÁLOGO (2026-09-08b): o que dá pra ter de posse em cada eixo e onde
   // comprar — veículos (preço de novo) e imóveis (compra e/ou aluguel de
   // referência); as notas de Recurso são a fonte, `Onde` diz o lugar.
+  // Ordem = classe social de baixo pra cima (FM `Nível`, rótulos de
+  // `recursos.niveis`), preço crescente dentro da classe; o render agrupa.
   const catalogoPorPapel = useMemo(() => {
     const m = new Map<Papel, Recurso[]>()
     for (const r of recursos) {
@@ -178,7 +180,7 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
       if (!entra) continue
       m.set(p, [...(m.get(p) ?? []), r])
     }
-    for (const l of m.values()) l.sort((a, b) => (a.compra ?? a.preco) - (b.compra ?? b.preco) || a.nome.localeCompare(b.nome, 'pt-BR'))
+    for (const l of m.values()) l.sort((a, b) => (a.nivel ?? 99) - (b.nivel ?? 99) || (a.compra ?? a.preco) - (b.compra ?? b.preco) || a.nome.localeCompare(b.nome, 'pt-BR'))
     return m
   }, [recursos, cfg])
 
@@ -374,7 +376,10 @@ function SecaoEixo({
             {verCatalogo ? (
               <div data-catalogo={papel} style={{ margin: '8px 6px 0', border: '1px dashed var(--line2)', padding: '4px 0' }}>
                 <div style={{ ...MONO, padding: '6px 10px 2px' }}>{papel === 'transporte' ? 'CATÁLOGO · veículos novos e onde comprar' : 'CATÁLOGO · imóveis e onde alugar ou comprar'}</div>
-                {catalogo.map((r) => {
+                {catalogo.map((r, i) => {
+                  // cabeçalho de classe quando a classe muda (a lista já vem ordenada por Nível)
+                  const classe = r.nivel ? nomeNivel(cfg, r.nivel) : 'sem classe'
+                  const cabecalho = i === 0 || (catalogo[i - 1]!.nivel ?? 0) !== (r.nivel ?? 0)
                   const vend = vendedores.get(r.nome) ?? []
                   const onde = vend.length
                     ? vend.map((v) => <DetailLink key={v.id} id={v.id}>{v.nome}</DetailLink>)
@@ -383,14 +388,19 @@ function SecaoEixo({
                         return id ? <DetailLink key={n} id={id}>{n}</DetailLink> : <span key={n}>{n}</span>
                       })
                   return (
-                    <div key={r.id} data-catalogo-item={r.nome} style={{ ...LINHA_FIG, cursor: 'default' }}>
+                    <Fragment key={r.id}>
+                    {cabecalho ? (
+                      <div data-catalogo-grupo={classe} style={{ ...MONO, padding: '10px 10px 2px', color: 'var(--text)', borderTop: i === 0 ? undefined : '1px solid var(--line)' }}>
+                        {classe.toUpperCase()}
+                      </div>
+                    ) : null}
+                    <div data-catalogo-item={r.nome} style={{ ...LINHA_FIG, cursor: 'default' }}>
                       <span />
                       <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
                       <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
                         <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                           <DetailLink id={r.id} dataLinkIcon={iconeDe(r)}>{r.nome}</DetailLink>
                           <Chip>{r.tipo}</Chip>
-                          {r.nivel ? <Chip>{nomeNivel(cfg, r.nivel)}</Chip> : null}
                           {r.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês</Chip> : null}
                         </span>
                         <span style={{ fontSize: 11.5, color: 'var(--muted)', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -403,6 +413,7 @@ function SecaoEixo({
                         <span>{papel === 'moradia' ? `${formatValorMoeda(r.preco)} / mês` : formatValorMoeda(r.preco)}</span>
                       </span>
                     </div>
+                    </Fragment>
                   )
                 })}
               </div>
