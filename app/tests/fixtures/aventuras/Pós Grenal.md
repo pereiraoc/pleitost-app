@@ -43,7 +43,7 @@ Financiador: "[[Consórcio das Bandeiras]]"
 > [!info] Estrutura da sessão
 > **Duração:** `= this.Duração`
 > **Jogadores:** `= this.Jogadores`
-> **Rank:** `= this.rank` (nível 0–1)
+> **Rank:** `= this.rank` (nível 1–3)
 > **CDs desta aventura:** nível 1 — Fácil **12** · Base **14** · Difícil **16** (nível 0: 11 · 13 · 15 — tabela de [[CD]]). Sucesso decisivo = CD+10, falha decisiva = CD−10 ([[Regra Básica]]). Os testes das cenas citam a classe e o número do nível 1.
 > **Formato:** `= this.Formato`
 > **Tom:** `= this.Tom`
@@ -327,6 +327,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - “Se te levarem agora, não é pra assinar papel. É pra cantar nome.”
 > - “Eu sou gremista, tá? Com o colorado eu sou colorado. Negócio é negócio.”
 
+![[01 — Nico “Faixa Preta” Ferraz.png|Nico “Faixa Preta” Ferraz]]
+
 > [!quote] 🔊 Como descrever
 > Uma mão puxa a manga de vocês por trás. Jaqueta jeans, faixa preta amarrada no braço, um molho de bandeiras nas costas que bate nas pernas de quem passa. Ele fala baixo e rápido, hálito de Mate Touro, sem olhar pra vocês — olhando pros capacetes.
 
@@ -346,6 +348,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - “Rua é nossa. Laboratório é deles. Aprende essa conta.”
 > - “Eu operei a bomba desse dique sessenta horas em 86. Tu acha que eu tenho medo de água?”
 > - “O Nelson não liga pra mim. Quando ele liga, é a Panvel que discou primeiro.”
+
+![[02 — Arlindo “Bomba” Fagundes.png|Arlindo “Bomba” Fagundes]]
 
 > [!quote] 🔊 Como descrever
 > Ele fala baixo, e vocês precisam chegar mais perto pra ouvir — é assim que ele faz todo mundo obedecer. Mãos rachadas de água de bomba, cheiro de água parada e cigarro, um rádio da Zaffari no cinto. Olha a caixa antes de olhar pra vocês, e conta o que tem dentro sem abrir.
@@ -369,6 +373,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - “Torcedor, contrabandista, inocente… na correria todo mundo vira a mesma coisa.”
 > - “Vinte anos de PIRA, guri. Eu não tô aqui pela ordem pública.”
 > - *(contando as balas)* “Quatro. Vocês são quatro. Que coincidência.”
+
+![[03 — Sargento Valdir Brum.png|Sargento Valdir Brum]]
 
 > [!quote] 🔊 Como descrever (Brum chega — Fase 2)
 > Botas em grade de metal, vindo de cima — ou o portão de enrolar subindo com um estrondo, conforme a opção. Depois, um som que ninguém na oficina ouviu a noite inteira: o clique de um cão de revólver sendo armado. O bigode entra na luz verde com o capacete numa mão e o cano apontado pro chão. Por enquanto.
@@ -395,6 +401,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - “Segura aí, campeão, já volto.” — e nunca volta.
 > - “Eu sou Contrariado, cara. Tudo dá errado comigo desde o laudo.”
 
+![[04 — Juninho “Isopor”.png|Juninho “Isopor”]]
+
 > [!quote] 🔊 Como descrever (se estiver na Retífica — opção A)
 > Encostado numa prateleira, pulsos presos com fita de embalagem, boné do Inter no chão. Lábio partido, um olho fechando. Quando vê vocês, tenta sorrir: “Campeão. Falei que voltava.”
 
@@ -413,6 +421,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Frases:**
 > - “Brigadiano é peça de reposição. A gente troca quando dá folga.”
 > - “Isso aqui é só um motor: entra carga, sai dinheiro. O resto é atrito.”
+
+![[05 — Ademar “Cardã” Lemos.png|Ademar “Cardã” Lemos]]
 
 > [!quote] 🔊 Como descrever
 > Ele limpa a mão boa num pano antes de cumprimentar. A protética não estende — o painel de manutenção sem tampa mostra os cabos. Voz calma de quem já ouviu muita gente gritar dentro dessa oficina. Cheira a solvente e a café. “Entra carga, sai dinheiro. O resto é atrito.”
@@ -433,6 +443,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - “Ninguém aqui quer complicar a vida de ninguém. Vocês me devolvem o que é da farmácia, e a farmácia cuida de vocês.”
 > - “O Sr. Silveira não pode saber disso. Nem eu deveria.”
 
+![[06 — Dr. Heitor Pacheco.png|Dr. Heitor Pacheco]]
+
 > [!quote] 🔊 Como descrever
 > Jaleco branco por cima de um casaco de lã, crachá da Panvel, mãos limpas demais pra essa hora da noite. Ele abre a maleta antes de abrir a boca: amostras alinhadas, cheiro de álcool e de hortelã. Sorri como farmacêutico de bairro e fala baixo, como quem dá um conselho — e olha pro bolso da jaqueta de vocês antes de olhar pros rostos.
 
@@ -449,6 +461,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Frases:**
 > - “Guri do isopor passou três vezes na frente do quiosque. Sem vender nada. Tu acha normal?”
 
+![[07 — Dona Zilá.png|Dona Zilá]]
+
 > [!quote] 🔊 Como descrever
 > A barraca já está meio desmontada: lona da Zaffari dobrada, chapa fria com gordura endurecida, cheiro de pastel velho e de gás. Dona Zilá está sentada num engradado, três casacos e a touca do Inter, contando fichas de cerveja dentro de uma lata. Ela olha pra vocês por cima dos óculos antes de dizer qualquer coisa — e o olhar vai direto pra caixa.
 
@@ -462,6 +476,10 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Pontos úteis:** as barracas (a de Dona Zilá), o quiosque da Panvel, o portão de serviço da rampa sul (grade emperrada → galeria), o estacionamento (vans, Gurgel, caravanas), o posto da Brigada na Estação Férrea.
 > **Cenas:** [[#Cena 1 — Saída do Gre-Nal]] · [[#Cena 4 — Investigação]] (Pista 2)
 
+![[01 — Beira-Rio — orientação sem spoilers.png|Beira-Rio — orientação sem spoilers]]
+![[02 — Rampa sul — barracas e estacionamento.png|Rampa sul — barracas e estacionamento]]
+![[06 — Quiosque de primeiros socorros — interior.png|Quiosque de primeiros socorros — interior]]
+
 > [!quote] 🔊 Como descrever (a saída do Beira-Rio)
 > O apito final ainda está no ar quando a rampa sul vira um rio de gente. Vocês descem apertados, ombro com ombro, o concreto grudento de cerveja embaixo do tênis e um frio úmido que vem do Guaíba e entra pela gola. Cheira a churrasquinho, pólvora de rojão e cigarro barato. Um tambor de caravana bate em algum lugar atrás; um canto começa forte e morre numa vaia. Os holofotes do estádio ainda estão acesos — e lá embaixo, na boca da rampa, tem uma fileira de capacetes da Brigada que não estava ali na hora do jogo.
 
@@ -472,6 +490,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** brigadianos de Brum; técnicos da [[Gradiente]] nas antenas; enfermeiros da [[Panvel]] — gente que **não** é da Brigada e pode ser usada.
 > **Como usar:** é pra cá que Brum levaria os PCs. Se alguém for pego, é aqui que o grupo tem que buscar. Uma fuga do Gasômetro é uma cena inteira; se acontecer, use os obstáculos da Cena 2 ao contrário.
 > **Cenas:** [[#Cena 2 — Fuga subterrânea]] (se alguém ficar pra trás)
+
+![[09 — Gasômetro — sala de caldeiras.png|Gasômetro — sala de caldeiras]]
 
 > [!quote] 🔊 Como descrever (acordar no Gasômetro)
 > Escuro, ferro e um cheiro de fuligem velha que faz tossir. Tu estás sentado no chão de uma caldeira aberta, as costas contra chapa gelada, os pulsos presos com fita de embalagem. Em algum lugar acima, o zumbido de uma antena e passos em grade de metal. Uma lanterna acende na tua cara e, atrás dela, o bigode.
@@ -484,6 +504,9 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** refugiados; um posto da Brigada em cima; a van do Cartel esperava aqui.
 > **Como usar:** é o caminho da Cena 2 e é onde a van do Cartel esperava. Quem sobe pra superfície na estação cai no posto de controle.
 > **Cenas:** [[#Cena 2 — Fuga subterrânea]]
+
+![[03 — Galerias dos diques — trecho de exploração.png|Galerias dos diques — trecho de exploração]]
+![[04 — Estação Férrea de Belas — plataforma.png|Estação Férrea de Belas — plataforma]]
 
 > [!quote] 🔊 Como descrever (a galeria dos diques)
 > A grade range e cede. Do outro lado é escuro, e um cheiro de mofo, esgoto velho e ferrugem gruda no fundo da garganta. Os primeiros passos são em concreto; depois a água entra pelo tênis, gelada, na altura da canela, e cada passo faz um barulho que o túnel devolve dobrado. Lá em cima, abafada pela terra, a sirene ainda toca. Um pingo cai da laje na nuca de alguém. O isqueiro do Nico mostra a parede: uma marca de água na altura do peito, de 86.
@@ -501,6 +524,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** Arlindo, dois estivadores do Consórcio (use a ficha de [[Arruaceiro]] se precisar), um rádio, um telefone que **não** funciona.
 > **Cenas:** [[#Cena 3 — Casa da Drenagem]]
 
+![[05 — Casa da Drenagem — interior.png|Casa da Drenagem — interior]]
+
 > [!quote] 🔊 Como descrever (chegando)
 > O túnel termina numa escada de ferro molhada e num alçapão. Em cima, uma casa de máquinas de concreto: duas bombas enormes e mortas, lâmpadas nuas em fio esticado, um rádio de pilha tocando o pós-jogo baixinho. Bandeiras do Inter e do Grêmio penduradas lado a lado, desbotadas. Cheira a cigarro, óleo e roupa molhada. O chão vibra de leve — não é bomba, é caminhão passando na estação lá em cima. Um homem de flanela aberta, ombros largos, está sentado numa caixa térmica igual à de vocês. Ele não levanta.
 
@@ -515,6 +540,9 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > - **[[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]]** (grátis pra quem tem carteira da PIRA) — ninguém oferece; é a opção “rápida”. Custo: Brigada ostensiva nas estações; quem é flagrado ali é “subversivo”. O mais bonito e o mais burro dos caminhos.
 > - **Táxi Gurgel de um cambista** — um cambista das rampas, por um preço absurdo. Custo: o cambista vende a informação depois. Sabor: cabe todo mundo, e o rádio toca a [[Rádio Farroupilha]].
 > **Cenas:** [[#Cena 5 — Interlúdio]]
+
+![[03 — Caravana — interior do ônibus.png|Caravana — interior do ônibus]]
+![[14 — Barqueira da Aliança.png|Barqueira da Aliança]]
 
 > [!quote] 🔊 Como descrever (caravana da Camisa 12)
 > Ônibus lotado, vidro embaçado, tambor batendo no fundo. Cheira a Polar quente e a jaqueta molhada. Alguém puxa um canto e o ônibus inteiro responde; o gremista da mesa aprende a olhar pro chão. Pela janela, a Zona Leste passa em muros vermelhos e antenas tortas.
@@ -533,6 +561,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Pontos úteis:** a [[#Retífica Sertório]]; o [[#Boteco da Rua Sertório]] (interlúdio); a [[#Praça das Nogueiras]] (silêncio, sarau, um lugar pra respirar); a [[Clínica Ortopédica D'Areia]] (se alguém precisar de um braço remendado depois).
 > **Cenas:** [[#Cena 5 — Interlúdio]] · [[#Cena 6 — Retífica Sertório]]
 
+![[01 — Rua Sertório — chegada à oficina.png|Rua Sertório — chegada à oficina]]
+
 ### Retífica Sertório
 > [!info] Local
 > **Atlas:** [[Passo D'Areia]]
@@ -542,6 +572,10 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Elementos de cena:** empilhar/derrubar caixas, apagar a luz de mercúrio (chave no escritório), freezer como cobertura, solvente no chão, ferramentas como arma improvisada, o Gurgel no elevador (soltar a trava), e o vagão lá em cima como rota de fuga ou de chegada do Brum.
 > **Quem está lá:** Cardã, os capangas, o brigadiano de bico, o que sobrou da carga (ver relógio), e Juninho (se a opção A ou B).
 > **Cenas:** [[#Cena 6 — Retífica Sertório]]
+
+![[07 — Retífica Sertório — térreo.png|Retífica Sertório — térreo]]
+![[08 — Retífica Sertório — vagão e passarela.png|Retífica Sertório — vagão e passarela]]
+![[15 — Trabalhador da oficina.png|Trabalhador da oficina]]
 
 > [!quote] 🔊 Como descrever (a frente)
 > A Rua Sertório à uma da manhã é uma fileira de portas de enrolar fechadas debaixo dos pilares da via elevada. A luz de mercúrio, esverdeada, deixa todo mundo com cara de doente. A Retífica é a única com o portão meio aberto: um Gurgel no elevador, rádio ligado, e um cheiro de gasolina e solvente que chega antes da porta. Em cima do galpão, parado na via, um vagão do Aeromóvel apagado — como um bicho dormindo.
@@ -556,6 +590,9 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** o dono, apostadores, um cambista das rampas, e — se você quiser — três jaquetas vermelhas ou um blazer com lenço branco.
 > **Cenas:** [[#Cena 5 — Interlúdio]]
 
+![[10 — Boteco da Rua Sertório — interior.png|Boteco da Rua Sertório — interior]]
+![[16 — Dono do boteco.png|Dono do boteco]]
+
 > [!quote] 🔊 Como descrever
 > Balcão de fórmica, TV de tubo repetindo o mesmo gol no resumo, cheiro de fritura e de diesel do gerador. De tempo em tempo o vagão de teste do Aeromóvel passa lá em cima e o copo treme na mesa. Latas de Mate Touro empilhadas atrás do balcão — uma delas com a tampa preta. O dono olha pra roupa suja de vocês, pra caixa, e volta pra TV. Aqui ninguém liga pra Brigada.
 
@@ -564,6 +601,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Atlas:** [[Praça das Nogueiras]] · [[Passo D'Areia]]
 > **Descrição:** pequeno parque residencial com bancos de concreto — o lugar mais quieto da noite, e o mais fácil de ser abordado por um blazer da Geral. Um sarau da [[Biblioteca Verde]] terminando num canto.
 > **Cenas:** [[#Cena 5 — Interlúdio]]
+
+![[02 — Praça das Nogueiras — sarau noturno.png|Praça das Nogueiras — sarau noturno]]
 
 > [!quote] 🔊 Como descrever
 > Silêncio de verdade pela primeira vez na noite. Folhas secas no chão, bancos de concreto frios, cheiro de terra molhada. Num canto, meia dúzia de pessoas termina um sarau em volta de uma lamparina, e ninguém olha pra vocês. Dá pra ouvir o próprio coração — e, longe, a via do Aeromóvel zunindo.
@@ -611,6 +650,8 @@ Rosters do bestiário da vault, com a velocidade de iniciativa do app já defini
 > **Função dramática:** travar o grupo, desgastar recurso, espalhar o combate pelo cenário e dar tempo pra chegada do chefe.
 > **Elementos de cenário:** empilhar/derrubar caixa; derrubar a luz de mercúrio (chave no escritório de vidro — escuro total, quem tem [[Furtividade]] agradece); freezer como cobertura; solvente no chão (e alguém acender um cigarro); acertar ferramentas; ameaça de quebrar frascos — e de quebrar **a Matriz**, que cristaliza e brilha azul se levar choque (um cabo do gerador basta); soltar a trava do elevador com o Gurgel em cima. Zonas no registro [[#Retífica Sertório]].
 > **Preparar:** sim — antes da sessão começar, deixe preparado (o card ▶ INICIAR da Sessão faz o resto).
+
+![[09 — Homem de jaqueta cinza.png|Homem de jaqueta cinza]]
 
 ```combat-marker-small
 - 1 [[Guarda]] rápido
@@ -737,6 +778,12 @@ Ela só sobrevive porque sabe roubar pouco, devolver o bastante e nunca humilhar
 > **Personagens:** [[#Juninho “Isopor”]], [[#Sargento Valdir Brum]], [[#Nico “Faixa Preta” Ferraz]], [[#Dona Zilá]]
 > **Objetivo:** abrir com energia, torcida, cidade e tensão sem combate formal. Deixar os jogadores **brincarem** por 20–30 minutos antes de o incidente cair.
 > **Duração:** 30–40 min
+
+![[10 — Cambista das rampas.png|Cambista das rampas]]
+![[08 — Brigadiano jovem.png|Brigadiano jovem]]
+![[17 — Enfermeira do quiosque.png|Enfermeira do quiosque]]
+![[11 — Representante da Camisa 12.png|Representante da Camisa 12]]
+![[12 — Representante da Geral.png|Representante da Geral]]
 
 #### O jogo (cada jogador rola 1d4−1)
 O placar e o clima da saída saem da mesa, não do Mestre. Cada jogador rola **1d4 e subtrai 1** (resultado de 0 a 3) — dois dados por lado:
@@ -924,6 +971,8 @@ Arlindo abre a caixa na frente dos PCs e **conta** o que tem, item por item (tab
 > **Personagens:** [[#Dona Zilá]], [[#Sargento Valdir Brum]], [[#Nico “Faixa Preta” Ferraz]]
 > **Objetivo:** montar o caminho até a Retífica Sertório sem arrastar — e deixar os jogadores decidirem **como** e **a que custo**.
 > **Duração:** 45–60 min
+
+![[13 — Despachante da Caixinha.png|Despachante da Caixinha]]
 
 #### Regra prática
 Os PCs precisam conseguir **3 pistas** entre 5 opções. Quando conseguirem 3, fecham o destino: **Retífica Sertório, na Rua Sertório, Passo D'Areia, embaixo da via do Aeromóvel.** Cada pista é uma cena curta com um NPC e uma escolha.

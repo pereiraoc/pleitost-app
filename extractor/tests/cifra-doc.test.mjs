@@ -67,3 +67,35 @@ test("senha errada falha (autenticação GCM)", () => {
 test("doc sem Senha não cifra", () => {
   assert.throws(() => cifrarDoc({ ...record, frontmatter: { categoria: "Aventura" } }, { camposPublicos }), /sem FM Senha/);
 });
+
+// ── FIGURAS DA CAMPANHA (2026-09-08c): bytes cifrados com a chave do doc ──
+import { cifrarBytes, decifrarBytes, chaveDoDoc, nomeCifrado } from "../cifra-doc.mjs";
+import { randomBytes } from "node:crypto";
+
+test("cifrarBytes/decifrarBytes: ida e volta com iv embutido; chave errada falha", () => {
+  const K = randomBytes(32);
+  const png = Buffer.from("PNG-FALSO-" + "x".repeat(100));
+  const enc = cifrarBytes(K, png);
+  assert.ok(!enc.includes(png)); // nada em claro
+  assert.equal(enc.length, 12 + png.length + 16); // iv ‖ ct ‖ tag
+  assert.deepEqual(decifrarBytes(K, enc), png);
+  assert.throws(() => decifrarBytes(randomBytes(32), enc));
+});
+
+test("cifrarDoc com chave dada + privadoExtra: os arquivos viajam DENTRO da cifra e a chave sai pela senha", () => {
+  const K = randomBytes(32);
+  const arquivos = [{ target: "Segredo.png", path: "Recursos/Segredo.png", copiedTo: "assets-cifrados/abc.enc" }];
+  const pub = cifrarDoc(record, { camposPublicos, senhaDev: "dev!", chave: K, privadoExtra: { arquivos } });
+  assert.ok(!JSON.stringify(pub).includes("Segredo"));
+  const aberto = decifrarDoc(pub, { senha: "abc123" });
+  assert.deepEqual(aberto.arquivos, arquivos);
+  assert.deepEqual(chaveDoDoc(pub, { senha: "abc123" }), K);
+  assert.deepEqual(chaveDoDoc(pub, { senhaDev: "dev!" }), K);
+});
+
+test("nomeCifrado: opaco, determinístico por (doc, caminho), sem o nome do arquivo", () => {
+  const a = nomeCifrado("Campanhas/Aventuras/X", "Recursos/Segredo.png");
+  assert.match(a, /^[0-9a-f]{40}$/);
+  assert.equal(a, nomeCifrado("Campanhas/Aventuras/X", "Recursos/Segredo.png"));
+  assert.notEqual(a, nomeCifrado("Campanhas/Aventuras/Y", "Recursos/Segredo.png"));
+});

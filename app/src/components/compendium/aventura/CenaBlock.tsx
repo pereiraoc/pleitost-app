@@ -11,6 +11,7 @@ import { InlineFieldValue } from '../InlineFieldValue'
 import { FieldBlock } from '../FieldBlock'
 import type { AventuraModel, Cena } from '../../../aventura/types'
 import { CAMPOS_REF, CENA_NUCLEO, ordenarCampos } from '../../../aventura/registros'
+import { FiguraStrip } from './FiguraStrip'
 import { RefRow, cenaAnchorId } from './RefChip'
 import { CombateCard } from './CombateCard'
 
@@ -52,6 +53,7 @@ export function CenaBlock({
       </header>
       {aberta ? (
         <div className="av-cena-body">
+          <FiguraStrip figuras={cena.figuras} />
           <RefRow label="Local" refs={cena.locais} model={model} doc={doc} />
           <RefRow label="Personagens" refs={cena.personagens} model={model} doc={doc} />
           {/* combates REFERENCIADOS (2.5 Combates): o mesmo card, puxado pra cá */}

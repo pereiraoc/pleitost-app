@@ -92,6 +92,19 @@ export async function decryptDoc(pub: VaultDoc, kB64: string): Promise<VaultDoc>
   return { ...base, ...privado, frontmatter: { ...base.frontmatter, ...privado.frontmatter } } as VaultDoc
 }
 
+/** Bytes de um ARQUIVO cifrado com a chave K do doc (extractor: cifrarBytes) —
+ *  o blob traz iv (12) ‖ ciphertext ‖ tag (16). Lança em chave errada (GCM). */
+export async function decryptBytes(kB64: string, blob: ArrayBuffer): Promise<Uint8Array> {
+  const bytes = new Uint8Array(blob)
+  const key = await crypto.subtle.importKey('raw', b64ToBytes(kB64) as BufferSource, 'AES-GCM', false, ['decrypt'])
+  const out = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: bytes.subarray(0, 12) as BufferSource },
+    key,
+    bytes.subarray(12) as BufferSource,
+  )
+  return new Uint8Array(out)
+}
+
 /* ── store de chaves por aparelho ───────────────────────────────────── */
 
 function load(): Map<string, string> {

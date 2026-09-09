@@ -15,6 +15,14 @@ export interface Leitura {
   texto: string
 }
 
+/** Figura do registro/cena: uma linha que é SÓ um embed de imagem
+ *  (`![[01 — Nico.png|Nico]]`). A linha sai do corpo e a UI mostra a tira de
+ *  figuras; numa aventura trancada os bytes vêm cifrados (arquivos-cifrados). */
+export interface Figura {
+  target: string
+  legenda: string | null
+}
+
 /** Referência de um campo (`Local:`/`Personagens:`/`Atlas:`/`Nota:`):
  *  `[[#Nome]]` = registro INTERNO da própria nota; `[[Nota]]` = doc da vault. */
 export interface Ref {
@@ -30,6 +38,8 @@ export interface Registro {
   slug: string
   nome: string
   campos: CalloutField[]
+  /** Embeds de imagem do registro, na ordem da nota. */
+  figuras: Figura[]
   leituras: Leitura[]
   /** Blocos `[!gm]` (título + corpo, markdown). */
   segredos: string[]
@@ -44,6 +54,7 @@ export interface Combate {
   slug: string
   nome: string
   campos: CalloutField[]
+  figuras: Figura[]
   leituras: Leitura[]
   segredos: string[]
   /** Markdown fora dos callouts e do fence. */
@@ -75,6 +86,7 @@ export interface Cena {
   titulo: string
   slug: string
   campos: CalloutField[]
+  figuras: Figura[]
   tipo: string | null
   locais: Ref[]
   personagens: Ref[]

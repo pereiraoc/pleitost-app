@@ -12,6 +12,7 @@ import { FieldBlock } from '../FieldBlock'
 import type { AventuraModel, Combate } from '../../../aventura/types'
 import { campo, refsDe } from '../../../aventura/parse-aventura'
 import { CAMPOS_REF, COMBATE_NUCLEO, ordenarCampos } from '../../../aventura/registros'
+import { FiguraStrip } from './FiguraStrip'
 import { LeituraBlock, SegredoBlock } from './LeituraBlock'
 import { RefRow } from './RefChip'
 
@@ -32,6 +33,7 @@ export function CombateCard({
     <article className={`av-combate-reg${embedded ? ' is-embedded' : ''}`} id={`av-comb-${combate.slug}`} data-av-combate-reg={combate.nome}>
       {embedded ? <div className="kicker">{`// ⚔ ${combate.nome}`}</div> : <h3 className="av-registro-nome">⚔ {combate.nome}</h3>}
       {embedded ? null : <RefRow label="Cena" refs={refsDe(campo(combate.campos, 'Cena'))} model={model} doc={doc} />}
+      <FiguraStrip figuras={combate.figuras} />
       {campos.map((c) => (
         <FieldBlock key={c.label} label={c.label}>
           {c.value.includes('\n') ? <MarkdownBody doc={{ ...doc, body: c.value }} /> : <InlineFieldValue value={c.value} />}

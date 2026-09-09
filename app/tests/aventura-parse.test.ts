@@ -95,6 +95,32 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     expect(m.mapa!.markers.find((k) => k.nome === 'Praia de Belas')!.maxZoom).toBe(-0.1)
   })
 
+  it('figuras: os embeds de imagem viram tira do registro/cena e saem do corpo', () => {
+    const nico = m.personagens[0]!
+    expect(nico.figuras).toEqual([
+      { target: '01 — Nico “Faixa Preta” Ferraz.png', legenda: 'Nico “Faixa Preta” Ferraz' },
+    ])
+    expect(nico.corpo).not.toContain('![[')
+    // o estádio abre com o mapa de orientação, a rampa e o quiosque
+    expect(m.locais[0]!.figuras.map((f) => f.target)).toEqual([
+      '01 — Beira-Rio — orientação sem spoilers.png',
+      '02 — Rampa sul — barracas e estacionamento.png',
+      '06 — Quiosque de primeiros socorros — interior.png',
+    ])
+    // figurantes da saída do Gre-Nal ficam na cena, não no meio do texto
+    const c1 = m.cenas[0]!
+    expect(c1.figuras.map((f) => f.legenda)).toEqual([
+      'Cambista das rampas',
+      'Brigadiano jovem',
+      'Enfermeira do quiosque',
+      'Representante da Camisa 12',
+      'Representante da Geral',
+    ])
+    const md1 = c1.segmentos.filter((x) => x.kind === 'md').map((x) => (x as { md: string }).md).join('\n')
+    expect(md1).not.toContain('![[')
+    expect(m.combates[0]!.figuras.map((f) => f.legenda)).toEqual(['Homem de jaqueta cinza'])
+  })
+
   it('3. Cenas: abertura com campos, 6 cenas numeradas, desfecho com leitura', () => {
     expect(m.abertura!.campos.map((c) => c.label)).toEqual(['Situação', 'Gancho', 'Contrato', 'Início'])
     expect(m.abertura!.corpo).toContain('### Contexto do incidente')

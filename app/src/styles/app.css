@@ -1685,7 +1685,7 @@ a {
      principal (header + chips), não mais pra baixo (era 190px × 4/5 = alto). */
   width: 132px;
   max-width: 36%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   margin: 2px 0 12px 18px;
   cursor: zoom-in;
@@ -2818,4 +2818,36 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   letter-spacing: 0.12em;
   color: var(--accent);
   margin-bottom: 4px;
+}
+
+/* FIGURAS DA CAMPANHA (2026-09-08c): tira de imagens de um registro/cena da
+   aventura — miniatura com legenda, ampliável no clique. */
+.av-figuras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.av-figura {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 190px;
+  max-width: 100%;
+}
+.av-figura-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--line2);
+  border-radius: 8px;
+  background: var(--card);
+  display: block;
+}
+.av-figura-legenda {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  line-height: 1.3;
 }

@@ -8,7 +8,7 @@
 // output — EXCETO db-version.json, o stamp de versão da database (#190).
 
 import { rm, mkdir, writeFile, readFile, copyFile } from "node:fs/promises";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { dirname, join } from "node:path";
 
 import { VAULT_ROOT, OUT_DIR, WORLD_ID } from "./paths.mjs";
@@ -16,7 +16,7 @@ import { walkVault, indexImagesByBasename } from "./walk.mjs";
 import { parseDoc } from "./parse-doc.mjs";
 import { compileContexto } from "./compile-contexto.mjs";
 import { gmSplit, gmConfigFromBase } from "./gm-split.mjs";
-import { cifrarDoc, senhaDevDoAmbiente } from "./cifra-doc.mjs";
+import { cifrarBytes, cifrarDoc, nomeCifrado, senhaDevDoAmbiente } from "./cifra-doc.mjs";
 
 // Subárvores CONGELADAS (pedido 2026-08-15): personagens (Heróis) e grupos
 // são geridos NO APP e o vault-data deles está MAIS atualizado que os .md da
@@ -112,6 +112,7 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     );
   }
   let protegidos = 0;
+  const pendentesCifra = []; // docs trancados: { relPath, record } — cifrados no passo 3e
 
   // 3. Extrai docs de conteúdo; lista scaffolding sem extrair.
   const index = [];
@@ -149,11 +150,12 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
 
     // SENHA POR AVENTURA (2026-09-05): doc com FM `Senha:` sai CIFRADO inteiro
     // (corpo + FM fora da lista trancada + derivados); nada dele vai pro gm.json
-    // nem pro grafo de links público. As imagens que ele referencia seguem
-    // copiadas (o mapa da aventura precisa existir no dataset).
+    // nem pro grafo de links público. A cifra roda DEPOIS do loop (passo 3e):
+    // as imagens que só ele embute (figuras da campanha) saem cifradas com a
+    // chave dele; as que um doc público também referencia (o mapa da cidade)
+    // seguem públicas — e isso só se sabe com todas as refs públicas na mão.
     if (typeof record.frontmatter?.Senha === "string" && record.frontmatter.Senha.trim()) {
-      const publico = cifrarDoc(record, { camposPublicos: camposListaTrancada, senhaDev });
-      await writeJson(join(outDir, doc.relPath.replace(/\.md$/i, ".json")), publico);
+      pendentesCifra.push({ relPath: doc.relPath, record });
       contentBasenames.add(record.basename);
       typeByBasename.set(record.basename, record.type ?? "Outros");
       const aliasRaw = record.frontmatter?.aliases ?? record.frontmatter?.alias;
@@ -172,10 +174,6 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
         protegido: true,
         kind: "content",
       });
-      for (const img of record.images) {
-        if (!assetRefs.has(img.target)) assetRefs.set(img.target, new Set());
-        assetRefs.get(img.target).add(record.id);
-      }
       docLinks.set(record.id, []);
       protegidos += 1;
       continue;
@@ -347,13 +345,68 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     console.warn(`AVISO: nenhuma nota de Contexto-Def com id "${WORLD_ID}" — contexto.json não gerado.`);
   }
 
-  // 4. Copia TODOS os binários de imagem da vault (referenciados E órfãos) e monta
-  //    o manifesto. Referências sem arquivo correspondente viram `missing` (sinalizadas).
+  // Resolve um alvo de embed pro arquivo de imagem como o Obsidian: path exato
+  // quando o alvo tem pasta; senão basename — não-único → path mais CURTO
+  // (mesma regra do resolveAsset do app).
+  const resolverImagem = (target) => {
+    const clean = String(target).trim();
+    const exato = images.find((i) => i.relPath === clean);
+    if (exato) return exato;
+    const cands = imgIndex.get(clean) || [];
+    return [...cands].sort((a, b) => a.relPath.length - b.relPath.length || a.relPath.localeCompare(b.relPath))[0] ?? null;
+  };
+
+  // 3e. FIGURAS DA CAMPANHA (2026-09-08c): cifra os docs trancados. Imagem que
+  //     SÓ docs trancados embutem é segredo deles: sai cifrada com a chave K do
+  //     doc (assets-cifrados/<nome opaco>.enc), fora do manifesto público, e a
+  //     tabela alvo → arquivo vai DENTRO da cifra (`arquivos`). Imagem que
+  //     algum doc público (ou congelado) referencia continua em claro.
+  const arquivosPublicos = new Set();
+  for (const target of assetRefs.keys()) {
+    const f = resolverImagem(target);
+    if (f) arquivosPublicos.add(f.relPath);
+  }
+  const imagensCifradas = new Set(); // relPath das imagens que NÃO vão em claro
+  const blobsCifrados = []; // copiedTo dos blobs (nomes opacos) pro roteamento do app
+  let arquivosCifrados = 0;
+  for (const { relPath, record } of pendentesCifra) {
+    const K = randomBytes(32);
+    const arquivos = [];
+    for (const img of record.images) {
+      const f = resolverImagem(img.target);
+      if (!f) {
+        console.warn(`AVISO: ${record.id} embute "${img.target}" que não existe na vault — fica de fora.`);
+        continue;
+      }
+      if (arquivosPublicos.has(f.relPath)) continue; // também pública → em claro
+      if (arquivos.some((a) => a.path === f.relPath)) continue;
+      const destRel = `assets-cifrados/${nomeCifrado(record.id, f.relPath)}.enc`;
+      await mkdir(join(outDir, "assets-cifrados"), { recursive: true });
+      await writeFile(join(outDir, destRel), cifrarBytes(K, await readFile(f.absPath)));
+      arquivos.push({ target: img.target, path: f.relPath, copiedTo: destRel });
+      imagensCifradas.add(f.relPath);
+      blobsCifrados.push(destRel);
+      arquivosCifrados += 1;
+    }
+    const publico = cifrarDoc(record, {
+      camposPublicos: camposListaTrancada,
+      senhaDev,
+      chave: K,
+      privadoExtra: arquivos.length ? { arquivos } : null,
+    });
+    await writeJson(join(outDir, relPath.replace(/\.md$/i, ".json")), publico);
+  }
+  if (arquivosCifrados) console.log(`Figuras cifradas: ${arquivosCifrados} imagem(ns) só de docs trancados → assets-cifrados/.`);
+
+  // 4. Copia os binários de imagem da vault (referenciados E órfãos, menos os
+  //    cifrados no 3e) e monta o manifesto. Referências sem arquivo
+  //    correspondente viram `missing` (sinalizadas).
   const refByBasename = (b) =>
     assetRefs.has(b) ? [...assetRefs.get(b)].sort((x, y) => x.localeCompare(y)) : [];
 
   const assets = [];
   for (const img of images) {
+    if (imagensCifradas.has(img.relPath)) continue;
     const destRel = join("assets", img.relPath);
     await mkdir(dirname(join(outDir, destRel)), { recursive: true });
     await copyFile(img.absPath, join(outDir, destRel));
@@ -395,15 +448,20 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
       imagesReferenced: referenced,
       imagesOrphan: orphan,
       imagesMissing: missing.length,
+      imagesCifradas: arquivosCifrados,
       frontmatterErrors: fmErrors.length,
     },
     byType,
     docs: index,
   });
   await writeJson(join(outDir, "assets.json"), {
-    counts: { total: assets.length, referenced, orphan, missing: missing.length },
+    counts: { total: assets.length, referenced, orphan, missing: missing.length, cifradas: arquivosCifrados },
     assets,
     missing,
+    // Blobs cifrados (figuras de docs trancados): SÓ os caminhos opacos — nem
+    // nome real nem doc de origem. O app precisa deles pra rotear a URL pro
+    // dataset do mundo certo; o conteúdo só abre com a chave do doc.
+    cifrados: blobsCifrados.sort(),
   });
 
   // 6. Grafo de wikilinks resolvidos (edges id → ids). Resolução estrita:

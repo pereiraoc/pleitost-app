@@ -11,6 +11,7 @@ import { FieldBlock } from '../FieldBlock'
 import type { AventuraModel, Registro } from '../../../aventura/types'
 import { campo, itensDe, refsDe } from '../../../aventura/parse-aventura'
 import { CAMPOS_REF, LOCAL_NUCLEO, PERSONAGEM_FRASES, PERSONAGEM_NUCLEO, ordenarCampos } from '../../../aventura/registros'
+import { FiguraStrip } from './FiguraStrip'
 import { LeituraBlock, SegredoBlock } from './LeituraBlock'
 import { RefRow } from './RefChip'
 
@@ -47,6 +48,7 @@ export function RegistroCard({
   const hint = tipo === 'personagem' ? campo(reg.campos, 'Papel') : campo(reg.campos, 'Atlas')
   const conteudo = (
     <>
+      <FiguraStrip figuras={reg.figuras} />
       {REF_LABELS[tipo].map((label) => (
         <RefRow key={label} label={label} refs={refsDe(campo(reg.campos, label))} model={model} doc={doc} />
       ))}

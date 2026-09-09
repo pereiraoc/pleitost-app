@@ -22,11 +22,13 @@ import {
 } from './callouts'
 import { childHeadings, findHeading, scanHeadings, sectionBody, type HeadingLine } from './markdown-sections'
 import { slugify } from './slug'
-import type { AventuraModel, Cena, Combate, Ref, Registro, Segmento } from './types'
+import type { AventuraModel, Cena, Combate, Figura, Ref, Registro, Segmento } from './types'
 
 const FENCE_OPEN_RE = /^```\s*(combat-marker|combat-marker-small|combat-tracker|combat-tracker-small)\s*$/
 const FENCE_CLOSE_RE = /^```\s*$/
 const REF_RE = /\[\[(#?)([^\]|]+)(?:\|([^\]]+))?\]\]/g
+/** Linha que é SÓ um embed de imagem — a figura do registro/cena. */
+const FIGURA_RE = /^!\[\[([^\]|#]+?\.(?:png|jpe?g|webp|gif|svg|avif|bmp))(?:\|([^\]]*))?\]\]$/i
 
 /** Campo por rótulo (case/acento-insensível no rótulo, valor cru). */
 export function campo(campos: readonly CalloutField[], label: string): string | null {
@@ -48,6 +50,20 @@ export function refsDe(valor: string | null): Ref[] {
     out.push({ alvo, label: (m[3] ?? alvo).trim(), interno })
   }
   return out
+}
+
+/** Figuras (embeds de imagem em linha própria) de um trecho, na ordem. */
+export function figurasDe(lines: readonly string[]): Figura[] {
+  const out: Figura[] = []
+  for (const l of lines) {
+    const m = FIGURA_RE.exec(l.trim())
+    if (m) out.push({ target: m[1]!.trim(), legenda: m[2]?.trim() || null })
+  }
+  return out
+}
+
+function ehFigura(l: string): boolean {
+  return FIGURA_RE.test(l.trim())
 }
 
 /** Itens de um campo-lista (`**Frases:**` com bullets): uma entrada por bullet;
@@ -81,9 +97,11 @@ function registroDe(nome: string, lines: readonly string[]): Registro {
     slug: slugify(nome),
     nome,
     campos,
+    figuras: figurasDe(lines),
     leituras,
     segredos,
-    corpo: withoutBlocks(lines, usados).join('\n').trim(),
+    // as figuras saem do corpo (a UI mostra a tira, não o embed solto)
+    corpo: withoutBlocks(lines, usados).filter((l) => !ehFigura(l)).join('\n').trim(),
   }
 }
 
@@ -107,6 +125,7 @@ function combateDe(nome: string, lines: readonly string[], docId: string): Comba
     slug,
     nome,
     campos: reg.campos,
+    figuras: reg.figuras,
     leituras: reg.leituras,
     segredos: reg.segredos,
     corpo: corpoSemCallouts,
@@ -155,7 +174,7 @@ function segmentosDe(lines: readonly string[], docId: string, cenaSlug: string, 
       i = j + 1
       continue
     }
-    md.push(l)
+    if (!ehFigura(l)) md.push(l)
     i++
   }
   flushMd()
@@ -177,6 +196,7 @@ function cenaDe(h: HeadingLine, lines: readonly string[], headings: readonly Hea
     titulo,
     slug,
     campos,
+    figuras: figurasDe(body),
     tipo: campo(campos, 'Tipo'),
     locais: refsDe(campo(campos, 'Local')),
     personagens: refsDe(campo(campos, 'Personagens')),

@@ -224,6 +224,9 @@ async function fetchCyberpunkCatalog(): Promise<Catalog> {
         rels.add(a.copiedTo)
         rels.add(thumbCopiedTo(a.copiedTo))
       }
+      // blobs cifrados (figuras de docs trancados): não são assets públicos,
+      // mas o vaultUrl precisa saber que existem NO dataset do mundo
+      for (const c of am.cifrados ?? []) rels.add(c)
     }
   } catch {
     /* sem assets.json no mundo — imagens caem todas na fantasia */

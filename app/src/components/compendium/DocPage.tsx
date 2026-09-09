@@ -8,6 +8,7 @@ import { MarkdownBody } from '../../markdown/MarkdownBody'
 import { InlineFieldValue } from './InlineFieldValue'
 import { InlineFieldsTable } from './InlineFieldsTable'
 import { VaultImage } from './VaultImage'
+import { ArquivosCifradosProvider } from '../../data/arquivos-cifrados'
 import { resolveDocView } from './doc-view-registry'
 import './register-doc-views'
 import { DocRuleElements } from './RuleElements'
@@ -23,7 +24,19 @@ function escolaIcon(basename: string): string {
 
 /** Renderiza um doc já carregado (separado do fetch pra ser testável).
  *  `sidebar`: renderizado na sidebar de DETALHES (esconde a aba Hexploração). */
-export function DocView({
+export function DocView({ doc, sidebar, embedded }: { doc: VaultDoc; sidebar?: boolean; embedded?: boolean }) {
+  // FIGURAS DA CAMPANHA: um doc DESTRAVADO carrega os arquivos cifrados dele
+  // (`arquivos`) — publicados aqui, no ponto único de render de doc, pra que
+  // qualquer embed abaixo (registro, cena, corpo) ache a imagem. Doc sem eles
+  // não cria contexto.
+  return (
+    <ArquivosCifradosProvider doc={doc}>
+      <DocViewCorpo doc={doc} sidebar={sidebar} embedded={embedded} />
+    </ArquivosCifradosProvider>
+  )
+}
+
+function DocViewCorpo({
   doc,
   sidebar,
   embedded,

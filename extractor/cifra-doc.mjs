@@ -13,7 +13,13 @@
 // (`aventura.campos_lista_trancada`) + estruturais (categoria, aliases).
 // O app (data/doc-lock.ts) desembrulha K com SubtleCrypto (mesmos parâmetros)
 // e decifra em memória.
-import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from "node:crypto";
+//
+// FIGURAS DA CAMPANHA (2026-09-08c): imagem embutida SÓ por docs trancados é
+// segredo do doc — sai cifrada com o MESMO K (cifrarBytes: iv ‖ ct ‖ tag) num
+// arquivo de nome opaco (nomeCifrado), e a tabela alvo → arquivo viaja DENTRO
+// da cifra do doc (`privadoExtra.arquivos`). O app decifra os bytes em memória
+// depois de destravar (data/arquivos-cifrados.ts).
+import { createCipheriv, createDecipheriv, createHash, pbkdf2Sync, randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
@@ -74,6 +80,36 @@ export function senhaDevDoAmbiente() {
   }
 }
 
+/** Bytes de um ARQUIVO (imagem) cifrados com a chave K do doc: iv (12) ‖
+ *  ciphertext ‖ tag (16) — um único blob, o app lê o iv do próprio arquivo. */
+export function cifrarBytes(K, bytes) {
+  const iv = randomBytes(12);
+  const c = createCipheriv("aes-256-gcm", K, iv);
+  const ct = Buffer.concat([c.update(bytes), c.final()]);
+  return Buffer.concat([iv, ct, c.getAuthTag()]);
+}
+
+export function decifrarBytes(K, blob) {
+  const iv = blob.subarray(0, 12);
+  const ct = blob.subarray(12, blob.length - 16);
+  const tag = blob.subarray(blob.length - 16);
+  const d = createDecipheriv("aes-256-gcm", K, iv);
+  d.setAuthTag(tag);
+  return Buffer.concat([d.update(ct), d.final()]);
+}
+
+/** Nome OPACO do arquivo cifrado no dataset público: sha1 de (doc, caminho).
+ *  Determinístico (extract reproduzível), sem o nome real (spoiler) no ar. */
+export function nomeCifrado(docId, relPath) {
+  return createHash("sha1").update(`${docId}\n${relPath}`).digest("hex");
+}
+
+/** K do doc a partir do envelope público (senha da aventura OU do dev). */
+export function chaveDoDoc(publico, { senha = null, senhaDev = null } = {}) {
+  const p = publico.protegido;
+  return senha != null ? unwrapKey(p.chaves.senha, senha) : unwrapKey(p.chaves.dev, senhaDev);
+}
+
 /** Chaves do FM que ficam no público SEMPRE (navegação/identidade). */
 const ESTRUTURAIS = new Set(["categoria", "aliases", "alias", "dg-publish", "Completo"]);
 
@@ -84,9 +120,11 @@ const norm = (s) => String(s).trim().replace(/[\s_]+/g, "_").toLowerCase();
  * cifrado) — a versão privada inteira (FM sem `Senha`, corpo e derivados) vai
  * dentro da cifra.
  * @param {object} record  record do parseDoc
- * @param {object} opts    { camposPublicos: string[] (rótulos), senhaDev: string|null }
+ * @param {object} opts    { camposPublicos: string[] (rótulos), senhaDev: string|null,
+ *                           chave?: Buffer (K já usado pra cifrar os arquivos do doc),
+ *                           privadoExtra?: object (campos extras SÓ dentro da cifra, ex.: arquivos) }
  */
-export function cifrarDoc(record, { camposPublicos = [], senhaDev = null } = {}) {
+export function cifrarDoc(record, { camposPublicos = [], senhaDev = null, chave = null, privadoExtra = null } = {}) {
   const senha = record.frontmatter?.Senha;
   if (typeof senha !== "string" || !senha.trim()) {
     throw new Error(`cifrarDoc: ${record.id} sem FM Senha`);
@@ -101,9 +139,9 @@ export function cifrarDoc(record, { camposPublicos = [], senhaDev = null } = {})
   }
   const { id, path, basename, type, subtype, grupo, frontmatter: _fm, ...resto } = record;
   void _fm;
-  const privado = Buffer.from(JSON.stringify({ frontmatter: fmPrivado, ...resto }), "utf8");
+  const privado = Buffer.from(JSON.stringify({ frontmatter: fmPrivado, ...resto, ...(privadoExtra ?? {}) }), "utf8");
 
-  const K = randomBytes(32);
+  const K = chave ?? randomBytes(32);
   const chaves = { senha: wrapKey(K, senha.trim()) };
   if (senhaDev) chaves.dev = wrapKey(K, senhaDev, SALT_DEV);
 

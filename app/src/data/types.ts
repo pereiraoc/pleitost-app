@@ -120,6 +120,20 @@ export interface VaultDoc {
    *  doc TRANCADO (corpo/FM privado ausentes); data/doc-lock.ts decifra com a
    *  senha ou a chave do dev e devolve o doc completo SEM este campo. */
   protegido?: import('./doc-lock').Envelope
+  /** FIGURAS DA CAMPANHA: imagens que SÓ este doc trancado embute — os bytes
+   *  estão cifrados com a chave dele (assets-cifrados/), fora do manifesto
+   *  público. Só existe no doc DESTRAVADO (viaja dentro da cifra). */
+  arquivos?: ArquivoCifrado[]
+}
+
+/** Arquivo cifrado de um doc trancado: alvo do embed → blob no dataset. */
+export interface ArquivoCifrado {
+  /** Alvo do embed, como escrito na nota (`![[Nico.png]]` → `Nico.png`). */
+  target: string
+  /** Caminho real na vault (identidade estável do arquivo). */
+  path: string
+  /** Caminho servível do blob cifrado no dataset (nome opaco). */
+  copiedTo: string
 }
 
 export interface LocationBody {
@@ -167,4 +181,7 @@ export interface AssetsManifest {
   counts: Record<string, number>
   assets: AssetEntry[]
   missing: unknown[]
+  /** Caminhos (opacos) dos blobs cifrados de docs trancados — não são assets
+   *  públicos; entram só no roteamento de URL do mundo (world-dataset). */
+  cifrados?: string[]
 }
