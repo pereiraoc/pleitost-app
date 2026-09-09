@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { docPath } from '../../paths'
 import { activeContextoDef, reskinName, reskinText } from '../../data/reskin'
-import { useDetail } from '../../data/detail-context'
-import { leafletZoom, markerVisivel, markerGlyph } from '../../map/leaflet-local'
-import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
-import { useMapView } from '../../map/useMapView'
+// MapaLocal saiu daqui pra map/MapaLocal.tsx (2026-09-09) quando ganhou as
+// ÁREAS DE BAIRRO; segue re-exportado porque a Aventura o importa deste módulo.
+import { MapaLocal } from '../../map/MapaLocal'
+export { MapaLocal }
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
 import { regionMapForDoc } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
@@ -15,7 +13,9 @@ import { VaultImage } from './VaultImage'
 import { HexMapEditor } from './HexMapEditor'
 import { useWheelScrollX } from '../ficha/bits'
 import { DocRuleElements } from './RuleElements'
-import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren, type AtlasRelations } from './AtlasNav'
+import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren } from './AtlasNav'
+import { TransporteNoMapa } from '../../transporte/TransporteNoMapa'
+import { pluralPt } from '../../data/plural-pt'
 import { ServicosTab } from './ServicosTab'
 import { compendioKicker } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
@@ -229,181 +229,7 @@ function RecursosGrid({ recursos }: { recursos: string[] }) {
   )
 }
 
-/** Mapa da localização (#519): bloco leaflet do template POA — viewer com
- *  pan/pinça/zoom/fullscreen (useMapView/MapControls, os mesmos do mapa do
- *  mundo) e CAMADAS POR ZOOM (report 2026-08-31): a nota já define os gates
- *  no formato do obsidian-leaflet — Bairros (maxZoom) só no zoom afastado,
- *  pontos de interesse (minZoom) só no aproximado. Ícone por tipo no registro
- *  map/leaflet-local; clicar num marker abre a nota correspondente quando o
- *  catálogo a resolve. Posições em % dos bounds (lat cresce pra CIMA;
- *  top% = 1 − lat/latMax); labels contra-escalam pra manter o tamanho. */
-export function MapaLocal({
-  leaflet,
-  onMarker,
-}: {
-  leaflet: NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']>
-  /** Formato de Aventura (2026-09-05): a aventura reusa o viewer com markers
-   *  que são REGISTROS da própria nota (não docs). Devolve true quando tratou
-   *  o clique; senão cai no resolve do catálogo (abre a nota). */
-  onMarker?: (nome: string) => boolean
-}) {
-  const assets = useAssetIndex()
-  const catalog = useCatalog()
-  const detail = useDetail()
-  const navigate = useNavigate()
-  const map = useMapView()
-  if (!assets) return null
-  const entry = resolveAsset(assets, leaflet.image)
-  if (!entry) return null
-  const latMax = leaflet.bounds ? leaflet.bounds[1][0] - leaflet.bounds[0][0] : null
-  const longMax = leaflet.bounds ? leaflet.bounds[1][1] - leaflet.bounds[0][1] : null
-  const zoom = leafletZoom(leaflet.defaultZoom ?? null, map.view.scale)
-  const visiveis = leaflet.markers.filter((m) =>
-    markerVisivel({ minZoom: m.minZoom ?? null, maxZoom: m.maxZoom ?? null }, zoom),
-  )
-  const abrir = (nome: string) => {
-    if (onMarker?.(nome)) return
-    const r = catalog.resolve(nome)
-    if (r.kind !== 'doc') return
-    if (detail) detail.open({ kind: 'doc', id: r.id })
-    else navigate(docPath(r.id))
-  }
-  // Clique tratado no VIEWPORT com hit-test por coordenada (padrão do
-  // onMapClick do mapa-múndi): o useMapView captura o ponteiro
-  // (setPointerCapture), então o click sintetizado nunca chega no span do
-  // marker — onClick no marker era código morto.
-  const onViewportClick = (e: React.MouseEvent) => {
-    if (map.consumeMoved()) return
-    if (!latMax || !longMax) return
-    const rect = map.mapRef.current?.getBoundingClientRect()
-    if (!rect) return
-    let melhor: string | null = null
-    let melhorD = Infinity
-    for (const m of visiveis) {
-      const mx = rect.left + (m.long / longMax) * rect.width
-      const my = rect.top + (1 - m.lat / latMax) * rect.height
-      // âncora é a BASE do marker (ícone+label ficam acima dela)
-      const d = Math.hypot(mx - e.clientX, my - 10 - e.clientY)
-      if (d < melhorD) {
-        melhorD = d
-        melhor = m.nome
-      }
-    }
-    if (melhor && melhorD <= 22) abrir(melhor)
-  }
-  return (
-    <section
-      ref={map.containerRef}
-      style={fullscreenContainerStyle(
-        {
-          position: 'relative',
-          maxWidth: 620,
-          alignSelf: 'center',
-          width: '100%',
-          background: 'var(--panel)',
-          border: '1px solid var(--line2)',
-          clipPath: map.fullscreen ? 'none' : clip(10),
-          overflow: 'hidden',
-        },
-        map.fullscreen,
-      )}
-    >
-      <div
-        ref={map.viewportRef}
-        data-mapa-local-viewport=""
-        onPointerDown={map.onPointerDown}
-        onPointerMove={map.onPointerMove}
-        onPointerUp={map.onPointerUp}
-        onPointerCancel={map.onPointerUp}
-        onClick={onViewportClick}
-        style={{
-          height: map.fullscreen ? '100%' : 'min(64vh, 560px)',
-          display: 'flex',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          touchAction: 'none',
-          cursor: map.dragging ? 'grabbing' : 'grab',
-          userSelect: 'none',
-        }}
-      >
-        <div
-          ref={map.mapRef}
-          style={{
-            position: 'relative',
-            height: '100%',
-            flex: 'none',
-            transform: map.transform,
-            transformOrigin: '0 0',
-          }}
-        >
-          <img
-            src={assetUrl(entry)}
-            alt={`Mapa: ${leaflet.image}`}
-            draggable={false}
-            style={{ height: '100%', width: 'auto', display: 'block' }}
-          />
-          {latMax && longMax
-            ? visiveis.map((m) => (
-                <span
-                  key={`${m.tipo}|${m.nome}|${m.lat}|${m.long}`}
-                  data-marker={m.nome}
-                  title={`${m.tipo}: ${reskinName(m.nome)}`}
-                  style={{
-                    position: 'absolute',
-                    left: `${(m.long / longMax) * 100}%`,
-                    top: `${(1 - m.lat / latMax) * 100}%`,
-                    transform: `translate(-50%, -100%) scale(${1 / map.view.scale})`,
-                    transformOrigin: '50% 100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    lineHeight: 1,
-                    pointerEvents: 'auto',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    width={14}
-                    height={14}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      color: 'rgba(235,235,235,.95)',
-                      filter: 'drop-shadow(0 1px 1.5px rgba(0,0,0,.9))',
-                    }}
-                  >
-                    {markerGlyph(m.tipo).map((d, i) => (
-                      <path key={i} d={d} />
-                    ))}
-                  </svg>
-                  <span
-                    style={{
-                      fontFamily: 'var(--mono)',
-                      fontSize: 7.5,
-                      fontWeight: 700,
-                      letterSpacing: '.04em',
-                      color: '#fff',
-                      textShadow: '0 1px 2px rgba(0,0,0,.9)',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {reskinName(m.nome)}
-                  </span>
-                </span>
-              ))
-            : null}
-        </div>
-      </div>
-      <MapControls map={map} />
-    </section>
-  )
-}
-
-function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
+function DetalhesTab({ doc }: { doc: VaultDoc }) {
   const recursos = locationRecursos(doc)
   const blocks: ReactNode[] = []
   for (const field of DETAIL_FIELDS) {
@@ -429,20 +255,16 @@ function DetalhesTab({ doc, rel }: { doc: VaultDoc; rel: AtlasRelations }) {
       )
     }
   }
-  const vazio =
-    !blocks.length && !recursos.length && rel.children.length === 0 && !doc.locationBody?.leaflet
+  const vazio = !blocks.length && !recursos.length
   return (
     <TipProvider>
       <style>{ITEM_CARD_CSS}</style>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-        {doc.locationBody?.leaflet ? <MapaLocal leaflet={doc.locationBody.leaflet} /> : null}
         {blocks.length ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>{blocks}</div>
         ) : null}
         {recursos.length ? <RecursosGrid recursos={recursos} /> : null}
         {vazio ? <EmptyPanel>{'// SEM DETALHES REGISTRADOS'}</EmptyPanel> : null}
-        {/* Feedback do mestre: os lugares-filhos moram AQUI (descer na hierarquia). */}
-        <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
       </div>
     </TipProvider>
   )
@@ -1110,10 +932,22 @@ function HexploracaoTab({ doc }: { doc: VaultDoc }) {
 // ───────────────────────────── Abas ─────────────────────────────
 
 interface LocTab {
-  id: 'detalhes' | 'comercio' | 'servicos' | 'locais-interesse' | 'hexploracao'
+  id: 'detalhes' | 'dentro' | 'mapa' | 'transporte' | 'comercio' | 'servicos' | 'locais-interesse' | 'hexploracao'
   label: string
   /** Predicado de habilitação; ausente = sempre habilitada. */
   enabled?: (doc: VaultDoc) => boolean
+}
+
+/** O lugar tem mapa próprio (bloco ```leaflet``` na nota). */
+function temMapa(doc: VaultDoc): boolean {
+  return !!doc.locationBody?.leaflet
+}
+
+/** Este lugar é a CIDADE da malha de transportes do contexto (`transporte.cidade`)
+ *  — é nele que a malha faz sentido sobre o mapa real. */
+export function ehCidadeDaMalha(doc: VaultDoc): boolean {
+  const cfg = activeContextoDef()?.transporte
+  return !!cfg?.cidade && cfg.cidade === doc.basename && temMapa(doc)
 }
 
 /** A aba "Locais de Interesse" só faz sentido quando o doc TEM o callout
@@ -1139,11 +973,23 @@ const COMERCIO_DISABLED_NOTE =
 const HEX_DISABLED_NOTE =
   'Hexploração só é habilitada na nota-raiz de uma região com mapa de hexcrawl configurado (por ora, Mundo Livre).'
 
+const MAPA_DISABLED_NOTE = 'Este lugar não tem mapa próprio (bloco leaflet) na nota.'
+
+const TRANSPORTE_DISABLED_NOTE =
+  'A malha de transportes se desenha sobre o mapa da cidade que o contexto declara.'
+
 const LOCAIS_INTERESSE_DISABLED_NOTE =
   'Este lugar não tem distritos ou locais de interesse registrados no callout do body.'
 
 const LOCATION_TABS: LocTab[] = [
   { id: 'detalhes', label: 'Detalhes' },
+  // 2026-09-09: os lugares-filhos e o mapa saíram de dentro dos Detalhes pra
+  // abas próprias (na página de Porto Alegre a lista de bairros ficava no fim,
+  // depois de todo o resto). O rótulo de `dentro` vem do SUBTIPO dos filhos no
+  // plural — "Bairros" em Porto Alegre, "Pontos de Interesse" num bairro.
+  { id: 'dentro', label: 'Lugares' },
+  { id: 'mapa', label: 'Mapa', enabled: temMapa },
+  { id: 'transporte', label: 'Transporte' },
   { id: 'comercio', label: 'Comércio' },
   // SERVIÇOS (2026-09-07b): vitrine dos estabelecimentos (recursos do mundo);
   // rótulo vem do contexto (`recursos.ofertas.aba`); só existe em mundo com recursos.
@@ -1176,9 +1022,33 @@ export function LocationSheet({
   // Na sidebar de DETALHES (aberta do modo Exploração), a aba Hexploração não
   // faz sentido — já estamos na hexploração e o editor não cabe ali.
   const recursosCfg = activeContextoDef()?.recursos
-  const tabs = LOCATION_TABS.filter((t) => (sidebar ? t.id !== 'hexploracao' : true) && (t.id !== 'servicos' || !!recursosCfg)).map((t) =>
-    t.id === 'servicos' && recursosCfg ? { ...t, label: recursosCfg.ofertas.aba } : t,
-  )
+  // Rótulo da aba dos lugares-filhos: o SUBTIPO PREDOMINANTE deles, no plural
+  // (Porto Alegre tem 15 bairros e o Lago Guaíba → "Bairros"; um bairro tem só
+  // pontos de interesse → "Pontos de Interesse"). Sem predominância clara fica
+  // o "Lugares" do registro — nunca um rótulo inventado.
+  const subtipoFilhos = useMemo(() => {
+    const conta = new Map<string, number>()
+    for (const id of rel.children) {
+      const t = rel.subtypeOf(id)
+      if (t !== '') conta.set(t, (conta.get(t) ?? 0) + 1)
+    }
+    const [maior] = [...conta.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'))
+    return maior && maior[1] > rel.children.length / 2 ? maior[0] : null
+  }, [rel])
+  const tabs = LOCATION_TABS.filter(
+    (t) =>
+      (sidebar ? t.id !== 'hexploracao' : true) &&
+      (t.id !== 'servicos' || !!recursosCfg) &&
+      // sem filho, sem aba (não inventar lista vazia)
+      (t.id !== 'dentro' || rel.children.length > 0) &&
+      // TRANSPORTE existe num lugar só no mundo (a cidade da malha): nos
+      // outros 200 e tantos não fica nem desabilitada, some.
+      (t.id !== 'transporte' || ehCidadeDaMalha(doc)),
+  ).map((t) => {
+    if (t.id === 'servicos' && recursosCfg) return { ...t, label: recursosCfg.ofertas.aba }
+    if (t.id === 'dentro' && subtipoFilhos) return { ...t, label: pluralPt(reskinText(subtipoFilhos)) }
+    return t
+  })
   // Report 2026-08-29 (Porto Alegre): se a imagem-hero é a MESMA do bloco
   // leaflet, ela some — o MapaLocal logo abaixo já a mostra (com os pins);
   // duas cópias da mesma imagem só empurravam o conteúdo. Retrato próprio
@@ -1228,7 +1098,11 @@ export function LocationSheet({
               aria-selected={on}
               disabled={!enabled}
               title={
-                !enabled && t.id === 'hexploracao'
+                !enabled && t.id === 'mapa'
+                  ? MAPA_DISABLED_NOTE
+                  : !enabled && t.id === 'transporte'
+                    ? TRANSPORTE_DISABLED_NOTE
+                  : !enabled && t.id === 'hexploracao'
                   ? HEX_DISABLED_NOTE
                   : !enabled && t.id === 'locais-interesse'
                     ? LOCAIS_INTERESSE_DISABLED_NOTE
@@ -1259,7 +1133,16 @@ export function LocationSheet({
       </div>
 
       <div style={{ marginTop: 4 }}>
-        {tab === 'detalhes' ? <DetalhesTab doc={doc} rel={rel} /> : null}
+        {tab === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
+        {tab === 'dentro' ? (
+          <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
+        ) : null}
+        {tab === 'mapa' && doc.locationBody?.leaflet ? (
+          <MapaLocal leaflet={doc.locationBody.leaflet} />
+        ) : null}
+        {tab === 'transporte' && doc.locationBody?.leaflet ? (
+          <TransporteNoMapa leaflet={doc.locationBody.leaflet} />
+        ) : null}
         {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
         {tab === 'servicos' ? <ServicosTab doc={doc} /> : null}
         {tab === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}

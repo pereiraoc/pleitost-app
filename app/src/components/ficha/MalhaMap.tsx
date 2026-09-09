@@ -9,12 +9,11 @@
 // pinça, roda, +/− e tela cheia. O clique é hit-test por coordenada no
 // viewport (o hook captura o ponteiro; o onClick dos filhos nunca dispara).
 import { useState, type CSSProperties } from 'react'
-import { corVisivel, type Desenho, type Traco, type ZonaBairro } from '../../transporte/malha'
+import { corVisivel, DASH, type Desenho, type Traco, type ZonaBairro } from '../../transporte/malha'
 import { useTheme } from '../../theme'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
 
-const DASH: Record<Traco, string | undefined> = { cheio: undefined, tracejado: '12 7', pontilhado: '1 8' }
 /** Paleta do mapa. Os valores vêm do TEMA (styles/theme.css): no claro é o
  *  papel de sempre; no escuro vira tinta clara sobre o fundo do tema. Manter
  *  como var() e não como hex — o SVG aceita, e assim o mapa acompanha os dois

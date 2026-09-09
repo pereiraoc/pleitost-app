@@ -14,6 +14,14 @@ import { parseLinha, type Linha } from './parse-linha'
 export type TransporteCfg = NonNullable<ContextoDef['transporte']>
 export type Traco = TransporteCfg['modos'][number]['traco']
 
+/** Traço de cada modo como dasharray do SVG (undefined = linha cheia). Vale
+ *  pros dois mapas — o esquemático da ficha e o real do Atlas. */
+export const DASH: Record<Traco, string | undefined> = {
+  cheio: undefined,
+  tracejado: '12 7',
+  pontilhado: '1 8',
+}
+
 export interface Ponto {
   x: number
   y: number

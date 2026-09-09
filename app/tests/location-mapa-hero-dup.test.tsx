@@ -5,7 +5,7 @@
 // hero é a MESMA imagem do bloco leaflet, ele some — o mapa já é o visual.
 // Um retrato próprio + mapa distinto continuam coexistindo.
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { cleanup, render, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -55,7 +55,10 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
     expect(targets).toContain('Porto Alegre.png')
   })
 
-  it('a imagem do mapa aparece UMA vez (só no MapaLocal, com pins); o hero é a ilustração', async () => {
+  // 2026-09-09: o mapa saiu dos DETALHES pra uma aba MAPA própria (a lista de
+  // bairros ficava no fim da página, depois de tudo). O cerne do report segue
+  // valendo: a imagem do mapa aparece UMA vez, e não como hero.
+  it('a imagem do mapa aparece UMA vez (só na aba MAPA, com pins); o hero é a ilustração', async () => {
     const { container } = render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter>
@@ -63,6 +66,10 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
         </MemoryRouter>
       </CatalogProvider>,
     )
+    // nos Detalhes (aba inicial) o mapa não aparece: ele tem aba própria
+    await waitFor(() => expect(screen.getByRole('tab', { name: 'Mapa' })).toBeTruthy())
+    expect(container.querySelectorAll('img[src*="Porto%20Alegre%20RPG"]').length).toBe(0)
+    fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     await waitFor(() => {
       expect(container.querySelectorAll('img[src*="Porto%20Alegre%20RPG"]').length).toBe(1)
     })

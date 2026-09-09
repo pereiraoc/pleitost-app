@@ -6,6 +6,7 @@ import { reskinUpper } from '../../data/reskin'
 import { MEDAL, RANK_ORDER, RANK_STATES, type RankLetter, type RankStateKey } from './registry'
 import { TipHover, sourceTipHtml } from './tooltips'
 import { useDetail } from '../../data/detail-context'
+import { linkLabel } from '../../markdown/dataview-value'
 
 /** clip-path de canto cortado usado em todo o design. */
 export function clip(n: number): string {
@@ -545,4 +546,79 @@ export function useWheelScrollX(ref: React.RefObject<HTMLElement | null>): void 
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)
   }, [ref])
+}
+
+export interface SelectOption {
+  value: string
+  label: string
+  disabled?: boolean
+}
+
+/** Garante que o valor atual apareça nas opções (registro ainda carregando
+ *  ou valor órfão) — mesmo guard do SelectBox de COMPETÊNCIAS. */
+export function withCurrent(options: SelectOption[], value: string, label?: string): SelectOption[] {
+  if (!value || options.some((o) => o.value === value)) return options
+  // órfão de verdade ainda mostra o LABEL do wikilink, nunca o valor cru com
+  // colchetes (#497)
+  return [...options, { value, label: label ?? (linkLabel(value) || value) }]
+}
+
+/** Caixa do design com <select> nativo invisível por cima — mesmo padrão do
+ *  linked-dropdown do plugin (render/shared/linked-dropdown.ts: display
+ *  decorado + select transparente). O visual fica verbatim do design; as
+ *  OPÇÕES vêm da projeção de regras (app/src/rules). */
+export function BoxSelect({
+  display,
+  options,
+  value,
+  onChange,
+  ariaLabel,
+  disabled,
+  infoDocId,
+}: {
+  display: ReactNode
+  options: SelectOption[]
+  value: string
+  onChange: (v: string) => void
+  ariaLabel: string
+  disabled?: boolean
+  /** Doc da opção SELECIONADA — quando presente, mostra o ℹ️ ao lado (fora do
+   *  select invisível, pra ser clicável) que abre a nota nos detalhes. */
+  infoDocId?: string | null
+}) {
+  // ESTRUTURA ESTÁVEL (sempre a mesma árvore): a caixa + o botão ℹ️ que só
+  // aparece com infoDocId. Antes eu trocava entre `box` e `<div>box+botão</div>`
+  // conforme o infoDocId resolvia (natDoc async null→doc), e essa troca REMONTAVA
+  // o <select> — que voltava sem as opções (0 options). Manter o wrapper fixo
+  // (como o SelectBox de Habilidades) evita o remount.
+  return (
+    <div style={{ display: 'flex', alignItems: 'stretch', gap: 6, minWidth: 0, width: '100%' }}>
+      {/* width:100% do wrapper de select do design (dc.html:795) — sem ele a
+          célula encolhe pro conteúdo em colunas com align-items:center. */}
+      <div style={{ position: 'relative', minWidth: 0, flex: 1 }}>
+        {display}
+        <select
+          aria-label={ariaLabel}
+          value={value}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: disabled ? 'default' : 'pointer',
+          }}
+        >
+          {options.map((o, i) => (
+            <option key={`${o.value}-${i}`} value={o.value} disabled={o.disabled}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <DetailInfoButton docId={infoDocId} label={ariaLabel} />
+    </div>
+  )
 }
