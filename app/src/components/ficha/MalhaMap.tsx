@@ -9,7 +9,8 @@
 // pinça, roda, +/− e tela cheia. O clique é hit-test por coordenada no
 // viewport (o hook captura o ponteiro; o onClick dos filhos nunca dispara).
 import { useState, type CSSProperties } from 'react'
-import type { Desenho, Traco, ZonaBairro } from '../../transporte/malha'
+import { corVisivel, type Desenho, type Traco, type ZonaBairro } from '../../transporte/malha'
+import { useTheme } from '../../theme'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
 
@@ -30,9 +31,10 @@ export const PAPEL = {
 /** Amostra do traço de uma linha — o MESMO traço do mapa (cor, largura,
  *  tracejado), sobre o papel; usada na legenda. */
 export function TracoAmostra({ cor, traco, largura }: { cor: string; traco: Traco; largura: number }) {
+  const { isDark } = useTheme()
   return (
     <svg width={38} height={14} viewBox="0 0 38 14" aria-hidden data-swatch={traco} style={{ background: PAPEL.fundo, borderRadius: 3, flex: 'none' }}>
-      <line x1={4} y1={7} x2={34} y2={7} stroke={cor} strokeWidth={Math.max(3, largura)} strokeLinecap="round" strokeDasharray={DASH[traco]} />
+      <line x1={4} y1={7} x2={34} y2={7} stroke={corVisivel(cor, isDark)} strokeWidth={Math.max(3, largura)} strokeLinecap="round" strokeDasharray={DASH[traco]} />
     </svg>
   )
 }
@@ -112,6 +114,7 @@ export function MalhaMap({
   onParada: (nome: string) => void
 }) {
   const map = useMapView()
+  const { isDark: escuro } = useTheme()
   const [mostrarBairros, setMostrarBairros] = useState(false)
   if (!desenho.tracos.length) return null
   const onViewportClick = (e: React.MouseEvent) => {
@@ -185,7 +188,7 @@ export function MalhaMap({
                   data-na-rota={naRota ? '' : undefined}
                   d={t.d}
                   fill="none"
-                  stroke={t.cor}
+                  stroke={corVisivel(t.cor, escuro)}
                   strokeWidth={grossa ? t.largura + 2 : t.largura}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -208,7 +211,7 @@ export function MalhaMap({
                       {ponta}
                     </text>
                   ) : null}
-                  {ponta ? null : <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill={PAPEL.parada} stroke={p.cor ?? PAPEL.tinta} strokeWidth={p.baldeacao ? 3 : 2.5} />}
+                  {ponta ? null : <circle cx={p.cx} cy={p.cy} r={p.baldeacao ? 7 : 4.5} fill={PAPEL.parada} stroke={p.cor ? corVisivel(p.cor, escuro) : PAPEL.tinta} strokeWidth={p.baldeacao ? 3 : 2.5} />}
                   <text
                     x={p.rotulo.x}
                     y={p.rotulo.y}

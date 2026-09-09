@@ -205,6 +205,15 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     for (const k of ["sinuosidade", "parada", "baldeacao"]) {
       if (t[k] !== undefined) { if (!(Number(t[k]) >= 0)) problems.push(`transporte.${k}: número ≥ 0`); transporte[k] = Number(t[k]); }
     }
+    // A PÉ (2026-09-09): fator sobre o tempo da rota completa + velocidade de
+    // caminhada. Opcional — sem ele o app não oferece o trecho a pé.
+    if (t.a_pe !== undefined) {
+      const a = isPlainObject(t.a_pe) ? t.a_pe : {};
+      const fator = Number(a.fator);
+      const velocidade = Number(a.velocidade);
+      if (!(fator > 0) || !(velocidade > 0)) problems.push("transporte.a_pe: { fator > 0, velocidade > 0 }");
+      else transporte.aPe = { fator, velocidade };
+    }
     if (t.atraso_por_qualidade !== undefined) {
       const a = Array.isArray(t.atraso_por_qualidade) ? t.atraso_por_qualidade.map(Number) : [];
       if (a.length !== 5 || a.some((x) => !(x > 0))) problems.push("transporte.atraso_por_qualidade: 5 fatores > 0 (★1..★5)");

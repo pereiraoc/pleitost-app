@@ -100,6 +100,10 @@ export interface ContextoDef {
     parada?: number
     /** Minutos pra trocar de linha (fora a espera da próxima). */
     baldeacao?: number
+    /** A PÉ (2026-09-09): sem caminho no filtro, o trecho se faz a pé — o
+     *  tempo é o da rota na malha inteira × `fator`; sem rota nem assim, a
+     *  distância direta a `velocidade` km/h. */
+    aPe?: { fator: number; velocidade: number }
     /** Fator de atraso por Qualidade da linha (índice 0 = ★1). */
     atrasoPorQualidade?: number[]
     /** Períodos do dia e o fator de trânsito de cada um (modos `rua`). */

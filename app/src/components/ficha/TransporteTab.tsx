@@ -15,10 +15,10 @@ import { DetailLink } from '../DetailLink'
 import { clip } from './bits'
 import { parseRecurso } from '../../recursos/parse-recurso'
 import { abaDoPapel, recursosDoFm } from '../../recursos/hero-recursos'
-import { desenharMalha, linhasDoNivel, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
+import { desenharMalha, linhasDoFiltro, montarMalha, paradasComBaldeacao, zonasDeBairro, type LinhaMalha, type Malha } from '../../transporte/malha'
 import { MalhaMap, TracoAmostra, type Destaque } from './MalhaMap'
 import { formatValorMoeda } from '../../data/moeda'
-import { calcularRotas, formatarMinutos, type PosicaoReal, type Rota } from '../../transporte/rotas'
+import { calcularRotas, formatarMinutos, rotaAPe, type PosicaoReal, type Rota } from '../../transporte/rotas'
 import { paradasSelectLines } from '../../transporte/paradas-select'
 import { BoxSelect } from './PerfilTab'
 
@@ -161,6 +161,11 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     return dados.planosLista.filter((p) => pedidos.has(p.nivel))
   }, [dados])
   const [vista, setVista] = useState<number | null>(null)
+  // FILTRO (2026-09-09): além do cartão, o jogador liga/desliga MODOS e troca
+  // "o que este cartão abre" (cumulativo) por "só as linhas deste cartão".
+  // O mapa e o TRAJETO leem o mesmo filtro — é o ponto do pedido.
+  const [modos, setModos] = useState<string[]>([])
+  const [exato, setExato] = useState(false)
   // padrão: a maior vista que o plano do herói alcança; sem plano, a menor
   const vistaPadrao = [...vistas].reverse().find((v) => v.nivel <= nivelAtual)?.nivel ?? vistas[0]?.nivel ?? 1
   const nivelVista = vista ?? vistaPadrao
@@ -171,7 +176,16 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
   const [periodo, setPeriodo] = useState<number | null>(null)
   const [rotaSel, setRotaSel] = useState(0)
 
-  const visiveis = useMemo(() => (dados ? linhasDoNivel(dados.malha, nivelVista) : []), [dados, nivelVista])
+  const visiveis = useMemo(
+    () => (dados ? linhasDoFiltro(dados.malha, { modos, nivel: nivelVista, exato }) : []),
+    [dados, nivelVista, modos, exato],
+  )
+  /** Modos que a malha tem, na ordem que o contexto declara. */
+  const modosDaMalha = useMemo(() => {
+    if (!dados) return []
+    const tem = new Set(dados.malha.linhas.filter((l) => !l.fechada).map((l) => l.modo))
+    return (cfg?.modos ?? []).map((m) => m.nome).filter((n) => tem.has(n))
+  }, [dados, cfg])
   const desenho = useMemo(() => (dados ? desenharMalha(dados.malha, visiveis) : null), [dados, visiveis])
   const periodos = cfg?.periodos ?? []
   const periodoIdx = periodo ?? Math.max(0, periodos.findIndex((p) => p.transito === 1))
@@ -180,7 +194,14 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
     if (!dados || !cfg || !podePlanejar || !origem || !destino) return []
     return calcularRotas(dados.malha, visiveis, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
   }, [dados, cfg, podePlanejar, origem, destino, visiveis, periodos, periodoIdx])
-  const rota = rotas[Math.min(rotaSel, Math.max(0, rotas.length - 1))] ?? null
+  // Sem caminho NO FILTRO, o trecho se faz a pé — estimado pelo que a malha
+  // inteira levaria (ver rotaAPe). Só entra quando não há rota nenhuma.
+  const aPe = useMemo(() => {
+    if (!dados || !cfg || !podePlanejar || !origem || !destino || rotas.length) return null
+    const todas = dados.malha.linhas.filter((l) => !l.fechada)
+    return rotaAPe(todas, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
+  }, [dados, cfg, podePlanejar, origem, destino, rotas, periodos, periodoIdx])
+  const rota = rotas[Math.min(rotaSel, Math.max(0, rotas.length - 1))] ?? aPe
   const destaque: Destaque | null = origem || destino ? { linhas: rota?.linhas ?? [], paradas: rota?.paradas ?? [origem, destino].filter((x): x is string => !!x), origem, destino } : null
 
   if (!cfg || !rcfg) return null
@@ -245,10 +266,23 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
         </div>
       </section>
 
-      {/* VISTA por plano */}
-      <section style={BOX}>
-        <div style={MONO}>{'// VISTA'}</div>
-        <div role="radiogroup" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+      {/* FILTRO: cartão (por plano ou exato) + modos. O mapa e o trajeto usam. */}
+      <section style={BOX} data-filtro="">
+        <div style={{ ...MONO, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          <span>{'// FILTRO'}</span>
+          <span style={{ flex: 1 }} />
+          <button
+            type="button"
+            data-exato={exato ? 'sim' : 'nao'}
+            aria-pressed={exato}
+            onClick={() => { setExato((v) => !v); setSelecionada(null) }}
+            title={exato ? 'Mostrando só as linhas deste cartão' : 'Mostrando tudo que este cartão abre (o Ouro abre o do Prata e o do Bronze)'}
+            style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: exato ? 'color-mix(in srgb,var(--accent) 18%,transparent)' : 'transparent', borderColor: exato ? 'var(--accent)' : 'var(--line2)' }}
+          >
+            {exato ? 'só este cartão' : 'o que o cartão abre'}
+          </button>
+        </div>
+        <div role="radiogroup" aria-label="Cartão" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
           {vistas.map((p) => {
             const ativa = p.nivel === nivelVista
             return (
@@ -275,6 +309,38 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
             )
           })}
         </div>
+        {modosDaMalha.length > 1 ? (
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8, alignItems: 'center' }} data-modos="">
+            <span style={{ ...MONO, marginRight: 4 }}>MODO</span>
+            {modosDaMalha.map((m) => {
+              const ligado = modos.length === 0 || modos.includes(m)
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  aria-pressed={ligado}
+                  data-modo-filtro={m}
+                  onClick={() => {
+                    setModos((atual) => {
+                      const base = atual.length ? atual : modosDaMalha
+                      const novo = base.includes(m) ? base.filter((x) => x !== m) : [...base, m]
+                      return novo.length === modosDaMalha.length ? [] : novo
+                    })
+                    setSelecionada(null)
+                  }}
+                  style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: ligado ? 'color-mix(in srgb,var(--accent) 14%,transparent)' : 'transparent', borderColor: ligado ? 'var(--accent)' : 'var(--line2)', opacity: ligado ? 1 : 0.55 }}
+                >
+                  {m}
+                </button>
+              )
+            })}
+            {modos.length ? (
+              <button type="button" data-modos-todos="" onClick={() => { setModos([]); setSelecionada(null) }} style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent' }}>
+                todos
+              </button>
+            ) : null}
+          </div>
+        ) : null}
       </section>
 
       {/* PLANEJADOR: de onde pra onde, no cartão da vista, no período escolhido */}
@@ -311,6 +377,8 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
           </div>
           <div style={{ ...MONO, fontSize: 10, marginTop: 6, textTransform: 'none', letterSpacing: '.06em' }}>
             clique numa parada do mapa pra marcar de onde (A) e pra onde (B) · com o cartão {vistas.find((v) => v.nivel === nivelVista)?.nome ?? ''}
+            {exato ? ' (só as linhas dele)' : ''}
+            {modos.length ? ` · só ${modos.join(', ')}` : ''}
           </div>
           {origem && destino ? (
             rotas.length ? (
@@ -338,9 +406,23 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
                   )
                 })}
               </ol>
+            ) : aPe ? (
+              // Sem caminho no filtro, sobra o pé. O tempo é estimado pelo que
+              // a malha inteira levaria × o fator do contexto — não é um
+              // traçado de pedestre, e o texto diz isso.
+              <div data-a-pe="" style={{ marginTop: 10, padding: '8px 10px', border: '1px dashed var(--line2)', borderLeft: '3px solid var(--muted)' }}>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                  <b style={{ fontSize: 15 }} data-minutos={aPe.minutos}>{formatarMinutos(aPe.minutos)}</b>
+                  <span style={MONO}>a pé</span>
+                  <span style={MONO}>{`${aPe.km.toLocaleString('pt-BR')} km`}</span>
+                </div>
+                <div style={{ ...MONO, fontSize: 10, marginTop: 4, textTransform: 'none', letterSpacing: '.06em' }}>
+                  nenhuma linha do filtro liga estes dois pontos — estimativa de caminhada, não trajeto de rua
+                </div>
+              </div>
             ) : (
               <p data-sem-rota="" style={{ ...MONO, marginTop: 10, textTransform: 'none' }}>
-                sem trajeto com este cartão — troque a vista ou os pontos
+                sem trajeto com este filtro — troque o cartão, os modos ou os pontos
               </p>
             )
           ) : null}
@@ -351,7 +433,7 @@ export function TransporteTab({ doc }: { doc: VaultDoc }) {
 
       {/* LEGENDA */}
       <section style={BOX}>
-        <div style={MONO}>{'// LINHAS NA VISTA'}</div>
+        <div style={MONO}>{'// LINHAS NO FILTRO'}</div>
         <div data-legenda="" style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
           {grupos.map(([modo, ls]) => (
             <div key={modo} data-modo={modo}>

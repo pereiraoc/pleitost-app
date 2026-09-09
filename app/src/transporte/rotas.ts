@@ -32,6 +32,8 @@ export interface Perna {
 }
 export interface Rota {
   pernas: Perna[]
+  /** Trecho feito A PÉ: não há caminho com as linhas do filtro. Sem pernas. */
+  aPe?: true
   /** Total em minutos (arredondado). */
   minutos: number
   /** Quilômetros percorridos (aproximado). */
@@ -184,6 +186,31 @@ export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: strin
     if (out.length >= quantos) break
   }
   return out
+}
+
+/** Trecho A PÉ (2026-09-09) — o que sobra quando o filtro do jogador não deixa
+ *  caminho entre dois pontos. Em vez de traçar rota de pedestre (que exigiria
+ *  uma malha de calçadas que a vault não tem), estima pelo que a cidade
+ *  INTEIRA levaria: a rota mais rápida com todas as linhas × o `fator` do
+ *  contexto. Sem rota nem assim (o ponto não é servido por nada), cai na
+ *  distância direta do mapa e na `velocidade` de caminhada.
+ *
+ *  `todas` = a malha sem filtro; passar as linhas já filtradas anula a graça. */
+export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p: Parametros): Rota | null {
+  const aPe = p.cfg.aPe
+  if (!aPe || !origem || !destino || origem === destino) return null
+  const km = distanciaKm(origem, destino, p)
+  if (km === null) return null
+  const [melhor] = calcularRotas({} as Malha, todas, origem, destino, p, 1)
+  const minutos = melhor ? melhor.minutos * aPe.fator : (km / aPe.velocidade) * 60
+  return {
+    aPe: true,
+    pernas: [],
+    minutos: Math.round(minutos),
+    km: Math.round((melhor?.km ?? km) * 10) / 10,
+    linhas: [],
+    paradas: [origem, destino],
+  }
 }
 
 /** Formata minutos como "1h05" / "35 min". */

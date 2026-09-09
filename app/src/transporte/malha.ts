@@ -83,6 +83,57 @@ export function linhasDoNivel(malha: Malha, nivel: number): LinhaMalha[] {
   return malha.linhas.filter((l) => !l.fechada && (l.nivel === null || l.nivel <= nivel))
 }
 
+/** FILTRO da aba TRANSPORTE (2026-09-09): o que o mapa desenha e o planejador
+ *  usa. `modos` vazio = todos; `exato` troca "o que este cartão abre" (o Ouro
+ *  abre o do Prata e o do Bronze) por "só as linhas deste cartão". Linha sem
+ *  cartão (`nivel` null) não se paga e entra sempre. */
+export interface FiltroMalha {
+  modos: string[]
+  nivel: number
+  exato: boolean
+}
+
+export function linhasDoFiltro(malha: Malha, f: FiltroMalha): LinhaMalha[] {
+  const modos = new Set(f.modos)
+  return malha.linhas.filter((l) => {
+    if (l.fechada) return false
+    if (modos.size && !modos.has(l.modo)) return false
+    if (l.nivel === null) return true
+    return f.exato ? l.nivel === f.nivel : l.nivel <= f.nivel
+  })
+}
+
+/** Luminância relativa (WCAG) de um hex `#rrggbb`. */
+function luminancia(hex: string): number {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim())
+  if (!m) return 1
+  const n = parseInt(m[1]!, 16)
+  const canal = (v: number) => {
+    const c = v / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  return 0.2126 * canal((n >> 16) & 255) + 0.7152 * canal((n >> 8) & 255) + 0.0722 * canal(n & 255)
+}
+
+/** Cor da linha que APARECE no fundo do modo. No claro é a cor da nota, tal
+ *  qual. No escuro, cor quase preta (a Linha Executiva é `#111111`) some no
+ *  fundo do tema: clareia até passar do mínimo, preservando o matiz. */
+export function corVisivel(cor: string, escuro: boolean): string {
+  const m = /^#?([0-9a-f]{6})$/i.exec(String(cor ?? '').trim())
+  if (!escuro || !m) return cor
+  const MIN = 0.18
+  if (luminancia(cor) >= MIN) return cor
+  const n = parseInt(m[1]!, 16)
+  const rgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+  // clareia em direção ao branco até passar do mínimo (a busca é curta e exata)
+  for (let mistura = 0.1; mistura <= 1; mistura += 0.05) {
+    const novo = rgb.map((v) => Math.round(v + (255 - v) * mistura))
+    const hex = '#' + novo.map((v) => v.toString(16).padStart(2, '0')).join('')
+    if (luminancia(hex) >= MIN) return hex
+  }
+  return '#ffffff'
+}
+
 /** Linhas desenháveis: todas as paradas com posição no mapa. */
 export function desenhavel(malha: Malha, l: LinhaMalha): boolean {
   return !l.fechada && l.paradas.length >= 2 && l.paradas.every((p) => malha.paradas.has(p))
