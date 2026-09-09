@@ -5,7 +5,7 @@ import { useCatalog } from '../../data/CatalogContext'
 import { useDoc } from '../../data/useDoc'
 import { DocView } from './DocPage'
 import { resolveDocView } from './doc-view-registry'
-import { isLocation } from './LocationSheet'
+import { isLocation, LOCATION_CATEGORY } from './LocationSheet'
 import type { FolderNode } from '../../data/catalog'
 import { compendiumFolderPath, docPath } from '../../paths'
 import { useSettings } from '../../settings'
@@ -129,10 +129,14 @@ function FolderNote({
   id,
   fallbackTitle,
   listing,
+  locationListing,
 }: {
   id: string
   fallbackTitle: string
   listing: ReactNode
+  /** O que uma LOCALIZAÇÃO ainda lista abaixo da ficha: só as subpastas que
+   *  não são lugares (ex.: a Malha de Transportes dentro de Porto Alegre). */
+  locationListing?: ReactNode
 }) {
   const { doc } = useDoc(id)
   const dedicated = doc != null && resolveDocView(doc) !== null
@@ -155,11 +159,13 @@ function FolderNote({
   }
   // Feedback do mestre: uma Localização já mostra "Lugares dentro de X"
   // (AtlasChildren, com o tipo ao lado) dentro da própria ficha — não repetir a
-  // listagem genérica da pasta (que duplicava as regiões-filhas).
+  // listagem genérica da pasta (que duplicava as regiões-filhas). Subpastas que
+  // NÃO são lugares (2026-09-08: a Malha de Transportes mora em Atlas/Porto
+  // Alegre) continuam como cards, senão sumiriam da navegação.
   return (
     <>
       <DocView doc={doc} embedded />
-      {isLocation(doc) ? null : listing}
+      {isLocation(doc) ? locationListing : listing}
     </>
   )
 }
@@ -265,6 +271,14 @@ export function FolderView() {
   // "O que tem dentro" da pasta: cards de subpasta + toggle mestre + creator +
   // grade/tabela. Extraído pra variável porque a nota-da-pasta (#272) o renderiza
   // ABAIXO do conteúdo dela — nos dois ramos é o mesmo bloco.
+  // Subpastas de uma Localização que não são lugares (sem folder-note de
+  // Localização): a ficha do lugar lista os lugares-filhos por conta própria,
+  // estas são o que sobra pra mostrar como card.
+  const pastasNaoLugar = visibleFolders(node, mestre).filter(
+    (f) => !f.docs.some((d) => d.basename === f.name && d.type === LOCATION_CATEGORY),
+  )
+  const locationListing = pastasNaoLugar.length ? <FolderCards folders={pastasNaoLugar} /> : null
+
   const childrenListing = (
     <>
       {/* Mapa do mundo EMBUTIDO na raiz do Atlas (pedido do mestre: abrir
@@ -341,7 +355,7 @@ export function FolderView() {
       <div className="kicker">{compendioKicker(indexDoc?.type)}</div>
       <Breadcrumb path={path} />
       {indexDoc && !portal ? (
-        <FolderNote id={indexDoc.id} fallbackTitle={navLabel(path)} listing={childrenListing} />
+        <FolderNote id={indexDoc.id} fallbackTitle={navLabel(path)} listing={childrenListing} locationListing={locationListing} />
       ) : (
         <>
           <h1>{navLabel(path)}</h1>

@@ -21,7 +21,7 @@ import { CHAR_TABS } from '../src/components/layout/design-nav'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
-const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Malha de Transportes/Malha de Transportes.json'))
+const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Atlas/Porto Alegre/Malha de Transportes/Malha de Transportes.json'))
 
 function makeStorage(): Storage {
   const data = new Map<string, string>()

@@ -1,5 +1,5 @@
 // Visualizador de LINHA (2026-09-08) — nota da malha de transportes do mundo
-// (Contexto/Malha de Transportes). Mesmo padrão da RecursoView: campos do FM
+// (Atlas/Porto Alegre/Malha de Transportes). Mesmo padrão da RecursoView: campos do FM
 // como blocos verticais (rótulos = os nomes do template), paradas em lista
 // numerada na ordem da nota, descrição em prosa, aparência (pra imagem) por
 // último — nada de template cru.

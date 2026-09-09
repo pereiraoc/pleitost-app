@@ -22,7 +22,7 @@ import '../src/components/compendium/register-doc-views'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
-const docFile = path.join(cyberDir, 'Contexto/Malha de Transportes/Ônibus/343 BEIRA-RIO.json')
+const docFile = path.join(cyberDir, 'Atlas/Porto Alegre/Malha de Transportes/Ônibus/343 BEIRA-RIO.json')
 const tem = fs.existsSync(docFile)
 
 beforeAll(() => {

@@ -1,5 +1,5 @@
 // LINHA de transporte (2026-09-08) — nota `categoria: Linha` da malha de
-// transportes do mundo (POA: Contexto/Malha de Transportes). O FM é a fonte
+// transportes do mundo (POA: Atlas/Porto Alegre/Malha de Transportes). O FM é a fonte
 // única: subcategoria = modo (Aeromóvel, Ônibus, Kombi…), `Paradas` em ordem
 // (wikilinks pra Localizações com marcador no mapa da cidade), `Acesso` = o
 // plano TRI mínimo (wikilink pra nota Estilo de Vida) OU texto livre quando a
