@@ -138,8 +138,10 @@ describe.skipIf(!temDataset)('abas do Atlas num bairro', () => {
   it('o subtipo dos filhos muda o rótulo; sem malha própria, sem aba TRANSPORTE', async () => {
     montar(moinhos)
     await waitFor(() => expect(screen.getByRole('tab', { name: 'Pontos de Interesse' })).toBeTruthy())
+    // MAPA e TRANSPORTE somem em quem não tem mapa próprio nem é a cidade da
+    // malha — não ficam como aba desabilitada nos 200 e tantos lugares.
     expect(screen.queryByRole('tab', { name: 'Transporte' })).toBeNull()
-    expect(screen.getByRole('tab', { name: 'Mapa' }).getAttribute('disabled')).not.toBeNull()
+    expect(screen.queryByRole('tab', { name: 'Mapa' })).toBeNull()
   })
 
   it('a aba TRANSPORTE é da CIDADE que o contexto declara, não de qualquer lugar', () => {

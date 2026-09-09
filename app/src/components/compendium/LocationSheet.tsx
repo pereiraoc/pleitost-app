@@ -973,11 +973,6 @@ const COMERCIO_DISABLED_NOTE =
 const HEX_DISABLED_NOTE =
   'Hexploração só é habilitada na nota-raiz de uma região com mapa de hexcrawl configurado (por ora, Mundo Livre).'
 
-const MAPA_DISABLED_NOTE = 'Este lugar não tem mapa próprio (bloco leaflet) na nota.'
-
-const TRANSPORTE_DISABLED_NOTE =
-  'A malha de transportes se desenha sobre o mapa da cidade que o contexto declara.'
-
 const LOCAIS_INTERESSE_DISABLED_NOTE =
   'Este lugar não tem distritos ou locais de interesse registrados no callout do body.'
 
@@ -988,7 +983,7 @@ const LOCATION_TABS: LocTab[] = [
   // depois de todo o resto). O rótulo de `dentro` vem do SUBTIPO dos filhos no
   // plural — "Bairros" em Porto Alegre, "Pontos de Interesse" num bairro.
   { id: 'dentro', label: 'Lugares' },
-  { id: 'mapa', label: 'Mapa', enabled: temMapa },
+  { id: 'mapa', label: 'Mapa' },
   { id: 'transporte', label: 'Transporte' },
   { id: 'comercio', label: 'Comércio' },
   // SERVIÇOS (2026-09-07b): vitrine dos estabelecimentos (recursos do mundo);
@@ -1041,8 +1036,11 @@ export function LocationSheet({
       (t.id !== 'servicos' || !!recursosCfg) &&
       // sem filho, sem aba (não inventar lista vazia)
       (t.id !== 'dentro' || rel.children.length > 0) &&
-      // TRANSPORTE existe num lugar só no mundo (a cidade da malha): nos
-      // outros 200 e tantos não fica nem desabilitada, some.
+      // MAPA e TRANSPORTE existem em pouquíssimos lugares do mundo (quem tem
+      // bloco leaflet; a malha, só a cidade): nos outros 200 e tantos não
+      // ficam nem desabilitados, somem — "este lugar não tem mapa" não é
+      // informação que valha uma aba.
+      (t.id !== 'mapa' || temMapa(doc)) &&
       (t.id !== 'transporte' || ehCidadeDaMalha(doc)),
   ).map((t) => {
     if (t.id === 'servicos' && recursosCfg) return { ...t, label: recursosCfg.ofertas.aba }
@@ -1098,11 +1096,7 @@ export function LocationSheet({
               aria-selected={on}
               disabled={!enabled}
               title={
-                !enabled && t.id === 'mapa'
-                  ? MAPA_DISABLED_NOTE
-                  : !enabled && t.id === 'transporte'
-                    ? TRANSPORTE_DISABLED_NOTE
-                  : !enabled && t.id === 'hexploracao'
+                !enabled && t.id === 'hexploracao'
                   ? HEX_DISABLED_NOTE
                   : !enabled && t.id === 'locais-interesse'
                     ? LOCAIS_INTERESSE_DISABLED_NOTE
