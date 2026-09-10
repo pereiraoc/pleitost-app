@@ -25,6 +25,7 @@ import {
   localEntriesOfKind,
   useLocalStoreVersion,
 } from '../../data/local-entities'
+import { armaEhMercadoria } from '../ficha/registry'
 import { useSettings } from '../../settings'
 import { podeComerciar, useGroupStoreVersion } from '../../data/group-store'
 import {
@@ -561,10 +562,9 @@ export function ComercioTab({ doc, defaultHeroId }: { doc: VaultDoc; defaultHero
     const armaIds: string[] = []
     for (const e of catalog.content) {
       if (!e.id.startsWith('Sistema/Equipamento/Armas/') || e.subtype !== 'Arma') continue
-      const g = (typeof e.grupo === 'string' ? e.grupo : '').toLowerCase()
-      // Report 2026-09-07: "Ataque Desarmado" (mãos: 0, sem preço) não é
-      // mercadoria — arma sem mão pra segurar não vai pra vitrine.
-      if (g !== 'natural' && g !== 'especial' && e.maos !== 0) armaIds.push(e.id)
+      // Quem é mercadoria mora no registro (grupos sem loja + "Ataque
+      // Desarmado", mãos 0, do report 2026-09-07).
+      if (armaEhMercadoria(e.grupo, e.maos)) armaIds.push(e.id)
     }
     const load = (arr: string[]) =>
       Promise.all(arr.map((id) => loadDoc(id).catch(() => null))).then((ds) =>

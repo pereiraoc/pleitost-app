@@ -167,6 +167,25 @@ export const GRUPO_ARMA_ORDER: { key: string; label: string }[] = [
   { key: 'natural', label: 'Armas Naturais' },
 ]
 
+/** Grupos de arma que NÃO são mercadoria — a loja da localização nunca os
+ *  oferece. Naturais/especiais porque só vêm por regra (garra de bicho, arma
+ *  de habilidade); `d-arcanonico` porque as Armas Arcanônicas/de Fogo estão
+ *  SEM ACESSO por decisão do mundo (2026-09-10): existem como regra e podem
+ *  estar na ficha de um monstro, mas não se compram em lugar nenhum — nem na
+ *  fantasia nem na POA. */
+export const GRUPOS_ARMA_SEM_LOJA: ReadonlySet<string> = new Set([
+  'natural',
+  'especial',
+  'd-arcanonico',
+])
+
+/** A arma é mercadoria de loja? Grupo vendável + tem mão pra segurar (o
+ *  "Ataque Desarmado", mãos 0, não vai pra vitrine). */
+export function armaEhMercadoria(grupo: unknown, maos: unknown): boolean {
+  const g = (typeof grupo === 'string' ? grupo : '').toLowerCase()
+  return !GRUPOS_ARMA_SEM_LOJA.has(g) && maos !== 0
+}
+
 /** Ordena entradas de arma pela ordem canônica dos grupos (GRUPO_ARMA_ORDER:
  *  naturais/especiais SEMPRE por último, #298) e alfabético pt-BR dentro do
  *  grupo. Grupo desconhecido/vazio cai depois dos conhecidos (o picker precisa

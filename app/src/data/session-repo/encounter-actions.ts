@@ -8,7 +8,9 @@
 import type { Catalog } from '../catalog'
 import type { VaultDoc } from '../types'
 import { vaultUrl } from '../base-url'
-import { getLocalDoc } from '../local-entities'
+import { getLocalDoc, localDocByBasename, localEntityWorld } from '../local-entities'
+import { activeWorld } from '../world'
+import { effectiveDoc } from '../effective-doc'
 import { extractFmBlob, buildCharacterState, buildCharacterSummary, effectiveFmForPublish } from './publish'
 import { maskSummaryForDisguise } from './disguise'
 import { stashDisguiseSecret, readDisguiseSecret } from './disguise-secrets'
@@ -184,18 +186,27 @@ async function insertNpcsWithPreps(
   return ids
 }
 
-/** Doc real de um sourcePath do roster: entidade LOCAL (monstro criado no
- *  app — o id é o próprio path) OU doc da vault resolvido no catálogo. */
+/** Doc real de um sourcePath do roster, na ORDEM que o resto do app usa:
+ *  entidade LOCAL por id (monstro criado no app — o id é o próprio path),
+ *  doc da vault do catálogo, e por fim entidade local por BASENAME (o fence
+ *  de uma aventura escreve `[[Brigadiano Atirador]]`, não o id da conta).
+ *  O doc da vault passa pela projeção `effectiveDoc` — é o que faz a sessão
+ *  publicar a criatura COMO a conta a editou na ficha (report 2026-09-10). */
 async function docFromSourcePath(catalog: Catalog, sourcePath: string): Promise<VaultDoc | null> {
   const semMd = sourcePath.replace(/\.md$/i, '')
   const local = getLocalDoc(semMd)
   if (local) return local
   const res = catalog.resolve(semMd)
-  if (res.kind !== 'doc') return null
+  if (res.kind !== 'doc') {
+    const base = semMd.split('/').pop()?.trim()
+    const porNome = base ? localDocByBasename(base) : undefined
+    return porNome && localEntityWorld(porNome.id) === activeWorld() ? porNome : null
+  }
   try {
-    return (await (
+    const doc = (await (
       await fetch(vaultUrl(`${res.id.split('/').map(encodeURIComponent).join('/')}.json`))
     ).json()) as VaultDoc
+    return effectiveDoc(doc)
   } catch {
     return null // doc indisponível — o chamador cai no genérico
   }

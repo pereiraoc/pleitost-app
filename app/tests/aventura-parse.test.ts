@@ -193,9 +193,20 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     expect(refsDe(campo(f1!.campos, 'Cena'))[0]!.alvo).toBe('Cena 6 — Retífica Sertório')
     // sufixo de velocidade lido contra o registro (initiative-blocks); 1 rápido + 3 lentos = 2 entradas
     expect(f1!.roster.entries).toEqual([
-      { sourcePath: 'Guarda', label: 'Guarda', qty: 1, speeds: ['rapido'] },
-      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 1, speeds: ['rapido'] },
-      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 3, speeds: ['lento'] },
+      { sourcePath: 'Brigadiano Atirador', label: 'Brigadiano Atirador', qty: 1, speeds: ['rapido'] },
+      {
+        sourcePath: 'Representante da Camisa 12',
+        label: 'Representante da Camisa 12',
+        qty: 1,
+        speeds: ['rapido'],
+      },
+      {
+        sourcePath: 'Segurança do Cartel dos Eixos',
+        label: 'Segurança do Cartel dos Eixos',
+        qty: 2,
+        speeds: ['lento'],
+      },
+      { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 1, speeds: ['lento'] },
     ])
     expect(f2!.roster.entries).toEqual([
       { sourcePath: 'Sargento Valdir Brum', label: 'Sargento Valdir Brum', qty: 1, speeds: ['super'] },

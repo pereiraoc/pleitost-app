@@ -236,10 +236,11 @@ describe('página por seção (formato de aventura)', () => {
     await waitFor(() => expect(container.querySelectorAll('[data-av-cena="6"] [data-av-combate-reg]').length).toBe(2))
     const f1 = container.querySelector('[data-av-cena="6"] [data-av-combate="fase-1-capangas-e-operadores"]') as HTMLElement
     expect(f1.textContent).toContain('Arruaceiro')
-    // velocidades da nota aparecem no banner (Guarda rápido; Arruaceiro #4 lento)
+    // velocidades da nota aparecem no banner (brigadiano rápido; os dois
+    // seguranças do Cartel lentos — roster nomeado do report 2026-09-10)
     expect(f1.textContent).toContain('Rápido')
     expect(f1.textContent).toContain('Lento')
-    expect(f1.textContent).toContain('Arruaceiro #4')
+    expect(f1.textContent).toContain('Segurança do Cartel dos Eixos #2')
   })
 
   it('chip de Local/Personagem da cena expande o registro ali mesmo', async () => {
@@ -313,7 +314,12 @@ describe('página por seção (formato de aventura)', () => {
     expect(enc!.status).toBe('prepared')
     expect(enc!.sourceNotePath).toBe(`${ID}#fase-1-capangas-e-operadores`)
     expect(enc!.name).toContain('Fase 1')
-    expect(enc!.roster.entries.map((e) => `${e.qty}× ${e.label}`)).toEqual(['1× Guarda', '1× Arruaceiro', '3× Arruaceiro'])
+    expect(enc!.roster.entries.map((e) => `${e.qty}× ${e.label}`)).toEqual([
+      '1× Brigadiano Atirador',
+      '1× Representante da Camisa 12',
+      '2× Segurança do Cartel dos Eixos',
+      '1× Arruaceiro',
+    ])
     // as velocidades da nota viajam no roster e viram preps por instância
     expect(prepsFromEntries(enc!.roster.entries)!.map((p) => p.speed)).toEqual(['rapido', 'rapido', 'lento', 'lento', 'lento'])
     // de novo → não duplica

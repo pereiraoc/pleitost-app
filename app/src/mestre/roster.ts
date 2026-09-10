@@ -6,6 +6,8 @@
 // no bloco) NÃO pontuam lá — aqui o Criador de Combate permite genérico COM
 // tier/modificador escolhidos pelo GM, que aí pontuam como monstro normal.
 import type { VaultDoc } from '../data/types'
+import { localDocByBasename, localEntityWorld } from '../data/local-entities'
+import { activeWorld } from '../data/world'
 import type { EncounterRoster, EncounterRosterEntry } from '../data/session-repo/contract'
 import type { Catalog } from '../data/catalog'
 import {
@@ -105,6 +107,19 @@ export function toContractRoster(items: readonly RosterItem[]): EncounterRoster 
   return { entries }
 }
 
+/** Doc de uma entrada do roster: CATÁLOGO primeiro, depois as entidades
+ *  LOCAIS por basename (report 2026-09-10: a criatura que o mestre cria no
+ *  app vive só na conta dele e o fence a dava como "sem ficha"). Mesma ordem
+ *  que o resolve de regras usa (useHeroRules). A entidade local precisa ser do
+ *  MUNDO ativo — o gate do loadDoc. */
+function docLocalDaEntrada(sourcePath: string): VaultDoc | null {
+  const base = sourcePath.split('/').pop()?.trim()
+  if (!base) return null
+  const doc = localDocByBasename(base)
+  if (!doc) return null
+  return localEntityWorld(doc.id) === activeWorld() ? doc : null
+}
+
 /** Ids dos docs de monstro referenciados por um roster (wikilink → catálogo),
  *  pra alimentar useDocs. Entradas genéricas (sem sourcePath) e as que não
  *  resolvem no catálogo são omitidas. */
@@ -113,7 +128,12 @@ export function rosterMonsterIds(roster: EncounterRoster, catalog: Catalog): str
   for (const entry of roster.entries) {
     if (!entry.sourcePath) continue
     const res = catalog.resolve(entry.sourcePath)
-    if (res.kind === 'doc') ids.push(res.id)
+    if (res.kind === 'doc') {
+      ids.push(res.id)
+      continue
+    }
+    const local = docLocalDaEntrada(entry.sourcePath)
+    if (local) ids.push(local.id)
   }
   return ids
 }
@@ -163,8 +183,11 @@ export function resolveRosterEntries(
       return { entry, item: null, motivo: 'genérico — não pontua' }
     }
     const res = catalog.resolve(entry.sourcePath)
-    if (res.kind !== 'doc') return { entry, item: null, motivo: 'sem ficha no catálogo' }
-    const doc = docs?.get(res.id)
+    // Entidade LOCAL (criada no app): o doc vem do store da conta, síncrono —
+    // não depende do lote de `docs`, que só carrega o que é da vault.
+    const local = res.kind === 'doc' ? null : docLocalDaEntrada(entry.sourcePath)
+    if (res.kind !== 'doc' && !local) return { entry, item: null, motivo: 'sem ficha no catálogo' }
+    const doc = local ?? (res.kind === 'doc' ? docs?.get(res.id) : undefined)
     if (!doc) return { entry, item: null, motivo: 'carregando…' }
     const item = rosterItemFromDoc(doc, entry.qty)
     if (!item) return { entry, item: null, motivo: 'não é Monstro — não pontua' }

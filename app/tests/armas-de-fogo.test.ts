@@ -13,6 +13,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { exigenciaIntDaArma, profArmaEfetiva } from '../src/components/ficha/hero-model'
+import { armaEhMercadoria } from '../src/components/ficha/registry'
 import { setActiveContexto, reskinName } from '../src/data/reskin'
 import type { ContextoDef } from '../src/data/context-def'
 import type { VaultDoc } from '../src/data/types'
@@ -98,3 +99,21 @@ describe.skipIf(!fs.existsSync(path.join(raiz, 'vault-data-cyberpunk', 'contexto
     })
   },
 )
+
+describe.skipIf(!temDataset)('sem acesso: fora de toda loja (decisão 2026-09-10)', () => {
+  const ler = (id: string) =>
+    JSON.parse(fs.readFileSync(path.join(raiz, 'vault-data', `${id}.json`), 'utf8')) as VaultDoc
+
+  it('as duas armas de fogo não são mercadoria em mundo nenhum', () => {
+    for (const id of [PISTOLA, BACAMARTE]) {
+      const fm = ler(id).frontmatter as Record<string, unknown>
+      expect(armaEhMercadoria(fm.grupo, fm['mãos'])).toBe(false)
+    }
+  })
+
+  it('e as armas normais continuam sendo (o corte é do grupo, não da loja)', () => {
+    const besta = ler('Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta de Mão')
+      .frontmatter as Record<string, unknown>
+    expect(armaEhMercadoria(besta.grupo, besta['mãos'])).toBe(true)
+  })
+})

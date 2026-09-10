@@ -43,6 +43,7 @@
 // ?debug=1. Console API: window.__pleitostDebug (ver/limpar/baixar o log,
 // resetar edições locais por herói) — o app não tem tela CONFIG desenhada.
 
+import { useSyncExternalStore } from 'react'
 import { createKeyedStoreChannel } from './store-kit'
 
 export interface HeroEdits {
@@ -137,6 +138,26 @@ export function getHeroEdits(heroId: string): HeroEdits {
   return hydrate(heroId)
 }
 
+/** Versão GLOBAL das edições de ficha — qualquer write incrementa. Os hooks
+ *  de doc (useDoc/useDocs) assinam isto pra re-projetar `effectiveDoc` quando
+ *  a conta edita uma criatura numa aba e o combate está aberto em outra. */
+let versaoEdits = 0
+const editsListeners = new Set<() => void>()
+function bumpEdits(): void {
+  versaoEdits += 1
+  for (const cb of editsListeners) cb()
+}
+export function heroEditsVersion(): number {
+  return versaoEdits
+}
+export function subscribeHeroEdits(cb: () => void): () => void {
+  editsListeners.add(cb)
+  return () => editsListeners.delete(cb)
+}
+export function useHeroEditsVersion(): number {
+  return useSyncExternalStore(subscribeHeroEdits, heroEditsVersion)
+}
+
 export function subscribeHero(heroId: string, cb: () => void): () => void {
   return channel.subscribe(heroId, cb)
 }
@@ -223,6 +244,7 @@ export function writeHeroEdit(
   const next: HeroEdits = { ...cur, [section]: nextSection }
   memory.set(heroId, next)
   notify(heroId)
+  bumpEdits()
   if (opts.channel === 'autosave') schedulePersist(heroId)
   else persist(heroId)
   if (section === 'fm') for (const l of writeListeners) l(heroId, path, cloned, opts.origem)
@@ -247,6 +269,7 @@ export function resetHeroEdits(heroId: string): void {
   memory.set(heroId, emptyEdits())
   safeRemove(storageKey(heroId))
   notify(heroId)
+  bumpEdits()
   if (tinha) {
     logChange({
       timestamp: new Date().toISOString(),

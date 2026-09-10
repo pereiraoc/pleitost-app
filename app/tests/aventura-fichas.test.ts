@@ -42,10 +42,21 @@ describe.skipIf(!temDataset)('fichas dos combates da Pós Grenal', () => {
   for (const a of mundo.assets) porPath.set(a.path, a)
   const assets = buildAssetIndex({ ...base, assets: [...porPath.values()] })
 
-  it('todo inimigo do fence tem ficha de Monstro com Tier no bestiário', () => {
+  // Criaturas que vivem na CONTA do mestre (criadas no app, não na vault):
+  // o fence as resolve pelas entidades locais (roster.ts), então aqui elas não
+  // têm nota — mas a lista é EXPLÍCITA: nome trocado no fence quebra o teste.
+  const DA_CONTA = [
+    'Brigadiano Atirador',
+    'Representante da Camisa 12',
+    'Segurança do Cartel dos Eixos',
+  ]
+
+  it('todo inimigo do fence ou tem ficha no bestiário ou é criatura da conta', () => {
     const semFicha = alvos.filter((a) => a && porBasename.get(a)?.type !== 'Criatura')
-    expect(semFicha, 'wikilink do combate sem nota no bestiário').toEqual([])
-    for (const alvo of alvos) {
+    expect(semFicha.sort(), 'wikilink do combate sem nota nem lugar na conta').toEqual(
+      [...DA_CONTA].sort(),
+    )
+    for (const alvo of alvos.filter((a) => a && !DA_CONTA.includes(a))) {
       const doc = ler<VaultDoc>(path.join(cyberDir, `${porBasename.get(alvo!)!.id}.json`))
       expect(doc.subtype, `${alvo} não é Monstro`).toBe('Monstro')
       // Tier 0 é legítimo (Arruaceiro é capanga T0) — o que não pode é faltar

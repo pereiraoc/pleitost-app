@@ -652,8 +652,8 @@ Rosters do bestiário da vault, com a velocidade de iniciativa do app já defini
 > [!info] Combate
 > **Cena:** [[#Cena 6 — Retífica Sertório]]
 > **Quando:** os PCs entram na Retífica — pelo portão (barulho, fase completa) ou pelo vagão (surpresa: metade dos capangas está na frente).
-> **Inimigos:** seguranças improvisados da oficina (chapas com vergalhão e cassetete), o operador de carga (com o solvente na mão), o **brigadiano de bico** — o homem de jaqueta cinza, à paisana, com pistola de dardos — e um torcedor comprado (guri da Camisa 12 que o Cartel pagou).
-> **Velocidades:** o brigadiano de bico (Guarda) e um Arruaceiro são **rápidos**; os outros três Arruaceiros são **lentos**.
+> **Inimigos:** dois [[Segurança do Cartel dos Eixos|seguranças do Cartel]] (chapas de oficina com vergalhão e cassetete), o operador de carga ([[Arruaceiro]], com o solvente na mão), o **brigadiano de bico** — [[Brigadiano Atirador]], o homem de jaqueta cinza, à paisana, com pistola de dardos — e o torcedor comprado, um [[Representante da Camisa 12]] que o Cartel pagou.
+> **Velocidades:** o [[Brigadiano Atirador|brigadiano de bico]] e o [[Representante da Camisa 12|guri da Camisa 12]] são **rápidos**; os dois seguranças e o operador de carga são **lentos**.
 > **Função dramática:** travar o grupo, desgastar recurso, espalhar o combate pelo cenário e dar tempo pra chegada do chefe.
 > **Elementos de cenário:** empilhar/derrubar caixa; derrubar a luz de mercúrio (chave no escritório de vidro — escuro total, quem tem [[Furtividade]] agradece); freezer como cobertura; solvente no chão (e alguém acender um cigarro); acertar ferramentas; ameaça de quebrar frascos — e de quebrar **a Matriz**, que cristaliza e brilha azul se levar choque (um cabo do gerador basta); soltar a trava do elevador com o Gurgel em cima. Zonas no registro [[#Retífica Sertório]].
 > **Preparar:** sim — antes da sessão começar, deixe preparado (o card ▶ INICIAR da Sessão faz o resto).
@@ -661,9 +661,10 @@ Rosters do bestiário da vault, com a velocidade de iniciativa do app já defini
 ![[09 — Homem de jaqueta cinza.png|Homem de jaqueta cinza]]
 
 ```combat-marker-small
-- 1 [[Guarda]] rápido
-- 1 [[Arruaceiro]] rápido
-- 3 [[Arruaceiro]] lento
+- 1 [[Brigadiano Atirador]] rápido
+- 1 [[Representante da Camisa 12]] rápido
+- 2 [[Segurança do Cartel dos Eixos]] lento
+- 1 [[Arruaceiro]] lento
 ```
 
 ### Fase 2 — Chega o mais forte

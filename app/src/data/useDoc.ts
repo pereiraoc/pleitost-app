@@ -9,6 +9,7 @@ import { vaultUrl } from './base-url'
 import { effectiveDoc } from './effective-doc'
 import { useLocalDraftVersion } from './local-draft-store'
 import { usePublishedOverlayVersion } from './published-overlay-store'
+import { useHeroEditsVersion } from './hero-store'
 import { useSettings } from '../settings'
 import { unlockedDoc, useDocLockVersion } from './doc-lock'
 
@@ -79,6 +80,7 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
   const live = useLiveSession() // reatividade dos docs sessao: (#231)
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
+  const editsVersion = useHeroEditsVersion() // edição da FICHA (2026-09-10)
   const { desenvolvedor } = useSettings() // toggle do Modo Dev re-projeta
   const lockVersion = useDocLockVersion() // destravar/trancar uma aventura re-lê
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
@@ -121,7 +123,7 @@ export function useDocs(ids: string[]): Map<string, VaultDoc> | undefined {
     }
     return byId
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, publishedVersion, desenvolvedor])
+  }, [vaultDocs, vaultKey, allKey, localVersion, live, draftVersion, publishedVersion, editsVersion, desenvolvedor])
 }
 
 export function useDoc(id: string): DocState {
@@ -129,6 +131,7 @@ export function useDoc(id: string): DocState {
   const live = useLiveSession()
   const draftVersion = useLocalDraftVersion() // reatividade do overlay/edição (#252)
   const publishedVersion = usePublishedOverlayVersion() // overlay publicado (#47)
+  const editsVersion = useHeroEditsVersion() // edição da FICHA (2026-09-10)
   const { desenvolvedor } = useSettings()
   const lockVersion = useDocLockVersion() // destravar/trancar uma aventura re-lê
   const local = isLocalId(id)
@@ -168,6 +171,7 @@ export function useDoc(id: string): DocState {
   // desenvolvedor nas deps do hook garantem re-render quando algo muda.
   void draftVersion
   void publishedVersion
+  void editsVersion
   void desenvolvedor
   return state.doc ? { doc: effectiveDoc(state.doc) } : state
 }

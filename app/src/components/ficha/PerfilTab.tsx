@@ -1285,18 +1285,6 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               style={{ ...boxStyle('13px 15px', 16), width: '100%', fontFamily: 'var(--body)' }}
             />
           </Field>
-          {/* CONTEXTO (2026-09-08): o que o MUNDO dá à classe deste herói —
-              um eixo do custo de vida pago por terceiro, em degraus de nível
-              (nota `recursos.regalias` do contexto). Mundo sem regalias não
-              renderiza nada. O controle é manual: quem marca "pago por" na
-              aba RECURSOS é o jogador. */}
-          {regalia ? (
-            <Field label="CONTEXTO">
-              <div style={{ ...boxStyle('11px 15px', 13), width: '100%' }}>
-                <RegaliaBloco regalia={regalia.regalia} doc={regalia.doc} nivel={nivel} />
-              </div>
-            </Field>
-          ) : null}
           {/* #2: mesma largura/estilo do NOME, editável e persistido.
               Apelido vive em Biografia.Apelido → só famílias com biografia
               (plugin biografia-card.ts:20; CA não renderiza, #201). */}
@@ -1396,7 +1384,26 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
           {classeAberta ? '▴' : '▾'}
         </button>
       </div>
-      {classeAberta ? <ClasseNivelPanel doc={doc} refs={refs} hideSintonia /> : null}
+      {classeAberta ? (
+        <>
+          <ClasseNivelPanel doc={doc} refs={refs} hideSintonia />
+          {/* CONTEXTO (2026-09-08, movido pra cá em 2026-09-10): o que o MUNDO
+              dá à classe deste herói — um eixo do custo de vida pago por
+              terceiro, em degraus de nível (nota `recursos.regalias` do
+              contexto). Mora DENTRO do colapsável da classe, que é onde a
+              classe se explica; mundo sem regalias não renderiza nada. O
+              controle é manual: quem marca "pago por" na aba RECURSOS é o
+              jogador. Só a Biografia muda — o CUSTO DE VIDA segue com o bloco
+              completo dele. */}
+          {regalia ? (
+            <Field label="CONTEXTO">
+              <div style={{ ...boxStyle('11px 15px', 13), width: '100%' }}>
+                <RegaliaBloco regalia={regalia.regalia} doc={regalia.doc} nivel={nivel} />
+              </div>
+            </Field>
+          ) : null}
+        </>
+      ) : null}
 
       {bioTabs.length > 0 ? (
         <>
