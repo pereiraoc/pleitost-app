@@ -268,6 +268,15 @@ function descItem(orig) {
   return d ? ` O que o item é/faz: ${d}` : ''
 }
 
+// Conceito das armas que NÃO têm carta na fantasia (categoria Arcanônica):
+// a chave é o basename de Sistema/, o texto descreve a peça no mundo.
+const SEM_REF_HINT = new Map([
+  ['Pistola Arcanônica',
+   'uma GARRUCHA de dois canos justapostos, cano curto, coronha de madeira lascada, mecanismo de báscula que QUEBRA pelo meio pra recarregar (mostre a arma quebrada/aberta ou o cão armado, deixando claro que é de tiro único por cano). Cabe na palma da mão.'],
+  ['Bacamarte Arcanônico',
+   'uma ESPINGARDA de caça de cano SERRADO na altura do antebraço, um cano só, báscula que abre pra recarregar, coronha cortada e enfaixada com fita isolante, alça improvisada de correia de couro.'],
+])
+
 const TIER_COR = { Adepta: 'bronze', Experiente: 'prata', Mestre: 'dourado' }
 // Formato canônico da GEMA por tier (conferido nos originais da fantasia,
 // ex. Imbuição Flamejante): losango → retângulo facetado → oval.
@@ -578,6 +587,18 @@ function promptFigura(sub, orig, novo) {
     }
   }
 
+  // ARMA SEM CARTA NA FANTASIA (categoria Arcanônica, nascida em 2026-09-10):
+  // não há imagem anexada — o prompt compõe do zero, e a exceção ao Decreto
+  // das Armas Frias precisa ser dita (o HINT_FIG de Armas nega arma de fogo).
+  if (sub === 'Armas' && SEM_REF_HINT.has(orig)) {
+    return (
+      `${cabecalho} NÃO há imagem de referência: componha do zero, na MESMA linguagem de pintura digital das outras cartas de item do sistema.` +
+      ` Item: "${novo}" — ${SEM_REF_HINT.get(orig)}` +
+      ` Esta é a ÚNICA exceção ao Decreto das Armas Frias: arma de fogo de verdade, ilegal, rara e velha — nada de futurismo, nada de arma militar moderna.` +
+      ` Peça brasileira de 1987 com marcas honestas de uso: aço azulado gasto, madeira encardida, lascas, oxidação leve.${descItem(orig)}${obtencao}${RODAPE_T}`
+    )
+  }
+
   const renomeado = novo !== orig
   const extra = sub === 'Equipamentos'
     ? `${descItem(orig)} Tem que ficar ÓBVIO como e onde o item se veste/usa/equipa no corpo.${esteticaDe(orig)}`
@@ -806,6 +827,30 @@ for (const sub of SUBS_FIG) {
       // consumíveis destoava do resto — revertido a pedido do user).
       size: '1536x1024', transparente: true,
       prompt: promptFigura(sub, base, novo),
+    })
+  }
+}
+
+// Armas do Sistema SEM carta na fantasia (a categoria Arcanônica nasceu depois
+// das cartas): entram sem referência, como os Locais — senão a arma nova nunca
+// apareceria no pendente e ficaria pra sempre sem figura.
+{
+  const comCarta = new Set(
+    readdirSync(join(SRC_FIG, 'Armas')).filter((f) => f.endsWith('.png')).map((f) => f.slice(0, -4)),
+  )
+  for (const md of walk(join(VAULT, 'Sistema/Equipamento/Armas'))) {
+    const base = basename(md, '.md')
+    if (comCarta.has(base) || INDISPONIVEIS.has(base)) continue
+    const bruto = readFileSync(md, 'utf8')
+    if (!/^subcategoria:\s*Arma\s*$/m.test(bruto)) continue
+    const novo = reskinName(base)
+    add({
+      cat: 'Figura', sub: 'Armas', chave: `Figura/Armas/${base}`, base, novo,
+      ref: null,
+      inbox: join(INBOX, 'Armas', `${novo}.png`),
+      out: join(CTX_ROOT, 'Armas', `${novo}.png`),
+      size: '1536x1024', transparente: true,
+      prompt: promptFigura('Armas', base, novo),
     })
   }
 }
