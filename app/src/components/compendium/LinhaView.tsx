@@ -11,6 +11,7 @@ import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { clip } from '../ficha/bits'
 import { FieldBlock } from './FieldBlock'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
+import { VaultImage } from './VaultImage'
 import { LINHA_TYPE, isLinhaDoc, parseLinha } from '../../transporte/parse-linha'
 
 export function isLinha(doc: VaultDoc): boolean {
@@ -38,9 +39,27 @@ function fieldText(value: unknown): string | null {
 function prosaDoCorpo(body: string): string {
   return body
     .split('\n')
-    .filter((l) => !/^\s*#Linha\s*$/.test(l) && !/^\s*>/.test(l))
+    .filter(
+      (l) =>
+        !/^\s*#Linha\s*$/.test(l) &&
+        !/^\s*>/.test(l) &&
+        // a figura da linha vira HERO no topo (2026-09-10), como na RecursoView
+        !/^\s*!\[\[[^\]]+\]\]\s*$/.test(l),
+    )
     .join('\n')
     .trim()
+}
+
+/** Figura da linha (embed `![[Nome.png]]` no corpo): capa recortada no topo,
+ *  clique amplia — mesmo tratamento da RecursoView. */
+const LINHA_HERO_STYLE: CSSProperties = {
+  width: '100%',
+  maxHeight: 260,
+  objectFit: 'cover',
+  objectPosition: 'center 45%',
+  display: 'block',
+  border: '1px solid var(--line2)',
+  clipPath: clip(14),
 }
 
 /** Qualidade 1..5 como estrelas — o número é o dado, as estrelas o desenho. */
@@ -71,6 +90,7 @@ export function LinhaView({ doc, sidebar, embedded }: { doc: VaultDoc; sidebar?:
     )
   }
   const prosa = prosaDoCorpo(doc.body)
+  const figura = doc.images[0]
 
   return (
     <article className={embedded ? 'doc-page' : 'doc-page page'}>
@@ -82,6 +102,7 @@ export function LinhaView({ doc, sidebar, embedded }: { doc: VaultDoc; sidebar?:
           {linha?.modo ? ` · ${linha.modo}` : ''}
         </span>
       </header>
+      {figura ? <VaultImage target={figura.target} style={LINHA_HERO_STYLE} zoom /> : null}
 
       {resumo ? (
         <p style={{ fontFamily: 'var(--body)', fontSize: 17, lineHeight: 1.6, color: 'var(--muted)', fontStyle: 'italic', margin: '2px 0 6px' }}>

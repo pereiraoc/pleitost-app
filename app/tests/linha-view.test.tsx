@@ -89,6 +89,11 @@ describe('LinhaView (343 BEIRA-RIO real)', () => {
     const paradas = Array.from(container.querySelectorAll('ol[data-paradas] li')).map((li) => li.textContent?.trim())
     expect(paradas).toEqual(['Estação Central', 'Estação Cidade Baixa', 'Estação Férrea de Belas', 'Estação Estádios', 'Mercado de Frutos do Mar'])
     expect(screen.getByText('APARÊNCIA')).toBeTruthy()
+    // FIGURA (2026-09-10): a arte entregue pras linhas é o HERO do topo — o
+    // embed do corpo sai da prosa (como na RecursoView) e vira `doc.images[0]`.
+    // (O <img> em si depende do índice de assets, que este teste não carrega.)
+    expect(doc.images[0]?.target).toContain('343 BEIRA-RIO')
+    expect(container.textContent).not.toContain('![[')
   })
 })
 
