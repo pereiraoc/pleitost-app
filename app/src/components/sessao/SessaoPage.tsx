@@ -2444,8 +2444,31 @@ function useSessionRoster(remoteId: string | null): SessaoRoster | null {
 
 /** Card de uma sessão na lista. Mostra mestre + jogadores/heróis do BACKEND
  *  (roster) quando disponível, senão o espelho local (claims). */
+/** Botãozinho da confirmação de exclusão (mesmo gabarito do 🗑️): confirmar
+ *  em vermelho, cancelar neutro. */
+function botaoLixeira(perigo: boolean): CSSProperties {
+  return {
+    width: 28,
+    height: 26,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: perigo ? 'color-mix(in srgb,var(--red) 22%,var(--card))' : 'var(--card)',
+    border: `1px solid ${perigo ? 'color-mix(in srgb,var(--red) 55%,var(--line2))' : 'var(--line2)'}`,
+    color: perigo ? '#d8695c' : 'var(--muted)',
+    cursor: 'pointer',
+    fontSize: 12,
+    clipPath: clip(5),
+  }
+}
+
 function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => string }) {
   const roster = useSessionRoster(s.remoteId ?? null)
+  // Excluir a mesa é IRREVERSÍVEL e derruba quem já entrou (report
+  // 2026-09-10: "some na hora, sem perguntar nada"). O 🗑️ arma a confirmação
+  // no próprio lugar — ✔️ apaga, ✖️ desiste —, sem caixa de diálogo e sem
+  // ocupar linha nova no card.
+  const [armado, setArmado] = useState(false)
   const gm = roster?.gm ?? s.mestre
   const players = roster
     ? roster.players
@@ -2500,9 +2523,29 @@ function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => 
         >
           ▶ Entrar
         </button>
+        {armado ? (
+          <>
+            <button
+              aria-label={`Confirmar exclusão de ${s.nome}`}
+              title="Apagar a mesa (não dá pra desfazer)"
+              onClick={() => deleteSession(s.codigo)}
+              style={botaoLixeira(true)}
+            >
+              ✔️
+            </button>
+            <button
+              aria-label={`Cancelar exclusão de ${s.nome}`}
+              title="Deixar a mesa como está"
+              onClick={() => setArmado(false)}
+              style={botaoLixeira(false)}
+            >
+              ✖️
+            </button>
+          </>
+        ) : (
         <button
           aria-label={`Excluir sessão ${s.nome}`}
-          onClick={() => deleteSession(s.codigo)}
+          onClick={() => setArmado(true)}
           style={{
             width: 28,
             height: 26,
@@ -2519,6 +2562,7 @@ function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => 
         >
           🗑️
         </button>
+        )}
       </div>
       {gm ? (
         <div style={mono({ fontSize: 10, letterSpacing: '.08em', color: 'var(--muted)' })}>
@@ -2612,7 +2656,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
             displayName: user.nome,
           })
         }
-        const local = joinSessionByCode(remote.code)
+        const local = joinSessionByCode(remote.code, { adotarMundo: true })
         updateSession(local.codigo, { nome: remote.name, remoteId: remote.id })
         setActiveSessionCode(remote.code)
         setJoinCode('')
@@ -2624,7 +2668,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
       return
     }
     // Sem servidor configurado (app puramente local): fluxo local como antes.
-    const rec = joinSessionByCode(code)
+    const rec = joinSessionByCode(code, { adotarMundo: true })
     setActiveSessionCode(rec.codigo)
     setJoinCode('')
   }
@@ -2632,7 +2676,9 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     // #203: sessão NUNCA seleciona grupo — a ficha de grupo existe só a
     // partir das sessões reais, montada pelos jogadores que entram (req 8).
     const grupoId = null
-    const nome = 'Nova Sessão'
+    // A caixa é UMA só: código pra entrar, NOME pra criar (report 2026-09-10 —
+    // o mestre digitava o nome e a mesa nascia como "Nova Sessão").
+    const nome = joinCode.trim() || 'Nova Sessão'
     // #332: mesmo cuidado do join — com servidor configurado, criar é remoto e
     // exige login; sem isso a sessão nascia só local (fantasma) e ninguém
     // conseguia entrar nela. Erro claro em vez de placeholder silencioso.
@@ -2644,9 +2690,10 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
       try {
         const sess = await repo.createSession({ name: nome, gmUserId: user.id, code: generateSessionCode() })
         await repo.insertMember({ sessionId: sess.id, userId: user.id, role: 'gm', displayName: user.nome })
-        const local = joinSessionByCode(sess.code)
+        const local = joinSessionByCode(sess.code, { adotarMundo: true })
         updateSession(local.codigo, { nome: sess.name, grupoId, mestre: user.nome, remoteId: sess.id })
         setActiveSessionCode(sess.code)
+        setJoinCode('')
       } catch {
         setErro('Não deu pra criar a sessão agora. Verifique sua conexão/login e tente de novo.')
       }
@@ -2655,6 +2702,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
     // Sem servidor configurado (app puramente local): sessão local como antes.
     const rec = createSession(nome, grupoId, user?.nome || 'Você')
     setActiveSessionCode(rec.codigo)
+    setJoinCode('')
   }
 
   return (
@@ -2684,7 +2732,7 @@ function ListaPanel({ sessions }: { sessions: SessionRec[] }) {
           <input
             value={joinCode}
             onChange={(e) => setJoinCode(e.target.value)}
-            placeholder="Código da sessão"
+            placeholder="Código da sessão (ou nome, pra criar)"
             style={mono({
               flex: 1,
               minWidth: 150,

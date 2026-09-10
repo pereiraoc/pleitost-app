@@ -209,7 +209,20 @@ export function MalhaMap({
               const apagada = naRota === null ? selecionada !== null && !p.linhas.includes(selecionada) : !naRota
               const ponta = destaque?.origem === p.nome ? 'A' : destaque?.destino === p.nome ? 'B' : null
               return (
-                <g key={p.nome} data-parada={p.nome} data-baldeacao={p.baldeacao ? '' : undefined} data-ponta={ponta ?? undefined} opacity={apagada ? 0.2 : 1}>
+                <g
+                  key={p.nome}
+                  data-parada={p.nome}
+                  data-baldeacao={p.baldeacao ? '' : undefined}
+                  data-ponta={ponta ?? undefined}
+                  opacity={apagada ? 0.2 : 1}
+                  // o clique na PRÓPRIA parada vale (o hit-test do viewport
+                  // continua valendo pra quem erra o alvo por pouco)
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onParada(p.nome)
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
                   {ponta ? <circle cx={p.cx} cy={p.cy} r={13} fill={PAPEL.tinta} opacity={0.92} /> : null}
                   {ponta ? (
                     <text x={p.cx} y={p.cy + 4.5} fontSize={12} fontWeight={800} fill={PAPEL.parada} textAnchor="middle">

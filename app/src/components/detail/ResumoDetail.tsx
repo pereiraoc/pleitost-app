@@ -27,7 +27,11 @@ import { classeDisplay } from '../../data/catalog'
 import { creatureImageUrl } from '../../data/creature-image'
 import { Lightbox } from '../Lightbox'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
-import { profArmaEfetiva,
+// #519: o RESUMO é display — nome de nota passa pelo mundo ativo (report
+// 2026-09-10: "a ficha resumo mostra nome de fantasia, tipo o das armas").
+import { reskinName } from '../../data/reskin'
+import { atributoDeAtaqueDaArma,
+  profArmaEfetiva,
   fmPath,
   heroAtributos,
   interativa,
@@ -253,7 +257,7 @@ function HoverList({
               qualidade (como na ficha), não fullBody. Sem tier (ação/técnica/
               habilidade) → prosa completa, como antes. */}
           <ItemHover doc={refs.refDoc(e.raw)} tier={e.tier ?? undefined} fullBody={!e.tier}>
-            <span>{e.label}</span>
+            <span>{reskinName(e.label)}</span>
           </ItemHover>
           {e.suffix ? (
             <span style={mono({ fontSize: 10.5, fontWeight: 700, color: 'var(--muted)' })}>{e.suffix}</span>
@@ -338,7 +342,7 @@ function EspecializacoesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
             <span style={{ whiteSpace: 'nowrap' }}>
               <span style={{ color: 'var(--muted)' }}>Especialização </span>
               <ItemHover doc={refs.refDoc(it.esp)} fullBody>
-                <span style={{ fontWeight: 600 }}>{linkLabel(it.esp)}</span>
+                <span style={{ fontWeight: 600 }}>{reskinName(linkLabel(it.esp))}</span>
               </ItemHover>
             </span>
           ) : null}
@@ -347,7 +351,7 @@ function EspecializacoesResumo({ fm, refs }: { fm: Fm; refs: HeroRefs }) {
             <span style={{ whiteSpace: 'nowrap' }}>
               <span style={{ color: 'var(--muted)' }}>Maestria </span>
               <ItemHover doc={refs.refDoc(it.mae)} fullBody>
-                <span style={{ fontWeight: 600 }}>{linkLabel(it.mae)}</span>
+                <span style={{ fontWeight: 600 }}>{reskinName(linkLabel(it.mae))}</span>
               </ItemHover>
             </span>
           ) : null}
@@ -519,8 +523,8 @@ function AtaquesResumo({
   return (
     <Section label="// ATAQUES">
       {lista.map((arma, i) => {
-        const nome = linkLabel(str(arma['Nome']))
-        const prop = linkLabel(str(arma['Propriedade']))
+        const nome = reskinName(linkLabel(str(arma['Nome'])))
+        const prop = reskinName(linkLabel(str(arma['Propriedade'])))
         const tier = tierLetter(arma['Categoria'])
         const armaDoc = refs.refDoc(arma['Nome'])
         const propDoc = refs.refDoc(arma['Propriedade'])
@@ -538,7 +542,8 @@ function AtaquesResumo({
         const props = wikiLabels(inline['propriedades'])
         const mod = rowMod(
           {
-            Atributo: str(arma['Atributo']),
+            // arma de fogo acerta com AGI por regra (mesmo do CombateTab)
+            Atributo: atributoDeAtaqueDaArma(inline['grupo'], arma['Atributo']),
             Proficiencia: profArma,
             Bonus_Item: num(arma['Bonus_Item']),
             Bonus_Especial: num(arma['Bonus_Especial']),
@@ -727,7 +732,7 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
           ) : null}
           <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 800, letterSpacing: '-0.2px' }}>
-              {doc.basename}
+              {reskinName(doc.basename)}
             </div>
             <div style={mono({ fontSize: 10.5, color: 'var(--muted)', marginTop: 3 })}>
               {[classe, nivel ? `Nível ${nivel}` : tier != null && tier !== '' ? `Tier ${tier}` : '']
@@ -858,7 +863,8 @@ function ResumoBody({ doc }: { doc: VaultDoc }) {
 function PessoaResumo({ doc }: { doc: VaultDoc }) {
   const assets = useAssetIndex()
   const fm = doc.frontmatter as Fm
-  const plain = (v: unknown): string => (typeof v === 'string' ? linkLabel(unquote(v)).trim() : '')
+  const plain = (v: unknown): string =>
+    typeof v === 'string' ? reskinName(linkLabel(unquote(v)).trim()) : ''
   const portrait = creatureImageUrl(doc, assets, true)
   const relacao = plain(fm['Relação'])
   const org = plain(fm['Organização'])
@@ -899,7 +905,7 @@ function PessoaResumo({ doc }: { doc: VaultDoc }) {
         )}
         <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{ fontFamily: 'var(--display)', fontSize: 16, fontWeight: 800, letterSpacing: '-0.2px' }}>
-            {doc.basename}
+            {reskinName(doc.basename)}
           </div>
           <div style={mono({ fontSize: 10.5, color: 'var(--muted)', marginTop: 3 })}>
             {relacao || 'Pessoa'}

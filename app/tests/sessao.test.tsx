@@ -110,7 +110,7 @@ describe('SESSÃO (#101): lista → criar → iniciativa → detalhes → sair',
 
   it('entrar por código desconhecido cria o registro e entra', async () => {
     renderSessao()
-    const input = await screen.findByPlaceholderText('Código da sessão')
+    const input = await screen.findByPlaceholderText(/Código da sessão/)
     fireEvent.change(input, { target: { value: 'ZZTOP1' } })
     fireEvent.click(screen.getByText('Entrar →'))
     // entra (face INICIATIVA abre com a ficha do grupo)

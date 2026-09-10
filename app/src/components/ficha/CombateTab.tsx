@@ -85,6 +85,7 @@ import {
 } from './registry'
 import {
   cargasPorTier,
+  atributoDeAtaqueDaArma,
   danoArmaDisplay,
   exigenciaIntDaArma,
   profArmaEfetiva,
@@ -1892,6 +1893,9 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         // categoria (simples/marcial) nem na lista de Específicas, o rank
         // cai pra N (sem bônus de prof no acerto, sem dados extras, sem AdO).
         const profArma = profArmaEfetiva(profAtaque, grupoArma, basename, fm)
+        // Arma de fogo acerta com AGI por REGRA (2026-09-10) — o FM da ficha
+        // pode ter outro atributo (arma antiga, monstro), o grupo vence.
+        const atributoArma = atributoDeAtaqueDaArma(grupoArma, arma['Atributo'])
         // dano exibido = calcDanoArma do plugin (dados base + prof) COM o
         // contexto de dano aplicado (applyDanoCtx: fixo/por-dado/passo de
         // dado/dados extras — Encantar Arma, Apunhalante, Ato Inspirador…).
@@ -1921,7 +1925,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         const tipoIco = tipoDanoEmoji(unquote(str(inline['tipo'])))
         const modBase = rowMod(
           {
-            Atributo: str(arma['Atributo']),
+            Atributo: atributoArma,
             Proficiencia: profArma,
             Bonus_Item: num(arma['Bonus_Item']),
             Bonus_Especial: num(arma['Bonus_Especial']),
@@ -1930,7 +1934,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         )
         const modApplied = applyTarget(inter.ctx, {
           kind: 'attack',
-          attr: str(arma['Atributo']) as AtributoId,
+          attr: atributoArma as AtributoId,
           sourceId: basename,
         })
         const mod = modBase + modApplied.delta
@@ -1998,11 +2002,11 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                   renderBreakdownHtml(
                     ataqueBreakdown(
                       nome,
-                      str(arma['Atributo']),
+                      atributoArma,
                       profArma,
                       num(arma['Bonus_Item']),
                       num(arma['Bonus_Especial']),
-                      attrs[str(arma['Atributo'])] ?? 0,
+                      attrs[atributoArma] ?? 0,
                     ),
                   ) +
                   // + condições/efeitos APLICADOS ao acerto (Auto-Confiança,

@@ -29,7 +29,9 @@ export const THEMES: { id: ThemeName; label: string }[] = [
 ]
 export const CONTEXTS: { id: ContextName; label: string; ic: string }[] = [
   { id: 'fantasia', label: 'FANTASIA', ic: '🏰' },
-  { id: 'cyberpunk', label: 'CYBERPUNK', ic: '🌃' },
+  // O mundo se chama POA1987 pro usuário (é a marca da topbar, WORLD_BRAND);
+  // "cyberpunk" é só o id interno do eixo (report 2026-09-10).
+  { id: 'cyberpunk', label: 'POA1987', ic: '🌃' },
 ]
 export const MODES: { id: Mode; label: string; ic: string }[] = [
   { id: 'light', label: 'CLARO', ic: '☀️' },

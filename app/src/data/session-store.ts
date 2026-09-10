@@ -158,11 +158,28 @@ export function createSession(nome: string, grupoId: string | null, mestre: stri
 /** Entrar por código: retorna a sessão local; código desconhecido cria um
  *  registro "remoto" placeholder (o design faz o mesmo no joinSess — sessão
  *  entra na lista; o servidor #101b preenche os dados reais ao sincronizar). */
-export function joinSessionByCode(codigo: string): SessionRec {
+/** Entrar por código / espelhar do servidor.
+ *  `adotarMundo` = a mesa passa a ser DESTE mundo (gesto explícito do usuário:
+ *  criar ou digitar o código e entrar). O espelho automático das sessões da
+ *  conta NÃO adota — senão, estando no POA, toda mesa de fantasia mudaria de
+ *  mundo sozinha. Serve também de conserto pras mesas que nasceram no mundo
+ *  errado antes do carimbo (report 2026-09-10). */
+export function joinSessionByCode(codigo: string, opts?: { adotarMundo?: boolean }): SessionRec {
   const existing = getSession(codigo)
-  if (existing) return existing
+  if (existing) {
+    if (!opts?.adotarMundo || (existing.world ?? 'fantasia') === activeWorld()) return existing
+    const movida: SessionRec = { ...existing, world: activeWorld() }
+    persist(load().map((s) => (s.codigo === movida.codigo ? movida : s)))
+    return movida
+  }
   const rec: SessionRec = {
     codigo: codigo.toUpperCase(),
+    // MUNDO da mesa (report 2026-09-10: "não consigo criar sessão em
+    // POA1987"): com servidor, CRIAR e ENTRAR passam por aqui — o registro
+    // local nascia sem mundo, virava fantasia na leitura e a mesa sumia da
+    // lista do POA (e o ponteiro de sessão ativa lia null). A mesa pertence ao
+    // mundo em que ela entrou na sua lista.
+    world: activeWorld(),
     nome: `Sessão ${codigo.toUpperCase()}`,
     grupoId: null,
     mestre: '',

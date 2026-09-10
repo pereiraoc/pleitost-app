@@ -42,9 +42,11 @@ function MapaDaMalha({ leaflet, ctx }: { leaflet: Leaflet; ctx: ContextoMapaMalh
       // o nome da parada só é obrigatório em quem está na rota/linha escolhida;
       // o resto ganha nome ao aproximar
       nomearMarcador={(m) => foco.has(m.nome)}
-      // clicar numa parada marca DE e depois PARA, como no esquemático
+      // Com um campo do trajeto ARMADO (botão 🗺️ do planejador), o clique na
+      // parada preenche aquele campo; sem armar, o mapa faz o de sempre —
+      // abre o lugar nos DETALHES (pedido 2026-09-10).
       onMarker={(nome) => {
-        if (!paradas.has(nome)) return false
+        if (!ctx.alvoMapa || !paradas.has(nome)) return false
         ctx.onParada(nome)
         return true
       }}

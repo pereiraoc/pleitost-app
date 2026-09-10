@@ -224,3 +224,32 @@ describe('planejador de trajeto', () => {
     else expect(document.querySelector('[data-sem-rota]')).not.toBeNull()
   })
 })
+
+// Pedido 2026-09-10: escolher no mapa vira um MODO por campo — o botão 🗺️ ao
+// lado do dropdown arma o campo, o clique no mapa preenche AQUELE, e sem
+// nenhum armado o clique volta a ser leitura (abre o lugar nos detalhes).
+describe('escolher a ponta do trajeto pelo mapa', () => {
+  it('o botão arma o campo, só um por vez, e o clique no mapa preenche o armado', async () => {
+    if (!temDataset) return
+    montar()
+    await screen.findByText('// TRAJETO', {}, { timeout: 20000 })
+    const btnDe = screen.getByLabelText('Escolher a origem no mapa')
+    const btnPara = screen.getByLabelText('Escolher o destino no mapa')
+    expect(btnDe.getAttribute('aria-pressed')).toBe('false')
+    // sem armar, clicar numa parada do mapa NÃO mexe no trajeto
+    const parada = document.querySelector('[data-malha-mapa] g[data-parada="Estação Zaffari"]') as SVGGElement
+    expect(parada).toBeTruthy()
+    fireEvent.click(parada)
+    expect((screen.getByLabelText('De onde') as HTMLSelectElement).value).toBe('')
+    // arma a ORIGEM → o clique preenche o DE e desarma
+    fireEvent.click(btnDe)
+    expect(btnDe.getAttribute('aria-pressed')).toBe('true')
+    // armar o outro desliga o primeiro
+    fireEvent.click(btnPara)
+    expect(btnDe.getAttribute('aria-pressed')).toBe('false')
+    expect(btnPara.getAttribute('aria-pressed')).toBe('true')
+    fireEvent.click(document.querySelector('[data-malha-mapa] g[data-parada="Estação Zaffari"]') as SVGGElement)
+    expect((screen.getByLabelText('Pra onde') as HTMLSelectElement).value).toBe('Estação Zaffari')
+    expect(btnPara.getAttribute('aria-pressed')).toBe('false')
+  }, 30000)
+})

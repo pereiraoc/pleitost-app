@@ -74,13 +74,13 @@ const salvarContextoCyberpunk = () =>
   )
 
 describe('seletor de Contexto liberado (sem modo desenvolvedor)', () => {
-  it('SEM modo dev: pills FANTASIA/CYBERPUNK aparecem e trocam o contexto', () => {
+  it('SEM modo dev: pills FANTASIA/POA1987 aparecem e trocam o contexto', () => {
     render(
       <MemoryRouter>
         <ConfigPage />
       </MemoryRouter>,
     )
-    fireEvent.click(screen.getByText('CYBERPUNK'))
+    fireEvent.click(screen.getByText('POA1987'))
     expect(getThemeSnapshot().context).toBe('cyberpunk')
   })
 })

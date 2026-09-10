@@ -97,10 +97,10 @@ describe('tela CONFIG (issue #35)', () => {
     // casa o prefixo do semver, tolerando o sufixo do SHA.
     expect(screen.getByText(/^PLEITOST COMPANION\/\/OS · v0\.1\.0/)).toBeTruthy()
     // Tema/Cor de Destaque compartilham os 6 nomes (AÇO SOLAR aparece nos DOIS) →
-    // getAllByRole. Contexto tem rótulos únicos (FANTASIA/CYBERPUNK).
+    // getAllByRole. Contexto tem rótulos únicos (FANTASIA/POA1987).
     expect(screen.getAllByRole('button', { name: /AÇO SOLAR/ }).length).toBeGreaterThanOrEqual(2)
     expect(screen.getByRole('button', { name: /FANTASIA/ })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /CYBERPUNK/ })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /POA1987/ })).toBeTruthy()
     expect(screen.getByText('PERSONALIZADA')).toBeTruthy() // <label> do input de cor
   })
 
@@ -122,8 +122,8 @@ describe('tela CONFIG (issue #35)', () => {
     expect(document.documentElement.dataset.mode).toBe('light') // modo inalterado
     expect(JSON.parse(localStorage.getItem('pleitost.theme')!).theme).toBe('ferro-frio')
 
-    // Contexto é ortogonal: clicar CYBERPUNK muda data-context, não o tema/modo
-    fireEvent.click(screen.getByRole('button', { name: /CYBERPUNK/ }))
+    // Contexto é ortogonal: clicar POA1987 muda data-context, não o tema/modo
+    fireEvent.click(screen.getByRole('button', { name: /POA1987/ }))
     expect(document.documentElement.dataset.context).toBe('cyberpunk')
     expect(document.documentElement.dataset.theme).toBe('ferro-frio')
 

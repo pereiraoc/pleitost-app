@@ -162,7 +162,7 @@ describe('#390 — GM reduz o EV do NPC na iniciativa', () => {
     __resetSessionStoreForTests()
     setLiveSession(null)
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
     expect(screen.queryByLabelText('−1 EV')).toBeNull()

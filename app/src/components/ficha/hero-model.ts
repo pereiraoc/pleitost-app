@@ -246,13 +246,25 @@ export function escudoObraPrima(nome: unknown): string {
  *  re-deriva. Não há escolha manual de FOR/AGI na UI do plugin
  *  (setArmaAtributo só é alcançável pelo path do batch do dropdown).
  *  `propriedades` aceita a string inline `propriedades::` do doc da arma. */
+/** Grupo das ARMAS DE FOGO (Arcanônicas). O atributo de ataque delas é AGI por
+ *  REGRA — "arma de fogo sempre usa AGI pra acertar" (2026-09-10) —, não só o
+ *  default de quando a arma entrou na ficha. */
+export const GRUPO_ARMA_DE_FOGO = 'd-arcanonico'
+
+/** Atributo com que a arma ATACA: o grupo manda quando a regra fixa (arma de
+ *  fogo = AGI); nas demais vale o que o FM guardou (ficha antiga, monstro com
+ *  ataque próprio, arma custom). */
+export function atributoDeAtaqueDaArma(grupo: unknown, atributoFm: unknown): string {
+  return str(grupo).toLowerCase().trim() === GRUPO_ARMA_DE_FOGO ? 'AGI' : str(atributoFm)
+}
+
 export function deriveArmaAtributo(
   grupo: unknown,
   propriedades: unknown,
   atributos: Record<string, number>,
 ): string {
   const g = str(grupo).toLowerCase()
-  if (g === 'd-marcial' || g === 'd-simples') return 'AGI'
+  if (g === 'd-marcial' || g === 'd-simples' || g === GRUPO_ARMA_DE_FOGO) return 'AGI'
   // Base v2: `propriedades` é ARRAY no frontmatter; v1 era string inline.
   const propStr = (Array.isArray(propriedades) ? propriedades.map(str).join(' ') : str(propriedades)).toLowerCase()
   if (propStr.includes('precisa')) {
@@ -425,6 +437,10 @@ export function profArmaEfetiva(
   const g = str(grupoArma).toLowerCase().trim()
   const categoria = CATEGORIA_POR_GRUPO[g] ?? null
   if (!categoria) return rank
+  // ARMA DE FOGO (2026-09-10): jogador nenhum aprende — mas a CRIATURA do
+  // bestiário aparece armada e treinada (decisão do user: "só os monstros
+  // terão como P"). O FM não tem chave pra categoria; quem decide é a família.
+  if (categoria === 'Arcanonicos' && str(fm['subcategoria']).trim() === 'Monstro') return rank
   const prof = fmPath(fm, 'Inventario', 'Armas', 'Proficiencia') as
     | Record<string, unknown>
     | undefined

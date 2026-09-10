@@ -25,6 +25,8 @@ import {
   setLocalEntityFm,
 } from '../src/data/local-entities'
 import { __resetSessionStoreForTests, listSessions } from '../src/data/session-store'
+import { useTheme, __resetThemeForTests } from '../src/theme'
+import { renderHook, act as actHook } from '@testing-library/react'
 import { setLiveSession } from '../src/data/session-repo/live-session'
 import type { IndexManifest } from '../src/data/types'
 
@@ -63,6 +65,7 @@ beforeEach(() => {
   __resetHeroStoreMemoryForTests()
   __resetLocalStoreForTests()
   __resetSessionStoreForTests()
+  __resetThemeForTests()
   setLiveSession(null)
 })
 afterEach(cleanup)
@@ -107,7 +110,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
       Vida: { Vitalidade: 12, Moral: 18 },
     })
     renderCliente(repo, { id: 'p-1', nome: 'Jogadora Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
     await screen.findByText('🌐 HERÓIS NA SESSÃO')
 
@@ -144,7 +147,7 @@ describe('#186 sessão remota (InMemory, 2 clientes)', () => {
     // ── GM reabre e VÊ a jogadora com a vida atualizada
     __resetSessionStoreForTests()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre Octavio' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getByText('Aventureira Nia')).toBeTruthy())
     expect(screen.getByText(/❤️ 7\/12/)).toBeTruthy()
@@ -296,7 +299,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     // ── PLAYER entra: nomes MASCARADOS pela Raça ("Goblin 1/2"), faixa sem números
     __resetSessionStoreForTests()
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
@@ -316,7 +319,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     // ── GM revela o primeiro NPC → player passa a ver o nome real
     __resetSessionStoreForTests()
     renderCliente(repo, { id: 'gm-1', nome: 'Mestre' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
@@ -327,7 +330,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     cleanup()
     __resetSessionStoreForTests()
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
@@ -364,7 +367,7 @@ describe('#196 iniciativa remota (encounters)', () => {
     // player entra → só o 1º combatente aparece; o escondido some
     __resetSessionStoreForTests()
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), {
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), {
       target: { value: (await repo.findSessionById(remoteId))!.code },
     })
     fireEvent.click(screen.getByText('Entrar →'))
@@ -442,7 +445,7 @@ describe('#226 lista multi-dispositivo', () => {
 // player-view.ts:56-77/128-134).
 describe('#238 bloco COMBATE (formato do sync)', () => {
   async function entrar(codigo: string) {
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
   }
 
@@ -631,7 +634,7 @@ describe('#332 entrar/criar com servidor exige login — nada de sessão-fantasm
         </SessionRepoProvider>
       </CatalogProvider>,
     )
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: 'ULF001' } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: 'ULF001' } })
     fireEvent.click(screen.getByText('Entrar →'))
 
     // pede login e NÃO entrou: nada de placeholder local (antes virava sessão
@@ -659,5 +662,62 @@ describe('#332 entrar/criar com servidor exige login — nada de sessão-fantasm
     fireEvent.click(await screen.findByText('+ Criar'))
     await screen.findByText(/Entre com sua conta/i)
     expect(listSessions().length).toBe(0)
+  })
+})
+
+// Report 2026-09-10: "continuo não conseguindo criar sessão em POA1987".
+// O caminho COM SERVIDOR espelha o registro local por joinSessionByCode, que
+// não carimbava o mundo — a mesa nascia como fantasia e sumia da lista do POA.
+describe('criar sessão no mundo POA 1987', () => {
+  it('a mesa criada no cyberpunk fica no cyberpunk e abre na hora', async () => {
+    const { result } = renderHook(() => useTheme())
+    actHook(() => result.current.setContext('cyberpunk'))
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-poa', nome: 'Mestre POA' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('FICHA DO GRUPO ↗')
+    expect(listSessions()).toHaveLength(1)
+    expect(listSessions()[0]!.world).toBe('cyberpunk')
+    expect(listSessions()[0]!.remoteId).toBeTruthy()
+  })
+})
+
+// Report 2026-09-10: "quando eu coloco nome na sessão e clico em criar, ela
+// sempre nasce como Nova Sessão". A caixa é uma só (código pra entrar, nome
+// pra criar) — o que estiver escrito vira o NOME da mesa nova.
+describe('nome da sessão nova', () => {
+  it('o texto da caixa vira o nome; vazio cai no default', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-nome', nome: 'Mestre' })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), {
+      target: { value: 'Mesa de Quinta' },
+    })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('FICHA DO GRUPO ↗')
+    expect(listSessions()[0]!.nome).toBe('Mesa de Quinta')
+    const remotas = await repo.findSessionsByUser('gm-nome')
+    expect(remotas[0]!.name).toBe('Mesa de Quinta')
+  })
+})
+
+// Report 2026-09-10: "deletar uma sessão com gente conectada é instantâneo e
+// não pede confirmação". O 🗑️ agora ARMA a confirmação (✔️/✖️ no lugar), e só
+// o ✔️ apaga.
+describe('excluir sessão pede confirmação', () => {
+  it('o clique no 🗑️ não apaga; ✖️ cancela; ✔️ apaga', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-del', nome: 'Mestre' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('FICHA DO GRUPO ↗')
+    const codigo = listSessions()[0]!.codigo
+    // volta pra LISTA (o card só existe lá)
+    fireEvent.click(await screen.findByText(/DESCONECTAR/))
+    fireEvent.click(await screen.findByLabelText(`Excluir sessão ${listSessions()[0]!.nome}`))
+    expect(listSessions().map((s) => s.codigo)).toContain(codigo)
+    fireEvent.click(await screen.findByLabelText(/Cancelar exclusão/))
+    expect(listSessions().map((s) => s.codigo)).toContain(codigo)
+    fireEvent.click(await screen.findByLabelText(`Excluir sessão ${listSessions()[0]!.nome}`))
+    fireEvent.click(await screen.findByLabelText(/Confirmar exclusão/))
+    await waitFor(() => expect(listSessions().map((s) => s.codigo)).not.toContain(codigo))
   })
 })

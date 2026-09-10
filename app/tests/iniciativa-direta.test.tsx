@@ -182,7 +182,7 @@ describe('#229 (b): adicionar monstro do bestiário à iniciativa da sessão', (
     __resetSessionStoreForTests()
     setLiveSession(null)
     renderCliente(repo, { id: 'p-1', nome: 'Ana' })
-    fireEvent.change(await screen.findByPlaceholderText('Código da sessão'), { target: { value: codigo } })
+    fireEvent.change(await screen.findByPlaceholderText(/Código da sessão/), { target: { value: codigo } })
     fireEvent.click(screen.getByText('Entrar →'))
     await waitFor(() => expect(screen.getByText('⚔ COMBATE')).toBeTruthy())
     // nomes reais ocultos DENTRO do combate da sala (a página CRIATURAS do

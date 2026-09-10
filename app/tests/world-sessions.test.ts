@@ -5,6 +5,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import {
   createSession,
+  joinSessionByCode,
   listSessions,
   getActiveSessionCode,
   setActiveSessionCode,
@@ -75,5 +76,51 @@ describe('sessões por mundo (C4)', () => {
     // trocar de volta NÃO reconecta sozinho (desconexão é natural, não toggle)
     setContext('fantasia')
     expect(getActiveSessionCode()).toBeNull()
+  })
+})
+
+// Report 2026-09-10 ("continuo não conseguindo criar sessão em POA1987"): a
+// criação COM SERVIDOR não passa por createSession — o SessaoPage cria no
+// servidor e espelha o registro local com joinSessionByCode, que nascia SEM
+// mundo (= fantasia). No POA a mesa recém-criada sumia da lista e o ponteiro
+// de sessão ativa lia null: parecia que o botão não fazia nada.
+describe('entrar/espelhar por código carimba o mundo', () => {
+  it('joinSessionByCode no cyberpunk fica no cyberpunk (e aparece na lista)', () => {
+    setContext('cyberpunk')
+    const rec = joinSessionByCode('ABC123')
+    expect(rec.world).toBe('cyberpunk')
+    expect(listSessions().map((s) => s.codigo)).toContain('ABC123')
+    setContext('fantasia')
+    expect(listSessions().map((s) => s.codigo)).not.toContain('ABC123')
+  })
+
+  it('a sessão criada pelo servidor no cyberpunk continua ativa lá', () => {
+    setContext('cyberpunk')
+    const rec = joinSessionByCode('XYZ789')
+    setActiveSessionCode(rec.codigo)
+    expect(getActiveSessionCode()).toBe('XYZ789')
+  })
+})
+
+// Conserto das mesas que nasceram no mundo errado (antes do carimbo): entrar
+// pelo código ESTANDO no mundo certo move a mesa pra ele. O espelho automático
+// das sessões da conta não move nada.
+describe('adotar o mundo ao entrar pelo código', () => {
+  it('mesa antiga (fantasia) passa pro cyberpunk quando o mestre entra por lá', () => {
+    setContext('fantasia')
+    const rec = joinSessionByCode('OLD123', { adotarMundo: true })
+    expect(rec.world).toBe('fantasia')
+    setContext('cyberpunk')
+    expect(listSessions().map((s) => s.codigo)).not.toContain('OLD123')
+    const movida = joinSessionByCode('OLD123', { adotarMundo: true })
+    expect(movida.world).toBe('cyberpunk')
+    expect(listSessions().map((s) => s.codigo)).toContain('OLD123')
+  })
+
+  it('espelho automático (sem adotarMundo) NÃO muda o mundo da mesa', () => {
+    setContext('fantasia')
+    joinSessionByCode('KEEP99', { adotarMundo: true })
+    setContext('cyberpunk')
+    expect(joinSessionByCode('KEEP99').world).toBe('fantasia')
   })
 })

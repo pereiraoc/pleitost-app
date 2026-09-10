@@ -12,7 +12,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
-import { exigenciaIntDaArma, profArmaEfetiva } from '../src/components/ficha/hero-model'
+import {
+  atributoDeAtaqueDaArma,
+  deriveArmaAtributo,
+  exigenciaIntDaArma,
+  profArmaEfetiva,
+} from '../src/components/ficha/hero-model'
 import { armaEhMercadoria } from '../src/components/ficha/registry'
 import { setActiveContexto, reskinName } from '../src/data/reskin'
 import type { ContextoDef } from '../src/data/context-def'
@@ -34,6 +39,15 @@ describe('proficiência da terceira categoria', () => {
     // controle: a mesma ficha É proficiente nas categorias que tem
     expect(profArmaEfetiva('E', 'd-simples', 'Besta de Mão', fmCom([]))).toBe('E')
     expect(profArmaEfetiva('E', 'd-marcial', 'Arco Curto', fmCom([]))).toBe('E')
+  })
+
+  it('CRIATURA do bestiário já vem treinada: a categoria conta como P', () => {
+    // decisão do user (2026-09-10): "considera tudo como N mesmo e só os
+    // monstros terão como P" — o inimigo aparece armado, o jogador não aprende.
+    const fmMonstro = { ...fmCom([]), categoria: 'Criatura', subcategoria: 'Monstro' }
+    expect(profArmaEfetiva('E', 'd-arcanonico', 'Pistola Arcanônica', fmMonstro)).toBe('E')
+    // e o herói (sem subcategoria Monstro) segue sem
+    expect(profArmaEfetiva('E', 'd-arcanonico', 'Pistola Arcanônica', fmCom([]))).toBe('N')
   })
 
   it('a arma na lista de Específicas concede (é como o monstro fica P)', () => {
@@ -115,5 +129,22 @@ describe.skipIf(!temDataset)('sem acesso: fora de toda loja (decisão 2026-09-10
     const besta = ler('Sistema/Equipamento/Armas/Armas Simples/Distância Simples/Besta de Mão')
       .frontmatter as Record<string, unknown>
     expect(armaEhMercadoria(besta.grupo, besta['mãos'])).toBe(true)
+  })
+})
+
+describe('arma de fogo mira: AGI sempre (2026-09-10)', () => {
+  const attrs = { FOR: 4, AGI: 1, INT: 0, PRE: 0 }
+
+  it('entra na ficha já com AGI, mesmo com FOR alta', () => {
+    expect(deriveArmaAtributo('d-arcanonico', ['[[Recarga]]'], attrs)).toBe('AGI')
+    // controle: corpo-a-corpo comum segue FOR
+    expect(deriveArmaAtributo('cac-marcial', [], attrs)).toBe('FOR')
+  })
+
+  it('e o ataque usa AGI mesmo se o FM guardou outra coisa (é regra, não default)', () => {
+    expect(atributoDeAtaqueDaArma('d-arcanonico', 'FOR')).toBe('AGI')
+    // arma comum: quem manda é o FM (ficha antiga/monstro com atributo próprio)
+    expect(atributoDeAtaqueDaArma('cac-marcial', 'FOR')).toBe('FOR')
+    expect(atributoDeAtaqueDaArma('d-marcial', 'AGI')).toBe('AGI')
   })
 })

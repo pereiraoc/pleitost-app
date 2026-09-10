@@ -13,6 +13,7 @@
 // (Estilo de Vida do eixo transporte) e o `Recursos_do_Mundo` do herói.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { useCatalog } from '../data/CatalogContext'
+import { useDetail } from '../data/detail-context'
 import { useDocs } from '../data/useDoc'
 import { activeContextoDef } from '../data/reskin'
 import { DetailLink } from '../components/DetailLink'
@@ -106,6 +107,9 @@ function Itinerario({ rota, origem, destino }: { rota: Rota; origem: string | nu
 
 /** O que o `mapa` recebe pra desenhar a malha — mapa esquemático (ficha) ou as
  *  linhas sobre o mapa real da cidade (Atlas) leem daqui. */
+/** Qual campo do trajeto está esperando um clique no mapa. */
+export type AlvoMapa = 'origem' | 'destino' | null
+
 export interface ContextoMapaMalha {
   malha: Malha
   /** Linhas que passaram pelo filtro. */
@@ -121,8 +125,53 @@ export interface ContextoMapaMalha {
   /** Posição REAL de cada parada (marcadores do mapa da cidade). */
   posicoes: Map<string, PosicaoReal>
   onSelecionar: (id: string | null) => void
-  /** Clique numa parada: marca DE, depois PARA, e o terceiro recomeça. */
+  /** Campo do trajeto ARMADO pra escolher no mapa (null = nenhum). Sem alvo,
+   *  o clique no mapa é leitura: abre o lugar nos DETALHES. */
+  alvoMapa: AlvoMapa
+  /** Clique numa parada do mapa (só faz sentido com um campo armado). */
   onParada: (nome: string) => void
+}
+
+/** Botão 🗺️ ao lado do dropdown: liga o modo "escolher no mapa" PARA ESTE
+ *  campo. Ligado, fica em destaque; clicar de novo (ou ligar o outro campo)
+ *  desliga. Mesmo gabarito do ℹ️ dos dropdowns da ficha. */
+function BotaoNoMapa({
+  campo,
+  alvo,
+  onAlvo,
+}: {
+  campo: Exclude<AlvoMapa, null>
+  alvo: AlvoMapa
+  onAlvo: (a: AlvoMapa) => void
+}) {
+  const on = alvo === campo
+  const quem = campo === 'origem' ? 'a origem' : 'o destino'
+  return (
+    <button
+      type="button"
+      data-no-mapa={campo}
+      aria-pressed={on}
+      title={on ? `Clique no mapa pra escolher ${quem}` : `Escolher ${quem} no mapa`}
+      aria-label={`Escolher ${quem} no mapa`}
+      onClick={() => onAlvo(on ? null : campo)}
+      style={{
+        flex: 'none',
+        width: 34,
+        alignSelf: 'stretch',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 13,
+        background: on ? 'color-mix(in srgb,var(--accent) 22%,var(--card))' : 'var(--card)',
+        border: `1px solid ${on ? 'var(--accent)' : 'var(--line2)'}`,
+        color: on ? 'var(--accent)' : 'var(--muted)',
+        cursor: 'pointer',
+        clipPath: clip(8),
+      }}
+    >
+      🗺️
+    </button>
+  )
 }
 
 /** Plano de transporte do herói, quando o painel está numa ficha. */
@@ -138,6 +187,7 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
   const cfg = def?.transporte
   const rcfg = def?.recursos
   const catalog = useCatalog()
+  const detail = useDetail()
 
   // docs: linhas + recursos (planos e veículos) + a nota do mapa
   const ids = useMemo(() => {
@@ -207,6 +257,10 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
   // planejador: de onde, pra onde, período do dia, rota escolhida
   const [origem, setOrigem] = useState<string | null>(null)
   const [destino, setDestino] = useState<string | null>(null)
+  // Escolher no MAPA é um modo que se liga por campo (pedido 2026-09-10): sem
+  // isso ligado, clicar no mapa abre o lugar nos detalhes, como em qualquer
+  // outro mapa. Um alvo por vez — ligar o segundo desliga o primeiro.
+  const [alvoMapa, setAlvoMapa] = useState<AlvoMapa>(null)
   const [periodo, setPeriodo] = useState<number | null>(null)
   const [rotaSel, setRotaSel] = useState(0)
 
@@ -262,13 +316,18 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
     return partes.length >= 2 ? partes[partes.length - 2]! : null
   }
   const bairros = zonasDeBairro(desenho, bairroDe)
-  /** Clique numa parada do mapa: primeiro marca DE, depois PARA; o terceiro recomeça. */
+  /** Clique numa parada do mapa: preenche o campo ARMADO e desarma. Sem campo
+   *  armado, o clique é leitura — abre o lugar nos DETALHES. */
   const marcarParada = (nome: string) => {
+    if (!alvoMapa) {
+      const id = idDe(nome)
+      if (id && detail) detail.open({ kind: 'doc', id })
+      return
+    }
     setRotaSel(0)
-    if (!origem || (origem && destino)) {
-      setOrigem(nome)
-      setDestino(null)
-    } else if (nome !== origem) setDestino(nome)
+    if (alvoMapa === 'origem') setOrigem(nome)
+    else setDestino(nome)
+    setAlvoMapa(null)
   }
   // DE/PARA: seletor hierárquico do Atlas (como a naturalidade), só com as paradas da vista
   const opcoesSelect = paradasSelectLines(desenho.paradas.map((p) => ({ nome: p.nome, id: idDe(p.nome) ?? p.nome }))).map((l, i) => ({ value: l.value === null ? `__h${i}` : l.value, label: l.label, disabled: l.disabled }))
@@ -410,10 +469,12 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 220px', minWidth: 0 }} data-origem="">
               <span style={{ ...MONO, minWidth: 36 }}>DE</span>
               <BoxSelect ariaLabel="De onde" display={caixa('🚏', origem)} options={opcoesSelect} value={origem ?? ''} onChange={(v) => { setOrigem(v || null); setRotaSel(0) }} />
+              <BotaoNoMapa campo="origem" alvo={alvoMapa} onAlvo={setAlvoMapa} />
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', flex: '1 1 220px', minWidth: 0 }} data-destino="">
               <span style={{ ...MONO, minWidth: 36 }}>PARA</span>
               <BoxSelect ariaLabel="Pra onde" display={caixa('🏁', destino)} options={opcoesSelect} value={destino ?? ''} onChange={(v) => { setDestino(v || null); setRotaSel(0) }} />
+              <BotaoNoMapa campo="destino" alvo={alvoMapa} onAlvo={setAlvoMapa} />
             </div>
             <button type="button" data-inverter="" aria-label="Inverter origem e destino" onClick={() => { setOrigem(destino); setDestino(origem); setRotaSel(0) }} style={{ ...CHIP, cursor: 'pointer', color: 'inherit', background: 'transparent' }}>
               ⇄
@@ -509,6 +570,7 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
         destaque,
         posicoes: dados.posicoes,
         onSelecionar: setSelecionada,
+        alvoMapa,
         onParada: marcarParada,
       })}
 

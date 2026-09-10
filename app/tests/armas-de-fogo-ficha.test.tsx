@@ -69,11 +69,19 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
   })
   afterEach(cleanup)
 
-  function heroiComPistola(int: number) {
+  function heroiComPistola(int: number, opts?: { agi?: number; forca?: number; atributoFm?: string }) {
     const id = createLocalEntity('Heroi', `Pistoleiro INT ${int}`, emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Atributos.INT', int)
+    if (opts?.agi !== undefined) setLocalEntityFm(id, 'Atributos.AGI', opts.agi)
+    if (opts?.forca !== undefined) setLocalEntityFm(id, 'Atributos.FOR', opts.forca)
     setLocalEntityFm(id, 'Inventario.Armas.Lista', [
-      { Nome: '[[Pistola Arcanônica]]', Atributo: 'AGI', Bonus_Item: 0, Bonus_Especial: 0, Fonte: 'Manual' },
+      {
+        Nome: '[[Pistola Arcanônica]]',
+        Atributo: opts?.atributoFm ?? 'AGI',
+        Bonus_Item: 0,
+        Bonus_Especial: 0,
+        Fonte: 'Manual',
+      },
     ])
     render(
       <CatalogProvider catalog={catalog}>
@@ -96,5 +104,13 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
     heroiComPistola(1)
     await waitFor(() => expect(screen.getByText(/⚔️ \d+d6/)).toBeTruthy(), { timeout: 20000 })
     expect(screen.queryByText(/EXIGE INT/)).toBeNull()
+  }, 30000)
+  it('acerta com AGI mesmo se o FM da arma disser FOR (regra da arma de fogo)', async () => {
+    // FOR 4 / AGI 3 e a linha do FM gravada como FOR: quem vale é a AGI.
+    heroiComPistola(1, { agi: 3, forca: 4, atributoFm: 'FOR' })
+    await waitFor(() => expect(screen.getByText(/⚔️ \d+d6/)).toBeTruthy(), { timeout: 20000 })
+    const linha = screen.getByText(/⚔️ \d+d6/).closest('div')!.parentElement!
+    expect(linha.textContent).toContain('+3')
+    expect(linha.textContent).not.toContain('+4')
   }, 30000)
 })
