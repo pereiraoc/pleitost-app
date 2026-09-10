@@ -455,6 +455,46 @@ export function profArmaEfetiva(
   return especifica ? rank : 'N'
 }
 
+/** Regra de arma do Empregado declarada no Contexto do mundo (#544). */
+export interface RegraArmaCompanheiro {
+  grupos: string[]
+  maos: number | null
+  forcaMax: number | null
+}
+
+/** A arma pode ser ESCOLHIDA por esta ficha (dropdown da linha e "+ Adicionar
+ *  Arma")? Report 2026-09-10: a lista mostrava arma que o personagem não pode
+ *  usar. Fonte única das duas listas:
+ *   - COMPANHEIRO: na fantasia o bicho ataca com o corpo (armas naturais vêm
+ *     por regra) — nada de arma fabricada; no mundo com
+ *     `regras.companheiro_animal.arma` (POA: Empregado) só o que o Contexto
+ *     declara (grupos, mãos, Força máxima);
+ *   - HERÓI: arma natural/especial vem por regra e não se escolhe; o resto
+ *     só com proficiência (categoria P ou arma específica — a mesma régua do
+ *     ataque, profArmaEfetiva);
+ *   - MONSTRO: o bestiário escolhe livre (a proficiência dele é por regra). */
+export function armaEscolhivel(
+  e: { grupo?: unknown; maos?: number | null; forca?: number | null; basename?: string | null },
+  familia: string,
+  fm: Record<string, unknown>,
+  regraCompanheiro: RegraArmaCompanheiro | null | undefined,
+): boolean {
+  const g = str(e.grupo).toLowerCase().trim()
+  if (familia === 'CompanheiroAnimal') {
+    if (!regraCompanheiro) return false
+    if (!regraCompanheiro.grupos.includes(g)) return false
+    if (regraCompanheiro.maos != null && (e.maos == null || e.maos > regraCompanheiro.maos)) return false
+    if (regraCompanheiro.forcaMax != null && e.forca != null && e.forca > regraCompanheiro.forcaMax) return false
+    return true
+  }
+  if (familia === 'Heroi') {
+    if (!g || g === 'natural' || g === 'especial') return false
+    // rank qualquer ≠ N: o que importa aqui é SE há proficiência, não qual
+    return profArmaEfetiva('A', g, e.basename ?? '', fm) !== 'N'
+  }
+  return true
+}
+
 /** Dados extras de dano por proficiência — VERBATIM do PROF_DICE do plugin. */
 export const PROF_DICE: Record<string, number> = { N: 0, A: 0, E: 1, M: 2 }
 

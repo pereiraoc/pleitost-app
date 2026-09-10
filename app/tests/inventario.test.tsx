@@ -19,6 +19,7 @@ import { deriveArmaAtributo, docField, bonusPorTier } from '../src/components/fi
 import { heroPath } from '../src/paths'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
+import { armaEscolhivel } from '../src/components/ficha/hero-model'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const repoDir = path.dirname(appDir)
@@ -745,10 +746,13 @@ describe('#28: atributo da arma idêntico ao plugin (deriveArmaAtributo)', () =>
 
   it('trocar de arma re-deriva: c-a-c sem Precisa → FOR; com Precisa → AGI (Carlos AGI>FOR)', async () => {
     // fixtures data-driven: uma c-a-c SEM Precisa e uma COM Precisa
+    // só armas que o Carlos PODE escolher (armaEscolhivel — 2026-09-10: o
+    // dropdown não oferece arma sem proficiência; Carlos é Bardo, sem Marciais)
     const cac = (comPrecisa: boolean) =>
       armaEntries.find((d) => {
         const g = String(d.grupo ?? '')
         if (g !== 'cac-simples' && g !== 'cac-marcial') return false
+        if (!armaEscolhivel(d, 'Heroi', fm, null)) return false
         const props = String(docField(readJson(d.id), 'propriedades') ?? '')
         return props.includes('Precisa') === comPrecisa
       })!

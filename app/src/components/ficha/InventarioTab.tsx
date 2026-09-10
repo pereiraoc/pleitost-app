@@ -54,6 +54,7 @@ import {
   bonusPorTier,
   buildItemAlias,
   buildTesouroAlias,
+  armaEscolhivel,
   deriveArmaAtributo,
   docField,
   escudoObraPrima,
@@ -357,22 +358,17 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
     // #544: Empregado (família CA) no mundo com `regras.companheiro_animal.
     // arma` só escolhe dos grupos/mãos do Contexto (POA: simples de 1 mão) —
     // a escolha em si fica LIVRE pro jogador.
-    const armaCa = familiaOf(doc) === 'CompanheiroAnimal' ? contextoRegras().companheiroAnimal?.arma : null
-    return GRUPO_ARMA_ORDER.filter(
-      (g) => byGrupo.has(g.key) && (!armaCa || armaCa.grupos.includes(g.key)),
-    ).map((g) => ({
+    // A régua de quem pode escolher o quê mora em armaEscolhivel (a mesma do
+    // "+ Adicionar Arma"): Empregado pelo Contexto, herói por proficiência.
+    const familia = familiaOf(doc)
+    const regraCa = contextoRegras().companheiroAnimal?.arma
+    return GRUPO_ARMA_ORDER.map((g) => ({
       ...g,
-      entries: byGrupo
-        .get(g.key)!
-        .filter(
-          (e) =>
-            !armaCa ||
-            ((armaCa.maos == null || (e.maos != null && e.maos <= armaCa.maos)) &&
-              (armaCa.forcaMax == null || e.forca == null || e.forca <= armaCa.forcaMax)),
-        )
+      entries: (byGrupo.get(g.key) ?? [])
+        .filter((e) => armaEscolhivel(e, familia, fm, regraCa))
         .sort((a, b) => (a.basename ?? '').localeCompare(b.basename ?? '', 'pt-BR')),
-    }))
-  }, [catalog])
+    })).filter((g) => g.entries.length > 0)
+  }, [catalog, doc, fm])
 
   // Dropdown de PROPRIEDADE da ARMA (issue #76) — só o que aplica a ARMA:
   // imbuições reais (Imbuições e Qualidade/Imbuições) + 'Arma Obra-prima' (a
@@ -1674,6 +1670,9 @@ function AddFab({
 export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
   const catalog = useCatalog()
   const model = useHeroModel(doc, 'inventario')
+  // proficiência de classe vem da cascata de regras, não do FM cru
+  const rulesInv = useHeroRules(model.fm)
+  const fmInv = rulesInv?.derivedFm ?? model.fm
   // Delta por FAMÍLIA (#201): CA sem CONSUMÍVEIS nem Moedas (plugin
   // tab-inventario.ts:126-128, só Heroi) e com tesouros restritos aos 3
   // permitidos (tabs/ca/tab-completa.ts:33-43).
@@ -1734,7 +1733,10 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
       // igual ao dropdown agrupado — antes vinha na ordem crua do índice.
       orderArmasByGrupo(
         catalog.content.filter(
-          (e: IndexDocEntry) => e.id.startsWith(ARMAS_FOLDER) && e.subtype === 'Arma',
+          (e: IndexDocEntry) =>
+            e.id.startsWith(ARMAS_FOLDER) &&
+            e.subtype === 'Arma' &&
+            armaEscolhivel(e, familiaOf(doc), fmInv, contextoRegras().companheiroAnimal?.arma),
         ),
         // display do MUNDO ativo, como o dropdown da linha de arma e o
         // catálogo de tesouros (report 2026-09-10: o "+" listava nome de
@@ -1744,7 +1746,7 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         nm: reskinName(e.basename ?? e.id),
         key: e.id,
       })),
-    [catalog],
+    [catalog, doc, fmInv],
   )
   const tesouroCatalog = useMemo(
     () =>
@@ -1807,7 +1809,9 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
           (dc.html:707: absolute right:26 bottom:22 no container da tela;
           consumíveis não tem fab). */}
       {tab === 'armas' ? (
-        <AddFab label="+ Adicionar Arma" title="ESCOLHER ARMA" items={armaCatalog} onPick={addArma} />
+        armaCatalog.length ? (
+          <AddFab label="+ Adicionar Arma" title="ESCOLHER ARMA" items={armaCatalog} onPick={addArma} />
+        ) : null
       ) : tab === 'equipamentos' ? (
         <AddFab
           label="+ Adicionar Tesouro"
