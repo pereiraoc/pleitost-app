@@ -55,9 +55,12 @@ const hex = (r: number, g: number, b: number): string =>
   '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')
 
 /** Fração (0..1) → índice de px. A fração cai no px `floor(f·n)`: `round`
- *  jogaria o centro de cada célula pra célula seguinte. */
+ *  jogaria o centro de cada célula pra célula seguinte. O épsilon é contra o
+ *  ponto flutuante: a fração de um marcador que está EXATO na linha 209
+ *  (1 − 961/1170) vale 208,99999999999997, e sem ele o mapa lia a linha
+ *  vizinha — o que, na borda de um bairro, troca a resposta. */
 function px(fracao: number, tamanho: number): number {
-  return Math.min(tamanho - 1, Math.max(0, Math.floor(fracao * tamanho)))
+  return Math.min(tamanho - 1, Math.max(0, Math.floor(fracao * tamanho + 1e-6)))
 }
 
 /**

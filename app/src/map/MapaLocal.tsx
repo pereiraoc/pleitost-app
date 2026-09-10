@@ -29,6 +29,7 @@ import { leafletZoom, markerVisivel, markerGlyph } from './leaflet-local'
 import { MapControls, fullscreenContainerStyle } from './MapControls'
 import { useMapView, type MapView } from './useMapView'
 import { bairroEmFracao, realceDaArea, type SementeBairro } from './bairros-cor'
+import { distanciaAoVizinho, rotuloCabe } from './rotulos'
 import { useIndiceBairros } from './bairros-imagem'
 
 export type Leaflet = NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']>
@@ -44,10 +45,13 @@ const REALCE: readonly [number, number, number, number] = [255, 122, 0, 92]
 
 /** Largura aproximada de um caractere do rótulo de bairro (mono 9.5px). */
 const CHAR_PX = 6
-/** Escala DE TELA (px renderizado ÷ px da fonte) a partir da qual o nome do
- *  ponto de interesse aparece. Abaixo disso são dezenas de nomes empilhados —
- *  fica só o ícone, e o nome volta ao aproximar. */
-const ESCALA_NOME_PINO = 0.85
+/** Espaço na tela (px) que o pino precisa ter à volta pro nome dele entrar.
+ *  Não é a largura do nome inteiro: rótulo de mapa pode passar por cima do
+ *  vizinho, o que não pode é virar parede de texto. Com 210 lugares na POA,
+ *  isto faz o nome aparecer aos poucos conforme se aproxima. */
+const FOLGA_NOME_PINO = 22
+/** Folga mínima em torno do pino pro nome dele caber. */
+const RAIO_CLIQUE = 22
 
 /** Ponto de uma coordenada do bloco, em fração da imagem (0..1). */
 export interface Enquadramento {
@@ -109,7 +113,11 @@ export function MapaLocal({
   const detail = useDetail()
   const navigate = useNavigate()
   const map = useMapView()
+  // O que está sob o ponteiro: a mancha do bairro segue acesa mesmo quando o
+  // ponteiro cruza um pino (o chip é que troca pro nome do pino, que é o que o
+  // clique abriria).
   const [realce, setRealce] = useState<string | null>(null)
+  const [pinoSob, setPinoSob] = useState<string | null>(null)
   // Largura de LAYOUT da camada do mapa (sem o transform): com ela sai a
   // escala de tela real (px na tela ÷ px da fonte), que decide o que cabe de
   // rótulo. Sem medir, o mapa retrato desenhado a 0,48× parecia ter espaço.
@@ -154,6 +162,22 @@ export function MapaLocal({
     return marcadores ? marcadores(m, { gateDeZoom: gate, escalaTela }) : gate
   })
 
+  // O nome do pino só entra quando CABE: com 210 lugares no mapa da POA, os
+  // vizinhos de rua ficam a ~5 px da fonte um do outro e afastado seriam
+  // nomes empilhados. A régua é a mesma do rótulo de bairro — espaço
+  // disponível (distância ao vizinho × escala de tela) contra o tamanho do
+  // texto. Em cacho, ficam os ícones; o nome sai no chip do que está sob o
+  // ponteiro (e no title nativo).
+  // `visiveis` é um array novo a cada render (o filtro roda sempre), e a conta
+  // é O(n²) com n=210: memoizar pela LISTA DE NOMES evita refazê-la a cada
+  // movimento do ponteiro.
+  const chaveVisiveis = visiveis.map((m) => m.nome).join('|')
+  const vizinho = useMemo(
+    () => distanciaAoVizinho(visiveis.map((m) => ({ nome: m.nome, x: m.long, y: m.lat }))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [chaveVisiveis],
+  )
+
   const abrir = (nome: string) => {
     if (onMarker?.(nome)) return
     const r = catalog.resolve(nome)
@@ -176,11 +200,10 @@ export function MapaLocal({
   // (setPointerCapture), então o click sintetizado nunca chega no span do
   // marker — onClick no marker era código morto. Marcador tem precedência
   // sobre a área do bairro: o ponto é mais específico que a mancha.
-  const onViewportClick = (e: React.MouseEvent) => {
-    if (map.consumeMoved()) return
-    const f = fracaoNoCliente(e.clientX, e.clientY)
-    if (!f || !quadro) return
-    const rect = map.mapRef.current!.getBoundingClientRect()
+  /** Marcador visível mais perto do ponteiro (dentro do raio de clique). */
+  const marcadorSob = (clientX: number, clientY: number): string | null => {
+    const rect = map.mapRef.current?.getBoundingClientRect()
+    if (!rect?.width || !quadro) return null
     let melhor: string | null = null
     let melhorD = Infinity
     for (const m of visiveis) {
@@ -188,14 +211,22 @@ export function MapaLocal({
       const mx = rect.left + p.fx * rect.width
       const my = rect.top + p.fy * rect.height
       // âncora é a BASE do marker (ícone+label ficam acima dela)
-      const d = Math.hypot(mx - e.clientX, my - 10 - e.clientY)
+      const d = Math.hypot(mx - clientX, my - 10 - clientY)
       if (d < melhorD) {
         melhorD = d
         melhor = m.nome
       }
     }
-    if (melhor && melhorD <= 22) {
-      abrir(melhor)
+    return melhorD <= RAIO_CLIQUE ? melhor : null
+  }
+
+  const onViewportClick = (e: React.MouseEvent) => {
+    if (map.consumeMoved()) return
+    const f = fracaoNoCliente(e.clientX, e.clientY)
+    if (!f || !quadro) return
+    const marcador = marcadorSob(e.clientX, e.clientY)
+    if (marcador) {
+      abrir(marcador)
       return
     }
     const bairro = idxBairros ? bairroEmFracao(idxBairros, f.fx, f.fy) : null
@@ -204,9 +235,16 @@ export function MapaLocal({
 
   const onViewportMove = (e: React.PointerEvent) => {
     map.onPointerMove(e)
-    if (!idxBairros || map.dragging) return
+    if (map.dragging) return
     const f = fracaoNoCliente(e.clientX, e.clientY)
-    setRealce(f ? bairroEmFracao(idxBairros, f.fx, f.fy) : null)
+    if (!f) {
+      setRealce(null)
+      setPinoSob(null)
+      return
+    }
+    // marcador tem precedência (é o que o clique abriria); senão, o bairro
+    setPinoSob(marcadorSob(e.clientX, e.clientY))
+    setRealce(idxBairros ? bairroEmFracao(idxBairros, f.fx, f.fy) : null)
   }
 
   if (!assets || !entry) return null
@@ -235,7 +273,10 @@ export function MapaLocal({
         onPointerMove={onViewportMove}
         onPointerUp={map.onPointerUp}
         onPointerCancel={map.onPointerUp}
-        onPointerLeave={() => setRealce(null)}
+        onPointerLeave={() => {
+          setRealce(null)
+          setPinoSob(null)
+        }}
         onClick={onViewportClick}
         style={{
           height: map.fullscreen ? '100%' : (altura ?? 'min(64vh, 560px)'),
@@ -273,7 +314,11 @@ export function MapaLocal({
                   // o nome só entra quando CABE na mancha (ou quando é o
                   // bairro sob o ponteiro) — senão viram nomes empilhados
                   if (realce === s.nome) return true
-                  return area.caixa.largura * escalaTela >= reskinName(s.nome).length * CHAR_PX
+                  return rotuloCabe(
+                    area.caixa.largura,
+                    escalaTela,
+                    reskinName(s.nome).length * CHAR_PX,
+                  )
                 })
                 .map((s) => (
                   <NomeDoBairro
@@ -297,9 +342,9 @@ export function MapaLocal({
                     fy={p.fy}
                     escala={map.view.scale}
                     comNome={
-                      escalaTela === 0 ||
-                      escalaTela >= ESCALA_NOME_PINO ||
-                      (nomearMarcador?.(m) ?? false)
+                      (nomearMarcador?.(m) ?? false) ||
+                      pinoSob === m.nome ||
+                      rotuloCabe(vizinho.get(m.nome), escalaTela, FOLGA_NOME_PINO)
                     }
                   />
                 )
@@ -307,9 +352,9 @@ export function MapaLocal({
             : null}
         </div>
       </div>
-      {realce ? (
+      {pinoSob ?? realce ? (
         <span
-          data-bairro-sob-ponteiro={realce}
+          data-sob-ponteiro={pinoSob ?? realce ?? ''}
           style={{
             position: 'absolute',
             left: 10,
@@ -326,7 +371,7 @@ export function MapaLocal({
             clipPath: clip(6),
           }}
         >
-          {reskinName(realce).toUpperCase()}
+          {reskinName(pinoSob ?? realce ?? '').toUpperCase()}
         </span>
       ) : null}
       <MapControls map={map} />
