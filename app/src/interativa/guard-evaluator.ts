@@ -35,15 +35,15 @@ export interface EngineModel {
 export const GRUPOS_POR_TERMO: Record<string, readonly string[]> = {
   'corpo-a-corpo': ['cac-simples', 'cac-marcial', 'natural'],
   'corpo a corpo': ['cac-simples', 'cac-marcial', 'natural'],
-  'distância': ['d-simples', 'd-marcial'],
-  'distancia': ['d-simples', 'd-marcial'],
+  'distância': ['d-simples', 'd-marcial', 'd-arcanonico'],
+  'distancia': ['d-simples', 'd-marcial', 'd-arcanonico'],
   'especial': ['especial'],
   'natural': ['natural'],
   'simples': ['cac-simples', 'd-simples'],
   'marcial': ['cac-marcial', 'd-marcial'],
 }
 
-const GRUPOS_ARMA = ['cac-simples', 'cac-marcial', 'd-simples', 'd-marcial', 'especial', 'natural'] as const
+const GRUPOS_ARMA = ['cac-simples', 'cac-marcial', 'd-simples', 'd-marcial', 'd-arcanonico', 'especial', 'natural'] as const
 
 export function isGrupoConhecido(grupo: string | undefined): boolean {
   const g = (grupo ?? '').toLowerCase().trim()
@@ -349,7 +349,7 @@ function computeArmaCounts(
       counts.cac++
       const props = lookup.byName.get(basename) ?? []
       if (props.some((p) => /Ágil/i.test(p))) counts.cacAgeis++
-    } else if (grupo === 'd-simples' || grupo === 'd-marcial') {
+    } else if (grupo === 'd-simples' || grupo === 'd-marcial' || grupo === 'd-arcanonico') {
       counts.distancia++
     }
   }

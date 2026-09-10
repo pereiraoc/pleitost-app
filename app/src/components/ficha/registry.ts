@@ -142,10 +142,16 @@ const GRUPO_ARMA_KEY: Record<string, keyof typeof tokens.emojis.grupoArma> = {
   natural: 'Natural',
   especial: 'Especial',
 }
+/** Grupos que o design-system do plugin ainda não conhece (a categoria
+ *  Arcanônica nasceu na vault em 2026-09-10): o ícone mora aqui até o
+ *  design-system ganhar a chave — registro, não literal no call site. */
+const GRUPO_ARMA_EMOJI_APP: Record<string, string> = { 'd-arcanonico': '🔫' }
+
 export function grupoArmaEmoji(grupo: unknown): string {
   if (typeof grupo !== 'string') return ''
-  const key = GRUPO_ARMA_KEY[grupo.toLowerCase()]
-  return key ? tokens.emojis.grupoArma[key] : ''
+  const g = grupo.toLowerCase()
+  const key = GRUPO_ARMA_KEY[g]
+  return key ? tokens.emojis.grupoArma[key] : (GRUPO_ARMA_EMOJI_APP[g] ?? '')
 }
 
 /** Ordem/rótulos dos grupos de arma no dropdown — VERBATIM do GRUPO_ORDER do
@@ -156,6 +162,7 @@ export const GRUPO_ARMA_ORDER: { key: string; label: string }[] = [
   { key: 'cac-marcial', label: 'Corpo-a-Corpo Marcial' },
   { key: 'd-simples', label: 'Distância Simples' },
   { key: 'd-marcial', label: 'Distância Marcial' },
+  { key: 'd-arcanonico', label: 'Armas Arcanônicas' },
   { key: 'especial', label: 'Armas Especiais' },
   { key: 'natural', label: 'Armas Naturais' },
 ]

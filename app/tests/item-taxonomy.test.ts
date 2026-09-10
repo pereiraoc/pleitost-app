@@ -109,7 +109,7 @@ describe('itemFacet — tesouros por tipo (6.2/6.3/6.4)', () => {
 })
 
 describe('groupItems — contagem por grupo + ordem crescente', () => {
-  it('Armas: 6 grupos, na ordem simples→…→natural; contagem por grupo bate', () => {
+  it('Armas: 7 grupos, na ordem simples→…→natural; contagem por grupo bate', () => {
     const armas = subtree(ARMAS_FOLDER)
     const tree = groupItems(armas, (doc) => doc.basename)
     const armaCat = tree.find((c) => c.categoria === 'arma')!
@@ -125,6 +125,8 @@ describe('groupItems — contagem por grupo + ordem crescente', () => {
     expect(count('cac-marcial')).toBe(18)
     expect(count('d-simples')).toBe(5)
     expect(count('d-marcial')).toBe(4)
+    // categoria nova (2026-09-10): Pistola Arcanônica + Bacamarte Arcanônico
+    expect(count('d-arcanonico')).toBe(2)
     expect(count('especial')).toBe(5)
     expect(count('natural')).toBe(25)
   })

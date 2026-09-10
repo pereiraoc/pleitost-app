@@ -368,6 +368,43 @@ export function parseDanoArma(dano: unknown): { dice: number; die: number; offse
   return { dice: 0, die: 0, offset: Number.isFinite(n) ? n : 0 }
 }
 
+/** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]).
+ *  Vive aqui (helper puro de FM) e é reexportado pelo CombateTab. */
+export function wikiLabels(value: unknown): string[] {
+  // Base v2: `propriedades` é ARRAY de wikilinks no frontmatter; v1 era string.
+  const s = Array.isArray(value) ? value.map(str).join(' ') : str(value)
+  const out: string[] = []
+  const re = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(s)) !== null) out.push((m[2] ?? m[1]!.split('/').pop() ?? '').trim())
+  return out
+}
+
+/** Grupo da arma → categoria de proficiência no FM. `d-arcanonico` (Armas
+ *  Arcanônicas / Armas de Fogo, 2026-09-10) é a TERCEIRA categoria: o FM não
+ *  tem chave pra ela de propósito — ninguém é proficiente por padrão e só a
+ *  lista de Armas Específicas concede (decisão do usuário; a classe que
+ *  conceder vem depois). Grupo fora do mapa (natural/especial) não tem gate. */
+const CATEGORIA_POR_GRUPO: Record<string, string> = {
+  'cac-simples': 'Simples',
+  'd-simples': 'Simples',
+  'cac-marcial': 'Marciais',
+  'd-marcial': 'Marciais',
+  'd-arcanonico': 'Arcanonicos',
+}
+
+/** Valor de INT que a arma EXIGE pra ser usada (`[[Inteligência X|Inteligência
+ *  1]]` nas propriedades) — null quando não exige. A regra da nota é TRAVA, não
+ *  penalidade: abaixo do valor o ataque não sai (Sistema/Regras/Propriedades/
+ *  Inteligência X.md). `Força X`, que penaliza, segue fora daqui. */
+export function exigenciaIntDaArma(propriedades: unknown): number | null {
+  for (const label of wikiLabels(propriedades)) {
+    const m = /^intelig[êe]ncia\s+(\d+)$/i.exec(label.trim())
+    if (m) return Number(m[1])
+  }
+  return null
+}
+
 /** Proficiência EFETIVA com uma ARMA (report #374). Regra do sistema:
  *  - Armas.md: "Você perde seu bônus de Proficiência nos Ataques se usar um
  *    tipo de arma que não é proficiente" (2 categorias: simples e marcial).
@@ -386,12 +423,7 @@ export function profArmaEfetiva(
 ): RankLetter {
   const rank = profLetter({ Proficiencia: profAtaque })
   const g = str(grupoArma).toLowerCase().trim()
-  const categoria =
-    g === 'cac-simples' || g === 'd-simples'
-      ? 'Simples'
-      : g === 'cac-marcial' || g === 'd-marcial'
-        ? 'Marciais'
-        : null
+  const categoria = CATEGORIA_POR_GRUPO[g] ?? null
   if (!categoria) return rank
   const prof = fmPath(fm, 'Inventario', 'Armas', 'Proficiencia') as
     | Record<string, unknown>

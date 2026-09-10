@@ -98,6 +98,9 @@ export const ARMA_GRUPO_ORDER = [
   'd-simples',
   'cac-marcial',
   'd-marcial',
+  // terceira categoria (2026-09-10): entra depois das duas clássicas e antes
+  // de especiais/naturais, como no dropdown do inventário
+  'd-arcanonico',
   'especial',
   'natural',
 ] as const
@@ -108,6 +111,7 @@ export const ARMA_GRUPO_LABEL: Record<string, string> = {
   'd-simples': 'Distância Simples',
   'cac-marcial': 'Corpo-a-Corpo Marcial',
   'd-marcial': 'Distância Marcial',
+  'd-arcanonico': 'Armas Arcanônicas',
   especial: 'Armas Especiais',
   natural: 'Armas Naturais',
 }

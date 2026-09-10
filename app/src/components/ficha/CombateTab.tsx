@@ -86,7 +86,9 @@ import {
 import {
   cargasPorTier,
   danoArmaDisplay,
+  exigenciaIntDaArma,
   profArmaEfetiva,
+  wikiLabels,
   fmOf,
   fmPath,
   heroAtributos,
@@ -160,16 +162,7 @@ const COMB_TABS = [
   { id: 'consumiveis', label: 'CONSUMÍVEIS' }, // N2 (depois de Magias)
 ]
 
-/** Labels de todos os wikilinks de um inline field ("[[A|B]], [[C]]" → [B, C]). */
-export function wikiLabels(value: unknown): string[] {
-  // Base v2: `propriedades` é ARRAY de wikilinks no frontmatter; v1 era string.
-  const s = Array.isArray(value) ? value.map(str).join(' ') : str(value)
-  const out: string[] = []
-  const re = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(s)) !== null) out.push((m[2] ?? m[1]!.split('/').pop() ?? '').trim())
-  return out
-}
+export { wikiLabels }
 
 const popStyle: CSSProperties = {
   position: 'absolute',
@@ -1913,6 +1906,11 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
         const dano = danoRes ? danoRes.display : danoArmaDisplay(danoRaw, profArma)
         const props = wikiLabels(inline['propriedades'])
         const tipo = props.length ? props.join(' · ') : str(inline['tipo'])
+        // TRAVA da propriedade `Inteligência X` (Armas Arcanônicas, 2026-09-10):
+        // abaixo do INT exigido a arma não é usável — a linha mostra o motivo no
+        // lugar do acerto/dano/AdO, em vez de números que ninguém pode rolar.
+        const intExigido = exigenciaIntDaArma(inline['propriedades'])
+        const travaInt = intExigido !== null && (attrs['INT'] ?? 0) < intExigido ? intExigido : null
         // AdO (a.ado do design): arma corpo-a-corpo/especial + prof>=A —
         // computeDanoAdO do plugin (Mestre +1 dado; canais ado/adoFixo;
         // técnicas não acumulam entre si).
@@ -1970,9 +1968,30 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 130 }}>
               {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
+            {travaInt !== null ? (
+              <span
+                title={`Esta arma exige INT ${travaInt} para ser usada`}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '5px 12px',
+                  background: 'var(--card)',
+                  border: '1px solid var(--line2)',
+                  clipPath: 'polygon(0 0,100% 0,100% 100%,6px 100%,0 calc(100% - 6px))',
+                  fontFamily: 'var(--mono)',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: toneColor('penalty'),
+                }}
+              >
+                🔒 EXIGE INT {travaInt}
+              </span>
+            ) : null}
             {/* Modificador de ACERTO logo após o nome (estilo Perícias): ModBox
                 com bolinhas (item bônus) + estrela (especialização) e tooltip do
                 breakdown (#155). */}
+            {travaInt !== null ? null : (
             <span title={modApplied.entries.length ? entriesTitle(modApplied.entries) : undefined}>
               <TipHover
                 html={
@@ -2001,7 +2020,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 />
               </TipHover>
             </span>
-            {dano ? (
+            )}
+            {dano && travaInt === null ? (
               <TipHover
                 html={
                   renderBreakdownHtml(
@@ -2064,7 +2084,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 </span>
               </TipHover>
             ) : null}
-            {adoRes !== null ? (
+            {adoRes !== null && travaInt === null ? (
               <TipHover
                 // #262: tooltip do AdO espelhando o plugin — Base e "+1d{tam}" do
                 // Mestre separados (neutros), bônus verdes, dado migrando; sem
