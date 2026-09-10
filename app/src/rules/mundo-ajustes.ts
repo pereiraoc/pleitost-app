@@ -32,6 +32,19 @@ export function aliasSemTamanho(classeWl: string): string {
   return label ? `[[${m[1]}|${label}]]` : `[[${m[1]}]]`
 }
 
+/** Arma de uma linha de Ataques.Lista, venha ela como vier. No FM DERIVADO a
+ *  linha é `{Nome: '[[Mandíbula]]', Atributo, …}` — o filtro lia só a
+ *  primeira CHAVE (formato do mapa de calculados, `{'[[Mandíbula]]': fonte}`)
+ *  e, no dado real, a chave era "Nome": a Mandíbula nunca saía do Empregado
+ *  (report 2026-09-10). Aceita os três formatos: texto, `Nome`, 1ª chave. */
+function armaDaLinha(row: unknown): string {
+  if (typeof row === 'string') return row
+  if (!row || typeof row !== 'object') return ''
+  const r = row as Record<string, unknown>
+  if (typeof r['Nome'] === 'string') return r['Nome']
+  return String(Object.keys(r)[0] ?? '')
+}
+
 /** Aplica os ajustes do mundo ao FM DERIVADO (muta a cópia recebida). */
 export function aplicarRegrasDoMundo(
   derivedFm: Record<string, unknown>,
@@ -51,7 +64,7 @@ export function aplicarRegrasDoMundo(
     const lista = acoes?.['Lista']
     if (Array.isArray(lista)) {
       acoes!['Lista'] = lista.filter((row) => {
-        const alvo = wikiTarget(String(Object.keys(row as Record<string, unknown>)[0] ?? ''))
+        const alvo = wikiTarget(armaDaLinha(row))
         if (!alvo) return true
         const res = catalog.resolve(alvo)
         if (res.kind !== 'doc') return true

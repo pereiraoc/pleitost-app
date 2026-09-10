@@ -61,6 +61,24 @@ describe.skipIf(!defPoa)('aplicarRegrasDoMundo com o def REAL do POA', () => {
     })
   })
 
+  it('linha no formato do FM DERIVADO ({Nome}) também sai (report 2026-09-10)', () => {
+    // é assim que a linha chega da projeção — o filtro lia só a 1ª CHAVE
+    // ("Nome") e a Mandíbula ficava no Empregado
+    setActiveContexto(defPoa)
+    const fm: Record<string, unknown> = {
+      subcategoria: 'Companheiro Animal',
+      Ataques: {
+        Lista: [
+          { Nome: 'Manobras', Atributo: 'FOR' },
+          { Nome: '[[Mandíbula]]', Atributo: 'FOR', Bonus_Item: 0 },
+        ],
+      },
+    }
+    aplicarRegrasDoMundo(fm, catalogFake)
+    const nomes = (fm['Ataques'] as { Lista: { Nome: string }[] }).Lista.map((r) => r.Nome)
+    expect(nomes).toEqual(['Manobras'])
+  })
+
   it('herói comum passa reto (só família CA)', () => {
     setActiveContexto(defPoa)
     const fm: Record<string, unknown> = {
