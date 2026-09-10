@@ -670,14 +670,14 @@ Rosters do bestiário da vault, com a velocidade de iniciativa do app já defini
 > [!info] Combate
 > **Cena:** [[#Cena 6 — Retífica Sertório]]
 > **Quando:** com a Fase 1 quase resolvida. Brum entra **no combate ativo** — use "adicionar ao combate ativo" neste bloco; não prepare à parte. Qual versão de Brum entra é decidido na mesa (tabela da Cena 6).
-> **Inimigos:** [[#Sargento Valdir Brum]] (ficha de [[Guarda Oficial]]; narre a arma como o revólver de serviço — mesmo ataque, outro sabor: a única arma de fogo da noite, **quatro balas**, cada tiro é um evento e a oficina inteira congela) e o motorista dele (Guarda) — corte o motorista se a mesa estiver sofrendo.
+> **Inimigos:** [[Sargento Valdir Brum]] (registro dele em [[#Sargento Valdir Brum|Personagens]]; a ficha é a do [[Guarda Oficial]] com o nome e a cara dele; narre a arma como o revólver de serviço — o ataque é o da ficha, o sabor é outro: a única arma de fogo da noite, **quatro balas**, cada tiro é um evento e a oficina inteira congela) e o motorista dele ([[Guarda]]) — corte o motorista se a mesa estiver sofrendo.
 > **Velocidades:** Brum é **super rápido**; o motorista é **rápido**.
 > **Perfil:** brutal, pragmático, sabe demais; quer a Cápsula-Matriz ou quer apagar ponta solta; pode estar com o courier sob sua proteção, morto ou já traído.
 > **Brum negocia:** se estiver perdendo (ou se um PC oferecer antes), propõe a Matriz por "nunca vi vocês". Aceitar entrega a peça mais valiosa pro homem mais perigoso — e resolve o problema dos PCs com a Brigada. Recusar é combate até o fim. Um PC com [[Intuição]] (CD Base 14) percebe que ele está contando as balas.
 > **Função:** elevar o combate, amarrar a acusação inicial ao final e permitir o confronto pessoal com quem os marcou na saída do estádio.
 
 ```combat-marker-small
-- 1 [[Guarda Oficial]] super rápido
+- 1 [[Sargento Valdir Brum]] super rápido
 - 1 [[Guarda]] rápido
 ```
 

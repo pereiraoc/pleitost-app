@@ -198,7 +198,7 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
       { sourcePath: 'Arruaceiro', label: 'Arruaceiro', qty: 3, speeds: ['lento'] },
     ])
     expect(f2!.roster.entries).toEqual([
-      { sourcePath: 'Guarda Oficial', label: 'Guarda Oficial', qty: 1, speeds: ['super'] },
+      { sourcePath: 'Sargento Valdir Brum', label: 'Sargento Valdir Brum', qty: 1, speeds: ['super'] },
       { sourcePath: 'Guarda', label: 'Guarda', qty: 1, speeds: ['rapido'] },
     ])
     expect(f2!.corpo).toBe('') // callouts e fence saem do corpo do registro
