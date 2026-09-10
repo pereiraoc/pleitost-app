@@ -22,7 +22,9 @@ export const PERSONAGEM_NUCLEO = [
 export const PERSONAGEM_FRASES = 'Frases'
 
 /** Campo de LISTA com os MAPAS DE MESA do local (embeds de imagem): rende como
- *  figura, não como texto, e é o que a página de impressão leva pro papel. */
+ *  figura, não como texto, e é o que a página de impressão leva pro papel.
+ *  Um LINK simples de imagem no mesmo item (`· [[x — grid 25 mm.png|grid 25 mm]]`)
+ *  é a versão COM GRID desse mapa: só o papel usa, na escala física do PNG. */
 export const LOCAL_MAPAS = 'Mapas de mesa'
 
 export const LOCAL_NUCLEO = [

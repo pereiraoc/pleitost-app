@@ -21,6 +21,9 @@ export interface Leitura {
 export interface Figura {
   target: string
   legenda: string | null
+  /** Só mapa de mesa: a versão COM GRID (link simples de imagem no item do
+   *  campo), que só o papel usa — a tela mostra sempre `target`. */
+  grid?: Figura
 }
 
 /** Referência de um campo (`Local:`/`Personagens:`/`Atlas:`/`Nota:`):

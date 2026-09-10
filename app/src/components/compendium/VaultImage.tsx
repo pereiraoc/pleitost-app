@@ -67,6 +67,21 @@ export function VaultImage({ target, width, className, style, zoom, thumb, eager
   )
 }
 
+/** URL da imagem CHEIA de um alvo pelos mesmos dois caminhos do VaultImage
+ *  (manifesto público ou figura cifrada do doc em contexto), já pedindo os
+ *  bytes cifrados. Pra quem precisa dos BYTES, não só mostrar (o papel lê a
+ *  escala física do PNG com grid). */
+export function useUrlCheia(target: string | null): string | null {
+  const index = useAssetIndex()
+  const cifrado = useArquivoCifrado(target ?? '')
+  const entry = index && target ? resolveAsset(index, target) : null
+  const { conhecido, pedir } = cifrado
+  useEffect(() => {
+    if (!entry && conhecido) pedir()
+  }, [entry, conhecido, pedir])
+  return entry ? assetUrl(entry) : cifrado.url
+}
+
 /** Espaço reservado da figura cifrada: pede os bytes quando entra em tela
  *  (sem IntersectionObserver — jsdom dos testes — pede na hora). */
 function EsperaFigura({ pedir, imediato, className, style }: { pedir: () => void; imediato?: boolean; className?: string; style?: CSSProperties }) {

@@ -578,8 +578,8 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 > **Quem está lá:** Cardã, os capangas, o brigadiano de bico, o que sobrou da carga (ver relógio), e Juninho (se a opção A ou B).
 > **Cenas:** [[#Cena 6 — Retífica Sertório]]
 > **Mapas de mesa:**
-> - ![[07 — Retífica Sertório — térreo.png|Retífica Sertório — térreo]]
-> - ![[08 — Retífica Sertório — vagão e passarela.png|Retífica Sertório — vagão e passarela]]
+> - ![[07 — Retífica Sertório — térreo.png|Retífica Sertório — térreo]] · [[07 — Retífica Sertório — térreo — grid 25 mm.png|grid 25 mm]]
+> - ![[08 — Retífica Sertório — vagão e passarela.png|Retífica Sertório — vagão e passarela]] · [[08 — Retífica Sertório — vagão e passarela — grid 25 mm.png|grid 25 mm]]
 
 ![[15 — Trabalhador da oficina.png|Trabalhador da oficina]]
 

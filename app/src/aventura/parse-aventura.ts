@@ -67,12 +67,24 @@ function ehFigura(l: string): boolean {
   return FIGURA_RE.test(l.trim())
 }
 
-/** Figuras declaradas num CAMPO do callout (um embed por bullet). */
+/** Embed no começo do item de campo (o resto do item pode trazer o grid). */
+const EMBED_INICIO_RE = /^!\[\[[^\]]*\]\]/
+/** Link SIMPLES (sem `!`) pra imagem — no item do mapa de mesa, a versão com grid. */
+const LINK_IMAGEM_RE = /(?<!!)\[\[([^\]|#]+?\.(?:png|jpe?g|webp|gif|svg|avif|bmp))(?:\|([^\]]*))?\]\]/i
+
+/** Figuras declaradas num CAMPO do callout (um embed por bullet). Link simples
+ *  de imagem no mesmo bullet = a versão com grid da figura (mapas de mesa). */
 export function figurasDoCampo(valor: string | null): Figura[] {
   const out: Figura[] = []
   for (const item of itensDe(valor)) {
-    const m = FIGURA_RE.exec(item.trim())
-    if (m) out.push({ target: m[1]!.trim(), legenda: m[2]?.trim() || null })
+    const t = item.trim()
+    const embed = EMBED_INICIO_RE.exec(t)?.[0]
+    const m = embed ? FIGURA_RE.exec(embed) : null
+    if (!embed || !m) continue
+    const figura: Figura = { target: m[1]!.trim(), legenda: m[2]?.trim() || null }
+    const g = LINK_IMAGEM_RE.exec(t.slice(embed.length))
+    if (g) figura.grid = { target: g[1]!.trim(), legenda: g[2]?.trim() || null }
+    out.push(figura)
   }
   return out
 }

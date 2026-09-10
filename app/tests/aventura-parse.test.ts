@@ -119,6 +119,17 @@ describe('parseAventura — Pós Grenal (formato completo)', () => {
     const mesa = m.locais.flatMap((l) => l.mapas)
     expect(mesa).toHaveLength(10)
     expect(mesa.every((f) => f.legenda)).toBe(true)
+    // VERSÃO COM GRID (2026-09-10): link simples de imagem no item do mapa —
+    // a tela segue com o embed; o grid é só do papel. Só a Retífica tem.
+    expect(retifica.mapas.map((f) => f.target)).toEqual([
+      '07 — Retífica Sertório — térreo.png',
+      '08 — Retífica Sertório — vagão e passarela.png',
+    ])
+    expect(retifica.mapas.map((f) => f.grid)).toEqual([
+      { target: '07 — Retífica Sertório — térreo — grid 25 mm.png', legenda: 'grid 25 mm' },
+      { target: '08 — Retífica Sertório — vagão e passarela — grid 25 mm.png', legenda: 'grid 25 mm' },
+    ])
+    expect(mesa.filter((f) => f.grid)).toHaveLength(2)
     // figurantes da saída do Gre-Nal + a caixa térmica ficam na cena, não no
     // meio do texto (a caixa entra no beat em que o courier a empurra)
     const c1 = m.cenas[0]!
