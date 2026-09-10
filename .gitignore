@@ -39,3 +39,6 @@ app/test-results/
 # cache do Python dos geradores da vault
 __pycache__/
 *.pyc
+
+# scripts descartáveis de screenshot (playwright) — nunca versionar
+*-tmp.mjs
