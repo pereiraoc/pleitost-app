@@ -35,3 +35,7 @@ app/test-results/
 
 # backups locais (dados de conta — nunca no repo público)
 .backups/
+
+# cache do Python dos geradores da vault
+__pycache__/
+*.pyc
