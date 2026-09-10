@@ -5,7 +5,7 @@ import { activeContextoDef, reskinName, reskinText } from '../../data/reskin'
 import { MapaLocal } from '../../map/MapaLocal'
 export { MapaLocal }
 import type { IndexDocEntry, LocationBody, VaultDoc } from '../../data/types'
-import { regionMapForDoc } from '../../data/region-maps'
+import { regionMapForDoc, dentroDeRegiaoComHexcrawl } from '../../data/region-maps'
 import { getHexMapState } from '../../data/hexmap-store'
 import { InlineFieldValue } from './InlineFieldValue'
 import { MarkdownBody } from '../../markdown/MarkdownBody'
@@ -943,6 +943,18 @@ function temMapa(doc: VaultDoc): boolean {
   return !!doc.locationBody?.leaflet
 }
 
+/** Os DETALHES têm o que mostrar? Porto Alegre traz o template da vault com
+ *  todos os campos vazios: a aba abria em "// SEM DETALHES REGISTRADOS" e era
+ *  a primeira da fila (report 2026-09-10). Sem conteúdo, sem aba. */
+export function temDetalhes(doc: VaultDoc): boolean {
+  const campo = (f: DetailField) =>
+    fieldText(doc.frontmatter[f.key]) ?? (f.fallback ? doc.locationBody?.[f.fallback] ?? null : null)
+  return DETAIL_FIELDS.some((f) => {
+    const v = campo(f)
+    return v != null && v !== ''
+  }) || locationRecursos(doc).length > 0
+}
+
 /** Este lugar é a CIDADE da malha de transportes do contexto (`transporte.cidade`)
  *  — é nele que a malha faz sentido sobre o mapa real. */
 export function ehCidadeDaMalha(doc: VaultDoc): boolean {
@@ -976,20 +988,21 @@ const HEX_DISABLED_NOTE =
 const LOCAIS_INTERESSE_DISABLED_NOTE =
   'Este lugar não tem distritos ou locais de interesse registrados no callout do body.'
 
+// A ORDEM é a da fila de abas. O MAPA e o TRANSPORTE vêm primeiro (report
+// 2026-09-10: na cidade, o mapa é a página — os Detalhes dela são um template
+// vazio); nos outros lugares essas duas não existem e a fila começa nos
+// Detalhes, como sempre. O rótulo de `dentro` vem do SUBTIPO dos filhos no
+// plural — "Bairros" em Porto Alegre, "Pontos de Interesse" num bairro.
 const LOCATION_TABS: LocTab[] = [
-  { id: 'detalhes', label: 'Detalhes' },
-  // 2026-09-09: os lugares-filhos e o mapa saíram de dentro dos Detalhes pra
-  // abas próprias (na página de Porto Alegre a lista de bairros ficava no fim,
-  // depois de todo o resto). O rótulo de `dentro` vem do SUBTIPO dos filhos no
-  // plural — "Bairros" em Porto Alegre, "Pontos de Interesse" num bairro.
-  { id: 'dentro', label: 'Lugares' },
   { id: 'mapa', label: 'Mapa' },
   { id: 'transporte', label: 'Transporte' },
+  { id: 'detalhes', label: 'Detalhes' },
+  { id: 'dentro', label: 'Lugares' },
   { id: 'comercio', label: 'Comércio' },
   // SERVIÇOS (2026-09-07b): vitrine dos estabelecimentos (recursos do mundo);
   // rótulo vem do contexto (`recursos.ofertas.aba`); só existe em mundo com recursos.
   { id: 'servicos', label: 'Serviços' },
-  { id: 'locais-interesse', label: 'Locais de Interesse', enabled: hasLocaisInteresse },
+  { id: 'locais-interesse', label: 'Locais de Interesse' },
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
 
@@ -1002,7 +1015,10 @@ export function LocationSheet({
   sidebar?: boolean
   embedded?: boolean
 }) {
-  const [tab, setTab] = useState<LocTab['id']>('detalhes')
+  // Aba escolhida; null = ainda a padrão. A PADRÃO é a primeira da fila que
+  // este lugar tem — não uma fixa: a cidade não tem Detalhes (report
+  // 2026-09-10) e abria em aba nenhuma.
+  const [tab, setTab] = useState<LocTab['id'] | null>(null)
   const rel = useAtlasRelations(doc)
   // F7 (#347): gate do comércio pela parada atual — mestre sempre pode; a
   // versão global do group-store re-renderiza quando o grupo se move. Review
@@ -1039,9 +1055,14 @@ export function LocationSheet({
       // MAPA e TRANSPORTE existem em pouquíssimos lugares do mundo (quem tem
       // bloco leaflet; a malha, só a cidade): nos outros 200 e tantos não
       // ficam nem desabilitados, somem — "este lugar não tem mapa" não é
-      // informação que valha uma aba.
+      // informação que valha uma aba. Mesma régua pros DETALHES vazios e pros
+      // LOCAIS DE INTERESSE sem callout; a HEXPLORAÇÃO só existe em mundo que
+      // faz hexcrawl (report 2026-09-10).
       (t.id !== 'mapa' || temMapa(doc)) &&
-      (t.id !== 'transporte' || ehCidadeDaMalha(doc)),
+      (t.id !== 'transporte' || ehCidadeDaMalha(doc)) &&
+      (t.id !== 'detalhes' || temDetalhes(doc)) &&
+      (t.id !== 'locais-interesse' || hasLocaisInteresse(doc)) &&
+      (t.id !== 'hexploracao' || dentroDeRegiaoComHexcrawl(doc)),
   ).map((t) => {
     if (t.id === 'servicos' && recursosCfg) return { ...t, label: recursosCfg.ofertas.aba }
     if (t.id === 'dentro' && subtipoFilhos) return { ...t, label: pluralPt(reskinText(subtipoFilhos)) }
@@ -1056,6 +1077,8 @@ export function LocationSheet({
     heroCandidate && heroCandidate.target === doc.locationBody?.leaflet?.image
       ? undefined
       : heroCandidate
+
+  const abaAtiva = (tab && tabs.some((t) => t.id === tab) ? tab : tabs[0]?.id) ?? 'detalhes'
 
   // roda do mouse rola a fila de abas de lado (pedido 2026-08-15)
   const locTabsRef = useRef<HTMLDivElement>(null)
@@ -1088,7 +1111,7 @@ export function LocationSheet({
           // compêndio segue aberta (só a AÇÃO é gateada).
           const gateComercio = (t.id === 'comercio' || t.id === 'servicos') && !podeComerciarAqui
           const enabled = (t.enabled ? t.enabled(doc) : true) && !gateComercio
-          const on = t.id === tab
+          const on = t.id === abaAtiva
           return (
             <button
               key={t.id}
@@ -1127,22 +1150,22 @@ export function LocationSheet({
       </div>
 
       <div style={{ marginTop: 4 }}>
-        {tab === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
-        {tab === 'dentro' ? (
+        {abaAtiva === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
+        {abaAtiva === 'dentro' ? (
           <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
         ) : null}
-        {tab === 'mapa' && doc.locationBody?.leaflet ? (
+        {abaAtiva === 'mapa' && doc.locationBody?.leaflet ? (
           // na aba própria o mapa é o conteúdo: vale a altura toda (a imagem é
           // retrato, então altura é o que virou largura de mapa)
           <MapaLocal leaflet={doc.locationBody.leaflet} altura="min(82vh, 900px)" />
         ) : null}
-        {tab === 'transporte' && doc.locationBody?.leaflet ? (
+        {abaAtiva === 'transporte' && doc.locationBody?.leaflet ? (
           <TransporteNoMapa leaflet={doc.locationBody.leaflet} />
         ) : null}
-        {tab === 'comercio' ? <ComercioTab doc={doc} /> : null}
-        {tab === 'servicos' ? <ServicosTab doc={doc} /> : null}
-        {tab === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}
-        {tab === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
+        {abaAtiva === 'comercio' ? <ComercioTab doc={doc} /> : null}
+        {abaAtiva === 'servicos' ? <ServicosTab doc={doc} /> : null}
+        {abaAtiva === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}
+        {abaAtiva === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>
       <DocRuleElements doc={doc} />
     </article>

@@ -186,11 +186,14 @@ describe('LocationSheet (Localização real)', () => {
     await waitFor(() => expect(screen.getByText('Praça do Carrilhão')).toBeTruthy())
   })
 
-  it('aba Locais de Interesse: desabilitada em Localização sem callout (Mundo Livre / Região)', () => {
+  // Antes ficava desabilitada com nota; o report 2026-09-10 pediu que sumisse
+  // ("não precisa mostrar"), e de fato "este lugar não tem o callout" não é
+  // informação que valha uma aba. A HEXPLORAÇÃO segue desabilitada com nota
+  // (ali a aba CONVIDA a mapear a região — é onboarding, não ruído).
+  it('aba Locais de Interesse: SOME em Localização sem callout (Mundo Livre / Região)', () => {
     renderDoc(mundoLivre)
-    const loi = screen.getByRole('tab', { name: 'Locais de Interesse' }) as HTMLButtonElement
-    expect(loi.disabled).toBe(true)
-    expect(loi.getAttribute('title')).toMatch(/callout do body/i)
+    expect(screen.queryByRole('tab', { name: 'Locais de Interesse' })).toBeNull()
+    expect((screen.getByRole('tab', { name: 'Hexploração' }) as HTMLButtonElement).disabled).toBe(false)
   })
 
   it('Líciae: Recurso string simples ("Gado") vira card sem nota, não link', async () => {

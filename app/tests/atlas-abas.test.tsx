@@ -74,7 +74,10 @@ describe.skipIf(!temDataset)('abas do Atlas em Porto Alegre', () => {
     const { container } = montar(poa)
     // o rótulo só existe depois que as Localizações carregam (o subtipo é delas)
     await waitFor(() => expect(screen.getByRole('tab', { name: 'Bairros' })).toBeTruthy())
-    expect(abas().slice(0, 4)).toEqual(['Detalhes', 'Bairros', 'Mapa', 'Transporte'])
+    // report 2026-09-10: na cidade o MAPA é a página. Os Detalhes dela são o
+    // template vazio da vault e somem; Locais de Interesse e Hexploração
+    // também (não há callout, e a POA não faz hexcrawl).
+    expect(abas()).toEqual(['Mapa', 'Transporte', 'Bairros', 'Comércio', 'Serviços'])
     fireEvent.click(screen.getByRole('tab', { name: 'Bairros' }))
     const filhos = Array.from(container.querySelectorAll('[data-atlas-child]')).map(
       (a) => a.getAttribute('data-atlas-child')?.split('/').pop(),
@@ -82,14 +85,16 @@ describe.skipIf(!temDataset)('abas do Atlas em Porto Alegre', () => {
     expect(filhos).toContain('Moinhos de Vento')
     expect(filhos).toContain('Restinga')
     expect(filhos.length).toBeGreaterThan(10)
-    // e não está mais no fim dos Detalhes
-    fireEvent.click(screen.getByRole('tab', { name: 'Detalhes' }))
+    // e não está mais no fim de outra aba
+    fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     expect(container.querySelectorAll('[data-atlas-child]').length).toBe(0)
   })
 
   it('a aba MAPA traz o mapa da nota com os pinos; a de TRANSPORTE, a malha por cima dele', async () => {
     const { container } = montar(poa)
     await waitFor(() => expect(screen.getByRole('tab', { name: 'Mapa' })).toBeTruthy())
+    // MAPA é a PRIMEIRA aba da cidade, e já abre nela
+    expect(screen.getByRole('tab', { name: 'Mapa' }).getAttribute('aria-selected')).toBe('true')
     fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     await waitFor(() => expect(container.querySelector('[data-mapa-local]')).not.toBeNull())
     expect(container.querySelectorAll('[data-marker]').length).toBeGreaterThan(5)

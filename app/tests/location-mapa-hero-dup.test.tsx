@@ -56,8 +56,10 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
   })
 
   // 2026-09-09: o mapa saiu dos DETALHES pra uma aba MAPA própria (a lista de
-  // bairros ficava no fim da página, depois de tudo). O cerne do report segue
-  // valendo: a imagem do mapa aparece UMA vez, e não como hero.
+  // bairros ficava no fim da página, depois de tudo), e 2026-09-10 a MAPA
+  // virou a primeira aba da cidade (os Detalhes dela eram o template vazio e
+  // sumiram). O cerne do report segue valendo: a imagem do mapa aparece UMA
+  // vez, e não como hero.
   it('a imagem do mapa aparece UMA vez (só na aba MAPA, com pins); o hero é a ilustração', async () => {
     const { container } = render(
       <CatalogProvider catalog={catalog}>
@@ -66,8 +68,12 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
         </MemoryRouter>
       </CatalogProvider>,
     )
-    // nos Detalhes (aba inicial) o mapa não aparece: ele tem aba própria
+    // a cidade abre JÁ na aba MAPA, e o mapa está lá uma única vez
     await waitFor(() => expect(screen.getByRole('tab', { name: 'Mapa' })).toBeTruthy())
+    expect(screen.getByRole('tab', { name: 'Mapa' }).getAttribute('aria-selected')).toBe('true')
+    // e não aparece em outra aba (o Comércio da cidade fica gateado pela
+    // parada do grupo, então a troca é pra lista de bairros)
+    fireEvent.click(screen.getByRole('tab', { name: 'Bairros' }))
     expect(container.querySelectorAll('img[src*="Porto%20Alegre%20RPG"]').length).toBe(0)
     fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     await waitFor(() => {

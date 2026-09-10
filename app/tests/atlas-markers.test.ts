@@ -11,7 +11,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { indexarBairros, bairroEmFracao } from '../src/map/bairros-cor'
-import { distanciaAoVizinho, rotuloCabe } from '../src/map/rotulos'
+import { distanciaAoVizinho, posicionarRotulos, rotuloCabe } from '../src/map/rotulos'
 import { MARKER_GLYPHS } from '../src/map/leaflet-local'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -38,6 +38,39 @@ describe('régua do rótulo', () => {
     // escala ainda não medida: mostra (mapa mudo é pior que nome demais)
     expect(rotuloCabe(1, 0, 22)).toBe(true)
     expect(rotuloCabe(undefined, 2, 22)).toBe(true)
+  })
+
+  it('nenhum rótulo some: quem não cabe na âncora sai de lado e ganha fio', () => {
+    // três nomes na MESMA âncora: um fica, os outros saem
+    const postos = posicionarRotulos([
+      { nome: 'A', x: 100, y: 100, largura: 40, altura: 10 },
+      { nome: 'B', x: 100, y: 100, largura: 40, altura: 10 },
+      { nome: 'C', x: 100, y: 100, largura: 40, altura: 10 },
+    ])
+    expect(postos.map((p) => p.nome)).toEqual(['A', 'B', 'C'])
+    expect(postos[0]).toMatchObject({ tx: 100, ty: 100, deslocado: false })
+    expect(postos[1]!.deslocado).toBe(true)
+    expect(postos[2]!.deslocado).toBe(true)
+    // e nenhum par se sobrepõe
+    for (let i = 0; i < postos.length; i++) {
+      for (let j = i + 1; j < postos.length; j++) {
+        const a = postos[i]!
+        const b = postos[j]!
+        const bate =
+          Math.abs(a.tx - b.tx) < (a.largura + b.largura) / 2 &&
+          Math.abs(a.ty - b.ty) < (a.altura + b.altura) / 2
+        expect(bate, `${a.nome} × ${b.nome}`).toBe(false)
+      }
+    }
+  })
+
+  it('quem tem espaço não se mexe (o primeiro da fila fica com o lugar de honra)', () => {
+    const postos = posicionarRotulos([
+      { nome: 'longe', x: 0, y: 0, largura: 20, altura: 8 },
+      { nome: 'perto', x: 500, y: 500, largura: 20, altura: 8 },
+    ])
+    expect(postos.every((p) => !p.deslocado)).toBe(true)
+    expect(postos[1]).toMatchObject({ tx: 500, ty: 500 })
   })
 })
 

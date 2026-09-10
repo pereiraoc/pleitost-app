@@ -29,7 +29,7 @@ import { leafletZoom, markerVisivel, markerGlyph } from './leaflet-local'
 import { MapControls, fullscreenContainerStyle } from './MapControls'
 import { useMapView, type MapView } from './useMapView'
 import { bairroEmFracao, realceDaArea, type SementeBairro } from './bairros-cor'
-import { distanciaAoVizinho, rotuloCabe } from './rotulos'
+import { distanciaAoVizinho, posicionarRotulos, rotuloCabe, type RotuloPosto } from './rotulos'
 import { useIndiceBairros } from './bairros-imagem'
 
 export type Leaflet = NonNullable<NonNullable<VaultDoc['locationBody']>['leaflet']>
@@ -45,12 +45,14 @@ const REALCE: readonly [number, number, number, number] = [255, 122, 0, 92]
 
 /** Largura aproximada de um caractere do rótulo de bairro (mono 9.5px). */
 const CHAR_PX = 6
+/** Altura da caixa do rótulo de bairro, em px de tela. */
+const ALTURA_ROTULO = 12
 /** Espaço na tela (px) que o pino precisa ter à volta pro nome dele entrar.
  *  Não é a largura do nome inteiro: rótulo de mapa pode passar por cima do
  *  vizinho, o que não pode é virar parede de texto. Com 210 lugares na POA,
  *  isto faz o nome aparecer aos poucos conforme se aproxima. */
 const FOLGA_NOME_PINO = 22
-/** Folga mínima em torno do pino pro nome dele caber. */
+/** Raio (px de tela) em que o clique/ponteiro pega um marcador. */
 const RAIO_CLIQUE = 22
 
 /** Ponto de uma coordenada do bloco, em fração da imagem (0..1). */
@@ -177,6 +179,30 @@ export function MapaLocal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [chaveVisiveis],
   )
+
+  // NOME DE BAIRRO: nenhum some (report 2026-09-10 — "no zoom out não tá
+  // mostrando alguns nomes de bairros"). Quem não cabe na própria mancha sai
+  // de lado e ganha um fio até ela; os bairros GRANDES entram primeiro na
+  // fila, então ficam com o lugar de honra e quem se mexe é o miudinho do
+  // centro. Medidas em px da FONTE: o texto na tela tem tamanho fixo, então a
+  // caixa dele encolhe na fonte conforme se aproxima.
+  const rotulosDeBairro = useMemo<RotuloPosto[]>(() => {
+    if (!idxBairros || !quadro) return []
+    const escala = escalaTela || idxBairros.largura / 620 // palpite antes de medir
+    const porArea = new Map(idxBairros.areas.map((a) => [a.nome, a.px]))
+    const pedidos = sementes
+      .filter((s) => comArea.has(s.nome))
+      .sort((a, b) => (porArea.get(b.nome) ?? 0) - (porArea.get(a.nome) ?? 0))
+      .map((s) => ({
+        nome: s.nome,
+        x: s.fx * idxBairros.largura,
+        y: s.fy * idxBairros.altura,
+        largura: (reskinName(s.nome).length * CHAR_PX) / escala,
+        altura: ALTURA_ROTULO / escala,
+      }))
+    return posicionarRotulos(pedidos)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idxBairros, comArea, escalaTela, sementes])
 
   const abrir = (nome: string) => {
     if (onMarker?.(nome)) return
@@ -306,31 +332,26 @@ export function MapaLocal({
           />
           {idxBairros ? <RealceBairro idx={idxBairros} bairro={realce} /> : null}
           {quadro && overlay ? overlay({ ...quadro, escala: map.view.scale }) : null}
-          {quadro && idxBairros
-            ? sementes
-                .filter((s) => {
-                  const area = idxBairros.areas.find((a) => a.nome === s.nome)
-                  if (!area) return false
-                  // o nome só entra quando CABE na mancha (ou quando é o
-                  // bairro sob o ponteiro) — senão viram nomes empilhados
-                  if (realce === s.nome) return true
-                  return rotuloCabe(
-                    area.caixa.largura,
-                    escalaTela,
-                    reskinName(s.nome).length * CHAR_PX,
-                  )
-                })
-                .map((s) => (
-                  <NomeDoBairro
-                    key={s.nome}
-                    nome={s.nome}
-                    fx={s.fx}
-                    fy={s.fy}
-                    escala={map.view.scale}
-                    aceso={realce === s.nome}
-                  />
-                ))
+          {idxBairros
+            ? rotulosDeBairro.map((r) => (
+                <NomeDoBairro
+                  key={r.nome}
+                  rotulo={r}
+                  largura={idxBairros.largura}
+                  altura={idxBairros.altura}
+                  escala={map.view.scale}
+                  aceso={realce === r.nome}
+                />
+              ))
             : null}
+          {idxBairros && rotulosDeBairro.some((r) => r.deslocado) ? (
+            <FiosDosRotulos
+              rotulos={rotulosDeBairro}
+              largura={idxBairros.largura}
+              altura={idxBairros.altura}
+              escalaTela={escalaTela}
+            />
+          ) : null}
           {quadro
             ? visiveis.map((m) => {
                 const p = quadro.fracao(m)
@@ -415,28 +436,70 @@ function RealceBairro({ idx, bairro }: { idx: ReturnType<typeof useIndiceBairros
   )
 }
 
-/** Nome do bairro no lugar onde o marcador dele está — a etiqueta da área. */
+/** Fio ligando o rótulo deslocado à mancha dele. Sem isso, um nome fora da
+ *  área vira nome órfão. */
+function FiosDosRotulos({
+  rotulos,
+  largura,
+  altura,
+  escalaTela,
+}: {
+  rotulos: RotuloPosto[]
+  largura: number
+  altura: number
+  escalaTela: number
+}) {
+  return (
+    <svg
+      data-fios-rotulo=""
+      viewBox={`0 0 ${largura} ${altura}`}
+      preserveAspectRatio="none"
+      aria-hidden
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+    >
+      {rotulos
+        .filter((r) => r.deslocado)
+        .map((r) => (
+          <line
+            key={r.nome}
+            data-fio={r.nome}
+            x1={r.x}
+            y1={r.y}
+            x2={r.tx}
+            y2={r.ty}
+            stroke="#2b2b2b"
+            strokeOpacity={0.55}
+            strokeWidth={Math.max(0.4, 1 / (escalaTela || 1))}
+          />
+        ))}
+    </svg>
+  )
+}
+
+/** Nome do bairro — na mancha dele, ou ao lado (com fio) quando não cabe. */
 function NomeDoBairro({
-  nome,
-  fx,
-  fy,
+  rotulo,
+  largura,
+  altura,
   escala,
   aceso,
 }: {
-  nome: string
-  fx: number
-  fy: number
+  rotulo: RotuloPosto
+  largura: number
+  altura: number
   escala: number
   aceso: boolean
 }) {
+  const nome = rotulo.nome
   return (
     <span
       data-area-bairro={nome}
+      data-deslocado={rotulo.deslocado ? '' : undefined}
       title={nome}
       style={{
         position: 'absolute',
-        left: `${fx * 100}%`,
-        top: `${fy * 100}%`,
+        left: `${(rotulo.tx / largura) * 100}%`,
+        top: `${(rotulo.ty / altura) * 100}%`,
         transform: `translate(-50%, -50%) scale(${1 / escala})`,
         transformOrigin: '50% 50%',
         fontFamily: 'var(--mono)',

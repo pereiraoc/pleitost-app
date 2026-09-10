@@ -31,6 +31,22 @@ export const REGION_MAPS: RegionMap[] = [
   },
 ]
 
+/** Pasta da região (o doc-raiz mora nela, e todo lugar dela abaixo). */
+const pastaDaRegiao = (regionId: string) => regionId.split('/').slice(0, -1).join('/')
+
+/**
+ * Este lugar está DENTRO de alguma região com mapa de hexcrawl? A aba
+ * Hexploração é um afixo de onboarding: desabilitada com nota, ela convida o
+ * mestre a mapear a região. Onde o hexcrawl não existe (Porto Alegre 1987, que
+ * é uma cidade, não um hexcrawl) seria ruído em 226 lugares — e o mestre pediu
+ * que sumisse (report 2026-09-10). Derivado dos próprios ids do registro:
+ * `Atlas/Mundo Livre/…` está dentro do Mundo Livre; `Atlas/Porto Alegre/…`
+ * não está dentro de região nenhuma.
+ */
+export function dentroDeRegiaoComHexcrawl(doc: VaultDoc): boolean {
+  return REGION_MAPS.some((m) => doc.id.startsWith(`${pastaDaRegiao(m.regionId)}/`))
+}
+
 const BY_REGION = new Map<string, RegionMap>(REGION_MAPS.map((m) => [m.regionId, m]))
 
 /** Config do mapa de uma região pelo id do doc, ou null. */
