@@ -43,7 +43,7 @@ export function RefChip({ r, model, doc }: { r: Ref; model: AventuraModel; doc: 
       <button
         type="button"
         className="av-chip is-cena"
-        onClick={() => document.getElementById(cenaAnchorId(cena.slug))?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+        onClick={() => document.getElementById(cenaAnchorId(cena.slug))?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })}
       >
         ▸ {r.label}
       </button>

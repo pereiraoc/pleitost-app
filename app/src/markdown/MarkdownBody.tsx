@@ -16,6 +16,7 @@ import { remarkWikilinks } from './remark-wikilinks'
 import { linkIconForEntry } from './link-icon'
 import { useSettings } from '../settings'
 import { remarkLiftNoteEmbeds } from './remark-note-embeds'
+import { useRefInterna } from './ref-interna'
 import { stripComments } from './strip-comments'
 import { stripPrintArtifacts, stripTagLines } from './strip-print-artifacts'
 import { stripContextoOculto } from './strip-oculto'
@@ -48,6 +49,8 @@ export function MarkdownBody({
 }) {
   const catalog = useCatalog()
   const { linkIcons, mestre } = useSettings()
+  // `[[#Âncora]]`: quem sabe abrir é a tela (a aventura). Sem handler, texto.
+  const refInterna = useRefInterna()
   const body = useMemo(() => {
     // Traços Elementais em desenvolvimento: corta o corpo na barra horizontal
     // (ver em-desenvolvimento.ts — temporário).
@@ -103,6 +106,11 @@ export function MarkdownBody({
         // #282: na folder-note, NÃO embute o preview (a nota-alvo já aparece como
         // card na listagem abaixo — ex.: Armaduras/Sem·Leve·Pesada); some.
         'note-embed': context === 'folder-note' ? () => null : NoteTransclusion,
+        'ref-interna': (props: Record<string, unknown>) => {
+          const alvo = String(props['data-alvo'] ?? '')
+          const label = String(props['data-label'] ?? alvo)
+          return <>{refInterna?.(alvo, label) ?? label}</>
+        },
         a(props) {
         const { href, children } = props
         // #303: o remark-wikilinks põe o emoji supercharged em data-link-icon;
@@ -180,7 +188,7 @@ export function MarkdownBody({
         return <code>{children}</code>
         },
       }) as Components,
-    [doc, context, heroTarget],
+    [doc, context, heroTarget, refInterna],
   )
 
   return (

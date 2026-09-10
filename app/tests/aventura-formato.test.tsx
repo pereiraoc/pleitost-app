@@ -246,16 +246,49 @@ describe('página por seção (formato de aventura)', () => {
     const { container } = renderDoc()
     await waitFor(() => expect(container.querySelector('[data-av-cena="1"] .av-cena-body')).toBeTruthy())
     const cena1 = container.querySelector('[data-av-cena="1"]') as HTMLElement
-    const local = within(cena1).getByText('Estádio Beira-Rio e entorno')
+    // o CHIP da linha de referências (a prosa da cena também cita o local, e
+    // desde 2026-09-10 essa citação é um botão — daí a busca ser no chip)
+    const chips = cena1.querySelector('[data-av-refrow="Local"]') as HTMLElement
+    const local = within(chips).getByText('Estádio Beira-Rio e entorno')
     // fechado: o registro não está renderizado dentro da cena
     expect(cena1.querySelector('[data-av-registro="Estádio Beira-Rio e entorno"]')).toBeNull()
     fireEvent.click(local)
     await waitFor(() => expect(cena1.querySelector('[data-av-registro="Estádio Beira-Rio e entorno"]')).toBeTruthy())
     // e o 🔊 do local aparece dentro da cena
     expect(cena1.querySelector('[data-av-registro="Estádio Beira-Rio e entorno"] [data-av-leitura]')!.textContent).toContain('apito final')
-    const pers = within(cena1).getByText('Sargento Valdir Brum')
+    const pers = within(cena1.querySelector('[data-av-refrow="Personagens"]') as HTMLElement).getByText('Sargento Valdir Brum')
     fireEvent.click(pers)
     await waitFor(() => expect(cena1.querySelector('[data-av-registro="Sargento Valdir Brum"]')).toBeTruthy())
+  })
+
+  // Report 2026-09-10: "tu fala de um NPC mas não coloca um link pra clicar e
+  // ver mais informações sobre ele". `[[#Alvo]]` na PROSA não resolvia doc
+  // nenhum no catálogo e caía em texto puro — palavra morta.
+  it('`[[#Alvo]]` na prosa da cena vira controle que abre o registro', async () => {
+    const { container } = renderDoc()
+    await waitFor(() => expect(container.querySelector('[data-av-cena="1"] .av-cena-body')).toBeTruthy())
+    const refs = container.querySelectorAll('[data-av-ref]')
+    expect(refs.length, 'a prosa cita registros e nenhum virou botão').toBeGreaterThan(5)
+    // nenhum `[[#…]]` sobrou como texto cru na página
+    expect(container.textContent).not.toContain('[[#')
+    const brum = container.querySelector('[data-av-ref="Sargento Valdir Brum"]') as HTMLButtonElement
+    expect(brum.tagName).toBe('BUTTON')
+    fireEvent.click(brum)
+    // a seção dos personagens abre e o registro fica em destaque, aberto
+    await waitFor(() => {
+      const card = container.querySelector('[data-av-registro="Sargento Valdir Brum"]') as HTMLDetailsElement
+      expect(card.open).toBe(true)
+      expect(card.parentElement?.className).toContain('is-destacado')
+    })
+  })
+
+  it('campo de uma linha do registro mostra ênfase e referência, não a marcação crua', async () => {
+    const { container } = renderDoc()
+    await waitFor(() => expect(container.querySelector('[data-av-registro="Sargento Valdir Brum"]')).toBeTruthy())
+    const card = container.querySelector('[data-av-registro="Sargento Valdir Brum"]') as HTMLElement
+    // "um **revólver de serviço** no coldre" saía com os asteriscos na cara
+    expect(card.textContent).not.toContain('**')
+    expect(card.querySelector('strong')).not.toBeNull()
   })
 
   it('sem sessão viva não há botões de sessão; com mestre + sala, PREPARAR cria encounter por cena (idempotente)', async () => {

@@ -131,7 +131,7 @@ Menores, mas úteis: [[Embratel]] (ouve tudo, inclusive o rádio de Brum), [[Ali
 ## 2.2 Notas para o Mestre
 ### Preparação
 - [ ] Ler as notas: [[Consórcio das Bandeiras]], [[Cartel dos Eixos]], [[Panvel]], [[Brigada Militar Metropolitana]], [[Camisa 12]], [[Geral do Grêmio]], [[Estádio Beira-Rio]], [[Praia de Belas]], [[Passo D'Areia]], [[Tipos de Substâncias e Legalidade]].
-- [ ] Ler as 4 **opções dramáticas de Brum** e as 3 posições do courier (registro de [[#Juninho “Isopor”]]) — **não decida agora**: a escolha é na mesa, pela tabela da [[#Cena 6 — Retífica Sertório]], conforme o que os PCs fizeram até a investigação.
+- [ ] Ler as 4 **opções dramáticas de [[#Sargento Valdir Brum|Brum]]** e as 3 posições do courier (registro de [[#Juninho “Isopor”]]) — **não decida agora**: a escolha é na mesa, pela tabela da [[#Cena 6 — Retífica Sertório]], conforme o que os PCs fizeram até a investigação.
 - [ ] Rolar (ou escolher) o resultado do Gre-Nal antes de começar.
 - [ ] Distribuir os 4 papéis-base e os objetivos público/secreto (1 par por jogador).
 - [ ] Os rosters já estão prontos em **2.5 Combates**, com as velocidades de iniciativa definidas. Na sessão, **Preparar** a Fase 1 antes de começar; a Fase 2 não se prepara — entra no combate ativo quando Brum chega. Conferir a barra de dificuldade contra as fichas da mesa.
@@ -153,7 +153,7 @@ Mostre:
 #### Pra investigação não travar
 Sempre ofereça:
 - uma pista física (etiqueta, bilhete)
-- uma pista humana (Zilá, o brigadiano, Nico)
+- uma pista humana (Zilá, o brigadiano, [[#Nico “Faixa Preta” Ferraz|Nico]])
 - uma pista logística (o rádio, a van, o relógio)
 
 E diga o relógio em voz alta. Pressão de tempo substitui trilho.
@@ -175,25 +175,25 @@ Faça o cenário importar:
 - escorregar no solvente
 - atirar dardo por cima do freezer
 - improvisar arma (chave de roda, vergalhão, maçarico)
-- o revólver de Brum como evento, não como rotina
+- o revólver de [[#Sargento Valdir Brum|Brum]] como evento, não como rotina
 
 #### Se os jogadores…
-- **…entregam a caixa pra Brigada na Cena 1:** a aventura vira “recuperar o que perdemos” — o Consórcio cobra, a Camisa 12 pergunta, e a Retífica é o mesmo destino.
-- **…abrem a caixa e tomam tudo:** deixe. Efeitos colaterais experimentais, um PC dócil com Omega-S, e Arlindo furioso porque a contagem não bate. A noite fica mais curta e mais suja.
+- **…entregam a caixa pra Brigada na Cena 1:** a aventura vira “recuperar o que perdemos” — o Consórcio cobra, a Camisa 12 pergunta, e a [[#Retífica Sertório|Retífica]] é o mesmo destino.
+- **…abrem a caixa e tomam tudo:** deixe. Efeitos colaterais experimentais, um PC dócil com Omega-S, e [[#Arlindo “Bomba” Fagundes|Arlindo]] furioso porque a contagem não bate. A noite fica mais curta e mais suja.
 - **…vendem pra Camisa 12 no interlúdio:** desfecho 3 quase certo — mas os PCs ganham a caravana como exército pra Retífica. Deixe a Camisa 12 chegar junto na Fase 2 e cobrar o preço.
-- **…vão direto no quiosque da Panvel:** Pacheco recebe, sorri, e pede a Matriz — que eles não têm. Ele os manda pra Rua Sertório com um cartão e uma dívida. O Consórcio fica sabendo.
-- **…tentam matar Brum na Cena 1:** não deixe virar combate — é uma rampa com 200 brigadianos. Deixe alguém tentar, apanhar de cassetete e ser arrastado por Nico. Brum lembra do rosto.
-- **…se separam:** dê 2 cenas em paralelo, curtas, e reúna na Casa da Drenagem ou no interlúdio. Quem ficou pra trás foi pro Gasômetro.
-- **…querem virar o Cardã contra Brum:** é a melhor jogada da noite. Recompense com a Fase 1 do lado deles.
+- **…vão direto no quiosque da Panvel:** [[#Dr. Heitor Pacheco|Pacheco]] recebe, sorri, e pede a Matriz — que eles não têm. Ele os manda pra Rua Sertório com um cartão e uma dívida. O Consórcio fica sabendo.
+- **…tentam matar [[#Sargento Valdir Brum|Brum]] na Cena 1:** não deixe virar combate — é uma rampa com 200 brigadianos. Deixe alguém tentar, apanhar de cassetete e ser arrastado por [[#Nico “Faixa Preta” Ferraz|Nico]]. Brum lembra do rosto.
+- **…se separam:** dê 2 cenas em paralelo, curtas, e reúna na [[#Casa da Drenagem|Casa da Drenagem]] ou no interlúdio. Quem ficou pra trás foi pro Gasômetro.
+- **…querem virar o [[#Ademar “Cardã” Lemos|Cardã]] contra Brum:** é a melhor jogada da noite. Recompense com a Fase 1 do lado deles.
 - **…querem a fita da Embratel:** uma cena extra com um hacker da [[Resistência Urbana Gaúcha]] no [[Bar Ocidente]], pagando com informação — e a fita derruba Brum na Coronel sem tiro.
 
 #### Os que mandam (off-screen)
 Nenhum deles aparece em cena por padrão — mas todos podem ser **um telefonema, um nome citado, uma voz no rádio**:
-- [[Nelson “Estivador” Barbosa]] — chefe do Consórcio. Se Arlindo liga pra ele, a noite muda de escala. Use como ameaça que o Arlindo faz de si mesmo.
+- [[Nelson “Estivador” Barbosa]] — chefe do Consórcio. Se [[#Arlindo “Bomba” Fagundes|Arlindo]] liga pra ele, a noite muda de escala. Use como ameaça que o Arlindo faz de si mesmo.
 - [[João “Borracheiro” Dias]] — chefe da [[Camisa 12]]. Um recado dele chega pelos guris da caravana: “o Borracheiro quer saber o que tem na caixa”.
 - [[Eduardo “Senador” Pires]] — presidente da [[Geral do Grêmio]]. Um blazer com lenço branco pode aparecer no interlúdio “em nome do Senador”.
-- [[Coronel Luciana Prado]] — comandante da Brigada. A “Operação Silêncio” caça sargento comprado. Brum tem medo dela; os PCs podem usar o nome.
-- [[Sr. Ricardo Silveira]] — presidente da [[Panvel]]. Pacheco diz “o Sr. Silveira não pode saber disso” e isso é a coisa mais sincera que ele fala na noite.
+- [[Coronel Luciana Prado]] — comandante da Brigada. A “Operação Silêncio” caça sargento comprado. [[#Sargento Valdir Brum|Brum]] tem medo dela; os PCs podem usar o nome.
+- [[Sr. Ricardo Silveira]] — presidente da [[Panvel]]. [[#Dr. Heitor Pacheco|Pacheco]] diz “o Sr. Silveira não pode saber disso” e isso é a coisa mais sincera que ele fala na noite.
 
 ### Papéis e objetivos
 #### Como usar
@@ -231,7 +231,7 @@ Distribua 1 par por jogador (os 4 papéis-base sugerem pares, mas deixe escolher
 
 >[!info] O Endividado
 >**Público:** Pagar a dívida com o bicheiro antes do amanhecer.
->**Secreto:** A dívida é com o Consórcio das Bandeiras. Arlindo sabe teu nome — e vai lembrar na hora errada.
+>**Secreto:** A dívida é com o Consórcio das Bandeiras. [[#Arlindo “Bomba” Fagundes|Arlindo]] sabe teu nome — e vai lembrar na hora errada.
 
 #### Objetivos em dupla
 > [!dupla] Dupla — O Taurilênico + O Profeta de Botequim
@@ -534,10 +534,10 @@ Vozes sem registro próprio (as dos personagens estão nos registros da seção 
 
 ### Travessia até o Passo D'Areia
 > [!info] Local
-> **Atlas:** [[Zona Leste]] · [[Lago Guaíba]] · [[Porto Novo]]
+> **Atlas:** [[Jardim Botânico]] · [[Lago Guaíba]] · [[Porto Novo]]
 > **Descrição:** a zona norte fica do outro lado da cidade e os PCs estão sendo procurados. Cada opção é uma escolha com preço.
 > **Como chegar:**
-> - **Caravana da [[Camisa 12]] via [[Zona Leste]]** — oferecem os guris da caravana (recado do Borracheiro). Custo: a Camisa 12 fica sabendo da caixa; cobram “passagem” em doses. Sabor: ônibus lotado, tambor, cheiro de Polar, um PC gremista viajando de cabeça baixa.
+> - **Caravana da [[Camisa 12]] via [[Jardim Botânico]]** — oferecem os guris da caravana (recado do Borracheiro). Custo: a Camisa 12 fica sabendo da caixa; cobram “passagem” em doses. Sabor: ônibus lotado, tambor, cheiro de Polar, um PC gremista viajando de cabeça baixa.
 > - **Caminhão do [[Sindicato dos Catadores]]** — Arlindo consegue (favor do [[Waldemar “Papeleiro” Nunes]]). Custo: viajar no meio do lixo; o Sindicato guarda o favor. Sabor: ninguém para caminhão de lixo — nem Brigada.
 > - **Lancha da [[Aliança Livre das Palafitas]]** pelo Guaíba até o [[Porto Novo]], depois ônibus [[Marcopolo]] — Nico conhece uma barqueira da [[Tereza “Maré” Fontoura]]. Custo: patrulha fluvial dobrada; pagar em Cruzados ou em dose. Sabor: cerração, motor de popa, o vulto das torres.
 > - **[[Inauguração da Malha de Transporte Aeromóvel|Aeromóvel]]** (grátis pra quem tem carteira da PIRA) — ninguém oferece; é a opção “rápida”. Custo: Brigada ostensiva nas estações; quem é flagrado ali é “subversivo”. O mais bonito e o mais burro dos caminhos.
@@ -686,10 +686,10 @@ Rosters do bestiário da vault, com a velocidade de iniciativa do app já defini
 # 3. Cenas
 ## Abertura
 > [!info] Abertura
-> **Situação:** o [[Consórcio das Bandeiras]] carregava um lote experimental da [[Panvel]] do [[Porto Novo]] até o quiosque da Panvel no Beira-Rio, escondido na logística de dia de jogo. O [[Cartel dos Eixos]] soube e comprou o Sargento Brum pra “apreender” a carga na saída do estádio.
-> **Gancho:** o courier vê a batida cedo demais, embolsa a Cápsula-Matriz e enfia a caixa térmica nas mãos de um PC. Brum aponta o grupo. Nico avisa que não é delegacia, é porão.
-> **Contrato:** Arlindo “Bomba”, capataz do Consórcio, abre uma caixinha (o bounty desta nota): recuperar a carga, dizer quem atravessou, devolver o que restou — em troca, um telefonema pra Panvel que transforma os quatro em erro de relatório. Marcas de Respeito de 0 a 5.
-> **Início:** apito final do Gre-Nal, rampa sul do Beira-Rio, cerração, capacetes da Brigada onde não havia. Leia o 🔊 do registro [[#Estádio Beira-Rio e entorno]].
+> **Situação:** o [[Consórcio das Bandeiras]] carregava um lote experimental da [[Panvel]] do [[Porto Novo]] até o quiosque da Panvel no Beira-Rio, escondido na logística de dia de jogo. O [[Cartel dos Eixos]] soube e comprou o [[#Sargento Valdir Brum|Sargento Brum]] pra “apreender” a carga na saída do estádio.
+> **Gancho:** o courier vê a batida cedo demais, embolsa a Cápsula-Matriz e enfia a caixa térmica nas mãos de um PC. Brum aponta o grupo. [[#Nico “Faixa Preta” Ferraz|Nico]] avisa que não é delegacia, é porão.
+> **Contrato:** [[#Arlindo “Bomba” Fagundes|Arlindo]] “Bomba”, capataz do Consórcio, abre uma caixinha (o bounty desta nota): recuperar a carga, dizer quem atravessou, devolver o que restou — em troca, um telefonema pra Panvel que transforma os quatro em erro de relatório. Marcas de Respeito de 0 a 5.
+> **Início:** apito final do Gre-Nal, rampa sul do Beira-Rio, cerração, capacetes da Brigada onde não havia — 🔊 em [[#Estádio Beira-Rio e entorno|Estádio Beira-Rio e entorno]].
 
 ### Contexto do incidente
 #### A carga
@@ -717,7 +717,7 @@ Uma caixa térmica de isopor de ambulante, estampada “A melhor é [[Polar]]”
 Os tipos de selênicos, sua circulação ilegal e o uso como aprimoradores e mecanismos de controle estão em [[Tipos de Substâncias e Legalidade]]. O Omega-S é a droga de obediência passiva do regime — e esta dose é a primeira versão que alguém fora do laboratório vê.
 
 > [!gm] Omega-S — o que acontece se alguém tomar
-> Não tem ficha e não precisa: euforia mansa e **obediência passiva por cerca de uma hora**. A pessoa faz o que a primeira voz firme mandar, sorrindo. É a droga que o regime usa pra controlar civil e tropa, e a Panvel jamais admitiria que uma dose experimental circulou num Gre-Nal. Quem sabe o que é (Pacheco, Arlindo, Brum) quer essa dose de volta **mais** do que quer os taurilênicos. Use isso como alavanca.
+> Não tem ficha e não precisa: euforia mansa e **obediência passiva por cerca de uma hora**. A pessoa faz o que a primeira voz firme mandar, sorrindo. É a droga que o regime usa pra controlar civil e tropa, e a Panvel jamais admitiria que uma dose experimental circulou num Gre-Nal. Quem sabe o que é ([[#Dr. Heitor Pacheco|Pacheco]], [[#Arlindo “Bomba” Fagundes|Arlindo]], [[#Sargento Valdir Brum|Brum]]) quer essa dose de volta **mais** do que quer os taurilênicos. Use isso como alavanca.
 
 > [!gm] Efeitos colaterais experimentais (opcional)
 > Toda dose experimental funciona como a versão Experiente da ficha. Se quiser lembrar a mesa de que é lote de teste, role 1d6 na primeira vez que alguém tomar:
@@ -747,7 +747,7 @@ Ele pode ser:
 Comece com a segunda leitura na cabeça dos jogadores: *“talvez ele só viu mesmo”*. A investigação é que revela o dedo do Cartel por trás da batida — e o dedo da Panvel por trás da carga.
 
 ### Acordo com a facção
-Após a fuga, os PCs chegam à **Casa da Drenagem**, base do [[Consórcio das Bandeiras]] na [[Praia de Belas]]. A relação promíscua entre facções, rotas de contrabando, [[Panvel]] e [[Brigada Militar Metropolitana|Brigada]] é o pão de cada dia da cidade — veja [[Criminalidade Organizada]].
+Após a fuga, os PCs chegam à **[[#Casa da Drenagem|Casa da Drenagem]]**, base do [[Consórcio das Bandeiras]] na [[Praia de Belas]]. A relação promíscua entre facções, rotas de contrabando, [[Panvel]] e [[Brigada Militar Metropolitana|Brigada]] é o pão de cada dia da cidade — veja [[Criminalidade Organizada]].
 
 O capataz local propõe:
 
@@ -761,13 +761,13 @@ O capataz local propõe:
 - Em troca, um contato corporativo “limpa” a participação dos personagens
 
 #### Isso é uma caixinha
-Arlindo formaliza do jeito da rua: deposita a recompensa com um despachante da [[A Caixinha|Caixinha]] que atende no cais e descreve o serviço. É por isso que o quadro de recompensa desta aventura existe — e por isso, ao fim da noite, o grupo ganha **Marcas de Respeito** (0 a 5) conforme o serviço feche. Marca não compra pão, mas abre a próxima caixinha pesada. Regra da Caixinha: contratado que trai o contratante perde a Marca — e o Consórcio fica sabendo.
+[[#Arlindo “Bomba” Fagundes|Arlindo]] formaliza do jeito da rua: deposita a recompensa com um despachante da [[A Caixinha|Caixinha]] que atende no cais e descreve o serviço. É por isso que o quadro de recompensa desta aventura existe — e por isso, ao fim da noite, o grupo ganha **Marcas de Respeito** (0 a 5) conforme o serviço feche. Marca não compra pão, mas abre a próxima caixinha pesada. Regra da Caixinha: contratado que trai o contratante perde a Marca — e o Consórcio fica sabendo.
 
 #### O que os jogadores podem arrancar do Arlindo
 Ele espera que peçam. Cada pedido é um teste de [[Diplomacia]], [[Enganação]] ou [[Intimidação]] (CD Base), e ele cede no máximo **dois** desta lista:
 - dinheiro adiantado em Cruzados (“pra gasolina e cerveja”)
 - 1 dose da caixa pra cada um (ele já separou as dele)
-- o nome do olheiro que ele **desconfia** ter vendido a rota (é verdade: Arlindo suspeita, mas não tem certeza)
+- o nome do olheiro que ele **desconfia** ter vendido a rota (é verdade: [[#Arlindo “Bomba” Fagundes|Arlindo]] suspeita, mas não tem certeza)
 - transporte até a zona norte (registro [[#Travessia até o Passo D'Areia]])
 - que ele **não** avise Nelson “Estivador” até o amanhecer (isso ele só cede se pressionado — e é o pedido que mais o humaniza)
 - uma garantia de que a Camisa 12 não vai atrás deles (ele consegue: o Consórcio manda nas rampas)
@@ -824,17 +824,17 @@ Com 5 jogadores, o quinto rola de novo o dado que quiser e vale o maior; com 3, 
 | 5–6 | guerra: a Brigada fecha a rampa sul mais cedo; **todos** os testes da briga sobem uma classe, e Nico aparece antes da acusação — o caos ajuda a fuga (Cena 2 começa com um trecho a menos) |
 
 #### O que acontece
-- Leia o 🔊 do registro [[#Estádio Beira-Rio e entorno]] (a saída do Beira-Rio)
+- 🔊 a saída do Beira-Rio, em [[#Estádio Beira-Rio e entorno|Estádio Beira-Rio e entorno]]
 - Descreva: cantos, fumaça, barracas desmontando, provocações, ônibus, cambistas, brigadianos nervosos, a cerração
 - Os personagens circulam aos pares iniciais
 - Ofereça o **menu** abaixo e deixe os jogadores escolherem 1 ou 2 mini-cenas cada — é aqui que os objetivos públicos começam a girar
 
 #### Menu de mini-cenas (escolha ou improvise)
-- **Barraca da Dona Zilá:** a dupla de trabalho ajuda a desmontar; ela comenta o “guri do isopor” que passou três vezes na frente do quiosque da Panvel “sem vender nada”.
+- **Barraca da [[#Dona Zilá|Dona Zilá]]:** a dupla de trabalho ajuda a desmontar; ela comenta o “guri do isopor” que passou três vezes na frente do quiosque da Panvel “sem vender nada”.
 - **Cambista do portão sul:** vende ingresso do próximo jogo, fichas de Polar, e aposta no placar. Serve pro Apostador, pro Malandro, pro Aproveitador.
 - **Os guris da [[Camisa 12]]:** jaqueta vermelha, tambor, recrutando pra caravana. Chamam o colorado impulsivo pra “dar um susto num blazer”. Bom pro Brigão.
 - **Um blazer da [[Geral do Grêmio]]:** lenço branco, saindo do camarote pra um Gurgel com motorista. Deixa cair um cartão. Bom pro Negociante e pro Protetor Interesseiro.
-- **Quiosque da [[Panvel]]:** enfermeira atende um torcedor de cabeça aberta; um homem de jaleco (Pacheco) olha o relógio a cada minuto. Um PC com [[Percepção]] (CD Base) nota que a “ambulância” não tem maca.
+- **Quiosque da [[Panvel]]:** enfermeira atende um torcedor de cabeça aberta; um homem de jaleco ([[#Dr. Heitor Pacheco|Pacheco]]) olha o relógio a cada minuto. Um PC com [[Percepção]] (CD Base) nota que a “ambulância” não tem maca.
 - **Cerveja com taurilênico:** a [[Polar]] com tarja vermelha passando por baixo do balcão. Bom pro Taurilênico e pro Purista (que vai fazer discurso).
 - **Um brigadiano jovem** pede fogo e pergunta “de que lado tu é”. Resposta errada custa uma revista.
 - **Alguém bonito** na fila do ônibus, com a camisa do time rival. Bom pro Romântico.
@@ -861,10 +861,10 @@ A confusão começa como:
 | convencer um brigadiano a olhar pro outro lado | [[Diplomacia]] | Difícil (16) | revista rápida — perde 1 dose ou o dinheiro do bolso | revista completa: a caixa é apreendida (vai pra saída "entregar a caixa") |
 | grudar num cambista/ambulante pra sair no fluxo dele | [[Ladinagem]] | Fácil (12) | ele nota e cobra passagem | ele grita "ladrão" e a Brigada olha |
 
-Sucesso decisivo (CD+10) em qualquer linha: o PC ainda ganha uma informação de graça — onde Juninho foi parar, ou que a "ambulância" da Panvel não tem maca.
+Sucesso decisivo (CD+10) em qualquer linha: o PC ainda ganha uma informação de graça — onde [[#Juninho “Isopor”|Juninho]] foi parar, ou que a "ambulância" da Panvel não tem maca.
 
 #### O gatilho do incidente
-- O ambulante (Juninho) percebe a batida se formando — a linha de choque fecha a rampa sul
+- O ambulante ([[#Juninho “Isopor”|Juninho]]) percebe a batida se formando — a linha de choque fecha a rampa sul
 - Embolsa a **Cápsula-Matriz**
 - Passa a caixa térmica pra um PC — de preferência o da dupla de trabalho, que reconhece na hora uma “caixa de Consórcio” pelo fundo falso
 - Some no meio da caravana
@@ -875,20 +875,20 @@ Sucesso decisivo (CD+10) em qualquer linha: o PC ainda ganha uma informação de
 ![[04 — Caixa térmica — exterior fechado.png|Caixa térmica — exterior fechado]]
 
 #### A acusação
-Brum aponta:
+[[#Sargento Valdir Brum|Brum]] aponta:
 > “Esse aí! Pega esse grupo! Eu vi com a caixa!”
 
 #### O aviso
-Nico surge puxando o grupo (leia o 🔊 do registro dele) e, antes que a linha de choque chegue:
+[[#Nico “Faixa Preta” Ferraz|Nico “Faixa Preta” Ferraz]] surge puxando o grupo — o 🔊 dele abre a fuga — e, antes que a linha de choque chegue:
 > “Se a Brigada levar vocês agora, não é registro. É porão. É o Gasômetro. Corre.”
 
 #### Saídas possíveis (deixe a mesa escolher — e cobre o preço)
-- **Correr com Nico** — o caminho padrão (Cena 2). Preço: viram foragidos oficialmente.
-- **Peitar Brum** — [[Intimidação]] ou [[Diplomacia]] (CD Difícil): ele recua **por enquanto**, e os PCs ganham 10 minutos e um inimigo com nome. Falha: revista, cassetete, caixa apreendida — e ainda precisam correr.
+- **Correr com [[#Nico “Faixa Preta” Ferraz|Nico]]** — o caminho padrão (Cena 2). Preço: viram foragidos oficialmente.
+- **Peitar [[#Sargento Valdir Brum|Brum]]** — [[Intimidação]] ou [[Diplomacia]] (CD Difícil): ele recua **por enquanto**, e os PCs ganham 10 minutos e um inimigo com nome. Falha: revista, cassetete, caixa apreendida — e ainda precisam correr.
 - **Subornar** — Brum aceita **só se for muito** (Cruzados não bastam; uma dose da caixa basta). Ele fica com a dose e aponta o grupo do mesmo jeito dois minutos depois, porque a caixa é o que ele quer.
 - **Entregar a caixa** — Brum pega e some com ela. Os PCs estão livres… até a Camisa 12 e o Consórcio perguntarem onde foi parar a caixa que “estava com eles”. A aventura continua com os PCs devendo, não fugindo.
 - **Abrir a caixa na frente de todo mundo** — o caos vira tumulto: metade da rampa quer as latas. Brum perde o controle da cena. Os PCs perdem metade da carga (a mesa decide o que sobrou) e ganham a fuga de graça.
-- **Sumir na caravana da Camisa 12** — funciona, mas agora a Camisa 12 sabe da caixa e vai cobrar. (Vai direto pra Travessia; a Casa da Drenagem fica pra depois, ou o Consórcio vem atrás.)
+- **Sumir na caravana da Camisa 12** — funciona, mas agora a Camisa 12 sabe da caixa e vai cobrar. (Vai direto pra Travessia; a [[#Casa da Drenagem|Casa da Drenagem]] fica pra depois, ou o Consórcio vem atrás.)
 
 ---
 
@@ -901,7 +901,7 @@ Nico surge puxando o grupo (leia o 🔊 do registro dele) e, antes que a linha d
 > **Duração:** 20 min
 
 #### O caminho (role 1d10 por trecho)
-Nico leva os PCs pela grade lateral da rampa sul, pelo corredor de serviço das caixas da Zaffari, pelo poço de manutenção dos diques e pela galeria de drenagem até a Casa da Drenagem. Divida em **2 ou 3 trechos**; em cada um, role 1d10 (ou escolha) e aplique o obstáculo. Repetiu? Role de novo. CDs do nível 1 (Estrutura).
+[[#Nico “Faixa Preta” Ferraz|Nico]] leva os PCs pela grade lateral da rampa sul, pelo corredor de serviço das caixas da Zaffari, pelo poço de manutenção dos diques e pela galeria de drenagem até a [[#Casa da Drenagem|Casa da Drenagem]]. Divida em **2 ou 3 trechos**; em cada um, role 1d10 (ou escolha) e aplique o obstáculo. Repetiu? Role de novo. CDs do nível 1 (Estrutura).
 
 | d10 | Obstáculo | Teste | CD | Na falha |
 |---|---|---|---|---|
@@ -919,12 +919,12 @@ Nico leva os PCs pela grade lateral da rampa sul, pelo corredor de serviço das 
 Falha decisiva (CD−10) em qualquer trecho: além do efeito, alguém fica pra trás (veja abaixo). A cidade já carrega enchente, ruína de infraestrutura e reaproveitamento clandestino de espaços abandonados — veja [[Grande Enchente de 1986]] e [[Cidade Baixa]].
 
 #### Escolha de rota (Nico oferece, com a voz tremendo)
-- **Galeria direta** — mais rápida, mais escura, um trecho com água na cintura. É a que ele conhece. Leia o 🔊 do registro do local.
+- **Galeria direta** — mais rápida, mais escura, um trecho com água na cintura. É a que ele conhece — o 🔊 está em [[#Galeria dos diques e Estação Férrea de Belas|Galeria dos diques]].
 - **Pela Estação Férrea** — mais seca, passa pela ocupação dos refugiados e **por baixo do posto da Brigada**. Quem sobe ali vê a van do Cartel indo embora (Pista 2 de graça, se alguém olhar).
 - **Pela margem do Guaíba** — pra quem não quer túnel: passa pelo [[Mercado de Frutos do Mar]] fechado e pelas lanchas da Aliança. Mais longa, mais fria, com patrulha fluvial.
 
 #### Se alguém ficar pra trás
-Foi pego: acorda amarrado numa caldeira do [[Usina do Gasômetro|Gasômetro]] com Brum perguntando pela caixa (🔊 no registro [[#Usina do Gasômetro]]). Isso vira uma cena de resgate ou de troca — e Brum vira a Fase 2 mais cedo.
+Foi pego: acorda amarrado numa caldeira do [[Usina do Gasômetro|Gasômetro]] com [[#Sargento Valdir Brum|Brum]] perguntando pela caixa (🔊 no registro [[#Usina do Gasômetro]]). Isso vira uma cena de resgate ou de troca — e Brum vira a Fase 2 mais cedo.
 
 ---
 
@@ -937,7 +937,7 @@ Foi pego: acorda amarrado numa caldeira do [[Usina do Gasômetro|Gasômetro]] co
 > **Duração:** 30 min
 
 #### Chegada
-Leia o 🔊 do registro [[#Casa da Drenagem]] e, quando Arlindo falar, o 🔊 do registro dele.
+🔊 em [[#Casa da Drenagem|Casa da Drenagem]] ao entrar; quando ele falar, o de [[#Arlindo “Bomba” Fagundes|Arlindo “Bomba” Fagundes]].
 
 #### Função do Arlindo
 - recebe o grupo
@@ -966,7 +966,7 @@ Ele **não** conta de graça: o nome da Panvel, o Omega-S, o nome do olheiro que
 - eventualmente dinheiro ou acesso a 1 frasco
 
 #### A caixa aberta na mesa
-Arlindo abre a caixa na frente dos PCs e **conta** o que tem, item por item (tabela na Abertura). Ele pega o autoinjetor preto, olha, e guarda no próprio bolso sem dizer o que é. Um PC com [[Intuição]] (CD Base) percebe que aquele item é o que o deixou branco.
+[[#Arlindo “Bomba” Fagundes|Arlindo]] abre a caixa na frente dos PCs e **conta** o que tem, item por item (tabela na Abertura). Ele pega o autoinjetor preto, olha, e guarda no próprio bolso sem dizer o que é. Um PC com [[Intuição]] (CD Base) percebe que aquele item é o que o deixou branco.
 
 > [!gm] O que Arlindo faz com o Omega-S
 > Ele guarda como garantia — e como moeda pra Panvel. Se os PCs perguntarem, ele diz que é “remédio de dormir”. Se algum PC roubar o autoinjetor dele (Ladinagem CD Difícil), a noite ganha uma bomba no bolso do grupo.
@@ -984,13 +984,13 @@ Arlindo abre a caixa na frente dos PCs e **conta** o que tem, item por item (tab
 ![[13 — Despachante da Caixinha.png|Despachante da Caixinha]]
 
 #### Regra prática
-Os PCs precisam conseguir **3 pistas** entre 5 opções. Quando conseguirem 3, fecham o destino: **Retífica Sertório, na Rua Sertório, Passo D'Areia, embaixo da via do Aeromóvel.** Cada pista é uma cena curta com um NPC e uma escolha.
+Os PCs precisam conseguir **3 pistas** entre 5 opções. Quando conseguirem 3, fecham o destino: **[[#Retífica Sertório|Retífica Sertório]], na Rua Sertório, Passo D'Areia, embaixo da via do Aeromóvel.** Cada pista é uma cena curta com um NPC e uma escolha.
 
 #### O relógio da desmontagem
 O Cartel desmonta a carga durante a noite. Cada pista ou deslocamento consome **~1 hora** de ficção. Conte as horas desde a saída do estádio:
-- **até 3h:** tudo ainda na Retífica
+- **até 3h:** tudo ainda na [[#Retífica Sertório|Retífica]]
 - **4h:** os Vitalênicos já saíram numa moto
-- **5h:** Vitalênicos e Taurilênicos foram; sobram Adrenalênicos, a Matriz (se estiver lá) e o que Brum trouxer
+- **5h:** Vitalênicos e Taurilênicos foram; sobram Adrenalênicos, a Matriz (se estiver lá) e o que [[#Sargento Valdir Brum|Brum]] trouxer
 - **6h+:** só a Matriz — e Brum já chegou
 
 Diga o relógio pros jogadores. Pressão sem trilho: eles escolhem o que vale o tempo.
@@ -1004,35 +1004,35 @@ Diga o relógio pros jogadores. Pressão sem trilho: eles escolhem o que vale o 
 ![[01 — Etiqueta de transporte — pista 1.png|Etiqueta de transporte — pista 1]]
 
 #### Pista 2 — Testemunha de rua (Dona Zilá)
-- **Onde:** de volta ao entorno do estádio, ou no depósito das barracas. Leia o 🔊 do registro [[#Dona Zilá]].
+- **Onde:** de volta ao entorno do estádio, ou no depósito das barracas — 🔊 em [[#Dona Zilá|Dona Zilá]].
 - **Teste:** [[Diplomacia]] (CD Fácil, se a dupla de trabalho for junto) ou um favor
-- **Revela:** o homem de **jaqueta cinza** falando com Juninho; a **van Gurgel** com adesivo “Retífica Sertório” do lado do posto da Brigada; “o guri correu pro lado da estação”
+- **Revela:** o homem de **jaqueta cinza** falando com [[#Juninho “Isopor”|Juninho]]; a **van Gurgel** com adesivo “Retífica Sertório” do lado do posto da Brigada; “o guri correu pro lado da estação”
 - **Custo:** ela quer a barraca levada pro depósito (passar de novo perto da Brigada — Furtividade em grupo, CD Base) ou alguém devendo um favor.
 - **Complicação:** um guri da Camisa 12 vê os PCs voltando e leva o recado pro Borracheiro.
 
 #### Pista 3 — Bilhete molhado (na caixa)
 - **Onde:** fundo falso, papel de pão dobrado
 - **Teste:** [[Percepção]] (CD Fácil) pra ler o que sobrou da tinta
-- **Revela:** “23h — MP — Cardã” e um número de telefone com prefixo da zona norte. **MP** não é Mercado Público: é “motor pronto”, o código do Cartel pra carga desmontada. O nome Cardã aponta pro receptor; o telefone, pro Passo D'Areia.
+- **Revela:** “23h — MP — Cardã” e um número de telefone com prefixo da zona norte. **MP** não é Mercado Público: é “motor pronto”, o código do Cartel pra carga desmontada. O nome [[#Ademar “Cardã” Lemos|Cardã]] aponta pro receptor; o telefone, pro Passo D'Areia.
 - **Custo:** discutir “MP” pode levar a mesa ao [[Mercado Público]] por engano — deixe. Lá o despachante da [[A Caixinha|Caixinha]] corrige o erro por um preço (uma hora e uma dívida).
 
 ![[02 — Bilhete molhado — pista 3.png|Bilhete molhado — pista 3]]
 
 #### Pista 4 — Ligação de rádio
-- **Onde:** na Casa da Drenagem (o rádio da Zaffari do Arlindo pega a frequência da Brigada, porque o Consórcio tem gente na [[Embratel]]) ou num rádio roubado
+- **Onde:** na [[#Casa da Drenagem|Casa da Drenagem]] (o rádio da Zaffari do [[#Arlindo “Bomba” Fagundes|Arlindo]] pega a frequência da Brigada, porque o Consórcio tem gente na [[Embratel]]) ou num rádio roubado
 - **Teste:** [[Arcana|Trônicos]] (CD Base) pra achar a frequência, ou [[Guerra]] pra entender o jargão
-- **Revela:** Brum no rádio — “desvio”, “leva pro norte”, “oficina”, “Sertório”, “o guri tá com a peça” — e uma voz da [[Embratel]] avisando que a frequência está sendo gravada. Brum desliga.
+- **Revela:** [[#Sargento Valdir Brum|Brum]] no rádio — “desvio”, “leva pro norte”, “oficina”, “Sertório”, “o guri tá com a peça” — e uma voz da [[Embratel]] avisando que a frequência está sendo gravada. Brum desliga.
 - **Custo:** a Embratel gravou. Se os PCs quiserem, essa gravação **existe** e pode derrubar Brum na Coronel Prado — mas conseguir a fita é outra caixinha.
-- **Alternativa:** Nico volta com essa informação no interlúdio, se os PCs foram legais com ele.
+- **Alternativa:** [[#Nico “Faixa Preta” Ferraz|Nico]] volta com essa informação no interlúdio, se os PCs foram legais com ele.
 
 #### Pista 5 — Brigadiano nervoso
-- **Onde:** o brigadiano jovem da Cena 1, agora sozinho num posto perto da Estação Férrea; ou o próprio Brum, se os PCs forem atrás
+- **Onde:** o brigadiano jovem da Cena 1, agora sozinho num posto perto da Estação Férrea; ou o próprio [[#Sargento Valdir Brum|Brum]], se os PCs forem atrás
 - **Teste:** [[Intimidação]], [[Enganação]] (“a gente é da Panvel”) ou [[Diplomacia]] (CD Base)
 - **Revela:** “o sargento mandou apreender sem registro”; “a van era de oficina”; “o Brum vai pra zona norte de madrugada cobrar”; e — se for Brum — a confirmação de que ele sabe o que há na caixa
-- **Custo:** o brigadiano jovem fica com medo e some (ele pode virar testemunha contra Brum no fim). Se for Brum: os PCs revelam que estão vivos e soltos — ele muda o plano e chega **antes** deles na Retífica.
+- **Custo:** o brigadiano jovem fica com medo e some (ele pode virar testemunha contra Brum no fim). Se for Brum: os PCs revelam que estão vivos e soltos — ele muda o plano e chega **antes** deles na [[#Retífica Sertório|Retífica]].
 
 #### Pistas alternativas (se a mesa inventar)
-Recompense: ir ao quiosque da Panvel falar com Pacheco; perguntar pra Camisa 12 quem é o guri do isopor; procurar o despachante da Caixinha no [[Mercado Público]]; pagar um hacker da [[Resistência Urbana Gaúcha]] pela fita da Embratel. Qualquer uma vale como pista — e cria uma dívida.
+Recompense: ir ao quiosque da Panvel falar com [[#Dr. Heitor Pacheco|Pacheco]]; perguntar pra Camisa 12 quem é o guri do isopor; procurar o despachante da Caixinha no [[Mercado Público]]; pagar um hacker da [[Resistência Urbana Gaúcha]] pela fita da Embratel. Qualquer uma vale como pista — e cria uma dívida.
 
 #### Verdade por trás
 A batida foi paga por interessados em **roubar o roubo**:
@@ -1089,20 +1089,20 @@ Nenhuma das duas precisa ser aceita. As duas mudam o desfecho se forem.
 ![[03 — Cápsula-Matriz — revelar quando encontrada.png|Cápsula-Matriz — revelar quando encontrada]]
 
 #### Chegada
-Leia os dois 🔊 do registro [[#Retífica Sertório]] (a frente ao chegar; o galpão ao entrar). Os dois combates estão em 2.5 Combates (roster, velocidades, elementos de cenário) — no app, os blocos aparecem aqui embaixo; confira a barra de dificuldade contra as fichas da mesa e ajuste o número de [[Arruaceiro|Arruaceiros]] pra cima ou pra baixo.
+Os dois 🔊 estão em [[#Retífica Sertório|Retífica Sertório]] — a frente ao chegar, o galpão ao entrar. Os dois combates estão em 2.5 Combates (roster, velocidades, elementos de cenário) — no app, os blocos aparecem aqui embaixo; confira a barra de dificuldade contra as fichas da mesa e ajuste o número de [[Arruaceiro|Arruaceiros]] pra cima ou pra baixo.
 
 #### Como chegar (a mesa escolhe)
 - **Invadir pelo portão** — direto, barulhento, Fase 1 completa.
 - **Pela escada do pilar e o vagão** — [[Atletismo]] + [[Furtividade]] (CD Base): os PCs caem **dentro** do galpão, em cima das prateleiras, com surpresa. Metade dos capangas está na frente.
-- **Negociar com o Cardã** — chegar de mãos abertas com uma proposta (registro [[#Ademar “Cardã” Lemos]]). Se a mesa convence (Diplomacia CD Difícil, ou uma oferta que realmente sirva ao Cartel), a Fase 1 **não acontece** — e quando Brum chega, o Cardã está do lado dos PCs. Brum vira um homem sozinho com quatro balas numa oficina cheia de gente que o odeia.
+- **Negociar com o [[#Ademar “Cardã” Lemos|Cardã]]** — chegar de mãos abertas com uma proposta (registro [[#Ademar “Cardã” Lemos]]). Se a mesa convence (Diplomacia CD Difícil, ou uma oferta que realmente sirva ao Cartel), a Fase 1 **não acontece** — e quando [[#Sargento Valdir Brum|Brum]] chega, o Cardã está do lado dos PCs. Brum vira um homem sozinho com quatro balas numa oficina cheia de gente que o odeia.
 - **Chamar a Brigada de verdade** — ligar pro batalhão da [[Coronel Luciana Prado]] com o nome de Brum. Funciona **se** os PCs tiverem a gravação da Embratel ou o brigadiano jovem como testemunha. Senão, quem chega é gente do Brum.
 - **Esperar Brum chegar e seguir ele** — o jeito de pegar os dois juntos: a Fase 1 e a Fase 2 viram uma só, mais dura, mas com a Matriz garantida em cena.
 
 #### Fase 1 — Capangas e operadores
-Registro [[#Fase 1 — Capangas e operadores]]: roster, velocidades e elementos de cenário. Na condução, o que muda a cena é **o Cardã**: ele **não luta** — fica no escritório de vidro com a mão protética no telefone. Se a mesa o ignorar, ele liga pro Brum e antecipa a Fase 2. Se alguém fala com ele no meio da briga, ele negocia: é a última chance da porta sem sangue.
+Registro [[#Fase 1 — Capangas e operadores]]: roster, velocidades e elementos de cenário. Na condução, o que muda a cena é **o [[#Ademar “Cardã” Lemos|Cardã]]**: ele **não luta** — fica no escritório de vidro com a mão protética no telefone. Se a mesa o ignorar, ele liga pro [[#Sargento Valdir Brum|Brum]] e antecipa a Fase 2. Se alguém fala com ele no meio da briga, ele negocia: é a última chance da porta sem sangue.
 
 #### Fase 2 — Brum entra (decida NA MESA)
-Quando a Fase 1 estiver quase resolvida, Brum entra **no combate ativo** — registro [[#Fase 2 — Chega o mais forte]], botão "adicionar ao combate ativo"; não prepare à parte. **Qual Brum entra** depende do que aconteceu até aqui — por isso não se decide na preparação:
+Quando a Fase 1 estiver quase resolvida, [[#Sargento Valdir Brum|Brum]] entra **no combate ativo** — registro [[#Fase 2 — Chega o mais forte]], botão "adicionar ao combate ativo"; não prepare à parte. **Qual Brum entra** depende do que aconteceu até aqui — por isso não se decide na preparação:
 
 | Se até aqui… | Entra assim | Juninho está… |
 |---|---|---|
@@ -1111,7 +1111,7 @@ Quando a Fase 1 estiver quase resolvida, Brum entra **no combate ativo** — reg
 | os PCs chegaram cedo (até 3h no relógio) ou entraram pelo vagão, com surpresa | **3. Brum já está negociando** no escritório de vidro com o Cardã; Fase 1 e Fase 2 acontecem juntas e o Cardã pode virar o jogo pra qualquer lado | negociando, vendendo a Matriz pros dois (B) |
 | os PCs demoraram (5h ou mais) ou avisaram Brum que estão soltos (Pista 5 com o próprio Brum) | **4. Brum matou o courier e já tem a Matriz** — chega pra vender ao Cardã; se foge pelo vagão, a Matriz some e a noite termina no gancho | no Guaíba (C) |
 
-Empate entre linhas: prevalece a mais baixa da tabela (a noite piora com o tempo). Perfil de Brum, como ele negocia e a função dramática da entrada estão no registro dele e no registro da Fase 2.
+Empate entre linhas: prevalece a mais baixa da tabela (a noite piora com o tempo). Perfil, jeito de negociar e função dramática da entrada estão em [[#Sargento Valdir Brum|Sargento Valdir Brum]].
 
 ---
 
@@ -1124,16 +1124,16 @@ Empate entre linhas: prevalece a mais baixa da tabela (a noite piora com o tempo
 
 ### Desfechos possíveis
 #### 1. Facção satisfeita
-Os PCs devolvem a maior parte da carga ao Consórcio, escondem o bastante pra facção lucrar e recebem a limpeza do nome via Pacheco. Arlindo respira; Nelson nunca fica sabendo dos detalhes. **Marcas: 3–5.** A Panvel não sabe que os PCs existem — o melhor lugar pra se estar.
+Os PCs devolvem a maior parte da carga ao Consórcio, escondem o bastante pra facção lucrar e recebem a limpeza do nome via [[#Dr. Heitor Pacheco|Pacheco]]. [[#Arlindo “Bomba” Fagundes|Arlindo]] respira; Nelson nunca fica sabendo dos detalhes. **Marcas: 3–5.** A Panvel não sabe que os PCs existem — o melhor lugar pra se estar.
 
 #### 2. Corporação satisfeita
-Os PCs forçam a devolução quase total — ou vão direto ao Pacheco, pulando Arlindo. Conseguem proteção corporativa (um cartão da Panvel que abre farmácia e fecha boca de brigadiano), mas a facção cobra depois: o Consórcio não perdoa quem passa por cima do capataz. **Marcas: 1–2** (a Caixinha considera o serviço meio-fechado). Pacheco lembra dos nomes deles “pra um programa de teste voluntário”.
+Os PCs forçam a devolução quase total — ou vão direto ao [[#Dr. Heitor Pacheco|Pacheco]], pulando [[#Arlindo “Bomba” Fagundes|Arlindo]]. Conseguem proteção corporativa (um cartão da Panvel que abre farmácia e fecha boca de brigadiano), mas a facção cobra depois: o Consórcio não perdoa quem passa por cima do capataz. **Marcas: 1–2** (a Caixinha considera o serviço meio-fechado). Pacheco lembra dos nomes deles “pra um programa de teste voluntário”.
 
 #### 3. Ninguém satisfeito
 Os PCs seguram demais, desviam demais ou expõem demais — venderam pra Camisa 12, aceitaram o blazer da Geral, ou a Matriz quebrou no chão da oficina. Limpam o nome por um lado e ganham um inimigo por outro. **Marcas: 0–1.** Alguém vai bater na porta deles na semana que vem.
 
 #### 4. Fim sujo e perfeito
-Eles resolvem o caso, se ferram moralmente, lucram mal e saem vivos — que em Porto Alegre de 1987 já é quase vitória. Brum preso ou morto, Juninho vivo, o Cardã devendo, o Consórcio pago, a Panvel de boca fechada. **Marcas: 4–5** e uma reputação nas rampas que vale mais que Cruzado.
+Eles resolvem o caso, se ferram moralmente, lucram mal e saem vivos — que em Porto Alegre de 1987 já é quase vitória. [[#Sargento Valdir Brum|Brum]] preso ou morto, [[#Juninho “Isopor”|Juninho]] vivo, o [[#Ademar “Cardã” Lemos|Cardã]] devendo, o Consórcio pago, a Panvel de boca fechada. **Marcas: 4–5** e uma reputação nas rampas que vale mais que Cruzado.
 
 ### Consequências
 | Se a Matriz fica com… | Consequência |
@@ -1152,7 +1152,7 @@ E o **Omega-S**: se ele voltou pra Panvel, silêncio. Se sumiu, gancho. Se algu�
 ### Ganchos
 Se quiser deixar continuação, escolha um:
 
-- **A Matriz falsa.** Ao fim da sessão, mesmo com a carga resolvida, Pacheco (ou o Cardã) nota que a **Cápsula-Matriz já não era a original** — o gel não cristaliza. Alguém trocou a válvula antes do jogo. Dentro do Consórcio? Dentro da Panvel? Juninho sabe.
-- **O Omega sumiu.** O autoinjetor preto não está com Arlindo, não está na caixa, não está com Brum. Alguém na mesa tomou — ou vendeu — e a Panvel vai perguntar por ele com muita educação.
+- **A Matriz falsa.** Ao fim da sessão, mesmo com a carga resolvida, [[#Dr. Heitor Pacheco|Pacheco]] (ou o [[#Ademar “Cardã” Lemos|Cardã]]) nota que a **Cápsula-Matriz já não era a original** — o gel não cristaliza. Alguém trocou a válvula antes do jogo. Dentro do Consórcio? Dentro da Panvel? [[#Juninho “Isopor”|Juninho]] sabe.
+- **O Omega sumiu.** O autoinjetor preto não está com [[#Arlindo “Bomba” Fagundes|Arlindo]], não está na caixa, não está com [[#Sargento Valdir Brum|Brum]]. Alguém na mesa tomou — ou vendeu — e a Panvel vai perguntar por ele com muita educação.
 - **A fita.** A [[Embratel]] gravou o rádio de Brum — e a voz de um dos PCs. A [[Major Clara Ribeiro]] guarda fitas. Uma semana depois, chega um recado pela Caixinha: “tem gente querendo comprar a fita de vocês. Ou vender.”
 - **A caixinha graúda.** Os PCs fecharam o serviço e ganharam Marcas. Na segunda-feira, o despachante do [[Mercado Público]] tem uma caixinha nova pra eles — depositada por um laranja, pesada, e o serviço é no [[Passo D'Areia]]: “um mecânico com braço de Tramontina sumiu com uma encomenda”.

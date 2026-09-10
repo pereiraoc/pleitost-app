@@ -16,6 +16,7 @@ import { useSessionRepo, useSessionUser } from '../../../data/session-repo/provi
 import { isUnlocked, lock } from '../../../data/doc-lock'
 import { useSettings } from '../../../settings'
 import { MarkdownBody } from '../../../markdown/MarkdownBody'
+import { RefInternaProvider } from '../../../markdown/ref-interna'
 import { BountyCard } from '../../../markdown/bounty/BountyCard'
 import { bountyMetaFromDoc } from '../../../markdown/bounty/BountyFence'
 import { BountyText } from '../../../markdown/bounty/BountyText'
@@ -33,7 +34,7 @@ import { CenaBlock } from './CenaBlock'
 import { LeituraBlock } from './LeituraBlock'
 import { RegistroCard } from './RegistroCard'
 import { CombateCard } from './CombateCard'
-import { cenaAnchorId } from './RefChip'
+import { cenaAnchorId, registroPorNome } from './RefChip'
 
 const NAV: { id: string; label: string }[] = [
   { id: 'av-resumo', label: 'Resumo' },
@@ -45,7 +46,9 @@ const NAV: { id: string; label: string }[] = [
 ]
 
 function irPara(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  // `?.` no MÉTODO também: jsdom não implementa scrollIntoView, e a rolagem
+  // sai de dentro de um setTimeout — sem o guard vira exceção não tratada.
+  document.getElementById(id)?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
 }
 
 function fmValor(v: unknown): string | null {
@@ -121,6 +124,8 @@ export function AventuraFormatoSheet({
   const cenaAtualSlug = estaRodando ? atual!.cenaAtual : null
 
   const [abertas, setAbertas] = useState<Set<string>>(() => new Set(cenaAtualSlug ? [cenaAtualSlug] : model.cenas[0] ? [model.cenas[0].slug] : []))
+  // Registro (personagem OU local) em destaque: quem clica num `[[#Nome]]` da
+  // prosa, num marcador do mapa ou num chip cai aqui.
   const [localAberto, setLocalAberto] = useState<string | null>(null)
   // seções abertas — só o Resumo de saída
   const [secoes, setSecoes] = useState<Set<string>>(() => new Set(['av-resumo']))
@@ -160,13 +165,61 @@ export function AventuraFormatoSheet({
   const marcador = (nomeMarker: string): boolean => {
     const reg = model.locais.find((l) => l.nome === nomeMarker)
     if (!reg) return false
-    setLocalAberto(reg.slug)
-    setSec('av-locais', true)
-    setTimeout(() => document.getElementById(`av-reg-${reg.slug}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0)
+    abrirRegistro(reg.slug, 'av-locais')
     return true
   }
 
+  /** Abre a seção, destaca o registro e rola até ele. */
+  const abrirRegistro = (slug: string, secao: 'av-personagens' | 'av-locais') => {
+    setLocalAberto(slug)
+    setSec(secao, true)
+    setTimeout(() => irPara(`av-reg-${slug}`), 0)
+  }
+
+  /**
+   * `[[#Alvo]]` na PROSA (report 2026-09-10: "tu fala de um NPC mas não coloca
+   * um link pra clicar e ver mais sobre ele"). Registro vira botão que abre e
+   * rola até o card; referência a CENA rola até a cena. Alvo desconhecido cai
+   * no texto (o `null` faz o MarkdownBody devolver o rótulo).
+   */
+  const refInterna = (alvo: string, label: string) => {
+    const reg = registroPorNome(model, alvo)
+    if (reg) {
+      return (
+        <button
+          type="button"
+          className="av-ref-inline"
+          data-av-ref={alvo}
+          title={`Abrir o registro: ${reg.reg.nome}`}
+          onClick={() => abrirRegistro(reg.reg.slug, reg.tipo === 'personagem' ? 'av-personagens' : 'av-locais')}
+        >
+          {label}
+        </button>
+      )
+    }
+    const cena = model.cenas.find((c) => alvo === `Cena ${c.n} — ${c.titulo}`)
+    if (cena) {
+      return (
+        <button
+          type="button"
+          className="av-ref-inline is-cena"
+          data-av-ref={alvo}
+          title={`Ir pra ${alvo}`}
+          onClick={() => {
+            setSec('av-cenas', true)
+            setAbertas((x) => new Set(x).add(cena.slug))
+            setTimeout(() => irPara(cenaAnchorId(cena.slug)), 0)
+          }}
+        >
+          {label}
+        </button>
+      )
+    }
+    return null
+  }
+
   return (
+    <RefInternaProvider render={refInterna}>
     <section className="page aventura-page av-formato" data-av-formato="">
       <div className="kicker">{COMPENDIO_KICKER}</div>
       <header className="av-header">
@@ -288,7 +341,9 @@ export function AventuraFormatoSheet({
         {model.personagens.length ? (
           <div className="av-registros">
             {model.personagens.map((p) => (
-              <RegistroCard key={p.slug} reg={p} tipo="personagem" model={model} doc={doc} />
+              <div key={p.slug} className={localAberto === p.slug ? 'is-destacado' : undefined}>
+                <RegistroCard reg={p} tipo="personagem" model={model} doc={doc} aberto={localAberto === p.slug} />
+              </div>
             ))}
           </div>
         ) : (
@@ -397,5 +452,6 @@ export function AventuraFormatoSheet({
       </Secao>
       <DocRuleElements doc={doc} />
     </section>
+    </RefInternaProvider>
   )
 }

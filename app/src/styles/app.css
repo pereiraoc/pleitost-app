@@ -2552,6 +2552,7 @@ a[data-link-icon]::before {
 }
 .is-destacado > .av-registro {
   border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 .av-registro-nome {
   margin: 0;
@@ -2998,4 +2999,32 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   .ctx-card-fig {
     width: 84px;
   }
+}
+
+/* Referência interna `[[#Alvo]]` na PROSA da aventura (2026-09-10): clicar
+   abre e rola até o registro do personagem/local, ou até a cena. Parece link,
+   é botão — some do papel impresso como o resto do chrome. */
+.av-ref-inline {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+.av-ref-inline:hover {
+  text-decoration-style: solid;
+}
+.av-ref-inline::before {
+  content: '▸';
+  margin-right: 3px;
+  font-size: 0.85em;
+}
+.av-ref-inline.is-cena::before {
+  content: '⌖';
 }

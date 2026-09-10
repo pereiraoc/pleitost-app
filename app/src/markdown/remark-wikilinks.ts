@@ -66,7 +66,22 @@ export function remarkWikilinks({ resolve, iconFor }: Options) {
         }
         // #519: rótulo passa pelo reskin do mundo (display puro — o TARGET
         // segue canônico pra resolução).
-        const label = reskinName(alias ?? target)
+        const label = reskinName(alias ?? target.replace(/^#/, ''))
+        // `[[#Âncora]]` aponta pra DENTRO da própria nota (os registros de
+        // Personagem e Local de uma aventura). O catálogo não resolve isso, e
+        // até 2026-09-10 virava texto morto; agora sai um nó próprio que a
+        // tela decide como renderizar (markdown/ref-interna) — sem handler,
+        // o MarkdownBody devolve o texto de sempre.
+        if (target.startsWith('#')) {
+          return {
+            type: 'text',
+            value: '',
+            data: {
+              hName: 'ref-interna',
+              hProperties: { 'data-alvo': target.slice(1).trim(), 'data-label': label },
+            },
+          }
+        }
         const res = resolve(target)
         if (res.kind !== 'doc') return { type: 'text', value: label }
         // #303: ícone (supercharged) do doc-alvo como ATRIBUTO — CSS o prepende
