@@ -736,6 +736,10 @@ a {
 /* linha do tempo do Contexto (notas com FM `Data`, ex.: Passado da POA):
    linha vertical contínua + uma bolinha por data (pedido 2026-08-29) */
 .ctx-timeline {
+  /* recuo do CONTEÚDO (a caixa da tela CONTEXTO afasta os itens da borda). A
+     linha é absoluta na caixa de padding, então ela precisa do mesmo recuo pra
+     ficar no eixo das bolinhas — senão encosta na borda (report 2026-09-10). */
+  --tl-recuo: 0px;
   position: relative;
   margin-top: 1rem;
   max-width: 46rem;
@@ -744,7 +748,7 @@ a {
 .ctx-timeline::before {
   content: '';
   position: absolute;
-  left: 5px;
+  left: calc(var(--tl-recuo) + 5px);
   top: 8px;
   bottom: 8px;
   width: 2px;
@@ -2906,7 +2910,8 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   transform: rotate(90deg);
 }
 .ctx-tl-box > .ctx-timeline {
-  padding: 6px 20px 22px 24px;
+  --tl-recuo: 24px;
+  padding: 6px 20px 22px var(--tl-recuo);
 }
 
 /* grupo de dossiês */

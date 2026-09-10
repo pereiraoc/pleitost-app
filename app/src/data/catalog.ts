@@ -170,7 +170,7 @@ async function fetchManifest(dir: string): Promise<IndexManifest | null> {
  *    resolvível por URL — só não é listado/oferecido);
  *  - `reskin.notas` viram `alias` da entrada (as superfícies que já exibem
  *    alias — dropdown de classes etc. — pegam o nome do mundo de graça). */
-function aplicarContextoAosDocs(
+export function aplicarContextoAosDocs(
   docs: IndexDocEntry[],
   def: ContextoDef | null,
 ): IndexDocEntry[] {

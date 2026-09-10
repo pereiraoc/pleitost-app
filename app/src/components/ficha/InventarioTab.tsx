@@ -1736,9 +1736,12 @@ export function InventarioTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) 
         catalog.content.filter(
           (e: IndexDocEntry) => e.id.startsWith(ARMAS_FOLDER) && e.subtype === 'Arma',
         ),
+        // display do MUNDO ativo, como o dropdown da linha de arma e o
+        // catálogo de tesouros (report 2026-09-10: o "+" listava nome de
+        // fantasia no POA)
       ).map((e) => ({
         ic: grupoArmaEmoji(typeof e.grupo === 'string' ? e.grupo : ''),
-        nm: e.basename ?? e.id,
+        nm: reskinName(e.basename ?? e.id),
         key: e.id,
       })),
     [catalog],

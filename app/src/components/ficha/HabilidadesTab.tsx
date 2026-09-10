@@ -10,7 +10,7 @@
 //   move (4+attr+item+especial, SEM PB), none (Combate); flags showProf/
 //   showDots/showStar por seção viram opacity dos cabeçalhos.
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
-import { reskinName } from '../../data/reskin'
+import { reskinName, reskinText } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -108,6 +108,7 @@ import {
   rowMod,
   shortSubclass,
   signed,
+  sintoniaDisplay,
   slotsInfo,
   str,
   wikiTarget,
@@ -639,17 +640,25 @@ export function ClasseNivelPanel({
             <span
               style={{ fontFamily: 'var(--mono)', fontSize: 9.5, letterSpacing: '.1em', color: 'var(--muted)' }}
             >
-              🌀 SINTONIA
+              {tokens.emojis.perfil.Sintonia} {reskinText('Sintonia').toUpperCase()}
             </span>
             {/* Caixa de sintonia → card do Traço Elemental no hover. */}
             <ItemHover doc={refs.refDoc(sintoniaFmValue)} fullBody style={{ display: 'block', width: '100%' }}>
               <SelectBox
-                ariaLabel="SINTONIA"
+                ariaLabel={reskinText('Sintonia').toUpperCase()}
                 value={sintoniaFmValue}
                 options={withCurrent(
-                  [{ value: '', label: '—' }, ...(rules?.sintonias ?? [])],
+                  [
+                    { value: '', label: '—' },
+                    // mesmo display do PerfilTab: no mundo, o Traço vira o
+                    // nome dele lá ("Água" → "Fator AB+")
+                    ...(rules?.sintonias ?? []).map((o) => ({
+                      ...o,
+                      label: o.value ? sintoniaDisplay(o.value) : o.label,
+                    })),
+                  ],
                   sintoniaFmValue,
-                  linkLabel(str(fm['Sintonia'])),
+                  sintoniaDisplay(fm['Sintonia']),
                 )}
                 onChange={setSintonia}
                 infoDocId={refs.refDoc(sintoniaFmValue)?.id}
