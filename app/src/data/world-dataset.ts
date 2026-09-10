@@ -30,6 +30,13 @@ export function setWorldDataset(world: WorldId, disponiveis: Iterable<string> | 
 }
 
 /** SÓ testes. */
+/** Este rel (`<id>.json`, asset…) é do dataset PRÓPRIO do mundo carregado?
+ *  (Sem dataset de mundo registrado → false: quem pergunta trata a fantasia,
+ *  que é a base, à parte.) */
+export function existeNoDatasetDoMundo(rel: string): boolean {
+  return !!rels && rels.has(chave(rel))
+}
+
 export function __resetWorldDatasetForTests(): void {
   mundoCarregado = null
   rels = null

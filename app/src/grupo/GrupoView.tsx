@@ -65,6 +65,7 @@ import { resolveGroupImageUrl } from './group-image'
 import { useMesaGroupImageUrl, useMesaGrupoPersistenteId } from './use-mesa-group-image'
 import { Lightbox } from '../components/Lightbox'
 import { PanelExploracao } from './PanelExploracao'
+import { mundoTemHexcrawl } from '../data/region-maps'
 import { PanelInventario } from './PanelInventario'
 import { PanelVida } from './PanelVida'
 import { PanelRiqueza } from './PanelRiqueza'
@@ -85,6 +86,13 @@ const GRUPO_TABS = [
   { id: 'pericias', label: 'PERÍCIAS' },
   { id: 'ataques', label: 'ATAQUES' },
 ]
+
+/** Abas do grupo NO MUNDO ATIVO: sem hexcrawl no mundo (POA 1987 é cidade,
+ *  não hexcrawl — pedido 2026-09-10), a EXPLORAÇÃO sai. Ela é a PRIMEIRA aba
+ *  e o primeiro painel, então tirar das duas listas mantém o pareamento. */
+export function abasDoGrupo(temHexcrawl: boolean): typeof GRUPO_TABS {
+  return temHexcrawl ? GRUPO_TABS : GRUPO_TABS.filter((t) => t.id !== 'exploracao')
+}
 
 /** #338: fila de abas com rolagem horizontal — a RODA do mouse rola de lado
  *  (desktop) e uma SETINHA aparece à direita/esquerda quando há abas fora da tela.
@@ -546,9 +554,13 @@ export function GrupoView({ groupId }: { groupId: string }) {
   const catalog = useCatalog()
   const assets = useAssetIndex()
   const { doc: groupDoc } = useDoc(groupId)
-  const [tab, setTab] = useState('exploracao')
+  const temHexcrawl = mundoTemHexcrawl()
+  const abas = abasDoGrupo(temHexcrawl)
+  const [tabEscolhida, setTab] = useState(abas[0]!.id)
+  // aba que não existe neste mundo (ex.: 'exploracao' no POA) cai na primeira
+  const tab = abas.some((t) => t.id === tabEscolhida) ? tabEscolhida : abas[0]!.id
   const [editMembers, setEditMembers] = useState(false)
-  const tabIdx = Math.max(0, GRUPO_TABS.findIndex((t) => t.id === tab))
+  const tabIdx = Math.max(0, abas.findIndex((t) => t.id === tab))
   const tip = useGrupoTip()
 
   // Integrantes reativos ao override local (issue #44); grupo local (issue #43)
@@ -945,7 +957,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
           toque, -webkit-overflow-scrolling) — igual às abas de ficha/inventário;
           antes era um overflow inline sem o touch scroll e não rolava de lado. */}
       <ScrollTabsRow style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--line)', marginTop: 2, minWidth: 0 }}>
-        {GRUPO_TABS.map((t) => {
+        {abas.map((t) => {
           const on = t.id === tab
           return (
             <button
@@ -977,14 +989,16 @@ export function GrupoView({ groupId }: { groupId: string }) {
 
       {/* TRACK deslizante (data-track data-track-auto do design) */}
       <PanelTrack index={tabIdx}>
-        <TrackPanel pad="0">
-          <PanelExploracao
-            key={exploId}
-            groupId={exploId}
-            readOnly={exploReadOnly}
-            gatingKey={gatingKey}
-          />
-        </TrackPanel>
+        {temHexcrawl ? (
+          <TrackPanel pad="0">
+            <PanelExploracao
+              key={exploId}
+              groupId={exploId}
+              readOnly={exploReadOnly}
+              gatingKey={gatingKey}
+            />
+          </TrackPanel>
+        ) : null}
         <TrackPanel pad="0">
           <PanelInventario groupId={groupId} />
         </TrackPanel>

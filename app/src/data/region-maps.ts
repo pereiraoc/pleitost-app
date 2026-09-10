@@ -14,6 +14,8 @@
 // precisar de outra calibração, esta entrada ganharia os parâmetros próprios.
 
 import type { VaultDoc } from './types'
+import { activeWorld } from './world'
+import { existeNoDatasetDoMundo } from './world-dataset'
 
 export interface RegionMap {
   /** Id do doc de Localização (raiz da região) no catálogo. */
@@ -45,6 +47,16 @@ const pastaDaRegiao = (regionId: string) => regionId.split('/').slice(0, -1).joi
  */
 export function dentroDeRegiaoComHexcrawl(doc: VaultDoc): boolean {
   return REGION_MAPS.some((m) => doc.id.startsWith(`${pastaDaRegiao(m.regionId)}/`))
+}
+
+/** O MUNDO ATIVO tem hexcrawl? (report 2026-09-10: a ficha de grupo da
+ *  sessão no POA 1987 abria na EXPLORAÇÃO do Mundo Livre.) Vem dos dados: a
+ *  região do registro precisa existir no dataset PRÓPRIO do mundo — o POA
+ *  herda o Sistema da fantasia, mas não traz o Atlas do Mundo Livre. A
+ *  fantasia é a base (o dataset dela é o próprio catálogo). */
+export function mundoTemHexcrawl(): boolean {
+  if (activeWorld() === 'fantasia') return REGION_MAPS.length > 0
+  return REGION_MAPS.some((m) => existeNoDatasetDoMundo(`${m.regionId}.json`))
 }
 
 const BY_REGION = new Map<string, RegionMap>(REGION_MAPS.map((m) => [m.regionId, m]))
