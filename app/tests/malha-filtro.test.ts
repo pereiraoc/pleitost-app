@@ -72,7 +72,9 @@ const CFG = {
   sinuosidade: 1,
   parada: 0,
   baldeacao: 5,
-  aPe: { fator: 4, velocidade: 4.5 },
+  // 2026-09-10: `fator` deixou de multiplicar o TEMPO do ônibus e passou a
+  // ser a folga de esquina/cansaço sobre o tempo de CAMINHADA.
+  aPe: { fator: 1.15, velocidade: 4.5 },
 }
 const P: Parametros = {
   cfg: CFG,
@@ -87,19 +89,23 @@ const P: Parametros = {
 const comOnibus = [linha('onibus', 'Ônibus', 2, ['A', 'B'])]
 
 describe('rotaAPe', () => {
-  it('usa o tempo da rota que existiria na malha inteira, vezes o fator', () => {
+  it('anda os QUILÔMETROS do caminho da malha, na velocidade de quem caminha', () => {
     const a = rotaAPe(comOnibus, 'A', 'B', P)!
     expect(a.aPe).toBe(true)
     expect(a.pernas).toEqual([])
-    // a rota de ônibus A→B leva alguns minutos; a pé leva 4× isso
-    expect(a.minutos).toBeGreaterThan(0)
-    const semFator = rotaAPe(comOnibus, 'A', 'B', { ...P, cfg: { ...CFG, aPe: { fator: 1, velocidade: 4.5 } } })!
-    expect(a.minutos).toBe(semFator.minutos * 4)
+    // A→B são 30 unidades × 100 m = 3 km; a 4,5 km/h × 1,15 = 46 min
+    expect(a.km).toBe(3)
+    expect(a.minutos).toBe(46)
+    // e o tempo NÃO depende de quão bom é o ônibus daquele trecho: a perna é
+    // a mesma (era um múltiplo do tempo da linha até 2026-09-10)
+    const onibusLento = [linha('onibus', 'Ônibus', 2, ['A', 'B'])]
+    const lento: Parametros = { ...P, cfg: { ...CFG, modos: [{ ...CFG.modos[0]!, velocidade: 5 }] } }
+    expect(rotaAPe(onibusLento, 'A', 'B', lento)!.minutos).toBe(a.minutos)
   })
-  it('sem rota nem na malha inteira, cai na distância direta e na velocidade a pé', () => {
+  it('sem rota nem na malha inteira, cai na distância direta', () => {
     const semLinha = rotaAPe([], 'A', 'Z', P)!
-    // 60 unidades × 100 m = 6 km a 4,5 km/h = 80 min
-    expect(semLinha.minutos).toBe(80)
+    // 60 unidades × 100 m = 6 km a 4,5 km/h × 1,15 = 92 min
+    expect(semLinha.minutos).toBe(92)
     expect(semLinha.km).toBe(6)
     expect(semLinha.aPe).toBe(true)
   })

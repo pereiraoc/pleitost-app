@@ -29,6 +29,8 @@ export interface Perna {
   espera: number
   /** Minutos de baldeação ANTES desta perna (0 na primeira). */
   baldeacao: number
+  /** Quilômetros percorridos nesta perna (parada a parada). */
+  km: number
 }
 /** Pedaço do caminho que o cartão do jogador NÃO abre: a linha existe e faria
  *  o trecho, mas ele não pode embarcar. Resolve-se a pé ou de táxi, e a tela
@@ -71,13 +73,20 @@ export interface Parametros {
   transito: number
 }
 
-/** Quilômetros em linha reta entre duas paradas pelo mapa da cidade (× sinuosidade). */
-export function distanciaKm(a: string, b: string, p: Parametros): number | null {
+/**
+ * Quilômetros entre duas paradas pelo mapa da cidade. Quem anda na RUA paga a
+ * sinuosidade (rua não é reta); quem não anda — o Aeromóvel, que corre em
+ * viaduto reto, e a balsa, que corre em água aberta — vai pela linha reta
+ * mesmo. Era global antes, e cobrava do trilho elevado o desvio das esquinas
+ * (report 2026-09-10: a L1 leva "doze minutos" na própria nota e o app dava
+ * 28). A pé também é rua: quem caminha dobra as mesmas quinas.
+ */
+export function distanciaKm(a: string, b: string, p: Parametros, naRua = true): number | null {
   const pa = p.posicoes.get(a)
   const pb = p.posicoes.get(b)
   if (!pa || !pb) return null
   const metros = Math.hypot(pa.lat - pb.lat, pa.long - pb.long) * p.metrosPorUnidade
-  return (metros / 1000) * (p.cfg.sinuosidade ?? 1)
+  return (metros / 1000) * (naRua ? (p.cfg.sinuosidade ?? 1) : 1)
 }
 
 function modoDe(cfg: TransporteCfg, l: LinhaMalha) {
@@ -108,7 +117,7 @@ export function tempoNaLinha(l: LinhaMalha, i: number, j: number, p: Parametros)
     let km = 0
     let ok = true
     for (let k = 0; k < idx.length - 1; k++) {
-      const d = distanciaKm(l.paradas[idx[k]!]!, l.paradas[idx[k + 1]!]!, p)
+      const d = distanciaKm(l.paradas[idx[k]!]!, l.paradas[idx[k + 1]!]!, p, !!modo.rua)
       if (d === null) {
         ok = false
         break
@@ -120,6 +129,11 @@ export function tempoNaLinha(l: LinhaMalha, i: number, j: number, p: Parametros)
     if (!melhor || minutos < melhor.minutos) melhor = { minutos, km, paradas: idx.map((k) => l.paradas[k]!) }
   }
   return melhor
+}
+
+/** Minutos pra vencer `km` a pé. */
+export function minutosAPe(km: number, aPe: NonNullable<TransporteCfg['aPe']>): number {
+  return (km / aPe.velocidade) * 60 * (aPe.fator ?? 1)
 }
 
 function espera(l: LinhaMalha, cfg: TransporteCfg): number {
@@ -141,12 +155,12 @@ export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: strin
   for (const l of usaveis) for (const s of l.paradas) porParada.set(s, [...(porParada.get(s) ?? []), l])
   const baldeacaoMin = p.cfg.baldeacao ?? 0
   const candidatas: Rota[] = []
-  type PernaKm = Perna & { km: number }
+  type PernaKm = Perna
   const fechar = (pernas: PernaKm[]) => {
     const minutos = pernas.reduce((a, x) => a + x.viagem + x.espera + x.baldeacao, 0)
     const km = pernas.reduce((a, x) => a + x.km, 0)
     const paradas = pernas.flatMap((x, i) => (i === 0 ? x.paradas : x.paradas.slice(1)))
-    candidatas.push({ pernas: pernas.map(({ km: _k, ...r }) => r), minutos: Math.round(minutos), km: Math.round(km * 10) / 10, linhas: pernas.map((x) => x.linha.id), paradas })
+    candidatas.push({ pernas: [...pernas], minutos: Math.round(minutos), km: Math.round(km * 10) / 10, linhas: pernas.map((x) => x.linha.id), paradas })
   }
   const perna = (l: LinhaMalha, de: string, ate: string, primeira: boolean): PernaKm | null => {
     const t = tempoNaLinha(l, indice(l, de), indice(l, ate), p)
@@ -208,10 +222,15 @@ export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: strin
 
 /** Trecho A PÉ (2026-09-09) — o que sobra quando o filtro do jogador não deixa
  *  caminho entre dois pontos. Em vez de traçar rota de pedestre (que exigiria
- *  uma malha de calçadas que a vault não tem), estima pelo que a cidade
- *  INTEIRA levaria: a rota mais rápida com todas as linhas × o `fator` do
- *  contexto. Sem rota nem assim (o ponto não é servido por nada), cai na
- *  distância direta do mapa e na `velocidade` de caminhada.
+ *  uma malha de calçadas que a vault não tem), usa o CAMINHO que a malha faz
+ *  entre os dois pontos (parada a parada, já com a sinuosidade da rua) e anda
+ *  esses quilômetros na `velocidade` de quem caminha, × `fator` (esquina,
+ *  sinaleira, cansaço). Sem rota nenhuma, cai na distância direta do mapa.
+ *
+ *  Era um MÚLTIPLO DO TEMPO da malha (2026-09-10): quem caminha andava mais
+ *  devagar quando o ônibus era ruim e mais rápido quando o Aeromóvel era bom,
+ *  o que não faz sentido — a perna é a mesma. Com o tempo da malha corrigido,
+ *  aquele fator 4 dava 13 km/h de caminhada.
  *
  *  `todas` = a malha sem filtro; passar as linhas já filtradas anula a graça. */
 export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p: Parametros): Rota | null {
@@ -220,7 +239,7 @@ export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p:
   const km = distanciaKm(origem, destino, p)
   if (km === null) return null
   const [melhor] = calcularRotas({} as Malha, todas, origem, destino, p, 1)
-  const minutos = melhor ? melhor.minutos * aPe.fator : (km / aPe.velocidade) * 60
+  const minutos = minutosAPe(melhor?.km ?? km, aPe)
   return {
     aPe: true,
     pernas: [],
@@ -267,9 +286,13 @@ export function calcularRotasComAcesso(
       }
       const de = perna.paradas[0]!
       const ate = perna.paradas[perna.paradas.length - 1]!
-      const aPe = Math.round(perna.viagem * aPeCfg.fator)
+      // a pé se mede em QUILÔMETRO (a perna é a mesma, o ônibus dela sendo bom
+      // ou ruim); o táxi, sim, é um fator sobre o tempo da linha — ele faz o
+      // mesmo caminho, só que sem parar e sem esperar.
+      const km = perna.km || (distanciaKm(de, ate, p) ?? 0)
+      const aPe = Math.round(minutosAPe(km, aPeCfg))
       const taxi = Math.round(perna.viagem * taxiCfg.fator)
-      trechos.push({ de, ate, bloqueada: perna.linha.id, nivel: perna.linha.nivel, aPe, taxi, km: Math.round((distanciaKm(de, ate, p) ?? 0) * 10) / 10 })
+      trechos.push({ de, ate, bloqueada: perna.linha.id, nivel: perna.linha.nivel, aPe, taxi, km: Math.round(km * 10) / 10 })
       minutos += Math.min(aPe, taxi)
     }
     out.push({ ...r, pernas, trechos, minutos: Math.round(minutos) })
