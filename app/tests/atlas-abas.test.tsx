@@ -149,6 +149,31 @@ describe.skipIf(!temDataset)('abas do Atlas num bairro', () => {
     expect(screen.queryByRole('tab', { name: 'Mapa' })).toBeNull()
   })
 
+  it('a aba padrão é a primeira ABERTA — nunca uma desabilitada pelo gate', async () => {
+    // um estabelecimento sem detalhes, sem filhos e sem mapa começaria a fila
+    // no Comércio, que fora da parada do grupo está gateado: se a padrão fosse
+    // "a primeira", a loja abriria sem passar pelo gate.
+    const semNada: VaultDoc = {
+      ...moinhos,
+      id: 'Atlas/Porto Alegre/Moinhos de Vento/Só Loja',
+      basename: 'Só Loja',
+      subtype: 'Ponto de Interesse',
+      frontmatter: { ...moinhos.frontmatter, Comércio: 'Pequena Cidade' },
+      locationBody: null,
+      images: [],
+    }
+    for (const campo of ['População', 'Descrição', 'Aparência_do_Local', 'Contexto', 'Organizações_Influentes', 'Acontecimento_Recente', 'Recursos']) {
+      delete (semNada.frontmatter as Record<string, unknown>)[campo]
+    }
+    const { container } = montar(semNada)
+    await waitFor(() => expect(screen.getAllByRole('tab').length).toBeGreaterThan(0))
+    const abertas = screen.getAllByRole('tab').filter((b) => !(b as HTMLButtonElement).disabled)
+    const ativa = screen.getAllByRole('tab').find((b) => b.getAttribute('aria-selected') === 'true')
+    if (abertas.length) expect((ativa as HTMLButtonElement | undefined)?.disabled).toBe(false)
+    // e a loja NÃO abriu sozinha (o gate da parada continua valendo)
+    expect(container.querySelector('[data-loja]')).toBeNull()
+  })
+
   it('a aba TRANSPORTE é da CIDADE que o contexto declara, não de qualquer lugar', () => {
     setActiveContexto(def)
     expect(def.transporte?.cidade).toBe('Porto Alegre')

@@ -1064,9 +1064,18 @@ export function LocationSheet({
       (t.id !== 'locais-interesse' || hasLocaisInteresse(doc)) &&
       (t.id !== 'hexploracao' || dentroDeRegiaoComHexcrawl(doc)),
   ).map((t) => {
-    if (t.id === 'servicos' && recursosCfg) return { ...t, label: recursosCfg.ofertas.aba }
-    if (t.id === 'dentro' && subtipoFilhos) return { ...t, label: pluralPt(reskinText(subtipoFilhos)) }
-    return t
+    // F7 (#347): Comércio/Serviços gateados pela PARADA ATUAL do grupo — só a
+    // posição libera a compra; mestre sempre pode. Informação do compêndio
+    // segue aberta (só a AÇÃO é gateada). O `habilitada` sai aqui porque a aba
+    // PADRÃO tem que ser a primeira ABERTA: com a fila começando numa
+    // desabilitada, o conteúdo dela apareceria sem passar pelo gate.
+    const habilitada =
+      (t.enabled ? t.enabled(doc) : true) &&
+      !((t.id === 'comercio' || t.id === 'servicos') && !podeComerciarAqui)
+    if (t.id === 'servicos' && recursosCfg) return { ...t, habilitada, label: recursosCfg.ofertas.aba }
+    if (t.id === 'dentro' && subtipoFilhos)
+      return { ...t, habilitada, label: pluralPt(reskinText(subtipoFilhos)) }
+    return { ...t, habilitada }
   })
   // Report 2026-08-29 (Porto Alegre): se a imagem-hero é a MESMA do bloco
   // leaflet, ela some — o MapaLocal logo abaixo já a mostra (com os pins);
@@ -1078,7 +1087,13 @@ export function LocationSheet({
       ? undefined
       : heroCandidate
 
-  const abaAtiva = (tab && tabs.some((t) => t.id === tab) ? tab : tabs[0]?.id) ?? 'detalhes'
+  // A padrão é a primeira aba ABERTA que este lugar tem (não uma fixa, e nunca
+  // uma desabilitada); sem aberta nenhuma, a primeira mesmo.
+  const abaAtiva =
+    (tab && tabs.some((t) => t.id === tab && t.habilitada) ? tab : undefined) ??
+    tabs.find((t) => t.habilitada)?.id ??
+    tabs[0]?.id ??
+    'detalhes'
 
   // roda do mouse rola a fila de abas de lado (pedido 2026-08-15)
   const locTabsRef = useRef<HTMLDivElement>(null)
@@ -1106,11 +1121,8 @@ export function LocationSheet({
           convenção :disabled existente (opacity .38, cursor default). */}
       <div ref={locTabsRef} role="tablist" className="tabs-scroll" style={{ display: 'flex', gap: 2, borderBottom: '1px solid var(--line)' }}>
         {tabs.map((t) => {
-          // F7 (#347): Comércio gateado pela PARADA ATUAL do grupo — só a
-          // posição libera a compra; mestre sempre pode. Informação do
-          // compêndio segue aberta (só a AÇÃO é gateada).
           const gateComercio = (t.id === 'comercio' || t.id === 'servicos') && !podeComerciarAqui
-          const enabled = (t.enabled ? t.enabled(doc) : true) && !gateComercio
+          const enabled = t.habilitada
           const on = t.id === abaAtiva
           return (
             <button
