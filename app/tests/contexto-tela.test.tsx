@@ -50,6 +50,23 @@ function montar() {
   )
 }
 
+// A seta do card é PSEUDO-ELEMENTO, e jsdom não carrega o app.css — o guarda
+// possível é sobre o texto da folha. Vale a pena: absoluta sem ancestral
+// posicionado, ela se ancora no documento e fica parada enquanto o conteúdo
+// rola dentro do `.app-main` (report 2026-09-10).
+describe('seta do card de contexto', () => {
+  const css = fs.readFileSync(path.join(appDir, 'src/styles/app.css'), 'utf8')
+
+  it('é item da fila do card, nunca absoluta', () => {
+    const regra = /\.ctx-card-head::before\s*\{([^}]*)\}/.exec(css)
+    expect(regra, 'a seta do card sumiu do app.css').not.toBeNull()
+    expect(regra![1]).not.toMatch(/position\s*:\s*(absolute|fixed)/)
+    expect(regra![1]).toMatch(/flex\s*:\s*none/)
+    // e a versão antiga (na coluna de texto, absoluta) não voltou
+    expect(css).not.toMatch(/\.ctx-card-texto::before/)
+  })
+})
+
 describe('semFiguras', () => {
   it('tira o embed de imagem solto e deixa o resto intacto', () => {
     const corpo = ['![[Degradação Ambiental.png]]', '', '#### Poluição', 'O ar carrega poeira.'].join('\n')
