@@ -6,7 +6,7 @@
 //
 // Nada de painel próprio: filtro, planejador, legenda e parada a parada vêm do
 // MalhaPainel — este arquivo só troca o mapa esquemático pelo real.
-import type { CSSProperties } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import { MalhaPainel, type ContextoMapaMalha } from './MalhaPainel'
 import { MapaLocal, type CamadaMapa, type Leaflet } from '../map/MapaLocal'
 import { DASH, type LinhaMalha } from './malha'
@@ -20,32 +20,35 @@ const ESCALA_ROTULO = 3
 const ESCALA_PARADA = 0.85
 
 export function TransporteNoMapa({ leaflet }: { leaflet: Leaflet }) {
+  return <MalhaPainel mapa={(ctx) => <MapaDaMalha leaflet={leaflet} ctx={ctx} />} />
+}
+
+function MapaDaMalha({ leaflet, ctx }: { leaflet: Leaflet; ctx: ContextoMapaMalha }) {
+  // Os dois conjuntos saem UMA vez por render: os predicados abaixo rodam por
+  // marcador, e recalcular a malha inteira 100 vezes por render era caro.
+  const paradas = useMemo(() => paradasDesenhadas(ctx), [ctx])
+  const foco = useMemo(() => emFoco(ctx), [ctx])
   return (
-    <MalhaPainel
-      mapa={(ctx) => (
-        <MapaLocal
-          leaflet={leaflet}
-          altura="min(82vh, 900px)"
-          // No mapa da malha os pinos são as PARADAS das linhas desenhadas (o
-          // gate da nota esconderia todas no afastado). Afastado, 68 ícones
-          // viram um borrão: só entram as paradas em foco, e o resto aparece
-          // ao aproximar — quem marca a posição de todas é o ponto do SVG.
-          marcadores={(m, { escalaTela }) =>
-            paradasDesenhadas(ctx).has(m.nome) &&
-            (emFoco(ctx).has(m.nome) || escalaTela >= ESCALA_PARADA)
-          }
-          // o nome da parada só é obrigatório em quem está na rota/linha
-          // escolhida; o resto ganha nome ao aproximar
-          nomearMarcador={(m) => emFoco(ctx).has(m.nome)}
-          // clicar numa parada marca DE e depois PARA, como no esquemático
-          onMarker={(nome) => {
-            if (!paradasDesenhadas(ctx).has(nome)) return false
-            ctx.onParada(nome)
-            return true
-          }}
-          overlay={(camada) => <LinhasNoMapa ctx={ctx} camada={camada} />}
-        />
-      )}
+    <MapaLocal
+      leaflet={leaflet}
+      altura="min(82vh, 900px)"
+      // No mapa da malha os pinos são as PARADAS das linhas desenhadas (o gate
+      // da nota esconderia todas no afastado). Afastado, 68 ícones viram um
+      // borrão: só entram as paradas em foco, e o resto aparece ao aproximar —
+      // quem marca a posição de todas é o ponto do SVG.
+      marcadores={(m, { escalaTela }) =>
+        paradas.has(m.nome) && (foco.has(m.nome) || escalaTela >= ESCALA_PARADA)
+      }
+      // o nome da parada só é obrigatório em quem está na rota/linha escolhida;
+      // o resto ganha nome ao aproximar
+      nomearMarcador={(m) => foco.has(m.nome)}
+      // clicar numa parada marca DE e depois PARA, como no esquemático
+      onMarker={(nome) => {
+        if (!paradas.has(nome)) return false
+        ctx.onParada(nome)
+        return true
+      }}
+      overlay={(camada) => <LinhasNoMapa ctx={ctx} camada={camada} />}
     />
   )
 }
