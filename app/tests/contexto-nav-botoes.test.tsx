@@ -116,7 +116,7 @@ describe('Contexto Histórico (Passado da POA) — linha do tempo', () => {
     })
     // uma bolinha (item) por nota da pasta
     const itens = container.querySelectorAll('.ctx-tl-item')
-    expect(itens.length).toBe(10)
+    expect(itens.length).toBe(12)
     expect(container.querySelector('.ctx-timeline')).toBeTruthy()
     // o CALLOUT-TEMPLATE das notas ("Contexto Histórico: …/📅Data/ℹ️Descrição")
     // não vaza — a data/título já são o frame da entrada
@@ -137,7 +137,7 @@ describe('Contexto Histórico (Passado da POA) — linha do tempo', () => {
       expect(screen.getByText(/Programa com grande adesão promete 10 anos/)).toBeTruthy()
     })
     // Descoberta de Selênica TEM prosa real no corpo — é ela que aparece
-    expect(screen.getByText(/Descoberta do ET morto na Lua/)).toBeTruthy()
+    expect(screen.getByText(/não volta só com pedra/)).toBeTruthy()
   })
 
   it('ícone do Contexto Histórico na navegação é SVG do registro, não emoji', async () => {

@@ -73,11 +73,11 @@ beforeEach(() => {
 afterEach(cleanup)
 
 describe('contagens dos cards excluem a folder-note (nota-índice)', () => {
-  it('Contexto Histórico da POA: 10 notas datadas, não 11 (índice fora)', () => {
+  it('Contexto Histórico da POA: 12 notas datadas, não 13 (índice fora)', () => {
     const node = catalogCyber.folderByPath.get('Contexto/Histórias/Contexto Histórico')!
     // sanidade: a pasta TEM a folder-note homônima entre os docs
     expect(node.docs.some((d) => d.basename === node.name)).toBe(true)
-    expect(visibleCount(node)).toBe(10)
+    expect(visibleCount(node)).toBe(12)
   })
 
   it('contagem = mesma régua da listagem achatada (subtreeDocs), em vários nós', () => {
@@ -128,7 +128,7 @@ describe('seções "Contexto Oculto" são só do mestre', () => {
   it('SEM modo mestre: o Contexto Oculto da Selênica não aparece na timeline', async () => {
     renderPassado()
     await waitFor(() => {
-      expect(screen.getByText(/Descoberta do ET morto na Lua/)).toBeTruthy()
+      expect(screen.getByText(/não volta só com pedra/)).toBeTruthy()
     })
     expect(screen.queryByText(/Contexto Oculto/)).toBeNull()
     expect(screen.queryByText(/simbionte consciente/)).toBeNull()
@@ -145,7 +145,7 @@ describe('seções "Contexto Oculto" são só do mestre', () => {
     __setGmBundleForTests(gm)
     renderPassado()
     await waitFor(() => {
-      expect(screen.getByText(/Descoberta do ET morto na Lua/)).toBeTruthy()
+      expect(screen.getByText(/não volta só com pedra/)).toBeTruthy()
     })
     expect(screen.getAllByText(/simbionte consciente/).length).toBeGreaterThan(0)
     __setGmBundleForTests(null)
