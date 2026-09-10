@@ -721,3 +721,25 @@ describe('excluir sessão pede confirmação', () => {
     await waitFor(() => expect(listSessions().map((s) => s.codigo)).not.toContain(codigo))
   })
 })
+
+// Report 2026-09-10: "deletei umas sessões e elas continuam aparecendo em
+// outros dispositivos". A exclusão só apagava a lista LOCAL; a mesa seguia no
+// servidor e o espelho da conta a trazia de volta em qualquer aparelho. O
+// mestre, ao excluir, ENCERRA a mesa no servidor.
+describe('excluir vale em todos os aparelhos', () => {
+  it('mestre exclui → a mesa sai do servidor (o espelho não tem o que trazer)', async () => {
+    const repo = new InMemorySessionRepo()
+    renderCliente(repo, { id: 'gm-x', nome: 'Mestre X' })
+    fireEvent.click(await screen.findByText('+ Criar'))
+    await screen.findByText('FICHA DO GRUPO ↗')
+    const codigo = listSessions()[0]!.codigo
+    expect((await repo.findSessionsByUser('gm-x')).map((s) => s.code)).toContain(codigo)
+    fireEvent.click(await screen.findByText(/DESCONECTAR/))
+    fireEvent.click(await screen.findByLabelText(`Excluir sessão ${listSessions()[0]!.nome}`))
+    fireEvent.click(await screen.findByLabelText(/Confirmar exclusão/))
+    await waitFor(async () =>
+      expect((await repo.findSessionsByUser('gm-x')).map((s) => s.code)).not.toContain(codigo),
+    )
+    expect(listSessions().map((s) => s.codigo)).not.toContain(codigo)
+  })
+})

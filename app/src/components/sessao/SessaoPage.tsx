@@ -25,6 +25,7 @@ import {
   createSession,
   deleteSession,
   joinSessionByCode,
+  espelharSessaoRemota,
   setActiveSessionCode,
   updateSession,
   useSessions,
@@ -185,8 +186,9 @@ export function LiveSessionBridge() {
       .then((remotas) => {
         if (!alive) return
         for (const r of remotas) {
-          const local = joinSessionByCode(r.code)
-          updateSession(local.codigo, { nome: r.name, remoteId: r.id })
+          // espelho: não ressuscita mesa apagada nem escolhe mundo por ela
+          const local = espelharSessaoRemota(r.code)
+          if (local) updateSession(local.codigo, { nome: r.name, remoteId: r.id })
         }
       })
       .catch(() => {
@@ -2395,6 +2397,9 @@ function AuthBox() {
 
 interface SessaoRoster {
   gm: string | null
+  /** Conta do mestre (criador) — decide se excluir ENCERRA a mesa no servidor
+   *  ou só tira quem exclui dela. */
+  gmUserId: string | null
   players: { userId: string; nome: string; herois: string[] }[]
 }
 
@@ -2430,7 +2435,7 @@ function useSessionRoster(remoteId: string | null): SessaoRoster | null {
         const players = members
           .filter((m) => m.userId !== gmMember?.userId)
           .map((m) => ({ userId: m.userId, nome: m.displayName, herois: herby.get(m.userId) ?? [] }))
-        setRoster({ gm: gmMember?.displayName ?? null, players })
+        setRoster({ gm: gmMember?.displayName ?? null, gmUserId: gmId ?? gmMember?.userId ?? null, players })
       })
       .catch(() => {
         /* servidor fora — cai no espelho local */
@@ -2469,6 +2474,22 @@ function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => 
   // no próprio lugar — ✔️ apaga, ✖️ desiste —, sem caixa de diálogo e sem
   // ocupar linha nova no card.
   const [armado, setArmado] = useState(false)
+  const repo = useSessionRepo()
+  const user = useSessionUser()
+  // Excluir tem que valer em TODO aparelho (report 2026-09-10: "deletei e
+  // continua aparecendo nos outros"). Só apagar a lista local não bastava: a
+  // mesa seguia no servidor e o espelho da conta a trazia de volta. O mestre
+  // ENCERRA a mesa no servidor; quem não é mestre SAI dela; mesa sem
+  // servidor só sai da lista.
+  const excluir = () => {
+    if (repo && s.remoteId && user) {
+      if (roster?.gmUserId ? roster.gmUserId === user.id : isSessionCreator(null, user, s))
+        void endSessionAsGm(repo, s.remoteId, s.codigo)
+      else void abandonSession(repo, s.remoteId, user.id, s.codigo)
+      return
+    }
+    deleteSession(s.codigo)
+  }
   const gm = roster?.gm ?? s.mestre
   const players = roster
     ? roster.players
@@ -2528,7 +2549,7 @@ function SessaoCard({ s, heroNome }: { s: SessionRec; heroNome: (id: string) => 
             <button
               aria-label={`Confirmar exclusão de ${s.nome}`}
               title="Apagar a mesa (não dá pra desfazer)"
-              onClick={() => deleteSession(s.codigo)}
+              onClick={excluir}
               style={botaoLixeira(true)}
             >
               ✔️

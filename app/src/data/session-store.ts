@@ -193,6 +193,34 @@ export function joinSessionByCode(codigo: string, opts?: { adotarMundo?: boolean
   return rec
 }
 
+/** ESPELHO do servidor (lista de sessões da conta no backend): traz pra
+ *  lista local as mesas que ela ainda não conhece — sem decidir mundo nem
+ *  desfazer exclusão. Report 2026-09-10: a EYMSMC, apagada neste aparelho,
+ *  voltava pelo espelho (ela segue existindo no servidor) e voltava no mundo
+ *  que estivesse aberto na hora. Agora:
+ *   - código com exclusão viva fica apagado (quem apaga é o dono da lista);
+ *   - mesa desconhecida entra SEM carimbo de mundo (legado = fantasia) — só
+ *     quem cria (ou entra digitando o código) sabe de que mundo ela é. */
+export function espelharSessaoRemota(codigo: string): SessionRec | null {
+  const existing = getSession(codigo)
+  if (existing) return existing
+  const cod = codigo.toUpperCase()
+  if (livingTombs().some((t) => t.codigo.toUpperCase() === cod)) return null
+  const rec: SessionRec = {
+    codigo: cod,
+    nome: `Sessão ${cod}`,
+    grupoId: null,
+    mestre: '',
+    criadaEm: new Date().toISOString(),
+    init: {},
+    round: 1,
+    vezIdx: 0,
+    claims: {},
+  }
+  persist([rec, ...load()])
+  return rec
+}
+
 export function deleteSession(codigo: string): void {
   const live = load().filter((s) => s.codigo !== codigo)
   // tombstone da deleção (substitui marcador antigo do mesmo código) — a

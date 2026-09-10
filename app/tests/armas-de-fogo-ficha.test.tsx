@@ -69,7 +69,10 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
   })
   afterEach(cleanup)
 
-  function heroiComPistola(int: number, opts?: { agi?: number; forca?: number; atributoFm?: string }) {
+  function heroiComPistola(
+    int: number,
+    opts?: { agi?: number; forca?: number; atributoFm?: string; acertoDecisivo?: boolean },
+  ) {
     const id = createLocalEntity('Heroi', `Pistoleiro INT ${int}`, emptyHeroFrontmatter())
     setLocalEntityFm(id, 'Atributos.INT', int)
     if (opts?.agi !== undefined) setLocalEntityFm(id, 'Atributos.AGI', opts.agi)
@@ -83,6 +86,9 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
         Fonte: 'Manual',
       },
     ])
+    if (opts?.acertoDecisivo) {
+      setLocalEntityFm(id, 'Interativa.Efeitos_Ativos', { 'Acerto Decisivo': { on: true } })
+    }
     render(
       <CatalogProvider catalog={catalog}>
         <MemoryRouter initialEntries={[heroPath(id, 'combate')]}>
@@ -112,5 +118,20 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
     const linha = screen.getByText(/⚔️ \d+d6/).closest('div')!.parentElement!
     expect(linha.textContent).toContain('+3')
     expect(linha.textContent).not.toContain('+4')
+  }, 30000)
+  it('Acerto Decisivo liga o Fatal sozinho: o d6 sobe pra d8 e o botão acende', async () => {
+    heroiComPistola(1, { acertoDecisivo: true })
+    // dano da pistola é d6+3; com o passo do Fatal o dado vira d8
+    await waitFor(() => expect(screen.getByText(/⚔️ \d+d8/)).toBeTruthy(), { timeout: 20000 })
+    // o botão do toggle diz o estado no title: ligado = "Desativar …", ícone 💀
+    const botao = await screen.findByTitle('Desativar Fatal (alvo Ferido)', undefined, { timeout: 20000 })
+    expect(botao.textContent).toContain('💀')
+  }, 30000)
+
+  it('sem Acerto Decisivo o dado fica d6 e o botão do Fatal apagado', async () => {
+    heroiComPistola(1)
+    await waitFor(() => expect(screen.getByText(/⚔️ \d+d6/)).toBeTruthy(), { timeout: 20000 })
+    const botao = await screen.findByTitle(/^Ativar Fatal \(alvo Ferido\)/, undefined, { timeout: 20000 })
+    expect(botao.textContent).toContain('🚫')
   }, 30000)
 })

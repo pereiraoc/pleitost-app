@@ -88,10 +88,16 @@ describe.skipIf(!temDataset)('as notas da vault', () => {
 
   it('Fatal é um Estado com botão que soma PassoDeDado (motor que já existe)', () => {
     const fatal = ler('Sistema/Regras/Propriedades/Fatal').frontmatter as Record<string, unknown>
-    const efeito = (fatal['Efeitos_Interativos'] as Record<string, unknown>[])[0]!
-    expect(efeito.tipo).toBe('Estado')
-    expect(JSON.stringify(efeito.visual)).toContain('iconeLigado')
-    expect(JSON.stringify(efeito.modificadores)).toContain('PassoDeDado')
+    const [efeito, passivo] = fatal['Efeitos_Interativos'] as Record<string, unknown>[]
+    // o botão leva o nome da faixa de vida que a mesa vê no terço (Ferido)
+    expect(efeito!.label).toBe('Fatal (alvo Ferido)')
+    expect(efeito!.tipo).toBe('Estado')
+    expect(JSON.stringify(efeito!.visual)).toContain('iconeLigado')
+    expect(JSON.stringify(efeito!.modificadores)).toContain('PassoDeDado')
+    // e o Acerto Decisivo dá o mesmo passo sozinho (passivo com requer)
+    expect(passivo!.tipo).toBe('Passivo')
+    expect(JSON.stringify(passivo!.links)).toContain('Acerto Decisivo')
+    expect(JSON.stringify(passivo!.modificadores)).toContain('PassoDeDado')
   })
 })
 

@@ -1755,6 +1755,24 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
     return propToggleDescs.filter((d) => set.has(sourceNoteBase(d.sourceNote)))
   }
   const armaLinkOf = (b: string) => `[[${b}]]`
+  // O toggle de uma propriedade também aparece LIGADO quando um efeito
+  // PASSIVO da MESMA nota já está valendo — é o caso do Fatal no Acerto
+  // Decisivo (a nota declara `links.requer`). Nada de nome no código: só
+  // passivo cujos modificadores dependem de estados, todos ligados.
+  const togglePorLabel = new Map(propToggleDescs.map((d) => [d.label, d]))
+  const passivoDaNotaEmVigor = (label: string): boolean => {
+    const d = togglePorLabel.get(label)
+    if (!d) return false
+    return inter.descriptors.some((p) => {
+      if (p.tipo !== 'Passivo' || p.sourceNote !== d.sourceNote || !p.modifiers.length) return false
+      return p.modifiers.every((m) => {
+        const estados = m.guards.filter((g) => g.kind === 'Estado')
+        // o `requer` vira guard com o rótulo em wikilink ("[[Acerto
+        // Decisivo]]"); o estado é guardado pelo rótulo cru
+        return estados.length > 0 && estados.every((g) => chipOn(wikiTarget(g.value)))
+      })
+    })
+  }
   const armaPropOn = (label: string, armaLink: string) => {
     const st = interState.condicoes[label]
     return (
@@ -2147,7 +2165,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
             <ArmaPropToggles
               toggles={togglesForArma(props)}
               armaBasename={basename}
-              isOn={(label) => armaPropOn(label, armaLinkOf(basename))}
+              isOn={(label) => armaPropOn(label, armaLinkOf(basename)) || passivoDaNotaEmVigor(label)}
               onToggle={(d) => toggleArmaProp(d, basename)}
               curSel={(d) => {
                 const st = interState.condicoes[d.label]

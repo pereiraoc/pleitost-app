@@ -5,6 +5,8 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import {
   createSession,
+  deleteSession,
+  espelharSessaoRemota,
   joinSessionByCode,
   listSessions,
   getActiveSessionCode,
@@ -122,5 +124,32 @@ describe('adotar o mundo ao entrar pelo código', () => {
     joinSessionByCode('KEEP99', { adotarMundo: true })
     setContext('cyberpunk')
     expect(joinSessionByCode('KEEP99').world).toBe('fantasia')
+  })
+})
+
+// Report 2026-09-10 ("tu migrou uma sessão teste que era fantasia pra
+// cyberpunk — a EYMSMC"): ela tinha sido APAGADA no aparelho; o espelho das
+// sessões da conta a encontrou no servidor e a trouxe de volta, carimbada com
+// o mundo aberto na hora. O espelho agora não ressuscita nem escolhe mundo.
+describe('espelho das sessões do servidor', () => {
+  it('mesa apagada neste aparelho continua apagada', () => {
+    setContext('fantasia')
+    createSession('Teste', null, 'Mestre')
+    const codigo = listSessions()[0]!.codigo
+    deleteSession(codigo)
+    setContext('cyberpunk')
+    expect(espelharSessaoRemota(codigo)).toBeNull()
+    expect(listSessions().map((s) => s.codigo)).not.toContain(codigo)
+    setContext('fantasia')
+    expect(listSessions().map((s) => s.codigo)).not.toContain(codigo)
+  })
+
+  it('mesa desconhecida entra sem mundo (legado = fantasia), mesmo com o POA aberto', () => {
+    setContext('cyberpunk')
+    const rec = espelharSessaoRemota('NOVA01')!
+    expect(rec.world).toBeUndefined()
+    expect(listSessions().map((s) => s.codigo)).not.toContain('NOVA01')
+    setContext('fantasia')
+    expect(listSessions().map((s) => s.codigo)).toContain('NOVA01')
   })
 })
