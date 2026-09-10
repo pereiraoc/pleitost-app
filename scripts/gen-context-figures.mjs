@@ -595,7 +595,9 @@ function promptFigura(sub, orig, novo) {
       `${cabecalho} NÃO há imagem de referência: componha do zero, na MESMA linguagem de pintura digital das outras cartas de item do sistema.` +
       ` Item: "${novo}" — ${SEM_REF_HINT.get(orig)}` +
       ` Esta é a ÚNICA exceção ao Decreto das Armas Frias: arma de fogo de verdade, ilegal, rara e velha — nada de futurismo, nada de arma militar moderna.` +
-      ` Peça brasileira de 1987 com marcas honestas de uso: aço azulado gasto, madeira encardida, lascas, oxidação leve.${descItem(orig)}${obtencao}${RODAPE_T}`
+      // sem descItem: a nota da arma é só a tabela de stats + dataview, e o
+      // conceito acima já diz o que a peça é
+      ` Peça brasileira de 1987 com marcas honestas de uso: aço azulado gasto, madeira encardida, lascas, oxidação leve.${obtencao}${RODAPE_T}`
     )
   }
 
