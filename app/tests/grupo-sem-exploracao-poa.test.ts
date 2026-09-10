@@ -11,7 +11,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { mundoTemHexcrawl } from '../src/data/region-maps'
 import { setWorldDataset, __resetWorldDatasetForTests } from '../src/data/world-dataset'
-import { abasDoGrupo } from '../src/grupo/GrupoView'
+import { abasDoGrupo } from '../src/grupo/abas-do-grupo'
 import { useTheme, __resetThemeForTests } from '../src/theme'
 import type { IndexManifest } from '../src/data/types'
 

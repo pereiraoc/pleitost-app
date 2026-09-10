@@ -65,6 +65,7 @@ import { resolveGroupImageUrl } from './group-image'
 import { useMesaGroupImageUrl, useMesaGrupoPersistenteId } from './use-mesa-group-image'
 import { Lightbox } from '../components/Lightbox'
 import { PanelExploracao } from './PanelExploracao'
+import { abasDoGrupo } from './abas-do-grupo'
 import { mundoTemHexcrawl } from '../data/region-maps'
 import { PanelInventario } from './PanelInventario'
 import { PanelVida } from './PanelVida'
@@ -72,27 +73,6 @@ import { PanelRiqueza } from './PanelRiqueza'
 import { PanelDestaques } from './PanelDestaques'
 import { PanelAtaques } from './PanelAtaques'
 
-// Verbatim do script do design (GRUPO_TABS / GRUPO.balHeads / roleCols).
-// EXPLORAÇÃO (issue #36) é extensão sancionada: nova PRIMEIRA aba, sem
-// design dedicado — as demais mantêm a ordem do design.
-const GRUPO_TABS = [
-  { id: 'exploracao', label: 'EXPLORAÇÃO' },
-  // #333: INVENTÁRIO logo depois de EXPLORAÇÃO. As abas mapeiam 1:1 (por índice)
-  // com os TrackPanel abaixo — inserir aqui exige o painel na MESMA posição.
-  { id: 'inventario', label: 'INVENTÁRIO' },
-  { id: 'papeis', label: 'PAPÉIS' },
-  { id: 'competencias', label: 'COMPETÊNCIAS' },
-  { id: 'riqueza', label: 'RIQUEZA' },
-  { id: 'pericias', label: 'PERÍCIAS' },
-  { id: 'ataques', label: 'ATAQUES' },
-]
-
-/** Abas do grupo NO MUNDO ATIVO: sem hexcrawl no mundo (POA 1987 é cidade,
- *  não hexcrawl — pedido 2026-09-10), a EXPLORAÇÃO sai. Ela é a PRIMEIRA aba
- *  e o primeiro painel, então tirar das duas listas mantém o pareamento. */
-export function abasDoGrupo(temHexcrawl: boolean): typeof GRUPO_TABS {
-  return temHexcrawl ? GRUPO_TABS : GRUPO_TABS.filter((t) => t.id !== 'exploracao')
-}
 
 /** #338: fila de abas com rolagem horizontal — a RODA do mouse rola de lado
  *  (desktop) e uma SETINHA aparece à direita/esquerda quando há abas fora da tela.
