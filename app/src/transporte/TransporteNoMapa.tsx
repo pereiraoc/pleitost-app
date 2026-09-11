@@ -11,7 +11,7 @@ import { MalhaPainel, type ContextoMapaMalha } from './MalhaPainel'
 import { MapaLocal, type CamadaMapa, type Leaflet } from '../map/MapaLocal'
 import { DASH, type LinhaMalha } from './malha'
 import type { PosicaoReal } from './rotas'
-import { tracarLinhasNoMapa } from './tracado-mapa'
+import { encaixarNaGrade, esquemaNoMapa } from './esquema-no-mapa'
 
 /** Da escala em que os rótulos e pontos param de contra-escalar (o mapa real
  *  ganha detalhe ao aproximar; a linha, não deve engrossar). */
@@ -19,6 +19,8 @@ const ESCALA_ROTULO = 3
 /** Escala de tela a partir da qual o ícone de cada parada entra (o mesmo
  *  limiar do nome do pino no MapaLocal). */
 const ESCALA_PARADA = 0.85
+/** Lado do quadrinho da grade do esquema, em unidades do mapa (~365 m). */
+const CELULA = 8
 
 export function TransporteNoMapa({ leaflet }: { leaflet: Leaflet }) {
   return <MalhaPainel mapa={(ctx) => <MapaDaMalha leaflet={leaflet} ctx={ctx} />} />
@@ -88,19 +90,36 @@ function linhasNoMapa(ctx: ContextoMapaMalha): LinhaMalha[] {
  *  proporção do bounds. */
 function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaMapa }) {
   const { latMax, longMax, escala } = camada
-  const ponto = (nome: string): { x: number; y: number } | null => {
+  const real = (nome: string): { x: number; y: number } | null => {
     const p: PosicaoReal | undefined = ctx.posicoes.get(nome)
     return p ? { x: p.long, y: latMax - p.lat } : null
   }
   const linhas = linhasNoMapa(ctx)
-  // Traçado de METRÔ sobre o mapa (report 2026-09-10: "não tudo reto, mais
-  // como na aba Transporte, pra ver as baldeações"): cotovelo octilinear por
-  // trecho, linhas que dividem trecho correndo paralelas, cantos redondos
-  // (tracado-mapa.ts). Folga e raio em unidades do mapa — encolhem com o zoom
-  // como as larguras de traço.
   const zoom = Math.min(escala, ESCALA_ROTULO)
-  const tracados = tracarLinhasNoMapa(linhas, ponto, { folga: 7 / zoom, raio: 22 / zoom })
-  const traço = (l: LinhaMalha): { d: string } => ({ d: tracados.get(l.id)?.d ?? '' })
+  // A malha do jeito dos mapas de metrô sobre o mapa real (report 2026-09-10,
+  // Paris de referência): cada estação no nó mais perto de uma grade fina
+  // (esquema-no-mapa.ts) e cada trecho pelas arestas dela — quem passa pelos
+  // mesmos quadrinhos corre em FEIXE, como no esquemático da aba Transporte.
+  // O encaixe olha TODAS as linhas: a estação não troca de lugar quando o
+  // filtro muda. Folga e largura encolhem com o zoom; a grade, não.
+  const nos = useMemo(() => {
+    const reais = new Map<string, { x: number; y: number }>()
+    for (const l of ctx.malha.linhas) {
+      if (l.fechada) continue
+      for (const n of l.paradas) {
+        const p = ctx.posicoes.get(n)
+        if (p) reais.set(n, { x: p.long, y: latMax - p.lat })
+      }
+    }
+    const nLinhas = (n: string) => ctx.malha.linhas.filter((l) => !l.fechada && l.paradas.includes(n)).length
+    return encaixarNaGrade(reais, nLinhas, CELULA)
+  }, [ctx.malha, ctx.posicoes, latMax])
+  const esquema = useMemo(
+    () => esquemaNoMapa(ctx.malha, linhas, nos, { celula: CELULA, folga: 7 / zoom, raio: CELULA * 0.9 }),
+    [ctx.malha, linhas, nos, zoom],
+  )
+  const ponto = (nome: string): { x: number; y: number } | null => esquema.estacoes.get(nome) ?? real(nome)
+  const traço = (l: LinhaMalha): { d: string } => ({ d: esquema.tracos.get(l.id) ?? '' })
   // Paradas em destaque ganham anel; A/B marcam as pontas do trajeto.
   const emDestaque = new Set(ctx.destaque?.paradas ?? [])
   const daSelecionada = new Set(
@@ -164,6 +183,29 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
           </path>
         )
       })}
+      {/* aproximado, o pino do mapa (posição real) aparece: um fio liga a
+          estação do desenho a ele — a grade move a estação poucos metros */}
+      {escala >= ESCALA_PARADA * 2
+        ? [...paradasDesenhadas(ctx)].map((nome) => {
+            const p = ponto(nome)
+            const q = real(nome)
+            if (!p || !q || Math.hypot(p.x - q.x, p.y - q.y) < 1) return null
+            return (
+              <line
+                key={`f:${nome}`}
+                data-fio={nome}
+                x1={p.x}
+                y1={p.y}
+                x2={q.x}
+                y2={q.y}
+                stroke="#3a3a3a"
+                strokeWidth={0.8 / zoom}
+                strokeDasharray={`${2 / zoom} ${2 / zoom}`}
+                opacity={0.7}
+              />
+            )
+          })
+        : null}
       {[...paradasDesenhadas(ctx)]
         .filter((nome) => !emDestaque.has(nome) && !daSelecionada.has(nome))
         .map((nome) => {
