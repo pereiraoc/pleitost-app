@@ -233,7 +233,7 @@ export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: strin
  *  aquele fator 4 dava 13 km/h de caminhada.
  *
  *  `todas` = a malha sem filtro; passar as linhas já filtradas anula a graça. */
-export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p: Parametros): Rota | null {
+export function rotaAPe(_todas: LinhaMalha[], origem: string, destino: string, p: Parametros): Rota | null {
   const aPe = p.cfg.aPe
   if (!aPe || !origem || !destino || origem === destino) return null
   // Pela RUA, direto (distância × sinuosidade) — não pelo quilômetro da
