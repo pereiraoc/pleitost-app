@@ -12,7 +12,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { montarMalha, type LinhaMalha, type Malha } from '../src/transporte/malha'
-import { minutosAPe, tempoNaLinha, type Parametros } from '../src/transporte/rotas'
+import { distanciaKm, minutosAPe, rotaAPe, tempoNaLinha, type Parametros } from '../src/transporte/rotas'
 import { parseRecurso } from '../src/recursos/parse-recurso'
 import type { ContextoDef } from '../src/data/context-def'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
@@ -128,6 +128,16 @@ describe.skipIf(!temDataset)('tempo de viagem na malha da POA', () => {
     expect(minutosAPe(9, cfg.aPe!)).toBeCloseTo(138, 0)
     // e não depende de quão bom é o transporte daquele trecho
     expect(minutosAPe(1, cfg.aPe!)).toBeCloseTo(minutosAPe(9, cfg.aPe!) / 9, 5)
+  })
+
+  // report 2026-09-10: o tempo a pé do lado de cada opção media o QUILÔMETRO
+  // DO ÔNIBUS — que dá a volta pelo terminal. Zaffari → Jardim Botânico dava
+  // 6h13; a pé se vai pela rua, direto: ~12,7 km, pouco mais de três horas.
+  it('a pé vai pela rua, direto — não pelo desvio do terminal', () => {
+    const r = rotaAPe(malha.linhas, 'Estação Zaffari', 'Estação Jardim Botânico', p)!
+    const km = distanciaKm('Estação Zaffari', 'Estação Jardim Botânico', p)!
+    expect(r.minutos).toBe(Math.round(minutosAPe(km, cfg.aPe!)))
+    expect(r.minutos).toBeLessThan(240)
   })
 
   it('o Aeromóvel não paga a sinuosidade da rua (viaduto é reto)', () => {

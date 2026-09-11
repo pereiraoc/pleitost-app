@@ -243,3 +243,26 @@ describe('groupItems — contagem por grupo + ordem crescente', () => {
     expect(idx).toEqual(sorted)
   })
 })
+
+// report 2026-09-10: "o nome que aparece das armas de fogo na parte de
+// filtros de compêndio e todos os lugares quando está em POA 1987 é Armas de
+// Fogo, não Armas Arcanônicas". O rótulo do grupo passa pelo reskin do mundo.
+describe('rótulo do grupo das armas de fogo por mundo', () => {
+  const cyb = path.join(path.dirname(appDir), 'vault-data-cyberpunk', 'contexto.json')
+  it.skipIf(!fs.existsSync(cyb))('POA diz Armas de Fogo; a fantasia segue Armas Arcanônicas', async () => {
+    const { setActiveContexto } = await import('../src/data/reskin')
+    const { rotuloGrupoArma, GRUPO_ARMA_ORDER } = await import('../src/components/ficha/registry')
+    const pistola = byName('Pistola Arcanônica')
+    const grupo = GRUPO_ARMA_ORDER.find((g) => g.key === 'd-arcanonico')!
+    try {
+      setActiveContexto(null)
+      expect(itemFacet(pistola).grupoLabel).toBe('Armas Arcanônicas')
+      expect(rotuloGrupoArma(grupo)).toBe('Armas Arcanônicas')
+      setActiveContexto(JSON.parse(fs.readFileSync(cyb, 'utf8')))
+      expect(itemFacet(pistola).grupoLabel).toBe('Armas de Fogo')
+      expect(rotuloGrupoArma(grupo)).toBe('Armas de Fogo')
+    } finally {
+      setActiveContexto(null)
+    }
+  })
+})

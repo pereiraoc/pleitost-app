@@ -236,15 +236,16 @@ export function calcularRotas(_malha: Malha, linhas: LinhaMalha[], origem: strin
 export function rotaAPe(todas: LinhaMalha[], origem: string, destino: string, p: Parametros): Rota | null {
   const aPe = p.cfg.aPe
   if (!aPe || !origem || !destino || origem === destino) return null
+  // Pela RUA, direto (distância × sinuosidade) — não pelo quilômetro da
+  // melhor rota de linha, que dá a volta pelo terminal (report 2026-09-10:
+  // Zaffari → Jardim Botânico dava 6h13; a pé são ~3h).
   const km = distanciaKm(origem, destino, p)
   if (km === null) return null
-  const [melhor] = calcularRotas({} as Malha, todas, origem, destino, p, 1)
-  const minutos = minutosAPe(melhor?.km ?? km, aPe)
   return {
     aPe: true,
     pernas: [],
-    minutos: Math.round(minutos),
-    km: Math.round((melhor?.km ?? km) * 10) / 10,
+    minutos: Math.round(minutosAPe(km, aPe)),
+    km: Math.round(km * 10) / 10,
     linhas: [],
     paradas: [origem, destino],
   }
