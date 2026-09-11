@@ -205,6 +205,15 @@ describe('planejador de trajeto', () => {
     expect(primeira.querySelectorAll('[data-passo="baldeacao"]').length).toBe(1)
     expect(primeira.textContent).toContain('desce em Estação Central')
     expect(primeira.textContent).toContain('espera')
+    // report 2026-09-10: do lado de CADA opção, quanto seria a pé (a régua do
+    // mestre pra decidir se o grupo pega o ônibus ou encara a rua)
+    for (const li of Array.from(rotas)) {
+      const aPe = li.querySelector('[data-a-pe-minutos]')
+      expect(aPe, 'toda opção mostra o tempo a pé').not.toBeNull()
+      expect(aPe!.textContent).toMatch(/a pé/)
+      const deOnibus = Number(li.querySelector('[data-minutos]')!.getAttribute('data-minutos'))
+      expect(Number(aPe!.getAttribute('data-a-pe-minutos'))).toBeGreaterThan(deOnibus)
+    }
     // as rotas vêm em ordem de tempo
     const tempos = Array.from(document.querySelectorAll('[data-rotas] [data-minutos]')).map((e) => Number(e.getAttribute('data-minutos')))
     expect([...tempos].sort((a, b) => a - b)).toEqual(tempos)

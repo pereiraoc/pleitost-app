@@ -73,7 +73,7 @@ describe('hero duplicado do mapa (Porto Alegre)', () => {
     expect(screen.getByRole('tab', { name: 'Mapa' }).getAttribute('aria-selected')).toBe('true')
     // e não aparece em outra aba (o Comércio da cidade fica gateado pela
     // parada do grupo, então a troca é pra lista de bairros)
-    fireEvent.click(screen.getByRole('tab', { name: 'Bairros' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Pontos de Interesse' }))
     expect(container.querySelectorAll('img[src*="Porto%20Alegre%20RPG"]').length).toBe(0)
     fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     await waitFor(() => {

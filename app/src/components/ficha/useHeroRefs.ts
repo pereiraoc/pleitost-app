@@ -29,6 +29,18 @@ function collectTargets(hero: VaultDoc | undefined, fmEffective?: Record<string,
       pushTarget(out, arma['Propriedade'])
     }
   }
+  // Golpes/armas naturais que entram por REGRA em Ataques.Lista (Arte Marcial
+  // do Monge, Companheiro Animal…): a linha de ataque resolve dano/tipo/
+  // propriedades pela nota — sem carregar, o golpe aparecia sem dano (report
+  // 2026-09-10). "Manobras" é a linha padrão, não tem nota.
+  const ataques = fmPath(fm, 'Ataques', 'Lista')
+  if (Array.isArray(ataques)) {
+    for (const a of ataques as Record<string, unknown>[]) {
+      if (str(a['Nome']) === 'Manobras') continue
+      pushTarget(out, a['Nome'])
+      pushTarget(out, a['Propriedade'])
+    }
+  }
   // Perfil: classe inicial + sintonia (docs reais pro card no hover do Perfil).
   pushTarget(out, fm['Classe'])
   pushTarget(out, fm['Sintonia'])

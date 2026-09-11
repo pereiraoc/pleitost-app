@@ -12,7 +12,7 @@
 // TROCAR de classe dispara resetOnClasseChange (reset.ts — classChangeResets
 // central + equipamento; preserva a Sintonia por decisão da nova ordem).
 import { useMemo } from 'react'
-import { reskinName } from '../../../data/reskin'
+import { reskinName, reskinText } from '../../../data/reskin'
 import { useCatalog } from '../../../data/CatalogContext'
 import { useDetail } from '../../../data/detail-context'
 import { useDocs } from '../../../data/useDoc'
@@ -69,7 +69,7 @@ function EstrelasPossibilidade({
 }) {
   const entries = (Object.entries(roles) as [RoleName, number][]).sort((a, b) => b[1] - a[1])
   if (!entries.length) return null
-  const tooltip = `${nome}: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
+  const tooltip = `${reskinName(nome)}: ${entries.map(([r, v]) => `${r} ${'★'.repeat(v)}`).join(' · ')}`
   return (
     <span
       title={tooltip}
@@ -291,7 +291,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
       >
         {grupos.map(([sub, itens]) => (
           <div key={sub} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span style={{ ...wizTitulo, fontSize: 10, marginTop: 4 }}>{sub.toUpperCase()}</span>
+            <span style={{ ...wizTitulo, fontSize: 10, marginTop: 4 }}>{reskinText(sub).toUpperCase()}</span>
             {itens.map((o) => {
               const on = wikiTarget(o.value) === classeAtual
               const doc = o.id ? classDocs?.get(o.id) : undefined
@@ -359,7 +359,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                     ? escolhasAll.map((c) => (
                         <div key={c.choiceKey} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>
-                            {c.parent.toUpperCase()}
+                            {reskinName(c.parent).toUpperCase()}
                           </span>
                           {c.options.map((opt) => {
                             const optOn = wikiTarget(opt.value) === wikiTarget(c.pick ?? '')
@@ -405,7 +405,7 @@ export function PassoClasse({ ctx }: { ctx: WizardCtx }) {
                   {on && !escolhasAll.length && somaSintonia.size > 0 && !rules?.sintoniaRuleLocked
                     ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                          <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>SINTONIA</span>
+                          <span style={{ ...wizTitulo, fontSize: 9.5, marginLeft: 26 }}>{reskinText('Sintonia').toUpperCase()}</span>
                           {(rules?.sintonias ?? []).map((opt) => {
                             const optOn =
                               wikiTarget(opt.value) === wikiTarget(str(fm['Sintonia']))

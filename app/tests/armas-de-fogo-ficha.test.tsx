@@ -119,10 +119,10 @@ describe.skipIf(!temDataset)('Pistola Arcanônica na ficha', () => {
     expect(linha.textContent).toContain('+3')
     expect(linha.textContent).not.toContain('+4')
   }, 30000)
-  it('Acerto Decisivo liga o Fatal sozinho: o d6 sobe pra d8 e o botão acende', async () => {
+  it('Acerto Decisivo liga o Fatal sozinho: o d6 sobe pra d10 e o botão acende', async () => {
     heroiComPistola(1, { acertoDecisivo: true })
-    // dano da pistola é d6+3; com o passo do Fatal o dado vira d8
-    await waitFor(() => expect(screen.getByText(/⚔️ \d+d8/)).toBeTruthy(), { timeout: 20000 })
+    // dano da pistola é d6+3; o Fatal sobe DOIS passos: d6 → d8 → d10
+    await waitFor(() => expect(screen.getByText(/⚔️ \d+d10/)).toBeTruthy(), { timeout: 20000 })
     // o botão do toggle diz o estado no title: ligado = "Desativar …", ícone 💀
     const botao = await screen.findByTitle('Desativar Fatal (alvo Ferido)', undefined, { timeout: 20000 })
     expect(botao.textContent).toContain('💀')

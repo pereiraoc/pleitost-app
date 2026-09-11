@@ -27,6 +27,7 @@ import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter }
 import { num, profLetter, resistenciaRow, str, type ProfRow } from './hero-model'
 import { stripSharedFrom } from '../../interativa/apply'
 import type { BonusInfo } from '../../interativa/invocacao'
+import { reskinText } from '../../data/reskin'
 
 // ─────────────────────── tipos (espelho de util/breakdown-types.ts) ───────────────────────
 
@@ -87,7 +88,10 @@ function escapeHtml(s: string): string {
 /** Espelho VERBATIM de renderBreakdownHtml (breakdown-tooltip.ts:94-167). */
 export function renderBreakdownHtml(result: BreakdownResult): string {
   const headerEmoji = escapeHtml(result.headerEmoji)
-  const headerTitle = escapeHtml(result.title)
+  // nomes do MUNDO ATIVO (POA: Magia Anima → Lênica…) — o renderer é o ponto
+  // único de todo tooltip de breakdown (acerto, dano, defesa, ataque mágico);
+  // o reskin é sobre o TEXTO, antes do escape.
+  const headerTitle = escapeHtml(reskinText(result.title))
   const headerSigned = result.headerSigned ?? false
   const emojiSpan = headerEmoji ? `<span class="dv-tooltip-emoji">${headerEmoji}</span>` : ''
   if (result.headerOnly) {
@@ -116,11 +120,11 @@ export function renderBreakdownHtml(result: BreakdownResult): string {
   const bodyMode = result.bodyMode ?? 'text'
   const body = result.parts
     .map((p) => {
-      const label = p.labelHtml ? p.label : escapeHtml(p.label)
+      const label = p.labelHtml ? p.label : escapeHtml(reskinText(p.label))
       const valueDisplay = p.unsigned ? String(p.value) : signed(p.value)
       const value = escapeHtml(valueDisplay)
       if (bodyMode === 'mod-span') {
-        const extra = p.extra ? ` ${escapeHtml(p.extra)}` : ''
+        const extra = p.extra ? ` ${escapeHtml(reskinText(p.extra))}` : ''
         return `<div class="dv-breakdown-line">${label} <span class="dv-tooltip-mod">${value}</span>${extra}</div>`
       }
       const tone = toneClass(p)
@@ -131,9 +135,9 @@ export function renderBreakdownHtml(result: BreakdownResult): string {
         return `<div class="${cls}">${emojiPrefix}${label}</div>`
       }
       if (p.value === 0 && p.extra) {
-        return `<div class="${cls}">${emojiPrefix}${label} (${escapeHtml(p.extra)})</div>`
+        return `<div class="${cls}">${emojiPrefix}${label} (${escapeHtml(reskinText(p.extra))})</div>`
       }
-      const trailing = p.extra ? ` ${escapeHtml(p.extra)}` : ''
+      const trailing = p.extra ? ` ${escapeHtml(reskinText(p.extra))}` : ''
       return `<div class="${cls}">${emojiPrefix}${label} (${value})${trailing}</div>`
     })
     .join('')

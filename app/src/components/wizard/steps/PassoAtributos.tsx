@@ -24,6 +24,7 @@ import { fmPath, num, str } from '../../ficha/hero-model'
 import { clip } from '../../ficha/bits'
 import { WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
+import { reskinText } from '../../../data/reskin'
 
 function valores(fm: Record<string, unknown>): Record<AtributoId, number> {
   const at = (fm['Atributos'] ?? {}) as Record<string, unknown>
@@ -162,7 +163,7 @@ export function PassoAtributos({ ctx }: { ctx: WizardCtx }) {
                 </span>
                 {info?.legenda ? (
                   <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 5, lineHeight: 1.45 }}>
-                    {info.legenda}
+                    {reskinText(info.legenda)}
                   </span>
                 ) : null}
               </button>

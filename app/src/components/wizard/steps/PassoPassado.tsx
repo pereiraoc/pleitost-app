@@ -151,10 +151,10 @@ export function PassoPassado({ ctx }: { ctx: WizardCtx }) {
       >
         <label style={{ display: 'flex', flexDirection: 'column', gap: 5, width: '100%' }}>
           <span style={{ ...wizTitulo, fontSize: 10 }}>
-            {tokens.emojis.biografia.Naturalidade} NATURALIDADE
+            {tokens.emojis.biografia.Naturalidade} {reskinText('Naturalidade').toUpperCase()}
           </span>
           <select
-            aria-label="Naturalidade"
+            aria-label={reskinText('Naturalidade')}
             value={outroMode || natIsOutro ? NATURALIDADE_OUTRO : natRaw.trim()}
             onChange={(e) => onNaturalidade(e.target.value)}
             style={{

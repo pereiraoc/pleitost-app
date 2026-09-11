@@ -19,7 +19,8 @@ import { useSessionRepo, useSessionUser } from '../data/session-repo/provider'
 import { useSettings } from '../settings'
 import { getLocalDoc, setLocalEntityFm } from '../data/local-entities'
 import { heroAtributos } from '../components/ficha/hero-model'
-import { GRUPO_ARMA_ORDER, grupoArmaEmoji, ITEM_TIER_BTN } from '../components/ficha/registry'
+import { GRUPO_ARMA_ORDER, grupoArmaEmoji,
+  rotuloGrupoArma, ITEM_TIER_BTN } from '../components/ficha/registry'
 import { ItemHover, docImageUrl, docTier, ITEM_CARD_CSS } from '../components/item-card'
 import { TipProvider } from '../components/ficha/tooltips'
 import { tesouroImageUrl } from '../data/equipment-image'
@@ -528,7 +529,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
               <select aria-label="Arma" value={armaSel} onChange={(e) => { setArmaSel(e.target.value); setPropSel('') }} style={selStyle}>
                 <option value="">— arma —</option>
                 {armaGroups.map((g) => (
-                  <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
+                  <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${rotuloGrupoArma(g)}`}>
                     {g.entries.map((a) => (<option key={a.id} value={a.id}>{a.nome}</option>))}
                   </optgroup>
                 ))}

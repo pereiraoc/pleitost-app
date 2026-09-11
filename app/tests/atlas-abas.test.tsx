@@ -70,21 +70,35 @@ function montar(doc: VaultDoc) {
 const abas = () => screen.getAllByRole('tab').map((b) => b.textContent)
 
 describe.skipIf(!temDataset)('abas do Atlas em Porto Alegre', () => {
-  it('a aba dos lugares-filhos se chama pelo SUBTIPO deles no plural e lista os bairros', async () => {
+  // report 2026-09-10: na cidade a aba vira PONTOS DE INTERESSE e mostra a
+  // hierarquia inteira — cada bairro e, logo abaixo dele, os lugares que ficam
+  // nele. O rótulo segue a régua do subtipo predominante, agora sobre TUDO que
+  // a lista mostra (15 bairros, centenas de pontos de interesse).
+  it('a aba dos lugares vira PONTOS DE INTERESSE e lista bairro → lugares dentro dele', async () => {
     const { container } = montar(poa)
     // o rótulo só existe depois que as Localizações carregam (o subtipo é delas)
-    await waitFor(() => expect(screen.getByRole('tab', { name: 'Bairros' })).toBeTruthy())
+    await waitFor(() => expect(screen.getByRole('tab', { name: 'Pontos de Interesse' })).toBeTruthy())
     // report 2026-09-10: na cidade o MAPA é a página. Os Detalhes dela são o
     // template vazio da vault e somem; Locais de Interesse e Hexploração
     // também (não há callout, e a POA não faz hexcrawl).
-    expect(abas()).toEqual(['Mapa', 'Transporte', 'Bairros', 'Comércio', 'Serviços'])
-    fireEvent.click(screen.getByRole('tab', { name: 'Bairros' }))
-    const filhos = Array.from(container.querySelectorAll('[data-atlas-child]')).map(
-      (a) => a.getAttribute('data-atlas-child')?.split('/').pop(),
-    )
-    expect(filhos).toContain('Moinhos de Vento')
-    expect(filhos).toContain('Restinga')
-    expect(filhos.length).toBeGreaterThan(10)
+    expect(abas()).toEqual(['Mapa', 'Transporte', 'Pontos de Interesse', 'Comércio', 'Serviços'])
+    fireEvent.click(screen.getByRole('tab', { name: 'Pontos de Interesse' }))
+    const itens = Array.from(container.querySelectorAll('[data-atlas-child]')).map((a) => ({
+      nome: a.getAttribute('data-atlas-child')?.split('/').pop(),
+      nivel: a.getAttribute('data-atlas-nivel'),
+    }))
+    const bairros = itens.filter((x) => x.nivel === '0').map((x) => x.nome)
+    expect(bairros).toContain('Moinhos de Vento')
+    expect(bairros).toContain('Restinga')
+    expect(bairros.length).toBeGreaterThan(10)
+    // o Mercado Público aparece LOGO ABAIXO do Centro Histórico, um nível pra dentro
+    const iCentro = itens.findIndex((x) => x.nome === 'Centro Histórico' && x.nivel === '0')
+    const iMercado = itens.findIndex((x) => x.nome === 'Mercado Público')
+    const iProximoBairro = itens.findIndex((x, k) => k > iCentro && x.nivel === '0')
+    expect(iCentro).toBeGreaterThanOrEqual(0)
+    expect(itens[iMercado]?.nivel).toBe('1')
+    expect(iMercado).toBeGreaterThan(iCentro)
+    expect(iMercado).toBeLessThan(iProximoBairro)
     // e não está mais no fim de outra aba
     fireEvent.click(screen.getByRole('tab', { name: 'Mapa' }))
     expect(container.querySelectorAll('[data-atlas-child]').length).toBe(0)

@@ -177,8 +177,8 @@ function PlanChip({
       }}
     >
       {icone ? <span style={{ marginRight: 5 }}>{icone}</span> : null}
-      {linkLabelDisplay(wl) || wl}
-      {sufixo ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 5 })}>{sufixo}</span> : null}
+      {reskinName(linkLabelDisplay(wl) || wl)}
+      {sufixo ? <span style={mono({ fontSize: 8.5, color: 'var(--muted)', marginLeft: 5 })}>{reskinText(sufixo)}</span> : null}
     </span>
   )
   return doc ? (
@@ -1506,7 +1506,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           return (
             <div key={c.choiceKey}>
               <span style={kicker}>
-                {(c.label || 'SELEÇÃO').toUpperCase()} · {c.sourceNote}
+                {(c.label ? reskinName(c.label) : 'SELEÇÃO').toUpperCase()} · {reskinName(c.sourceNote)}
                 {desbloqueada ? '' : ' · PLANO'}
               </span>
               <SelectBox
@@ -1637,7 +1637,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
       const pendentesSel = lista.filter((c) => !valorDe(c))
       out.push({
         pid: `${card.nivel}|sel|${grupo}`,
-        label: `${grupo.toUpperCase()} (${lista.length})`,
+        label: `${reskinText(grupo).toUpperCase()} (${lista.length})`,
         icon: emojiDoAlvo(lista[0]?.targetRaw),
         done: pendentesSel.length === 0,
         onOpen: () => abrePopup(card.nivel, 'selecoes', grupo),
@@ -1767,7 +1767,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', padding: '2px 4px' }}>
             {card.escalares.map((e) => (
               <span key={e.label} style={mono({ fontSize: 10, color: 'var(--muted)' })}>
-                {e.label} {e.de} → <span style={{ color: 'var(--text)', fontWeight: 700 }}>{e.para}</span>
+                {reskinText(e.label)} {e.de} → <span style={{ color: 'var(--text)', fontWeight: 700 }}>{e.para}</span>
                 {e.fonte && /^Regra\.\[\[/.test(e.fonte)
                   ? ` · ${linkLabelDisplay(e.fonte.replace(/^Regra\./, ''))}`
                   : ''}
@@ -1966,7 +1966,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   .filter((x) => x.magias.length)
                 linha(
                   `sel|${grupo}`,
-                  grupo.toUpperCase(),
+                  reskinText(grupo).toUpperCase(),
                   picks.map((s) => (
                     <PlanChip
                       key={`s|${s.choiceKey}`}
@@ -2020,7 +2020,7 @@ export function PlanejamentoPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs
                   ? `${TIPO_EMOJI.tecnica} TÉCNICAS`
                   : popup.tipo === 'espec'
                     ? `${TIPO_EMOJI.especialidade} ESPEC/MAESTRIAS`
-                    : `${TIPO_EMOJI.selecao} ${(popup.grupo ?? 'Seleções').toUpperCase()}`
+                    : `${TIPO_EMOJI.selecao} ${reskinText(popup.grupo ?? 'Seleções').toUpperCase()}`
           } — NÍVEL ${popup.nivel}`}
           onClose={() => setPopup(null)}
         >

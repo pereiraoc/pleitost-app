@@ -534,11 +534,29 @@ describe('push MERGE-AWARE: o flush não regride a conta (#448/#449)', () => {
     expect(server.hexes).toHaveLength(2) // manteve a versão nova
   })
 
-  it('escalares (heroEdits) seguem sobrescrita simples — sem leitura extra', async () => {
+  it('escalares (ajustes) seguem sobrescrita simples — sem leitura extra', async () => {
     const srv = await comSbUserId()
-    srv.rows.set('u1', { 'pleitost.heroEdits.X': 'antigo' })
-    await __putUserPatchForTests({ 'pleitost.heroEdits.X': 'novo' })
-    expect(srv.rows.get('u1')!['pleitost.heroEdits.X']).toBe('novo')
+    srv.rows.set('u1', { 'pleitost.settings.X': 'antigo' })
+    await __putUserPatchForTests({ 'pleitost.settings.X': 'novo' })
+    expect(srv.rows.get('u1')!['pleitost.settings.X']).toBe('novo')
+  })
+
+  // report 2026-09-10: a edição de ficha virou newer-wins (carimbo do
+  // hero-store). O flush de um device com a ficha VELHA não pode regredir a
+  // versão mais nova que o outro device já gravou na conta.
+  it('edição de ficha: flush de device com versão velha NÃO regride a conta', async () => {
+    const srv = await comSbUserId()
+    const KEY = 'pleitost.heroEdits.Sistema/Criaturas/Bestiário/Goblin Batedor'
+    const novo = JSON.stringify({ fm: { Nivel: 4 }, updatedAt: '2026-09-10T00:00:00.000Z' })
+    srv.rows.set('u1', { [KEY]: novo })
+    await __putUserPatchForTests({
+      [KEY]: JSON.stringify({ fm: { Nivel: 1 }, updatedAt: '2026-09-01T00:00:00.000Z' }),
+    })
+    expect(srv.rows.get('u1')![KEY]).toBe(novo)
+    // e a edição NOVA de verdade sobe normalmente
+    const maisNovo = JSON.stringify({ fm: { Nivel: 5 }, updatedAt: '2026-09-11T00:00:00.000Z' })
+    await __putUserPatchForTests({ [KEY]: maisNovo })
+    expect(srv.rows.get('u1')![KEY]).toBe(maisNovo)
   })
 
   // REGRESSÃO CRÍTICA (perda de dados observada em produção): device com a

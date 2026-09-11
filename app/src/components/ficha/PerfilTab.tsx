@@ -571,7 +571,7 @@ function IdentidadePanel({ doc }: { doc: VaultDoc }) {
           <div style={{ flex: 1, minWidth: 240, display: 'flex', flexDirection: 'column', gap: 7 }}>
             <span style={{ ...mono10, letterSpacing: '.14em' }}>🖼️ {reskinText('Naturalidade').toUpperCase()}</span>
             <BoxSelect
-              ariaLabel="Naturalidade"
+              ariaLabel={reskinText('Naturalidade')}
               display={
                 <div
                   style={{

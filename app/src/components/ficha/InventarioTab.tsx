@@ -41,6 +41,7 @@ import {
   GRUPO_ARMA_ORDER,
   ITEM_TIER_BTN,
   grupoArmaEmoji,
+  rotuloGrupoArma,
   imbuicaoEmoji,
   orderArmasByGrupo,
   tokens,
@@ -251,7 +252,7 @@ function SellBtn({ refund, onClick, compact }: { refund: number; onClick: () => 
 function SeloObraPrima({ url, size }: { url: string; size: number }) {
   return (
     <span
-      aria-label="Obra-prima"
+      aria-label={reskinName('Obra-prima')}
       style={{
         position: 'absolute',
         right: 4,
@@ -638,7 +639,7 @@ function ArmasPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                             <option value={armaId}>{reskinName(arma.nome)}</option>
                           ) : null}
                           {armaGroups.map((g) => (
-                            <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${g.label}`}>
+                            <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${rotuloGrupoArma(g)}`}>
                               {g.entries.map((e) => (
                                 <option key={e.id} value={e.id}>
                                   {reskinName(e.basename ?? e.id)}
@@ -890,7 +891,7 @@ function GearCard({
           >
             {(bases.includes(base) ? bases : [base, ...bases]).map((o) => (
               <option key={o} value={o}>
-                {o}
+                {reskinName(o)}
               </option>
             ))}
           </select>

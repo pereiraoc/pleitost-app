@@ -7,6 +7,7 @@ import { useDetail } from '../../data/detail-context'
 import type { Catalog } from '../../data/catalog'
 import { wikiTarget } from '../ficha/hero-model'
 import { clip } from '../ficha/bits'
+import { reskinText } from '../../data/reskin'
 
 /** Doc do catálogo por wikilink/target ("[[Bardo|X]]" → id do doc) — o
  *  resolvedor único dos cards do wizard (detalheId). */
@@ -40,7 +41,7 @@ export function WizSecao({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 22 }}>
       <span style={wizTitulo}>
-        {`// ${titulo.toUpperCase()}`}
+        {`// ${reskinText(titulo).toUpperCase()}`}
         {pendente ? (
           <span aria-label="obrigatório" title="Obrigatório" style={{ color: '#f87171', marginLeft: 4 }}>
             *
@@ -124,7 +125,7 @@ export function ProfChip({ ic, nome, onClick }: { ic: string; nome: string; onCl
       }}
     >
       <span style={{ fontSize: 12 }}>{ic}</span>
-      {nome.toUpperCase()}
+      {reskinText(nome).toUpperCase()}
     </Tag>
   )
 }

@@ -11,6 +11,7 @@ import { MalhaPainel, type ContextoMapaMalha } from './MalhaPainel'
 import { MapaLocal, type CamadaMapa, type Leaflet } from '../map/MapaLocal'
 import { DASH, type LinhaMalha } from './malha'
 import type { PosicaoReal } from './rotas'
+import { tracarLinhasNoMapa } from './tracado-mapa'
 
 /** Da escala em que os rótulos e pontos param de contra-escalar (o mapa real
  *  ganha detalhe ao aproximar; a linha, não deve engrossar). */
@@ -92,14 +93,14 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
     return p ? { x: p.long, y: latMax - p.lat } : null
   }
   const linhas = linhasNoMapa(ctx)
-  const traço = (l: LinhaMalha): { d: string; pontos: { x: number; y: number }[] } => {
-    const seq = l.circular && l.paradas.length > 2 ? [...l.paradas, l.paradas[0]!] : l.paradas
-    const pontos = seq.map(ponto).filter((p): p is { x: number; y: number } => !!p)
-    return {
-      d: pontos.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' '),
-      pontos,
-    }
-  }
+  // Traçado de METRÔ sobre o mapa (report 2026-09-10: "não tudo reto, mais
+  // como na aba Transporte, pra ver as baldeações"): cotovelo octilinear por
+  // trecho, linhas que dividem trecho correndo paralelas, cantos redondos
+  // (tracado-mapa.ts). Folga e raio em unidades do mapa — encolhem com o zoom
+  // como as larguras de traço.
+  const zoom = Math.min(escala, ESCALA_ROTULO)
+  const tracados = tracarLinhasNoMapa(linhas, ponto, { folga: 7 / zoom, raio: 22 / zoom })
+  const traço = (l: LinhaMalha): { d: string } => ({ d: tracados.get(l.id)?.d ?? '' })
   // Paradas em destaque ganham anel; A/B marcam as pontas do trajeto.
   const emDestaque = new Set(ctx.destaque?.paradas ?? [])
   const daSelecionada = new Set(

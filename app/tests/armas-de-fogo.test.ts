@@ -74,14 +74,15 @@ describe.skipIf(!temDataset)('as notas da vault', () => {
   const ler = (id: string) => JSON.parse(fs.readFileSync(path.join(raiz, 'vault-data', `${id}.json`), 'utf8')) as VaultDoc
 
   it('pistola e bacamarte estão no grupo novo, com as três propriedades', () => {
-    for (const [id, dano, maos] of [[PISTOLA, 'd6+3', 1], [BACAMARTE, 'd8+4', 2]] as const) {
+    // a de duas mãos exige mais cabeça: Inteligência 2 (report 2026-09-10)
+    for (const [id, dano, maos, int] of [[PISTOLA, 'd6+3', 1, 1], [BACAMARTE, 'd8+4', 2, 2]] as const) {
       const fm = ler(id).frontmatter as Record<string, unknown>
       expect(fm.grupo).toBe('d-arcanonico')
       expect(fm.dano).toBe(dano)
       expect(fm['mãos']).toBe(maos)
       const props = (fm.propriedades as string[]).join(' ')
       expect(props).toContain('Recarga')
-      expect(props).toContain('Inteligência 1')
+      expect(props).toContain(`Inteligência ${int}`)
       expect(props).toContain('Fatal')
     }
   })
@@ -98,6 +99,11 @@ describe.skipIf(!temDataset)('as notas da vault', () => {
     expect(passivo!.tipo).toBe('Passivo')
     expect(JSON.stringify(passivo!.links)).toContain('Acerto Decisivo')
     expect(JSON.stringify(passivo!.modificadores)).toContain('PassoDeDado')
+    // Fatal sobe DOIS passos (report 2026-09-10), nos dois caminhos
+    for (const e of [efeito!, passivo!]) {
+      const [mod] = e.modificadores as Record<string, unknown>[]
+      expect(mod!.valor).toBe(2)
+    }
   })
 })
 

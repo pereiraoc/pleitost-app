@@ -61,6 +61,10 @@ const UPDATED_AT_PREFIXES = [
   // retrato sincronizado (images.ts, 2026-08-21): trocar a foto num device
   // precisa VENCER a antiga nos outros — escalar fill-only nunca atualizaria.
   'pleitost.entityImage.',
+  // edição de ficha (hero-store.persist carimba updatedAt): editar a criatura
+  // do bestiário num device e abrir no outro mostrava a versão velha — o
+  // device que já tinha a chave nunca adotava a da conta (report 2026-09-10).
+  'pleitost.heroEdits.',
 ]
 /** Chaves ÚNICAS (não-prefixo) versionadas por updatedAt: o mapa do mundo
  *  (regiões/habilitação por grupo). Mesma política newer-wins. */

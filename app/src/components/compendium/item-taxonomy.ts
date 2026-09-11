@@ -24,6 +24,7 @@ import { docTier } from '../item-card'
 import type { Tier } from '../../data/commerce'
 import { TIER_COLUNA } from '../../data/commerce'
 import { grupoArmaEmoji } from '../ficha/registry'
+import { reskinName } from '../../data/reskin'
 
 // ─────────────────────────── categorias (path-based) ───────────────────────────
 
@@ -279,7 +280,8 @@ export function itemFacet(doc: VaultDoc): ItemFacet {
   if (categoria === 'arma') {
     // 6.1 — grupo do FM; naturais ganham subgrupo pelo tipo (raiz do basename).
     grupo = fmStr(doc, 'grupo').toLowerCase()
-    grupoLabel = ARMA_GRUPO_LABEL[grupo] ?? grupo
+    // rótulo do MUNDO ATIVO (POA: Armas Arcanônicas → Armas de Fogo)
+    grupoLabel = reskinName(ARMA_GRUPO_LABEL[grupo] ?? grupo)
     grupoEmoji = armaGrupoEmoji(grupo)
     if (grupo === 'natural') {
       subgrupo = armaNaturalTipo(doc)

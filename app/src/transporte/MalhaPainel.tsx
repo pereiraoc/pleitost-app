@@ -290,13 +290,15 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
     const todas = dados.malha.linhas.filter((l) => !l.fechada)
     return calcularRotasComAcesso(visiveis, todas, origem, destino, p)
   }, [dados, cfg, podePlanejar, origem, destino, visiveis, periodos, periodoIdx])
-  // Sem caminho NO FILTRO, o trecho se faz a pé — estimado pelo que a malha
-  // inteira levaria (ver rotaAPe). Só entra quando não há rota nenhuma.
+  // A PÉ — estimado pelo que a malha inteira levaria (ver rotaAPe). Aparece do
+  // lado de CADA opção (report 2026-09-10: a régua do mestre pra decidir se o
+  // grupo pega a linha ou encara a rua — consequências em Andar a Pé, no
+  // Contexto Atual) e vira o trajeto quando o filtro não tem rota nenhuma.
   const aPe = useMemo(() => {
-    if (!dados || !cfg || !podePlanejar || !origem || !destino || rotas.length) return null
+    if (!dados || !cfg || !podePlanejar || !origem || !destino) return null
     const todas = dados.malha.linhas.filter((l) => !l.fechada)
     return rotaAPe(todas, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
-  }, [dados, cfg, podePlanejar, origem, destino, rotas, periodos, periodoIdx])
+  }, [dados, cfg, podePlanejar, origem, destino, periodos, periodoIdx])
   const rota = rotas[Math.min(rotaSel, Math.max(0, rotas.length - 1))] ?? aPe
   const destaque: Destaque | null = origem || destino ? { linhas: rota?.linhas ?? [], paradas: rota?.paradas ?? [origem, destino].filter((x): x is string => !!x), origem, destino } : null
 
@@ -519,6 +521,11 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
                           <b style={{ fontSize: 15 }} data-minutos={r.minutos}>{formatarMinutos(r.minutos)}</b>
                           <span style={MONO}>{baldeacoes === 0 ? 'direto' : baldeacoes === 1 ? '1 baldeação' : `${baldeacoes} baldeações`}</span>
                           <span style={MONO}>{`${r.km.toLocaleString('pt-BR')} km`}</span>
+                          {aPe ? (
+                            <span style={{ ...MONO, marginLeft: 'auto' }} data-a-pe-minutos={aPe.minutos} title="Quanto levaria o mesmo trajeto a pé">
+                              {`🚶 a pé ${formatarMinutos(aPe.minutos)}`}
+                            </span>
+                          ) : null}
                         </div>
                         <Itinerario rota={r} origem={origem} destino={destino} />
                         {r.trechos?.length ? (

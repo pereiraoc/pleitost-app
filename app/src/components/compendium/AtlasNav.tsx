@@ -10,7 +10,7 @@ import type { VaultDoc } from '../../data/types'
 import { useCatalog } from '../../data/CatalogContext'
 import { useDocs } from '../../data/useDoc'
 import { docPath } from '../../paths'
-import { LOCALIZACAO_TYPE, ancestorChain, buildAtlasIndex, type AtlasNode } from '../../data/atlas-nav'
+import { LOCALIZACAO_TYPE, ancestorChain, arvoreDeLugares, buildAtlasIndex, type AtlasNode } from '../../data/atlas-nav'
 
 export interface AtlasRelations {
   /** Ancestrais (caminho ATÉ o lugar atual, sem incluí-lo). */
@@ -20,6 +20,9 @@ export interface AtlasRelations {
   nameOf: (id: string) => string
   /** Subtipo (Nação/Região/…) do lugar — pro rótulo "Nome — Tipo". */
   subtypeOf: (id: string) => string
+  /** Filhos de QUALQUER lugar (ordenados por nome) — a hierarquia inteira
+   *  abaixo do atual, pra lista de lugares em árvore. */
+  filhosDe: (id: string) => string[]
 }
 
 /** Relações do Atlas pro lugar atual — breadcrumb (subir) + filhos (descer).
@@ -35,11 +38,11 @@ export function useAtlasRelations(doc: VaultDoc): AtlasRelations {
 
   return useMemo(() => {
     const subOf = (id: string) => (typeof docs?.get(id)?.subtype === 'string' ? docs.get(id)!.subtype! : '')
-    if (!docs) return { crumbs: [], children: [], nameOf, subtypeOf: subOf }
+    if (!docs) return { crumbs: [], children: [], nameOf, subtypeOf: subOf, filhosDe: () => [] }
     const { parentOf, childrenOf } = buildAtlasIndex(docs.values(), catalog)
     const chain = ancestorChain(doc.id, parentOf, nameOf)
-    const children = (childrenOf.get(doc.id) ?? []).slice().sort((a, b) => nameOf(a).localeCompare(nameOf(b)))
-    return { crumbs: chain.slice(0, -1), children, nameOf, subtypeOf: subOf }
+    const filhosDe = (id: string) => (childrenOf.get(id) ?? []).slice().sort((a, b) => nameOf(a).localeCompare(nameOf(b)))
+    return { crumbs: chain.slice(0, -1), children: filhosDe(doc.id), nameOf, subtypeOf: subOf, filhosDe }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docs, catalog, doc.id])
 }
@@ -76,48 +79,56 @@ export function AtlasBreadcrumb({ crumbs }: { crumbs: AtlasNode[] }) {
   )
 }
 
-/** "Lugares dentro de X" — a lista dos lugares-filhos, na aba DETALHES (descer
- *  na hierarquia). Fica separada do breadcrumb pra não confundir onde-estou com
+/** "Lugares dentro de X" — a lista dos lugares abaixo deste, em ÁRVORE: cada
+ *  filho e, logo abaixo dele (indentado), os lugares que ficam nele (report
+ *  2026-09-10: em Porto Alegre, cada bairro com os pontos de interesse dele).
+ *  Fica separada do breadcrumb pra não confundir onde-estou com
  *  o-que-tem-dentro. Nada a mostrar → não renderiza. */
 export function AtlasChildren({
   doc,
   children,
   nameOf,
   subtypeOf,
+  filhosDe,
 }: {
   doc: VaultDoc
   children: string[]
   nameOf: (id: string) => string
   subtypeOf: (id: string) => string
+  filhosDe?: (id: string) => string[]
 }) {
-  if (children.length === 0) return null
+  const itens = useMemo(() => arvoreDeLugares(children, filhosDe), [children, filhosDe])
+  if (itens.length === 0) return null
   return (
     <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' }}>
-        {`// LUGARES DENTRO DE ${doc.basename.toUpperCase()} · ${children.length}`}
+        {`// LUGARES DENTRO DE ${doc.basename.toUpperCase()} · ${itens.length}`}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {children.map((id) => {
+        {itens.map(({ id, nivel }) => {
           const tipo = subtypeOf(id)
           return (
             <Link
               key={id}
               to={docPath(id)}
               data-atlas-child={id}
+              data-atlas-nivel={nivel}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 9,
-                padding: '9px 12px',
-                background: 'var(--panel)',
+                marginLeft: nivel * 22,
+                padding: nivel ? '6px 12px' : '9px 12px',
+                background: nivel ? 'transparent' : 'var(--panel)',
                 border: '1px solid var(--line2)',
+                borderLeft: nivel ? '2px solid var(--line2)' : '1px solid var(--line2)',
                 color: 'var(--text)',
                 textDecoration: 'none',
-                clipPath: 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))',
+                clipPath: nivel ? undefined : 'polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px))',
               }}
             >
-              <span style={{ color: 'var(--accent)', fontSize: 13 }}>📍</span>
-              <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600 }}>{nameOf(id)}</span>
+              <span style={{ color: nivel ? 'var(--muted)' : 'var(--accent)', fontSize: nivel ? 11 : 13 }}>{nivel ? '↳' : '📍'}</span>
+              <span style={{ flex: 1, minWidth: 0, fontSize: nivel ? 12.5 : 13.5, fontWeight: nivel ? 500 : 600 }}>{nameOf(id)}</span>
               {/* Feedback do mestre: o tipo do lugar, pequeno, ao lado do nome. */}
               {tipo ? (
                 <span style={{ fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.06em', color: 'var(--muted)' }}>

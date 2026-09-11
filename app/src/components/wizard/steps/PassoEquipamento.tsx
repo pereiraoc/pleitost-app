@@ -300,7 +300,7 @@ export function PassoEquipamento({ ctx }: { ctx: WizardCtx }) {
             <span style={{ fontWeight: 700, fontSize: 14.5 }}>{rotulo}</span>
             {desarmada ? (
               <span style={{ display: 'block', fontSize: 11.5, color: 'var(--muted)', marginTop: 2 }}>
-                Uma mão livre é necessária para usar magias e manobras.
+                {reskinText('Uma mão livre é necessária para usar magias e manobras.')}
               </span>
             ) : null}
           </span>

@@ -15,6 +15,7 @@ import { useWheelScrollX } from '../ficha/bits'
 import { DocRuleElements } from './RuleElements'
 import { useAtlasRelations, AtlasBreadcrumb, AtlasChildren } from './AtlasNav'
 import { TransporteNoMapa } from '../../transporte/TransporteNoMapa'
+import { arvoreDeLugares } from '../../data/atlas-nav'
 import { pluralPt } from '../../data/plural-pt'
 import { ServicosTab } from './ServicosTab'
 import { compendioKicker } from '../layout/design-nav'
@@ -1037,14 +1038,18 @@ export function LocationSheet({
   // (Porto Alegre tem 15 bairros e o Lago Guaíba → "Bairros"; um bairro tem só
   // pontos de interesse → "Pontos de Interesse"). Sem predominância clara fica
   // o "Lugares" do registro — nunca um rótulo inventado.
+  // A régua olha TUDO que a lista mostra (a árvore inteira abaixo): na cidade
+  // são 15 bairros e centenas de pontos de interesse dentro deles → "Pontos
+  // de Interesse" (report 2026-09-10).
   const subtipoFilhos = useMemo(() => {
     const conta = new Map<string, number>()
-    for (const id of rel.children) {
+    const todos = arvoreDeLugares(rel.children, rel.filhosDe)
+    for (const { id } of todos) {
       const t = rel.subtypeOf(id)
       if (t !== '') conta.set(t, (conta.get(t) ?? 0) + 1)
     }
     const [maior] = [...conta.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'))
-    return maior && maior[1] > rel.children.length / 2 ? maior[0] : null
+    return maior && maior[1] > todos.length / 2 ? maior[0] : null
   }, [rel])
   const tabs = LOCATION_TABS.filter(
     (t) =>
@@ -1164,7 +1169,7 @@ export function LocationSheet({
       <div style={{ marginTop: 4 }}>
         {abaAtiva === 'detalhes' ? <DetalhesTab doc={doc} /> : null}
         {abaAtiva === 'dentro' ? (
-          <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} />
+          <AtlasChildren doc={doc} children={rel.children} nameOf={rel.nameOf} subtypeOf={rel.subtypeOf} filhosDe={rel.filhosDe} />
         ) : null}
         {abaAtiva === 'mapa' && doc.locationBody?.leaflet ? (
           // na aba própria o mapa é o conteúdo: vale a altura toda (a imagem é

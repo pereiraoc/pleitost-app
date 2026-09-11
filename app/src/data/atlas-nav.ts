@@ -62,3 +62,24 @@ export function buildAtlasIndex(
   }
   return { parentOf, childrenOf }
 }
+
+/** Todos os lugares ABAIXO de `raiz` em ordem de leitura (pai, depois os
+ *  filhos dele, recursivo), com o nível de cada um. Ciclo na Geolocalização
+ *  não trava: cada lugar entra uma vez. */
+export function arvoreDeLugares(
+  children: string[],
+  filhosDe: ((id: string) => string[]) | undefined,
+): { id: string; nivel: number }[] {
+  const out: { id: string; nivel: number }[] = []
+  const visto = new Set<string>()
+  const descer = (ids: string[], nivel: number) => {
+    for (const id of ids) {
+      if (visto.has(id)) continue
+      visto.add(id)
+      out.push({ id, nivel })
+      if (filhosDe) descer(filhosDe(id), nivel + 1)
+    }
+  }
+  descer(children, 0)
+  return out
+}

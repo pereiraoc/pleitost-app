@@ -179,6 +179,38 @@ describe('espelho por conta (#239)', () => {
     expect(window.localStorage.getItem(KEY)).toBe(novo)
   })
 
+  // report 2026-09-10: "edito um personagem numa ficha, vou pro outro
+  // dispositivo e ele está diferente (bestiário…)". A edição de ficha vive em
+  // pleitost.heroEdits.<id> — escalar, então a hidratação era fill-only: o
+  // device que JÁ tinha a chave nunca adotava a versão mais nova da conta.
+  // O blob carrega updatedAt (hero-store.persist) → newer-wins como o retrato.
+  it('edição de ficha (pleitost.heroEdits.*): conta MAIS NOVA vence o local', async () => {
+    const KEY = 'pleitost.heroEdits.Sistema/Criaturas/Bestiário/Goblin Batedor'
+    window.localStorage.setItem(
+      KEY,
+      JSON.stringify({ fm: { Nivel: 1 }, updatedAt: '2026-09-01T00:00:00.000Z' }),
+    )
+    const novo = JSON.stringify({ fm: { Nivel: 4 }, updatedAt: '2026-09-10T00:00:00.000Z' })
+    fakeServer({ [KEY]: novo })
+    const added: string[] = []
+    await connectUserStateSync('u1', (a) => added.push(...a))
+    expect(window.localStorage.getItem(KEY)).toBe(novo)
+    // e avisa quem hidratou (produção: reload pros stores relerem)
+    expect(added).toContain(KEY)
+  })
+
+  it('edição de ficha: o LOCAL mais novo sobe e não é sobrescrito pela conta velha', async () => {
+    const KEY = 'pleitost.heroEdits.local:Heroi:z'
+    const local = JSON.stringify({ fm: { Nivel: 5 }, updatedAt: '2026-09-10T12:00:00.000Z' })
+    window.localStorage.setItem(KEY, local)
+    const srv = fakeServer({
+      [KEY]: JSON.stringify({ fm: { Nivel: 2 }, updatedAt: '2026-09-02T00:00:00.000Z' }),
+    })
+    await connectUserStateSync('u1', () => {})
+    expect(window.localStorage.getItem(KEY)).toBe(local)
+    expect(srv.data[KEY]).toBe(local)
+  })
+
   it('resyncUserState deslogado é no-op (não puxa nada)', async () => {
     const srv = fakeServer({ 'pleitost.settings.mestre': 'true' })
     // sem connectUserStateSync antes → sbUserId nulo

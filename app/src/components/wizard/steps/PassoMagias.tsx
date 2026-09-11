@@ -16,6 +16,7 @@ import { PROF_LABEL, TipProvider } from '../../ficha/tooltips'
 import { RANK_ORDER, tokens, type RankLetter } from '../../ficha/registry'
 import { docIdOf, ProfChip, WizSecao } from '../bits'
 import type { WizardCtx } from '../steps'
+import { reskinText } from '../../../data/reskin'
 
 /** Lore de abertura + regras de conjuração (texto do usuário, verbatim). */
 const LORE_MAGIAS =
@@ -96,15 +97,16 @@ export function PassoMagias({ ctx }: { ctx: WizardCtx }) {
       titulo="Magias"
       nota={
         <>
-          <span style={{ display: 'block', marginBottom: 8 }}>{LORE_MAGIAS}</span>
+          <span style={{ display: 'block', marginBottom: 8 }}>{reskinText(LORE_MAGIAS)}</span>
           {BLOCOS_MAGIA.map((b) => (
             <span key={b.titulo} style={{ display: 'block', marginBottom: 8 }}>
-              <strong style={{ color: 'var(--text)' }}>{b.titulo}.</strong> {b.texto}
+              <strong style={{ color: 'var(--text)' }}>{reskinText(b.titulo)}.</strong> {reskinText(b.texto)}
             </span>
           ))}
           <span style={{ display: 'block' }}>
-            Aprenda magias nos slots disponíveis — o catálogo mostra o que as suas escolas
-            oferecem; toque nos chips acima do painel pra ler as regras de cada recurso.
+            {reskinText(
+              'Aprenda magias nos slots disponíveis — o catálogo mostra o que as suas escolas oferecem; toque nos chips acima do painel pra ler as regras de cada recurso.',
+            )}
           </span>
         </>
       }

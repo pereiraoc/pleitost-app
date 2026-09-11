@@ -16,7 +16,7 @@
 // REAL: Vantagem de Combate → Condicoes_Ativas; Acerto Decisivo e escudo
 // ERGUIDO ("Escudo Erguido") → Efeitos_Ativos.
 import { useMemo, useState, type CSSProperties } from 'react'
-import { reskinName } from '../../data/reskin'
+import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import type { VaultDoc } from '../../data/types'
 import { linkLabel, unquote, linkLabelDisplay } from '../../markdown/dataview-value'
 import { useCatalog } from '../../data/CatalogContext'
@@ -1542,7 +1542,7 @@ function ArmaPropToggles({
           >
             <button
               onClick={() => onToggle(d)}
-              title={on ? `Desativar ${d.label}` : `Ativar ${d.label} pra ${armaBasename}`}
+              title={on ? `Desativar ${reskinText(d.label)}` : `Ativar ${reskinText(d.label)} pra ${reskinName(armaBasename)}`}
               style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 13, padding: 0, lineHeight: 1 }}
             >
               {ic}
@@ -1891,6 +1891,10 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
       {armas.map((arma, i) => {
         const cust = arma['__custom'] as CustomAtaque | undefined
         const nome = cust ? cust.label : linkLabel(str(arma['Nome']))
+        // nome EXIBIDO no mundo ativo (POA: Cauda de Dragão → Rabo de Arraia);
+        // `nome` cru segue como chave de estado (usos/keys) — trocar de mundo não
+        // pode perder o uso gasto de uma arma.
+        const nomeExib = reskinName(nome)
         const prop = cust ? '' : linkLabel(str(arma['Propriedade']))
         // sourceId dos modificadores: label do custom (não casa imbuição — ok).
         const basename = cust ? cust.label : (wikiTarget(str(arma['Nome'])).split('/').pop() ?? nome)
@@ -1988,7 +1992,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               />
             </ItemHover>
             <span style={{ fontWeight: 600, fontSize: 15, minWidth: 130 }}>
-              {`${nome}${prop ? ` ${prop}` : ''}${tier ? ` (${tier})` : ''}`}
+              {`${nomeExib}${prop ? ` ${reskinName(prop)}` : ''}${tier ? ` (${tier})` : ''}`}
             </span>
             {travaInt !== null ? (
               <span
@@ -2029,7 +2033,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                   ) +
                   // + condições/efeitos APLICADOS ao acerto (Auto-Confiança,
                   // Vantagem de Combate etc.) — em VERDE/vermelho (#262).
-                  modAppendixHtml(`${nome} — Modificadores de acerto`, modApplied.entries)
+                  modAppendixHtml(`${nomeExib} — Modificadores de acerto`, modApplied.entries)
                 }
               >
                 <ModBox
@@ -2047,7 +2051,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
               <TipHover
                 html={
                   renderBreakdownHtml(
-                    danoArmaBreakdown(nome, danoRaw, profArma),
+                    danoArmaBreakdown(nomeExib, danoRaw, profArma),
                   ) +
                   // + bônus/condições APLICADOS ao dano (#262): bônus em VERDE
                   // (tone pos), penalidades em vermelho, e o PassoDeDado mostrando
@@ -2055,7 +2059,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                   (danoRes && (danoRes.entries.length || danoRes.finalDieSize !== danoRes.baseDieSize)
                     ? renderBreakdownHtml({
                         headerEmoji: '',
-                        title: `${nome} — Modificadores de dano`,
+                        title: `${nomeExib} — Modificadores de dano`,
                         total: 0,
                         hideTotal: true,
                         headerSigned: true,
@@ -2084,7 +2088,7 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 }
               >
                 <span
-                  title={danoRes?.entries.length ? entriesTitle(danoRes.entries) : undefined}
+                  title={danoRes?.entries.length ? reskinText(entriesTitle(danoRes.entries)) : undefined}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -2191,8 +2195,8 @@ function AtaquesPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; int
                 ) : null}
                 {propResumo ? (
                   <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
-                    {prop ? `${prop}: ` : ''}
-                    {propResumo}
+                    {prop ? `${reskinName(prop)}: ` : ''}
+                    {reskinText(propResumo)}
                   </span>
                 ) : null}
               </div>
@@ -2510,7 +2514,7 @@ function PericiasPanel({ doc, inter }: { doc: VaultDoc; inter: InterativaCtxStat
                           <span style={{ fontSize: 8, color: 'var(--accent)' }}>◆</span>
                         )
                       })()}
-                      {ac.basename}
+                      {reskinName(ac.basename ?? '')}
                     </span>
                   </ItemHover>
                 ))}
@@ -2706,7 +2710,7 @@ function TesourosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
               ) : null}
               {t.resumo ? (
                 <span style={{ flex: 1, minWidth: 120, fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.35 }}>
-                  {t.resumo}
+                  {reskinText(t.resumo)}
                 </span>
               ) : null}
             </div>
@@ -2841,7 +2845,7 @@ function MagiaInfoBar({
           {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover. */}
           <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
             <span style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)', whiteSpace: 'nowrap' }}>
-              {t.rota}
+              {reskinText(t.rota)}
             </span>
           </ItemHover>
           {/* Modificador → breakdown do plugin (entriesBreakdown, como o
@@ -2865,7 +2869,7 @@ function MagiaInfoBar({
       <span style={{ flex: 1 }} />
       <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 7 }}>
         <ItemHover doc={namedDoc('Potência Mágica')} fullBody>
-          <span style={magiaBarLabel}>POTÊNCIA MÁGICA</span>
+          <span style={magiaBarLabel}>{reskinUpper('POTÊNCIA MÁGICA')}</span>
         </ItemHover>
         <TipHover html={sourceTipHtml(potenciaSources)}>
           <span style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
@@ -2938,7 +2942,7 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
       <>
         <MagiaInfoBar
           mfm={{ ...fm, Magias: secFm }}
-          label="ENERGIA MÁGICA SECUNDÁRIA"
+          label={reskinUpper('ENERGIA MÁGICA SECUNDÁRIA')}
           em={emSec}
           emMax={emSecMax}
           setEm={setEmSec}
@@ -2959,7 +2963,7 @@ function MagiasPanel({ doc, refs, inter }: { doc: VaultDoc; refs: HeroRefs; inte
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <MagiaInfoBar
         mfm={fm}
-        label="ENERGIA MÁGICA"
+        label={reskinUpper('ENERGIA MÁGICA')}
         em={em}
         emMax={emMax}
         setEm={setEm}
@@ -3047,7 +3051,7 @@ function MagiasLista({ groups }: { groups: ReturnType<typeof magiaGroups> }) {
             >
               <span style={{ fontSize: 17, flex: 'none' }}>{m.ic}</span>
               <ItemHover doc={m.doc} fullBody>
-                <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{m.n}</span>
+                <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{reskinName(m.n)}</span>
               </ItemHover>
               <span
                 title="Custo de ação"
@@ -3159,8 +3163,8 @@ function InvocacoesPanel({ doc, invocacoes }: { doc: VaultDoc; invocacoes: Effec
               }}
             >
               <span style={{ fontSize: 17, flex: 'none' }}>{tokens.emojis.tabInterativa.Companheiros}</span>
-              <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{desc.label}</span>
-              <span title="Potência Mágica" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ flex: 1, minWidth: 0, fontWeight: 600, fontSize: 14 }}>{reskinName(desc.label)}</span>
+              <span title={reskinName('Potência Mágica')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <button
                   title="Diminuir PM"
                   disabled={pm <= 1}

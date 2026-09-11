@@ -6,7 +6,7 @@
 //   - Regras numéricas (bônus de proficiência, classe de aventureiro por
 //     nível) espelham o plugin pleitost-autosheet (fonte de verdade).
 import { tokens } from '../../generated/tokens'
-import { reskinPericia } from '../../data/reskin'
+import { reskinName, reskinPericia } from '../../data/reskin'
 
 export type RankLetter = 'N' | 'A' | 'E' | 'M'
 export const RANK_ORDER: RankLetter[] = ['N', 'A', 'E', 'M']
@@ -166,6 +166,14 @@ export const GRUPO_ARMA_ORDER: { key: string; label: string }[] = [
   { key: 'especial', label: 'Armas Especiais' },
   { key: 'natural', label: 'Armas Naturais' },
 ]
+
+/** Rótulo do grupo de arma NO MUNDO ATIVO. Os rótulos de GRUPO_ARMA_ORDER são
+ *  os da fantasia (verbatim do plugin); o nome do grupo que tem nota própria
+ *  passa pelo reskin — na POA "Armas Arcanônicas" é "Armas de Fogo" (report
+ *  2026-09-10: "em todos os lugares quando está em POA 1987"). */
+export function rotuloGrupoArma(g: { label: string }): string {
+  return reskinName(g.label)
+}
 
 /** Grupos de arma que NÃO são mercadoria — a loja da localização nunca os
  *  oferece. Naturais/especiais porque só vêm por regra (garra de bicho, arma

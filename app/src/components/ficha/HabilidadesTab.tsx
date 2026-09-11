@@ -429,9 +429,9 @@ export function ClasseNivelPanel({
     .filter((e) => e.fonte.kind === 'Escolha' && paiSubclasse(e.fonte.target))
     .map((e) => ({
       ic: tokens.emojis.categoria.Habilidade,
-      label: e.fonte.target.toUpperCase(),
+      label: reskinName(e.fonte.target).toUpperCase(),
       value: e.raw,
-      options: [{ value: e.raw, label: shortSubclass(e.raw) || e.label }],
+      options: [{ value: e.raw, label: reskinName(shortSubclass(e.raw) || e.label) }],
       onChange: undefined as ((v: string) => void) | undefined,
       // Card no hover: caixa = subclasse escolhida; label = habilidade-pai.
       boxTarget: e.raw,
@@ -1280,7 +1280,7 @@ function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
     const entry = res.kind === 'doc' ? catalog.entryById.get(res.id) : undefined
     return {
       ic: grupoArmaEmoji(typeof entry?.grupo === 'string' ? entry.grupo : ''),
-      nm: linkLabel(str(raw)),
+      nm: reskinName(linkLabel(str(raw))),
       doc: refs.refDoc(raw),
     }
   })
@@ -1325,7 +1325,7 @@ function EquipamentosProfPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {r.t.nm}
+                      {reskinName(r.t.nm)}
                     </span>
                   </ItemHover>
                 </>
@@ -2209,7 +2209,7 @@ export function HabilidadesArvorePanel({
                           Artística") — o contexto do pai acima já deixa claro; o
                           tooltip continua apontando pro doc certo (it.target). */}
                       <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>
-                        {it.child ? (it.txt.match(/\(([^)]+)\)\s*$/)?.[1] ?? it.txt) : it.txt}
+                        {reskinName(it.child ? (it.txt.match(/\(([^)]+)\)\s*$/)?.[1] ?? it.txt) : it.txt)}
                       </span>
                     </ItemHover>
                     {/* #407: 🗑️ SÓ em linha Manual (plugin habilidades-card.ts:360)
@@ -2256,12 +2256,12 @@ export function HabilidadesArvorePanel({
                             color: 'var(--muted)',
                           }}
                         >
-                          {c.label}
+                          {reskinName(c.label)}
                         </span>
                       ) : null}
                       {edit ? (
                         <SelectBox
-                          ariaLabel={c.label || `Escolha de ${it.txt}`}
+                          ariaLabel={c.label ? reskinName(c.label) : `Escolha de ${reskinName(it.txt)}`}
                           value={choicePickValue(c)}
                           options={choiceOptionsSiblingAware(c, it.choices, fm, it.target)}
                           onChange={(v) => onChoiceChange(it.target, c, v)}
@@ -2667,7 +2667,7 @@ export function AcoesPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
                 {badge}
               </span>
               <ItemHover doc={refs.refDoc(e.target)} fullBody>
-                <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{e.label}</span>
+                <span style={{ fontWeight: 600, color: 'var(--blue)', fontSize: 13.5 }}>{reskinName(e.label)}</span>
               </ItemHover>
             </div>
           )
@@ -2966,7 +2966,7 @@ export function TecnicasPanel({
                       {/* − só nas slot-learned (rule-granted é readonly, plugin). */}
                       {edit && e.fonte.kind === 'Slot' ? (
                         <button
-                          aria-label={`Remover ${e.label}`}
+                          aria-label={`Remover ${reskinName(e.label)}`}
                           onClick={() => onRemoveTecnica(e.target)}
                           style={{
                             width: 24,
@@ -3078,7 +3078,7 @@ export function TecnicasPanel({
                         ) : null}
                         {edit ? (
                           <SelectBox
-                            ariaLabel={c.label || `Escolha de ${e.label}`}
+                            ariaLabel={c.label ? reskinName(c.label) : `Escolha de ${reskinName(e.label)}`}
                             value={choicePickValue(c)}
                             options={choiceOptionsSiblingAware(c, choicesByTarget.get(e.target) ?? [], fm, e.target)}
                             onChange={(v) => onChoiceChange(e.target, c, v)}
@@ -3126,9 +3126,9 @@ export function TecnicasPanel({
                     // o + fica desabilitado (plugin tecnicas-card.ts:281).
                     const canAdd = canAddOne(slotsViewTec, TEC_GROUP_LETTER[grp.rank] ?? 'A')
                     return (
-                    <div key={row.txt} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div key={reskinName(row.txt)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <button
-                        aria-label={`Aprender ${row.txt}`}
+                        aria-label={`Aprender ${reskinName(row.txt)}`}
                         disabled={!canAdd}
                         title={canAdd ? undefined : 'Sem slot disponível'}
                         onClick={() => canAdd && onAddTecnica(row.txt, grp.rank)}
@@ -3412,13 +3412,13 @@ export function MagiasHabPanel({
     <>
       {semRecursos ? null : (
       <div style={panel}>
-        <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>Recursos Mágicos</div>
+        <div style={{ ...monoTitle, letterSpacing: '.08em', marginBottom: 13 }}>{reskinText('Recursos Mágicos')}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 9 }}>
             <span style={{ fontSize: 15 }}>{tokens.emojis.subcategoria.PotenciaMagica}</span>
             <ItemHover doc={emPotenciaDoc('Potência Mágica')} fullBody>
               <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 14, whiteSpace: 'nowrap' }}>
-                Potência Mágica
+                {reskinName('Potência Mágica')}
               </span>
             </ItemHover>
             <span style={{ flex: 1 }} />
@@ -3469,7 +3469,7 @@ export function MagiasHabPanel({
           {/* Título do card Secundária = proficienciasTitle do plugin
               ("Magias Secundárias", tab-magias.ts:123). */}
           <span style={{ ...monoTitle, letterSpacing: '.08em' }}>
-            {sec ? 'Magias Secundárias' : 'Magias'}
+            {reskinText(sec ? 'Magias Secundárias' : 'Magias')}
           </span>
           <span style={{ flex: 1 }} />
           {forceEdit ? null : <EditToggle edit={edit} onToggle={() => setEdit((v) => !v)} />}
@@ -3483,7 +3483,7 @@ export function MagiasHabPanel({
         >
           <div style={cardBox}>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
-              📖 Magias Aprendidas
+              📖 {reskinText('Magias Aprendidas')}
             </div>
             {escolas.map((escola, escolaIdx) => {
               const nome = str(escola.Nome)
@@ -3529,7 +3529,7 @@ export function MagiasHabPanel({
                           color: 'var(--muted)',
                         }}
                       >
-                        {h2Of(nome)}
+                        {reskinText(h2Of(nome))}
                       </span>
                       {/* Modificador de ataque mágico da escola + prof (#143) —
                           title traz o cálculo (PB + atributo + item). */}
@@ -3539,7 +3539,7 @@ export function MagiasHabPanel({
                         const prof = lookupRota(mfm, rota)
                         return info ? (
                           <span
-                            title={info.title}
+                            title={reskinText(info.title)}
                             style={{ fontFamily: 'var(--mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--blue)', cursor: 'help' }}
                           >
                             {`${signed(info.total)}${prof ? ` (${prof})` : ''}`}
@@ -3573,7 +3573,7 @@ export function MagiasHabPanel({
                               {/* − só nas slot-learned (rule-granted é readonly, plugin). */}
                               {edit && !isTesouro && e.fonte.kind === 'Slot' ? (
                                 <button
-                                  aria-label={`Remover ${e.label}`}
+                                  aria-label={`Remover ${reskinName(e.label)}`}
                                   onClick={() => onRemoveMagia(nome, e.target)}
                                   style={{
                                     width: 23,
@@ -3654,7 +3654,7 @@ export function MagiasHabPanel({
                                     whiteSpace: 'nowrap',
                                   }}
                                 >
-                                  {e.label}
+                                  {reskinName(e.label)}
                                 </span>
                               </ItemHover>
                               
@@ -3677,7 +3677,7 @@ export function MagiasHabPanel({
           {edit ? (
             <div style={cardBox}>
               <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
-                📚 Magias Não Aprendidas
+                📚 {reskinText('Magias Não Aprendidas')}
               </div>
               {escolasProficiente.map((escola) => {
                   const nome = str(escola.Nome)
@@ -3717,7 +3717,7 @@ export function MagiasHabPanel({
                           marginBottom: 9,
                         }}
                       >
-                        {h2Of(nome)}
+                        {reskinText(h2Of(nome))}
                       </div>
                       {groupKeys.map((g) => (
                         <div key={g} style={{ marginBottom: 9 }}>
@@ -3741,7 +3741,7 @@ export function MagiasHabPanel({
                               return (
                               <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <button
-                                  aria-label={`Aprender ${d.basename}`}
+                                  aria-label={`Aprender ${reskinName(d.basename ?? '')}`}
                                   disabled={!canAdd}
                                   title={canAdd ? undefined : 'Sem slot disponível'}
                                   onClick={() => canAdd && onAddMagia(nome, d.basename, g)}
@@ -3799,7 +3799,7 @@ export function MagiasHabPanel({
                                       whiteSpace: 'nowrap',
                                     }}
                                   >
-                                    {d.basename}
+                                    {reskinName(d.basename ?? '')}
                                   </span>
                                 </ItemHover>
                               </div>
@@ -3828,7 +3828,7 @@ export function MagiasHabPanel({
               clipPath: clip(9),
             }}
           >
-            <span style={{ fontSize: 12, color: 'var(--muted)' }}>Magias adicionais disponíveis:</span>
+            <span style={{ fontSize: 12, color: 'var(--muted)' }}>{reskinText('Magias adicionais disponíveis:')}</span>
             <span
               style={{
                 display: 'flex',
