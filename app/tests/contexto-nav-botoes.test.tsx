@@ -94,7 +94,13 @@ describe('seção com notas (Tecnologia e Conectividade)', () => {
     await waitFor(() => {
       expect(screen.getAllByText('Acesso a Tecnologia').length).toBeGreaterThan(0)
     })
-    expect(container.querySelector('table')).toBeNull()
+    // o LISTING não pode ser tabela (report 2026-08-30). Tabela DENTRO do corpo
+    // de um card é conteúdo da nota (a matriz de instalação de módulo/válvula
+    // em Acesso a Tecnologia, 2026-09-12) e pode existir.
+    const tabelasForaDoCard = [...container.querySelectorAll('table')].filter(
+      (t) => !t.closest('.ctx-acc-body'),
+    )
+    expect(tabelasForaDoCard).toEqual([])
     // pilha de <details> — um card por nota, título + Assunto no summary
     const cards = container.querySelectorAll('.ctx-stack details.ctx-acc')
     expect(cards.length).toBeGreaterThan(1)

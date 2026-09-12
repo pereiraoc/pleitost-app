@@ -42,6 +42,17 @@ function tabela(titulo, linhas, cab = ["Fantasia", "POA 1987"]) {
 
 /** Corpo canônico do bloco auto de uma Contexto-Def (qualquer uma das três —
  *  cada seção só aparece se o FM correspondente existir). */
+/** `niveis` pode ser lista única (legado) ou um mapa por eixo (2026-09-12). */
+function niveisTexto(niveis) {
+  const escada = (lista) => (lista ?? []).map((n, i) => `${i + 1} ${n}`).join(" · ");
+  if (Array.isArray(niveis)) return escada(niveis) || "—";
+  if (niveis && typeof niveis === "object") {
+    const por = Object.entries(niveis).map(([eixo, lista]) => `${eixo}: ${escada(lista)}`);
+    return por.join(" — ") || "—";
+  }
+  return "—";
+}
+
 export function renderContextoDoc(contexto, typeByBasename) {
   const out = [];
   const c = contexto ?? {};
@@ -52,12 +63,29 @@ export function renderContextoDoc(contexto, typeByBasename) {
   if (c.nome) ident.push(["nome", c.nome]);
   if (c.moeda) ident.push(["moeda", `${c.moeda.simbolo} (${c.moeda.nome})${c.moeda.fator && Number(c.moeda.fator) !== 1 ? ` — ×${c.moeda.fator} sobre PO` : ""}`]);
   if (c.atlas) ident.push(["atlas", `raiz \`${c.atlas.raiz}\`${c.atlas.mapa ? ` · mapa \`${c.atlas.mapa}\`` : ""}`]);
-  if (c.recursos) ident.push(["recursos", `raiz \`${c.recursos.raiz}\` · abas ${(c.recursos.abas ?? []).map((a) => (typeof a === "string" ? a : `${a.nome} (${a.papel})`)).join(" · ")} · níveis ${(c.recursos.niveis ?? []).map((n, i) => `${i + 1} ${n}`).join(" · ") || "—"} · tipos passagem \`${c.recursos.tipos?.passagem ?? "—"}\` estilo \`${c.recursos.tipos?.estilo ?? "—"}\` · ofertas FM \`${c.recursos.ofertas?.campo ?? "—"}\` aba \`${c.recursos.ofertas?.aba ?? "—"}\` · preço em ${c.recursos.preco_em ?? c.recursos.precoEm ?? "moeda"}`]);
+  if (c.recursos) ident.push(["recursos", `raiz \`${c.recursos.raiz}\` · abas ${(c.recursos.abas ?? []).map((a) => (typeof a === "string" ? a : `${a.nome} (${a.papel})`)).join(" · ")} · níveis ${niveisTexto(c.recursos.niveis)} · tipos passagem \`${c.recursos.tipos?.passagem ?? "—"}\` estilo \`${c.recursos.tipos?.estilo ?? "—"}\` · ofertas FM \`${c.recursos.ofertas?.campo ?? "—"}\` aba \`${c.recursos.ofertas?.aba ?? "—"}\` · preço em ${c.recursos.preco_em ?? c.recursos.precoEm ?? "moeda"}`]);
   if (c.transporte) ident.push(["transporte", `categoria \`${c.transporte.categoria}\` · mapa \`${c.transporte.mapa}\`${c.transporte.cidade ? ` · cidade \`${c.transporte.cidade}\`` : ""}${c.transporte.sinuosidade ? ` · sinuosidade ×${c.transporte.sinuosidade}` : ""}${c.transporte.parada !== undefined ? ` · parada ${c.transporte.parada} min` : ""}${c.transporte.baldeacao !== undefined ? ` · baldeação ${c.transporte.baldeacao} min` : ""}${c.transporte.atrasoPorQualidade ? ` · atraso ★1..★5 ×${c.transporte.atrasoPorQualidade.join("/")}` : ""}${c.transporte.periodos ? ` · períodos ${c.transporte.periodos.map((p) => `${p.nome} ×${p.transito}`).join(" · ")}` : ""} · modos ${(c.transporte.modos ?? []).map((m) => `${m.nome} (${m.traco}, ${m.largura}${m.velocidade ? `, ${m.velocidade} km/h` : ""}${m.espera !== undefined ? `, espera ${m.espera} min` : ""}${m.rua ? ", rua" : ""})`).join(" · ")}`]);
   if (c.recursos?.disponibilidade) {
     out.push(...tabela("Recursos: disponibilidade das ofertas por linha da régua", Object.entries(c.recursos.disponibilidade).map(([k, v]) => [k, `níveis ${(v.niveis ?? []).join("–")} · quantidade ×${v.quantidade ?? 1}`]), ["Linha", "Regra"]));
   }
   out.push(...tabela("Identidade", ident, ["Campo", "Valor"]));
+
+  // Classe social: a régua que o app usa pro retrato do mês
+  const cs = c.recursos?.classe_social ?? c.recursos?.classeSocial;
+  if (cs) {
+    const letra = (d) => (cs.letras ?? [])[d - 1] ?? "?";
+    const rot = cs.rotulos ?? {};
+    out.push(...tabela("Classe social: degrau → letra", (cs.letras ?? []).map((l, i) => [`degrau ${i + 1}`, `${l}${rot[l] ? ` (${rot[l]})` : ""}`]), ["Degrau", "Classe"]));
+    out.push(...tabela("Classe social: o padrão de vida define, o resto ajusta", [
+      ["ajuste", `até ${cs.ajuste?.max ?? 1} degrau(s), divisor ${cs.ajuste?.divisor ?? 1}`],
+      ...Object.entries(cs.pesos ?? {}).map(([k, v]) => [`peso ${k}`, `×${v}`]),
+    ], ["Campo", "Valor"]));
+    out.push(...tabela("Classe social: faixas (valor mínimo do degrau, em moeda do mundo)", Object.entries(cs.faixas ?? {}).map(([k, v]) => [k, (v ?? []).map((n, i) => `${i + 1} ≥ ${n}`).join(" · ")]), ["Componente", "Faixas"]));
+    out.push(...tabela("Classe social: tendência da profissão (piso/teto por tier)", Object.entries(cs.tendencias ?? {}).map(([classe, t]) => [
+      classe,
+      [t.piso ? `piso ${t.piso.map((d) => letra(d)).join("/")}` : null, t.teto ? `teto ${t.teto.map((d) => letra(d)).join("/")}` : null, t.nota ?? null].filter(Boolean).join(" · "),
+    ]), ["Classe", "Tendência"]));
+  }
 
   // Perícias com display próprio
   out.push(...tabela("Perícias (display do mundo)", Object.entries(c.pericias ?? {})));

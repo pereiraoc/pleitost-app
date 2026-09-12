@@ -133,9 +133,23 @@ export function papelDaAba(cfg: RecursosCfg, aba: string): Papel | null {
 export function abaDoPapel(cfg: RecursosCfg, papel: Papel): string | null {
   return cfg.abas.find((a) => a.papel === papel)?.nome ?? null
 }
-/** Nome da classe declarado no contexto (índice 0 = Nível 1); sem nome, só o número. */
-export function nomeNivel(cfg: RecursosCfg, n: number): string {
-  return cfg.niveis[n - 1] ?? `Nível ${n}`
+/** Nome do degrau NO EIXO (índice 0 = Nível 1). Desde 2026-09-12 cada eixo tem
+ *  a sua escada ("Kitnet", "Marmita", "TRI Ouro"); mundo com lista única
+ *  (legado) ignora o papel. */
+export function nomeNivel(cfg: RecursosCfg, n: number, papel?: Papel): string {
+  const escada = Array.isArray(cfg.niveis) ? cfg.niveis : papel ? (cfg.niveis[papel] ?? []) : []
+  return escada[n - 1] ?? `Nível ${n}`
+}
+
+/** Rótulo de um degrau CROSS-EIXO (exigência de crédito, por exemplo): a classe
+ *  social quando o mundo declara a régua; senão o degrau da escada única. */
+export function nomeDegrauGeral(cfg: RecursosCfg, n: number): string {
+  const cs = cfg.classeSocial
+  if (!cs) return nomeNivel(cfg, n)
+  const letra = cs.letras[n - 1]
+  if (!letra) return `Nível ${n}`
+  const rotulo = cs.rotulos[letra]
+  return rotulo ? `Classe ${letra} · ${rotulo}` : `Classe ${letra}`
 }
 export function isEstilo(cfg: RecursosCfg, r: Recurso): boolean {
   return r.tipo === cfg.tipos.estilo

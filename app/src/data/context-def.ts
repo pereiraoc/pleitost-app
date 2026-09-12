@@ -64,8 +64,10 @@ export interface ContextoDef {
     /** Abas na ordem da ficha; `papel` = eixo do mês que a aba representa. */
     abas: { nome: string; papel: 'transporte' | 'moradia' | 'alimentacao' }[]
     precoEm: 'moeda' | 'po'
-    /** Nome de cada nível de estilo de vida (índice 0 = Nível 1). */
-    niveis: string[]
+    /** Nome de cada degrau (índice 0 = Nível 1). Lista única (legado) ou uma
+     *  escada POR EIXO — desde 2026-09-12 o plano se chama pelo que vende
+     *  ("Kitnet", "Marmita"), e a classe social virou `classeSocial`. */
+    niveis: string[] | Partial<Record<'transporte' | 'moradia' | 'alimentacao', string[]>>
     /** Tipos (FM `Tipo`) com semântica própria: estilo = plano mensal de um
      *  eixo (pago adiantado); passagem = tarifa avulsa, só informativa;
      *  emprestimo = fonte de crédito (não se compra, contrai dívida). */
@@ -80,6 +82,22 @@ export interface ContextoDef {
     /** Disponibilidade das ofertas por linha da régua (chave canônica):
      *  faixa de níveis atendida de cara + fator de quantidade. */
     disponibilidade: Record<string, { niveis: [number, number]; quantidade: number }>
+    /** CLASSE SOCIAL (2026-09-12): régua do retrato do mês — letra por degrau,
+     *  peso de cada componente, faixas em moeda do mundo e a tendência (piso e
+     *  teto por tier) de cada profissão. Ausente = mundo sem banner. */
+    classeSocial?: {
+      /** Letra de cada degrau 1..6 (o 1 e o 2 compartilham a de baixo). */
+      letras: string[]
+      /** Letra → nome ("A" → "Alta"). */
+      rotulos: Record<string, string>
+      /** O padrão de vida define o degrau; o resto ajusta até `max`. */
+      ajuste: { max: number; divisor: number }
+      pesos: { patrimonio: number; equipamento: number; dinheiro: number }
+      /** Valor MÍNIMO de cada degrau, por componente. */
+      faixas: { patrimonio: number[]; equipamento: number[]; dinheiro: number[] }
+      /** Classe canônica → piso/teto (um degrau por tier) e a razão. */
+      tendencias: Record<string, { piso?: number[]; teto?: number[]; nota?: string }>
+    }
   }
   /** MALHA DE TRANSPORTES (2026-09-08): notas `categoria` (= linhas, com
    *  Paradas em ordem, Acesso, Cor) e a nota `mapa` com o bloco ```malha```

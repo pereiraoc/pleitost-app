@@ -40,7 +40,9 @@ const DEGRAU = /^-\s+\*\*nv\s*(\d+)\s*([^:*]*):\*\*\s*(.+)$/i
 const PRECO = /\*Preço:\*\s*(.+)$/
 
 /** Alvo de um wikilink (`[[Caçador|Executivo]]` → `Caçador`); texto cru passa. */
-function alvo(s: string): string {
+/** Classe CANÔNICA a partir do FM (wikilink ou texto) — a chave das tabelas
+ *  por classe (regalias, tendência de classe social). */
+export function classeCanonica(s: string): string {
   const m = /\[\[([^\]|#]+)/.exec(s)
   return (m ? m[1]! : s).trim()
 }
@@ -92,6 +94,6 @@ export function parseRegalias(body: string): Map<string, RegaliaDeClasse> {
 
 /** Regalia da classe do herói (FM `Classe`, wikilink ou texto). */
 export function regaliaDaClasse(mapa: Map<string, RegaliaDeClasse>, classeFm: string): RegaliaDeClasse | null {
-  const chave = alvo(String(classeFm ?? ''))
+  const chave = classeCanonica(String(classeFm ?? ''))
   return chave ? (mapa.get(chave) ?? null) : null
 }

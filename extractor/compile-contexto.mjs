@@ -155,8 +155,69 @@ export function compileContexto({ worldId, defs, basenames, typeByBasename }) {
     if (precoEm !== "moeda" && precoEm !== "po") problems.push(`recursos.preco_em: "${precoEm}" (esperado moeda|po)`);
     const temRecurso = [...typeByBasename.values()].some((t) => t === "Recurso");
     if (!temRecurso) problems.push("recursos: nenhuma nota `categoria: Recurso` na vault");
-    const niveis = asStringArray(r.niveis, "recursos.niveis", problems);
-    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade, ...(regalias ? { regalias } : {}) };
+    // NÍVEIS (2026-09-12): lista única (legado/fantasia) OU um mapa por papel
+    // — o plano passou a se chamar pelo que vende ("Kitnet", "Marmita"), e
+    // cada eixo tem a sua escada. O app lê os dois formatos.
+    let niveis;
+    if (isPlainObject(r.niveis)) {
+      niveis = {};
+      for (const [papel, lista] of Object.entries(r.niveis)) {
+        if (!PAPEIS.includes(papel)) { problems.push(`recursos.niveis: papel "${papel}" (esperado ${PAPEIS.join("|")})`); continue; }
+        niveis[papel] = asStringArray(lista, `recursos.niveis.${papel}`, problems);
+      }
+    } else {
+      niveis = asStringArray(r.niveis, "recursos.niveis", problems);
+    }
+    // CLASSE SOCIAL (2026-09-12): a régua do retrato do mês. Opcional — mundo
+    // sem o bloco não mostra o banner.
+    let classeSocial = null;
+    if (isPlainObject(r.classe_social ?? r.classeSocial)) {
+      const cs = r.classe_social ?? r.classeSocial;
+      const letras = asStringArray(cs.letras, "recursos.classe_social.letras", problems);
+      if (letras.length !== 6) problems.push("recursos.classe_social.letras: esperado 6 (um por degrau)");
+      const rotulos = isPlainObject(cs.rotulos) ? Object.fromEntries(Object.entries(cs.rotulos).map(([k, v]) => [k, String(v)])) : {};
+      // O padrão de vida define o degrau; `pesos` é a média do que o herói TEM
+      // e `ajuste` diz o quanto isso pode mexer no resultado.
+      const pesosIn = isPlainObject(cs.pesos) ? cs.pesos : {};
+      const pesos = {};
+      for (const k of ["patrimonio", "equipamento", "dinheiro"]) {
+        const n = Number(pesosIn[k] ?? 0);
+        if (!Number.isFinite(n) || n < 0) problems.push(`recursos.classe_social.pesos.${k}: número ≥ 0`);
+        pesos[k] = Number.isFinite(n) && n > 0 ? n : 0;
+      }
+      if (!Object.values(pesos).some((n) => n > 0)) problems.push("recursos.classe_social.pesos: pelo menos um peso > 0");
+      const ajIn = isPlainObject(cs.ajuste) ? cs.ajuste : {};
+      const ajMax = Number(ajIn.max ?? 1);
+      const ajDiv = Number(ajIn.divisor ?? 1);
+      if (!Number.isFinite(ajMax) || ajMax < 0) problems.push("recursos.classe_social.ajuste.max: número ≥ 0");
+      if (!Number.isFinite(ajDiv) || ajDiv <= 0) problems.push("recursos.classe_social.ajuste.divisor: número > 0");
+      const ajuste = { max: Number.isFinite(ajMax) && ajMax >= 0 ? ajMax : 1, divisor: Number.isFinite(ajDiv) && ajDiv > 0 ? ajDiv : 1 };
+      const faixas = {};
+      const faixasIn = isPlainObject(cs.faixas) ? cs.faixas : {};
+      for (const k of ["patrimonio", "equipamento", "dinheiro"]) {
+        const lista = Array.isArray(faixasIn[k]) ? faixasIn[k].map(Number) : [];
+        if (lista.length !== 6 || !lista.every((n) => Number.isFinite(n) && n >= 0)) problems.push(`recursos.classe_social.faixas.${k}: esperado 6 números ≥ 0`);
+        else faixas[k] = lista;
+      }
+      const tendencias = {};
+      const tendIn = isPlainObject(cs.tendencias) ? cs.tendencias : {};
+      for (const [classe, t] of Object.entries(tendIn)) {
+        if (!isPlainObject(t)) { problems.push(`recursos.classe_social.tendencias.${classe}: objeto`); continue; }
+        const lim = (campo) => {
+          const lista = Array.isArray(t[campo]) ? t[campo].map(Number) : null;
+          if (lista === null) return undefined;
+          if (lista.length !== 3 || !lista.every((n) => Number.isInteger(n) && n >= 1 && n <= 6)) {
+            problems.push(`recursos.classe_social.tendencias.${classe}.${campo}: 3 degraus (1..6), um por tier`);
+            return undefined;
+          }
+          return lista;
+        };
+        const piso = lim("piso"); const teto = lim("teto");
+        tendencias[classe] = { ...(piso ? { piso } : {}), ...(teto ? { teto } : {}), ...(typeof t.nota === "string" && t.nota.trim() ? { nota: t.nota.trim() } : {}) };
+      }
+      classeSocial = { letras, rotulos, ajuste, pesos, faixas, tendencias };
+    }
+    recursos = { raiz: String(r.raiz ?? "").replace(/\/+$/, ""), abas, precoEm, niveis, tipos, ofertas, disponibilidade, ...(regalias ? { regalias } : {}), ...(classeSocial ? { classeSocial } : {}) };
   }
   // MALHA DE TRANSPORTES (2026-09-08): notas `categoria: <transporte.categoria>`
   // (Paradas em ordem, Acesso, Cor) + a nota `mapa` com o bloco ```malha```

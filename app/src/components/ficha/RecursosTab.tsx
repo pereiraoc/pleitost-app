@@ -21,6 +21,7 @@ import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
 import { RecursoCardStyle, RecursoThumb } from './RecursoThumb'
 import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
+import { ClasseSocialBanner, useRetratoSocial } from './ClasseSocial'
 import { TipProvider } from './tooltips'
 import { linkIconForEntry } from '../../markdown/link-icon'
 
@@ -43,6 +44,7 @@ import {
   isEmprestimo,
   marcarPagoPor,
   isEstilo,
+  nomeDegrauGeral,
   nomeNivel,
   papelDaAba,
   pegarEmprestimo,
@@ -171,6 +173,9 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
   // O que a CLASSE do herói ganha de terceiro (nota `recursos.regalias`): fica
   // no topo do custo de vida porque é o que explica um eixo pago por outro.
   const regalia = useRegaliaDaClasse(str(fm['Classe']))
+  // O RETRATO do mês (classe social A–E): padrão de vida + posse + equipamento
+  // + dinheiro, com o piso/teto da profissão (pedido 2026-09-12).
+  const retrato = useRetratoSocial(fm, cfg, custo, estado)
 
   const aplicar: Aplicar = (res, msg, falha = 'Saldo insuficiente.') => {
     if (!res) {
@@ -225,6 +230,7 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
     <TipProvider>
     <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 14 }}>
       <RecursoCardStyle />
+      {retrato ? <ClasseSocialBanner retrato={retrato} /> : null}
       <div style={{ ...BOX, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{'// CUSTO DE VIDA'}</span>
         <span style={{ flex: 1 }} />
@@ -232,7 +238,6 @@ function RecursosCorpo({ doc, cfg }: { doc: VaultDoc; cfg: RecursosCfg }) {
         <b style={{ fontFamily: 'var(--mono)', fontSize: 16, color: 'var(--accent)' }} data-custo-mes={custo.total}>
           {formatValorMoeda(custo.total)}
         </b>
-        <Chip>{nomeNivel(cfg, custo.classe)}</Chip>
         <Botao
           onClick={() =>
             aplicar(
@@ -375,7 +380,7 @@ function SecaoDividas({
               <option value="">escolha a fonte…</option>
               {fontes.map((f) => (
                 <option key={f.id} value={f.nome}>
-                  {f.nome} · {f.juros ?? 0}%/mês · {nomeNivel(cfg, f.nivel ?? 1)}
+                  {f.nome} · {f.juros ?? 0}%/mês · {nomeDegrauGeral(cfg, f.nivel ?? 1)}
                 </option>
               ))}
             </select>
@@ -390,7 +395,7 @@ function SecaoDividas({
                   style={{ width: 110, fontFamily: 'var(--mono)', fontSize: 12 }}
                 />
                 <Chip>{teto !== null ? `teto ${formatValorMoeda(teto)}` : 'teto na mesa'}</Chip>
-                {(fonte.nivel ?? 1) > custo.classe ? <Chip>exige {nomeNivel(cfg, fonte.nivel ?? 1)}</Chip> : null}
+                {(fonte.nivel ?? 1) > custo.classe ? <Chip>exige {nomeDegrauGeral(cfg, fonte.nivel ?? 1)}</Chip> : null}
                 <Botao
                   onClick={() => {
                     aplicar(pegarEmprestimo(estado, fonte, pedido, saldo, fator, mes), `Pegou ${formatValorMoeda(pedido)} — ${fonte.nome}.`, 'Acima do teto da fonte.')
@@ -436,7 +441,7 @@ function SecaoEixo({
   aplicar: Aplicar
 }) {
   const papel = eixo.papel
-  const escolher = (r: Recurso, sel: boolean) => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${sel ? 'sem plano' : nomeNivel(cfg, r.nivel ?? 1)}.`)
+  const escolher = (r: Recurso, sel: boolean) => aplicar(escolherEstilo(estado, papel, sel ? null : r), `${nomeAba}: ${sel ? 'sem plano' : nomeNivel(cfg, r.nivel ?? 1, papel)}.`)
   const [verCatalogo, setVerCatalogo] = useState(false)
   const catalog = useCatalog()
   const idDe = (nome: string): string | null => {
@@ -458,7 +463,7 @@ function SecaoEixo({
         <span style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', minWidth: 0 }}>
           <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{nomeAba.toUpperCase()}</span>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-            {eixo.plano ? `${nomeNivel(cfg, eixo.nivel)} · ${eixo.plano.nome}` : 'sem plano'}
+            {eixo.plano ? `${nomeNivel(cfg, eixo.nivel, eixo.papel)} · ${eixo.plano.nome}` : 'sem plano'}
             {eixo.posse.length ? ` · ${eixo.posse.length} de posse` : ''}
           </span>
           {eixo.pagoPor ? <Chip>plano pago por {eixo.pagoPor}</Chip> : null}
@@ -510,8 +515,8 @@ function SecaoEixo({
                 <RecursoThumb r={r} icone={iconeDe(r)} size={36} />
                 <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <span style={{ fontWeight: sel ? 700 : 600, fontSize: 13 }}>
-                    {nomeNivel(cfg, n)}
-                    {papel === 'transporte' && !r.nome.startsWith(nomeNivel(cfg, n)) ? <span style={{ color: 'var(--muted)', fontWeight: 500 }}> · {r.nome}</span> : null}
+                    {nomeNivel(cfg, n, papel)}
+                    {papel === 'transporte' && !r.nome.startsWith(nomeNivel(cfg, n, papel)) ? <span style={{ color: 'var(--muted)', fontWeight: 500 }}> · {r.nome}</span> : null}
                   </span>
                   <span style={{ fontSize: 11.5, color: 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {r.resumo.replace(/^[^:]+: /, '')}
@@ -568,7 +573,7 @@ function SecaoEixo({
                 <div style={{ ...MONO, padding: '6px 10px 2px' }}>{papel === 'transporte' ? 'CATÁLOGO · veículos novos e onde comprar' : 'CATÁLOGO · imóveis e onde alugar ou comprar'}</div>
                 {catalogo.map((r, i) => {
                   // cabeçalho de classe quando a classe muda (a lista já vem ordenada por Nível)
-                  const classe = r.nivel ? nomeNivel(cfg, r.nivel) : 'sem classe'
+                  const classe = r.nivel ? nomeNivel(cfg, r.nivel, papel) : 'sem classe'
                   const cabecalho = i === 0 || (catalogo[i - 1]!.nivel ?? 0) !== (r.nivel ?? 0)
                   const vend = vendedores.get(r.nome) ?? []
                   const onde = vend.length

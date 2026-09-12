@@ -77,7 +77,7 @@ function signed(value: number): string {
 }
 
 /** Espelho de escapeHtml (breakdown-tooltip.ts:61-68). */
-function escapeHtml(s: string): string {
+export function escapeHtml(s: string): string {
   return String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
