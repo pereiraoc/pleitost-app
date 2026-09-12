@@ -23,3 +23,14 @@ export function composeGroupName(
     .filter(Boolean)
     .join(', ')
 }
+
+/** Nome do combatente na INICIATIVA (report 2026-09-12): o Apelido; vazio, o
+ *  nome COMPLETO (aqui não se encurta pro primeiro nome — isso é do nome da
+ *  mesa). O apelido mora em `Biografia.Apelido`; ficha antiga guardava solto. */
+export function nomeDeIniciativa(nome: string, fmBlob?: Record<string, unknown>): string {
+  const bio = (fmBlob?.['Biografia'] ?? {}) as Record<string, unknown>
+  for (const v of [bio['Apelido'], bio['apelido'], fmBlob?.['Apelido'], fmBlob?.['apelido']]) {
+    if (typeof v === 'string' && v.trim()) return v.trim()
+  }
+  return (nome ?? '').trim()
+}

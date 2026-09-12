@@ -74,7 +74,7 @@ import {
   type Lado,
   type SpeedTier,
 } from '../../data/initiative-blocks'
-import { composeGroupName } from '../../data/session-repo/group-name'
+import { composeGroupName, nomeDeIniciativa } from '../../data/session-repo/group-name'
 import { useMesaGroupImageUrl } from '../../grupo/use-mesa-group-image'
 import { maskedNames, vitaStatusOf, VITA_TONE_COLOR } from '../../data/session-repo/combatente'
 import { getLocalDoc, localEntriesOfKind, useLocalStoreVersion } from '../../data/local-entities'
@@ -1170,7 +1170,8 @@ function CombateDaSala({ sess }: { sess: SessionRec }) {
     // publicado pelo toggle 📖) — revelar identidade não libera a ficha.
     const abreResumo = !npc || isGm || Object.keys(c.fmBlob ?? {}).length > 0
     const temInvoc = mostraReal && Object.keys(c.state.invocacoesAtivas ?? {}).length > 0
-    const nomeExib = mostraReal ? c.summary.nome : (nomes.get(c.id) ?? c.summary.nome)
+    // report 2026-09-12: na iniciativa vale o Apelido; sem ele, o nome inteiro
+    const nomeExib = mostraReal ? nomeDeIniciativa(c.summary.nome, c.fmBlob) : (nomes.get(c.id) ?? c.summary.nome)
     const portrait = mostraReal
       ? (c.summary.retrato ?? creatureImageUrl(synthDocFromCharacter(c), assets, true))
       : null

@@ -33,7 +33,7 @@ import { itemValorPO, pullItemToFm, normalizeGroupItem } from './inventario-item
 import type { GroupInventoryItem } from '../data/session-repo/contract'
 import type { VaultDoc } from '../data/types'
 import { deMoeda, formatMoeda, moedaSimbolo } from '../data/moeda'
-import { reskinName } from '../data/reskin'
+import { reskinName, reskinText } from '../data/reskin'
 
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas/'
 const IMBUICOES_ARMA_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/'
@@ -52,13 +52,15 @@ const KIND_EMOJI: Record<string, string> = {
   tesouro: '💍',
   ouro: '🪙',
 }
-const TIPOS = [
+export const TIPOS_INVENTARIO = [
   { id: 'arma', label: '⚔️ Arma' },
   { id: 'equipamento', label: '💍 Equipamento' },
   { id: 'implemento', label: '🪄 Implemento' },
+  // "Ouro" é o dinheiro da fantasia; no mundo ativo o termo vem do reskin
+  // (POA: Cruzados) — report 2026-09-12
   { id: 'ouro', label: '🪙 Ouro' },
 ] as const
-type Tipo = (typeof TIPOS)[number]['id']
+type Tipo = (typeof TIPOS_INVENTARIO)[number]['id']
 
 const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(--mono)', ...extra })
 const selStyle = mono({
@@ -500,7 +502,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
       >
         <span style={mono({ fontSize: 10, letterSpacing: '.12em', color: 'var(--muted)' })}>+ ADICIONAR ITEM</span>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {TIPOS.map((t) => {
+          {TIPOS_INVENTARIO.map((t) => {
             const on = tipo === t.id
             return (
               <button
@@ -518,7 +520,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                   clipPath: clip(7),
                 })}
               >
-                {t.label}
+                {reskinText(t.label)}
               </button>
             )
           })}
@@ -562,7 +564,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
               style={{ ...selStyle, opacity: armaSel ? 1 : 0.5 }}
             >
               <option value="">{armaSel ? '— obra-prima (sem imbuição) —' : '— escolha a arma primeiro —'}</option>
-              {imbuicoesAplicaveis.map((n) => (<option key={n} value={n}>{n}</option>))}
+              {imbuicoesAplicaveis.map((n) => (<option key={n} value={n}>{reskinName(n)}</option>))}
             </select>
             <QualityRow value={armaTier} onChange={setArmaTier} />
           </div>
@@ -609,7 +611,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
               <select aria-label="Tesouro" value={tesSel} onChange={(e) => setTesSel(e.target.value)} style={selStyle}>
                 <option value="">💍 — tesouro (perícia/ataque/defesa) —</option>
                 {tesouroGroups.map((g) => (
-                  <optgroup key={g.label} label={g.label}>
+                  <optgroup key={g.label} label={reskinText(g.label)}>
                     {g.entries.map((e) => (<option key={e.id} value={e.id}>{reskinName(e.nome)}</option>))}
                   </optgroup>
                 ))}

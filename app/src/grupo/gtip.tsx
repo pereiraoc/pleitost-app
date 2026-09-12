@@ -9,6 +9,8 @@
 //   componentDidMount: scroll (capture) limpa o gtip (_onScrollG).
 // O markup do overlay (§GRUPOS, sc-if grupo.gtip) é replicado em <GtipOverlay>.
 import { useLayoutEffect, useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
+import { esquerdaDoTip } from '../components/tip-posicao'
 import { getGtips, type GtipEntry } from './gtips'
 
 interface GtipState {
@@ -42,18 +44,6 @@ interface BuiltGtip {
   left: string
   top: string
   tf: string
-}
-
-/** Onde a caixa começa: à direita do cursor quando cabe; senão à ESQUERDA
- *  DELE (report 2026-09-11: "o tooltip da riqueza aparece lá pra esquerda" —
- *  o da riqueza tem 560 px e o código grudava na borda da janela em vez de
- *  abrir pro outro lado do mouse); sem caber dos dois lados, encosta. */
-export function esquerdaDoTip(x: number, w: number, vw: number): number {
-  const direita = x + 16
-  if (direita + w <= vw - 12) return direita
-  const esquerda = x - 16 - w
-  if (esquerda >= 12) return esquerda
-  return Math.max(12, vw - 12 - w)
 }
 
 /** Porta VERBATIM do buildGtip() do design — #384: entrada dinâmica (g.ent)
@@ -186,5 +176,14 @@ export function useGrupoTip(): GrupoTip {
   const clear = useCallback(() => setGtip(null), [])
 
   const built = buildGtip(gtip)
-  return { tipE, move, hide, clear, overlay: built ? <GtipOverlay tip={built} /> : null }
+  // PORTAL pro body: o overlay é position:fixed, mas um ancestral com
+  // `transform` (as telas do design têm) vira o bloco de contenção e joga a
+  // caixa pro canto — report 2026-09-12 ("na aba de grupo aparece MUITO").
+  return {
+    tipE,
+    move,
+    hide,
+    clear,
+    overlay: built && typeof document !== 'undefined' ? createPortal(<GtipOverlay tip={built} />, document.body) : null,
+  }
 }

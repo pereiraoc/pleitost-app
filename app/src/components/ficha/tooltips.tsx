@@ -23,6 +23,7 @@ import {
   type ReactNode,
 } from 'react'
 import { createPortal } from 'react-dom'
+import { esquerdaDoTip } from '../tip-posicao'
 import { PROF_BONUS, RANK_ORDER, displayName, slugify, tokens, type RankLetter } from './registry'
 import { num, profLetter, resistenciaRow, str, type ProfRow } from './hero-model'
 import { stripSharedFrom } from '../../interativa/apply'
@@ -665,8 +666,7 @@ function buildTip(t: TipState | null): BuiltTip | null {
   const vw = window.innerWidth
   const vh = window.innerHeight
   const w = Math.min(480, vw - 28)
-  let left = t.x + 16
-  if (left + w > vw - 12) left = Math.max(12, vw - 12 - w)
+  const left = esquerdaDoTip(t.x, w, vw)
   const below = t.y < vh * 0.62
   return {
     html: t.html,

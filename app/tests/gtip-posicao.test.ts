@@ -1,11 +1,11 @@
-// @vitest-environment jsdom
+// @vitest-environment node
 // TOOLTIP DA FICHA DE GRUPO (report 2026-09-11: "na parte de riqueza, se eu
 // coloco o mouse em cima, vejo o tooltip lá pra esquerda"). A caixa da riqueza
 // tem 560 px: não cabendo à direita do cursor, o código grudava na borda da
 // janela — longe do mouse. Agora ela abre pro lado ESQUERDO DO CURSOR, e só
 // encosta quando não cabe dos dois lados.
 import { describe, expect, it } from 'vitest'
-import { esquerdaDoTip } from '../src/grupo/gtip'
+import { esquerdaDoTip } from '../src/components/tip-posicao'
 
 describe('onde a caixa do tooltip começa', () => {
   const vw = 1400
