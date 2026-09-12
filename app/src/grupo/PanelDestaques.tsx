@@ -17,6 +17,7 @@ import { destTipModificador, WARN_ADEPTO_KEY } from './dest-tips'
 import { storeEntry } from './gtips'
 import { fmtSigned } from './stats'
 import { abrirMembroDetalhe, sectionTitleStyle } from './panel-ui'
+import { reskinPericia, reskinText } from '../data/reskin'
 
 const CARD_CLIP = 'polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))'
 
@@ -180,7 +181,7 @@ export function PanelDestaques({
                 <LineCard
                   key={sk.key}
                   ic={attrEmoji(grp.attr)}
-                  nome={sk.key}
+                  nome={reskinPericia(sk.key)}
                   warn={sk.warn}
                   right={sk.tops.map((top, i) => (
                     <TopSpan
@@ -262,7 +263,7 @@ export function PanelDestaques({
                 }}
               >
                 <span style={{ fontSize: 11, flex: 'none' }}>{tokens.emojis.escola[mg.emojiKey]}</span>
-                <span style={{ fontWeight: 700, fontSize: 12.5, flex: 'none' }}>{mg.nome}</span>
+                <span style={{ fontWeight: 700, fontSize: 12.5, flex: 'none' }}>{reskinText(mg.nome)}</span>
                 {mg.warn ? (
                   <span
                     // #415: o texto do ⚠️ vem da entrada GENÉRICA estável do

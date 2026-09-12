@@ -72,6 +72,7 @@ import { PanelVida } from './PanelVida'
 import { PanelRiqueza } from './PanelRiqueza'
 import { PanelDestaques } from './PanelDestaques'
 import { PanelAtaques } from './PanelAtaques'
+import { reskinName } from '../data/reskin'
 
 
 /** #338: fila de abas com rolagem horizontal — a RODA do mouse rola de lado
@@ -710,7 +711,7 @@ export function GrupoView({ groupId }: { groupId: string }) {
     const doc = memberDocs?.get(member.id)
     return {
       id: member.id,
-      label: linkLabel(doc?.frontmatter['Classe']) || member.basename || member.id,
+      label: reskinName(linkLabel(doc?.frontmatter['Classe']) || member.basename || member.id),
       em: sintoniaEmoji(doc),
       tier: tierFromLevel(doc?.frontmatter['Nível']),
       values: papelValues(doc),

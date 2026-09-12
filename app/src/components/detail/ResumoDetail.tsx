@@ -29,7 +29,7 @@ import { Lightbox } from '../Lightbox'
 import { linkLabel, unquote } from '../../markdown/dataview-value'
 // #519: o RESUMO é display — nome de nota passa pelo mundo ativo (report
 // 2026-09-10: "a ficha resumo mostra nome de fantasia, tipo o das armas").
-import { reskinName } from '../../data/reskin'
+import { reskinName, reskinText } from '../../data/reskin'
 import { atributoDeAtaqueDaArma,
   profArmaEfetiva,
   fmPath,
@@ -433,7 +433,7 @@ function MagiasResumo({
               {/* Tipo → nota do compêndio (Magia Arcana/Magia Anima) no hover,
                   como a MagiaInfoBar do Combate. */}
               <ItemHover doc={namedDoc(`Magia ${t.rota.replace(/^Magia\s+/, '').split(' ')[0]}`)} fullBody>
-                <span style={{ fontWeight: 600 }}>{t.rota}</span>
+                <span style={{ fontWeight: 600 }}>{reskinText(t.rota)}</span>
               </ItemHover>{' '}
               {/* Modificador +N/CD — formato do resumo do plugin
                   (magias-block.ts: total assinado + CD = total+10). #65: tooltip
@@ -486,7 +486,7 @@ function MagiasResumo({
               <span key={`${m.n}-${i}`}>
                 {i > 0 ? ' · ' : ''}
                 <ItemHover doc={m.doc} fullBody>
-                  <span style={{ whiteSpace: 'nowrap' }}>{m.n}</span>
+                  <span style={{ whiteSpace: 'nowrap' }}>{reskinName(m.n)}</span>
                 </ItemHover>
               </span>
             ))}

@@ -14,6 +14,7 @@ import { groupAttacks } from './ataques'
 import { orderByMaxAttackDesc } from './order'
 import { fmtSigned } from './stats'
 import { sectionTitleStyle } from './panel-ui'
+import { reskinName, reskinText } from '../data/reskin'
 
 const CHIP_CLIP = 'polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px))'
 
@@ -47,7 +48,9 @@ export function PanelAtaques({
           </div>
           <div style={{ display: 'flex', gap: 9, flexWrap: 'wrap' }}>
             {g.list.map((w, i) => {
-              const txt = w.prop ? `${w.label} · ${w.prop}` : w.label
+              // nome e propriedade da arma no idioma do mundo (report 2026-09-11)
+              const nome = reskinName(w.label)
+              const txt = w.prop ? `${nome} · ${reskinText(w.prop)}` : nome
               return (
                 <span
                   key={`${w.label}-${i}`}

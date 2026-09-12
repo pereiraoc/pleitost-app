@@ -44,6 +44,18 @@ interface BuiltGtip {
   tf: string
 }
 
+/** Onde a caixa começa: à direita do cursor quando cabe; senão à ESQUERDA
+ *  DELE (report 2026-09-11: "o tooltip da riqueza aparece lá pra esquerda" —
+ *  o da riqueza tem 560 px e o código grudava na borda da janela em vez de
+ *  abrir pro outro lado do mouse); sem caber dos dois lados, encosta. */
+export function esquerdaDoTip(x: number, w: number, vw: number): number {
+  const direita = x + 16
+  if (direita + w <= vw - 12) return direita
+  const esquerda = x - 16 - w
+  if (esquerda >= 12) return esquerda
+  return Math.max(12, vw - 12 - w)
+}
+
 /** Porta VERBATIM do buildGtip() do design — #384: entrada dinâmica (g.ent)
  *  tem precedência; sem ela, cai no store estático (comportamento original). */
 function buildGtip(g: GtipState | null): BuiltGtip | null {
@@ -57,8 +69,7 @@ function buildGtip(g: GtipState | null): BuiltGtip | null {
   let ew = ent.w
   if (/^riq:/.test(g.key)) ew = ew >= 300 ? 560 : 420
   const w = Math.min(ew, vw - 28)
-  let left = g.x + 16
-  if (left + w > vw - 12) left = Math.max(12, vw - 12 - w)
+  const left = esquerdaDoTip(g.x, w, vw)
   const below = g.y < vh * 0.62
   return {
     html: ent.h,

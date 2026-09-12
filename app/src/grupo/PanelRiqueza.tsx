@@ -39,7 +39,7 @@ import {
 } from './riq-tips'
 import { applySort, cycleSort, gnum, sortArrow, type GrpSort } from './sort'
 import { nivelOf } from './stats'
-import { formatMoeda } from '../data/moeda'
+import { formatMoeda, moedaSimbolo } from '../data/moeda'
 import {
   DELTA_COLORS,
   deltaKind,
@@ -59,13 +59,17 @@ import {
 // usados pelo plugin em appendWealthSection (EMOJI.subcategoria.
 // Especializacao/Tesouro, EMOJI.categoria.Consumivel, EMOJI.glyph.
 // GoldCoin/DeltaTri).
-const RIQ_HEADS = [
-  { ic: '🎖️', l: 'NVL' },
-  { ic: '🧪', l: 'CNS' },
-  { ic: '🪙', l: 'ORO' },
-  { ic: '💍', l: 'TSR' },
-  { ic: '△', l: 'DLT' },
-]
+/** O rótulo da coluna de dinheiro é o SÍMBOLO do mundo (report 2026-09-11:
+ *  "a coluna de ouro está ORO em vez de Cz$") — PO na fantasia, Cz$ na POA. */
+function riqHeads(): { ic: string; l: string }[] {
+  return [
+    { ic: '🎖️', l: 'NVL' },
+    { ic: '🧪', l: 'CNS' },
+    { ic: '🪙', l: moedaSimbolo() },
+    { ic: '💍', l: 'TSR' },
+    { ic: '△', l: 'DLT' },
+  ]
+}
 
 const grid: CSSProperties = {
   display: 'grid',
@@ -209,7 +213,7 @@ export function PanelRiqueza({
         <div style={{ minWidth: 680, display: 'flex', flexDirection: 'column', gap: 4 }}>
           <div style={{ ...grid, padding: '0 4px 6px', borderBottom: '1px solid var(--line)' }}>
             <div />
-            {RIQ_HEADS.map((h, i) => (
+            {riqHeads().map((h, i) => (
               <SortHead
                 key={h.l}
                 ic={h.ic}
@@ -235,7 +239,7 @@ export function PanelRiqueza({
               />
               {row.cells.map((v, i) => (
                 <ValueCell
-                  key={RIQ_HEADS[i]!.l}
+                  key={riqHeads()[i]!.l}
                   value={v}
                   weight={row.grupo ? 800 : 500}
                   cor={

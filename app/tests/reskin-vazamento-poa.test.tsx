@@ -19,6 +19,8 @@ import { setActiveContexto } from '../src/data/reskin'
 import { __resetLocalStoreForTests, createLocalEntity } from '../src/data/local-entities'
 import { __resetHeroStoreMemoryForTests } from '../src/data/hero-store'
 import { WIZARD_STEPS } from '../src/components/wizard/steps'
+import { GrupoView } from '../src/grupo/GrupoView'
+import { ResumoDetail } from '../src/components/detail/ResumoDetail'
 import type { ContextoDef } from '../src/data/context-def'
 import type { IndexManifest } from '../src/data/types'
 
@@ -124,6 +126,38 @@ describe.skipIf(!temMundo)('POA 1987: nenhum nome de fantasia na ficha nem no wi
       }, 30000)
     }
   }
+
+  // report 2026-09-11: "na ficha de grupo nos papéis tá com nome de fantasia";
+  // "o nome da coluna de ouro tá ORO em vez de Cz$"; "perícias e ataques
+  // também usam nomes de fantasia"
+  it('ficha de grupo · papéis, riqueza, perícias e ataques', async () => {
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <GrupoView groupId="Sistema/Criaturas/Grupos de Criaturas/Adriann, Carlos, Kenji, Zuko" />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    await sleep(6000)
+    // a coluna do dinheiro é o símbolo do mundo, não "ORO"
+    expect(document.body.textContent).toContain('Cz$')
+    expect(document.body.textContent).not.toContain('ORO')
+    expect(vazamentos()).toEqual([])
+  }, 40000)
+
+  // report 2026-09-11: "na ficha resumo ainda aparece as magias e o nome do
+  // tipo de magias com nome fantasia"
+  it('ficha resumo · magias e tipos de magia', async () => {
+    render(
+      <CatalogProvider catalog={catalog}>
+        <MemoryRouter>
+          <ResumoDetail id="Sistema/Criaturas/Heróis/Flohx Fritz" />
+        </MemoryRouter>
+      </CatalogProvider>,
+    )
+    await sleep(6000)
+    expect(vazamentos()).toEqual([])
+  }, 40000)
 
   it('wizard · passo das magias (Arcanista)', async () => {
     const base = JSON.parse(
