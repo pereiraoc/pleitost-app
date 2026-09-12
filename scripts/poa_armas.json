@@ -1,274 +1,698 @@
 {
- "Pontos de Pressão": {
-  "grupo": "especial",
-  "precisa": true
- },
- "Presas de Lobo": {
-  "grupo": "especial",
-  "precisa": true
- },
- "Garra de Tigre": {
-  "grupo": "especial",
-  "precisa": true
- },
- "Escudada": {
-  "grupo": "especial",
-  "precisa": false
- },
- "Cauda de Dragão": {
-  "grupo": "especial",
-  "precisa": false
- },
- "Presas Enormes": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Mandíbula": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Garras": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Chifres Letais": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Mandíbula Afiada": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Garras Colossais": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Cauda Colossal": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Presas Letais": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Chifres Enormes": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Cauda Pesada": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Garras Afiadas": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Mandíbula Enorme": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Presas Colossais": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Mandíbula Grande": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Garras Enormes": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Chifres Colossais": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Mandíbula Colossal": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Chifres": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Chifres Grandes": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Cauda Grande": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Cauda": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Presas": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Cauda Enorme": {
-  "grupo": "natural",
-  "precisa": false
- },
- "Garras Grandes": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Presas Grandes": {
-  "grupo": "natural",
-  "precisa": true
- },
- "Rapieira": {
-  "grupo": "cac-marcial",
-  "precisa": true
- },
- "Picareta de Guerra": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Pique": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Espada Bastarda": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Alfange": {
-  "grupo": "cac-marcial",
-  "precisa": true
- },
- "Machadão": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Espada Curta": {
-  "grupo": "cac-marcial",
-  "precisa": true
- },
- "Punhal": {
-  "grupo": "cac-marcial",
-  "precisa": true
- },
- "Malho": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Alabarda": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Montante": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Espada Longa": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Espada Curva": {
-  "grupo": "cac-marcial",
-  "precisa": true
- },
- "Machadinha": {
-  "grupo": "cac-marcial",
-  "precisa": false
- },
- "Maça Estrela": {
-  "grupo": "cac-marcial",
-  "precisa": false
+ "Adaga": {
+  "dano": "d4+2",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Arremesso|Arremesso 3]]",
+   "[[Ágil]]"
+  ],
+  "tipo": "perfuração"
  },
  "Adaga de Duelo": {
+  "dano": "d4+2",
   "grupo": "cac-marcial",
-  "precisa": true
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Arremesso|Arremesso 3]]",
+   "[[Ágil]]",
+   "[[Especial]]"
+  ],
+  "tipo": "perfuração"
  },
- "Martelo de Guerra": {
+ "Alabarda": {
+  "dano": "d8+4",
   "grupo": "cac-marcial",
-  "precisa": false
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Especial]]"
+  ],
+  "tipo": "corte"
  },
- "Machado de Batalha": {
+ "Alfange": {
+  "dano": "d6+3",
   "grupo": "cac-marcial",
-  "precisa": false
- },
- "Arco de Guerra": {
-  "grupo": "d-marcial",
-  "precisa": false
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Força X|Força 2]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "corte"
  },
  "Arco Curto": {
+  "dano": "d6+3",
   "grupo": "d-marcial",
-  "precisa": false
- },
- "Arco de Caça": {
-  "grupo": "d-marcial",
-  "precisa": false
+  "maos": "1+",
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 10]]",
+   "[[Propulsão|Propulsão 6]]"
+  ],
+  "tipo": "perfuração"
  },
  "Arco Longo": {
+  "dano": "d8+4",
   "grupo": "d-marcial",
-  "precisa": false
+  "maos": "1+",
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 20]]",
+   "[[Força X|Força 2]]",
+   "[[Propulsão|Propulsão 10]]",
+   "[[Especial]]"
+  ],
+  "tipo": "perfuração"
  },
- "Besta": {
-  "grupo": "d-simples",
-  "precisa": false
+ "Arco de Caça": {
+  "dano": "d6+3",
+  "grupo": "d-marcial",
+  "maos": "1+",
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 15]]",
+   "[[Força X|Força 1]]",
+   "[[Propulsão|Propulsão 10]]"
+  ],
+  "tipo": "perfuração"
  },
- "Besta Pesada": {
-  "grupo": "d-simples",
-  "precisa": false
- },
- "Besta Leve": {
-  "grupo": "d-simples",
-  "precisa": false
- },
- "Besta de Mão": {
-  "grupo": "d-simples",
-  "precisa": false
- },
- "Funda": {
-  "grupo": "d-simples",
-  "precisa": false
- },
- "Bordão": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Manopla": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Maça": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Lança": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Azagaia": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Porrete": {
-  "grupo": "cac-simples",
-  "precisa": false
- },
- "Adaga": {
-  "grupo": "cac-simples",
-  "precisa": true
+ "Arco de Guerra": {
+  "dano": "d8+4",
+  "grupo": "d-marcial",
+  "maos": "1+",
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 15]]",
+   "[[Força X|Força 2]]",
+   "[[Propulsão|Propulsão 6]]"
+  ],
+  "tipo": "perfuração"
  },
  "Ataque Desarmado": {
+  "dano": "d2+1",
   "grupo": "cac-simples",
-  "precisa": false
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
  },
- "Tacape": {
+ "Azagaia": {
+  "dano": "d6+3",
   "grupo": "cac-simples",
-  "precisa": false
- },
- "Pistola Arcanônica": {
-  "grupo": "d-arcanonico",
-  "precisa": false
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 2]]",
+   "[[Arremesso|Arremesso 5]]"
+  ],
+  "tipo": "perfuração"
  },
  "Bacamarte Arcanônico": {
+  "dano": "d8+4",
   "grupo": "d-arcanonico",
-  "precisa": false
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 10]]",
+   "[[Recarga]]",
+   "[[Inteligência X|Inteligência 2]]",
+   "[[Fatal]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Besta": {
+  "dano": "d8+4",
+  "grupo": "d-simples",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 20]]",
+   "[[Recarga]]",
+   "[[Força X|Força 2]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Besta Leve": {
+  "dano": "d6+3",
+  "grupo": "d-simples",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 15]]",
+   "[[Recarga]]",
+   "[[Força X|Força 1]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Besta Pesada": {
+  "dano": "d10+5",
+  "grupo": "d-simples",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 20]]",
+   "[[Recarga]]",
+   "[[Força X|Força 3]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Besta de Mão": {
+  "dano": "d4+2",
+  "grupo": "d-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 10]]",
+   "[[Recarga]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Bordão": {
+  "dano": "d6+3",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Cauda": {
+  "dano": "d4+2",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Cauda Colossal": {
+  "dano": "d12+6",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Cauda Enorme": {
+  "dano": "d10+5",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Cauda Grande": {
+  "dano": "d8+4",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Cauda Pesada": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Cauda de Dragão": {
+  "dano": "d8+4",
+  "grupo": "especial",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Chifres": {
+  "dano": "d4+2",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Chifres Colossais": {
+  "dano": "d12+6",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Chifres Enormes": {
+  "dano": "d10+5",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Chifres Grandes": {
+  "dano": "d8+4",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Chifres Letais": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Escudada": {
+  "dano": "d4+2",
+  "grupo": "especial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "contusão"
+ },
+ "Espada Bastarda": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "corte"
+ },
+ "Espada Curta": {
+  "dano": "d6+3",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Força X|Força 1]]",
+   "[[Precisa]]",
+   "[[Ágil]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Espada Curva": {
+  "dano": "d6+3",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Força X|Força 1]]",
+   "[[Precisa]]",
+   "[[Ágil]]"
+  ],
+  "tipo": "corte"
+ },
+ "Espada Longa": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 2]]"
+  ],
+  "tipo": "corte"
+ },
+ "Funda": {
+  "dano": "d4+2",
+  "grupo": "d-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 6]]",
+   "[[Recarga]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Garra de Tigre": {
+  "dano": "d6+3",
+  "grupo": "especial",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Garras": {
+  "dano": "d4+2",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]"
+  ],
+  "tipo": "corte"
+ },
+ "Garras Afiadas": {
+  "dano": "d4+2",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "corte"
+ },
+ "Garras Colossais": {
+  "dano": "d10+5",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "corte"
+ },
+ "Garras Enormes": {
+  "dano": "d8+4",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "corte"
+ },
+ "Garras Grandes": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]"
+  ],
+  "tipo": "corte"
+ },
+ "Lança": {
+  "dano": "d6+3",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Arremesso|Arremesso 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Machadinha": {
+  "dano": "d6+3",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 1]]",
+   "[[Arremesso|Arremesso 3]]",
+   "[[Ágil]]"
+  ],
+  "tipo": "corte"
+ },
+ "Machado de Batalha": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "corte"
+ },
+ "Machadão": {
+  "dano": "d12+6",
+  "grupo": "cac-marcial",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Pesada]]"
+  ],
+  "tipo": "corte"
+ },
+ "Malho": {
+  "dano": "d12+6",
+  "grupo": "cac-marcial",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Pesada]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Mandíbula": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Mandíbula Afiada": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [
+   "[[Apunhalante]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Mandíbula Colossal": {
+  "dano": "d12+6",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Mandíbula Enorme": {
+  "dano": "d10+5",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Mandíbula Grande": {
+  "dano": "d8+4",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Manopla": {
+  "dano": "d2+1",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Especial]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Martelo de Guerra": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Maça": {
+  "dano": "d6+3",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 2]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Maça Estrela": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 2]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Montante": {
+  "dano": "d12+6",
+  "grupo": "cac-marcial",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Pesada]]"
+  ],
+  "tipo": "corte"
+ },
+ "Picareta de Guerra": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Pique": {
+  "dano": "d8+4",
+  "grupo": "cac-marcial",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Especial]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Pistola Arcanônica": {
+  "dano": "d6+3",
+  "grupo": "d-arcanonico",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Alcance|Alcance 6]]",
+   "[[Recarga]]",
+   "[[Inteligência X|Inteligência 1]]",
+   "[[Fatal]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Pontos de Pressão": {
+  "dano": "d4+2",
+  "grupo": "especial",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Porrete": {
+  "dano": "d4+2",
+  "grupo": "cac-simples",
+  "maos": 1,
+  "precisa": false,
+  "propriedades": [
+   "[[Duas-mãos]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Presas": {
+  "dano": "d4+2",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Presas Colossais": {
+  "dano": "d10+5",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Presas Enormes": {
+  "dano": "d8+4",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": false,
+  "propriedades": [],
+  "tipo": "perfuração"
+ },
+ "Presas Grandes": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Presas Letais": {
+  "dano": "d6+3",
+  "grupo": "natural",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Presas de Lobo": {
+  "dano": "d6+3",
+  "grupo": "especial",
+  "maos": 0,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "contusão"
+ },
+ "Punhal": {
+  "dano": "d4+2",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Arremesso|Arremesso 3]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Rapieira": {
+  "dano": "d6+3",
+  "grupo": "cac-marcial",
+  "maos": 1,
+  "precisa": true,
+  "propriedades": [
+   "[[Precisa]]",
+   "[[Força X|Força 2]]",
+   "[[Apunhalante]]"
+  ],
+  "tipo": "perfuração"
+ },
+ "Tacape": {
+  "dano": "d10+5",
+  "grupo": "cac-simples",
+  "maos": 2,
+  "precisa": false,
+  "propriedades": [
+   "[[Força X|Força 3]]",
+   "[[Pesada]]"
+  ],
+  "tipo": "contusão"
  }
 }

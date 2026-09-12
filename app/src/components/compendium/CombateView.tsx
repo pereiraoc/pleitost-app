@@ -16,7 +16,7 @@
 //
 // Registro: registerDocView({id:'combate'}) + registerLeafView('Combate').
 import { useMemo, useState } from 'react'
-import { reskinName } from '../../data/reskin'
+import { reskinName, reskinText } from '../../data/reskin'
 import { Link } from 'react-router-dom'
 import type { Catalog } from '../../data/catalog'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
@@ -37,6 +37,8 @@ import {
 } from '../../mestre/encounter-compute'
 import type { EncounterRoster, EncounterRosterEntry } from '../../data/session-repo/contract'
 import { EncounterLevelBar, DifficultyBadge } from '../mestre/ui'
+import { SPEED_EMOJI, SPEED_LABEL, type SpeedTier } from '../../data/initiative-blocks'
+import { GENERICOS, locaisDoCombate, ondeDe, situacaoDe } from '../../mestre/encontro-meta'
 import { CriadorCombate } from '../mestre/CriadorCombate'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { registerDocView } from './doc-view-registry'
@@ -89,6 +91,22 @@ function docForRosterEntry(
   } as unknown as VaultDoc
 }
 
+/** Velocidades DISTINTAS de uma linha do roster, na ordem em que aparecem.
+ *  O mestre pediu (2026-09-12) que a velocidade de cada monstro apareça já na
+ *  lista de encontros — ela vem do próprio bloco (`- 2 [[Guarda]] lento`) e o
+ *  emoji sai do registro central (SPEED_EMOJI), nunca de um mapa novo aqui. */
+function velocidadesDa(entry: EncounterRosterEntry): SpeedTier[] {
+  return [...new Set(entry.speeds ?? [])]
+}
+
+function Velocidade({ tier }: { tier: SpeedTier }) {
+  return (
+    <span title={SPEED_LABEL[tier]} aria-label={SPEED_LABEL[tier]} style={{ marginRight: 2 }}>
+      {SPEED_EMOJI[tier]}
+    </span>
+  )
+}
+
 /** #399: avatar de uma criatura do roster — imagem (nome→raça→classe) ou o
  *  emoji 🐲 de fallback (a criatura não tem retrato nem imagem de raça). */
 function RosterAvatar({ doc, assets }: { doc: VaultDoc | null; assets: AssetIndex | undefined }) {
@@ -105,8 +123,32 @@ function RosterAvatar({ doc, assets }: { doc: VaultDoc | null; assets: AssetInde
  *  todas `categoria: Combate`. */
 export const COMBATE_CATEGORY = 'Combate'
 
+
 export function isCombate(doc: VaultDoc): boolean {
   return doc.type === COMBATE_CATEGORY
+}
+
+/** Texto do FM com wikilinks virando link de verdade (o `Onde` cita lugares). */
+function DocText({ texto }: { texto: string }) {
+  const catalog = useCatalog()
+  const partes = texto.split(/(\[\[[^\]]+\]\])/g).filter(Boolean)
+  return (
+    <>
+      {partes.map((parte, i) => {
+        const m = /^\[\[([^\]|]+)(?:\|([^\]]+))?\]\]$/.exec(parte)
+        if (!m) return <span key={i}>{reskinText(parte)}</span>
+        const rotulo = reskinName(m[2] ?? m[1]!)
+        const res = catalog.resolve(m[1]!)
+        return res.kind === 'doc' ? (
+          <Link key={i} to={docPath(res.id)}>
+            {rotulo}
+          </Link>
+        ) : (
+          <span key={i}>{rotulo}</span>
+        )
+      })}
+    </>
+  )
 }
 
 // ─────────────────────────── página de um Combate ───────────────────────────
@@ -126,6 +168,23 @@ export function CombateSheet({ doc }: { doc: VaultDoc }) {
         <h1>{reskinName(doc.basename)}</h1>
         <span className="doc-type">{COMBATE_CATEGORY}</span>
       </header>
+      {/* O que a nota diz do encontro: onde acontece e o que está acontecendo.
+          Antes a página abria direto no roster e a situação sumia (report do
+          mestre: "quando eu clico no encontro não aparece"). */}
+      {ondeDe(doc) || situacaoDe(doc) ? (
+        <div className="combat-brief">
+          {ondeDe(doc) ? (
+            <p>
+              <span className="combat-brief-k">📍 Onde</span> <DocText texto={ondeDe(doc)} />
+            </p>
+          ) : null}
+          {situacaoDe(doc) ? (
+            <p>
+              <span className="combat-brief-k">🎬 Situação</span> {reskinText(situacaoDe(doc))}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       {roster.entries.length ? (
         <CombatMarkerBlock roster={roster} encounterPath={doc.id} />
       ) : (
@@ -175,6 +234,9 @@ function CombateCard({
   return (
     <Link to={docPath(entry.id)} className="combat-grid-cell" data-enc-dif={total}>
       <span className="combat-card-name">{reskinName(entry.basename ?? entry.id)}</span>
+      {/* Descrição breve do encontro (FM `Situação`) — o mestre escolhe pelo que
+          acontece, não pelo nome. */}
+      {situacaoDe(doc) ? <span className="combat-card-sit">{reskinText(situacaoDe(doc))}</span> : null}
       {/* #398: com a mesa ativa selecionada, mostra a dificuldade REAL pro grupo
           da sessão; senão, as barrinhas por nível (o padrão). */}
       {mesaBadge ? (
@@ -188,7 +250,10 @@ function CombateCard({
             <li key={`${e.label}-${i}`}>
               {/* #399: avatar da criatura (imagem por nome→raça→classe, senão emoji) */}
               <RosterAvatar doc={docForRosterEntry(e, catalog, monsterDocs)} assets={assets} />
-              {e.qty}× {e.label}
+              {velocidadesDa(e).map((v) => (
+                <Velocidade key={v} tier={v} />
+              ))}
+              {e.qty}× {reskinName(e.label)}
             </li>
           ))}
         </ul>
@@ -221,6 +286,10 @@ export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
   )
   // #398: filtro "dificuldade pra mesa atual" — só faz sentido com sessão viva.
   const [filtrarMesa, setFiltrarMesa] = useState(false)
+  // Pedido do mestre (2026-09-12): "seria legal agrupar por locais onde tem os
+  // encontros, aí facilitaria procurar encontros possíveis num bairro". Um
+  // encontro que roda em três lugares aparece nos três.
+  const [porLocal, setPorLocal] = useState(false)
   const usarMesa = filtrarMesa && sessionHeroLevels.length > 0
 
   // rosters parseados por combate
@@ -268,6 +337,23 @@ export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
     [rosters, catalog, monsterDocs, usarMesa, sessionHeroLevels],
   )
 
+  // Um encontro entra em TODO lugar que o `Onde` cita; sem lugar nenhum ele é
+  // genérico e fica no balde do fim.
+  const grupos = useMemo(() => {
+    const porNome = new Map<string, typeof cards>()
+    for (const c of cards) {
+      const locais = locaisDoCombate(c.doc)
+      for (const l of locais.length ? locais : [GENERICOS]) {
+        porNome.set(l, [...(porNome.get(l) ?? []), c])
+      }
+    }
+    return [...porNome.keys()]
+      .sort((a, b) =>
+        a === GENERICOS ? 1 : b === GENERICOS ? -1 : a.localeCompare(b, 'pt-BR'),
+      )
+      .map((local) => ({ local, cards: porNome.get(local)! }))
+  }, [cards])
+
   return (
     <div className="combat-grid-wrap">
       {/* #397: a criação vive no afixo do FolderView (creator), não mais num
@@ -288,23 +374,69 @@ export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
           </span>
         </label>
       ) : null}
+      <div
+        role="radiogroup"
+        aria-label="Agrupar combates por"
+        className="combat-agrupar"
+      >
+        <span className="combat-agrupar-k">{'// AGRUPAR POR'}</span>
+        {[
+          { id: false, label: 'DIFICULDADE' },
+          { id: true, label: 'LOCAL' },
+        ].map((o) => (
+          <button
+            key={String(o.id)}
+            type="button"
+            role="radio"
+            aria-checked={porLocal === o.id}
+            className={porLocal === o.id ? 'combat-agrupar-on' : undefined}
+            onClick={() => setPorLocal(o.id)}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
       {entries.length ? (
-        <div className="combat-grid">
-          {cards.map((c) => (
-            <CombateCard
-              key={c.entry.id}
-              entry={c.entry}
-              doc={c.doc}
-              roster={c.roster}
-              byLevel={c.byLevel}
-              total={c.total}
-              catalog={catalog}
-              monsterDocs={monsterDocs}
-              assets={assets}
-              mesaBadge={c.mesa ? { ratio: c.mesa.ratio, meta: c.mesa } : null}
-            />
-          ))}
-        </div>
+        porLocal ? (
+          grupos.map((g) => (
+            <section key={g.local} data-local={g.local}>
+              <div className="kicker">{'// '}{reskinName(g.local).toUpperCase()}</div>
+              <div className="combat-grid">
+                {g.cards.map((c) => (
+                  <CombateCard
+                    key={`${g.local}-${c.entry.id}`}
+                    entry={c.entry}
+                    doc={c.doc}
+                    roster={c.roster}
+                    byLevel={c.byLevel}
+                    total={c.total}
+                    catalog={catalog}
+                    monsterDocs={monsterDocs}
+                    assets={assets}
+                    mesaBadge={c.mesa ? { ratio: c.mesa.ratio, meta: c.mesa } : null}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        ) : (
+          <div className="combat-grid">
+            {cards.map((c) => (
+              <CombateCard
+                key={c.entry.id}
+                entry={c.entry}
+                doc={c.doc}
+                roster={c.roster}
+                byLevel={c.byLevel}
+                total={c.total}
+                catalog={catalog}
+                monsterDocs={monsterDocs}
+                assets={assets}
+                mesaBadge={c.mesa ? { ratio: c.mesa.ratio, meta: c.mesa } : null}
+              />
+            ))}
+          </div>
+        )
       ) : (
         <p className="npc-empty">// NENHUM COMBATE</p>
       )}

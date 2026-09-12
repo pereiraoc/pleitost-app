@@ -1219,6 +1219,18 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
       .map((n) => ({ value: `[[${n}]]`, label: n }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog, localVersion])
+  // AFILIAÇÃO (2026-09-12, pedido do mestre): a quem a criatura responde — uma
+  // Organização ou um Lugar. É o campo que agrupa o bestiário fora do tier, e
+  // o que a ficha mostra logo abaixo da tipagem.
+  const afiliacao = str(dfm['Afiliação'])
+  const afiliacaoOptions = useMemo(
+    () =>
+      catalog.content
+        .filter((e) => (e.type === 'Organização' || e.type === 'Localização') && e.basename)
+        .map((e) => ({ value: `[[${e.basename}]]`, label: e.basename! }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'pt')),
+    [catalog],
+  )
   // Retrato local-first (issue #197): imagem subida no app tem precedência,
   // senão hierarquia da vault — combinação centralizada em images.ts.
   const portrait = useCreaturePortrait(doc)
@@ -1406,6 +1418,31 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               />
             </Field>
           ) : null}
+          {caps.tier ? (
+            <Field label={reskinText('Afiliação').toUpperCase()}>
+              <BoxSelect
+                ariaLabel="Afiliação"
+                display={
+                  <div style={boxStyle('13px 15px', 15, 'var(--blue)')}>
+                    🏴 {linkLabelDisplay(afiliacao) || '—'}
+                  </div>
+                }
+                options={withCurrent(
+                  [{ value: '', label: '—' }, ...afiliacaoOptions],
+                  afiliacao,
+                  linkLabel(afiliacao),
+                )}
+                value={afiliacao}
+                onChange={(v) => model.set('Afiliação', v)}
+                infoDocId={refs.refDoc(afiliacao)?.id}
+              />
+            </Field>
+          ) : null}
+          {/* DESCRIÇÃO (2026-09-12, pedido do mestre): criatura não tem
+              Biografia, e o que ela É precisa estar no primeiro golpe de
+              vista — logo ABAIXO DA TIPAGEM, pra abrir a ficha e já ler.
+              Mesmo quadro (e mesmo FM `Descrição`) da aba COMPETÊNCIAS. */}
+          {!caps.biografia ? <DescricaoBox doc={doc} origem="perfil" /> : null}
         </div>
       </div>
 

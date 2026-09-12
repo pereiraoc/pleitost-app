@@ -209,14 +209,17 @@ describe.skipIf(!temDataset)('encontros prontos cobrem o bestiário', () => {
     // Grenal traz o Arruaceiro e o Sargento Valdir Brum nos fences dela).
     for (const e of manifest.docs.filter((d) => d.type === 'Combate' || d.type === 'Aventura')) {
       const doc = JSON.parse(fs.readFileSync(path.join(cyberDir, `${e.id}.json`), 'utf8')) as VaultDoc
-      for (const m of String(doc.body ?? '').matchAll(/- \d+ \[\[([^\]|]+)/g)) usadas.add(m[1]!.trim())
+      // o alvo pode vir qualificado por caminho quando o nome é ambíguo na
+      // vault (`[[Sistema/…/Coronel Luciana Prado|Coronel Luciana Prado]]`) —
+      // o que interessa é o último segmento.
+      for (const m of String(doc.body ?? '').matchAll(/- \d+ \[\[([^\]|]+)/g)) {
+        usadas.add(m[1]!.trim().split('/').pop()!.trim())
+      }
     }
     const semEncontro = manifest.docs
       .filter((d) => d.type === 'Criatura' && d.subtype === 'Monstro' && d.basename)
       .map((d) => d.basename!)
       .filter((n) => !usadas.has(n))
-      // as 4 herdadas do bestiário base entram nos encontros quando forem migradas
-      .filter((n) => !['Guarda', 'Guarda Oficial'].includes(n))
     expect(semEncontro).toEqual([])
   })
 })

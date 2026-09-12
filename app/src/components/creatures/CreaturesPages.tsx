@@ -59,6 +59,12 @@ import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
 import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
 import { plainLabel, subtituloDeCriatura } from './subtitulo'
+import {
+  CRITERIOS,
+  gruposPorChave,
+  ptAlpha,
+  type CriterioBestiario,
+} from './agrupar-bestiario'
 import { retratoCover } from '../retrato'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
@@ -100,7 +106,6 @@ function tierOfFmTier(doc?: VaultDoc): number {
 }
 
 const TIER_GROUP_LETTERS = ['S', 'A', 'B', 'C'] as const
-const ptAlpha = new Intl.Collator('pt')
 
 /** Grupos ordenados S→C, alfabéticos dentro; grupo vazio não aparece. */
 function tierGroups(
@@ -163,6 +168,57 @@ function tierGroupsMonstro(
       .get(tier)!
       .sort((a, b) => ptAlpha.compare(a.basename ?? a.id, b.basename ?? b.id)),
   }))
+}
+
+/** Cabeçalho de grupo que NÃO é tier — mesmo kicker, sem a palavra "TIER". */
+function GrupoKicker({ rotulo }: { rotulo: string }) {
+  return <div className="kicker">{'// '}{rotulo.toUpperCase()}</div>
+}
+
+/** Seletor de agrupamento do bestiário (mono, no tom dos kickers). */
+function SeletorDeGrupo({
+  valor,
+  onChange,
+}: {
+  valor: CriterioBestiario
+  onChange: (c: CriterioBestiario) => void
+}) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Agrupar bestiário por"
+      style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '2px 0 6px' }}
+    >
+      {/* NÃO usa a classe `kicker`: ela é o cabeçalho de GRUPO da lista, e os
+          testes de agrupamento leem `.kicker` como fronteira de grupo. */}
+      <span
+        style={{
+          fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.14em',
+          color: 'var(--muted)',
+        }}
+      >
+        {'// AGRUPAR POR'}
+      </span>
+      {CRITERIOS.map((c) => (
+        <button
+          key={c.id}
+          type="button"
+          role="radio"
+          aria-checked={valor === c.id}
+          onClick={() => onChange(c.id)}
+          style={{
+            fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.12em',
+            padding: '3px 8px', cursor: 'pointer',
+            background: valor === c.id ? 'var(--accent)' : 'transparent',
+            color: valor === c.id ? 'var(--ink)' : 'var(--muted)',
+            border: `1px solid ${valor === c.id ? 'var(--accent)' : 'var(--line2)'}`,
+          }}
+        >
+          {c.label}
+        </button>
+      ))}
+    </div>
+  )
 }
 
 // Abas verbatim do NPC_TABS do design; a pasta da vault é a fonte real de
@@ -1488,19 +1544,30 @@ function NpcPanel({
   prepend?: ReactNode
 }) {
   const { entries, docs } = useFolderDocs(folder, localKind, { includeVault })
+  // #547: só o BESTIÁRIO oferece os três critérios; as outras abas seguem no
+  // agrupamento único que sempre tiveram.
+  const [criterio, setCriterio] = useState<CriterioBestiario>('tier')
+  const porTier = !tierNumerico || criterio === 'tier'
   return (
     <TrackPanel pad="0">
       <div className="npc-panel-inner">
         {prepend}
+        {tierNumerico ? <SeletorDeGrupo valor={criterio} onChange={setCriterio} /> : null}
         {docs && tierOf
           ? // docs carregados: grupos por tier decrescente (issue #31);
             // lista achatada com key estável por card (vide HeroisPage).
             // #380: bestiário usa o Tier numérico do monstro (3→0).
-            (tierNumerico
+            (!porTier
+              ? gruposPorChave(entries, docs, criterio)
+              : tierNumerico
               ? tierGroupsMonstro(entries, docs)
               : tierGroups(entries, docs, tierOf).map((g) => ({ ...g, color: undefined as string | undefined }))
             ).flatMap((group) => [
-              <TierKicker key={`tier-${group.letter}`} letter={group.letter} color={group.color} />,
+              porTier ? (
+                <TierKicker key={`tier-${group.letter}`} letter={group.letter} color={group.color} />
+              ) : (
+                <GrupoKicker key={`grupo-${group.letter}`} rotulo={group.letter} />
+              ),
               ...group.entries.map((entry) => (
                 <NpcCard
                   key={entry.id}

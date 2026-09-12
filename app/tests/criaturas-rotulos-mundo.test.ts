@@ -25,6 +25,21 @@ const caPoa = {
   Classe: '[[Companheiro Animal Canino|Canino Médio]]',
 }
 const monstroPoa = { subcategoria: 'Monstro', Raça: '[[Humano|Humano (Médio)]]' }
+// Pedido do mestre (2026-09-12): na lista, a CLASSE vem antes da raça, e a raça
+// mostra o TAMANHO — o alias "Humano (Médio)" já traz, mas "Incomum" não trazia
+// e o bicho aparecia sem tamanho nenhum.
+const soldadoPoa = {
+  subcategoria: 'Monstro',
+  Classe: '[[Soldado|Soldado Competente]]',
+  Raça: '[[Humano|Humano (Médio)]]',
+  Tamanho: 'Médio',
+}
+const bichoPoa = {
+  subcategoria: 'Monstro',
+  Classe: '[[Bruto|Bruto Solo]]',
+  Raça: '[[Incomum|Incomum]]',
+  Tamanho: 'Enorme',
+}
 
 describe.skipIf(!defPoa)('rótulos da tela de CRIATURAS no mundo', () => {
   it('reskinUpper cobre rótulo de VÁRIAS palavras (aba da criatura)', () => {
@@ -39,8 +54,12 @@ describe.skipIf(!defPoa)('rótulos da tela de CRIATURAS no mundo', () => {
     expect(subtituloDeCriatura(caPoa, 'Companheiro Animal')).toBe('Segurança')
   })
 
-  it('subtítulo do monstro: a Raça declarada, igual pra todos do bestiário', () => {
+  it('subtítulo do monstro: Classe primeiro, depois a raça COM o tamanho', () => {
     setActiveContexto(defPoa)
+    expect(subtituloDeCriatura(soldadoPoa, 'Monstro')).toBe('Soldado Competente · Humano (Médio)')
+    // "Incomum" não carrega tamanho no alias — o FM `Tamanho` completa
+    expect(subtituloDeCriatura(bichoPoa, 'Monstro')).toBe('Bruto Solo · Incomum (Enorme)')
+    // sem Classe, só a raça
     expect(subtituloDeCriatura(monstroPoa, 'Monstro')).toBe('Humano (Médio)')
     // sem Raça cai na Classe, e sem as duas no subtipo — sempre reskinado
     expect(subtituloDeCriatura({ subcategoria: 'Monstro' }, 'Monstro')).toBe('Monstro')

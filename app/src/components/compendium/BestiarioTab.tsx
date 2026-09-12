@@ -17,6 +17,7 @@ import { DetailLink } from '../DetailLink'
 import { clip } from '../ficha/bits'
 import { useAtlasRelations } from './AtlasNav'
 import { criaturasEm, escoposDoLugar } from '../../mestre/bestiario-local'
+import { situacaoDe } from '../../mestre/encontro-meta'
 
 const MONO: CSSProperties = { fontFamily: 'var(--mono)', fontSize: 11, letterSpacing: '.12em', color: 'var(--muted)' }
 const BOX: CSSProperties = { padding: '10px 16px', background: 'var(--panel)', border: '1px solid var(--line2)', clipPath: clip(12) }
@@ -124,6 +125,13 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
           {combatesAqui.map((e) => (
             <div key={e.id} data-encontro={e.basename} style={{ padding: '6px 0', borderTop: '1px solid var(--line)' }}>
               <DetailLink to={e.id}>{reskinName(e.basename ?? e.id)}</DetailLink>
+              {/* Descrição breve do encontro (FM `Situação`): o mestre escolhe
+                  pelo que acontece, não pelo nome. */}
+              {situacaoDe(docsCombate?.get(e.id)) ? (
+                <div style={{ fontSize: 11, lineHeight: 1.35, color: 'var(--muted)', marginTop: 2 }}>
+                  {reskinText(situacaoDe(docsCombate?.get(e.id)))}
+                </div>
+              ) : null}
             </div>
           ))}
         </div>

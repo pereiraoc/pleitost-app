@@ -1396,6 +1396,34 @@ a {
   flex-direction: column;
   gap: 0.9rem;
 }
+/* Seletor de agrupamento da lista de combates (dificuldade × local). */
+.combat-agrupar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.combat-agrupar-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.combat-agrupar button {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--line2);
+}
+.combat-agrupar button.combat-agrupar-on {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
+}
 .combat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
@@ -1422,6 +1450,37 @@ a {
   font-weight: 700;
   letter-spacing: 0.02em;
   margin-bottom: 0.4rem;
+}
+/* Descrição breve do encontro no card (FM `Situação`) — o mestre escolhe pelo
+   que acontece, não pelo nome (pedido 2026-09-12). */
+.combat-card-sit {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--muted);
+  margin: -0.15rem 0 0.5rem;
+}
+/* Onde + Situação na PÁGINA do encontro (antes ela abria direto no roster). */
+.combat-brief {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.8rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  border-radius: 11px;
+}
+.combat-brief p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.combat-brief-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-right: 6px;
 }
 .combat-card-roster {
   list-style: none;
