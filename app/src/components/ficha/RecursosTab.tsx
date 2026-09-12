@@ -141,7 +141,12 @@ function useRecursosDoMundo(cfg: RecursosCfg) {
       // mês), mas a ficha precisa delas pra dívida.
       if (r && (cfg.abas.some((a) => a.nome === r.aba) || isEmprestimo(cfg, r))) recursos.push(r)
     }
-    return { carregando: false, recursos, porNome: new Map(recursos.map((r) => [r.nome, r])) }
+    // A ficha guarda o NOME do plano escolhido: os `aliases` (nomes antigos da
+    // nota) entram no índice pra que um rename não apague a escolha salva —
+    // nunca por cima de um nome real.
+    const porNome = new Map(recursos.map((r) => [r.nome, r]))
+    for (const r of recursos) for (const a of r.aliases) if (!porNome.has(a)) porNome.set(a, r)
+    return { carregando: false, recursos, porNome }
   }, [docs, entradas, cfg])
 }
 

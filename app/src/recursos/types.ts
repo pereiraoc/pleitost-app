@@ -13,6 +13,9 @@ export type Papel = RecursosCfg['abas'][number]['papel']
 export interface Recurso {
   id: string
   nome: string
+  /** Nomes antigos da nota (FM `aliases`) — a ficha salva o NOME do plano, e
+   *  um rename de nota não pode apagar a escolha do jogador. */
+  aliases: string[]
   /** subcategoria da nota = aba da ficha. */
   aba: string
   /** FM `Tipo` (livre; só `cfg.tipos.passagem`/`estilo` têm semântica própria). */

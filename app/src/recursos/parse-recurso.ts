@@ -43,6 +43,7 @@ export function parseRecurso(doc: VaultDoc): Recurso | null {
   return {
     id: doc.id,
     nome: doc.basename,
+    aliases: lista(fm['aliases']).filter((a) => a && a !== doc.basename),
     aba,
     tipo,
     marca: texto(fm['Marca']),

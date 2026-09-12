@@ -26,7 +26,7 @@ import { RECURSOS_FM } from '../src/recursos/hero-recursos'
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
 const heroesDir = path.join(appDir, 'tests', 'fixtures', 'heroes')
-const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Transporte/TRI Prata.json'))
+const temDataset = fs.existsSync(path.join(cyberDir, 'contexto.json')) && fs.existsSync(path.join(cyberDir, 'Contexto/Recursos/Serviços/TRI Prata.json'))
 
 const CARLOS_ID = 'Sistema/Criaturas/Heróis/Carlos Facão de Andradas'
 
@@ -116,24 +116,24 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     // seis planos de transporte (planos TRI) com nome de classe SEM número
     const linhas = within(eixo('transporte')).getAllByRole('radio')
     expect(linhas.map((l) => l.getAttribute('data-classe'))).toEqual(['1', '2', '3', '4', '5', '6'])
-    // nível 1 = "Sem Plano Mensal", Cz$ 0 (o nome da nota não repete o rótulo)
-    expect(within(linhas[0]!).getByText(/Sem Plano Mensal/)).toBeTruthy()
+    // degrau 1 = "Sem Passe", Cz$ 0 — o plano se chama pelo produto, não pela
+    // classe social de quem compra (2026-09-12)
+    expect(within(linhas[0]!).getByText(/Sem Passe/)).toBeTruthy()
     expect(within(linhas[0]!).getByText('Cz$ 0')).toBeTruthy()
-    expect(within(linhas[0]!).queryByText(/de Transporte/)).toBeNull()
+    expect(within(linhas[0]!).queryByText(/Classe/)).toBeNull()
     // figura do recurso (embed da nota) ou o emoji do Tipo em cada linha de plano
     expect(within(eixo('transporte')).getAllByRole('radio').every((l) => l.querySelector('[data-recurso-figura]'))).toBe(true)
-    expect(within(linhas[1]!).getByText(/Classe Baixa/)).toBeTruthy()
-    expect(within(linhas[1]!).getByText(/TRI Bronze/)).toBeTruthy()
+    expect(within(linhas[1]!).getAllByText(/TRI Bronze/).length).toBeGreaterThan(0)
     expect(within(linhas[1]!).getByText('Cz$ 1.500')).toBeTruthy()
     expect(screen.queryByText(/classe 2/i)).toBeNull()
     expect(screen.queryByText(/Humilde/)).toBeNull()
-    fireEvent.click(linhas[2]!) // TRI Prata — Classe Média Baixa
+    fireEvent.click(linhas[2]!) // TRI Prata (degrau 3)
     expect(linhas[2]!.getAttribute('aria-checked')).toBe('true')
     expect(valorEixo('transporte')).toBe('2500')
     expect(custoMes()).toBe('2500')
-    fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Classe Média
+    fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Kitnet (degrau 4)
     expect(valorEixo('moradia')).toBe('6000')
-    fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Classe Média Alta
+    fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Churrascaria (degrau 5)
     expect(custoMes()).toBe('17500')
     // abrir o mês: 17.500 → 18 (pra cima) — 50 → 32
     fireEvent.click(screen.getByText(/Abrir o mês/))
@@ -152,6 +152,9 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
       'fm',
       RECURSOS_FM,
       {
+        // 'Moradia Classe Média' é o nome ANTIGO da nota (hoje "Kitnet"): a
+        // ficha guarda o nome do plano, e o `aliases` da nota mantém a escolha
+        // salva de pé depois do rename (2026-09-12).
         estilos: { transporte: 'TRI Ouro', moradia: 'Moradia Classe Média', alimentacao: null },
         itens: [
           { nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, estado: 'usado', pago: 150000 },
@@ -216,15 +219,15 @@ describe('catálogo de posse (veículos e imóveis, com onde comprar)', () => {
     const transporte = eixo('transporte')
     fireEvent.click(within(transporte).getByText('ver catálogo'))
     const cat = transporte.querySelector('[data-catalogo="transporte"]') as HTMLElement
-    const niveis = def.recursos!.niveis
+    const niveis = (def.recursos!.niveis as Record<string, string[]>).transporte
     // cabeçalhos = classes do contexto, em ordem crescente, só as que têm item
     const grupos = Array.from(cat.querySelectorAll('[data-catalogo-grupo]')).map((el) => el.getAttribute('data-catalogo-grupo') ?? '')
     expect(grupos.length).toBeGreaterThan(2)
     const idx = grupos.map((g) => niveis.indexOf(g))
     expect(idx.every((i) => i >= 0)).toBe(true)
     expect(idx).toEqual([...idx].sort((a, b) => a - b))
-    // "Sem Plano Mensal" (nível 1) é a AUSÊNCIA de mensalidade, não uma faixa
-    // de produto: o catálogo começa em Classe Baixa (Carroça com Cavalo).
+    // O degrau 1 ("Sem Passe") é a AUSÊNCIA de mensalidade, não uma faixa de
+    // produto: o catálogo começa no degrau 2 (Carroça com Cavalo).
     expect(grupos[0]).toBe(niveis[1])
     expect(grupos).not.toContain(niveis[0])
     // cada item fica embaixo do cabeçalho da SUA classe: o Carajás (Nível 5) sob Classe Média Alta
@@ -317,5 +320,61 @@ describe('regalia da classe no topo do custo de vida', () => {
     expect(Array.from(degraus).every((d) => d.getAttribute('data-alcancado') === 'sim')).toBe(true)
     // o preço escondido aparece na versão completa (custo de vida)
     expect(within(bloco).getAllByText(/PREÇO/).length).toBeGreaterThan(0)
+  }, 30000)
+})
+
+/* CLASSE SOCIAL (pedido 2026-09-12): o banner no topo da aba — a letra que a
+ * cidade lê no herói, do mês inteiro junto, e não o nome de um plano. */
+describe('banner de classe social', () => {
+  const banner = () => document.querySelector('[data-classe-social]') as HTMLElement
+
+  it('o PISO da profissão segura o Ídolo em Média Alta mesmo sem plano nenhum', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    expect(banner()).toBeTruthy()
+    // Carlos é Bardo de nível 7 — Ressonante Ídolo, tier 3: o piso declarado no
+    // Contexto (degrau 5) o segura em Média Alta mesmo sem plano escolhido, que
+    // é a tendência pedida ("de Ídolo, passa o Executivo").
+    expect(banner().dataset.classeSocial).toBe('B')
+    expect(within(banner()).getByText(/CLASSE MÉDIA ALTA/)).toBeTruthy()
+    expect(within(banner()).getByText(/PISO DA PROFISSÃO/)).toBeTruthy()
+    for (const rotulo of ['PADRÃO DE VIDA', 'PATRIMÔNIO', 'EQUIPAMENTO', 'EM MÃOS']) {
+      expect(within(banner()).getByText(rotulo)).toBeTruthy()
+    }
+  }, 30000)
+
+  it('padrão no topo sem carro nem dinheiro CAI um degrau; com posse e caixa, chega em A', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    const topo = () => {
+      for (const papel of ['moradia', 'transporte', 'alimentacao']) {
+        fireEvent.click(within(eixo(papel)).getAllByRole('radio')[5]!)
+      }
+    }
+    topo()
+    // Condomínio + Carro com Motorista + Cozinheira é padrão 6, mas ele não tem
+    // carro, nem imóvel, nem dinheiro em caixa: o que se TEM puxa um degrau
+    // pra baixo, e ele fica em Média Alta.
+    expect(banner().dataset.classeDegrau).toBe('5')
+    expect(banner().dataset.classeSocial).toBe('B')
+    cleanup()
+
+    writeHeroEdit(CARLOS_ID, 'fm', 'Inventario.Ouro', 800, { channel: 'imediato', origem: 'test' })
+    writeHeroEdit(
+      CARLOS_ID,
+      'fm',
+      RECURSOS_FM,
+      { itens: [{ nome: 'Chevrolet Monza', aba: 'Transporte', qtd: 1, pago: 700000 }] },
+      { channel: 'imediato', origem: 'test' },
+    )
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    topo()
+    expect(banner().dataset.classeSocial).toBe('A')
+    expect(within(banner()).queryByText(/PISO DA PROFISSÃO/)).toBeNull()
   }, 30000)
 })
