@@ -1,0 +1,274 @@
+{
+ "Pontos de Pressão": {
+  "grupo": "especial",
+  "precisa": true
+ },
+ "Presas de Lobo": {
+  "grupo": "especial",
+  "precisa": true
+ },
+ "Garra de Tigre": {
+  "grupo": "especial",
+  "precisa": true
+ },
+ "Escudada": {
+  "grupo": "especial",
+  "precisa": false
+ },
+ "Cauda de Dragão": {
+  "grupo": "especial",
+  "precisa": false
+ },
+ "Presas Enormes": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Mandíbula": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Garras": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Chifres Letais": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Mandíbula Afiada": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Garras Colossais": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Cauda Colossal": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Presas Letais": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Chifres Enormes": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Cauda Pesada": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Garras Afiadas": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Mandíbula Enorme": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Presas Colossais": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Mandíbula Grande": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Garras Enormes": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Chifres Colossais": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Mandíbula Colossal": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Chifres": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Chifres Grandes": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Cauda Grande": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Cauda": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Presas": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Cauda Enorme": {
+  "grupo": "natural",
+  "precisa": false
+ },
+ "Garras Grandes": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Presas Grandes": {
+  "grupo": "natural",
+  "precisa": true
+ },
+ "Rapieira": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Picareta de Guerra": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Pique": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Espada Bastarda": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Alfange": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Machadão": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Espada Curta": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Punhal": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Malho": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Alabarda": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Montante": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Espada Longa": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Espada Curva": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Machadinha": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Maça Estrela": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Adaga de Duelo": {
+  "grupo": "cac-marcial",
+  "precisa": true
+ },
+ "Martelo de Guerra": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Machado de Batalha": {
+  "grupo": "cac-marcial",
+  "precisa": false
+ },
+ "Arco de Guerra": {
+  "grupo": "d-marcial",
+  "precisa": false
+ },
+ "Arco Curto": {
+  "grupo": "d-marcial",
+  "precisa": false
+ },
+ "Arco de Caça": {
+  "grupo": "d-marcial",
+  "precisa": false
+ },
+ "Arco Longo": {
+  "grupo": "d-marcial",
+  "precisa": false
+ },
+ "Besta": {
+  "grupo": "d-simples",
+  "precisa": false
+ },
+ "Besta Pesada": {
+  "grupo": "d-simples",
+  "precisa": false
+ },
+ "Besta Leve": {
+  "grupo": "d-simples",
+  "precisa": false
+ },
+ "Besta de Mão": {
+  "grupo": "d-simples",
+  "precisa": false
+ },
+ "Funda": {
+  "grupo": "d-simples",
+  "precisa": false
+ },
+ "Bordão": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Manopla": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Maça": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Lança": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Azagaia": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Porrete": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Adaga": {
+  "grupo": "cac-simples",
+  "precisa": true
+ },
+ "Ataque Desarmado": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Tacape": {
+  "grupo": "cac-simples",
+  "precisa": false
+ },
+ "Pistola Arcanônica": {
+  "grupo": "d-arcanonico",
+  "precisa": false
+ },
+ "Bacamarte Arcanônico": {
+  "grupo": "d-arcanonico",
+  "precisa": false
+ }
+}

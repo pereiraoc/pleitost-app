@@ -23,7 +23,7 @@ import { isLocalId, classChangeResets } from '../../data/local-entities'
 import { familiaOf, familiaTemPericia, fichaFamiliaOf } from '../../data/familia'
 import { clip, AttrBadge, DetailInfoButton, EditToggle, GoldDots, ModBox, PanelTrack, RankBtns, RankMedal, TabStrip, TrackPanel } from './bits'
 import type { HeroRefs } from './useHeroRefs'
-import { BoxSelect, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
+import { BoxSelect, DescricaoBox, PassadoBox, withCurrent, type SelectOption } from './PerfilTab'
 import { useHeroRules } from '../../rules/useHeroRules'
 import {
   escolaDestinoDaMagia,
@@ -3902,7 +3902,10 @@ export function HabilidadesTab({ doc, refs }: { doc: VaultDoc; refs: HeroRefs })
             {/* Passado = biografia, só Heroi (plugin biografia-card.ts:20). */}
             {caps.biografia ? (
               <PassadoBox doc={doc} cols="repeat(4,minmax(0,1fr))" origem="habilidades" />
-            ) : null}
+            ) : (
+              // Criatura não tem Passado — tem DESCRIÇÃO (pedido 2026-09-12).
+              <DescricaoBox doc={doc} origem="habilidades" />
+            )}
             <StacksPanel doc={doc} />
             {/* Proficiências de equipamento: CA não tem o card (tab-completa
                 do CA; defesa do CA = Armadura Natural, defesa.ts:58-64). */}

@@ -212,6 +212,47 @@ import { BoxSelect, withCurrent, type SelectOption } from './bits'
 
 // Grid do cluster PASSADO: no PERFIL/bio o design usa auto-fit (linha 176);
 // na sub-aba PERFIL de COMPETÊNCIAS, 4 colunas fixas (linha 804).
+/** DESCRIÇÃO da criatura (2026-09-12, pedido do mestre): o bestiário precisava
+ *  de um lugar pra dizer o que a criatura É — a ficha de monstro não tem
+ *  Biografia, então este quadro ocupa o mesmo lugar do PASSADO do herói.
+ *  Escreve no FM `Descrição`, que a vault já carrega e o app lê no bestiário
+ *  do lugar. */
+export function DescricaoBox({ doc, origem = 'perfil' }: { doc: VaultDoc; origem?: string }) {
+  const model = useHeroModel(doc, origem)
+  const valor = str(model.fm['Descrição'])
+  return (
+    <div
+      style={{
+        padding: '16px 18px',
+        background: 'var(--panel)',
+        border: '1px solid var(--line2)',
+        clipPath: clip(14),
+      }}
+    >
+      <div
+        style={{
+          fontFamily: 'var(--mono)', fontSize: 10, letterSpacing: '.14em',
+          color: 'var(--muted)', textAlign: 'center', marginBottom: 6,
+        }}
+      >
+        📝 DESCRIÇÃO
+      </div>
+      <div style={{ fontSize: 10, lineHeight: 1.25, color: 'var(--muted)', opacity: 0.75, textAlign: 'center', marginBottom: 10 }}>
+        {reskinText('O que essa criatura é, como ela luta e o que a mesa vê primeiro.')}
+      </div>
+      <textarea
+        aria-label="Descrição"
+        defaultValue={valor}
+        placeholder="Duas ou três linhas — quem paga, como entra na cena, o que assusta."
+        onBlur={(e) => {
+          if (e.target.value !== valor) model.set('Descrição', e.target.value)
+        }}
+        style={{ ...inputStyle, width: '100%', minHeight: 74, resize: 'vertical', lineHeight: 1.45 }}
+      />
+    </div>
+  )
+}
+
 export function PassadoBox({
   doc,
   cols = 'repeat(auto-fit,minmax(150px,1fr))',
@@ -340,7 +381,7 @@ export function PassadoBox({
       label: 'PASSADO',
       value: passado,
       onChange: setPassado,
-      dica: 'Resuma sua história de vida até aqui em até 3 palavras.',
+      dica: 'Resuma sua história de vida até aqui (até 3 palavras).',
       placeholder: 'Poeta Garçom, Cuidador de Ovelhas, etc',
     },
     {

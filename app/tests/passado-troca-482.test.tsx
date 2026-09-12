@@ -175,7 +175,7 @@ describe('dicas do que escrever', () => {
   it('cada campo de texto do Passado diz o que se espera ali', () => {
     const id = createLocalEntity('Heroi', 'Dica', emptyHeroFrontmatter())
     renderBox(id)
-    expect(screen.getByText(/Resuma sua história de vida até aqui em até 3 palavras/)).toBeTruthy()
+    expect(screen.getByText(/Resuma sua história de vida até aqui \(até 3 palavras\)/)).toBeTruthy()
     expect(screen.getByText(/Perícia que sua história de vida te ensinou/)).toBeTruthy()
     expect(
       screen.getByText(/Fora missões, que tipo de trabalho você pode exercer pra ganhar dinheiro/),

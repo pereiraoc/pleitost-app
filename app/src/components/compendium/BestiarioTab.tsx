@@ -28,6 +28,11 @@ function tierDe(e: IndexDocEntry, docs: Map<string, VaultDoc> | undefined): numb
   return typeof t === 'number' ? t : 0
 }
 
+function descricaoDe(e: IndexDocEntry, docs: Map<string, VaultDoc> | undefined): string {
+  const d = docs?.get(e.id)?.frontmatter?.['Descrição']
+  return typeof d === 'string' ? d : ''
+}
+
 function classeDe(e: IndexDocEntry, docs: Map<string, VaultDoc> | undefined): string {
   const c = docs?.get(e.id)?.frontmatter?.['Classe']
   if (typeof c !== 'string') return ''
@@ -95,11 +100,18 @@ export function BestiarioTab({ doc }: { doc: VaultDoc }) {
                 data-criatura={c.basename}
                 style={{
                   display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto', gap: 10,
-                  alignItems: 'baseline', padding: '6px 0', borderTop: '1px solid var(--line)',
+                  alignItems: 'start', padding: '8px 0', borderTop: '1px solid var(--line)',
                 }}
               >
-                <DetailLink to={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
-                <span style={{ ...MONO, fontSize: 10 }}>{classeDe(c, docsCriaturas)}</span>
+                <div style={{ minWidth: 0 }}>
+                  <DetailLink to={c.id}>{reskinName(c.basename ?? c.id)}</DetailLink>
+                  {descricaoDe(c, docsCriaturas) ? (
+                    <div style={{ fontSize: 11, lineHeight: 1.35, color: 'var(--muted)', marginTop: 2 }}>
+                      {reskinText(descricaoDe(c, docsCriaturas))}
+                    </div>
+                  ) : null}
+                </div>
+                <span style={{ ...MONO, fontSize: 10, whiteSpace: 'nowrap' }}>{classeDe(c, docsCriaturas)}</span>
               </div>
             ))}
           </div>

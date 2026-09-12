@@ -8,11 +8,20 @@ Convenções (documentadas no rascunho do bestiário):
   · pólvora (Bacamarte/Pistola Arcanônica) só com contrato estatal
 """
 
+# Tipagem → nota de `categoria: Sintonia`. Os Fatores POSITIVOS são os Traços
+# Elementais do sistema (o reskin já os exibe como "Fator X+"); os NEGATIVOS e
+# as duas trônicas são notas próprias da POA (Sintonia/Tipagens).
 SINTONIA = {
     "O+": "[[Traço Elemental do Fogo]]",
     "A+": "[[Traço Elemental da Terra]]",
     "B+": "[[Traço Elemental do Vento]]",
     "AB+": "[[Traço Elemental da Água]]",
+    "O−": "[[Fator O Negativo]]",
+    "A−": "[[Fator A Negativo]]",
+    "B−": "[[Fator B Negativo]]",
+    "AB−": "[[Fator AB Negativo]]",
+    "Positrônico": "[[Fator Positrônico]]",
+    "Negatrônico": "[[Fator Negatrônico]]",
 }
 CAT_POR_TIER = {0: "Adepto", 1: "Adepto", 2: "Experiente", 3: "Mestre"}
 
@@ -83,8 +92,15 @@ def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
     if linha_magia:
         spec["linha_magia"] = linha_magia
         spec["magias"] = magias(linha_magia, tier, elemento)
+    # Encantador e Supressor não operam por sangue: operam por IMPLANTE — a
+    # tipagem deles é a linha trônica que rodam, não o Fator do RG.
+    if papel == "Encantador":
+        tipagem = "Positrônico"
+    elif papel == "Supressor":
+        tipagem = "Negatrônico"
     if tipagem in SINTONIA:
         spec["sintonia"] = SINTONIA[tipagem]
+    spec["tipagem"] = tipagem
     return spec
 
 
@@ -338,7 +354,7 @@ CRIATURAS += [
       [("Atletismo", "A"), ("Intimidação", "A"), ("Sobrevivência", "A"), ("Guerra", "A")],
       [A("Malho", "Imbuição Mineral", 1)],
       INV(tesouros=["Pulseira da Potência"], ouro=1, tier=1),
-      org="[[Clã da Ferrugem]]", bairros=["[[Zona Deserta]]", "[[Restinga]]", "[[Petrópolis]]"],
+      mod="Competente", org="[[Clã da Ferrugem]]", bairros=["[[Zona Deserta]]", "[[Restinga]]", "[[Petrópolis]]"],
       habilidades=["Vigor Bruto"], tipagem="A−",
       descricao="Prótese de sucata e marreta. Bate igual à máquina de onde tirou o braço."),
     C("Mestre de Sucata", 2, "Líder", "PRE", 1, 0, 2, 3,
@@ -394,7 +410,7 @@ CRIATURAS += [
        ("Enganação", "A"), ("Diplomacia", "A"), ("Acrobacia", "A")],
       [A("Adaga", "Imbuição Incendiária", 1)],
       INV(tesouros=["Luva do Arcanista"], consumiveis=["Poção da Coragem"], ouro=3, tier=1),
-      org="[[Círculo das Ligas]]", bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
+      mod="Competente", org="[[Círculo das Ligas]]", bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
       habilidades=["Dose no Braço"], tipagem="AB−", linha_magia="Arcana Branca",
       descricao="Liga módulo no capanga no meio da luta. Sem garantia: às vezes o capanga é que apaga."),
     C("Capanga de Oficina", 1, "Bruto", "FOR", 3, 2, 0, 1,

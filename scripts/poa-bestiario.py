@@ -24,6 +24,8 @@ VAULT = Path("/data/vaults/POA 1987")
 REGRAS = VAULT / "Sistema/Regras/Bestiário"
 BESTIARIO = VAULT / "Sistema/Criaturas/Bestiário"
 COMBATES = VAULT / "Campanhas/Combates"
+import json as _json
+ARMAS = _json.loads((Path(__file__).parent / "poa_armas.json").read_text(encoding="utf8"))
 
 PERICIAS = [
     ("Atletismo", "FOR"), ("Acrobacia", "AGI"), ("Furtividade", "AGI"),
@@ -136,6 +138,7 @@ def esqueleto() -> dict:
     return {
         "aliases": [], "categoria": "Criatura", "subcategoria": "Monstro", "grupo": [],
         "Imagem": "", "Tier": 0, "Classe": "", "Sintonia": "", "Raça": "", "Tamanho": "Médio",
+        "Descrição": "",
         "Bairros": [],
         "Vida": {"Vitalidade": 0},
         "Atributos": {"Principal": "FOR", "FOR": 0, "AGI": 0, "INT": 0, "PRE": 0},
@@ -171,7 +174,7 @@ def esqueleto() -> dict:
                          "Proficiencia": {"Sem": "P", "Leve": "N", "Pesada": "N"}},
             "Escudo": {"Nome": "", "Dano": 0, "Dureza": 0, "Categoria": "", "Propriedade": "", "Proficiencia": "N"},
             "Tesouros": [], "Tesouros_Especiais": "", "Consumiveis": [],
-            "Armas": {"Proficiencia": {"Simples": "P", "Marciais": "N", "Arcanonicas": "N"}, "Lista": []},
+            "Armas": {"Proficiencia": {"Simples": "P", "Marciais": "N", "Especificas": []}, "Lista": []},
         },
         "Biografia": {"Passado": "", "Motivacao": "", "Genero": "", "Idade": "", "Naturalidade": "",
                       "Altura": "", "Peso": "", "Ideais": [], "Desprezos": [], "Qualidades": [],
@@ -197,12 +200,33 @@ def monta(spec: dict) -> dict:
     fm["Atributos"] = {"Principal": spec["principal"], **spec["atributos"]}
     intel = spec["atributos"]["INT"]
 
-    fm["Inventario"]["Armas"]["Lista"] = [{
-        "Nome": f"[[{a['nome']}]]",
-        "Categoria": f"[[{a['categoria']}]]" if a.get("categoria") else None,
-        "Propriedade": f"[[{a['propriedade']}]]" if a.get("propriedade") else None,
-        "Bonus_Item": 0, "Bonus_Especial": 0,
-    } for a in spec.get("armas", [])]
+    # Bônus de item do monstro (Evolução Básica: Tier−1; +1 com modificador) —
+    # e a QUALIDADE da arma é a que produz esse bônus, pra ficha não se
+    # contradizer (Adepto +1, Experiente +2, Mestre +3).
+    bonus = tier - 1 + (1 if mod else 0)
+    qualidade = {1: "Adepto", 2: "Experiente", 3: "Mestre"}.get(bonus)
+    agi, forca = spec["atributos"]["AGI"], spec["atributos"]["FOR"]
+    especificas = []
+    lista_armas = []
+    for a in spec.get("armas", []):
+        info = ARMAS.get(a["nome"], {})
+        grupo = str(info.get("grupo", ""))
+        # arma a distância e arcanônica atacam com AGI; corpo-a-corpo Precisa
+        # usa AGI quando a criatura é mais ágil que forte.
+        atributo = "AGI" if grupo.startswith("d-") or (info.get("precisa") and agi > forca) else "FOR"
+        if grupo == "d-arcanonico":
+            especificas.append(f"[[{a['nome']}]]")
+        lista_armas.append({
+            "Nome": f"[[{a['nome']}]]",
+            "Atributo": atributo,
+            "Bonus_Item": 0, "Bonus_Especial": 0,
+            "Categoria": f"[[{qualidade}]]" if (a.get("propriedade") and qualidade) else None,
+            "Propriedade": f"[[{a['propriedade']}]]" if a.get("propriedade") else None,
+            "Fonte": "Manual",
+        })
+    fm["Inventario"]["Armas"]["Lista"] = lista_armas
+    if especificas:
+        fm["Inventario"]["Armas"]["Proficiencia"]["Especificas"] = especificas
 
     aplicar(elementos(papel, "Classes de Bestiário"), fm, tier, intel)
     aplicar(elementos("Evolução Básica de Monstro", "Modificadores"), fm, tier, intel)
@@ -217,6 +241,7 @@ def monta(spec: dict) -> dict:
     fm["Raça"] = spec.get("raca", "[[Humano|Humano (Médio)]]")
     fm["Tamanho"] = spec.get("tamanho", "Médio")
     fm["Sintonia"] = spec.get("sintonia", "")
+    fm["Descrição"] = spec.get("descricao", "")
     fm["Bairros"] = spec.get("bairros", [])
 
     hab = [{"[[Evolução Básica de Monstro]]": f"Regra.[[{papel}]]"}]
