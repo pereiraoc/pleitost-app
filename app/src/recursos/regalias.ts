@@ -47,8 +47,13 @@ function alvo(s: string): string {
 
 /** Corpo da nota → regalia por classe canônica. Heading sem wikilink de classe
  *  (ex.: "Como se usa") não é classe e fica de fora. */
+/** Um nível de citação (`> `) é APRESENTAÇÃO, não dado: desde 2026-09-12 a
+ *  nota guarda as classes dentro de um callout dobrável pra continuar
+ *  parecida com as outras de Contexto Atual. Fora isso a linha é intocada. */
+const semCitacao = (l: string) => l.replace(/^>[ \t]?/, '')
+
 export function parseRegalias(body: string): Map<string, RegaliaDeClasse> {
-  const linhas = String(body ?? '').split('\n')
+  const linhas = String(body ?? '').split('\n').map(semCitacao)
   const headings = scanHeadings(linhas)
   const mapa = new Map<string, RegaliaDeClasse>()
   headings.forEach((h, i) => {

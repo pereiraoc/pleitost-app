@@ -1625,6 +1625,37 @@ a {
   background: var(--panel);
 }
 
+/* Callout DOBRÁVEL (2026-09-12): `> [!tipo]- Título` no Obsidian vira
+ * <details> aqui. As notas de Contexto Atual que viraram mecânica guardam as
+ * tabelas dentro de um destes, pra a leitura continuar sendo prosa. */
+details.callout > summary {
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+details.callout > summary::-webkit-details-marker {
+  display: none;
+}
+details.callout > summary::before {
+  content: '▸';
+  color: var(--accent);
+  font-size: 0.85em;
+  transition: transform 0.12s ease;
+}
+details.callout[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.callout[open] > summary {
+  margin-bottom: 0.35rem;
+}
+/* tabela larga rola DENTRO do bloco, nunca empurra a página */
+details.callout > :not(summary) {
+  overflow-x: auto;
+}
+
 /* Segredo de campanha (2026-08-31): bloco `> [!gm]` — só existe no corpo do
  * MESTRE (o extract corta do dataset público), então o estilo marca "isto o
  * jogador não vê". */

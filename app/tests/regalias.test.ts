@@ -51,6 +51,25 @@ describe('parseRegalias', () => {
   it('"Como se usa" não vira classe (heading sem wikilink)', () => {
     expect(mapa.has('Como se usa')).toBe(false)
   })
+  // 2026-09-12: a nota passou a guardar as classes dentro de um callout
+  // dobrável (`> [!note]- …`) pra continuar parecida com as outras de Contexto
+  // Atual. O prefixo de citação é APRESENTAÇÃO — não faz parte do dado.
+  it('lê igual quando as classes estão dentro de um callout dobrável', () => {
+    const dentro =
+      '> [!note]- Degrau a degrau\n' +
+      CORPO.trim()
+        .split('\n')
+        .map((l) => (l ? `> ${l}` : '>'))
+        .join('\n')
+    const m = parseRegalias(dentro)
+    expect([...m.keys()].sort()).toEqual(['Caçador', 'Ladino'])
+    const exec = m.get('Caçador')!
+    expect(exec.nome).toBe('Executivo')
+    expect(exec.subtitulo).toBe('a escada corporativa')
+    expect(exec.intro).toContain('A firma paga a kitnet')
+    expect(exec.degraus.map((d) => d.nivel)).toEqual([1, 4, 7])
+    expect(exec.degraus[0]!.preco).toBe('o RH sabe onde tu dorme.')
+  })
   it('regaliaDaClasse resolve o wikilink do FM do herói', () => {
     expect(regaliaDaClasse(mapa, '[[Caçador]]')?.nome).toBe('Executivo')
     expect(regaliaDaClasse(mapa, '[[Caçador|Executivo]]')?.nome).toBe('Executivo')

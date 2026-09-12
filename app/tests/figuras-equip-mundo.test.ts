@@ -38,10 +38,13 @@ describe('figuras de equipamento do mundo (cyberpunk)', () => {
     const url = tesouroImageUrl('Anel Canário', 'A', cyber)
     expect(decodeURIComponent(url ?? '')).toContain('Recursos de Contextos/Equipamentos/Sensor Canário')
   })
-  it('implemento: Foco da Consistência resolve pra pasta do mundo', () => {
+  // 2026-09-12: os Focos viraram Válvulas (a arte já era válvula selênica desde
+  // a r3; só o nome tinha ficado em fantasia na ficha). O lookup resolve pelo
+  // nome do MUNDO, então o arquivo também foi renomeado.
+  it('implemento: Foco da Consistência resolve pra pasta do mundo, com o nome novo', () => {
     setActiveContexto(defPoa)
     const url = tesouroImageUrl('Foco da Consistência', '', cyber)
-    expect(decodeURIComponent(url ?? '')).toContain('Recursos de Contextos/Implementos/Foco da Consistência')
+    expect(decodeURIComponent(url ?? '')).toContain('Recursos de Contextos/Implementos/Válvula de Consistência')
   })
   it('na fantasia nada muda (Figura clássica)', () => {
     const url = tesouroImageUrl('Anel Canário', 'A', fantasia)
