@@ -18,6 +18,8 @@ import { TransporteNoMapa } from '../../transporte/TransporteNoMapa'
 import { arvoreDeLugares } from '../../data/atlas-nav'
 import { pluralPt } from '../../data/plural-pt'
 import { ServicosTab } from './ServicosTab'
+import { BestiarioTab } from './BestiarioTab'
+import { criaturasEm, escoposDoLugar } from '../../mestre/bestiario-local'
 import { compendioKicker } from '../layout/design-nav'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc, useDocs } from '../../data/useDoc'
@@ -933,7 +935,7 @@ function HexploracaoTab({ doc }: { doc: VaultDoc }) {
 // ───────────────────────────── Abas ─────────────────────────────
 
 interface LocTab {
-  id: 'detalhes' | 'dentro' | 'mapa' | 'transporte' | 'comercio' | 'servicos' | 'locais-interesse' | 'hexploracao'
+  id: 'detalhes' | 'dentro' | 'mapa' | 'transporte' | 'comercio' | 'servicos' | 'bestiario' | 'locais-interesse' | 'hexploracao'
   label: string
   /** Predicado de habilitação; ausente = sempre habilitada. */
   enabled?: (doc: VaultDoc) => boolean
@@ -1003,6 +1005,9 @@ const LOCATION_TABS: LocTab[] = [
   // SERVIÇOS (2026-09-07b): vitrine dos estabelecimentos (recursos do mundo);
   // rótulo vem do contexto (`recursos.ofertas.aba`); só existe em mundo com recursos.
   { id: 'servicos', label: 'Serviços' },
+  // BESTIÁRIO (2026-09-12): o que se encontra aqui — só no Modo Mestre, e só
+  // onde alguma criatura declara o lugar (ou um ancestral dele) no FM `Bairros`.
+  { id: 'bestiario', label: 'Bestiário' },
   { id: 'locais-interesse', label: 'Locais de Interesse' },
   { id: 'hexploracao', label: 'Hexploração', enabled: locationHasHexMap },
 ]
@@ -1026,6 +1031,7 @@ export function LocationSheet({
   // C3: o scan do storage (podeComerciar) roda SÓ quando a versão muda, não
   // em todo render.
   const { mestre } = useSettings()
+  const catalogBestiario = useCatalog()
   const groupVersion = useGroupStoreVersion()
   const podeComerciarAqui = useMemo(
     () => mestre || podeComerciar(doc.id),
@@ -1051,6 +1057,13 @@ export function LocationSheet({
     const [maior] = [...conta.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'))
     return maior && maior[1] > todos.length / 2 ? maior[0] : null
   }, [rel])
+  // Criaturas que o FM `Bairros` põe aqui (ou num ancestral) — a aba só
+  // aparece quando existe alguma, como as outras: nada de aba vazia.
+  const temBestiario = useMemo(() => {
+    const nome = doc.basename ?? doc.id.split('/').pop() ?? doc.id
+    const escopos = escoposDoLugar(nome, rel.crumbs.map((c) => c.basename))
+    return criaturasEm(catalogBestiario.docsByType.get('Criatura') ?? [], escopos).length > 0
+  }, [doc, rel.crumbs, catalogBestiario])
   const tabs = LOCATION_TABS.filter(
     (t) =>
       (sidebar ? t.id !== 'hexploracao' : true) &&
@@ -1066,6 +1079,7 @@ export function LocationSheet({
       (t.id !== 'mapa' || temMapa(doc)) &&
       (t.id !== 'transporte' || ehCidadeDaMalha(doc)) &&
       (t.id !== 'detalhes' || temDetalhes(doc)) &&
+      (t.id !== 'bestiario' || (mestre && temBestiario)) &&
       (t.id !== 'locais-interesse' || hasLocaisInteresse(doc)) &&
       (t.id !== 'hexploracao' || dentroDeRegiaoComHexcrawl(doc)),
   ).map((t) => {
@@ -1181,6 +1195,7 @@ export function LocationSheet({
         ) : null}
         {abaAtiva === 'comercio' ? <ComercioTab doc={doc} /> : null}
         {abaAtiva === 'servicos' ? <ServicosTab doc={doc} /> : null}
+        {abaAtiva === 'bestiario' ? <BestiarioTab doc={doc} /> : null}
         {abaAtiva === 'locais-interesse' ? <LocaisInteresseTab doc={doc} /> : null}
         {abaAtiva === 'hexploracao' ? <HexploracaoTab doc={doc} /> : null}
       </div>

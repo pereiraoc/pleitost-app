@@ -237,6 +237,20 @@ export async function extractVault({ vaultRoot = VAULT_ROOT, outDir = OUT_DIR } 
     // `Serviços` (Localizações que VENDEM recursos do mundo, 2026-09-08b): os
     // alvos dos wikilinks (sem o sufixo usado/novo) no índice como `vende` —
     // o catálogo da ficha lista onde comprar sem carregar o Atlas inteiro.
+    // `Bairros` (Criaturas do bestiário, 2026-09-12): onde a criatura pode ser
+    // encontrada — no índice como `bairros`, pro Modo Mestre listar o bestiário
+    // possível na página de cada Localização sem carregar o bestiário inteiro.
+    {
+      const raw = record.frontmatter?.["Bairros"];
+      const itens = Array.isArray(raw) ? raw : typeof raw === "string" && raw.trim() ? [raw] : [];
+      const bairros = [];
+      for (const x of itens) {
+        const m = typeof x === "string" ? /^\s*\[\[([^\]|#]+)/.exec(x) : null;
+        const alvo = m ? m[1].trim() : typeof x === "string" ? x.trim() : "";
+        if (alvo && !bairros.includes(alvo)) bairros.push(alvo);
+      }
+      if (bairros.length) facetas.bairros = bairros;
+    }
     {
       const raw = record.frontmatter?.["Serviços"];
       const itens = Array.isArray(raw) ? raw : raw && typeof raw === "object" ? Object.values(raw).flat() : [];

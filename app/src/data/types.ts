@@ -33,6 +33,8 @@ export interface IndexDocEntry {
   tipo?: string
   /** Localização que vende recursos do mundo: alvos do FM `Serviços` (sem sufixo usado/novo). */
   vende?: string[]
+  /** Criatura do bestiário: alvos do FM `Bairros` — onde ela pode aparecer. */
+  bairros?: string[]
   /** SENHA POR AVENTURA (2026-09-05): doc publicado CIFRADO (extractor/cifra-doc)
    *  — a lista mostra só os campos da lista trancada + 🔒. */
   protegido?: boolean

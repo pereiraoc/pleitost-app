@@ -42,14 +42,11 @@ describe.skipIf(!temDataset)('fichas dos combates da Pós Grenal', () => {
   for (const a of mundo.assets) porPath.set(a.path, a)
   const assets = buildAssetIndex({ ...base, assets: [...porPath.values()] })
 
-  // Criaturas que vivem na CONTA do mestre (criadas no app, não na vault):
-  // o fence as resolve pelas entidades locais (roster.ts), então aqui elas não
-  // têm nota — mas a lista é EXPLÍCITA: nome trocado no fence quebra o teste.
-  const DA_CONTA = [
-    'Brigadiano Atirador',
-    'Representante da Camisa 12',
-    'Segurança do Cartel dos Eixos',
-  ]
+  // As três que só existiam na conta do mestre (o fence as resolvia pelas
+  // entidades locais) ganharam ficha na vault em 2026-09-12, junto com o
+  // bestiário da POA — a lista ficou vazia e o teste agora exige isso: todo
+  // inimigo do fence tem nota de Criatura.
+  const DA_CONTA: string[] = []
 
   it('todo inimigo do fence ou tem ficha no bestiário ou é criatura da conta', () => {
     const semFicha = alvos.filter((a) => a && porBasename.get(a)?.type !== 'Criatura')
