@@ -24,6 +24,15 @@ const temDataset = fs.existsSync(path.join(cyberDir, 'index.json'))
 /** Itens que ninguém "carrega": são o estado padrão de quem não tem nada. */
 const SEM_DONO = new Set(['Ataque Desarmado', 'Sem Armadura'])
 
+/** O que o MUNDO declara que não existe nele (contexto.json → disponibilidade)
+ *  não entra na cobertura — a POA 1987 não tem as Garras do Rei-Mago. */
+function indisponiveisDoMundo(): Set<string> {
+  const def = JSON.parse(fs.readFileSync(path.join(cyberDir, 'contexto.json'), 'utf8')) as {
+    disponibilidade?: { indisponiveis?: string[] }
+  }
+  return new Set(def.disponibilidade?.indisponiveis ?? [])
+}
+
 type Fm = Record<string, any>
 
 function lerDoc(id: string): VaultDoc {
@@ -102,19 +111,21 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
 
   it('toda arma do catálogo está com alguma criatura', () => {
     const usadas = new Set(criaturas.flatMap((c) => carregados(c.fm)))
+    const fora = indisponiveisDoMundo()
     const faltando = manifest.docs
       .filter((d) => d.type === 'Item' && d.subtype === 'Arma' && d.basename)
       .map((d) => d.basename!)
-      .filter((n) => !SEM_DONO.has(n) && !usadas.has(n))
+      .filter((n) => !SEM_DONO.has(n) && !fora.has(n) && !usadas.has(n))
     expect(faltando).toEqual([])
   })
 
   it('todo tesouro do catálogo (módulo, equipamento, consumível) está com alguma criatura', () => {
     const usadas = new Set(criaturas.flatMap((c) => carregados(c.fm)))
+    const fora = indisponiveisDoMundo()
     const faltando = manifest.docs
       .filter((d) => d.type === 'Item' && d.subtype !== 'Arma' && d.basename)
       .map((d) => d.basename!)
-      .filter((n) => !SEM_DONO.has(n) && !usadas.has(n))
+      .filter((n) => !SEM_DONO.has(n) && !fora.has(n) && !usadas.has(n))
     expect(faltando).toEqual([])
   })
 })

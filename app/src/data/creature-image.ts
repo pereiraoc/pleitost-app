@@ -2,7 +2,8 @@
 // (src/cola/yaml-block-deps-factory.ts §0.6.108). Ordem (1ª que existir):
 //   Heroi:   FM Imagem → Retratos/<nome> → Classes/<classe> → null
 //   CA:      FM Imagem → Retratos/<nome> → Companheiros Animais/<classe> → null
-//   Monstro: FM Imagem → Monstros/<nome> → Raças/<raça> → Monstros/<classe> → null
+//   Monstro: FM Imagem → Bestiário do mundo/<nome> → Monstros/<nome> →
+//            Raças/<raça> → Monstros/<classe> → null
 // null = caller usa fallback (iniciais/emoji), como no plugin.
 import { assetUrlFor, resolveAsset, type AssetIndex } from './assets'
 import { reskinName } from './reskin'
@@ -18,6 +19,11 @@ const RACAS = 'Recursos e Mídia/Imagens/Raças'
 // clássica. O basename vem do registro de reskin (Bardo → Ressonante).
 const CTX_CLASSES = 'Recursos e Mídia/Recursos de Contextos/Classes'
 const CTX_COMPANHEIROS = 'Recursos e Mídia/Recursos de Contextos/Companheiros'
+// Arte própria das CRIATURAS do mundo (2026-09-12): uma ilustração por ficha do
+// bestiário, gerada a partir da própria ficha (gen-context-figures.mjs). Vem
+// ANTES da hierarquia clássica de monstro — na fantasia a pasta não existe e
+// nada muda.
+const CTX_BESTIARIO = 'Recursos e Mídia/Recursos de Contextos/Bestiário'
 const EXTS = ['.png', '.jpg', '.jpeg', '.webp']
 
 // `small` (#280): contexto pequeno (retrato de LISTA) — usa o thumb. Retrato
@@ -101,6 +107,7 @@ export function creatureImageUrl(
       )
     case 'Monstro':
       return (
+        tryFolder(assets, CTX_BESTIARIO, nome && reskinName(nome), small) ??
         tryFolder(assets, MONSTROS, nome, small) ??
         tryFolder(assets, RACAS, raca, small) ??
         tryFolder(assets, MONSTROS, classe, small)

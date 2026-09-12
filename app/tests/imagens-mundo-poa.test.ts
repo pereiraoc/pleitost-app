@@ -99,3 +99,60 @@ describe('nota de Classe (wizard + compêndio)', () => {
     expect(worldClassHeroTarget(notaClasse('Mago'), fantasia)).toBeNull()
   })
 })
+
+// Bestiário do mundo (2026-09-12): cada ficha de criatura ganha ilustração
+// PRÓPRIA em Recursos de Contextos/Bestiário/<nome>.png, gerada a partir da
+// própria ficha (arma, prótese, afiliação). Os PNGs chegam depois do Codex —
+// o teste prova que a RESOLUÇÃO já está no lugar quando chegarem, e que na
+// fantasia (pasta ausente) nada muda.
+const monstro = (nome: string): VaultDoc =>
+  ({
+    id: `Sistema/Criaturas/Bestiário/${nome}`,
+    basename: nome,
+    subtype: 'Monstro',
+    frontmatter: { Classe: '[[Soldado|Soldado Competente]]', 'Raça': '[[Humano|Humano (Médio)]]' },
+    images: [],
+  }) as unknown as VaultDoc
+
+const indiceCom = (caminho: string) =>
+  buildAssetIndex({
+    counts: {},
+    assets: [
+      {
+        path: caminho,
+        basename: caminho.split('/').pop()!,
+        copiedTo: caminho,
+        sha256: 'x',
+        referencedBy: [],
+        orphan: false,
+        ambiguous: false,
+      },
+    ],
+    missing: [],
+  } as AssetsManifest)
+
+describe('bestiário do mundo', () => {
+  it('a criatura usa a arte do mundo quando ela existe', () => {
+    setActiveContexto(defPoa)
+    const idx = indiceCom('Recursos e Mídia/Recursos de Contextos/Bestiário/Cabo de Choque.png')
+    const url = creatureImageUrl(monstro('Cabo de Choque'), idx)
+    expect(decodeURIComponent(url ?? '')).toContain('Recursos de Contextos/Bestiário/Cabo de Choque.png')
+  })
+
+  it('sem arte do mundo, segue a hierarquia clássica de monstro', () => {
+    setActiveContexto(defPoa)
+    const idx = indiceCom('Recursos e Mídia/Imagens/Monstros/Cabo de Choque.png')
+    const url = creatureImageUrl(monstro('Cabo de Choque'), idx)
+    expect(decodeURIComponent(url ?? '')).toContain('Imagens/Monstros/Cabo de Choque.png')
+  })
+
+  it('hoje, sem arte própria, TODA criatura humana cai na mesma figura de raça', () => {
+    setActiveContexto(defPoa)
+    // É exatamente o motivo da leva de arte do bestiário: sem PNG por ficha,
+    // o Cabo de Choque e o Barão do Cartel mostram a MESMA imagem genérica.
+    const a = creatureImageUrl(monstro('Cabo de Choque'), cyber)
+    const b = creatureImageUrl(monstro('Barão do Cartel'), cyber)
+    expect(decodeURIComponent(a ?? '')).toContain('Imagens/Raças/Humano')
+    expect(a).toBe(b)
+  })
+})

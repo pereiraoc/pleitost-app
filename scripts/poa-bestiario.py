@@ -419,9 +419,13 @@ def cobertura(criaturas) -> dict[str, list[str]]:
             if f"[[{nome}]]" in texto or f"[[{nome}|" in texto:
                 tem.add(nome)
     SEM_DONO = {"Ataque Desarmado", "Sem Armadura"}
+    # O que o MUNDO declara que não existe nele não entra na cobertura: a POA
+    # 1987 não tem as Garras do Rei-Mago (Contexto-Def, disponibilidade).
+    fora = set(_json.loads((Path(__file__).parents[1] / "vault-data-cyberpunk/contexto.json")
+                           .read_text(encoding="utf8")).get("disponibilidade", {}).get("indisponiveis", []))
     falta: dict[str, list[str]] = {}
     for nome, fm in sorted(itens_do_catalogo().items()):
-        if nome in tem or nome in SEM_DONO:
+        if nome in tem or nome in SEM_DONO or nome in fora:
             continue
         falta.setdefault(str(fm.get("subcategoria") or "?"), []).append(nome)
     return falta

@@ -35,6 +35,7 @@
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlinkSync } from 'node:fs'
 import { join, basename, dirname } from 'node:path'
 import { homedir } from 'node:os'
+import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
 const VAULT = process.env.PLEITOST_VAULT_ROOT ?? '/data/vaults/POA 1987'
@@ -818,6 +819,289 @@ function promptLocal(nome, sub, bairro, excerto, pasta) {
   )
 }
 
+
+// ---- Bestiário (criaturas) ------------------------------------------------
+// Pedido do user (2026-09-12): uma ilustração por criatura do bestiário,
+// seguindo a lógica do mundo e das outras imagens — COM a arma na mão, o
+// equipamento vestido e a insígnia de quem paga a conta. O grounding é a FICHA
+// REAL (o frontmatter extraído), não prosa: papel, tier, modificador, raça e
+// tamanho, afiliação, bairro, descrição, armas (com módulo), armadura/escudo,
+// próteses, consumíveis e a linha de tecnologia que a criatura roda.
+// Organizações reais da vault — a Afiliação de uma criatura pode ser uma
+// ORGANIZAÇÃO (uniforme, crachá, patrimônio) ou um LUGAR (bicho do Delta, que
+// não tem dono). O prompt fala diferente em cada caso.
+const ORGANIZACOES = new Set(
+  walk(join(VAULT, 'Contexto/Organizações')).map((p) => basename(p, '.md')),
+)
+const BESTIARIO_DIR = fileURLToPath(
+  new URL('../vault-data-cyberpunk/Sistema/Criaturas/Bestiário/', import.meta.url),
+)
+
+const alvoWl = (v) => {
+  const texto = typeof v === 'string' ? v : ''
+  const m = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/.exec(texto)
+  return (m ? m[1] : texto).trim().split('/').pop() ?? ''
+}
+const nomeMundo = (v) => {
+  const base = alvoWl(v)
+  return base ? reskinName(base) : ''
+}
+
+// Direção de arte por PAPEL de bestiário (a classe diz o que a criatura faz no
+// combate — é isso que a pose tem que contar).
+const PAPEL_ARTE = {
+  Soldado: 'tropa de linha: postura de formação, arma pronta, aguenta o tranco',
+  Bruto: 'brutamontes: corpo grande, arma pesada, entra na frente e derruba',
+  Batedor: 'batedor: leve e em movimento, meio de lado, já olhando a saída',
+  Artilharia: 'atirador: arma de alcance apoiada, posição alta ou recuada, longe do bolo',
+  Assassino: 'matador: silencioso, lâmina baixa e perto do corpo, meia-sombra',
+  Supressor: 'sabotador: mãos ocupadas com o equipamento que trava o campo',
+  Encantador: 'operador trônico: implante em atividade e gesto de comando',
+  'Líder': 'quem manda: de pé no centro, postura de comando — o resto do bando existe em função de quem está ali',
+}
+// O tier é a mesma escada pros três, mas se LÊ diferente em gente, bicho e
+// máquina — e o prompt tem que falar a língua certa (bicho não usa uniforme).
+const TIER_ARTE = {
+  gente: {
+    0: 'gente de rua armada com o que tinha: roupa comum, equipamento improvisado, nada de uniforme',
+    1: 'profissional da função: roupa de trabalho, equipamento de serviço em ordem',
+    2: 'veterano: uniforme ou insígnia em ordem, equipamento de linha, marcas de uso',
+    3: 'o topo da cadeia: equipamento de primeira e presença que domina o quadro',
+  },
+  bicho: {
+    0: 'bicho de porte comum, do tipo que ninguém olha duas vezes — o perigo não está no tamanho',
+    1: 'já passou do tamanho normal da espécie — gente atravessa a rua pra não passar perto',
+    2: 'deformado a ponto de não parecer mais a espécie de origem, com cicatriz de quem já sobreviveu a gente armada',
+    3: 'lenda do lugar: escala fora do normal, e o cenário em volta mostra o estrago que ele faz',
+  },
+  maquina: {
+    0: 'aparelho velho de prateleira, remendado',
+    1: 'aparelho de linha: carcaça de fábrica com sujeira de serviço',
+    2: 'equipamento sério, militar ou corporativo: blindagem, número de patrimônio, manutenção em dia',
+    3: 'peça cara e única, encomenda de firma grande ou do regime: bem-acabada onde se vê, improvisada onde ninguém olha',
+  },
+}
+const MOD_ARTE = {
+  Competente: 'um degrau acima dos iguais — o que os outros olham antes de agir',
+  Elite: 'elite da casa: o melhor que essa gente põe em campo',
+  Solo: 'chefe de cena: sozinho vale por um bando e ocupa o quadro inteiro',
+}
+// Bicho e máquina não têm "postura de formação" nem "mãos ocupadas": o papel
+// vira a FUNÇÃO que ele cumpre na cena.
+const PAPEL_NAO_GENTE = {
+  Soldado: 'segura a linha e aguenta o tranco',
+  Bruto: 'entra na frente e derruba',
+  Batedor: 'rápido: some e reaparece do outro lado',
+  Artilharia: 'ataca de longe, de posição alta ou recuada',
+  Assassino: 'chega sem barulho, acerta e sai',
+  Supressor: 'trava o campo — prende, apaga, consome',
+  Encantador: 'acelera e comanda o resto',
+  'Líder': 'é quem o resto segue',
+}
+const TECNOLOGIA = {
+  Anima:
+    'Lênica — química do sangue, não implante: o efeito sai do reagente selênico que ela carrega (ampola, válvula de vidro, vapor)',
+  'Arcana Branca':
+    'Positrônica — NÃO é sangue, é implante: adaptador fixo nos nervos rodando rotina de ESTÍMULO, e o crachá que autoriza',
+  'Arcana Negra':
+    'Negatrônica — implante de SUPRESSÃO: adaptador nos nervos, rotina que apaga em vez de acender',
+}
+
+// As 23 criaturas que NÃO são gente. Escrito à mão por criatura (como
+// CENA_CONTEXTO/CONCEITO_EQUIP) porque é a parte que o modelo erra sozinho:
+// bicho do Delta é ORGÂNICO (mutação, nunca ferramenta) e máquina de 1987 é
+// ANALÓGICA (chapa, servo, antena — nunca robô liso de ficção moderna).
+const FORMA = {
+  // — máquinas —
+  'Androide de Vigilância':
+    'MÁQUINA. Andróide de patrulha dos anos 80: corpo humanoide de chapa esmaltada com juntas expostas, cabeça sem rosto com uma faixa de sensor acesa, placa de patrimônio rebitada no peito. Anda como quem cumpre uma ronda que ninguém cancelou.',
+  'Bateria da Torre':
+    'MÁQUINA. Torre de escuta que também atira, montada na laje de um prédio: mastro de antenas, parabólica, lançador de dardos servomotorizado na base blindada, cabos grossos descendo pela parede.',
+  'Drone de Vigilância':
+    'MÁQUINA. Drone quadricóptero de 1987, pequeno, com EXATAMENTE 4 hélices simétricas e completas (nenhuma cortada), casco de fibra, câmera em cardan e antena de rádio; luzinha vermelha de gravação.',
+  'Drone de Guarda':
+    'MÁQUINA. Drone quadricóptero maior e blindado, EXATAMENTE 4 hélices completas, com um lançador de dardos sob o casco; voa alto, fora de alcance de quem está no chão.',
+  'Drone Sequestrado':
+    'MÁQUINA. Drone quadricóptero de 4 hélices com a carenagem arrancada e a gambiarra à mostra: rádio pirata amarrado com fita isolante, chicote de fios solto, adesivo da firma antiga meio raspado.',
+  'Modelo Militar':
+    'MÁQUINA. Autômato de combate encomendado pelo regime: dois metros e meio de blindagem cinza-chumbo, servos hidráulicos aparentes nas juntas, brasão militar estampado no ombro; segura a espada enorme como se não pesasse.',
+  'Protótipo Orion':
+    'MÁQUINA. Protótipo de guerra do subsolo, nunca terminado e nunca desligado: chassi enorme sobre pernas pesadas, cauda articulada de contrapeso, garras hidráulicas, painel aberto piscando diagnóstico.',
+  'Protótipo de Exoesqueleto':
+    'MÁQUINA. Exoesqueleto de teste VAZIO, sem piloto dentro: estrutura tubular com atuadores hidráulicos, cabos de sensor pendurados, número de série pintado a estêncil no peitoral.',
+  // — bichos —
+  'A Mãe do Delta':
+    'BICHO, orgânico, nunca metálico. Massa enorme que já não tem espécie: couro rachado e placas ósseas, cauda longa e pesada, presas e chifres colossais; a água podre do Delta escorre dela.',
+  'Bode da Restinga':
+    'BICHO. Bode de solta magro e sarnento, chifres tortos, olhando de lado; mutação discreta — pelo falhado e dentes demais.',
+  'Capivara Blindada':
+    'BICHO. Capivara do tamanho de um porco grande, placas de couro córneo endurecido nas costas, incisivos enormes; parada no meio do caminho, sem intenção de sair.',
+  'Carneiro do Morro':
+    'BICHO. Carneiro de rebanho perdido, lã suja e emaranhada, um chifre torto e lascado de tanto bater em portão.',
+  'Cascavel do Cais':
+    'BICHO. Cobra grande enrolada no vão de um cais de madeira, escamas oleosas, guizo levantado, presas à mostra.',
+  'Coisa da Lagoa':
+    'BICHO. O que o depósito tóxico a céu aberto fez com algo que já foi bicho: corpo inchado e assimétrico escorrendo lodo, garras desproporcionais, mandíbula que abre demais.',
+  'Colônia Mutante':
+    'NÃO É UM BICHO: é a estação inteira tomada por uma colônia — tapete de tecido orgânico subindo pelas paredes e pelos trilhos, raízes saindo do piso quebrado, bulbos pulsando no escuro.',
+  'Corredor Fantasma':
+    'BICHO. Gente que virou outra coisa: humanoide magérrimo de pele acinzentada, pernas longas demais e garras nas mãos, borrado de tão rápido — meio sumindo do quadro.',
+  'Cão Mutante':
+    'BICHO. Cachorro grande de rua com a pele descascada pela chuva ácida (não é ferida), garras grossas, focinho deformado.',
+  'Cão de Brigada':
+    'ANIMAL TREINADO, não mutante: cão de trabalho da Brigada, pastor robusto de coleira tática e focinheira, farejando o chão.',
+  'Jacaré do Arroio':
+    'BICHO. Jacaré grande parado na boca do arroio, só os olhos e a linha do dorso fora da água escura, cauda enorme submersa.',
+  'Javali da Restinga':
+    'BICHO. Javali enorme de cerdas duras, presas curvas e chifres ósseos nascendo do crânio; arrebenta cerca sem diminuir o passo.',
+  'Onça do Jardim':
+    'BICHO. Onça-pintada adulta em cima do telhado de uma vila, garras enormes, olhar parado; saiu do zoológico quando o zoológico acabou.',
+  'Rato-do-Delta':
+    'BICHO. Rato do tamanho de um gato, pelo ralo e sarnento, dentes e garras grandes demais — e nunca vem sozinho: outros aparecem atrás, no escuro.',
+  'Touro do Pasto Morto':
+    'BICHO. Touro grande com a marca de ferro da fazenda ainda na anca, chifres longos, cauda pesada; pasto seco e morto em volta.',
+}
+
+const POLVORA = /Bacamarte Arcanônico|Pistola Arcanônica/
+// Grupo de cada arma (catálogo real): `natural`/`especial` são CORPO, não
+// objeto — o mutante não empunha as presas, ele TEM presas.
+const ARMAS_GRUPO = JSON.parse(readFileSync(new URL('./poa_armas.json', import.meta.url), 'utf8'))
+const ehCorpo = (nome) => /^(natural|especial)$/.test(ARMAS_GRUPO[nome]?.grupo ?? '')
+// As duas armas de corpo que gente carrega: viram gesto, não item de cena.
+const ESPECIAL_GENTE = {
+  Escudada: 'usa o próprio escudo como arma, de borda',
+  'Pontos de Pressão': 'briga de mãos nuas, golpe curto em ponto de pressão',
+}
+
+function promptCriatura(nome, fm, refPessoa) {
+  const papel = alvoWl(fm['Classe'])
+  const mod = typeof fm['Modificador'] === 'string' ? fm['Modificador'] : ''
+  const tier = Number(fm['Tier']) || 0
+  const tamanho = String(fm['Tamanho'] ?? '').toLowerCase()
+  const forma = FORMA[nome]
+  const especie = !forma ? 'gente' : /^MÁQUINA/.test(forma) ? 'maquina' : 'bicho'
+  const inv = fm['Inventario'] ?? {}
+  const armasFm = inv['Armas']?.['Lista'] ?? []
+
+  // ARMAS: objeto empunhado × corpo. Em bicho, natural/especial É o corpo; em
+  // gente, vira gesto (escudada, mão nua); em máquina não existe.
+  const empunhadas = []
+  const doCorpo = []
+  const gestos = []
+  for (const a of armasFm) {
+    const cru = alvoWl(a['Nome'])
+    const arma = reskinName(cru)
+    const peca = nomeMundo(a['Propriedade'])
+    if (ehCorpo(cru)) {
+      if (especie === 'bicho') doCorpo.push(arma.toLowerCase())
+      else if (ESPECIAL_GENTE[cru]) gestos.push(ESPECIAL_GENTE[cru])
+      continue
+    }
+    if (!peca) empunhadas.push(arma)
+    else if (peca.startsWith('Módulo'))
+      empunhadas.push(
+        `${arma} com o ${peca} ENXERTADO no metal da arma (peça fundida, permanente, com a gema da família à mostra)`,
+      )
+    else
+      empunhadas.push(
+        `${arma} com o selo ${peca.split(' ').pop()} do INMETRO aplicado (etiqueta metalizada de qualidade)`,
+      )
+  }
+
+  const protecao = []
+  for (const slot of ['Armadura', 'Escudo']) {
+    const base = nomeMundo(inv[slot]?.['Nome'])
+    if (!base) continue
+    const q = nomeMundo(inv[slot]?.['Propriedade'])
+    // "Armadura Premium"/"Escudo Premium" é QUALIDADE, não outro item: na arte
+    // vira o selo aplicado na peça, senão o nome do item sai duplicado.
+    protecao.push(q ? `${base} com o selo ${q.split(' ').pop()} do INMETRO aplicado` : base)
+  }
+  const tesouros = (inv['Tesouros'] ?? []).map(nomeMundo).filter(Boolean)
+  const valvulas = tesouros.filter((t) => /^Válvula/.test(t))
+  const equipamentos = tesouros.filter((t) => !/^Válvula/.test(t))
+  const consumiveis = [...new Set((inv['Consumiveis'] ?? []).map(nomeMundo).filter(Boolean))]
+  const tec = (fm['Magias']?.['Lista'] ?? []).find((l) => (l['Lista'] ?? []).length > 0)
+  const bairros = (fm['Bairros'] ?? []).map(alvoWl).filter(Boolean)
+  const afiliacao = alvoWl(fm['Afiliação'])
+  const daOrg = afiliacao && ORGANIZACOES.has(afiliacao)
+  const temPolvora = armasFm.some((a) => POLVORA.test(String(a['Nome'] ?? '')))
+  // INDIVÍDUO (rosto que a mesa reconhece) = quem tem retrato de Pessoa na
+  // vault ou é Solo — o Solo é, por construção, o chefe único da cena.
+  const individuo = Boolean(refPessoa) || mod === 'Solo'
+
+  // A quem responde, na língua da espécie.
+  const vinculo = daOrg
+    ? especie === 'maquina'
+      ? ` É patrimônio de ${afiliacao}: a marca da firma e o número de patrimônio estampados na carcaça.`
+      : especie === 'bicho'
+        ? ` Tem dono — ${afiliacao}: coleira, arreio ou chapa de identificação com a insígnia.`
+        : ` Responde a ${afiliacao} — o uniforme, o crachá ou a marca de quem paga a conta tem que aparecer em algum lugar.`
+    : afiliacao
+      ? especie === 'gente'
+        ? ` Não tem firma nem farda: o que identifica é ${afiliacao}, o lugar de onde ele é.`
+        : ` É bicho de ${afiliacao}, do próprio lugar: sem dono, sem coleira e sem insígnia nenhuma.`
+      : ` Não responde a ninguém: sem uniforme, sem insígnia, sem marca.`
+
+  return (
+    `Ilustração de criatura do bestiário para o RPG, ${MUNDO}.` +
+    ` "${nome}" — ${(especie === 'gente' ? PAPEL_ARTE[papel] : PAPEL_NAO_GENTE[papel]) ?? papel}, tier ${tier}${mod ? `, ${MOD_ARTE[mod]}` : ''}.` +
+    (fm['Descrição'] ? ` ${fm['Descrição']}` : '') +
+    (forma
+      ? ` FORMA: ${forma} Tamanho ${tamanho} — dê escala com algo humano ou urbano no quadro.`
+      : ` É uma PESSOA do Brasil de 1987 (porte ${tamanho}), não um monstro de fantasia.`) +
+    (refPessoa
+      ? ` A imagem anexada é o retrato desse mesmo personagem: MESMA pessoa, mesmo rosto e mesma idade — aqui em pé, armada e pronta pro combate.`
+      : especie !== 'gente'
+        ? ''
+        : individuo
+          ? ` É um INDIVÍDUO específico, não um arquétipo: rosto visível e memorável.`
+          : ` É um EXEMPLAR típico do tipo: o que se lê primeiro é a função, não a pessoa.`) +
+    vinculo +
+    ` ${TIER_ARTE[especie][tier]}.` +
+    (doCorpo.length
+      ? ` ARMAS NATURAIS (fazem parte do CORPO — nunca objeto, nunca ferramenta acoplada): ${doCorpo.join(', ')} à mostra.`
+      : '') +
+    (empunhadas.length
+      ? ` ARMAS (têm que aparecer, em uso ou à mão): ${empunhadas.join('; ')}.`
+      : '') +
+    (gestos.length ? ` Também ${gestos.join(' e ')}.` : '') +
+    (protecao.length
+      ? especie === 'maquina'
+        ? ` BLINDAGEM: ${protecao.join('; ')} — adaptada à carcaça, não vestida.`
+        : ` PROTEÇÃO vestida: ${protecao.join('; ')}.`
+      : '') +
+    (equipamentos.length
+      ? especie === 'gente'
+        ? ` EQUIPAMENTO — são PRÓTESES: peça acoplada sobre um flange fixo no corpo (nunca roupa, nunca acessório solto): ${equipamentos.join('; ')}.`
+        : especie === 'maquina'
+          ? ` EQUIPAMENTO embarcado, parafusado na carcaça: ${equipamentos.join('; ')}.`
+          : ` No chão em volta, do que ele já comeu (bicho não usa aparelho): ${equipamentos.join('; ')}.`
+      : '') +
+    (valvulas.length
+      ? ` Encaixada no equipamento: ${valvulas.join(', ')} — válvula selênica de VIDRO, com o líquido visível.`
+      : '') +
+    (consumiveis.length
+      ? ` No cinto ou no bolso: ${consumiveis.join(', ')} — remédio de farmácia de 1987, com tarja impressa no rótulo.`
+      : '') +
+    (tec && TECNOLOGIA[tec['Nome']]
+      ? especie === 'bicho'
+        ? ` O efeito ${tec['Nome'] === 'Anima' ? 'lênico' : 'trônico'} dele é ORGÂNICO — sai do próprio corpo (esporo, secreção, descarga, campo), nunca de implante ou aparelho.`
+        : ` TECNOLOGIA que ela roda: ${TECNOLOGIA[tec['Nome']]}.`
+      : '') +
+    (bairros.length
+      ? ` Fundo: ${bairros.join(' ou ')} — Porto Alegre de 1987, reconhecível, sem virar cartão-postal.`
+      : '') +
+    ` DECRETO DAS ARMAS FRIAS (pólvora é monopólio do Estado): ${
+      temPolvora
+        ? 'esta criatura É autorizada a portar arma de fogo — a arma arcanônica aparece, de aspecto artesanal e cano único, claramente de 1987 e nunca uma pistola moderna'
+        : 'NADA que pareça arma de fogo; o que tem alcance é besta, dardo, funda ou arco'
+    }.` +
+    ` Estilo: pintura digital cinematográfica SEMIRREALISTA — o MESMO estilo das demais ilustrações do sistema, luz de rua, paleta suja de época.` +
+    ` Corpo inteiro ou três quartos, a criatura ocupando o quadro. Sem texto legível. Formato retrato 1024×1536.`
+  )
+}
+
 // ---- monta o trabalho -----------------------------------------------------
 const trabalho = []
 const alvos = new Map()
@@ -965,6 +1249,27 @@ for (const path of walk(join(VAULT, 'Atlas/Porto Alegre'))) {
     out: join(CTX_ROOT, 'Locais', `${base}.png`),
     size: '1536x1024', transparente: false,
     prompt: promptLocal(base, fm.subcategoria, fm.Geolocalização, cap(limpar(corpo), 650), basename(dirname(path))),
+  })
+}
+
+// Bestiário: a FICHA EXTRAÍDA, não a nota crua — o frontmatter de criatura é
+// YAML aninhado (inventário, magias, perícias) e o lerNota() daqui só lê o
+// topo plano. Criatura que também tem retrato em Contexto/Pessoas usa o
+// retrato como referência: é a mesma pessoa, agora armada.
+for (const f of readdirSync(BESTIARIO_DIR).filter((x) => x.endsWith('.json')).sort()) {
+  const doc = JSON.parse(readFileSync(join(BESTIARIO_DIR, f), 'utf8'))
+  const fm = doc.frontmatter ?? {}
+  if (fm.subcategoria !== 'Monstro') continue
+  const base = doc.basename ?? basename(f, '.json')
+  const novo = reskinName(base)
+  const refPessoa = acharRef(join(CTX_ROOT, 'Pessoas'), base) ?? null
+  add({
+    cat: 'Bestiário', sub: 'Bestiário', chave: `Bestiário/${base}`, base, novo,
+    ref: refPessoa,
+    inbox: join(INBOX, 'Bestiário', `${novo}.png`),
+    out: join(CTX_ROOT, 'Bestiário', `${novo}.png`),
+    size: '1024x1536', transparente: false,
+    prompt: promptCriatura(base, fm, refPessoa),
   })
 }
 

@@ -196,7 +196,7 @@ CRIATURAS = [
       mod="Solo", org=B, bairros=["[[Centro Histórico]]", "[[Bom Fim]]"],
       habilidades=["Ordem de Ataque", "Não Recuem", "Alvo de Assassinato"], tipagem="AB−",
       aliases=["Coronel Prado"],
-      descricao="Quem assina a Operação Silêncio. A Pessoa da vault com ficha de combate."),
+      descricao="Quem assina a Operação Silêncio. Não aparece em batida: aparece quando a batida deu errado."),
 ]
 
 CRIATURAS += [
@@ -694,7 +694,7 @@ CRIATURAS += [
     C("A Mãe do Delta", 3, "Bruto", "FOR", 3, 1, 0, 2,
       [("Atletismo", "M"), ("Intimidação", "M"), ("Sobrevivência", "E"), ("Furtividade", "E")],
       [A("Cauda de Dragão"), A("Presas Colossais"), A("Chifres Colossais")],
-      INV(tesouros=["Garras do Rei-Mago"], ouro=40, tier=3),
+      INV(ouro=40, tier=3),
       mod="Solo", org="[[Delta Radioativo]]", bairros=["[[Delta Radioativo]]"],
       habilidades=["Bruto Aterrorizador", "Vigor Bruto", "Casco"], tipagem="—",
       raca=INCOMUM, tamanho="Enorme",
