@@ -158,44 +158,52 @@ const HINT_FIG = {
   'Imbuições e Têmperas': 'Cristais e peças selênicas de fabricação (oficial Gradiente ou pirata do Quarto Distrito); itens Premium são a linha industrial de luxo da Tramontina.',
 }
 
-// r3: um CONCEITO por equipamento — fabricante/canal e forma próprios da
-// lógica do Contexto (a referência da fantasia vale só pelo ESTILO; anel
-// virou implante, broche virou beltpack…). Chave = nome do MUNDO sem tier.
+// Equipamentos = PRÓTESES (2026-09-12). O mundo já define o sistema em duas
+// etapas (Contexto Atual → Modificações Corporais): o ADAPTADOR fica no corpo,
+// em contato com os nervos, e a PEÇA acopla nele — montável por técnico comum,
+// "como a colocação de uma prótese externa". A carta mostra a PEÇA, avulsa.
+// Chave = nome do MUNDO sem tier.
+const REGRA_PROTESE =
+  ' Todo equipamento deste mundo é uma PRÓTESE: a carta mostra a PEÇA AVULSA de catálogo — objeto solto, fora do corpo, pronto pra montar —' +
+  ' com a flange/os contatos de acoplamento VISÍVEIS numa das extremidades (é por ali que ela encaixa no adaptador já instalado na pessoa).' +
+  ' NUNCA mostre a peça vestida num corpo, num manequim ou numa mão, e NUNCA desenhe roupa (luva, bota, capa, cinto, pulseira, colar, broche):' +
+  ' o que era roupa virou peça de montar. Leitura MÉDICA-INDUSTRIAL de 1987 — peça de fábrica com número de lote, nunca gadget futurista.'
+
 const CONCEITO_EQUIP = {
-  'Amplificador Audiovisual': { desc: 'visor transparente que cobre os olhos + fone de UMA orelha, cabo espiralado descendo até uma caixinha de cinto com knobs e LEDs. Eletrônica oficial Gradiente: plástico bege/cinza, logotipo REAL da Gradiente na caixinha.' },
-  'Amplificador de Palco': { desc: 'microfone de LAPELA robusto anos 80 com amplificador EMBUTIDO no próprio corpo (unidade única, sem caixa separada): grade metálica, mini-knobs de equalização e clipe de fixação; marcas de palco. Equipamento Gradiente usado no circuito de bares.' },
-  'Botas Hidráulicas': { desc: 'botas de couro com pistões/amortecedores hidráulicos aparentes no calcanhar e mangueirinhas de fluido azulado subindo pelo cano; remendos de borracha. Segunda mão do Camelódromo: desgaste honesto.' },
-  'Bracelete de Reagentes': { desc: 'bracelete de pulso com CARTUCHOS de reagentes lênicos coloridos encaixados em torno de todo o punho e um acesso venoso fino na face interna (o reagente certo entra direto na veia do braço). Artesanato de bancada lênica: arame, solda aparente, fivelas.' },
-  'Braceletes de Polímero': { desc: 'par de munhequeiras industriais de polímero preto denso com placas rígidas e fivelas — cara de EPI pesado de fábrica, cantos gastos de uso.' },
-  'Capa Discreta': { desc: 'poncho/capa de chuva cinza-fosco de tecido emborrachado que não faz ruído, forro acolchoado acústico visível na borda, capuz fundo. Brechó do Bom Fim: remendos de qualidade.' },
-  'Cinto de Campo': { desc: 'cinto militar surplus com bolsos fechados, cantil, canivete, lanterna de dínamo e isqueiro de campanha pendurados. Sobra da Brigada vendida no Camelódromo: cinza-azulado, numeração estampada meio apagada.' },
-  'Comunicador de Pulso': { desc: 'rádio de PULSO anos 80 — walkie-talkie de munhequeira com antena curta de borracha, display de 7 segmentos e botão lateral de falar. Importado japonês de segunda mão do Camelódromo: marca lixada, fita isolante.' },
-  'Diapasão Lênico': { desc: 'diapasão de metal com as duas hastes banhadas em resina selênica iridescente, montado num suporte de lapela de arame soldado. Artesanato de bancada lênica.' },
+  'Amplificador Audiovisual': { desc: 'PAR DE IMPLANTES OCULARES avulsos mais uma peça auditiva, dispostos numa bandeja de instrumental: dois elementos de córnea de policarbonato transparente com anel espelhado na borda e micro-trilhas douradas, e um processador retroauricular bege com contatos de mastoide. Linha cívica Gradiente, com etiqueta de laudo; logotipo REAL da Gradiente no processador.' },
+  'Amplificador de Palco': { desc: 'RESSONADOR ESTERNAL avulso: placa curva de titânio escovado no formato do osso do peito, com membrana de ressonância central, captador de traqueia num cabo curto e flange de acoplamento. Linha Gradiente de palco: bege/cinza com grade metálica, logotipo REAL da Gradiente.' },
+  'Pernas Hidráulicas': { desc: 'PAR DE PRÓTESES DE PERNA avulsas, da coxa ao pé: reforço estrutural com pistão hidráulico no calcanhar, acumulador de fluido azul translúcido na canela e flanges de acoplamento no topo. Linha de jornada longa Tramontina: aço escovado, cabo emborrachado preto, logotipo REAL da Tramontina.' },
+  'Porta de Reagentes': { desc: 'PORTA DE INFUSÃO de antebraço avulsa: placa curva com um anel de CARTUCHOS de reagente lênico coloridos em volta, cânula de acesso venoso fina saindo por baixo e flange de acoplamento. Estética farmacêutica Panvel: branco/verde asséptico, lacre, logotipo REAL da Panvel.' },
+  'Reforço de Punho': { desc: 'PAR DE REFORÇOS ESTRUTURAIS DE PUNHO avulsos: cascos de polímero preto denso no formato do carpo, coxins de microporo cinza na face palmar, pinos de ancoragem óssea e flanges de acoplamento. Linha de carga Tramontina: aço escovado, rebites, logotipo REAL da Tramontina.' },
+  'Difusor de Silhueta': { desc: 'PLACA DIFUSORA DORSAL avulsa: painel fino e curvo no formato das escápulas, com fileiras de micro-bicos emissores, mangueira curta até um reservatório de lombar cinza e flange de acoplamento. Bancada pirata do Quarto Distrito: solda exposta, carcaça remendada, fita isolante, SEM marca nenhuma.' },
+  'Compartimento de Campo': { desc: 'TRÊS CÁPSULAS SELADAS avulsas montadas numa barra de ancoragem de crista ilíaca, cada uma com válvula de saída rosqueada e rótulo próprio (marcador químico, concentrado nutritivo, bússola de campo). Linha de campo Tramontina: aço escovado e lona, logotipo REAL da Tramontina.' },
+  'Comunicador de Pulso': { desc: 'TRANSCEPTOR SUBCLAVICULAR avulso: cápsula achatada de titânio no formato do osso da clavícula, com antena de fita enrolada, pastilha de condução óssea num cabo curto e flange de acoplamento. Selo de homologação gravado na carcaça com o logotipo REAL da Embratel.' },
+  'Diapasão Lênico': { desc: 'PAR DE HASTES DE ANCORAGEM ESTERNAL avulsas: diapasão cirúrgico com as duas hastes banhadas em resina selênica iridescente, base de fixação óssea com parafusos e etiqueta de calibragem individual escrita à mão. Artesanato de bancada lênica: solda aparente, sem marca de fábrica.' },
   'Estabilizador Vestibular': {
-    desc: 'IMPLANTE de ouvido interno avulso, pronto pra cirurgia (estilo implante coclear dos anos 80): disco retroauricular de titânio com micro-giroscópio visível, eletrodo espiral fino e pinos de fixação óssea — leitura claramente MÉDICA/invasiva',
+    desc: 'PRÓTESE VESTIBULAR avulsa, pronta pra montar (estilo implante coclear dos anos 80): disco retroauricular de titânio com micro-giroscópio visível, eletrodo espiral fino que ocupa o lugar do labirinto do ouvido interno, pinos de fixação óssea e contatos de acoplamento — leitura claramente MÉDICA/invasiva',
     tiers: {
       Adepto: 'versão pirata de clínica clandestina — carcaça remendada e fita isolante',
       Experiente: 'linha Gradiente bege com LED de status',
       Mestre: 'grau cirúrgico polido, junção quase invisível',
     },
   },
-  'HUD Tático': { desc: 'monóculo militar com retículo verde-fósforo aceso, preso num headset de tiras, cabo até processador de bolso cinza-azulado com numeração estampada. Surplus da Brigada/contrabando: uso pesado.' },
+  'HUD Tático': { desc: 'PROJETOR DE RETINA avulso: módulo de nuca cinza-azulado com dissipador de calor, feixe de eletrodos occipitais e um par de emissores minúsculos, tudo numa bandeja. Linha militar de contrato do Exército: numeração estampada, número de série LIXADO e marcas de uso pesado.' },
   'Implante Subdérmico': {
-    desc: 'MALHA POLIMÉRICA SUBDÉRMICA avulsa, pronta pra cirurgia: tela anatômica flexível e translúcida no formato do antebraço, com trama hexagonal, portas de injeção e bordas de sutura — leitura claramente MÉDICA/invasiva, de peça que vai SOB a pele',
+    desc: 'MALHA POLIMÉRICA SUBDÉRMICA avulsa, pronta pra cirurgia: tela anatômica flexível e translúcida no formato da parede abdominal, com trama hexagonal, portas de injeção e bordas de sutura — leitura claramente MÉDICA/invasiva, de peça que vai SOB a pele',
     tiers: {
       Adepto: 'placa única curta, acabamento de clínica clandestina',
       Experiente: 'placa dupla com portas de injeção, acabamento Gradiente',
       Mestre: 'conjunto completo polido de grau cirúrgico',
     },
   },
-  'Luva do Tecnologista': { desc: 'luva de trabalho reforçada com SOQUETES de válvula selênica sobre os nós dos dedos e fiação costurada até um manômetro de pulso — a ferramenta do operador trônico. Linha oficial Gradiente: logotipo REAL da Gradiente no punho.' },
-  'Luvas Assépticas': { desc: 'par de luvas cirúrgicas de polímero AUTOESTERILIZANTE — brilho úmido de sempre-limpas, imaculadas — sobre a embalagem farmacêutica lacrada delas. Farmacêutico Panvel: branco/verde asséptico, logotipo REAL da Panvel na embalagem.' },
-  'Luvas do Punguista': { desc: 'luvas de pelica finas e justas, pretas, com gazuas e ferramentas de precisão costuradas na face interna do punho. Feitio do Quarto Distrito: costura irregular, couro macio de uso.' },
-  'Modulador de Voz': { desc: 'MODULADOR DE GARGANTA: banda/colar que envolve a laringe com o módulo modulador sobre a garganta e UM cartucho de idioma pequeno encaixado nele (slot visível, cartucho rotulado por cor). Linha executiva Gradiente: plástico bege, logotipo REAL da Gradiente.' },
-  'Projetor de Presença': { desc: 'PROJETOR VESTÍVEL DE PRESENÇA (arco de cabeça/ombros): luz de recorte vermelha que projeta a sombra do usuário maior, mini-subgraves gêmeos e um difusor químico de feromônio agressivo com reservatório visível. Feitio pirata do Quarto Distrito: solda exposta, carcaça remendada, luz acesa e dura.' },
-  'Sensor Canário': { desc: 'SENSOR DE LAPELA de áudio da linha Gradiente (r12): caixinha compacta de clipe de lapela em plástico bege/cinza com grade metálica de mini alto-falante direcional, microfone de leitura ambiente, seletor mecânico de trilhas sonoras e mini medidor VU de agulha — o aparelho lê o ambiente e emite sons calibrados pra tranquilizar ou distrair. Um CANÁRIO amarelo PINTADO em serigrafia na carcaça é a marca da linha (homenagem ao canário de mina). NÃO é gaiola: NENHUM pássaro vivo, NENHUMA gaiola, nada de latão/steampunk — eletrônica de 1987 com o logotipo REAL da Gradiente.' },
-  'Sensor Trônico': { desc: 'varinha-detector de sinais trônicos com galvanômetro de agulha (VU) no cabo, fone único de ouvido e cabo espiralado. Instrumento de bancada Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
-  'Servo-atuador de Pulso': { desc: 'IMPLANTE de punho avulso, pronto pra cirurgia: braçadeira interna de titânio com servo-atuadores e eletrodos de sincronização muscular, pinos de ancoragem e um ALOJAMENTO vazio pra enxerto de módulo no dorso — leitura claramente MÉDICA/invasiva. Linha Gradiente: acabamento bege/cinza cirúrgico.' },
+  'Adaptador de Operador': { desc: 'BARRAMENTO DE BRAÇO avulso: trilha condutora rígida que vai do cotovelo à ponta dos dedos, com cinco contatos de polpa dourados, placa de processador sobre o antebraço e flange de acoplamento no cotovelo — é o implante pelo qual o Tecnologista roda rotinas, não uma luva. Linha oficial Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
+  'Aplicador Asséptico': { desc: 'APLICADOR DE ANTEBRAÇO avulso: corpo branco leitoso com cinco bicos estéreis nas extremidades dos dedos, reservatório de polímero autoesterilizante translúcido na face interna e flange de acoplamento; lacre farmacêutico ainda intacto. Estética Panvel: branco/verde asséptico, logotipo REAL da Panvel.' },
+  'Gazua Integrada': { desc: 'FERRAMENTA DE ANTEBRAÇO avulsa, da família das lâminas retráteis militares: corpo preto fosco com mecanismo de mola exposto, uma GAZUA fina saindo da extremidade do indicador e cinco polpas de silicone escuro; flange de acoplamento sem numeração. Bancada do Quarto Distrito: solda irregular, SEM marca e SEM número de lote.' },
+  'Modulador de Voz': { desc: 'DUAS PEÇAS avulsas do mesmo conjunto, lado a lado: uma prótese auditiva pequena e uma prótese de LARINGE curva com o SLOT de cartucho de idioma exposto e UM cartucho colorido encaixado nele; flange de acoplamento nas duas. Linha executiva Gradiente: plástico bege, logotipo REAL da Gradiente.' },
+  'Projetor de Presença': { desc: 'PROJETOR DE NUCA E ESTERNO avulso, duas peças ligadas por um cabo: módulo occipital com luz de recorte vermelha acesa e placa esternal com mini-subgraves gêmeos, mais um difusor de feromônio com reservatório visível. Feitio pirata do Quarto Distrito: solda exposta, carcaça remendada, SEM marca.' },
+  'Sensor Canário': { desc: 'PEÇA DE MASTOIDE avulsa da linha de áudio Gradiente: disco retroauricular bege com grade metálica de emissor direcional, microfone de leitura ambiente, seletor mecânico de trilhas e reservatório de trilhas gravadas; flange de acoplamento atrás. Um CANÁRIO amarelo PINTADO em serigrafia na carcaça é a marca da linha (homenagem ao canário de mina). NÃO é gaiola: NENHUM pássaro vivo, NENHUMA gaiola, nada de latão/steampunk — eletrônica de 1987 com o logotipo REAL da Gradiente.' },
+  'Sensor Trônico': { desc: 'ANTENA ULNAR avulsa: haste farpada longa no formato do osso do antebraço, com as farpas sensoras em fileira, um galvanômetro de agulha miniatura na base e flange de acoplamento. Instrumento de inspeção Gradiente: bege/cinza, logotipo REAL da Gradiente.' },
+  'Braço Hidráulico': { desc: 'PRÓTESE DE ANTEBRAÇO COMPLETA avulsa: cilindro hidráulico no lugar do rádio e da ulna, mão mecânica de cinco dedos com torque de aperto regulável, um ALOJAMENTO vazio de módulo no dorso e flange de acoplamento no cotovelo. Linha de carga Tramontina: aço escovado, rebites, cabo emborrachado, logotipo REAL da Tramontina e número de lote estampado.' },
 }
 
 // Marcas/organizações com identidade REAL: o mundo é fantasia, mas as marcas
@@ -265,6 +273,20 @@ function descItem(orig) {
   // Só a parte descritiva — o texto mecânico começa nos blocos de tier.
   const corpo = limpar(lerNota(p).corpo).split(/\b(?:Adept[oa]|Experiente|Mestre):/)[0]
   const d = cap(reskinText(corpo.trim()), 320)
+  return d ? ` O que o item é/faz: ${d}` : ''
+}
+
+// Equipamentos viraram PRÓTESES (2026-09-12): a descrição da FANTASIA fala de
+// luva/bota/capa e brigava com a regra de prótese dentro do mesmo prompt. Onde
+// o Contexto tem corpo de MUNDO pro item, ele é a fonte — só o parágrafo de
+// prosa, que vem depois da linha de tipo e antes dos bullets de tier.
+const DESCRICOES = CONTEXTO.reskin?.descricoes ?? {}
+function descMundo(orig) {
+  const v = DESCRICOES[orig] ?? DESCRICOES[semTier(orig)]
+  if (!v) return ''
+  const prosa = v.split(/\n\* (?:Adept[oa]|Experiente|Mestre):/)[0]
+    .split('\n').slice(2).join(' ').trim()
+  const d = cap(prosa, 420)
   return d ? ` O que o item é/faz: ${d}` : ''
 }
 
@@ -582,7 +604,7 @@ function promptFigura(sub, orig, novo) {
       const tierTxt = conceito.tiers?.[tierEq] ? ` Tier ${tierEq}: ${conceito.tiers[tierEq]}.` : ''
       return (
         `${cabecalho} Use a imagem anexada SÓ como referência de estilo de pintura digital — a FORMA do item é nova, componha livremente o enquadramento que melhor apresenta o objeto.` +
-        ` "${novo}": ${conceito.desc}${tierTxt}${descItem(orig)}${obtencao}${RODAPE_T}`
+        ` "${novo}": ${conceito.desc}${tierTxt}${REGRA_PROTESE}${descMundo(orig) || descItem(orig)}${obtencao}${RODAPE_T}`
       )
     }
   }
