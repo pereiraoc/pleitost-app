@@ -18,12 +18,7 @@ import { useAssetIndex } from '../../data/assets'
 import { ConsumivelHover, ForcarDetalhesContext, ItemHover, ITEM_CARD_CSS } from '../item-card'
 import { TipProvider } from './tooltips'
 import { weaponImageUrl } from '../../data/creature-image'
-import {
-  escudoImageUrlByName,
-  obraPrimaSeloUrl,
-  propriedadeImageUrl,
-  tesouroImageUrl,
-} from '../../data/equipment-image'
+import { armaduraImageUrlByName, escudoImageUrlByName, obraPrimaSeloUrl, propriedadeImageUrl, tesouroImageUrl } from '../../data/equipment-image'
 import { loadDoc, useDocs } from '../../data/useDoc'
 import { TIER_PRICE_MULT, resaleRefund } from '../../data/commerce'
 import { sistemaConfig } from '../../data/system-config'
@@ -1151,9 +1146,9 @@ function EquipamentosPanel({ doc, refs }: { doc: VaultDoc; refs: HeroRefs }) {
             badge={tokens.emojis.equipProf.Armadura}
             bases={armaduraOpts}
             gear={armadura}
-            // Armadura sem mapeamento base→imagem confiável → placeholder (emoji);
-            // selo de obra-prima ainda aparece quando ranqueada.
-            img={null}
+            // 2026-09-12: a armadura ganhou carta no mundo (Recursos de
+            // Contextos/Armaduras). Sem arte → null e volta pro emoji.
+            img={armaduraImageUrlByName(String(armadura['Nome'] ?? ''), assets)}
             selo={gearSelo(armadura)}
             doc={gearDoc(armadura['Nome'])}
             propDoc={gearDoc(armadura['Propriedade'])}

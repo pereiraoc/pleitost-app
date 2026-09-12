@@ -31,6 +31,9 @@ const CTX_IMPLEMENTOS = 'Recursos e Mídia/Recursos de Contextos/Implementos'
 const CTX_IMBUICOES = 'Recursos e Mídia/Recursos de Contextos/Imbuições e Têmperas'
 const CTX_ARMAS = 'Recursos e Mídia/Recursos de Contextos/Armas'
 const CTX_CONSUMIVEIS = 'Recursos e Mídia/Recursos de Contextos/Consumíveis'
+// 2026-09-12: armadura nunca teve carta — nem na fantasia, nem no mundo; o
+// slot ARMADURA mostrava só o emoji. A pasta é nova e só existe no mundo.
+const CTX_ARMADURAS = 'Recursos e Mídia/Recursos de Contextos/Armaduras'
 
 /** Basename de um wikilink/nome ("[[Broquel]]" / "[[X|Y]]" / "Broquel" → "Broquel"). */
 function wikiBasename(nome: string): string {
@@ -115,6 +118,19 @@ export function escudoImageUrlByName(
   )
 }
 
+/** Figura da ARMADURA pelo NOME (Inventario.Armadura.Nome) — só existe no
+ *  MUNDO: `Recursos de Contextos/Armaduras/<reskinName(base)>.png` (Armadura
+ *  Leve → "Jaqueta Reforçada"). A fantasia nunca teve carta de armadura, então
+ *  não há fallback: sem arte → null, e o slot volta pro emoji. */
+export function armaduraImageUrlByName(
+  nome: string,
+  assets: AssetIndex | undefined,
+): string | null {
+  const base = wikiBasename(nome)
+  if (!base || !assets) return null
+  return byPath(assets, `${CTX_ARMADURAS}/${reskinName(base)}.png`)
+}
+
 /** Figura do TESOURO — Figura/Equipamentos/<Nome>[ <TierMasc>].png. Tenta COM
  *  sufixo de tier primeiro (ex.: "Anel da Resistência Adepto.png"); senão SEM
  *  sufixo (ex.: "Anel Canário.png") — espelha eq-defesa (com tier) vs
@@ -128,7 +144,18 @@ export function tesouroImageUrl(
   if (!base || !assets) return null
   // arte do MUNDO primeiro (#519 r4) — com tier no nome, depois sem
   if (tier) {
-    const mundoTier = byPath(assets, `${CTX_EQUIPAMENTOS}/${reskinName(`${base} ${TIER_MASC[tier]}`)}.png`)
+    // 2026-09-12: cada equipamento passa a ter TRÊS artes, e o sufixo do
+    // arquivo é `(A)/(E)/(M)` — sem gênero, porque o nome do mundo pode ser
+    // feminino ("Válvula de Consistência", "Gazua Integrada") e o sufixo por
+    // extenso concordaria errado. Implemento entra aqui também: antes só era
+    // procurado SEM tier, então arte tierizada de Válvula nunca seria achada.
+    const curto = `${reskinName(base)} (${tier})`
+    const mundoTier =
+      byPath(assets, `${CTX_EQUIPAMENTOS}/${curto}.png`) ??
+      byPath(assets, `${CTX_IMPLEMENTOS}/${curto}.png`) ??
+      // esquema antigo (sufixo por extenso) — vale enquanto a arte velha não
+      // for substituída; sem ele, Implante Subdérmico e Estabilizador sumiriam
+      byPath(assets, `${CTX_EQUIPAMENTOS}/${reskinName(`${base} ${TIER_MASC[tier]}`)}.png`)
     if (mundoTier) return mundoTier
   }
   const mundo =
