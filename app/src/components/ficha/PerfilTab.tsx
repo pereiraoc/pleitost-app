@@ -19,6 +19,7 @@ import { classeDisplay } from '../../data/catalog'
 import { fichaFamiliaOf } from '../../data/familia'
 import { linkLabel, linkLabelDisplay } from '../../markdown/dataview-value'
 import { reskinText, reskinUpper } from '../../data/reskin'
+import { retratoCover } from '../retrato'
 import {
   deleteEntityImage,
   saveEntityImage,
@@ -1217,7 +1218,7 @@ export function PerfilTab({ doc }: { doc: VaultDoc }) {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                ...retratoCover,
                 clipPath: 'polygon(0 0,100% 0,100% 88%,88% 100%,0 100%)',
                 border: '1px solid var(--line2)',
               }}

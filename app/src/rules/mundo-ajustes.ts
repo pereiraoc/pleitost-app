@@ -32,6 +32,15 @@ export function aliasSemTamanho(classeWl: string): string {
   return label ? `[[${m[1]}|${label}]]` : `[[${m[1]}]]`
 }
 
+/** Rótulo de exibição da Classe no mundo ativo: aplica o `tamanho` fixo do
+ *  Contexto quando a criatura é da família CA (o card da lista precisa do
+ *  mesmo corte que a ficha, sem repetir a regra no call-site). */
+export function classeNoMundo(classeWl: unknown, fm: Record<string, unknown>): unknown {
+  const ca = contextoRegras().companheiroAnimal
+  if (!ca?.tamanho || typeof classeWl !== 'string' || !ehFamiliaCa(fm)) return classeWl
+  return aliasSemTamanho(classeWl)
+}
+
 /** Arma de uma linha de Ataques.Lista, venha ela como vier. No FM DERIVADO a
  *  linha é `{Nome: '[[Mandíbula]]', Atributo, …}` — o filtro lia só a
  *  primeira CHAVE (formato do mapa de calculados, `{'[[Mandíbula]]': fonte}`)

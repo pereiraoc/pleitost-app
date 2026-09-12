@@ -57,7 +57,9 @@ import { addMonsterToInitiative } from '../../data/session-repo/encounter-action
 import { useSessions } from '../../data/session-store'
 import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
-import { reskinName, reskinText } from '../../data/reskin'
+import { reskinName, reskinText, reskinUpper } from '../../data/reskin'
+import { plainLabel, subtituloDeCriatura } from './subtitulo'
+import { retratoCover } from '../retrato'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -206,15 +208,6 @@ const MESTRE_TABS: readonly { id: string; label: string }[] = []
 /** Abas que só existem com Modo Mestre ligado (BESTIÁRIO + Criadores). */
 const MESTRE_GATED_IDS = new Set<string>(['bestiario', ...MESTRE_TABS.map((t) => t.id)])
 
-const WIKI = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/
-
-/** Texto plano de um valor FM que pode ser wikilink ("[[Mago|Mago]]" → "Mago"). */
-function plainLabel(value: unknown): string {
-  if (typeof value === 'number') return String(value)
-  if (typeof value !== 'string' || !value) return ''
-  const match = WIKI.exec(value)
-  return match ? (match[2] ?? match[1]!) : value
-}
 
 /** Iniciais pro slot sem retrato (h.ini do design: "Carlos Facão…" → "CF").
  *  Exportada pro avatar da topbar (issue #34) usar o MESMO fallback dos cards. */
@@ -548,7 +541,7 @@ export function PessoaForm({
                   style={{
                     width: 46,
                     height: 46,
-                    objectFit: 'cover',
+                    ...retratoCover,
                     border: '1px solid var(--line2)',
                     clipPath: clip(8),
                     flex: 'none',
@@ -1115,7 +1108,7 @@ export function HeroisPage() {
               if (t.id === 'grupos') selectGroup(null)
             }}
           >
-            {reskinText(t.label)}
+            {reskinUpper(t.label)}
           </button>
         ))}
       </div>
@@ -1194,26 +1187,9 @@ function NpcCard({
   const navigate = useNavigate()
   const selected = useSelectedCreature() === entry.id // #86
   const nome = entry.basename ?? entry.id
-  // subtítulo accent2 do design (n.tipo): Raça, senão Classe, senão subtipo.
-  // #414 (sugestão do usuário): Pessoa compõe as infos do #45 no lugar do
-  // rótulo "Pessoa" — Relação · Organização · Posição (Detalhes fica de
-  // fora); tudo vazio cai no subtipo como antes.
-  const pessoaInfo =
-    (doc?.subtype ?? entry.subtype) === 'Pessoa'
-      ? [
-          plainLabel(doc?.frontmatter['Relação']),
-          plainLabel(doc?.frontmatter['Organização']),
-          plainLabel(doc?.frontmatter['Posição']),
-        ]
-          .filter(Boolean)
-          .join(' · ')
-      : ''
-  const tipo =
-    pessoaInfo ||
-    plainLabel(doc?.frontmatter['Raça']) ||
-    plainLabel(doc?.frontmatter['Classe']) ||
-    entry.subtype ||
-    ''
+  // subtítulo accent2 do design (n.tipo) — a regra e a cascata do mundo vivem
+  // em ./subtitulo (report 2026-09-12: o Empregado do POA mostrava "Canino").
+  const tipo = subtituloDeCriatura(doc?.frontmatter, doc?.subtype ?? entry.subtype)
   const nivel = plainLabel(doc?.frontmatter['Nível'])
   // Retrato local-first (#200): imagem subida pelo jogador (inclui a de Pessoa
   // avulsa via FM ImgId) tem precedência; senão hierarquia da vault. #280: ícone
@@ -1685,7 +1661,7 @@ export function NpcsPage() {
             disabled={MESTRE_GATED_IDS.has(t.id) && !mestre}
             onClick={() => setTab(t.id)}
           >
-            {reskinText(t.label)}
+            {reskinUpper(t.label)}
           </button>
         ))}
       </div>

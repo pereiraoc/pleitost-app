@@ -34,6 +34,7 @@ import { PreviewCombate } from './PassoAtributos'
 import { LocalImageUpload } from '../../ficha/PerfilTab'
 import { docIdOf, WizCampo, WizCardLista, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
+import { retratoCover } from '../../retrato'
 
 /** Lore de abertura — fantasia: texto da nota [[Companheiro Animal]] da
  *  vault, verbatim (sem os wikilinks). POA 1987: cópia própria no registro
@@ -205,7 +206,7 @@ export function PassoCompanheiro({ ctx }: { ctx: WizardCtx }) {
               <img
                 src={imgUrl}
                 alt={`Retrato do ${bicho}`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', ...retratoCover }}
               />
             ) : (
               // POA: Empregado é gente (ou drone) — nada de patinhas.

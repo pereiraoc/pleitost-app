@@ -106,9 +106,23 @@ export function reskinPericia(display: string): string {
 /** Labels UPPERCASE (banners/tabs) — a cascata de termos é case-sensitive,
  *  então title-caseia, reskina e devolve maiúsculo só se o mundo mudou algo. */
 export function reskinUpper(label: string): string {
-  const titulo = label.charAt(0) + label.slice(1).toLowerCase()
-  const mundo = reskinText(titulo)
-  return mundo === titulo ? label : mundo.toUpperCase()
+  // O rótulo pode ser de VÁRIAS palavras ("COMPANHEIROS ANIMAIS"): a chave do
+  // mundo tanto pode estar em Título quanto toda minúscula, então tenta as
+  // capitalizações plausíveis e fica com a primeira que o mundo reescreve
+  // (report 2026-09-12: a aba ficou "COMPANHEIROS ANIMAIS" enquanto os botões
+  // da mesma tela já diziam "Empregado").
+  const baixa = label.toLowerCase()
+  const candidatos = [
+    label,
+    label.charAt(0) + baixa.slice(1),
+    baixa,
+    baixa.replace(/(^|\s)(\p{L})/gu, (_m, sep: string, c: string) => sep + c.toUpperCase()),
+  ]
+  for (const c of candidatos) {
+    const mundo = reskinText(c)
+    if (mundo !== c) return mundo.toUpperCase()
+  }
+  return label
 }
 
 export function reskinDescricao(basename: string): string | null {

@@ -82,6 +82,7 @@ import { applyFmEdits, getHeroEdits, onHeroWrite } from '../../data/hero-store'
 import { pushLog } from '../../data/debug-log'
 import { useDetail } from '../../data/detail-context'
 import { Lightbox } from '../Lightbox'
+import { retratoCover } from '../retrato'
 
 // SESS_TABS / SESS_SEL_TABS — verbatim do script do design.
 const SESS_TABS = [
@@ -110,8 +111,7 @@ const mono = (extra: CSSProperties = {}): CSSProperties => ({ fontFamily: 'var(-
 const imgCover: CSSProperties = {
   width: '100%',
   height: '100%',
-  objectFit: 'cover',
-  objectPosition: 'center',
+  ...retratoCover,
   display: 'block',
 }
 

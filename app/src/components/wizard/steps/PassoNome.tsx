@@ -15,6 +15,7 @@ import { useEntityImageUrl } from '../../../data/images'
 import { clip } from '../../ficha/bits'
 import { WizCampo, WizSecao, wizTitulo } from '../bits'
 import type { WizardCtx } from '../steps'
+import { retratoCover } from '../../retrato'
 
 export function PassoNome({ ctx }: { ctx: WizardCtx }) {
   const { doc, fm, model } = ctx
@@ -62,7 +63,7 @@ export function PassoNome({ ctx }: { ctx: WizardCtx }) {
             }}
           >
             {retrato ? (
-              <img src={retrato} alt="Retrato do personagem" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={retrato} alt="Retrato do personagem" style={{ width: '100%', height: '100%', ...retratoCover }} />
             ) : (
               '👤'
             )}

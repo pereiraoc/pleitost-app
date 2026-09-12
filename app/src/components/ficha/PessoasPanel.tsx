@@ -17,6 +17,7 @@ import { clip } from './bits'
 import { fmPath, wikiTarget } from './hero-model'
 import { initials, PessoaForm, type PessoaFields2 } from '../creatures/CreaturesPages'
 import { reskinText } from '../../data/reskin'
+import { retratoCover } from '../retrato'
 
 export interface PessoaRow extends PessoaFields2 {
   /** Doc id de um personagem EXISTENTE (herói/companheiro/monstro) — habilita
@@ -88,7 +89,7 @@ function PessoaAvatar({ row }: { row: PessoaRow }) {
     clipPath: clip(8),
   }
   return portrait ? (
-    <img src={portrait} alt="" style={{ ...frame, objectFit: 'cover' }} />
+    <img src={portrait} alt="" style={{ ...frame, ...retratoCover }} />
   ) : (
     <span
       style={{
