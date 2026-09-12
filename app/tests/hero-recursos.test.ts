@@ -15,6 +15,7 @@ import {
   pagarAvista,
   precoDeCompra,
   precoNaRegua,
+  melhorDoEixo,
   recursosDoFm,
   venderItem,
   abrirMes,
@@ -26,6 +27,8 @@ import {
   tetoDoEmprestimo,
   vagasDe,
 } from '../src/recursos/hero-recursos'
+import type { EixoDoMes } from '../src/recursos/hero-recursos'
+import type { Recurso } from '../src/recursos/types'
 
 const FATOR = 1000
 
@@ -231,5 +234,56 @@ describe('empréstimo: dívida, juros ao mês e amortização', () => {
     expect(meio.recursos.dividas[0]!.saldo).toBe(100000)
     const quitado = amortizar(meio.recursos, 0, 100000, 100, FATOR)!
     expect(quitado.recursos.dividas).toEqual([])
+  })
+})
+
+/* Pedido 2026-09-12: cada eixo mostra no sumário a figura do MAIOR que tem ali
+ * dentro — "se tiver um apartamento e também um plano, mostra a imagem do
+ * melhor". Maior = degrau mais alto; empate desempata pelo preço de referência. */
+describe('melhorDoEixo', () => {
+  const rec = (nome: string, nivel: number | undefined, preco: number, compra?: number): Recurso =>
+    ({ id: `x/${nome}`, nome, aliases: [], aba: 'Moradia', tipo: 'Estilo de Vida', marca: '', preco, cobranca: 'mês', nivel, compra, onde: [], resumo: '' }) as Recurso
+  const eixo = (plano: Recurso | null, posses: (Recurso | undefined)[]): EixoDoMes =>
+    ({
+      papel: 'moradia',
+      plano,
+      planoValor: 0,
+      posse: posses.map((recurso, indice) => ({ indice, item: { nome: recurso?.nome ?? '?', aba: 'Moradia', qtd: 1, pago: 0 }, recurso, valor: 0, naRua: false })),
+      posseValor: 0,
+      total: 0,
+      doBolso: 0,
+      nivel: plano?.nivel ?? 1,
+    }) as EixoDoMes
+
+  it('sem plano nem posse não tem figura', () => {
+    expect(melhorDoEixo(eixo(null, []))).toBeNull()
+  })
+
+  it('só o plano: é ele', () => {
+    const kitnet = rec('Kitnet', 4, 6000)
+    expect(melhorDoEixo(eixo(kitnet, []))?.nome).toBe('Kitnet')
+  })
+
+  it('o imóvel de degrau mais alto ganha do plano', () => {
+    const kitnet = rec('Kitnet', 4, 6000)
+    const apto = rec('Apartamento em Petrópolis', 5, 15000, 900000)
+    expect(melhorDoEixo(eixo(kitnet, [apto]))?.nome).toBe('Apartamento em Petrópolis')
+  })
+
+  it('o plano ganha quando a posse é de degrau menor', () => {
+    const apartamento = rec('Apartamento', 5, 15000)
+    const barraco = rec('Barraco de Sucata', 2, 300)
+    expect(melhorDoEixo(eixo(apartamento, [barraco]))?.nome).toBe('Apartamento')
+  })
+
+  it('empate de degrau desempata pelo preço de referência (compra, senão preço)', () => {
+    const fusca = rec('Volkswagen Fusca', 4, 90000)
+    const carajas = rec('Gurgel Carajás', 4, 400000)
+    expect(melhorDoEixo(eixo(null, [fusca, carajas]))?.nome).toBe('Gurgel Carajás')
+  })
+
+  it('posse sem nota na vault não quebra', () => {
+    const kitnet = rec('Kitnet', 4, 6000)
+    expect(melhorDoEixo(eixo(kitnet, [undefined]))?.nome).toBe('Kitnet')
   })
 })

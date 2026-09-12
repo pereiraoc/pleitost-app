@@ -44,6 +44,7 @@ import {
   isEmprestimo,
   marcarPagoPor,
   isEstilo,
+  melhorDoEixo,
   nomeDegrauGeral,
   nomeNivel,
   papelDaAba,
@@ -454,6 +455,7 @@ function SecaoEixo({
     return res.kind === 'doc' ? res.id : null
   }
   const rotuloPosse = papel === 'transporte' ? 'VEÍCULOS PRÓPRIOS' : papel === 'moradia' ? 'IMÓVEIS PRÓPRIOS' : 'POSSE'
+  const melhor = melhorDoEixo(eixo)
   // ONDE COMPRAR = os estabelecimentos que listam o recurso em `Serviços`
   // (faceta `vende` do índice); sem vendedor, o `Onde` da própria nota.
   const vendedores = useMemo(() => {
@@ -465,6 +467,8 @@ function SecaoEixo({
     <details data-eixo={papel} style={{ ...BOX, padding: 0 }}>
       <summary style={{ ...LINHA, borderTop: 'none', cursor: 'pointer', padding: '10px 14px', listStyle: 'none' }}>
         <span style={{ ...MONO, color: 'var(--muted)' }}>▸</span>
+        {/* a figura do MAIOR do eixo (plano ou posse) — pedido 2026-09-12 */}
+        {melhor ? <RecursoThumb r={melhor} icone={iconeDe(melhor)} size={34} /> : null}
         <span style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', minWidth: 0 }}>
           <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{nomeAba.toUpperCase()}</span>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>

@@ -323,6 +323,47 @@ describe('regalia da classe no topo do custo de vida', () => {
   }, 30000)
 })
 
+/* Pedido 2026-09-12: o sumário de cada eixo mostra a figura do MAIOR que tem
+ * ali dentro — o plano ou a posse, o que for de degrau mais alto. */
+describe('figura do maior do eixo no sumário', () => {
+  const figuraDoSumario = (papel: string) =>
+    eixo(papel).querySelector('summary [data-recurso-figura]') as HTMLElement | null
+
+  it('sem plano nem posse o sumário não tem figura; escolher o plano põe a dele', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    expect(figuraDoSumario('moradia')).toBeNull()
+    fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Kitnet
+    expect(figuraDoSumario('moradia')).toBeTruthy()
+  }, 30000)
+
+  it('o imóvel de degrau mais alto que o plano é quem aparece', async () => {
+    if (!temDataset) return
+    setActiveContexto(def)
+    writeHeroEdit(
+      CARLOS_ID,
+      'fm',
+      RECURSOS_FM,
+      {
+        estilos: { moradia: 'Kitnet', transporte: null, alimentacao: null },
+        itens: [{ nome: 'Apartamento em Petrópolis', aba: 'Moradia', qtd: 1, pago: 900000 }],
+      },
+      { channel: 'imediato', origem: 'test' },
+    )
+    montar()
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    // a figura do sumário é a do apartamento (degrau 5), não a da Kitnet (4):
+    // o card do hover diz de quem é
+    const fig = figuraDoSumario('moradia')!
+    expect(fig).toBeTruthy()
+    expect(fig.closest('[data-breakdown-html]')?.getAttribute('data-breakdown-html')).toContain(
+      'Apartamento em Petrópolis',
+    )
+  }, 30000)
+})
+
 /* CLASSE SOCIAL (pedido 2026-09-12): o banner no topo da aba — a letra que a
  * cidade lê no herói, do mês inteiro junto, e não o nome de um plano. */
 describe('banner de classe social', () => {

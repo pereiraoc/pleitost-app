@@ -141,6 +141,26 @@ export function nomeNivel(cfg: RecursosCfg, n: number, papel?: Papel): string {
   return escada[n - 1] ?? `Nível ${n}`
 }
 
+/** O MAIOR do eixo (pedido 2026-09-12): entre o plano do mês e o que o herói
+ *  tem de posse, a nota de degrau mais alto — empate desempata pelo preço de
+ *  referência (compra, senão o do mês). É dela a figura que o sumário mostra. */
+export function melhorDoEixo(eixo: EixoDoMes): Recurso | null {
+  const candidatos = [eixo.plano, ...eixo.posse.map((p) => p.recurso)].filter(
+    (r): r is Recurso => r != null,
+  )
+  let melhor: Recurso | null = null
+  for (const r of candidatos) {
+    if (!melhor) {
+      melhor = r
+      continue
+    }
+    const ref = (x: Recurso) => x.compra ?? x.preco
+    const acima = (r.nivel ?? 0) - (melhor.nivel ?? 0)
+    if (acima > 0 || (acima === 0 && ref(r) > ref(melhor))) melhor = r
+  }
+  return melhor
+}
+
 /** Rótulo de um degrau CROSS-EIXO (exigência de crédito, por exemplo): a classe
  *  social quando o mundo declara a régua; senão o degrau da escada única. */
 export function nomeDegrauGeral(cfg: RecursosCfg, n: number): string {
