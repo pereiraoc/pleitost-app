@@ -71,6 +71,9 @@ const MANIFEST = flag('--manifest')
 const INGEST = flag('--ingest')
 const FORCE = flag('--force')
 const ONLY = opt('--only', null)
+// --codex "<Categoria>": doc de UMA categoria só, no formato que o user cola no
+// Codex (cabeçalho com as regras da leva + checkbox e prompt por item).
+const CODEX = opt('--codex', null)
 const QUALITY = opt('--quality', 'medium')
 
 // ---- porte de app/src/data/reskin.ts (manter em sincronia) ----------------
@@ -1324,6 +1327,62 @@ if (CHATGPT) {
   for (const t of trabalho) mkdirSync(inboxDirDe(t), { recursive: true })
   writeFileSync(doc, linhas.join('\n'))
   console.log(`${trabalho.length} prompts → ${doc}`)
+  process.exit(0)
+}
+
+// Cabeçalho de cada leva: o que vale pra TODAS as imagens da categoria. Fica
+// no doc porque o Codex lê o cabeçalho uma vez e os prompts N vezes — repetir
+// as regras em cada prompt inflaria o arquivo sem ganhar nada.
+const CABECALHO_CODEX = {
+  'Bestiário': [
+    'Uma ilustração por CRIATURA do bestiário — é a arte que o mestre mostra na mesa quando o bicho entra em cena.',
+    '',
+    'Cada prompt foi montado a partir da FICHA da criatura: papel, tier, o que ela veste, o que ela empunha e a quem ela responde. **O que o prompt lista tem que aparecer na imagem** — a arma na mão, a armadura no corpo, a prótese no lugar, o selo na peça. É por isso que existe uma imagem por criatura em vez de uma por tipo.',
+    '',
+    'Salvar cada PNG com o **nome exato** indicado, em `Recursos e Mídia/Rascunhos/Inbox de Imagens/Bestiário/`.',
+    '',
+    '**Formato: retrato 1024×1536, PNG, fundo COMPLETO (nada de transparência).**',
+    '',
+    '> [!warning] Regras que valem para as 87',
+    '> **Estilo.** Pintura digital cinematográfica SEMIRREALISTA — a mesma linguagem das Classes, das Pessoas e do Contexto Atual que já estão prontas. Nada de foto literal, nada de anime, nada de 3D.',
+    '> ',
+    '> **1987 analógico.** Metal usinado, plástico bege de eletrônica brasileira, borracha, vidro, fita isolante, tinta descascada. NUNCA holograma, néon, fibra ótica brilhante ou estética futurista de ficção moderna.',
+    '> ',
+    '> **Decreto das Armas Frias.** Pólvora é monopólio do Estado. Só as criaturas que o prompt AUTORIZA podem parecer armadas de fogo — no resto, o que tem alcance é besta, dardo, funda ou arco, e tem que ser visualmente distinto de arma de fogo.',
+    '> ',
+    '> **Enquadramento.** A criatura preenche o quadro: corpo inteiro ou três quartos, ocupando uns 85% da altura, com margem de respiro nos quatro lados. Nada cortado pela borda.',
+    '> ',
+    '> **Bicho é bicho, máquina é máquina.** Onde o prompt diz ARMAS NATURAIS, elas fazem parte do CORPO — nunca uma ferramenta acoplada no bicho. Onde diz MÁQUINA, é aparelho de 1987: chapa, servo, antena, parafuso.',
+    '> ',
+    '> **Sem texto legível** de nenhum tipo. O único texto permitido é o logotipo de marca real que o prompt pedir.',
+  ],
+}
+
+if (CODEX) {
+  const itens = trabalho.filter((t) => t.cat === CODEX)
+  if (!itens.length) {
+    console.error(`categoria sem itens: ${CODEX} (use uma de: ${CATS.join(', ')})`)
+    process.exit(1)
+  }
+  const arquivo = join(
+    VAULT,
+    `Recursos e Mídia/Rascunhos/Prompt Codex — ${CODEX.toLowerCase()} (${itens.length}).md`,
+  )
+  const linhas = [
+    `# Prompt pro Codex — ${CODEX.toLowerCase()} (${itens.length} imagens)`,
+    '',
+    ...(CABECALHO_CODEX[CODEX] ?? []),
+    '',
+    '---',
+    '',
+  ]
+  for (const t of itens) {
+    const ref = t.ref ? ` — **anexar referência:** \`${t.ref.replace(VAULT + '/', '')}\`` : ''
+    linhas.push(`- [ ] **${t.base}** → \`${t.novo}.png\`${ref}`, '', '```text', t.prompt, '```', '')
+  }
+  mkdirSync(dirname(arquivo), { recursive: true })
+  writeFileSync(arquivo, linhas.join('\n'))
+  console.log(`${itens.length} prompts → ${arquivo}`)
   process.exit(0)
 }
 
