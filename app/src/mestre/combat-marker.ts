@@ -116,7 +116,7 @@ export function parseCombatMarkerBlocks(noteContent: string): ParseCombatMarkerB
 }
 
 /** Extrai todos os blocos de código com tag `combat-marker` do markdown. */
-function extractCombatMarkerBlocks(content: string): string[] {
+export function extractCombatMarkerBlocks(content: string): string[] {
   const blocks: string[] = []
   const lines = content.split('\n')
   let inBlock = false

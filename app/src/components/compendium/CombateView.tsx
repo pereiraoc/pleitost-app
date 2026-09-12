@@ -27,7 +27,6 @@ import { creatureImageUrl } from '../../data/creature-image'
 import { useLiveSession } from '../../data/session-repo/live-session'
 import { docPath, compendiumFolderPath } from '../../paths'
 import { useSettings } from '../../settings'
-import { parseCombatMarkerBlocks } from '../../mestre/combat-marker'
 import { CombatMarkerBlock } from '../../mestre/CombatMarkerBlock'
 import { combatantsFrom, resolveRosterEntries, rosterMonsterIds } from '../../mestre/roster'
 import {
@@ -38,7 +37,13 @@ import {
 import type { EncounterRoster, EncounterRosterEntry } from '../../data/session-repo/contract'
 import { EncounterLevelBar, DifficultyBadge } from '../mestre/ui'
 import { SPEED_EMOJI, SPEED_LABEL, type SpeedTier } from '../../data/initiative-blocks'
-import { GENERICOS, locaisDoCombate, ondeDe, situacaoDe } from '../../mestre/encontro-meta'
+import {
+  GENERICOS,
+  locaisDoCombate,
+  ondeDe,
+  rosterComVelocidades,
+  situacaoDe,
+} from '../../mestre/encontro-meta'
 import { CriadorCombate } from '../mestre/CriadorCombate'
 import { COMPENDIO_KICKER } from '../layout/design-nav'
 import { registerDocView } from './doc-view-registry'
@@ -158,8 +163,7 @@ function DocText({ texto }: { texto: string }) {
  *  Combate (#194) na página CRIATURAS. */
 export function CombateSheet({ doc }: { doc: VaultDoc }) {
   const { mestre } = useSettings()
-  const parsed = parseCombatMarkerBlocks(doc.body)
-  const roster = parsed.ok ? parsed.roster : { entries: [] }
+  const roster = rosterComVelocidades(doc.body)
 
   return (
     <section className="page combate-page">
@@ -297,8 +301,7 @@ export function CombateGrid({ entries }: { entries: IndexDocEntry[] }) {
     () =>
       entries.map((entry) => {
         const doc = docs?.get(entry.id)
-        const parsed = doc ? parseCombatMarkerBlocks(doc.body) : null
-        const roster: EncounterRoster = parsed?.ok ? parsed.roster : { entries: [] }
+        const roster: EncounterRoster = rosterComVelocidades(doc?.body)
         return { entry, doc, roster }
       }),
     [entries, docs],

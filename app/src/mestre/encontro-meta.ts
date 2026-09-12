@@ -7,6 +7,9 @@
 // do combate e a aba BESTIÁRIO do lugar) e porque importar a view arrasta os
 // registros de doc-view por efeito colateral.
 import type { VaultDoc } from '../data/types'
+import type { EncounterRoster } from '../data/session-repo/contract'
+import { rosterFromFence } from '../aventura/roster-speeds'
+import { extractCombatMarkerBlocks } from './combat-marker'
 
 const str = (v: unknown): string => (typeof v === 'string' ? v.trim() : '')
 
@@ -30,4 +33,15 @@ export function locaisDoCombate(doc: VaultDoc | undefined): string[] {
     m[1]!.trim(),
   )
   return [...new Set(nomes)]
+}
+
+/** Roster do encontro COM as velocidades declaradas na nota. O parser herdado
+ *  do plugin (`parseCombatMarkerBlocks`) ignora o sufixo de velocidade — ele só
+ *  entende número de iniciativa —, então a página do combate e a lista perdiam
+ *  o "rápido"/"lento" que a nota declara e o PREPARAR entrava tudo no padrão.
+ *  `rosterFromFence` é o mesmo parser com o sufixo lido pelo registro central.
+ *  Mantém a regra do MVP: nota com 2+ blocos não tem roster. */
+export function rosterComVelocidades(body: string | undefined): EncounterRoster {
+  const blocos = extractCombatMarkerBlocks(String(body ?? ''))
+  return blocos.length === 1 ? rosterFromFence(blocos[0]!) : { entries: [] }
 }

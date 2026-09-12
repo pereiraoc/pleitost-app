@@ -8,7 +8,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { IndexDocEntry, IndexManifest, VaultDoc } from '../src/data/types'
 import { chaveDoCriterio, gruposPorChave, SEM_AFILIACAO } from '../src/components/creatures/agrupar-bestiario'
-import { locaisDoCombate, ondeDe, situacaoDe } from '../src/mestre/encontro-meta'
+import { locaisDoCombate, ondeDe, rosterComVelocidades, situacaoDe } from '../src/mestre/encontro-meta'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const cyberDir = path.join(path.dirname(appDir), 'vault-data-cyberpunk')
@@ -64,6 +64,24 @@ describe('metadado do encontro', () => {
   })
 })
 
+describe('roster do encontro', () => {
+  const fence = [
+    '```combat-marker',
+    '- 1 [[Sistema/Criaturas/Bestiário/Coronel Luciana Prado|Coronel Luciana Prado]] super rápido',
+    '- 3 [[Cabo de Choque]] lento',
+    '```',
+  ].join('\n')
+
+  it('carrega a velocidade declarada na nota (o parser herdado ignorava o sufixo)', () => {
+    const { entries } = rosterComVelocidades(fence)
+    expect(entries.map((e) => e.label)).toEqual(['Coronel Luciana Prado', 'Cabo de Choque'])
+    expect(entries[0]!.speeds).toEqual(['super'])
+    expect(entries[1]!.speeds).toEqual(['lento'])
+    // o alvo qualificado por caminho vira sourcePath; o label é o alias
+    expect(entries[0]!.sourcePath).toBe('Sistema/Criaturas/Bestiário/Coronel Luciana Prado')
+  })
+})
+
 describe.skipIf(!temDataset)('sobre o dataset real da POA', () => {
   const manifest = temDataset
     ? (JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest)
@@ -91,6 +109,18 @@ describe.skipIf(!temDataset)('sobre o dataset real da POA', () => {
       for (const linha of String(d.body ?? '').split('\n')) {
         if (!/^- \d+ \[\[/.test(linha)) continue
         if (!/(super rápido|rápido|lento)\s*$/.test(linha)) erros.push(`${e.basename}: "${linha}" sem velocidade`)
+      }
+    }
+    expect(erros).toEqual([])
+  })
+
+  it('todo encontro do dataset entrega roster com velocidade', () => {
+    const erros: string[] = []
+    for (const e of manifest!.docs.filter((d) => d.type === 'Combate' && d.basename)) {
+      const { entries } = rosterComVelocidades(ler(e.id).body)
+      if (!entries.length) { erros.push(`${e.basename}: roster vazio`); continue }
+      for (const linha of entries) {
+        if (!linha.speeds?.length) erros.push(`${e.basename}: ${linha.label} sem velocidade`)
       }
     }
     expect(erros).toEqual([])
