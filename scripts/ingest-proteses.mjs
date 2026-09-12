@@ -40,9 +40,9 @@ for (const pasta of PASTAS) {
 
   for (const f of novas) {
     console.log(`${pasta}/${f}`)
-    // As imagens chegam com FUNDO MAGENTA chapado (o Codex não gera alfa
+    // As imagens chegam com FUNDO CHAPADO de estúdio (o Codex não gera alfa
     // confiável); quem tira a cor é o user, à mão, antes do ingest. Se ainda
-    // não tem canal alfa, a peça entraria com o magenta colado atrás.
+    // não tem canal alfa, a peça entraria com o fundo colado atrás.
     const meta = await sharp(join(de, f)).metadata()
     if (!meta.hasAlpha) {
       console.log('   ^ SEM canal alfa — o fundo ainda não foi removido. Pulada.')
@@ -68,7 +68,7 @@ for (const pasta of PASTAS) {
 }
 
 console.log(`\n${movidas} imagem(ns) ${APLICAR ? 'ingeridas' : 'a ingerir'}.`)
-if (semAlfa) console.log(`${semAlfa} pulada(s) por ainda estarem com o fundo magenta — remova a cor antes.`)
+if (semAlfa) console.log(`${semAlfa} pulada(s) por ainda estarem com o fundo chapado — remova a cor antes.`)
 if (apagar.length) {
   console.log(`\nARTE ANTIGA ÓRFÃ (${apagar.length}) — a peça já tem versão com tier:`)
   for (const p of apagar) console.log('  ' + p.replace(FINAL + '/', ''))
