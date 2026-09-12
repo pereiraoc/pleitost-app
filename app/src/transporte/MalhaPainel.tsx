@@ -23,7 +23,7 @@ import { abaDoPapel } from '../recursos/hero-recursos'
 import { desenharMalha, linhasDoFiltro, modosPorPreco, montarMalha, paradasComBaldeacao, zonasDeBairro, type Desenho, type LinhaMalha, type Malha, type ZonaBairro } from './malha'
 import { TracoAmostra, type Destaque } from '../components/ficha/MalhaMap'
 import { formatValorMoeda } from '../data/moeda'
-import { calcularRotasComAcesso, formatarMinutos, rotaAPe, type PosicaoReal, type Rota } from './rotas'
+import { calcularRotasComAcesso, formatarMinutos, minutosAPe, rotaAPe, type Perna, type PosicaoReal, type Rota } from './rotas'
 import { paradasSelectLines } from './paradas-select'
 import { BoxSelect } from '../components/ficha/bits'
 
@@ -51,7 +51,18 @@ function AcessoNota({ l }: { l: LinhaMalha }) {
 /** Itinerário passo a passo de uma rota (estilo Google Maps): embarque e
  *  espera, a linha com os trechos e o tempo, onde descer, baldeação. Cada
  *  perna tem a barra na cor da linha; as paradas intermediárias vão em nota. */
-function Itinerario({ rota, origem, destino }: { rota: Rota; origem: string | null; destino: string | null }) {
+function Itinerario({
+  rota,
+  origem,
+  destino,
+  aPeDaPerna,
+}: {
+  rota: Rota
+  origem: string | null
+  destino: string | null
+  /** Minutos a pé do MESMO trecho — o jogador decide perna a perna se anda. */
+  aPeDaPerna: (p: Perna) => number | null
+}) {
   const passo: CSSProperties = { display: 'flex', gap: 10, alignItems: 'flex-start' }
   const ponta = (letra: string) => (
     <span aria-hidden style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--text)', color: 'var(--panel)', fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flex: 'none', marginTop: 1 }}>
@@ -81,6 +92,16 @@ function Itinerario({ rota, origem, destino }: { rota: Rota; origem: string | nu
                 </span>
                 <span style={{ fontSize: 12.5 }}>
                   {`${pe.paradas.length - 1} ${pe.paradas.length - 1 === 1 ? 'trecho' : 'trechos'} · ${formatarMinutos(pe.viagem)}`}
+                  {/* report 2026-09-11: o tempo a pé DESTA perna, do lado do
+                      tempo dela — o jogador pode escolher andar só um pedaço */}
+                  {(() => {
+                    const p = aPeDaPerna(pe)
+                    return p === null ? null : (
+                      <span style={{ color: 'var(--muted)' }} data-a-pe-minutos={p}>
+                        {` (🚶 ${formatarMinutos(p)})`}
+                      </span>
+                    )
+                  })()}
                   {meio.length ? <span style={{ color: 'var(--muted)' }}>{` · via ${meio.join(', ')}`}</span> : null}
                 </span>
                 <span style={{ fontSize: 12.5 }}>
@@ -299,8 +320,26 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
     const todas = dados.malha.linhas.filter((l) => !l.fechada)
     return rotaAPe(todas, origem, destino, { cfg, metrosPorUnidade: dados.metrosPorUnidade, posicoes: dados.posicoes, transito: periodos[periodoIdx]?.transito ?? 1 })
   }, [dados, cfg, podePlanejar, origem, destino, periodos, periodoIdx])
+  // Tempo a pé de UMA perna (report 2026-09-11: "queria em parênteses depois
+  // do valor de cada trecho, pra o jogador escolher fazer uma parte a pé").
+  const aPeDaPerna = (p: Perna): number | null =>
+    cfg?.aPe ? Math.round(minutosAPe(p.km, cfg.aPe)) : null
   const rota = rotas[Math.min(rotaSel, Math.max(0, rotas.length - 1))] ?? aPe
-  const destaque: Destaque | null = origem || destino ? { linhas: rota?.linhas ?? [], paradas: rota?.paradas ?? [origem, destino].filter((x): x is string => !!x), origem, destino } : null
+  const destaque: Destaque | null =
+    origem || destino
+      ? {
+          linhas: rota?.linhas ?? [],
+          paradas: rota?.paradas ?? [origem, destino].filter((x): x is string => !!x),
+          // só o pedaço percorrido de cada linha acende (report 2026-09-11)
+          pernas: (rota?.pernas ?? []).flatMap((pe) => {
+            const de = pe.paradas[0]
+            const ate = pe.paradas[pe.paradas.length - 1]
+            return de && ate ? [{ linha: pe.linha.id, de, ate }] : []
+          }),
+          origem,
+          destino,
+        }
+      : null
 
   if (!cfg || !rcfg) return null
   if (!dados || !desenho) {
@@ -521,13 +560,8 @@ export function MalhaPainel({ heroi, mapa }: { heroi?: HeroiDaMalha; mapa: (ctx:
                           <b style={{ fontSize: 15 }} data-minutos={r.minutos}>{formatarMinutos(r.minutos)}</b>
                           <span style={MONO}>{baldeacoes === 0 ? 'direto' : baldeacoes === 1 ? '1 baldeação' : `${baldeacoes} baldeações`}</span>
                           <span style={MONO}>{`${r.km.toLocaleString('pt-BR')} km`}</span>
-                          {aPe ? (
-                            <span style={{ ...MONO, marginLeft: 'auto' }} data-a-pe-minutos={aPe.minutos} title="Quanto levaria o mesmo trajeto a pé">
-                              {`🚶 a pé ${formatarMinutos(aPe.minutos)}`}
-                            </span>
-                          ) : null}
                         </div>
-                        <Itinerario rota={r} origem={origem} destino={destino} />
+                        <Itinerario rota={r} origem={origem} destino={destino} aPeDaPerna={aPeDaPerna} />
                         {r.trechos?.length ? (
                           <div data-trechos="" style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 4 }}>
                             {r.trechos.map((t) => (

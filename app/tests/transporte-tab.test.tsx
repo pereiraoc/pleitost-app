@@ -205,18 +205,34 @@ describe('planejador de trajeto', () => {
     expect(primeira.querySelectorAll('[data-passo="baldeacao"]').length).toBe(1)
     expect(primeira.textContent).toContain('desce em Estação Central')
     expect(primeira.textContent).toContain('espera')
-    // report 2026-09-10: do lado de CADA opção, quanto seria a pé (a régua do
-    // mestre pra decidir se o grupo pega o ônibus ou encara a rua)
-    for (const li of Array.from(rotas)) {
-      const aPe = li.querySelector('[data-a-pe-minutos]')
-      expect(aPe, 'toda opção mostra o tempo a pé').not.toBeNull()
-      expect(aPe!.textContent).toMatch(/a pé/)
-      const deOnibus = Number(li.querySelector('[data-minutos]')!.getAttribute('data-minutos'))
-      expect(Number(aPe!.getAttribute('data-a-pe-minutos'))).toBeGreaterThan(deOnibus)
+    // report 2026-09-11: o tempo a pé vem do lado de CADA PERNA (em
+    // parênteses), não como total no topo — o jogador pode andar só um pedaço
+    for (const perna of Array.from(primeira.querySelectorAll('[data-perna]'))) {
+      const aPe = perna.querySelector('[data-a-pe-minutos]')
+      expect(aPe, 'toda perna mostra o tempo a pé dela').not.toBeNull()
+      expect(aPe!.textContent).toMatch(/\(🚶/)
+      expect(Number(aPe!.getAttribute('data-a-pe-minutos'))).toBeGreaterThan(0)
     }
+    // e o total sumiu do cabeçalho da opção
+    expect(primeira.querySelector(':scope > div > [data-a-pe-minutos]')).toBeNull()
     // as rotas vêm em ordem de tempo
     const tempos = Array.from(document.querySelectorAll('[data-rotas] [data-minutos]')).map((e) => Number(e.getAttribute('data-minutos')))
     expect([...tempos].sort((a, b) => a - b)).toEqual(tempos)
+    // report 2026-09-11: o destaque é do CAMINHO PERCORRIDO, não da linha
+    // inteira — desce na baldeação, o resto da linha não acende
+    const trechos = document.querySelectorAll('[data-malha-mapa] path[data-trecho-rota]')
+    expect(trechos.length, 'um traço de destaque por perna').toBe(2)
+    const segmentos = (d: string) => (d.match(/[ML]/g) ?? []).length
+    for (const t of Array.from(trechos)) {
+      const id = t.getAttribute('data-trecho-rota')!
+      const linha = document.querySelector(`[data-malha-mapa] path[data-linha="${id}"]`)
+      const doTrecho = segmentos(t.getAttribute('d') ?? '')
+      const daLinha = segmentos(linha!.getAttribute('d') ?? '')
+      expect(doTrecho, 'o trecho nunca passa da linha').toBeLessThanOrEqual(daLinha)
+      // a L2 segue até o Campus do Vale DEPOIS do Jardim Botânico: descendo
+      // ali, o resto da linha não pode acender
+      if (id.endsWith('L2 POPULAR SUL')) expect(doTrecho).toBeLessThan(daLinha)
+    }
     // no mapa: A/B marcados e só as linhas da rota acesas
     expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Zaffari"]')?.getAttribute('data-ponta')).toBe('A')
     expect(document.querySelector('[data-malha-mapa] g[data-parada="Estação Jardim Botânico"]')?.getAttribute('data-ponta')).toBe('B')

@@ -216,6 +216,10 @@ export function caminhoDaLinha(malha: Malha, l: LinhaMalha): { pontos: Ponto[]; 
   return { pontos, conflitos }
 }
 
+export interface Segmento {
+  a: Ponto
+  b: Ponto
+}
 export interface TracoDesenhado {
   id: string
   nome: string
@@ -224,6 +228,28 @@ export interface TracoDesenhado {
   largura: number
   /** path SVG (em px). */
   d: string
+  /** os segmentos que formam o `d`, já deslocados (px), na ordem da linha. */
+  segmentos: Segmento[]
+  /** índice do segmento que COMEÇA em cada parada (a última = fim da lista) —
+   *  é o que permite destacar só o PEDAÇO percorrido de uma linha. */
+  indiceParada: Record<string, number>
+}
+
+/** `d` de uma sequência de segmentos. */
+export function dDeSegmentos(segs: readonly Segmento[]): string {
+  return segs
+    .map((s, i) => `${i === 0 ? 'M' : 'L'}${s.a.x.toFixed(1)} ${s.a.y.toFixed(1)} L${s.b.x.toFixed(1)} ${s.b.y.toFixed(1)}`)
+    .join(' ')
+}
+
+/** Os segmentos de `de` até `ate` — o pedaço que a viagem percorre (report
+ *  2026-09-11: descer na baldeação não acende o resto da linha). Fora da
+ *  linha, devolve vazio. */
+export function trechoDoTraco(t: TracoDesenhado, de: string, ate: string): Segmento[] {
+  const i = t.indiceParada[de]
+  const j = t.indiceParada[ate]
+  if (i === undefined || j === undefined) return []
+  return t.segmentos.slice(Math.min(i, j), Math.max(i, j))
 }
 export interface ParadaDesenhada {
   nome: string
@@ -321,9 +347,15 @@ export function desenharMalha(
     }
   }
   // 2. cada linha vira um path com deslocamento perpendicular por aresta
+  const nomePorPosicao = new Map([...malha.paradas.values()].map((p) => [chave(p), p.nome]))
   const tracos: TracoDesenhado[] = linhas.map((l) => {
     const pontos = caminhos.get(l.id) ?? []
-    const partes: string[] = []
+    const segmentos: Segmento[] = []
+    const indiceParada: Record<string, number> = {}
+    pontos.forEach((p, i) => {
+      const nome = nomePorPosicao.get(chave(p))
+      if (nome && indiceParada[nome] === undefined) indiceParada[nome] = i
+    })
     for (let i = 0; i < pontos.length - 1; i++) {
       const a = px(pontos[i]!)
       const b = px(pontos[i + 1]!)
@@ -340,9 +372,18 @@ export function desenharMalha(
       const ay = a.y + ny * off
       const bx = b.x + nx * off
       const by = b.y + ny * off
-      partes.push(`${i === 0 ? 'M' : 'L'}${ax.toFixed(1)} ${ay.toFixed(1)} L${bx.toFixed(1)} ${by.toFixed(1)}`)
+      segmentos.push({ a: { x: ax, y: ay }, b: { x: bx, y: by } })
     }
-    return { id: l.id, nome: l.nome, cor: l.cor, traco: l.traco, largura: l.largura, d: partes.join(' ') }
+    return {
+      id: l.id,
+      nome: l.nome,
+      cor: l.cor,
+      traco: l.traco,
+      largura: l.largura,
+      d: dDeSegmentos(segmentos),
+      segmentos,
+      indiceParada,
+    }
   })
   // 3. paradas: baldeação = ≥ 2 linhas visíveis; rótulo inclinado quando há vizinha na mesma fileira
   const porPos = new Set(paradas.map(chave))

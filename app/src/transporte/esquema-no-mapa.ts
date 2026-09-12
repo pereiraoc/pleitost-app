@@ -10,7 +10,7 @@
 // no máximo, uns poucos quadrinhos.
 //
 // Puro: malha + posições reais → traços (em unidades do mapa) e estações.
-import { desenharMalha, type LinhaMalha, type Malha, type ParadaMalha } from './malha'
+import { desenharMalha, type LinhaMalha, type Malha, type ParadaMalha, type Segmento } from './malha'
 
 export interface PontoXY {
   x: number
@@ -30,9 +30,18 @@ export interface EstacaoNoMapa extends PontoXY {
   baldeacao: boolean
 }
 
+export interface TracoNoMapa {
+  /** `d` da linha inteira (unidades do mapa), com as curvas. */
+  d: string
+  /** segmentos já deslocados, na ordem da linha. */
+  segmentos: Segmento[]
+  /** índice do segmento que começa em cada parada. */
+  indiceParada: Record<string, number>
+}
+
 export interface EsquemaNoMapa {
-  /** `d` de cada linha visível (unidades do mapa). */
-  tracos: Map<string, string>
+  /** traço de cada linha visível. */
+  tracos: Map<string, TracoNoMapa>
   /** Onde cada estação desenhada ficou. */
   estacoes: Map<string, EstacaoNoMapa>
 }
@@ -120,6 +129,23 @@ export function malhaNaGrade(malha: Malha, nos: Map<string, { x: number; y: numb
   return { linhas: malha.linhas, paradas }
 }
 
+/** Os pontos, na ordem, de uma sequência de segmentos (o degrau entre faixas
+ *  vira dois pontos, e o arredondado o suaviza). */
+function pontosDeSegmentos(segs: readonly Segmento[]): PontoXY[] {
+  return segs.flatMap((sg) => [sg.a, sg.b])
+}
+
+/** O `d` do PEDAÇO percorrido de uma linha, de uma parada à outra (report
+ *  2026-09-11: descer na baldeação não acende o resto da linha). Fora da
+ *  linha, devolve string vazia. */
+export function trechoNoMapa(t: TracoNoMapa, de: string, ate: string, raio: number): string {
+  const i = t.indiceParada[de]
+  const j = t.indiceParada[ate]
+  if (i === undefined || j === undefined) return ''
+  const segs = t.segmentos.slice(Math.min(i, j), Math.max(i, j))
+  return segs.length ? caminhoArredondado(pontosDeSegmentos(segs), raio) : ''
+}
+
 /** A malha visível desenhada na grade sobre o mapa real. `nos` vem de
  *  encaixarNaGrade (calculado sobre TODAS as linhas, pra estação não mudar de
  *  lugar quando o filtro muda). */
@@ -135,7 +161,7 @@ export function esquemaNoMapa(
     margemRotulo: 0,
     folga: opts.folga,
   })
-  const tracos = new Map<string, string>()
+  const tracos = new Map<string, TracoNoMapa>()
   const estacoes = new Map<string, EstacaoNoMapa>()
   const ref = des.paradas[0]
   if (!ref) return { tracos, estacoes }
@@ -144,10 +170,15 @@ export function esquemaNoMapa(
   const tx = g0.x * opts.celula - ref.cx
   const ty = -g0.y * opts.celula - ref.cy
   for (const t of des.tracos) {
-    const nums = (t.d.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number)
-    const pts: PontoXY[] = []
-    for (let i = 0; i + 1 < nums.length; i += 2) pts.push({ x: nums[i]! + tx, y: nums[i + 1]! + ty })
-    tracos.set(t.id, caminhoArredondado(pts, opts.raio))
+    const segmentos = t.segmentos.map((sg) => ({
+      a: { x: sg.a.x + tx, y: sg.a.y + ty },
+      b: { x: sg.b.x + tx, y: sg.b.y + ty },
+    }))
+    tracos.set(t.id, {
+      d: caminhoArredondado(pontosDeSegmentos(segmentos), opts.raio),
+      segmentos,
+      indiceParada: t.indiceParada,
+    })
   }
   for (const p of des.paradas) estacoes.set(p.nome, { x: p.cx + tx, y: p.cy + ty, baldeacao: p.baldeacao })
   return { tracos, estacoes }

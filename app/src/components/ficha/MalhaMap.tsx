@@ -9,7 +9,7 @@
 // pinça, roda, +/− e tela cheia. O clique é hit-test por coordenada no
 // viewport (o hook captura o ponteiro; o onClick dos filhos nunca dispara).
 import { useState, type CSSProperties } from 'react'
-import { corVisivel, DASH, type Desenho, type Traco, type ZonaBairro } from '../../transporte/malha'
+import { corVisivel, DASH, type Desenho, type Traco, type ZonaBairro, dDeSegmentos, trechoDoTraco } from '../../transporte/malha'
 import { useTheme } from '../../theme'
 import { MapControls, fullscreenContainerStyle } from '../../map/MapControls'
 import { useMapView } from '../../map/useMapView'
@@ -87,9 +87,17 @@ const botaoTudo: CSSProperties = {
 
 /** Trajeto em destaque no mapa: só as linhas/paradas dele ficam acesas;
  *  origem e destino ganham marcador. */
+export interface PernaDestaque {
+  linha: string
+  de: string
+  ate: string
+}
 export interface Destaque {
   linhas: string[]
   paradas: string[]
+  /** O PEDAÇO percorrido de cada linha (report 2026-09-11) — sem isto, a
+   *  linha inteira acendia mesmo descendo na primeira baldeação. */
+  pernas?: PernaDestaque[]
   origem?: string | null
   destino?: string | null
 }
@@ -184,7 +192,9 @@ export function MalhaMap({
               const naRota = destaque ? destaque.linhas.includes(t.id) : null
               const semAcesso = bloqueadas?.has(t.id) ?? false
               const apagada = naRota === null ? selecionada !== null && selecionada !== t.id : !naRota
-              const grossa = naRota === null ? selecionada === t.id : naRota
+              // com trajeto, a linha fica de fundo: quem acende é o TRECHO
+              const temTrecho = !!destaque?.pernas?.some((pe) => pe.linha === t.id)
+              const grossa = naRota === null ? selecionada === t.id : naRota && !temTrecho
               return (
                 <path
                   key={t.id}
@@ -197,11 +207,30 @@ export function MalhaMap({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeDasharray={DASH[t.traco]}
-                  opacity={apagada ? 0.12 : semAcesso ? 0.42 : 1}
+                  opacity={apagada ? 0.12 : temTrecho ? 0.3 : semAcesso ? 0.42 : 1}
                   data-sem-acesso={semAcesso ? '' : undefined}
                 >
                   <title>{t.nome}</title>
                 </path>
+              )
+            })}
+            {/* o pedaço percorrido de cada perna, por cima da linha apagada */}
+            {(destaque?.pernas ?? []).map((pe, k) => {
+              const t = desenho.tracos.find((x) => x.id === pe.linha)
+              const segs = t ? trechoDoTraco(t, pe.de, pe.ate) : []
+              if (!t || !segs.length) return null
+              return (
+                <path
+                  key={`trecho:${k}:${t.id}`}
+                  data-trecho-rota={t.id}
+                  d={dDeSegmentos(segs)}
+                  fill="none"
+                  stroke={corVisivel(t.cor, escuro)}
+                  strokeWidth={t.largura + 2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeDasharray={DASH[t.traco]}
+                />
               )
             })}
             {desenho.paradas.map((p) => {

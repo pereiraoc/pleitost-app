@@ -11,7 +11,7 @@ import { MalhaPainel, type ContextoMapaMalha } from './MalhaPainel'
 import { MapaLocal, type CamadaMapa, type Leaflet } from '../map/MapaLocal'
 import { DASH, type LinhaMalha } from './malha'
 import type { PosicaoReal } from './rotas'
-import { encaixarNaGrade, esquemaNoMapa } from './esquema-no-mapa'
+import { encaixarNaGrade, esquemaNoMapa, trechoNoMapa } from './esquema-no-mapa'
 
 /** Da escala em que os rótulos e pontos param de contra-escalar (o mapa real
  *  ganha detalhe ao aproximar; a linha, não deve engrossar). */
@@ -119,7 +119,7 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
     [ctx.malha, linhas, nos, zoom],
   )
   const ponto = (nome: string): { x: number; y: number } | null => esquema.estacoes.get(nome) ?? real(nome)
-  const traço = (l: LinhaMalha): { d: string } => ({ d: esquema.tracos.get(l.id) ?? '' })
+  const traço = (l: LinhaMalha): { d: string } => ({ d: esquema.tracos.get(l.id)?.d ?? '' })
   // Paradas em destaque ganham anel; A/B marcam as pontas do trajeto.
   const emDestaque = new Set(ctx.destaque?.paradas ?? [])
   const daSelecionada = new Set(
@@ -154,7 +154,9 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
         const naRota = ctx.destaque ? ctx.destaque.linhas.includes(l.id) : null
         const semAcesso = ctx.bloqueadas?.has(l.id) ?? false
         const apagada = naRota === null ? ctx.selecionada !== null && ctx.selecionada !== l.id : !naRota
-        const grossa = naRota === null ? ctx.selecionada === l.id : naRota
+        // com trajeto, a linha vira fundo: quem acende é o TRECHO percorrido
+        const temTrecho = !!ctx.destaque?.pernas?.some((pe) => pe.linha === l.id)
+        const grossa = naRota === null ? ctx.selecionada === l.id : naRota && !temTrecho
         const largura = (grossa ? l.largura + 2 : l.largura) / Math.min(escala, ESCALA_ROTULO)
         return (
           <path
@@ -177,10 +179,34 @@ function LinhasNoMapa({ ctx, camada }: { ctx: ContextoMapaMalha; camada: CamadaM
                     .join(' ')
                 : undefined
             }
-            opacity={apagada ? 0.15 : semAcesso ? 0.45 : 0.95}
+            opacity={apagada ? 0.15 : temTrecho ? 0.3 : semAcesso ? 0.45 : 0.95}
           >
             <title>{l.nome}</title>
           </path>
+        )
+      })}
+      {/* o pedaço percorrido de cada perna, por cima da linha apagada */}
+      {(ctx.destaque?.pernas ?? []).map((pe, k) => {
+        const t = esquema.tracos.get(pe.linha)
+        const linha = linhas.find((l) => l.id === pe.linha)
+        const d = t ? trechoNoMapa(t, pe.de, pe.ate, CELULA * 0.9) : ''
+        if (!d || !linha) return null
+        return (
+          <path
+            key={`trecho:${k}:${pe.linha}`}
+            data-trecho-rota={pe.linha}
+            d={d}
+            fill="none"
+            stroke={linha.cor}
+            strokeWidth={(linha.largura + 2) / zoom}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray={
+              DASH[linha.traco]
+                ? DASH[linha.traco]!.split(' ').map((n) => Number(n) / zoom).join(' ')
+                : undefined
+            }
+          />
         )
       })}
       {/* aproximado, o pino do mapa (posição real) aparece: um fio liga a

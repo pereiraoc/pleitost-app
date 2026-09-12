@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { caminhoDaLinha, montarMalha, type LinhaMalha, type Malha } from '../src/transporte/malha'
 import { parseRecurso } from '../src/recursos/parse-recurso'
-import { caminhoArredondado, encaixarNaGrade, esquemaNoMapa, malhaNaGrade, type PontoXY } from '../src/transporte/esquema-no-mapa'
+import { caminhoArredondado, encaixarNaGrade, esquemaNoMapa, malhaNaGrade, trechoNoMapa, type PontoXY } from '../src/transporte/esquema-no-mapa'
 import type { ContextoDef } from '../src/data/context-def'
 import type { IndexManifest, VaultDoc } from '../src/data/types'
 
@@ -75,8 +75,8 @@ describe('esquema no mapa: peças', () => {
       ['B', { x: 5, y: 0 }],
     ])
     const e = esquemaNoMapa(malha, malha.linhas, nos, { celula: 8, folga: 3, raio: 4 })
-    const [s1] = segmentosRetos(e.tracos.get('L1')!)
-    const [s2] = segmentosRetos(e.tracos.get('L2')!)
+    const [s1] = segmentosRetos(e.tracos.get('L1')!.d)
+    const [s2] = segmentosRetos(e.tracos.get('L2')!.d)
     expect(Math.abs(s1![0].y - s2![0].y)).toBeCloseTo(3, 5)
     expect(e.estacoes.get('B')).toEqual({ x: 40, y: 0, baldeacao: true })
   })
@@ -118,7 +118,7 @@ describe.skipIf(!temDataset)('esquema no mapa: a malha REAL da POA', () => {
   it('o traço anda em horizontal, vertical e 45° (as sobras são os degraus de faixa)', () => {
     let reto = 0
     let oct = 0
-    for (const d of e.tracos.values()) {
+    for (const { d } of e.tracos.values()) {
       for (const s of segmentosRetos(d)) {
         reto += comp(s)
         if (octilinear(s)) oct += comp(s)
@@ -142,6 +142,22 @@ describe.skipIf(!temDataset)('esquema no mapa: a malha REAL da POA', () => {
     expect(feixes).toBeGreaterThan(40)
   })
 
+  // report 2026-09-11: "se eu paro na segunda parada e depois faria baldeação,
+  // tu não deixa highlighted a terceira parada" — o destaque é do PEDAÇO
+  // percorrido, então o traço do trecho é menor que o da linha inteira.
+  it('o trecho percorrido de uma linha é um pedaço dela, não a linha toda', () => {
+    const l2 = linhas.find((x) => x.nome === 'L2 POPULAR SUL')!
+    const traco = e.tracos.get(l2.id)!
+    const inteiro = traco.d
+    // Central → Jardim Botânico: a linha segue até o Campus do Vale depois
+    const trecho = trechoNoMapa(traco, 'Estação Central', 'Estação Jardim Botânico', CEL * 0.9)
+    const nos = (d: string) => (d.match(/[MLQ]/g) ?? []).length
+    expect(trecho).not.toBe('')
+    expect(nos(trecho)).toBeLessThan(nos(inteiro))
+    // fora da linha não devolve nada
+    expect(trechoNoMapa(traco, 'Estação Central', 'Estação Zaffari', CEL * 0.9)).toBe('')
+  })
+
   it('nenhuma linha dá volta: no máximo 60% mais comprida que o percurso parada-a-parada', () => {
     const voltas: string[] = []
     for (const l of linhas) {
@@ -150,7 +166,7 @@ describe.skipIf(!temDataset)('esquema no mapa: a malha REAL da POA', () => {
         .filter((p): p is PontoXY => !!p)
       let base = 0
       for (let i = 1; i < seq.length; i++) base += Math.hypot(seq[i]!.x - seq[i - 1]!.x, seq[i]!.y - seq[i - 1]!.y)
-      const desenhado = segmentosRetos(e.tracos.get(l.id) ?? '').reduce((s, x) => s + comp(x), 0)
+      const desenhado = segmentosRetos(e.tracos.get(l.id)?.d ?? '').reduce((s, x) => s + comp(x), 0)
       if (base > 0 && desenhado / base > 1.6) voltas.push(`${l.nome}: ${Math.round((desenhado / base - 1) * 100)}%`)
     }
     expect(voltas, voltas.join(' | ')).toEqual([])
