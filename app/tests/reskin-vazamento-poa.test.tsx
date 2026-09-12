@@ -6,7 +6,7 @@
 // (`title`) e `aria-label` atrás de QUALQUER nome que o mundo renomeia. As
 // exceções do reskin (nomes que a POA mantém) não contam.
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { cleanup, render } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -142,8 +142,19 @@ describe.skipIf(!temMundo)('POA 1987: nenhum nome de fantasia na ficha nem no wi
     // a coluna do dinheiro é o símbolo do mundo, não "ORO"
     expect(document.body.textContent).toContain('Cz$')
     expect(document.body.textContent).not.toContain('ORO')
-    expect(vazamentos()).toEqual([])
-  }, 40000)
+    // report 2026-09-12: o inventário do grupo mostrava nome de fantasia — a
+    // varredura passa por TODAS as abas da ficha de grupo
+    const achados: string[] = []
+    achados.push(...vazamentos())
+    for (const aba of ['INVENTÁRIO', 'PAPÉIS', 'COMPETÊNCIAS', 'RIQUEZA', 'PERÍCIAS', 'ATAQUES']) {
+      const botao = screen.queryAllByText(aba).find((el) => el.tagName === 'BUTTON' || el.closest('button'))
+      if (!botao) continue
+      fireEvent.click(botao.tagName === 'BUTTON' ? botao : botao.closest('button')!)
+      await sleep(2500)
+      achados.push(...vazamentos().map((v) => `${aba}: ${v}`))
+    }
+    expect(achados).toEqual([])
+  }, 90000)
 
   // report 2026-09-11: "na ficha resumo ainda aparece as magias e o nome do
   // tipo de magias com nome fantasia"

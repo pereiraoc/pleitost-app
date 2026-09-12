@@ -33,6 +33,7 @@ import { itemValorPO, pullItemToFm, normalizeGroupItem } from './inventario-item
 import type { GroupInventoryItem } from '../data/session-repo/contract'
 import type { VaultDoc } from '../data/types'
 import { deMoeda, formatMoeda, moedaSimbolo } from '../data/moeda'
+import { reskinName } from '../data/reskin'
 
 const ARMAS_FOLDER = 'Sistema/Equipamento/Armas/'
 const IMBUICOES_ARMA_FOLDER = 'Sistema/Equipamento/Tesouros/Imbuições e Qualidade/Imbuições/'
@@ -530,7 +531,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                 <option value="">— arma —</option>
                 {armaGroups.map((g) => (
                   <optgroup key={g.key} label={`${grupoArmaEmoji(g.key)} ${rotuloGrupoArma(g)}`}>
-                    {g.entries.map((a) => (<option key={a.id} value={a.id}>{a.nome}</option>))}
+                    {g.entries.map((a) => (<option key={a.id} value={a.id}>{reskinName(a.nome)}</option>))}
                   </optgroup>
                 ))}
               </select>
@@ -597,19 +598,19 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
             {equipSub === 'armadura' ? (
               <select aria-label="Armadura" value={gearBase} onChange={(e) => setGearBase(e.target.value)} style={selStyle}>
                 <option value="">🛡️ — armadura (leve/pesada) —</option>
-                {armaduras.map((n) => (<option key={n} value={n}>{n}</option>))}
+                {armaduras.map((n) => (<option key={n} value={n}>{reskinName(n)}</option>))}
               </select>
             ) : equipSub === 'escudo' ? (
               <select aria-label="Escudo" value={gearBase} onChange={(e) => setGearBase(e.target.value)} style={selStyle}>
                 <option value="">🛡️ — escudo (broquel/escudo) —</option>
-                {escudos.map((n) => (<option key={n} value={n}>{n}</option>))}
+                {escudos.map((n) => (<option key={n} value={n}>{reskinName(n)}</option>))}
               </select>
             ) : (
               <select aria-label="Tesouro" value={tesSel} onChange={(e) => setTesSel(e.target.value)} style={selStyle}>
                 <option value="">💍 — tesouro (perícia/ataque/defesa) —</option>
                 {tesouroGroups.map((g) => (
                   <optgroup key={g.label} label={g.label}>
-                    {g.entries.map((e) => (<option key={e.id} value={e.id}>{e.nome}</option>))}
+                    {g.entries.map((e) => (<option key={e.id} value={e.id}>{reskinName(e.nome)}</option>))}
                   </optgroup>
                 ))}
               </select>
@@ -627,7 +628,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <select aria-label="Implemento" value={impSel} onChange={(e) => setImpSel(e.target.value)} style={selStyle}>
               <option value="">🪄 — implemento —</option>
-              {implementos.map((e) => (<option key={e.id} value={e.id}>{e.nome}</option>))}
+              {implementos.map((e) => (<option key={e.id} value={e.id}>{reskinName(e.nome)}</option>))}
             </select>
             <QualityRow value={impTier} onChange={setImpTier} />
           </div>
@@ -777,7 +778,7 @@ export function PanelInventario({ groupId: _groupId }: { groupId: string }) {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      {nome}
+                      {reskinName(nome)}
                     </span>
                   </ItemHover>
                   {tier ? (
@@ -936,14 +937,16 @@ function PreviewChip({
         >
           {img ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : '💠'}
         </span>
-        <span style={{ fontSize: 12, fontWeight: 600 }}>{doc.basename}</span>
+        <span style={{ fontSize: 12, fontWeight: 600 }}>{reskinName(doc.basename)}</span>
       </span>
     </ItemHover>
   )
 }
 
-/** Nome exibível de um item do pool (ouro = "N PO"). */
-function itemNome(it: GroupInventoryItem): string {
+/** Nome exibível de um item do pool — no idioma do mundo (report 2026-09-12:
+ *  "a ficha de grupo tem nomes errados no Inventário"); dinheiro sai pelo
+ *  formatMoeda, que já usa o símbolo do mundo. */
+export function itemNome(it: GroupInventoryItem): string {
   const n = normalizeGroupItem(it)
-  return n.kind === 'ouro' ? formatMoeda(n.qtd) : (n as { nome?: string }).nome ?? '—'
+  return n.kind === 'ouro' ? formatMoeda(n.qtd) : reskinName((n as { nome?: string }).nome ?? '—')
 }
