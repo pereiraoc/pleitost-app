@@ -19,7 +19,7 @@ import { useHeroModel } from '../../data/useHeroModel'
 import { activeContextoDef } from '../../data/reskin'
 import { formatValorMoeda, moedaFator } from '../../data/moeda'
 import { DetailLink } from '../DetailLink'
-import { RecursoCardStyle, RecursoThumb } from './RecursoThumb'
+import { RecursoCardStyle, RecursoFaixa, RecursoThumb } from './RecursoThumb'
 import { RegaliaBloco, useRegaliaDaClasse } from './RegaliaDeClasse'
 import { ClasseSocialBanner, useRetratoSocial } from './ClasseSocial'
 import { TipProvider } from './tooltips'
@@ -464,12 +464,13 @@ function SecaoEixo({
     return m
   }, [catalog])
   return (
-    <details data-eixo={papel} style={{ ...BOX, padding: 0 }}>
-      <summary style={{ ...LINHA, borderTop: 'none', cursor: 'pointer', padding: '10px 14px', listStyle: 'none' }}>
-        <span style={{ ...MONO, color: 'var(--muted)' }}>▸</span>
-        {/* a figura do MAIOR do eixo (plano ou posse) — pedido 2026-09-12 */}
-        {melhor ? <RecursoThumb r={melhor} icone={iconeDe(melhor)} size={34} /> : null}
-        <span style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', minWidth: 0 }}>
+    <details data-eixo={papel} style={{ ...BOX, padding: 0, overflow: 'hidden' }}>
+      {/* o sumário é uma FILA (não o grid das linhas de plano): a figura do
+          maior do eixo é uma faixa colada na borda direita, da altura toda —
+          o mesmo desenho do card de Contexto (report 2026-09-12). */}
+      <summary style={{ display: 'flex', alignItems: 'stretch', gap: 12, cursor: 'pointer', listStyle: 'none' }}>
+        <span style={{ ...MONO, color: 'var(--muted)', flex: 'none', alignSelf: 'center', paddingLeft: 14 }}>▸</span>
+        <span style={{ flex: 1, minWidth: 0, padding: '11px 0', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
           <span style={{ ...MONO, color: 'var(--text)', letterSpacing: '.16em' }}>{nomeAba.toUpperCase()}</span>
           <span style={{ fontSize: 12, color: 'var(--muted)' }}>
             {eixo.plano ? `${nomeNivel(cfg, eixo.nivel, eixo.papel)} · ${eixo.plano.nome}` : 'sem plano'}
@@ -477,9 +478,14 @@ function SecaoEixo({
           </span>
           {eixo.pagoPor ? <Chip>plano pago por {eixo.pagoPor}</Chip> : null}
         </span>
-        <span style={{ ...DINHEIRO, color: 'var(--accent)', fontWeight: 700 }} data-eixo-valor={eixo.total} data-eixo-bolso={eixo.doBolso}>
+        <span
+          style={{ ...DINHEIRO, alignSelf: 'center', color: 'var(--accent)', fontWeight: 700, paddingRight: melhor ? 10 : 14 }}
+          data-eixo-valor={eixo.total}
+          data-eixo-bolso={eixo.doBolso}
+        >
           {formatValorMoeda(eixo.doBolso)}
         </span>
+        {melhor ? <RecursoFaixa r={melhor} icone={iconeDe(melhor)} /> : null}
       </summary>
       <div style={{ padding: '0 6px 10px' }}>
         <div style={{ ...MONO, padding: '6px 10px 2px', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>

@@ -167,3 +167,18 @@ describe('refund de Slot coberto pelo Passado (report 6f010c01)', () => {
     expect(out[0]!.Proficiencia).toBe('E')
   })
 })
+
+/* Pedido do mestre (2026-09-12): embaixo de cada rótulo do PASSADO, uma linha
+ * miúda dizendo o que escrever ali. Vale nos DOIS lugares que montam o
+ * PassadoBox — a página de COMPETÊNCIAS e o passo do wizard. */
+describe('dicas do que escrever', () => {
+  it('cada campo de texto do Passado diz o que se espera ali', () => {
+    const id = createLocalEntity('Heroi', 'Dica', emptyHeroFrontmatter())
+    renderBox(id)
+    expect(screen.getByText(/Resuma sua história de vida até aqui em até 3 palavras/)).toBeTruthy()
+    expect(screen.getByText(/Perícia que sua história de vida te ensinou/)).toBeTruthy()
+    expect(
+      screen.getByText(/Fora missões, que tipo de trabalho você pode exercer pra ganhar dinheiro/),
+    ).toBeTruthy()
+  })
+})

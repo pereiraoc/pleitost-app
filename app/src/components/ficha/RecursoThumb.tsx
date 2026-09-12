@@ -52,6 +52,30 @@ export function RecursoThumb({ r, icone, size = 40 }: { r: Recurso; icone?: stri
   )
 }
 
+/** FAIXA do recurso (2026-09-12) — a figura como PARTE do card: colada na
+ *  borda direita do sumário e da altura toda dele, no mesmo desenho do card de
+ *  Contexto (`.ctx-card-fig`). A miniatura quadrada no meio da linha quebrava
+ *  o grid dos planos e ficava péssima (report do mestre). */
+export function RecursoFaixa({ r, icone }: { r: Recurso; icone?: string }) {
+  const { small, big } = useRecursoImagem(r)
+  return (
+    <TipHover html={recursoCardHtml(r, big)}>
+      <span
+        className="recurso-eixo-fig"
+        data-recurso-figura={small ? 'img' : 'emoji'}
+        aria-hidden
+        // o clique é da figura (mostra a carta), não abre nem fecha o eixo
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+      >
+        {small ? <img src={small} alt="" /> : <span className="recurso-eixo-fig-emoji">{icone ?? ''}</span>}
+      </span>
+    </TipHover>
+  )
+}
+
 /** CSS da carta (uma vez por tela que usa a miniatura). */
 export function RecursoCardStyle() {
   return <style>{ITEM_CARD_CSS + '\n.shc-card{width:220px;flex:none;display:flex;flex-direction:column;gap:2px;border:2px solid var(--line2);border-radius:11px;padding:7px;background:var(--card)}\n.shc-img{width:100%;max-height:200px;object-fit:cover;border-radius:9px;margin-bottom:3px}\n.shc-name{font-weight:800;font-size:12.5px}\n.shc-body{font-size:11px;line-height:1.35}'}</style>

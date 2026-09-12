@@ -3027,6 +3027,32 @@ details.av-registro > .av-registro-head .ctx-acc-title {
   object-position: var(--enquadramento-retrato);
   display: block;
 }
+/* A figura do eixo da aba RECURSOS segue o card de Contexto: faixa colada na
+   borda direita, da altura toda do sumário (report 2026-09-12 — a miniatura
+   quadrada no meio da linha "ficou terrível"). */
+.recurso-eixo-fig {
+  flex: none;
+  width: 104px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-in;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  border-left: 1px solid var(--line2);
+}
+.recurso-eixo-fig img {
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  object-fit: cover;
+  object-position: var(--enquadramento-retrato);
+  display: block;
+}
+.recurso-eixo-fig-emoji {
+  font-size: 26px;
+  line-height: 1;
+}
 .ctx-card-body {
   padding: 4px 16px 14px 32px;
   font-size: 0.95rem;

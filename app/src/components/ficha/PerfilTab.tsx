@@ -331,17 +331,22 @@ export function PassadoBox({
     ruleName?: string
     /** Exemplos no campo vazio (pedido do usuário, wizard r14). */
     placeholder?: string
+    /** Linha miúda abaixo do rótulo dizendo O QUE ESCREVER ali (pedido do
+     *  mestre, 2026-09-12) — o jogador travava na frente do campo vazio. */
+    dica?: string
   }[] = [
     {
       ic: P.Passado,
       label: 'PASSADO',
       value: passado,
       onChange: setPassado,
+      dica: 'Resuma sua história de vida até aqui em até 3 palavras.',
       placeholder: 'Poeta Garçom, Cuidador de Ovelhas, etc',
     },
     {
       ic: P.PericiaPassado,
       label: 'PERÍCIA',
+      dica: 'Perícia que sua história de vida te ensinou.',
       value: perPick,
       select: true,
       options: periciaOptions,
@@ -360,6 +365,7 @@ export function PassadoBox({
     {
       ic: P.TextoOficio,
       label: 'TEXTO DO OFÍCIO',
+      dica: 'Fora missões, que tipo de trabalho você pode exercer pra ganhar dinheiro (até 3 palavras).',
       value: ofTexto,
       onChange: setOficioTexto,
       // Exemplos conforme a SELEÇÃO do ofício (Atuação × Ofício); sem
@@ -420,6 +426,19 @@ export function PassadoBox({
             >
               {f.ic} {f.label}
             </span>
+            {f.dica ? (
+              <span
+                style={{
+                  fontSize: 10,
+                  lineHeight: 1.25,
+                  color: 'var(--muted)',
+                  opacity: 0.75,
+                  marginTop: -3,
+                }}
+              >
+                {reskinText(f.dica)}
+              </span>
+            ) : null}
             {f.select ? (
               // #312: empurra o campo pro RODAPÉ da célula (marginTop auto) — assim
               // "TEXTO DO OFÍCIO" (rótulo/campo maior) não desalinha os dropdowns.
