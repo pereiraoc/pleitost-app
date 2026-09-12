@@ -335,9 +335,15 @@ describe('condições do catálogo (fonte: Elementos_de_Regra das notas)', () =>
     expect(applyTarget(c3.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(-6)
   })
 
-  it('Fadigado: -1 em tudo; Defesa acumula key própria + grupo Resistencias (-2)', () => {
+  // report nataribsouza 2026-09-10: "Fadigado aplicado duas vezes na defesa
+  // (-2)". Defesa NÃO é resistência (regra do mestre): Resistências são Vigor,
+  // Ímpeto e Evasão (reflexo). O Fadigado dá -1 na Defesa e -1 em cada
+  // resistência — nunca -2 na Defesa.
+  it('Fadigado: -1 em tudo; Defesa -1 (não é resistência), Vigor/Ímpeto/Evasão -1', () => {
     const c = withConds({ Fadigado: true })
-    expect(applyTarget(c.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(-2)
+    expect(applyTarget(c.ctx, { kind: 'number', key: 'defesa' }).delta).toBe(-1)
+    expect(applyTarget(c.ctx, { kind: 'number', key: 'impeto' }).delta).toBe(-1)
+    expect(applyTarget(c.ctx, { kind: 'number', key: 'reflexo' }).delta).toBe(-1)
     expect(applyTarget(c.ctx, { kind: 'number', key: 'vigor' }).delta).toBe(-1)
     expect(applyTarget(c.ctx, { kind: 'number', key: 'percepcao' }).delta).toBe(-1)
     expect(applyTarget(c.ctx, { kind: 'skill', pericia: 'Atletismo', attr: 'FOR' }).delta).toBe(-1)

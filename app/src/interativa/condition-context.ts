@@ -94,7 +94,10 @@ export type ConditionNumberKey =
 export type ConditionNumberGroup = 'resistencias' | 'sentidos'
 
 export const CONDITION_NUMBER_GROUPS: Record<ConditionNumberGroup, readonly ConditionNumberKey[]> = {
-  resistencias: ['defesa', 'vigor', 'impeto', 'reflexo'],
+  // Defesa NÃO é resistência (regra do mestre, 2026-09-11): Resistências são
+  // Vigor, Ímpeto e Evasão (reflexo). Com a Defesa aqui dentro, o Fadigado
+  // (-1 Defesa, -1 Resistências) tirava -2 da Defesa.
+  resistencias: ['vigor', 'impeto', 'reflexo'],
   sentidos: ['percepcao', 'intuicao'],
 }
 
