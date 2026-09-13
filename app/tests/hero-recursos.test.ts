@@ -3,14 +3,18 @@
 // se controla; dinheiro inteiro (régua à dezena, ficha pra cima ao milhar);
 // semântica da nota pela CONFIG + Cobrança, nunca por rótulo inventado.
 import { describe, expect, it } from 'vitest'
-import { aluguelDia, carajas, cesta, cfg, credito, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, uisque } from './fixtures/recursos-fixtures'
+import { aluguelDia, carajas, cesta, cfg, cfgComImposto, credito, estilos, gasolina, kitnet, onibus, pensao, polar, porNome, uisque } from './fixtures/recursos-fixtures'
 import {
   RECURSOS_VAZIO,
   acaoDe,
+  adicionarItem,
+  aliquotaDoNivel,
+  comImposto,
   comprarItem,
   custoEmOuro,
   custoMensal,
   escolherEstilo,
+  porNoNomeDe,
   nomeNivel,
   pagarAvista,
   precoDeCompra,
@@ -187,6 +191,140 @@ describe('d6 de pane ao abrir o mês', () => {
     const ok = consertar(emPane, 0, porNome, 9, FATOR)!
     expect(ok.ouro).toBe(0)
     expect(ok.recursos.itens[0]!.pane).toBeFalsy()
+  })
+})
+
+// IMPOSTO (2026-09-13): substituiu o `teto` de classe. A alíquota sobe com o
+// `Nível` do bem e incide sobre o MÊS — manutenção da posse e preço do plano.
+// Nunca sobre a compra, e nunca sobre a caixinha. Mundo que não declara
+// `imposto` segue isento, que é o caso da `cfg` sem sufixo.
+describe('imposto progressivo pelo nível do bem', () => {
+  it('mundo sem bloco de imposto é isento', () => {
+    expect(aliquotaDoNivel(cfg, 6)).toBe(0)
+    expect(comImposto(cfg, 50000, 6)).toBe(50000)
+  })
+
+  it('a alíquota sobe com o nível, e os dois primeiros são limpos', () => {
+    expect([1, 2, 3, 4, 5, 6].map((n) => aliquotaDoNivel(cfgComImposto, n))).toEqual([0, 0, 10, 30, 75, 150])
+  })
+
+  it('bem sem nível declarado não paga', () => {
+    expect(aliquotaDoNivel(cfgComImposto, undefined)).toBe(0)
+    expect(comImposto(cfgComImposto, 9000, undefined)).toBe(9000)
+  })
+
+  it('o Estado cobra o mesmo que tu paga no nível 6', () => {
+    expect(comImposto(cfgComImposto, 50000, 6)).toBe(125000) // Condomínio
+    expect(comImposto(cfgComImposto, 20000, 6)).toBe(50000) // Carro com Motorista
+    expect(comImposto(cfgComImposto, 6000, 5)).toBe(10500) // manutenção do Opala
+    expect(comImposto(cfgComImposto, 1500, 3)).toBe(1650) // manutenção do Fusca
+  })
+
+  it('a manutenção da posse paga imposto pelo nível do veículo', () => {
+    const item = { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }
+    expect(manutencaoDoItem(carajas, item)).toBe(3000) // sem cfg: como antes
+    expect(manutencaoDoItem(carajas, item, cfgComImposto)).toBe(5250) // nível 5: +75%
+  })
+
+  it('bem em nome de terceiro não paga imposto — é o disfarce', () => {
+    const cedido = { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 0, pagoPor: 'a facção' }
+    expect(manutencaoDoItem(carajas, cedido, cfgComImposto)).toBe(0)
+  })
+
+  it('o plano do mês paga imposto pelo nível dele', () => {
+    const r = { ...RECURSOS_VAZIO, estilos: { moradia: estilos.m6.nome, transporte: null, alimentacao: null } }
+    const isento = custoMensal(r, porNome, 1000, cfg)
+    const taxado = custoMensal(r, porNome, 1000, cfgComImposto)
+    expect(isento.eixos.find((e) => e.papel === 'moradia')!.doBolso).toBe(50000)
+    expect(taxado.eixos.find((e) => e.papel === 'moradia')!.doBolso).toBe(125000)
+  })
+
+  it('o eixo diz quanto do que ele custa é imposto', () => {
+    const r = {
+      ...RECURSOS_VAZIO,
+      estilos: { moradia: estilos.m6.nome, transporte: null, alimentacao: null },
+      itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }],
+    }
+    const c = custoMensal(r, porNome, 1000, cfgComImposto)
+    expect(c.eixos.find((e) => e.papel === 'moradia')!.imposto).toBe(75000) // 125.000 − 50.000
+    expect(c.eixos.find((e) => e.papel === 'transporte')!.imposto).toBe(2250) // 5.250 − 3.000
+    expect(custoMensal(r, porNome, 1000, cfg).eixos.every((e) => e.imposto === 0)).toBe(true)
+  })
+
+  it('eixo pago por terceiro não cobra imposto do herói', () => {
+    const r = {
+      ...RECURSOS_VAZIO,
+      estilos: { moradia: estilos.m6.nome, transporte: null, alimentacao: null },
+      pagoPor: { moradia: 'a firma' },
+    }
+    expect(custoMensal(r, porNome, 1000, cfgComImposto).eixos.find((e) => e.papel === 'moradia')!.doBolso).toBe(0)
+  })
+})
+
+// O DISFARCE (2026-09-13): o jeito de não pagar imposto é o bem não estar no
+// teu nome — e o preço é ele deixar de ser teu. Não confundir com `pagoPor`,
+// que é regalia de classe (a firma mantém o carro e o carro é da firma);
+// `emNomeDe` é posse do herói registrada em nome de outro: ele paga a oficina,
+// escapa do imposto, paga a fração ao terceiro, e não é patrimônio nem vende.
+describe('bem em nome de terceiro (o disfarce)', () => {
+  const meu = { nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }
+
+  it('no nome de terceiro escapa do imposto e paga a fração a quem segura', () => {
+    // Carajás nível 5: manutenção 3.000, imposto +75% = 2.250. No nome da
+    // facção: 3.000 de oficina + metade do imposto (1.125) = 4.125.
+    expect(manutencaoDoItem(carajas, meu, cfgComImposto)).toBe(5250)
+    expect(manutencaoDoItem(carajas, { ...meu, emNomeDe: 'a facção' }, cfgComImposto)).toBe(4125)
+  })
+
+  it('cedido por regalia continua não custando nada', () => {
+    expect(manutencaoDoItem(carajas, { ...meu, pagoPor: 'o sindicato' }, cfgComImposto)).toBe(0)
+  })
+
+  it('porNoNomeDe marca e desmarca', () => {
+    const r = { ...RECURSOS_VAZIO, itens: [meu] }
+    const posto = porNoNomeDe(r, 0, 'a facção').recursos
+    expect(posto.itens[0]!.emNomeDe).toBe('a facção')
+    expect(porNoNomeDe(posto, 0, '').recursos.itens[0]!.emNomeDe).toBeUndefined()
+  })
+
+  it('bem em nome de terceiro não se vende', () => {
+    const r = { ...RECURSOS_VAZIO, itens: [{ ...meu, emNomeDe: 'a facção' }] }
+    expect(venderItem(r, 0, 100, 1000)).toBeNull()
+  })
+
+  it('recursosDoFm preserva emNomeDe', () => {
+    const r = recursosDoFm({ Recursos_do_Mundo: { itens: [{ ...meu, emNomeDe: 'a facção' }] } })
+    expect(r.itens[0]!.emNomeDe).toBe('a facção')
+  })
+})
+
+// ADICIONAR (2026-09-13): dá pra pôr posse na ficha sem débito — concessão do
+// mestre, ou o que o herói já tinha antes de a ficha existir. Como não entrou
+// dinheiro, também não sai na venda: senão Adicionar+Vender vira impressora.
+describe('adicionar posse sem débito', () => {
+  it('não mexe no saldo e grava o preço de tabela como patrimônio', () => {
+    const res = adicionarItem(RECURSOS_VAZIO, carajas)
+    expect(res.ouro).toBeUndefined()
+    expect(res.recursos.itens[0]!.pago).toBe(precoDeCompra(carajas))
+    expect(res.recursos.itens[0]!.origem).toBe('manual')
+    expect(res.recursos.itens[0]!.pagoPor).toBeUndefined()
+  })
+
+  it('o usado entra pelo preço de usado', () => {
+    const res = adicionarItem(RECURSOS_VAZIO, carajas, { estado: 'usado' })
+    expect(res.recursos.itens[0]!.pago).toBe(precoDeCompra(carajas, 'usado'))
+  })
+
+  it('item posto à mão não devolve dinheiro na venda', () => {
+    const r = adicionarItem(RECURSOS_VAZIO, carajas).recursos
+    const vendido = venderItem(r, 0, 10, 1000)!
+    expect(vendido.ouro).toBe(10)
+    expect(vendido.recursos.itens).toHaveLength(0)
+  })
+
+  it('item comprado continua devolvendo metade', () => {
+    const r = comprarItem(RECURSOS_VAZIO, carajas, { preco: 400000 }, 500, 1000)!.recursos
+    expect(venderItem(r, 0, 100, 1000)!.ouro).toBe(300)
   })
 })
 

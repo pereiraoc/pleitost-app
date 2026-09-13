@@ -33,8 +33,17 @@ export interface ItemTido {
   estado?: 'novo' | 'usado'
   /** Quanto pagou por unidade (moeda do mundo) — a venda devolve metade. */
   pago: number
-  /** Cedido por terceiro (regalia de classe): não paga manutenção nem vende. */
+  /** Cedido por terceiro (regalia de classe): não paga manutenção nem vende —
+   *  o carro é da firma, e é a firma que o mantém. */
   pagoPor?: string
+  /** O DISFARCE (2026-09-13): posse do herói REGISTRADA em nome de outro (a
+   *  facção, o Círculo, o pelotão). Ele usa e mantém, mas escapa do imposto
+   *  pagando a `disfarce.fracao` a quem segura — e o bem deixa de ser dele:
+   *  não conta como patrimônio e não se vende. */
+  emNomeDe?: string
+  /** Como entrou na ficha. Ausente = comprada, que é todo item salvo até
+   *  2026-09-13. A posta à mão não devolve dinheiro na venda: não entrou. */
+  origem?: 'manual'
   /** Em pane NESTE mês (rolado ao abrir o mês); consertar custa em dobro. */
   pane?: boolean
 }
@@ -93,6 +102,9 @@ export function recursosDoFm(fm: Record<string, unknown>): RecursosDoHeroi {
           if (o.estado === 'novo' || o.estado === 'usado') it.estado = o.estado
           const quem = str(o.pagoPor)
           if (quem) it.pagoPor = quem
+          const nomeDe = str(o.emNomeDe)
+          if (nomeDe) it.emNomeDe = nomeDe
+          if (o.origem === 'manual') it.origem = 'manual'
           if (o.pane === true) it.pane = true
           return it
         })
@@ -216,6 +228,22 @@ export function precoNaRegua(preco: number, mult: number): number {
   return Math.max(10, Math.round((preco * mult) / 10) * 10)
 }
 
+/** IMPOSTO (2026-09-13): alíquota (%) do bem pelo `Nível` — a escada de luxo
+ *  que toda nota de Recurso já traz. Dado do mundo (`recursos.imposto`), nunca
+ *  do código. Mundo sem o bloco, ou bem sem nível, é isento. */
+export function aliquotaDoNivel(cfg: RecursosCfg, nivel?: number): number {
+  const escada = cfg.imposto?.porNivel
+  if (!escada || !nivel) return 0
+  return escada[nivel - 1] ?? 0
+}
+
+/** Valor mensal já com o imposto do nível. Incide sobre o MÊS (manutenção da
+ *  posse e preço do plano), nunca sobre a compra e nunca sobre a caixinha. */
+export function comImposto(cfg: RecursosCfg, valor: number, nivel?: number): number {
+  const pct = aliquotaDoNivel(cfg, nivel)
+  return pct ? Math.round(valor * (1 + pct / 100)) : valor
+}
+
 /** Moeda do mundo → unidades da ficha, PRA CIMA ao milhar (nada fracionário). */
 export function custoEmOuro(valorMoeda: number, fator: number): number {
   if (valorMoeda <= 0) return 0
@@ -223,12 +251,20 @@ export function custoEmOuro(valorMoeda: number, fator: number): number {
 }
 
 /** Manutenção mensal de um item de posse: o USADO custa ×1,5 (peça pirata,
- *  oficina de bairro, combustível do mercado negro), à centena pra cima; o
- *  cedido por terceiro não custa nada. */
-export function manutencaoDoItem(rec: Recurso | undefined, item: ItemTido): number {
+ *  oficina de bairro, combustível do mercado negro), à centena pra cima, e o
+ *  IMPOSTO do nível entra por cima — IPVA e IPTU sempre moraram nesta linha, e
+ *  desde 2026-09-13 sobem com o luxo da coisa. O cedido por terceiro não custa
+ *  nada: não está no nome do herói, então não paga imposto nem oficina. Sem
+ *  `cfg` não há imposto, que é o comportamento de todo mundo antes disso. */
+export function manutencaoDoItem(rec: Recurso | undefined, item: ItemTido, cfg?: RecursosCfg): number {
   if (item.pagoPor) return 0
   const base = rec?.manutencao ?? 0
-  const unidade = item.estado === 'usado' ? Math.ceil((base * 1.5) / 100) * 100 : base
+  // No nome de terceiro não se paga imposto — paga-se a quem segura o bem, e
+  // a conta dele é uma fração do que o Estado cobraria.
+  const tributo = cfg ? comImposto(cfg, base, rec?.nivel) - base : 0
+  const fracao = cfg?.imposto?.disfarce?.fracao ?? 0
+  const comTributo = item.emNomeDe ? base + Math.round((tributo * fracao) / 100) : base + tributo
+  const unidade = item.estado === 'usado' ? Math.ceil((comTributo * 1.5) / 100) * 100 : comTributo
   return unidade * item.qtd
 }
 
@@ -278,6 +314,10 @@ export interface EixoDoMes {
   total: number
   /** O que sai do bolso do herói (exclui o plano cedido). */
   doBolso: number
+  /** Quanto do `total` é IMPOSTO (plano + posse). Zero em mundo sem o bloco,
+   *  e zero no que está em nome de terceiro. É linha de leitura, não de conta:
+   *  já está dentro de `planoValor`, `posseValor` e `total`. */
+  imposto: number
   nivel: number
 }
 /** Parcela de uma dívida no mês: juros do saldo + amortização mínima. */
@@ -321,11 +361,18 @@ export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, f
     r.itens.forEach((item, indice) => {
       if (item.aba !== aba) return
       const rec = porNome.get(item.nome)
-      posse.push({ indice, item, recurso: rec, valor: manutencaoDoItem(rec, item), naRua: fora.has(indice) })
+      posse.push({ indice, item, recurso: rec, valor: manutencaoDoItem(rec, item, cfg), naRua: fora.has(indice) })
     })
-    const planoValor = plano?.preco ?? 0
+    // o plano do mês também é consumo taxado: o degrau alto custa mais
+    // porque o Estado cobra mais dele, não porque a nota mudou de preço.
+    const planoValor = comImposto(cfg, plano?.preco ?? 0, plano?.nivel)
     const pagoPor = r.pagoPor[papel]
     const posseValor = posse.reduce((a, p) => a + p.valor, 0)
+    // quanto do eixo é tributo: a diferença entre o que se paga e o que se
+    // pagaria num mundo sem imposto (o cedido não entra, porque já vale 0).
+    const semImposto =
+      (plano?.preco ?? 0) +
+      posse.reduce((a, p) => a + manutencaoDoItem(p.recurso, p.item), 0)
     eixos.push({
       papel,
       plano,
@@ -335,6 +382,7 @@ export function custoMensal(r: RecursosDoHeroi, porNome: Map<string, Recurso>, f
       posseValor,
       total: planoValor + posseValor,
       doBolso: (pagoPor ? 0 : planoValor) + posseValor,
+      imposto: Math.max(0, planoValor + posseValor - semImposto),
       nivel: plano?.nivel ?? 1,
     })
   }
@@ -390,11 +438,47 @@ export function comprarItem(
   return { recursos: { ...r, itens: [...r.itens, item] }, ouro: novoOuro }
 }
 
-/** Vende UMA unidade pela METADE do que pagou (na ficha, pra baixo). */
+/** Põe uma posse na ficha SEM débito: concessão do mestre, ou o que o herói
+ *  já tinha antes de a ficha existir. `pago` recebe o PREÇO DE TABELA (não
+ *  zero) porque é dele que sai o patrimônio do retrato social — com zero, um
+ *  carro dado pelo mestre não contaria e o banner mentiria. Nunca falha: não
+ *  mexe no saldo. */
+export function adicionarItem(
+  r: RecursosDoHeroi,
+  rec: Recurso,
+  opts?: { estado?: 'novo' | 'usado'; emNomeDe?: string },
+): Resultado {
+  const item: ItemTido = {
+    nome: rec.nome,
+    aba: rec.aba,
+    qtd: 1,
+    pago: precoDeCompra(rec, opts?.estado),
+    origem: 'manual',
+    ...(opts?.estado ? { estado: opts.estado } : {}),
+    ...(opts?.emNomeDe ? { emNomeDe: opts.emNomeDe } : {}),
+  }
+  return { recursos: { ...r, itens: [...r.itens, item] } }
+}
+
+/** Põe (ou tira) o bem do NOME DE TERCEIRO — o disfarce contra o imposto.
+ *  Texto vazio traz o bem de volta pro nome do herói. */
+export function porNoNomeDe(r: RecursosDoHeroi, indice: number, quem: string): Resultado {
+  const itens = r.itens.map((it, k) => {
+    if (k !== indice) return it
+    const limpo = { ...it }
+    delete limpo.emNomeDe
+    return quem.trim() ? { ...limpo, emNomeDe: quem.trim() } : limpo
+  })
+  return { recursos: { ...r, itens } }
+}
+
+/** Vende UMA unidade pela METADE do que pagou (na ficha, pra baixo). O que
+ *  está em nome de terceiro não é do herói e não se vende; o que ele pôs à
+ *  mão não devolve dinheiro, porque dinheiro nenhum entrou. */
 export function venderItem(r: RecursosDoHeroi, indice: number, ouro: number, fator: number): Resultado | null {
   const it = r.itens[indice]
-  if (!it) return null
-  const volta = Math.floor(it.pago / 2 / Math.max(1, fator))
+  if (!it || it.emNomeDe) return null
+  const volta = it.origem === 'manual' ? 0 : Math.floor(it.pago / 2 / Math.max(1, fator))
   const itens = it.qtd > 1 ? r.itens.map((i, k) => (k === indice ? { ...i, qtd: i.qtd - 1 } : i)) : r.itens.filter((_, k) => k !== indice)
   return { recursos: { ...r, itens }, ouro: ouro + volta }
 }
@@ -446,10 +530,10 @@ export function amortizar(r: RecursosDoHeroi, indice: number, valor: number, our
 
 /** Conserta um veículo em pane pagando a manutenção EM DOBRO (oficina de
  *  sucata) — vale pelo mês corrente; o mês seguinte rola o d6 de novo. */
-export function consertar(r: RecursosDoHeroi, indice: number, porNome: Map<string, Recurso>, ouro: number, fator: number): Resultado | null {
+export function consertar(r: RecursosDoHeroi, indice: number, porNome: Map<string, Recurso>, ouro: number, fator: number, cfg?: RecursosCfg): Resultado | null {
   const it = r.itens[indice]
   if (!it?.pane) return null
-  const novoOuro = pagar(ouro, manutencaoDoItem(porNome.get(it.nome), it) * 2, fator)
+  const novoOuro = pagar(ouro, manutencaoDoItem(porNome.get(it.nome), it, cfg) * 2, fator)
   if (novoOuro === null) return null
   const itens = r.itens.map((x, k) => (k === indice ? { ...x, pane: false } : x))
   return { recursos: { ...r, itens }, ouro: novoOuro }

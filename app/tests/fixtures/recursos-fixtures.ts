@@ -20,6 +20,15 @@ export const cfg: RecursosCfg = {
     Iluminada: { niveis: [1, 6], quantidade: 1.5 },
   },
 }
+
+/** A MESMA config, com o bloco `imposto` que a POA passou a declarar em
+ *  2026-09-13: alíquota por `Nível` do bem, sobre o mês. A `cfg` acima segue
+ *  SEM imposto de propósito — é o mundo que não declara, e todo teste antigo
+ *  continua medindo o comportamento isento. */
+export const cfgComImposto: RecursosCfg = {
+  ...cfg,
+  imposto: { porNivel: [0, 0, 10, 30, 75, 150], disfarce: { fracao: 50 } },
+}
 const FATOR = 1000
 
 export function rec(p: Partial<Recurso> & Pick<Recurso, 'nome' | 'aba' | 'tipo' | 'preco' | 'cobranca'>): Recurso {

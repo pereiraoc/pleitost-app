@@ -35,6 +35,12 @@ import { parseRecurso } from '../../recursos/parse-recurso'
 import type { Papel, Recurso, RecursosCfg } from '../../recursos/types'
 import {
   OURO_FM,
+  acaoDe,
+  adicionarItem,
+  aliquotaDoNivel,
+  comprarItem,
+  porNoNomeDe,
+  precoDeCompra,
   RECURSOS_FM,
   abrirMes,
   amortizar,
@@ -121,8 +127,15 @@ function Botao({ children, onClick, disabled, title, tom = 'accent' }: { childre
     </button>
   )
 }
-function Chip({ children }: { children: ReactNode }) {
-  return <span style={{ ...MONO, fontSize: 10, padding: '2px 6px', border: '1px solid var(--line2)', whiteSpace: 'nowrap' }}>{children}</span>
+function Chip({ children, title }: { children: ReactNode; title?: string }) {
+  return (
+    <span
+      title={title}
+      style={{ ...MONO, fontSize: 10, padding: '2px 6px', border: '1px solid var(--line2)', whiteSpace: 'nowrap', ...(title ? { cursor: 'help' } : {}) }}
+    >
+      {children}
+    </span>
+  )
 }
 
 /* ───────────────────────── dados ───────────────────────── */
@@ -477,6 +490,11 @@ function SecaoEixo({
             {eixo.posse.length ? ` · ${eixo.posse.length} de posse` : ''}
           </span>
           {eixo.pagoPor ? <Chip>plano pago por {eixo.pagoPor}</Chip> : null}
+          {eixo.imposto > 0 ? (
+            <Chip title={`${aliquotaDoNivel(cfg, eixo.plano?.nivel)}% sobre o plano, mais o imposto da posse pelo nível de cada bem. O que está em nome de terceiro não paga.`}>
+              imposto {formatValorMoeda(eixo.imposto)}
+            </Chip>
+          ) : null}
         </span>
         <span
           style={{ ...DINHEIRO, alignSelf: 'center', color: 'var(--accent)', fontWeight: 700, paddingRight: melhor ? 10 : 14 }}
@@ -561,21 +579,52 @@ function SecaoEixo({
                   {p.recurso ? <DetailLink id={p.recurso.id} dataLinkIcon={iconeDe(p.recurso)}>{p.item.nome}</DetailLink> : <span>{p.item.nome}</span>}
                   {p.item.estado ? <Chip>{p.item.estado}</Chip> : null}
                   {p.item.qtd > 1 ? <Chip>×{p.item.qtd}</Chip> : null}
-                  {p.item.pagoPor ? <Chip>cedido por {p.item.pagoPor}</Chip> : <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>}
+                  {p.item.pagoPor ? (
+                    <Chip>cedido por {p.item.pagoPor}</Chip>
+                  ) : p.item.emNomeDe ? (
+                    <Chip title="Escapa do imposto, mas não é teu: não conta como patrimônio e não se vende.">no nome de {p.item.emNomeDe}</Chip>
+                  ) : p.item.origem === 'manual' ? (
+                    <Chip title="Posto na ficha sem débito — a venda não devolve dinheiro, porque dinheiro nenhum entrou.">posto à mão</Chip>
+                  ) : (
+                    <Chip>pagou {formatValorMoeda(p.item.pago)}</Chip>
+                  )}
                   {p.naRua ? <Chip>na rua: sem vaga</Chip> : null}
                   {p.item.pane ? <Chip>em pane</Chip> : null}
                   {p.item.pane ? (
                     <Botao
                       tom="muted"
-                      onClick={() => aplicar(consertar(estado, p.indice, porNome, saldo, fator), `${p.item.nome} consertado.`)}
+                      onClick={() => aplicar(consertar(estado, p.indice, porNome, saldo, fator, cfg), `${p.item.nome} consertado.`)}
                       title="A oficina de sucata cobra a manutenção em dobro; vale por este mês"
                     >
                       Consertar −{formatValorMoeda(p.valor * 2)}
                     </Botao>
                   ) : null}
                   {p.item.pagoPor ? null : (
-                    <Botao tom="muted" onClick={() => aplicar(venderItem(estado, p.indice, saldo, fator), `${p.item.nome} vendido pela metade do que pagou.`)} title={`Devolve ${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}>
-                      Vender +{formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}
+                    <input
+                      aria-label={`Em nome de quem está ${p.item.nome}`}
+                      data-em-nome-de={p.item.nome}
+                      defaultValue={p.item.emNomeDe ?? ''}
+                      placeholder="no teu nome"
+                      title="Registrar em nome de terceiro escapa do imposto: paga-se a fração a quem segura, e o bem deixa de ser teu (sem patrimônio, sem venda)."
+                      onBlur={(e) => {
+                        const quem = e.currentTarget.value
+                        if (quem.trim() !== (p.item.emNomeDe ?? '')) {
+                          aplicar(
+                            porNoNomeDe(estado, p.indice, quem),
+                            quem.trim() ? `${p.item.nome} passa pro nome de ${quem.trim()}: sem imposto, e sem ser teu.` : `${p.item.nome} volta pro teu nome.`,
+                          )
+                        }
+                      }}
+                      style={{ ...MONO, width: 130, padding: '2px 6px', background: 'var(--card)', border: '1px solid var(--line2)', borderRadius: 6, color: 'var(--text)' }}
+                    />
+                  )}
+                  {p.item.pagoPor || p.item.emNomeDe ? null : (
+                    <Botao
+                      tom="muted"
+                      onClick={() => aplicar(venderItem(estado, p.indice, saldo, fator), p.item.origem === 'manual' ? `${p.item.nome} tirado da ficha.` : `${p.item.nome} vendido pela metade do que pagou.`)}
+                      title={p.item.origem === 'manual' ? 'Posto à mão: sai sem devolver dinheiro' : `Devolve ${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}
+                    >
+                      {p.item.origem === 'manual' ? 'Tirar' : `Vender +${formatValorMoeda(Math.floor(p.item.pago / 2 / fator) * fator)}`}
                     </Botao>
                   )}
                 </span>
@@ -612,6 +661,28 @@ function SecaoEixo({
                           <DetailLink id={r.id} dataLinkIcon={iconeDe(r)}>{r.nome}</DetailLink>
                           <Chip>{r.tipo}</Chip>
                           {r.manutencao ? <Chip>{formatValorMoeda(r.manutencao)} / mês</Chip> : null}
+                          {acaoDe(cfg, r, fator) === 'comprar' ? (
+                            <>
+                              <Botao
+                                onClick={() =>
+                                  aplicar(
+                                    comprarItem(estado, r, { preco: precoDeCompra(r) }, saldo, fator),
+                                    `${r.nome} comprado — é posse tua, com a manutenção no custo do mês.`,
+                                  )
+                                }
+                                title="Preço de tabela, sem a régua do bairro: a pechincha é no estabelecimento"
+                              >
+                                Comprar −{formatValorMoeda(precoDeCompra(r))}
+                              </Botao>
+                              <Botao
+                                tom="muted"
+                                onClick={() => aplicar(adicionarItem(estado, r), `${r.nome} posto na ficha sem débito.`)}
+                                title="Põe na ficha sem tirar do saldo (concessão do mestre, ou o que ele já tinha). Não devolve dinheiro se for vendido."
+                              >
+                                Adicionar
+                              </Botao>
+                            </>
+                          ) : null}
                         </span>
                         <span style={{ fontSize: 11.5, color: 'var(--muted)', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                           <span style={MONO}>ONDE</span>

@@ -129,15 +129,17 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     expect(screen.queryByText(/Humilde/)).toBeNull()
     fireEvent.click(linhas[2]!) // TRI Prata (degrau 3)
     expect(linhas[2]!.getAttribute('aria-checked')).toBe('true')
-    expect(valorEixo('transporte')).toBe('2500')
-    expect(custoMes()).toBe('2500')
+    // 2.500 do plano + 10% de imposto (nível 3) = 2.750
+    expect(valorEixo('transporte')).toBe('2750')
+    expect(custoMes()).toBe('2750')
     fireEvent.click(within(eixo('moradia')).getAllByRole('radio')[3]!) // Kitnet (degrau 4)
-    expect(valorEixo('moradia')).toBe('6000')
+    expect(valorEixo('moradia')).toBe('7800') // 6.000 + 30% (nível 4)
     fireEvent.click(within(eixo('alimentacao')).getAllByRole('radio')[4]!) // Churrascaria (degrau 5)
-    expect(custoMes()).toBe('17500')
-    // abrir o mês: 17.500 → 18 (pra cima) — 50 → 32
+    // 2.750 (TRI Prata) + 7.800 (Kitnet) + 15.750 (Churrascaria, nível 5: 9.000 +75%)
+    expect(custoMes()).toBe('26300')
+    // abrir o mês: 26.300 → 27 (pra cima) — 50 → 23
     fireEvent.click(screen.getByText(/Abrir o mês/))
-    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 32.000')
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 23.000')
     // nenhum "ouro" à mostra, nenhum saldo de TRI, nenhum estoque
     expect(document.body.textContent).not.toMatch(/\bouro\b/i)
     expect(document.querySelector('[data-tri]')).toBeNull()
@@ -165,18 +167,20 @@ describe('RecursosTab v3 (dataset real da POA)', () => {
     )
     montar()
     await screen.findByText('Gurgel Carajás', {}, { timeout: 15000 })
-    // transporte: plano 5.000 + Carajás USADO 4.500 (a nota diz 3.000; usado
-    // paga ×1,5 — peça pirata e álcool do mercado negro); moradia: plano
-    // 6.000 + kitnet 1.500 (condomínio/IPTU)
-    expect(valorEixo('transporte')).toBe('9500')
-    expect(valorEixo('moradia')).toBe('7500')
-    expect(custoMes()).toBe('17000')
+    // O imposto (2026-09-13) sobe com o NÍVEL do bem e entra na manutenção,
+    // que é onde IPVA e IPTU sempre moraram.
+    // transporte: TRI Ouro 5.000 +30% (nível 4) = 6.500; Carajás (nível 5)
+    //   3.000 +75% = 5.250, e o USADO paga ×1,5 à centena pra cima = 7.900
+    // moradia: plano 6.000 +30% = 7.800; kitnet (nível 4) 1.500 +30% = 1.950
+    expect(valorEixo('transporte')).toBe('14400')
+    expect(valorEixo('moradia')).toBe('9750')
+    expect(custoMes()).toBe('24150')
     const carro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
     expect(within(carro).getByText('usado')).toBeTruthy()
-    expect(within(carro).getByText('Cz$ 4.500')).toBeTruthy()
+    expect(within(carro).getByText('Cz$ 7.900')).toBeTruthy()
     fireEvent.click(within(carro).getByText(/Vender \+Cz\$ 75\.000/))
     expect(screen.queryByText('Gurgel Carajás')).toBeNull()
-    expect(valorEixo('transporte')).toBe('5000')
+    expect(valorEixo('transporte')).toBe('6500') // só o TRI Ouro, já com o imposto
     expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 95.000')
     // alimentação não tem posse nem estoque
     expect(within(eixo('alimentacao')).queryByText(/POSSE/)).toBeNull()
@@ -260,9 +264,59 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     const moradia = eixo('moradia')
     expect(within(moradia).getByText(/plano pago por a firma/)).toBeTruthy()
     // o eixo mostra o que sai do bolso (0), mas guarda o custo cheio no atributo
-    expect(moradia.querySelector('[data-eixo-valor]')!.getAttribute('data-eixo-valor')).toBe('6000')
+    expect(moradia.querySelector('[data-eixo-valor]')!.getAttribute('data-eixo-valor')).toBe('7800')
     expect(moradia.querySelector('[data-eixo-bolso]')!.getAttribute('data-eixo-bolso')).toBe('0')
-    expect(custoMes()).toBe('5000') // só o TRI Ouro
+    // quem paga o plano paga o imposto dele junto: do herói sai só o TRI Ouro
+    expect(custoMes()).toBe('6500') // 5.000 + 30%
+  }, 30000)
+
+  // IMPOSTO E DISFARCE (2026-09-13): o freio de quem sobe é conta, não trava.
+  // Quem não quer pagar põe o bem no nome de outro — e o bem deixa de ser dele.
+  it('o eixo mostra quanto do mês é imposto', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: null, moradia: 'Moradia Classe Alta', alimentacao: null } })
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    // Condomínio é nível 6: 50.000 + 150% = 125.000, dos quais 75.000 de imposto
+    expect(valorEixo('moradia')).toBe('125000')
+    expect(within(eixo('moradia')).getByText(/imposto Cz\$ 75\.000/)).toBeTruthy()
+  }, 30000)
+
+  it('pôr o carro no nome da facção troca o imposto pela fração, e o carro deixa de ser vendável', async () => {
+    if (!temDataset) return
+    montarCom({
+      estilos: { transporte: null, moradia: null, alimentacao: null },
+      itens: [{ nome: 'Gurgel Carajás', aba: 'Transporte', qtd: 1, pago: 400000 }],
+    })
+    await screen.findByText('Gurgel Carajás', {}, { timeout: 15000 })
+    const carro = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
+    // nível 5: manutenção 3.000 + 75% = 5.250
+    expect(within(carro).getByText('Cz$ 5.250')).toBeTruthy()
+    expect(within(carro).getByText(/Vender/)).toBeTruthy()
+    const campo = within(carro).getByLabelText(/Em nome de quem/) as HTMLInputElement
+    fireEvent.blur(campo, { target: { value: 'a facção' } })
+    const depois = screen.getByText('Gurgel Carajás').closest('[data-item]') as HTMLElement
+    // sem imposto, mas paga metade dele a quem segura: 3.000 + 1.125 = 4.125
+    expect(within(depois).getByText('Cz$ 4.125')).toBeTruthy()
+    expect(within(depois).getByText(/no nome de a facção/)).toBeTruthy()
+    expect(within(depois).queryByText(/Vender/)).toBeNull()
+  }, 30000)
+
+  it('Comprar debita e Adicionar não; o posto à mão sai sem devolver dinheiro', async () => {
+    if (!temDataset) return
+    montarCom({ estilos: { transporte: null, moradia: null, alimentacao: null } }, 500)
+    await screen.findAllByRole('radio', {}, { timeout: 15000 })
+    fireEvent.click(within(eixo('transporte')).getByText(/ver catálogo/))
+    const linha = document.querySelector('[data-catalogo-item="Gurgel Carajás"]') as HTMLElement
+    expect(linha).toBeTruthy()
+    fireEvent.click(within(linha).getByText(/^Adicionar$/))
+    const posto = document.querySelector('[data-item="Gurgel Carajás"]') as HTMLElement
+    expect(within(posto).getByText(/posto à mão/)).toBeTruthy()
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 500.000') // nada saiu
+    fireEvent.click(within(posto).getByText('Tirar'))
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 500.000') // nada voltou
+    // e Comprar, esse sim, debita o preço de tabela
+    fireEvent.click(within(document.querySelector('[data-catalogo-item="Gurgel Carajás"]') as HTMLElement).getByText(/^Comprar/))
+    expect(screen.getByText(/NA FICHA/).textContent).toContain('Cz$ 100.000') // 500 − 400
   }, 30000)
 
   it('pega empréstimo numa fonte da vault, mostra a parcela e quita', async () => {
@@ -280,10 +334,10 @@ describe('RecursosTab v4 — mês na entrada, dívida e regalia', () => {
     expect(within(linha).getByText('juros Cz$ 30.000')).toBeTruthy()
     expect(within(linha).getByText('amortiza Cz$ 15.000')).toBeTruthy()
     // e entra no total do mês, junto do plano de moradia
-    expect(custoMes()).toBe('51000') // 6.000 + 45.000
+    expect(custoMes()).toBe('52800') // moradia 7.800 (6.000 + 30%) + 45.000
     fireEvent.click(within(linha).getByText('Quitar'))
     expect(document.querySelector('[data-divida="Agiota da Facção"]')).toBeNull()
-    expect(custoMes()).toBe('6000')
+    expect(custoMes()).toBe('7800')
   }, 30000)
 
   it('veículo sem vaga na moradia dorme na rua', async () => {

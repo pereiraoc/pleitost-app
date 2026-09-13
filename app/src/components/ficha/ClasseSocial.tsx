@@ -62,10 +62,12 @@ export function useRetratoSocial(
       return res.kind === 'doc' && isArtefatoId(res.id)
     }
     const partes = computeMemberWealthParts(fm, priceOf, isArtefato)
-    // POSSE = o que foi comprado e é do herói; o que terceiro cede (regalia)
-    // aparece na ficha mas não é patrimônio dele.
+    // POSSE = o que foi comprado e está no NOME DELE. Fica de fora o que
+    // terceiro cede (regalia) e o que ele registrou em nome de outro pra
+    // escapar do imposto — o disfarce custa exatamente isto: o bem some do
+    // patrimônio, e com ele o degrau que o bem dava.
     const patrimonio = estado.itens
-      .filter((i) => !i.pagoPor)
+      .filter((i) => !i.pagoPor && !i.emNomeDe)
       .reduce((a, i) => a + Math.max(0, i.pago) * Math.max(1, i.qtd), 0)
     return retratoSocial(cs, {
       niveis: custo.eixos.map((e) => e.nivel),
