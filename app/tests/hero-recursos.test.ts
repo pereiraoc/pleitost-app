@@ -231,12 +231,28 @@ describe('imposto progressivo pelo nível do bem', () => {
     expect(manutencaoDoItem(carajas, cedido, cfgComImposto)).toBe(0)
   })
 
-  it('o plano do mês paga imposto pelo nível dele', () => {
+  // 2026-09-13b: o PLANO não paga imposto à parte — o preço da nota já o inclui,
+  // e no transporte nem teria como não incluir (o TRI é sistema do governo).
+  // O imposto que a ficha calcula vive só na manutenção da posse, que é onde
+  // existe abatimento.
+  it('o plano do mês NÃO paga imposto à parte: o preço da nota já o inclui', () => {
     const r = { ...RECURSOS_VAZIO, estilos: { moradia: estilos.m6.nome, transporte: null, alimentacao: null } }
-    const isento = custoMensal(r, porNome, 1000, cfg)
-    const taxado = custoMensal(r, porNome, 1000, cfgComImposto)
-    expect(isento.eixos.find((e) => e.papel === 'moradia')!.doBolso).toBe(50000)
-    expect(taxado.eixos.find((e) => e.papel === 'moradia')!.doBolso).toBe(125000)
+    const semBloco = custoMensal(r, porNome, 1000, cfg).eixos.find((e) => e.papel === 'moradia')!
+    const comBloco = custoMensal(r, porNome, 1000, cfgComImposto).eixos.find((e) => e.papel === 'moradia')!
+    expect(semBloco.doBolso).toBe(50000)
+    expect(comBloco.doBolso).toBe(50000)
+    expect(comBloco.imposto).toBe(0)
+  })
+
+  it('mas a posse no mesmo eixo continua pagando', () => {
+    const r = {
+      ...RECURSOS_VAZIO,
+      estilos: { moradia: estilos.m6.nome, transporte: null, alimentacao: null },
+      itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }],
+    }
+    const e = custoMensal(r, porNome, 1000, cfgComImposto).eixos.find((x) => x.papel === 'transporte')!
+    expect(e.doBolso).toBe(5250) // 3.000 de manutenção + 75% do nível 5
+    expect(e.imposto).toBe(2250)
   })
 
   it('o eixo diz quanto do que ele custa é imposto', () => {
@@ -246,7 +262,7 @@ describe('imposto progressivo pelo nível do bem', () => {
       itens: [{ nome: carajas.nome, aba: 'Transporte', qtd: 1, pago: 400000 }],
     }
     const c = custoMensal(r, porNome, 1000, cfgComImposto)
-    expect(c.eixos.find((e) => e.papel === 'moradia')!.imposto).toBe(75000) // 125.000 − 50.000
+    expect(c.eixos.find((e) => e.papel === 'moradia')!.imposto).toBe(0) // plano não paga
     expect(c.eixos.find((e) => e.papel === 'transporte')!.imposto).toBe(2250) // 5.250 − 3.000
     expect(custoMensal(r, porNome, 1000, cfg).eixos.every((e) => e.imposto === 0)).toBe(true)
   })

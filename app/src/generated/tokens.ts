@@ -1,5 +1,5 @@
 /* GERADO por app/scripts/gen-tokens.mjs a partir de design-system/design-system.json — NÃO EDITAR À MÃO.
-   Fonte: plugin pleitost-autosheet @ 339a0e77eb9c8d5a954bcbb54740d3f06a787741 */
+   Fonte: plugin pleitost-autosheet @ 133fb8087bf8aee3010c089796182be61eaf0e60 */
 
 /** Espelho 1:1 de design-system.json → tokens (registro central; nunca hardcodar no call-site). */
 export const tokens = {

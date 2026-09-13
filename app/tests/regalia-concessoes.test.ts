@@ -15,6 +15,7 @@ const nota = `
 #### Executivo ([[Caçador]]) — a escada
 - **nv 1:** alojamento. *Concede:* [[Moradia Classe Média]]. *Paga:* a firma.
 - **nv 4:** crachá. *Concede:* [[TRI Integrado]]. *Larga:* [[Moradia Classe Média]]. *Paga:* a firma.
+- **nv 7:** a firma instala e transporta. *Concede:* [[Moradia Classe Alta]], [[TRI Integrado]]. *Paga:* a firma.
 
 #### Artista Marcial ([[Monge]]) — a academia
 - **nv 1:** academia. *Concede:* [[Moradia Classe Média]], [[Alimentação Classe Baixa]]. *Paga:* a academia.
@@ -42,6 +43,15 @@ describe('acumulação dos degraus', () => {
     const nv4 = de('Caçador', 4)
     expect(nv4.pisos.moradia).toBeUndefined()
     expect(nv4.pisos.transporte?.plano.nome).toBe(estilos.t4.nome)
+  })
+
+  // O Diretor (2026-09-13b) ganha ENDEREÇO E TRANSPORTE no mesmo degrau: é a
+  // única classe com dois eixos no topo, e o preço é não ser dono de nada.
+  it('um degrau pode conceder dois eixos de uma vez', () => {
+    const nv7 = de('Caçador', 7)
+    expect(nv7.pisos.moradia?.plano.nome).toBe(estilos.m6.nome)
+    expect(nv7.pisos.transporte?.plano.nome).toBe(estilos.t4.nome)
+    expect(nv7.pisos.moradia?.quem).toBe('a firma')
   })
 
   it('degrau sem concessão não apaga os anteriores — o Asceta segue na academia', () => {

@@ -424,22 +424,23 @@ export function custoMensal(
       if (cedida.aba !== aba || r.itens.some((i) => i.nome === cedida.nome)) continue
       posse.push({ indice: -1, item: cedida, recurso: porNome.get(cedida.nome), valor: 0, naRua: false, concedido: true })
     }
-    // o plano do mês também é consumo taxado: o degrau alto custa mais
-    // porque o Estado cobra mais dele, não porque a nota mudou de preço.
-    const planoValor = comImposto(cfg, plano?.preco ?? 0, plano?.nivel)
+    // O PLANO NÃO PAGA IMPOSTO À PARTE (2026-09-13b): o preço da nota já o
+    // inclui, e no transporte nem teria como não incluir — o TRI é sistema do
+    // governo e desconto nele não existe. O imposto que a ficha calcula vive
+    // só na manutenção da posse, que é onde existe abatimento.
+    const planoValor = plano?.preco ?? 0
     const manual = r.pagoPor[papel]
     // O terceiro põe o valor do plano CONCEDIDO (no máximo o do efetivo) e o
     // herói completa a diferença — subir acima do piso não faz a firma sumir.
     // O `pagoPor` manual é o override do mestre e cobre o plano inteiro.
-    const pisoValor = piso ? comImposto(cfg, piso.plano.preco, piso.plano.nivel) : 0
+    const pisoValor = piso?.plano.preco ?? 0
     const pagoPorValor = manual ? planoValor : Math.min(pisoValor, planoValor)
     const pagoPor = manual ?? piso?.quem
     const posseValor = posse.reduce((a, p) => a + p.valor, 0)
     // quanto do eixo é tributo: a diferença entre o que se paga e o que se
     // pagaria num mundo sem imposto (o cedido não entra, porque já vale 0).
     const semImposto =
-      (plano?.preco ?? 0) +
-      posse.reduce((a, p) => a + manutencaoDoItem(p.recurso, p.item), 0)
+      planoValor + posse.reduce((a, p) => a + manutencaoDoItem(p.recurso, p.item), 0)
     eixos.push({
       papel,
       plano,
