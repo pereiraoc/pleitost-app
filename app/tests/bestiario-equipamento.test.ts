@@ -88,6 +88,41 @@ function carregados(fm: Fm): string[] {
   return nomes.filter(Boolean)
 }
 
+let _escolas: Map<string, string> | null = null
+/** Magia → escola no vocabulário da POA, pela PASTA (é ela que separa Branca de
+ *  Negra de Essencial). `Magia Especial` fica de fora: vem de habilidade. */
+function escolaDaMagia(): Map<string, string> {
+  if (_escolas) return _escolas
+  const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
+  const porPasta: [string, string][] = [
+    ['/Magia Anima/', 'Lênica'], ['/Magia Arcana Branca/', 'Positrônica'],
+    ['/Magia Arcana Negra/', 'Negatrônica'], ['/Magia Arcana Essencial/', 'Utilitrônica'],
+  ]
+  _escolas = new Map()
+  for (const d of manifest.docs) {
+    if (d.type !== 'Magia' || !d.basename) continue
+    const achou = porPasta.find(([p]) => d.path?.includes(p))
+    if (achou) _escolas.set(d.basename, achou[1])
+  }
+  return _escolas
+}
+
+let _essencias: Map<string, string> | null = null
+/** `Essência Flamejante Adepta` → `Fogo`, lido do frontmatter da própria nota
+ *  de essência. A universal (de Criação) devolve '' — serve a qualquer Fator. */
+function elementoDaEssencia(nome: string): string {
+  if (!_essencias) {
+    const manifest = JSON.parse(fs.readFileSync(path.join(cyberDir, 'index.json'), 'utf8')) as IndexManifest
+    _essencias = new Map()
+    for (const d of manifest.docs) {
+      if (!d.basename?.startsWith('Essência ')) continue
+      const doc = JSON.parse(fs.readFileSync(path.join(cyberDir, `${d.id}.json`), 'utf8')) as VaultDoc
+      _essencias.set(d.basename, String(doc.frontmatter?.['elemento'] ?? ''))
+    }
+  }
+  return _essencias.get(nome) ?? ''
+}
+
 /** Toda tecnologia que ALGUMA classe de bestiário alcança. Fora: `Magia
  *  Especial`, que só vem de habilidade de herói. */
 function magiasDoCatalogo(): string[] {
@@ -165,6 +200,70 @@ describe.skipIf(!temDataset)('equipamento do bestiário', () => {
     const faltando = magiasDoCatalogo()
       .filter((m) => !usadas.has(m))
     expect(faltando).toEqual([])
+  })
+
+  // AS ESCOLAS NÃO SE MISTURAM (regra que o mestre apontou em 2026-09-13, e que
+  // está escrita nas classes de herói): branca só branca, negra só negra — o
+  // Mago é a exceção e não existe Mago no bestiário —, quem roda Anima não roda
+  // Arcana, e ESSENCIAL exige ser Arcanista. A porta é a habilidade
+  // [[Princípios Arcanos]], que diz que essenciais contam como magias da escola.
+  it('cada conjuradora só conhece tecnologia da própria escola', () => {
+    const escola = escolaDaMagia()
+    const erros: string[] = []
+    for (const { nome, fm } of criaturas) {
+      const habilidades = ((fm['Habilidades']?.['Lista'] ?? []) as Fm[])
+        .map((d) => alvo(Object.keys(d)[0] ?? ''))
+      const arcanista = habilidades.includes('Princípios Arcanos')
+      for (const linha of ((fm['Magias']?.['Lista'] ?? []) as Fm[])) {
+        if (linha['Nome'] === 'Tesouros') continue   // item concede a quem quer que carregue
+        const minha = { 'Arcana Branca': 'Positrônica', 'Arcana Negra': 'Negatrônica', Anima: 'Lênica' }[
+          String(linha['Nome'])
+        ]
+        for (const item of ((linha['Lista'] ?? []) as unknown[])) {
+          const chave = typeof item === 'object' && item ? Object.keys(item)[0] : String(item)
+          const magia = alvo(chave ?? '')
+          const dela = escola.get(magia)
+          if (!dela) continue                        // Magia Especial, que vem de habilidade
+          if (dela === 'Utilitrônica') {
+            if (!arcanista) erros.push(`${nome}: ${magia} é Utilitrônica e ela não tem Princípios Arcanos`)
+          } else if (dela !== minha) {
+            erros.push(`${nome}: ${magia} é ${dela} e está no bloco ${linha['Nome']}`)
+          }
+        }
+      }
+    }
+    expect(erros).toEqual([])
+  })
+
+  // O Fator do sangue tranca o elemento OPOSTO (Fogo↔Água, Vento↔Terra), a forma
+  // Mestre é obrigatoriamente do próprio Fator (Avatar) e ao menos uma essência
+  // também (Magias Anima). Sem esta guarda, o repartidor podia dar Essência
+  // Congelante pra uma Artilharia de Fator Fogo e ninguém veria.
+  it('nenhuma Artilharia tem essência do elemento oposto ao Fator dela', () => {
+    const OPOSTO: Record<string, string> = { Fogo: 'Água', 'Água': 'Fogo', Vento: 'Terra', Terra: 'Vento' }
+    const ELEMENTO: Record<string, string> = {
+      'Traço Elemental do Fogo': 'Fogo', 'Traço Elemental da Terra': 'Terra',
+      'Traço Elemental do Vento': 'Vento', 'Traço Elemental da Água': 'Água',
+    }
+    const erros: string[] = []
+    for (const { nome, fm } of criaturas) {
+      const fator = ELEMENTO[alvo(fm['Sintonia'])]
+      if (!fator) continue
+      const essencias = ((fm['Habilidades']?.['Lista'] ?? []) as Fm[])
+        .map((d) => alvo(Object.keys(d)[0] ?? ''))
+        .filter((h) => h.startsWith('Essência '))
+      if (!essencias.length) continue
+      const elementoDe = elementoDaEssencia
+      const elementos = essencias.map(elementoDe)
+      if (elementos.includes(OPOSTO[fator])) {
+        erros.push(`${nome}: Fator ${fator} e essência de ${OPOSTO[fator]}`)
+      }
+      if (!elementos.includes(fator)) erros.push(`${nome}: nenhuma essência do Fator ${fator}`)
+      for (const h of essencias.filter((h) => h.endsWith(' Mestre'))) {
+        if (elementoDe(h) !== fator) erros.push(`${nome}: essência Mestre "${h}" não é do Fator ${fator}`)
+      }
+    }
+    expect(erros).toEqual([])
   })
 
   // `Magia Especial` fica de fora e isso é DECLARADO, não esquecido: as quatro

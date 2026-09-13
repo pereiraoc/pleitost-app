@@ -25,25 +25,24 @@ SINTONIA = {
 }
 CAT_POR_TIER = {0: "Adepto", 1: "Adepto", 2: "Experiente", 3: "Mestre"}
 
-# ── tecnologias (magias) ─────────────────────────────────────────────────────
-# A LISTA de cada criatura NÃO mora aqui: o catálogo é a vault (Sistema/Criação
-# de Personagem/Magia) e quem reparte é `distribui_magias` no gerador. O que a
-# criatura declara é só a ESCOLA que ela roda e, na Lênica, o elemento — que é
-# o Fator do sangue dela. Assim o bestiário cobre o catálogo inteiro sem
-# ninguém precisar manter 103 nomes na mão.
+# ── tecnologias ──────────────────────────────────────────────────────────────
+# A LISTA de cada criatura não mora aqui. O catálogo é a vault e quem reparte é
+# o gerador, seguindo o modelo que as classes de HERÓI escrevem:
 #
-#   Lênica      = Magia Anima      (Artilharia, por elemento/Fator)
-#   Positrônica = Magia Arcana Branca   (Encantador)
-#   Negatrônica = Magia Arcana Negra    (Supressor)
-#   Utilitrônica = Magia Arcana Essencial — "só os praticantes mais dedicados
-#     conseguem reproduzi-los" (nota Magia Arcana). Não tem bloco próprio no
-#     frontmatter: entra no bloco da trônica que o operador roda.
-ESCOLA_BLOCO = {
-    "Lênica": "Anima",
-    "Positrônica": "Arcana Branca",
-    "Negatrônica": "Arcana Negra",
-}
-N_MAGIAS = {0: 3, 1: 4, 2: 5, 3: 6}
+#   Lênica      = Magia Anima. Não se escolhe magia: escolhe-se ESSÊNCIA, e o
+#     Fator do sangue (`elemento`) tranca o elemento OPOSTO — Fogo↔Água,
+#     Vento↔Terra. Artilharia: 2A/3A/2E,1A/2M,1E,1A essências por tier.
+#   Positrônica = Magia Arcana Branca (Encantador)
+#   Negatrônica = Magia Arcana Negra  (Supressor)
+#
+# As escolas NÃO se misturam: branca só branca, negra só negra (o Mago é a
+# exceção e não existe Mago no bestiário) e quem roda Lênica não roda trônica.
+#
+# `arcanista=True` é a única porta pra UTILITRÔNICA (Magia Arcana Essencial):
+# a criatura ganha a habilidade [[Princípios Arcanos]], que diz que magias
+# essenciais contam como magias da sua escola — e entrega Raio Arcano de brinde.
+# Na POA, Arcanista é o **Tecnologista**: quem estudou trônica formalmente, em
+# oposição ao operador de rua.
 
 
 def A(nome, prop=None, tier=None):
@@ -72,7 +71,7 @@ def INV(armadura=None, escudo=None, tesouros=(), consumiveis=(), ouro=0, tier=0)
 
 def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
       mod=None, org="", bairros=(), habilidades=(), tipagem="O−", escola=None,
-      bloco=None, elemento=None, raca=None, tamanho="Médio", descricao="", aliases=()):
+      arcanista=False, elemento=None, raca=None, tamanho="Médio", descricao="", aliases=()):
     spec = {
         "nome": nome, "tier": tier, "papel": papel, "mod": mod, "principal": principal,
         "atributos": {"FOR": F, "AGI": Ag, "INT": I, "PRE": P},
@@ -84,13 +83,9 @@ def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
     if raca:
         spec["raca"] = raca
     if escola:
-        # A escola diz de QUE POOL a criatura tira; o bloco diz em qual linha do
-        # frontmatter a lista entra. Batem, menos na Utilitrônica — que não tem
-        # bloco próprio e pega carona na trônica que o operador roda.
         spec["escola"] = escola
-        spec["linha_magia"] = bloco or ESCOLA_BLOCO[escola]
         spec["elemento"] = elemento
-        spec["n_magias"] = N_MAGIAS[tier]
+        spec["arcanista"] = arcanista
     # Encantador e Supressor não operam por sangue: operam por IMPLANTE — a
     # tipagem deles é a linha trônica que rodam, não o Fator do RG.
     if papel == "Encantador":
@@ -751,7 +746,7 @@ CRIATURAS += [
       [A("Adaga")],
       INV(tesouros=["Luvas do Ladrão"], consumiveis=["Poção da Coragem"], ouro=3, tier=1),
       org="[[Círculo das Ligas]]", bairros=["[[Petrópolis]]", "[[Quarto Distrito]]"],
-      habilidades=["Dose no Braço"], escola="Utilitrônica", bloco="Arcana Branca",
+      habilidades=["Dose no Braço"], escola="Positrônica", arcanista=True,
       descricao="Abre o que for: porta, cofre, prontuário. Não briga — some com o que interessa enquanto tu briga."),
 
     C("Escuta da Embratel", 2, "Supressor", "INT", 0, 1, 3, 2,
@@ -762,7 +757,7 @@ CRIATURAS += [
           consumiveis=["Poção da Velocidade", "Poção da Velocidade"], ouro=15, tier=2),
       mod="Competente", org="[[Embratel]]",
       bairros=["[[Moinhos de Vento]]", "[[Centro Histórico]]"],
-      habilidades=["Queimar a Rota"], escola="Utilitrônica", bloco="Arcana Negra",
+      habilidades=["Queimar a Rota"], escola="Negatrônica", arcanista=True,
       descricao="Escuta a cidade inteira e sabe onde o grupo esteve antes de o grupo chegar."),
 
     C("Arquivista da Delegacia", 3, "Encantador", "INT", 0, 1, 3, 2,
@@ -772,8 +767,47 @@ CRIATURAS += [
       INV(tesouros=["Luva do Arcanista", "Colar da Eloquência"],
           consumiveis=["Poção de Cura", "Poção de Cura"], ouro=40, tier=3),
       mod="Elite", org=B, bairros=["[[Centro Histórico]]"],
-      habilidades=["Dose no Braço"], escola="Utilitrônica", bloco="Arcana Branca",
+      habilidades=["Dose no Braço"], escola="Positrônica", arcanista=True,
       descricao="Não prende ninguém: identifica. Depois do fichamento, a cidade inteira conhece a cara do grupo."),
+
+    # ── Cobertura das tecnologias, pelo modelo certo (essência × rank) ──
+    # A conta é fechada, não estimada. Lênica: as 13 essências têm que estar na
+    # mão de alguém em forma Experiente pra que as 13 magias Experientes existam
+    # na mesa — havia 11 vagas E/M e faltavam Torrencial e de Criação, as duas
+    # ao alcance de um Fator Água. Negatrônica: o T3 é o único que alcança
+    # Mestre (1 por criatura) e havia 2 dessas vagas pra 4 magias Mestres.
+    C("Mangueirista do Cais", 2, "Artilharia", "PRE", 2, 1, 0, 3,
+      [("Lênicos", "E"), ("Atletismo", "E"), ("Sobrevivência", "A"), ("Malandragem", "A")],
+      [A("Besta Leve"), A("Espada Curva", "Imbuição Congelante", 2)],
+      INV(armadura="Armadura Leve", tesouros=["Bracelete Elemental"],
+          consumiveis=["Poção de Cura"], ouro=9, tier=2),
+      mod="Competente", org="[[Consórcio das Bandeiras]]",
+      bairros=["[[Praia de Belas]]", "[[Lago Guaíba]]"],
+      habilidades=["Tiro de Cobertura"], tipagem="AB+", escola="Lênica", elemento="Água",
+      descricao="Vira a bomba de porão contra quem sobe no cais. A água dele não empurra: congela no meio do caminho."),
+
+    C("Interventor da CEEE", 3, "Supressor", "INT", 0, 1, 3, 2,
+      [("Trônicos", "M"), ("Guerra", "M"), ("Sociedades", "E"), ("Enganação", "E"),
+       ("Furtividade", "A"), ("Medicina", "A"), ("Diplomacia", "A")],
+      [A("Adaga de Duelo", "Imbuição Relampejante", 3)],
+      INV(armadura="Armadura Leve", tesouros=["Luva do Arcanista", "Foco da Penetração"],
+          consumiveis=["Poção de Cura", "Poção de Cura"], ouro=35, tier=3),
+      mod="Elite", org="[[Companhia Estadual de Energia Elétrica]]",
+      bairros=["[[Centro Histórico]]", "[[Quarto Distrito]]", "[[Petrópolis]]"],
+      habilidades=["Queimar a Rota", "Restringir Movimento"], escola="Negatrônica",
+      descricao="Não precisa entrar no prédio: desliga o prédio. Quem depende de implante cai junto com a luz."),
+
+    C("Diretor Clínico da Panvel", 3, "Supressor", "INT", 0, 1, 3, 2,
+      [("Medicina", "M"), ("Trônicos", "M"), ("Sociedades", "E"), ("Diplomacia", "E"),
+       ("Enganação", "A"), ("Malandragem", "A"), ("Sobrevivência", "A")],
+      [A("Besta de Mão", "Imbuição Enraizante", 3), A("Punhal")],
+      INV(armadura=("Armadura Leve", "Armadura Obra-prima"),
+          tesouros=["Luvas Purificadas", "Colar da Eloquência"],
+          consumiveis=["Poção da Nutrição", "Poção da Nutrição"], ouro=55, tier=3),
+      mod="Solo", org="[[Panvel]]",
+      bairros=["[[Jardim Itu]]", "[[Moinhos de Vento]]", "[[Centro Histórico]]"],
+      habilidades=["Queimar a Rota"], escola="Negatrônica",
+      descricao="Assina a receita e assina a revogação. Quem tomou dose com o nome dele na ficha apaga quando ele decide."),
 ]
 
 
@@ -1021,5 +1055,20 @@ ENCONTROS = [
       "Não é pra matar: é pra identificar. Se ele terminar o serviço, a cidade inteira conhece a cara do grupo.",
       [(1, "Arquivista da Delegacia", "lento"), (4, "Cabo de Choque", "lento"),
        (2, "Sargento de Pelotão", "rápido")],
+      "DIFICIL"),
+    E("Bomba de Porão", 2, "[[Porto Novo]] · [[Praia de Belas]]",
+      "O cais é deles e a água também. Quem para pra brigar leva a mangueira no peito.",
+      [(3, "Mangueirista do Cais", "lento"), (4, "Estivador de Confiança", "lento"),
+       (1, "Chefe de Armazém", "rápido")],
+      "DIFICIL"),
+    E("Apagão no Quarto Distrito", 3, "[[Quarto Distrito]] · [[Centro Histórico]]",
+      "A luz cai primeiro, e com ela o implante de quem depende de um. Só depois é que entram.",
+      [(1, "Interventor da CEEE", "lento"), (2, "Sargento de Pelotão", "rápido"),
+       (4, "Cabo de Choque", "lento")],
+      "DIFICIL"),
+    E("A Revogação", 3, "[[Jardim Itu]] · [[Moinhos de Vento]]",
+      "Ele não veio brigar: veio cancelar a ficha do grupo. Enquanto isso, a escolta segura a porta.",
+      [(1, "Diretor Clínico da Panvel", "lento"), (2, "Escolta de Diretoria", "super rápido"),
+       (2, "Fiscal de Patente", "rápido")],
       "DIFICIL"),
 ]

@@ -163,19 +163,24 @@ describe('bestiário do mundo', () => {
     expect(a).not.toBe(b)
   })
 
-  // As sete que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
-  // não foram à leva de arte — os prompts delas estão em `Recursos e Mídia/
-  // Rascunhos/Prompt Codex — bestiário (7 pendentes).md`. A lista vale nos DOIS
-  // sentidos: quando uma ganhar o webp e ninguém tirar daqui, o teste quebra e
-  // cobra a limpeza, em vez de virar exceção permanente.
+  // As dez que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
+  // não foram à leva de arte — os prompts estão em `Recursos e Mídia/Rascunhos/
+  // Prompt Codex — bestiário (pendentes).md`. A lista vale nos DOIS sentidos:
+  // quando uma ganhar o webp e ninguém tirar daqui, o teste quebra e cobra a
+  // limpeza, em vez de virar exceção permanente. Arte DESATUALIZADA (a ficha
+  // mudou DEPOIS da imagem) não se cobra aqui: quem sabe disso é o selo de
+  // prompt em `_geracao/prompts.json`, que põe a peça em pendente sozinha.
   const AGUARDANDO_ARTE = [
     'Arpoador do Cais',
     'Arquivista da Delegacia',
     'Braço da Caixinha',
     'Chaveiro Trônico',
     'Detonador do Clã',
-    'Queimador do Itu',
+    'Diretor Clínico da Panvel',
     'Escuta da Embratel',
+    'Interventor da CEEE',
+    'Mangueirista do Cais',
+    'Queimador do Itu',
   ]
 
   it('a leva cobre o bestiário inteiro: só as pendentes declaradas ficam sem arte', () => {

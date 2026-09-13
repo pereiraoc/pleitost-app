@@ -36,6 +36,7 @@ import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync, unlink
 import { join, basename, dirname } from 'node:path'
 import { homedir } from 'node:os'
 import { fileURLToPath } from 'node:url'
+import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 
 const VAULT = process.env.PLEITOST_VAULT_ROOT ?? '/data/vaults/POA 1987'
@@ -56,6 +57,18 @@ const INBOX = join(VAULT, 'Recursos e Mídia/Rascunhos/Inbox de Imagens')
 const GERACAO = join(CTX_ROOT, '_geracao')
 const REGERAR_PATH = join(GERACAO, 'regerar.json')
 const REGERAR = new Set(existsSync(REGERAR_PATH) ? JSON.parse(readFileSync(REGERAR_PATH, 'utf8')) : [])
+// ARTE DESATUALIZADA (2026-09-13): a arte é montada a partir da FICHA — a arma
+// na mão, a armadura no corpo, a prótese no lugar. Quando a ficha muda, a
+// imagem passa a mentir, e até agora só dava pra descobrir isso comparando na
+// mão. Aqui fica gravado o sha1 do prompt que gerou cada peça; se o prompt de
+// hoje não bate com o gravado, a peça entra em pendente sozinha.
+const PROMPTS_PATH = join(GERACAO, 'prompts.json')
+const PROMPTS = existsSync(PROMPTS_PATH) ? JSON.parse(readFileSync(PROMPTS_PATH, 'utf8')) : {}
+const selo = (prompt) => createHash('sha1').update(prompt).digest('hex').slice(0, 12)
+const gravaSelos = () => {
+  mkdirSync(GERACAO, { recursive: true })
+  writeFileSync(PROMPTS_PATH, JSON.stringify(Object.fromEntries(Object.entries(PROMPTS).sort()), null, 1))
+}
 // Chaves SEM arte própria DE PROPÓSITO (decisão 2026-09-03: armas naturais/
 // especiais seguem com a Figura da fantasia por fallback) — fora do pendente.
 const MANTER_FANTASIA_PATH = join(GERACAO, 'manter-fantasia.json')
@@ -78,6 +91,7 @@ const CODEX = opt('--codex', null)
 // de leva incremental — quando entram sete criaturas novas num bestiário de
 // 94, ninguém quer colar 94 prompts de novo pra gerar 7 imagens.
 const SO_PENDENTES = flag('--pendentes')
+const SELAR = flag('--selar')
 const QUALITY = opt('--quality', 'medium')
 
 // ---- porte de app/src/data/reskin.ts (manter em sincronia) ----------------
@@ -1701,9 +1715,29 @@ const saidaWebp = (out) => out.replace(/\.[^.]+$/, '.webp')
 
 // Pendente = marcado pra regerar, ou sem arte em NENHUM dos dois formatos. O
 // acervo antigo é .png e não se remigra só por causa disto.
+const temArte = (t) => existsSync(t.out) || existsSync(saidaWebp(t.out))
+/** A ficha mudou depois que a arte foi feita? Só vale pra peça que já foi
+ *  selada — arte antiga sem selo não se acusa de nada. */
+const desatualizado = (t) => Boolean(PROMPTS[t.chave]) && PROMPTS[t.chave] !== selo(t.prompt)
 const pendente = (t) =>
   !MANTER_FANTASIA.has(t.chave) &&
-  (REGERAR.has(t.chave) || (!existsSync(t.out) && !existsSync(saidaWebp(t.out))))
+  (REGERAR.has(t.chave) || !temArte(t) || desatualizado(t))
+
+// --selar: carimba o prompt de hoje na arte que já existe. É a semeadura da
+// conta — sem ela, as 87 peças feitas antes do selo nunca seriam acusadas de
+// desatualizadas, porque não há com o que comparar. Quem está em regerar.json
+// fica de fora de propósito: aquela arte já se sabe errada.
+if (SELAR) {
+  let n = 0
+  for (const t of trabalho) {
+    if (!temArte(t) || REGERAR.has(t.chave)) continue
+    PROMPTS[t.chave] = selo(t.prompt)
+    n++
+  }
+  gravaSelos()
+  console.log(`${n} peças seladas → ${PROMPTS_PATH}`)
+  process.exit(0)
+}
 
 if (CODEX) {
   const daCategoria = trabalho.filter((t) => t.cat === CODEX)
@@ -1716,7 +1750,10 @@ if (CODEX) {
     console.log(`${CODEX}: nada pendente — as ${daCategoria.length} já têm arte`)
     process.exit(0)
   }
-  const sufixo = SO_PENDENTES ? `${itens.length} pendentes` : String(itens.length)
+  // Nome FIXO no modo pendente: a contagem muda a cada leva e, se entrasse no
+  // nome, cada rodada deixaria um doc órfão no Rascunhos. O doc da leva inteira
+  // segue com o número, que é o que identifica o acervo daquela vez.
+  const sufixo = SO_PENDENTES ? 'pendentes' : String(itens.length)
   const arquivo = join(
     VAULT,
     `Recursos e Mídia/Rascunhos/Prompt Codex — ${CODEX.toLowerCase()} (${sufixo}).md`,
@@ -1801,11 +1838,13 @@ if (INGEST) {
       if (destino !== t.out && existsSync(t.out)) unlinkSync(t.out)
       unlinkSync(join(dir, f))
       REGERAR.delete(t.chave)
+      PROMPTS[t.chave] = selo(t.prompt)
       console.log(`ok: ${t.chave} → ${t.novo}.webp`)
       ok++
     }
   }
   if (existsSync(REGERAR_PATH)) writeFileSync(REGERAR_PATH, JSON.stringify([...REGERAR].sort(), null, 1))
+  gravaSelos()
   for (const a of avisos) console.warn(`AVISO ${a}`)
   const faltam = trabalho.filter(pendente)
   console.log(`\ningeridas: ${ok} · desconhecidas: ${desconhecidos} · pendentes ${faltam.length}/${trabalho.length}`)

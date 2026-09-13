@@ -244,15 +244,29 @@ def checa_requisitos(nome: str, atributos: dict, dono: str):
 
 
 # ─────────────────────── tecnologias: catálogo e repartição ───────────────────
-# O catálogo de magia é a VAULT, não uma lista mantida à mão: o mestre pediu que
-# o bestiário exercitasse o sistema inteiro, e "tecnologia" na POA é justamente
-# `Sistema/Criação de Personagem/Magia`. Ler dali é o que garante que uma magia
-# nova nasça sem dono visível em vez de sumir do radar.
+# Reescrito em 2026-09-13 depois de ler as classes de HERÓI, que é onde o modelo
+# está escrito. Antes eu tratava tecnologia como uma lista plana por escola e
+# cortava o prefixo por tier — o que não é como o sistema funciona em nenhuma das
+# duas famílias:
+#
+#   LÊNICA (Anima) não se escolhe magia a magia: escolhe-se ESSÊNCIA. O Animista
+#   recebe acesso a essências (≥1 da sintonia, NENHUMA do elemento oposto) e
+#   conjura as formas Básica e Adepta delas; o Elementalista sobe duas pra
+#   Experiente e o Avatar sobe uma pra Mestre. As 39 magias Anima são exatamente
+#   13 essências × 3 formas. A Artilharia de bestiário declara o mesmo orçamento
+#   em `Essências Elementais: 2A/3A/2E,1A/2M,1E,1A`.
+#
+#   TRÔNICAS (Arcana Branca/Negra) se escolhem por RANK, com slot: o Encantador e
+#   o Supressor declaram `Magias Conhecidas: 2 Básicas + 2A/3A/2E,2A/1M,2E,2A`.
+#
+# E as escolas não se misturam: branca só branca, negra só negra (o Mago é a
+# exceção, e não existe Mago no bestiário), quem roda Anima não roda Arcana, e
+# ESSENCIAL exige ser Arcanista — a porta é a habilidade `Princípios Arcanos`,
+# que diz com todas as letras que essenciais contam como magias da sua escola.
 
 MAGIA = VAULT / "Sistema/Criação de Personagem/Magia"
+ESSENCIAS = VAULT / "Sistema/Criação de Personagem/Habilidades/Essências Elementais"
 RANKS = ["Básica", "Adepta", "Experiente", "Mestre"]
-# Até que rank cada tier alcança. T0 só o básico; T3 chega no Mestre.
-TETO_RANK = {0: 1, 1: 2, 2: 3, 3: 4}
 # pasta → escola no vocabulário da POA
 ESCOLA_DA_PASTA = {
     "Magia Anima": "Lênica",
@@ -260,6 +274,17 @@ ESCOLA_DA_PASTA = {
     "Magia Arcana Negra": "Negatrônica",
     "Magia Arcana Essencial": "Utilitrônica",
 }
+BLOCO_DA_ESCOLA = {"Lênica": "Anima", "Positrônica": "Arcana Branca",
+                   "Negatrônica": "Arcana Negra"}
+OPOSTO = {"Fogo": "Água", "Água": "Fogo", "Vento": "Terra", "Terra": "Vento"}
+
+# Artilharia: quantas essências, e até que forma cada uma sobe.
+ESSENCIAS_POR_TIER = {0: ["A", "A"], 1: ["A", "A", "A"],
+                      2: ["E", "E", "A"], 3: ["M", "M", "E", "A"]}
+# Encantador/Supressor: quantas magias de cada rank.
+MAGIAS_POR_TIER = {0: {"B": 2, "A": 2}, 1: {"B": 2, "A": 3},
+                   2: {"B": 2, "A": 2, "E": 2}, 3: {"B": 2, "A": 2, "E": 2, "M": 1}}
+RANK_DA_SIGLA = {"B": "Básica", "A": "Adepta", "E": "Experiente", "M": "Mestre"}
 
 
 def catalogo_magias() -> list[dict]:
@@ -281,68 +306,238 @@ def catalogo_magias() -> list[dict]:
                 if parte.startswith(pasta):
                     escola = nome
         if escola is None:
-            # `Magia Especial` (Trônicos Especiais) fica DE FORA da cobertura do
-            # bestiário de propósito: as quatro não se escolhem, vêm de
-            # habilidade de HERÓI — Raio Arcano de [[Princípios Arcanos]]
-            # (Arcanista) e as três do Bardo de [[Estilo de Combate (Arte
-            # Mágica)]]. Nenhuma das oito classes de bestiário as alcança.
+            # `Magia Especial` (Trônicos Especiais) fica DE FORA e isso é
+            # declarado: as quatro não se escolhem, vêm de habilidade de HERÓI —
+            # Raio Arcano de [[Princípios Arcanos]] (que uma criatura PODE ter,
+            # e aí a magia entra por regra) e as três do Bardo de [[Estilo de
+            # Combate (Arte Mágica)]], que escolhe UMA das três.
             continue
         rank = str(fm.get("rank") or "Básica")
         out.append({"nome": md.stem, "escola": escola, "rank": rank,
-                    "elemento": fm.get("elemento") or None,
-                    "ordem": (RANKS.index(rank) if rank in RANKS else 0, md.stem)})
+                    "elemento": fm.get("elemento") or None})
     return out
 
 
-def _pool_da_criatura(spec: dict, catalogo: list[dict]) -> list[dict]:
-    teto = TETO_RANK[spec["tier"]]
-    return [m for m in catalogo
-            if m["escola"] == spec["escola"]
-            and RANKS.index(m["rank"]) < teto
-            # Na Lênica o Fator do sangue tranca o elemento; as magias sem
-            # elemento (Manifestação Básica e cia.) servem a qualquer Fator.
-            and (spec["escola"] != "Lênica" or m["elemento"] in (None, spec["elemento"]))]
+def catalogo_essencias() -> dict[str, dict]:
+    """`Flamejante` → {elemento, formas: {Adepta: [magias], Experiente: [...]}}.
+
+    Cada nota `Essência X <Forma>` lista, em `Complementar Magias.Lista`, o que
+    aquela forma concede — a Adepta dá a Básica e a Adepta, a Experiente dá a
+    Experiente. Subir uma essência é CUMULATIVO: quem a tem em Experiente tem
+    também a nota Adepta, e as duas entram em Habilidades."""
+    out: dict[str, dict] = {}
+    for md in sorted(ESSENCIAS.rglob("Essência *.md")):
+        m = re.fullmatch(r"Essência (.+) (Adepta|Experiente|Mestre)", md.stem)
+        if not m:
+            continue
+        base, forma = m.groups()
+        fm = fm_da_nota(md)
+        magias = [_basename_wl(str(e).split(" ", 2)[-1])
+                  for e in (fm.get("Elementos_de_Regra") or [])
+                  if str(e).startswith("Complementar Magias.Lista ")]
+        reg = out.setdefault(base, {"elemento": None, "formas": {}})
+        if fm.get("elemento"):
+            reg["elemento"] = fm["elemento"]
+        reg["formas"][forma] = magias
+    return out
+
+
+def _essencias_possiveis(essencias: dict, sintonia: str | None) -> list[str]:
+    """O Fator do sangue tranca o elemento OPOSTO — e só ele. A universal
+    (Criação) serve a qualquer Fator."""
+    fora = OPOSTO.get(sintonia or "")
+    return [nome for nome, e in essencias.items() if e["elemento"] != fora]
+
+
+def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
+    """Dá essências às Artilharias, servindo da forma mais ALTA pra mais baixa —
+    Mestre e Experiente são as vagas escassas (só T2 e T3 têm) e são elas que
+    decidem se as magias Experientes do catálogo chegam em alguém.
+
+    As travas são as do herói, não invenção: nenhuma essência do elemento OPOSTO
+    ao Fator (Fogo↔Água, Vento↔Terra); a forma Mestre é obrigatoriamente do
+    próprio Fator (é o que o Avatar manda); e das Experientes ao menos uma é do
+    Fator (o que o Elementalista manda). O que sobra vai pra quem ainda não tem
+    dono naquela forma."""
+    for c in casters:
+        c["essencias"] = []
+
+    def tem(base: str, forma_min: str) -> bool:
+        ordem = {"M": 0, "E": 1, "A": 2}
+        return any(b == base and ordem[f] <= ordem[forma_min]
+                   for o in casters for b, f in o["essencias"])
+
+    def escolhe(c: dict, forma: str, so_sintonia: bool) -> str | None:
+        proibido = OPOSTO.get(c["elemento"] or "")
+        ja = [b for b, _ in c["essencias"]]
+        pool = [n for n, e in essencias.items()
+                if n not in ja and e["elemento"] != proibido
+                and (not so_sintonia or e["elemento"] == c["elemento"])]
+        if not pool:
+            return None
+        # sem dono nessa forma vem primeiro; depois sem dono nenhum; depois nome
+        pool.sort(key=lambda n: (tem(n, forma), tem(n, "A"), n))
+        return pool[0]
+
+    # uma passada por forma, da escassa pra farta
+    for forma in ("M", "E", "A"):
+        for c in sorted(casters, key=lambda c: (c["tier"], c["nome"]), reverse=True):
+            quantas = ESSENCIAS_POR_TIER[c["tier"]].count(forma)
+            for i in range(quantas):
+                # Mestre é sempre do Fator; a PRIMEIRA Experiente também; e se a
+                # criatura chegar na última vaga sem nada do Fator, ela vira do Fator.
+                tem_propria = any(essencias[b]["elemento"] == c["elemento"]
+                                  for b, _ in c["essencias"])
+                restantes = len(ESSENCIAS_POR_TIER[c["tier"]]) - len(c["essencias"])
+                so_sintonia = (forma == "M"
+                               or (forma == "E" and i == 0 and not tem_propria)
+                               or (restantes == 1 and not tem_propria))
+                escolha = escolhe(c, forma, so_sintonia) or escolhe(c, forma, False)
+                if escolha:
+                    c["essencias"].append((escolha, forma))
+
+
+ATE_A_FORMA = {"A": ["Adepta"], "E": ["Adepta", "Experiente"],
+               "M": ["Adepta", "Experiente", "Mestre"]}
+
+
+def _magias_da_essencia(essencias: dict, base: str, forma: str) -> list[tuple[str, str]]:
+    """(magia, nota de origem) — cumulativo da Adepta até a forma escolhida."""
+    out = []
+    for f in ATE_A_FORMA[forma]:
+        for magia in essencias[base]["formas"].get(f, []):
+            out.append((magia, f"Essência {base} {f}"))
+    return out
+
+
+def _notas_da_essencia(base: str, forma: str) -> list[str]:
+    """Subir uma essência é cumulativo: quem a tem em Mestre tem as três notas.
+    Elas entram em Habilidades mesmo quando a forma ainda não concede magia —
+    a Mestre de Anima existe como habilidade e ainda não tem magia escrita."""
+    return [f"Essência {base} {f}" for f in ATE_A_FORMA[forma]]
+
+
+def _do_tesouro(spec: dict) -> list[str]:
+    """O que os tesouros da criatura já concedem. Entra na conta ANTES dos slots:
+    não faz sentido a criatura gastar um slot numa magia que o item dela já dá —
+    e, pra cobertura, a magia já está na mão de alguém."""
+    categoria = {0: "Adepto", 1: "Adepto", 2: "Experiente", 3: "Mestre"}[spec["tier"]]
+    out: list[str] = []
+    for nome in (spec.get("inventario", {}) or {}).get("tesouros", []):
+        for magia in magias_do_tesouro(nome, categoria):
+            if magia not in out:
+                out.append(magia)
+    return out
+
+
+def _reparte_tronica(casters: list[dict], catalogo: list[dict], postas: set[str]) -> None:
+    """Encantador e Supressor escolhem por rank, com slot. O pool é a escola
+    DELES e mais nada — menos quem tem `Princípios Arcanos`, que pode trocar
+    magia da escola por Utilitrônica (essencial conta como magia da escola)."""
+    for c in casters:
+        c["magias_slot"] = []        # [(magia, "Slot.B"|…)]
+        c["ja_tem"] = _do_tesouro(c)
+    # do rank mais alto pro mais baixo: Mestre só cabe em T3, Básica cabe em todos
+    for sigla in ("M", "E", "A", "B"):
+        rank = RANK_DA_SIGLA[sigla]
+        pendentes = [m for m in catalogo if m["rank"] == rank and m["nome"] not in postas]
+        pendentes.sort(key=lambda m: (m["escola"] != "Utilitrônica", m["nome"]))
+        for magia in pendentes:
+            aptos = [c for c in casters
+                     if len([x for x in c["magias_slot"] if x[1] == f"Slot.{sigla}"])
+                     < MAGIAS_POR_TIER[c["tier"]].get(sigla, 0)
+                     and magia["nome"] not in c["ja_tem"]
+                     and (magia["escola"] == c["escola"]
+                          or (magia["escola"] == "Utilitrônica" and c.get("arcanista")))]
+            if not aptos:
+                continue
+            aptos.sort(key=lambda c: (len(c["magias_slot"]), c["tier"], c["nome"]))
+            aptos[0]["magias_slot"].append((magia["nome"], f"Slot.{sigla}"))
+            postas.add(magia["nome"])
+    # sobrou vaga? completa com o que a criatura pode, sem repetir
+    for c in casters:
+        for sigla, quantas in MAGIAS_POR_TIER[c["tier"]].items():
+            rank = RANK_DA_SIGLA[sigla]
+            dela = [x for x in c["magias_slot"] if x[1] == f"Slot.{sigla}"]
+            pool = [m["nome"] for m in catalogo
+                    if m["rank"] == rank
+                    and (m["escola"] == c["escola"]
+                         or (m["escola"] == "Utilitrônica" and c.get("arcanista")))
+                    and m["nome"] not in c["ja_tem"]
+                    and m["nome"] not in [x for x, _ in c["magias_slot"]]]
+            for nome in sorted(pool)[: max(0, quantas - len(dela))]:
+                c["magias_slot"].append((nome, f"Slot.{sigla}"))
+
+
+def checa_tecnologia(criaturas: list[dict], essencias: dict, catalogo: list[dict]) -> None:
+    """As travas do sistema, conferidas depois de repartir. Erro de geração, não
+    aviso: uma criatura com magia da escola errada é ficha inválida."""
+    escola_da_magia = {m["nome"]: m["escola"] for m in catalogo}
+    for c in criaturas:
+        if not c.get("escola"):
+            continue
+        nome = c["nome"]
+        for magia, _ in c.get("magias", []):
+            esc = escola_da_magia.get(magia)
+            if esc is None:          # Raio Arcano, que vem de Princípios Arcanos
+                continue
+            if esc == "Utilitrônica":
+                if not c.get("arcanista"):
+                    raise SystemExit(f"{nome}: '{magia}' é Utilitrônica e ela não é Arcanista")
+            elif esc != c["escola"]:
+                raise SystemExit(f"{nome}: roda {c['escola']} e está com '{magia}', que é {esc}")
+        proibido = OPOSTO.get(c.get("elemento") or "")
+        formas = [f for _, f in c.get("essencias", [])]
+        elementos = [essencias[b]["elemento"] for b, _ in c.get("essencias", [])]
+        if proibido and proibido in elementos:
+            raise SystemExit(f"{nome}: tem essência de {proibido}, o oposto do Fator dela")
+        if c.get("essencias") and c["elemento"] not in elementos:
+            raise SystemExit(f"{nome}: nenhuma essência do próprio Fator ({c['elemento']})")
+        for (base, forma) in c.get("essencias", []):
+            if forma == "M" and essencias[base]["elemento"] != c["elemento"]:
+                raise SystemExit(f"{nome}: essência Mestre '{base}' não é do Fator dela")
+        if "E" in formas and not any(
+                f == "E" and essencias[b]["elemento"] == c["elemento"]
+                for b, f in c["essencias"]) and "M" not in formas:
+            raise SystemExit(f"{nome}: nenhuma das Experientes é do Fator dela")
 
 
 def distribui_magias(criaturas: list[dict]) -> list[str]:
-    """Reparte o catálogo entre os operadores e devolve o que ficou sem dono.
-
-    Duas passadas: primeiro cada magia AINDA SEM DONO procura o operador elegível
-    mais vazio (cobertura antes de sabor), depois as vagas que sobraram são
-    preenchidas com o que couber. Determinístico.
-
-    A ORDEM da primeira passada é o que faz a conta fechar. Do rank mais ALTO
-    para o mais baixo, porque uma Mestre só cabe num T3 e uma Básica cabe em
-    qualquer um: servir as difíceis primeiro reserva o teto pra quem precisa
-    dele. E, dentro do rank, as de elemento antes das neutras — a neutra serve
-    qualquer Fator, então é ela que deve sobrar pra tapar buraco."""
+    """Reparte o catálogo entre os operadores e devolve o que ficou sem dono."""
     catalogo = catalogo_magias()
-    casters = [s for s in criaturas if s.get("escola")]
-    for s in casters:
+    essencias = catalogo_essencias()
+
+    lenicas = [s for s in criaturas if s.get("escola") == "Lênica"]
+    tronicas = [s for s in criaturas if s.get("escola") in ("Positrônica", "Negatrônica")]
+
+    _reparte_lenica(lenicas, essencias)
+    for s in lenicas:
+        vistas: list[str] = []
         s["magias"] = []
-    pools = {s["nome"]: _pool_da_criatura(s, catalogo) for s in casters}
+        s["essencias_nota"] = []
+        for base, forma in s["essencias"]:
+            for nota in _notas_da_essencia(base, forma):
+                if nota not in s["essencias_nota"]:
+                    s["essencias_nota"].append(nota)
+            for magia, origem in _magias_da_essencia(essencias, base, forma):
+                if magia not in vistas:
+                    vistas.append(magia)
+                    s["magias"].append((magia, f"Regra.[[{origem}]]"))
 
-    def prioridade(m: dict):
-        return (-RANKS.index(m["rank"]), 0 if m["elemento"] else 1, m["nome"])
+    # O que vem de TESOURO já está coberto e não precisa de slot — vale pra
+    # criatura que não conjura nada também (um Líder com Modulador de Voz).
+    postas = {m for s in criaturas for m in _do_tesouro(s)}
+    _reparte_tronica(tronicas, catalogo, postas)
+    for s in tronicas:
+        s["magias"] = list(s["magias_slot"])
+        if s.get("arcanista"):
+            # `Princípios Arcanos` entrega Raio Arcano de graça — é assim que a
+            # única Magia Especial ao alcance do bestiário chega numa ficha.
+            s["magias"].insert(0, ("Raio Arcano", "Regra.[[Princípios Arcanos]]"))
 
-    for magia in sorted(catalogo, key=prioridade):
-        aptos = [s for s in casters
-                 if magia in pools[s["nome"]] and len(s["magias"]) < s["n_magias"]]
-        if not aptos:
-            continue
-        # o mais vazio primeiro; empate resolve pelo menor tier (deixa o teto
-        # alto livre pras magias que só ele alcança) e depois pelo nome
-        aptos.sort(key=lambda s: (len(s["magias"]), s["tier"], s["nome"]))
-        aptos[0]["magias"].append(magia["nome"])
-
-    postos = {m for s in casters for m in s["magias"]}
-    for s in casters:
-        for magia in sorted(pools[s["nome"]], key=lambda m: m["ordem"]):
-            if len(s["magias"]) >= s["n_magias"]:
-                break
-            if magia["nome"] not in s["magias"]:
-                s["magias"].append(magia["nome"])
-    return sorted(m["nome"] for m in catalogo if m["nome"] not in postos)
+    checa_tecnologia(criaturas, essencias, catalogo)
+    postas |= {m for s in criaturas if s.get("magias") for m, _ in s["magias"]}
+    return sorted(m["nome"] for m in catalogo if m["nome"] not in postas)
 
 
 # ───────────────────── tecnologias que o tesouro concede ─────────────────────
@@ -506,6 +701,15 @@ def monta(spec: dict) -> dict:
     fm["Bairros"] = spec.get("bairros", [])
 
     hab = [{"[[Evolução Básica de Monstro]]": f"Regra.[[{papel}]]"}]
+    # A ESSÊNCIA é habilidade, não decoração: é ela que concede as magias
+    # lênicas, e é assim que a ficha de herói guarda (o Zuko lista as quatro
+    # essências dele em Habilidades e cada magia aponta pra nota da essência).
+    for essencia in spec.get("essencias_nota", []):
+        hab.append({f"[[{essencia}]]": "Manual.Essência"})
+    # A porta da Utilitrônica. Sem ela a criatura não pode conhecer essencial —
+    # é o que separa o Tecnologista formado do operador de rua.
+    if spec.get("arcanista"):
+        hab.append({"[[Princípios Arcanos]]": "Manual.Habilidade"})
     for h in spec.get("habilidades", []):
         hab.append({f"[[{h}]]": "Manual.Habilidade"})
     if mod:
@@ -523,9 +727,19 @@ def monta(spec: dict) -> dict:
             incs.append({"M": "Slot.M"})
         linha["Incrementos"] = incs
 
-    if spec.get("linha_magia"):
-        alvo = next(x for x in fm["Magias"]["Lista"] if x["Nome"] == spec["linha_magia"])
-        alvo["Lista"] = [{f"[[{m}]]": "Regra"} for m in spec.get("magias", [])]
+    if spec.get("escola"):
+        bloco = BLOCO_DA_ESCOLA[spec["escola"]]
+        alvo = next(x for x in fm["Magias"]["Lista"] if x["Nome"] == bloco)
+        alvo["Lista"] = [{f"[[{m}]]": origem} for m, origem in spec.get("magias", [])]
+        # SLOT: a trônica se escolhe por rank e o slot é o que diz quantas — é
+        # assim na ficha do Arcanista. A lênica não tem slot nenhum: as magias
+        # vêm da essência (o Animista da vault tem Slots zerados e as magias
+        # apontando pra nota da essência), e é por isso que só a trônica declara.
+        if spec["escola"] != "Lênica":
+            slots = dict(MAGIAS_POR_TIER[tier])
+            if spec.get("arcanista"):
+                slots["A"] = slots.get("A", 0) + 1  # Princípios Arcanos soma 1
+            fm["Magias"]["Slots"] = {s: slots.get(s, 0) for s in ("B", "A", "E", "M")}
 
     inv = spec.get("inventario", {})
     if inv.get("armadura"):
