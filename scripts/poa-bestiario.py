@@ -13,6 +13,7 @@ Uso:
     python3 scripts/poa-bestiario.py --tabela    # imprime as tabelas do rascunho
 """
 import argparse
+import collections
 import copy
 import re
 import sys
@@ -375,8 +376,12 @@ def _reparte_lenica(casters: list[dict], essencias: dict) -> None:
                 and (not so_sintonia or e["elemento"] == c["elemento"])]
         if not pool:
             return None
-        # sem dono nessa forma vem primeiro; depois sem dono nenhum; depois nome
-        pool.sort(key=lambda n: (tem(n, forma), tem(n, "A"), n))
+        # sem dono nessa forma vem primeiro; depois sem dono nenhum; depois a
+        # MENOS repetida — senão, esgotada a cobertura, o desempate alfabético
+        # punha a mesma essência na mão de quase toda Artilharia e as nove
+        # ficavam fazendo a mesma coisa na mesa.
+        quantas = collections.Counter(b for o in casters for b, _ in o["essencias"])
+        pool.sort(key=lambda n: (tem(n, forma), tem(n, "A"), quantas[n], n))
         return pool[0]
 
     # uma passada por forma, da escassa pra farta
