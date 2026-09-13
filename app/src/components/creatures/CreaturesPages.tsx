@@ -54,6 +54,7 @@ import {
 import { MESA_GRUPO_ID, mesaApelidos, useLiveSession } from '../../data/session-repo/live-session'
 import { useSessionRepo, useSessionUser } from '../../data/session-repo/provider'
 import { addMonsterToInitiative } from '../../data/session-repo/encounter-actions'
+import { parseModificador } from '../../mestre/encounter-compute'
 import { useSessions } from '../../data/session-store'
 import { ImportarModal } from './ImportarModal'
 import { downloadPortable, portableFromDoc, toPortable } from '../../data/hero-transfer'
@@ -62,10 +63,12 @@ import { plainLabel, subtituloDeCriatura } from './subtitulo'
 import {
   CRITERIOS,
   gruposPorChave,
+  gruposPorTier,
   ptAlpha,
   type CriterioBestiario,
 } from './agrupar-bestiario'
 import { retratoCover } from '../retrato'
+import { idsLocaisDuplicados } from '../../data/local-vault-dupes'
 
 // Telas HERÓIS e NPCS com markup/estilo do design puxado (design/pulled/
 // Companion App.dc.html, seções ===== HERÓIS ===== e ===== NPCS =====).
@@ -140,33 +143,19 @@ function TierKicker({ letter, color }: { letter: string; color?: string }) {
   )
 }
 
-/** #380: grupos do BESTIÁRIO por FM `Tier` NUMÉRICO, decrescente (3→0) — a
- *  MESMA fonte/cor do badge "TIER n" do card (monsterTierColor, verbatim do
- *  plugin header-monstro.ts). Monstro sem Tier vai pro fim, rotulado "—".
- *  As LETRAS S/A/B/C são convenção de tier de HERÓI (nível) e não valem aqui. */
+/** #380: grupos do BESTIÁRIO por FM `Tier` NUMÉRICO — a ordem (crescente,
+ *  0→3, sem Tier no fim) e o agrupamento vivem em `gruposPorTier`; aqui só
+ *  entra a COR, que é a MESMA do badge "TIER n" do card (monsterTierColor,
+ *  verbatim do plugin header-monstro.ts). As LETRAS S/A/B/C são convenção de
+ *  tier de HERÓI (nível) e não valem aqui. */
 function tierGroupsMonstro(
   entries: IndexDocEntry[],
   docs: Map<string, VaultDoc>,
 ): { letter: string; color: string; entries: IndexDocEntry[] }[] {
-  const byTier = new Map<number | null, IndexDocEntry[]>()
-  for (const entry of entries) {
-    const raw = Number(docs.get(entry.id)?.frontmatter['Tier'])
-    const tier = Number.isFinite(raw) ? raw : null
-    const bucket = byTier.get(tier)
-    if (bucket) bucket.push(entry)
-    else byTier.set(tier, [entry])
-  }
-  const tiers = [...byTier.keys()].sort((a, b) => {
-    if (a === null) return 1
-    if (b === null) return -1
-    return b - a
-  })
-  return tiers.map((tier) => ({
-    letter: tier === null ? '—' : String(tier),
+  return gruposPorTier(entries, docs).map(({ tier, letter, entries: lista }) => ({
+    letter,
     color: monsterTierColor(tier ?? 0),
-    entries: byTier
-      .get(tier)!
-      .sort((a, b) => ptAlpha.compare(a.basename ?? a.id, b.basename ?? b.id)),
+    entries: lista,
   }))
 }
 
@@ -298,6 +287,15 @@ function useFolderDocs(folder: string, localKind?: LocalKind, opts?: { includeVa
     () => [...vaultEntries, ...localEntries],
     [vaultEntries, localEntries],
   )
+
+  // Duplicado LOCAL × BASE (report 2026-09-12): criatura local com o mesmo
+  // nome de uma da vault some — a regra e o porquê estão em
+  // ../../data/local-vault-dupes. Apagar bumpa o store, o efeito reroda com a
+  // lista já limpa e para (idempotente).
+  useEffect(() => {
+    for (const id of idsLocaisDuplicados(vaultEntries, localEntries)) removeLocalEntity(id)
+  }, [vaultEntries, localEntries])
+
   const [vaultDocs, setVaultDocs] = useState<Map<string, VaultDoc>>()
 
   useEffect(() => {
@@ -1207,6 +1205,7 @@ export function HeroisPage() {
         <ImportarModal
           kind="Heroi"
           folder={HEROIS_FOLDER}
+          mesclaComABase={false}
           onClose={() => setImportOpen(false)}
           onImported={(id) => {
             setImportOpen(false)
@@ -1284,6 +1283,12 @@ function NpcCard({
     : subtype === 'Companheiro Animal' && nivel
       ? tierBarColor(tierFromLevel(doc?.frontmatter['Nível']))
       : null
+  // Tarja do Modificador (pedido do mestre, 2026-09-12: "dar pra ver melhor
+  // os que tem isso"). Leitura pelo parseModificador (espelho do
+  // frontmatter-helpers.ts:195 do plugin) e etiqueta com as classes que o
+  // roster de combate já usa (.combate-monstro-mod, app.css) — nada de cor
+  // nova inventada aqui.
+  const modificador = parseModificador(doc?.frontmatter ?? {})
 
   // #205: CA local exporta pelo menu "⋮" (mesmo formato do herói). O root é
   // div role=button (vide HeroCard) porque menu interativo não pode aninhar
@@ -1365,6 +1370,11 @@ function NpcCard({
         ) : null}
         <div className="npc-tipo">{tipo}</div>
       </div>
+      {modificador ? (
+        <span className={`combate-monstro-mod is-${modificador.toLowerCase()}`} title="Modificador">
+          {modificador}
+        </span>
+      ) : null}
       <div className="npc-nvl">
         <span
           className="npc-nvl-diamond"
@@ -1784,6 +1794,7 @@ export function NpcsPage() {
         <ImportarModal
           kind="CompanheiroAnimal"
           folder="Sistema/Criaturas/Companheiros Animais"
+          mesclaComABase
           onClose={() => setImportCAOpen(false)}
           onImported={(id) => {
             setImportCAOpen(false)
@@ -1795,6 +1806,7 @@ export function NpcsPage() {
         <ImportarModal
           kind="Monstro"
           folder="Sistema/Criaturas/Bestiário"
+          mesclaComABase
           onClose={() => setImportMonstroOpen(false)}
           onImported={(id) => {
             setImportMonstroOpen(false)

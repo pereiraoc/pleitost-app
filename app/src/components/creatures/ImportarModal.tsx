@@ -8,8 +8,14 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { useCatalog } from '../../data/CatalogContext'
 import { loadDoc } from '../../data/useDoc'
 import type { IndexDocEntry, VaultDoc } from '../../data/types'
-import { importPortable, parsePortable, portableFromDoc } from '../../data/hero-transfer'
-import { KIND_INFO, type LocalKind } from '../../data/local-entities'
+import {
+  importPortable,
+  parsePortable,
+  portableFromDoc,
+  type PortableEntity,
+} from '../../data/hero-transfer'
+import { KIND_INFO, localEntriesOfKind, type LocalKind } from '../../data/local-entities'
+import { nomeSemColisao } from '../../data/local-vault-dupes'
 import { clip } from '../ficha/bits'
 
 const WIKI = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/
@@ -65,12 +71,19 @@ const kickerStyle: CSSProperties = {
 export function ImportarModal({
   kind,
   folder,
+  mesclaComABase,
   onClose,
   onImported,
 }: {
   kind: LocalKind
   /** Pasta da vault com os EXEMPLOS do compêndio dessa família. */
   folder: string
+  /** A LISTA dessa família mostra vault + local junto (o `includeVault` do
+   *  painel). Quando mostra, nome da base é proibido pro local — a limpeza de
+   *  duplicados apagaria a cópia (local-vault-dupes) — e a cópia nasce com
+   *  sufixo. Herói lista só o que o usuário criou, então ali o nome do exemplo
+   *  pode ser mantido. */
+  mesclaComABase: boolean
   onClose: () => void
   /** Recebe o id local recém-criado (o caller navega pra ficha). */
   onImported: (id: string) => void
@@ -97,6 +110,19 @@ export function ImportarModal({
 
   const rotulo = KIND_INFO[kind].subtype === 'Heroi' ? 'Herói' : KIND_INFO[kind].subtype
 
+  // Onde a lista mescla vault + local, a cópia NUNCA pode nascer com o nome de
+  // uma criatura da base: a limpeza de duplicados a apagaria na hora
+  // (local-vault-dupes). Ocupados = os exemplos da pasta + o que o usuário já
+  // criou nessa família.
+  const importarComoCopia = (portable: PortableEntity): string => {
+    if (!mesclaComABase) return importPortable(portable)
+    const ocupados = [
+      ...exemplos.map((e) => e.basename ?? ''),
+      ...localEntriesOfKind(kind).map((e) => e.basename ?? ''),
+    ]
+    return importPortable({ ...portable, basename: nomeSemColisao(portable.basename, ocupados) })
+  }
+
   const importarArquivo = async (file: File) => {
     try {
       const portable = parsePortable(await readFileText(file))
@@ -105,7 +131,7 @@ export function ImportarModal({
         setErro(`Esse arquivo é de ${dele} — aqui só entra ${rotulo}.`)
         return
       }
-      onImported(importPortable(portable))
+      onImported(importarComoCopia(portable))
     } catch (e) {
       setErro(e instanceof Error ? e.message : String(e))
     }
@@ -115,7 +141,7 @@ export function ImportarModal({
     const doc = docs?.get(entry.id)
     if (!doc) return
     try {
-      onImported(importPortable(portableFromDoc(doc, entry.basename ?? entry.id)))
+      onImported(importarComoCopia(portableFromDoc(doc, entry.basename ?? entry.id)))
     } catch (e) {
       setErro(e instanceof Error ? e.message : String(e))
     }

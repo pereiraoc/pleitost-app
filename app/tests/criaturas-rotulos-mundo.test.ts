@@ -34,6 +34,15 @@ const soldadoPoa = {
   Raça: '[[Humano|Humano (Médio)]]',
   Tamanho: 'Médio',
 }
+// Pedido do mestre (2026-09-12): a AFILIAÇÃO entra entre a classe (que já
+// carrega o modificador no alias) e a raça.
+const escoltaPoa = {
+  subcategoria: 'Monstro',
+  Classe: '[[Soldado|Soldado Competente]]',
+  'Afiliação': '[[Brigada Militar Metropolitana]]',
+  Raça: '[[Humano|Humano (Médio)]]',
+  Tamanho: 'Médio',
+}
 const bichoPoa = {
   subcategoria: 'Monstro',
   Classe: '[[Bruto|Bruto Solo]]',
@@ -66,6 +75,19 @@ describe.skipIf(!defPoa)('rótulos da tela de CRIATURAS no mundo', () => {
     expect(subtituloDeCriatura({ subcategoria: 'Companheiro Animal' }, 'Companheiro Animal')).toBe(
       'Empregado',
     )
+  })
+
+  it('subtítulo do monstro: a AFILIAÇÃO entra entre a classe e a raça', () => {
+    setActiveContexto(defPoa)
+    expect(subtituloDeCriatura(escoltaPoa, 'Monstro')).toBe(
+      'Soldado Competente · Brigada Militar Metropolitana · Humano (Médio)',
+    )
+    // sem afiliação declarada nada muda (trap reverso)
+    expect(subtituloDeCriatura(soldadoPoa, 'Monstro')).toBe('Soldado Competente · Humano (Médio)')
+    // afiliação sem classe nem raça sai sozinha, no lugar do subtipo
+    expect(
+      subtituloDeCriatura({ subcategoria: 'Monstro', 'Afiliação': '[[Camisa 12]]' }, 'Monstro'),
+    ).toBe('Camisa 12')
   })
 
   it('Pessoa compõe Relação · Organização · Posição (#414)', () => {

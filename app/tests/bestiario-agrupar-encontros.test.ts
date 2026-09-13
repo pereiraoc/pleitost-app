@@ -7,7 +7,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { IndexDocEntry, IndexManifest, VaultDoc } from '../src/data/types'
-import { chaveDoCriterio, gruposPorChave, SEM_AFILIACAO } from '../src/components/creatures/agrupar-bestiario'
+import {
+  chaveDoCriterio,
+  gruposPorChave,
+  gruposPorTier,
+  SEM_AFILIACAO,
+} from '../src/components/creatures/agrupar-bestiario'
 import { locaisDoCombate, ondeDe, rosterComVelocidades, situacaoDe } from '../src/mestre/encontro-meta'
 
 const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -20,11 +25,21 @@ const doc = (id: string, fm: Record<string, unknown>): VaultDoc =>
   ({ id, basename: id.split('/').pop(), frontmatter: fm }) as unknown as VaultDoc
 
 describe('agrupar o bestiário', () => {
-  const entries = ['Agulha da Ordem', 'Brigadiano de Esquina', 'Cabo de Choque', 'Rato'].map(entry)
+  // O fixture declara Tier porque a ORDEM agora é por tier (pedido do mestre,
+  // 2026-09-12): tier crescente (0→3) nos grupos e dentro deles, alfabético
+  // só no empate. Sem Tier vai pro fim.
+  const entries = [
+    'Agulha da Ordem',
+    'Brigadiano Atirador',
+    'Brigadiano de Esquina',
+    'Cabo de Choque',
+    'Rato',
+  ].map(entry)
   const docs = new Map<string, VaultDoc>([
-    ['c/Agulha da Ordem', doc('c/Agulha da Ordem', { Classe: '[[Assassino|Assassino Competente]]', 'Afiliação': '[[A Caixinha]]' })],
-    ['c/Brigadiano de Esquina', doc('c/Brigadiano de Esquina', { Classe: '[[Soldado|Soldado]]', 'Afiliação': '[[Brigada Militar Metropolitana]]' })],
-    ['c/Cabo de Choque', doc('c/Cabo de Choque', { Classe: '[[Soldado|Soldado Competente]]', 'Afiliação': '[[Brigada Militar Metropolitana]]' })],
+    ['c/Agulha da Ordem', doc('c/Agulha da Ordem', { Tier: 2, Classe: '[[Assassino|Assassino Competente]]', 'Afiliação': '[[A Caixinha]]' })],
+    ['c/Brigadiano Atirador', doc('c/Brigadiano Atirador', { Tier: 1, Classe: '[[Soldado|Soldado]]', 'Afiliação': '[[Brigada Militar Metropolitana]]' })],
+    ['c/Brigadiano de Esquina', doc('c/Brigadiano de Esquina', { Tier: 1, Classe: '[[Soldado|Soldado]]', 'Afiliação': '[[Brigada Militar Metropolitana]]' })],
+    ['c/Cabo de Choque', doc('c/Cabo de Choque', { Tier: 0, Classe: '[[Soldado|Soldado Competente]]', 'Afiliação': '[[Brigada Militar Metropolitana]]' })],
     ['c/Rato', doc('c/Rato', { Classe: '[[Batedor|Batedor]]' })],
   ])
 
@@ -36,13 +51,37 @@ describe('agrupar o bestiário', () => {
   it('por afiliação: alfabético, e quem não declara fica no fim', () => {
     const grupos = gruposPorChave(entries, docs, 'afiliacao')
     expect(grupos.map((g) => g.letter)).toEqual(['A Caixinha', 'Brigada Militar Metropolitana', SEM_AFILIACAO])
-    expect(grupos[1]!.entries.map((e) => e.basename)).toEqual(['Brigadiano de Esquina', 'Cabo de Choque'])
   })
 
-  it('por classe: um grupo por classe, criaturas em ordem alfabética', () => {
+  it('por classe: um grupo por classe, alfabéticos', () => {
     const grupos = gruposPorChave(entries, docs, 'classe')
     expect(grupos.map((g) => g.letter)).toEqual(['Assassino', 'Batedor', 'Soldado'])
-    expect(grupos[2]!.entries).toHaveLength(2)
+    expect(grupos[2]!.entries).toHaveLength(3)
+  })
+
+  it('dentro do grupo: tier crescente primeiro, alfabético só no empate', () => {
+    const porAfiliacao = gruposPorChave(entries, docs, 'afiliacao')
+    expect(porAfiliacao[1]!.entries.map((e) => e.basename)).toEqual([
+      'Cabo de Choque', // Tier 0
+      'Brigadiano Atirador', // Tier 1, empate resolvido no alfabético
+      'Brigadiano de Esquina', // Tier 1
+    ])
+    const porClasse = gruposPorChave(entries, docs, 'classe')
+    expect(porClasse[2]!.entries.map((e) => e.basename)).toEqual([
+      'Cabo de Choque',
+      'Brigadiano Atirador',
+      'Brigadiano de Esquina',
+    ])
+  })
+
+  it('por tier: grupos CRESCENTES (0→3) e quem não declara Tier no fim', () => {
+    const grupos = gruposPorTier(entries, docs)
+    expect(grupos.map((g) => g.letter)).toEqual(['0', '1', '2', '—'])
+    expect(grupos.map((g) => g.tier)).toEqual([0, 1, 2, null])
+    expect(grupos[1]!.entries.map((e) => e.basename)).toEqual([
+      'Brigadiano Atirador',
+      'Brigadiano de Esquina',
+    ])
   })
 })
 

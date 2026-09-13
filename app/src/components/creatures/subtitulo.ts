@@ -1,7 +1,7 @@
 // Subtítulo (accent2 do design) dos cards de criatura, num lugar só porque a
 // regra tem degraus: Pessoa compõe Relação · Organização · Posição (#414); o
-// resto compõe CLASSE · RAÇA (TAMANHO), caindo no subtipo quando não tem
-// nenhuma das duas — tudo no vocabulário do MUNDO ativo e com os ajustes de
+// resto compõe CLASSE · AFILIAÇÃO · RAÇA (TAMANHO), caindo no subtipo quando
+// não tem nenhuma delas — tudo no vocabulário do MUNDO ativo e com os ajustes de
 // regra do Contexto (report 2026-09-12: a lista mostrava "Canino" cru no
 // Empregado do POA; e o monstro "Incomum" aparecia sem o tamanho).
 import { reskinText } from '../../data/reskin'
@@ -30,6 +30,10 @@ export function subtituloDeCriatura(
       : ''
   const bruto = pessoa || [
     plainLabel(classeNoMundo(fm?.['Classe'], fm ?? {})),
+    // Afiliação ENTRE a classe (que já traz o modificador no alias) e a raça
+    // — pedido do mestre, 2026-09-12: dá pra ler de quem é a criatura sem
+    // abrir a ficha.
+    plainLabel(fm?.['Afiliação']),
     racaComTamanho(fm),
   ].filter(Boolean).join(' · ') || subtype || ''
   return reskinText(bruto)

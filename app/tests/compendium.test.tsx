@@ -415,7 +415,8 @@ describe('cores por tier/rank nos cards (dados reais)', () => {
   })
 })
 
-// ── Issue #31: listas agrupadas por tier decrescente (S→C), alfabético dentro ──
+// ── Issue #31: listas agrupadas por tier (S→C nos heróis/CA; 0→3 no
+// bestiário desde o pedido de 2026-09-12), alfabético dentro ──
 
 // Letra do grupo escrita por extenso (fallbackRankLetterFromTier do plugin,
 // tiers-display.ts: 4+ → S, 3 → A, 2 → B, resto → C).
@@ -457,7 +458,7 @@ function renderedGroups(panel: HTMLElement, cardSel: string, nameSel: string) {
   return groups
 }
 
-describe('#31: agrupamento por tier decrescente nas listas', () => {
+describe('#31: agrupamento por tier nas listas', () => {
   it('HERÓIS: grupos S→C do Nível (tierFromLevel), alfabético pt dentro', async () => {
     seedHeroisLocais()
     const { container } = renderAt('/herois', <Route path="/herois" element={<HeroisPage />} />)
@@ -481,13 +482,14 @@ describe('#31: agrupamento por tier decrescente nas listas', () => {
     expect(renderedGroups(caPanel, '.npc-card', '.npc-nome')).toEqual(expected)
   })
 
-  it('BESTIÁRIO (#380): grupos pelo FM Tier NUMÉRICO, decrescente (3→0)', async () => {
+  it('BESTIÁRIO (#380): grupos pelo FM Tier NUMÉRICO, crescente (0→3)', async () => {
     // Report #380: monstros agrupam pelo número do Tier (como o badge "TIER n"
     // do card), não pelas letras S/A/B/C — que são convenção de NÍVEL de herói.
+    // Pedido do mestre 2026-09-12: a ordem é CRESCENTE, o fraco primeiro.
     const { container } = renderAt('/npcs', <Route path="/npcs" element={<NpcsPage />} />)
     await screen.findAllByText(/Goblin \(Pequeno\)/)
     const bestPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[2]
-    // esperado direto da vault: buckets por Tier numérico, desc; sem Tier → "—"
+    // esperado direto da vault: buckets por Tier numérico, asc; sem Tier → "—"
     const byTier = new Map<string, string[]>()
     for (const entry of docsOfFolder('Sistema/Criaturas/Bestiário')) {
       const raw = Number(readDoc(entry.id).frontmatter['Tier'])
@@ -495,7 +497,7 @@ describe('#31: agrupamento por tier decrescente nas listas', () => {
       byTier.set(label, [...(byTier.get(label) ?? []), entry.basename!])
     }
     const expected = [...byTier.keys()]
-      .sort((a, b) => (a === '—' ? 1 : b === '—' ? -1 : Number(b) - Number(a)))
+      .sort((a, b) => (a === '—' ? 1 : b === '—' ? -1 : Number(a) - Number(b)))
       .map((label) => ({ letter: label, names: byTier.get(label)!.sort((a, b) => ptAlpha.compare(a, b)) }))
     expect(expected.length).toBeGreaterThan(1)
     const groups: { letter: string; names: string[] }[] = []

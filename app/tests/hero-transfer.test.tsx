@@ -215,7 +215,10 @@ describe('importar/exportar companheiro animal (#205)', () => {
     fireEvent.click(metis)
     await screen.findByText(/^FICHA:local:CompanheiroAnimal:/)
     const copia = localEntitiesOfKind('CompanheiroAnimal')[0]
-    expect(copia.basename).toBe('Metis, a Graxaim')
+    // 2026-09-12: a lista de COMPANHEIROS mostra os da vault (🔒 CONHECIDO)
+    // junto dos locais, então a cópia não pode repetir o nome da base — senão
+    // a limpeza de duplicados (local-vault-dupes) a apagaria.
+    expect(copia.basename).toBe('Metis, a Graxaim (cópia)')
   })
 
   it('arquivo de HERÓI no modal de CA é recusado com mensagem de família', async () => {

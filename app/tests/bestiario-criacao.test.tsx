@@ -112,7 +112,10 @@ describe('criação rápida de monstros no Bestiário (#185)', () => {
     fireEvent.click(item)
     await screen.findByText(/^FICHA:local:Monstro:/)
     const copia = localEntitiesOfKind('Monstro')[0]
-    expect(copia.basename).toBe('Goblin Batedor')
+    // 2026-09-12: o BESTIÁRIO lista vault + local junto, então a cópia ganha
+    // sufixo — com o nome da base ela seria apagada como duplicata
+    // (local-vault-dupes).
+    expect(copia.basename).toBe('Goblin Batedor (cópia)')
     expect(copia.frontmatter['Tier']).toBe(goblin.frontmatter['Tier'])
     expect(copia.frontmatter['Raça']).toBe(goblin.frontmatter['Raça'])
   })
@@ -173,6 +176,6 @@ describe('criação rápida de monstros no Bestiário (#185)', () => {
     })
     const portable = parsePortable(texto)
     expect(portable.kind).toBe('Monstro')
-    expect(portable.basename).toBe('Goblin Batedor')
+    expect(portable.basename).toBe('Goblin Batedor (cópia)')
   })
 })

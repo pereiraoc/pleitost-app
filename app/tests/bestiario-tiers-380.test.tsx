@@ -3,9 +3,11 @@
 // porque deveria ser tier 3, 2, 1, 0 não ABC." — o agrupamento reusava as
 // LETRAS de tier de herói (rankLetter S/A/B/C, convenção do NVL) pra
 // monstros, que usam FM `Tier` NUMÉRICO (badge "TIER n" verbatim do plugin,
-// header-monstro.ts). Agora o bestiário agrupa por número, decrescente
-// (3→0), com a cor do monsterTierColor; sem Tier vai pro fim ("—").
-// Companheiros (nível → S/A/B/C) ficam como estavam — trap reverso.
+// header-monstro.ts). O bestiário passou a agrupar por número, com a cor do
+// monsterTierColor; sem Tier vai pro fim ("—").
+// Pedido do mestre 2026-09-12: a ORDEM inverteu — CRESCENTE (0→1→2→3), o
+// fraco primeiro. Companheiros (nível → S/A/B/C) ficam como estavam — trap
+// reverso.
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -82,17 +84,17 @@ function kickersDoPainel(anchorText: string): string[] {
     .filter((t) => t.startsWith('// TIER'))
 }
 
-describe('#380 — bestiário agrupa por Tier NUMÉRICO decrescente', () => {
-  it('kickers são números (2, 1, 0), maiores primeiro; sem letras de herói', async () => {
+describe('#380 — bestiário agrupa por Tier NUMÉRICO crescente', () => {
+  it('kickers são números (0, 1, 2), menores primeiro; sem letras de herói', async () => {
     renderNpcs()
     fireEvent.click(await screen.findByText('BESTIÁRIO'))
-    // vault atual: monstros de Tier 2, 1 e 0 (e 1 sem Tier → "—" no fim)
+    // vault atual (fantasia): monstros de Tier 0, 1 e 2
     await waitFor(() => {
       const ks = kickersDoPainel('Goblin Batedor')
       expect(ks.length).toBeGreaterThanOrEqual(3)
-      expect(ks[0]).toBe('// TIER 2')
+      expect(ks[0]).toBe('// TIER 0')
       expect(ks[1]).toBe('// TIER 1')
-      expect(ks[2]).toBe('// TIER 0')
+      expect(ks[2]).toBe('// TIER 2')
     })
     // nenhum kicker com letra de tier heroico no bestiário
     for (const k of kickersDoPainel('Goblin Batedor')) {
