@@ -490,15 +490,27 @@ describe('#31: agrupamento por tier nas listas', () => {
     await screen.findAllByText(/Goblin \(Pequeno\)/)
     const bestPanel = container.querySelectorAll<HTMLElement>('[data-panel]')[2]
     // esperado direto da vault: buckets por Tier numérico, asc; sem Tier → "—"
-    const byTier = new Map<string, string[]>()
+    // DENTRO do tier a ordem é a escada do modificador (pedido do mestre,
+    // 2026-09-13): comum < Competente < Elite < Solo, e alfabético só no
+    // empate. Escrita aqui à mão de propósito — se viesse do comparador de
+    // produção, o teste não teria como discordar dele.
+    const posto = (mod: unknown) => ({ Competente: 1, Elite: 2, Solo: 3 })[String(mod)] ?? 0
+    const byTier = new Map<string, { nome: string; posto: number }[]>()
     for (const entry of docsOfFolder('Sistema/Criaturas/Bestiário')) {
-      const raw = Number(readDoc(entry.id).frontmatter['Tier'])
+      const fm = readDoc(entry.id).frontmatter
+      const raw = Number(fm['Tier'])
       const label = Number.isFinite(raw) ? String(raw) : '—'
-      byTier.set(label, [...(byTier.get(label) ?? []), entry.basename!])
+      byTier.set(label, [...(byTier.get(label) ?? []), { nome: entry.basename!, posto: posto(fm['Modificador']) }])
     }
     const expected = [...byTier.keys()]
       .sort((a, b) => (a === '—' ? 1 : b === '—' ? -1 : Number(a) - Number(b)))
-      .map((label) => ({ letter: label, names: byTier.get(label)!.sort((a, b) => ptAlpha.compare(a, b)) }))
+      .map((label) => ({
+        letter: label,
+        names: byTier
+          .get(label)!
+          .sort((a, b) => a.posto - b.posto || ptAlpha.compare(a.nome, b.nome))
+          .map((x) => x.nome),
+      }))
     expect(expected.length).toBeGreaterThan(1)
     const groups: { letter: string; names: string[] }[] = []
     for (const el of bestPanel.querySelectorAll<HTMLElement>('.kicker, .npc-card')) {

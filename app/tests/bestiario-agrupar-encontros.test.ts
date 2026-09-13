@@ -11,6 +11,7 @@ import {
   chaveDoCriterio,
   gruposPorChave,
   gruposPorTier,
+  postoModificador,
   SEM_AFILIACAO,
 } from '../src/components/creatures/agrupar-bestiario'
 import { locaisDoCombate, ondeDe, rosterComVelocidades, situacaoDe } from '../src/mestre/encontro-meta'
@@ -23,6 +24,44 @@ const entry = (basename: string): IndexDocEntry =>
   ({ id: `c/${basename}`, path: '', basename, type: 'Criatura', subtype: 'Monstro', kind: 'content' }) as IndexDocEntry
 const doc = (id: string, fm: Record<string, unknown>): VaultDoc =>
   ({ id, basename: id.split('/').pop(), frontmatter: fm }) as unknown as VaultDoc
+
+// ESCADA DO MODIFICADOR (pedido do mestre, 2026-09-13): comum < Competente <
+// Elite < Solo. Vale dentro de um grupo de Tier e, junto com o tier, dentro de
+// Afiliação/Classe — Tier X < X Competente < X Elite < X Solo < Tier X+1.
+describe('ordem por tier e modificador', () => {
+  const d = (nome: string, Tier: number, Modificador?: string): VaultDoc =>
+    doc(`c/${nome}`, { Tier, ...(Modificador ? { Modificador } : {}), 'Afiliação': '[[Brigada Militar Metropolitana]]' })
+  const fichas = [
+    ['Zebra', 1, 'Solo'],
+    ['Alfa', 1, 'Elite'],
+    ['Beta', 1, 'Competente'],
+    ['Ana', 1, undefined],
+    ['Zeca', 1, undefined],
+    ['Alga', 0, 'Solo'],
+    ['Bruno', 2, undefined],
+  ] as const
+  const docs = new Map(fichas.map(([n, t, m]) => [`c/${n}`, d(n, t, m)]))
+  const entries = fichas.map(([n]) => ({ id: `c/${n}`, basename: n }) as IndexDocEntry)
+
+  it('postoModificador: comum 0 < Competente 1 < Elite 2 < Solo 3', () => {
+    expect(postoModificador(d('x', 1))).toBe(0)
+    expect(postoModificador(d('x', 1, 'Competente'))).toBe(1)
+    expect(postoModificador(d('x', 1, 'Elite'))).toBe(2)
+    expect(postoModificador(d('x', 1, 'Solo'))).toBe(3)
+    // valor que a vault não conhece não inventa posto: cai como comum
+    expect(postoModificador(d('x', 1, 'Chefão'))).toBe(0)
+  })
+
+  it('dentro de um grupo de TIER: comuns primeiro, e alfabético dentro de cada degrau', () => {
+    const t1 = gruposPorTier(entries, docs).find((g) => g.tier === 1)!
+    expect(t1.entries.map((e) => e.basename)).toEqual(['Ana', 'Zeca', 'Beta', 'Alfa', 'Zebra'])
+  })
+
+  it('dentro de AFILIAÇÃO: o tier manda, e o modificador desempata', () => {
+    const g = gruposPorChave(entries, docs, 'afiliacao')[0]!
+    expect(g.entries.map((e) => e.basename)).toEqual(['Alga', 'Ana', 'Zeca', 'Beta', 'Alfa', 'Zebra', 'Bruno'])
+  })
+})
 
 describe('agrupar o bestiário', () => {
   // O fixture declara Tier porque a ORDEM agora é por tier (pedido do mestre,

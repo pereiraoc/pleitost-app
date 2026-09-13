@@ -56,15 +56,32 @@ export function comparaTier(a: number | null, b: number | null): number {
   return a - b
 }
 
-/** Ordem das criaturas dentro de um grupo: tier primeiro, alfabético (pt) só
- *  no empate. */
+/** MODIFICADOR do monstro (FM `Modificador`): Competente, Elite ou Solo — as
+ *  três notas de `Regras/Bestiário/Modificadores`. Vazio = o comum. */
+const ORDEM_MODIFICADOR: Record<string, number> = { Competente: 1, Elite: 2, Solo: 3 }
+
+/** Posto do modificador na escada de força: comum(0) < Competente < Elite <
+ *  Solo. Valor desconhecido cai como comum, pra não inventar ordem. */
+export function postoModificador(doc: VaultDoc | undefined): number {
+  const v = doc?.frontmatter?.['Modificador']
+  return ORDEM_MODIFICADOR[typeof v === 'string' ? v.trim() : ''] ?? 0
+}
+
+/** Ordem das criaturas (pedido do mestre, 2026-09-13): TIER, depois
+ *  MODIFICADOR, e alfabético (pt) só no empate dos dois. É a mesma escada nos
+ *  dois modos de agrupar — dentro de um grupo de Tier o tier é constante e
+ *  sobra o modificador; dentro de Afiliação/Classe vale a escada inteira:
+ *  Tier X < X Competente < X Elite < X Solo < Tier X+1 < … */
 export function comparaCriaturas(
   docs: Map<string, VaultDoc>,
   a: IndexDocEntry,
   b: IndexDocEntry,
 ): number {
+  const da = docs.get(a.id)
+  const db = docs.get(b.id)
   return (
-    comparaTier(tierDoDoc(docs.get(a.id)), tierDoDoc(docs.get(b.id))) ||
+    comparaTier(tierDoDoc(da), tierDoDoc(db)) ||
+    postoModificador(da) - postoModificador(db) ||
     ptAlpha.compare(a.basename ?? a.id, b.basename ?? b.id)
   )
 }
@@ -92,7 +109,7 @@ export function gruposPorTier(
 }
 
 /** Grupos por Afiliação/Classe: alfabéticos, e o balde vazio por último. As
- *  criaturas dentro de cada um saem por TIER (pedido do mestre, 2026-09-12) —
+ *  criaturas dentro de cada um saem por TIER e MODIFICADOR (2026-09-12/13) —
  *  o mestre monta o encontro pelo que a facção tem de mais fraco pra cima. */
 export function gruposPorChave(
   entries: readonly IndexDocEntry[],
