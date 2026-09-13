@@ -1,6 +1,13 @@
 // Lightbox: amplia uma imagem em tela cheia (overlay via portal, fora do fluxo
 // pra não ser cortado pelo clip/overflow das sidebars). Clicar em qualquer lugar
 // (ou Esc) volta ao normal. Usado pelo VaultImage quando `zoom`.
+//
+// O overlay SEGURA o clique (`stopPropagation`). Não é detalhe: portal do React
+// propaga o evento pela ÁRVORE DE COMPONENTES, não pela do DOM, então sem isso
+// o clique atravessa o overlay e cai em quem renderizou o Lightbox. Na aba
+// RECURSOS isso travava a imagem — fechava e a própria figura reabria na mesma
+// hora (report do mestre, 2026-09-13) — e nas linhas clicáveis da sessão ainda
+// trocava a seleção por baixo.
 import { useEffect, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -30,7 +37,10 @@ export function Lightbox({ src, alt, onClose }: { src: string; alt?: string; onC
       data-lightbox=""
       role="dialog"
       aria-label={alt ? `Imagem ampliada: ${alt}` : 'Imagem ampliada'}
-      onClick={onClose}
+      onClick={(e) => {
+        e.stopPropagation()
+        onClose()
+      }}
       style={OVERLAY}
     >
       <img

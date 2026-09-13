@@ -73,6 +73,39 @@ describe('ampliar a figura do recurso', () => {
     expect(escolher).not.toHaveBeenCalled()
   })
 
+  // BUG do mestre (2026-09-13): clicava pra ampliar, abria, e clicar fora não
+  // fechava — a imagem travava. Portal do React propaga o evento pela ÁRVORE DE
+  // COMPONENTES, não pela do DOM: o clique no overlay fechava e subia até o
+  // onClick da própria figura, que reabria na mesma hora.
+  it('clicar fora FECHA, e não reabre nem aciona a linha em volta', () => {
+    const escolher = vi.fn()
+    render(
+      <div role="radio" aria-checked="false" onClick={escolher}>
+        <RecursoThumb r={comFigura} />
+      </div>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: /Ampliar imagem/ }))
+    expect(document.querySelector('[data-lightbox]')).toBeTruthy()
+    escolher.mockClear()
+    fireEvent.click(document.querySelector('[data-lightbox]') as HTMLElement)
+    expect(document.querySelector('[data-lightbox]')).toBeNull()
+    expect(escolher).not.toHaveBeenCalled()
+  })
+
+  it('clicar fora fecha também na faixa do eixo, sem mexer no <details>', () => {
+    render(
+      <details open>
+        <summary>
+          <RecursoFaixa r={comFigura} />
+        </summary>
+      </details>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: /Ampliar imagem/ }))
+    fireEvent.click(document.querySelector('[data-lightbox]') as HTMLElement)
+    expect(document.querySelector('[data-lightbox]')).toBeNull()
+    expect(document.querySelector('details')!.open).toBe(true)
+  })
+
   it('Esc fecha', () => {
     render(<RecursoThumb r={comFigura} />)
     fireEvent.click(screen.getByRole('button', { name: /Ampliar imagem/ }))
