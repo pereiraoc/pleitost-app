@@ -212,6 +212,38 @@ def checa_hospedagem(tesouro: str, host: str, dono: str):
                          f"(grupo {fm_h.get('grupo')}, tipo {fm_h.get('tipo')})")
 
 
+# ────────────────── o que a habilidade manual faz na ficha ───────────────────
+# As 19 habilidades de bestiário são prosa: não declaram `Elementos_de_Regra`.
+# As de HERÓI declaram — e são elas que uma criatura pega quando precisa de algo
+# fora do papel dela. [[Princípios Arcanos]] dá +2 de especialização em Trônicos
+# e +1 slot Adepto; [[Estilo de Combate (Arte Mágica)]] dá +1 de EM. Aplicar de
+# verdade evita a ficha dizer que tem a habilidade e não mostrar o efeito.
+
+HABILIDADES_HEROI = VAULT / "Sistema/Criação de Personagem/Habilidades"
+_CACHE_HAB: dict[str, list[str]] = {}
+
+
+def regras_da_habilidade(nome: str) -> list[str]:
+    if nome not in _CACHE_HAB:
+        achado = next((p for p in HABILIDADES_HEROI.rglob(f"{nome}.md")), None)
+        fm = fm_da_nota(achado) if achado else {}
+        _CACHE_HAB[nome] = [str(e) for e in (fm.get("Elementos_de_Regra") or []) if e]
+    return _CACHE_HAB[nome]
+
+
+def aplicar_habilidades(fm: dict, nomes: list[str], tier: int) -> None:
+    """Só o que a FICHA DE CRIATURA tem onde guardar. `Somar Papel.Lider 1` é do
+    motor de papéis do herói e criaria uma chave que não existe aqui; verbo de
+    escolha (`Escolha_Habilidades`) e `Complementar` ficam de fora porque pedem
+    decisão, e a decisão está escrita no spec."""
+    for nome in nomes:
+        for e in regras_da_habilidade(nome):
+            raiz = re.sub(r"^(?:Tier \d+ )?\w+ ([A-Za-z_]+).*", r"\1", e.strip())
+            if raiz not in fm:
+                continue
+            aplicar([e], fm, tier, fm["Atributos"]["INT"])
+
+
 # ───────────────────── a criatura alcança a própria arma? ─────────────────────
 # `Força X` e `Inteligência X` são requisitos, não decoração: quem fica abaixo
 # de Força leva −1 cumulativo em ataque e dano (−2 e −5 de alcance no arco, ou
@@ -539,6 +571,10 @@ def distribui_magias(criaturas: list[dict]) -> list[str]:
             # `Princípios Arcanos` entrega Raio Arcano de graça — é assim que a
             # única Magia Especial ao alcance do bestiário chega numa ficha.
             s["magias"].insert(0, ("Raio Arcano", "Regra.[[Princípios Arcanos]]"))
+        # Magia que vem de habilidade nomeada no spec (a do Bardo escolhe UMA
+        # das três; qual é decisão de quem escreve a criatura, não do gerador).
+        for magia, origem in s.get("magias_extra", []):
+            s["magias"].insert(0, (magia, f"Regra.[[{origem}]]"))
 
     checa_tecnologia(criaturas, essencias, catalogo)
     postas |= {m for s in criaturas if s.get("magias") for m, _ in s["magias"]}
@@ -715,6 +751,8 @@ def monta(spec: dict) -> dict:
     # é o que separa o Tecnologista formado do operador de rua.
     if spec.get("arcanista"):
         hab.append({"[[Princípios Arcanos]]": "Manual.Habilidade"})
+    for _, origem in spec.get("magias_extra", []):
+        hab.append({f"[[{origem}]]": "Manual.Habilidade"})
     for h in spec.get("habilidades", []):
         hab.append({f"[[{h}]]": "Manual.Habilidade"})
     if mod:
@@ -741,10 +779,11 @@ def monta(spec: dict) -> dict:
         # vêm da essência (o Animista da vault tem Slots zerados e as magias
         # apontando pra nota da essência), e é por isso que só a trônica declara.
         if spec["escola"] != "Lênica":
-            slots = dict(MAGIAS_POR_TIER[tier])
-            if spec.get("arcanista"):
-                slots["A"] = slots.get("A", 0) + 1  # Princípios Arcanos soma 1
+            slots = MAGIAS_POR_TIER[tier]
             fm["Magias"]["Slots"] = {s: slots.get(s, 0) for s in ("B", "A", "E", "M")}
+    # As habilidades entram DEPOIS: é aqui que o +1 slot Adepto de Princípios
+    # Arcanos e o +1 de EM do Estilo de Combate (Arte Mágica) caem na ficha.
+    aplicar_habilidades(fm, [h for h in spec.get("habilidades_regra", [])], tier)
 
     inv = spec.get("inventario", {})
     if inv.get("armadura"):

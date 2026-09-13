@@ -71,7 +71,8 @@ def INV(armadura=None, escudo=None, tesouros=(), consumiveis=(), ouro=0, tier=0)
 
 def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
       mod=None, org="", bairros=(), habilidades=(), tipagem="O−", escola=None,
-      arcanista=False, elemento=None, raca=None, tamanho="Médio", descricao="", aliases=()):
+      arcanista=False, magias_extra=(), elemento=None, raca=None, tamanho="Médio",
+      descricao="", aliases=()):
     spec = {
         "nome": nome, "tier": tier, "papel": papel, "mod": mod, "principal": principal,
         "atributos": {"FOR": F, "AGI": Ag, "INT": I, "PRE": P},
@@ -86,6 +87,13 @@ def C(nome, tier, papel, principal, F, Ag, I, P, pericias, armas, inventario, *,
         spec["escola"] = escola
         spec["elemento"] = elemento
         spec["arcanista"] = arcanista
+        # (magia, habilidade que a concede) — Magia Especial não se escolhe em
+        # slot, vem de habilidade de herói, e qual delas é decisão da criatura.
+        spec["magias_extra"] = list(magias_extra)
+    # As de HERÓI têm Elementos_de_Regra e são aplicadas de verdade na ficha; as
+    # 19 de bestiário são prosa e não mexem em número nenhum.
+    spec["habilidades_regra"] = (["Princípios Arcanos"] if arcanista else []) + [
+        origem for _, origem in magias_extra]
     # Encantador e Supressor não operam por sangue: operam por IMPLANTE — a
     # tipagem deles é a linha trônica que rodam, não o Fator do RG.
     if papel == "Encantador":
@@ -808,6 +816,44 @@ CRIATURAS += [
       bairros=["[[Jardim Itu]]", "[[Moinhos de Vento]]", "[[Centro Histórico]]"],
       habilidades=["Queimar a Rota"], escola="Negatrônica",
       descricao="Assina a receita e assina a revogação. Quem tomou dose com o nome dele na ficha apaga quando ele decide."),
+
+    # ── As três que fecham a centena ──────────────────────────────────────
+    # Duas tapam os buracos que a grade papel × tier ainda tinha desde o
+    # rascunho de 2026-09-12 — Artilharia T0 e Supressor T0, o primeiro inimigo
+    # com tecnologia que a mesa encontra. A terceira põe criatura na Ordem dos
+    # Músicos, a única força do Estado que aparece nas Regalias de Classe (a
+    # carteira do Ressonante) e não tinha ninguém pra cobrar a carteira.
+
+    C("Fogueteiro da Boca", 0, "Artilharia", "PRE", 0, 2, 1, 3,
+      [("Furtividade", "A"), ("Malandragem", "A"), ("Lênicos", "A"), ("Atletismo", "A")],
+      [A("Funda"), A("Adaga")], INV(tier=0),
+      org="[[Cartéis de Selênicos]]",
+      bairros=["[[Restinga]]", "[[Cidade Baixa]]", "[[Delta Radioativo]]"],
+      habilidades=["Tiro de Cobertura"], tipagem="O+", escola="Lênica", elemento="Fogo",
+      descricao="Sobe na laje e solta o foguete quando a viatura entra na vila. O mesmo foguete desce na cabeça de quem ele não quer ali."),
+
+    C("Gateiro de Poste", 0, "Supressor", "INT", 0, 1, 3, 2,
+      [("Trônicos", "A"), ("Malandragem", "A"), ("Furtividade", "A"), ("Sobrevivência", "A"),
+       ("Medicina", "A"), ("Sociedades", "A")],
+      [A("Adaga")], INV(consumiveis=["Poção da Coragem"], tier=0),
+      org="[[Clã da Ferrugem]]",
+      bairros=["[[Zona Deserta]]", "[[Restinga]]", "[[Quarto Distrito]]"],
+      habilidades=["Queimar a Rota"], escola="Negatrônica",
+      descricao="O quarteirão inteiro depende do gato dele. Quando ele decide, a rua apaga — e o que tu tem no braço apaga junto."),
+
+    C("Fiscal da Ordem dos Músicos", 2, "Encantador", "INT", 0, 1, 3, 2,
+      [("Sociedades", "E"), ("Diplomacia", "E"), ("Trônicos", "A"), ("Enganação", "A"),
+       ("Malandragem", "A"), ("Medicina", "A"), ("Sobrevivência", "A")],
+      [A("Punhal", "Imbuição Torrencial", 2), A("Besta de Mão")],
+      INV(armadura="Armadura Leve", tesouros=["Broche Artístico", "Colar da Eloquência"],
+          consumiveis=["Poção de Cura", "Poção de Cura"], ouro=12, tier=2),
+      mod="Competente", org="[[Ordem dos Músicos do Brasil]]",
+      bairros=["[[Bom Fim]]", "[[Quarto Distrito]]", "[[Centro Histórico]]"],
+      habilidades=["Dose no Braço"], escola="Positrônica",
+      # A do Bardo escolhe UMA das três Magias Especiais. Um fiscal que cobra
+      # carteira de músico com a voz amplificada leva a que faz barulho.
+      magias_extra=[("Ruído Estridente", "Estilo de Combate (Arte Mágica)")],
+      descricao="Pede a carteira no meio do show. Quem não tem para de tocar — e, se insistir, para de ouvir."),
 ]
 
 
@@ -1070,5 +1116,19 @@ ENCONTROS = [
       "Ele não veio brigar: veio cancelar a ficha do grupo. Enquanto isso, a escolta segura a porta.",
       [(1, "Diretor Clínico da Panvel", "lento"), (2, "Escolta de Diretoria", "super rápido"),
        (2, "Fiscal de Patente", "rápido")],
+      "DIFICIL"),
+    E("Foguete na Laje", 0, "Genérico — a vila, quando avisam que entrou carro estranho.",
+      "O foguete sobe pra avisar e desce pra machucar. Quem fica parado na viela é alvo.",
+      [(4, "Fogueteiro da Boca", "rápido"), (3, "Mula do Cartel", "rápido"),
+       (1, "Passador de Dose", "lento")],
+      "DIFICIL"),
+    E("Rua Apagada", 0, "[[Zona Deserta]] · [[Quarto Distrito]]",
+      "A luz do quarteirão cai de uma vez. Eles enxergam no escuro porque o escuro é deles.",
+      [(3, "Gateiro de Poste", "rápido"), (5, "Catador Armado", "lento")],
+      "DIFICIL"),
+    E("Carteira no Meio do Show", 2, "[[Teatro Quarto Distrito]] · [[Bom Fim]]",
+      "Param o show pra pedir registro. A casa toda escolhe um lado, e a briga começa pela porta.",
+      [(3, "Fiscal da Ordem dos Músicos", "lento"), (4, "Leão de Chácara", "lento"),
+       (4, "Boêmio Armado", "rápido")],
       "DIFICIL"),
 ]

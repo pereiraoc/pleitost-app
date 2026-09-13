@@ -163,7 +163,7 @@ describe('bestiário do mundo', () => {
     expect(a).not.toBe(b)
   })
 
-  // As dez que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
+  // As treze que entraram em 2026-09-13 pra fechar a cobertura do catálogo ainda
   // não foram à leva de arte — os prompts estão em `Recursos e Mídia/Rascunhos/
   // Prompt Codex — bestiário (pendentes).md`. A lista vale nos DOIS sentidos:
   // quando uma ganhar o webp e ninguém tirar daqui, o teste quebra e cobra a
@@ -178,6 +178,9 @@ describe('bestiário do mundo', () => {
     'Detonador do Clã',
     'Diretor Clínico da Panvel',
     'Escuta da Embratel',
+    'Fiscal da Ordem dos Músicos',
+    'Fogueteiro da Boca',
+    'Gateiro de Poste',
     'Interventor da CEEE',
     'Mangueirista do Cais',
     'Queimador do Itu',
