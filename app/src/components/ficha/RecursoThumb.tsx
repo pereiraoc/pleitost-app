@@ -2,7 +2,9 @@
 // `![[Nome.png]]` da nota, layout flat de Recursos de Contextos) com a carta
 // no hover/tap, no MESMO padrão da vitrine de Comércio (ItemFigura + TipHover
 // + classes .shc-*). Sem figura na nota, mostra o emoji do Tipo.
+import { useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react'
 import { useAssetIndex, assetUrlFor, resolveAsset } from '../../data/assets'
+import { Lightbox } from '../Lightbox'
 import { TipHover } from './tooltips'
 import { ITEM_CARD_CSS } from '../item-card'
 import type { Recurso } from '../../recursos/types'
@@ -25,13 +27,41 @@ export function recursoCardHtml(r: Pick<Recurso, 'nome' | 'resumo' | 'tipo'>, bi
   return `<div class="shc-wrap"><div class="shc-card">${big ? `<img class="shc-img" src="${esc(big)}" alt=""/>` : ''}<div class="shc-name">${esc(r.nome)}</div><div class="shc-body"><div class="shc-h">${esc(r.tipo)}</div><p>${esc(r.resumo)}</p></div></div></div>`
 }
 
+/** CLIQUE NA FIGURA AMPLIA — e morre ali. O `stopPropagation` não é enfeite:
+ *  sem ele, o clique na faixa abre/fecha o `<details>` do eixo, e o clique na
+ *  miniatura TROCA O PLANO, porque ela mora dentro da linha `role="radio"`.
+ *  Pelo mesmo motivo o `onActivate` do TipHover não serve aqui: ele escuta no
+ *  `<span>` PAI, e o clique nunca chega lá. */
+function useZoomDaFigura(big: string | null, alt: string) {
+  const [aberta, setAberta] = useState(false)
+  const abre = (e: ReactMouseEvent | ReactKeyboardEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (big) setAberta(true)
+  }
+  const props = big
+    ? {
+        role: 'button' as const,
+        tabIndex: 0,
+        'aria-label': `Ampliar imagem de ${alt}`,
+        onClick: abre,
+        onKeyDown: (e: ReactKeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') abre(e)
+        },
+      }
+    : { 'aria-hidden': true, onClick: (e: ReactMouseEvent) => { e.preventDefault(); e.stopPropagation() } }
+  const portal: ReactNode = aberta && big ? <Lightbox src={big} alt={alt} onClose={() => setAberta(false)} /> : null
+  return { props, portal }
+}
+
 export function RecursoThumb({ r, icone, size = 40 }: { r: Recurso; icone?: string; size?: number }) {
   const { small, big } = useRecursoImagem(r)
+  const zoom = useZoomDaFigura(big, r.nome)
   return (
     <TipHover html={recursoCardHtml(r, big)}>
       <span
         data-recurso-figura={small ? 'img' : 'emoji'}
-        aria-hidden
+        {...zoom.props}
         style={{
           display: 'inline-flex',
           flex: 'none',
@@ -47,6 +77,7 @@ export function RecursoThumb({ r, icone, size = 40 }: { r: Recurso; icone?: stri
         }}
       >
         {small ? '' : (icone ?? '')}
+        {zoom.portal}
       </span>
     </TipHover>
   )
@@ -58,19 +89,12 @@ export function RecursoThumb({ r, icone, size = 40 }: { r: Recurso; icone?: stri
  *  o grid dos planos e ficava péssima (report do mestre). */
 export function RecursoFaixa({ r, icone }: { r: Recurso; icone?: string }) {
   const { small, big } = useRecursoImagem(r)
+  const zoom = useZoomDaFigura(big, r.nome)
   return (
     <TipHover html={recursoCardHtml(r, big)}>
-      <span
-        className="recurso-eixo-fig"
-        data-recurso-figura={small ? 'img' : 'emoji'}
-        aria-hidden
-        // o clique é da figura (mostra a carta), não abre nem fecha o eixo
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-        }}
-      >
+      <span className="recurso-eixo-fig" data-recurso-figura={small ? 'img' : 'emoji'} {...zoom.props}>
         {small ? <img src={small} alt="" /> : <span className="recurso-eixo-fig-emoji">{icone ?? ''}</span>}
+        {zoom.portal}
       </span>
     </TipHover>
   )
